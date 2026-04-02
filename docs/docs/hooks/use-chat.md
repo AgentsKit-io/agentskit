@@ -4,4 +4,56 @@ sidebar_position: 3
 
 # useChat
 
-Content coming soon.
+High-level chat session orchestrator. Manages messages, streaming, and input state.
+
+## Usage
+
+```tsx
+import { useChat } from 'react-arrow'
+import { anthropic } from 'react-arrow/adapters'
+
+function Chat() {
+  const chat = useChat({
+    adapter: anthropic({ apiKey: 'key', model: 'claude-sonnet-4-6' }),
+    onMessage: (msg) => console.log('Received:', msg.content),
+  })
+
+  return (
+    <div>
+      {chat.messages.map(msg => (
+        <div key={msg.id}>{msg.role}: {msg.content}</div>
+      ))}
+      <input value={chat.input} onChange={e => chat.setInput(e.target.value)} />
+      <button onClick={() => chat.send(chat.input)}>Send</button>
+      {chat.status === 'streaming' && <button onClick={chat.stop}>Stop</button>}
+    </div>
+  )
+}
+```
+
+## API
+
+```ts
+const chat = useChat(config)
+```
+
+### Config
+
+| Param | Type | Description |
+|-------|------|-------------|
+| `adapter` | `AdapterFactory` | AI provider adapter |
+| `onMessage` | `(msg: Message) => void` | Called when assistant message completes |
+| `onError` | `(err: Error) => void` | Called on stream error |
+| `initialMessages` | `Message[]` | Pre-populate chat history |
+
+### Returns
+
+| Field | Type | Description |
+|-------|------|-------------|
+| `messages` | `Message[]` | All messages in the conversation |
+| `send` | `(text: string) => void` | Send a user message and stream response |
+| `stop` | `() => void` | Abort current stream |
+| `retry` | `() => void` | Retry last assistant message |
+| `status` | `StreamStatus` | Current streaming status |
+| `input` | `string` | Current input value |
+| `setInput` | `(value: string) => void` | Update input value |
