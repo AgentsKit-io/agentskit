@@ -11,7 +11,7 @@ describe('ThinkingIndicator', () => {
 
   it('renders indicator when visible is true', () => {
     render(<ThinkingIndicator visible />)
-    expect(screen.getByTestId('ra-thinking')).toBeInTheDocument()
+    expect(screen.getByTestId('ak-thinking')).toBeInTheDocument()
   })
 
   it('renders custom label', () => {

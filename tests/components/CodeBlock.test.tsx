@@ -12,9 +12,9 @@ describe('CodeBlock', () => {
     expect(code.parentElement?.tagName).toBe('PRE')
   })
 
-  it('sets data-ra-language attribute when language is provided', () => {
+  it('sets data-ak-language attribute when language is provided', () => {
     const { container } = render(<CodeBlock code="x = 1" language="python" />)
-    expect(container.querySelector('[data-ra-code-block]')).toHaveAttribute('data-ra-language', 'python')
+    expect(container.querySelector('[data-ak-code-block]')).toHaveAttribute('data-ak-language', 'python')
   })
 
   it('renders copy button when copyable is true', () => {

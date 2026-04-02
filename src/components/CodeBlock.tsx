@@ -12,12 +12,12 @@ export function CodeBlock({ code, language, copyable = false }: CodeBlockProps) 
   }, [code])
 
   return (
-    <div data-ra-code-block="" data-ra-language={language}>
+    <div data-ak-code-block="" data-ak-language={language}>
       <pre>
         <code>{code}</code>
       </pre>
       {copyable && (
-        <button onClick={handleCopy} data-ra-copy="" type="button">
+        <button onClick={handleCopy} data-ak-copy="" type="button">
           Copy
         </button>
       )}

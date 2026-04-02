@@ -9,7 +9,7 @@ Proxy-based fine-grained reactive state. Mutations trigger re-renders only for c
 ## Usage
 
 ```tsx
-import { useReactive } from 'react-arrow'
+import { useReactive } from '@agentkit/react'
 
 function Counter() {
   const state = useReactive({ count: 0 })

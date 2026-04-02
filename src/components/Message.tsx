@@ -10,13 +10,13 @@ export interface MessageProps {
 export function Message({ message, avatar, actions }: MessageProps) {
   return (
     <div
-      data-ra-message=""
-      data-ra-role={message.role}
-      data-ra-status={message.status}
+      data-ak-message=""
+      data-ak-role={message.role}
+      data-ak-status={message.status}
     >
-      {avatar && <div data-ra-avatar="">{avatar}</div>}
-      <div data-ra-content="">{message.content}</div>
-      {actions && <div data-ra-actions="">{actions}</div>}
+      {avatar && <div data-ak-avatar="">{avatar}</div>}
+      <div data-ak-content="">{message.content}</div>
+      {actions && <div data-ak-actions="">{actions}</div>}
     </div>
   )
 }

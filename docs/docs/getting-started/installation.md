@@ -4,23 +4,23 @@ sidebar_position: 1
 
 # Installation
 
-Install React Arrow with your package manager:
+Install AgentKit with your package manager:
 
 ```bash
-npm install react-arrow
+npm install @agentkit/react
 ```
 
 ```bash
-yarn add react-arrow
+yarn add @agentkit/react
 ```
 
 ```bash
-pnpm add react-arrow
+pnpm add @agentkit/react
 ```
 
 ## Peer Dependencies
 
-React Arrow requires React 18 or later:
+AgentKit requires React 18 or later:
 
 ```bash
 npm install react react-dom
@@ -31,7 +31,7 @@ npm install react react-dom
 Import the default theme CSS for a polished chat UI out of the box:
 
 ```tsx
-import 'react-arrow/theme'
+import '@agentkit/react/theme'
 ```
 
 The theme uses CSS custom properties, so you can override any token without ejecting.

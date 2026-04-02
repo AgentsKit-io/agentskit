@@ -7,7 +7,7 @@ export interface MarkdownProps {
 
 export function Markdown({ content, streaming = false }: MarkdownProps) {
   return (
-    <div data-ra-markdown="" data-ra-streaming={streaming ? 'true' : undefined}>
+    <div data-ak-markdown="" data-ak-streaming={streaming ? 'true' : undefined}>
       {content}
     </div>
   )

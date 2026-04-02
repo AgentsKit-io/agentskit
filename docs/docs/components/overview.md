@@ -4,7 +4,7 @@ sidebar_position: 1
 
 # Components Overview
 
-React Arrow ships headless components that render semantic HTML with `data-ra-*` attributes. Import the default theme for instant styling, or target the attributes with your own CSS.
+AgentKit ships headless components that render semantic HTML with `data-ak-*` attributes. Import the default theme for instant styling, or target the attributes with your own CSS.
 
 ## Available Components
 
@@ -20,18 +20,18 @@ React Arrow ships headless components that render semantic HTML with `data-ra-*`
 
 ## Headless Philosophy
 
-Components render minimal HTML with `data-ra-*` attributes:
+Components render minimal HTML with `data-ak-*` attributes:
 
 ```html
-<div data-ra-message data-ra-role="user" data-ra-status="complete">
-  <div data-ra-content>Hello!</div>
+<div data-ak-message data-ak-role="user" data-ak-status="complete">
+  <div data-ak-content>Hello!</div>
 </div>
 ```
 
 Style with attribute selectors:
 
 ```css
-[data-ra-role="user"] [data-ra-content] {
+[data-ak-role="user"] [data-ak-content] {
   background: blue;
   color: white;
 }
@@ -40,5 +40,5 @@ Style with attribute selectors:
 Or import the default theme:
 
 ```tsx
-import 'react-arrow/theme'
+import '@agentkit/react/theme'
 ```

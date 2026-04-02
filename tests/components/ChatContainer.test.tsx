@@ -4,15 +4,15 @@ import React from 'react'
 import { ChatContainer } from '../../src/components/ChatContainer'
 
 describe('ChatContainer', () => {
-  it('renders a scrollable container with data-ra-chat-container attribute', () => {
+  it('renders a scrollable container with data-ak-chat-container attribute', () => {
     render(
       <ChatContainer>
         <div>message</div>
       </ChatContainer>
     )
-    const container = screen.getByTestId('ra-chat-container')
+    const container = screen.getByTestId('ak-chat-container')
     expect(container).toBeInTheDocument()
-    expect(container).toHaveAttribute('data-ra-chat-container')
+    expect(container).toHaveAttribute('data-ak-chat-container')
   })
 
   it('accepts and applies className prop', () => {
@@ -21,7 +21,7 @@ describe('ChatContainer', () => {
         <div>message</div>
       </ChatContainer>
     )
-    const container = screen.getByTestId('ra-chat-container')
+    const container = screen.getByTestId('ak-chat-container')
     expect(container).toHaveClass('custom-class')
   })
 })

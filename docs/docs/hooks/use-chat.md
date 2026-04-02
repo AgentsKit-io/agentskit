@@ -9,8 +9,8 @@ High-level chat session orchestrator. Manages messages, streaming, and input sta
 ## Usage
 
 ```tsx
-import { useChat } from 'react-arrow'
-import { anthropic } from 'react-arrow/adapters'
+import { useChat } from '@agentkit/react'
+import { anthropic } from '@agentkit/react/adapters'
 
 function Chat() {
   const chat = useChat({

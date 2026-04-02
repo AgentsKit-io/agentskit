@@ -4,12 +4,12 @@ sidebar_position: 1
 
 # Adapters Overview
 
-Adapters normalize AI provider streaming APIs into a common interface that React Arrow hooks consume.
+Adapters normalize AI provider streaming APIs into a common interface that AgentKit hooks consume.
 
 ## Built-in Adapters
 
 ```tsx
-import { anthropic, openai, vercelAI, generic } from 'react-arrow/adapters'
+import { anthropic, openai, vercelAI, generic } from '@agentkit/react/adapters'
 
 // Anthropic
 const adapter = anthropic({ apiKey: 'key', model: 'claude-sonnet-4-6' })
@@ -32,7 +32,7 @@ const adapter = generic({
 ## Custom Adapters
 
 ```tsx
-import { createAdapter } from 'react-arrow/adapters'
+import { createAdapter } from '@agentkit/react/adapters'
 
 const myAdapter = createAdapter({
   send: async (messages) => fetch('/api', { body: JSON.stringify(messages) }),

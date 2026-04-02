@@ -9,11 +9,11 @@ export function ThinkingIndicator({ visible, label = 'Thinking...' }: ThinkingIn
   if (!visible) return null
 
   return (
-    <div data-ra-thinking="" data-testid="ra-thinking">
-      <span data-ra-thinking-dots="">
+    <div data-ak-thinking="" data-testid="ak-thinking">
+      <span data-ak-thinking-dots="">
         <span>&bull;</span><span>&bull;</span><span>&bull;</span>
       </span>
-      <span data-ra-thinking-label="">{label}</span>
+      <span data-ak-thinking-label="">{label}</span>
     </div>
   )
 }

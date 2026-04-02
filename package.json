@@ -1,7 +1,7 @@
 {
-  "name": "react-arrow",
+  "name": "@agentkit/react",
   "version": "0.1.0",
-  "description": "A hooks-first React library for the agentic era. Inspired by Arrow.js.",
+  "description": "Ship AI chat in 10 lines of React. Drop-in hooks and components for streaming AI interfaces.",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -43,10 +43,11 @@
     "@testing-library/jest-dom": "^6.0.0",
     "jsdom": "^24.0.0"
   },
-  "keywords": ["react", "ai", "chat", "streaming", "hooks", "agentic", "arrow-js"],
+  "keywords": ["react", "ai", "chat", "streaming", "hooks", "agentic", "llm", "openai", "anthropic", "claude", "gpt", "vercel-ai", "agent", "agentkit"],
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/EmersonBraun/lib"
-  }
+    "url": "https://github.com/EmersonBraun/agentkit"
+  },
+  "homepage": "https://emersonbraun.github.io/agentkit/"
 }

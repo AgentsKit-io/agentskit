@@ -4,7 +4,7 @@ sidebar_position: 3
 
 # For AI Agents
 
-The entire React Arrow API in one page. Paste this into your LLM context.
+The entire AgentKit API in one page. Paste this into your LLM context.
 
 ## Hooks
 
@@ -29,7 +29,7 @@ chat.input / setInput   // controlled input
 ## Adapters
 
 ```tsx
-import { anthropic, openai, vercelAI, generic } from 'react-arrow/adapters'
+import { anthropic, openai, vercelAI, generic } from '@agentkit/react/adapters'
 
 anthropic({ apiKey, model })
 openai({ apiKey, model })
@@ -52,10 +52,10 @@ generic({ send: async (msgs) => ReadableStream })
 ## Theme
 
 ```tsx
-import 'react-arrow/theme' // optional default CSS
+import '@agentkit/react/theme' // optional default CSS
 ```
 
-All components use `data-ra-*` attributes. Override with CSS custom properties (`--ra-color-*`, `--ra-font-*`, `--ra-spacing-*`).
+All components use `data-ak-*` attributes. Override with CSS custom properties (`--ak-color-*`, `--ak-font-*`, `--ak-spacing-*`).
 
 ## Types
 

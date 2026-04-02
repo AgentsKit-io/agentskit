@@ -23,8 +23,8 @@ export function ChatContainer({ children, className }: ChatContainerProps) {
   return (
     <div
       ref={containerRef}
-      data-ra-chat-container=""
-      data-testid="ra-chat-container"
+      data-ak-chat-container=""
+      data-testid="ak-chat-container"
       className={className}
       style={{ overflow: 'auto' }}
     >

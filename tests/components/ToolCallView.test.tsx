@@ -18,9 +18,9 @@ describe('ToolCallView', () => {
     expect(screen.getByText('search')).toBeInTheDocument()
   })
 
-  it('sets data-ra-tool-status attribute', () => {
+  it('sets data-ak-tool-status attribute', () => {
     const { container } = render(<ToolCallView toolCall={toolCall} />)
-    expect(container.firstElementChild).toHaveAttribute('data-ra-tool-status', 'complete')
+    expect(container.firstElementChild).toHaveAttribute('data-ak-tool-status', 'complete')
   })
 
   it('shows args and result when expanded', () => {

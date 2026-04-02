@@ -25,7 +25,7 @@ export function InputBar({ chat, placeholder = 'Type a message...', disabled = f
   }
 
   return (
-    <form data-ra-input-bar="" onSubmit={handleSubmit}>
+    <form data-ak-input-bar="" onSubmit={handleSubmit}>
       <textarea
         role="textbox"
         value={chat.input}
@@ -33,10 +33,10 @@ export function InputBar({ chat, placeholder = 'Type a message...', disabled = f
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
         disabled={disabled}
-        data-ra-input=""
+        data-ak-input=""
         rows={1}
       />
-      <button type="submit" disabled={disabled || !chat.input.trim()} data-ra-send="">
+      <button type="submit" disabled={disabled || !chat.input.trim()} data-ak-send="">
         Send
       </button>
     </form>

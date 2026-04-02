@@ -9,13 +9,13 @@ describe('Markdown', () => {
     expect(screen.getByText('Hello world')).toBeInTheDocument()
   })
 
-  it('sets data-ra-markdown attribute', () => {
+  it('sets data-ak-markdown attribute', () => {
     const { container } = render(<Markdown content="test" />)
-    expect(container.firstElementChild).toHaveAttribute('data-ra-markdown')
+    expect(container.firstElementChild).toHaveAttribute('data-ak-markdown')
   })
 
-  it('sets data-ra-streaming attribute when streaming', () => {
+  it('sets data-ak-streaming attribute when streaming', () => {
     const { container } = render(<Markdown content="partial..." streaming />)
-    expect(container.firstElementChild).toHaveAttribute('data-ra-streaming', 'true')
+    expect(container.firstElementChild).toHaveAttribute('data-ak-streaming', 'true')
   })
 })

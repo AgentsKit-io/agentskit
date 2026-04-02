@@ -26,17 +26,17 @@ describe('Message', () => {
     expect(screen.getByText('Hello there')).toBeInTheDocument()
   })
 
-  it('sets data-ra-role attribute based on message role', () => {
+  it('sets data-ak-role attribute based on message role', () => {
     const { container } = render(<MessageComponent message={userMessage} />)
     const el = container.firstElementChild!
-    expect(el).toHaveAttribute('data-ra-role', 'user')
+    expect(el).toHaveAttribute('data-ak-role', 'user')
   })
 
-  it('sets data-ra-status attribute', () => {
+  it('sets data-ak-status attribute', () => {
     const streamingMsg: Message = { ...assistantMessage, status: 'streaming' }
     const { container } = render(<MessageComponent message={streamingMsg} />)
     const el = container.firstElementChild!
-    expect(el).toHaveAttribute('data-ra-status', 'streaming')
+    expect(el).toHaveAttribute('data-ak-status', 'streaming')
   })
 
   it('renders avatar when provided', () => {
