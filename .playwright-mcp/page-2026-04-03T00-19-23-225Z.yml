@@ -1,0 +1,1074 @@
+- generic [ref=e3]:
+  - banner [ref=e4]:
+    - generic [ref=e5]:
+      - link "ArrowJS" [ref=e6] [cursor=pointer]:
+        - /url: /
+        - img [ref=e7]
+      - navigation [ref=e15]:
+        - link "Docs" [ref=e16] [cursor=pointer]:
+          - /url: /
+        - link "API" [ref=e17] [cursor=pointer]:
+          - /url: /api
+        - link "Playground" [ref=e18] [cursor=pointer]:
+          - /url: /play/
+        - link "GitHub repository" [ref=e19] [cursor=pointer]:
+          - /url: https://github.com/standardagents/arrow-js
+          - img [ref=e20]
+        - link "Join Discord" [ref=e22] [cursor=pointer]:
+          - /url: https://discord.gg/fBy7csvmAt
+          - img [ref=e23]
+        - link "Follow on X" [ref=e25] [cursor=pointer]:
+          - /url: https://x.com/intent/follow?screen_name=jpschroeder
+          - img [ref=e26]
+        - button "Toggle theme" [ref=e28]:
+          - img [ref=e30]
+  - main [ref=e32]:
+    - generic [ref=e33]:
+      - generic [ref=e35]:
+        - generic [ref=e36]:
+          - heading "The first UI framework for the agentic era" [level=1] [ref=e37]
+          - paragraph [ref=e38]:
+            - text: A tiny, blazing-fast, zero dependency, type-safe framework with no build step required.
+            - text: ArrowJS ships with the ability to isolate component logic inside Web Assembly
+            - link "sandboxes" [ref=e39] [cursor=pointer]:
+              - /url: "#sandbox"
+            - text: while rendering full inline DOM directly in your app — no iframes, no pre-defined UI components.
+            - text: Use it to build fast, maintainable applications — or to ship safe, flexible, on-demand UIs for your users without having to plan components in advance.
+          - button "Copy Arrow app scaffold command" [ref=e42] [cursor=pointer]:
+            - generic [ref=e43]: $
+            - code [ref=e44]: pnpm create arrow-js@latest arrow-app
+            - img [ref=e46]
+        - generic [ref=e51]:
+          - generic [ref=e52]:
+            - generic [ref=e53]:
+              - generic [ref=e58]: Comparing Quotes
+              - generic [ref=e61]: Live
+            - generic [ref=e63]:
+              - generic [ref=e65]: Here are the 3 HVAC quotes. Which one’s the best deal?
+              - generic [ref=e66]:
+                - img [ref=e68]
+                - generic [ref=e70]: "I’ve broken down the key details from each quote. Here’s a side-by-side:"
+              - generic [ref=e72]:
+                - generic [ref=e74]:
+                  - generic [ref=e75]:
+                    - generic [ref=e76]: Sort by
+                    - button "Price" [ref=e77] [cursor=pointer]
+                    - button "Efficiency" [ref=e78] [cursor=pointer]
+                    - button "Warranty" [ref=e79] [cursor=pointer]
+                  - generic [ref=e80]:
+                    - generic [ref=e81]:
+                      - generic [ref=e82]: Lowest Price
+                      - generic [ref=e83]: ClimateCraft
+                      - generic [ref=e84]: $7.400
+                      - generic [ref=e85]:
+                        - generic [ref=e86]:
+                          - generic [ref=e87]: SEER
+                          - generic [ref=e88]: "15"
+                        - generic [ref=e89]:
+                          - generic [ref=e90]: Warranty
+                          - generic [ref=e91]: 5 yr
+                    - generic [ref=e92]:
+                      - generic [ref=e93]: CoolAir Pro
+                      - generic [ref=e94]: $8.200
+                      - generic [ref=e95]:
+                        - generic [ref=e96]:
+                          - generic [ref=e97]: SEER
+                          - generic [ref=e98]: "16"
+                        - generic [ref=e99]:
+                          - generic [ref=e100]: Warranty
+                          - generic [ref=e101]: 10 yr
+                    - generic [ref=e102]:
+                      - generic [ref=e103]: AirFlow Plus
+                      - generic [ref=e104]: $9.100
+                      - generic [ref=e105]:
+                        - generic [ref=e106]:
+                          - generic [ref=e107]: SEER
+                          - generic [ref=e108]: "18"
+                        - generic [ref=e109]:
+                          - generic [ref=e110]: Warranty
+                          - generic [ref=e111]: 12 yr
+                - generic [ref=e112]:
+                  - img [ref=e113]
+                  - generic [ref=e115]: Generated with ArrowJS Sandbox
+          - generic [ref=e116]:
+            - button "Show scenario 1" [ref=e117] [cursor=pointer]
+            - button "Show scenario 2" [ref=e118] [cursor=pointer]
+            - button "Show scenario 3" [ref=e119] [cursor=pointer]
+            - button "Show scenario 4" [ref=e120] [cursor=pointer]
+            - button "Show scenario 5" [ref=e121] [cursor=pointer]
+            - button "Show scenario 6" [ref=e122] [cursor=pointer]
+      - generic [ref=e124]:
+        - navigation [ref=e126]:
+          - generic [ref=e127]:
+            - generic [ref=e128]: Getting Started
+            - link "Why Arrow" [ref=e129] [cursor=pointer]:
+              - /url: "#why-arrow"
+            - link "Quickstart" [ref=e130] [cursor=pointer]:
+              - /url: "#quick-start"
+            - link "Community" [ref=e131] [cursor=pointer]:
+              - /url: "#community"
+          - generic [ref=e132]:
+            - generic [ref=e133]: Essentials
+            - link "Reactive Data" [ref=e134] [cursor=pointer]:
+              - /url: "#reactive-data"
+            - link "Templates" [ref=e135] [cursor=pointer]:
+              - /url: "#templates"
+            - link "Components" [ref=e136] [cursor=pointer]:
+              - /url: "#components"
+            - link "Watching Data" [ref=e137] [cursor=pointer]:
+              - /url: "#watching-data"
+            - link "Sandbox" [ref=e138] [cursor=pointer]:
+              - /url: "#sandbox"
+            - link "Routing" [ref=e139] [cursor=pointer]:
+              - /url: "#routing"
+          - generic [ref=e140]:
+            - generic [ref=e141]: Examples
+            - link "Overview" [ref=e142] [cursor=pointer]:
+              - /url: "#examples"
+            - link "Todo List" [ref=e143] [cursor=pointer]:
+              - /url: /play/?example=todo
+            - link "Pomodoro Timer" [ref=e144] [cursor=pointer]:
+              - /url: /play/?example=timer
+            - link "Color Palette" [ref=e145] [cursor=pointer]:
+              - /url: /play/?example=palette
+            - link "Password Generator" [ref=e146] [cursor=pointer]:
+              - /url: /play/?example=password
+            - link "Accordion" [ref=e147] [cursor=pointer]:
+              - /url: /play/?example=accordion
+            - link "Live Feed" [ref=e148] [cursor=pointer]:
+              - /url: /play/?example=feed
+            - link "Data Table" [ref=e149] [cursor=pointer]:
+              - /url: /play/?example=table
+            - link "Tabs" [ref=e150] [cursor=pointer]:
+              - /url: /play/?example=tabs
+            - link "Photo Gallery" [ref=e151] [cursor=pointer]:
+              - /url: /play/?example=gallery
+            - link "Flappy Arrow" [ref=e152] [cursor=pointer]:
+              - /url: /play/?example=runner
+            - link "Sandbox" [ref=e153] [cursor=pointer]:
+              - /url: /play/?example=sandbox
+        - article [ref=e154]:
+          - generic [ref=e158]:
+            - button "Copy page" [ref=e159] [cursor=pointer]: Copy page
+            - button "Open copy page menu" [ref=e161] [cursor=pointer]
+          - generic [ref=e163]:
+            - heading "Why Arrow" [level=2] [ref=e164]
+            - generic [ref=e165]:
+              - paragraph [ref=e166]: "Arrow is a reactive UI framework built around JavaScript primitives: Modules, functions, and template literals. Arrow is just TypeScript, so your coding agent already knows how to use it really well."
+              - paragraph [ref=e167]: "You only need 3 functions:"
+              - list [ref=e168]:
+                - listitem [ref=e169]:
+                  - code [ref=e170]: reactive
+                - listitem [ref=e171]:
+                  - code [ref=e172]: html
+                - listitem [ref=e173]:
+                  - code [ref=e174]: component
+              - paragraph [ref=e175]: Unlike other major frameworks, there is no "idomatic" way to use Arrow since it's just TypeScript functions and template literals. The entire documentation fits in less than 5% of a 200k context window.
+              - paragraph [ref=e176]:
+                - text: Arrow requires no build step, no JSX compilation, no React compiler, no Vite plugin (there is one if you need SSR), no Vue template complier, and yet it runs incredibly fast at less than 5kb over the wire. When coupled with the
+                - link "Arrow sandbox" [ref=e177] [cursor=pointer]:
+                  - /url: "#sandbox"
+                - text: ", it's perfect for interfaces produced by chat agents too."
+          - generic [ref=e178]:
+            - heading "Quickstart" [level=2] [ref=e179]
+            - generic [ref=e180]:
+              - paragraph [ref=e181]: "Scaffold a complete Vite 8 Arrow app with SSR, hydration, route-based metadata, and the full framework stack in one command:"
+              - button "Copy Arrow app scaffold command" [ref=e183] [cursor=pointer]:
+                - generic [ref=e184]: $
+                - code [ref=e185]: pnpm create arrow-js@latest arrow-app
+                - img [ref=e187]
+              - heading "Coding agent skill" [level=3] [ref=e190]
+              - paragraph [ref=e191]: Install the Arrow coding agent skill wrapper if you want the same project-specific guidance in tools like Codex and Claude Code.
+              - button "Copy Arrow coding agent skill install command" [ref=e193] [cursor=pointer]:
+                - generic [ref=e194]: $
+                - code [ref=e195]: npx @arrow-js/skill@latest
+                - img [ref=e197]
+              - heading "Other ways to install" [level=3] [ref=e200]
+              - paragraph [ref=e201]: Arrow still works fine without a build tool. If you only need the core runtime, a simple module import is enough.
+              - heading "From npm:" [level=4] [ref=e202]
+              - code [ref=e205]:
+                - generic [ref=e206]: npm install @arrow-js/core
+              - heading "From a CDN:" [level=4] [ref=e207]
+              - code [ref=e210]:
+                - generic [ref=e211]: <script type="module">
+                - generic [ref=e212]: "import { reactive, html } from 'https://esm.sh/@arrow-js/core'"
+                - generic [ref=e213]: </script>
+              - heading "Editor support" [level=3] [ref=e214]
+              - paragraph [ref=e215]:
+                - text: Install the official
+                - link "ArrowJS Syntax" [ref=e216] [cursor=pointer]:
+                  - /url: https://marketplace.visualstudio.com/items?itemName=StandardAgents.arrowjs-syntax
+                - text: extension for VSCode to get syntax highlighting and autocomplete inside
+                - code [ref=e217]: html
+                - text: template literals. Arrow also ships TypeScript definitions for full editor support.
+          - generic [ref=e218]:
+            - heading "Community" [level=2] [ref=e219]
+            - generic [ref=e220]:
+              - paragraph [ref=e221]:
+                - text: Join the
+                - link "Arrow Discord" [ref=e222] [cursor=pointer]:
+                  - /url: https://discord.gg/fBy7csvmAt
+                - text: to ask questions, share what you're building, and connect with other developers using Arrow.
+              - paragraph [ref=e223]:
+                - text: Follow the author
+                - link "Justin Schroeder" [ref=e224] [cursor=pointer]:
+                  - /url: https://x.com/intent/follow?screen_name=jpschroeder
+                - text: on X for updates, releases, and behind-the-scenes development.
+              - paragraph [ref=e225]:
+                - text: Browse the source, report issues, and contribute on
+                - link "GitHub" [ref=e226] [cursor=pointer]:
+                  - /url: https://github.com/standardagents/arrow-js
+                - text: .
+          - generic [ref=e227]:
+            - heading "Reactive Data" [level=2] [ref=e228]
+            - generic [ref=e229]:
+              - paragraph [ref=e230]:
+                - code [ref=e231]: reactive()
+                - text: turns plain objects, arrays, or expressions into live state that Arrow (or anyone else) can track and update from.
+              - paragraph [ref=e232]:
+                - code [ref=e233]: reactive(value)
+                - text: or
+                - code [ref=e234]: reactive(() => value)
+              - list [ref=e235]:
+                - listitem [ref=e236]: Wrap objects or arrays to create observable state.
+                - listitem [ref=e237]: Pass an expression to create a computed value.
+                - listitem [ref=e238]: Use it for local component state, shared stores, and mutable props.
+                - listitem [ref=e239]: Read properties normally. Arrow tracks those reads inside watchers and template expressions.
+                - listitem [ref=e240]:
+                  - text: Use
+                  - code [ref=e241]: $on
+                  - text: and
+                  - code [ref=e242]: $off
+                  - text: when you want manual subscriptions.
+              - code [ref=e245]:
+                - generic [ref=e246]:
+                  - text: "import {"
+                  - generic [ref=e248]: reactive
+                  - text: "} from '@arrow-js/core'"
+                - generic [ref=e249]:
+                  - text: const
+                  - generic [ref=e251]: data
+                  - text: =
+                  - generic [ref=e253]: reactive
+                  - text: "({"
+                - generic [ref=e254]:
+                  - generic [ref=e256]: price
+                  - text: ": 25,"
+                - generic [ref=e257]:
+                  - generic [ref=e259]: quantity
+                  - text: ": 10"
+                - generic [ref=e260]: "})"
+                - generic [ref=e261]:
+                  - generic [ref=e263]: console
+                  - text: .
+                  - generic [ref=e265]: log
+                  - text: (
+                  - generic [ref=e267]: data
+                  - text: .
+                  - generic [ref=e269]: price
+                  - text: ) // 25
+              - heading "Computed values" [level=3] [ref=e270]
+              - paragraph [ref=e271]:
+                - code [ref=e272]: reactive(() => value)
+                - text: reruns when its tracked reads change.
+              - code [ref=e275]:
+                - generic [ref=e276]:
+                  - text: "import {"
+                  - generic [ref=e278]: reactive
+                  - text: "} from '@arrow-js/core'"
+                - generic [ref=e279]:
+                  - text: const
+                  - generic [ref=e281]: props
+                  - text: =
+                  - generic [ref=e283]: reactive
+                  - text: "({"
+                  - generic [ref=e285]: count
+                  - text: ": 2,"
+                  - generic [ref=e287]: multiplier
+                  - text: ": 10 })"
+                - generic [ref=e288]:
+                  - text: const
+                  - generic [ref=e290]: data
+                  - text: =
+                  - generic [ref=e292]: reactive
+                  - text: "({"
+                - generic [ref=e293]:
+                  - generic [ref=e295]: total
+                  - text: ":"
+                  - generic [ref=e297]: reactive
+                  - text: (() =>
+                  - generic [ref=e299]: props
+                  - text: .
+                  - generic [ref=e301]: count
+                  - text: "*"
+                  - generic [ref=e303]: props
+                  - text: .
+                  - generic [ref=e305]: multiplier
+                  - text: )
+                - generic [ref=e306]: "})"
+                - generic [ref=e307]:
+                  - generic [ref=e309]: console
+                  - text: .
+                  - generic [ref=e311]: log
+                  - text: (
+                  - generic [ref=e313]: data
+                  - text: .
+                  - generic [ref=e315]: total
+                  - text: ) // 20
+                - generic [ref=e316]:
+                  - generic [ref=e318]: props
+                  - text: .
+                  - generic [ref=e320]: count
+                  - text: = 3
+                - generic [ref=e321]:
+                  - generic [ref=e323]: console
+                  - text: .
+                  - generic [ref=e325]: log
+                  - text: (
+                  - generic [ref=e327]: data
+                  - text: .
+                  - generic [ref=e329]: total
+                  - text: ) // 30
+              - generic [ref=e330]:
+                - generic [ref=e331]: Tip
+                - paragraph [ref=e332]:
+                  - code [ref=e333]: data.total
+                  - text: reads like a normal value even though it is backed by a tracked expression.
+          - generic [ref=e334]:
+            - heading "Templates" [level=2] [ref=e335]
+            - generic [ref=e336]:
+              - paragraph [ref=e337]:
+                - text: To render DOM elements with Arrow you use the
+                - code [ref=e338]: html
+                - text: tagged template literal.
+              - paragraph [ref=e339]:
+                - code [ref=e340]: "html`...`"
+                - text: — create a mountable template
+              - list [ref=e341]:
+                - listitem [ref=e342]: Templates can be mounted directly, passed around, or returned from components.
+                - listitem [ref=e343]:
+                  - text: Expression slots are static by default, but if callable functions are provided they will update when their respective reactive data is changed. In other words
+                  - code [ref=e344]: "${data.foo}"
+                  - text: is static but
+                  - code [ref=e345]: "${() => data.foo}"
+                  - text: is reactive.
+                - listitem [ref=e346]: Templates can render text, attributes, properties, lists, nested templates, and events.
+              - paragraph [ref=e347]:
+                - text: Plain values render once. If you pass a function like
+                - code [ref=e348]: () => data.count
+                - text: ", Arrow tracks the reactive reads inside that function and updates only that part of the template when they change."
+              - heading "Attributes" [level=3] [ref=e349]
+              - paragraph [ref=e350]: Use a function expression to keep an attribute in sync.
+              - code [ref=e353]:
+                - generic [ref=e354]:
+                  - text: "import {"
+                  - generic [ref=e356]: html
+                  - text: ","
+                  - generic [ref=e358]: reactive
+                  - text: "} from '@arrow-js/core'"
+                - generic [ref=e359]:
+                  - text: const
+                  - generic [ref=e361]: data
+                  - text: =
+                  - generic [ref=e363]: reactive
+                  - text: "({"
+                  - generic [ref=e365]: disabled
+                  - text: ": false })"
+                - generic [ref=e366]:
+                  - generic [ref=e368]: html
+                  - text: "`<button disabled=\"${() =>"
+                  - generic [ref=e370]: data
+                  - text: .
+                  - generic [ref=e372]: disabled
+                  - text: "}\">"
+                - generic [ref=e373]: Save
+                - generic [ref=e374]: "</button>`"
+              - generic [ref=e375]:
+                - generic [ref=e376]: Tip
+                - paragraph [ref=e377]:
+                  - text: Returning
+                  - code [ref=e378]: "false"
+                  - text: from an attribute expression will remove the attribute. This makes it easy to toggle attributes.
+              - code [ref=e381]:
+                - generic [ref=e382]:
+                  - text: "import {"
+                  - generic [ref=e384]: html
+                  - text: ","
+                  - generic [ref=e386]: reactive
+                  - text: "} from '@arrow-js/core'"
+                - generic [ref=e387]:
+                  - text: const
+                  - generic [ref=e389]: data
+                  - text: =
+                  - generic [ref=e391]: reactive
+                  - text: "({"
+                  - generic [ref=e393]: disabled
+                  - text: ": false })"
+                - generic [ref=e394]:
+                  - generic [ref=e396]: html
+                  - text: "`<button disabled=\"${() =>"
+                  - generic [ref=e398]: data
+                  - text: .
+                  - generic [ref=e400]: disabled
+                  - text: "? true : false}\">"
+                - generic [ref=e401]: Save
+                - generic [ref=e402]: "</button>`"
+              - heading "Lists" [level=3] [ref=e403]
+              - paragraph [ref=e404]:
+                - text: Return an array of templates to render a list. Add
+                - code [ref=e405]: .key(...)
+                - text: when identity must survive reorders.
+              - code [ref=e408]:
+                - generic [ref=e409]:
+                  - text: "import {"
+                  - generic [ref=e411]: html
+                  - text: ","
+                  - generic [ref=e413]: reactive
+                  - text: "} from '@arrow-js/core'"
+                - generic [ref=e414]:
+                  - text: const
+                  - generic [ref=e416]: data
+                  - text: =
+                  - generic [ref=e418]: reactive
+                  - text: "({"
+                - generic [ref=e419]:
+                  - generic [ref=e421]: todos
+                  - text: ": ["
+                - generic [ref=e422]:
+                  - text: "{"
+                  - generic [ref=e424]: id
+                  - text: ": 1,"
+                  - generic [ref=e426]: text
+                  - text: ": 'Write docs' },"
+                - generic [ref=e427]:
+                  - text: "{"
+                  - generic [ref=e429]: id
+                  - text: ": 2,"
+                  - generic [ref=e431]: text
+                  - text: ": 'Ship app' },"
+                - generic [ref=e432]: "],"
+                - generic [ref=e433]: "})"
+                - generic [ref=e434]:
+                  - generic [ref=e436]: html
+                  - text: "`<ul>"
+                - generic [ref=e437]:
+                  - text: "${() =>"
+                  - generic [ref=e439]: data
+                  - text: .
+                  - generic [ref=e441]: todos
+                  - text: .
+                  - generic [ref=e443]: map
+                  - text: ((
+                  - generic [ref=e445]: todo
+                  - text: ) =>
+                - generic [ref=e446]:
+                  - generic [ref=e448]: html
+                  - text: "`<li>${"
+                  - generic [ref=e450]: todo
+                  - text: ".text}</li>`."
+                  - generic [ref=e452]: key
+                  - text: (
+                  - generic [ref=e454]: todo
+                  - text: .id)
+                - generic [ref=e455]: ")}"
+                - generic [ref=e456]: "</ul>`"
+              - generic [ref=e457]:
+                - generic [ref=e458]: Tip
+                - paragraph [ref=e459]: Keys are only necessary if you want to preserve the DOM nodes and their state. Avoid using the index as a key.
+              - code [ref=e462]:
+                - generic [ref=e463]:
+                  - text: "import {"
+                  - generic [ref=e465]: html
+                  - text: ","
+                  - generic [ref=e467]: reactive
+                  - text: "} from '@arrow-js/core'"
+                - generic [ref=e468]:
+                  - text: const
+                  - generic [ref=e470]: data
+                  - text: =
+                  - generic [ref=e472]: reactive
+                  - text: "({"
+                  - generic [ref=e474]: tags
+                  - text: ": ['alpha', 'beta', 'gamma'] })"
+                - generic [ref=e475]:
+                  - generic [ref=e477]: html
+                  - text: "`<ul>"
+                - generic [ref=e478]:
+                  - text: "${() =>"
+                  - generic [ref=e480]: data
+                  - text: .
+                  - generic [ref=e482]: tags
+                  - text: .
+                  - generic [ref=e484]: map
+                  - text: ((
+                  - generic [ref=e486]: tag
+                  - text: ) =>
+                  - generic [ref=e488]: html
+                  - text: "`<li>${"
+                  - generic [ref=e490]: tag
+                  - text: "}</li>`)}"
+                - generic [ref=e491]: "</ul>`"
+              - heading "Events" [level=3] [ref=e492]
+              - paragraph [ref=e493]:
+                - code [ref=e494]: "@eventName"
+                - text: attaches an event listener.
+              - code [ref=e497]:
+                - generic [ref=e498]:
+                  - text: "import {"
+                  - generic [ref=e500]: html
+                  - text: "} from '@arrow-js/core'"
+                - generic [ref=e501]:
+                  - generic [ref=e503]: html
+                  - text: "`<button @click=\"${("
+                  - generic [ref=e505]: e
+                  - text: ) =>
+                  - generic [ref=e507]: console
+                  - text: .
+                  - generic [ref=e509]: log
+                  - text: (
+                  - generic [ref=e511]: e
+                  - text: ")}\">Click</button>`"
+          - generic [ref=e512]:
+            - heading "Components" [level=2] [ref=e513]
+            - generic [ref=e514]:
+              - paragraph [ref=e515]:
+                - text: Arrow components are plain functions wrapped with
+                - code [ref=e516]: component()
+                - text: . A component mounts once per render slot and keeps local state while that slot survives parent rerenders.
+              - list [ref=e517]:
+                - listitem [ref=e518]: Pass a reactive object as props.
+                - listitem [ref=e519]:
+                  - text: Read props lazily inside expressions like
+                  - code [ref=e520]: () => props.count
+                  - text: .
+                - listitem [ref=e521]:
+                  - text: Keep local component state with
+                  - code [ref=e522]: reactive()
+                  - text: inside the component.
+                - listitem [ref=e523]:
+                  - text: Use
+                  - code [ref=e524]: .key(...)
+                  - text: when rendering components in keyed lists.
+              - code [ref=e527]:
+                - generic [ref=e528]: "import { component, html, onCleanup, reactive } from '@arrow-js/core'"
+                - generic [ref=e529]: "import type { Props } from '@arrow-js/core'"
+                - generic [ref=e530]: "const parentState = reactive({ count: 1 })"
+                - generic [ref=e531]: "const Counter = component((props: Props<{ count: number }>) => {"
+                - generic [ref=e532]: "const local = reactive({ clicks: 0 })"
+                - generic [ref=e533]: const onResize = () => console.log(window.innerWidth)
+                - generic [ref=e534]: window.addEventListener('resize', onResize)
+                - generic [ref=e535]: onCleanup(() => window.removeEventListener('resize', onResize))
+                - generic [ref=e536]: "return html`<button @click=\"${() => local.clicks++}\">"
+                - generic [ref=e537]: "Root count ${() => props.count} | Local clicks ${() => local.clicks}"
+                - generic [ref=e538]: "</button>`"
+                - generic [ref=e539]: "})"
+                - generic [ref=e540]: "html`<section>"
+                - generic [ref=e541]: <h3>Dashboard</h3>
+                - generic [ref=e542]: "${Counter(parentState)}"
+                - generic [ref=e543]: "</section>`"
+              - generic [ref=e544]:
+                - generic [ref=e545]: Key concept
+                - paragraph [ref=e546]: The component function itself is not rerun on every parent update. Arrow keeps the instance for that slot and retargets its props when needed. That makes local state stable across higher-order rerenders.
+              - paragraph [ref=e547]: In the common case, just pass a reactive object directly as the component props.
+              - code [ref=e550]:
+                - generic [ref=e551]: "import { component, html, reactive } from '@arrow-js/core'"
+                - generic [ref=e552]: "const state = reactive({ count: 1, theme: 'dark' })"
+                - generic [ref=e553]: const Counter = component((props) =>
+                - generic [ref=e554]: "html`<strong>${() => props.count}</strong>`"
+                - generic [ref=e555]: )
+                - generic [ref=e556]: "html`<p>"
+                - generic [ref=e557]: "Current count:"
+                - generic [ref=e558]: "${Counter(state)}"
+                - generic [ref=e559]: "</p>`"
+              - generic [ref=e560]:
+                - generic [ref=e561]: Tip
+                - paragraph [ref=e562]: Props stay live when you read them lazily. Avoid destructuring them once at component creation time if you expect updates.
+              - paragraph [ref=e563]:
+                - text: Use
+                - code [ref=e564]: onCleanup()
+                - text: inside a component when you set up manual listeners, timers, or sockets that need teardown when the component slot unmounts.
+              - heading "Async components" [level=3] [ref=e565]
+              - paragraph [ref=e566]:
+                - text: The same core
+                - code [ref=e567]: component()
+                - text: "also accepts async factories when the Arrow async runtime is present:"
+              - code [ref=e570]:
+                - generic [ref=e571]: "import { component, html } from '@arrow-js/core'"
+                - generic [ref=e572]: "import type { Props } from '@arrow-js/core'"
+                - generic [ref=e573]: "type User = { id: string; name: string }"
+                - generic [ref=e574]: const UserName = component(
+                - generic [ref=e575]: "async ({ id }: Props<{ id: string }>) => {"
+                - generic [ref=e576]: "const user = await fetch(`/api/users/${id}`)"
+                - generic [ref=e577]: .then((r) => r.json() as Promise<User>)
+                - generic [ref=e578]: return user.name
+                - generic [ref=e579]: "},"
+                - generic [ref=e580]: "{ fallback: html`<span>Loading user…</span>` }"
+                - generic [ref=e581]: )
+                - generic [ref=e582]: "const UserCard = component((props: Props<{ id: string }>) =>"
+                - generic [ref=e583]: "html`<article>${UserName(props)}</article>`"
+                - generic [ref=e584]: )
+              - paragraph [ref=e585]: The async body resolves data, and the surrounding template stays reactive in the usual Arrow way. SSR waits for async components to settle, and hydration resumes JSON-safe results from serialized payload data automatically.
+              - generic [ref=e586]:
+                - generic [ref=e587]: Tip
+                - paragraph [ref=e588]:
+                  - text: Most async components need no extra options. Arrow assigns ids, snapshots JSON-safe results, and renders resolved values directly by default. Reach for
+                  - code [ref=e589]: fallback
+                  - text: ","
+                  - code [ref=e590]: render
+                  - text: ","
+                  - code [ref=e591]: serialize
+                  - text: ","
+                  - code [ref=e592]: deserialize
+                  - text: ", or"
+                  - code [ref=e593]: idPrefix
+                  - text: only when the default behavior is not enough.
+          - generic [ref=e594]:
+            - heading "Watching Data" [level=2] [ref=e595]
+            - generic [ref=e596]:
+              - paragraph [ref=e597]:
+                - code [ref=e598]: watch(effect)
+                - text: or
+                - code [ref=e599]: watch(getter, afterEffect)
+              - list [ref=e600]:
+                - listitem [ref=e601]: Use it for derived side effects outside templates.
+                - listitem [ref=e602]: Dependencies are discovered automatically from reactive reads.
+                - listitem [ref=e603]: Arrow also drops dependencies that are no longer touched on later runs.
+                - listitem [ref=e604]: Watchers created inside a component are stopped automatically when that component unmounts.
+              - paragraph [ref=e605]: "Single-effect form:"
+              - code [ref=e608]:
+                - generic [ref=e609]:
+                  - text: "import {"
+                  - generic [ref=e611]: reactive
+                  - text: ","
+                  - generic [ref=e613]: watch
+                  - text: "} from '@arrow-js/core'"
+                - generic [ref=e614]:
+                  - text: const
+                  - generic [ref=e616]: data
+                  - text: =
+                  - generic [ref=e618]: reactive
+                  - text: "({"
+                  - generic [ref=e620]: price
+                  - text: ": 25,"
+                  - generic [ref=e622]: quantity
+                  - text: ": 10,"
+                  - generic [ref=e624]: logTotal
+                  - text: ": true })"
+                - generic [ref=e625]:
+                  - generic [ref=e627]: watch
+                  - text: "(() => {"
+                - generic [ref=e628]:
+                  - text: if (
+                  - generic [ref=e630]: data
+                  - text: .
+                  - generic [ref=e632]: logTotal
+                  - text: ") {"
+                - generic [ref=e633]:
+                  - generic [ref=e635]: console
+                  - text: .
+                  - generic [ref=e637]: log
+                  - text: "(`Total: ${"
+                  - generic [ref=e639]: data
+                  - text: .
+                  - generic [ref=e641]: price
+                  - text: "*"
+                  - generic [ref=e643]: data
+                  - text: .
+                  - generic [ref=e645]: quantity
+                  - text: "}`)"
+                - generic [ref=e646]: "}"
+                - generic [ref=e647]: "})"
+              - paragraph [ref=e648]: "Getter plus effect form:"
+              - code [ref=e651]:
+                - generic [ref=e652]:
+                  - text: "import {"
+                  - generic [ref=e654]: reactive
+                  - text: ","
+                  - generic [ref=e656]: watch
+                  - text: "} from '@arrow-js/core'"
+                - generic [ref=e657]:
+                  - text: const
+                  - generic [ref=e659]: data
+                  - text: =
+                  - generic [ref=e661]: reactive
+                  - text: "({"
+                  - generic [ref=e663]: price
+                  - text: ": 25,"
+                  - generic [ref=e665]: quantity
+                  - text: ": 10,"
+                  - generic [ref=e667]: logTotal
+                  - text: ": true })"
+                - generic [ref=e668]:
+                  - generic [ref=e670]: watch
+                  - text: (
+                - generic [ref=e671]:
+                  - text: () =>
+                  - generic [ref=e673]: data
+                  - text: .
+                  - generic [ref=e675]: logTotal
+                  - text: "?"
+                  - generic [ref=e677]: data
+                  - text: .
+                  - generic [ref=e679]: price
+                  - text: "*"
+                  - generic [ref=e681]: data
+                  - text: .
+                  - generic [ref=e683]: quantity
+                  - text: ": null,"
+                - generic [ref=e684]:
+                  - text: (
+                  - generic [ref=e686]: total
+                  - text: ) =>
+                  - generic [ref=e688]: total
+                  - text: "!== null &&"
+                  - generic [ref=e690]: console
+                  - text: .
+                  - generic [ref=e692]: log
+                  - text: "(`Total: ${"
+                  - generic [ref=e694]: total
+                  - text: "}`)"
+                - generic [ref=e695]: )
+          - generic [ref=e696]:
+            - heading "Sandbox" [level=2] [ref=e697]
+            - generic [ref=e698]:
+              - paragraph [ref=e699]:
+                - code [ref=e700]: "@arrow-js/sandbox"
+                - text: lets you run JS/TS/Arrow inside a WASM virtual machine while the host page keeps ownership of the real DOM rendered by
+                - code [ref=e701]: html()
+                - text: . These two environments only communicate through serialized messages, which allows safe execution of AI-generated code and makes the sandbox a good fit for inline UI produced by chat agents.
+              - list [ref=e702]:
+                - listitem [ref=e703]:
+                  - code [ref=e704]: source
+                  - text: must include exactly one
+                  - code [ref=e705]: main.ts
+                  - text: or
+                  - code [ref=e706]: main.js
+                  - text: entry file.
+                - listitem [ref=e707]:
+                  - code [ref=e708]: main.css
+                  - text: is optional and is injected into the sandbox host root.
+                - listitem [ref=e709]:
+                  - text: The sandbox renders through a stable
+                  - code [ref=e710]: <arrow-sandbox>
+                  - text: custom element.
+                - listitem [ref=e711]:
+                  - text: Call
+                  - code [ref=e712]: output(payload)
+                  - text: inside sandboxed code to send data back through the optional
+                  - code [ref=e713]: events.output
+                  - text: handler.
+              - code [ref=e716]:
+                - generic [ref=e717]:
+                  - text: "import {"
+                  - generic [ref=e719]: html
+                  - text: "} from '@arrow-js/core'"
+                - generic [ref=e720]:
+                  - text: "import {"
+                  - generic [ref=e722]: sandbox
+                  - text: "} from '@arrow-js/sandbox'"
+                - generic [ref=e723]:
+                  - text: const
+                  - generic [ref=e725]: root
+                  - text: =
+                  - generic [ref=e727]: document
+                  - text: .
+                  - generic [ref=e729]: getElementById
+                  - text: ('app')
+                - generic [ref=e730]:
+                  - text: if (!
+                  - generic [ref=e732]: root
+                  - text: ) throw new
+                  - generic [ref=e734]: Error
+                  - text: "('Missing #app root')"
+                - generic [ref=e735]:
+                  - text: const
+                  - generic [ref=e737]: source
+                  - text: "= {"
+                - generic [ref=e738]: "'main.ts': ["
+                - generic [ref=e739]: "\"import { html, reactive } from '@arrow-js/core'\","
+                - generic [ref=e740]: "'',"
+                - generic [ref=e741]: "'const state = reactive({ count: 0 })',"
+                - generic [ref=e742]: "'',"
+                - generic [ref=e743]: "'export default html`<button @click=\"${() => state.count++}\">',"
+                - generic [ref=e744]: "' Count ${() => state.count}',"
+                - generic [ref=e745]: "'</button>`',"
+                - generic [ref=e746]:
+                  - text: "]."
+                  - generic [ref=e748]: join
+                  - text: ('\n'),
+                - generic [ref=e749]: "'main.css': ["
+                - generic [ref=e750]: "'button {',"
+                - generic [ref=e751]: "' font: inherit;',"
+                - generic [ref=e752]: "' padding: 0.75rem 1rem;',"
+                - generic [ref=e753]: "'}',"
+                - generic [ref=e754]:
+                  - text: "]."
+                  - generic [ref=e756]: join
+                  - text: ('\n'),
+                - generic [ref=e757]: "}"
+                - generic [ref=e758]:
+                  - generic [ref=e760]: html
+                  - text: "`<section>${"
+                  - generic [ref=e762]: sandbox
+                  - text: "({"
+                  - generic [ref=e764]: source
+                  - text: "})}</section>`("
+                  - generic [ref=e766]: root
+                  - text: )
+              - link "Live Demo See sandbox isolation in action A full interactive example showing reactivity inside the VM, blocked browser globals, and the restricted fetch bridge. Open in Playground" [ref=e767] [cursor=pointer]:
+                - /url: /play/?example=sandbox
+                - generic [ref=e768]: Live Demo
+                - generic [ref=e769]: See sandbox isolation in action
+                - generic [ref=e770]: A full interactive example showing reactivity inside the VM, blocked browser globals, and the restricted fetch bridge.
+                - generic [ref=e771]: Open in Playground →
+              - heading "Prompt for agents" [level=3] [ref=e772]
+              - paragraph [ref=e773]: If you want an agent to generate a sandbox payload directly, this prompt keeps the output narrow and aligned with Arrow.
+              - generic [ref=e774]:
+                - generic [ref=e775]:
+                  - generic [ref=e776]: Agent Prompt
+                  - button "Copy" [ref=e777] [cursor=pointer]
+                - code [ref=e779]:
+                  - generic [ref=e780]: "Build this UI as an Arrow sandbox payload. Return an object for sandbox({ source, ... }) with exactly one entry file named main.ts or main.js, plus main.css only if styles are needed. Use @arrow-js/core primitives directly: reactive(...) for state, html`...` for DOM, and component(...) only when reusable local state or composition is actually needed. Arrow expression slots are static by default, so any live value must be wrapped in a callable function like ${() => state.count}. Use event bindings like @click=\"${() => state.count++}\", do not use JSX, React hooks, Vue directives, direct DOM mutation, or framework-specific render APIs."
+                  - generic [ref=e781]: Export a default Arrow template or component result from main.ts. Keep the example self-contained, prefer a single clear root view, and communicate back to the host with output(payload) when needed. Put CSS in main.css, keep payloads JSON-serializable, and only return the files that are necessary for the requested interface. If you create multiple files, make sure imports match the virtual filenames you place in source.
+              - heading "JSON schema tool" [level=3] [ref=e782]
+              - paragraph [ref=e783]:
+                - text: If your agent supports tool calling, this schema produces the exact argument object expected by
+                - code [ref=e784]: sandbox()
+                - text: .
+              - generic [ref=e785]:
+                - generic [ref=e786]:
+                  - generic [ref=e787]: create_arrow_sandbox
+                  - button "Copy" [ref=e788] [cursor=pointer]
+                - code [ref=e790]:
+                  - generic [ref=e791]: "{"
+                  - generic [ref=e792]: "\"name\": \"create_arrow_sandbox\","
+                  - generic [ref=e793]: "\"description\": \"Produce arguments for @arrow-js/sandbox.\","
+                  - generic [ref=e794]: "\"inputSchema\": {"
+                  - generic [ref=e795]: "\"type\": \"object\","
+                  - generic [ref=e796]: "\"additionalProperties\": false,"
+                  - generic [ref=e797]: "\"properties\": {"
+                  - generic [ref=e798]: "\"source\": {"
+                  - generic [ref=e799]: "\"type\": \"object\","
+                  - generic [ref=e800]: "\"description\": \"Virtual files passed to sandbox({ source }). Must include main.ts or main.js. main.css is optional.\","
+                  - generic [ref=e801]: "\"additionalProperties\": false,"
+                  - generic [ref=e802]: "\"properties\": {"
+                  - generic [ref=e803]: "\"main.ts\": {"
+                  - generic [ref=e804]: "\"type\": \"string\","
+                  - generic [ref=e805]: "\"description\": \"Main Arrow TypeScript entry file.\""
+                  - generic [ref=e806]: "},"
+                  - generic [ref=e807]: "\"main.js\": {"
+                  - generic [ref=e808]: "\"type\": \"string\","
+                  - generic [ref=e809]: "\"description\": \"Main Arrow JavaScript entry file.\""
+                  - generic [ref=e810]: "},"
+                  - generic [ref=e811]: "\"main.css\": {"
+                  - generic [ref=e812]: "\"type\": \"string\","
+                  - generic [ref=e813]: "\"description\": \"Optional stylesheet for the sandbox root.\""
+                  - generic [ref=e814]: "}"
+                  - generic [ref=e815]: "},"
+                  - generic [ref=e816]: "\"anyOf\": ["
+                  - generic [ref=e817]: "{ \"required\": [\"main.ts\"] },"
+                  - generic [ref=e818]: "{ \"required\": [\"main.js\"] }"
+                  - generic [ref=e819]: "]"
+                  - generic [ref=e820]: "},"
+                  - generic [ref=e821]: "\"shadowDOM\": {"
+                  - generic [ref=e822]: "\"type\": \"boolean\","
+                  - generic [ref=e823]: "\"description\": \"Whether the sandbox should render inside shadow DOM.\""
+                  - generic [ref=e824]: "},"
+                  - generic [ref=e825]: "\"debug\": {"
+                  - generic [ref=e826]: "\"type\": \"boolean\","
+                  - generic [ref=e827]: "\"description\": \"Whether sandbox debug logging should be enabled.\""
+                  - generic [ref=e828]: "}"
+                  - generic [ref=e829]: "},"
+                  - generic [ref=e830]: "\"required\": [\"source\"]"
+                  - generic [ref=e831]: "}"
+                  - generic [ref=e832]: "}"
+              - generic [ref=e835]:
+                - generic [ref=e836]:
+                  - link [ref=e837] [cursor=pointer]:
+                    - /url: https://standardagents.ai
+                    - img [ref=e838]
+                  - generic [ref=e855]: Early Access
+                - paragraph [ref=e856]:
+                  - text: From the team behind
+                  - link "FormKit" [ref=e857] [cursor=pointer]:
+                    - /url: https://formkit.com
+                  - text: ","
+                  - link "Tempo" [ref=e858] [cursor=pointer]:
+                    - /url: https://tempo.formkit.com
+                  - text: ","
+                  - link "AutoAnimate" [ref=e859] [cursor=pointer]:
+                    - /url: https://auto-animate.formkit.com
+                  - text: ", and"
+                  - link "Drag and Drop" [ref=e860] [cursor=pointer]:
+                    - /url: https://drag-and-drop.formkit.com
+                  - text: — Standard Agents is an open standard for creating domain-specific agents you can distribute and compose together to form safe, efficient, and effective agents. Join the early access list.
+                - generic [ref=e862]:
+                  - textbox "Name" [ref=e863]
+                  - textbox "Email" [ref=e864]
+                  - button "Request Early Access" [ref=e865] [cursor=pointer]:
+                    - generic [ref=e866]: Request Early Access
+          - generic [ref=e867]:
+            - heading "Routing" [level=2] [ref=e868]
+            - generic [ref=e869]:
+              - paragraph [ref=e870]:
+                - text: The Vite scaffold uses a simple
+                - code [ref=e871]: routeToPage(url)
+                - text: entry so the server and browser both resolve the same route tree.
+              - list [ref=e872]:
+                - listitem [ref=e873]: Choose a route from the incoming URL.
+                - listitem [ref=e874]: Return the page status, metadata, and Arrow view together.
+                - listitem [ref=e875]: Reuse the same routing function for SSR and hydration so both sides render the same page shape.
+              - paragraph [ref=e876]:
+                - text: For browser-only routing, Arrow recommends the native
+                - link "Navigation API" [ref=e877] [cursor=pointer]:
+                  - /url: https://developer.mozilla.org/en-US/docs/Web/API/Navigation
+                - text: via
+                - code [ref=e878]: window.navigation
+                - text: when your support matrix allows it. It gives you a single navigation event stream and more reliable history traversal than wiring everything around the older
+                - code [ref=e879]: history.pushState()
+                - text: flow. Keep a History API fallback if you still support older browsers.
+              - code [ref=e882]:
+                - generic [ref=e883]:
+                  - text: "import {"
+                  - generic [ref=e885]: html
+                  - text: "} from '@arrow-js/core'"
+                - generic [ref=e886]:
+                  - text: export function
+                  - generic [ref=e888]: routeToPage
+                  - text: (
+                  - generic [ref=e890]: url
+                  - text: ": string) {"
+                - generic [ref=e891]:
+                  - text: if (
+                  - generic [ref=e893]: url
+                  - text: "=== '/') {"
+                - generic [ref=e894]: "return {"
+                - generic [ref=e895]:
+                  - generic [ref=e897]: status
+                  - text: ": 200,"
+                - generic [ref=e898]:
+                  - generic [ref=e900]: title
+                  - text: ": 'Home',"
+                - generic [ref=e901]:
+                  - generic [ref=e903]: view
+                  - text: ":"
+                  - generic [ref=e905]: html
+                  - text: "`<main>Home</main>`,"
+                - generic [ref=e906]: "}"
+                - generic [ref=e907]: "}"
+                - generic [ref=e908]: "return {"
+                - generic [ref=e909]:
+                  - generic [ref=e911]: status
+                  - text: ": 404,"
+                - generic [ref=e912]:
+                  - generic [ref=e914]: title
+                  - text: ": 'Not Found',"
+                - generic [ref=e915]:
+                  - generic [ref=e917]: view
+                  - text: ":"
+                  - generic [ref=e919]: html
+                  - text: "`<main>Not found</main>`,"
+                - generic [ref=e920]: "}"
+                - generic [ref=e921]: "}"
+          - generic [ref=e922]:
+            - heading "Examples" [level=2] [ref=e923]
+            - generic [ref=e924]:
+              - paragraph [ref=e925]: Each example runs in the playground with full source you can edit live.
+              - generic [ref=e926]:
+                - link "✅ Todo List A task tracker with reactive arrays, keyed lists, and computed filtering. Open in Playground →" [ref=e927] [cursor=pointer]:
+                  - /url: /play/?example=todo
+                  - heading "✅ Todo List" [level=3] [ref=e928]:
+                    - generic [ref=e929]: ✅
+                    - text: Todo List
+                  - paragraph [ref=e930]: A task tracker with reactive arrays, keyed lists, and computed filtering.
+                  - text: Open in Playground →
+                - link "🍅 Pomodoro Timer A focus timer with SVG progress ring, intervals, and computed formatting. Open in Playground →" [ref=e931] [cursor=pointer]:
+                  - /url: /play/?example=timer
+                  - heading "🍅 Pomodoro Timer" [level=3] [ref=e932]:
+                    - generic [ref=e933]: 🍅
+                    - text: Pomodoro Timer
+                  - paragraph [ref=e934]: A focus timer with SVG progress ring, intervals, and computed formatting.
+                  - text: Open in Playground →
+                - link "🎨 Color Palette A Coolors-style harmony palette generator with reactive style binding and computed colors. Open in Playground →" [ref=e935] [cursor=pointer]:
+                  - /url: /play/?example=palette
+                  - heading "🎨 Color Palette" [level=3] [ref=e936]:
+                    - generic [ref=e937]: 🎨
+                    - text: Color Palette
+                  - paragraph [ref=e938]: A Coolors-style harmony palette generator with reactive style binding and computed colors.
+                  - text: Open in Playground →
+                - link "🔐 Password Generator A configurable password tool with reactive toggles and a strength meter. Open in Playground →" [ref=e939] [cursor=pointer]:
+                  - /url: /play/?example=password
+                  - heading "🔐 Password Generator" [level=3] [ref=e940]:
+                    - generic [ref=e941]: 🔐
+                    - text: Password Generator
+                  - paragraph [ref=e942]: A configurable password tool with reactive toggles and a strength meter.
+                  - text: Open in Playground →
+                - link "🪗 Accordion Expandable FAQ sections where each component instance keeps its own state. Open in Playground →" [ref=e943] [cursor=pointer]:
+                  - /url: /play/?example=accordion
+                  - heading "🪗 Accordion" [level=3] [ref=e944]:
+                    - generic [ref=e945]: 🪗
+                    - text: Accordion
+                  - paragraph [ref=e946]: Expandable FAQ sections where each component instance keeps its own state.
+                  - text: Open in Playground →
+                - link "📡 Live Feed An auto-updating event feed with reactive array mutations and timed entries. Open in Playground →" [ref=e947] [cursor=pointer]:
+                  - /url: /play/?example=feed
+                  - heading "📡 Live Feed" [level=3] [ref=e948]:
+                    - generic [ref=e949]: 📡
+                    - text: Live Feed
+                  - paragraph [ref=e950]: An auto-updating event feed with reactive array mutations and timed entries.
+                  - text: Open in Playground →
+                - link "📊 Data Table A sortable data table with reactive column sorting, keyed rows, and computed ordering. Open in Playground →" [ref=e951] [cursor=pointer]:
+                  - /url: /play/?example=table
+                  - heading "📊 Data Table" [level=3] [ref=e952]:
+                    - generic [ref=e953]: 📊
+                    - text: Data Table
+                  - paragraph [ref=e954]: A sortable data table with reactive column sorting, keyed rows, and computed ordering.
+                  - text: Open in Playground →
+                - link "📁 Tabs A tabbed interface with ARIA roles, animated panel transitions, and per-tab content. Open in Playground →" [ref=e955] [cursor=pointer]:
+                  - /url: /play/?example=tabs
+                  - heading "📁 Tabs" [level=3] [ref=e956]:
+                    - generic [ref=e957]: 📁
+                    - text: Tabs
+                  - paragraph [ref=e958]: A tabbed interface with ARIA roles, animated panel transitions, and per-tab content.
+                  - text: Open in Playground →
+                - link "🖼️ Photo Gallery A responsive image grid with a lightbox carousel, keyboard navigation, and lazy loading. Open in Playground →" [ref=e959] [cursor=pointer]:
+                  - /url: /play/?example=gallery
+                  - heading "🖼️ Photo Gallery" [level=3] [ref=e960]:
+                    - generic [ref=e961]: 🖼️
+                    - text: Photo Gallery
+                  - paragraph [ref=e962]: A responsive image grid with a lightbox carousel, keyboard navigation, and lazy loading.
+                  - text: Open in Playground →
+                - link "🎮 Flappy Arrow Navigate ()=> through ASCII pipes in this flappy-bird tribute with reactive state and a RAF game loop. Open in Playground →" [ref=e963] [cursor=pointer]:
+                  - /url: /play/?example=runner
+                  - heading "🎮 Flappy Arrow" [level=3] [ref=e964]:
+                    - generic [ref=e965]: 🎮
+                    - text: Flappy Arrow
+                  - paragraph [ref=e966]: Navigate ()=> through ASCII pipes in this flappy-bird tribute with reactive state and a RAF game loop.
+                  - text: Open in Playground →
+                - link "🛡️ Sandbox Run untrusted Arrow code in a WASM VM with isolated DOM, restricted fetch, and one-way output. Open in Playground →" [ref=e967] [cursor=pointer]:
+                  - /url: /play/?example=sandbox
+                  - heading "🛡️ Sandbox" [level=3] [ref=e968]:
+                    - generic [ref=e969]: 🛡️
+                    - text: Sandbox
+                  - paragraph [ref=e970]: Run untrusted Arrow code in a WASM VM with isolated DOM, restricted fetch, and one-way output.
+                  - text: Open in Playground →
+              - link "Playground Build something with Arrow Open a live editor with a starter template, hot reloading, and every Arrow package ready to import. Open Playground" [ref=e971] [cursor=pointer]:
+                - /url: /play/
+                - generic [ref=e972]: Playground
+                - generic [ref=e973]: Build something with Arrow
+                - generic [ref=e974]: Open a live editor with a starter template, hot reloading, and every Arrow package ready to import.
+                - generic [ref=e975]: Open Playground →
+  - contentinfo [ref=e976]:
+    - generic [ref=e977]:
+      - paragraph [ref=e978]:
+        - text: Built by
+        - link "Standard Agents" [ref=e979] [cursor=pointer]:
+          - /url: https://standardagents.ai
+        - text: . Open Source under MIT.
+      - generic [ref=e980]:
+        - link "GitHub" [ref=e981] [cursor=pointer]:
+          - /url: https://github.com/standardagents/arrow-js
+        - link "Discord" [ref=e982] [cursor=pointer]:
+          - /url: https://discord.gg/fBy7csvmAt
+        - link "Twitter" [ref=e983] [cursor=pointer]:
+          - /url: https://x.com/intent/follow?screen_name=jpschroeder
