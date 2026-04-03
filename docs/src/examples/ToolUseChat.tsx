@@ -333,7 +333,7 @@ export function ToolUseChat() {
 
   // Auto-scroll
   useEffect(() => {
-    if (containerRef.current) containerRef.current.scrollTop = containerRef.current.scrollHeight
+    requestAnimationFrame(() => { if (containerRef.current) containerRef.current.scrollTop = containerRef.current.scrollHeight })
   }, [messages])
 
   // ---------------------------------------------------------------------------

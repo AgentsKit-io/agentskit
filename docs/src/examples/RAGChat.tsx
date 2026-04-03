@@ -290,7 +290,7 @@ export function RAGChat() {
   const demoFiredRef = useRef(false)
 
   const scrollToBottom = useCallback(() => {
-    if (containerRef.current) containerRef.current.scrollTop = containerRef.current.scrollHeight
+    requestAnimationFrame(() => { if (containerRef.current) containerRef.current.scrollTop = containerRef.current.scrollHeight })
   }, [])
 
   useEffect(() => {

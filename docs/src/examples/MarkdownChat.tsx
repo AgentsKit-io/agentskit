@@ -434,7 +434,7 @@ export function MarkdownChat() {
   const inputRef = useRef<HTMLInputElement>(null)
 
   const scrollToBottom = useCallback(() => {
-    if (containerRef.current) containerRef.current.scrollTop = containerRef.current.scrollHeight
+    requestAnimationFrame(() => { if (containerRef.current) containerRef.current.scrollTop = containerRef.current.scrollHeight })
   }, [])
 
   useEffect(() => { scrollToBottom() }, [messages, scrollToBottom])

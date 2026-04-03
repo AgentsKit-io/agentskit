@@ -25,7 +25,7 @@ export function ShadcnChat() {
   const nextId = useRef(INITIAL_MESSAGES.length + 1)
 
   useEffect(() => {
-    if (containerRef.current) containerRef.current.scrollTop = containerRef.current.scrollHeight
+    requestAnimationFrame(() => { if (containerRef.current) containerRef.current.scrollTop = containerRef.current.scrollHeight })
   }, [messages])
 
   const sendMessage = () => {

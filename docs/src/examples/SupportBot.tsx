@@ -229,7 +229,7 @@ export function SupportBot() {
   }, [])
 
   useEffect(() => {
-    if (containerRef.current) containerRef.current.scrollTop = containerRef.current.scrollHeight
+    requestAnimationFrame(() => { if (containerRef.current) containerRef.current.scrollTop = containerRef.current.scrollHeight })
   }, [messages, botState])
 
   function addBotMessage(content: string | React.ReactNode) {

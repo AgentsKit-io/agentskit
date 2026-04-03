@@ -411,7 +411,7 @@ export function AgentActions() {
   const timeoutsRef = useRef<ReturnType<typeof setTimeout>[]>([])
 
   const scrollToBottom = useCallback(() => {
-    if (containerRef.current) containerRef.current.scrollTop = containerRef.current.scrollHeight
+    requestAnimationFrame(() => { if (containerRef.current) containerRef.current.scrollTop = containerRef.current.scrollHeight })
   }, [])
 
   useEffect(() => {

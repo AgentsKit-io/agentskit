@@ -34,7 +34,7 @@ export function BasicChat() {
   const nextIdRef = useRef(1)
 
   const scrollToBottom = useCallback(() => {
-    if (containerRef.current) containerRef.current.scrollTop = containerRef.current.scrollHeight
+    requestAnimationFrame(() => { if (containerRef.current) containerRef.current.scrollTop = containerRef.current.scrollHeight })
   }, [])
 
   useEffect(() => {
