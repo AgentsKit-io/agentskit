@@ -280,59 +280,6 @@ function LiveChatDemo() {
   )
 }
 
-// ─── Inline Live Examples ───
-function InlineTodoDemo() {
-  const [todos, setTodos] = useState([
-    { id: 1, text: 'Try AgentKit', done: true },
-    { id: 2, text: 'Build AI chat', done: false },
-    { id: 3, text: 'Ship to production', done: false },
-  ])
-  const [input, setInput] = useState('')
-
-  const add = () => {
-    if (!input.trim()) return
-    setTodos(prev => [...prev, { id: Date.now(), text: input, done: false }])
-    setInput('')
-  }
-
-  return (
-    <div style={{ background: 'var(--ak-code-bg)', borderRadius: 12, padding: 20, color: '#e2e8f0', maxWidth: 360 }}>
-      <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 12, color: '#94a3b8' }}>useReactive Todo</div>
-      <div style={{ display: 'flex', gap: 8, marginBottom: 12 }}>
-        <input value={input} onChange={e => setInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && add()}
-          placeholder="Add todo..."
-          style={{ flex: 1, background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 6, padding: '6px 10px', color: '#e2e8f0', fontSize: 13, outline: 'none' }}
-        />
-        <button onClick={add} style={{ background: 'var(--ak-accent)', color: 'white', border: 'none', borderRadius: 6, padding: '6px 14px', fontSize: 13, cursor: 'pointer' }}>Add</button>
-      </div>
-      {todos.map(t => (
-        <div key={t.id} onClick={() => setTodos(prev => prev.map(x => x.id === t.id ? { ...x, done: !x.done } : x))} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '6px 0', cursor: 'pointer', fontSize: 13 }}>
-          <span style={{ width: 18, height: 18, borderRadius: 4, border: '2px solid ' + (t.done ? '#3b82f6' : 'rgba(255,255,255,0.2)'), background: t.done ? '#3b82f6' : 'transparent', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, color: 'white', flexShrink: 0 }}>{t.done ? '✓' : ''}</span>
-          <span style={{ textDecoration: t.done ? 'line-through' : 'none', opacity: t.done ? 0.5 : 1 }}>{t.text}</span>
-        </div>
-      ))}
-      <div style={{ fontSize: 11, color: '#64748b', marginTop: 8 }}>{todos.filter(t => !t.done).length} items left</div>
-    </div>
-  )
-}
-
-function InlineCounterDemo() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <div style={{ background: 'var(--ak-code-bg)', borderRadius: 12, padding: 20, color: '#e2e8f0', maxWidth: 360, textAlign: 'center' }}>
-      <div style={{ fontSize: 14, fontWeight: 700, marginBottom: 16, color: '#94a3b8' }}>useReactive Counter</div>
-      <div style={{ fontSize: 48, fontWeight: 800, color: 'var(--ak-accent)', marginBottom: 16, fontVariantNumeric: 'tabular-nums' }}>{count}</div>
-      <div style={{ display: 'flex', gap: 8, justifyContent: 'center' }}>
-        <button onClick={() => setCount(c => c - 1)} style={{ background: 'rgba(255,255,255,0.08)', color: '#e2e8f0', border: 'none', borderRadius: 8, padding: '8px 20px', fontSize: 16, cursor: 'pointer' }}>-</button>
-        <button onClick={() => setCount(0)} style={{ background: 'rgba(255,255,255,0.05)', color: '#94a3b8', border: '1px solid rgba(255,255,255,0.1)', borderRadius: 8, padding: '8px 16px', fontSize: 13, cursor: 'pointer' }}>Reset</button>
-        <button onClick={() => setCount(c => c + 1)} style={{ background: 'rgba(255,255,255,0.08)', color: '#e2e8f0', border: 'none', borderRadius: 8, padding: '8px 20px', fontSize: 16, cursor: 'pointer' }}>+</button>
-      </div>
-      <div style={{ fontSize: 11, marginTop: 12, color: '#64748b' }}>state.count++ triggers re-render</div>
-    </div>
-  )
-}
-
 // ─── Code Comparison ───
 const BEFORE_CODE = `const [messages, setMessages] = useState([])
 const [input, setInput] = useState('')
@@ -383,16 +330,14 @@ function Chat() {
 
 // ─── Examples Data ───
 const EXAMPLES = [
-  { emoji: '✅', name: 'Todo List', desc: 'Reactive arrays & filtering', href: '/docs/examples/todo-list' },
-  { emoji: '🍅', name: 'Pomodoro', desc: 'SVG timer & intervals', href: '/docs/examples/pomodoro-timer' },
-  { emoji: '🎨', name: 'Color Palette', desc: 'HSL harmonies & copy', href: '/docs/examples/color-palette' },
-  { emoji: '🔐', name: 'Passwords', desc: 'Generator & strength meter', href: '/docs/examples/password-generator' },
-  { emoji: '📂', name: 'Accordion', desc: 'Animated expand/collapse', href: '/docs/examples/accordion' },
-  { emoji: '📡', name: 'Live Feed', desc: 'Auto-updating stream', href: '/docs/examples/live-feed' },
-  { emoji: '📊', name: 'Data Table', desc: 'Sortable columns', href: '/docs/examples/data-table' },
-  { emoji: '📑', name: 'Tabs', desc: 'ARIA & keyboard nav', href: '/docs/examples/tabs' },
-  { emoji: '🖼️', name: 'Gallery', desc: 'Lightbox & keyboard', href: '/docs/examples/photo-gallery' },
-  { emoji: '🐦', name: 'Flappy Arrow', desc: 'Canvas game loop', href: '/docs/examples/flappy-arrow' },
+  { emoji: '💬', name: 'Basic Chat', desc: 'Streaming conversation', href: '/docs/examples/basic-chat' },
+  { emoji: '🔧', name: 'Tool Use', desc: 'Function calling & results', href: '/docs/examples/tool-use' },
+  { emoji: '⚖️', name: 'Multi-Model', desc: 'Side-by-side comparison', href: '/docs/examples/multi-model' },
+  { emoji: '👨‍💻', name: 'Code Assistant', desc: 'Syntax-highlighted code', href: '/docs/examples/code-assistant' },
+  { emoji: '🎧', name: 'Support Bot', desc: 'Quick replies & escalation', href: '/docs/examples/support-bot' },
+  { emoji: '📚', name: 'RAG Chat', desc: 'Documents & citations', href: '/docs/examples/rag-chat' },
+  { emoji: '🤖', name: 'Agent Actions', desc: 'AI generates live UI', href: '/docs/examples/agent-actions' },
+  { emoji: '📝', name: 'Markdown Chat', desc: 'Rich formatted responses', href: '/docs/examples/markdown-chat' },
   { emoji: '🎭', name: 'MUI Chat', desc: 'Material UI integration', href: '/docs/examples/mui-chat' },
   { emoji: '✨', name: 'shadcn Chat', desc: 'shadcn/ui integration', href: '/docs/examples/shadcn-chat' },
 ]
@@ -498,26 +443,10 @@ export default function Home(): React.JSX.Element {
           </div>
         </section>
 
-        {/* ══════════ LIVE INLINE EXAMPLES ══════════ */}
-        <section style={{ padding: '4rem 0' }}>
-          <h2 className="section-title">Try it live</h2>
-          <p className="section-subtitle">Interactive demos &mdash; no install required</p>
-
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '2rem', marginBottom: '2rem' }}>
-            <InlineTodoDemo />
-            <InlineCounterDemo />
-          </div>
-
-          <p style={{ textAlign: 'center', color: 'var(--ak-text-muted)', fontSize: 14 }}>
-            Built with <code>useReactive</code> — the same reactive primitives that power the chat hooks.{' '}
-            <Link to="/docs/examples">See all 12 examples &rarr;</Link>
-          </p>
-        </section>
-
         {/* ══════════ EXAMPLES GRID ══════════ */}
         <section style={{ padding: '4rem 0' }}>
-          <h2 className="section-title">12 Interactive Examples</h2>
-          <p className="section-subtitle">From todo lists to Flappy Bird &mdash; all built with AgentKit</p>
+          <h2 className="section-title">10 Interactive Examples</h2>
+          <p className="section-subtitle">Every example is a chat &mdash; because that's what AgentKit does</p>
 
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px' }}>
             {EXAMPLES.map(ex => (

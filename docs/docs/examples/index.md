@@ -4,29 +4,22 @@ sidebar_position: 1
 
 # Examples
 
-Interactive demos showing AgentKit in action. Each example uses `useReactive` for state management — the same reactive primitives that power the chat hooks.
+Interactive demos showing what you can build with AgentKit. Every example is a chat — because that's what AgentKit does.
 
-## UI Patterns
-
-| Example | What it shows |
-|---------|---------------|
-| [Todo List](./todo-list) | Reactive arrays, computed filtering, add/remove/toggle |
-| [Pomodoro Timer](./pomodoro-timer) | Intervals, SVG progress, computed time formatting |
-| [Color Palette](./color-palette) | Reactive style binding, computed color harmonies |
-| [Password Generator](./password-generator) | Reactive toggles, strength meter, copy to clipboard |
-| [Accordion](./accordion) | Expand/collapse animation, per-item state |
-| [Live Feed](./live-feed) | Auto-updating arrays, timed entries |
-| [Data Table](./data-table) | Sortable columns, computed ordering |
-| [Tabs](./tabs) | ARIA roles, animated indicator, keyboard nav |
-| [Photo Gallery](./photo-gallery) | Lightbox, keyboard navigation, grid layout |
-
-## Fun
+## Chat Patterns
 
 | Example | What it shows |
 |---------|---------------|
-| [Flappy Arrow](./flappy-arrow) | Game loop with requestAnimationFrame + reactive state |
+| [Basic Chat](./basic-chat) | Streaming conversation, stop button, keyboard handling |
+| [Tool Use](./tool-use) | Function calling — weather, search, with expandable result cards |
+| [Multi-Model](./multi-model) | Side-by-side Claude vs GPT comparison |
+| [Code Assistant](./code-assistant) | Streaming code with syntax highlighting |
+| [Customer Support](./support-bot) | Quick replies, typing indicator, escalation flows |
+| [RAG Chat](./rag-chat) | Document context, citations, source references |
+| [Agent Actions](./agent-actions) | AI generates live interactive UI (task tracker, dashboard) |
+| [Markdown Chat](./markdown-chat) | Rich responses — tables, lists, code blocks, blockquotes |
 
-## Integration
+## UI Framework Integration
 
 | Example | What it shows |
 |---------|---------------|
