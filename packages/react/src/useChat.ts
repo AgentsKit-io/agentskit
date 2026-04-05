@@ -1,3 +1,5 @@
+// NOTE: This hook is identical in @agentskit/react and @agentskit/ink.
+// Changes here must be mirrored in packages/ink/src/useChat.ts.
 import { useEffect, useRef, useSyncExternalStore } from 'react'
 import { createChatController } from '@agentskit/core'
 import type { ChatConfig, ChatController, ChatReturn } from '@agentskit/core'

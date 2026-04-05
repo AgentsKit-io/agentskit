@@ -95,6 +95,20 @@ describe('InputBar', () => {
     expect(send).not.toHaveBeenCalled()
   })
 
+  it('blocks input while streaming (prevents double-send)', async () => {
+    const setInput = vi.fn()
+    const send = vi.fn()
+    const chat = mockChat({ input: 'hello', status: 'streaming', setInput, send })
+    const { stdin } = render(<InputBar chat={chat} />)
+
+    await delay()
+    stdin.write('\r')
+    stdin.write('x')
+    await delay()
+    expect(send).not.toHaveBeenCalled()
+    expect(setInput).not.toHaveBeenCalled()
+  })
+
   it('disabled prop blocks all input', async () => {
     const setInput = vi.fn()
     const send = vi.fn()
