@@ -51,8 +51,7 @@
 - `@agentskit/ink` — Ink terminal components.
 - `@agentskit/adapters` — LLM provider adapters (Anthropic, OpenAI, Gemini, Ollama, DeepSeek, Grok, Kimi, LangChain, Vercel AI, generic).
 - `@agentskit/cli` — CLI with `chat` and `init` commands.
-- `@agentskit-react/core` — legacy compatibility bridge.
 
 ## 0.1.0
 
-Initial release as single-package `@agentkit-react/core`.
+Initial release.

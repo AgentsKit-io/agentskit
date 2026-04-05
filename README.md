@@ -24,7 +24,6 @@ npm install @agentskit/react @agentskit/adapters
 @agentskit/ink       terminal hooks + Ink components
 @agentskit/adapters  provider adapters and generic streams
 @agentskit/cli       chat + init commands
-@agentskit-react/core legacy compatibility bridge
 ```
 
 ## React Quick Start
@@ -125,9 +124,9 @@ useChat({ adapter: ollama({ model: 'llama3.1' }) })
 
 ## Official Examples
 
-- React example app: [`apps/example-react`](/Users/rebecabraun/workspace/EmersonBraun/lib/apps/example-react)
-- Ink example app: [`apps/example-ink`](/Users/rebecabraun/workspace/EmersonBraun/lib/apps/example-ink)
-- Documentation site: [`apps/docs`](/Users/rebecabraun/workspace/EmersonBraun/lib/apps/docs)
+- React example app: [`apps/example-react`](apps/example-react)
+- Ink example app: [`apps/example-ink`](apps/example-ink)
+- Documentation site: [`apps/docs`](apps/docs)
 
 ## The entire API
 
@@ -144,16 +143,6 @@ const retriever = createStaticRetriever({ documents })
 ```tsx
 const chat = useChat({ adapter, memory, tools })
 ```
-
-## Legacy Compatibility
-
-```tsx
-import { useChat } from '@agentskit-react/core'
-import { openai } from '@agentskit-react/core/adapters'
-import '@agentskit-react/core/theme'
-```
-
-The compatibility bridge remains available while the ecosystem transitions to the new package names.
 
 ## For AI Agents
 
