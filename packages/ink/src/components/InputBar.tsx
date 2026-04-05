@@ -10,7 +10,7 @@ export interface InputBarProps {
 
 export function InputBar({ chat, placeholder = 'Type a message...', disabled = false }: InputBarProps) {
   useInput((input, key) => {
-    if (disabled) return
+    if (disabled || chat.status === 'streaming') return
 
     if (key.return) {
       if (chat.input.trim()) {
