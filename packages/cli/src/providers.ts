@@ -24,6 +24,59 @@ export interface ResolvedChatProvider {
   summary: string
 }
 
+interface ProviderEntry {
+  label: string
+  envKey: string
+  defaultModel?: string
+  requiresModel?: boolean
+  factory: (config: { apiKey: string; model: string; baseUrl?: string }) => AdapterFactory
+}
+
+const providers: Record<string, ProviderEntry> = {
+  openai: {
+    label: 'OpenAI',
+    envKey: 'OPENAI_API_KEY',
+    defaultModel: 'gpt-4o-mini',
+    factory: (c) => openai(c),
+  },
+  anthropic: {
+    label: 'Anthropic',
+    envKey: 'ANTHROPIC_API_KEY',
+    defaultModel: 'claude-3-5-sonnet-latest',
+    factory: (c) => anthropic(c),
+  },
+  gemini: {
+    label: 'Gemini',
+    envKey: 'GEMINI_API_KEY',
+    defaultModel: 'gemini-2.5-flash',
+    factory: (c) => gemini(c),
+  },
+  ollama: {
+    label: 'Ollama',
+    envKey: '',
+    defaultModel: 'llama3.1',
+    factory: (c) => ollama({ model: c.model, baseUrl: c.baseUrl }),
+  },
+  deepseek: {
+    label: 'DeepSeek',
+    envKey: 'DEEPSEEK_API_KEY',
+    defaultModel: 'deepseek-chat',
+    factory: (c) => deepseek(c),
+  },
+  grok: {
+    label: 'xAI Grok',
+    envKey: 'XAI_API_KEY',
+    requiresModel: true,
+    factory: (c) => grok(c),
+  },
+  kimi: {
+    label: 'Kimi',
+    envKey: 'KIMI_API_KEY',
+    requiresModel: true,
+    factory: (c) => kimi(c),
+  },
+}
+
 function createDemoAdapter(provider: string, model?: string): AdapterFactory {
   return {
     createSource: ({ messages }) => {
@@ -55,122 +108,45 @@ function createDemoAdapter(provider: string, model?: string): AdapterFactory {
   }
 }
 
-function requireApiKey(
-  label: string,
-  explicitKey: string | undefined,
-  envKey: string | undefined,
-  envName: string
-) {
-  const apiKey = explicitKey ?? envKey
-  if (!apiKey) {
-    throw new Error(`${label} requires an API key. Pass --api-key or set ${envName}.`)
-  }
-  return apiKey
-}
-
-function requireModel(label: string, model: string | undefined) {
-  if (!model) {
-    throw new Error(`${label} requires --model in the current CLI version.`)
-  }
-  return model
-}
-
 export function resolveChatProvider(options: ChatProviderOptions): ResolvedChatProvider {
-  const provider = options.provider.toLowerCase()
+  const name = options.provider.toLowerCase()
 
-  switch (provider) {
-    case 'demo':
-      return {
-        adapter: createDemoAdapter(provider, options.model),
-        provider,
-        model: options.model,
-        mode: 'demo',
-        summary: 'demo adapter (no network, no API key required)',
-      }
-    case 'openai': {
-      const apiKey = requireApiKey('OpenAI', options.apiKey, process.env.OPENAI_API_KEY, 'OPENAI_API_KEY')
-      const model = options.model ?? 'gpt-4o-mini'
-      return {
-        adapter: openai({ apiKey, model, baseUrl: options.baseUrl }),
-        provider,
-        model,
-        mode: 'live',
-        summary: 'OpenAI live adapter',
-      }
+  if (name === 'demo') {
+    return {
+      adapter: createDemoAdapter(name, options.model),
+      provider: name,
+      model: options.model,
+      mode: 'demo',
+      summary: 'demo adapter (no network, no API key required)',
     }
-    case 'anthropic': {
-      const apiKey = requireApiKey('Anthropic', options.apiKey, process.env.ANTHROPIC_API_KEY, 'ANTHROPIC_API_KEY')
-      const model = options.model ?? 'claude-3-5-sonnet-latest'
-      return {
-        adapter: anthropic({ apiKey, model, baseUrl: options.baseUrl }),
-        provider,
-        model,
-        mode: 'live',
-        summary: 'Anthropic live adapter',
-      }
-    }
-    case 'gemini': {
-      const apiKey = requireApiKey('Gemini', options.apiKey, process.env.GEMINI_API_KEY, 'GEMINI_API_KEY')
-      const model = options.model ?? 'gemini-2.5-flash'
-      return {
-        adapter: gemini({ apiKey, model, baseUrl: options.baseUrl }),
-        provider,
-        model,
-        mode: 'live',
-        summary: 'Gemini live adapter',
-      }
-    }
-    case 'ollama': {
-      const model = options.model ?? 'llama3.1'
-      return {
-        adapter: ollama({ model, baseUrl: options.baseUrl }),
-        provider,
-        model,
-        mode: 'live',
-        summary: 'Ollama live adapter',
-      }
-    }
-    case 'deepseek': {
-      const apiKey = requireApiKey('DeepSeek', options.apiKey, process.env.DEEPSEEK_API_KEY, 'DEEPSEEK_API_KEY')
-      const model = options.model ?? 'deepseek-chat'
-      return {
-        adapter: deepseek({ apiKey, model, baseUrl: options.baseUrl }),
-        provider,
-        model,
-        mode: 'live',
-        summary: 'DeepSeek live adapter',
-      }
-    }
-    case 'grok': {
-      const apiKey = requireApiKey('Grok', options.apiKey, process.env.XAI_API_KEY, 'XAI_API_KEY')
-      const model = requireModel('Grok', options.model)
-      return {
-        adapter: grok({ apiKey, model, baseUrl: options.baseUrl }),
-        provider,
-        model,
-        mode: 'live',
-        summary: 'xAI Grok live adapter',
-      }
-    }
-    case 'kimi': {
-      const apiKey = requireApiKey(
-        'Kimi',
-        options.apiKey,
-        process.env.KIMI_API_KEY ?? process.env.MOONSHOT_API_KEY,
-        'KIMI_API_KEY'
-      )
-      const model = requireModel('Kimi', options.model)
-      return {
-        adapter: kimi({ apiKey, model, baseUrl: options.baseUrl }),
-        provider,
-        model,
-        mode: 'live',
-        summary: 'Kimi live adapter',
-      }
-    }
-    default:
-      throw new Error(
-        `Unsupported provider "${options.provider}". Try demo, openai, anthropic, gemini, ollama, deepseek, grok, or kimi.`
-      )
+  }
+
+  const entry = providers[name]
+  if (!entry) {
+    const supported = ['demo', ...Object.keys(providers)].join(', ')
+    throw new Error(`Unsupported provider "${options.provider}". Try ${supported}.`)
+  }
+
+  // Resolve API key
+  let apiKey = options.apiKey ?? (entry.envKey ? process.env[entry.envKey] : undefined)
+  if (name === 'kimi' && !apiKey) {
+    apiKey = process.env.MOONSHOT_API_KEY
+  }
+  if (!apiKey && entry.envKey) {
+    throw new Error(`${entry.label} requires an API key. Pass --api-key or set ${entry.envKey}.`)
+  }
+
+  // Resolve model
+  const model = options.model ?? entry.defaultModel
+  if (!model) {
+    throw new Error(`${entry.label} requires --model in the current CLI version.`)
+  }
+
+  return {
+    adapter: entry.factory({ apiKey: apiKey ?? '', model, baseUrl: options.baseUrl }),
+    provider: name,
+    model,
+    mode: 'live',
+    summary: `${entry.label} live adapter`,
   }
 }
