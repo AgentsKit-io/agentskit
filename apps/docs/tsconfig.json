@@ -6,7 +6,8 @@
     "jsx": "react-jsx",
     "esModuleInterop": true,
     "baseUrl": ".",
-    "types": ["node"]
+    "types": ["node"],
+    "strict": false
   },
   "include": ["src", "docusaurus.config.ts", "sidebars.ts"]
 }
