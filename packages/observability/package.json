@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/observability",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Logging and tracing layer for AgentsKit agents.",
   "type": "module",
   "main": "./dist/index.cjs",
@@ -13,7 +13,9 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "publishConfig": {
     "access": "public"
   },
@@ -27,7 +29,11 @@
     "@agentskit/core": "workspace:*"
   },
   "devDependencies": {
+    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.214.0",
+    "@opentelemetry/sdk-trace-base": "^2.6.1",
     "@types/node": "^25.5.2",
+    "langsmith": "^0.5.16",
     "tsup": "^8.5.0",
     "typescript": "^6.0.2",
     "vitest": "^4.1.2"
