@@ -31,6 +31,12 @@ function formatHuman(event: AgentEvent): string {
       return `[${timestamp()}]    memory:load (${event.messageCount} messages)`
     case 'memory:save':
       return `[${timestamp()}]    memory:save (${event.messageCount} messages)`
+    case 'agent:delegate:start':
+      return `[${timestamp()}] => delegate:start ${event.name} [depth=${event.depth}] "${event.task}"`
+    case 'agent:delegate:end': {
+      const result = event.result.length > 80 ? event.result.slice(0, 80) + '...' : event.result
+      return `[${timestamp()}] <= delegate:end ${event.name} (${event.durationMs}ms) "${result}"`
+    }
     case 'error':
       return `[${timestamp()}] !! error: ${event.error.message}`
   }
@@ -55,6 +61,10 @@ function formatJSON(event: AgentEvent): string {
       return JSON.stringify({ ...base, messageCount: event.messageCount })
     case 'memory:save':
       return JSON.stringify({ ...base, messageCount: event.messageCount })
+    case 'agent:delegate:start':
+      return JSON.stringify({ ...base, name: event.name, task: event.task, depth: event.depth })
+    case 'agent:delegate:end':
+      return JSON.stringify({ ...base, name: event.name, durationMs: event.durationMs, resultLength: event.result.length, depth: event.depth })
     case 'error':
       return JSON.stringify({ ...base, error: event.error.message })
   }

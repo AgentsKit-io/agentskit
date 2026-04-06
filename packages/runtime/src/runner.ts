@@ -68,14 +68,19 @@ export function createRuntime(config: RuntimeConfig) {
           emitter.emit({ type: 'agent:delegate:start', name, task: delegateTask, depth: depth + 1 })
           const delegateStart = Date.now()
 
+          // Use delegate's adapter if provided, otherwise parent's
+          const childRuntime = delegateConfig.adapter
+            ? createRuntime({ ...config, adapter: delegateConfig.adapter })
+            : { run: (t: string, o?: RunOptions) => runInternal(t, o, depth + 1) }
+
           const childOptions: RunOptions = {
             skill: delegateConfig.skill,
             tools: delegateConfig.tools,
+            maxSteps: delegateConfig.maxSteps ?? 5,
             signal,
-            sharedContext: options?.sharedContext,
           }
 
-          const result = await runInternal(delegateTask, childOptions, depth + 1)
+          const result = await childRuntime.run(delegateTask, childOptions)
 
           emitter.emit({
             type: 'agent:delegate:end',
@@ -197,12 +202,8 @@ export function createRuntime(config: RuntimeConfig) {
           break
         }
 
-        // Separate delegate calls from regular tool calls
-        const delegateCalls = assistantToolCalls.filter(tc => tc.name.startsWith('delegate_'))
-        const regularCalls = assistantToolCalls.filter(tc => !tc.name.startsWith('delegate_'))
-
-        // Execute regular tool calls sequentially
-        for (const toolCall of regularCalls) {
+        // Execute all tool calls sequentially (including delegates)
+        for (const toolCall of assistantToolCalls) {
           if (signal?.aborted) break
 
           const tool = toolMap.get(toolCall.name)
@@ -217,7 +218,10 @@ export function createRuntime(config: RuntimeConfig) {
             continue
           }
 
-          await lifecycle.init(tool)
+          // Lazy init for non-delegate tools
+          if (!toolCall.name.startsWith('delegate_')) {
+            await lifecycle.init(tool)
+          }
 
           emitter.emit({ type: 'tool:start', name: toolCall.name, args: toolCall.args })
           const toolStart = Date.now()
@@ -252,57 +256,6 @@ export function createRuntime(config: RuntimeConfig) {
               durationMs: Date.now() - toolStart,
             })
           }
-        }
-
-        // Execute delegate calls in parallel
-        if (delegateCalls.length > 0) {
-          await Promise.all(delegateCalls.map(async (toolCall) => {
-            const tool = toolMap.get(toolCall.name)
-            allToolCalls.push(toolCall)
-
-            if (!tool?.execute) {
-              const errorMsg = `Delegate "${toolCall.name}" not found`
-              toolCall.status = 'error'
-              toolCall.error = errorMsg
-              messages.push(buildMessage({ role: 'tool', content: errorMsg }))
-              emitter.emit({ type: 'error', error: new Error(errorMsg) })
-              return
-            }
-
-            emitter.emit({ type: 'tool:start', name: toolCall.name, args: toolCall.args })
-            const toolStart = Date.now()
-
-            try {
-              const result = await executeToolCall(
-                tool,
-                toolCall.args,
-                { messages, call: toolCall },
-                (partial) => {
-                  toolCall.result = partial
-                },
-              )
-              toolCall.status = 'complete'
-              toolCall.result = result
-              messages.push(buildMessage({ role: 'tool', content: result }))
-              emitter.emit({
-                type: 'tool:end',
-                name: toolCall.name,
-                result,
-                durationMs: Date.now() - toolStart,
-              })
-            } catch (error) {
-              const errorMsg = error instanceof Error ? error.message : String(error)
-              toolCall.status = 'error'
-              toolCall.error = errorMsg
-              messages.push(buildMessage({ role: 'tool', content: `Error: ${errorMsg}` }))
-              emitter.emit({
-                type: 'tool:end',
-                name: toolCall.name,
-                result: `Error: ${errorMsg}`,
-                durationMs: Date.now() - toolStart,
-              })
-            }
-          }))
         }
 
         finalContent = accumulatedText

@@ -13,6 +13,8 @@ import type { SharedContext } from './shared-context'
 export interface DelegateConfig {
   skill: SkillDefinition
   tools?: ToolDefinition[]
+  adapter?: AdapterFactory
+  maxSteps?: number
 }
 
 export interface RuntimeConfig {
