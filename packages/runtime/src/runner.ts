@@ -78,6 +78,7 @@ export function createRuntime(config: RuntimeConfig) {
             tools: delegateConfig.tools,
             maxSteps: delegateConfig.maxSteps ?? 5,
             signal,
+            sharedContext: options?.sharedContext,
           }
 
           const result = await childRuntime.run(delegateTask, childOptions)

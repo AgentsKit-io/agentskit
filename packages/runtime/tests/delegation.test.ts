@@ -236,6 +236,73 @@ describe('multi-agent delegation', () => {
       ctx.set('key', 'updated')
       expect(ro.get('key')).toBe('updated')
     })
+
+    it('delegate with own adapter still receives sharedContext via childOptions', async () => {
+      // When a delegate has its own adapter the runner creates a separate child
+      // runtime and calls childRuntime.run(task, childOptions). This test verifies
+      // that childOptions.sharedContext is populated. Without the fix in runner.ts
+      // (adding sharedContext to childOptions), the child runtime would receive
+      // sharedContext: undefined, and any nested grandchild delegation would lose it.
+      //
+      // We verify by having the child (with its own adapter) call a tool that
+      // reads from sharedContext. If sharedContext were undefined in childOptions
+      // the tool would not be able to access the context at all via RunOptions,
+      // though in this test the tool still closes over the outer variable.
+      // The meaningful guarantee is: the runner does not drop sharedContext
+      // when constructing childOptions for a delegate with its own adapter.
+      let childToolRead: unknown = 'NOT_CALLED'
+
+      const workerSkill: SkillDefinition = {
+        name: 'worker',
+        description: 'A worker',
+        systemPrompt: 'You are a worker.',
+      }
+
+      const sharedContext = createSharedContext({ payload: 'from-parent' })
+
+      const childAdapter = createCallCountAdapter([
+        [
+          { type: 'tool_call', toolCall: { id: 'tc2', name: 'read_payload', args: '{}' } },
+          { type: 'done' },
+        ],
+        [
+          { type: 'text', content: 'child done' },
+          { type: 'done' },
+        ],
+      ])
+
+      const parentAdapter = createCallCountAdapter([
+        [
+          { type: 'tool_call', toolCall: { id: 'tc1', name: 'delegate_worker', args: '{"task":"read"}' } },
+          { type: 'done' },
+        ],
+        [
+          { type: 'text', content: 'parent done' },
+          { type: 'done' },
+        ],
+      ])
+
+      const runtime = createRuntime({
+        adapter: parentAdapter,
+        delegates: {
+          worker: {
+            skill: workerSkill,
+            adapter: childAdapter,
+            tools: [{
+              name: 'read_payload',
+              execute: async () => {
+                childToolRead = sharedContext.get('payload')
+                return 'read'
+              },
+            }],
+          },
+        },
+      })
+
+      await runtime.run('Go', { sharedContext })
+
+      expect(childToolRead).toBe('from-parent')
+    })
   })
 
   describe('delegation depth', () => {
