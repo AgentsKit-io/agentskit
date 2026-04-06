@@ -7,4 +7,5 @@ export default defineConfig({
   sourcemap: true,
   clean: false,
   treeshake: true,
+  external: ['@e2b/code-interpreter'],
 })

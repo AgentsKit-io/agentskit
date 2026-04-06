@@ -1,5 +1,9 @@
-// @agentskit/sandbox — Secure code execution
-// This package is scaffolded and will be implemented in a future release.
-// See https://github.com/EmersonBraun/agentskit/issues/14
+export { createSandbox } from './sandbox'
+export type { Sandbox, SandboxConfig } from './sandbox'
 
-export {}
+export { sandboxTool } from './tool'
+
+export { createE2BBackend } from './e2b-backend'
+export type { E2BConfig } from './e2b-backend'
+
+export type { SandboxBackend, ExecuteOptions, ExecuteResult } from './types'

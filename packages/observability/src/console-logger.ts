@@ -34,8 +34,8 @@ function formatHuman(event: AgentEvent): string {
     case 'agent:delegate:start':
       return `[${timestamp()}] => delegate:start ${event.name} [depth=${event.depth}] "${event.task}"`
     case 'agent:delegate:end': {
-      const result = event.result.length > 80 ? event.result.slice(0, 80) + '...' : event.result
-      return `[${timestamp()}] <= delegate:end ${event.name} (${event.durationMs}ms) "${result}"`
+      const delegateResult = event.result.length > 80 ? event.result.slice(0, 80) + '...' : event.result
+      return `[${timestamp()}] <= delegate:end ${event.name} (${event.durationMs}ms) "${delegateResult}"`
     }
     case 'error':
       return `[${timestamp()}] !! error: ${event.error.message}`
