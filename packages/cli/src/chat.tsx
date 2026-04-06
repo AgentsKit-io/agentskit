@@ -4,6 +4,8 @@ import { ChatContainer, InputBar, Message, ThinkingIndicator, ToolCallView, useC
 import { resolveChatProvider } from './providers'
 import { resolveTools, resolveMemory, skillRegistry } from './resolve'
 
+import type { AgentsKitConfig } from '@agentskit/core'
+
 export interface ChatCommandOptions {
   provider: string
   model?: string
@@ -14,6 +16,7 @@ export interface ChatCommandOptions {
   tools?: string
   skill?: string
   memoryBackend?: string
+  agentsKitConfig?: AgentsKitConfig
 }
 
 export function ChatApp(options: ChatCommandOptions) {

@@ -51,3 +51,5 @@ export type {
   EvalResult,
   EvalSuite,
 } from './types'
+export { loadConfig } from "./config"
+export type { AgentsKitConfig, LoadConfigOptions } from "./config"
