@@ -1,5 +1,7 @@
-// NOTE: This hook is identical in @agentskit/react and @agentskit/ink.
-// Changes here must be mirrored in packages/react/src/useChat.ts.
+// NOTE: This hook is intentionally duplicated from @agentskit/react (packages/react/src/useChat.ts).
+// The two packages are React siblings and cannot cross-depend, so the hook is kept in sync
+// manually. A sync-guard test at packages/ink/tests/useChat-sync.test.ts will fail if they drift.
+// When changing this file, mirror the same change in packages/react/src/useChat.ts.
 import { useEffect, useRef, useSyncExternalStore } from 'react'
 import { createChatController } from '@agentskit/core'
 import type { ChatConfig, ChatController, ChatReturn } from '@agentskit/core'
