@@ -1,41 +1,8 @@
 import React, { useMemo } from 'react'
 import { Box, Text } from 'ink'
-import { createFileMemory } from '@agentskit/core'
-import type { ChatMemory, ToolDefinition, SkillDefinition } from '@agentskit/core'
 import { ChatContainer, InputBar, Message, ThinkingIndicator, ToolCallView, useChat } from '@agentskit/ink'
 import { resolveChatProvider } from './providers'
-import { webSearch, filesystem, shell } from '@agentskit/tools'
-import { researcher, coder, planner, critic, summarizer } from '@agentskit/skills'
-import { sqliteChatMemory } from '@agentskit/memory'
-
-const skillRegistry: Record<string, SkillDefinition> = {
-  researcher,
-  coder,
-  planner,
-  critic,
-  summarizer,
-}
-
-function resolveTools(toolNames: string | undefined): ToolDefinition[] {
-  if (!toolNames) return []
-  const tools: ToolDefinition[] = []
-  for (const name of toolNames.split(',').map(s => s.trim())) {
-    switch (name) {
-      case 'web_search':
-        tools.push(webSearch())
-        break
-      case 'filesystem':
-        tools.push(...filesystem({ basePath: process.cwd() }))
-        break
-      case 'shell':
-        tools.push(shell({ timeout: 30_000 }))
-        break
-      default:
-        process.stderr.write(`Unknown tool: ${name}\n`)
-    }
-  }
-  return tools
-}
+import { resolveTools, resolveMemory, skillRegistry } from './resolve'
 
 export interface ChatCommandOptions {
   provider: string
@@ -47,16 +14,6 @@ export interface ChatCommandOptions {
   tools?: string
   skill?: string
   memoryBackend?: string
-}
-
-function resolveMemory(backend: string | undefined, path: string): ChatMemory {
-  switch (backend) {
-    case 'sqlite':
-      return sqliteChatMemory({ path: path.replace(/\.json$/, '.db') })
-    case 'file':
-    default:
-      return createFileMemory(path)
-  }
 }
 
 export function ChatApp(options: ChatCommandOptions) {
