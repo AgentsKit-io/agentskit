@@ -14,9 +14,6 @@
     }
   },
   "files": ["dist"],
-  "publishConfig": {
-    "access": "public"
-  },
   "scripts": {
     "build": "tsup",
     "test": "vitest run",
@@ -31,5 +28,8 @@
     "tsup": "^8.5.0",
     "typescript": "^6.0.2",
     "vitest": "^4.1.2"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }
