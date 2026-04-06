@@ -11,6 +11,8 @@ export {
   createToolLifecycle,
 } from './primitives'
 export type { ConsumeStreamHandlers } from './primitives'
+export { buildToolMap, activateSkills, executeSafeTool } from './agent-loop'
+export type { ActivateSkillsResult, ToolExecResult, ExecuteSafeToolOptions } from './agent-loop'
 export type {
   MaybePromise,
   StreamStatus,
