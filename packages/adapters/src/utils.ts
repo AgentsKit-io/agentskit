@@ -57,8 +57,14 @@ export async function* readNDJSONLines(stream: ReadableStream): AsyncIterableIte
 }
 
 export async function* parseOpenAIStream(stream: ReadableStream): AsyncIterableIterator<StreamChunk> {
+  const pendingToolCalls = new Map<number, { id: string; name: string; args: string }>()
+
   for await (const data of readSSELines(stream)) {
     if (data === '[DONE]') {
+      for (const [, tc] of pendingToolCalls) {
+        yield { type: 'tool_call', toolCall: { id: tc.id, name: tc.name, args: tc.args || '{}' } }
+      }
+      pendingToolCalls.clear()
       yield { type: 'done' }
       return
     }
@@ -69,17 +75,23 @@ export async function* parseOpenAIStream(stream: ReadableStream): AsyncIterableI
 
       if (typeof delta?.content === 'string') {
         yield { type: 'text', content: delta.content }
-      } else if (Array.isArray(delta?.tool_calls)) {
+      }
+
+      if (Array.isArray(delta?.tool_calls)) {
         for (const toolCall of delta.tool_calls) {
+          const index: number = toolCall.index ?? 0
+          const existing = pendingToolCalls.get(index)
+
           if (toolCall?.function?.name) {
-            yield {
-              type: 'tool_call',
-              toolCall: {
-                id: toolCall.id ?? `${toolCall.function.name}-${Date.now()}`,
-                name: toolCall.function.name,
-                args: toolCall.function.arguments ?? '{}',
-              },
-            }
+            // First chunk for this tool call — store it
+            pendingToolCalls.set(index, {
+              id: toolCall.id ?? existing?.id ?? `tool-${index}-${Date.now()}`,
+              name: toolCall.function.name,
+              args: (existing?.args ?? '') + (toolCall.function.arguments ?? ''),
+            })
+          } else if (existing && toolCall?.function?.arguments) {
+            // Subsequent chunk — accumulate arguments
+            existing.args += toolCall.function.arguments
           }
         }
       }
@@ -88,27 +100,58 @@ export async function* parseOpenAIStream(stream: ReadableStream): AsyncIterableI
     }
   }
 
+  // Flush any remaining tool calls if stream ends without [DONE]
+  for (const [, tc] of pendingToolCalls) {
+    yield { type: 'tool_call', toolCall: { id: tc.id, name: tc.name, args: tc.args || '{}' } }
+  }
+  pendingToolCalls.clear()
+
   yield { type: 'done' }
 }
 
 export async function* parseAnthropicStream(stream: ReadableStream): AsyncIterableIterator<StreamChunk> {
+  const pendingToolCalls = new Map<number, { id: string; name: string; args: string }>()
+
   for await (const data of readSSELines(stream)) {
     if (data === '[DONE]') continue
 
     try {
       const event = JSON.parse(data)
-      if (event.type === 'content_block_delta' && event.delta?.text) {
+      if (event.type === 'content_block_delta' && event.delta?.type === 'text_delta' && event.delta?.text) {
         yield { type: 'text', content: event.delta.text }
+      } else if (event.type === 'content_block_delta' && event.delta?.type === 'input_json_delta') {
+        const index: number = event.index ?? 0
+        const existing = pendingToolCalls.get(index)
+        if (existing) {
+          existing.args += event.delta.partial_json ?? ''
+        }
       } else if (event.type === 'content_block_start' && event.content_block?.type === 'tool_use') {
-        yield {
-          type: 'tool_call',
-          toolCall: {
-            id: event.content_block.id,
-            name: event.content_block.name,
-            args: JSON.stringify(event.content_block.input ?? {}),
-          },
+        const index: number = event.index ?? 0
+        pendingToolCalls.set(index, {
+          id: event.content_block.id,
+          name: event.content_block.name,
+          args: '',
+        })
+      } else if (event.type === 'content_block_stop') {
+        const index: number = event.index ?? 0
+        const tc = pendingToolCalls.get(index)
+        if (tc) {
+          yield {
+            type: 'tool_call',
+            toolCall: {
+              id: tc.id,
+              name: tc.name,
+              args: tc.args || '{}',
+            },
+          }
+          pendingToolCalls.delete(index)
         }
       } else if (event.type === 'message_stop') {
+        // Flush any remaining tool calls
+        for (const [, tc] of pendingToolCalls) {
+          yield { type: 'tool_call', toolCall: { id: tc.id, name: tc.name, args: tc.args || '{}' } }
+        }
+        pendingToolCalls.clear()
         yield { type: 'done' }
         return
       }
@@ -117,6 +160,12 @@ export async function* parseAnthropicStream(stream: ReadableStream): AsyncIterab
     }
   }
 
+  // Flush remaining if stream ends without message_stop
+  for (const [, tc] of pendingToolCalls) {
+    yield { type: 'tool_call', toolCall: { id: tc.id, name: tc.name, args: tc.args || '{}' } }
+  }
+  pendingToolCalls.clear()
+
   yield { type: 'done' }
 }
 
@@ -124,10 +173,24 @@ export async function* parseGeminiStream(stream: ReadableStream): AsyncIterableI
   for await (const data of readSSELines(stream)) {
     try {
       const event = JSON.parse(data)
-      const text = event.candidates?.[0]?.content?.parts
-        ?.map((part: { text?: string }) => part.text ?? '')
-        .join('')
-      if (text) yield { type: 'text', content: text }
+      const parts = event.candidates?.[0]?.content?.parts
+      if (!Array.isArray(parts)) continue
+
+      for (const part of parts) {
+        if (typeof part.text === 'string' && part.text) {
+          yield { type: 'text', content: part.text }
+        } else if (part.functionCall) {
+          const fc = part.functionCall
+          yield {
+            type: 'tool_call',
+            toolCall: {
+              id: fc.id ?? `${fc.name}-${Date.now()}`,
+              name: fc.name,
+              args: JSON.stringify(fc.args ?? {}),
+            },
+          }
+        }
+      }
     } catch {
       // Ignore malformed events.
     }
@@ -142,6 +205,22 @@ export async function* parseOllamaStream(stream: ReadableStream): AsyncIterableI
       const event = JSON.parse(data)
       if (event.message?.content) {
         yield { type: 'text', content: event.message.content }
+      }
+      if (Array.isArray(event.message?.tool_calls)) {
+        for (const tc of event.message.tool_calls) {
+          if (tc?.function?.name) {
+            yield {
+              type: 'tool_call',
+              toolCall: {
+                id: tc.id ?? `${tc.function.name}-${Date.now()}`,
+                name: tc.function.name,
+                args: typeof tc.function.arguments === 'string'
+                  ? tc.function.arguments
+                  : JSON.stringify(tc.function.arguments ?? {}),
+              },
+            }
+          }
+        }
       }
       if (event.done) {
         yield { type: 'done' }
