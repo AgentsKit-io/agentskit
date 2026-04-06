@@ -1,5 +1,3 @@
-// @agentskit/eval — Agent evaluation and benchmarking
-// This package is scaffolded and will be implemented in a future release.
-// See https://github.com/EmersonBraun/agentskit/issues/15
-
-export {}
+export { runEval } from './runner'
+export type { AgentFn, AgentResponse, RunEvalConfig } from './types'
+export type { EvalSuite, EvalResult } from './types'
