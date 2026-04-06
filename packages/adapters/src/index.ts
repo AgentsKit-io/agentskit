@@ -20,3 +20,22 @@ export type { DeepSeekConfig } from './deepseek'
 export type { KimiConfig } from './kimi'
 export type { LangChainConfig, LangGraphConfig } from './langchain'
 export type { VercelAIConfig } from './vercel-ai'
+
+export {
+  openaiEmbedder,
+  geminiEmbedder,
+  ollamaEmbedder,
+  createOpenAICompatibleEmbedder,
+  deepseekEmbedder,
+  grokEmbedder,
+  kimiEmbedder,
+} from './embedders'
+export type {
+  OpenAIEmbedderConfig,
+  GeminiEmbedderConfig,
+  OllamaEmbedderConfig,
+  OpenAICompatibleEmbedderConfig,
+  DeepSeekEmbedderConfig,
+  GrokEmbedderConfig,
+  KimiEmbedderConfig,
+} from './embedders'

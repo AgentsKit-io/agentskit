@@ -42,6 +42,7 @@ export type {
   SkillDefinition,
   VectorDocument,
   VectorMemory,
+  EmbedFn,
   AgentEvent,
   Observer,
   EvalTestCase,

@@ -203,6 +203,8 @@ export interface VectorMemory {
   delete?: (ids: string[]) => MaybePromise<void>
 }
 
+export type EmbedFn = (text: string) => Promise<number[]>
+
 export type AgentEvent =
   | { type: 'llm:start'; model?: string; messageCount: number }
   | { type: 'llm:first-token'; latencyMs: number }

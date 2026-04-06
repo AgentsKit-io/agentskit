@@ -1,0 +1,7 @@
+export { openaiEmbedder, type OpenAIEmbedderConfig } from './openai'
+export { geminiEmbedder, type GeminiEmbedderConfig } from './gemini'
+export { ollamaEmbedder, type OllamaEmbedderConfig } from './ollama'
+export { createOpenAICompatibleEmbedder, type OpenAICompatibleEmbedderConfig } from './openai-compatible'
+export { deepseekEmbedder, type DeepSeekEmbedderConfig } from './deepseek'
+export { grokEmbedder, type GrokEmbedderConfig } from './grok'
+export { kimiEmbedder, type KimiEmbedderConfig } from './kimi'
