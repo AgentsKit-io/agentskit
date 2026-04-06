@@ -156,6 +156,9 @@ importers:
       '@agentskit/memory':
         specifier: workspace:*
         version: link:../memory
+      '@agentskit/runtime':
+        specifier: workspace:*
+        version: link:../runtime
       '@agentskit/skills':
         specifier: workspace:*
         version: link:../skills
