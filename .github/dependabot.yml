@@ -63,6 +63,31 @@ updates:
       interval: "weekly"
 
   - package-ecosystem: "npm"
+    directory: "/packages/memory"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "npm"
+    directory: "/packages/observability"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "npm"
+    directory: "/packages/rag"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "npm"
+    directory: "/packages/sandbox"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "npm"
+    directory: "/packages/eval"
+    schedule:
+      interval: "weekly"
+
+  - package-ecosystem: "npm"
     directory: "/apps/docs"
     schedule:
       interval: "weekly"

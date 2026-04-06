@@ -1,7 +1,7 @@
 {
-  "name": "@agentskit/memory",
-  "version": "0.4.0",
-  "description": "Persistent and vector memory backends for AgentsKit.",
+  "name": "@agentskit/sandbox",
+  "version": "0.2.0",
+  "description": "Secure code execution for AgentsKit agents.",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -29,13 +29,10 @@
     "@agentskit/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.12",
+    "@e2b/code-interpreter": "^2.4.0",
     "@types/node": "^25.5.2",
-    "better-sqlite3": "^12.8.0",
-    "redis": "^5.11.0",
     "tsup": "^8.5.0",
     "typescript": "^6.0.2",
-    "vectra": "^0.14.0",
     "vitest": "^4.1.2"
   }
 }

@@ -19,11 +19,19 @@ npm install @agentskit/react @agentskit/adapters
 ## Package Layout
 
 ```text
-@agentskit/core      portable runtime, tools, memory, retrieval
-@agentskit/react     React hooks + UI components + theme
-@agentskit/ink       terminal hooks + Ink components
-@agentskit/adapters  provider adapters and generic streams
-@agentskit/cli       chat + init commands
+@agentskit/core           portable runtime, types, events, contracts
+@agentskit/react          React hooks + UI components + theme
+@agentskit/ink            terminal hooks + Ink components
+@agentskit/adapters       LLM provider adapters (OpenAI, Anthropic, Gemini, etc.)
+@agentskit/cli            chat + init + run commands
+@agentskit/runtime        standalone agent runtime with ReAct loop
+@agentskit/tools          reusable tools (web search, filesystem, shell)
+@agentskit/skills         ready-made skills (researcher, coder, planner, etc.)
+@agentskit/memory         persistent backends (SQLite, Redis, vectra)
+@agentskit/observability  logging + tracing (console, LangSmith, OpenTelemetry)
+@agentskit/rag            plug-and-play retrieval-augmented generation
+@agentskit/sandbox        secure code execution (E2B, WebContainer)
+@agentskit/eval           agent evaluation and benchmarking
 ```
 
 ## React Quick Start

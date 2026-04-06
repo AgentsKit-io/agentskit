@@ -1,2 +1,4 @@
 export { createRuntime } from './runner'
-export type { RuntimeConfig, RunOptions, RunResult } from './types'
+export { createSharedContext } from './shared-context'
+export type { SharedContext, ReadonlySharedContext } from './shared-context'
+export type { RuntimeConfig, RunOptions, RunResult, DelegateConfig } from './types'

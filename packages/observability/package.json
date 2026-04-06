@@ -1,7 +1,7 @@
 {
-  "name": "@agentskit/memory",
-  "version": "0.4.0",
-  "description": "Persistent and vector memory backends for AgentsKit.",
+  "name": "@agentskit/observability",
+  "version": "0.2.0",
+  "description": "Logging and tracing layer for AgentsKit agents.",
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -29,13 +29,13 @@
     "@agentskit/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/better-sqlite3": "^7.6.12",
+    "@opentelemetry/api": "^1.9.1",
+    "@opentelemetry/exporter-trace-otlp-http": "^0.214.0",
+    "@opentelemetry/sdk-trace-base": "^2.6.1",
     "@types/node": "^25.5.2",
-    "better-sqlite3": "^12.8.0",
-    "redis": "^5.11.0",
+    "langsmith": "^0.5.16",
     "tsup": "^8.5.0",
     "typescript": "^6.0.2",
-    "vectra": "^0.14.0",
     "vitest": "^4.1.2"
   }
 }

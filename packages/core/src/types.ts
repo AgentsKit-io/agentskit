@@ -214,6 +214,8 @@ export type AgentEvent =
   | { type: 'memory:load'; messageCount: number }
   | { type: 'memory:save'; messageCount: number }
   | { type: 'agent:step'; step: number; action: string }
+  | { type: 'agent:delegate:start'; name: string; task: string; depth: number }
+  | { type: 'agent:delegate:end'; name: string; result: string; durationMs: number; depth: number }
   | { type: 'error'; error: Error }
 
 export interface Observer {
