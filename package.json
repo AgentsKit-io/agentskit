@@ -10,6 +10,9 @@
     "dev": "turbo run dev --parallel",
     "docs": "pnpm --filter @agentskit/docs start"
   },
+  "pnpm": {
+    "onlyBuiltDependencies": ["better-sqlite3", "esbuild"]
+  },
   "devDependencies": {
     "@changesets/cli": "^2.29.6",
     "turbo": "^2.9.4",

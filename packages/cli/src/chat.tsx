@@ -1,11 +1,12 @@
 import React, { useMemo } from 'react'
 import { Box, Text } from 'ink'
 import { createFileMemory } from '@agentskit/core'
-import type { ToolDefinition, SkillDefinition } from '@agentskit/core'
+import type { ChatMemory, ToolDefinition, SkillDefinition } from '@agentskit/core'
 import { ChatContainer, InputBar, Message, ThinkingIndicator, ToolCallView, useChat } from '@agentskit/ink'
 import { resolveChatProvider } from './providers'
 import { webSearch, filesystem, shell } from '@agentskit/tools'
 import { researcher, coder, planner, critic, summarizer } from '@agentskit/skills'
+import { sqliteChatMemory } from '@agentskit/memory'
 
 const skillRegistry: Record<string, SkillDefinition> = {
   researcher,
@@ -45,6 +46,17 @@ export interface ChatCommandOptions {
   baseUrl?: string
   tools?: string
   skill?: string
+  memoryBackend?: string
+}
+
+function resolveMemory(backend: string | undefined, path: string): ChatMemory {
+  switch (backend) {
+    case 'sqlite':
+      return sqliteChatMemory({ path: path.replace(/\.json$/, '.db') })
+    case 'file':
+    default:
+      return createFileMemory(path)
+  }
 }
 
 export function ChatApp(options: ChatCommandOptions) {
@@ -53,8 +65,8 @@ export function ChatApp(options: ChatCommandOptions) {
     [options.apiKey, options.baseUrl, options.model, options.provider]
   )
   const memory = useMemo(
-    () => createFileMemory(options.memoryPath ?? '.agentskit-history.json'),
-    [options.memoryPath]
+    () => resolveMemory(options.memoryBackend, options.memoryPath ?? '.agentskit-history.json'),
+    [options.memoryPath, options.memoryBackend]
   )
   const tools = useMemo(() => resolveTools(options.tools), [options.tools])
   const skills = useMemo(() => {
@@ -104,5 +116,6 @@ export function renderChatHeader(options: ChatCommandOptions): string {
   parts.push(`mode=${runtime.mode}`)
   if (options.tools) parts.push(`tools=${options.tools}`)
   if (options.skill) parts.push(`skill=${options.skill}`)
+  if (options.memoryBackend) parts.push(`memory=${options.memoryBackend}`)
   return parts.join(' ')
 }

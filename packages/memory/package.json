@@ -1,0 +1,41 @@
+{
+  "name": "@agentskit/memory",
+  "version": "0.4.0",
+  "description": "Persistent and vector memory backends for AgentsKit.",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "lint": "tsc --noEmit",
+    "dev": "tsup --watch"
+  },
+  "dependencies": {
+    "@agentskit/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.12",
+    "@types/node": "^24.0.0",
+    "better-sqlite3": "^11.9.1",
+    "redis": "^5.11.0",
+    "tsup": "^8.5.0",
+    "typescript": "^6.0.2",
+    "vectra": "^0.9.0",
+    "vitest": "^4.1.2"
+  }
+}

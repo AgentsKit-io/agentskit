@@ -23,6 +23,7 @@ export function createCli() {
     .option('--memory <path>', 'Path for file-based memory', '.agentskit-history.json')
     .option('--tools <tools>', 'Comma-separated tools: web_search,filesystem,shell')
     .option('--skill <skills>', 'Comma-separated skills: researcher,coder,planner,critic,summarizer')
+    .option('--memory-backend <backend>', 'Memory backend: file (default), sqlite')
     .action((options) => {
       process.stdout.write(`${renderChatHeader(options)}\n`)
       render(React.createElement(ChatApp, {
@@ -34,6 +35,7 @@ export function createCli() {
         memoryPath: options.memory,
         tools: options.tools,
         skill: options.skill,
+        memoryBackend: options.memoryBackend,
       }))
     })
 
