@@ -27,5 +27,12 @@ export function composeSkills(...skills: SkillDefinition[]): SkillDefinition {
     tools: tools.length > 0 ? tools : undefined,
     delegates: delegates.length > 0 ? delegates : undefined,
     examples: examples.length > 0 ? examples : undefined,
+    onActivate: skills.some(s => s.onActivate) ? async () => {
+      const results = await Promise.all(
+        skills.filter(s => s.onActivate).map(s => s.onActivate!())
+      )
+      const allTools = results.flatMap(r => r.tools ?? [])
+      return { tools: allTools.length > 0 ? allTools : undefined }
+    } : undefined,
   }
 }

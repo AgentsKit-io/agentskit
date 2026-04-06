@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+import type { SkillDefinition } from '@agentskit/core'
 import { composeSkills } from '../src/compose'
 import { researcher, coder, planner, summarizer } from '../src/index'
 
@@ -75,5 +76,68 @@ describe('composeSkills', () => {
     expect(result.systemPrompt).toContain('--- researcher ---')
     expect(result.systemPrompt).toContain('--- coder ---')
     expect(result.systemPrompt).toContain('--- summarizer ---')
+  })
+
+  it('onActivate is undefined when no input skills have onActivate', () => {
+    const result = composeSkills(researcher, coder)
+    expect(result.onActivate).toBeUndefined()
+  })
+
+  it('onActivate merges tools from all skills that have it', async () => {
+    const skillA: SkillDefinition = {
+      name: 'a',
+      description: 'A',
+      systemPrompt: 'A prompt',
+      onActivate: async () => ({ tools: ['tool_a1', 'tool_a2'] }),
+    }
+    const skillB: SkillDefinition = {
+      name: 'b',
+      description: 'B',
+      systemPrompt: 'B prompt',
+      onActivate: async () => ({ tools: ['tool_b1'] }),
+    }
+    const result = composeSkills(skillA, skillB)
+    expect(result.onActivate).toBeTypeOf('function')
+    const activation = await result.onActivate!()
+    expect(activation.tools).toContain('tool_a1')
+    expect(activation.tools).toContain('tool_a2')
+    expect(activation.tools).toContain('tool_b1')
+    expect(activation.tools!.length).toBe(3)
+  })
+
+  it('onActivate is defined and calls only skills that have it', async () => {
+    const withHook: SkillDefinition = {
+      name: 'with',
+      description: 'With hook',
+      systemPrompt: 'With prompt',
+      onActivate: async () => ({ tools: ['dynamic_tool'] }),
+    }
+    const withoutHook: SkillDefinition = {
+      name: 'without',
+      description: 'Without hook',
+      systemPrompt: 'Without prompt',
+    }
+    const result = composeSkills(withHook, withoutHook)
+    expect(result.onActivate).toBeTypeOf('function')
+    const activation = await result.onActivate!()
+    expect(activation.tools).toEqual(['dynamic_tool'])
+  })
+
+  it('onActivate returns tools: undefined when all onActivate handlers return no tools', async () => {
+    const skillA: SkillDefinition = {
+      name: 'a',
+      description: 'A',
+      systemPrompt: 'A prompt',
+      onActivate: async () => ({}),
+    }
+    const skillB: SkillDefinition = {
+      name: 'b',
+      description: 'B',
+      systemPrompt: 'B prompt',
+      onActivate: async () => ({ tools: [] }),
+    }
+    const result = composeSkills(skillA, skillB)
+    const activation = await result.onActivate!()
+    expect(activation.tools).toBeUndefined()
   })
 })
