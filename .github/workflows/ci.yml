@@ -28,11 +28,19 @@ jobs:
       - name: Build packages
         run: pnpm build
 
-      - name: Verify core bundle size
+      - name: Verify bundle sizes
         run: |
-          SIZE=$(gzip -c packages/core/dist/index.js | wc -c)
-          echo "Core gzipped: ${SIZE} bytes"
-          if [ "$SIZE" -gt 10240 ]; then
-            echo "::error::Core bundle exceeds 10KB gzipped limit (${SIZE} bytes)"
-            exit 1
-          fi
+          check_size() {
+            local pkg=$1 limit=$2
+            local size=$(gzip -c "packages/$pkg/dist/index.js" | wc -c)
+            echo "$pkg gzipped: ${size} bytes (limit: ${limit})"
+            if [ "$size" -gt "$limit" ]; then
+              echo "::error::$pkg bundle exceeds limit (${size} > ${limit} bytes)"
+              exit 1
+            fi
+          }
+
+          check_size core 10240
+          check_size runtime 15360
+          check_size react 20480
+          check_size ink 10240
