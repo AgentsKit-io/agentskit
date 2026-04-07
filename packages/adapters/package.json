@@ -1,7 +1,19 @@
 {
   "name": "@agentskit/adapters",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Provider adapters for AgentsKit.",
+  "keywords": [
+    "agentskit",
+    "ai",
+    "agents",
+    "llm",
+    "chat",
+    "typescript",
+    "openai",
+    "anthropic",
+    "embeddings",
+    "providers"
+  ],
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

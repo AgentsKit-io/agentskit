@@ -29,6 +29,21 @@ await controller.send('Hello!')
 console.log(controller.getState().messages)
 ```
 
+## Next steps
+
+- Pass **tools** from [`@agentskit/tools`](https://www.npmjs.com/package/@agentskit/tools) into the controller config for ReAct-style tool use
+- Use the same **adapter** with [`createRuntime`](https://www.npmjs.com/package/@agentskit/runtime) for headless agents, or with [`useChat`](https://www.npmjs.com/package/@agentskit/react) for a browser UI
+- Add **persistence** with [`@agentskit/memory`](https://www.npmjs.com/package/@agentskit/memory) or **RAG** with [`@agentskit/rag`](https://www.npmjs.com/package/@agentskit/rag)
+
+## Ecosystem
+
+| Package | Role |
+|---------|------|
+| [@agentskit/adapters](https://www.npmjs.com/package/@agentskit/adapters) | LLM chat + embedding providers |
+| [@agentskit/runtime](https://www.npmjs.com/package/@agentskit/runtime) | `createRuntime` — agents without UI |
+| [@agentskit/react](https://www.npmjs.com/package/@agentskit/react) | `useChat`, headless chat components |
+| [@agentskit/tools](https://www.npmjs.com/package/@agentskit/tools) | Executable tools |
+
 ## Docs
 
 [Full documentation](https://emersonbraun.github.io/agentskit/)

@@ -1,7 +1,18 @@
 {
   "name": "@agentskit/memory",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Persistent and vector memory backends for AgentsKit.",
+  "keywords": [
+    "agentskit",
+    "ai",
+    "agents",
+    "llm",
+    "chat",
+    "typescript",
+    "memory",
+    "vector",
+    "embeddings"
+  ],
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

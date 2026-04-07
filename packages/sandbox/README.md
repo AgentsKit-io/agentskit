@@ -30,6 +30,20 @@ const result = await runtime.run('Write and run a Python script that generates a
 console.log(result.content)
 ```
 
+## Next steps
+
+- Combine **sandbox** with other tools from [`@agentskit/tools`](https://www.npmjs.com/package/@agentskit/tools) on the same `createRuntime` instance
+- For browser or React flows, keep the same tool definitions — they follow [`@agentskit/core`](https://www.npmjs.com/package/@agentskit/core) `ToolDefinition`
+
+## Ecosystem
+
+| Package | Role |
+|---------|------|
+| [@agentskit/runtime](https://www.npmjs.com/package/@agentskit/runtime) | `createRuntime({ tools })` |
+| [@agentskit/tools](https://www.npmjs.com/package/@agentskit/tools) | `code` tool can delegate to sandbox |
+| [@agentskit/adapters](https://www.npmjs.com/package/@agentskit/adapters) | LLM for codegen tasks |
+| [@agentskit/core](https://www.npmjs.com/package/@agentskit/core) | Tool contract |
+
 ## Docs
 
 [Full documentation](https://emersonbraun.github.io/agentskit/)

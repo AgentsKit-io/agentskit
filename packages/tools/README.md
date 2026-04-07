@@ -34,6 +34,24 @@ const result = await runtime.run('Find the README and summarize it')
 console.log(result.content)
 ```
 
+## With `useChat` (browser)
+
+Tools are plain `ToolDefinition` values — register them in [`useChat`](https://www.npmjs.com/package/@agentskit/react) the same way as in `createRuntime`.
+
+## Next steps
+
+- Combine with **skills** from [`@agentskit/skills`](https://www.npmjs.com/package/@agentskit/skills) on `runtime.run({ skill })` for specialized behavior
+- Author custom tools with [`@agentskit/templates`](https://www.npmjs.com/package/@agentskit/templates) `createToolTemplate` / `scaffold`
+
+## Ecosystem
+
+| Package | Role |
+|---------|------|
+| [@agentskit/core](https://www.npmjs.com/package/@agentskit/core) | `ToolDefinition` contract |
+| [@agentskit/runtime](https://www.npmjs.com/package/@agentskit/runtime) | `createRuntime({ tools })` |
+| [@agentskit/react](https://www.npmjs.com/package/@agentskit/react) | `useChat` + tools in the UI |
+| [@agentskit/templates](https://www.npmjs.com/package/@agentskit/templates) | Scaffold new tools |
+
 ## Docs
 
 [Full documentation](https://emersonbraun.github.io/agentskit/)

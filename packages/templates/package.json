@@ -1,7 +1,18 @@
 {
   "name": "@agentskit/templates",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Extension toolkit for creating custom AgentsKit skills, tools, and adapters.",
+  "keywords": [
+    "agentskit",
+    "ai",
+    "agents",
+    "llm",
+    "chat",
+    "typescript",
+    "templates",
+    "scaffolding",
+    "authoring"
+  ],
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -13,8 +24,12 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist"],
-  "publishConfig": { "access": "public" },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "tsup",
     "test": "vitest run",

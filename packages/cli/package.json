@@ -1,7 +1,18 @@
 {
   "name": "@agentskit/cli",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "CLI for AgentsKit chat and project scaffolding.",
+  "keywords": [
+    "agentskit",
+    "ai",
+    "agents",
+    "llm",
+    "chat",
+    "typescript",
+    "cli",
+    "command-line",
+    "scaffolding"
+  ],
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

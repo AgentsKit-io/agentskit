@@ -33,6 +33,20 @@ const result = await runtime.run('Research best practices for TypeScript error h
 console.log(result.content)
 ```
 
+## Next steps
+
+- Use **`composeSkills`** to merge multiple personas; add **sandbox** tools from [`@agentskit/sandbox`](https://www.npmjs.com/package/@agentskit/sandbox) for code execution when the skill needs a VM
+- Customize or fork skills with [`@agentskit/templates`](https://www.npmjs.com/package/@agentskit/templates) `createSkillTemplate`
+
+## Ecosystem
+
+| Package | Role |
+|---------|------|
+| [@agentskit/runtime](https://www.npmjs.com/package/@agentskit/runtime) | `createRuntime`, `skill` option |
+| [@agentskit/tools](https://www.npmjs.com/package/@agentskit/tools) | Tools skills orchestrate |
+| [@agentskit/adapters](https://www.npmjs.com/package/@agentskit/adapters) | LLM backends |
+| [@agentskit/templates](https://www.npmjs.com/package/@agentskit/templates) | `createSkillTemplate`, `scaffold` |
+
 ## Docs
 
 [Full documentation](https://emersonbraun.github.io/agentskit/)

@@ -30,6 +30,34 @@ const result = await runtime.run('Summarize the latest AI news')
 console.log(result.content)
 ```
 
+## Embeddings (for RAG)
+
+Use the same package for vector embeddings — wire `openaiEmbedder`, `geminiEmbedder`, or `ollamaEmbedder` into [`@agentskit/rag`](https://www.npmjs.com/package/@agentskit/rag):
+
+```ts
+import { openaiEmbedder } from '@agentskit/adapters'
+import { createRAG } from '@agentskit/rag'
+import { fileVectorMemory } from '@agentskit/memory'
+
+const rag = createRAG({
+  embed: openaiEmbedder({ apiKey: process.env.OPENAI_API_KEY! }),
+  store: fileVectorMemory({ path: './vectors' }),
+})
+```
+
+## Next steps
+
+- Pair adapters with [`@agentskit/runtime`](https://www.npmjs.com/package/@agentskit/runtime), [`@agentskit/react`](https://www.npmjs.com/package/@agentskit/react), or [`@agentskit/ink`](https://www.npmjs.com/package/@agentskit/ink) — the adapter instance is the only provider-specific piece
+
+## Ecosystem
+
+| Package | Role |
+|---------|------|
+| [@agentskit/core](https://www.npmjs.com/package/@agentskit/core) | `Adapter`, `EmbedFn`, types |
+| [@agentskit/runtime](https://www.npmjs.com/package/@agentskit/runtime) | Headless `createRuntime` |
+| [@agentskit/rag](https://www.npmjs.com/package/@agentskit/rag) | `createRAG` + embedders |
+| [@agentskit/memory](https://www.npmjs.com/package/@agentskit/memory) | Vector + chat memory backends |
+
 ## Docs
 
 [Full documentation](https://emersonbraun.github.io/agentskit/)

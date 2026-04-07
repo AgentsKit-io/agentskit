@@ -1,7 +1,18 @@
 {
   "name": "@agentskit/core",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Portable AgentsKit runtime for chat orchestration, tools, memory, and retrieval.",
+  "keywords": [
+    "agentskit",
+    "ai",
+    "agents",
+    "llm",
+    "chat",
+    "typescript",
+    "orchestration",
+    "streaming",
+    "tools"
+  ],
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

@@ -44,6 +44,19 @@ console.log(`Accuracy: ${(result.accuracy * 100).toFixed(1)}%`)
 console.log(`Passed: ${result.passed}/${result.totalCases}`)
 ```
 
+## Next steps
+
+- Point the **agent** closure at any async boundary: `createRuntime`, a custom [`@agentskit/core`](https://www.npmjs.com/package/@agentskit/core) controller, or a thin HTTP wrapper
+- Run suites in **CI** and gate merges on `result.accuracy` — pair with [`@agentskit/observability`](https://www.npmjs.com/package/@agentskit/observability) to debug failures
+
+## Ecosystem
+
+| Package | Role |
+|---------|------|
+| [@agentskit/runtime](https://www.npmjs.com/package/@agentskit/runtime) | Typical agent under test |
+| [@agentskit/core](https://www.npmjs.com/package/@agentskit/core) | Stable I/O contracts for eval harnesses |
+| [@agentskit/observability](https://www.npmjs.com/package/@agentskit/observability) | Traces for failed cases |
+
 ## Docs
 
 [Full documentation](https://emersonbraun.github.io/agentskit/)

@@ -33,6 +33,19 @@ const result = await runtime.run('Analyze sales data in ./data/sales.csv')
 // Every step is now logged and traced automatically
 ```
 
+## Next steps
+
+- Attach the same **observers** to any runtime built with [`@agentskit/runtime`](https://www.npmjs.com/package/@agentskit/runtime) or wire events from [`@agentskit/core`](https://www.npmjs.com/package/@agentskit/core) `AgentEvent` if you use a custom loop
+- Use **LangSmith** or **OTLP** exporters for production; keep `consoleLogger` for local dev
+
+## Ecosystem
+
+| Package | Role |
+|---------|------|
+| [@agentskit/runtime](https://www.npmjs.com/package/@agentskit/runtime) | Emits steps for tracing |
+| [@agentskit/core](https://www.npmjs.com/package/@agentskit/core) | `AgentEvent` stream |
+| [@agentskit/eval](https://www.npmjs.com/package/@agentskit/eval) | Quality gates alongside traces |
+
 ## Docs
 
 [Full documentation](https://emersonbraun.github.io/agentskit/)

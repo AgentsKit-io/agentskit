@@ -33,6 +33,24 @@ const result = await runtime.run('What did we discuss yesterday?')
 console.log(result.content)
 ```
 
+## With RAG
+
+Use a **vector** backend with [`@agentskit/rag`](https://www.npmjs.com/package/@agentskit/rag) `createRAG({ embed, store })` — `fileVectorMemory` and `redisVectorMemory` implement `VectorMemory` for chunk storage and search.
+
+## Next steps
+
+- Swap `sqliteChatMemory` for **Redis** or **in-memory** variants from the same package for different deployment targets
+- Pair **embedders** from [`@agentskit/adapters`](https://www.npmjs.com/package/@agentskit/adapters) with RAG — see [`@agentskit/rag`](https://www.npmjs.com/package/@agentskit/rag)
+
+## Ecosystem
+
+| Package | Role |
+|---------|------|
+| [@agentskit/core](https://www.npmjs.com/package/@agentskit/core) | `Memory`, `VectorMemory` types |
+| [@agentskit/rag](https://www.npmjs.com/package/@agentskit/rag) | Chunking + retrieval on top of vector memory |
+| [@agentskit/runtime](https://www.npmjs.com/package/@agentskit/runtime) | `memory` / `retriever` options |
+| [@agentskit/adapters](https://www.npmjs.com/package/@agentskit/adapters) | Embeddings for RAG |
+
 ## Docs
 
 [Full documentation](https://emersonbraun.github.io/agentskit/)

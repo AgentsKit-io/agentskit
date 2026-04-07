@@ -69,6 +69,20 @@ await scaffold({
 //     README.md
 ```
 
+## Next steps
+
+- Publish your package to npm and depend on it from [`@agentskit/runtime`](https://www.npmjs.com/package/@agentskit/runtime) or [`useChat`](https://www.npmjs.com/package/@agentskit/react) like any other tool or skill
+- Validate contracts against [`@agentskit/core`](https://www.npmjs.com/package/@agentskit/core) types early — templates align with those definitions
+
+## Ecosystem
+
+| Package | Role |
+|---------|------|
+| [@agentskit/core](https://www.npmjs.com/package/@agentskit/core) | `ToolDefinition`, `SkillDefinition` |
+| [@agentskit/tools](https://www.npmjs.com/package/@agentskit/tools) | Reference implementations |
+| [@agentskit/skills](https://www.npmjs.com/package/@agentskit/skills) | Skills you can extend with `createSkillTemplate` |
+| [@agentskit/runtime](https://www.npmjs.com/package/@agentskit/runtime) | Where custom tools/skills run |
+
 ## Docs
 
 [Full documentation](https://emersonbraun.github.io/agentskit/)

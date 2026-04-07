@@ -1,7 +1,18 @@
 {
   "name": "@agentskit/observability",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Logging and tracing layer for AgentsKit agents.",
+  "keywords": [
+    "agentskit",
+    "ai",
+    "agents",
+    "llm",
+    "chat",
+    "typescript",
+    "observability",
+    "tracing",
+    "opentelemetry"
+  ],
   "type": "module",
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",

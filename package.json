@@ -15,19 +15,22 @@
     "onlyBuiltDependencies": [
       "better-sqlite3",
       "esbuild"
-    ]
+    ],
+    "overrides": {
+      "serialize-javascript": ">=7.0.5"
+    }
   },
   "devDependencies": {
     "@agentskit/core": "workspace:*",
-    "@agentskit/runtime": "workspace:*",
-    "@agentskit/tools": "workspace:*",
-    "@agentskit/skills": "workspace:*",
     "@agentskit/eval": "workspace:*",
     "@agentskit/observability": "workspace:*",
+    "@agentskit/runtime": "workspace:*",
+    "@agentskit/skills": "workspace:*",
     "@agentskit/templates": "workspace:*",
-    "@changesets/cli": "^2.29.6",
-    "turbo": "^2.9.4",
+    "@agentskit/tools": "workspace:*",
+    "@changesets/cli": "2.30.0",
+    "turbo": "2.9.5",
     "typescript": "^6.0.2",
-    "vitest": "^4.1.2"
+    "vitest": "^4.1.3"
   }
 }

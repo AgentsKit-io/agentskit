@@ -28,7 +28,23 @@ agentskit init --template react --dir my-app
 
 # Scaffold a terminal agent
 agentskit init --template ink --dir my-cli
+
+# Run a headless agent (same building blocks as the CLI)
+agentskit run --help
 ```
+
+## Next steps
+
+- Generated apps use [`@agentskit/react`](https://www.npmjs.com/package/@agentskit/react) or [`@agentskit/ink`](https://www.npmjs.com/package/@agentskit/ink) — extend with [`@agentskit/tools`](https://www.npmjs.com/package/@agentskit/tools), [`@agentskit/skills`](https://www.npmjs.com/package/@agentskit/skills), and [`@agentskit/runtime`](https://www.npmjs.com/package/@agentskit/runtime) for programmatic agents
+
+## Ecosystem
+
+| Package | Role |
+|---------|------|
+| [@agentskit/runtime](https://www.npmjs.com/package/@agentskit/runtime) | `createRuntime` — agents outside the CLI |
+| [@agentskit/adapters](https://www.npmjs.com/package/@agentskit/adapters) | All `chat` / `run` providers |
+| [@agentskit/ink](https://www.npmjs.com/package/@agentskit/ink) | Ink UI used by interactive `chat` |
+| [@agentskit/core](https://www.npmjs.com/package/@agentskit/core) | Shared types and contracts |
 
 ## Docs
 

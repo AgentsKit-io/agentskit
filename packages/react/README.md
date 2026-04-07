@@ -34,6 +34,20 @@ function Chat() {
 }
 ```
 
+## Next steps
+
+- Add **tools** and **memory** via `useChat` options (same contracts as [`@agentskit/core`](https://www.npmjs.com/package/@agentskit/core))
+- For **terminal** apps with the same hook names, use [`@agentskit/ink`](https://www.npmjs.com/package/@agentskit/ink); for **CLI** prototyping without embedding React, try [`@agentskit/cli`](https://www.npmjs.com/package/@agentskit/cli) `agentskit chat`
+
+## Ecosystem
+
+| Package | Role |
+|---------|------|
+| [@agentskit/core](https://www.npmjs.com/package/@agentskit/core) | Chat controller types, events |
+| [@agentskit/adapters](https://www.npmjs.com/package/@agentskit/adapters) | `anthropic`, `openai`, `ollama`, … |
+| [@agentskit/runtime](https://www.npmjs.com/package/@agentskit/runtime) | Same stack without a browser |
+| [@agentskit/tools](https://www.npmjs.com/package/@agentskit/tools) | Tool definitions for `useChat` |
+
 ## Docs
 
 [Full documentation](https://emersonbraun.github.io/agentskit/)

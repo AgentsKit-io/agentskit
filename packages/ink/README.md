@@ -35,6 +35,20 @@ function App() {
 render(<App />)
 ```
 
+## Next steps
+
+- Use **tools** and **memory** from [`@agentskit/tools`](https://www.npmjs.com/package/@agentskit/tools) and [`@agentskit/memory`](https://www.npmjs.com/package/@agentskit/memory) in `useChat` the same way as in React
+- For a **browser** UI, swap to [`@agentskit/react`](https://www.npmjs.com/package/@agentskit/react); for a quick **terminal chat** without your own Ink app, run [`@agentskit/cli`](https://www.npmjs.com/package/@agentskit/cli) `agentskit chat`
+
+## Ecosystem
+
+| Package | Role |
+|---------|------|
+| [@agentskit/react](https://www.npmjs.com/package/@agentskit/react) | Browser — same hooks, different renderer |
+| [@agentskit/cli](https://www.npmjs.com/package/@agentskit/cli) | Interactive chat + `agentskit init` |
+| [@agentskit/adapters](https://www.npmjs.com/package/@agentskit/adapters) | Providers (e.g. `ollama` for local models) |
+| [@agentskit/core](https://www.npmjs.com/package/@agentskit/core) | Shared chat types and controller |
+
 ## Docs
 
 [Full documentation](https://emersonbraun.github.io/agentskit/)
