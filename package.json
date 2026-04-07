@@ -6,6 +6,7 @@
   "scripts": {
     "build": "turbo run build",
     "test": "turbo run test",
+    "test:interop": "vitest run --config tests/vitest.config.ts",
     "lint": "turbo run lint",
     "dev": "turbo run dev --parallel",
     "docs": "pnpm --filter @agentskit/docs start"
@@ -20,8 +21,16 @@
     }
   },
   "devDependencies": {
-    "@changesets/cli": "^2.30.0",
-    "turbo": "^2.9.5",
-    "typescript": "^6.0.2"
+    "@agentskit/core": "workspace:*",
+    "@agentskit/runtime": "workspace:*",
+    "@agentskit/tools": "workspace:*",
+    "@agentskit/skills": "workspace:*",
+    "@agentskit/eval": "workspace:*",
+    "@agentskit/observability": "workspace:*",
+    "@agentskit/templates": "workspace:*",
+    "@changesets/cli": "^2.29.6",
+    "turbo": "^2.9.4",
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.2"
   }
 }
