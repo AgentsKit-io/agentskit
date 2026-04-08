@@ -36,8 +36,24 @@ const config: Config = {
         href: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap',
       },
     },
+    {
+      tagName: 'link',
+      attributes: {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;600;700&display=swap',
+      },
+    },
   ],
-  i18n: { defaultLocale: 'en', locales: ['en'] },
+  i18n: {
+    defaultLocale: 'en',
+    locales: ['en', 'es', 'pt-BR', 'zh-Hans'],
+    localeConfigs: {
+      en: { label: 'English', htmlLang: 'en', direction: 'ltr' },
+      es: { label: 'Español', htmlLang: 'es', direction: 'ltr' },
+      'pt-BR': { label: 'Português (BR)', htmlLang: 'pt-BR', direction: 'ltr' },
+      'zh-Hans': { label: '简体中文', htmlLang: 'zh-Hans', direction: 'ltr' },
+    },
+  },
   clientModules: [require.resolve('./src/clientModules/ak-cta-analytics.ts')],
   presets: [
     [
@@ -45,7 +61,8 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/EmersonBraun/agentskit/tree/main/docs/',
+          editUrl: 'https://github.com/EmersonBraun/agentskit/tree/main/apps/docs/docs/',
+          editLocalizedFiles: true,
         },
         blog: false,
         theme: { customCss: './src/css/custom.css' },
@@ -63,6 +80,7 @@ const config: Config = {
           position: 'left',
         },
         { type: 'docSidebar', sidebarId: 'docsSidebar', position: 'left', label: 'Docs' },
+        { type: 'localeDropdown', position: 'right' },
         { href: 'https://github.com/EmersonBraun/agentskit', label: 'GitHub', position: 'right' },
       ],
     },
