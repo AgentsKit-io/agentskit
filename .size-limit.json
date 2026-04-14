@@ -1,0 +1,92 @@
+[
+  {
+    "name": "@agentskit/core (ESM)",
+    "path": "packages/core/dist/index.js",
+    "limit": "10 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (CJS)",
+    "path": "packages/core/dist/index.cjs",
+    "limit": "10 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/adapters (ESM)",
+    "path": "packages/adapters/dist/index.js",
+    "limit": "20 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/react (ESM)",
+    "path": "packages/react/dist/index.js",
+    "limit": "15 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/runtime (ESM)",
+    "path": "packages/runtime/dist/index.js",
+    "limit": "15 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/memory (ESM)",
+    "path": "packages/memory/dist/index.js",
+    "limit": "15 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/rag (ESM)",
+    "path": "packages/rag/dist/index.js",
+    "limit": "10 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/tools (ESM)",
+    "path": "packages/tools/dist/index.js",
+    "limit": "15 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/skills (ESM)",
+    "path": "packages/skills/dist/index.js",
+    "limit": "10 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/observability (ESM)",
+    "path": "packages/observability/dist/index.js",
+    "limit": "10 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/eval (ESM)",
+    "path": "packages/eval/dist/index.js",
+    "limit": "10 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/sandbox (ESM)",
+    "path": "packages/sandbox/dist/index.js",
+    "limit": "10 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/ink (ESM)",
+    "path": "packages/ink/dist/index.js",
+    "limit": "15 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/cli (ESM)",
+    "path": "packages/cli/dist/index.js",
+    "limit": "20 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/templates (ESM)",
+    "path": "packages/templates/dist/index.js",
+    "limit": "15 KB",
+    "gzip": true
+  }
+]

@@ -10,7 +10,9 @@
     "lint": "turbo run lint",
     "dev": "turbo run dev --parallel",
     "docs": "pnpm --filter @agentskit/docs start",
-    "release": "pnpm build && pnpm changeset publish"
+    "release": "pnpm build && pnpm changeset publish",
+    "size": "pnpm build && size-limit",
+    "size:why": "pnpm build && size-limit --why"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -30,6 +32,8 @@
     "@agentskit/templates": "workspace:*",
     "@agentskit/tools": "workspace:*",
     "@changesets/cli": "2.30.0",
+    "@size-limit/file": "^12.1.0",
+    "size-limit": "^12.1.0",
     "turbo": "2.9.5",
     "typescript": "^6.0.2",
     "vitest": "^4.1.4"
