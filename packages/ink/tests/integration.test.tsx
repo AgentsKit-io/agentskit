@@ -1,9 +1,56 @@
 import React from 'react'
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { render } from 'ink-testing-library'
 import { ChatContainer, Message, InputBar, ThinkingIndicator } from '../src/components'
 import { useChat } from '../src/useChat'
 import type { AdapterFactory, AdapterRequest, StreamChunk, Message as MessageType } from '@agentskit/core'
+
+// Same strategy as InputBar.test.tsx: ink-testing-library@4 does not trigger
+// useInput under ink@7. We intercept the handler and drive keyboard input
+// directly. See #266.
+
+type Key = Parameters<Parameters<typeof import('ink').useInput>[0]>[1]
+
+let capturedHandler: ((input: string, key: Key) => void) | undefined
+
+vi.mock('ink', async () => {
+  const actual = await vi.importActual<typeof import('ink')>('ink')
+  return {
+    ...actual,
+    useInput: (handler: (input: string, key: Key) => void) => {
+      capturedHandler = handler
+    },
+  }
+})
+
+const key = (overrides: Partial<Key> = {}): Key => ({
+  upArrow: false,
+  downArrow: false,
+  leftArrow: false,
+  rightArrow: false,
+  pageDown: false,
+  pageUp: false,
+  return: false,
+  escape: false,
+  ctrl: false,
+  shift: false,
+  tab: false,
+  backspace: false,
+  delete: false,
+  meta: false,
+  ...overrides,
+} as Key)
+
+const flush = () => new Promise(r => setTimeout(r, 0))
+
+const typeText = async (text: string) => {
+  for (const char of text) {
+    capturedHandler!(char, key())
+    await flush()
+  }
+}
+
+const pressEnter = () => capturedHandler!('', key({ return: true }))
 
 const delay = (ms = 50) => new Promise(r => setTimeout(r, ms))
 
@@ -39,6 +86,10 @@ function ChatApp({ adapter }: { adapter: AdapterFactory }) {
 }
 
 describe('Ink chat integration', () => {
+  beforeEach(() => {
+    capturedHandler = undefined
+  })
+
   it('renders empty chat with input bar', () => {
     const adapter = createMockAdapter([])
     const { lastFrame } = render(<ChatApp adapter={adapter} />)
@@ -53,31 +104,18 @@ describe('Ink chat integration', () => {
       { type: 'done' },
     ])
 
-    const { lastFrame, stdin } = render(<ChatApp adapter={adapter} />)
+    const { lastFrame, rerender } = render(<ChatApp adapter={adapter} />)
 
-    // Wait for Ink to set up useInput
-    await delay()
-
-    // Type "Hi"
-    stdin.write('H')
-    await delay()
-    stdin.write('i')
-    await delay()
-
-    // Verify input appears
+    await typeText('Hi')
+    rerender(<ChatApp adapter={adapter} />)
     expect(lastFrame()).toContain('Hi')
 
-    // Press enter to send
-    stdin.write('\r')
-
-    // Wait for streaming to complete
+    pressEnter()
     await delay(200)
+    rerender(<ChatApp adapter={adapter} />)
 
     const output = lastFrame()
-
-    // User message should be visible
     expect(output).toContain('USER')
-    // Assistant response should be fully streamed
     expect(output).toContain('Hello from AgentsKit!')
     expect(output).toContain('ASSISTANT')
   })
@@ -88,7 +126,6 @@ describe('Ink chat integration', () => {
       createSource: () => ({
         stream: async function* () {
           yield { type: 'text' as const, content: 'partial' }
-          // Block until resolved
           await new Promise<void>(r => { resolveStream = r })
           yield { type: 'done' as const }
         },
@@ -96,22 +133,19 @@ describe('Ink chat integration', () => {
       }),
     }
 
-    const { lastFrame, stdin } = render(<ChatApp adapter={adapter} />)
-    await delay()
+    const { lastFrame, rerender } = render(<ChatApp adapter={adapter} />)
 
-    stdin.write('go')
-    await delay()
-    stdin.write('\r')
+    await typeText('go')
+    pressEnter()
     await delay(100)
+    rerender(<ChatApp adapter={adapter} />)
 
-    // Should show thinking indicator during streaming
     expect(lastFrame()).toContain('Thinking...')
 
-    // Resolve the stream
     resolveStream?.()
     await delay(100)
+    rerender(<ChatApp adapter={adapter} />)
 
-    // Thinking indicator should be gone
     expect(lastFrame()).not.toContain('Thinking...')
   })
 })
