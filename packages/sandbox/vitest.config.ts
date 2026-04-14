@@ -1,9 +1,5 @@
+import { createTestConfig } from '../../vitest.shared'
 import { defineConfig } from 'vitest/config'
 
-export default defineConfig({
-  test: {
-    environment: 'node',
-    globals: true,
-    passWithNoTests: true,
-  },
-})
+// @agentskit/sandbox — lines threshold: 30
+export default defineConfig(createTestConfig({ linesThreshold: 30 }))

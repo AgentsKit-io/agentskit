@@ -6,6 +6,7 @@
   "scripts": {
     "build": "turbo run build",
     "test": "turbo run test",
+    "test:coverage": "turbo run test:coverage",
     "test:interop": "vitest run --config tests/vitest.config.ts",
     "lint": "turbo run lint",
     "dev": "turbo run dev --parallel",
@@ -33,6 +34,7 @@
     "@agentskit/tools": "workspace:*",
     "@changesets/cli": "2.30.0",
     "@size-limit/file": "^12.1.0",
+    "@vitest/coverage-v8": "^4.1.4",
     "size-limit": "^12.1.0",
     "turbo": "2.9.6",
     "typescript": "^6.0.2",

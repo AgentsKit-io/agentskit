@@ -33,6 +33,7 @@
   "scripts": {
     "build": "tsup",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"
   },

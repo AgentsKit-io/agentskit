@@ -1,9 +1,11 @@
+import { createTestConfig } from '../../vitest.shared'
 import { defineConfig } from 'vitest/config'
 
-export default defineConfig({
-  test: {
+// @agentskit/react — lines threshold: 80
+export default defineConfig(
+  createTestConfig({
+    linesThreshold: 80,
     environment: 'happy-dom',
-    globals: true,
     setupFiles: ['./tests/setup.ts'],
-  },
-})
+  }),
+)
