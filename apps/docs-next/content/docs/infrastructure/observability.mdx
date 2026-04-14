@@ -1,0 +1,137 @@
+---
+title: Observability
+description: "@agentskit/observability provides **pluggable Observer** implementations for [@agentskit/core](../packages/core) AgentEvent streams. Observers are lazy-friendly: import only the backends you wire into"
+---
+
+`@agentskit/observability` provides **pluggable `Observer`** implementations for [`@agentskit/core`](../packages/core) `AgentEvent` streams. Observers are lazy-friendly: import only the backends you wire into [`createRuntime`](../agents/runtime) or [`useChat`](../hooks/use-chat) via `observers` in config.
+
+## When to use
+
+- You need **structured logs** during agent steps (`consoleLogger`).
+- You export traces to **LangSmith** or **OpenTelemetry**-compatible collectors.
+
+## Installation
+
+```bash
+npm install @agentskit/observability @agentskit/core
+```
+
+## Built-in observers
+
+### Console logger
+
+```ts
+import { consoleLogger } from '@agentskit/observability'
+
+const observer = consoleLogger({ format: 'human' }) // or 'json'
+```
+
+Human: colored, indented stderr. JSON: newline-delimited events for ingestion pipelines.
+
+### LangSmith
+
+```ts
+import { langsmith } from '@agentskit/observability'
+
+const observer = langsmith({
+  apiKey: process.env.LANGSMITH_API_KEY,
+  project: 'my-agent',
+})
+```
+
+### OpenTelemetry (OTLP)
+
+```ts
+import { opentelemetry } from '@agentskit/observability'
+
+const observer = opentelemetry({
+  endpoint: 'http://localhost:4318/v1/traces',
+  serviceName: 'my-agent-service',
+})
+```
+
+Spans follow GenAI semantic conventions where applicable.
+
+## Attach to runtime
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { anthropic } from '@agentskit/adapters'
+import { consoleLogger } from '@agentskit/observability'
+
+const runtime = createRuntime({
+  adapter: anthropic({ apiKey: process.env.ANTHROPIC_API_KEY!, model: 'claude-sonnet-4-6' }),
+  observers: [consoleLogger({ format: 'json' })],
+})
+
+await runtime.run('Hello')
+```
+
+Pass the same `observers` array to [`useChat`](../hooks/use-chat) for browser sessions.
+
+## `createTraceTracker`
+
+Low-level helper that turns `AgentEvent` into start/end span callbacks — use when you need a **custom exporter** but still want consistent parent/child timing.
+
+```ts
+import { createTraceTracker } from '@agentskit/observability'
+import type { AgentEvent } from '@agentskit/core'
+
+const tracker = createTraceTracker({
+  onSpanStart(span) {
+    /* send span open to your backend */
+  },
+  onSpanEnd(span) {
+    /* close span */
+  },
+})
+
+const bridge = {
+  name: 'trace-bridge',
+  on(event: AgentEvent) {
+    tracker.handle(event)
+  },
+}
+```
+
+## `AgentEvent` reference (core)
+
+Events are defined in `@agentskit/core` (not exhaustive here — see TypeDoc):
+
+| Event type | Meaning |
+|------------|---------|
+| `llm:start` / `llm:first-token` / `llm:end` | Model call lifecycle |
+| `tool:start` / `tool:end` | Tool execution |
+| `memory:load` / `memory:save` | Chat memory persistence |
+| `agent:step` | ReAct step marker |
+| `agent:delegate:start` / `agent:delegate:end` | Sub-agent delegation |
+| `error` | Recoverable or fatal error surface |
+
+## Custom observer
+
+Implement `Observer` from `@agentskit/core`:
+
+```ts
+import type { AgentEvent, Observer } from '@agentskit/core'
+
+const myObserver: Observer = {
+  name: 'my-backend',
+  on(event: AgentEvent) {
+    if (event.type === 'error') {
+      console.error(event.error)
+    }
+  },
+}
+```
+
+## Troubleshooting
+
+| Issue | Mitigation |
+|-------|------------|
+| No spans in LangSmith | Verify `LANGSMITH_API_KEY` and project name; check network egress from CI. |
+| OTLP drops data | Confirm collector URL and HTTP/protobuf mode match your stack. |
+| Double logging | Deduplicate observers — each `on` receives every event. |
+
+## See also
+
+[Start here](../getting-started/read-this-first) · [Packages](../packages/overview) · [TypeDoc](pathname:///agentskit/api-reference/) (`@agentskit/observability`) · [Eval](./eval) · [Runtime](../agents/runtime) · [@agentskit/core](../packages/core)

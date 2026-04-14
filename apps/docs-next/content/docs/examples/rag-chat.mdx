@@ -1,0 +1,33 @@
+---
+title: RAG Chat
+description: Retrieval-Augmented Generation — chat with your documents. Show citations, source references, and document context alongside AI responses.
+---
+
+Retrieval-Augmented Generation — chat with your documents. Show citations, source references, and document context alongside AI responses.
+
+> **Live demo placeholder.** `<RAGChat />` was a Docusaurus-only component. The interactive sandbox will be reintroduced in a follow-up — see the code below for the working pattern.
+
+## With AgentsKit
+
+```tsx
+import { useChat, ChatContainer, Message, InputBar } from '@agentskit/react'
+
+function RAGChat() {
+  const chat = useChat({
+    adapter: myRAGAdapter,
+    initialMessages: [{
+      id: 'sys', role: 'system',
+      content: 'Answer based on the provided documents. Cite sources.',
+      status: 'complete', createdAt: new Date()
+    }],
+  })
+  return (
+    <ChatContainer>
+      {chat.messages.map(msg => (
+        <Message key={msg.id} message={msg} />
+      ))}
+      <InputBar chat={chat} placeholder="Ask about your documents..." />
+    </ChatContainer>
+  )
+}
+```

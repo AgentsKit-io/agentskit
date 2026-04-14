@@ -1,0 +1,178 @@
+---
+title: Skills
+description: "@agentskit/skills provides five built-in **SkillDefinition** values (system prompts + metadata). Skills carry **tools** hints and **delegates** hints so the runtime knows which tools to merge and whic"
+---
+
+`@agentskit/skills` provides five built-in **`SkillDefinition`** values (system prompts + metadata). Skills carry **`tools`** hints and **`delegates`** hints so the runtime knows which tools to merge and which sub-agents to prefer during delegation.
+
+## When to use
+
+- You want **opinionated personas** (researcher, coder, planner, …) without hand-writing long system prompts.
+- You compose personas with **`composeSkills`** for multi-phase tasks.
+
+Custom skills are plain objects — use [`@agentskit/templates`](../packages/templates) or define `SkillDefinition` in code.
+
+## Install
+
+```bash
+npm install @agentskit/skills
+```
+
+Skill types come from [`@agentskit/core`](../packages/core).
+
+## Public exports
+
+| Export | Role |
+|--------|------|
+| `researcher`, `coder`, `planner`, `critic`, `summarizer` | Built-in `SkillDefinition` objects |
+| `composeSkills(...skills)` | Merge prompts, tool hints, and delegates |
+| `listSkills()` | `SkillMetadata[]` for discovery UIs |
+
+## Using a skill
+
+Pass a skill to `runtime.run()` via the `skill` option. The skill's `systemPrompt` replaces the default system prompt, and any tools listed in `skill.tools` are merged into the active tool set.
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { anthropic } from '@agentskit/adapters'
+import { researcher } from '@agentskit/skills'
+import { webSearch } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter: anthropic({ apiKey: process.env.ANTHROPIC_API_KEY!, model: 'claude-sonnet-4-6' }),
+  tools: [webSearch()],
+})
+
+const result = await runtime.run(
+  'What are the trade-offs between Redis and Memcached?',
+  { skill: researcher },
+)
+```
+
+## Built-in skills
+
+### `researcher`
+
+Methodical web researcher that finds, cross-references, and summarizes information from multiple sources.
+
+- **tools hint:** `['web_search']`
+- **delegates:** _(none)_
+
+The researcher breaks questions into sub-queries, searches each independently, cross-references sources, and ends with a confidence assessment.
+
+### `coder`
+
+Software engineer that writes clean, tested, production-ready code following best practices.
+
+- **tools hint:** `['read_file', 'write_file', 'list_directory', 'shell']`
+- **delegates:** _(none)_
+
+The coder understands requirements fully before writing, handles edge cases, and explains key design decisions. It never uses `any` types or adds unrequested abstractions.
+
+### `planner`
+
+Strategic planner that breaks complex tasks into steps, identifies dependencies, and coordinates specialist agents.
+
+- **tools hint:** _(none — delegates do the work)_
+- **delegates:** `['researcher', 'coder']`
+
+The planner decomposes goals into the smallest independently completable steps and delegates each step to the correct specialist. It replans when a step fails instead of blindly continuing.
+
+### `critic`
+
+Constructive reviewer that evaluates work for correctness, completeness, and quality.
+
+- **tools hint:** `['read_file']`
+- **delegates:** _(none)_
+
+The critic categorizes issues by severity (critical / important / minor), provides specific fixes with reasoning, and always acknowledges what works well before listing problems.
+
+### `summarizer`
+
+Concise summarizer that extracts key points while preserving nuance and structure.
+
+- **tools hint:** _(none)_
+- **delegates:** _(none)_
+
+The summarizer scales output length to content length: a sentence for short content, structured bullet points for long content. It never introduces information that is not in the original.
+
+## `composeSkills`
+
+Merge two or more skills into one. The resulting skill concatenates all system prompts (separated by `--- name ---` headers), deduplicates tool hints, and merges delegate lists.
+
+```ts
+import { composeSkills, researcher, coder } from '@agentskit/skills'
+
+const fullStackAgent = composeSkills(researcher, coder)
+
+const result = await runtime.run(
+  'Research the best TypeScript ORM, then scaffold a basic schema',
+  { skill: fullStackAgent },
+)
+```
+
+The composed skill's `name` is `researcher+coder` and its `description` lists both components.
+
+```ts
+// Throws — at least one skill is required
+composeSkills()
+
+// Single skill passthrough — returns the original unchanged
+composeSkills(researcher) // === researcher
+```
+
+## `listSkills`
+
+Enumerate all built-in skills and their metadata — useful for building agent UIs or validating configuration.
+
+```ts
+import { listSkills } from '@agentskit/skills'
+
+const skills = listSkills()
+// [
+//   { name: 'researcher', description: '...', tools: ['web_search'], delegates: [] },
+//   { name: 'coder',      description: '...', tools: ['read_file', 'write_file', 'list_directory', 'shell'], delegates: [] },
+//   { name: 'planner',    description: '...', tools: [], delegates: ['researcher', 'coder'] },
+//   { name: 'critic',     description: '...', tools: ['read_file'], delegates: [] },
+//   { name: 'summarizer', description: '...', tools: [], delegates: [] },
+// ]
+```
+
+Each entry is a `SkillMetadata` object:
+
+```ts
+interface SkillMetadata {
+  name: string
+  description: string
+  tools: string[]       // Tool names this skill expects to have available
+  delegates: string[]   // Sub-agent names this skill will delegate to
+}
+```
+
+## Bringing your own skill
+
+A `SkillDefinition` is a plain object — no class required.
+
+```ts
+import type { SkillDefinition } from '@agentskit/core'
+
+export const translator: SkillDefinition = {
+  name: 'translator',
+  description: 'Translates text between languages accurately and naturally.',
+  systemPrompt: `You are a professional translator...`,
+  tools: [],
+  delegates: [],
+}
+```
+
+## Troubleshooting
+
+| Issue | Mitigation |
+|-------|------------|
+| Planner never delegates | Ensure runtime has matching tools and delegation config from [Delegation](./delegation). |
+| Skill tools unused | Register the actual `ToolDefinition[]` (e.g. `webSearch()`) on `createRuntime`; hints alone do not install tools. |
+| Composed prompt too long | Trim source skills or split into separate runs. |
+
+## See also
+
+[Start here](../getting-started/read-this-first) · [Packages](../packages/overview) · [TypeDoc](pathname:///agentskit/api-reference/) (`@agentskit/skills`) · [Runtime](./runtime) · [Delegation](./delegation) · [Tools](./tools) · [@agentskit/core](../packages/core)

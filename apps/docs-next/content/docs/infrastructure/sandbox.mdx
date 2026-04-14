@@ -1,0 +1,117 @@
+---
+title: Sandbox
+description: "@agentskit/sandbox runs **untrusted agent-generated code** in an isolated backend. The default integration targets **E2B**; you can swap a custom SandboxBackend for on-prem runtimes."
+---
+
+`@agentskit/sandbox` runs **untrusted agent-generated code** in an isolated backend. The default integration targets **E2B**; you can swap a custom `SandboxBackend` for on-prem runtimes.
+
+## When to use
+
+- Agents emit **Python or JavaScript** snippets you must execute with timeouts and resource caps.
+- You expose execution as a **`ToolDefinition`** via **`sandboxTool()`** (recommended for [`createRuntime`](../agents/runtime)).
+
+## Installation
+
+```bash
+npm install @agentskit/sandbox
+```
+
+## Creating a sandbox
+
+```ts
+import { createSandbox } from '@agentskit/sandbox'
+
+const sandbox = createSandbox({
+  apiKey: process.env.E2B_API_KEY!,
+  timeout: 30_000,
+  network: false,
+  language: 'javascript',
+})
+```
+
+Either pass **`apiKey`** (E2B) or a custom **`backend`**.
+
+## Executing code
+
+```ts
+const result = await sandbox.execute('console.log("hello")', {
+  language: 'javascript',
+  timeout: 10_000,
+  network: false,
+  memoryLimit: '128MB',
+})
+
+console.log(result.stdout, result.stderr, result.exitCode, result.durationMs)
+```
+
+### `ExecuteOptions`
+
+| Field | Description |
+|-------|-------------|
+| `language` | `javascript` or `python` |
+| `timeout` | Milliseconds |
+| `network` | Allow outbound network when backend supports it |
+| `memoryLimit` | String cap (e.g. `50MB`) when supported |
+
+## `sandboxTool` (runtime integration)
+
+`SandboxConfig` is passed through — the tool manages its own sandbox lifecycle.
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { anthropic } from '@agentskit/adapters'
+import { sandboxTool } from '@agentskit/sandbox'
+
+const runtime = createRuntime({
+  adapter: anthropic({ apiKey: process.env.ANTHROPIC_API_KEY!, model: 'claude-sonnet-4-6' }),
+  tools: [
+    sandboxTool({
+      apiKey: process.env.E2B_API_KEY!,
+      timeout: 45_000,
+    }),
+  ],
+})
+
+await runtime.run('Run javascript: console.log(1+1)')
+```
+
+The tool is exposed as **`code_execution`** with `code` and optional `language` (`javascript` | `python`).
+
+## Security defaults
+
+- Network off unless explicitly enabled
+- Wall-clock timeout and memory limit strings forwarded to the backend
+- Prefer **`dispose()`** on raw `createSandbox()` handles; `sandboxTool` disposes via tool lifecycle
+
+```ts
+await sandbox.dispose()
+```
+
+## Custom backends
+
+Implement `SandboxBackend`:
+
+```ts
+import type { SandboxBackend, ExecuteOptions, ExecuteResult } from '@agentskit/sandbox'
+
+const myBackend: SandboxBackend = {
+  async execute(code: string, _options: ExecuteOptions): Promise<ExecuteResult> {
+    return { stdout: '', stderr: '', exitCode: 0, durationMs: 0 }
+  },
+  async dispose() {},
+}
+
+const sandbox = createSandbox({ backend: myBackend })
+```
+
+## Troubleshooting
+
+| Issue | Mitigation |
+|-------|------------|
+| `Sandbox requires either an apiKey` | Pass `apiKey` for E2B or supply `backend`. |
+| E2B quota / auth | Verify API key and project limits. |
+| Wrong runtime | Use `javascript` or `python` consistently in `execute` and tool args. |
+
+## See also
+
+[Start here](../getting-started/read-this-first) · [Packages](../packages/overview) · [TypeDoc](pathname:///agentskit/api-reference/) (`@agentskit/sandbox`) · [Observability](./observability) · [Eval](./eval) · [Tools](../agents/tools) · [@agentskit/core](../packages/core)

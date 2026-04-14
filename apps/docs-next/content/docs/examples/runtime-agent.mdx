@@ -1,0 +1,61 @@
+---
+title: Runtime Agent
+description: "Run a standalone agent from code — no UI required. The runtime executes a ReAct loop: call tools, observe results, decide next action."
+---
+
+Run a standalone agent from code — no UI required. The runtime executes a ReAct loop: call tools, observe results, decide next action.
+
+{/* GIF generated from apps/example-runtime/demo.tape via VHS */}
+{/* ![Runtime Agent Demo](/img/examples/runtime-agent.gif) */}
+
+## Code
+
+```typescript
+import { createRuntime } from '@agentskit/runtime'
+import { researcher } from '@agentskit/skills'
+import type { ToolDefinition, Observer, AgentEvent } from '@agentskit/core'
+
+const webSearch: ToolDefinition = {
+  name: 'web_search',
+  description: 'Search the web for information',
+  schema: {
+    type: 'object',
+    properties: { q: { type: 'string', description: 'Search query' } },
+    required: ['q'],
+  },
+  execute: async (args) => {
+    // Replace with real search API
+    return `Results for "${args.q}": [1] Paper A, [2] Paper B`
+  },
+}
+
+const logger: Observer = {
+  name: 'console',
+  on(event: AgentEvent) {
+    if (event.type === 'agent:step') console.error(`[step ${event.step}]`)
+    if (event.type === 'tool:start') console.error(`[tool] ${event.name}`)
+  },
+}
+
+const runtime = createRuntime({
+  adapter: yourAdapter,  // openai, anthropic, etc.
+  tools: [webSearch],
+  observers: [logger],
+})
+
+const result = await runtime.run('Research AI safety developments', {
+  skill: researcher,
+})
+
+console.log(result.content)
+// Completed in 2 steps, 1 tool call
+```
+
+## Try it
+
+```bash
+cd apps/example-runtime
+pnpm dev
+```
+
+Set `OPENAI_API_KEY` for real provider, or run without for demo mode.

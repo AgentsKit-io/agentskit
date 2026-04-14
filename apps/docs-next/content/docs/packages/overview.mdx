@@ -1,0 +1,33 @@
+---
+title: Packages overview
+description: "Fourteen focused packages under @agentskit/*. Install what you need; UI and runtime layers share **@agentskit/core** (no third-party deps in core)."
+---
+
+Fourteen focused packages under `@agentskit/*`. Install what you need; UI and runtime layers share **`@agentskit/core`** (no third-party deps in core).
+
+:::tip API reference
+
+Full signatures: **[TypeDoc HTML](pathname:///agentskit/api-reference/)** (generated on `pnpm --filter @agentskit/docs build`; for local dev run `pnpm --filter @agentskit/docs docs:api` once).
+
+:::
+
+## Package index
+
+| Package | Role | Guide |
+|---------|------|--------|
+| [`@agentskit/core`](./core) | Types, chat controller, primitives, agent loop | [Core](./core) |
+| [`@agentskit/react`](../chat-uis/react) | React hooks + headless UI | [React](../chat-uis/react) |
+| [`@agentskit/ink`](../chat-uis/ink) | Terminal UI (Ink) | [Ink](../chat-uis/ink) |
+| [`@agentskit/adapters`](../data-layer/adapters) | LLM adapters + embedders | [Adapters](../data-layer/adapters) |
+| [`@agentskit/memory`](../data-layer/memory) | Chat + vector backends | [Memory](../data-layer/memory) |
+| [`@agentskit/rag`](../data-layer/rag) | Chunk, embed, retrieve | [RAG](../data-layer/rag) |
+| [`@agentskit/runtime`](../agents/runtime) | Headless ReAct runtime | [Runtime](../agents/runtime) |
+| [`@agentskit/tools`](../agents/tools) | Search, filesystem, shell tools | [Tools](../agents/tools) |
+| [`@agentskit/skills`](../agents/skills) | Built-in skill definitions | [Skills](../agents/skills) |
+| [`@agentskit/observability`](../infrastructure/observability) | Logging + tracing observers | [Observability](../infrastructure/observability) |
+| [`@agentskit/sandbox`](../infrastructure/sandbox) | Sandboxed code execution | [Sandbox](../infrastructure/sandbox) |
+| [`@agentskit/eval`](../infrastructure/eval) | Eval suites + CI metrics | [Eval](../infrastructure/eval) |
+| [`@agentskit/cli`](../infrastructure/cli) | `agentskit` CLI | [CLI](../infrastructure/cli) |
+| [`@agentskit/templates`](./templates) | Scaffold tools, skills, adapters | [Templates](./templates) |
+
+Maintainers: **[documentation checklist](../contributing/package-docs)**.

@@ -1,0 +1,28 @@
+---
+title: Customer Support Bot
+description: Quick replies, typing indicators, escalation flows. Build production support experiences with AgentsKit's headless components.
+---
+
+Quick replies, typing indicators, escalation flows. Build production support experiences with AgentsKit's headless components.
+
+> **Live demo placeholder.** `<SupportBot />` was a Docusaurus-only component. The interactive sandbox will be reintroduced in a follow-up — see the code below for the working pattern.
+
+## With AgentsKit
+
+```tsx
+import { useChat, ChatContainer, Message, InputBar, ThinkingIndicator } from '@agentskit/react'
+
+function SupportChat() {
+  const chat = useChat({
+    adapter: myAdapter,
+    initialMessages: [{ id: '1', role: 'assistant', content: 'How can I help?', status: 'complete', createdAt: new Date() }],
+  })
+  return (
+    <ChatContainer>
+      {chat.messages.map(msg => <Message key={msg.id} message={msg} />)}
+      <ThinkingIndicator visible={chat.status === 'streaming'} label="Typing..." />
+      <InputBar chat={chat} />
+    </ChatContainer>
+  )
+}
+```

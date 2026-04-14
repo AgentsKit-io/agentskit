@@ -1,0 +1,122 @@
+---
+title: "@agentskit/templates"
+description: "Authoring toolkit for **generating** AgentsKit extensions: validated ToolDefinition / SkillDefinition / AdapterFactory objects and **on-disk scaffolds** (package.json, tsup, tests, README). Depends on"
+---
+
+Authoring toolkit for **generating** AgentsKit extensions: validated `ToolDefinition` / `SkillDefinition` / `AdapterFactory` objects and **on-disk scaffolds** (package.json, tsup, tests, README). Depends only on [`@agentskit/core`](./core).
+
+## When to use
+
+- You publish **custom tools**, **skills**, or **adapters** as standalone packages.
+- You want **consistent blueprints** (tsup, vitest, TypeScript) across internal plugins.
+- You need **runtime validation** before registering a template with a runtime or marketplace.
+
+## Install
+
+```bash
+npm install @agentskit/templates @agentskit/core
+```
+
+## Public API
+
+| Export | Role |
+|--------|------|
+| `createToolTemplate(config)` | Build a `ToolDefinition` with defaults and validation |
+| `createSkillTemplate(config)` | Build a `SkillDefinition` with defaults and validation |
+| `createAdapterTemplate(config)` | Build an `AdapterFactory` + display `name` |
+| `scaffold(config)` | Write a full package directory (async) |
+| `validateToolTemplate` / `validateSkillTemplate` / `validateAdapterTemplate` | Assert well-formed definitions |
+
+### `createToolTemplate`
+
+`ToolTemplateConfig` extends a partial tool with required `name` and optional `description`, `schema`, `execute`, `tags`, `category`, `requiresConfirmation`, `init`, `dispose`, and `base` merge.
+
+```ts
+import { createToolTemplate } from '@agentskit/templates'
+
+export const rollDice = createToolTemplate({
+  name: 'roll_dice',
+  description: 'Roll an N-sided die once.',
+  schema: {
+    type: 'object',
+    properties: { sides: { type: 'number', minimum: 2 } },
+    required: ['sides'],
+  },
+  async execute(args) {
+    const sides = Number(args.sides)
+    return String(1 + Math.floor(Math.random() * sides))
+  },
+})
+```
+
+Validation **throws** if `name`, `description`, `schema`, or `execute` is missing (LLMs need schema + description for tool calling).
+
+### `createSkillTemplate`
+
+Requires `name`, `description`, and `systemPrompt`. Optional: `examples`, `tools`, `delegates`, `temperature`, `onActivate`, `base`.
+
+```ts
+import { createSkillTemplate } from '@agentskit/templates'
+
+export const researcher = createSkillTemplate({
+  name: 'researcher',
+  description: 'Gather facts before writing.',
+  systemPrompt: 'You are a careful researcher. Cite sources when possible.',
+  tools: ['web_search'],
+})
+```
+
+### `createAdapterTemplate`
+
+Requires `name` and `createSource` matching `AdapterFactory['createSource']`.
+
+```ts
+import { createAdapterTemplate } from '@agentskit/templates'
+
+export const myAdapter = createAdapterTemplate({
+  name: 'my-llm',
+  createSource: (request) => {
+    // return StreamSource compatible with @agentskit/core
+    throw new Error('Implement streaming to your backend')
+  },
+})
+```
+
+### `scaffold`
+
+Creates a directory `join(dir, name)` with:
+
+- `package.json`, `tsconfig.json`, `tsup.config.ts`
+- `src/index.ts` (stub implementation)
+- `tests/index.test.ts`
+- `README.md`
+
+```ts
+import { scaffold } from '@agentskit/templates'
+import { join } from 'node:path'
+
+const files = await scaffold({
+  type: 'tool',
+  name: 'my-company-search',
+  dir: join(process.cwd(), 'packages'),
+  description: 'Internal web search tool',
+})
+console.log('Created:', files)
+```
+
+`ScaffoldType` is `'tool' | 'skill' | 'adapter'`.
+
+Register scaffolded packages like any other tool, skill, or adapter via [`createRuntime`](../agents/runtime) or [`useChat`](../hooks/use-chat).
+
+## Troubleshooting
+
+| Error | Cause |
+|-------|--------|
+| `Tool requires a name` | Pass `name` to `createToolTemplate`. |
+| `requires a schema` | JSON Schema required for function calling. |
+| `Skill ... requires a systemPrompt` | Skills must define behavior via `systemPrompt`. |
+| `Adapter requires createSource` | Factory must expose `createSource(request)`. |
+
+## See also
+
+[Start here](../getting-started/read-this-first) · [Packages](./overview) · [TypeDoc](pathname:///agentskit/api-reference/) (`@agentskit/templates`) · [@agentskit/core](./core) · [Tools](../agents/tools) · [Skills](../agents/skills) · [Adapters](../data-layer/adapters)

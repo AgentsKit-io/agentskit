@@ -1,0 +1,82 @@
+---
+title: Multi-Agent Delegation
+description: Coordinate multiple specialist agents from a parent agent using directed delegation.
+---
+
+Coordinate multiple specialist agents from a parent agent using directed delegation.
+
+## Install
+
+```bash
+npm install @agentskit/runtime @agentskit/adapters @agentskit/skills @agentskit/tools
+```
+
+## Quick Start
+
+```ts
+import { createRuntime, createSharedContext } from '@agentskit/runtime'
+import { anthropic } from '@agentskit/adapters'
+import { planner, researcher, coder } from '@agentskit/skills'
+import { webSearch, filesystem } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter: anthropic({ apiKey, model: 'claude-sonnet-4-6' }),
+})
+
+const result = await runtime.run('Build a landing page about quantum computing', {
+  skill: planner,
+  delegates: {
+    researcher: { skill: researcher, tools: [webSearch()], maxSteps: 3 },
+    coder: { skill: coder, tools: [...filesystem({ basePath: './src' })], maxSteps: 8 },
+  },
+})
+```
+
+## How It Works
+
+When you configure `delegates`, the runtime auto-generates tools named `delegate_<name>`. The parent LLM calls them like any other tool. Each delegate runs its own ReAct loop and returns a result.
+
+## DelegateConfig
+
+```ts
+interface DelegateConfig {
+  skill: SkillDefinition     // required — the child's behavior
+  tools?: ToolDefinition[]   // tools available to the child
+  adapter?: AdapterFactory   // optional — different LLM per child
+  maxSteps?: number          // default: 5
+}
+```
+
+## Shared Context
+
+```ts
+const ctx = createSharedContext({ project: 'landing-page' })
+
+runtime.run('Build it', { delegates: { ... }, sharedContext: ctx })
+
+// Parent reads/writes
+ctx.set('key', 'value')
+ctx.get('key')
+
+// Children get read-only view — set() is not available
+```
+
+## Child Isolation
+
+- **Fresh messages** — no parent history
+- **Inherits observers** — events visible in logging
+- **No memory** — doesn't share parent's memory
+- **Depth limit** — `maxDelegationDepth` default 3
+
+## Events
+
+```
+[10:00:01] => delegate:start researcher [depth=1] "Research quantum computing"
+[10:00:03] <= delegate:end researcher (2100ms) "Found 3 papers on..."
+```
+
+## Related
+
+- [Runtime](/docs/agents/runtime) — ReAct loop
+- [Skills](/docs/agents/skills) — behavioral prompts
+- [Observability](/docs/infrastructure/observability) — trace events

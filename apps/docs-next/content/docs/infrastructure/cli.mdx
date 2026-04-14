@@ -1,0 +1,122 @@
+---
+title: CLI
+description: "@agentskit/cli provides terminal commands for **interactive chat** (Ink), **one-shot agent runs** (headless runtime), and **starter projects**. It reads optional project config from **.agentskit.confi"
+---
+
+`@agentskit/cli` provides terminal commands for **interactive chat** (Ink), **one-shot agent runs** (headless runtime), and **starter projects**. It reads optional project config from **`.agentskit.config.json`** via [`loadConfig`](../packages/core).
+
+## When to use
+
+- You want a **quick terminal chat** without building a custom Ink app.
+- You run **automation or CI** tasks with `agentskit run <task>` and flags (no separate script file required).
+- You bootstrap **React or Ink** starters with `agentskit init`.
+
+## Installation
+
+```bash
+npm install -g @agentskit/cli
+# or
+npx @agentskit/cli --help
+```
+
+## Config file (optional)
+
+If present, `.agentskit.config.json` is merged into defaults (unless `--no-config`). [`loadConfig`](../packages/core) resolves it from the current working directory.
+
+Typical fields include default `provider` and `model` for chat and run commands.
+
+## `agentskit chat`
+
+Interactive terminal UI using `@agentskit/ink`.
+
+```bash
+agentskit chat [options]
+```
+
+| Option | Description |
+|--------|-------------|
+| `--provider <name>` | `demo`, `anthropic`, `openai`, … (default: `demo`) |
+| `--model <id>` | Model id for the provider |
+| `--api-key <key>` | Override env-based API key |
+| `--base-url <url>` | Custom API base URL |
+| `--system <prompt>` | System prompt |
+| `--memory <path>` | File path for file-backed history (default: `.agentskit-history.json`) |
+| `--memory-backend <backend>` | `file` (default) or `sqlite` |
+| `--tools <list>` | Comma-separated: `web_search`, `filesystem`, `shell` |
+| `--skill <list>` | Comma-separated built-in skill names (see [@agentskit/skills](../agents/skills)) |
+| `--no-config` | Skip `.agentskit.config.json` |
+
+API keys: `ANTHROPIC_API_KEY`, `OPENAI_API_KEY`, etc., depending on provider.
+
+```bash
+agentskit chat --provider anthropic --model claude-sonnet-4-6 --tools web_search
+```
+
+## `agentskit run`
+
+Execute a **single task** through [`createRuntime`](../agents/runtime) and print the final assistant text to stdout.
+
+```bash
+agentskit run <task> [options]
+agentskit run --task "Summarize this" [options]
+```
+
+| Option | Description |
+|--------|-------------|
+| `--task <text>` | Task string if not passed as the first positional argument |
+| `--provider`, `--model`, `--api-key`, `--base-url` | Same as chat |
+| `--tools <list>` | Comma-separated tools |
+| `--skill <name>` | Single skill |
+| `--skills <list>` | Comma-separated skills (composed); **mutually exclusive** with `--skill` |
+| `--memory <path>` | Persistence path when using file/sqlite memory |
+| `--memory-backend <backend>` | `file` (default) or `sqlite` |
+| `--system-prompt <text>` | Override default system prompt |
+| `--max-steps <n>` | ReAct cap (default: `10`) |
+| `--verbose` | Log agent events to stderr |
+| `--pretty` | Rich Ink progress UI |
+| `--no-config` | Skip config file |
+
+```bash
+agentskit run "What is 2+2?" --provider openai --model gpt-4o --verbose
+```
+
+There is **no** `agentskit run ./script.ts` mode in the current CLI — invoke your own TypeScript entrypoints with `node`/`tsx` and [`createRuntime`](../agents/runtime) instead.
+
+## `agentskit init`
+
+Scaffold a starter project.
+
+```bash
+agentskit init [options]
+```
+
+| Option | Default | Description |
+|--------|---------|-------------|
+| `--template <react\|ink>` | `react` | Stack for the starter |
+| `--dir <path>` | `agentskit-starter` | Output directory (resolved from cwd) |
+
+```bash
+agentskit init --template react --dir my-chat
+cd my-chat && npm install && npm run dev
+```
+
+## Environment variables
+
+| Variable | Used for |
+|----------|-----------|
+| `ANTHROPIC_API_KEY` | Anthropic |
+| `OPENAI_API_KEY` | OpenAI |
+| `REDIS_URL` | If you wire Redis memory in custom code (not default CLI file memory) |
+
+## Troubleshooting
+
+| Issue | Mitigation |
+|-------|------------|
+| `task is required` | Pass a string after `run` or use `--task`. |
+| `--skill` and `--skills` both set | CLI exits with error — use only one. |
+| Provider auth errors | Export the correct `*_API_KEY` or pass `--api-key`. |
+| Wrong defaults | Check `.agentskit.config.json` or pass `--no-config`. |
+
+## See also
+
+[Start here](../getting-started/read-this-first) · [Packages](../packages/overview) · [TypeDoc](pathname:///agentskit/api-reference/) (`@agentskit/cli`) · [Quick Start](../getting-started/quick-start) · [Ink](../chat-uis/ink) · [Runtime](../agents/runtime) · [Eval](./eval)

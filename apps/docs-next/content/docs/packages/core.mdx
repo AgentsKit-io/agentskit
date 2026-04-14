@@ -1,0 +1,124 @@
+---
+title: "@agentskit/core"
+description: "The shared **contract layer** for AgentsKit: TypeScript types, the headless chat controller, stream helpers, and building blocks used by @agentskit/react, @agentskit/ink, @agentskit/runtime, and adapt"
+---
+
+The shared **contract layer** for AgentsKit: TypeScript types, the headless chat controller, stream helpers, and building blocks used by `@agentskit/react`, `@agentskit/ink`, `@agentskit/runtime`, and adapters. **No third-party runtime dependencies** — keep this package small and stable.
+
+## When to use
+
+- You implement a **custom adapter**, tool, memory, or UI on top of official types.
+- You need **`createChatController`** without React (advanced integrations).
+- You want to understand **messages, tool calls, and stream chunks** across the ecosystem.
+
+You usually **do not** import `core` directly in a typical React app except for types — prefer [`useChat`](../hooks/use-chat) and [`@agentskit/react`](../chat-uis/react).
+
+## Install
+
+```bash
+npm install @agentskit/core
+```
+
+Most feature packages already depend on `core`; you add it explicitly when authoring libraries or sharing types.
+
+## Public exports (overview)
+
+### Chat controller and config
+
+| Export | Role |
+|--------|------|
+| `createChatController` | Headless state machine: send, stream, tools, memory, skills, retriever |
+| Types: `ChatConfig`, `ChatController`, `ChatState`, `ChatReturn` | Configuration and controller shape |
+
+The controller merges system prompts, runs retrieval, dispatches tool calls, persists via `ChatMemory`, and exposes subscribe/update patterns consumed by UI packages.
+
+### Primitives and streams
+
+| Export | Role |
+|--------|------|
+| `buildMessage` | Construct a typed `Message` |
+| `consumeStream` | Drive `StreamSource` → chunks + completion |
+| `createEventEmitter` | Internal event bus for observers |
+| `executeToolCall` | Run a tool from a `ToolCall` payload |
+| `safeParseArgs` | Parse JSON tool arguments safely |
+| `createToolLifecycle` | `init` / `dispose` for tools |
+| `generateId` | Stable IDs for messages and calls |
+
+### Agent loop helpers
+
+| Export | Role |
+|--------|------|
+| `buildToolMap` | Name → `ToolDefinition` map |
+| `activateSkills` | Merge skill system prompts and skill-provided tools |
+| `executeSafeTool` | Guarded execution (confirmation hooks, errors) |
+
+### Memory and RAG (lightweight)
+
+| Export | Role |
+|--------|------|
+| `createInMemoryMemory`, `createLocalStorageMemory`, `createFileMemory` | Simple bundled memories for tests or demos |
+| `serializeMessages` / `deserializeMessages` | Persistence helpers |
+| `createStaticRetriever`, `formatRetrievedDocuments` | Retriever helpers for static context |
+
+Heavy backends live in [`@agentskit/memory`](../data-layer/memory); vector stores and chunking in [`@agentskit/rag`](../data-layer/rag).
+
+### Configuration file
+
+| Export | Role |
+|--------|------|
+| `loadConfig` | Load `AgentsKitConfig` from project (CLI / tooling) |
+
+### Types (high level)
+
+`AdapterFactory`, `StreamSource`, `StreamChunk`, `Message`, `ToolDefinition`, `ToolCall`, `SkillDefinition`, `ChatMemory`, `Retriever`, `VectorMemory`, `Observer`, `AgentEvent`, and related types — full signatures in TypeDoc (below).
+
+## Example: inspect types in a custom tool
+
+```ts
+import type { ToolDefinition, ToolExecutionContext } from '@agentskit/core'
+
+export const myTool: ToolDefinition = {
+  name: 'greet',
+  description: 'Greets a user by name.',
+  schema: {
+    type: 'object',
+    properties: { name: { type: 'string' } },
+    required: ['name'],
+  },
+  async execute(args: Record<string, unknown>, _ctx: ToolExecutionContext) {
+    const name = String(args.name ?? 'world')
+    return `Hello, ${name}!`
+  },
+}
+```
+
+## Example: headless controller (advanced)
+
+```ts
+import { createChatController } from '@agentskit/core'
+import { anthropic } from '@agentskit/adapters'
+
+const chat = createChatController({
+  adapter: anthropic({ apiKey: process.env.ANTHROPIC_API_KEY!, model: 'claude-sonnet-4-6' }),
+})
+
+chat.subscribe(() => {
+  console.log(chat.getState().status, chat.getState().messages.length)
+})
+
+await chat.send('Hello')
+```
+
+Prefer `useChat` in React apps — it wraps this pattern with hooks.
+
+## Troubleshooting
+
+| Issue | Mitigation |
+|-------|------------|
+| Type errors after upgrade | Pin all `@agentskit/*` to the same semver; `core` types move with the ecosystem. |
+| `createChatController` vs `useChat` | Controller is framework-agnostic; React hook adds state binding and Strict Mode safety. |
+| Bundle size concerns | Tree-shake unused exports; avoid importing server-only utilities in client bundles. |
+
+## See also
+
+[Start here](../getting-started/read-this-first) · [Packages](./overview) · [TypeDoc](pathname:///agentskit/api-reference/) (`@agentskit/core`) · [React](../chat-uis/react) · [Ink](../chat-uis/ink) · [Adapters](../data-layer/adapters) · [Runtime](../agents/runtime) · [Tools](../agents/tools) · [Skills](../agents/skills) · [useChat](../hooks/use-chat) · [useStream](../hooks/use-stream) · [useReactive](../hooks/use-reactive)
