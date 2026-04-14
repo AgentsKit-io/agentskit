@@ -1,0 +1,36 @@
+name: Documentation
+description: Report a docs problem or request new documentation
+labels: ["type-docs"]
+body:
+  - type: dropdown
+    id: kind
+    attributes:
+      label: What kind of docs issue?
+      options:
+        - Incorrect content
+        - Missing content
+        - Unclear explanation
+        - Broken example
+        - Broken link
+        - Translation issue
+    validations:
+      required: true
+  - type: input
+    id: page
+    attributes:
+      label: Page URL or path
+      placeholder: "https://docs.agentskit.io/concepts/adapter or apps/docs/docs/..."
+    validations:
+      required: true
+  - type: textarea
+    id: description
+    attributes:
+      label: What is the problem?
+      description: Describe what's wrong, missing, or unclear.
+    validations:
+      required: true
+  - type: textarea
+    id: suggestion
+    attributes:
+      label: Suggested fix (optional)
+      description: If you have an idea for how to fix it, share it here.

@@ -1,0 +1,50 @@
+# CODEOWNERS — automatic reviewer assignment
+# https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-security/customizing-your-repository/about-code-owners
+#
+# When a PR touches a matching path, the listed owner(s) are auto-requested for review.
+# Add co-maintainers here as the team grows.
+
+# Default fallback — everything without a more specific rule
+*                                   @EmersonBraun
+
+# Governance and foundation documents
+/MANIFESTO.md                       @EmersonBraun
+/ORIGIN.md                          @EmersonBraun
+/CLAUDE.md                          @EmersonBraun
+/ARCHITECTURE.md                    @EmersonBraun
+/LICENSING.md                       @EmersonBraun
+/docs/architecture/                 @EmersonBraun
+/rfcs/                              @EmersonBraun
+
+# CI, workflows, repo config
+/.github/                           @EmersonBraun
+/turbo.json                         @EmersonBraun
+/pnpm-workspace.yaml                @EmersonBraun
+/.changeset/                        @EmersonBraun
+
+# Core package — the sacred one
+/packages/core/                     @EmersonBraun
+
+# Per-package ownership (extend as contributors take responsibility)
+/packages/adapters/                 @EmersonBraun
+/packages/react/                    @EmersonBraun
+/packages/ink/                      @EmersonBraun
+/packages/cli/                      @EmersonBraun
+/packages/runtime/                  @EmersonBraun
+/packages/tools/                    @EmersonBraun
+/packages/skills/                   @EmersonBraun
+/packages/memory/                   @EmersonBraun
+/packages/rag/                      @EmersonBraun
+/packages/sandbox/                  @EmersonBraun
+/packages/observability/            @EmersonBraun
+/packages/eval/                     @EmersonBraun
+/packages/templates/                @EmersonBraun
+
+# Documentation site
+/apps/docs/                         @EmersonBraun
+
+# Example apps
+/apps/example-react/                @EmersonBraun
+/apps/example-ink/                  @EmersonBraun
+/apps/example-runtime/              @EmersonBraun
+/apps/example-multi-agent/          @EmersonBraun

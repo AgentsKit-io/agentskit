@@ -1,0 +1,65 @@
+name: RFC — Request for Comments
+description: Propose a significant change, new contract, or architectural decision
+labels: ["rfc", "discussion"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        RFCs are for non-trivial changes: new contracts, new packages, breaking changes, architectural shifts.
+        For small features or bug fixes, use the **Feature Request** or **Bug Report** templates.
+
+        See the [RFC process](../blob/main/rfcs/README.md) before opening.
+  - type: textarea
+    id: summary
+    attributes:
+      label: Summary
+      description: One paragraph explanation of the proposal.
+    validations:
+      required: true
+  - type: textarea
+    id: motivation
+    attributes:
+      label: Motivation
+      description: Why are we doing this? What problem does it solve? Who benefits?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Detailed proposal
+      description: The core of the RFC. Include contracts, APIs, examples, pseudocode.
+    validations:
+      required: true
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: What other approaches were evaluated? Why not them?
+    validations:
+      required: true
+  - type: textarea
+    id: drawbacks
+    attributes:
+      label: Drawbacks and unresolved questions
+      description: Be honest about cost, complexity, migration burden, open questions.
+    validations:
+      required: true
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Impact
+      options:
+        - Breaking change (major bump)
+        - Additive (minor bump)
+        - Internal (no user impact)
+    validations:
+      required: true
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submission checklist
+      options:
+        - label: I have read the [Manifesto](../blob/main/MANIFESTO.md) and this proposal aligns with it
+          required: true
+        - label: I have searched existing RFCs and issues for similar proposals
+          required: true
