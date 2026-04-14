@@ -8,7 +8,7 @@
 
 ## The frustration
 
-In [MONTH / YEAR], I was trying to build a simple thing: an AI chat interface with streaming, a couple of tools, and persistent memory. Not an agent that cures cancer — just a chat that remembers yesterday's conversation and can call a function.
+In april, 2026, I was trying to build a simple thing: an AI chat interface with streaming, a couple of tools, and persistent memory. Not an agent that cures cancer — just a chat that remembers yesterday's conversation and can call a function.
 
 I went shopping in the JavaScript ecosystem.
 
@@ -54,4 +54,4 @@ Open an issue. Open an RFC. Build a package. Break our assumptions. Make us bett
 
 This is day one.
 
-— [Author name], [Date]
+— Emerson Braun, 04 april 2026
