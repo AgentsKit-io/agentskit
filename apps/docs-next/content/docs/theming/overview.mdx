@@ -28,20 +28,24 @@ Override any token to customize the theme:
 
 ### Available Tokens
 
-| Token | Default (light) | Description |
-|-------|-----------------|-------------|
-| `--ak-color-bg` | `#ffffff` | Page background |
-| `--ak-color-surface` | `#f9fafb` | Surface/card background |
-| `--ak-color-border` | `#e5e7eb` | Border color |
-| `--ak-color-text` | `#111827` | Primary text |
-| `--ak-color-text-muted` | `#6b7280` | Secondary text |
-| `--ak-color-bubble-user` | `#2563eb` | User message bubble |
-| `--ak-color-bubble-assistant` | `#f3f4f6` | Assistant message bubble |
-| `--ak-color-button` | `#2563eb` | Button background |
-| `--ak-font-family` | System font stack | Font family |
-| `--ak-font-size` | `14px` | Base font size |
-| `--ak-radius` | `8px` | Border radius |
-| `--ak-spacing-*` | `4-24px` | Spacing scale (xs, sm, md, lg, xl) |
+import { TokenTable } from '@/components/theming/color-swatch'
+
+<TokenTable
+  rows={[
+    { token: '--ak-color-bg', value: '#ffffff', color: '#ffffff', description: 'Page background' },
+    { token: '--ak-color-surface', value: '#f9fafb', color: '#f9fafb', description: 'Surface/card background' },
+    { token: '--ak-color-border', value: '#e5e7eb', color: '#e5e7eb', description: 'Border color' },
+    { token: '--ak-color-text', value: '#111827', color: '#111827', description: 'Primary text' },
+    { token: '--ak-color-text-muted', value: '#6b7280', color: '#6b7280', description: 'Secondary text' },
+    { token: '--ak-color-bubble-user', value: '#2563eb', color: '#2563eb', description: 'User message bubble' },
+    { token: '--ak-color-bubble-assistant', value: '#f3f4f6', color: '#f3f4f6', description: 'Assistant message bubble' },
+    { token: '--ak-color-button', value: '#2563eb', color: '#2563eb', description: 'Button background' },
+    { token: '--ak-font-family', value: 'System font stack', description: 'Font family' },
+    { token: '--ak-font-size', value: '14px', description: 'Base font size' },
+    { token: '--ak-radius', value: '8px', description: 'Border radius' },
+    { token: '--ak-spacing-*', value: '4-24px', description: 'Spacing scale (xs, sm, md, lg, xl)' },
+  ]}
+/>
 
 ## Dark Mode
 
