@@ -1,0 +1,130 @@
+---
+title: Eval suite for an agent
+description: Score an agent's quality in CI. A test suite for agents, not for code.
+---
+
+A vitest test that runs your agent against a dataset of inputs + expected outputs and scores the results. Fail the build when quality regresses.
+
+## Install
+
+```bash
+npm install -D @agentskit/eval @agentskit/runtime @agentskit/adapters vitest
+```
+
+## The dataset
+
+```ts title="evals/dataset.ts"
+export const dataset = [
+  {
+    input: 'What is 2 + 2?',
+    expected: '4',
+    score: (output: string) => (output.includes('4') ? 1 : 0),
+  },
+  {
+    input: 'Translate "hello" to French',
+    expected: 'bonjour',
+    score: (output: string) => (output.toLowerCase().includes('bonjour') ? 1 : 0),
+  },
+  {
+    input: 'In one word, what color is the sky?',
+    expected: 'blue',
+    score: (output: string) => (output.toLowerCase().includes('blue') ? 1 : 0),
+  },
+]
+```
+
+## The eval test
+
+```ts title="evals/agent.eval.test.ts"
+import { describe, it, expect } from 'vitest'
+import { runEval } from '@agentskit/eval'
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+import { dataset } from './dataset'
+
+const runtime = createRuntime({
+  adapter: openai({ apiKey: process.env.OPENAI_API_KEY!, model: 'gpt-4o-mini' }),
+  systemPrompt: 'Be terse and direct.',
+})
+
+describe('agent quality', () => {
+  it('passes the regression dataset above 80%', async () => {
+    const report = await runEval({
+      runtime,
+      dataset,
+      concurrency: 4,
+    })
+
+    console.log(`Score: ${(report.averageScore * 100).toFixed(1)}%`)
+    console.log(`Total cost: ~$${report.estimatedCost?.toFixed(4) ?? '?'}`)
+    console.log(`p95 latency: ${report.p95LatencyMs}ms`)
+
+    expect(report.averageScore).toBeGreaterThanOrEqual(0.8)
+  }, 60_000)
+})
+```
+
+## Run it
+
+```bash
+npx vitest run evals/
+```
+
+## Run it in CI
+
+```yaml title=".github/workflows/agent-eval.yml"
+name: Agent eval
+on:
+  pull_request:
+    paths:
+      - 'src/agents/**'
+      - 'evals/**'
+
+jobs:
+  eval:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: npx vitest run evals/
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+```
+
+## LLM-as-judge for fuzzy outputs
+
+Hard-coded scoring is brittle for natural-language outputs. Use a model:
+
+```ts
+import { openai } from '@agentskit/adapters'
+
+const judge = openai({ apiKey: KEY, model: 'gpt-4o-mini' })
+
+async function llmScore(output: string, expected: string): Promise<number> {
+  const judgeRuntime = createRuntime({
+    adapter: judge,
+    systemPrompt: 'Score how well the OUTPUT matches the EXPECTED on a scale 0-1. Reply with only a number.',
+  })
+  const result = await judgeRuntime.run(`OUTPUT: ${output}\nEXPECTED: ${expected}`)
+  return parseFloat(result.content.trim()) || 0
+}
+```
+
+Use `llmScore` in your dataset's `score` field for any case where exact match is too strict.
+
+## Tighten the recipe
+
+- **Per-skill datasets** — different evals for `researcher`, `coder`, `support_triager`
+- **Snapshot mode** — record the agent's output, ask reviewers to approve diffs vs the golden snapshot
+- **Replay deterministic adapters** so eval is fast and free in CI; only run real-model evals nightly
+- **Track drift over time** — emit metrics to a dashboard; alert when score drops 5%+
+
+## Related
+
+- [Concepts: Runtime](../concepts/runtime)
+- [Phase 2 roadmap #134](https://github.com/EmersonBraun/agentskit/issues/134) — deterministic replay

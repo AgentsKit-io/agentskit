@@ -1,0 +1,28 @@
+---
+title: Recipes
+description: Copy-paste solutions for common scenarios. Each recipe is end-to-end and runs as written.
+---
+
+Recipes are short, complete, runnable. Each one is a single page that contains everything you need: install, code, run.
+
+Pick the closest match to what you're building, copy, adjust the API key, run.
+
+| Recipe | What you get | Time |
+|---|---|---|
+| [Chat with RAG](./rag-chat) | A streaming React chat answering from your own docs | 5 min |
+| [PDF Q&A](./pdf-qa) | Ask questions about a local PDF | 8 min |
+| [Code reviewer](./code-reviewer) | An agent that reviews a diff and posts comments | 10 min |
+| [Discord bot](./discord-bot) | A Discord bot that talks back, with tools | 12 min |
+| [Multi-agent research team](./research-team) | Planner + researcher + writer | 15 min |
+| [Cost-guarded chat](./cost-guarded-chat) | Chat that aborts when it costs too much | 5 min |
+| [Persistent memory](./persistent-memory) | Chat that remembers across sessions | 5 min |
+| [Confirmation-gated tool](./confirmation-gated-tool) | Dangerous tool that asks before acting | 5 min |
+| [Custom adapter](./custom-adapter) | Wrap any LLM API as an AgentsKit adapter | 10 min |
+| [Eval suite for an agent](./eval-suite) | Score an agent's quality in CI | 10 min |
+
+## Conventions used in recipes
+
+- Replace `KEY` with your actual API key (use `process.env.X_API_KEY` in real code)
+- Code is TypeScript; recipes work in plain JavaScript by removing types
+- Each recipe declares its `npm install` line at the top
+- Recipes don't depend on each other — every page stands alone

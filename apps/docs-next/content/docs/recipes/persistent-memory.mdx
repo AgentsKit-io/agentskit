@@ -1,0 +1,87 @@
+---
+title: Persistent memory across sessions
+description: A chat that remembers yesterday's conversation. SQLite-backed. Works in 5 lines.
+---
+
+A chat that picks up where you left off — across processes, deploys, machines.
+
+## Install
+
+```bash
+npm install @agentskit/runtime @agentskit/adapters @agentskit/memory
+```
+
+## The chat
+
+```ts title="chat.ts"
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+import { sqliteChatMemory } from '@agentskit/memory'
+
+const runtime = createRuntime({
+  adapter: openai({ apiKey: KEY, model: 'gpt-4o-mini' }),
+  memory: sqliteChatMemory({ path: './sessions/user-42.db' }),
+})
+
+const reply = await runtime.run(process.argv.slice(2).join(' '))
+console.log(reply.content)
+```
+
+## Run it
+
+```bash
+npx tsx chat.ts "My favorite framework is AgentsKit. Remember that."
+# > Got it.
+
+# Later, in a different process:
+npx tsx chat.ts "What's my favorite framework?"
+# > AgentsKit.
+```
+
+## What's happening
+
+- `sqliteChatMemory({ path })` returns a `ChatMemory` (per ADR 0003)
+- Runtime calls `memory.load()` at the start of `run()` → conversation rehydrates
+- After `run()` succeeds, runtime calls `memory.save(messages)` with the full updated history
+- **Failed or aborted runs do NOT save** — atomicity is built into the contract
+
+## Per-user, per-channel, per-X
+
+A new memory instance per scope:
+
+```ts
+function runtimeFor(userId: string) {
+  return createRuntime({
+    adapter,
+    memory: sqliteChatMemory({ path: `./sessions/${userId}.db` }),
+  })
+}
+```
+
+Cheap because `createRuntime` is config-only (RT1).
+
+## Migrate to Redis when you outgrow SQLite
+
+The contract is identical:
+
+```ts
+import { redisChatMemory } from '@agentskit/memory'
+
+memory: redisChatMemory({
+  url: process.env.REDIS_URL!,
+  key: `session:${userId}`,
+}),
+```
+
+No code in your runtime changes. That's the plug-and-play promise (Manifesto principle 2).
+
+## Tighten the recipe
+
+- **Hash long histories** — wrap `memory` with a proxy that summarizes when it grows beyond N tokens (Phase-2 work, #153)
+- **TTL** — use Redis `EXPIRE` for ephemeral sessions
+- **Encrypt at rest** — wrap with an encrypting proxy; the contract doesn't change
+
+## Related
+
+- [Concepts: Memory](../concepts/memory) — split contracts, replace-all save
+- [Recipe: Discord bot](./discord-bot) — same pattern, per-channel

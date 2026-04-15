@@ -1,0 +1,88 @@
+---
+title: Chat with RAG
+description: A streaming React chat that answers from your own documents. Vector store, embeddings, retrieval, hooked up in 30 lines.
+---
+
+A working chat UI grounded in your own content. The model answers using whatever docs you ingest — nothing else.
+
+## Install
+
+```bash
+npm install @agentskit/react @agentskit/adapters @agentskit/rag @agentskit/memory @agentskit/runtime
+```
+
+## Index your docs (one-time)
+
+```ts title="scripts/ingest.ts"
+import { createRAG } from '@agentskit/rag'
+import { fileVectorMemory } from '@agentskit/memory'
+import { openaiEmbed } from '@agentskit/adapters'
+import { readFileSync, readdirSync } from 'node:fs'
+import { join } from 'node:path'
+
+const rag = createRAG({
+  store: fileVectorMemory({ path: './embeddings.json' }),
+  embed: openaiEmbed({ apiKey: KEY, model: 'text-embedding-3-small' }),
+})
+
+const docs = readdirSync('./content').map(name => ({
+  id: name,
+  content: readFileSync(join('./content', name), 'utf8'),
+  source: name,
+}))
+
+await rag.ingest(docs)
+console.log(`Indexed ${docs.length} documents.`)
+```
+
+Run once: `npx tsx scripts/ingest.ts`.
+
+## The chat
+
+```tsx title="app/chat.tsx"
+'use client'
+import { useChat, ChatContainer, Message, InputBar } from '@agentskit/react'
+import { openai } from '@agentskit/adapters'
+import { createRAG } from '@agentskit/rag'
+import { fileVectorMemory } from '@agentskit/memory'
+import { openaiEmbed } from '@agentskit/adapters'
+import '@agentskit/react/theme'
+
+const rag = createRAG({
+  store: fileVectorMemory({ path: './embeddings.json' }),
+  embed: openaiEmbed({ apiKey: KEY, model: 'text-embedding-3-small' }),
+})
+
+export default function Chat() {
+  const chat = useChat({
+    adapter: openai({ apiKey: KEY, model: 'gpt-4o' }),
+    retriever: rag,
+    systemPrompt: 'Answer using only the provided context. If unsure, say so.',
+  })
+
+  return (
+    <ChatContainer>
+      {chat.messages.map(m => <Message key={m.id} message={m} />)}
+      <InputBar chat={chat} />
+    </ChatContainer>
+  )
+}
+```
+
+The `retriever` option is enough — `useChat` calls `retrieve()` once per turn and feeds the documents into the system prompt automatically.
+
+## Verify
+
+Ask a question that's in your indexed docs. Then ask one that isn't — the model should say "I don't have information on that."
+
+## Tighten the recipe
+
+- **Cite sources**: each `RetrievedDocument` has a `source` field. Render it under each assistant message.
+- **Tune retrieval**: pass `topK` and `threshold` to `createRAG` to control how many docs reach the model.
+- **Re-rank**: wrap `rag` in a composite retriever that calls a reranking model. See [Retriever](../concepts/retriever).
+- **Hot-reload index**: replace `fileVectorMemory` with `pgvector` or another backend if you index frequently.
+
+## Related
+
+- [Concepts: Memory](../concepts/memory) — ChatMemory vs VectorMemory
+- [Concepts: Retriever](../concepts/retriever) — composing retrievers

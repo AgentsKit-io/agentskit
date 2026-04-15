@@ -1,0 +1,379 @@
+---
+title: From Mastra
+description: Side-by-side migration guide. Map your Mastra code to AgentsKit — with honest callouts about where Mastra still wins.
+---
+
+Mastra is the closest philosophical cousin to AgentsKit: an agent-first JS framework, not a chat SDK. If you're on Mastra and productive, the case for migrating is weaker than migrating from Vercel AI SDK or LangChain — Mastra already gets most of what we think is important.
+
+Come to AgentsKit when:
+
+- You want **formal, versioned contracts** (ADRs 0001–0006) you can build on top of, not an evolving class hierarchy
+- You need **≤ 10KB core** for edge / browser / embedded use — Mastra's core is heavier
+- You prefer **composition via plain functions** over an `Agent` class
+- You want **tools by reference** (names resolved via registry) instead of inline tool objects wired into each agent
+
+Stay on Mastra when it's doing what you need — see "Where Mastra still wins" at the bottom.
+
+## Quick reference
+
+| Mastra | AgentsKit | Notes |
+|---|---|---|
+| `new Agent({ name, model, instructions, tools })` | `createRuntime({ adapter, tools })` + `SkillDefinition` | Behavior (prompt + rules) lives in a Skill (ADR 0005); orchestration in Runtime (ADR 0006) |
+| `agent.generate(prompt)` / `agent.stream(prompt)` | `runtime.run(task)` | Single method — no split between sync/stream |
+| `createTool({ id, inputSchema, execute })` | `ToolDefinition` with `schema` (JSON Schema 7) | Zod → JSON Schema via `zod-to-json-schema` if you want to keep Zod |
+| `new Mastra({ agents, workflows })` | Plain objects, imported where needed | No orchestrator container; the Runtime is the smallest unit |
+| `Memory` class with working memory + semantic recall | `ChatMemory` + `VectorMemory` + `Retriever` | Split into three narrow contracts per [ADR 0003](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0003-memory-contract.md) and [ADR 0004](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0004-retriever-contract.md) |
+| `RAGAgent` | `createRAG` + `createRuntime({ retriever })` | RAG is a `Retriever`, not a specialized Agent |
+| `createWorkflow` / step graph | `delegates` on the Runtime | Supervisor/swarm/hierarchical via RT10 — no separate graph DSL in v1 |
+| `createVectorQueryTool` | Tool that calls a `Retriever` internally | Keeps Retriever as the substrate; tools are just functions |
+| Telemetry (OpenTelemetry built-in) | `Observer[]` + optional `@agentskit/observability` integrations | Observers read-only per RT9 |
+| Voice (`agent.voice.speak`) | Not yet shipped | See "Where Mastra still wins" |
+
+## 1. Basic agent
+
+### Before — Mastra
+
+```ts
+import { Agent } from '@mastra/core/agent'
+import { openai } from '@ai-sdk/openai'
+
+const assistant = new Agent({
+  name: 'assistant',
+  instructions: 'You are a helpful assistant. Be concise.',
+  model: openai('gpt-4o'),
+})
+
+const res = await assistant.generate('Hello!')
+console.log(res.text)
+```
+
+### After — AgentsKit
+
+Two flavors, depending on whether the persona is reusable.
+
+**Inline** (one-off):
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+
+const runtime = createRuntime({
+  adapter: openai({ apiKey: KEY, model: 'gpt-4o' }),
+  systemPrompt: 'You are a helpful assistant. Be concise.',
+})
+
+const result = await runtime.run('Hello!')
+console.log(result.content)
+```
+
+**Reusable persona** (Skill):
+
+```ts
+import type { SkillDefinition } from '@agentskit/core'
+
+const assistant: SkillDefinition = {
+  name: 'assistant',
+  description: 'General-purpose concise helper',
+  systemPrompt: 'You are a helpful assistant. Be concise.',
+}
+
+const result = await runtime.run('Hello!', { skill: assistant })
+```
+
+**What's different**: AgentsKit separates the persona (Skill) from the runner (Runtime). Same behavior, two reusable primitives instead of one class.
+
+## 2. Tool calling
+
+### Before — Mastra
+
+```ts
+import { createTool } from '@mastra/core/tools'
+import { z } from 'zod'
+
+const getWeather = createTool({
+  id: 'get-weather',
+  description: 'Get the weather for a city',
+  inputSchema: z.object({ city: z.string() }),
+  execute: async ({ context }) => {
+    const { city } = context
+    const res = await fetch(`https://wttr.in/${city}?format=j1`)
+    return await res.json()
+  },
+})
+
+const assistant = new Agent({
+  name: 'assistant',
+  model: openai('gpt-4o'),
+  tools: { getWeather },
+})
+```
+
+### After — AgentsKit
+
+```ts
+import type { ToolDefinition } from '@agentskit/core'
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+
+const getWeather: ToolDefinition = {
+  name: 'get_weather',
+  description: 'Get the weather for a city',
+  schema: {
+    type: 'object',
+    properties: { city: { type: 'string' } },
+    required: ['city'],
+  },
+  async execute(args) {
+    const res = await fetch(`https://wttr.in/${args.city}?format=j1`)
+    return await res.json()
+  },
+}
+
+const runtime = createRuntime({
+  adapter: openai({ apiKey: KEY, model: 'gpt-4o' }),
+  tools: [getWeather],
+})
+```
+
+**Differences to notice**
+
+- Tools are **flat objects**, not class instances. Easier to serialize, inspect, generate programmatically.
+- `schema` is **JSON Schema 7**, not Zod. Convert at the userland edge if you want to keep Zod as source:
+
+  ```ts
+  import { zodToJsonSchema } from 'zod-to-json-schema'
+  const schema = zodToJsonSchema(z.object({ city: z.string() })) as JSONSchema7
+  ```
+
+- `requiresConfirmation: true` (Tool T9) + `onConfirm` on the runtime (RT6) give you a formal human-in-the-loop gate — no auto-approve timeout. Mastra's equivalent is ad-hoc.
+
+## 3. Memory
+
+Mastra's `Memory` combines working memory and semantic recall in one class. AgentsKit splits them so backends implement only what they do well.
+
+### Before — Mastra
+
+```ts
+import { Memory } from '@mastra/memory'
+import { LibSQLStore } from '@mastra/libsql'
+
+const memory = new Memory({
+  storage: new LibSQLStore({ url: 'file:./storage.db' }),
+  options: {
+    workingMemory: { enabled: true },
+    semanticRecall: { topK: 3, messageRange: 5 },
+  },
+})
+
+const agent = new Agent({ name: 'assistant', memory, /* ... */ })
+```
+
+### After — AgentsKit
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { openai, openaiEmbed } from '@agentskit/adapters'
+import { sqliteChatMemory, fileVectorMemory } from '@agentskit/memory'
+import { createRAG } from '@agentskit/rag'
+
+const rag = createRAG({
+  store: fileVectorMemory({ path: './embeddings.json' }),
+  embed: openaiEmbed({ apiKey: KEY, model: 'text-embedding-3-small' }),
+  topK: 3,
+})
+
+const runtime = createRuntime({
+  adapter: openai({ apiKey: KEY, model: 'gpt-4o' }),
+  memory: sqliteChatMemory({ path: './session.db' }),   // ordered chat history (ChatMemory)
+  retriever: rag,                                        // semantic recall (Retriever)
+})
+```
+
+**Why the split matters**
+
+- SQLite is great at ordered message history; mediocre at ANN search. pgvector/Pinecone are the opposite.
+- A unified interface forces every backend to half-fulfill both.
+- Atomicity: `memory.save()` is replace-all with run-boundary atomicity (CM2 + RT7) — failed runs don't corrupt state.
+
+## 4. RAG
+
+### Before — Mastra
+
+```ts
+import { RAGAgent } from '@mastra/rag'
+// Plus specific vector-store + embedder wiring from @mastra/*
+```
+
+### After — AgentsKit
+
+RAG is just a `Retriever`. Any `Runtime` accepts one.
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { openai, openaiEmbed } from '@agentskit/adapters'
+import { createRAG } from '@agentskit/rag'
+import { fileVectorMemory } from '@agentskit/memory'
+
+const rag = createRAG({
+  store: fileVectorMemory({ path: './embeddings.json' }),
+  embed: openaiEmbed({ apiKey: KEY, model: 'text-embedding-3-small' }),
+})
+
+await rag.ingest([
+  { id: 'doc-1', content: 'AgentsKit core is 10KB gzipped.' },
+])
+
+const runtime = createRuntime({
+  adapter: openai({ apiKey: KEY, model: 'gpt-4o' }),
+  retriever: rag,
+})
+```
+
+The Retriever contract makes RAG, BM25, hybrid, and web search the same shape — composable without extra primitives.
+
+## 5. Workflows → delegation
+
+Mastra has a graph-based workflow DSL. AgentsKit covers the common patterns (supervisor, swarm, hierarchical, blackboard) via `delegates` on the Runtime (RT10).
+
+### Before — Mastra
+
+```ts
+import { createWorkflow, createStep } from '@mastra/core/workflows'
+
+const researchStep = createStep({ id: 'research', /* ... */ })
+const writeStep = createStep({ id: 'write', /* ... */ })
+
+const researchWorkflow = createWorkflow({
+  id: 'research-workflow',
+  steps: [researchStep, writeStep],
+})
+```
+
+### After — AgentsKit
+
+```ts
+import { planner, researcher } from '@agentskit/skills'
+import type { SkillDefinition } from '@agentskit/core'
+
+const writer: SkillDefinition = {
+  name: 'writer',
+  description: 'Synthesizes research findings into a structured report.',
+  systemPrompt: 'You are a precise technical writer. ...',
+}
+
+await runtime.run('Research WebGPU and write a report', {
+  skill: planner,
+  delegates: {
+    researcher: { skill: researcher, tools: [webSearch()], maxSteps: 5 },
+    writer:     { skill: writer, tools: [...filesystem({ basePath: './out' })], maxSteps: 3 },
+  },
+})
+```
+
+Each delegate is materialized as a tool the planner can call — to the model, delegation is just another tool call. No separate graph DSL.
+
+**Where this tradeoff favors Mastra**: explicit, long-running, checkpointed workflows with complex control flow. Durable execution is Phase 3 in AgentsKit (#156).
+
+## 6. Evals
+
+Both frameworks ship eval primitives. Same idea, different shape.
+
+### AgentsKit
+
+```ts
+import { runEval } from '@agentskit/eval'
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+
+const runtime = createRuntime({
+  adapter: openai({ apiKey: KEY, model: 'gpt-4o-mini' }),
+})
+
+const report = await runEval({
+  runtime,
+  dataset: [
+    { input: '2 + 2?', expected: '4', score: (o) => o.includes('4') ? 1 : 0 },
+  ],
+  concurrency: 4,
+})
+
+expect(report.averageScore).toBeGreaterThanOrEqual(0.8)
+```
+
+See [Recipe: Eval suite for an agent](../recipes/eval-suite).
+
+## 7. Telemetry
+
+### Before — Mastra
+
+OpenTelemetry auto-wired via `telemetry: { serviceName, enabled }` on the `Mastra` orchestrator.
+
+### After — AgentsKit
+
+```ts
+import type { Observer } from '@agentskit/core'
+
+const telemetry: Observer = {
+  onModelStart: () => console.time('model'),
+  onRunEnd: (result) => {
+    console.timeEnd('model')
+    console.log(`${result.steps} steps, ${result.toolCalls.length} tools`)
+  },
+}
+
+createRuntime({ adapter, tools, observers: [telemetry] })
+```
+
+The Observer contract (RT9) is read-only, composable (it's an array), and integrations (OpenTelemetry, LangSmith, PostHog) plug in as additional observers rather than as framework features.
+
+## 8. No orchestrator container
+
+Mastra centralizes `new Mastra({ agents, workflows, integrations })`. AgentsKit doesn't — the Runtime is the smallest composable unit, and there's no layer above it.
+
+### Why
+
+- **Startup cost**: instantiating an orchestrator with N agents means paying for all of them upfront. Per ADR 0006 RT1, AgentsKit runtimes are config-only until `run()` is called.
+- **Testability**: a single runtime with a mock adapter is easier to test than an orchestrator that wires multiple agents.
+- **Edge-ready**: a `Mastra` container is heavier than the 10KB we commit to for the core. Edge functions benefit from the minimal surface.
+
+If you want a "registry of runtimes", build one in userland with a `Map<string, Runtime>`. The contract is small enough that the pattern is trivial.
+
+## Where Mastra still wins
+
+Honest callouts — choose Mastra over AgentsKit when:
+
+- **You need voice today.** Mastra ships `agent.voice.speak(...)` / `agent.voice.listen(...)` with provider integrations. AgentsKit's voice story is planned but not shipped.
+- **You want explicit, long-running workflows with checkpointing.** Mastra's workflow engine handles suspend/resume natively. AgentsKit's durable execution is Phase 3 (#156).
+- **You prefer a class-per-agent mental model.** Some teams find `new Agent({ ... })` easier to reason about than `skill + runtime`. Taste call.
+- **You use Mastra Cloud / Studio.** That's a real ecosystem with CI integrations, evals-as-a-service, playground. AgentsKit Cloud is planned (Phase 4); not here yet.
+- **You rely on Mastra's integrations catalog** for specific third-party systems (analytics, webhooks, database bindings). AgentsKit focuses on core composition; integration breadth is growing.
+
+If none of those apply and the class hierarchy feels heavy, migrate.
+
+## Migration checklist
+
+A pragmatic incremental path:
+
+1. **Start with a single Mastra `Agent`** — convert it to `createRuntime` + `SkillDefinition`. One file, one change.
+2. **Port tools one by one** — `createTool` → `ToolDefinition`. Zod users keep Zod; convert at the edge.
+3. **Swap `Memory` for `ChatMemory` + `Retriever`** — same functionality, two small contracts.
+4. **Replace `Mastra` orchestrator with a plain registry** — a `Map<string, Runtime>` or whatever fits.
+5. **Move workflows to `delegates`** — supervisor pattern first, complex graphs last.
+6. **Wrap with observers** for the telemetry you already have.
+7. **Leave voice in Mastra** until AgentsKit ships it.
+
+## Bundle size check
+
+```bash
+du -sh node_modules/@mastra node_modules/@agentskit 2>/dev/null \
+  | awk '{ print $0 }'
+```
+
+Typical Mastra footprint is measured in tens of megabytes across the packages you pull in; AgentsKit weighs in at single-digit megabytes for a comparable surface. Edge deployments feel this most.
+
+## Related
+
+- [Concepts: Skill vs Tool](../concepts/mental-model) — the load-bearing distinction
+- [Concepts: Memory](../concepts/memory) — why ChatMemory and VectorMemory are split
+- [Recipe: Multi-agent research team](../recipes/research-team) — the `delegates` pattern end-to-end
+- [README — When you should NOT use AgentsKit](../../#when-you-should-not-use-agentskit)

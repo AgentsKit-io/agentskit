@@ -1,0 +1,33 @@
+---
+title: Welcome to AgentsKit
+description: The complete toolkit for building AI agents in JavaScript.
+---
+
+AgentsKit is a family of small, plug-and-play packages that cover the entire
+agent lifecycle in JavaScript: chat UIs, autonomous runtimes, tools, skills,
+memory, RAG, observability.
+
+This documentation site is a Fumadocs spike — it sits in parallel to the
+existing Docusaurus site at `apps/docs` while we evaluate the migration.
+
+## Where to go next
+
+- **[Quick start](/docs/getting-started/quickstart)** — a working chat in under 10 lines
+- **[Concepts](/docs/concepts/mental-model)** — the mental model behind every package
+- **[Manifesto](https://github.com/EmersonBraun/agentskit/blob/main/MANIFESTO.md)** — the principles we hold ourselves to
+- **[Origin](https://github.com/EmersonBraun/agentskit/blob/main/ORIGIN.md)** — why this exists
+
+## The substrate
+
+Six core contracts (formalized as ADRs) define how every package composes:
+
+| Contract | Role |
+| --- | --- |
+| Adapter | LLM provider seam |
+| Tool | Function the model calls |
+| Memory | Chat history + vector store |
+| Retriever | Context fetching |
+| Skill | Declarative persona |
+| Runtime | The loop that composes them all |
+
+If you understand these six, you understand AgentsKit.

@@ -1,0 +1,107 @@
+---
+title: Multi-agent research team
+description: A planner that delegates to a researcher and a writer. Real multi-agent in 30 lines.
+---
+
+A research workflow with three roles: a planner that decomposes the task, a researcher that finds sources, and a writer that synthesizes a final report.
+
+## Install
+
+```bash
+npm install @agentskit/runtime @agentskit/adapters @agentskit/skills @agentskit/tools
+```
+
+## The team
+
+```ts title="research.ts"
+import { createRuntime } from '@agentskit/runtime'
+import { anthropic, openai } from '@agentskit/adapters'
+import { planner, researcher } from '@agentskit/skills'
+import { webSearch, filesystem } from '@agentskit/tools'
+import type { SkillDefinition } from '@agentskit/core'
+
+const writer: SkillDefinition = {
+  name: 'writer',
+  description: 'Synthesizes research findings into a clear, structured report.',
+  systemPrompt: `You are a precise technical writer.
+
+Take the research notes you receive and produce a report with:
+- TL;DR (3 bullets)
+- Body organized by theme (not by source)
+- Inline citations [1] [2] linking to source URLs
+- "Open questions" section if the research surfaced uncertainty
+
+Be terse. Cut adjectives. Keep paragraphs short.`,
+  tools: ['filesystem_write'],
+  temperature: 0.4,
+}
+
+const runtime = createRuntime({
+  adapter: anthropic({ apiKey: KEY, model: 'claude-sonnet-4-6' }),  // planner uses this
+  tools: [],   // planner uses delegates, no direct tools
+  maxSteps: 10,
+  maxDelegationDepth: 2,
+})
+
+const result = await runtime.run(
+  'Research the current state of WebGPU support across browsers and write a report at ./out/webgpu.md',
+  {
+    skill: planner,
+    delegates: {
+      researcher: {
+        skill: researcher,
+        adapter: openai({ apiKey: KEY, model: 'gpt-4o-mini' }),  // cheaper for research
+        tools: [webSearch()],
+        maxSteps: 5,
+      },
+      writer: {
+        skill: writer,
+        tools: [...filesystem({ basePath: './out' })],
+        maxSteps: 3,
+      },
+    },
+  },
+)
+
+console.log(result.content)
+console.log(`\n— ${result.steps} steps total, ${result.toolCalls.length} tool calls`)
+```
+
+## Run it
+
+```bash
+mkdir -p out && npx tsx research.ts
+cat out/webgpu.md
+```
+
+## What's happening
+
+1. **Planner** reads the task, decides to delegate research, then writing
+2. Calls `delegate_researcher("Find current WebGPU support across browsers")` — that's just a tool call to the model
+3. The runtime spawns a sub-runtime with the researcher skill + web search; returns the findings
+4. Planner calls `delegate_writer("Synthesize this into ./out/webgpu.md: ...")`
+5. Writer skill writes the file via `filesystem_write`
+6. Planner returns the final summary
+
+Each delegate gets its own `maxSteps` budget. Total run is bounded by the planner's `maxSteps` × `maxDelegationDepth`.
+
+## Why mixed adapters
+
+- **Planner uses Claude Sonnet 4.6** — better at task decomposition
+- **Researcher uses GPT-4o-mini** — cheaper, good enough for retrieval-heavy work
+- **Writer reuses the planner's adapter** — fewer config knobs
+
+The Adapter contract makes this trivial. See [ADR 0001](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0001-adapter-contract.md).
+
+## Tighten the recipe
+
+- **Critic delegate** that reviews the writer's output before returning
+- **Citation verifier** delegate that checks every URL is reachable
+- **Cost cap per delegate** via observer that aborts when exceeded
+- **Resumable** — use durable execution (post-Phase-3 #156) for runs that take hours
+
+## Related
+
+- [Recipe: Code reviewer](./code-reviewer) — same pattern, single agent
+- [Concepts: Skill](../concepts/skill) — delegates by reference
+- [Concepts: Runtime](../concepts/runtime) — delegation as tool

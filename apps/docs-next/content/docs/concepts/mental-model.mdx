@@ -1,0 +1,78 @@
+---
+title: Mental model
+description: The six concepts every AgentsKit user should know.
+---
+
+AgentsKit composes around six core concepts. Together they describe everything
+the framework does. If you understand these six, you can predict how any
+package behaves.
+
+## The six concepts
+
+```
+                 ┌─────────────┐
+                 │   Runtime   │  ← the loop that composes everything
+                 └──────┬──────┘
+                        │
+        ┌───────────────┼────────────────┐
+        ▼               ▼                ▼
+   ┌─────────┐    ┌─────────┐      ┌──────────┐
+   │ Adapter │    │  Tools  │      │  Skill   │
+   └─────────┘    └─────────┘      └──────────┘
+        │              │                  │
+   talks to         model can         model becomes
+   the LLM          call them         this persona
+                                          │
+                                          │
+                  ┌───────────────┬───────┴────────┐
+                  ▼               ▼                ▼
+              ┌────────┐     ┌──────────┐    ┌────────┐
+              │ Memory │     │Retriever │    │ ...    │
+              └────────┘     └──────────┘    └────────┘
+
+              chat history    finds relevant
+              + vectors       context
+```
+
+## What each one does
+
+| Concept | One-line definition |
+| --- | --- |
+| **[Adapter](/docs/concepts/adapter)** | The seam to an LLM provider (OpenAI, Anthropic, etc.) |
+| **[Tool](/docs/concepts/tool)** | A function the model can **call** |
+| **[Skill](/docs/concepts/skill)** | A persona the model **becomes** (system prompt + behavior) |
+| **[Memory](/docs/concepts/memory)** | Chat history and vector storage |
+| **[Retriever](/docs/concepts/retriever)** | Fetches relevant context (RAG, web search, etc.) |
+| **[Runtime](/docs/concepts/runtime)** | The loop that composes them all |
+
+## The two distinctions that matter most
+
+### 1. Tool vs Skill
+
+A **tool** is a function. A **skill** is a persona.
+
+A tool: "give me the weather in Madrid." The model **calls** it.
+
+A skill: "you are a meticulous code reviewer who insists on tests." The model
+**becomes** it.
+
+Confusing them is the recurring failure mode in agent libraries. We make the
+distinction load-bearing — see [ADR 0002 (Tool)](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0002-tool-contract.md)
+and [ADR 0005 (Skill)](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0005-skill-contract.md).
+
+### 2. ChatMemory vs VectorMemory
+
+Two different problems. Two different contracts. Two different backends.
+
+**ChatMemory** is the ordered history of a session. Redis is great at this.
+
+**VectorMemory** is embeddings indexed for semantic retrieval. pgvector or
+Qdrant are great at this.
+
+Forcing one interface to do both — as some other libraries do — produces
+implementations that half-fulfill both sides. We split them.
+
+## Where to go next
+
+- Pick a concept page above to dig deeper
+- Or jump to the [quick start](/docs/getting-started/quickstart) and see them in code

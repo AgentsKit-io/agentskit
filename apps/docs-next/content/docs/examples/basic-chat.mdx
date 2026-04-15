@@ -1,0 +1,26 @@
+---
+title: Basic Chat
+description: The simplest use case — streaming AI conversation with auto-scroll, stop button, and keyboard handling. All in 10 lines with AgentsKit.
+---
+
+The simplest use case — streaming AI conversation with auto-scroll, stop button, and keyboard handling. All in 10 lines with AgentsKit.
+
+> **Live demo placeholder.** `<BasicChat />` was a Docusaurus-only component. The interactive sandbox will be reintroduced in a follow-up — see the code below for the working pattern.
+
+## With AgentsKit
+
+```tsx
+import { useChat, ChatContainer, Message, InputBar } from '@agentskit/react'
+import { anthropic } from '@agentskit/adapters'
+import '@agentskit/react/theme'
+
+function Chat() {
+  const chat = useChat({ adapter: anthropic({ apiKey: 'key', model: 'claude-sonnet-4-6' }) })
+  return (
+    <ChatContainer>
+      {chat.messages.map(msg => <Message key={msg.id} message={msg} />)}
+      <InputBar chat={chat} />
+    </ChatContainer>
+  )
+}
+```

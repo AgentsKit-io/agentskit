@@ -1,0 +1,93 @@
+---
+title: Cost-guarded chat
+description: A chat that aborts the run when token usage exceeds your budget — using only an observer.
+---
+
+A chat that tracks per-run token spend and aborts cleanly when the budget is exceeded. No special primitives — just an observer.
+
+## Install
+
+```bash
+npm install @agentskit/runtime @agentskit/adapters
+```
+
+## The guard
+
+```ts title="cost-guard.ts"
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+import type { Observer } from '@agentskit/core'
+
+// Pricing as of late 2025 — keep in sync with provider docs
+const PRICE_PER_1K = { input: 0.0025, output: 0.01 }   // gpt-4o
+const BUDGET_USD = 0.10
+
+function createCostGuard(budgetUsd: number, abort: () => void): Observer {
+  let inputTokens = 0
+  let outputTokens = 0
+
+  return {
+    onChunk(chunk) {
+      // Adapters put usage in metadata when they have it
+      const usage = chunk.metadata?.usage as
+        | { input_tokens?: number; output_tokens?: number }
+        | undefined
+      if (usage?.input_tokens) inputTokens += usage.input_tokens
+      if (usage?.output_tokens) outputTokens += usage.output_tokens
+
+      const costUsd =
+        (inputTokens / 1000) * PRICE_PER_1K.input +
+        (outputTokens / 1000) * PRICE_PER_1K.output
+
+      if (costUsd > budgetUsd) {
+        console.warn(`Cost budget exceeded: $${costUsd.toFixed(4)} > $${budgetUsd}`)
+        abort()
+      }
+    },
+    onRunEnd() {
+      const total =
+        (inputTokens / 1000) * PRICE_PER_1K.input +
+        (outputTokens / 1000) * PRICE_PER_1K.output
+      console.log(`Run cost: $${total.toFixed(4)} (${inputTokens}+${outputTokens} tokens)`)
+    },
+  }
+}
+
+const controller = new AbortController()
+
+const runtime = createRuntime({
+  adapter: openai({ apiKey: KEY, model: 'gpt-4o' }),
+  observers: [createCostGuard(BUDGET_USD, () => controller.abort())],
+})
+
+try {
+  const result = await runtime.run('Write a 5000-word essay on quantum computing', {
+    signal: controller.signal,
+  })
+  console.log(result.content)
+} catch (err) {
+  if ((err as Error).name === 'AbortError') {
+    console.log('Aborted due to cost budget.')
+  } else {
+    throw err
+  }
+}
+```
+
+## Why this works
+
+- The Adapter contract (ADR 0001) doesn't require usage data, but every well-behaved adapter exposes it via `chunk.metadata.usage`
+- Observers are read-only (RT9) — they can't mutate state, but they can call external APIs (like `controller.abort()`)
+- Aborting from an observer triggers the Runtime's clean abort path: stream stops, memory **does not save** (RT7+RT13), promise rejects with `AbortError`
+
+## Tighten the recipe
+
+- **Per-tool budget** — observe `onToolStart` / `onToolEnd` and assign costs (e.g. web search at $0.005/call)
+- **Per-user quota** — store cumulative spend in Redis keyed by user id; reject before `run()` if over
+- **Pre-check budget** with `tiktoken` count of the system prompt before sending
+- **Cost-aware adapter** — wrap the adapter to upgrade/downgrade model based on remaining budget
+
+## Related
+
+- [Concepts: Runtime](../concepts/runtime) — observers, abort semantics
+- [Recipe: Discord bot](./discord-bot) — apply this guard per-channel

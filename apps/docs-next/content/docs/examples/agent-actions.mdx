@@ -1,0 +1,33 @@
+---
+title: Agent Actions
+description: AI agents that generate live, interactive UI — task trackers, dashboards, forms. The agent doesn't just respond with text, it builds working interfaces.
+---
+
+AI agents that generate live, interactive UI — task trackers, dashboards, forms. The agent doesn't just respond with text, it builds working interfaces.
+
+> **Live demo placeholder.** `<AgentActions />` was a Docusaurus-only component. The interactive sandbox will be reintroduced in a follow-up — see the code below for the working pattern.
+
+## With AgentsKit
+
+Combine `useChat` with custom renderers for tool call results:
+
+```tsx
+import { useChat, ChatContainer, Message } from '@agentskit/react'
+
+function AgentChat() {
+  const chat = useChat({ adapter })
+  return (
+    <ChatContainer>
+      {chat.messages.map(msg => (
+        <div key={msg.id}>
+          <Message message={msg} />
+          {msg.toolCalls?.map(tc => (
+            <DynamicWidget key={tc.id} type={tc.name} data={JSON.parse(tc.result || '{}')} />
+          ))}
+        </div>
+      ))}
+      <InputBar chat={chat} />
+    </ChatContainer>
+  )
+}
+```

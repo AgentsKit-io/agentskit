@@ -1,0 +1,59 @@
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/neutral.css';
+@import 'fumadocs-ui/css/preset.css';
+
+/**
+ * AgentsKit brand tokens (direction 1.4 — Triangle / foam monochrome).
+ *
+ * Palette B (terminal-inspired):
+ *   midnight  #0D1117
+ *   foam      #E6EDF3
+ *   graphite  #8B949E
+ *   surface   #161B22
+ *   border    #30363D
+ *   green     #2EA043  (success / active)
+ *   blue      #58A6FF  (links / tool calls)
+ *   red       #F85149  (error / destructive)
+ */
+
+:root {
+  --ak-midnight: #0D1117;
+  --ak-foam: #E6EDF3;
+  --ak-graphite: #8B949E;
+  --ak-surface: #161B22;
+  --ak-border: #30363D;
+  --ak-green: #2EA043;
+  --ak-blue: #58A6FF;
+  --ak-red: #F85149;
+}
+
+@theme {
+  --color-ak-midnight: #0D1117;
+  --color-ak-foam: #E6EDF3;
+  --color-ak-graphite: #8B949E;
+  --color-ak-surface: #161B22;
+  --color-ak-border: #30363D;
+  --color-ak-green: #2EA043;
+  --color-ak-blue: #58A6FF;
+  --color-ak-red: #F85149;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+.dark {
+  --color-fd-background: #0D1117;
+  --color-fd-foreground: #E6EDF3;
+  --color-fd-muted: #161B22;
+  --color-fd-muted-foreground: #8B949E;
+  --color-fd-popover: #161B22;
+  --color-fd-popover-foreground: #E6EDF3;
+  --color-fd-card: #161B22;
+  --color-fd-card-foreground: #E6EDF3;
+  --color-fd-border: #30363D;
+  --color-fd-primary: #E6EDF3;
+  --color-fd-primary-foreground: #0D1117;
+  --color-fd-secondary: #161B22;
+  --color-fd-secondary-foreground: #E6EDF3;
+  --color-fd-accent: #1F2937;
+  --color-fd-accent-foreground: #E6EDF3;
+  --color-fd-ring: #58A6FF;
+}

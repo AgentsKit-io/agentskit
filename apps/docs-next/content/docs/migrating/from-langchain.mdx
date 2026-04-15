@@ -1,0 +1,469 @@
+---
+title: From LangChain.js
+description: Side-by-side migration guide. Map your LangChain.js code to AgentsKit — with honest callouts about where LangChain still fits.
+---
+
+LangChain.js is the Swiss Army knife of JS agent libraries. It does a lot, and if it fits your use case it gets you moving fast. Come to AgentsKit when you hit one of these:
+
+- You're tired of **200MB of transitive dependencies** and slow cold starts
+- You want **one way to do one thing** — not three overlapping abstractions per feature
+- You need **small, formal contracts** to build on top of, not a big flexible base class
+- You want to **ship to the edge** (Cloudflare Workers, Deno Deploy) without reaching for a subset
+
+This page maps the LangChain.js patterns you probably have to AgentsKit equivalents.
+
+## Quick reference
+
+| LangChain.js | AgentsKit | Notes |
+|---|---|---|
+| `new ChatOpenAI({ model })` | `openai({ apiKey, model })` from `@agentskit/adapters` | Returns an `AdapterFactory` |
+| `.invoke(messages)` / `.stream(messages)` | `adapter.createSource({ messages }).stream()` | Single streaming API, see [Concepts: Adapter](../concepts/adapter) |
+| `ChatPromptTemplate.fromMessages([...])` | Plain strings or a `SkillDefinition.systemPrompt` | No template engine in core |
+| `StructuredTool` / `tool()` | `ToolDefinition` with `schema` (JSON Schema 7) | Convert Zod → JSON Schema if needed |
+| `AgentExecutor` | `createRuntime({ ... }).run(task)` | See [Concepts: Runtime](../concepts/runtime) |
+| `BufferMemory`, `ConversationBufferMemory` | `sqliteChatMemory`, `redisChatMemory`, `fileChatMemory` | Split from vector memory per [ADR 0003](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0003-memory-contract.md) |
+| `VectorStore` + `OpenAIEmbeddings` | `VectorMemory` + `EmbedFn` | Same split into two narrow contracts |
+| `RetrievalQAChain` | `createRAG({ store, embed })` as a `Retriever` | Drop it into `createRuntime({ retriever })` |
+| `RunnableSequence` / LCEL | Plain functions, `runtime.run()`, or a composite runtime | AgentsKit doesn't have a DSL; composition is JavaScript |
+| `LangGraph` state machine | Multi-agent via `delegates` on the runtime | Topologies covered by one primitive (RT10) |
+| Callbacks / Handlers | `Observer[]` in runtime config | Read-only, composable |
+
+## 1. Basic chat with streaming
+
+### Before — LangChain.js
+
+```ts
+import { ChatOpenAI } from '@langchain/openai'
+
+const chat = new ChatOpenAI({
+  model: 'gpt-4o',
+  apiKey: process.env.OPENAI_API_KEY,
+  streaming: true,
+})
+
+const stream = await chat.stream([
+  { role: 'system', content: 'You are a helpful assistant.' },
+  { role: 'user', content: 'Hello!' },
+])
+
+for await (const chunk of stream) {
+  process.stdout.write(chunk.content as string)
+}
+```
+
+### After — AgentsKit
+
+```ts
+import { openai } from '@agentskit/adapters'
+
+const adapter = openai({ apiKey: process.env.OPENAI_API_KEY!, model: 'gpt-4o' })
+
+const source = adapter.createSource({
+  messages: [
+    { id: '1', role: 'system', content: 'You are a helpful assistant.' },
+    { id: '2', role: 'user', content: 'Hello!' },
+  ],
+})
+
+for await (const chunk of source.stream()) {
+  if (chunk.type === 'text') process.stdout.write(chunk.content ?? '')
+}
+```
+
+**What's different**
+
+- No class — `openai()` returns a plain `AdapterFactory`
+- Streaming is the default; you don't set `streaming: true`
+- Chunks are tagged by `type` (`text`, `tool_call`, `done`, etc.) — you filter rather than assume every chunk is text
+- Every stream ends with a `done` chunk (never silently) — see [ADR 0001](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0001-adapter-contract.md) A3
+
+## 2. Prompts and templates
+
+### Before — LangChain.js
+
+```ts
+import { ChatPromptTemplate } from '@langchain/core/prompts'
+import { ChatOpenAI } from '@langchain/openai'
+
+const prompt = ChatPromptTemplate.fromMessages([
+  ['system', 'You are a {role}. Keep answers under {maxWords} words.'],
+  ['user', '{question}'],
+])
+
+const chat = new ChatOpenAI({ model: 'gpt-4o' })
+const chain = prompt.pipe(chat)
+
+const res = await chain.invoke({
+  role: 'code reviewer',
+  maxWords: 100,
+  question: 'Review this diff: ...',
+})
+```
+
+### After — AgentsKit
+
+Two options, depending on whether this is a one-off or a reusable persona.
+
+**One-off**: plain JavaScript template literals.
+
+```ts
+const role = 'code reviewer'
+const maxWords = 100
+const systemPrompt = `You are a ${role}. Keep answers under ${maxWords} words.`
+
+const runtime = createRuntime({
+  adapter: openai({ apiKey: KEY, model: 'gpt-4o' }),
+  systemPrompt,
+})
+
+const result = await runtime.run('Review this diff: ...')
+```
+
+**Reusable**: a `SkillDefinition`.
+
+```ts
+import type { SkillDefinition } from '@agentskit/core'
+
+const codeReviewer: SkillDefinition = {
+  name: 'code_reviewer',
+  description: 'Reviews code changes concisely.',
+  systemPrompt: 'You are a code reviewer. Keep answers under 100 words.',
+}
+
+const result = await runtime.run('Review this diff: ...', { skill: codeReviewer })
+```
+
+**Why no template engine**: the 10KB core (Manifesto principle 1) can't carry one, and JavaScript already has template literals and string interpolation. If you need conditional prompt logic, that's just JavaScript.
+
+## 3. Tool calling
+
+### Before — LangChain.js
+
+```ts
+import { tool } from '@langchain/core/tools'
+import { z } from 'zod'
+import { ChatOpenAI } from '@langchain/openai'
+
+const getWeather = tool(
+  async ({ city }) => {
+    const res = await fetch(`https://wttr.in/${city}?format=j1`)
+    return await res.json()
+  },
+  {
+    name: 'get_weather',
+    description: 'Get the weather for a city',
+    schema: z.object({ city: z.string() }),
+  },
+)
+
+const model = new ChatOpenAI({ model: 'gpt-4o' }).bindTools([getWeather])
+```
+
+### After — AgentsKit
+
+```ts
+import type { ToolDefinition } from '@agentskit/core'
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+
+const getWeather: ToolDefinition = {
+  name: 'get_weather',
+  description: 'Get the weather for a city',
+  schema: {
+    type: 'object',
+    properties: { city: { type: 'string' } },
+    required: ['city'],
+  },
+  async execute(args) {
+    const res = await fetch(`https://wttr.in/${args.city}?format=j1`)
+    return await res.json()
+  },
+}
+
+const runtime = createRuntime({
+  adapter: openai({ apiKey: KEY, model: 'gpt-4o' }),
+  tools: [getWeather],
+})
+```
+
+**Zod → JSON Schema bridge**: if you're attached to Zod, keep it as the source of truth and convert:
+
+```ts
+import { zodToJsonSchema } from 'zod-to-json-schema'
+import { z } from 'zod'
+
+const schema = z.object({ city: z.string() })
+
+const getWeather: ToolDefinition = {
+  name: 'get_weather',
+  schema: zodToJsonSchema(schema) as JSONSchema7,
+  async execute(args) { /* ... */ },
+}
+```
+
+**What you gain**: confirmation gates (`requiresConfirmation: true` + `onConfirm`), streaming tool execution (return an `AsyncIterable`), execute-optional tools (MCP-friendly declarations). See [Concepts: Tool](../concepts/tool).
+
+## 4. AgentExecutor → Runtime
+
+This is the biggest win. `AgentExecutor` is a catch-all with many knobs. `createRuntime` is a single factory with formal invariants.
+
+### Before — LangChain.js
+
+```ts
+import { AgentExecutor, createReactAgent } from 'langchain/agents'
+import { ChatPromptTemplate } from '@langchain/core/prompts'
+import { ChatOpenAI } from '@langchain/openai'
+import { tool } from '@langchain/core/tools'
+
+const prompt = await ChatPromptTemplate.fromMessages([
+  ['system', 'You are a research assistant.'],
+  ['human', '{input}'],
+  ['placeholder', '{agent_scratchpad}'],
+])
+
+const agent = await createReactAgent({
+  llm: new ChatOpenAI({ model: 'gpt-4o' }),
+  tools: [webSearchTool, filesystemTool],
+  prompt,
+})
+
+const executor = new AgentExecutor({
+  agent,
+  tools: [webSearchTool, filesystemTool],
+  maxIterations: 10,
+  returnIntermediateSteps: true,
+})
+
+const result = await executor.invoke({ input: 'Research the top 3 AI frameworks' })
+```
+
+### After — AgentsKit
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+import { webSearch, filesystem } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter: openai({ apiKey: KEY, model: 'gpt-4o' }),
+  tools: [webSearch(), ...filesystem({ basePath: './workspace' })],
+  systemPrompt: 'You are a research assistant.',
+  maxSteps: 10,
+})
+
+const result = await runtime.run('Research the top 3 AI frameworks')
+console.log(result.content)     // final answer
+console.log(result.steps)       // iterations taken
+console.log(result.toolCalls)   // every tool call with args + result
+console.log(result.messages)    // full conversation
+console.log(result.durationMs)
+```
+
+**What's different**
+
+- No separate agent/executor split — `createRuntime` is the composition point
+- `maxSteps` is a **hard** cap (RT4). Every agent library's worst bug — infinite loops from soft caps — is ruled out by contract.
+- Intermediate steps are on the result by default (no `returnIntermediateSteps` flag)
+- Adding memory, retrieval, delegation means adding one field to the config — no new class
+
+## 5. Memory
+
+LangChain's memory hierarchy (BufferMemory, ConversationBufferMemory, ConversationSummaryMemory, VectorStoreRetrieverMemory) collapses to **two** contracts in AgentsKit.
+
+### Before — LangChain.js
+
+```ts
+import { BufferMemory } from 'langchain/memory'
+import { ChatOpenAI } from '@langchain/openai'
+import { ConversationChain } from 'langchain/chains'
+
+const memory = new BufferMemory()
+const chat = new ConversationChain({
+  llm: new ChatOpenAI({ model: 'gpt-4o' }),
+  memory,
+})
+
+await chat.invoke({ input: 'My name is Ava.' })
+await chat.invoke({ input: 'What is my name?' })   // remembers
+```
+
+### After — AgentsKit
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+import { sqliteChatMemory } from '@agentskit/memory'
+
+const runtime = createRuntime({
+  adapter: openai({ apiKey: KEY, model: 'gpt-4o' }),
+  memory: sqliteChatMemory({ path: './session.db' }),
+})
+
+await runtime.run('My name is Ava.')
+await runtime.run('What is my name?')   // persists across processes too
+```
+
+**What you gain**: atomicity — failed or aborted runs don't save (RT7 + CM4). No half-updated memory state.
+
+## 6. Retrieval (RetrievalQAChain)
+
+### Before — LangChain.js
+
+```ts
+import { MemoryVectorStore } from 'langchain/vectorstores/memory'
+import { OpenAIEmbeddings } from '@langchain/openai'
+import { RetrievalQAChain } from 'langchain/chains'
+import { ChatOpenAI } from '@langchain/openai'
+
+const vectorStore = await MemoryVectorStore.fromTexts(
+  texts,
+  texts.map((_, i) => ({ id: i })),
+  new OpenAIEmbeddings(),
+)
+
+const chain = RetrievalQAChain.fromLLM(
+  new ChatOpenAI({ model: 'gpt-4o' }),
+  vectorStore.asRetriever(),
+)
+
+const res = await chain.invoke({ query: 'What was said about X?' })
+```
+
+### After — AgentsKit
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { openai, openaiEmbed } from '@agentskit/adapters'
+import { createRAG } from '@agentskit/rag'
+import { fileVectorMemory } from '@agentskit/memory'
+
+const rag = createRAG({
+  store: fileVectorMemory({ path: './embeddings.json' }),
+  embed: openaiEmbed({ apiKey: KEY, model: 'text-embedding-3-small' }),
+})
+
+await rag.ingest(texts.map((content, i) => ({ id: String(i), content })))
+
+const runtime = createRuntime({
+  adapter: openai({ apiKey: KEY, model: 'gpt-4o' }),
+  retriever: rag,
+})
+
+const result = await runtime.run('What was said about X?')
+```
+
+**What you gain**: `RAG` is a `Retriever`. So is a web search tool. So is a memory recall. Same shape, composable for reranking and hybrid search without a new primitive. See [Concepts: Retriever](../concepts/retriever).
+
+## 7. Chains / LCEL (RunnableSequence)
+
+LCEL is a DSL embedded in LangChain. AgentsKit doesn't have one — **composition is plain JavaScript**.
+
+### Before — LangChain.js
+
+```ts
+import { RunnableSequence } from '@langchain/core/runnables'
+import { StringOutputParser } from '@langchain/core/output_parsers'
+
+const chain = RunnableSequence.from([
+  prompt,
+  model,
+  new StringOutputParser(),
+])
+
+const result = await chain.invoke({ topic: 'quantum computing' })
+```
+
+### After — AgentsKit
+
+```ts
+async function explain(topic: string): Promise<string> {
+  const result = await runtime.run(`Explain ${topic} in 100 words.`)
+  return result.content
+}
+
+const result = await explain('quantum computing')
+```
+
+That's it. If you want reusable composition across functions, extract more functions. If you want ordered multi-step orchestration, use delegation (next section).
+
+## 8. LangGraph → delegation
+
+LangGraph is LangChain's state-machine workflow engine. AgentsKit covers the common patterns (supervisor, swarm, hierarchical, blackboard) via `delegates` on the runtime. See [Concepts: Runtime](../concepts/runtime) RT10 and [Recipe: Multi-agent research team](../recipes/research-team).
+
+Complex, long-running, checkpointed workflows are **Phase 3** in AgentsKit (durable execution, #156). Until that lands, if your workflow genuinely needs stateful graph semantics — stay on LangGraph for that piece.
+
+## 9. Callbacks → Observers
+
+### Before — LangChain.js
+
+```ts
+const model = new ChatOpenAI({
+  callbacks: [
+    {
+      handleLLMStart: (llm, prompts) => console.log('→', prompts),
+      handleLLMEnd: (out) => console.log('←', out.llmOutput?.tokenUsage),
+    },
+  ],
+})
+```
+
+### After — AgentsKit
+
+```ts
+import type { Observer } from '@agentskit/core'
+
+const telemetry: Observer = {
+  onModelStart: () => console.log('→ model'),
+  onChunk: (chunk) => {
+    if (chunk.metadata?.usage) console.log('usage:', chunk.metadata.usage)
+  },
+  onRunEnd: (result) => console.log(`${result.steps} steps, ${result.durationMs}ms`),
+}
+
+createRuntime({ adapter, tools, observers: [telemetry] })
+```
+
+Observers are read-only (RT9), composable (it's an array), and first-class in the contract.
+
+## Where LangChain.js still wins
+
+Honest callouts — choose LangChain over AgentsKit when:
+
+- **You need an integration AgentsKit doesn't have yet.** LangChain's integration catalog is vast; ours is focused. If your vector store / loader / obscure provider only has a LangChain integration, write a small adapter to AgentsKit or stay on LangChain for that piece.
+- **You already use LangSmith for tracing and evals.** That ecosystem is deep. We'll integrate — observers make it straightforward — but if you rely on LangSmith-specific features, stay put.
+- **You need LangGraph's explicit state-machine workflows today.** Durable checkpointed graph execution is Fase 3 in AgentsKit. Not parity yet.
+- **You want the "one library, many solutions" model.** AgentsKit deliberately has fewer ways to do things. If flexibility at the cost of indirection is your preference, LangChain is designed for it.
+- **You're in a team where everyone already knows LangChain.** The migration cost isn't zero. Weigh the runtime + contracts + 10KB core against that.
+
+If none of those apply and the dependency weight / abstraction leakage is hurting, migrate.
+
+## Incremental migration
+
+You don't have to go all-in. A pragmatic path:
+
+1. **Keep LangChain for existing pipelines** — don't rewrite working code
+2. **Adopt AgentsKit for new features** — a CLI agent, a terminal chat, a new autonomous workflow
+3. **Port the chat layer first** — `@agentskit/react` components + `createRuntime`
+4. **Migrate tools next** — `ToolDefinition` is a flat object, easier to read than `StructuredTool`
+5. **Consolidate memory + retrieval** when you want the atomicity guarantees
+6. **Leave LangGraph in place** until durable execution lands in Fase 3
+
+The Adapter contract is the pivot point: once you have one `AdapterFactory`, every surface in AgentsKit accepts it.
+
+## Dependency size check
+
+Run this on your project and compare:
+
+```bash
+du -sh node_modules/@langchain node_modules/langchain 2>/dev/null | awk '{ sum += $1 } END { print sum "MB of LangChain" }'
+du -sh node_modules/@agentskit 2>/dev/null | awk '{ print $1 " of AgentsKit" }'
+```
+
+The difference is typically **100–200 MB** in a modest project. That's cold starts, CI time, install time, container size, and blast radius for transitive CVE advisories.
+
+## Related
+
+- [Concepts: Runtime](../concepts/runtime) — the `createRuntime` anchor
+- [Recipe: Chat with RAG](../recipes/rag-chat) — the equivalent of `RetrievalQAChain` in 30 lines
+- [ADR 0001 — Adapter contract](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0001-adapter-contract.md) — why provider swap is actually one line
+- [README — When you should NOT use AgentsKit](../../#when-you-should-not-use-agentskit) — the honest decision matrix

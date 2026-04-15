@@ -1,0 +1,118 @@
+---
+title: Memory
+description: Two contracts, not one. ChatMemory persists conversation history. VectorMemory stores embeddings for semantic recall. Different problems, different backends.
+---
+
+**Memory** in AgentsKit is two contracts, deliberately split:
+
+- **ChatMemory** — the ordered history of a session. Append to it, load it back. Redis is great at this.
+- **VectorMemory** — embeddings indexed for semantic retrieval. The substrate for RAG. pgvector, Pinecone, Qdrant are great at this.
+
+Plus a third primitive — **EmbedFn** — for turning text into vectors.
+
+LangChain unifies these. The result is implementations that half-fulfill both. We split them so a backend implements only what it does well.
+
+## ChatMemory
+
+```ts
+import type { ChatMemory } from '@agentskit/core'
+
+export interface ChatMemory {
+  load: () => MaybePromise<Message[]>
+  save: (messages: Message[]) => MaybePromise<void>
+  clear?: () => MaybePromise<void>
+}
+```
+
+`save` is **replace-all** — not append. Controllers append in memory and flush the whole state at the end of a turn. This removes the "did I dedupe?" branching that haunts append-based stores.
+
+```ts
+import { sqliteChatMemory } from '@agentskit/memory'
+
+const memory = sqliteChatMemory({ path: './sessions/user-42.db' })
+
+createRuntime({ adapter, memory, /* ... */ })
+```
+
+The runtime calls `load()` at the start of each `run()` and `save()` after a successful run. Aborted or failed runs do **not** save — atomicity comes for free.
+
+## VectorMemory
+
+```ts
+import type { VectorMemory, VectorDocument } from '@agentskit/core'
+
+export interface VectorMemory {
+  store: (docs: VectorDocument[]) => MaybePromise<void>
+  search: (
+    embedding: number[],
+    options?: { topK?: number; threshold?: number },
+  ) => MaybePromise<RetrievedDocument[]>
+  delete?: (ids: string[]) => MaybePromise<void>
+}
+```
+
+`store` is **upsert by id**. Re-indexing the same document is cheap and idempotent — no duplicate-id errors.
+
+```ts
+import { fileVectorMemory } from '@agentskit/memory'
+import { openaiEmbed } from '@agentskit/adapters'
+
+const store = fileVectorMemory({ path: './embeddings.json' })
+const embed = openaiEmbed({ apiKey: KEY, model: 'text-embedding-3-small' })
+
+await store.store([
+  { id: 'doc-1', content: 'AgentsKit core is 10KB gzipped.', embedding: await embed('AgentsKit core is 10KB gzipped.') },
+])
+
+const hits = await store.search(await embed('how big is the core?'), { topK: 3 })
+```
+
+Search results come **descending by score**. `threshold` is exclusive from below (`> 0.7`, not `>= 0.7`).
+
+## EmbedFn
+
+```ts
+export type EmbedFn = (text: string) => Promise<number[]>
+```
+
+A pure function. Same input + same model = same output. No randomness allowed.
+
+Built-in embedders:
+
+```ts
+import { openaiEmbed, ollamaEmbed, geminiEmbed } from '@agentskit/adapters'
+
+const embed = openaiEmbed({ apiKey: KEY, model: 'text-embedding-3-small' })
+```
+
+## Built-in backends
+
+| Backend | ChatMemory | VectorMemory |
+|---|:---:|:---:|
+| `fileChatMemory` | ✓ | — |
+| `fileVectorMemory` | — | ✓ |
+| `sqliteChatMemory` | ✓ | — |
+| `redisChatMemory` | ✓ | — |
+| `redisVectorMemory` | — | ✓ |
+
+More coming in Phase 3 (pgvector, Pinecone, Qdrant, Chroma, Weaviate, Turso, Cloudflare Vectorize, Upstash). Each is a small adapter implementing six or eight invariants.
+
+## When to write your own
+
+- **Your storage backend isn't covered yet.** A new ChatMemory backend is ~50 lines. A new VectorMemory backend is ~100. See the existing implementations as templates.
+- **You need encryption at rest.** Wrap an existing backend with an encrypting proxy — neither contract changes.
+- **You're testing.** A pure in-memory `ChatMemory` is twelve lines and instantly replayable.
+
+## Common pitfalls
+
+| Pitfall | What to do instead |
+|---|---|
+| Implementing `save` as append-with-dedup | Replace-all (CM2). Trust the consumer to send the correct full state. |
+| Returning `null` from `load()` on empty | Return `[]`. Empty state is success, not absence. |
+| Mixing embedding dimensions in one VectorMemory | Pick one model per store; reject mismatches at construction. |
+| Padding `search` results to reach `topK` | Return fewer documents — `topK` is an upper bound, not a floor. |
+| Random embeddings or non-deterministic embedders | Cache by input; never inject randomness. EmbedFn must be stable. |
+
+## Going deeper
+
+The full list of invariants (six for ChatMemory, eight for VectorMemory, three for EmbedFn) is in [ADR 0003 — Memory contract](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0003-memory-contract.md).

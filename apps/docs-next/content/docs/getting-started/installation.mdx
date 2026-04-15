@@ -1,0 +1,46 @@
+---
+title: Installation
+description: Install the AgentsKit packages you need — and only those.
+---
+
+Every AgentsKit package is independently installable. Pick what you need.
+
+## React chat UI
+
+```bash
+npm install @agentskit/react @agentskit/adapters
+```
+
+## Terminal chat (Ink)
+
+```bash
+npm install @agentskit/ink @agentskit/adapters
+```
+
+## Headless agent runtime
+
+```bash
+npm install @agentskit/runtime @agentskit/adapters
+```
+
+## Adding tools, skills, memory, RAG
+
+```bash
+npm install @agentskit/tools @agentskit/skills @agentskit/memory @agentskit/rag
+```
+
+## CLI
+
+```bash
+npm install -g @agentskit/cli
+agentskit init
+```
+
+## Why so many packages?
+
+Because every package is a **product** with its own contract, its own
+versioning, and its own substitutability. A React app pulling in `@agentskit/ink`
+would ship dead code; a Node service pulling in `@agentskit/react` would crash.
+
+The 10KB `@agentskit/core` is the only thing every package transitively
+depends on — and it stays under 10KB by manifesto.

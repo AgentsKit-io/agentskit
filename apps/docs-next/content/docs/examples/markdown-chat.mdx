@@ -1,0 +1,28 @@
+---
+title: Markdown Chat
+description: Rich formatted responses — headings, tables, code blocks, lists, and blockquotes. AgentsKit's Markdown component renders everything beautifully as it streams.
+---
+
+Rich formatted responses — headings, tables, code blocks, lists, and blockquotes. AgentsKit's `Markdown` component renders everything beautifully as it streams.
+
+> **Live demo placeholder.** `<MarkdownChat />` was a Docusaurus-only component. The interactive sandbox will be reintroduced in a follow-up — see the code below for the working pattern.
+
+## With AgentsKit
+
+```tsx
+import { useChat, ChatContainer, Message, Markdown, InputBar } from '@agentskit/react'
+
+function Writer() {
+  const chat = useChat({ adapter })
+  return (
+    <ChatContainer>
+      {chat.messages.map(msg => (
+        <Message key={msg.id} message={msg}>
+          <Markdown content={msg.content} streaming={msg.status === 'streaming'} />
+        </Message>
+      ))}
+      <InputBar chat={chat} placeholder="Ask for content..." />
+    </ChatContainer>
+  )
+}
+```

@@ -1,0 +1,96 @@
+---
+title: Confirmation-gated tool
+description: A dangerous tool the runtime refuses to execute without explicit human approval.
+---
+
+A tool that deletes files. The agent can call it. The runtime pauses for human approval before anything happens. No timeout-based auto-approval — security-critical by design.
+
+## Install
+
+```bash
+npm install @agentskit/runtime @agentskit/adapters
+```
+
+## The tool
+
+```ts title="delete-file-tool.ts"
+import type { ToolDefinition } from '@agentskit/core'
+import { unlink } from 'node:fs/promises'
+
+export const deleteFile: ToolDefinition = {
+  name: 'delete_file',
+  description: 'Permanently delete a file.',
+  schema: {
+    type: 'object',
+    properties: {
+      path: { type: 'string', description: 'Absolute or relative path.' },
+    },
+    required: ['path'],
+  },
+  requiresConfirmation: true,                    // ← the gate
+  async execute(args) {
+    await unlink(args.path as string)
+    return { ok: true }
+  },
+}
+```
+
+## The runtime with `onConfirm`
+
+```ts title="agent.ts"
+import { createRuntime } from '@agentskit/runtime'
+import { anthropic } from '@agentskit/adapters'
+import { deleteFile } from './delete-file-tool'
+import { createInterface } from 'node:readline/promises'
+
+const rl = createInterface({ input: process.stdin, output: process.stdout })
+
+const runtime = createRuntime({
+  adapter: anthropic({ apiKey: KEY, model: 'claude-sonnet-4-6' }),
+  tools: [deleteFile],
+  onConfirm: async (call) => {
+    const args = JSON.stringify(call.args)
+    const answer = await rl.question(
+      `\n⚠ Approve "${call.name}(${args})"? [y/N] `,
+    )
+    return answer.trim().toLowerCase() === 'y'
+  },
+})
+
+const result = await runtime.run('Delete the file ./scratch.txt')
+console.log(result.content)
+rl.close()
+```
+
+## Run it
+
+```bash
+npx tsx agent.ts
+# ⚠ Approve "delete_file({"path":"./scratch.txt"})"? [y/N] y
+# Done. ./scratch.txt has been deleted.
+```
+
+If you answer `n`, the runtime feeds a refusal back to the model as a tool error, and the agent decides what to do next (typically: explain why it stopped).
+
+## What's enforced by the contract
+
+| Behavior | Where it's defined |
+|---|---|
+| `requiresConfirmation: true` exists | Tool contract T9 |
+| Runtime MUST call `onConfirm` first | Runtime contract RT6 |
+| If `onConfirm` is absent, execution is REFUSED (not allowed) | Runtime contract RT6 |
+| No timeout-based auto-approval | Tool T9 + Runtime RT6 (non-negotiable) |
+
+This means a tool author can mark a tool dangerous and **trust** the runtime to gate it. No "but what if the user forgets to wire `onConfirm`?" — the runtime refuses to execute, period.
+
+## Tighten the recipe
+
+- **Web UI** instead of stdin — `onConfirm` returns a Promise that resolves when the user clicks
+- **Slack / Discord approval** — post a message with ✓/✗ buttons; resolve on click
+- **Per-tool policies** — a wrapper that auto-approves `read` operations, requires approval for `write` operations, and always refuses `delete`
+- **Audit log** — wrap `onConfirm` to log every approval/refusal with the args
+
+## Related
+
+- [Concepts: Tool](../concepts/tool)
+- [Concepts: Runtime](../concepts/runtime) — RT6 confirmation

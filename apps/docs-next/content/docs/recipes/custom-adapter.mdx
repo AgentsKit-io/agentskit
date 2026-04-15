@@ -1,0 +1,177 @@
+---
+title: Custom adapter
+description: Wrap any LLM API as an AgentsKit adapter. Plug-and-play with the rest of the kit in 30 lines.
+---
+
+A working adapter for any LLM with an HTTP streaming API. Useful for:
+
+- Internal models (your company's fine-tuned model behind an API)
+- Providers AgentsKit doesn't ship yet
+- Mocks for tests (deterministic, replayable)
+
+## Install
+
+```bash
+npm install @agentskit/core
+```
+
+## The adapter
+
+```ts title="my-adapter.ts"
+import type { AdapterFactory, AdapterRequest, StreamSource, StreamChunk } from '@agentskit/core'
+
+export interface MyAdapterOptions {
+  apiKey: string
+  baseUrl: string
+  model: string
+}
+
+export function myAdapter(opts: MyAdapterOptions): AdapterFactory {
+  return {
+    createSource(request: AdapterRequest): StreamSource {
+      const controller = new AbortController()
+
+      return {
+        // No I/O until stream() is called — invariant A1
+        async *stream(): AsyncIterableIterator<StreamChunk> {
+          try {
+            const res = await fetch(`${opts.baseUrl}/v1/chat/completions`, {
+              method: 'POST',
+              headers: {
+                'authorization': `Bearer ${opts.apiKey}`,
+                'content-type': 'application/json',
+              },
+              body: JSON.stringify({
+                model: opts.model,
+                messages: request.messages,
+                stream: true,
+              }),
+              signal: controller.signal,
+            })
+
+            if (!res.ok) {
+              yield {
+                type: 'error',
+                content: `HTTP ${res.status}`,
+                metadata: { error: new Error(await res.text()) },
+              }
+              return
+            }
+
+            // Parse server-sent events
+            const reader = res.body!.getReader()
+            const decoder = new TextDecoder()
+            let buffer = ''
+
+            for (;;) {
+              const { done, value } = await reader.read()
+              if (done) break
+              buffer += decoder.decode(value, { stream: true })
+
+              const lines = buffer.split('\n')
+              buffer = lines.pop() ?? ''
+              for (const line of lines) {
+                if (!line.startsWith('data: ')) continue
+                const data = line.slice(6)
+                if (data === '[DONE]') {
+                  yield { type: 'done' }
+                  return
+                }
+                const json = JSON.parse(data)
+                const content = json.choices?.[0]?.delta?.content
+                if (content) yield { type: 'text', content }
+              }
+            }
+
+            yield { type: 'done' }
+          } catch (err) {
+            if ((err as Error).name === 'AbortError') return
+            yield {
+              type: 'error',
+              content: (err as Error).message,
+              metadata: { error: err },
+            }
+          }
+        },
+
+        abort: () => controller.abort(),
+      }
+    },
+  }
+}
+```
+
+## Use it like any built-in
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { myAdapter } from './my-adapter'
+
+const runtime = createRuntime({
+  adapter: myAdapter({
+    apiKey: process.env.MY_API_KEY!,
+    baseUrl: 'https://api.my-llm.com',
+    model: 'my-model-v1',
+  }),
+})
+
+const result = await runtime.run('Hello!')
+console.log(result.content)
+```
+
+## Mock adapter for tests
+
+```ts
+import type { AdapterFactory, StreamChunk } from '@agentskit/core'
+
+export function mockAdapter(chunks: StreamChunk[]): AdapterFactory {
+  return {
+    createSource() {
+      return {
+        async *stream() {
+          for (const chunk of chunks) yield chunk
+          yield { type: 'done' }
+        },
+        abort: () => {},
+      }
+    },
+  }
+}
+
+// In a test:
+const adapter = mockAdapter([
+  { type: 'text', content: 'Hello, ' },
+  { type: 'text', content: 'world!' },
+])
+```
+
+That's a deterministic adapter usable in any test runner.
+
+## Contract checklist
+
+Before publishing, verify your adapter against the ten invariants:
+
+1. **A1** No I/O in `createSource` — only when `stream()` runs
+2. **A2** Don't call `stream()` twice on one source
+3. **A3** Always end with `done`, `error`, or via abort
+4. **A4** Each text chunk is independently meaningful
+5. **A5** Tool call chunks are atomic (id + name + args together)
+6. **A6** `abort()` is always safe — never throws
+7. **A7** Don't mutate the input `messages`
+8. **A8** Provider-specific data goes in `metadata`
+9. **A9** Errors emit chunks; never throw from `stream()`
+10. **A10** All config at construction time
+
+Full text in [ADR 0001](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0001-adapter-contract.md).
+
+## Tighten the recipe
+
+- **Tool calling support** — yield `{ type: 'tool_call', toolCall: { id, name, args } }` chunks
+- **Reasoning streaming** — yield `{ type: 'reasoning', content }` for o1-style models
+- **Token usage** — yield it on the final chunk in `metadata.usage` so cost guards (see [Cost-guarded chat](./cost-guarded-chat)) can see it
+- **Retry with backoff** — wrap `fetch` with retries on 429/503
+
+## Related
+
+- [Concepts: Adapter](../concepts/adapter)
+- ADR 0001 — formal contract

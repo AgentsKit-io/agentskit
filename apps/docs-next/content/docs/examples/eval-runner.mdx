@@ -1,0 +1,54 @@
+---
+title: Evaluation Runner
+description: "Benchmark your agents against test suites. Measure accuracy, latency, and cost with @agentskit/eval."
+---
+
+Benchmark your agents against test suites. Measure accuracy, latency, and cost with `@agentskit/eval`.
+
+## Basic Usage
+
+```typescript
+import { createEvalRunner } from '@agentskit/eval'
+import { createRuntime } from '@agentskit/runtime'
+
+const runtime = createRuntime({ adapter: yourAdapter })
+
+const runner = createEvalRunner({
+  agent: (task) => runtime.run(task),
+})
+
+const results = await runner.run({
+  name: 'QA accuracy',
+  cases: [
+    { input: 'What is 2+2?', expected: '4' },
+    { input: 'Capital of France?', expected: (result) => result.includes('Paris') },
+    { input: 'Translate "hello" to Spanish', expected: 'hola' },
+  ],
+})
+
+console.log(`Accuracy: ${(results.accuracy * 100).toFixed(1)}%`)
+console.log(`Passed: ${results.passed}/${results.totalCases}`)
+```
+
+## With Custom Metrics
+
+```typescript
+const results = await runner.run({
+  name: 'Performance benchmark',
+  cases: [
+    { input: 'Summarize this article...', expected: (r) => r.length < 500 },
+  ],
+})
+
+// Per-case results include latency and token usage
+results.results.forEach((r) => {
+  console.log(`${r.passed ? 'PASS' : 'FAIL'} | ${r.latencyMs}ms | ${r.input.slice(0, 40)}...`)
+})
+```
+
+## CI Integration
+
+```bash
+# Run evals as part of CI
+node eval.ts && echo "All evals passed" || exit 1
+```

@@ -1,0 +1,59 @@
+---
+title: Quick start
+description: Build a working AI chat in under 10 lines.
+---
+
+## Basic chat
+
+```tsx title="app/chat.tsx"
+import { useChat, ChatContainer, Message, InputBar } from '@agentskit/react'
+import { anthropic } from '@agentskit/adapters'
+import '@agentskit/react/theme'
+
+function App() {
+  const chat = useChat({
+    adapter: anthropic({ apiKey: 'your-key', model: 'claude-sonnet-4-6' }),
+  })
+
+  return (
+    <ChatContainer>
+      {chat.messages.map(msg => (
+        <Message key={msg.id} message={msg} />
+      ))}
+      <InputBar chat={chat} />
+    </ChatContainer>
+  )
+}
+```
+
+## What you got
+
+| Component | Role |
+| --- | --- |
+| `useChat` | A chat session bound to an adapter; manages messages, streaming, errors |
+| `ChatContainer` | Auto-scrolling layout |
+| `Message` | Renders one message with streaming support |
+| `InputBar` | Text input that sends on Enter |
+
+Out of the box: streaming, message history, default styling. No extra setup.
+
+## Swap providers
+
+The adapter is the only thing that changes. Everything else stays the same.
+
+```tsx
+import { openai } from '@agentskit/adapters'
+
+const chat = useChat({
+  adapter: openai({ apiKey: 'your-key', model: 'gpt-4o' }),
+})
+```
+
+This is the **plug-and-play** principle in practice — no rewrites for a provider swap.
+
+## Try the official examples
+
+- `apps/example-react` — full chat with tool calls and memory
+- `apps/example-ink` — same chat in your terminal
+- `apps/example-runtime` — autonomous agent (no UI)
+- `apps/example-multi-agent` — supervisor + workers

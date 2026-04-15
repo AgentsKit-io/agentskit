@@ -1,0 +1,83 @@
+---
+title: Adapter
+description: The seam between AgentsKit and an LLM provider. The same interface for OpenAI, Anthropic, Gemini, Ollama, or anything that streams tokens.
+---
+
+An **Adapter** is how AgentsKit talks to an LLM provider. It is the only layer that knows whether you're calling OpenAI, Anthropic, Gemini, Ollama, a local model, or a deterministic mock for tests. Every other package — runtime, hooks, UI — speaks to one shape and never has to care which provider is behind it.
+
+This is what makes "swap providers in one line" actually true.
+
+## The interface
+
+```ts
+import type { AdapterFactory, AdapterRequest, StreamSource, StreamChunk } from '@agentskit/core'
+
+export type AdapterFactory = {
+  createSource: (request: AdapterRequest) => StreamSource
+}
+
+export interface StreamSource {
+  stream: () => AsyncIterableIterator<StreamChunk>
+  abort: () => void
+}
+```
+
+That's the whole contract from a consumer's point of view. You hand a factory to `useChat`, `createRuntime`, or any other AgentsKit primitive, and it does the rest.
+
+## Using a built-in adapter
+
+```ts
+import { anthropic, openai, ollama } from '@agentskit/adapters'
+
+const adapter = anthropic({
+  apiKey: process.env.ANTHROPIC_API_KEY!,
+  model: 'claude-sonnet-4-6',
+})
+```
+
+Configuration goes in at construction time — API key, model, base URL. The returned `AdapterFactory` is reusable across requests.
+
+## How a stream looks
+
+The adapter emits `StreamChunk`s as the model speaks:
+
+```ts
+type StreamChunk = {
+  type: 'text' | 'tool_call' | 'tool_result' | 'reasoning' | 'error' | 'done'
+  content?: string
+  toolCall?: { id, name, args, result? }
+  metadata?: Record<string, unknown>
+}
+```
+
+Every stream ends with **exactly one** of:
+
+- A `done` chunk (success)
+- An `error` chunk (failure)
+- The iterator returning because the consumer called `abort()`
+
+That terminal-chunk guarantee is what stops the "did the stream end or hang?" ambiguity that haunts most agent libraries.
+
+## When to write your own
+
+Use a built-in adapter unless one of these is true:
+
+- **Your provider isn't covered yet.** Adapters for new providers are 50–100 lines of code; see `packages/adapters/src` for examples.
+- **You need a custom routing/ensemble/fallback layer.** Wrap N adapters in your own factory and decide which to call per request.
+- **You're writing a deterministic mock for tests.** Yield a fixed `StreamChunk[]`, return from the iterator. That's it.
+
+If you're tempted to write a custom adapter just to add caching or log every call, don't. Use an observer (see [Runtime](./runtime)) instead.
+
+## Common pitfalls
+
+| Pitfall | What to do instead |
+|---|---|
+| Calling the network from `createSource` | Defer all I/O to `stream()` — see invariant A1 |
+| Mutating the input `messages` array | Treat it as read-only; copy if you need to transform |
+| Ending the stream silently after the last text chunk | Always emit `{ type: 'done' }` |
+| Throwing from `stream()` on a provider error | Emit `{ type: 'error', metadata: { error } }` instead |
+| Calling `stream()` twice on the same `StreamSource` | Call `createSource()` again to get a fresh source |
+
+## Going deeper
+
+The full list of invariants (ten of them, A1–A10) is in [ADR 0001 — Adapter contract](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0001-adapter-contract.md). Read it before publishing a new adapter package.

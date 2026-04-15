@@ -1,0 +1,97 @@
+---
+title: Code reviewer agent
+description: An agent that reads a git diff, runs the test suite, and posts a structured review.
+---
+
+A CLI tool that reviews local changes (diff vs `main`) and prints a structured review. Optionally posts to GitHub.
+
+## Install
+
+```bash
+npm install @agentskit/runtime @agentskit/adapters @agentskit/tools @agentskit/skills
+```
+
+## The script
+
+```ts title="review.ts"
+import { createRuntime } from '@agentskit/runtime'
+import { anthropic } from '@agentskit/adapters'
+import { shell, filesystem } from '@agentskit/tools'
+import type { SkillDefinition } from '@agentskit/core'
+
+const reviewer: SkillDefinition = {
+  name: 'code_reviewer',
+  description: 'Reviews local diffs against main, focusing on bugs, missing tests, and style.',
+  systemPrompt: `You are a senior TypeScript engineer reviewing a pull request.
+
+Workflow:
+1. Run \`git diff main\` and read the full diff
+2. Identify changed files; read them in full when context matters
+3. Run the test suite (\`pnpm test\`) and inspect failures
+4. Produce a structured review with severity per comment
+
+Output format (markdown):
+## Verdict
+APPROVE | REQUEST_CHANGES | COMMENT
+
+## Comments
+- **[severity]** file:line — Issue. Suggestion.
+
+Severities: high (must fix), medium (should fix), low (nice to have).
+
+Always:
+- Flag missing tests as severity:high
+- Flag any 'any' usage with a concrete refactor
+- Verify the test runner output before approving
+- Keep comments terse — quote-then-suggest`,
+  tools: ['shell', 'filesystem_read'],
+  temperature: 0.2,
+}
+
+const runtime = createRuntime({
+  adapter: anthropic({ apiKey: KEY, model: 'claude-sonnet-4-6' }),
+  tools: [shell({ allowedCommands: ['git', 'pnpm', 'cat'] }), ...filesystem({ basePath: '.' })],
+  maxSteps: 20,
+})
+
+const result = await runtime.run('Review the current diff and produce a structured review.', {
+  skill: reviewer,
+})
+
+console.log(result.content)
+console.log(`\n— ${result.steps} steps, ${result.toolCalls.length} tool calls`)
+```
+
+## Run it
+
+```bash
+git checkout my-branch
+npx tsx review.ts
+```
+
+## Dogfood it on AgentsKit
+
+```bash
+git clone https://github.com/EmersonBraun/agentskit
+cd agentskit
+git checkout some-pr-branch
+npx tsx review.ts
+```
+
+The agent reads the actual diff, runs `pnpm test`, and produces a real review.
+
+## Tighten the recipe
+
+- **Post to GitHub**: pipe the output to `gh pr comment $PR_NUMBER -F -`
+- **Tighter scope**: only review changes in a specific package via `--filter`
+- **CI integration**: run on every PR, fail the build on `REQUEST_CHANGES`
+- **Multiple reviewers**: delegate to specialist skills (security, performance, accessibility)
+
+## Why a skill, not a tool
+
+The reviewer is a **persona** the model adopts (workflow, output format, severity rules), not a function the model calls. That makes it a Skill. The actual capabilities (`git diff`, `pnpm test`, file reads) are Tools. See [Concepts: Skill](../concepts/skill).
+
+## Related
+
+- [Recipe: Multi-agent research team](./research-team) — same pattern with delegation
+- [Concepts: Skill](../concepts/skill)

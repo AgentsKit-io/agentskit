@@ -1,0 +1,176 @@
+---
+title: Runtime
+description: The conductor. Owns the loop, tool execution, memory persistence, retrieval, delegation, observability, and abort.
+---
+
+The **Runtime** is where everything composes. It owns the loop: take a task, send it to the adapter, parse tool calls, execute tools, feed results back, decide when to stop. It also owns multi-agent delegation, observability, memory persistence, RAG retrieval, and confirmation gating.
+
+Every other concept (Adapter, Tool, Memory, Retriever, Skill) is **substrate**. The Runtime is the **conductor**.
+
+## The interface
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+
+const runtime = createRuntime(config)
+const result = await runtime.run(task, options?)
+```
+
+That's the whole surface. One factory. One method. No `start`, no `init`, no `step`. Streaming events come through observers, not extra methods.
+
+## Configuration
+
+```ts
+import type { RuntimeConfig } from '@agentskit/runtime'
+
+interface RuntimeConfig {
+  adapter: AdapterFactory             // required
+  tools?: ToolDefinition[]
+  systemPrompt?: string
+  memory?: ChatMemory
+  retriever?: Retriever
+  observers?: Observer[]
+  maxSteps?: number                   // default: 10 (hard cap)
+  temperature?: number
+  maxTokens?: number
+  delegates?: Record<string, DelegateConfig>
+  maxDelegationDepth?: number         // default: 3
+  onConfirm?: (call: ToolCall) => MaybePromise<boolean>
+}
+```
+
+## Running a task
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+import { webSearch, filesystem } from '@agentskit/tools'
+import { sqliteChatMemory } from '@agentskit/memory'
+
+const runtime = createRuntime({
+  adapter: openai({ apiKey: KEY, model: 'gpt-4o' }),
+  tools: [webSearch(), ...filesystem({ basePath: './workspace' })],
+  memory: sqliteChatMemory({ path: './sessions/agent-1.db' }),
+  maxSteps: 10,
+})
+
+const result = await runtime.run('Research the top 3 AI frameworks and save a summary')
+
+console.log(result.content)     // the final assistant message
+console.log(result.steps)       // think → act cycles taken
+console.log(result.toolCalls)   // every tool call made
+console.log(result.messages)    // full conversation including this run
+console.log(result.durationMs)  // wall time
+```
+
+## Hard step cap (non-negotiable)
+
+`maxSteps` is a **hard** cap. Every "infinite loop bug" in agent libraries traces to a soft cap the user can override. AgentsKit doesn't allow that. Pick a generous number for your use case, but the cap is the cap.
+
+## Tool resolution order
+
+When the model emits a tool call, the runtime resolves it in this order:
+
+1. `RunOptions.tools` (per-call)
+2. `RuntimeConfig.tools` (per-runtime)
+3. Tools contributed by an active skill via `onActivate`
+
+Last wins on name collision in the same scope. Later scopes shadow earlier ones. A name not found in any scope produces a tool error chunk back to the model — the runtime **does not throw**. The model can react and try a different tool.
+
+## Memory atomicity
+
+If `memory` is configured, the runtime calls `load()` at the start of `run()` and `save()` after a successful run.
+
+**Failed or aborted runs do not save.** This preserves the ChatMemory atomicity invariant — your memory is never half-updated.
+
+## Retrieval per turn
+
+If `retriever` is configured, `retrieve()` is called **once per `run()`** with the original task as the query. Results are inserted into the system prompt or as a context message.
+
+This is a deliberate v1 simplification. ReAct-style per-step retrieval is possible via a tool-shaped retriever or a custom runtime; we picked the simpler default.
+
+## Observers (read-only telemetry)
+
+```ts
+const consoleObserver: Observer = {
+  onModelStart: (req) => console.log('→ model'),
+  onChunk: (chunk) => process.stdout.write(chunk.content ?? ''),
+  onToolStart: (call) => console.log(`  ⚙ ${call.name}(${JSON.stringify(call.args)})`),
+  onToolEnd: (call) => console.log(`  ✓ ${call.name}`),
+  onRunEnd: (result) => console.log(`done in ${result.steps} steps`),
+}
+
+createRuntime({ adapter, tools, observers: [consoleObserver] })
+```
+
+Observers see everything. Observers change nothing. If you want to mutate (rewrite tool calls, redact prompts), wrap the runtime — don't try to do it in an observer. Failures in observers are caught; they don't break the loop.
+
+## Delegation
+
+```ts
+import { planner, researcher, coder } from '@agentskit/skills'
+
+await runtime.run('Build a landing page about quantum computing', {
+  skill: planner,
+  delegates: {
+    researcher: { skill: researcher, tools: [webSearch()], maxSteps: 3 },
+    coder:      { skill: coder, tools: [...filesystem({ basePath: './src' })], maxSteps: 8 },
+  },
+})
+```
+
+Each delegate is materialized as a tool the model can call (`delegate_researcher`, `delegate_coder`). To the model: just another tool call. To the runtime: a recursive `run()` with depth tracking.
+
+`maxDelegationDepth` (default 3) is a behavioral cap — at the limit, delegates are simply not offered to the model.
+
+## Aborting
+
+```ts
+const controller = new AbortController()
+const promise = runtime.run('long task', { signal: controller.signal })
+
+// Later...
+controller.abort()
+
+await promise   // rejects with AbortError
+```
+
+When aborted: in-flight stream stops, loop exits, memory is **not** saved, observers receive `run-aborted`, the promise rejects.
+
+## Errors are categorized
+
+The runtime distinguishes:
+
+| Category | Behavior |
+|---|---|
+| **Adapter error** | Loop terminates, error in result |
+| **Tool error** (returned or thrown) | Fed back to the model as tool result, loop continues |
+| **Confirmation refusal** | Fed back as tool error explaining the refusal |
+| **Memory / retriever error** | Loop terminates, error propagated |
+| **Programmer error** (bad config) | Throws synchronously from `createRuntime` or `run` start |
+
+This is what makes meaningful retry/fallback strategies possible.
+
+## When to write your own runtime
+
+Almost never. Wrap the built-in runtime instead:
+
+- **Durable execution** — wrapper that persists state at each step, resumes from checkpoint. Same `run()` signature.
+- **Sandboxed execution** — wrapper that swaps every tool's `execute` with a sandboxed version.
+- **Replay runtime** — wrapper that asserts the loop matches a recorded trace.
+
+The contract is small enough that wrapping is cheaper than reimplementing.
+
+## Common pitfalls
+
+| Pitfall | What to do instead |
+|---|---|
+| Setting `maxSteps: Infinity` "just to be safe" | Pick a generous finite number. The cap exists for a reason. |
+| Using observers to redact or mutate | Wrap the runtime |
+| Expecting memory to save on failure for "audit" purposes | Use an observer for audit logging; memory saves only on success |
+| Ignoring `abort` signal in long-running tools | Threading abort into tools is a follow-up; for now, use `maxTokens`/timeouts inside tools |
+| Confusing `tools` per-call vs per-runtime | Per-call options take precedence. Read RT3. |
+
+## Going deeper
+
+The full list of invariants (fourteen of them, RT1–RT14) is in [ADR 0006 — Runtime contract](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0006-runtime-contract.md).

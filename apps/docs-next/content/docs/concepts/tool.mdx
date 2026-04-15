@@ -1,0 +1,139 @@
+---
+title: Tool
+description: A function the model can call, with JSON-schema-typed arguments and a JSON-serializable result.
+---
+
+A **Tool** is a function the model can request by name. It is the primary mechanism by which an agent acts on the world: reading files, calling APIs, searching the web, executing code, editing documents, sending Slack messages.
+
+If a Skill is what the model **becomes**, a Tool is what the model **calls**. That distinction is load-bearing — confusing the two is the recurring failure mode in agent libraries.
+
+## The interface
+
+```ts
+import type { ToolDefinition } from '@agentskit/core'
+import type { JSONSchema7 } from 'json-schema'
+
+export interface ToolDefinition {
+  name: string
+  description?: string
+  schema?: JSONSchema7
+  requiresConfirmation?: boolean
+  execute?: (
+    args: Record<string, unknown>,
+    context: ToolExecutionContext,
+  ) => MaybePromise<unknown> | AsyncIterable<unknown>
+  init?: () => MaybePromise<void>
+  dispose?: () => MaybePromise<void>
+  tags?: string[]
+  category?: string
+}
+```
+
+## Defining a tool
+
+```ts
+import type { ToolDefinition } from '@agentskit/core'
+
+export const getWeather: ToolDefinition = {
+  name: 'get_weather',
+  description: 'Get the current weather for a city.',
+  schema: {
+    type: 'object',
+    properties: {
+      city: { type: 'string', description: 'City name, e.g. "Madrid"' },
+    },
+    required: ['city'],
+  },
+  async execute(args) {
+    const res = await fetch(`https://wttr.in/${args.city}?format=j1`)
+    return await res.json()
+  },
+}
+```
+
+The model sees `name`, `description`, and `schema`. The runtime validates `args` against `schema` before calling `execute`. Your function never receives malformed input.
+
+## Using built-in tools
+
+```ts
+import { webSearch, filesystem, shell } from '@agentskit/tools'
+
+createRuntime({
+  adapter,
+  tools: [
+    webSearch(),
+    ...filesystem({ basePath: './workspace' }),
+    shell({ allowedCommands: ['ls', 'cat'] }),
+  ],
+})
+```
+
+## Confirmation gates
+
+Set `requiresConfirmation: true` and the runtime will pause before executing, asking your `onConfirm` handler:
+
+```ts
+const dangerousTool: ToolDefinition = {
+  name: 'delete_file',
+  schema: { /* ... */ },
+  requiresConfirmation: true,
+  async execute(args) { /* ... */ },
+}
+
+createRuntime({
+  adapter,
+  tools: [dangerousTool],
+  onConfirm: async (call) => {
+    return await showConfirmationDialog(call)
+  },
+})
+```
+
+There is no timeout-based auto-approval. If the runtime requires confirmation but no `onConfirm` is configured, execution is refused. This matters for security-critical tools and is non-negotiable.
+
+## Streaming tool execution
+
+Long-running tools can yield progress as an `AsyncIterable`:
+
+```ts
+const slowTool: ToolDefinition = {
+  name: 'process_dataset',
+  schema: { /* ... */ },
+  async *execute(args) {
+    yield 'Loading dataset...'
+    const data = await loadDataset(args.path)
+    yield `Processing ${data.length} rows...`
+    const result = await process(data)
+    return result   // the last yielded value is the recorded result
+  },
+}
+```
+
+Consumers see partial values as informational; only the last one is recorded as the official result.
+
+## Declaration-only tools (MCP-friendly)
+
+A tool without `execute` is a **declaration** — the model can call it, and the caller (typically a client or an MCP bridge) handles the actual execution. This is what makes the AgentsKit Tool contract a thin mapping over MCP's tool spec.
+
+```ts
+const remoteTool: ToolDefinition = {
+  name: 'lookup_customer',
+  description: 'Find a customer by email.',
+  schema: { type: 'object', properties: { email: { type: 'string' } } },
+  // no execute — runs elsewhere
+}
+```
+
+## Common pitfalls
+
+| Pitfall | What to do instead |
+|---|---|
+| Returning a Date or Buffer from `execute` | Serialize: `date.toISOString()`, `buffer.toString('base64')` |
+| Throwing from `execute` on a recoverable error | Return `{ error: '...' }` so the model can react and retry |
+| Implementing your own confirmation timeout | Don't. Use `requiresConfirmation` + `onConfirm` properly |
+| Doing I/O at definition time (top-level `await`) | Move it into `init()` or `execute()` — see invariant T10 |
+| Naming tools with spaces or special characters | Names must match `^[a-zA-Z_][a-zA-Z0-9_-]{0,63}$` |
+
+## Going deeper
+
+The full list of invariants (twelve of them, T1–T12) is in [ADR 0002 — Tool contract](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0002-tool-contract.md).

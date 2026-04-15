@@ -1,0 +1,130 @@
+---
+title: Retriever
+description: One narrow interface that serves RAG, BM25, web search, code search, and memory recall through composition.
+---
+
+A **Retriever** answers one question: *"given a query and the conversation so far, what documents are relevant?"*
+
+It is the inversion-of-control seam between **agent talking** and **agent reading**. The runtime calls `retrieve()` once per turn before generating, hands the results to the model as context, and the model responds.
+
+The contract is intentionally narrow — one method — so RAG, BM25, hybrid search, web search, code search, and conversational memory recall all fit the same shape. Composition handles the variety.
+
+## The interface
+
+```ts
+import type { Retriever, RetrieverRequest, RetrievedDocument } from '@agentskit/core'
+
+export interface Retriever {
+  retrieve: (request: RetrieverRequest) => MaybePromise<RetrievedDocument[]>
+}
+
+export interface RetrieverRequest {
+  query: string
+  messages: Message[]
+}
+
+export interface RetrievedDocument {
+  id: string
+  content: string
+  source?: string
+  score?: number
+  metadata?: Record<string, unknown>
+}
+```
+
+`query` is the focused string. `messages` is the surrounding conversation, available for retrievers that want to do query rewriting or conversational compression. Most retrievers ignore it.
+
+## Using RAG
+
+```ts
+import { createRAG } from '@agentskit/rag'
+import { fileVectorMemory } from '@agentskit/memory'
+import { openaiEmbed } from '@agentskit/adapters'
+
+const rag = createRAG({
+  store: fileVectorMemory({ path: './embeddings.json' }),
+  embed: openaiEmbed({ apiKey: KEY, model: 'text-embedding-3-small' }),
+  topK: 5,
+})
+
+await rag.ingest([
+  { content: 'AgentsKit core is 10KB gzipped.' },
+  { content: 'Adapters are interchangeable per ADR 0001.' },
+])
+
+createRuntime({ adapter, retriever: rag })
+```
+
+`RAG` extends `Retriever`, so it plugs directly into the runtime. The runtime calls `retrieve()` on every turn.
+
+## Web search as a retriever
+
+Anything that returns ranked documents fits:
+
+```ts
+const webRetriever: Retriever = {
+  async retrieve({ query }) {
+    const res = await fetch(`https://api.example-search.com?q=${query}`)
+    const hits = await res.json()
+    return hits.map((h, i) => ({
+      id: h.url,
+      content: h.snippet,
+      source: h.url,
+      score: hits.length - i,    // rank-as-score is fine
+    }))
+  },
+}
+```
+
+## Composing retrievers
+
+A composite retriever is itself a `Retriever`. This is what makes reranking, hybrid search, and ensembles fall out naturally.
+
+```ts
+function hybrid(vectors: Retriever, keywords: Retriever): Retriever {
+  return {
+    async retrieve(request) {
+      const [v, k] = await Promise.all([
+        vectors.retrieve(request),
+        keywords.retrieve(request),
+      ])
+      return mergeAndRerank([...v, ...k])   // your choice of reranker
+    },
+  }
+}
+
+createRuntime({ adapter, retriever: hybrid(vectorRAG, bm25) })
+```
+
+The runtime never sees the difference. The composer is responsible for renormalizing scores from heterogeneous sources.
+
+## Empty results are success, not failure
+
+```ts
+const docs = await retriever.retrieve({ query: 'something we don't know about', messages: [] })
+// docs is [], no error
+```
+
+`[]` means "no relevant documents" — a valid answer. Errors throw (`Promise` rejection); they are not encoded in the result.
+
+This is intentional asymmetry vs Adapter (errors are chunks) and Tool (errors are status). Retrievers are typically called once per turn, synchronously from the runtime's perspective. Wrapping every `retrieve` in error chunks would add ceremony for no gain.
+
+## When to write your own
+
+- **You have a custom search backend** (internal docs, code search, ticket search, etc.) — implement `Retriever` and you're done.
+- **You're building a reranker, ensemble, or hybrid** — wrap N retrievers in your own.
+- **You're testing** — return a fixed array.
+
+## Common pitfalls
+
+| Pitfall | What to do instead |
+|---|---|
+| Returning `null` instead of `[]` on no results | Always return an array. Empty is success. |
+| Mixing scored and unscored documents in one result | Either every doc has `score`, or none do (R6) |
+| Inconsistent score scale across calls | Pick one (cosine, BM25, normalized rank) and keep it for the lifetime of the retriever instance |
+| Mutating the input request | Treat `RetrieverRequest` as read-only |
+| Configuring topK per call | Configure at construction; the contract has no per-call options in v1 |
+
+## Going deeper
+
+The full list of invariants (eleven of them, R1–R11) is in [ADR 0004 — Retriever contract](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0004-retriever-contract.md).

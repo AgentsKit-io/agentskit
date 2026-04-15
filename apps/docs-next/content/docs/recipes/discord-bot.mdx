@@ -1,0 +1,87 @@
+---
+title: Discord bot
+description: A Discord bot powered by AgentsKit. Replies in threads, calls tools, remembers per-channel.
+---
+
+A Discord bot that responds to mentions, holds per-channel memory, and can use tools like web search.
+
+## Install
+
+```bash
+npm install @agentskit/runtime @agentskit/adapters @agentskit/tools @agentskit/memory discord.js
+```
+
+## The bot
+
+```ts title="bot.ts"
+import { Client, GatewayIntentBits, Partials } from 'discord.js'
+import { createRuntime } from '@agentskit/runtime'
+import { anthropic } from '@agentskit/adapters'
+import { webSearch } from '@agentskit/tools'
+import { sqliteChatMemory } from '@agentskit/memory'
+
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+  ],
+  partials: [Partials.Channel],
+})
+
+// One memory per channel — keeps conversations separate
+const runtimeFor = (channelId: string) =>
+  createRuntime({
+    adapter: anthropic({ apiKey: KEY, model: 'claude-sonnet-4-6' }),
+    tools: [webSearch()],
+    memory: sqliteChatMemory({ path: `./data/${channelId}.db` }),
+    systemPrompt:
+      'You are a helpful Discord bot. Keep replies under 1500 characters. ' +
+      'Use web search when the user asks about anything time-sensitive.',
+    maxSteps: 6,
+  })
+
+client.on('messageCreate', async (msg) => {
+  // Only respond when mentioned
+  if (msg.author.bot) return
+  if (!msg.mentions.has(client.user!)) return
+
+  const text = msg.content.replace(/<@!?\d+>/g, '').trim()
+  if (!text) return
+
+  await msg.channel.sendTyping()
+
+  try {
+    const result = await runtimeFor(msg.channelId).run(text)
+    await msg.reply(result.content.slice(0, 1900))
+  } catch (err) {
+    await msg.reply(`Sorry, something broke: ${(err as Error).message}`)
+  }
+})
+
+client.login(process.env.DISCORD_TOKEN!)
+```
+
+## Run it
+
+```bash
+DISCORD_TOKEN=your-bot-token npx tsx bot.ts
+```
+
+## Why per-channel runtimes
+
+- **Memory isolation** — each channel has its own SQLite file
+- **Different system prompts per server** become trivial later
+- **Cheap** — `createRuntime` is config-only (per ADR 0006 RT1), no resources opened until `run()`
+
+## Tighten the recipe
+
+- **Slash commands** for explicit invocation instead of mentions
+- **Streaming** via Discord message edits (chunk by chunk)
+- **Channel-scoped tools** (e.g. an admin channel gets `shell()`, public channels don't)
+- **Cost guard** — wrap `runtime` with an observer that aborts after $X. See [Cost-guarded chat](./cost-guarded-chat).
+
+## Related
+
+- [Recipe: Persistent memory](./persistent-memory)
+- [Concepts: Memory](../concepts/memory) — why one ChatMemory per channel

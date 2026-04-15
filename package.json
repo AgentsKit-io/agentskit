@@ -10,7 +10,9 @@
     "test:interop": "vitest run --config tests/vitest.config.ts",
     "lint": "turbo run lint",
     "dev": "turbo run dev --parallel",
-    "docs": "pnpm --filter @agentskit/docs start",
+    "docs": "pnpm --filter @agentskit/docs-next dev",
+    "docs:legacy": "pnpm --filter @agentskit/docs start",
+    "docs:build": "pnpm --filter @agentskit/docs-next build",
     "release": "pnpm build && pnpm changeset publish",
     "size": "pnpm build && size-limit",
     "size:why": "pnpm build && size-limit --why"

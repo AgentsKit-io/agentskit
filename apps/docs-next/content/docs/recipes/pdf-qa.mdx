@@ -1,0 +1,102 @@
+---
+title: PDF Q&A
+description: Ask questions about a local PDF file. Extract, chunk, embed, retrieve, answer.
+---
+
+A CLI tool that lets you ask questions about any PDF. Useful for research papers, contracts, manuals.
+
+## Install
+
+```bash
+npm install @agentskit/runtime @agentskit/adapters @agentskit/rag @agentskit/memory pdf-parse
+```
+
+## The script
+
+```ts title="ask-pdf.ts"
+import { createRuntime } from '@agentskit/runtime'
+import { openai, openaiEmbed } from '@agentskit/adapters'
+import { createRAG } from '@agentskit/rag'
+import { fileVectorMemory } from '@agentskit/memory'
+import { readFileSync } from 'node:fs'
+import pdfParse from 'pdf-parse'
+
+const [pdfPath, ...questionParts] = process.argv.slice(2)
+const question = questionParts.join(' ')
+
+if (!pdfPath || !question) {
+  console.error('Usage: tsx ask-pdf.ts <file.pdf> "<question>"')
+  process.exit(1)
+}
+
+// 1. Extract text
+const data = await pdfParse(readFileSync(pdfPath))
+const fullText = data.text
+
+// 2. Chunk (simple: paragraphs of 500-ish chars)
+function chunk(text: string, size = 500): string[] {
+  const paragraphs = text.split(/\n\n+/)
+  const chunks: string[] = []
+  let current = ''
+  for (const p of paragraphs) {
+    if ((current + p).length > size) {
+      if (current) chunks.push(current)
+      current = p
+    } else {
+      current += '\n\n' + p
+    }
+  }
+  if (current) chunks.push(current)
+  return chunks
+}
+
+// 3. Index in-memory (per-PDF, ephemeral)
+const rag = createRAG({
+  store: fileVectorMemory({ path: `./.cache/${pdfPath}.embeddings.json` }),
+  embed: openaiEmbed({ apiKey: KEY, model: 'text-embedding-3-small' }),
+  topK: 4,
+})
+
+await rag.ingest(
+  chunk(fullText).map((content, i) => ({
+    id: `chunk-${i}`,
+    content,
+    source: `${pdfPath}#${i}`,
+  })),
+)
+
+// 4. Ask
+const runtime = createRuntime({
+  adapter: openai({ apiKey: KEY, model: 'gpt-4o-mini' }),
+  retriever: rag,
+  systemPrompt:
+    'Answer using only the provided document excerpts. ' +
+    'Cite passages by their source index. Say "not found in the document" if absent.',
+})
+
+const result = await runtime.run(question)
+console.log(result.content)
+```
+
+## Run it
+
+```bash
+npx tsx ask-pdf.ts paper.pdf "What is the main contribution of this work?"
+```
+
+## Why this works
+
+- **Per-PDF cache** at `./.cache/<file>.embeddings.json` — second run is instant
+- **Source citations** because `RetrievedDocument.source` makes it into the prompt
+- **No memory** — each invocation is independent; perfect for one-shot Q&A
+
+## Tighten the recipe
+
+- **Smarter chunking**: respect headings via a markdown converter (e.g. `mammoth` for DOCX)
+- **Multi-file**: pass `--dir ./papers` and ingest every PDF in the folder
+- **Citation linking**: convert `chunk-7` back to a page number with `pdf-parse`'s page metadata
+
+## Related
+
+- [Recipe: Chat with RAG](./rag-chat) — same idea with a UI
+- [Concepts: Retriever](../concepts/retriever)
