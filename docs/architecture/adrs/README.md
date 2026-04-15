@@ -19,7 +19,7 @@ Do NOT write an ADR for: routine features, bug fixes, internal refactors, or any
 
 ## Format
 
-Every ADR follows the template below.
+Every ADR follows the template below. See `0001-adapter-contract.md` for an example.
 
 ```markdown
 # ADR NNNN — Title
@@ -30,11 +30,23 @@ Every ADR follows the template below.
 - Related issues: #NNN
 
 ## Context
+Why this decision is needed.
+
 ## Decision
+The concrete decision, including interfaces, invariants, and semver/stability tier.
+
 ## Rationale
+Why this choice over the alternatives.
+
 ## Consequences
+Positive and negative outcomes accepted.
+
 ## Alternatives considered
+What we rejected and why.
+
 ## Open questions
+What is intentionally left for future ADRs.
+
 ## References
 ```
 
@@ -44,10 +56,10 @@ Every ADR follows the template below.
 |---|---|---|
 | [0001](./0001-adapter-contract.md) | Adapter contract (v1) | Accepted |
 | [0002](./0002-tool-contract.md) | Tool contract (v1) | Accepted |
-| [0003](./0003-memory-contract.md) | Memory contract (v1, ChatMemory + VectorMemory + EmbedFn) | Accepted |
 
 Upcoming (tracked in #214):
 
+- 0003 — Memory contract
 - 0004 — Retriever contract
 - 0005 — Skill contract
 - 0006 — Runtime contract
