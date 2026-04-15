@@ -142,6 +142,8 @@ function reactStarter(ctx: RenderContext): Record<string, string> {
         },
         dependencies: deps,
         devDependencies: {
+          '@types/react': '^19.0.0',
+          '@types/react-dom': '^19.0.0',
           '@vitejs/plugin-react': '^5.0.0',
           typescript: '^5.5.0',
           vite: '^7.0.0',
@@ -255,6 +257,7 @@ function inkStarter(ctx: RenderContext): Record<string, string> {
         dependencies: deps,
         devDependencies: {
           '@types/react': '^19.0.0',
+          '@types/react-dom': '^19.0.0',
           tsx: '^4.20.0',
           typescript: '^5.5.0',
         },
