@@ -1,13 +1,14 @@
 import type { AdapterFactory, AdapterRequest, StreamSource } from '@agentskit/core'
-import { createStreamSource, parseOllamaStream } from './utils'
+import { createStreamSource, parseOllamaStream, type RetryOptions } from './utils'
 
 export interface OllamaConfig {
   model: string
   baseUrl?: string
+  retry?: RetryOptions
 }
 
 export function ollama(config: OllamaConfig): AdapterFactory {
-  const { model, baseUrl = 'http://localhost:11434' } = config
+  const { model, baseUrl = 'http://localhost:11434', retry } = config
 
   return {
     createSource: (request: AdapterRequest): StreamSource => {
@@ -29,6 +30,7 @@ export function ollama(config: OllamaConfig): AdapterFactory {
         }),
         parseOllamaStream,
         'Ollama API',
+        retry,
       )
     },
   }

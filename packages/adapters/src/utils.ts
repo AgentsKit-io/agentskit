@@ -234,17 +234,129 @@ export async function* parseOllamaStream(stream: ReadableStream): AsyncIterableI
   yield { type: 'done' }
 }
 
+/**
+ * Retry knobs for adapter fetches. Tunable per call to createStreamSource.
+ *
+ * Default behavior:
+ *   - 3 attempts total (1 initial + 2 retries)
+ *   - exponential backoff: 500ms, 1000ms, 2000ms ... (capped at maxDelayMs)
+ *   - full jitter on each delay
+ *   - retry on HTTP 408, 429, 500, 502, 503, 504
+ *   - retry on network errors (fetch throws)
+ *   - DO NOT retry on 4xx other than 408/429 (those are bad requests / auth)
+ *   - retries only the initial fetch — never mid-stream
+ *   - respects Retry-After header when present
+ */
+export interface RetryOptions {
+  maxAttempts?: number
+  baseDelayMs?: number
+  maxDelayMs?: number
+  jitter?: boolean
+  retryOn?: (info: { error?: unknown; response?: Response; attempt: number }) => boolean
+  /** Hook for tests + logging. Called after every failed attempt. */
+  onRetry?: (info: { attempt: number; delayMs: number; reason: string }) => void
+  /** Sleep override for tests. Defaults to setTimeout. */
+  sleep?: (ms: number) => Promise<void>
+}
+
+const DEFAULT_RETRY: Required<Omit<RetryOptions, 'onRetry' | 'sleep' | 'retryOn'>> & {
+  retryOn: NonNullable<RetryOptions['retryOn']>
+} = {
+  maxAttempts: 3,
+  baseDelayMs: 500,
+  maxDelayMs: 8000,
+  jitter: true,
+  retryOn: ({ error, response }) => {
+    if (response) {
+      return [408, 429, 500, 502, 503, 504].includes(response.status)
+    }
+    if (error instanceof DOMException && error.name === 'AbortError') return false
+    // Network error: TypeError from fetch, AbortError from upstream timeout, etc.
+    return true
+  },
+}
+
+function defaultSleep(ms: number): Promise<void> {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+function computeDelay(attempt: number, opts: Required<Pick<RetryOptions, 'baseDelayMs' | 'maxDelayMs' | 'jitter'>>): number {
+  const exp = Math.min(opts.maxDelayMs, opts.baseDelayMs * Math.pow(2, attempt - 1))
+  if (!opts.jitter) return exp
+  return Math.floor(Math.random() * exp)
+}
+
+function parseRetryAfter(value: string | null): number | undefined {
+  if (!value) return undefined
+  const n = Number(value)
+  if (!Number.isNaN(n)) return n * 1000
+  const date = Date.parse(value)
+  if (!Number.isNaN(date)) return Math.max(0, date - Date.now())
+  return undefined
+}
+
+/**
+ * Run a fetch with retries on transient failures. Returns the final
+ * Response (whether successful or not — caller decides), or throws if
+ * the AbortSignal fires or all attempts fail with a thrown error.
+ */
+export async function fetchWithRetry(
+  doFetch: (signal: AbortSignal) => Promise<Response>,
+  signal: AbortSignal,
+  retryOpt: RetryOptions = {},
+): Promise<Response> {
+  const opts = {
+    ...DEFAULT_RETRY,
+    ...retryOpt,
+  }
+  const sleep = retryOpt.sleep ?? defaultSleep
+  let lastError: unknown
+
+  for (let attempt = 1; attempt <= opts.maxAttempts; attempt++) {
+    if (signal.aborted) throw new DOMException('Aborted', 'AbortError')
+
+    try {
+      const response = await doFetch(signal)
+
+      // Success or non-retryable failure → return.
+      if (response.ok) return response
+      if (attempt >= opts.maxAttempts || !opts.retryOn({ response, attempt })) {
+        return response
+      }
+
+      const retryAfterMs = parseRetryAfter(response.headers.get('retry-after'))
+      const delay = retryAfterMs ?? computeDelay(attempt, opts)
+      retryOpt.onRetry?.({ attempt, delayMs: delay, reason: `HTTP ${response.status}` })
+      await sleep(delay)
+      // Drain the body so the connection can be reused.
+      response.body?.cancel().catch(() => {})
+    } catch (err) {
+      lastError = err
+      if (err instanceof DOMException && err.name === 'AbortError') throw err
+      if (attempt >= opts.maxAttempts || !opts.retryOn({ error: err, attempt })) throw err
+
+      const delay = computeDelay(attempt, opts)
+      retryOpt.onRetry?.({ attempt, delayMs: delay, reason: (err as Error).message })
+      await sleep(delay)
+    }
+  }
+
+  // Unreachable, but the TS narrowing needs it.
+  throw lastError ?? new Error('fetchWithRetry: exhausted attempts')
+}
+
 export function createStreamSource(
   doFetch: (signal: AbortSignal) => Promise<Response>,
   parse: (stream: ReadableStream) => AsyncIterableIterator<StreamChunk>,
   errorLabel: string,
+  retry?: RetryOptions,
 ): StreamSource {
   let abortController: AbortController | null = new AbortController()
 
   return {
     stream: async function* (): AsyncIterableIterator<StreamChunk> {
       try {
-        const response = await doFetch(abortController!.signal)
+        const response = await fetchWithRetry(doFetch, abortController!.signal, retry ?? {})
 
         if (!response.ok || !response.body) {
           yield { type: 'error', content: `${errorLabel} error: ${response.status}` }

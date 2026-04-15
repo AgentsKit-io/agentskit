@@ -1,9 +1,10 @@
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
-import { createStreamSource } from './utils'
+import { createStreamSource, type RetryOptions } from './utils'
 
 export interface VercelAIConfig {
   api: string
   headers?: Record<string, string>
+  retry?: RetryOptions
 }
 
 async function* parseVercelStream(stream: ReadableStream): AsyncIterableIterator<StreamChunk> {
@@ -25,7 +26,7 @@ async function* parseVercelStream(stream: ReadableStream): AsyncIterableIterator
 }
 
 export function vercelAI(config: VercelAIConfig): AdapterFactory {
-  const { api, headers = {} } = config
+  const { api, headers = {}, retry } = config
 
   return {
     createSource: (request: AdapterRequest): StreamSource => {
@@ -44,6 +45,7 @@ export function vercelAI(config: VercelAIConfig): AdapterFactory {
         }),
         parseVercelStream,
         'API',
+        retry,
       )
     },
   }

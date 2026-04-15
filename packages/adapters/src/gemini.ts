@@ -1,14 +1,15 @@
 import type { AdapterFactory, AdapterRequest, StreamSource } from '@agentskit/core'
-import { createStreamSource, parseGeminiStream } from './utils'
+import { createStreamSource, parseGeminiStream, type RetryOptions } from './utils'
 
 export interface GeminiConfig {
   apiKey: string
   model: string
   baseUrl?: string
+  retry?: RetryOptions
 }
 
 export function gemini(config: GeminiConfig): AdapterFactory {
-  const { apiKey, model, baseUrl = 'https://generativelanguage.googleapis.com' } = config
+  const { apiKey, model, baseUrl = 'https://generativelanguage.googleapis.com', retry } = config
 
   return {
     createSource: (request: AdapterRequest): StreamSource => {
@@ -39,6 +40,7 @@ export function gemini(config: GeminiConfig): AdapterFactory {
         ),
         parseGeminiStream,
         'Gemini API',
+        retry,
       )
     },
   }

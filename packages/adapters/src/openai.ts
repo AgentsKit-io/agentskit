@@ -1,14 +1,15 @@
 import type { AdapterFactory, AdapterRequest, StreamSource } from '@agentskit/core'
-import { createStreamSource, parseOpenAIStream, toProviderMessages } from './utils'
+import { createStreamSource, parseOpenAIStream, toProviderMessages, type RetryOptions } from './utils'
 
 export interface OpenAIConfig {
   apiKey: string
   model: string
   baseUrl?: string
+  retry?: RetryOptions
 }
 
 export function openai(config: OpenAIConfig): AdapterFactory {
-  const { apiKey, model, baseUrl = 'https://api.openai.com' } = config
+  const { apiKey, model, baseUrl = 'https://api.openai.com', retry } = config
 
   return {
     createSource: (request: AdapterRequest): StreamSource => {
@@ -40,6 +41,7 @@ export function openai(config: OpenAIConfig): AdapterFactory {
         }),
         parseOpenAIStream,
         'OpenAI API',
+        retry,
       )
     },
   }

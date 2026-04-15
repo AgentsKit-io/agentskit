@@ -1,15 +1,16 @@
 import type { AdapterFactory, AdapterRequest, StreamSource } from '@agentskit/core'
-import { createStreamSource, parseAnthropicStream } from './utils'
+import { createStreamSource, parseAnthropicStream, type RetryOptions } from './utils'
 
 export interface AnthropicConfig {
   apiKey: string
   model: string
   baseUrl?: string
   maxTokens?: number
+  retry?: RetryOptions
 }
 
 export function anthropic(config: AnthropicConfig): AdapterFactory {
-  const { apiKey, model, baseUrl = 'https://api.anthropic.com', maxTokens = 4096 } = config
+  const { apiKey, model, baseUrl = 'https://api.anthropic.com', maxTokens = 4096, retry } = config
 
   return {
     createSource: (request: AdapterRequest): StreamSource => {
@@ -41,6 +42,7 @@ export function anthropic(config: AnthropicConfig): AdapterFactory {
         }),
         parseAnthropicStream,
         'Anthropic API',
+        retry,
       )
     },
   }

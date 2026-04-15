@@ -21,6 +21,9 @@ export type { KimiConfig } from './kimi'
 export type { LangChainConfig, LangGraphConfig } from './langchain'
 export type { VercelAIConfig } from './vercel-ai'
 
+export { fetchWithRetry } from './utils'
+export type { RetryOptions } from './utils'
+
 export {
   openaiEmbedder,
   geminiEmbedder,
