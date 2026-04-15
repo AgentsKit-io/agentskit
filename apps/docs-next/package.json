@@ -5,6 +5,7 @@
   "scripts": {
     "build": "next build",
     "dev": "next dev --turbo",
+    "docs": "next dev --turbo",
     "start": "next start",
     "lint": "tsc --noEmit",
     "postinstall": "fumadocs-mdx"
