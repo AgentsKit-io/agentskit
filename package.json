@@ -15,6 +15,8 @@
     "docs": "pnpm --filter @agentskit/docs-next dev",
     "docs:legacy": "pnpm --filter @agentskit/docs start",
     "docs:build": "pnpm --filter @agentskit/docs-next build",
+    "docs:deploy": "pnpm --filter @agentskit/docs-next exec vercel deploy --prod --yes",
+    "docs:deploy:preview": "pnpm --filter @agentskit/docs-next exec vercel deploy --yes",
     "release": "pnpm build && pnpm changeset publish",
     "size": "pnpm build && size-limit",
     "size:why": "pnpm build && size-limit --why"

@@ -20,8 +20,8 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - run: pnpm --filter "./packages/*" build
+
       - run: pnpm --filter "./packages/*" lint
 
       - run: pnpm test
-
-      - run: pnpm --filter "./packages/*" build
