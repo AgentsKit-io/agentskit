@@ -47,13 +47,13 @@ export function GET() {
         >
           <svg width="280" height="280" viewBox="0 0 280 280">
             {/* connecting lines */}
-            <line x1="140" y1="60" x2="50" y2="220" stroke={FOAM} strokeOpacity="0.35" strokeWidth="2" />
-            <line x1="140" y1="60" x2="230" y2="220" stroke={FOAM} strokeOpacity="0.35" strokeWidth="2" />
-            <line x1="50" y1="220" x2="230" y2="220" stroke={FOAM} strokeOpacity="0.35" strokeWidth="2" />
-            {/* circles */}
-            <circle cx="140" cy="60" r="38" fill={MIDNIGHT} stroke={FOAM} strokeWidth="4" />
-            <circle cx="50" cy="220" r="38" fill={MIDNIGHT} stroke={FOAM} strokeWidth="4" />
-            <circle cx="230" cy="220" r="38" fill={MIDNIGHT} stroke={FOAM} strokeWidth="4" />
+            <line x1="140" y1="70" x2="60" y2="210" stroke={FOAM} strokeOpacity="0.5" strokeWidth="2" />
+            <line x1="140" y1="70" x2="220" y2="210" stroke={FOAM} strokeOpacity="0.5" strokeWidth="2" />
+            <line x1="60" y1="210" x2="220" y2="210" stroke={FOAM} strokeOpacity="0.5" strokeWidth="2" />
+            {/* dots — small, solid white */}
+            <circle cx="140" cy="70" r="12" fill={FOAM} />
+            <circle cx="60" cy="210" r="12" fill={FOAM} />
+            <circle cx="220" cy="210" r="12" fill={FOAM} />
           </svg>
         </div>
 
