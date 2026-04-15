@@ -1,0 +1,122 @@
+---
+title: Edit + regenerate messages
+description: Let users correct a prompt, edit the model's answer, or re-run any assistant turn — with correct truncation and streaming.
+---
+
+Every serious chat UI needs two operations that `send` / `retry` don't cover:
+
+- **Edit** — rewrite a previous message (user prompt or assistant answer)
+- **Regenerate** — re-run the model from a specific turn, dropping everything after it
+
+Both are built into `useChat` (React and Ink) and `createChatController`.
+
+## Install
+
+```bash
+npm install @agentskit/react @agentskit/adapters
+```
+
+## The UI
+
+```tsx title="app/chat.tsx"
+'use client'
+import { useChat, ChatContainer, Message, InputBar } from '@agentskit/react'
+import { openai } from '@agentskit/adapters'
+import '@agentskit/react/theme'
+
+export default function Chat() {
+  const chat = useChat({
+    adapter: openai({ apiKey: KEY, model: 'gpt-4o' }),
+  })
+
+  return (
+    <ChatContainer>
+      {chat.messages.map(m => (
+        <div key={m.id} className="group">
+          <Message message={m} />
+          {m.role === 'assistant' && m.status === 'complete' && (
+            <button onClick={() => chat.regenerate(m.id)}>↻ regenerate</button>
+          )}
+          {m.role === 'user' && (
+            <button onClick={() => {
+              const next = window.prompt('Edit:', m.content)
+              if (next) chat.edit(m.id, next)
+            }}>
+              ✎ edit
+            </button>
+          )}
+        </div>
+      ))}
+      <InputBar chat={chat} />
+    </ChatContainer>
+  )
+}
+```
+
+## `regenerate(messageId?)`
+
+Re-run the model:
+
+```ts
+// No id: regenerates the last assistant turn (same as retry)
+await chat.regenerate()
+
+// With id: targets a specific assistant message.
+// Every turn after it is dropped, the preceding user prompt is replayed.
+await chat.regenerate(assistantMessage.id)
+```
+
+`regenerate` aborts any in-flight stream before re-running. The state updates synchronously (optimistic) so your UI shows the placeholder immediately.
+
+## `edit(messageId, newContent, opts?)`
+
+### Editing an assistant message
+
+Replaces content in place. **No regeneration** — useful for reviewers correcting a model's answer inline.
+
+```ts
+await chat.edit(assistantMessage.id, 'Corrected: the answer is 42.')
+```
+
+### Editing a user message
+
+Drops every turn after, optionally regenerates:
+
+```ts
+// Default: truncate and regenerate
+await chat.edit(userMessage.id, 'actually, use Python instead')
+
+// Just truncate — stay idle
+await chat.edit(userMessage.id, 'rephrased', { regenerate: false })
+```
+
+## What happens behind the scenes
+
+| Action | Before | After |
+|---|---|---|
+| `edit(assistant-id, 'fix')` | `[user, assistant]` | `[user, assistant*]` *(content replaced)* |
+| `edit(user-id, 'v2')` | `[user, assistant, user2, assistant2]` | `[user*, assistantNEW]` |
+| `edit(user-id, 'v2', { regenerate: false })` | `[user, assistant, ...]` | `[user*]` |
+| `regenerate(assistant-id)` | `[user, assistant, user2, assistant2]` | `[user, assistantNEW]` |
+| `regenerate()` | `[user, assistant]` | `[user, assistantNEW]` |
+
+The asterisk marks the edited message. `NEW` marks a fresh assistant placeholder that the new stream lands on.
+
+## Optimistic UI
+
+State updates are synchronous, so your React tree re-renders with the truncated history + streaming placeholder before the network round-trip starts. No loading states needed for the truncation itself.
+
+## Common pitfalls
+
+| Pitfall | Fix |
+|---|---|
+| Calling `edit` on a message that doesn't exist | No-op by design — no throw, no state change |
+| Calling `regenerate()` with no assistant turn yet | No-op — safe to wire to a button that might fire early |
+| Editing an assistant message and expecting it to re-run | Pass the **user** message id instead, or call `regenerate(assistantId)` after |
+| Concurrent `send` + `regenerate` | The second call aborts the first in-flight stream via ADR 0001 A6 |
+
+## Related
+
+- [Concepts: Runtime](../concepts/runtime) — abort semantics (RT13)
+- [Recipe: Persistent memory](./persistent-memory) — edits + truncation still play nice with `ChatMemory` atomicity (CM4)
+- [ADR 0001 — Adapter contract](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0001-adapter-contract.md) — A6 abort safety

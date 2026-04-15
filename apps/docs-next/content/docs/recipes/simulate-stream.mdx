@@ -1,0 +1,120 @@
+---
+title: Wrap a non-streaming endpoint
+description: Turn a one-shot provider into a streaming adapter so UIs see identical ergonomics.
+---
+
+Some providers only expose non-streaming endpoints — an internal service, a legacy API, a research model. But your consumers (useChat, the runtime) expect a streaming `StreamSource`. `simulateStream` from `@agentskit/adapters` fetches once and yields the response as a sequence of chunks so everything downstream keeps working.
+
+## Install
+
+```bash
+npm install @agentskit/adapters @agentskit/core
+```
+
+## A wrapped adapter
+
+```ts title="my-adapter.ts"
+import type { AdapterFactory, AdapterRequest } from '@agentskit/core'
+import { simulateStream } from '@agentskit/adapters'
+
+export interface MyAdapterConfig {
+  baseUrl: string
+  apiKey: string
+  model: string
+}
+
+export function myAdapter(config: MyAdapterConfig): AdapterFactory {
+  return {
+    capabilities: {
+      // Tell downstream consumers what shape they'll see
+      streaming: true,          // yes — we synthesize streaming from one-shot
+      tools: false,
+    },
+    createSource: (request: AdapterRequest) => {
+      return simulateStream(
+        // 1. Real fetch — defer every I/O until stream() is called (ADR 0001 A1)
+        (signal) => fetch(`${config.baseUrl}/v1/complete`, {
+          method: 'POST',
+          signal,
+          headers: {
+            'content-type': 'application/json',
+            'authorization': `Bearer ${config.apiKey}`,
+          },
+          body: JSON.stringify({
+            model: config.model,
+            messages: request.messages.map(m => ({ role: m.role, content: m.content })),
+          }),
+        }),
+
+        // 2. Extractor — turn the non-streaming JSON into the final text
+        async (response) => {
+          const body = await response.json() as { text: string }
+          return body.text
+        },
+
+        // 3. Error label used in error chunks
+        'MyAPI',
+
+        // 4. Streaming behavior (all optional)
+        { chunkSize: 32, delayMs: 8, retry: { maxAttempts: 3 } },
+      )
+    },
+  }
+}
+```
+
+Wire it like any built-in adapter:
+
+```ts
+const adapter = myAdapter({ baseUrl: '...', apiKey: KEY, model: 'internal-v1' })
+
+// In a chat UI
+useChat({ adapter })
+
+// In a runtime
+createRuntime({ adapter })
+```
+
+## What `simulateStream` actually does
+
+1. Calls your `doFetch` (once) — retry + abort handling are free via `fetchWithRetry`
+2. Calls your `extractText` to pull the final string out of the response
+3. Splits the text with `chunkText` at whitespace boundaries into ~`chunkSize` pieces
+4. Yields each piece as a `{ type: 'text', content }` chunk with `delayMs` between them
+5. Yields the terminal `{ type: 'done' }` chunk (ADR 0001 A3)
+
+## Options
+
+| Option | Default | What |
+|---|---|---|
+| `chunkSize` | 32 | Target characters per chunk (prefers whitespace boundaries within 8 chars of the target) |
+| `delayMs` | 8 | Delay between chunks — tune for visual pace |
+| `retry` | — | `RetryOptions` passed to `fetchWithRetry` — same shape as every other adapter |
+
+## Just the chunker
+
+Sometimes you only need the splitter:
+
+```ts
+import { chunkText } from '@agentskit/adapters'
+
+const chunks = chunkText('a long paragraph of prose', 40)
+// ['a long paragraph of ', 'prose']
+```
+
+## Contract checklist
+
+Before publishing a `simulateStream`-based adapter, verify against ADR 0001:
+
+- [ ] `createSource` does no I/O (A1) — your fetch is inside the returned `stream()`
+- [ ] Stream always ends with `done` or `error` (A3) — `simulateStream` handles this
+- [ ] `abort()` is safe (A6) — `simulateStream` wires the AbortSignal
+- [ ] No input mutation (A7) — transform inputs via a copy if needed
+
+Full checklist in [ADR 0001 — Adapter contract](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0001-adapter-contract.md).
+
+## Related
+
+- [Concepts: Adapter](../concepts/adapter)
+- [Recipe: Custom adapter](./custom-adapter) — when you want full control over the streaming parser
+- [Capabilities](../concepts/adapter) — advertising `streaming: true` so routers/ensembles treat you as streaming-compatible

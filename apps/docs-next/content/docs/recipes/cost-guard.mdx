@@ -1,0 +1,126 @@
+---
+title: Cost guard
+description: Enforce a dollar budget per run. Tokens → cost → abort, all via contract primitives.
+---
+
+Stop runaway agent loops from blowing a budget. `@agentskit/observability` ships a `costGuard` observer that tracks token usage from every `llm:end` event, computes cost via a pricing table, and aborts the run when the budget is exceeded.
+
+## Install
+
+```bash
+npm install @agentskit/runtime @agentskit/adapters @agentskit/observability
+```
+
+## The guarded run
+
+```ts title="cost-guarded.ts"
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+import { costGuard } from '@agentskit/observability'
+
+const controller = new AbortController()
+
+const runtime = createRuntime({
+  adapter: openai({ apiKey: KEY, model: 'gpt-4o' }),
+  observers: [
+    costGuard({
+      budgetUsd: 0.10,
+      controller,
+      onCost: ({ costUsd, budgetRemainingUsd }) =>
+        process.stdout.write(
+          `\r$${costUsd.toFixed(4)}  remaining $${budgetRemainingUsd.toFixed(4)}`,
+        ),
+      onExceeded: ({ costUsd, budgetUsd }) =>
+        console.warn(`\nBudget exceeded: $${costUsd.toFixed(4)} > $${budgetUsd}`),
+    }),
+  ],
+})
+
+try {
+  const result = await runtime.run('Write a 5000-word essay on quantum computing', {
+    signal: controller.signal,
+  })
+  console.log('\nDone:', result.content)
+} catch (err) {
+  if ((err as Error).name === 'AbortError') {
+    console.log('\nAborted due to cost budget.')
+  } else {
+    throw err
+  }
+}
+```
+
+## How it works
+
+Four primitives compose cleanly:
+
+```
+Adapter emits chunk.metadata.usage
+            ↓
+Runtime emits llm:end with usage
+            ↓
+costGuard accumulates cost, compares to budget
+            ↓ when cost > budget
+controller.abort()
+            ↓
+Runtime RT13: stream stops, memory does not save,
+              promise rejects with AbortError
+```
+
+No hardcoded cost logic inside the runtime — the budget lives in userland, the observer watches contract-defined events, and the abort flows through the `AbortController` the runtime already respects.
+
+## Per-model pricing
+
+`costGuard` ships a `DEFAULT_PRICES` table (OpenAI, Anthropic, Gemini, Ollama free tier, updated for late 2025 model families). Longest-prefix match wins: `gpt-4o-mini` beats `gpt-4o`.
+
+Override any entry via the `prices` option (merged, so you only specify what changed):
+
+```ts
+costGuard({
+  budgetUsd: 0.10,
+  controller,
+  prices: {
+    'my-fine-tuned-model': { input: 0.01, output: 0.03 },
+    'gpt-4o': { input: 0.002, output: 0.008 },   // override the default
+  },
+})
+```
+
+## Inspecting the guard state
+
+```ts
+const guard = costGuard({ budgetUsd: 1.00, controller })
+
+// Live counters during / after the run
+guard.costUsd()               // total in USD
+guard.promptTokens()          // cumulative prompt tokens
+guard.completionTokens()      // cumulative completion tokens
+guard.exceeded()              // boolean
+guard.reset()                 // zero counters for a fresh run (same guard)
+```
+
+## Just the math
+
+Need the cost helpers without the observer wiring?
+
+```ts
+import { priceFor, computeCost, DEFAULT_PRICES } from '@agentskit/observability'
+
+const price = priceFor('gpt-4o-mini')            // { input, output } per 1K tokens
+const cost = computeCost(
+  { promptTokens: 1500, completionTokens: 500 },
+  price,
+)
+```
+
+## Tighten the recipe
+
+- **Per-user quota** — key a counter in Redis by `userId`, reject `run()` before starting if total spend exceeds the user's plan
+- **Observer composition** — combine with `consoleLogger` and/or a LangSmith/OpenTelemetry observer for audit trail alongside enforcement
+- **Budget rollover** — call `guard.reset()` at the start of each run if you want per-run isolation; skip it for cumulative enforcement across a session
+
+## Related
+
+- [Concepts: Runtime — RT9 observers + RT13 abort](../concepts/runtime)
+- [Recipe: Cost-guarded chat](./cost-guarded-chat) — same pattern as a UI recipe
+- [ADR 0006 — Runtime contract](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0006-runtime-contract.md)
