@@ -241,18 +241,31 @@ function SolutionSection() {
                 @agentskit/core · 10KB · zero deps
               </Link>
             </div>
-            <div className="mx-auto mb-6 h-8 w-px bg-ak-border" />
+            <div className="mx-auto mb-4 h-8 w-px bg-ak-border" />
+            <p className="mb-4 text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ak-graphite">
+              ↓ click any package to open its docs
+            </p>
             <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
               {PACKAGE_CARDS.map(pkg => (
                 <Link
                   key={pkg.name}
                   href={pkg.href}
-                  className="rounded-md border border-ak-border bg-ak-surface px-3 py-2 text-center font-mono text-sm text-ak-foam transition hover:border-ak-blue hover:text-ak-blue"
+                  className="group flex items-center justify-between gap-2 rounded-md border border-ak-border bg-ak-surface px-3 py-2 text-center font-mono text-sm text-ak-foam transition hover:border-ak-blue hover:text-ak-blue hover:shadow-[0_0_0_1px_var(--ak-blue)]"
+                  aria-label={`Open docs for ${pkg.name}`}
                 >
-                  {pkg.name}
+                  <span className="flex-1 text-left">{pkg.name}</span>
+                  <span className="text-xs opacity-0 transition group-hover:opacity-100" aria-hidden="true">
+                    →
+                  </span>
                 </Link>
               ))}
             </div>
+            <p className="mt-4 text-center font-mono text-[11px] text-ak-graphite">
+              every card links to its docs ·{' '}
+              <Link href="/docs" className="underline decoration-dotted underline-offset-2 hover:text-ak-blue">
+                browse all →
+              </Link>
+            </p>
           </div>
         </div>
       </div>
