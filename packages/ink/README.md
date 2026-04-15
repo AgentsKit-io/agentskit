@@ -1,5 +1,7 @@
 # @agentskit/ink
 
+![stability: stable](https://img.shields.io/badge/stability-stable-brightgreen)
+
 Build terminal AI chat interfaces with the exact same API as `@agentskit/react`.
 
 ## Why

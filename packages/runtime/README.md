@@ -1,5 +1,7 @@
 # @agentskit/runtime
 
+![stability: stable](https://img.shields.io/badge/stability-stable-brightgreen)
+
 Run autonomous agents in 5 lines — no UI, no boilerplate, just results.
 
 ## Why

@@ -1,5 +1,7 @@
 # @agentskit/templates
 
+![stability: stable](https://img.shields.io/badge/stability-stable-brightgreen)
+
 Create, validate, and scaffold custom AgentsKit extensions — tools, skills, and adapters — ready to publish and share.
 
 ## Why

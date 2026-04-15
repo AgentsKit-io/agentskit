@@ -44,5 +44,9 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "agentskit": {
+    "stability": "stable",
+    "stabilityNote": "Retriever contract v1. Ingest + retrieve shipped."
   }
 }

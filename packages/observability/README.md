@@ -1,5 +1,7 @@
 # @agentskit/observability
 
+![stability: beta](https://img.shields.io/badge/stability-beta-yellow)
+
 See exactly what your agent does — every LLM call, tool execution, and reasoning step — with zero coupling to your agent code.
 
 ## Why

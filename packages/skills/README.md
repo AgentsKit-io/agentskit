@@ -1,5 +1,7 @@
 # @agentskit/skills
 
+![stability: stable](https://img.shields.io/badge/stability-stable-brightgreen)
+
 Pre-tuned agent personas that work out of the box — skills are what your agent IS, tools are what it CAN DO.
 
 ## Why

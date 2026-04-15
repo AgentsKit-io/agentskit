@@ -42,5 +42,9 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "agentskit": {
+    "stability": "stable",
+    "stabilityNote": "Sacred package. Contract-stable per ADRs 0001-0006."
   }
 }

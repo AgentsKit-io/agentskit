@@ -1,5 +1,7 @@
 # @agentskit/tools
 
+![stability: stable](https://img.shields.io/badge/stability-stable-brightgreen)
+
 Give your agents real-world capabilities without writing a single integration.
 
 ## Why

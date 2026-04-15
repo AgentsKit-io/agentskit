@@ -51,5 +51,9 @@
   },
   "publishConfig": {
     "access": "public"
+  },
+  "agentskit": {
+    "stability": "stable",
+    "stabilityNote": "Terminal UI at parity with @agentskit/react."
   }
 }

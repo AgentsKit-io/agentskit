@@ -1,5 +1,7 @@
 # @agentskit/core
 
+![stability: stable](https://img.shields.io/badge/stability-stable-brightgreen)
+
 The zero-dependency foundation that every AgentsKit package builds on.
 
 ## Why

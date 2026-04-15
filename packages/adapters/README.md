@@ -1,5 +1,7 @@
 # @agentskit/adapters
 
+![stability: stable](https://img.shields.io/badge/stability-stable-brightgreen)
+
 Connect to any LLM provider — and swap between them — without touching your app code.
 
 ## Why

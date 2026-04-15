@@ -1,5 +1,7 @@
 # @agentskit/eval
 
+![stability: beta](https://img.shields.io/badge/stability-beta-yellow)
+
 Measure agent quality with numbers, not vibes — ship with confidence.
 
 ## Why

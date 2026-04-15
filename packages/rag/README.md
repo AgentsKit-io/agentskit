@@ -1,5 +1,7 @@
 # @agentskit/rag
 
+![stability: stable](https://img.shields.io/badge/stability-stable-brightgreen)
+
 Plug-and-play retrieval-augmented generation: chunk documents, embed them, and retrieve the right context at query time.
 
 ## Why

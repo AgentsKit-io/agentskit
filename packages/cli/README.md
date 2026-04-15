@@ -1,5 +1,7 @@
 # @agentskit/cli
 
+![stability: stable](https://img.shields.io/badge/stability-stable-brightgreen)
+
 Chat with any LLM, scaffold projects, and run agents — all from your terminal.
 
 ## Why

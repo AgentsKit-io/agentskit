@@ -1,5 +1,7 @@
 # @agentskit/memory
 
+![stability: stable](https://img.shields.io/badge/stability-stable-brightgreen)
+
 Persist conversations and add vector search to your agents — swap backends without changing agent code.
 
 ## Why

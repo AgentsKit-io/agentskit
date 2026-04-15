@@ -48,5 +48,9 @@
     "typescript": "^6.0.2",
     "vectra": "^0.14.0",
     "vitest": "^4.1.4"
+  },
+  "agentskit": {
+    "stability": "stable",
+    "stabilityNote": "File/SQLite/Redis backends — Memory contract v1."
   }
 }

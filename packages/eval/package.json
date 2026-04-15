@@ -44,5 +44,9 @@
     "tsup": "^8.5.0",
     "typescript": "^6.0.2",
     "vitest": "^4.1.4"
+  },
+  "agentskit": {
+    "stability": "beta",
+    "stabilityNote": "Core APIs stable; richer metrics and reporters coming."
   }
 }

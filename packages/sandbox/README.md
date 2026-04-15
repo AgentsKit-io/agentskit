@@ -1,5 +1,7 @@
 # @agentskit/sandbox
 
+![stability: beta](https://img.shields.io/badge/stability-beta-yellow)
+
 Let agents write and run code safely — in isolated cloud VMs, not on your machine.
 
 ## Why

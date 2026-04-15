@@ -1,5 +1,7 @@
 # @agentskit/react
 
+![stability: stable](https://img.shields.io/badge/stability-stable-brightgreen)
+
 Add streaming AI chat to any React app in 10 lines of code.
 
 ## Why
