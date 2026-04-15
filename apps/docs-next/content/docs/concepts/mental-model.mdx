@@ -9,30 +9,20 @@ package behaves.
 
 ## The six concepts
 
-```
-                 ┌─────────────┐
-                 │   Runtime   │  ← the loop that composes everything
-                 └──────┬──────┘
-                        │
-        ┌───────────────┼────────────────┐
-        ▼               ▼                ▼
-   ┌─────────┐    ┌─────────┐      ┌──────────┐
-   │ Adapter │    │  Tools  │      │  Skill   │
-   └─────────┘    └─────────┘      └──────────┘
-        │              │                  │
-   talks to         model can         model becomes
-   the LLM          call them         this persona
-                                          │
-                                          │
-                  ┌───────────────┬───────┴────────┐
-                  ▼               ▼                ▼
-              ┌────────┐     ┌──────────┐    ┌────────┐
-              │ Memory │     │Retriever │    │ ...    │
-              └────────┘     └──────────┘    └────────┘
-
-              chat history    finds relevant
-              + vectors       context
-```
+<Mermaid chart={`
+graph TD
+  Runtime["<b>Runtime</b><br/>the loop that<br/>composes everything"]
+  Adapter["<b>Adapter</b><br/>talks to<br/>the LLM"]
+  Tools["<b>Tools</b><br/>model can<br/>call them"]
+  Skill["<b>Skill</b><br/>model becomes<br/>this persona"]
+  Memory["<b>Memory</b><br/>chat history<br/>+ vectors"]
+  Retriever["<b>Retriever</b><br/>finds relevant<br/>context"]
+  Runtime --> Adapter
+  Runtime --> Tools
+  Runtime --> Skill
+  Skill --> Memory
+  Skill --> Retriever
+`} />
 
 ## What each one does
 
