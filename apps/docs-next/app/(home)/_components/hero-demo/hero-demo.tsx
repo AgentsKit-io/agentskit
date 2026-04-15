@@ -173,8 +173,8 @@ export function HeroDemo() {
         )}
 
         {(frame.thinking || frame.tool || frame.widget || frame.assistant) && (
-          <div className="flex min-w-0 justify-start">
-            <div className="flex min-w-0 max-w-full flex-col gap-2">
+          <div className="flex w-full min-w-0 justify-start">
+            <div className="flex w-full min-w-0 max-w-[92%] flex-col gap-2">
               {frame.thinking && !frame.widget && (
                 <div className="flex items-center gap-2 text-ak-graphite">
                   <span className="inline-flex gap-1">
@@ -213,7 +213,10 @@ export function HeroDemo() {
               )}
 
               {frame.assistant && (
-                <div className="max-w-full break-words rounded-2xl rounded-bl-md bg-ak-surface px-3.5 py-2 text-ak-foam">
+                <div
+                  className="w-fit max-w-full rounded-2xl rounded-bl-md bg-ak-surface px-3.5 py-2 text-ak-foam"
+                  style={{ wordBreak: 'break-word', overflowWrap: 'anywhere' }}
+                >
                   {frame.assistant}
                   <span className="ml-0.5 inline-block h-3.5 w-[2px] translate-y-0.5 animate-pulse bg-ak-blue" />
                 </div>
@@ -237,8 +240,8 @@ export function HeroDemo() {
         </div>
       </div>
 
-      <div className="flex items-center justify-between border-t border-ak-border bg-ak-surface px-4 py-2.5">
-        <div className="flex gap-1.5">
+      <div className="flex items-center justify-center border-t border-ak-border bg-ak-surface px-4 py-2.5">
+        <div className="flex flex-wrap justify-center gap-1.5">
           {SCENES.map((s, i) => (
             <button
               key={s.id}
@@ -259,9 +262,6 @@ export function HeroDemo() {
             </button>
           ))}
         </div>
-        <span className="font-mono text-[11px] text-ak-graphite">
-          agent renders real components · not markdown
-        </span>
       </div>
     </div>
   )
