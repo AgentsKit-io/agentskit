@@ -24,6 +24,15 @@ export type { VercelAIConfig } from './vercel-ai'
 export { fetchWithRetry } from './utils'
 export type { RetryOptions } from './utils'
 
+export { mockAdapter, recordingAdapter, replayAdapter, inMemorySink } from './mock'
+export type {
+  MockAdapterOptions,
+  MockResponse,
+  RecordedTurn,
+  RecordingFixture,
+  RecordingSink,
+} from './mock'
+
 export {
   openaiEmbedder,
   geminiEmbedder,
