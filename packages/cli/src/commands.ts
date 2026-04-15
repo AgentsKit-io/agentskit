@@ -12,6 +12,7 @@ import { runAgent } from './run'
 import { RunApp } from './run-ui'
 import { runDoctor, renderReport } from './doctor'
 import { startDev } from './dev'
+import { startTunnel } from './tunnel'
 
 function mergeWithConfig(options: Record<string, unknown>, config: AgentsKitConfig | undefined): Record<string, unknown> {
   if (!config) return options
@@ -201,6 +202,30 @@ export function createCli() {
           watch,
           ignore,
           debounceMs: Number(options.debounce) || 200,
+        })
+        await controller.done
+      } catch (err) {
+        process.stderr.write(`Error: ${(err as Error).message}\n`)
+        process.exit(1)
+      }
+    })
+
+  program
+    .command('tunnel <port>')
+    .description('Open a public URL pointing to a local port (great for webhooks).')
+    .option('--subdomain <name>', 'Hint for a stable subdomain (provider may decline)')
+    .option('--host <host>', 'Local hostname', 'localhost')
+    .action(async (port: string, options) => {
+      const portNum = Number(port)
+      if (Number.isNaN(portNum) || portNum < 1 || portNum > 65535) {
+        process.stderr.write(`Error: invalid port: ${port}\n`)
+        process.exit(2)
+      }
+      try {
+        const controller = await startTunnel({
+          port: portNum,
+          subdomain: options.subdomain,
+          host: options.host,
         })
         await controller.done
       } catch (err) {
