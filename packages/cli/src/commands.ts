@@ -11,6 +11,7 @@ import { runInteractiveInit, printNextSteps } from './init-interactive'
 import { runAgent } from './run'
 import { RunApp } from './run-ui'
 import { runDoctor, renderReport } from './doctor'
+import { startDev } from './dev'
 
 function mergeWithConfig(options: Record<string, unknown>, config: AgentsKitConfig | undefined): Record<string, unknown> {
   if (!config) return options
@@ -177,6 +178,35 @@ export function createCli() {
 
       // Non-zero exit when any check failed — useful for CI scripts.
       if (report.fail > 0) process.exit(1)
+    })
+
+  program
+    .command('dev [entry]')
+    .description('Run an entry file with hot-reload on file changes.')
+    .option('--watch <globs>', 'Comma-separated glob patterns to watch')
+    .option('--ignore <globs>', 'Comma-separated glob patterns to ignore')
+    .option('--debounce <ms>', 'Debounce window before restart', '200')
+    .action(async (positional: string | undefined, options) => {
+      const entry = positional ?? 'src/index.ts'
+      const watch = options.watch
+        ? (options.watch as string).split(',').map(s => s.trim()).filter(Boolean)
+        : undefined
+      const ignore = options.ignore
+        ? (options.ignore as string).split(',').map(s => s.trim()).filter(Boolean)
+        : undefined
+
+      try {
+        const controller = startDev({
+          entry,
+          watch,
+          ignore,
+          debounceMs: Number(options.debounce) || 200,
+        })
+        await controller.done
+      } catch (err) {
+        process.stderr.write(`Error: ${(err as Error).message}\n`)
+        process.exit(1)
+      }
     })
 
   return program
