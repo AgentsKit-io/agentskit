@@ -4,7 +4,7 @@
 
 **The agent toolkit JavaScript actually deserves.**
 
-A 10KB sacred core. Twelve plug-and-play packages. Zero lock-in. Six formal contracts that make every adapter, tool, skill, memory, retriever, and runtime substitutable.
+A 10KB core. Twelve plug-and-play packages. Zero lock-in. Six formal contracts that make every adapter, tool, skill, memory, retriever, and runtime substitutable.
 
 [![npm](https://img.shields.io/npm/v/@agentskit/react?label=npm)](https://www.npmjs.com/package/@agentskit/react)
 [![bundle](https://img.shields.io/bundlephobia/minzip/@agentskit/react?label=react%20bundle)](https://bundlephobia.com/package/@agentskit/react)
@@ -16,13 +16,17 @@ A 10KB sacred core. Twelve plug-and-play packages. Zero lock-in. Six formal cont
 
 ---
 
+*You started building an AI agent last week. You're three libraries deep, two of them fight each other, and nothing you wrote is reusable. This is for you.*
+
 ## Why this exists
+
+**We don't need another framework. We need a kit.**
 
 Building a real AI agent in JavaScript today means cobbling together five libraries that don't fit. Vercel AI SDK is a beautiful chat SDK with no runtime. LangChain.js drags in 200MB and leaks abstractions at every layer. MCP solves tool interop and nothing else. assistant-ui has 53 components and no opinion about how to compose them.
 
-AgentsKit is the missing **kit**: small, contracted, composable. Six packages you can use alone, twelve that combine without ceremony. You stay in plain JavaScript the entire time.
+AgentsKit is the missing kit: small, contracted, composable. Six packages you can use alone, twelve that combine without ceremony. You stay in plain JavaScript the entire time.
 
-> Read the [origin story](./ORIGIN.md) for the long version. Read the [manifesto](./MANIFESTO.md) for the principles we hold ourselves to.
+> [Origin story](./ORIGIN.md) for the long version. [Manifesto](./MANIFESTO.md) for the principles.
 
 ---
 
@@ -194,13 +198,22 @@ Read these once and you can predict how every package behaves.
 
 ## Status
 
-We are pre-1.0. The substrate (`@agentskit/core`, the six contracts, the bundle/coverage CI gates) is locked. New packages and adapters land continuously. See the [Phase 0 PRD](https://github.com/EmersonBraun/agentskit/issues/211) for the current foundation work and the [Master PRD](https://github.com/EmersonBraun/agentskit/issues/113) for what comes next.
+`@agentskit/core` is at **v1.0.0** — API frozen at the minor level, deprecations carry a cycle, contracts pinned to ADRs. Other packages track their own cadence and individual [stability tiers](./docs/STABILITY.md).
+
+Concretely, as of the Phase 1 release:
+
+- **538 tests** across 14 packages
+- **5.17 KB** gzipped core — 48% under the 10 KB manifesto budget (enforced in CI)
+- **Seven formal contracts** pinned to ADRs 0001–0007
+- **74 documentation routes** including 13 copy-paste recipes and 3 migration guides
+
+See the [Phase 1 release notes](./docs/RELEASE-CORE-V1.md) for what shipped, and the [Master PRD](https://github.com/EmersonBraun/agentskit/issues/113) for what's next.
 
 ---
 
 ## Contributing
 
-Read the [Manifesto](./MANIFESTO.md) first. Then [`CONTRIBUTING.md`](./CONTRIBUTING.md). Open an [RFC](https://github.com/EmersonBraun/agentskit/issues/new?template=rfc.yml) for anything that touches a contract.
+[`CONTRIBUTING.md`](./CONTRIBUTING.md) covers dev setup. Open an [RFC](https://github.com/EmersonBraun/agentskit/issues/new?template=rfc.yml) before touching a contract.
 
 ---
 

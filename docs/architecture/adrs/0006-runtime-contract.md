@@ -173,4 +173,4 @@ This categorization MUST be reflected in observer events.
 
 - Current implementation: `packages/runtime/src/types.ts`, `packages/runtime/src/runner.ts`, `packages/core/src/agent-loop.ts`, `packages/core/src/controller.ts`
 - Related contracts: ADR 0001 (Adapter — substrate), 0002 (Tool — substrate, T9 confirmation, T11 errors), 0003 (Memory — CM4 atomicity), 0004 (Retriever — substrate), 0005 (Skill — S9 onActivate, S6 delegates)
-- Manifesto principles 1 (sacred core), 2 (plug-and-play), 5 (agent-first, not chat-first), 8 (small, deep, testable modules), 9 (predictable beats clever)
+- Manifesto principles 1 (core is a promise), 2 (plug-and-play), 5 (agent-first, not chat-first), 8 (small, deep, testable modules), 9 (predictable beats clever)

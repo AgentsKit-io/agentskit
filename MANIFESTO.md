@@ -4,7 +4,7 @@
 
 ---
 
-## 1. The core is sacred
+## 1. The core is a promise
 
 `@agentskit/core` will always be **under 10KB gzipped with zero runtime dependencies**. It contains only types, contracts, and minimal orchestration primitives. Nothing gets added here unless it is foundational and permanent. Stability is the feature.
 

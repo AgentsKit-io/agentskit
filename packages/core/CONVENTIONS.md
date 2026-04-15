@@ -1,6 +1,6 @@
 # Conventions — `@agentskit/core`
 
-The sacred package. Every rule here is stricter than the rest of the monorepo.
+The core package. Every rule here is stricter than the rest of the monorepo.
 
 ## Non-negotiables
 

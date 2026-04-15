@@ -2,7 +2,7 @@
 
 > Release cut: 2026-04-15.
 
-After Phase 0 (foundation hardening) and Phase 1 (developer experience + runtime features), the sacred package reaches v1.
+After Phase 0 (foundation hardening) and Phase 1 (developer experience + runtime features), the core package reaches v1.
 
 ## What hits 1.0 today
 
@@ -83,4 +83,4 @@ The ten principles held throughout Phase 0 + 1. A snapshot at release time:
 9. ✅ Predictable beats clever — one entry point per primitive
 10. ✅ Open by default — roadmap, RFCs, ADRs all public
 
-Day one is over. Day two starts with a real v1.
+The substrate is stable. Build on it.

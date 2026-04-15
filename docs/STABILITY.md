@@ -85,5 +85,5 @@ If a package is `stable`, pin it with `^x.y.z` and trust the minor-bump contract
 ## References
 
 - This policy lives at `/docs/STABILITY.md`
-- Cross-referenced from the [Manifesto](../MANIFESTO.md) (principle 1 — "the core is sacred") and from every package README badge
+- Cross-referenced from the [Manifesto](../MANIFESTO.md) (principle 1 — "the core is a promise") and from every package README badge
 - Related ADRs: 0001 Adapter, 0002 Tool, 0003 Memory, 0004 Retriever, 0005 Skill, 0006 Runtime

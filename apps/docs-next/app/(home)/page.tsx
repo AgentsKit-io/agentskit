@@ -43,7 +43,7 @@ export default function HomePage() {
         The agent toolkit JavaScript actually deserves.
       </h1>
       <p className="mb-2 max-w-2xl text-lg text-fd-muted-foreground">
-        A 10KB sacred core. Twelve plug-and-play packages. Zero lock-in.
+        A 10KB core. Twelve plug-and-play packages. Zero lock-in.
       </p>
       <p className="mb-10 max-w-2xl text-base text-fd-muted-foreground">
         Six formal contracts that make every adapter, tool, skill, memory, retriever, and runtime

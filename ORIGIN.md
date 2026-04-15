@@ -1,14 +1,12 @@
 # Origin — Why AgentsKit Exists
 
-> *Personal note from the author. This document is intentionally first-person and unpolished. It is the story of a frustration that became a library.*
->
-> *To the maintainer reading this before merge: replace the placeholders in square brackets with your real experience, or rewrite freely. The goal is authenticity — not a perfect pitch.*
+> *Personal note from the author. First-person and unpolished by intent — the story of a frustration that became a library.*
 
 ---
 
 ## The frustration
 
-In april, 2026, I was trying to build a simple thing: an AI chat interface with streaming, a couple of tools, and persistent memory. Not an agent that cures cancer — just a chat that remembers yesterday's conversation and can call a function.
+Earlier this year I was trying to build a simple thing: an AI chat interface with streaming, a couple of tools, and persistent memory. Not an agent that cures cancer — just a chat that remembers yesterday's conversation and can call a function.
 
 I went shopping in the JavaScript ecosystem.
 
@@ -52,6 +50,4 @@ If you've felt the frustration above, this is for you. If you've built agents in
 
 Open an issue. Open an RFC. Build a package. Break our assumptions. Make us better.
 
-This is day one.
-
-— Emerson Braun, 04 april 2026
+— Emerson Braun, April 2026
