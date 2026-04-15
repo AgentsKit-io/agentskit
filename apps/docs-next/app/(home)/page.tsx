@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { SocialProofBar } from './_components/social-proof-bar'
 import { InstallCommand } from './_components/install-command'
 import { HeroDemo } from './_components/hero-demo/hero-demo'
+import { ContributorWall } from '@/components/contribute/contributor-wall'
 
 export const metadata = {
   title: 'AgentsKit — Ship AI agents in JavaScript without gluing 8 libraries',
@@ -47,6 +48,7 @@ export default function HomePage() {
       <SolutionSection />
       <BenefitsSection />
       <ProviderStrip />
+      <BuiltInOpenSection />
       <FinalCta />
     </main>
   )
@@ -347,6 +349,16 @@ function ProviderStrip() {
   )
 }
 
+function BuiltInOpenSection() {
+  return (
+    <section className="border-b border-ak-border bg-ak-midnight px-6 py-20">
+      <div className="mx-auto max-w-5xl">
+        <ContributorWall />
+      </div>
+    </section>
+  )
+}
+
 function FinalCta() {
   return (
     <section className="bg-ak-midnight px-6 py-28">
@@ -379,6 +391,12 @@ function FinalCta() {
           >
             Star on GitHub
           </a>
+          <Link
+            href="/docs/contribute"
+            className="inline-flex items-center gap-2 rounded-md border border-ak-border bg-ak-surface px-6 py-3 text-sm font-medium text-ak-foam transition hover:border-ak-blue"
+          >
+            Contribute →
+          </Link>
         </div>
 
         <p className="mt-8 font-mono text-xs text-ak-graphite">

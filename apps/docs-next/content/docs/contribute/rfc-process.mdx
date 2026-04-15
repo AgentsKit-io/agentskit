@@ -1,0 +1,34 @@
+---
+title: RFC process
+description: For larger proposals — new packages, breaking changes, or architectural shifts. Keep it lightweight.
+---
+
+For anything bigger than a feature — a new package, a breaking change, or an architectural shift — open an RFC before the PR. It saves everyone time.
+
+## When you need an RFC
+
+- New published package
+- Breaking change to a public contract (Adapter, Tool, Skill, Memory, Retriever, Runtime)
+- Change to the core event stream
+- Anything that touches 3+ packages
+
+Skip the RFC for bug fixes, new adapters/tools/skills (if they implement existing contracts), docs, and internal refactors.
+
+## Process
+
+1. **Open a [discussion](https://github.com/EmersonBraun/agentskit/discussions)** under the "RFC" category.
+2. **Template**:
+   - **Motivation** — what problem are we solving?
+   - **Proposal** — what changes, in plain English
+   - **API sketch** — types + a tiny example
+   - **Alternatives considered** — what else did you look at?
+   - **Migration** — what breaks, how do users migrate?
+3. **Wait for 2+ maintainer approvals** (thumbs, not vibes).
+4. **Open a tracking issue** with checkboxes.
+5. **PR away.**
+
+Keep it short. A great RFC is 200–500 words, not 3000.
+
+## Examples of good RFCs
+
+Coming soon — link to merged RFCs here.

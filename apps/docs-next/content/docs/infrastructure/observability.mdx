@@ -2,6 +2,8 @@
 title: Observability
 description: "@agentskit/observability provides pluggable Observer implementations for @agentskit/core AgentEvent streams. Observers are lazy-friendly: import only the backends you wire into"
 ---
+import { ContributeCallout } from '@/components/contribute/contribute-callout'
+
 
 `@agentskit/observability` provides **pluggable `Observer`** implementations for [`@agentskit/core`](../packages/core) `AgentEvent` streams. Observers are lazy-friendly: import only the backends you wire into [`createRuntime`](../agents/runtime) or [`useChat`](../hooks/use-chat) via `observers` in config.
 
@@ -135,3 +137,5 @@ const myObserver: Observer = {
 ## See also
 
 [Start here](../getting-started/read-this-first) · [Packages](../packages/overview) · [TypeDoc](pathname:///agentskit/api-reference/) (`@agentskit/observability`) · [Eval](./eval) · [Runtime](../agents/runtime) · [@agentskit/core](../packages/core)
+
+<ContributeCallout pkg="observability" />

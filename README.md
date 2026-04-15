@@ -213,7 +213,22 @@ See the [Phase 1 release notes](./docs/RELEASE-CORE-V1.md) for what shipped, and
 
 ## Contributing
 
-[`CONTRIBUTING.md`](./CONTRIBUTING.md) covers dev setup. Open an [RFC](https://github.com/EmersonBraun/agentskit/issues/new?template=rfc.yml) before touching a contract.
+AgentsKit is built in the open and ships because contributors show up. Every package, every doc, every example is fair game.
+
+- **[How to contribute →](https://agentskit.dev/docs/contribute)** — start here
+- **[Good-first-issues](https://github.com/EmersonBraun/agentskit/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)** — curated, tractable tickets
+- **[Help-wanted](https://github.com/EmersonBraun/agentskit/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)** — larger scoped work
+- **[Discussions](https://github.com/EmersonBraun/agentskit/discussions)** — ask, propose, share
+- **[RFC template](https://github.com/EmersonBraun/agentskit/issues/new?template=rfc.yml)** — open before touching a contract
+- **[`CONTRIBUTING.md`](./CONTRIBUTING.md)** — dev setup + PR checklist
+
+### Contributors
+
+<a href="https://github.com/EmersonBraun/agentskit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=EmersonBraun/agentskit" alt="AgentsKit contributors" />
+</a>
+
+Thanks to everyone who's shipped a line of code, docs, or feedback.
 
 ---
 

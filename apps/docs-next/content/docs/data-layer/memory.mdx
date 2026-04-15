@@ -2,6 +2,8 @@
 title: Memory
 description: "@agentskit/memory provides pluggable backends for chat history (ChatMemory) and semantic vector search (VectorMemory). All backends use lazy imports — the underlying driver is loaded only when the"
 ---
+import { ContributeCallout } from '@/components/contribute/contribute-callout'
+
 
 `@agentskit/memory` provides pluggable backends for chat history (`ChatMemory`) and semantic vector search (`VectorMemory`). All backends use **lazy imports** — the underlying driver is loaded only when the memory is first used, so unused backends add no runtime cost.
 
@@ -224,3 +226,5 @@ All backends load their drivers with a dynamic `import()` or `require()` on firs
 ## See also
 
 [Start here](../getting-started/read-this-first) · [Packages](../packages/overview) · [TypeDoc](pathname:///agentskit/api-reference/) (`@agentskit/memory`) · [Adapters](./adapters) · [RAG](./rag) · [useChat](../hooks/use-chat) · [@agentskit/core](../packages/core)
+
+<ContributeCallout pkg="memory" />

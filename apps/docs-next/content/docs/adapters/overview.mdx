@@ -2,6 +2,8 @@
 title: Adapters Overview
 description: Adapters normalize AI provider streaming APIs into a common interface that AgentsKit hooks consume.
 ---
+import { ContributeCallout } from '@/components/contribute/contribute-callout'
+
 
 Adapters normalize AI provider streaming APIs into a common interface that AgentsKit hooks consume.
 
@@ -43,3 +45,5 @@ const myAdapter = createAdapter({
   abort: () => { /* cleanup */ },
 })
 ```
+
+<ContributeCallout pkg="adapters" title="Don't see your provider?" body="Adapters implement a ~50-LOC contract — stream request → StreamSource. If your provider ships an SDK or REST endpoint, you can add it in an afternoon. PRs with tests + a docs page get merged fast." />

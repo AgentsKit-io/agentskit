@@ -1,0 +1,77 @@
+---
+title: Local setup
+description: Clone, install, and run the AgentsKit monorepo locally in under 2 minutes.
+---
+
+Clone, install, run. Monorepo uses pnpm workspaces + Turborepo.
+
+## Prerequisites
+
+- Node.js **22+**
+- pnpm **9+** (`corepack enable`)
+- Git
+
+## Clone + install
+
+```bash
+git clone https://github.com/EmersonBraun/agentskit.git
+cd agentskit
+pnpm install
+```
+
+## Everyday commands
+
+```bash
+pnpm build            # build all packages (turborepo-cached)
+pnpm test             # run every package's vitest suite
+pnpm lint             # tsc --noEmit across the workspace
+pnpm dev              # watch mode — rebuilds on save
+```
+
+## Single package
+
+```bash
+pnpm --filter @agentskit/core test
+pnpm --filter @agentskit/react build
+pnpm --filter @agentskit/adapters test -- --watch
+```
+
+## Run the docs site locally
+
+```bash
+pnpm --filter @agentskit/docs-next dev
+```
+
+Open http://localhost:3000.
+
+## Run the React playground
+
+```bash
+pnpm --filter @agentskit/example-react dev
+```
+
+## Monorepo layout
+
+```
+packages/
+  core/            ← zero-deps foundation (10KB)
+  adapters/        ← OpenAI, Anthropic, Gemini, …
+  react/           ← React hooks + UI
+  ink/             ← terminal UI
+  cli/             ← `agentskit` binary
+  runtime/         ← standalone agent runtime
+  tools/ skills/ memory/ rag/ sandbox/
+  observability/ eval/ templates/
+
+apps/
+  docs-next/       ← this site (Next.js + Fumadocs)
+  example-react/   ← React playground
+  example-ink/     ← Ink playground
+  example-runtime/ ← runtime-only example
+```
+
+## Troubleshooting
+
+- **`Cannot find module '@agentskit/core'`** — run `pnpm build` first. Linting depends on built `dist/` types.
+- **Lockfile conflicts** — delete `node_modules` + `pnpm-lock.yaml`, run `pnpm install`.
+- **Node version errors** — make sure `node -v` reports 22+.

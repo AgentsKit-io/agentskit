@@ -54,6 +54,8 @@ export const baseOptions: BaseLayoutProps = {
   },
   links: [
     { text: 'Documentation', url: '/docs' },
+    { text: 'Examples', url: '/docs/examples' },
+    { text: 'Contribute', url: '/docs/contribute' },
     { text: 'GitHub', url: 'https://github.com/EmersonBraun/agentskit' },
     { text: 'Manifesto', url: 'https://github.com/EmersonBraun/agentskit/blob/main/MANIFESTO.md' },
   ],

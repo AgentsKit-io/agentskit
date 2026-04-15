@@ -2,6 +2,8 @@
 title: Tools
 description: "@agentskit/tools provides ready-made ToolDefinition values for web search, filesystem access, and shell execution. Pass them to createRuntime or useChat."
 ---
+import { ContributeCallout } from '@/components/contribute/contribute-callout'
+
 
 `@agentskit/tools` provides ready-made **`ToolDefinition`** values for web search, filesystem access, and shell execution. Pass them to [`createRuntime`](./runtime) or [`useChat`](../hooks/use-chat).
 
@@ -231,3 +233,5 @@ interface ToolMetadata {
 ## See also
 
 [Start here](../getting-started/read-this-first) · [Packages](../packages/overview) · [TypeDoc](pathname:///agentskit/api-reference/) (`@agentskit/tools`) · [Runtime](./runtime) · [Skills](./skills) · [@agentskit/core](../packages/core)
+
+<ContributeCallout pkg="tools" title="Built a useful tool?" body="Tools follow a strict { name, description, schema, execute } contract. If you wrote one you'd use again — browser, API, database, integration — send it in. Others likely need the same thing." />

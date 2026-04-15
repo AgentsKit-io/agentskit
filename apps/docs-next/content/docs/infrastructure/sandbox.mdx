@@ -2,6 +2,8 @@
 title: Sandbox
 description: "@agentskit/sandbox runs untrusted agent-generated code in an isolated backend. The default integration targets E2B; you can swap a custom SandboxBackend for on-prem runtimes."
 ---
+import { ContributeCallout } from '@/components/contribute/contribute-callout'
+
 
 `@agentskit/sandbox` runs **untrusted agent-generated code** in an isolated backend. The default integration targets **E2B**; you can swap a custom `SandboxBackend` for on-prem runtimes.
 
@@ -115,3 +117,5 @@ const sandbox = createSandbox({ backend: myBackend })
 ## See also
 
 [Start here](../getting-started/read-this-first) · [Packages](../packages/overview) · [TypeDoc](pathname:///agentskit/api-reference/) (`@agentskit/sandbox`) · [Observability](./observability) · [Eval](./eval) · [Tools](../agents/tools) · [@agentskit/core](../packages/core)
+
+<ContributeCallout pkg="sandbox" />

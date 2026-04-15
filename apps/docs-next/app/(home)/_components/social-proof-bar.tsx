@@ -53,9 +53,26 @@ async function fetchStars(): Promise<number | null> {
   }
 }
 
+async function fetchContributorCount(): Promise<number | null> {
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/${GITHUB_REPO}/contributors?per_page=1&anon=1`,
+    )
+    if (!res.ok) return null
+    const link = res.headers.get('link') ?? ''
+    const m = link.match(/page=(\d+)>; rel="last"/)
+    if (m) return Number(m[1])
+    const list = (await res.json()) as unknown[]
+    return Array.isArray(list) ? list.length : null
+  } catch {
+    return null
+  }
+}
+
 export function SocialProofBar() {
   const [downloads, setDownloads] = useState<number | null>(null)
   const [stars, setStars] = useState<number | null>(null)
+  const [contributors, setContributors] = useState<number | null>(null)
 
   useEffect(() => {
     let cancelled = false
@@ -64,6 +81,9 @@ export function SocialProofBar() {
     })
     fetchStars().then(s => {
       if (!cancelled) setStars(s)
+    })
+    fetchContributorCount().then(c => {
+      if (!cancelled) setContributors(c)
     })
     return () => {
       cancelled = true
@@ -83,6 +103,12 @@ export function SocialProofBar() {
           href={GITHUB_URL}
           label="github stars"
           value={stars === null ? '…' : compact(stars)}
+        />
+        <Divider />
+        <Metric
+          href={`${GITHUB_URL}/graphs/contributors`}
+          label="contributors"
+          value={contributors === null ? '…' : compact(contributors)}
         />
         <Divider />
         <Metric label="packages on npm" value="14" />
