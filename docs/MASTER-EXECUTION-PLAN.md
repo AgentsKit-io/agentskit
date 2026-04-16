@@ -1,231 +1,231 @@
 # AgentsKit — Master Execution Plan
 
-> Plano mestre de execução dos 149 issues (Phase 0 + Fases 1-4).
-> Sequência, dependências, sprints, gates e ordem sugerida.
+> Master execution plan for the 149 issues (Phase 0 + Phases 1–4).
+> Sequence, dependencies, sprints, gates, and suggested order.
 >
-> **Documentos relacionados:**
-> - [Master PRD #113](https://github.com/EmersonBraun/agentskit/issues/113) — 97 issues do roadmap de produto
-> - [Phase 0 PRD #211](https://github.com/EmersonBraun/agentskit/issues/211) — 52 issues de foundation hardening
-> - [`PHASE-0-EXECUTION-PLAN.md`](./PHASE-0-EXECUTION-PLAN.md) — plano detalhado P0→P2
+> **Related documents:**
+> - [Master PRD #113](https://github.com/EmersonBraun/agentskit/issues/113) — 97 product roadmap issues
+> - [Phase 0 PRD #211](https://github.com/EmersonBraun/agentskit/issues/211) — 52 foundation-hardening issues
+> - [`PHASE-0-EXECUTION-PLAN.md`](./PHASE-0-EXECUTION-PLAN.md) — detailed P0→P2 plan
 > - [Project Board](https://github.com/users/EmersonBraun/projects/1)
 
 ---
 
-## Visão geral
+## Overview
 
-| Período | Fase | Issues | Objetivo |
+| Period | Phase | Issues | Goal |
 |---|---|---|---|
-| **Semanas 1-6** | **Phase 0** (Foundation) | 52 (#212-#263) | Base sólida: contratos, narrativa, Fumadocs, agentskit.io, qualidade |
-| **Meses 2-4** | **Fase 1** (Foundation UX) | 20 (#114-#133) | DX que vira viral — init, doctor, dev, devtools, recipes |
-| **Meses 4-7** | **Fase 2** (Evolução) | 31 (#134-#164) | Diferenciação técnica real — replay, router, memory, security |
-| **Meses 7-10** | **Fase 3** (Expansão) | 34 (#165-#198) | Adapters, tools, MCP bridge, multi-framework, verticais |
-| **Meses 10-12** | **Fase 4** (Business) | 12 (#199-#210) | Cloud, marketplace, enterprise, parcerias |
+| **Weeks 1–6** | **Phase 0** (Foundation) | 52 (#212–#263) | Solid base: contracts, narrative, Fumadocs, agentskit.io, quality |
+| **Months 2–4** | **Phase 1** (Foundation UX) | 20 (#114–#133) | DX that goes viral — init, doctor, dev, devtools, recipes |
+| **Months 4–7** | **Phase 2** (Evolution) | 31 (#134–#164) | Real technical differentiation — replay, router, memory, security |
+| **Months 7–10** | **Phase 3** (Expansion) | 34 (#165–#198) | Adapters, tools, MCP bridge, multi-framework, verticals |
+| **Months 10–12** | **Phase 4** (Business) | 12 (#199–#210) | Cloud, marketplace, enterprise, partnerships |
 
-**Total**: ~12 meses de roadmap claro. Revisão trimestral obrigatória pra recalibrar.
+**Total**: ~12 months of a clear roadmap. Mandatory quarterly review to recalibrate.
 
 ---
 
-## Estrutura de Sprints
+## Sprint structure
 
-Sprints de **2 semanas**. Ao longo dos 12 meses, ~26 sprints.
+Sprints of **2 weeks**. Over 12 months, ~26 sprints.
 
-### Mapeamento Fase → Sprints → Issues
+### Phase → Sprint → Issue mapping
 
-| Sprint | Semanas | Fase | Foco | Issues-alvo |
+| Sprint | Weeks | Phase | Focus | Target issues |
 |---|---|---|---|---|
-| **S1** | 1-2 | Phase 0 | Narrativa + CI gates | P0: #225, #226, #235, #217, #218, #224 |
-| **S2** | 3-4 | Phase 0 | Contratos + Fumadocs início | P0/P1: #214, #225→#238 (Fumadocs spike) |
-| **S3** | 5-6 | Phase 0 | Fumadocs full + Concepts + READMEs pacotes | P1/P2: #238, #239, #228, READMEs |
-| **S4** | 7-8 | Phase 0 wrap | Migration guides + E2E + Discord + LICENSE | #241, #242, #243, #255, #261 |
-| **S5** | 9-10 | **🚀 Launch + Fase 1 início** | Anúncio coordenado + init/doctor | #263 (launch) + #114 #115 #116 |
-| **S6** | 11-12 | Fase 1 | Dev server + tunnel + streaming | #117 #118 #121 |
-| **S7** | 13-14 | Fase 1 | useChat + cost guard + hot-swap | #119 #120 #121 #122 #123 |
-| **S8** | 15-16 | Fase 1 | Docs chat + decision tree + migration guides | #124 #125 #126 #127 #128 |
-| **S9** | 17-18 | Fase 1 wrap | Error didáticos + tipos + roadmap público | #129 #130 #131 #132 #133 |
-| **S10** | 19-20 | Fase 2 | Deterministic replay + snapshot + diff | #134 #135 #136 |
-| **S11** | 21-22 | Fase 2 | Time travel + token budget + speculative | #137 #138 #139 |
-| **S12** | 23-24 | Fase 2 | Streaming progressivo + context + multi-modal | #140 #141 #142 |
-| **S13** | 25-26 | Fase 2 | Schema-first + agentskit ai + router adapter | #143 #144 #145 |
-| **S14** | 27-28 | Fase 2 | Ensemble + fallback + devtools | #146 #147 #148 |
-| **S15** | 29-30 | Fase 2 | Trace viewer + evals CI + A/B | #149 #150 #151 |
-| **S16** | 31-32 | Fase 2 | Hierarchical memory + summarization + RAG reranking | #152 #153 #154 #155 |
-| **S17** | 33-34 | Fase 2 wrap | Durable + multi-agent + HITL + background | #156 #157 #158 #159 |
-| **S18** | 35-36 | Fase 2 security | PII + prompt injection + audit + rate-limit + sandbox | #160 #161 #162 #163 #164 |
-| **S19** | 37-38 | Fase 3 | Major adapters (10+ providers) | #165 #166 |
-| **S20** | 39-40 | Fase 3 | MCP bridge + tool composer | #167 #168 |
-| **S21** | 41-42 | Fase 3 | Tools dev ecosystem (GitHub, Linear, Slack) | #169 #170 #171 |
-| **S22** | 43-44 | Fase 3 | Tools scraping/image/voice/maps | #172 #173 #174 #175 |
-| **S23** | 45-46 | Fase 3 | Browser agent + self-debug + memory adapters | #176 #177 #178 |
-| **S24** | 47-48 | Fase 3 | Memory graph + encryption + skills | #179 #180 #181 #182 #183 |
-| **S25** | 49-50 | Fase 3 | UI multi-framework (Vue/Svelte/Solid) + RN | #184 #185 #186 |
-| **S26** | 51-52 | Fase 3 wrap | Edge + Browser-only + verticais + A2A | #187 #188 #189 #190 #191 #192 #193 #194 #195 #196 #197 #198 |
-| **S27+** | 53+ | **Fase 4** | Cloud, marketplace, enterprise | #199-#210 |
+| **S1** | 1–2 | Phase 0 | Narrative + CI gates | P0: #225, #226, #235, #217, #218, #224 |
+| **S2** | 3–4 | Phase 0 | Contracts + Fumadocs start | P0/P1: #214, #225→#238 (Fumadocs spike) |
+| **S3** | 5–6 | Phase 0 | Full Fumadocs + Concepts + package READMEs | P1/P2: #238, #239, #228, READMEs |
+| **S4** | 7–8 | Phase 0 wrap | Migration guides + E2E + Discord + LICENSE | #241, #242, #243, #255, #261 |
+| **S5** | 9–10 | **🚀 Launch + start of Phase 1** | Coordinated announcement + init/doctor | #263 (launch) + #114 #115 #116 |
+| **S6** | 11–12 | Phase 1 | Dev server + tunnel + streaming | #117 #118 #121 |
+| **S7** | 13–14 | Phase 1 | useChat + cost guard + hot-swap | #119 #120 #121 #122 #123 |
+| **S8** | 15–16 | Phase 1 | Docs chat + decision tree + migration guides | #124 #125 #126 #127 #128 |
+| **S9** | 17–18 | Phase 1 wrap | Didactic errors + types + public roadmap | #129 #130 #131 #132 #133 |
+| **S10** | 19–20 | Phase 2 | Deterministic replay + snapshot + diff | #134 #135 #136 |
+| **S11** | 21–22 | Phase 2 | Time travel + token budget + speculative | #137 #138 #139 |
+| **S12** | 23–24 | Phase 2 | Progressive streaming + context + multi-modal | #140 #141 #142 |
+| **S13** | 25–26 | Phase 2 | Schema-first + agentskit ai + router adapter | #143 #144 #145 |
+| **S14** | 27–28 | Phase 2 | Ensemble + fallback + devtools | #146 #147 #148 |
+| **S15** | 29–30 | Phase 2 | Trace viewer + evals CI + A/B | #149 #150 #151 |
+| **S16** | 31–32 | Phase 2 | Hierarchical memory + summarization + RAG reranking | #152 #153 #154 #155 |
+| **S17** | 33–34 | Phase 2 wrap | Durable + multi-agent + HITL + background | #156 #157 #158 #159 |
+| **S18** | 35–36 | Phase 2 security | PII + prompt injection + audit + rate-limit + sandbox | #160 #161 #162 #163 #164 |
+| **S19** | 37–38 | Phase 3 | Major adapters (10+ providers) | #165 #166 |
+| **S20** | 39–40 | Phase 3 | MCP bridge + tool composer | #167 #168 |
+| **S21** | 41–42 | Phase 3 | Dev ecosystem tools (GitHub, Linear, Slack) | #169 #170 #171 |
+| **S22** | 43–44 | Phase 3 | Scraping/image/voice/maps tools | #172 #173 #174 #175 |
+| **S23** | 45–46 | Phase 3 | Browser agent + self-debug + memory adapters | #176 #177 #178 |
+| **S24** | 47–48 | Phase 3 | Memory graph + encryption + skills | #179 #180 #181 #182 #183 |
+| **S25** | 49–50 | Phase 3 | Multi-framework UI (Vue/Svelte/Solid) + RN | #184 #185 #186 |
+| **S26** | 51–52 | Phase 3 wrap | Edge + Browser-only + verticals + A2A | #187 #188 #189 #190 #191 #192 #193 #194 #195 #196 #197 #198 |
+| **S27+** | 53+ | **Phase 4** | Cloud, marketplace, enterprise | #199–#210 |
 
-> Nota: capacidade assumida = **1-2 devs**. Com mais gente, compactar sprints.
+> Note: assumed capacity = **1–2 devs**. With more people, compress sprints.
 
 ---
 
-## Dependências críticas
+## Critical dependencies
 
-### Antes de qualquer coisa da Fase 1
-- ✅ ADRs dos contratos (#214) concluídos
-- ✅ Bundle/coverage gates (#217 #218) ativos
-- ✅ agentskit.io no ar (#235)
-- ✅ Fumadocs migrado (#238)
-- ✅ README + Manifesto + Origin (#224 #225 #226) publicados
-- ✅ E2E Playwright nos exemplos (#251)
+### Before anything in Phase 1
+- ✅ Contract ADRs (#214) completed
+- ✅ Bundle/coverage gates (#217 #218) active
+- ✅ agentskit.io live (#235)
+- ✅ Fumadocs migrated (#238)
+- ✅ README + Manifesto + Origin (#224 #225 #226) published
+- ✅ E2E Playwright on the examples (#251)
 
-### Dependências entre features
+### Feature-to-feature dependencies
 
 ```
-#3 ADRs contratos ─────┬──> toda Fase 1 (precisa de contrato estável)
-                        └──> toda Fase 3 (novos adapters/tools)
+#3 Contract ADRs ─────┬──> all of Phase 1 (needs a stable contract)
+                       └──> all of Phase 3 (new adapters/tools)
 
-#54 MCP bridge (F3) ──> #31 agentskit ai (F2) — precisa MCP tools
-#21 Deterministic replay (F2) ──> #39 Replay sessões + #43 Fixtures testes
-#77 AgentsKit Edge (F3) ──> #86 Cloud free tier (F4) — runtime edge
-#69 Skill marketplace (F3) ──> #91 Revenue share (F4)
-#81 A2A Protocol (F3) ──> parcerias estratégicas (F4)
+#54 MCP bridge (P3) ──> #31 agentskit ai (P2) — needs MCP tools
+#21 Deterministic replay (P2) ──> #39 Session replay + #43 Test fixtures
+#77 AgentsKit Edge (P3) ──> #86 Cloud free tier (P4) — edge runtime
+#69 Skill marketplace (P3) ──> #91 Revenue share (P4)
+#81 A2A Protocol (P3) ──> strategic partnerships (P4)
 ```
 
 ### Capacity warnings
-- **S16-S18** (memory + security + durability) são **pesadas** — considerar 3 sprints ao invés de 2
-- **S19 adapters major** requer chaves API de 10+ providers — preparar orçamento/credenciais antes
-- **S20 MCP bridge** é arquitetural pesado — alocar dev sênior
+- **S16–S18** (memory + security + durability) are **heavy** — consider 3 sprints instead of 2
+- **S19 major adapters** requires API keys for 10+ providers — line up budget/credentials first
+- **S20 MCP bridge** is architecturally heavy — allocate a senior dev
 
 ---
 
-## Gates por fase (não pular)
+## Gates per phase (do not skip)
 
-### Gate Phase 0 → Fase 1
-- [ ] 6 ADRs core merged
-- [ ] Bundle/coverage gates bloqueando PRs
-- [ ] agentskit.io resolvendo + docs.agentskit.io no ar
-- [ ] README raiz reescrito + Manifesto + Origin publicados
-- [ ] Fumadocs com Concepts section + ≥5 recipes
-- [ ] Migration guides LangChain + Vercel AI publicados
-- [ ] E2E Playwright rodando nos 4 exemplos
-- [ ] Discord com ≥20 membros + CODEOWNERS ativo
-- [ ] LICENSING.md decidido
-- [ ] **Lançamento coordenado executado** (HN/Twitter/PH/Reddit)
+### Gate Phase 0 → Phase 1
+- [ ] 6 core ADRs merged
+- [ ] Bundle/coverage gates blocking PRs
+- [ ] agentskit.io resolving + docs.agentskit.io live
+- [ ] Root README rewritten + Manifesto + Origin published
+- [ ] Fumadocs with Concepts section + ≥5 recipes
+- [ ] LangChain + Vercel AI migration guides published
+- [ ] E2E Playwright running on the 4 examples
+- [ ] Discord with ≥20 members + CODEOWNERS active
+- [ ] LICENSING.md decided
+- [ ] **Coordinated launch executed** (HN/Twitter/PH/Reddit)
 
-### Gate Fase 1 → Fase 2
-- [ ] 20 stories da Fase 1 done ou explicitamente descopadas
-- [ ] `npx @agentskit/cli init` com ≥1000 downloads/mês
-- [ ] Discord com ≥200 membros
-- [ ] ≥3 usuários externos compartilhando projetos publicamente
+### Gate Phase 1 → Phase 2
+- [ ] 20 Phase 1 stories done or explicitly de-scoped
+- [ ] `npx @agentskit/cli init` at ≥1000 downloads/month
+- [ ] Discord with ≥200 members
+- [ ] ≥3 external users sharing projects publicly
 
-### Gate Fase 2 → Fase 3
-- [ ] Deterministic replay + devtools funcionais (diferenciação técnica real)
-- [ ] Security layer completa
-- [ ] Memoria hierárquica + RAG reranking shipped
-- [ ] ≥10 stars/semana crescimento consistente
-- [ ] 1+ case study publicado
+### Gate Phase 2 → Phase 3
+- [ ] Deterministic replay + devtools working (real technical differentiation)
+- [ ] Full security layer
+- [ ] Hierarchical memory + RAG reranking shipped
+- [ ] ≥10 stars/week of consistent growth
+- [ ] 1+ case study published
 
-### Gate Fase 3 → Fase 4
-- [ ] 10+ adapters estáveis
-- [ ] MCP bridge bidirecional funcional
-- [ ] ≥1 parceria estratégica anunciada (Vercel, Cloudflare, provider)
-- [ ] Base de usuários ≥5k DAU
+### Gate Phase 3 → Phase 4
+- [ ] 10+ stable adapters
+- [ ] Bidirectional MCP bridge functional
+- [ ] ≥1 strategic partnership announced (Vercel, Cloudflare, provider)
+- [ ] User base ≥5k DAU
 
 ---
 
-## Ritmo & cerimônias
+## Cadence & ceremonies
 
-### Diário
-- Status update no Discord `#maintainers` (2 linhas — done/doing/blocked)
+### Daily
+- Status update in Discord `#maintainers` (2 lines — done/doing/blocked)
 
-### Semanal — toda sexta 17h
-- **Sprint Review** (30min): demo do que ficou pronto
-- **Planning** próxima semana (30min): ajustar prioridades
+### Weekly — every Friday at 5pm
+- **Sprint Review** (30 min): demo what shipped
+- **Planning** for next week (30 min): adjust priorities
 
-### Quinzenal — fim de cada sprint
-- **Retro** (30min): o que funcionou, o que não, o que mudar
-- Atualizar Project board: mover concluídos, reestimar pending
+### Bi-weekly — end of each sprint
+- **Retro** (30 min): what worked, what didn't, what to change
+- Update the Project board: move completed, re-estimate pending
 
-### Mensal
+### Monthly
 - **Community update** — blog post / newsletter
-- **Review do roadmap completo** — alguma Fase precisa recalibrar?
+- **Full roadmap review** — does any phase need recalibrating?
 
-### Trimestral
-- **Roadmap review público** — RFC de ajustes
-- **Eval de métricas** — stars, downloads, Discord, contribuidores
-
----
-
-## Métricas de sucesso
-
-### Phase 0 (3 meses)
-- agentskit.io indexado no Google
-- Launch coordenado com ≥1000 visitas na semana
-- ≥500 stars no repo
-- ≥20 membros no Discord
-
-### Fase 1 (fim do mês 4)
-- ≥1000 downloads/mês npm
-- ≥200 membros Discord
-- ≥5 contribuidores externos com PRs merged
-
-### Fase 2 (fim do mês 7)
-- ≥5000 downloads/mês
-- ≥1 post em Hacker News front page
-- Cobertura em ≥3 newsletters tech (Node Weekly, JS Weekly, etc.)
-
-### Fase 3 (fim do mês 10)
-- ≥20k downloads/mês
-- 10+ adapters maduros
-- ≥10 projetos open-source públicos usando AgentsKit
-
-### Fase 4 (fim do ano 1)
-- Cloud com ≥100 usuários ativos
-- Primeiro cliente enterprise
-- Break-even no custo de infra
+### Quarterly
+- **Public roadmap review** — RFC of adjustments
+- **Metrics eval** — stars, downloads, Discord, contributors
 
 ---
 
-## Project Board — configuração recomendada
+## Success metrics
 
-Adicionar campo **Iteration** (sprint tracker) com:
-- Sprints S1 a S27 como opções
-- Preenchido antecipadamente para issues das próximas 2-3 iterations
+### Phase 0 (3 months)
+- agentskit.io indexed on Google
+- Coordinated launch with ≥1000 visits in the week
+- ≥500 stars on the repo
+- ≥20 Discord members
 
-Criar **Views**:
-1. **🔥 Current Sprint** — filtro: `iteration = current`, group by Status
+### Phase 1 (end of month 4)
+- ≥1000 npm downloads/month
+- ≥200 Discord members
+- ≥5 external contributors with merged PRs
+
+### Phase 2 (end of month 7)
+- ≥5000 downloads/month
+- ≥1 Hacker News front-page post
+- Coverage in ≥3 tech newsletters (Node Weekly, JS Weekly, etc.)
+
+### Phase 3 (end of month 10)
+- ≥20k downloads/month
+- 10+ mature adapters
+- ≥10 public open-source projects using AgentsKit
+
+### Phase 4 (end of year 1)
+- Cloud with ≥100 active users
+- First enterprise customer
+- Break-even on infra cost
+
+---
+
+## Project Board — recommended configuration
+
+Add an **Iteration** field (sprint tracker) with:
+- Sprints S1 through S27 as options
+- Pre-filled for the next 2–3 iterations
+
+Create **Views**:
+1. **🔥 Current Sprint** — filter: `iteration = current`, group by Status
 2. **📅 Roadmap Timeline** — layout: Roadmap, group by Phase
-3. **🎯 By Priority** — filtro: `iteration = current or next`, group by Priority
-4. **🧭 Backlog Planning** — filtro: `iteration is empty`, group by Phase
+3. **🎯 By Priority** — filter: `iteration = current or next`, group by Priority
+4. **🧭 Backlog Planning** — filter: `iteration is empty`, group by Phase
 5. **📦 By Package** — group by Category/Package
 
 ---
 
-## Próximas ações concretas (começar hoje)
+## Concrete next actions (start today)
 
-### Esta semana (Sprint 1 start)
-1. **Criar branch `foundation/manifesto-origin`** — rascunhar MANIFESTO.md + ORIGIN.md
-2. **Comprar serviço DNS + Cloudflare pro agentskit.io** — apontar `CNAME` provisório
-3. **Setup `size-limit` em um package de teste** (core) — validar fluxo antes de replicar
-4. **Criar issue/PR templates na `.github/`** — desbloqueio pra tudo que virá
-5. **Decidir hoster da doc nova**: Vercel vs Cloudflare Pages (recomendo Vercel pela integração Fumadocs/Next.js)
+### This week (Sprint 1 start)
+1. **Create branch `foundation/manifesto-origin`** — draft MANIFESTO.md + ORIGIN.md
+2. **Buy DNS service + Cloudflare for agentskit.io** — point a provisional `CNAME`
+3. **Set up `size-limit` on a test package** (core) — validate the flow before replicating
+4. **Create issue/PR templates in `.github/`** — unblocks everything that follows
+5. **Decide the new docs host**: Vercel vs Cloudflare Pages (we recommend Vercel for the Fumadocs/Next.js integration)
 
-### Próxima semana
-1. Finalizar MANIFESTO + ORIGIN em PR aprovado
-2. Começar reescrita do README raiz (bloco por bloco)
-3. Spike Fumadocs em branch separado
-4. Abrir primeiro ADR (`0001-adapter-contract.md`) como RFC público
+### Next week
+1. Finalize MANIFESTO + ORIGIN in an approved PR
+2. Start the root README rewrite (block by block)
+3. Spike Fumadocs in a separate branch
+4. Open the first ADR (`0001-adapter-contract.md`) as a public RFC
 
-### Semana 3
+### Week 3
 1. Parity check Docusaurus vs Fumadocs
-2. Continuar ADRs (meta: 1/dia)
+2. Continue ADRs (target: 1/day)
 3. CODEOWNERS + issue templates merged
-4. Ativar bundle/coverage gates em main
+4. Activate bundle/coverage gates on main
 
 ---
 
-## Princípios de execução
+## Execution principles
 
-1. **Done é melhor que perfeito** — aceitar v0.1 das coisas e iterar
-2. **Publicar em público** — RFCs, ADRs, decisões tudo aberto
-3. **Time-box agressivo** — toda tarefa tem limite; se estourar, re-avaliar
-4. **Diariamente fazer pelo menos 1 issue mover** — momentum importa
-5. **Nunca iniciar uma fase com a anterior incompleta** — gates existem por motivo
-6. **Dogfood** — AgentsKit deve ser usado pra construir AgentsKit (chat da doc, agente de release, etc.)
+1. **Done is better than perfect** — accept v0.1 of things and iterate
+2. **Publish in public** — RFCs, ADRs, decisions all open
+3. **Aggressive time-boxing** — every task has a limit; if it overruns, re-evaluate
+4. **Move at least 1 issue every day** — momentum matters
+5. **Never start a phase with the previous one incomplete** — gates exist for a reason
+6. **Dogfood** — AgentsKit should be used to build AgentsKit (docs chat, release agent, etc.)
