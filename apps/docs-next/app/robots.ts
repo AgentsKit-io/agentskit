@@ -9,7 +9,7 @@ export default function robots(): MetadataRoute.Robots {
         disallow: ['/api/'],
       },
     ],
-    sitemap: 'https://agentskit.io/sitemap.xml',
-    host: 'https://agentskit.io',
+    sitemap: 'https://www.agentskit.io/sitemap.xml',
+    host: 'https://www.agentskit.io',
   }
 }

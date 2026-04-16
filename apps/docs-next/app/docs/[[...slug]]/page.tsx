@@ -10,7 +10,7 @@ import { getMDXComponents } from '@/mdx-components'
 import { JsonLd } from '@/components/seo/json-ld'
 
 const REPO = 'EmersonBraun/agentskit'
-const SITE = 'https://agentskit.io'
+const SITE = 'https://www.agentskit.io'
 
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>

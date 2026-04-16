@@ -1,14 +1,22 @@
 # @agentskit/adapters
 
-![stability: stable](https://img.shields.io/badge/stability-stable-brightgreen)
-
 Connect to any LLM provider — and swap between them — without touching your app code.
 
-## Why
+[![npm version](https://img.shields.io/npm/v/@agentskit/adapters?color=blue)](https://www.npmjs.com/package/@agentskit/adapters)
+[![npm downloads](https://img.shields.io/npm/dm/@agentskit/adapters)](https://www.npmjs.com/package/@agentskit/adapters)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/@agentskit/adapters)](https://bundlephobia.com/package/@agentskit/adapters)
+[![license](https://img.shields.io/npm/l/@agentskit/adapters)](../../LICENSE)
+[![stability](https://img.shields.io/badge/stability-stable-brightgreen)](../../docs/STABILITY.md)
+[![GitHub stars](https://img.shields.io/github/stars/EmersonBraun/agentskit?style=social)](https://github.com/EmersonBraun/agentskit)
+
+**Tags:** `ai` · `agents` · `llm` · `agentskit` · `openai` · `anthropic` · `claude` · `gemini` · `chatgpt` · `ollama` · `embeddings` · `providers`
+
+## Why adapters
 
 - **Vendor independence** — switch from OpenAI to Anthropic to a local Ollama model by changing one line; your hooks, runtime, and tools stay untouched
 - **10+ providers included** — Anthropic, OpenAI, Gemini, Ollama, DeepSeek, Grok, Kimi, LangChain, Vercel AI SDK, and any raw `ReadableStream`
 - **Embedder functions built in** — the same adapter pattern covers text embeddings, so you can reuse provider config for both chat and RAG
+- **One-line local AI** — `ollama({ model: 'llama3.1' })` for fully offline agents with no API key required
 
 ## Install
 
@@ -47,9 +55,12 @@ const rag = createRAG({
 })
 ```
 
-## Next steps
+## Features
 
-- Pair adapters with [`@agentskit/runtime`](https://www.npmjs.com/package/@agentskit/runtime), [`@agentskit/react`](https://www.npmjs.com/package/@agentskit/react), or [`@agentskit/ink`](https://www.npmjs.com/package/@agentskit/ink) — the adapter instance is the only provider-specific piece
+- Providers: Anthropic, OpenAI, Gemini, Ollama, DeepSeek, Grok, Kimi, LangChain, LangGraph, Vercel AI SDK, generic `ReadableStream`
+- Embedders: `openaiEmbedder`, `geminiEmbedder`, `ollamaEmbedder`
+- All adapters satisfy `Adapter` contract v1 (ADR 0001) — substitutable anywhere in the ecosystem
+- Custom adapter authoring via `createAdapter()`
 
 ## Ecosystem
 
@@ -60,6 +71,16 @@ const rag = createRAG({
 | [@agentskit/rag](https://www.npmjs.com/package/@agentskit/rag) | `createRAG` + embedders |
 | [@agentskit/memory](https://www.npmjs.com/package/@agentskit/memory) | Vector + chat memory backends |
 
+## Contributors
+
+<a href="https://github.com/EmersonBraun/agentskit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=EmersonBraun/agentskit" alt="AgentsKit contributors" />
+</a>
+
+## License
+
+MIT — see [LICENSE](../../LICENSE).
+
 ## Docs
 
-[Full documentation](https://emersonbraun.github.io/agentskit/)
+[Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/EmersonBraun/agentskit)

@@ -1,7 +1,7 @@
 import type { MetadataRoute } from 'next'
 import { source } from '@/lib/source'
 
-const SITE = 'https://agentskit.io'
+const SITE = 'https://www.agentskit.io'
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date()

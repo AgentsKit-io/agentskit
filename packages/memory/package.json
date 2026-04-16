@@ -11,7 +11,16 @@
     "typescript",
     "memory",
     "vector",
-    "embeddings"
+    "embeddings",
+    "openai",
+    "anthropic",
+    "ai-agents",
+    "vector-db",
+    "sqlite",
+    "redis",
+    "rag",
+    "vector-search",
+    "persistence"
   ],
   "type": "module",
   "main": "./dist/index.cjs",

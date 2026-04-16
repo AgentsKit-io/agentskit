@@ -1,14 +1,22 @@
 # @agentskit/runtime
 
-![stability: stable](https://img.shields.io/badge/stability-stable-brightgreen)
-
 Run autonomous agents in 5 lines — no UI, no boilerplate, just results.
 
-## Why
+[![npm version](https://img.shields.io/npm/v/@agentskit/runtime?color=blue)](https://www.npmjs.com/package/@agentskit/runtime)
+[![npm downloads](https://img.shields.io/npm/dm/@agentskit/runtime)](https://www.npmjs.com/package/@agentskit/runtime)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/@agentskit/runtime)](https://bundlephobia.com/package/@agentskit/runtime)
+[![license](https://img.shields.io/npm/l/@agentskit/runtime)](../../LICENSE)
+[![stability](https://img.shields.io/badge/stability-stable-brightgreen)](../../docs/STABILITY.md)
+[![GitHub stars](https://img.shields.io/github/stars/EmersonBraun/agentskit?style=social)](https://github.com/EmersonBraun/agentskit)
+
+**Tags:** `ai` · `agents` · `llm` · `agentskit` · `openai` · `anthropic` · `ai-agents` · `autonomous-agents` · `react-loop` · `orchestration` · `multi-agent`
+
+## Why runtime
 
 - **ReAct loop handled for you** — observe, think, act, repeat: the runtime drives the full cycle and stops when the agent decides it's done
 - **Structured, inspectable results** — every run returns the final content, step count, all tool calls made, and total duration; no black boxes
 - **Production-ready lifecycle** — lazy tool `init`/`dispose`, `AbortSignal` cancellation, memory persistence, and `AgentEvent` emissions for observability
+- **Multi-agent delegation** — pass a `planner` skill with named delegates and the runtime coordinates sub-agents automatically
 
 ## Install
 
@@ -49,10 +57,15 @@ const result = await runtime.run('Summarize REST vs GraphQL', { skill: researche
 console.log(result.content)
 ```
 
-## Next steps
+## Features
 
-- Add **RAG**: pass `retriever` from [`@agentskit/rag`](https://www.npmjs.com/package/@agentskit/rag) — see [`@agentskit/rag` README](https://www.npmjs.com/package/@agentskit/rag)
-- Add **observability** with [`@agentskit/observability`](https://www.npmjs.com/package/@agentskit/observability) `observers` for LangSmith or OpenTelemetry
+- `createRuntime` — single entry point for headless agent execution
+- ReAct loop: observe → think → act → repeat until done
+- Returns `{ content, steps, toolCalls, durationMs }` — fully inspectable
+- `AbortSignal` cancellation support
+- Tool `init` / `dispose` lifecycle hooks
+- `AgentEvent` emissions for observability integrations
+- `retriever` option for RAG context injection
 
 ## Ecosystem
 
@@ -64,6 +77,16 @@ console.log(result.content)
 | [@agentskit/skills](https://www.npmjs.com/package/@agentskit/skills) | Pre-built skills |
 | [@agentskit/rag](https://www.npmjs.com/package/@agentskit/rag) | `retriever` for context injection |
 
+## Contributors
+
+<a href="https://github.com/EmersonBraun/agentskit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=EmersonBraun/agentskit" alt="AgentsKit contributors" />
+</a>
+
+## License
+
+MIT — see [LICENSE](../../LICENSE).
+
 ## Docs
 
-[Full documentation](https://emersonbraun.github.io/agentskit/)
+[Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/EmersonBraun/agentskit)

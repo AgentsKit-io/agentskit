@@ -1,14 +1,22 @@
 # @agentskit/sandbox
 
-![stability: beta](https://img.shields.io/badge/stability-beta-yellow)
-
 Let agents write and run code safely — in isolated cloud VMs, not on your machine.
 
-## Why
+[![npm version](https://img.shields.io/npm/v/@agentskit/sandbox?color=blue)](https://www.npmjs.com/package/@agentskit/sandbox)
+[![npm downloads](https://img.shields.io/npm/dm/@agentskit/sandbox)](https://www.npmjs.com/package/@agentskit/sandbox)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/@agentskit/sandbox)](https://bundlephobia.com/package/@agentskit/sandbox)
+[![license](https://img.shields.io/npm/l/@agentskit/sandbox)](../../LICENSE)
+[![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
+[![GitHub stars](https://img.shields.io/github/stars/EmersonBraun/agentskit?style=social)](https://github.com/EmersonBraun/agentskit)
+
+**Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `sandbox` · `code-execution` · `e2b` · `secure-execution` · `code-interpreter`
+
+## Why sandbox
 
 - **Code generation that actually executes** — agents can write, run, and iterate on code without you worrying about what they'll do to your filesystem or OS
 - **E2B cloud VMs out of the box** — each execution runs in an isolated environment with configurable timeouts, no network by default, and a 50MB memory cap
 - **Bring your own backend** — the `SandboxBackend` interface is 2 methods; plug in Docker, Firecracker, or any custom isolation layer
+- **Works alongside any other tools** — add `sandboxTool` to the same `tools` array as `webSearch` or `filesystem`; no special wiring needed
 
 ## Install
 
@@ -32,10 +40,13 @@ const result = await runtime.run('Write and run a Python script that generates a
 console.log(result.content)
 ```
 
-## Next steps
+## Features
 
-- Combine **sandbox** with other tools from [`@agentskit/tools`](https://www.npmjs.com/package/@agentskit/tools) on the same `createRuntime` instance
-- For browser or React flows, keep the same tool definitions — they follow [`@agentskit/core`](https://www.npmjs.com/package/@agentskit/core) `ToolDefinition`
+- `sandboxTool({ apiKey })` — drop-in tool for code execution via E2B cloud VMs
+- Configurable timeouts and resource limits
+- No network by default — agents cannot exfiltrate data
+- `SandboxBackend` interface — 2 methods to bring Docker, Firecracker, or any custom backend
+- Follows `ToolDefinition` contract — works in `runtime`, `useChat`, or any custom loop
 
 ## Ecosystem
 
@@ -46,6 +57,16 @@ console.log(result.content)
 | [@agentskit/adapters](https://www.npmjs.com/package/@agentskit/adapters) | LLM for codegen tasks |
 | [@agentskit/core](https://www.npmjs.com/package/@agentskit/core) | Tool contract |
 
+## Contributors
+
+<a href="https://github.com/EmersonBraun/agentskit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=EmersonBraun/agentskit" alt="AgentsKit contributors" />
+</a>
+
+## License
+
+MIT — see [LICENSE](../../LICENSE).
+
 ## Docs
 
-[Full documentation](https://emersonbraun.github.io/agentskit/)
+[Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/EmersonBraun/agentskit)

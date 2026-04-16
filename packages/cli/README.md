@@ -1,14 +1,22 @@
 # @agentskit/cli
 
-![stability: stable](https://img.shields.io/badge/stability-stable-brightgreen)
-
 Chat with any LLM, scaffold projects, and run agents — all from your terminal.
 
-## Why
+[![npm version](https://img.shields.io/npm/v/@agentskit/cli?color=blue)](https://www.npmjs.com/package/@agentskit/cli)
+[![npm downloads](https://img.shields.io/npm/dm/@agentskit/cli)](https://www.npmjs.com/package/@agentskit/cli)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/@agentskit/cli)](https://bundlephobia.com/package/@agentskit/cli)
+[![license](https://img.shields.io/npm/l/@agentskit/cli)](../../LICENSE)
+[![stability](https://img.shields.io/badge/stability-stable-brightgreen)](../../docs/STABILITY.md)
+[![GitHub stars](https://img.shields.io/github/stars/EmersonBraun/agentskit?style=social)](https://github.com/EmersonBraun/agentskit)
+
+**Tags:** `ai` · `agents` · `llm` · `agentskit` · `openai` · `anthropic` · `claude` · `gemini` · `chatgpt` · `cli` · `command-line` · `scaffolding` · `ai-agents` · `autonomous-agents`
+
+## Why cli
 
 - **Zero setup for prototyping** — go from idea to running conversation in under a minute; no boilerplate, no config files to write
 - **Scaffold production-ready projects** — generate a React chat app or terminal agent with the right structure so you skip the boring setup
 - **Script and automate** — pipe inputs, use env vars for keys, and compose with other Unix tools for lightweight agent scripting
+- **Every provider, one command** — switch between OpenAI, Anthropic, Ollama (local), and more with a single flag
 
 ## Install
 
@@ -35,9 +43,13 @@ agentskit init --template ink --dir my-cli
 agentskit run --help
 ```
 
-## Next steps
+## Features
 
-- Generated apps use [`@agentskit/react`](https://www.npmjs.com/package/@agentskit/react) or [`@agentskit/ink`](https://www.npmjs.com/package/@agentskit/ink) — extend with [`@agentskit/tools`](https://www.npmjs.com/package/@agentskit/tools), [`@agentskit/skills`](https://www.npmjs.com/package/@agentskit/skills), and [`@agentskit/runtime`](https://www.npmjs.com/package/@agentskit/runtime) for programmatic agents
+- `agentskit chat` — interactive streaming chat in the terminal powered by `@agentskit/ink`
+- `agentskit init` — interactive project generator (React or Ink templates, production-ready structure)
+- `agentskit run` — execute headless runtime agents from the terminal
+- Provider flags: `--provider`, `--model`, `--system`, `--skill`, `--memory`
+- Env-var based key injection — works seamlessly in CI and scripts
 
 ## Ecosystem
 
@@ -48,6 +60,16 @@ agentskit run --help
 | [@agentskit/ink](https://www.npmjs.com/package/@agentskit/ink) | Ink UI used by interactive `chat` |
 | [@agentskit/core](https://www.npmjs.com/package/@agentskit/core) | Shared types and contracts |
 
+## Contributors
+
+<a href="https://github.com/EmersonBraun/agentskit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=EmersonBraun/agentskit" alt="AgentsKit contributors" />
+</a>
+
+## License
+
+MIT — see [LICENSE](../../LICENSE).
+
 ## Docs
 
-[Full documentation](https://emersonbraun.github.io/agentskit/)
+[Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/EmersonBraun/agentskit)

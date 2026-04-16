@@ -147,5 +147,5 @@ export function printNextSteps(options: InitCommandOptions): void {
     )
   }
   process.stdout.write(`  ${kleur.cyan(runCmd)}\n\n`)
-  process.stdout.write(kleur.dim('  Docs: https://agentskit.io/docs\n\n'))
+  process.stdout.write(kleur.dim('  Docs: https://www.agentskit.io/docs\n\n'))
 }

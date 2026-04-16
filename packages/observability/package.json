@@ -11,7 +11,15 @@
     "typescript",
     "observability",
     "tracing",
-    "opentelemetry"
+    "opentelemetry",
+    "openai",
+    "anthropic",
+    "ai-agents",
+    "langsmith",
+    "logging",
+    "monitoring",
+    "telemetry",
+    "otlp"
   ],
   "type": "module",
   "main": "./dist/index.cjs",

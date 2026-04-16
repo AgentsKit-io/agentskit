@@ -7,7 +7,7 @@ import { AnalyticsProvider } from '@/lib/analytics'
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
 
-const SITE_URL = 'https://agentskit.io'
+const SITE_URL = 'https://www.agentskit.io'
 const DESCRIPTION = 'The agent toolkit JavaScript actually deserves.'
 
 export const metadata = {

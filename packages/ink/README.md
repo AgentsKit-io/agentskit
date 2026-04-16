@@ -1,14 +1,22 @@
 # @agentskit/ink
 
-![stability: stable](https://img.shields.io/badge/stability-stable-brightgreen)
-
 Build terminal AI chat interfaces with the exact same API as `@agentskit/react`.
 
-## Why
+[![npm version](https://img.shields.io/npm/v/@agentskit/ink?color=blue)](https://www.npmjs.com/package/@agentskit/ink)
+[![npm downloads](https://img.shields.io/npm/dm/@agentskit/ink)](https://www.npmjs.com/package/@agentskit/ink)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/@agentskit/ink)](https://bundlephobia.com/package/@agentskit/ink)
+[![license](https://img.shields.io/npm/l/@agentskit/ink)](../../LICENSE)
+[![stability](https://img.shields.io/badge/stability-stable-brightgreen)](../../docs/STABILITY.md)
+[![GitHub stars](https://img.shields.io/github/stars/EmersonBraun/agentskit?style=social)](https://github.com/EmersonBraun/agentskit)
+
+**Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `terminal` · `cli` · `ink` · `tui` · `chat-ui`
+
+## Why ink
 
 - **No context switching** — if you know `@agentskit/react`, you already know this; same hooks, same component names, different renderer
 - **Real terminal UX** — keyboard navigation, ANSI colors, and proper TTY streaming so your CLI feels native, not like a web app in a box
 - **Any local or cloud model** — pair with Ollama for fully offline CLI tools, or any other provider via `@agentskit/adapters`
+- **Full parity with the React package** — tools, memory, and skills all work the same way; one codebase, two surfaces
 
 ## Install
 
@@ -37,10 +45,13 @@ function App() {
 render(<App />)
 ```
 
-## Next steps
+## Features
 
-- Use **tools** and **memory** from [`@agentskit/tools`](https://www.npmjs.com/package/@agentskit/tools) and [`@agentskit/memory`](https://www.npmjs.com/package/@agentskit/memory) in `useChat` the same way as in React
-- For a **browser** UI, swap to [`@agentskit/react`](https://www.npmjs.com/package/@agentskit/react); for a quick **terminal chat** without your own Ink app, run [`@agentskit/cli`](https://www.npmjs.com/package/@agentskit/cli) `agentskit chat`
+- `useChat` hook — identical API to `@agentskit/react`
+- Terminal components: `ChatContainer`, `Message`, `InputBar`, `ToolCallView`
+- Keyboard navigation and auto-scroll
+- ANSI theming
+- Default file-based memory out of the box
 
 ## Ecosystem
 
@@ -51,6 +62,16 @@ render(<App />)
 | [@agentskit/adapters](https://www.npmjs.com/package/@agentskit/adapters) | Providers (e.g. `ollama` for local models) |
 | [@agentskit/core](https://www.npmjs.com/package/@agentskit/core) | Shared chat types and controller |
 
+## Contributors
+
+<a href="https://github.com/EmersonBraun/agentskit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=EmersonBraun/agentskit" alt="AgentsKit contributors" />
+</a>
+
+## License
+
+MIT — see [LICENSE](../../LICENSE).
+
 ## Docs
 
-[Full documentation](https://emersonbraun.github.io/agentskit/)
+[Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/EmersonBraun/agentskit)

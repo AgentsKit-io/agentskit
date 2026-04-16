@@ -1,14 +1,22 @@
 # @agentskit/core
 
-![stability: stable](https://img.shields.io/badge/stability-stable-brightgreen)
+The zero-dependency foundation that every AgentsKit package builds on — 5 KB gzipped, edge-ready, works everywhere JavaScript runs.
 
-The zero-dependency foundation that every AgentsKit package builds on.
+[![npm version](https://img.shields.io/npm/v/@agentskit/core?color=blue)](https://www.npmjs.com/package/@agentskit/core)
+[![npm downloads](https://img.shields.io/npm/dm/@agentskit/core)](https://www.npmjs.com/package/@agentskit/core)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/@agentskit/core)](https://bundlephobia.com/package/@agentskit/core)
+[![license](https://img.shields.io/npm/l/@agentskit/core)](../../LICENSE)
+[![stability](https://img.shields.io/badge/stability-stable-brightgreen)](../../docs/STABILITY.md)
+[![GitHub stars](https://img.shields.io/github/stars/EmersonBraun/agentskit?style=social)](https://github.com/EmersonBraun/agentskit)
 
-## Why
+**Tags:** `ai` · `agents` · `llm` · `agentskit` · `typescript` · `orchestration` · `streaming` · `chat`
 
-- **Start without baggage** — no external deps means it installs fast, audits clean, and works in any environment (Node, Deno, edge, browser)
-- **Build your own framework** — all shared primitives, type contracts, and the chat state machine are here, ready to compose
-- **Types without the weight** — import `ToolDefinition`, `SkillDefinition`, `AgentEvent`, and more without pulling in React or any adapter
+## Why core
+
+- **Zero external dependencies** — no npm bloat, no audit surprises; installs in milliseconds and works in Node, Deno, edge runtimes, and the browser
+- **Stable contracts that unlock the whole ecosystem** — six ADR-pinned interfaces (`Adapter`, `Tool`, `Skill`, `Memory`, `Retriever`, `Runtime`) make every package interchangeable
+- **Chat state machine included** — `createChatController` handles streaming, abort, and message history so you never implement that loop yourself
+- **Under 10 KB gzipped, always** — budget enforced in CI; the foundation you can commit to for the long term
 
 ## Install
 
@@ -31,11 +39,13 @@ await controller.send('Hello!')
 console.log(controller.getState().messages)
 ```
 
-## Next steps
+## Features
 
-- Pass **tools** from [`@agentskit/tools`](https://www.npmjs.com/package/@agentskit/tools) into the controller config for ReAct-style tool use
-- Use the same **adapter** with [`createRuntime`](https://www.npmjs.com/package/@agentskit/runtime) for headless agents, or with [`useChat`](https://www.npmjs.com/package/@agentskit/react) for a browser UI
-- Add **persistence** with [`@agentskit/memory`](https://www.npmjs.com/package/@agentskit/memory) or **RAG** with [`@agentskit/rag`](https://www.npmjs.com/package/@agentskit/rag)
+- `createChatController` — streaming-capable chat state machine with abort support
+- `createInMemoryMemory` — zero-config in-process memory for prototyping
+- TypeScript types for every contract: `ToolDefinition`, `SkillDefinition`, `AgentEvent`, `Adapter`, `Memory`, `Retriever`, `RuntimeResult`
+- Event emitter for `AgentEvent` streams — observability hooks attach here
+- Dual CJS/ESM output, strict TypeScript, no `any`
 
 ## Ecosystem
 
@@ -46,6 +56,16 @@ console.log(controller.getState().messages)
 | [@agentskit/react](https://www.npmjs.com/package/@agentskit/react) | `useChat`, headless chat components |
 | [@agentskit/tools](https://www.npmjs.com/package/@agentskit/tools) | Executable tools |
 
+## Contributors
+
+<a href="https://github.com/EmersonBraun/agentskit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=EmersonBraun/agentskit" alt="AgentsKit contributors" />
+</a>
+
+## License
+
+MIT — see [LICENSE](../../LICENSE).
+
 ## Docs
 
-[Full documentation](https://emersonbraun.github.io/agentskit/)
+[Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/EmersonBraun/agentskit)

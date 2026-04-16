@@ -1,14 +1,22 @@
 # @agentskit/react
 
-![stability: stable](https://img.shields.io/badge/stability-stable-brightgreen)
-
 Add streaming AI chat to any React app in 10 lines of code.
 
-## Why
+[![npm version](https://img.shields.io/npm/v/@agentskit/react?color=blue)](https://www.npmjs.com/package/@agentskit/react)
+[![npm downloads](https://img.shields.io/npm/dm/@agentskit/react)](https://www.npmjs.com/package/@agentskit/react)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/@agentskit/react)](https://bundlephobia.com/package/@agentskit/react)
+[![license](https://img.shields.io/npm/l/@agentskit/react)](../../LICENSE)
+[![stability](https://img.shields.io/badge/stability-stable-brightgreen)](../../docs/STABILITY.md)
+[![GitHub stars](https://img.shields.io/github/stars/EmersonBraun/agentskit?style=social)](https://github.com/EmersonBraun/agentskit)
+
+**Tags:** `ai` · `agents` · `llm` · `agentskit` · `openai` · `anthropic` · `claude` · `gemini` · `chatgpt` · `react` · `react-hooks` · `chat-ui` · `ai-agents`
+
+## Why react
 
 - **Ship faster** — streaming chat with tool calls, memory, and markdown rendering works out of the box, no wiring required
 - **Works with your design system** — completely headless; style it with Tailwind, MUI, shadcn, or plain CSS via `data-ak-*` attributes
 - **Agent-ready by default** — built-in support for tool calls, thinking indicators, and multi-turn memory so you never hit a wall as your product grows
+- **Swap providers in one line** — pass any adapter from `@agentskit/adapters`; your component code never changes
 
 ## Install
 
@@ -36,10 +44,13 @@ function Chat() {
 }
 ```
 
-## Next steps
+## Features
 
-- Add **tools** and **memory** via `useChat` options (same contracts as [`@agentskit/core`](https://www.npmjs.com/package/@agentskit/core))
-- For **terminal** apps with the same hook names, use [`@agentskit/ink`](https://www.npmjs.com/package/@agentskit/ink); for **CLI** prototyping without embedding React, try [`@agentskit/cli`](https://www.npmjs.com/package/@agentskit/cli) `agentskit chat`
+- `useChat` hook — streaming, abort, tool calls, memory, and skills in one API
+- Headless components: `ChatContainer`, `Message`, `InputBar`, `ToolCallView`, `ThinkingIndicator`
+- `data-ak-*` attributes for styling — zero hardcoded styles, full design-system control
+- Theme via `@agentskit/react/theme` — opt-in CSS variables, override per component
+- Works with React 18 and 19
 
 ## Ecosystem
 
@@ -50,6 +61,16 @@ function Chat() {
 | [@agentskit/runtime](https://www.npmjs.com/package/@agentskit/runtime) | Same stack without a browser |
 | [@agentskit/tools](https://www.npmjs.com/package/@agentskit/tools) | Tool definitions for `useChat` |
 
+## Contributors
+
+<a href="https://github.com/EmersonBraun/agentskit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=EmersonBraun/agentskit" alt="AgentsKit contributors" />
+</a>
+
+## License
+
+MIT — see [LICENSE](../../LICENSE).
+
 ## Docs
 
-[Full documentation](https://emersonbraun.github.io/agentskit/)
+[Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/EmersonBraun/agentskit)

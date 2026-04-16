@@ -499,9 +499,9 @@ ${runCmd}
 
 ## Next steps
 
-- Open the AgentsKit docs at https://agentskit.io/docs
-- Add a custom skill: https://agentskit.io/docs/concepts/skill
-- Wire up RAG: https://agentskit.io/docs/recipes/rag-chat
+- Open the AgentsKit docs at https://www.agentskit.io/docs
+- Add a custom skill: https://www.agentskit.io/docs/concepts/skill
+- Wire up RAG: https://www.agentskit.io/docs/recipes/rag-chat
 
 ## License
 

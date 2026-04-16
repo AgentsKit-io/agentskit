@@ -9,8 +9,13 @@ A 10KB core. Twelve plug-and-play packages. Zero lock-in. Six formal contracts t
 [![npm](https://img.shields.io/npm/v/@agentskit/react?label=npm)](https://www.npmjs.com/package/@agentskit/react)
 [![bundle](https://img.shields.io/bundlephobia/minzip/@agentskit/react?label=react%20bundle)](https://bundlephobia.com/package/@agentskit/react)
 [![license](https://img.shields.io/npm/l/@agentskit/react?label=license)](./LICENSE)
+[![GitHub stars](https://img.shields.io/github/stars/EmersonBraun/agentskit?style=social)](https://github.com/EmersonBraun/agentskit)
+[![GitHub issues](https://img.shields.io/github/issues/EmersonBraun/agentskit)](https://github.com/EmersonBraun/agentskit/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/EmersonBraun/agentskit)](https://github.com/EmersonBraun/agentskit/pulls)
+[![Last commit](https://img.shields.io/github/last-commit/EmersonBraun/agentskit)](https://github.com/EmersonBraun/agentskit/commits)
+[![npm downloads](https://img.shields.io/npm/dm/@agentskit/core?label=core%20downloads)](https://www.npmjs.com/package/@agentskit/core)
 
-[**Documentation**](https://agentskit.io) · [**Manifesto**](./MANIFESTO.md) · [**Origin**](./ORIGIN.md) · [**Architecture**](./docs/architecture/adrs)
+[**Documentation**](https://www.agentskit.io) · [**Manifesto**](./MANIFESTO.md) · [**Origin**](./ORIGIN.md) · [**Architecture**](./docs/architecture/adrs)
 
 </div>
 
@@ -175,7 +180,7 @@ The same `useChat` mental model. Real keyboard input. Real streaming. Real tools
 
 ## For AI agents reading this
 
-The full public API fits in **under 2,000 tokens**. Paste the [agent-friendly reference](https://agentskit.io/docs/getting-started/for-ai-agents) into your LLM context and start generating real AgentsKit code immediately. We treat agents as first-class consumers of our docs.
+The full public API fits in **under 2,000 tokens**. Paste the [agent-friendly reference](https://www.agentskit.io/docs/getting-started/for-ai-agents) into your LLM context and start generating real AgentsKit code immediately. We treat agents as first-class consumers of our docs.
 
 ---
 
@@ -215,7 +220,7 @@ See the [Phase 1 release notes](./docs/RELEASE-CORE-V1.md) for what shipped, and
 
 AgentsKit is built in the open and ships because contributors show up. Every package, every doc, every example is fair game.
 
-- **[How to contribute →](https://agentskit.io/docs/contribute)** — start here
+- **[How to contribute →](https://www.agentskit.io/docs/contribute)** — start here
 - **[Good-first-issues](https://github.com/EmersonBraun/agentskit/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)** — curated, tractable tickets
 - **[Help-wanted](https://github.com/EmersonBraun/agentskit/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)** — larger scoped work
 - **[Discussions](https://github.com/EmersonBraun/agentskit/discussions)** — ask, propose, share

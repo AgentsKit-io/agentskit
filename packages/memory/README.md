@@ -1,14 +1,22 @@
 # @agentskit/memory
 
-![stability: stable](https://img.shields.io/badge/stability-stable-brightgreen)
-
 Persist conversations and add vector search to your agents — swap backends without changing agent code.
 
-## Why
+[![npm version](https://img.shields.io/npm/v/@agentskit/memory?color=blue)](https://www.npmjs.com/package/@agentskit/memory)
+[![npm downloads](https://img.shields.io/npm/dm/@agentskit/memory)](https://www.npmjs.com/package/@agentskit/memory)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/@agentskit/memory)](https://bundlephobia.com/package/@agentskit/memory)
+[![license](https://img.shields.io/npm/l/@agentskit/memory)](../../LICENSE)
+[![stability](https://img.shields.io/badge/stability-stable-brightgreen)](../../docs/STABILITY.md)
+[![GitHub stars](https://img.shields.io/github/stars/EmersonBraun/agentskit?style=social)](https://github.com/EmersonBraun/agentskit)
+
+**Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `memory` · `vector-db` · `embeddings` · `rag` · `sqlite` · `redis` · `vector-search`
+
+## Why memory
 
 - **Conversations that survive restarts** — SQLite for local development, Redis for production; your agent remembers context across sessions with zero code changes
 - **RAG-ready vector search** — store and retrieve embeddings with `fileVectorMemory` (pure JS, no native deps) or Redis vector search for scale
 - **Plug any backend** — the `VectorStore` interface is 3 methods; bring LanceDB, Pinecone, or any custom store in minutes
+- **One interface, every deployment target** — swap from `inMemory` to `sqlite` to `redis` without touching agent code
 
 ## Install
 
@@ -39,10 +47,12 @@ console.log(result.content)
 
 Use a **vector** backend with [`@agentskit/rag`](https://www.npmjs.com/package/@agentskit/rag) `createRAG({ embed, store })` — `fileVectorMemory` and `redisVectorMemory` implement `VectorMemory` for chunk storage and search.
 
-## Next steps
+## Features
 
-- Swap `sqliteChatMemory` for **Redis** or **in-memory** variants from the same package for different deployment targets
-- Pair **embedders** from [`@agentskit/adapters`](https://www.npmjs.com/package/@agentskit/adapters) with RAG — see [`@agentskit/rag`](https://www.npmjs.com/package/@agentskit/rag)
+- Chat memory: `inMemoryChatMemory`, `sqliteChatMemory`, `redisChatMemory`, `fileChatMemory`
+- Vector memory: `fileVectorMemory` (pure JS), `redisVectorMemory`
+- `VectorMemory` interface — 3 methods, bring any custom store
+- Memory contract v1 (ADR 0003) — substitutable across `runtime`, `useChat`, and `@agentskit/ink`
 
 ## Ecosystem
 
@@ -53,6 +63,16 @@ Use a **vector** backend with [`@agentskit/rag`](https://www.npmjs.com/package/@
 | [@agentskit/runtime](https://www.npmjs.com/package/@agentskit/runtime) | `memory` / `retriever` options |
 | [@agentskit/adapters](https://www.npmjs.com/package/@agentskit/adapters) | Embeddings for RAG |
 
+## Contributors
+
+<a href="https://github.com/EmersonBraun/agentskit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=EmersonBraun/agentskit" alt="AgentsKit contributors" />
+</a>
+
+## License
+
+MIT — see [LICENSE](../../LICENSE).
+
 ## Docs
 
-[Full documentation](https://emersonbraun.github.io/agentskit/)
+[Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/EmersonBraun/agentskit)
