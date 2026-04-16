@@ -91,8 +91,8 @@ export function SocialProofBar() {
   }, [])
 
   return (
-    <section className="border-b border-ak-border bg-ak-surface/50 px-6 py-10">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-10 gap-y-4">
+    <section className="border-b border-ak-border bg-ak-surface/50 px-4 py-8 sm:px-6 sm:py-10">
+      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-6 gap-y-3 sm:gap-x-10 sm:gap-y-4">
         <Metric
           href={NPM_ORG}
           label="weekly downloads"

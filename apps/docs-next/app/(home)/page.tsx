@@ -87,7 +87,7 @@ const JSON_LD = {
 
 export default function HomePage() {
   return (
-    <main className="flex flex-1 flex-col">
+    <main className="flex w-full max-w-full flex-1 flex-col overflow-x-clip">
       <JsonLd data={JSON_LD} />
       <Hero />
       <SocialProofBar />
@@ -277,12 +277,12 @@ function SolutionSection() {
           your code survives provider changes, UI changes, and scale.
         </p>
 
-        <div className="overflow-hidden rounded-xl border border-ak-border bg-ak-midnight p-8">
+        <div className="overflow-hidden rounded-xl border border-ak-border bg-ak-midnight p-5 sm:p-8">
           <div className="mx-auto max-w-3xl">
-            <div className="mb-6 text-center">
+            <div className="mb-5 text-center sm:mb-6">
               <Link
                 href="/docs/packages/core"
-                className="inline-block rounded-md border border-ak-blue/30 bg-ak-blue/10 px-4 py-2 font-mono text-sm text-ak-blue transition hover:bg-ak-blue/20"
+                className="inline-block rounded-md border border-ak-blue/30 bg-ak-blue/10 px-3 py-2 font-mono text-[12px] text-ak-blue transition hover:bg-ak-blue/20 sm:px-4 sm:text-sm"
               >
                 @agentskit/core · 10KB · zero deps
               </Link>
@@ -291,16 +291,16 @@ function SolutionSection() {
             <p className="mb-4 text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ak-graphite">
               ↓ click any package to open its docs
             </p>
-            <div className="grid grid-cols-2 gap-2 md:grid-cols-4">
+            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4">
               {PACKAGE_CARDS.map(pkg => (
                 <Link
                   key={pkg.name}
                   href={pkg.href}
-                  className="group flex items-center justify-between gap-2 rounded-md border border-ak-border bg-ak-surface px-3 py-2 text-center font-mono text-sm text-ak-foam transition hover:border-ak-blue hover:text-ak-blue hover:shadow-[0_0_0_1px_var(--ak-blue)]"
+                  className="group flex min-w-0 items-center justify-between gap-1.5 rounded-md border border-ak-border bg-ak-surface px-2.5 py-2 text-center font-mono text-[12px] text-ak-foam transition hover:border-ak-blue hover:text-ak-blue hover:shadow-[0_0_0_1px_var(--ak-blue)] sm:gap-2 sm:px-3 sm:text-sm"
                   aria-label={`Open docs for ${pkg.name}`}
                 >
-                  <span className="flex-1 text-left">{pkg.name}</span>
-                  <span className="text-xs opacity-0 transition group-hover:opacity-100" aria-hidden="true">
+                  <span className="min-w-0 flex-1 truncate text-left">{pkg.name}</span>
+                  <span className="shrink-0 text-xs opacity-0 transition group-hover:opacity-100" aria-hidden="true">
                     →
                   </span>
                 </Link>

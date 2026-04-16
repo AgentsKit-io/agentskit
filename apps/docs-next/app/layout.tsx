@@ -89,7 +89,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       className={`${inter.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
-      <body className="flex flex-col min-h-screen font-sans">
+      <body className="flex min-h-screen flex-col overflow-x-clip font-sans">
         <RootProvider>{children}</RootProvider>
         <Analytics />
         <SpeedInsights />
