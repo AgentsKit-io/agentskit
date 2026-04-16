@@ -25,6 +25,7 @@ export const metadata = {
 }
 
 const GITHUB = 'https://github.com/EmersonBraun/agentskit'
+const DISCORD = 'https://discord.gg/zx6z2p4jVb'
 
 const PACKAGE_CARDS = [
   { name: 'adapters', href: '/docs/data-layer/adapters' },
@@ -148,12 +149,34 @@ function Hero() {
             >
               See a live agent
             </Link>
+            <a
+              href={DISCORD}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 rounded-md border border-ak-border bg-ak-surface px-5 py-2.5 text-sm font-medium text-ak-foam transition hover:border-[#5865F2]"
+            >
+              Join Discord →
+            </a>
           </div>
 
           <p className="mt-4 font-mono text-xs text-ak-graphite">
             MIT · Works with OpenAI, Anthropic, Gemini, Ollama, Vercel AI SDK,
             LangChain
           </p>
+
+          <a
+            href="https://www.producthunt.com/products/agentskit?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-agentskit"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-5 inline-block"
+          >
+            <img
+              src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1125539&theme=dark"
+              alt="AgentsKit — The most complete ecosystem to create AI agents | Product Hunt"
+              width={250}
+              height={54}
+            />
+          </a>
         </div>
 
         <div>
@@ -460,6 +483,14 @@ function FinalCta() {
             className="inline-flex items-center gap-2 rounded-md border border-ak-border bg-ak-surface px-6 py-3 text-sm font-medium text-ak-foam transition hover:border-ak-blue"
           >
             Star on GitHub
+          </a>
+          <a
+            href={DISCORD}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-2 rounded-md border border-ak-border bg-ak-surface px-6 py-3 text-sm font-medium text-ak-foam transition hover:border-[#5865F2]"
+          >
+            Join Discord
           </a>
           <Link
             href="/docs/contribute"

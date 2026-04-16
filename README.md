@@ -9,13 +9,16 @@ A 10KB core. Twelve plug-and-play packages. Zero lock-in. Six formal contracts t
 [![npm](https://img.shields.io/npm/v/@agentskit/react?label=npm)](https://www.npmjs.com/package/@agentskit/react)
 [![bundle](https://img.shields.io/bundlephobia/minzip/@agentskit/react?label=react%20bundle)](https://bundlephobia.com/package/@agentskit/react)
 [![license](https://img.shields.io/npm/l/@agentskit/react?label=license)](./LICENSE)
+[![Discord](https://img.shields.io/badge/Discord-join-5865F2?logo=discord&logoColor=white)](https://discord.gg/zx6z2p4jVb)
 [![GitHub stars](https://img.shields.io/github/stars/EmersonBraun/agentskit?style=social)](https://github.com/EmersonBraun/agentskit)
 [![GitHub issues](https://img.shields.io/github/issues/EmersonBraun/agentskit)](https://github.com/EmersonBraun/agentskit/issues)
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/EmersonBraun/agentskit)](https://github.com/EmersonBraun/agentskit/pulls)
 [![Last commit](https://img.shields.io/github/last-commit/EmersonBraun/agentskit)](https://github.com/EmersonBraun/agentskit/commits)
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/core?label=core%20downloads)](https://www.npmjs.com/package/@agentskit/core)
 
-[**Documentation**](https://www.agentskit.io) · [**Manifesto**](./MANIFESTO.md) · [**Origin**](./ORIGIN.md) · [**Architecture**](./docs/architecture/adrs)
+[**Documentation**](https://www.agentskit.io) · [**Discord**](https://discord.gg/zx6z2p4jVb) · [**Manifesto**](./MANIFESTO.md) · [**Origin**](./ORIGIN.md) · [**Architecture**](./docs/architecture/adrs)
+
+<a href="https://www.producthunt.com/products/agentskit?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-agentskit" target="_blank" rel="noopener noreferrer"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1125539&theme=light" alt="AgentsKit — The most complete ecosystem to create AI agents | Product Hunt" width="250" height="54" /></a>
 
 </div>
 

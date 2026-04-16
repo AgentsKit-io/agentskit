@@ -10,3 +10,7 @@ playwright-report/
 test-results/
 *.tsbuildinfo
 .DS_Store
+
+# Local launch + setup tooling (not for public repo)
+tools/
+docs/launch/

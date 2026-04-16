@@ -14,6 +14,7 @@ export const baseOptions: BaseLayoutProps = {
     { text: 'Documentation', url: '/docs' },
     { text: 'Examples', url: '/docs/examples' },
     { text: 'Contribute', url: '/docs/contribute' },
+    { text: 'Discord', url: 'https://discord.gg/zx6z2p4jVb' },
     { text: 'GitHub', url: 'https://github.com/EmersonBraun/agentskit' },
     { text: 'Manifesto', url: 'https://github.com/EmersonBraun/agentskit/blob/main/MANIFESTO.md' },
   ],
