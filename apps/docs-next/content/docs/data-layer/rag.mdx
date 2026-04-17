@@ -39,7 +39,7 @@ await rag.ingest([
 ])
 
 // Retrieve relevant context
-const docs = await rag.retrieve('How does AgentsKit work?', { topK: 3 })
+const docs = await rag.retrieve({ query: 'How does AgentsKit work?', messages: [] })
 ```
 
 ## With Runtime
@@ -56,23 +56,11 @@ const runtime = createRuntime({
 const result = await runtime.run('Explain the AgentsKit architecture')
 ```
 
-## With React
-
-```ts
-import { useRAGChat } from '@agentskit/rag'
-import { openai } from '@agentskit/adapters'
-
-const chat = useRAGChat({
-  adapter: openai({ apiKey: process.env.OPENAI_API_KEY!, model: 'gpt-4o' }),
-  rag,
-})
-```
-
 ## Lifecycle: ingest vs retrieve
 
 1. **`ingest(documents)`** — splits text into chunks (see Chunking), embeds each chunk, upserts into `VectorMemory`. Duplicate `id`s are overwritten per backend semantics.
-2. **`retrieve(query, { topK, threshold? })`** — embeds the query, runs vector search, returns ranked chunks for prompting.
-3. **Runtime / `useRAGChat`** — call `retrieve` (or equivalent) on your behalf each turn so the model sees fresh context.
+2. **`retrieve({ query, messages })`** — embeds the query, runs vector search, returns ranked chunks for prompting.
+3. **Runtime** — calls `retrieve` on your behalf each turn so the model sees fresh context.
 
 Re-ingest when source documents change; there is no automatic filesystem watcher.
 
@@ -80,8 +68,7 @@ Re-ingest when source documents change; there is no automatic filesystem watcher
 
 | Export | Role |
 |--------|------|
-| `createRAG(config)` | Factory returning RAG instance with `ingest`, `retrieve`, and retriever-compatible surface |
-| `useRAGChat` | React hook: chat + automatic retrieval wiring |
+| `createRAG(config)` | Factory returning RAG instance with `ingest`, `retrieve`, and `search` |
 
 ## Chunking
 

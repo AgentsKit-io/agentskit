@@ -2,7 +2,7 @@
 // AgentsKit didactic error system — Rust-compiler-style helpful errors
 // ---------------------------------------------------------------------------
 
-const DOCS_BASE = 'https://agentskit.dev/docs'
+const DOCS_BASE = 'https://www.agentskit.io/docs'
 
 /**
  * Format an error for display, Rust-compiler style.
@@ -12,7 +12,7 @@ const DOCS_BASE = 'https://agentskit.dev/docs'
  * error[AK_ADAPTER_MISSING]: No adapter provided
  *   --> Hint: Pass an adapter when creating the chat controller, e.g.
  *             createChatController({ adapter: openaiAdapter() })
- *   --> Docs: https://agentskit.dev/docs/adapters
+ *   --> Docs: https://www.agentskit.io/docs/adapters
  * ```
  */
 function formatError(code: string, message: string, hint?: string, docsUrl?: string): string {

@@ -15,7 +15,7 @@ npm install @agentskit/runtime @agentskit/adapters @agentskit/rag @agentskit/mem
 
 ```ts title="ask-pdf.ts"
 import { createRuntime } from '@agentskit/runtime'
-import { openai, openaiEmbed } from '@agentskit/adapters'
+import { openai, openaiEmbedder } from '@agentskit/adapters'
 import { createRAG } from '@agentskit/rag'
 import { fileVectorMemory } from '@agentskit/memory'
 import { readFileSync } from 'node:fs'
@@ -53,7 +53,7 @@ function chunk(text: string, size = 500): string[] {
 // 3. Index in-memory (per-PDF, ephemeral)
 const rag = createRAG({
   store: fileVectorMemory({ path: `./.cache/${pdfPath}.embeddings.json` }),
-  embed: openaiEmbed({ apiKey: KEY, model: 'text-embedding-3-small' }),
+  embed: openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' }),
   topK: 4,
 })
 

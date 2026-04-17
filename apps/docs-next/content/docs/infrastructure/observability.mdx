@@ -126,6 +126,70 @@ const myObserver: Observer = {
 }
 ```
 
+## Token counting
+
+`@agentskit/observability` exports a standalone token-counting API that is useful for context-window budget checks, cost estimation, and trimming old messages before they exceed a model's limit.
+
+### Quick approximate count
+
+```ts
+import { approximateCounter, countTokens } from '@agentskit/observability'
+
+// Using the convenience function (falls back to approximateCounter)
+const total = await countTokens(messages)
+if (total > 120_000) trimOldMessages(messages)
+
+// Using the counter object directly (synchronous)
+const syncTotal = approximateCounter.count(messages)
+```
+
+`approximateCounter` uses a `chars / 4 + 4` heuristic (4 tokens per message for structural framing). It is zero-dependency, synchronous, and slightly over-estimates — which is intentional when checking budgets.
+
+### Per-message breakdown
+
+```ts
+import { countTokensDetailed } from '@agentskit/observability'
+
+const result = await countTokensDetailed(messages)
+// result.total       → number    (sum across all messages)
+// result.perMessage  → number[]  (token count per message, same order)
+
+result.perMessage.forEach((count, i) => {
+  console.log(`Message ${i}: ${count} tokens`)
+})
+```
+
+### Provider-specific counter with a real tokenizer
+
+The built-in heuristic is good for budget guards but not exact. Use `createProviderCounter` to plug in a real tokenizer (tiktoken, Anthropic's tokenizer, etc.) while conforming to the `TokenCounter` contract:
+
+```ts
+import { createProviderCounter, countTokens } from '@agentskit/observability'
+import { encoding_for_model } from 'tiktoken'
+
+const enc = encoding_for_model('gpt-4o')
+
+const tiktokenCounter = createProviderCounter({
+  name: 'tiktoken',
+  tokenize: (text) => [...enc.encode(text)],
+  // perMessageOverhead defaults to 4
+})
+
+const exact = await countTokens(messages, { counter: tiktokenCounter, model: 'gpt-4o' })
+console.log(`Exact token count: ${exact}`)
+```
+
+### API reference
+
+| Export | Description |
+|--------|-------------|
+| `approximateCounter` | `TokenCounter` using `chars/4` heuristic — zero deps, synchronous |
+| `countTokens(messages, options?)` | Async convenience: returns total token count; uses `approximateCounter` by default |
+| `countTokensDetailed(messages, options?)` | Same as `countTokens` but returns `{ total, perMessage }` |
+| `createProviderCounter(options)` | Factory — wraps any `tokenize` function in a `TokenCounter` |
+
+`countTokens` and `countTokensDetailed` accept an optional `{ counter, model }` options object — pass a counter from `createProviderCounter` for exact counts, or omit it for the fast heuristic.
+
 ## Troubleshooting
 
 | Issue | Mitigation |

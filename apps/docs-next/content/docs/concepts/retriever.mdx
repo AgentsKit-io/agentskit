@@ -39,11 +39,11 @@ export interface RetrievedDocument {
 ```ts
 import { createRAG } from '@agentskit/rag'
 import { fileVectorMemory } from '@agentskit/memory'
-import { openaiEmbed } from '@agentskit/adapters'
+import { openaiEmbedder } from '@agentskit/adapters'
 
 const rag = createRAG({
   store: fileVectorMemory({ path: './embeddings.json' }),
-  embed: openaiEmbed({ apiKey: KEY, model: 'text-embedding-3-small' }),
+  embed: openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' }),
   topK: 5,
 })
 

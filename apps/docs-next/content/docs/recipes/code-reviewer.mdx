@@ -50,7 +50,7 @@ Always:
 
 const runtime = createRuntime({
   adapter: anthropic({ apiKey: KEY, model: 'claude-sonnet-4-6' }),
-  tools: [shell({ allowedCommands: ['git', 'pnpm', 'cat'] }), ...filesystem({ basePath: '.' })],
+  tools: [shell({ allowed: ['git', 'pnpm', 'cat'] }), ...filesystem({ basePath: '.' })],
   maxSteps: 20,
 })
 

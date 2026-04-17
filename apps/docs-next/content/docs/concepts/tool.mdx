@@ -63,7 +63,7 @@ createRuntime({
   tools: [
     webSearch(),
     ...filesystem({ basePath: './workspace' }),
-    shell({ allowedCommands: ['ls', 'cat'] }),
+    shell({ allowed: ['ls', 'cat'] }),
   ],
 })
 ```
@@ -123,6 +123,106 @@ const remoteTool: ToolDefinition = {
   // no execute — runs elsewhere
 }
 ```
+
+## Type-safe tools with `defineTool`
+
+Writing `ToolDefinition` objects directly types `args` as `Record<string, unknown>`, which means you must cast inside `execute`. The `defineTool` factory infers the args type directly from the JSON Schema so you get full type-safety and autocomplete at zero runtime cost.
+
+```ts
+import { defineTool } from '@agentskit/core'
+
+const createTask = defineTool({
+  name: 'create_task',
+  description: 'Create a task in the project tracker.',
+  schema: {
+    type: 'object',
+    properties: {
+      title:    { type: 'string' },
+      priority: { type: 'string', enum: ['low', 'medium', 'high'] },
+      dueDate:  { type: 'string' },
+    },
+    required: ['title', 'priority'],
+  } as const,  // <-- required for inference
+  async execute(args) {
+    // args.title    → string           (required, inferred)
+    // args.priority → string           (required, inferred)
+    // args.dueDate  → string | undefined  (optional, inferred)
+    return await tracker.create({ title: args.title, priority: args.priority, dueDate: args.dueDate })
+  },
+})
+```
+
+The `as const` assertion on `schema` narrows the literal types so `InferSchemaType` can map them to TypeScript. Without it, `args` falls back to `Record<string, unknown>`.
+
+### Using the inferred type standalone
+
+```ts
+import type { InferSchemaType } from '@agentskit/core'
+
+const schema = {
+  type: 'object',
+  properties: {
+    query: { type: 'string' },
+    limit: { type: 'integer' },
+  },
+  required: ['query'],
+} as const
+
+type SearchArgs = InferSchemaType<typeof schema>
+// → { query: string; limit?: number }
+```
+
+## Zod-based tools with `defineZodTool`
+
+If you already use [Zod](https://zod.dev) in your project, `@agentskit/tools` ships `defineZodTool` — a factory that types `execute` args from a Zod schema and also validates them at runtime via `schema.parse`.
+
+Zod is **not bundled** — it must be installed as a peer dependency. You also supply the JSON Schema conversion yourself (e.g. via `zod-to-json-schema`), which keeps the Zod dependency fully optional.
+
+```ts
+import { z } from 'zod'
+import { zodToJsonSchema } from 'zod-to-json-schema'
+import { defineZodTool } from '@agentskit/tools'
+import type { JSONSchema7 } from 'json-schema'
+
+const sendEmail = defineZodTool({
+  name: 'send_email',
+  description: 'Send an email to a recipient.',
+  schema: z.object({
+    to:      z.string().email(),
+    subject: z.string(),
+    body:    z.string(),
+    cc:      z.string().email().optional(),
+  }),
+  toJsonSchema: (s) => zodToJsonSchema(s) as JSONSchema7,
+  async execute(args) {
+    // args.to      → string  (Zod-validated at runtime)
+    // args.subject → string
+    // args.body    → string
+    // args.cc      → string | undefined
+    await mailer.send({ to: args.to, subject: args.subject, body: args.body, cc: args.cc })
+    return { sent: true }
+  },
+})
+```
+
+`defineZodTool` wraps `execute` to call `schema.parse(args)` before your function runs. Invalid input raises a Zod `ZodError` — the runtime surfaces it as a tool error rather than crashing the agent.
+
+### Install peer dependencies
+
+```bash
+npm install zod zod-to-json-schema
+```
+
+### When to use `defineTool` vs `defineZodTool`
+
+| | `defineTool` | `defineZodTool` |
+|---|---|---|
+| **Deps** | none (core only) | zod + zod-to-json-schema |
+| **Runtime validation** | no | yes (via `schema.parse`) |
+| **Schema authoring** | JSON Schema (`as const`) | Zod API |
+| **JSON Schema for adapter** | you write it | converted automatically |
+
+Use `defineTool` when you want zero extra dependencies and are comfortable with JSON Schema. Use `defineZodTool` when Zod is already in your stack and you want runtime validation as a safety net.
 
 ## Common pitfalls
 
