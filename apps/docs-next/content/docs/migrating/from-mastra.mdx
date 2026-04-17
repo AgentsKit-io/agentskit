@@ -24,7 +24,7 @@ Stay on Mastra when it's doing what you need — see "Where Mastra still wins" a
 | `agent.generate(prompt)` / `agent.stream(prompt)` | `runtime.run(task)` | Single method — no split between sync/stream |
 | `createTool({ id, inputSchema, execute })` | `ToolDefinition` with `schema` (JSON Schema 7) | Zod → JSON Schema via `zod-to-json-schema` if you want to keep Zod |
 | `new Mastra({ agents, workflows })` | Plain objects, imported where needed | No orchestrator container; the Runtime is the smallest unit |
-| `Memory` class with working memory + semantic recall | `ChatMemory` + `VectorMemory` + `Retriever` | Split into three narrow contracts per [ADR 0003](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0003-memory-contract.md) and [ADR 0004](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0004-retriever-contract.md) |
+| `Memory` class with working memory + semantic recall | `ChatMemory` + `VectorMemory` + `Retriever` | Split into three narrow contracts per [ADR 0003](https://github.com/AgentsKit-io/agentskit/blob/main/docs/architecture/adrs/0003-memory-contract.md) and [ADR 0004](https://github.com/AgentsKit-io/agentskit/blob/main/docs/architecture/adrs/0004-retriever-contract.md) |
 | `RAGAgent` | `createRAG` + `createRuntime({ retriever })` | RAG is a `Retriever`, not a specialized Agent |
 | `createWorkflow` / step graph | `delegates` on the Runtime | Supervisor/swarm/hierarchical via RT10 — no separate graph DSL in v1 |
 | `createVectorQueryTool` | Tool that calls a `Retriever` internally | Keeps Retriever as the substrate; tools are just functions |

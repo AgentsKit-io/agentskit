@@ -3,7 +3,7 @@ import Layout from '@theme/Layout'
 import Link from '@docusaurus/Link'
 import Translate, { translate } from '@docusaurus/Translate'
 
-const GITHUB_REPO = 'EmersonBraun/agentskit'
+const GITHUB_REPO = 'AgentsKit-io/agentskit'
 const GITHUB_URL = `https://github.com/${GITHUB_REPO}`
 const GITHUB_DISCUSSIONS = `${GITHUB_URL}/discussions`
 const GITHUB_ISSUES = `${GITHUB_URL}/issues`

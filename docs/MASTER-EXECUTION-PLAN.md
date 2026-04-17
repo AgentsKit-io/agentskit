@@ -4,8 +4,8 @@
 > Sequence, dependencies, sprints, gates, and suggested order.
 >
 > **Related documents:**
-> - [Master PRD #113](https://github.com/EmersonBraun/agentskit/issues/113) — 97 product roadmap issues
-> - [Phase 0 PRD #211](https://github.com/EmersonBraun/agentskit/issues/211) — 52 foundation-hardening issues
+> - [Master PRD #113](https://github.com/AgentsKit-io/agentskit/issues/113) — 97 product roadmap issues
+> - [Phase 0 PRD #211](https://github.com/AgentsKit-io/agentskit/issues/211) — 52 foundation-hardening issues
 > - [`PHASE-0-EXECUTION-PLAN.md`](./PHASE-0-EXECUTION-PLAN.md) — detailed P0→P2 plan
 > - [Project Board](https://github.com/users/EmersonBraun/projects/1)
 

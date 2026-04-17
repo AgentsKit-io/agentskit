@@ -3,17 +3,17 @@
 Thanks for using AgentsKit.js. Here's where to get help based on what you need.
 
 ## I have a question or want to discuss an idea
-Open a thread in **[GitHub Discussions](https://github.com/EmersonBraun/agentskit/discussions)**. Good for: "how do I…", "is this the right approach", "would you accept a PR for…", design feedback, pattern questions.
+Open a thread in **[GitHub Discussions](https://github.com/AgentsKit-io/agentskit/discussions)**. Good for: "how do I…", "is this the right approach", "would you accept a PR for…", design feedback, pattern questions.
 
 ## I found a bug
-Open a **[Bug report](https://github.com/EmersonBraun/agentskit/issues/new?template=bug_report.md)**. Include:
+Open a **[Bug report](https://github.com/AgentsKit-io/agentskit/issues/new?template=bug_report.md)**. Include:
 - A minimal reproduction (repo link or copy-pasteable snippet)
 - `node --version`, `pnpm --version`, `@agentskit/*` versions
 - What you expected vs. what happened
 - Full error + stack trace
 
 ## I have a feature idea
-Open a **[Feature request](https://github.com/EmersonBraun/agentskit/issues/new?template=feature_request.md)**. For anything that touches a core contract (Adapter, Tool, Memory, Retriever, Skill, Runtime), open a Discussion first — it may need an ADR.
+Open a **[Feature request](https://github.com/AgentsKit-io/agentskit/issues/new?template=feature_request.md)**. For anything that touches a core contract (Adapter, Tool, Memory, Retriever, Skill, Runtime), open a Discussion first — it may need an ADR.
 
 ## I think I found a security vulnerability
 **Do not open a public issue.** Follow [SECURITY.md](./SECURITY.md) — report privately via GitHub Security Advisories.

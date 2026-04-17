@@ -1,7 +1,7 @@
 # Phase 0 — Execution Plan (P0 → P2)
 
 > Tactical plan for the 12 top-priority Phase 0 tasks. Covers 3–4 weeks.
-> Linked to the [Phase 0 PRD #211](https://github.com/EmersonBraun/agentskit/issues/211).
+> Linked to the [Phase 0 PRD #211](https://github.com/AgentsKit-io/agentskit/issues/211).
 
 ---
 

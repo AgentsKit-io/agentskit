@@ -2,7 +2,7 @@ import Link from 'next/link'
 import { AnimatedLogo } from '@/components/brand/animated-logo'
 
 export default function NotFound() {
-  const repo = 'EmersonBraun/agentskit'
+  const repo = 'AgentsKit-io/agentskit'
   return (
     <main className="mx-auto flex min-h-[70vh] max-w-2xl flex-col items-center justify-center gap-6 px-6 py-24 text-center">
       <AnimatedLogo variant="hero" size={64} loop />

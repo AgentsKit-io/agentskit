@@ -24,7 +24,7 @@ export const metadata = {
   },
 }
 
-const GITHUB = 'https://github.com/EmersonBraun/agentskit'
+const GITHUB = 'https://github.com/AgentsKit-io/agentskit'
 const DISCORD = 'https://discord.gg/zx6z2p4jVb'
 
 const PACKAGE_CARDS = [
@@ -52,7 +52,7 @@ const JSON_LD = {
       url: 'https://www.agentskit.io',
       logo: 'https://www.agentskit.io/favicon.svg',
       sameAs: [
-        'https://github.com/EmersonBraun/agentskit',
+        'https://github.com/AgentsKit-io/agentskit',
         'https://www.npmjs.com/org/agentskit',
       ],
     },
@@ -66,7 +66,7 @@ const JSON_LD = {
       operatingSystem: 'Cross-platform',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
       url: 'https://www.agentskit.io',
-      license: 'https://github.com/EmersonBraun/agentskit/blob/main/LICENSE',
+      license: 'https://github.com/AgentsKit-io/agentskit/blob/main/LICENSE',
       author: { '@id': 'https://www.agentskit.io/#org' },
       programmingLanguage: 'TypeScript',
       keywords: 'AI agents, JavaScript, TypeScript, LLM, streaming chat, RAG, tools, React',

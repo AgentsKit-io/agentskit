@@ -9,7 +9,7 @@ import { notFound } from 'next/navigation'
 import { getMDXComponents } from '@/mdx-components'
 import { JsonLd } from '@/components/seo/json-ld'
 
-const REPO = 'EmersonBraun/agentskit'
+const REPO = 'AgentsKit-io/agentskit'
 const SITE = 'https://www.agentskit.io'
 
 export default async function Page(props: {
@@ -54,7 +54,7 @@ export default async function Page(props: {
       toc={page.data.toc}
       full={page.data.full}
       editOnGithub={{
-        owner: 'EmersonBraun',
+        owner: 'AgentsKit-io',
         repo: 'agentskit',
         sha: 'main',
         path: mdxPath,

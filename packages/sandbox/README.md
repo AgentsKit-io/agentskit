@@ -7,7 +7,7 @@ Let agents write and run code safely — in isolated cloud VMs, not on your mach
 [![bundle size](https://img.shields.io/bundlephobia/minzip/@agentskit/sandbox)](https://bundlephobia.com/package/@agentskit/sandbox)
 [![license](https://img.shields.io/npm/l/@agentskit/sandbox)](../../LICENSE)
 [![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
-[![GitHub stars](https://img.shields.io/github/stars/EmersonBraun/agentskit?style=social)](https://github.com/EmersonBraun/agentskit)
+[![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `sandbox` · `code-execution` · `e2b` · `secure-execution` · `code-interpreter`
 
@@ -59,8 +59,8 @@ console.log(result.content)
 
 ## Contributors
 
-<a href="https://github.com/EmersonBraun/agentskit/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=EmersonBraun/agentskit" alt="AgentsKit contributors" />
+<a href="https://github.com/AgentsKit-io/agentskit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=AgentsKit-io/agentskit" alt="AgentsKit contributors" />
 </a>
 
 ## License
@@ -69,4 +69,4 @@ MIT — see [LICENSE](../../LICENSE).
 
 ## Docs
 
-[Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/EmersonBraun/agentskit)
+[Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/AgentsKit-io/agentskit)

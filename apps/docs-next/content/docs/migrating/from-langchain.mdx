@@ -23,7 +23,7 @@ This page maps the LangChain.js patterns you probably have to AgentsKit equivale
 | `ChatPromptTemplate.fromMessages([...])` | Plain strings or a `SkillDefinition.systemPrompt` | No template engine in core |
 | `StructuredTool` / `tool()` | `ToolDefinition` with `schema` (JSON Schema 7) | Convert Zod → JSON Schema if needed |
 | `AgentExecutor` | `createRuntime({ ... }).run(task)` | See [Concepts: Runtime](../concepts/runtime) |
-| `BufferMemory`, `ConversationBufferMemory` | `sqliteChatMemory`, `redisChatMemory`, `fileChatMemory` | Split from vector memory per [ADR 0003](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0003-memory-contract.md) |
+| `BufferMemory`, `ConversationBufferMemory` | `sqliteChatMemory`, `redisChatMemory`, `fileChatMemory` | Split from vector memory per [ADR 0003](https://github.com/AgentsKit-io/agentskit/blob/main/docs/architecture/adrs/0003-memory-contract.md) |
 | `VectorStore` + `OpenAIEmbeddings` | `VectorMemory` + `EmbedFn` | Same split into two narrow contracts |
 | `RetrievalQAChain` | `createRAG({ store, embed })` as a `Retriever` | Drop it into `createRuntime({ retriever })` |
 | `RunnableSequence` / LCEL | Plain functions, `runtime.run()`, or a composite runtime | AgentsKit doesn't have a DSL; composition is JavaScript |
@@ -77,7 +77,7 @@ for await (const chunk of source.stream()) {
 - No class — `openai()` returns a plain `AdapterFactory`
 - Streaming is the default; you don't set `streaming: true`
 - Chunks are tagged by `type` (`text`, `tool_call`, `done`, etc.) — you filter rather than assume every chunk is text
-- Every stream ends with a `done` chunk (never silently) — see [ADR 0001](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0001-adapter-contract.md) A3
+- Every stream ends with a `done` chunk (never silently) — see [ADR 0001](https://github.com/AgentsKit-io/agentskit/blob/main/docs/architecture/adrs/0001-adapter-contract.md) A3
 
 ## 2. Prompts and templates
 
@@ -467,7 +467,7 @@ The difference is typically **100–200 MB** in a modest project. That's cold st
 
 - [Concepts: Runtime](../concepts/runtime) — the `createRuntime` anchor
 - [Recipe: Chat with RAG](../recipes/rag-chat) — the equivalent of `RetrievalQAChain` in 30 lines
-- [ADR 0001 — Adapter contract](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0001-adapter-contract.md) — why provider swap is actually one line
+- [ADR 0001 — Adapter contract](https://github.com/AgentsKit-io/agentskit/blob/main/docs/architecture/adrs/0001-adapter-contract.md) — why provider swap is actually one line
 - [README — When you should NOT use AgentsKit](../../#when-you-should-not-use-agentskit) — the honest decision matrix
 
 <ContributeCallout title="Migrated successfully? Share your story." body="Did this guide help? Miss something? Open a discussion or send a PR." />

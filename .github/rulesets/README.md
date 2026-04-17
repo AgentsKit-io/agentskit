@@ -20,7 +20,7 @@ GitHub doesn't auto-sync committed JSON rulesets. Two options:
 gh api \
   --method POST \
   -H "Accept: application/vnd.github+json" \
-  /repos/EmersonBraun/agentskit/rulesets \
+  /repos/AgentsKit-io/agentskit/rulesets \
   --input .github/rulesets/main-protection.json
 ```
 

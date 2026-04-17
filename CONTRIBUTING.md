@@ -10,11 +10,11 @@ Thanks for being here. This guide gets you from `git clone` to merged PR with th
 
 | Kind of thing | Best place |
 |---|---|
-| Bug — reproducible | [Bug Report issue](https://github.com/EmersonBraun/agentskit/issues/new?template=bug.yml) |
-| Feature you want | [Feature Request issue](https://github.com/EmersonBraun/agentskit/issues/new?template=feature.yml) |
-| Docs problem | [Documentation issue](https://github.com/EmersonBraun/agentskit/issues/new?template=docs.yml) |
-| Non-trivial design proposal | [RFC issue](https://github.com/EmersonBraun/agentskit/issues/new?template=rfc.yml), then a PR in `/rfcs/` |
-| General question / "how do I" | [GitHub Discussions](https://github.com/EmersonBraun/agentskit/discussions) |
+| Bug — reproducible | [Bug Report issue](https://github.com/AgentsKit-io/agentskit/issues/new?template=bug.yml) |
+| Feature you want | [Feature Request issue](https://github.com/AgentsKit-io/agentskit/issues/new?template=feature.yml) |
+| Docs problem | [Documentation issue](https://github.com/AgentsKit-io/agentskit/issues/new?template=docs.yml) |
+| Non-trivial design proposal | [RFC issue](https://github.com/AgentsKit-io/agentskit/issues/new?template=rfc.yml), then a PR in `/rfcs/` |
+| General question / "how do I" | [GitHub Discussions](https://github.com/AgentsKit-io/agentskit/discussions) |
 | Security disclosure | [`SECURITY.md`](./SECURITY.md) — private channel |
 
 ---
@@ -30,7 +30,7 @@ Thanks for being here. This guide gets you from `git clone` to merged PR with th
 ### Clone and install
 
 ```bash
-git clone https://github.com/EmersonBraun/agentskit.git
+git clone https://github.com/AgentsKit-io/agentskit.git
 cd agentskit
 pnpm install
 ```
@@ -84,7 +84,7 @@ Every package has a focused **`CONVENTIONS.md`** at its root explaining what bel
 
 Don't surprise reviewers. Either:
 
-- Pick an [open issue](https://github.com/EmersonBraun/agentskit/issues) (look for [`good first issue`](https://github.com/EmersonBraun/agentskit/labels/good%20first%20issue) or [`help wanted`](https://github.com/EmersonBraun/agentskit/labels/help%20wanted)), comment that you're taking it.
+- Pick an [open issue](https://github.com/AgentsKit-io/agentskit/issues) (look for [`good first issue`](https://github.com/AgentsKit-io/agentskit/labels/good%20first%20issue) or [`help wanted`](https://github.com/AgentsKit-io/agentskit/labels/help%20wanted)), comment that you're taking it.
 - Or open a new issue describing what you want to do **before** writing code, especially if the change touches a contract or a public API.
 
 ### 2. Branch and write code
@@ -237,6 +237,6 @@ Contributors land in the contributors page on the docs site (coming soon). Signi
 
 ## Stuck?
 
-- Open a [Discussion](https://github.com/EmersonBraun/agentskit/discussions) — somebody usually responds within a day
+- Open a [Discussion](https://github.com/AgentsKit-io/agentskit/discussions) — somebody usually responds within a day
 - Check [`CLAUDE.md`](./CLAUDE.md) for project-specific patterns
 - Read the [Manifesto](./MANIFESTO.md) when something feels wrong — it usually answers "why is it this way?"

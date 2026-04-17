@@ -181,7 +181,7 @@ const runtime = createRuntime({
 **Differences to notice**
 
 - Tools use **JSON Schema 7**, not Zod. Convert with `zodToJsonSchema(yourZodSchema)` if you want to keep Zod as source.
-- Tool `name` is explicit (it's an identity — see [ADR 0002](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0002-tool-contract.md) T1).
+- Tool `name` is explicit (it's an identity — see [ADR 0002](https://github.com/AgentsKit-io/agentskit/blob/main/docs/architecture/adrs/0002-tool-contract.md) T1).
 - `maxSteps` is a **hard** cap, not a suggestion. Pick a generous number; the runtime will not loop past it.
 - You can set `requiresConfirmation: true` and wire `onConfirm` on the runtime — Vercel AI SDK doesn't formalize this.
 
@@ -256,7 +256,7 @@ const runtime = createRuntime({
 const result = await runtime.run('Research the top 3 AI frameworks and save a summary')
 ```
 
-Memory load + save, retrieval per turn, tool resolution, error categorization, abort semantics — all handled by the runtime per [ADR 0006](https://github.com/EmersonBraun/agentskit/blob/main/docs/architecture/adrs/0006-runtime-contract.md).
+Memory load + save, retrieval per turn, tool resolution, error categorization, abort semantics — all handled by the runtime per [ADR 0006](https://github.com/AgentsKit-io/agentskit/blob/main/docs/architecture/adrs/0006-runtime-contract.md).
 
 ## 6. Multi-agent / delegation
 

@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-const GITHUB_REPO = 'EmersonBraun/agentskit'
+const GITHUB_REPO = 'AgentsKit-io/agentskit'
 const GITHUB_URL = `https://github.com/${GITHUB_REPO}`
 const NPM_ORG = 'https://www.npmjs.com/org/agentskit'
 

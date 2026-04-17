@@ -10,10 +10,10 @@ A 10KB core. Twelve plug-and-play packages. Zero lock-in. Six formal contracts t
 [![bundle](https://img.shields.io/bundlephobia/minzip/@agentskit/react?label=react%20bundle)](https://bundlephobia.com/package/@agentskit/react)
 [![license](https://img.shields.io/npm/l/@agentskit/react?label=license)](./LICENSE)
 [![Discord](https://img.shields.io/badge/Discord-join-5865F2?logo=discord&logoColor=white)](https://discord.gg/zx6z2p4jVb)
-[![GitHub stars](https://img.shields.io/github/stars/EmersonBraun/agentskit?style=social)](https://github.com/EmersonBraun/agentskit)
-[![GitHub issues](https://img.shields.io/github/issues/EmersonBraun/agentskit)](https://github.com/EmersonBraun/agentskit/issues)
-[![GitHub pull requests](https://img.shields.io/github/issues-pr/EmersonBraun/agentskit)](https://github.com/EmersonBraun/agentskit/pulls)
-[![Last commit](https://img.shields.io/github/last-commit/EmersonBraun/agentskit)](https://github.com/EmersonBraun/agentskit/commits)
+[![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
+[![GitHub issues](https://img.shields.io/github/issues/AgentsKit-io/agentskit)](https://github.com/AgentsKit-io/agentskit/issues)
+[![GitHub pull requests](https://img.shields.io/github/issues-pr/AgentsKit-io/agentskit)](https://github.com/AgentsKit-io/agentskit/pulls)
+[![Last commit](https://img.shields.io/github/last-commit/AgentsKit-io/agentskit)](https://github.com/AgentsKit-io/agentskit/commits)
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/core?label=core%20downloads)](https://www.npmjs.com/package/@agentskit/core)
 
 [**Documentation**](https://www.agentskit.io) · [**Discord**](https://discord.gg/zx6z2p4jVb) · [**Manifesto**](./MANIFESTO.md) · [**Origin**](./ORIGIN.md) · [**Architecture**](./docs/architecture/adrs)
@@ -215,7 +215,7 @@ Concretely, as of the Phase 1 release:
 - **Seven formal contracts** pinned to ADRs 0001–0007
 - **74 documentation routes** including 13 copy-paste recipes and 3 migration guides
 
-See the [Phase 1 release notes](./docs/RELEASE-CORE-V1.md) for what shipped, and the [Master PRD](https://github.com/EmersonBraun/agentskit/issues/113) for what's next.
+See the [Phase 1 release notes](./docs/RELEASE-CORE-V1.md) for what shipped, and the [Master PRD](https://github.com/AgentsKit-io/agentskit/issues/113) for what's next.
 
 ---
 
@@ -224,16 +224,16 @@ See the [Phase 1 release notes](./docs/RELEASE-CORE-V1.md) for what shipped, and
 AgentsKit is built in the open and ships because contributors show up. Every package, every doc, every example is fair game.
 
 - **[How to contribute →](https://www.agentskit.io/docs/contribute)** — start here
-- **[Good-first-issues](https://github.com/EmersonBraun/agentskit/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)** — curated, tractable tickets
-- **[Help-wanted](https://github.com/EmersonBraun/agentskit/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)** — larger scoped work
-- **[Discussions](https://github.com/EmersonBraun/agentskit/discussions)** — ask, propose, share
-- **[RFC template](https://github.com/EmersonBraun/agentskit/issues/new?template=rfc.yml)** — open before touching a contract
+- **[Good-first-issues](https://github.com/AgentsKit-io/agentskit/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)** — curated, tractable tickets
+- **[Help-wanted](https://github.com/AgentsKit-io/agentskit/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)** — larger scoped work
+- **[Discussions](https://github.com/AgentsKit-io/agentskit/discussions)** — ask, propose, share
+- **[RFC template](https://github.com/AgentsKit-io/agentskit/issues/new?template=rfc.yml)** — open before touching a contract
 - **[`CONTRIBUTING.md`](./CONTRIBUTING.md)** — dev setup + PR checklist
 
 ### Contributors
 
-<a href="https://github.com/EmersonBraun/agentskit/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=EmersonBraun/agentskit" alt="AgentsKit contributors" />
+<a href="https://github.com/AgentsKit-io/agentskit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=AgentsKit-io/agentskit" alt="AgentsKit contributors" />
 </a>
 
 Thanks to everyone who's shipped a line of code, docs, or feedback.

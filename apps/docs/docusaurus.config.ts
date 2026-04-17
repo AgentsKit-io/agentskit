@@ -8,7 +8,7 @@ const config: Config = {
   favicon: 'img/favicon.ico',
   url: 'https://emersonbraun.github.io',
   baseUrl: '/agentskit/',
-  organizationName: 'EmersonBraun',
+  organizationName: 'AgentsKit-io',
   projectName: 'agentskit',
   onBrokenLinks: 'throw',
   markdown: {
@@ -61,7 +61,7 @@ const config: Config = {
       {
         docs: {
           sidebarPath: './sidebars.ts',
-          editUrl: 'https://github.com/EmersonBraun/agentskit/tree/main/apps/docs/docs/',
+          editUrl: 'https://github.com/AgentsKit-io/agentskit/tree/main/apps/docs/docs/',
           editLocalizedFiles: true,
         },
         blog: false,
@@ -81,7 +81,7 @@ const config: Config = {
         },
         { type: 'docSidebar', sidebarId: 'docsSidebar', position: 'left', label: 'Docs' },
         { type: 'localeDropdown', position: 'right' },
-        { href: 'https://github.com/EmersonBraun/agentskit', label: 'GitHub', position: 'right' },
+        { href: 'https://github.com/AgentsKit-io/agentskit', label: 'GitHub', position: 'right' },
       ],
     },
     footer: {
@@ -100,7 +100,7 @@ const config: Config = {
           title: 'Open Source',
           items: [
             { label: 'AI Summary Hub', href: 'https://emersonbraun.github.io/ai-summary-hub/' },
-            { label: 'Skills — Reusable AI skills', href: 'https://github.com/EmersonBraun/skills' },
+            { label: 'Skills — Reusable AI skills', href: 'https://github.com/AgentsKit-io/agentskit' },
             {
               label: 'All @agentskit packages',
               href: 'https://www.npmjs.com/search?q=scope%3Aagentskit',

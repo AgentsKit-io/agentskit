@@ -2,7 +2,7 @@
 
 **Spike**: Fumadocs-based documentation site, evaluated as the replacement for the existing Docusaurus app at `apps/docs`.
 
-Tracked by [#238](https://github.com/EmersonBraun/agentskit/issues/238) in the Phase 0 roadmap.
+Tracked by [#238](https://github.com/AgentsKit-io/agentskit/issues/238) in the Phase 0 roadmap.
 
 ## What's here
 

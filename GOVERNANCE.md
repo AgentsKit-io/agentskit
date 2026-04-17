@@ -29,7 +29,7 @@ When the contributor base warrants it, additional maintainers will be added via 
 - Open a PR, passes CI + review, merged.
 
 ### Medium changes (new packages, new examples, non-contract features)
-- Open a [Discussion](https://github.com/EmersonBraun/agentskit/discussions) or issue first if direction is unclear.
+- Open a [Discussion](https://github.com/AgentsKit-io/agentskit/discussions) or issue first if direction is unclear.
 - If the maintainer 👍s the direction, open a PR.
 
 ### Contract changes (anything touching Adapter, Tool, Memory, Retriever, Skill, Runtime)
@@ -39,7 +39,7 @@ When the contributor base warrants it, additional maintainers will be added via 
 - Merges only after the ADR is approved by the maintainer.
 
 ### Disputes
-Raised in the relevant PR/issue, escalated via [Discussions](https://github.com/EmersonBraun/agentskit/discussions) if needed. Maintainer has final call. Disagreements are healthy; rudeness is not — see [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md).
+Raised in the relevant PR/issue, escalated via [Discussions](https://github.com/AgentsKit-io/agentskit/discussions) if needed. Maintainer has final call. Disagreements are healthy; rudeness is not — see [CODE_OF_CONDUCT.md](./CODE_OF_CONDUCT.md).
 
 ## Release cadence
 

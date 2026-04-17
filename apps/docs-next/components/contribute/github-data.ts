@@ -1,4 +1,4 @@
-export const REPO = 'EmersonBraun/agentskit'
+export const REPO = 'AgentsKit-io/agentskit'
 export const REPO_URL = `https://github.com/${REPO}`
 
 export const ISSUES_URL = `${REPO_URL}/issues`

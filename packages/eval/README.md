@@ -7,7 +7,7 @@ Measure agent quality with numbers, not vibes — ship with confidence.
 [![bundle size](https://img.shields.io/bundlephobia/minzip/@agentskit/eval)](https://bundlephobia.com/package/@agentskit/eval)
 [![license](https://img.shields.io/npm/l/@agentskit/eval)](../../LICENSE)
 [![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
-[![GitHub stars](https://img.shields.io/github/stars/EmersonBraun/agentskit?style=social)](https://github.com/EmersonBraun/agentskit)
+[![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `eval` · `evaluation` · `benchmarking` · `testing` · `ci-cd` · `llm-testing`
 
@@ -72,8 +72,8 @@ console.log(`Passed: ${result.passed}/${result.totalCases}`)
 
 ## Contributors
 
-<a href="https://github.com/EmersonBraun/agentskit/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=EmersonBraun/agentskit" alt="AgentsKit contributors" />
+<a href="https://github.com/AgentsKit-io/agentskit/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=AgentsKit-io/agentskit" alt="AgentsKit contributors" />
 </a>
 
 ## License
@@ -82,4 +82,4 @@ MIT — see [LICENSE](../../LICENSE).
 
 ## Docs
 
-[Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/EmersonBraun/agentskit)
+[Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/AgentsKit-io/agentskit)

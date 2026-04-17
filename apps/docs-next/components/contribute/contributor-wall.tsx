@@ -52,7 +52,7 @@ export function ContributorWall({ compact = false }: { compact?: boolean }) {
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="https://contrib.rocks/image?repo=EmersonBraun/agentskit"
+              src="https://contrib.rocks/image?repo=AgentsKit-io/agentskit"
               alt="AgentsKit contributors"
               loading="lazy"
               style={{ display: 'block', maxWidth: '100%', height: 'auto' }}
