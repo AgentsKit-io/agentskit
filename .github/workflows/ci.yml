@@ -7,6 +7,41 @@ on:
     branches: [main]
 
 jobs:
+  changeset-lint:
+    name: Changeset lint
+    runs-on: ubuntu-latest
+    if: github.event_name == 'pull_request'
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Check for changeset
+        run: |
+          # Skip if PR only touches docs/examples (no package source changes)
+          CHANGED=$(git diff --name-only origin/main...HEAD)
+          echo "Changed files:"
+          echo "$CHANGED"
+
+          NEEDS_CHANGESET=$(echo "$CHANGED" | grep -E '^packages/' || true)
+
+          if [ -z "$NEEDS_CHANGESET" ]; then
+            echo "No changes inside packages/ — changeset not required."
+            exit 0
+          fi
+
+          echo "Package changes detected. Verifying changeset exists..."
+          pnpm changeset status --since=origin/main
+
   quality:
     name: Lint, Test, Build
     runs-on: ubuntu-latest
