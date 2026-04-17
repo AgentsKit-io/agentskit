@@ -3,11 +3,15 @@ export { Message } from './Message'
 export { InputBar } from './InputBar'
 export { ToolCallView } from './ToolCallView'
 export { ThinkingIndicator } from './ThinkingIndicator'
+export { StatusHeader } from './StatusHeader'
+export { MarkdownText } from './MarkdownText'
+export { ToolConfirmation } from './ToolConfirmation'
 
 export type { ChatContainerProps } from './ChatContainer'
 export type { MessageProps } from './Message'
 export type { InputBarProps } from './InputBar'
 export type { ToolCallViewProps } from './ToolCallView'
 export type { ThinkingIndicatorProps } from './ThinkingIndicator'
-export { ToolConfirmation } from "./ToolConfirmation"
-export type { ToolConfirmationProps } from "./ToolConfirmation"
+export type { StatusHeaderProps } from './StatusHeader'
+export type { MarkdownTextProps } from './MarkdownText'
+export type { ToolConfirmationProps } from './ToolConfirmation'

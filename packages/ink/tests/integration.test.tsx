@@ -115,9 +115,9 @@ describe('Ink chat integration', () => {
     rerender(<ChatApp adapter={adapter} />)
 
     const output = lastFrame()
-    expect(output).toContain('USER')
+    expect(output).toContain('you')
     expect(output).toContain('Hello from AgentsKit!')
-    expect(output).toContain('ASSISTANT')
+    expect(output).toContain('assistant')
   })
 
   it('shows thinking indicator during streaming', async () => {
@@ -136,16 +136,17 @@ describe('Ink chat integration', () => {
     const { lastFrame, rerender } = render(<ChatApp adapter={adapter} />)
 
     await typeText('go')
+    rerender(<ChatApp adapter={adapter} />)
     pressEnter()
-    await delay(100)
+    await delay(200)
     rerender(<ChatApp adapter={adapter} />)
 
-    expect(lastFrame()).toContain('Thinking...')
+    expect(lastFrame()).toContain('Thinking')
 
     resolveStream?.()
-    await delay(100)
+    await delay(200)
     rerender(<ChatApp adapter={adapter} />)
 
-    expect(lastFrame()).not.toContain('Thinking...')
+    expect(lastFrame()).not.toContain('Thinking')
   })
 })

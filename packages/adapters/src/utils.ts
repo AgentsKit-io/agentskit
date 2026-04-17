@@ -1,10 +1,30 @@
 import type { AdapterRequest, Message, StreamChunk, StreamSource } from '@agentskit/core'
 
 export function toProviderMessages(messages: Message[]) {
-  return messages.map(message => ({
-    role: message.role,
-    content: message.content,
-  }))
+  return messages.map(message => {
+    if (message.role === 'tool') {
+      return {
+        role: 'tool' as const,
+        content: message.content,
+        tool_call_id: message.toolCallId,
+      }
+    }
+    if (message.role === 'assistant' && message.toolCalls && message.toolCalls.length > 0) {
+      return {
+        role: 'assistant' as const,
+        content: message.content || null,
+        tool_calls: message.toolCalls.map(tc => ({
+          id: tc.id,
+          type: 'function' as const,
+          function: {
+            name: tc.name,
+            arguments: typeof tc.args === 'string' ? tc.args : JSON.stringify(tc.args ?? {}),
+          },
+        })),
+      }
+    }
+    return { role: message.role, content: message.content }
+  })
 }
 
 export async function* readSSELines(stream: ReadableStream): AsyncIterableIterator<string> {

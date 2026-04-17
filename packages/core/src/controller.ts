@@ -209,7 +209,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
   const buildAdapterRequest = async (messages: Message[], text: string): Promise<AdapterRequest> => {
     await ensureSkillsActivated()
     const withSystem = mergeSystemMessages(messages, effectiveSystemPrompt)
-    const retrievedDocuments = config.retriever
+    const retrievedDocuments = config.retriever && text
       ? await config.retriever.retrieve({ query: text, messages })
       : []
     const retrievalMessage = buildRetrievalMessage(formatRetrievedDocuments(retrievedDocuments))
@@ -226,12 +226,21 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
     }
   }
 
-  const startStream = async (messages: Message[], assistantId: string, text: string) => {
-    const request = await buildAdapterRequest(messages, text)
+  const DEFAULT_MAX_TOOL_ITERATIONS = 5
+
+  const isCallSettled = (status: ToolCall['status']): boolean =>
+    status === 'complete' || status === 'error'
+
+  const isCallPending = (status: ToolCall['status']): boolean =>
+    status === 'pending' || status === 'running' || status === 'requires_confirmation'
+
+  const runAdapterTurn = async (assistantId: string, queryText: string): Promise<boolean> => {
+    const request = await buildAdapterRequest(state.messages, queryText)
     source = config.adapter.createSource(request)
 
     const streamStart = Date.now()
     let firstTokenEmitted = false
+    let errored = false
 
     emitter.emit({ type: 'llm:start', messageCount: request.messages.length })
 
@@ -241,10 +250,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
           emitter.emit({ type: 'llm:first-token', latencyMs: Date.now() - streamStart })
           firstTokenEmitted = true
         }
-        setAssistantMessage(assistantId, message => ({
-          ...message,
-          content: accumulated,
-        }))
+        setAssistantMessage(assistantId, message => ({ ...message, content: accumulated }))
       },
       onReasoning(accumulated) {
         setAssistantMessage(assistantId, message => ({
@@ -262,25 +268,94 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
         }))
       },
       onError(error) {
+        errored = true
         setAssistantMessage(assistantId, message => ({ ...message, status: 'error' }))
         setState(current => ({ ...current, status: 'error', error }))
         emitter.emit({ type: 'error', error })
         config.onError?.(error)
       },
       onDone(accumulatedText) {
-        let completedMessage: Message | undefined
-        setState(current => {
-          const updatedMessages = current.messages.map(message => {
-            if (message.id !== assistantId) return message
-            completedMessage = { ...message, status: 'complete' }
-            return completedMessage
-          })
-          return { ...current, messages: updatedMessages, status: 'idle', error: null }
-        })
         emitter.emit({ type: 'llm:end', content: accumulatedText, durationMs: Date.now() - streamStart })
-        if (completedMessage) config.onMessage?.(completedMessage)
       },
     })
+
+    return !errored
+  }
+
+  const finalizeAssistant = (assistantId: string) => {
+    let completedMessage: Message | undefined
+    setState(current => ({
+      ...current,
+      messages: current.messages.map(message => {
+        if (message.id !== assistantId) return message
+        completedMessage = { ...message, status: 'complete' as const }
+        return completedMessage
+      }),
+      status: 'idle',
+      error: null,
+    }))
+    if (completedMessage) config.onMessage?.(completedMessage)
+  }
+
+  const appendToolResultsAndContinue = (assistantId: string, settledCalls: ToolCall[]): string => {
+    const toolResultMessages = settledCalls.map(call =>
+      buildMessage({
+        role: 'tool',
+        content: call.result ?? call.error ?? '',
+        toolCallId: call.id,
+      })
+    )
+    const nextAssistant = buildMessage({ role: 'assistant', content: '', status: 'streaming' })
+
+    setState(current => ({
+      ...current,
+      messages: [
+        ...current.messages.map(message =>
+          message.id === assistantId ? { ...message, status: 'complete' as const } : message
+        ),
+        ...toolResultMessages,
+        nextAssistant,
+      ],
+      status: 'streaming',
+      error: null,
+    }))
+
+    return nextAssistant.id
+  }
+
+  /**
+   * Runs one `send` — an LLM turn, plus any follow-up turns needed to feed
+   * completed tool results back to the model. Loop stops when the model
+   * produces a final answer (no new tool calls), any tool is still pending
+   * confirmation, an error fires, or the iteration cap is hit.
+   */
+  const startStream = async (assistantId: string, text: string) => {
+    const maxIterations = config.maxToolIterations ?? DEFAULT_MAX_TOOL_ITERATIONS
+    let currentAssistantId = assistantId
+    let queryText = text
+
+    for (let iteration = 0; iteration < maxIterations; iteration++) {
+      const ok = await runAdapterTurn(currentAssistantId, queryText)
+      if (!ok) return // error handler already set state to 'error'
+
+      const assistant = state.messages.find(message => message.id === currentAssistantId)
+      const calls = assistant?.toolCalls ?? []
+      const hasPending = calls.some(call => isCallPending(call.status))
+      const settled = calls.filter(call => isCallSettled(call.status))
+
+      // No calls, or something still awaiting confirmation — stop here and
+      // let the caller (e.g. approve/deny) drive the next step if needed.
+      if (settled.length === 0 || hasPending) {
+        finalizeAssistant(currentAssistantId)
+        return
+      }
+
+      currentAssistantId = appendToolResultsAndContinue(currentAssistantId, settled)
+      queryText = '' // skip retrieval on follow-up turns; user query already consumed
+    }
+
+    // Iteration cap reached — finalize whatever the last assistant turn produced.
+    finalizeAssistant(currentAssistantId)
   }
 
   return {
@@ -303,7 +378,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
         error: null,
       }))
 
-      await startStream([...state.messages], assistantMessage.id, text)
+      await startStream(assistantMessage.id, text)
     },
     stop() {
       source?.abort()
@@ -327,7 +402,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
         error: null,
       }))
 
-      await startStream([...withoutLast, replacementAssistant], replacementAssistant.id, lastUser.content)
+      await startStream(replacementAssistant.id, lastUser.content)
     },
     async edit(messageId, newContent, opts = {}) {
       const messages = state.messages
@@ -372,7 +447,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
         error: null,
       }))
 
-      await startStream(nextMessages, replacementAssistant.id, newContent)
+      await startStream(replacementAssistant.id, newContent)
     },
     async regenerate(messageId) {
       const messages = state.messages
@@ -409,7 +484,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
         error: null,
       }))
 
-      await startStream(nextMessages, replacementAssistant.id, messages[userIndex].content)
+      await startStream(replacementAssistant.id, messages[userIndex].content)
     },
     setInput(value) {
       setState(current => ({ ...current, input: value }))

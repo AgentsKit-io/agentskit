@@ -18,6 +18,13 @@ export interface ChatConfig {
   memory?: ChatMemory
   retriever?: Retriever
   initialMessages?: Message[]
+  /**
+   * Maximum number of LLM ↔ tool feedback turns per `send()`.
+   * After a tool call, the controller feeds the result back to the model
+   * so it can continue reasoning. This caps that loop to prevent runaway
+   * cost if a model keeps requesting tools. Default: 5. Set to 1 to disable.
+   */
+  maxToolIterations?: number
   onMessage?: (message: Message) => void
   onError?: (error: Error) => void
   onToolCall?: (toolCall: ToolCall, context: ToolCallHandlerContext) => MaybePromise<void>

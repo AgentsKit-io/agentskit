@@ -44,6 +44,8 @@ export {
   InputBar,
   ToolCallView,
   ThinkingIndicator,
+  StatusHeader,
+  MarkdownText,
   ToolConfirmation,
 } from './components'
 
@@ -53,5 +55,7 @@ export type {
   InputBarProps,
   ToolCallViewProps,
   ThinkingIndicatorProps,
+  StatusHeaderProps,
+  MarkdownTextProps,
   ToolConfirmationProps,
 } from './components'

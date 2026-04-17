@@ -9,6 +9,7 @@ export interface Message {
   content: string
   status: MessageStatus
   toolCalls?: ToolCall[]
+  toolCallId?: string
   metadata?: Record<string, unknown>
   createdAt: Date
 }

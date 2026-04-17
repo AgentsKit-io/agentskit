@@ -45,6 +45,7 @@ export function buildMessage(params: {
   content: string
   status?: MessageStatus
   metadata?: Record<string, unknown>
+  toolCallId?: string
 }): Message {
   return {
     id: generateId('msg'),
@@ -52,6 +53,7 @@ export function buildMessage(params: {
     content: params.content,
     status: params.status ?? 'complete',
     metadata: params.metadata,
+    toolCallId: params.toolCallId,
     createdAt: new Date(),
   }
 }
