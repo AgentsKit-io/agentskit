@@ -31,8 +31,8 @@ const PROVIDER_ENV_KEYS: Record<string, string> = {
 
 const PROVIDER_REACH_URLS: Record<string, string> = {
   openai: 'https://api.openai.com/v1/models',
-  anthropic: 'https://api.anthropic.com',
-  gemini: 'https://generativelanguage.googleapis.com',
+  anthropic: 'https://api.anthropic.com/v1/messages',
+  gemini: 'https://generativelanguage.googleapis.com/v1beta/models',
   ollama: 'http://localhost:11434/api/tags',
 }
 
@@ -174,8 +174,8 @@ export async function checkProviderReachable(
     if (res.status >= 200 && res.status < 400) {
       return { status: 'pass', name: `${provider} reachable`, detail: `${url} → ${res.status} OK` }
     }
-    if (res.status === 401 || res.status === 403) {
-      return { status: 'pass', name: `${provider} reachable`, detail: `${url} → ${res.status} (auth needed, host reachable)` }
+    if (res.status === 401 || res.status === 403 || res.status === 405) {
+      return { status: 'pass', name: `${provider} reachable`, detail: `${url} → ${res.status} (host reachable)` }
     }
     return {
       status: 'warn',
