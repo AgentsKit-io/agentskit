@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useRef } from 'react'
+import React, { useEffect, useMemo, useRef, useState } from 'react'
 import { Box, Text } from 'ink'
 import {
   ChatContainer,
@@ -86,6 +86,39 @@ export function ChatApp(options: ChatCommandOptions) {
     skills,
   })
 
+  // Tool names the user has allowed for the rest of this session. Subsequent
+  // `requires_confirmation` calls for these tools are auto-approved so the
+  // agent can keep working without re-prompting.
+  const [sessionAllowed, setSessionAllowed] = useState<Set<string>>(new Set())
+  const autoApprovedRef = useRef<Set<string>>(new Set())
+
+  useEffect(() => {
+    if (sessionAllowed.size === 0) return
+    for (const message of chat.messages) {
+      for (const call of message.toolCalls ?? []) {
+        if (
+          call.status === 'requires_confirmation' &&
+          sessionAllowed.has(call.name) &&
+          !autoApprovedRef.current.has(call.id)
+        ) {
+          autoApprovedRef.current.add(call.id)
+          void chat.approve(call.id)
+        }
+      }
+    }
+  }, [chat.messages, sessionAllowed, chat.approve])
+
+  const handleApproveAlways = (toolCallId: string, toolName: string) => {
+    setSessionAllowed(prev => {
+      if (prev.has(toolName)) return prev
+      const next = new Set(prev)
+      next.add(toolName)
+      return next
+    })
+    autoApprovedRef.current.add(toolCallId)
+    void chat.approve(toolCallId)
+  }
+
   // Update session metadata on every message change so `--list-sessions`
   // shows accurate preview, counts, and last-updated time. Best-effort;
   // failures are swallowed so a read-only fs never breaks the UI.
@@ -124,7 +157,6 @@ export function ChatApp(options: ChatCommandOptions) {
         tools={toolNames}
         messageCount={chat.messages.length}
         sessionId={options.sessionId}
-        usage={chat.usage}
       />
 
       <ChatContainer>
@@ -145,11 +177,13 @@ export function ChatApp(options: ChatCommandOptions) {
                     {message.toolCalls?.map((toolCall: ToolCall) => (
                       <Box key={toolCall.id} flexDirection="column">
                         <ToolCallView toolCall={toolCall} expanded />
-                        {toolCall.status === 'requires_confirmation' ? (
+                        {toolCall.status === 'requires_confirmation' &&
+                        !sessionAllowed.has(toolCall.name) ? (
                           <ToolConfirmation
                             toolCall={toolCall}
                             onApprove={chat.approve}
                             onDeny={chat.deny}
+                            onApproveAlways={handleApproveAlways}
                           />
                         ) : null}
                       </Box>

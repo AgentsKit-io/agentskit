@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Text } from 'ink'
-import type { Message as MessageType, MessageRole } from '@agentskit/core'
+import type { Message as MessageType, MessageRole, TokenUsage } from '@agentskit/core'
 import { MarkdownText } from './MarkdownText'
 
 export interface MessageProps {
@@ -11,6 +11,17 @@ export interface MessageProps {
    * plain text — useful for tool output or raw logs.
    */
   markdown?: boolean
+  /**
+   * Show inline token usage below assistant messages when the adapter
+   * surfaces it (via `message.metadata.usage`). Default: `true`.
+   */
+  showUsage?: boolean
+}
+
+function formatTokens(n: number): string {
+  if (n < 1000) return String(n)
+  if (n < 1_000_000) return `${(n / 1000).toFixed(1)}k`
+  return `${(n / 1_000_000).toFixed(2)}m`
 }
 
 const ROLE_META: Record<MessageRole, { icon: string; label: string; color: string }> = {
@@ -25,7 +36,7 @@ function truncate(text: string, max: number): string {
   return `${text.slice(0, max)}…`
 }
 
-export function Message({ message, markdown = true }: MessageProps) {
+export function Message({ message, markdown = true, showUsage = true }: MessageProps) {
   const meta = ROLE_META[message.role] ?? ROLE_META.assistant
   const isStreaming = message.status === 'streaming'
 
@@ -43,6 +54,9 @@ export function Message({ message, markdown = true }: MessageProps) {
   }
 
   const shouldRenderMarkdown = markdown && message.role === 'assistant' && !!message.content
+  const usage = message.metadata?.usage as TokenUsage | undefined
+  const shouldRenderUsage =
+    showUsage && message.role === 'assistant' && usage && usage.totalTokens > 0
 
   return (
     <Box flexDirection="column">
@@ -58,6 +72,16 @@ export function Message({ message, markdown = true }: MessageProps) {
         ) : (
           <Text>{message.content}</Text>
         )
+      ) : null}
+      {shouldRenderUsage && usage ? (
+        <Box>
+          <Text dimColor>tokens  </Text>
+          <Text color="green">↑{formatTokens(usage.promptTokens)}</Text>
+          <Text dimColor>  </Text>
+          <Text color="yellow">↓{formatTokens(usage.completionTokens)}</Text>
+          <Text dimColor>  ·  </Text>
+          <Text dimColor>{formatTokens(usage.totalTokens)} total</Text>
+        </Box>
       ) : null}
     </Box>
   )

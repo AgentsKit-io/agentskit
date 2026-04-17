@@ -269,8 +269,14 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
         }))
       },
       onUsage(usage) {
+        // Attach to this turn's assistant message + accumulate the session total.
         setState(current => ({
           ...current,
+          messages: current.messages.map(message =>
+            message.id === assistantId
+              ? { ...message, metadata: { ...message.metadata, usage } }
+              : message
+          ),
           usage: {
             promptTokens: current.usage.promptTokens + (usage.promptTokens ?? 0),
             completionTokens: current.usage.completionTokens + (usage.completionTokens ?? 0),
