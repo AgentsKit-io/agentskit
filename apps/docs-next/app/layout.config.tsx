@@ -6,7 +6,7 @@ export const baseOptions: BaseLayoutProps = {
     title: (
       <span className="flex items-center gap-2">
         <AnimatedLogo variant="nav" loop />
-        <span className="font-mono font-bold tracking-tight">agentskit</span>
+        <span className="font-mono font-bold tracking-tight">agentskit<span className="text-ak-graphite">.js</span></span>
       </span>
     ),
   },

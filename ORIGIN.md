@@ -1,4 +1,4 @@
-# Origin — Why AgentsKit Exists
+# Origin — Why AgentsKit.js Exists
 
 > *Personal note from the author. First-person and unpolished by intent — the story of a frustration that became a library.*
 
@@ -32,7 +32,7 @@ The observation is simple: **we don't need another framework. We need a kit** �
 
 ## The bet
 
-AgentsKit is a bet on three claims:
+AgentsKit.js is a bet on three claims:
 
 1. **JavaScript will be the language of agent applications**, because it's where the users are, where the deployment is cheap, and where the ecosystem is most plug-and-play.
 2. **Agents don't need a framework; they need contracts.** A `Tool` is a function. A `Memory` is a store. A `Runtime` is a loop. Formalize the contracts, keep the packages small, let users assemble.
@@ -40,9 +40,9 @@ AgentsKit is a bet on three claims:
 
 ## The promise
 
-AgentsKit will never become the thing I was frustrated with. It will stay small. It will stay composable. It will stay honest — about what it does and what it doesn't. It will tell you when you should use something else.
+AgentsKit.js will never become the thing I was frustrated with. It will stay small. It will stay composable. It will stay honest — about what it does and what it doesn't. It will tell you when you should use something else.
 
-If AgentsKit ever starts feeling like LangChain — bloated, magical, hard to debug — we failed. If it ever stops feeling like plain JavaScript you already know — we failed. The manifesto is how we hold ourselves accountable.
+If AgentsKit.js ever starts feeling like LangChain — bloated, magical, hard to debug — we failed. If it ever stops feeling like plain JavaScript you already know — we failed. The manifesto is how we hold ourselves accountable.
 
 ## The invitation
 

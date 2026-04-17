@@ -1,6 +1,6 @@
-# AgentsKit Manifesto
+# AgentsKit.js Manifesto
 
-> These are the non-negotiable principles that shape AgentsKit. Every design decision, every PR, every package is measured against them. If a principle is ever about to be broken, we stop and reconsider — never rationalize.
+> These are the non-negotiable principles that shape AgentsKit.js. Every design decision, every PR, every package is measured against them. If a principle is ever about to be broken, we stop and reconsider — never rationalize.
 
 ---
 
@@ -14,15 +14,15 @@ Every package works standalone, with a single install and less than ten lines of
 
 ## 3. Interop is radical, not optional
 
-Any combination of AgentsKit packages must compose without glue code. React + Runtime + Memory + RAG + Observability should just work. The contract is the API — shared types, shared events, shared semantics across the entire ecosystem.
+Any combination of AgentsKit.js packages must compose without glue code. React + Runtime + Memory + RAG + Observability should just work. The contract is the API — shared types, shared events, shared semantics across the entire ecosystem.
 
 ## 4. Zero lock-in
 
-Leaving AgentsKit must be a single `npm uninstall` away. No proprietary formats, no captive state, no hidden coupling. Adapters, memory stores, tools — all are replaceable. We earn our place every day.
+Leaving AgentsKit.js must be a single `npm uninstall` away. No proprietary formats, no captive state, no hidden coupling. Adapters, memory stores, tools — all are replaceable. We earn our place every day.
 
 ## 5. Agent-first, not chat-first
 
-AgentsKit is not a chat library that happens to support tools. It is an agent runtime that happens to render chat. Tools, skills, memory, and reasoning loops are primary citizens — UI is one surface among many (React, Ink, CLI, headless).
+AgentsKit.js is not a chat library that happens to support tools. It is an agent runtime that happens to render chat. Tools, skills, memory, and reasoning loops are primary citizens — UI is one surface among many (React, Ink, CLI, headless).
 
 ## 6. Docs are product, not afterthought
 

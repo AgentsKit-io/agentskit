@@ -1,6 +1,6 @@
 # Support
 
-Thanks for using AgentsKit. Here's where to get help based on what you need.
+Thanks for using AgentsKit.js. Here's where to get help based on what you need.
 
 ## I have a question or want to discuss an idea
 Open a thread in **[GitHub Discussions](https://github.com/EmersonBraun/agentskit/discussions)**. Good for: "how do I…", "is this the right approach", "would you accept a PR for…", design feedback, pattern questions.
@@ -22,7 +22,7 @@ Open a **[Feature request](https://github.com/EmersonBraun/agentskit/issues/new?
 Start with [CONTRIBUTING.md](./CONTRIBUTING.md). Read [AGENTS.md](./AGENTS.md) and the relevant package's `CONVENTIONS.md` before coding. The roadmap is public: **[Roadmap →](https://github.com/users/EmersonBraun/projects/1)**.
 
 ## Commercial / enterprise support
-Not available today. AgentsKit is maintainer-led OSS.
+Not available today. AgentsKit.js is maintainer-led OSS.
 
 ## SLA
 There is no SLA. This is a community project. Issues are triaged in batches, typically weekly. If something is blocking you in production, open an issue and tag it `blocker` — it gets prioritized.

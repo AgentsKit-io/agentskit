@@ -14,8 +14,8 @@ const DESCRIPTION = 'The agent toolkit JavaScript actually deserves.'
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'AgentsKit — the agent toolkit JavaScript actually deserves',
-    template: '%s | AgentsKit',
+    default: 'AgentsKit.js — the agent toolkit JavaScript actually deserves',
+    template: '%s | AgentsKit.js',
   },
   description: DESCRIPTION,
   keywords: [
@@ -62,21 +62,21 @@ export const metadata = {
     type: 'website',
     locale: 'en_US',
     url: SITE_URL,
-    siteName: 'AgentsKit',
-    title: 'AgentsKit — the agent toolkit JavaScript actually deserves',
+    siteName: 'AgentsKit.js',
+    title: 'AgentsKit.js — the agent toolkit JavaScript actually deserves',
     description: DESCRIPTION,
     images: [
       {
         url: '/api/og',
         width: 1200,
         height: 630,
-        alt: 'AgentsKit — the agent toolkit JavaScript actually deserves',
+        alt: 'AgentsKit.js — the agent toolkit JavaScript actually deserves',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AgentsKit — the agent toolkit JavaScript actually deserves',
+    title: 'AgentsKit.js — the agent toolkit JavaScript actually deserves',
     description: DESCRIPTION,
     images: ['/api/og'],
   },

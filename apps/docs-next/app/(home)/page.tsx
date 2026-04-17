@@ -7,18 +7,18 @@ import { AnimatedLogo } from '@/components/brand/animated-logo'
 import { JsonLd } from '@/components/seo/json-ld'
 
 export const metadata = {
-  title: 'AgentsKit — Ship AI agents in JavaScript without gluing 8 libraries',
+  title: 'AgentsKit.js — Ship AI agents in JavaScript without gluing 8 libraries',
   description:
     'One toolkit for chat UI, tools, memory, RAG, and runtime. Swap OpenAI for Claude, React for terminal, in-memory for vector DB — nothing breaks. MIT, 10KB core.',
   openGraph: {
-    title: 'AgentsKit — Ship AI agents in JavaScript',
+    title: 'AgentsKit.js — Ship AI agents in JavaScript',
     description:
       'Chat UI, tools, memory, RAG, runtime. One toolkit. Zero lock-in. 10KB core.',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AgentsKit — Ship AI agents in JavaScript',
+    title: 'AgentsKit.js — Ship AI agents in JavaScript',
     description:
       'Chat UI, tools, memory, RAG, runtime. One toolkit. Zero lock-in.',
   },
@@ -48,7 +48,7 @@ const JSON_LD = {
     {
       '@type': 'Organization',
       '@id': 'https://www.agentskit.io/#org',
-      name: 'AgentsKit',
+      name: 'AgentsKit.js',
       url: 'https://www.agentskit.io',
       logo: 'https://www.agentskit.io/favicon.svg',
       sameAs: [
@@ -59,7 +59,7 @@ const JSON_LD = {
     {
       '@type': 'SoftwareApplication',
       '@id': 'https://www.agentskit.io/#software',
-      name: 'AgentsKit',
+      name: 'AgentsKit.js',
       description:
         'One toolkit for building AI agents in JavaScript — chat UI, tools, memory, RAG, runtime. Swap OpenAI for Claude, React for terminal, in-memory for vector DB. Nothing breaks.',
       applicationCategory: 'DeveloperApplication',
@@ -75,7 +75,7 @@ const JSON_LD = {
       '@type': 'WebSite',
       '@id': 'https://www.agentskit.io/#website',
       url: 'https://www.agentskit.io',
-      name: 'AgentsKit',
+      name: 'AgentsKit.js',
       publisher: { '@id': 'https://www.agentskit.io/#org' },
       potentialAction: {
         '@type': 'SearchAction',
@@ -110,7 +110,7 @@ function Hero() {
           <div className="mb-5 flex items-center gap-3 sm:mb-6">
             <AnimatedLogo variant="hero" size={44} loop />
             <span className="font-mono text-lg font-bold tracking-tight text-ak-foam sm:text-xl">
-              agentskit
+              agentskit<span className="text-ak-graphite">.js</span>
             </span>
           </div>
 
@@ -501,7 +501,7 @@ function FinalCta() {
         </div>
 
         <p className="mt-8 font-mono text-xs text-ak-graphite">
-          MIT · 14 packages on npm · built in the open
+          AgentsKit.js · MIT · 14 packages on npm · built in the open
         </p>
       </div>
     </section>

@@ -1,6 +1,6 @@
 <div align="center">
 
-# AgentsKit
+# AgentsKit.js
 
 **The agent toolkit JavaScript actually deserves.**
 

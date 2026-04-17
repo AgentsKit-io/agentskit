@@ -1,6 +1,6 @@
 # Governance
 
-AgentsKit is maintainer-led open source. This document explains who decides what and how.
+AgentsKit.js is maintainer-led open source. This document explains who decides what and how.
 
 ## Roles
 

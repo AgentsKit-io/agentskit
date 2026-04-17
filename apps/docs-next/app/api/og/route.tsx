@@ -24,7 +24,7 @@ const SECTION_ACCENTS: Record<string, { label: string; color: string }> = {
 
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
-  const title = searchParams.get('title')?.slice(0, 100) ?? 'AgentsKit'
+  const title = searchParams.get('title')?.slice(0, 100) ?? 'AgentsKit.js'
   const description =
     searchParams.get('description')?.slice(0, 200) ??
     'The agent toolkit JavaScript actually deserves.'
