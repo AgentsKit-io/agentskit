@@ -23,10 +23,10 @@ describe('checkNodeVersion', () => {
 })
 
 describe('checkProviderEnv', () => {
-  it('fails when the env key is unset', async () => {
+  it('skips when the env key is unset', async () => {
     delete process.env.OPENAI_API_KEY
     const result = await checkProviderEnv('openai')
-    expect(result.status).toBe('fail')
+    expect(result.status).toBe('skip')
     expect(result.fix).toContain('OPENAI_API_KEY')
   })
 
@@ -49,7 +49,12 @@ describe('checkProviderEnv', () => {
 })
 
 describe('checkProviderReachable', () => {
-  it('reports pass when fetch resolves', async () => {
+  beforeEach(() => {
+    // Reachability checks require the API key to be set
+    process.env.OPENAI_API_KEY = 'sk-test-key-for-reach'
+  })
+
+  it('reports pass when fetch resolves with 401', async () => {
     const fakeFetch = vi.fn().mockResolvedValue({ status: 401 } as Response)
     const result = await checkProviderReachable('openai', fakeFetch as unknown as typeof fetch)
     expect(result.status).toBe('pass')
@@ -66,6 +71,14 @@ describe('checkProviderReachable', () => {
   it('skips providers with no URL configured', async () => {
     const result = await checkProviderReachable('demo')
     expect(result.status).toBe('skip')
+  })
+
+  it('skips when no API key is set', async () => {
+    delete process.env.OPENAI_API_KEY
+    const fakeFetch = vi.fn()
+    const result = await checkProviderReachable('openai', fakeFetch as unknown as typeof fetch)
+    expect(result.status).toBe('skip')
+    expect(fakeFetch).not.toHaveBeenCalled()
   })
 
   it('treats an abort as a fail with timeout context', async () => {
@@ -119,11 +132,11 @@ describe('renderReport', () => {
       },
       { color: false },
     )
-    expect(out).toContain('agentskit doctor')
+    expect(out).toContain('AgentsKit Doctor')
     expect(out).toContain('Node version')
     expect(out).toContain('OPENAI_API_KEY')
     expect(out).toContain('export OPENAI_API_KEY=...')
-    expect(out).toContain('1 pass')
-    expect(out).toContain('1 fail')
+    expect(out).toContain('1 passed')
+    expect(out).toContain('1 failed')
   })
 })
