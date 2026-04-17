@@ -11,26 +11,28 @@ A vitest test that runs your agent against a dataset of inputs + expected output
 npm install -D @agentskit/eval @agentskit/runtime @agentskit/adapters vitest
 ```
 
-## The dataset
+## The suite
 
-```ts title="evals/dataset.ts"
-export const dataset = [
-  {
-    input: 'What is 2 + 2?',
-    expected: '4',
-    score: (output: string) => (output.includes('4') ? 1 : 0),
-  },
-  {
-    input: 'Translate "hello" to French',
-    expected: 'bonjour',
-    score: (output: string) => (output.toLowerCase().includes('bonjour') ? 1 : 0),
-  },
-  {
-    input: 'In one word, what color is the sky?',
-    expected: 'blue',
-    score: (output: string) => (output.toLowerCase().includes('blue') ? 1 : 0),
-  },
-]
+```ts title="evals/suite.ts"
+import type { EvalSuite } from '@agentskit/eval'
+
+export const suite: EvalSuite = {
+  name: 'basic-regression',
+  cases: [
+    {
+      input: 'What is 2 + 2?',
+      expected: '4',
+    },
+    {
+      input: 'Translate "hello" to French',
+      expected: (output) => output.toLowerCase().includes('bonjour'),
+    },
+    {
+      input: 'In one word, what color is the sky?',
+      expected: (output) => output.toLowerCase().includes('blue'),
+    },
+  ],
+}
 ```
 
 ## The eval test
@@ -38,28 +40,30 @@ export const dataset = [
 ```ts title="evals/agent.eval.test.ts"
 import { describe, it, expect } from 'vitest'
 import { runEval } from '@agentskit/eval'
+import type { AgentFn } from '@agentskit/eval'
 import { createRuntime } from '@agentskit/runtime'
 import { openai } from '@agentskit/adapters'
-import { dataset } from './dataset'
+import { suite } from './suite'
 
 const runtime = createRuntime({
   adapter: openai({ apiKey: process.env.OPENAI_API_KEY!, model: 'gpt-4o-mini' }),
   systemPrompt: 'Be terse and direct.',
 })
 
+const agent: AgentFn = async (input) => {
+  const result = await runtime.run(input)
+  return result.content
+}
+
 describe('agent quality', () => {
-  it('passes the regression dataset above 80%', async () => {
-    const report = await runEval({
-      runtime,
-      dataset,
-      concurrency: 4,
-    })
+  it('passes the regression suite above 80%', async () => {
+    const report = await runEval({ agent, suite })
 
-    console.log(`Score: ${(report.averageScore * 100).toFixed(1)}%`)
-    console.log(`Total cost: ~$${report.estimatedCost?.toFixed(4) ?? '?'}`)
-    console.log(`p95 latency: ${report.p95LatencyMs}ms`)
+    console.log(`Score: ${(report.accuracy * 100).toFixed(1)}%`)
+    console.log(`Passed: ${report.passed} / ${report.totalCases}`)
+    console.log(`Failed: ${report.failed}`)
 
-    expect(report.averageScore).toBeGreaterThanOrEqual(0.8)
+    expect(report.accuracy).toBeGreaterThanOrEqual(0.8)
   }, 60_000)
 })
 ```

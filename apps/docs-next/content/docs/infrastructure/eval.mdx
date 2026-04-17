@@ -29,8 +29,9 @@ const results = await runEval({
 })
 
 console.log(results.accuracy)    // 0.92
-console.log(results.avgLatencyMs) // 1240
-console.log(results.totalTokens)  // 8432
+console.log(results.passed)      // 11
+console.log(results.failed)      // 1
+console.log(results.totalCases)  // 12
 ```
 
 ## Defining a Suite
@@ -97,16 +98,15 @@ const agent: AgentFn = async (input) => {
 
 ## Metrics
 
-`runEval` returns an `EvalReport` with the following fields:
+`runEval` returns an `EvalResult` with the following fields:
 
 | Field | Type | Description |
 |-------|------|-------------|
 | `accuracy` | `number` | Fraction of cases that passed (0–1) |
 | `passed` | `number` | Count of passing cases |
 | `failed` | `number` | Count of failing cases |
-| `avgLatencyMs` | `number` | Mean time per agent call |
-| `totalTokens` | `number \| null` | Combined input + output tokens (null if not reported) |
-| `cases` | `CaseResult[]` | Per-case breakdown |
+| `totalCases` | `number` | Total number of test cases run |
+| `results` | `CaseResult[]` | Per-case breakdown (input, output, passed, latencyMs, tokenUsage?, error?) |
 
 ## Error Handling
 

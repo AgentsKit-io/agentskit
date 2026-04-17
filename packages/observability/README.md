@@ -43,11 +43,60 @@ const result = await runtime.run('Analyze sales data in ./data/sales.csv')
 // Every step is now logged and traced automatically
 ```
 
+## Token counting
+
+`@agentskit/observability` includes a zero-dependency token counting API — useful for context-window budget checks, cost estimation, and message trimming.
+
+### Fast approximate count
+
+```ts
+import { countTokens, approximateCounter } from '@agentskit/observability'
+
+// async convenience function
+const total = await countTokens(messages)
+if (total > 120_000) trimOldMessages(messages)
+
+// synchronous via counter directly
+const syncTotal = approximateCounter.count(messages)
+```
+
+Uses the `chars / 4 + 4 per message` heuristic. Slightly over-estimates — intentional for budget guards.
+
+### Per-message breakdown
+
+```ts
+import { countTokensDetailed } from '@agentskit/observability'
+
+const { total, perMessage } = await countTokensDetailed(messages)
+// total      → number
+// perMessage → number[]  (one entry per message, same order)
+```
+
+### Exact count with a real tokenizer
+
+```ts
+import { createProviderCounter, countTokens } from '@agentskit/observability'
+import { encoding_for_model } from 'tiktoken'
+
+const enc = encoding_for_model('gpt-4o')
+const tiktokenCounter = createProviderCounter({
+  name: 'tiktoken',
+  tokenize: (text) => [...enc.encode(text)],
+})
+
+const exact = await countTokens(messages, { counter: tiktokenCounter, model: 'gpt-4o' })
+```
+
+`createProviderCounter` wraps any `tokenize(text, model?)` function in a `TokenCounter` that conforms to the core contract and supports `countDetailed` automatically.
+
 ## Features
 
 - `consoleLogger({ format })` — pretty-print or JSON structured logs for local dev
 - `langsmith({ apiKey })` — send runs to LangSmith for tracing and evaluation
 - OpenTelemetry OTLP exporter — ship traces to any OTEL-compatible backend
+- `approximateCounter` — zero-dep synchronous token counter (`chars/4` heuristic)
+- `countTokens` / `countTokensDetailed` — async token counting with optional custom counter
+- `createProviderCounter` — factory to wrap tiktoken or any tokenizer in the `TokenCounter` contract
 - Observer interface: `{ name: string, on(event: AgentEvent): void }` — write custom observers in minutes
 - Attaches via `observers` array on `createRuntime` — zero changes to agent logic
 

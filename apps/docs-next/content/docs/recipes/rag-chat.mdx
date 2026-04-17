@@ -16,13 +16,13 @@ npm install @agentskit/react @agentskit/adapters @agentskit/rag @agentskit/memor
 ```ts title="scripts/ingest.ts"
 import { createRAG } from '@agentskit/rag'
 import { fileVectorMemory } from '@agentskit/memory'
-import { openaiEmbed } from '@agentskit/adapters'
+import { openaiEmbedder } from '@agentskit/adapters'
 import { readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 
 const rag = createRAG({
   store: fileVectorMemory({ path: './embeddings.json' }),
-  embed: openaiEmbed({ apiKey: KEY, model: 'text-embedding-3-small' }),
+  embed: openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' }),
 })
 
 const docs = readdirSync('./content').map(name => ({
@@ -45,12 +45,12 @@ import { useChat, ChatContainer, Message, InputBar } from '@agentskit/react'
 import { openai } from '@agentskit/adapters'
 import { createRAG } from '@agentskit/rag'
 import { fileVectorMemory } from '@agentskit/memory'
-import { openaiEmbed } from '@agentskit/adapters'
+import { openaiEmbedder } from '@agentskit/adapters'
 import '@agentskit/react/theme'
 
 const rag = createRAG({
   store: fileVectorMemory({ path: './embeddings.json' }),
-  embed: openaiEmbed({ apiKey: KEY, model: 'text-embedding-3-small' }),
+  embed: openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' }),
 })
 
 export default function Chat() {

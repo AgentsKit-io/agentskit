@@ -238,11 +238,11 @@ import { webSearch, filesystem } from '@agentskit/tools'
 import { sqliteChatMemory } from '@agentskit/memory'
 import { createRAG } from '@agentskit/rag'
 import { fileVectorMemory } from '@agentskit/memory'
-import { openaiEmbed } from '@agentskit/adapters'
+import { openaiEmbedder } from '@agentskit/adapters'
 
 const rag = createRAG({
   store: fileVectorMemory({ path: './embeddings.json' }),
-  embed: openaiEmbed({ apiKey: KEY, model: 'text-embedding-3-small' }),
+  embed: openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' }),
 })
 
 const runtime = createRuntime({
@@ -295,13 +295,14 @@ const result = streamText({
 import type { Observer } from '@agentskit/core'
 
 const telemetry: Observer = {
-  onModelStart: () => console.time('model'),
-  onRunEnd: (result) => {
-    console.timeEnd('model')
-    console.log(`${result.steps} steps, ${result.toolCalls.length} tool calls`)
-  },
-  onChunk: (chunk) => {
-    if (chunk.metadata?.usage) console.log('usage:', chunk.metadata.usage)
+  name: 'telemetry',
+  on(event) {
+    if (event.type === 'llm:start') console.time('model')
+    if (event.type === 'llm:end') {
+      console.timeEnd('model')
+      console.log(`${event.durationMs}ms`, event.usage)
+    }
+    if (event.type === 'agent:step') console.log(`step ${event.step}: ${event.action}`)
   },
 }
 

@@ -162,6 +162,6 @@ describe('toString() multiline format', () => {
     expect(lines).toHaveLength(3)
     expect(lines[0]).toBe('error[AK_TOOL_NOT_FOUND]: Tool "webSearch" not found or has no execute function')
     expect(lines[1]).toBe('  --> Hint: Register the tool in your ChatConfig, e.g. { tools: [webSearchTool] }.')
-    expect(lines[2]).toMatch(/^ {2}--> Docs: https:\/\/agentskit\.dev\/docs\/tools$/)
+    expect(lines[2]).toMatch(/^ {2}--> Docs: https:\/\/www\.agentskit\.io\/docs\/tools$/)
   })
 })

@@ -55,10 +55,10 @@ export interface VectorMemory {
 
 ```ts
 import { fileVectorMemory } from '@agentskit/memory'
-import { openaiEmbed } from '@agentskit/adapters'
+import { openaiEmbedder } from '@agentskit/adapters'
 
 const store = fileVectorMemory({ path: './embeddings.json' })
-const embed = openaiEmbed({ apiKey: KEY, model: 'text-embedding-3-small' })
+const embed = openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' })
 
 await store.store([
   { id: 'doc-1', content: 'AgentsKit core is 10KB gzipped.', embedding: await embed('AgentsKit core is 10KB gzipped.') },
@@ -80,9 +80,9 @@ A pure function. Same input + same model = same output. No randomness allowed.
 Built-in embedders:
 
 ```ts
-import { openaiEmbed, ollamaEmbed, geminiEmbed } from '@agentskit/adapters'
+import { openaiEmbedder, ollamaEmbedder, geminiEmbedder } from '@agentskit/adapters'
 
-const embed = openaiEmbed({ apiKey: KEY, model: 'text-embedding-3-small' })
+const embed = openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' })
 ```
 
 ## Built-in backends

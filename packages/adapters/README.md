@@ -71,6 +71,49 @@ const rag = createRAG({
 | [@agentskit/rag](https://www.npmjs.com/package/@agentskit/rag) | `createRAG` + embedders |
 | [@agentskit/memory](https://www.npmjs.com/package/@agentskit/memory) | Vector + chat memory backends |
 
+## Testing Adapters
+
+Three built-in utilities let you test agents without hitting a real LLM.
+
+### `mockAdapter` — deterministic responses
+
+```ts
+import { mockAdapter } from '@agentskit/adapters'
+
+const adapter = mockAdapter({
+  response: [
+    { type: 'text', content: 'Hello!' },
+    { type: 'done' },
+  ],
+})
+```
+
+Pass a function to make responses request-aware, or pass an array of arrays to return different chunks on each call (sequenced mode). Use the optional `history` array to capture every request for assertions.
+
+### `recordingAdapter` + `inMemorySink` — capture real calls
+
+```ts
+import { recordingAdapter, inMemorySink, anthropic } from '@agentskit/adapters'
+
+const sink = inMemorySink()
+const adapter = recordingAdapter(
+  anthropic({ apiKey: process.env.ANTHROPIC_API_KEY!, model: 'claude-sonnet-4-6' }),
+  sink,
+)
+// Runs the real LLM and captures every chunk to sink.fixture
+```
+
+### `replayAdapter` — replay captured fixtures
+
+```ts
+import { replayAdapter } from '@agentskit/adapters'
+import fixture from './fixture.json'
+
+const adapter = replayAdapter(fixture) // no network calls
+```
+
+Typical workflow: record once in dev → commit JSON fixture → replay in CI.
+
 ## Contributors
 
 <a href="https://github.com/AgentsKit-io/agentskit/graphs/contributors">
