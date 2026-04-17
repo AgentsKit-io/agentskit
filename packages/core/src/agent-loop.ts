@@ -1,3 +1,4 @@
+import { ToolError, ErrorCodes } from './errors'
 import { executeToolCall, createToolLifecycle, createEventEmitter } from './primitives'
 import type {
   MaybePromise,
@@ -77,9 +78,13 @@ export async function executeSafeTool(
 
   // Missing tool
   if (!tool?.execute) {
-    const errorMsg = `Tool "${toolCall.name}" not found or has no execute function`
-    emitter.emit({ type: 'error', error: new Error(errorMsg) })
-    return { status: 'error', error: errorMsg, durationMs: Date.now() - startTime }
+    const err = new ToolError({
+      code: ErrorCodes.AK_TOOL_NOT_FOUND,
+      message: `Tool "${toolCall.name}" not found or has no execute function`,
+      hint: `Register the tool in your ChatConfig or runtime config, e.g. { tools: [myTool] }. Available tools must export an "execute" function.`,
+    })
+    emitter.emit({ type: 'error', error: err })
+    return { status: 'error', error: err.toString(), durationMs: Date.now() - startTime }
   }
 
   // Requires confirmation
@@ -112,14 +117,21 @@ export async function executeSafeTool(
     })
     return { status: 'complete', result, durationMs: Date.now() - startTime }
   } catch (error) {
-    const errorMsg = error instanceof Error ? error.message : String(error)
+    const err = error instanceof ToolError
+      ? error
+      : new ToolError({
+          code: ErrorCodes.AK_TOOL_EXEC_FAILED,
+          message: `Tool "${toolCall.name}" threw during execution: ${error instanceof Error ? error.message : String(error)}`,
+          hint: `Check the tool's execute() implementation. The error above comes from the tool itself, not AgentsKit.`,
+          cause: error,
+        })
     emitter.emit({
       type: 'tool:end',
       name: toolCall.name,
-      result: `Error: ${errorMsg}`,
+      result: `Error: ${err.message}`,
       durationMs: Date.now() - startTime,
     })
-    emitter.emit({ type: 'error', error: error instanceof Error ? error : new Error(errorMsg) })
-    return { status: 'error', error: errorMsg, durationMs: Date.now() - startTime }
+    emitter.emit({ type: 'error', error: err })
+    return { status: 'error', error: err.toString(), durationMs: Date.now() - startTime }
   }
 }

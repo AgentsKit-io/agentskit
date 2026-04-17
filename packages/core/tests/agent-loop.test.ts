@@ -142,7 +142,7 @@ describe('executeSafeTool', () => {
     })
 
     expect(result.status).toBe('error')
-    expect(result.error).toBe('API timeout')
+    expect(result.error).toContain('API timeout')
   })
 
   it('calls onPartial during streaming execution', async () => {

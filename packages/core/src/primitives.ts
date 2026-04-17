@@ -1,3 +1,4 @@
+import { AdapterError, ErrorCodes } from './errors'
 import type {
   AgentEvent,
   Message,
@@ -142,7 +143,11 @@ export async function consumeStream(
       } else if (chunk.type === 'tool_result' && chunk.content) {
         handlers.onToolResult?.(chunk.content)
       } else if (chunk.type === 'error') {
-        handlers.onError?.(new Error(chunk.content ?? 'Stream error'))
+        handlers.onError?.(new AdapterError({
+          code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,
+          message: chunk.content ?? 'Stream error',
+          hint: 'The adapter stream emitted an error chunk. Check your API key, network connection, and model configuration.',
+        }))
         return
       } else if (chunk.type === 'done') {
         break
@@ -150,6 +155,14 @@ export async function consumeStream(
     }
     handlers.onDone(accumulatedText)
   } catch (error) {
-    handlers.onError?.(error instanceof Error ? error : new Error(String(error)))
+    const err = error instanceof AdapterError
+      ? error
+      : new AdapterError({
+          code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,
+          message: `Stream consumption failed: ${error instanceof Error ? error.message : String(error)}`,
+          hint: 'The adapter stream threw an exception. Verify your adapter is correctly configured and the provider API is reachable.',
+          cause: error,
+        })
+    handlers.onError?.(err)
   }
 }

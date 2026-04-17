@@ -173,7 +173,7 @@ describe('createChatController', () => {
     await ctrl.send('do it')
     const toolCalls = ctrl.getState().messages[1]?.toolCalls
     expect(toolCalls?.[0].status).toBe('error')
-    expect(toolCalls?.[0].error).toBe('tool broke')
+    expect(toolCalls?.[0].error).toContain('tool broke')
   })
 
   it('handles stream errors', async () => {
