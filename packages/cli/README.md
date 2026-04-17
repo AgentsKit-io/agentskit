@@ -48,8 +48,15 @@ agentskit run --help
 - `agentskit chat` — interactive streaming chat in the terminal powered by `@agentskit/ink`
 - `agentskit init` — interactive project generator (React or Ink templates, production-ready structure)
 - `agentskit run` — execute headless runtime agents from the terminal
+- `agentskit doctor` — diagnose your environment, packages, and provider config
+- `agentskit dev` — hot-reload agent development
+- `agentskit tunnel` — expose local agent via public URL
 - Provider flags: `--provider`, `--model`, `--system`, `--skill`, `--memory`
 - Env-var based key injection — works seamlessly in CI and scripts
+
+### agentskit doctor
+
+![agentskit doctor](https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/demos/doctor.gif)
 
 ## Ecosystem
 
