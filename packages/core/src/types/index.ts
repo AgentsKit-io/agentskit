@@ -9,3 +9,4 @@ export type { ChatConfig, ChatState, ChatController, ChatReturn, EditOptions } f
 export type { SkillDefinition } from './skill'
 export type { AgentEvent, Observer } from './agent'
 export type { EvalTestCase, EvalResult, EvalSuite } from './eval'
+export type { TokenCounter, TokenCounterOptions, TokenCountResult } from './token-counter'
