@@ -58,17 +58,34 @@ The controller merges system prompts, runs retrieval, dispatches tool calls, per
 
 | Export | Role |
 |--------|------|
-| `createInMemoryMemory`, `createLocalStorageMemory`, `createFileMemory` | Simple bundled memories for tests or demos |
+| `createInMemoryMemory`, `createLocalStorageMemory` | Simple bundled memories for tests or demos |
 | `serializeMessages` / `deserializeMessages` | Persistence helpers |
 | `createStaticRetriever`, `formatRetrievedDocuments` | Retriever helpers for static context |
 
 Heavy backends live in [`@agentskit/memory`](../data-layer/memory); vector stores and chunking in [`@agentskit/rag`](../data-layer/rag).
 
-### Configuration file
+### Error handling
 
 | Export | Role |
 |--------|------|
-| `loadConfig` | Load `AgentsKitConfig` from project (CLI / tooling) |
+| `AgentsKitError` | Base error class with `code`, `hint`, and `docsUrl` fields |
+| `AdapterError` | Thrown on adapter/stream failures; links to adapter docs |
+| `ToolError` | Thrown on tool lookup or execution failures; links to tool docs |
+| `MemoryError` | Thrown on memory load/save/deserialize failures; links to memory docs |
+| `ConfigError` | Thrown on invalid configuration; links to configuration docs |
+| `ErrorCodes` | `as const` map of all `AK_*` error code strings |
+
+See [Error handling](#error-handling-1) below for usage examples.
+
+### Tool factory
+
+| Export | Role |
+|--------|------|
+| `defineTool` | Create a `ToolDefinition` with automatic type inference from a JSON Schema |
+| `DefineToolConfig` | Config type for `defineTool` — schema is narrowed to a const type |
+| `InferSchemaType` | Utility type: extract TypeScript args type from a JSON Schema |
+
+See [Type-safe tools with `defineTool`](#type-safe-tools-with-definetool) below.
 
 ### Types (high level)
 
@@ -112,6 +129,161 @@ await chat.send('Hello')
 ```
 
 Prefer `useChat` in React apps — it wraps this pattern with hooks.
+
+## Error handling
+
+AgentsKit uses a **didactic error system** inspired by the Rust compiler. Every error carries a machine-readable `code`, a human-readable `hint`, and a direct link to the relevant docs — so you can fix the problem without searching.
+
+### Error classes
+
+```ts
+import {
+  AgentsKitError,
+  AdapterError,
+  ToolError,
+  MemoryError,
+  ConfigError,
+  ErrorCodes,
+} from '@agentskit/core'
+```
+
+| Class | Thrown when |
+|-------|-------------|
+| `AgentsKitError` | Base class — all errors extend this |
+| `AdapterError` | Adapter is missing or a stream call fails |
+| `ToolError` | A tool is not found or its `execute` throws |
+| `MemoryError` | Memory load, save, or deserialization fails |
+| `ConfigError` | Required configuration is absent or invalid |
+
+### Error shape
+
+```ts
+class AgentsKitError extends Error {
+  readonly code: string       // e.g. 'AK_TOOL_EXEC_FAILED'
+  readonly hint: string | undefined   // actionable fix
+  readonly docsUrl: string | undefined // direct docs link
+  readonly cause: unknown     // original error, if any
+}
+```
+
+`toString()` formats the error Rust-compiler-style:
+
+```
+error[AK_ADAPTER_MISSING]: No adapter provided
+  --> Hint: Pass an adapter when creating the chat controller, e.g.
+            createChatController({ adapter: openaiAdapter() })
+  --> Docs: https://agentskit.dev/docs/adapters
+```
+
+### ErrorCodes reference
+
+```ts
+import { ErrorCodes } from '@agentskit/core'
+
+ErrorCodes.AK_ADAPTER_MISSING          // adapter not provided
+ErrorCodes.AK_ADAPTER_STREAM_FAILED    // streaming call failed
+ErrorCodes.AK_TOOL_NOT_FOUND          // tool name not registered
+ErrorCodes.AK_TOOL_EXEC_FAILED        // execute() threw
+ErrorCodes.AK_MEMORY_LOAD_FAILED      // memory.load() failed
+ErrorCodes.AK_MEMORY_SAVE_FAILED      // memory.save() failed
+ErrorCodes.AK_MEMORY_DESERIALIZE_FAILED // corrupt persisted state
+ErrorCodes.AK_CONFIG_INVALID          // missing or bad config
+```
+
+### Catching and narrowing errors
+
+```ts
+import { AgentsKitError, ToolError, ErrorCodes } from '@agentskit/core'
+
+try {
+  await runtime.run(task)
+} catch (err) {
+  if (err instanceof ToolError) {
+    if (err.code === ErrorCodes.AK_TOOL_EXEC_FAILED) {
+      console.error('Tool execution failed:', err.hint)
+      console.error('See:', err.docsUrl)
+    }
+  } else if (err instanceof AgentsKitError) {
+    // any other AgentsKit-originating error
+    console.error(err.toString())
+  } else {
+    throw err // re-throw unknown errors
+  }
+}
+```
+
+### Throwing in custom tools
+
+When your own tool implementation encounters a recoverable error, wrap it for consistent formatting:
+
+```ts
+import { ToolError, ErrorCodes } from '@agentskit/core'
+
+export const myTool = {
+  name: 'fetch_record',
+  async execute(args: { id: string }) {
+    const record = await db.find(args.id)
+    if (!record) {
+      throw new ToolError({
+        code: ErrorCodes.AK_TOOL_EXEC_FAILED,
+        message: `Record ${args.id} not found`,
+        hint: 'Check that the id exists before calling fetch_record.',
+        cause: undefined,
+      })
+    }
+    return record
+  },
+}
+```
+
+## Type-safe tools with `defineTool`
+
+The `defineTool` factory infers the TypeScript type of `execute`'s `args` parameter directly from the JSON Schema you provide — no manual type annotation needed.
+
+```ts
+import { defineTool } from '@agentskit/core'
+
+const getWeather = defineTool({
+  name: 'get_weather',
+  description: 'Get the current weather for a city.',
+  schema: {
+    type: 'object',
+    properties: {
+      city: { type: 'string', description: 'City name, e.g. "Madrid"' },
+      units: { type: 'string', enum: ['metric', 'imperial'] },
+    },
+    required: ['city'],
+  } as const,
+  async execute(args) {
+    // args.city  → string   (required)
+    // args.units → string | undefined  (optional)
+    const res = await fetch(`https://wttr.in/${args.city}?format=j1`)
+    return res.json()
+  },
+})
+```
+
+The `as const` assertion on `schema` is what enables the inference — without it TypeScript cannot narrow the property types.
+
+### `InferSchemaType` utility type
+
+When you want to reference the inferred args type outside of `defineTool`, use `InferSchemaType`:
+
+```ts
+import type { InferSchemaType } from '@agentskit/core'
+
+const schema = {
+  type: 'object',
+  properties: {
+    query: { type: 'string' },
+    limit: { type: 'integer' },
+  },
+  required: ['query'],
+} as const
+
+type SearchArgs = InferSchemaType<typeof schema>
+// { query: string; limit?: number }
+```
 
 ## Troubleshooting
 

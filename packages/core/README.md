@@ -47,6 +47,71 @@ console.log(controller.getState().messages)
 - Event emitter for `AgentEvent` streams — observability hooks attach here
 - Dual CJS/ESM output, strict TypeScript, no `any`
 
+## Error handling
+
+AgentsKit ships a **didactic error system** inspired by the Rust compiler. Every error includes a `code`, a `hint` for the fix, and a `docsUrl` — no more vague `"Something went wrong"` messages.
+
+```ts
+import {
+  AgentsKitError,
+  AdapterError,
+  ToolError,
+  MemoryError,
+  ConfigError,
+  ErrorCodes,
+} from '@agentskit/core'
+
+try {
+  await runtime.run(task)
+} catch (err) {
+  if (err instanceof ToolError) {
+    // err.code     → 'AK_TOOL_EXEC_FAILED'
+    // err.hint     → actionable suggestion
+    // err.docsUrl  → https://agentskit.dev/docs/tools
+    console.error(err.toString())
+    // error[AK_TOOL_EXEC_FAILED]: ...
+    //   --> Hint: ...
+    //   --> Docs: https://agentskit.dev/docs/tools
+  }
+}
+```
+
+Available error codes (via `ErrorCodes`):
+
+| Code | Thrown by |
+|------|-----------|
+| `AK_ADAPTER_MISSING` | adapter not provided to the controller |
+| `AK_ADAPTER_STREAM_FAILED` | streaming call to the provider fails |
+| `AK_TOOL_NOT_FOUND` | requested tool name is not registered |
+| `AK_TOOL_EXEC_FAILED` | `execute()` throws |
+| `AK_MEMORY_LOAD_FAILED` | memory.load() fails |
+| `AK_MEMORY_SAVE_FAILED` | memory.save() fails |
+| `AK_MEMORY_DESERIALIZE_FAILED` | persisted state is corrupt |
+| `AK_CONFIG_INVALID` | required config is missing or wrong type |
+
+## Type-safe tools with `defineTool`
+
+`defineTool` infers the TypeScript type of `execute`'s `args` parameter from the JSON Schema — no manual casting.
+
+```ts
+import { defineTool } from '@agentskit/core'
+
+const greet = defineTool({
+  name: 'greet',
+  schema: {
+    type: 'object',
+    properties: { name: { type: 'string' } },
+    required: ['name'],
+  } as const,   // as const is required for inference
+  execute(args) {
+    // args.name → string  (inferred, not cast)
+    return `Hello, ${args.name}!`
+  },
+})
+```
+
+Use `InferSchemaType<typeof schema>` to reference the inferred type elsewhere in your codebase.
+
 ## Ecosystem
 
 | Package | Role |
