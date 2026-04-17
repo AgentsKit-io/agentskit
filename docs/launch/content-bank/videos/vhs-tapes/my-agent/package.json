@@ -1,0 +1,23 @@
+{
+  "name": "agentskit-react-app",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@agentskit/react": "^0.4.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "@agentskit/adapters": "^0.4.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "^5.0.0",
+    "typescript": "^5.5.0",
+    "vite": "^7.0.0"
+  }
+}
