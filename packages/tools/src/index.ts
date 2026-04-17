@@ -8,3 +8,6 @@ export { shell } from './shell'
 export type { ShellConfig } from './shell'
 
 export { listTools } from './discovery'
+
+export { defineZodTool } from './zod'
+export type { DefineZodToolConfig } from './zod'

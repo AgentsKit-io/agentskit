@@ -5,7 +5,7 @@ export type {
   MaybePromise,
   StreamStatus, StreamToolCallPayload, StreamChunk, StreamSource, UseStreamOptions, UseStreamReturn,
   MessageRole, MessageStatus, Message, MemoryRecord,
-  ToolCallStatus, ToolCall, ToolExecutionContext, ToolDefinition, ToolCallHandlerContext,
+  ToolCallStatus, ToolCall, ToolExecutionContext, ToolDefinition, ToolCallHandlerContext, InferSchemaType, DefineToolConfig,
   AdapterContext, AdapterRequest, AdapterFactory, AdapterCapabilities,
   ChatMemory, VectorDocument, VectorMemory, EmbedFn,
   RetrievedDocument, RetrieverRequest, Retriever,
