@@ -174,13 +174,13 @@ const agent = new Agent({ name: 'assistant', memory, /* ... */ })
 
 ```ts
 import { createRuntime } from '@agentskit/runtime'
-import { openai, openaiEmbed } from '@agentskit/adapters'
+import { openai, openaiEmbedder } from '@agentskit/adapters'
 import { sqliteChatMemory, fileVectorMemory } from '@agentskit/memory'
 import { createRAG } from '@agentskit/rag'
 
 const rag = createRAG({
   store: fileVectorMemory({ path: './embeddings.json' }),
-  embed: openaiEmbed({ apiKey: KEY, model: 'text-embedding-3-small' }),
+  embed: openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' }),
   topK: 3,
 })
 
@@ -212,13 +212,13 @@ RAG is just a `Retriever`. Any `Runtime` accepts one.
 
 ```ts
 import { createRuntime } from '@agentskit/runtime'
-import { openai, openaiEmbed } from '@agentskit/adapters'
+import { openai, openaiEmbedder } from '@agentskit/adapters'
 import { createRAG } from '@agentskit/rag'
 import { fileVectorMemory } from '@agentskit/memory'
 
 const rag = createRAG({
   store: fileVectorMemory({ path: './embeddings.json' }),
-  embed: openaiEmbed({ apiKey: KEY, model: 'text-embedding-3-small' }),
+  embed: openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' }),
 })
 
 await rag.ingest([
@@ -316,10 +316,14 @@ OpenTelemetry auto-wired via `telemetry: { serviceName, enabled }` on the `Mastr
 import type { Observer } from '@agentskit/core'
 
 const telemetry: Observer = {
-  onModelStart: () => console.time('model'),
-  onRunEnd: (result) => {
-    console.timeEnd('model')
-    console.log(`${result.steps} steps, ${result.toolCalls.length} tools`)
+  name: 'telemetry',
+  on(event) {
+    if (event.type === 'llm:start') console.time('model')
+    if (event.type === 'llm:end') {
+      console.timeEnd('model')
+      console.log(`${event.durationMs}ms`)
+    }
+    if (event.type === 'agent:step') console.log(`step ${event.step}: ${event.action}`)
   },
 }
 

@@ -27,28 +27,31 @@ function createCostGuard(budgetUsd: number, abort: () => void): Observer {
   let outputTokens = 0
 
   return {
-    onChunk(chunk) {
-      // Adapters put usage in metadata when they have it
-      const usage = chunk.metadata?.usage as
-        | { input_tokens?: number; output_tokens?: number }
-        | undefined
-      if (usage?.input_tokens) inputTokens += usage.input_tokens
-      if (usage?.output_tokens) outputTokens += usage.output_tokens
+    name: 'cost-guard',
+    on(event) {
+      if (event.type === 'llm:end') {
+        // AgentEvent carries usage totals at the end of each LLM call
+        if (event.usage) {
+          inputTokens += event.usage.promptTokens
+          outputTokens += event.usage.completionTokens
+        }
 
-      const costUsd =
-        (inputTokens / 1000) * PRICE_PER_1K.input +
-        (outputTokens / 1000) * PRICE_PER_1K.output
+        const costUsd =
+          (inputTokens / 1000) * PRICE_PER_1K.input +
+          (outputTokens / 1000) * PRICE_PER_1K.output
 
-      if (costUsd > budgetUsd) {
-        console.warn(`Cost budget exceeded: $${costUsd.toFixed(4)} > $${budgetUsd}`)
-        abort()
+        if (costUsd > budgetUsd) {
+          console.warn(`Cost budget exceeded: $${costUsd.toFixed(4)} > $${budgetUsd}`)
+          abort()
+        }
       }
-    },
-    onRunEnd() {
-      const total =
-        (inputTokens / 1000) * PRICE_PER_1K.input +
-        (outputTokens / 1000) * PRICE_PER_1K.output
-      console.log(`Run cost: $${total.toFixed(4)} (${inputTokens}+${outputTokens} tokens)`)
+
+      if (event.type === 'agent:step') {
+        const total =
+          (inputTokens / 1000) * PRICE_PER_1K.input +
+          (outputTokens / 1000) * PRICE_PER_1K.output
+        console.log(`Step ${event.step} running cost: $${total.toFixed(4)} (${inputTokens}+${outputTokens} tokens)`)
+      }
     },
   }
 }
@@ -76,13 +79,13 @@ try {
 
 ## Why this works
 
-- The Adapter contract (ADR 0001) doesn't require usage data, but every well-behaved adapter exposes it via `chunk.metadata.usage`
+- The `llm:end` event carries a `usage` field (`promptTokens`, `completionTokens`) when the adapter reports it — well-behaved adapters always do
 - Observers are read-only (RT9) — they can't mutate state, but they can call external APIs (like `controller.abort()`)
 - Aborting from an observer triggers the Runtime's clean abort path: stream stops, memory **does not save** (RT7+RT13), promise rejects with `AbortError`
 
 ## Tighten the recipe
 
-- **Per-tool budget** — observe `onToolStart` / `onToolEnd` and assign costs (e.g. web search at $0.005/call)
+- **Per-tool budget** — handle `tool:start` / `tool:end` events in the observer and assign costs (e.g. web search at $0.005/call)
 - **Per-user quota** — store cumulative spend in Redis keyed by user id; reject before `run()` if over
 - **Pre-check budget** with `tiktoken` count of the system prompt before sending
 - **Cost-aware adapter** — wrap the adapter to upgrade/downgrade model based on remaining budget

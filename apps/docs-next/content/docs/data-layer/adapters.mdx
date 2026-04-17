@@ -236,6 +236,98 @@ Pass any embedder directly to `createRAG` — see [RAG](./rag.md).
 | Tool JSON errors | Provider-specific tool schema limits; trim `description` length or simplify schema. |
 | Embedder dimension mismatch | Vector index `dimensions` must match the model (e.g. 1536 for many OpenAI embeddings). |
 
+## Testing Adapters
+
+`@agentskit/adapters` ships three utilities for deterministic testing — no real LLM calls needed.
+
+### `mockAdapter`
+
+A deterministic adapter that returns pre-defined chunks. Supports static responses, request-aware functions, and sequenced multi-turn responses.
+
+```ts
+import { mockAdapter } from '@agentskit/adapters'
+
+// Static response
+const adapter = mockAdapter({
+  response: [
+    { type: 'text', content: 'Hello!' },
+    { type: 'done' },
+  ],
+})
+
+// Request-aware — inspect the incoming messages
+const adapter = mockAdapter({
+  response: req => {
+    const last = req.messages[req.messages.length - 1]?.content ?? ''
+    return [
+      { type: 'text', content: 'Echo: ' + last },
+      { type: 'done' },
+    ]
+  },
+})
+
+// Sequenced — first call returns "first", second returns "second"
+const adapter = mockAdapter({
+  response: [
+    [{ type: 'text', content: 'first' }, { type: 'done' }],
+    [{ type: 'text', content: 'second' }, { type: 'done' }],
+  ],
+})
+
+// Optional: capture every request for assertions
+const history: AdapterRequest[] = []
+const adapter = mockAdapter({ response: [...], history })
+// after chat.send(...):
+expect(history[0].messages[0].content).toBe('Hello')
+```
+
+Options:
+
+| Option | Type | Description |
+|--------|------|-------------|
+| `response` | `StreamChunk[] \| ((req) => StreamChunk[]) \| Array<...>` | Chunks to yield per call |
+| `delayMs` | `number` | Milliseconds between yielded chunks (default: `0`) |
+| `history` | `AdapterRequest[]` | Array to push each incoming request into |
+
+### `recordingAdapter` and `inMemorySink`
+
+Wrap a real adapter to capture every turn into a fixture. Use in development to record real responses, then replay them in tests.
+
+```ts
+import { recordingAdapter, inMemorySink } from '@agentskit/adapters'
+import { anthropic } from '@agentskit/adapters'
+
+const sink = inMemorySink()
+const adapter = recordingAdapter(
+  anthropic({ apiKey: process.env.ANTHROPIC_API_KEY!, model: 'claude-sonnet-4-6' }),
+  sink,
+)
+
+// Run your agent — turns are captured to sink.fixture
+await runtime.run('Hello')
+
+// Inspect or serialize the fixture
+console.log(JSON.stringify(sink.fixture, null, 2))
+```
+
+### `replayAdapter`
+
+Replay a previously recorded fixture. Each call maps 1:1 to a recorded turn by index (cycles when exhausted).
+
+```ts
+import { replayAdapter } from '@agentskit/adapters'
+import fixture from './my-fixture.json'
+
+const adapter = replayAdapter(fixture)
+// Now use adapter in useChat or createRuntime — no network calls
+```
+
+Typical workflow:
+
+1. In development, wrap the real adapter with `recordingAdapter` + `inMemorySink`.
+2. Save `sink.fixture` to a JSON file.
+3. In tests, load the JSON and pass it to `replayAdapter`.
+
 ## See also
 
 [Start here](../getting-started/read-this-first) · [Packages](../packages/overview) · [TypeDoc](pathname:///agentskit/api-reference/) (`@agentskit/adapters`) · [Memory](./memory) · [RAG](./rag) · [useChat](../hooks/use-chat) · [@agentskit/core](../packages/core)

@@ -92,12 +92,16 @@ This is a deliberate v1 simplification. ReAct-style per-step retrieval is possib
 ## Observers (read-only telemetry)
 
 ```ts
+import type { AgentEvent, Observer } from '@agentskit/core'
+
 const consoleObserver: Observer = {
-  onModelStart: (req) => console.log('→ model'),
-  onChunk: (chunk) => process.stdout.write(chunk.content ?? ''),
-  onToolStart: (call) => console.log(`  ⚙ ${call.name}(${JSON.stringify(call.args)})`),
-  onToolEnd: (call) => console.log(`  ✓ ${call.name}`),
-  onRunEnd: (result) => console.log(`done in ${result.steps} steps`),
+  name: 'console',
+  on(event: AgentEvent) {
+    if (event.type === 'llm:start') console.log('→ model')
+    if (event.type === 'llm:end') console.log(`done in ${event.durationMs}ms`)
+    if (event.type === 'tool:start') console.log(`  ⚙ ${event.name}(${JSON.stringify(event.args)})`)
+    if (event.type === 'tool:end') console.log(`  ✓ ${event.name}`)
+  },
 }
 
 createRuntime({ adapter, tools, observers: [consoleObserver] })

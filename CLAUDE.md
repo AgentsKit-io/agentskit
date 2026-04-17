@@ -74,7 +74,7 @@ Standalone agent runtime (no UI required). Supports ReAct loop, reflection, plan
 Marketplace of reusable executable tools. Includes: browser (Puppeteer), filesystem, telegram, resend, web search, calendar, code execution, etc. Each tool follows strict contract (`name`, `description`, `schema`, `execute`). Auto-discovery and registration in runtime and chat. Supports parallel tool calling and human confirmation.
 
 ### @agentskit/skills
-Collection of ready-made skills (prompts + behavioral instructions). Each skill contains: `name`, `description`, `systemPrompt`, few-shot examples, best practices. Examples: researcher, critic, writer, planner, coder, summarizer, analyst. Easy to combine, override, or extend. Designed for use with runtime and multi-agent setups.
+Collection of ready-made skills (prompts + behavioral instructions). Each skill contains: `name`, `description`, `systemPrompt`, few-shot examples, best practices. Examples: researcher, critic, planner, coder, summarizer. Easy to combine, override, or extend. Designed for use with runtime and multi-agent setups.
 
 ### @agentskit/memory
 Persistent and vector memory layer. Implementations: in-memory, localStorage, file, SQLite, Redis, LanceDB (vector). Clear contract for custom memory adapters. Supports hydration, serialization, and long-term storage. Works across React, Ink, runtime, and CLI.

@@ -40,19 +40,34 @@ const chat = useChat(config)
 
 | Param | Type | Description |
 |-------|------|-------------|
-| `adapter` | `AdapterFactory` | AI provider adapter |
-| `onMessage` | `(msg: Message) => void` | Called when assistant message completes |
-| `onError` | `(err: Error) => void` | Called on stream error |
+| `adapter` | `AdapterFactory` | AI provider adapter (required) |
+| `systemPrompt` | `string` | System prompt injected at the start of every request |
+| `temperature` | `number` | Model temperature (provider-dependent) |
+| `maxTokens` | `number` | Maximum tokens the model may generate |
+| `tools` | `ToolDefinition[]` | Executable tools the model can call |
+| `skills` | `SkillDefinition[]` | Ready-made skills (prompts + tool bundles) |
+| `memory` | `ChatMemory` | Persistent memory backend (e.g. `createLocalStorageMemory()`) |
+| `retriever` | `Retriever` | RAG retriever — context is injected before each request |
 | `initialMessages` | `Message[]` | Pre-populate chat history |
+| `onMessage` | `(msg: Message) => void` | Called when an assistant message completes |
+| `onError` | `(err: Error) => void` | Called on stream error |
+| `onToolCall` | `(toolCall: ToolCall, ctx: ToolCallHandlerContext) => void` | Called when the model invokes a tool |
+| `observers` | `Observer[]` | Lifecycle observers for logging / tracing |
 
 ### Returns
 
 | Field | Type | Description |
 |-------|------|-------------|
 | `messages` | `Message[]` | All messages in the conversation |
-| `send` | `(text: string) => void` | Send a user message and stream response |
-| `stop` | `() => void` | Abort current stream |
-| `retry` | `() => void` | Retry last assistant message |
-| `status` | `StreamStatus` | Current streaming status |
+| `status` | `StreamStatus` | Current streaming status (`idle`, `streaming`, `error`) |
 | `input` | `string` | Current input value |
-| `setInput` | `(value: string) => void` | Update input value |
+| `error` | `Error \| null` | Last error, or `null` |
+| `send` | `(text: string) => Promise<void>` | Send a user message and stream the response |
+| `stop` | `() => void` | Abort the current stream |
+| `retry` | `() => Promise<void>` | Retry the last assistant message |
+| `edit` | `(messageId: string, newContent: string, opts?: EditOptions) => Promise<void>` | Edit a message by id; re-generates the response for user messages |
+| `regenerate` | `(messageId?: string) => Promise<void>` | Regenerate a specific assistant message (or the last one) |
+| `setInput` | `(value: string) => void` | Update the controlled input value |
+| `clear` | `() => Promise<void>` | Clear all messages and reset chat state |
+| `approve` | `(toolCallId: string) => Promise<void>` | Approve a pending tool call (human-in-the-loop) |
+| `deny` | `(toolCallId: string, reason?: string) => Promise<void>` | Deny a pending tool call with an optional reason |
