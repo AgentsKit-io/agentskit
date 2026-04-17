@@ -187,6 +187,66 @@ The full public API fits in **under 2,000 tokens**. Paste the [agent-friendly re
 
 ---
 
+## Package dependency graph
+
+```mermaid
+graph TD
+    core["@agentskit/core\n(zero deps · 5 KB)"]
+
+    adapters["@agentskit/adapters\nOpenAI · Anthropic · Gemini\nOllama · DeepSeek · Grok"]
+    react["@agentskit/react\nReact hooks + headless UI"]
+    ink["@agentskit/ink\nTerminal UI (Ink)"]
+    runtime["@agentskit/runtime\nReAct loop · delegation"]
+    tools["@agentskit/tools\nweb search · filesystem · shell"]
+    skills["@agentskit/skills\nresearcher · coder · planner"]
+    memory["@agentskit/memory\nSQLite · Redis · file · vector"]
+    rag["@agentskit/rag\nplug-and-play RAG"]
+    observability["@agentskit/observability\nLangSmith · OpenTelemetry"]
+    sandbox["@agentskit/sandbox\nE2B · WebContainer"]
+    eval["@agentskit/eval\nbenchmarking · metrics"]
+    templates["@agentskit/templates\nskill/tool authoring"]
+    cli["@agentskit/cli\nchat · init · run"]
+
+    core --> adapters
+    core --> react
+    core --> ink
+    core --> runtime
+    core --> tools
+    core --> skills
+    core --> memory
+    core --> rag
+    core --> observability
+    core --> sandbox
+    core --> eval
+    core --> templates
+
+    cli --> core
+    cli --> adapters
+    cli --> ink
+    cli --> runtime
+    cli --> skills
+    cli --> tools
+    cli --> memory
+
+    classDef foundation fill:#1e293b,stroke:#6366f1,color:#f8fafc,font-weight:bold
+    classDef ui        fill:#0f172a,stroke:#22d3ee,color:#f8fafc
+    classDef agent     fill:#0f172a,stroke:#a78bfa,color:#f8fafc
+    classDef data      fill:#0f172a,stroke:#34d399,color:#f8fafc
+    classDef ops       fill:#0f172a,stroke:#fb923c,color:#f8fafc
+    classDef entry     fill:#0f172a,stroke:#f472b6,color:#f8fafc
+
+    class core foundation
+    class react,ink ui
+    class adapters,runtime,tools,skills agent
+    class memory,rag,templates data
+    class observability,sandbox,eval ops
+    class cli entry
+```
+
+**Legend:** purple = provider/execution layer · cyan = UI layer · green = data layer · orange = ops layer · pink = CLI entry point
+
+---
+
 ## Architecture and contracts
 
 Six ADRs define the substrate:
