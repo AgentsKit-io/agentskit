@@ -1,4 +1,5 @@
 import { readFile } from 'node:fs/promises'
+import { homedir } from 'node:os'
 import { resolve, join } from 'node:path'
 
 export interface AgentsKitConfig {
@@ -10,6 +11,15 @@ export interface AgentsKitConfig {
   defaults?: {
     provider?: string
     model?: string
+    /** Reserved — prefer `apiKeyEnv` so keys stay out of committed configs. */
+    apiKey?: string
+    /** Name of the env var holding the API key, e.g. `OPENROUTER_API_KEY`. */
+    apiKeyEnv?: string
+    baseUrl?: string
+    tools?: string
+    skill?: string
+    system?: string
+    memoryBackend?: string
   }
   runtime?: {
     maxSteps?: number
@@ -56,26 +66,54 @@ export interface LoadConfigOptions {
   cwd?: string
 }
 
-/**
- * Load an AgentsKit config file. Node-only — uses fs/promises.
- *
- * Tries in order:
- *   1. `.agentskit.config.ts` (imported as a module)
- *   2. `.agentskit.config.json`
- *   3. `"agentskit"` field in `package.json`
- *
- * Returns `undefined` if none found.
- */
-export async function loadConfig(options?: LoadConfigOptions): Promise<AgentsKitConfig | undefined> {
-  const cwd = resolve(options?.cwd ?? process.cwd())
+function mergeConfigs(
+  base: AgentsKitConfig | undefined,
+  override: AgentsKitConfig | undefined,
+): AgentsKitConfig | undefined {
+  if (!base && !override) return undefined
+  if (!base) return override
+  if (!override) return base
+  return {
+    ...base,
+    ...override,
+    tools: { ...base.tools, ...override.tools },
+    defaults: { ...base.defaults, ...override.defaults },
+    runtime: { ...base.runtime, ...override.runtime },
+    observability: { ...base.observability, ...override.observability },
+  }
+}
 
-  const tsPath = join(cwd, '.agentskit.config.ts')
-  const tsConfig = await loadTsConfig(tsPath)
+async function loadLocalConfig(cwd: string): Promise<AgentsKitConfig | undefined> {
+  const tsConfig = await loadTsConfig(join(cwd, '.agentskit.config.ts'))
   if (tsConfig) return tsConfig
 
-  const jsonPath = join(cwd, '.agentskit.config.json')
-  const jsonConfig = await loadJsonConfig(jsonPath)
+  const jsonConfig = await loadJsonConfig(join(cwd, '.agentskit.config.json'))
   if (jsonConfig) return jsonConfig
 
   return await loadPackageJsonConfig(cwd)
+}
+
+async function loadGlobalConfig(): Promise<AgentsKitConfig | undefined> {
+  const globalDir = join(homedir(), '.agentskit')
+  const tsConfig = await loadTsConfig(join(globalDir, 'config.ts'))
+  if (tsConfig) return tsConfig
+  return await loadJsonConfig(join(globalDir, 'config.json'))
+}
+
+/**
+ * Load an AgentsKit config file. Node-only — uses fs/promises.
+ *
+ * Merges in precedence order (later wins):
+ *   1. `~/.agentskit/config.(ts|json)` — user-wide defaults
+ *   2. `.agentskit.config.ts` in cwd
+ *   3. `.agentskit.config.json` in cwd
+ *   4. `"agentskit"` field in `package.json`
+ *
+ * Returns `undefined` if nothing is found.
+ */
+export async function loadConfig(options?: LoadConfigOptions): Promise<AgentsKitConfig | undefined> {
+  const cwd = resolve(options?.cwd ?? process.cwd())
+  const global = await loadGlobalConfig()
+  const local = await loadLocalConfig(cwd)
+  return mergeConfigs(global, local)
 }

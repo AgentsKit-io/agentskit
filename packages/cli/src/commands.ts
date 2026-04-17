@@ -1,6 +1,8 @@
 import React from 'react'
 import { render } from 'ink'
 import { Command } from 'commander'
+import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
+import { homedir } from 'node:os'
 import path from 'node:path'
 import { loadConfig } from './config'
 import type { AgentsKitConfig } from './config'
@@ -17,11 +19,26 @@ import { listSessions, resolveSession } from './sessions'
 
 function mergeWithConfig(options: Record<string, unknown>, config: AgentsKitConfig | undefined): Record<string, unknown> {
   if (!config) return options
+  const d = config.defaults ?? {}
+
+  // Resolve api key: explicit flag first, then env var named by config, then
+  // a literal `apiKey` in the config (discouraged but supported).
+  const resolvedApiKey =
+    (options.apiKey as string | undefined) ??
+    (d.apiKeyEnv ? process.env[d.apiKeyEnv] : undefined) ??
+    d.apiKey
+
   return {
     ...options,
     // Config defaults — only apply if CLI flag wasn't set
-    provider: options.provider !== 'demo' ? options.provider : (config.defaults?.provider ?? options.provider),
-    model: options.model ?? config.defaults?.model,
+    provider: options.provider !== 'demo' ? options.provider : (d.provider ?? options.provider),
+    model: options.model ?? d.model,
+    apiKey: resolvedApiKey,
+    baseUrl: options.baseUrl ?? d.baseUrl,
+    tools: options.tools ?? d.tools,
+    skill: options.skill ?? d.skill,
+    system: options.system ?? d.system,
+    memoryBackend: options.memoryBackend ?? d.memoryBackend,
   }
 }
 
@@ -84,16 +101,28 @@ export function createCli() {
         baseUrl: (merged.baseUrl ?? options.baseUrl) as string | undefined,
         provider: merged.provider as string,
         model: merged.model as string | undefined,
-        system: options.system as string | undefined,
+        system: (merged.system ?? options.system) as string | undefined,
         memoryPath: session.file,
         sessionId: session.id,
-        tools: options.tools as string | undefined,
-        skill: options.skill as string | undefined,
-        memoryBackend: options.memoryBackend as string | undefined,
+        tools: (merged.tools ?? options.tools) as string | undefined,
+        skill: (merged.skill ?? options.skill) as string | undefined,
+        memoryBackend: (merged.memoryBackend ?? options.memoryBackend) as string | undefined,
         agentsKitConfig: config,
       }
       process.stdout.write(`${renderChatHeader(chatOptions)}\n`)
-      render(React.createElement(ChatApp, chatOptions))
+      const instance = render(React.createElement(ChatApp, chatOptions))
+      await instance.waitUntilExit()
+
+      // Farewell line tells the user exactly how to pick the conversation back up.
+      if (options.memory) {
+        process.stdout.write(
+          `\nSession saved to ${session.file}. Resume with --memory ${session.file}\n`
+        )
+      } else {
+        process.stdout.write(
+          `\nSession saved. Resume with:\n  agentskit chat --resume ${session.id}\nOr start fresh with:\n  agentskit chat --new\n`
+        )
+      }
     })
 
   program
@@ -240,6 +269,54 @@ export function createCli() {
         process.stderr.write(`Error: ${(err as Error).message}\n`)
         process.exit(1)
       }
+    })
+
+  program
+    .command('config')
+    .description('Show or scaffold the AgentsKit config.')
+    .argument('[action]', 'Action: "init" to create a template, "show" to print the merged config.', 'show')
+    .option('--global', 'Write/read the global config at ~/.agentskit/config.json (default)')
+    .option('--local', 'Write/read a project-level .agentskit.config.json in the current directory')
+    .option('--force', 'Overwrite an existing config file')
+    .action(async (action: string, options) => {
+      const isLocal = Boolean(options.local)
+      const targetPath = isLocal
+        ? path.join(process.cwd(), '.agentskit.config.json')
+        : path.join(homedir(), '.agentskit', 'config.json')
+
+      if (action === 'show') {
+        const config = await loadConfig()
+        process.stdout.write(JSON.stringify(config ?? {}, null, 2) + '\n')
+        return
+      }
+
+      if (action !== 'init') {
+        process.stderr.write(`Unknown action: ${action}. Use "init" or "show".\n`)
+        process.exit(2)
+      }
+
+      if (existsSync(targetPath) && !options.force) {
+        process.stderr.write(`Config already exists at ${targetPath}. Re-run with --force to overwrite.\n`)
+        process.exit(1)
+      }
+
+      const template = {
+        defaults: {
+          provider: 'openai',
+          baseUrl: 'https://openrouter.ai/api',
+          apiKeyEnv: 'OPENROUTER_API_KEY',
+          model: 'openai/gpt-oss-120b:free',
+          tools: 'web_search,fetch_url',
+        },
+      }
+
+      mkdirSync(path.dirname(targetPath), { recursive: true })
+      writeFileSync(targetPath, JSON.stringify(template, null, 2) + '\n')
+      process.stdout.write(
+        `Wrote ${targetPath}\n` +
+        `Edit it to taste, then run:\n  agentskit chat\n` +
+        `(flags on the CLI still win over config values.)\n`
+      )
     })
 
   program
