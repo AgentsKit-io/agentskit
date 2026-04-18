@@ -27,7 +27,7 @@ pnpm --filter @agentskit/react build   # build one package
 pnpm --filter @agentskit/adapters test -- --watch  # watch mode
 
 # Apps
-pnpm --filter @agentskit/docs start    # docusaurus dev server
+pnpm --filter @agentskit/docs-next dev  # fumadocs dev server
 pnpm --filter @agentskit/example-react dev  # vite dev server
 pnpm --filter @agentskit/example-ink dev    # tsx runner
 ```

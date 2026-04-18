@@ -2,7 +2,7 @@
 # Install VHS: https://github.com/charmbracelet/vhs
 # Run: vhs demo.tape
 
-Output apps/docs/static/img/examples/runtime-agent.gif
+Output apps/docs-next/public/demos/runtime-agent.gif
 
 Set FontSize 14
 Set Width 800

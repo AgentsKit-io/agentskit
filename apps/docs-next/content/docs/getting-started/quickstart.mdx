@@ -51,6 +51,27 @@ const chat = useChat({
 
 This is the **plug-and-play** principle in practice — no rewrites for a provider swap.
 
+## Headless mode
+
+Skip the theme import and style everything yourself — components render with `data-ak-*` attributes only:
+
+```tsx
+import { useChat, ChatContainer, Message, InputBar } from '@agentskit/react'
+// No theme import
+
+function App() {
+  const chat = useChat({ adapter: myAdapter })
+  return (
+    <ChatContainer className="my-chat">
+      {chat.messages.map(msg => (
+        <Message key={msg.id} message={msg} />
+      ))}
+      <InputBar chat={chat} />
+    </ChatContainer>
+  )
+}
+```
+
 ## Try the official examples
 
 - `apps/example-react` — full chat with tool calls and memory

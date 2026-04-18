@@ -19,7 +19,7 @@ body:
     id: page
     attributes:
       label: Page URL or path
-      placeholder: "https://docs.agentskit.io/concepts/adapter or apps/docs/docs/..."
+      placeholder: "https://docs.agentskit.io/concepts/adapter or apps/docs-next/content/docs/..."
     validations:
       required: true
   - type: textarea

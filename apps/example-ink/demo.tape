@@ -2,7 +2,7 @@
 # Install VHS: https://github.com/charmbracelet/vhs
 # Run: vhs demo.tape
 
-Output apps/docs/static/img/examples/ink-chat.gif
+Output apps/docs-next/public/demos/ink-chat.gif
 
 Set FontSize 14
 Set Width 800
