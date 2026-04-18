@@ -46,7 +46,7 @@
   "dependencies": {
     "@agentskit/core": "workspace:*",
     "ink": "^7.0.1",
-    "marked": "^18.0.1",
+    "marked": "^18.0.2",
     "marked-terminal": "^7.3.0"
   },
   "peerDependencies": {
@@ -59,7 +59,7 @@
     "ink-testing-library": "^4.0.0",
     "react": "^19.2.5",
     "tsup": "^8.5.0",
-    "typescript": "^6.0.2",
+    "typescript": "^6.0.3",
     "vitest": "^4.1.4"
   },
   "publishConfig": {
