@@ -5,6 +5,7 @@ import { loadConfig } from '../config'
 import { ChatApp, renderChatHeader } from '../app/ChatApp'
 import { listSessions, resolveSession } from '../sessions'
 import { mergeWithConfig } from './shared'
+import { loadPlugins } from '../extensibility/plugins'
 
 export function registerChatCommand(program: Command): void {
   program
@@ -23,6 +24,12 @@ export function registerChatCommand(program: Command): void {
     .option('--resume [id]', 'Resume a prior session by id; omit id to resume the latest')
     .option('--list-sessions', 'List saved sessions for this directory and exit')
     .option('--no-config', 'Skip loading .agentskit.config.json')
+    .option(
+      '--plugin-dir <dir>',
+      'Extra directory to auto-discover plugin modules from (repeatable)',
+      (value: string, prev: string[] = []) => [...prev, value],
+      [],
+    )
     .action(async (options) => {
       if (options.listSessions) {
         const sessions = listSessions()
@@ -54,6 +61,11 @@ export function registerChatCommand(program: Command): void {
         )
       }
 
+      const pluginBundle = await loadPlugins({
+        specs: config?.plugins ?? [],
+        pluginDirs: (options.pluginDir as string[]) ?? [],
+      })
+
       const chatOptions = {
         apiKey: (merged.apiKey ?? options.apiKey) as string | undefined,
         baseUrl: (merged.baseUrl ?? options.baseUrl) as string | undefined,
@@ -66,6 +78,9 @@ export function registerChatCommand(program: Command): void {
         skill: (merged.skill ?? options.skill) as string | undefined,
         memoryBackend: (merged.memoryBackend ?? options.memoryBackend) as string | undefined,
         agentsKitConfig: config,
+        slashCommands: pluginBundle.slashCommands,
+        extraTools: pluginBundle.tools,
+        extraSkills: pluginBundle.skills,
       }
       process.stdout.write(`${renderChatHeader(chatOptions)}\n`)
       const instance = render(React.createElement(ChatApp, chatOptions))

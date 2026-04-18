@@ -15,3 +15,17 @@ export { startDev } from './dev'
 export type { DevOptions, DevController, DevWatcher } from './dev'
 export { startTunnel } from './tunnel'
 export type { TunnelOptions, TunnelController, TunnelLike } from './tunnel'
+export { loadPlugins, mergePluginsIntoBundle } from './extensibility/plugins'
+export type {
+  Plugin,
+  PluginBundle,
+  PluginContext,
+  PluginFactory,
+  ProviderFactory,
+  HookEvent,
+  HookPayload,
+  HookResult,
+  HookHandler,
+  McpServerSpec,
+  LoadPluginsOptions,
+} from './extensibility/plugins'
