@@ -46,9 +46,11 @@ export function registerChatCommand(program: Command): void {
           return
         }
         for (const s of sessions) {
-          const { id, updatedAt, messageCount, preview, model } = s.metadata
+          const { id, updatedAt, messageCount, preview, model, label, forkedFrom } = s.metadata
+          const display = label ? `${label} (${id})` : id
+          const forkNote = forkedFrom ? `  ← fork ${forkedFrom}` : ''
           process.stdout.write(
-            `${id}  ${updatedAt}  msgs=${messageCount}${model ? `  model=${model}` : ''}\n    ${preview}\n`,
+            `${display}  ${updatedAt}  msgs=${messageCount}${model ? `  model=${model}` : ''}${forkNote}\n    ${preview}\n`,
           )
         }
         return

@@ -19,6 +19,10 @@ export interface SessionMetadata {
   preview: string
   provider?: string
   model?: string
+  /** Optional human-readable label. Set via `/rename` or `renameSession`. */
+  label?: string
+  /** Session id this one was forked from, if any. */
+  forkedFrom?: string
 }
 
 export interface SessionRecord {
@@ -122,11 +126,59 @@ export function findLatestSession(cwd: string = process.cwd()): SessionRecord | 
 }
 
 export function findSession(id: string, cwd: string = process.cwd()): SessionRecord | null {
-  const exact = listSessions(cwd).find(s => s.metadata.id === id)
+  const all = listSessions(cwd)
+  const exact = all.find(s => s.metadata.id === id || s.metadata.label === id)
   if (exact) return exact
   // Allow prefix match so users can type the first few chars.
-  const prefix = listSessions(cwd).find(s => s.metadata.id.startsWith(id))
+  const prefix = all.find(s => s.metadata.id.startsWith(id))
   return prefix ?? null
+}
+
+/** Attach or update a human-readable label on an existing session. */
+export function renameSession(
+  id: string,
+  label: string,
+  cwd: string = process.cwd(),
+): SessionMetadata {
+  const record = findSession(id, cwd)
+  if (!record) throw new Error(`No session matching "${id}".`)
+  const next: SessionMetadata = { ...record.metadata, label, updatedAt: new Date().toISOString() }
+  writeSessionMeta(next, cwd)
+  return next
+}
+
+/**
+ * Copy an existing session's message file into a new session so the user
+ * can branch a conversation without disturbing the original.
+ */
+export function forkSession(
+  id: string,
+  cwd: string = process.cwd(),
+): ResolvedSession {
+  const record = findSession(id, cwd)
+  if (!record) throw new Error(`No session matching "${id}".`)
+
+  const newId = generateSessionId()
+  const newFile = sessionFilePath(newId, cwd)
+
+  if (existsSync(record.file)) {
+    writeFileSync(newFile, readFileSync(record.file, 'utf8'))
+  }
+
+  const now = new Date().toISOString()
+  writeSessionMeta(
+    {
+      ...record.metadata,
+      id: newId,
+      createdAt: now,
+      updatedAt: now,
+      forkedFrom: record.metadata.id,
+      label: undefined,
+    },
+    cwd,
+  )
+
+  return { id: newId, file: newFile, isNew: true }
 }
 
 export interface ResolveSessionInput {

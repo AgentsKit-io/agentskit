@@ -1,4 +1,5 @@
 import type { ChatReturn } from '@agentskit/core'
+import { forkSession, renameSession } from './sessions'
 
 export type FeedbackKind = 'info' | 'warn' | 'error' | 'success'
 
@@ -12,6 +13,7 @@ export interface SlashCommandContext {
     baseUrl?: string
     tools?: string
     skill?: string
+    sessionId?: string
   }
   /** Mutators — each rebuilds the underlying adapter/tool chain. */
   setProvider: (value: string) => void
@@ -163,6 +165,49 @@ export const builtinSlashCommands: SlashCommand[] = [
     async run(ctx) {
       await ctx.chat.clear()
       ctx.feedback('History cleared.', 'success')
+    },
+  },
+  {
+    name: 'rename',
+    description: 'Attach a human-readable label to the current session.',
+    usage: '/rename <label>',
+    run(ctx, args) {
+      const label = args.trim()
+      const sessionId = ctx.runtime.sessionId
+      if (!sessionId || sessionId === 'custom') {
+        ctx.feedback('Rename is only available for managed sessions.', 'warn')
+        return
+      }
+      if (!label) {
+        ctx.feedback('Usage: /rename <label>', 'warn')
+        return
+      }
+      try {
+        renameSession(sessionId, label)
+        ctx.feedback(`Session labeled "${label}".`, 'success')
+      } catch (err) {
+        ctx.feedback(`/rename failed: ${err instanceof Error ? err.message : String(err)}`, 'error')
+      }
+    },
+  },
+  {
+    name: 'fork',
+    description: 'Branch a copy of the current session. Does not switch to it.',
+    run(ctx) {
+      const sessionId = ctx.runtime.sessionId
+      if (!sessionId || sessionId === 'custom') {
+        ctx.feedback('Fork is only available for managed sessions.', 'warn')
+        return
+      }
+      try {
+        const result = forkSession(sessionId)
+        ctx.feedback(
+          `Forked into ${result.id}. Resume with:\n  agentskit chat --resume ${result.id}`,
+          'success',
+        )
+      } catch (err) {
+        ctx.feedback(`/fork failed: ${err instanceof Error ? err.message : String(err)}`, 'error')
+      }
     },
   },
   {

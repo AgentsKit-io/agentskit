@@ -15,6 +15,24 @@ export { startDev } from './dev'
 export type { DevOptions, DevController, DevWatcher } from './dev'
 export { startTunnel } from './tunnel'
 export type { TunnelOptions, TunnelController, TunnelLike } from './tunnel'
+export {
+  listSessions,
+  findSession,
+  findLatestSession,
+  renameSession,
+  forkSession,
+  resolveSession,
+  writeSessionMeta,
+  derivePreview,
+  generateSessionId,
+  sessionFilePath,
+} from './sessions'
+export type {
+  SessionMetadata,
+  SessionRecord,
+  ResolveSessionInput,
+  ResolvedSession,
+} from './sessions'
 export { loadPlugins, mergePluginsIntoBundle } from './extensibility/plugins'
 export { McpClient, bridgeMcpServers, disposeMcpClients } from './extensibility/mcp'
 export type { McpTool, McpBridgeResult } from './extensibility/mcp'

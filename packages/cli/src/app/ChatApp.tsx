@@ -184,6 +184,7 @@ export function ChatApp(options: ChatCommandOptions) {
         baseUrl,
         tools: toolsFlag,
         skill: skillFlag,
+        sessionId: options.sessionId,
       },
       setProvider,
       setModel,
