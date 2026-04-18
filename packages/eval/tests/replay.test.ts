@@ -12,6 +12,8 @@ import {
   serializeCassette,
   fingerprintRequest,
 } from '../src/replay'
+import { lastUserContent } from '../src/replay/cassette'
+import type { ToolDefinition } from '@agentskit/core'
 
 function fakeAdapter(chunks: StreamChunk[]): AdapterFactory {
   return {
@@ -132,5 +134,65 @@ describe('replay engine', () => {
   it('fingerprintRequest is stable for equivalent requests', () => {
     expect(fingerprintRequest(req('same'))).toBe(fingerprintRequest(req('same')))
     expect(fingerprintRequest(req('a'))).not.toBe(fingerprintRequest(req('b')))
+  })
+
+  it('fingerprintRequest includes context when present', () => {
+    const tool: ToolDefinition = {
+      name: 'search',
+      description: 'x',
+      schema: { type: 'object' },
+      execute: async () => ({ content: '' }),
+    }
+    const withCtx: AdapterRequest = {
+      ...req('q'),
+      context: { systemPrompt: 'sys', temperature: 0.7, maxTokens: 100, tools: [tool] },
+    }
+    const withoutCtx = req('q')
+    expect(fingerprintRequest(withCtx)).not.toBe(fingerprintRequest(withoutCtx))
+  })
+
+  it('lastUserContent returns empty string when no user message', () => {
+    expect(
+      lastUserContent({
+        messages: [
+          { id: '1', role: 'assistant', content: 'hi', status: 'complete', createdAt: new Date(0) },
+        ],
+      }),
+    ).toBe('')
+  })
+
+  it('parseCassette rejects unsupported versions', () => {
+    expect(() => parseCassette(JSON.stringify({ version: 999, entries: [] }))).toThrow(/Unsupported cassette version/)
+  })
+
+  it('parseCassette rejects missing entries', () => {
+    expect(() => parseCassette(JSON.stringify({ version: 1 }))).toThrow(/entries missing/)
+  })
+
+  it('loose mode throws when no entry matches', async () => {
+    const base = fakeAdapter([{ type: 'done' }])
+    const { factory, cassette } = createRecordingAdapter(base)
+    await collect(factory.createSource(req('hello')).stream())
+
+    const replay = createReplayAdapter(cassette, { mode: 'loose' })
+    expect(() => replay.createSource(req('different text'))).toThrow(/loose/)
+  })
+
+  it('sequential mode throws when exhausted', async () => {
+    const base = fakeAdapter([{ type: 'done' }])
+    const { factory, cassette } = createRecordingAdapter(base)
+    await collect(factory.createSource(req('a')).stream())
+
+    const replay = createReplayAdapter(cassette, { mode: 'sequential' })
+    await collect(replay.createSource(req('ignored')).stream())
+    expect(() => replay.createSource(req('ignored'))).toThrow(/exhausted/)
+  })
+
+  it('abort is a no-op on replay sources', async () => {
+    const base = fakeAdapter([{ type: 'done' }])
+    const { factory, cassette } = createRecordingAdapter(base)
+    await collect(factory.createSource(req('a')).stream())
+    const src = createReplayAdapter(cassette).createSource(req('a'))
+    expect(() => src.abort()).not.toThrow()
   })
 })
