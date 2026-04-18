@@ -29,6 +29,11 @@ export interface AgentsKitConfig {
     console?: boolean | { format?: 'human' | 'json' }
     langsmith?: { projectName?: string }
   }
+  /**
+   * Plugin specifiers. Each entry is a package name (`@org/plugin`) or
+   * a relative/absolute path to a module exporting a `Plugin`.
+   */
+  plugins?: string[]
 }
 
 async function loadJsonConfig(path: string): Promise<AgentsKitConfig | undefined> {

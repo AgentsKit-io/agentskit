@@ -10,7 +10,7 @@ import {
   ToolConfirmation,
   useChat,
 } from '@agentskit/ink'
-import type { Message as ChatMessage, ToolCall } from '@agentskit/core'
+import type { Message as ChatMessage, SkillDefinition, ToolCall, ToolDefinition } from '@agentskit/core'
 import { resolveChatProvider } from '../providers'
 import {
   builtinSlashCommands,
@@ -43,6 +43,10 @@ export interface ChatCommandOptions {
    * built-in by re-registering its name.
    */
   slashCommands?: SlashCommand[]
+  /** Extra tools contributed by plugins — merged into the resolved tool set. */
+  extraTools?: ToolDefinition[]
+  /** Extra skills contributed by plugins — merged into the resolved skill set. */
+  extraSkills?: SkillDefinition[]
 }
 
 function groupIntoTurns(messages: ChatMessage[]): ChatMessage[][] {
@@ -79,12 +83,23 @@ export function ChatApp(options: ChatCommandOptions) {
     setSkillFlag,
   } = useRuntime(options)
 
+  const mergedTools = useMemo(() => {
+    const extra = options.extraTools ?? []
+    return [...tools, ...extra]
+  }, [tools, options.extraTools])
+
+  const mergedSkills = useMemo(() => {
+    const extra = options.extraSkills ?? []
+    if (!skills && extra.length === 0) return undefined
+    return [...(skills ?? []), ...extra]
+  }, [skills, options.extraSkills])
+
   const chat = useChat({
     adapter: runtime.adapter,
     memory,
     systemPrompt: options.system,
-    tools: tools.length > 0 ? tools : undefined,
-    skills,
+    tools: mergedTools.length > 0 ? mergedTools : undefined,
+    skills: mergedSkills,
   })
 
   const { sessionAllowed, handleApproveAlways, awaitingConfirmation } = useToolPermissions(chat)
