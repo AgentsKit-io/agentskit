@@ -1,0 +1,85 @@
+---
+title: Prompt snapshot testing
+description: Jest-style snapshot tests for prompts, with semantic tolerance so small wording drift doesn't break CI.
+---
+
+Prompts are code. They should be reviewed in PRs and tested like code.
+`@agentskit/eval/snapshot` gives you snapshot testing — the same
+"write once, assert next time" workflow as Jest — with one twist that
+matters for LLM outputs: **semantic tolerance**.
+
+Exact-match snapshots are too brittle for model outputs. Normalized
+and similarity-based modes let you assert intent without pinning every
+comma.
+
+## Install
+
+```bash
+npm install -D @agentskit/eval
+```
+
+## Quick start
+
+```ts title="prompts.test.ts"
+import { matchPromptSnapshot } from '@agentskit/eval/snapshot'
+import { expect, it } from 'vitest'
+
+it('reviewer skill system prompt stays stable', async () => {
+  const actual = buildReviewerSystemPrompt({ language: 'typescript' })
+  const result = await matchPromptSnapshot(actual, './__snapshots__/reviewer.snap.md')
+  expect(result.matched).toBe(true)
+})
+```
+
+First run creates the snapshot file. Next run compares. Update snapshots
+on purpose with `UPDATE_SNAPSHOTS=1 vitest` or `{ update: true }`.
+
+## Matching modes
+
+| Mode | What matches | Use for |
+|------|--------------|---------|
+| `{ kind: 'exact' }` *(default)* | Byte-for-byte | Source-of-truth prompt templates |
+| `{ kind: 'normalized' }` | Case + punctuation + whitespace ignored | Prompts with cosmetic drift |
+| `{ kind: 'similarity', threshold }` | Jaccard token similarity ≥ threshold | LLM-generated prompts or summaries |
+| `{ kind: 'similarity', threshold, embed }` | Cosine of embeddings ≥ threshold | Full semantic assertions |
+
+```ts
+await matchPromptSnapshot(actual, path, {
+  mode: { kind: 'similarity', threshold: 0.85 },
+})
+```
+
+## Embedding-based snapshots
+
+Plug in any embedding function — OpenAI, local, whatever — to compare
+snapshots by meaning instead of tokens.
+
+```ts
+import { OpenAI } from 'openai'
+const openai = new OpenAI()
+
+async function embed(text: string) {
+  const r = await openai.embeddings.create({ model: 'text-embedding-3-small', input: text })
+  return r.data[0].embedding
+}
+
+await matchPromptSnapshot(output, './__snapshots__/answer.snap.txt', {
+  mode: { kind: 'similarity', threshold: 0.9, embed },
+})
+```
+
+## Low-level primitives
+
+If you're building your own harness, the comparison logic is exposed:
+
+```ts
+import { comparePrompt, jaccard, cosine, normalize } from '@agentskit/eval/snapshot'
+
+await comparePrompt('hello world', 'hello,  world!', { kind: 'normalized' })
+// => { matched: true, reason: 'normalized match', ... }
+```
+
+## See also
+
+- [Deterministic replay](/docs/recipes/deterministic-replay) — lock the whole session
+- [Prompt diff](/docs/recipes/prompt-diff) — see exactly what changed

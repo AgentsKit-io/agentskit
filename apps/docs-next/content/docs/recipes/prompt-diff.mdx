@@ -1,0 +1,67 @@
+---
+title: Prompt diff
+description: Git blame for prompts — find which prompt change is responsible for an output change.
+---
+
+You shipped a prompt tweak. A week later the outputs look different,
+and you have no idea which line did it. `@agentskit/eval/diff` solves
+that: line-level diff + heuristic attribution that points at the
+prompt lines most likely responsible for an output shift.
+
+## Install
+
+```bash
+npm install -D @agentskit/eval
+```
+
+## Diff two prompt versions
+
+```ts title="compare-prompts.ts"
+import { promptDiff, formatDiff } from '@agentskit/eval/diff'
+
+const diff = promptDiff(oldPrompt, newPrompt)
+console.log(formatDiff(diff))
+//   You are a helpful assistant.
+// - Answer briefly.
+// + Answer with pirate slang.
+```
+
+Each entry in `diff.lines` is `{ op: 'equal' | 'add' | 'remove', lineNo, content }`.
+Totals (`added`, `removed`, `changed`) are on the result.
+
+## Attribute an output change
+
+Given the old/new prompt **and** the old/new output, attribute which
+changed prompt lines probably caused the output shift. Simple token
+overlap — good enough to rank suspects.
+
+```ts
+import { attributePromptChange } from '@agentskit/eval/diff'
+
+const report = attributePromptChange({
+  oldPrompt: 'You are a helpful assistant.\nAnswer briefly.',
+  newPrompt: 'You are a helpful assistant.\nAnswer with pirate slang.',
+  oldOutput: 'Hello, how can I help?',
+  newOutput: 'Ahoy matey, what be yer query?',
+})
+
+console.log(report.suspectLines)
+// [{ op: 'add', lineNo: 2, content: 'Answer with pirate slang.' }]
+console.log(report.score) // 1.0 — every changed line overlaps the output delta
+```
+
+## Pair with replay + snapshots
+
+The workflow:
+
+1. **Record** the old session with [`createRecordingAdapter`](/docs/recipes/deterministic-replay).
+2. **Tweak** the prompt, generate a new output.
+3. **Snapshot** the new output with [`matchPromptSnapshot`](/docs/recipes/prompt-snapshots). If it matches — you're done.
+4. If it doesn't, **attribute** with `attributePromptChange` to see which tweak is load-bearing.
+
+You now have the LLM-equivalent of `git bisect` for prompts.
+
+## See also
+
+- [Deterministic replay](/docs/recipes/deterministic-replay)
+- [Prompt snapshot testing](/docs/recipes/prompt-snapshots)
