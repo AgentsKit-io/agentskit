@@ -17,7 +17,7 @@ describe('loadConfig', () => {
   })
 
   it('returns undefined when no config file exists', async () => {
-    const config = await loadConfig({ cwd: dir })
+    const config = await loadConfig({ cwd: dir, home: null })
     expect(config).toBeUndefined()
   })
 
@@ -27,7 +27,7 @@ describe('loadConfig', () => {
       defaults: { provider: 'openai', model: 'gpt-4o' },
     }))
 
-    const config = await loadConfig({ cwd: dir })
+    const config = await loadConfig({ cwd: dir, home: null })
     expect(config).toBeDefined()
     expect(config!.tools?.filesystem?.basePath).toBe('./workspace')
     expect(config!.defaults?.provider).toBe('openai')
@@ -43,7 +43,7 @@ describe('loadConfig', () => {
       },
     }))
 
-    const config = await loadConfig({ cwd: dir })
+    const config = await loadConfig({ cwd: dir, home: null })
     expect(config).toBeDefined()
     expect(config!.defaults?.provider).toBe('anthropic')
     expect(config!.runtime?.maxSteps).toBe(5)
@@ -58,14 +58,14 @@ describe('loadConfig', () => {
       agentskit: { defaults: { provider: 'anthropic' } },
     }))
 
-    const config = await loadConfig({ cwd: dir })
+    const config = await loadConfig({ cwd: dir, home: null })
     expect(config!.defaults?.provider).toBe('openai')
   })
 
   it('handles malformed JSON gracefully', async () => {
     await writeFile(join(dir, '.agentskit.config.json'), 'not json {{{')
 
-    const config = await loadConfig({ cwd: dir })
+    const config = await loadConfig({ cwd: dir, home: null })
     expect(config).toBeUndefined()
   })
 
@@ -81,7 +81,7 @@ describe('loadConfig', () => {
       observability: { console: { format: 'json' } },
     }))
 
-    const config = await loadConfig({ cwd: dir })
+    const config = await loadConfig({ cwd: dir, home: null })
     expect(config!.tools?.shell?.allowed).toEqual(['ls', 'cat'])
     expect(config!.tools?.shell?.timeout).toBe(5000)
     expect(config!.runtime?.maxDelegationDepth).toBe(2)
@@ -94,7 +94,7 @@ describe('loadConfig', () => {
       futureFeature: { enabled: true },
     }))
 
-    const config = await loadConfig({ cwd: dir })
+    const config = await loadConfig({ cwd: dir, home: null })
     expect(config!.defaults?.provider).toBe('openai')
     // Unknown field is preserved (not stripped)
     expect((config as Record<string, unknown>).futureFeature).toBeDefined()
@@ -105,7 +105,7 @@ describe('loadConfig', () => {
       name: 'test', version: '1.0.0',
     }))
 
-    const config = await loadConfig({ cwd: dir })
+    const config = await loadConfig({ cwd: dir, home: null })
     expect(config).toBeUndefined()
   })
 })

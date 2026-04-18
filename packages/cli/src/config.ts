@@ -64,6 +64,12 @@ async function loadPackageJsonConfig(dir: string): Promise<AgentsKitConfig | und
 
 export interface LoadConfigOptions {
   cwd?: string
+  /**
+   * Root directory to read the global config from. Defaults to `~`. Tests
+   * pass a tmpdir here so the user's real `~/.agentskit/config.json` can't
+   * contaminate results. Pass `null` to disable global config entirely.
+   */
+  home?: string | null
 }
 
 function mergeConfigs(
@@ -93,8 +99,9 @@ async function loadLocalConfig(cwd: string): Promise<AgentsKitConfig | undefined
   return await loadPackageJsonConfig(cwd)
 }
 
-async function loadGlobalConfig(): Promise<AgentsKitConfig | undefined> {
-  const globalDir = join(homedir(), '.agentskit')
+async function loadGlobalConfig(home: string | null | undefined): Promise<AgentsKitConfig | undefined> {
+  if (home === null) return undefined
+  const globalDir = join(home ?? homedir(), '.agentskit')
   const tsConfig = await loadTsConfig(join(globalDir, 'config.ts'))
   if (tsConfig) return tsConfig
   return await loadJsonConfig(join(globalDir, 'config.json'))
@@ -113,7 +120,7 @@ async function loadGlobalConfig(): Promise<AgentsKitConfig | undefined> {
  */
 export async function loadConfig(options?: LoadConfigOptions): Promise<AgentsKitConfig | undefined> {
   const cwd = resolve(options?.cwd ?? process.cwd())
-  const global = await loadGlobalConfig()
+  const global = await loadGlobalConfig(options?.home)
   const local = await loadLocalConfig(cwd)
   return mergeConfigs(global, local)
 }

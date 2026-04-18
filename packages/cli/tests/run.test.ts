@@ -8,14 +8,25 @@ afterEach(() => {
 })
 
 describe('resolveTools', () => {
-  it('returns empty array for undefined', () => {
-    expect(resolveTools(undefined)).toEqual([])
+  it('auto-registers confirmation-gated defaults when no names passed', () => {
+    // No `--tools` flag → chat should still have web_search + fetch_url,
+    // but gated behind `requiresConfirmation` so the user approves each
+    // call (Claude Code "permission on first use" pattern).
+    const tools = resolveTools(undefined)
+    const names = tools.map(t => t.name)
+    expect(names).toContain('web_search')
+    expect(names).toContain('fetch_url')
+    for (const tool of tools) {
+      expect(tool.requiresConfirmation).toBe(true)
+    }
   })
 
-  it('resolves known tools', () => {
+  it('resolves known tools without confirmation when listed explicitly', () => {
     const tools = resolveTools('web_search,shell')
     expect(tools.length).toBe(2)
     expect(tools.map(t => t.name)).toContain('web_search')
+    // Explicit listing = user opted in, no confirmation wrapper.
+    expect(tools.every(t => t.requiresConfirmation !== true)).toBe(true)
   })
 
   it('writes to stderr for unknown tools', () => {
