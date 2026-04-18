@@ -6,6 +6,7 @@ import { ChatApp, renderChatHeader } from '../app/ChatApp'
 import { listSessions, resolveSession } from '../sessions'
 import { mergeWithConfig } from './shared'
 import { loadPlugins } from '../extensibility/plugins'
+import { bridgeMcpServers, disposeMcpClients } from '../extensibility/mcp'
 import { configHooksToHandlers } from '../extensibility/hooks'
 import type { ConfigHooksMap } from '../extensibility/hooks'
 import type { PermissionMode, PermissionPolicy } from '../extensibility/permissions'
@@ -76,6 +77,16 @@ export function registerChatCommand(program: Command): void {
       const configHooks = configHooksToHandlers(config?.hooks as ConfigHooksMap | undefined)
       const hookHandlers = [...configHooks, ...pluginBundle.hooks]
 
+      const configMcpSpecs = Object.entries(config?.mcp?.servers ?? {}).map(([name, spec]) => ({
+        name,
+        command: spec.command,
+        args: spec.args,
+        env: spec.env,
+        timeout: spec.timeout,
+      }))
+      const allMcpSpecs = [...configMcpSpecs, ...pluginBundle.mcpServers]
+      const { clients: mcpClients, tools: mcpTools } = await bridgeMcpServers(allMcpSpecs)
+
       const policyMode = (options.mode ?? config?.permissions?.mode ?? 'default') as PermissionMode
       const permissionPolicy: PermissionPolicy = {
         mode: policyMode,
@@ -99,14 +110,18 @@ export function registerChatCommand(program: Command): void {
         memoryBackend: (merged.memoryBackend ?? options.memoryBackend) as string | undefined,
         agentsKitConfig: config,
         slashCommands: pluginBundle.slashCommands,
-        extraTools: pluginBundle.tools,
+        extraTools: [...pluginBundle.tools, ...mcpTools],
         extraSkills: pluginBundle.skills,
         hookHandlers,
         permissionPolicy,
       }
       process.stdout.write(`${renderChatHeader(chatOptions)}\n`)
       const instance = render(React.createElement(ChatApp, chatOptions))
-      await instance.waitUntilExit()
+      try {
+        await instance.waitUntilExit()
+      } finally {
+        disposeMcpClients(mcpClients)
+      }
 
       if (options.memory) {
         process.stdout.write(

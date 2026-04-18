@@ -10,7 +10,7 @@ import type { ToolDefinition } from '@agentskit/core'
 const mkTool = (name: string): ToolDefinition => ({
   name,
   description: name,
-  parameters: { type: 'object', properties: {} } as never,
+  schema: { type: 'object', properties: {} } as never,
   execute: async () => ({}),
 })
 

@@ -39,6 +39,13 @@ export interface AgentsKitConfig {
    */
   hooks?: Record<string, Array<{ run: string; matcher?: string; timeout?: number }>>
   /**
+   * MCP servers to spawn on chat start. Tools list + call bridge
+   * them into the runtime tool set as `<serverName>__<toolName>`.
+   */
+  mcp?: {
+    servers?: Record<string, { command: string; args?: string[]; env?: Record<string, string>; timeout?: number }>
+  }
+  /**
    * Tool permission policy. See `extensibility/permissions`.
    */
   permissions?: {
