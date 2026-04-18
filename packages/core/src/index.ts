@@ -25,6 +25,34 @@ export type {
   CompileBudgetInput,
   CompileBudgetResult,
 } from './budget'
+export { createProgressiveArgParser, executeToolProgressively } from './progressive'
+export { createVirtualizedMemory } from './virtualized-memory'
+export type { VirtualizedMemoryOptions } from './virtualized-memory'
+export {
+  textPart,
+  imagePart,
+  audioPart,
+  videoPart,
+  filePart,
+  partsToText,
+  normalizeContent,
+  filterParts,
+} from './types/content'
+export type {
+  ContentPart,
+  TextPart,
+  ImagePart,
+  AudioPart,
+  VideoPart,
+  FilePart,
+  PartKind,
+} from './types/content'
+export type {
+  ProgressiveArgParser,
+  ProgressiveFieldEvent,
+  ProgressiveExecOptions,
+  ProgressiveExecResult,
+} from './progressive'
 export type { ConsumeStreamHandlers } from './primitives'
 export { buildToolMap, activateSkills, executeSafeTool } from './agent-loop'
 export type { ActivateSkillsResult, ToolExecResult, ExecuteSafeToolOptions } from './agent-loop'

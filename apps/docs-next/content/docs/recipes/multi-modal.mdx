@@ -1,0 +1,82 @@
+---
+title: Unified multi-modal
+description: One API for text, image, audio, video, and file inputs — regardless of provider.
+---
+
+Every provider has its own multi-modal shape. OpenAI wants
+`{ type: 'image_url', image_url: {...} }`, Anthropic wants
+`{ type: 'image', source: {...} }`, Gemini wants parts-with-inline-
+data. `@agentskit/core` provides a provider-neutral `ContentPart`
+model — adapters that understand a modality read the parts, the rest
+fall back to a text projection.
+
+## Install
+
+Built into `@agentskit/core`.
+
+## Build a multi-modal message
+
+```ts
+import {
+  textPart,
+  imagePart,
+  audioPart,
+  filePart,
+  partsToText,
+} from '@agentskit/core'
+import type { Message } from '@agentskit/core'
+
+const parts = [
+  textPart('What is in this screenshot?'),
+  imagePart('https://cdn.example.com/screenshot.png', { detail: 'high', mimeType: 'image/png' }),
+]
+
+const message: Message = {
+  id: crypto.randomUUID(),
+  role: 'user',
+  content: partsToText(parts),  // text projection: "What is...\n[image: ...]"
+  parts,                        // adapters that support vision read this
+  status: 'complete',
+  createdAt: new Date(),
+}
+```
+
+## Part kinds
+
+| Builder | `type` | Notes |
+|---------|--------|-------|
+| `textPart(text)` | `'text'` | Plain text segment |
+| `imagePart(src, { mimeType?, detail? })` | `'image'` | Data URL, http(s), or provider-hosted id |
+| `audioPart(src, { durationSec? })` | `'audio'` | |
+| `videoPart(src, { durationSec? })` | `'video'` | |
+| `filePart(src, { filename? })` | `'file'` | PDF, CSV, arbitrary binary |
+
+## In an adapter
+
+A vision-aware adapter reads `msg.parts` and maps each entry to its
+provider's shape. A text-only adapter keeps reading `msg.content` and
+sees a safe projection like `"caption\n[image: pic.png]"`.
+
+```ts
+import { normalizeContent, filterParts } from '@agentskit/core'
+
+function toOpenAIMessage(m: Message) {
+  const { parts } = normalizeContent(m.content, m.parts)
+  return {
+    role: m.role,
+    content: parts.map(p => {
+      if (p.type === 'text') return { type: 'text', text: p.text }
+      if (p.type === 'image') return { type: 'image_url', image_url: { url: p.source, detail: p.detail } }
+      return { type: 'text', text: `[${p.type}]` }
+    }),
+  }
+}
+
+// Quickly grab every attached image:
+const images = filterParts(parts, 'image')
+```
+
+## See also
+
+- [Custom adapter](/docs/recipes/custom-adapter)
+- [PDF Q&A](/docs/recipes/pdf-qa)
