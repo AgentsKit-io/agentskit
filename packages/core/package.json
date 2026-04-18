@@ -46,6 +46,11 @@
       "types": "./dist/auto-summarize.d.ts",
       "import": "./dist/auto-summarize.js",
       "require": "./dist/auto-summarize.cjs"
+    },
+    "./hitl": {
+      "types": "./dist/hitl.d.ts",
+      "import": "./dist/hitl.js",
+      "require": "./dist/hitl.cjs"
     }
   },
   "files": [
