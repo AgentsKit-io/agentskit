@@ -36,6 +36,8 @@ export type {
 export { loadPlugins, mergePluginsIntoBundle } from './extensibility/plugins'
 export { McpClient, bridgeMcpServers, disposeMcpClients } from './extensibility/mcp'
 export type { McpTool, McpBridgeResult } from './extensibility/mcp'
+export { computeCost, getPricing, registerPricing } from './extensibility/telemetry'
+export type { ModelPricing, ComputedCost, TokenUsageLike } from './extensibility/telemetry'
 export {
   createOpenAiEmbedder,
   buildRagFromConfig,

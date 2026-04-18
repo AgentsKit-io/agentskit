@@ -1,5 +1,6 @@
 import type { ChatReturn } from '@agentskit/core'
 import { forkSession, renameSession } from './sessions'
+import { computeCost } from './extensibility/telemetry'
 
 export type FeedbackKind = 'info' | 'warn' | 'error' | 'success'
 
@@ -165,6 +166,45 @@ export const builtinSlashCommands: SlashCommand[] = [
     async run(ctx) {
       await ctx.chat.clear()
       ctx.feedback('History cleared.', 'success')
+    },
+  },
+  {
+    name: 'usage',
+    description: 'Show the cumulative token usage for this session.',
+    run(ctx) {
+      const usage = ctx.chat.usage
+      if (!usage || usage.totalTokens === 0) {
+        ctx.feedback('No usage reported yet for this session.', 'info')
+        return
+      }
+      ctx.feedback(
+        `Tokens — prompt=${usage.promptTokens}  completion=${usage.completionTokens}  total=${usage.totalTokens}`,
+        'info',
+      )
+    },
+  },
+  {
+    name: 'cost',
+    description: 'Estimate the cost so far for the current model.',
+    run(ctx) {
+      const usage = ctx.chat.usage
+      const model = ctx.runtime.model
+      if (!usage || usage.totalTokens === 0) {
+        ctx.feedback('No usage reported yet for this session.', 'info')
+        return
+      }
+      const cost = computeCost(model, usage)
+      if (!cost) {
+        ctx.feedback(
+          `No pricing registered for model "${model ?? 'unset'}". Register with registerPricing() or provide a known model name.`,
+          'warn',
+        )
+        return
+      }
+      ctx.feedback(
+        `$${cost.totalUsd.toFixed(4)} total (in=$${cost.inputUsd.toFixed(4)}  out=$${cost.outputUsd.toFixed(4)}  model=${cost.model})`,
+        'info',
+      )
     },
   },
   {
