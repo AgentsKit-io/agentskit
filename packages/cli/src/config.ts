@@ -39,6 +39,19 @@ export interface AgentsKitConfig {
    */
   hooks?: Record<string, Array<{ run: string; matcher?: string; timeout?: number }>>
   /**
+   * Retrieval-augmented generation config. Indexes files via
+   * `agentskit rag index`. Chat-side auto-retrieval lands in a later phase.
+   */
+  rag?: {
+    enabled?: boolean
+    backend?: 'memory' | 'file'
+    dir?: string
+    sources?: string[]
+    embedder?: { provider?: string; model?: string; apiKey?: string; baseUrl?: string }
+    chunkSize?: number
+    topK?: number
+  }
+  /**
    * MCP servers to spawn on chat start. Tools list + call bridge
    * them into the runtime tool set as `<serverName>__<toolName>`.
    */

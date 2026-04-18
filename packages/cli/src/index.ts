@@ -18,6 +18,17 @@ export type { TunnelOptions, TunnelController, TunnelLike } from './tunnel'
 export { loadPlugins, mergePluginsIntoBundle } from './extensibility/plugins'
 export { McpClient, bridgeMcpServers, disposeMcpClients } from './extensibility/mcp'
 export type { McpTool, McpBridgeResult } from './extensibility/mcp'
+export {
+  createOpenAiEmbedder,
+  buildRagFromConfig,
+  indexSources,
+} from './extensibility/rag'
+export type {
+  OpenAiEmbedderConfig,
+  RagConfig,
+  BuildRagOptions,
+  IndexResult,
+} from './extensibility/rag'
 export { HookDispatcher, configHooksToHandlers } from './extensibility/hooks'
 export type { HookDispatchResult, ConfigHookEntry, ConfigHooksMap } from './extensibility/hooks'
 export {
