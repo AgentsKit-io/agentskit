@@ -8,6 +8,7 @@ import { mergeWithConfig } from './shared'
 import { loadPlugins } from '../extensibility/plugins'
 import { configHooksToHandlers } from '../extensibility/hooks'
 import type { ConfigHooksMap } from '../extensibility/hooks'
+import type { PermissionMode, PermissionPolicy } from '../extensibility/permissions'
 
 export function registerChatCommand(program: Command): void {
   program
@@ -31,6 +32,10 @@ export function registerChatCommand(program: Command): void {
       'Extra directory to auto-discover plugin modules from (repeatable)',
       (value: string, prev: string[] = []) => [...prev, value],
       [],
+    )
+    .option(
+      '--mode <mode>',
+      'Permission mode: default | plan | acceptEdits | bypassPermissions',
     )
     .action(async (options) => {
       if (options.listSessions) {
@@ -71,6 +76,16 @@ export function registerChatCommand(program: Command): void {
       const configHooks = configHooksToHandlers(config?.hooks as ConfigHooksMap | undefined)
       const hookHandlers = [...configHooks, ...pluginBundle.hooks]
 
+      const policyMode = (options.mode ?? config?.permissions?.mode ?? 'default') as PermissionMode
+      const permissionPolicy: PermissionPolicy = {
+        mode: policyMode,
+        rules: (config?.permissions?.rules ?? []).map(r => ({
+          tool: r.tool,
+          action: r.action,
+          scope: r.scope,
+        })),
+      }
+
       const chatOptions = {
         apiKey: (merged.apiKey ?? options.apiKey) as string | undefined,
         baseUrl: (merged.baseUrl ?? options.baseUrl) as string | undefined,
@@ -87,6 +102,7 @@ export function registerChatCommand(program: Command): void {
         extraTools: pluginBundle.tools,
         extraSkills: pluginBundle.skills,
         hookHandlers,
+        permissionPolicy,
       }
       process.stdout.write(`${renderChatHeader(chatOptions)}\n`)
       const instance = render(React.createElement(ChatApp, chatOptions))

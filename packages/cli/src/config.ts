@@ -38,6 +38,17 @@ export interface AgentsKitConfig {
    * Shell-based hooks keyed by event name. See `extensibility/hooks`.
    */
   hooks?: Record<string, Array<{ run: string; matcher?: string; timeout?: number }>>
+  /**
+   * Tool permission policy. See `extensibility/permissions`.
+   */
+  permissions?: {
+    mode?: 'default' | 'plan' | 'acceptEdits' | 'bypassPermissions'
+    rules?: Array<{
+      tool: string
+      action: 'allow' | 'ask' | 'deny'
+      scope?: 'session' | 'project' | 'global'
+    }>
+  }
 }
 
 async function loadJsonConfig(path: string): Promise<AgentsKitConfig | undefined> {

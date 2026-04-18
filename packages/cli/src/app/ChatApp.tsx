@@ -52,6 +52,8 @@ export interface ChatCommandOptions {
   extraSkills?: SkillDefinition[]
   /** Hook handlers — from plugins + config. Fire on lifecycle events. */
   hookHandlers?: HookHandler[]
+  /** Permission policy for tool calls. */
+  permissionPolicy?: import('../extensibility/permissions').PermissionPolicy
 }
 
 function groupIntoTurns(messages: ChatMessage[]): ChatMessage[][] {
