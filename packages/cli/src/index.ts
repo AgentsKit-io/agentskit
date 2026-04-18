@@ -18,6 +18,18 @@ export type { TunnelOptions, TunnelController, TunnelLike } from './tunnel'
 export { loadPlugins, mergePluginsIntoBundle } from './extensibility/plugins'
 export { HookDispatcher, configHooksToHandlers } from './extensibility/hooks'
 export type { HookDispatchResult, ConfigHookEntry, ConfigHooksMap } from './extensibility/hooks'
+export {
+  defaultPolicy,
+  evaluatePolicy,
+  applyPolicyToTool,
+  applyPolicyToTools,
+} from './extensibility/permissions'
+export type {
+  PermissionAction,
+  PermissionMode,
+  PermissionPolicy,
+  PermissionRule,
+} from './extensibility/permissions'
 export type {
   Plugin,
   PluginBundle,

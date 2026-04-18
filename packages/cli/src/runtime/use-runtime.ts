@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
 import { resolveChatProvider } from '../providers'
 import { resolveMemory, resolveTools, skillRegistry } from '../resolve'
+import { applyPolicyToTools, type PermissionPolicy } from '../extensibility/permissions'
 
 export interface UseRuntimeOptions {
   provider: string
@@ -11,6 +12,8 @@ export interface UseRuntimeOptions {
   skill?: string
   memoryBackend?: string
   memoryPath?: string
+  /** Optional permission policy applied to the resolved tool set. */
+  permissionPolicy?: PermissionPolicy
 }
 
 export function useRuntime(options: UseRuntimeOptions) {
@@ -31,7 +34,11 @@ export function useRuntime(options: UseRuntimeOptions) {
     [options.memoryPath, options.memoryBackend],
   )
 
-  const tools = useMemo(() => resolveTools(toolsFlag), [toolsFlag])
+  const tools = useMemo(() => {
+    const resolved = resolveTools(toolsFlag)
+    if (!options.permissionPolicy) return resolved
+    return applyPolicyToTools(options.permissionPolicy, resolved)
+  }, [toolsFlag, options.permissionPolicy])
 
   const skills = useMemo(() => {
     if (!skillFlag) return undefined
