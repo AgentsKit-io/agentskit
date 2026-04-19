@@ -1,0 +1,63 @@
+---
+title: Personalization
+description: Persisted user profile that conditions every agent response.
+---
+
+A user's preferences shouldn't live in a single conversation. The
+personalization store is a `get` / `set` / `merge` contract over a
+`{ subjectId, traits, updatedAt }` profile — conditioning happens by
+prepending the rendered profile to the system prompt.
+
+## Install
+
+Ships with `@agentskit/memory`.
+
+## Use
+
+```ts
+import {
+  createInMemoryPersonalization,
+  renderProfileContext,
+} from '@agentskit/memory'
+
+const profiles = createInMemoryPersonalization()
+
+await profiles.merge('user-42', {
+  preferredLanguage: 'pt-BR',
+  tone: 'concise',
+  dietaryConstraints: ['vegetarian'],
+})
+
+const profile = await profiles.get('user-42')
+const systemExtras = renderProfileContext(profile)
+
+const systemPrompt = `You are a helpful assistant.\n\n${systemExtras}`
+```
+
+`renderProfileContext` skips null / empty entries and returns `''`
+when the profile has nothing to add — safe to concatenate always.
+
+## Update from the agent
+
+Capture preferences automatically via a tool the model can call:
+
+```ts
+defineTool({
+  name: 'update_profile',
+  description: "Save a new fact about the current user's preferences.",
+  schema: {
+    type: 'object',
+    properties: { key: { type: 'string' }, value: { type: 'string' } },
+    required: ['key', 'value'],
+  } as const,
+  async execute({ key, value }, ctx) {
+    await profiles.merge(ctx.call.args.subjectId as string, { [key]: value })
+    return 'saved'
+  },
+})
+```
+
+## See also
+
+- [Graph memory](/docs/recipes/graph-memory) — relationships, not just scalars
+- [HITL approvals](/docs/recipes/hitl-approvals) — gate updates that change sensitive preferences

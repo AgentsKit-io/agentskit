@@ -4,6 +4,26 @@ export type { RAGConfig, InputDocument, RAG } from './types'
 export type { ChunkOptions } from './chunker'
 
 export {
+  loadUrl,
+  loadGitHubFile,
+  loadGitHubTree,
+  loadNotionPage,
+  loadConfluencePage,
+  loadGoogleDriveFile,
+  loadPdf,
+} from './loaders'
+export type {
+  LoaderOptions,
+  UrlLoaderOptions,
+  GitHubLoaderOptions,
+  GitHubTreeOptions,
+  NotionLoaderOptions,
+  ConfluenceLoaderOptions,
+  DriveLoaderOptions,
+  PdfLoaderOptions,
+} from './loaders'
+
+export {
   createRerankedRetriever,
   createHybridRetriever,
   bm25Score,

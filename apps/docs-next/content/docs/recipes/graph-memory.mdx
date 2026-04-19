@@ -1,0 +1,53 @@
+---
+title: Graph memory
+description: Non-linear memory for entities and relationships. Backs anything from in-memory Maps to Neo4j.
+---
+
+Not every fact fits in a chat transcript. Facts about people,
+companies, products, and how they relate live longer than a
+conversation. `createInMemoryGraph` is the three-method reference
+implementation you can reach for locally; back the same `GraphMemory`
+contract with Neo4j / Memgraph / AWS Neptune for production.
+
+## Install
+
+Ships with `@agentskit/memory`.
+
+## Model facts
+
+```ts
+import { createInMemoryGraph } from '@agentskit/memory'
+
+const graph = createInMemoryGraph()
+
+await graph.upsertNode({ id: 'alice', kind: 'person', properties: { name: 'Alice' } })
+await graph.upsertNode({ id: 'acme', kind: 'company', properties: { name: 'Acme Inc.' } })
+await graph.upsertEdge({ id: 'e1', label: 'works-at', from: 'alice', to: 'acme' })
+
+const neighbors = await graph.neighbors('alice', { depth: 2 })
+```
+
+## Contract
+
+```ts
+interface GraphMemory {
+  upsertNode(node): Promise<GraphNode>
+  upsertEdge(edge): Promise<GraphEdge>
+  getNode(id): Promise<GraphNode | null>
+  findNodes(query?): Promise<GraphNode[]>
+  findEdges(query?): Promise<GraphEdge[]>
+  neighbors(id, { depth?, label? }): Promise<GraphNode[]>
+  deleteNode(id): Promise<void>  // cascades to touching edges
+  deleteEdge(id): Promise<void>
+  clear?(): Promise<void>
+}
+```
+
+BFS `neighbors` explores outward up to `depth`, optionally filtered by
+edge `label`. Matches the common agent use-case: "who is related to
+X through relationship Y, within N hops?"
+
+## See also
+
+- [Personalization](/docs/recipes/personalization)
+- [Hierarchical memory](/docs/recipes/hierarchical-memory)

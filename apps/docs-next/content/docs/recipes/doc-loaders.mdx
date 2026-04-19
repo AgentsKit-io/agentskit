@@ -1,0 +1,66 @@
+---
+title: Document loaders
+description: One-line fetchers for URL, GitHub, Notion, Confluence, Google Drive, and PDF into your RAG pipeline.
+---
+
+Every RAG pipeline starts with "turn an external document into an
+`InputDocument`". `@agentskit/rag` now ships six loaders that cover
+the common sources; each accepts a custom `fetch` for tests and
+returns `InputDocument[]` ready to pipe into `RAG.ingest`.
+
+## Install
+
+```bash
+npm install @agentskit/rag
+```
+
+## Loaders
+
+| Loader | Source |
+|---|---|
+| `loadUrl(url)` | Any HTTP URL (raw text / html) |
+| `loadGitHubFile(owner, repo, path, { ref?, token? })` | Single file via `raw.githubusercontent.com` |
+| `loadGitHubTree(owner, repo, { filter?, maxFiles? })` | Recursive repo tree, filtered |
+| `loadNotionPage(pageId, { token })` | Flattens paragraphs + headings |
+| `loadConfluencePage(pageId, { baseUrl, token })` | Atlassian storage body |
+| `loadGoogleDriveFile(fileId, { accessToken })` | Drive export as `text/plain` |
+| `loadPdf(url, { parsePdf })` | BYO PDF parser (`pdf-parse`, `pdfjs`, etc.) |
+
+## Example — RAG over a GitHub repo
+
+```ts
+import { createRAG, loadGitHubTree } from '@agentskit/rag'
+import { fileVectorMemory } from '@agentskit/memory'
+import { openaiEmbedder } from '@agentskit/adapters'
+
+const docs = await loadGitHubTree('my-org', 'my-repo', {
+  token: process.env.GITHUB_TOKEN!,
+  filter: path => path.endsWith('.md') || path.endsWith('.ts'),
+  maxFiles: 500,
+})
+
+const rag = createRAG({
+  embed: openaiEmbedder({ apiKey: process.env.OPENAI_API_KEY! }),
+  store: fileVectorMemory({ path: './kb.json' }),
+})
+await rag.ingest(docs)
+```
+
+## Example — PDF via any parser
+
+```ts
+import { loadPdf } from '@agentskit/rag'
+import pdfParse from 'pdf-parse'
+
+const docs = await loadPdf('https://example.com/report.pdf', {
+  parsePdf: async bytes => {
+    const result = await pdfParse(Buffer.from(bytes))
+    return { text: result.text, pages: result.numpages }
+  },
+})
+```
+
+## See also
+
+- [RAG chat](/docs/recipes/rag-chat)
+- [RAG reranking](/docs/recipes/rag-reranking)
