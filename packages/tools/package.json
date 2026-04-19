@@ -37,6 +37,11 @@
       "types": "./dist/mcp.d.ts",
       "import": "./dist/mcp.js",
       "require": "./dist/mcp.cjs"
+    },
+    "./integrations": {
+      "types": "./dist/integrations.d.ts",
+      "import": "./dist/integrations.js",
+      "require": "./dist/integrations.cjs"
     }
   },
   "files": [

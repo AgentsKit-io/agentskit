@@ -1,0 +1,103 @@
+---
+title: Scraping, voice, maps, browser agent
+description: Firecrawl + Jina Reader, OpenAI Images + ElevenLabs + Whisper + Deepgram, Nominatim + OpenWeatherMap + CoinGecko, and a BYO-Playwright browser agent.
+---
+
+All under `@agentskit/tools/integrations`. Same pattern as S21 —
+focused `defineTool` factories + a bundle helper per provider.
+
+## Scraping + parsing
+
+```ts
+import { firecrawl, reader, documentParsers } from '@agentskit/tools/integrations'
+
+const tools = [
+  ...firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY! }),
+  ...reader({ apiKey: process.env.JINA_TOKEN }),
+  ...documentParsers({
+    parsePdf: async bytes => {
+      const { default: pdf } = await import('pdf-parse')
+      const r = await pdf(Buffer.from(bytes))
+      return { text: r.text, pages: r.numpages }
+    },
+  }),
+]
+```
+
+- `firecrawl_scrape` / `firecrawl_crawl` — managed scraper with JS rendering.
+- `reader_fetch` — zero-dep Jina Reader wrapper; returns LLM-ready text.
+- `parse_pdf` / `parse_docx` / `parse_xlsx` — BYO parser functions so you pick the native-dep story.
+
+## Image + voice
+
+```ts
+import { openaiImages, elevenlabs, whisper, deepgram } from '@agentskit/tools/integrations'
+
+const tools = [
+  ...openaiImages({ apiKey: process.env.OPENAI_API_KEY!, model: 'gpt-image-1' }),
+  ...elevenlabs({ apiKey: process.env.ELEVENLABS_API_KEY! }),
+  ...whisper({ apiKey: process.env.OPENAI_API_KEY! }),
+  ...deepgram({ apiKey: process.env.DEEPGRAM_API_KEY! }),
+]
+```
+
+- `openai_image_generate` — text → image, returns URL or base64.
+- `elevenlabs_tts` — text → MPEG audio bytes (base64 in the result).
+- `whisper_transcribe` / `deepgram_transcribe` — audio URL → transcript.
+
+Binary outputs are base64-encoded so they pass safely through JSON tool
+results. Persist or stream them on the caller side.
+
+## Maps / weather / finance
+
+```ts
+import { maps, weather, coingecko } from '@agentskit/tools/integrations'
+
+const tools = [
+  ...maps({ userAgent: 'myapp/1.0 (contact@example.com)' }),
+  ...weather({ apiKey: process.env.OPENWEATHERMAP_KEY! }),
+  ...coingecko(), // works anonymously; add apiKey for pro
+]
+```
+
+- `maps_geocode` / `maps_reverse_geocode` — OpenStreetMap Nominatim,
+  free with a required user agent identifying your app.
+- `weather_current` — OpenWeatherMap current conditions.
+- `coingecko_price` / `coingecko_market_chart` — crypto prices + series.
+
+## Browser agent (BYO Playwright)
+
+Bundling Playwright is a ~200 MB footgun. Instead, the browser agent
+takes a `BrowserPage` contract with six methods. Wire your own
+Playwright/Puppeteer/Chromium DevTools Protocol page into it.
+
+```ts
+import { chromium } from 'playwright'
+import { browserAgent, type BrowserPage } from '@agentskit/tools/integrations'
+
+const browser = await chromium.launch()
+const raw = await browser.newPage()
+
+const page: BrowserPage = {
+  goto: async url => { await raw.goto(url) },
+  click: async selector => { await raw.click(selector) },
+  fill: async (selector, value) => { await raw.fill(selector, value) },
+  textContent: async selector => (await raw.textContent(selector)) ?? '',
+  screenshot: async () => (await raw.screenshot({ type: 'png' })).toString('base64'),
+  waitForSelector: async (selector, options) => { await raw.waitForSelector(selector, { timeout: options?.timeoutMs }) },
+}
+
+const tools = browserAgent({ page })
+```
+
+Tools: `browser_goto`, `browser_click`, `browser_fill`,
+`browser_read`, `browser_wait_for`, `browser_screenshot`.
+
+Pair with [mandatory sandbox](/docs/recipes/mandatory-sandbox) to
+keep every browser call behind your policy.
+
+## See also
+
+- [Provider integrations](/docs/recipes/integrations) — S21 set (GitHub, Slack, Stripe, Postgres, S3, ...)
+- [MCP bridge](/docs/recipes/mcp-bridge) — expose any of these to an MCP host
+- [Tool composer](/docs/recipes/tool-composer)

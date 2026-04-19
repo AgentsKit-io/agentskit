@@ -15,6 +15,17 @@ export type { FileVectorMemoryConfig } from './file-vector'
 export type { VectorStore, VectorStoreDocument, VectorStoreResult } from './vector-store'
 export type { RedisClientAdapter, RedisConnectionConfig } from './redis-client'
 
+export {
+  createInMemoryPersonalization,
+  renderProfileContext,
+} from './personalization'
+export type {
+  PersonalizationProfile,
+  PersonalizationStore,
+} from './personalization'
+
+export { createInMemoryGraph } from './graph'
+export type { GraphMemory, GraphNode, GraphEdge, GraphQuery } from './graph'
 export { pgvector, pinecone, qdrant, chroma, upstashVector } from './vector'
 export type {
   PgVectorConfig,
