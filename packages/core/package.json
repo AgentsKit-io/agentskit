@@ -56,6 +56,11 @@
       "types": "./dist/security.d.ts",
       "import": "./dist/security.js",
       "require": "./dist/security.cjs"
+    },
+    "./compose-tool": {
+      "types": "./dist/compose-tool.d.ts",
+      "import": "./dist/compose-tool.js",
+      "require": "./dist/compose-tool.cjs"
     }
   },
   "files": [
