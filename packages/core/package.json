@@ -66,6 +66,26 @@
       "types": "./dist/self-debug.d.ts",
       "import": "./dist/self-debug.js",
       "require": "./dist/self-debug.cjs"
+    },
+    "./generative-ui": {
+      "types": "./dist/generative-ui.d.ts",
+      "import": "./dist/generative-ui.js",
+      "require": "./dist/generative-ui.cjs"
+    },
+    "./a2a": {
+      "types": "./dist/a2a.d.ts",
+      "import": "./dist/a2a.js",
+      "require": "./dist/a2a.cjs"
+    },
+    "./manifest": {
+      "types": "./dist/manifest.d.ts",
+      "import": "./dist/manifest.js",
+      "require": "./dist/manifest.cjs"
+    },
+    "./eval-format": {
+      "types": "./dist/eval-format.d.ts",
+      "import": "./dist/eval-format.js",
+      "require": "./dist/eval-format.cjs"
     }
   },
   "files": [

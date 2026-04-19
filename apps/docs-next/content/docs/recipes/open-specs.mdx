@@ -1,0 +1,68 @@
+---
+title: Open specs — A2A, Manifest, Eval Format
+description: Three small, versioned specs so agents, skill packs, and eval datasets travel across tools.
+---
+
+Three open specs ship as typed subpaths of `@agentskit/core`. Every
+spec is a stable JSON shape + a validator — no runtime behavior
+coupling.
+
+## `@agentskit/core/a2a` — Agent-to-Agent Protocol
+
+JSON-RPC 2.0 methods for one agent to invoke another.
+
+| Method | Purpose |
+|---|---|
+| `agent/card` | Discover an agent's skills + schemas |
+| `task/invoke` | Run a skill |
+| `task/cancel` | Stop a running task |
+| `task/approve` | Deliver a HITL decision |
+| `task/status` | Stream progress / partial output |
+
+```ts
+import { validateAgentCard, A2A_PROTOCOL_VERSION } from '@agentskit/core/a2a'
+```
+
+Agent Card shape is compatible with directory-style marketplaces —
+publish the JSON, let any A2A client discover + invoke.
+
+## `@agentskit/core/manifest` — Skill & Tool Manifest
+
+A packaging format for distributing skills + tools together. Tool
+entries mirror MCP's `inputSchema`, so a manifest can round-trip
+through an MCP server without information loss.
+
+```ts
+import { validateManifest, MANIFEST_VERSION } from '@agentskit/core/manifest'
+```
+
+## `@agentskit/core/eval-format` — Open Eval Format
+
+Portable eval dataset + run-result payload.
+
+```ts
+import {
+  validateEvalSuite,
+  validateEvalRunResult,
+  matchesExpectation,
+  EVAL_FORMAT_VERSION,
+} from '@agentskit/core/eval-format'
+```
+
+Expectation kinds: literal `contains`, regex (`body` + `flags`),
+normalized equality, semantic similarity (runner-provided embedder).
+One dataset → many runners (AgentsKit, custom in-house, CI evals).
+
+## Why specs live in `@agentskit/core`
+
+- Types travel with the framework — no version drift between the
+  spec doc and the TS definitions.
+- Zero runtime cost: each spec is its own subpath, nothing goes
+  into the main bundle.
+- Adding a new spec is one tsup entry + one package.json export.
+
+## See also
+
+- [Evals in CI](/docs/recipes/evals-ci) — plug `matchesExpectation` into CI gates
+- [MCP bridge](/docs/recipes/mcp-bridge)
+- [Skill marketplace](/docs/recipes/skill-marketplace)
