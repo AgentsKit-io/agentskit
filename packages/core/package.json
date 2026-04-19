@@ -61,6 +61,11 @@
       "types": "./dist/compose-tool.d.ts",
       "import": "./dist/compose-tool.js",
       "require": "./dist/compose-tool.cjs"
+    },
+    "./self-debug": {
+      "types": "./dist/self-debug.d.ts",
+      "import": "./dist/self-debug.js",
+      "require": "./dist/self-debug.cjs"
     }
   },
   "files": [

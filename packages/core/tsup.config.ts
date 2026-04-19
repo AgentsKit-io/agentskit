@@ -9,6 +9,7 @@ export default defineConfig({
     hitl: 'src/hitl.ts',
     security: 'src/security/index.ts',
     'compose-tool': 'src/compose-tool.ts',
+    'self-debug': 'src/self-debug.ts',
   },
   format: ['esm', 'cjs'],
   dts: { compilerOptions: { ignoreDeprecations: "6.0" } },

@@ -1,0 +1,116 @@
+---
+title: Vector memory adapters
+description: Drop-in VectorMemory for pgvector, Pinecone, Qdrant, Chroma, and Upstash Vector.
+---
+
+`@agentskit/memory` ships five new `VectorMemory` implementations.
+Each targets a different deployment story — SQL-native (pgvector),
+serverless HTTP (Pinecone, Upstash), self-hosted REST (Qdrant,
+Chroma). All obey the same three-method contract (`store` /
+`search` / `delete`), so you can A/B providers without touching
+agent code.
+
+## Install
+
+```bash
+npm install @agentskit/memory
+```
+
+## Postgres + pgvector
+
+BYO SQL runner so you pick the driver (`pg`, `postgres`, `@neondatabase/serverless`, Supabase client).
+
+```ts
+import { pgvector } from '@agentskit/memory'
+import { Pool } from 'pg'
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL })
+const memory = pgvector({
+  runner: {
+    query: async (sql, params) => {
+      const r = await pool.query(sql, params)
+      return { rows: r.rows }
+    },
+  },
+  table: 'agentskit_vectors',
+})
+```
+
+Expects a table like:
+
+```sql
+CREATE TABLE agentskit_vectors (
+  id text primary key,
+  content text,
+  embedding vector(1536),
+  metadata jsonb
+);
+```
+
+## Pinecone
+
+```ts
+import { pinecone } from '@agentskit/memory'
+
+const memory = pinecone({
+  apiKey: process.env.PINECONE_API_KEY!,
+  indexUrl: 'https://<idx>-<project>.svc.<region>.pinecone.io',
+  namespace: 'prod',
+})
+```
+
+## Qdrant
+
+```ts
+import { qdrant } from '@agentskit/memory'
+
+const memory = qdrant({
+  url: process.env.QDRANT_URL!,
+  apiKey: process.env.QDRANT_API_KEY,
+  collection: 'agents',
+})
+```
+
+## Chroma
+
+```ts
+import { chroma } from '@agentskit/memory'
+
+const memory = chroma({
+  url: 'http://localhost:8000',
+  collection: 'agents',
+})
+```
+
+## Upstash Vector
+
+```ts
+import { upstashVector } from '@agentskit/memory'
+
+const memory = upstashVector({
+  url: process.env.UPSTASH_VECTOR_URL!,
+  token: process.env.UPSTASH_VECTOR_TOKEN!,
+})
+```
+
+## Shared contract
+
+All five implement:
+
+```ts
+interface VectorMemory {
+  store(docs: VectorDocument[]): Promise<void>
+  search(embedding: number[], opts?: { topK?: number; threshold?: number }): Promise<RetrievedDocument[]>
+  delete?(ids: string[]): Promise<void>
+}
+```
+
+Results include a normalized `score` in `[0, 1]` (higher is better).
+pgvector converts cosine distance; Chroma converts `1 - distance`;
+Pinecone / Qdrant / Upstash pass through the native score.
+
+## See also
+
+- [RAG reranking](/docs/recipes/rag-reranking) — wrap any of these with BM25 hybrid
+- [Hierarchical memory](/docs/recipes/hierarchical-memory) — use as the recall tier
+- [Encrypted memory](/docs/recipes/encrypted-memory) — layer on top for zero-trust
