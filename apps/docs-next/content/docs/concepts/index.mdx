@@ -1,0 +1,31 @@
+---
+title: Concepts
+description: Six contracts. Every AgentsKit package is an implementation of one of them.
+---
+
+AgentsKit has six stable contracts. Every package — every provider,
+every memory backend, every tool, every UI binding — plugs into one
+of them. Learn the shape once; swap implementations forever.
+
+## The six contracts
+
+| Contract | What it abstracts | Page |
+|---|---|---|
+| **Adapter** | LLM providers | [adapter](./adapter) |
+| **Tool** | callable functions | [tool](./tool) |
+| **Skill** | personas + prompts | [skill](./skill) |
+| **Memory** | conversation + vector state | [memory](./memory) |
+| **Retriever** | context retrieval | [retriever](./retriever) |
+| **Runtime** | the orchestration loop | [runtime](./runtime) |
+
+## Start here
+
+- [Mental model](./mental-model) — how the six contracts compose.
+- [Implementations](./implementations) — every concrete implementation per contract.
+- [Errors](./errors) — the error taxonomy every contract honors.
+
+## See also
+
+- [Packages overview](/docs/packages/overview) — packages grouped by role.
+- [For agents](/docs/for-agents) — dense LLM-friendly reference per contract.
+- [Comparison](/docs/comparison) — AgentsKit vs LangChain / Vercel AI / Mastra.
