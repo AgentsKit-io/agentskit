@@ -1,0 +1,37 @@
+---
+title: Ready-made personas
+description: Nine skills bundled with @agentskit/skills. Importable, composable.
+---
+
+| Skill | Purpose |
+|---|---|
+| `researcher` | gather + cite sources |
+| `coder` | write code from specs |
+| `codeReviewer` | critique diffs, flag bugs |
+| `planner` | decompose tasks into steps |
+| `critic` | stress-test a proposal |
+| `summarizer` | terse summaries |
+| `sqlGen` | schema → SQL |
+| `dataAnalyst` | analyze tabular data |
+| `translator` | natural language → natural language |
+
+## Usage
+
+```ts
+import { researcher, summarizer, composeSkills } from '@agentskit/skills'
+
+const combined = composeSkills(researcher, summarizer)
+const runtime = createRuntime({ adapter, skills: [combined] })
+```
+
+## Listing
+
+```ts
+import { listSkills } from '@agentskit/skills'
+
+for (const s of listSkills()) console.log(s.name, s.version)
+```
+
+## Related
+
+- [Authoring](./authoring) · [Marketplace](./marketplace)

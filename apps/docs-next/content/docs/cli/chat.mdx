@@ -1,0 +1,25 @@
+---
+title: agentskit chat
+description: Interactive terminal chat. Ink-based. No setup required.
+---
+
+```bash
+agentskit chat --provider openai --model gpt-4o
+```
+
+## Flags
+
+| Flag | Purpose |
+|---|---|
+| `--provider` | `openai` · `anthropic` · `ollama` · ... |
+| `--model` | provider-specific model id |
+| `--api-key` | override env |
+| `--base-url` | OpenAI-compatible endpoints |
+| `--system` | system prompt string or `@path` |
+| `--memory <path>` | file-backed chat memory |
+| `--tools <glob>` | load tools from module path |
+
+## Related
+
+- [Package: ink](/docs/packages/ink)
+- [CLI → run](./run)

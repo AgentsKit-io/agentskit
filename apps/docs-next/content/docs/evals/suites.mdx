@@ -1,0 +1,41 @@
+---
+title: Eval suites
+description: Run any async agent fn against an EvalSuite. Pass/fail per case.
+---
+
+```ts
+import { runEval } from '@agentskit/eval'
+
+const suite = {
+  name: 'support-triage',
+  cases: [
+    {
+      id: 'refund',
+      input: 'How do I get a refund?',
+      assert: (out) => out.includes('refund policy'),
+    },
+  ],
+}
+
+const report = await runEval({
+  agent: async (input) => runtime.run({ input }).then((r) => r.output),
+  suite,
+})
+
+console.log(report.passRate, report.failures)
+```
+
+## Assertions
+
+- boolean fn → pass/fail
+- async LLM-as-judge → `({ pass, rationale })`
+- regex → match required
+
+## Metrics
+
+Built-in: `passRate`, `latencyP50`, `latencyP95`, `tokensTotal`, `usdTotal`.
+
+## Related
+
+- [Replay](./replay) · [Snapshots](./snapshots) · [CI](./ci)
+- [Recipe: eval suite](/docs/recipes/eval-suite)

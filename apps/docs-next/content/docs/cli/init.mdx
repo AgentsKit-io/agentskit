@@ -1,0 +1,33 @@
+---
+title: agentskit init
+description: Scaffold a new project — react, ink, runtime, or multi-agent template.
+---
+
+```bash
+pnpm dlx agentskit init
+# or
+npm create agentskit@latest
+```
+
+Interactive. Picks template + provider + memory backend.
+
+## Flags
+
+| Flag | Purpose |
+|---|---|
+| `--template <name>` | `react` / `ink` / `runtime` / `multi-agent` |
+| `--provider <name>` | `openai` / `anthropic` / `ollama` / ... |
+| `--name <dir>` | target directory |
+| `--no-install` | skip `pnpm install` |
+
+## Templates
+
+- **react** — Vite + `@agentskit/react` + `useChat` + headless components
+- **ink** — terminal chat via `@agentskit/ink`
+- **runtime** — standalone `createRuntime` with ReAct loop
+- **multi-agent** — supervisor topology starter
+
+## Related
+
+- [Packages → templates](/docs/packages/templates)
+- [CLI → ai](./ai)

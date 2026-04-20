@@ -1,0 +1,44 @@
+---
+title: MCP bridge
+description: Consume or publish Model Context Protocol tools. Interop with Claude Desktop, Cursor, Continue, etc.
+---
+
+## Consume an MCP server
+
+```ts
+import { createMcpClient, toolsFromMcpClient } from '@agentskit/tools'
+
+const client = await createMcpClient({
+  transport: 'stdio',
+  command: 'my-mcp-server',
+})
+
+const mcpTools = await toolsFromMcpClient(client)
+
+const runtime = createRuntime({ adapter, tools: [...mcpTools, ...myTools] })
+```
+
+## Publish AgentsKit tools as MCP
+
+```ts
+import { createMcpServer } from '@agentskit/tools'
+
+const server = createMcpServer({
+  name: 'agentskit-devtools',
+  version: '0.1.0',
+  tools: [github(...), slack(...)],
+})
+
+await server.listen({ transport: 'stdio' })
+```
+
+## Transports
+
+- `stdio` — sub-process pipe
+- `http` — HTTP/SSE
+- `ws` — WebSocket
+
+## Related
+
+- [Recipe: MCP bridge](/docs/recipes/mcp-bridge)
+- [Specs → A2A](/docs/specs/a2a)

@@ -1,0 +1,27 @@
+---
+title: agentskit doctor
+description: Diagnose your environment. Providers, keys, tooling, versions.
+---
+
+```bash
+agentskit doctor
+```
+
+Checks:
+- Node / Bun version
+- Provider API keys (reachable, valid)
+- Local runtimes (Ollama / LM Studio / vLLM)
+- MCP servers on PATH
+- Tunnel binaries
+- Disk permissions for default memory paths
+
+## Flags
+
+| Flag | Purpose |
+|---|---|
+| `--json` | machine-readable report |
+| `--fix` | attempt automated fixes (install missing deps, etc.) |
+
+## Related
+
+- [CLI → init](./init)

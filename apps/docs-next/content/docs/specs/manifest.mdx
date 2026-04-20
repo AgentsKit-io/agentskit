@@ -1,0 +1,46 @@
+---
+title: Manifest
+description: Portable packaging for skills + tools. MCP-compatible tool entries.
+---
+
+Subpath: `@agentskit/core/manifest`.
+
+## Shape
+
+```json
+{
+  "name": "my-skills",
+  "version": "0.1.0",
+  "skills": [
+    { "name": "triage", "version": "1.0.0", "systemPrompt": "..." }
+  ],
+  "tools": [
+    {
+      "name": "search_docs",
+      "description": "Search internal docs",
+      "inputSchema": {
+        "type": "object",
+        "properties": { "query": { "type": "string" } }
+      }
+    }
+  ]
+}
+```
+
+## Validator
+
+```ts
+import { parseManifest } from '@agentskit/core/manifest'
+
+const manifest = parseManifest(json) // throws on invalid
+```
+
+## MCP compatibility
+
+`tools[].inputSchema` mirrors MCP exactly — manifests round-trip into
+MCP servers.
+
+## Related
+
+- [A2A](./a2a) · [AgentSchema](./agent-schema)
+- [Tools → MCP bridge](/docs/tools/mcp)

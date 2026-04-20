@@ -1,0 +1,35 @@
+---
+title: Cost + token accounting
+description: Cap runs by dollars or tokens. Stop before you're surprised.
+---
+
+## costGuard
+
+```ts
+import { costGuard } from '@agentskit/observability'
+
+const runtime = createRuntime({
+  adapter,
+  observers: [costGuard({ maxUsd: 0.50, onExceed: 'throw' })],
+})
+```
+
+`onExceed`: `'throw' | 'stop' | 'warn'`.
+
+## Token counters
+
+```ts
+import { approximateCounter, createProviderCounter } from '@agentskit/observability'
+
+// Zero-dep heuristic
+const fast = approximateCounter()
+
+// Provider-accurate (uses adapter-reported usage when available)
+const exact = createProviderCounter({ adapter })
+```
+
+## Related
+
+- [Recipe: cost guard](/docs/recipes/cost-guard)
+- [Recipe: token budget](/docs/recipes/token-budget)
+- [Security → rate limiting](/docs/security/rate-limiting)

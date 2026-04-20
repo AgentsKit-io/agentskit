@@ -1,0 +1,28 @@
+---
+title: agentskit run
+description: One-shot agent run from the terminal. Pipe inputs, capture outputs.
+---
+
+```bash
+agentskit run "Summarize today's PRs" --provider openai --model gpt-4o
+```
+
+Piped stdin:
+
+```bash
+cat README.md | agentskit run "Extract TODO items"
+```
+
+## Flags
+
+| Flag | Purpose |
+|---|---|
+| `--provider` / `--model` / `--api-key` / `--base-url` | adapter config |
+| `--verbose` | print every step + tool call |
+| `--json` | machine-readable output |
+| `--schema <path>` | output schema (Zod or JSON Schema) |
+
+## Related
+
+- [CLI → chat](./chat) · [CLI → ai](./ai)
+- [Runtime](/docs/agents/runtime)

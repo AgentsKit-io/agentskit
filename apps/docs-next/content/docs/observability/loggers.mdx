@@ -1,0 +1,35 @@
+---
+title: Loggers + tracers
+description: Console, LangSmith, OpenTelemetry. Pick one; attach to runtime.
+---
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { consoleLogger, langsmith, opentelemetry } from '@agentskit/observability'
+
+const runtime = createRuntime({
+  adapter,
+  tools,
+  observers: [
+    consoleLogger(),
+    langsmith({ apiKey: process.env.LANGSMITH_API_KEY!, project: 'prod' }),
+    opentelemetry({ serviceName: 'agent-worker' }),
+  ],
+})
+```
+
+## Observers
+
+| Observer | Purpose | Env |
+|---|---|---|
+| `consoleLogger()` | dev | — |
+| `langsmith({ apiKey, project })` | traces UI | `LANGSMITH_API_KEY` |
+| `opentelemetry({ serviceName })` | OTel pipeline | OTLP endpoint |
+| `createTraceTracker()` | BYO span lifecycle | — |
+
+Every observer receives the same event stream — `chat.start`,
+`llm.call`, `tool.call`, `tool.result`, `error`, `chat.end`.
+
+## Related
+
+- [Trace viewer](./trace-viewer) · [Devtools](./devtools)

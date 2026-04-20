@@ -1,0 +1,87 @@
+---
+title: Authoring tools
+description: Define, validate, compose, guard. One contract, multiple flavors.
+---
+
+## defineTool
+
+Zero-runtime-dep path. JSON Schema inferred from TS types.
+
+```ts
+import { defineTool } from '@agentskit/core'
+
+export const addTodo = defineTool({
+  name: 'add_todo',
+  description: 'Add a todo item',
+  schema: {
+    type: 'object',
+    properties: { text: { type: 'string' } },
+    required: ['text'],
+  },
+  execute: async ({ text }) => ({ id: crypto.randomUUID(), text }),
+})
+```
+
+## defineZodTool
+
+Runtime validation. Fails fast on bad args.
+
+```ts
+import { defineZodTool } from '@agentskit/tools'
+import { z } from 'zod'
+
+export const addTodo = defineZodTool({
+  name: 'add_todo',
+  description: 'Add a todo item',
+  schema: z.object({ text: z.string().min(1) }),
+  execute: async ({ text }) => ({ id: crypto.randomUUID(), text }),
+})
+```
+
+## composeTool
+
+Chain N tools into one macro. Each receives previous output.
+
+```ts
+import { composeTool } from '@agentskit/tools'
+
+const research = composeTool({
+  name: 'research',
+  steps: [webSearch, fetchUrl, summarize],
+})
+```
+
+[Recipe](/docs/recipes/tool-composer).
+
+## wrapToolWithSelfDebug
+
+LLM-corrected retry on schema-mismatch or error.
+
+```ts
+import { wrapToolWithSelfDebug } from '@agentskit/tools'
+
+const safeDeploy = wrapToolWithSelfDebug(deployTool, { adapter, maxRetries: 3 })
+```
+
+[Recipe](/docs/recipes/self-debug).
+
+## createMandatorySandbox
+
+Policy wrapper: allow / deny / require-sandbox / validators.
+
+```ts
+import { createMandatorySandbox } from '@agentskit/tools'
+
+const sandboxed = createMandatorySandbox(shellTool, {
+  allow: ['ls', 'cat'],
+  deny: ['rm', 'sudo'],
+  requireSandbox: true,
+})
+```
+
+[Recipe](/docs/recipes/mandatory-sandbox) · [Security](/docs/security/mandatory-sandbox).
+
+## Related
+
+- [Built-ins](./builtins) · [Integrations](./integrations) · [MCP](./mcp)
+- [Concepts → Tool](/docs/concepts/tool)

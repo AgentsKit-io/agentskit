@@ -1,0 +1,45 @@
+---
+title: Eval format
+description: Portable JSON for eval datasets + run results. Tool-agnostic.
+---
+
+Subpath: `@agentskit/core/eval-format`.
+
+## Dataset
+
+```json
+{
+  "name": "triage-v1",
+  "version": "1.0.0",
+  "cases": [
+    {
+      "id": "refund",
+      "input": "How do I get a refund?",
+      "expect": { "kind": "regex", "value": "refund policy" }
+    }
+  ]
+}
+```
+
+## Expectation kinds
+
+| Kind | Match rule |
+|---|---|
+| `literal` | exact string equality |
+| `regex` | RegExp test |
+| `normalized` | whitespace + case-insensitive |
+| `similarity` | cosine ≥ threshold (needs embedder) |
+
+## API
+
+```ts
+import { matchesExpectation, parseEvalSuite } from '@agentskit/core/eval-format'
+
+const suite = parseEvalSuite(json)
+const ok = matchesExpectation(output, suite.cases[0].expect)
+```
+
+## Related
+
+- [Evals → Suites](/docs/evals/suites)
+- [A2A](./a2a) · [Manifest](./manifest)

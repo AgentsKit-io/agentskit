@@ -1,0 +1,39 @@
+---
+title: Integrations
+description: 20+ ready-made connectors for the services agents actually need.
+---
+
+| Category | Tools |
+|---|---|
+| Dev / chat | `github` · `linear` · `slack` · `notion` · `discord` |
+| Google | `gmail` · `googleCalendar` |
+| Business | `stripe` · `postgres` · `s3` |
+| Scraping | `firecrawl` · `reader` · `documentParsers` |
+| Voice + image | `openaiImages` · `elevenlabs` · `whisper` · `deepgram` |
+| Data | `maps` · `weather` · `coingecko` |
+| Browser | `browserAgent` (Puppeteer) |
+
+## Usage
+
+```ts
+import { github, slack } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [
+    github({ token: process.env.GITHUB_TOKEN! }),
+    slack({ token: process.env.SLACK_BOT_TOKEN! }),
+  ],
+})
+```
+
+Each integration module exports granular sub-tools (e.g. `github.createIssue`, `github.searchCode`). Import the whole integration for the full set, or cherry-pick.
+
+## Credentials
+
+Every integration reads a token from its `config`. No process-env magic.
+
+## Related
+
+- [Authoring](./authoring) — wrap what's missing
+- [Recipe: integrations](/docs/recipes/integrations) · [more integrations](/docs/recipes/more-integrations)
