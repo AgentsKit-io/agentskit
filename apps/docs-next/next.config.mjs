@@ -50,8 +50,9 @@ const DOC_REDIRECTS = [
   // Tab restructure — Reference
   { source: '/docs/packages/:slug*', destination: '/docs/reference/packages/:slug*', permanent: true },
   { source: '/docs/packages', destination: '/docs/reference/packages', permanent: true },
-  { source: '/docs/for-agents/:slug*', destination: '/docs/reference/for-agents/:slug*', permanent: true },
-  { source: '/docs/for-agents', destination: '/docs/reference/for-agents', permanent: true },
+  // For agents is its own top-level tab — keep the short legacy path working
+  { source: '/docs/reference/for-agents/:slug*', destination: '/docs/for-agents/:slug*', permanent: true },
+  { source: '/docs/reference/for-agents', destination: '/docs/for-agents', permanent: true },
   { source: '/docs/recipes/:slug*', destination: '/docs/reference/recipes/:slug*', permanent: true },
   { source: '/docs/recipes', destination: '/docs/reference/recipes', permanent: true },
   { source: '/docs/examples/:slug*', destination: '/docs/reference/examples/:slug*', permanent: true },

@@ -12,6 +12,7 @@ export const baseOptions: BaseLayoutProps = {
   },
   links: [
     { text: 'Documentation', url: '/docs' },
+    { text: 'For agents', url: '/docs/for-agents' },
     { text: 'Examples', url: '/docs/reference/examples' },
     { text: 'Contribute', url: '/docs/reference/contribute' },
     { text: 'Discord', url: 'https://discord.gg/zx6z2p4jVb' },

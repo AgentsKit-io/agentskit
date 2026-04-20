@@ -89,6 +89,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       className={`${inter.variable} ${jetbrainsMono.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt — AI-ingestion index" />
+        <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Full docs for LLM ingestion" />
+      </head>
       <body className="flex min-h-screen flex-col overflow-x-clip font-sans">
         <RootProvider>{children}</RootProvider>
         <Analytics />
