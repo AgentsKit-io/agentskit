@@ -1,0 +1,23 @@
+---
+title: Local runtimes
+description: Run fully offline — Ollama, LM Studio, vLLM, llama.cpp.
+---
+
+| Adapter | Import | Default URL |
+|---|---|---|
+| Ollama | `ollama` | `http://localhost:11434` |
+| LM Studio | `lmstudio` | `http://localhost:1234/v1` |
+| vLLM | `vllm` | `http://localhost:8000/v1` |
+| llama.cpp | `llamacpp` | `http://localhost:8080` |
+
+## Usage
+
+```ts
+import { ollama } from '@agentskit/adapters'
+
+const adapter = ollama({ model: 'llama3.2', url: 'http://localhost:11434' })
+```
+
+## Related
+
+- [Hosted](./hosted) · [Embedders](./embedders)

@@ -1,0 +1,38 @@
+---
+title: Embedders
+description: Turn text into vectors. Used by RAG + vector memory.
+---
+
+| Embedder | Import | Model examples |
+|---|---|---|
+| OpenAI | `openaiEmbedder` | `text-embedding-3-small`, `...-large` |
+| Gemini | `geminiEmbedder` | `text-embedding-004` |
+| Ollama | `ollamaEmbedder` | `nomic-embed-text`, `mxbai-embed-large` |
+| DeepSeek | `deepseekEmbedder` | provider defaults |
+| Grok | `grokEmbedder` | provider defaults |
+| Kimi | `kimiEmbedder` | provider defaults |
+| OpenAI-compatible | `createOpenAICompatibleEmbedder` | any `/v1/embeddings` endpoint |
+
+## Contract
+
+```ts
+type Embedder = {
+  embed: (texts: string[]) => Promise<number[][]>
+  dim: number
+}
+```
+
+## Usage
+
+```ts
+import { openaiEmbedder } from '@agentskit/adapters'
+
+const embed = openaiEmbedder({
+  apiKey: process.env.OPENAI_API_KEY!,
+  model: 'text-embedding-3-small',
+})
+```
+
+## Related
+
+- [RAG](/docs/data/rag) · [Memory backends](/docs/data/memory)

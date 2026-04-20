@@ -1,0 +1,36 @@
+---
+title: createRAG
+description: One-liner RAG pipeline — chunk, embed, store, retrieve, search.
+---
+
+```ts
+import { createRAG } from '@agentskit/rag'
+import { openaiEmbedder } from '@agentskit/adapters'
+import { fileVectorMemory } from '@agentskit/memory'
+
+const rag = createRAG({
+  embed: openaiEmbedder({ apiKey: process.env.OPENAI_API_KEY! }),
+  store: fileVectorMemory({ path: '.agentskit/vec.json', dim: 1536 }),
+})
+
+await rag.ingest([{ id: 'doc-1', text: longDoc }])
+const hits = await rag.retrieve('How does token budgeting work?')
+```
+
+## API
+
+| Method | Purpose |
+|---|---|
+| `ingest(docs, opts?)` | chunk + embed + store |
+| `retrieve(query, opts?)` | vector top-k |
+| `search(query, opts?)` | alias for retrieve with filters |
+| `delete(ids)` | remove docs |
+
+## Options
+
+- `chunkSize` / `chunkOverlap` / `split` — passed to [chunking](./chunking).
+- `topK` — default retrieve count.
+
+## Related
+
+- [Rerank](./rerank) · [Hybrid](./hybrid) · [Loaders](./loaders)

@@ -1,0 +1,32 @@
+---
+title: Chunking
+description: Split docs before embedding. Sensible defaults; override per doc type.
+---
+
+```ts
+import { chunkText } from '@agentskit/rag'
+
+const chunks = chunkText(longDoc, {
+  chunkSize: 800,
+  chunkOverlap: 120,
+  split: 'paragraph',
+})
+```
+
+## Options
+
+| Option | Type | Default |
+|---|---|---|
+| `chunkSize` | `number` | `1000` |
+| `chunkOverlap` | `number` | `100` |
+| `split` | `'sentence' \| 'paragraph' \| 'markdown' \| 'code' \| 'char'` | `paragraph` |
+
+## Rules of thumb
+
+- Prose: `paragraph`, 800/120.
+- Markdown: `markdown`, 1200/150.
+- Code: `code`, 1500/0.
+
+## Related
+
+- [RAG overview](./) · [createRAG](./create-rag)

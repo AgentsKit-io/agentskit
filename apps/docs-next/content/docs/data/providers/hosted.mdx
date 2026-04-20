@@ -1,0 +1,41 @@
+---
+title: Hosted chat adapters
+description: 17 managed-LLM adapters. Same contract; swap by changing one import.
+---
+
+All return `Adapter` — call `.complete()` or `.stream()`.
+
+## Adapters
+
+| Adapter | Import | Env |
+|---|---|---|
+| OpenAI | `openai` | `OPENAI_API_KEY` |
+| Anthropic | `anthropic` | `ANTHROPIC_API_KEY` |
+| Google Gemini | `gemini` | `GOOGLE_API_KEY` |
+| xAI Grok | `grok` | `XAI_API_KEY` |
+| DeepSeek | `deepseek` | `DEEPSEEK_API_KEY` |
+| Kimi (Moonshot) | `kimi` | `KIMI_API_KEY` |
+| Mistral | `mistral` | `MISTRAL_API_KEY` |
+| Cohere | `cohere` | `COHERE_API_KEY` |
+| Together | `together` | `TOGETHER_API_KEY` |
+| Groq | `groq` | `GROQ_API_KEY` |
+| Fireworks | `fireworks` | `FIREWORKS_API_KEY` |
+| OpenRouter | `openrouter` | `OPENROUTER_API_KEY` |
+| Hugging Face | `huggingface` | `HF_TOKEN` |
+| LangChain | `langchain` | — |
+| LangGraph | `langgraph` | — |
+| Vercel AI SDK | `vercelAI` | — |
+| Generic | `generic` | BYO `ReadableStream` |
+
+## Usage
+
+```ts
+import { openai } from '@agentskit/adapters'
+
+const adapter = openai({ apiKey: process.env.OPENAI_API_KEY!, model: 'gpt-4o' })
+```
+
+## Related
+
+- [Local runtimes](./local) · [Embedders](./embedders) · [Higher-order](./higher-order)
+- [Recipe: more providers](/docs/recipes/more-providers)

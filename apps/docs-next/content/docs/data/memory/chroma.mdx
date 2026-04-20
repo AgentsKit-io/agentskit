@@ -1,0 +1,26 @@
+---
+title: chroma
+description: Chroma vector DB via HTTP.
+---
+
+```ts
+import { chroma } from '@agentskit/memory'
+
+const store = chroma({
+  url: process.env.CHROMA_URL ?? 'http://localhost:8000',
+  collection: 'agentskit',
+})
+```
+
+## Options
+
+| Option | Type |
+|---|---|
+| `url` | `string` |
+| `collection` | `string` |
+| `tenant` | `string?` |
+| `database` | `string?` |
+
+## Related
+
+- [pinecone](./pinecone) · [qdrant](./qdrant)

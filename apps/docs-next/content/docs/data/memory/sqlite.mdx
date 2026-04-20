@@ -1,0 +1,32 @@
+---
+title: sqliteChatMemory
+description: SQLite-backed chat memory. Indexed by session + timestamp.
+---
+
+```ts
+import { sqliteChatMemory } from '@agentskit/memory'
+
+const memory = sqliteChatMemory({ path: '.agentskit/chat.db' })
+```
+
+## Options
+
+| Option | Type | Default |
+|---|---|---|
+| `path` | `string` | required |
+| `table` | `string` | `messages` |
+| `pragma` | `Record<string, string>` | WAL |
+
+## Schema
+
+`messages(id TEXT PRIMARY KEY, session_id TEXT, role TEXT, parts JSON, created_at INTEGER)`
+
+## Trade-offs
+
+- Good for: embedded apps, CLI, single-host servers, Electron.
+- Uses WAL by default — safe for concurrent readers.
+
+## Related
+
+- [fileChatMemory](./file-chat) · [redisChatMemory](./redis-chat)
+- [Concepts → Memory](/docs/concepts/memory)

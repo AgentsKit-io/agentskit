@@ -1,0 +1,23 @@
+---
+title: Hybrid search
+description: Vector + BM25 blend with weighted normalization.
+---
+
+```ts
+import { createHybridRetriever } from '@agentskit/rag'
+
+const retriever = createHybridRetriever({
+  vector: rag,
+  lexical: bm25Index,
+  weights: { vector: 0.7, lexical: 0.3 },
+})
+```
+
+## When to use
+
+Queries with rare keywords or exact tokens (error codes, SKUs,
+identifiers) that vector alone misses.
+
+## Related
+
+- [Rerank](./rerank) · [createRAG](./create-rag)

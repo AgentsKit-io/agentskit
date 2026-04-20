@@ -1,0 +1,50 @@
+---
+title: Higher-order adapters
+description: Compose adapters — route, ensemble, fallback.
+---
+
+## createRouter
+
+Pick an adapter per request by cost, latency, tags, or custom policy.
+
+```ts
+import { createRouter, openai, anthropic } from '@agentskit/adapters'
+
+const adapter = createRouter({
+  candidates: { fast: openai(...), smart: anthropic(...) },
+  route: (req) => (req.tags?.includes('code') ? 'smart' : 'fast'),
+})
+```
+
+[Recipe](/docs/recipes/adapter-router).
+
+## createEnsembleAdapter
+
+Fan out to N candidates, merge per strategy (first, majority, custom).
+
+```ts
+import { createEnsembleAdapter } from '@agentskit/adapters'
+
+const adapter = createEnsembleAdapter({
+  candidates: [openai(...), anthropic(...), gemini(...)],
+  strategy: 'first-success',
+})
+```
+
+[Recipe](/docs/recipes/adapter-ensemble).
+
+## createFallbackAdapter
+
+Try candidates in order until one succeeds.
+
+```ts
+import { createFallbackAdapter } from '@agentskit/adapters'
+
+const adapter = createFallbackAdapter([primary, secondary, tertiary])
+```
+
+[Recipe](/docs/recipes/fallback-chain).
+
+## Related
+
+- [Hosted](./hosted) · [Local](./local)

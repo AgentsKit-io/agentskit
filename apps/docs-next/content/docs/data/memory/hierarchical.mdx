@@ -1,0 +1,30 @@
+---
+title: createHierarchicalMemory
+description: MemGPT-style tiers — working / recall / archival.
+---
+
+```ts
+import { createHierarchicalMemory } from '@agentskit/memory'
+
+const memory = createHierarchicalMemory({
+  working: inMemory,
+  recall: sqlite,
+  archival: vector,
+  workingLimit: 20,
+  recallLimit: 500,
+})
+```
+
+## Tiers
+
+| Tier | Purpose | Typical store |
+|---|---|---|
+| working | hot, in-context | in-memory |
+| recall | session history | SQLite / Redis |
+| archival | semantic long-term | vector |
+
+Overflow cascades: working → recall → archival summary.
+
+## Related
+
+- [Recipe: hierarchical memory](/docs/recipes/hierarchical-memory)

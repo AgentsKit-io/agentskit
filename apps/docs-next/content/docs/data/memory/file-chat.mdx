@@ -1,0 +1,29 @@
+---
+title: fileChatMemory
+description: JSON-file-backed chat memory. Zero infra. Survives restarts.
+---
+
+```ts
+import { fileChatMemory } from '@agentskit/memory'
+
+const memory = fileChatMemory({ path: '.agentskit/chat.json' })
+```
+
+## Options
+
+| Option | Type | Default |
+|---|---|---|
+| `path` | `string` | required |
+| `maxMessages` | `number` | unlimited |
+| `encoding` | `'utf-8'` | `'utf-8'` |
+
+## Trade-offs
+
+- Good for: CLIs, local dev, desktop apps.
+- Bad for: multi-process writes (no locking), high-throughput web.
+
+## Related
+
+- [sqliteChatMemory](./sqlite) — concurrent, indexed.
+- [redisChatMemory](./redis-chat) — distributed.
+- [Concepts → Memory](/docs/concepts/memory)

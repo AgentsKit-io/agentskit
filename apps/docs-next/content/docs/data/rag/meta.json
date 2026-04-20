@@ -1,5 +1,12 @@
 {
   "title": "RAG",
   "description": "Chunk, embed, retrieve, rerank, hybrid — plus six document loaders.",
-  "pages": ["index"]
+  "pages": [
+    "index",
+    "create-rag",
+    "chunking",
+    "rerank",
+    "hybrid",
+    "loaders"
+  ]
 }

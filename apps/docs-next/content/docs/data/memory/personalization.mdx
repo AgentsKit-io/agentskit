@@ -1,0 +1,21 @@
+---
+title: createInMemoryPersonalization
+description: Per-subject profile store. Inject into system prompt.
+---
+
+```ts
+import { createInMemoryPersonalization, renderProfileContext } from '@agentskit/memory'
+
+const profiles = createInMemoryPersonalization()
+await profiles.set('user-42', { name: 'Ada', tz: 'UTC', likes: ['jazz'] })
+
+const context = renderProfileContext(await profiles.get('user-42'))
+```
+
+## API
+
+- `get(subject)` · `set(subject, profile)` · `patch(subject, partial)` · `delete(subject)`.
+
+## Related
+
+- [Recipe: personalization](/docs/recipes/personalization)
