@@ -1,0 +1,54 @@
+---
+title: linear
+description: Linear GraphQL — search issues, create issues. For triage, sprint-planning, release-notes agents.
+---
+
+```ts
+import { linear } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...linear({ token: process.env.LINEAR_API_KEY! })],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `linearSearchIssues` | Query issues by team, state, labels, assignee |
+| `linearCreateIssue` | Create an issue with title + description + priority |
+
+Bundled: `linear(config)`.
+
+## Config
+
+```ts
+type LinearConfig = {
+  token: string           // Personal API key or OAuth token
+  teamId?: string         // Default team for creates
+  fetch?: typeof fetch
+}
+```
+
+## Example — auto-intake agent
+
+```ts
+const runtime = createRuntime({
+  adapter,
+  systemPrompt: 'Turn user reports into Linear issues with the right team + priority.',
+  tools: [...linear({ token, teamId: 'BCK' })],
+})
+
+await runtime.run('User reports: "Checkout broken on iOS 17, high priority"')
+```
+
+## Credentials
+
+- **Personal API key:** workspace-level, full access. Good for single-user bots.
+- **OAuth:** user-scoped; required for multi-tenant SaaS.
+
+## Related
+
+- [Integrations overview](./) · [github](./github) — sibling shape.
+- Issue #442 — [`linearTriageTool`](https://github.com/AgentsKit-io/agentskit/issues/442) adds triage-specific flows.

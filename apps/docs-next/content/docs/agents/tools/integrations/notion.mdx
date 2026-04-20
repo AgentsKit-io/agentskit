@@ -1,0 +1,57 @@
+---
+title: notion
+description: Notion API — search workspace, create pages. Pair with RAG to turn Notion into agent-queryable memory.
+---
+
+```ts
+import { notion } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...notion({ token: process.env.NOTION_TOKEN! })],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `notionSearch` | Search pages + databases by query |
+| `notionCreatePage` | Create a page inside a parent page or database |
+
+Bundled: `notion(config)`.
+
+## Config
+
+```ts
+type NotionConfig = {
+  token: string           // Integration internal token
+  version?: string        // API version (defaults to latest tested)
+  fetch?: typeof fetch
+}
+```
+
+## Example — knowledge-base search
+
+```ts
+const runtime = createRuntime({
+  adapter,
+  systemPrompt: 'Answer from the engineering Notion; always cite the page title + URL.',
+  tools: [...notion({ token })],
+})
+
+await runtime.run('What\'s our on-call escalation policy?')
+```
+
+## Credentials
+
+- Create integration at notion.so/my-integrations.
+- **Share** the target pages + databases with the integration (Notion gates access).
+
+## Pair with RAG
+
+For semantic search across Notion, use [`loadNotionPage`](/docs/data/rag/loaders) to ingest content into a vector store — faster + cheaper for repeated queries than calling the API every turn.
+
+## Related
+
+- [Integrations overview](./) · [RAG loaders](/docs/data/rag/loaders).

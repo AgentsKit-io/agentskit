@@ -1,0 +1,52 @@
+---
+title: googleCalendar
+description: Google Calendar API — list events, create events. For scheduling agents + standup prep bots.
+---
+
+```ts
+import { googleCalendar } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...googleCalendar({ accessToken: process.env.GCAL_ACCESS_TOKEN! })],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `calendarListEvents` | List events in a time range (primary or named calendar) |
+| `calendarCreateEvent` | Create an event with attendees + conference link |
+
+Bundled: `googleCalendar(config)`.
+
+## Config
+
+```ts
+type GoogleCalendarConfig = {
+  accessToken: string
+  calendarId?: string       // default 'primary'
+  fetch?: typeof fetch
+}
+```
+
+## Example — standup prep
+
+```ts
+const runtime = createRuntime({
+  adapter,
+  tools: [...googleCalendar({ accessToken })],
+})
+
+await runtime.run('What meetings do I have today? Summarize with a 1-sentence agenda each.')
+```
+
+## Credentials
+
+- **OAuth 2.0** with scope `calendar.events` (read + write) or `calendar.readonly`.
+- Refresh tokens managed by your app — tool takes short-lived access tokens.
+
+## Related
+
+- [Integrations overview](./) · [gmail](./gmail) — sibling OAuth.

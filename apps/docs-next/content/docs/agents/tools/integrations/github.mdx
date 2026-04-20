@@ -1,0 +1,67 @@
+---
+title: github
+description: GitHub REST v3 — search issues, create issues, comment. Pairs with HITL for ship-gating bots.
+---
+
+```ts
+import { github } from '@agentskit/tools'
+import { createRuntime } from '@agentskit/runtime'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...github({ token: process.env.GITHUB_TOKEN! })],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `githubSearchIssues` | Full-text + filter search across issues and PRs |
+| `githubCreateIssue` | Open an issue (title + body + labels) |
+| `githubCommentIssue` | Post a comment on an existing issue or PR |
+
+Bundled: `github(config)` returns the three above.
+
+## Config
+
+```ts
+type GitHubConfig = {
+  token: string         // personal access token or GitHub App token
+  baseUrl?: string      // override for GitHub Enterprise
+  fetch?: typeof fetch
+}
+```
+
+## Example — triage agent
+
+```ts
+import { defineZodTool } from '@agentskit/tools'
+import { github } from '@agentskit/tools'
+import { createRuntime } from '@agentskit/runtime'
+
+const runtime = createRuntime({
+  adapter,
+  systemPrompt: 'You triage issues: label + link to related + close dupes.',
+  tools: [...github({ token: process.env.GITHUB_TOKEN! })],
+})
+
+await runtime.run('Triage the last 10 open issues on AgentsKit-io/agentskit')
+```
+
+## Credentials
+
+- **Personal access token:** `repo` + `issues` scopes.
+- **GitHub App:** install on the target repo; pass the installation token.
+- **GitHub Enterprise:** set `baseUrl` to your instance.
+
+## Safety
+
+Write operations (create issue, comment) are idempotent but not destructive.
+For delete + merge flows wrap with [mandatory sandbox](/docs/production/security/mandatory-sandbox) or require [HITL approval](/docs/agents/hitl).
+
+## Related
+
+- [Integrations overview](./) · [linear](./linear) — same shape for Linear.
+- Recipes: [code-reviewer](/docs/reference/recipes/code-reviewer) · [integrations](/docs/reference/recipes/integrations).
+- [HITL approvals](/docs/agents/hitl) for gating mutations.

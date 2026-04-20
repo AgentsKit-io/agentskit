@@ -1,0 +1,42 @@
+---
+title: weather
+description: Current weather by lat/lng. Free tier via open-meteo by default; swap provider via config.
+---
+
+```ts
+import { weather } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...weather()],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `weatherCurrent` | Current conditions at a coordinate |
+
+Bundled: `weather(config)`.
+
+## Config
+
+```ts
+type WeatherConfig = {
+  provider?: 'open-meteo' | 'openweathermap' | 'weatherapi'
+  apiKey?: string           // required except for open-meteo
+  units?: 'metric' | 'imperial'
+  fetch?: typeof fetch
+}
+```
+
+## Example
+
+```ts
+await runtime.run('What\'s the weather at 38.72, -9.14 right now?')
+```
+
+## Related
+
+- [Integrations overview](./) · [maps](./maps) — pair for NL → coords.

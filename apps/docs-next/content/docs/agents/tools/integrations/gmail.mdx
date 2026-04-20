@@ -1,0 +1,59 @@
+---
+title: gmail
+description: Gmail API — list messages, send email. For inbox-triage agents + notification flows.
+---
+
+```ts
+import { gmail } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...gmail({ accessToken: process.env.GMAIL_ACCESS_TOKEN! })],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `gmailListMessages` | Query inbox (supports `q` filter syntax) |
+| `gmailSendEmail` | Compose + send a plain-text or HTML email |
+
+Bundled: `gmail(config)`.
+
+## Config
+
+```ts
+type GmailConfig = {
+  accessToken: string       // OAuth access token (refresh on your side)
+  fetch?: typeof fetch
+}
+```
+
+## Example — inbox triage
+
+```ts
+const runtime = createRuntime({
+  adapter,
+  systemPrompt: 'Label, categorize, and draft replies for unread emails. Never send without HITL approval.',
+  tools: [
+    ...gmail({ accessToken }),
+    hitlTool, // require approval before gmailSendEmail
+  ],
+})
+```
+
+## Credentials
+
+- **OAuth 2.0 required** — Gmail has no long-lived API keys.
+- Scopes: `gmail.readonly` + `gmail.send`.
+- Handle token refresh in your app — this tool accepts short-lived access tokens.
+
+## Safety
+
+Always gate `gmailSendEmail` behind [HITL approval](/docs/agents/hitl). Accidental mass-send is hard to undo.
+
+## Related
+
+- [Integrations overview](./) · [googleCalendar](./google-calendar) — same OAuth dance.
+- [HITL approvals](/docs/agents/hitl).

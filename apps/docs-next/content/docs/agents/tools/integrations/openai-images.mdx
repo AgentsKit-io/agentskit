@@ -1,0 +1,55 @@
+---
+title: openaiImages
+description: OpenAI Images API (DALL-E / gpt-image) — generate images from prompts.
+---
+
+```ts
+import { openaiImages } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...openaiImages({ apiKey: process.env.OPENAI_API_KEY! })],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `openaiImagesGenerate` | Create images from a text prompt |
+
+Bundled: `openaiImages(config)`.
+
+## Config
+
+```ts
+type OpenAIImagesConfig = {
+  apiKey: string
+  model?: 'gpt-image-1' | 'dall-e-3' | 'dall-e-2'
+  defaultSize?: '1024x1024' | '1792x1024' | '1024x1792'
+  fetch?: typeof fetch
+}
+```
+
+## Example — marketing visual assistant
+
+```ts
+const runtime = createRuntime({
+  adapter,
+  tools: [
+    ...openaiImages({ apiKey, model: 'gpt-image-1' }),
+    ...s3({ client, bucket: 'creatives' }),
+  ],
+})
+
+await runtime.run('Generate 3 hero images for an "AI for JavaScript" launch post, upload to S3.')
+```
+
+## Cost
+
+Image generation is orders of magnitude more expensive than text — wrap via [costGuard](/docs/production/observability/cost-guard) or require HITL.
+
+## Related
+
+- [Integrations overview](./)
+- [HITL](/docs/agents/hitl) · [costGuard](/docs/production/observability/cost-guard).

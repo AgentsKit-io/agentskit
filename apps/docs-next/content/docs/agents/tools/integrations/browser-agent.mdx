@@ -1,0 +1,64 @@
+---
+title: browserAgent
+description: Puppeteer-backed browser — goto, click, fill, read, screenshot, wait. For agents that need to interact with JS-rendered pages.
+---
+
+```ts
+import { browserAgent } from '@agentskit/tools'
+import puppeteer from 'puppeteer'
+
+const browser = await puppeteer.launch({ headless: 'new' })
+const page = await browser.newPage()
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...browserAgent({ page })],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `browserGoto` | Navigate to a URL |
+| `browserClick` | Click a selector |
+| `browserFill` | Type into an input |
+| `browserRead` | Extract visible text from the page |
+| `browserScreenshot` | Capture PNG buffer |
+| `browserWait` | Wait for selector or timeout |
+
+Bundled: `browserAgent(config)`.
+
+## Config
+
+```ts
+type BrowserAgentConfig = {
+  page: BrowserPage         // Puppeteer Page (or any matching shape)
+  timeoutMs?: number
+  screenshotPath?: string
+}
+```
+
+## Example — site QA agent
+
+```ts
+const runtime = createRuntime({
+  adapter,
+  systemPrompt: 'Click through the signup flow and screenshot each step. Report errors.',
+  tools: [...browserAgent({ page })],
+})
+```
+
+## Safety
+
+Headless browsers are powerful — **wrap in [mandatory sandbox](/docs/production/security/mandatory-sandbox)** to restrict allowed domains and block credentials leaks.
+
+## Alternatives
+
+- [firecrawl](./firecrawl) — prefer when you only need static content extraction.
+- [reader](./reader) — single-URL, no interaction.
+- [fetchUrl](../builtins) — no JS rendering, no cost.
+
+## Related
+
+- [Integrations overview](./)

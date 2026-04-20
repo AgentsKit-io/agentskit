@@ -1,0 +1,56 @@
+---
+title: firecrawl
+description: Firecrawl — scrape a URL or crawl a site, returning clean markdown. The workhorse for RAG ingestion from the open web.
+---
+
+```ts
+import { firecrawl } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...firecrawl({ apiKey: process.env.FIRECRAWL_API_KEY! })],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `firecrawlScrape` | One-shot scrape of a single URL |
+| `firecrawlCrawl` | Recursive crawl with include/exclude patterns |
+
+Bundled: `firecrawl(config)`.
+
+## Config
+
+```ts
+type FirecrawlConfig = {
+  apiKey: string
+  baseUrl?: string          // self-hosted Firecrawl
+  fetch?: typeof fetch
+}
+```
+
+## Example — on-demand RAG
+
+```ts
+const runtime = createRuntime({
+  adapter,
+  tools: [...firecrawl({ apiKey }), ...rag.tools],
+})
+
+await runtime.run('Fetch https://example.com/changelog and answer what shipped this week.')
+```
+
+## Comparison
+
+| Tool | When to use |
+|---|---|
+| [firecrawl](./firecrawl) | Structured markdown + crawl trees, API-backed, paid |
+| [reader](./reader) | Jina Reader — fast, free, single-URL |
+| [fetchUrl](../builtins) | Zero-dep HTTP GET, no cleanup |
+| [browserAgent](./browser-agent) | Full JS-rendered interaction |
+
+## Related
+
+- [Integrations overview](./) · [RAG loaders](/docs/data/rag/loaders).

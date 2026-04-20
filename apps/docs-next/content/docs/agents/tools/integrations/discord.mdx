@@ -1,0 +1,56 @@
+---
+title: discord
+description: Discord Bot API — post messages. For community bots, notifier agents, and interactive slash-command workflows.
+---
+
+```ts
+import { discord } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...discord({ token: process.env.DISCORD_BOT_TOKEN! })],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `discordPostMessage` | Send a message to a channel (supports embeds) |
+
+Bundled: `discord(config)`.
+
+## Config
+
+```ts
+type DiscordConfig = {
+  token: string         // Bot token
+  fetch?: typeof fetch
+}
+```
+
+## Example — community bot
+
+```ts
+const runtime = createRuntime({
+  adapter,
+  systemPrompt: 'You answer AgentsKit questions, cite docs, and @mention maintainers on hard asks.',
+  tools: [
+    ...discord({ token: process.env.DISCORD_BOT_TOKEN! }),
+    ...ragTool,
+  ],
+})
+
+await runtime.run('User said: "how do I swap OpenAI for Claude?"')
+```
+
+## Credentials
+
+- Create bot at discord.com/developers/applications.
+- Required intents: `GUILDS`, `GUILD_MESSAGES`. Add `MESSAGE_CONTENT` if parsing user replies.
+- Invite to server with `bot` + `applications.commands` scopes.
+
+## Related
+
+- [Integrations overview](./) · [slack](./slack).
+- Recipe: [discord-bot](/docs/reference/recipes/discord-bot) — full slash-command + HITL workflow.

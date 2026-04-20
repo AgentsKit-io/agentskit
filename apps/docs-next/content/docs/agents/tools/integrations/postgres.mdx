@@ -1,0 +1,63 @@
+---
+title: postgres
+description: Postgres query tool — BYO runner keeps the adapter client-agnostic (`postgres.js`, `pg`, Drizzle, Prisma, Neon).
+---
+
+```ts
+import { postgres } from '@agentskit/tools'
+import postgresJs from 'postgres'
+
+const sql = postgresJs(process.env.DATABASE_URL!)
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...postgres({
+    run: async (query, params) => sql.unsafe(query, params as unknown[]),
+  })],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `postgresQuery` | Execute parameterized SQL, return rows + row-count |
+
+Bundled: `postgres(config)`.
+
+## Config
+
+```ts
+type PostgresConfig = {
+  run: (query: string, params: unknown[]) => Promise<PostgresExecuteResult>
+  readonly?: boolean    // block non-SELECT statements
+  maxRows?: number      // cap on result size
+}
+```
+
+## Example — data analyst agent
+
+```ts
+import { postgres } from '@agentskit/tools'
+import { sqlAnalystSkill } from '@agentskit/skills'
+
+const runtime = createRuntime({
+  adapter,
+  skills: [sqlAnalystSkill],
+  tools: [...postgres({ run, readonly: true, maxRows: 100 })],
+})
+
+await runtime.run('How many users signed up last week vs the week before?')
+```
+
+## Safety
+
+- Default to `readonly: true`. Let the agent read before it ever writes.
+- For writes, wrap via [mandatory sandbox](/docs/production/security/mandatory-sandbox) with an allowlist of tables.
+- Never pass string-interpolated queries — always use the `params` array.
+
+## Related
+
+- [Integrations overview](./)
+- Issue #447 — [read/write split helper](https://github.com/AgentsKit-io/agentskit/issues/447).
+- [sqliteQueryTool](https://github.com/AgentsKit-io/agentskit/issues/433) — local alternative.

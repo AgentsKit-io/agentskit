@@ -1,0 +1,64 @@
+---
+title: s3
+description: AWS S3 — get, put, list objects. BYO client keeps the tool AWS-SDK-version-agnostic.
+---
+
+```ts
+import { s3 } from '@agentskit/tools'
+import { S3Client } from '@aws-sdk/client-s3'
+
+const client = new S3Client({ region: 'us-east-1' })
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...s3({ client, bucket: 'agent-scratch' })],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `s3GetObject` | Read a key (text or signed-URL modes) |
+| `s3PutObject` | Write bytes to a key with optional content-type |
+| `s3ListObjects` | List keys under a prefix with pagination |
+
+Bundled: `s3(config)`.
+
+## Config
+
+```ts
+type S3Config = {
+  client: S3Client         // from @aws-sdk/client-s3 (or R2, MinIO, etc)
+  bucket: string
+  prefix?: string          // scope all operations under a prefix
+}
+```
+
+## Works with S3-compatible APIs
+
+Pass an `S3Client` configured for Cloudflare R2, MinIO, Backblaze B2 — same tool.
+
+## Example — resume scanner
+
+```ts
+const runtime = createRuntime({
+  adapter,
+  tools: [
+    ...s3({ client, bucket: 'resumes', prefix: 'incoming/' }),
+    ...documentParsers({ parse: pdfParse }),
+  ],
+})
+
+await runtime.run('List resumes uploaded today and extract contact info.')
+```
+
+## Safety
+
+- Scope to a `prefix`; the tool enforces it on list + get + put.
+- For delete flows, gate via [mandatory sandbox](/docs/production/security/mandatory-sandbox).
+
+## Related
+
+- [Integrations overview](./)
+- Issue #446 — [cloudflareR2Tool](https://github.com/AgentsKit-io/agentskit/issues/446).

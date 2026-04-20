@@ -1,0 +1,41 @@
+---
+title: coingecko
+description: CoinGecko — crypto prices + market charts. Free tier, no key required.
+---
+
+```ts
+import { coingecko } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...coingecko()],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `coingeckoPrice` | Spot price by coin id + vs_currency |
+| `coingeckoMarketChart` | Historical prices / market caps / volumes |
+
+Bundled: `coingecko(config)`.
+
+## Config
+
+```ts
+type CoinGeckoConfig = {
+  apiKey?: string         // Pro tier; optional
+  fetch?: typeof fetch
+}
+```
+
+## Example
+
+```ts
+await runtime.run('Compare ETH and SOL price movement over the last 30 days; summarize the divergence.')
+```
+
+## Related
+
+- [Integrations overview](./)

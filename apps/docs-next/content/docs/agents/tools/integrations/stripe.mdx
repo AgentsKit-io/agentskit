@@ -1,0 +1,56 @@
+---
+title: stripe
+description: Stripe API — create customers, payment intents. For checkout assistants + dunning agents.
+---
+
+```ts
+import { stripe } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...stripe({ apiKey: process.env.STRIPE_API_KEY! })],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `stripeCreateCustomer` | Create a customer with email + metadata |
+| `stripeCreatePaymentIntent` | Server-side intent creation for a checkout flow |
+
+Bundled: `stripe(config)`.
+
+## Config
+
+```ts
+type StripeConfig = {
+  apiKey: string          // restricted or secret key (use restricted for agents)
+  apiVersion?: string     // e.g. '2025-01-27.acacia'
+  fetch?: typeof fetch
+}
+```
+
+## Example — checkout assistant
+
+```ts
+const runtime = createRuntime({
+  adapter,
+  systemPrompt: 'Gather name + email + amount, then create Stripe customer + intent. Never call Stripe without confirm.',
+  tools: [
+    ...stripe({ apiKey: process.env.STRIPE_API_KEY! }),
+    hitlTool,
+  ],
+})
+```
+
+## Safety
+
+- **Use restricted keys** scoped to just `customers:write` + `payment_intents:write`.
+- **Always gate via [HITL](/docs/agents/hitl)** — money moves.
+- Log every call via [signed audit log](/docs/production/observability/audit-log).
+
+## Related
+
+- [Integrations overview](./)
+- Issue #437 — [stripeWebhookTool](https://github.com/AgentsKit-io/agentskit/issues/437) inbound events.

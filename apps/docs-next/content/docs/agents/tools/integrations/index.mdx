@@ -1,0 +1,54 @@
+---
+title: Integrations
+description: 20+ ready-made connectors for the services agents actually need. Each follows the same contract — install, config, execute — and ships granular sub-tools alongside a bundled set.
+---
+
+## Categories
+
+| Category | Integrations |
+|---|---|
+| **Dev + chat** | [github](./github) · [linear](./linear) · [slack](./slack) · [notion](./notion) · [discord](./discord) |
+| **Google** | [gmail](./gmail) · [googleCalendar](./google-calendar) |
+| **Business** | [stripe](./stripe) · [postgres](./postgres) · [s3](./s3) |
+| **Scraping** | [firecrawl](./firecrawl) · [reader](./reader) · [documentParsers](./document-parsers) |
+| **Voice + image** | [openaiImages](./openai-images) · [elevenlabs](./elevenlabs) · [whisper](./whisper) · [deepgram](./deepgram) |
+| **Data** | [maps](./maps) · [weather](./weather) · [coingecko](./coingecko) |
+| **Browser** | [browserAgent](./browser-agent) (Puppeteer) |
+
+## Usage
+
+Import whole integrations for the full tool set, or cherry-pick sub-tools:
+
+```ts
+import { github, slack, stripeCreatePaymentIntent } from '@agentskit/tools'
+import { createRuntime } from '@agentskit/runtime'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [
+    ...github({ token: process.env.GITHUB_TOKEN! }),
+    ...slack({ token: process.env.SLACK_BOT_TOKEN! }),
+    stripeCreatePaymentIntent({ apiKey: process.env.STRIPE_API_KEY! }),
+  ],
+})
+```
+
+## Credentials
+
+Every integration reads a token or API key from its `config`. No process-env
+magic, no globals — you pass what you want, where you want.
+
+## Conventions
+
+- **Sub-tools** are named `<integration><Verb>` (e.g. `githubCreateIssue`).
+- **Bundled tool** exported under the integration name (e.g. `github`) returns an array of sub-tools.
+- **Config types** exported as `<Integration>Config`.
+- **Errors** wrap provider 4xx/5xx with `ToolError` so runtime sees a consistent shape.
+- **Mandatory sandbox** — wrap risky integrations (shell, postgres write, github create) via `createMandatorySandbox`.
+
+## Related
+
+- [Authoring tools](../authoring) — wrap what's missing.
+- [Built-in tools](../builtins) — webSearch, fetchUrl, filesystem, shell.
+- [MCP bridge](../mcp) — consume or publish tool sets over MCP.
+- Recipes: [integrations](/docs/reference/recipes/integrations) · [more integrations](/docs/reference/recipes/more-integrations).

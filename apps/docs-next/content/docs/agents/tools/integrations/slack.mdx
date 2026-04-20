@@ -1,0 +1,56 @@
+---
+title: slack
+description: Slack Web API — post messages, search history. For notifier bots + conversational search over a workspace.
+---
+
+```ts
+import { slack } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...slack({ token: process.env.SLACK_BOT_TOKEN! })],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `slackPostMessage` | Post to a channel or DM (supports threading + blocks) |
+| `slackSearch` | `search.messages` — query your workspace history |
+
+Bundled: `slack(config)`.
+
+## Config
+
+```ts
+type SlackConfig = {
+  token: string         // Bot token (xoxb-...) or user token (xoxp-...)
+  defaultChannel?: string
+  fetch?: typeof fetch
+}
+```
+
+## Example — daily digest bot
+
+```ts
+const runtime = createRuntime({
+  adapter,
+  tools: [
+    ...slack({ token, defaultChannel: 'C012345' }),
+    ...github({ token: process.env.GITHUB_TOKEN! }),
+  ],
+})
+
+await runtime.run('Summarize yesterday\'s merged PRs and post to #eng-updates')
+```
+
+## Scopes
+
+- **Bot tokens** need: `chat:write`, `channels:history`, `search:read` (user-token-only for `search`).
+- Create a Slack app → OAuth & Permissions → install to workspace.
+
+## Related
+
+- [Integrations overview](./) · [discord](./discord) — sibling.
+- Recipes: [discord-bot](/docs/reference/recipes/discord-bot) (mirror for Discord).

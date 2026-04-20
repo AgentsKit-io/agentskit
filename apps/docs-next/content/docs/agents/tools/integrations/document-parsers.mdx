@@ -1,0 +1,59 @@
+---
+title: documentParsers
+description: PDF, DOCX, XLSX parsers — BYO parser functions keep core dependency-free.
+---
+
+```ts
+import { documentParsers } from '@agentskit/tools'
+import pdfParse from 'pdf-parse'
+import * as mammoth from 'mammoth'
+import * as xlsx from 'xlsx'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...documentParsers({
+    parsePdf: async (buf) => (await pdfParse(buf)).text,
+    parseDocx: async (buf) => (await mammoth.extractRawText({ buffer: buf })).value,
+    parseXlsx: async (buf) => {
+      const wb = xlsx.read(buf)
+      return wb.SheetNames.map((n) => xlsx.utils.sheet_to_csv(wb.Sheets[n])).join('\n---\n')
+    },
+  })],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `parsePdf` | Extract text from a PDF buffer |
+| `parseDocx` | Extract text from a `.docx` buffer |
+| `parseXlsx` | Extract CSV-flat sheets from `.xlsx` |
+
+Bundled: `documentParsers(config)` returns all three.
+
+## Why BYO
+
+Core stays zero-dep. You pick parser quality + size trade-offs:
+
+- **PDF:** `pdf-parse` (small) / `unpdf` (WASM, browser-safe) / `pdfjs-dist` (Mozilla).
+- **DOCX:** `mammoth` (most faithful) / `docx4js`.
+- **XLSX:** `xlsx` (SheetJS) / `exceljs`.
+
+## Example — resume intake
+
+```ts
+const runtime = createRuntime({
+  adapter,
+  tools: [
+    ...s3({ client, bucket: 'resumes' }),
+    ...documentParsers({ parsePdf, parseDocx }),
+    ...rag.tools,
+  ],
+})
+```
+
+## Related
+
+- [Integrations overview](./) · [s3](./s3).
+- [RAG loaders](/docs/data/rag/loaders) — `loadPdf` uses the same BYO pattern.

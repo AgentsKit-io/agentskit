@@ -1,0 +1,48 @@
+---
+title: reader
+description: Jina Reader — turn any URL into clean markdown. Free, fast, no API key required for casual use.
+---
+
+```ts
+import { reader } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...reader()],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `readerFetch` | Fetch + clean a single URL via r.jina.ai |
+
+Bundled: `reader(config)`.
+
+## Config
+
+```ts
+type ReaderConfig = {
+  apiKey?: string          // for higher rate limits
+  baseUrl?: string         // default https://r.jina.ai
+  fetch?: typeof fetch
+}
+```
+
+## Example
+
+```ts
+await runtime.run('Read https://news.ycombinator.com/item?id=40000000 and list the three most upvoted arguments.')
+```
+
+## When to reach for reader vs alternatives
+
+- **reader** — zero-config, text-only, free tier.
+- **[firecrawl](./firecrawl)** — paid, structured markdown + crawl trees.
+- **[fetchUrl](../builtins)** — lowest-level; keeps HTML; zero-dep.
+- **[browserAgent](./browser-agent)** — when you need to click / fill / wait.
+
+## Related
+
+- [Integrations overview](./) · [firecrawl](./firecrawl).

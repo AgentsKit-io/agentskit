@@ -1,0 +1,50 @@
+---
+title: deepgram
+description: Deepgram STT — low-latency transcription with speaker diarization. Preferred for realtime + voice-agent flows.
+---
+
+```ts
+import { deepgram } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...deepgram({ apiKey: process.env.DEEPGRAM_API_KEY! })],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `deepgramTranscribe` | Batch or streaming transcription with diarization |
+
+Bundled: `deepgram(config)`.
+
+## Config
+
+```ts
+type DeepgramConfig = {
+  apiKey: string
+  model?: 'nova-3' | 'nova-2' | 'enhanced' | 'base'
+  language?: string
+  diarize?: boolean
+  fetch?: typeof fetch
+}
+```
+
+## Example — realtime call agent
+
+```ts
+const runtime = createRuntime({
+  adapter,
+  tools: [
+    ...deepgram({ apiKey, diarize: true }),
+    ...elevenlabs({ apiKey: process.env.ELEVENLABS_API_KEY!, defaultVoiceId }),
+  ],
+})
+```
+
+## Related
+
+- [Integrations overview](./) · [whisper](./whisper) — batch alternative.
+- Issue #479 — [voice mode component](https://github.com/AgentsKit-io/agentskit/issues/479).

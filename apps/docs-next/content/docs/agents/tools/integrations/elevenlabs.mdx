@@ -1,0 +1,51 @@
+---
+title: elevenlabs
+description: ElevenLabs text-to-speech — high-quality voices in 30+ languages. For narration, voice agents, IVR flows.
+---
+
+```ts
+import { elevenlabs } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...elevenlabs({ apiKey: process.env.ELEVENLABS_API_KEY! })],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `elevenlabsTts` | Convert text to audio (returns buffer + content-type) |
+
+Bundled: `elevenlabs(config)`.
+
+## Config
+
+```ts
+type ElevenLabsConfig = {
+  apiKey: string
+  defaultVoiceId?: string
+  modelId?: string          // e.g. 'eleven_multilingual_v2'
+  fetch?: typeof fetch
+}
+```
+
+## Example — narrate a digest
+
+```ts
+const runtime = createRuntime({
+  adapter,
+  tools: [
+    ...elevenlabs({ apiKey, defaultVoiceId: '21m00Tcm4TlvDq8ikWAM' }),
+    ...s3({ client, bucket: 'podcast-output' }),
+  ],
+})
+
+await runtime.run('Summarize today\'s PRs, narrate with ElevenLabs, save MP3 to S3.')
+```
+
+## Related
+
+- [Integrations overview](./) · [whisper](./whisper) · [deepgram](./deepgram) — STT pairs.
+- Issue #479 — [voice mode component](https://github.com/AgentsKit-io/agentskit/issues/479).

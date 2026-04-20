@@ -1,0 +1,53 @@
+---
+title: maps
+description: Geocoding + reverse-geocoding via any provider with an HTTP API (Google, Mapbox, OpenCage, Positionstack, Nominatim).
+---
+
+```ts
+import { maps } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...maps({
+    provider: 'google',
+    apiKey: process.env.GOOGLE_MAPS_KEY!,
+  })],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `mapsGeocode` | Address → lat/lng |
+| `mapsReverseGeocode` | lat/lng → address |
+
+Bundled: `maps(config)`.
+
+## Config
+
+```ts
+type MapsConfig = {
+  provider?: 'google' | 'mapbox' | 'opencage' | 'nominatim'
+  apiKey?: string
+  fetch?: typeof fetch
+}
+```
+
+## Example — travel planner
+
+```ts
+const runtime = createRuntime({
+  adapter,
+  tools: [
+    ...maps({ provider: 'mapbox', apiKey }),
+    ...weather(),
+  ],
+})
+
+await runtime.run('Find the coordinates of "Lisbon waterfront" and check the weather there tomorrow.')
+```
+
+## Related
+
+- [Integrations overview](./) · [weather](./weather).

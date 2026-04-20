@@ -1,0 +1,57 @@
+---
+title: whisper
+description: OpenAI Whisper — speech-to-text for audio transcription. 99 languages.
+---
+
+```ts
+import { whisper } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...whisper({ apiKey: process.env.OPENAI_API_KEY! })],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `whisperTranscribe` | Transcribe an audio buffer → text + segments |
+
+Bundled: `whisper(config)`.
+
+## Config
+
+```ts
+type WhisperConfig = {
+  apiKey: string
+  model?: 'whisper-1' | 'gpt-4o-transcribe' | 'gpt-4o-mini-transcribe'
+  defaultLanguage?: string    // ISO-639-1 hint
+  fetch?: typeof fetch
+}
+```
+
+## Example — meeting notes agent
+
+```ts
+const runtime = createRuntime({
+  adapter,
+  tools: [
+    ...s3({ client, bucket: 'recordings' }),
+    ...whisper({ apiKey }),
+  ],
+})
+
+await runtime.run('Transcribe the latest recording from S3 and draft meeting notes with action items.')
+```
+
+## Comparison
+
+| Tool | Latency | Cost | Speaker diarization |
+|---|---|---|---|
+| [whisper](./whisper) | medium | low | no |
+| [deepgram](./deepgram) | low (realtime) | medium | yes |
+
+## Related
+
+- [Integrations overview](./) · [elevenlabs](./elevenlabs) — TTS pair.
