@@ -1,0 +1,36 @@
+---
+title: planner
+description: Decomposes vague goals into ordered steps with clear success criteria. Ideal as the top node in a supervisor topology.
+---
+
+```ts
+import { planner, coder } from '@agentskit/skills'
+import { supervisor } from '@agentskit/runtime'
+
+const team = supervisor({
+  planner: { runtime: createRuntime({ adapter, skills: [planner] }) },
+  workers: {
+    coder: { runtime: createRuntime({ adapter, skills: [coder] }) },
+  },
+})
+
+await team.run('Ship a feature flag API with SDK + docs.')
+```
+
+## When to reach for it
+
+- Tasks that span multiple specialists.
+- Problems that need decomposition before execution.
+- Top-of-tree node in a [supervisor topology](/docs/agents/topologies).
+
+## Behavior
+
+- Breaks goals into numbered steps with success criteria.
+- Routes each step to the named worker best suited for it.
+- Detects blockers early ("need API key", "need design review").
+- Closes the loop: verifies each worker's output meets the step's success criterion.
+
+## Related
+
+- [Skills overview](./) · [critic](./critic)
+- [Agents → Topologies](/docs/agents/topologies) · [Delegation](/docs/agents/delegation)

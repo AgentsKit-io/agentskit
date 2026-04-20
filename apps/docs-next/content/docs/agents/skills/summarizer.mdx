@@ -1,0 +1,47 @@
+---
+title: summarizer
+description: Compresses long inputs into short, faithful summaries. Length-aware; preserves citations.
+---
+
+```ts
+import { summarizer } from '@agentskit/skills'
+
+const runtime = createRuntime({
+  adapter,
+  skills: [summarizer],
+})
+
+await runtime.run('Summarize this 40-page PDF into 10 bullets.')
+```
+
+## When to reach for it
+
+- Digest long docs (PDFs, meeting transcripts, threads).
+- Rollup: summarize many sources into one.
+- Pair with [researcher](./researcher) for sourced summaries.
+
+## Behavior
+
+- Respects explicit length targets ("10 bullets", "under 100 words").
+- Preserves citations + speaker attribution when present.
+- Declines to summarize when the input contains critical fine-print that must not be collapsed.
+
+## Memory recipe
+
+Use alongside `createAutoSummarizingMemory` to fold old turns automatically:
+
+```ts
+import { createAutoSummarizingMemory } from '@agentskit/memory'
+
+const memory = createAutoSummarizingMemory({
+  summarize: async (msgs) => runtime.run({ input: msgs, skill: summarizer }),
+  triggerAt: 30,
+  keep: 10,
+})
+```
+
+## Related
+
+- [Skills overview](./)
+- [Memory → auto-summarize](/docs/data/memory/auto-summarize)
+- Recipe: [auto-summarize](/docs/reference/recipes/auto-summarize)

@@ -1,0 +1,37 @@
+---
+title: translator
+description: High-quality translation between natural languages. Preserves formatting, tone, terminology.
+---
+
+```ts
+import { translator } from '@agentskit/skills'
+
+const runtime = createRuntime({
+  adapter,
+  skills: [translator],
+})
+
+await runtime.run('Translate this product page to pt-BR preserving markdown.')
+```
+
+## When to reach for it
+
+- App i18n copy drafts (always human-review).
+- Localizing docs + blog posts.
+- Transcript translation paired with [whisper](/docs/agents/tools/integrations/whisper).
+
+## Behavior
+
+- Preserves markdown / HTML / code blocks exactly.
+- Keeps product-name + brand terms untranslated unless told otherwise.
+- Flags untranslatable idioms; proposes locale-aware alternatives.
+- Maintains tone (formal / friendly / technical) from source.
+
+## Glossary mode (v2 — issue #452)
+
+Future version takes a glossary map to force specific term translations. Track: [skill: translatorSkill v2](https://github.com/AgentsKit-io/agentskit/issues/452).
+
+## Related
+
+- [Skills overview](./)
+- [whisper](/docs/agents/tools/integrations/whisper) — translate audio.

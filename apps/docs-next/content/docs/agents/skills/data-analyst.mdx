@@ -1,0 +1,37 @@
+---
+title: dataAnalyst
+description: Analyzes tabular data — loads, inspects, profiles, and explains findings in plain English.
+---
+
+```ts
+import { dataAnalyst } from '@agentskit/skills'
+import { s3, documentParsers } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  skills: [dataAnalyst],
+  tools: [
+    ...s3({ client, bucket: 'datasets' }),
+    ...documentParsers({ parseXlsx }),
+  ],
+})
+```
+
+## When to reach for it
+
+- "Look at this CSV and tell me what's interesting."
+- Column-profile + anomaly hunting.
+- Lightweight EDA before handing off to a BI tool.
+
+## Behavior
+
+- Loads file → reads schema + head/tail.
+- Reports shape, dtypes, null %, basic stats.
+- Highlights outliers + correlations worth investigating.
+- Never fabricates a column that isn't there.
+
+## Related
+
+- [Skills overview](./) · [sqlGen](./sql-gen)
+- Issue #451 — [dataAnalystSkill v2 (tabular-aware)](https://github.com/AgentsKit-io/agentskit/issues/451)
+- [documentParsers](/docs/agents/tools/integrations/document-parsers)

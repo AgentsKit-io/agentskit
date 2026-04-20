@@ -1,0 +1,52 @@
+---
+title: coder
+description: Implements features from specs — TypeScript-first, TDD-leaning, opinionated about code quality.
+---
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { coder } from '@agentskit/skills'
+import { filesystem, shell } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  skills: [coder],
+  tools: [
+    ...filesystem({ basePath: './workspace' }),
+    shell({ allowed: ['pnpm', 'node', 'git'] }),
+  ],
+})
+```
+
+## When to reach for it
+
+- Agent needs to write real code (not snippets).
+- Multi-file edits, package additions, refactors.
+- Works best when paired with a sandboxed filesystem.
+
+## Behavior
+
+- Reads before writing — lists files, opens existing implementations.
+- Writes TypeScript strict; prefers named exports.
+- Tests alongside code (Vitest conventions).
+- Avoids unsafe casts, runs type-check before declaring done.
+
+## Tools it expects
+
+| Tool | Why |
+|---|---|
+| `filesystem` | Scoped read/write. |
+| `shell` (allowlisted) | `pnpm`, `node`, `git`. |
+
+## Compose
+
+Pair with [`codeReviewer`](./code-reviewer) for a self-review pass, or delegate to the [`critic`](./critic) skill to stress-test output.
+
+## Safety
+
+Always sandbox with `filesystem({ basePath })` and `shell({ allowed })` — coder writes files. For mutation flows use [mandatory sandbox](/docs/production/security/mandatory-sandbox).
+
+## Related
+
+- [Skills overview](./) · [codeReviewer](./code-reviewer)
+- Recipe: [code-reviewer](/docs/reference/recipes/code-reviewer)

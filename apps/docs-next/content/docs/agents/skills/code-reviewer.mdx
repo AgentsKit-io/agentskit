@@ -1,0 +1,42 @@
+---
+title: codeReviewer
+description: Reviews diffs for bugs, security, style. Comments in PR-review format.
+---
+
+```ts
+import { codeReviewer } from '@agentskit/skills'
+import { github } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  skills: [codeReviewer],
+  tools: [...github({ token: process.env.GITHUB_TOKEN! })],
+})
+
+await runtime.run('Review PR #123 on AgentsKit-io/agentskit')
+```
+
+## When to reach for it
+
+- Automated PR review bot.
+- Snippet review without a PR context (use with the forthcoming [generic codeReviewerSkill](https://github.com/AgentsKit-io/agentskit/issues/448)).
+- Pre-commit quality gate.
+
+## Behavior
+
+- Reads diff hunk by hunk; comments inline-style with line refs.
+- Flags bugs > security > style (priority order).
+- Rejects drive-by nitpicks; prefers actionable suggestions.
+- Returns `approve` / `request changes` / `comment` with rationale.
+
+## Pairs well with
+
+- `github` tool (comment on PRs)
+- `linear` tool (file follow-up tickets)
+- [HITL approvals](/docs/agents/hitl) (gate the final "approve")
+
+## Related
+
+- [Skills overview](./) · [coder](./coder) · [critic](./critic)
+- Issue #310 — [prReviewerSkill](https://github.com/AgentsKit-io/agentskit/issues/310)
+- Issue #454 — [securityAuditorSkill](https://github.com/AgentsKit-io/agentskit/issues/454)

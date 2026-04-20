@@ -1,0 +1,45 @@
+---
+title: sqlGen
+description: Natural language → SQL with dialect awareness + safety rails.
+---
+
+```ts
+import { sqlGen } from '@agentskit/skills'
+import { postgres } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  skills: [sqlGen],
+  tools: [...postgres({ run, readonly: true, maxRows: 100 })],
+})
+
+await runtime.run('How many users signed up last 7 days vs the previous 7 days?')
+```
+
+## When to reach for it
+
+- Data Q&A agent over a SQL DB.
+- Dashboard copilots.
+- Schema-aware natural-language querying.
+
+## Behavior
+
+- Asks for schema if none provided; remembers in session.
+- Emits parameterized queries with explicit `LIMIT`.
+- Flags risky statements (`DROP`, `UPDATE` without WHERE) and refuses by default.
+- Dialect-aware: SQLite / Postgres / MySQL / DuckDB.
+
+## Tools it expects
+
+- `postgresQuery` or `sqliteQueryTool` (issue #433).
+- `readonly: true` by default. See [postgres integration](/docs/agents/tools/integrations/postgres).
+
+## Safety
+
+- Always run readonly first. Opt-in to writes via a separate, gated tool.
+- Cap results with `maxRows`. LLMs love `SELECT *` — protect from OOM.
+
+## Related
+
+- [Skills overview](./)
+- Issue #449 — [sqlAnalystSkill](https://github.com/AgentsKit-io/agentskit/issues/449) (sibling).

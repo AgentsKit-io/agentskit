@@ -1,0 +1,37 @@
+---
+title: critic
+description: Stress-tests proposals. Finds flaws, missing cases, weak assumptions — before they ship.
+---
+
+```ts
+import { researcher, critic } from '@agentskit/skills'
+import { composeSkills } from '@agentskit/skills'
+
+const thorough = composeSkills(researcher, critic)
+```
+
+## When to reach for it
+
+- Second-pass review after [coder](./coder) or [researcher](./researcher).
+- Red-team on architecture proposals.
+- Pair with [planner](./planner) for "plan → critique → revise" loops.
+
+## Behavior
+
+- Takes an artifact (plan, code, doc) and produces structured critique.
+- Categorizes findings: blockers → risks → nits.
+- Offers alternatives, not just objections.
+- Never invents criteria — grounds critique in stated goals.
+
+## Pair patterns
+
+| Pattern | Skill chain |
+|---|---|
+| Plan-critique-revise | `planner` → `critic` → `planner` (revise) |
+| Research then stress | `researcher` → `critic` |
+| Review committed PRs | `codeReviewer` → `critic` (find what the reviewer missed) |
+
+## Related
+
+- [Skills overview](./) · [planner](./planner)
+- [Agents → Topologies](/docs/agents/topologies#swarm)

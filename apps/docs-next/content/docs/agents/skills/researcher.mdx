@@ -1,0 +1,57 @@
+---
+title: researcher
+description: Methodical web-search persona that finds, cross-references, and summarizes with citations.
+---
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { researcher } from '@agentskit/skills'
+import { webSearch } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  skills: [researcher],
+  tools: [webSearch()],
+})
+```
+
+## When to reach for it
+
+- You need sourced answers, not opinion.
+- You want the agent to flag uncertainty instead of speculating.
+- You're ingesting RAG context and need disciplined citation output.
+
+## Behavior
+
+- Breaks the question into sub-queries and searches each independently.
+- Cross-references across sources; flags contradictions.
+- Output leads with a direct answer, then cited claims, then a confidence assessment.
+
+## Tools it expects
+
+| Tool | Why |
+|---|---|
+| `web_search` | Mandatory — required by the system prompt. |
+| any RAG retriever | Optional — pairs with [`createRAG`](/docs/data/rag/create-rag) for internal corpora. |
+
+## Example output
+
+> **Q:** Main differences between PostgreSQL and MySQL for a new web app?
+>
+> **A:** PostgreSQL excels at complex queries, JSONB, and strict SQL. MySQL is simpler to set up and faster for read-heavy simple schemas.
+> Sources: [1] PostgreSQL docs, [2] MySQL reference manual, [3] DB-Engines comparison.
+> Confidence: high — well-documented, stable differences.
+
+## Compose
+
+Pair with [`summarizer`](./summarizer) for long reports, or [`critic`](./critic) to stress-test conclusions:
+
+```ts
+import { composeSkills } from '@agentskit/skills'
+const thorough = composeSkills(researcher, critic)
+```
+
+## Related
+
+- [Skills overview](./) · [Authoring](./authoring) · [Marketplace](./marketplace)
+- Issue #453 — [researcherSkill v2 (citation-first)](https://github.com/AgentsKit-io/agentskit/issues/453)
