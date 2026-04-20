@@ -1,0 +1,32 @@
+---
+title: Skill marketplace
+description: Publish, install, version skills. Semver range resolution.
+---
+
+```ts
+import { createSkillRegistry } from '@agentskit/skills'
+
+const registry = createSkillRegistry({
+  storage: fileStorage({ path: '.agentskit/skills' }),
+})
+
+await registry.publish(triageSkill)
+const resolved = await registry.install('triage', '^1.0.0')
+```
+
+## API
+
+| Method | Purpose |
+|---|---|
+| `publish(skill)` | add a version |
+| `install(name, range)` | resolve semver range |
+| `list()` | all available |
+| `unpublish(name, version)` | remove |
+
+## Ranges
+
+`1.2.3` · `^1.2.3` · `~1.2.3` · `>=1.2.0 <2.0.0` · `*`.
+
+## Related
+
+- [Recipe: skill marketplace](/docs/reference/recipes/skill-marketplace)

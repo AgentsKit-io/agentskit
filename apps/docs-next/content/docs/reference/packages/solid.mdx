@@ -1,0 +1,36 @@
+---
+title: '@agentskit/solid'
+description: Solid hook. Same contract as @agentskit/react.
+---
+
+## Install
+
+```bash
+npm install @agentskit/solid solid-js @agentskit/adapters
+```
+
+## Hello world
+
+```tsx
+import { useChat } from '@agentskit/solid'
+import { anthropic } from '@agentskit/adapters'
+
+const chat = useChat({ adapter: anthropic({ apiKey, model: 'claude-sonnet-4-6' }) })
+```
+
+## Surface
+
+- `useChat(config): ChatReturn` — Solid hook backed by `createStore` + `onCleanup`.
+
+## Siblings
+
+[React](/docs/reference/packages/react) · [Vue](/docs/reference/packages/vue) · [Svelte](/docs/reference/packages/svelte) · [React Native](/docs/reference/packages/react-native) · [Angular](/docs/reference/packages/angular) · [Ink](/docs/reference/packages/ink)
+
+## Related
+
+- [UI + hooks](/docs/ui)
+- [For agents: solid](/docs/reference/for-agents/solid)
+
+## Source
+
+npm: [@agentskit/solid](https://www.npmjs.com/package/@agentskit/solid) · repo: [packages/solid](https://github.com/AgentsKit-io/agentskit/tree/main/packages/solid)

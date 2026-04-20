@@ -1,0 +1,84 @@
+---
+title: '@agentskit/core — for agents'
+description: Zero-dependency foundation. Contracts, chat controller, primitives, and a dozen feature subpaths.
+---
+
+## Purpose
+
+Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill,
+Runtime) + `createChatController` + primitives. Target: &lt;10 KB
+gzipped, zero runtime deps.
+
+## Install
+
+```bash
+npm install @agentskit/core
+```
+
+## Primary exports (main entry)
+
+- `createChatController(config)` — state machine behind every UI
+  binding. Returns `{ getState, subscribe, send, stop, retry, edit,
+  regenerate, setInput, clear, approve, deny, updateConfig }`.
+- `defineTool(config)` — typed tool factory with JSON-Schema input
+  inference.
+- `createInMemoryMemory` / `createLocalStorageMemory` — default
+  `ChatMemory` implementations.
+- `createStaticRetriever` / `formatRetrievedDocuments` — RAG-less
+  retrieval.
+- `executeToolCall`, `consumeStream`, `createEventEmitter`,
+  `safeParseArgs`, `generateId`, `buildMessage` — low-level helpers.
+- `AgentsKitError`, `AdapterError`, `ToolError`, `MemoryError`,
+  `ConfigError`, `ErrorCodes` — error taxonomy.
+
+## Subpath exports (zero main-bundle weight)
+
+| Subpath | Purpose | Recipe |
+|---|---|---|
+| `@agentskit/core/agent-schema` | Declarative agent YAML/JSON + validator | [Schema-first agents](/docs/reference/recipes/schema-first-agent) |
+| `@agentskit/core/prompt-experiments` | A/B prompts with feature flags | [A/B prompts](/docs/reference/recipes/prompt-experiments) |
+| `@agentskit/core/auto-summarize` | Auto-summarizing `ChatMemory` wrapper | [Auto-summarize](/docs/reference/recipes/auto-summarize) |
+| `@agentskit/core/hitl` | Approval gates + `ApprovalStore` | [HITL approvals](/docs/reference/recipes/hitl-approvals) |
+| `@agentskit/core/security` | PII redactor + injection detector + rate limiter | [PII](/docs/reference/recipes/pii-redaction), [Injection](/docs/reference/recipes/prompt-injection), [Rate limit](/docs/reference/recipes/rate-limiting) |
+| `@agentskit/core/compose-tool` | Chain N tools into one | [Tool composer](/docs/reference/recipes/tool-composer) |
+| `@agentskit/core/self-debug` | Retry tools with LLM-corrected args | [Self-debug](/docs/reference/recipes/self-debug) |
+| `@agentskit/core/generative-ui` | Typed UI element tree + artifacts | [Gen UI](/docs/reference/recipes/generative-ui) |
+| `@agentskit/core/a2a` | Agent-to-Agent protocol spec | [Open specs](/docs/reference/recipes/open-specs) |
+| `@agentskit/core/manifest` | Skill + tool manifest format (MCP-compat) | [Open specs](/docs/reference/recipes/open-specs) |
+| `@agentskit/core/eval-format` | Portable eval dataset + run-result | [Open specs](/docs/reference/recipes/open-specs) |
+
+## Minimal example
+
+```ts
+import { createChatController } from '@agentskit/core'
+import { anthropic } from '@agentskit/adapters'
+
+const controller = createChatController({
+  adapter: anthropic({ apiKey: process.env.ANTHROPIC_API_KEY!, model: 'claude-sonnet-4-6' }),
+})
+
+controller.subscribe(() => console.log(controller.getState().messages))
+await controller.send('Hello')
+```
+
+## Common patterns
+
+- Wire a controller into any framework via `getState` + `subscribe`
+  (see the framework bindings under [For agents](/docs/reference/for-agents)).
+- Compose tools with [`composeTool`](/docs/reference/recipes/tool-composer) or
+  wrap failing ones with
+  [`wrapToolWithSelfDebug`](/docs/reference/recipes/self-debug).
+- Gate risky operations with
+  [`createApprovalGate`](/docs/reference/recipes/hitl-approvals) + HITL + signed
+  [audit log](/docs/reference/recipes/audit-log).
+
+## Related packages
+
+- [@agentskit/adapters](/docs/reference/for-agents/adapters)
+- [@agentskit/runtime](/docs/reference/for-agents/runtime)
+- [@agentskit/react](/docs/reference/for-agents/react)
+
+## Source
+
+- npm: https://www.npmjs.com/package/@agentskit/core
+- repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/core

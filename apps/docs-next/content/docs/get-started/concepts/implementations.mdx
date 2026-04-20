@@ -1,0 +1,137 @@
+---
+title: Implementations index
+description: Every concrete implementation of every AgentsKit contract. One page to answer "what ships with this?".
+---
+
+Scope: implementations bundled in official `@agentskit/*` packages.
+Community packages are listed in the [skill marketplace](/docs/agents/skills/marketplace)
+and the [tool ecosystem](/docs/agents/tools/integrations).
+
+## Adapter — LLM providers
+
+**Contract:** [concepts/adapter](./adapter) · **Package:** [@agentskit/adapters](/docs/reference/packages/adapters)
+
+**Hosted (17):** `openai`, `anthropic`, `gemini`, `grok`, `deepseek`,
+`kimi`, `mistral`, `cohere`, `together`, `groq`, `fireworks`,
+`openrouter`, `huggingface`, `langchain`, `langgraph`, `vercelAI`,
+`generic` — [deep dive](/docs/data/providers/hosted)
+
+**Local (4):** `ollama`, `lmstudio`, `vllm`, `llamacpp` —
+[deep dive](/docs/data/providers/local)
+
+**Embedders (7):** `openaiEmbedder`, `geminiEmbedder`, `ollamaEmbedder`,
+`deepseekEmbedder`, `grokEmbedder`, `kimiEmbedder`,
+`createOpenAICompatibleEmbedder` — [deep dive](/docs/data/providers/embedders)
+
+**Higher-order:** `createRouter`, `createEnsembleAdapter`,
+`createFallbackAdapter` — [deep dive](/docs/data/providers/higher-order)
+
+## Tool — callable functions
+
+**Contract:** [concepts/tool](./tool) · **Package:** [@agentskit/tools](/docs/reference/packages/tools)
+
+**Authoring:** `defineTool`, `defineZodTool`, `composeTool`,
+`wrapToolWithSelfDebug`, `createMandatorySandbox` —
+[deep dive](/docs/agents/tools/authoring)
+
+**Built-ins:** `webSearch`, `fetchUrl`, `filesystem`, `shell` —
+[deep dive](/docs/agents/tools/builtins)
+
+**Integrations (20+):** `github`, `linear`, `slack`, `notion`,
+`discord`, `gmail`, `googleCalendar`, `stripe`, `postgres`, `s3`,
+`firecrawl`, `reader`, `documentParsers`, `openaiImages`,
+`elevenlabs`, `whisper`, `deepgram`, `maps`, `weather`, `coingecko`,
+`browserAgent` — [deep dive](/docs/agents/tools/integrations)
+
+**MCP:** `createMcpClient`, `toolsFromMcpClient`, `createMcpServer` —
+[deep dive](/docs/agents/tools/mcp)
+
+## Skill — personas + prompts
+
+**Contract:** [concepts/skill](./skill) · **Package:** [@agentskit/skills](/docs/reference/packages/skills)
+
+**Built-in personas (9):** `researcher`, `coder`, `codeReviewer`,
+`planner`, `critic`, `summarizer`, `sqlGen`, `dataAnalyst`,
+`translator` — [deep dive](/docs/agents/skills/personas)
+
+**Authoring + composition:** `defineSkill`, `composeSkills`,
+`listSkills` — [deep dive](/docs/agents/skills/authoring)
+
+**Marketplace:** `createSkillRegistry` with semver resolver —
+[deep dive](/docs/agents/skills/marketplace)
+
+## Memory — chat + vector + wrappers
+
+**Contract:** [concepts/memory](./memory) · **Package:** [@agentskit/memory](/docs/reference/packages/memory)
+
+**Chat:** `fileChatMemory`, `sqliteChatMemory`, `redisChatMemory` —
+[file](/docs/data/memory/file-chat) · [sqlite](/docs/data/memory/sqlite) ·
+[redis](/docs/data/memory/redis-chat)
+
+**Vector:** `fileVectorMemory`, `redisVectorMemory`, `pgvector`,
+`pinecone`, `qdrant`, `chroma`, `upstashVector` —
+[file](/docs/data/memory/file-vector) ·
+[redis](/docs/data/memory/redis-vector) ·
+[pgvector](/docs/data/memory/pgvector) ·
+[pinecone](/docs/data/memory/pinecone) ·
+[qdrant](/docs/data/memory/qdrant) ·
+[chroma](/docs/data/memory/chroma) ·
+[upstash](/docs/data/memory/upstash-vector)
+
+**Wrappers:** `createEncryptedMemory`, `createHierarchicalMemory`,
+`createVirtualizedMemory`, `createAutoSummarizingMemory`,
+`createInMemoryGraph`, `createInMemoryPersonalization` —
+[encrypted](/docs/data/memory/encrypted) ·
+[hierarchical](/docs/data/memory/hierarchical) ·
+[virtualized](/docs/data/memory/virtualized) ·
+[auto-summarize](/docs/data/memory/auto-summarize) ·
+[graph](/docs/data/memory/graph) ·
+[personalization](/docs/data/memory/personalization)
+
+## Retriever — RAG pipeline
+
+**Contract:** [concepts/retriever](./retriever) · **Package:** [@agentskit/rag](/docs/reference/packages/rag)
+
+**Core:** `createRAG`, `chunkText` —
+[createRAG](/docs/data/rag/create-rag) · [chunking](/docs/data/rag/chunking)
+
+**Rerankers:** `createRerankedRetriever`, `cohereReranker`,
+`bgeReranker`, `bm25Reranker` — [deep dive](/docs/data/rag/rerank)
+
+**Hybrid:** `createHybridRetriever` — [deep dive](/docs/data/rag/hybrid)
+
+**Loaders (7):** `loadUrl`, `loadGitHubFile`, `loadGitHubTree`,
+`loadNotionPage`, `loadConfluencePage`, `loadGoogleDriveFile`,
+`loadPdf` — [deep dive](/docs/data/rag/loaders)
+
+## Runtime — orchestration loop
+
+**Contract:** [concepts/runtime](./runtime) · **Package:** [@agentskit/runtime](/docs/reference/packages/runtime)
+
+**Core:** `createRuntime`, `createSharedContext` —
+[runtime](/docs/agents/runtime)
+
+**Durable:** `createDurableRunner`, `createInMemoryStepLog`,
+`createFileStepLog` — [deep dive](/docs/agents/durable)
+
+**Topologies:** `supervisor`, `swarm`, `hierarchical`, `blackboard` —
+[deep dive](/docs/agents/topologies)
+
+**Background:** `createCronScheduler`, `createWebhookHandler` —
+[deep dive](/docs/agents/background)
+
+**Speculate:** `speculate` — [deep dive](/docs/agents/speculate)
+
+## UI bindings — one contract, seven frameworks
+
+**Contract:** mirrors `ChatReturn` — [UI → useChat](/docs/ui/use-chat)
+
+**Packages:** [react](/docs/reference/packages/react) · [vue](/docs/reference/packages/vue) ·
+[svelte](/docs/reference/packages/svelte) · [solid](/docs/reference/packages/solid) ·
+[react-native](/docs/reference/packages/react-native) · [angular](/docs/reference/packages/angular) ·
+[ink](/docs/reference/packages/ink)
+
+## Related
+
+- [Concepts overview](./) · [Mental model](./mental-model)
+- [Packages overview](/docs/reference/packages/overview)

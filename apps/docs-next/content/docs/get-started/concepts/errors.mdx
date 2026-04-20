@@ -1,0 +1,148 @@
+---
+title: Error Handling
+description: AgentsKit's didactic error system — Rust-compiler-style errors with codes, hints, and doc links baked in.
+---
+
+AgentsKit uses a **didactic error system** inspired by the Rust compiler. Every error carries a machine-readable `code`, a human-readable `hint` explaining how to fix the problem, and a `docsUrl` pointing directly to the relevant documentation — so you know what went wrong and how to fix it without searching.
+
+## The base class
+
+```ts
+import { AgentsKitError } from '@agentskit/core'
+
+class AgentsKitError extends Error {
+  readonly code: string         // e.g. 'AK_TOOL_EXEC_FAILED'
+  readonly hint: string | undefined    // actionable fix suggestion
+  readonly docsUrl: string | undefined // direct link to relevant docs
+  readonly cause: unknown       // original error, if any
+}
+```
+
+`toString()` formats like a compiler diagnostic:
+
+```
+error[AK_ADAPTER_MISSING]: No adapter provided
+  --> Hint: Pass an adapter when creating the chat controller, e.g.
+            createChatController({ adapter: openaiAdapter() })
+  --> Docs: https://www.agentskit.io/docs/adapters
+```
+
+## Error subclasses
+
+All errors extend `AgentsKitError`. The subclasses set a default `docsUrl` for their domain:
+
+| Class | Default docs link | Thrown when |
+|-------|-------------------|-------------|
+| `AdapterError` | `/docs/adapters` | Adapter is missing or a stream call fails |
+| `ToolError` | `/docs/agents/tools` | A tool is not found or `execute` throws |
+| `MemoryError` | `/docs/memory` | Memory load, save, or deserialization fails |
+| `ConfigError` | `/docs/configuration` | Required configuration is absent or invalid |
+
+## ErrorCodes
+
+All code strings live in the `ErrorCodes` constant so you never use bare string literals:
+
+```ts
+import { ErrorCodes } from '@agentskit/core'
+
+// Adapter errors
+ErrorCodes.AK_ADAPTER_MISSING       // adapter not provided to the controller
+ErrorCodes.AK_ADAPTER_STREAM_FAILED // provider streaming call failed
+
+// Tool errors
+ErrorCodes.AK_TOOL_NOT_FOUND        // tool name not registered
+ErrorCodes.AK_TOOL_EXEC_FAILED      // execute() threw
+
+// Memory errors
+ErrorCodes.AK_MEMORY_LOAD_FAILED          // memory.load() failed
+ErrorCodes.AK_MEMORY_SAVE_FAILED          // memory.save() failed
+ErrorCodes.AK_MEMORY_DESERIALIZE_FAILED   // persisted state is corrupt
+
+// Config errors
+ErrorCodes.AK_CONFIG_INVALID        // missing or wrong type in config
+```
+
+## Catching and narrowing
+
+```ts
+import { AgentsKitError, AdapterError, ToolError, MemoryError, ErrorCodes } from '@agentskit/core'
+
+try {
+  await runtime.run(task)
+} catch (err) {
+  if (err instanceof AdapterError) {
+    console.error('Adapter problem:', err.hint)
+    console.error('Docs:', err.docsUrl)
+  } else if (err instanceof ToolError) {
+    if (err.code === ErrorCodes.AK_TOOL_NOT_FOUND) {
+      console.error(`Tool not registered: ${err.message}`)
+    } else {
+      // AK_TOOL_EXEC_FAILED — execution threw
+      console.error('Tool failed:', err.toString())
+      if (err.cause instanceof Error) {
+        console.error('Caused by:', err.cause.message)
+      }
+    }
+  } else if (err instanceof AgentsKitError) {
+    // any other AgentsKit-originating error
+    console.error(err.toString())
+  } else {
+    throw err // re-throw — not an AgentsKit error
+  }
+}
+```
+
+## Throwing in custom code
+
+When you author custom tools, memory adapters, or adapters, use the matching subclass so consumers can catch by type:
+
+```ts
+import { ToolError, MemoryError, ErrorCodes } from '@agentskit/core'
+
+// In a custom tool
+export const fetchRecord = {
+  name: 'fetch_record',
+  async execute(args: { id: string }) {
+    const record = await db.find(args.id)
+    if (!record) {
+      throw new ToolError({
+        code: ErrorCodes.AK_TOOL_EXEC_FAILED,
+        message: `Record "${args.id}" not found in database`,
+        hint: 'Ensure the record exists before calling fetch_record.',
+        cause: undefined,
+      })
+    }
+    return record
+  },
+}
+
+// In a custom memory adapter
+async function load(): Promise<Message[]> {
+  try {
+    return JSON.parse(await fs.readFile(path, 'utf8'))
+  } catch (cause) {
+    throw new MemoryError({
+      code: ErrorCodes.AK_MEMORY_LOAD_FAILED,
+      message: `Failed to load messages from ${path}`,
+      hint: 'Check that the file exists and is valid JSON.',
+      cause,
+    })
+  }
+}
+```
+
+## Why not plain `Error`?
+
+| | Plain `Error` | `AgentsKitError` |
+|---|---|---|
+| Machine-readable identity | no | `code` |
+| Actionable fix in the error | no | `hint` |
+| Docs link in the error | no | `docsUrl` |
+| Original cause preserved | manual | `cause` |
+| Console output | stack trace | compiler-style diagnostic |
+
+Using plain `Error` in ecosystem packages forces every caller to parse `message` strings — brittle and untyped. `AgentsKitError` subclasses give callers a stable, typed interface to react to specific failure modes without string parsing.
+
+## See also
+
+[@agentskit/core exports](../packages/core) · [Tools](./tool) · [Memory](./memory) · [Adapters](./adapter)

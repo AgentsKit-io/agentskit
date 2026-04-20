@@ -1,0 +1,80 @@
+---
+title: Hierarchical memory (MemGPT-style)
+description: Three tiers — working, recall, archival — so long-running agents don't lose context and don't blow the window.
+---
+
+Long-running agents need memory at three timescales: the current
+turn (working), the last few days (recall), and the full history
+(archival). MemGPT formalized the pattern; `createHierarchicalMemory`
+ships it as a drop-in `ChatMemory`:
+
+- **Working** — hot window always in the prompt.
+- **Recall** — mid-term, queried on demand (usually a vector store).
+- **Archival** — cold, source-of-truth store of every message.
+
+## Install
+
+```bash
+npm install @agentskit/memory
+```
+
+## Wire the three tiers
+
+```ts
+import {
+  createHierarchicalMemory,
+  fileChatMemory,
+  fileVectorMemory,
+} from '@agentskit/memory'
+
+const archival = fileChatMemory({ path: './sessions/user-42.json' })
+const working = fileChatMemory({ path: './sessions/user-42.hot.json' })
+const vectorStore = fileVectorMemory({ path: './sessions/user-42.vectors.json' })
+
+const memory = createHierarchicalMemory({
+  working,
+  archival,
+  workingLimit: 30,
+  recallTopK: 5,
+  recall: {
+    index: async msg => {
+      const embedding = await embed(msg.content)
+      await vectorStore.store([{ id: msg.id, content: msg.content, embedding }])
+    },
+    query: async ({ working, topK }) => {
+      const latest = working[working.length - 1]
+      if (!latest) return []
+      const hits = await vectorStore.search(await embed(latest.content), { topK })
+      const byId = new Map((await archival.load()).map(m => [m.id, m] as const))
+      return hits.flatMap(h => (byId.get(h.id) ? [byId.get(h.id)!] : []))
+    },
+  },
+})
+```
+
+## Flow
+
+- **save()**: archival gets everything; working is trimmed to
+  `workingLimit`; overflow + freshly saved messages are passed to
+  `recall.index` so future turns can surface them.
+- **load()**: working window + up to `recallTopK` recall hits,
+  spliced chronologically, duplicates filtered.
+
+Recall errors are swallowed — a dead vector store degrades gracefully
+to "working-only", never breaks `load`.
+
+## Without recall
+
+Omit `recall` and you get a hard-backed working + archival pair —
+useful when you want the tiered shape without (yet) hooking up a
+vector store.
+
+```ts
+createHierarchicalMemory({ working, archival, workingLimit: 50 })
+```
+
+## See also
+
+- [Persistent memory](/docs/reference/recipes/persistent-memory)
+- [Virtualized memory](/docs/reference/recipes/virtualized-memory)
+- [Auto-summarization](/docs/reference/recipes/auto-summarize)

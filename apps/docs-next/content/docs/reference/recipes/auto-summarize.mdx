@@ -1,0 +1,73 @@
+---
+title: Auto-summarization
+description: Wrap any ChatMemory so it compacts oldest messages into a summary whenever stored tokens exceed a budget.
+---
+
+`compileBudget` trims per-request. `createAutoSummarizingMemory`
+trims *at rest*: once a session grows past `maxTokens`, the oldest
+(non-summary) messages get folded into a single summary message via
+your summarizer, then persisted. Idempotent — summaries are tagged
+and never re-summarized.
+
+## Install
+
+Ships in `@agentskit/core` under the subpath:
+
+```ts
+import { createAutoSummarizingMemory } from '@agentskit/core/auto-summarize'
+```
+
+## Wire it up
+
+```ts
+import { createAutoSummarizingMemory } from '@agentskit/core/auto-summarize'
+import { createInMemoryMemory } from '@agentskit/core'
+import { createRuntime } from '@agentskit/runtime'
+import { anthropic } from '@agentskit/adapters'
+
+const summarizerAdapter = anthropic({ apiKey: process.env.ANTHROPIC_API_KEY!, model: 'claude-haiku-4-5' })
+
+const memory = createAutoSummarizingMemory(createInMemoryMemory(), {
+  maxTokens: 8_000,
+  keepRecent: 6,
+  summarizer: async messages => {
+    const src = messages.map(m => `${m.role}: ${m.content}`).join('\n')
+    const result = await runOnce(summarizerAdapter, `Summarize the following chat transcript in 3 bullet points:\n\n${src}`)
+    return {
+      id: crypto.randomUUID(),
+      role: 'system',
+      content: result,
+      status: 'complete',
+      createdAt: new Date(),
+    }
+  },
+  onCompact: info => {
+    console.log(`compacted ${info.droppedCount} msgs: ${info.beforeTokens} → ${info.afterTokens} tokens`)
+  },
+})
+
+const runtime = createRuntime({ adapter: mainAdapter, memory })
+```
+
+## Options
+
+| Option | Default | Purpose |
+|--------|---------|---------|
+| `maxTokens` | *(required)* | Budget trigger |
+| `keepRecent` | `4` | Messages always kept verbatim at the tail |
+| `counter` | `approximateCounter` | Swap for tiktoken for real counts |
+| `summarizer` | *(required)* | `(messages) => Message` — your compaction prompt |
+| `onCompact` | — | Observability hook |
+
+## Summary message shape
+
+Every summary emitted by `summarizer` gets
+`metadata.agentskitSummary = true` attached automatically. That tag
+is what prevents re-summarization — subsequent compactions leave
+existing summaries alone.
+
+## See also
+
+- [Token budget compiler](/docs/reference/recipes/token-budget) — per-request trimming
+- [Virtualized memory](/docs/reference/recipes/virtualized-memory) — cap *count*, not tokens
+- [Hierarchical memory](/docs/reference/recipes/hierarchical-memory) — tiered long-term storage

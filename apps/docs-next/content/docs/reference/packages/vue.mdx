@@ -1,0 +1,39 @@
+---
+title: '@agentskit/vue'
+description: Vue 3 composable + ChatContainer component. Same contract as @agentskit/react.
+---
+
+## Install
+
+```bash
+npm install @agentskit/vue vue @agentskit/adapters
+```
+
+## Hello world
+
+```ts
+import { useChat } from '@agentskit/vue'
+import { anthropic } from '@agentskit/adapters'
+
+const chat = useChat({ adapter: anthropic({ apiKey, model: 'claude-sonnet-4-6' }) })
+// chat.messages + chat.input are reactive
+// chat.send / chat.setInput / chat.stop / chat.retry / chat.clear
+```
+
+## Surface
+
+- `useChat(config): ChatReturn` — reactive via Vue's `reactive()` + auto-cleanup on scope dispose.
+- `<ChatContainer :config="...">` — headless container using `data-ak-*` attributes.
+
+## Siblings
+
+[React](/docs/reference/packages/react) · [Svelte](/docs/reference/packages/svelte) · [Solid](/docs/reference/packages/solid) · [React Native](/docs/reference/packages/react-native) · [Angular](/docs/reference/packages/angular) · [Ink](/docs/reference/packages/ink)
+
+## Related
+
+- [UI + hooks](/docs/ui)
+- [For agents: vue](/docs/reference/for-agents/vue)
+
+## Source
+
+npm: [@agentskit/vue](https://www.npmjs.com/package/@agentskit/vue) · repo: [packages/vue](https://github.com/AgentsKit-io/agentskit/tree/main/packages/vue)

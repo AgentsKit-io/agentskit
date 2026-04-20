@@ -1,0 +1,51 @@
+---
+title: Built-in tools
+description: Ship-ready tools — web, fetch, filesystem, shell.
+---
+
+| Tool | Import | Notes |
+|---|---|---|
+| `webSearch` | `@agentskit/tools` | BYO provider (Tavily, Brave, SerpAPI, etc.) |
+| `fetchUrl` | `@agentskit/tools` | HTTP GET + content extraction |
+| `filesystem` | `@agentskit/tools` | read/write/list, scoped to a root |
+| `shell` | `@agentskit/tools` | exec commands, sandbox-friendly |
+
+## webSearch
+
+```ts
+import { webSearch, tavilyProvider } from '@agentskit/tools'
+
+const tool = webSearch({ provider: tavilyProvider({ apiKey: process.env.TAVILY_API_KEY! }) })
+```
+
+## fetchUrl
+
+```ts
+import { fetchUrl } from '@agentskit/tools'
+
+const tool = fetchUrl({ stripBoilerplate: true, maxBytes: 500_000 })
+```
+
+## filesystem
+
+```ts
+import { filesystem } from '@agentskit/tools'
+
+const tool = filesystem({ root: '/tmp/agent-work', readonly: false })
+```
+
+## shell
+
+```ts
+import { shell, createMandatorySandbox } from '@agentskit/tools'
+
+const tool = createMandatorySandbox(shell({ cwd: '/tmp/agent-work' }), {
+  deny: ['rm -rf', 'sudo'],
+  requireSandbox: true,
+})
+```
+
+## Related
+
+- [Authoring](./authoring) · [Integrations](./integrations)
+- [Security → mandatory sandbox](/docs/production/security/mandatory-sandbox)

@@ -1,0 +1,60 @@
+---
+title: '@agentskit/skills — for agents'
+description: Ready-made personas (system prompt + behavior) + composition + marketplace registry.
+---
+
+## Install
+
+```bash
+npm install @agentskit/skills
+```
+
+## Primary exports
+
+### Ready-made skills
+
+- `researcher` — methodical web researcher.
+- `coder` — TDD-first coder.
+- `planner` — step-by-step planner.
+- `critic` — critic / reviewer.
+- `summarizer` — structured summarizer.
+- `codeReviewer` — PR review with severity tags.
+- `sqlGen` — NL → parameterized SQL.
+- `dataAnalyst` — hypothesis-driven data analysis.
+- `translator` — faithful translator.
+
+### Composition + discovery
+
+- `composeSkills(a, b, ...)` — merge skills into one.
+- `listSkills()` — metadata for every bundled skill.
+
+### Marketplace
+
+- `createSkillRegistry(initial?)` — publish / list / install / unpublish.
+- `parseSemver`, `compareSemver`, `matchesRange` — tiny semver helpers.
+- Types: `SkillPackage`, `SkillRegistry`, `SkillRegistryQuery`.
+
+See [Skill marketplace](/docs/reference/recipes/skill-marketplace).
+
+## Minimal example
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { researcher } from '@agentskit/skills'
+
+const runtime = createRuntime({
+  adapter,
+  systemPrompt: researcher.systemPrompt,
+  tools: [/* webSearch() etc. */],
+})
+```
+
+## Related
+
+- [@agentskit/core](/docs/reference/for-agents/core) — `SkillDefinition` contract.
+- [@agentskit/runtime](/docs/reference/for-agents/runtime).
+
+## Source
+
+- npm: https://www.npmjs.com/package/@agentskit/skills
+- repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/skills

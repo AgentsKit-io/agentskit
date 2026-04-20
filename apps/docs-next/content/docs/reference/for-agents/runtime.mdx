@@ -1,0 +1,58 @@
+---
+title: '@agentskit/runtime — for agents'
+description: Standalone agent runtime (ReAct loop) + speculate + topologies + durable execution + background agents.
+---
+
+## Purpose
+
+Run an agent without a UI. Supports reflection, planning, multi-agent
+orchestration, durable step logs, cron + webhooks, speculative
+execution.
+
+## Install
+
+```bash
+npm install @agentskit/runtime
+```
+
+## Primary exports
+
+- `createRuntime({ adapter, tools, memory, skills, observers, ... })` — one-line agent; `runtime.run(task)` returns `{ content, steps, ... }`.
+- `createSharedContext` — typed shared context across tools.
+- `speculate({ candidates, pick, timeoutMs })` — race adapters, abort losers. See [Speculative execution](/docs/reference/recipes/speculative-execution).
+- `supervisor`, `swarm`, `hierarchical`, `blackboard` — multi-agent topologies. See [Topologies](/docs/reference/recipes/multi-agent-topologies).
+- `createDurableRunner` + `createInMemoryStepLog` / `createFileStepLog` — Temporal-style step-log durability. See [Durable execution](/docs/reference/recipes/durable-execution).
+- `createCronScheduler` (5-field cron + `every:<ms>`) + `createWebhookHandler` — background agents. See [Background agents](/docs/reference/recipes/background-agents).
+
+## Minimal example
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { anthropic } from '@agentskit/adapters'
+
+const runtime = createRuntime({
+  adapter: anthropic({ apiKey: process.env.ANTHROPIC_API_KEY!, model: 'claude-sonnet-4-6' }),
+})
+
+const result = await runtime.run('Summarize the quarterly report.')
+console.log(result.content)
+```
+
+## Common patterns
+
+- Survive crashes: wrap side effects in `runner.step(id, fn)` (durable).
+- A/B across models: `speculate` or `replayAgainst`.
+- Compose agents: supervisor / swarm / hierarchical / blackboard.
+- React to events: `createWebhookHandler` + `createCronScheduler`.
+
+## Related packages
+
+- [@agentskit/core](/docs/reference/for-agents/core)
+- [@agentskit/adapters](/docs/reference/for-agents/adapters)
+- [@agentskit/skills](/docs/reference/for-agents/skills)
+- [@agentskit/observability](/docs/reference/for-agents/observability)
+
+## Source
+
+- npm: https://www.npmjs.com/package/@agentskit/runtime
+- repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/runtime

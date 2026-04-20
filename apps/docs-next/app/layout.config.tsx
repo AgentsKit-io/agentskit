@@ -12,8 +12,8 @@ export const baseOptions: BaseLayoutProps = {
   },
   links: [
     { text: 'Documentation', url: '/docs' },
-    { text: 'Examples', url: '/docs/examples' },
-    { text: 'Contribute', url: '/docs/contribute' },
+    { text: 'Examples', url: '/docs/reference/examples' },
+    { text: 'Contribute', url: '/docs/reference/contribute' },
     { text: 'Discord', url: 'https://discord.gg/zx6z2p4jVb' },
     { text: 'GitHub', url: 'https://github.com/AgentsKit-io/agentskit' },
     { text: 'Manifesto', url: 'https://github.com/AgentsKit-io/agentskit/blob/main/MANIFESTO.md' },

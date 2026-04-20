@@ -1,0 +1,54 @@
+---
+title: '@agentskit/memory'
+description: Chat memory + vector stores + hierarchical / encrypted / graph / personalization wrappers.
+---
+
+## When to reach for it
+
+- You need persistent chat history (file / SQLite / Redis).
+- You need vector search (pgvector / Pinecone / Qdrant / Chroma / Upstash / Redis / file).
+- You need MemGPT-style tiered memory, or client-side encryption, or a knowledge graph.
+
+## Install
+
+```bash
+npm install @agentskit/memory
+```
+
+## Hello world
+
+```ts
+import { pgvector, createHierarchicalMemory } from '@agentskit/memory'
+import { Pool } from 'pg'
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL })
+const vectors = pgvector({
+  runner: { query: async (sql, params) => ({ rows: (await pool.query(sql, params)).rows }) },
+})
+```
+
+## Surface
+
+- Chat: `fileChatMemory` · `sqliteChatMemory` · `redisChatMemory`.
+- Vector: `fileVectorMemory` · `redisVectorMemory` · `pgvector` · `pinecone` · `qdrant` · `chroma` · `upstashVector`.
+- HoF wrappers: `createHierarchicalMemory` · `createEncryptedMemory` · `createInMemoryGraph` · `createInMemoryPersonalization`.
+
+## Recipes
+
+- [Persistent memory](/docs/reference/recipes/persistent-memory)
+- [Virtualized memory](/docs/reference/recipes/virtualized-memory)
+- [Hierarchical memory](/docs/reference/recipes/hierarchical-memory)
+- [Encrypted memory](/docs/reference/recipes/encrypted-memory)
+- [Vector adapters](/docs/reference/recipes/vector-adapters)
+- [Graph memory](/docs/reference/recipes/graph-memory)
+- [Personalization](/docs/reference/recipes/personalization)
+
+## Related
+
+- [Concepts: Memory](/docs/get-started/concepts/memory)
+- [Data → Memory](/docs/data/memory)
+- [For agents: memory](/docs/reference/for-agents/memory)
+
+## Source
+
+npm: [@agentskit/memory](https://www.npmjs.com/package/@agentskit/memory) · repo: [packages/memory](https://github.com/AgentsKit-io/agentskit/tree/main/packages/memory)

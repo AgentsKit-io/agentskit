@@ -1,0 +1,73 @@
+---
+title: Generative UI + artifacts
+description: A typed JSON schema the agent emits, a framework-agnostic element tree, plus rich artifacts (code, markdown, HTML, charts).
+---
+
+Generative UI replaces "the agent writes a paragraph" with "the
+agent emits a structured element tree and your renderer decides how
+it looks." `@agentskit/core/generative-ui` ships the typed schema +
+validators + artifact detectors so every frontend can consume the
+same payload.
+
+## Install
+
+Ships as a `@agentskit/core` subpath.
+
+```ts
+import {
+  parseUIMessage,
+  validateUIMessage,
+  detectCodeArtifacts,
+  type UIMessage,
+  type Artifact,
+} from '@agentskit/core/generative-ui'
+```
+
+## Element types
+
+| `kind` | Purpose |
+|---|---|
+| `text` | Inline text, optional bold |
+| `heading` | Levels 1–3 |
+| `list` | Ordered or bullet list of strings |
+| `button` | Emits an `action` + optional payload on click |
+| `image` | Image src + alt |
+| `card` | Titled container with child elements |
+| `stack` | Row / column layout with children |
+| `artifact` | Embeds a rich artifact (code, md, html, chart) |
+
+## Artifact types
+
+| `type` | Purpose |
+|---|---|
+| `code` | Language + source + optional filename |
+| `markdown` | Markdown source |
+| `html` | Raw HTML + sandbox hint |
+| `chart` | `line`/`bar`/`pie`/`scatter`/`area` with rows |
+
+## Agent → JSON → render
+
+```ts
+const raw = await runtime.run('Show me a cost breakdown')
+const ui = parseUIMessage(raw.content)
+render(ui.root)
+```
+
+`parseUIMessage` tolerates fenced `\`\`\`json` blocks in surrounding
+prose, so you don't have to wrestle the model into pure JSON output.
+
+## Extract code blocks from plain text
+
+```ts
+const artifacts = detectCodeArtifacts(raw.content)
+// [ { artifact: { type: 'code', language: 'ts', source: '...' }, start, end } ]
+```
+
+Useful when the agent still emits prose but you want to lift code
+blocks into a dedicated renderer (copy button, diff viewer, run-on-
+click).
+
+## See also
+
+- [Custom adapter](/docs/reference/recipes/custom-adapter)
+- [MCP bridge](/docs/reference/recipes/mcp-bridge)

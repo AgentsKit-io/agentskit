@@ -1,0 +1,71 @@
+---
+title: Encrypted memory
+description: Client-side AES-GCM encryption for any ChatMemory — keys never leave the caller, backing store only sees ciphertext.
+---
+
+`createEncryptedMemory` wraps any existing `ChatMemory` so the
+backing store only ever sees opaque ciphertext. Users hold the key;
+rogue middleware, backups, and even the backing service itself
+can't read the plaintext. Uses Web Crypto (AES-GCM, 256-bit) —
+available on Node 20+ and all modern browsers.
+
+## Install
+
+Ships with `@agentskit/memory`.
+
+## Wire it up
+
+```ts
+import { createEncryptedMemory, fileChatMemory } from '@agentskit/memory'
+
+// A 32-byte key. Generate once per user during onboarding and store
+// it on their device (iOS Keychain, Android Keystore, OS credential
+// manager, browser IndexedDB with key derivation from a passphrase).
+const key = crypto.getRandomValues(new Uint8Array(32))
+
+const memory = await createEncryptedMemory({
+  backing: fileChatMemory({ path: './sessions/user-42.json' }),
+  key,
+})
+
+const runtime = createRuntime({ adapter, memory })
+```
+
+On `save`, every message's `content` becomes `""` and the ciphertext
+is stashed in `metadata.{ciphertext, iv, length}`. On `load`, the
+process reverses transparently — the agent never knows the
+encryption is there.
+
+## Additional authenticated data (AAD)
+
+Bind ciphertext to context so the same key can't decrypt messages
+captured from a different tenant / room / session:
+
+```ts
+const memory = await createEncryptedMemory({
+  backing,
+  key,
+  aad: new TextEncoder().encode(`tenant:${tenantId}`),
+})
+```
+
+## Idempotent
+
+Already-encrypted messages (tagged with `metadata.agentskitEncrypted`)
+are passed through untouched on subsequent saves, so re-reading and
+re-saving won't double-encrypt.
+
+## Key management
+
+- Keys **never** pass through the backing store — they live on the
+  user's device.
+- Different key → decryption fails with `OperationError`. That's
+  the correct behavior; treat it as "data is lost, key rotation
+  required."
+- Pair with [Signed audit log](/docs/reference/recipes/audit-log) for
+  regulator-friendly evidence of who accessed what.
+
+## See also
+
+- [Persistent memory](/docs/reference/recipes/persistent-memory)
+- [Vector memory adapters](/docs/reference/recipes/vector-adapters)

@@ -1,0 +1,69 @@
+---
+title: Replay a session against a different model
+description: Re-run a recorded cassette through any adapter to compare quality, latency, or cost without touching production traffic.
+---
+
+You recorded a production trace with
+[deterministic replay](/docs/reference/recipes/deterministic-replay). Now you
+want to A/B it against a cheaper model, a new provider, or your own
+fine-tune — without rerunning real user traffic. `replayAgainst` does
+exactly that: iterate every recorded turn, drive the candidate
+adapter with the same `AdapterRequest`, and return a per-turn
+comparison.
+
+## Install
+
+```bash
+npm install -D @agentskit/eval
+```
+
+## Compare a cassette against a candidate
+
+```ts
+import { loadCassette, replayAgainst, summarizeReplay } from '@agentskit/eval/replay'
+import { anthropic, openai } from '@agentskit/adapters'
+
+const cassette = await loadCassette('./fixtures/production.cassette.json')
+const candidate = openai({ apiKey: process.env.OPENAI_API_KEY!, model: 'gpt-4o-mini' })
+
+const turns = await replayAgainst(cassette, candidate, { concurrency: 4 })
+const summary = summarizeReplay(turns)
+
+console.log(`avg similarity: ${(summary.avgSimilarity * 100).toFixed(1)}%`)
+console.log(`worst turn: ${(summary.minSimilarity * 100).toFixed(1)}%`)
+console.log(`errors: ${summary.errorCount}/${summary.turnCount}`)
+```
+
+Each entry in `turns` has:
+
+```ts
+{
+  turn: number,
+  input: string,
+  recorded: { text, chunkCount },
+  candidate: { text, chunkCount, error? },
+  similarity: number,   // Jaccard over tokens, 0..1
+}
+```
+
+## Options
+
+| Option | Default | Purpose |
+|--------|---------|---------|
+| `concurrency` | `1` | Run N candidate turns in parallel |
+| `limit` | all | Stop after N turns (smoke tests) |
+
+## Typical uses
+
+- Quick cost/quality sweep before swapping a production model.
+- Regression check after a fine-tune.
+- Adversarial review: replay a bug-repro cassette through a stronger
+  model to confirm the failure is environmental, not prompt-design.
+
+Pair with [Prompt diff](/docs/reference/recipes/prompt-diff) or the
+[Eval suite](/docs/reference/recipes/eval-suite) for richer comparison metrics.
+
+## See also
+
+- [Deterministic replay](/docs/reference/recipes/deterministic-replay)
+- [Speculative execution](/docs/reference/recipes/speculative-execution)

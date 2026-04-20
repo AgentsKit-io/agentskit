@@ -1,0 +1,44 @@
+---
+title: '@agentskit/ink'
+description: Terminal chat UI on Ink. Same useChat contract as the React binding.
+---
+
+## When to reach for it
+
+- You need a CLI / terminal chat.
+- You want to embed an agent inside a dev tool.
+
+## Install
+
+```bash
+npm install @agentskit/ink ink @agentskit/adapters
+```
+
+## Hello world
+
+```tsx
+import { render } from 'ink'
+import { ChatContainer } from '@agentskit/ink'
+import { anthropic } from '@agentskit/adapters'
+
+render(<ChatContainer config={{ adapter: anthropic({ apiKey, model: 'claude-sonnet-4-6' }) }} />)
+```
+
+## Surface
+
+- `useChat(config): ChatReturn` — mirrors `@agentskit/react`.
+- `<ChatContainer>`, `<Message>`, `<InputBar>`, `<ToolCallView>`, `<ThinkingIndicator>`.
+
+## Siblings
+
+[React](/docs/reference/packages/react) · [Vue](/docs/reference/packages/vue) · [Svelte](/docs/reference/packages/svelte) · [Solid](/docs/reference/packages/solid) · [React Native](/docs/reference/packages/react-native) · [Angular](/docs/reference/packages/angular)
+
+## Related
+
+- [UI + hooks](/docs/ui)
+- [For agents: ink](/docs/reference/for-agents/ink)
+- [CLI](/docs/production/cli) (ships `agentskit chat` powered by Ink)
+
+## Source
+
+npm: [@agentskit/ink](https://www.npmjs.com/package/@agentskit/ink) · repo: [packages/ink](https://github.com/AgentsKit-io/agentskit/tree/main/packages/ink)

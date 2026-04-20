@@ -1,0 +1,41 @@
+---
+title: Prompt injection
+description: Detect and block jailbreak patterns in user input or tool results.
+---
+
+```ts
+import { createInjectionDetector } from '@agentskit/core/security'
+
+const detector = createInjectionDetector({
+  classifier: async (text) => {
+    // Optional LLM-based classifier
+    return adapter.complete({ ... })
+  },
+})
+
+const verdict = await detector.check(userInput)
+if (verdict.blocked) throw new Error(verdict.reason)
+```
+
+## Heuristic layer
+
+Catches common patterns zero-cost:
+- "ignore previous instructions"
+- role-swap attempts
+- system-prompt leak probes
+- fenced payloads (`<|system|>`, etc.)
+
+## Model classifier layer
+
+Pluggable. Use any adapter to score high-risk inputs.
+
+## Where to run it
+
+- User input → `chat.send` preprocess.
+- Tool results → before feeding back into the loop (tool-output can be attacker-controlled).
+- RAG retrievals → classify each chunk before context-injection.
+
+## Related
+
+- [Recipe: prompt injection](/docs/reference/recipes/prompt-injection)
+- [Mandatory sandbox](./mandatory-sandbox)

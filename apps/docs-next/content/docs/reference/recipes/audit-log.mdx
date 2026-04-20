@@ -1,0 +1,74 @@
+---
+title: Signed audit log
+description: Hash-chained, HMAC-signed audit log for SOC 2 / HIPAA friendly evidence — tamper-evident and authenticated.
+---
+
+`createSignedAuditLog` is the smallest audit log that does the two
+things auditors actually ask for: **tamper-evident** (every entry
+references the previous entry's hash, so splicing or reordering
+is detectable) and **authenticated** (every entry's body is signed
+with an HMAC secret, so content edits without the secret are
+detectable).
+
+## Install
+
+Ships with `@agentskit/observability`.
+
+```ts
+import {
+  createSignedAuditLog,
+  createInMemoryAuditStore,
+} from '@agentskit/observability'
+```
+
+## Record decisions
+
+```ts
+const log = createSignedAuditLog({
+  secret: process.env.AUDIT_SECRET!,
+  store: myPostgresAuditStore(),
+})
+
+await log.append({
+  actor: currentUser.id,
+  action: 'delete-record',
+  payload: { table: 'invoices', id: 42 },
+})
+```
+
+`append` fills in `seq` (monotonic), `prevHash` (chains to the last
+entry), and `signature` (HMAC over the canonical body).
+
+## Verify
+
+```ts
+const result = await log.verify()
+if (!result.ok) {
+  alert(`audit log broken at seq ${result.brokenAt!.seq} (${result.brokenAt!.reason})`)
+}
+```
+
+`verify()` walks the entire chain and re-computes `prevHash` +
+`signature` for each entry. Detects two failure modes:
+
+- **`prev-hash`** — an entry was inserted, removed, or reordered.
+- **`signature`** — an entry was edited without the HMAC secret.
+
+## Stores
+
+- `createInMemoryAuditStore()` — tests, transient services.
+- Bring your own with the 4-method contract (`append`, `list`, `last`,
+  optional `clear`) — Postgres, S3-with-object-lock, Timescale, WORM
+  storage, append-only Kafka topic, etc.
+
+## Rotating secrets
+
+A secret rotation ends the old chain and starts a new one — the old
+secret can still verify historical entries, the new secret signs new
+ones. Keep both live during an overlap window, then retire the old.
+
+## See also
+
+- [Prompt injection detector](/docs/reference/recipes/prompt-injection)
+- [Rate limiting](/docs/reference/recipes/rate-limiting)
+- [Trace viewer](/docs/reference/recipes/trace-viewer)

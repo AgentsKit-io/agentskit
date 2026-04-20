@@ -1,0 +1,58 @@
+---
+title: '@agentskit/runtime'
+description: Standalone agent runtime. ReAct loop, durable execution, multi-agent topologies, speculative execution, background agents.
+---
+
+## When to reach for it
+
+- You want an agent without a UI.
+- You need durable execution (resume after a crash).
+- You want ready-made multi-agent topologies.
+- You want to race adapters (`speculate`) or run on cron / webhooks.
+
+## Install
+
+```bash
+npm install @agentskit/runtime @agentskit/adapters
+```
+
+## Hello world
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { anthropic } from '@agentskit/adapters'
+
+const runtime = createRuntime({
+  adapter: anthropic({ apiKey: process.env.ANTHROPIC_API_KEY!, model: 'claude-sonnet-4-6' }),
+})
+
+const result = await runtime.run('Summarize the quarterly report.')
+console.log(result.content)
+```
+
+## Surface
+
+- `createRuntime(config)` — headless agent with tools / memory / skills / observers.
+- `createSharedContext` — typed context across tools.
+- `createDurableRunner` + `createInMemoryStepLog` / `createFileStepLog` — Temporal-style step log.
+- `supervisor` · `swarm` · `hierarchical` · `blackboard` — multi-agent topologies.
+- `speculate` — race adapters, abort losers.
+- `createCronScheduler` + `createWebhookHandler` — background agents.
+
+## Recipes
+
+- [Durable execution](/docs/reference/recipes/durable-execution)
+- [Multi-agent topologies](/docs/reference/recipes/multi-agent-topologies)
+- [Speculative execution](/docs/reference/recipes/speculative-execution)
+- [Background agents](/docs/reference/recipes/background-agents)
+- [Research team](/docs/reference/recipes/research-team)
+
+## Related
+
+- [Concepts: Runtime](/docs/get-started/concepts/runtime)
+- [Agents (deep dive)](/docs/agents)
+- [For agents: runtime](/docs/reference/for-agents/runtime)
+
+## Source
+
+npm: [@agentskit/runtime](https://www.npmjs.com/package/@agentskit/runtime) · repo: [packages/runtime](https://github.com/AgentsKit-io/agentskit/tree/main/packages/runtime)

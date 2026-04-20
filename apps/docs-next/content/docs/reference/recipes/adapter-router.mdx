@@ -1,0 +1,85 @@
+---
+title: Adapter router
+description: Auto-pick an adapter per request based on cost, latency, capabilities, or a custom classifier.
+---
+
+You don't want every call to hit your most expensive model. You also
+don't want to split the agent in two just to use Haiku for easy
+questions and Sonnet for hard ones. `createRouter` from
+`@agentskit/adapters` builds a single `AdapterFactory` that picks
+among N candidates on every `createSource()`.
+
+## Install
+
+Comes with `@agentskit/adapters`.
+
+## Pick the cheapest capable candidate
+
+```ts
+import { createRouter, anthropic, openai } from '@agentskit/adapters'
+
+const router = createRouter({
+  candidates: [
+    { id: 'haiku', adapter: anthropic({ model: 'claude-haiku-4-5' }), cost: 0.25 },
+    { id: 'sonnet', adapter: anthropic({ model: 'claude-sonnet-4-6' }), cost: 3, capabilities: { tools: true } },
+    { id: 'gpt-mini', adapter: openai({ model: 'gpt-4o-mini' }), cost: 0.15 },
+  ],
+  // policy: 'cheapest' is the default
+})
+```
+
+Candidates are filtered against the request's requirements first
+(e.g. requests with tools filter out `capabilities: { tools: false }`)
+and then ranked by the `policy`.
+
+## Policies
+
+| Policy | Behavior |
+|--------|----------|
+| `'cheapest'` *(default)* | Minimum `cost` |
+| `'fastest'` | Minimum `latencyMs` |
+| `'capability-match'` | First candidate that satisfies requirements |
+| `(input) => id` | Custom function, sync or async |
+
+## Classify-then-route
+
+Skip the policy entirely when the classifier can pick a specific
+candidate, or narrow the pool by tags.
+
+```ts
+const router = createRouter({
+  classify: request => {
+    const text = request.messages[request.messages.length - 1]?.content ?? ''
+    if (/code|typescript|refactor/i.test(text)) return ['coding']
+    if (/image|photo|picture/i.test(text)) return 'sonnet' // id wins
+    return undefined
+  },
+  candidates: [
+    { id: 'haiku', adapter: anthropic({ model: 'claude-haiku-4-5' }), cost: 0.25, tags: ['fast'] },
+    { id: 'sonnet', adapter: anthropic({ model: 'claude-sonnet-4-6' }), cost: 3 },
+    { id: 'coder', adapter: openai({ model: 'gpt-5-codex' }), cost: 2, tags: ['coding'] },
+  ],
+})
+```
+
+Resolution order per request:
+
+1. `classify(request)` returns a string → use that candidate id (if present).
+2. `classify(request)` returns tags → filter candidates to those with all tags, then apply `policy`.
+3. Fall back to `policy` across all capability-matched candidates.
+
+## Observe decisions
+
+```ts
+createRouter({
+  onRoute: ({ id, reason, request }) => {
+    console.log(`[router] -> ${id} (${reason})`)
+  },
+  candidates: [...],
+})
+```
+
+## See also
+
+- [Speculative execution](/docs/reference/recipes/speculative-execution) — run several candidates in parallel
+- [Custom adapter](/docs/reference/recipes/custom-adapter)

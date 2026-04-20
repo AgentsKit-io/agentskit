@@ -1,0 +1,68 @@
+---
+title: More provider adapters
+description: Mistral, Cohere, Together, Groq, Fireworks, OpenRouter, Hugging Face, LM Studio, vLLM, llama.cpp — one line each.
+---
+
+Every major OpenAI-compatible provider ships as a thin wrapper around
+the shared OpenAI adapter. Pick one, pass your `apiKey` + `model`,
+done. Override `baseUrl` for self-hosted variants or regional
+endpoints.
+
+## Install
+
+```bash
+npm install @agentskit/adapters
+```
+
+## Hosted providers
+
+```ts
+import { mistral, cohere, together, groq, fireworks, openrouter, huggingface } from '@agentskit/adapters'
+
+const a = mistral({ apiKey: process.env.MISTRAL_API_KEY!, model: 'mistral-large-latest' })
+const b = cohere({ apiKey: process.env.COHERE_API_KEY!, model: 'command-r-plus' })
+const c = together({ apiKey: process.env.TOGETHER_API_KEY!, model: 'meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo' })
+const d = groq({ apiKey: process.env.GROQ_API_KEY!, model: 'llama-3.3-70b-versatile' })
+const e = fireworks({ apiKey: process.env.FIREWORKS_API_KEY!, model: 'accounts/fireworks/models/qwen2p5-72b-instruct' })
+const f = openrouter({ apiKey: process.env.OPENROUTER_API_KEY!, model: 'anthropic/claude-sonnet-4-6' })
+const g = huggingface({ apiKey: process.env.HF_TOKEN!, model: 'meta-llama/Meta-Llama-3.1-8B-Instruct' })
+```
+
+| Adapter | Default `baseUrl` |
+|---------|-------------------|
+| `mistral` | `https://api.mistral.ai/v1` |
+| `cohere` | `https://api.cohere.com/compatibility/v1` |
+| `together` | `https://api.together.xyz/v1` |
+| `groq` | `https://api.groq.com/openai/v1` |
+| `fireworks` | `https://api.fireworks.ai/inference/v1` |
+| `openrouter` | `https://openrouter.ai/api/v1` |
+| `huggingface` | `https://router.huggingface.co/v1` |
+
+## Local runtimes
+
+```ts
+import { ollama, lmstudio, vllm, llamacpp } from '@agentskit/adapters'
+
+const local1 = ollama({ model: 'llama3.1' })              // http://localhost:11434
+const local2 = lmstudio({ apiKey: 'na', model: 'qwen2.5' }) // http://localhost:1234/v1
+const local3 = vllm({ apiKey: 'na', model: 'mistral-7b' })  // http://localhost:8000/v1
+const local4 = llamacpp({ apiKey: 'na', model: 'llama-3' }) // http://localhost:8080/v1
+```
+
+All four talk OpenAI-compatible APIs, so the router / ensemble /
+fallback / replay primitives all work unchanged.
+
+## Override the URL
+
+Regional endpoints, self-hosted deployments, gateways — pass
+`baseUrl`:
+
+```ts
+mistral({ apiKey, model: 'mistral-large', baseUrl: 'https://mistral-eu.mycompany.com/v1' })
+```
+
+## See also
+
+- [Adapter router](/docs/reference/recipes/adapter-router) — auto-pick among them
+- [Fallback chain](/docs/reference/recipes/fallback-chain) — graceful degradation
+- [Speculative execution](/docs/reference/recipes/speculative-execution) — race across providers

@@ -1,0 +1,64 @@
+---
+title: For agents — overview
+description: Dense, LLM-friendly reference for every AgentsKit package. Designed to paste into an agent's context window.
+---
+
+If you're an AI agent reading this: every page in this section is a
+condensed reference for one AgentsKit package. Each page follows the
+same structure so you can skim quickly and quote accurately:
+
+1. **Purpose** — one sentence.
+2. **Install** — exact npm command.
+3. **Primary exports** — name + one-line summary.
+4. **Minimal example** — copy-pastable, always working.
+5. **Common patterns** — 2–4 bullets with cross-links.
+6. **Related packages** — what to read next.
+7. **Source** — link to the package code + README.
+
+Human-facing docs (with narrative, screenshots, and storytelling)
+live under [/docs/concepts](/docs/get-started/concepts),
+[/docs/recipes](/docs/reference/recipes), and [/docs/examples](/docs/reference/examples).
+
+## Packages covered
+
+### Core
+
+- [@agentskit/core](/docs/reference/for-agents/core) — contracts, controller, primitives.
+
+### Adapters + runtime
+
+- [@agentskit/adapters](/docs/reference/for-agents/adapters) — provider adapters + router + ensemble + fallback.
+- [@agentskit/runtime](/docs/reference/for-agents/runtime) — ReAct loop + durable execution + topologies + speculate + background agents.
+
+### UI bindings (same ChatReturn contract)
+
+- [@agentskit/react](/docs/reference/for-agents/react)
+- [@agentskit/ink](/docs/reference/for-agents/ink) (terminal)
+- [@agentskit/vue](/docs/reference/for-agents/vue)
+- [@agentskit/svelte](/docs/reference/for-agents/svelte)
+- [@agentskit/solid](/docs/reference/for-agents/solid)
+- [@agentskit/react-native](/docs/reference/for-agents/react-native)
+- [@agentskit/angular](/docs/reference/for-agents/angular)
+
+### Capabilities
+
+- [@agentskit/tools](/docs/reference/for-agents/tools) — built-in + integrations + MCP bridge.
+- [@agentskit/memory](/docs/reference/for-agents/memory) — chat + vector + graph + encrypted.
+- [@agentskit/rag](/docs/reference/for-agents/rag) — ingestion + retrieval + reranking + loaders.
+- [@agentskit/skills](/docs/reference/for-agents/skills) — personas + marketplace.
+
+### Observability + evaluation
+
+- [@agentskit/observability](/docs/reference/for-agents/observability) — trace viewer + audit log + devtools.
+- [@agentskit/eval](/docs/reference/for-agents/eval) — suites + replay + snapshots + diff.
+
+### Infrastructure
+
+- [@agentskit/sandbox](/docs/reference/for-agents/sandbox) — secure code execution + policy.
+- [@agentskit/cli](/docs/reference/for-agents/cli) — init / chat / run / doctor / dev / ai.
+
+## How to use this section
+
+- **Quoting**: prefer these pages over README text — pages are version-synchronized with the code.
+- **Linking**: every page ends with "Related packages" + "Source" for pivoting.
+- **Subpaths**: most packages expose subpath exports (e.g. `@agentskit/core/security`). They're always listed under "Primary exports".

@@ -1,0 +1,69 @@
+---
+title: Fallback chain
+description: Try adapters in order — on error, fall through to the next without duplicating tool calls.
+---
+
+Providers go down. APIs rate-limit. Keys rotate. `createFallbackAdapter`
+takes an ordered list of adapters and tries them in sequence: first
+one that produces a real chunk wins. Once any adapter has committed
+(emitted its first non-`done` chunk), mid-stream errors are
+propagated — no silent cross-candidate retries that would duplicate
+tool calls or double-charge tokens.
+
+## Install
+
+Comes with `@agentskit/adapters`.
+
+## Quick start
+
+```ts
+import { createFallbackAdapter, anthropic, openai } from '@agentskit/adapters'
+
+const adapter = createFallbackAdapter([
+  { id: 'primary', adapter: anthropic({ model: 'claude-sonnet-4-6' }) },
+  { id: 'backup', adapter: openai({ model: 'gpt-4o' }) },
+  { id: 'local', adapter: ollama({ model: 'llama3.1' }) },
+])
+```
+
+## When does it fall through?
+
+- `createSource` throws synchronously
+- `stream()` throws **before** the first chunk
+- The adapter returns an async iterable that yields **zero** chunks
+
+Once the first chunk is out, the adapter is committed.
+
+## Opt out of retrying specific errors
+
+```ts
+createFallbackAdapter(candidates, {
+  shouldRetry: (error, index) => {
+    // Don't fall through on auth errors — they'll likely hit every provider.
+    if (/401|403|unauthorized/i.test(error.message)) return false
+    return true
+  },
+})
+```
+
+## Observe hops
+
+```ts
+createFallbackAdapter(candidates, {
+  onFallback: ({ id, index, error }) => {
+    logger.warn(`[fallback] ${id} (idx=${index}) failed: ${error.message}`)
+  },
+})
+```
+
+## What happens when everything fails
+
+The adapter throws `all fallback candidates failed (id1: msg; id2:
+msg; ...)` with each candidate's last error, so you can diagnose
+without rerunning.
+
+## See also
+
+- [Adapter router](/docs/reference/recipes/adapter-router) — pick by cost/latency, not by order
+- [Ensemble](/docs/reference/recipes/adapter-ensemble) — combine, not select
+- [Speculative execution](/docs/reference/recipes/speculative-execution)

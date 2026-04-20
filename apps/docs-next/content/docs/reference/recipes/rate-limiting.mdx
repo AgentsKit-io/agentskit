@@ -1,0 +1,89 @@
+---
+title: Rate limiting
+description: Token-bucket rate limits keyed by user / IP / API key with per-tier bucket config.
+---
+
+`createRateLimiter` is a drop-in token-bucket limiter. Pick the key
+(user id, IP, API key) and the bucket (per-tier capacity + refill)
+— everything else is a single `check(context)` call per request.
+
+In-memory by default — good for single-process services. Swap for a
+Redis-backed implementation with the same contract when you go
+multi-worker.
+
+## Install
+
+```ts
+import { createRateLimiter } from '@agentskit/core/security'
+```
+
+## Basic usage
+
+```ts
+const limiter = createRateLimiter<{ userId: string }>({
+  keyOf: ctx => ctx.userId,
+  buckets: {
+    default: { capacity: 60, refill: 60, windowMs: 60_000 }, // 60 req/min
+  },
+})
+
+const decision = limiter.check({ userId: req.user.id })
+if (!decision.allowed) {
+  res.status(429).set('retry-after', Math.ceil(decision.retryAfterMs / 1000)).end()
+  return
+}
+```
+
+## Per-tier buckets
+
+```ts
+const limiter = createRateLimiter<{ userId: string; tier: 'free' | 'pro' }>({
+  keyOf: ctx => ctx.userId,
+  bucketOf: ctx => ctx.tier,
+  buckets: {
+    free: { capacity: 10,   refill: 10,   windowMs: 60_000 },
+    pro:  { capacity: 1000, refill: 1000, windowMs: 60_000 },
+  },
+})
+```
+
+`bucketOf` can return any key in `buckets` — e.g. `'ip'` for
+anonymous requests, `'user'` for authenticated, `'admin'` for bypass.
+
+## Decision shape
+
+```ts
+{
+  allowed: boolean,
+  remaining: number,
+  retryAfterMs: number,  // 0 when allowed
+  key: string,
+  bucket: string,
+}
+```
+
+## Observability
+
+```ts
+limiter.inspect() // snapshot of { key, bucket, tokens } for dashboards
+```
+
+## Resets
+
+On logout / key rotation / manual override:
+
+```ts
+limiter.reset(userId)
+```
+
+## Scaling beyond a single process
+
+For multi-worker deployments, implement the same `RateLimiter`
+interface against Redis (use `INCR` + `EXPIRE` for a fixed window or
+Lua for a token bucket). The return type is identical, so nothing
+above this line changes.
+
+## See also
+
+- [Cost guard](/docs/reference/recipes/cost-guard) — dollar ceiling, complementary to request limits
+- [Prompt injection detector](/docs/reference/recipes/prompt-injection)

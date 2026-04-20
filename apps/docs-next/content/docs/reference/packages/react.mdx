@@ -1,0 +1,60 @@
+---
+title: '@agentskit/react'
+description: React hooks + headless chat components driving the shared ChatController.
+---
+
+## When to reach for it
+
+- You're building a web chat UI in React.
+- You want streaming + tool calls + memory + skills in one hook.
+- You want headless components with `data-ak-*` attributes so you style everything with your own CSS / Tailwind / shadcn.
+
+## Install
+
+```bash
+npm install @agentskit/react @agentskit/core @agentskit/adapters
+```
+
+## Hello world
+
+```tsx
+import { useChat } from '@agentskit/react'
+import { anthropic } from '@agentskit/adapters'
+
+export function Chat() {
+  const chat = useChat({ adapter: anthropic({ apiKey, model: 'claude-sonnet-4-6' }) })
+  return (
+    <form onSubmit={e => { e.preventDefault(); chat.send(chat.input) }}>
+      {chat.messages.map(m => <div key={m.id}>{m.content}</div>)}
+      <input value={chat.input} onChange={e => chat.setInput(e.target.value)} />
+    </form>
+  )
+}
+```
+
+## Surface
+
+- `useChat(config): ChatReturn`.
+- `<ChatContainer>`, `<Message>`, `<InputBar>`, `<ToolCallView>`, `<ToolConfirmation>`, `<ThinkingIndicator>`, `<CodeBlock>`, `<Markdown>`.
+- Theme: `@agentskit/react/theme`.
+
+## Siblings (same contract)
+
+[Vue](/docs/reference/packages/vue) · [Svelte](/docs/reference/packages/svelte) · [Solid](/docs/reference/packages/solid) · [React Native](/docs/reference/packages/react-native) · [Angular](/docs/reference/packages/angular) · [Ink](/docs/reference/packages/ink)
+
+## Recipes
+
+- [Cost-guarded chat](/docs/reference/recipes/cost-guarded-chat)
+- [Confirmation-gated tool](/docs/reference/recipes/confirmation-gated-tool)
+- [Edit and regenerate](/docs/reference/recipes/edit-and-regenerate)
+- [RAG chat](/docs/reference/recipes/rag-chat)
+
+## Related
+
+- [Concepts: Runtime](/docs/get-started/concepts/runtime)
+- [UI + hooks](/docs/ui)
+- [For agents: react](/docs/reference/for-agents/react)
+
+## Source
+
+npm: [@agentskit/react](https://www.npmjs.com/package/@agentskit/react) · repo: [packages/react](https://github.com/AgentsKit-io/agentskit/tree/main/packages/react)

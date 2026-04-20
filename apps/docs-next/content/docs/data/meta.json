@@ -1,5 +1,6 @@
 {
-  "title": "Data layer",
+  "title": "Data",
   "description": "Memory, RAG, and LLM providers — the three substrates an agent reads and writes.",
+  "root": true,
   "pages": ["index", "memory", "rag", "providers"]
 }

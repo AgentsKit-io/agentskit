@@ -1,0 +1,39 @@
+---
+title: PII redaction
+description: Scrub emails, phones, SSNs, keys before they leave your process.
+---
+
+```ts
+import { createPIIRedactor, DEFAULT_PII_RULES } from '@agentskit/core/security'
+
+const redactor = createPIIRedactor({ rules: DEFAULT_PII_RULES })
+
+const clean = redactor.redact('Ping me at ada@example.com, SSN 123-45-6789')
+// => 'Ping me at [EMAIL], SSN [SSN]'
+```
+
+## Built-in rules
+
+`EMAIL` · `PHONE` · `SSN` · `CREDIT_CARD` · `IPV4` · `IPV6` ·
+`API_KEY_PREFIX` · `AWS_ACCESS_KEY_ID`.
+
+## Custom rules
+
+```ts
+createPIIRedactor({
+  rules: [
+    ...DEFAULT_PII_RULES,
+    { name: 'ORG_ID', pattern: /org_[a-zA-Z0-9]{16}/g, replacement: '[ORG]' },
+  ],
+})
+```
+
+## Pipeline integration
+
+Attach as observer to redact events, or pre-process user input before
+`chat.send`.
+
+## Related
+
+- [Recipe: PII redaction](/docs/reference/recipes/pii-redaction)
+- [Encrypted memory](/docs/data/memory/encrypted)

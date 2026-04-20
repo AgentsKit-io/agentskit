@@ -1,0 +1,30 @@
+---
+title: Rate limiting
+description: Token bucket per user / IP / key. Works with any adapter.
+---
+
+```ts
+import { createRateLimiter } from '@agentskit/core/security'
+
+const limiter = createRateLimiter({
+  capacity: 10,
+  refillPerSecond: 1,
+  keyBy: (req) => req.userId,
+})
+
+app.post('/chat', async (req) => {
+  const { allowed, retryAfterMs } = await limiter.take(req)
+  if (!allowed) return new Response('Too Many Requests', { status: 429, headers: { 'retry-after': `${Math.ceil(retryAfterMs / 1000)}` } })
+  // ... run agent
+})
+```
+
+## Storage
+
+- In-memory (default) — single-host.
+- BYO store via `{ get, set }` — Redis / Upstash / any K/V for multi-host.
+
+## Related
+
+- [Recipe: rate limiting](/docs/reference/recipes/rate-limiting)
+- [Cost guard](/docs/production/observability/cost-guard)

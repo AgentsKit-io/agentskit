@@ -1,0 +1,17 @@
+---
+title: Open specs
+description: Three portable JSON contracts — Agent-to-Agent, Skill+Tool Manifest, Eval Format.
+---
+
+Small, stable, versioned JSON shapes. Each is a subpath of `@agentskit/core`: types + validator + zero runtime dep.
+
+- **A2A (Agent-to-Agent)** — `agent/card` · `task/invoke` · `task/cancel` · `task/approve` · `task/status`. JSON-RPC 2.0. [Recipe](/docs/reference/recipes/open-specs).
+- **Manifest** — packaging format for skills + tools. Tool entries mirror MCP `inputSchema` so manifests round-trip.
+- **Eval Format** — portable eval dataset + run-result. `matchesExpectation` supports literal / regex / normalized / semantic similarity.
+
+*Per-spec deep dives land in step 6 of the docs IA rollout.*
+
+## Related
+
+- [Package: @agentskit/core](/docs/reference/packages/core) (subpaths `/a2a`, `/manifest`, `/eval-format`)
+- [MCP bridge](/docs/agents/tools) — pairs with the Manifest spec

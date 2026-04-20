@@ -1,0 +1,75 @@
+---
+title: Skill marketplace + ready-made skills
+description: Publish + install versioned skills through a registry. Four new ready-made skills.
+---
+
+Skills are prompts + behavior packaged for reuse. `@agentskit/skills`
+now ships a tiny marketplace primitive — publish semver-pinned
+`SkillPackage`s, query them, `install` the latest matching range —
+and four new ready-made skills on top of the existing researcher /
+coder / planner / critic / summarizer set.
+
+## Install
+
+```bash
+npm install @agentskit/skills
+```
+
+## Ready-made skills (S24 additions)
+
+| Skill | Purpose |
+|---|---|
+| `codeReviewer` | Rigorous PR review with severity-tagged findings. |
+| `sqlGen` | Natural language → parameterized Postgres queries. |
+| `dataAnalyst` | Hypothesize → query → interpret business data. |
+| `translator` | Faithful translation that preserves formatting. |
+
+```ts
+import { codeReviewer, sqlGen, dataAnalyst, translator } from '@agentskit/skills'
+import { createRuntime, composeSkills } from '@agentskit/runtime'
+
+const runtime = createRuntime({
+  adapter,
+  systemPrompt: codeReviewer.systemPrompt,
+})
+```
+
+## Marketplace primitives
+
+```ts
+import {
+  createSkillRegistry,
+  parseSemver,
+  compareSemver,
+  matchesRange,
+} from '@agentskit/skills'
+
+const registry = createSkillRegistry()
+await registry.publish({
+  version: '1.0.0',
+  publisher: 'acme',
+  tags: ['ops'],
+  skill: myOpsBot,
+})
+
+// Install the latest ^1 version:
+const pkg = await registry.install('ops-bot', '^1.0.0')
+```
+
+Range syntax:
+
+- `1.2.3` (exact)
+- `^1.2.3` (same major)
+- `~1.2.3` (same minor)
+- `>=1.2.3` (min version)
+- `*` (any)
+
+Enough for a basic marketplace. Layer `semver` on top if you need
+full npm-compatible ranges. Bring your own backing store (Postgres
+table of `(name, version)` rows, S3 manifest + CDN, Git-backed, etc.)
+by implementing the same `SkillRegistry` contract.
+
+## See also
+
+- [Brainstorm / compose skills](/docs/get-started/concepts/skill)
+- [Agentskit AI](/docs/reference/recipes/agentskit-ai) — generate a skill from natural language

@@ -1,0 +1,52 @@
+---
+title: '@agentskit/memory — for agents'
+description: Chat + vector memory backends, plus hierarchical, encrypted, graph, and personalization stores.
+---
+
+## Install
+
+```bash
+npm install @agentskit/memory
+```
+
+## Primary exports
+
+### Chat memory (ordered history)
+
+- `fileChatMemory({ path })` — JSON file.
+- `sqliteChatMemory` — SQLite-backed.
+- `redisChatMemory` — Redis-backed.
+
+### Vector memory
+
+- `fileVectorMemory({ path })` — JSON file.
+- `redisVectorMemory` — Redis Vector.
+- `pgvector`, `pinecone`, `qdrant`, `chroma`, `upstashVector` — BYO-client / HTTP vector adapters. See [Vector adapters](/docs/reference/recipes/vector-adapters).
+
+### Higher-order memory
+
+- `createVirtualizedMemory` — hot window + cold retriever.
+- `createHierarchicalMemory` — MemGPT tiers (working / recall / archival).
+- `createAutoSummarizingMemory` (from `@agentskit/core/auto-summarize`) — fold oldest into a summary.
+- `createEncryptedMemory` — AES-GCM over any `ChatMemory`. See [Encrypted memory](/docs/reference/recipes/encrypted-memory).
+- `createInMemoryGraph` — knowledge graph (nodes + edges + BFS). See [Graph memory](/docs/reference/recipes/graph-memory).
+- `createInMemoryPersonalization` + `renderProfileContext` — per-subject profile. See [Personalization](/docs/reference/recipes/personalization).
+
+## Minimal example
+
+```ts
+import { createInMemoryMemory } from '@agentskit/core'
+import { createVirtualizedMemory } from '@agentskit/memory'
+
+const memory = createVirtualizedMemory(createInMemoryMemory(), { maxActive: 50 })
+```
+
+## Related
+
+- [@agentskit/rag](/docs/reference/for-agents/rag) — embedders + retrievers on top of vector memory.
+- [@agentskit/core](/docs/reference/for-agents/core) — the `ChatMemory` / `VectorMemory` contracts.
+
+## Source
+
+- npm: https://www.npmjs.com/package/@agentskit/memory
+- repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/memory

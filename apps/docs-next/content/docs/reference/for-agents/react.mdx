@@ -1,0 +1,53 @@
+---
+title: '@agentskit/react — for agents'
+description: React hooks + headless chat components driving createChatController.
+---
+
+## Purpose
+
+`useChat` hook returning `ChatReturn` (state + actions) + headless
+components with `data-ak-*` attributes for theming.
+
+## Install
+
+```bash
+npm install @agentskit/react
+```
+
+## Primary exports
+
+- `useChat(config): ChatReturn` — same contract as every other framework binding.
+- `<ChatContainer>`, `<Message>`, `<InputBar>`, `<ToolCallView>`, `<ToolConfirmation>`, `<ThinkingIndicator>`, `<CodeBlock>`, `<Markdown>`.
+- Re-exports `createChatController`, all `@agentskit/core` types, and helpers.
+- `@agentskit/react/theme` — CSS variable theme.
+
+## Minimal example
+
+```tsx
+import { useChat } from '@agentskit/react'
+import { anthropic } from '@agentskit/adapters'
+
+export function Chat() {
+  const chat = useChat({ adapter: anthropic({ apiKey: key, model: 'claude-sonnet-4-6' }) })
+  return (
+    <form onSubmit={e => { e.preventDefault(); chat.send(chat.input) }}>
+      {chat.messages.map(m => <div key={m.id}>{m.content}</div>)}
+      <input value={chat.input} onChange={e => chat.setInput(e.target.value)} />
+    </form>
+  )
+}
+```
+
+## Related frameworks (same contract)
+
+- [@agentskit/vue](/docs/reference/for-agents/vue)
+- [@agentskit/svelte](/docs/reference/for-agents/svelte)
+- [@agentskit/solid](/docs/reference/for-agents/solid)
+- [@agentskit/react-native](/docs/reference/for-agents/react-native)
+- [@agentskit/angular](/docs/reference/for-agents/angular)
+- [@agentskit/ink](/docs/reference/for-agents/ink)
+
+## Source
+
+- npm: https://www.npmjs.com/package/@agentskit/react
+- repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/react

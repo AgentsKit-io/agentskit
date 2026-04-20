@@ -1,0 +1,77 @@
+---
+title: Mandatory tool sandbox
+description: Enforce a sandbox policy across every tool the agent can call — allow-list, deny-list, require-sandbox, per-tool validators.
+---
+
+Powerful tools (shell, filesystem, code execution) shouldn't be run
+raw. `createMandatorySandbox` wraps every `ToolDefinition` with a
+policy layer so a bad agent decision can't bypass the rules.
+
+Four knobs:
+
+- **allow** — explicit allow-list; everything else denied.
+- **deny** — specific tools are blocked.
+- **requireSandbox** — listed tools (or `'*'`) must run inside the
+  shared sandbox tool, regardless of their own `execute`.
+- **validators** — synchronous per-tool argument checks.
+
+## Install
+
+Ships with `@agentskit/sandbox`.
+
+## Wire it up
+
+```ts
+import { createMandatorySandbox, sandboxTool } from '@agentskit/sandbox'
+import { filesystem, shell, webSearch } from '@agentskit/tools'
+
+const policy = createMandatorySandbox({
+  sandbox: sandboxTool(),
+  policy: {
+    requireSandbox: ['shell'],
+    deny: ['filesystem'],
+    allow: ['shell', 'web_search', 'code_execution'],
+    validators: {
+      web_search: args => {
+        if (typeof args.q !== 'string' || args.q.length > 200) {
+          throw new Error('web_search requires a query ≤ 200 chars')
+        }
+      },
+    },
+    onPolicyEvent: e => logger.info('[policy]', e),
+  },
+})
+
+const safeTools = [shell(), webSearch(), filesystem({ basePath })].map(t => policy.wrap(t))
+
+const runtime = createRuntime({ adapter, tools: safeTools })
+```
+
+## How enforcement works
+
+- Denied / not-in-allow tools: the wrapper replaces `execute` with a
+  thunk that throws. The runtime surfaces the error to the model
+  rather than running anything.
+- Require-sandbox tools: the wrapper replaces `execute` with the
+  sandbox tool's `execute`, so the original tool's body never runs.
+- Validators: run synchronously *before* execution; throw to abort.
+
+## Dry-run
+
+`check(tool)` returns `{ allowed, mustSandbox, reason? }` without
+wrapping — useful for CI rules that fail the build when a new tool
+would be denied, or for admin dashboards that show the current policy
+effect.
+
+## Pair with
+
+- [HITL approvals](/docs/reference/recipes/hitl-approvals) — require a human
+  decision on top of the sandbox for the riskiest ops.
+- [Signed audit log](/docs/reference/recipes/audit-log) — record every
+  allow/deny/run decision for SOC 2 evidence.
+- [Rate limiting](/docs/reference/recipes/rate-limiting) — cap how often any
+  given tool can be invoked per user.
+
+## See also
+
+- [Confirmation-gated tools](/docs/reference/recipes/confirmation-gated-tool) — per-call human approval.

@@ -1,0 +1,36 @@
+---
+title: Observability
+description: Trace, log, audit, and cost-guard your agents end-to-end.
+---
+
+## Loggers + tracers
+
+- `consoleLogger` — local dev.
+- `langsmith` — LangSmith observer.
+- `opentelemetry` — OTel observer.
+- `createTraceTracker` — low-level span lifecycle.
+
+## Local trace viewer
+
+- `createFileTraceSink` + `renderTraceViewerHtml` — offline Jaeger-style HTML. [Recipe](/docs/reference/recipes/trace-viewer).
+
+## Devtools server
+
+- `createDevtoolsServer` + `toSseFrame` — live feed for any devtools UI. [Recipe](/docs/reference/recipes/devtools-server).
+
+## Cost + tokens
+
+- `costGuard` — hard $ ceiling per run.
+- `approximateCounter`, `createProviderCounter` — token accounting.
+
+## Audit
+
+- `createSignedAuditLog` — hash-chain + HMAC tamper-evident log. [Recipe](/docs/reference/recipes/audit-log).
+
+*Per-observer deep dives land in step 6 of the docs IA rollout.*
+
+## Related
+
+- [Package: @agentskit/observability](/docs/reference/packages/observability)
+- [For agents: observability](/docs/reference/for-agents/observability)
+- [Evals](/docs/production/evals) · [Security](/docs/production/security)

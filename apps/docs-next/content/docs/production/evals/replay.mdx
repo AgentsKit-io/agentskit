@@ -1,0 +1,57 @@
+---
+title: Deterministic replay
+description: Record once, replay forever. Test without hitting the network.
+---
+
+## Record
+
+```ts
+import { createRecordingAdapter } from '@agentskit/eval'
+
+const rec = createRecordingAdapter({
+  inner: openai({ apiKey }),
+  cassettePath: '.agentskit/cassettes/triage.jsonl',
+})
+```
+
+Run your suite once with `rec` — every call captured.
+
+## Replay
+
+```ts
+import { createReplayAdapter } from '@agentskit/eval'
+
+const replay = createReplayAdapter({
+  cassettePath: '.agentskit/cassettes/triage.jsonl',
+})
+```
+
+Use `replay` in CI — zero network, deterministic.
+
+## Time travel
+
+```ts
+import { createTimeTravelSession } from '@agentskit/eval'
+
+const session = createTimeTravelSession({ cassettePath })
+session.rewindTo(step)
+session.override(step, { output: 'alternate response' })
+const forked = session.fork()
+```
+
+## Replay against different model
+
+```ts
+import { replayAgainst } from '@agentskit/eval'
+
+const diff = await replayAgainst({
+  cassettePath,
+  adapter: anthropic(...),
+})
+```
+
+## Related
+
+- [Recipe: deterministic replay](/docs/reference/recipes/deterministic-replay)
+- [Recipe: time-travel debug](/docs/reference/recipes/time-travel-debug)
+- [Recipe: replay different model](/docs/reference/recipes/replay-different-model)

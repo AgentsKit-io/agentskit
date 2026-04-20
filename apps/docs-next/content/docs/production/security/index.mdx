@@ -1,0 +1,21 @@
+---
+title: Security
+description: The five primitives most production agents want — PII, injection, rate limits, audit, sandbox.
+---
+
+## Primitives
+
+- **PII redaction** — `createPIIRedactor` + `DEFAULT_PII_RULES`. [Recipe](/docs/reference/recipes/pii-redaction).
+- **Prompt injection detector** — heuristics + pluggable model classifier. [Recipe](/docs/reference/recipes/prompt-injection).
+- **Rate limiting** — token-bucket by user / IP / key. [Recipe](/docs/reference/recipes/rate-limiting).
+- **Signed audit log** — hash-chain + HMAC. [Recipe](/docs/reference/recipes/audit-log).
+- **Mandatory sandbox** — allow / deny / require / validators across every tool. [Recipe](/docs/reference/recipes/mandatory-sandbox).
+- **Human-in-the-loop approvals** — pause / resume / approve with persisted state. [Recipe](/docs/reference/recipes/hitl-approvals).
+
+*Per-primitive deep dives land in step 6 of the docs IA rollout.*
+
+## Related
+
+- [Package: @agentskit/core/security](/docs/reference/for-agents/core)
+- [Package: @agentskit/sandbox](/docs/reference/packages/sandbox)
+- [Observability](/docs/production/observability)

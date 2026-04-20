@@ -1,0 +1,56 @@
+---
+title: '@agentskit/adapters'
+description: 20+ LLM chat + embedder adapters, plus router / ensemble / fallback. Swap providers with one import line.
+---
+
+## When to reach for it
+
+- You need to talk to a hosted LLM (Anthropic, OpenAI, Gemini, Mistral, Cohere, Groq, Together, Fireworks, OpenRouter, Hugging Face, …).
+- You want local-only (Ollama, LM Studio, vLLM, llama.cpp).
+- You want to compose multiple candidates (`createRouter`, `createEnsembleAdapter`, `createFallbackAdapter`).
+- You want to test agents without hitting a real LLM (`mockAdapter`, `recordingAdapter`, `replayAdapter`).
+
+## Install
+
+```bash
+npm install @agentskit/adapters
+```
+
+## Hello world
+
+```ts
+import { anthropic } from '@agentskit/adapters'
+
+const adapter = anthropic({ apiKey: process.env.ANTHROPIC_API_KEY!, model: 'claude-sonnet-4-6' })
+```
+
+## Surface
+
+Hosted: `anthropic` · `openai` · `gemini` · `grok` · `deepseek` · `kimi` · `mistral` · `cohere` · `together` · `groq` · `fireworks` · `openrouter` · `huggingface` · `langchain` · `langgraph` · `vercelAI` · `generic`
+
+Local: `ollama` · `lmstudio` · `vllm` · `llamacpp`
+
+Embedders: `openaiEmbedder` · `geminiEmbedder` · `ollamaEmbedder` · `deepseekEmbedder` · `grokEmbedder` · `kimiEmbedder` · `createOpenAICompatibleEmbedder`
+
+Higher-order: `createRouter` · `createEnsembleAdapter` · `createFallbackAdapter`
+
+Testing: `mockAdapter` · `recordingAdapter` · `replayAdapter` · `inMemorySink` · `simulateStream` · `chunkText` · `fetchWithRetry`
+
+## Recipes
+
+- [More providers](/docs/reference/recipes/more-providers)
+- [Adapter router](/docs/reference/recipes/adapter-router)
+- [Ensemble](/docs/reference/recipes/adapter-ensemble)
+- [Fallback chain](/docs/reference/recipes/fallback-chain)
+- [Custom adapter](/docs/reference/recipes/custom-adapter)
+- [Simulate stream](/docs/reference/recipes/simulate-stream)
+
+## Related
+
+- [Concepts: Adapter](/docs/get-started/concepts/adapter)
+- [Data → Providers](/docs/data/providers)
+- [For agents: adapters](/docs/reference/for-agents/adapters)
+
+## Source
+
+npm: [@agentskit/adapters](https://www.npmjs.com/package/@agentskit/adapters) · repo: [packages/adapters](https://github.com/AgentsKit-io/agentskit/tree/main/packages/adapters)

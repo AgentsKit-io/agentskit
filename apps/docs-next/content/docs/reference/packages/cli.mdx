@@ -1,0 +1,50 @@
+---
+title: '@agentskit/cli'
+description: The agentskit CLI — init, chat, run, dev, doctor, ai, tunnel, rag, config.
+---
+
+## When to reach for it
+
+- You want to scaffold a new agent project.
+- You want to chat / run an agent from a terminal.
+- You want `agentskit ai "<description>"` to generate a typed scaffold from plain language.
+
+## Install
+
+```bash
+npx @agentskit/cli <command>
+# or globally:
+npm install -g @agentskit/cli
+```
+
+## Commands
+
+| Command | Purpose |
+|---|---|
+| `agentskit init` | Scaffold a new project (react / ink / runtime / multi-agent). |
+| `agentskit chat` | Interactive chat in the terminal (Ink). |
+| `agentskit run "<task>"` | Run an agent once. |
+| `agentskit dev` | Dev server with hot-reload. |
+| `agentskit doctor` | Diagnose env (providers, keys, tooling). |
+| `agentskit ai "<description>"` | NL → typed `AgentSchema` + scaffolded project. |
+| `agentskit tunnel` | ngrok-style tunnel for webhooks. |
+| `agentskit rag` | Local RAG helpers (ingest / search). |
+| `agentskit config` | Read / write local config. |
+
+## Programmatic helpers
+
+- `@agentskit/cli/ai` — `scaffoldAgent` · `writeScaffold` · `createAdapterPlanner`.
+
+## Recipes
+
+- [agentskit ai](/docs/reference/recipes/agentskit-ai)
+
+## Related
+
+- [CLI (deep dive)](/docs/production/cli)
+- [Templates](/docs/reference/packages/templates)
+- [For agents: cli](/docs/reference/for-agents/cli)
+
+## Source
+
+npm: [@agentskit/cli](https://www.npmjs.com/package/@agentskit/cli) · repo: [packages/cli](https://github.com/AgentsKit-io/agentskit/tree/main/packages/cli)

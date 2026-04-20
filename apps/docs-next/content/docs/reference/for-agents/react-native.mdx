@@ -1,0 +1,43 @@
+---
+title: '@agentskit/react-native — for agents'
+description: React Native / Expo hook for AgentsKit. Metro + Hermes safe.
+---
+
+## Install
+
+```bash
+npm install @agentskit/react-native
+# peers:
+npm install react react-native
+```
+
+## Primary exports
+
+- `useChat(config): ChatReturn` — identical contract to `@agentskit/react`, imported from pure React (no DOM).
+
+## Minimal example
+
+```tsx
+import { useChat } from '@agentskit/react-native'
+import { View, TextInput, FlatList, Pressable, Text } from 'react-native'
+
+export function Chat({ adapter }) {
+  const chat = useChat({ adapter })
+  return (
+    <View style={{ flex: 1 }}>
+      <FlatList data={chat.messages} keyExtractor={m => m.id} renderItem={({ item }) => <Text>{item.content}</Text>} />
+      <TextInput value={chat.input} onChangeText={chat.setInput} />
+      <Pressable onPress={() => chat.send(chat.input)}><Text>Send</Text></Pressable>
+    </View>
+  )
+}
+```
+
+## Related
+
+- [@agentskit/react](/docs/reference/for-agents/react) — same contract, web.
+
+## Source
+
+- npm: https://www.npmjs.com/package/@agentskit/react-native
+- repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/react-native

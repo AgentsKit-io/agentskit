@@ -1,0 +1,71 @@
+---
+title: Progressive tool calls
+description: Start executing a tool before the model finishes streaming its arguments.
+---
+
+A common latency win: the model is still typing JSON args for a
+`search(query, limit, filters)` call, but you already have `query` —
+and `query` is the only field the tool actually needs to start
+working. `@agentskit/core` ships two primitives for this pattern.
+
+## Install
+
+Built into `@agentskit/core`.
+
+## Parse args progressively
+
+`createProgressiveArgParser` consumes JSON text in arbitrary chunks
+and fires an event per top-level field whose value is syntactically
+complete.
+
+```ts
+import { createProgressiveArgParser } from '@agentskit/core'
+
+const p = createProgressiveArgParser()
+p.push('{"query"')       // -> []
+p.push(':"pirates"')     // -> [{ field: 'query', value: 'pirates' }]
+p.push(', "limit": 10}') // -> [{ field: 'limit', value: 10 }]
+p.end()
+```
+
+It handles escaped strings and nested objects/arrays, which are
+parsed atomically when their enclosing top-level field closes.
+
+## Fire a tool early
+
+`executeToolProgressively` wires the parser into a tool. By default
+it starts executing as soon as the **first** field arrives; pass
+`triggerFields` to require specific fields before kicking off.
+
+```ts
+import { executeToolProgressively, defineTool } from '@agentskit/core'
+
+const search = defineTool({
+  name: 'search',
+  schema: { type: 'object', properties: { query: { type: 'string' }, limit: { type: 'number' } } } as const,
+  execute: async ({ query, limit }) => {
+    return fetch(`/api/search?q=${query}&limit=${limit ?? 20}`).then(r => r.json())
+  },
+})
+
+async function* argStream() {
+  yield '{"query":"open source"'
+  // ...LLM still generating...
+  yield ', "limit": 5}'
+}
+
+const { execution, finalArgs } = executeToolProgressively(search, argStream(), {
+  messages: [],
+  callId: 'call_1',
+}, { triggerFields: ['query'] })
+
+const result = await execution
+```
+
+- `execution` resolves once the tool returns.
+- `finalArgs` reflects the complete object after the stream closes.
+
+## See also
+
+- [Custom adapter](/docs/reference/recipes/custom-adapter) — emit `tool_call` chunks with partial args
+- [Deterministic replay](/docs/reference/recipes/deterministic-replay) — record progressive runs for debugging

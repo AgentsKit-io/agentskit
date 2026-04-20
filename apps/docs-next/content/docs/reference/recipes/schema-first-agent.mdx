@@ -1,0 +1,94 @@
+---
+title: Schema-first agents
+description: Define your agent in YAML or JSON and get a typed AgentSchema you can feed the runtime.
+---
+
+When an agent is defined by *declaration* instead of imperative code,
+it becomes diffable, reviewable, and portable. `@agentskit/core` ships
+a zero-dependency `AgentSchema` validator — bring your own YAML
+parser if you want YAML, or use JSON out of the box.
+
+## Install
+
+Built into `@agentskit/core`.
+
+## JSON (no extra deps)
+
+```json title="agents/support-bot.json"
+{
+  "name": "support-bot",
+  "description": "First-line customer support triage.",
+  "systemPrompt": "You are a calm, precise triage agent...",
+  "model": { "provider": "anthropic", "model": "claude-sonnet-4-6" },
+  "tools": [
+    {
+      "name": "search_kb",
+      "description": "Search the knowledge base",
+      "schema": { "type": "object", "properties": { "query": { "type": "string" } } }
+    }
+  ],
+  "memory": { "kind": "localStorage", "key": "support-bot" },
+  "skills": ["researcher"]
+}
+```
+
+```ts
+import { parseAgentSchema } from '@agentskit/core/agent-schema'
+import { readFileSync } from 'node:fs'
+
+const schema = parseAgentSchema(readFileSync('agents/support-bot.json', 'utf8'))
+//    ^? AgentSchema (typed)
+```
+
+## YAML (bring your own parser)
+
+```yaml title="agents/support-bot.yaml"
+name: support-bot
+model:
+  provider: anthropic
+  model: claude-sonnet-4-6
+tools:
+  - name: search_kb
+    description: Search the knowledge base
+```
+
+```ts
+import { parseAgentSchema } from '@agentskit/core'
+import { parse as parseYaml } from 'yaml' // or 'js-yaml'
+import { readFileSync } from 'node:fs'
+
+const schema = parseAgentSchema(readFileSync('agents/support-bot.yaml', 'utf8'), {
+  parser: parseYaml,
+})
+```
+
+## Compile to a typed TS module
+
+Useful for monorepos that want `import { agent } from './agent.gen.ts'`.
+
+```ts
+import { parseAgentSchema, renderAgentSchemaModule } from '@agentskit/core/agent-schema'
+import { writeFileSync, readFileSync } from 'node:fs'
+
+const schema = parseAgentSchema(readFileSync('agents/support-bot.json', 'utf8'))
+writeFileSync('agents/agent.gen.ts', renderAgentSchemaModule(schema))
+```
+
+## Fields reference
+
+| Field | Required | Notes |
+|-------|----------|-------|
+| `name` | yes | Must match `/[a-zA-Z_][a-zA-Z0-9_-]*/` |
+| `description` | no | Free-form |
+| `systemPrompt` | no | Persona / behavior for the model |
+| `model.provider` | yes | `anthropic` / `openai` / `gemini` / ... |
+| `model.model` / `temperature` / `maxTokens` / `baseUrl` | no | Provider config |
+| `tools[]` | no | `name` + optional `description`, `schema`, `implementation` hint, `requiresConfirmation`, `tags` |
+| `memory.kind` | no | `inMemory` / `localStorage` / `custom` |
+| `skills[]` | no | References to `@agentskit/skills` ids |
+| `metadata` | no | Free-form |
+
+## See also
+
+- [`agentskit ai`](/docs/reference/recipes/agentskit-ai) — generate a schema from natural language
+- [Adapter router](/docs/reference/recipes/adapter-router)

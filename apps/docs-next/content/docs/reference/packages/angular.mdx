@@ -1,0 +1,54 @@
+---
+title: '@agentskit/angular'
+description: Angular service exposing chat state as a Signal + RxJS Observable. Same contract as @agentskit/react.
+---
+
+## Install
+
+```bash
+npm install @agentskit/angular @angular/core rxjs @agentskit/adapters
+```
+
+## Hello world
+
+```ts
+import { Component, inject } from '@angular/core'
+import { AgentskitChat } from '@agentskit/angular'
+
+@Component({
+  selector: 'ak-chat',
+  standalone: true,
+  template: `
+    <div *ngFor="let m of chat.state()?.messages ?? []">{{ m.content }}</div>
+    <input [value]="chat.state()?.input ?? ''" (input)="chat.setInput($any($event.target).value)">
+    <button (click)="chat.send(chat.state()?.input ?? '')">Send</button>
+  `,
+})
+export class ChatComponent {
+  chat = inject(AgentskitChat)
+  constructor() {
+    this.chat.init({ adapter })
+  }
+}
+```
+
+## Surface
+
+- `AgentskitChat` — `@Injectable({ providedIn: 'root' })`:
+  - `init(config)` — bootstrap the controller.
+  - `state: WritableSignal<ChatState>` — template-friendly.
+  - `stream$: Observable<ChatState>` — RxJS.
+  - Actions: `send` · `stop` · `retry` · `setInput` · `clear` · `approve` · `deny`.
+
+## Siblings
+
+[React](/docs/reference/packages/react) · [Vue](/docs/reference/packages/vue) · [Svelte](/docs/reference/packages/svelte) · [Solid](/docs/reference/packages/solid) · [React Native](/docs/reference/packages/react-native) · [Ink](/docs/reference/packages/ink)
+
+## Related
+
+- [UI + hooks](/docs/ui)
+- [For agents: angular](/docs/reference/for-agents/angular)
+
+## Source
+
+npm: [@agentskit/angular](https://www.npmjs.com/package/@agentskit/angular) · repo: [packages/angular](https://github.com/AgentsKit-io/agentskit/tree/main/packages/angular)

@@ -1,0 +1,26 @@
+---
+title: agentskit ai
+description: Natural language → typed AgentSchema + scaffold.
+---
+
+```bash
+agentskit ai "I want a Discord bot that answers questions from a Notion workspace"
+```
+
+Produces:
+1. `AgentSchema` JSON (typed, validated).
+2. Scaffold files (`tools.ts`, `runtime.ts`, optional UI).
+3. `.env.example` with required keys.
+
+## Flags
+
+| Flag | Purpose |
+|---|---|
+| `--out <dir>` | scaffold target |
+| `--schema-only` | emit only the AgentSchema JSON |
+| `--provider` / `--model` | LLM used for the authoring step |
+
+## Related
+
+- [Recipe: agentskit ai](/docs/reference/recipes/agentskit-ai)
+- [Specs → AgentSchema](/docs/reference/specs/agent-schema)

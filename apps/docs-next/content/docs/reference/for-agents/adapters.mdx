@@ -1,0 +1,83 @@
+---
+title: '@agentskit/adapters — for agents'
+description: Provider adapters (OpenAI-compatible + native) + router + ensemble + fallback + generic factory.
+---
+
+## Purpose
+
+Every LLM provider, one contract. Stream, tool calls, retry, abort
+all normalized. Plus higher-order adapters that compose candidates
+(router, ensemble, fallback) and a `createAdapter` factory for
+custom providers.
+
+## Install
+
+```bash
+npm install @agentskit/adapters
+```
+
+## Primary exports
+
+### Native adapters
+
+- `anthropic`, `openai`, `gemini`, `grok`, `ollama`, `deepseek`,
+  `kimi`, `langchain`, `langgraph`, `vercelAI`, `generic`.
+- `createAdapter({ send, parse, abort })` — build your own. See
+  [Custom adapter recipe](/docs/reference/recipes/custom-adapter).
+
+### OpenAI-compatible providers
+
+`mistral`, `cohere`, `together`, `groq`, `fireworks`, `openrouter`,
+`huggingface`, `lmstudio`, `vllm`, `llamacpp`. All share the
+`createOpenAICompatibleAdapter` base; each exposes a default
+`baseUrl` and accepts an override.
+
+### Composition
+
+- `createRouter({ candidates, policy, classify, onRoute })` — pick
+  one per request by cost / latency / tags / custom. See
+  [Adapter router](/docs/reference/recipes/adapter-router).
+- `createEnsembleAdapter({ candidates, aggregate })` — fan-out +
+  merge (majority-vote / concat / longest / fn). See
+  [Ensemble](/docs/reference/recipes/adapter-ensemble).
+- `createFallbackAdapter([candidates], { shouldRetry, onFallback })`
+  — try in order, fall through on open / first-chunk / zero-chunk
+  failures. See [Fallback chain](/docs/reference/recipes/fallback-chain).
+
+### Testing + utilities
+
+- `mockAdapter`, `recordingAdapter`, `replayAdapter`, `inMemorySink`
+  — ship without network.
+- `simulateStream`, `chunkText`, `fetchWithRetry` — lower-level
+  helpers.
+
+### Embedders
+
+- `openaiEmbedder`, `geminiEmbedder`, `ollamaEmbedder`,
+  `deepseekEmbedder`, `grokEmbedder`, `kimiEmbedder`,
+  `createOpenAICompatibleEmbedder`.
+
+## Minimal example
+
+```ts
+import { openai } from '@agentskit/adapters'
+
+const adapter = openai({ apiKey: process.env.OPENAI_API_KEY!, model: 'gpt-4o-mini' })
+```
+
+## Common patterns
+
+- Rank candidates by cost and fall back on errors: compose `createRouter` with `createFallbackAdapter`.
+- A/B providers without users: [`speculate`](/docs/reference/recipes/speculative-execution) or [`replayAgainst`](/docs/reference/recipes/replay-different-model).
+- Test without keys: pair `recordingAdapter` + `replayAdapter` ([deterministic replay](/docs/reference/recipes/deterministic-replay)).
+
+## Related packages
+
+- [@agentskit/core](/docs/reference/for-agents/core) — the `AdapterFactory` contract lives here.
+- [@agentskit/runtime](/docs/reference/for-agents/runtime)
+- [@agentskit/eval](/docs/reference/for-agents/eval)
+
+## Source
+
+- npm: https://www.npmjs.com/package/@agentskit/adapters
+- repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/adapters

@@ -1,0 +1,36 @@
+---
+title: Generative UI
+description: Schema-driven renderers. LLM outputs typed JSON; UI reflects it.
+---
+
+Subpath: `@agentskit/core/generative-ui`.
+
+## Shape
+
+```ts
+type GenerativeBlock =
+  | { kind: 'text'; content: string }
+  | { kind: 'table'; columns: string[]; rows: unknown[][] }
+  | { kind: 'form'; fields: FormField[]; onSubmit: { tool: string } }
+  | { kind: 'chart'; spec: ChartSpec }
+  | { kind: 'citation'; url: string; title?: string }
+```
+
+## Validator
+
+```ts
+import { parseGenerativeBlock } from '@agentskit/core/generative-ui'
+
+const block = parseGenerativeBlock(llmOutput)
+```
+
+## Renderer contract
+
+Every UI binding (React / Vue / Svelte / Solid / Angular / RN / Ink)
+ships a `<GenerativeBlock>` component. Swap kinds without changing the
+render call.
+
+## Related
+
+- [Recipe: generative UI](/docs/reference/recipes/generative-ui)
+- [UI → Data attributes](/docs/ui/data-attributes)

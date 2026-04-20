@@ -1,0 +1,109 @@
+---
+title: A/B prompts with feature flags
+description: Ship multiple prompts, route users deterministically, measure which wins.
+---
+
+Picking a new prompt is a product decision. Ship the old and new
+versions side-by-side, route each user deterministically, and let
+your analytics decide the winner. `@agentskit/core/prompt-experiments`
+is the 1 KB glue that wires any feature-flag provider (PostHog,
+GrowthBook, Unleash, custom) to a typed A/B prompt picker with
+sticky-hash fallback.
+
+## Install
+
+Built into `@agentskit/core`.
+
+```ts
+import {
+  createPromptExperiment,
+  flagResolver,
+} from '@agentskit/core/prompt-experiments'
+```
+
+## Sticky-hash baseline (no flag provider)
+
+Good for smoke tests, demos, or when you haven't picked a flag
+service yet. Same `subjectId` always maps to the same variant.
+
+```ts
+import { createPromptExperiment, stickyResolver } from '@agentskit/core/prompt-experiments'
+
+const exp = createPromptExperiment({
+  name: 'support-tone',
+  variants: [
+    { id: 'v1', prompt: 'Be concise and formal.', weight: 1 },
+    { id: 'v2', prompt: 'Be warm and playful.', weight: 1 },
+  ],
+  resolve: stickyResolver(),
+  onExposure: d => analytics.track('prompt-exposure', d),
+})
+
+const { prompt, variantId } = await exp.pick({ subjectId: currentUser.id })
+```
+
+## Plug in your flag provider
+
+`flagResolver` wraps any `(name, context) => variantId` function —
+PostHog's `getFeatureFlagPayload`, GrowthBook's `getFeatureValue`,
+Unleash, LaunchDarkly. If the provider returns an unknown variant
+(rollout paused, flag misconfigured, network error), the picker
+falls back to the sticky resolver so users still see *some* prompt.
+
+```ts
+import posthog from 'posthog-node'
+
+const exp = createPromptExperiment({
+  name: 'support-tone',
+  variants: [
+    { id: 'control', prompt: 'Be concise and formal.' },
+    { id: 'playful', prompt: 'Be warm and playful.' },
+  ],
+  resolve: flagResolver(async (name, ctx) => {
+    return posthog.getFeatureFlag(name, ctx.subjectId ?? 'anon') as string
+  }, 'support-tone'),
+  onExposure: d => {
+    posthog.capture({
+      distinctId: d.subjectId ?? 'anon',
+      event: '$feature_flag_called',
+      properties: { $feature_flag: d.name, $feature_flag_response: d.variantId, fallback: d.fallback },
+    })
+  },
+})
+```
+
+## Decision shape
+
+```ts
+{
+  name: 'support-tone',
+  variantId: 'playful',
+  prompt: 'Be warm and playful.',
+  fallback: false,   // true if the custom resolver failed
+}
+```
+
+Every call hits `onExposure`, so your analytics pipeline can
+attribute downstream events (conversions, satisfaction, regenerations)
+to the variant.
+
+## Multiple variants per property
+
+`prompt` is typed on the variant so you can A/B whole message
+structures, not just strings:
+
+```ts
+createPromptExperiment<{ system: string; temperature: number }>({
+  name: 'agent-config',
+  variants: [
+    { id: 'cold', prompt: { system: 'You are precise.', temperature: 0 } },
+    { id: 'warm', prompt: { system: 'You are warm.', temperature: 0.7 } },
+  ],
+  resolve: flagResolver(getVariant, 'agent-config'),
+})
+```
+
+## See also
+
+- [Eval suite](/docs/reference/recipes/eval-suite) — score each variant quantitatively
+- [Evals in CI](/docs/reference/recipes/evals-ci) — gate the winner

@@ -1,0 +1,25 @@
+---
+title: CLI
+description: Nine commands wrapping every part of AgentsKit — init, chat, run, dev, doctor, ai, tunnel, rag, config.
+---
+
+## Commands
+
+| Command | Purpose |
+|---|---|
+| `agentskit init` | Scaffold a new project (react / ink / runtime / multi-agent). |
+| `agentskit chat` | Interactive chat in the terminal (Ink). |
+| `agentskit run "<task>"` | Run an agent once. `--provider`, `--model`, `--api-key`, `--base-url`, `--verbose`. |
+| `agentskit dev` | Dev server with hot-reload. |
+| `agentskit doctor` | Diagnose env (providers, keys, tooling). |
+| `agentskit ai "<description>"` | NL → typed `AgentSchema` + scaffold. [Recipe](/docs/reference/recipes/agentskit-ai). |
+| `agentskit tunnel` | ngrok-style tunnel for webhooks. |
+| `agentskit rag` | Local RAG helpers (ingest / search). |
+| `agentskit config` | Read / write local config. |
+
+*Per-command deep dives land in step 6 of the docs IA rollout.*
+
+## Related
+
+- [Package: @agentskit/cli](/docs/reference/packages/cli)
+- [For agents: cli](/docs/reference/for-agents/cli)

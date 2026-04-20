@@ -1,0 +1,45 @@
+---
+title: '@agentskit/svelte'
+description: Svelte 5 chat store. Same contract as @agentskit/react.
+---
+
+## Install
+
+```bash
+npm install @agentskit/svelte svelte @agentskit/adapters
+```
+
+## Hello world
+
+```svelte
+<script lang="ts">
+import { createChatStore } from '@agentskit/svelte'
+import { anthropic } from '@agentskit/adapters'
+
+const chat = createChatStore({ adapter: anthropic({ apiKey, model: 'claude-sonnet-4-6' }) })
+</script>
+
+{#each $chat.messages as m (m.id)}
+  <p>{m.content}</p>
+{/each}
+<form on:submit|preventDefault={() => chat.send($chat.input)}>
+  <input bind:value={$chat.input} />
+</form>
+```
+
+## Surface
+
+- `createChatStore(config): SvelteChatStore` — `Readable<ChatState>` + action methods + `destroy()`.
+
+## Siblings
+
+[React](/docs/reference/packages/react) · [Vue](/docs/reference/packages/vue) · [Solid](/docs/reference/packages/solid) · [React Native](/docs/reference/packages/react-native) · [Angular](/docs/reference/packages/angular) · [Ink](/docs/reference/packages/ink)
+
+## Related
+
+- [UI + hooks](/docs/ui)
+- [For agents: svelte](/docs/reference/for-agents/svelte)
+
+## Source
+
+npm: [@agentskit/svelte](https://www.npmjs.com/package/@agentskit/svelte) · repo: [packages/svelte](https://github.com/AgentsKit-io/agentskit/tree/main/packages/svelte)

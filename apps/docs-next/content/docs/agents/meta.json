@@ -1,16 +1,20 @@
 {
   "title": "Agents",
+  "description": "Runtime, tools, skills, delegation, durable execution, topologies, background agents, HITL, self-debug.",
+  "root": true,
   "pages": [
     "index",
     "runtime",
-    "tools",
-    "skills",
     "delegation",
     "durable",
     "topologies",
     "background",
     "speculate",
     "hitl",
-    "self-debug"
+    "self-debug",
+    "---Tools---",
+    "tools",
+    "---Skills---",
+    "skills"
   ]
 }

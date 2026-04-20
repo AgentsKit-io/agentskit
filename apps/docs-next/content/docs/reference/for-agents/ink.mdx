@@ -1,0 +1,35 @@
+---
+title: '@agentskit/ink — for agents'
+description: Terminal chat UI via Ink. Same useChat contract as the React binding.
+---
+
+## Install
+
+```bash
+npm install @agentskit/ink
+```
+
+## Primary exports
+
+- `useChat(config): ChatReturn` — mirrors `@agentskit/react`.
+- `<ChatContainer>`, `<Message>`, `<InputBar>`, `<ToolCallView>`, `<ThinkingIndicator>` — Ink components with keyboard nav + ANSI theming.
+
+## Minimal example
+
+```tsx
+import { render } from 'ink'
+import { ChatContainer } from '@agentskit/ink'
+import { anthropic } from '@agentskit/adapters'
+
+render(<ChatContainer config={{ adapter: anthropic({ apiKey, model: 'claude-sonnet-4-6' }) }} />)
+```
+
+## Related packages
+
+- [@agentskit/react](/docs/reference/for-agents/react) — sibling binding, same contract.
+- [@agentskit/cli](/docs/reference/for-agents/cli) — `agentskit chat` ships ink internally.
+
+## Source
+
+- npm: https://www.npmjs.com/package/@agentskit/ink
+- repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/ink

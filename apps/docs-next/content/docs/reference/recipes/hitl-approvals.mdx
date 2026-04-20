@@ -1,0 +1,86 @@
+---
+title: Human-in-the-loop approvals
+description: Pause an agent at a named gate, persist the decision, resume deterministically.
+---
+
+A destructive tool call, a risky email, a big refund — some agent
+actions need human approval. `@agentskit/core/hitl` gives you the
+three primitives that make that practical: a persisted `Approval`
+record, a `request → await → decide` API, and a pluggable
+`ApprovalStore` so the decision survives crashes and worker restarts.
+
+## Install
+
+Built into `@agentskit/core` (subpath, zero extra weight on the main
+bundle).
+
+```ts
+import { createApprovalGate, createInMemoryApprovalStore } from '@agentskit/core/hitl'
+```
+
+## Pause-resume flow
+
+```ts
+const gate = createApprovalGate(myStore)
+
+async function deleteUserTool({ userId }: { userId: string }) {
+  const approval = await gate.request({
+    id: `delete-${userId}`,
+    name: 'delete-user',
+    payload: { userId },
+  })
+
+  const decision = await gate.await(approval.id, { timeoutMs: 3_600_000 })
+  if (decision.status !== 'approved') {
+    throw new Error(`rejected by ${decision.decisionMetadata?.approver ?? 'human'}`)
+  }
+
+  await db.users.delete(userId)
+}
+```
+
+On the operator side:
+
+```ts
+await gate.decide('delete-42', 'approved', { approver: 'alice' })
+// or
+await gate.decide('delete-42', 'rejected', { reason: 'account active' })
+```
+
+`gate.request` is **idempotent** on `id` — resuming a crashed run
+with the same id returns the existing approval (pending or decided)
+instead of creating a duplicate.
+
+## Stores
+
+- `createInMemoryApprovalStore()` — tests, single-process demos.
+- Bring your own with the 3-method contract (`put` / `get` /
+  `patch`). Redis, Postgres, SQS, DynamoDB — whatever you already run.
+
+## Options
+
+`gate.await(id, options?)`:
+
+| Option | Default | Purpose |
+|--------|---------|---------|
+| `timeoutMs` | `Infinity` | Reject with `timed out` after N ms |
+| `pollMs` | `500` | Poll interval (store dictates whether polling is actually needed) |
+| `signal` | — | `AbortSignal` to cancel waiting |
+
+## Pair with durable execution
+
+A step whose work should *not* re-run on resume wraps its approval
+check inside `runner.step(id, fn)`. Once the step is recorded, the
+next run short-circuits instead of asking the human twice.
+
+```ts
+await runner.step(`approve-delete-${userId}`, async () => {
+  const approval = await gate.request({ id: `delete-${userId}`, name: 'delete-user', payload: { userId } })
+  return gate.await(approval.id, { timeoutMs: 3_600_000 })
+})
+```
+
+## See also
+
+- [Durable execution](/docs/reference/recipes/durable-execution)
+- [Confirmation-gated tools](/docs/reference/recipes/confirmation-gated-tool)

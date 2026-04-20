@@ -1,0 +1,55 @@
+---
+title: '@agentskit/rag'
+description: Plug-and-play RAG. Chunk, embed, retrieve, rerank, hybrid — plus six document loaders.
+---
+
+## When to reach for it
+
+- You want retrieval-augmented generation in a few lines.
+- You need rerankers (BM25 / Cohere / BGE) or hybrid vector+keyword search.
+- You want document loaders for URL / GitHub / Notion / Confluence / Google Drive / PDF.
+
+## Install
+
+```bash
+npm install @agentskit/rag
+```
+
+## Hello world
+
+```ts
+import { createRAG } from '@agentskit/rag'
+import { fileVectorMemory } from '@agentskit/memory'
+import { openaiEmbedder } from '@agentskit/adapters'
+
+const rag = createRAG({
+  embed: openaiEmbedder({ apiKey: process.env.OPENAI_API_KEY! }),
+  store: fileVectorMemory({ path: './kb.json' }),
+})
+await rag.ingest([{ content: 'AgentsKit is a toolkit for AI agents.', source: 'intro' }])
+const hits = await rag.search('what is agentskit')
+```
+
+## Surface
+
+- `createRAG({ embed, store, chunkSize, chunkOverlap, topK, threshold })`.
+- `chunkText` — standalone splitter.
+- `createRerankedRetriever` · `createHybridRetriever` · `bm25Score` · `bm25Rerank`.
+- Loaders: `loadUrl` · `loadGitHubFile` · `loadGitHubTree` · `loadNotionPage` · `loadConfluencePage` · `loadGoogleDriveFile` · `loadPdf`.
+
+## Recipes
+
+- [RAG chat](/docs/reference/recipes/rag-chat)
+- [PDF Q&A](/docs/reference/recipes/pdf-qa)
+- [RAG reranking](/docs/reference/recipes/rag-reranking)
+- [Doc loaders](/docs/reference/recipes/doc-loaders)
+
+## Related
+
+- [Concepts: Retriever](/docs/get-started/concepts/retriever)
+- [Data → RAG](/docs/data/rag)
+- [For agents: rag](/docs/reference/for-agents/rag)
+
+## Source
+
+npm: [@agentskit/rag](https://www.npmjs.com/package/@agentskit/rag) · repo: [packages/rag](https://github.com/AgentsKit-io/agentskit/tree/main/packages/rag)

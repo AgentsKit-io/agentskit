@@ -1,0 +1,45 @@
+---
+title: '@agentskit/react-native'
+description: React Native / Expo hook. Metro + Hermes safe. Same contract as @agentskit/react.
+---
+
+## Install
+
+```bash
+npm install @agentskit/react-native react react-native @agentskit/adapters
+```
+
+## Hello world
+
+```tsx
+import { useChat } from '@agentskit/react-native'
+import { View, TextInput, FlatList, Pressable, Text } from 'react-native'
+
+export function ChatScreen({ adapter }) {
+  const chat = useChat({ adapter })
+  return (
+    <View style={{ flex: 1 }}>
+      <FlatList data={chat.messages} keyExtractor={m => m.id} renderItem={({ item }) => <Text>{item.content}</Text>} />
+      <TextInput value={chat.input} onChangeText={chat.setInput} />
+      <Pressable onPress={() => chat.send(chat.input)}><Text>Send</Text></Pressable>
+    </View>
+  )
+}
+```
+
+## Surface
+
+- `useChat(config): ChatReturn` — mirrors `@agentskit/react`, no DOM imports.
+
+## Siblings
+
+[React](/docs/reference/packages/react) · [Vue](/docs/reference/packages/vue) · [Svelte](/docs/reference/packages/svelte) · [Solid](/docs/reference/packages/solid) · [Angular](/docs/reference/packages/angular) · [Ink](/docs/reference/packages/ink)
+
+## Related
+
+- [UI + hooks](/docs/ui)
+- [For agents: react-native](/docs/reference/for-agents/react-native)
+
+## Source
+
+npm: [@agentskit/react-native](https://www.npmjs.com/package/@agentskit/react-native) · repo: [packages/react-native](https://github.com/AgentsKit-io/agentskit/tree/main/packages/react-native)

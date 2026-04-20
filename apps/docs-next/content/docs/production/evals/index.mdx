@@ -1,0 +1,34 @@
+---
+title: Evals
+description: Measure quality with numbers, not vibes. Suites, replay, snapshots, diff, CI reporters.
+---
+
+## Suites
+
+- `runEval({ agent, suite })` — run any `EvalSuite` against any async agent fn. [Recipe](/docs/reference/recipes/eval-suite).
+
+## Deterministic replay
+
+- `createRecordingAdapter` + `createReplayAdapter` — bit-for-bit replay. [Recipe](/docs/reference/recipes/deterministic-replay).
+- `createTimeTravelSession` — rewind + override + fork. [Recipe](/docs/reference/recipes/time-travel-debug).
+- `replayAgainst` — A/B cassette vs different model. [Recipe](/docs/reference/recipes/replay-different-model).
+
+## Snapshots + diff
+
+- `matchPromptSnapshot` — Jest-style with exact / normalized / similarity. [Recipe](/docs/reference/recipes/prompt-snapshots).
+- `promptDiff` + `attributePromptChange` — git-blame for prompts. [Recipe](/docs/reference/recipes/prompt-diff).
+
+## CI reporters
+
+- `reportToCi` + `renderJUnit` + `renderMarkdown` + `renderGitHubAnnotations`. [Recipe](/docs/reference/recipes/evals-ci).
+
+## Open format
+
+- `@agentskit/core/eval-format` — portable eval JSON spec. [Specs](/docs/reference/specs).
+
+*Per-primitive deep dives land in step 6 of the docs IA rollout.*
+
+## Related
+
+- [Package: @agentskit/eval](/docs/reference/packages/eval)
+- [For agents: eval](/docs/reference/for-agents/eval)

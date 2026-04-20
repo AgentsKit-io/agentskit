@@ -1,0 +1,34 @@
+---
+title: Migrating to AgentsKit
+description: Guides for moving from other frameworks. Honest about what transfers easily and what doesn't.
+---
+
+AgentsKit isn't in conflict with the libraries you're already using — but if you're hitting their limits, these guides walk you through the move.
+
+| From | Guide |
+|---|---|
+| Vercel AI SDK | [`from-vercel-ai-sdk`](/docs/get-started/migrating/from-vercel-ai-sdk) |
+| LangChain.js | [`from-langchain`](/docs/get-started/migrating/from-langchain) |
+| Mastra | [`from-mastra`](/docs/get-started/migrating/from-mastra) |
+
+## Before you migrate
+
+Read the "[When you should NOT use AgentsKit](../../#when-you-should-not-use-agentskit)" section of the README. If your use case falls in there, stay where you are — that's the honest answer.
+
+## What stays the same
+
+Regardless of what you're coming from:
+
+- **Your prompts** — system prompts, few-shot examples, tool descriptions transfer as-is
+- **Your tool implementations** — the functions that do the work (fetch, read file, call API) don't change
+- **Your provider accounts** — same API keys, same billing
+
+## What changes
+
+- **The shape of the client library** — imports, hooks, class instances, method names
+- **How tools are declared** — AgentsKit uses a `ToolDefinition` object with `schema` (JSON Schema 7)
+- **How the agent loop runs** — AgentsKit's `createRuntime` owns `maxSteps`, delegation, memory, retrieval
+
+## Philosophy
+
+Migration guides here are **honest**: we show the before/after, call out what AgentsKit does better, and call out what the other framework does better. If we can't beat the other option on a given axis, we say so.

@@ -1,0 +1,43 @@
+---
+title: A2A — Agent-to-Agent
+description: JSON-RPC 2.0 contract for one agent to invoke another across process or network.
+---
+
+Subpath: `@agentskit/core/a2a`.
+
+## Methods
+
+| Method | Purpose |
+|---|---|
+| `agent/card` | discovery — returns agent metadata, tools, skills |
+| `task/invoke` | start a task |
+| `task/cancel` | abort running task |
+| `task/approve` | HITL approval |
+| `task/status` | poll state |
+
+## Request shape
+
+```json
+{
+  "jsonrpc": "2.0",
+  "id": 1,
+  "method": "task/invoke",
+  "params": { "input": "summarize last week's PRs", "context": {} }
+}
+```
+
+## Implementation
+
+```ts
+import { createA2AServer, createA2AClient } from '@agentskit/core/a2a'
+
+const server = createA2AServer({ runtime })
+const client = createA2AClient({ url: 'https://agent.example.com/rpc' })
+
+const { taskId } = await client.invoke({ input: '...' })
+```
+
+## Related
+
+- [Specs overview](./) · [Manifest](./manifest)
+- [Recipe: open specs](/docs/reference/recipes/open-specs)

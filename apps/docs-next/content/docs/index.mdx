@@ -13,10 +13,10 @@ Everything else stays out of your bundle.
 
 Pick a path by what you're shipping.
 
-- **Just want a chat UI?** → [Quick start](/docs/getting-started/quickstart) · [React](/docs/packages/react) · [Vue](/docs/packages/vue) · [Svelte](/docs/packages/svelte) · [Solid](/docs/packages/solid) · [Angular](/docs/packages/angular) · [React Native](/docs/packages/react-native) · [Ink](/docs/packages/ink)
-- **Building an autonomous agent?** → [Runtime](/docs/agents/runtime) · [Tools](/docs/tools) · [Skills](/docs/skills) · [Multi-agent topologies](/docs/agents/topologies)
+- **Just want a chat UI?** → [Quick start](/docs/get-started/getting-started/quickstart) · [React](/docs/reference/packages/react) · [Vue](/docs/reference/packages/vue) · [Svelte](/docs/reference/packages/svelte) · [Solid](/docs/reference/packages/solid) · [Angular](/docs/reference/packages/angular) · [React Native](/docs/reference/packages/react-native) · [Ink](/docs/reference/packages/ink)
+- **Building an autonomous agent?** → [Runtime](/docs/agents/runtime) · [Tools](/docs/agents/tools) · [Skills](/docs/agents/skills) · [Multi-agent topologies](/docs/agents/topologies)
 - **Need RAG?** → [createRAG](/docs/data/rag/create-rag) · [Loaders](/docs/data/rag/loaders) · [Reranking](/docs/data/rag/rerank)
-- **Shipping to production?** → [Observability](/docs/observability) · [Security](/docs/security) · [Evals](/docs/evals) · [Durable execution](/docs/agents/durable)
+- **Shipping to production?** → [Observability](/docs/production/observability) · [Security](/docs/production/security) · [Evals](/docs/production/evals) · [Durable execution](/docs/agents/durable)
 
 ## The substrate
 
@@ -24,30 +24,30 @@ Six stable contracts. Every package is an implementation of one.
 
 | Contract | Role | Deep dive |
 |---|---|---|
-| **Adapter** | LLM provider seam | [concept](/docs/concepts/adapter) · [implementations](/docs/data/providers) |
-| **Tool** | Function the model calls | [concept](/docs/concepts/tool) · [implementations](/docs/tools) |
-| **Skill** | Declarative persona | [concept](/docs/concepts/skill) · [implementations](/docs/skills) |
-| **Memory** | Chat history + vector state | [concept](/docs/concepts/memory) · [implementations](/docs/data/memory) |
-| **Retriever** | Context fetching | [concept](/docs/concepts/retriever) · [implementations](/docs/data/rag) |
-| **Runtime** | The loop that composes them all | [concept](/docs/concepts/runtime) · [implementations](/docs/agents) |
+| **Adapter** | LLM provider seam | [concept](/docs/get-started/concepts/adapter) · [implementations](/docs/data/providers) |
+| **Tool** | Function the model calls | [concept](/docs/get-started/concepts/tool) · [implementations](/docs/agents/tools) |
+| **Skill** | Declarative persona | [concept](/docs/get-started/concepts/skill) · [implementations](/docs/agents/skills) |
+| **Memory** | Chat history + vector state | [concept](/docs/get-started/concepts/memory) · [implementations](/docs/data/memory) |
+| **Retriever** | Context fetching | [concept](/docs/get-started/concepts/retriever) · [implementations](/docs/data/rag) |
+| **Runtime** | The loop that composes them all | [concept](/docs/get-started/concepts/runtime) · [implementations](/docs/agents) |
 
 Learn the six once; swap implementations forever. The
-[mental model](/docs/concepts/mental-model) walks through how they
+[mental model](/docs/get-started/concepts/mental-model) walks through how they
 compose.
 
 ## What's inside
 
-- **21 packages** under `@agentskit/*` — foundation, providers, UI bindings, runtime, capabilities, observability, infrastructure. [Full index](/docs/packages/overview).
+- **21 packages** under `@agentskit/*` — foundation, providers, UI bindings, runtime, capabilities, observability, infrastructure. [Full index](/docs/reference/packages/overview).
 - **7 framework bindings** sharing one `useChat` contract. [UI matrix](/docs/ui).
 - **20+ provider adapters** (hosted + local + embedders). [Providers](/docs/data/providers).
-- **60+ recipes** grouped by theme. [Recipes](/docs/recipes).
-- **Open specs** — A2A, Manifest, Eval Format, AgentSchema — portable JSON. [Specs](/docs/specs).
+- **60+ recipes** grouped by theme. [Recipes](/docs/reference/recipes).
+- **Open specs** — A2A, Manifest, Eval Format, AgentSchema — portable JSON. [Specs](/docs/reference/specs).
 
 ## Keep reading
 
-- **[Comparison](/docs/comparison)** — AgentsKit vs LangChain, Vercel AI, Mastra, LlamaIndex.
-- **[Migrating](/docs/migrating)** — port from Vercel AI SDK, LangChain.js, Mastra.
-- **[For agents](/docs/for-agents)** — dense LLM-friendly reference per contract.
-- **[Examples](/docs/examples)** — live interactive demos.
-- **[Contribute](/docs/contribute)** — built in the open. Your PR helps.
+- **[Comparison](/docs/get-started/comparison)** — AgentsKit vs LangChain, Vercel AI, Mastra, LlamaIndex.
+- **[Migrating](/docs/get-started/migrating)** — port from Vercel AI SDK, LangChain.js, Mastra.
+- **[For agents](/docs/reference/for-agents)** — dense LLM-friendly reference per contract.
+- **[Examples](/docs/reference/examples)** — live interactive demos.
+- **[Contribute](/docs/reference/contribute)** — built in the open. Your PR helps.
 - **[Discord](https://discord.gg/zx6z2p4jVb)** — Office Hours every Friday; direct line to maintainers.
