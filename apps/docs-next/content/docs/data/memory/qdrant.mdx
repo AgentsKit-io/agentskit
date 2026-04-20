@@ -1,0 +1,27 @@
+---
+title: qdrant
+description: Self-hosted or cloud Qdrant via HTTP.
+---
+
+```ts
+import { qdrant } from '@agentskit/memory'
+
+const store = qdrant({
+  url: process.env.QDRANT_URL!,
+  apiKey: process.env.QDRANT_API_KEY,
+  collection: 'agentskit',
+})
+```
+
+## Options
+
+| Option | Type |
+|---|---|
+| `url` | `string` |
+| `apiKey` | `string?` |
+| `collection` | `string` |
+| `fetch` | `typeof fetch` |
+
+## Related
+
+- [pinecone](./pinecone) · [chroma](./chroma)

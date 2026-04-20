@@ -1,0 +1,31 @@
+---
+title: redisChatMemory
+description: Redis-backed chat memory for multi-instance + serverless.
+---
+
+```ts
+import { redisChatMemory } from '@agentskit/memory'
+import { createClient } from 'redis'
+
+const client = createClient({ url: process.env.REDIS_URL })
+await client.connect()
+
+const memory = redisChatMemory({ client, keyPrefix: 'ak:chat:' })
+```
+
+## Options
+
+| Option | Type | Default |
+|---|---|---|
+| `client` | `RedisClientAdapter` | required |
+| `keyPrefix` | `string` | `ak:chat:` |
+| `ttlSeconds` | `number` | unset |
+
+## Storage layout
+
+Each session = one Redis list. Messages pushed as JSON strings.
+Optional TTL per key.
+
+## Related
+
+- [redisVectorMemory](./redis-vector) · [sqliteChatMemory](./sqlite)

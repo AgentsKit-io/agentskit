@@ -1,0 +1,28 @@
+---
+title: fileVectorMemory
+description: Pure-JS file-persisted vector store. Zero infra.
+---
+
+```ts
+import { fileVectorMemory } from '@agentskit/memory'
+
+const store = fileVectorMemory({ path: '.agentskit/vectors.json', dim: 1536 })
+```
+
+## Options
+
+| Option | Type | Default |
+|---|---|---|
+| `path` | `string` | required |
+| `dim` | `number` | required |
+| `metric` | `'cosine' \| 'dot' \| 'euclidean'` | `cosine` |
+
+## Scale
+
+Fine up to ~10k vectors. For larger corpora use
+[pgvector](./pgvector), [pinecone](./pinecone), [qdrant](./qdrant),
+[chroma](./chroma), [upstash-vector](./upstash-vector).
+
+## Related
+
+- [RAG](/docs/data/rag) · [Recipe: vector adapters](/docs/recipes/vector-adapters)

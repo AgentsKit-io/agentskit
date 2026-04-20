@@ -1,0 +1,26 @@
+---
+title: upstashVector
+description: Serverless HTTP vector DB from Upstash.
+---
+
+```ts
+import { upstashVector } from '@agentskit/memory'
+
+const store = upstashVector({
+  url: process.env.UPSTASH_VECTOR_REST_URL!,
+  token: process.env.UPSTASH_VECTOR_REST_TOKEN!,
+  namespace: 'prod',
+})
+```
+
+## Options
+
+| Option | Type |
+|---|---|
+| `url` | `string` |
+| `token` | `string` |
+| `namespace` | `string?` |
+
+## Related
+
+- [pinecone](./pinecone) · [qdrant](./qdrant)

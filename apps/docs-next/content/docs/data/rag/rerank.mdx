@@ -1,0 +1,24 @@
+---
+title: Rerank
+description: Post-retrieval reranker. Cohere / BGE / built-in BM25.
+---
+
+```ts
+import { createRerankedRetriever, cohereReranker } from '@agentskit/rag'
+
+const retriever = createRerankedRetriever({
+  retriever: rag,
+  rerank: cohereReranker({ apiKey: process.env.COHERE_API_KEY! }),
+  topN: 5,
+})
+```
+
+## Rerankers
+
+- `cohereReranker({ apiKey, model? })`
+- `bgeReranker({ url, model? })` — self-hosted.
+- `bm25Reranker()` — zero-dep fallback.
+
+## Related
+
+- [Hybrid](./hybrid) · [Recipe: RAG reranking](/docs/recipes/rag-reranking)

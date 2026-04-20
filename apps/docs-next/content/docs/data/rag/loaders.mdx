@@ -1,0 +1,60 @@
+---
+title: Document loaders
+description: Fetch + normalize documents from URLs, GitHub, Notion, Confluence, Google Drive, PDFs.
+---
+
+All loaders return `LoadedDocument[]` ready for `rag.ingest`.
+
+## URL
+
+```ts
+import { loadUrl } from '@agentskit/rag'
+const docs = await loadUrl('https://example.com/post')
+```
+
+Strips boilerplate; keeps main content + title.
+
+## GitHub
+
+```ts
+import { loadGitHubFile, loadGitHubTree } from '@agentskit/rag'
+
+const single = await loadGitHubFile({ owner, repo, path: 'README.md', ref: 'main' })
+const tree = await loadGitHubTree({ owner, repo, ref: 'main', include: ['**/*.md'] })
+```
+
+Requires `GITHUB_TOKEN` for private repos.
+
+## Notion
+
+```ts
+import { loadNotionPage } from '@agentskit/rag'
+const docs = await loadNotionPage({ token: process.env.NOTION_TOKEN!, pageId })
+```
+
+## Confluence
+
+```ts
+import { loadConfluencePage } from '@agentskit/rag'
+const docs = await loadConfluencePage({ baseUrl, auth, pageId })
+```
+
+## Google Drive
+
+```ts
+import { loadGoogleDriveFile } from '@agentskit/rag'
+const docs = await loadGoogleDriveFile({ fileId, accessToken })
+```
+
+## PDF
+
+```ts
+import { loadPdf } from '@agentskit/rag'
+const docs = await loadPdf({ buffer, parse: myPdfParse })
+```
+
+BYO parser (e.g. `pdf-parse`, `unpdf`) to keep core deps zero.
+
+## Related
+
+- [createRAG](./create-rag) · [Recipe: doc loaders](/docs/recipes/doc-loaders)

@@ -1,5 +1,23 @@
 {
   "title": "Memory",
-  "description": "Chat memory + vector stores + higher-order wrappers.",
-  "pages": ["index"]
+  "description": "Chat memory backends, vector stores, and higher-order wrappers.",
+  "pages": [
+    "index",
+    "file-chat",
+    "sqlite",
+    "redis-chat",
+    "file-vector",
+    "redis-vector",
+    "pgvector",
+    "pinecone",
+    "qdrant",
+    "chroma",
+    "upstash-vector",
+    "encrypted",
+    "hierarchical",
+    "virtualized",
+    "auto-summarize",
+    "graph",
+    "personalization"
+  ]
 }

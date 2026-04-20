@@ -1,0 +1,21 @@
+---
+title: createAutoSummarizingMemory
+description: Fold oldest messages into a running summary. Token-budget-friendly.
+---
+
+```ts
+import { createAutoSummarizingMemory } from '@agentskit/memory'
+
+const memory = createAutoSummarizingMemory({
+  summarize: async (msgs) => adapter.complete({
+    messages: [{ role: 'system', content: 'Summarize tersely' }, ...msgs],
+  }),
+  triggerAt: 30,
+  keep: 10,
+})
+```
+
+## Related
+
+- [Recipe: auto-summarize](/docs/recipes/auto-summarize)
+- [virtualized](./virtualized) · [hierarchical](./hierarchical)

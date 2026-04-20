@@ -1,0 +1,27 @@
+---
+title: pinecone
+description: Managed vector DB. Namespaces + metadata filters.
+---
+
+```ts
+import { pinecone } from '@agentskit/memory'
+
+const store = pinecone({
+  apiKey: process.env.PINECONE_API_KEY!,
+  indexHost: process.env.PINECONE_INDEX_HOST!,
+  namespace: 'prod',
+})
+```
+
+## Options
+
+| Option | Type |
+|---|---|
+| `apiKey` | `string` |
+| `indexHost` | `string` |
+| `namespace` | `string` |
+| `fetch` | `typeof fetch` |
+
+## Related
+
+- [qdrant](./qdrant) · [chroma](./chroma) · [upstash-vector](./upstash-vector)

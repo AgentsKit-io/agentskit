@@ -1,0 +1,23 @@
+---
+title: createVirtualizedMemory
+description: Hot-window + cold retriever. Keep recent messages; retrieve old ones on demand.
+---
+
+```ts
+import { createVirtualizedMemory } from '@agentskit/memory'
+
+const memory = createVirtualizedMemory({
+  window: 20,
+  cold: vectorStore,
+  embed: openaiEmbedder({ apiKey }),
+})
+```
+
+## When to use
+
+Long-running sessions where most context is stale but some old turns
+matter. Cheaper than always-on full history.
+
+## Related
+
+- [Recipe: virtualized memory](/docs/recipes/virtualized-memory)

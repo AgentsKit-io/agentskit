@@ -1,0 +1,29 @@
+---
+title: createEncryptedMemory
+description: AES-GCM-256 envelope over any ChatMemory. Keys never touch disk in plaintext.
+---
+
+```ts
+import { createEncryptedMemory } from '@agentskit/memory'
+
+const memory = await createEncryptedMemory(innerMemory, {
+  key: process.env.AK_ENCRYPTION_KEY!,
+})
+```
+
+## Options
+
+| Option | Type | Default |
+|---|---|---|
+| `key` | `string \| CryptoKey` | required |
+| `aad` | `Uint8Array` | empty |
+
+## What it does
+
+Wraps `append` / `list` calls: encrypts `parts` before write, decrypts
+on read. IVs generated per-message. Auth tag verified on read.
+
+## Related
+
+- [Recipe: encrypted memory](/docs/recipes/encrypted-memory)
+- [Security → PII](/docs/security/pii-redaction)

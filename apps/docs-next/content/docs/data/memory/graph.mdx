@@ -1,0 +1,24 @@
+---
+title: createInMemoryGraph
+description: Knowledge graph memory — nodes + edges, queryable.
+---
+
+```ts
+import { createInMemoryGraph } from '@agentskit/memory'
+
+const graph = createInMemoryGraph()
+graph.upsertNode({ id: 'u1', type: 'user', props: { name: 'Ada' } })
+graph.upsertEdge({ from: 'u1', to: 'p1', type: 'owns' })
+
+const related = graph.query({ from: 'u1', edgeType: 'owns' })
+```
+
+## Types
+
+- `GraphNode` — `{ id, type, props }`
+- `GraphEdge` — `{ from, to, type, props? }`
+- `GraphQuery` — traversal filters.
+
+## Related
+
+- [Recipe: graph memory](/docs/recipes/graph-memory)

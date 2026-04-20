@@ -1,0 +1,34 @@
+---
+title: pgvector
+description: Postgres + pgvector adapter. BYO SQL runner.
+---
+
+```ts
+import { pgvector } from '@agentskit/memory'
+import postgres from 'postgres'
+
+const sql = postgres(process.env.DATABASE_URL!)
+const store = pgvector({
+  run: async (query, params) => sql.unsafe(query, params as unknown[]),
+  table: 'embeddings',
+  dim: 1536,
+})
+```
+
+## Options
+
+| Option | Type | Default |
+|---|---|---|
+| `run` | `PgVectorRunner` | required |
+| `table` | `string` | `embeddings` |
+| `dim` | `number` | required |
+| `metric` | `'cosine' \| 'l2' \| 'ip'` | `cosine` |
+
+## Why BYO runner
+
+Keeps the adapter client-agnostic — works with `postgres.js`, `pg`,
+Drizzle, Prisma raw, Neon serverless.
+
+## Related
+
+- [Recipe: vector adapters](/docs/recipes/vector-adapters)

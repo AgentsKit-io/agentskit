@@ -1,0 +1,27 @@
+---
+title: redisVectorMemory
+description: Redis Stack / Redis 8+ vector index. Metadata filtering + HNSW.
+---
+
+```ts
+import { redisVectorMemory } from '@agentskit/memory'
+import { createClient } from 'redis'
+
+const client = createClient({ url: process.env.REDIS_URL })
+await client.connect()
+
+const store = redisVectorMemory({
+  client,
+  indexName: 'ak-idx',
+  dim: 1536,
+  distance: 'COSINE',
+})
+```
+
+## Requirements
+
+Redis Stack or Redis 8+ with the Search module.
+
+## Related
+
+- [redisChatMemory](./redis-chat)
