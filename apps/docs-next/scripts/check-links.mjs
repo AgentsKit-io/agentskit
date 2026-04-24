@@ -76,16 +76,24 @@ function stripCode(src) {
 
 function headingsIn(src) {
   const ids = new Set()
+  const counts = new Map()
   for (const line of src.split('\n')) {
     const h = line.match(/^#{1,6}\s+(.+?)\s*(?:\{#([^}]+)\})?\s*$/)
     if (!h) continue
-    if (h[2]) ids.add(h[2])
-    const slug = h[1]
+    if (h[2]) {
+      ids.add(h[2])
+      continue
+    }
+    const base = h[1]
+      .replace(/`/g, '')
       .toLowerCase()
       .replace(/[^a-z0-9\s-]/g, '')
       .trim()
       .replace(/\s+/g, '-')
-    ids.add(slug)
+    if (!base) continue
+    const n = counts.get(base) ?? 0
+    counts.set(base, n + 1)
+    ids.add(n === 0 ? base : `${base}-${n}`)
   }
   return ids
 }

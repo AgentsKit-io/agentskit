@@ -81,10 +81,10 @@ Ask a question that's in your indexed docs. Then ask one that isn't — the mode
 
 - **Cite sources**: each `RetrievedDocument` has a `source` field. Render it under each assistant message.
 - **Tune retrieval**: pass `topK` and `threshold` to `createRAG` to control how many docs reach the model.
-- **Re-rank**: wrap `rag` in a composite retriever that calls a reranking model. See [Retriever](../concepts/retriever).
+- **Re-rank**: wrap `rag` in a composite retriever that calls a reranking model. See [Retriever](/docs/get-started/concepts/retriever).
 - **Hot-reload index**: replace `fileVectorMemory` with `pgvector` or another backend if you index frequently.
 
 ## Related
 
-- [Concepts: Memory](../concepts/memory) — ChatMemory vs VectorMemory
-- [Concepts: Retriever](../concepts/retriever) — composing retrievers
+- [Concepts: Memory](/docs/get-started/concepts/memory) — ChatMemory vs VectorMemory
+- [Concepts: Retriever](/docs/get-started/concepts/retriever) — composing retrievers

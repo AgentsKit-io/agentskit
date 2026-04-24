@@ -405,7 +405,7 @@ That's it. If you want reusable composition across functions, extract more funct
 
 ## 8. LangGraph → delegation
 
-LangGraph is LangChain's state-machine workflow engine. AgentsKit covers the common patterns (supervisor, swarm, hierarchical, blackboard) via `delegates` on the runtime. See [Concepts: Runtime](../concepts/runtime) RT10 and [Recipe: Multi-agent research team](../recipes/research-team).
+LangGraph is LangChain's state-machine workflow engine. AgentsKit covers the common patterns (supervisor, swarm, hierarchical, blackboard) via `delegates` on the runtime. See [Concepts: Runtime](../concepts/runtime) RT10 and [Recipe: Multi-agent research team](/docs/reference/recipes/research-team).
 
 Complex, long-running, checkpointed workflows are **Phase 3** in AgentsKit (durable execution, #156). Until that lands, if your workflow genuinely needs stateful graph semantics — stay on LangGraph for that piece.
 
@@ -482,9 +482,9 @@ The difference is typically **100–200 MB** in a modest project. That's cold st
 ## Related
 
 - [Concepts: Runtime](../concepts/runtime) — the `createRuntime` anchor
-- [Recipe: Chat with RAG](../recipes/rag-chat) — the equivalent of `RetrievalQAChain` in 30 lines
+- [Recipe: Chat with RAG](/docs/reference/recipes/rag-chat) — the equivalent of `RetrievalQAChain` in 30 lines
 - [ADR 0001 — Adapter contract](https://github.com/AgentsKit-io/agentskit/blob/main/docs/architecture/adrs/0001-adapter-contract.md) — why provider swap is actually one line
-- [README — When you should NOT use AgentsKit](../../#when-you-should-not-use-agentskit) — the honest decision matrix
+- [README — When you should NOT use AgentsKit](/docs/get-started/comparison) — the honest decision matrix
 - [Build your first agent](/docs/get-started/getting-started/build-your-first-agent)
 - [Architecture at a glance](/docs/get-started/architecture-at-a-glance)
 - [Use cases](/docs/use-cases)
