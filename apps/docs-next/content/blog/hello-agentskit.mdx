@@ -1,0 +1,50 @@
+---
+title: "Hello, AgentsKit.js"
+description: "Why we built another AI agent toolkit — and what makes it different from LangChain, Mastra, or raw provider SDKs."
+date: "2026-04-24"
+author: "Emerson Braun"
+tags: ["launch", "manifesto"]
+---
+
+The JavaScript agent ecosystem is stuck in one of three places:
+
+- **Heavyweight SDKs** that drag 200 KB of deps and change every minor.
+- **DIY on top of provider clients** — six months of glue before your first real agent ships.
+- **Frameworks with opinions** — inherit their lifetimes, their lifecycle, their day-they-stop-being-maintained.
+
+None of those are fine. The agent era deserves a substrate that works like React does for UI: small, stable, composable, and out of your way.
+
+## The substrate
+
+Six contracts. Six stable seams you learn once and swap implementations for forever.
+
+| Contract | Role |
+|---|---|
+| **Adapter** | LLM provider seam |
+| **Tool** | Function the model calls |
+| **Skill** | Declarative persona |
+| **Memory** | Chat history + vector state |
+| **Retriever** | Context fetching |
+| **Runtime** | The loop that composes them all |
+
+Every package under `@agentskit/*` is an implementation of one contract. `@agentskit/core` holds the contracts — 5.17 KB gzipped, zero dependencies, frozen at the minor level.
+
+## What shipped
+
+- **14 packages**, independently installable
+- **538 tests** across the ecosystem
+- **Interactive docs**: playground, stack builder, showcase, `Ask the docs` widget, auto-generated API reference
+- **Free-tier AI** for docs-side LLM calls — never a paid model without explicit opt-in
+
+## Where it's going
+
+Additive. The substrate holds:
+
+- Deterministic replay + prompt diff + time-travel debug
+- Hierarchical memory (MemGPT-style) + hybrid search + reranking
+- Durable execution, multi-agent topologies, HITL primitives
+- PII redaction, prompt-injection detector, audit log
+
+None of it requires a breaking change to core. That's the point of v1.
+
+Welcome. Let's build agents that don't suck.

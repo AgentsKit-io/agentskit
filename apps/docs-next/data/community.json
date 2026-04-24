@@ -1,0 +1,26 @@
+{
+  "note": "Seed entries. Real submissions live in community.json and are reviewed via PR.",
+  "projects": [
+    {
+      "name": "AgentsKit Docs AI",
+      "description": "The Ask-the-docs widget on this site. Free-tier OpenRouter models, corpus-bound.",
+      "url": "https://www.agentskit.io/docs",
+      "tags": ["open-source", "docs", "rag"],
+      "by": "AgentsKit.js team"
+    },
+    {
+      "name": "Starter kit: multi-agent research",
+      "description": "Planner → researcher → reviewer topology with Brave + web-fetch tools.",
+      "url": "https://github.com/AgentsKit-io/agentskit/tree/main/packages/templates",
+      "tags": ["template", "multi-agent"],
+      "by": "AgentsKit.js team"
+    },
+    {
+      "name": "Your project here",
+      "description": "Built something on AgentsKit? Open a PR adding an entry to data/community.json.",
+      "url": "https://github.com/AgentsKit-io/agentskit/issues/new?title=community%3A%20",
+      "tags": ["contribute"],
+      "by": "you"
+    }
+  ]
+}

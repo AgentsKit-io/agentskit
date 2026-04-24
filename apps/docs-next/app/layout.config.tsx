@@ -1,5 +1,6 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared'
 import { AnimatedLogo } from '@/components/brand/animated-logo'
+import { LanguageToggle } from '@/components/brand/language-toggle'
 
 const DiscordIcon = (
   <svg
@@ -29,10 +30,18 @@ export const baseOptions: BaseLayoutProps = {
     { text: 'Learn', url: '/learn' },
     { text: 'Stack', url: '/stack' },
     { text: 'Showcase', url: '/showcase' },
+    { text: 'Blog', url: '/blog' },
+    { text: 'Evals', url: '/evals' },
+    { text: 'Community', url: '/community' },
     { text: 'Documentation', url: '/docs' },
     { text: 'For agents', url: '/docs/for-agents' },
     { text: 'Examples', url: '/docs/reference/examples' },
     { text: 'Contribute', url: '/docs/reference/contribute' },
+    {
+      type: 'custom',
+      children: <LanguageToggle />,
+      secondary: true,
+    },
     {
       type: 'icon',
       icon: DiscordIcon,
