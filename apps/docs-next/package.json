@@ -3,7 +3,8 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "prebuild": "node scripts/gen-api.mjs && node scripts/gen-changelog.mjs && node scripts/gen-performance.mjs",
+    "prebuild": "node scripts/gen-api.mjs && node scripts/gen-changelog.mjs && node scripts/gen-performance.mjs && node scripts/gen-ask-context.mjs",
+    "gen:ask-context": "node scripts/gen-ask-context.mjs",
     "gen:changelog": "node scripts/gen-changelog.mjs",
     "gen:performance": "node scripts/gen-performance.mjs",
     "measure:sizes": "node scripts/measure-sizes.mjs",

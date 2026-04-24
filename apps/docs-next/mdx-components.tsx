@@ -12,6 +12,8 @@ import { Since } from '@/components/mdx/since'
 import { Tip, Warning, Pitfall, Performance, Security, Info, Success, Compare } from '@/components/mdx/callouts'
 import { HeadingAnchor } from '@/components/docs/heading-anchor'
 import { Verified } from '@/components/mdx/verified'
+import { LiveAdapter } from '@/components/mdx/live-adapter'
+import { StackBuilder } from '@/components/mdx/stack-builder'
 
 type HeadingProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLHeadingElement>,
@@ -55,6 +57,8 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     Success,
     Compare,
     Verified,
+    LiveAdapter,
+    StackBuilder,
     ...components,
   }
 }

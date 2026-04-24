@@ -27,6 +27,8 @@ export const baseOptions: BaseLayoutProps = {
   },
   links: [
     { text: 'Learn', url: '/learn' },
+    { text: 'Stack', url: '/stack' },
+    { text: 'Showcase', url: '/showcase' },
     { text: 'Documentation', url: '/docs' },
     { text: 'For agents', url: '/docs/for-agents' },
     { text: 'Examples', url: '/docs/reference/examples' },
