@@ -1,7 +1,9 @@
 ---
 title: Trace viewer
-description: Offline Jaeger-style HTML trace of every run. No hosting required.
+description: Generate a self-contained HTML trace file from any run — inspect spans offline without a tracing backend.
 ---
+
+When you need to debug a specific run without shipping to LangSmith or standing up a Jaeger instance, `createFileTraceSink` records spans to a local JSONL file and `renderTraceViewerHtml` turns that file into a standalone HTML page you can open in any browser.
 
 ```ts
 import { createFileTraceSink, renderTraceViewerHtml } from '@agentskit/observability'

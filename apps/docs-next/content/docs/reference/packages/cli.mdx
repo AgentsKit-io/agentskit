@@ -3,11 +3,20 @@ title: '@agentskit/cli'
 description: The agentskit CLI — init, chat, run, dev, doctor, ai, tunnel, rag, config.
 ---
 
+`@agentskit/cli` is the operational front door to the ecosystem. It is how you bootstrap a project, run an agent, inspect your setup, and keep moving without writing scaffolding code first.
+
 ## When to reach for it
 
 - You want to scaffold a new agent project.
 - You want to chat / run an agent from a terminal.
 - You want `agentskit ai "<description>"` to generate a typed scaffold from plain language.
+
+## Best fit
+
+- Start here when you want proof of the ecosystem before wiring packages by hand.
+- Use `init` when you want a runnable starter.
+- Use `chat`, `run`, and `dev` when you want a fast operator workflow around the same stack.
+- Use `doctor` when setup friction is slowing the team down.
 
 ## Install
 
@@ -31,6 +40,10 @@ npm install -g @agentskit/cli
 | `agentskit rag` | Local RAG helpers (ingest / search). |
 | `agentskit config` | Read / write local config. |
 
+## Why it matters
+
+The CLI makes AgentsKit feel like a product, not just a pile of packages. It shortens the path from “I want to try this” to “I have a working agent project” more than any single reference page can.
+
 ## Programmatic helpers
 
 - `@agentskit/cli/ai` — `scaffoldAgent` · `writeScaffold` · `createAdapterPlanner`.
@@ -50,6 +63,7 @@ npm install -g @agentskit/cli
 
 - [CLI (deep dive)](/docs/production/cli)
 - [Templates](/docs/reference/packages/templates)
+- [Shipping checklist](/docs/production/shipping-checklist)
 - [For agents: cli](/docs/for-agents/cli)
 
 ## Source

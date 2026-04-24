@@ -3,12 +3,21 @@ title: '@agentskit/adapters'
 description: 20+ LLM chat + embedder adapters, plus router / ensemble / fallback. Swap providers with one import line.
 ---
 
+`@agentskit/adapters` is usually the first package you touch after `core`. It is the provider seam for the entire ecosystem: UI, runtime, memory, evals, and recipes all plug into this layer.
+
 ## When to reach for it
 
 - You need to talk to a hosted LLM (Anthropic, OpenAI, Gemini, Mistral, Cohere, Groq, Together, Fireworks, OpenRouter, Hugging Face, …).
 - You want local-only (Ollama, LM Studio, vLLM, llama.cpp).
 - You want to compose multiple candidates (`createRouter`, `createEnsembleAdapter`, `createFallbackAdapter`).
 - You want to test agents without hitting a real LLM (`mockAdapter`, `recordingAdapter`, `replayAdapter`).
+
+## Best fit
+
+- Start here if your main concern is provider flexibility.
+- Pair with [`@agentskit/react`](/docs/reference/packages/react) if you are shipping a chat product.
+- Pair with [`@agentskit/runtime`](/docs/reference/packages/runtime) if the model needs to act over multiple steps.
+- Pair with [`@agentskit/eval`](/docs/reference/packages/eval) if you want to compare providers over the same workload.
 
 ## Install
 
@@ -23,6 +32,8 @@ import { anthropic } from '@agentskit/adapters'
 
 const adapter = anthropic({ apiKey: process.env.ANTHROPIC_API_KEY!, model: 'claude-sonnet-4-6' })
 ```
+
+The important part is not the constructor itself, but that the rest of your stack does not have to care which provider you chose.
 
 ## Surface
 
@@ -56,6 +67,7 @@ Testing: `mockAdapter` · `recordingAdapter` · `replayAdapter` · `inMemorySink
 
 - [Concepts: Adapter](/docs/get-started/concepts/adapter)
 - [Data → Providers](/docs/data/providers)
+- [Build your first agent](/docs/get-started/getting-started/build-your-first-agent)
 - [For agents: adapters](/docs/for-agents/adapters)
 
 ## Source

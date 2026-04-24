@@ -1,7 +1,9 @@
 ---
 title: Evals
-description: Measure quality with numbers, not vibes. Suites, replay, snapshots, diff, CI reporters.
+description: Run eval suites against any async agent function, replay recorded sessions in CI, and track prompt regressions with snapshots.
 ---
+
+Agent quality degrades silently — a prompt change that improves one case breaks three others, and you only find out in production. `@agentskit/eval` gives you pass/fail metrics, deterministic replay without network calls, snapshot diffing for prompts, and reporters that integrate with any CI stack.
 
 ## Suites
 
@@ -25,8 +27,6 @@ description: Measure quality with numbers, not vibes. Suites, replay, snapshots,
 ## Open format
 
 - `@agentskit/core/eval-format` — portable eval JSON spec. [Specs](/docs/reference/specs).
-
-*Per-primitive deep dives land in step 6 of the docs IA rollout.*
 
 ## Related
 

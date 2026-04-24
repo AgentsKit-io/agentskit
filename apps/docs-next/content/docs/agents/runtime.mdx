@@ -1,6 +1,6 @@
 ---
 title: Runtime
-description: "@agentskit/runtime is the execution engine for autonomous agents. It runs a ReAct loop — observe, think, act — until the model produces a final answer or a step limit is reached."
+description: "Execution engine for autonomous agents — runs a ReAct loop (observe, think, act) until final answer or step limit."
 ---
 import { ContributeCallout } from '@/components/contribute/contribute-callout'
 
@@ -10,9 +10,9 @@ import { ContributeCallout } from '@/components/contribute/contribute-callout'
 ## When to use
 
 - **Headless** agents (CLI workers, jobs, tests) with tools, memory, retrieval, and optional delegation.
-- You already use [`@agentskit/adapters`](../data-layer/adapters); the same factories work here.
+- You already use [`@agentskit/adapters`](/docs/reference/packages/adapters); the same factories work here.
 
-For interactive terminal chat prefer [`@agentskit/ink`](../chat-uis/ink); for browser UI prefer [`@agentskit/react`](../chat-uis/react).
+For interactive terminal chat prefer [`@agentskit/ink`](/docs/reference/packages/ink); for browser UI prefer [`@agentskit/react`](/docs/reference/packages/react).
 
 ## Install
 
@@ -20,7 +20,7 @@ For interactive terminal chat prefer [`@agentskit/ink`](../chat-uis/ink); for br
 npm install @agentskit/runtime @agentskit/adapters
 ```
 
-[`@agentskit/core`](../packages/core) is included transitively; add it explicitly if you need types without pulling the full runtime graph.
+[`@agentskit/core`](/docs/reference/packages/core) is included transitively; add it explicitly if you need types without pulling the full runtime graph.
 
 ## Basic usage
 
@@ -153,17 +153,17 @@ const result = await runtime.run('What is my name?')
 console.log(result.content) // "Your name is Alice."
 ```
 
-For durable storage use [`sqliteChatMemory` or `redisChatMemory`](../data-layer/memory) from `@agentskit/memory`.
+For durable storage use [`sqliteChatMemory` or `redisChatMemory`](/docs/reference/packages/memory) from `@agentskit/memory`.
 
 Memory is saved after `RunResult` is assembled — if you abort early, partial messages are still persisted up to the abort point.
 
 ## Retriever (RAG)
 
-Pass a `Retriever` (for example from [`createRAG`](../data-layer/rag)) via `retriever` in `RuntimeConfig`. Each loop step can inject retrieved context before the model thinks — same contract as chat UI.
+Pass a `Retriever` (for example from [`createRAG`](/docs/data/rag/create-rag)) via `retriever` in `RuntimeConfig`. Each loop step can inject retrieved context before the model thinks — same contract as chat UI.
 
 ## Observers
 
-`observers` accepts [`Observer`](../packages/core) instances from `@agentskit/core` for low-level events. Pair with [`@agentskit/observability`](../infrastructure/observability) when you need structured traces.
+`observers` accepts [`Observer`](/docs/reference/packages/core) instances from `@agentskit/core` for low-level events. Pair with [`@agentskit/observability`](/docs/reference/packages/observability) when you need structured traces.
 
 ## Troubleshooting
 
@@ -176,6 +176,6 @@ Pass a `Retriever` (for example from [`createRAG`](../data-layer/rag)) via `retr
 
 ## See also
 
-[Start here](../getting-started/read-this-first) · [Packages](../packages/overview) · [TypeDoc](pathname:///agentskit/api-reference/) (`@agentskit/runtime`) · [Tools](./tools) · [Skills](./skills) · [Delegation](./delegation) · [@agentskit/core](../packages/core)
+[Start here](/docs/get-started/getting-started/read-this-first) · [Packages](/docs/reference/packages/overview) · [TypeDoc](pathname:///agentskit/api-reference/) (`@agentskit/runtime`) · [Tools](./tools) · [Skills](./skills) · [Delegation](./delegation) · [@agentskit/core](/docs/reference/packages/core)
 
 <ContributeCallout pkg="runtime" />

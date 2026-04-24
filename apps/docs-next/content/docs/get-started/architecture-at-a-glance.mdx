@@ -1,0 +1,110 @@
+---
+title: Architecture at a glance
+description: See the AgentsKit ecosystem by layer, how the contracts compose, and how teams usually adopt it over time.
+---
+
+AgentsKit works best when you think of it as a layered ecosystem, not a single framework.
+
+At the center is a small contract layer. Around it are packages for UI, runtime, data, and production. You can start with one layer and add the rest as your agent becomes more capable.
+
+## The stack in one view
+
+```mermaid
+graph TD
+    core["@agentskit/core\ncontracts + primitives"]
+
+    ui["@agentskit/react · @agentskit/ink · framework bindings\nchat surfaces"]
+    providers["@agentskit/adapters\nmodel providers"]
+    runtime["@agentskit/runtime\nloops, delegation, orchestration"]
+    capabilities["@agentskit/tools · @agentskit/skills\nactions + behavior"]
+    data["@agentskit/memory · @agentskit/rag\ncontext + retrieval"]
+    ops["@agentskit/observability · @agentskit/eval · @agentskit/sandbox\ntrust + production controls"]
+    cli["@agentskit/cli · @agentskit/templates\nbootstrap + workflows"]
+
+    core --> ui
+    core --> providers
+    core --> runtime
+    core --> capabilities
+    core --> data
+    core --> ops
+    core --> cli
+
+    providers --> runtime
+    capabilities --> runtime
+    data --> runtime
+    runtime --> ui
+    ops --> runtime
+    cli --> ui
+    cli --> runtime
+```
+
+## What each layer does
+
+| Layer | Packages | Role |
+|---|---|---|
+| Contract layer | `@agentskit/core` | Shared types, controller, events, and contracts |
+| UI layer | `@agentskit/react`, `@agentskit/ink`, framework bindings | Chat surfaces and framework-specific ergonomics |
+| Provider layer | `@agentskit/adapters` | Model vendors, routing, fallbacks, local models |
+| Runtime layer | `@agentskit/runtime` | Multi-step execution, delegation, orchestration |
+| Capability layer | `@agentskit/tools`, `@agentskit/skills` | Tool use, integrations, behavior packaging |
+| Data layer | `@agentskit/memory`, `@agentskit/rag` | Persistence, retrieval, embeddings, reranking |
+| Production layer | `@agentskit/observability`, `@agentskit/eval`, `@agentskit/sandbox` | Tracing, quality control, safety |
+| Bootstrap layer | `@agentskit/cli`, `@agentskit/templates` | Project setup, workflows, scaffolding |
+
+## The six contracts
+
+The reason the ecosystem composes is that the layers meet through six stable contracts:
+
+- `Adapter` — swap model providers
+- `Tool` — expose actions to the model
+- `Skill` — package behavior and prompts
+- `Memory` — persist and reload context
+- `Retriever` — fetch external context
+- `Runtime` — compose the loop that ties everything together
+
+Deep dive: [Concepts](/docs/get-started/concepts)
+
+## Three common adoption paths
+
+### 1. UI first
+
+Start with `@agentskit/react` or `@agentskit/ink`, then add runtime and tools once the chat needs to do real work.
+
+Best for:
+- chat products
+- prototypes
+- customer-facing assistants
+
+### 2. Runtime first
+
+Start with `@agentskit/runtime` and `@agentskit/tools`, then add a UI later if the workflow proves useful.
+
+Best for:
+- jobs
+- internal automations
+- research agents
+- coding agents
+
+### 3. Knowledge first
+
+Start with `@agentskit/rag`, `@agentskit/memory`, and a UI or runtime entry point, then harden with production controls.
+
+Best for:
+- internal copilots
+- support assistants
+- retrieval-heavy apps
+
+## How teams usually grow the stack
+
+1. Pick a provider and a single entry point.
+2. Add runtime when the task becomes multi-step.
+3. Add tools when the model needs to act.
+4. Add memory and retrieval when context needs to persist.
+5. Add observability, evals, and safety before wider rollout.
+
+## Where to go next
+
+- [Build your first agent](/docs/get-started/getting-started/build-your-first-agent)
+- [Use cases](/docs/use-cases)
+- [Packages overview](/docs/reference/packages/overview)
+- [agentskit init](/docs/production/cli/init)

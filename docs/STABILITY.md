@@ -34,33 +34,38 @@ Each package's `README.md` displays a corresponding badge at the top.
 - Contracts derived from ADRs are respected; conveniences and helpers around them are still evolving
 - Semver-within-tier: within `0.x`, a minor bump can break beta packages; a patch bump cannot
 
-### `experimental`
+### `alpha`
 
-> Provisional. Treat the API as disposable. Do not build public libraries on top of this.
+> Early, promising, and still moving. Expect API changes as the package sharpens.
 
 - Anything may change in any release — including removal
 - No deprecation guarantees
 - Useful for exploring a design before committing to a contract
-- A package stays experimental until it either graduates to `beta` or is removed
+- A package stays alpha until it either graduates to `beta` or is removed
 
 ## Current tier map
 
 | Package | Tier | Rationale |
 |---|---|---|
 | `@agentskit/core` | `stable` | Sacred package. Contract-stable per ADRs 0001–0006 |
-| `@agentskit/adapters` | `stable` | All shipped adapters satisfy Adapter contract v1 |
-| `@agentskit/react` | `stable` | Production-ready hooks and headless components |
-| `@agentskit/ink` | `stable` | Terminal UI at parity with `@agentskit/react` |
-| `@agentskit/cli` | `stable` | `chat`, `init`, `run` commands stable |
-| `@agentskit/runtime` | `stable` | ReAct loop and delegation per ADR 0006 |
-| `@agentskit/tools` | `stable` | Web search, filesystem, shell — Tool contract v1 |
-| `@agentskit/skills` | `stable` | Pre-built skills — Skill contract v1 |
-| `@agentskit/memory` | `stable` | File/SQLite/Redis backends — Memory contract v1 |
-| `@agentskit/rag` | `stable` | Retriever contract v1 |
-| `@agentskit/templates` | `stable` | Authoring toolkit for custom skills/tools |
+| `@agentskit/adapters` | `beta` | Adapter contract is stable; provider coverage and helper APIs are still settling |
+| `@agentskit/runtime` | `beta` | ReAct loop is solid; topology and durable APIs are still evolving |
+| `@agentskit/tools` | `beta` | Core tools are usable in production; integrations and MCP ergonomics are still evolving |
+| `@agentskit/memory` | `beta` | Main backends are working; vector-store surface is still sharpening |
+| `@agentskit/skills` | `beta` | Skill contract is proven; marketplace resolver and persona catalog are still growing |
 | `@agentskit/observability` | `beta` | Observer contract stable; integration coverage growing |
-| `@agentskit/sandbox` | `beta` | E2B integration works; WebContainer fallback is still experimental |
-| `@agentskit/eval` | `beta` | Core APIs stable; richer metrics and reporters coming |
+| `@agentskit/react` | `beta` | Production-ready, but the shared `ChatReturn` surface is still tracked toward 1.0 |
+| `@agentskit/ink` | `beta` | Terminal UI is strong; parity and keyboard UX are still being refined |
+| `@agentskit/cli` | `beta` | Core commands are useful now; template gallery and doctor autofixes are still expanding |
+| `@agentskit/rag` | `alpha` | Retrieval pipeline is promising, but chunking and reranking defaults are still moving |
+| `@agentskit/eval` | `alpha` | Replay and suite concepts are in place; formats and reporters are not frozen yet |
+| `@agentskit/sandbox` | `alpha` | E2B works; fallback and policy APIs are still maturing |
+| `@agentskit/vue` | `alpha` | Early framework binding, still closing parity with React |
+| `@agentskit/svelte` | `alpha` | Early framework binding, still closing parity with React |
+| `@agentskit/solid` | `alpha` | Early framework binding, still closing parity with React |
+| `@agentskit/react-native` | `alpha` | Early mobile binding, still building platform depth |
+| `@agentskit/angular` | `alpha` | Early Angular binding, still shaping the final Signals + RxJS surface |
+| `@agentskit/templates` | `alpha` | Useful authoring toolkit, but scaffolding surface is still expanding |
 
 ## Until v1.0.0
 
@@ -74,13 +79,13 @@ Reaching v1.0.0 means:
 
 ## How to change a tier
 
-- **`experimental` → `beta`**: open a PR that updates `package.json.agentskit.stability`, the README badge, and explains in the PR what changed to earn the bump. No RFC needed.
+- **`alpha` → `beta`**: open a PR that updates `package.json.agentskit.stability`, the README badge, and explains in the PR what changed to earn the bump. No RFC needed.
 - **`beta` → `stable`**: requires an RFC and at least one minor release where the package operated at beta without breaking changes. The RFC documents the public API surface being committed to.
 - **`stable` → `beta`** or lower: requires an RFC and a major version bump of the package. Do not demote a stable package lightly.
 
 ## How consumers should read this
 
-If a package is `stable`, pin it with `^x.y.z` and trust the minor-bump contract. If it's `beta`, use `~x.y.z` if you're conservative, or accept minor bumps may break you. If it's `experimental`, pin exact and read the changelog on every update.
+If a package is `stable`, pin it with `^x.y.z` and trust the minor-bump contract. If it's `beta`, use `~x.y.z` if you're conservative, or accept minor bumps may break you. If it's `alpha`, pin exact and read the changelog on every update.
 
 ## References
 

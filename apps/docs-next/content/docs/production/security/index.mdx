@@ -1,7 +1,9 @@
 ---
 title: Security
-description: The five primitives most production agents want — PII, injection, rate limits, audit, sandbox.
+description: 'Six primitives for production agents: PII redaction, injection detection, rate limiting, audit log, sandbox enforcement, and HITL approvals.'
 ---
+
+Agents that reach production face threats unit tests don't cover — sensitive data leaking into logs, user inputs that hijack the system prompt, runaway API costs, and tool calls that modify infrastructure. These primitives address each class of risk at the boundary closest to where it appears.
 
 ## Primitives
 
@@ -11,8 +13,6 @@ description: The five primitives most production agents want — PII, injection,
 - **Signed audit log** — hash-chain + HMAC. [Recipe](/docs/reference/recipes/audit-log).
 - **Mandatory sandbox** — allow / deny / require / validators across every tool. [Recipe](/docs/reference/recipes/mandatory-sandbox).
 - **Human-in-the-loop approvals** — pause / resume / approve with persisted state. [Recipe](/docs/reference/recipes/hitl-approvals).
-
-*Per-primitive deep dives land in step 6 of the docs IA rollout.*
 
 ## Related
 

@@ -1,7 +1,9 @@
 ---
 title: CI reporters
-description: JUnit, Markdown, GitHub annotations — for any CI stack.
+description: Write eval results as JUnit XML, Markdown, or GitHub annotations so failures block PRs and surface in pull request checks.
 ---
+
+`reportToCi` takes a completed eval report and writes it in the formats your CI stack expects — JUnit for test result tracking, Markdown as a PR artifact, and GitHub annotations that pin failures directly to changed lines.
 
 ```ts
 import {

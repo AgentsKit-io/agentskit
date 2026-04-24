@@ -14,6 +14,21 @@ Vercel AI SDK is an excellent chat SDK. If you're on it and happy, stay. Come to
 
 This page maps common Vercel AI SDK patterns to their AgentsKit equivalents.
 
+## Best migration strategy
+
+If you are coming from Vercel AI SDK, the least painful path is usually:
+
+1. Keep your chat surface mental model.
+2. Move the provider seam to `@agentskit/adapters`.
+3. Replace your custom runtime glue with `@agentskit/runtime` only when you need multi-step behavior.
+4. Add tools, memory, and observability incrementally.
+
+Best companion guides:
+
+- [Build your first agent](/docs/get-started/getting-started/build-your-first-agent)
+- [Architecture at a glance](/docs/get-started/architecture-at-a-glance)
+- [Support agent use case](/docs/use-cases/support-agent)
+
 ## Quick reference
 
 | Vercel AI SDK | AgentsKit | Notes |
@@ -338,5 +353,8 @@ The Adapter contract (ADR 0001) is the pivot point: once you have one `AdapterFa
 - [README — When you should NOT use AgentsKit](../../#when-you-should-not-use-agentskit) — the honest decision matrix
 - [Concepts: Adapter](../concepts/adapter) — why this migration is mostly a rename
 - [Recipe: Chat with RAG](../recipes/rag-chat) — the equivalent of Vercel AI SDK + LangChain stitched together, in 30 lines
+- [Build your first agent](/docs/get-started/getting-started/build-your-first-agent)
+- [Architecture at a glance](/docs/get-started/architecture-at-a-glance)
+- [Use cases](/docs/use-cases)
 
 <ContributeCallout title="Migrated successfully? Share your story." body="Did this guide help? Miss something? Open a discussion or send a PR — every real-world migration makes the next one smoother." />

@@ -1,7 +1,9 @@
 ---
 title: Eval suites
-description: Run any async agent fn against an EvalSuite. Pass/fail per case.
+description: Define cases with inputs and assertions, then run them against any async agent function to get pass rates and latency metrics.
 ---
+
+`runEval` is the entry point for all evaluations: give it an async function that wraps your agent and an `EvalSuite` with test cases, and it returns a report with per-case results and aggregate metrics. Assertions can be boolean functions, regex, or an LLM-as-judge that returns a rationale.
 
 ```ts
 import { runEval } from '@agentskit/eval'

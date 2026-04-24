@@ -1,7 +1,9 @@
 ---
 title: Cost + token accounting
-description: Cap runs by dollars or tokens. Stop before you're surprised.
+description: Set a hard dollar ceiling per run and track token usage with either a zero-dep heuristic or provider-accurate counters.
 ---
+
+A long-running agent with tools can make dozens of LLM calls before you see the invoice. `costGuard` lets you set a ceiling and decide what happens when it's hit — stop cleanly, throw, or warn — so runaway runs don't reach production costs.
 
 ## costGuard
 

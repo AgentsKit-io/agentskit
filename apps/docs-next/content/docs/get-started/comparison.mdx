@@ -8,6 +8,14 @@ page is opinionated but honest — each column lists what each
 framework genuinely optimizes for, with a link you can follow to
 verify.
 
+If you only want the short version:
+
+- Choose **AgentsKit** when you want one ecosystem across UI, runtime, tools, memory, retrieval, and production controls.
+- Choose **Vercel AI SDK** when the main job is streaming chat in a React app.
+- Choose **LangChain.js** when integration breadth matters more than tight contracts or bundle size.
+- Choose **Mastra** when you want an agent-first TS framework and like its workflow model.
+- Choose **LlamaIndex.js** when retrieval is the center of the product.
+
 ## Positioning in one line
 
 | Framework | Positioning |
@@ -17,6 +25,15 @@ verify.
 | [Vercel AI SDK](https://sdk.vercel.ai/) | Best-in-class streaming + React hooks. Chat-first; less coverage beyond the message loop. |
 | [Mastra](https://mastra.ai/) | TypeScript-first agent framework with workflows + memory built-in. |
 | [LlamaIndex.js](https://ts.llamaindex.ai/) | RAG-first. Strong indexing + query engines. |
+
+## Where AgentsKit tends to win
+
+- You want one mental model across browser, terminal, server, and jobs.
+- You want to start with a small slice and grow into a fuller stack without replacing the foundation.
+- You care about runtime contracts, bundle size, and long-term substitutability.
+- You want a stack that can cover support agents, research agents, code agents, and internal copilots with the same substrate.
+
+See: [Architecture at a glance](/docs/get-started/architecture-at-a-glance) · [Use cases](/docs/use-cases)
 
 ## Feature comparison
 
@@ -66,8 +83,19 @@ packages or a community port — not a built-in, contract-level feature.
 - [Migrate from Vercel AI SDK](/docs/get-started/migrating)
 - [Migrate from Mastra](/docs/get-started/migrating)
 
+## Migration shortcuts
+
+- Coming from **Vercel AI SDK** and you want more than chat:
+  start with [Build your first agent](/docs/get-started/getting-started/build-your-first-agent) and then [migrate from Vercel AI SDK](/docs/get-started/migrating/from-vercel-ai-sdk).
+- Coming from **LangChain.js** and you want a smaller, tighter stack:
+  start with [Architecture at a glance](/docs/get-started/architecture-at-a-glance) and then [migrate from LangChain.js](/docs/get-started/migrating/from-langchain).
+- Coming from **Mastra** and you want slimmer contracts:
+  start with [Use cases](/docs/use-cases) and then [migrate from Mastra](/docs/get-started/migrating/from-mastra).
+
 ## See also
 
+- [Build your first agent](/docs/get-started/getting-started/build-your-first-agent)
+- [Architecture at a glance](/docs/get-started/architecture-at-a-glance)
 - [Mental model](/docs/get-started/concepts/mental-model)
 - [Recipes](/docs/reference/recipes)
 - [For-agents reference](/docs/for-agents)

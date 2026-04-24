@@ -9,6 +9,7 @@ export function GET() {
 
   const byTab: Record<string, Array<{ title: string; url: string; description?: string }>> = {
     'Get started': [],
+    'Use cases': [],
     'UI': [],
     'Agents': [],
     'Data': [],
@@ -25,6 +26,7 @@ export function GET() {
     const description = (p.data as { description?: string }).description
     const entry = { title, url, description }
     if (slug.startsWith('get-started/')) byTab['Get started'].push(entry)
+    else if (slug.startsWith('use-cases/') || slug === 'use-cases') byTab['Use cases'].push(entry)
     else if (slug.startsWith('ui/')) byTab['UI'].push(entry)
     else if (slug.startsWith('agents/')) byTab['Agents'].push(entry)
     else if (slug.startsWith('data/')) byTab['Data'].push(entry)
@@ -38,7 +40,7 @@ export function GET() {
     '',
     '> The agent toolkit the JavaScript ecosystem finally has. Small packages, one contract, everything composes — chat UIs (7 frameworks), autonomous runtimes, tools, skills, memory, RAG, observability, evaluation, sandboxing.',
     '',
-    'Six stable contracts (Adapter, Tool, Skill, Memory, Retriever, Runtime). 21 packages under `@agentskit/*`. Install what you need. Zero-dep foundation under 10 KB gzipped.',
+    'Six stable contracts (Adapter, Tool, Skill, Memory, Retriever, Runtime). 19 packages under `@agentskit/*`. Install what you need. Zero-dep foundation under 10 KB gzipped.',
     '',
     '## For agents',
     '',

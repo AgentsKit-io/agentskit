@@ -1,0 +1,55 @@
+---
+title: Research agent
+description: Build a research agent that searches, cites, summarizes, and runs as a repeatable job or interactive assistant.
+---
+
+Research agents are where the runtime, tools, and memory layers start to shine together. The common shape is:
+
+- search and browsing
+- multi-step synthesis
+- source tracking
+- optional long-running or scheduled execution
+
+## Typical stack
+
+```bash
+npm install @agentskit/adapters @agentskit/runtime @agentskit/tools @agentskit/memory @agentskit/observability
+```
+
+## Recommended package mix
+
+| Layer | Package | Why it matters |
+|---|---|---|
+| Provider | `@agentskit/adapters` | Flex between hosted and local models |
+| Runtime | `@agentskit/runtime` | Lets the agent search, inspect, compare, and iterate |
+| Tools | `@agentskit/tools` | Web search, fetch, browser, filesystem, integrations |
+| Memory | `@agentskit/memory` | Keep prior findings and working context |
+| Ops | `@agentskit/observability` | Compare runs, inspect tool behavior, control cost |
+
+## What the architecture usually looks like
+
+1. A task arrives as a prompt, CLI command, or scheduled job.
+2. The runtime decomposes the task into multiple tool-assisted steps.
+3. Search and browser tools collect evidence.
+4. The agent writes structured findings to files or downstream systems.
+5. Observability captures traces for replay and quality review.
+
+## Good defaults
+
+- Keep `maxSteps` explicit so research runs stay bounded.
+- Save source links and snippets as structured output.
+- Use memory to avoid re-researching the same topics in follow-up runs.
+- Add evals if the research output feeds external customers or exec workflows.
+
+## Best follow-up guides
+
+- [Build your first agent](/docs/get-started/getting-started/build-your-first-agent)
+- [Runtime agent example](/docs/reference/examples/runtime-agent)
+- [RAG pipeline example](/docs/reference/examples/rag-pipeline)
+- [Research team recipe](/docs/reference/recipes/research-team)
+- [Background agents](/docs/reference/recipes/background-agents)
+- [Eval suite](/docs/reference/recipes/eval-suite)
+
+## When AgentsKit is especially strong here
+
+Research agents benefit from AgentsKit when you want a clean separation between provider, runtime, tools, and operations. It becomes easy to run the same core workflow in a CLI, a job runner, or a UI without rebuilding the agent from scratch.

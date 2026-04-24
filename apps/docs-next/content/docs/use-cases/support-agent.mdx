@@ -1,0 +1,57 @@
+---
+title: Support agent
+description: Build a customer support agent with chat UI, tools, memory, escalation, and production guardrails.
+---
+
+A support agent is one of the clearest “full ecosystem” builds in AgentsKit. You usually need:
+
+- a chat UI
+- tools for ticketing, CRM, and knowledge lookup
+- memory for ongoing customer context
+- approval or escalation for risky actions
+- observability and auditability in production
+
+## Typical stack
+
+```bash
+npm install @agentskit/react @agentskit/adapters @agentskit/runtime @agentskit/tools @agentskit/memory @agentskit/observability
+```
+
+## Recommended package mix
+
+| Layer | Package | Why it matters |
+|---|---|---|
+| UI | `@agentskit/react` | Customer-facing chat surface with headless components |
+| Provider | `@agentskit/adapters` | Swap model vendors without rewriting the app |
+| Runtime | `@agentskit/runtime` | Multi-step reasoning, tool calling, retries |
+| Tools | `@agentskit/tools` | CRM, helpdesk, email, browser, MCP |
+| Memory | `@agentskit/memory` | Persistent customer context across sessions |
+| Ops | `@agentskit/observability` | Trace runs, inspect failures, keep audit trails |
+
+## What the architecture usually looks like
+
+1. The user starts in a React chat.
+2. The runtime decides whether to answer directly or use tools.
+3. Tools fetch customer records, open tickets, or query knowledge bases.
+4. Memory stores prior context, preferences, and recent resolution history.
+5. Observability records the run for debugging, review, and compliance.
+
+## Good defaults
+
+- Start with a conservative support skill and clear tool descriptions.
+- Keep write actions confirmation-gated.
+- Persist memory by customer or conversation id.
+- Add audit logging before enabling actions like refunds, account changes, or outbound messages.
+
+## Best follow-up guides
+
+- [Build your first agent](/docs/get-started/getting-started/build-your-first-agent)
+- [Customer support example](/docs/reference/examples/support-bot)
+- [Discord bot recipe](/docs/reference/recipes/discord-bot)
+- [Persistent memory](/docs/reference/recipes/persistent-memory)
+- [Confirmation-gated tool](/docs/reference/recipes/confirmation-gated-tool)
+- [Audit log](/docs/reference/recipes/audit-log)
+
+## When AgentsKit is especially strong here
+
+AgentsKit works well for support agents when you want the same contracts across UI, tool calls, and operations. That makes it much easier to evolve from “chatbot” into “customer-facing agent with real actions” without replacing half the stack.

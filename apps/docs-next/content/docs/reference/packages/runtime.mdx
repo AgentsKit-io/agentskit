@@ -3,12 +3,21 @@ title: '@agentskit/runtime'
 description: Standalone agent runtime. ReAct loop, durable execution, multi-agent topologies, speculative execution, background agents.
 ---
 
+`@agentskit/runtime` is where AgentsKit stops being “a chat integration” and becomes an agent system. This package owns the multi-step loop that lets a model inspect, act, reflect, and continue.
+
 ## When to reach for it
 
 - You want an agent without a UI.
 - You need durable execution (resume after a crash).
 - You want ready-made multi-agent topologies.
 - You want to race adapters (`speculate`) or run on cron / webhooks.
+
+## Best fit
+
+- Start here when the task is more than one model call.
+- Pair with [`@agentskit/tools`](/docs/reference/packages/tools) when the model needs to do work in the world.
+- Pair with [`@agentskit/memory`](/docs/reference/packages/memory) when context needs to persist across runs.
+- Pair with [`@agentskit/observability`](/docs/reference/packages/observability) before trusting the system in production.
 
 ## Install
 
@@ -29,6 +38,8 @@ const runtime = createRuntime({
 const result = await runtime.run('Summarize the quarterly report.')
 console.log(result.content)
 ```
+
+That one `run()` call is the center of the agent stack. Everything else in the ecosystem layers into or around it.
 
 ## Surface
 
@@ -58,6 +69,7 @@ console.log(result.content)
 
 - [Concepts: Runtime](/docs/get-started/concepts/runtime)
 - [Agents (deep dive)](/docs/agents)
+- [Build your first agent](/docs/get-started/getting-started/build-your-first-agent)
 - [For agents: runtime](/docs/for-agents/runtime)
 
 ## Source
