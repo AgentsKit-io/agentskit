@@ -3,10 +3,19 @@ title: '@agentskit/sandbox'
 description: Secure code execution (E2B / WebContainer) + mandatory-sandbox policy wrapper.
 ---
 
+`@agentskit/sandbox` is the package for the moment when your agent needs to execute code or touch risky tools and “please be careful” is no longer enough. It adds a policy layer between the model and dangerous capabilities.
+
 ## When to reach for it
 
 - You want the model to run code safely.
 - You want a policy layer over every tool (allow / deny / require-sandbox / validators).
+
+## Best fit
+
+- Add this before enabling shell, code execution, or broad filesystem access.
+- Pair with [`@agentskit/tools`](/docs/reference/packages/tools) to wrap risky tool surfaces.
+- Pair with [`@agentskit/runtime`](/docs/reference/packages/runtime) when autonomous agents can take meaningful actions.
+- Pair with production security guidance before public rollout.
 
 ## Install
 
@@ -26,6 +35,8 @@ const policy = createMandatorySandbox({
 })
 const safeTools = [shell(), filesystem({ basePath }), webSearch()].map(t => policy.wrap(t))
 ```
+
+This is one of the clearest boundaries between a capable agent demo and a production-safe agent system.
 
 ## Surface
 
@@ -48,6 +59,7 @@ const safeTools = [shell(), filesystem({ basePath }), webSearch()].map(t => poli
 ## Related
 
 - [Security](/docs/production/security)
+- [Shipping checklist](/docs/production/shipping-checklist)
 - [For agents: sandbox](/docs/for-agents/sandbox)
 - [Tools](/docs/reference/packages/tools) — tools to wrap.
 

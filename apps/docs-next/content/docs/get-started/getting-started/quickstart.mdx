@@ -3,6 +3,8 @@ title: Quick start
 description: Build a working AI chat in under 10 lines.
 ---
 
+This page is the fastest hello-world. If you want the full AgentsKit story with runtime, tools, memory, and observability, jump to [Build your first agent](./build-your-first-agent).
+
 ## Basic chat
 
 ```tsx title="app/chat.tsx"
@@ -36,6 +38,17 @@ function App() {
 | `InputBar` | Text input that sends on Enter |
 
 Out of the box: streaming, message history, default styling. No extra setup.
+
+## What this page is not
+
+This quickstart shows the UI layer only. AgentsKit gets more compelling when you compose the rest of the ecosystem:
+
+- [`@agentskit/runtime`](/docs/reference/packages/runtime) for autonomous runs
+- [`@agentskit/tools`](/docs/reference/packages/tools) for tool use and integrations
+- [`@agentskit/memory`](/docs/reference/packages/memory) for persistence across runs
+- [`@agentskit/observability`](/docs/reference/packages/observability) for tracing and auditability
+
+For that path, continue to [Build your first agent](./build-your-first-agent).
 
 ## Swap providers
 

@@ -1,7 +1,9 @@
 ---
 title: Deterministic replay
-description: Record once, replay forever. Test without hitting the network.
+description: Record LLM responses to a cassette file, then replay them in CI without network calls for fast, deterministic tests.
 ---
+
+Non-determinism and API latency make agent tests slow and flaky. `createRecordingAdapter` captures every response to a cassette file on first run; `createReplayAdapter` replays those responses in subsequent runs — same output, no network, sub-millisecond per call.
 
 ## Record
 

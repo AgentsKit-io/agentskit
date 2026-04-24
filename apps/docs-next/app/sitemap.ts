@@ -10,6 +10,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE}/`, lastModified: now, changeFrequency: 'weekly', priority: 1.0 },
     { url: `${SITE}/docs`, lastModified: now, changeFrequency: 'weekly', priority: 0.95 },
     { url: `${SITE}/docs/get-started`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${SITE}/docs/use-cases`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE}/docs/for-agents`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE}/docs/ui`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
     { url: `${SITE}/docs/agents`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
@@ -43,6 +44,7 @@ function priorityFor(slug: string): number {
   if (!slug) return 0.95
   if (slug.startsWith('for-agents')) return 0.9
   if (slug.startsWith('get-started')) return 0.9
+  if (slug.startsWith('use-cases')) return 0.85
   if (
     slug.startsWith('ui') ||
     slug.startsWith('agents') ||

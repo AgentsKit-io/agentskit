@@ -1,7 +1,9 @@
 ---
 title: Loggers + tracers
-description: Console, LangSmith, OpenTelemetry. Pick one; attach to runtime.
+description: Attach console, LangSmith, or OpenTelemetry observers to any runtime — mix and match, all receive the same event stream.
 ---
+
+Every observer receives the same event sequence — `chat.start`, `llm.call`, `tool.call`, `tool.result`, `error`, `chat.end` — so switching from console to LangSmith in production requires only changing which observer you pass.
 
 ```ts
 import { createRuntime } from '@agentskit/runtime'
@@ -26,9 +28,6 @@ const runtime = createRuntime({
 | `langsmith({ apiKey, project })` | traces UI | `LANGSMITH_API_KEY` |
 | `opentelemetry({ serviceName })` | OTel pipeline | OTLP endpoint |
 | `createTraceTracker()` | BYO span lifecycle | — |
-
-Every observer receives the same event stream — `chat.start`,
-`llm.call`, `tool.call`, `tool.result`, `error`, `chat.end`.
 
 ## Related
 

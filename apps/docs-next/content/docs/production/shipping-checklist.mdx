@@ -1,0 +1,100 @@
+---
+title: Shipping checklist
+description: A practical checklist for taking an AgentsKit agent from prototype to production.
+---
+
+This page is the handoff between “it works” and “we can trust it”.
+
+Not every agent needs every item on day one, but most production rollouts eventually need almost all of them.
+
+## 1. Runtime shape is bounded
+
+- Define explicit `maxSteps`.
+- Make tool descriptions precise.
+- Separate read actions from write actions.
+- Add timeouts or cancellation paths for long-running work.
+
+## 2. Model choice is intentional
+
+- Pick a default provider and model for the main workflow.
+- Decide whether you need local, hosted, or fallback models.
+- Record the model choice somewhere visible for replay and debugging.
+
+See: [Adapters](/docs/reference/packages/adapters) · [Adapter router](/docs/reference/recipes/adapter-router)
+
+## 3. Tool use is safe
+
+- Gate risky tools with confirmation or approvals.
+- Put destructive capabilities behind the sandbox layer where appropriate.
+- Avoid giving broad filesystem or shell access by default.
+- Test error paths for external integrations.
+
+See: [Tools](/docs/reference/packages/tools) · [Confirmation-gated tool](/docs/reference/recipes/confirmation-gated-tool) · [Mandatory sandbox](/docs/reference/recipes/mandatory-sandbox)
+
+## 4. Context is durable
+
+- Decide whether the agent needs chat memory, vector memory, or both.
+- Make sure memory scope is explicit per user, workspace, or task.
+- Verify retrieval quality with realistic documents and queries.
+- Avoid hidden state that is difficult to inspect or reset.
+
+See: [Memory](/docs/reference/packages/memory) · [RAG](/docs/reference/packages/rag) · [Persistent memory](/docs/reference/recipes/persistent-memory)
+
+## 5. Observability is in place
+
+- Capture traces for runs and tool calls.
+- Log enough context to debug bad answers and bad actions.
+- Track cost and token consumption before traffic grows.
+- Add audit logging for any workflow with user or business risk.
+
+See: [Observability](/docs/production/observability) · [Cost guard](/docs/production/observability/cost-guard) · [Audit log](/docs/production/observability/audit-log)
+
+## 6. Security basics are handled
+
+- Add prompt injection mitigations if the agent touches untrusted content.
+- Redact or isolate sensitive data where necessary.
+- Add rate limiting before public exposure.
+- Think through tool permissions separately from model permissions.
+
+See: [Security](/docs/production/security) · [Prompt injection](/docs/production/security/prompt-injection) · [PII redaction](/docs/production/security/pii-redaction) · [Rate limiting](/docs/production/security/rate-limiting)
+
+## 7. Quality is measured
+
+- Create at least a small eval suite for critical tasks.
+- Record baseline outputs before changing prompts or providers.
+- Add replay or snapshot testing for brittle workflows.
+- Compare failures, not just average scores.
+
+See: [Evals](/docs/production/evals) · [Eval suite](/docs/reference/recipes/eval-suite) · [Deterministic replay](/docs/reference/recipes/deterministic-replay)
+
+## 8. Human review exists where needed
+
+- Decide what must be approved by a person.
+- Add clear fallback paths for ambiguous or risky cases.
+- Make escalations visible in the product and in traces.
+
+See: [HITL approvals](/docs/reference/recipes/hitl-approvals) · [Support agent](/docs/use-cases/support-agent)
+
+## 9. Rollout is staged
+
+- Start with internal or low-risk traffic.
+- Inspect traces before expanding access.
+- Keep provider or prompt fallbacks ready for rollback.
+- Treat the first production week as an eval cycle, not a finish line.
+
+## A good minimum bar
+
+For most teams, a responsible first production rollout includes:
+
+- bounded runtime behavior
+- safe tool access
+- persistent context strategy
+- trace visibility
+- basic security controls
+- at least one repeatable eval path
+
+## Related
+
+- [Production overview](/docs/production)
+- [Build your first agent](/docs/get-started/getting-started/build-your-first-agent)
+- [Use cases](/docs/use-cases)

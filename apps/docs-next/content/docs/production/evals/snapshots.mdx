@@ -1,7 +1,9 @@
 ---
 title: Prompt snapshots + diff
-description: Jest-style snapshots for prompts. Git-blame for every change.
+description: Assert that rendered prompts haven't changed unexpectedly, and trace exactly which edit caused a drift.
 ---
+
+Prompts are code — they can regress. `matchPromptSnapshot` works like Jest snapshots: the first run writes the reference, subsequent runs compare against it. When something drifts, `promptDiff` and `attributePromptChange` tell you which change caused it.
 
 ## matchPromptSnapshot
 

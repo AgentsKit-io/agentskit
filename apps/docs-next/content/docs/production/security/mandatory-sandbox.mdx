@@ -1,7 +1,9 @@
 ---
 title: Mandatory sandbox
-description: Policy wrapper for tools — allow, deny, require-sandbox, validators.
+description: Wrap any tool with allow/deny lists and validators so agents can't execute commands you haven't explicitly permitted.
 ---
+
+Without explicit constraints, a tool-calling agent can run arbitrary shell commands. `createMandatorySandbox` wraps any tool with a policy layer — calls that don't match the allow list, match the deny list, or fail a validator are rejected before execution.
 
 ```ts
 import { createMandatorySandbox } from '@agentskit/tools'

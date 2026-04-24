@@ -1,7 +1,9 @@
 ---
 title: Signed audit log
-description: Hash-chained, HMAC-signed audit log. Tamper-evident record of every step.
+description: Hash-chained, HMAC-signed log that makes it cryptographically detectable if any record is altered or deleted.
 ---
+
+Compliance and incident response both depend on a log you can trust. `createSignedAuditLog` writes each event with a sequence number, timestamp, HMAC, and a hash of the previous record — so tampering with any entry breaks the chain and `verify()` throws.
 
 ```ts
 import { createSignedAuditLog } from '@agentskit/observability'
@@ -21,7 +23,6 @@ const ok = await audit.verify() // throws on tamper
 ```
 
 Each record contains `{ seq, at, kind, payload, prevHash, hmac }`.
-Tampering with any entry breaks the hash chain.
 
 ## Related
 

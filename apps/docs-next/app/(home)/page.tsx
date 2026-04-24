@@ -10,18 +10,18 @@ import { FadeIn, Stagger, StaggerItem } from '@/components/motion/fade-in'
 export const metadata = {
   title: 'AgentsKit.js — Ship AI agents in JavaScript without gluing 8 libraries',
   description:
-    'One toolkit for chat UI, tools, memory, RAG, and runtime. Swap OpenAI for Claude, React for terminal, in-memory for vector DB — nothing breaks. MIT, 10KB core.',
+    'One ecosystem for chat UI, runtime, tools, memory, RAG, and production guardrails. Start with one package, grow into the full stack. MIT, 10KB core.',
   openGraph: {
     title: 'AgentsKit.js — Ship AI agents in JavaScript',
     description:
-      'Chat UI, tools, memory, RAG, runtime. One toolkit. Zero lock-in. 10KB core.',
+      'Chat UI, runtime, tools, memory, RAG, observability. One ecosystem. Zero lock-in. 10KB core.',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'AgentsKit.js — Ship AI agents in JavaScript',
     description:
-      'Chat UI, tools, memory, RAG, runtime. One toolkit. Zero lock-in.',
+      'Chat UI, runtime, tools, memory, RAG, observability. One ecosystem. Zero lock-in.',
   },
 }
 
@@ -69,7 +69,7 @@ const JSON_LD = {
       '@id': 'https://www.agentskit.io/#software',
       name: 'AgentsKit.js',
       description:
-        'One toolkit for building AI agents in JavaScript — chat UI, tools, memory, RAG, runtime. Swap OpenAI for Claude, React for terminal, in-memory for vector DB. Nothing breaks.',
+        'One ecosystem for building AI agents in JavaScript — chat UI, runtime, tools, memory, RAG, and production guardrails. Start with one package, grow into the full stack.',
       applicationCategory: 'DeveloperApplication',
       operatingSystem: 'Cross-platform',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -77,7 +77,7 @@ const JSON_LD = {
       license: 'https://github.com/AgentsKit-io/agentskit/blob/main/LICENSE',
       author: { '@id': 'https://www.agentskit.io/#org' },
       programmingLanguage: 'TypeScript',
-      keywords: 'AI agents, JavaScript, TypeScript, LLM, streaming chat, RAG, tools, React',
+      keywords: 'AI agents, autonomous agent, multi-agent, JavaScript, TypeScript, LLM, streaming chat, RAG, tools, memory, observability, React, Vue, Svelte, Next.js, OpenAI, Anthropic Claude, Gemini, Ollama, LangChain',
     },
     {
       '@type': 'WebSite',
@@ -100,10 +100,12 @@ export default function HomePage() {
       <JsonLd data={JSON_LD} />
       <Hero />
       <SocialProofBar />
-      <EcosystemStats />
       <ProblemSection />
       <SolutionSection />
+      <EcosystemStats />
       <BenefitsSection />
+      <UseCasesSection />
+      <ProofSection />
       <ProviderStrip />
       <BuiltInOpenSection />
       <FinalCta />
@@ -125,7 +127,7 @@ function Hero() {
 
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-ak-border bg-ak-surface px-3 py-1 font-mono text-[11px] text-ak-graphite sm:mb-5 sm:text-xs">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-ak-green" />
-            v1.0 · MIT · Built for the agent era
+            core v1.0 · 19 packages · MIT
           </div>
 
           <FadeIn>
@@ -141,11 +143,11 @@ function Hero() {
 
           <FadeIn delay={0.1}>
           <p className="mb-7 max-w-xl text-base leading-relaxed text-ak-graphite sm:mb-8 sm:text-lg">
-            AgentsKit gives you chat UI, tools, memory, RAG, and runtime — one
-            toolkit, zero lock-in. Swap{' '}
+            AgentsKit gives you chat UI, runtime, tools, memory, RAG, and
+            production guardrails in one ecosystem. Swap{' '}
             <span className="text-ak-foam">OpenAI for Claude</span>, React for
-            terminal, in-memory for vector DB.{' '}
-            <span className="text-ak-foam">Nothing breaks.</span>
+            terminal, in-memory for vector DB. Start small, grow into the
+            full stack, and keep your code intact.
           </p>
           </FadeIn>
 
@@ -155,16 +157,16 @@ function Hero() {
 
           <div className="mt-5 flex flex-wrap items-center gap-2.5 sm:mt-6 sm:gap-3">
             <Link
-              href="/docs"
+              href="/docs/get-started/getting-started/build-your-first-agent"
               className="inline-flex items-center gap-2 rounded-md bg-ak-foam px-4 py-2.5 text-sm font-semibold text-ak-midnight transition hover:bg-white sm:px-5"
             >
-              Install in 30 seconds →
+              Build your first agent →
             </Link>
             <Link
               href="/docs/reference/examples"
               className="inline-flex items-center gap-2 rounded-md border border-ak-border bg-ak-surface px-4 py-2.5 text-sm font-medium text-ak-foam transition hover:border-ak-blue sm:px-5"
             >
-              See a live agent
+              See live examples
             </Link>
             <a
               href={DISCORD}
@@ -309,7 +311,7 @@ function SolutionSection() {
           The fix
         </p>
         <h2 className="mb-4 max-w-3xl text-[1.75rem] font-bold leading-[1.15] text-ak-foam sm:mb-5 sm:text-3xl md:text-4xl lg:text-5xl">
-          One toolkit. Twenty-one packages. Pick what you need.
+          One ecosystem. Nineteen packages. Start with one, grow to the full stack.
         </h2>
         <p className="mb-8 max-w-2xl text-base text-ak-graphite sm:mb-12 sm:text-lg">
           A 10KB zero-dependency core defines six contracts. Every adapter,
@@ -327,10 +329,7 @@ function SolutionSection() {
                 @agentskit/core · 10KB · zero deps
               </Link>
             </div>
-            <div className="mx-auto mb-4 h-8 w-px bg-ak-border" />
-            <p className="mb-4 text-center font-mono text-[11px] uppercase tracking-[0.2em] text-ak-graphite">
-              ↓ click any package to open its docs
-            </p>
+            <div className="mx-auto mb-6 h-8 w-px bg-ak-border" />
             <Stagger className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4" stagger={0.04}>
               {PACKAGE_CARDS.map(pkg => (
                 <StaggerItem key={pkg.name}>
@@ -400,7 +399,7 @@ function BenefitsSection() {
           Why teams ship with it
         </p>
         <h2 className="mb-10 max-w-2xl text-[1.75rem] font-bold leading-[1.15] text-ak-foam sm:mb-14 sm:text-3xl md:text-4xl lg:text-5xl">
-          Built for the code you&apos;ll still want to own in 12 months.
+          Code you&apos;ll still want to own in 12 months.
         </h2>
         <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
           {benefits.map(b => (
@@ -416,6 +415,128 @@ function BenefitsSection() {
                 {b.desc}
               </p>
             </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function UseCasesSection() {
+  const useCases = [
+    {
+      title: 'Support agent',
+      href: '/docs/use-cases/support-agent',
+      desc: 'Customer support with memory, CRM tools, escalation, and audit trails.',
+    },
+    {
+      title: 'Research agent',
+      href: '/docs/use-cases/research-agent',
+      desc: 'Search, browse, summarize, and run repeatable research workflows.',
+    },
+    {
+      title: 'Code agent',
+      href: '/docs/use-cases/code-agent',
+      desc: 'Repository-aware automation with filesystem tools, runtime loops, and replay.',
+    },
+    {
+      title: 'Internal copilot',
+      href: '/docs/use-cases/internal-copilot',
+      desc: 'Company knowledge, RAG, internal tools, and production controls in one stack.',
+    },
+  ] as const
+
+  return (
+    <section className="border-b border-ak-border bg-ak-surface/40 px-4 py-16 sm:px-6 sm:py-20 md:py-24">
+      <div className="mx-auto max-w-6xl">
+        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-blue sm:mb-4 sm:text-xs">
+          What you can build
+        </p>
+        <h2 className="mb-4 max-w-3xl text-[1.75rem] font-bold leading-[1.15] text-ak-foam sm:mb-5 sm:text-3xl md:text-4xl lg:text-5xl">
+          Start from the outcome, not the taxonomy.
+        </h2>
+        <p className="mb-8 max-w-2xl text-base text-ak-graphite sm:mb-12 sm:text-lg">
+          Four end-to-end builds showing how the packages compose into real
+          products, not just API surfaces.
+        </p>
+        <div className="grid gap-4 sm:gap-5 md:grid-cols-2">
+          {useCases.map((item) => (
+            <Link
+              key={item.title}
+              href={item.href}
+              className="group rounded-xl border border-ak-border bg-ak-midnight p-6 transition hover:-translate-y-0.5 hover:border-ak-blue hover:shadow-[0_0_0_1px_var(--ak-blue)]"
+            >
+              <div className="mb-3 flex items-center justify-between gap-4">
+                <h3 className="text-xl font-semibold text-ak-foam transition group-hover:text-ak-blue">
+                  {item.title}
+                </h3>
+                <span className="font-mono text-sm text-ak-graphite transition group-hover:text-ak-blue">
+                  →
+                </span>
+              </div>
+              <p className="text-sm leading-relaxed text-ak-graphite">
+                {item.desc}
+              </p>
+            </Link>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function ProofSection() {
+  const starters = [
+    {
+      title: 'Scaffold a starter',
+      href: '/docs/production/cli/init',
+      desc: 'Use `agentskit init` to spin up a React chat, Ink terminal app, runtime worker, or multi-agent starter.',
+      cta: 'See starters',
+    },
+    {
+      title: 'Browse live examples',
+      href: '/docs/reference/examples',
+      desc: 'Open interactive demos for support bots, code assistants, RAG chat, runtime agents, and multi-agent planning.',
+      cta: 'Open examples',
+    },
+    {
+      title: 'Copy runnable recipes',
+      href: '/docs/reference/recipes',
+      desc: 'Jump straight into end-to-end snippets for integrations, replay, security, evals, and retrieval pipelines.',
+      cta: 'Open recipes',
+    },
+  ] as const
+
+  return (
+    <section className="border-b border-ak-border bg-ak-midnight px-4 py-16 sm:px-6 sm:py-20 md:py-24">
+      <div className="mx-auto max-w-6xl">
+        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-green sm:mb-4 sm:text-xs">
+          Proof, not promises
+        </p>
+        <h2 className="mb-4 max-w-3xl text-[1.75rem] font-bold leading-[1.15] text-ak-foam sm:mb-5 sm:text-3xl md:text-4xl lg:text-5xl">
+          Start from a template, a demo, or a runnable recipe.
+        </h2>
+        <p className="mb-8 max-w-2xl text-base text-ak-graphite sm:mb-12 sm:text-lg">
+          Scaffold a project, inspect a live demo, or copy a recipe and run it
+          locally. Pick the angle you trust.
+        </p>
+        <div className="grid gap-4 sm:gap-5 lg:grid-cols-3">
+          {starters.map((item) => (
+            <Link
+              key={item.title}
+              href={item.href}
+              className="group flex flex-col rounded-xl border border-ak-border bg-ak-surface p-6 transition hover:-translate-y-0.5 hover:border-ak-blue hover:shadow-[0_0_0_1px_var(--ak-blue)]"
+            >
+              <h3 className="mb-3 text-xl font-semibold text-ak-foam transition group-hover:text-ak-blue">
+                {item.title}
+              </h3>
+              <p className="mb-5 flex-1 text-sm leading-relaxed text-ak-graphite">
+                {item.desc}
+              </p>
+              <span className="font-mono text-sm text-ak-blue">
+                {item.cta} →
+              </span>
+            </Link>
           ))}
         </div>
       </div>
@@ -474,7 +595,7 @@ function ProviderStrip() {
 
 function EcosystemStats() {
   const stats = [
-    { value: '21', label: 'packages', href: '/docs/reference/packages' },
+    { value: '19', label: 'packages', href: '/docs/reference/packages' },
     { value: '7', label: 'framework bindings', href: '/docs/ui' },
     { value: '20+', label: 'LLM providers', href: '/docs/data/providers' },
     { value: '20+', label: 'tool integrations', href: '/docs/agents/tools/integrations' },
@@ -549,10 +670,10 @@ function FinalCta() {
 
         <div className="flex flex-wrap justify-center gap-2.5 sm:gap-3">
           <Link
-            href="/docs"
+            href="/docs/get-started/getting-started/build-your-first-agent"
             className="inline-flex items-center gap-2 rounded-md bg-ak-foam px-5 py-3 text-sm font-semibold text-ak-midnight transition hover:bg-white sm:px-6"
           >
-            Read the docs →
+            Build your first agent →
           </Link>
           <a
             href={GITHUB}
@@ -579,7 +700,7 @@ function FinalCta() {
         </div>
 
         <p className="mt-8 font-mono text-xs text-ak-graphite">
-          AgentsKit.js · MIT · 21 packages on npm · built in the open
+          AgentsKit.js · MIT · 19 packages on npm · built in the open
         </p>
       </div>
     </section>

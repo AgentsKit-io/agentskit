@@ -3,12 +3,21 @@ title: '@agentskit/eval'
 description: Eval suites + deterministic replay + snapshot testing + prompt diff + CI reporters.
 ---
 
+`@agentskit/eval` is how you stop shipping changes to prompts, tools, and providers on vibes alone. It gives you repeatable ways to measure quality, compare behavior, and catch regressions before they reach users.
+
 ## When to reach for it
 
 - You want to score agent quality with numbers, in CI.
 - You want deterministic replay (record once, replay forever).
 - You want Jest-style prompt snapshots with semantic tolerance.
 - You want a "git blame for prompts" — diff + attribution.
+
+## Best fit
+
+- Add this when an agent starts becoming product-critical.
+- Pair with [`@agentskit/observability`](/docs/reference/packages/observability) so you can turn real failures into eval cases.
+- Pair with [`@agentskit/adapters`](/docs/reference/packages/adapters) to compare providers against the same suite.
+- Pair with [`@agentskit/runtime`](/docs/reference/packages/runtime) when you need to evaluate full multi-step workflows, not isolated prompts.
 
 ## Install
 
@@ -30,6 +39,8 @@ const result = await runEval({
 })
 console.log(`${result.passed}/${result.totalCases} passed`)
 ```
+
+That feedback loop is what lets a team keep improving an agent without losing control of it.
 
 ## Surface
 
@@ -59,6 +70,7 @@ console.log(`${result.passed}/${result.totalCases} passed`)
 ## Related
 
 - [Evals (deep dive)](/docs/production/evals)
+- [Shipping checklist](/docs/production/shipping-checklist)
 - [Open Eval Format spec](/docs/reference/specs)
 - [For agents: eval](/docs/for-agents/eval)
 

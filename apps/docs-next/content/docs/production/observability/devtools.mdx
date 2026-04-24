@@ -1,7 +1,9 @@
 ---
 title: Devtools server
-description: Live SSE feed of agent events. Power any custom dashboard.
+description: Expose a live SSE stream of agent events so any browser-based dashboard can display them in real time.
 ---
+
+`createDevtoolsServer` taps into the same observer event stream as loggers and tracers, then makes those events available over SSE. Connect a browser UI with a standard `EventSource` — no WebSocket server, no custom protocol.
 
 ```ts
 import { createDevtoolsServer, toSseFrame } from '@agentskit/observability'

@@ -1,7 +1,9 @@
 ---
 title: Observability
-description: Trace, log, audit, and cost-guard your agents end-to-end.
+description: Attach loggers, tracers, and cost guards to any runtime — no code changes beyond adding an observer.
 ---
+
+Agents fail in ways that are hard to reproduce: the model chose a wrong tool, a retrieval returned stale data, a run silently blew past its budget. Observability gives you a structured record of every LLM call, tool execution, and agent step so you can answer "what happened and why" without guessing.
 
 ## Loggers + tracers
 
@@ -26,8 +28,6 @@ description: Trace, log, audit, and cost-guard your agents end-to-end.
 ## Audit
 
 - `createSignedAuditLog` — hash-chain + HMAC tamper-evident log. [Recipe](/docs/reference/recipes/audit-log).
-
-*Per-observer deep dives land in step 6 of the docs IA rollout.*
 
 ## Related
 

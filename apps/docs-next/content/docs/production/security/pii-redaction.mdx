@@ -1,7 +1,9 @@
 ---
 title: PII redaction
-description: Scrub emails, phones, SSNs, keys before they leave your process.
+description: Strip emails, phones, SSNs, and API keys from messages before they reach the model or get written to logs.
 ---
+
+User messages, tool results, and memory retrieval can all carry sensitive data you never intended to send to a third-party API. `createPIIRedactor` intercepts that text before it leaves your process and replaces matched patterns with labeled placeholders.
 
 ```ts
 import { createPIIRedactor, DEFAULT_PII_RULES } from '@agentskit/core/security'

@@ -3,11 +3,20 @@ title: '@agentskit/react'
 description: React hooks + headless chat components driving the shared ChatController.
 ---
 
+`@agentskit/react` is the fastest path from the AgentsKit contracts to a browser product. It gives you the same core chat model as the rest of the ecosystem, but with React ergonomics and headless UI primitives.
+
 ## When to reach for it
 
 - You're building a web chat UI in React.
 - You want streaming + tool calls + memory + skills in one hook.
 - You want headless components with `data-ak-*` attributes so you style everything with your own CSS / Tailwind / shadcn.
+
+## Best fit
+
+- Start here when you need a customer-facing or internal chat experience in React.
+- Pair with [`@agentskit/adapters`](/docs/reference/packages/adapters) for provider flexibility.
+- Pair with [`@agentskit/runtime`](/docs/reference/packages/runtime) and [`@agentskit/tools`](/docs/reference/packages/tools) when the chat needs to do real work.
+- Pair with [`@agentskit/memory`](/docs/reference/packages/memory) and [`@agentskit/rag`](/docs/reference/packages/rag) when the assistant needs longer context.
 
 ## Install
 
@@ -31,6 +40,8 @@ export function Chat() {
   )
 }
 ```
+
+This is the UI entry point for the ecosystem, not a separate product. The same contracts keep working as you add runtime, tools, memory, and production layers.
 
 ## Surface
 
@@ -60,6 +71,7 @@ export function Chat() {
 
 - [Concepts: Runtime](/docs/get-started/concepts/runtime)
 - [UI + hooks](/docs/ui)
+- [Support agent use case](/docs/use-cases/support-agent)
 - [For agents: react](/docs/for-agents/react)
 
 ## Source

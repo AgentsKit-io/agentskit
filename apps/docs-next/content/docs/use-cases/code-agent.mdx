@@ -1,0 +1,50 @@
+---
+title: Code agent
+description: Build a coding or code-review agent with filesystem tools, repository context, multi-step runtime behavior, and human oversight.
+---
+
+Code agents need more than completions. They usually need repository access, iteration, memory, and some form of review or approval loop.
+
+## Typical stack
+
+```bash
+npm install @agentskit/adapters @agentskit/runtime @agentskit/tools @agentskit/skills @agentskit/observability @agentskit/eval
+```
+
+## Recommended package mix
+
+| Layer | Package | Why it matters |
+|---|---|---|
+| Provider | `@agentskit/adapters` | Choose the best coding model without rewriting the app |
+| Runtime | `@agentskit/runtime` | Lets the agent inspect, modify, and reflect across multiple steps |
+| Tools | `@agentskit/tools` | Filesystem, shell, browser, MCP, integrations |
+| Skills | `@agentskit/skills` | Useful starting personas like reviewer, planner, researcher |
+| Ops | `@agentskit/observability` | Trace what happened before trusting automation |
+| Quality | `@agentskit/eval` | Replay and benchmark prompts or review behavior over time |
+
+## What the architecture usually looks like
+
+1. The agent receives a coding or review task.
+2. Filesystem and shell tools inspect the repo state.
+3. The runtime loops through investigation, edits, and validation.
+4. Skills shape behavior for review, planning, or implementation tone.
+5. Observability and evals help you keep the system trustworthy.
+
+## Good defaults
+
+- Separate read tools from write tools when you first ship.
+- Add confirmation gates before destructive actions.
+- Store structured traces so you can replay bad runs.
+- Treat evals as part of the product, not an afterthought.
+
+## Best follow-up guides
+
+- [Code assistant example](/docs/reference/examples/code-assistant)
+- [Code reviewer recipe](/docs/reference/recipes/code-reviewer)
+- [Mandatory sandbox](/docs/reference/recipes/mandatory-sandbox)
+- [Deterministic replay](/docs/reference/recipes/deterministic-replay)
+- [Prompt snapshots](/docs/reference/recipes/prompt-snapshots)
+
+## When AgentsKit is especially strong here
+
+AgentsKit is a good fit when you want to combine tool use, structured runtime control, and post-run inspection without taking on a huge framework. The contracts also make it easier to split the system into safe layers as the agent becomes more capable.

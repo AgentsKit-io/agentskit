@@ -1,7 +1,9 @@
 ---
 title: Rate limiting
-description: Token bucket per user / IP / key. Works with any adapter.
+description: Token-bucket rate limiter keyed by user, IP, or API key — with Redis/Upstash support for multi-host deployments.
 ---
+
+Without a rate limiter, a single user can exhaust your API budget or trigger abuse at scale. `createRateLimiter` enforces a token-bucket policy per request key and returns a `retryAfterMs` value you can forward directly in the `retry-after` header.
 
 ```ts
 import { createRateLimiter } from '@agentskit/core/security'
@@ -21,8 +23,7 @@ app.post('/chat', async (req) => {
 
 ## Storage
 
-- In-memory (default) — single-host.
-- BYO store via `{ get, set }` — Redis / Upstash / any K/V for multi-host.
+In-memory storage works for a single host. For multi-host deployments, pass a `{ get, set }` adapter backed by Redis, Upstash, or any key/value store.
 
 ## Related
 

@@ -1,7 +1,9 @@
 ---
 title: Prompt injection
-description: Detect and block jailbreak patterns in user input or tool results.
+description: Detect instruction-hijacking patterns in user input, tool results, and RAG chunks before they reach the model.
 ---
+
+Prompt injection is the main attack surface for agents: a user — or content the agent retrieves — attempts to override the system prompt or change the agent's behavior. `createInjectionDetector` catches common patterns with zero-cost heuristics and optionally escalates high-risk inputs to an LLM classifier.
 
 ```ts
 import { createInjectionDetector } from '@agentskit/core/security'
@@ -19,15 +21,11 @@ if (verdict.blocked) throw new Error(verdict.reason)
 
 ## Heuristic layer
 
-Catches common patterns zero-cost:
-- "ignore previous instructions"
-- role-swap attempts
-- system-prompt leak probes
-- fenced payloads (`<|system|>`, etc.)
+The heuristic layer runs synchronously at zero cost. It catches "ignore previous instructions", role-swap attempts, system-prompt leak probes, and fenced payloads like `<|system|>`.
 
 ## Model classifier layer
 
-Pluggable. Use any adapter to score high-risk inputs.
+Pluggable. Use any adapter to score high-risk inputs that pass the heuristics but still look suspicious.
 
 ## Where to run it
 
