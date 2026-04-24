@@ -4,7 +4,7 @@
 
 **The agent toolkit JavaScript actually deserves.**
 
-A 10KB core. Twelve plug-and-play packages. Zero lock-in. Six formal contracts that make every adapter, tool, skill, memory, retriever, and runtime substitutable.
+A 10KB core. Nineteen focused packages. Zero lock-in. Six formal contracts that make every adapter, tool, skill, memory, retriever, and runtime substitutable.
 
 [![npm](https://img.shields.io/npm/v/@agentskit/react?label=npm)](https://www.npmjs.com/package/@agentskit/react)
 [![bundle](https://img.shields.io/bundlephobia/minzip/@agentskit/react?label=react%20bundle)](https://bundlephobia.com/package/@agentskit/react)
@@ -32,7 +32,7 @@ A 10KB core. Twelve plug-and-play packages. Zero lock-in. Six formal contracts t
 
 Building a real AI agent in JavaScript today means cobbling together five libraries that don't fit. Vercel AI SDK is a beautiful chat SDK with no runtime. LangChain.js drags in 200MB and leaks abstractions at every layer. MCP solves tool interop and nothing else. assistant-ui has 53 components and no opinion about how to compose them.
 
-AgentsKit is the missing kit: small, contracted, composable. Six packages you can use alone, twelve that combine without ceremony. You stay in plain JavaScript the entire time.
+AgentsKit is the missing kit: small, contracted, composable. Start with one package, grow into a full stack, and stay in plain JavaScript the entire time.
 
 > [Origin story](./ORIGIN.md) for the long version. [Manifesto](./MANIFESTO.md) for the principles.
 
@@ -122,7 +122,7 @@ We are honest about this:
 - **You're shipping a chat SDK to consumers, not an agent.** Vercel AI SDK is purpose-built for that and excellent.
 - **You need Python.** AgentsKit is JavaScript-first by design. Use a Python framework.
 - **You require enterprise-grade observability today.** AgentsKit's observability layer is good but young; LangSmith/Arize/Helicone are more mature integrations right now.
-- **You can't accept a v0.x semver story.** We're pre-1.0 with formal contracts already locked, but real production teams may want a stable v1.0.0 first.
+- **You need every package frozen today.** `@agentskit/core` is v1.0.0, but the rest of the ecosystem is still graduating package-by-package.
 
 ---
 
@@ -133,19 +133,24 @@ Pick what you need. Every package works alone. Combinations work without glue co
 | Package | What it does | Stability |
 |---|---|---|
 | [`@agentskit/core`](packages/core) | Types, contracts, primitives | stable |
-| [`@agentskit/adapters`](packages/adapters) | Provider adapters (OpenAI, Anthropic, Gemini, Ollama, DeepSeek, Grok, …) | stable |
-| [`@agentskit/react`](packages/react) | React hooks + headless UI | stable |
-| [`@agentskit/ink`](packages/ink) | Terminal UI (Ink) components | stable |
-| [`@agentskit/cli`](packages/cli) | CLI: chat, init, run | stable |
-| [`@agentskit/runtime`](packages/runtime) | Autonomous agent runtime (ReAct loop, delegation) | stable |
-| [`@agentskit/tools`](packages/tools) | Web search, filesystem, shell | stable |
-| [`@agentskit/skills`](packages/skills) | Pre-built behavioral prompts | stable |
-| [`@agentskit/memory`](packages/memory) | Chat + vector memory (SQLite, Redis, file) | stable |
-| [`@agentskit/rag`](packages/rag) | Plug-and-play RAG | stable |
-| [`@agentskit/observability`](packages/observability) | Console, LangSmith, OpenTelemetry | beta |
-| [`@agentskit/sandbox`](packages/sandbox) | Secure code execution | beta |
-| [`@agentskit/eval`](packages/eval) | Agent evaluation and benchmarking | beta |
-| [`@agentskit/templates`](packages/templates) | Authoring toolkit for skills/tools | stable |
+| [`@agentskit/adapters`](packages/adapters) | Provider adapters (OpenAI, Anthropic, Gemini, Ollama, DeepSeek, Grok, …) | beta |
+| [`@agentskit/runtime`](packages/runtime) | Autonomous agent runtime (ReAct loop, delegation) | beta |
+| [`@agentskit/tools`](packages/tools) | Web search, filesystem, shell, integrations, MCP bridge | beta |
+| [`@agentskit/memory`](packages/memory) | Chat + vector + graph + encrypted memory | beta |
+| [`@agentskit/rag`](packages/rag) | Plug-and-play retrieval and reranking | alpha |
+| [`@agentskit/skills`](packages/skills) | Pre-built behavioral prompts and personas | beta |
+| [`@agentskit/observability`](packages/observability) | Console, LangSmith, OpenTelemetry, audit log | beta |
+| [`@agentskit/eval`](packages/eval) | Agent evaluation, replay, snapshots | alpha |
+| [`@agentskit/sandbox`](packages/sandbox) | Secure code execution | alpha |
+| [`@agentskit/react`](packages/react) | React hooks + headless UI | beta |
+| [`@agentskit/ink`](packages/ink) | Terminal UI (Ink) components | beta |
+| [`@agentskit/vue`](packages/vue) | Vue binding for the shared chat contract | alpha |
+| [`@agentskit/svelte`](packages/svelte) | Svelte binding for the shared chat contract | alpha |
+| [`@agentskit/solid`](packages/solid) | Solid binding for the shared chat contract | alpha |
+| [`@agentskit/react-native`](packages/react-native) | React Native / Expo binding | alpha |
+| [`@agentskit/angular`](packages/angular) | Angular binding with Signals + RxJS | alpha |
+| [`@agentskit/cli`](packages/cli) | CLI: chat, init, run, ai, dev, doctor | beta |
+| [`@agentskit/templates`](packages/templates) | Authoring toolkit for scaffolding skills, tools, adapters | alpha |
 
 The whole catalog is one `npx @agentskit/cli init` away.
 
@@ -183,7 +188,7 @@ The same `useChat` mental model. Real keyboard input. Real streaming. Real tools
 
 ## For AI agents reading this
 
-The full public API fits in **under 2,000 tokens**. Paste the [agent-friendly reference](https://www.agentskit.io/docs/getting-started/for-ai-agents) into your LLM context and start generating real AgentsKit code immediately. We treat agents as first-class consumers of our docs.
+The full public API fits in **under 2,000 tokens**. Paste the [agent-friendly reference](https://www.agentskit.io/docs/get-started/getting-started/for-ai-agents) into your LLM context and start generating real AgentsKit code immediately. We treat agents as first-class consumers of our docs.
 
 ---
 
@@ -266,13 +271,13 @@ Read these once and you can predict how every package behaves.
 
 ## Status
 
-`@agentskit/core` is at **v1.0.0** — API frozen at the minor level, deprecations carry a cycle, contracts pinned to ADRs. Other packages track their own cadence and individual [stability tiers](./docs/STABILITY.md).
+`@agentskit/core` is at **v1.0.0** — API frozen at the minor level, deprecations carry a cycle, contracts pinned to ADRs. The rest of the ecosystem ships on independent beta/alpha tracks with explicit [stability tiers](./docs/STABILITY.md).
 
 Concretely, as of the Phase 1 release:
 
-- **538 tests** across 14 packages
+- **538 tests** across the ecosystem
 - **5.17 KB** gzipped core — 48% under the 10 KB manifesto budget (enforced in CI)
-- **Seven formal contracts** pinned to ADRs 0001–0007
+- **Six formal contracts** pinned to ADRs 0001–0006
 - **74 documentation routes** including 13 copy-paste recipes and 3 migration guides
 
 See the [Phase 1 release notes](./docs/RELEASE-CORE-V1.md) for what shipped, and the [Master PRD](https://github.com/AgentsKit-io/agentskit/issues/113) for what's next.

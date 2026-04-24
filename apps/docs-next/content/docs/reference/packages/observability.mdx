@@ -3,6 +3,8 @@ title: '@agentskit/observability'
 description: Trace viewer, signed audit log, cost guard, devtools, token counters.
 ---
 
+`@agentskit/observability` is the package you add when you no longer want to guess what your agent did. It turns opaque runs into inspectable traces, costs, audit events, and live debugging streams.
+
 ## When to reach for it
 
 - You need console / LangSmith / OpenTelemetry logging.
@@ -10,6 +12,13 @@ description: Trace viewer, signed audit log, cost guard, devtools, token counter
 - You want a hard dollar ceiling (`costGuard`).
 - You want a tamper-evident audit log (SOC 2 / HIPAA friendly).
 - You want a live devtools feed (browser extension compatible).
+
+## Best fit
+
+- Add this before opening an agent to real users or production workloads.
+- Pair with [`@agentskit/runtime`](/docs/reference/packages/runtime) to trace multi-step behavior.
+- Pair with [`@agentskit/eval`](/docs/reference/packages/eval) when you want to turn failures into repeatable quality work.
+- Pair with [`@agentskit/security`](/docs/production/security) concepts when the workflow has compliance or audit requirements.
 
 ## Install
 
@@ -28,6 +37,8 @@ const runtime = createRuntime({
   observers: [consoleLogger(), costGuard({ maxUsd: 0.5 })],
 })
 ```
+
+For many teams, this is the point where an agent stops feeling magical and starts feeling operable.
 
 ## Surface
 
@@ -54,6 +65,7 @@ const runtime = createRuntime({
 ## Related
 
 - [Observability (deep dive)](/docs/production/observability)
+- [Shipping checklist](/docs/production/shipping-checklist)
 - [Security](/docs/production/security)
 - [For agents: observability](/docs/for-agents/observability)
 

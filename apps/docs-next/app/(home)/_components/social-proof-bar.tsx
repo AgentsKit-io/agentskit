@@ -111,7 +111,7 @@ export function SocialProofBar() {
           value={contributors === null ? '…' : compact(contributors)}
         />
         <Divider />
-        <Metric label="packages on npm" value="14" />
+        <Metric label="packages on npm" value="19" />
         <Divider />
         <Metric label="core size" value="10KB" />
         <Divider />

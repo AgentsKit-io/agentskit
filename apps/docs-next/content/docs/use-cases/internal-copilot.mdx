@@ -1,0 +1,57 @@
+---
+title: Internal copilot
+description: Build an internal assistant over company data with RAG, permissions, observability, and a path to production.
+---
+
+An internal copilot usually starts as “chat over docs” and quickly becomes more demanding:
+
+- company knowledge and retrieval
+- multiple data sources
+- user or team-specific permissions
+- auditability and production controls
+
+## Typical stack
+
+```bash
+npm install @agentskit/react @agentskit/adapters @agentskit/runtime @agentskit/memory @agentskit/rag @agentskit/observability @agentskit/tools
+```
+
+## Recommended package mix
+
+| Layer | Package | Why it matters |
+|---|---|---|
+| UI | `@agentskit/react` | Fast way to ship an internal assistant surface |
+| Provider | `@agentskit/adapters` | Model flexibility as cost and privacy needs change |
+| Runtime | `@agentskit/runtime` | Lets the assistant retrieve, act, and chain tool calls |
+| Memory | `@agentskit/memory` | Preserve ongoing user context and preferences |
+| RAG | `@agentskit/rag` | Ingest, retrieve, rerank, and connect knowledge sources |
+| Tools | `@agentskit/tools` | Reach internal systems through integrations or MCP |
+| Ops | `@agentskit/observability` | Critical for trust, debugging, and access-sensitive workflows |
+
+## What the architecture usually looks like
+
+1. A user asks a question in a chat UI.
+2. The runtime combines short-term context, memory, and retrieved documents.
+3. Tools fetch additional data from internal systems when needed.
+4. The assistant returns an answer, citation set, or action result.
+5. Observability and security layers provide the controls needed for rollout.
+
+## Good defaults
+
+- Start with retrieval-only before enabling mutating actions.
+- Keep retrieval quality visible with traces and sampled evaluations.
+- Model access and tool access should be treated separately.
+- Add prompt injection and PII protections before broader rollout.
+
+## Best follow-up guides
+
+- [RAG chat example](/docs/reference/examples/rag-chat)
+- [RAG pipeline example](/docs/reference/examples/rag-pipeline)
+- [createRAG](/docs/data/rag/create-rag)
+- [Doc loaders](/docs/reference/recipes/doc-loaders)
+- [Prompt injection](/docs/reference/recipes/prompt-injection)
+- [PII redaction](/docs/reference/recipes/pii-redaction)
+
+## When AgentsKit is especially strong here
+
+Internal copilots are where the ecosystem framing matters most. AgentsKit gives you one set of contracts across UI, retrieval, runtime, tools, and production controls, which helps a lot once the “simple chat over docs” prototype starts growing into a real internal platform.

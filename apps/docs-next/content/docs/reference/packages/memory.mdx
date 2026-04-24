@@ -3,11 +3,20 @@ title: '@agentskit/memory'
 description: Chat memory + vector stores + hierarchical / encrypted / graph / personalization wrappers.
 ---
 
+`@agentskit/memory` is the layer you add when your agent needs continuity. Without it, every run starts cold. With it, the system can remember conversations, preferences, retrieved context, and higher-order abstractions over time.
+
 ## When to reach for it
 
 - You need persistent chat history (file / SQLite / Redis).
 - You need vector search (pgvector / Pinecone / Qdrant / Chroma / Upstash / Redis / file).
 - You need MemGPT-style tiered memory, or client-side encryption, or a knowledge graph.
+
+## Best fit
+
+- Start here when the same user, workflow, or corpus needs to persist across sessions.
+- Pair with [`@agentskit/runtime`](/docs/reference/packages/runtime) for agent continuity.
+- Pair with [`@agentskit/rag`](/docs/reference/packages/rag) for retrieval-heavy assistants.
+- Pair with [`@agentskit/observability`](/docs/reference/packages/observability) if you need visibility into memory behavior and quality.
 
 ## Install
 
@@ -26,6 +35,8 @@ const vectors = pgvector({
   runner: { query: async (sql, params) => ({ rows: (await pool.query(sql, params)).rows }) },
 })
 ```
+
+In most real products, memory is the difference between a clever demo and a useful system.
 
 ## Surface
 
@@ -54,6 +65,7 @@ const vectors = pgvector({
 
 - [Concepts: Memory](/docs/get-started/concepts/memory)
 - [Data → Memory](/docs/data/memory)
+- [Internal copilot use case](/docs/use-cases/internal-copilot)
 - [For agents: memory](/docs/for-agents/memory)
 
 ## Source

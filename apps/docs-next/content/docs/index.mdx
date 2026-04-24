@@ -1,6 +1,6 @@
 ---
 title: AgentsKit.js
-description: The agent toolkit the JavaScript ecosystem finally has — small packages, one contract, everything composes.
+description: The JavaScript ecosystem for building AI agents — UI, runtime, tools, memory, RAG, observability, and production guardrails.
 ---
 
 Agents shouldn't be a monolith. AgentsKit.js is a family of small,
@@ -13,10 +13,27 @@ Everything else stays out of your bundle.
 
 Pick a path by what you're shipping.
 
+- **Want the real ecosystem in one guide?** → [Build your first agent](/docs/get-started/getting-started/build-your-first-agent)
+- **Want to start from an outcome?** → [Use cases](/docs/use-cases)
 - **Just want a chat UI?** → [Quick start](/docs/get-started/getting-started/quickstart) · [React](/docs/reference/packages/react) · [Vue](/docs/reference/packages/vue) · [Svelte](/docs/reference/packages/svelte) · [Solid](/docs/reference/packages/solid) · [Angular](/docs/reference/packages/angular) · [React Native](/docs/reference/packages/react-native) · [Ink](/docs/reference/packages/ink)
 - **Building an autonomous agent?** → [Runtime](/docs/agents/runtime) · [Tools](/docs/agents/tools) · [Skills](/docs/agents/skills) · [Multi-agent topologies](/docs/agents/topologies)
 - **Need RAG?** → [createRAG](/docs/data/rag/create-rag) · [Loaders](/docs/data/rag/loaders) · [Reranking](/docs/data/rag/rerank)
 - **Shipping to production?** → [Observability](/docs/production/observability) · [Security](/docs/production/security) · [Evals](/docs/production/evals) · [Durable execution](/docs/agents/durable)
+
+## Build path
+
+If you are evaluating AgentsKit, this is the shortest path to understanding the product:
+
+1. [Build your first agent](/docs/get-started/getting-started/build-your-first-agent) — see provider + runtime + tools + memory + observability working together.
+2. [Architecture at a glance](/docs/get-started/architecture-at-a-glance) — understand which layer owns what.
+3. [Production](/docs/production) — add observability, security, evals, and CLI workflows.
+
+## Popular builds
+
+- [Support agent](/docs/use-cases/support-agent) — customer support with memory, tools, and escalation.
+- [Research agent](/docs/use-cases/research-agent) — web research, structured summaries, and background jobs.
+- [Code agent](/docs/use-cases/code-agent) — repository-aware automation with safe tool use.
+- [Internal copilot](/docs/use-cases/internal-copilot) — company knowledge with RAG and production controls.
 
 ## The substrate
 
@@ -37,7 +54,7 @@ compose.
 
 ## What's inside
 
-- **21 packages** under `@agentskit/*` — foundation, providers, UI bindings, runtime, capabilities, observability, infrastructure. [Full index](/docs/reference/packages/overview).
+- **19 packages** under `@agentskit/*` — foundation, providers, UI bindings, runtime, capabilities, observability, infrastructure. [Full index](/docs/reference/packages/overview).
 - **7 framework bindings** sharing one `useChat` contract. [UI matrix](/docs/ui).
 - **20+ provider adapters** (hosted + local + embedders). [Providers](/docs/data/providers).
 - **60+ recipes** grouped by theme. [Recipes](/docs/reference/recipes).
@@ -47,6 +64,8 @@ compose.
 
 - **[Comparison](/docs/get-started/comparison)** — AgentsKit vs LangChain, Vercel AI, Mastra, LlamaIndex.
 - **[Migrating](/docs/get-started/migrating)** — port from Vercel AI SDK, LangChain.js, Mastra.
+- **[Architecture at a glance](/docs/get-started/architecture-at-a-glance)** — the ecosystem visualized by layer.
+- **[Use cases](/docs/use-cases)** — outcome-first guides for the most common agent builds.
 - **[For agents](/docs/for-agents)** — dense LLM-friendly reference per contract.
 - **[Examples](/docs/reference/examples)** — live interactive demos.
 - **[Contribute](/docs/reference/contribute)** — built in the open. Your PR helps.

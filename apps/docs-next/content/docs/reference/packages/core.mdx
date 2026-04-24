@@ -13,7 +13,7 @@ The shared **contract layer** for AgentsKit: TypeScript types, the headless chat
 - You need **`createChatController`** without React (advanced integrations).
 - You want to understand **messages, tool calls, and stream chunks** across the ecosystem.
 
-You usually **do not** import `core` directly in a typical React app except for types — prefer [`useChat`](../hooks/use-chat) and [`@agentskit/react`](../chat-uis/react).
+You usually **do not** import `core` directly in a typical React app except for types — prefer [`useChat`](/docs/ui/use-chat) and [`@agentskit/react`](/docs/reference/packages/react).
 
 ## Install
 
@@ -62,7 +62,7 @@ The controller merges system prompts, runs retrieval, dispatches tool calls, per
 | `serializeMessages` / `deserializeMessages` | Persistence helpers |
 | `createStaticRetriever`, `formatRetrievedDocuments` | Retriever helpers for static context |
 
-Heavy backends live in [`@agentskit/memory`](../data-layer/memory); vector stores and chunking in [`@agentskit/rag`](../data-layer/rag).
+Heavy backends live in [`@agentskit/memory`](/docs/reference/packages/memory); vector stores and chunking in [`@agentskit/rag`](/docs/reference/packages/rag).
 
 ### Error handling
 
@@ -295,7 +295,7 @@ type SearchArgs = InferSchemaType<typeof schema>
 
 ## See also
 
-[Start here](../getting-started/read-this-first) · [Packages](./overview) · [TypeDoc](pathname:///agentskit/api-reference/) (`@agentskit/core`) · [React](../chat-uis/react) · [Ink](../chat-uis/ink) · [Adapters](../data-layer/adapters) · [Runtime](../agents/runtime) · [Tools](../agents/tools) · [Skills](../agents/skills) · [useChat](../hooks/use-chat) · [useStream](../hooks/use-stream) · [useReactive](../hooks/use-reactive)
+[Start here](/docs/get-started/getting-started/read-this-first) · [Packages](./overview) · [TypeDoc](pathname:///agentskit/api-reference/) (`@agentskit/core`) · [React](/docs/reference/packages/react) · [Ink](/docs/reference/packages/ink) · [Adapters](/docs/reference/packages/adapters) · [Runtime](/docs/agents/runtime) · [Tools](/docs/agents/tools) · [Skills](/docs/agents/skills) · [useChat](/docs/ui/use-chat)
 
 <ContributeCallout pkg="core" />
 

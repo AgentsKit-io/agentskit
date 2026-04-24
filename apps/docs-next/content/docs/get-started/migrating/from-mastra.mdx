@@ -16,6 +16,21 @@ Come to AgentsKit when:
 
 Stay on Mastra when it's doing what you need — see "Where Mastra still wins" at the bottom.
 
+## Best migration strategy
+
+If you are coming from Mastra, the best path is usually to migrate by responsibility, not by class name:
+
+1. Move provider configuration into `@agentskit/adapters`.
+2. Split persona, runtime, memory, and retrieval into their separate contracts.
+3. Rebuild only the workflows that benefit from the smaller, more explicit runtime model.
+4. Keep your product behavior the same while the architecture gets cleaner underneath.
+
+Best companion guides:
+
+- [Architecture at a glance](/docs/get-started/architecture-at-a-glance)
+- [Use cases](/docs/use-cases)
+- [Internal copilot use case](/docs/use-cases/internal-copilot)
+
 ## Quick reference
 
 | Mastra | AgentsKit | Notes |
@@ -383,5 +398,8 @@ Typical Mastra footprint is measured in tens of megabytes across the packages yo
 - [Concepts: Memory](../concepts/memory) — why ChatMemory and VectorMemory are split
 - [Recipe: Multi-agent research team](../recipes/research-team) — the `delegates` pattern end-to-end
 - [README — When you should NOT use AgentsKit](../../#when-you-should-not-use-agentskit)
+- [Build your first agent](/docs/get-started/getting-started/build-your-first-agent)
+- [Architecture at a glance](/docs/get-started/architecture-at-a-glance)
+- [Use cases](/docs/use-cases)
 
 <ContributeCallout title="Migrated successfully? Share your story." body="Did this guide help? Miss something? Open a discussion or send a PR." />

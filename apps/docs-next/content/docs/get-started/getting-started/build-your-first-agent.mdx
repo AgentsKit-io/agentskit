@@ -1,0 +1,171 @@
+---
+title: Build your first agent
+description: Go from model adapter to real agent runtime with tools, memory, observability, and a production path.
+---
+
+This guide is the shortest path to what AgentsKit actually is: not just a chat UI, but a complete agent stack you can grow one layer at a time.
+
+By the end, you will have:
+
+- an adapter
+- a runtime
+- tools
+- memory
+- observability hooks
+- a clear next step for RAG, evals, and security
+
+## 1. Start with a model adapter
+
+```ts title="agent.ts"
+import { openai } from '@agentskit/adapters'
+
+const adapter = openai({
+  apiKey: process.env.OPENAI_API_KEY!,
+  model: 'gpt-4o',
+})
+```
+
+This is the provider seam. Swap `openai()` for `anthropic()`, `gemini()`, or `ollama()` and the rest of your agent stays the same.
+
+## 2. Add the runtime
+
+```ts title="agent.ts"
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+
+const runtime = createRuntime({
+  adapter: openai({
+    apiKey: process.env.OPENAI_API_KEY!,
+    model: 'gpt-4o',
+  }),
+})
+
+const result = await runtime.run('Summarize the top three changes in this repo.')
+console.log(result.content)
+```
+
+At this point you already have a headless agent loop, not just a one-shot completion call.
+
+## 3. Give the agent tools
+
+```ts title="agent.ts"
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+import { webSearch, filesystem } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter: openai({
+    apiKey: process.env.OPENAI_API_KEY!,
+    model: 'gpt-4o',
+  }),
+  tools: [
+    webSearch(),
+    ...filesystem({ basePath: './workspace' }),
+  ],
+})
+
+const result = await runtime.run(
+  'Research the latest AgentsKit mentions and save a summary to notes/summary.md',
+)
+```
+
+Now the model can act, not just answer.
+
+## 4. Make it remember
+
+```ts title="agent.ts"
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+import { sqliteChatMemory } from '@agentskit/memory'
+
+const runtime = createRuntime({
+  adapter: openai({
+    apiKey: process.env.OPENAI_API_KEY!,
+    model: 'gpt-4o',
+  }),
+  memory: sqliteChatMemory({
+    path: './.agentskit/chat.db',
+  }),
+})
+```
+
+The same runtime now keeps context across runs. If you need vector memory, graph memory, or encrypted memory, you can layer those in without changing the rest of the stack.
+
+## 5. Add observability before production
+
+```ts title="agent.ts"
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+import { consoleObserver } from '@agentskit/observability'
+
+const runtime = createRuntime({
+  adapter: openai({
+    apiKey: process.env.OPENAI_API_KEY!,
+    model: 'gpt-4o',
+  }),
+  observers: [consoleObserver()],
+})
+```
+
+This gives you visibility into runs, tool calls, and failures before the system gets complicated.
+
+## 6. Full example
+
+```ts title="agent.ts"
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+import { webSearch, filesystem } from '@agentskit/tools'
+import { sqliteChatMemory } from '@agentskit/memory'
+import { consoleObserver } from '@agentskit/observability'
+
+const runtime = createRuntime({
+  adapter: openai({
+    apiKey: process.env.OPENAI_API_KEY!,
+    model: 'gpt-4o',
+  }),
+  tools: [
+    webSearch(),
+    ...filesystem({ basePath: './workspace' }),
+  ],
+  memory: sqliteChatMemory({
+    path: './.agentskit/chat.db',
+  }),
+  observers: [consoleObserver()],
+  maxSteps: 6,
+})
+
+const result = await runtime.run(
+  'Research the top three AI agent frameworks and write a comparison to docs/agent-frameworks.md',
+)
+
+console.log(result.content)
+```
+
+That is the core AgentsKit story in one file: provider + runtime + tools + memory + observability.
+
+## 7. Where to go next
+
+- Want a UI on top of the same agent stack? Add [`@agentskit/react`](/docs/reference/packages/react) or [`@agentskit/ink`](/docs/reference/packages/ink).
+- Need retrieval? Continue with [createRAG](/docs/data/rag/create-rag).
+- Need production guardrails? Go to [Observability](/docs/production/observability), [Security](/docs/production/security), and [Evals](/docs/production/evals).
+- Want the tiny hello-world first? Go back to [Quick start](./quickstart).
+
+## Recommended install sets
+
+### Minimal real agent
+
+```bash
+npm install @agentskit/adapters @agentskit/runtime @agentskit/tools
+```
+
+### Agent with memory and observability
+
+```bash
+npm install @agentskit/adapters @agentskit/runtime @agentskit/tools @agentskit/memory @agentskit/observability
+```
+
+### UI + agent stack
+
+```bash
+npm install @agentskit/react @agentskit/adapters @agentskit/runtime @agentskit/tools @agentskit/memory
+```
