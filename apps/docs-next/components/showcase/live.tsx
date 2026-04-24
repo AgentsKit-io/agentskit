@@ -27,7 +27,41 @@ export function LiveExample({ meta }: { meta: ShowcaseMeta }) {
       Missing.displayName = 'MissingExample'
       return Missing
     }
-    return dynamic(loader, { ssr: false, loading: () => <p className="text-ak-graphite">Loading…</p> })
+    return dynamic(loader, { ssr: false, loading: () => <ExampleSkeleton /> })
   }, [meta.module])
   return <Component />
+}
+
+export function ExampleSkeleton() {
+  return (
+    <div
+      aria-hidden="true"
+      className="flex h-full min-h-[360px] w-full flex-col overflow-hidden rounded-lg border border-ak-border bg-ak-surface"
+    >
+      <div className="flex items-center gap-2 border-b border-ak-border px-4 py-3">
+        <span className="ak-skel h-8 w-8 rounded-full" />
+        <div className="flex-1 space-y-1.5">
+          <span className="ak-skel block h-3 w-32 rounded" />
+          <span className="ak-skel block h-2 w-20 rounded" />
+        </div>
+      </div>
+      <div className="flex-1 space-y-3 p-4">
+        <SkelBubble align="start" w="w-3/5" />
+        <SkelBubble align="end" w="w-2/5" />
+        <SkelBubble align="start" w="w-1/2" />
+      </div>
+      <div className="flex items-center gap-2 border-t border-ak-border p-3">
+        <span className="ak-skel h-9 flex-1 rounded" />
+        <span className="ak-skel h-9 w-16 rounded" />
+      </div>
+    </div>
+  )
+}
+
+function SkelBubble({ align, w }: { align: 'start' | 'end'; w: string }) {
+  return (
+    <div className={`flex ${align === 'end' ? 'justify-end' : 'justify-start'}`}>
+      <span className={`ak-skel h-10 ${w} rounded-2xl`} />
+    </div>
+  )
 }

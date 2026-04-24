@@ -4,8 +4,9 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { DynamicCodeBlock } from 'fumadocs-ui/components/dynamic-codeblock'
 import { Tabs, Tab } from 'fumadocs-ui/components/tabs'
-import { SHOWCASE, findShowcase } from '@/lib/showcase'
+import { SHOWCASE, findShowcase, type ShowcaseFramework } from '@/lib/showcase'
 import { LiveExample } from '@/components/showcase/live'
+import { ShowcaseFrameworkTabs } from '@/components/showcase/framework-tabs'
 
 const SHARED_FILES: { label: string; path: string }[] = [
   { label: '_shared/mock-adapter.ts', path: 'components/examples/_shared/mock-adapter.ts' },
@@ -56,6 +57,21 @@ export default async function ShowcaseDetail({ params }: { params: Promise<{ slu
   if (!entry) notFound()
   const source = await readSource(entry.module)
   const shared = source ? await readSharedSources(source) : []
+  const altFrameworks = Object.keys(entry.sources ?? {}) as Exclude<ShowcaseFramework, 'react'>[]
+  const altSourceEntries = await Promise.all(
+    altFrameworks.map(async (fw) => {
+      const file = entry.sources?.[fw]?.file
+      if (!file) return [fw, null] as const
+      try {
+        return [fw, await readFile(path.join(process.cwd(), file), 'utf8')] as const
+      } catch {
+        return [fw, null] as const
+      }
+    }),
+  )
+  const altSources = Object.fromEntries(altSourceEntries) as Partial<
+    Record<Exclude<ShowcaseFramework, 'react'>, string | null>
+  >
   const tabs: { label: string; code: string; lang: string }[] = source
     ? [
         { label: `${entry.module}.tsx`, code: source, lang: 'tsx' },
@@ -97,19 +113,26 @@ export default async function ShowcaseDetail({ params }: { params: Promise<{ slu
       </section>
 
       {tabs.length > 0 ? (
-        <section className="mb-12">
+        <section id="react-source" className="mb-12">
           <header className="mb-2 flex items-center justify-between">
             <div className="font-mono text-[10px] uppercase tracking-widest text-ak-graphite">
               Source
             </div>
           </header>
-          <Tabs items={tabs.map((t) => t.label)}>
-            {tabs.map((t) => (
-              <Tab key={t.label} value={t.label}>
-                <DynamicCodeBlock lang={t.lang} code={t.code} />
-              </Tab>
-            ))}
-          </Tabs>
+          <ShowcaseFrameworkTabs
+            meta={entry}
+            reactSource={source}
+            altSources={altSources}
+            reactTabs={
+              <Tabs items={tabs.map((t) => t.label)}>
+                {tabs.map((t) => (
+                  <Tab key={t.label} value={t.label}>
+                    <DynamicCodeBlock lang={t.lang} code={t.code} />
+                  </Tab>
+                ))}
+              </Tabs>
+            }
+          />
         </section>
       ) : null}
 
