@@ -3,8 +3,15 @@ import path from 'node:path'
 import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { DynamicCodeBlock } from 'fumadocs-ui/components/dynamic-codeblock'
+import { Tabs, Tab } from 'fumadocs-ui/components/tabs'
 import { SHOWCASE, findShowcase } from '@/lib/showcase'
 import { LiveExample } from '@/components/showcase/live'
+
+const SHARED_FILES: { label: string; path: string }[] = [
+  { label: '_shared/mock-adapter.ts', path: 'components/examples/_shared/mock-adapter.ts' },
+  { label: '_shared/tool-badge.tsx', path: 'components/examples/_shared/tool-badge.tsx' },
+  { label: '_shared/md-renderer.tsx', path: 'components/examples/_shared/md-renderer.tsx' },
+]
 
 async function readSource(module: string): Promise<string | null> {
   try {
@@ -13,6 +20,23 @@ async function readSource(module: string): Promise<string | null> {
   } catch {
     return null
   }
+}
+
+async function readSharedSources(source: string): Promise<{ label: string; code: string }[]> {
+  const included = SHARED_FILES.filter((f) =>
+    source.includes(f.label.replace(/\.tsx?$/, '')),
+  )
+  const entries = await Promise.all(
+    included.map(async (f) => {
+      try {
+        const code = await readFile(path.join(process.cwd(), f.path), 'utf8')
+        return { label: f.label, code }
+      } catch {
+        return null
+      }
+    }),
+  )
+  return entries.filter((e): e is { label: string; code: string } => e !== null)
 }
 
 export function generateStaticParams() {
@@ -31,6 +55,13 @@ export default async function ShowcaseDetail({ params }: { params: Promise<{ slu
   const entry = findShowcase(slug)
   if (!entry) notFound()
   const source = await readSource(entry.module)
+  const shared = source ? await readSharedSources(source) : []
+  const tabs: { label: string; code: string; lang: string }[] = source
+    ? [
+        { label: `${entry.module}.tsx`, code: source, lang: 'tsx' },
+        ...shared.map((s) => ({ label: s.label, code: s.code, lang: 'ts' })),
+      ]
+    : []
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-12">
@@ -65,16 +96,61 @@ export default async function ShowcaseDetail({ params }: { params: Promise<{ slu
         </div>
       </section>
 
-      {source ? (
-        <section>
+      {tabs.length > 0 ? (
+        <section className="mb-12">
           <header className="mb-2 flex items-center justify-between">
             <div className="font-mono text-[10px] uppercase tracking-widest text-ak-graphite">
-              Source — components/examples/{entry.module}.tsx
+              Source
             </div>
           </header>
-          <DynamicCodeBlock lang="tsx" code={source} />
+          <Tabs items={tabs.map((t) => t.label)}>
+            {tabs.map((t) => (
+              <Tab key={t.label} value={t.label}>
+                <DynamicCodeBlock lang={t.lang} code={t.code} />
+              </Tab>
+            ))}
+          </Tabs>
         </section>
       ) : null}
+
+      <section className="mt-12 border-t border-ak-border pt-8">
+        <header className="mb-4 flex items-center justify-between">
+          <div className="font-mono text-[10px] uppercase tracking-widest text-ak-graphite">
+            More examples
+          </div>
+          <Link
+            href="/showcase"
+            className="font-mono text-[10px] uppercase tracking-widest text-ak-graphite hover:text-ak-foam"
+          >
+            See all →
+          </Link>
+        </header>
+        <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {SHOWCASE.filter((s) => s.slug !== entry.slug).map((s) => (
+            <li key={s.slug}>
+              <Link
+                href={`/showcase/${s.slug}`}
+                className="group block h-full rounded-lg border border-ak-border bg-ak-surface p-4 transition hover:border-ak-foam"
+              >
+                <h3 className="font-display text-sm font-semibold text-ak-foam group-hover:text-ak-foam">
+                  {s.name}
+                </h3>
+                <p className="mt-1 line-clamp-2 text-xs text-ak-graphite">{s.description}</p>
+                <div className="mt-2 flex flex-wrap gap-1">
+                  {s.tags.slice(0, 3).map((t) => (
+                    <span
+                      key={t}
+                      className="rounded-full border border-ak-border px-2 py-0.5 font-mono text-[9px] text-ak-graphite"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
     </main>
   )
 }

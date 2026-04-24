@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useMemo, useState } from 'react'
 import { ALL_TAGS, SHOWCASE } from '@/lib/showcase'
+import { LiveExample } from './live'
 
 export function ShowcaseGrid() {
   const [active, setActive] = useState<string | null>(null)
@@ -51,12 +52,17 @@ export function ShowcaseGrid() {
               href={`/showcase/${s.slug}`}
               className="group block h-full overflow-hidden rounded-lg border border-ak-border bg-ak-surface transition hover:border-ak-foam"
             >
-              <div className="aspect-video w-full bg-gradient-to-br from-ak-midnight via-ak-surface to-ak-midnight">
-                <div className="flex h-full items-center justify-center">
-                  <span className="font-display text-2xl font-semibold text-ak-graphite group-hover:text-ak-foam">
-                    {s.name}
-                  </span>
+              <div
+                aria-hidden="true"
+                className="relative aspect-video w-full overflow-hidden bg-ak-midnight"
+              >
+                <div
+                  className="pointer-events-none absolute left-0 top-0 origin-top-left"
+                  style={{ width: '142.857%', height: '142.857%', transform: 'scale(0.7)' }}
+                >
+                  <LiveExample meta={s} />
                 </div>
+                <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-ak-midnight/60 via-transparent to-transparent opacity-0 transition group-hover:opacity-100" />
               </div>
               <div className="border-t border-ak-border p-4">
                 <h3 className="font-display text-base font-semibold text-ak-foam">{s.name}</h3>
