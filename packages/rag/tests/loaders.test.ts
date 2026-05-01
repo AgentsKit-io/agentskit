@@ -1,11 +1,15 @@
 import { describe, expect, it, vi } from 'vitest'
 import {
   loadConfluencePage,
+  loadDropbox,
+  loadGcs,
   loadGoogleDriveFile,
   loadGitHubFile,
   loadGitHubTree,
   loadNotionPage,
+  loadOneDrive,
   loadPdf,
+  loadS3,
   loadUrl,
 } from '../src/loaders'
 
@@ -124,5 +128,96 @@ describe('loadPdf', () => {
     expect(parser).toHaveBeenCalled()
     expect(docs[0]!.content).toBe('parsed')
     expect(docs[0]!.metadata?.pages).toBe(2)
+  })
+})
+
+describe('loadS3', () => {
+  it('paginates and stops at maxFiles', async () => {
+    let listCall = 0
+    const client = {
+      send: vi.fn(async (cmd: { input: Record<string, unknown> }) => {
+        if ('Bucket' in cmd.input && !('Key' in cmd.input)) {
+          listCall++
+          if (listCall === 1) {
+            return {
+              Contents: [{ Key: 'a.txt' }, { Key: 'b.txt' }],
+              IsTruncated: true,
+              NextContinuationToken: 'tok-2',
+            }
+          }
+          return { Contents: [{ Key: 'c.txt' }], IsTruncated: false }
+        }
+        return { Body: { transformToString: async () => `body:${cmd.input.Key}` } }
+      }),
+    }
+    class ListCmd { input: Record<string, unknown>; constructor(i: Record<string, unknown>) { this.input = i } }
+    class GetCmd { input: Record<string, unknown>; constructor(i: Record<string, unknown>) { this.input = i } }
+    const docs = await loadS3({
+      client,
+      bucket: 'bk',
+      commands: { ListObjectsV2Command: ListCmd, GetObjectCommand: GetCmd },
+      maxFiles: 2,
+    })
+    expect(docs).toHaveLength(2)
+    expect(docs[0]!.source).toBe('s3://bk/a.txt')
+  })
+
+  it('walks pages until not truncated', async () => {
+    let listCall = 0
+    const client = {
+      send: vi.fn(async (cmd: { input: Record<string, unknown> }) => {
+        if ('Bucket' in cmd.input && !('Key' in cmd.input)) {
+          listCall++
+          if (listCall === 1) return { Contents: [{ Key: 'a' }], IsTruncated: true, NextContinuationToken: 't' }
+          return { Contents: [{ Key: 'b' }], IsTruncated: false }
+        }
+        return { Body: { transformToString: async () => 'x' } }
+      }),
+    }
+    class ListCmd { input: Record<string, unknown>; constructor(i: Record<string, unknown>) { this.input = i } }
+    class GetCmd { input: Record<string, unknown>; constructor(i: Record<string, unknown>) { this.input = i } }
+    const docs = await loadS3({
+      client, bucket: 'bk',
+      commands: { ListObjectsV2Command: ListCmd, GetObjectCommand: GetCmd },
+    })
+    expect(docs.map(d => d.metadata?.key)).toEqual(['a', 'b'])
+  })
+})
+
+describe('loadGcs', () => {
+  it('follows nextPageToken', async () => {
+    const { fetch } = makeFetch([
+      [200, { items: [{ name: 'a' }], nextPageToken: 'p2' }, 'json'],
+      [200, 'a-body', 'text'],
+      [200, { items: [{ name: 'b' }] }, 'json'],
+      [200, 'b-body', 'text'],
+    ])
+    const docs = await loadGcs({ bucket: 'bk', accessToken: 't', fetch })
+    expect(docs.map(d => d.metadata?.name)).toEqual(['a', 'b'])
+  })
+})
+
+describe('loadDropbox', () => {
+  it('follows cursor when has_more', async () => {
+    const { fetch } = makeFetch([
+      [200, { entries: [{ '.tag': 'file', path_display: '/a.txt' }], has_more: true, cursor: 'c1' }, 'json'],
+      [200, 'a-body', 'text'],
+      [200, { entries: [{ '.tag': 'file', path_display: '/b.txt' }], has_more: false }, 'json'],
+      [200, 'b-body', 'text'],
+    ])
+    const docs = await loadDropbox({ accessToken: 't', fetch })
+    expect(docs.map(d => d.metadata?.path)).toEqual(['/a.txt', '/b.txt'])
+  })
+})
+
+describe('loadOneDrive', () => {
+  it('recurses into folders', async () => {
+    const { fetch } = makeFetch([
+      [200, { value: [{ id: 'fold', name: 'f', folder: {} }] }, 'json'],
+      [200, { value: [{ id: 'f1', name: 'a.txt', file: { mimeType: 'text/plain' }, '@microsoft.graph.downloadUrl': 'https://dl/a' }] }, 'json'],
+      [200, 'a-body', 'text'],
+    ])
+    const docs = await loadOneDrive({ accessToken: 't', fetch })
+    expect(docs[0]!.metadata?.name).toBe('a.txt')
   })
 })
