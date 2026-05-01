@@ -4,7 +4,18 @@ export type { MessageRole, MessageStatus, Message, MemoryRecord } from './messag
 export type { ToolCallStatus, ToolCall, ToolExecutionContext, ToolDefinition, ToolCallHandlerContext, InferSchemaType, DefineToolConfig } from './tool'
 export { defineTool } from './tool'
 export type { AdapterContext, AdapterRequest, AdapterFactory, AdapterCapabilities } from './adapter'
-export type { ChatMemory, VectorDocument, VectorMemory, EmbedFn } from './memory'
+export type {
+  ChatMemory,
+  VectorDocument,
+  VectorMemory,
+  EmbedFn,
+  VectorSearchOptions,
+  VectorFilter,
+  VectorFilterCompound,
+  VectorFilterOperator,
+  VectorFilterPredicate,
+  VectorFilterPrimitive,
+} from './memory'
 export type { RetrievedDocument, RetrieverRequest, Retriever } from './retrieval'
 export type { ChatConfig, ChatState, ChatController, ChatReturn, EditOptions } from './chat'
 export type { SkillDefinition } from './skill'

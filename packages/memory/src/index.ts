@@ -3,6 +3,9 @@ export { fileChatMemory } from './file-chat'
 export { sqliteChatMemory } from './sqlite'
 export type { SqliteChatMemoryConfig } from './sqlite'
 
+export { tursoChatMemory } from './turso'
+export type { TursoChatMemoryConfig } from './turso'
+
 export { redisChatMemory } from './redis-chat'
 export type { RedisChatMemoryConfig } from './redis-chat'
 
@@ -26,7 +29,7 @@ export type {
 
 export { createInMemoryGraph } from './graph'
 export type { GraphMemory, GraphNode, GraphEdge, GraphQuery } from './graph'
-export { pgvector, pinecone, qdrant, chroma, upstashVector } from './vector'
+export { pgvector, pinecone, qdrant, chroma, upstashVector, supabaseVectorStore, matchesFilter } from './vector'
 export type {
   PgVectorConfig,
   PgVectorRunner,
@@ -34,6 +37,7 @@ export type {
   QdrantConfig,
   ChromaConfig,
   UpstashVectorConfig,
+  SupabaseVectorStoreConfig,
 } from './vector'
 
 export { createEncryptedMemory } from './encrypted'

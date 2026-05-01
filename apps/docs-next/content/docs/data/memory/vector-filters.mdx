@@ -1,0 +1,67 @@
+---
+title: Metadata filters (VectorFilter v1)
+description: Normalized metadata-filter shape across every vector backend. One contract, ten translations.
+---
+
+Every vector backend exposes filters differently — pgvector takes raw SQL, Pinecone takes its own JSON, Qdrant has a `must`/`should`/`must_not` tree. AgentsKit normalizes them into one `VectorFilter` shape so callers stay portable.
+
+```ts
+import type { VectorFilter } from '@agentskit/core'
+
+const filter: VectorFilter = {
+  tags: { $in: ['docs', 'rag'] },
+  version: { $gte: 2 },
+  archived: { $ne: true },
+}
+
+const results = await store.search(embedding, { topK: 5, filter })
+```
+
+## Shape
+
+```ts
+type VectorFilter =
+  | { $and?: VectorFilter[]; $or?: VectorFilter[] }
+  | { [field: string]: VectorFilterPredicate }
+
+type VectorFilterPredicate =
+  | string | number | boolean | null         // shorthand for { $eq: ... }
+  | { $eq: ... } | { $ne: ... }
+  | { $in: [...] } | { $nin: [...] }
+  | { $gt | $gte | $lt | $lte: number | string }
+  | { $exists: boolean }
+```
+
+## Operators
+
+| Operator | Behavior |
+|---|---|
+| primitive | shorthand for `{ $eq: <primitive> }` |
+| `$eq` / `$ne` | equality / inequality |
+| `$in` / `$nin` | membership in / not in array |
+| `$gt` / `$gte` / `$lt` / `$lte` | numeric or string comparison |
+| `$exists` | presence check on the field |
+| `$and` / `$or` | compose nested filters |
+
+Multiple fields at the same level imply `$and`. Wrap in `$or` for disjunction.
+
+## Backend support
+
+| Backend | Filter status |
+|---|---|
+| `fileVectorMemory` | full — applied client-side via `matchesFilter`. |
+| `pgvector` / `supabaseVectorStore` | translated to `WHERE` predicates over `metadata->>...`. |
+| `pinecone` / `qdrant` / `chroma` / `upstashVector` | translated to native filter language. |
+| `redisVectorMemory` | partial (string equality + `$in` only). |
+
+If a backend can't translate part of a filter, the surface throws `VectorFilterUnsupportedError` rather than silently dropping the predicate.
+
+## Why a contract matters
+
+Without one, swapping backends is impossible without rewriting every retrieval call. The contract also unblocks Retriever v1, where the filter is the only way to scope a corpus to "docs from team X, since 2026-01-01".
+
+## Related
+
+- [Memory overview](./)
+- [pgvector](./pgvector) · [supabaseVectorStore](./supabase-vector)
+- [Retrievers](/docs/get-started/concepts/retriever)

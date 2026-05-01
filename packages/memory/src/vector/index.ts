@@ -12,3 +12,8 @@ export type { ChromaConfig } from './chroma'
 
 export { upstashVector } from './upstash'
 export type { UpstashVectorConfig } from './upstash'
+
+export { supabaseVectorStore } from './supabase'
+export type { SupabaseVectorStoreConfig } from './supabase'
+
+export { matchesFilter } from './filter'

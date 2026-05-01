@@ -8,6 +8,7 @@ export type {
   ToolCallStatus, ToolCall, ToolExecutionContext, ToolDefinition, ToolCallHandlerContext, InferSchemaType, DefineToolConfig,
   AdapterContext, AdapterRequest, AdapterFactory, AdapterCapabilities,
   ChatMemory, VectorDocument, VectorMemory, EmbedFn,
+  VectorSearchOptions, VectorFilter, VectorFilterCompound, VectorFilterOperator, VectorFilterPredicate, VectorFilterPrimitive,
   RetrievedDocument, RetrieverRequest, Retriever,
   ChatConfig, ChatState, ChatController, ChatReturn, EditOptions,
   SkillDefinition,

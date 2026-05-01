@@ -1,0 +1,43 @@
+---
+title: tursoChatMemory
+description: libSQL / Turso-backed chat memory. Replicated SQLite with the same surface as sqliteChatMemory.
+---
+
+```ts
+import { tursoChatMemory } from '@agentskit/memory'
+
+const memory = tursoChatMemory({
+  url: 'libsql://my-db-myorg.turso.io',
+  authToken: process.env.TURSO_AUTH_TOKEN!,
+  conversationId: 'user-123',
+})
+```
+
+`@libsql/client` is an **optional peer dependency** loaded lazily.
+
+```bash
+npm install @libsql/client
+```
+
+## Config
+
+| Option | Type | Default |
+|---|---|---|
+| `url` | `string` | required (`file:`, `libsql://`, or `http://`) |
+| `authToken` | `string` | required for `libsql://` URLs |
+| `conversationId` | `string` | `'default'` |
+
+## Why turso vs sqlite
+
+- **Replication.** Turso replicates SQLite to read-only edge replicas globally. Single-region writes, multi-region reads.
+- **Embedded mode.** `file:./local.db` works identically — develop offline, deploy hosted.
+- **Same surface.** Mirrors `sqliteChatMemory` exactly, so swapping is a one-line import change.
+
+## Surface
+
+`load()` / `save(messages)` / `clear()` — same as every other chat memory.
+
+## Related
+
+- [sqliteChatMemory](./sqlite) · [redisChatMemory](./redis-chat)
+- [Memory overview](./)

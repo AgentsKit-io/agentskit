@@ -1,5 +1,6 @@
 import type { VectorMemory, VectorDocument, RetrievedDocument } from '@agentskit/core'
 import type { VectorStore } from './vector-store'
+import { matchesFilter } from './vector/filter'
 
 export interface FileVectorMemoryConfig {
   path: string
@@ -88,10 +89,14 @@ export function fileVectorMemory(config: FileVectorMemoryConfig): VectorMemory {
     async search(embedding, options) {
       const topK = options?.topK ?? 5
       const threshold = options?.threshold ?? 0
-      const results = await store.query(embedding, topK)
+      // Over-fetch when a filter is set so we can still return ~topK after filtering.
+      const fetchK = options?.filter ? Math.max(topK * 4, 50) : topK
+      const results = await store.query(embedding, fetchK)
 
       return results
         .filter(r => r.score >= threshold)
+        .filter(r => matchesFilter(r.metadata, options?.filter))
+        .slice(0, topK)
         .map((r): RetrievedDocument => ({
           id: r.id,
           content: String(r.metadata.content ?? contentCache.get(r.id) ?? ''),
