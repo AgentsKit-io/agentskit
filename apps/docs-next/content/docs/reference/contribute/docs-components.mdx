@@ -216,6 +216,18 @@ JS/TS editor + Web Worker sandbox runner. Each edit spawns a fresh worker that e
 
 Pair with `<Artifact />` to render the resulting structure inline.
 
+## `<G />` — inline glossary
+
+Inline glossary lookup with hover / focus popover. Terms are registered once in `apps/docs-next/components/mdx/glossary.tsx`; pages reference them by key.
+
+```mdx
+The <G term="adapter">adapter</G> is the only thing that changes when
+swapping providers. Behind the scenes, an <G term="observer">observer</G>
+streams events to your trace pipeline.
+```
+
+`<G term="...">` is case-insensitive. Adding a term: append one entry to the `GLOSSARY` map — one definition + one canonical link.
+
 ## `<Mermaid />`
 
 Inline diagrams. See [`components/mermaid.tsx`](https://github.com/AgentsKit-io/agentskit/blob/main/apps/docs-next/components/mermaid.tsx).

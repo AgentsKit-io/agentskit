@@ -17,6 +17,7 @@ import { StackBuilder } from '@/components/mdx/stack-builder'
 import { MigrationDiff } from '@/components/mdx/migration-diff'
 import { Artifact } from '@/components/mdx/artifact'
 import { LivePlayground } from '@/components/mdx/live-playground'
+import { G } from '@/components/mdx/glossary'
 
 type HeadingProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLHeadingElement>,
@@ -65,6 +66,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     MigrationDiff,
     Artifact,
     LivePlayground,
+    G,
     ...components,
   }
 }
