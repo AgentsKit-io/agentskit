@@ -1,0 +1,107 @@
+---
+title: Choosing an adapter
+description: Capability decision table and rules of thumb for picking a chat adapter.
+---
+
+Every chat adapter implements the same `AdapterFactory` contract, so swapping one out is a one-line change. This page exists to answer the only question that actually matters: **which one should I start with?**
+
+## TL;DR
+
+- Want the safest default? → **`openai`** with `gpt-4o-mini`.
+- Want the strongest tool use? → **`anthropic`** with `claude-sonnet-4-6`.
+- Want it free / local? → **`ollama`**.
+- Already running on AWS / GCP / Azure? → use the corresponding adapter (`bedrock` once it ships, `vertex`, `azureOpenAI`).
+- Want to defer the decision? → wrap candidates in [`createRouter`](/docs/reference/recipes/adapter-router) or [`createFallbackAdapter`](/docs/reference/recipes/fallback-chain).
+
+## Capability matrix
+
+| Adapter        | Streaming | Tools | Multi-modal | Reasoning | Usage | Self-hosted | Cost tier |
+|----------------|:---------:|:-----:|:-----------:|:---------:|:-----:|:-----------:|:---------:|
+| `openai`       | ✅        | ✅    | ✅ (gpt-4 / o*) | ✅ (o1 / o3) | ✅ | ❌ | $$ |
+| `anthropic`    | ✅        | ✅    | ✅          | ✅ (sonnet / opus) | ✅ | ❌ | $$$ |
+| `gemini`       | ✅        | ✅    | ✅          | ⚠️ model-dep. | ✅ | ❌ | $$ |
+| `grok`         | ✅        | ✅    | ⚠️         | ❌        | ✅    | ❌          | $$ |
+| `deepseek`     | ✅        | ✅    | ❌          | ✅        | ✅    | ❌          | $ |
+| `kimi`         | ✅        | ✅    | ❌          | ❌        | ✅    | ❌          | $ |
+| `mistral`      | ✅        | ✅    | ❌          | ❌        | ✅    | ❌          | $$ |
+| `cohere`       | ✅        | ✅    | ❌          | ❌        | ✅    | ❌          | $$ |
+| `groq`         | ✅        | ✅    | ❌          | ❌        | ✅    | ❌          | $ |
+| `together`     | ✅        | ✅    | ⚠️         | ❌        | ✅    | ❌          | $ |
+| `fireworks`    | ✅        | ✅    | ⚠️         | ❌        | ✅    | ❌          | $ |
+| `openrouter`   | ✅        | ⚠️    | ⚠️         | ⚠️        | ⚠️    | ❌          | $–$$$ |
+| `huggingface`  | ✅        | ❌    | ⚠️         | ❌        | ❌    | ❌          | $ |
+| `ollama`       | ✅        | ⚠️ model-dep. | ⚠️ (llava) | ❌ | ❌ | ✅ | free |
+| `lmstudio`     | ✅        | ⚠️    | ❌          | ❌        | ❌    | ✅          | free |
+| `vllm`         | ✅        | ⚠️    | ❌          | ❌        | ❌    | ✅          | free |
+| `llamacpp`     | ✅        | ⚠️    | ❌          | ❌        | ❌    | ✅          | free |
+| `langchain`    | ✅        | passthrough | passthrough | passthrough | passthrough | passthrough | passthrough |
+| `langgraph`    | ✅        | passthrough | passthrough | passthrough | passthrough | passthrough | passthrough |
+| `vercelAI`     | ✅        | passthrough | passthrough | passthrough | passthrough | passthrough | passthrough |
+| `generic`      | ✅        | bring-your-own | bring-your-own | bring-your-own | bring-your-own | bring-your-own | — |
+
+Legend: ✅ supported · ⚠️ depends on model / config · ❌ not supported · `passthrough` = inherits whatever the wrapped runtime exposes. Cost tiers are relative ranges, not contractual prices — consult the provider for current rates.
+
+## When to pick which
+
+### `openai`
+The path of least resistance. Best reasoning models (`o1`, `o3`), best multi-modal coverage on `gpt-4o`, and the most stable tool-use semantics. Pick this first if you have no constraints.
+
+### `anthropic`
+Strongest tool use and the most useful reasoning trace today. Pick this when the agent has to chain non-trivial tools, or when output discipline (instruction-following on long prompts) matters more than raw speed.
+
+### `gemini`
+Cheapest first-class multi-modal — long context, native image / audio / video understanding. Pick this when the agent has to read long documents or non-text inputs.
+
+### `grok`
+Useful when you want the X-flavored knowledge graph or low-latency chat from xAI. Capabilities are narrower than OpenAI / Anthropic — verify your specific use case before committing.
+
+### `deepseek`
+Strong reasoning at a low price. Pick this when budget is the binding constraint and you can tolerate occasional latency spikes from the hosted endpoint.
+
+### `kimi`
+Long-context Chinese-leaning model from Moonshot. Pick this for Chinese-first agents or very long-context summarization.
+
+### `mistral`
+Balanced cost / quality with a European data-residency story. Pick this when residency matters more than raw capability.
+
+### `cohere`
+Strong on retrieval + RAG-flavored workloads. Pick this when paired with Cohere's rerankers, or when "command" models hit the right cost / quality point for your use case.
+
+### `groq`
+Fastest first-token latency on Llama / Mixtral, served on LPUs. Pick this when latency dominates UX — voice mode, autocomplete, anything sub-second perceived response.
+
+### `together` / `fireworks`
+OpenAI-compatible aggregators of open-weight models. Pick these when you want a wide menu of open models without running infra yourself.
+
+### `openrouter`
+Single key, hundreds of models. Pick this for prototyping or for fallback chains that span providers — but verify capabilities per model, since the long tail varies.
+
+### `huggingface`
+Hosted inference for the Hub. Pick this for niche or fine-tuned models that aren't on the big-name aggregators yet.
+
+### `ollama` / `lmstudio` / `vllm` / `llamacpp`
+Local / self-hosted runtimes. Pick these when data must not leave your hardware, when offline is a hard requirement, or for cost-zero development. Tool-use support varies by model — verify before committing.
+
+### `langchain` / `langgraph`
+Drop-in adapters for existing LangChain `Runnable` / LangGraph compiled graphs. Pick these when migrating an existing LangChain codebase incrementally rather than rewriting it.
+
+### `vercelAI`
+Bridge to a Vercel AI SDK route handler. Pick this when your existing app already streams via the Vercel AI SDK and you want AgentsKit on top without changing the route.
+
+### `generic`
+Bring your own `ReadableStream`. Pick this when you have a custom backend or a provider that doesn't have a first-party adapter yet.
+
+## Higher-order: don't pick — combine
+
+If "which one?" is hard to answer, you probably want to pick more than one:
+
+- [`createRouter`](/docs/reference/recipes/adapter-router) — auto-pick by cost / latency / tags / custom predicate.
+- [`createFallbackAdapter`](/docs/reference/recipes/fallback-chain) — ordered try-next when a candidate fails.
+- [`createEnsembleAdapter`](/docs/reference/recipes/adapter-ensemble) — fan-out and merge.
+
+## Related
+
+- [Concepts: Adapter](/docs/get-started/concepts/adapter)
+- [Package: @agentskit/adapters](/docs/reference/packages/adapters)
+- [Recipe: custom adapter](/docs/reference/recipes/custom-adapter)
+- [For agents: adapters](/docs/for-agents/adapters)
