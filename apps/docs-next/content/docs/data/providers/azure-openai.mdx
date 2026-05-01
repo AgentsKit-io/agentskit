@@ -1,0 +1,48 @@
+---
+title: azureOpenAI
+description: Azure OpenAI — deployment-routed, api-version-pinned. Drop-in for enterprise Azure tenants.
+---
+
+```ts
+import { azureOpenAI } from '@agentskit/adapters'
+
+const adapter = azureOpenAI({
+  apiKey: process.env.AZURE_OPENAI_API_KEY!,
+  endpoint: 'https://my-resource.openai.azure.com',
+  deployment: 'my-gpt4o-deployment',
+  apiVersion: '2024-10-21',
+})
+```
+
+Unlike the OpenAI adapter, Azure OpenAI routes by **deployment name** (not model id) and **pins the REST API version** in the query string. Auth is via the `api-key` header, not a Bearer token.
+
+## Options
+
+| Option | Type | Default |
+|---|---|---|
+| `apiKey` | `string` | required |
+| `endpoint` | `string` | required (e.g. `https://my-resource.openai.azure.com`) |
+| `deployment` | `string` | required (Azure deployment name, not model id) |
+| `apiVersion` | `string` | `2024-10-21` |
+| `includeUsage` | `boolean` | `true` |
+| `retry` | `RetryOptions` | inherited |
+
+## Capabilities
+
+`{ streaming: true, tools: true, usage: true }` — request shape is OpenAI's chat completions schema; what's available depends on the deployment's underlying model.
+
+## Env
+
+| Var | Purpose |
+|---|---|
+| `AZURE_OPENAI_API_KEY` | API key |
+| `AZURE_OPENAI_ENDPOINT` | Resource endpoint |
+
+## Caveats
+
+- Azure deployments are **bound to one model + one api-version contract** — bumping the api-version is a deliberate change, not transparent. Pin it explicitly.
+- Some preview features (e.g. `o1` reasoning) require preview api-versions; consult the Azure docs.
+
+## Related
+
+- [Providers overview](./) · [Choosing an adapter](./choosing) · [openai](./openai)
