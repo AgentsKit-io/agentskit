@@ -226,8 +226,8 @@ export function HeroDemo() {
 
               {frame.assistant && (
                 <div
-                  className="w-fit max-w-full rounded-2xl rounded-bl-md bg-ak-surface px-3.5 py-2 text-ak-foam"
-                  style={{ wordBreak: 'break-word', overflowWrap: 'anywhere' }}
+                  className="w-fit max-w-full rounded-2xl rounded-bl-md bg-ak-surface px-3.5 py-2 text-left text-ak-foam"
+                  style={{ wordBreak: 'break-word', overflowWrap: 'anywhere', textAlign: 'left' }}
                 >
                   {frame.assistant}
                   <span className="ml-0.5 inline-block h-3.5 w-[2px] translate-y-0.5 animate-pulse bg-ak-blue" />
