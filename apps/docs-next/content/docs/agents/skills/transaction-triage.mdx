@@ -1,0 +1,16 @@
+---
+title: transactionTriage
+description: Bookkeeping triage — categorizes a single transaction into a chart-of-accounts entry. Refuses payment / refund / chargeback decisions.
+---
+
+```ts
+import { transactionTriage } from '@agentskit/skills'
+
+const runtime = createRuntime({ adapter, skills: [transactionTriage] })
+```
+
+Output is fixed: category / alt / confidence / flag / reason. UNKNOWN with a reason is allowed; guessing is not.
+
+## Related
+
+- [Skills overview](./)

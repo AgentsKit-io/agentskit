@@ -1,0 +1,101 @@
+---
+title: VS Code · Raycast · embedded
+description: Run AgentsKit agents inside your editor or launcher. Three integration patterns + a worked example for each.
+---
+
+AgentsKit's headless surface (`@agentskit/runtime`) is process-agnostic. Anywhere you can run Node 20+, you can run an AgentsKit agent — including inside VS Code, Raycast, Alfred, BitBar, or your own Electron host.
+
+## VS Code
+
+Three viable patterns, in order of effort:
+
+### 1. Run via the CLI from a task
+
+The fastest path. `agentskit run "<task>"` runs a runtime agent and prints the result. Wire it as a [VS Code task](https://code.visualstudio.com/docs/editor/tasks):
+
+```json
+// .vscode/tasks.json
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Ask AgentsKit",
+      "type": "shell",
+      "command": "agentskit run \"${input:prompt}\"",
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    { "id": "prompt", "type": "promptString", "description": "What should the agent do?" }
+  ]
+}
+```
+
+Bind `Cmd+Shift+P → Tasks: Run Task → Ask AgentsKit` to a keybinding and you have a one-key agent invocation in any project.
+
+### 2. Webview that hosts `@agentskit/react`
+
+Build a VS Code extension that opens a `WebviewPanel` and renders the standard React chat. Inside the webview, `@agentskit/react` works exactly like any browser — your extension just needs to forward provider keys via `postMessage` (or set them server-side in a paired Node process).
+
+Skeleton:
+
+```ts
+// extension.ts
+import { window, ViewColumn } from 'vscode'
+
+export function activate() {
+  const panel = window.createWebviewPanel('agentskit', 'AgentsKit', ViewColumn.Two, {
+    enableScripts: true,
+  })
+  panel.webview.html = `<!doctype html><html><body>
+    <div id="root"></div>
+    <script type="module" src="./dist/chat.js"></script>
+  </body></html>`
+}
+```
+
+The chat bundle is your `@agentskit/react` app — no special plumbing.
+
+### 3. Language Server Protocol (long-form)
+
+For inline-completion / agentic-edit experiences, wrap a runtime in an LSP server. Your extension owns the LSP client; the server is plain Node + `createRuntime`. This is the pattern Cursor / Continue use, and `@agentskit/runtime` works as the engine without modification.
+
+This is a heavier lift; ship a starter only when there's repeated demand. For now, the CLI + webview patterns above cover most use cases.
+
+## Raycast
+
+Raycast scripts are plain Node executables with a metadata header. Drop in `@agentskit/runtime`:
+
+```ts
+#!/usr/bin/env node
+// @raycast.title Ask AgentsKit
+// @raycast.mode fullOutput
+// @raycast.argument1 { "type": "text", "placeholder": "What do you want?" }
+
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+
+const runtime = createRuntime({
+  adapter: openai({ apiKey: process.env.OPENAI_API_KEY!, model: 'gpt-4o-mini' }),
+  maxSteps: 8,
+})
+
+const result = await runtime.run(process.argv[2] ?? '')
+console.log(result.content)
+```
+
+Save as `~/raycast-scripts/ask-agentskit.ts` (with `tsx` as the runner) and Raycast picks it up.
+
+## Embedded (Electron / Tauri)
+
+Same model: bundle `@agentskit/react` in the renderer, run `@agentskit/runtime` in the main process if you need tools that need filesystem or shell access. The IPC boundary is just `postMessage` / Tauri commands; the agent itself doesn't care.
+
+## What's not shipped (yet)
+
+A first-party VS Code extension and a Raycast extension are both on the roadmap (issue #192). The patterns above let you build either one against the public API today; if you ship one, link it back via PR and we'll feature it.
+
+## Related
+
+- [`agentskit run`](/docs/production/cli/run)
+- [Build your first agent](/docs/get-started/getting-started/build-your-first-agent)
+- [@agentskit/runtime](/docs/reference/packages/runtime)

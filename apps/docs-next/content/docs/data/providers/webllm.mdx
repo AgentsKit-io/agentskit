@@ -1,0 +1,63 @@
+---
+title: webllm (browser-only / WebGPU)
+description: 100% on-device inference via WebLLM (MLC). No API key, no token cost, no inference network call.
+---
+
+```ts
+import { webllm } from '@agentskit/adapters'
+
+const adapter = webllm({
+  model: 'Llama-3.1-8B-Instruct-q4f16_1-MLC',
+  onProgress: (info) => console.log(info.progress, info.text),
+})
+```
+
+`@mlc-ai/web-llm` is an **optional peer dependency** — install it alongside this package when you opt into browser-only inference.
+
+```bash
+npm install @mlc-ai/web-llm
+```
+
+## Options
+
+| Option | Type | Default |
+|---|---|---|
+| `model` | `string` | required (MLC catalog id, e.g. `Llama-3.1-8B-Instruct-q4f16_1-MLC`) |
+| `engine` | `WebLlmEngineLike` | optional — inject a pre-loaded engine to skip the cold-start cost |
+| `onProgress` | `({ progress, text }) => void` | optional — fires during model download / WebGPU compile |
+
+## Capabilities
+
+`{ streaming: true, tools: false }` — WebLLM streams tokens via OpenAI-compatible chunks; tool calls are not exposed by the engine.
+
+## Why
+
+- **100% on-device.** No data leaves the browser. Inference uses the user's GPU via WebGPU.
+- **No API key.** No token cost. No rate limits beyond the user's hardware.
+- **Offline-friendly.** First model fetch is online; subsequent runs work without network.
+
+## Caveats
+
+- **WebGPU required.** Chromium 113+ / Edge 113+ / recent Safari Tech Preview. No Firefox stable yet.
+- **First load is heavy.** A quantized 8B model is ~4 GB compressed; expect 30–90s initial download. Cache warms persistently after.
+- **No tool calls.** If the agent needs tools, run a hosted adapter alongside or wait for tool-use support upstream.
+
+## Pre-loading the engine
+
+The cold-start (download + WebGPU compile) is the slowest part. Warm it once at app boot:
+
+```ts
+import { CreateMLCEngine } from '@mlc-ai/web-llm'
+import { webllm } from '@agentskit/adapters'
+
+const engine = await CreateMLCEngine('Llama-3.1-8B-Instruct-q4f16_1-MLC', {
+  initProgressCallback: (info) => updateUi(info.progress, info.text),
+})
+
+const adapter = webllm({ model: 'Llama-3.1-8B-Instruct-q4f16_1-MLC', engine })
+```
+
+## Related
+
+- [Production → Edge bundle](/docs/production/edge) — sizing budgets and what to skip on edge.
+- [Choosing an adapter](./choosing) — when on-device makes sense vs. hosted.

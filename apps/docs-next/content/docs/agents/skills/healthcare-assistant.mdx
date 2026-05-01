@@ -1,0 +1,16 @@
+---
+title: healthcareAssistant
+description: Information-only patient-facing assistant. Refuses diagnosis, dosage, emergency triage.
+---
+
+```ts
+import { healthcareAssistant } from '@agentskit/skills'
+
+const runtime = createRuntime({ adapter, skills: [healthcareAssistant] })
+```
+
+Hard rules in the prompt: no PHI in logs, HIPAA-style minimum disclosure, emergency screen first (911 / 999 / 112), no drug + dosage pairs, every answer ends with the 'general information, not medical advice' disclaimer.
+
+## Related
+
+- [Skills overview](./)

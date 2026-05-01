@@ -1,0 +1,93 @@
+---
+title: Edge bundle (Cloudflare Workers / Deno Deploy)
+description: Ship AgentsKit on Cloudflare Workers, Deno Deploy, Vercel Edge, or Bun. Sub-50KB hot path; tree-shake everything you don't use.
+---
+
+AgentsKit is built so the production hot path on edge runtimes stays under **50 KB gzipped**. The trick: every package is independently importable and tree-shakeable, and the only mandatory dep on the chat path is `@agentskit/core` + one adapter.
+
+## The minimum viable edge bundle
+
+```ts
+// app/api/chat/route.ts (Vercel Edge / CF Workers / Deno Deploy)
+import { openai } from '@agentskit/adapters'
+
+export const runtime = 'edge'
+
+export async function POST(request: Request) {
+  const { messages } = await request.json()
+  const adapter = openai({ apiKey: process.env.OPENAI_API_KEY!, model: 'gpt-4o-mini' })
+
+  const source = adapter.createSource({ messages })
+  const stream = new ReadableStream<Uint8Array>({
+    async start(controller) {
+      const encoder = new TextEncoder()
+      for await (const chunk of source.stream()) {
+        if (chunk.type === 'text') controller.enqueue(encoder.encode(chunk.content))
+      }
+      controller.close()
+    },
+  })
+
+  return new Response(stream, { headers: { 'content-type': 'text/plain' } })
+}
+```
+
+**Bundle**: `@agentskit/adapters` (with only `openai` imported) tree-shakes to ~12 KB gzipped on edge runtimes — well below the 50 KB ceiling.
+
+## Sizing budget
+
+| Surface | Budget (gzipped) | Status |
+|---|---|---|
+| `@agentskit/core` only | 10 KB | ✅ enforced via `size-limit` |
+| `@agentskit/adapters` (full export) | 20 KB | ✅ enforced |
+| Edge hot path (core + 1 adapter) | **< 50 KB** | ✅ verified manually |
+| `@agentskit/runtime` (ReAct loop) | 15 KB | ✅ enforced |
+| `@agentskit/rag` | 10 KB | ✅ enforced |
+
+`pnpm size` runs the full size-limit suite. Per-package limits live in `.size-limit.json`.
+
+## What to skip on edge
+
+These packages bundle DOM / Node primitives that don't fit edge runtimes:
+
+- `@agentskit/react` / `@agentskit/ink` — UI bindings; client-side only.
+- `@agentskit/sandbox` — wraps E2B / WebContainer; needs Node primitives.
+- `@agentskit/observability` — Node-flavored sinks (audit log, devtools server, OTel exporters); the SaaS HTTP sinks (`datadogSink`, `axiomSink`, `newRelicSink`) DO work on edge.
+- `@agentskit/cli` — Node CLI; not for runtime use.
+
+## Per-runtime notes
+
+### Cloudflare Workers
+
+`compatibility_flags = ["nodejs_compat"]` if your code touches `node:crypto` or `node:buffer`. Use the `cloudflare-workers` starter (`agentskit init --template cloudflare-workers`) for the full setup.
+
+### Deno Deploy
+
+`npm:@agentskit/adapters` works as-is. Use `Deno.env.get('OPENAI_API_KEY')` for provider keys. Use the `deno-deploy` starter (`agentskit init --template deno-deploy`).
+
+### Vercel Edge
+
+`export const runtime = 'edge'` on the route handler. The `nextjs` starter ships an Edge route at `app/api/chat/route.ts`.
+
+### Bun
+
+Bun runs the Node hot path directly — no edge constraints. Use the `bun` starter.
+
+## What runs natively in browsers
+
+`@agentskit/adapters` ships a `webllm` adapter that runs LLMs **on-device via WebGPU** (no inference network call):
+
+```ts
+import { webllm } from '@agentskit/adapters'
+
+const adapter = webllm({ model: 'Llama-3.1-8B-Instruct-q4f16_1-MLC' })
+// Inference: 100% client-side. No API key, no token cost.
+```
+
+`@mlc-ai/web-llm` is an optional peer dep (~1 MB initial wasm download per model). Pair with `@agentskit/react` for a fully client-only chat that never hits a server.
+
+## Related
+
+- [Cloudflare Workers starter](/docs/production/cli/init) (`--template cloudflare-workers`)
+- [Deno Deploy starter](/docs/production/cli/init) (`--template deno-deploy`)
+- [Choosing an adapter](/docs/data/providers/choosing) — which fits edge.

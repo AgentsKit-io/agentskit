@@ -1,0 +1,16 @@
+---
+title: financialAdvisor
+description: Financial-literacy assistant. Explains concepts and trade-offs; refuses tickers, allocations, and 'should you' statements.
+---
+
+```ts
+import { financialAdvisor } from '@agentskit/skills'
+
+const runtime = createRuntime({ adapter, skills: [financialAdvisor] })
+```
+
+Forbidden verbs: recommend, suggest, advise, 'should you', 'I would', 'the best'. Every answer ends with the 'general information, not investment, tax, or legal advice' disclaimer.
+
+## Related
+
+- [Skills overview](./)

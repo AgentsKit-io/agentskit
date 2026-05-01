@@ -1,0 +1,16 @@
+---
+title: clinicalNoteSummarizer
+description: SOAP-format clinical-note summarizer for clinicians. Preserves verbatim numerics, strips identifiers, never interprets.
+---
+
+```ts
+import { clinicalNoteSummarizer } from '@agentskit/skills'
+
+const runtime = createRuntime({ adapter, skills: [clinicalNoteSummarizer] })
+```
+
+Output is fixed (Subjective / Objective / Assessment / Plan). Empty sections show '(not documented)' rather than inferred. Vitals and lab values are copied verbatim.
+
+## Related
+
+- [Skills overview](./)

@@ -13,6 +13,8 @@ export { sqlAnalyst } from './sql-analyst'
 export { technicalWriter } from './technical-writer'
 export { securityAuditor } from './security-auditor'
 export { customerSupport } from './customer-support'
+export { healthcareAssistant, clinicalNoteSummarizer } from './healthcare'
+export { financialAdvisor, transactionTriage } from './finance'
 
 export {
   createSkillRegistry,
