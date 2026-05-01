@@ -1,0 +1,62 @@
+---
+title: supabaseVectorStore
+description: Supabase-hosted pgvector — wraps the pgvector adapter with a Supabase RPC runner.
+---
+
+```ts
+import { supabaseVectorStore } from '@agentskit/memory'
+
+const store = supabaseVectorStore({
+  url: process.env.SUPABASE_URL!,
+  serviceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY!,
+})
+```
+
+`@supabase/supabase-js` is an **optional peer dependency** loaded lazily.
+
+## Server-side setup
+
+Run once in the Supabase SQL editor:
+
+```sql
+create extension if not exists vector;
+
+create table agentskit_vectors (
+  id text primary key,
+  content text,
+  embedding vector(1536),
+  metadata jsonb
+);
+
+create or replace function agentskit_execute_sql(sql text, params jsonb)
+  returns setof json language plpgsql security definer as $$
+begin
+  return query execute sql using params;
+end;
+$$;
+```
+
+The wrapper expects the `agentskit_execute_sql` RPC to exist — it's how we channel parameterized SQL from the Supabase client to pgvector without bundling a separate `pg` driver.
+
+## Config
+
+| Option | Type | Default |
+|---|---|---|
+| `url` | `string` | required |
+| `serviceRoleKey` | `string` | required (server-side only) |
+| `table` | `string` | `'agentskit_vectors'` |
+| `topK` | `number` | `10` |
+
+## Surface
+
+Implements `VectorMemory`: `store(docs)` / `search(embedding, options)` / `delete(ids)`. Inherits the `VectorFilter` contract — pass `options.filter` for metadata-scoped retrieval.
+
+## Caveats
+
+- Service-role key bypasses RLS — keep it server-side only.
+- Cosine-distance search is the default; switch operators in the underlying RPC if you need a different metric.
+
+## Related
+
+- [pgvector](./pgvector) — the adapter this wraps.
+- [Memory overview](./)
