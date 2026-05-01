@@ -10,6 +10,7 @@ description: Ship-ready tools — web, fetch, filesystem, shell.
 | `filesystem` | `@agentskit/tools` | read/write/list, scoped to a root |
 | `shell` | `@agentskit/tools` | exec commands, sandbox-friendly |
 | `sqliteQueryTool` | `@agentskit/tools` | read-only SQL against a local SQLite file |
+| `slackTool` | `@agentskit/tools` | post to a Slack Incoming Webhook |
 
 ## webSearch
 
@@ -69,6 +70,21 @@ npm install better-sqlite3
 > can produce data-exfiltration queries even though writes are blocked.
 > Treat the database as read-by-the-LLM data and avoid pointing this
 > tool at databases that hold secrets the agent shouldn't see.
+
+## slackTool
+
+```ts
+import { slackTool } from '@agentskit/tools'
+
+const tool = slackTool({ webhookUrl: process.env.SLACK_WEBHOOK_URL! })
+```
+
+Posts to a [Slack Incoming Webhook](https://api.slack.com/messaging/webhooks).
+Schema: `{ text, channel?, username? }`. Returns `{ ok, status }` —
+non-2xx replies surface as `ok: false` rather than throwing, so a chatty
+agent can keep going after a transient failure. For workspace-scoped
+features (search, channel listing, threading), use the
+[`slack()`](./integrations) integration which uses Bearer-token auth.
 
 ## Related
 

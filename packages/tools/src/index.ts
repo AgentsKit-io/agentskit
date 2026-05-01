@@ -17,3 +17,6 @@ export type { DefineZodToolConfig } from './zod'
 
 export { sqliteQueryTool } from './sqlite-query'
 export type { SqliteQueryConfig } from './sqlite-query'
+
+export { slackTool } from './slack'
+export type { SlackToolConfig } from './slack'

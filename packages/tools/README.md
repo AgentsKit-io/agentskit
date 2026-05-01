@@ -88,13 +88,14 @@ For tools without Zod, use `defineTool` from `@agentskit/core` with a JSON Schem
 
 ## Features
 
-### Built-ins (5)
+### Built-ins (6)
 
 - `webSearch()` — live web search with pluggable providers (Tavily, Brave, SerpAPI, custom).
 - `fetchUrl()` — safe HTTP GET with JSON / text handling, size cap, boilerplate stripping.
 - `filesystem({ basePath })` — sandboxed read, write, list, delete, stat, exists.
 - `shell({ allowed })` — shell execution with command allow-list + timeout.
 - `sqliteQueryTool({ path })` — read-only SQL against a local SQLite file. Optional peer dep on `better-sqlite3`. **Note:** never feed unvalidated user prompts straight into the `sql` field — wrap with input filtering or use parameterized helpers if exposing it to untrusted input.
+- `slackTool({ webhookUrl })` — post to a Slack Incoming Webhook. For Bearer-token features (search, channel listing), use the `slack()` integration.
 
 ### Integrations (20+)
 
