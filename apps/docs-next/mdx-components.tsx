@@ -18,6 +18,7 @@ import { MigrationDiff } from '@/components/mdx/migration-diff'
 import { Artifact } from '@/components/mdx/artifact'
 import { LivePlayground } from '@/components/mdx/live-playground'
 import { G } from '@/components/mdx/glossary'
+import { VoiceMode } from '@/components/mdx/voice-mode'
 
 type HeadingProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLHeadingElement>,
@@ -67,6 +68,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     Artifact,
     LivePlayground,
     G,
+    VoiceMode,
     ...components,
   }
 }

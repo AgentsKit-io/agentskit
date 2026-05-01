@@ -228,6 +228,29 @@ streams events to your trace pipeline.
 
 `<G term="...">` is case-insensitive. Adding a term: append one entry to the `GLOSSARY` map — one definition + one canonical link.
 
+## `<VoiceMode />`
+
+Push-to-listen mic + energy-threshold VAD + barge-in. Bring your own ASR / LLM / TTS via `transcribe`, `respond`, `speak` props — the component is vendor-free.
+
+```mdx
+<VoiceMode
+  transcribe={async (blob) => fetch('/api/transcribe', { method: 'POST', body: blob }).then(r => r.text())}
+  respond={async function* (text) {
+    const response = await fetch('/api/chat', { method: 'POST', body: JSON.stringify({ text }) })
+    const reader = response.body!.getReader()
+    const decoder = new TextDecoder()
+    while (true) {
+      const { done, value } = await reader.read()
+      if (done) return
+      yield decoder.decode(value)
+    }
+  }}
+  speak={async (text) => fetch('/api/tts', { method: 'POST', body: text }).then(r => r.blob())}
+/>
+```
+
+VAD is a 2048-bin RMS threshold (default `0.02`); barge-in cuts assistant audio the moment user energy crosses it. No external models / wasm bundles.
+
 ## `<Mermaid />`
 
 Inline diagrams. See [`components/mermaid.tsx`](https://github.com/AgentsKit-io/agentskit/blob/main/apps/docs-next/components/mermaid.tsx).
