@@ -4,6 +4,15 @@ export type { ConsoleLoggerConfig } from './console-logger'
 export { langsmith } from './langsmith'
 export type { LangSmithConfig } from './langsmith'
 
+export { datadogSink } from './datadog'
+export type { DatadogSinkConfig } from './datadog'
+
+export { axiomSink } from './axiom'
+export type { AxiomSinkConfig } from './axiom'
+
+export { newRelicSink } from './new-relic'
+export type { NewRelicSinkConfig } from './new-relic'
+
 export { opentelemetry } from './opentelemetry'
 export type { OpenTelemetryConfig } from './opentelemetry'
 

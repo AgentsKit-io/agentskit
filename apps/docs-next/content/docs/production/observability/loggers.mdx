@@ -27,7 +27,27 @@ const runtime = createRuntime({
 | `consoleLogger()` | dev | — |
 | `langsmith({ apiKey, project })` | traces UI | `LANGSMITH_API_KEY` |
 | `opentelemetry({ serviceName })` | OTel pipeline | OTLP endpoint |
+| `datadogSink({ apiKey, site?, env? })` | Datadog Logs HTTP intake | `DD_API_KEY` |
+| `axiomSink({ token, dataset, endpoint? })` | Axiom dataset ingest | `AXIOM_TOKEN` |
+| `newRelicSink({ apiKey, region? })` | New Relic Logs API (`US` / `EU`) | `NEW_RELIC_LICENSE_KEY` |
 | `createTraceTracker()` | BYO span lifecycle | — |
+
+## SaaS sinks — failure-safe
+
+`datadogSink`, `axiomSink`, and `newRelicSink` follow the same observer contract: every span start / end is forwarded as a JSON event to the upstream HTTP intake. **All three swallow network errors** — observability never breaks the main agent loop. Configure region (`site` / `endpoint` / `region`) and service tags per provider.
+
+```ts
+import { datadogSink, axiomSink, newRelicSink } from '@agentskit/observability'
+
+createRuntime({
+  adapter,
+  observers: [
+    datadogSink({ apiKey: process.env.DD_API_KEY!, env: 'prod', site: 'datadoghq.eu' }),
+    axiomSink({ token: process.env.AXIOM_TOKEN!, dataset: 'agentskit' }),
+    newRelicSink({ apiKey: process.env.NEW_RELIC_LICENSE_KEY!, region: 'US' }),
+  ],
+})
+```
 
 ## Related
 
