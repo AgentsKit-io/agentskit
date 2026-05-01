@@ -28,7 +28,7 @@ const runtime = createRuntime({
 - **Inspect schema before writing SQL.** Lists relevant tables / columns / types up-front; never guesses column names.
 - **Distributions over means.** Median + p95 by default for revenue / latency / session-length.
 - **Explicit time windows.** "Last 30 days", "Q3 2026" — never "recent".
-- **Group sizes.** Buckets with <30 observations are labeled low-N or folded into "Other".
+- **Group sizes.** Buckets with `<30` observations are labeled low-N or folded into "Other".
 - **Survivorship + selection bias.** Filters that exclude rows are called out, not silent.
 - **Units on every number.** No bare integers — `ms`, `$`, `%`, `count`.
 
