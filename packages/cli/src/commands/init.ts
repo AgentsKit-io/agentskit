@@ -8,7 +8,7 @@ export function registerInitCommand(program: Command): void {
   program
     .command('init')
     .description('Generate a starter project. Run with no flags for interactive mode.')
-    .option('--template <template>', 'Starter template (react|nextjs|sveltekit|nuxt|ink|vite-ink|cloudflare-workers|bun|runtime|multi-agent)')
+    .option('--template <template>', 'Starter template (react|nextjs|sveltekit|nuxt|ink|vite-ink|cloudflare-workers|bun|deno-deploy|expo|angular|runtime|multi-agent)')
     .option('--dir <directory>', 'Target directory', 'agentskit-app')
     .option('--provider <provider>', 'LLM provider (openai|anthropic|gemini|ollama|demo)')
     .option('--tools <tools>', 'Comma-separated tools (web_search,filesystem,shell)')

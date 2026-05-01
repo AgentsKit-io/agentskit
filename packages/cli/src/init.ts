@@ -12,6 +12,9 @@ export type StarterKind =
   | 'vite-ink'
   | 'cloudflare-workers'
   | 'bun'
+  | 'expo'
+  | 'deno-deploy'
+  | 'angular'
 export type Provider = 'openai' | 'anthropic' | 'gemini' | 'ollama' | 'demo'
 export type ToolKind = 'web_search' | 'filesystem' | 'shell'
 export type MemoryKind = 'none' | 'file' | 'sqlite'
@@ -1148,6 +1151,331 @@ out
   }
 }
 
+function expoStarter(ctx: RenderContext): Record<string, string> {
+  const deps: Record<string, string> = {
+    expo: '^54.0.0',
+    'expo-router': '^7.0.0',
+    'expo-secure-store': '^15.0.0',
+    react: '^19.0.0',
+    'react-native': '^0.84.0',
+  }
+  if (ctx.provider !== 'demo') deps['@agentskit/adapters'] = '^0.4.0'
+  const adapterCallStr = adapterCall(ctx.provider)
+  const adapterImport = ctx.provider === 'demo' ? '' : `import { ${PROVIDER_IMPORT[ctx.provider]} } from '@agentskit/adapters'\n`
+  const demoSnippet = ctx.provider === 'demo' ? demoAdapterSnippet() : ''
+
+  return {
+    'package.json': JSON.stringify(
+      {
+        name: 'agentskit-expo-app',
+        version: '1.0.0',
+        main: 'expo-router/entry',
+        scripts: {
+          start: 'expo start',
+          android: 'expo start --android',
+          ios: 'expo start --ios',
+          web: 'expo start --web',
+        },
+        dependencies: deps,
+        devDependencies: {
+          '@types/react': '^19.0.0',
+          typescript: '^5.5.0',
+        },
+      },
+      null,
+      2,
+    ) + '\n',
+
+    'app.json': JSON.stringify(
+      {
+        expo: {
+          name: 'AgentsKit Expo Starter',
+          slug: 'agentskit-expo',
+          scheme: 'agentskit',
+          plugins: ['expo-router', 'expo-secure-store'],
+          ios: { bundleIdentifier: 'com.example.agentskit' },
+          android: { package: 'com.example.agentskit' },
+        },
+      },
+      null,
+      2,
+    ) + '\n',
+
+    'tsconfig.json': JSON.stringify(
+      { extends: 'expo/tsconfig.base', compilerOptions: { strict: true } },
+      null,
+      2,
+    ) + '\n',
+
+    'app/_layout.tsx': `import { Stack } from 'expo-router'
+import { AuthProvider } from '../lib/auth'
+
+export default function RootLayout() {
+  return (
+    <AuthProvider>
+      <Stack />
+    </AuthProvider>
+  )
+}
+`,
+
+    'app/index.tsx': `import { useState } from 'react'
+import { Text, TextInput, View, Pressable, ScrollView } from 'react-native'
+import { useAuth } from '../lib/auth'
+${adapterImport}${demoSnippet}export default function Chat() {
+  const { token, signIn, signOut } = useAuth()
+  const [messages, setMessages] = useState<{ role: 'user' | 'assistant'; content: string }[]>([])
+  const [input, setInput] = useState('')
+
+  if (!token) {
+    return (
+      <View style={{ flex: 1, justifyContent: 'center', padding: 24 }}>
+        <Text style={{ fontSize: 20, marginBottom: 12 }}>Sign in to chat</Text>
+        <Pressable onPress={() => signIn('demo-token')}><Text>Sign in</Text></Pressable>
+      </View>
+    )
+  }
+
+  async function send() {
+    if (!input.trim()) return
+    const next = [...messages, { role: 'user' as const, content: input }]
+    setMessages(next)
+    setInput('')
+    const adapter = ${adapterCallStr}
+    const source = adapter.createSource({ messages: next.map((m, i) => ({
+      id: String(i), role: m.role, content: m.content,
+      status: 'complete' as const, createdAt: new Date(0),
+    })) })
+    let acc = ''
+    for await (const chunk of source.stream()) {
+      if (chunk.type === 'text') {
+        acc += chunk.content
+        setMessages([...next, { role: 'assistant', content: acc }])
+      }
+    }
+  }
+
+  return (
+    <View style={{ flex: 1, padding: 16 }}>
+      <Pressable onPress={signOut}><Text>Sign out</Text></Pressable>
+      <ScrollView style={{ flex: 1 }}>
+        {messages.map((m, i) => (
+          <Text key={i} style={{ marginVertical: 4 }}>{m.role}: {m.content}</Text>
+        ))}
+      </ScrollView>
+      <TextInput value={input} onChangeText={setInput} onSubmitEditing={send} placeholder="Ask anything…" />
+    </View>
+  )
+}
+`,
+
+    'lib/auth.tsx': `import { createContext, useContext, useEffect, useState, type ReactNode } from 'react'
+import * as SecureStore from 'expo-secure-store'
+
+interface AuthValue { token: string | null; signIn: (t: string) => void; signOut: () => void }
+const AuthCtx = createContext<AuthValue>({ token: null, signIn: () => {}, signOut: () => {} })
+
+export function AuthProvider({ children }: { children: ReactNode }) {
+  const [token, setToken] = useState<string | null>(null)
+
+  useEffect(() => {
+    SecureStore.getItemAsync('agentskit_token').then(setToken).catch(() => {})
+  }, [])
+
+  return (
+    <AuthCtx.Provider
+      value={{
+        token,
+        signIn: (t) => { SecureStore.setItemAsync('agentskit_token', t); setToken(t) },
+        signOut: () => { SecureStore.deleteItemAsync('agentskit_token'); setToken(null) },
+      }}
+    >
+      {children}
+    </AuthCtx.Provider>
+  )
+}
+
+export const useAuth = () => useContext(AuthCtx)
+`,
+
+    '.env.example': envExampleFor(ctx.provider),
+    '.gitignore': 'node_modules\n.expo\ndist\n.env\n.env.local\n',
+    'README.md': readmeFor(ctx),
+  }
+}
+
+function denoDeployStarter(ctx: RenderContext): Record<string, string> {
+  const adapterCallEdge = ctx.provider === 'demo'
+    ? 'demoAdapter()'
+    : ctx.provider === 'ollama'
+      ? `ollama({ model: '${PROVIDER_DEFAULT_MODEL[ctx.provider]}' })`
+      : `${PROVIDER_IMPORT[ctx.provider]}({ apiKey: Deno.env.get('${PROVIDER_ENV_KEY[ctx.provider]!}') ?? '', model: '${PROVIDER_DEFAULT_MODEL[ctx.provider]}' })`
+  const adapterImport = ctx.provider === 'demo'
+    ? ''
+    : `import { ${PROVIDER_IMPORT[ctx.provider]} } from 'npm:@agentskit/adapters'\n`
+  const demoSnippet = ctx.provider === 'demo' ? demoAdapterSnippet() : ''
+
+  return {
+    'deno.json': JSON.stringify(
+      {
+        tasks: {
+          dev: 'deno run --allow-net --allow-env --watch main.ts',
+          start: 'deno run --allow-net --allow-env main.ts',
+          deploy: 'deployctl deploy --project=agentskit-deno main.ts',
+        },
+        imports: {
+          '@agentskit/adapters': 'npm:@agentskit/adapters@^0.4.0',
+        },
+      },
+      null,
+      2,
+    ) + '\n',
+
+    'main.ts': `${adapterImport}${demoSnippet}const adapter = ${adapterCallEdge}
+
+Deno.serve(async (request) => {
+  const url = new URL(request.url)
+  if (request.method === 'POST' && url.pathname === '/chat') {
+    const { messages } = await request.json() as { messages: Array<{ role: string; content: string }> }
+    const source = adapter.createSource({ messages: messages.map((m, i) => ({
+      id: String(i), role: m.role as 'user' | 'assistant' | 'system',
+      content: m.content, status: 'complete' as const, createdAt: new Date(0),
+    })) })
+    const stream = new ReadableStream<Uint8Array>({
+      async start(controller) {
+        const encoder = new TextEncoder()
+        for await (const chunk of source.stream()) {
+          if (chunk.type === 'text') controller.enqueue(encoder.encode(chunk.content))
+        }
+        controller.close()
+      },
+    })
+    return new Response(stream, { headers: { 'content-type': 'text/plain; charset=utf-8' } })
+  }
+  return new Response(\`<!doctype html><title>AgentsKit Deno Deploy starter</title>
+<body><pre>POST /chat with { messages: [...] }</pre></body>\`, {
+    headers: { 'content-type': 'text/html' },
+  })
+})
+`,
+
+    '.env.example': envExampleFor(ctx.provider),
+    '.gitignore': '.env\n.env.local\n',
+    'README.md': readmeFor(ctx),
+  }
+}
+
+function angularStarter(ctx: RenderContext): Record<string, string> {
+  const deps: Record<string, string> = {
+    '@agentskit/angular': '^0.4.0',
+    '@angular/core': '^21.0.0',
+    '@angular/common': '^21.0.0',
+    '@angular/compiler': '^21.0.0',
+    '@angular/platform-browser': '^21.0.0',
+    '@angular/platform-browser-dynamic': '^21.0.0',
+    rxjs: '^7.8.0',
+    'zone.js': '^0.16.1',
+  }
+  if (ctx.provider !== 'demo') deps['@agentskit/adapters'] = '^0.4.0'
+
+  return {
+    'package.json': JSON.stringify(
+      {
+        name: 'agentskit-angular-app',
+        private: true,
+        scripts: {
+          dev: 'ng serve',
+          build: 'ng build',
+          start: 'ng serve',
+        },
+        dependencies: deps,
+        devDependencies: {
+          '@angular/cli': '^21.0.0',
+          '@angular/compiler-cli': '^21.0.0',
+          typescript: '^5.5.0',
+        },
+      },
+      null,
+      2,
+    ) + '\n',
+
+    'angular.json': JSON.stringify(
+      {
+        $schema: './node_modules/@angular/cli/lib/config/schema.json',
+        version: 1,
+        projects: {
+          app: {
+            projectType: 'application',
+            root: '',
+            sourceRoot: 'src',
+            prefix: 'ak',
+            architect: {
+              build: {
+                builder: '@angular/build:application',
+                options: { browser: 'src/main.ts', tsConfig: 'tsconfig.json', index: 'src/index.html' },
+              },
+              serve: { builder: '@angular/build:dev-server', options: { buildTarget: 'app:build' } },
+            },
+          },
+        },
+      },
+      null,
+      2,
+    ) + '\n',
+
+    'tsconfig.json': JSON.stringify(
+      {
+        compilerOptions: {
+          target: 'ES2022', module: 'preserve', moduleResolution: 'bundler',
+          strict: true, experimentalDecorators: true, useDefineForClassFields: false,
+          lib: ['ES2022', 'DOM'],
+        },
+        include: ['src/**/*.ts'],
+      },
+      null,
+      2,
+    ) + '\n',
+
+    'src/index.html': `<!doctype html>
+<html><head><title>AgentsKit Angular</title></head>
+<body><ak-root></ak-root></body></html>
+`,
+
+    'src/main.ts': `import { bootstrapApplication } from '@angular/platform-browser'
+import 'zone.js'
+import { AppComponent } from './app'
+
+bootstrapApplication(AppComponent)
+`,
+
+    'src/app.ts': `import { Component, signal } from '@angular/core'
+import { CommonModule } from '@angular/common'
+
+@Component({
+  selector: 'ak-root',
+  standalone: true,
+  imports: [CommonModule],
+  template: \`
+    <main style="max-width: 640px; margin: 2rem auto;">
+      <h1>AgentsKit · Angular standalone</h1>
+      <p>Wire @agentskit/angular here. See the docs for the chat service binding.</p>
+      <p>Counter (sanity): {{ count() }}</p>
+      <button (click)="bump()">+1</button>
+    </main>
+  \`,
+})
+export class AppComponent {
+  readonly count = signal(0)
+  bump() { this.count.update(n => n + 1) }
+}
+`,
+
+    '.env.example': envExampleFor(ctx.provider),
+    '.gitignore': 'node_modules\ndist\n.angular\n.env\n.env.local\n',
+    'README.md': readmeFor(ctx),
+  }
+}
+
 function readmeFor(ctx: RenderContext): string {
   const installCmd = ctx.pm === 'npm' ? 'npm install' : `${ctx.pm} install`
   const runCmd = ctx.pm === 'npm' ? 'npm run dev' : `${ctx.pm} dev`
@@ -1197,6 +1525,9 @@ const TEMPLATE_FN: Record<StarterKind, (ctx: RenderContext) => Record<string, st
   'vite-ink': viteInkStarter,
   'cloudflare-workers': cloudflareWorkersStarter,
   bun: bunStarter,
+  expo: expoStarter,
+  'deno-deploy': denoDeployStarter,
+  angular: angularStarter,
 }
 
 export async function writeStarterProject(options: InitCommandOptions): Promise<void> {

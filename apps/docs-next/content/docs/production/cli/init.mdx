@@ -17,7 +17,7 @@ Interactive. Picks template + provider + memory backend.
 
 | Flag | Purpose |
 |---|---|
-| `--template <name>` | `react` / `nextjs` / `sveltekit` / `nuxt` / `ink` / `vite-ink` / `cloudflare-workers` / `bun` / `runtime` / `multi-agent` |
+| `--template <name>` | `react` / `nextjs` / `sveltekit` / `nuxt` / `ink` / `vite-ink` / `cloudflare-workers` / `bun` / `deno-deploy` / `expo` / `angular` / `runtime` / `multi-agent` |
 | `--provider <name>` | `openai` / `anthropic` / `ollama` / ... |
 | `--name <dir>` | target directory |
 | `--no-install` | skip `pnpm install` |
@@ -32,6 +32,9 @@ Interactive. Picks template + provider + memory backend.
 - **vite-ink** — same Ink chat but with `vite-node --watch` for hot reload during dev.
 - **cloudflare-workers** — edge runtime + `itty-router` + `wrangler.toml` with `nodejs_compat`. Bind D1 / KV when wiring memory.
 - **bun** — `Bun.serve` with `--hot` reload; the fastest dev loop on the list.
+- **deno-deploy** — `Deno.serve` + `deployctl` + `npm:` imports for the AgentsKit packages.
+- **expo** — Expo Router + `expo-secure-store` for token persistence; mobile chat screen ready to wire.
+- **angular** — Angular 21 standalone bootstrap + Signals, ready for `@agentskit/angular`.
 - **runtime** — standalone `createRuntime` with ReAct loop, no UI.
 - **multi-agent** — supervisor topology starter (planner + delegates).
 

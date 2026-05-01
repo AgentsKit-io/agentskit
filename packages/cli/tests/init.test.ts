@@ -206,4 +206,50 @@ describe('@agentskit/cli', () => {
     expect(route).toContain('openai({')
     expect(route).not.toContain('demoAdapter')
   })
+
+  it('writes an Expo + auth starter', async () => {
+    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+    await writeStarterProject({ targetDir: tempDir, template: 'expo', provider: 'demo' })
+
+    const pkg = JSON.parse(await readFile(path.join(tempDir, 'package.json'), 'utf8'))
+    expect(pkg.dependencies.expo).toBeTruthy()
+    expect(pkg.dependencies['expo-router']).toBeTruthy()
+    expect(pkg.dependencies['expo-secure-store']).toBeTruthy()
+
+    const auth = await readFile(path.join(tempDir, 'lib/auth.tsx'), 'utf8')
+    expect(auth).toContain('SecureStore')
+
+    const screen = await readFile(path.join(tempDir, 'app/index.tsx'), 'utf8')
+    expect(screen).toContain('useAuth')
+    expect(screen).toContain('demoAdapter')
+  })
+
+  it('writes a Deno Deploy starter', async () => {
+    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+    await writeStarterProject({ targetDir: tempDir, template: 'deno-deploy', provider: 'openai' })
+
+    const denoConfig = JSON.parse(await readFile(path.join(tempDir, 'deno.json'), 'utf8'))
+    expect(denoConfig.tasks.deploy).toContain('deployctl')
+
+    const main = await readFile(path.join(tempDir, 'main.ts'), 'utf8')
+    expect(main).toContain('Deno.serve')
+    expect(main).toContain("Deno.env.get('OPENAI_API_KEY')")
+    expect(main).toContain("import { openai } from 'npm:@agentskit/adapters'")
+  })
+
+  it('writes an Angular standalone starter', async () => {
+    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+    await writeStarterProject({ targetDir: tempDir, template: 'angular', provider: 'demo' })
+
+    const pkg = JSON.parse(await readFile(path.join(tempDir, 'package.json'), 'utf8'))
+    expect(pkg.dependencies['@angular/core']).toBeTruthy()
+    expect(pkg.dependencies['zone.js']).toBeTruthy()
+
+    const main = await readFile(path.join(tempDir, 'src/main.ts'), 'utf8')
+    expect(main).toContain('bootstrapApplication')
+
+    const app = await readFile(path.join(tempDir, 'src/app.ts'), 'utf8')
+    expect(app).toContain("standalone: true")
+    expect(app).toContain('signal(0)')
+  })
 })
