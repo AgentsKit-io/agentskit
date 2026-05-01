@@ -1,0 +1,94 @@
+---
+title: Which package do I need?
+description: A 5-question decision tree from your use case to the one or two AgentsKit packages you actually need to install.
+---
+
+You don't need all 13+ packages. Most projects use 2–4. Walk through the questions below, install only what each branch tells you to, and skip the rest.
+
+## 1. What surface are you building?
+
+| Surface | Install |
+|---|---|
+| **Web chat UI** | `@agentskit/react` |
+| **Terminal chat UI** | `@agentskit/ink` |
+| **Server-side / API route / cron / queue worker** (no UI) | `@agentskit/runtime` |
+| **Multi-agent orchestration** (planner + delegates) | `@agentskit/runtime` + `@agentskit/skills` |
+| **Authoring a new tool / skill / adapter for distribution** | `@agentskit/templates` |
+
+Every framework binding (React, Ink, Vue, Svelte, Solid, Angular, React Native) uses the **same** controller from `@agentskit/core` underneath, so swapping surfaces later is a one-line import change, not a rewrite.
+
+## 2. Which provider talks to the model?
+
+| You want… | Install + import |
+|---|---|
+| OpenAI / GPT-4o / o1 | `@agentskit/adapters` → `openai` |
+| Anthropic / Claude | `@agentskit/adapters` → `anthropic` |
+| Gemini / Vertex AI | `@agentskit/adapters` → `gemini` or `vertex` |
+| AWS Bedrock | `@agentskit/adapters` → `bedrock` (optional `@aws-sdk/client-bedrock-runtime`) |
+| Azure OpenAI | `@agentskit/adapters` → `azureOpenAI` |
+| Local / offline (free) | `@agentskit/adapters` → `ollama` |
+| One key, many models | `@agentskit/adapters` → `openrouter` |
+| Already on LangChain / Vercel AI SDK | `@agentskit/adapters` → `langchain` / `vercelAI` (no rewrite) |
+| Don't decide — try a few | `@agentskit/adapters` → `createRouter` / `createFallbackAdapter` |
+
+If you're stuck choosing between adapters, see the [capability matrix](/docs/data/providers/choosing).
+
+## 3. Does the agent need real-world capability?
+
+| Need | Install + import |
+|---|---|
+| Web search, fetchURL, filesystem, shell | `@agentskit/tools` (built-ins) |
+| GitHub / Linear / Slack / Stripe / Postgres / S3 / 20+ more | `@agentskit/tools/integrations` |
+| Sandbox dangerous code (E2B / WebContainer) | `@agentskit/sandbox` |
+| Wrap any third-party SDK as a tool | `@agentskit/tools` → `defineZodTool` or `defineTool` from `@agentskit/core` |
+| Bridge to Model Context Protocol servers | `@agentskit/tools/mcp` |
+
+If the answer is "no tools, just chat" — skip this step. `@agentskit/core` + an adapter is enough.
+
+## 4. Does it need to remember anything?
+
+| What to remember | Install + import |
+|---|---|
+| Conversation history (single session) | nothing — the controller buffers in-memory by default |
+| Conversation history (across sessions) | `@agentskit/memory` → `fileChatMemory` / `sqliteChatMemory` / `tursoChatMemory` / `redisChatMemory` |
+| Long-term knowledge / RAG | `@agentskit/rag` + a vector store from `@agentskit/memory` (`pgvector` / `pinecone` / `qdrant` / `chroma` / `supabaseVectorStore` / `weaviateVectorStore` / `milvusVectorStore` / `mongoAtlasVectorStore` / `upstashVector`) |
+| Per-user personalization | `@agentskit/memory` → `createInMemoryPersonalization` |
+| Knowledge graph | `@agentskit/memory` → `createInMemoryGraph` |
+| End-to-end encrypted history | `@agentskit/memory` → `createEncryptedMemory` |
+
+## 5. Does it need ops / observability?
+
+| Concern | Install + import |
+|---|---|
+| Watching agent runs in dev | `@agentskit/observability` → `consoleLogger` |
+| Per-run cost ceiling | `@agentskit/observability` → `costGuard` |
+| Per-tenant SaaS budgets | `@agentskit/observability` → `multiTenantCostGuard` |
+| LangSmith / OTel / Datadog / Axiom / New Relic | `@agentskit/observability` → matching sink |
+| Audit log + signed trace export | `@agentskit/observability` → `createSignedAuditLog` |
+| Live evals / regression tests | `@agentskit/eval` |
+
+If you don't need any of these yet, **skip the package entirely**. It is purely additive.
+
+## TL;DR
+
+The smallest working agent is two packages:
+
+```bash
+npm install @agentskit/react @agentskit/adapters
+```
+
+Add `@agentskit/tools` when the agent needs to *do* things, `@agentskit/memory` when it needs to *remember*, `@agentskit/observability` when it goes to production.
+
+## Faster path
+
+If even five questions felt like too many, run `agentskit init` — the interactive picker walks you through these decisions and writes the right `package.json` for you.
+
+```bash
+pnpm dlx agentskit init
+```
+
+## Related
+
+- [Architecture at a glance](./architecture-at-a-glance)
+- [Concepts](./concepts) — the six contracts every package implements.
+- [Choosing an adapter](/docs/data/providers/choosing)
