@@ -182,6 +182,40 @@ A11y-aware GIF with reduced-motion fallback.
 
 Respects `prefers-reduced-motion` — shows the PNG poster + a link to the animation for users with motion sensitivity.
 
+## `<Artifact />`
+
+Claude.ai-style typed inline artifact. Five kinds: `code`, `json`, `markdown`, `html`, `chart`.
+
+```mdx
+<Artifact
+  kind="code"
+  language="ts"
+  title="agent.ts"
+  content={`import { openai } from '@agentskit/adapters'\n\nexport const adapter = openai({ apiKey: '...', model: 'gpt-4o' })`}
+/>
+
+<Artifact kind="chart" title="Latency by adapter" content='[
+  { "label": "groq", "value": 80 },
+  { "label": "openai", "value": 320 },
+  { "label": "anthropic", "value": 410 }
+]' />
+```
+
+`html` artifacts run in an iframe with `sandbox=""` (no scripts, no same-origin) — safe to render LLM-generated HTML.
+
+## `<LivePlayground />`
+
+JS/TS editor + Web Worker sandbox runner. Each edit spawns a fresh worker that evaluates the snippet in isolation. No DOM, 3-second timeout.
+
+```mdx
+<LivePlayground
+  title="Reduce demo"
+  code={`const sum = [1,2,3,4,5].reduce((a, b) => a + b, 0)\nconsole.log(sum)`}
+/>
+```
+
+Pair with `<Artifact />` to render the resulting structure inline.
+
 ## `<Mermaid />`
 
 Inline diagrams. See [`components/mermaid.tsx`](https://github.com/AgentsKit-io/agentskit/blob/main/apps/docs-next/components/mermaid.tsx).

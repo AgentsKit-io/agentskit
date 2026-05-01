@@ -15,6 +15,8 @@ import { Verified } from '@/components/mdx/verified'
 import { LiveAdapter } from '@/components/mdx/live-adapter'
 import { StackBuilder } from '@/components/mdx/stack-builder'
 import { MigrationDiff } from '@/components/mdx/migration-diff'
+import { Artifact } from '@/components/mdx/artifact'
+import { LivePlayground } from '@/components/mdx/live-playground'
 
 type HeadingProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLHeadingElement>,
@@ -61,6 +63,8 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     LiveAdapter,
     StackBuilder,
     MigrationDiff,
+    Artifact,
+    LivePlayground,
     ...components,
   }
 }
