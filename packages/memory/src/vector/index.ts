@@ -16,4 +16,13 @@ export type { UpstashVectorConfig } from './upstash'
 export { supabaseVectorStore } from './supabase'
 export type { SupabaseVectorStoreConfig } from './supabase'
 
+export { weaviateVectorStore } from './weaviate'
+export type { WeaviateConfig } from './weaviate'
+
+export { milvusVectorStore } from './milvus'
+export type { MilvusConfig } from './milvus'
+
+export { mongoAtlasVectorStore } from './mongo-atlas'
+export type { MongoAtlasVectorConfig, MongoCollectionLike } from './mongo-atlas'
+
 export { matchesFilter } from './filter'

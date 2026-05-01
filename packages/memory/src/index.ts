@@ -29,7 +29,18 @@ export type {
 
 export { createInMemoryGraph } from './graph'
 export type { GraphMemory, GraphNode, GraphEdge, GraphQuery } from './graph'
-export { pgvector, pinecone, qdrant, chroma, upstashVector, supabaseVectorStore, matchesFilter } from './vector'
+export {
+  pgvector,
+  pinecone,
+  qdrant,
+  chroma,
+  upstashVector,
+  supabaseVectorStore,
+  weaviateVectorStore,
+  milvusVectorStore,
+  mongoAtlasVectorStore,
+  matchesFilter,
+} from './vector'
 export type {
   PgVectorConfig,
   PgVectorRunner,
@@ -38,6 +49,10 @@ export type {
   ChromaConfig,
   UpstashVectorConfig,
   SupabaseVectorStoreConfig,
+  WeaviateConfig,
+  MilvusConfig,
+  MongoAtlasVectorConfig,
+  MongoCollectionLike,
 } from './vector'
 
 export { createEncryptedMemory } from './encrypted'

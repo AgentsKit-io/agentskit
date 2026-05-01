@@ -1,0 +1,23 @@
+---
+title: mongoAtlasVectorStore
+description: MongoDB Atlas Vector Search. Caller injects a Collection-shaped client; \`mongodb\` driver stays as an external concern.
+---
+
+```ts
+import { MongoClient } from 'mongodb'
+import { mongoAtlasVectorStore } from '@agentskit/memory'
+
+const client = new MongoClient(process.env.MONGO_URI!)
+const collection = client.db('docs').collection('chunks')
+
+const store = mongoAtlasVectorStore({
+  collection,
+  indexName: 'embedding_index',
+})
+```
+
+Implements `VectorMemory`: `store` / `search(embedding, options?)` / `delete`. Inherits the [`VectorFilter`](./vector-filters) contract for metadata-scoped retrieval.
+
+## Related
+
+- [Memory overview](./)

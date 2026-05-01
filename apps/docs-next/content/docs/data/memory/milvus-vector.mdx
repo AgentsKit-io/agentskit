@@ -1,0 +1,20 @@
+---
+title: milvusVectorStore
+description: Milvus / Zilliz Cloud vector store. v2 REST API with Bearer auth.
+---
+
+```ts
+import { milvusVectorStore } from '@agentskit/memory'
+
+const store = milvusVectorStore({
+  url: process.env.MILVUS_URL!,
+  token: process.env.MILVUS_TOKEN,
+  collection: 'docs',
+})
+```
+
+Implements `VectorMemory`: `store` / `search(embedding, options?)` / `delete`. Inherits the [`VectorFilter`](./vector-filters) contract for metadata-scoped retrieval.
+
+## Related
+
+- [Memory overview](./)

@@ -1,0 +1,20 @@
+---
+title: weaviateVectorStore
+description: Weaviate vector store. REST batch insert + GraphQL nearVector search.
+---
+
+```ts
+import { weaviateVectorStore } from '@agentskit/memory'
+
+const store = weaviateVectorStore({
+  url: process.env.WEAVIATE_URL!,
+  apiKey: process.env.WEAVIATE_API_KEY,
+  className: 'Doc',
+})
+```
+
+Implements `VectorMemory`: `store` / `search(embedding, options?)` / `delete`. Inherits the [`VectorFilter`](./vector-filters) contract for metadata-scoped retrieval.
+
+## Related
+
+- [Memory overview](./)
