@@ -1,0 +1,19 @@
+---
+title: githubActions
+description: GitHub Actions — list runs and trigger workflow_dispatch events.
+---
+
+```ts
+import { githubActions } from '@agentskit/tools/integrations'
+
+const tools = githubActions({
+  token: process.env.GITHUB_TOKEN!,
+  defaultRepo: 'AgentsKit-io/agentskit',
+})
+```
+
+See `@agentskit/tools/integrations` exports for the full list of sub-tools and config types.
+
+## Related
+
+- [Integrations overview](./)

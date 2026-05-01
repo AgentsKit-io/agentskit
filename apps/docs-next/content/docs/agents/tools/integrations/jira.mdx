@@ -1,0 +1,20 @@
+---
+title: jira
+description: Jira issues — search via JQL, create. Basic auth (email + API token).
+---
+
+```ts
+import { jira } from '@agentskit/tools/integrations'
+
+const tools = jira({
+  baseUrl: 'https://my-org.atlassian.net',
+  email: process.env.JIRA_EMAIL!,
+  apiToken: process.env.JIRA_API_TOKEN!,
+})
+```
+
+See `@agentskit/tools/integrations` exports for the full list of sub-tools and config types.
+
+## Related
+
+- [Integrations overview](./)

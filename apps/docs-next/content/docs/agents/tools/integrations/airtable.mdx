@@ -1,0 +1,19 @@
+---
+title: airtable
+description: Airtable — list and create records in any table by base id.
+---
+
+```ts
+import { airtable } from '@agentskit/tools/integrations'
+
+const tools = airtable({
+  apiKey: process.env.AIRTABLE_TOKEN!,
+  baseId: 'app1234567890ABCD',
+})
+```
+
+See `@agentskit/tools/integrations` exports for the full list of sub-tools and config types.
+
+## Related
+
+- [Integrations overview](./)

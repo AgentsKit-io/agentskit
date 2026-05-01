@@ -1,0 +1,19 @@
+---
+title: shopify
+description: Shopify Admin — search products and list orders. Custom app access token.
+---
+
+```ts
+import { shopify } from '@agentskit/tools/integrations'
+
+const tools = shopify({
+  shop: 'my-store.myshopify.com',
+  accessToken: process.env.SHOPIFY_ACCESS_TOKEN!,
+})
+```
+
+See `@agentskit/tools/integrations` exports for the full list of sub-tools and config types.
+
+## Related
+
+- [Integrations overview](./)

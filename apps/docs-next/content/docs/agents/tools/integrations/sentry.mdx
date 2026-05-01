@@ -1,0 +1,19 @@
+---
+title: sentry
+description: Sentry — search org / project issues and resolve them. Bearer auth-token.
+---
+
+```ts
+import { sentry } from '@agentskit/tools/integrations'
+
+const tools = sentry({
+  authToken: process.env.SENTRY_AUTH_TOKEN!,
+  organization: 'my-org',
+})
+```
+
+See `@agentskit/tools/integrations` exports for the full list of sub-tools and config types.
+
+## Related
+
+- [Integrations overview](./)

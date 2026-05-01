@@ -1,0 +1,20 @@
+---
+title: confluence
+description: Confluence pages — CQL search + create. Basic auth (email + API token).
+---
+
+```ts
+import { confluence } from '@agentskit/tools/integrations'
+
+const tools = confluence({
+  baseUrl: 'https://my-org.atlassian.net',
+  email: process.env.CONFLUENCE_EMAIL!,
+  apiToken: process.env.CONFLUENCE_API_TOKEN!,
+})
+```
+
+See `@agentskit/tools/integrations` exports for the full list of sub-tools and config types.
+
+## Related
+
+- [Integrations overview](./)

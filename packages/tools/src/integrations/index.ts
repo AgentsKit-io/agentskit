@@ -32,6 +32,33 @@ export type { PostgresConfig, PostgresExecuteResult } from './postgres'
 export { postgresWithRoles } from './postgres-roles'
 export type { PostgresRolesConfig } from './postgres-roles'
 
+export { jira, jiraSearchIssues, jiraCreateIssue } from './jira'
+export type { JiraConfig } from './jira'
+
+export { confluence, confluenceSearch, confluenceCreatePage } from './confluence'
+export type { ConfluenceConfig } from './confluence'
+
+export { githubActions, githubActionsListRuns, githubActionsDispatch } from './github-actions'
+export type { GitHubActionsConfig } from './github-actions'
+
+export { sentry, sentrySearchIssues, sentryResolveIssue } from './sentry'
+export type { SentryConfig } from './sentry'
+
+export { figma, figmaGetFile, figmaExportImages } from './figma'
+export type { FigmaConfig } from './figma'
+
+export { linearTriage, linearTriageList, linearTriageAssign } from './linear-triage'
+export type { LinearTriageConfig } from './linear-triage'
+
+export { hubspot, hubspotSearchContacts, hubspotCreateDeal } from './hubspot'
+export type { HubspotConfig } from './hubspot'
+
+export { airtable, airtableListRecords, airtableCreateRecord } from './airtable'
+export type { AirtableConfig } from './airtable'
+
+export { shopify, shopifySearchProducts, shopifyListOrders } from './shopify'
+export type { ShopifyConfig } from './shopify'
+
 export { twilio, twilioSendSms } from './twilio'
 export type { TwilioConfig } from './twilio'
 
