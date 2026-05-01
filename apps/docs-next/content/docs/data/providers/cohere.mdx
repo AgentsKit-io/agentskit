@@ -17,9 +17,13 @@ const adapter = cohere({
 | Option | Type | Default |
 |---|---|---|
 | `apiKey` | `string` | required |
-| `model` | `string` | required |
-| `baseUrl` | `string` | `https://api.cohere.com/v2` |
-| `fetch` | `typeof fetch` | global |
+| `model` | `string` | `command-r-plus` |
+| `baseUrl` | `string` | `https://api.cohere.com/compatibility/v1` |
+| `retry` | `RetryOptions` | inherited from `@agentskit/adapters` |
+
+## Capabilities
+
+`{ streaming: true, tools: true, usage: true }` — surfaced via the OpenAI-compatibility endpoint, so the request shape (tools, `stream: true`, `stream_options.include_usage`) matches the OpenAI adapter.
 
 ## Model examples
 
