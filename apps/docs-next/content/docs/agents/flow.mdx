@@ -1,0 +1,93 @@
+---
+title: Visual flows
+description: Author DAGs as YAML, compile to a durable runner. `agentskit flow` is the visual editor + CLI.
+---
+
+A `FlowDefinition` is a directed acyclic graph of named nodes; each node
+calls a handler from your registry and declares which other nodes it
+depends on. The visual editor (and the CLI subcommands below) read and
+write the same YAML schema, so the diagram and the file are never out of
+sync.
+
+```yaml
+name: refresh-cache
+version: 1
+nodes:
+  - id: fetch
+    run: http.get
+    with:
+      url: https://api.example.com/items
+  - id: parse
+    run: json.parse
+    needs: [fetch]
+  - id: write
+    run: cache.write
+    needs: [parse]
+```
+
+## Compile in code
+
+```ts
+import { compileFlow } from '@agentskit/runtime'
+
+const compiled = compileFlow({
+  definition,
+  registry: {
+    'http.get': async ({ with: w }) => fetch(w.url as string).then(r => r.text()),
+    'json.parse': ({ deps }) => JSON.parse(deps.fetch as string),
+    'cache.write': ({ deps }) => cache.set('items', deps.parse),
+  },
+})
+
+const outputs = await compiled.run()
+```
+
+Each handler receives `{ node, input, deps, with }`. `deps` is an object
+keyed by upstream node id — a clean replacement for ad-hoc context
+passing. Outputs collect into a single map keyed by node id.
+
+## Durable by construction
+
+`compileFlow` runs every node through `createDurableRunner` under the
+step id `node:<id>`. Pass `{ runId, store }` to `run()` and a crashed
+flow resumes from the last successful node:
+
+```ts
+import { createFileStepLog } from '@agentskit/runtime'
+
+const store = await createFileStepLog('.agentskit/flow.jsonl')
+await compiled.run(input, { runId: 'nightly-2026-05-01', store })
+```
+
+## CLI
+
+```bash
+agentskit flow validate refresh.yaml --registry ./registry.mjs
+agentskit flow render   refresh.yaml > diagram.mmd
+agentskit flow run      refresh.yaml --registry ./registry.mjs \
+  --store .agentskit/flow.jsonl --run-id nightly-2026-05-01
+```
+
+`validate` reports duplicate ids, missing handlers, unknown deps, and
+cycles. `render` emits a Mermaid `flowchart TD` — the same string the
+visual editor uses for its preview pane.
+
+## Schema
+
+| Field | Required | Notes |
+|-------|----------|-------|
+| `name` | yes | Used in events and durable run ids. |
+| `version` | no | Free-form; surface in your own observability. |
+| `nodes[].id` | yes | Unique within the flow. Stable across renames. |
+| `nodes[].name` | no | Display label. Defaults to `id`. |
+| `nodes[].run` | yes | Handler key. Must exist in the registry. |
+| `nodes[].with` | no | Static inputs (`ctx.with`). |
+| `nodes[].needs` | no | Upstream node ids. Output flows in via `ctx.deps`. |
+
+The schema is intentionally narrow. No conditionals, loops, or
+expressions in YAML — branching belongs in a handler.
+
+## Related
+
+- [Durable execution](./durable) — primitive that backs every flow node.
+- [Topologies](./topologies) — multi-agent shapes for tasks that don't fit a DAG.
