@@ -1,0 +1,16 @@
+# Local dev URLs — never resolvable from CI
+^http://localhost
+^http://127\.0\.0\.1
+^http://0\.0\.0\.0
+
+# Internal-only / placeholder hosts referenced in examples
+^https?://internal\.
+^https?://example\.com
+^https?://example\.invalid
+^https?://api\.example\.com
+
+# Typedoc-generated API pages — present at build time, not in repo
+^/docs/api/
+
+# Anchored fragments that mdx-lint can't resolve cleanly (per-page, fine in browser)
+#strikes-known
