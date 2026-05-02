@@ -1,0 +1,60 @@
+---
+title: 'Recipe: Jira triage agent'
+description: An agent that watches a Jira project, classifies new tickets, and assigns them — using the jira integration.
+---
+
+A common operations chore: triage incoming bugs into severity +
+component buckets and tag the right team. Easy to half-automate with
+a runtime + the Jira integration.
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { anthropic } from '@agentskit/adapters'
+import { jira } from '@agentskit/tools/integrations'
+import { sqliteChatMemory } from '@agentskit/memory'
+
+const tools = jira({
+  baseUrl: 'https://my-org.atlassian.net',
+  email: process.env.JIRA_EMAIL!,
+  apiToken: process.env.JIRA_API_TOKEN!,
+})
+
+const runtime = createRuntime({
+  adapter: anthropic({ apiKey: KEY, model: 'claude-sonnet-4-6' }),
+  tools,
+  memory: sqliteChatMemory({ path: './sessions/triage.db' }),
+  systemPrompt: `You triage Jira tickets. For each new bug:
+1. Read the description.
+2. Pick severity: blocker / critical / major / minor / trivial.
+3. Pick component label from: api, web, mobile, infra, docs.
+4. Add a 1-line summary as a comment.
+Refuse to triage if information is insufficient — ask for repro steps.`,
+})
+
+await runtime.run(
+  'List all bugs in MYPROJ created in the last 24h with no priority. Triage each.',
+)
+```
+
+## Run on a cron
+
+Pair with the runtime's background helpers to fire daily:
+
+```ts
+import { createCronScheduler } from '@agentskit/runtime'
+
+const scheduler = createCronScheduler([{
+  schedule: '0 9 * * *',  // 9am every day
+  agent: { name: 'jira-triage', run: () => runtime.run('Triage new bugs.') },
+}])
+
+scheduler.start()
+```
+
+See [Background agents](./background-agents) for the full surface.
+
+## Related integrations
+
+- [`linear-triage`](/docs/agents/tools/integrations/linear-triage) — same shape for Linear.
+- [`pagerduty`](/docs/agents/tools/integrations/pagerduty) — escalate critical tickets.
+- [`slack`](/docs/agents/tools/integrations/slack) — post the triage summary back to the team.

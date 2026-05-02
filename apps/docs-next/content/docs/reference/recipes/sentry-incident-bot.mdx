@@ -1,0 +1,53 @@
+---
+title: 'Recipe: Sentry incident bot'
+description: Watch a Sentry project for new errors; cluster, summarise, and assign owners.
+---
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+import { sentry } from '@agentskit/tools/integrations'
+import { slack } from '@agentskit/tools/integrations'
+
+const tools = [
+  ...sentry({
+    authToken: process.env.SENTRY_AUTH_TOKEN!,
+    organization: 'my-org',
+  }),
+  ...slack({ token: process.env.SLACK_TOKEN! }),
+]
+
+const runtime = createRuntime({
+  adapter: openai({ apiKey: KEY, model: 'gpt-4o' }),
+  tools,
+  systemPrompt: `You are an SRE assistant. For new Sentry issues in the last hour:
+- Cluster by stack-trace top frame.
+- For each cluster: summarise in 2 lines, list affected releases.
+- Post the digest to #incidents on Slack.
+- If any cluster has > 50 events in the hour, mark it BLOCKER and resolve / acknowledge in Sentry per the runbook.`,
+})
+
+await runtime.run('Run the hourly incident sweep.')
+```
+
+## Pair with HITL for risky resolves
+
+You probably don't want the agent auto-resolving anything without
+review. Wrap the resolve sub-tool with the
+[approval gate](./hitl-approvals) so a human sees each action first:
+
+```ts
+import { sentryResolveIssue } from '@agentskit/tools/integrations'
+import { gateTool } from '@agentskit/core/hitl'
+
+const guarded = gateTool(sentryResolveIssue({...}), {
+  store: approvals,
+  question: tc => `Resolve Sentry issue ${tc.args.issueId}? Reason: ${tc.args.reason}`,
+})
+```
+
+## Related
+
+- [Recipe: cost-guarded chat](./cost-guarded-chat) — cap LLM spend on noisy alert hours.
+- [Recipe: trace viewer](./trace-viewer) — debug why the bot picked a particular cluster.
+- [`sentry` integration page](/docs/agents/tools/integrations/sentry).

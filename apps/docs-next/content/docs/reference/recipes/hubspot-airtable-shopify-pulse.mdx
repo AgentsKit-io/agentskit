@@ -1,0 +1,71 @@
+---
+title: 'Recipe: HubSpot / Airtable / Shopify daily pulse'
+description: A single agent that pulls today's signals from your CRM, ops board, and storefront — then drafts a Slack digest.
+---
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { openai } from '@agentskit/adapters'
+import {
+  hubspot,
+  airtable,
+  shopify,
+  slack,
+} from '@agentskit/tools/integrations'
+
+const tools = [
+  ...hubspot({ accessToken: process.env.HUBSPOT_TOKEN! }),
+  ...airtable({ apiKey: process.env.AIRTABLE_API_KEY!, baseId: 'app123' }),
+  ...shopify({ shop: 'my-store.myshopify.com', accessToken: process.env.SHOPIFY_TOKEN! }),
+  ...slack({ token: process.env.SLACK_TOKEN! }),
+]
+
+const runtime = createRuntime({
+  adapter: openai({ apiKey: KEY, model: 'gpt-4o-mini' }),
+  tools,
+  systemPrompt: `You produce a daily 9am digest for the founder. Pull, in this order:
+1. New deals from HubSpot in stage "qualified" or later (last 24h).
+2. Airtable rows added to the "Operations" base today.
+3. Shopify orders > $500 in the last 24h.
+Combine into a 5-bullet Slack message in #founders. Keep it under 600 chars.`,
+})
+
+await runtime.run('Run the daily pulse.')
+```
+
+## Schedule it
+
+```ts
+import { createCronScheduler } from '@agentskit/runtime'
+
+createCronScheduler([{
+  schedule: '0 9 * * 1-5',  // weekdays 9am
+  agent: { name: 'pulse', run: () => runtime.run('Run the daily pulse.') },
+}]).start()
+```
+
+## Cost guardrails
+
+Daily runs add up. The runtime supports a per-run cost ceiling:
+
+```ts
+import { costGuard } from '@agentskit/observability'
+
+createRuntime({
+  adapter,
+  tools,
+  observers: [costGuard({ maxUsd: 0.20 })],
+})
+```
+
+Anything over $0.20 aborts mid-run. Pick a number generous enough
+for a typical day; the agent will scream early when things go
+sideways.
+
+## Related
+
+- [`hubspot`](/docs/agents/tools/integrations/hubspot)
+- [`airtable`](/docs/agents/tools/integrations/airtable)
+- [`shopify`](/docs/agents/tools/integrations/shopify)
+- [Background agents](./background-agents)
+- [Cost guard](./cost-guard)

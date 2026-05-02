@@ -1,0 +1,54 @@
+---
+title: 'Recipe: Figma design extraction'
+description: Pull frames from a Figma file, render them as PNGs, and feed them to a vision-capable model for design QA.
+---
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { anthropic } from '@agentskit/adapters'
+import { figma } from '@agentskit/tools/integrations'
+import { imagePart, textPart } from '@agentskit/core'
+
+const tools = figma({
+  apiToken: process.env.FIGMA_API_TOKEN!,
+})
+
+const runtime = createRuntime({
+  adapter: anthropic({ apiKey: KEY, model: 'claude-sonnet-4-6' }),
+  tools,
+  systemPrompt: `You QA Figma frames against our design system. For each frame:
+- Verify spacing (grid 8px).
+- Verify typography roles match Tailwind tokens.
+- Flag any free-form colors not in our palette.`,
+})
+
+const result = await runtime.run({
+  role: 'user',
+  content: [
+    textPart('QA the latest frames in file abc123, frames "checkout-v2-*"'),
+  ],
+})
+```
+
+The runtime handles the Figma → PNG export step automatically (one
+of the integration's sub-tools). Vision-enabled adapters (`anthropic`,
+`openai`, `gemini`) consume the resulting `imagePart`s.
+
+## Output a checklist
+
+System prompt to coerce structured output:
+
+```
+End your reply with a single fenced JSON block:
+\`\`\`json
+{ "frames": [{ "id": "...", "issues": [{ "rule": "...", "severity": "low|med|high" }] }] }
+\`\`\`
+```
+
+Pair with `safeParseArgs` from `@agentskit/core` to parse + validate.
+
+## Related
+
+- [Recipe: multi-modal](./multi-modal) — image input semantics across providers.
+- [`figma` integration page](/docs/agents/tools/integrations/figma).
+- [Recipe: schema-first agent](./schema-first-agent) — formalise the output contract.
