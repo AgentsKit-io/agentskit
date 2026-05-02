@@ -20,6 +20,22 @@ Type-only exports are skipped (the for-agents pages document the
 runtime surface, not every supporting type). Per-package exclusions
 live in the `IGNORE_EXPORTS` table at the top of the script.
 
+## `check-src-test-parity.mjs`
+
+Asserts that every `packages/<pkg>/src/<file>.{ts,tsx}` has at least
+one corresponding test reference: a `tests/<basename>.test.{ts,tsx}`,
+or any `.test` file in the package whose body imports the source path
+or mentions its kebab/camel/Pascal-cased basename. Catches new files
+landing without test exposure.
+
+```bash
+node scripts/check-src-test-parity.mjs
+```
+
+`ALLOW_FILES` / `ALLOW_PREFIXES` at the top of the script track
+re-export-only files (`index.ts`, `types.ts`), aggregate-tested
+modules, and queued conversions tracked in epic #562.
+
 ## `check-no-bare-throw.mjs`
 
 Asserts that no `throw new Error(...)` appears in package source code

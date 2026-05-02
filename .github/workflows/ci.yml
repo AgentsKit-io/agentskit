@@ -65,4 +65,7 @@ jobs:
       - name: Verify for-agents docs cover every public export
         run: node scripts/check-for-agents-coverage.mjs
 
+      - name: Verify src files have a tests reference
+        run: node scripts/check-src-test-parity.mjs
+
       - run: pnpm test
