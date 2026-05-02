@@ -1,8 +1,12 @@
+import { ConfigError, ErrorCodes } from '@agentskit/core'
 import type { SkillDefinition } from '@agentskit/core'
 
 export function composeSkills(...skills: SkillDefinition[]): SkillDefinition {
   if (skills.length === 0) {
-    throw new Error('composeSkills requires at least one skill')
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'composeSkills requires at least one skill',
+    })
   }
 
   if (skills.length === 1) {

@@ -1,3 +1,4 @@
+import { ErrorCodes, SkillError } from '@agentskit/core'
 import type { SkillDefinition } from '@agentskit/core'
 
 /**
@@ -40,7 +41,13 @@ const SEMVER = /^(\d+)\.(\d+)\.(\d+)(?:-[\w.-]+)?$/
 
 export function parseSemver(version: string): [number, number, number] {
   const match = version.match(SEMVER)
-  if (!match) throw new Error(`invalid semver: "${version}"`)
+  if (!match) {
+    throw new SkillError({
+      code: ErrorCodes.AK_SKILL_INVALID,
+      message: `invalid semver: "${version}"`,
+      hint: 'Use the X.Y.Z form, optionally suffixed with -<prerelease>.',
+    })
+  }
   return [Number(match[1]), Number(match[2]), Number(match[3])]
 }
 
@@ -94,7 +101,11 @@ export function createSkillRegistry(initial: SkillPackage[] = []): SkillRegistry
     const entry = { ...pkg, publishedAt: pkg.publishedAt ?? new Date().toISOString() }
     const bucket = packages.get(pkg.skill.name) ?? []
     if (bucket.some(p => p.version === pkg.version)) {
-      throw new Error(`already published: ${pkg.skill.name}@${pkg.version}`)
+      throw new SkillError({
+        code: ErrorCodes.AK_SKILL_DUPLICATE,
+        message: `already published: ${pkg.skill.name}@${pkg.version}`,
+        hint: 'Bump the version or unpublish the existing entry first.',
+      })
     }
     bucket.push(entry)
     bucket.sort((a, b) => compareSemver(b.version, a.version))

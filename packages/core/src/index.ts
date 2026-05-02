@@ -5,6 +5,9 @@ export {
   ToolError,
   MemoryError,
   ConfigError,
+  RuntimeError,
+  SandboxError,
+  SkillError,
   ErrorCodes,
 } from './errors'
 export { createInMemoryMemory, createLocalStorageMemory, serializeMessages, deserializeMessages } from './memory'

@@ -108,6 +108,45 @@ export class ConfigError extends AgentsKitError {
   }
 }
 
+export class RuntimeError extends AgentsKitError {
+  constructor(options: {
+    code: string
+    message: string
+    hint?: string
+    docsUrl?: string
+    cause?: unknown
+  }) {
+    super({ docsUrl: `${DOCS_BASE}/agents/runtime`, ...options })
+    this.name = 'RuntimeError'
+  }
+}
+
+export class SandboxError extends AgentsKitError {
+  constructor(options: {
+    code: string
+    message: string
+    hint?: string
+    docsUrl?: string
+    cause?: unknown
+  }) {
+    super({ docsUrl: `${DOCS_BASE}/production/security/mandatory-sandbox`, ...options })
+    this.name = 'SandboxError'
+  }
+}
+
+export class SkillError extends AgentsKitError {
+  constructor(options: {
+    code: string
+    message: string
+    hint?: string
+    docsUrl?: string
+    cause?: unknown
+  }) {
+    super({ docsUrl: `${DOCS_BASE}/agents/skills`, ...options })
+    this.name = 'SkillError'
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Error code constants
 // ---------------------------------------------------------------------------
@@ -132,4 +171,19 @@ export const ErrorCodes = {
 
   // Config errors
   AK_CONFIG_INVALID: 'AK_CONFIG_INVALID',
+
+  // Runtime errors
+  AK_RUNTIME_INVALID_INPUT: 'AK_RUNTIME_INVALID_INPUT',
+  AK_RUNTIME_STEP_FAILED: 'AK_RUNTIME_STEP_FAILED',
+  AK_RUNTIME_DELEGATE_FAILED: 'AK_RUNTIME_DELEGATE_FAILED',
+
+  // Sandbox errors
+  AK_SANDBOX_DENIED: 'AK_SANDBOX_DENIED',
+  AK_SANDBOX_INVALID_TOOL: 'AK_SANDBOX_INVALID_TOOL',
+  AK_SANDBOX_PEER_MISSING: 'AK_SANDBOX_PEER_MISSING',
+  AK_SANDBOX_BACKEND_FAILED: 'AK_SANDBOX_BACKEND_FAILED',
+
+  // Skill errors
+  AK_SKILL_INVALID: 'AK_SKILL_INVALID',
+  AK_SKILL_DUPLICATE: 'AK_SKILL_DUPLICATE',
 } as const

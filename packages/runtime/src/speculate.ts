@@ -1,3 +1,4 @@
+import { ConfigError, ErrorCodes, RuntimeError } from '@agentskit/core'
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
 
 export interface SpeculativeCandidate {
@@ -84,7 +85,11 @@ async function drain({ source, timeoutMs, abortSignal }: DrainInput): Promise<{ 
  */
 export async function speculate(input: SpeculateInput): Promise<SpeculateOutput> {
   if (input.candidates.length === 0) {
-    throw new Error('speculate requires at least one candidate')
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'speculate requires at least one candidate',
+      hint: 'Pass at least one candidate, e.g. speculate({ candidates: [{ id, adapter }] }).',
+    })
   }
 
   const pickMode = input.pick ?? 'first'
@@ -150,6 +155,12 @@ export async function speculate(input: SpeculateInput): Promise<SpeculateOutput>
     winnerId = await pickMode(all)
   }
   const winner = all.find(r => r.id === winnerId)
-  if (!winner) throw new Error(`picker returned unknown id: ${winnerId}`)
+  if (!winner) {
+    throw new RuntimeError({
+      code: ErrorCodes.AK_RUNTIME_INVALID_INPUT,
+      message: `picker returned unknown id: ${winnerId}`,
+      hint: 'Custom pickers must return one of the candidate ids.',
+    })
+  }
   return { winner, losers: all.filter(r => r.id !== winnerId), all }
 }

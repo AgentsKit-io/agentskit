@@ -1,3 +1,4 @@
+import { ErrorCodes, SandboxError } from '@agentskit/core'
 import type { ToolDefinition } from '@agentskit/core'
 
 export interface SandboxPolicy {
@@ -76,7 +77,11 @@ export function createMandatorySandbox(options: {
         return {
           ...tool,
           execute: async () => {
-            throw new Error(`Tool "${tool.name}" is ${decision.reason} by sandbox policy`)
+            throw new SandboxError({
+              code: ErrorCodes.AK_SANDBOX_DENIED,
+              message: `Tool "${tool.name}" is ${decision.reason} by sandbox policy`,
+              hint: 'Adjust SandboxPolicy allow / deny lists to permit this tool.',
+            })
           },
         }
       }
@@ -106,7 +111,11 @@ export function createMandatorySandbox(options: {
             }
           }
           if (!baseExecute) {
-            throw new Error(`Tool "${tool.name}" has no execute function`)
+            throw new SandboxError({
+              code: ErrorCodes.AK_SANDBOX_INVALID_TOOL,
+              message: `Tool "${tool.name}" has no execute function`,
+              hint: 'Tool definitions wired through the sandbox must export an execute function.',
+            })
           }
           return baseExecute(args, context)
         },

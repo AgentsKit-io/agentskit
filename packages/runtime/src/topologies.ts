@@ -1,3 +1,5 @@
+import { ConfigError, ErrorCodes, RuntimeError } from '@agentskit/core'
+
 /**
  * Ready-made multi-agent topologies. Each builder takes a set of
  * `AgentHandle`s + config and returns a single `AgentHandle` that
@@ -42,7 +44,12 @@ export interface SupervisorConfig<TContext = unknown> {
 export function supervisor<TContext = unknown>(
   config: SupervisorConfig<TContext>,
 ): AgentHandle<TContext> {
-  if (config.workers.length === 0) throw new Error('supervisor requires ≥ 1 worker')
+  if (config.workers.length === 0) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'supervisor requires ≥ 1 worker',
+    })
+  }
   const maxRounds = Math.max(1, config.maxRounds ?? 1)
   let rr = 0
   const route =
@@ -106,7 +113,12 @@ function withTimeout<T>(p: Promise<T>, timeoutMs: number | undefined, label: str
 }
 
 export function swarm<TContext = unknown>(config: SwarmConfig<TContext>): AgentHandle<TContext> {
-  if (config.members.length === 0) throw new Error('swarm requires ≥ 1 member')
+  if (config.members.length === 0) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'swarm requires ≥ 1 member',
+    })
+  }
   const merge =
     config.merge ??
     ((results: Array<{ agent: string; output: string }>): string =>
@@ -125,7 +137,13 @@ export function swarm<TContext = unknown>(config: SwarmConfig<TContext>): AgentH
         }),
       )
       const results = settled.flatMap(s => (s.status === 'fulfilled' ? [s.value] : []))
-      if (results.length === 0) throw new Error('every swarm member failed')
+      if (results.length === 0) {
+        throw new RuntimeError({
+          code: ErrorCodes.AK_RUNTIME_DELEGATE_FAILED,
+          message: 'every swarm member failed',
+          hint: 'Add a TopologyObserver via config.onEvent to capture per-member errors.',
+        })
+      }
       const merged = await merge(results)
       config.onEvent?.({ topology: 'swarm', phase: 'done', result: merged })
       return merged
@@ -201,7 +219,12 @@ export interface BlackboardConfig<TContext = unknown> {
 export function blackboard<TContext = unknown>(
   config: BlackboardConfig<TContext>,
 ): AgentHandle<TContext> {
-  if (config.agents.length === 0) throw new Error('blackboard requires ≥ 1 agent')
+  if (config.agents.length === 0) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'blackboard requires ≥ 1 agent',
+    })
+  }
   const maxIterations = Math.max(1, config.maxIterations ?? 5)
 
   return {
