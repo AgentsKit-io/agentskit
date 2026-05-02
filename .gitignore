@@ -14,3 +14,13 @@ test-results/
 # Local launch + setup tooling (not for public repo)
 /tools/
 /docs/launch/
+
+# Local agent runtime artefacts (Claude Code, scheduled tasks, worktrees)
+.claude/
+
+# Local screenshots / scratch images at repo root
+/blog*.png
+/home*.png
+/learn.png
+/showcase-detail.png
+/stack.png
