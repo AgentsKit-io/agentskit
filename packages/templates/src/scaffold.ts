@@ -17,6 +17,9 @@ import {
   generateFlowTest,
   generateFlowYaml,
   generateFlowReadme,
+  generateEmbedderSource,
+  generateEmbedderTest,
+  generateBrowserAdapterSource,
   generateReadme,
 } from './blueprints'
 
@@ -27,6 +30,8 @@ export type ScaffoldType =
   | 'memory-vector'
   | 'memory-chat'
   | 'flow'
+  | 'embedder'
+  | 'browser-adapter'
 
 export interface ScaffoldConfig {
   type: ScaffoldType
@@ -54,6 +59,8 @@ const sourceGenerators: Record<ScaffoldType, (name: string) => string> = {
   'memory-vector': generateVectorMemorySource,
   'memory-chat': generateChatMemorySource,
   flow: generateFlowSource,
+  embedder: generateEmbedderSource,
+  'browser-adapter': generateBrowserAdapterSource,
 }
 
 const testGenerators: Record<ScaffoldType, (name: string) => string> = {
@@ -63,6 +70,8 @@ const testGenerators: Record<ScaffoldType, (name: string) => string> = {
   'memory-vector': generateVectorMemoryTest,
   'memory-chat': placeholderTest,
   flow: generateFlowTest,
+  embedder: generateEmbedderTest,
+  'browser-adapter': placeholderTest,
 }
 
 export async function scaffold(config: ScaffoldConfig): Promise<string[]> {

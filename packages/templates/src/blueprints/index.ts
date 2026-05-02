@@ -14,5 +14,10 @@ export {
   generateFlowYaml,
   generateFlowReadme,
 } from './flow'
+export {
+  generateEmbedderSource,
+  generateEmbedderTest,
+  generateBrowserAdapterSource,
+} from './embedder'
 export { generateReadme } from './readme'
 export { camelCase, pascalCase, packageName } from './utils'

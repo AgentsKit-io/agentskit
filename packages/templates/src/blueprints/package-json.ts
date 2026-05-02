@@ -1,7 +1,25 @@
-import type { ScaffoldConfig } from '../scaffold'
+import type { ScaffoldConfig, ScaffoldType } from '../scaffold'
 import { packageName } from './utils'
 
+/**
+ * Per-scaffold-type runtime dependency set. Every package depends on
+ * `@agentskit/core`; tool/skill scaffolds need only that.
+ * Adapter / embedder / browser-adapter pull in the adapters package.
+ * Memory / flow / runtime-adjacent scaffolds pull the runtime.
+ */
+const EXTRA_DEPS: Partial<Record<ScaffoldType, Record<string, string>>> = {
+  adapter: { '@agentskit/adapters': '*' },
+  embedder: { '@agentskit/adapters': '*' },
+  'browser-adapter': { '@agentskit/adapters': '*' },
+  'memory-vector': { '@agentskit/memory': '*' },
+  'memory-chat': { '@agentskit/memory': '*' },
+  flow: { '@agentskit/runtime': '*' },
+}
+
 export function generatePackageJson(config: ScaffoldConfig): string {
+  const baseDeps: Record<string, string> = { '@agentskit/core': '*' }
+  const extra = EXTRA_DEPS[config.type] ?? {}
+
   return JSON.stringify({
     name: packageName(config.name),
     version: '0.1.0',
@@ -25,7 +43,8 @@ export function generatePackageJson(config: ScaffoldConfig): string {
       lint: 'tsc --noEmit',
     },
     dependencies: {
-      '@agentskit/core': '*',
+      ...baseDeps,
+      ...extra,
     },
     devDependencies: {
       tsup: '^8.5.0',
