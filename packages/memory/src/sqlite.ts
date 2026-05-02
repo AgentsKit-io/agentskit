@@ -1,5 +1,10 @@
 import type { ChatMemory, Message, MemoryRecord } from '@agentskit/core'
-import { serializeMessages, deserializeMessages } from '@agentskit/core'
+import {
+  ErrorCodes,
+  MemoryError,
+  deserializeMessages,
+  serializeMessages,
+} from '@agentskit/core'
 
 export interface SqliteChatMemoryConfig {
   path: string
@@ -32,7 +37,11 @@ async function openDatabase(path: string): Promise<SqliteDb> {
     const Database = mod.default ?? mod
     return new (Database as new (p: string) => SqliteDb)(path)
   } catch {
-    throw new Error('Install better-sqlite3 to use sqliteChatMemory: npm install better-sqlite3')
+    throw new MemoryError({
+      code: ErrorCodes.AK_MEMORY_PEER_MISSING,
+      message: 'Install better-sqlite3 to use sqliteChatMemory: npm install better-sqlite3',
+      hint: 'sqliteChatMemory uses the optional peer "better-sqlite3".',
+    })
   }
 }
 

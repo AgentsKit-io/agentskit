@@ -1,3 +1,4 @@
+import { ErrorCodes, MemoryError } from '@agentskit/core'
 import type { RetrievedDocument, VectorDocument, VectorMemory } from '@agentskit/core'
 
 export interface ChromaConfig {
@@ -21,7 +22,13 @@ async function call<T>(
     body: body === undefined ? undefined : JSON.stringify(body),
   })
   const text = await response.text()
-  if (!response.ok) throw new Error(`chroma ${response.status}: ${text.slice(0, 200)}`)
+  if (!response.ok) {
+    throw new MemoryError({
+      code: ErrorCodes.AK_MEMORY_REMOTE_HTTP,
+      message: `chroma ${response.status}: ${text.slice(0, 200)}`,
+      hint: `URL ${config.url}${path}. Check Chroma server health + collection name.`,
+    })
+  }
   return (text.length > 0 ? JSON.parse(text) : {}) as T
 }
 

@@ -1,3 +1,4 @@
+import { AdapterError, ConfigError, ErrorCodes } from '@agentskit/core'
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
 
 export interface BedrockConfig {
@@ -48,9 +49,12 @@ async function loadSdk(): Promise<SdkModule> {
         const moduleId = '@aws-sdk/client-bedrock-runtime'
         return (await import(/* @vite-ignore */ moduleId)) as unknown as SdkModule
       } catch {
-        throw new Error(
-          'Install @aws-sdk/client-bedrock-runtime to use the bedrock adapter: npm install @aws-sdk/client-bedrock-runtime',
-        )
+        throw new AdapterError({
+          code: ErrorCodes.AK_ADAPTER_MISSING,
+          message:
+            'Install @aws-sdk/client-bedrock-runtime to use the bedrock adapter: npm install @aws-sdk/client-bedrock-runtime',
+          hint: 'bedrock depends on the optional peer @aws-sdk/client-bedrock-runtime.',
+        })
       }
     })()
   }
@@ -162,9 +166,11 @@ export function bedrock(config: BedrockConfig): AdapterFactory {
   const { model, region, maxTokens = 4096 } = config
 
   if (!isAnthropicModel(model)) {
-    throw new Error(
-      `bedrock: model "${model}" is not supported in v1. Only anthropic.* models are wired up; Titan + others are tracked as a follow-up.`,
-    )
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `bedrock: model "${model}" is not supported in v1. Only anthropic.* models are wired up; Titan + others are tracked as a follow-up.`,
+      hint: 'Pass an anthropic.* model id like "anthropic.claude-3-5-sonnet-20241022-v2:0".',
+    })
   }
 
   let clientPromise: Promise<BedrockRuntimeClientLike> | null = null

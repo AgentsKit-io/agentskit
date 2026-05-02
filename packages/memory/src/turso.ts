@@ -1,5 +1,10 @@
 import type { ChatMemory, Message, MemoryRecord } from '@agentskit/core'
-import { serializeMessages, deserializeMessages } from '@agentskit/core'
+import {
+  ErrorCodes,
+  MemoryError,
+  deserializeMessages,
+  serializeMessages,
+} from '@agentskit/core'
 
 export interface TursoChatMemoryConfig {
   /** libSQL URL — file:..., libsql://..., or http://... */
@@ -25,7 +30,11 @@ async function loadSdk(): Promise<LibsqlModule> {
         const moduleId = '@libsql/client'
         return (await import(/* @vite-ignore */ moduleId)) as unknown as LibsqlModule
       } catch {
-        throw new Error('Install @libsql/client to use tursoChatMemory: npm install @libsql/client')
+        throw new MemoryError({
+          code: ErrorCodes.AK_MEMORY_PEER_MISSING,
+          message: 'Install @libsql/client to use tursoChatMemory: npm install @libsql/client',
+          hint: 'tursoChatMemory uses the optional peer "@libsql/client".',
+        })
       }
     })()
   }

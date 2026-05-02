@@ -1,3 +1,4 @@
+import { AdapterError, ErrorCodes } from '@agentskit/core'
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
 
 /**
@@ -46,7 +47,11 @@ async function loadSdk(): Promise<WebLlmModule> {
         const moduleId = '@mlc-ai/web-llm'
         return (await import(/* @vite-ignore */ moduleId)) as unknown as WebLlmModule
       } catch {
-        throw new Error('Install @mlc-ai/web-llm to use the webllm adapter: npm install @mlc-ai/web-llm')
+        throw new AdapterError({
+          code: ErrorCodes.AK_ADAPTER_MISSING,
+          message: 'Install @mlc-ai/web-llm to use the webllm adapter: npm install @mlc-ai/web-llm',
+          hint: 'webllm is browser-only and depends on the optional peer @mlc-ai/web-llm.',
+        })
       }
     })()
   }

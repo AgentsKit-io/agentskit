@@ -1,3 +1,4 @@
+import { ErrorCodes, MemoryError } from '@agentskit/core'
 import type { VectorMemory } from '@agentskit/core'
 import { pgvector, type PgVectorRunner } from './pgvector'
 
@@ -43,9 +44,11 @@ async function loadSdk(): Promise<SupabaseModule> {
         const moduleId = '@supabase/supabase-js'
         return (await import(/* @vite-ignore */ moduleId)) as unknown as SupabaseModule
       } catch {
-        throw new Error(
-          'Install @supabase/supabase-js to use supabaseVectorStore: npm install @supabase/supabase-js',
-        )
+        throw new MemoryError({
+          code: ErrorCodes.AK_MEMORY_PEER_MISSING,
+          message: 'Install @supabase/supabase-js to use supabaseVectorStore: npm install @supabase/supabase-js',
+          hint: 'supabaseVectorStore uses the optional peer "@supabase/supabase-js".',
+        })
       }
     })()
   }
@@ -59,7 +62,13 @@ function buildRunner(client: SupabaseClientLike): PgVectorRunner {
   return {
     async query<T>(sql: string, params: unknown[]) {
       const result = await client.rpc<T[]>('agentskit_execute_sql', { sql, params })
-      if (result.error) throw new Error(`supabase: ${result.error.message}`)
+      if (result.error) {
+        throw new MemoryError({
+          code: ErrorCodes.AK_MEMORY_REMOTE_HTTP,
+          message: `supabase: ${result.error.message}`,
+          hint: 'Check the agentskit_execute_sql RPC + service role key permissions.',
+        })
+      }
       return { rows: (result.data ?? []) as T[] }
     },
   }

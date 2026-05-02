@@ -1,3 +1,4 @@
+import { AdapterError, ConfigError, ErrorCodes } from '@agentskit/core'
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
 
 export interface FallbackOptions {
@@ -30,7 +31,11 @@ export function createFallbackAdapter(
   options: FallbackOptions = {},
 ): AdapterFactory {
   if (candidates.length === 0) {
-    throw new Error('createFallbackAdapter requires at least one candidate')
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'createFallbackAdapter requires at least one candidate',
+      hint: 'Pass at least one candidate, e.g. createFallbackAdapter([{ id: "primary", adapter }]).',
+    })
   }
 
   return {
@@ -91,7 +96,11 @@ export function createFallbackAdapter(
             }
           }
           const summary = errors.map(e => `${e.id}: ${e.error.message}`).join('; ')
-          throw new Error(`all fallback candidates failed (${summary})`)
+          throw new AdapterError({
+            code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,
+            message: `all fallback candidates failed (${summary})`,
+            hint: 'Check each candidate adapter\'s configuration and provider keys.',
+          })
         },
       }
     },

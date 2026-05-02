@@ -1,3 +1,4 @@
+import { ConfigError, ErrorCodes, MemoryError } from '@agentskit/core'
 import type { ChatMemory, Message } from '@agentskit/core'
 
 /**
@@ -53,7 +54,11 @@ async function resolveKey(
   if ('type' in material && material.type === 'secret') return material
   const raw = material as Uint8Array
   if (raw.byteLength !== 32) {
-    throw new Error(`createEncryptedMemory: key must be 32 bytes (got ${raw.byteLength})`)
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `createEncryptedMemory: key must be 32 bytes (got ${raw.byteLength})`,
+      hint: 'Generate a 32-byte key, e.g. crypto.getRandomValues(new Uint8Array(32)).',
+    })
   }
   return subtle.importKey('raw', raw as BufferSource, { name: 'AES-GCM' }, false, ['encrypt', 'decrypt'])
 }
@@ -63,7 +68,13 @@ export async function createEncryptedMemory(
 ): Promise<ChatMemory> {
   const subtle = options.subtle ?? globalThis.crypto?.subtle
   const random = options.getRandomValues ?? (<T extends ArrayBufferView>(v: T) => globalThis.crypto.getRandomValues(v as ArrayBufferView as ArrayBufferView & { buffer: ArrayBuffer }) as T)
-  if (!subtle) throw new Error('createEncryptedMemory: SubtleCrypto not available')
+  if (!subtle) {
+    throw new MemoryError({
+      code: ErrorCodes.AK_MEMORY_LOAD_FAILED,
+      message: 'createEncryptedMemory: SubtleCrypto not available',
+      hint: 'Run on Node ≥ 20 / a modern browser, or pass options.subtle explicitly.',
+    })
+  }
 
   const key = await resolveKey(subtle, options.key)
   const aad = options.aad

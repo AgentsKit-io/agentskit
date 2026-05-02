@@ -1,3 +1,4 @@
+import { AdapterError, ConfigError, ErrorCodes } from '@agentskit/core'
 import type { AdapterCapabilities, AdapterFactory, AdapterRequest, StreamSource } from '@agentskit/core'
 
 export interface RouterCandidate {
@@ -79,7 +80,13 @@ function pickSyncPolicy(
  */
 export function createRouter(options: RouterOptions): AdapterFactory {
   const { candidates } = options
-  if (candidates.length === 0) throw new Error('createRouter requires at least one candidate')
+  if (candidates.length === 0) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'createRouter requires at least one candidate',
+      hint: 'Pass at least one candidate, e.g. createRouter({ candidates: [{ id, adapter, capabilities }] }).',
+    })
+  }
   const policy = options.policy ?? 'cheapest'
 
   return {
@@ -106,7 +113,13 @@ export function createRouter(options: RouterOptions): AdapterFactory {
         }
       }
 
-      if (pool.length === 0) throw new Error('no candidate satisfies the request')
+      if (pool.length === 0) {
+        throw new AdapterError({
+          code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,
+          message: 'no candidate satisfies the request',
+          hint: 'Ensure at least one candidate declares the required capabilities (tools, json, etc.).',
+        })
+      }
 
       if (typeof policy === 'function') {
         const maybe = policy({ request, candidates: pool })
@@ -117,14 +130,26 @@ export function createRouter(options: RouterOptions): AdapterFactory {
             stream: async function* () {
               const id = await maybe
               const c = pool.find(x => x.id === id)
-              if (!c) throw new Error(`policy returned unknown id: ${id}`)
+              if (!c) {
+                throw new ConfigError({
+                  code: ErrorCodes.AK_CONFIG_INVALID,
+                  message: `policy returned unknown id: ${id}`,
+                  hint: 'Custom policy functions must return one of the candidate ids.',
+                })
+              }
               options.onRoute?.({ id: c.id, reason: pickedBy ?? 'custom policy', request })
               for await (const chunk of c.adapter.createSource(request).stream()) yield chunk
             },
           }
         }
         const c = pool.find(x => x.id === maybe)
-        if (!c) throw new Error(`policy returned unknown id: ${maybe}`)
+        if (!c) {
+          throw new ConfigError({
+            code: ErrorCodes.AK_CONFIG_INVALID,
+            message: `policy returned unknown id: ${maybe}`,
+            hint: 'Custom policy functions must return one of the candidate ids.',
+          })
+        }
         options.onRoute?.({ id: c.id, reason: pickedBy ?? 'custom policy', request })
         return c.adapter.createSource(request)
       }

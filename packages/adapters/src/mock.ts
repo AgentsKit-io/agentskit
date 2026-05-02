@@ -1,3 +1,4 @@
+import { ConfigError, ErrorCodes } from '@agentskit/core'
 import type {
   AdapterFactory,
   AdapterRequest,
@@ -190,7 +191,11 @@ export function inMemorySink(): RecordingSink & { fixture: RecordingFixture } {
  */
 export function replayAdapter(fixture: RecordingFixture): AdapterFactory {
   if (fixture.length === 0) {
-    throw new Error('replayAdapter: fixture is empty')
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'replayAdapter: fixture is empty',
+      hint: 'Pass a non-empty fixture; record one with recordingAdapter() first.',
+    })
   }
   return mockAdapter({
     response: fixture.map(turn => turn.chunks),

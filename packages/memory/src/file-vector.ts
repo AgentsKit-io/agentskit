@@ -1,3 +1,4 @@
+import { ErrorCodes, MemoryError } from '@agentskit/core'
 import type { VectorMemory, VectorDocument, RetrievedDocument } from '@agentskit/core'
 import type { VectorStore } from './vector-store'
 import { matchesFilter } from './vector/filter'
@@ -12,9 +13,11 @@ function requireVectra(): { LocalIndex: new (path: string) => VectraIndex } {
     // eslint-disable-next-line @typescript-eslint/no-require-imports
     return require('vectra')
   } catch {
-    throw new Error(
-      'Install vectra to use fileVectorMemory: npm install vectra'
-    )
+    throw new MemoryError({
+      code: ErrorCodes.AK_MEMORY_PEER_MISSING,
+      message: 'Install vectra to use fileVectorMemory: npm install vectra',
+      hint: 'fileVectorMemory uses the optional peer "vectra" for the on-disk index.',
+    })
   }
 }
 

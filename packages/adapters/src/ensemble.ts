@@ -1,3 +1,4 @@
+import { AdapterError, ConfigError, ErrorCodes } from '@agentskit/core'
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
 
 export interface EnsembleCandidate {
@@ -86,7 +87,11 @@ function majorityVote(branches: EnsembleBranchResult[], candidates: EnsembleCand
  */
 export function createEnsembleAdapter(options: EnsembleOptions): AdapterFactory {
   if (options.candidates.length === 0) {
-    throw new Error('createEnsembleAdapter requires at least one candidate')
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'createEnsembleAdapter requires at least one candidate',
+      hint: 'Pass at least one candidate, e.g. createEnsembleAdapter({ candidates: [{ id, adapter }] }).',
+    })
   }
   const aggregate = options.aggregate ?? 'majority-vote'
 
@@ -135,7 +140,17 @@ export function createEnsembleAdapter(options: EnsembleOptions): AdapterFactory 
           if (aborted) return
           const text = await finalText(branches)
           if (!text && branches.every(b => b.error)) {
-            throw new Error('all ensemble branches failed')
+            const summary = branches
+              .map(b => `${b.id}: ${b.error?.message ?? 'unknown'}`)
+              .join('; ')
+            const err = new AdapterError({
+              code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,
+              message: `all ensemble branches failed (${summary})`,
+              hint: 'Inspect each branch error via options.onBranches or the err.branchErrors field.',
+            })
+            ;(err as AdapterError & { branchErrors: Array<{ id: string; error: Error | undefined }> }).branchErrors =
+              branches.map(b => ({ id: b.id, error: b.error }))
+            throw err
           }
           yield { type: 'text', content: text, metadata: { ensemble: branches.map(b => ({ id: b.id, bytes: b.text.length, error: b.error?.message })) } } as StreamChunk
           yield { type: 'done' } as StreamChunk

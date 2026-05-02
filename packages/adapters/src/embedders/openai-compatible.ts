@@ -1,3 +1,4 @@
+import { ConfigError, ErrorCodes } from '@agentskit/core'
 import type { EmbedFn } from '@agentskit/core'
 
 export interface OpenAICompatibleEmbedderConfig {
@@ -42,7 +43,11 @@ async function buildModelError(
 export function createOpenAICompatibleEmbedder(provider: string, defaultBaseUrl: string) {
   return function embedder(config: OpenAICompatibleEmbedderConfig): EmbedFn {
     if (!config.model) {
-      throw new Error(`Model is required for ${provider}. Pass { model: "<model-name>" }.`)
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: `Model is required for ${provider}. Pass { model: "<model-name>" }.`,
+        hint: `${provider} does not infer a default; pick a recent embedding model and pass it explicitly.`,
+      })
     }
     const { apiKey, model, baseUrl = defaultBaseUrl } = config
 

@@ -1,3 +1,5 @@
+import { ErrorCodes, MemoryError } from '@agentskit/core'
+
 /**
  * Internal Redis client adapter interface.
  * Abstracts the underlying Redis library so it can be swapped
@@ -22,7 +24,11 @@ export async function createRedisClientAdapter(url: string): Promise<RedisClient
   try {
     redis = await import('redis')
   } catch {
-    throw new Error('Install redis to use Redis memory backends: npm install redis')
+    throw new MemoryError({
+      code: ErrorCodes.AK_MEMORY_PEER_MISSING,
+      message: 'Install redis to use Redis memory backends: npm install redis',
+      hint: 'redisChatMemory and redisVectorMemory use the optional peer "redis".',
+    })
   }
 
   const client = redis.createClient({ url })

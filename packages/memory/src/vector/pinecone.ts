@@ -1,3 +1,4 @@
+import { ErrorCodes, MemoryError } from '@agentskit/core'
 import type { RetrievedDocument, VectorDocument, VectorMemory } from '@agentskit/core'
 
 export interface PineconeConfig {
@@ -22,7 +23,13 @@ async function call<T>(config: PineconeConfig, path: string, body: unknown): Pro
     body: JSON.stringify(body),
   })
   const text = await response.text()
-  if (!response.ok) throw new Error(`pinecone ${response.status}: ${text.slice(0, 200)}`)
+  if (!response.ok) {
+    throw new MemoryError({
+      code: ErrorCodes.AK_MEMORY_REMOTE_HTTP,
+      message: `pinecone ${response.status}: ${text.slice(0, 200)}`,
+      hint: `URL ${config.indexUrl}${path}. Check api-key + index URL/namespace.`,
+    })
+  }
   return (text.length > 0 ? JSON.parse(text) : {}) as T
 }
 

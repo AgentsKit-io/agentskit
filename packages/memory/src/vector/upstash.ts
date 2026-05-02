@@ -1,3 +1,4 @@
+import { ErrorCodes, MemoryError } from '@agentskit/core'
 import type { RetrievedDocument, VectorDocument, VectorMemory } from '@agentskit/core'
 
 export interface UpstashVectorConfig {
@@ -22,7 +23,13 @@ async function call<T>(
     body: JSON.stringify(body),
   })
   const text = await response.text()
-  if (!response.ok) throw new Error(`upstash-vector ${response.status}: ${text.slice(0, 200)}`)
+  if (!response.ok) {
+    throw new MemoryError({
+      code: ErrorCodes.AK_MEMORY_REMOTE_HTTP,
+      message: `upstash-vector ${response.status}: ${text.slice(0, 200)}`,
+      hint: `URL ${config.url}${path}. Check token + index URL.`,
+    })
+  }
   return (text.length > 0 ? JSON.parse(text) : {}) as T
 }
 
