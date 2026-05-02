@@ -12,6 +12,7 @@
  * a handler, not in YAML.
  */
 
+import { ErrorCodes, RuntimeError } from '@agentskit/core'
 import { createDurableRunner, createInMemoryStepLog, type DurableRunner, type StepLogStore } from './durable'
 
 export interface FlowNode {
@@ -178,9 +179,11 @@ export function compileFlow<TInput = unknown>(
   const { definition, registry } = options
   const result = validateFlow(definition, registry as FlowRegistry)
   if (!result.ok) {
-    throw new Error(
-      `invalid flow "${definition.name}":\n${result.issues.map(i => `  - ${i.message}`).join('\n')}`,
-    )
+    throw new RuntimeError({
+      code: ErrorCodes.AK_RUNTIME_INVALID_INPUT,
+      message: `invalid flow "${definition.name}":\n${result.issues.map(i => `  - ${i.message}`).join('\n')}`,
+      hint: 'validateFlow returned issues; fix each one (duplicate ids, missing handlers, unknown deps, cycles).',
+    })
   }
   const byId = new Map(definition.nodes.map(n => [n.id, n] as const))
 
@@ -202,7 +205,15 @@ export function compileFlow<TInput = unknown>(
     for (const id of result.order) {
       const node = byId.get(id)!
       const handler = registry[node.run]
-      if (!handler) throw new Error(`handler "${node.run}" missing for node "${id}"`)
+      if (!handler) {
+        const available = Object.keys(registry).sort()
+        const list = available.length > 0 ? available.join(', ') : '(empty registry)'
+        throw new RuntimeError({
+          code: ErrorCodes.AK_RUNTIME_INVALID_INPUT,
+          message: `handler "${node.run}" missing for node "${id}"`,
+          hint: `Available handlers: ${list}. Add "${node.run}" to the FlowRegistry, or rename the node's run: field.`,
+        })
+      }
       const stepId = `node:${id}`
       runOptions.onEvent?.({ type: 'node:start', flow: definition.name, runId, nodeId: id })
       try {

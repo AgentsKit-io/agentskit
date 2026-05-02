@@ -42,10 +42,6 @@ const ALLOW_FILES = new Set([
   'packages/rag/src/loaders.ts',
   'packages/rag/src/rerankers/jina.ts',
   'packages/rag/src/rerankers/voyage.ts',
-  // Flow throws live in the F3 PR landing line; primary errors are
-  // already typed (compileFlow), the remaining bare throws are
-  // internal step-replay signals.
-  'packages/runtime/src/flow.ts',
 ])
 
 /**
