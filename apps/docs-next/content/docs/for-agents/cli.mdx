@@ -27,6 +27,25 @@ npm install -g @agentskit/cli
 
 ## Programmatic helpers
 
+The CLI also exposes its internals as a library import — every subcommand
+above can be driven from your own code.
+
+- `createCli()` — assemble the full `commander` program.
+- `loadConfig()` — read `.agentskit.config.{json,ts,js}`.
+- Chat / run: `ChatApp`, `renderChatHeader`, `runAgent`.
+- Init: `writeStarterProject`, `resolveChatProvider`.
+- Doctor: `runDoctor`, `renderReport`.
+- Dev / tunnel: `startDev`, `startTunnel`.
+- Sessions API: `listSessions`, `findSession`, `findLatestSession`,
+  `renameSession`, `forkSession`, `resolveSession`, `writeSessionMeta`,
+  `derivePreview`, `generateSessionId`, `sessionFilePath`.
+- Plugins: `loadPlugins`, `mergePluginsIntoBundle`.
+- MCP: `McpClient`, `bridgeMcpServers`, `disposeMcpClients`.
+- Telemetry / pricing: `computeCost`, `getPricing`, `registerPricing`.
+- RAG: `createOpenAiEmbedder`, `buildRagFromConfig`, `indexSources`.
+- Hooks / permissions: `HookDispatcher`, `configHooksToHandlers`,
+  `defaultPolicy`, `evaluatePolicy`, `applyPolicyToTool`,
+  `applyPolicyToTools`.
 - `@agentskit/cli/ai` — `scaffoldAgent`, `writeScaffold`, `createAdapterPlanner`.
 
 ## Related

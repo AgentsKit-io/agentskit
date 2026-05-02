@@ -45,6 +45,24 @@ export type {
   WebhookRequest,
   WebhookResponse,
 } from './background'
+export {
+  compileFlow,
+  validateFlow,
+  flowToMermaid,
+} from './flow'
+export type {
+  FlowDefinition,
+  FlowNode,
+  FlowHandler,
+  FlowHandlerContext,
+  FlowRegistry,
+  FlowValidationIssue,
+  FlowValidationResult,
+  CompileFlowOptions,
+  CompiledFlow,
+  RunFlowOptions,
+  FlowRunEvent,
+} from './flow'
 export { speculate } from './speculate'
 export type {
   SpeculativeCandidate,

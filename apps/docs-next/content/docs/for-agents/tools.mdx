@@ -12,6 +12,8 @@ npm install @agentskit/tools
 ## Primary exports (main entry)
 
 - `webSearch`, `fetchUrl`, `filesystem`, `shell` — core built-ins.
+- `sqliteQueryTool` — parameterized SQLite query tool.
+- `slackTool` — Slack incoming-webhook tool (lighter than the OAuth `integrations/slack`).
 - `defineZodTool` — define tools with Zod schemas.
 - `listTools` — discovery helper.
 
@@ -20,7 +22,7 @@ npm install @agentskit/tools
 | Subpath | Contents |
 |---|---|
 | `@agentskit/tools/mcp` | `createMcpClient`, `createMcpServer`, `toolsFromMcpClient`, `createStdioTransport`, `createInMemoryTransportPair`. See [MCP bridge](/docs/reference/recipes/mcp-bridge). |
-| `@agentskit/tools/integrations` | `github`, `linear`, `slack`, `notion`, `discord`, `gmail`, `googleCalendar`, `stripe`, `postgres`, `s3`, `firecrawl`, `reader`, `documentParsers`, `openaiImages`, `elevenlabs`, `whisper`, `deepgram`, `maps`, `weather`, `coingecko`, `browserAgent`. See [Integrations](/docs/reference/recipes/integrations) + [More integrations](/docs/reference/recipes/more-integrations). |
+| `@agentskit/tools/integrations` | Communication: `slack`, `discord`, `gmail`, `twilio`. Project tracking: `linear`, `linearTriage`, `jira`, `confluence`, `notion`. Source / CI: `github`, `githubActions`. Customer / commerce: `hubspot`, `airtable`, `shopify`, `stripe`, `stripeWebhookTool` (+ `verifyStripeSignature`). Calendars / docs: `googleCalendar`, `figma`. Web / scraping: `firecrawl`, `reader`, `documentParsers`, `browserAgent`. Media: `openaiImages`, `elevenlabs`, `whisper`, `deepgram`. Data: `postgres`, `postgresWithRoles`, `s3`, `cloudflareR2`, `coingecko`, `maps`, `weather`. Operations: `pagerduty`, `sentry`. See [Integrations](/docs/reference/recipes/integrations) + [More integrations](/docs/reference/recipes/more-integrations). |
 
 ## Minimal example
 

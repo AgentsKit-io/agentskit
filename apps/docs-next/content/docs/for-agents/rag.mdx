@@ -16,10 +16,13 @@ npm install @agentskit/rag
 - `createRerankedRetriever(base, { candidatePool, topK, rerank })` — pluggable reranker (BM25 default). See [RAG reranking](/docs/reference/recipes/rag-reranking).
 - `createHybridRetriever(base, { vectorWeight, bm25Weight })` — vector + BM25 hybrid.
 - `bm25Score`, `bm25Rerank` — standalone helpers.
+- `voyageReranker(config)` — Voyage AI reranker.
+- `jinaReranker(config)` — Jina AI reranker.
 
 ### Document loaders
 
 - `loadUrl`, `loadGitHubFile`, `loadGitHubTree`, `loadNotionPage`, `loadConfluencePage`, `loadGoogleDriveFile`, `loadPdf` (BYO parser). See [Doc loaders](/docs/reference/recipes/doc-loaders).
+- Cloud storage: `loadS3`, `loadGcs`, `loadDropbox`, `loadOneDrive`.
 
 ## Minimal example
 

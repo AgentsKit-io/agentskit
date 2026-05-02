@@ -43,9 +43,12 @@
     "react-native": "*"
   },
   "devDependencies": {
+    "@testing-library/react": "^16.0.0",
     "@types/node": "^25.6.0",
     "@types/react": "^19.0.0",
+    "happy-dom": "^20.9.0",
     "react": "^19.0.0",
+    "react-dom": "^19.0.0",
     "tsup": "^8.5.0",
     "typescript": "^6.0.3",
     "vitest": "^4.1.5"

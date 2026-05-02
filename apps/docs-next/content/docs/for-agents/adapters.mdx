@@ -22,13 +22,19 @@ npm install @agentskit/adapters
 
 - `anthropic`, `openai`, `gemini`, `grok`, `ollama`, `deepseek`,
   `kimi`, `langchain`, `langgraph`, `vercelAI`, `generic`.
+- `azureOpenAI` / `azureOpenAIAdapter` — Azure-hosted OpenAI deployments.
+- `vertex` / `vertexAdapter` — Google Vertex AI (Gemini, Anthropic-on-Vertex).
+- `bedrock` / `bedrockAdapter` — AWS Bedrock.
+- `replicate` / `replicateAdapter` — Replicate inference.
+- `bail` / `bailAdapter` (alias `qwen`) — Alibaba DashScope / Qwen.
+- `webllm` / `webllmAdapter` — browser-only WebGPU via `@mlc-ai/web-llm` (peer dep).
 - `createAdapter({ send, parse, abort })` — build your own. See
   [Custom adapter recipe](/docs/reference/recipes/custom-adapter).
 
 ### OpenAI-compatible providers
 
 `mistral`, `cohere`, `together`, `groq`, `fireworks`, `openrouter`,
-`huggingface`, `lmstudio`, `vllm`, `llamacpp`. All share the
+`huggingface`, `lmstudio`, `vllm`, `llamacpp`, `cerebras`. All share the
 `createOpenAICompatibleAdapter` base; each exposes a default
 `baseUrl` and accepts an override.
 

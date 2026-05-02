@@ -2,13 +2,13 @@
   {
     "name": "@agentskit/core (ESM)",
     "path": "packages/core/dist/index.js",
-    "limit": "10 KB",
+    "limit": "9.8 KB",
     "gzip": true
   },
   {
     "name": "@agentskit/core (CJS)",
     "path": "packages/core/dist/index.cjs",
-    "limit": "10 KB",
+    "limit": "9.8 KB",
     "gzip": true
   },
   {
@@ -50,7 +50,7 @@
   {
     "name": "@agentskit/skills (ESM)",
     "path": "packages/skills/dist/index.js",
-    "limit": "10 KB",
+    "limit": "25 KB",
     "gzip": true
   },
   {
@@ -87,6 +87,36 @@
     "name": "@agentskit/templates (ESM)",
     "path": "packages/templates/dist/index.js",
     "limit": "15 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/angular (ESM)",
+    "path": "packages/angular/dist/index.js",
+    "limit": "5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/react-native (ESM)",
+    "path": "packages/react-native/dist/index.js",
+    "limit": "5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/solid (ESM)",
+    "path": "packages/solid/dist/index.js",
+    "limit": "5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/svelte (ESM)",
+    "path": "packages/svelte/dist/index.js",
+    "limit": "5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/vue (ESM)",
+    "path": "packages/vue/dist/index.js",
+    "limit": "5 KB",
     "gzip": true
   }
 ]

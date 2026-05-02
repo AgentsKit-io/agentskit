@@ -22,7 +22,8 @@ npm install @agentskit/runtime
 - `speculate({ candidates, pick, timeoutMs })` — race adapters, abort losers. See [Speculative execution](/docs/reference/recipes/speculative-execution).
 - `supervisor`, `swarm`, `hierarchical`, `blackboard` — multi-agent topologies. See [Topologies](/docs/reference/recipes/multi-agent-topologies).
 - `createDurableRunner` + `createInMemoryStepLog` / `createFileStepLog` — Temporal-style step-log durability. See [Durable execution](/docs/reference/recipes/durable-execution).
-- `createCronScheduler` (5-field cron + `every:<ms>`) + `createWebhookHandler` — background agents. See [Background agents](/docs/reference/recipes/background-agents).
+- `createCronScheduler` (5-field cron + `every:<ms>`) + `createWebhookHandler` + `parseSchedule` + `cronMatches` — background agents. See [Background agents](/docs/reference/recipes/background-agents).
+- `compileFlow({ definition, registry })` + `validateFlow` + `flowToMermaid` — compile a YAML / object `FlowDefinition` into a durable DAG runner. See [Visual flows](/docs/agents/flow).
 
 ## Minimal example
 

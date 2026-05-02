@@ -18,9 +18,16 @@ npm install @agentskit/observability
 - `opentelemetry(config)` — OTel observer.
 - `createTraceTracker({ onSpanStart, onSpanEnd })` — low-level span lifecycle.
 
+### Sinks (batch HTTP exporters)
+
+- `datadogSink(config)` — Datadog Logs intake.
+- `axiomSink(config)` — Axiom dataset ingest.
+- `newRelicSink(config)` — New Relic Log API.
+
 ### Guards + counters
 
 - `costGuard(options)` — dollar ceiling per run.
+- `multiTenantCostGuard(options)` — per-tenant cost cap with shared bookkeeping.
 - `priceFor`, `computeCost`, `DEFAULT_PRICES`.
 - `approximateCounter`, `countTokens`, `countTokensDetailed`, `createProviderCounter`.
 

@@ -16,12 +16,15 @@ npm install @agentskit/memory
 - `fileChatMemory({ path })` — JSON file.
 - `sqliteChatMemory` — SQLite-backed.
 - `redisChatMemory` — Redis-backed.
+- `tursoChatMemory` — Turso / libSQL.
 
 ### Vector memory
 
 - `fileVectorMemory({ path })` — JSON file.
 - `redisVectorMemory` — Redis Vector.
 - `pgvector`, `pinecone`, `qdrant`, `chroma`, `upstashVector` — BYO-client / HTTP vector adapters. See [Vector adapters](/docs/reference/recipes/vector-adapters).
+- `supabaseVectorStore`, `weaviateVectorStore`, `milvusVectorStore`, `mongoAtlasVectorStore` — managed / cluster backends.
+- `matchesFilter(record, filter)` — utility for evaluating vector-store filter predicates outside an adapter.
 
 ### Higher-order memory
 

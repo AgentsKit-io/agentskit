@@ -30,6 +30,17 @@ npm install @agentskit/core
   `safeParseArgs`, `generateId`, `buildMessage` — low-level helpers.
 - `AgentsKitError`, `AdapterError`, `ToolError`, `MemoryError`,
   `ConfigError`, `ErrorCodes` — error taxonomy.
+- Token budget: `compileBudget`, `approximateCounter`.
+- Progressive tool args: `createProgressiveArgParser`,
+  `executeToolProgressively`.
+- `createVirtualizedMemory` — hot-window + cold-retriever wrapper
+  (also re-exported from `@agentskit/memory`).
+- Multi-modal content parts: `textPart`, `imagePart`, `audioPart`,
+  `videoPart`, `filePart`, `partsToText`, `normalizeContent`,
+  `filterParts`.
+- Agent-loop internals (advanced): `buildToolMap`, `activateSkills`,
+  `executeSafeTool`, `createToolLifecycle`.
+- Memory serialization: `serializeMessages`, `deserializeMessages`.
 
 ## Subpath exports (zero main-bundle weight)
 
