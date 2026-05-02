@@ -1,0 +1,64 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "AgentsKit · Ask",
+      "type": "shell",
+      "command": "tsx",
+      "args": [
+        "${workspaceFolder}/apps/example-embedded/src/index.ts",
+        "${input:agentskitPrompt}"
+      ],
+      "presentation": {
+        "echo": false,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": []
+    },
+    {
+      "label": "AgentsKit · Ask about selection",
+      "type": "shell",
+      "command": "tsx",
+      "args": [
+        "${workspaceFolder}/apps/example-embedded/src/index.ts"
+      ],
+      "options": {
+        "env": {
+          "AGENTSKIT_PIPED_INPUT": "true"
+        }
+      },
+      "windows": {
+        "command": "powershell",
+        "args": ["-Command", "echo '${selectedText}' | tsx ${workspaceFolder}/apps/example-embedded/src/index.ts"]
+      },
+      "linux": {
+        "command": "sh",
+        "args": ["-c", "echo \"${selectedText}\" | tsx ${workspaceFolder}/apps/example-embedded/src/index.ts"]
+      },
+      "osx": {
+        "command": "sh",
+        "args": ["-c", "echo \"${selectedText}\" | tsx ${workspaceFolder}/apps/example-embedded/src/index.ts"]
+      },
+      "presentation": {
+        "echo": false,
+        "reveal": "always",
+        "focus": true,
+        "panel": "dedicated",
+        "showReuseMessage": false,
+        "clear": true
+      },
+      "problemMatcher": []
+    }
+  ],
+  "inputs": [
+    {
+      "id": "agentskitPrompt",
+      "type": "promptString",
+      "description": "Ask the agent…"
+    }
+  ]
+}

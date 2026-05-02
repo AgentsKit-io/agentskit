@@ -1,0 +1,22 @@
+{
+  "name": "@agentskit/example-embedded",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx src/index.ts",
+    "raycast": "tsx raycast/agentskit-ask.ts",
+    "build": "tsc --noEmit",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@agentskit/adapters": "workspace:*",
+    "@agentskit/core": "workspace:*",
+    "@agentskit/runtime": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "tsx": "^4.20.6",
+    "typescript": "^6.0.3"
+  }
+}
