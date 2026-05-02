@@ -6,9 +6,11 @@ export interface OllamaEmbedderConfig {
 }
 
 async function fetchAvailableModels(baseUrl: string): Promise<string[]> {
-  const response = await fetch(`${baseUrl}/api/tags`)
+  const url = `${baseUrl}/api/tags`
+  const response = await fetch(url)
   if (!response.ok) {
-    throw new Error(`HTTP ${response.status}`)
+    const body = await response.text().catch(() => '')
+    throw new Error(`HTTP ${response.status} from ollama ${url}: ${body.slice(0, 200)}`)
   }
   const data = (await response.json()) as { models: Array<{ name: string }> }
   return data.models

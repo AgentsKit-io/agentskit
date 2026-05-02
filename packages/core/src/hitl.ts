@@ -1,3 +1,5 @@
+import { AgentsKitError, ConfigError, ErrorCodes } from './errors'
+
 /**
  * Human-in-the-loop primitives. A gate pauses agent execution at a
  * named decision point and records an `Approval` in a user-supplied
@@ -98,12 +100,28 @@ export function createApprovalGate<TPayload = unknown>(
           ? Date.now() + options.timeoutMs
           : Infinity
       while (true) {
-        if (options.signal?.aborted) throw new Error('await approval aborted')
+        if (options.signal?.aborted) {
+          throw new AgentsKitError({
+            code: ErrorCodes.AK_CONFIG_INVALID,
+            message: `await approval aborted (id="${id}")`,
+            hint: 'Caller passed an AbortSignal that fired before the approval was decided.',
+          })
+        }
         const current = await store.get<TPayload>(id)
-        if (!current) throw new Error(`approval "${id}" not found`)
+        if (!current) {
+          throw new ConfigError({
+            code: ErrorCodes.AK_CONFIG_INVALID,
+            message: `approval "${id}" not found`,
+            hint: 'Open the approval with createApprovalGate.open() before awaiting it.',
+          })
+        }
         if (current.status !== 'pending') return current
         if (Date.now() >= deadline) {
-          throw new Error(`approval "${id}" timed out after ${options.timeoutMs}ms`)
+          throw new AgentsKitError({
+            code: ErrorCodes.AK_CONFIG_INVALID,
+            message: `approval "${id}" timed out after ${options.timeoutMs}ms`,
+            hint: 'Extend options.timeoutMs (default Infinity), or wire a faster decider.',
+          })
         }
         await new Promise(r => setTimeout(r, pollMs))
       }
@@ -115,7 +133,13 @@ export function createApprovalGate<TPayload = unknown>(
         decidedAt: new Date().toISOString(),
         decisionMetadata: metadata,
       })
-      if (!updated) throw new Error(`approval "${id}" not found`)
+      if (!updated) {
+        throw new ConfigError({
+          code: ErrorCodes.AK_CONFIG_INVALID,
+          message: `approval "${id}" not found`,
+          hint: 'The approval id was never opened, or it was cleared from the store.',
+        })
+      }
       return updated
     },
 
