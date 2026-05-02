@@ -1,3 +1,4 @@
+import { ConfigError, ErrorCodes } from '@agentskit/core'
 import type { SandboxBackend, ExecuteOptions, ExecuteResult } from './types'
 import { createE2BBackend, type E2BConfig } from './e2b-backend'
 
@@ -29,10 +30,12 @@ export function createSandbox(config: SandboxConfig = {}): Sandbox {
     if (backend) return backend
 
     if (!config.apiKey) {
-      throw new Error(
-        'Sandbox requires either an apiKey (for E2B) or a custom backend. ' +
-        'Provide apiKey or pass a SandboxBackend via the backend option.'
-      )
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message:
+          'Sandbox requires either an apiKey (for E2B) or a custom backend. ' +
+          'Provide apiKey or pass a SandboxBackend via the backend option.',
+      })
     }
 
     backend = createE2BBackend({

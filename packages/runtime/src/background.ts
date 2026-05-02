@@ -4,6 +4,7 @@
  * natively and return framework-agnostic HTTP handlers.
  */
 
+import { ConfigError, ErrorCodes } from '@agentskit/core'
 import type { AgentHandle } from './topologies'
 
 // ---------------------------------------------------------------------------
@@ -84,11 +85,23 @@ export function parseSchedule(schedule: string): ParsedSchedule {
   const trimmed = schedule.trim()
   if (trimmed.startsWith('every:')) {
     const ms = Number(trimmed.slice('every:'.length))
-    if (!Number.isFinite(ms) || ms <= 0) throw new Error(`invalid every: schedule: "${schedule}"`)
+    if (!Number.isFinite(ms) || ms <= 0) {
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: `invalid every: schedule: "${schedule}"`,
+        hint: 'Use every:<positiveMilliseconds>, e.g. every:60000.',
+      })
+    }
     return { type: 'every', intervalMs: ms }
   }
   const parts = trimmed.split(/\s+/)
-  if (parts.length !== 5) throw new Error(`cron must have 5 fields: "${schedule}"`)
+  if (parts.length !== 5) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `cron must have 5 fields: "${schedule}"`,
+      hint: 'Use a 5-field cron (minute hour dom month dow) or every:<ms>.',
+    })
+  }
   return {
     type: 'cron',
     minute: expandField(parts[0]!, 0, 59),

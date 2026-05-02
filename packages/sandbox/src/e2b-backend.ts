@@ -1,3 +1,4 @@
+import { ErrorCodes, SandboxError } from '@agentskit/core'
 import type { SandboxBackend, ExecuteOptions, ExecuteResult } from './types'
 
 export interface E2BConfig {
@@ -22,7 +23,13 @@ export function createE2BBackend(config: E2BConfig): SandboxBackend {
       try {
         const mod = await import('@e2b/code-interpreter')
         const Sandbox = mod.Sandbox ?? (mod as unknown as { default: { Sandbox: unknown } }).default?.Sandbox
-        if (!Sandbox) throw new Error('Sandbox class not found in @e2b/code-interpreter')
+        if (!Sandbox) {
+          throw new SandboxError({
+            code: ErrorCodes.AK_SANDBOX_BACKEND_FAILED,
+            message: 'Sandbox class not found in @e2b/code-interpreter',
+            hint: 'The installed @e2b/code-interpreter does not export Sandbox; check version compatibility.',
+          })
+        }
 
         const sb = await (Sandbox as unknown as {
           create(opts: { apiKey: string; timeout?: number }): Promise<E2BSandboxInstance>
@@ -37,7 +44,11 @@ export function createE2BBackend(config: E2BConfig): SandboxBackend {
         instancePromise = null
         const msg = err instanceof Error ? err.message : String(err)
         if (msg.includes('Cannot find module') || msg.includes('@e2b')) {
-          throw new Error('Install @e2b/code-interpreter to use E2B sandbox: npm install @e2b/code-interpreter')
+          throw new SandboxError({
+            code: ErrorCodes.AK_SANDBOX_PEER_MISSING,
+            message: 'Install @e2b/code-interpreter to use E2B sandbox: npm install @e2b/code-interpreter',
+            hint: 'E2B is the default backend; install the optional peer or pass a custom backend.',
+          })
         }
         throw err
       }

@@ -1,3 +1,5 @@
+import { ErrorCodes, RuntimeError } from '@agentskit/core'
+
 /**
  * Temporal-style durable execution primitive. Wraps any side-effectful
  * step in a `runner.step(name, fn)` call; the result is appended to a
@@ -77,7 +79,11 @@ export function createDurableRunner(options: DurableRunnerOptions): DurableRunne
     if (existing) {
       options.onEvent?.({ type: 'step:replay', stepId, name, runId })
       if (existing.status === 'success') return existing.result as TResult
-      throw new Error(`step "${stepId}" previously failed: ${existing.error}`)
+      throw new RuntimeError({
+        code: ErrorCodes.AK_RUNTIME_STEP_FAILED,
+        message: `step "${stepId}" previously failed: ${existing.error}`,
+        hint: 'Drop the run log to retry, or fix the underlying cause and use a new runId.',
+      })
     }
 
     let attempt = 0
