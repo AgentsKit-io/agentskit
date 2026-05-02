@@ -142,6 +142,28 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
+  apps/example-flow:
+    dependencies:
+      '@agentskit/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@agentskit/runtime':
+        specifier: workspace:*
+        version: link:../../packages/runtime
+      yaml:
+        specifier: ^2.6.0
+        version: 2.8.3
+    devDependencies:
+      '@types/node':
+        specifier: ^25.6.0
+        version: 25.6.0
+      tsx:
+        specifier: ^4.20.6
+        version: 4.21.0
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
   apps/example-ink:
     dependencies:
       '@agentskit/core':
