@@ -1,0 +1,20 @@
+{
+  "name": "@agentskit/example-edge",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "src/worker.ts",
+  "scripts": {
+    "dev": "echo 'Run with wrangler: pnpm wrangler dev' && exit 0",
+    "build": "tsc --noEmit",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@agentskit/adapters": "workspace:*",
+    "@agentskit/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20240909.0",
+    "typescript": "^6.0.3"
+  }
+}

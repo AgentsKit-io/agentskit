@@ -1,0 +1,15 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "agentskit-example-edge",
+  "main": "src/worker.ts",
+  "compatibility_date": "2026-04-01",
+  "compatibility_flags": ["nodejs_compat"],
+  "vars": {
+    // OPENAI_API_KEY is expected via `wrangler secret put OPENAI_API_KEY`,
+    // not committed to the repo.
+    "OPENAI_MODEL": "gpt-4o-mini"
+  },
+  "observability": {
+    "enabled": true
+  }
+}

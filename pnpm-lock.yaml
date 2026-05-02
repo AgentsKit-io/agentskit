@@ -142,6 +142,22 @@ importers:
         specifier: ^6.0.3
         version: 6.0.3
 
+  apps/example-edge:
+    dependencies:
+      '@agentskit/adapters':
+        specifier: workspace:*
+        version: link:../../packages/adapters
+      '@agentskit/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+    devDependencies:
+      '@cloudflare/workers-types':
+        specifier: ^4.20240909.0
+        version: 4.20260502.1
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+
   apps/example-flow:
     dependencies:
       '@agentskit/core':
@@ -1219,6 +1235,9 @@ packages:
 
   '@chevrotain/utils@12.0.0':
     resolution: {integrity: sha512-lB59uJoaGIfOOL9knQqQRfhl9g7x8/wqFkp13zTdkRu1huG9kg6IJs1O8hqj9rs6h7orGxHJUKb+mX3rPbWGhA==}
+
+  '@cloudflare/workers-types@4.20260502.1':
+    resolution: {integrity: sha512-gttFwGL0pYBF5nA2GIazKTVjDqXLnqWa/Mstd5aGTZyzkhmPy0ej3L2sIn2h8kAbF6I+XGK0P4UXvlmnuxefYg==}
 
   '@codemirror/autocomplete@6.20.1':
     resolution: {integrity: sha512-1cvg3Vz1dSSToCNlJfRA2WSI4ht3K+WplO0UMOgmUYPivCyy2oueZY6Lx7M9wThm7SDUBViRmuT+OG/i8+ON9A==}
@@ -8136,6 +8155,8 @@ snapshots:
   '@chevrotain/types@12.0.0': {}
 
   '@chevrotain/utils@12.0.0': {}
+
+  '@cloudflare/workers-types@4.20260502.1': {}
 
   '@codemirror/autocomplete@6.20.1':
     dependencies:
