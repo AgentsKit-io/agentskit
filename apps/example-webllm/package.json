@@ -1,0 +1,27 @@
+{
+  "name": "@agentskit/example-webllm",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc --noEmit && vite build",
+    "lint": "tsc --noEmit",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@agentskit/adapters": "workspace:*",
+    "@agentskit/core": "workspace:*",
+    "@agentskit/react": "workspace:*",
+    "@mlc-ai/web-llm": "^0.2.79",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  },
+  "devDependencies": {
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.0.1",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.10"
+  }
+}

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>AgentsKit · WebLLM (browser-only) demo</title>
+    <style>
+      :root { color-scheme: light dark; }
+      body {
+        font-family: -apple-system, system-ui, sans-serif;
+        max-width: 720px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+        line-height: 1.5;
+      }
+      [data-ak-chat] { display: flex; flex-direction: column; gap: 0.75rem; }
+      [data-ak-messages] { display: flex; flex-direction: column; gap: 0.5rem; }
+      [data-ak-message][data-ak-role="user"] { font-weight: 600; }
+      [data-ak-message] {
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.5rem;
+        background: color-mix(in srgb, currentColor 6%, transparent);
+        white-space: pre-wrap;
+      }
+      [data-ak-form] { display: flex; gap: 0.5rem; }
+      [data-ak-input] {
+        flex: 1;
+        padding: 0.5rem 0.75rem;
+        border-radius: 0.5rem;
+        border: 1px solid color-mix(in srgb, currentColor 20%, transparent);
+        background: transparent;
+        color: inherit;
+        font: inherit;
+      }
+      .progress { font-size: 0.875rem; opacity: 0.75; }
+    </style>
+  </head>
+  <body>
+    <h1>AgentsKit · WebLLM</h1>
+    <p>
+      LLM running 100% in your browser via WebGPU. First load downloads
+      the model (~1–4 GB depending on quantization) and compiles WASM.
+      Subsequent loads hit the cache.
+    </p>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
