@@ -95,4 +95,27 @@ describe('scaffold', () => {
     expect(src).toContain('AK_MEMORY_LOAD_FAILED')
     expect(src).toContain('AK_MEMORY_SAVE_FAILED')
   })
+
+  it('scaffolds a flow package with yaml + registry + README', async () => {
+    await scaffold({ type: 'flow', name: 'nightly-refresh', dir })
+    const src = await readFile(join(dir, 'nightly-refresh', 'src', 'index.ts'), 'utf8')
+    expect(src).toContain('FlowRegistry')
+    expect(src).toContain('nightlyRefreshRegistry')
+    expect(src).toContain("'http.get'")
+    expect(src).toContain("'json.parse'")
+
+    const yaml = await readFile(join(dir, 'nightly-refresh', 'flow.yaml'), 'utf8')
+    expect(yaml).toContain('name: nightly-refresh')
+    expect(yaml).toContain('nodes:')
+    expect(yaml).toContain('run: http.get')
+    expect(yaml).toContain('needs: [fetch]')
+
+    const readme = await readFile(join(dir, 'nightly-refresh', 'README.md'), 'utf8')
+    expect(readme).toContain('agentskit flow validate')
+    expect(readme).toContain('compileFlow')
+
+    const test = await readFile(join(dir, 'nightly-refresh', 'tests', 'index.test.ts'), 'utf8')
+    expect(test).toContain('compileFlow')
+    expect(test).toContain('@agentskit/runtime')
+  })
 })

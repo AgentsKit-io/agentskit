@@ -8,5 +8,11 @@ export {
   generateVectorMemoryTest,
   generateChatMemorySource,
 } from './memory'
+export {
+  generateFlowSource,
+  generateFlowTest,
+  generateFlowYaml,
+  generateFlowReadme,
+} from './flow'
 export { generateReadme } from './readme'
 export { camelCase, pascalCase, packageName } from './utils'

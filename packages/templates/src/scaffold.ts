@@ -13,10 +13,20 @@ import {
   generateChatMemorySource,
   generateVectorMemorySource,
   generateVectorMemoryTest,
+  generateFlowSource,
+  generateFlowTest,
+  generateFlowYaml,
+  generateFlowReadme,
   generateReadme,
 } from './blueprints'
 
-export type ScaffoldType = 'tool' | 'skill' | 'adapter' | 'memory-vector' | 'memory-chat'
+export type ScaffoldType =
+  | 'tool'
+  | 'skill'
+  | 'adapter'
+  | 'memory-vector'
+  | 'memory-chat'
+  | 'flow'
 
 export interface ScaffoldConfig {
   type: ScaffoldType
@@ -43,6 +53,7 @@ const sourceGenerators: Record<ScaffoldType, (name: string) => string> = {
   adapter: generateAdapterSource,
   'memory-vector': generateVectorMemorySource,
   'memory-chat': generateChatMemorySource,
+  flow: generateFlowSource,
 }
 
 const testGenerators: Record<ScaffoldType, (name: string) => string> = {
@@ -51,6 +62,7 @@ const testGenerators: Record<ScaffoldType, (name: string) => string> = {
   adapter: generateAdapterTest,
   'memory-vector': generateVectorMemoryTest,
   'memory-chat': placeholderTest,
+  flow: generateFlowTest,
 }
 
 export async function scaffold(config: ScaffoldConfig): Promise<string[]> {
@@ -69,7 +81,13 @@ export async function scaffold(config: ScaffoldConfig): Promise<string[]> {
   await write('tsup.config.ts', generateTsupConfig())
   await write('src/index.ts', sourceGenerators[config.type](config.name))
   await write('tests/index.test.ts', testGenerators[config.type](config.name))
-  await write('README.md', generateReadme(config))
+
+  if (config.type === 'flow') {
+    await write('flow.yaml', generateFlowYaml(config.name))
+    await write('README.md', generateFlowReadme(config.name))
+  } else {
+    await write('README.md', generateReadme(config))
+  }
 
   return created
 }
