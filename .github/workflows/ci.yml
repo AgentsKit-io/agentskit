@@ -59,4 +59,10 @@ jobs:
 
       - run: pnpm --filter "./packages/*" lint
 
+      - name: Forbid bare throw new Error in package src
+        run: node scripts/check-no-bare-throw.mjs
+
+      - name: Verify for-agents docs cover every public export
+        run: node scripts/check-for-agents-coverage.mjs
+
       - run: pnpm test

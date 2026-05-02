@@ -18,6 +18,16 @@ const SKIP_PACKAGES = new Set(['framework-adapters', 'templates'])
 const IGNORE_EXPORTS = {
   core: new Set(['normalizeChunk', 'flushPending', 'mergeStreamChunks']),
   adapters: new Set(['createOpenAICompatibleAdapter', 'cohereAdapter', 'groqAdapter']),
+  // Bindings re-export core helpers for ergonomic imports — those are
+  // documented on the core for-agents page; no need to repeat in each.
+  ink: new Set([
+    'createChatController', 'createInMemoryMemory', 'createLocalStorageMemory',
+    'createStaticRetriever', 'formatRetrievedDocuments',
+  ]),
+  react: new Set([
+    'createInMemoryMemory', 'createLocalStorageMemory',
+    'createStaticRetriever', 'formatRetrievedDocuments',
+  ]),
 }
 
 /**

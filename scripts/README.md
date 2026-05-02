@@ -1,7 +1,8 @@
 # scripts/
 
 Repo-level CI helpers. Each script is dependency-free Node ESM, runnable
-from the repo root.
+from the repo root. Both run on every PR + push to `main` via
+`.github/workflows/ci.yml`.
 
 ## `check-for-agents-coverage.mjs`
 
@@ -19,7 +20,20 @@ Type-only exports are skipped (the for-agents pages document the
 runtime surface, not every supporting type). Per-package exclusions
 live in the `IGNORE_EXPORTS` table at the top of the script.
 
-**Wiring into CI:** ready to drop into `.github/workflows/ci.yml` once
-the for-agents pages catch up with current main. PRs #718, #721, #722,
-#723 add the missing entries; once those land we add this step to
-`ci.yml` so the gate blocks future drift.
+## `check-no-bare-throw.mjs`
+
+Asserts that no `throw new Error(...)` appears in package source code
+outside the typed-error definitions. Use one of the `AgentsKitError`
+subclasses (`AdapterError`, `ToolError`, `MemoryError`, `RuntimeError`,
+`SandboxError`, `SkillError`, `ConfigError`) so every error carries a
+stable `code`, `hint`, and `docsUrl`.
+
+```bash
+node scripts/check-no-bare-throw.mjs
+```
+
+The allowlist at the top of the script tracks files that legitimately
+hold bare throws: `errors.ts` itself, files where the bare `Error` is
+caught and rewrapped (embedder `fetchAvailableModels`), and CLI/leaf
+modules whose conversions are queued in the enterprise-readiness
+backlog. The list shrinks as those conversions land.
