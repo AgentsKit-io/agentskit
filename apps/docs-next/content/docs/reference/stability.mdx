@@ -1,0 +1,99 @@
+---
+title: Stability levels
+description: Every AgentsKit package declares an alpha / beta / stable level. This page defines each level plus the promotion / demotion criteria.
+---
+
+Every `@agentskit/*` package's `package.json` carries an `agentskit.stability`
+field with one of three values: `alpha`, `beta`, `stable`. This page is the
+contract.
+
+## Levels
+
+| Level | Public API | Breaking changes | Versioning | Coverage threshold |
+|---|---|---|---|---|
+| `alpha` | Subject to change | Allowed in any minor | 0.x | ≥ 60% lines (target) |
+| `beta` | Stable in shape | Allowed in next major (semver-respecting) | 0.x → 1.x | ≥ 70% lines |
+| `stable` | Frozen contract per ADR | Major-version only with migration guide | ≥ 1.0 | ≥ 80% lines |
+
+The levels are about **contract**, not about **maturity** in the colloquial
+sense. A package can be `stable` and still gain features — what's frozen is
+the existing surface.
+
+## Current status
+
+| Package | Level | Note |
+|---|---|---|
+| `@agentskit/core` | stable | Sacred — every other package depends on its contracts. |
+| `@agentskit/adapters` | stable | 29 provider factories; the contract is locked per ADR 0001. |
+| `@agentskit/runtime` | stable | ReAct loop + delegation per ADR 0006. |
+| `@agentskit/memory` | stable | Per ADR 0003. |
+| `@agentskit/rag` | stable | Per ADR 0004. |
+| `@agentskit/skills` | stable | Per ADR 0005. |
+| `@agentskit/tools` | stable | Per ADR 0002. |
+| `@agentskit/react` | stable | `useChat` shape locked. |
+| `@agentskit/ink` | stable | Mirrors React contract. |
+| `@agentskit/cli` | stable | `chat`, `init`, `run` commands stable. |
+| `@agentskit/templates` | stable | Scaffolding contract stable. |
+| `@agentskit/observability` | beta | Sink set still growing (Datadog, Axiom, New Relic shipped — Splunk / Honeycomb on roadmap). |
+| `@agentskit/eval` | beta | LLM-judge pipeline shipped; broader benchmarks queued. |
+| `@agentskit/sandbox` | beta | E2B backend stable; alternative backends (WebContainer, MicroVM) queued. |
+| `@agentskit/vue` | alpha | Composable contract mirrors React; promotion blocked on coverage gate. |
+| `@agentskit/svelte` | alpha | Store contract mirrors React; promotion blocked on coverage gate. |
+| `@agentskit/solid` | alpha | Hook contract mirrors React; promotion blocked on coverage gate. |
+| `@agentskit/angular` | alpha | Service contract; promotion blocked on coverage gate. |
+| `@agentskit/react-native` | alpha | Hook mirrors React; promotion blocked on coverage gate. |
+
+## Promotion criteria
+
+### `alpha → beta`
+
+Promote when **all** of:
+
+1. **API stable for ≥ 2 sprints.** No breaking changes in the public surface across the last 4 weeks of release notes.
+2. **Coverage ≥ 70% lines.** Per-package vitest threshold raised to 70 in CI.
+3. **At least one external integration story.** Either an example app in `apps/example-*`, a recipe in `/docs/reference/recipes/`, or a public consumer.
+4. **Stability note in `package.json`** updated to summarise what is and isn't covered.
+
+### `beta → stable`
+
+Promote when **all** of:
+
+1. **An ADR locks the contract.** New ADR or amendment in `docs/architecture/adrs/` with `Status: Accepted`.
+2. **Coverage ≥ 80% lines.** Per-package vitest threshold raised to 80 in CI.
+3. **No breaking changes for ≥ 1 quarter.** Empirical, measured by changeset majors in the package.
+4. **Migration guide for the upcoming major** if any breaking change is queued.
+5. **Version bumped to `1.0.0`** in the same release.
+
+## Demotion criteria
+
+Stable is not a one-way door. A package returns to `beta` when:
+
+1. **A breaking change is required** that can't ship behind a flag (rare; almost always avoided).
+2. **A security or correctness incident** invalidates the contract (e.g. an injection class missed by `@agentskit/core/security`).
+
+Demotions are loud — they go in the changelog under their own heading, link
+to the incident, and ship with a migration guide for any consumer that
+depended on the now-revised behaviour.
+
+## Until-promoted
+
+If you depend on an `alpha` or `beta` package today, do the following:
+
+1. **Pin to a specific minor.** `@agentskit/vue@^0.2.1`, not `*`.
+2. **Read the stability note** in `package.json` — it lists the parts of
+   the surface most likely to move.
+3. **Open an issue** when you hit a constraint. Stable promotions are
+   triggered by real-world feedback.
+
+## Roadmap
+
+The 5 alpha UI bindings are the most concrete near-term promotion target.
+Once their coverage thresholds are at 70+ (real tests, not the placeholder
+existence checks), promotion follows. The 3 beta packages graduate when
+their respective ADRs are written + locked.
+
+## Related
+
+- [Packages overview](./packages/overview)
+- [Architecture decisions (ADRs)](https://github.com/AgentsKit-io/agentskit/tree/main/docs/architecture/adrs)
+- [Changelog](./changelog)
