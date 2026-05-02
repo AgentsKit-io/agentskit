@@ -1,0 +1,31 @@
+name: octo-stars-digest
+version: 1
+description: |
+  Example DAG: pull two GitHub repo stargazer counts, sum them, and
+  format a markdown summary. Demonstrates compileFlow's needs:
+  threading + the durable runner short-circuiting on resume.
+
+nodes:
+  - id: fetch-react
+    name: Fetch React stargazers
+    run: github.stars
+    with:
+      owner: facebook
+      repo: react
+
+  - id: fetch-vue
+    name: Fetch Vue stargazers
+    run: github.stars
+    with:
+      owner: vuejs
+      repo: core
+
+  - id: total
+    name: Sum totals
+    run: math.sum
+    needs: [fetch-react, fetch-vue]
+
+  - id: render
+    name: Render markdown
+    run: render.markdown
+    needs: [fetch-react, fetch-vue, total]
