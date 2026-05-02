@@ -10,10 +10,13 @@ import {
   generateSkillTest,
   generateAdapterSource,
   generateAdapterTest,
+  generateChatMemorySource,
+  generateVectorMemorySource,
+  generateVectorMemoryTest,
   generateReadme,
 } from './blueprints'
 
-export type ScaffoldType = 'tool' | 'skill' | 'adapter'
+export type ScaffoldType = 'tool' | 'skill' | 'adapter' | 'memory-vector' | 'memory-chat'
 
 export interface ScaffoldConfig {
   type: ScaffoldType
@@ -22,16 +25,32 @@ export interface ScaffoldConfig {
   description?: string
 }
 
+function placeholderTest(name: string): string {
+  return `import { describe, expect, it } from 'vitest'
+import * as mod from '../src/index'
+
+describe('${name}', () => {
+  it('exports the factory', () => {
+    expect(typeof mod).toBe('object')
+  })
+})
+`
+}
+
 const sourceGenerators: Record<ScaffoldType, (name: string) => string> = {
   tool: generateToolSource,
   skill: generateSkillSource,
   adapter: generateAdapterSource,
+  'memory-vector': generateVectorMemorySource,
+  'memory-chat': generateChatMemorySource,
 }
 
 const testGenerators: Record<ScaffoldType, (name: string) => string> = {
   tool: generateToolTest,
   skill: generateSkillTest,
   adapter: generateAdapterTest,
+  'memory-vector': generateVectorMemoryTest,
+  'memory-chat': placeholderTest,
 }
 
 export async function scaffold(config: ScaffoldConfig): Promise<string[]> {

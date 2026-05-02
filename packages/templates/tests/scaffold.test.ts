@@ -74,4 +74,25 @@ describe('scaffold', () => {
     const pkg = JSON.parse(await readFile(join(dir, 'slack', 'package.json'), 'utf8'))
     expect(pkg.description).toBe('Send Slack messages from agents')
   })
+
+  it('scaffolds a vector-memory package', async () => {
+    await scaffold({ type: 'memory-vector', name: 'pinedrop', dir })
+    const src = await readFile(join(dir, 'pinedrop', 'src', 'index.ts'), 'utf8')
+    expect(src).toContain('VectorMemory')
+    expect(src).toContain('PinedropConfig')
+    expect(src).toContain('AK_MEMORY_REMOTE_HTTP')
+    expect(src).toContain('async store')
+    expect(src).toContain('async search')
+    expect(src).toContain('async delete')
+  })
+
+  it('scaffolds a chat-memory package', async () => {
+    await scaffold({ type: 'memory-chat', name: 'turso-lite', dir })
+    const src = await readFile(join(dir, 'turso-lite', 'src', 'index.ts'), 'utf8')
+    expect(src).toContain('ChatMemory')
+    expect(src).toContain('TursoLiteConfig')
+    expect(src).toContain('serializeMessages')
+    expect(src).toContain('AK_MEMORY_LOAD_FAILED')
+    expect(src).toContain('AK_MEMORY_SAVE_FAILED')
+  })
 })
