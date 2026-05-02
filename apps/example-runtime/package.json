@@ -5,6 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "tsx src/index.ts",
+    "dev:speculate": "tsx src/speculate.ts",
+    "dev:durable": "tsx src/durable.ts",
+    "dev:topology": "tsx src/topology.ts",
     "build": "tsc --noEmit",
     "lint": "tsc --noEmit"
   },
