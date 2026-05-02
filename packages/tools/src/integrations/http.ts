@@ -65,7 +65,8 @@ export async function httpJson<TResult = unknown>(
       signal: controller.signal,
     })
     const text = await response.text()
-    const parsed = text.length > 0 ? safeParse(text) : undefined
+    const contentType = response.headers.get('content-type') ?? ''
+    const parsed = text.length > 0 ? safeParse(text, contentType, url.toString()) : undefined
     if (!response.ok) {
       throw new ToolError({
         code: ErrorCodes.AK_TOOL_EXEC_FAILED,
@@ -79,10 +80,22 @@ export async function httpJson<TResult = unknown>(
   }
 }
 
-function safeParse(text: string): unknown {
+function safeParse(text: string, contentType: string, url: string): unknown {
   try {
     return JSON.parse(text) as unknown
-  } catch {
+  } catch (err) {
+    // If the server advertised JSON but we couldn't parse it, that's a
+    // contract violation — surface it as a typed error instead of
+    // silently coercing to a string. Any other content-type falls
+    // back to the raw text body (the historical behaviour).
+    if (/\bjson\b/i.test(contentType)) {
+      throw new ToolError({
+        code: ErrorCodes.AK_TOOL_EXEC_FAILED,
+        message: `Invalid JSON from ${url} (content-type: ${contentType})`,
+        hint: `Body preview: ${text.slice(0, 200)}`,
+        cause: err,
+      })
+    }
     return text
   }
 }
