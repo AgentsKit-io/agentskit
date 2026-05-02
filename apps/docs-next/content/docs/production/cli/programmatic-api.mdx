@@ -1,0 +1,288 @@
+---
+title: Programmatic API
+description: Drive every agentskit subcommand from your own code — same internals as the CLI, exposed as named exports.
+---
+
+The `agentskit` CLI is a thin shell over a programmatic API. Every
+subcommand calls into a public function in `@agentskit/cli` — import
+those functions directly when you want to build your own workflow
+runner, custom dev server, or test harness.
+
+## When to use this
+
+- You're embedding AgentsKit into a larger Node tool (a CLI plugin,
+  a CI helper, an internal task runner) and don't want to shell out.
+- You're writing **integration tests** for agent behaviour and need
+  programmatic access to session storage / pricing / hooks.
+- You're building a **custom CLI** that wraps or extends AgentsKit.
+
+If you just want to run an agent, use `agentskit run` from the
+shell. This page is for the cases where the shell is in the way.
+
+## Top-level
+
+### `createCli()`
+
+Returns a configured `commander` `Command` with every AgentsKit
+subcommand registered. Useful when you want to embed the CLI in a
+larger commander program or add your own commands alongside.
+
+```ts
+import { createCli } from '@agentskit/cli'
+
+const program = createCli()
+program
+  .command('hello')
+  .action(() => console.log('hi'))
+program.parseAsync(process.argv)
+```
+
+### `loadConfig(options?)`
+
+Reads `.agentskit.config.{json,ts,js}` from the working directory
+(walks up to the workspace root). Returns the resolved
+`AgentsKitConfig` plus the path it loaded from. The same loader the
+CLI uses on startup.
+
+```ts
+import { loadConfig } from '@agentskit/cli'
+
+const config = await loadConfig()
+console.log('using', config?.defaults?.provider)
+```
+
+## Chat + run
+
+### `ChatApp`
+
+The Ink chat surface that powers `agentskit chat`. It's a regular
+React component — wrap it in any Ink app, swap in your own
+`ChatContainer`, or add custom slash commands.
+
+```ts
+import { render } from 'ink'
+import React from 'react'
+import { ChatApp } from '@agentskit/cli'
+
+render(<ChatApp options={{ provider: 'openai', model: 'gpt-4o' }} />)
+```
+
+### `runAgent(task, options)`
+
+What `agentskit run "<task>"` calls. Resolves provider + adapter +
+tools + skills + memory from the same flag set, runs the task, and
+returns the result.
+
+```ts
+import { runAgent } from '@agentskit/cli'
+
+const result = await runAgent('Summarise this PR', {
+  provider: 'anthropic',
+  model: 'claude-sonnet-4-6',
+  apiKey: process.env.ANTHROPIC_API_KEY,
+  tools: 'web_search,fetch_url',
+})
+```
+
+## Init + scaffolding
+
+### `writeStarterProject(options)`
+
+Materialises a starter template on disk — same paths `agentskit init`
+writes. The function takes the resolved kind + project dir; pair
+with `@inquirer/prompts` for an interactive flow or pass the kind
+directly for non-interactive use.
+
+```ts
+import { writeStarterProject } from '@agentskit/cli'
+
+await writeStarterProject({
+  kind: 'react',
+  projectDir: './my-app',
+  provider: 'openai',
+  model: 'gpt-4o-mini',
+})
+```
+
+### `resolveChatProvider(options)`
+
+Builds a real `AdapterFactory` from CLI-shaped options. Demo mode
+when `provider: 'demo'`, otherwise looks up keys in env. Returns
+the adapter plus a human-readable summary line.
+
+```ts
+import { resolveChatProvider } from '@agentskit/cli'
+
+const { adapter, summary } = resolveChatProvider({
+  provider: 'openai',
+  model: 'gpt-4o-mini',
+})
+console.log(summary)
+```
+
+## Sessions
+
+A session is a labelled message history persisted under
+`~/.agentskit/sessions/`. The CLI uses these for `--resume` /
+`/fork` / `/rename`; you can manage them directly:
+
+```ts
+import {
+  listSessions,
+  findSession,
+  findLatestSession,
+  renameSession,
+  forkSession,
+  resolveSession,
+  writeSessionMeta,
+  derivePreview,
+  generateSessionId,
+  sessionFilePath,
+} from '@agentskit/cli'
+
+const all = await listSessions()
+const latest = await findLatestSession()
+const branched = await forkSession(latest!.id)
+await renameSession(branched.id, 'experiment-2')
+```
+
+Use `derivePreview(messages)` to compute the short label the chat UI
+shows alongside the session id. `sessionFilePath(id)` returns the
+JSON path you can read directly.
+
+## Plugins
+
+```ts
+import { loadPlugins, mergePluginsIntoBundle } from '@agentskit/cli'
+
+const plugins = await loadPlugins(['./my-plugin.js'])
+const bundle = mergePluginsIntoBundle(plugins, baseBundle)
+```
+
+`loadPlugins` resolves a list of plugin specifiers (paths or
+package names) into hydrated `PluginBundle`s.
+`mergePluginsIntoBundle` flattens N bundles into a single
+adapter-tools-skills-hooks set the runtime can consume.
+
+## MCP bridge
+
+```ts
+import { McpClient, bridgeMcpServers, disposeMcpClients } from '@agentskit/cli'
+
+const clients = await bridgeMcpServers([
+  { command: 'mcp-server-filesystem', args: ['--root', './workspace'] },
+])
+try {
+  // clients[0].tools are pre-wrapped as AgentsKit ToolDefinitions
+} finally {
+  await disposeMcpClients(clients)
+}
+```
+
+`bridgeMcpServers` spawns each MCP server, reads its tool catalog,
+wraps every tool as an `AgentsKit` `ToolDefinition`, and returns
+the connected `McpClient`s. `disposeMcpClients` shuts them down +
+flushes pending notifications.
+
+## Telemetry / pricing
+
+```ts
+import { computeCost, getPricing, registerPricing } from '@agentskit/cli'
+
+registerPricing('myorg/custom-model', {
+  inputPer1M: 0.5,
+  outputPer1M: 1.5,
+  cachedInputPer1M: 0.05,
+})
+
+const cost = computeCost('myorg/custom-model', {
+  promptTokens: 1200,
+  completionTokens: 800,
+  totalTokens: 2000,
+})
+```
+
+`computeCost` falls back to a rolling default for known models;
+`getPricing` returns the registered entry (or undefined) and
+`registerPricing` adds your own.
+
+## RAG
+
+```ts
+import { createOpenAiEmbedder, buildRagFromConfig, indexSources } from '@agentskit/cli'
+
+const embed = createOpenAiEmbedder({ apiKey: process.env.OPENAI_API_KEY!, model: 'text-embedding-3-small' })
+const rag = buildRagFromConfig({
+  config: { sources: ['./docs/**/*.md'], dir: '.agentskit/rag' },
+  embedder: embed,
+})
+await indexSources(rag, { sources: ['./docs/**/*.md'] })
+```
+
+`createOpenAiEmbedder` wraps the OpenAI Embeddings API as a
+`@agentskit/core` `EmbedFn`. `buildRagFromConfig` wires that
+embedder into a `createRAG` instance pointed at the configured
+vector store. `indexSources` ingests every glob from the config.
+
+## Hooks
+
+```ts
+import { HookDispatcher, configHooksToHandlers } from '@agentskit/cli'
+
+const handlers = configHooksToHandlers(config?.hooks ?? {})
+const dispatcher = new HookDispatcher(handlers)
+await dispatcher.dispatch('onUserMessage', { message: 'hi' })
+```
+
+`HookDispatcher` is the runtime-side glue that fires user-defined
+hooks at each lifecycle event. `configHooksToHandlers` translates
+the JSON / TS config shape into the `HookHandler` map the
+dispatcher accepts.
+
+## Permissions
+
+```ts
+import {
+  defaultPolicy,
+  evaluatePolicy,
+  applyPolicyToTool,
+  applyPolicyToTools,
+} from '@agentskit/cli'
+
+const policy = defaultPolicy()
+const decision = evaluatePolicy(policy, { tool: 'shell', mode: 'execute' })
+const guarded = applyPolicyToTool(myShellTool, policy)
+```
+
+`defaultPolicy()` returns the same permission set the chat UI uses
+(deny dangerous shell + filesystem writes by default; ask the user
+on first use). `evaluatePolicy` is the one-shot decision function;
+`applyPolicyToTool` wraps a tool with the policy gate so its
+`execute` calls are intercepted.
+
+## Doctor / dev / tunnel
+
+```ts
+import { runDoctor, renderReport, startDev, startTunnel } from '@agentskit/cli'
+
+const report = await runDoctor()
+console.log(renderReport(report))
+
+const dev = await startDev({ port: 4200 })
+// dev.controller.close() later
+
+const tunnel = await startTunnel({ port: 4200 })
+console.log(tunnel.url)
+```
+
+`runDoctor` runs the full provider + tooling check matrix the
+`agentskit doctor` command surfaces. `startDev` launches the dev
+server (chokidar watch + hot agent reload) and returns a
+`DevController` you can close. `startTunnel` opens a localtunnel
+for webhook testing — `tunnel.url` is the public address.
+
+## Related
+
+- [`@agentskit/cli` for-agents reference](/docs/for-agents/cli)
+- [`agentskit chat` / `init` / `run`](./index)
+- [Concept: chat controller](/docs/get-started/concepts/runtime)
