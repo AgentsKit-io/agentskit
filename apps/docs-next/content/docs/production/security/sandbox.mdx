@@ -1,0 +1,167 @@
+---
+title: 'Sandbox: deep dive'
+description: 'How @agentskit/sandbox executes untrusted code — backends, policies, audit trail, integration with the agent runtime.'
+---
+
+`@agentskit/sandbox` is the primitive layer underneath the
+[mandatory-sandbox policy](./mandatory-sandbox). Where the policy is
+about **which** tools an agent can call, the sandbox is about
+**where** that code actually runs. This page covers the full surface.
+
+## When you need it
+
+| Scenario | Sandbox |
+|---|---|
+| Agent emits arbitrary JS / Python | **Required** |
+| Agent runs `shell` against user-supplied commands | **Required** |
+| Agent reads / writes files in user-controlled paths | Strongly recommended |
+| Agent calls a fixed set of HTTP integrations (Slack, GitHub, etc.) | Not required — those tools are already constrained |
+
+If your agent's tool set is "send Slack message" + "read three blog
+posts", you don't need a sandbox. If your agent generates code or
+shells out to anything user-supplied, you do.
+
+## Backends
+
+`@agentskit/sandbox` is a thin abstraction; backends do the actual
+isolation. Each backend implements the `SandboxBackend` interface:
+
+```ts
+interface SandboxBackend {
+  execute(code: string, options?: ExecuteOptions): Promise<ExecuteResult>
+  dispose(): Promise<void>
+}
+
+interface ExecuteResult {
+  stdout: string
+  stderr: string
+  exitCode: number
+  durationMs: number
+}
+```
+
+### E2B (default — production-ready)
+
+```ts
+import { createSandbox } from '@agentskit/sandbox'
+
+const sandbox = createSandbox({
+  apiKey: process.env.E2B_API_KEY!,
+  language: 'python',
+  timeout: 30_000,        // ms; per call
+  memoryLimit: '512mb',
+})
+```
+
+[E2B](https://e2b.dev) hosts the VM. Their free tier covers low-volume
+demos; paid tiers scale. Strict isolation: no host filesystem access,
+no network unless explicitly enabled.
+
+### WebContainer (browser-only)
+
+Run inside the user's browser via [StackBlitz WebContainer API](https://webcontainers.io). Useful for in-browser playgrounds; skip
+for any agent that processes secrets — the sandbox is only as
+private as the user's machine.
+
+### Custom backend
+
+```ts
+import type { SandboxBackend } from '@agentskit/sandbox'
+
+const myBackend: SandboxBackend = {
+  async execute(code, options) {
+    // Hand off to your VM, container, isolate, etc.
+    return { stdout: '', stderr: '', exitCode: 0, durationMs: 0 }
+  },
+  async dispose() {},
+}
+
+const sandbox = createSandbox({ backend: myBackend })
+```
+
+## Policy + sandbox together
+
+The two compose:
+
+```ts
+import { createSandbox, createMandatorySandbox } from '@agentskit/sandbox'
+import { shell, filesystem } from '@agentskit/tools'
+
+const sandbox = createSandbox({ apiKey: process.env.E2B_API_KEY! })
+
+const policy = {
+  allow: ['ls', 'cat', 'grep', 'wc', 'python'],
+  deny:  ['rm', 'sudo', 'curl', 'wget', 'ssh'],
+  requireSandbox: ['shell', 'fs_write'],   // tools that MUST sandbox
+  validators: {
+    shell: (args) => args.cmd.length < 256 || 'command too long',
+  },
+}
+
+const tools = [
+  ...createMandatorySandbox(shell(), policy, sandbox),
+  ...createMandatorySandbox(filesystem({ basePath: './workspace' }), policy, sandbox),
+]
+```
+
+The policy gates *which* invocations reach the sandbox; the sandbox
+gates *what those invocations can actually do*. Skip either layer
+and you've got a hole.
+
+## Audit trail
+
+Every sandbox call surfaces as a structured event the runtime can
+log:
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import type { Observer } from '@agentskit/core'
+
+const audit: Observer = {
+  name: 'sandbox-audit',
+  on(event) {
+    if (event.type === 'tool:start' && event.metadata?.sandbox) {
+      console.log(`[sandbox] ${event.name} → ${event.metadata.backend}`)
+    }
+  },
+}
+
+createRuntime({ adapter, tools, observers: [audit] })
+```
+
+For HMAC-signed audit logs (tamper-evident, replayable), pair with
+[`createSignedAuditLog`](/docs/reference/recipes/audit-log) from
+`@agentskit/observability`.
+
+## Failure modes
+
+| Symptom | Cause | Fix |
+|---|---|---|
+| `AK_SANDBOX_PEER_MISSING` | E2B SDK not installed | `npm install @e2b/code-interpreter` |
+| `AK_SANDBOX_BACKEND_FAILED` | Backend init failed (auth, network) | Check `apiKey`; verify E2B account has free quota left. |
+| `AK_SANDBOX_DENIED` | Policy denied the call | Add the verb to `allow`, or change the agent's plan. |
+| `AK_SANDBOX_INVALID_TOOL` | Wrapped tool has no `execute` fn | The wrap was applied to a malformed `ToolDefinition` — fix the source tool. |
+| Sandbox call timeout | Hit `timeout` cap | Bump `timeout` (default 30s) or split the work. |
+
+Errors are typed (`SandboxError`) — pattern-match on `code` for
+programmatic recovery.
+
+## Cost + latency
+
+Per E2B's pricing, a sandboxed call is in the ~50–500 ms range plus
+~1¢ per minute of VM time. Budget accordingly. The
+[`costGuard`](/docs/agents/runtime#observability) observer treats
+sandbox calls like any other observable cost dimension.
+
+## Recipe gallery
+
+- [Mandatory sandbox](./mandatory-sandbox) — policy basics.
+- [Recipe: mandatory sandbox](/docs/reference/recipes/mandatory-sandbox)
+- [Recipe: audit log](/docs/reference/recipes/audit-log)
+- [Recipe: HITL approvals](/docs/reference/recipes/hitl-approvals) — pair with sandbox for human-gated execution.
+
+## Related
+
+- [`@agentskit/sandbox` package reference](/docs/reference/packages/sandbox)
+- [`@agentskit/sandbox` for-agents](/docs/for-agents/sandbox)
+- [Mandatory sandbox policy](./mandatory-sandbox)

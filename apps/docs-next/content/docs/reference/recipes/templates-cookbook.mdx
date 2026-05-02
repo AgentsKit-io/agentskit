@@ -1,0 +1,132 @@
+---
+title: 'Recipe: Scaffolding with @agentskit/templates'
+description: Generate a publishable AgentsKit package — tool, skill, adapter, embedder, memory, browser-adapter, or flow — in a few lines of Node.
+---
+
+`@agentskit/templates` powers `agentskit init` under the hood, but
+you can call its scaffolds directly. Useful for:
+
+- A monorepo task that generates a new internal tool / skill / adapter on demand.
+- A custom CLI that wraps AgentsKit conventions (e.g. one that
+  pre-seeds your team's tsconfig + ESLint).
+- A code-mod / migration script that creates the new shape and
+  copies your existing impl into it.
+
+## Available shapes
+
+| `ScaffoldType` | What lands on disk |
+|---|---|
+| `tool` | `ToolDefinition` skeleton + Zod-style schema example. |
+| `skill` | `SkillDefinition` with system prompt + few-shot block. |
+| `adapter` | `AdapterFactory` skeleton + abort-signal wiring. |
+| `memory-vector` | `VectorMemory` HTTP-backed skeleton with typed errors. |
+| `memory-chat` | `ChatMemory` + `serializeMessages` integration. |
+| `flow` | `flow.yaml` + `FlowRegistry` stubs + smoke test. |
+| `embedder` | `EmbedFn` factory (OpenAI-compatible HTTP shape). |
+| `browser-adapter` | Browser-only `AdapterFactory` (webllm shape). |
+
+Every shape produces a publishable package: `package.json`,
+`tsconfig.json`, `tsup.config.ts`, `src/index.ts`, `tests/index.test.ts`,
+`README.md`. Dependencies are picked per type — `tool`/`skill` get
+only `@agentskit/core`; `adapter`/`embedder`/`browser-adapter` add
+`@agentskit/adapters`; `memory-*` add `@agentskit/memory`; `flow`
+adds `@agentskit/runtime`.
+
+## Quick start
+
+```ts
+import { scaffold } from '@agentskit/templates'
+
+const created = await scaffold({
+  type: 'adapter',
+  name: 'my-llm',
+  dir: './packages',
+  description: 'Adapter for our internal inference proxy',
+})
+
+console.log(`Wrote ${created.length} files into ./packages/my-llm`)
+// → ./packages/my-llm/package.json
+//   ./packages/my-llm/tsconfig.json
+//   ./packages/my-llm/tsup.config.ts
+//   ./packages/my-llm/src/index.ts
+//   ./packages/my-llm/tests/index.test.ts
+//   ./packages/my-llm/README.md
+```
+
+## Programmatic factories
+
+Per-type factories let you build a `ToolDefinition` /
+`SkillDefinition` / `AdapterFactory` in memory (no disk). Useful in
+tests or in a server that constructs tools dynamically:
+
+```ts
+import {
+  createToolTemplate,
+  createSkillTemplate,
+  createAdapterTemplate,
+} from '@agentskit/templates'
+
+const tool = createToolTemplate({
+  name: 'lookup',
+  description: 'Look up a customer by id',
+  schema: { type: 'object', properties: { id: { type: 'string' } }, required: ['id'] },
+  execute: async ({ id }) => fetchCustomer(String(id)),
+})
+
+const skill = createSkillTemplate({
+  name: 'researcher',
+  description: 'Methodical web researcher.',
+  systemPrompt: 'You are a methodical researcher…',
+  tools: ['web_search', 'fetch_url'],
+})
+
+const adapter = createAdapterTemplate({
+  name: 'echo',
+  createSource: () => ({
+    stream: async function* () { yield { type: 'text', content: 'echo' }; yield { type: 'done' } },
+    abort: () => {},
+  }),
+})
+```
+
+Each factory runs the matching `validate*Template` pass, so misshapen
+inputs throw at the call site instead of crashing the runtime later.
+
+## Custom CLI integration
+
+Wrap `scaffold` in your team's CLI to seed conventions:
+
+```ts
+#!/usr/bin/env node
+import { scaffold } from '@agentskit/templates'
+import { writeFile } from 'node:fs/promises'
+import { join } from 'node:path'
+
+const [type, name] = process.argv.slice(2)
+if (!type || !name) {
+  console.error('Usage: my-team-cli <type> <name>')
+  process.exit(1)
+}
+
+const dir = join(process.cwd(), 'packages')
+await scaffold({ type, name, dir })
+
+// Drop in our shared tooling files.
+await writeFile(join(dir, name, '.eslintrc.cjs'), `module.exports = require('@myteam/eslint-config')\n`)
+await writeFile(join(dir, name, '.prettierrc'), `"@myteam/prettier-config"\n`)
+
+console.log(`Done. Run: pnpm --filter @myorg/${name} dev`)
+```
+
+## Testing your generated code
+
+The scaffolded tests use Vitest with the same conventions as the
+core packages (`vitest run`, lint via `tsc --noEmit`). Wire them
+into your monorepo's CI right away — every new scaffold ships with
+its own test that compiles + runs.
+
+## Related
+
+- [`agentskit init`](/docs/production/cli/init) — the CLI counterpart.
+- [`@agentskit/templates` package reference](/docs/reference/packages/templates).
+- [`scaffold-creator` recipe](/docs/reference/recipes/scaffold-creator) — the AI-assisted path.

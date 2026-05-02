@@ -1,0 +1,138 @@
+---
+title: Angular
+description: '@agentskit/angular AgentskitChat service — Signals + RxJS BehaviorSubject. Same chat contract as the React useChat hook.'
+---
+
+AgentsKit's Angular binding is a service, not a hook. Same chat
+controller, same state shape — exposed both as a `Signal` (for
+template binding) and a `BehaviorSubject` (for RxJS interop).
+
+## Install
+
+```bash
+npm install @agentskit/angular @agentskit/adapters
+```
+
+## Basic usage
+
+```ts
+import { Component, inject } from '@angular/core'
+import { AgentskitChat } from '@agentskit/angular'
+import { openai } from '@agentskit/adapters'
+
+@Component({
+  selector: 'ak-chat',
+  standalone: true,
+  template: `
+    @if (chat.state()) {
+      <div data-ak-chat>
+        <div data-ak-messages>
+          @for (m of chat.state()!.messages; track m.id) {
+            <div data-ak-message [attr.data-ak-role]="m.role">
+              <strong>{{ m.role }}:</strong> {{ m.content }}
+            </div>
+          }
+        </div>
+        <form data-ak-form (submit)="$event.preventDefault(); send()">
+          <input
+            data-ak-input
+            [value]="chat.state()!.input"
+            (input)="chat.setInput(input.value)"
+            #input
+          />
+          <button data-ak-submit type="submit">Send</button>
+        </form>
+      </div>
+    }
+  `,
+})
+export class ChatComponent {
+  chat = inject(AgentskitChat)
+
+  constructor() {
+    this.chat.init({ adapter: openai({ apiKey: KEY, model: 'gpt-4o-mini' }) })
+  }
+
+  send() {
+    this.chat.send(this.chat.state()!.input)
+  }
+}
+```
+
+## Service shape
+
+```ts
+class AgentskitChat {
+  // State (template-friendly)
+  readonly state: WritableSignal<ChatState | null>
+  readonly stream$: Observable<ChatState | null>
+
+  init(config: ChatConfig): ChatReturn   // open the controller
+  snapshot(): ChatReturn                  // current ChatReturn
+
+  // Actions
+  send(text: string): void
+  stop(): void
+  retry(): void
+  setInput(value: string): void
+  clear(): void
+  approve(toolCallId: string): void
+  deny(toolCallId: string): void
+
+  destroy(): void                         // close + clear state
+}
+```
+
+`init()` is required before any other method. Call it once in the
+component constructor (or in a route guard for app-wide setup).
+
+## RxJS interop
+
+Pipe `stream$` into anything that wants `Observable<ChatState>`:
+
+```ts
+import { map, distinctUntilChanged } from 'rxjs/operators'
+
+// Status changes only — useful for Material progress bars, etc.
+status$ = this.chat.stream$.pipe(
+  map(s => s?.status ?? 'idle'),
+  distinctUntilChanged(),
+)
+```
+
+## Standalone vs `providedIn: 'root'`
+
+`AgentskitChat` is `providedIn: 'root'` by default — singleton per
+app. If you need multiple independent chats (admin panel + agent
+sidebar in the same app), provide it locally:
+
+```ts
+@Component({
+  selector: 'ak-chat-sidebar',
+  standalone: true,
+  providers: [AgentskitChat],
+  template: '...',
+})
+```
+
+## Lifecycle
+
+`AgentskitChat` implements `OnDestroy` and shuts down its controller
+when the component / service is torn down. You can also call
+`destroy()` explicitly to wipe the state without removing the
+service.
+
+## When to call `init()` again
+
+Call `init({ adapter: newAdapter })` to swap providers mid-session.
+The previous controller is destroyed; a new one starts with empty
+state. To preserve message history, hold the messages outside and
+re-feed them as `initialMessages` after re-init (planned for v0.3).
+
+## Related
+
+- [`useChat` contract](./use-chat) — the same shape every binding
+  exposes.
+- [`@agentskit/angular` for-agents reference](/docs/for-agents/angular)
+- [Data attributes](./data-attributes) for styling.
+- [Concepts → Runtime](/docs/get-started/concepts/runtime).

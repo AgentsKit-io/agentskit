@@ -1,0 +1,121 @@
+---
+title: 'Recipe: vector filter helpers'
+description: Use matchesFilter to evaluate vector-store filter predicates outside an adapter, and pair with postgresWithRoles for row-level security.
+---
+
+Two utility recipes that pair with vector memory and row-bound SQL.
+
+## `matchesFilter`
+
+Every `VectorMemory` adapter accepts an optional `filter` —
+`matchesFilter(record, filter)` is the same predicate evaluated
+**outside** the adapter, useful when you want to:
+
+- Pre-filter a hand-curated cache before sending it to the model.
+- Sanity-check a filter at runtime before passing it to a backend
+  whose own validator is unhelpful.
+- Build a custom retriever (e.g. a hybrid retriever that mixes
+  vector + tag-only matches).
+
+```ts
+import { matchesFilter } from '@agentskit/memory'
+
+const records = [
+  { id: '1', metadata: { tier: 'free', region: 'us-east' } },
+  { id: '2', metadata: { tier: 'pro',  region: 'eu-west' } },
+  { id: '3', metadata: { tier: 'pro',  region: 'us-east' } },
+]
+
+const filter = {
+  $and: [
+    { tier: 'pro' },
+    { region: { $in: ['us-east', 'us-west'] } },
+  ],
+}
+
+const matches = records.filter(r => matchesFilter(r, filter))
+// → [{ id: '3', ... }]
+```
+
+Filters use the same operator vocabulary as the vector backends —
+`$eq`, `$ne`, `$in`, `$nin`, `$gt`, `$gte`, `$lt`, `$lte`,
+`$contains`, `$and`, `$or`, `$not`. See the
+[vector adapters recipe](./vector-adapters) for the full table.
+
+## `postgresWithRoles` — row-level security through agents
+
+Standard `postgresQuery` runs every query as the same DB role. For
+multi-tenant agents you almost always want the query to run as the
+**user's** role so Postgres RLS policies kick in:
+
+```ts
+import { postgresWithRoles } from '@agentskit/tools/integrations'
+import { Pool } from 'pg'
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL })
+
+const tool = postgresWithRoles({
+  pool,
+  /**
+   * Map the agent's run-context to a Postgres role.
+   * The tool issues `SET LOCAL ROLE <role>` before each query.
+   */
+  resolveRole: ctx => `tenant_${ctx.tenantId}`,
+  /**
+   * Optional: also set search_path / app.user_id for RLS policies
+   * that read `current_setting('app.user_id')`.
+   */
+  sessionVars: ctx => ({ 'app.user_id': String(ctx.userId) }),
+  allowWrites: false,
+  maxRows: 200,
+})
+```
+
+Pair with `createRuntime`:
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { createSharedContext } from '@agentskit/runtime'
+
+const ctx = createSharedContext({ tenantId: '42', userId: 999 })
+
+const runtime = createRuntime({
+  adapter,
+  tools: [tool],
+  context: ctx,
+})
+
+await runtime.run('Show all my recent orders.')
+```
+
+The agent issues `SELECT * FROM orders` and Postgres applies the RLS
+policy automatically — no need for the agent to know about the
+tenant filter.
+
+## Combining both
+
+A common pattern: pre-filter the vector hits in JS with `matchesFilter`,
+then run a tenant-scoped SQL JOIN through `postgresWithRoles` to
+hydrate the results:
+
+```ts
+const vectorHits = await rag.search(query, { topK: 50 })
+const eligible = vectorHits.filter(h =>
+  matchesFilter(h, { 'metadata.tier': { $in: ['pro', 'enterprise'] } }),
+)
+const ids = eligible.map(h => h.id)
+
+const rows = await tool.execute(
+  { sql: `SELECT * FROM documents WHERE id = ANY($1::text[])`, params: [ids] },
+  ctx,
+)
+```
+
+The vector store stays tenant-agnostic (cheap), the SQL layer
+enforces tenant isolation (correct).
+
+## Related
+
+- [Vector adapters](./vector-adapters)
+- [Recipe: persistent memory](./persistent-memory)
+- [Mandatory sandbox](/docs/production/security/mandatory-sandbox) — pair with `postgresWithRoles` for layered defence.

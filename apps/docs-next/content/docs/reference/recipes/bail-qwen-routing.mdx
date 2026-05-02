@@ -1,0 +1,101 @@
+---
+title: 'Recipe: Bail / Qwen routing'
+description: Use the bail (Alibaba DashScope) / qwen adapter alongside Western providers, with cost-aware routing for Asia-Pacific traffic.
+---
+
+The `bail` adapter (alias `qwen`) targets Alibaba's DashScope API,
+which hosts the Qwen family of models. Useful when you want native
+support for Chinese / Asia-Pacific compliance — DashScope's region
+selection means traffic stays in mainland China when needed.
+
+## Install + basic call
+
+```ts
+import { bail } from '@agentskit/adapters'
+
+const adapter = bail({
+  apiKey: process.env.DASHSCOPE_API_KEY!,
+  model: 'qwen-max',          // or qwen-plus, qwen-turbo, qwen-vl-*
+  region: 'cn-beijing',       // or 'cn-hangzhou', 'singapore', etc.
+})
+```
+
+`qwen` is an alias — same factory, same options:
+
+```ts
+import { qwen } from '@agentskit/adapters'
+
+const adapter = qwen({ apiKey, model: 'qwen-max' })
+```
+
+## Routing: cheap default + premium fallback
+
+Pair `bail` with `createRouter` to keep cost under control while still
+having a quality fallback:
+
+```ts
+import { bail, openai, createRouter } from '@agentskit/adapters'
+
+const router = createRouter({
+  candidates: [
+    {
+      id: 'qwen-turbo',
+      adapter: bail({ apiKey: process.env.DASHSCOPE_API_KEY!, model: 'qwen-turbo' }),
+      cost: 0.3,
+      capabilities: { tools: true },
+    },
+    {
+      id: 'qwen-max',
+      adapter: bail({ apiKey: process.env.DASHSCOPE_API_KEY!, model: 'qwen-max' }),
+      cost: 1.6,
+      capabilities: { tools: true },
+    },
+    {
+      id: 'gpt-4o',
+      adapter: openai({ apiKey: process.env.OPENAI_API_KEY!, model: 'gpt-4o' }),
+      cost: 2.5,
+      capabilities: { tools: true },
+      tags: ['western', 'fallback'],
+    },
+  ],
+  // Default policy: 'cheapest' that satisfies the request.
+  policy: 'cheapest',
+  // Custom classify: route long-context English to gpt-4o.
+  classify: req => {
+    const lastUser = req.messages.findLast(m => m.role === 'user')
+    if (lastUser?.content.length > 8_000) return 'gpt-4o'
+    return undefined  // fall through to policy
+  },
+})
+```
+
+## Comparison snapshot
+
+| Adapter | Best for | Region | Tool support |
+|---|---|---|---|
+| `bail` / `qwen` | CN / APAC compliance, multilingual incl. Chinese | DashScope (mainland China + Singapore) | ✅ |
+| `openai` | Quality + ecosystem | US (or Azure if you need EU) | ✅ |
+| `anthropic` | Long context, tool use | US | ✅ |
+| `gemini` | Multimodal + cost-effective | Google global | ✅ |
+| `deepseek` | Coding-heavy + ultra-cheap | Hosted in CN | ✅ |
+
+## Embedder pairing
+
+Qwen also publishes text-embedding endpoints. Wire via the
+OpenAI-compatible factory:
+
+```ts
+import { createOpenAICompatibleEmbedder } from '@agentskit/adapters'
+
+const qwenEmbedder = createOpenAICompatibleEmbedder({
+  apiKey: process.env.DASHSCOPE_API_KEY!,
+  model: 'text-embedding-v3',
+  baseUrl: 'https://dashscope.aliyuncs.com/compatible-mode/v1',
+})
+```
+
+## Related
+
+- [`bail` provider page](/docs/data/providers/bail)
+- [Recipe: Adapter router](/docs/reference/recipes/adapter-router)
+- [Comparison](/docs/get-started/comparison)
