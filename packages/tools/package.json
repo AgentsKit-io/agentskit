@@ -42,6 +42,11 @@
       "types": "./dist/integrations.d.ts",
       "import": "./dist/integrations.js",
       "require": "./dist/integrations.cjs"
+    },
+    "./mcp-devtools": {
+      "types": "./dist/mcp-devtools.d.ts",
+      "import": "./dist/mcp-devtools.js",
+      "require": "./dist/mcp-devtools.cjs"
     }
   },
   "files": [
