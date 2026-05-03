@@ -78,18 +78,58 @@ describe('writeRules — codex (AGENTS.md profile block)', () => {
     expect(body).toContain('agentskit-codex-profile:start')
   })
 
-  it('replaces an existing profile block in place (idempotent)', async () => {
+  it('requires --force even for in-place block replacement on a populated AGENTS.md', async () => {
     writeFileSync(
       join(root, 'AGENTS.md'),
       '# AGENTS\n\n<!-- agentskit-codex-profile:start -->\nold profile\n<!-- agentskit-codex-profile:end -->\n\nTrailing.\n',
       'utf8',
     )
-    const [r] = await writeRules('codex', { rootDir: root })
-    expect(r.files[0].action).toBe('updated')
+    const [skip] = await writeRules('codex', { rootDir: root })
+    expect(skip.files[0].action).toBe('skipped')
+    expect(readFileSync(join(root, 'AGENTS.md'), 'utf8')).toContain('old profile')
+
+    const [forced] = await writeRules('codex', { rootDir: root, force: true })
+    expect(forced.files[0].action).toBe('updated')
     const body = readFileSync(join(root, 'AGENTS.md'), 'utf8')
     expect(body).toContain('profile: agentskit')
     expect(body).not.toContain('old profile')
     expect(body).toContain('Trailing.')
+  })
+
+  it('collapses duplicate-pasted blocks into one (uses last :end)', async () => {
+    writeFileSync(
+      join(root, 'AGENTS.md'),
+      [
+        '# AGENTS\n',
+        '<!-- agentskit-codex-profile:start -->',
+        'OLD_BLOCK_ONE_MARKER',
+        '<!-- agentskit-codex-profile:end -->',
+        '<!-- agentskit-codex-profile:start -->',
+        'OLD_BLOCK_TWO_MARKER',
+        '<!-- agentskit-codex-profile:end -->',
+        'TRAILING_MARKER',
+      ].join('\n'),
+      'utf8',
+    )
+    const [r] = await writeRules('codex', { rootDir: root, force: true })
+    expect(r.files[0].action).toBe('updated')
+    const body = readFileSync(join(root, 'AGENTS.md'), 'utf8')
+    expect(body.match(/agentskit-codex-profile:start/g) ?? []).toHaveLength(1)
+    expect(body.match(/agentskit-codex-profile:end/g) ?? []).toHaveLength(1)
+    expect(body).not.toContain('OLD_BLOCK_ONE_MARKER')
+    expect(body).not.toContain('OLD_BLOCK_TWO_MARKER')
+    expect(body).toContain('TRAILING_MARKER')
+  })
+
+  it('refuses to modify a half-edited block (start without end)', async () => {
+    writeFileSync(
+      join(root, 'AGENTS.md'),
+      '# AGENTS\n\n<!-- agentskit-codex-profile:start -->\ntruncated\n',
+      'utf8',
+    )
+    await expect(writeRules('codex', { rootDir: root, force: true })).rejects.toThrow(
+      /half-edited block/,
+    )
   })
 
   it('skips when the profile block already matches', async () => {
@@ -99,16 +139,21 @@ describe('writeRules — codex (AGENTS.md profile block)', () => {
   })
 })
 
-describe('writeRules — claude-code skill bundle', () => {
-  it('writes the SKILL.md and at least one slash command', async () => {
+describe('writeRules — claude-code (skill + slash commands)', () => {
+  it('writes the SKILL.md to .claude/skills/ AND slash commands to .claude/commands/', async () => {
     const [r] = await writeRules('claude-code', { rootDir: root })
     const paths = r.files.map(f => f.path)
     expect(paths).toContain(join(root, '.claude', 'skills', 'agentskit', 'SKILL.md'))
-    expect(paths.some(p => p.endsWith('commands/doctor.md'))).toBe(true)
-    expect(paths.some(p => p.endsWith('commands/new-agent.md'))).toBe(true)
-    expect(paths.some(p => p.endsWith('commands/rules.md'))).toBe(true)
+    // Slash commands live at .claude/commands/<name>.md (NOT inside the skill folder)
+    expect(paths).toContain(join(root, '.claude', 'commands', 'agentskit-doctor.md'))
+    expect(paths).toContain(join(root, '.claude', 'commands', 'agentskit-new-agent.md'))
+    expect(paths).toContain(join(root, '.claude', 'commands', 'agentskit-rules.md'))
+
     const skill = readFileSync(join(root, '.claude/skills/agentskit/SKILL.md'), 'utf8')
     expect(skill).toContain('name: agentskit')
+
+    const cmd = readFileSync(join(root, '.claude/commands/agentskit-doctor.md'), 'utf8')
+    expect(cmd).toContain('description: Run the AgentsKit environment doctor')
   })
 })
 

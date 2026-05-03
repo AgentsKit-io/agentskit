@@ -1,9 +1,10 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 import { dirname, join, resolve } from 'node:path'
+import { ConfigError, ErrorCodes } from '@agentskit/core'
 import { CURSOR_RULE } from './rules/cursor'
 import { WINDSURF_RULE } from './rules/windsurf'
 import { CODEX_PROFILE } from './rules/codex'
-import { CLAUDE_CODE_SKILL } from './rules/claude-code'
+import { CLAUDE_CODE_SKILL, CLAUDE_CODE_SLASH_COMMANDS } from './rules/claude-code'
 
 export type Editor = 'cursor' | 'windsurf' | 'codex' | 'claude-code' | 'all'
 
@@ -58,6 +59,19 @@ async function writeWindsurf(rootDir: string, force: boolean): Promise<RulesWrit
  * previous profile block delimited by the sentinel comments. If
  * AGENTS.md does not exist, write it with just the profile (deployers
  * are expected to add the rest of the universal-agent guidance).
+ *
+ * Sentinel parsing rules:
+ *  - Search the END sentinel only AFTER the START sentinel — prevents
+ *    a stray `:end -->` inside YAML content from pulling the slice to
+ *    the wrong position.
+ *  - Find the LAST end after the start so a duplicate-paste of the
+ *    block collapses into one rather than half-overwriting.
+ *  - Refuse to modify if a START sentinel is present without any END
+ *    after it (file truncated mid-block) — the user has hand-edited
+ *    something we don't understand and we should not append on top.
+ *  - Require --force for ANY write to a populated AGENTS.md (in-place
+ *    block update OR first-time append). AGENTS.md is load-bearing
+ *    and every codex run on a populated one must be opt-in.
  */
 async function writeCodex(rootDir: string, force: boolean): Promise<RulesWriteResult['files']> {
   const path = join(rootDir, 'AGENTS.md')
@@ -67,11 +81,20 @@ async function writeCodex(rootDir: string, force: boolean): Promise<RulesWriteRe
   } catch {
     // not present — write a fresh AGENTS.md with just the profile.
   }
-  let next: string
   const startIdx = existing.indexOf(CODEX_BLOCK_START)
-  const endIdx = existing.indexOf(CODEX_BLOCK_END)
+  const endIdx =
+    startIdx >= 0
+      ? existing.lastIndexOf(CODEX_BLOCK_END, existing.length)
+      : -1
+  if (startIdx >= 0 && endIdx <= startIdx) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `${path}: found agentskit-codex-profile:start sentinel but no matching :end after it — refusing to modify a half-edited block.`,
+      hint: 'Restore the closing sentinel or remove the partial block, then re-run.',
+    })
+  }
+  let next: string
   if (startIdx >= 0 && endIdx > startIdx) {
-    // Replace the existing block in place.
     next =
       existing.slice(0, startIdx) +
       CODEX_PROFILE.trimEnd() +
@@ -82,9 +105,7 @@ async function writeCodex(rootDir: string, force: boolean): Promise<RulesWriteRe
     next = CODEX_PROFILE
   }
   if (next === existing) return [{ path, action: 'skipped' }]
-  if (existing && !force && startIdx < 0) {
-    // Existing AGENTS.md without our block — only append when --force,
-    // since the AGENTS.md is a load-bearing root file.
+  if (existing && !force) {
     return [{ path, action: 'skipped' }]
   }
   await ensureDir(path)
@@ -93,11 +114,21 @@ async function writeCodex(rootDir: string, force: boolean): Promise<RulesWriteRe
 }
 
 async function writeClaudeCode(rootDir: string, force: boolean): Promise<RulesWriteResult['files']> {
-  const skillRoot = join(rootDir, '.claude', 'skills', 'agentskit')
   const out: RulesWriteResult['files'] = []
+  // Skill bundle (.claude/skills/<name>/SKILL.md) — Claude Code skill format.
+  const skillRoot = join(rootDir, '.claude', 'skills', 'agentskit')
   for (const file of CLAUDE_CODE_SKILL) {
     const abs = join(skillRoot, file.path)
     const action = await writeIfChanged(abs, file.contents, force)
+    out.push({ path: abs, action })
+  }
+  // Project-scoped slash commands (.claude/commands/*.md) — Claude Code's
+  // actual location for `/<name>` invocations. Skill bundles do not
+  // register slash commands automatically; the two surfaces are separate.
+  const commandsRoot = join(rootDir, '.claude', 'commands')
+  for (const cmd of CLAUDE_CODE_SLASH_COMMANDS) {
+    const abs = join(commandsRoot, cmd.path)
+    const action = await writeIfChanged(abs, cmd.contents, force)
     out.push({ path: abs, action })
   }
   return out
