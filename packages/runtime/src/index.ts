@@ -71,3 +71,22 @@ export type {
   SpeculateOutput,
   SpeculatePicker,
 } from './speculate'
+export { createChatTrigger } from './chat-trigger'
+export type {
+  ChatSurface,
+  ChatSurfaceEvent,
+  ChatSurfaceEventType,
+  ChatSurfaceAdapter,
+  ChatSurfaceUser,
+  ChatSurfaceChannel,
+  ChatSurfaceMeta,
+  ChatMessageEvent,
+  ChatMentionEvent,
+  ChatReplyEvent,
+  ChatReactionEvent,
+  ChatFileUploadEvent,
+  ChatInstallationEvent,
+  ChatTrigger,
+  ChatTriggerOptions,
+  ChatTriggerObserverEvent,
+} from './chat-trigger'
