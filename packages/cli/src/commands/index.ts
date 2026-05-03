@@ -9,6 +9,7 @@ import { registerTunnelCommand } from './tunnel'
 import { registerRagCommand } from './rag'
 import { registerAiCommand } from './ai'
 import { registerFlowCommand } from './flow'
+import { registerPiiCommand } from './pii'
 
 export function createCli(): Command {
   const program = new Command()
@@ -26,6 +27,7 @@ export function createCli(): Command {
   registerRagCommand(program)
   registerAiCommand(program)
   registerFlowCommand(program)
+  registerPiiCommand(program)
 
   return program
 }

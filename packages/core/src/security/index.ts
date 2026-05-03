@@ -5,6 +5,18 @@ export {
 export type { PIIRule, PIIRedactor, PIIRedactionResult } from './pii'
 
 export {
+  validatePIITaxonomy,
+  compilePIITaxonomy,
+  PII_TAXONOMY_JSON_SCHEMA,
+} from './taxonomy'
+export type {
+  PIITaxonomy,
+  PIITaxonomyEntry,
+  TaxonomyValidationResult,
+  TaxonomyValidationIssue,
+} from './taxonomy'
+
+export {
   createInjectionDetector,
   DEFAULT_INJECTION_HEURISTICS,
 } from './injection'

@@ -1,0 +1,48 @@
+{
+  "version": "1",
+  "id": "default",
+  "rules": [
+    {
+      "name": "email",
+      "pattern": "[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,}",
+      "flags": "g",
+      "replacer": "[REDACTED_EMAIL]",
+      "description": "RFC 5322-ish email — baseline, not exhaustive."
+    },
+    {
+      "name": "phone",
+      "pattern": "(?:\\+?1[-.\\s]?)?(?:\\(?\\d{3}\\)?[-.\\s]?)?\\d{3}[-.\\s]?\\d{4}",
+      "flags": "g",
+      "replacer": "[REDACTED_PHONE]",
+      "description": "US-style phone number with optional country prefix."
+    },
+    {
+      "name": "ssn",
+      "pattern": "\\b\\d{3}-\\d{2}-\\d{4}\\b",
+      "flags": "g",
+      "replacer": "[REDACTED_SSN]",
+      "description": "US Social Security Number."
+    },
+    {
+      "name": "ipv4",
+      "pattern": "\\b(?:\\d{1,3}\\.){3}\\d{1,3}\\b",
+      "flags": "g",
+      "replacer": "[REDACTED_IP]",
+      "description": "Dotted-quad IPv4 address."
+    },
+    {
+      "name": "credit-card",
+      "pattern": "\\b(?:\\d[ -]*?){13,19}\\b",
+      "flags": "g",
+      "replacer": "[REDACTED_CC]",
+      "description": "Long digit run consistent with a credit-card PAN. Validate with Luhn for stricter matching."
+    },
+    {
+      "name": "uuid",
+      "pattern": "\\b[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}\\b",
+      "flags": "g",
+      "replacer": "[REDACTED_UUID]",
+      "description": "RFC 4122 UUID."
+    }
+  ]
+}
