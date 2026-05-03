@@ -2,7 +2,7 @@
 
 Standalone Next.js 16 landing page for AgentsKit — issue [#230](https://github.com/AgentsKit-io/agentskit/issues/230) (P0.19).
 
-Independent from `apps/docs-next`. Deployed at the apex domain (`agentskit.io`); docs live at `docs.agentskit.io`.
+Independent from `apps/docs-next`. Eventual target: apex `agentskit.io` for landing, `docs.agentskit.io` (or `agentskit.io/docs`) for the Fumadocs site. Until that DNS migration ships, all `LINKS.docs` URLs point at the current `www.agentskit.io/docs` paths.
 
 ## Stack
 
@@ -64,4 +64,5 @@ Mirror updates here into `apps/docs-next/styles/` if cross-surface visual consis
 
 ## Deploy
 
-Vercel project `agentskit-landing` (separate from `agentskit-doc`). Output mode is `standalone` — works on Vercel, Cloudflare Pages, or any Node host.
+- **Vercel** (default): no extra flags. The `vercel.json` here installs with `--frozen-lockfile` and uses an `ignoreCommand` scoped to `apps/landing` + the workspace lockfile so unrelated commits don't trigger a rebuild.
+- **Self-hosted** (Cloudflare Pages, Node server, Docker): set `NEXT_OUTPUT_STANDALONE=1` to switch Next to `output: 'standalone'`. Avoid this on Vercel — it bypasses ISR / Edge Functions / Image Optimization.
