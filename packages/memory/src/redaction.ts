@@ -4,6 +4,7 @@ import type {
   VectorDocument,
   VectorMemory,
 } from '@agentskit/core'
+import { ConfigError, ErrorCodes } from '@agentskit/core'
 import {
   createPIIRedactor,
   tokenize,
@@ -53,10 +54,16 @@ async function transform(
 ): Promise<string> {
   if (opts.mode === 'tokenize') {
     if (!opts.vault) {
-      throw new Error('wrapMemoryWithRedaction: vault is required when mode is "tokenize"')
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: 'wrapMemoryWithRedaction: vault is required when mode is "tokenize"',
+      })
     }
     if (!opts.allowedRoles) {
-      throw new Error('wrapMemoryWithRedaction: allowedRoles is required when mode is "tokenize"')
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: 'wrapMemoryWithRedaction: allowedRoles is required when mode is "tokenize"',
+      })
     }
     const result = await tokenize(input, {
       rules: opts.rules,

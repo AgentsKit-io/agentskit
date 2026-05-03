@@ -1,4 +1,4 @@
-import type { AgentEvent, Observer } from '@agentskit/core'
+import { ConfigError, ErrorCodes, type AgentEvent, type Observer } from '@agentskit/core'
 import {
   createPIIRedactor,
   tokenize,
@@ -44,10 +44,16 @@ async function redactString(
 ): Promise<string> {
   if (opts.mode === 'tokenize') {
     if (!opts.vault) {
-      throw new Error('wrapObserverWithRedaction: vault is required when mode is "tokenize"')
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: 'wrapObserverWithRedaction: vault is required when mode is "tokenize"',
+      })
     }
     if (!opts.allowedRoles) {
-      throw new Error('wrapObserverWithRedaction: allowedRoles is required when mode is "tokenize"')
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: 'wrapObserverWithRedaction: allowedRoles is required when mode is "tokenize"',
+      })
     }
     const result = await tokenize(input, {
       rules: opts.rules,

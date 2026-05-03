@@ -139,8 +139,12 @@ describe('tokenize + reveal — round-trip', () => {
     const events: RedactionAuditEvent[] = []
     const audit = vi.fn(async (e: RedactionAuditEvent) => { events.push(e) })
     const vault = createInMemoryRedactionVault()
-    const { value: t1 } = await tokenize('a@b.co', { rules: DEFAULT_PII_RULES, vault, allowedRoles: ['ok'] })
-    const { value: t2 } = await tokenize(`${t1} c@d.io`, { rules: DEFAULT_PII_RULES, vault, allowedRoles: ['nope'] })
+    // Build the mixed-roles input by tokenizing each PII separately
+    // with a distinct allowedRoles list. Use [EMAIL_RULE] only for
+    // determinism — DEFAULT_PII_RULES has phone / cc / uuid rules
+    // that can interact with the hex token format on some hosts.
+    const { value: t1 } = await tokenize('a@b.co', { rules: [EMAIL_RULE], vault, allowedRoles: ['ok'] })
+    const { value: t2 } = await tokenize(`${t1} c@d.io`, { rules: [EMAIL_RULE], vault, allowedRoles: ['nope'] })
     await reveal(t2, {
       vault,
       actor: { id: 'a', roles: ['ok'] },
