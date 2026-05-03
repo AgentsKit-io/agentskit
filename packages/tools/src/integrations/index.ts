@@ -13,8 +13,39 @@ export type { NotionConfig } from './notion'
 export { discord, discordPostMessage } from './discord'
 export type { DiscordConfig } from './discord'
 
+export {
+  teams,
+  teamsSendWebhook,
+  teamsSendBot,
+  adaptiveCard,
+  messageCard,
+} from './teams'
+export type {
+  TeamsConfig,
+  TeamsWebhookConfig,
+  TeamsBotConfig,
+  TeamsBotClient,
+  TeamsBotMessage,
+  TeamsBotSendResult,
+  TeamsAdaptiveCard,
+  TeamsAdaptiveCardAction,
+  TeamsMessageCard,
+} from './teams'
+
 export { gmail, gmailListMessages, gmailSendEmail } from './gmail'
 export type { GmailConfig } from './gmail'
+
+export { email, emailSend, emailFetch } from './email'
+export type {
+  EmailConfig,
+  EmailTransport,
+  ImapClient,
+  ImapFetchOptions,
+  EmailMessage,
+  EmailSendMessage,
+  EmailSendResult,
+  EmailAttachment,
+} from './email'
 
 export {
   googleCalendar,
@@ -31,6 +62,25 @@ export type { PostgresConfig, PostgresExecuteResult } from './postgres'
 
 export { postgresWithRoles } from './postgres-roles'
 export type { PostgresRolesConfig } from './postgres-roles'
+
+export {
+  postgresCdc,
+  postgresCdcStatus,
+  postgresCdcCreateSlot,
+  postgresCdcDropSlot,
+  postgresCdcAdvance,
+  postgresCdcPeek,
+  createCdcStream,
+} from './postgres-cdc'
+export type {
+  PostgresCdcConfig,
+  CdcAdminClient,
+  CdcStreamClient,
+  CdcStreamOptions,
+  CdcChangeEvent,
+  CdcSlotStatus,
+  CdcOp,
+} from './postgres-cdc'
 
 export { jira, jiraSearchIssues, jiraCreateIssue } from './jira'
 export type { JiraConfig } from './jira'

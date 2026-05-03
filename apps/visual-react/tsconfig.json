@@ -1,0 +1,7 @@
+{
+  "extends": "../../tsconfig.base.json",
+  "compilerOptions": {
+    "types": ["vite/client", "@playwright/test"]
+  },
+  "include": ["src", "tests", "vite.config.ts", "playwright.config.ts"]
+}

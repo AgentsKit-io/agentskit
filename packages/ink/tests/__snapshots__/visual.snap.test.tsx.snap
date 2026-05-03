@@ -1,0 +1,129 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`visual regression — ChatContainer composite > renders user + assistant exchange with tool call 1`] = `
+"❯ you
+weather in SF?
+
+╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓ get_weather  · complete                                                                        │
+│ args: {"city":"San Francisco"}                                                                   │
+│ 72°F sunny                                                                                       │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯
+
+✦ assistant
+It is sunny and 72°F."
+`;
+
+exports[`visual regression — InputBar > disabled 1`] = `
+"input disabled
+❯"
+`;
+
+exports[`visual regression — InputBar > idle — empty input shows placeholder hint 1`] = `
+"Type a message...
+❯"
+`;
+
+exports[`visual regression — InputBar > idle — typed input 1`] = `
+"Type a message...
+❯ hello world"
+`;
+
+exports[`visual regression — Message > assistant message — markdown 1`] = `
+"✦ assistant
+# Forecast
+
+  * **SF**: sunny
+  * *NYC*: cloudy"
+`;
+
+exports[`visual regression — Message > assistant message — plain text 1`] = `
+"✦ assistant
+It is sunny and 72°F."
+`;
+
+exports[`visual regression — Message > assistant message — streaming 1`] = `
+"✦ assistant  · streaming
+Working on it"
+`;
+
+exports[`visual regression — Message > assistant with token usage footer 1`] = `
+"✦ assistant
+Done.
+tokens  ↑1.2k  ↓350  ·  1.6k total"
+`;
+
+exports[`visual regression — Message > tool result message — truncated 1`] = `
+"  ⚙ tool result
+  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+  xxxxxxxx…"
+`;
+
+exports[`visual regression — Message > user message 1`] = `
+"❯ you
+What is the weather in SF?"
+`;
+
+exports[`visual regression — StatusHeader > full segments 1`] = `
+"╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✦ AgentsKit CLI                                                                                  │
+│ provider=openai  ·  model=gpt-4o-mini  ·  mode=live  ·  tools=get_weather,web_search  ·  msgs=4… │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯"
+`;
+
+exports[`visual regression — StatusHeader > title only 1`] = `
+"╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✦ Custom CLI                                                                                     │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯"
+`;
+
+exports[`visual regression — ThinkingIndicator > hidden — renders nothing 1`] = `""`;
+
+exports[`visual regression — ThinkingIndicator > visible — custom label 1`] = `"⠋ Reasoning"`;
+
+exports[`visual regression — ThinkingIndicator > visible — first spinner frame 1`] = `"⠋ Thinking"`;
+
+exports[`visual regression — ToolCallView > complete — expanded with result 1`] = `
+"╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✓ get_weather  · complete                                                                        │
+│ args: {"city":"San Francisco"}                                                                   │
+│ 72°F, sunny                                                                                      │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯"
+`;
+
+exports[`visual regression — ToolCallView > error — expanded with error message 1`] = `
+"╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ✗ get_weather  · error                                                                           │
+│ args: {"city":"San Francisco"}                                                                   │
+│ API rate limit exceeded                                                                          │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯"
+`;
+
+exports[`visual regression — ToolCallView > pending — collapsed 1`] = `
+"╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ○ get_weather  · pending                                                                         │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯"
+`;
+
+exports[`visual regression — ToolCallView > running — collapsed (first spinner frame) 1`] = `
+"╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ⠋ get_weather  · running                                                                         │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯"
+`;
+
+exports[`visual regression — ToolConfirmation > renders three options with first selected 1`] = `
+"╭──────────────────────────────────────────────────────────────────────────────────────────────────╮
+│ ⚠  Allow get_weather?                                                                            │
+│ {"city":"San Francisco"}                                                                         │
+│                                                                                                  │
+│ ❯ 1. Yes  — allow this call                                                                      │
+│   2. Yes, for session  — stop asking for this tool                                               │
+│   3. No  — deny and tell the model why                                                           │
+│ ↑/↓ to move, Enter to pick, 1–3 for shortcuts                                                    │
+╰──────────────────────────────────────────────────────────────────────────────────────────────────╯"
+`;
+
+exports[`visual regression — ToolConfirmation > returns nothing when toolCall is not awaiting confirmation 1`] = `""`;
