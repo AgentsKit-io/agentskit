@@ -1,3 +1,4 @@
+import { ConfigError, ErrorCodes } from '../errors'
 import type { PIIRule } from './pii'
 
 /**
@@ -158,7 +159,11 @@ export function compilePIITaxonomy(taxonomy: PIITaxonomy): PIIRule[] {
   const result = validatePIITaxonomy(taxonomy)
   if (!result.ok) {
     const summary = result.issues.map(i => `${i.path}: ${i.message}`).join('; ')
-    throw new Error(`invalid PII taxonomy: ${summary}`)
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `invalid PII taxonomy: ${summary}`,
+      hint: 'Run `agentskit pii lint <file>` to surface every issue at once.',
+    })
   }
   return taxonomy.rules.map(entry => {
     const flags = entry.flags ?? 'g'
