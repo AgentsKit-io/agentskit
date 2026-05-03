@@ -97,6 +97,11 @@ describe('fileVectorMemory with vectra', () => {
     try { await rm(dirPath, { recursive: true, force: true }) } catch {}
   })
 
+  // Vectra cold-starts the on-disk index on first store(). The 5s
+  // vitest default flakes on cold CI runners; 30s gives slow disks
+  // enough headroom while still failing fast on real regressions.
+  const VECTRA_TIMEOUT = 30_000
+
   it('stores and retrieves documents', async () => {
     const mem = fileVectorMemory({ path: dirPath })
     await mem.store([doc1, doc2])
@@ -106,7 +111,7 @@ describe('fileVectorMemory with vectra', () => {
     expect(results.length).toBeGreaterThanOrEqual(1)
     expect(results[0].id).toBe('doc-1')
     expect(results[0].content).toBe('The quick brown fox')
-  })
+  }, VECTRA_TIMEOUT)
 
   it('delete removes documents', async () => {
     const mem = fileVectorMemory({ path: dirPath })
@@ -116,5 +121,5 @@ describe('fileVectorMemory with vectra', () => {
     const results = await mem.search(doc1.embedding, { topK: 10 })
     const ids = results.map(r => r.id)
     expect(ids).not.toContain('doc-1')
-  })
+  }, VECTRA_TIMEOUT)
 })

@@ -39,9 +39,16 @@ const key = (overrides: Partial<Key> = {}): Key => ({
   ...overrides,
 } as Key)
 
-// Give React time to commit state updates between key presses so the mock's
-// capturedHandler closure picks up the latest index.
-const flush = () => new Promise(r => setTimeout(r, 20))
+// Give React time to commit state updates between key presses so the
+// mock's capturedHandler closure picks up the latest index. Drain a
+// few macrotasks — a single setTimeout(20) was enough on macOS but
+// flaked on slow Linux CI runners; chaining gives React + ink-testing-
+// library multiple commit cycles before the next key press.
+const flush = async () => {
+  for (let i = 0; i < 5; i++) {
+    await new Promise(r => setTimeout(r, 20))
+  }
+}
 
 const pendingCall: ToolCall = {
   id: 'tc-1',
