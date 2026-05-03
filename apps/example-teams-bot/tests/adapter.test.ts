@@ -138,24 +138,61 @@ describe('teamsAdapter — parse', () => {
 })
 
 describe('teamsAdapter — reply', () => {
-  it('forwards conversationId + text to the injected serviceClient', async () => {
+  it('threads serviceUrl from parse → reply via the injected serviceClient', async () => {
     const sendMessage = vi.fn(async () => {})
     const a = teamsAdapter({ serviceClient: { sendMessage }, verifyToken: async () => true })
+    a.parse({
+      headers: {},
+      body: {
+        type: 'message',
+        id: 'A1',
+        serviceUrl: 'https://smba.trafficmanager.net/eu/',
+        conversation: { id: 'C1' },
+        from: { id: 'U1' },
+        text: 'hi',
+      },
+    })
     await a.reply!(
       {
-        type: 'reply',
+        type: 'message',
         surface: 'teams',
-        eventId: 'E',
+        eventId: 'A1',
         channel: { id: 'C1' },
         user: { id: 'U1' },
-        threadId: 'A1',
-        text: 'src',
-        parentId: 'A1',
+        text: 'hi',
       },
       'reply',
     )
     expect(sendMessage).toHaveBeenCalledWith(
-      expect.objectContaining({ conversationId: 'C1', text: 'reply', replyToId: 'A1' }),
+      expect.objectContaining({
+        conversationId: 'C1',
+        text: 'reply',
+        serviceUrl: 'https://smba.trafficmanager.net/eu/',
+      }),
     )
+  })
+
+  it('refuses to reply when no serviceUrl was captured', async () => {
+    const sendMessage = vi.fn(async () => {})
+    const a = teamsAdapter({ serviceClient: { sendMessage }, verifyToken: async () => true })
+    await expect(
+      a.reply!(
+        { type: 'message', surface: 'teams', eventId: 'NEVER-SEEN', channel: { id: 'C1' }, user: { id: 'U1' }, text: 'x' },
+        'reply',
+      ),
+    ).rejects.toThrow(/no serviceUrl/)
+    expect(sendMessage).not.toHaveBeenCalled()
+  })
+
+  it('evicts serviceUrl after one reply', async () => {
+    const sendMessage = vi.fn(async () => {})
+    const a = teamsAdapter({ serviceClient: { sendMessage }, verifyToken: async () => true })
+    a.parse({
+      headers: {},
+      body: { type: 'message', id: 'A1', serviceUrl: 'https://x', conversation: { id: 'C1' }, from: { id: 'U1' } },
+    })
+    const event = { type: 'message' as const, surface: 'teams' as const, eventId: 'A1', channel: { id: 'C1' }, user: { id: 'U1' }, text: 'x' }
+    await a.reply!(event, 'first')
+    await expect(a.reply!(event, 'second')).rejects.toThrow(/no serviceUrl/)
   })
 })

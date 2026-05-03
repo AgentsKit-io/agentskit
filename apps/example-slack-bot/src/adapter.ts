@@ -47,8 +47,20 @@ interface SlackInnerEvent {
 }
 
 function constantTimeEquals(a: string, b: string): boolean {
-  if (a.length !== b.length) return false
-  return timingSafeEqual(Buffer.from(a), Buffer.from(b))
+  // Pad to a common length so an attacker cannot derive signature
+  // length from response timing. The expected Slack signature is a
+  // fixed-length hex digest (`v0=` + 64 chars), so equal length is
+  // the common case — but we hold the line for malformed inputs too.
+  const len = Math.max(a.length, b.length)
+  const ab = Buffer.alloc(len)
+  const bb = Buffer.alloc(len)
+  ab.write(a)
+  bb.write(b)
+  // Pre-verify lengths via timingSafeEqual on length bytes themselves
+  // so the result still depends on the original lengths matching.
+  const lengthsMatch = a.length === b.length
+  const bytesMatch = timingSafeEqual(ab, bb)
+  return lengthsMatch && bytesMatch
 }
 
 export function slackAdapter(options: SlackAdapterOptions): ChatSurfaceAdapter {

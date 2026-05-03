@@ -52,8 +52,20 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
     return
   }
   const raw = await readBody(req)
-  // Slack URL-verification handshake bypasses the trigger — Slack
-  // expects the raw `challenge` echoed back synchronously.
+  const headers: Record<string, string> = {}
+  for (const [k, v] of Object.entries(req.headers)) {
+    if (typeof v === 'string') headers[k.toLowerCase()] = v
+  }
+  // Verify the Slack signature BEFORE handling URL-verification.
+  // Skipping the check on PING would let any unauthenticated client
+  // confirm the endpoint is live and shaped correctly.
+  const verified = await adapter.verify!({ headers, body: raw })
+  if (!verified) {
+    res.writeHead(401).end('unauthorized')
+    return
+  }
+  // After signature passes, peel off the URL-verification handshake;
+  // Slack expects the raw `challenge` echoed back synchronously.
   try {
     const parsed = JSON.parse(raw)
     if (parsed.type === 'url_verification' && typeof parsed.challenge === 'string') {
@@ -62,10 +74,6 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
     }
   } catch {
     // fall through to the trigger which will 400 on bad JSON
-  }
-  const headers: Record<string, string> = {}
-  for (const [k, v] of Object.entries(req.headers)) {
-    if (typeof v === 'string') headers[k.toLowerCase()] = v
   }
   const result = await trigger.handler({ headers, body: raw })
   res.writeHead(result.status, result.headers).end(typeof result.body === 'string' ? result.body : JSON.stringify(result.body))

@@ -59,6 +59,29 @@ function defaultVerifyToken(): false {
 
 export function teamsAdapter(options: TeamsAdapterOptions): ChatSurfaceAdapter {
   const verifyToken = options.verifyToken ?? defaultVerifyToken
+  // Bot Framework replies need the inbound activity's `serviceUrl`,
+  // but ChatSurfaceEvent has no surface-specific extension slot. Stash
+  // it keyed by eventId at parse time, look it up at reply time, evict
+  // on use to avoid unbounded growth. Best-effort: events that never
+  // get replied to age out after `serviceUrlTtlMs`.
+  const serviceUrlByEventId = new Map<string, { url: string; expiresAt: number }>()
+  const SERVICE_URL_TTL_MS = 60_000
+
+  function rememberServiceUrl(eventId: string, url: string): void {
+    const now = Date.now()
+    // Opportunistic eviction.
+    for (const [k, v] of serviceUrlByEventId) {
+      if (v.expiresAt < now) serviceUrlByEventId.delete(k)
+    }
+    serviceUrlByEventId.set(eventId, { url, expiresAt: now + SERVICE_URL_TTL_MS })
+  }
+
+  function takeServiceUrl(eventId: string): string {
+    const entry = serviceUrlByEventId.get(eventId)
+    if (!entry) return ''
+    serviceUrlByEventId.delete(eventId)
+    return entry.url
+  }
 
   return {
     surface: 'teams',
@@ -77,9 +100,11 @@ export function teamsAdapter(options: TeamsAdapterOptions): ChatSurfaceAdapter {
 
     parse: req => {
       const activity = (typeof req.body === 'string' ? JSON.parse(req.body) : req.body) as TeamsActivity
+      const eventId = activity.id ?? `${Date.now()}`
+      if (activity.serviceUrl) rememberServiceUrl(eventId, activity.serviceUrl)
       const meta = {
         surface: 'teams' as const,
-        eventId: activity.id ?? `${Date.now()}`,
+        eventId,
         receivedAt: activity.timestamp,
         channel: {
           id: activity.conversation?.id ?? '',
@@ -138,13 +163,18 @@ export function teamsAdapter(options: TeamsAdapterOptions): ChatSurfaceAdapter {
     },
 
     reply: async (event, text) => {
-      // The `WebhookRequest` body is already discarded, but Bot Framework
-      // needs `serviceUrl` to send the reply. Deployers should pass it
-      // through `buildContext` and inject it into a wrapper before
-      // calling `reply`. Here we expose the canonical shape and rely on
-      // the injected `serviceClient` to know `serviceUrl`.
+      const serviceUrl = takeServiceUrl(event.eventId)
+      if (!serviceUrl) {
+        // No captured serviceUrl — most likely a duplicate reply on
+        // the same event, or an event that was never parsed by this
+        // adapter instance. Refuse the reply rather than send to the
+        // wrong endpoint.
+        throw new Error(
+          `teamsAdapter.reply: no serviceUrl for eventId ${event.eventId} (already replied or expired after 60s)`,
+        )
+      }
       await options.serviceClient.sendMessage({
-        serviceUrl: '', // populated by the serviceClient wrapper from the captured activity
+        serviceUrl,
         conversationId: event.channel.id,
         text,
         replyToId: 'threadId' in event ? event.threadId : undefined,

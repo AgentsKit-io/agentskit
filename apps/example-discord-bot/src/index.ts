@@ -45,7 +45,19 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
     return
   }
   const raw = await readBody(req)
-  // PING handshake — must respond inline before the trigger.
+  const headers: Record<string, string> = {}
+  for (const [k, v] of Object.entries(req.headers)) {
+    if (typeof v === 'string') headers[k.toLowerCase()] = v
+  }
+  // Verify the Ed25519 signature BEFORE the PING handshake. Discord
+  // explicitly requires PING validation — bots that skip it can be
+  // hijacked at registration time.
+  const verified = await adapter.verify!({ headers, body: raw })
+  if (!verified) {
+    res.writeHead(401).end('unauthorized')
+    return
+  }
+  // After signature passes, PONG to the registration ping.
   try {
     const parsed = JSON.parse(raw)
     if (parsed.type === 1) {
@@ -54,10 +66,6 @@ const server = createServer(async (req: IncomingMessage, res: ServerResponse) =>
     }
   } catch {
     // fall through
-  }
-  const headers: Record<string, string> = {}
-  for (const [k, v] of Object.entries(req.headers)) {
-    if (typeof v === 'string') headers[k.toLowerCase()] = v
   }
   const result = await trigger.handler({ headers, body: raw })
   res.writeHead(result.status, result.headers).end(typeof result.body === 'string' ? result.body : JSON.stringify(result.body))
