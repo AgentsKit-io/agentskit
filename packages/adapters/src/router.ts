@@ -1,9 +1,17 @@
 import { AdapterError, ConfigError, ErrorCodes } from '@agentskit/core'
-import type { AdapterCapabilities, AdapterFactory, AdapterRequest, StreamSource } from '@agentskit/core'
+import type {
+  AdapterCapabilities,
+  AdapterFactory,
+  AdapterRequest,
+  DataRegion,
+  StreamSource,
+} from '@agentskit/core'
 
 export interface RouterCandidate {
   id: string
   adapter: AdapterFactory
+  /** Data residency region for this adapter endpoint. */
+  region?: DataRegion
   /**
    * Relative cost hint (lower wins for policy='cheapest'). Only
    * relative values matter — use $/1M tokens or any consistent unit.
@@ -29,6 +37,10 @@ export type RouterPolicy =
 
 export interface RouterOptions {
   candidates: RouterCandidate[]
+  /** Require all selected adapters to match this data-residency region. */
+  region?: DataRegion
+  /** Dynamic region selector. Takes precedence over `region`. */
+  regionOf?: (request: AdapterRequest) => DataRegion | undefined
   /** Policy when `classify` doesn't pick a candidate. Default 'cheapest'. */
   policy?: RouterPolicy
   /**
@@ -70,6 +82,10 @@ function pickSyncPolicy(
   return { c: pool[0]!, reason: 'capability-match' }
 }
 
+function matchesRegion(candidate: RouterCandidate, region: DataRegion | undefined): boolean {
+  return region === undefined || candidate.region === region
+}
+
 /**
  * Build an AdapterFactory that picks one of N candidates per request.
  *
@@ -92,24 +108,34 @@ export function createRouter(options: RouterOptions): AdapterFactory {
   return {
     createSource: (request: AdapterRequest): StreamSource => {
       const need = requireCapabilities(request)
+      const region = options.regionOf?.(request) ?? options.region
       const capable = candidates.filter(c => matchesCapabilities(need, c.capabilities ?? c.adapter.capabilities))
+      const eligible = capable.filter(c => matchesRegion(c, region))
+
+      if (capable.length > 0 && eligible.length === 0 && region !== undefined) {
+        throw new ConfigError({
+          code: ErrorCodes.AK_CONFIG_INVALID,
+          message: `no candidate satisfies required region: ${region}`,
+          hint: 'Set candidate.region to the requested data-residency region, or remove the router region requirement.',
+        })
+      }
 
       const classified = options.classify?.(request)
       if (typeof classified === 'string') {
-        const c = capable.find(x => x.id === classified)
+        const c = eligible.find(x => x.id === classified)
         if (c) {
-          options.onRoute?.({ id: c.id, reason: 'classify:id', request })
+          options.onRoute?.({ id: c.id, reason: region ? `classify:id:${region}` : 'classify:id', request })
           return c.adapter.createSource(request)
         }
       }
 
-      let pool = capable
+      let pool = eligible
       let pickedBy: string | undefined
       if (Array.isArray(classified) && classified.length > 0) {
-        const filtered = capable.filter(c => c.tags && classified.every(t => c.tags!.includes(t)))
+        const filtered = eligible.filter(c => c.tags && classified.every(t => c.tags!.includes(t)))
         if (filtered.length > 0) {
           pool = filtered
-          pickedBy = 'classify:tags'
+          pickedBy = region ? `classify:tags:${region}` : 'classify:tags'
         }
       }
 

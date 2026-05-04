@@ -11,9 +11,20 @@ export interface PIIRule {
   replacer?: string | ((match: string) => string)
 }
 
+export interface PIIRedactionMatch {
+  offset: number
+  length: number
+}
+
+export interface PIIRedactionHit {
+  rule: string
+  count: number
+  matches: PIIRedactionMatch[]
+}
+
 export interface PIIRedactionResult<TPayload = string> {
   value: TPayload
-  hits: Array<{ rule: string; count: number }>
+  hits: PIIRedactionHit[]
 }
 
 export interface PIIRedactor {
@@ -57,16 +68,19 @@ export function createPIIRedactor(options: { rules?: PIIRule[] } = {}): PIIRedac
   const rules = options.rules ?? DEFAULT_PII_RULES
 
   const redactString = (input: string): PIIRedactionResult<string> => {
-    const hits: Array<{ rule: string; count: number }> = []
+    const hits: PIIRedactionHit[] = []
     let current = input
     for (const rule of rules) {
       let count = 0
+      const matches: PIIRedactionMatch[] = []
       const replacer = rule.replacer ?? `[REDACTED_${rule.name.toUpperCase()}]`
-      current = current.replace(rule.pattern, match => {
+      current = current.replace(rule.pattern, (match, ...args: unknown[]) => {
         count++
+        const offset = args.find((arg): arg is number => typeof arg === 'number') ?? -1
+        matches.push({ offset, length: match.length })
         return typeof replacer === 'function' ? replacer(match) : replacer
       })
-      if (count > 0) hits.push({ rule: rule.name, count })
+      if (count > 0) hits.push({ rule: rule.name, count, matches })
     }
     return { value: current, hits }
   }
@@ -74,15 +88,23 @@ export function createPIIRedactor(options: { rules?: PIIRule[] } = {}): PIIRedac
   return {
     redact: redactString,
     redactMessages(messages) {
-      const hits = new Map<string, number>()
+      const hits = new Map<string, PIIRedactionHit>()
       const redacted = messages.map(m => {
         const { value, hits: msgHits } = redactString(m.content ?? '')
-        for (const h of msgHits) hits.set(h.rule, (hits.get(h.rule) ?? 0) + h.count)
+        for (const h of msgHits) {
+          const current = hits.get(h.rule)
+          if (!current) {
+            hits.set(h.rule, { rule: h.rule, count: h.count, matches: [...h.matches] })
+          } else {
+            current.count += h.count
+            current.matches.push(...h.matches)
+          }
+        }
         return { ...m, content: value }
       })
       return {
         value: redacted,
-        hits: Array.from(hits, ([rule, count]) => ({ rule, count })),
+        hits: Array.from(hits.values()),
       }
     },
   }

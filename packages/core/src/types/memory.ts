@@ -1,8 +1,10 @@
-import type { MaybePromise } from './common'
+import type { DataRegion, MaybePromise } from './common'
 import type { Message } from './message'
 import type { RetrievedDocument } from './retrieval'
 
 export interface ChatMemory {
+  /** Data-residency region for this memory backend, when known. */
+  region?: DataRegion
   load: () => MaybePromise<Message[]>
   save: (messages: Message[]) => MaybePromise<void>
   clear?: () => MaybePromise<void>
@@ -60,6 +62,8 @@ export interface VectorSearchOptions {
 }
 
 export interface VectorMemory {
+  /** Data-residency region for this vector backend, when known. */
+  region?: DataRegion
   store: (docs: VectorDocument[]) => MaybePromise<void>
   search: (
     embedding: number[],

@@ -1,4 +1,4 @@
-export type { MaybePromise } from './common'
+export type { DataRegion, MaybePromise } from './common'
 export type { StreamStatus, StreamToolCallPayload, StreamChunk, StreamSource, TokenUsage, UseStreamOptions, UseStreamReturn } from './stream'
 export type { MessageRole, MessageStatus, Message, MemoryRecord } from './message'
 export type { ToolCallStatus, ToolCall, ToolExecutionContext, ToolDefinition, ToolCallHandlerContext, InferSchemaType, DefineToolConfig } from './tool'

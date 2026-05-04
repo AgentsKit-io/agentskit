@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import {
+  appendPiiAuditEvents,
   createInMemoryAuditStore,
   createSignedAuditLog,
   type AuditEntry,
@@ -88,6 +89,28 @@ describe('createSignedAuditLog', () => {
     await log.append({ actor: 'a', action: 'x', payload: 1 })
     await log.append({ actor: 'b', action: 'y', payload: 2 })
     expect(await log.list()).toHaveLength(2)
+  })
+
+  it('appends PII audit events into the signed hash chain', async () => {
+    const log = createSignedAuditLog({
+      secret: 'k',
+      store: createInMemoryAuditStore(),
+      now: () => new Date(0),
+    })
+    const entries = await appendPiiAuditEvents(log, {
+      actor: 'redactor',
+      action: 'pii:redact',
+      subjectId: 'case-1',
+      hits: [{ rule: 'email', count: 1, matches: [{ offset: 9, length: 11 }] }],
+    })
+    expect(entries[0]?.action).toBe('pii:redact')
+    expect(entries[0]?.payload).toEqual({
+      subjectId: 'case-1',
+      rule: 'email',
+      count: 1,
+      matches: [{ offset: 9, length: 11 }],
+    })
+    expect((await log.verify()).ok).toBe(true)
   })
 })
 

@@ -59,6 +59,7 @@ export { fetchWithRetry, simulateStream, chunkText } from './utils'
 export type { RetryOptions } from './utils'
 
 export { createRouter } from './router'
+export type { DataRegion } from '@agentskit/core'
 export type { RouterCandidate, RouterOptions, RouterPolicy } from './router'
 
 export { createEnsembleAdapter } from './ensemble'

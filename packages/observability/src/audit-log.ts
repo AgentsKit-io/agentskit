@@ -1,4 +1,5 @@
 import { createHash, createHmac } from 'node:crypto'
+import type { PIIRedactionHit } from '@agentskit/core/security'
 
 export interface AuditEntry<TPayload = unknown> {
   /** Monotonic sequence within a log. Starts at 1. */
@@ -45,6 +46,24 @@ export interface SignedAuditLog {
   append: <TPayload>(input: AppendAuditInput<TPayload>) => Promise<AuditEntry<TPayload>>
   verify: () => Promise<AuditVerifyResult>
   list: () => Promise<AuditEntry[]>
+}
+
+export type PiiAuditAction = 'pii:redact' | 'pii:reveal' | 'pii:reveal-denied'
+
+export interface PiiAuditInput {
+  actor: string
+  action: PiiAuditAction
+  subjectId?: string
+  hits: readonly PIIRedactionHit[]
+  reason?: string
+}
+
+export interface PiiAuditPayload {
+  subjectId?: string
+  rule: string
+  count: number
+  matches: Array<{ offset: number; length: number }>
+  reason?: string
 }
 
 function canonical<TPayload>(entry: Omit<AuditEntry<TPayload>, 'signature'>): string {
@@ -123,6 +142,32 @@ export function createSignedAuditLog(options: AuditLogOptions): SignedAuditLog {
       return options.store.list()
     },
   }
+}
+
+export async function appendPiiAuditEvents(
+  log: SignedAuditLog,
+  input: PiiAuditInput,
+): Promise<Array<AuditEntry<PiiAuditPayload>>> {
+  const entries: Array<AuditEntry<PiiAuditPayload>> = []
+  for (const hit of input.hits) {
+    entries.push(
+      await log.append<PiiAuditPayload>({
+        actor: input.actor,
+        action: input.action,
+        payload: {
+          subjectId: input.subjectId,
+          rule: hit.rule,
+          count: hit.count,
+          matches: hit.matches.map(match => ({
+            offset: match.offset,
+            length: match.length,
+          })),
+          reason: input.reason,
+        },
+      }),
+    )
+  }
+  return entries
 }
 
 /** In-memory `AuditLogStore` — tests, demos, transient deployments. */

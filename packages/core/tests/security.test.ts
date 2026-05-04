@@ -27,6 +27,13 @@ describe('createPIIRedactor', () => {
     expect(hits.find(h => h.rule === 'email')?.count).toBe(2)
   })
 
+  it('records offsets for audit evidence', () => {
+    const r = createPIIRedactor()
+    const { hits } = r.redact('email: a@b.co')
+    const email = hits.find(h => h.rule === 'email')
+    expect(email?.matches[0]).toEqual({ offset: 7, length: 6 })
+  })
+
   it('redactMessages preserves message shape', () => {
     const r = createPIIRedactor()
     const { value, hits } = r.redactMessages([msg('user', 'email: x@y.zz'), msg('assistant', 'ack')])

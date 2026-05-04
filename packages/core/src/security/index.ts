@@ -2,7 +2,13 @@ export {
   createPIIRedactor,
   DEFAULT_PII_RULES,
 } from './pii'
-export type { PIIRule, PIIRedactor, PIIRedactionResult } from './pii'
+export type {
+  PIIRule,
+  PIIRedactionHit,
+  PIIRedactionMatch,
+  PIIRedactor,
+  PIIRedactionResult,
+} from './pii'
 
 export {
   validatePIITaxonomy,

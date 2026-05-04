@@ -181,4 +181,39 @@ describe('createRouter', () => {
     })
     expect(await collect(router, req('x', { tools: true }))).toEqual(['a'])
   })
+
+  it('filters candidates by required data region', async () => {
+    const router = createRouter({
+      region: 'eu',
+      candidates: [
+        { id: 'us-openai', adapter: fake('us-openai'), region: 'us', cost: 1 },
+        { id: 'eu-azure', adapter: fake('eu-azure'), region: 'eu', cost: 5 },
+      ],
+    })
+    expect(await collect(router, req('x'))).toEqual(['eu-azure'])
+  })
+
+  it('rejects startup routing when no candidate matches region', () => {
+    const router = createRouter({
+      region: 'eu',
+      candidates: [{ id: 'us-openai', adapter: fake('us-openai'), region: 'us' }],
+    })
+    expect(() => router.createSource(req('x'))).toThrow(/required region: eu/)
+  })
+
+  it('supports dynamic region selection per request', async () => {
+    const router = createRouter({
+      regionOf: request => request.context?.metadata?.region as 'eu' | 'us' | undefined,
+      candidates: [
+        { id: 'us-openai', adapter: fake('us-openai'), region: 'us', cost: 1 },
+        { id: 'eu-azure', adapter: fake('eu-azure'), region: 'eu', cost: 1 },
+      ],
+    })
+    expect(
+      await collect(router, {
+        ...req('x'),
+        context: { metadata: { region: 'eu' } },
+      }),
+    ).toEqual(['eu-azure'])
+  })
 })

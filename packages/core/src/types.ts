@@ -3,6 +3,7 @@
 
 export type {
   MaybePromise,
+  DataRegion,
   StreamStatus, StreamToolCallPayload, StreamChunk, StreamSource, UseStreamOptions, UseStreamReturn,
   MessageRole, MessageStatus, Message, MemoryRecord,
   ToolCallStatus, ToolCall, ToolExecutionContext, ToolDefinition, ToolCallHandlerContext, InferSchemaType, DefineToolConfig,
