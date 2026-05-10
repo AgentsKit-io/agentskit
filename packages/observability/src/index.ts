@@ -84,6 +84,9 @@ export type {
   AuditVerifyResult,
 } from './audit-log'
 
+export { sloObserver, DEFAULT_SLO_TARGETS } from './slo'
+export type { SloOptions, SloTargets, SloSnapshot, SloObserver } from './slo'
+
 export { createDevtoolsServer, toSseFrame } from './devtools'
 export type {
   DevtoolsServer,

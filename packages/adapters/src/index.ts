@@ -98,3 +98,25 @@ export type {
   GrokEmbedderConfig,
   KimiEmbedderConfig,
 } from './embedders'
+
+export {
+  resolveModel,
+  withDeprecationPolicy,
+  DEFAULT_DEPRECATION_TABLE,
+} from './deprecation'
+export type {
+  DeprecationAction,
+  DeprecationPolicy,
+  ModelDeprecation,
+  ResolveModelInput,
+  ResolveModelResult,
+} from './deprecation'
+
+export {
+  refreshCredentials,
+  createRotatingCredentials,
+} from './credential-rotation'
+export type {
+  CredentialRefreshable,
+  RotatingCredentials,
+} from './credential-rotation'
