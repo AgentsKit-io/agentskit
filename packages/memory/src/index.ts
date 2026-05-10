@@ -65,6 +65,13 @@ export type {
   HierarchicalRecall,
 } from './hierarchical'
 
+export { forgetSubject, makeForgettable } from './forget'
+export type {
+  ForgettableMemory,
+  ForgetReport,
+  ForgetSubjectResult,
+} from './forget'
+
 export {
   wrapChatMemoryWithRedaction,
   wrapVectorMemoryWithRedaction,
