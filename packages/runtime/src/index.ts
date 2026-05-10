@@ -100,3 +100,21 @@ export type {
   QuotaExceededEvent,
   QuotaSnapshot,
 } from './quota'
+
+export {
+  createValidatorGuard,
+  denyPattern,
+  lengthRange,
+  isJson,
+} from './validator-guard'
+export type {
+  Validator,
+  ValidatorAction,
+  ValidatorResult,
+  ValidatorCheckContext,
+  ValidatorGuard,
+  ValidatorGuardOptions,
+  ValidatorGuardRun,
+  ValidatorGuardRunOptions,
+  ValidatorAuditEvent,
+} from './validator-guard'
