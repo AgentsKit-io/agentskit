@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { useChat } from '@agentskit/react'
 import { webllm } from '@agentskit/adapters'
+import { createLocalStorageMemory } from '@agentskit/core'
 
 /**
  * Browser-only chat. The MLCEngine is loaded lazily on first stream;
@@ -25,7 +26,11 @@ export function App() {
     })
   }, [])
 
-  const chat = useChat({ adapter })
+  // Persist conversation to localStorage so a tab refresh keeps history.
+  // Privacy contract holds: only the user's own browser sees the data.
+  const memory = useMemo(() => createLocalStorageMemory('agentskit:webllm-demo'), [])
+
+  const chat = useChat({ adapter, memory })
 
   useEffect(() => {
     if (chat.status === 'streaming' && !ready) setProgress('Loading model… first turn warms the engine.')

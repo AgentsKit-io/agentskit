@@ -1,0 +1,116 @@
+---
+title: Browser-only chat (WebLLM / WebGPU)
+description: Ship a chat agent that runs 100% in the user's browser — no server, no API key, no telemetry. Privacy contract holds because no inference data ever leaves the device.
+---
+
+The `webllm` adapter from `@agentskit/adapters` runs an LLM on-device via WebGPU using [`@mlc-ai/web-llm`](https://github.com/mlc-ai/web-llm). Combined with `createLocalStorageMemory` from `@agentskit/core`, you get a chat agent that:
+
+- Never sends a token to any server (after the one-time model download).
+- Survives tab refreshes (memory persists per browser).
+- Has zero per-message cost.
+
+```tsx
+import { useMemo } from 'react'
+import { useChat } from '@agentskit/react'
+import { webllm } from '@agentskit/adapters'
+import { createLocalStorageMemory } from '@agentskit/core'
+
+export function App() {
+  const adapter = useMemo(
+    () =>
+      webllm({
+        model: 'Llama-3.1-8B-Instruct-q4f16_1-MLC',
+        onProgress: ({ progress, text }) => console.log(progress, text),
+      }),
+    [],
+  )
+
+  const memory = useMemo(() => createLocalStorageMemory('app:chat'), [])
+
+  const chat = useChat({ adapter, memory })
+  // …render as usual
+}
+```
+
+Working app: [`apps/example-webllm`](https://github.com/AgentsKit-io/agentskit/tree/main/apps/example-webllm).
+
+## Picking a model
+
+| Model id | Size on disk | RAM at runtime | Use when |
+|---|---|---|---|
+| `Phi-3.5-mini-instruct-q4f16_1-MLC` | ~2.4 GB | ~3 GB | Older laptops; integrated GPU |
+| `Llama-3.1-8B-Instruct-q4f16_1-MLC` | ~4.5 GB | ~6 GB | Default — recent discrete GPU |
+| `Hermes-3-Llama-3.1-8B-q4f16_1-MLC` | ~4.5 GB | ~6 GB | Function-calling-friendly fine-tune |
+| `Qwen2.5-14B-Instruct-q4f16_1-MLC` | ~8 GB | ~10 GB | Higher-end GPUs; better reasoning |
+
+Browse the [MLC catalog](https://mlc.ai/models) for the full list.
+
+## Required HTTP headers
+
+Cross-Origin Isolation is required for some browsers to expose `SharedArrayBuffer`, which WebLLM uses for model loading. Set both headers on the page that hosts the chat:
+
+```ts title="vite.config.ts"
+export default defineConfig({
+  server: {
+    headers: {
+      'Cross-Origin-Opener-Policy': 'same-origin',
+      'Cross-Origin-Embedder-Policy': 'require-corp',
+    },
+  },
+})
+```
+
+For static hosting (Vercel, Netlify, Cloudflare Pages), set the same headers in your provider's edge config.
+
+## Privacy contract
+
+Stating it explicitly because the security review will ask:
+
+- **No inference traffic.** Once the model is downloaded, no token round-trips to any server.
+- **Model files** come from MLC's CDN on first load. Cached in IndexedDB. No identifiers attached.
+- **Memory** lives in `localStorage`. Scoped to the origin. The browser is the source of truth — there is no user account.
+- **Tool calls (if any)** still hit the network. The `webllm` adapter declares `capabilities: { tools: false }` so most agent setups won't accidentally route a tool through it; if you opt into tools, audit each tool's network footprint.
+
+## Falling back to a server-side model
+
+When WebGPU is missing or the device is too small, route to a server-side adapter automatically:
+
+```ts
+import { createRouter } from '@agentskit/adapters'
+
+const adapter = createRouter({
+  candidates: [
+    { id: 'local', adapter: webllm({ model }), tags: ['browser'], gCO2PerKtok: 0.3 },
+    { id: 'cloud', adapter: openai({ apiKey }), cost: 0.5, gCO2PerKtok: 0.04 },
+  ],
+  classify: () => (typeof navigator !== 'undefined' && 'gpu' in navigator ? 'local' : 'cloud'),
+})
+```
+
+Use [`policy: 'green-cost'`](./adapter-router) when you have multiple cloud fallbacks — it weights both carbon and dollars.
+
+## Warming the engine
+
+The first turn pays for the model download (one-shot, then cached). Warm it ahead of time so the first user message streams immediately:
+
+```tsx
+useEffect(() => {
+  // Triggers the lazy-load by sending a dummy ping the user never sees.
+  void adapter.createSource({ messages: [{ role: 'user', content: ' ' }] }).stream()
+}, [adapter])
+```
+
+## Troubleshooting
+
+- **WebGPU not available** — check `chrome://gpu` (Chrome / Edge). Firefox needs `dom.webgpu.enabled` in `about:config`.
+- **First message hangs at 0%** — verify the COOP / COEP headers landed (network tab response headers).
+- **OOM on smaller GPUs** — drop to `Phi-3.5-mini-instruct-q4f16_1-MLC`.
+- **Multiple tabs all download the model** — they share the IndexedDB cache, but parallel downloads from a cold cache will compete; warm in one tab first.
+
+## Related
+
+- [Provider page · webllm](/docs/data/providers/webllm)
+- [Edge deployment](/docs/production/edge) — server-side small-bundle counterpart.
+- [Carbon-aware routing](./adapter-router) — pair with `green-cost` policy.
+
+Closes [#191](https://github.com/AgentsKit-io/agentskit/issues/191).
