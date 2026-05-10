@@ -1,0 +1,83 @@
+---
+title: teams
+description: Microsoft Teams — Incoming Webhook (one-way) or Bot Framework (bidirectional). MessageCard + Adaptive Card support.
+---
+
+```ts
+import { teams } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [
+    ...teams({
+      webhook: { webhookUrl: process.env.TEAMS_WEBHOOK_URL! },
+    }),
+  ],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `teamsSendWebhook` | Post MessageCard / Adaptive Card to an Incoming Webhook |
+| `teamsSendBot` | Send via Bot Framework (`TeamsBotClient` adapter) |
+
+Helpers: `adaptiveCard(...)`, `messageCard(...)` build payloads.
+Bundled: `teams(config)`.
+
+## Config
+
+```ts
+type TeamsConfig = {
+  webhook?: { webhookUrl: string }            // one-way notifications
+  bot?: { client: TeamsBotClient }            // bidirectional via your adapter
+}
+
+type TeamsBotClient = {
+  send: (msg: TeamsBotMessage) => Promise<{ id: string; conversationId: string }>
+}
+```
+
+`botbuilder` is intentionally not bundled — wrap it (or your Graph/REST client) so auth (app secret, certificate, managed identity) stays in your adapter.
+
+## Example — release-channel notifier
+
+```ts
+import { teams, messageCard } from '@agentskit/tools'
+
+await runtime.run('Notify #releases that v1.2.0 shipped.', {
+  tools: teams({
+    webhook: { webhookUrl: process.env.TEAMS_WEBHOOK_URL! },
+  }),
+})
+```
+
+## Example — bidirectional bot
+
+```ts
+import { teams } from '@agentskit/tools'
+import { myBotClient } from './teams-bot-adapter'  // wraps botbuilder
+
+const runtime = createRuntime({
+  adapter,
+  tools: [...teams({ bot: { client: myBotClient } })],
+})
+```
+
+## Inbound events
+
+Long-running activity routing (`message`, `mentioned`, etc.) lives in
+[`@agentskit/triggers`](https://github.com/AgentsKit-io/agentskit-os) — this
+package only exposes outbound tool primitives.
+
+## Credentials
+
+- **Webhook**: Add an Incoming Webhook connector to a channel; copy the URL.
+- **Bot**: Register an app in Azure AD, create a Bot Channels Registration, enable Teams channel.
+
+## Related
+
+- [Integrations overview](./) · [slack](./slack) · [discord](./discord).
+- Recipe: [teams-bot](/docs/reference/recipes/teams-bot).
+- Issue [#727](https://github.com/AgentsKit-io/agentskit/issues/727), [#813](https://github.com/AgentsKit-io/agentskit/issues/813).

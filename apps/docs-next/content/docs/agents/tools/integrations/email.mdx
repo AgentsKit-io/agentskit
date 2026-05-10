@@ -1,0 +1,92 @@
+---
+title: email
+description: Provider-agnostic SMTP send + IMAP fetch. BYO transport (nodemailer, imapflow, Resend, SES) — drivers stay out of the bundle.
+---
+
+```ts
+import { email } from '@agentskit/tools'
+
+const runtime = createRuntime({
+  adapter,
+  tools: [
+    ...email({
+      transport: myNodemailerAdapter,
+      imap: myImapflowAdapter,
+    }),
+  ],
+})
+```
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `emailSend` | Send a message via your `EmailTransport` |
+| `emailFetch` | List messages from a mailbox via your `ImapClient` |
+
+Bundled: `email(config)`.
+
+## Config
+
+```ts
+type EmailConfig = {
+  transport?: EmailTransport          // for emailSend
+  imap?: ImapClient                   // for emailFetch
+  defaultFrom?: string
+  maxFetch?: number                   // cap on emailFetch results (default 50)
+}
+
+type EmailTransport = {
+  send: (msg: EmailSendMessage) => Promise<EmailSendResult>
+}
+
+type ImapClient = {
+  fetch: (opts: ImapFetchOptions) => Promise<EmailMessage[]>
+}
+```
+
+Heavy drivers (nodemailer, imapflow, mailparser) are **not** bundled. Wrap whatever you already use — a reference nodemailer/imapflow adapter lives in the AgentsKitOS triggers package.
+
+## Example — outbound transactional
+
+```ts
+import { email } from '@agentskit/tools'
+import nodemailer from 'nodemailer'
+
+const transporter = nodemailer.createTransport({ host: 'smtp.example.com', port: 587, auth: { user, pass } })
+
+const runtime = createRuntime({
+  adapter,
+  tools: [
+    ...email({
+      defaultFrom: 'bot@example.com',
+      transport: { send: msg => transporter.sendMail(msg).then(r => ({ messageId: r.messageId, accepted: r.accepted, rejected: r.rejected })) },
+    }),
+  ],
+})
+
+await runtime.run('Email alex@x.com a one-line summary of yesterday\'s shipped PRs.')
+```
+
+## Example — inbound triage
+
+```ts
+const runtime = createRuntime({
+  adapter,
+  systemPrompt: 'Triage support email. Classify, draft a reply, never auto-send.',
+  tools: [...email({ imap: imapAdapter })],
+})
+
+await runtime.run('Pull the last 20 unread messages from "support" and classify.')
+```
+
+## Safety
+
+- Default `transport` to a sandbox / dry-run mode in dev.
+- Hold a HITL gate before any outbound send to a user-supplied address.
+- Inbound HTML can carry prompt injection — strip/quote before passing to the model.
+
+## Related
+
+- [Integrations overview](./) · [gmail](./gmail) (Google-specific path) · [twilio](./twilio).
+- Issue [#811](https://github.com/AgentsKit-io/agentskit/issues/811).
