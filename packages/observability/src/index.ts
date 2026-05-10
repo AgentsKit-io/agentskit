@@ -101,6 +101,15 @@ export type {
   TopologyGraphOptions,
 } from './topology-graph'
 
+export { createControlSurface } from './prod-control'
+export type {
+  ControlSurface,
+  ControlSurfaceOptions,
+  ControlAuditEntry,
+  ToolOverride,
+  RunSnapshot,
+} from './prod-control'
+
 export { createDevtoolsServer, toSseFrame } from './devtools'
 export type {
   DevtoolsServer,
