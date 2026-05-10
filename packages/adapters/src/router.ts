@@ -27,11 +27,20 @@ export interface RouterCandidate {
   capabilities?: AdapterCapabilities
   /** Free-form tags used by classifier routing (e.g. 'fast', 'coding'). */
   tags?: string[]
+  /**
+   * Estimated grid CO2 intensity (gCO2eq per 1k tokens) for this
+   * adapter+region. Lower wins for `policy='greenest'`. Use
+   * `applyCarbonTable()` to populate from `DEFAULT_CARBON_TABLE` or
+   * a custom table.
+   */
+  gCO2PerKtok?: number
 }
 
 export type RouterPolicy =
   | 'cheapest'
   | 'fastest'
+  | 'greenest'
+  | 'green-cost'
   | 'capability-match'
   | ((input: { request: AdapterRequest; candidates: RouterCandidate[] }) => string | Promise<string>)
 
@@ -78,6 +87,25 @@ function pickSyncPolicy(
   if (policy === 'fastest') {
     const c = pool.reduce((best, x) => ((x.latencyMs ?? Infinity) < (best.latencyMs ?? Infinity) ? x : best), pool[0]!)
     return { c, reason: 'fastest' }
+  }
+  if (policy === 'greenest') {
+    const c = pool.reduce((best, x) => ((x.gCO2PerKtok ?? Infinity) < (best.gCO2PerKtok ?? Infinity) ? x : best), pool[0]!)
+    return { c, reason: 'greenest' }
+  }
+  if (policy === 'green-cost') {
+    // Composite score: normalised carbon × normalised cost. Lower wins.
+    // A candidate missing either signal is treated as median (neutral).
+    const carbonValues = pool.map(p => p.gCO2PerKtok).filter((v): v is number => v != null)
+    const costValues = pool.map(p => p.cost).filter((v): v is number => v != null)
+    const maxC = Math.max(1, ...carbonValues)
+    const maxCost = Math.max(1, ...costValues)
+    const score = (x: RouterCandidate): number => {
+      const carbon = (x.gCO2PerKtok ?? maxC / 2) / maxC
+      const cost = (x.cost ?? maxCost / 2) / maxCost
+      return carbon + cost
+    }
+    const c = pool.reduce((best, x) => (score(x) < score(best) ? x : best), pool[0]!)
+    return { c, reason: 'green-cost' }
   }
   return { c: pool[0]!, reason: 'capability-match' }
 }

@@ -62,6 +62,9 @@ export { createRouter } from './router'
 export type { DataRegion } from '@agentskit/core'
 export type { RouterCandidate, RouterOptions, RouterPolicy } from './router'
 
+export { applyCarbonTable, estimateCO2Grams, DEFAULT_CARBON_TABLE } from './carbon'
+export type { CarbonTable, ProviderRegionKey, ApplyCarbonOptions } from './carbon'
+
 export { createEnsembleAdapter } from './ensemble'
 export type {
   EnsembleCandidate,
