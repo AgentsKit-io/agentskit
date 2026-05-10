@@ -14,3 +14,11 @@ export type { ToolCallViewProps } from './ToolCallView'
 export type { ThinkingIndicatorProps } from './ThinkingIndicator'
 export { ToolConfirmation } from "./ToolConfirmation"
 export type { ToolConfirmationProps } from "./ToolConfirmation"
+export { TopologyGraphView } from './TopologyGraphView'
+export type {
+  TopologyGraphViewProps,
+  TopologyGraphViewNode,
+  TopologyGraphViewEdge,
+  TopologyGraphViewSnapshot,
+  TopologyGraphSource,
+} from './TopologyGraphView'

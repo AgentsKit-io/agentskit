@@ -91,6 +91,16 @@ export type {
 export { sloObserver, DEFAULT_SLO_TARGETS } from './slo'
 export type { SloOptions, SloTargets, SloSnapshot, SloObserver } from './slo'
 
+export { createTopologyGraph } from './topology-graph'
+export type {
+  TopologyLogEvent,
+  TopologyNode,
+  TopologyEdge,
+  TopologyGraph,
+  TopologyGraphSnapshot,
+  TopologyGraphOptions,
+} from './topology-graph'
+
 export { createDevtoolsServer, toSseFrame } from './devtools'
 export type {
   DevtoolsServer,
