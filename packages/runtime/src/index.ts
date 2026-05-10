@@ -90,3 +90,13 @@ export type {
   ChatTriggerOptions,
   ChatTriggerObserverEvent,
 } from './chat-trigger'
+
+export { createQuotaTracker, withQuotas } from './quota'
+export type {
+  ToolQuota,
+  QuotaMap,
+  QuotaTracker,
+  QuotaTrackerOptions,
+  QuotaExceededEvent,
+  QuotaSnapshot,
+} from './quota'
