@@ -1,0 +1,24 @@
+---
+title: Flow (compileFlow)
+description: Live demo of compileFlow — YAML FlowDefinition compiled into a durable DAG, executed with a JSONL step log.
+---
+
+`compileFlow` from `@agentskit/runtime` turns a YAML `FlowDefinition` into a durable DAG. This example fetches stargazer counts for two GitHub repos in parallel, sums them, and renders a markdown digest.
+
+```
+▸ flow=octo-stars-digest runId=demo-run
+  order=fetch-react → fetch-vue → total → render
+▸ fetch-react start
+  ★ facebook/react → 235,492
+✓ fetch-react done
+```
+
+```bash
+pnpm --filter @agentskit/example-flow dev
+```
+
+## Related
+
+- [Agents → Flow](/docs/agents/flow)
+- [Agents → Durable execution](/docs/agents/durable)
+- [Source](https://github.com/AgentsKit-io/agentskit/tree/main/apps/example-flow)

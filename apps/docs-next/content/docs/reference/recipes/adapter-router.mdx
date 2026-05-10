@@ -38,8 +38,30 @@ and then ranked by the `policy`.
 |--------|----------|
 | `'cheapest'` *(default)* | Minimum `cost` |
 | `'fastest'` | Minimum `latencyMs` |
+| `'greenest'` | Minimum `gCO2PerKtok` (carbon intensity) |
+| `'green-cost'` | Composite normalised carbon × cost score |
 | `'capability-match'` | First candidate that satisfies requirements |
 | `(input) => id` | Custom function, sync or async |
+
+## Carbon-aware + cost-aware routing
+
+Each candidate can carry a `gCO2PerKtok` (grams CO2eq per 1k tokens) signal — populate manually or via `applyCarbonTable()` against `DEFAULT_CARBON_TABLE` (or a custom regional table).
+
+```ts
+import { createRouter, applyCarbonTable, DEFAULT_CARBON_TABLE, anthropic, openai } from '@agentskit/adapters'
+
+const candidates = applyCarbonTable(
+  [
+    { id: 'haiku', adapter: anthropic({ model: 'claude-haiku-4-5' }), cost: 0.25, region: 'us-east' },
+    { id: 'gpt-mini', adapter: openai({ model: 'gpt-4o-mini' }), cost: 0.15, region: 'eu-west' },
+  ],
+  DEFAULT_CARBON_TABLE,
+)
+
+const router = createRouter({ candidates, policy: 'green-cost' })
+```
+
+`'greenest'` minimises grid carbon intensity. `'green-cost'` normalises both signals and minimises the sum — picks the model that's cheap *and* on a clean grid. Candidates missing either signal are treated as median (neutral) so partial telemetry doesn't bias the ranking.
 
 ## Classify-then-route
 

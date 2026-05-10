@@ -1,0 +1,18 @@
+---
+title: storefrontConcierge
+description: Customer-facing storefront agent. Recommends products, looks up order status, and escalates returns/refunds to a human.
+---
+
+```ts
+import { storefrontConcierge } from '@agentskit/skills'
+
+const runtime = createRuntime({ adapter, skills: [storefrontConcierge] })
+```
+
+Pairs with the `shopify` and `stripe` integrations for order lookup. Hard escalation rules for refunds, chargebacks, and complaints — never autonomously issues credit.
+
+## Related
+
+- [merchandisingAnalyst](./merchandising-analyst)
+- [`shopify` integration](../tools/integrations/shopify)
+- [Skills overview](./)

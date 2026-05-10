@@ -1,0 +1,26 @@
+---
+title: Discord Bot
+description: Reference Discord bot wrapping createChatTrigger from @agentskit/runtime. Verifies inbound interactions with Ed25519 public key. No discord.js dependency.
+---
+
+Driver-light Discord bot using Discord's Interactions HTTP endpoint. No gateway, no `discord.js`. Verifies inbound interactions with the application's Ed25519 public key.
+
+For richer setups (presence, voice, gateway events), wrap `discord.js` — this template covers the slash-command + message-component path.
+
+## Setup
+
+1. Create a Discord application at [discord.com/developers/applications](https://discord.com/developers/applications).
+2. Copy **Public Key** (General Information) and bot **Token** (Bot tab).
+3. Set **Interactions Endpoint URL** to `https://<your-host>/discord/interactions`.
+
+```bash
+export DISCORD_BOT_TOKEN=...
+export DISCORD_PUBLIC_KEY=<hex>
+pnpm --filter @agentskit/example-discord-bot dev
+```
+
+## Related
+
+- [Recipe: discord-bot](/docs/reference/recipes/discord-bot)
+- [`discord` integration](/docs/agents/tools/integrations/discord)
+- [Source](https://github.com/AgentsKit-io/agentskit/tree/main/apps/example-discord-bot)

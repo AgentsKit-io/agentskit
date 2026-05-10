@@ -1,0 +1,20 @@
+---
+title: Edge (Cloudflare Workers)
+description: AgentsKit running on Cloudflare Workers. Demonstrates the sub-50 KB hot path — adapter + ReadableStream, no runtime, no memory, no tools.
+---
+
+AgentsKit on Cloudflare Workers. Single-file Worker, one adapter, one `ReadableStream`. The bundle that runs per request is `openai()` plus the streaming bridge — measured well under the 50 KB target.
+
+## What ships
+
+- `src/worker.ts` — single-file Worker.
+- `wrangler.jsonc` — `nodejs_compat` enabled so `@agentskit/adapters` can use `fetch` + `AbortController` from the Workers runtime.
+
+```bash
+pnpm --filter @agentskit/example-edge dev
+```
+
+## Related
+
+- [Production → Edge](/docs/production/edge)
+- [Source](https://github.com/AgentsKit-io/agentskit/tree/main/apps/example-edge)

@@ -1,0 +1,18 @@
+---
+title: merchandisingAnalyst
+description: Analyses sales / inventory data to surface restock priorities, slow-moving SKUs, and bundle opportunities. Outputs CSV-friendly tables.
+---
+
+```ts
+import { merchandisingAnalyst } from '@agentskit/skills'
+
+const runtime = createRuntime({ adapter, skills: [merchandisingAnalyst] })
+```
+
+Designed to consume sales + inventory feeds and emit deterministic, CSV-friendly tables. Pairs with `sql-analyst` for warehouse queries.
+
+## Related
+
+- [storefrontConcierge](./storefront-concierge)
+- [sqlAnalyst](./sql-analyst)
+- [Skills overview](./)

@@ -1,0 +1,27 @@
+---
+title: Teams Bot
+description: Reference Microsoft Teams bot wrapping createChatTrigger from @agentskit/runtime. Consumes Bot Framework activities at /api/messages with injectable JWT verifier.
+---
+
+Driver-light Microsoft Teams bot. Consumes Bot Framework activity payloads at `/api/messages` and verifies the inbound JWT via an injected `verifyToken` callback.
+
+No `botbuilder` / `microsoft-graph-client` dependency in the template. In production, wire `botbuilder`'s `JwtTokenValidation.authenticateRequest` (or any JWT lib against Microsoft's OpenID config).
+
+## Setup
+
+1. Register a bot in **Azure Bot Service** + create an Azure AD app. Copy App ID + secret.
+2. Set messaging endpoint to `https://<your-host>/api/messages`.
+3. Sideload the Teams app manifest into a Teams tenant.
+
+```bash
+export TEAMS_APP_ID=...
+export TEAMS_APP_SECRET=...
+pnpm --filter @agentskit/example-teams-bot dev
+```
+
+`TEAMS_DISABLE_AUTH=1` skips JWT verification for local testing.
+
+## Related
+
+- [`teams` integration](/docs/agents/tools/integrations/teams)
+- [Source](https://github.com/AgentsKit-io/agentskit/tree/main/apps/example-teams-bot)

@@ -1,0 +1,24 @@
+---
+title: DSPy
+description: Baseline prompt vs DSPy-optimized prompt, scored side-by-side against the AgentsKit eval pipeline.
+---
+
+Side-by-side scoring of a baseline ReAct prompt vs a DSPy-optimized variant, run through the 8 bundled scorers (4 quality + 4 robustness).
+
+```sh
+pnpm --filter @agentskit/example-dspy start
+```
+
+Output: a markdown table comparing both prompts across every scorer.
+
+## What it shows
+
+- Baseline ReAct prompt at `prompts/baseline.txt` — short, cheap, day-one prompt.
+- DSPy-optimized variant produced via `BootstrapFewShot`.
+- AgentsKit eval pipeline scoring both with the same harness.
+
+## Related
+
+- [`@agentskit/eval`](/docs/for-agents/eval)
+- [Recipe: eval-suite](/docs/reference/recipes/eval-suite)
+- [Source](https://github.com/AgentsKit-io/agentskit/tree/main/apps/example-dspy)

@@ -38,7 +38,28 @@ await server.listen({ transport: 'stdio' })
 - `http` — HTTP/SSE
 - `ws` — WebSocket
 
+## Devtools over MCP
+
+`@agentskit/tools/mcp-devtools` exposes a running runtime as MCP tools — any MCP-aware client (Claude Code, Cursor, Codex) can list sessions, inspect messages, pause / step, replay, and run evals.
+
+```ts
+import { createMcpServer } from '@agentskit/tools'
+import { devtoolsTools } from '@agentskit/tools/mcp-devtools'
+
+const server = createMcpServer({
+  name: 'agentskit-devtools',
+  version: '0.1.0',
+  tools: devtoolsTools({ inspector: myRuntimeInspector }),
+})
+
+await server.listen({ transport: 'stdio' })
+```
+
+The inspector is a capability bag — only methods you implement get exposed. Read-only consumers pass `listSessions` + `inspectSession` and never expose `pause` / `step` / `replay`. Auth lives at the transport (bearer header on HTTP/WS, file perms on stdio).
+
 ## Related
 
 - [Recipe: MCP bridge](/docs/reference/recipes/mcp-bridge)
+- [Devtools server recipe](/docs/reference/recipes/devtools-server)
+- [Production → Devtools](/docs/production/observability/devtools)
 - [Specs → A2A](/docs/reference/specs/a2a)
