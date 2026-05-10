@@ -17,3 +17,12 @@ export type { ThinkingIndicatorProps } from './ThinkingIndicator'
 export type { StatusHeaderProps } from './StatusHeader'
 export type { MarkdownTextProps } from './MarkdownText'
 export type { ToolConfirmationProps } from './ToolConfirmation'
+
+export { TopologyGraphView } from './TopologyGraphView'
+export type {
+  TopologyGraphViewProps,
+  TopologyGraphViewNode,
+  TopologyGraphViewEdge,
+  TopologyGraphViewSnapshot,
+  TopologyGraphSource,
+} from './TopologyGraphView'
