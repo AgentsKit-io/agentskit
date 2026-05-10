@@ -1,0 +1,17 @@
+---
+title: listingConcierge
+description: Helps buyers / renters narrow listings by criteria, schedule tours, and request more info. Hard fair-housing rails.
+---
+
+```ts
+import { listingConcierge } from '@agentskit/skills'
+
+const runtime = createRuntime({ adapter, skills: [listingConcierge] })
+```
+
+Fair-housing rails: never filters or steers based on protected characteristics (race, religion, familial status, disability, national origin, sex). Refuses requests phrased that way and explains why.
+
+## Related
+
+- [marketAnalyst](./market-analyst)
+- [Skills overview](./)

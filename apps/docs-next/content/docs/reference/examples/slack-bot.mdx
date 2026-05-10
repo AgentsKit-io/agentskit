@@ -1,0 +1,26 @@
+---
+title: Slack Bot
+description: Reference Slack bot wrapping createChatTrigger from @agentskit/runtime. Uses Events API + chat.postMessage REST. No Bolt dependency.
+---
+
+Driver-light Slack bot using Slack's Events API webhook + `chat.postMessage` REST endpoint via `fetch`. No Bolt dependency.
+
+For production, swap the reply body to wrap Bolt's `app.client.chat.postMessage` so retries, rate-limit handling, and pagination come for free.
+
+## Setup
+
+1. Create a Slack app at [api.slack.com/apps](https://api.slack.com/apps).
+2. Enable **Event Subscriptions** with bot events: `app_mention`, `message.channels`, `message.im`.
+3. Set request URL to `https://<your-host>/slack/events`.
+4. Install the app; copy **Bot User OAuth Token** (`xoxb-…`) and **Signing Secret**.
+
+```bash
+export SLACK_BOT_TOKEN=xoxb-...
+export SLACK_SIGNING_SECRET=...
+pnpm --filter @agentskit/example-slack-bot dev
+```
+
+## Related
+
+- [`slack` integration](/docs/agents/tools/integrations/slack)
+- [Source](https://github.com/AgentsKit-io/agentskit/tree/main/apps/example-slack-bot)

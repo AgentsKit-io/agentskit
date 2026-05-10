@@ -1,0 +1,17 @@
+---
+title: tutor
+description: Socratic tutor. Defaults to questions and hints; only gives direct answers when the user explicitly asks for them.
+---
+
+```ts
+import { tutor } from '@agentskit/skills'
+
+const runtime = createRuntime({ adapter, skills: [tutor] })
+```
+
+Default mode: ask diagnostic questions, give graduated hints, withhold the answer. Switches to direct-answer mode only when the user explicitly opts out.
+
+## Related
+
+- [curriculumDesigner](./curriculum-designer)
+- [Skills overview](./)

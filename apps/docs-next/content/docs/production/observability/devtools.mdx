@@ -28,7 +28,48 @@ export const GET = () =>
 
 Connect any web UI with `EventSource('/devtools')`.
 
+## Production control surface (pause / step / replay)
+
+`createDevtoolsServer` is dev-only — read-only event tap. The auth-gated production counterpart is `createControlSurface`, which lets ops pause an agent loop, step it one iteration, override the next tool call's result, and replay a finished run.
+
+```ts
+import { createControlSurface } from '@agentskit/observability'
+
+const control = createControlSurface({
+  authorize: (req) => verifyOpsToken(req.headers.get('authorization')),
+  audit: (entry) => auditSink.write(entry),
+})
+
+const runtime = createRuntime({ adapter, observers: [control.observer] })
+
+control.pause(runId)            // freeze loop at next checkpoint
+control.step(runId)             // advance one iteration
+control.overrideTool(runId, { name: 'send_email', result: { stubbed: true } })
+control.snapshot(runId)         // structured RunSnapshot
+control.replay(runId)           // re-execute from the recorded transcript
+```
+
+Every action passes through `authorize` and emits a `ControlAuditEntry` — pair with [audit log](/docs/production/observability/audit-log).
+
+## Live multi-agent topology graph
+
+`createTopologyGraph` consumes the same observer stream and renders a live DAG of agents, delegates, and tool edges. Pre-built views in `@agentskit/react` and `@agentskit/ink`:
+
+```tsx
+import { createTopologyGraph } from '@agentskit/observability'
+import { TopologyGraphView } from '@agentskit/react'
+
+const graph = createTopologyGraph()
+const runtime = createRuntime({ adapter, observers: [graph.observer] })
+
+<TopologyGraphView snapshot={graph.snapshot()} />
+```
+
+Snapshot shape is JSON-serialisable — pipe through SSE for a remote dashboard, or render in Ink for terminal observability.
+
 ## Related
 
 - [Recipe: devtools server](/docs/reference/recipes/devtools-server)
 - [Trace viewer](./trace-viewer)
+- [Audit log](./audit-log)
+- [Devtools over MCP](/docs/agents/tools/mcp#devtools-over-mcp)

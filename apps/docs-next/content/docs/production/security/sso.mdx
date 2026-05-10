@@ -1,0 +1,49 @@
+---
+title: SSO (OIDC + SAML)
+description: Verify OIDC ID tokens and SAML assertions to map an inbound request to a tenant. Pure, dependency-free, WebCrypto-only.
+---
+
+`@agentskit/core/security` ships two helpers for plugging an enterprise IdP (Okta, Auth0, Azure AD, Keycloak, Cognito) into a runtime so each request resolves to a tenant.
+
+Pure, dependency-free. Signature verification uses WebCrypto (`crypto.subtle`) — Node 18+, every modern browser, every edge runtime.
+
+## OIDC ID tokens (RS256 / ES256)
+
+```ts
+import { createOidcVerifier } from '@agentskit/core/security'
+
+const verifier = createOidcVerifier({
+  issuer: 'https://example.okta.com',
+  audience: 'agentskit-api',
+  // jwksUrl defaults to `${issuer}/.well-known/jwks.json`
+  // jwksTtlMs defaults to 1h, clockSkewSeconds to 30
+})
+
+const claims = await verifier.verify(bearerToken)
+// claims.sub, claims.iss, claims.aud, claims.exp, plus any tenant claim
+```
+
+Use the IdP-specific tenant claim (`tid`, `org_id`, `tenant`) to scope downstream cost-guard, rate-limit, and audit-log lookups.
+
+If the IdP rotates a key out-of-band, call `verifier.refreshJwks()` to bypass the cache.
+
+## SAML assertions
+
+SAML requires an XML / XML-DSig validator — bring your own. The helper provides a typed contract for the parsed assertion shape so the rest of the pipeline can stay generic.
+
+```ts
+import { createSamlVerifier } from '@agentskit/core/security'
+
+const verifier = createSamlVerifier({
+  validator: async (xml) => myXmlDsigValidator(xml),
+})
+
+const assertion = await verifier.verify(samlResponseXml)
+// assertion.subject, assertion.attributes (typed bag)
+```
+
+## Related
+
+- [Audit log](/docs/production/observability/audit-log)
+- [Cost guard](/docs/production/observability/cost-guard) — pair with the tenant claim
+- [Rate limiting](/docs/production/security/rate-limiting)

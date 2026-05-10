@@ -1,0 +1,19 @@
+---
+title: Embedded (CLI / Raycast / VS Code)
+description: Same agent runs from anywhere. Three host integrations of the identical runtime — Node CLI, Raycast script command, VS Code task.
+---
+
+Same `createRuntime({ adapter })` shape, three hosts:
+
+| Host | Wrapper | Try it |
+|---|---|---|
+| Node CLI | `src/index.ts` | `pnpm --filter @agentskit/example-embedded dev "Why is the sky blue?"` |
+| Raycast Script Command | `raycast/agentskit-ask.ts` | Copy into `~/.config/raycast/scripts/agentskit/`, install, type "Ask AgentsKit". |
+| VS Code Task | `vscode/tasks.json` | Copy into `.vscode/tasks.json`, then `Cmd+Shift+P → Tasks: Run Task → AgentsKit · Ask`. |
+
+The runtime is identical across hosts — only invocation glue differs.
+
+## Related
+
+- [Production → Embedded](/docs/production/embedded)
+- [Source](https://github.com/AgentsKit-io/agentskit/tree/main/apps/example-embedded)

@@ -1,0 +1,17 @@
+---
+title: legalAssistant
+description: Information-only legal assistant. Refuses jurisdiction-specific advice; always recommends a licensed attorney for binding decisions.
+---
+
+```ts
+import { legalAssistant } from '@agentskit/skills'
+
+const runtime = createRuntime({ adapter, skills: [legalAssistant] })
+```
+
+Hard rails: information not advice, jurisdiction-aware, no attorney-client privilege, plain language with statute citations. Every substantive answer ends with the "general information, not legal advice" disclaimer.
+
+## Related
+
+- [contractReviewer](./contract-reviewer)
+- [Skills overview](./)

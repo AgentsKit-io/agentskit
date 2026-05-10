@@ -1,0 +1,79 @@
+---
+title: Guarantees (validator + quota)
+description: Runtime safety primitives — validator guard wraps regenerable output with a validator chain; per-tool quotas hard-cap blast radius.
+---
+
+Two production-grade safety primitives ship in `@agentskit/runtime`:
+
+- **Validator guard** — wraps any regenerable agent output with a validator chain. Retry, block, or fall back on failure.
+- **Per-tool quota** — hard caps on tool calls per run and per sliding window. Survives runaway loops.
+
+Both are auditable and adapter-agnostic.
+
+## Validator guard
+
+```ts
+import { createValidatorGuard, isJson, denyPattern } from '@agentskit/runtime'
+
+const guard = createValidatorGuard({
+  validators: [
+    { name: 'json-shape', check: ({ output }) => isJson(output), onFail: 'retry', maxRetries: 2 },
+    { name: 'no-pii', check: ({ output }) => denyPattern(/\b\d{3}-\d{2}-\d{4}\b/)({ output, attempt: 0 }), onFail: 'fallback' },
+  ],
+  fallback: '{"error":"redacted"}',
+  audit: (event) => myAuditSink.write(event),
+})
+
+const result = await guard.run({
+  regenerate: (repair) => runtime.run(prompt + (repair ?? '')).then(r => r.content),
+})
+// result.output, result.accepted, result.attempts, result.failures
+```
+
+Each validator gets its own retry budget, so a flaky JSON gate does not burn the budget that a strict PII gate also needs. Three failure actions:
+
+| Action | Behaviour |
+|---|---|
+| `retry` | Regenerate with optional `repairPrompt`. Cap via `maxRetries` (default 1). |
+| `block` | Return empty output, `accepted: false`. |
+| `fallback` | Return the configured `fallback` string, `accepted: false`. |
+
+Built-ins: `isJson`, `denyPattern(re)`, `lengthRange(min, max)`. Bring your own for RAG citation, eval LLM-judge, or domain rules.
+
+Use cases: JSON-shape contracts, "never emit PII" final gate, "must cite a source from the corpus", SOX / HIPAA / fair-housing rails.
+
+## Per-tool quota
+
+```ts
+import { createQuotaTracker, withQuotas, createRuntime } from '@agentskit/runtime'
+
+const tracker = createQuotaTracker({
+  env: process.env.NODE_ENV,
+  quotas: {
+    send_email: { perRun: 50, perWindow: { count: 500, windowMs: 60_000 } },
+    drop_table: { dryRunRequiredIn: ['production'] },
+  },
+  onExceeded: (event) => alert.fire(event),
+})
+
+const runtime = createRuntime({
+  adapter,
+  tools: withQuotas([sendEmail, dropTable], tracker),
+})
+```
+
+Two limits per tool:
+
+- `perRun` — counter resets on every `runtime.run()`.
+- `perWindow` — sliding window shared across runs.
+
+Plus `dryRunRequiredIn: [...envTags]` — destructive tools throw before `execute` runs in matching environments.
+
+Quota breaches raise `ToolError(AK_TOOL_QUOTA_EXCEEDED)` and emit a `tool:quota:exceeded` event so observers and cost-guards can react.
+
+## Related
+
+- [Runtime](./runtime)
+- [Cost guard](/docs/production/observability/cost-guard)
+- [Audit log](/docs/production/observability/audit-log)
+- [Rate limiting](/docs/production/security/rate-limiting)

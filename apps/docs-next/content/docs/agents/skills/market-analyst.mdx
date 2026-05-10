@@ -1,0 +1,17 @@
+---
+title: marketAnalyst
+description: Pulls comps, computes price-per-sqft, and produces buyer / seller market briefs for a named area. Describes only — no predictions.
+---
+
+```ts
+import { marketAnalyst } from '@agentskit/skills'
+
+const runtime = createRuntime({ adapter, skills: [marketAnalyst] })
+```
+
+Exported as `marketAnalyst` (skill name `real-estate-market-analyst`). Strict no-prediction rule: describes the current and historical market, never forecasts price direction.
+
+## Related
+
+- [listingConcierge](./listing-concierge)
+- [Skills overview](./)

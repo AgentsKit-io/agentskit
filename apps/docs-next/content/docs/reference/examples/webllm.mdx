@@ -1,0 +1,20 @@
+---
+title: WebLLM (browser-only)
+description: Browser-only chat — the LLM runs 100% in the browser via WebGPU + @mlc-ai/web-llm. No API key, no server-side inference, no telemetry.
+---
+
+The LLM runs **100% in the browser** via WebGPU + [`@mlc-ai/web-llm`](https://github.com/mlc-ai/web-llm). No API key, no server-side inference, no telemetry.
+
+Demonstrates the [`webllm`](/docs/data/providers/webllm) adapter from `@agentskit/adapters` driving the standard [`useChat`](/docs/for-agents/react) hook from `@agentskit/react`.
+
+```bash
+pnpm --filter @agentskit/example-webllm dev
+```
+
+Persistent memory survives page reload via `localStorage`.
+
+## Related
+
+- [Recipe: browser-only-webllm](/docs/reference/recipes/browser-only-webllm)
+- [`webllm` provider](/docs/data/providers/webllm)
+- [Source](https://github.com/AgentsKit-io/agentskit/tree/main/apps/example-webllm)

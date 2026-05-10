@@ -1,0 +1,17 @@
+---
+title: contractReviewer
+description: Reviews contract drafts for missing clauses, risk flags, and unclear terms. Always defers final sign-off to a licensed attorney.
+---
+
+```ts
+import { contractReviewer } from '@agentskit/skills'
+
+const runtime = createRuntime({ adapter, skills: [contractReviewer] })
+```
+
+Three-section output per review: plain-English summary, risk flags (🚩 / 🟡 / ✅ with verbatim clause text), open questions for counsel. Never says "fine to sign" — always ends with attorney-review disclaimer.
+
+## Related
+
+- [legalAssistant](./legal-assistant)
+- [Skills overview](./)
