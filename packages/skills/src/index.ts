@@ -15,6 +15,10 @@ export { securityAuditor } from './security-auditor'
 export { customerSupport } from './customer-support'
 export { healthcareAssistant, clinicalNoteSummarizer } from './healthcare'
 export { financialAdvisor, transactionTriage } from './finance'
+export { legalAssistant, contractReviewer } from './legal'
+export { tutor, curriculumDesigner } from './education'
+export { storefrontConcierge, merchandisingAnalyst } from './ecommerce'
+export { listingConcierge, marketAnalyst } from './real-estate'
 
 export {
   createSkillRegistry,
