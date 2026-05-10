@@ -55,3 +55,14 @@ export type {
   RateLimitBucket,
   RateLimitDecision,
 } from './rate-limit'
+
+export { createOidcVerifier, createSamlVerifier } from './sso'
+export type {
+  OidcVerifier,
+  OidcVerifierOptions,
+  OidcClaims,
+  SamlVerifier,
+  SamlVerifierOptions,
+  SamlAssertion,
+  SamlAttribute,
+} from './sso'
