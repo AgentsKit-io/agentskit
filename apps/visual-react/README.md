@@ -51,12 +51,15 @@ If a snapshot drifts without a real visual change, look for a missed source of n
 
 ## CI
 
-Not wired into the default workflow yet. To enable, run:
+Wired in via [`.github/workflows/visual.yml`](../../.github/workflows/visual.yml). Runs on every push / PR that touches `packages/react/**` or `apps/visual-react/**`.
 
-```yaml
-- run: pnpm --filter @agentskit/visual-react test:visual:install
-- run: pnpm --filter @agentskit/visual-react build
-- run: pnpm --filter @agentskit/visual-react test:visual
-```
+### Bootstrapping baselines
 
-Cache the Playwright browser bundle at `~/.cache/ms-playwright`.
+Baselines must be generated on the same Linux x86_64 image the workflow runs on (`ubuntu-22.04`); local macOS / Linux builds will produce subpixel-different PNGs. To bootstrap:
+
+1. Trigger the **Visual (React)** workflow via the Actions tab → **Run workflow** → set `update_baselines: true`.
+2. The job runs `playwright test --update-snapshots` and uploads `visual-baselines-linux` as an artifact.
+3. Download the artifact, drop the contents into `apps/visual-react/tests/visual.spec.ts-snapshots/`, and open a PR. Review every PNG visually before merging.
+4. Once baselines are in `main`, the default `update_baselines: false` runs gate every PR.
+
+Re-run the bootstrap when components intentionally change visually. Use a probe PR with a one-off colour tweak to confirm the suite catches a real regression.
