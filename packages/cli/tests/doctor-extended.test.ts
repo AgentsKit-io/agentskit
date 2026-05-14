@@ -9,7 +9,7 @@ import { describe, it, expect, vi, afterEach, beforeEach } from 'vitest'
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { renderReport, checkConfig } from '../src/doctor'
+import { renderReport } from '../src/doctor'
 
 afterEach(() => {
   vi.restoreAllMocks()

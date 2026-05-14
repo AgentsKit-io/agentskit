@@ -98,7 +98,6 @@ describe('registerChatCommand — resuming existing session', () => {
       '--provider', 'demo',
     ])
 
-    const output = stdoutSpy.mock.calls.map(c => c[0] as string).join('')
     // Either "Resuming session" or at least the render was called
     // The message is present when isNew=false AND no explicit memory
     expect(renderMock).toHaveBeenCalled()

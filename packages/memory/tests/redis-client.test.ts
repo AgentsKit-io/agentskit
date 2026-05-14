@@ -1,5 +1,4 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
-import { createRedisClientAdapter } from '../src/redis-client'
 
 afterEach(() => {
   vi.unstubAllGlobals()
@@ -29,7 +28,7 @@ describe('createRedisClientAdapter', () => {
       set: vi.fn(async (key: string, value: string) => { store.set(key, value) }),
       del: vi.fn(async (keys: string[]) => { for (const k of keys) store.delete(k) }),
       keys: vi.fn(async (pattern: string) => {
-        const prefix = pattern.replace('*', '')
+        const prefix = pattern.replaceAll('*', '')
         return [...store.keys()].filter(k => k.startsWith(prefix))
       }),
       disconnect: vi.fn().mockResolvedValue(undefined),

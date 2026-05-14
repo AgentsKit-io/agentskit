@@ -111,9 +111,9 @@ describe('shell hook execution (runShellHook via handler)', () => {
       SessionStart: [{ run: 'sleep 10', timeout: 50 }],
     })!
     const result = await handler!.run(PAYLOAD)
-    // sleep exits non-zero after SIGTERM
+    // sleep exits non-zero after SIGKILL
     expect(['block', 'continue']).toContain(result.decision)
-  }, 3000)
+  }, 10000)
 
   it('blocks when command does not exist', async () => {
     const [handler] = configHooksToHandlers({

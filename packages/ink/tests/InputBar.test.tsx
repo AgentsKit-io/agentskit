@@ -12,14 +12,6 @@ import type { ChatReturn } from '@agentskit/core'
 // This validates the actual InputBar logic (setInput/send/guards) without
 // depending on the broken test harness. See #266.
 
-// Drain enough macrotask ticks to let React + ink-testing-library commit
-// state updates between key presses (same technique as ToolConfirmation.test).
-const flush = async () => {
-  for (let i = 0; i < 5; i++) {
-    await new Promise(r => setTimeout(r, 20))
-  }
-}
-
 type Key = Parameters<Parameters<typeof import('ink').useInput>[0]>[1]
 
 let capturedHandler: ((input: string, key: Key) => void) | undefined

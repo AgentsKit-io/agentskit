@@ -50,8 +50,10 @@ function runShellHook(entry: ConfigHookEntry, payload: HookPayload): Promise<Hoo
     })
 
     const timer = setTimeout(() => {
-      child.kill('SIGTERM')
+      child.kill('SIGKILL')
     }, timeoutMs)
+
+    child.stdin.on('error', () => { /* ignore EPIPE when child is killed mid-write */ })
 
     child.on('close', (code) => {
       clearTimeout(timer)

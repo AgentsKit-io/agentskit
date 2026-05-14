@@ -71,18 +71,8 @@ describe('tursoChatMemory (injected fake client)', () => {
   })
 
   it('clear removes messages', async () => {
-    const fakeClient = makeFakeClient()
-    const fakeLibsql = { createClient: vi.fn(() => fakeLibsql) }
-    vi.doMock('@libsql/client', () => fakeLibsql)
-
-    const { tursoChatMemory } = await import('../src/turso')
-    // Use a fresh instance after clearing module cache
-    const mem = tursoChatMemory({ url: 'file::memory:', conversationId: 'conv-clear' })
-
-    // Manually prime the fake db by calling execute
     const msg: Message = { id: 'x', role: 'user', content: 'bye', status: 'complete', createdAt: new Date(0) }
 
-    // Use the fake client from the factory
     const client = makeFakeClient()
     const lib = { createClient: vi.fn(() => client) }
     vi.doMock('@libsql/client', () => lib)

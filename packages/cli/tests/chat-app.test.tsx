@@ -5,9 +5,7 @@
  * (Ink, @agentskit/ink, @agentskit/runtime) so we can exercise the
  * pure logic paths inside ChatApp without a real terminal.
  */
-import React from 'react'
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
-import { renderHook } from '@testing-library/react'
 
 afterEach(() => {
   vi.restoreAllMocks()
