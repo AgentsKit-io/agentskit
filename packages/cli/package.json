@@ -56,25 +56,25 @@
     "@agentskit/runtime": "workspace:*",
     "@agentskit/skills": "workspace:*",
     "@agentskit/tools": "workspace:*",
-    "@inquirer/prompts": "^8.4.2",
+    "@inquirer/prompts": "^8.4.3",
     "chokidar": "^5.0.0",
-    "commander": "^14.0.1",
-    "ink": "^7.0.1",
+    "commander": "^14.0.3",
+    "ink": "^7.0.3",
     "kleur": "^4.1.5",
     "localtunnel": "^2.0.2",
-    "react": "^19.2.5",
-    "yaml": "^2.6.0"
+    "react": "^19.2.6",
+    "yaml": "^2.9.0"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/localtunnel": "^2.0.4",
-    "@types/node": "^25.6.0",
+    "@types/node": "^25.8.0",
     "@types/react": "^19.2.14",
     "happy-dom": "^20.9.0",
-    "tsup": "^8.5.0",
+    "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.5"
+    "vitest": "^4.1.6"
   },
   "publishConfig": {
     "access": "public"
