@@ -252,6 +252,50 @@ describe('createStdioTransport', () => {
     expect(received).toHaveLength(0)
   })
 
+  it('exposes detach functions for onMessage / onClose and supports close()', () => {
+    let dataCb: ((chunk: Buffer | string) => void) | undefined
+    const off = vi.fn()
+    const kill = vi.fn()
+    const child = {
+      stdin: { write: vi.fn() },
+      stdout: {
+        on: (_event: 'data', cb: (chunk: Buffer | string) => void) => {
+          dataCb = cb
+        },
+        off,
+      },
+      kill,
+    }
+    const transport = createStdioTransport(child)
+    const msgs: JsonRpcMessage[] = []
+    const detachMsg = transport.onMessage(m => msgs.push(m))
+    let closed = false
+    const detachClose = transport.onClose(() => { closed = true })
+    detachMsg()
+    detachClose()
+    // After detach, no further callbacks fire.
+    dataCb!('{"jsonrpc":"2.0","id":1,"result":1}\n')
+    expect(msgs).toHaveLength(0)
+    transport.close()
+    expect(off).toHaveBeenCalledWith('data', expect.any(Function))
+    expect(kill).toHaveBeenCalled()
+    expect(closed).toBe(false)
+  })
+
+  it('in-memory transport detach removes message + close listeners', () => {
+    const [a, b] = createInMemoryTransportPair()
+    const msgs: JsonRpcMessage[] = []
+    let closed = false
+    const offMsg = a.onMessage(m => msgs.push(m))
+    const offClose = a.onClose(() => { closed = true })
+    offMsg()
+    offClose()
+    b.send({ jsonrpc: '2.0', id: 1, method: 'x' })
+    expect(msgs).toHaveLength(0)
+    b.close?.()
+    expect(closed).toBe(false)
+  })
+
   it('kills child and fires onClose when frame exceeds maxFrameBytes', () => {
     let dataCb: ((chunk: Buffer | string) => void) | undefined
     const kill = vi.fn()
