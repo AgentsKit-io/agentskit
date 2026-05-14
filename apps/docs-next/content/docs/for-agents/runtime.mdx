@@ -25,6 +25,8 @@ npm install @agentskit/runtime
 - `createCronScheduler` (5-field cron + `every:<ms>`) + `createWebhookHandler` + `parseSchedule` + `cronMatches` — background agents. See [Background agents](/docs/reference/recipes/background-agents).
 - `compileFlow({ definition, registry })` + `validateFlow` + `flowToMermaid` — compile a YAML / object `FlowDefinition` into a durable DAG runner. See [Visual flows](/docs/agents/flow).
 - `createChatTrigger({ adapter, agent, ... })` — unified inbound trigger for chat-surface bots (Slack / Teams / Discord / WhatsApp). Wraps a `ChatSurfaceAdapter` that normalizes provider events into a `ChatSurfaceEvent` discriminated union (`message` / `mention` / `reply` / `reaction` / `file_upload` / `installation`). Returns a framework-agnostic `WebhookHandler`.
+- `createQuotaTracker` + `withQuotas` — per-tool quota / blast-radius limits (count / cost / duration windows).
+- `createValidatorGuard` + built-in validators `denyPattern`, `lengthRange`, `isJson` — agent-insurance primitive that rejects tool args / outputs against allow/deny rules before they propagate.
 
 ## Minimal example
 

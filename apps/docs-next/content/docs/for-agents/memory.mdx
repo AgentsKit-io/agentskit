@@ -36,6 +36,7 @@ npm install @agentskit/memory
 - `createInMemoryPersonalization` + `renderProfileContext` — per-subject profile. See [Personalization](/docs/reference/recipes/personalization).
 - `wrapChatMemoryWithRedaction(mem, { rules, mode?, vault?, allowedRoles? })` — redact (or tokenize) PII at save() time on any `ChatMemory`. Pairs with `@agentskit/core/security` `tokenize` / `reveal` for role-gated read.
 - `wrapVectorMemoryWithRedaction(mem, { rules, mode?, vault?, allowedRoles? })` — same for `VectorMemory.store()`. Embeddings pass through verbatim; redact the input to your embedder separately if it is a hosted provider.
+- `forgetSubject(memory, subjectId)` / `makeForgettable(memory)` — GDPR-style right-to-erasure helpers that purge all records for a subject across `ChatMemory` and `VectorMemory`.
 
 ## Minimal example
 
