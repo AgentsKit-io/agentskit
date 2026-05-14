@@ -120,11 +120,11 @@ describe('MCP bridge (client ↔ server over in-memory transport)', () => {
 })
 
 describe('toolsFromMcpClient', () => {
-  it('hydrates MCP tools into AgentsKit ToolDefinitions', async () => {
+  it('hydrates MCP tools into AgentsKit ToolDefinitions (no quarantine)', async () => {
     const [a, b] = createInMemoryTransportPair()
     createMcpServer({ transport: b, tools: [makeTool('echo', async ({ q }) => `you said ${q}`)] })
     const client = createMcpClient({ transport: a })
-    const tools = await toolsFromMcpClient(client)
+    const tools = await toolsFromMcpClient(client, { quarantine: false })
     expect(tools).toHaveLength(1)
     expect(tools[0]!.name).toBe('echo')
     const out = await tools[0]!.execute!(
@@ -135,6 +135,49 @@ describe('toolsFromMcpClient', () => {
     await client.close()
   })
 
+  it('quarantines untrusted servers by default: name prefix + provenance hint', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({ transport: b, tools: [makeTool('echo', async ({ q }) => `you said ${q}`)] })
+    const client = createMcpClient({ transport: a })
+    const tools = await toolsFromMcpClient(client)
+    expect(tools[0]!.name).toBe('mcp:echo')
+    expect(tools[0]!.description).toMatch(/^\[mcp\]/)
+    await client.close()
+  })
+
+  it('truncates oversized descriptions to maxDescriptionBytes', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    const huge = 'x'.repeat(10_000)
+    createMcpServer({
+      transport: b,
+      tools: [{ name: 't', description: huge, execute: async () => 'ok' }],
+    })
+    const client = createMcpClient({ transport: a })
+    const tools = await toolsFromMcpClient(client, { maxDescriptionBytes: 100, quarantine: false })
+    expect(tools[0]!.description!.length).toBeLessThanOrEqual(100)
+    expect(tools[0]!.description).toContain('[truncated]')
+    await client.close()
+  })
+
+  it('drops tools whose inputSchema exceeds maxSchemaBytes', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    const giant: Record<string, { type: string }> = {}
+    for (let i = 0; i < 5_000; i++) giant[`p${i}`] = { type: 'string' }
+    createMcpServer({
+      transport: b,
+      tools: [{
+        name: 'big',
+        description: 'd',
+        schema: { type: 'object', properties: giant },
+        execute: async () => 'ok',
+      }],
+    })
+    const client = createMcpClient({ transport: a })
+    const tools = await toolsFromMcpClient(client, { maxSchemaBytes: 1_000 })
+    expect(tools).toHaveLength(0)
+    await client.close()
+  })
+
   it('propagates tool errors', async () => {
     const [a, b] = createInMemoryTransportPair()
     createMcpServer({
@@ -142,7 +185,7 @@ describe('toolsFromMcpClient', () => {
       tools: [{ name: 'boom', description: '', execute: async () => { throw new Error('bang') } }],
     })
     const client = createMcpClient({ transport: a })
-    const tools = await toolsFromMcpClient(client)
+    const tools = await toolsFromMcpClient(client, { quarantine: false })
     await expect(
       tools[0]!.execute!({}, { messages: [], call: { id: 'c', name: 'boom', args: {}, status: 'running' } }),
     ).rejects.toThrow(/bang/)

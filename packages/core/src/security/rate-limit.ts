@@ -25,6 +25,18 @@ export interface RateLimiterOptions<TContext = unknown> {
   bucketOf?: (context: TContext) => string
   /** Clock override for tests. */
   now?: () => number
+  /**
+   * Maximum distinct (bucket, key) pairs tracked. Oldest-touched entry
+   * is evicted on overflow so a flood of unique keys cannot grow the
+   * in-memory map without bound. Default 100_000.
+   */
+  maxEntries?: number
+  /**
+   * Drop any bucket entry that has been idle (no `check`) for longer
+   * than this. Default 1 hour. Idle drop happens lazily on `check`,
+   * so there is no background timer.
+   */
+  ttlMs?: number
 }
 
 export interface RateLimiter<TContext = unknown> {
@@ -38,12 +50,27 @@ export interface RateLimiter<TContext = unknown> {
 interface BucketState {
   tokens: number
   lastRefillMs: number
+  lastTouchMs: number
 }
+
+const DEFAULT_MAX_ENTRIES = 100_000
+const DEFAULT_TTL_MS = 60 * 60 * 1_000
+// Unit separator — invalid in URLs, identifiers, and bucket / actor
+// names. Defeats the prior `endsWith('::'+key)` collision when keys
+// themselves contained `::`.
+const SEP = '\x1f'
 
 /**
  * Token-bucket rate limiter. Per-key state is in-memory — for
  * multi-process deployments, swap in a Redis-backed implementation
  * with the same `RateLimiter` contract.
+ *
+ * Memory is bounded:
+ *  - `maxEntries` caps distinct (bucket, key) pairs; oldest-touch entry
+ *    is evicted on overflow so a stream of unique keys can't grow the
+ *    map past the cap.
+ *  - `ttlMs` drops entries that have been idle longer than the window
+ *    lazily on `check`.
  */
 export function createRateLimiter<TContext = unknown>(
   options: RateLimiterOptions<TContext>,
@@ -52,6 +79,10 @@ export function createRateLimiter<TContext = unknown>(
   if (bucketNames.length === 0) throw new Error('createRateLimiter requires ≥ 1 bucket')
   const pickBucket = options.bucketOf ?? ((): string => 'default')
   const clock = options.now ?? ((): number => Date.now())
+  const maxEntries = options.maxEntries ?? DEFAULT_MAX_ENTRIES
+  const ttlMs = options.ttlMs ?? DEFAULT_TTL_MS
+  // Map iteration order is insertion order; we re-insert on touch so
+  // the first entry is always the oldest-touched — LRU eviction in O(1).
   const state = new Map<string, BucketState>()
 
   const refill = (s: BucketState, cfg: RateLimitBucket, now: number): void => {
@@ -64,21 +95,50 @@ export function createRateLimiter<TContext = unknown>(
     }
   }
 
+  const touch = (stateKey: string, s: BucketState, now: number): void => {
+    s.lastTouchMs = now
+    state.delete(stateKey)
+    state.set(stateKey, s)
+  }
+
+  const evictExpired = (now: number): void => {
+    for (const [k, s] of state) {
+      if (now - s.lastTouchMs > ttlMs) {
+        state.delete(k)
+      } else {
+        // Insertion-ordered by lastTouch; first non-expired entry means
+        // every entry after it is fresher.
+        break
+      }
+    }
+  }
+
+  const evictOverflow = (): void => {
+    while (state.size > maxEntries) {
+      const oldest = state.keys().next().value
+      if (oldest === undefined) break
+      state.delete(oldest)
+    }
+  }
+
   return {
     check(context) {
       const key = options.keyOf(context)
       const bucketName = pickBucket(context)
       const cfg = options.buckets[bucketName]
       if (!cfg) throw new Error(`unknown rate-limit bucket: ${bucketName}`)
-      const stateKey = `${bucketName}::${key}`
+      const stateKey = `${bucketName}${SEP}${key}`
       const now = clock()
+      evictExpired(now)
 
       let s = state.get(stateKey)
       if (!s) {
-        s = { tokens: cfg.capacity, lastRefillMs: now }
+        s = { tokens: cfg.capacity, lastRefillMs: now, lastTouchMs: now }
         state.set(stateKey, s)
+        evictOverflow()
       } else {
         refill(s, cfg, now)
+        touch(stateKey, s, now)
       }
 
       if (s.tokens > 0) {
@@ -96,15 +156,18 @@ export function createRateLimiter<TContext = unknown>(
     },
 
     reset(key) {
+      const suffix = `${SEP}${key}`
       for (const stateKey of Array.from(state.keys())) {
-        if (stateKey.endsWith(`::${key}`)) state.delete(stateKey)
+        if (stateKey.endsWith(suffix)) state.delete(stateKey)
       }
     },
 
     inspect() {
-      return Array.from(state, ([key, s]) => {
-        const [bucket, rest] = key.split('::')
-        return { bucket: bucket!, key: rest!, tokens: s.tokens }
+      return Array.from(state, ([k, s]) => {
+        const sepIdx = k.indexOf(SEP)
+        const bucket = sepIdx === -1 ? k : k.slice(0, sepIdx)
+        const rest = sepIdx === -1 ? '' : k.slice(sepIdx + 1)
+        return { bucket, key: rest, tokens: s.tokens }
       })
     },
   }

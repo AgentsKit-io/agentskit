@@ -207,19 +207,18 @@ export async function tokenize(
  * revealed) and at most one `pii:reveal-denied` (when something was
  * denied) per call.
  *
- * **Security note on `denied` counts.** The returned `denied` count
- * indicates how many tokens existed in the vault but were not
- * revealable by this actor. Surfacing that count back to the
- * triggering actor lets them probe arbitrary token IDs to learn which
- * exist in the vault (token-existence oracle). Use `denied` for
- * monitoring / audit only — do NOT include it in user-facing error
- * messages. Same applies to the `'pii:reveal-denied'` audit event:
- * route it to operators, not back to the calling actor.
+ * **Security note on deny counts.** The number of tokens that existed
+ * in the vault but were not revealable by this actor is intentionally
+ * *not* returned to the caller. Surfacing it back to the triggering
+ * actor would let them probe arbitrary token IDs to learn which exist
+ * in the vault (token-existence oracle). The count is delivered only
+ * through the audit sink, which should be routed to operators rather
+ * than back into the calling actor's response.
  */
 export async function reveal(
   input: string,
   options: RevealOptions,
-): Promise<{ value: string; revealed: number; denied: number }> {
+): Promise<{ value: string; revealed: number }> {
   if (!options.vault) {
     throw new ConfigError({
       code: ErrorCodes.AK_CONFIG_INVALID,
@@ -239,7 +238,7 @@ export async function reveal(
 
   const matches = Array.from(input.matchAll(TOKEN_PATTERN))
   if (matches.length === 0) {
-    return { value: input, revealed: 0, denied: 0 }
+    return { value: input, revealed: 0 }
   }
 
   let out = ''
@@ -287,7 +286,7 @@ export async function reveal(
     })
   }
 
-  return { value: out, revealed, denied }
+  return { value: out, revealed }
 }
 
 /**

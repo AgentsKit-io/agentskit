@@ -190,4 +190,51 @@ describe('createRateLimiter', () => {
     expect(snap).toHaveLength(1)
     expect(snap[0]!.tokens).toBe(2)
   })
+
+  it('caps state size via maxEntries (LRU evict)', () => {
+    const limiter = createRateLimiter<string>({
+      keyOf: k => k,
+      buckets: { default: { capacity: 1, refill: 1, windowMs: 60_000 } },
+      maxEntries: 3,
+    })
+    limiter.check('a')
+    limiter.check('b')
+    limiter.check('c')
+    limiter.check('d')
+    const keys = limiter.inspect().map(e => e.key)
+    expect(keys).toHaveLength(3)
+    expect(keys).not.toContain('a')
+    expect(keys).toContain('d')
+  })
+
+  it('expires idle entries via ttlMs (lazy on check)', () => {
+    let now = 0
+    const limiter = createRateLimiter<string>({
+      keyOf: k => k,
+      buckets: { default: { capacity: 1, refill: 1, windowMs: 60_000 } },
+      ttlMs: 1_000,
+      now: () => now,
+    })
+    limiter.check('a')
+    expect(limiter.inspect().map(e => e.key)).toContain('a')
+    now = 5_000
+    limiter.check('b')
+    const keys = limiter.inspect().map(e => e.key)
+    expect(keys).not.toContain('a')
+    expect(keys).toContain('b')
+  })
+
+  it('reset does not collide on keys containing the literal separator', () => {
+    const limiter = createRateLimiter<string>({
+      keyOf: k => k,
+      buckets: { default: { capacity: 1, refill: 1, windowMs: 60_000 } },
+    })
+    // Key shaped like "bucket::key" was the prior collision case.
+    limiter.check('default::evil')
+    limiter.check('victim')
+    limiter.reset('victim')
+    const keys = limiter.inspect().map(e => e.key)
+    expect(keys).toContain('default::evil')
+    expect(keys).not.toContain('victim')
+  })
 })

@@ -40,7 +40,7 @@ describe('tokenize + reveal — round-trip', () => {
     })
     expect(revealed.value).toBe(input)
     expect(revealed.revealed).toBe(2)
-    expect(revealed.denied).toBe(0)
+    expect('denied' in revealed).toBe(false)
   })
 
   it('denies reveal when actor has no matching role', async () => {
@@ -57,7 +57,7 @@ describe('tokenize + reveal — round-trip', () => {
     })
     expect(revealed.value).toBe(tokenized)
     expect(revealed.revealed).toBe(0)
-    expect(revealed.denied).toBe(1)
+    expect('denied' in revealed).toBe(false)
   })
 
   it('reveals only the tokens whose roles match (partial reveal)', async () => {
@@ -83,7 +83,7 @@ describe('tokenize + reveal — round-trip', () => {
     expect(revealed.value).not.toContain('555-123-4567')
     expect(revealed.value).toMatch(/<<piitoken:[a-f0-9]{32}>>/)
     expect(revealed.revealed).toBe(1)
-    expect(revealed.denied).toBe(1)
+    expect('denied' in revealed).toBe(false)
   })
 
   it('passes input through unchanged when no PII matches', async () => {
@@ -105,7 +105,6 @@ describe('tokenize + reveal — round-trip', () => {
     })
     expect(result.value).toBe('plain text')
     expect(result.revealed).toBe(0)
-    expect(result.denied).toBe(0)
   })
 
   it('treats unknown tokens as denied (leaves placeholder)', async () => {
@@ -116,7 +115,23 @@ describe('tokenize + reveal — round-trip', () => {
       actor: { id: 'a', roles: ['x'] },
     })
     expect(result.value).toBe(stale)
-    expect(result.denied).toBe(1)
+    expect('denied' in result).toBe(false)
+  })
+
+  it('does not expose denied count on the public return (token-existence oracle)', async () => {
+    const vault = createInMemoryRedactionVault()
+    const { value: tokenized } = await tokenize('email alice@example.com', {
+      rules: DEFAULT_PII_RULES,
+      vault,
+      allowedRoles: ['admin'],
+    })
+    const result = await reveal(tokenized, {
+      vault,
+      actor: { id: 'low', roles: ['agent'] },
+    })
+    // Result shape must contain only {value, revealed}; no count of
+    // tokens that exist-but-were-denied.
+    expect(Object.keys(result).sort()).toEqual(['revealed', 'value'])
   })
 
   it('emits pii:redact audit event with rule hit counts', async () => {
