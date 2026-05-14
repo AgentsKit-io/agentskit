@@ -80,4 +80,42 @@ describe('@agentskit/vue', () => {
     expect(root.querySelector('[data-ak-submit]')).not.toBeNull()
     app.unmount()
   })
+
+  it('ChatContainer renders message rows, handles input + submit', async () => {
+    const root = document.createElement('div')
+    document.body.appendChild(root)
+    const app = createApp({
+      render: () =>
+        h(ChatContainer, {
+          config: {
+            adapter: mockAdapter([
+              { type: 'text', content: 'hello back' },
+              { type: 'done' },
+            ]),
+          },
+        }),
+    })
+    app.mount(root)
+    await nextTick()
+
+    const input = root.querySelector('[data-ak-input]') as HTMLInputElement
+    input.value = 'hi'
+    input.dispatchEvent(new Event('input'))
+    await nextTick()
+    expect(input.value).toBe('hi')
+
+    const form = root.querySelector('[data-ak-form]') as HTMLFormElement
+    form.dispatchEvent(new Event('submit', { cancelable: true }))
+    // wait for stream to complete
+    await new Promise(r => setTimeout(r, 20))
+    await nextTick()
+
+    const rows = root.querySelectorAll('[data-ak-message]')
+    expect(rows.length).toBeGreaterThanOrEqual(1)
+    const roles = Array.from(rows).map(r => r.getAttribute('data-ak-role'))
+    expect(roles).toContain('user')
+
+    app.unmount()
+    root.remove()
+  })
 })

@@ -49,4 +49,32 @@ describe('InputBar', () => {
     render(<InputBar chat={mockChat()} placeholder="Ask anything..." />)
     expect(screen.getByPlaceholderText('Ask anything...')).toBeInTheDocument()
   })
+
+  it('calls send on Enter key without Shift', () => {
+    const chat = mockChat({ input: 'Hello Enter' })
+    render(<InputBar chat={chat} />)
+    fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter', shiftKey: false })
+    expect(chat.send).toHaveBeenCalledWith('Hello Enter')
+  })
+
+  it('does not call send on Enter+Shift (soft newline)', () => {
+    const chat = mockChat({ input: 'Hello' })
+    render(<InputBar chat={chat} />)
+    fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter', shiftKey: true })
+    expect(chat.send).not.toHaveBeenCalled()
+  })
+
+  it('does not call send on Enter when input is whitespace only', () => {
+    const chat = mockChat({ input: '   ' })
+    render(<InputBar chat={chat} />)
+    fireEvent.keyDown(screen.getByRole('textbox'), { key: 'Enter', shiftKey: false })
+    expect(chat.send).not.toHaveBeenCalled()
+  })
+
+  it('does not call send on form submit when input is empty', () => {
+    const chat = mockChat({ input: '' })
+    render(<InputBar chat={chat} />)
+    fireEvent.submit(screen.getByRole('textbox').closest('form')!)
+    expect(chat.send).not.toHaveBeenCalled()
+  })
 })

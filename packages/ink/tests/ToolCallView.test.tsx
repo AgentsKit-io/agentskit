@@ -66,4 +66,54 @@ describe('ToolCallView', () => {
     const { lastFrame } = render(<ToolCallView toolCall={runningCall} />)
     expect(lastFrame()).toContain('running')
   })
+
+  // ── line 19: truncate() is exercised when args exceed argsPreviewChars ─────
+
+  it('truncates long args when expanded', () => {
+    const longArgsCall: ToolCall = {
+      ...baseToolCall,
+      args: { query: 'x'.repeat(300) },
+    }
+    const { lastFrame } = render(
+      <ToolCallView toolCall={longArgsCall} expanded argsPreviewChars={50} />,
+    )
+    // truncation indicator must appear
+    expect(lastFrame()).toContain('…')
+  })
+
+  // ── line 27: previewArgs with a string arg (not object) ───────────────────
+
+  it('handles string args in expanded view', () => {
+    const stringArgsCall: ToolCall = {
+      ...baseToolCall,
+      args: 'raw string argument',
+    }
+    const { lastFrame } = render(<ToolCallView toolCall={stringArgsCall} expanded />)
+    expect(lastFrame()).toContain('raw string argument')
+  })
+
+  // ── unknown status falls back to pending style ─────────────────────────────
+
+  it('falls back to pending theme for unknown status', () => {
+    const unknownCall = {
+      ...baseToolCall,
+      status: 'unknown_status' as ToolCall['status'],
+    }
+    const { lastFrame } = render(<ToolCallView toolCall={unknownCall} />)
+    // Should still render without crashing
+    expect(lastFrame()).toContain('weather')
+  })
+
+  // ── resultPreviewChars truncates long result ───────────────────────────────
+
+  it('truncates long result when expanded', () => {
+    const longResultCall: ToolCall = {
+      ...baseToolCall,
+      result: 'y'.repeat(600),
+    }
+    const { lastFrame } = render(
+      <ToolCallView toolCall={longResultCall} expanded resultPreviewChars={100} />,
+    )
+    expect(lastFrame()).toContain('…')
+  })
 })

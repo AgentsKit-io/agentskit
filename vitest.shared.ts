@@ -35,7 +35,7 @@ export interface PackageTestConfig {
 
 export function createTestConfig(opts: PackageTestConfig = {}): ViteUserConfig {
   const baseThresholds: Record<string, unknown> = {
-    lines: opts.linesThreshold ?? 60,
+    lines: opts.linesThreshold ?? 90,
   }
   if (opts.criticalFiles) {
     for (const [pattern, lines] of Object.entries(opts.criticalFiles)) {
