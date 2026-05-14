@@ -56,7 +56,7 @@ export interface ChatCommandOptions {
   permissionPolicy?: import('../extensibility/permissions').PermissionPolicy
 }
 
-function groupIntoTurns(messages: ChatMessage[]): ChatMessage[][] {
+export function groupIntoTurns(messages: ChatMessage[]): ChatMessage[][] {
   const turns: ChatMessage[][] = []
   let current: ChatMessage[] = []
   for (const message of messages) {

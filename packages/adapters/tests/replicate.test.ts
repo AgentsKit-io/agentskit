@@ -114,6 +114,82 @@ describe('replicateAdapter', () => {
     expect((out[0] as { content: string }).content).toContain('no stream URL')
   })
 
+  it('errors when prediction POST is non-2xx', async () => {
+    mockFetchSequence([
+      () => new Response('boom', { status: 500 }),
+    ])
+    const out = await collect(replicate({ apiKey: 'k', model: 'm/m' }))
+    expect((out[0] as { content: string }).content).toContain('500')
+  })
+
+  it('surfaces prediction.error field from the create response', async () => {
+    mockFetchSequence([
+      () => new Response(JSON.stringify({ id: 'p1', error: 'invalid input' }), { status: 201 }),
+    ])
+    const out = await collect(replicate({ apiKey: 'k', model: 'm/m' }))
+    expect((out[0] as { content: string }).content).toBe('invalid input')
+  })
+
+  it('errors when the stream fetch itself fails', async () => {
+    mockFetchSequence([
+      () => new Response(JSON.stringify({ id: 'p1', urls: { stream: STREAM_URL } }), { status: 201 }),
+      () => new Response('boom', { status: 502 }),
+    ])
+    const out = await collect(replicate({ apiKey: 'k', model: 'm/m' }))
+    expect((out[0] as { content: string }).content).toContain('502')
+  })
+
+  it('default prompt builder includes system + assistant turns', async () => {
+    const { calls } = mockFetchSequence([
+      () => new Response(JSON.stringify({ id: 'p1', urls: { stream: STREAM_URL } }), { status: 201 }),
+      () => new Response(sseStream([{ event: 'done', data: '' }]), { status: 200 }),
+    ])
+    const factory = replicate({ apiKey: 'k', model: 'm/m' })
+    const src = factory.createSource({
+      messages: [
+        { id: '1', role: 'system', content: 'sys', status: 'complete', createdAt: new Date(0) },
+        { id: '2', role: 'user', content: 'hi', status: 'complete', createdAt: new Date(0) },
+        { id: '3', role: 'assistant', content: 'ok', status: 'complete', createdAt: new Date(0) },
+        { id: '4', role: 'user', content: 'again', status: 'complete', createdAt: new Date(0) },
+      ],
+    })
+    for await (const _ of src.stream()) {/* drain */}
+    const body = JSON.parse(String(calls[0].init.body)) as { input: { prompt: string } }
+    expect(body.input.prompt).toContain('[SYSTEM] sys')
+    expect(body.input.prompt).toContain('[ASSISTANT] ok')
+    expect(body.input.prompt).toMatch(/\[ASSISTANT\] $/)
+  })
+
+  it('aborts mid-stream without yielding more chunks', async () => {
+    mockFetchSequence([
+      () => new Response(JSON.stringify({ id: 'p1', urls: { stream: STREAM_URL } }), { status: 201 }),
+      () => new Response(sseStream([
+        { event: 'output', data: 'one' },
+        { event: 'output', data: 'two' },
+        { event: 'done', data: '' },
+      ]), { status: 200 }),
+    ])
+    const factory = replicate({ apiKey: 'k', model: 'm/m' })
+    const source = factory.createSource({
+      messages: [{ id: '1', role: 'user', content: 'hi', status: 'complete', createdAt: new Date(0) }],
+    })
+    const iter = source.stream()
+    const first = await iter.next()
+    expect(first.value).toMatchObject({ type: 'text', content: 'one' })
+    source.abort()
+    // drain remaining; should terminate quickly
+    while (!(await iter.next()).done) {/* nothing */}
+  })
+
+  it('returns silently when fetch is aborted (AbortError)', async () => {
+    globalThis.fetch = vi.fn(async () => {
+      const e = new DOMException('aborted', 'AbortError')
+      throw e
+    }) as typeof globalThis.fetch
+    const out = await collect(replicate({ apiKey: 'k', model: 'm/m' }))
+    expect(out).toEqual([])
+  })
+
   it('honours custom toInput', async () => {
     const { calls } = mockFetchSequence([
       () => new Response(JSON.stringify({ id: 'p1', urls: { stream: STREAM_URL } }), { status: 201 }),

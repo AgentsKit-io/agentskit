@@ -75,6 +75,88 @@ describe('useStream', () => {
     expect(onChunk).toHaveBeenCalledWith({ type: 'text', content: 'Hi' })
   })
 
+  it('sets error status when stream throws a non-Error', async () => {
+    const source: StreamSource = {
+      stream: async function* () {
+        throw 'unexpected string error'
+      },
+      abort: vi.fn(),
+    }
+
+    const { result } = renderHook(() => useStream(source))
+
+    await waitFor(() => {
+      expect(result.current.status).toBe('error')
+    })
+
+    expect(result.current.error).toBeInstanceOf(Error)
+    expect(result.current.error?.message).toBe('unexpected string error')
+  })
+
+  it('sets error status when stream throws an Error instance', async () => {
+    const source: StreamSource = {
+      stream: async function* () {
+        throw new Error('boom')
+      },
+      abort: vi.fn(),
+    }
+
+    const { result } = renderHook(() => useStream(source))
+
+    await waitFor(() => {
+      expect(result.current.status).toBe('error')
+    })
+
+    expect(result.current.error?.message).toBe('boom')
+  })
+
+  it('calls onError callback when stream throws', async () => {
+    const onError = vi.fn()
+    const source: StreamSource = {
+      stream: async function* () {
+        throw new Error('thrown')
+      },
+      abort: vi.fn(),
+    }
+
+    const { result } = renderHook(() => useStream(source, { onError }))
+
+    await waitFor(() => {
+      expect(result.current.status).toBe('error')
+    })
+
+    expect(onError).toHaveBeenCalledWith(expect.any(Error))
+  })
+
+  it('calls onComplete callback after stream ends naturally', async () => {
+    const onComplete = vi.fn()
+    const source = createMockSource([
+      { type: 'text', content: 'hi' },
+    ])
+
+    const { result } = renderHook(() => useStream(source, { onComplete }))
+
+    await waitFor(() => {
+      expect(result.current.status).toBe('complete')
+    })
+
+    expect(onComplete).toHaveBeenCalledWith('hi')
+  })
+
+  it('sets error without content to generic message', async () => {
+    const source = createMockSource([
+      { type: 'error' },
+    ])
+
+    const { result } = renderHook(() => useStream(source))
+
+    await waitFor(() => {
+      expect(result.current.status).toBe('error')
+    })
+
+    expect(result.current.error?.message).toBe('Stream error')
+  })
+
   it('stop() aborts the stream', async () => {
     let yieldCount = 0
     const source: StreamSource = {

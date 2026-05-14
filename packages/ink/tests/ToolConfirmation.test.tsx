@@ -142,4 +142,65 @@ describe('ToolConfirmation', () => {
 
   // Note: wrap-around from index 0 via upArrow is covered by the downArrow×2
   // test above (both land on the same 'deny' index via different paths).
+
+  // ── lines 44-46: upArrow and shift+tab navigation ─────────────────────────
+
+  it('up arrow wraps from first item to last', async () => {
+    const deny = vi.fn()
+    render(<ToolConfirmation toolCall={pendingCall} onApprove={vi.fn()} onDeny={deny} />)
+    // default = index 0 (allow_once). upArrow wraps to last (deny, index 2).
+    capturedHandler!('', key({ upArrow: true }))
+    await flush()
+    capturedHandler!('', key({ return: true }))
+    expect(deny).toHaveBeenCalledWith('tc-1')
+  })
+
+  it('shift+tab navigates backwards', async () => {
+    const approve = vi.fn()
+    render(<ToolConfirmation toolCall={pendingCall} onApprove={approve} onDeny={vi.fn()} />)
+    // default = 0. shift+tab wraps to 2 (deny). shift+tab again → 1.
+    // Then one more shift+tab → back to 0 (allow_once).
+    capturedHandler!('', key({ shift: true, tab: true }))
+    await flush()
+    capturedHandler!('', key({ shift: true, tab: true }))
+    await flush()
+    capturedHandler!('', key({ shift: true, tab: true }))
+    await flush()
+    capturedHandler!('', key({ return: true }))
+    expect(approve).toHaveBeenCalledWith('tc-1')
+  })
+
+  it('tab navigates forward', async () => {
+    const deny = vi.fn()
+    render(<ToolConfirmation toolCall={pendingCall} onApprove={vi.fn()} onDeny={deny} />)
+    capturedHandler!('', key({ tab: true }))
+    await flush()
+    capturedHandler!('', key({ tab: true }))
+    await flush()
+    capturedHandler!('', key({ return: true }))
+    expect(deny).toHaveBeenCalledWith('tc-1')
+  })
+
+  // ── lines 67-69: numeric shortcut 2 with and without onApproveAlways ──────
+
+  it('numeric shortcut 2 calls onApproveAlways when provided', () => {
+    const approveAlways = vi.fn()
+    render(
+      <ToolConfirmation
+        toolCall={pendingCall}
+        onApprove={vi.fn()}
+        onDeny={vi.fn()}
+        onApproveAlways={approveAlways}
+      />,
+    )
+    capturedHandler!('2', key())
+    expect(approveAlways).toHaveBeenCalledWith('tc-1', 'web_search')
+  })
+
+  it('numeric shortcut 2 falls back to onApprove when no onApproveAlways', () => {
+    const approve = vi.fn()
+    render(<ToolConfirmation toolCall={pendingCall} onApprove={approve} onDeny={vi.fn()} />)
+    capturedHandler!('2', key())
+    expect(approve).toHaveBeenCalledWith('tc-1')
+  })
 })

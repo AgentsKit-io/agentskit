@@ -1,5 +1,5 @@
-import { describe, it, expect } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { describe, it, expect, vi } from 'vitest'
+import { render, screen, fireEvent } from '@testing-library/react'
 import React from 'react'
 import { CodeBlock } from '../../src/components/CodeBlock'
 
@@ -20,5 +20,21 @@ describe('CodeBlock', () => {
   it('renders copy button when copyable is true', () => {
     render(<CodeBlock code="test" copyable />)
     expect(screen.getByRole('button')).toBeInTheDocument()
+  })
+
+  it('does not render copy button when copyable is false (default)', () => {
+    render(<CodeBlock code="test" />)
+    expect(screen.queryByRole('button')).toBeNull()
+  })
+
+  it('calls navigator.clipboard.writeText with code when Copy is clicked', () => {
+    const writeText = vi.fn().mockResolvedValue(undefined)
+    Object.defineProperty(navigator, 'clipboard', {
+      value: { writeText },
+      configurable: true,
+    })
+    render(<CodeBlock code="const y = 2" copyable />)
+    fireEvent.click(screen.getByRole('button'))
+    expect(writeText).toHaveBeenCalledWith('const y = 2')
   })
 })

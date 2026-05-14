@@ -48,6 +48,43 @@ describe('webllmAdapter', () => {
     expect(out[out.length - 1]?.type).toBe('done')
   })
 
+  it('stops yielding after abort is called', async () => {
+    const factory = webllm({
+      model: 'Llama',
+      engine: fakeEngine(['one', 'two', 'three']),
+    })
+    const source = factory.createSource({
+      messages: [{ id: '1', role: 'user', content: 'hi', status: 'complete', createdAt: new Date(0) }],
+    })
+    const it = source.stream()
+    const first = await it.next()
+    expect(first.value).toMatchObject({ type: 'text' })
+    source.abort()
+    const next = await it.next()
+    expect(next.done).toBe(true)
+  })
+
+  it('does not emit anything when aborted before the first read', async () => {
+    const factory = webllm({
+      model: 'Llama',
+      engine: fakeEngine(['one']),
+    })
+    const source = factory.createSource({
+      messages: [{ id: '1', role: 'user', content: 'hi', status: 'complete', createdAt: new Date(0) }],
+    })
+    source.abort()
+    const out: StreamChunk[] = []
+    for await (const c of source.stream()) out.push(c)
+    expect(out).toEqual([])
+  })
+
+  it('returns AdapterError when @mlc-ai/web-llm is not installed (no engine provided)', async () => {
+    const factory = webllm({ model: 'Llama' })
+    const out = await collect(factory)
+    expect(out[0].type).toBe('error')
+    expect((out[0] as { content: string }).content).toMatch(/web-llm/)
+  })
+
   it('surfaces engine errors as error chunks', async () => {
     const engine: WebLlmEngineLike = {
       reload: vi.fn(),

@@ -1,4 +1,7 @@
-import { afterEach, describe, expect, it, vi } from 'vitest'
+import { afterAll, afterEach, beforeAll, describe, expect, it, vi } from 'vitest'
+import { mkdtempSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import {
   getBuiltinToolNames,
   resolveMemory,
@@ -95,20 +98,32 @@ describe('resolveSkill / resolveSkills', () => {
 })
 
 describe('resolveMemory', () => {
+  // mkdtempSync gives us a unique 0700-mode dir per suite, sidestepping the
+  // predictable-path concern flagged by CodeQL js/insecure-temporary-file.
+  let memDir: string
+
+  beforeAll(() => {
+    memDir = mkdtempSync(join(tmpdir(), 'agentskit-resolve-memory-'))
+  })
+
+  afterAll(() => {
+    rmSync(memDir, { recursive: true, force: true })
+  })
+
   it('default backend = file', () => {
-    const m = resolveMemory(undefined, '/tmp/akit-test.json')
+    const m = resolveMemory(undefined, join(memDir, 'akit-test.json'))
     expect(typeof m.load).toBe('function')
     expect(typeof m.save).toBe('function')
   })
 
   it('sqlite backend swaps .json → .db', () => {
-    const m = resolveMemory('sqlite', '/tmp/akit-test.json')
+    const m = resolveMemory('sqlite', join(memDir, 'akit-test.json'))
     expect(typeof m.load).toBe('function')
     expect(typeof m.save).toBe('function')
   })
 
   it('explicit file backend', () => {
-    const m = resolveMemory('file', '/tmp/akit-test-2.json')
+    const m = resolveMemory('file', join(memDir, 'akit-test-2.json'))
     expect(typeof m.load).toBe('function')
     expect(typeof m.save).toBe('function')
   })
