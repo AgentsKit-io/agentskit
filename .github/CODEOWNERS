@@ -48,3 +48,14 @@
 /apps/example-ink/                  @EmersonBraun
 /apps/example-runtime/              @EmersonBraun
 /apps/example-multi-agent/          @EmersonBraun
+
+# --- Security-sensitive paths (dual-use, agent-host surface) ---
+# Listed last so these overrides win regardless of earlier package rules.
+/packages/tools/src/shell.ts            @EmersonBraun
+/packages/tools/src/filesystem.ts       @EmersonBraun
+/packages/tools/src/fetch-url.ts        @EmersonBraun
+/packages/tools/src/sqlite-query.ts     @EmersonBraun
+/packages/tools/src/mcp/                @EmersonBraun
+/packages/sandbox/src/                  @EmersonBraun
+/packages/core/src/security/            @EmersonBraun
+/SECURITY.md                            @EmersonBraun

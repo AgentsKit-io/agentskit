@@ -14,9 +14,9 @@ jobs:
       contents: write
       pull-requests: write
     steps:
-      - uses: actions/checkout@v6
-      - uses: pnpm/action-setup@v6
-      - uses: actions/setup-node@v6
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
           node-version: 22
           cache: pnpm
@@ -26,7 +26,8 @@ jobs:
 
       - run: pnpm --filter "./packages/*" build
 
-      - uses: changesets/action@v1
+      - id: changesets
+        uses: changesets/action@63a615b9cd06ba9a3e6d13796c7fbcb080a60a0b # v1
         with:
           publish: pnpm changeset publish
           version: pnpm changeset version
@@ -34,8 +35,20 @@ jobs:
           commit: "chore: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          # setup-node's registry-url writes .npmrc referencing
-          # ${NODE_AUTH_TOKEN}; that is the name npm publish reads.
-          # Pass the secret under both names so changeset publish works.
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Generate SBOM (CycloneDX)
+        if: steps.changesets.outputs.published == 'true'
+        run: |
+          npx --yes @cyclonedx/cyclonedx-npm@2.0.0 \
+            --output-format JSON \
+            --output-file sbom.cdx.json \
+            --short-PURLs
+      - name: Upload SBOM artifact
+        if: steps.changesets.outputs.published == 'true'
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: sbom-cyclonedx
+          path: sbom.cdx.json
+          retention-days: 90
