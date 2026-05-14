@@ -23,7 +23,16 @@ export function fileChatMemory(path: string): ChatMemory {
     },
     async save(messages) {
       const fs = await import('node:fs/promises')
-      await fs.writeFile(path, JSON.stringify(serializeMessages(messages), null, 2), 'utf8')
+      // Chat history can contain user prompts, API keys passed in messages,
+      // and tool outputs. Write with mode 0600 so the file is not readable by
+      // other users on shared / multi-tenant hosts (CWE-377/378, CodeQL
+      // js/insecure-temporary-file). On Windows the mode is ignored — ACLs
+      // inherit from the parent directory, which is the right default.
+      await fs.writeFile(
+        path,
+        JSON.stringify(serializeMessages(messages), null, 2),
+        { encoding: 'utf8', mode: 0o600 },
+      )
     },
     async clear() {
       try {
