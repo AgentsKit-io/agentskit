@@ -1,0 +1,119 @@
+---
+title: '@agentskit/observability-langfuse'
+description: Langfuse tracing backend for @agentskit/observability — spans for plan, tool, model, and HITL gates with token/cost/latency capture.
+---
+
+`@agentskit/observability-langfuse` is a drop-in observer that ships AgentsKit trace spans to [Langfuse](https://langfuse.com). LLM generations become `generation` nodes; tool calls, planning steps, and HITL gates become `span` nodes. Token usage and error state are captured on each node end.
+
+The `langfuse` npm package is an optional peer — loaded dynamically at runtime. If it is absent or no API keys are provided, the observer is a no-op and does not throw.
+
+## When to reach for it
+
+- You already use Langfuse for prompt management, user feedback, or cost analytics.
+- You want per-session or per-user trace grouping without manual instrumentation.
+- You want token + cost tracking in the Langfuse UI alongside your AgentsKit runs.
+
+## Best fit
+
+- Add alongside `consoleLogger` or `opentelemetry` — observers compose and do not conflict.
+- Pair with [`@agentskit/eval`](/docs/reference/packages/eval) to turn Langfuse trace failures into repeatable eval cases.
+- Pair with [`@agentskit/runtime`](/docs/reference/packages/runtime) to trace multi-step agent workflows end-to-end.
+
+## Install
+
+```bash
+npm install @agentskit/observability-langfuse
+# peer deps
+npm install @agentskit/observability langfuse
+```
+
+## Hello world
+
+```ts
+import { langfuse } from '@agentskit/observability-langfuse'
+import { createRuntime } from '@agentskit/runtime'
+
+const runtime = createRuntime({
+  adapter,
+  observers: [langfuse()],
+})
+```
+
+Keys are read from `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` env vars. No config object required for the common case.
+
+## Public API
+
+### `langfuse(config?): Observer`
+
+| Config field | Type | Default | Notes |
+|---|---|---|---|
+| `publicKey` | `string?` | `LANGFUSE_PUBLIC_KEY` env | Langfuse project public key |
+| `secretKey` | `string?` | `LANGFUSE_SECRET_KEY` env | Langfuse project secret key |
+| `baseUrl` | `string?` | `LANGFUSE_HOST` env, then `https://cloud.langfuse.com` | Self-hosted base URL |
+| `release` | `string?` | `LANGFUSE_RELEASE` env | Deployment release tag |
+| `environment` | `string?` | `LANGFUSE_ENVIRONMENT` env | e.g. `production`, `staging` |
+| `sessionId` | `string?` | — | Groups traces into a Langfuse session |
+| `userId` | `string?` | — | Associates traces with a Langfuse user |
+| `tags` | `string[]?` | — | Arbitrary trace tags |
+| `flushAt` | `number?` | `15` | Batch size before auto-flush |
+| `flushInterval` | `number?` | `1000` | Auto-flush interval in ms |
+
+Returns an `Observer` that can be passed directly to `observers` in `createRuntime`, `useChat`, or any other AgentsKit entry point that accepts observers.
+
+### `LangfuseConfig`
+
+Named export — the type of the config object above. Useful when building helper factories.
+
+## Per-session tracing
+
+```ts
+import { langfuse } from '@agentskit/observability-langfuse'
+
+// One observer instance per request / conversation to isolate sessions.
+const observer = langfuse({
+  sessionId: req.sessionId,
+  userId: req.user.id,
+  tags: ['support-bot', 'v2'],
+})
+
+const runtime = createRuntime({ adapter, observers: [observer] })
+```
+
+## Self-hosted Langfuse
+
+```ts
+langfuse({
+  baseUrl: 'https://langfuse.internal.example.com',
+  publicKey: process.env.LF_PUBLIC_KEY,
+  secretKey: process.env.LF_SECRET_KEY,
+})
+```
+
+## Configuration
+
+| Env var | Purpose |
+|---|---|
+| `LANGFUSE_PUBLIC_KEY` | Langfuse project public key (client-safe) |
+| `LANGFUSE_SECRET_KEY` | Langfuse project secret key (server only) |
+| `LANGFUSE_HOST` | Self-hosted base URL; defaults to Langfuse cloud |
+| `LANGFUSE_RELEASE` | Release tag attached to every trace |
+| `LANGFUSE_ENVIRONMENT` | Environment tag (e.g. `production`) |
+
+Explicit config fields always take precedence over env vars.
+
+## Stability
+
+- **Version:** `0.1.0`
+- **Tier:** beta
+- **Contract:** `Observer` interface stable; Langfuse SDK peer-resolved at runtime.
+
+## Related
+
+- [`@agentskit/observability`](/docs/reference/packages/observability) — core observer package this adapter plugs into
+- [`@agentskit/eval`](/docs/reference/packages/eval) — convert trace failures into eval cases
+- [Observability (deep dive)](/docs/production/observability)
+- [Audit log](/docs/reference/recipes/audit-log)
+
+## Source
+
+npm: [@agentskit/observability-langfuse](https://www.npmjs.com/package/@agentskit/observability-langfuse) · repo: [packages/observability-langfuse](https://github.com/AgentsKit-io/agentskit/tree/main/packages/observability-langfuse)

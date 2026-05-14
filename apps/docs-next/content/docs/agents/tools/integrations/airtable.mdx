@@ -12,7 +12,58 @@ const tools = airtable({
 })
 ```
 
-See `@agentskit/tools/integrations` exports for the full list of sub-tools and config types.
+Bundled: `airtable(config)` returns both sub-tools. Calls Airtable REST API v0 scoped to the configured `baseId`.
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `airtable_list_records` | List records from a table, with optional formula filter |
+| `airtable_create_record` | Create a record in a table |
+
+## Schema
+
+### `airtable_list_records`
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `table` | string | yes | Table name or ID |
+| `filterByFormula` | string | no | Airtable formula to filter records, e.g. `{Status}="Open"` |
+| `pageSize` | number | no | Records per page (default 50) |
+
+Returns: array of `{ id, fields }` plus an optional `offset` cursor.
+
+### `airtable_create_record`
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `table` | string | yes | Table name or ID |
+| `fields` | object | yes | Field name → value map matching the table schema |
+
+## Example — content pipeline agent
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { airtable } from '@agentskit/tools/integrations'
+
+const runtime = createRuntime({
+  adapter,
+  systemPrompt: 'You manage a content calendar. List pending items and create new entries when asked.',
+  tools: airtable({
+    apiKey: process.env.AIRTABLE_TOKEN!,
+    baseId: process.env.AIRTABLE_BASE_ID!,
+  }),
+})
+
+await runtime.run('List all records in "Content Calendar" where Status is Pending.')
+```
+
+## Security
+
+- **Env vars required:** `AIRTABLE_TOKEN` (personal access token from airtable.com/create/tokens) and `AIRTABLE_BASE_ID` (the base ID from the Airtable URL: `airtable.com/<baseId>/...`).
+- Scopes required: `data.records:read`, `data.records:write`. Restrict to only the bases the agent needs via the token's base-level permissions.
+- Airtable enforces 5 requests/second per token by default; add retry logic for high-volume agents.
+- The `filterByFormula` parameter is passed directly to Airtable — treat it as untrusted input if constructed from user messages.
 
 ## Related
 

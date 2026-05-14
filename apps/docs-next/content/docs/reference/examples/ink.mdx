@@ -1,0 +1,77 @@
+---
+title: Ink Example
+description: "Terminal chat app with tool calling and file-based memory — built with @agentskit/ink."
+---
+
+A minimal terminal chat app showing streaming, tool calling, and persistent file memory. Runs with `tsx` — no build step.
+
+## Stack
+
+- `@agentskit/ink` — `useChat` hook, `ChatContainer`, `Message`, `InputBar`, `ThinkingIndicator`, `ToolCallView`
+- `@agentskit/memory` — `fileChatMemory`
+- `@agentskit/core` — `ToolDefinition`
+- Ink 7 + React 19, executed via `tsx`
+
+## Code
+
+```tsx
+import React from 'react'
+import { render, Box, Text } from 'ink'
+import { ChatContainer, InputBar, Message, ThinkingIndicator, ToolCallView, useChat } from '@agentskit/ink'
+import { fileChatMemory } from '@agentskit/memory'
+import type { ToolDefinition } from '@agentskit/core'
+
+const getTimeTool: ToolDefinition = {
+  name: 'get_time',
+  description: 'Returns the current time as a string.',
+  execute: () => new Date().toLocaleTimeString(),
+}
+
+const memory = fileChatMemory('.example-ink-history.json')
+
+function App() {
+  const chat = useChat({
+    adapter: yourAdapter,  // openai, anthropic, etc.
+    systemPrompt: 'You are a helpful terminal assistant.',
+    tools: [getTimeTool],
+    memory,
+  })
+
+  return (
+    <Box flexDirection="column" gap={1}>
+      <Text bold color="cyan">AgentsKit Ink Example — Tools + Memory</Text>
+      <ChatContainer>
+        {chat.messages.map(message => (
+          <Box key={message.id} flexDirection="column">
+            <Message message={message} />
+            {message.toolCalls?.map(tc => (
+              <ToolCallView key={tc.id} toolCall={tc} expanded />
+            ))}
+          </Box>
+        ))}
+      </ChatContainer>
+      <ThinkingIndicator visible={chat.status === 'streaming'} />
+      <InputBar chat={chat} placeholder="Type and press Enter..." />
+    </Box>
+  )
+}
+
+render(<App />)
+```
+
+## Try it
+
+```bash
+cd apps/example-ink
+pnpm dev
+```
+
+The example ships a demo adapter; replace `createDemoAdapter()` with any `@agentskit/adapters` factory and set the appropriate API key env var.
+
+## Key patterns
+
+- **File memory** — `fileChatMemory('.example-ink-history.json')` persists history to a local JSON file. The path is relative to the process working directory.
+- **ThinkingIndicator** — renders an animated spinner while `chat.status === 'streaming'`. Ink handles terminal cursor management automatically.
+- **ToolCallView `expanded`** — pass `expanded` to show full args and result inline; omit for a compact single-line view.
+- **No build step** — `tsx src/index.tsx` runs TypeScript directly; production builds use `tsc --noEmit` for type checking only.
+- **Same contract as React** — `useChat`, tool schemas, memory, and adapters are identical; only the renderer differs.

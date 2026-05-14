@@ -449,7 +449,7 @@ Honest callouts — choose LangChain over AgentsKit when:
 
 - **You need an integration AgentsKit doesn't have yet.** LangChain's integration catalog is vast; ours is focused. If your vector store / loader / obscure provider only has a LangChain integration, write a small adapter to AgentsKit or stay on LangChain for that piece.
 - **You already use LangSmith for tracing and evals.** That ecosystem is deep. We'll integrate — observers make it straightforward — but if you rely on LangSmith-specific features, stay put.
-- **You need LangGraph's explicit state-machine workflows today.** Durable checkpointed graph execution is Fase 3 in AgentsKit. Not parity yet.
+- **You need LangGraph's explicit state-machine workflows today.** Durable checkpointed graph execution is Phase 3 in AgentsKit. Not parity yet.
 - **You want the "one library, many solutions" model.** AgentsKit deliberately has fewer ways to do things. If flexibility at the cost of indirection is your preference, LangChain is designed for it.
 - **You're in a team where everyone already knows LangChain.** The migration cost isn't zero. Weigh the runtime + contracts + 10KB core against that.
 
@@ -464,7 +464,7 @@ You don't have to go all-in. A pragmatic path:
 3. **Port the chat layer first** — `@agentskit/react` components + `createRuntime`
 4. **Migrate tools next** — `ToolDefinition` is a flat object, easier to read than `StructuredTool`
 5. **Consolidate memory + retrieval** when you want the atomicity guarantees
-6. **Leave LangGraph in place** until durable execution lands in Fase 3
+6. **Leave LangGraph in place** until durable execution lands in Phase 3
 
 The Adapter contract is the pivot point: once you have one `AdapterFactory`, every surface in AgentsKit accepts it.
 

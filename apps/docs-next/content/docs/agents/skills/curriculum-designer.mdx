@@ -11,6 +11,30 @@ const runtime = createRuntime({ adapter, skills: [curriculumDesigner] })
 
 Outputs structured lesson plans aligned to Bloom levels, with accessibility accommodations (UDL principles) and assessment rubrics keyed to learning objectives.
 
+## When to use
+
+- EdTech platforms generating personalized lesson plans for a given topic and grade level.
+- Teacher-assistant tools that need a structured plan + rubric from a brief topic description.
+- Curriculum-authoring pipelines that must tag objectives to a named standard (Common Core, NGSS, IB, etc.).
+
+## Behavior
+
+Per request, the skill produces:
+
+1. **Learning objectives** — 3–5 bullets each tagged with a Bloom level (remember / understand / apply / analyze / evaluate / create).
+2. **Lesson plan** — opening hook, direct instruction, guided practice, independent practice, exit ticket. Every block has a time estimate in minutes.
+3. **Differentiation** — one adaptation for early finishers, one for learners needing extra support, one for reading-level accommodations.
+4. **Rubric** — 3–4 rows, four columns (exemplary / proficient / developing / beginning). Each cell is one observable sentence.
+
+If a named standard is mentioned (e.g., "align to CCSS.ELA-LITERACY.W.5.1"), the skill cites it against each objective.
+
+## Best practices
+
+- Pass the topic, target grade level, and time available in the user message — the skill has no memory of prior turns by default.
+- Pair with [`tutor`](./tutor) for interactive delivery: use `curriculumDesigner` to generate the plan, then hand the plan to `tutor` to drive the live session.
+- Flag accessibility blockers in the rubric review step — timed assessments should note extended-time accommodations.
+- For inclusive outputs, use diverse examples by default; the skill does this unless overridden.
+
 ## Related
 
 - [tutor](./tutor)

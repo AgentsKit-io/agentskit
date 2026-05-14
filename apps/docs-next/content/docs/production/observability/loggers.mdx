@@ -8,6 +8,7 @@ Every observer receives the same event sequence — `chat.start`, `llm.call`, `t
 ```ts
 import { createRuntime } from '@agentskit/runtime'
 import { consoleLogger, langsmith, opentelemetry } from '@agentskit/observability'
+import { langfuse } from '@agentskit/observability-langfuse'
 
 const runtime = createRuntime({
   adapter,
@@ -16,21 +17,53 @@ const runtime = createRuntime({
     consoleLogger(),
     langsmith({ apiKey: process.env.LANGSMITH_API_KEY!, project: 'prod' }),
     opentelemetry({ serviceName: 'agent-worker' }),
+    langfuse({ publicKey: process.env.LANGFUSE_PUBLIC_KEY!, secretKey: process.env.LANGFUSE_SECRET_KEY! }),
   ],
 })
 ```
 
 ## Observers
 
-| Observer | Purpose | Env |
-|---|---|---|
-| `consoleLogger()` | dev | — |
-| `langsmith({ apiKey, project })` | traces UI | `LANGSMITH_API_KEY` |
-| `opentelemetry({ serviceName })` | OTel pipeline | OTLP endpoint |
-| `datadogSink({ apiKey, site?, env? })` | Datadog Logs HTTP intake | `DD_API_KEY` |
-| `axiomSink({ token, dataset, endpoint? })` | Axiom dataset ingest | `AXIOM_TOKEN` |
-| `newRelicSink({ apiKey, region? })` | New Relic Logs API (`US` / `EU`) | `NEW_RELIC_LICENSE_KEY` |
-| `createTraceTracker()` | BYO span lifecycle | — |
+| Observer | Package | Purpose | Env |
+|---|---|---|---|
+| `consoleLogger()` | `@agentskit/observability` | dev | — |
+| `langsmith({ apiKey, project })` | `@agentskit/observability` | traces UI | `LANGSMITH_API_KEY` |
+| `opentelemetry({ serviceName })` | `@agentskit/observability` | OTel pipeline | OTLP endpoint |
+| `langfuse({ publicKey, secretKey })` | `@agentskit/observability-langfuse` | Langfuse traces + generations | `LANGFUSE_PUBLIC_KEY` `LANGFUSE_SECRET_KEY` |
+| `datadogSink({ apiKey, site?, env? })` | `@agentskit/observability` | Datadog Logs HTTP intake | `DD_API_KEY` |
+| `axiomSink({ token, dataset, endpoint? })` | `@agentskit/observability` | Axiom dataset ingest | `AXIOM_TOKEN` |
+| `newRelicSink({ apiKey, region? })` | `@agentskit/observability` | New Relic Logs API (`US` / `EU`) | `NEW_RELIC_LICENSE_KEY` |
+| `createTraceTracker()` | `@agentskit/observability` | BYO span lifecycle | — |
+
+## Langfuse
+
+`langfuse` is a separate package (`@agentskit/observability-langfuse`) with `langfuse` as an optional peer dependency. Install both:
+
+```bash
+pnpm add @agentskit/observability-langfuse langfuse
+```
+
+```ts
+import { langfuse } from '@agentskit/observability-langfuse'
+
+createRuntime({
+  adapter,
+  observers: [
+    langfuse({
+      publicKey: process.env.LANGFUSE_PUBLIC_KEY!,
+      secretKey: process.env.LANGFUSE_SECRET_KEY!,
+      baseUrl: process.env.LANGFUSE_HOST ?? 'https://cloud.langfuse.com',
+      environment: 'production',
+      sessionId: requestId,      // optional — group traces by session
+      userId: currentUserId,     // optional — link traces to users
+    }),
+  ],
+})
+```
+
+Every agent run becomes a Langfuse **trace**. LLM calls map to **generations** (with token usage), tool calls map to **spans**. Network errors are swallowed — observability never breaks the agent loop.
+
+Config options mirror the Langfuse SDK: `release`, `tags`, `flushAt`, `flushInterval`. Env vars `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST`, `LANGFUSE_RELEASE`, and `LANGFUSE_ENVIRONMENT` are read automatically when the corresponding config option is omitted.
 
 ## SaaS sinks — failure-safe
 
@@ -52,3 +85,5 @@ createRuntime({
 ## Related
 
 - [Trace viewer](./trace-viewer) · [Devtools](./devtools)
+- [Package: @agentskit/observability-langfuse](/docs/reference/packages/observability-langfuse)
+- [For agents: observability-langfuse](/docs/for-agents/observability-langfuse)

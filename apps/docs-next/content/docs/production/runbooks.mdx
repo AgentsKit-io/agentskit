@@ -16,7 +16,7 @@ Symptoms: streaming errors, 5xx from provider, latency P99 > 10× baseline, `ada
 
 ### Mitigate
 
-1. Switch to fallback adapter via [`bail`](/docs/api/adapters/functions/bail) or [`ensemble`](/docs/api/adapters/functions/ensemble).
+1. Switch to fallback adapter via [`createFallbackAdapter`](/docs/reference/recipes/fallback-chain) or [`createEnsembleAdapter`](/docs/reference/recipes/adapter-ensemble).
    ```ts
    const adapter = bail([primary, fallbackProvider], { onError: 'next' })
    ```

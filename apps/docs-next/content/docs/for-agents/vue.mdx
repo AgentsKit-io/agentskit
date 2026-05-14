@@ -1,7 +1,11 @@
 ---
 title: '@agentskit/vue — for agents'
-description: Vue 3 composable + ChatContainer component.
+description: Vue 3 composable — `useChat` backed by `reactive()` with auto-cleanup on scope dispose, plus a headless `<ChatContainer>` component.
 ---
+
+## Purpose
+
+Vue 3 binding for the `ChatReturn` contract from `@agentskit/core`. Returns a reactive object via `reactive()` that tracks messages, input, and streaming state, and tears down automatically when the component scope is disposed.
 
 ## Install
 
@@ -18,18 +22,36 @@ npm install vue
 
 ## Minimal example
 
-```ts
+```vue
+<script setup lang="ts">
 import { useChat } from '@agentskit/vue'
+import { anthropic } from '@agentskit/adapters'
 
+const adapter = anthropic({ apiKey: import.meta.env.VITE_ANTHROPIC_KEY, model: 'claude-sonnet-4-6' })
 const chat = useChat({ adapter })
-// chat.messages, chat.input are reactive
-// chat.send(text), chat.setInput(value), etc.
+</script>
+
+<template>
+  <ul>
+    <li v-for="m in chat.messages" :key="m.id">{{ m.role }}: {{ m.content }}</li>
+  </ul>
+  <input :value="chat.input" @input="chat.setInput(($event.target as HTMLInputElement).value)" />
+  <button @click="chat.send(chat.input)">Send</button>
+</template>
 ```
 
-## Related frameworks
+## Common patterns
 
-- [@agentskit/react](/docs/for-agents/react) — canonical contract.
-- [@agentskit/svelte](/docs/for-agents/svelte), [@agentskit/solid](/docs/for-agents/solid), [@agentskit/angular](/docs/for-agents/angular).
+- **Composition API only**: `useChat` uses Vue's `reactive()` and `getCurrentScope()` — it must be called inside `setup()` or `<script setup>`. Options API is not supported.
+- **`<script setup>` recommended**: the composable's auto-cleanup relies on the component's effect scope; `<script setup>` wires this transparently.
+- **SSR / Nuxt**: the adapter makes network calls directly from the browser. Wrap any component that calls `useChat` in `<ClientOnly>` (Nuxt) or a dynamic import with `ssr: false` to prevent server-side execution.
+- **Reactivity gotcha**: do not destructure the return value — `const { messages } = useChat(...)` loses reactivity. Always access via `chat.messages`.
+
+## Related
+
+- [@agentskit/core](/docs/for-agents/core) — `ChatReturn` contract.
+- [@agentskit/adapters](/docs/for-agents/adapters) — provider adapters.
+- [@agentskit/react](/docs/for-agents/react), [@agentskit/ink](/docs/for-agents/ink), [@agentskit/svelte](/docs/for-agents/svelte), [@agentskit/solid](/docs/for-agents/solid), [@agentskit/angular](/docs/for-agents/angular), [@agentskit/react-native](/docs/for-agents/react-native) — sibling bindings.
 
 ## Source
 

@@ -1,7 +1,11 @@
 ---
 title: '@agentskit/react-native — for agents'
-description: React Native / Expo hook for AgentsKit. Metro + Hermes safe.
+description: React Native / Expo binding — same `useChat` contract as `@agentskit/react`, Metro + Hermes safe with streaming polyfill guidance.
 ---
+
+## Purpose
+
+React Native binding for the `ChatReturn` contract from `@agentskit/core`. Shares the same hook API as `@agentskit/react` but ships without any DOM dependency, making it safe for Metro bundler and the Hermes JS engine used in React Native and Expo.
 
 ## Install
 
@@ -19,13 +23,20 @@ npm install react react-native
 
 ```tsx
 import { useChat } from '@agentskit/react-native'
+import { anthropic } from '@agentskit/adapters'
 import { View, TextInput, FlatList, Pressable, Text } from 'react-native'
 
-export function Chat({ adapter }) {
+const adapter = anthropic({ apiKey: process.env.ANTHROPIC_KEY, model: 'claude-sonnet-4-6' })
+
+export function Chat() {
   const chat = useChat({ adapter })
   return (
     <View style={{ flex: 1 }}>
-      <FlatList data={chat.messages} keyExtractor={m => m.id} renderItem={({ item }) => <Text>{item.content}</Text>} />
+      <FlatList
+        data={chat.messages}
+        keyExtractor={m => m.id}
+        renderItem={({ item }) => <Text>{item.role}: {item.content}</Text>}
+      />
       <TextInput value={chat.input} onChangeText={chat.setInput} />
       <Pressable onPress={() => chat.send(chat.input)}><Text>Send</Text></Pressable>
     </View>
@@ -33,9 +44,18 @@ export function Chat({ adapter }) {
 }
 ```
 
+## Common patterns
+
+- **Streaming polyfills required**: Hermes does not ship `TextDecoder` or the Web Streams API. Install `react-native-polyfill-globals` and call `polyfillGlobal('TextDecoder', ...)` at the top of your entry file before any AgentsKit import — otherwise streamed responses will silently fail.
+- **No Node built-ins**: Metro does not polyfill Node modules (`Buffer`, `stream`, `crypto`). If an adapter dependency pulls them in, add the `react-native` field in the adapter's `package.json` or use a Metro resolver alias.
+- **Expo managed workflow**: add the polyfill in `app/_layout.tsx` (or `App.tsx`) as the very first import; do not rely on Babel plugins to hoist polyfills after module initialisation.
+- **Keyboard avoiding**: wrap the input in `<KeyboardAvoidingView>` and use `FlatList`'s `inverted` prop + `onContentSizeChange` scroll-to-end for a chat-like feel.
+
 ## Related
 
-- [@agentskit/react](/docs/for-agents/react) — same contract, web.
+- [@agentskit/core](/docs/for-agents/core) — `ChatReturn` contract.
+- [@agentskit/adapters](/docs/for-agents/adapters) — provider adapters.
+- [@agentskit/react](/docs/for-agents/react), [@agentskit/ink](/docs/for-agents/ink), [@agentskit/vue](/docs/for-agents/vue), [@agentskit/svelte](/docs/for-agents/svelte), [@agentskit/solid](/docs/for-agents/solid), [@agentskit/angular](/docs/for-agents/angular) — sibling bindings.
 
 ## Source
 

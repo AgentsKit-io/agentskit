@@ -1,0 +1,130 @@
+---
+title: Tool confirmation (HITL)
+description: Pause execution before a dangerous tool runs. Show a prompt, let the user approve or deny.
+---
+
+Some tool calls should not execute automatically — deleting records, sending
+emails, spending money. Mark the tool with `requiresConfirmation: true` and the
+controller halts until `chat.approve` or `chat.deny` is called.
+
+## 1. Define the tool
+
+```ts
+import { defineTool } from '@agentskit/tools'
+
+const deleteRecord = defineTool({
+  name: 'delete_record',
+  description: 'Permanently delete a record from the database.',
+  schema: { table: 'string', id: 'string' },
+  requiresConfirmation: true,
+  async execute({ table, id }) {
+    await db.delete(table, id)
+    return `deleted ${table}/${id}`
+  },
+})
+```
+
+## 2. Wire into useChat
+
+```tsx
+import { useChat } from '@agentskit/react'
+import { openai } from '@agentskit/adapters/openai'
+
+const adapter = openai({ model: 'gpt-4o-mini' })
+
+export function AgentChat() {
+  const chat = useChat({ adapter, tools: [deleteRecord] })
+  // …
+}
+```
+
+## 3. Render the confirmation UI
+
+Poll `chat.messages` for tool calls with `status === 'requires_confirmation'`
+and render `ToolConfirmation` for each one.
+
+```tsx
+import { ToolConfirmation } from '@agentskit/react'
+
+function PendingApprovals({ chat }) {
+  const pending = chat.messages
+    .flatMap((m) => m.parts)
+    .filter((p) => p.type === 'tool-call' && p.status === 'requires_confirmation')
+
+  return (
+    <>
+      {pending.map((tc) => (
+        <ToolConfirmation
+          key={tc.id}
+          toolCall={tc}
+          onApprove={(id) => chat.approve(id)}
+          onDeny={(id, reason) => chat.deny(id, reason)}
+        />
+      ))}
+    </>
+  )
+}
+```
+
+## 4. Full component
+
+```tsx
+import { useChat, ChatContainer, InputBar, ToolConfirmation } from '@agentskit/react'
+import { openai } from '@agentskit/adapters/openai'
+
+const adapter = openai({ model: 'gpt-4o-mini' })
+
+export function App() {
+  const chat = useChat({ adapter, tools: [deleteRecord] })
+
+  const pending = chat.messages
+    .flatMap((m) => m.parts)
+    .filter((p) => p.type === 'tool-call' && p.status === 'requires_confirmation')
+
+  return (
+    <div>
+      <ChatContainer messages={chat.messages} />
+
+      {pending.map((tc) => (
+        <ToolConfirmation
+          key={tc.id}
+          toolCall={tc}
+          onApprove={(id) => chat.approve(id)}
+          onDeny={(id, reason) => chat.deny(id, reason)}
+        />
+      ))}
+
+      <InputBar
+        value={chat.input}
+        onChange={chat.setInput}
+        onSubmit={() => chat.send(chat.input)}
+        disabled={chat.status !== 'idle'}
+      />
+    </div>
+  )
+}
+```
+
+## Flow
+
+```
+send() → LLM decides to call delete_record
+       → controller: requiresConfirmation → status = 'requires_confirmation'
+       → UI renders ToolConfirmation
+       → user clicks Approve → chat.approve(id)
+       → tool executes → result injected → LLM continues
+       → user clicks Deny  → chat.deny(id, reason)
+       → tool skipped → reason forwarded to LLM
+```
+
+<Pitfall>
+The controller does not time out pending confirmations. If your UI can be
+closed while a confirmation is open, use the server-side `createApprovalGate`
+primitive from `@agentskit/core` to persist the pending state across restarts.
+</Pitfall>
+
+## Related
+
+- [ToolConfirmation component](/docs/ui/tool-confirmation)
+- [HITL approvals (agents)](/docs/agents/hitl)
+- [Tools + memory together](/docs/cookbook/tools-memory)

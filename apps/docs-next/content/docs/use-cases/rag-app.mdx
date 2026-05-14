@@ -1,0 +1,100 @@
+---
+title: RAG / document Q&A
+description: Chat interface grounded in your own documents — PDFs, Markdown files, knowledge bases.
+---
+
+A RAG app lets users ask questions against a private corpus. The agent retrieves
+the most relevant chunks, injects them as context, and cites the source. The
+standard shape is:
+
+- document ingestion (chunking + embedding)
+- vector retrieval at query time
+- chat UI with context injection
+- optional source display
+
+## Who it's for
+
+- Internal knowledge bases (runbooks, HR policies, product docs)
+- Customer-facing help (support knowledge, product manuals)
+- Research tools over large document sets (legal, financial, academic)
+
+## Typical stack
+
+```bash
+npm install @agentskit/react @agentskit/adapters @agentskit/rag @agentskit/memory
+```
+
+## Recommended package mix
+
+| Layer | Package | Why it matters |
+|---|---|---|
+| UI | `@agentskit/react` | Chat surface with streaming and source display |
+| Provider | `@agentskit/adapters` | OpenAI, Anthropic, Gemini — swap without rewriting |
+| RAG | `@agentskit/rag` | Chunking, embedding, retrieval in one call |
+| Vector store | `@agentskit/memory` | In-memory for dev, LanceDB for production |
+
+## Architecture
+
+```
+documents → rag.ingest() → vector store
+user query → rag.search() → top-K chunks → LLM context window → answer
+```
+
+## 60-second snippet
+
+```ts
+import { createRAG } from '@agentskit/rag'
+import { inMemoryStore } from '@agentskit/memory/vector'
+import { useChat } from '@agentskit/react'
+import { openai } from '@agentskit/adapters/openai'
+
+// 1. Build the RAG retriever once (module level)
+const rag = createRAG({
+  store: inMemoryStore(),
+  embed: async (text) => {
+    // call your embedding API here
+    const res = await fetch('/api/embed', {
+      method: 'POST',
+      body: JSON.stringify({ text }),
+    })
+    return (await res.json()).embedding as number[]
+  },
+  topK: 5,
+})
+
+// 2. Ingest documents at startup (idempotent — safe to re-run)
+await rag.ingest([
+  { id: 'policy-v2', content: policyText, source: 'policy.pdf' },
+  { id: 'faq-2024', content: faqText, source: 'faq.md' },
+])
+
+const adapter = openai({ model: 'gpt-4o-mini' })
+
+// 3. Wire the retriever into useChat
+export function DocChat() {
+  const chat = useChat({ adapter, retriever: rag })
+  // …render as usual
+}
+```
+
+<Tip>
+Swap `inMemoryStore()` for `lanceStore({ path: './vectors.lance' })` when your
+corpus grows past a few thousand chunks. The `retriever` contract is identical.
+</Tip>
+
+<Pitfall>
+Create the `rag` instance once at module level, not inside the component.
+`createRAG` allocates the store on construction — calling it on each render
+resets the vector index.
+</Pitfall>
+
+## Related recipes
+
+- [RAG in 15 lines](/docs/cookbook/rag) — minimal standalone snippet
+- [Tools + memory together](/docs/cookbook/tools-memory) — adding state to RAG
+
+## Related packages
+
+- [`@agentskit/rag`](/docs/reference/packages/rag) — `createRAG`, loaders, chunkers, rerankers
+- [`@agentskit/memory`](/docs/reference/packages/memory) — `inMemoryStore`, `lanceStore`, `redisStore`
+- [`@agentskit/adapters`](/docs/reference/packages/adapters) — provider adapters

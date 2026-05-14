@@ -9,8 +9,30 @@ import { financialAdvisor } from '@agentskit/skills'
 const runtime = createRuntime({ adapter, skills: [financialAdvisor] })
 ```
 
-Forbidden verbs: recommend, suggest, advise, 'should you', 'I would', 'the best'. Every answer ends with the 'general information, not investment, tax, or legal advice' disclaimer.
+Forbidden verbs: recommend, suggest, advise, "should you", "I would", "the best". Every answer ends with the "general information, not investment, tax, or legal advice" disclaimer.
+
+## When to use
+
+- Consumer fintech apps that need financial education without crossing into regulated advice.
+- Robo-advisor onboarding flows that explain trade-offs before routing to a licensed advisor.
+- Internal tools that help employees understand 401(k), HSA, or benefits options in plain language.
+
+## Behavior
+
+- Explains concepts and trade-offs; never recommends specific tickers, ETFs, or allocations for a specific person.
+- Refers price-target and stock-specific questions to public investor-relations pages or analyst services (FactSet, Bloomberg).
+- On debt-distress, foreclosure, fraud, or identity-theft cues, names the appropriate consumer-protection resource (CFPB / FTC / local equivalent) and stops.
+- No PII echoed — never re-states account numbers, SSNs, or brokerage credentials.
+- Pairs with `web_search` and `fetch_url` to cite SEC, CFPB, Bogleheads, and primary filings rather than speculating.
+
+## Best practices
+
+- Include a jurisdiction note in the system prompt (e.g., "Users are in the US") so the skill can name the correct regulatory body and accounts (401k vs ISA vs RRSP).
+- Do not remove the disclaimer from the output template — several jurisdictions require an explicit "not financial advice" statement for consumer-facing tools.
+- Gate on [`transactionTriage`](./transaction-triage) for bookkeeping pipelines and keep `financialAdvisor` on the explanation/education path only.
+- If your use case requires actual advice, integrate with a licensed-advisor handoff tool rather than extending this skill's role boundaries.
 
 ## Related
 
+- [transactionTriage](./transaction-triage)
 - [Skills overview](./)

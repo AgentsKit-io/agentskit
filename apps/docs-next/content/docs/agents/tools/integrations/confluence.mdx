@@ -13,8 +13,64 @@ const tools = confluence({
 })
 ```
 
-See `@agentskit/tools/integrations` exports for the full list of sub-tools and config types.
+Bundled: `confluence(config)` returns both sub-tools. Uses Confluence REST API (search at `/wiki/rest/api`, create at `/wiki/api/v2`) under your Atlassian site.
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `confluence_search` | Search pages with a CQL query |
+| `confluence_create_page` | Create a page in a space |
+
+## Schema
+
+### `confluence_search`
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `cql` | string | yes | CQL query, e.g. `type=page AND text ~ "agentskit"` |
+| `limit` | number | no | Max results (default 25) |
+
+Returns: `id`, `title`, `url` for each matching page.
+
+### `confluence_create_page`
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `spaceKey` | string | yes | Confluence space key (also accepted as space ID) |
+| `title` | string | yes | Page title |
+| `body` | string | yes | HTML body in Confluence storage format |
+
+Returns: `id` and `url` of the created page.
+
+## Example — knowledge-base agent
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { confluence } from '@agentskit/tools/integrations'
+
+const runtime = createRuntime({
+  adapter,
+  systemPrompt: 'You answer questions from the engineering Confluence. Cite the page title and URL.',
+  tools: confluence({
+    baseUrl: process.env.CONFLUENCE_BASE_URL!,
+    email: process.env.CONFLUENCE_EMAIL!,
+    apiToken: process.env.CONFLUENCE_API_TOKEN!,
+  }),
+})
+
+await runtime.run('What is our on-call escalation policy?')
+```
+
+## Security
+
+- **Env vars required:** `CONFLUENCE_EMAIL`, `CONFLUENCE_API_TOKEN` (Atlassian API token from id.atlassian.com/manage-profile/security/api-tokens), and the site base URL.
+- Authentication is HTTP Basic: `email:apiToken` base64-encoded. Never commit tokens; use env vars or a secrets manager.
+- Use a service-account email for production agents.
+- `confluence_create_page` writes content to your Confluence space — gate via [HITL](/docs/agents/hitl) for autonomous agents.
+- CQL queries are passed directly to Confluence — treat user-supplied CQL fragments as untrusted input.
 
 ## Related
 
+- [jira](./jira) — pair with Confluence for full Atlassian issue + docs coverage.
 - [Integrations overview](./)

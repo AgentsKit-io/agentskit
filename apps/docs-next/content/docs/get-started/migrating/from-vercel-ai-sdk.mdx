@@ -225,7 +225,7 @@ const adapter = useClaude
 useChat({ adapter })   // or createRuntime({ adapter })
 ```
 
-**Also possible and not possible in Vercel AI SDK**: router and ensemble adapters. Coming in Fase 3 (#145, #146).
+**Also possible and not possible in Vercel AI SDK**: router and ensemble adapters. Coming in Phase 3 (#145, #146).
 
 ## 5. Agent runtime with memory + retrieval
 
@@ -330,7 +330,7 @@ Observers are composable (array), read-only, and first-class in the contract (RT
 
 Honest callouts — choose Vercel AI SDK over AgentsKit when:
 
-- **You need `generateObject` with strict schema output** right now. AgentsKit will ship a structured-output primitive in Fase 2; today you'd handle it manually.
+- **You need `generateObject` with strict schema output** right now. AgentsKit will ship a structured-output primitive in Phase 2; today you'd handle it manually.
 - **You're shipping a consumer chat SDK** and want the smallest possible footprint with no agent concepts. Vercel AI SDK is purpose-built for that.
 - **Your team has deep investment in the Vercel ecosystem** (AI Elements, Vercel AI Gateway, etc.) and doesn't need a runtime.
 - **You want v1.0-stability right now.** Vercel AI SDK is post-1.0; AgentsKit is pre-1.0 (with formal contracts already locked — but that's not the same as v1.0.0).

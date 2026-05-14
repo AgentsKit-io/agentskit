@@ -1,0 +1,64 @@
+---
+title: '@agentskit/templates — for agents'
+description: Authoring toolkit — validated factories + on-disk scaffolds for custom tools, skills, and adapters.
+---
+
+## Purpose
+
+Generate AgentsKit extensions (tools, skills, adapters) as standalone packages with consistent blueprints (tsup, vitest, TypeScript) and runtime validation. Depends only on `@agentskit/core`.
+
+## Install
+
+```bash
+npm install @agentskit/templates @agentskit/core
+```
+
+## Primary exports
+
+- `createToolTemplate(config)` — build a validated `ToolDefinition`.
+- `createSkillTemplate(config)` — build a validated `SkillDefinition`.
+- `createAdapterTemplate(config)` — build an `AdapterFactory` with display `name`.
+- `scaffold(config)` — write a full package directory (async): `package.json`, `tsup.config.ts`, vitest, README.
+- `validateToolTemplate` / `validateSkillTemplate` / `validateAdapterTemplate` — assert well-formed definitions.
+- Types: `ToolTemplateConfig`, `SkillTemplateConfig`, `AdapterTemplateConfig`, `ScaffoldType`, `ScaffoldConfig`.
+
+## Minimal example
+
+```ts
+import { createToolTemplate } from '@agentskit/templates'
+
+export const rollDice = createToolTemplate({
+  name: 'roll_dice',
+  description: 'Roll an N-sided die once.',
+  schema: {
+    type: 'object',
+    properties: { sides: { type: 'number', minimum: 2 } },
+    required: ['sides'],
+  },
+  async execute(args) {
+    const sides = Number(args.sides)
+    return String(1 + Math.floor(Math.random() * sides))
+  },
+})
+```
+
+Validation **throws** if `name`, `description`, `schema`, or `execute` is missing — LLMs need schema + description for tool calling.
+
+## Common patterns
+
+- **Tool**: `createToolTemplate` enforces JSON-schema arguments and async `execute`. Use `requiresConfirmation` for write actions.
+- **Skill**: `createSkillTemplate` requires `name`, `description`, `systemPrompt`. Add `examples`, `tools`, `delegates`, `onActivate`.
+- **Adapter**: `createAdapterTemplate` wraps an `AdapterFactory` with metadata used by registries.
+- **Scaffold**: `scaffold({ type: 'tool' | 'skill' | 'adapter', dir, name })` writes a buildable package. Equivalent to `agentskit init <type>` but programmatic.
+
+## Related
+
+- [@agentskit/core](/docs/for-agents/core) — `ToolDefinition`, `SkillDefinition`, `AdapterFactory` contracts.
+- [@agentskit/tools](/docs/for-agents/tools) — built-in tools you can pattern-match against.
+- [@agentskit/skills](/docs/for-agents/skills) — built-in skills as reference.
+- [@agentskit/cli](/docs/for-agents/cli) — `agentskit init` uses this package under the hood.
+
+## Source
+
+- npm: https://www.npmjs.com/package/@agentskit/templates
+- repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/templates

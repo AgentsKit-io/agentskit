@@ -1,0 +1,130 @@
+---
+title: '@agentskit/eval-braintrust'
+description: Braintrust scoring pipeline for @agentskit/eval — quality + robustness scorers, CI regression alerts, dataset sync.
+---
+
+`@agentskit/eval-braintrust` connects AgentsKit eval suites to [Braintrust](https://www.braintrust.dev). It runs your test cases through a set of deterministic scorers, ships results to a Braintrust experiment, and surfaces regressions as CI annotations — all without requiring Braintrust to be installed at build time (peer-resolved at runtime).
+
+## When to reach for it
+
+- You already use Braintrust for dataset management and want AgentsKit runs to show up in its experiment UI.
+- You want multi-dimensional scoring (task success, factual grounding, citation correctness, schema survival, HITL gate, crash resilience) with a single import.
+- You want regression alerts between two experiment snapshots in CI.
+
+## Install
+
+```bash
+npm install @agentskit/eval-braintrust
+# peer deps
+npm install @agentskit/eval braintrust
+```
+
+`braintrust` is an optional peer — the adapter loads it dynamically at runtime. If the key / package is absent, results are scored locally and no remote sync occurs.
+
+## Public API
+
+### Root (`@agentskit/eval-braintrust`)
+
+| Export | Kind | Purpose |
+|---|---|---|
+| `runBraintrustEval(args, internals?)` | `async fn` | Run cases, score, sync to Braintrust, return `ExperimentResult` |
+| `scoreCase(scorers, input)` | `async fn` | Score a single `ScorerInput` against an array of scorers |
+| `summarize(cases)` | `fn` | Aggregate `ScoredCase[]` into per-scorer `{ mean, n }` map |
+| `BraintrustRunOptions` | `type` | Options passed to `runBraintrustEval` |
+| `ScoredCase` | `type` | Single case result with scores + duration |
+| `ExperimentResult` | `type` | Full run result: cases, summary, remote URL |
+| `RunBraintrustEvalArgs` | `type` | Argument shape for `runBraintrustEval` |
+| `Scorer` | `type` | `(args: ScorerInput) => ScorerResult \| Promise<ScorerResult>` |
+| `ScorerInput` | `type` | `{ input, output, expected?, metadata? }` |
+| `ScorerResult` | `type` | `{ name, score, rationale?, metadata? }` |
+| `ScorerFamily` | `type` | `{ family: 'quality' \| 'robustness'; scorers }` |
+
+### Scorers (`@agentskit/eval-braintrust/scorers`)
+
+| Export | Family | What it measures |
+|---|---|---|
+| `taskSuccess` | quality | Did the output satisfy the task? |
+| `factualGrounding` | quality | Is the output grounded in provided context? |
+| `citationCorrectness` | quality | Are citations present and accurate? |
+| `toolArgValidity` | quality | Are tool call arguments schema-valid? |
+| `schemaSurvival` | robustness | Does output survive schema round-trip? |
+| `hitlGateCorrectness` | robustness | Did HITL gate fire correctly? |
+| `fallbackResilience` | robustness | Does agent recover from injected failures? |
+| `noCrashSurvival` | robustness | Does agent complete without throwing? |
+| `qualityFamily` | — | All four quality scorers bundled |
+| `robustnessFamily` | — | All four robustness scorers bundled |
+| `ALL_SCORERS` | — | Flat array of all eight scorers |
+
+### CI helpers (`@agentskit/eval-braintrust/ci`)
+
+| Export | Purpose |
+|---|---|
+| `detectRegressions(baseline, current, thresholds?)` | Returns `RegressionAlert[]` for scorers that dropped beyond threshold |
+| `formatAlertsMarkdown(alerts)` | Renders a markdown table of regressions for PR comments / CI summary |
+| `RegressionThresholds` | `{ default?: number; perScorer?: Record<string, number> }` |
+| `RegressionAlert` | `{ scorer, baseline, current, delta, threshold }` |
+
+## Minimal example
+
+```ts
+import { runBraintrustEval } from '@agentskit/eval-braintrust'
+import { ALL_SCORERS } from '@agentskit/eval-braintrust/scorers'
+
+const result = await runBraintrustEval({
+  cases: [
+    { input: 'Capital of France?', output: 'Paris', expected: 'Paris' },
+  ],
+  agent: async (input) => ({ output: await myAgent(input) }),
+  scorers: ALL_SCORERS,
+  options: {
+    projectName: 'my-agent',
+    experimentName: `ci-${Date.now()}`,
+  },
+})
+
+console.log(result.summary)
+// { taskSuccess: { mean: 1, n: 1 }, noCrashSurvival: { mean: 1, n: 1 }, ... }
+console.log(result.url) // Braintrust experiment URL if BRAINTRUST_API_KEY is set
+```
+
+## CI regression check
+
+```ts
+import { detectRegressions, formatAlertsMarkdown } from '@agentskit/eval-braintrust/ci'
+
+const alerts = detectRegressions(baselineSummary, currentSummary, {
+  default: 0.05,
+  perScorer: { factualGrounding: 0.03 },
+})
+
+if (alerts.length) {
+  console.error(formatAlertsMarkdown(alerts))
+  process.exit(1)
+}
+```
+
+## Configuration
+
+| Env var | Purpose |
+|---|---|
+| `BRAINTRUST_API_KEY` | Authenticates with the Braintrust API. Without it, scoring runs locally and no data is uploaded. |
+| `BRAINTRUST_BASE_URL` | Override the Braintrust API base URL (default: Braintrust cloud). |
+
+You can also pass `apiKey` / `baseUrl` directly in `BraintrustRunOptions` — explicit values take precedence over env vars.
+
+## Stability
+
+- **Version:** `0.1.0`
+- **Tier:** beta
+- **Contract:** scorer shapes stable; Braintrust SDK peer-resolved at runtime.
+
+## Related
+
+- [`@agentskit/eval`](/docs/reference/packages/eval) — core eval runner this package extends
+- [`@agentskit/observability`](/docs/reference/packages/observability) — turn live failures into eval cases
+- [Evals in CI](/docs/reference/recipes/evals-ci)
+- [Evals (deep dive)](/docs/production/evals)
+
+## Source
+
+npm: [@agentskit/eval-braintrust](https://www.npmjs.com/package/@agentskit/eval-braintrust) · repo: [packages/eval-braintrust](https://github.com/AgentsKit-io/agentskit/tree/main/packages/eval-braintrust)

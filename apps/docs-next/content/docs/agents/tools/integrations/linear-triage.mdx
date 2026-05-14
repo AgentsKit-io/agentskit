@@ -9,8 +9,56 @@ import { linearTriage } from '@agentskit/tools/integrations'
 const tools = linearTriage({ apiKey: process.env.LINEAR_API_KEY! })
 ```
 
-See `@agentskit/tools/integrations` exports for the full list of sub-tools and config types.
+Bundled: `linearTriage(config)` returns both sub-tools. Sub-tools talk to Linear's GraphQL API at `https://api.linear.app/graphql`.
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `linear_triage_list` | List issues currently in a team's triage state |
+| `linear_triage_assign` | Move a triage issue to a state, optionally assign and set priority |
+
+## Schema
+
+### `linear_triage_list`
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `teamId` | string | yes | Linear team ID |
+| `first` | number | no | Max issues to return (default 25) |
+
+### `linear_triage_assign`
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `issueId` | string | yes | Linear issue ID |
+| `stateId` | string | yes | Target workflow state ID (e.g. Backlog, Todo) |
+| `assigneeId` | string | no | Linear user ID to assign |
+| `priority` | number | no | 0 (none) to 4 (urgent) |
+
+## Example — triage agent
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { linearTriage } from '@agentskit/tools/integrations'
+
+const runtime = createRuntime({
+  adapter,
+  systemPrompt: 'You triage incoming Linear issues. List them, then assign each to the right state and team member based on the description.',
+  tools: linearTriage({ apiKey: process.env.LINEAR_API_KEY! }),
+})
+
+await runtime.run('Triage all open issues for team ENG.')
+```
+
+## Security
+
+- **Env var required:** `LINEAR_API_KEY` — a Linear personal API key (Settings → API → Personal API keys).
+- The key needs at least `Issues: read` and `Issues: write` scopes.
+- Use a service account key rather than a personal key in production.
+- Linear enforces rate limits per API key; bursting large triage queues may require `first` pagination or a delay between calls.
 
 ## Related
 
 - [Integrations overview](./)
+- [linear](/docs/agents/tools/integrations/linear) — broader Linear operations (create, update, comment).

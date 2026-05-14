@@ -3,6 +3,6 @@ import react from '@vitejs/plugin-react'
 
 export default defineConfig({
   plugins: [react()],
-  server: { port: 4178, strictPort: true },
-  preview: { port: 4179, strictPort: true },
+  server: { host: '127.0.0.1', port: 4178, strictPort: true },
+  preview: { host: '127.0.0.1', port: 4179, strictPort: true },
 })

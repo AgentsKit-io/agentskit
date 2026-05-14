@@ -45,6 +45,12 @@ npm install @agentskit/observability
 ### Devtools server
 
 - `createDevtoolsServer`, `toSseFrame`. See [Devtools server](/docs/reference/recipes/devtools-server).
+- `createTopologyGraph` — live multi-agent topology graph for the devtools UI.
+- `createControlSurface` — production pause / step / replay control surface.
+
+### SLO
+
+- `sloObserver(targets?)`, `DEFAULT_SLO_TARGETS` — emit SLO breach events from latency / error / cost windows.
 
 ### Signed audit log
 
@@ -65,8 +71,10 @@ const runtime = createRuntime({
 
 ## Related
 
+- [@agentskit/observability-langfuse](/docs/for-agents/observability-langfuse) — Langfuse logger backend.
 - [@agentskit/eval](/docs/for-agents/eval)
 - [@agentskit/runtime](/docs/for-agents/runtime)
+- [@agentskit/core/security](/docs/for-agents/core) — vault / tokenization used by `wrapObserverWithRedaction`.
 
 ## Source
 

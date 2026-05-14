@@ -12,8 +12,61 @@ const tools = githubActions({
 })
 ```
 
-See `@agentskit/tools/integrations` exports for the full list of sub-tools and config types.
+Bundled: `githubActions(config)` returns both sub-tools. Calls GitHub API v2022-11-28 at `https://api.github.com`.
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `github_actions_list_runs` | List recent workflow runs, optionally filtered by file and status |
+| `github_actions_dispatch` | Trigger a `workflow_dispatch` event on a named workflow |
+
+## Schema
+
+### `github_actions_list_runs`
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `repo` | string | no | `owner/name`. Defaults to `config.defaultRepo` |
+| `workflowFile` | string | no | e.g. `ci.yml`. If omitted, all workflows |
+| `status` | string | no | `queued` \| `in_progress` \| `completed` |
+| `perPage` | number | no | Results per page (default 20) |
+
+### `github_actions_dispatch`
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `repo` | string | no | `owner/name`. Defaults to `config.defaultRepo` |
+| `workflowFile` | string | yes | e.g. `release.yml` |
+| `ref` | string | yes | Branch or tag to run against |
+| `inputs` | object | no | Workflow inputs map (`workflow_dispatch.inputs`) |
+
+## Example — CI status agent
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { githubActions } from '@agentskit/tools/integrations'
+
+const runtime = createRuntime({
+  adapter,
+  systemPrompt: 'You monitor CI. List failing runs and optionally re-trigger them after a fix lands.',
+  tools: githubActions({
+    token: process.env.GITHUB_TOKEN!,
+    defaultRepo: 'my-org/my-repo',
+  }),
+})
+
+await runtime.run('Show me all failed runs on the main branch from today.')
+```
+
+## Security
+
+- **Env var required:** `GITHUB_TOKEN` — a GitHub personal access token (classic) or a fine-grained token.
+- Scopes required: `actions:read` for listing runs; `actions:write` for dispatching. Fine-grained tokens should be scoped to specific repositories.
+- Triggering `workflow_dispatch` can deploy code or modify infrastructure — always gate via [HITL](/docs/agents/hitl) in production.
+- GitHub enforces REST API rate limits of 5,000 requests/hour per authenticated token.
 
 ## Related
 
 - [Integrations overview](./)
+- [github](/docs/agents/tools/integrations/github) — issue and PR operations.

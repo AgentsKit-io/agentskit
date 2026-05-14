@@ -58,6 +58,15 @@ npm install @agentskit/adapters
 - `simulateStream`, `chunkText`, `fetchWithRetry` — lower-level
   helpers.
 
+### Cost / carbon / lifecycle
+
+- `applyCarbonTable`, `estimateCO2Grams`, `DEFAULT_CARBON_TABLE` —
+  carbon-aware routing inputs; feed into `createRouter` policy.
+- `resolveModel`, `withDeprecationPolicy`, `DEFAULT_DEPRECATION_TABLE`
+  — auto-upgrade deprecated model IDs at adapter construction.
+- `refreshCredentials`, `createRotatingCredentials` — async credential
+  refresh for short-lived tokens (Bedrock, Vertex).
+
 ### Embedders
 
 - `openaiEmbedder`, `geminiEmbedder`, `ollamaEmbedder`,

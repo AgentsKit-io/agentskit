@@ -1,0 +1,65 @@
+---
+title: Markdown
+description: Headless Markdown renderer. Streaming-aware. Style via data-ak-markdown.
+---
+
+Renders a string of Markdown content. When `streaming` is true the root element
+receives `data-ak-streaming` so you can animate incomplete text (e.g. a blinking
+cursor) without any inline styles.
+
+The component is intentionally minimal — it renders the raw content string into
+a `div`. Wire a Markdown parser (e.g. `react-markdown`, `marked`) inside your
+own theme layer if you need HTML output.
+
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `content` | `string` | — | Markdown string to display |
+| `streaming` | `boolean` | `false` | Marks the element as actively streaming |
+
+## Example
+
+```tsx
+import { Markdown } from '@agentskit/react'
+
+export function AssistantBubble({ part }) {
+  return (
+    <Markdown
+      content={part.text}
+      streaming={part.streaming}
+    />
+  )
+}
+```
+
+## data-ak-markdown
+
+The root `div` always carries `data-ak-markdown`. When `streaming` is `true`
+it also receives `data-ak-streaming="true"`.
+
+```css
+[data-ak-markdown] {
+  line-height: 1.6;
+  white-space: pre-wrap;
+}
+
+[data-ak-markdown][data-ak-streaming="true"]::after {
+  content: '▋';
+  animation: blink 1s step-start infinite;
+}
+```
+
+## Per-framework
+
+| Framework | Import |
+|---|---|
+| React | `import { Markdown } from '@agentskit/react'` |
+| Ink | `import { Markdown } from '@agentskit/ink'` |
+
+## Related
+
+- [Message](./message) — hosts `Markdown` for assistant text parts
+- [CodeBlock](./code-block) — companion for fenced code blocks
+- [data-attributes](./data-attributes) — full `data-ak-*` reference
+- [Theming](./theming)

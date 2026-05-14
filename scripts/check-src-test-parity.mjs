@@ -58,6 +58,16 @@ const ALLOW_FILES = new Set([
   'packages/cli/src/init-interactive.ts',
   // - cli/src/run-ui.tsx (#616). Convert + drop.
   'packages/cli/src/run-ui.tsx',
+  // - TopologyGraphView (ink + react) — visual devtools surface, exercised
+  //   via apps/visual-react Playwright suite; no unit test yet.
+  'packages/ink/src/components/TopologyGraphView.tsx',
+  'packages/react/src/components/TopologyGraphView.tsx',
+  // - Vertical skills aggregated in their own test files:
+  //   ecommerce.ts / education.ts / real-estate.ts each export multiple
+  //   skills covered by tests/vertical-{ecommerce,education,real-estate}.test.ts.
+  'packages/skills/src/ecommerce.ts',
+  'packages/skills/src/education.ts',
+  'packages/skills/src/real-estate.ts',
 ])
 
 const ALLOW_PREFIXES = [

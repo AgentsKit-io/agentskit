@@ -1,0 +1,117 @@
+---
+title: Context injection
+description: How retrieved chunks become system prompt context — manual pattern and runtime integration.
+---
+
+`rag.retrieve()` returns `RetrievedDocument[]`. Those chunks do nothing on their own — you have to inject them into the conversation. This page shows the two ways to do that.
+
+## What `retrieve` returns
+
+```ts
+interface RetrievedDocument {
+  id: string
+  content: string       // chunk text
+  source?: string       // optional source label
+  score?: number        // similarity score 0–1
+  metadata?: Record<string, unknown>
+}
+```
+
+`rag.search(query)` and `rag.retrieve({ query, messages })` both return this shape. `retrieve` is the `Retriever` contract — it receives the full message history so you can build query strategies from it.
+
+## Manual pattern — augment the system prompt
+
+The simplest approach: call `retrieve` before each turn, format the chunks into text, and prepend them to the system message.
+
+```ts
+import { createRAG } from '@agentskit/rag'
+import { openaiEmbedder } from '@agentskit/adapters'
+import { fileVectorMemory } from '@agentskit/memory'
+
+const rag = createRAG({
+  embed: openaiEmbedder({ apiKey: process.env.OPENAI_API_KEY! }),
+  store: fileVectorMemory({ path: '.agentskit/vec.json', dim: 1536 }),
+})
+
+function formatContext(hits: Awaited<ReturnType<typeof rag.retrieve>>): string {
+  if (hits.length === 0) return ''
+  const blocks = hits.map((h, i) => {
+    const label = h.source ? `[${i + 1}] ${h.source}` : `[${i + 1}]`
+    return `${label}\n${h.content}`
+  })
+  return `Use the following context to answer the question:\n\n${blocks.join('\n\n')}`
+}
+
+// Per-turn injection
+const userQuery = 'How does token budgeting work?'
+const hits = await rag.retrieve({ query: userQuery, messages })
+
+const systemPrompt = [
+  'You are a helpful assistant.',
+  formatContext(hits),
+].filter(Boolean).join('\n\n')
+```
+
+Pass `systemPrompt` as the `system` field to your adapter or `createRuntime` call.
+
+## Runtime integration — pass `retriever` directly
+
+`createRuntime` accepts a `retriever` option. When set, the runtime calls `retriever.retrieve({ query, messages })` automatically before each generation and prepends the formatted context to the system prompt. No manual wiring needed.
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { createRAG } from '@agentskit/rag'
+
+const rag = createRAG({ embed, store })
+await rag.ingest(myDocs)
+
+const runtime = createRuntime({
+  adapter,
+  retriever: rag,   // implements Retriever contract
+  system: 'You are a helpful assistant.',
+})
+
+const result = await runtime.run('How does token budgeting work?')
+```
+
+The runtime appends the context block after your base `system` string, separated by a blank line.
+
+## Controlling what gets injected
+
+### Filter by score
+
+```ts
+const hits = await rag.retrieve({ query, messages })
+const relevant = hits.filter(h => (h.score ?? 0) > 0.75)
+const context = formatContext(relevant)
+```
+
+### Limit tokens
+
+Chunks have no guaranteed length. Trim to a token budget before injecting:
+
+```ts
+function trimToTokenBudget(hits: RetrievedDocument[], maxChars = 4000): RetrievedDocument[] {
+  let total = 0
+  return hits.filter(h => {
+    total += h.content.length
+    return total <= maxChars
+  })
+}
+```
+
+### Cite sources in the prompt
+
+```ts
+const blocks = hits.map((h, i) =>
+  `<source id="${i + 1}" file="${h.source ?? 'unknown'}">\n${h.content}\n</source>`
+)
+const context = blocks.join('\n') + '\n\nCite source IDs in your answer.'
+```
+
+## Related
+
+- [createRAG](./create-rag) — pipeline entry point
+- [Rerank](./rerank) — improve hit ordering before injecting
+- [Hybrid](./hybrid) — combine vector + keyword retrieval
+- [`@agentskit/rag`](/docs/reference/packages/rag)

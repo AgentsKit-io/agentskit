@@ -51,6 +51,9 @@ jobs:
       - name: Install Playwright browsers
         run: pnpm --filter @agentskit/visual-react test:visual:install
 
+      - name: Build workspace dependencies
+        run: pnpm --filter @agentskit/core --filter @agentskit/react build
+
       - name: Build harness
         run: pnpm --filter @agentskit/visual-react build
 

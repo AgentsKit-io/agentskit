@@ -13,8 +13,65 @@ const tools = jira({
 })
 ```
 
-See `@agentskit/tools/integrations` exports for the full list of sub-tools and config types.
+Bundled: `jira(config)` returns both sub-tools. Calls Jira REST API v3 at your Atlassian site root.
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `jira_search_issues` | Search Jira issues with a JQL query |
+| `jira_create_issue` | Create a new Jira issue in a project |
+
+## Schema
+
+### `jira_search_issues`
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `jql` | string | yes | JQL query, e.g. `project = ENG AND status = "In Progress"` |
+| `maxResults` | number | no | Max issues to return (default 25) |
+
+Returns: `key`, `summary`, `status`, `assignee` for each match.
+
+### `jira_create_issue`
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `projectKey` | string | yes | Jira project key, e.g. `ENG` |
+| `summary` | string | yes | Issue summary / title |
+| `description` | string | no | Issue description (plain text; rendered as Atlassian Document Format) |
+| `issueType` | string | no | e.g. `Task`, `Bug`, `Story` (default `Task`) |
+
+Returns: `key` and `url` (full Jira link to the created issue).
+
+## Example — sprint assistant
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { jira } from '@agentskit/tools/integrations'
+
+const runtime = createRuntime({
+  adapter,
+  systemPrompt: 'You manage sprint work. Search for blockers and create follow-up tasks.',
+  tools: jira({
+    baseUrl: process.env.JIRA_BASE_URL!,
+    email: process.env.JIRA_EMAIL!,
+    apiToken: process.env.JIRA_API_TOKEN!,
+  }),
+})
+
+await runtime.run('Find all in-progress issues assigned to alice@example.com in project ENG.')
+```
+
+## Security
+
+- **Env vars required:** `JIRA_EMAIL` (Atlassian account email), `JIRA_API_TOKEN` (Atlassian API token from id.atlassian.com/manage-profile/security/api-tokens), `JIRA_BASE_URL` (your Atlassian site, e.g. `https://my-org.atlassian.net`).
+- Authentication is HTTP Basic: `email:apiToken` base64-encoded. Never commit tokens; use env vars or a secrets manager.
+- Use a service-account email for production agents rather than a personal Atlassian account.
+- Atlassian Cloud enforces rate limits per site; high-volume queries should use `maxResults` pagination.
+- `jira_create_issue` writes to the project — gate via [HITL](/docs/agents/hitl) for autonomous agents.
 
 ## Related
 
+- [confluence](./confluence) — pair with Jira for full Atlassian coverage.
 - [Integrations overview](./)

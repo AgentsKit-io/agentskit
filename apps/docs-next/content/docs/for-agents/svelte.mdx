@@ -1,7 +1,11 @@
 ---
 title: '@agentskit/svelte — for agents'
-description: Svelte 5 store for AgentsKit.
+description: Svelte 5 binding — `createChatStore` produces a Readable that drives any Svelte component.
 ---
+
+## Purpose
+
+Svelte binding for the `ChatReturn` contract from `@agentskit/core`. Returns a `Readable<ChatState>` plus action methods (send / stop / clear) and `destroy()` for cleanup.
 
 ## Install
 
@@ -31,10 +35,17 @@ const chat = createChatStore({ adapter })
 </form>
 ```
 
+## Common patterns
+
+- **Runes vs stores**: works in both Svelte 5 runes mode and Svelte 4 stores — auto-subscription via `$chat` works the same.
+- **Cleanup**: call `chat.destroy()` in `onDestroy()` to abort in-flight streams and release the adapter.
+- **SvelteKit SSR**: instantiate in `onMount` or a client-only component; the adapter must run in the browser unless you proxy through a server endpoint.
+
 ## Related
 
-- [@agentskit/react](/docs/for-agents/react)
-- [@agentskit/vue](/docs/for-agents/vue)
+- [@agentskit/core](/docs/for-agents/core) — `ChatReturn` contract.
+- [@agentskit/adapters](/docs/for-agents/adapters) — provider adapters.
+- [@agentskit/react](/docs/for-agents/react), [@agentskit/vue](/docs/for-agents/vue), [@agentskit/solid](/docs/for-agents/solid), [@agentskit/angular](/docs/for-agents/angular), [@agentskit/ink](/docs/for-agents/ink), [@agentskit/react-native](/docs/for-agents/react-native) — sibling bindings.
 
 ## Source
 

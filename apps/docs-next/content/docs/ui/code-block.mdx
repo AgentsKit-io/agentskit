@@ -1,0 +1,65 @@
+---
+title: CodeBlock
+description: Headless code block with optional copy button. Style via data-ak-code-block.
+---
+
+Renders a `pre > code` block. An optional copy button (`copyable`) writes the
+code string to the clipboard using the Clipboard API. Language is forwarded as
+`data-ak-language` for syntax-highlighting hooks.
+
+No syntax highlighting is bundled — attach a highlighter (e.g. `highlight.js`,
+`shiki`, `Prism`) inside the CSS layer using the language attribute.
+
+## Props
+
+| Prop | Type | Default | Description |
+|---|---|---|---|
+| `code` | `string` | — | Source code to display |
+| `language` | `string` | — | Language hint (e.g. `"tsx"`, `"python"`) |
+| `copyable` | `boolean` | `false` | Render a copy-to-clipboard button |
+
+## Example
+
+```tsx
+import { CodeBlock } from '@agentskit/react'
+
+export function InlineFence({ code, lang }) {
+  return <CodeBlock code={code} language={lang} copyable />
+}
+```
+
+## data-ak-code-block
+
+| Attribute | Present when |
+|---|---|
+| `data-ak-code-block` | always |
+| `data-ak-language` | `language` prop is set |
+| `data-ak-copy` | on the copy `<button>` when `copyable` |
+
+```css
+[data-ak-code-block] pre {
+  overflow-x: auto;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  background: var(--ak-surface-code);
+}
+
+[data-ak-copy] {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.5rem;
+}
+```
+
+## Per-framework
+
+| Framework | Import |
+|---|---|
+| React | `import { CodeBlock } from '@agentskit/react'` |
+| Ink | `import { CodeBlock } from '@agentskit/ink'` |
+
+## Related
+
+- [Markdown](./markdown) — parent renderer that delegates to CodeBlock for fenced blocks
+- [data-attributes](./data-attributes) — full `data-ak-*` reference
+- [Theming](./theming)

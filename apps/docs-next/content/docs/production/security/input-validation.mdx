@@ -1,0 +1,146 @@
+---
+title: Input validation
+description: Schema validation of tool inputs and user messages — zod, JSON Schema, prompt injection, length limits, and allowlists.
+---
+
+Every agent boundary is an attack surface. Validate tool arguments and user messages before they enter the agent loop.
+
+## Tool schema requirements
+
+`@agentskit/core` enforces a JSON Schema contract on every tool definition. The `schema` field is required and must describe all accepted arguments:
+
+```ts
+import type { ToolDefinition } from '@agentskit/core'
+
+const fetchUrl: ToolDefinition = {
+  name: 'fetch_url',
+  description: 'Fetch the content of a URL.',
+  schema: {
+    type: 'object',
+    properties: {
+      url: {
+        type: 'string',
+        format: 'uri',
+        maxLength: 2048,
+        pattern: '^https://',   // allowlist: HTTPS only
+      },
+    },
+    required: ['url'],
+    additionalProperties: false,
+  },
+  execute: async (args) => { /* ... */ },
+}
+```
+
+The runtime validates `args` against the schema before calling `execute`. Any argument that does not conform is rejected before the tool runs.
+
+## Zod-based validation
+
+For complex argument shapes, derive the JSON Schema from a Zod schema to keep validation co-located with types:
+
+```ts
+import { z } from 'zod'
+import { zodToJsonSchema } from 'zod-to-json-schema'
+
+const ArgsSchema = z.object({
+  query: z.string().min(1).max(512),
+  limit: z.number().int().min(1).max(50).default(10),
+})
+
+type Args = z.infer<typeof ArgsSchema>
+
+const searchTool: ToolDefinition = {
+  name: 'search',
+  description: 'Search the knowledge base.',
+  schema: zodToJsonSchema(ArgsSchema, { $refStrategy: 'none' }),
+  execute: async (rawArgs) => {
+    const args = ArgsSchema.parse(rawArgs)   // throws ZodError on invalid input
+    // ...
+  },
+}
+```
+
+Parse at the top of `execute` even if the runtime already validated against JSON Schema — Zod gives you typed, narrowed args.
+
+## User message validation
+
+Validate user input before passing it to `chat.send`:
+
+```ts
+const MAX_MESSAGE_LENGTH = 4_000   // tokens ≈ chars / 4
+
+function validateUserMessage(text: string): string {
+  if (text.length > MAX_MESSAGE_LENGTH) {
+    throw new RangeError(`Message too long (${text.length} chars, max ${MAX_MESSAGE_LENGTH})`)
+  }
+  // Strip null bytes and non-printable control characters
+  return text.replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
+}
+
+chat.send(validateUserMessage(rawUserInput))
+```
+
+## Escape sequences and null bytes
+
+Models and logging pipelines are sensitive to escape sequences injected by user input:
+
+```ts
+function sanitizeForLogging(s: string): string {
+  // Remove ANSI escape codes
+  return s.replace(/\x1B\[[0-9;]*[A-Za-z]/g, '')
+}
+```
+
+## Prompt injection mitigation
+
+Use `createInjectionDetector` from `@agentskit/core/security` as a preprocess step:
+
+```ts
+import { createInjectionDetector } from '@agentskit/core/security'
+
+const detector = createInjectionDetector()
+
+async function sendSafe(text: string) {
+  const verdict = await detector.check(text)
+  if (verdict.blocked) {
+    throw new Error(`Input rejected: ${verdict.reason}`)
+  }
+  return chat.send(text)
+}
+```
+
+The heuristic layer catches "ignore previous instructions", role-swap attempts, and fenced payloads synchronously at zero cost. See [Prompt injection](./prompt-injection) for the full API.
+
+## Allowlist patterns
+
+Prefer allowlists over denylists for structured values:
+
+```ts
+const ALLOWED_TOOLS = new Set(['web_search', 'calculator', 'read_file'])
+
+function assertAllowedTool(name: string): void {
+  if (!ALLOWED_TOOLS.has(name)) {
+    throw new Error(`Tool not permitted: ${name}`)
+  }
+}
+```
+
+Apply the same pattern to file paths (canonical path prefix check), URLs (origin allowlist), and model names.
+
+## Max-length limits
+
+Set `maxLength` on every string property in JSON Schema and enforce at runtime:
+
+| Boundary | Recommended limit |
+|---|---|
+| User message | 4 000 chars |
+| Tool `description` | 1 024 chars |
+| Tool string arg | 2 048 chars (adjust per tool) |
+| RAG chunk injected | 8 000 chars |
+| System prompt | 16 000 chars |
+
+## Related
+
+- [Prompt injection](./prompt-injection) — heuristic + model classifier for injection detection
+- [Mandatory sandbox](./mandatory-sandbox) — allow/deny/require across tool calls
+- [Rate limiting](./rate-limiting) — token-bucket limits by user / IP / key
