@@ -30,7 +30,7 @@ export function listTools(): ToolMetadata[] {
     webSearch(),
     fetchUrl(),
     ...filesystem({ basePath: tmpdir() }),
-    shell(),
+    shell({ allowed: [] }),
   ]
 
   return tools.map(extractMetadata)

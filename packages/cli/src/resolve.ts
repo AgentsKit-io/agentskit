@@ -29,7 +29,10 @@ function instantiate(kind: ToolKind): ToolDefinition[] {
     case 'filesystem':
       return filesystem({ basePath: process.cwd() })
     case 'shell':
-      return [shell({ timeout: 30_000 })]
+      // CLI gates shell behind requiresConfirmation; explicit allowAny
+      // surfaces the dual-use nature without forcing every CLI user to
+      // pick an allowlist up front.
+      return [shell({ timeout: 30_000, allowAny: true })]
   }
 }
 
