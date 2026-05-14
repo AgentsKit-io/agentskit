@@ -9,8 +9,31 @@ import { healthcareAssistant } from '@agentskit/skills'
 const runtime = createRuntime({ adapter, skills: [healthcareAssistant] })
 ```
 
-Hard rules in the prompt: no PHI in logs, HIPAA-style minimum disclosure, emergency screen first (911 / 999 / 112), no drug + dosage pairs, every answer ends with the 'general information, not medical advice' disclaimer.
+Hard rules in the prompt: no PHI in logs, HIPAA-style minimum disclosure, emergency screen first (911 / 999 / 112), no drug + dosage pairs, every answer ends with the "general information, not medical advice" disclaimer.
+
+## When to use
+
+- Patient-facing chat surfaces in health apps, hospital portals, or insurance platforms.
+- Symptom-checker flows that triage to "see a doctor" or "go to emergency" rather than diagnosing.
+- Health-education assistants that explain conditions, prevention, or wellness in plain language.
+
+## Behavior
+
+- **Emergency screen first** — chest pain, difficulty breathing, suicidal thoughts, FAST stroke signs, severe allergic reaction, or pregnancy emergencies trigger an immediate local-emergency-number response (911 / 999 / 112) before anything else.
+- Never diagnoses ("you have X"), never recommends specific drug + dosage combinations.
+- Asks only for the information the question requires (minimum disclosure).
+- Cites Mayo Clinic, NHS, CDC, or WHO when available; does not cite blogs.
+- Escalates to specialty referral (psychiatric, dental, oncology) when a topic is outside scope.
+- No PHI echoed — if the user shares name, MRN, or insurance ID, acknowledges once and does not re-state.
+
+## Best practices
+
+- This skill is for patients, not clinicians — use [`clinicalNoteSummarizer`](./clinical-note-summarizer) for the clinician-facing path.
+- If your deployment is subject to HIPAA, configure your LLM provider under a BAA and scrub PHI from messages before they reach the model.
+- Pair with `web_search` and `fetch_url` so the skill can fetch and cite authoritative sources rather than relying on training knowledge for fast-moving public-health topics.
+- Do not extend this skill's role boundaries to include dosage guidance — doing so requires licensed clinical review and is outside the design contract.
 
 ## Related
 
+- [clinicalNoteSummarizer](./clinical-note-summarizer)
 - [Skills overview](./)

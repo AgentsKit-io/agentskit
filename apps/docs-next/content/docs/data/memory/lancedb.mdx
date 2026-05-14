@@ -1,0 +1,84 @@
+---
+title: LanceDB
+description: LanceDB vector backend for @agentskit/memory — planned via custom adapter.
+---
+
+LanceDB is not yet a built-in backend in `@agentskit/memory`. The table below shows current status and the custom-adapter path available today.
+
+## Status
+
+| | |
+|---|---|
+| Built-in export | Not yet implemented |
+| Custom adapter | Supported today — see below |
+| Roadmap tier | planned |
+
+## Use LanceDB via a custom adapter
+
+`@agentskit/memory` exposes the `VectorMemory` contract from `@agentskit/core`. Any object that satisfies it works as a `store` in `createRAG`, `createRuntime`, or `useChat`.
+
+```ts
+import type { VectorMemory, VectorDocument, RetrievedDocument } from '@agentskit/core'
+import { connect } from '@lancedb/lancedb'
+
+export function lancedbVectorMemory(opts: {
+  uri: string
+  table: string
+  dim: number
+}): VectorMemory {
+  let tbl: Awaited<ReturnType<typeof import('@lancedb/lancedb').Table.prototype.search>> | null = null
+
+  const getTable = async () => {
+    if (tbl) return tbl
+    const db = await connect(opts.uri)
+    try {
+      tbl = await db.openTable(opts.table)
+    } catch {
+      tbl = await db.createTable(opts.table, [
+        { id: '', content: '', embedding: new Array(opts.dim).fill(0), metadata: {} },
+      ])
+    }
+    return tbl
+  }
+
+  return {
+    async store(docs: VectorDocument[]): Promise<void> {
+      const t = await getTable()
+      await t.add(docs.map(d => ({ id: d.id, content: d.content, embedding: d.embedding, metadata: d.metadata ?? {} })))
+    },
+    async search(embedding: number[], opts2?: { topK?: number; threshold?: number }): Promise<RetrievedDocument[]> {
+      const t = await getTable()
+      const rows = await t.search(embedding).limit(opts2?.topK ?? 5).toArray()
+      return rows
+        .filter(r => opts2?.threshold === undefined || (r._distance ?? 0) <= 1 - opts2.threshold)
+        .map(r => ({ id: r.id as string, content: r.content as string, score: 1 - (r._distance ?? 0), metadata: r.metadata as Record<string, unknown> }))
+    },
+  }
+}
+```
+
+Wire it into `createRAG`:
+
+```ts
+import { createRAG } from '@agentskit/rag'
+import { openaiEmbedder } from '@agentskit/adapters'
+import { lancedbVectorMemory } from './lancedb-adapter'
+
+const rag = createRAG({
+  embed: openaiEmbedder({ apiKey: process.env.OPENAI_API_KEY! }),
+  store: lancedbVectorMemory({ uri: './lancedb', table: 'docs', dim: 1536 }),
+})
+```
+
+## Why LanceDB
+
+- Embedded (no server) — good for local dev, Electron, edge workers.
+- Native columnar storage with vector index (IVF-PQ or flat).
+- TypeScript SDK: `@lancedb/lancedb`.
+
+## Related
+
+- [fileVectorMemory](./file-vector) — zero-dependency embedded option available today
+- [VectorMemory contract](/docs/get-started/concepts/memory)
+- [createRAG](/docs/data/rag/create-rag)
+- [Packages roadmap](/docs/reference/packages/roadmap)

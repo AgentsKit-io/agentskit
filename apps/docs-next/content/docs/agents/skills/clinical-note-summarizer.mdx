@@ -9,8 +9,30 @@ import { clinicalNoteSummarizer } from '@agentskit/skills'
 const runtime = createRuntime({ adapter, skills: [clinicalNoteSummarizer] })
 ```
 
-Output is fixed (Subjective / Objective / Assessment / Plan). Empty sections show '(not documented)' rather than inferred. Vitals and lab values are copied verbatim.
+Output is fixed (Subjective / Objective / Assessment / Plan). Empty sections show `(not documented)` rather than inferred. Vitals and lab values are copied verbatim.
+
+## When to use
+
+- Clinician-facing documentation tools that summarize free-text SOAP notes from an EHR.
+- Discharge-summary pipelines where structured output is required before handoff.
+- QA tools that diff a clinician's note against the structured summary to catch gaps.
+
+## Behavior
+
+- Always emits all four SOAP sections in order; missing sections get `(not documented)`, not invented content.
+- Copies BP, HR, lab values, and dosages verbatim — no rounding unless the source rounds.
+- Strips identifiers: patient name → `[patient]`, removes MRN, DOB, address. Preserves age range, sex, and clinical context.
+- Flags inconsistencies (e.g. conflicting BP readings) with a note for clinician review rather than silently resolving them.
+- Never adds clinical interpretation, differential, or diagnosis if the source note does not state one.
+
+## Best practices
+
+- **Audience is clinicians, not patients.** Do not expose this skill to patient-facing surfaces.
+- Strip or redact PHI before passing notes to the model if your deployment is subject to HIPAA BAA requirements with the LLM provider.
+- Gate output with a human review step before ingesting into any EHR or billing system.
+- Pair with [`healthcareAssistant`](./healthcare-assistant) only if you need a patient-facing summary from a separate plain-language pass — keep the clinician and patient paths separate.
 
 ## Related
 
+- [healthcareAssistant](./healthcare-assistant)
 - [Skills overview](./)

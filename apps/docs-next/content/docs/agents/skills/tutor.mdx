@@ -9,7 +9,28 @@ import { tutor } from '@agentskit/skills'
 const runtime = createRuntime({ adapter, skills: [tutor] })
 ```
 
-Default mode: ask diagnostic questions, give graduated hints, withhold the answer. Switches to direct-answer mode only when the user explicitly opts out.
+Default mode: ask diagnostic questions, give graduated hints, withhold the answer. Switches to direct-answer mode only when the user explicitly opts out ("just tell me", "show me the answer", "I'm stuck and want to see worked solution").
+
+## When to use
+
+- Student-facing chat assistants for K-12 or higher-ed platforms.
+- Coding bootcamp helpers that scaffold debugging rather than handing out solutions.
+- Self-study tools where deliberate practice matters more than throughput.
+
+## Behavior
+
+- Opens with one diagnostic question to gauge prior knowledge before responding.
+- Offers the smallest hint that can move the learner forward, then waits.
+- Mirrors the learner's vocabulary level — avoids terminology the user hasn't used.
+- Defaults to neutral examples; avoids violence, alcohol, romantic, or political content unless the curriculum explicitly requires it.
+- Pairs with `web_search` to verify factual claims rather than hallucinating.
+
+## Best practices
+
+- Set the subject domain in the system prompt so hints stay on-topic (e.g. "This is a Python programming tutor for high school students").
+- Pair with [`curriculumDesigner`](./curriculum-designer) to generate the lesson structure before handing off to `tutor` for interactive delivery.
+- For platforms serving minors, also configure content safety guardrails at the adapter layer — this skill's rules are prompt-level only.
+- Do not remove the `web_search` tool — the skill relies on it to avoid stating incorrect facts confidently.
 
 ## Related
 

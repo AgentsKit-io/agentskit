@@ -12,7 +12,57 @@ const tools = sentry({
 })
 ```
 
-See `@agentskit/tools/integrations` exports for the full list of sub-tools and config types.
+Bundled: `sentry(config)` returns both sub-tools. Calls Sentry API v0 at `https://sentry.io/api/0`.
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `sentry_search_issues` | Search issues across an org or a specific project |
+| `sentry_resolve_issue` | Mark an issue as resolved by numeric ID or shortId |
+
+## Schema
+
+### `sentry_search_issues`
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `project` | string | no | Project slug. Omit to search the whole org |
+| `query` | string | no | Sentry search query, e.g. `is:unresolved level:error` |
+| `limit` | number | no | Max results (default 25) |
+
+Returns: `id` (shortId), `title`, `status`, `level`, `url`, `lastSeen`, `count`.
+
+### `sentry_resolve_issue`
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `issueId` | string | yes | Numeric issue ID or shortId (e.g. `PROJ-123`) |
+
+## Example — on-call triage agent
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { sentry } from '@agentskit/tools/integrations'
+
+const runtime = createRuntime({
+  adapter,
+  systemPrompt: 'You triage Sentry issues. List unresolved errors, summarize root causes, and resolve ones that are already fixed.',
+  tools: sentry({
+    authToken: process.env.SENTRY_AUTH_TOKEN!,
+    organization: 'my-org',
+  }),
+})
+
+await runtime.run('Find all unresolved error-level issues in project api-server from the last 24 hours.')
+```
+
+## Security
+
+- **Env var required:** `SENTRY_AUTH_TOKEN` — a Sentry User Auth Token (Settings → Auth Tokens). Use an internal integration token in CI environments.
+- Scopes required: `event:read` for searching; `event:write` for resolving. Restrict to the minimum scope needed.
+- `sentry_resolve_issue` mutates issue state — gate via [HITL](/docs/agents/hitl) if agents are operating autonomously in production.
+- Sentry enforces rate limits per organization; check your plan's API quota before running high-frequency polling agents.
 
 ## Related
 

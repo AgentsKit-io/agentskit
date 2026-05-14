@@ -12,8 +12,8 @@ resolved.
 | Prop | Type |
 |---|---|
 | `toolCall` | `ToolCall` |
-| `onApprove` | `() => void` |
-| `onDeny` | `(reason?: string) => void` |
+| `onApprove` | `(toolCallId: string) => void` |
+| `onDeny` | `(toolCallId: string, reason?: string) => void` |
 
 ## Example
 
@@ -25,8 +25,8 @@ resolved.
     <ToolConfirmation
       key={tc.id}
       toolCall={tc}
-      onApprove={() => chat.approve(tc.id)}
-      onDeny={(reason) => chat.deny(tc.id, reason)}
+      onApprove={(id) => chat.approve(id)}
+      onDeny={(id, reason) => chat.deny(id, reason)}
     />
   ))}
 ```

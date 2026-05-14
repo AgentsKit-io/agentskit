@@ -9,7 +9,54 @@ import { figma } from '@agentskit/tools/integrations'
 const tools = figma({ accessToken: process.env.FIGMA_TOKEN! })
 ```
 
-See `@agentskit/tools/integrations` exports for the full list of sub-tools and config types.
+Bundled: `figma(config)` returns both sub-tools. Calls Figma REST API v1 at `https://api.figma.com/v1`.
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `figma_get_file` | Read a Figma file — returns name, lastModified, and top-level node tree |
+| `figma_export_images` | Export node IDs as image URLs in jpg / png / svg / pdf |
+
+## Schema
+
+### `figma_get_file`
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `fileKey` | string | yes | The file key from the Figma URL (`figma.com/file/<key>/...`) |
+| `depth` | number | no | Limit node-tree traversal depth |
+
+### `figma_export_images`
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `fileKey` | string | yes | Figma file key |
+| `ids` | string[] | yes | Node IDs to export |
+| `format` | string | no | `jpg` \| `png` \| `svg` \| `pdf` (default `png`) |
+| `scale` | number | no | Export scale factor (default 2) |
+
+## Example — design-to-spec agent
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { figma } from '@agentskit/tools/integrations'
+
+const runtime = createRuntime({
+  adapter,
+  systemPrompt: 'You extract design specs from Figma files and produce developer handoff notes.',
+  tools: figma({ accessToken: process.env.FIGMA_TOKEN! }),
+})
+
+await runtime.run('Read the top-level frames of file abc123 and summarize the page layout.')
+```
+
+## Security
+
+- **Env var required:** `FIGMA_TOKEN` — a Figma personal access token (Settings → Security → Personal access tokens).
+- Tokens have view-only or edit scope; agents only need view scope (`file:read`).
+- Figma enforces rate limits per token; avoid polling on short intervals. The `figma_get_file` response includes `lastModified` — use it to skip fetches when files have not changed.
+- Export URLs returned by `figma_export_images` are temporary (expire within minutes); download and store them if you need persistence.
 
 ## Related
 

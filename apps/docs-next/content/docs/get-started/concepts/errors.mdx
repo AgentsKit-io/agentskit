@@ -24,7 +24,7 @@ class AgentsKitError extends Error {
 error[AK_ADAPTER_MISSING]: No adapter provided
   --> Hint: Pass an adapter when creating the chat controller, e.g.
             createChatController({ adapter: openaiAdapter() })
-  --> Docs: https://www.agentskit.io/docs/adapters
+  --> Docs: https://www.agentskit.io/docs/data/providers
 ```
 
 ## Error subclasses
@@ -33,10 +33,10 @@ All errors extend `AgentsKitError`. The subclasses set a default `docsUrl` for t
 
 | Class | Default docs link | Thrown when |
 |-------|-------------------|-------------|
-| `AdapterError` | `/docs/adapters` | Adapter is missing or a stream call fails |
+| `AdapterError` | `/docs/data/providers` | Adapter is missing or a stream call fails |
 | `ToolError` | `/docs/agents/tools` | A tool is not found or `execute` throws |
-| `MemoryError` | `/docs/memory` | Memory load, save, or deserialization fails |
-| `ConfigError` | `/docs/configuration` | Required configuration is absent or invalid |
+| `MemoryError` | `/docs/data/memory` | Memory load, save, or deserialization fails |
+| `ConfigError` | `/docs/get-started/getting-started/installation` | Required configuration is absent or invalid |
 
 ## ErrorCodes
 

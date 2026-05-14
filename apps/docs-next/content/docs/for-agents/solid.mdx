@@ -1,7 +1,11 @@
 ---
 title: '@agentskit/solid — for agents'
-description: Solid hook for AgentsKit.
+description: SolidJS binding — `useChat` hook backed by createStore for fine-grained reactivity.
 ---
+
+## Purpose
+
+SolidJS binding for the `ChatReturn` contract from `@agentskit/core`. Same shape as React/Vue/Svelte hooks — store-backed, cleanup wired via `onCleanup`.
 
 ## Install
 
@@ -19,15 +23,32 @@ npm install solid-js
 
 ```tsx
 import { useChat } from '@agentskit/solid'
+import { anthropic } from '@agentskit/adapters'
 
-const chat = useChat({ adapter })
-return <div>{chat.messages.length} messages</div>
+const adapter = anthropic({ apiKey: import.meta.env.VITE_ANTHROPIC_KEY, model: 'claude-sonnet-4-6' })
+
+export function Chat() {
+  const chat = useChat({ adapter })
+  return (
+    <div>
+      <ul>{chat.messages.map(m => <li>{m.role}: {m.content}</li>)}</ul>
+      <button onClick={() => chat.send('Hello')}>Send</button>
+    </div>
+  )
+}
 ```
+
+## Common patterns
+
+- **Reactivity**: Solid stores are fine-grained — access `chat.messages` directly inside JSX, not destructured.
+- **SSR**: `useChat` is client-only. Wrap in `<ClientOnly>` for SolidStart SSR.
+- **Cleanup**: subscriptions tear down via `onCleanup`; no manual unsubscribe needed.
 
 ## Related
 
-- [@agentskit/react](/docs/for-agents/react)
-- [@agentskit/vue](/docs/for-agents/vue)
+- [@agentskit/core](/docs/for-agents/core) — `ChatReturn` contract.
+- [@agentskit/adapters](/docs/for-agents/adapters) — provider adapters.
+- [@agentskit/react](/docs/for-agents/react), [@agentskit/vue](/docs/for-agents/vue), [@agentskit/svelte](/docs/for-agents/svelte), [@agentskit/angular](/docs/for-agents/angular) — sibling bindings.
 
 ## Source
 

@@ -86,6 +86,29 @@ agent can keep going after a transient failure. For workspace-scoped
 features (search, channel listing, threading), use the
 [`slack()`](./integrations) integration which uses Bearer-token auth.
 
+## Building custom integrations
+
+All first-party integrations use the internal `httpJson` helper from `packages/tools/src/integrations/http.ts`. You can import it when authoring your own integration tool to get consistent error handling, timeout management, query-string encoding, and non-2xx → `ToolError` promotion for free.
+
+```ts
+import { httpJson, type HttpToolOptions } from '@agentskit/tools/integrations/http'
+
+const result = await httpJson<{ id: string }>(
+  {
+    baseUrl: 'https://api.example.com',
+    headers: { authorization: `Bearer ${token}` },
+    timeoutMs: 10_000,
+  },
+  {
+    method: 'POST',
+    path: '/v1/items',
+    body: { name: 'widget' },
+  },
+)
+```
+
+`HttpToolOptions` accepts `baseUrl`, `headers`, `timeoutMs`, and an optional `fetch` override for tests. Non-2xx responses throw a typed `ToolError` with the server payload attached — no manual status checks needed.
+
 ## Related
 
 - [Authoring](./authoring) · [Integrations](./integrations)

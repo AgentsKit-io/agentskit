@@ -1,0 +1,181 @@
+---
+title: Observability
+description: Attach observers to capture LLM calls, tool executions, and agent steps. Forward to console, OpenTelemetry, or LangSmith.
+---
+
+Every `useChat` call and `runtime.run` accepts an `observers` array. Each
+observer implements the `Observer` contract from `@agentskit/core` and receives
+a typed `AgentEvent` for every significant action.
+
+## Observer contract
+
+```ts
+import type { Observer, AgentEvent } from '@agentskit/core'
+
+// AgentEvent union (abridged):
+// | { type: 'llm:start'; model?: string; messageCount: number }
+// | { type: 'llm:end'; content: string; usage?: TokenUsage; durationMs: number }
+// | { type: 'tool:start'; name: string; args: Record<string, unknown> }
+// | { type: 'tool:end'; name: string; result: string; durationMs: number }
+// | { type: 'memory:load' | 'memory:save'; messageCount: number }
+// | { type: 'agent:step'; step: number; action: string }
+// | { type: 'agent:delegate:start' | 'agent:delegate:end'; name: string; ... }
+// | { type: 'error'; error: Error }
+
+const myObserver: Observer = {
+  name: 'my-observer',
+  on(event: AgentEvent) {
+    // handle event
+  },
+}
+```
+
+## Console logger
+
+```ts
+import { consoleLogger } from '@agentskit/observability'
+import { useChat } from '@agentskit/react'
+import { openai } from '@agentskit/adapters/openai'
+
+const adapter = openai({ model: 'gpt-4o-mini' })
+
+export function App() {
+  const chat = useChat({
+    adapter,
+    observers: [
+      consoleLogger({ format: 'human' }), // or 'json' for structured logs
+    ],
+  })
+  // …
+}
+```
+
+Sample output (human format):
+
+```
+[12:34:01] -> llm:start (3 messages, model=gpt-4o-mini)
+[12:34:01]    llm:first-token (312ms)
+[12:34:02] <- llm:end (1204ms tokens=420+87) "Here is the answer..."
+[12:34:02] -> tool:start get_orders {"userId":"u_123"}
+[12:34:02] <- tool:end get_orders (88ms) "[{\"id\":\"ord_1\"..."
+```
+
+## OpenTelemetry
+
+Requires `@opentelemetry/api`. The SDK packages are optional — if you already
+have a provider registered the observer uses it; otherwise it bootstraps its own
+OTLP exporter.
+
+```bash
+npm install @agentskit/observability @opentelemetry/api
+# optional full SDK:
+npm install @opentelemetry/sdk-trace-base @opentelemetry/exporter-trace-otlp-http
+```
+
+```ts
+import { opentelemetry } from '@agentskit/observability'
+import { useChat } from '@agentskit/react'
+import { openai } from '@agentskit/adapters/openai'
+
+const adapter = openai({ model: 'gpt-4o-mini' })
+
+export function App() {
+  const chat = useChat({
+    adapter,
+    observers: [
+      opentelemetry({
+        endpoint: 'http://localhost:4318/v1/traces',
+        serviceName: 'my-agent-app',
+      }),
+    ],
+  })
+  // …
+}
+```
+
+## LangSmith
+
+```bash
+npm install @agentskit/observability langsmith
+```
+
+```ts
+import { langsmith } from '@agentskit/observability'
+import { useChat } from '@agentskit/react'
+import { openai } from '@agentskit/adapters/openai'
+
+const adapter = openai({ model: 'gpt-4o-mini' })
+
+export function App() {
+  const chat = useChat({
+    adapter,
+    observers: [
+      langsmith({
+        apiKey: process.env.LANGSMITH_API_KEY!,
+        projectName: 'my-project',
+      }),
+    ],
+  })
+  // …
+}
+```
+
+## Multiple observers
+
+Stack as many as needed. Observers run independently — an error in one does not
+affect others or the main loop.
+
+```ts
+const chat = useChat({
+  adapter,
+  observers: [
+    consoleLogger({ format: 'json' }),
+    opentelemetry({ serviceName: 'chat' }),
+    langsmith({ apiKey: process.env.LANGSMITH_API_KEY! }),
+  ],
+})
+```
+
+## Custom observer
+
+```ts
+import type { Observer } from '@agentskit/core'
+
+export const metricsObserver: Observer = {
+  name: 'metrics',
+  on(event) {
+    if (event.type === 'llm:end') {
+      myMetrics.histogram('llm.duration_ms', event.durationMs)
+      if (event.usage) {
+        myMetrics.counter('llm.tokens', event.usage.promptTokens + event.usage.completionTokens)
+      }
+    }
+    if (event.type === 'tool:end') {
+      myMetrics.histogram('tool.duration_ms', event.durationMs, { tool: event.name })
+    }
+    if (event.type === 'error') {
+      myMetrics.increment('agent.errors')
+    }
+  },
+}
+```
+
+## Runtime usage
+
+`observers` works the same way in `runtime.run`:
+
+```ts
+import { runtime } from '@agentskit/runtime'
+import { consoleLogger, opentelemetry } from '@agentskit/observability'
+
+await runtime.run('summarize this document', {
+  adapter,
+  observers: [consoleLogger(), opentelemetry({ serviceName: 'jobs' })],
+})
+```
+
+## Related
+
+- [`@agentskit/observability` reference](/docs/reference/packages/observability)
+- [Cost guardrails](/docs/production/cost-guardrails)
+- [Multi-agent delegation](/docs/cookbook/multi-agent)

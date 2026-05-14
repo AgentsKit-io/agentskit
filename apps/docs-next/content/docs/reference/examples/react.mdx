@@ -1,0 +1,80 @@
+---
+title: React Example
+description: "Browser chat app with tool calling and localStorage memory — built with @agentskit/react."
+---
+
+A minimal browser chat app showing streaming, tool calling, and persistent memory. Uses a demo adapter out of the box; swap in a real provider by setting `VITE_OPENAI_API_KEY`.
+
+## Stack
+
+- `@agentskit/react` — `useChat` hook, `ChatContainer`, `Message`, `InputBar`, `ToolCallView`
+- `@agentskit/adapters` — `openai` adapter (optional — falls back to demo adapter)
+- `@agentskit/core` — `createLocalStorageMemory`, `ToolDefinition`
+- Vite + React 19
+
+## Code
+
+```tsx
+import { createLocalStorageMemory } from '@agentskit/core'
+import type { AdapterFactory, ToolDefinition } from '@agentskit/core'
+import { openai } from '@agentskit/adapters'
+import { ChatContainer, InputBar, Message, ToolCallView, useChat } from '@agentskit/react'
+import '@agentskit/react/theme'
+
+const weatherTool: ToolDefinition = {
+  name: 'get_weather',
+  description: 'Returns current weather for a given city.',
+  schema: {
+    type: 'object',
+    properties: { city: { type: 'string', description: 'City name' } },
+    required: ['city'],
+  },
+  execute: async (args) => `72°F, sunny in ${args.city as string}.`,
+}
+
+const apiKey = import.meta.env.VITE_OPENAI_API_KEY as string | undefined
+const adapter: AdapterFactory = apiKey
+  ? openai({ apiKey, model: 'gpt-4o-mini' })
+  : demoadapter()  // built into the example — no key required
+
+const memory = createLocalStorageMemory('agentskit-example-react')
+
+export default function App() {
+  const chat = useChat({
+    adapter,
+    tools: [weatherTool],
+    memory,
+    systemPrompt: 'You are a helpful assistant. Use get_weather when asked about weather.',
+  })
+
+  return (
+    <ChatContainer>
+      {chat.messages.map(message => (
+        <div key={message.id}>
+          <Message message={message} />
+          {message.toolCalls?.map(tc => (
+            <ToolCallView key={tc.id} toolCall={tc} />
+          ))}
+        </div>
+      ))}
+      <InputBar chat={chat} placeholder="Ask about the weather in any city..." />
+    </ChatContainer>
+  )
+}
+```
+
+## Try it
+
+```bash
+cd apps/example-react
+pnpm dev
+```
+
+Open `http://localhost:5173`. Set `VITE_OPENAI_API_KEY` in `.env.local` to use a real model; without it the demo adapter cycles through a scripted tool-call sequence.
+
+## Key patterns
+
+- **Demo adapter fallback** — the example runs without any API key, useful for UI development.
+- **localStorage memory** — `createLocalStorageMemory` persists conversation history across page reloads with zero backend.
+- **Tool call rendering** — `ToolCallView` renders tool name and args inline; hide it for production if you don't want to expose internals.
+- **Theme** — `import '@agentskit/react/theme'` injects the default CSS variable set. Override any `--ak-*` variable in your own stylesheet.

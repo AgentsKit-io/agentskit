@@ -11,6 +11,30 @@ const runtime = createRuntime({ adapter, skills: [transactionTriage] })
 
 Output is fixed: category / alt / confidence / flag / reason. UNKNOWN with a reason is allowed; guessing is not.
 
+## When to use
+
+- Automating bookkeeping pipelines that categorize bank or card exports.
+- Building a finance assistant that routes transactions into a chart-of-accounts before human review.
+- Flagging duplicates or suspicious entries for an accountant queue.
+
+## Behavior
+
+- Reads merchant string + amount + date; picks one chart-of-accounts category.
+- If two categories plausibly fit, includes a one-line `alt:` candidate.
+- Sets `confidence: high | medium | low` — never guesses into a high-confidence slot.
+- Suspicious-looking transactions get `flag: review`; the human decides, not the agent.
+- Outputs `UNKNOWN` with a reason rather than forcing a wrong category.
+- Strips card numbers to last-4; never echoes account numbers.
+
+## Best practices
+
+- Supply the chart of accounts in the system prompt or as a tool parameter so categories are deterministic across runs.
+- Always run in an idempotent pipeline — the same input produces the same output.
+- Gate on `flag: review` before writing to accounting software; send flagged rows to a human queue.
+- Do not use this skill to initiate refunds, chargebacks, or payment retries — it categorizes only.
+- Pair with [`financialAdvisor`](./financial-advisor) if you need to explain a category to an end-user in plain language.
+
 ## Related
 
 - [Skills overview](./)
+- [financialAdvisor](./financial-advisor)

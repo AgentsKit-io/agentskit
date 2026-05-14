@@ -9,7 +9,57 @@ import { hubspot } from '@agentskit/tools/integrations'
 const tools = hubspot({ accessToken: process.env.HUBSPOT_ACCESS_TOKEN! })
 ```
 
-See `@agentskit/tools/integrations` exports for the full list of sub-tools and config types.
+Bundled: `hubspot(config)` returns both sub-tools. Calls HubSpot CRM API v3 at `https://api.hubapi.com`.
+
+## Sub-tools
+
+| Name | Purpose |
+|---|---|
+| `hubspot_search_contacts` | Search contacts by email, name, or any property |
+| `hubspot_create_deal` | Create a deal and optionally associate it with a contact |
+
+## Schema
+
+### `hubspot_search_contacts`
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `query` | string | yes | Search query — matches email, name, or any indexed property |
+| `limit` | number | no | Max contacts to return (default 10) |
+
+Returns: `id`, `email`, `name`, `company` for each match.
+
+### `hubspot_create_deal`
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `dealname` | string | yes | Deal name |
+| `amount` | number | no | Deal amount |
+| `pipeline` | string | no | Pipeline ID |
+| `dealstage` | string | no | Deal stage ID |
+| `contactId` | string | no | Contact ID to associate with the deal |
+
+## Example — sales agent
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { hubspot } from '@agentskit/tools/integrations'
+
+const runtime = createRuntime({
+  adapter,
+  systemPrompt: 'You are a sales assistant. Search for the contact, then create a deal tied to them.',
+  tools: hubspot({ accessToken: process.env.HUBSPOT_ACCESS_TOKEN! }),
+})
+
+await runtime.run('Find the contact alice@example.com and create a $5000 deal in the default pipeline.')
+```
+
+## Security
+
+- **Env var required:** `HUBSPOT_ACCESS_TOKEN` — a HubSpot private app token (Settings → Integrations → Private Apps).
+- Scopes required: `crm.objects.contacts.read`, `crm.objects.deals.write`. Grant only the scopes your agent uses.
+- HubSpot enforces rate limits of 100 requests per 10 seconds per private app. For high-volume agents, add a delay or batch operations.
+- Never use OAuth user tokens for server-side agents — use private app tokens which have no expiry.
 
 ## Related
 

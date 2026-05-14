@@ -1,0 +1,247 @@
+---
+title: Edge deployment
+description: Run AgentsKit on Cloudflare Workers, Vercel Edge Functions, or Deno Deploy with zero Node.js built-ins.
+---
+
+The adapter layer has no Node.js dependencies. Any `@agentskit/adapters` factory
+works inside an Edge runtime as long as the provider's API is reachable over
+`fetch`. The runtime and memory packages require Node built-ins and are not
+suitable for Edge cold-path execution — keep those server-side or in a
+background queue.
+
+## What works at the Edge
+
+| Package | Edge-safe | Notes |
+|---|---|---|
+| `@agentskit/core` | yes | types + primitives only |
+| `@agentskit/adapters` | yes | pure `fetch`, no Node |
+| `@agentskit/react` | yes (browser) | rendered client-side |
+| `@agentskit/runtime` | no | uses Node streams |
+| `@agentskit/memory/sqlite` | no | SQLite is Node-only |
+| `@agentskit/memory/vector` (in-memory) | no | not persistent across workers |
+
+## Cloudflare Workers
+
+Based on `apps/example-edge` in the repository.
+
+### wrangler setup
+
+```jsonc
+// wrangler.jsonc
+{
+  "name": "my-agent-worker",
+  "main": "src/worker.ts",
+  "compatibility_date": "2024-09-23",
+  "compatibility_flags": ["nodejs_compat"]
+}
+```
+
+### Worker implementation
+
+```ts
+// src/worker.ts
+import { openai } from '@agentskit/adapters'
+import type { Message } from '@agentskit/core'
+
+interface Env {
+  OPENAI_API_KEY: string
+  OPENAI_MODEL?: string
+}
+
+export default {
+  async fetch(request: Request, env: Env): Promise<Response> {
+    if (request.method === 'OPTIONS') {
+      return new Response(null, {
+        status: 204,
+        headers: {
+          'access-control-allow-origin': '*',
+          'access-control-allow-methods': 'POST, OPTIONS',
+          'access-control-allow-headers': 'content-type',
+        },
+      })
+    }
+
+    if (request.method !== 'POST' || new URL(request.url).pathname !== '/chat') {
+      return new Response('not found', { status: 404 })
+    }
+
+    const { messages } = await request.json<{ messages: Pick<Message, 'role' | 'content'>[] }>()
+
+    const adapter = openai({
+      apiKey: env.OPENAI_API_KEY,
+      model: env.OPENAI_MODEL ?? 'gpt-4o-mini',
+    })
+
+    const source = adapter.createSource({
+      messages: messages.map((m, i) => ({
+        id: String(i),
+        role: m.role,
+        content: m.content,
+        status: 'complete' as const,
+        createdAt: new Date(),
+      })),
+    })
+
+    const stream = new ReadableStream<Uint8Array>({
+      async start(controller) {
+        const encoder = new TextEncoder()
+        try {
+          for await (const chunk of source.stream()) {
+            controller.enqueue(encoder.encode(`data: ${JSON.stringify(chunk)}\n\n`))
+            if (chunk.type === 'done') break
+          }
+        } catch (err) {
+          const message = err instanceof Error ? err.message : String(err)
+          controller.enqueue(
+            encoder.encode(`event: error\ndata: ${JSON.stringify({ message })}\n\n`),
+          )
+        } finally {
+          controller.close()
+        }
+      },
+      cancel() {
+        source.abort()
+      },
+    })
+
+    return new Response(stream, {
+      headers: {
+        'content-type': 'text/event-stream; charset=utf-8',
+        'cache-control': 'no-cache, no-transform',
+        'x-accel-buffering': 'no',
+        'access-control-allow-origin': '*',
+      },
+    })
+  },
+}
+```
+
+### Env vars
+
+```bash
+# dev
+echo OPENAI_API_KEY=sk-... >> .dev.vars
+
+# production
+wrangler secret put OPENAI_API_KEY
+wrangler secret put OPENAI_MODEL   # optional, defaults to gpt-4o-mini
+```
+
+### Deploy
+
+```bash
+wrangler deploy
+```
+
+## Vercel Edge Functions
+
+```ts
+// app/api/chat/route.ts  (Next.js App Router)
+export const runtime = 'edge'
+
+import { openai } from '@agentskit/adapters'
+import type { Message } from '@agentskit/core'
+
+export async function POST(req: Request) {
+  const { messages } = await req.json() as { messages: Pick<Message, 'role' | 'content'>[] }
+
+  const adapter = openai({
+    apiKey: process.env.OPENAI_API_KEY!,
+    model: 'gpt-4o-mini',
+  })
+
+  const source = adapter.createSource({
+    messages: messages.map((m, i) => ({
+      id: String(i),
+      role: m.role,
+      content: m.content,
+      status: 'complete' as const,
+      createdAt: new Date(),
+    })),
+  })
+
+  const stream = new ReadableStream<Uint8Array>({
+    async start(controller) {
+      const enc = new TextEncoder()
+      for await (const chunk of source.stream()) {
+        controller.enqueue(enc.encode(`data: ${JSON.stringify(chunk)}\n\n`))
+        if (chunk.type === 'done') break
+      }
+      controller.close()
+    },
+    cancel() { source.abort() },
+  })
+
+  return new Response(stream, {
+    headers: {
+      'content-type': 'text/event-stream',
+      'cache-control': 'no-cache',
+    },
+  })
+}
+```
+
+Env vars are standard Vercel project environment variables (`OPENAI_API_KEY`).
+
+## Deno Deploy
+
+```ts
+// main.ts
+import { openai } from 'npm:@agentskit/adapters'
+import type { Message } from 'npm:@agentskit/core'
+
+Deno.serve(async (req) => {
+  if (req.method !== 'POST') return new Response('not found', { status: 404 })
+
+  const { messages } = await req.json() as { messages: Pick<Message, 'role' | 'content'>[] }
+
+  const adapter = openai({
+    apiKey: Deno.env.get('OPENAI_API_KEY')!,
+    model: 'gpt-4o-mini',
+  })
+
+  const source = adapter.createSource({
+    messages: messages.map((m, i) => ({
+      id: String(i),
+      role: m.role,
+      content: m.content,
+      status: 'complete' as const,
+      createdAt: new Date(),
+    })),
+  })
+
+  const stream = new ReadableStream<Uint8Array>({
+    async start(controller) {
+      const enc = new TextEncoder()
+      for await (const chunk of source.stream()) {
+        controller.enqueue(enc.encode(`data: ${JSON.stringify(chunk)}\n\n`))
+        if (chunk.type === 'done') break
+      }
+      controller.close()
+    },
+    cancel() { source.abort() },
+  })
+
+  return new Response(stream, {
+    headers: { 'content-type': 'text/event-stream' },
+  })
+})
+```
+
+## Bundle size
+
+The Edge hot path (adapter factory + `createSource` + `stream()`) tree-shakes
+to under 50 KB raw before gzip — within the Cloudflare free-tier Worker limit.
+
+<Pitfall>
+Do not import `@agentskit/runtime`, `@agentskit/memory/sqlite`, or any package
+that calls `require('fs')`, `require('path')`, or `require('crypto')` in the
+Edge entry point. Those modules are unavailable at the Edge.
+</Pitfall>
+
+## Related
+
+- [`apps/example-edge`](https://github.com/EmersonBraun/lib/tree/main/apps/example-edge) — full reference Worker
+- [Streaming recipe](/docs/cookbook/streaming)
+- [Observability recipe](/docs/cookbook/observability)
+- [`@agentskit/adapters` reference](/docs/reference/packages/adapters)

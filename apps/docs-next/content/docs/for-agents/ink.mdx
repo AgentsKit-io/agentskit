@@ -1,12 +1,18 @@
 ---
 title: '@agentskit/ink — for agents'
-description: Terminal chat UI via Ink. Same useChat contract as the React binding.
+description: Terminal chat UI via Ink — same `useChat` contract as `@agentskit/react`, running in Node with ANSI theming and keyboard navigation.
 ---
+
+## Purpose
+
+Ink binding for the `ChatReturn` contract from `@agentskit/core`. Renders a full chat interface in the terminal using React + Ink, with keyboard navigation, ANSI theming, and human-in-the-loop tool confirmation — no browser required.
 
 ## Install
 
 ```bash
 npm install @agentskit/ink
+# peers:
+npm install react ink
 ```
 
 ## Primary exports
@@ -24,13 +30,52 @@ import { render } from 'ink'
 import { ChatContainer } from '@agentskit/ink'
 import { anthropic } from '@agentskit/adapters'
 
-render(<ChatContainer config={{ adapter: anthropic({ apiKey, model: 'claude-sonnet-4-6' }) }} />)
+const adapter = anthropic({ apiKey: process.env.ANTHROPIC_KEY, model: 'claude-sonnet-4-6' })
+
+render(<ChatContainer config={{ adapter }} />)
 ```
 
-## Related packages
+To use `useChat` directly and build a custom layout:
 
-- [@agentskit/react](/docs/for-agents/react) — sibling binding, same contract.
-- [@agentskit/cli](/docs/for-agents/cli) — `agentskit chat` ships ink internally.
+```tsx
+import { useEffect } from 'react'
+import { render, Box, Text } from 'ink'
+import { useChat } from '@agentskit/ink'
+import { anthropic } from '@agentskit/adapters'
+
+const adapter = anthropic({ apiKey: process.env.ANTHROPIC_KEY, model: 'claude-sonnet-4-6' })
+
+function Chat() {
+  const chat = useChat({ adapter })
+
+  useEffect(() => {
+    // cleanup: abort any in-flight stream when the component unmounts
+    return () => chat.stop()
+  }, [])
+
+  return (
+    <Box flexDirection="column">
+      {chat.messages.map(m => <Text key={m.id}>{m.role}: {m.content}</Text>)}
+    </Box>
+  )
+}
+
+render(<Chat />)
+```
+
+## Common patterns
+
+- **Node only / TTY required**: `@agentskit/ink` uses Ink which writes directly to `process.stdout`. It does not run in the browser or in non-TTY environments (e.g. piped CI output). Use `@agentskit/react` for browser targets.
+- **Peer deps on `react` and `ink`**: both must be installed alongside `@agentskit/ink` — Ink requires React 18+ and does not bundle it.
+- **Cleanup via `useEffect` return**: if you call `useChat` outside of `<ChatContainer>`, return `chat.stop` from a `useEffect` to abort in-flight streams when the component unmounts or the process exits.
+- **ANSI theming**: pass a `theme` prop to `<ChatContainer>` or set CSS-variable-equivalent tokens via the `theme` config key to customise colours without forking components.
+
+## Related
+
+- [@agentskit/core](/docs/for-agents/core) — `ChatReturn` contract.
+- [@agentskit/adapters](/docs/for-agents/adapters) — provider adapters.
+- [@agentskit/react](/docs/for-agents/react), [@agentskit/vue](/docs/for-agents/vue), [@agentskit/svelte](/docs/for-agents/svelte), [@agentskit/solid](/docs/for-agents/solid), [@agentskit/angular](/docs/for-agents/angular), [@agentskit/react-native](/docs/for-agents/react-native) — sibling bindings.
+- [@agentskit/cli](/docs/for-agents/cli) — `agentskit chat` ships Ink internally.
 
 ## Source
 
