@@ -56,11 +56,11 @@
     "@agentskit/eval": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^25.6.0",
+    "@types/node": "^25.8.0",
     "braintrust": "^0.0.196",
     "tsup": "^8.5.0",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.5"
+    "vitest": "^4.1.6"
   },
   "agentskit": {
     "stability": "beta",
