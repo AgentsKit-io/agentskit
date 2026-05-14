@@ -123,30 +123,92 @@ export function createMcpClient(options: {
   }
 }
 
+export interface ToolsFromMcpOptions {
+  /**
+   * Maximum byte length permitted for each tool's `description`.
+   * Anything longer is truncated. The description ends up inside the
+   * LLM prompt, so a malicious or buggy MCP server could otherwise
+   * inject arbitrarily large or prompt-poisoning text. Default 4096.
+   */
+  maxDescriptionBytes?: number
+  /**
+   * Maximum byte length permitted for each tool's `inputSchema` once
+   * serialized to JSON. Tools whose schema exceeds the cap are dropped
+   * (since a partially-truncated schema is worse than no schema).
+   * Default 65536.
+   */
+  maxSchemaBytes?: number
+  /**
+   * Treat the remote server as untrusted: prefix tool names with
+   * `mcp:` to make their origin obvious in the agent's tool registry
+   * and quarantine logs, and prepend a provenance hint to descriptions.
+   * Default true — opt out only for first-party MCP servers you operate.
+   */
+  quarantine?: boolean
+}
+
+const DEFAULT_MAX_DESCRIPTION_BYTES = 4096
+const DEFAULT_MAX_SCHEMA_BYTES = 65_536
+
+function truncateBytes(input: string, max: number): string {
+  if (input.length <= max) return input
+  return `${input.slice(0, max - 14)}…[truncated]`
+}
+
 /**
  * Hydrate the tools advertised by an MCP server into AgentsKit
  * `ToolDefinition`s. Each call delegates to `client.callTool` and
  * flattens the text content into a single string result.
+ *
+ * Server-provided metadata is treated as untrusted input:
+ *  - `description` is capped at `maxDescriptionBytes` (default 4 KB) so
+ *    a malicious server cannot smuggle a giant prompt-injection
+ *    payload into the agent's system context
+ *  - `inputSchema` whose JSON exceeds `maxSchemaBytes` (default 64 KB)
+ *    is dropped — partial schemas would silently break tool calls
+ *  - when `quarantine` (default `true`) the tool name is prefixed with
+ *    `mcp:` and the description carries a provenance hint, so the
+ *    agent and audit logs can tell origin tools from native ones
  */
-export async function toolsFromMcpClient(client: McpClient): Promise<ToolDefinition[]> {
+export async function toolsFromMcpClient(
+  client: McpClient,
+  options: ToolsFromMcpOptions = {},
+): Promise<ToolDefinition[]> {
+  const maxDescription = options.maxDescriptionBytes ?? DEFAULT_MAX_DESCRIPTION_BYTES
+  const maxSchema = options.maxSchemaBytes ?? DEFAULT_MAX_SCHEMA_BYTES
+  const quarantine = options.quarantine ?? true
   const { tools } = await client.listTools()
-  return tools.map(t => ({
-    name: t.name,
-    description: t.description,
-    schema: t.inputSchema,
-    async execute(args) {
-      const result = await client.callTool(t.name, args)
-      const text = result.content
-        .map(c => (c.type === 'text' ? c.text : ''))
-        .filter(Boolean)
-        .join('\n')
-      if (result.isError) {
-        throw new ToolError({
-          code: ErrorCodes.AK_TOOL_EXEC_FAILED,
-          message: text || `MCP tool ${t.name} errored`,
-        })
-      }
-      return text
-    },
-  }))
+  const out: ToolDefinition[] = []
+  for (const t of tools) {
+    const schemaJson = JSON.stringify(t.inputSchema ?? {})
+    if (schemaJson.length > maxSchema) {
+      // Drop oversized schema; safer than passing a truncated copy.
+      continue
+    }
+    const rawDescription = t.description ?? ''
+    const description = quarantine
+      ? `[mcp] ${truncateBytes(rawDescription, maxDescription)}`
+      : truncateBytes(rawDescription, maxDescription)
+    const name = quarantine ? `mcp:${t.name}` : t.name
+    out.push({
+      name,
+      description,
+      schema: t.inputSchema,
+      async execute(args) {
+        const result = await client.callTool(t.name, args)
+        const text = result.content
+          .map(c => (c.type === 'text' ? c.text : ''))
+          .filter(Boolean)
+          .join('\n')
+        if (result.isError) {
+          throw new ToolError({
+            code: ErrorCodes.AK_TOOL_EXEC_FAILED,
+            message: text || `MCP tool ${t.name} errored`,
+          })
+        }
+        return text
+      },
+    })
+  }
+  return out
 }

@@ -30,6 +30,37 @@ export interface InjectionDetector {
 }
 
 /**
+ * **Defense-in-depth, not a moat.** These heuristics catch obvious
+ * English-language injections — they do not stop a determined attacker
+ * who paraphrases, encodes, translates, or splits the payload across
+ * turns. Always combine with at least one of:
+ *
+ *  - a model classifier (Llama Guard, Prompt Guard, Rebuff, an HTTP
+ *    moderation endpoint) wired through `InjectionDetectorOptions.classifier`
+ *  - tool-call gating (`@agentskit/sandbox` mandatory sandbox + allow/deny)
+ *  - PII/secret redaction (`@agentskit/core/security` vault + redactor)
+ *  - audit + rate-limit on the calling actor
+ *
+ * Example with a classifier:
+ * ```ts
+ * import { createInjectionDetector } from '@agentskit/core/security'
+ *
+ * const detector = createInjectionDetector({
+ *   threshold: 0.7,
+ *   classifier: async input => {
+ *     const r = await fetch('https://guard.example.com/score', {
+ *       method: 'POST',
+ *       body: JSON.stringify({ input }),
+ *     })
+ *     const { score } = await r.json() as { score: number }
+ *     return score
+ *   },
+ * })
+ *
+ * const verdict = await detector.check(userMessage)
+ * if (verdict.blocked) throw new Error('injection blocked')
+ * ```
+ *
  * Default heuristics aimed at the classic prompt-injection families:
  * instruction override, system-prompt leakage, tool-call smuggling,
  * role confusion, and policy-bypass attempts. Curated — not
@@ -42,8 +73,15 @@ export const DEFAULT_INJECTION_HEURISTICS: InjectionHeuristic[] = [
   { name: 'system-leak', pattern: /(?:what is|show me|print|reveal) (?:your|the) (?:system prompt|instructions|rules)/i, weight: 0.8 },
   { name: 'developer-mode', pattern: /\b(?:developer|dan|jailbreak|god) mode\b/i, weight: 0.8 },
   { name: 'policy-bypass', pattern: /(?:ignore|bypass|disable) (?:all |the )?(?:safety|content|moderation) (?:filters?|rules?|policies)/i, weight: 0.9 },
-  { name: 'tool-smuggle', pattern: /```(?:json|tool_call)\s*\{[^}]*"function"/i, weight: 0.6 },
+  // `[^}]*` was too narrow — it failed on nested objects. Allow any
+  // amount of body between the fence and the `"function"` key.
+  { name: 'tool-smuggle', pattern: /```(?:json|tool_call)\s*\{[\s\S]*?"function"/i, weight: 0.6 },
   { name: 'role-confusion', pattern: /^\s*(?:system|assistant):\s/im, weight: 0.4 },
+  // Common Portuguese / Spanish translations of the override family.
+  { name: 'ignore-previous-pt-es', pattern: /(?:ignor(?:e|a|ar)|desconsider(?:e|a|ar)) (?:as |todas as |todas |toda |la |las )?(?:instruções|instrucciones|regras|reglas) (?:anteriores|prévias|previas|acima)/i, weight: 0.9 },
+  // Base64 / hex-encoded payload smell — high weight as a signal not a
+  // verdict; pair with a classifier.
+  { name: 'b64-blob', pattern: /\b[A-Za-z0-9+/]{200,}={0,2}\b/, weight: 0.4 },
 ]
 
 /**
