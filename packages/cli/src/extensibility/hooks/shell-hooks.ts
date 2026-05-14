@@ -40,8 +40,17 @@ export function configHooksToHandlers(config: ConfigHooksMap | undefined): HookH
 function runShellHook(entry: ConfigHookEntry, payload: HookPayload): Promise<HookResult> {
   return new Promise((resolvePromise) => {
     const timeoutMs = entry.timeout ?? 5000
+    let settled = false
+    const settle = (result: HookResult) => {
+      if (settled) return
+      settled = true
+      clearTimeout(timer)
+      resolvePromise(result)
+    }
+
     const child = spawn('sh', ['-c', entry.run], {
       stdio: ['pipe', 'pipe', 'inherit'],
+      detached: true,
     })
 
     let stdout = ''
@@ -50,15 +59,20 @@ function runShellHook(entry: ConfigHookEntry, payload: HookPayload): Promise<Hoo
     })
 
     const timer = setTimeout(() => {
-      child.kill('SIGKILL')
+      // Kill the whole process group so grandchildren (e.g. `sleep` spawned
+      // by `sh -c`) don't keep stdout open and leave us waiting forever.
+      if (child.pid !== undefined) {
+        try { process.kill(-child.pid, 'SIGKILL') } catch { /* group may already be gone */ }
+      }
+      try { child.kill('SIGKILL') } catch { /* ignore */ }
+      settle({ decision: 'block', reason: `shell hook timed out after ${timeoutMs}ms` })
     }, timeoutMs)
 
     child.stdin.on('error', () => { /* ignore EPIPE when child is killed mid-write */ })
 
     child.on('close', (code) => {
-      clearTimeout(timer)
       if (code !== 0) {
-        resolvePromise({
+        settle({
           decision: 'block',
           reason: `shell hook exited with code ${code}`,
         })
@@ -66,21 +80,20 @@ function runShellHook(entry: ConfigHookEntry, payload: HookPayload): Promise<Hoo
       }
       const trimmed = stdout.trim()
       if (!trimmed) {
-        resolvePromise({ decision: 'continue' })
+        settle({ decision: 'continue' })
         return
       }
       try {
         const parsed = JSON.parse(trimmed) as HookResult
-        resolvePromise(parsed)
+        settle(parsed)
       } catch {
         // Hook printed non-JSON output; treat as continue.
-        resolvePromise({ decision: 'continue' })
+        settle({ decision: 'continue' })
       }
     })
 
     child.on('error', (err) => {
-      clearTimeout(timer)
-      resolvePromise({ decision: 'block', reason: err.message })
+      settle({ decision: 'block', reason: err.message })
     })
 
     try {

@@ -89,7 +89,7 @@ describe('registerChatCommand — resuming existing session', () => {
     const program = makeProgram()
     registerChatCommand(program)
 
-    const stdoutSpy = vi.spyOn(process.stdout, 'write').mockImplementation(() => true)
+    vi.spyOn(process.stdout, 'write').mockImplementation(() => true)
 
     // Run without --new so it tries to resume the existing session
     await program.parseAsync([
