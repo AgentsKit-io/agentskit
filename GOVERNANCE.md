@@ -49,6 +49,49 @@ Raised in the relevant PR/issue, escalated via [Discussions](https://github.com/
 
 Releases are cut via Changesets. Every user-facing PR ships with a changeset describing the impact.
 
+## Package tiers
+
+Not every package gets the same SLA. The ecosystem ships under two
+tiers so the maintainer-led core stays small and reviewable while
+community packages can move at their own pace.
+
+### Tier 1 — First-party (maintainer-supported)
+
+Same SLA as core: covered by `SECURITY.md`, gated by CI bundle/perf
+budgets, breaking changes require an ADR + deprecation cycle.
+
+- `@agentskit/core`
+- `@agentskit/adapters`
+- `@agentskit/runtime`
+- `@agentskit/tools`
+- `@agentskit/skills`
+- `@agentskit/memory`
+- `@agentskit/rag`
+- `@agentskit/sandbox`
+- `@agentskit/observability`
+- `@agentskit/eval`
+- `@agentskit/cli`
+- `@agentskit/react`
+- `@agentskit/ink`
+- `@agentskit/templates`
+
+### Tier 2 — Community / experimental
+
+Same code style, same CI, but maintained on a best-effort basis. Bug
+reports and PRs are welcome; release cadence and stability guarantees
+are lower. The maintainer reserves the right to demote a tier-1
+package here if it goes too long without an owner.
+
+- `@agentskit/angular`
+- `@agentskit/vue`
+- `@agentskit/svelte`
+- `@agentskit/solid`
+- `@agentskit/react-native`
+- `@agentskit/eval-braintrust`
+- `@agentskit/observability-langfuse`
+
+Tier moves happen explicitly via an ADR + this document, never silently.
+
 ## What's off-limits
 
 - Adding runtime dependencies to `@agentskit/core`.

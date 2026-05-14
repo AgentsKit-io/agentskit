@@ -62,6 +62,9 @@ jobs:
       - name: Forbid bare throw new Error in package src
         run: node scripts/check-no-bare-throw.mjs
 
+      - name: Enforce @agentskit/core zero-dependency contract
+        run: node scripts/check-core-no-deps.mjs
+
       - name: Verify for-agents docs cover every public export
         run: node scripts/check-for-agents-coverage.mjs
 
