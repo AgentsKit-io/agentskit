@@ -20,7 +20,7 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
 
       # Vercel previews may have Deployment Protection enabled, which makes the
       # public URL return 401 for unauthenticated pollers. Read the URL straight
@@ -76,7 +76,7 @@ jobs:
 
       - name: Run Lighthouse CI
         if: steps.preview.outputs.url != ''
-        uses: treosh/lighthouse-ci-action@v12
+        uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18 # v12
         id: lhci
         with:
           urls: ${{ steps.urls.outputs.urls }}
@@ -86,7 +86,7 @@ jobs:
 
       - name: Post Lighthouse summary
         if: always() && steps.preview.outputs.url != ''
-        uses: actions/github-script@v9
+        uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
           LH_MANIFEST: ${{ steps.lhci.outputs.manifest }}
         with:
