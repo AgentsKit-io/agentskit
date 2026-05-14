@@ -1,6 +1,7 @@
 import { formatRetrievedDocuments } from './rag'
 import { buildMessage, consumeStream, createEventEmitter, safeParseArgs, createToolLifecycle } from './primitives'
 import { buildToolMap, activateSkills, executeSafeTool } from './agent-loop'
+import { mergeSystemMessages, buildRetrievalMessage } from './controller-helpers'
 import type {
   AdapterRequest,
   ChatConfig,
@@ -12,22 +13,6 @@ import type {
   ToolCall,
   ToolDefinition,
 } from './types'
-
-function mergeSystemMessages(messages: Message[], systemPrompt?: string): Message[] {
-  if (!systemPrompt) return messages
-  if (messages.some(message => message.role === 'system' && message.content === systemPrompt)) {
-    return messages
-  }
-  return [buildMessage({ role: 'system', content: systemPrompt }), ...messages]
-}
-
-function buildRetrievalMessage(documentsText: string): Message | null {
-  if (!documentsText) return null
-  return buildMessage({
-    role: 'system',
-    content: `Use the retrieved context below when it is relevant.\n\n${documentsText}`,
-  })
-}
 
 export function createChatController(initialConfig: ChatConfig): ChatController {
   let config = initialConfig
