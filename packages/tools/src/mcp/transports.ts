@@ -63,12 +63,35 @@ export interface StdioLikeProcess {
   kill?: () => void
 }
 
-export function createStdioTransport(child: StdioLikeProcess): McpTransport {
+export interface StdioTransportOptions {
+  /**
+   * Maximum bytes the line buffer may hold without seeing a newline.
+   * A server that emits no framing terminator would otherwise grow this
+   * buffer until the process runs out of memory. Default 1 MB.
+   */
+  maxFrameBytes?: number
+}
+
+const DEFAULT_MAX_FRAME_BYTES = 1_048_576
+
+export function createStdioTransport(
+  child: StdioLikeProcess,
+  options: StdioTransportOptions = {},
+): McpTransport {
+  const maxFrameBytes = options.maxFrameBytes ?? DEFAULT_MAX_FRAME_BYTES
   const messageListeners = new Set<(m: JsonRpcMessage) => void>()
   const closeListeners = new Set<() => void>()
   let buffer = ''
+  let closed = false
+
+  const fireClose = (): void => {
+    if (closed) return
+    closed = true
+    for (const l of closeListeners) l()
+  }
 
   const onData = (chunk: Buffer | string): void => {
+    if (closed) return
     buffer += typeof chunk === 'string' ? chunk : chunk.toString('utf8')
     let newlineIdx = buffer.indexOf('\n')
     while (newlineIdx >= 0) {
@@ -84,15 +107,22 @@ export function createStdioTransport(child: StdioLikeProcess): McpTransport {
       }
       newlineIdx = buffer.indexOf('\n')
     }
+    if (buffer.length > maxFrameBytes) {
+      // Oversized frame with no newline — drop buffer, signal close,
+      // and kill the child so the leak cannot continue.
+      buffer = ''
+      try {
+        child.kill?.()
+      } catch {
+        // ignore
+      }
+      fireClose()
+    }
   }
 
   child.stdout.on('data', onData)
-  child.on?.('exit', () => {
-    for (const l of closeListeners) l()
-  })
-  child.on?.('close', () => {
-    for (const l of closeListeners) l()
-  })
+  child.on?.('exit', fireClose)
+  child.on?.('close', fireClose)
 
   return {
     send(message) {

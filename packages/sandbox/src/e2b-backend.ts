@@ -58,6 +58,13 @@ export function createE2BBackend(config: E2BConfig): SandboxBackend {
   }
 
   return {
+    /**
+     * Execute code in the E2B sandbox. **Concurrency note:** the backend
+     * lazily creates a single shared `Sandbox` instance and serializes
+     * the SDK's `runCode` calls onto it; concurrent invocations share
+     * one VM. If you need isolation per call, create one backend per
+     * call rather than running parallel `execute()` on a single backend.
+     */
     async execute(code: string, options: ExecuteOptions = {}): Promise<ExecuteResult> {
       const sb = await getInstance()
       const language = options.language ?? 'javascript'
@@ -67,8 +74,12 @@ export function createE2BBackend(config: E2BConfig): SandboxBackend {
       let stderr = ''
       const startTime = Date.now()
 
+      let timeoutHandle: ReturnType<typeof setTimeout> | null = null
       const timeoutPromise = new Promise<never>((_, reject) => {
-        setTimeout(() => reject(new Error(`Sandbox execution timed out after ${timeout}ms`)), timeout)
+        timeoutHandle = setTimeout(
+          () => reject(new Error(`Sandbox execution timed out after ${timeout}ms`)),
+          timeout,
+        )
       })
 
       try {
@@ -93,6 +104,8 @@ export function createE2BBackend(config: E2BConfig): SandboxBackend {
           exitCode: 1,
           durationMs: Date.now() - startTime,
         }
+      } finally {
+        if (timeoutHandle) clearTimeout(timeoutHandle)
       }
     },
 

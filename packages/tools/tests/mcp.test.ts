@@ -208,4 +208,62 @@ describe('createStdioTransport', () => {
     dataCb!('not-json\n')
     expect(received).toHaveLength(0)
   })
+
+  it('kills child and fires onClose when frame exceeds maxFrameBytes', () => {
+    let dataCb: ((chunk: Buffer | string) => void) | undefined
+    const kill = vi.fn()
+    const child = {
+      stdin: { write: vi.fn() },
+      stdout: {
+        on: (_event: 'data', cb: (chunk: Buffer | string) => void) => {
+          dataCb = cb
+        },
+      },
+      kill,
+    }
+    const transport = createStdioTransport(child, { maxFrameBytes: 32 })
+    let closed = false
+    transport.onClose(() => { closed = true })
+    dataCb!('x'.repeat(100))
+    expect(kill).toHaveBeenCalled()
+    expect(closed).toBe(true)
+  })
+})
+
+describe('MCP client request bounds', () => {
+  it('rejects per-request after requestTimeoutMs', async () => {
+    vi.useFakeTimers()
+    try {
+      const [a, b] = createInMemoryTransportPair()
+      // Drop messages on the server side — never reply.
+      b.onMessage(() => {})
+      const client = createMcpClient({ transport: a, requestTimeoutMs: 100 })
+      const promise = client.listTools()
+      vi.advanceTimersByTime(200)
+      await expect(promise).rejects.toThrow(/timeout/)
+      await client.close()
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('rejects new calls once maxPending is reached', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    b.onMessage(() => {})
+    const client = createMcpClient({ transport: a, maxPending: 2, requestTimeoutMs: 60_000 })
+    const p1 = client.listTools().catch(() => undefined)
+    const p2 = client.listTools().catch(() => undefined)
+    await expect(client.listTools()).rejects.toThrow(/maxPending/)
+    await client.close()
+    await Promise.all([p1, p2])
+  })
+
+  it('close() rejects all in-flight calls', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    b.onMessage(() => {})
+    const client = createMcpClient({ transport: a, requestTimeoutMs: 60_000 })
+    const p = client.listTools()
+    await client.close()
+    await expect(p).rejects.toThrow(/closed/)
+  })
 })

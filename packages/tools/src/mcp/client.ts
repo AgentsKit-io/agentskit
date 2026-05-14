@@ -24,39 +24,75 @@ function isError(msg: JsonRpcSuccess | JsonRpcError): msg is JsonRpcError {
   return 'error' in msg
 }
 
+const DEFAULT_REQUEST_TIMEOUT_MS = 30_000
+const DEFAULT_MAX_PENDING = 256
+
 /**
  * Build an MCP client over any `McpTransport`. Supports
  * `initialize`, `tools/list`, and `tools/call` — the minimum needed
  * to drive external MCP servers as AgentsKit tools.
+ *
+ * Requests are bounded:
+ *  - each call rejects after `requestTimeoutMs` (default 30s) so a
+ *    silent server cannot leak entries into `pending` forever
+ *  - `maxPending` caps concurrent in-flight requests so the map cannot
+ *    grow without bound on a runaway producer
  */
 export function createMcpClient(options: {
   transport: McpTransport
   clientInfo?: { name: string; version: string }
+  /** Per-request timeout in ms. Default 30000. */
+  requestTimeoutMs?: number
+  /** Max concurrent in-flight requests. Default 256. */
+  maxPending?: number
 }): McpClient {
-  const pending = new Map<number, { resolve: (value: unknown) => void; reject: (error: Error) => void }>()
+  const requestTimeoutMs = options.requestTimeoutMs ?? DEFAULT_REQUEST_TIMEOUT_MS
+  const maxPending = options.maxPending ?? DEFAULT_MAX_PENDING
+  interface PendingEntry {
+    resolve: (value: unknown) => void
+    reject: (error: Error) => void
+    timer: ReturnType<typeof setTimeout>
+  }
+  const pending = new Map<number, PendingEntry>()
   let nextId = 1
+
+  const settle = (id: number, ok: boolean, value: unknown): void => {
+    const entry = pending.get(id)
+    if (!entry) return
+    pending.delete(id)
+    clearTimeout(entry.timer)
+    if (ok) entry.resolve(value)
+    else entry.reject(value as Error)
+  }
 
   const detach = options.transport.onMessage(message => {
     if (!isResponse(message)) return
-    const entry = pending.get(Number(message.id))
-    if (!entry) return
-    pending.delete(Number(message.id))
+    const id = Number(message.id)
     if (isError(message)) {
-      entry.reject(new Error(`MCP error ${message.error.code}: ${message.error.message}`))
+      settle(id, false, new Error(`MCP error ${message.error.code}: ${message.error.message}`))
     } else {
-      entry.resolve(message.result)
+      settle(id, true, message.result)
     }
   })
 
   const call = <T>(method: string, params?: Record<string, unknown>): Promise<T> => {
+    if (pending.size >= maxPending) {
+      return Promise.reject(new Error(`MCP client: maxPending (${maxPending}) exceeded`))
+    }
     const id = nextId++
     return new Promise<T>((resolve, reject) => {
-      pending.set(id, { resolve: v => resolve(v as T), reject })
+      const timer = setTimeout(() => {
+        settle(id, false, new Error(`MCP request timeout after ${requestTimeoutMs}ms: ${method}`))
+      }, requestTimeoutMs)
+      pending.set(id, {
+        resolve: v => resolve(v as T),
+        reject,
+        timer,
+      })
       Promise.resolve(
         options.transport.send({ jsonrpc: '2.0', id, method, params }),
       ).catch(err => {
-        pending.delete(id)
-        reject(err instanceof Error ? err : new Error(String(err)))
+        settle(id, false, err instanceof Error ? err : new Error(String(err)))
       })
     })
   }
@@ -77,6 +113,11 @@ export function createMcpClient(options: {
     },
     async close() {
       detach()
+      for (const [id, entry] of pending) {
+        clearTimeout(entry.timer)
+        entry.reject(new Error('MCP client closed'))
+        pending.delete(id)
+      }
       await options.transport.close?.()
     },
   }

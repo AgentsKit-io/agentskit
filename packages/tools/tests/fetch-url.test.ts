@@ -95,6 +95,92 @@ describe('fetchUrl', () => {
     expect(result).toContain('Error fetching')
     expect(result).toContain('boom')
   })
+
+  describe('SSRF guard', () => {
+    it('blocks IPv4 loopback', async () => {
+      const tool = fetchUrl()
+      const result = await tool.execute!({ url: 'http://127.0.0.1/' }, ctx) as string
+      expect(result).toMatch(/SSRF blocked|private\/loopback/)
+    })
+
+    it('blocks AWS IMDS link-local 169.254.169.254', async () => {
+      const tool = fetchUrl()
+      const result = await tool.execute!({ url: 'http://169.254.169.254/latest/meta-data/' }, ctx) as string
+      expect(result).toMatch(/SSRF blocked|private\/loopback/)
+    })
+
+    it('blocks GCP metadata host', async () => {
+      const tool = fetchUrl()
+      const result = await tool.execute!({ url: 'http://metadata.google.internal/' }, ctx) as string
+      expect(result).toMatch(/SSRF blocked|private\/loopback/)
+    })
+
+    it('blocks RFC1918 ranges (10.x, 172.16.x, 192.168.x)', async () => {
+      const tool = fetchUrl()
+      for (const host of ['10.0.0.1', '172.16.0.1', '192.168.1.1']) {
+        const result = await tool.execute!({ url: `http://${host}/` }, ctx) as string
+        expect(result).toMatch(/SSRF blocked|private\/loopback/)
+      }
+    })
+
+    it('blocks localhost hostname', async () => {
+      const tool = fetchUrl()
+      const result = await tool.execute!({ url: 'http://localhost:8080/' }, ctx) as string
+      expect(result).toMatch(/SSRF blocked|private\/loopback/)
+    })
+
+    it('blocks IPv6 loopback ::1', async () => {
+      const tool = fetchUrl()
+      const result = await tool.execute!({ url: 'http://[::1]/' }, ctx) as string
+      expect(result).toMatch(/SSRF blocked|private\/loopback/)
+    })
+
+    it('allows private host when allowPrivateHosts:true', async () => {
+      const body = new TextEncoder().encode('hi')
+      vi.stubGlobal('fetch', vi.fn().mockResolvedValue(makeResponse(body, 'text/plain')))
+      const tool = fetchUrl({ allowPrivateHosts: true })
+      const result = await tool.execute!({ url: 'http://127.0.0.1/health' }, ctx) as string
+      expect(result).toContain('hi')
+    })
+
+    it('rejects host not in allowedHosts even when public', async () => {
+      const tool = fetchUrl({ allowedHosts: ['api.example.com'] })
+      const result = await tool.execute!({ url: 'https://evil.com/' }, ctx) as string
+      expect(result).toMatch(/not in allowedHosts/)
+    })
+
+    it('blocks redirect-based SSRF to loopback', async () => {
+      const fetchMock = vi.fn()
+        .mockResolvedValueOnce({
+          ok: false,
+          status: 302,
+          statusText: 'Found',
+          headers: new Map([['location', 'http://127.0.0.1/admin']]),
+          body: null,
+        })
+      vi.stubGlobal('fetch', fetchMock)
+      const tool = fetchUrl()
+      const result = await tool.execute!({ url: 'https://example.com/redir' }, ctx) as string
+      expect(result).toMatch(/SSRF blocked|private\/loopback/)
+    })
+
+    it('caps redirects at maxRedirects', async () => {
+      let n = 0
+      vi.stubGlobal('fetch', vi.fn().mockImplementation(() => {
+        n++
+        return Promise.resolve({
+          ok: false,
+          status: 302,
+          statusText: 'Found',
+          headers: new Map([['location', `https://example.com/next${n}`]]),
+          body: null,
+        })
+      }))
+      const tool = fetchUrl({ maxRedirects: 2 })
+      const result = await tool.execute!({ url: 'https://example.com/0' }, ctx) as string
+      expect(result).toMatch(/exceeded maxRedirects/)
+    })
+  })
 })
 
 function makeResponse(body: Uint8Array, contentType: string) {
