@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { fileChatMemory } from '../src/file-chat'
 import type { Message } from '@agentskit/core'
-import { unlink } from 'node:fs/promises'
+import { mkdtempSync, rmSync } from 'node:fs'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 
@@ -14,14 +14,18 @@ const sampleMessage: Message = {
 }
 
 describe('fileChatMemory', () => {
+  let dir: string
   let filepath: string
 
   beforeEach(() => {
-    filepath = join(tmpdir(), `agentskit-test-${Date.now()}.json`)
+    // mkdtempSync creates a uniquely-named directory with mode 0700, avoiding
+    // the predictable-path / shared-tmp issues flagged by CodeQL js/insecure-temporary-file.
+    dir = mkdtempSync(join(tmpdir(), 'agentskit-file-chat-'))
+    filepath = join(dir, 'chat.json')
   })
 
-  afterEach(async () => {
-    try { await unlink(filepath) } catch {}
+  afterEach(() => {
+    rmSync(dir, { recursive: true, force: true })
   })
 
   it('returns empty array when file does not exist', async () => {
