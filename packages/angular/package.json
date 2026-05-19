@@ -1,7 +1,7 @@
 {
   "name": "@agentskit/angular",
   "version": "0.2.4",
-  "description": "Angular service + components for AgentsKit.",
+  "description": "Angular signals service + headless chat components for AgentsKit — streaming, tools, and memory across any LLM provider.",
   "keywords": [
     "agentskit",
     "ai",
@@ -11,7 +11,16 @@
     "typescript",
     "angular",
     "signals",
-    "headless"
+    "headless",
+    "openai",
+    "anthropic",
+    "claude",
+    "gemini",
+    "chatgpt",
+    "ai-agents",
+    "chat-ui",
+    "streaming",
+    "ui"
   ],
   "type": "module",
   "sideEffects": false,

@@ -1,7 +1,7 @@
 {
   "name": "@agentskit/svelte",
   "version": "0.2.4",
-  "description": "Svelte 5 store + components for AgentsKit.",
+  "description": "Svelte 5 store + headless chat components for AgentsKit — streaming, tools, and memory across any LLM provider.",
   "keywords": [
     "agentskit",
     "ai",
@@ -11,7 +11,17 @@
     "typescript",
     "svelte",
     "store",
-    "headless"
+    "headless",
+    "openai",
+    "anthropic",
+    "claude",
+    "gemini",
+    "chatgpt",
+    "ai-agents",
+    "chat-ui",
+    "streaming",
+    "svelte5",
+    "ui"
   ],
   "type": "module",
   "sideEffects": false,

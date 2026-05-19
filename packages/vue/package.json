@@ -1,7 +1,7 @@
 {
   "name": "@agentskit/vue",
   "version": "0.2.4",
-  "description": "Vue 3 composable + components for AgentsKit.",
+  "description": "Vue 3 composable + headless chat components for AgentsKit — streaming, tools, and memory across any LLM provider.",
   "keywords": [
     "agentskit",
     "ai",
@@ -12,7 +12,17 @@
     "vue",
     "vue3",
     "composable",
-    "headless"
+    "headless",
+    "openai",
+    "anthropic",
+    "claude",
+    "gemini",
+    "chatgpt",
+    "ai-agents",
+    "chat-ui",
+    "streaming",
+    "composition-api",
+    "ui"
   ],
   "type": "module",
   "sideEffects": false,

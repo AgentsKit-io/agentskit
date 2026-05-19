@@ -1,7 +1,7 @@
 {
   "name": "@agentskit/solid",
   "version": "0.2.4",
-  "description": "Solid hook + components for AgentsKit.",
+  "description": "Solid hook + headless chat components for AgentsKit — streaming, tools, and memory across any LLM provider.",
   "keywords": [
     "agentskit",
     "ai",
@@ -11,7 +11,16 @@
     "typescript",
     "solid",
     "solid-js",
-    "headless"
+    "headless",
+    "openai",
+    "anthropic",
+    "claude",
+    "gemini",
+    "chatgpt",
+    "ai-agents",
+    "chat-ui",
+    "streaming",
+    "ui"
   ],
   "type": "module",
   "sideEffects": false,
