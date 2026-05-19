@@ -154,7 +154,11 @@ describe('langfuse observer', () => {
   })
 
   it('does not emit traces and warns when langfuse package is missing', async () => {
-    // A mock factory that throws leaves Vitest on the previous mock (FakeLangfuse).
+    // Drop any module graph carried over from earlier tests so the empty
+    // mock below is the one `import('../src/langfuse')` actually resolves —
+    // otherwise a cached graph bound to beforeEach's FakeLangfuse leaks in
+    // and a trace gets captured (flaky "expected 1 to be +0").
+    vi.resetModules()
     // Simulate a missing / broken install: module loads but exports no Langfuse client.
     vi.doMock('langfuse', () => ({}))
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
