@@ -1,7 +1,7 @@
 {
   "name": "@agentskit/react-native",
   "version": "0.2.4",
-  "description": "React Native + Expo hook + components for AgentsKit.",
+  "description": "React Native + Expo hook and headless chat components for AgentsKit — streaming, tools, and memory across any LLM provider.",
   "keywords": [
     "agentskit",
     "ai",
@@ -12,7 +12,17 @@
     "react-native",
     "expo",
     "mobile",
-    "hooks"
+    "hooks",
+    "openai",
+    "anthropic",
+    "claude",
+    "gemini",
+    "chatgpt",
+    "ai-agents",
+    "chat-ui",
+    "streaming",
+    "ios",
+    "android"
   ],
   "type": "module",
   "sideEffects": false,
