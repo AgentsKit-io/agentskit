@@ -1,6 +1,11 @@
 import Link from 'next/link'
 import { AnimatedLogo } from '@/components/brand/animated-logo'
 
+export const metadata = {
+  title: 'Page not found',
+  robots: { index: false, follow: true },
+}
+
 export default function NotFound() {
   const repo = 'AgentsKit-io/agentskit'
   return (

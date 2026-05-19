@@ -1,4 +1,5 @@
 import { createMDX } from 'fumadocs-mdx/next'
+import { LEGACY_404_REDIRECTS } from './legacy-404-redirects.mjs'
 
 const withMDX = createMDX()
 
@@ -67,7 +68,11 @@ const DOC_REDIRECTS = [
 const config = {
   reactStrictMode: true,
   async redirects() {
-    return DOC_REDIRECTS.filter((r) => r.source !== r.destination)
+    // Legacy 404 fixes first — first match wins, so explicit per-URL rules
+    // override the broad wildcard rules that used to chain into dead targets.
+    return [...LEGACY_404_REDIRECTS, ...DOC_REDIRECTS].filter(
+      (r) => r.source !== r.destination,
+    )
   },
 }
 

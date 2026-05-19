@@ -1,5 +1,8 @@
 import type { MetadataRoute } from 'next'
 import { source } from '@/lib/source'
+import { slugsOfAll } from '@/lib/blog'
+import { STEPS } from '@/lib/learn-steps'
+import { SHOWCASE } from '@/lib/showcase'
 
 const SITE = 'https://www.agentskit.io'
 
@@ -11,6 +14,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE}/docs`, lastModified: now, changeFrequency: 'weekly', priority: 0.95 },
     { url: `${SITE}/docs/get-started`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE}/docs/use-cases`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${SITE}/docs/compare`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE}/docs/for-agents`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
     { url: `${SITE}/docs/ui`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
     { url: `${SITE}/docs/agents`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
@@ -19,6 +23,33 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE}/docs/reference`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${SITE}/docs/reference/examples`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${SITE}/docs/reference/contribute`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${SITE}/learn`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${SITE}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${SITE}/showcase`, lastModified: now, changeFrequency: 'weekly', priority: 0.75 },
+    { url: `${SITE}/stack`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${SITE}/community`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${SITE}/evals`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
+  ]
+
+  const dynamicRoutes: MetadataRoute.Sitemap = [
+    ...slugsOfAll().map((slug) => ({
+      url: `${SITE}/blog/${slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })),
+    ...STEPS.map((s) => ({
+      url: `${SITE}/learn/${s.slug}`,
+      lastModified: now,
+      changeFrequency: 'weekly' as const,
+      priority: 0.7,
+    })),
+    ...SHOWCASE.map((s) => ({
+      url: `${SITE}/showcase/${s.slug}`,
+      lastModified: now,
+      changeFrequency: 'monthly' as const,
+      priority: 0.6,
+    })),
   ]
 
   const docPages: MetadataRoute.Sitemap = source.getPages().map((page) => {
@@ -33,7 +64,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
   })
 
   const seen = new Set<string>()
-  return [...staticRoutes, ...docPages].filter((r) => {
+  return [...staticRoutes, ...docPages, ...dynamicRoutes].filter((r) => {
     if (seen.has(r.url)) return false
     seen.add(r.url)
     return true
@@ -45,6 +76,7 @@ function priorityFor(slug: string): number {
   if (slug.startsWith('for-agents')) return 0.9
   if (slug.startsWith('get-started')) return 0.9
   if (slug.startsWith('use-cases')) return 0.85
+  if (slug.startsWith('compare')) return 0.9
   if (
     slug.startsWith('ui') ||
     slug.startsWith('agents') ||
