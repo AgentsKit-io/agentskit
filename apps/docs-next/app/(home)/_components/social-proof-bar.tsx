@@ -32,7 +32,7 @@ function compact(n: number): string {
 async function fetchDownloads(pkg: string): Promise<number> {
   try {
     const res = await fetch(
-      `https://api.npmjs.org/downloads/point/last-week/${encodeURIComponent(pkg)}`,
+      `https://api.npmjs.org/downloads/point/last-month/${encodeURIComponent(pkg)}`,
     )
     if (!res.ok) return 0
     const data: { downloads?: number } = await res.json()
@@ -95,7 +95,7 @@ export function SocialProofBar() {
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-6 gap-y-3 sm:gap-x-10 sm:gap-y-4">
         <Metric
           href={NPM_ORG}
-          label="weekly downloads"
+          label="monthly downloads"
           value={downloads === null ? '…' : compact(downloads)}
         />
         <Divider />
