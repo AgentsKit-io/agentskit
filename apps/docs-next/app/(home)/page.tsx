@@ -27,7 +27,8 @@ export const metadata = {
 }
 
 const GITHUB = 'https://github.com/AgentsKit-io/agentskit'
-const DISCORD = 'https://discord.gg/zx6z2p4jVb'
+// Discord hidden until the community is large enough to warrant it. Restore when ready.
+// const DISCORD = 'https://discord.gg/zx6z2p4jVb'
 
 const PACKAGE_CARDS = [
   { name: 'core', href: '/docs/reference/packages/core' },
@@ -169,6 +170,7 @@ function Hero() {
             >
               See live examples
             </Link>
+            {/* Discord hidden until the community is large enough to warrant it. Restore when ready.
             <a
               href={DISCORD}
               target="_blank"
@@ -177,6 +179,7 @@ function Hero() {
             >
               Join Discord →
             </a>
+            */}
           </div>
 
           <p className="mt-4 font-mono text-[11px] leading-relaxed text-ak-graphite sm:text-xs">
@@ -672,6 +675,7 @@ function FinalCta() {
           >
             Star on GitHub
           </a>
+          {/* Discord hidden until the community is large enough to warrant it. Restore when ready.
           <a
             href={DISCORD}
             target="_blank"
@@ -680,6 +684,7 @@ function FinalCta() {
           >
             Join Discord
           </a>
+          */}
           <Link
             href="/docs/reference/contribute"
             className="inline-flex items-center gap-2 rounded-md border border-ak-border bg-ak-surface px-5 py-3 text-sm font-medium text-ak-foam transition hover:border-ak-blue sm:px-6"
