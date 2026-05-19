@@ -1,0 +1,32 @@
+name: Ping search engines
+
+# After a production Vercel deploy succeeds, push the live sitemap URLs to
+# IndexNow (Bing/Yandex/DuckDuckGo/Ecosia). Google is intentionally not
+# pinged: the org blocks service-account keys (iam.disableServiceAccount
+# KeyCreation) and Google recrawls the sitemap on its own anyway.
+
+on:
+  deployment_status:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  ping:
+    # Only on a successful *production* deploy.
+    if: >
+      github.event_name == 'workflow_dispatch' ||
+      (github.event.deployment_status.state == 'success' &&
+       github.event.deployment_status.environment == 'Production')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: 22
+
+      - name: IndexNow
+        env:
+          INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
+        run: node apps/docs-next/scripts/ping-indexnow.mjs
