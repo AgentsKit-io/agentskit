@@ -440,16 +440,39 @@ export function TerminalMirror() {
         <div className="font-mono text-xs text-ak-foam">~/agentskit · ink · tty</div>
         <span className="font-mono text-[10px] text-ak-green">● connected</span>
       </div>
-      <pre className="px-3 py-2 font-mono text-[11px] leading-relaxed text-[#a6e3a1]">
-        <span className="text-[#89b4fa]">›</span> <span className="text-[#cdd6f4]">weather in tokyo this weekend</span>{'\n'}
-        <span className="text-[#fab387]">⏺</span> <span className="text-[#bac2de]">weather.get</span>{'(...) '}<span className="text-[#a6adc8]">600ms</span>{'\n'}
-        <span className="text-[#cdd6f4]">┌─ Tokyo · Sat Apr 18 ──────────┐</span>{'\n'}
-        <span className="text-[#cdd6f4]">│ 72°  feels 70°       ☀        │</span>{'\n'}
-        <span className="text-[#cdd6f4]">│ Sat  Sun  Mon  Tue  Wed       │</span>{'\n'}
-        <span className="text-[#cdd6f4]">│ 72°  68°  64°  66°  70°       │</span>{'\n'}
-        <span className="text-[#cdd6f4]">└───────────────────────────────┘</span>{'\n'}
-        <span className="text-[#a6e3a1]">▎ Sunny saturday, showers sun → mon.</span>
-      </pre>
+      <div className="px-3 py-2 font-mono text-[11px] leading-relaxed">
+        <div>
+          <span className="text-[#89b4fa]">›</span>{' '}
+          <span className="text-[#cdd6f4]">weather in tokyo this weekend</span>
+        </div>
+        <div>
+          <span className="text-[#fab387]">⏺</span>{' '}
+          <span className="text-[#bac2de]">weather.get</span>
+          <span className="text-[#a6e3a1]">(...) </span>
+          <span className="text-[#a6adc8]">600ms</span>
+        </div>
+        <div className="my-1.5 rounded-md border border-[#45475a] text-[#cdd6f4]">
+          <div className="flex items-center justify-between border-b border-[#45475a] px-2 py-1">
+            <span>Tokyo · Sat Apr 18</span>
+            <span className="text-[#f9e2af]">☀ 72° · feels 70°</span>
+          </div>
+          <div className="grid grid-cols-5 gap-x-2 px-2 py-1 text-center">
+            {[
+              ['Sat', '72°'],
+              ['Sun', '68°'],
+              ['Mon', '64°'],
+              ['Tue', '66°'],
+              ['Wed', '70°'],
+            ].map(([day, temp]) => (
+              <div key={day}>
+                <div className="text-[#a6adc8]">{day}</div>
+                <div>{temp}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="text-[#a6e3a1]">▎ Sunny saturday, showers sun → mon.</div>
+      </div>
       <div className="border-t border-ak-border bg-ak-surface px-3 py-1.5 font-mono text-[10px] text-ak-graphite">
         same controller as browser · @agentskit/ink
       </div>
