@@ -1,0 +1,59 @@
+---
+title: AgentsKit vs LangChain.js, Vercel AI SDK & assistant-ui
+description: An honest comparison of AgentsKit with LangChain.js, the Vercel AI SDK, assistant-ui, and Mastra — bundle size, runtime, contracts, lock-in, and when to pick each.
+---
+
+People evaluating AgentsKit almost always ask the same question: *how is this different from what I already use?* This page answers that directly and honestly. Each tool below is good at something — the goal is to help you pick, not to win an argument.
+
+## TL;DR
+
+| | AgentsKit | LangChain.js | Vercel AI SDK | assistant-ui | Mastra |
+|---|---|---|---|---|---|
+| Core size | ~10 KB, zero deps | Large, heavy dep tree | Small | UI-only | Medium |
+| Chat UI | 7 frameworks, headless | None | React-first | React, 50+ components | None |
+| Autonomous runtime | Yes (ReAct, planning, multi-agent) | Yes (LangGraph) | No | No | Yes |
+| Provider lock-in | None (contract adapters) | Abstraction-heavy | SDK-coupled | N/A | Framework-coupled |
+| Substitutable parts | 6 formal contracts | Implicit | Partial | N/A | Partial |
+| License | MIT | MIT | Apache-2.0 | MIT | Elastic/Apache |
+
+## vs LangChain.js
+
+LangChain.js is the most feature-complete option and has the largest ecosystem. The trade-off is weight and leaky abstractions: a real agent pulls in a deep dependency tree, and the abstractions surface at nearly every layer.
+
+AgentsKit keeps the core at ~10 KB with zero dependencies and exposes six explicit contracts (Adapter, Tool, Skill, Memory, Retriever, Runtime). You compose what you need; nothing is implicit.
+
+**Pick LangChain.js** if you want one library that already has an integration for everything and you accept the bundle cost. **Pick AgentsKit** if you want small, contracted, swappable parts and plain JavaScript end to end.
+
+## vs Vercel AI SDK
+
+The Vercel AI SDK is an excellent streaming chat SDK. It is intentionally not an agent runtime — no built-in ReAct loop, planning, multi-agent orchestration, skills, or pluggable memory contracts.
+
+AgentsKit ships a standalone runtime (`@agentskit/runtime`) plus the chat layer, and interoperates with the Vercel AI SDK through an adapter — you can keep it and add a runtime on top.
+
+**Pick Vercel AI SDK** if you only need streaming chat in React/Next. **Pick AgentsKit** when the chat box becomes an agent.
+
+## vs assistant-ui
+
+assistant-ui is a strong React component library — 50+ components — but it is UI only and has no opinion about runtime, tools, memory, or how to compose them.
+
+AgentsKit components are headless (`data-ak-*` attributes, no hardcoded styles) and span React, Vue, Svelte, Solid, Angular, React Native, and Ink, backed by the same core.
+
+**Pick assistant-ui** for batteries-included React chat UI. **Pick AgentsKit** for headless UI across frameworks plus the runtime behind it.
+
+## vs Mastra
+
+Mastra is a capable TypeScript agent framework with workflows and runtime. It is framework-shaped: you adopt its structure. AgentsKit is kit-shaped: install one package, grow into the full stack, no required project layout.
+
+**Pick Mastra** if you want a batteries-included framework. **Pick AgentsKit** if you want substitutable packages and zero lock-in.
+
+## When AgentsKit is the wrong choice
+
+- You need one off-the-shelf integration that only LangChain has today, and bundle size does not matter.
+- You only need streaming chat in React and will never add a runtime — the Vercel AI SDK is less code.
+- You want a fully prescribed framework that makes every decision for you.
+
+## Next steps
+
+- [Build your first agent](/docs/get-started/getting-started/build-your-first-agent)
+- [Packages overview](/docs/reference/packages/overview)
+- [Why this exists](/docs/get-started)
