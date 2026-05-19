@@ -1,9 +1,9 @@
 name: Ping search engines
 
 # After a production Vercel deploy succeeds, push the live sitemap URLs to
-# IndexNow (Bing/Yandex/DuckDuckGo/Ecosia) and, if a service account is
-# configured, Google's Indexing API. Google also recrawls the sitemap on its
-# own — this just makes it faster.
+# IndexNow (Bing/Yandex/DuckDuckGo/Ecosia). Google is intentionally not
+# pinged: the org blocks service-account keys (iam.disableServiceAccount
+# KeyCreation) and Google recrawls the sitemap on its own anyway.
 
 on:
   deployment_status:
@@ -30,10 +30,3 @@ jobs:
         env:
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
         run: node apps/docs-next/scripts/ping-indexnow.mjs
-
-      # No-ops when GOOGLE_INDEXING_SA is unset, so leaving the secret
-      # unconfigured is safe.
-      - name: Google Indexing API
-        env:
-          GOOGLE_INDEXING_SA: ${{ secrets.GOOGLE_INDEXING_SA }}
-        run: node apps/docs-next/scripts/ping-google.mjs
