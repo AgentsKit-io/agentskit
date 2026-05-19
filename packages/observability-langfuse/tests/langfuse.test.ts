@@ -153,24 +153,9 @@ describe('langfuse observer', () => {
     await flush()
   })
 
-  it('does not emit traces and warns when langfuse package is missing', async () => {
-    // Drop any module graph carried over from earlier tests so the empty
-    // mock below is the one `import('../src/langfuse')` actually resolves —
-    // otherwise a cached graph bound to beforeEach's FakeLangfuse leaks in
-    // and a trace gets captured (flaky "expected 1 to be +0").
-    vi.resetModules()
-    // Simulate a missing / broken install: module loads but exports no Langfuse client.
-    vi.doMock('langfuse', () => ({}))
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-    const { langfuse } = await import('../src/langfuse')
-    const sink = langfuse({ publicKey: 'pk', secretKey: 'sk' })
-    sink.on({ type: 'llm:start', model: 'm', messageCount: 1 })
-    await flush()
-    expect(captured.traces.length).toBe(0)
-    expect(warn).toHaveBeenCalled()
-    expect(String(warn.mock.calls[0]?.[0] ?? '')).toContain('observability-langfuse')
-    warn.mockRestore()
-  })
+  // NOTE: the "langfuse package missing" case lives in
+  // langfuse-missing.test.ts — it must NOT inherit this file's beforeEach
+  // FakeLangfuse mock, which races the empty mock non-deterministically.
 
   it('reads config from env when not provided', async () => {
     process.env.LANGFUSE_PUBLIC_KEY = 'envpk'
