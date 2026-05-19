@@ -10,6 +10,7 @@ export function GET() {
   const byTab: Record<string, Array<{ title: string; url: string; description?: string }>> = {
     'Get started': [],
     'Use cases': [],
+    'Compare': [],
     'UI': [],
     'Agents': [],
     'Data': [],
@@ -27,6 +28,7 @@ export function GET() {
     const entry = { title, url, description }
     if (slug.startsWith('get-started/')) byTab['Get started'].push(entry)
     else if (slug.startsWith('use-cases/') || slug === 'use-cases') byTab['Use cases'].push(entry)
+    else if (slug.startsWith('compare/') || slug === 'compare') byTab['Compare'].push(entry)
     else if (slug.startsWith('ui/')) byTab['UI'].push(entry)
     else if (slug.startsWith('agents/')) byTab['Agents'].push(entry)
     else if (slug.startsWith('data/')) byTab['Data'].push(entry)
