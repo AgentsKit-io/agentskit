@@ -17,6 +17,10 @@ export function createOpenAiEmbedder(config: OpenAiEmbedderConfig): EmbedFn {
   const baseUrl = (config.baseUrl ?? 'https://api.openai.com').replace(/\/$/, '')
 
   return async (text: string): Promise<number[]> => {
+    // CodeQL js/file-access-to-http: not fixed by design. Sending `text`
+    // (which may originate from a local document during RAG indexing) to
+    // the embeddings endpoint is the entire purpose of an embedder — the
+    // call goes only to the operator-configured `baseUrl`.
     const res = await fetch(`${baseUrl}/v1/embeddings`, {
       method: 'POST',
       headers: {

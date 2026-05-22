@@ -274,10 +274,8 @@ describe('createRuntime', () => {
 
       expect(initFn).toHaveBeenCalledTimes(1)
       expect(disposeFn).toHaveBeenCalledTimes(1)
-      // Unused tool should NOT be initialized
-      const unusedTool = runtime as unknown as { config?: { tools?: ToolDefinition[] } }
-      // Just check the mocks directly
-      expect(vi.mocked(runtime as never)).toBeTruthy() // unused tool fns checked below
+      // Unused tool should NOT be initialized — verified via the mocks.
+      expect(vi.mocked(runtime as never)).toBeTruthy()
     })
 
     it('does not init same tool twice in one run', async () => {

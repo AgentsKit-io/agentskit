@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo } from 'react'
-import { useChat, ChatContainer, Message, InputBar } from '@agentskit/react'
+import { useChat, ChatContainer, InputBar } from '@agentskit/react'
 import '@/styles/agentskit-theme.css'
 import { createMockAdapter, initialAssistant } from './_shared/mock-adapter'
 import { MdRenderer } from './_shared/md-renderer'

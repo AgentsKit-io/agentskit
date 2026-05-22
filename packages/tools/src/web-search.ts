@@ -119,14 +119,21 @@ function decodeDuckUrl(raw: string): string {
 }
 
 function stripTags(html: string): string {
-  return html
-    .replace(/<[^>]+>/g, '')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
+  let out = html
+  let prev: string
+  do {
+    prev = out
+    out = out.replace(/<[^<>]*>/g, '')
+  } while (out !== prev)
+  // Decode entities; `&amp;` last so `&amp;lt;` can't collapse into `<`.
+  return out
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#0*39;/g, "'")
+    .replace(/&apos;/gi, "'")
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&amp;/gi, '&')
     .replace(/\s+/g, ' ')
 }
 

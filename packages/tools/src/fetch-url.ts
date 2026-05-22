@@ -31,20 +31,41 @@ const DEFAULT_MAX_BYTES = 200 * 1024
 const DEFAULT_TIMEOUT_MS = 15_000
 const DEFAULT_MAX_REDIRECTS = 3
 
-function stripHtml(html: string): string {
+/** Decode a small set of HTML entities. `&amp;` is decoded last so a
+ *  double-encoded entity (`&amp;lt;`) can't be collapsed into a live `<`. */
+function decodeEntities(s: string): string {
+  return s
+    .replace(/&nbsp;/gi, ' ')
+    .replace(/&quot;/gi, '"')
+    .replace(/&#0*39;/g, "'")
+    .replace(/&apos;/gi, "'")
+    .replace(/&lt;/gi, '<')
+    .replace(/&gt;/gi, '>')
+    .replace(/&amp;/gi, '&')
+}
+
+/** Strip a tag pair repeatedly until stable, so a nested/overlapping
+ *  construct (`<scr<script>ipt>`) can't survive a single pass. */
+function stripPair(html: string, tag: string): string {
+  const re = new RegExp(`<${tag}\\b[^>]*>[\\s\\S]*?<\\/${tag}\\s*>`, 'gi')
+  let prev: string
+  do {
+    prev = html
+    html = html.replace(re, '')
+  } while (html !== prev)
   return html
-    .replace(/<script[\s\S]*?<\/script>/gi, '')
-    .replace(/<style[\s\S]*?<\/style>/gi, '')
-    .replace(/<!--[\s\S]*?-->/g, '')
-    .replace(/<[^>]+>/g, ' ')
-    .replace(/&nbsp;/g, ' ')
-    .replace(/&amp;/g, '&')
-    .replace(/&quot;/g, '"')
-    .replace(/&#39;/g, "'")
-    .replace(/&lt;/g, '<')
-    .replace(/&gt;/g, '>')
-    .replace(/\s+/g, ' ')
-    .trim()
+}
+
+function stripHtml(html: string): string {
+  let out = stripPair(html, 'script')
+  out = stripPair(out, 'style')
+  out = out.replace(/<!--[\s\S]*?-->/g, '')
+  let prev: string
+  do {
+    prev = out
+    out = out.replace(/<[^<>]*>/g, ' ')
+  } while (out !== prev)
+  return decodeEntities(out).replace(/\s+/g, ' ').trim()
 }
 
 function ipv4ToInt(ip: string): number | null {

@@ -1,6 +1,6 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { loadConfig } from '../src/config'
-import { writeFile, mkdir, rm } from 'node:fs/promises'
+import { writeFile, mkdtemp, rm } from 'node:fs/promises'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 
@@ -8,8 +8,7 @@ describe('loadConfig', () => {
   let dir: string
 
   beforeEach(async () => {
-    dir = join(tmpdir(), `agentskit-config-${Date.now()}`)
-    await mkdir(dir, { recursive: true })
+    dir = await mkdtemp(join(tmpdir(), 'agentskit-config-'))
   })
 
   afterEach(async () => {

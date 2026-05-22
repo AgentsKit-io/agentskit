@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import type { SkillDefinition, ToolCall, ToolDefinition } from '../src/types'
 import { buildToolMap, activateSkills, executeSafeTool } from '../src/agent-loop'
 import { createEventEmitter, createToolLifecycle } from '../src/primitives'

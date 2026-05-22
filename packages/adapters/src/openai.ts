@@ -20,7 +20,16 @@ export function openai(config: OpenAIConfig): AdapterFactory {
   const { apiKey, model, baseUrl = 'https://api.openai.com', retry } = config
   // Auto: on for canonical OpenAI, off for every other compatible endpoint
   // where the param is a known source of 4xx surprises.
-  const includeUsage = config.includeUsage ?? baseUrl.startsWith('https://api.openai.com')
+  // Match the canonical OpenAI host exactly — a substring/prefix check
+  // would also accept `https://api.openai.com.evil.test`.
+  const isCanonicalOpenAI = (() => {
+    try {
+      return new URL(baseUrl).host === 'api.openai.com'
+    } catch {
+      return false
+    }
+  })()
+  const includeUsage = config.includeUsage ?? isCanonicalOpenAI
 
   return {
     capabilities: {

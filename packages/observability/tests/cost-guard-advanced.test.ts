@@ -17,10 +17,6 @@ function llmEnd(promptTokens: number, completionTokens: number): AgentEvent {
   }
 }
 
-function llmStart(model: string): AgentEvent {
-  return { type: 'llm:start', model, messageCount: 1 }
-}
-
 const flush = () => new Promise(r => setImmediate(r))
 
 describe('createAdvancedCostGuard — concurrency', () => {

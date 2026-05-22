@@ -8,9 +8,7 @@ import { describe, it, expect, vi } from 'vitest'
 import {
   createChatController,
   createInMemoryMemory,
-  buildMessage,
   createEventEmitter,
-  loadConfig,
   type AgentEvent,
   type Observer,
   type AdapterFactory,
@@ -40,7 +38,7 @@ import { runEval } from '@agentskit/eval'
 import { consoleLogger, createTraceTracker } from '@agentskit/observability'
 
 // Templates
-import { createToolTemplate, createSkillTemplate, createAdapterTemplate } from '@agentskit/templates'
+import { createToolTemplate, createSkillTemplate } from '@agentskit/templates'
 
 // Test helpers
 function createMockAdapter(chunks: StreamChunk[]): AdapterFactory {

@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Scaffold a new docs page and register it in the nearest meta.json.
 // Usage: node scripts/docs-new.mjs <kind> <slug> [--title "Title"] [--description "..."] [--dir custom/path]
-import { existsSync, readFileSync, writeFileSync, mkdirSync } from 'node:fs'
+import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'
 import { dirname, join, resolve, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -52,18 +52,30 @@ const description = opts.description ?? `${title} — short description of what 
 
 const targetDir = resolve(DOCS, opts.dir)
 const targetFile = join(targetDir, `${slug}.mdx`)
-if (existsSync(targetFile)) {
-  console.error(`✗ ${relative(ROOT, targetFile)} already exists`)
-  process.exit(1)
-}
 mkdirSync(targetDir, { recursive: true })
-writeFileSync(targetFile, kindDef.template({ title, description, slug }))
+// `wx` flag: atomic create that fails if the file already exists,
+// instead of a racy exists-then-write check.
+try {
+  writeFileSync(targetFile, kindDef.template({ title, description, slug }), { flag: 'wx' })
+} catch (err) {
+  if (err.code === 'EEXIST') {
+    console.error(`✗ ${relative(ROOT, targetFile)} already exists`)
+    process.exit(1)
+  }
+  throw err
+}
 console.log(`✓ created ${relative(ROOT, targetFile)}`)
 
-// Register in meta.json if one sits alongside
+// Register in meta.json if one sits alongside.
 const metaPath = join(targetDir, 'meta.json')
-if (existsSync(metaPath)) {
-  const meta = JSON.parse(readFileSync(metaPath, 'utf8'))
+let metaRaw
+try {
+  metaRaw = readFileSync(metaPath, 'utf8')
+} catch (err) {
+  if (err.code !== 'ENOENT') throw err
+}
+if (metaRaw !== undefined) {
+  const meta = JSON.parse(metaRaw)
   meta.pages = Array.isArray(meta.pages) ? meta.pages : []
   if (!meta.pages.includes(slug)) {
     meta.pages.push(slug)

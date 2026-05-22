@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, writeFileSync } from 'node:fs'
+import { mkdirSync, writeFileSync } from 'node:fs'
 import { homedir } from 'node:os'
 import path from 'node:path'
 import type { Command } from 'commander'
@@ -33,13 +33,6 @@ export function registerConfigCommand(program: Command): void {
         process.exit(2)
       }
 
-      if (existsSync(targetPath) && !options.force) {
-        process.stderr.write(
-          `Config already exists at ${targetPath}. Re-run with --force to overwrite.\n`,
-        )
-        process.exit(1)
-      }
-
       const template = {
         defaults: {
           provider: 'openai',
@@ -51,7 +44,21 @@ export function registerConfigCommand(program: Command): void {
       }
 
       mkdirSync(path.dirname(targetPath), { recursive: true })
-      writeFileSync(targetPath, JSON.stringify(template, null, 2) + '\n')
+      // `wx` fails if the file exists — atomic create that closes the
+      // exists-then-write race. `w` overwrites only with --force.
+      try {
+        writeFileSync(targetPath, JSON.stringify(template, null, 2) + '\n', {
+          flag: options.force ? 'w' : 'wx',
+        })
+      } catch (err) {
+        if ((err as NodeJS.ErrnoException).code === 'EEXIST') {
+          process.stderr.write(
+            `Config already exists at ${targetPath}. Re-run with --force to overwrite.\n`,
+          )
+          process.exit(1)
+        }
+        throw err
+      }
       process.stdout.write(
         `Wrote ${targetPath}\n` +
           `Edit it to taste, then run:\n  agentskit chat\n` +

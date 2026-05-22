@@ -2,7 +2,6 @@ import { describe, it, expect } from 'vitest'
 import type { AgentEvent, Observer, SkillDefinition } from '@agentskit/core'
 import { createRuntime } from '../src/runner'
 import { createSharedContext } from '../src/shared-context'
-import { createSequentialAdapter } from './helpers'
 
 function createCallCountAdapter(callResponses: Array<Array<{ type: string; content?: string; toolCall?: { id: string; name: string; args: string } }>>) {
   let callCount = 0

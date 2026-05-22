@@ -1,14 +1,14 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
 import { scaffold } from '../src/scaffold'
-import { readFile, rm } from 'node:fs/promises'
+import { readFile, rm, mkdtemp } from 'node:fs/promises'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
 
 describe('scaffold', () => {
   let dir: string
 
-  beforeEach(() => {
-    dir = join(tmpdir(), `agentskit-scaffold-${Date.now()}`)
+  beforeEach(async () => {
+    dir = await mkdtemp(join(tmpdir(), 'agentskit-scaffold-'))
   })
 
   afterEach(async () => {
@@ -33,7 +33,7 @@ describe('scaffold', () => {
   })
 
   it('scaffolds a skill package', async () => {
-    const files = await scaffold({ type: 'skill', name: 'analyst', dir })
+    await scaffold({ type: 'skill', name: 'analyst', dir })
 
     const src = await readFile(join(dir, 'analyst', 'src', 'index.ts'), 'utf8')
     expect(src).toContain('SkillDefinition')
@@ -42,7 +42,7 @@ describe('scaffold', () => {
   })
 
   it('scaffolds an adapter package', async () => {
-    const files = await scaffold({ type: 'adapter', name: 'my-llm', dir })
+    await scaffold({ type: 'adapter', name: 'my-llm', dir })
 
     const src = await readFile(join(dir, 'my-llm', 'src', 'index.ts'), 'utf8')
     expect(src).toContain('AdapterFactory')

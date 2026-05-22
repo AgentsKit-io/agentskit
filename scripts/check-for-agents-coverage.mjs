@@ -97,7 +97,8 @@ for (const pkg of readdirSync(packagesDir)) {
   const missing = []
   for (const name of items) {
     if (ignore.has(name)) continue
-    const re = new RegExp(`(?:^|[^A-Za-z0-9_])${name.replace(/[$]/g, '\\$')}(?:[^A-Za-z0-9_]|$)`)
+    const escaped = name.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const re = new RegExp(`(?:^|[^A-Za-z0-9_])${escaped}(?:[^A-Za-z0-9_]|$)`)
     if (!re.test(doc)) missing.push(name)
   }
 
