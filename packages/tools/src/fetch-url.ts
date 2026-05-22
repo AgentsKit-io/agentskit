@@ -59,11 +59,13 @@ function stripPair(html: string, tag: string): string {
 function stripHtml(html: string): string {
   let out = stripPair(html, 'script')
   out = stripPair(out, 'style')
-  out = out.replace(/<!--[\s\S]*?-->/g, '')
+  // Strip comments and tags in one loop until stable, so a construct
+  // that re-forms a `<!--` or a `<tag>` after one pass can't survive.
   let prev: string
   do {
     prev = out
-    out = out.replace(/<[^<>]*>/g, ' ')
+    // `(?:-->|$)` also drops an unterminated `<!--` (no closing `-->`).
+    out = out.replace(/<!--[\s\S]*?(?:-->|$)/g, '').replace(/<[^<>]*>/g, ' ')
   } while (out !== prev)
   return decodeEntities(out).replace(/\s+/g, ' ').trim()
 }
