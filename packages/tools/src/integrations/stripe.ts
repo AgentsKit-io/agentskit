@@ -1,5 +1,5 @@
 import { ErrorCodes, ToolError, defineTool } from '@agentskit/core'
-import { httpJson, type HttpToolOptions } from './http'
+import { type HttpToolOptions } from './http'
 
 export interface StripeConfig extends HttpToolOptions {
   apiKey: string

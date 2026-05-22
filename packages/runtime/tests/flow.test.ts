@@ -177,7 +177,10 @@ describe('flowToMermaid', () => {
       name: 'q',
       nodes: [{ id: 'a', name: 'has "quote"', run: 'fetch' }],
     })
-    expect(out).toContain('has \\"quote\\"')
+    // Quotes are encoded as &quot; so they can't break out of the
+    // Mermaid `["..."]` label literal.
+    expect(out).toContain('has &quot;quote&quot;')
+    expect(out).not.toContain('has "quote"')
   })
 })
 

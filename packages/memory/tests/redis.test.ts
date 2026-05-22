@@ -16,7 +16,7 @@ function createMockRedisClient(): RedisClientAdapter {
       for (const k of keys) store.delete(k)
     },
     async keys(pattern) {
-      const prefix = pattern.replace('*', '')
+      const prefix = pattern.replace(/\*/g, '')
       return [...store.keys()].filter(k => k.startsWith(prefix))
     },
     async disconnect() {},

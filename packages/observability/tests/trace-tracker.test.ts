@@ -1,4 +1,4 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect } from 'vitest'
 import { createTraceTracker, type TraceSpan } from '../src/trace-tracker'
 import type { AgentEvent } from '@agentskit/core'
 

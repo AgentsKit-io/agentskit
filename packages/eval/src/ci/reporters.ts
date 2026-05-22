@@ -40,11 +40,23 @@ ${cases}
  */
 export function renderMarkdown(suiteName: string, result: EvalResult): string {
   const pct = (result.accuracy * 100).toFixed(1)
+  // Make a string safe for a single Markdown table cell wrapped in
+  // backticks. Escape backslashes first (so a literal `\` can't pair
+  // with the pipe escape added below), then drop backticks (would end
+  // the code span), collapse newlines (would break the row), and
+  // escape pipes.
+  const cell = (s: string): string =>
+    s
+      .slice(0, 80)
+      .replace(/\\/g, '\\\\')
+      .replace(/`/g, '')
+      .replace(/[\r\n]+/g, ' ')
+      .replace(/\|/g, '\\|')
   const rows = result.results
     .map(c => {
       const status = c.passed ? ':white_check_mark:' : ':x:'
-      const input = String(c.input).slice(0, 80).replace(/\|/g, '\\|')
-      const output = c.output.slice(0, 80).replace(/\|/g, '\\|')
+      const input = cell(String(c.input))
+      const output = cell(c.output)
       return `| ${status} | \`${input}\` | \`${output}\` | ${c.latencyMs}ms |`
     })
     .join('\n')

@@ -55,11 +55,11 @@
     "@agentskit/core": "workspace:*"
   },
   "devDependencies": {
-    "@types/node": "^25.9.0",
+    "@types/node": "^25.9.1",
     "msw": "^2.14.6",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.6"
+    "vitest": "^4.1.7"
   },
   "peerDependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.0.0"

@@ -98,6 +98,9 @@ function headingsIn(src) {
   return ids
 }
 
+// CodeQL js/file-access-to-http: not fixed by design. `url` is read from
+// docs MDX files and fetched precisely to verify the link resolves — that
+// is what this dev-only broken-link checker exists to do.
 async function reachable(url) {
   try {
     const res = await fetch(url, { method: 'HEAD', redirect: 'follow' })

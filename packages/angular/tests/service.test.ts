@@ -1,4 +1,4 @@
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it } from 'vitest'
 import 'zone.js'
 import type { AdapterFactory, AdapterRequest, StreamChunk } from '@agentskit/core'
 import { AgentskitChat } from '../src'

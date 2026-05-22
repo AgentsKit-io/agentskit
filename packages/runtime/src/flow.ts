@@ -251,7 +251,9 @@ export function flowToMermaid(def: FlowDefinition): string {
   const lines = ['flowchart TD']
   for (const node of def.nodes) {
     const label = node.name ?? node.id
-    const safe = label.replace(/"/g, '\\"')
+    // Mermaid quoted labels: collapse newlines and neutralise quotes so
+    // a crafted node name can't break out of the `["..."]` literal.
+    const safe = label.replace(/[\r\n]+/g, ' ').replace(/"/g, '&quot;')
     lines.push(`  ${node.id}["${safe}<br/><i>${node.run}</i>"]`)
   }
   for (const node of def.nodes) {

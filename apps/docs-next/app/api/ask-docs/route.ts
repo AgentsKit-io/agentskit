@@ -93,8 +93,10 @@ export async function POST(req: Request) {
       },
     })
   } catch (e) {
-    const msg = e instanceof Error ? e.message : String(e)
-    return new Response(JSON.stringify({ error: msg }), {
+    // Log details server-side; never return raw error text (it can leak
+    // stack traces, internal paths, or upstream provider responses).
+    console.error('[ask-docs] request failed:', e)
+    return new Response(JSON.stringify({ error: 'Upstream request failed.' }), {
       status: 502,
       headers: { 'content-type': 'application/json' },
     })
