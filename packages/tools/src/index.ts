@@ -4,6 +4,9 @@ export type { WebSearchConfig, WebSearchProvider, WebSearchResult } from './web-
 export { fetchUrl } from './fetch-url'
 export type { FetchUrlConfig } from './fetch-url'
 
+export { safeFetch, checkEgress, isPrivateHost, isPrivateIPv4, isPrivateIPv6 } from './safe-fetch'
+export type { EgressPolicy } from './safe-fetch'
+
 export { filesystem } from './filesystem'
 export type { FilesystemConfig } from './filesystem'
 

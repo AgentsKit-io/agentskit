@@ -8,3 +8,4 @@ the body of each fact lives in its own file. Agents read this index first.
 - `feedback_zero-dep-core` — @agentskit/core takes zero runtime deps; heavy deps go in opt-in packages behind injection points
 - `reference_quality-gates` — the structural gates, where they live, and how baselines work
 - `project_file-size-baselines` — oversized files pinned in check-file-size; shrink-only, never raise
+- `reference_security-surfaces` — egress (safeFetch, ADR-0010) + inbound chat-trigger validation (ADR-0011); both opt-in, reuse ArgsValidator

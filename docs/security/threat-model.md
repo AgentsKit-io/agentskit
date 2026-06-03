@@ -40,9 +40,9 @@ sandboxed code; memory/vector stores; the npm publish path.
 | 3 | PII leaks into logs/traces/model context | PII detection + regional routing (`security/pii.ts`); redaction in observability | shipped |
 | 4 | Secrets hard-coded or logged | Vault references (`security/vault.ts`); no secrets in errors (typed error system carries codes/hints, not internals) | shipped |
 | 5 | Runaway cost / abuse | Rate limiting (`security/rate-limit.ts`); `maxToolIterations`, budget/cost-guard (`observability`) | shipped |
-| 6 | Unbounded tool egress (SSRF, exfiltration) | Tools own their network; **default-deny `safeFetch` egress wrapper is not yet centralized** | gap — tracked |
+| 6 | Unbounded tool egress (SSRF, exfiltration) | Default-deny `safeFetch` wrapper (ADR-0010): blocks private/loopback/link-local/metadata hosts, re-gates redirects, fails closed without DNS. `fetchUrl` delegates to it | shipped |
 | 7 | Sandbox escape via model code | E2B isolation, timeouts, no network by default (`@agentskit/sandbox`) | shipped |
-| 8 | Inbound `adapter.parse(req)` accepts malformed requests | Schema validation of inbound requests | gap — out of scope of ADR-0008; HTTP-surface ADR pending |
+| 8 | Inbound webhook event accepts malformed payloads | `verify` (sig/replay) + opt-in `eventSchema`/`validateEvent` on `createChatTrigger` rejects off-schema events with 400 before the agent runs (ADR-0011) | shipped (opt-in) |
 | 9 | Compromised dependency | `dependency-review`, CodeQL, pinned actions, `pnpm` overrides for advisories; changeset-gated releases | shipped |
 | 10 | Auth/tenancy confusion (multi-tenant consumers) | SSO/SAML helpers (`security/sso.ts`); tenancy is the consuming app's responsibility | partial |
 
