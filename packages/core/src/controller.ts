@@ -163,6 +163,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
       context: { messages: state.messages, call: toolCall },
       emitter,
       lifecycle,
+      validate: config.validateArgs,
       onPartial: (partial) => {
         updateToolCall(assistantId, toolCall.id, { result: partial })
       },
@@ -512,6 +513,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
         context: { messages: state.messages, call: tc },
         emitter,
         lifecycle,
+        validate: config.validateArgs,
         onPartial: (partial) => {
           updateToolCall(msg.id, toolCallId, { result: partial })
         },

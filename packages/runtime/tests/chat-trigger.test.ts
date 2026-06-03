@@ -174,6 +174,50 @@ describe('createChatTrigger — adapter signals', () => {
     expect(res.body).toContain('bad payload')
   })
 
+  it('returns 400 when the parsed event fails eventSchema (ADR-0011)', async () => {
+    const events: ChatTriggerObserverEvent[] = []
+    let ran = false
+    const trig = createChatTrigger({
+      adapter: buildAdapter(),
+      agent: agent(async () => { ran = true; return 'ok' }),
+      eventSchema: { type: 'object', required: ['type'], properties: { type: { const: 'reaction' } } },
+      validateEvent: () => ({ valid: false, message: 'type must be reaction' }),
+      onEvent: e => events.push(e),
+    })
+    const res = await trig.handler(REQ)
+    expect(res.status).toBe(400)
+    expect(res.body).toContain('type must be reaction')
+    expect(ran).toBe(false)
+    expect(events.map(e => e.type)).toEqual(['received', 'rejected'])
+  })
+
+  it('runs the agent when the parsed event passes eventSchema', async () => {
+    let passedSchema = false
+    const trig = createChatTrigger({
+      adapter: buildAdapter(),
+      agent: agent(async () => 'ok'),
+      eventSchema: { type: 'object' },
+      validateEvent: (schema, evt) => {
+        passedSchema = typeof schema === 'object' && typeof (evt as { type?: unknown }).type === 'string'
+        return { valid: true }
+      },
+    })
+    const res = await trig.handler(REQ)
+    expect(res.status).toBe(200)
+    expect(passedSchema).toBe(true)
+  })
+
+  it('skips validation when only eventSchema or only validateEvent is set', async () => {
+    const trig = createChatTrigger({
+      adapter: buildAdapter(),
+      agent: agent(async () => 'ok'),
+      eventSchema: { type: 'object', required: ['nope'] },
+      // no validateEvent → validation is a no-op
+    })
+    const res = await trig.handler(REQ)
+    expect(res.status).toBe(200)
+  })
+
   it('returns 500 with a generic body when the agent throws (no error leak to surface logs)', async () => {
     const events: ChatTriggerObserverEvent[] = []
     const trig = createChatTrigger({

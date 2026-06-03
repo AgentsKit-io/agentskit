@@ -1,0 +1,68 @@
+{
+  "name": "@agentskit/validation",
+  "version": "0.1.0",
+  "description": "Opt-in runtime validation of tool-call arguments against their JSON Schema for AgentsKit. Wraps Ajv; plugs into the core ArgsValidator contract (ADR-0008).",
+  "keywords": [
+    "agentskit",
+    "ai",
+    "agents",
+    "llm",
+    "typescript",
+    "validation",
+    "json-schema",
+    "ajv",
+    "tools",
+    "ai-agents"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "tsc --noEmit",
+    "dev": "tsup --watch"
+  },
+  "dependencies": {
+    "@agentskit/core": "workspace:*",
+    "ajv": "^8.17.1"
+  },
+  "devDependencies": {
+    "@types/json-schema": "^7.0.15",
+    "@types/node": "^25.9.1",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.7"
+  },
+  "agentskit": {
+    "stability": "beta",
+    "stabilityNote": "ArgsValidator contract stable (ADR-0008); Ajv-backed implementation."
+  },
+  "license": "MIT",
+  "homepage": "https://www.agentskit.io/docs/packages/validation",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AgentsKit-io/agentskit.git",
+    "directory": "packages/validation"
+  },
+  "bugs": {
+    "url": "https://github.com/AgentsKit-io/agentskit/issues"
+  },
+  "author": "AgentsKit Contributors"
+}

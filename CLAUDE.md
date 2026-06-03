@@ -99,3 +99,14 @@ Agent evaluation and benchmarking. Supports metrics: accuracy, latency, cost, to
 - All packages build with tsup, dual CJS/ESM output
 - Tests use vitest
 - Changesets for versioning (`pnpm changeset`)
+
+Conventions above are enforced by gates — run `pnpm check:quality-gates` before
+opening a PR (`pnpm check:all` adds typecheck + build + test). A husky pre-push
+hook runs them automatically.
+
+## Agent Memory
+
+Shared, versioned institutional memory lives in `.agent-memory/`. Read
+`.agent-memory/MEMORY.md` first — it indexes non-obvious decisions (e.g. why
+JSON Schema is canonical over Zod, the zero-dep core rule, file-size baselines).
+Add a fact as its own file and a one-line pointer in the index.

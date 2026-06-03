@@ -1,7 +1,7 @@
 import type { MaybePromise } from './common'
 import type { StreamStatus, TokenUsage } from './stream'
 import type { Message } from './message'
-import type { ToolCall, ToolCallHandlerContext, ToolDefinition } from './tool'
+import type { ArgsValidator, ToolCall, ToolCallHandlerContext, ToolDefinition } from './tool'
 import type { AdapterFactory } from './adapter'
 import type { ChatMemory } from './memory'
 import type { Retriever } from './retrieval'
@@ -29,6 +29,14 @@ export interface ChatConfig {
   onError?: (error: Error) => void
   onToolCall?: (toolCall: ToolCall, context: ToolCallHandlerContext) => MaybePromise<void>
   observers?: Observer[]
+  /**
+   * Opt-in runtime validator for tool-call arguments (ADR-0008). When set,
+   * args produced by the model are checked against each tool's JSON Schema
+   * before execution; mismatches raise `AK_TOOL_INVALID_INPUT`. Omit for the
+   * default passthrough behaviour. Use `createAjvValidator()` from
+   * `@agentskit/validation`.
+   */
+  validateArgs?: ArgsValidator
 }
 
 export interface ChatState {

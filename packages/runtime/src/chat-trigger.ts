@@ -16,6 +16,7 @@
  */
 
 import { ConfigError, ErrorCodes } from '@agentskit/core'
+import type { ArgsValidator } from '@agentskit/core'
 import type { AgentHandle } from './topologies'
 import type { WebhookHandler, WebhookRequest, WebhookResponse } from './background'
 
@@ -196,6 +197,19 @@ export interface ChatTriggerOptions<TContext = unknown> {
    * time instead of accepting spoofed webhooks at runtime.
    */
   strict?: boolean
+  /**
+   * Opt-in JSON Schema for the parsed `ChatSurfaceEvent` (ADR-0011). When set
+   * together with `validateEvent`, an event that fails the schema is rejected
+   * with HTTP 400 before the agent runs — defence in depth on top of
+   * `adapter.verify`. The schema type is the same `JSONSchema7` accepted by
+   * `ArgsValidator`.
+   */
+  eventSchema?: Parameters<ArgsValidator>[0]
+  /**
+   * Validator used with `eventSchema`. Use `createAjvValidator()` from
+   * `@agentskit/validation`. No-op unless `eventSchema` is also set.
+   */
+  validateEvent?: ArgsValidator
   /** Observability hook. */
   onEvent?: (event: ChatTriggerObserverEvent) => void
 }
@@ -273,6 +287,17 @@ export function createChatTrigger<TContext = unknown>(
     if (event === null) {
       options.onEvent?.({ type: 'skipped', surface, reason: 'adapter returned null' })
       return { status: 200, body: 'ignored' }
+    }
+
+    // Opt-in inbound validation (ADR-0011): reject events that don't match the
+    // declared schema before the agent runs.
+    if (options.eventSchema && options.validateEvent) {
+      const v = options.validateEvent(options.eventSchema, event as unknown as Record<string, unknown>)
+      if (!v.valid) {
+        const reason = v.message ?? 'event failed schema validation'
+        options.onEvent?.({ type: 'rejected', surface, reason })
+        return { status: 400, body: reason }
+      }
     }
 
     if (options.filter && !options.filter(event)) {
