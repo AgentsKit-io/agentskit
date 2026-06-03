@@ -1,6 +1,7 @@
 import { ToolError, ErrorCodes } from './errors'
 import { executeToolCall, createToolLifecycle, createEventEmitter } from './primitives'
 import type {
+  ArgsValidator,
   MaybePromise,
   SkillDefinition,
   ToolCall,
@@ -68,12 +69,14 @@ export interface ExecuteSafeToolOptions {
   lifecycle: ReturnType<typeof createToolLifecycle>
   onPartial?: (result: string) => void
   onConfirm?: (toolCall: ToolCall) => MaybePromise<boolean>
+  /** Opt-in arg validation against `tool.schema` (ADR-0008). */
+  validate?: ArgsValidator
 }
 
 export async function executeSafeTool(
   options: ExecuteSafeToolOptions,
 ): Promise<ToolExecResult> {
-  const { tool, toolCall, context, emitter, lifecycle, onPartial, onConfirm } = options
+  const { tool, toolCall, context, emitter, lifecycle, onPartial, onConfirm, validate } = options
   const startTime = Date.now()
 
   // Missing tool
@@ -85,6 +88,18 @@ export async function executeSafeTool(
     })
     emitter.emit({ type: 'error', error: err })
     return { status: 'error', error: err.toString(), durationMs: Date.now() - startTime }
+  }
+
+  if (validate && tool.schema) {
+    const v = validate(tool.schema, toolCall.args)
+    if (!v.valid) {
+      const err = new ToolError({
+        code: ErrorCodes.AK_TOOL_INVALID_INPUT,
+        message: v.message ?? `Tool "${toolCall.name}" received invalid arguments`,
+      })
+      emitter.emit({ type: 'error', error: err })
+      return { status: 'error', error: err.toString(), durationMs: Date.now() - startTime }
+    }
   }
 
   // Requires confirmation

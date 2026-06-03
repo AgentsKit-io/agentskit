@@ -214,6 +214,7 @@ export function createRuntime(config: RuntimeConfig) {
             context: { messages, call: toolCall },
             emitter,
             lifecycle,
+            validate: config.validateArgs,
             onPartial: (partial) => { toolCall.result = partial },
             onConfirm: config.onConfirm,
           })

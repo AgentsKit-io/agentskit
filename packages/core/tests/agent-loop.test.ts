@@ -124,6 +124,72 @@ describe('executeSafeTool', () => {
     expect(events.some((e: Record<string, unknown>) => e.type === 'error')).toBe(true)
   })
 
+  it('rejects invalid args with AK_TOOL_INVALID_INPUT when a validator is supplied (ADR-0008)', async () => {
+    let executed = false
+    const tool: ToolDefinition = {
+      name: 'search',
+      schema: { type: 'object', properties: { q: { type: 'number' } }, required: ['q'] },
+      execute: async () => { executed = true; return 'ran' },
+    }
+    const emitter = createEventEmitter()
+    const lifecycle = createToolLifecycle(buildToolMap([tool]))
+
+    const result = await executeSafeTool({
+      tool,
+      toolCall: { id: 'tc1', name: 'search', args: { q: 'not-a-number' }, status: 'pending' },
+      context: { messages: [], call: makeToolCall('search') },
+      emitter,
+      lifecycle,
+      validate: () => ({ valid: false, message: 'invalid tool arguments: q: must be number' }),
+    })
+
+    expect(result.status).toBe('error')
+    expect(result.error).toContain('AK_TOOL_INVALID_INPUT')
+    expect(result.error).toContain('q: must be number')
+    expect(executed).toBe(false)
+  })
+
+  it('executes when the validator passes', async () => {
+    const tool: ToolDefinition = {
+      name: 'search',
+      schema: { type: 'object', properties: { q: { type: 'string' } } },
+      execute: async () => 'ok',
+    }
+    const emitter = createEventEmitter()
+    const lifecycle = createToolLifecycle(buildToolMap([tool]))
+
+    const result = await executeSafeTool({
+      tool,
+      toolCall: makeToolCall('search'),
+      context: { messages: [], call: makeToolCall('search') },
+      emitter,
+      lifecycle,
+      validate: () => ({ valid: true }),
+    })
+
+    expect(result.status).toBe('complete')
+    expect(result.result).toBe('ok')
+  })
+
+  it('passes through when validator is set but tool has no schema', async () => {
+    const tool: ToolDefinition = { name: 'search', execute: async () => 'ok' }
+    const emitter = createEventEmitter()
+    const lifecycle = createToolLifecycle(buildToolMap([tool]))
+    let called = false
+
+    const result = await executeSafeTool({
+      tool,
+      toolCall: makeToolCall('search'),
+      context: { messages: [], call: makeToolCall('search') },
+      emitter,
+      lifecycle,
+      validate: () => { called = true; return { valid: false } },
+    })
+
+    expect(result.status).toBe('complete')
+    expect(called).toBe(false)
+  })
+
   it('catches tool execution errors', async () => {
     const tool: ToolDefinition = {
       name: 'flaky',

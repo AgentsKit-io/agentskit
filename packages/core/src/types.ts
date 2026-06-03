@@ -6,7 +6,7 @@ export type {
   DataRegion,
   StreamStatus, StreamToolCallPayload, StreamChunk, StreamSource, UseStreamOptions, UseStreamReturn,
   MessageRole, MessageStatus, Message, MemoryRecord,
-  ToolCallStatus, ToolCall, ToolExecutionContext, ToolDefinition, ToolCallHandlerContext, InferSchemaType, DefineToolConfig,
+  ToolCallStatus, ToolCall, ToolExecutionContext, ToolDefinition, ToolCallHandlerContext, InferSchemaType, DefineToolConfig, ArgsValidator, ArgsValidationResult, ArgsValidationError,
   AdapterContext, AdapterRequest, AdapterFactory, AdapterCapabilities,
   ChatMemory, VectorDocument, VectorMemory, EmbedFn,
   VectorSearchOptions, VectorFilter, VectorFilterCompound, VectorFilterOperator, VectorFilterPredicate, VectorFilterPrimitive,

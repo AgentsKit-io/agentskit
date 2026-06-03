@@ -47,5 +47,6 @@ Do NOT write an ADR for: routine features, bug fixes, internal refactors, or any
 | [0005](./0005-skill-contract.md) | Skill contract (v1) | Accepted |
 | [0006](./0006-runtime-contract.md) | Runtime contract (v1) | Accepted |
 | [0007](./0007-docs-platform-fumadocs.md) | Documentation platform: Fumadocs | Accepted |
+| [0008](./0008-runtime-validation.md) | Runtime argument validation | Accepted |
 
 The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.

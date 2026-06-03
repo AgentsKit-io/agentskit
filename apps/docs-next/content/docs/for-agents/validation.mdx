@@ -1,0 +1,55 @@
+---
+title: '@agentskit/validation — for agents'
+description: Opt-in runtime validation of tool-call arguments against their JSON Schema. Wraps Ajv; plugs into the core ArgsValidator contract (ADR-0008).
+---
+
+## Install
+
+```bash
+npm install @agentskit/validation
+```
+
+## Why
+
+The real untrusted boundary in an agent is **model output**. A model returns tool-call args as arbitrary JSON; core parses them (`safeParseArgs`) but does not check them against the tool's schema — `execute` receives args the type system only *claims* are valid. This package enforces the tool's existing `JSONSchema7` at runtime. JSON Schema stays the single source of truth (ADR-0008); no Zod, no duplicate contract.
+
+## Primary exports
+
+- `createAjvValidator(options?)` — returns an `ArgsValidator` (the core contract) backed by Ajv. Pass it as `validateArgs` on the chat controller or runtime config. Invalid args raise `AK_TOOL_INVALID_INPUT` before `execute` runs.
+
+### Options (`AjvValidatorOptions`)
+
+| Field | Default | Notes |
+|---|---|---|
+| `rejectAdditionalProperties` | `false` | Reject keys not declared in the schema. Models often add harmless extras; enable for strict contracts. |
+| `coerceTypes` | `false` | Coerce unambiguous primitives (e.g. `"42"` → `42`) before validating. |
+| `ajv` | — | Supply a pre-configured Ajv instance (formats, keywords, strict mode). |
+
+## Usage
+
+```ts
+import { createChatController } from '@agentskit/core'
+import { createAjvValidator } from '@agentskit/validation'
+
+const chat = createChatController({
+  adapter,
+  tools: [weatherTool],
+  validateArgs: createAjvValidator(),
+})
+```
+
+Same shape on the runtime:
+
+```ts
+import { createRuntime } from '@agentskit/runtime'
+import { createAjvValidator } from '@agentskit/validation'
+
+const runtime = createRuntime({ adapter, tools, validateArgs: createAjvValidator() })
+```
+
+## Notes
+
+- **Opt-in.** Omit `validateArgs` and behaviour is unchanged (passthrough). Core stays zero-dependency; Ajv lives only here.
+- **Single source of truth.** Validates the `schema` already on each `ToolDefinition`. Tools with no `schema` are skipped.
+- Compiled validators are cached by schema identity — repeated calls do not recompile.
+- See ADR-0008 (`docs/architecture/adrs/0008-runtime-validation.md`).
