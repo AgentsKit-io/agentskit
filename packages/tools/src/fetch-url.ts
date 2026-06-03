@@ -1,4 +1,5 @@
 import type { ToolDefinition } from '@agentskit/core'
+import { checkEgress } from './safe-fetch'
 
 export interface FetchUrlConfig {
   /** Maximum bytes to read from the response body. Default: 200 KB. */
@@ -70,110 +71,6 @@ function stripHtml(html: string): string {
   return decodeEntities(out).replace(/\s+/g, ' ').trim()
 }
 
-function ipv4ToInt(ip: string): number | null {
-  const parts = ip.split('.')
-  if (parts.length !== 4) return null
-  let out = 0
-  for (const part of parts) {
-    if (!/^\d{1,3}$/.test(part)) return null
-    const n = Number(part)
-    if (n < 0 || n > 255) return null
-    out = (out << 8) | n
-  }
-  return out >>> 0
-}
-
-function isPrivateIPv4(ip: string): boolean {
-  const n = ipv4ToInt(ip)
-  if (n === null) return false
-  const o1 = (n >>> 24) & 0xff
-  const o2 = (n >>> 16) & 0xff
-  // 0.0.0.0/8
-  if (o1 === 0) return true
-  // 10.0.0.0/8
-  if (o1 === 10) return true
-  // 127.0.0.0/8 loopback
-  if (o1 === 127) return true
-  // 169.254.0.0/16 link-local (incl. AWS IMDS)
-  if (o1 === 169 && o2 === 254) return true
-  // 172.16.0.0/12
-  if (o1 === 172 && o2 >= 16 && o2 <= 31) return true
-  // 192.168.0.0/16
-  if (o1 === 192 && o2 === 168) return true
-  // 100.64.0.0/10 CGNAT
-  if (o1 === 100 && o2 >= 64 && o2 <= 127) return true
-  return false
-}
-
-function isPrivateIPv6(ip: string): boolean {
-  const lower = ip.toLowerCase()
-  if (lower === '::1' || lower === '::') return true
-  if (lower === '0:0:0:0:0:0:0:1' || lower === '0:0:0:0:0:0:0:0') return true
-  // fc00::/7 unique-local
-  if (/^f[cd][0-9a-f]{2}:/i.test(lower)) return true
-  // fe80::/10 link-local
-  if (/^fe[89ab][0-9a-f]:/i.test(lower)) return true
-  // IPv4-mapped: ::ffff:a.b.c.d
-  const mapped = lower.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/)
-  if (mapped) return isPrivateIPv4(mapped[1]!)
-  return false
-}
-
-/**
- * Decide whether `host` resolves to a private/loopback/link-local
- * address. Sync host-literal checks are exact; for hostnames we resort
- * to DNS lookup via `node:dns/promises` when available. Conservatively
- * blocks on any DNS failure so a misconfigured resolver can't open the
- * SSRF gap by accident.
- */
-async function isPrivateHost(host: string): Promise<boolean> {
-  const stripped = host.replace(/^\[/, '').replace(/\]$/, '')
-  // host literal IPv4?
-  if (/^\d{1,3}(?:\.\d{1,3}){3}$/.test(stripped)) {
-    return isPrivateIPv4(stripped)
-  }
-  // host literal IPv6?
-  if (stripped.includes(':')) {
-    return isPrivateIPv6(stripped)
-  }
-  const lower = stripped.toLowerCase()
-  if (lower === 'localhost' || lower.endsWith('.localhost')) return true
-  if (lower === 'metadata.google.internal') return true
-  if (lower === 'metadata.goog') return true
-  // Resolve through DNS where possible.
-  try {
-    const dns = await import('node:dns/promises')
-    const records = await dns.lookup(stripped, { all: true, verbatim: true })
-    if (records.length === 0) return true
-    for (const r of records) {
-      if (r.family === 4 && isPrivateIPv4(r.address)) return true
-      if (r.family === 6 && isPrivateIPv6(r.address)) return true
-    }
-    return false
-  } catch {
-    // No DNS available (edge runtime) or lookup failed — fail closed.
-    return true
-  }
-}
-
-async function gateHost(parsed: URL, opts: {
-  allowPrivateHosts: boolean
-  allowedHosts?: string[]
-}): Promise<string | null> {
-  const host = parsed.hostname
-  if (opts.allowedHosts && opts.allowedHosts.length > 0) {
-    if (!opts.allowedHosts.includes(host)) {
-      return `Error: host "${host}" is not in allowedHosts`
-    }
-    return null
-  }
-  if (opts.allowPrivateHosts) return null
-  if (await isPrivateHost(host)) {
-    return `Error: host "${host}" resolves to a private/loopback/link-local address (SSRF blocked). Pass allowPrivateHosts:true or use allowedHosts to override for vetted internal targets.`
-  }
-  return null
-}
-
 /**
  * Tool: fetch a URL and return its text content.
  *
@@ -232,10 +129,7 @@ export function fetchUrl(config: FetchUrlConfig = {}): ToolDefinition {
           } catch {
             return `Error: invalid URL "${currentUrl}"`
           }
-          if (parsed.protocol !== 'http:' && parsed.protocol !== 'https:') {
-            return `Error: unsupported protocol "${parsed.protocol}" — only http/https allowed`
-          }
-          const gateError = await gateHost(parsed, { allowPrivateHosts, allowedHosts })
+          const gateError = await checkEgress(parsed, { allowPrivateHosts, allowedHosts })
           if (gateError) return gateError
 
           const r = await fetch(currentUrl, {

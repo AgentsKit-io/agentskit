@@ -1,0 +1,4 @@
+# Structural gates + typecheck + build before pushing.
+# Fast, build-light checks first; full test suite runs in CI.
+# To bypass in an emergency, use `git push --no-verify` (discouraged).
+pnpm check:quality-gates && pnpm lint && pnpm build

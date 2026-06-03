@@ -1,8 +1,22 @@
 # scripts/
 
 Repo-level CI helpers. Each script is dependency-free Node ESM, runnable
-from the repo root. Both run on every PR + push to `main` via
-`.github/workflows/ci.yml`.
+from the repo root. They run on every PR + push to `main` via
+`.github/workflows/ci.yml` and a husky `pre-push` hook.
+
+## `check-quality-gates.mjs` (orchestrator)
+
+Runs every structural gate below in sequence and prints a single pass/fail
+summary. This is the entry point — `pnpm check:quality-gates`. `pnpm check:all`
+layers typecheck + build + test on top.
+
+```bash
+pnpm check:quality-gates
+```
+
+To add a gate: write the `check-*.mjs` script, then register it in the `GATES`
+array at the top of this orchestrator. Gates strip backtick template contents
+before matching so scaffold/prompt strings don't false-positive.
 
 ## `check-for-agents-coverage.mjs`
 
@@ -53,3 +67,38 @@ hold bare throws: `errors.ts` itself, files where the bare `Error` is
 caught and rewrapped (embedder `fetchAvailableModels`), and CLI/leaf
 modules whose conversions are queued in the enterprise-readiness
 backlog. The list shrinks as those conversions land.
+
+## `check-core-no-deps.mjs`
+
+Asserts `@agentskit/core` declares zero runtime dependencies (Manifesto
+principle: core stays pure and under 10KB gzipped). Heavy deps belong in
+opt-in packages behind a core injection point.
+
+## `check-no-any.mjs`
+
+Forbids the explicit `any` type in package source (`: any`, `as any`, `<any>`,
+`any[]`, `Array<any>`). Use `unknown` and narrow. Template/comment contents are
+stripped before matching.
+
+## `check-named-exports.mjs`
+
+Forbids `export default` in package source — named exports only. Scaffold code
+inside backtick strings (CLI init, templates) is ignored.
+
+## `check-file-size.mjs`
+
+Enforces per-package LOC budgets (default 400; `contracts` 200, `ui` 500).
+Files already over budget are pinned in `BASELINE` at their current size:
+shrink-only, never raise. See `.agent-memory/project_file-size-baselines.md`.
+
+## `check-doc-index.mjs`
+
+Asserts ADR (`docs/architecture/adrs`) and RFC (`rfcs`) indexes match disk:
+every `NNNN-*.md` file is linked from its README, and every indexed link
+resolves to a real file.
+
+## `check-intl-parity.mjs`
+
+Docs locale parity. Reads `apps/docs-next/lib/locales.ts`; a locale marked
+`full` must have a sibling MDX for every English page under `content/docs`.
+`seed`/`partial` locales report coverage without failing; `planned` is skipped.

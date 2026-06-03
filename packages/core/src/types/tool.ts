@@ -19,6 +19,38 @@ export interface ToolExecutionContext {
 }
 
 // ---------------------------------------------------------------------------
+// Runtime argument validation (ADR-0008)
+//
+// Validation is an injectable, opt-in capability. Core ships no validator and
+// stays zero-dependency; callers provide an `ArgsValidator` (e.g. from
+// `@agentskit/validation`) to enforce a tool's JSON Schema against the args a
+// model produced. Default behaviour (no validator) is passthrough.
+// ---------------------------------------------------------------------------
+
+export interface ArgsValidationError {
+  /** JSON pointer / dotted path to the offending field, or '' for root. */
+  path: string
+  message: string
+}
+
+export interface ArgsValidationResult {
+  valid: boolean
+  errors?: ArgsValidationError[]
+  /** Optional pre-built human summary; used verbatim in the thrown error. */
+  message?: string
+}
+
+/**
+ * Validate parsed tool-call args against the tool's JSON Schema.
+ * Returns `{ valid: true }` to allow execution, or `{ valid: false, errors }`
+ * to reject it with `AK_TOOL_INVALID_INPUT`.
+ */
+export type ArgsValidator = (
+  schema: JSONSchema7,
+  args: Record<string, unknown>,
+) => ArgsValidationResult
+
+// ---------------------------------------------------------------------------
 // JSON Schema -> TypeScript type inference (works with `as const` schemas)
 // ---------------------------------------------------------------------------
 

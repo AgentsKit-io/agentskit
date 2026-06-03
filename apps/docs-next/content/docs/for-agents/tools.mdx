@@ -16,6 +16,7 @@ npm install @agentskit/tools
 - `slackTool` — Slack incoming-webhook tool (lighter than the OAuth `integrations/slack`).
 - `defineZodTool` — define tools with Zod schemas.
 - `listTools` — discovery helper.
+- `safeFetch` — `fetch` with default-deny egress (ADR-0010): blocks private/loopback/link-local hosts (SSRF) and re-gates every redirect hop. Use for any tool fetching a model-influenced URL. Companions: `checkEgress`, `isPrivateHost`, `isPrivateIPv4`, `isPrivateIPv6`; policy type `EgressPolicy`.
 
 ## Subpath exports
 

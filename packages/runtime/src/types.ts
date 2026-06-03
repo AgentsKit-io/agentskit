@@ -1,5 +1,6 @@
 import type {
   AdapterFactory,
+  ArgsValidator,
   ChatMemory,
   MaybePromise,
   Message,
@@ -31,6 +32,13 @@ export interface RuntimeConfig {
   delegates?: Record<string, DelegateConfig>
   maxDelegationDepth?: number
   onConfirm?: (toolCall: ToolCall) => MaybePromise<boolean>
+  /**
+   * Opt-in runtime validator for tool-call arguments (ADR-0008). When set,
+   * model-produced args are checked against each tool's JSON Schema before
+   * execution; mismatches raise `AK_TOOL_INVALID_INPUT`. Use
+   * `createAjvValidator()` from `@agentskit/validation`.
+   */
+  validateArgs?: ArgsValidator
 }
 
 export interface RunOptions {

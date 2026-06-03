@@ -106,12 +106,18 @@ pnpm --filter @agentskit/core test            # run one package's tests
 pnpm --filter @agentskit/core test:coverage   # with coverage report
 ```
 
-### 4. Type-check and bundle-check
+### 4. Type-check, gates, and bundle-check
 
 ```bash
+pnpm check:quality-gates                       # structural gates (fast)
 pnpm --filter @agentskit/core lint            # tsc --noEmit
 pnpm size                                      # all packages, gzipped
 ```
+
+`pnpm check:quality-gates` runs every structural gate (typed errors, named
+exports, no `any`, file-size budgets, src↔test parity, for-agents coverage,
+ADR/RFC index sync, locale parity). `pnpm check:all` adds typecheck + build +
+test. A husky **pre-push** hook runs gates + typecheck + build automatically.
 
 `@agentskit/core` is capped at **10KB gzipped** by [Manifesto principle 1](./MANIFESTO.md). The `size` workflow blocks PRs that exceed any package's budget.
 
@@ -215,6 +221,26 @@ If your change affects what a consumer sees or does:
 Maintainers tag releases with the [Changesets Action](https://github.com/changesets/action). Your changeset gets consumed automatically.
 
 For local experimentation: `pnpm changeset version` then `pnpm changeset publish`. Don't run the publish command unless you're a maintainer with npm access.
+
+### Rollback
+
+A bad publish is rolled back by shipping a corrected version forward (npm
+discourages unpublish). For any release with consumer-visible risk, the
+maintainer records a short rollback note:
+
+```markdown
+## v<X.Y.Z> Rollback
+
+**Changes:** [consumer-visible changes in this release]
+**Smoke tests:** [surfaces/flows to verify within N minutes — e.g. `agentskit chat`, a runtime `run()`, docs build]
+**Procedure:** [exact steps — e.g. `npm dist-tag add @agentskit/<pkg>@<prev> latest`, or publish a patch reverting the change]
+**Authority:** [who can trigger; under what condition]
+**Comms:** [who tells users; via which channel]
+```
+
+Semver intent: **patch** = internal fix, no API change; **minor** = additive
+(new export/option with a default); **major** = breaking, requires an RFC +
+migration notes.
 
 ---
 
