@@ -4,6 +4,12 @@
 // Junk (code-snippet file paths, unbuilt locales) intentionally left to 404.
 // Prepended before the wildcard rules so first-match wins over stale chains.
 export const LEGACY_404_REDIRECTS = [
+  // From GSC "Not found (404)" export 2026-06-03: reference recipes moved under /recipes; a2a spec moved under /specs.
+  { source: "/docs/reference/edit-and-regenerate", destination: "/docs/reference/recipes/edit-and-regenerate", permanent: true },
+  { source: "/docs/reference/pdf-qa", destination: "/docs/reference/recipes/pdf-qa", permanent: true },
+  { source: "/docs/reference/time-travel-debug", destination: "/docs/reference/recipes/time-travel-debug", permanent: true },
+  { source: "/docs/reference/integrations", destination: "/docs/reference/recipes/integrations", permanent: true },
+  { source: "/a2a", destination: "/docs/reference/specs/a2a", permanent: true },
   { source: "/docs/reference/speculative-execution", destination: "/docs/reference/recipes/speculative-execution", permanent: true },
   { source: "/docs/agents/tools/postgres", destination: "/docs/agents/tools/integrations/postgres", permanent: true },
   { source: "/docs/agents/tools/google-calendar", destination: "/docs/agents/tools/integrations/google-calendar", permanent: true },
