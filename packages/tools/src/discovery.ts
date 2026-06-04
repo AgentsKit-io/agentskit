@@ -4,7 +4,6 @@ import { webSearch } from './web-search'
 import { fetchUrl } from './fetch-url'
 import { filesystem } from './filesystem'
 import { shell } from './shell'
-import { tmpdir } from 'node:os'
 
 export interface ToolMetadata {
   name: string
@@ -29,7 +28,7 @@ export function listTools(): ToolMetadata[] {
   const tools: ToolDefinition[] = [
     webSearch(),
     fetchUrl(),
-    ...filesystem({ basePath: tmpdir() }),
+    ...filesystem({ basePath: process.cwd() }),
     shell({ allowed: [] }),
   ]
 
