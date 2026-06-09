@@ -55,6 +55,20 @@ export type AuthSpec =
 // never sees the raw credential.
 // ---------------------------------------------------------------------------
 
+/**
+ * Execution context handed to every action. `http` covers the common
+ * REST-with-token case; `fetch` + `config` let complex services do their own
+ * transport (form-encoded bodies, Basic auth, injected SMTP/bot adapters).
+ */
+export interface IntegrationActionContext {
+  /** Auth-bound JSON HTTP client (base URL + auth headers applied). */
+  http: IntegrationHttp
+  /** Raw fetch for non-JSON transports. */
+  fetch: typeof globalThis.fetch
+  /** Service-specific config: extra credentials, injected adapters, options. */
+  config: unknown
+}
+
 export interface IntegrationAction {
   /** Stable, namespaced id, e.g. `slack_post_message`. */
   name: string
@@ -62,12 +76,13 @@ export interface IntegrationAction {
   /** JSON Schema (canonical) for the action arguments. */
   schema: JSONSchema7
   sideEffect?: SideEffect
+  requiresConfirmation?: boolean
   /**
    * SendCapability id this action fulfils when projected as an outbound
    * connector sender (e.g. `chat.postMessage`). Absent = not a sender.
    */
   sendCapability?: string
-  execute: (args: Record<string, unknown>, http: IntegrationHttp) => MaybePromise<unknown>
+  execute: (args: Record<string, unknown>, ctx: IntegrationActionContext) => MaybePromise<unknown>
 }
 
 // ---------------------------------------------------------------------------
@@ -127,8 +142,8 @@ export interface Integration {
   name: string
   displayName: string
   categories: string[]
-  /** Shared transport facts (base URL) applied to every action. */
-  http?: { baseUrl: string }
+  /** Shared transport facts applied to every action (base URL + default headers). */
+  http?: { baseUrl: string; headers?: Record<string, string> }
   auth: AuthSpec
   actions: IntegrationAction[]
   triggers?: IntegrationTrigger[]

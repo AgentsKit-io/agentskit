@@ -1,62 +1,22 @@
-import { defineTool } from '@agentskit/core'
-import { httpJson, type HttpToolOptions } from './http'
+import type { ToolDefinition } from '@agentskit/core'
+import { weatherIntegration, toToolDefinitions, type ProjectionConfig } from '@agentskit/integrations'
+import type { HttpToolOptions } from './http'
 
+/** @deprecated Moved to `@agentskit/integrations` (services/weather). */
 export interface WeatherConfig extends HttpToolOptions {
   /** OpenWeatherMap API key. */
   apiKey: string
 }
 
-function opts(config: WeatherConfig): HttpToolOptions {
-  return {
-    baseUrl: config.baseUrl ?? 'https://api.openweathermap.org/data/2.5',
-    timeoutMs: config.timeoutMs,
-    fetch: config.fetch,
-    headers: config.headers,
-  }
+function cfg(config: WeatherConfig): ProjectionConfig {
+  return { config: { apiKey: config.apiKey }, baseUrl: config.baseUrl, headers: config.headers, timeoutMs: config.timeoutMs, fetch: config.fetch }
 }
 
-export function weatherCurrent(config: WeatherConfig) {
-  const base = opts(config)
-  return defineTool({
-    name: 'weather_current',
-    description: 'Get current weather for a latitude/longitude or city name.',
-    schema: {
-      type: 'object',
-      properties: {
-        lat: { type: 'number' },
-        lon: { type: 'number' },
-        city: { type: 'string' },
-        units: { type: 'string', description: '"metric" | "imperial" | "standard"' },
-      },
-    } as const,
-    async execute({ lat, lon, city, units }) {
-      const result = await httpJson<{
-        weather?: Array<{ description: string; main: string }>
-        main?: { temp: number; humidity: number }
-        wind?: { speed: number }
-        name?: string
-      }>(base, {
-        path: '/weather',
-        query: {
-          lat: lat !== undefined ? String(lat) : undefined,
-          lon: lon !== undefined ? String(lon) : undefined,
-          q: city !== undefined ? String(city) : undefined,
-          units: units !== undefined ? String(units) : 'metric',
-          appid: config.apiKey,
-        },
-      })
-      return {
-        location: result.name,
-        summary: result.weather?.[0]?.description,
-        condition: result.weather?.[0]?.main,
-        temperature: result.main?.temp,
-        humidity: result.main?.humidity,
-        windSpeed: result.wind?.speed,
-      }
-    },
-  })
+/** @deprecated import from `@agentskit/integrations`. */
+export function weatherCurrent(config: WeatherConfig): ToolDefinition {
+  return toToolDefinitions(weatherIntegration, cfg(config)).find((t) => t.name === 'weather_current')!
 }
-
-export function weather(config: WeatherConfig) {
-  return [weatherCurrent(config)]
+/** @deprecated import from `@agentskit/integrations`. */
+export function weather(config: WeatherConfig): ToolDefinition[] {
+  return toToolDefinitions(weatherIntegration, cfg(config))
 }

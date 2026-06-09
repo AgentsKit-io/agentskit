@@ -1,83 +1,26 @@
-import { defineTool, type ToolDefinition } from '@agentskit/core'
-import { httpJson, type HttpToolOptions } from './http'
+import type { ToolDefinition } from '@agentskit/core'
+import { figmaIntegration, toToolDefinitions, type ProjectionConfig } from '@agentskit/integrations'
+import type { HttpToolOptions } from './http'
 
+/** @deprecated Moved to `@agentskit/integrations` (services/figma). */
 export interface FigmaConfig extends HttpToolOptions {
   /** Personal access token. */
   accessToken: string
 }
 
-function opts(config: FigmaConfig): HttpToolOptions {
-  return {
-    baseUrl: config.baseUrl ?? 'https://api.figma.com/v1',
-    headers: { 'x-figma-token': config.accessToken },
-    timeoutMs: config.timeoutMs,
-    fetch: config.fetch,
-  }
+function cfg(config: FigmaConfig): ProjectionConfig {
+  return { credential: config.accessToken, baseUrl: config.baseUrl, headers: config.headers, timeoutMs: config.timeoutMs, fetch: config.fetch }
 }
 
-export function figmaGetFile(config: FigmaConfig) {
-  return defineTool({
-    name: 'figma_get_file',
-    description: 'Read a Figma file (top-level node tree).',
-    schema: {
-      type: 'object',
-      properties: {
-        fileKey: { type: 'string', description: 'The fileKey from the Figma URL (figma.com/file/<key>/...).' },
-        depth: { type: 'number', description: 'Limit traversal depth.' },
-      },
-      required: ['fileKey'],
-    } as const,
-    async execute({ fileKey, depth }) {
-      const result = await httpJson<{
-        name: string; lastModified: string;
-        document: { children?: Array<{ id: string; name: string; type: string }> };
-      }>(opts(config), {
-        method: 'GET',
-        path: `/files/${fileKey}`,
-        query: typeof depth === 'number' ? { depth } : undefined,
-      })
-      return {
-        name: result.name,
-        lastModified: result.lastModified,
-        topNodes: (result.document.children ?? []).map(n => ({ id: n.id, name: n.name, type: n.type })),
-      }
-    },
-  })
+/** @deprecated import from `@agentskit/integrations`. */
+export function figmaGetFile(config: FigmaConfig): ToolDefinition {
+  return toToolDefinitions(figmaIntegration, cfg(config)).find((t) => t.name === 'figma_get_file')!
 }
-
-export function figmaExportImages(config: FigmaConfig) {
-  return defineTool({
-    name: 'figma_export_images',
-    description: 'Export Figma node ids as image URLs.',
-    schema: {
-      type: 'object',
-      properties: {
-        fileKey: { type: 'string' },
-        ids: { type: 'array', items: { type: 'string' }, description: 'Node ids to export.' },
-        format: { type: 'string', enum: ['jpg', 'png', 'svg', 'pdf'] },
-        scale: { type: 'number' },
-      },
-      required: ['fileKey', 'ids'],
-    } as const,
-    async execute({ fileKey, ids, format, scale }) {
-      const idList = (ids as string[]).join(',')
-      const result = await httpJson<{ images: Record<string, string> }>(opts(config), {
-        method: 'GET',
-        path: `/images/${fileKey}`,
-        query: {
-          ids: idList,
-          format: format ? String(format) : 'png',
-          scale: typeof scale === 'number' ? scale : 2,
-        },
-      })
-      return result.images
-    },
-  })
+/** @deprecated import from `@agentskit/integrations`. */
+export function figmaExportImages(config: FigmaConfig): ToolDefinition {
+  return toToolDefinitions(figmaIntegration, cfg(config)).find((t) => t.name === 'figma_export_images')!
 }
-
+/** @deprecated import from `@agentskit/integrations`. */
 export function figma(config: FigmaConfig): ToolDefinition[] {
-  return [
-    figmaGetFile(config) as unknown as ToolDefinition,
-    figmaExportImages(config) as unknown as ToolDefinition,
-  ]
+  return toToolDefinitions(figmaIntegration, cfg(config))
 }

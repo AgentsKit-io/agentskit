@@ -1,81 +1,41 @@
-import { ErrorCodes, ToolError, defineTool } from '@agentskit/core'
-import { httpJson, type HttpToolOptions } from './http'
+import type { ToolDefinition } from '@agentskit/core'
+import {
+  slackIntegration,
+  toToolDefinitions,
+  type ProjectionConfig,
+} from '@agentskit/integrations'
+import type { HttpToolOptions } from './http'
 
+/**
+ * @deprecated Moved to `@agentskit/integrations` (services/slack). This shim
+ * re-projects the descriptor to preserve the legacy `fn(config) => Tool[]`
+ * API and will be removed in a future major.
+ */
 export interface SlackConfig extends HttpToolOptions {
   token: string
 }
 
-function opts(config: SlackConfig): HttpToolOptions {
+function cfg(config: SlackConfig): ProjectionConfig {
   return {
-    baseUrl: config.baseUrl ?? 'https://slack.com/api',
-    headers: { authorization: `Bearer ${config.token}`, ...config.headers },
+    credential: config.token,
+    baseUrl: config.baseUrl,
+    headers: config.headers,
     timeoutMs: config.timeoutMs,
     fetch: config.fetch,
   }
 }
 
-export function slackPostMessage(config: SlackConfig) {
-  const base = opts(config)
-  return defineTool({
-    name: 'slack_post_message',
-    description: 'Post a message to a Slack channel or DM.',
-    schema: {
-      type: 'object',
-      properties: {
-        channel: { type: 'string', description: 'Channel id or name' },
-        text: { type: 'string' },
-        thread_ts: { type: 'string', description: 'Timestamp of parent message to reply to (optional)' },
-      },
-      required: ['channel', 'text'],
-    } as const,
-    async execute({ channel, text, thread_ts }) {
-      const result = await httpJson<{ ok: boolean; ts?: string; error?: string }>(base, {
-        method: 'POST',
-        path: '/chat.postMessage',
-        body: { channel, text, thread_ts },
-      })
-      if (!result.ok) {
-        throw new ToolError({
-          code: ErrorCodes.AK_TOOL_EXEC_FAILED,
-          message: `slack: ${result.error ?? 'unknown error'}`,
-          hint: 'Slack returned ok:false; verify channel id, token scope, and rate limits.',
-        })
-      }
-      return { ts: result.ts }
-    },
-  })
+/** @deprecated import from `@agentskit/integrations`. */
+export function slackPostMessage(config: SlackConfig): ToolDefinition {
+  return toToolDefinitions(slackIntegration, cfg(config)).find((t) => t.name === 'slack_post_message')!
 }
 
-export function slackSearch(config: SlackConfig) {
-  const base = opts(config)
-  return defineTool({
-    name: 'slack_search',
-    description: 'Search Slack messages across workspaces you have access to.',
-    schema: {
-      type: 'object',
-      properties: {
-        query: { type: 'string' },
-        count: { type: 'number' },
-      },
-      required: ['query'],
-    } as const,
-    async execute({ query, count }) {
-      const result = await httpJson<{
-        messages?: { matches?: Array<{ channel: { name: string }; text: string; permalink: string }> }
-      }>(base, {
-        method: 'GET',
-        path: '/search.messages',
-        query: { query: String(query), count: count ?? 10 },
-      })
-      return (result.messages?.matches ?? []).map(m => ({
-        channel: m.channel.name,
-        text: m.text,
-        url: m.permalink,
-      }))
-    },
-  })
+/** @deprecated import from `@agentskit/integrations`. */
+export function slackSearch(config: SlackConfig): ToolDefinition {
+  return toToolDefinitions(slackIntegration, cfg(config)).find((t) => t.name === 'slack_search')!
 }
 
-export function slack(config: SlackConfig) {
-  return [slackPostMessage(config), slackSearch(config)]
+/** @deprecated import from `@agentskit/integrations`. */
+export function slack(config: SlackConfig): ToolDefinition[] {
+  return toToolDefinitions(slackIntegration, cfg(config))
 }

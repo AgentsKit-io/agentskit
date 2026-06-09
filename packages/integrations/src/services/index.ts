@@ -1,4 +1,32 @@
-// Service barrel — side-effect imports that register each descriptor into the
-// default catalog. `pnpm gen:integration <name>` appends a line here.
-// (Empty until the first service lands in the move/add phases.)
-export {}
+// Service barrel — re-exports + side-effect registration of each descriptor.
+// `pnpm gen:integration <name>` appends a line here.
+export { slackIntegration } from './slack'
+export { discordIntegration } from './discord'
+export { gmailIntegration } from './gmail'
+export { twilioIntegration } from './twilio'
+export * from './email'
+export * from './teams'
+export { githubIntegration } from './github'
+export { githubActionsIntegration } from './github-actions'
+export { sentryIntegration } from './sentry'
+export { linearIntegration } from './linear'
+export { linearTriageIntegration } from './linear-triage'
+export { jiraIntegration } from './jira'
+export { pagerdutyIntegration } from './pagerduty'
+export { notionIntegration } from './notion'
+export { airtableIntegration } from './airtable'
+export { confluenceIntegration } from './confluence'
+export { figmaIntegration } from './figma'
+export { googleCalendarIntegration } from './google-calendar'
+export { hubspotIntegration } from './hubspot'
+export { shopifyIntegration } from './shopify'
+export * from './stripe'
+export { openaiImagesIntegration } from './openai-images'
+export { firecrawlIntegration } from './firecrawl'
+export { mapsIntegration } from './maps'
+export { weatherIntegration } from './weather'
+export { coingeckoIntegration } from './coingecko'
+export { readerIntegration } from './reader'
+export { elevenlabsIntegration } from './elevenlabs'
+export { deepgramIntegration } from './deepgram'
+export { whisperIntegration } from './whisper'

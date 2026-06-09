@@ -1,6 +1,8 @@
-import { defineTool, type ToolDefinition } from '@agentskit/core'
-import { httpJson, type HttpToolOptions } from './http'
+import type { ToolDefinition } from '@agentskit/core'
+import { jiraIntegration, toToolDefinitions, type ProjectionConfig } from '@agentskit/integrations'
+import type { HttpToolOptions } from './http'
 
+/** @deprecated Moved to `@agentskit/integrations` (services/jira). */
 export interface JiraConfig extends HttpToolOptions {
   /** Atlassian site root, e.g. `https://my-org.atlassian.net`. */
   baseUrl: string
@@ -10,85 +12,26 @@ export interface JiraConfig extends HttpToolOptions {
   apiToken: string
 }
 
-function opts(config: JiraConfig): HttpToolOptions {
+function cfg(config: JiraConfig): ProjectionConfig {
   const auth = `Basic ${Buffer.from(`${config.email}:${config.apiToken}`).toString('base64')}`
   return {
     baseUrl: config.baseUrl,
-    headers: { authorization: auth },
+    headers: { authorization: auth, ...config.headers },
+    config: { baseUrl: config.baseUrl },
     timeoutMs: config.timeoutMs,
     fetch: config.fetch,
   }
 }
 
-export function jiraSearchIssues(config: JiraConfig) {
-  return defineTool({
-    name: 'jira_search_issues',
-    description: 'Search Jira issues with JQL.',
-    schema: {
-      type: 'object',
-      properties: {
-        jql: { type: 'string', description: 'JQL query, e.g. project = ENG AND status = "In Progress"' },
-        maxResults: { type: 'number' },
-      },
-      required: ['jql'],
-    } as const,
-    async execute({ jql, maxResults }) {
-      const result = await httpJson<{
-        issues?: Array<{ key: string; fields: { summary: string; status: { name: string }; assignee?: { displayName: string } } }>
-      }>(opts(config), {
-        method: 'POST',
-        path: '/rest/api/3/search',
-        body: { jql, maxResults: maxResults ?? 25, fields: ['summary', 'status', 'assignee'] },
-      })
-      return (result.issues ?? []).map(i => ({
-        key: i.key,
-        summary: i.fields.summary,
-        status: i.fields.status.name,
-        assignee: i.fields.assignee?.displayName ?? null,
-      }))
-    },
-  })
+/** @deprecated import from `@agentskit/integrations`. */
+export function jiraSearchIssues(config: JiraConfig): ToolDefinition {
+  return toToolDefinitions(jiraIntegration, cfg(config)).find((t) => t.name === 'jira_search_issues')!
 }
-
-export function jiraCreateIssue(config: JiraConfig) {
-  return defineTool({
-    name: 'jira_create_issue',
-    description: 'Create a new Jira issue.',
-    schema: {
-      type: 'object',
-      properties: {
-        projectKey: { type: 'string' },
-        summary: { type: 'string' },
-        description: { type: 'string' },
-        issueType: { type: 'string', description: 'e.g. Task, Bug, Story. Default Task.' },
-      },
-      required: ['projectKey', 'summary'],
-    } as const,
-    async execute({ projectKey, summary, description, issueType }) {
-      const result = await httpJson<{ key: string; self: string }>(opts(config), {
-        method: 'POST',
-        path: '/rest/api/3/issue',
-        body: {
-          fields: {
-            project: { key: projectKey },
-            summary,
-            description: description ? {
-              type: 'doc',
-              version: 1,
-              content: [{ type: 'paragraph', content: [{ type: 'text', text: String(description) }] }],
-            } : undefined,
-            issuetype: { name: issueType ?? 'Task' },
-          },
-        },
-      })
-      return { key: result.key, url: `${config.baseUrl}/browse/${result.key}` }
-    },
-  })
+/** @deprecated import from `@agentskit/integrations`. */
+export function jiraCreateIssue(config: JiraConfig): ToolDefinition {
+  return toToolDefinitions(jiraIntegration, cfg(config)).find((t) => t.name === 'jira_create_issue')!
 }
-
+/** @deprecated import from `@agentskit/integrations`. */
 export function jira(config: JiraConfig): ToolDefinition[] {
-  return [
-    jiraSearchIssues(config) as unknown as ToolDefinition,
-    jiraCreateIssue(config) as unknown as ToolDefinition,
-  ]
+  return toToolDefinitions(jiraIntegration, cfg(config))
 }

@@ -1,46 +1,33 @@
-import { defineTool } from '@agentskit/core'
-import { httpJson, type HttpToolOptions } from './http'
+import type { ToolDefinition } from '@agentskit/core'
+import { discordIntegration, toToolDefinitions, type ProjectionConfig } from '@agentskit/integrations'
+import type { HttpToolOptions } from './http'
 
+/** @deprecated Moved to `@agentskit/integrations` (services/discord). */
 export interface DiscordConfig extends HttpToolOptions {
   token: string
   /** `Bot <token>` header prefix. Default 'Bot'. Use 'Bearer' for OAuth tokens. */
   tokenType?: 'Bot' | 'Bearer'
 }
 
-function opts(config: DiscordConfig): HttpToolOptions {
-  const prefix = config.tokenType ?? 'Bot'
+function cfg(config: DiscordConfig): ProjectionConfig {
   return {
-    baseUrl: config.baseUrl ?? 'https://discord.com/api/v10',
-    headers: { authorization: `${prefix} ${config.token}`, ...config.headers },
+    credential: config.token,
+    baseUrl: config.baseUrl,
+    headers:
+      config.tokenType === 'Bearer'
+        ? { authorization: `Bearer ${config.token}`, ...config.headers }
+        : config.headers,
     timeoutMs: config.timeoutMs,
     fetch: config.fetch,
   }
 }
 
-export function discordPostMessage(config: DiscordConfig) {
-  const base = opts(config)
-  return defineTool({
-    name: 'discord_post_message',
-    description: 'Post a message to a Discord channel.',
-    schema: {
-      type: 'object',
-      properties: {
-        channel_id: { type: 'string' },
-        content: { type: 'string' },
-      },
-      required: ['channel_id', 'content'],
-    } as const,
-    async execute({ channel_id, content }) {
-      const result = await httpJson<{ id: string; channel_id: string }>(base, {
-        method: 'POST',
-        path: `/channels/${channel_id}/messages`,
-        body: { content },
-      })
-      return { id: result.id, channel_id: result.channel_id }
-    },
-  })
+/** @deprecated import from `@agentskit/integrations`. */
+export function discordPostMessage(config: DiscordConfig): ToolDefinition {
+  return toToolDefinitions(discordIntegration, cfg(config)).find((t) => t.name === 'discord_post_message')!
 }
 
-export function discord(config: DiscordConfig) {
-  return [discordPostMessage(config)]
+/** @deprecated import from `@agentskit/integrations`. */
+export function discord(config: DiscordConfig): ToolDefinition[] {
+  return toToolDefinitions(discordIntegration, cfg(config))
 }
