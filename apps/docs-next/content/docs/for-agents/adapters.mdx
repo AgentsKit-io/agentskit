@@ -73,6 +73,28 @@ npm install @agentskit/adapters
   `deepseekEmbedder`, `grokEmbedder`, `kimiEmbedder`,
   `createOpenAICompatibleEmbedder`.
 
+### Catalog (`@agentskit/adapters/catalog` subpath)
+
+Data-driven provider/model metadata adapted from `models.dev`, cached
+as a committed snapshot. Large, so it ships only via the `./catalog`
+subpath — never bundled into the main entry. The runtime never fetches
+`models.dev`; regenerate with `pnpm sync:models` and commit the diff.
+
+- `getProvider`, `getModel`, `listProviders`,
+  `listOpenAICompatibleProviders` — query the catalog.
+- `dispatchFromCatalog({ provider, model, apiKey, baseUrl? })` — build a
+  native OpenAI-compatible adapter for any provider the snapshot marks
+  compatible (first-class anthropic/openai/gemini/ollama keep their own
+  factories). Throws typed `CatalogDispatchError`.
+- `resolveCost(provider, model, { live?, timeoutMs? })` — cache-only by
+  default; opt-in `live` tries `models.dev` then falls back to cache,
+  never throwing on a network failure. Returns `{ cost, source, stale }`.
+- `applyOverrides(snapshot, { allowedProviders, disabledProviders, allowedModels })`
+  — local policy without forking the catalog.
+- `detectCatalogDrift()` — CI guard; flags undispatchable providers.
+- `catalogSnapshotSchema` (JSON Schema, public contract),
+  `catalogSource()` (provenance + `generatedAt` for staleness).
+
 ## Minimal example
 
 ```ts

@@ -11,6 +11,7 @@
     "test:e2e": "pnpm build && playwright test",
     "test:e2e:ui": "playwright test --ui",
     "lint": "turbo run lint",
+    "sync:models": "node scripts/sync-models-dev.mjs",
     "check:quality-gates": "node scripts/check-quality-gates.mjs",
     "check:all": "pnpm check:quality-gates && pnpm lint && pnpm build && pnpm test",
     "prepare": "husky",
