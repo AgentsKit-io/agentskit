@@ -7,6 +7,7 @@
 export type {
   Integration,
   IntegrationAction,
+  IntegrationActionContext,
   IntegrationTrigger,
   AuthSpec,
   OAuth2AuthSpec,

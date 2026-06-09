@@ -15,7 +15,7 @@ export const slackPostMessage = defineAction({
     },
     required: ['channel', 'text'],
   },
-  async execute(args, http) {
+  async execute(args, { http }) {
     const result = await http<{ ok: boolean; ts?: string; error?: string }>({
       method: 'POST',
       path: '/chat.postMessage',
@@ -44,7 +44,7 @@ export const slackSearch = defineAction({
     },
     required: ['query'],
   },
-  async execute(args, http) {
+  async execute(args, { http }) {
     const result = await http<{
       messages?: { matches?: Array<{ channel: { name: string }; text: string; permalink: string }> }
     }>({
