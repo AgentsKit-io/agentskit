@@ -49,7 +49,8 @@ export async function createRedisClientAdapter(url: string): Promise<RedisClient
       return await client.keys(pattern)
     },
     async disconnect() {
-      await client.disconnect()
+      // node-redis v6 renamed the graceful close: client.disconnect() (v5) -> client.close().
+      await client.close()
     },
     async call(command, ...args) {
       return await client.sendCommand([command, ...args.map(String)])
