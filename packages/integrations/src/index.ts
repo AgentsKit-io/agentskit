@@ -35,4 +35,13 @@ export {
 
 // Side-effect import: registers every catalog service into the default
 // registry. Empty until services land in the move/add phases.
-import './services'
+export type { ProjectionConfig } from './project/to-tool-definitions'
+export {
+  toToolDefinitions,
+  actionToToolDefinition,
+  httpOptionsFor,
+} from './project/to-tool-definitions'
+
+// Re-export every catalog service descriptor (and run their side-effect
+// registration into the default registry).
+export * from './services'

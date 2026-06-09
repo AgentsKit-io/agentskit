@@ -127,8 +127,8 @@ export interface Integration {
   name: string
   displayName: string
   categories: string[]
-  /** Shared transport facts (base URL) applied to every action. */
-  http?: { baseUrl: string }
+  /** Shared transport facts applied to every action (base URL + default headers). */
+  http?: { baseUrl: string; headers?: Record<string, string> }
   auth: AuthSpec
   actions: IntegrationAction[]
   triggers?: IntegrationTrigger[]
