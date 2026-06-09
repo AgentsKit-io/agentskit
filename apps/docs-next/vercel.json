@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "framework": "nextjs",
   "installCommand": "pnpm install --frozen-lockfile",
-  "buildCommand": "pnpm --filter \"@agentskit/core\" --filter \"@agentskit/react\" --filter \"@agentskit/tools\" build && pnpm --filter @agentskit/docs-next build",
+  "buildCommand": "pnpm --filter \"@agentskit/core\" --filter \"@agentskit/integrations\" --filter \"@agentskit/react\" --filter \"@agentskit/tools\" build && pnpm --filter @agentskit/docs-next build",
   "outputDirectory": ".next",
   "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . apps/docs-next/packages",
   "github": {
