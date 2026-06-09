@@ -1,0 +1,78 @@
+{
+  "name": "@agentskit/integrations",
+  "version": "0.0.0",
+  "description": "Unified, plug-and-play service integrations for AgentsKit agents — one descriptor per service projected into tools, connectors, triggers, and auth.",
+  "keywords": [
+    "agentskit",
+    "ai",
+    "agents",
+    "llm",
+    "integrations",
+    "connectors",
+    "tools",
+    "webhooks",
+    "oauth",
+    "typescript",
+    "openai",
+    "anthropic",
+    "claude",
+    "gemini",
+    "function-calling",
+    "tool-use"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./testing": {
+      "types": "./dist/testing.d.ts",
+      "import": "./dist/testing.js",
+      "require": "./dist/testing.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "tsc --noEmit",
+    "dev": "tsup --watch"
+  },
+  "dependencies": {
+    "@agentskit/core": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/json-schema": "^7.0.15",
+    "@types/node": "^25.9.1",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.7"
+  },
+  "agentskit": {
+    "stability": "experimental",
+    "stabilityNote": "Integration contract v1 — descriptor + registry. Catalog populated in later phases."
+  },
+  "license": "MIT",
+  "homepage": "https://www.agentskit.io/docs/packages/integrations",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AgentsKit-io/agentskit.git",
+    "directory": "packages/integrations"
+  },
+  "bugs": {
+    "url": "https://github.com/AgentsKit-io/agentskit/issues"
+  },
+  "author": "AgentsKit Contributors"
+}
