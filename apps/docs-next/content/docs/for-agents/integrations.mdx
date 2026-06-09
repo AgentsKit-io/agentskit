@@ -1,0 +1,72 @@
+---
+title: '@agentskit/integrations — for agents'
+description: Unified single-descriptor service-integration catalog projected into tools, connectors, triggers, and OAuth.
+---
+
+## Install
+
+```bash
+npm install @agentskit/integrations
+```
+
+## What it is
+
+One descriptor per service (`Integration`) that every consumer layer projects from —
+agent tools, connector senders, inbound triggers, OAuth specs, marketplace listings.
+Eliminates the per-service duplication that otherwise spreads across `@agentskit/tools`
+and host runtimes. Dependency-light: only `@agentskit/core`, with `fetch` + `node:crypto`
+at runtime. The catalog of concrete services is populated in later phases; this entry
+ships the contract + registry.
+
+## Primary exports (main entry)
+
+- `defineIntegration` — author an `Integration` descriptor (`auth`, `actions`, `triggers`, `capabilities`).
+- `defineAction` — define one action; receives an auth-bound `IntegrationHttp` client, uses canonical JSON Schema.
+- `defineTrigger` — define one inbound trigger (`verify` signature + `normalize` to a uniform event).
+- `httpJson` — shared HTTP helper (query/body/timeout, non-2xx → typed error).
+- `bindHttp` — bind options into a reusable `IntegrationHttp` client.
+- `createRegistry` — build an isolated catalog instance.
+- `registerIntegration` — register a descriptor into the default catalog.
+- `getIntegration` — look up a descriptor by service slug.
+- `listIntegrations` — list all registered descriptors.
+- `integrationsByCategory` — filter the default catalog by category.
+
+## Subpath exports
+
+| Subpath | Contents |
+|---|---|
+| `@agentskit/integrations/testing` | Pure contract validators: `validateIntegration`, `validateAction`, `validateTrigger`, `assertValidIntegration`. Gate every service descriptor in CI. |
+
+## Minimal example
+
+```ts
+import { defineIntegration, defineAction } from '@agentskit/integrations'
+
+const ping = defineAction({
+  name: 'demo_ping',
+  description: 'Echo a message.',
+  schema: { type: 'object', properties: { message: { type: 'string' } }, required: ['message'] },
+  sideEffect: 'read',
+  execute: (args, http) => http({ method: 'POST', path: '/ping', body: { message: args.message } }),
+})
+
+export const demo = defineIntegration({
+  name: 'demo',
+  displayName: 'Demo',
+  categories: ['example'],
+  http: { baseUrl: 'https://api.example.com' },
+  auth: { kind: 'apiKey', header: 'authorization', prefix: 'Bearer ' },
+  actions: [ping],
+  capabilities: {},
+})
+```
+
+## Scaffolding
+
+```bash
+pnpm gen:integration <name>   # copies services/_template → services/<name>
+```
+
+## Related
+
+- [Tools](/docs/for-agents/tools) — `@agentskit/tools` (legacy integration home; being unified here).
