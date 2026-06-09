@@ -1118,6 +1118,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
+      '@agentskit/integrations':
+        specifier: workspace:*
+        version: link:../integrations
     devDependencies:
       '@types/better-sqlite3':
         specifier: ^7.6.13

@@ -30,6 +30,9 @@ ships the contract + registry.
 - `getIntegration` — look up a descriptor by service slug.
 - `listIntegrations` — list all registered descriptors.
 - `integrationsByCategory` — filter the default catalog by category.
+- `toToolDefinitions` — project a descriptor's actions into legacy `ToolDefinition[]` (auth-bound), preserving the `fn(config) => Tool[]` API consumers expect.
+- `actionToToolDefinition` — project a single action into a `ToolDefinition`.
+- `httpOptionsFor` — build the auth-bound HTTP options for a descriptor + caller config.
 
 ## Subpath exports
 

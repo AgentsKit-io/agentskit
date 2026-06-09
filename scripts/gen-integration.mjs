@@ -53,12 +53,12 @@ async function main() {
   index = index.replace(/name: '[^']*',/, `name: '${name}',`)
   await fs.writeFile(indexPath, index)
 
-  // Append the side-effect import to the service barrel.
+  // Append the re-export to the service barrel (also runs registration).
   const barrelPath = path.join(SERVICES, 'index.ts')
   const barrel = await fs.readFile(barrelPath, 'utf8')
-  const importLine = `import './${name}'\n`
-  if (!barrel.includes(importLine)) {
-    await fs.writeFile(barrelPath, barrel.replace(/export \{\}\n?/, '') + importLine)
+  const exportLine = `export { ${camel}Integration } from './${name}'\n`
+  if (!barrel.includes(exportLine)) {
+    await fs.writeFile(barrelPath, barrel.replace(/export \{\}\n?/, '') + exportLine)
   }
 
   console.log(`✓ created packages/integrations/src/services/${name}`)

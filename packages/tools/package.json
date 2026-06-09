@@ -64,7 +64,8 @@
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "@agentskit/core": "workspace:*"
+    "@agentskit/core": "workspace:*",
+    "@agentskit/integrations": "workspace:*"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
@@ -85,7 +86,7 @@
   },
   "agentskit": {
     "stability": "stable",
-    "stabilityNote": "Web search, filesystem, shell tools — Tool contract v1."
+    "stabilityNote": "Web search, filesystem, shell tools \u2014 Tool contract v1."
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/packages/tools",
