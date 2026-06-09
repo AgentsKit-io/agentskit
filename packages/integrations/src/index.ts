@@ -42,6 +42,11 @@ export {
   actionToToolDefinition,
   httpOptionsFor,
 } from './project/to-tool-definitions'
+export {
+  integrationTools,
+  integrationToolsFromEnv,
+  credentialEnvVar,
+} from './project/integration-tools'
 
 // Re-export every catalog service descriptor (and run their side-effect
 // registration into the default registry).

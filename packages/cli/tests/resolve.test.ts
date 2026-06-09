@@ -51,6 +51,26 @@ describe('resolveTools', () => {
     const tools = resolveTools(' web_search , fetch_url ')
     expect(tools.length).toBe(2)
   })
+
+  it('resolves a catalog integration with its credential from env', () => {
+    const prev = process.env.GITHUB_TOKEN
+    process.env.GITHUB_TOKEN = 'ghp_test'
+    const tools = resolveTools('github')
+    expect(tools.some(t => t.name.startsWith('github_'))).toBe(true)
+    if (prev === undefined) delete process.env.GITHUB_TOKEN
+    else process.env.GITHUB_TOKEN = prev
+  })
+
+  it('warns when a catalog integration credential is missing from env', () => {
+    const prev = process.env.SLACK_BOT_TOKEN
+    delete process.env.SLACK_BOT_TOKEN
+    const spy = vi.spyOn(process.stderr, 'write').mockImplementation(() => true)
+    const tools = resolveTools('slack')
+    expect(spy).toHaveBeenCalledWith(expect.stringContaining('SLACK_BOT_TOKEN'))
+    expect(tools.some(t => t.name === 'slack_post_message')).toBe(true)
+    if (prev !== undefined) process.env.SLACK_BOT_TOKEN = prev
+    spy.mockRestore()
+  })
 })
 
 describe('getBuiltinToolNames', () => {

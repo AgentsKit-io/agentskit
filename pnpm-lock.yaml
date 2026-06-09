@@ -615,6 +615,9 @@ importers:
       '@agentskit/ink':
         specifier: workspace:*
         version: link:../ink
+      '@agentskit/integrations':
+        specifier: workspace:*
+        version: link:../integrations
       '@agentskit/memory':
         specifier: workspace:*
         version: link:../memory

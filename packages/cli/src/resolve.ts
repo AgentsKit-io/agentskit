@@ -2,6 +2,7 @@ import type { ChatMemory, SkillDefinition, ToolDefinition } from '@agentskit/cor
 import { webSearch, fetchUrl, filesystem, shell } from '@agentskit/tools'
 import { researcher, coder, planner, critic, summarizer, composeSkills } from '@agentskit/skills'
 import { fileChatMemory, sqliteChatMemory } from '@agentskit/memory'
+import { getIntegration, integrationToolsFromEnv } from '@agentskit/integrations'
 
 export const skillRegistry: Record<string, SkillDefinition> = {
   researcher,
@@ -66,8 +67,19 @@ export function resolveTools(toolNames: string | undefined): ToolDefinition[] {
       case 'shell':
         tools.push(...instantiate(name))
         break
-      default:
-        process.stderr.write(`Unknown tool: ${name}\n`)
+      default: {
+        // Catalog integration by slug? Read its credential from the
+        // environment (via the integration's apiKey envHint).
+        if (getIntegration(name)) {
+          const { tools: projected, credentialFound, envVar } = integrationToolsFromEnv(name, process.env)
+          if (!credentialFound) {
+            process.stderr.write(`Integration "${name}" needs ${envVar} set in the environment.\n`)
+          }
+          tools.push(...projected)
+        } else {
+          process.stderr.write(`Unknown tool: ${name}\n`)
+        }
+      }
     }
   }
   return tools
