@@ -31,7 +31,7 @@ describe('createRedisClientAdapter', () => {
         const prefix = pattern.replaceAll('*', '')
         return [...store.keys()].filter(k => k.startsWith(prefix))
       }),
-      disconnect: vi.fn().mockResolvedValue(undefined),
+      close: vi.fn().mockResolvedValue(undefined),
       sendCommand: vi.fn(async (args: string[]) => {
         commands.push(args[0]!)
         return 'OK'
@@ -66,9 +66,9 @@ describe('createRedisClientAdapter', () => {
     const keys = await adapter.keys('prefix:*')
     expect(keys).toContain('prefix:1')
 
-    // disconnect
+    // disconnect → node-redis v6 close()
     await adapter.disconnect()
-    expect(fakeClient.disconnect).toHaveBeenCalled()
+    expect(fakeClient.close).toHaveBeenCalled()
 
     // call / sendCommand
     const result = await adapter.call('PING')
@@ -83,7 +83,7 @@ describe('createRedisClientAdapter', () => {
       set: vi.fn(),
       del: vi.fn(),
       keys: vi.fn().mockResolvedValue([]),
-      disconnect: vi.fn().mockResolvedValue(undefined),
+      close: vi.fn().mockResolvedValue(undefined),
       sendCommand: vi.fn().mockResolvedValue(null),
     }
     const fakeRedis = { createClient: vi.fn(() => fakeClient) }
