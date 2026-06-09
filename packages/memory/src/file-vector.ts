@@ -28,7 +28,8 @@ interface VectraIndex {
   endUpdate(): Promise<void>
   cancelUpdate(): void
   insertItem(item: { vector: number[]; metadata: Record<string, unknown> }): Promise<unknown>
-  queryItems(vector: number[], topK: number): Promise<Array<{ score: number; item: { metadata: Record<string, unknown> } }>>
+  // vectra >=0.15 inserts a BM25 `query` string between vector and topK; pass "" for pure vector search.
+  queryItems(vector: number[], query: string, topK: number): Promise<Array<{ score: number; item: { metadata: Record<string, unknown> } }>>
   listItems(): Promise<Array<{ id: string; metadata: Record<string, unknown> }>>;
   deleteItem(id: string): Promise<void>
 }
@@ -70,7 +71,7 @@ function createVectraStore(dirPath: string): VectorStore {
     },
     async query(vector, topK) {
       const idx = await getIndex()
-      const results = await idx.queryItems(vector, topK)
+      const results = await idx.queryItems(vector, '', topK)
       return results.map(r => ({
         id: String(r.item.metadata._id ?? ''),
         score: r.score,
