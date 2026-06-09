@@ -563,7 +563,7 @@ function ProviderStrip() {
     <section className="border-b border-ak-border bg-ak-surface/30 px-4 py-12 sm:px-6 sm:py-16">
       <div className="mx-auto max-w-6xl text-center">
         <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-graphite sm:mb-8 sm:text-xs">
-          20+ providers. Same contract. Swap in one line.
+          20+ native adapters · 100+ more &amp; 5,000+ models via catalog. Same contract, swap in one line.
         </p>
         <div className="flex flex-wrap justify-center gap-x-5 gap-y-3 sm:gap-x-8">
           {providers.map(p => (
@@ -578,6 +578,10 @@ function ProviderStrip() {
         <p className="mt-6 font-mono text-[11px] text-ak-graphite sm:text-xs">
           <Link href="/docs/data/providers" className="underline decoration-dotted underline-offset-2 hover:text-ak-blue">
             browse all providers →
+          </Link>
+          <span className="mx-2">·</span>
+          <Link href="/docs/reference/packages/adapters#catalog" className="underline decoration-dotted underline-offset-2 hover:text-ak-blue">
+            models.dev catalog →
           </Link>
         </p>
       </div>

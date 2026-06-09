@@ -35,6 +35,51 @@ const adapter = anthropic({ apiKey: process.env.ANTHROPIC_API_KEY!, model: 'clau
 
 The important part is not the constructor itself, but that the rest of your stack does not have to care which provider you chose.
 
+## Catalog
+
+The `@agentskit/adapters/catalog` subpath: data-driven provider/model metadata adapted from [`models.dev`](https://models.dev) into AgentsKit's own JSON Schema and cached as a committed snapshot. Broad, current coverage lands via a version bump instead of bespoke per-provider code.
+
+The snapshot is large (thousands of models), so it ships **only** via the `./catalog` subpath — the main `@agentskit/adapters` bundle is unaffected.
+
+```ts
+import {
+  getModel,
+  listOpenAICompatibleProviders,
+  dispatchFromCatalog,
+  resolveCost,
+} from '@agentskit/adapters/catalog'
+
+// Inspect metadata (context/output limits, pricing, capability flags).
+const model = getModel('deepseek', 'deepseek-chat')
+model?.toolCall // capability flags come from the catalog, not assumed
+
+// Dispatch any OpenAI-compatible provider through the native adapter.
+const adapter = dispatchFromCatalog({
+  provider: 'deepseek',
+  model: 'deepseek-chat',
+  apiKey: process.env.DEEPSEEK_API_KEY!,
+})
+```
+
+**No runtime fetch.** The runtime loads the committed snapshot; it never calls `models.dev`. If `models.dev` ever disappears, the last snapshot keeps working. Regenerate on demand (run monthly) and commit the diff:
+
+```bash
+pnpm sync:models   # fetch → normalize → emit packages/adapters/src/catalog/snapshot.json
+```
+
+The snapshot carries `generatedAt` + a pinned `source.version` (`catalogSource()`) so you can reason about staleness. **Pricing/limits are advisory cached metadata**, not a hard contract.
+
+**Pricing with optional live fallback.** `resolveCost()` is cache-only by default (offline, deterministic). Opt in to a live lookup that falls back to the cached snapshot on any failure — it never throws on a network problem:
+
+```ts
+const { cost, source, stale } = await resolveCost('openai', 'o3', { live: true })
+// source: 'live' | 'cache'  ·  stale: true when the snapshot is > 30 days old
+```
+
+**Policy overrides** (`applyOverrides`) constrain the catalog without forking it (allowed/disabled providers, per-provider model allow-lists). **Drift** (`detectCatalogDrift`) flags any snapshot provider that is neither first-class nor OpenAI-compatible — wire it into CI so a regenerated snapshot can't ship an unroutable provider silently.
+
+The catalog schema (`catalogSnapshotSchema`, JSON Schema) is the public contract; the snapshot is validated against it at build time.
+
 ## Surface
 
 Hosted: `anthropic` · `openai` · `gemini` · `grok` · `deepseek` · `kimi` · `mistral` · `cohere` · `together` · `groq` · `fireworks` · `openrouter` · `huggingface` · `langchain` · `langgraph` · `vercelAI` · `generic`

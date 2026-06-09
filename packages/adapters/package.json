@@ -39,6 +39,11 @@
       "types": "./dist/createAdapter.d.ts",
       "import": "./dist/createAdapter.js",
       "require": "./dist/createAdapter.cjs"
+    },
+    "./catalog": {
+      "types": "./dist/catalog/index.d.ts",
+      "import": "./dist/catalog/index.js",
+      "require": "./dist/catalog/index.cjs"
     }
   },
   "files": [
@@ -55,6 +60,8 @@
     "@agentskit/core": "workspace:*"
   },
   "devDependencies": {
+    "@agentskit/validation": "workspace:*",
+    "@types/json-schema": "^7.0.15",
     "@types/node": "^25.9.1",
     "msw": "^2.14.6",
     "tsup": "^8.5.1",
