@@ -1,69 +1,23 @@
-import { ErrorCodes, ToolError, defineTool } from '@agentskit/core'
+import type { ToolDefinition } from '@agentskit/core'
+import { whisperIntegration, toToolDefinitions, type ProjectionConfig } from '@agentskit/integrations'
 import type { HttpToolOptions } from './http'
 
+/** @deprecated Moved to `@agentskit/integrations` (services/whisper). */
 export interface WhisperConfig extends HttpToolOptions {
   apiKey: string
   /** Default model — 'whisper-1' for legacy, 'gpt-4o-mini-transcribe' for newer. */
   model?: string
 }
 
-/**
- * Whisper (OpenAI transcription) + generic Deepgram alternative
- * share the "send audio → get text" shape. We keep them as two
- * distinct factories so the agent-side schema stays provider-named.
- */
-export function whisperTranscribe(config: WhisperConfig) {
-  const fetchImpl = config.fetch ?? globalThis.fetch
-  const baseUrl = config.baseUrl ?? 'https://api.openai.com/v1'
-
-  return defineTool({
-    name: 'whisper_transcribe',
-    description: 'Transcribe audio from a URL using OpenAI Whisper.',
-    schema: {
-      type: 'object',
-      properties: {
-        url: { type: 'string' },
-        language: { type: 'string' },
-      },
-      required: ['url'],
-    } as const,
-    async execute({ url, language }) {
-      const audio = await fetchImpl(String(url))
-      if (!audio.ok) {
-        throw new ToolError({
-          code: ErrorCodes.AK_TOOL_EXEC_FAILED,
-          message: `whisper: audio fetch ${audio.status}`,
-          hint: `URL ${String(url)}.`,
-        })
-      }
-      const bytes = await audio.arrayBuffer()
-      const form = new FormData()
-      form.append('file', new Blob([bytes], { type: 'audio/mpeg' }), 'audio')
-      form.append('model', config.model ?? 'whisper-1')
-      if (language) form.append('language', language as string)
-
-      const response = await fetchImpl(`${baseUrl}/audio/transcriptions`, {
-        method: 'POST',
-        headers: { authorization: `Bearer ${config.apiKey}`, ...config.headers },
-        body: form,
-      })
-      const text = await response.text()
-      if (!response.ok) {
-        throw new ToolError({
-          code: ErrorCodes.AK_TOOL_EXEC_FAILED,
-          message: `whisper ${response.status}: ${text.slice(0, 200)}`,
-        })
-      }
-      try {
-        const parsed = JSON.parse(text) as { text: string }
-        return { text: parsed.text }
-      } catch {
-        return { text }
-      }
-    },
-  })
+function cfg(config: WhisperConfig): ProjectionConfig {
+  return { config: { apiKey: config.apiKey, model: config.model, baseUrl: config.baseUrl, headers: config.headers }, fetch: config.fetch }
 }
 
-export function whisper(config: WhisperConfig) {
-  return [whisperTranscribe(config)]
+/** @deprecated import from `@agentskit/integrations`. */
+export function whisperTranscribe(config: WhisperConfig): ToolDefinition {
+  return toToolDefinitions(whisperIntegration, cfg(config)).find((t) => t.name === 'whisper_transcribe')!
+}
+/** @deprecated import from `@agentskit/integrations`. */
+export function whisper(config: WhisperConfig): ToolDefinition[] {
+  return toToolDefinitions(whisperIntegration, cfg(config))
 }
