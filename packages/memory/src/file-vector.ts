@@ -24,6 +24,9 @@ function requireVectra(): { LocalIndex: new (path: string) => VectraIndex } {
 interface VectraIndex {
   isIndexCreated(): Promise<boolean>
   createIndex(): Promise<void>
+  beginUpdate(): Promise<void>
+  endUpdate(): Promise<void>
+  cancelUpdate(): void
   insertItem(item: { vector: number[]; metadata: Record<string, unknown> }): Promise<unknown>
   queryItems(vector: number[], topK: number): Promise<Array<{ score: number; item: { metadata: Record<string, unknown> } }>>
   listItems(): Promise<Array<{ id: string; metadata: Record<string, unknown> }>>;
@@ -46,11 +49,23 @@ function createVectraStore(dirPath: string): VectorStore {
   return {
     async upsert(docs) {
       const idx = await getIndex()
-      for (const doc of docs) {
-        await idx.insertItem({
-          vector: doc.vector,
-          metadata: { _id: doc.id, ...doc.metadata },
-        })
+      // Batch all inserts into a single atomic update so the on-disk index is
+      // written once and is fully durable before any subsequent query. Calling
+      // insertItem per-doc writes the index file N times, leaving intermediate
+      // partial states a concurrent query can read mid-flush (flaky empty
+      // results on slow CI disks).
+      await idx.beginUpdate()
+      try {
+        for (const doc of docs) {
+          await idx.insertItem({
+            vector: doc.vector,
+            metadata: { _id: doc.id, ...doc.metadata },
+          })
+        }
+        await idx.endUpdate()
+      } catch (err) {
+        idx.cancelUpdate()
+        throw err
       }
     },
     async query(vector, topK) {
