@@ -69,7 +69,7 @@ describe('slack integration', () => {
           name: 'noauth_get',
           description: 'get',
           schema: { type: 'object', properties: {}, required: [] },
-          execute: (_args, http) => http({ path: '/x' }),
+          execute: (_args, { http }) => http({ path: '/x' }),
         }),
       ],
     })

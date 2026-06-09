@@ -14,7 +14,7 @@ export const templatePing = defineAction({
     required: ['message'],
   },
   sideEffect: 'read',
-  async execute(args, http) {
+  async execute(args, { http }) {
     return http({ method: 'POST', path: '/ping', body: { message: args.message } })
   },
 })
