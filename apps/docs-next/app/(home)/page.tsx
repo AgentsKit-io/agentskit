@@ -1,5 +1,4 @@
 import Link from 'next/link'
-import { SocialProofBar } from './_components/social-proof-bar'
 import { InstallCommand } from './_components/install-command'
 import { HeroDemo } from './_components/hero-demo/hero-demo'
 import { AnimatedLogo } from '@/components/brand/animated-logo'
@@ -88,8 +87,8 @@ export default function HomePage() {
       <LlmsSection />
       <CliSection />
       <ComposeSection />
-      <ProofSection />
       <EcosystemStats />
+      <ProofSection />
       <FinalCta />
       <SiteFooter />
     </main>
@@ -208,10 +207,61 @@ function EcosystemStats() {
         <p className="mt-6 text-sm text-ak-graphite">
           Every number above is a click-through. Install what you need; the core stays under 10 KB gzipped.
         </p>
+
+        <div className="mt-12 border-t border-ak-border pt-10">
+          <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-blue sm:text-xs">
+            Beyond the libraries
+          </p>
+          <div className="grid gap-4 sm:gap-5 md:grid-cols-3">
+            {ECOSYSTEM_PROPERTIES.map((p) => (
+              <a
+                key={p.name}
+                href={p.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex flex-col rounded-xl border border-ak-border bg-ak-surface p-6 transition hover:-translate-y-0.5 hover:border-ak-blue hover:shadow-[0_0_0_1px_var(--ak-blue)]"
+              >
+                <div className="mb-2 flex items-center justify-between gap-3">
+                  <span className="font-mono text-base font-bold text-ak-foam transition group-hover:text-ak-blue">
+                    {p.name}
+                  </span>
+                  <span className="font-mono text-sm text-ak-graphite transition group-hover:text-ak-blue">
+                    ↗
+                  </span>
+                </div>
+                <span className="mb-2 font-mono text-[11px] uppercase tracking-wide text-ak-green">
+                  {p.tag}
+                </span>
+                <p className="text-sm leading-relaxed text-ak-graphite">{p.desc}</p>
+              </a>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )
 }
+
+const ECOSYSTEM_PROPERTIES = [
+  {
+    name: 'Registry',
+    href: 'https://registry.agentskit.io',
+    tag: 'Ready-made agents',
+    desc: 'Copy production-ready agents into your project — research, PR review, support, and more. You own the source, zero lock-in.',
+  },
+  {
+    name: 'Playbook',
+    href: 'https://playbook.agentskit.io',
+    tag: 'Best practices',
+    desc: 'The engineering standards for building agents that ship — runtime validation, quality gates, security, and evals.',
+  },
+  {
+    name: 'AKOS',
+    href: 'https://akos.agentskit.io',
+    tag: 'Production OS',
+    desc: 'The operating system for agents at scale — orchestration, egress control, and RBAC for running agents in production.',
+  },
+] as const
 
 function ProofSection() {
   const starters = [
