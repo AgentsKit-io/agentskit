@@ -11,6 +11,7 @@ import { registerAiCommand } from './ai'
 import { registerFlowCommand } from './flow'
 import { registerPiiCommand } from './pii'
 import { registerRulesCommand } from './rules'
+import { registerAddCommand } from './add'
 
 export function createCli(): Command {
   const program = new Command()
@@ -30,6 +31,7 @@ export function createCli(): Command {
   registerFlowCommand(program)
   registerPiiCommand(program)
   registerRulesCommand(program)
+  registerAddCommand(program)
 
   return program
 }
