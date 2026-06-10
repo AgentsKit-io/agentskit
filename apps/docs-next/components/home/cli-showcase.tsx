@@ -6,12 +6,18 @@ import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 const COMMAND =
   '$ npx agentskit add research --run "What changed in the EU AI Act in 2025?"'
 
-const OUTPUT_LINES: { text: string; tone: 'success' | 'muted' | 'stream' }[] = [
+const OUTPUT_LINES: { text: string; tone: 'success' | 'muted' | 'stream' | 'prompt' }[] = [
   { text: '✓ added ./agents/research  ·  running via openai…', tone: 'success' },
   {
     text: '> The 2025 amendments tightened GPAI transparency… [source]',
     tone: 'stream',
   },
+  { text: '', tone: 'muted' },
+  {
+    text: '$ npx agentskit ai "a support agent for my SaaS"',
+    tone: 'prompt',
+  },
+  { text: '# …or scaffold your own from a one-line description', tone: 'muted' },
 ]
 
 const TYPE_MS = 38
@@ -88,9 +94,9 @@ export function CliShowcase() {
     <div className="rounded-xl border border-ak-border bg-ak-surface/40 font-mono text-sm shadow-lg shadow-black/20">
       {/* Title bar */}
       <div className="flex items-center gap-2 border-b border-ak-border px-4 py-3">
-        <span className="h-3 w-3 rounded-full bg-ak-red/80" aria-hidden />
-        <span className="h-3 w-3 rounded-full bg-ak-yellow/80" aria-hidden />
-        <span className="h-3 w-3 rounded-full bg-ak-green/80" aria-hidden />
+        <span className="h-3 w-3 rounded-full bg-[#ff5f57]" aria-hidden />
+        <span className="h-3 w-3 rounded-full bg-[#febc2e]" aria-hidden />
+        <span className="h-3 w-3 rounded-full bg-[#28c840]" aria-hidden />
         <span className="ml-2 select-none text-xs text-ak-graphite">
           agentskit — zsh
         </span>
@@ -114,8 +120,8 @@ export function CliShowcase() {
                 className={
                   line.tone === 'success'
                     ? 'break-words text-ak-green'
-                    : line.tone === 'stream'
-                      ? 'break-words text-ak-graphite'
+                    : line.tone === 'prompt'
+                      ? 'break-words text-ak-foam'
                       : 'break-words text-ak-graphite'
                 }
               >

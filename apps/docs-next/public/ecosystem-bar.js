@@ -11,10 +11,10 @@
 
   // ecobar:props-start — GENERATED from ecosystem.json by scripts/sync-ecosystem.mjs. Do not edit by hand.
   var PROPS = [
-    { id: 'agentskit', label: 'Framework', host: 'www.agentskit.io', url: 'https://www.agentskit.io' },
-    { id: 'playbook', label: 'Playbook', host: 'playbook.agentskit.io', url: 'https://playbook.agentskit.io' },
+    { id: 'agentskit', label: 'Libs', host: 'www.agentskit.io', url: 'https://www.agentskit.io' },
     { id: 'registry', label: 'Registry', host: 'registry.agentskit.io', url: 'https://registry.agentskit.io' },
     { id: 'akos', label: 'AKOS', host: 'akos.agentskit.io', url: 'https://akos.agentskit.io' },
+    { id: 'playbook', label: 'Playbook', host: 'playbook.agentskit.io', url: 'https://playbook.agentskit.io' },
   ]
   // ecobar:props-end
 
@@ -29,7 +29,7 @@
     ''
 
   var css =
-    '#ak-eco{position:sticky;top:0;z-index:2147483000;display:flex;gap:4px;align-items:center;' +
+    '#ak-eco{position:relative;z-index:30;display:flex;gap:4px;align-items:center;' +
     'font:500 13px/1 ui-sans-serif,system-ui,-apple-system,sans-serif;padding:8px 16px;' +
     'background:#0b0b0f;color:#e7e7ea;border-bottom:1px solid #23232b}' +
     '#ak-eco .ak-eco-brand{font-weight:700;letter-spacing:-.01em;margin-right:8px;color:#fff;text-decoration:none}' +

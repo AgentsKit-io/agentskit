@@ -12,6 +12,7 @@ export interface MarqueeItem {
 function Logo({ item }: { item: MarqueeItem }) {
   const [failed, setFailed] = useState(false)
   const slug = brandSlug(item.id)
+  const monogram = item.label.replace(/[^a-zA-Z0-9]/g, '').charAt(0).toUpperCase() || '•'
   return (
     <span className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-ak-border bg-ak-surface/40 px-3 py-2">
       {!failed ? (
@@ -26,7 +27,12 @@ function Logo({ item }: { item: MarqueeItem }) {
           className="h-4 w-4"
         />
       ) : (
-        <span className="inline-block h-1.5 w-1.5 rounded-full bg-ak-graphite" />
+        <span
+          aria-hidden="true"
+          className="inline-flex h-4 w-4 items-center justify-center rounded-[3px] border border-ak-border bg-ak-midnight font-mono text-[9px] font-bold text-ak-graphite"
+        >
+          {monogram}
+        </span>
       )}
       <span className="font-mono text-xs text-ak-graphite">{item.label}</span>
     </span>
