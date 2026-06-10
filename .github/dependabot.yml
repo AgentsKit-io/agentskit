@@ -36,6 +36,12 @@ updates:
     directory: "/packages/ink"
     schedule:
       interval: "weekly"
+    ignore:
+      # marked >=16 drops compatibility with marked-terminal@7
+      # (peerDependencies: "marked": ">=1 <16"), and no marked-terminal
+      # release supports marked 16+. Pinned to 15.x until it does.
+      - dependency-name: "marked"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/packages/adapters"
@@ -46,6 +52,11 @@ updates:
     directory: "/packages/cli"
     schedule:
       interval: "weekly"
+    ignore:
+      # commander 15 requires node >=22.12.0; the CLI stays installable on
+      # node 20 LTS. Revisit when the project raises its node floor.
+      - dependency-name: "commander"
+        update-types: ["version-update:semver-major"]
 
   - package-ecosystem: "npm"
     directory: "/packages/runtime"
