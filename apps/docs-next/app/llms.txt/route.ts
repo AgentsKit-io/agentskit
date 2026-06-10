@@ -1,8 +1,21 @@
 import { source } from '@/lib/source'
+import { counts } from '@/lib/ecosystem-stats'
+import ecosystem from '@/lib/ecosystem.json'
 
 export const dynamic = 'force-static'
 
 const SITE = 'https://www.agentskit.io'
+
+/** Sibling-property discovery block — generated from the canonical ecosystem.json. */
+function ecosystemLines(): string[] {
+  const out = ['## The AgentsKit ecosystem', '']
+  for (const p of ecosystem.properties as Array<{ id: string; name: string; tagline: string; url: string; llms: string }>) {
+    if (p.id === 'agentskit') continue
+    out.push(`- [${p.name}](${p.url}): ${p.tagline} llms.txt: ${p.llms}`)
+  }
+  out.push('')
+  return out
+}
 
 export function GET() {
   const pages = source.getPages()
@@ -40,14 +53,15 @@ export function GET() {
   const lines: string[] = [
     '# AgentsKit.js',
     '',
-    '> The agent toolkit the JavaScript ecosystem finally has. Small packages, one contract, everything composes — chat UIs (7 frameworks), autonomous runtimes, tools, skills, memory, RAG, observability, evaluation, sandboxing.',
+    `> The agent toolkit the JavaScript ecosystem finally has. Small packages, one contract, everything composes — chat UIs (${counts.frameworkBindings} frameworks), autonomous runtimes, tools, skills, memory, RAG, observability, evaluation, sandboxing.`,
     '',
-    'Six stable contracts (Adapter, Tool, Skill, Memory, Retriever, Runtime). 19 packages under `@agentskit/*`. Install what you need. Zero-dep foundation under 10 KB gzipped.',
+    `Six stable contracts (Adapter, Tool, Skill, Memory, Retriever, Runtime). ${counts.packages} packages under \`@agentskit/*\`. Install what you need. Zero-dep foundation under 10 KB gzipped.`,
     '',
     '## For agents',
     '',
     'If you are an LLM reading this site: start at `/docs/for-agents`. That tab is dense, cross-linked, and designed to fit in one context window per package.',
     '',
+    ...ecosystemLines(),
   ]
 
   for (const [tab, entries] of Object.entries(byTab)) {

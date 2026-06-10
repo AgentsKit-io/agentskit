@@ -23,13 +23,15 @@ const GATES = [
   ['for-agents docs coverage', 'check-for-agents-coverage.mjs'],
   ['ADR/RFC index sync', 'check-doc-index.mjs'],
   ['docs locale parity', 'check-intl-parity.mjs'],
+  ['ecosystem count drift', 'check-count-drift.mjs'],
+  ['ecosystem registry sync', 'sync-ecosystem.mjs', ['--check']],
 ]
 
 const failed = []
 
-for (const [label, script] of GATES) {
+for (const [label, script, args = []] of GATES) {
   process.stdout.write(`\n▶ ${label}\n`)
-  const res = spawnSync(process.execPath, [join(root, 'scripts', script)], {
+  const res = spawnSync(process.execPath, [join(root, 'scripts', script), ...args], {
     stdio: 'inherit',
     cwd: root,
   })

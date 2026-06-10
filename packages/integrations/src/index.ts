@@ -11,6 +11,7 @@ export type {
   IntegrationTrigger,
   AuthSpec,
   OAuth2AuthSpec,
+  OAuth2ProviderSpec,
   ApiKeyAuthSpec,
   WebhookSecretAuthSpec,
   NoAuthSpec,

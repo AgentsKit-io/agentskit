@@ -1,0 +1,65 @@
+{
+  "schemaVersion": 1,
+  "$comment": "Canonical registry of the AgentsKit ecosystem web properties. Owned in this repo (the hub). Other repos receive a generated copy via scripts/sync-ecosystem.mjs. Drives the ecosystem bar, cross-link anchors, and the llms.txt ecosystem block. Edit here, never in a copy.",
+  "properties": [
+    {
+      "id": "agentskit",
+      "name": "AgentsKit",
+      "barLabel": "Framework",
+      "domain": "www.agentskit.io",
+      "url": "https://www.agentskit.io",
+      "repo": "AgentsKit-io/agentskit",
+      "tagline": "The most complete agent toolkit for JavaScript.",
+      "kind": "library",
+      "accent": "#2EA043",
+      "llms": "https://www.agentskit.io/llms.txt",
+      "stats": "https://www.agentskit.io/api/stats.json"
+    },
+    {
+      "id": "akos",
+      "name": "AgentsKit OS",
+      "barLabel": "AKOS",
+      "domain": "akos.agentskit.io",
+      "url": "https://akos.agentskit.io",
+      "repo": "AgentsKit-io/agentskit-os",
+      "tagline": "The operating system for AI agents in production.",
+      "kind": "product",
+      "accent": "#34D399",
+      "llms": "https://akos.agentskit.io/llms.txt",
+      "stats": "https://akos.agentskit.io/api/stats.json"
+    },
+    {
+      "id": "playbook",
+      "name": "Agents Playbook",
+      "barLabel": "Playbook",
+      "domain": "playbook.agentskit.io",
+      "url": "https://playbook.agentskit.io",
+      "repo": "AgentsKit-io/agents-playbook",
+      "tagline": "Best practices for building production AI agents.",
+      "kind": "methodology",
+      "accent": "#8B5CF6",
+      "llms": "https://playbook.agentskit.io/llms.txt",
+      "stats": "https://playbook.agentskit.io/api/stats.json"
+    },
+    {
+      "id": "registry",
+      "name": "Registry",
+      "barLabel": "Registry",
+      "domain": "registry.agentskit.io",
+      "url": "https://registry.agentskit.io",
+      "repo": "AgentsKit-io/agentskit-registry",
+      "tagline": "Ready-to-use AI agents.",
+      "kind": "registry",
+      "accent": "#58A6FF",
+      "llms": "https://registry.agentskit.io/llms.txt",
+      "stats": "https://registry.agentskit.io/r/index.json"
+    }
+  ],
+  "builder": {
+    "id": "emersonbraun",
+    "name": "Emerson Braun",
+    "domain": "emersonbraun.dev",
+    "url": "https://emersonbraun.dev",
+    "$comment": "Link-source only. The four product properties do NOT link back here (no personal attribution on product surfaces). Not shown in the ecosystem bar as a peer; optional 'built by' is the builder's own choice on his site."
+  }
+}

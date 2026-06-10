@@ -1,11 +1,12 @@
 import { LINKS } from './links'
+import { counts } from '../../lib/ecosystem-stats'
 
 export function Hero() {
   return (
     <section className="mx-auto max-w-6xl px-6 pt-20 pb-16 text-center">
       <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-[var(--color-border)] px-3 py-1 text-xs text-[var(--color-fg-soft)]">
         <span className="inline-block h-1.5 w-1.5 rounded-full bg-[var(--color-success)]" />
-        v1 contracts frozen — 19 packages stable
+        v1 contracts frozen — {counts.packages} packages stable
       </p>
       <h1 className="mx-auto max-w-3xl text-balance text-5xl font-semibold tracking-tight md:text-6xl">
         Ship AI agents in JavaScript without gluing 8 libraries.

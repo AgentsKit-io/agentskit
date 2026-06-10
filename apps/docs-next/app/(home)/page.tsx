@@ -7,6 +7,7 @@ import { ContributorWall } from '@/components/contribute/contributor-wall'
 import { AnimatedLogo } from '@/components/brand/animated-logo'
 import { JsonLd } from '@/components/seo/json-ld'
 import { FadeIn, Stagger, StaggerItem } from '@/components/motion/fade-in'
+import { counts, approx } from '@/lib/ecosystem-stats'
 
 export const metadata = {
   title: 'AgentsKit.js — Ship AI agents in JavaScript without gluing 8 libraries',
@@ -129,7 +130,7 @@ function Hero() {
 
           <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-ak-border bg-ak-surface px-3 py-1 font-mono text-[11px] text-ak-graphite sm:mb-5 sm:text-xs">
             <span className="inline-block h-1.5 w-1.5 rounded-full bg-ak-green" />
-            core v1.0 · 19 packages · MIT
+            core v1.0 · {counts.packages} packages · MIT
           </div>
 
           <FadeIn>
@@ -563,7 +564,7 @@ function ProviderStrip() {
     <section className="border-b border-ak-border bg-ak-surface/30 px-4 py-12 sm:px-6 sm:py-16">
       <div className="mx-auto max-w-6xl text-center">
         <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-graphite sm:mb-8 sm:text-xs">
-          20+ native adapters · 100+ more &amp; 5,000+ models via catalog. Same contract, swap in one line.
+          {counts.nativeAdapters} native adapters · {approx(counts.catalogProviders)} more &amp; {approx(counts.catalogModels)} models via catalog. Same contract, swap in one line.
         </p>
         <div className="flex flex-wrap justify-center gap-x-5 gap-y-3 sm:gap-x-8">
           {providers.map(p => (
@@ -595,13 +596,13 @@ function ProviderStrip() {
 
 function EcosystemStats() {
   const stats = [
-    { value: '19', label: 'packages', href: '/docs/reference/packages' },
-    { value: '7', label: 'framework bindings', href: '/docs/ui' },
-    { value: '20+', label: 'LLM providers', href: '/docs/data/providers' },
-    { value: '20+', label: 'tool integrations', href: '/docs/agents/tools/integrations' },
-    { value: '60+', label: 'recipes', href: '/docs/reference/recipes' },
-    { value: '9', label: 'ready-made skills', href: '/docs/agents/skills/personas' },
-    { value: '10+', label: 'memory backends', href: '/docs/data/memory' },
+    { value: String(counts.packages), label: 'packages', href: '/docs/reference/packages' },
+    { value: String(counts.frameworkBindings), label: 'framework bindings', href: '/docs/ui' },
+    { value: approx(counts.catalogProviders), label: 'LLM providers', href: '/docs/data/providers' },
+    { value: `${counts.integrations}+`, label: 'tool integrations', href: '/docs/agents/tools/integrations' },
+    { value: `${counts.recipes}+`, label: 'recipes', href: '/docs/reference/recipes' },
+    { value: String(counts.skills), label: 'ready-made skills', href: '/docs/agents/skills/personas' },
+    { value: `${counts.memoryBackends}+`, label: 'memory backends', href: '/docs/data/memory' },
     { value: '< 10 KB', label: 'zero-dep core', href: '/docs/reference/packages/core' },
   ]
   return (
@@ -702,7 +703,7 @@ function FinalCta() {
         </div>
 
         <p className="mt-8 font-mono text-xs text-ak-graphite">
-          AgentsKit.js · MIT · 19 packages on npm · built in the open
+          AgentsKit.js · MIT · {counts.packages} packages on npm · built in the open
         </p>
       </div>
     </section>
