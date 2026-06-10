@@ -27,11 +27,43 @@ function arg(name, fallback) {
 
 const property = arg('property', 'agentskit')
 const out = arg('out', null)
+const format = arg('format', 'ak') // 'ak' = full --ak-* file; 'landing' = in-place @theme markers
 const check = process.argv.includes('--check')
 
 if (!tokens.accent[property]) {
   console.error(`Unknown property "${property}". Known: ${Object.keys(tokens.accent).join(', ')}`)
   process.exit(1)
+}
+
+// landing format: regenerate the --color-* block between ecobrand markers in an
+// existing Tailwind v4 @theme (dark-only). Single-sourced from tokens.json.
+if (format === 'landing') {
+  if (!out) { console.error('--format landing requires --out'); process.exit(1) }
+  const d = tokens.color.dark
+  const a = tokens.accent[property]
+  const block = [
+    `  --color-bg: ${d.bg};`,
+    `  --color-bg-soft: ${d.surface};`,
+    `  --color-fg: ${d.fg};`,
+    `  --color-fg-soft: ${d.muted};`,
+    `  --color-border: ${d.border};`,
+    `  --color-accent: ${a.dark};`,
+    `  --color-accent-soft: ${a.softDark};`,
+    `  --color-success: ${a.dark};`,
+  ].join('\n')
+  const target = resolve(root, out)
+  const src = readFileSync(target, 'utf8')
+  const re = /(\/\* ecobrand:landing-start[^\n]*\n)[\s\S]*?(\n\s*\/\* ecobrand:landing-end \*\/)/
+  if (!re.test(src)) { console.error(`brand: ${out} missing ecobrand:landing markers.`); process.exit(1) }
+  const next = src.replace(re, `$1${block}$2`)
+  if (check) {
+    if (src !== next) { console.error(`brand drift: ${out} out of sync with tokens. Run sync-brand --format landing.`); process.exit(1) }
+    console.log(`brand ok: ${out} matches tokens (landing/${property}).`)
+  } else {
+    writeFileSync(target, next)
+    console.log(`brand written: ${out} (landing/${property}).`)
+  }
+  process.exit(0)
 }
 
 function block(scheme) {
