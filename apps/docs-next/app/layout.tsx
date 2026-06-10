@@ -109,7 +109,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </RootProvider>
         <Analytics />
         <SpeedInsights />
-        <Script src="/ecosystem-bar.js" strategy="afterInteractive" data-current="framework" />
+        <Script src="/ecosystem-bar.js" strategy="afterInteractive" data-current="agentskit" />
       </body>
     </html>
   )
