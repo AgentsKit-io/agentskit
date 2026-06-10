@@ -1,4 +1,5 @@
 import { defineIntegration } from '../../contract'
+import { CONFIG_FIELDS } from '../../config-fields'
 import { registerIntegration } from '../../registry'
 import { OAUTH_SPECS } from '../../oauth-specs'
 import { stripeActions } from './actions'
@@ -11,6 +12,7 @@ export const stripeIntegration = defineIntegration({
   http: { baseUrl: 'https://api.stripe.com/v1' },
   // Bearer secret key built per-call from ctx.config (form-encoded transport).
   auth: { kind: 'none' },
+  configFields: CONFIG_FIELDS.stripe,
   oauth: OAUTH_SPECS.stripe,
   actions: stripeActions,
   triggers: [stripeWebhook],

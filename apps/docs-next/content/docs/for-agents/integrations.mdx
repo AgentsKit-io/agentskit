@@ -36,6 +36,7 @@ ships the contract + registry.
 - `integrationTools` — resolve a catalog integration (by slug or descriptor) and project it to `ToolDefinition[]` in one call.
 - `integrationToolsFromEnv` — project an integration reading its credential from the environment (via the apiKey `envHint`).
 - `credentialEnvVar` — the conventional env var holding an integration's API key.
+- `CONFIG_FIELDS` — declarative connect-form fields (`ConfigField[]`) for services that authenticate with structured config (Twilio, Jira, Stripe, …) rather than a single API key; attached to each descriptor's `configFields`.
 
 ## Subpath exports
 

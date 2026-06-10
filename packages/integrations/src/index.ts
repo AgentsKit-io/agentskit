@@ -15,6 +15,7 @@ export type {
   ApiKeyAuthSpec,
   WebhookSecretAuthSpec,
   NoAuthSpec,
+  ConfigField,
   SideEffect,
   WebhookInput,
   VerifyResult,
@@ -22,6 +23,7 @@ export type {
   ExternalThreadRef,
 } from './contract'
 export { defineIntegration, defineAction, defineTrigger } from './contract'
+export { CONFIG_FIELDS } from './config-fields'
 
 export type { HttpToolOptions, HttpJsonRequest, IntegrationHttp } from './http'
 export { httpJson, bindHttp } from './http'

@@ -1,4 +1,5 @@
 import { defineIntegration } from '../../contract'
+import { CONFIG_FIELDS } from '../../config-fields'
 import { registerIntegration } from '../../registry'
 import { whisperActions } from './actions'
 
@@ -9,6 +10,7 @@ export const whisperIntegration = defineIntegration({
   http: { baseUrl: 'https://api.openai.com/v1' },
   // Bearer auth + multipart upload built per-call from ctx.config.
   auth: { kind: 'none' },
+  configFields: CONFIG_FIELDS.whisper,
   actions: whisperActions,
 })
 
