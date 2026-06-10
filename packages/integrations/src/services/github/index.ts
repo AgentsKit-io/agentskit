@@ -1,6 +1,7 @@
 import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { githubActionsList } from './actions'
+import { githubTriggers } from './triggers'
 
 export const githubIntegration = defineIntegration({
   name: 'github',
@@ -12,6 +13,7 @@ export const githubIntegration = defineIntegration({
   },
   auth: { kind: 'apiKey', header: 'authorization', prefix: 'Bearer ', envHint: 'GITHUB_TOKEN' },
   actions: githubActionsList,
+  triggers: githubTriggers,
   capabilities: { send: 'github_comment_issue' },
 })
 

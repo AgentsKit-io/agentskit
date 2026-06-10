@@ -1,6 +1,7 @@
 import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { pagerdutyActions } from './actions'
+import { pagerdutyTriggers } from './triggers'
 
 export const pagerdutyIntegration = defineIntegration({
   name: 'pagerduty',
@@ -10,6 +11,7 @@ export const pagerdutyIntegration = defineIntegration({
   // built per-call from ctx.config; no single auth/base URL.
   auth: { kind: 'none' },
   actions: pagerdutyActions,
+  triggers: pagerdutyTriggers,
   capabilities: { send: 'pagerduty_trigger' },
 })
 

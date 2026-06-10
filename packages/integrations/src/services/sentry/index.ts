@@ -1,6 +1,7 @@
 import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { sentryActions } from './actions'
+import { sentryTriggers } from './triggers'
 
 export const sentryIntegration = defineIntegration({
   name: 'sentry',
@@ -9,6 +10,7 @@ export const sentryIntegration = defineIntegration({
   http: { baseUrl: 'https://sentry.io/api/0' },
   auth: { kind: 'apiKey', header: 'authorization', prefix: 'Bearer ', envHint: 'SENTRY_AUTH_TOKEN' },
   actions: sentryActions,
+  triggers: sentryTriggers,
 })
 
 registerIntegration(sentryIntegration)
