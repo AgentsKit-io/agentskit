@@ -1,3 +1,9 @@
+# Sibling ecosystem sites — live, but the CI runner is network-blocked from
+# reaching them (lychee "Connection failed"). Intentional cross-property links.
+^https://playbook\.agentskit\.io
+^https://registry\.agentskit\.io
+^https://akos\.agentskit\.io
+
 # Local dev URLs — never resolvable from CI
 ^http://localhost
 ^http://127\.0\.0\.1
