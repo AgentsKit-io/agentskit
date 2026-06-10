@@ -1,0 +1,53 @@
+---
+title: '@agentskit/mcp — for agents'
+description: Expose AgentsKit tools as an MCP server over stdio for Claude Desktop, Cursor, Windsurf.
+---
+
+## Purpose
+
+Serve AgentsKit tools to any MCP host. A thin bridge over `@agentskit/tools/mcp`
+(`createMcpServer` + `createStdioTransport`).
+
+## Install
+
+```bash
+npm install @agentskit/mcp
+```
+
+## Primary exports
+
+- `createAgentsKitMcpServer({ tools, serverInfo?, onEvent?, transport? })` —
+  expose `ToolDefinition[]` as an MCP server. Defaults to stdio over the current
+  process; pass `transport` to override (tests / custom hosts).
+- `processStdio()` — adapt the Node process into the `StdioLikeProcess` the
+  transport expects (server receives on stdin, sends on stdout).
+- `createAgentTool({ id, description, systemPrompt, adapter, maxSteps? })` —
+  wrap a whole agent as one MCP tool. The host calls it with a `task`; the agent
+  runs server-side on the given adapter and returns the result ("agents as MCP tools").
+- `fetchAgentSkill(id, fetchImpl?)` — fetch a registry agent's runnable skill
+  (hosted index, raw-GitHub fallback); `null` for tool-composing agents.
+
+## Bin
+
+`agentskit-mcp` — `npx @agentskit/mcp --tools fetch,search`. Expose whole agents
+with `--agents <ids> --provider <p>` (any of ~20 providers + catalog OpenAI-compatible). Flags: `--tools`,
+`--fs-root`, `--sqlite`, `--allow-shell`. stdout is the JSON-RPC channel; logs go to stderr.
+
+## Minimal example
+
+```ts
+import { createAgentsKitMcpServer } from '@agentskit/mcp'
+import { fetchUrl } from '@agentskit/tools'
+
+createAgentsKitMcpServer({ tools: [fetchUrl()] })
+```
+
+## Related packages
+
+- [@agentskit/tools](/docs/for-agents/tools) — the tools you expose + the MCP primitives.
+- [@agentskit/core](/docs/for-agents/core) — the `ToolDefinition` contract.
+
+## Source
+
+- npm: https://www.npmjs.com/package/@agentskit/mcp
+- repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/mcp
