@@ -17,10 +17,13 @@
   ]
 
   var host = location.hostname
+  // Match agentskit.io only as the registrable domain suffix (not a substring,
+  // so evil-agentskit.io.attacker.test does not match).
+  var isAgentskit = host === 'agentskit.io' || /\.agentskit\.io$/.test(host)
   var current =
     (document.currentScript && document.currentScript.getAttribute('data-current')) ||
     (PROPS.filter(function (p) { return host === p.host })[0] || {}).id ||
-    (host.indexOf('agentskit.io') !== -1 && host.split('.')[0]) ||
+    (isAgentskit ? host.split('.')[0] : '') ||
     ''
 
   var css =
