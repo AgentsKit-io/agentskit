@@ -98,7 +98,8 @@ describe('fetchAgentSkill', () => {
   it('returns null for a tool-composing agent (skill: null) with no inline prompt', async () => {
     const { fetchAgentSkill } = await import('../src/registry-fetch')
     const fetchImpl = (async (url: string) => {
-      if (url.includes('registry.agentskit.io')) return new Response(JSON.stringify({ skill: null }), { status: 200 })
+      if (new URL(url).hostname === 'registry.agentskit.io')
+        return new Response(JSON.stringify({ skill: null }), { status: 200 })
       if (url.endsWith('meta.json')) return new Response(JSON.stringify({ description: 'd' }), { status: 200 })
       return new Response('import { researcher } from "@agentskit/skills"', { status: 200 })
     }) as unknown as typeof fetch
