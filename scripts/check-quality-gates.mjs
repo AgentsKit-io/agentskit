@@ -26,6 +26,7 @@ const GATES = [
   ['ecosystem count drift', 'check-count-drift.mjs'],
   ['ecosystem registry sync', 'sync-ecosystem.mjs', ['--check']],
   ['brand token sync', 'sync-brand.mjs', ['--property', 'agentskit', '--out', 'apps/docs-next/app/brand-tokens.css', '--check']],
+  ['brand token sync (landing)', 'sync-brand.mjs', ['--property', 'agentskit', '--format', 'landing', '--out', 'apps/landing/app/globals.css', '--check']],
 ]
 
 const failed = []
