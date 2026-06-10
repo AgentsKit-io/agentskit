@@ -36,7 +36,11 @@ describe('fetchAgent', () => {
 
   it('falls back to raw GitHub when hosted is unavailable', async () => {
     const fetchImpl = vi.fn(async (url: string) => {
-      if (url.includes('registry.agentskit.io')) return notFound()
+      try {
+        if (new URL(url).hostname === 'registry.agentskit.io') return notFound()
+      } catch {
+        // Ignore malformed/non-absolute URLs in test mocks and continue with path checks.
+      }
       if (url.endsWith('/meta.json')) return jsonResponse(META)
       if (url.endsWith('/agent.ts')) return textResponse('export const y = 2')
       return notFound()
