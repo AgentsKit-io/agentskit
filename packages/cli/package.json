@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/cli",
-  "version": "0.11.3",
+  "version": "0.12.0",
   "description": "CLI for AgentsKit chat and project scaffolding.",
   "keywords": [
     "agentskit",
@@ -51,6 +51,7 @@
     "@agentskit/adapters": "workspace:*",
     "@agentskit/core": "workspace:*",
     "@agentskit/ink": "workspace:*",
+    "@agentskit/integrations": "workspace:*",
     "@agentskit/memory": "workspace:*",
     "@agentskit/rag": "workspace:*",
     "@agentskit/runtime": "workspace:*",
