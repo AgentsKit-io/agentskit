@@ -23,16 +23,32 @@ export interface EcosystemCounts {
   recipes: number
 }
 
+export interface EcosystemPackage {
+  name: string
+  description: string
+  stability: string
+}
+
+export interface EcosystemLists {
+  packages: EcosystemPackage[]
+  integrations: string[]
+  providers: string[]
+}
+
 export interface EcosystemStats {
   schemaVersion: number
   property: string
   counts: EcosystemCounts
+  lists?: EcosystemLists
   coreSizeKbGzip: number
 }
 
 /** agentskit.io's own canonical counts. */
 export const stats: EcosystemStats = snapshot as EcosystemStats
 export const counts: EcosystemCounts = stats.counts
+/** Generated lists for catalogs / marquees (integrations, providers, packages). */
+export const lists: EcosystemLists =
+  stats.lists ?? { packages: [], integrations: [], providers: [] }
 
 /** Format a count with a "+" suffix for the round/marketing-friendly ones. */
 export function approx(n: number): string {
