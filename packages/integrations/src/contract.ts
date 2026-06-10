@@ -145,6 +145,26 @@ export interface IntegrationTrigger {
 // from this single definition.
 // ---------------------------------------------------------------------------
 
+/**
+ * A single user-supplied configuration field for a service that authenticates
+ * with structured config rather than a single API key (e.g. Twilio's
+ * accountSid + authToken + fromNumber, Jira's baseUrl). Declarative so a host UI
+ * can render a connect form, and a host can validate before storing. Maps onto
+ * the `config` object passed to each action's `IntegrationActionContext`.
+ */
+export interface ConfigField {
+  /** Key on the `config` object the actions read (e.g. `accountSid`). */
+  key: string
+  /** Human label for the form field. */
+  label: string
+  /** Render as a masked secret input + store in the vault. */
+  secret?: boolean
+  /** The connector cannot operate without it. Defaults to required. */
+  required?: boolean
+  /** Placeholder / example shown in the form. */
+  placeholder?: string
+}
+
 export interface Integration {
   /** Service slug — matches the OS ConnectionKind, e.g. `slack`. */
   name: string
@@ -156,6 +176,9 @@ export interface Integration {
   /** OAuth2 flow spec, when the service supports an OAuth authorization-code
    *  flow (independent of the primary `auth`). The portable provider registry. */
   oauth?: OAuth2ProviderSpec
+  /** Structured-config fields a host UI captures to connect the service, when it
+   *  authenticates with more than a single API key (Twilio, Jira, Stripe, …). */
+  configFields?: ConfigField[]
   actions: IntegrationAction[]
   triggers?: IntegrationTrigger[]
   /** Pointers letting projections pick the canonical send/notify action. */

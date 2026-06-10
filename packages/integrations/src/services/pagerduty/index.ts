@@ -1,4 +1,5 @@
 import { defineIntegration } from '../../contract'
+import { CONFIG_FIELDS } from '../../config-fields'
 import { registerIntegration } from '../../registry'
 import { OAUTH_SPECS } from '../../oauth-specs'
 import { pagerdutyActions } from './actions'
@@ -11,6 +12,7 @@ export const pagerdutyIntegration = defineIntegration({
   // Events API (routing key in body) + optional REST (Token header) — both
   // built per-call from ctx.config; no single auth/base URL.
   auth: { kind: 'none' },
+  configFields: CONFIG_FIELDS.pagerduty,
   oauth: OAUTH_SPECS.pagerduty,
   actions: pagerdutyActions,
   triggers: pagerdutyTriggers,

@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { counts } from '@/lib/ecosystem-stats'
 
 const GITHUB_REPO = 'AgentsKit-io/agentskit'
 const GITHUB_URL = `https://github.com/${GITHUB_REPO}`
@@ -90,32 +91,34 @@ export function SocialProofBar() {
     }
   }, [])
 
+  // Live metrics show only once they carry a real, positive signal — a brand
+  // new project should never advertise "0 monthly downloads". Static facts
+  // (package count, core size, license) always render and stay single-sourced.
+  const metrics: { label: string; value: string; href?: string }[] = []
+  if (downloads && downloads > 0)
+    metrics.push({ label: 'monthly downloads', value: compact(downloads), href: NPM_ORG })
+  if (stars && stars > 0)
+    metrics.push({ label: 'github stars', value: compact(stars), href: GITHUB_URL })
+  if (contributors && contributors > 0)
+    metrics.push({
+      label: 'contributors',
+      value: compact(contributors),
+      href: `${GITHUB_URL}/graphs/contributors`,
+    })
+  metrics.push({ label: 'packages on npm', value: String(counts.packages), href: NPM_ORG })
+  metrics.push({ label: 'integrations', value: String(counts.integrations) })
+  metrics.push({ label: 'core size', value: '< 10 KB' })
+  metrics.push({ label: 'license', value: 'MIT' })
+
   return (
     <section className="border-b border-ak-border bg-ak-surface/50 px-4 py-8 sm:px-6 sm:py-10">
       <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-x-6 gap-y-3 sm:gap-x-10 sm:gap-y-4">
-        <Metric
-          href={NPM_ORG}
-          label="monthly downloads"
-          value={downloads === null ? '…' : compact(downloads)}
-        />
-        <Divider />
-        <Metric
-          href={GITHUB_URL}
-          label="github stars"
-          value={stars === null ? '…' : compact(stars)}
-        />
-        <Divider />
-        <Metric
-          href={`${GITHUB_URL}/graphs/contributors`}
-          label="contributors"
-          value={contributors === null ? '…' : compact(contributors)}
-        />
-        <Divider />
-        <Metric label="packages on npm" value="19" />
-        <Divider />
-        <Metric label="core size" value="10KB" />
-        <Divider />
-        <Metric label="license" value="MIT" />
+        {metrics.map((m, i) => (
+          <span key={m.label} className="flex items-center gap-x-6 sm:gap-x-10">
+            <Metric href={m.href} label={m.label} value={m.value} />
+            {i < metrics.length - 1 ? <Divider /> : null}
+          </span>
+        ))}
       </div>
     </section>
   )
