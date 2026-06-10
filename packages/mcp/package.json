@@ -1,8 +1,17 @@
 {
   "name": "@agentskit/mcp",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Expose AgentsKit tools as an MCP server — use them from Claude Desktop, Cursor, Windsurf, or any MCP host.",
-  "keywords": ["agentskit", "mcp", "model-context-protocol", "tools", "ai", "agents", "claude", "cursor"],
+  "keywords": [
+    "agentskit",
+    "mcp",
+    "model-context-protocol",
+    "tools",
+    "ai",
+    "agents",
+    "claude",
+    "cursor"
+  ],
   "type": "module",
   "sideEffects": false,
   "main": "./dist/index.cjs",
@@ -18,7 +27,9 @@
       "require": "./dist/index.cjs"
     }
   },
-  "files": ["dist"],
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsup",
     "test": "vitest run",
@@ -38,7 +49,9 @@
     "typescript": "^6.0.3",
     "vitest": "^4.1.7"
   },
-  "publishConfig": { "access": "public" },
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/packages/mcp",
   "repository": {
