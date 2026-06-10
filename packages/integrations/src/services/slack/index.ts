@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { slackAuth } from './auth'
 import { slackActions } from './actions'
+import { slackTriggers } from './triggers'
 
 export const slackIntegration = defineIntegration({
   name: 'slack',
@@ -10,6 +11,7 @@ export const slackIntegration = defineIntegration({
   http: { baseUrl: 'https://slack.com/api' },
   auth: slackAuth,
   actions: slackActions,
+  triggers: slackTriggers,
   capabilities: { send: 'slack_post_message', notify: 'slack_post_message' },
 })
 
