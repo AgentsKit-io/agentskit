@@ -3,6 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "prebuild": "node ../../scripts/gen-ecosystem-stats.mjs && node ../../scripts/sync-ecosystem.mjs",
+    "gen:stats": "node ../../scripts/gen-ecosystem-stats.mjs",
     "dev": "next dev --turbo --port 4180",
     "build": "next build",
     "start": "next start --port 4180",

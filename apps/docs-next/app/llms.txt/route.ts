@@ -1,9 +1,21 @@
 import { source } from '@/lib/source'
 import { counts } from '@/lib/ecosystem-stats'
+import ecosystem from '@/lib/ecosystem.json'
 
 export const dynamic = 'force-static'
 
 const SITE = 'https://www.agentskit.io'
+
+/** Sibling-property discovery block — generated from the canonical ecosystem.json. */
+function ecosystemLines(): string[] {
+  const out = ['## The AgentsKit ecosystem', '']
+  for (const p of ecosystem.properties as Array<{ id: string; name: string; tagline: string; url: string; llms: string }>) {
+    if (p.id === 'agentskit') continue
+    out.push(`- [${p.name}](${p.url}): ${p.tagline} llms.txt: ${p.llms}`)
+  }
+  out.push('')
+  return out
+}
 
 export function GET() {
   const pages = source.getPages()
@@ -49,6 +61,7 @@ export function GET() {
     '',
     'If you are an LLM reading this site: start at `/docs/for-agents`. That tab is dense, cross-linked, and designed to fit in one context window per package.',
     '',
+    ...ecosystemLines(),
   ]
 
   for (const [tab, entries] of Object.entries(byTab)) {
