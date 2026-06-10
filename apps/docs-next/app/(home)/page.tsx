@@ -304,7 +304,7 @@ function SolutionSection() {
           The fix
         </p>
         <h2 className="mb-4 max-w-3xl text-[1.75rem] font-bold leading-[1.15] text-ak-foam sm:mb-5 sm:text-3xl md:text-4xl lg:text-5xl">
-          One ecosystem. Nineteen packages. Start with one, grow to the full stack.
+          One ecosystem. {counts.packages} packages. Start with one, grow to the full stack.
         </h2>
         <p className="mb-8 max-w-2xl text-base text-ak-graphite sm:mb-12 sm:text-lg">
           A 10KB zero-dependency core defines six contracts. Every adapter,

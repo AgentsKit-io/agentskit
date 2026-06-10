@@ -49,6 +49,7 @@ export function computeStats(root = REPO_ROOT) {
 
   let packages = 0
   const published = new Set()
+  const packageList = []
   for (const dir of listDirs(pkgRoot)) {
     const pj = join(pkgRoot, dir, 'package.json')
     if (!existsSync(pj)) continue
@@ -57,9 +58,15 @@ export function computeStats(root = REPO_ROOT) {
       if (json.name?.startsWith('@agentskit/') && !json.private) {
         packages++
         published.add(json.name.replace('@agentskit/', ''))
+        packageList.push({
+          name: json.name,
+          description: json.description ?? '',
+          stability: json.agentskit?.stability ?? 'unlisted',
+        })
       }
     } catch { /* skip */ }
   }
+  packageList.sort((a, b) => a.name.localeCompare(b.name))
 
   const frameworkBindings = FRAMEWORK_BINDINGS.filter((f) => published.has(f)).length
 
@@ -72,17 +79,21 @@ export function computeStats(root = REPO_ROOT) {
     for (const n of names) if (!ADAPTER_NON_PROVIDERS.has(n)) nativeAdapters++
   }
 
-  const integrations = listDirs(join(pkgRoot, 'integrations', 'src', 'services'))
-    .filter((n) => n !== '_template').length
+  const integrationList = listDirs(join(pkgRoot, 'integrations', 'src', 'services'))
+    .filter((n) => !n.startsWith('_'))
+    .sort()
+  const integrations = integrationList.length
 
   let catalogProviders = 0
   let catalogModels = 0
+  let providerList = []
   const catalogSnap = join(pkgRoot, 'adapters', 'src', 'catalog', 'snapshot.json')
   if (existsSync(catalogSnap)) {
     try {
       const c = JSON.parse(readFileSync(catalogSnap, 'utf8'))
       const arr = Array.isArray(c.providers) ? c.providers : c.providers ? Object.values(c.providers) : []
       catalogProviders = arr.length
+      providerList = arr.map((pr) => pr.id).filter(Boolean).sort()
       for (const pr of arr) {
         const m = pr.models
         if (Array.isArray(m)) catalogModels += m.length
@@ -119,6 +130,11 @@ export function computeStats(root = REPO_ROOT) {
     counts: {
       packages, frameworkBindings, nativeAdapters, integrations,
       catalogProviders, catalogModels, skills, memoryBackends, recipes,
+    },
+    lists: {
+      packages: packageList,
+      integrations: integrationList,
+      providers: providerList,
     },
     coreSizeKbGzip,
   }
