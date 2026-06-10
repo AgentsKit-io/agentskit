@@ -225,8 +225,8 @@ importers:
         version: link:../../packages/core
     devDependencies:
       '@cloudflare/workers-types':
-        specifier: ^4.20260609.1
-        version: 4.20260609.1
+        specifier: ^4.20260610.1
+        version: 4.20260610.1
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
@@ -937,8 +937,8 @@ importers:
         specifier: ^25.9.2
         version: 25.9.2
       langsmith:
-        specifier: ^0.7.5
-        version: 0.7.5(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.7.1(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@4.4.3))(ws@8.21.0)
+        specifier: ^0.7.6
+        version: 0.7.6(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.7.1(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@4.4.3))(ws@8.21.0)
       tsup:
         specifier: ^8.5.1
         version: 8.5.1(jiti@2.7.0)(postcss@8.5.15)(tsx@4.22.4)(typescript@6.0.3)(yaml@2.9.0)
@@ -1394,8 +1394,16 @@ packages:
     resolution: {integrity: sha512-P2Otgf15GBJMKzG6j5Ddf7w+Kz6z2jvesMy874TD3jlMfDWNK7clJeUd7hgigdeVOotjoUP4emcTWVdS9sfZDw==}
     engines: {node: '>=20.0.0'}
 
+  '@aws-sdk/nested-clients@3.997.20':
+    resolution: {integrity: sha512-IYJuLpXp2DEILVQpQOy0PMpkftv0AHEOCn52o0atyOaumA0CdWQ3klPyXdViGYLbNpESsVFMVybvHUeZAuiGxA==}
+    engines: {node: '>=20.0.0'}
+
   '@aws-sdk/signature-v4-multi-region@3.996.33':
     resolution: {integrity: sha512-Hn0RThJEbyOZWV2PV9Z4YD3nitGPxybmyU17dSe9b61WOBcKnqS0WTtM3c1zyZq9WnGiyrfi/i+UBPUk7cM8Ug==}
+    engines: {node: '>=20.0.0'}
+
+  '@aws-sdk/signature-v4-multi-region@3.996.34':
+    resolution: {integrity: sha512-mx1L5qlumSOt/nKM3BFaHE2HVkWwz0i4Bw0pyYO42FfX/FeLlo8YI6csC0gSPprEk6fTIqI+CZN9RwUwKd5krQ==}
     engines: {node: '>=20.0.0'}
 
   '@aws-sdk/token-providers@3.1065.0':
@@ -1599,8 +1607,8 @@ packages:
   '@chevrotain/types@11.1.2':
     resolution: {integrity: sha512-U+HFai5+zmJCkK86QsaJtoITlboZHBqrVketcO2ROv865xfCMSFpELQoz1GkX5GzME8pTa+3kbKrZHQtI0gdbw==}
 
-  '@cloudflare/workers-types@4.20260609.1':
-    resolution: {integrity: sha512-krGHtwSApCFBjTe1NTx/TFQ0P5i/bHGQOqCPnCLssb8rOKaAG4JkPFJZsossr0z/ZTMnpP2Tid5jWju+/i0hCA==}
+  '@cloudflare/workers-types@4.20260610.1':
+    resolution: {integrity: sha512-Mk/f3lUygeIHzQ4HnJjU/JvGg/kllgp9gISty9nylHE/2M2MFeKO+hgAKSgiPpmwUbuhewdYGgqFGgT/ADK0/g==}
 
   '@codemirror/autocomplete@6.20.3':
     resolution: {integrity: sha512-tlosUqb+3BbxCxZdu4tKeRghPFC+QM7q4X5YhKV2eCmPG+1r2F3f4AaSz5sCrFqUtX4Jh20VFTKecl16MgiV9g==}
@@ -5633,8 +5641,8 @@ packages:
     resolution: {integrity: sha512-MAmBAASSzJtmK1O9HQegA1mFsQhT8Yf+OJRGvE7FXkyv3g/eiBE0glLD0Ohg3pkxhoPdggM5SejK7ue9ctlaMA==}
     engines: {node: '>=18'}
 
-  langsmith@0.7.5:
-    resolution: {integrity: sha512-OeD6+yKtWwy6sAboq25kD5DICzYv7j2KgtV2n4LsJ8nU2LpEdt1UwbjA6BON/zTggmS/YjV2TtLTHd7VEJhtEA==}
+  langsmith@0.7.6:
+    resolution: {integrity: sha512-6IRm+sAxHT2n5GAZbqEnUzkhOu3Q8vqQtMiOpYfGiI+pxUe/fYQSzV0Pr7q5x9JD8bnZ8xK2/P9dhPHs4zO/Nw==}
     peerDependencies:
       '@opentelemetry/api': '*'
       '@opentelemetry/exporter-trace-otlp-proto': '*'
@@ -7915,7 +7923,7 @@ snapshots:
   '@aws-sdk/credential-provider-web-identity@3.972.51':
     dependencies:
       '@aws-sdk/core': 3.974.20
-      '@aws-sdk/nested-clients': 3.997.19
+      '@aws-sdk/nested-clients': 3.997.20
       '@aws-sdk/types': 3.973.12
       '@smithy/core': 3.24.6
       '@smithy/types': 4.14.3
@@ -7958,7 +7966,27 @@ snapshots:
       '@smithy/types': 4.14.3
       tslib: 2.8.1
 
+  '@aws-sdk/nested-clients@3.997.20':
+    dependencies:
+      '@aws-crypto/sha256-browser': 5.2.0
+      '@aws-crypto/sha256-js': 5.2.0
+      '@aws-sdk/core': 3.974.20
+      '@aws-sdk/signature-v4-multi-region': 3.996.34
+      '@aws-sdk/types': 3.973.12
+      '@smithy/core': 3.24.6
+      '@smithy/fetch-http-handler': 5.4.6
+      '@smithy/node-http-handler': 4.7.7
+      '@smithy/types': 4.14.3
+      tslib: 2.8.1
+
   '@aws-sdk/signature-v4-multi-region@3.996.33':
+    dependencies:
+      '@aws-sdk/types': 3.973.12
+      '@smithy/signature-v4': 5.4.6
+      '@smithy/types': 4.14.3
+      tslib: 2.8.1
+
+  '@aws-sdk/signature-v4-multi-region@3.996.34':
     dependencies:
       '@aws-sdk/types': 3.973.12
       '@smithy/signature-v4': 5.4.6
@@ -8269,7 +8297,7 @@ snapshots:
 
   '@chevrotain/types@11.1.2': {}
 
-  '@cloudflare/workers-types@4.20260609.1': {}
+  '@cloudflare/workers-types@4.20260610.1': {}
 
   '@codemirror/autocomplete@6.20.3':
     dependencies:
@@ -12229,7 +12257,7 @@ snapshots:
     dependencies:
       langfuse-core: 3.38.20
 
-  langsmith@0.7.5(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.7.1(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@4.4.3))(ws@8.21.0):
+  langsmith@0.7.6(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.7.1(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@4.4.3))(ws@8.21.0):
     dependencies:
       p-queue: 6.6.2
     optionalDependencies:
