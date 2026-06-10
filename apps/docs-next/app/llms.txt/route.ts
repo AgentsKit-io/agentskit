@@ -1,4 +1,5 @@
 import { source } from '@/lib/source'
+import { counts } from '@/lib/ecosystem-stats'
 
 export const dynamic = 'force-static'
 
@@ -40,9 +41,9 @@ export function GET() {
   const lines: string[] = [
     '# AgentsKit.js',
     '',
-    '> The agent toolkit the JavaScript ecosystem finally has. Small packages, one contract, everything composes — chat UIs (7 frameworks), autonomous runtimes, tools, skills, memory, RAG, observability, evaluation, sandboxing.',
+    `> The agent toolkit the JavaScript ecosystem finally has. Small packages, one contract, everything composes — chat UIs (${counts.frameworkBindings} frameworks), autonomous runtimes, tools, skills, memory, RAG, observability, evaluation, sandboxing.`,
     '',
-    'Six stable contracts (Adapter, Tool, Skill, Memory, Retriever, Runtime). 19 packages under `@agentskit/*`. Install what you need. Zero-dep foundation under 10 KB gzipped.',
+    `Six stable contracts (Adapter, Tool, Skill, Memory, Retriever, Runtime). ${counts.packages} packages under \`@agentskit/*\`. Install what you need. Zero-dep foundation under 10 KB gzipped.`,
     '',
     '## For agents',
     '',
