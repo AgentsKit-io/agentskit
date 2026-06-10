@@ -9,12 +9,14 @@
   if (window.__akEcosystemBar) return
   window.__akEcosystemBar = true
 
+  // ecobar:props-start — GENERATED from ecosystem.json by scripts/sync-ecosystem.mjs. Do not edit by hand.
   var PROPS = [
-    { id: 'framework', label: 'Framework', host: 'www.agentskit.io', url: 'https://www.agentskit.io' },
+    { id: 'agentskit', label: 'Framework', host: 'www.agentskit.io', url: 'https://www.agentskit.io' },
     { id: 'playbook', label: 'Playbook', host: 'playbook.agentskit.io', url: 'https://playbook.agentskit.io' },
     { id: 'registry', label: 'Registry', host: 'registry.agentskit.io', url: 'https://registry.agentskit.io' },
     { id: 'akos', label: 'AKOS', host: 'akos.agentskit.io', url: 'https://akos.agentskit.io' },
   ]
+  // ecobar:props-end
 
   var host = location.hostname
   // Match agentskit.io only as the registrable domain suffix (not a substring,
