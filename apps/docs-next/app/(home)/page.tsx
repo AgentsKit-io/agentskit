@@ -583,6 +583,10 @@ function ProviderStrip() {
           <Link href="/docs/reference/packages/adapters#catalog" className="underline decoration-dotted underline-offset-2 hover:text-ak-blue">
             models.dev catalog →
           </Link>
+          <span className="mx-2">·</span>
+          <Link href="/agents" className="underline decoration-dotted underline-offset-2 hover:text-ak-blue">
+            ready-to-use agents →
+          </Link>
         </p>
       </div>
     </section>

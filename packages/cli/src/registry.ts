@@ -8,8 +8,10 @@
 import { mkdir, writeFile } from 'node:fs/promises'
 import { dirname, join } from 'node:path'
 
-const HOSTED_BASE = 'https://registry.agentskit.io/r'
 const RAW_BASE = 'https://raw.githubusercontent.com/AgentsKit-io/agentskit-registry/main'
+// The committed, prebuilt index (fast path) — served straight from the repo, no
+// separate deploy. Falls back to walking the agent source below.
+const HOSTED_BASE = `${RAW_BASE}/public/r`
 
 export interface RegistryEnvVar {
   name: string

@@ -26,7 +26,7 @@ describe('fetchAgent', () => {
   it('uses the hosted index when it has inlined sources', async () => {
     const hosted = { ...META, sources: [{ path: 'agent.ts', content: 'export const x = 1' }] }
     const fetchImpl = vi.fn(async (url: string) => {
-      expect(url).toContain('registry.agentskit.io/r/research.json')
+      expect(url).toContain('/public/r/research.json')
       return jsonResponse(hosted)
     }) as unknown as typeof fetch
     const agent = await fetchAgent('research', { fetchImpl })
