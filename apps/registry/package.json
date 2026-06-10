@@ -1,0 +1,31 @@
+{
+  "name": "@agentskit/registry-app",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "next dev --turbo",
+    "build": "next build",
+    "postinstall": "fumadocs-mdx",
+    "lint": "tsc --noEmit"
+  },
+  "dependencies": {
+    "fumadocs-core": "^16.9.3",
+    "fumadocs-mdx": "^15.0.11",
+    "fumadocs-ui": "^16.9.3",
+    "next": "^16.2.7",
+    "react": "^19.2.7",
+    "react-dom": "^19.2.7",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4.3.0",
+    "@types/mdx": "^2.0.14",
+    "@types/node": "^25.9.2",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "postcss": "^8.5.15",
+    "tailwindcss": "^4.3.0",
+    "typescript": "^6.0.3"
+  }
+}
