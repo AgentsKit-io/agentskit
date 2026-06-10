@@ -14,7 +14,14 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
   const { id } = await params
   const agent = await getAgent(id)
   if (!agent) return { title: 'Agent not found' }
-  return { title: agent.title, description: agent.description }
+  const url = `https://registry.agentskit.io/agents/${id}`
+  return {
+    title: agent.title,
+    description: agent.description,
+    alternates: { canonical: url },
+    openGraph: { title: agent.title, description: agent.description, url, type: 'article' },
+    twitter: { card: 'summary_large_image', title: agent.title, description: agent.description },
+  }
 }
 
 function H2({ children }: { children: React.ReactNode }) {
