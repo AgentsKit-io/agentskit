@@ -10,13 +10,17 @@ export function Footer() {
           <span aria-hidden className="inline-block h-4 w-4 rounded bg-gradient-to-br from-[var(--color-accent)] to-[var(--color-accent-soft)]" />
           <span>AgentsKit · MIT licensed · {YEAR}</span>
         </div>
-        <nav className="flex flex-wrap items-center gap-5 text-sm text-[var(--color-fg-soft)]">
+        <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-[var(--color-fg-soft)]">
           <a href={LINKS.docs} className="hover:text-[var(--color-fg)]">Docs</a>
           <a href={LINKS.github} className="hover:text-[var(--color-fg)]">GitHub</a>
           <a href={LINKS.discord} className="hover:text-[var(--color-fg)]">Discord</a>
           <a href={LINKS.npm} className="hover:text-[var(--color-fg)]">npm</a>
           <a href={LINKS.manifesto} className="hover:text-[var(--color-fg)]">Manifesto</a>
           <a href={LINKS.roadmap} className="hover:text-[var(--color-fg)]">Roadmap</a>
+          <span aria-hidden className="text-[var(--color-border)]">·</span>
+          <a href={LINKS.playbook} className="hover:text-[var(--color-fg)]">Playbook</a>
+          <a href={LINKS.registry} className="hover:text-[var(--color-fg)]">Registry</a>
+          <a href={LINKS.akos} className="hover:text-[var(--color-fg)]">AKOS</a>
         </nav>
       </div>
     </footer>

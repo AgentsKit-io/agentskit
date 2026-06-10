@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import Script from 'next/script'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -24,7 +25,11 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        {/* Shared ecosystem bar — single source on www.agentskit.io, embedded across all properties. */}
+        <Script src="https://www.agentskit.io/ecosystem-bar.js" strategy="afterInteractive" data-current="agentskit" />
+        {children}
+      </body>
     </html>
   )
 }

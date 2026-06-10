@@ -705,6 +705,22 @@ function FinalCta() {
         <p className="mt-8 font-mono text-xs text-ak-graphite">
           AgentsKit.js · MIT · {counts.packages} packages on npm · built in the open
         </p>
+
+        <nav
+          aria-label="AgentsKit ecosystem"
+          className="mx-auto mt-8 flex max-w-2xl flex-wrap items-center justify-center gap-x-5 gap-y-2 border-t border-ak-border pt-6 text-xs text-ak-graphite"
+        >
+          <span className="font-mono uppercase tracking-[0.18em] text-ak-graphite/70">Ecosystem</span>
+          <a href="https://playbook.agentskit.io" className="transition hover:text-ak-blue">
+            Playbook<span className="text-ak-graphite/60"> · best practices</span>
+          </a>
+          <a href="https://registry.agentskit.io" className="transition hover:text-ak-blue">
+            Registry<span className="text-ak-graphite/60"> · ready-made agents</span>
+          </a>
+          <a href="https://akos.agentskit.io" className="transition hover:text-ak-blue">
+            AKOS<span className="text-ak-graphite/60"> · the OS for agents in production</span>
+          </a>
+        </nav>
       </div>
     </section>
   )
