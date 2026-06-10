@@ -82,4 +82,23 @@ describe('registry commands', () => {
     await cli().parseAsync(['node', 'cli', 'update', 'x', '--out', dir])
     expect(out).toContain('up to date')
   })
+
+  it('add --run on a tool-composing agent prints "not supported"', async () => {
+    const toolAgent = {
+      ...AGENT,
+      skill: null,
+      sources: [{ path: 'agent.ts', content: 'import { researcher } from "@agentskit/skills"' }],
+    }
+    globalThis.fetch = vi.fn(async () => new Response(JSON.stringify(toolAgent), { status: 200 })) as never
+    const dir = mkdtempSync(join(tmpdir(), 'ak-cmd-'))
+    await cli().parseAsync(['node', 'cli', 'add', 'x', '--out', dir, '--run', 'do it', '--provider', 'demo'])
+    expect(out).toContain('not supported')
+  })
+
+  it('add reports failure when the agent cannot be fetched', async () => {
+    globalThis.fetch = vi.fn(async () => new Response('nope', { status: 404 })) as never
+    const dir = mkdtempSync(join(tmpdir(), 'ak-cmd-'))
+    await cli().parseAsync(['node', 'cli', 'add', 'missing', '--out', dir])
+    expect(out).toContain('add failed')
+  })
 })
