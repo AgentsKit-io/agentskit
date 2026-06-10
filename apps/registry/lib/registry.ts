@@ -27,6 +27,12 @@ export interface RegistryEnvVar {
 export interface RegistryAgentDetail extends RegistryAgentSummary {
   env?: RegistryEnvVar[]
   skill?: { name: string; description: string; systemPrompt: string } | null
+  sources?: { path: string; content: string }[]
+}
+
+/** PascalCase factory name for an agent id, e.g. "legal-contract-reviewer" -> "LegalContractReviewer". */
+export function factoryName(id: string): string {
+  return id.replace(/(^|-)([a-z])/g, (_m, _s, c: string) => c.toUpperCase())
 }
 
 export async function getRegistryIndex(): Promise<RegistryAgentSummary[]> {
