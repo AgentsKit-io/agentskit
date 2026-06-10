@@ -38,6 +38,8 @@ const ALLOW_FILES = new Set([
   'packages/cli/src/bin.ts',
   'packages/cli/src/index.ts',
   'packages/cli/src/commands.ts',
+  // CLI entry: process.argv parsing + stdio server bootstrap (logic lives in index.ts, tested).
+  'packages/mcp/src/bin.ts',
   // Aggregate-tested. Listed individually so the gate fails when the
   // referencing test file goes away.
   // - chat.service.ts → tests/service.test.ts (covers AgentskitChat).
