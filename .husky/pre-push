@@ -1,4 +1,8 @@
 # Structural gates + typecheck + build before pushing.
+# Skipped in CI: automation (e.g. the changesets release bot) pushes here, and
+# CI already runs the full suite via dedicated workflows. Running the dev hook
+# during a CI push double-runs heavy checks and breaks on app-only/generated
+# state (e.g. docs-next's generated ask-context). HUSKY=0 also bypasses locally.
+[ -n "$CI" ] && exit 0
 # Fast, build-light checks first; full test suite runs in CI.
-# To bypass in an emergency, use `git push --no-verify` (discouraged).
 pnpm check:quality-gates && pnpm lint && pnpm build
