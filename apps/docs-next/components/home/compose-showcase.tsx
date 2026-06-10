@@ -8,10 +8,10 @@ type Token = { text: string; className?: string }
 type Line = {
   indent: number
   tokens: Token[]
+  comment?: string
 }
 
 const KW = 'text-ak-blue'
-const COMMENT = 'text-ak-graphite'
 const PUNCT = 'text-ak-graphite'
 const PROP = 'text-ak-foam'
 const FN = 'text-ak-green'
@@ -51,8 +51,8 @@ const BUILD_LINES: Line[] = [
       { text: '(), ', className: PUNCT },
       { text: '...mcpTools', className: PROP },
       { text: '],', className: PUNCT },
-      { text: '   // tools + MCP', className: COMMENT },
     ],
+    comment: 'tools + MCP',
   },
   {
     indent: 1,
@@ -63,32 +63,32 @@ const BUILD_LINES: Line[] = [
       { text: '.', className: PUNCT },
       { text: 'retrieve', className: FN },
       { text: ',', className: PUNCT },
-      { text: '             // RAG', className: COMMENT },
     ],
+    comment: 'RAG',
   },
   {
     indent: 1,
     tokens: [
       { text: 'memory', className: PROP },
       { text: ',', className: PUNCT },
-      { text: '                              // context', className: COMMENT },
     ],
+    comment: 'context',
   },
   {
     indent: 1,
     tokens: [
       { text: 'onConfirm', className: PROP },
       { text: ',', className: PUNCT },
-      { text: '                           // permissions (HITL/RBAC)', className: COMMENT },
     ],
+    comment: 'permissions (HITL/RBAC)',
   },
   {
     indent: 1,
     tokens: [
       { text: 'observers', className: PROP },
       { text: ',', className: PUNCT },
-      { text: '                           // tracing', className: COMMENT },
     ],
+    comment: 'tracing',
   },
 ]
 
@@ -98,17 +98,24 @@ const PAUSE_MS = 2200
 function LineRow({ line, accent }: { line: Line; accent: boolean }) {
   return (
     <div
-      className="whitespace-pre font-mono text-[13px] leading-6 sm:text-sm"
+      className="flex items-baseline font-mono text-[13px] leading-6 sm:text-sm"
       style={{ paddingLeft: `${line.indent * 1.25}rem` }}
     >
-      {line.tokens.map((tok, i) => (
-        <span
-          key={i}
-          className={accent && tok.className === PROP ? `${KW} transition-colors` : `${tok.className ?? ''} transition-colors`}
-        >
-          {tok.text}
+      <span className="whitespace-pre">
+        {line.tokens.map((tok, i) => (
+          <span
+            key={i}
+            className={accent && tok.className === PROP ? `${KW} transition-colors` : `${tok.className ?? ''} transition-colors`}
+          >
+            {tok.text}
+          </span>
+        ))}
+      </span>
+      {line.comment ? (
+        <span className="ml-auto hidden shrink-0 whitespace-pre pl-6 text-ak-graphite/60 sm:inline">
+          {`// ${line.comment}`}
         </span>
-      ))}
+      ) : null}
     </div>
   )
 }
@@ -146,9 +153,9 @@ export function ComposeShowcase() {
     <div className="overflow-hidden rounded-xl border border-ak-border bg-ak-surface shadow-lg">
       {/* IDE window chrome */}
       <div className="flex items-center gap-2 border-b border-ak-border bg-ak-midnight/60 px-4 py-3">
-        <span className="h-3 w-3 rounded-full bg-ak-graphite/50" />
-        <span className="h-3 w-3 rounded-full bg-ak-graphite/50" />
-        <span className="h-3 w-3 rounded-full bg-ak-graphite/50" />
+        <span className="h-3 w-3 rounded-full bg-[#ff5f57]" />
+        <span className="h-3 w-3 rounded-full bg-[#febc2e]" />
+        <span className="h-3 w-3 rounded-full bg-[#28c840]" />
         <span className="ml-3 font-mono text-xs text-ak-graphite">agent.ts</span>
       </div>
 

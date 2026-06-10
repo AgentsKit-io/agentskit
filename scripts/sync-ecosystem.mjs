@@ -40,8 +40,8 @@ for (const rel of ['apps/docs-next/lib/ecosystem.json', 'apps/landing/lib/ecosys
 
 // 2. Regenerate the ecosystem-bar PROPS block from the same registry (single
 //    source — the bar's labels/hosts/urls never drift from ecosystem.json).
-//    Funnel order: framework → playbook → registry → akos.
-const BAR_ORDER = ['agentskit', 'playbook', 'registry', 'akos']
+//    Funnel order: libs → registry → akos → playbook.
+const BAR_ORDER = ['agentskit', 'registry', 'akos', 'playbook']
 const byId = Object.fromEntries(ecosystem.properties.map((p) => [p.id, p]))
 const propLines = BAR_ORDER.map((id) => {
   const p = byId[id]

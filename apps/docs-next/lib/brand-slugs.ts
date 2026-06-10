@@ -27,6 +27,16 @@ const OVERRIDES: Record<string, string> = {
   huggingface: 'huggingface',
   'kimi-for-coding': 'moonshot',
   kimi: 'moonshot',
+  alibaba: 'alibabacloud',
+  'alibaba-cn': 'alibabacloud',
+  mistral: 'mistralai',
+  'cloudflare-workers-ai': 'cloudflare',
+  'cloudflare-ai-gateway': 'cloudflare',
+  'cal-com': 'caldotcom',
+  perplexity: 'perplexity',
+  fireworks: 'fireworks',
+  vercel: 'vercel',
+  openrouter: 'openrouter',
 }
 
 /** Simple Icons slug for an id, or null if there is clearly no brand match. */
