@@ -1,33 +1,22 @@
 @import 'tailwindcss';
 @import 'fumadocs-ui/css/neutral.css';
 @import 'fumadocs-ui/css/preset.css';
+/* Canonical brand palette — GENERATED from brand/tokens.json (single source for
+ * the whole ecosystem). Provides --ak-bg/surface/border/fg/muted/blue/red/green/
+ * accent + fonts/radii/motion, per light + .dark. Regenerate via
+ * `node scripts/sync-brand.mjs --property agentskit --out apps/docs-next/app/brand-tokens.css`. */
+@import './brand-tokens.css';
 
 /**
- * AgentsKit brand tokens.
- * Light mode uses a clean inverted palette; dark mode is the original
- * terminal-inspired palette B.
+ * docs-next semantic aliases over the canonical palette. midnight/foam/graphite
+ * are this app's historical names for bg/fg/muted; aliasing keeps every existing
+ * `bg-ak-midnight` / `text-ak-foam` class working while values flow from tokens.json.
+ * surface/border/green/blue/red come straight from brand-tokens.css (same names).
  */
-
 :root {
-  --ak-midnight: #ffffff;
-  --ak-foam: #0D1117;
-  --ak-graphite: #57606a;
-  --ak-surface: #f6f8fa;
-  --ak-border: #d0d7de;
-  --ak-green: #1a7f37;
-  --ak-blue: #0969da;
-  --ak-red: #cf222e;
-}
-
-.dark {
-  --ak-midnight: #0D1117;
-  --ak-foam: #E6EDF3;
-  --ak-graphite: #8B949E;
-  --ak-surface: #161B22;
-  --ak-border: #30363D;
-  --ak-green: #2EA043;
-  --ak-blue: #58A6FF;
-  --ak-red: #F85149;
+  --ak-midnight: var(--ak-bg);
+  --ak-foam: var(--ak-fg);
+  --ak-graphite: var(--ak-muted);
 }
 
 /* Shiki dual-theme resolver: tokens carry `--shiki-light` / `--shiki-dark` as inline vars.
@@ -55,6 +44,7 @@ pre[data-language] span,
   --color-ak-green: var(--ak-green);
   --color-ak-blue: var(--ak-blue);
   --color-ak-red: var(--ak-red);
+  --color-ak-accent: var(--ak-accent);
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --font-display: 'Space Grotesk', var(--font-sans, Inter), system-ui, sans-serif;
 }
