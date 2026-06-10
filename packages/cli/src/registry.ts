@@ -31,6 +31,14 @@ export interface RegistryAgent {
   env?: RegistryEnvVar[]
   files: string[]
   sources: RegistryFile[]
+  /** Inline skill for `--run` (data only). Null for agents that compose tools. */
+  skill?: RegistrySkill | null
+}
+
+export interface RegistrySkill {
+  name: string
+  description: string
+  systemPrompt: string
 }
 
 export interface FetchOptions {
@@ -71,6 +79,19 @@ export async function fetchAgent(id: string, options: FetchOptions = {}): Promis
     )
     return { ...meta, sources }
   }
+}
+
+/**
+ * Resolve an agent's runnable systemPrompt — from the hosted `skill` field, or
+ * by extracting the inline skill from the fetched `agent.ts` source (raw-GitHub
+ * fallback). Returns null for tool-composing agents (no inline prompt).
+ */
+export function resolveSystemPrompt(agent: RegistryAgent): string | null {
+  if (agent.skill?.systemPrompt) return agent.skill.systemPrompt
+  const src = agent.sources.find((f) => f.path === 'agent.ts')?.content
+  if (!src) return null
+  const m = src.match(/systemPrompt:\s*`((?:\\.|[^`\\])*)`/)
+  return m ? m[1].replace(/\\`/g, '`').replace(/\\\$\{/g, '${') : null
 }
 
 export interface AddOptions extends FetchOptions {

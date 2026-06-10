@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
-import { addAgent, fetchAgent } from '../src/registry'
+import { addAgent, fetchAgent, resolveSystemPrompt } from '../src/registry'
+import type { RegistryAgent } from '../src/registry'
 
 function jsonResponse(body: unknown): Response {
   return new Response(JSON.stringify(body), { status: 200, headers: { 'content-type': 'application/json' } })
@@ -42,6 +43,34 @@ describe('fetchAgent', () => {
     }) as unknown as typeof fetch
     const agent = await fetchAgent('research', { fetchImpl })
     expect(agent.sources).toEqual([{ path: 'agent.ts', content: 'export const y = 2' }])
+  })
+})
+
+describe('resolveSystemPrompt', () => {
+  const base: RegistryAgent = {
+    id: 'x', title: 'X', description: 'd', category: 'support', packages: [], files: ['agent.ts'], sources: [],
+  }
+
+  it('prefers the hosted skill field', () => {
+    const agent = { ...base, skill: { name: 'x', description: 'd', systemPrompt: 'You are X.' } }
+    expect(resolveSystemPrompt(agent)).toBe('You are X.')
+  })
+
+  it('falls back to extracting the inline skill from agent.ts source', () => {
+    const src = 'const skill = {\n  systemPrompt: `You are Y.\nLine two.`,\n}'
+    const agent = { ...base, sources: [{ path: 'agent.ts', content: src }] }
+    expect(resolveSystemPrompt(agent)).toBe('You are Y.\nLine two.')
+  })
+
+  it('unescapes backticks and ${ in the extracted prompt', () => {
+    const src = 'const skill = { systemPrompt: `Use \\`code\\` and \\${vars}.` }'
+    const agent = { ...base, sources: [{ path: 'agent.ts', content: src }] }
+    expect(resolveSystemPrompt(agent)).toBe('Use `code` and ${vars}.')
+  })
+
+  it('returns null for a tool-composing agent (no inline prompt)', () => {
+    const agent = { ...base, skill: null, sources: [{ path: 'agent.ts', content: 'import { researcher } from "@agentskit/skills"' }] }
+    expect(resolveSystemPrompt(agent)).toBeNull()
   })
 })
 
