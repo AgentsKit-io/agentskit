@@ -223,3 +223,16 @@ button[data-theme-toggle] > svg {
   --color-fd-accent-foreground: #E6EDF3;
   --color-fd-ring: #58A6FF;
 }
+
+/* Registry app tweaks */
+:root {
+  /* Narrower docs sidebar (closer to the search box width). */
+  --fd-sidebar-width: 16rem;
+}
+/* Code blocks wrap instead of scrolling horizontally — the agent factory stays fully visible. */
+.prose pre,
+pre.shiki,
+figure[data-rehype-pretty-code-figure] pre {
+  white-space: pre-wrap;
+  word-break: break-word;
+}

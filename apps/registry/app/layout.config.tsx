@@ -9,9 +9,7 @@ export const baseOptions: BaseLayoutProps = {
   },
   links: [
     { text: 'Agents', url: '/', active: 'none' },
-    { text: 'Using', url: '/docs/using' },
-    { text: 'Create an agent', url: '/docs/authoring' },
-    { text: 'Contributing', url: '/docs/contributing' },
+    { text: 'Docs', url: '/docs', active: 'nested-url' },
     { text: 'Framework', url: 'https://www.agentskit.io', external: true },
   ],
   githubUrl: 'https://github.com/AgentsKit-io/agentskit-registry',
