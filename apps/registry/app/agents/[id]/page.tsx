@@ -109,12 +109,26 @@ const agent = ${fn}({
 
       <H2>Packages</H2>
       <div className="flex flex-wrap gap-2">
-        {agent.packages.map((p) => (
-          <span key={p} className="rounded-full border border-ak-border px-3 py-1 font-mono text-xs text-ak-graphite">
-            {p}
-          </span>
-        ))}
+        {agent.packages.map((p) => {
+          const slug = p.replace('@agentskit/', '').split('/')[0]
+          return (
+            <a
+              key={p}
+              href={`https://www.agentskit.io/docs/reference/packages/${slug}`}
+              className="rounded-full border border-ak-border px-3 py-1 font-mono text-xs text-ak-graphite transition hover:border-ak-blue hover:text-ak-blue"
+            >
+              {p}
+            </a>
+          )
+        })}
       </div>
+      <p className="mt-3 text-sm text-ak-graphite">
+        Building agents like this for production? See the{' '}
+        <a href="https://playbook.agentskit.io" className="text-ak-blue hover:underline">
+          Agents Playbook
+        </a>{' '}
+        for the patterns behind them.
+      </p>
 
       {required.length > 0 && (
         <>
