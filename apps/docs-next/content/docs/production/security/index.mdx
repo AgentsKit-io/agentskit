@@ -5,6 +5,8 @@ description: 'Six primitives for production agents: PII redaction, injection det
 
 Agents that reach production face threats unit tests don't cover — sensitive data leaking into logs, user inputs that hijack the system prompt, runaway API costs, and tool calls that modify infrastructure. These primitives address each class of risk at the boundary closest to where it appears.
 
+For the methodology behind them — threat modeling, when to apply each, team practices — see the [Playbook's security pillar](https://playbook.agentskit.io).
+
 ## Primitives
 
 - **PII redaction** — `createPIIRedactor` + `DEFAULT_PII_RULES`. [Recipe](/docs/reference/recipes/pii-redaction).
