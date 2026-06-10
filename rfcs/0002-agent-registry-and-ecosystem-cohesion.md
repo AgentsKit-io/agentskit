@@ -1,10 +1,22 @@
 # RFC 0002 — Agent Registry & ecosystem cohesion
 
-- **Status**: Proposed
+- **Status**: Accepted
 - **Date**: 2026-06-09
 - **Author**: @EmersonBraun
 - **Related issues**: —
-- **Related PRs**: —
+- **Related PRs**: registry repo (AgentsKit-io/agentskit-registry), #927 (`agentskit add`)
+
+## Decisions refined during approval
+
+1. **Ecosystem bar distribution**: a hosted `ecosystem-bar.js` script embedded via
+   `<script>` on all four sites (central update), served from the live main site
+   (`agentskit.io/ecosystem-bar.js`) — not a published package or per-site copy.
+2. **AKOS CTA**: "Deploy on AKOS — coming soon" → waitlist. AKOS does not yet
+   import registry agents; the CTA stays honest.
+3. **Registry CLI**: extend the existing `agentskit` CLI with `add <agent>` (not a
+   new `@agentskit/registry` CLI package). Agents live in the separate registry
+   repo; the CLI fetches the hosted index (raw-GitHub fallback).
+4. **Repo**: `AgentsKit-io/agentskit-registry` created and seeded.
 
 ## Summary
 

@@ -23,4 +23,4 @@ An RFC may grow into an ADR once the decision is committed and implemented.
 | RFC | Title | Status |
 |---|---|---|
 | [0001](./0001-i18n-strategy.md) | Documentation i18n strategy | Proposed |
-| [0002](./0002-agent-registry-and-ecosystem-cohesion.md) | Agent Registry & ecosystem cohesion | Proposed |
+| [0002](./0002-agent-registry-and-ecosystem-cohesion.md) | Agent Registry & ecosystem cohesion | Accepted |

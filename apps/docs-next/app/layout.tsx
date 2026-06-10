@@ -4,6 +4,7 @@ import { Inter, JetBrains_Mono, Space_Grotesk } from 'next/font/google'
 import type { ReactNode } from 'react'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
+import Script from 'next/script'
 import { alternatesFor } from '@/lib/locales'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
@@ -108,6 +109,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </RootProvider>
         <Analytics />
         <SpeedInsights />
+        <Script src="/ecosystem-bar.js" strategy="afterInteractive" data-current="framework" />
       </body>
     </html>
   )
