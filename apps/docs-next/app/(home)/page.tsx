@@ -3,10 +3,16 @@ import { SocialProofBar } from './_components/social-proof-bar'
 import { InstallCommand } from './_components/install-command'
 import { HeroDemo } from './_components/hero-demo/hero-demo'
 import { DownloadsBadge } from './_components/downloads-badge'
-import { ContributorWall } from '@/components/contribute/contributor-wall'
 import { AnimatedLogo } from '@/components/brand/animated-logo'
 import { JsonLd } from '@/components/seo/json-ld'
 import { FadeIn, Stagger, StaggerItem } from '@/components/motion/fade-in'
+import {
+  ChatSection,
+  CliSection,
+  ComposeSection,
+  IntegrationsSection,
+  LlmsSection,
+} from '@/components/home/showcases'
 import { counts, approx } from '@/lib/ecosystem-stats'
 
 export const metadata = {
@@ -30,28 +36,6 @@ export const metadata = {
 const GITHUB = 'https://github.com/AgentsKit-io/agentskit'
 // Discord hidden until the community is large enough to warrant it. Restore when ready.
 // const DISCORD = 'https://discord.gg/zx6z2p4jVb'
-
-const PACKAGE_CARDS = [
-  { name: 'core', href: '/docs/reference/packages/core' },
-  { name: 'adapters', href: '/docs/reference/packages/adapters' },
-  { name: 'runtime', href: '/docs/reference/packages/runtime' },
-  { name: 'react', href: '/docs/reference/packages/react' },
-  { name: 'vue', href: '/docs/reference/packages/vue' },
-  { name: 'svelte', href: '/docs/reference/packages/svelte' },
-  { name: 'solid', href: '/docs/reference/packages/solid' },
-  { name: 'react-native', href: '/docs/reference/packages/react-native' },
-  { name: 'angular', href: '/docs/reference/packages/angular' },
-  { name: 'ink', href: '/docs/reference/packages/ink' },
-  { name: 'tools', href: '/docs/reference/packages/tools' },
-  { name: 'skills', href: '/docs/reference/packages/skills' },
-  { name: 'memory', href: '/docs/reference/packages/memory' },
-  { name: 'rag', href: '/docs/reference/packages/rag' },
-  { name: 'observability', href: '/docs/reference/packages/observability' },
-  { name: 'eval', href: '/docs/reference/packages/eval' },
-  { name: 'sandbox', href: '/docs/reference/packages/sandbox' },
-  { name: 'cli', href: '/docs/reference/packages/cli' },
-  { name: 'templates', href: '/docs/reference/packages/templates' },
-] as const
 
 const JSON_LD = {
   '@context': 'https://schema.org',
@@ -103,14 +87,13 @@ export default function HomePage() {
       <JsonLd data={JSON_LD} />
       <Hero />
       <SocialProofBar />
-      <ProblemSection />
-      <SolutionSection />
       <EcosystemStats />
-      <BenefitsSection />
-      <UseCasesSection />
+      <ChatSection />
+      <CliSection />
+      <ComposeSection />
+      <IntegrationsSection />
+      <LlmsSection />
       <ProofSection />
-      <ProviderStrip />
-      <BuiltInOpenSection />
       <FinalCta />
     </main>
   )
@@ -205,274 +188,46 @@ function Hero() {
   )
 }
 
-function _HeroCodeDemo() {
-  return (
-    <div className="rounded-xl border border-ak-border bg-ak-surface shadow-2xl shadow-black/40">
-      <div className="flex items-center justify-between border-b border-ak-border px-4 py-2.5">
-        <div className="flex gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-full bg-ak-red/70" />
-          <span className="h-2.5 w-2.5 rounded-full bg-[#f0b429]/70" />
-          <span className="h-2.5 w-2.5 rounded-full bg-ak-green/70" />
-        </div>
-        <span className="font-mono text-xs text-ak-graphite">app.tsx</span>
-        <span className="font-mono text-xs text-ak-green">◉ streaming</span>
-      </div>
-      <pre className="overflow-x-auto p-5 font-mono text-[13px] leading-6 text-ak-foam">
-        <code>
-          <span className="text-ak-blue">import</span>{' '}
-          <span className="text-ak-foam">{'{ useChat }'}</span>{' '}
-          <span className="text-ak-blue">from</span>{' '}
-          <span className="text-ak-green">{"'@agentskit/react'"}</span>
-          {'\n'}
-          <span className="text-ak-blue">import</span>{' '}
-          <span className="text-ak-foam">{'{ anthropic }'}</span>{' '}
-          <span className="text-ak-blue">from</span>{' '}
-          <span className="text-ak-green">{"'@agentskit/adapters'"}</span>
-          {'\n\n'}
-          <span className="text-ak-blue">export default function</span>{' '}
-          <span className="text-[#d2a8ff]">Chat</span>() {'{'}
-          {'\n  '}
-          <span className="text-ak-blue">const</span> {'{ messages, send }'} ={' '}
-          <span className="text-[#d2a8ff]">useChat</span>({'{'}
-          {'\n    '}adapter: <span className="text-[#d2a8ff]">anthropic</span>
-          ({'{ model: '}
-          <span className="text-ak-green">{"'claude-sonnet-4-6'"}</span> {'}),'}
-          {'\n    '}tools: [<span className="text-ak-foam">webSearch</span>,{' '}
-          <span className="text-ak-foam">readFile</span>],
-          {'\n    '}memory: <span className="text-[#d2a8ff]">vector</span>(),
-          {'\n  '}
-          {'})\n\n  '}
-          <span className="text-ak-blue">return</span> {'<'}
-          <span className="text-[#7ee787]">ChatContainer</span>
-          {' messages={messages} onSend={send} />'}
-          {'\n'}
-          {'}'}
-        </code>
-      </pre>
-      <div className="border-t border-ak-border px-5 py-3 font-mono text-xs text-ak-graphite">
-        <span className="text-ak-blue">→</span> streams tokens · tool calls ·
-        memory · <span className="text-ak-green">works today</span>
-      </div>
-    </div>
-  )
-}
-
-function ProblemSection() {
-  return (
-    <section className="border-b border-ak-border bg-ak-midnight px-4 py-16 sm:px-6 sm:py-20 md:py-24">
-      <div className="mx-auto max-w-4xl">
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-red sm:mb-4 sm:text-xs">
-          The problem
-        </p>
-        <h2 className="mb-6 text-[1.75rem] font-bold leading-[1.15] text-ak-foam sm:mb-8 sm:text-3xl md:text-4xl lg:text-5xl">
-          Building agents in JS today is a glue job.
-        </h2>
-        <div className="grid gap-4 text-base leading-relaxed text-ak-graphite sm:text-lg md:grid-cols-2 md:gap-6">
-          <Pain>
-            LangChain is bloated. Vercel AI SDK hits walls past a chat box.
-          </Pain>
-          <Pain>
-            Swap OpenAI → Anthropic and half your prompt plumbing rewrites.
-          </Pain>
-          <Pain>
-            Memory breaks across sessions. Tools don&apos;t port across
-            runtimes.
-          </Pain>
-          <Pain>
-            Browser, terminal, server — three codebases for the same agent.
-          </Pain>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function Pain({ children }: { children: React.ReactNode }) {
-  return (
-    <div className="flex gap-3 rounded-lg border border-ak-border bg-ak-surface p-5">
-      <span className="mt-1 font-mono text-ak-red">✗</span>
-      <span>{children}</span>
-    </div>
-  )
-}
-
-function SolutionSection() {
-  return (
-    <section className="border-b border-ak-border bg-ak-surface/40 px-4 py-16 sm:px-6 sm:py-20 md:py-24">
-      <div className="mx-auto max-w-5xl">
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-green sm:mb-4 sm:text-xs">
-          The fix
-        </p>
-        <h2 className="mb-4 max-w-3xl text-[1.75rem] font-bold leading-[1.15] text-ak-foam sm:mb-5 sm:text-3xl md:text-4xl lg:text-5xl">
-          One ecosystem. {counts.packages} packages. Start with one, grow to the full stack.
-        </h2>
-        <p className="mb-8 max-w-2xl text-base text-ak-graphite sm:mb-12 sm:text-lg">
-          A 10KB zero-dependency core defines six contracts. Every adapter,
-          tool, skill, memory, retriever, and runtime is substitutable — so
-          your code survives provider changes, UI changes, and scale.
-        </p>
-
-        <div className="overflow-hidden rounded-xl border border-ak-border bg-ak-midnight p-5 sm:p-8">
-          <div className="mx-auto max-w-3xl">
-            <div className="mb-5 text-center sm:mb-6">
-              <Link
-                href="/docs/reference/packages/core"
-                className="inline-block rounded-md border border-ak-blue/30 bg-ak-blue/10 px-3 py-2 font-mono text-[12px] text-ak-blue transition hover:bg-ak-blue/20 sm:px-4 sm:text-sm"
-              >
-                @agentskit/core · 10KB · zero deps
-              </Link>
-            </div>
-            <div className="mx-auto mb-6 h-8 w-px bg-ak-border" />
-            <Stagger className="grid grid-cols-2 gap-2 sm:grid-cols-3 md:grid-cols-4" stagger={0.04}>
-              {PACKAGE_CARDS.map(pkg => (
-                <StaggerItem key={pkg.name}>
-                <Link
-                  href={pkg.href}
-                  className="group flex min-w-0 items-center justify-between gap-1.5 rounded-md border border-ak-border bg-ak-surface px-2.5 py-2 text-center font-mono text-[12px] text-ak-foam transition hover:-translate-y-0.5 hover:border-ak-blue hover:text-ak-blue hover:shadow-[0_0_0_1px_var(--ak-blue)] sm:gap-2 sm:px-3 sm:text-sm"
-                  aria-label={`Open docs for ${pkg.name}`}
-                >
-                  <span className="min-w-0 flex-1 truncate text-left">{pkg.name}</span>
-                  <span className="shrink-0 text-xs opacity-0 transition group-hover:opacity-100" aria-hidden="true">
-                    →
-                  </span>
-                </Link>
-                </StaggerItem>
-              ))}
-            </Stagger>
-            <p className="mt-4 text-center font-mono text-[11px] text-ak-graphite">
-              every card links to its docs ·{' '}
-              <Link href="/docs" className="underline decoration-dotted underline-offset-2 hover:text-ak-blue">
-                browse all →
-              </Link>
-            </p>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function BenefitsSection() {
-  const benefits = [
-    {
-      title: 'Swap providers without a rewrite',
-      desc: 'OpenAI, Anthropic, Gemini, Grok, Ollama, DeepSeek. Same adapter contract. Change one line.',
-      icon: '⇄',
-    },
-    {
-      title: 'Same code, browser to terminal',
-      desc: 'useChat() in React. Same hooks in Ink. Same runtime on server. Write once.',
-      icon: '▣',
-    },
-    {
-      title: 'Start at 10KB, grow to full stack',
-      desc: 'Ship a chat box today. Add tools, RAG, memory, eval when you need them. Never rewrite.',
-      icon: '↗',
-    },
-    {
-      title: 'Agent-first, not chat-first',
-      desc: 'ReAct loops, reflection, planning, multi-agent delegation — built in. Not bolted on.',
-      icon: '◈',
-    },
-    {
-      title: 'Tools that actually work',
-      desc: 'Browser, filesystem, search, email, code exec. Strict contract. Parallel calls. Human approval.',
-      icon: '⚙',
-    },
-    {
-      title: 'Observable by default',
-      desc: 'LangSmith, OpenTelemetry, console. Every LLM call, tool, memory op — traced. Optional, non-blocking.',
-      icon: '◉',
-    },
+function EcosystemStats() {
+  const stats = [
+    { value: String(counts.packages), label: 'packages', href: '/docs/reference/packages' },
+    { value: String(counts.frameworkBindings), label: 'framework bindings', href: '/docs/ui' },
+    { value: approx(counts.catalogProviders), label: 'LLM providers', href: '/docs/data/providers' },
+    { value: `${counts.integrations}+`, label: 'tool integrations', href: '/docs/agents/tools/integrations' },
+    { value: `${counts.recipes}+`, label: 'recipes', href: '/docs/reference/recipes' },
+    { value: String(counts.skills), label: 'ready-made skills', href: '/docs/agents/skills/personas' },
+    { value: `${counts.memoryBackends}+`, label: 'memory backends', href: '/docs/data/memory' },
+    { value: '< 10 KB', label: 'zero-dep core', href: '/docs/reference/packages/core' },
   ]
   return (
-    <section className="border-b border-ak-border bg-ak-midnight px-4 py-16 sm:px-6 sm:py-20 md:py-24">
+    <section className="border-b border-ak-border bg-ak-midnight px-4 py-14 sm:px-6 sm:py-20">
       <div className="mx-auto max-w-6xl">
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-blue sm:mb-4 sm:text-xs">
-          Why teams ship with it
+        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-green sm:mb-4 sm:text-xs">
+          The ecosystem
         </p>
-        <h2 className="mb-10 max-w-2xl text-[1.75rem] font-bold leading-[1.15] text-ak-foam sm:mb-14 sm:text-3xl md:text-4xl lg:text-5xl">
-          Code you&apos;ll still want to own in 12 months.
+        <h2 className="mb-8 max-w-3xl text-[1.75rem] font-bold leading-[1.15] text-ak-foam sm:mb-10 sm:text-3xl md:text-4xl">
+          Everything you need. Nothing you don&apos;t.
         </h2>
-        <div className="grid gap-4 sm:gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {benefits.map(b => (
-            <div
-              key={b.title}
-              className="group rounded-xl border border-ak-border bg-ak-surface p-6 transition hover:border-ak-blue"
-            >
-              <div className="mb-4 font-mono text-2xl text-ak-blue">
-                {b.icon}
-              </div>
-              <h3 className="mb-2 font-semibold text-ak-foam">{b.title}</h3>
-              <p className="text-sm leading-relaxed text-ak-graphite">
-                {b.desc}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function UseCasesSection() {
-  const useCases = [
-    {
-      title: 'Support agent',
-      href: '/docs/use-cases/support-agent',
-      desc: 'Customer support with memory, CRM tools, escalation, and audit trails.',
-    },
-    {
-      title: 'Research agent',
-      href: '/docs/use-cases/research-agent',
-      desc: 'Search, browse, summarize, and run repeatable research workflows.',
-    },
-    {
-      title: 'Code agent',
-      href: '/docs/use-cases/code-agent',
-      desc: 'Repository-aware automation with filesystem tools, runtime loops, and replay.',
-    },
-    {
-      title: 'Internal copilot',
-      href: '/docs/use-cases/internal-copilot',
-      desc: 'Company knowledge, RAG, internal tools, and production controls in one stack.',
-    },
-  ] as const
-
-  return (
-    <section className="border-b border-ak-border bg-ak-surface/40 px-4 py-16 sm:px-6 sm:py-20 md:py-24">
-      <div className="mx-auto max-w-6xl">
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-blue sm:mb-4 sm:text-xs">
-          What you can build
-        </p>
-        <h2 className="mb-4 max-w-3xl text-[1.75rem] font-bold leading-[1.15] text-ak-foam sm:mb-5 sm:text-3xl md:text-4xl lg:text-5xl">
-          Start from the outcome, not the taxonomy.
-        </h2>
-        <p className="mb-8 max-w-2xl text-base text-ak-graphite sm:mb-12 sm:text-lg">
-          Four end-to-end builds showing how the packages compose into real
-          products, not just API surfaces.
-        </p>
-        <div className="grid gap-4 sm:gap-5 md:grid-cols-2">
-          {useCases.map((item) => (
+        <Stagger className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4" stagger={0.05}>
+          {stats.map((s) => (
+            <StaggerItem key={s.label}>
             <Link
-              key={item.title}
-              href={item.href}
-              className="group rounded-xl border border-ak-border bg-ak-midnight p-6 transition hover:-translate-y-0.5 hover:border-ak-blue hover:shadow-[0_0_0_1px_var(--ak-blue)]"
+              href={s.href}
+              className="group block rounded-xl border border-ak-border bg-ak-surface p-5 transition hover:-translate-y-0.5 hover:border-ak-blue hover:shadow-[0_0_0_1px_var(--ak-blue)]"
             >
-              <div className="mb-3 flex items-center justify-between gap-4">
-                <h3 className="text-xl font-semibold text-ak-foam transition group-hover:text-ak-blue">
-                  {item.title}
-                </h3>
-                <span className="font-mono text-sm text-ak-graphite transition group-hover:text-ak-blue">
-                  →
-                </span>
+              <div className="mb-1 font-mono text-2xl font-bold text-ak-foam transition group-hover:text-ak-blue sm:text-3xl">
+                {s.value}
               </div>
-              <p className="text-sm leading-relaxed text-ak-graphite">
-                {item.desc}
-              </p>
+              <div className="font-mono text-[11px] uppercase tracking-wide text-ak-graphite sm:text-xs">
+                {s.label}
+              </div>
             </Link>
+            </StaggerItem>
           ))}
-        </div>
+        </Stagger>
+        <p className="mt-6 text-sm text-ak-graphite">
+          Every number above is a click-through. Install what you need; the core stays under 10 KB gzipped.
+        </p>
       </div>
     </section>
   )
@@ -532,118 +287,6 @@ function ProofSection() {
             </Link>
           ))}
         </div>
-      </div>
-    </section>
-  )
-}
-
-function ProviderStrip() {
-  const providers = [
-    'OpenAI',
-    'Anthropic',
-    'Gemini',
-    'Grok',
-    'DeepSeek',
-    'Kimi',
-    'Mistral',
-    'Cohere',
-    'Together',
-    'Groq',
-    'Fireworks',
-    'OpenRouter',
-    'Hugging Face',
-    'Ollama',
-    'LM Studio',
-    'vLLM',
-    'llama.cpp',
-    'LangChain',
-    'LangGraph',
-    'Vercel AI SDK',
-  ]
-  return (
-    <section className="border-b border-ak-border bg-ak-surface/30 px-4 py-12 sm:px-6 sm:py-16">
-      <div className="mx-auto max-w-6xl text-center">
-        <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-graphite sm:mb-8 sm:text-xs">
-          {counts.nativeAdapters} native adapters · {approx(counts.catalogProviders)} more &amp; {approx(counts.catalogModels)} models via catalog. Same contract, swap in one line.
-        </p>
-        <div className="flex flex-wrap justify-center gap-x-5 gap-y-3 sm:gap-x-8">
-          {providers.map(p => (
-            <span
-              key={p}
-              className="font-mono text-sm text-ak-graphite transition hover:text-ak-foam"
-            >
-              {p}
-            </span>
-          ))}
-        </div>
-        <p className="mt-6 font-mono text-[11px] text-ak-graphite sm:text-xs">
-          <Link href="/docs/data/providers" className="underline decoration-dotted underline-offset-2 hover:text-ak-blue">
-            browse all providers →
-          </Link>
-          <span className="mx-2">·</span>
-          <Link href="/docs/reference/packages/adapters#catalog" className="underline decoration-dotted underline-offset-2 hover:text-ak-blue">
-            models.dev catalog →
-          </Link>
-          <span className="mx-2">·</span>
-          <a href="https://registry.agentskit.io" className="underline decoration-dotted underline-offset-2 hover:text-ak-blue">
-            ready-to-use agents →
-          </a>
-        </p>
-      </div>
-    </section>
-  )
-}
-
-function EcosystemStats() {
-  const stats = [
-    { value: String(counts.packages), label: 'packages', href: '/docs/reference/packages' },
-    { value: String(counts.frameworkBindings), label: 'framework bindings', href: '/docs/ui' },
-    { value: approx(counts.catalogProviders), label: 'LLM providers', href: '/docs/data/providers' },
-    { value: `${counts.integrations}+`, label: 'tool integrations', href: '/docs/agents/tools/integrations' },
-    { value: `${counts.recipes}+`, label: 'recipes', href: '/docs/reference/recipes' },
-    { value: String(counts.skills), label: 'ready-made skills', href: '/docs/agents/skills/personas' },
-    { value: `${counts.memoryBackends}+`, label: 'memory backends', href: '/docs/data/memory' },
-    { value: '< 10 KB', label: 'zero-dep core', href: '/docs/reference/packages/core' },
-  ]
-  return (
-    <section className="border-b border-ak-border bg-ak-midnight px-4 py-14 sm:px-6 sm:py-20">
-      <div className="mx-auto max-w-6xl">
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-green sm:mb-4 sm:text-xs">
-          The ecosystem
-        </p>
-        <h2 className="mb-8 max-w-3xl text-[1.75rem] font-bold leading-[1.15] text-ak-foam sm:mb-10 sm:text-3xl md:text-4xl">
-          Everything you need. Nothing you don&apos;t.
-        </h2>
-        <Stagger className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4" stagger={0.05}>
-          {stats.map((s) => (
-            <StaggerItem key={s.label}>
-            <Link
-              href={s.href}
-              className="group block rounded-xl border border-ak-border bg-ak-surface p-5 transition hover:-translate-y-0.5 hover:border-ak-blue hover:shadow-[0_0_0_1px_var(--ak-blue)]"
-            >
-              <div className="mb-1 font-mono text-2xl font-bold text-ak-foam transition group-hover:text-ak-blue sm:text-3xl">
-                {s.value}
-              </div>
-              <div className="font-mono text-[11px] uppercase tracking-wide text-ak-graphite sm:text-xs">
-                {s.label}
-              </div>
-            </Link>
-            </StaggerItem>
-          ))}
-        </Stagger>
-        <p className="mt-6 text-sm text-ak-graphite">
-          Every number above is a click-through. Install what you need; the core stays under 10 KB gzipped.
-        </p>
-      </div>
-    </section>
-  )
-}
-
-function BuiltInOpenSection() {
-  return (
-    <section className="border-b border-ak-border bg-ak-midnight px-4 py-14 sm:px-6 sm:py-20">
-      <div className="mx-auto max-w-5xl">
-        <ContributorWall />
       </div>
     </section>
   )
