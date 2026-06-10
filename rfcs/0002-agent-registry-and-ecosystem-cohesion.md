@@ -243,17 +243,3 @@ with the current property highlighted. Consistent footer listing all four.
   is curation + tests, not the full monorepo gate suite.
 - `@agentskit/agents` (option A) is explicitly deferred; it may still be earned
   later if a real second consumer needs the agents as an importable package.
-
-## Addendum (2026-06-10) — gallery hosting
-
-The gallery was originally specced as its own static site on `registry.agentskit.io`.
-It now lives **inside the docs site** (fumadocs/Next) at `agentskit.io/agents`
-(list) and `/agents/[id]` (per-agent pages). The agent **source** stays in the
-decoupled `agentskit-registry` repo; only the gallery UI unifies — one site, one
-deploy, better SEO, free per-agent pages.
-
-Data is served from the registry repo's **committed** built index (`public/r`,
-via raw GitHub / jsDelivr) and fetched server-side with `revalidate`, so new
-agents appear without a docs rebuild. The CLI reads the same committed index.
-`registry.agentskit.io` becomes a redirect to `/agents` (or is dropped). No
-separate Vercel project for the registry is required.

@@ -584,9 +584,9 @@ function ProviderStrip() {
             models.dev catalog →
           </Link>
           <span className="mx-2">·</span>
-          <Link href="/agents" className="underline decoration-dotted underline-offset-2 hover:text-ak-blue">
+          <a href="https://registry.agentskit.io" className="underline decoration-dotted underline-offset-2 hover:text-ak-blue">
             ready-to-use agents →
-          </Link>
+          </a>
         </p>
       </div>
     </section>
