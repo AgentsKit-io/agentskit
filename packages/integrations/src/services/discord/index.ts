@@ -1,5 +1,6 @@
 import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
+import { OAUTH_SPECS } from '../../oauth-specs'
 import { discordActions } from './actions'
 
 export const discordIntegration = defineIntegration({
@@ -8,6 +9,7 @@ export const discordIntegration = defineIntegration({
   categories: ['comms'],
   http: { baseUrl: 'https://discord.com/api/v10' },
   auth: { kind: 'apiKey', header: 'authorization', prefix: 'Bot ', envHint: 'DISCORD_BOT_TOKEN' },
+  oauth: OAUTH_SPECS.discord,
   actions: discordActions,
   capabilities: { send: 'discord_post_message', notify: 'discord_post_message' },
 })

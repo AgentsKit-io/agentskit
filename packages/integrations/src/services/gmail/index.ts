@@ -1,5 +1,6 @@
 import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
+import { OAUTH_SPECS } from '../../oauth-specs'
 import { gmailActions } from './actions'
 
 export const gmailIntegration = defineIntegration({
@@ -14,6 +15,7 @@ export const gmailIntegration = defineIntegration({
     defaultScopes: ['https://www.googleapis.com/auth/gmail.modify'],
     usePkce: true,
   },
+  oauth: OAUTH_SPECS.google,
   actions: gmailActions,
   capabilities: { send: 'gmail_send_email', notify: 'gmail_send_email' },
 })

@@ -1,5 +1,6 @@
 import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
+import { OAUTH_SPECS } from '../../oauth-specs'
 import { dropboxActions } from './actions'
 
 export const dropboxIntegration = defineIntegration({
@@ -8,6 +9,7 @@ export const dropboxIntegration = defineIntegration({
   categories: ['storage'],
   http: { baseUrl: 'https://api.dropboxapi.com/2' },
   auth: { kind: 'apiKey', header: 'authorization', prefix: 'Bearer ', envHint: 'DROPBOX_TOKEN' },
+  oauth: OAUTH_SPECS.dropbox,
   actions: dropboxActions,
 })
 

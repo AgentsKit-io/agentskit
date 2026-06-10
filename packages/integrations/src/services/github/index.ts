@@ -1,5 +1,6 @@
 import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
+import { OAUTH_SPECS } from '../../oauth-specs'
 import { githubActionsList } from './actions'
 
 export const githubIntegration = defineIntegration({
@@ -11,6 +12,7 @@ export const githubIntegration = defineIntegration({
     headers: { 'user-agent': 'agentskit-github-tool', accept: 'application/vnd.github+json' },
   },
   auth: { kind: 'apiKey', header: 'authorization', prefix: 'Bearer ', envHint: 'GITHUB_TOKEN' },
+  oauth: OAUTH_SPECS.github,
   actions: githubActionsList,
   capabilities: { send: 'github_comment_issue' },
 })

@@ -1,5 +1,6 @@
 import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
+import { OAUTH_SPECS } from '../../oauth-specs'
 import { salesforceActions } from './actions'
 
 export const salesforceIntegration = defineIntegration({
@@ -15,6 +16,7 @@ export const salesforceIntegration = defineIntegration({
     defaultScopes: ['api', 'refresh_token'],
     usePkce: true,
   },
+  oauth: OAUTH_SPECS.salesforce,
   actions: salesforceActions,
   capabilities: { send: 'salesforce_create_record' },
 })

@@ -1,5 +1,6 @@
 import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
+import { OAUTH_SPECS } from '../../oauth-specs'
 import { googleDriveActions } from './actions'
 
 export const googleDriveIntegration = defineIntegration({
@@ -14,6 +15,7 @@ export const googleDriveIntegration = defineIntegration({
     defaultScopes: ['https://www.googleapis.com/auth/drive'],
     usePkce: true,
   },
+  oauth: OAUTH_SPECS.google,
   actions: googleDriveActions,
 })
 

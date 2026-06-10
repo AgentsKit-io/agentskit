@@ -13,14 +13,22 @@ export type SideEffect = 'none' | 'read' | 'write' | 'destructive' | 'external'
 // OAuthProviderSpec verbatim so it projects with zero translation.
 // ---------------------------------------------------------------------------
 
-export interface OAuth2AuthSpec {
-  kind: 'oauth2'
+/**
+ * Declarative OAuth2 provider spec — authorize/token endpoints, default scopes,
+ * PKCE flag, and any non-standard authorize params. The portable data an OAuth
+ * flow needs; the host owns the flow runner, token vault, and client secrets.
+ */
+export interface OAuth2ProviderSpec {
   authorizationUrl: string
   tokenUrl: string
   defaultScopes: string[]
   usePkce: boolean
   /** Non-standard authorize params (e.g. Dropbox `token_access_type=offline`). */
   extraAuthParams?: Record<string, string>
+}
+
+export interface OAuth2AuthSpec extends OAuth2ProviderSpec {
+  kind: 'oauth2'
 }
 
 export interface ApiKeyAuthSpec {
@@ -145,6 +153,9 @@ export interface Integration {
   /** Shared transport facts applied to every action (base URL + default headers). */
   http?: { baseUrl: string; headers?: Record<string, string> }
   auth: AuthSpec
+  /** OAuth2 flow spec, when the service supports an OAuth authorization-code
+   *  flow (independent of the primary `auth`). The portable provider registry. */
+  oauth?: OAuth2ProviderSpec
   actions: IntegrationAction[]
   triggers?: IntegrationTrigger[]
   /** Pointers letting projections pick the canonical send/notify action. */
