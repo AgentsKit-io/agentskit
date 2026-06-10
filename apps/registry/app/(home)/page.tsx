@@ -36,6 +36,13 @@ export default async function HomePage() {
             create your own →
           </Link>
         </p>
+        <p className="mt-4 max-w-2xl text-sm text-ak-graphite">
+          Part of the AgentsKit ecosystem: build with the{' '}
+          <a className="text-ak-blue hover:underline" href="https://www.agentskit.io">framework</a>, follow the{' '}
+          <a className="text-ak-blue hover:underline" href="https://playbook.agentskit.io">Playbook</a>, grab agents
+          here, and run them in production on{' '}
+          <a className="text-ak-blue hover:underline" href="https://akos.agentskit.io">AKOS</a>.
+        </p>
       </div>
 
       {agents.length === 0 ? (
