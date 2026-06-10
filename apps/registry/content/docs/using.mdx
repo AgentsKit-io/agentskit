@@ -1,0 +1,63 @@
+---
+title: Using an agent
+description: Add a registry agent to your project, run it, and keep it in sync.
+---
+
+## Add
+
+```bash
+npx agentskit add <agent>
+```
+
+Copies the agent's source into `./agents/<agent>/` (override with `--out`). You own the code.
+
+```bash
+npx agentskit add legal-contract-reviewer
+npm install @agentskit/core @agentskit/runtime @agentskit/adapters
+```
+
+```ts
+import { openai } from '@agentskit/adapters'
+import { createLegalContractReviewerAgent } from './agents/legal-contract-reviewer/agent'
+
+const agent = createLegalContractReviewerAgent({
+  adapter: openai({ apiKey: process.env.OPENAI_API_KEY!, model: 'gpt-4o' }),
+})
+const { content } = await agent.run('Review this NDA: …')
+```
+
+Swap the adapter for any provider (`anthropic`, `gemini`, `ollama`, …) — no lock-in.
+
+## Run it in one command
+
+```bash
+npx agentskit add <agent> --run "<task>" --provider ollama
+```
+
+Copies **and** runs the agent (its system prompt, as data — never executing the copied code).
+Use `--provider`/`--model`/`--api-key`, or a local model with `--provider ollama` (no key).
+
+## Keep it up to date
+
+```bash
+npx agentskit diff <agent>     # show how your copy differs from the registry
+npx agentskit update <agent>   # apply the registry version
+```
+
+## Compose, ground, secure
+
+Every agent's factory accepts optional config — all overridable:
+
+```ts
+createXAgent({
+  adapter,
+  tools,       // tools / integrations / MCP (toolsFromMcpClient)
+  memory,      // conversation context
+  retriever,   // RAG grounding
+  delegates,   // sub-agents (orchestration)
+  onConfirm,   // per-tool permission gate (HITL / RBAC)
+  observers,   // tracing / audit
+})
+```
+
+Agents also expose `.asHandle()` for multi-agent topologies (`supervisor`, `swarm`, …).

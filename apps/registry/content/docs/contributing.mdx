@@ -1,0 +1,18 @@
+---
+title: Contributing
+description: Submit an agent to the registry.
+---
+
+Agents live in the [`agentskit-registry`](https://github.com/AgentsKit-io/agentskit-registry) repo.
+
+1. Create `registry/<id>/` with `agent.ts`, `meta.json`, `README.md`, `agent.test.ts`
+   (see [Create your own](/docs/authoring)).
+2. `npm run lint && npm test && npm run build` must pass. The build regenerates the index
+   (`public/r`) — commit the diff (CI guards it is fresh).
+3. Open a PR.
+
+Agents are **curated, not gatekept by the framework's full gate suite** — keep them honest,
+tested, small, and provider-agnostic. The gallery and per-agent pages are generated from your
+`meta.json` automatically.
+
+See the repo's [`CONTRIBUTING.md`](https://github.com/AgentsKit-io/agentskit-registry/blob/main/CONTRIBUTING.md).

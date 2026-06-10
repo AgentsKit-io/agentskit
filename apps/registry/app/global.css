@@ -1,0 +1,225 @@
+@import 'tailwindcss';
+@import 'fumadocs-ui/css/neutral.css';
+@import 'fumadocs-ui/css/preset.css';
+
+/**
+ * AgentsKit brand tokens.
+ * Light mode uses a clean inverted palette; dark mode is the original
+ * terminal-inspired palette B.
+ */
+
+:root {
+  --ak-midnight: #ffffff;
+  --ak-foam: #0D1117;
+  --ak-graphite: #57606a;
+  --ak-surface: #f6f8fa;
+  --ak-border: #d0d7de;
+  --ak-green: #1a7f37;
+  --ak-blue: #0969da;
+  --ak-red: #cf222e;
+}
+
+.dark {
+  --ak-midnight: #0D1117;
+  --ak-foam: #E6EDF3;
+  --ak-graphite: #8B949E;
+  --ak-surface: #161B22;
+  --ak-border: #30363D;
+  --ak-green: #2EA043;
+  --ak-blue: #58A6FF;
+  --ak-red: #F85149;
+}
+
+/* Shiki dual-theme resolver: tokens carry `--shiki-light` / `--shiki-dark` as inline vars.
+   We apply only `color` — never `background-color` — so the card surface shows uniformly and
+   tokens don't paint per-span bg rectangles that clash with the outer fd-card color. */
+code[data-line] span,
+pre[data-language] span,
+.shiki span {
+  color: var(--shiki-light);
+  background-color: transparent;
+}
+.dark code[data-line] span,
+.dark pre[data-language] span,
+.dark .shiki span {
+  color: var(--shiki-dark);
+  background-color: transparent;
+}
+
+@theme {
+  --color-ak-midnight: var(--ak-midnight);
+  --color-ak-foam: var(--ak-foam);
+  --color-ak-graphite: var(--ak-graphite);
+  --color-ak-surface: var(--ak-surface);
+  --color-ak-border: var(--ak-border);
+  --color-ak-green: var(--ak-green);
+  --color-ak-blue: var(--ak-blue);
+  --color-ak-red: var(--ak-red);
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --font-display: 'Space Grotesk', var(--font-sans, Inter), system-ui, sans-serif;
+}
+
+/* Wordmark — solid foreground, no gradient */
+.ak-wordmark {
+  color: var(--ak-foam);
+}
+
+.font-display {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* Give docs headings a display feel without overriding body text */
+article h1,
+article h2 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
+}
+
+/* Fumadocs theme toggle — force square sizing for sun/moon icons (tailwind v4 `size-6.5` resolves width incorrectly in flex rail) */
+button[data-theme-toggle] {
+  flex-shrink: 0;
+}
+button[data-theme-toggle] > svg {
+  width: 1.625rem !important;
+  height: 1.625rem !important;
+  flex: 0 0 auto;
+}
+
+/* Code blocks inside cards (stack builder, learn selectors): unified background.
+   Fumadocs CodeBlock wraps in `bg-fd-card` with inner `<pre class="py-3.5 bg-(--shiki-*-bg)">`;
+   when shiki's `--shiki-*-bg` var is empty the py-3.5 padding area renders transparent and shows
+   the outer card through. Force the whole stack — wrapper, pre, figure — to the same
+   `--color-fd-card` so the card reads as a single flat block. */
+[data-ak-stack-builder] pre,
+[data-ak-stack-builder] pre[data-language],
+[data-ak-stack-builder] figure[data-rehype-pretty-code-figure],
+[data-ak-stack-builder] figure[data-rehype-pretty-code-figure] pre,
+[data-ak-learn-selector] pre,
+[data-ak-learn-selector] pre[data-language],
+[data-ak-learn-selector] figure[data-rehype-pretty-code-figure],
+[data-ak-learn-selector] figure[data-rehype-pretty-code-figure] pre {
+  background: var(--color-fd-card) !important;
+  border: 0 !important;
+  margin: 0;
+}
+
+/* TOC polish: gradient active thumb + subtle scale on active item */
+[data-toc] nav [class*='absolute inset-y-0'] {
+  width: 2px !important;
+  background: linear-gradient(180deg, #58A6FF 0%, #A371F7 50%, #F778BA 100%) !important;
+  box-shadow: 0 0 8px rgba(163, 113, 247, 0.45);
+}
+[data-toc] nav a[data-active='true'] {
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+
+/* Heading anchor button — copy link per heading */
+.prose :where(h2, h3, h4) {
+  position: relative;
+  scroll-margin-top: 5rem;
+}
+.prose :where(h2, h3, h4) .ak-anchor {
+  position: absolute;
+  left: -1.25rem;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 0;
+  transition: opacity 120ms ease-out;
+  color: var(--ak-graphite, #8B949E);
+  text-decoration: none;
+  font-weight: 400;
+  cursor: pointer;
+}
+.prose :where(h2, h3, h4):hover .ak-anchor,
+.prose :where(h2, h3, h4):focus-within .ak-anchor {
+  opacity: 1;
+}
+.ak-anchor:hover {
+  color: var(--ak-foam, #E6EDF3);
+}
+.ak-anchor[data-copied='true']::after {
+  content: 'copied';
+  position: absolute;
+  left: 100%;
+  margin-left: 0.25rem;
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  color: #2EA043;
+  white-space: nowrap;
+}
+
+@keyframes ak-fade-in {
+  from { opacity: 0; transform: translateY(4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: ak-fade-in 320ms ease-out both;
+}
+
+/* Skeleton placeholder — shimmering bar used while dynamic showcase examples load. */
+@keyframes ak-skel-shimmer {
+  0% { background-position: -150% 0; }
+  100% { background-position: 150% 0; }
+}
+.ak-skel {
+  display: inline-block;
+  background-color: color-mix(in oklab, var(--ak-border) 60%, transparent);
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    color-mix(in oklab, var(--ak-foam) 10%, transparent) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: ak-skel-shimmer 1.4s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ak-skel {
+    animation: none;
+  }
+}
+
+/* Fumadocs theme tokens — light (default) */
+:root {
+  --color-fd-background: #ffffff;
+  --color-fd-foreground: #0D1117;
+  --color-fd-muted: #f6f8fa;
+  --color-fd-muted-foreground: #57606a;
+  --color-fd-popover: #ffffff;
+  --color-fd-popover-foreground: #0D1117;
+  --color-fd-card: #f6f8fa;
+  --color-fd-card-foreground: #0D1117;
+  --color-fd-border: #d0d7de;
+  --color-fd-primary: #0969da;
+  --color-fd-primary-foreground: #ffffff;
+  --color-fd-secondary: #eaeef2;
+  --color-fd-secondary-foreground: #0D1117;
+  --color-fd-accent: #ddf4ff;
+  --color-fd-accent-foreground: #0969da;
+  --color-fd-ring: #0969da;
+}
+
+/* Fumadocs theme tokens — dark */
+.dark {
+  --color-fd-background: #0D1117;
+  --color-fd-foreground: #E6EDF3;
+  --color-fd-muted: #161B22;
+  --color-fd-muted-foreground: #8B949E;
+  --color-fd-popover: #161B22;
+  --color-fd-popover-foreground: #E6EDF3;
+  --color-fd-card: #161B22;
+  --color-fd-card-foreground: #E6EDF3;
+  --color-fd-border: #30363D;
+  --color-fd-primary: #E6EDF3;
+  --color-fd-primary-foreground: #0D1117;
+  --color-fd-secondary: #161B22;
+  --color-fd-secondary-foreground: #E6EDF3;
+  --color-fd-accent: #1F2937;
+  --color-fd-accent-foreground: #E6EDF3;
+  --color-fd-ring: #58A6FF;
+}
