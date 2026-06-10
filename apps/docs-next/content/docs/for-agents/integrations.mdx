@@ -33,6 +33,9 @@ ships the contract + registry.
 - `toToolDefinitions` — project a descriptor's actions into legacy `ToolDefinition[]` (auth-bound), preserving the `fn(config) => Tool[]` API consumers expect.
 - `actionToToolDefinition` — project a single action into a `ToolDefinition`.
 - `httpOptionsFor` — build the auth-bound HTTP options for a descriptor + caller config.
+- `integrationTools` — resolve a catalog integration (by slug or descriptor) and project it to `ToolDefinition[]` in one call.
+- `integrationToolsFromEnv` — project an integration reading its credential from the environment (via the apiKey `envHint`).
+- `credentialEnvVar` — the conventional env var holding an integration's API key.
 
 ## Subpath exports
 
