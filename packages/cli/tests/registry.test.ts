@@ -114,3 +114,42 @@ describe('addAgent', () => {
     expect(writes).toEqual(['agents/research/agent.ts'])
   })
 })
+
+describe('lineDiff', () => {
+  it('marks added, removed, and unchanged lines', async () => {
+    const { lineDiff } = await import('../src/registry')
+    const d = lineDiff('a\nb\nc', 'a\nx\nc')
+    expect(d.filter((l) => l.type === '-').map((l) => l.text)).toEqual(['b'])
+    expect(d.filter((l) => l.type === '+').map((l) => l.text)).toEqual(['x'])
+    expect(d.filter((l) => l.type === ' ').map((l) => l.text)).toEqual(['a', 'c'])
+  })
+})
+
+describe('diffAgent', () => {
+  const hosted = {
+    id: 'x', title: 'X', description: 'd', category: 'support', packages: [], files: ['agent.ts'],
+    sources: [{ path: 'agent.ts', content: 'line1\nline2\n' }],
+  }
+  function fetchHosted() {
+    return vi.fn(async () => new Response(JSON.stringify(hosted), { status: 200 })) as unknown as typeof fetch
+  }
+
+  it('reports unchanged when local matches upstream', async () => {
+    const { diffAgent } = await import('../src/registry')
+    const out = await diffAgent('x', { fetchImpl: fetchHosted(), readFileImpl: async () => 'line1\nline2\n' })
+    expect(out.files[0].status).toBe('unchanged')
+  })
+
+  it('reports modified with a diff', async () => {
+    const { diffAgent } = await import('../src/registry')
+    const out = await diffAgent('x', { fetchImpl: fetchHosted(), readFileImpl: async () => 'line1\nCHANGED\n' })
+    expect(out.files[0].status).toBe('modified')
+    expect(out.files[0].diff?.some((l) => l.type === '+' && l.text === 'line2')).toBe(true)
+  })
+
+  it('reports missing-local when the file is absent', async () => {
+    const { diffAgent } = await import('../src/registry')
+    const out = await diffAgent('x', { fetchImpl: fetchHosted(), readFileImpl: async () => null })
+    expect(out.files[0].status).toBe('missing-local')
+  })
+})

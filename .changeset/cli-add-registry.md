@@ -2,13 +2,13 @@
 "@agentskit/cli": minor
 ---
 
-Add `agentskit add <agent>` — pull a ready-made agent from the AgentsKit registry
-(registry.agentskit.io) and copy its source into your project, shadcn-style. You
-own the copied code. Resolves from the hosted index first, falling back to the
-registry repo's raw GitHub source so it works before hosting is live.
+Registry commands for ready-made agents (registry.agentskit.io):
 
-Supports `--run "<task>"` to execute the agent immediately after adding it (e.g.
-`npx agentskit add legal-contract-reviewer --run "review this NDA…" --provider ollama`).
-The agent runs as data (its systemPrompt), never by executing the copied code —
-no remote/local code execution. `--provider`/`--model`/`--api-key` select the
-model; tool-composing agents (research/pr-review) print a use-as-library message.
+- `agentskit add <agent>` — copy an agent's source into your project (shadcn-style;
+  you own the code). Hosted index with raw-GitHub fallback. `--run "<task>"` runs it
+  immediately (as data, never executing copied code); `--provider`/`--model`/`--api-key`.
+- `agentskit diff <agent>` — show how your local copy differs from the current
+  registry source (line-level diff).
+- `agentskit update <agent>` — update your local copy to the registry source.
+
+Lets users adopt an agent, own/edit it, and still pull upstream fixes.

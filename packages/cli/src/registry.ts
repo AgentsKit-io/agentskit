@@ -145,3 +145,85 @@ export async function addAgent(id: string, options: AddOptions = {}): Promise<Ad
   }
   return { agent, written, targetDir }
 }
+
+// ---------------------------------------------------------------------------
+// diff / update — keep a copied agent in sync with the registry (shadcn-style)
+// ---------------------------------------------------------------------------
+
+export type DiffLine = { type: ' ' | '-' | '+'; text: string }
+
+/** Minimal line-level diff (LCS) — no dependency. */
+export function lineDiff(a: string, b: string): DiffLine[] {
+  const x = a.split('\n')
+  const y = b.split('\n')
+  const m = x.length
+  const n = y.length
+  const lcs: number[][] = Array.from({ length: m + 1 }, () => new Array(n + 1).fill(0))
+  for (let i = m - 1; i >= 0; i--) {
+    for (let j = n - 1; j >= 0; j--) {
+      lcs[i][j] = x[i] === y[j] ? lcs[i + 1][j + 1] + 1 : Math.max(lcs[i + 1][j], lcs[i][j + 1])
+    }
+  }
+  const out: DiffLine[] = []
+  let i = 0
+  let j = 0
+  while (i < m && j < n) {
+    if (x[i] === y[j]) {
+      out.push({ type: ' ', text: x[i] })
+      i++
+      j++
+    } else if (lcs[i + 1][j] >= lcs[i][j + 1]) {
+      out.push({ type: '-', text: x[i++] })
+    } else {
+      out.push({ type: '+', text: y[j++] })
+    }
+  }
+  while (i < m) out.push({ type: '-', text: x[i++] })
+  while (j < n) out.push({ type: '+', text: y[j++] })
+  return out
+}
+
+export interface FileDiff {
+  path: string
+  status: 'unchanged' | 'modified' | 'missing-local'
+  diff?: DiffLine[]
+  upstream: string
+}
+
+export interface DiffAgentOptions extends FetchOptions {
+  outDir?: string
+  readFileImpl?: (path: string) => Promise<string | null>
+}
+
+/** Compare a locally-copied agent against the registry's current source. */
+export async function diffAgent(id: string, options: DiffAgentOptions = {}): Promise<{
+  agent: RegistryAgent
+  targetDir: string
+  files: FileDiff[]
+}> {
+  const agent = await fetchAgent(id, options)
+  const targetDir = join(options.outDir ?? 'agents', id)
+  const readLocal =
+    options.readFileImpl ??
+    (async (p: string) => {
+      const { readFile } = await import('node:fs/promises')
+      try {
+        return await readFile(p, 'utf8')
+      } catch {
+        return null
+      }
+    })
+
+  const files: FileDiff[] = []
+  for (const f of agent.sources) {
+    const local = await readLocal(join(targetDir, f.path))
+    if (local == null) {
+      files.push({ path: f.path, status: 'missing-local', upstream: f.content })
+    } else if (local === f.content) {
+      files.push({ path: f.path, status: 'unchanged', upstream: f.content })
+    } else {
+      files.push({ path: f.path, status: 'modified', diff: lineDiff(local, f.content), upstream: f.content })
+    }
+  }
+  return { agent, targetDir, files }
+}
