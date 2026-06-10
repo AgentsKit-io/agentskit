@@ -25,6 +25,7 @@ const GATES = [
   ['docs locale parity', 'check-intl-parity.mjs'],
   ['ecosystem count drift', 'check-count-drift.mjs'],
   ['ecosystem registry sync', 'sync-ecosystem.mjs', ['--check']],
+  ['brand token sync', 'sync-brand.mjs', ['--property', 'agentskit', '--out', 'apps/docs-next/app/brand-tokens.css', '--check']],
 ]
 
 const failed = []
