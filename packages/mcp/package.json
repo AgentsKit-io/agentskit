@@ -27,7 +27,9 @@
     "dev": "tsup --watch"
   },
   "dependencies": {
+    "@agentskit/adapters": "workspace:*",
     "@agentskit/core": "workspace:*",
+    "@agentskit/runtime": "workspace:*",
     "@agentskit/tools": "workspace:*"
   },
   "devDependencies": {

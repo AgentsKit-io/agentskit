@@ -63,3 +63,46 @@ describe('createAgentsKitMcpServer', () => {
     await srv.close()
   })
 })
+
+describe('createAgentTool', () => {
+  it('exposes an agent as a tool whose execute runs it via the adapter', async () => {
+    const { createAgentTool } = await import('../src/agent-tool')
+    const { mockAdapter } = await import('@agentskit/adapters')
+    const tool = createAgentTool({
+      id: 'legal-contract-reviewer',
+      description: 'Reviews a contract.',
+      systemPrompt: 'You review contracts.',
+      adapter: mockAdapter({ response: [{ type: 'text', content: 'Reviewed: 2 risks.' }] }),
+    })
+    expect(tool.name).toBe('legal-contract-reviewer')
+    expect(tool.schema?.required).toContain('task')
+    const out = (await tool.execute?.({ task: 'review this NDA' }, {} as never)) as { content: string }
+    expect(out.content).toContain('Reviewed')
+  })
+})
+
+describe('fetchAgentSkill', () => {
+  it('reads the skill from the hosted index', async () => {
+    const { fetchAgentSkill } = await import('../src/registry-fetch')
+    const fetchImpl = (async (url: string) => {
+      expect(url).toContain('/legal-contract-reviewer.json')
+      return new Response(
+        JSON.stringify({ description: 'Reviews contracts', skill: { systemPrompt: 'You review contracts.' } }),
+        { status: 200 },
+      )
+    }) as unknown as typeof fetch
+    const skill = await fetchAgentSkill('legal-contract-reviewer', fetchImpl)
+    expect(skill?.systemPrompt).toBe('You review contracts.')
+  })
+
+  it('returns null for a tool-composing agent (skill: null) with no inline prompt', async () => {
+    const { fetchAgentSkill } = await import('../src/registry-fetch')
+    const fetchImpl = (async (url: string) => {
+      if (url.includes('registry.agentskit.io')) return new Response(JSON.stringify({ skill: null }), { status: 200 })
+      if (url.endsWith('meta.json')) return new Response(JSON.stringify({ description: 'd' }), { status: 200 })
+      return new Response('import { researcher } from "@agentskit/skills"', { status: 200 })
+    }) as unknown as typeof fetch
+    const skill = await fetchAgentSkill('research', fetchImpl)
+    expect(skill).toBeNull()
+  })
+})

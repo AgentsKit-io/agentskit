@@ -21,10 +21,16 @@ npm install @agentskit/mcp
   process; pass `transport` to override (tests / custom hosts).
 - `processStdio()` — adapt the Node process into the `StdioLikeProcess` the
   transport expects (server receives on stdin, sends on stdout).
+- `createAgentTool({ id, description, systemPrompt, adapter, maxSteps? })` —
+  wrap a whole agent as one MCP tool. The host calls it with a `task`; the agent
+  runs server-side on the given adapter and returns the result ("agents as MCP tools").
+- `fetchAgentSkill(id, fetchImpl?)` — fetch a registry agent's runnable skill
+  (hosted index, raw-GitHub fallback); `null` for tool-composing agents.
 
 ## Bin
 
-`agentskit-mcp` — `npx @agentskit/mcp --tools fetch,search`. Flags: `--tools`,
+`agentskit-mcp` — `npx @agentskit/mcp --tools fetch,search`. Expose whole agents
+with `--agents <ids> --provider <p>` (any of ~20 providers + catalog OpenAI-compatible). Flags: `--tools`,
 `--fs-root`, `--sqlite`, `--allow-shell`. stdout is the JSON-RPC channel; logs go to stderr.
 
 ## Minimal example

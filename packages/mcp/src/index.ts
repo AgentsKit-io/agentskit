@@ -50,4 +50,6 @@ export function createAgentsKitMcpServer(options: AgentsKitMcpServerOptions): Mc
   })
 }
 
+export { createAgentTool, type AgentToolConfig } from './agent-tool'
+export { fetchAgentSkill, type FetchedAgentSkill } from './registry-fetch'
 export type { McpServer, McpTransport } from '@agentskit/tools/mcp'
