@@ -30,9 +30,17 @@ describe('CONFIG_FIELDS', () => {
     const withFields = listIntegrations().filter((i) => i.configFields)
     // every declared connector is wired
     expect(withFields.length).toBe(Object.keys(CONFIG_FIELDS).length)
-    // adapter-injected services are intentionally excluded
-    expect(getIntegration('email')!.configFields).toBeUndefined()
-    expect(getIntegration('teams')!.configFields).toBeUndefined()
+    // email + teams expose flat fields the host maps onto their runtime shape
+    // (SMTP transport / nested webhook) — see CONFIG_FIELDS doc comment.
+    expect(getIntegration('email')!.configFields?.map((f) => f.key)).toEqual([
+      'host',
+      'port',
+      'user',
+      'pass',
+      'secure',
+      'from',
+    ])
+    expect(getIntegration('teams')!.configFields?.map((f) => f.key)).toEqual(['webhookUrl'])
     // api-key + oauth connectors don't use configFields
     expect(getIntegration('firecrawl')!.configFields).toBeUndefined()
     expect(getIntegration('gmail')!.configFields).toBeUndefined()
