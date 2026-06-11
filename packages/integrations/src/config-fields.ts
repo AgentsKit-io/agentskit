@@ -4,10 +4,14 @@ import type { ConfigField } from './contract'
  * Declarative connect-form fields for catalog services that authenticate with
  * structured config rather than a single API key. A host renders these as a
  * connect form; the captured values become the `config` object each action
- * reads. Adapter-injected services (email transport, Teams bot client) are not
- * here — they are wired in code, not via a form.
+ * reads. The Teams *bot* client stays adapter-injected (code, not a form); the
+ * Teams *webhook* and the email SMTP transport, however, are built by the host
+ * from these flat form fields — see the `email` / `teams` entries below.
  *
- * Field keys match the `*RuntimeConfig` shapes the service actions read.
+ * Field keys match the `*RuntimeConfig` shapes the service actions read, EXCEPT
+ * `email` and `teams`, whose flat fields the host adapter maps onto the nested
+ * runtime shape (`{ webhook: { webhookUrl } }`) / an `EmailTransport` it
+ * constructs (e.g. via nodemailer) before invoking the action.
  */
 export const CONFIG_FIELDS = {
   twilio: [
@@ -40,4 +44,25 @@ export const CONFIG_FIELDS = {
     { key: 'apiToken', label: 'REST API token', secret: true, required: false },
   ],
   pipedrive: [{ key: 'apiToken', label: 'API token', secret: true, required: true }],
+  // Flat SMTP fields; the host builds an `EmailTransport` from them (the
+  // `email_send` action reads `config.transport`, not these keys directly).
+  email: [
+    { key: 'host', label: 'SMTP host', required: true, placeholder: 'smtp.example.com' },
+    { key: 'port', label: 'SMTP port', required: true, placeholder: '587' },
+    { key: 'user', label: 'Username', required: true },
+    { key: 'pass', label: 'Password', secret: true, required: true },
+    { key: 'secure', label: 'Use TLS (true/false)', required: false, placeholder: 'false' },
+    { key: 'from', label: 'Default from address', required: false, placeholder: 'bot@example.com' },
+  ],
+  // Flat webhook URL; the host nests it as `{ webhook: { webhookUrl } }` (the
+  // shape `teams_send_webhook` reads from `config.webhook`).
+  teams: [
+    {
+      key: 'webhookUrl',
+      label: 'Incoming webhook URL',
+      secret: true,
+      required: true,
+      placeholder: 'https://outlook.office.com/webhook/…',
+    },
+  ],
 } as const satisfies Record<string, ConfigField[]>
