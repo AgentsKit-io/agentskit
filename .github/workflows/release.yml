@@ -44,7 +44,8 @@ jobs:
           npx --yes @cyclonedx/cyclonedx-npm@2.0.0 \
             --output-format JSON \
             --output-file sbom.cdx.json \
-            --short-PURLs
+            --short-PURLs \
+            --ignore-npm-errors
       - name: Upload SBOM artifact
         if: steps.changesets.outputs.published == 'true'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
