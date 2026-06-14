@@ -14,7 +14,7 @@
     "dev": "next dev --turbo",
     "docs": "next dev --turbo",
     "start": "next start",
-    "lint": "tsc --noEmit",
+    "lint": "node scripts/gen-ask-context.mjs && tsc --noEmit",
     "lint:mdx": "node scripts/lint-mdx.mjs",
     "check:links": "node scripts/check-links.mjs",
     "gen:api": "node scripts/gen-api.mjs",
