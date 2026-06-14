@@ -114,7 +114,7 @@ export const createKvMemoryFromConfigAuto = async (config: KvMemoryConfig): Prom
     const sqlite = await tryDefaultSqliteOpener()
     if (!sqlite) {
       throw new MemoryError({
-        code: 'AK_MEMORY_PEER_MISSING',
+        code: 'AK_MEMORY_SQLITE_DRIVER_MISSING',
         message: 'createKvMemoryFromConfigAuto: sqlite backend needs `better-sqlite3` (pnpm add better-sqlite3).',
       })
     }
@@ -124,7 +124,7 @@ export const createKvMemoryFromConfigAuto = async (config: KvMemoryConfig): Prom
     const redis = await tryDefaultRedisClient(config.url)
     if (!redis) {
       throw new MemoryError({
-        code: 'AK_MEMORY_PEER_MISSING',
+        code: 'AK_MEMORY_REDIS_DRIVER_MISSING',
         message: 'createKvMemoryFromConfigAuto: redis backend needs `redis` (pnpm add redis).',
       })
     }
