@@ -52,6 +52,43 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
         <MDX components={getMDXComponents()} />
       </article>
 
+      <aside className="mt-12 rounded-xl border border-ak-border bg-ak-surface/50 p-6">
+        <h2 className="font-display text-lg font-semibold text-ak-foam">Build with the community</h2>
+        <p className="mt-1 text-sm text-ak-graphite">
+          AgentsKit is open source. Read the docs, follow the Playbook, and join the people shipping production agents.
+        </p>
+        <div className="mt-4 flex flex-wrap gap-2 text-sm">
+          <a
+            href="https://www.agentskit.io/docs"
+            className="rounded-md border border-ak-border px-3 py-1.5 text-ak-foam hover:border-ak-blue hover:text-ak-blue"
+          >
+            Read the docs
+          </a>
+          <a
+            href="https://playbook.agentskit.io"
+            className="rounded-md border border-ak-border px-3 py-1.5 text-ak-foam hover:border-ak-blue hover:text-ak-blue"
+          >
+            Playbook
+          </a>
+          <a
+            href="https://github.com/AgentsKit-io/agentskit"
+            target="_blank"
+            rel="noopener"
+            className="rounded-md border border-ak-border px-3 py-1.5 text-ak-foam hover:border-ak-blue hover:text-ak-blue"
+          >
+            Star on GitHub
+          </a>
+          <a
+            href="https://discord.gg/zx6z2p4jVb"
+            target="_blank"
+            rel="noopener"
+            className="rounded-md border border-ak-border px-3 py-1.5 text-ak-foam hover:border-ak-blue hover:text-ak-blue"
+          >
+            Discord
+          </a>
+        </div>
+      </aside>
+
       <footer className="mt-12 grid gap-3 border-t border-ak-border pt-6 sm:grid-cols-2">
         {prev ? (
           <Link href={`/blog/${slugOf(prev)}`} className="rounded-lg border border-ak-border bg-ak-surface p-4 hover:border-ak-foam">

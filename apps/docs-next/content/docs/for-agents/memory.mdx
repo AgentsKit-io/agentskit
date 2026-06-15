@@ -28,7 +28,7 @@ npm install @agentskit/memory
 
 ### Higher-order memory
 
-- `createVirtualizedMemory` — hot window + cold retriever.
+- `createVirtualizedMemory` (from `@agentskit/core`) — hot window + cold retriever.
 - `createHierarchicalMemory` — MemGPT tiers (working / recall / archival).
 - `createAutoSummarizingMemory` (from `@agentskit/core/auto-summarize`) — fold oldest into a summary.
 - `createEncryptedMemory` — AES-GCM over any `ChatMemory`. See [Encrypted memory](/docs/reference/recipes/encrypted-memory).
@@ -51,8 +51,7 @@ A generic `get(key)`/`set(key,value)` store with TTL + max-key eviction, complem
 ## Minimal example
 
 ```ts
-import { createInMemoryMemory } from '@agentskit/core'
-import { createVirtualizedMemory } from '@agentskit/memory'
+import { createInMemoryMemory, createVirtualizedMemory } from '@agentskit/core'
 
 const memory = createVirtualizedMemory(createInMemoryMemory(), { maxActive: 50 })
 ```

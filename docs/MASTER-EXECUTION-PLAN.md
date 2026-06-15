@@ -1,5 +1,9 @@
 # AgentsKit — Master Execution Plan
 
+> **Status: historical planning artifact.** Written in the 14-package / Phase 0–1 era;
+> package counts, tiers, and "future" bindings here are point-in-time. Living sources:
+> [STABILITY.md](./STABILITY.md) (tier map) + [V1-READINESS-TRACKER.md](./V1-READINESS-TRACKER.md).
+
 > Master execution plan for the 149 issues (Phase 0 + Phases 1–4).
 > Sequence, dependencies, sprints, gates, and suggested order.
 >

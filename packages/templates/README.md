@@ -6,7 +6,7 @@ Create, validate, and scaffold custom AgentsKit extensions — tools, skills, an
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/templates)](https://www.npmjs.com/package/@agentskit/templates)
 [![bundle size](https://img.shields.io/bundlejs/size/@agentskit/templates?label=bundle)](https://bundlejs.com/?q=@agentskit/templates)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](../../LICENSE)
-[![stability](https://img.shields.io/badge/stability-stable-brightgreen)](../../docs/STABILITY.md)
+[![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `scaffolding` · `templates` · `authoring` · `plugin` · `extension`

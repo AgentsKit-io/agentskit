@@ -74,6 +74,38 @@ Asserts `@agentskit/core` declares zero runtime dependencies (Manifesto
 principle: core stays pure and under 10KB gzipped). Heavy deps belong in
 opt-in packages behind a core injection point.
 
+## `check-stability-tier.mjs`
+
+Asserts every package declares an `agentskit.stability` tier, the value is one
+of `alpha | beta | stable`, and it matches that package's row in the
+`docs/STABILITY.md` "Current tier map". Catches a missing tier, an undefined
+tier value, a package absent from the map, and a stale map row. STABILITY.md is
+the single source of truth; this gate keeps package metadata in lockstep with it.
+
+## `check-readme-badge.mjs`
+
+Asserts every package README carries a shields.io stability badge whose tier and
+color match the package's declared `agentskit.stability`
+(`stable`→brightgreen, `beta`→yellow, `alpha`→orange). Pairs with
+`check-stability-tier` so the policy doc, package metadata, and README badge can
+never drift apart.
+
+## `check-coverage-floor.mjs`
+
+Ties each package's configured vitest `linesThreshold` to its stability tier
+(`stable`→90, `beta`→70, `alpha`→50). Static check on the configured threshold;
+the `test:coverage` job enforces actual ≥ configured, so together they guarantee
+actual coverage ≥ tier floor. Missing `linesThreshold` falls back to the
+vitest.shared default (90).
+
+## `check-promotion-rfc.mjs`
+
+Asserts every package declared `stable` has a promotion RFC in `rfcs/` (filename
+or body names it), per `docs/STABILITY.md` (beta→stable requires an RFC
+committing the public API). `@agentskit/core` is exempt — it graduated via ADRs
+0001-0006 + `docs/RELEASE-CORE-V1.md`. Edit the `EXEMPT` map to add another
+documented exemption.
+
 ## `check-no-any.mjs`
 
 Forbids the explicit `any` type in package source (`: any`, `as any`, `<any>`,

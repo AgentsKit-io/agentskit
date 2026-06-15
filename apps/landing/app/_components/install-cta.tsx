@@ -1,4 +1,5 @@
 import { LINKS } from './links'
+import { CommunityLink } from './tracked-link'
 
 export function InstallCta() {
   return (
@@ -15,12 +16,13 @@ export function InstallCta() {
         >
           Read the docs
         </a>
-        <a
+        <CommunityLink
           href={LINKS.discord}
+          target="discord"
           className="rounded-md border border-[var(--color-border)] px-5 py-3 text-sm font-medium hover:border-[var(--color-accent)]"
         >
           Join Discord
-        </a>
+        </CommunityLink>
       </div>
     </section>
   )

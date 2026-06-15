@@ -6,7 +6,7 @@ Plug-and-play retrieval-augmented generation: chunk documents, embed them, and r
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/rag)](https://www.npmjs.com/package/@agentskit/rag)
 [![bundle size](https://img.shields.io/bundlejs/size/@agentskit/rag?label=bundle)](https://bundlejs.com/?q=@agentskit/rag)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](../../LICENSE)
-[![stability](https://img.shields.io/badge/stability-stable-brightgreen)](../../docs/STABILITY.md)
+[![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `rag` · `retrieval` · `vector-search` · `embeddings` · `ai-agents` · `semantic-search` · `knowledge-base`

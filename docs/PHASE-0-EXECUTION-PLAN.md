@@ -1,5 +1,9 @@
 # Phase 0 — Execution Plan (P0 → P2)
 
+> **Status: historical planning artifact.** Written in the 14-package / Phase 0–1 era;
+> package counts, tiers, and "future" bindings here are point-in-time. Living sources:
+> [STABILITY.md](./STABILITY.md) (tier map) + [V1-READINESS-TRACKER.md](./V1-READINESS-TRACKER.md).
+
 > Tactical plan for the 12 top-priority Phase 0 tasks. Covers 3–4 weeks.
 > Linked to the [Phase 0 PRD #211](https://github.com/AgentsKit-io/agentskit/issues/211).
 

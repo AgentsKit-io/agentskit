@@ -1,0 +1,29 @@
+---
+title: "System Prompts Are Your Production Agent Harness — Here's Why"
+description: "OpenAI's Codex instructions reveal the blueprint for deployment-ready agent control that AgentsKit harnesses implement."
+date: "2026-05-05"
+author: "Emerson Braun"
+tags: ["ai", "agentskit", "harness"]
+---
+
+OpenAI's Codex base instructions prove that rigorous system prompt design is the backbone of production agent deployment — not just a nice-to-have.
+
+## Harness configuration is your first line of defense
+
+The AgentsKit primitive here is harness configuration — specifically the system prompt slot. OpenAI's Codex instructions, like avoiding mythical-creature talk unless relevant, show how to embed behavioral guardrails directly into the agent's core. This isn't academic; it's production-grade control that prevents costly missteps when scaling agents. AgentsKit makes this actionable through JavaScript-native harness configuration that lets you define these boundaries programmatically, ensuring your agents stay on-task and out of trouble in real deployments.
+
+## A 3-step recipe for production-ready system prompts
+
+1. **Define explicit boundaries.** List what the agent must avoid (e.g., "Do not discuss X unless Y").
+2. **Embed role clarity.** Specify the agent's purpose and constraints (e.g., "You are a code assistant — only output code").
+3. **Test with edge cases.** Throw boundary-pushing queries at your configured harness to validate the guardrails hold.
+
+This pattern mirrors Codex's production-hardened approach and translates directly to AgentsKit harness configuration. Implement it this week and watch deployment incidents drop.
+
+## Links worth your time
+
+- OpenAI Codex `base_instructions` breakdown — production-grade system prompt engineering in action.
+- AgentsKit harness configuration docs — how to apply these patterns in JavaScript.
+- Avoiding costly LLM missteps — why boundaries matter in deployment.
+
+[Explore AgentsKit →](https://www.agentskit.io/)

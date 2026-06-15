@@ -18,6 +18,16 @@ npm install react react-native
 ## Primary exports
 
 - `useChat(config): ChatReturn` — identical contract to `@agentskit/react`, imported from pure React (no DOM).
+- `ChatContainer` — `ScrollView` wrapper with auto-scroll to end.
+- `Message` — message → `View` + `Text`; role/status via `accessibilityLabel`.
+- `InputBar` — `chat: ChatReturn` → `TextInput` + Send `Pressable`; sends on submit, disabled when empty/streaming.
+- `Markdown` — `content` + `streaming` → `Text`.
+- `CodeBlock` — `code`, `language`, `copyable` → `View` + `Text` + optional copy `Pressable`.
+- `ToolCallView` — `toolCall` with collapsible details.
+- `ThinkingIndicator` — `visible` + `label`; `null` when not visible.
+- `ToolConfirmation` — `toolCall`, `onApprove`, `onDeny`; `null` unless `status === 'requires_confirmation'`.
+
+Headless components render React Native primitives and expose stable `testID`s (`ak-message`, `ak-input`, `ak-send`, …) in place of the web binding's `data-ak-*` attributes — the same parity contract, surfaced through RN's native `testID`.
 
 ## Minimal example
 

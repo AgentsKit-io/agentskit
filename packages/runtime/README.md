@@ -6,7 +6,7 @@ Run autonomous agents in 5 lines — no UI, no boilerplate, just results.
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/runtime)](https://www.npmjs.com/package/@agentskit/runtime)
 [![bundle size](https://img.shields.io/bundlejs/size/@agentskit/runtime?label=bundle)](https://bundlejs.com/?q=@agentskit/runtime)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](../../LICENSE)
-[![stability](https://img.shields.io/badge/stability-stable-brightgreen)](../../docs/STABILITY.md)
+[![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `openai` · `anthropic` · `ai-agents` · `autonomous-agents` · `react-loop` · `orchestration` · `multi-agent`

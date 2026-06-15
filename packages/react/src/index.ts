@@ -49,6 +49,7 @@ export {
   ToolCallView,
   ThinkingIndicator,
   ToolConfirmation,
+  TopologyGraphView,
 } from './components'
 
 export type {
@@ -60,4 +61,9 @@ export type {
   ToolCallViewProps,
   ThinkingIndicatorProps,
   ToolConfirmationProps,
+  TopologyGraphViewProps,
+  TopologyGraphViewNode,
+  TopologyGraphViewEdge,
+  TopologyGraphViewSnapshot,
+  TopologyGraphSource,
 } from './components'

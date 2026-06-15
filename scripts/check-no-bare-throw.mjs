@@ -37,11 +37,6 @@ const ALLOW_FILES = new Set([
   // when the eval package exits beta.
   'packages/eval/src/replay/cassette.ts',
   'packages/eval/src/replay/player.ts',
-  // RAG loaders + rerankers have provider HTTP throws; convert in a
-  // focused PR alongside the embedder enrichment.
-  'packages/rag/src/loaders.ts',
-  'packages/rag/src/rerankers/jina.ts',
-  'packages/rag/src/rerankers/voyage.ts',
 ])
 
 /**
@@ -54,10 +49,6 @@ const ALLOW_PREFIXES = [
   // backlog covers the conversion. Remove this prefix when that work is
   // done.
   'packages/cli/src/',
-  // Templates emits user-authored boilerplate; throws are inside the
-  // generated code's *example* contract and the backing validate.ts
-  // lib. Convert in a focused PR.
-  'packages/templates/src/',
   // Angular service has a single legacy bare throw on init guard.
   // Convert with the binding's coverage uplift.
   'packages/angular/src/',

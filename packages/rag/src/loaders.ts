@@ -1,9 +1,9 @@
+import { RagError, RagErrorCodes } from './errors'
 import type { InputDocument } from './types'
 
 /**
- * Document loaders: small async functions that return
- * `InputDocument[]` ready to pipe into `RAG.ingest`. Every loader
- * is framework-agnostic and accepts a custom `fetch` for tests.
+ * Document loaders: small async functions returning `InputDocument[]` ready to
+ * pipe into `RAG.ingest`. Framework-agnostic; each accepts a custom `fetch`.
  */
 
 export interface LoaderOptions {
@@ -17,7 +17,7 @@ export interface UrlLoaderOptions extends LoaderOptions {
 export async function loadUrl(url: string, options: UrlLoaderOptions = {}): Promise<InputDocument[]> {
   const fetchImpl = options.fetch ?? globalThis.fetch
   const response = await fetchImpl(url, { headers: options.headers })
-  if (!response.ok) throw new Error(`loadUrl ${response.status}: ${url}`)
+  if (!response.ok) throw new RagError({ code: RagErrorCodes.AK_RAG_LOAD_FAILED, message: `loadUrl ${response.status}: ${url}` })
   const content = await response.text()
   return [{ content, source: url, metadata: { url } }]
 }
@@ -40,7 +40,7 @@ export async function loadGitHubFile(
   const headers: Record<string, string> = {}
   if (options.token) headers.authorization = `Bearer ${options.token}`
   const response = await fetchImpl(url, { headers })
-  if (!response.ok) throw new Error(`loadGitHubFile ${response.status}: ${url}`)
+  if (!response.ok) throw new RagError({ code: RagErrorCodes.AK_RAG_LOAD_FAILED, message: `loadGitHubFile ${response.status}: ${url}` })
   return [
     {
       content: await response.text(),
@@ -68,7 +68,7 @@ export async function loadGitHubTree(
   const headers: Record<string, string> = { accept: 'application/vnd.github+json' }
   if (options.token) headers.authorization = `Bearer ${options.token}`
   const response = await fetchImpl(url, { headers })
-  if (!response.ok) throw new Error(`loadGitHubTree ${response.status}: ${url}`)
+  if (!response.ok) throw new RagError({ code: RagErrorCodes.AK_RAG_LOAD_FAILED, message: `loadGitHubTree ${response.status}: ${url}` })
   const tree = (await response.json()) as { tree?: Array<{ path: string; type: string }> }
   const files = (tree.tree ?? [])
     .filter(t => t.type === 'blob')
@@ -99,7 +99,7 @@ export async function loadNotionPage(
       'notion-version': options.version ?? '2022-06-28',
     },
   })
-  if (!response.ok) throw new Error(`loadNotionPage ${response.status}: ${url}`)
+  if (!response.ok) throw new RagError({ code: RagErrorCodes.AK_RAG_LOAD_FAILED, message: `loadNotionPage ${response.status}: ${url}` })
   const data = (await response.json()) as {
     results?: Array<{ type: string; paragraph?: { rich_text?: Array<{ plain_text?: string }> }; heading_1?: { rich_text?: Array<{ plain_text?: string }> }; heading_2?: { rich_text?: Array<{ plain_text?: string }> }; heading_3?: { rich_text?: Array<{ plain_text?: string }> } }>
   }
@@ -137,7 +137,7 @@ export async function loadConfluencePage(
   const response = await fetchImpl(url, {
     headers: authHeader ? { authorization: authHeader } : {},
   })
-  if (!response.ok) throw new Error(`loadConfluencePage ${response.status}: ${url}`)
+  if (!response.ok) throw new RagError({ code: RagErrorCodes.AK_RAG_LOAD_FAILED, message: `loadConfluencePage ${response.status}: ${url}` })
   const data = (await response.json()) as { body?: { storage?: { value?: string } }; title?: string }
   const content = data.body?.storage?.value ?? ''
   return [{ content, source: `${options.baseUrl}/pages/${pageId}`, metadata: { pageId, title: data.title } }]
@@ -156,7 +156,7 @@ export async function loadGoogleDriveFile(
   const response = await fetchImpl(url, {
     headers: { authorization: `Bearer ${options.accessToken}` },
   })
-  if (!response.ok) throw new Error(`loadGoogleDriveFile ${response.status}: ${url}`)
+  if (!response.ok) throw new RagError({ code: RagErrorCodes.AK_RAG_LOAD_FAILED, message: `loadGoogleDriveFile ${response.status}: ${url}` })
   const content = await response.text()
   return [{ content, source: `gdrive://${fileId}`, metadata: { fileId } }]
 }
@@ -206,7 +206,7 @@ async function loadS3Sdk(): Promise<S3SdkLike> {
         const moduleId = '@aws-sdk/client-s3'
         return (await import(/* @vite-ignore */ moduleId)) as unknown as S3SdkLike
       } catch {
-        throw new Error('Install @aws-sdk/client-s3 to use loadS3: npm install @aws-sdk/client-s3')
+        throw new RagError({ code: RagErrorCodes.AK_RAG_PEER_MISSING, message: 'Install @aws-sdk/client-s3 to use loadS3: npm install @aws-sdk/client-s3', hint: 'loadS3 uses the optional peer "@aws-sdk/client-s3".' })
       }
     })()
   }
@@ -279,7 +279,7 @@ export async function loadGcs(options: GcsLoaderOptions): Promise<InputDocument[
     const response = await fetchImpl(url, {
       headers: { authorization: `Bearer ${await getToken()}` },
     })
-    if (!response.ok) throw new Error(`loadGcs ${response.status}: ${url}`)
+    if (!response.ok) throw new RagError({ code: RagErrorCodes.AK_RAG_LOAD_FAILED, message: `loadGcs ${response.status}: ${url}` })
     const data = await response.json() as {
       items?: Array<{ name: string }>
       nextPageToken?: string
@@ -330,7 +330,7 @@ export async function loadDropbox(options: DropboxLoaderOptions): Promise<InputD
       : 'https://api.dropboxapi.com/2/files/list_folder'
     const body = cursor ? { cursor } : { path: options.path ?? '', recursive: true }
     const response = await fetchImpl(url, { method: 'POST', headers, body: JSON.stringify(body) })
-    if (!response.ok) throw new Error(`loadDropbox ${response.status}: ${url}`)
+    if (!response.ok) throw new RagError({ code: RagErrorCodes.AK_RAG_LOAD_FAILED, message: `loadDropbox ${response.status}: ${url}` })
     const data = await response.json() as {
       entries?: Array<{ '.tag': string; path_lower?: string; path_display?: string }>
       cursor?: string
@@ -394,7 +394,7 @@ export async function loadOneDrive(options: OneDriveLoaderOptions): Promise<Inpu
     const response = await fetchImpl(url, {
       headers: { authorization: `Bearer ${await getToken()}` },
     })
-    if (!response.ok) throw new Error(`loadOneDrive ${response.status}: ${url}`)
+    if (!response.ok) throw new RagError({ code: RagErrorCodes.AK_RAG_LOAD_FAILED, message: `loadOneDrive ${response.status}: ${url}` })
     const data = await response.json() as {
       value?: Array<{ id: string; name: string; folder?: object; file?: { mimeType: string }; '@microsoft.graph.downloadUrl'?: string }>
     }
@@ -433,7 +433,7 @@ export interface PdfLoaderOptions extends LoaderOptions {
 export async function loadPdf(url: string, options: PdfLoaderOptions): Promise<InputDocument[]> {
   const fetchImpl = options.fetch ?? globalThis.fetch
   const response = await fetchImpl(url)
-  if (!response.ok) throw new Error(`loadPdf ${response.status}: ${url}`)
+  if (!response.ok) throw new RagError({ code: RagErrorCodes.AK_RAG_LOAD_FAILED, message: `loadPdf ${response.status}: ${url}` })
   const buf = new Uint8Array(await response.arrayBuffer())
   const { text, pages } = await options.parsePdf(buf)
   return [{ content: text, source: url, metadata: { url, pages } }]

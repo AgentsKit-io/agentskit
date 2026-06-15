@@ -19,6 +19,17 @@ npm install solid-js
 
 - `useChat(config): ChatReturn` — Solid hook backed by `createStore` + `onCleanup`.
 
+Headless components (full parity with `@agentskit/react`, `data-ak-*` attributes only):
+
+- `ChatContainer` — scroll wrapper, auto-scrolls on new content via a `MutationObserver`.
+- `Message` — renders a message; optional `avatar` / `actions` slots.
+- `InputBar` — textarea + Send button; Enter submits, Shift+Enter newlines, disabled when empty/streaming.
+- `Markdown` — content surface with a `streaming` flag.
+- `CodeBlock` — `code` + `language`, optional `copyable` copy button.
+- `ToolCallView` — collapsible tool-call view (name → args/result).
+- `ThinkingIndicator` — shown while `visible`, with a `label`.
+- `ToolConfirmation` — HITL approve/deny, renders only when `status === 'requires_confirmation'`.
+
 ## Minimal example
 
 ```tsx

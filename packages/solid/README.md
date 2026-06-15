@@ -6,7 +6,7 @@ SolidJS hook + headless chat components. Same `ChatReturn` contract every Agents
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/solid)](https://www.npmjs.com/package/@agentskit/solid)
 [![bundle size](https://img.shields.io/bundlejs/size/@agentskit/solid?label=bundle)](https://bundlejs.com/?q=@agentskit/solid)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](../../LICENSE)
-[![stability](https://img.shields.io/badge/stability-stable-brightgreen)](../../docs/STABILITY.md)
+[![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `solid` · `solidjs` · `signals` · `chat` · `streaming`
@@ -40,17 +40,27 @@ export function App() {
 
   return (
     <ChatContainer>
-      <For each={chat.messages()}>{(m) => <Message message={m} />}</For>
+      <For each={chat.messages}>{(m) => <Message message={m} />}</For>
       <InputBar chat={chat} />
     </ChatContainer>
   )
 }
 ```
 
+State surfaces through a reactive proxy — read `chat.messages` / `chat.input` directly inside JSX.
+
 ## API
 
-- `useChat(config)` — hook returning `ChatReturn` with Solid accessors.
-- Headless components: `ChatContainer`, `Message`, `InputBar`, `ToolCallView`, `ToolConfirmation`, `ThinkingIndicator`.
+- `useChat(config)` — hook returning `ChatReturn` via a reactive proxy: `messages`, `status`, `input` + actions `send(text)`, `setInput(v)`, `stop`, `retry`, `clear`, `approve`, `deny`, `edit`, `regenerate`.
+- Headless components — emit `data-ak-*` attributes only, no styling. Full parity with `@agentskit/react`:
+  - `ChatContainer` — scroll wrapper, auto-scrolls on new content.
+  - `Message` — renders a message; optional `avatar` / `actions` slots.
+  - `InputBar` — textarea + Send; Enter submits, Shift+Enter newlines, disabled while empty/streaming.
+  - `Markdown` — content surface with a `streaming` flag.
+  - `CodeBlock` — `code` + `language`, optional `copyable` copy button.
+  - `ToolCallView` — collapsible tool-call view (name → args/result).
+  - `ThinkingIndicator` — shown while `visible`, with a `label`.
+  - `ToolConfirmation` — HITL approve/deny, renders only when `status === 'requires_confirmation'`.
 
 ## Ecosystem
 
