@@ -117,3 +117,19 @@ export type {
   DevtoolsClient,
   DevtoolsEnvelope,
 } from './devtools'
+
+// Replay primitives — drive telemetry sinks against historical events,
+// bisect a change history to localise a regression, and build a scrubber
+// timeline with per-checkpoint state diffs.
+export { replayEvents } from './replay'
+export type { ReplayHandler } from './replay'
+export { replayBisect } from './replay-bisect'
+export type { BisectVerdict, ReplayOracle, BisectOpts } from './replay-bisect'
+export { buildTimeline, diffState, positionAt } from './replay-timeline'
+export type {
+  ReplayStep,
+  TimelineRow,
+  Timeline,
+  StateDiffEntry,
+  ReplayPosition,
+} from './replay-timeline'

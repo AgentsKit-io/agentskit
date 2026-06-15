@@ -38,6 +38,16 @@ npm install @agentskit/memory
 - `wrapVectorMemoryWithRedaction(mem, { rules, mode?, vault?, allowedRoles? })` — same for `VectorMemory.store()`. Embeddings pass through verbatim; redact the input to your embedder separately if it is a hosted provider.
 - `forgetSubject(memory, subjectId)` / `makeForgettable(memory)` — GDPR-style right-to-erasure helpers that purge all records for a subject across `ChatMemory` and `VectorMemory`.
 
+### Key-value store (`AgentskitMemoryStore`)
+
+A generic `get(key)`/`set(key,value)` store with TTL + max-key eviction, complementing the conversation `ChatMemory` model — for agent scratchpad, pipeline state, and arbitrary JSON keyed by string.
+
+- `createInMemoryStore(config)` / `createFileStore(config)` / `createLocalStorageStore({ config, storage? })` — zero-dependency backends.
+- `createSqliteStore({ config, open })` — `open` is a better-sqlite3-style opener; `tryDefaultSqliteOpener()` lazy-imports `better-sqlite3`.
+- `createRedisStore({ config, client })` — `client` is a `RedisLike`; `adaptIoredis(io)` bridges ioredis, `tryDefaultRedisClient(url)` lazy-imports node-redis.
+- `createVectorStore({ config, vectorStore, embedder })` — exact-key `get`/`set` plus a `recall(query, k)` similarity search.
+- `createKvMemoryFromConfig({ config, sqlite?, redis?, vectorStore?, embedder? })` / `createKvMemoryFromConfigAuto(config)` — dispatch over a `KvMemoryConfig` (`in-memory`/`file`/`sqlite`/`localstorage`/`redis`/`vector`); the auto form lazy-loads optional drivers. `MEMORY_BACKEND_SUPPORT` / `isMemoryBackendSupported` / `MemoryBackendNotImplementedError` describe coverage.
+
 ## Minimal example
 
 ```ts

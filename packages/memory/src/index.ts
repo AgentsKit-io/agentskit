@@ -81,3 +81,41 @@ export type {
   VectorMemoryRedactionOptions,
   RedactionMode,
 } from './redaction'
+
+// Key-value memory store (AgentskitMemoryStore) — generic get(key)/set(key,value)
+// with TTL + max-key eviction, complementing the conversation ChatMemory model.
+// Backends: in-memory / file / sqlite / localstorage / redis / vector.
+export type {
+  AgentskitMemoryStore,
+  KvEntry,
+  KvMemoryConfig,
+  InMemoryKvConfig,
+  FileKvConfig,
+  SqliteKvConfig,
+  RedisKvConfig,
+  VectorKvConfig,
+  LocalStorageKvConfig,
+  RedisLike,
+  SqliteLike,
+  SqliteStmt,
+  SqliteOpener,
+  MemoryVectorStoreLike,
+  MemoryEmbedderLike,
+  LocalStorageLike,
+} from './kv-store-types'
+export { createInMemoryStore, createFileStore, createLocalStorageStore } from './kv-store-basic'
+export type { CreateLocalStorageStoreOpts } from './kv-store-basic'
+export { createSqliteStore, tryDefaultSqliteOpener } from './kv-store-sqlite'
+export type { CreateSqliteStoreOpts } from './kv-store-sqlite'
+export { createRedisStore, adaptIoredis, tryDefaultRedisClient } from './kv-store-redis'
+export type { CreateRedisStoreOpts } from './kv-store-redis'
+export { createVectorStore } from './kv-store-vector'
+export type { CreateVectorStoreOpts } from './kv-store-vector'
+export {
+  createKvMemoryFromConfig,
+  createKvMemoryFromConfigAuto,
+  MemoryBackendNotImplementedError,
+  MEMORY_BACKEND_SUPPORT,
+  isMemoryBackendSupported,
+} from './kv-store-factory'
+export type { CreateKvMemoryFromConfigOpts, MemoryBackendStatus } from './kv-store-factory'

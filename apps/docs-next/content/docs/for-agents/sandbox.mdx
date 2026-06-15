@@ -20,6 +20,20 @@ npm install @agentskit/sandbox
 
 - `createMandatorySandbox({ sandbox, policy })` — enforce allow / deny / requireSandbox / validators across every tool. See [Mandatory sandbox](/docs/reference/recipes/mandatory-sandbox).
 
+### Local-process runtimes
+
+Host-process isolation complementing the cloud E2B backend. Each implements the `SandboxRuntime` adapter (`spawn` / optional `exec`) the agent runner spawns tool subprocesses through, shelling out to a host binary via an injected `Spawner` (no native deps).
+
+- `noneSandbox` — in-process, no isolation (`spawn` rejects; for `none`-level trusted compute only).
+- `processSandbox(opts?)` — child-process with env allowlisting (`exposeAllowedEnvKeys`).
+- `sandboxExecRuntime({ policy })` — macOS seatbelt (`/usr/bin/sandbox-exec`); `renderSandboxExecProfile` emits the SBPL (default-deny + workspace-scoped writes + no outbound network).
+- `bwrapRuntime({ policy })` — Linux bubblewrap unshare-everything jail; `renderBwrapArgs`, `isBwrapSupported`, `getBwrapPath`.
+- `dockerRuntime({ policy })` — `docker run --rm` with cap-drop / no-new-privileges / read-only rootfs; `renderDockerArgs`.
+- `nodeSpawner()` — default `Spawner` over `node:child_process` (timeout + output-cap).
+- `SandboxRegistry` — maps `SandboxLevel` → runtime; `resolveOrThrow`.
+- `assertStrongIsolation` / `isStrongIsolation` / `isWeakIsolation` / `weakSandboxBanner` / `WeakSandboxError` — surface that `none`/`process` provide no OS-level fs/net isolation.
+- Contract types: `SandboxRuntime`, `SandboxLevel`, `SANDBOX_LEVELS`, `SandboxExecOptions`, `SandboxExecResult`, `Spawner`, `ChildHandle`.
+
 ## Minimal example
 
 ```ts

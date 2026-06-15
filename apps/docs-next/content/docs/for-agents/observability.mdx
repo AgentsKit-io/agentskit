@@ -57,6 +57,14 @@ npm install @agentskit/observability
 - `createSignedAuditLog`, `createInMemoryAuditStore`. Hash-chain + HMAC. See [Audit log](/docs/reference/recipes/audit-log).
 - `appendPiiAuditEvents(log, { actor, action, hits, subjectId?, reason? })` — append one signed entry per PII redaction hit to an existing `SignedAuditLog`. `action` is `pii:redact`, `pii:reveal`, or `pii:reveal-denied`; each payload records rule id, counts, and match `offset`/`length` only (no raw spans), for tamper-evident audit evidence alongside the hash chain.
 
+### Replay & timeline
+
+- `replayEvents(events, handlers)` — feed a historical event sequence through any number of handlers in order; generic over the event type, so it replays `AgentEvent`s, `TraceSpan`s, or a host app's own event union against live telemetry sinks.
+- `replayBisect(history, oracle, opts?)` — O(log n) regression localisation. Given a change history (oldest-first) and an async oracle that returns `'pass' | 'fail'` for a replay at a given index, it returns a `BisectVerdict` (`culprit` / `all_clean` / `all_broken` / `inconsistent`).
+- `buildTimeline(steps)` — turn recorded `ReplayStep`s into a `Timeline` of rows carrying cumulative cost / token / latency totals plus the run span.
+- `diffState(previous, next)` — structural diff between two state snapshots as `add` / `remove` / `change` entries.
+- `positionAt(steps, timeline, index)` — resolve a scrubber position to its cumulative row plus the `diffState` from the previous checkpoint (throws on an out-of-range index).
+
 ## Minimal example
 
 ```ts
