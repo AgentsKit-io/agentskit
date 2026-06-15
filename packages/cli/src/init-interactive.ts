@@ -156,5 +156,9 @@ export function printNextSteps(options: InitCommandOptions): void {
     )
   }
   process.stdout.write(`  ${kleur.cyan(runCmd)}\n\n`)
-  process.stdout.write(kleur.dim('  Docs: https://www.agentskit.io/docs\n\n'))
+  process.stdout.write(kleur.dim('  Docs: https://www.agentskit.io/docs\n'))
+  process.stdout.write(
+    kleur.yellow('  ★ Star AgentsKit') +
+      kleur.dim(' (solo-built — it helps a lot): https://github.com/AgentsKit-io/agentskit\n\n'),
+  )
 }
