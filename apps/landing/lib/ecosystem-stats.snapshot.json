@@ -9,7 +9,7 @@
     "catalogProviders": 140,
     "catalogModels": 5162,
     "skills": 21,
-    "memoryBackends": 10,
+    "memoryBackends": 16,
     "recipes": 69
   },
   "lists": {
@@ -17,17 +17,17 @@
       {
         "name": "@agentskit/adapters",
         "description": "Provider adapters for AgentsKit.",
-        "stability": "stable"
+        "stability": "beta"
       },
       {
         "name": "@agentskit/angular",
         "description": "Angular signals service + headless chat components for AgentsKit — streaming, tools, and memory across any LLM provider.",
-        "stability": "alpha"
+        "stability": "beta"
       },
       {
         "name": "@agentskit/cli",
         "description": "CLI for AgentsKit chat and project scaffolding.",
-        "stability": "stable"
+        "stability": "beta"
       },
       {
         "name": "@agentskit/core",
@@ -47,22 +47,22 @@
       {
         "name": "@agentskit/ink",
         "description": "Ink terminal components and hooks for AgentsKit.",
-        "stability": "stable"
+        "stability": "beta"
       },
       {
         "name": "@agentskit/integrations",
         "description": "Unified, plug-and-play service integrations for AgentsKit agents — one descriptor per service projected into tools, connectors, triggers, and auth.",
-        "stability": "experimental"
+        "stability": "alpha"
       },
       {
         "name": "@agentskit/mcp",
         "description": "Expose AgentsKit tools as an MCP server — use them from Claude Desktop, Cursor, Windsurf, or any MCP host.",
-        "stability": "unlisted"
+        "stability": "alpha"
       },
       {
         "name": "@agentskit/memory",
         "description": "Persistent and vector memory backends for AgentsKit.",
-        "stability": "stable"
+        "stability": "beta"
       },
       {
         "name": "@agentskit/observability",
@@ -77,22 +77,22 @@
       {
         "name": "@agentskit/rag",
         "description": "Plug-and-play retrieval-augmented generation for AgentsKit.",
-        "stability": "stable"
+        "stability": "beta"
       },
       {
         "name": "@agentskit/react",
         "description": "React hooks and UI components for AgentsKit.",
-        "stability": "stable"
+        "stability": "beta"
       },
       {
         "name": "@agentskit/react-native",
         "description": "React Native + Expo hook and headless chat components for AgentsKit — streaming, tools, and memory across any LLM provider.",
-        "stability": "alpha"
+        "stability": "beta"
       },
       {
         "name": "@agentskit/runtime",
         "description": "Standalone agent runtime with ReAct loop for AgentsKit.",
-        "stability": "stable"
+        "stability": "beta"
       },
       {
         "name": "@agentskit/sandbox",
@@ -102,27 +102,27 @@
       {
         "name": "@agentskit/skills",
         "description": "Ready-made skills (prompts + behavioral instructions) for AgentsKit agents.",
-        "stability": "stable"
+        "stability": "beta"
       },
       {
         "name": "@agentskit/solid",
         "description": "Solid hook + headless chat components for AgentsKit — streaming, tools, and memory across any LLM provider.",
-        "stability": "alpha"
+        "stability": "beta"
       },
       {
         "name": "@agentskit/svelte",
         "description": "Svelte 5 store + headless chat components for AgentsKit — streaming, tools, and memory across any LLM provider.",
-        "stability": "alpha"
+        "stability": "beta"
       },
       {
         "name": "@agentskit/templates",
         "description": "Extension toolkit for creating custom AgentsKit skills, tools, and adapters.",
-        "stability": "stable"
+        "stability": "beta"
       },
       {
         "name": "@agentskit/tools",
         "description": "Reusable executable tools for AgentsKit agents.",
-        "stability": "stable"
+        "stability": "beta"
       },
       {
         "name": "@agentskit/validation",
@@ -132,7 +132,7 @@
       {
         "name": "@agentskit/vue",
         "description": "Vue 3 composable + headless chat components for AgentsKit — streaming, tools, and memory across any LLM provider.",
-        "stability": "alpha"
+        "stability": "beta"
       }
     ],
     "integrations": [
