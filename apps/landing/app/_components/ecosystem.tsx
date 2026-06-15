@@ -1,12 +1,23 @@
 import { LINKS } from './links'
-import { EcoLink } from './tracked-link'
+
+/** Append ecosystem UTM params to a cross-property URL. Pure; no analytics dep. */
+function withUtm(url: string, medium: string): string {
+  try {
+    const u = new URL(url)
+    u.searchParams.set('utm_source', 'agentskit')
+    u.searchParams.set('utm_medium', medium)
+    u.searchParams.set('utm_campaign', 'ecosystem')
+    return u.toString()
+  } catch {
+    return url
+  }
+}
 
 type Property = {
   name: string
   goal: string
   body: string
   href?: string
-  target?: string
   here?: boolean
 }
 
@@ -22,21 +33,18 @@ const PROPERTIES: Property[] = [
     goal: 'Drop in a ready-made agent',
     body: 'The shadcn for agents — copy-paste, installable agents.',
     href: LINKS.registry,
-    target: 'registry',
   },
   {
     name: 'AKOS',
     goal: 'Run agents in production',
     body: 'AgentsKit OS — the operating system for AI agents in production. Managed cloud or self-hosted.',
     href: LINKS.akos,
-    target: 'akos',
   },
   {
     name: 'Playbook',
     goal: 'Learn enterprise best practices',
     body: 'Methodology and patterns for building production agents.',
     href: LINKS.playbook,
-    target: 'playbook',
   },
 ]
 
@@ -72,10 +80,10 @@ export function Ecosystem() {
               )}
             </>
           )
-          return p.href && p.target ? (
-            <EcoLink key={p.name} href={p.href} target={p.target} placement="ecosystem-section" className={cardCls}>
+          return p.href ? (
+            <a key={p.name} href={withUtm(p.href, 'ecosystem-section')} className={cardCls}>
               {inner}
-            </EcoLink>
+            </a>
           ) : (
             <div key={p.name} className={cardCls}>
               {inner}

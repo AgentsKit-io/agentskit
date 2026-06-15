@@ -20,6 +20,10 @@ A 10 KB core. Twenty-four focused packages. Zero lock-in. Six formal contracts t
 
 <a href="https://www.producthunt.com/products/agentskit?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-agentskit" target="_blank" rel="noopener noreferrer"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1125539&theme=light" alt="AgentsKit — The most complete ecosystem to create AI agents | Product Hunt" width="250" height="54" /></a>
 
+<br />
+
+<img src="./.github/assets/demo.gif" alt="AgentsKit — streaming chat with tool calls, in a few lines" width="680" />
+
 </div>
 
 ---
