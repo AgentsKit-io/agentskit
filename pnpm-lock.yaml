@@ -5,14 +5,14 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  serialize-javascript: '>=7.0.5'
-  axios: '>=0.31.1'
-  fast-xml-builder: '>=1.1.7'
-  next: '>=16.2.6'
-  postcss: '>=8.5.15'
-  shell-quote: '>=1.8.4'
-  esbuild: '>=0.28.1'
-  form-data: '>=4.0.6'
+  serialize-javascript: '>=7.0.5 <8'
+  axios: '>=0.31.1 <2'
+  fast-xml-builder: '>=1.1.7 <2'
+  next: '>=16.2.6 <17'
+  postcss: '>=8.5.15 <9'
+  shell-quote: '>=1.8.4 <2'
+  esbuild: '>=0.28.1 <1'
+  form-data: '>=4.0.6 <5'
 
 importers:
 
@@ -130,10 +130,10 @@ importers:
         specifier: ^12.40.0
         version: 12.40.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       next:
-        specifier: '>=16.2.6'
+        specifier: '>=16.2.6 <17'
         version: 16.2.9(@opentelemetry/api@1.9.1)(@playwright/test@1.61.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       postcss:
-        specifier: '>=8.5.15'
+        specifier: '>=8.5.15 <9'
         version: 8.5.15
       react:
         specifier: ^19.2.7
@@ -485,7 +485,7 @@ importers:
   apps/landing:
     dependencies:
       next:
-        specifier: '>=16.2.6'
+        specifier: '>=16.2.6 <17'
         version: 16.2.9(@opentelemetry/api@1.9.1)(@playwright/test@1.61.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       posthog-js:
         specifier: ^1.386.8
@@ -528,7 +528,7 @@ importers:
         specifier: ^16.10.3
         version: 16.10.3(@tailwindcss/oxide@4.3.1)(@types/mdx@2.0.14)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(fumadocs-core@16.10.3(@mdx-js/mdx@3.1.1)(@types/estree-jsx@1.0.5)(@types/hast@3.0.4)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.18.0(react@19.2.7))(next@16.2.9(@opentelemetry/api@1.9.1)(@playwright/test@1.61.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3))(next@16.2.9(@opentelemetry/api@1.9.1)(@playwright/test@1.61.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(tailwindcss@4.3.1)
       next:
-        specifier: '>=16.2.6'
+        specifier: '>=16.2.6 <17'
         version: 16.2.9(@opentelemetry/api@1.9.1)(@playwright/test@1.61.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       posthog-js:
         specifier: ^1.386.8
@@ -559,7 +559,7 @@ importers:
         specifier: ^19.2.3
         version: 19.2.3(@types/react@19.2.17)
       postcss:
-        specifier: '>=8.5.15'
+        specifier: '>=8.5.15 <9'
         version: 8.5.15
       tailwindcss:
         specifier: ^4.3.1
@@ -3886,7 +3886,7 @@ packages:
     peerDependencies:
       '@remix-run/react': ^2
       '@sveltejs/kit': ^1 || ^2
-      next: '>=16.2.6'
+      next: '>=16.2.6 <17'
       nuxt: '>= 3'
       react: ^18 || ^19 || ^19.0.0-rc
       svelte: '>= 4'
@@ -3923,7 +3923,7 @@ packages:
     resolution: {integrity: sha512-jwkNcrTeafWxjmWq4AHBaptSqZiJkYU5adLC9QBSqeim0GcqDMgN5Ievh8OG1rJ6W3A4l1oiP7qr9CWxGuzu3w==}
     peerDependencies:
       '@sveltejs/kit': ^1 || ^2
-      next: '>=16.2.6'
+      next: '>=16.2.6 <17'
       nuxt: '>= 3'
       react: ^18 || ^19 || ^19.0.0-rc
       svelte: '>= 4'
@@ -4245,7 +4245,7 @@ packages:
     resolution: {integrity: sha512-3WrrOuZiyaaZPWiEt4G3+IffISVC9HYlWueJEBWED4ZH4aIAC2PnkdnuRrR94M+w6yGWn4AglWtJtBI8YqvgoA==}
     engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
     peerDependencies:
-      esbuild: '>=0.28.1'
+      esbuild: '>=0.28.1 <1'
 
   bytes-iec@3.1.1:
     resolution: {integrity: sha512-fey6+4jDK7TFtFg/klGSvNKJctyU7n2aQdnM+CO0ruLPbqqMOM8Tio0Pc+deqUeVKX1tL5DQep1zQ7+37aTAsA==}
@@ -4934,14 +4934,14 @@ packages:
   esbuild-plugin-solid@0.6.0:
     resolution: {integrity: sha512-V1FvDALwLDX6K0XNYM9CMRAnMzA0+Ecu55qBUT9q/eAJh1KIDsTMFoOzMSgyHqbOfvrVfO3Mws3z7TW2GVnIZA==}
     peerDependencies:
-      esbuild: '>=0.28.1'
+      esbuild: '>=0.28.1 <1'
       solid-js: '>= 1.0'
 
   esbuild-svelte@0.9.5:
     resolution: {integrity: sha512-16FUSj64aiS28CCxYeK3hVxCyU4PwGBSkeArawAtnWSV7l0Gc+frIOP88MNj8Q7tDAGyEJAHT6OpOvM24BG46w==}
     engines: {node: '>=18'}
     peerDependencies:
-      esbuild: '>=0.28.1'
+      esbuild: '>=0.28.1 <1'
       svelte: '>=4.2.1 <6'
 
   esbuild@0.28.1:
@@ -5221,7 +5221,7 @@ packages:
       algoliasearch: 5.x.x
       flexsearch: '*'
       lucide-react: '*'
-      next: '>=16.2.6'
+      next: '>=16.2.6 <17'
       react: ^19.2.0
       react-dom: ^19.2.0
       react-router: 7.x.x
@@ -5274,7 +5274,7 @@ packages:
       '@types/react': '*'
       fumadocs-core: ^16.7.0
       mdast-util-directive: '*'
-      next: '>=16.2.6'
+      next: '>=16.2.6 <17'
       react: ^19.2.0
       rolldown: '*'
       vite: 7.x.x || 8.x.x
@@ -5303,7 +5303,7 @@ packages:
       '@types/mdx': '*'
       '@types/react': '*'
       fumadocs-core: 16.10.3
-      next: '>=16.2.6'
+      next: '>=16.2.6 <17'
       react: ^19.2.0
       react-dom: ^19.2.0
     peerDependenciesMeta:
@@ -6636,7 +6636,7 @@ packages:
     engines: {node: '>= 18'}
     peerDependencies:
       jiti: '>=1.21.0'
-      postcss: '>=8.5.15'
+      postcss: '>=8.5.15 <9'
       tsx: ^4.8.1
       yaml: ^2.4.2
     peerDependenciesMeta:
@@ -7370,7 +7370,7 @@ packages:
     peerDependencies:
       '@microsoft/api-extractor': ^7.36.0
       '@swc/core': ^1
-      postcss: '>=8.5.15'
+      postcss: '>=8.5.15 <9'
       typescript: '>=4.5.0'
     peerDependenciesMeta:
       '@microsoft/api-extractor':
@@ -7572,7 +7572,7 @@ packages:
     peerDependencies:
       '@types/node': ^20.19.0 || >=22.12.0
       '@vitejs/devtools': ^0.1.18
-      esbuild: '>=0.28.1'
+      esbuild: '>=0.28.1 <1'
       jiti: '>=1.21.0'
       less: ^4.0.0
       sass: ^1.70.0
