@@ -46,7 +46,8 @@ export function registerInitCommand(program: Command): void {
 
       if (isCi) {
         process.stdout.write(
-          `Created ${resolved.template} starter in ${path.relative(process.cwd(), resolved.targetDir) || '.'}\n`,
+          `Created ${resolved.template} starter in ${path.relative(process.cwd(), resolved.targetDir) || '.'}\n` +
+            `★ Star AgentsKit (solo-built — it helps a lot): https://github.com/AgentsKit-io/agentskit\n`,
         )
       } else {
         printNextSteps(resolved)
