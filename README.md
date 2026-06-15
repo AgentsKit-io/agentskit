@@ -4,7 +4,7 @@
 
 **The agent toolkit JavaScript actually deserves.**
 
-A 10KB core. Nineteen focused packages. Zero lock-in. Six formal contracts that make every adapter, tool, skill, memory, retriever, and runtime substitutable.
+A 10 KB core. Twenty-four focused packages. Zero lock-in. Six formal contracts that make every adapter, tool, skill, memory, retriever, and runtime substitutable.
 
 [![npm](https://img.shields.io/npm/v/@agentskit/react?label=npm)](https://www.npmjs.com/package/@agentskit/react)
 [![bundle](https://img.shields.io/bundlephobia/minzip/@agentskit/react?label=react%20bundle)](https://bundlephobia.com/package/@agentskit/react)
@@ -26,6 +26,8 @@ A 10KB core. Nineteen focused packages. Zero lock-in. Six formal contracts that 
 
 *You started building an AI agent last week. You're three libraries deep, two of them fight each other, and nothing you wrote is reusable. This is for you.*
 
+> **⭐ If this saves you from gluing five libraries together, [star the repo](https://github.com/AgentsKit-io/agentskit).** AgentsKit is solo-built — a star is the cheapest signal that it's worth continuing, and it's what puts it in front of the next person.
+
 ## Why this exists
 
 **We don't need another framework. We need a kit.**
@@ -35,6 +37,21 @@ Building a real AI agent in JavaScript today means cobbling together five librar
 AgentsKit is the missing kit: small, contracted, composable. Start with one package, grow into a full stack, and stay in plain JavaScript the entire time.
 
 > [Origin story](./ORIGIN.md) for the long version. [Manifesto](./MANIFESTO.md) for the principles.
+
+---
+
+## Part of the AgentsKit ecosystem
+
+Four properties, one job each. Start where your goal is:
+
+| I want to… | Go to | What it is |
+|---|---|---|
+| **Build an agent from scratch** in JavaScript | **AgentsKit** — you're here | The toolkit: core, adapters, runtime, tools, memory, RAG, and UI for every framework |
+| **Drop in a ready-made agent** | [**Registry →**](https://registry.agentskit.io) | The shadcn for agents — copy-paste, installable agents |
+| **Run agents in production** | [**AKOS →**](https://akos.agentskit.io) | AgentsKit OS — the operating system for AI agents in production (managed cloud / self-hosted) |
+| **Learn enterprise best practices** | [**Playbook →**](https://playbook.agentskit.io) | Methodology and patterns for building production agents |
+
+> Grab what you want from **AgentsKit**, follow best practices in the **Playbook**, drop in ready-made agents from the **Registry**, and run them in production on **AKOS**.
 
 ---
 
@@ -124,9 +141,11 @@ We are honest about this:
 - **You require enterprise-grade observability today.** AgentsKit's observability layer is good but young; LangSmith/Arize/Helicone are more mature integrations right now.
 - **You need every package frozen today.** `@agentskit/core` is v1.0.0, but the rest of the ecosystem is still graduating package-by-package.
 
+> Full, honest head-to-head with **LangChain.js, Vercel AI SDK, Mastra, LlamaIndex.js, and assistant-ui** → [**AgentsKit vs alternatives**](https://www.agentskit.io/docs/compare).
+
 ---
 
-## The ecosystem
+## The packages
 
 Pick what you need. Every package works alone. Combinations work without glue code.
 
@@ -151,6 +170,30 @@ Pick what you need. Every package works alone. Combinations work without glue co
 | [`@agentskit/angular`](packages/angular) | Angular binding with Signals + RxJS | alpha |
 | [`@agentskit/cli`](packages/cli) | CLI: chat, init, run, ai, dev, doctor | beta |
 | [`@agentskit/templates`](packages/templates) | Authoring toolkit for scaffolding skills, tools, adapters | alpha |
+| [`@agentskit/mcp`](packages/mcp) | Expose AgentsKit tools as an MCP server (Claude Desktop, Cursor, Windsurf) | beta |
+| [`@agentskit/integrations`](packages/integrations) | Plug-and-play service integrations (one descriptor → tools, connectors, triggers, auth) | beta |
+| [`@agentskit/validation`](packages/validation) | Runtime JSON-Schema validation of tool-call arguments (Ajv) | beta |
+| [`@agentskit/eval-braintrust`](packages/eval-braintrust) | Braintrust scoring pipeline + CI regression alerts | beta |
+| [`@agentskit/observability-langfuse`](packages/observability-langfuse) | Langfuse tracing adapter (plan, tool, model, HITL spans) | beta |
+
+### What can you build?
+
+One kit, many shapes. Reach for only what the goal needs:
+
+| Goal | Reach for |
+|---|---|
+| Streaming chat UI in React | `react` + `adapters` |
+| The same chat in Vue / Svelte / Solid / Angular / React Native | the matching binding + `adapters` |
+| Terminal or CLI agent | `ink` + `cli` |
+| Headless autonomous agent (no UI) | `runtime` + `tools` + `skills` |
+| Swap LLM providers with one line | `adapters` (OpenAI, Anthropic, Gemini, Ollama, DeepSeek, Grok, …) |
+| Long-term, vector, or encrypted memory | `memory` |
+| RAG over your own docs | `rag` + `memory` |
+| Multi-agent delegation | `runtime` + `skills` |
+| Use your tools from Claude Desktop / Cursor | `mcp` |
+| Connect Slack, Teams, email, … | `integrations` |
+| Run untrusted or model-generated code | `sandbox` |
+| Trace, evaluate, and observe | `observability` + `eval` |
 
 The whole catalog is one `npx @agentskit/cli init` away.
 
@@ -280,7 +323,7 @@ Concretely, as of the Phase 1 release:
 - **Six formal contracts** pinned to ADRs 0001–0006
 - **74 documentation routes** including 13 copy-paste recipes and 3 migration guides
 
-See the [Phase 1 release notes](./docs/RELEASE-CORE-V1.md) for what shipped, and the [Master PRD](https://github.com/AgentsKit-io/agentskit/issues/113) for what's next.
+See the [Phase 1 release notes](./docs/RELEASE-CORE-V1.md) for what shipped, and the [roadmap burn-down](https://github.com/AgentsKit-io/agentskit/issues/774) for what's next.
 
 ---
 
