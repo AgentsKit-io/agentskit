@@ -1,0 +1,32 @@
+# Smithery configuration for @agentskit/mcp
+# Exposes AgentsKit tools as an MCP server over stdio, runnable with no setup.
+# Docs: https://smithery.ai/docs
+startCommand:
+  type: stdio
+  configSchema:
+    type: object
+    properties:
+      tools:
+        type: string
+        description: >-
+          Comma-separated primitive tools to expose
+          (fetch, search, filesystem, sqlite, shell). Defaults to "fetch,search".
+      fsRoot:
+        type: string
+        description: Root directory for the filesystem tool (required if tools includes "filesystem").
+      sqlite:
+        type: string
+        description: Database file for the sqlite tool (required if tools includes "sqlite").
+      allowShell:
+        type: boolean
+        default: false
+        description: Enable the shell tool, which runs commands. Off by default.
+  commandFunction: |
+    (config) => {
+      const args = ['-y', '@agentskit/mcp'];
+      if (config.tools) args.push('--tools', config.tools);
+      if (config.fsRoot) args.push('--fs-root', config.fsRoot);
+      if (config.sqlite) args.push('--sqlite', config.sqlite);
+      if (config.allowShell) args.push('--allow-shell');
+      return { command: 'npx', args };
+    }
