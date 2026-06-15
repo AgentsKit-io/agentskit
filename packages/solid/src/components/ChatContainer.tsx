@@ -22,7 +22,7 @@ export function ChatContainer(props: ChatContainerProps): JSX.Element {
 
   return (
     <div
-      ref={containerRef}
+      ref={(el) => (containerRef = el)}
       data-ak-chat-container=""
       data-testid="ak-chat-container"
       class={props.class}

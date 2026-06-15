@@ -27,16 +27,6 @@ interface BaseProps {
   [key: string]: unknown
 }
 
-function pass(props: BaseProps) {
-  const { testID, style, accessibilityLabel, accessibilityRole, accessibilityState, ...rest } = props
-  return {
-    'data-testid': testID,
-    'aria-label': accessibilityLabel,
-    'data-style': style ? JSON.stringify(style) : undefined,
-    rest,
-  }
-}
-
 export const View = forwardRef<HTMLDivElement, BaseProps>(function View(props, ref) {
   const { testID, style, accessibilityLabel, children, accessibilityRole, accessibilityState, ...rest } = props
   return (
