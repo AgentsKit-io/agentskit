@@ -1,4 +1,5 @@
 import { LINKS } from './links'
+import { CommunityLink } from './tracked-link'
 
 export function Header() {
   return (
@@ -11,13 +12,14 @@ export function Header() {
         <nav className="flex items-center gap-6 text-sm text-[var(--color-fg-soft)]">
           <a href={LINKS.docs} className="hover:text-[var(--color-fg)]">Docs</a>
           <a href={LINKS.roadmap} className="hover:text-[var(--color-fg)]">Roadmap</a>
-          <a href={LINKS.discord} className="hover:text-[var(--color-fg)]">Discord</a>
-          <a
+          <CommunityLink href={LINKS.discord} target="discord" className="hover:text-[var(--color-fg)]">Discord</CommunityLink>
+          <CommunityLink
             href={LINKS.github}
+            target="github"
             className="rounded-md border border-[var(--color-border)] px-3 py-1.5 text-[var(--color-fg)] hover:border-[var(--color-accent)] hover:text-[var(--color-accent-soft)]"
           >
             GitHub
-          </a>
+          </CommunityLink>
         </nav>
       </div>
     </header>

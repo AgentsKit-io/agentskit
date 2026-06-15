@@ -1,5 +1,7 @@
 # @agentskit/mcp
 
+[![stability](https://img.shields.io/badge/stability-alpha-orange)](../../docs/STABILITY.md)
+
 Expose AgentsKit tools as an [MCP](https://modelcontextprotocol.io) server — use
 them from Claude Desktop, Cursor, Windsurf, or any MCP host.
 

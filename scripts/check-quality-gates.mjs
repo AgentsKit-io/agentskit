@@ -15,6 +15,10 @@ const root = process.cwd()
 
 const GATES = [
   ['core zero-dependency contract', 'check-core-no-deps.mjs'],
+  ['stability-tier integrity', 'check-stability-tier.mjs'],
+  ['README stability badges', 'check-readme-badge.mjs'],
+  ['coverage floor per tier', 'check-coverage-floor.mjs'],
+  ['promotion RFC for stable', 'check-promotion-rfc.mjs'],
   ['typed errors (no bare throw)', 'check-no-bare-throw.mjs'],
   ['no explicit any', 'check-no-any.mjs'],
   ['named exports only', 'check-named-exports.mjs'],

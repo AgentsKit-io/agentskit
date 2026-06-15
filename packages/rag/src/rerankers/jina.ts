@@ -1,3 +1,4 @@
+import { RagError, RagErrorCodes } from '../errors'
 import type { RetrievedDocument } from '@agentskit/core'
 import type { RerankFn } from '../rerank'
 
@@ -36,7 +37,7 @@ export function jinaReranker(options: JinaRerankerOptions): RerankFn {
     })
     if (!response.ok) {
       const text = await response.text()
-      throw new Error(`jina rerank: ${response.status} ${text.slice(0, 200)}`)
+      throw new RagError({ code: RagErrorCodes.AK_RAG_RERANK_FAILED, message: `jina rerank: ${response.status} ${text.slice(0, 200)}` })
     }
     const data = await response.json() as JinaRerankResponse
     const ranked: RetrievedDocument[] = (data.results ?? [])

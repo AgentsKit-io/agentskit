@@ -1,4 +1,5 @@
 import { LINKS } from './links'
+import { CommunityLink } from './tracked-link'
 import { counts } from '../../lib/ecosystem-stats'
 
 export function Hero() {
@@ -22,12 +23,13 @@ export function Hero() {
         >
           Get started
         </a>
-        <a
+        <CommunityLink
           href={LINKS.github}
+          target="github"
           className="rounded-md border border-[var(--color-border)] px-5 py-3 text-sm font-medium hover:border-[var(--color-accent)]"
         >
           Star on GitHub →
-        </a>
+        </CommunityLink>
       </div>
     </section>
   )

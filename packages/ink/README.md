@@ -6,7 +6,7 @@ Build terminal AI chat interfaces with the exact same API as `@agentskit/react`.
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/ink)](https://www.npmjs.com/package/@agentskit/ink)
 [![bundle size](https://img.shields.io/bundlejs/size/@agentskit/ink?label=bundle)](https://bundlejs.com/?q=@agentskit/ink)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](../../LICENSE)
-[![stability](https://img.shields.io/badge/stability-stable-brightgreen)](../../docs/STABILITY.md)
+[![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `terminal` · `cli` · `ink` · `tui` · `chat-ui`

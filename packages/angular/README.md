@@ -6,7 +6,7 @@ Angular 18+ service (Signal + RxJS) + headless chat components. Same `ChatReturn
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/angular)](https://www.npmjs.com/package/@agentskit/angular)
 [![bundle size](https://img.shields.io/bundlejs/size/@agentskit/angular?label=bundle)](https://bundlejs.com/?q=@agentskit/angular)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](../../LICENSE)
-[![stability](https://img.shields.io/badge/stability-stable-brightgreen)](../../docs/STABILITY.md)
+[![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `angular` · `signals` · `rxjs` · `chat` · `streaming`
@@ -30,32 +30,46 @@ Peers: `@angular/core ^18 || ^19 || ^20`, `rxjs ^7`.
 
 ```ts
 import { Component, inject } from '@angular/core'
-import { AgentskitChat, ChatContainerComponent, MessageComponent, InputBarComponent } from '@agentskit/angular'
+import { AgentskitChat, ChatContainerComponent, MessageComponent } from '@agentskit/angular'
 import { anthropic } from '@agentskit/adapters'
 
 @Component({
   standalone: true,
-  imports: [ChatContainerComponent, MessageComponent, InputBarComponent],
+  imports: [ChatContainerComponent, MessageComponent],
   template: `
     <ak-chat-container>
-      @for (m of chat.messages(); track m.id) {
+      @for (m of chat.state()?.messages ?? []; track m.id) {
         <ak-message [message]="m" />
       }
-      <ak-input-bar [chat]="chat" />
     </ak-chat-container>
+    <form (submit)="$event.preventDefault(); chat.send(chat.state()?.input ?? '')">
+      <input [value]="chat.state()?.input ?? ''" (input)="chat.setInput($any($event.target).value)" />
+    </form>
   `,
 })
 export class ChatWidget {
-  chat = inject(AgentskitChat).configure({
-    adapter: anthropic({ apiKey: process.env.NG_APP_ANTHROPIC_API_KEY!, model: 'claude-sonnet-4-6' }),
-  })
+  protected readonly chat = inject(AgentskitChat)
+
+  constructor() {
+    this.chat.init({
+      adapter: anthropic({ apiKey: process.env['NG_APP_ANTHROPIC_API_KEY']!, model: 'claude-sonnet-4-6' }),
+    })
+  }
 }
 ```
 
+The headless components compile in **JIT** (inline templates). Most Angular apps
+are JIT-capable in dev/test; for fully AOT-only prod builds, render via the
+`AgentskitChat` service + your own templates (an `ng-packagr`/AOT build of these
+components is tracked for a future release).
+
+`init(config)` wires the controller and returns a `ChatReturn` snapshot; read live
+state from the `state` `Signal` (`chat.state()`) or the `stream$` `Observable`.
+
 ## API
 
-- `AgentskitChat` service — DI-friendly; `configure(config)` returns `ChatReturn` with `Signal` state + RxJS events.
-- Headless components: `<ak-chat-container>`, `<ak-message>`, `<ak-input-bar>`, `<ak-tool-call-view>`, `<ak-tool-confirmation>`, `<ak-thinking-indicator>`.
+- `AgentskitChat` service — DI-friendly. `init(config)` returns a `ChatReturn` snapshot and starts the session; `state: Signal<ChatState | null>` and `stream$: Observable<ChatState | null>` expose live state. Actions: `send(text)`, `setInput(v)`, `stop`, `retry`, `clear`, `approve`, `deny`, `edit`, `regenerate`, `destroy`.
+- Headless standalone components at parity with `@agentskit/react` (`data-ak-*` only): `ChatContainerComponent` (`<ak-chat-container>`), `MessageComponent`, `InputBarComponent`, `MarkdownComponent`, `CodeBlockComponent`, `ToolCallViewComponent`, `ThinkingIndicatorComponent`, `ToolConfirmationComponent`.
 
 ## Ecosystem
 

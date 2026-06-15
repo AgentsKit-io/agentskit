@@ -6,7 +6,7 @@ Svelte 5 store + headless chat components. Same `ChatReturn` contract every Agen
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/svelte)](https://www.npmjs.com/package/@agentskit/svelte)
 [![bundle size](https://img.shields.io/bundlejs/size/@agentskit/svelte?label=bundle)](https://bundlejs.com/?q=@agentskit/svelte)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](../../LICENSE)
-[![stability](https://img.shields.io/badge/stability-stable-brightgreen)](../../docs/STABILITY.md)
+[![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `svelte` · `svelte5` · `runes` · `chat` · `streaming`
@@ -31,9 +31,6 @@ Peers: `svelte ^5`.
 ```svelte
 <script lang="ts">
   import { createChatStore } from '@agentskit/svelte'
-  import ChatContainer from '@agentskit/svelte/ChatContainer.svelte'
-  import Message from '@agentskit/svelte/Message.svelte'
-  import InputBar from '@agentskit/svelte/InputBar.svelte'
   import { anthropic } from '@agentskit/adapters'
 
   const chat = createChatStore({
@@ -41,18 +38,23 @@ Peers: `svelte ^5`.
   })
 </script>
 
-<ChatContainer>
-  {#each chat.messages as m (m.id)}
-    <Message message={m} />
+<div data-ak-chat>
+  {#each $chat.messages as m (m.id)}
+    <p data-ak-role={m.role}>{m.content}</p>
   {/each}
-  <InputBar {chat} />
-</ChatContainer>
+  <form on:submit|preventDefault={() => chat.send($chat.input)}>
+    <input value={$chat.input} on:input={(e) => chat.setInput(e.currentTarget.value)} />
+  </form>
+</div>
 ```
+
+`createChatStore` returns a `Readable<ChatState>` — subscribe with `$chat` for
+state; call actions (`chat.send(...)`) directly on the store object.
 
 ## API
 
-- `createChatStore(config)` — returns `ChatReturn` with reactive values via Svelte 5 runes.
-- Headless components (all `.svelte`): `ChatContainer`, `Message`, `InputBar`, `ToolCallView`, `ToolConfirmation`, `ThinkingIndicator`.
+- `createChatStore(config)` — returns a `Readable<ChatState>` (`$chat.messages`, `$chat.status`, `$chat.input`) plus actions `send(text)`, `setInput(v)`, `stop`, `retry`, `clear`, `approve`, `deny`, `edit`, `regenerate`, `destroy`.
+- Headless components at parity with `@agentskit/react` (Svelte 5, `data-ak-*` only): `ChatContainer`, `Message`, `InputBar`, `Markdown`, `CodeBlock`, `ToolCallView`, `ThinkingIndicator`, `ToolConfirmation`.
 
 ## Ecosystem
 

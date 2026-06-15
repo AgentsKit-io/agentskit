@@ -4,6 +4,7 @@ import { Inter, JetBrains_Mono, Space_Grotesk } from 'next/font/google'
 import type { ReactNode } from 'react'
 import type { Metadata } from 'next'
 import Script from 'next/script'
+import { PostHogProvider } from './posthog-provider'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
@@ -17,7 +18,7 @@ export const metadata: Metadata = {
   title: { default: 'AgentsKit Registry — ready-to-use AI agents', template: '%s — AgentsKit Registry' },
   description: DESCRIPTION,
   openGraph: { title: 'AgentsKit Registry', description: DESCRIPTION, url: SITE_URL, siteName: 'AgentsKit Registry' },
-  twitter: { card: 'summary_large_image', title: 'AgentsKit Registry', description: DESCRIPTION },
+  twitter: { card: 'summary_large_image', title: 'AgentsKit Registry', description: DESCRIPTION, creator: '@agentskit' },
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -28,7 +29,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       suppressHydrationWarning
     >
       <body className="flex min-h-screen flex-col overflow-x-clip font-sans">
-        <RootProvider>{children}</RootProvider>
+        <PostHogProvider>
+          <RootProvider>{children}</RootProvider>
+        </PostHogProvider>
         <Script src="https://www.agentskit.io/ecosystem-bar.js" strategy="afterInteractive" data-current="registry" />
       </body>
     </html>

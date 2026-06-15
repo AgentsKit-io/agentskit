@@ -6,7 +6,7 @@ Give your agents real-world capabilities without writing a single integration.
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/tools)](https://www.npmjs.com/package/@agentskit/tools)
 [![bundle size](https://img.shields.io/bundlejs/size/@agentskit/tools?label=bundle)](https://bundlejs.com/?q=@agentskit/tools)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](../../LICENSE)
-[![stability](https://img.shields.io/badge/stability-stable-brightgreen)](../../docs/STABILITY.md)
+[![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `function-calling` · `tool-use` · `mcp` · `web-search` · `filesystem`

@@ -12,6 +12,8 @@ metadata:
 
 Gates:
 - `check-core-no-deps` — core has zero runtime deps
+- `check-stability-tier` — every pkg declares a valid tier (alpha|beta|stable) matching its `docs/STABILITY.md` map row
+- `check-readme-badge` — every pkg README badge tier+color matches its declared `agentskit.stability`
 - `check-no-bare-throw` — use `AgentsKitError` subclasses, not `throw new Error`
 - `check-no-any` — no explicit `any` in package src
 - `check-named-exports` — no `export default` in package src

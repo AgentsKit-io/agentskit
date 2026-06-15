@@ -1,4 +1,6 @@
 export { createRAG } from './rag'
+export { RagError, RagErrorCodes } from './errors'
+export type { RagErrorCode } from './errors'
 export { chunkText } from './chunker'
 export type { RAGConfig, InputDocument, RAG } from './types'
 export type { ChunkOptions } from './chunker'

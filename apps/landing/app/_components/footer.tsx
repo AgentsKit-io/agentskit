@@ -1,6 +1,8 @@
 import { LINKS } from './links'
+import { CommunityLink, EcoLink } from './tracked-link'
 
 const YEAR = new Date().getFullYear()
+const linkCls = 'hover:text-[var(--color-fg)]'
 
 export function Footer() {
   return (
@@ -11,16 +13,16 @@ export function Footer() {
           <span>AgentsKit · MIT licensed · {YEAR}</span>
         </div>
         <nav className="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm text-[var(--color-fg-soft)]">
-          <a href={LINKS.docs} className="hover:text-[var(--color-fg)]">Docs</a>
-          <a href={LINKS.github} className="hover:text-[var(--color-fg)]">GitHub</a>
-          <a href={LINKS.discord} className="hover:text-[var(--color-fg)]">Discord</a>
-          <a href={LINKS.npm} className="hover:text-[var(--color-fg)]">npm</a>
-          <a href={LINKS.manifesto} className="hover:text-[var(--color-fg)]">Manifesto</a>
-          <a href={LINKS.roadmap} className="hover:text-[var(--color-fg)]">Roadmap</a>
+          <a href={LINKS.docs} className={linkCls}>Docs</a>
+          <CommunityLink href={LINKS.github} target="github" className={linkCls}>GitHub</CommunityLink>
+          <CommunityLink href={LINKS.discord} target="discord" className={linkCls}>Discord</CommunityLink>
+          <CommunityLink href={LINKS.npm} target="npm" className={linkCls}>npm</CommunityLink>
+          <a href={LINKS.manifesto} className={linkCls}>Manifesto</a>
+          <a href={LINKS.roadmap} className={linkCls}>Roadmap</a>
           <span aria-hidden className="text-[var(--color-border)]">·</span>
-          <a href={LINKS.playbook} className="hover:text-[var(--color-fg)]">Playbook</a>
-          <a href={LINKS.registry} className="hover:text-[var(--color-fg)]">Registry</a>
-          <a href={LINKS.akos} className="hover:text-[var(--color-fg)]">AKOS</a>
+          <EcoLink href={LINKS.playbook} target="playbook" placement="footer" className={linkCls}>Playbook</EcoLink>
+          <EcoLink href={LINKS.registry} target="registry" placement="footer" className={linkCls}>Registry</EcoLink>
+          <EcoLink href={LINKS.akos} target="akos" placement="footer" className={linkCls}>AKOS</EcoLink>
         </nav>
       </div>
     </footer>

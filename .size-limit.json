@@ -118,5 +118,35 @@
     "path": "packages/vue/dist/index.js",
     "limit": "5 KB",
     "gzip": true
+  },
+  {
+    "name": "@agentskit/validation (ESM)",
+    "path": "packages/validation/dist/index.js",
+    "limit": "5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/mcp (ESM)",
+    "path": "packages/mcp/dist/index.js",
+    "limit": "10 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/integrations (ESM)",
+    "path": "packages/integrations/dist/index.js",
+    "limit": "30 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/observability-langfuse (ESM)",
+    "path": "packages/observability-langfuse/dist/index.js",
+    "limit": "8 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/eval-braintrust (ESM)",
+    "path": "packages/eval-braintrust/dist/index.js",
+    "limit": "10 KB",
+    "gzip": true
   }
 ]

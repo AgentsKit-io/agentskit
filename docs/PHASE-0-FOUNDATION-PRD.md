@@ -1,5 +1,9 @@
 # AgentsKit — Phase 0: Foundation Hardening PRD
 
+> **Status: historical planning artifact.** Written in the 14-package / Phase 0–1 era;
+> package counts, tiers, and "future" bindings here are point-in-time. Living sources:
+> [STABILITY.md](./STABILITY.md) (tier map) + [V1-READINESS-TRACKER.md](./V1-READINESS-TRACKER.md).
+
 > Pre-roadmap. Before executing the 97 Master PRD issues (#113), solidify technical bases, narrative, and public infrastructure. 4–6 weeks of focused work.
 >
 > **Decisions already made:**

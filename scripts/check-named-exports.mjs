@@ -23,7 +23,9 @@ function walk(dir, out = []) {
     if (entry.name === 'node_modules' || entry.name === 'dist' || entry.name.startsWith('.')) continue
     const abs = join(dir, entry.name)
     if (entry.isDirectory()) walk(abs, out)
-    else if (entry.isFile() && /\.tsx?$/.test(entry.name)) out.push(abs)
+    // .d.ts are declarations — `export default` is legitimate there (e.g.
+    // Svelte component types `.svelte.d.ts`, ambient module shims).
+    else if (entry.isFile() && /\.tsx?$/.test(entry.name) && !entry.name.endsWith('.d.ts')) out.push(abs)
   }
   return out
 }

@@ -1,5 +1,7 @@
 # `@agentskit/eval-braintrust`
 
+[![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
+
 Braintrust scoring pipeline for AgentsKit. Ships **8 scorers** in two families and a thin runner that uploads results to a [Braintrust](https://www.braintrust.dev/) experiment.
 
 - **Quality scorers** — task success, factual grounding, citation correctness, tool-arg validity

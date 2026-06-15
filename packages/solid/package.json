@@ -51,18 +51,24 @@
     "solid-js": "^1.8.0"
   },
   "devDependencies": {
+    "@solidjs/testing-library": "^0.8.10",
+    "@testing-library/jest-dom": "^6.9.1",
     "@types/node": "^25.9.2",
+    "babel-preset-solid": "^1.9.12",
+    "esbuild-plugin-solid": "^0.6.0",
+    "happy-dom": "^20.10.2",
     "solid-js": "^1.9.13",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
+    "vite-plugin-solid": "^2.11.12",
     "vitest": "^4.1.8"
   },
   "publishConfig": {
     "access": "public"
   },
   "agentskit": {
-    "stability": "alpha",
-    "stabilityNote": "Solid binding — same contract as @agentskit/react."
+    "stability": "beta",
+    "stabilityNote": "Solid binding with full headless component parity with @agentskit/react — same ChatReturn contract and data-ak-* attributes."
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/packages/solid",
