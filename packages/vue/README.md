@@ -6,7 +6,7 @@ Vue 3 composable + headless chat components. Same `ChatReturn` contract every Ag
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/vue)](https://www.npmjs.com/package/@agentskit/vue)
 [![bundle size](https://img.shields.io/bundlejs/size/@agentskit/vue?label=bundle)](https://bundlejs.com/?q=@agentskit/vue)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](../../LICENSE)
-[![stability](https://img.shields.io/badge/stability-stable-brightgreen)](../../docs/STABILITY.md)
+[![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `vue` · `vue3` · `composable` · `chat` · `streaming`
@@ -30,7 +30,7 @@ Peers: `vue ^3.4`.
 
 ```vue
 <script setup lang="ts">
-import { useChat, ChatContainer, Message, InputBar } from '@agentskit/vue'
+import { useChat } from '@agentskit/vue'
 import { anthropic } from '@agentskit/adapters'
 
 const chat = useChat({
@@ -39,17 +39,26 @@ const chat = useChat({
 </script>
 
 <template>
-  <ChatContainer>
-    <Message v-for="m in chat.messages.value" :key="m.id" :message="m" />
-    <InputBar :chat="chat" />
-  </ChatContainer>
+  <div data-ak-chat>
+    <p v-for="m in chat.messages" :key="m.id" :data-ak-role="m.role">{{ m.content }}</p>
+    <form @submit.prevent="chat.send(chat.input)">
+      <input
+        :value="chat.input"
+        :disabled="chat.status === 'streaming'"
+        @input="(e) => chat.setInput((e.target as HTMLInputElement).value)"
+      />
+    </form>
+  </div>
 </template>
 ```
 
+State is `reactive` — read `chat.messages` / `chat.input` directly (no `.value`).
+
 ## API
 
-- `useChat(config)` — composable returning `ChatReturn` (messages, status, send, retry, stop, clear, approve, deny, edit).
-- Headless components: `<ChatContainer>`, `<Message>`, `<InputBar>`, `<ToolCallView>`, `<ToolConfirmation>`, `<ThinkingIndicator>`.
+- `useChat(config)` — composable returning `ChatReturn`: reactive `messages`, `status`, `input`, `error`, `usage` + actions `send(text)`, `setInput(v)`, `stop`, `retry`, `clear`, `approve`, `deny`, `edit`, `regenerate`.
+- `<ChatContainer :config>` — batteries-included headless container.
+- Headless primitives at parity with `@agentskit/react`: `Message`, `InputBar`, `Markdown`, `CodeBlock`, `ToolCallView`, `ThinkingIndicator`, `ToolConfirmation` — each emits `data-ak-*` only.
 
 ## Ecosystem
 

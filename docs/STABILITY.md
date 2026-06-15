@@ -45,27 +45,37 @@ Each package's `README.md` displays a corresponding badge at the top.
 
 ## Current tier map
 
+This table is the single source of truth. A gate (`check-stability-tier`) asserts
+every package's `package.json` tier matches its row here, and `check-readme-badge`
+asserts each README badge matches too — so this table, the package metadata, and
+the badges can never drift apart.
+
 | Package | Tier | Rationale |
 |---|---|---|
-| `@agentskit/core` | `stable` | Sacred package. Contract-stable per ADRs 0001–0006 |
-| `@agentskit/adapters` | `beta` | Adapter contract is stable; provider coverage and helper APIs are still settling |
-| `@agentskit/runtime` | `beta` | ReAct loop is solid; topology and durable APIs are still evolving |
-| `@agentskit/tools` | `beta` | Core tools are usable in production; integrations and MCP ergonomics are still evolving |
-| `@agentskit/memory` | `beta` | Main backends are working; vector-store surface is still sharpening |
-| `@agentskit/skills` | `beta` | Skill contract is proven; marketplace resolver and persona catalog are still growing |
+| `@agentskit/core` | `stable` | Sacred package. Contract-stable per ADRs 0001–0006; the only package past v1.0 |
+| `@agentskit/adapters` | `beta` | Adapter contract is stable; promotion to stable pending an API-freeze RFC + 1.0.0 bump |
+| `@agentskit/runtime` | `beta` | ReAct loop is solid; topology and durable APIs settling toward an RFC freeze |
+| `@agentskit/tools` | `beta` | Core tools usable in production; integrations and MCP ergonomics still evolving |
+| `@agentskit/memory` | `beta` | Main backends working; vector-store surface sharpening toward freeze |
+| `@agentskit/skills` | `beta` | Skill contract proven; strongest stable candidate, pending promotion RFC |
 | `@agentskit/observability` | `beta` | Observer contract stable; integration coverage growing |
-| `@agentskit/react` | `beta` | Production-ready, but the shared `ChatReturn` surface is still tracked toward 1.0 |
-| `@agentskit/ink` | `beta` | Terminal UI is strong; parity and keyboard UX are still being refined |
-| `@agentskit/cli` | `beta` | Core commands are useful now; template gallery and doctor autofixes are still expanding |
-| `@agentskit/rag` | `alpha` | Retrieval pipeline is promising, but chunking and reranking defaults are still moving |
-| `@agentskit/eval` | `alpha` | Replay and suite concepts are in place; formats and reporters are not frozen yet |
-| `@agentskit/sandbox` | `alpha` | E2B works; fallback and policy APIs are still maturing |
-| `@agentskit/vue` | `alpha` | Early framework binding, still closing parity with React |
-| `@agentskit/svelte` | `alpha` | Early framework binding, still closing parity with React |
-| `@agentskit/solid` | `alpha` | Early framework binding, still closing parity with React |
-| `@agentskit/react-native` | `alpha` | Early mobile binding, still building platform depth |
-| `@agentskit/angular` | `alpha` | Early Angular binding, still shaping the final Signals + RxJS surface |
-| `@agentskit/templates` | `alpha` | Useful authoring toolkit, but scaffolding surface is still expanding |
+| `@agentskit/react` | `beta` | Production-ready; the shared `ChatReturn` surface is still tracked toward 1.0 |
+| `@agentskit/ink` | `beta` | Terminal UI strong; parity and keyboard UX still being refined |
+| `@agentskit/cli` | `beta` | Core commands useful now; programmatic surface large and still settling |
+| `@agentskit/rag` | `beta` | Retriever contract (ADR 0004) shipped; chunking/reranking defaults still moving |
+| `@agentskit/eval` | `beta` | Replay + suite concepts in place; multi-subpath surface not frozen yet |
+| `@agentskit/sandbox` | `beta` | E2B backend works; fallback and policy APIs still maturing |
+| `@agentskit/templates` | `beta` | Authoring toolkit usable; scaffolding surface still expanding |
+| `@agentskit/validation` | `beta` | `ArgsValidator` contract stable (ADR-0008); Ajv-backed, tiny surface |
+| `@agentskit/eval-braintrust` | `beta` | Scorer API stable; Braintrust SDK peer-resolved at runtime |
+| `@agentskit/observability-langfuse` | `beta` | Adapter contract stable; Langfuse SDK peer-resolved at runtime |
+| `@agentskit/integrations` | `alpha` | Descriptor + registry contract in place; catalog and OSS/AKOS split still being decided |
+| `@agentskit/mcp` | `alpha` | MCP server bridge works; export + CLI surface still settling |
+| `@agentskit/vue` | `beta` | First binding at full headless component parity with React; `useChat` + 7 primitives, 100% component coverage |
+| `@agentskit/svelte` | `beta` | At headless component parity with React (Svelte 5 runes); `createChatStore` + 8 components |
+| `@agentskit/solid` | `beta` | At headless component parity with React (Solid JSX, `data-ak-*`); `useChat` + 8 components, 100% component coverage |
+| `@agentskit/react-native` | `beta` | Headless component parity with React via RN primitives (`testID`-keyed); `useChat` + 8 components, 100% component coverage |
+| `@agentskit/angular` | `beta` | Service + 8 headless standalone components at React parity (JIT; AOT/ng-packagr build tracked); Signals + RxJS surface |
 
 ## Until v1.0.0
 
@@ -75,7 +85,10 @@ Reaching v1.0.0 means:
 
 - All six core contracts have at least one external consumer outside our repo
 - The CI gates (bundle size, coverage) have held for two full sprints without regression
-- A public commitment to the semver discipline above is documented and honored
+- A public commitment to the semver discipline above is documented and honored — see [`SEMVER-COMMITMENT.md`](./SEMVER-COMMITMENT.md)
+
+Progress against these three criteria + cross-framework binding parity is tracked
+in [`V1-READINESS-TRACKER.md`](./V1-READINESS-TRACKER.md).
 
 ## How to change a tier
 

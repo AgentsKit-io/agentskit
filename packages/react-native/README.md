@@ -6,7 +6,7 @@ React Native / Expo hook + headless chat components. Metro-safe (no DOM deps). S
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/react-native)](https://www.npmjs.com/package/@agentskit/react-native)
 [![bundle size](https://img.shields.io/bundlejs/size/@agentskit/react-native?label=bundle)](https://bundlejs.com/?q=@agentskit/react-native)
 [![license](https://img.shields.io/badge/license-MIT-blue.svg)](../../LICENSE)
-[![stability](https://img.shields.io/badge/stability-stable-brightgreen)](../../docs/STABILITY.md)
+[![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `react-native` · `expo` · `mobile` · `chat` · `streaming`
@@ -15,8 +15,12 @@ React Native / Expo hook + headless chat components. Metro-safe (no DOM deps). S
 
 - **One contract, every framework** — `useChat` returns the exact same shape as the web React / Vue / Svelte / Solid / Angular / Ink bindings.
 - **Metro-safe** — no DOM APIs; works on iOS, Android, and Expo out of the box.
-- **Native components** — `<ChatContainer>` wraps `ScrollView`, `<InputBar>` wraps `TextInput`, all theme-aware.
+- **Native components** — `<ChatContainer>` wraps `ScrollView`, `<InputBar>` wraps `TextInput`; 8 headless components at full parity with `@agentskit/react`.
 - **Streaming, tools, HITL** — all core features work identically to `@agentskit/react`.
+
+### Headless on React Native
+
+React Native has no DOM, so there are no `data-ak-*` attributes. The web-parity story is carried by **`testID`** props (`ak-message`, `ak-input`, `ak-send`, …): the same stable hooks the web components expose via `data-ak-*`, surfaced through RN's native `testID` (Appium / e2e). Role and status are conveyed via `accessibilityLabel`. No `StyleSheet`/colors are baked in — pass your own through the optional `style` prop where a host primitive accepts it.
 
 ## Install
 
@@ -48,8 +52,16 @@ export function Chat() {
 
 ## API
 
-- `useChat(config)` — hook returning `ChatReturn` (DOM-free).
-- Headless components: `ChatContainer`, `Message`, `InputBar`, `ToolCallView`, `ToolConfirmation`, `ThinkingIndicator`.
+- `useChat(config)` — hook returning `ChatReturn` (DOM-free, `useSyncExternalStore`).
+- Headless components (RN primitives, `testID`-keyed):
+  - `ChatContainer` — `ScrollView` wrapper with auto-scroll to end.
+  - `Message` — `message` prop → `View` + `Text`; role/status via `accessibilityLabel`.
+  - `InputBar` — `chat: ChatReturn` → `TextInput` + Send `Pressable`; sends on submit, disabled while empty or streaming.
+  - `Markdown` — `content` + `streaming` → `Text`.
+  - `CodeBlock` — `code`, `language`, `copyable`, `onCopy` → `View` + `Text` + optional copy `Pressable`.
+  - `ToolCallView` — `toolCall`; collapsible details via a toggle `Pressable`.
+  - `ThinkingIndicator` — `visible` + `label`; renders `null` when not visible.
+  - `ToolConfirmation` — `toolCall`, `onApprove`, `onDeny`; renders `null` unless `status === 'requires_confirmation'`.
 
 ## Ecosystem
 

@@ -25,3 +25,4 @@ An RFC may grow into an ADR once the decision is committed and implemented.
 | [0001](./0001-i18n-strategy.md) | Documentation i18n strategy | Proposed |
 | [0002](./0002-agent-registry-and-ecosystem-cohesion.md) | Agent Registry & ecosystem cohesion | Accepted |
 | [0003](./0003-oss-akos-boundary.md) | OSS / AKOS product boundary | Accepted |
+| [0004](./0004-framework-binding-stability.md) | Framework binding stability (beta → stable) | Proposed |

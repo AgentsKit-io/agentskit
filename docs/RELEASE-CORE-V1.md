@@ -1,6 +1,6 @@
 # AgentsKit `@agentskit/core` — v1.0.0
 
-> Release cut: 2026-04-15.
+> Release cut: 2026-04-15. (Historical release note — the version table + tier list below are point-in-time; see [V1-READINESS-TRACKER.md](./V1-READINESS-TRACKER.md) for current state.)
 
 After Phase 0 (foundation hardening) and Phase 1 (developer experience + runtime features), the core package reaches v1.
 

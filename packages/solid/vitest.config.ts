@@ -1,5 +1,9 @@
+import solidPlugin from 'vite-plugin-solid'
 import { createTestConfig } from '../../vitest.shared'
-import { defineConfig } from 'vitest/config'
+import { defineConfig, mergeConfig } from 'vitest/config'
 
-// @agentskit/solid — lines threshold: 60.
-export default defineConfig(createTestConfig({ linesThreshold: 60 }))
+// @agentskit/solid — lines threshold: 70 (beta floor); JSX via vite-plugin-solid.
+export default mergeConfig(
+  defineConfig(createTestConfig({ linesThreshold: 70, environment: 'happy-dom' })),
+  defineConfig({ plugins: [solidPlugin()] }),
+)

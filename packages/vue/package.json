@@ -64,8 +64,8 @@
     "access": "public"
   },
   "agentskit": {
-    "stability": "alpha",
-    "stabilityNote": "Vue 3 binding — same contract as @agentskit/react."
+    "stability": "beta",
+    "stabilityNote": "useChat (ChatReturn contract) + full headless component parity with @agentskit/react; 100% component coverage."
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/packages/vue",

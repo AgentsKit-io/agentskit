@@ -1,3 +1,4 @@
+import { RagError, RagErrorCodes } from '../errors'
 import type { RetrievedDocument } from '@agentskit/core'
 import type { RerankFn } from '../rerank'
 
@@ -37,7 +38,7 @@ export function voyageReranker(options: VoyageRerankerOptions): RerankFn {
     })
     if (!response.ok) {
       const text = await response.text()
-      throw new Error(`voyage rerank: ${response.status} ${text.slice(0, 200)}`)
+      throw new RagError({ code: RagErrorCodes.AK_RAG_RERANK_FAILED, message: `voyage rerank: ${response.status} ${text.slice(0, 200)}` })
     }
     const data = await response.json() as VoyageRerankResponse
     const ranked: RetrievedDocument[] = (data.data ?? [])

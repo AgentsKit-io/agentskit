@@ -1,5 +1,9 @@
 # AgentsKit — Master PRD & Roadmap
 
+> **Status: historical planning artifact.** Written in the 14-package / Phase 0–1 era;
+> package counts, tiers, and "future" bindings here are point-in-time. Living sources:
+> [STABILITY.md](./STABILITY.md) (tier map) + [V1-READINESS-TRACKER.md](./V1-READINESS-TRACKER.md).
+
 > Base document consolidating ~160 ideas from the brainstorm into a phased roadmap.
 > Each item is an **issue seed** — should become an independent GitHub issue at execution time.
 

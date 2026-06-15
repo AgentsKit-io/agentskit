@@ -1,8 +1,14 @@
 # Ecosystem bar
 
 `ecosystem-bar.js` is the shared top nav linking the four AgentsKit properties
-(Framework · Playbook · Registry · AKOS). It is hosted here on the main site and
+(AgentsKit · Registry · AKOS · Playbook). It is hosted here on the main site and
 embedded by every property. Editing this one file updates the bar everywhere.
+
+On the right side it also surfaces two community CTAs — **Star on GitHub**
+(`github.com/AgentsKit-io/agentskit`) and **Discord** (`discord.gg/zx6z2p4jVb`).
+These are project surfaces only; no personal-brand links belong in the bar. The
+property links (left) are generated from `ecosystem.json`; the community links
+are defined inline in the `build()` function.
 
 ## Embed on the other properties
 

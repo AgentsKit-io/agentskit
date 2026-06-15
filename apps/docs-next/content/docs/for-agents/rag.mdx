@@ -18,6 +18,7 @@ npm install @agentskit/rag
 - `bm25Score`, `bm25Rerank` — standalone helpers.
 - `voyageReranker(config)` — Voyage AI reranker.
 - `jinaReranker(config)` — Jina AI reranker.
+- `RagError` / `RagErrorCodes` — typed error (extends `AgentsKitError`) thrown by loaders + rerankers; narrow on `error.code` (`AK_RAG_LOAD_FAILED`, `AK_RAG_PEER_MISSING`, `AK_RAG_RERANK_FAILED`).
 
 ### Document loaders
 

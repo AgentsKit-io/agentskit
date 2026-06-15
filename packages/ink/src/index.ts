@@ -47,6 +47,10 @@ export {
   StatusHeader,
   MarkdownText,
   ToolConfirmation,
+  TopologyGraphView,
+  InkThemeProvider,
+  useInkTheme,
+  defaultInkTheme,
 } from './components'
 
 export type {
@@ -58,4 +62,10 @@ export type {
   StatusHeaderProps,
   MarkdownTextProps,
   ToolConfirmationProps,
+  TopologyGraphViewProps,
+  TopologyGraphViewNode,
+  TopologyGraphViewEdge,
+  TopologyGraphViewSnapshot,
+  TopologyGraphSource,
+  InkTheme,
 } from './components'

@@ -4,7 +4,7 @@ import { defineConfig } from 'vitest/config'
 // @agentskit/core — lines threshold: 80 (CLAUDE.md sacred target, current ≈ 92%).
 export default defineConfig(
   createTestConfig({
-    linesThreshold: 80,
+    linesThreshold: 90,
     criticalFiles: {
       'src/security/vault.ts': 90,
       'src/security/rate-limit.ts': 90,
