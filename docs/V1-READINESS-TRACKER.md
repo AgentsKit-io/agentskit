@@ -9,8 +9,8 @@
 
 | # | Criterion (from STABILITY.md) | Status | Evidence / gap |
 |---|---|---|---|
-| 1 | All six core contracts have ≥1 **external consumer** outside this repo | ⬜ not tracked | No external-consumer registry yet. Add links here as real consumers adopt Adapter / Tool / Memory / Retriever / Skill / Runtime contracts. |
-| 2 | CI gates (bundle size, coverage) held **two full sprints** without regression | 🟡 in progress | Gates exist + green (17 structural + size-limit + coverage). Need a sprint-over-sprint record — start counting from the first green sprint after this audit. |
+| 1 | All six core contracts have ≥1 **external consumer** outside this repo | 🟡 signal, unconfirmed | npm downloads (last month, verified 2026-06-15): core 1462, adapters 1098, runtime 935, react 488, vue 116 — non-zero external pull-through, but download counts can't confirm a *named* external consumer per contract (CI/mirrors/own apps included). Needs qualitative confirmation (GitHub dependents / real projects). |
+| 2 | CI gates (bundle size, coverage) held **two full sprints** without regression | 🟡 clock restarted | 17 gates green today, but the gate set just expanded (this PR) — the 2-sprint no-regression window restarts from the first green sprint after merge. |
 | 3 | Public **semver commitment** documented + honored | 🟢 documented | Ecosystem-wide statement at [`SEMVER-COMMITMENT.md`](./SEMVER-COMMITMENT.md); honored structurally by CI gates (tier/badge parity, coverage floors, promotion-RFC, bundle budget). "Honored" stays ongoing across releases. |
 
 Legend: 🟢 done · 🟡 in progress · ⬜ not started.
@@ -53,6 +53,8 @@ Remaining ecosystem work:
   (AOT would break the "tsup, dual CJS/ESM" convention; APF is ESM-only). Revisit AOT as a
   deliberate, ADR-backed decision before angular → stable, per RFC 0004.
 - **beta→stable promotions** — surface frozen in RFC 0004 (Proposed); each binding promotes
-  once it completes ≥ 1 minor at beta without breaking (soak gate; started 2026-06-15).
+  once it completes ≥ 1 minor at beta without breaking. **Soak status (verified 2026-06-15):
+  NOT STARTED** — the 7 changesets are unreleased; the soak clock starts at the first beta
+  release cut (`changeset version` + publish), then runs ≥ 1 minor cycle.
 - **v1.0.0 criteria #1 (external consumers) + #2 (2-sprint gate hold)** — require real adoption
   and elapsed time; cannot be manufactured. Criterion #3 (semver commitment) is documented.
