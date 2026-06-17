@@ -199,6 +199,7 @@ ${context || '(no relevant docs found for this query)'}
   const uiStream = new ReadableStream<Uint8Array>({
     async start(controller) {
       const send = (ev: UiEvent) => controller.enqueue(encoder.encode(encodeEvent(ev)))
+      let sawError = false
       try {
         for await (const chunk of source.stream() as AsyncIterable<StreamChunk>) {
           if (chunk.type === 'text' && chunk.content) {
@@ -209,11 +210,18 @@ ${context || '(no relevant docs found for this query)'}
             if (isUiTool(name)) {
               send({ type: 'tool', id, name, args: parseArgs(args) })
             }
+          } else if (chunk.type === 'error') {
+            // Adapter surfaced a provider error (e.g. 404 stale model / 429 free
+            // rate-limit) as a chunk rather than throwing — log it, tell the user
+            // generically (never echo upstream text), and stop.
+            console.error('[ask-docs] provider error chunk:', chunk.content)
+            sawError = true
+            send({ type: 'error', message: 'The model is busy or unavailable. Please try again.' })
+            break
           }
-          // text/tool_call are the only forwarded kinds; usage/done/reasoning
-          // are consumed silently and finalized below.
+          // usage/done/reasoning are consumed silently and finalized below.
         }
-        send({ type: 'done', model })
+        if (!sawError) send({ type: 'done', model })
       } catch (err) {
         // Log details; never echo upstream error text (can leak provider data).
         console.error('[ask-docs] stream failed:', err)

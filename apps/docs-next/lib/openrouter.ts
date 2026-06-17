@@ -1,11 +1,14 @@
 // Thin OpenRouter client with a free-tier model fallback chain.
 // Never swap for a paid model without explicit confirmation — docs infrastructure must stay at $0.
 
+// Current tool-capable :free model ids (verified against the OpenRouter /models
+// catalog 2026-06-17). Free ids rotate — refresh if you see 404s. The free pool
+// is shared and rate-limited (429); the fallback chain is the mitigation.
 export const FREE_MODELS = [
-  'meta-llama/llama-3.1-8b-instruct:free',
-  'google/gemini-2.0-flash-exp:free',
-  'qwen/qwen-2.5-72b-instruct:free',
-  'mistralai/mistral-7b-instruct:free',
+  'meta-llama/llama-3.3-70b-instruct:free',
+  'qwen/qwen3-next-80b-a3b-instruct:free',
+  'nousresearch/hermes-3-llama-3.1-405b:free',
+  'meta-llama/llama-3.2-3b-instruct:free',
 ]
 
 export type ChatMessage = { role: 'system' | 'user' | 'assistant'; content: string }
