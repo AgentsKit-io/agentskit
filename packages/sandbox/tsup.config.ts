@@ -5,6 +5,7 @@ export default defineConfig({
     index: 'src/index.ts',
     sandbox: 'src/sandbox.ts',
     types: 'src/types.ts',
+    'web/index': 'src/web/index.ts',
   },
   format: ['esm', 'cjs'],
   dts: { compilerOptions: { ignoreDeprecations: "6.0" } },
