@@ -213,3 +213,26 @@ button[data-theme-toggle] > svg {
   --color-fd-accent-foreground: #E6EDF3;
   --color-fd-ring: #58A6FF;
 }
+
+/* Animated convergence arcs for the ecosystem diagram — a short dash ("packet")
+   travels along each bezier from the core out to a layer. Mirrors the AKOS
+   homepage flow. Decorative; frozen for reduced-motion. */
+/* paths carry pathLength="100". The dash pattern is 4× the path length, so one
+   "packet" rides the static line and is on-path only the first 1/4 of the cycle
+   — staggered into 4 pairs, that means ~2 dots travelling at any moment. */
+.ak-flow-out {
+  stroke-dasharray: 1.5 398.5;
+  animation: ak-flow-out 4s linear infinite;
+}
+
+@keyframes ak-flow-out {
+  to {
+    stroke-dashoffset: -400;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ak-flow-out {
+    animation: none;
+  }
+}

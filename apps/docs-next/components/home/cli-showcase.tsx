@@ -102,8 +102,8 @@ export function CliShowcase() {
         </span>
       </div>
 
-      {/* Terminal body */}
-      <div className="space-y-1.5 px-4 py-4 leading-relaxed">
+      {/* Terminal body — fixed height so progressive lines don't grow the box */}
+      <div className="min-h-[15rem] space-y-1.5 px-4 py-4 leading-relaxed">
         <p className="break-words text-ak-foam">
           <span>{displayCommand}</span>
           {!commandComplete && <Cursor />}

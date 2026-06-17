@@ -3,13 +3,13 @@ import { InstallCommand } from './_components/install-command'
 import { HeroDemo } from './_components/hero-demo/hero-demo'
 import { AnimatedLogo } from '@/components/brand/animated-logo'
 import { JsonLd } from '@/components/seo/json-ld'
-import { FadeIn, Stagger, StaggerItem } from '@/components/motion/fade-in'
+import { FadeIn } from '@/components/motion/fade-in'
 import {
   CliSection,
   ComposeSection,
-  IntegrationsSection,
-  LlmsSection,
+  WorksWithSection,
 } from '@/components/home/showcases'
+import { Icon } from '@/components/home/icons'
 import { counts, approx } from '@/lib/ecosystem-stats'
 
 export const metadata = {
@@ -83,12 +83,10 @@ export default function HomePage() {
     <main className="flex w-full max-w-full flex-1 flex-col overflow-x-clip">
       <JsonLd data={JSON_LD} />
       <Hero />
-      <IntegrationsSection />
-      <LlmsSection />
+      <WorksWithSection />
       <CliSection />
       <ComposeSection />
       <EcosystemStats />
-      <ProofSection />
       <FinalCta />
       <SiteFooter />
     </main>
@@ -97,7 +95,7 @@ export default function HomePage() {
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden border-b border-ak-border bg-ak-midnight px-4 pt-14 pb-16 sm:px-6 sm:pt-20 sm:pb-24 md:pt-28 md:pb-32">
+    <section className="relative overflow-hidden bg-ak-midnight px-4 pt-14 pb-16 sm:px-6 sm:pt-20 sm:pb-24 md:pt-28 md:pb-32">
       <div className="mx-auto grid max-w-6xl gap-8 sm:gap-10 md:gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-end">
         <div className="min-w-0">
           <div className="mb-5 flex items-center gap-3 sm:mb-6">
@@ -107,16 +105,9 @@ function Hero() {
             </span>
           </div>
 
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-ak-border bg-ak-surface px-3 py-1 font-mono text-[11px] text-ak-graphite sm:mb-5 sm:text-xs">
-            <span className="inline-block h-1.5 w-1.5 rounded-full bg-ak-green" />
-            core v1.0 · {counts.packages} packages · MIT
-          </div>
-
           <FadeIn>
             <h1 className="mb-5 max-w-2xl text-[2rem] font-bold leading-[1.08] tracking-tight text-ak-foam sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl">
-              <span className="bg-gradient-to-r from-ak-foam via-ak-blue to-ak-foam bg-clip-text text-transparent">
-                Ship AI agents in JavaScript.
-              </span>
+              Ship AI agents in JavaScript.
               <span className="block text-ak-graphite">
                 Without gluing 8 libraries together.
               </span>
@@ -125,16 +116,18 @@ function Hero() {
 
           <FadeIn delay={0.1}>
           <p className="mb-7 max-w-xl text-base leading-relaxed text-ak-graphite sm:mb-8 sm:text-lg">
-            AgentsKit gives you chat UI, runtime, tools, memory, RAG, and
-            production guardrails in one ecosystem. Swap{' '}
+            Chat UI, runtime, tools, memory, and RAG in one ecosystem. Swap{' '}
             <span className="text-ak-foam">OpenAI for Claude</span>, React for
-            terminal, in-memory for vector DB. Start small, grow into the
-            full stack, and keep your code intact.
+            terminal, in-memory for vector DB — without a rewrite.
           </p>
           </FadeIn>
 
           <FadeIn delay={0.2}>
             <InstallCommand />
+          </FadeIn>
+
+          <FadeIn delay={0.3}>
+            <HeroFrameworks />
           </FadeIn>
         </div>
 
@@ -156,9 +149,9 @@ function Hero() {
             </Link>
             <Link
               href="/docs/reference/examples"
-              className="inline-flex items-center gap-2 rounded-md border border-ak-border bg-ak-surface px-4 py-2.5 text-sm font-medium text-ak-foam transition hover:border-ak-blue sm:px-5"
+              className="inline-flex items-center gap-2 px-2 py-2.5 text-sm font-medium text-ak-graphite transition hover:text-ak-foam sm:px-3"
             >
-              See live examples
+              See live examples →
             </Link>
           </div>
         </div>
@@ -167,49 +160,149 @@ function Hero() {
   )
 }
 
-function EcosystemStats() {
-  const stats = [
-    { value: String(counts.packages), label: 'packages', href: '/docs/reference/packages' },
-    { value: String(counts.frameworkBindings), label: 'framework bindings', href: '/docs/ui' },
-    { value: approx(counts.catalogProviders), label: 'LLM providers', href: '/docs/data/providers' },
-    { value: `${counts.integrations}+`, label: 'tool integrations', href: '/docs/agents/tools/integrations' },
-    { value: `${counts.recipes}+`, label: 'recipes', href: '/docs/reference/recipes' },
-    { value: String(counts.skills), label: 'ready-made skills', href: '/docs/agents/skills/personas' },
-    { value: `${counts.memoryBackends}+`, label: 'memory backends', href: '/docs/data/memory' },
-    { value: '< 10 KB', label: 'zero-dep core', href: '/docs/reference/packages/core' },
-  ]
+// color override forces a visible fill for brands whose Simple Icons default is
+// near-black (invisible on the dark hero) — e.g. Angular (#0F0F11).
+const FRAMEWORKS: { slug: string; label: string; color?: string }[] = [
+  { slug: 'react', label: 'React' },
+  { slug: 'vuedotjs', label: 'Vue' },
+  { slug: 'svelte', label: 'Svelte' },
+  { slug: 'solid', label: 'Solid' },
+  { slug: 'angular', label: 'Angular', color: 'dd0031' },
+  { slug: 'nodedotjs', label: 'Node' },
+  { slug: 'deno', label: 'Deno', color: 'ffffff' },
+  { slug: 'bun', label: 'Bun', color: 'fbf0df' },
+]
+
+/** Quiet static proof that the UI layer spans every framework. No animation. */
+function HeroFrameworks() {
   return (
-    <section className="border-b border-ak-border bg-ak-midnight px-4 py-14 sm:px-6 sm:py-20">
+    <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+      <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-ak-graphite/60">
+        Works with
+      </span>
+      {FRAMEWORKS.map((f) => (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          key={f.label}
+          src={`https://cdn.simpleicons.org/${f.slug}${f.color ? `/${f.color}` : ''}`}
+          alt={f.label}
+          title={f.label}
+          width={22}
+          height={22}
+          loading="lazy"
+          className="h-[22px] w-[22px]"
+        />
+      ))}
+    </div>
+  )
+}
+
+const LAYERS = [
+  { name: 'Adapters', icon: 'adapters', href: '/docs/data/providers', meta: `${counts.nativeAdapters} adapters · ${approx(counts.catalogProviders)} providers` },
+  { name: 'UI', icon: 'ui', href: '/docs/ui', meta: `${counts.frameworkBindings} frameworks` },
+  { name: 'Runtime', icon: 'runtime', href: '/docs/reference/packages/runtime', meta: 'ReAct · planning · multi-agent' },
+  { name: 'Tools', icon: 'tools', href: '/docs/agents/tools/integrations', meta: `${counts.integrations}+ integrations` },
+  { name: 'Skills', icon: 'skills', href: '/docs/agents/skills/personas', meta: `${counts.skills} ready-made` },
+  { name: 'Memory', icon: 'memory', href: '/docs/data/memory', meta: `${counts.memoryBackends}+ backends` },
+  { name: 'RAG', icon: 'rag', href: '/docs/reference/packages/rag', meta: 'chunk · embed · retrieve' },
+  { name: 'Observability', icon: 'observability', href: '/docs/reference/packages/observability', meta: 'traces · LangSmith · OTel' },
+] as const
+
+// Percent-coordinate arcs (viewBox 0 0 100 100, preserveAspectRatio none → maps
+// 1:1 onto the diagram box). One dest per layer row; rows are evenly stacked so
+// each center sits at (i + 0.5) / 8 of the height. Source = core's right edge.
+const ARC_DESTS = [6.25, 18.75, 31.25, 43.75, 56.25, 68.75, 81.25, 93.75]
+const arcPath = (y: number) => `M 21 50 C 42 50, 42 ${y}, 63 ${y}`
+
+function EcosystemStats() {
+  return (
+    <section className="bg-ak-midnight px-4 py-14 sm:px-6 sm:py-20">
       <div className="mx-auto max-w-6xl">
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-green sm:mb-4 sm:text-xs">
+        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-graphite/60 sm:mb-4 sm:text-xs">
           The ecosystem
         </p>
-        <h2 className="mb-8 max-w-3xl text-[1.75rem] font-bold leading-[1.15] text-ak-foam sm:mb-10 sm:text-3xl md:text-4xl">
-          Everything you need. Nothing you don&apos;t.
+        <h2 className="mb-3 max-w-3xl text-[1.75rem] font-bold leading-[1.15] text-ak-foam sm:text-3xl md:text-4xl">
+          One core. Everything else plugs in.
         </h2>
-        <Stagger className="grid grid-cols-2 gap-3 sm:grid-cols-4 sm:gap-4" stagger={0.05}>
-          {stats.map((s) => (
-            <StaggerItem key={s.label}>
-            <Link
-              href={s.href}
-              className="group block rounded-xl border border-ak-border bg-ak-surface p-5 transition hover:-translate-y-0.5 hover:border-ak-blue hover:shadow-[0_0_0_1px_var(--ak-blue)]"
-            >
-              <div className="mb-1 font-mono text-2xl font-bold text-ak-foam transition group-hover:text-ak-blue sm:text-3xl">
-                {s.value}
-              </div>
-              <div className="font-mono text-[11px] uppercase tracking-wide text-ak-graphite sm:text-xs">
-                {s.label}
-              </div>
-            </Link>
-            </StaggerItem>
-          ))}
-        </Stagger>
-        <p className="mt-6 text-sm text-ak-graphite">
-          Every number above is a click-through. Install what you need; the core stays under 10 KB gzipped.
+        <p className="mb-10 max-w-2xl text-sm text-ak-graphite sm:mb-12 sm:text-base">
+          Six contracts on one tiny core. Every layer is optional and swappable —
+          click any to dive in.
         </p>
 
-        <div className="mt-12 border-t border-ak-border pt-10">
-          <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-blue sm:text-xs">
+        <div className="relative mt-10">
+          {/* animated convergence arcs (md+), AKOS-style flowing packets */}
+          <svg
+            aria-hidden="true"
+            viewBox="0 0 100 100"
+            preserveAspectRatio="none"
+            className="pointer-events-none absolute inset-0 hidden h-full w-full md:block"
+          >
+            {ARC_DESTS.map((y, i) => (
+              <g key={y}>
+                {/* static line */}
+                <path
+                  d={arcPath(y)}
+                  pathLength={100}
+                  fill="none"
+                  stroke="var(--ak-accent)"
+                  strokeWidth={1}
+                  strokeOpacity={0.22}
+                  vectorEffect="non-scaling-stroke"
+                />
+                {/* traveling dot */}
+                <path
+                  d={arcPath(y)}
+                  pathLength={100}
+                  fill="none"
+                  stroke="var(--ak-accent)"
+                  strokeWidth={2.5}
+                  strokeLinecap="round"
+                  vectorEffect="non-scaling-stroke"
+                  className="ak-flow-out"
+                  style={{ animationDelay: `${-Math.floor(i / 2)}s` }}
+                />
+              </g>
+            ))}
+          </svg>
+
+          <div className="relative grid gap-8 md:grid-cols-[minmax(0,15rem)_1fr] md:items-stretch md:gap-10">
+            <div className="self-center rounded-2xl bg-ak-surface/60 p-6">
+              <div className="font-mono text-sm text-ak-graphite">@agentskit/core</div>
+              <div className="mt-2 font-mono text-4xl font-bold text-ak-foam">&lt; 10 KB</div>
+              <div className="mt-1 font-mono text-[11px] uppercase tracking-[0.15em] text-ak-graphite/70">
+                zero dependencies
+              </div>
+              <p className="mt-4 text-sm leading-relaxed text-ak-graphite">
+                Types, events, and six contracts. Every package plugs into this — swap
+                any layer without touching the rest.
+              </p>
+            </div>
+
+            <ul className="flex flex-col justify-between md:ml-auto md:w-[440px]">
+              {LAYERS.map((l) => (
+                <li key={l.name}>
+                  <Link
+                    href={l.href}
+                    className="group flex items-center gap-2.5 rounded-xl px-3 py-2 transition hover:bg-ak-surface/50"
+                  >
+                    <span className="inline-flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-ak-surface text-ak-blue transition group-hover:bg-ak-blue group-hover:text-ak-midnight">
+                      <Icon name={l.icon} className="h-[18px] w-[18px]" />
+                    </span>
+                    <span className="font-mono text-sm font-medium text-ak-foam transition group-hover:text-ak-blue">
+                      {l.name}
+                    </span>
+                    <span className="ml-auto text-right font-mono text-[11px] text-ak-graphite sm:text-xs">
+                      {l.meta}
+                    </span>
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+
+        <div className="mt-16">
+          <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-graphite/60 sm:text-xs">
             Beyond the libraries
           </p>
           <div className="grid gap-4 sm:gap-5 md:grid-cols-3">
@@ -219,17 +312,24 @@ function EcosystemStats() {
                 href={p.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="group flex flex-col rounded-xl border border-ak-border bg-ak-surface p-6 transition hover:-translate-y-0.5 hover:border-ak-blue hover:shadow-[0_0_0_1px_var(--ak-blue)]"
+                className="group relative flex flex-col overflow-hidden rounded-2xl bg-ak-surface/50 p-6 transition hover:bg-ak-surface"
               >
-                <div className="mb-2 flex items-center justify-between gap-3">
-                  <span className="font-mono text-base font-bold text-ak-foam transition group-hover:text-ak-blue">
-                    {p.name}
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-ak-blue/0 blur-2xl transition group-hover:bg-ak-blue/10"
+                />
+                <div className="mb-4 flex items-center justify-between gap-3">
+                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-ak-blue/10 text-ak-blue transition group-hover:bg-ak-blue group-hover:text-ak-midnight">
+                    <Icon name={p.icon} className="h-5 w-5" />
                   </span>
-                  <span className="font-mono text-sm text-ak-graphite transition group-hover:text-ak-blue">
+                  <span className="font-mono text-sm text-ak-graphite transition group-hover:translate-x-0.5 group-hover:text-ak-blue">
                     ↗
                   </span>
                 </div>
-                <span className="mb-2 font-mono text-[11px] uppercase tracking-wide text-ak-green">
+                <span className="font-mono text-base font-bold text-ak-foam transition group-hover:text-ak-blue">
+                  {p.name}
+                </span>
+                <span className="mb-2 mt-1 font-mono text-[11px] uppercase tracking-wide text-ak-graphite/60">
                   {p.tag}
                 </span>
                 <p className="text-sm leading-relaxed text-ak-graphite">{p.desc}</p>
@@ -245,107 +345,40 @@ function EcosystemStats() {
 const ECOSYSTEM_PROPERTIES = [
   {
     name: 'Registry',
+    icon: 'registry',
     href: 'https://registry.agentskit.io',
     tag: 'Ready-made agents',
     desc: 'Copy production-ready agents into your project — research, PR review, support, and more. You own the source, zero lock-in.',
   },
   {
     name: 'Playbook',
+    icon: 'playbook',
     href: 'https://playbook.agentskit.io',
     tag: 'Best practices',
     desc: 'The engineering standards for building agents that ship — runtime validation, quality gates, security, and evals.',
   },
   {
     name: 'AKOS',
+    icon: 'akos',
     href: 'https://akos.agentskit.io',
     tag: 'Production OS',
     desc: 'The operating system for agents at scale — orchestration, egress control, and RBAC for running agents in production.',
   },
 ] as const
 
-function ProofSection() {
-  const starters = [
-    {
-      title: 'Scaffold a starter',
-      href: '/docs/production/cli/init',
-      desc: 'Use `agentskit init` to spin up a React chat, Ink terminal app, runtime worker, or multi-agent starter.',
-      cta: 'See starters',
-    },
-    {
-      title: 'Browse live examples',
-      href: '/docs/reference/examples',
-      desc: 'Open interactive demos for support bots, code assistants, RAG chat, runtime agents, and multi-agent planning.',
-      cta: 'Open examples',
-    },
-    {
-      title: 'Copy runnable recipes',
-      href: '/docs/reference/recipes',
-      desc: 'Jump straight into end-to-end snippets for integrations, replay, security, evals, and retrieval pipelines.',
-      cta: 'Open recipes',
-    },
-  ] as const
-
-  return (
-    <section className="border-b border-ak-border bg-ak-midnight px-4 py-16 sm:px-6 sm:py-20 md:py-24">
-      <div className="mx-auto max-w-6xl">
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-green sm:mb-4 sm:text-xs">
-          Proof, not promises
-        </p>
-        <h2 className="mb-4 max-w-3xl text-[1.75rem] font-bold leading-[1.15] text-ak-foam sm:mb-5 sm:text-3xl md:text-4xl lg:text-5xl">
-          Start from a template, a demo, or a runnable recipe.
-        </h2>
-        <p className="mb-8 max-w-2xl text-base text-ak-graphite sm:mb-12 sm:text-lg">
-          Scaffold a project, inspect a live demo, or copy a recipe and run it
-          locally. Pick the angle you trust.
-        </p>
-        <div className="grid gap-4 sm:gap-5 lg:grid-cols-3">
-          {starters.map((item) => (
-            <Link
-              key={item.title}
-              href={item.href}
-              className="group flex flex-col rounded-xl border border-ak-border bg-ak-surface p-6 transition hover:-translate-y-0.5 hover:border-ak-blue hover:shadow-[0_0_0_1px_var(--ak-blue)]"
-            >
-              <h3 className="mb-3 text-xl font-semibold text-ak-foam transition group-hover:text-ak-blue">
-                {item.title}
-              </h3>
-              <p className="mb-5 flex-1 text-sm leading-relaxed text-ak-graphite">
-                {item.desc}
-              </p>
-              <span className="font-mono text-sm text-ak-blue">
-                {item.cta} →
-              </span>
-            </Link>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
 function FinalCta() {
   return (
-    <section className="relative overflow-hidden border-b border-ak-border bg-ak-midnight px-4 py-24 sm:px-6 sm:py-28 md:py-32">
-      {/* glow */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-x-0 top-0 mx-auto h-px max-w-4xl bg-gradient-to-r from-transparent via-ak-blue to-transparent opacity-60"
-      />
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute left-1/2 top-0 -z-0 h-[420px] w-[820px] max-w-none -translate-x-1/2 rounded-full bg-ak-blue/10 blur-[120px]"
-      />
+    <section className="relative overflow-hidden bg-ak-midnight px-4 py-24 sm:px-6 sm:py-28 md:py-32">
       <div className="relative mx-auto max-w-3xl text-center">
         <div className="mb-6 flex justify-center">
           <AnimatedLogo variant="hero" size={60} loop />
         </div>
-        <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-ak-border bg-ak-surface px-3 py-1 font-mono text-[11px] text-ak-graphite sm:text-xs">
+        <div className="mb-5 inline-flex items-center gap-2 font-mono text-[11px] text-ak-graphite/70 sm:text-xs">
           <span className="inline-block h-1.5 w-1.5 rounded-full bg-ak-green" />
           {counts.packages} packages · {approx(counts.catalogProviders)} providers · MIT
         </div>
-        <h2 className="mb-5 text-[2.25rem] font-bold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl lg:text-7xl">
-          <span className="bg-gradient-to-r from-ak-foam via-ak-blue to-ak-foam bg-clip-text text-transparent">
-            Build the agent.
-          </span>
+        <h2 className="mb-5 text-[2.25rem] font-bold leading-[1.05] tracking-tight text-ak-foam sm:text-5xl md:text-6xl lg:text-7xl">
+          Build the agent.
           <span className="block text-ak-graphite">Skip the plumbing.</span>
         </h2>
         <p className="mx-auto mb-9 max-w-xl text-base text-ak-graphite sm:mb-10 sm:text-lg">
@@ -360,7 +393,7 @@ function FinalCta() {
         <div className="flex flex-wrap justify-center gap-2.5 sm:gap-3">
           <Link
             href="/docs/get-started/getting-started/build-your-first-agent"
-            className="inline-flex items-center gap-2 rounded-md bg-ak-foam px-6 py-3 text-sm font-semibold text-ak-midnight shadow-[0_0_0_1px_var(--ak-blue),0_8px_30px_-12px_var(--ak-blue)] transition hover:bg-white sm:px-7"
+            className="inline-flex items-center gap-2 rounded-md bg-ak-foam px-6 py-3 text-sm font-semibold text-ak-midnight transition hover:bg-white sm:px-7"
           >
             Build your first agent →
           </Link>
@@ -368,7 +401,7 @@ function FinalCta() {
             href={GITHUB}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 rounded-md border border-ak-border bg-ak-surface px-6 py-3 text-sm font-medium text-ak-foam transition hover:border-ak-blue sm:px-7"
+            className="inline-flex items-center gap-2 px-4 py-3 text-sm font-medium text-ak-graphite transition hover:text-ak-foam sm:px-5"
           >
             Star on GitHub
           </a>
@@ -442,7 +475,7 @@ function SiteFooter() {
                 href={GITHUB}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-md border border-ak-border bg-ak-surface px-3 py-1.5 font-mono text-xs text-ak-graphite transition hover:border-ak-blue hover:text-ak-foam"
+                className="rounded-md bg-ak-surface/60 px-3 py-1.5 font-mono text-xs text-ak-graphite transition hover:text-ak-foam"
               >
                 GitHub
               </a>
@@ -450,7 +483,7 @@ function SiteFooter() {
                 href="https://www.npmjs.com/org/agentskit"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="rounded-md border border-ak-border bg-ak-surface px-3 py-1.5 font-mono text-xs text-ak-graphite transition hover:border-ak-blue hover:text-ak-foam"
+                className="rounded-md bg-ak-surface/60 px-3 py-1.5 font-mono text-xs text-ak-graphite transition hover:text-ak-foam"
               >
                 npm
               </a>

@@ -14,27 +14,26 @@ function Logo({ item }: { item: MarqueeItem }) {
   const slug = brandSlug(item.id)
   const monogram = item.label.replace(/[^a-zA-Z0-9]/g, '').charAt(0).toUpperCase() || '•'
   return (
-    <span className="inline-flex shrink-0 items-center gap-2 rounded-lg border border-ak-border bg-ak-surface/40 px-3 py-2">
-      {!failed ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          src={`https://cdn.simpleicons.org/${slug}/a9a9b3`}
-          alt=""
-          width={16}
-          height={16}
-          loading="lazy"
-          onError={() => setFailed(true)}
-          className="h-4 w-4"
-        />
-      ) : (
-        <span
-          aria-hidden="true"
-          className="inline-flex h-4 w-4 items-center justify-center rounded-[3px] border border-ak-border bg-ak-midnight font-mono text-[9px] font-bold text-ak-graphite"
-        >
-          {monogram}
-        </span>
-      )}
-      <span className="font-mono text-xs text-ak-graphite">{item.label}</span>
+    <span className="inline-flex shrink-0 items-center gap-2.5 pr-3">
+      <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-ak-foam/90">
+        {!failed ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={`https://cdn.simpleicons.org/${slug}`}
+            alt=""
+            width={20}
+            height={20}
+            loading="lazy"
+            onError={() => setFailed(true)}
+            className="h-5 w-5"
+          />
+        ) : (
+          <span aria-hidden="true" className="font-mono text-xs font-bold text-ak-midnight">
+            {monogram}
+          </span>
+        )}
+      </span>
+      <span className="font-mono text-sm text-ak-graphite">{item.label}</span>
     </span>
   )
 }
