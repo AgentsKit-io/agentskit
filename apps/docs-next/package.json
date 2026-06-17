@@ -18,7 +18,8 @@
     "lint:mdx": "node scripts/lint-mdx.mjs",
     "check:links": "node scripts/check-links.mjs",
     "gen:api": "node scripts/gen-api.mjs",
-    "postinstall": "fumadocs-mdx"
+    "postinstall": "fumadocs-mdx",
+    "gen:ask-index": "tsx scripts/gen-ask-index.mjs"
   },
   "dependencies": {
     "@agentskit/adapters": "workspace:*",
@@ -57,6 +58,7 @@
     "@types/node": "^25.9.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "tsx": "^4.22.4",
     "typedoc": "^0.28.19",
     "typedoc-plugin-markdown": "^4.12.0",
     "typescript": "^6.0.3"
