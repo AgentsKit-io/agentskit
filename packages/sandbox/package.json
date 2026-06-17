@@ -42,6 +42,12 @@
       "types": "./dist/types.d.ts",
       "import": "./dist/types.js",
       "require": "./dist/types.cjs"
+    },
+    "./web": {
+      "types": "./dist/web/index.d.ts",
+      "browser": "./dist/web/index.js",
+      "import": "./dist/web/index.js",
+      "require": "./dist/web/index.cjs"
     }
   },
   "files": [
