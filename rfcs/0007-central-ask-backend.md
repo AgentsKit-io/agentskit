@@ -60,15 +60,17 @@ Requests carry a `corpus`; the backend picks that corpus's retriever and runs th
 shared handler. A new property = drop in its index + register the corpus. The model
 is shared (same embedding space) — adding corpora is cheap.
 
-**v1 corpora = `docs` + `registry`** (both live in this monorepo → indexes built
-here). This proves real per-`corpus` routing with two corpora. **`akos` and
-`playbook` live in separate repos** — they are **F2**: the backend sources their
-content cross-repo. Each property's CI builds its index (the same `gen-ask-index`
-step) and publishes it as an artifact the backend pulls on deploy (a committed
-`index.json` in a known location, or a small fetch on boot). The backend stays
-multi-corpus-ready from v1; the akos/playbook corpora register once their indexes
-are reachable. No property's source needs to live in the backend's repo — only its
-built index.
+**v1 corpus = `docs` only** — the one genuine knowledge base in this monorepo. The
+**`registry` knowledge is the agents**, which live in the separate
+`agentskit-registry` repo (not the `apps/registry` site's few pages), so registry is
+**cross-repo like akos/playbook** → all three are **F2**. The backend is built
+multi-corpus from day one (corpus registry + `?corpus=` routing), but only `docs`
+has content at v1.
+
+**F2 cross-repo sourcing**: each property's repo CI builds its index (the same
+`gen-ask-index` step) and publishes it as an artifact the backend pulls on deploy (a
+committed `index.json` in a known location, or a small fetch on boot). Only the built
+index travels — no property's source lives in the backend's repo.
 
 ### D3. Public but protected
 
@@ -152,14 +154,15 @@ retriever; everything else (guards, adapter, citations) is shared config.
   **no package extraction** — and serves `/v1/ask` + `/health` for the docs corpus.
   Run it locally; verify a real query streams a cited answer. `docs-next`'s Vercel
   route stays live (unchanged) the whole time.
-- **F1 — Railway + the in-repo corpora (`docs` + `registry`)**: build both indexes
-  here, register two corpora, add `/v1/search` + `/v1/corpora`. Warm-load the model
-  at boot. Deploy to Railway, attach `ask.agentskit.io`. Point the **www** (+ registry)
-  widget at it; verify warm + fast + cited, and that `corpus` routing works.
-- **F2 — cross-repo corpora (`akos`, `playbook`)**: design the content-sourcing —
-  each separate repo's CI builds its `index.json` and publishes it where the backend
-  pulls it (committed artifact or fetch-on-boot); register those corpora; their
-  widgets point at `ask.agentskit.io/v1/ask?corpus=<their>`.
+- **F1 — Railway + the `docs` corpus**: register the docs corpus, add `/v1/search` +
+  `/v1/corpora`, warm-load the model at boot. Deploy to Railway, attach
+  `ask.agentskit.io`. Point the **www** widget at it (`NEXT_PUBLIC_ASK_ENDPOINT`);
+  verify warm + fast + cited. (The backend is already multi-corpus-ready.)
+- **F2 — cross-repo corpora (`registry`, `akos`, `playbook`)**: design the
+  content-sourcing — each separate repo's CI builds its `index.json` and publishes it
+  where the backend pulls it (committed artifact or fetch-on-boot); register those
+  corpora; their widgets point at `ask.agentskit.io/v1/ask?corpus=<their>`. (registry
+  knowledge = the agents in `agentskit-registry`, not the site pages.)
 - **F3 — MCP**: `/mcp` with `list_corpora` / `search_docs` / `ask`; document it for
   agents (and cross-link from the registry MCP).
 - **F4 — retire serverless routes**: remove the per-property Vercel `/api/ask-docs`
