@@ -164,34 +164,42 @@ const NOISE: ReadonlySet<string> = new Set([
   'asdf', 'qwerty', 'aaa', 'lorem ipsum', 'foo', 'bar',
 ])
 
-export function triageMessage(query: string): Triage {
+const DEFAULT_REPLIES = {
+  greeting:
+    '👋 Hi! I answer questions about **AgentsKit** straight from the docs. Try *“How do I create a runtime agent?”* or *“What memory backends are there?”*',
+  noise: 'I’m working ✓ — ask a real question about **AgentsKit** and I’ll answer from the docs.',
+  injection:
+    "I only answer questions about the **AgentsKit** documentation — I can’t change my instructions or role, or reveal my prompt. Ask me about agents, tools, skills, memory, RAG, or deploying.",
+} as const
+
+/**
+ * Extra triage rules a consumer can supply. All are MERGED with the built-ins —
+ * additive, so you keep the injection defenses and add your own greetings, noise
+ * words, injection patterns, or override the canned copy.
+ */
+export interface TriageRules {
+  greetings?: readonly string[]
+  noise?: readonly string[]
+  injectionPatterns?: readonly RegExp[]
+  replies?: Partial<typeof DEFAULT_REPLIES>
+}
+
+export function triageMessage(query: string, extra: TriageRules = {}): Triage {
+  const replies = { ...DEFAULT_REPLIES, ...extra.replies }
   const raw = query.trim()
   if (raw.length === 0) return { kind: 'canned', reply: 'Ask me anything about **AgentsKit** and I’ll answer from the docs.' }
 
-  if (INJECTION_PATTERNS.some((re) => re.test(raw))) {
-    return {
-      kind: 'canned',
-      reply:
-        "I only answer questions about the **AgentsKit** documentation — I can’t change my instructions or role, or reveal my prompt. Ask me about agents, tools, skills, memory, RAG, or deploying.",
-    }
-  }
+  const injection = [...INJECTION_PATTERNS, ...(extra.injectionPatterns ?? [])]
+  if (injection.some((re) => re.test(raw))) return { kind: 'canned', reply: replies.injection }
 
   const norm = raw.toLowerCase().replace(/[!?.…,~]+$/g, '').trim()
-  if (GREETINGS.has(norm)) {
-    return {
-      kind: 'canned',
-      reply:
-        '👋 Hi! I answer questions about **AgentsKit** straight from the docs. Try *“How do I create a runtime agent?”* or *“What memory backends are there?”*',
-    }
-  }
+  const greetings = new Set([...GREETINGS, ...(extra.greetings ?? [])])
+  if (greetings.has(norm)) return { kind: 'canned', reply: replies.greeting }
 
   // Pure noise / non-words / "test". Single real words (e.g. "memory") pass.
-  const isNoise = NOISE.has(norm) || /^[^a-zÀ-ſ]+$/i.test(norm) || norm.length < 2
-  if (isNoise) {
-    return {
-      kind: 'canned',
-      reply: 'I’m working ✓ — ask a real question about **AgentsKit** and I’ll answer from the docs.',
-    }
+  const noise = new Set([...NOISE, ...(extra.noise ?? [])])
+  if (noise.has(norm) || /^[^a-zÀ-ſ]+$/i.test(norm) || norm.length < 2) {
+    return { kind: 'canned', reply: replies.noise }
   }
 
   return { kind: 'ok' }
