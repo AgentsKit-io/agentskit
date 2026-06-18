@@ -167,6 +167,16 @@ export function isUiTool(name: string): boolean {
   return UI_TOOL_NAMES.has(name)
 }
 
+/**
+ * Names the WIDGET may render — a superset of `UI_TOOL_NAMES`. The server emits
+ * `answer` itself for triage / off-topic-decline replies (canned, no model call),
+ * so the render boundary must allow it even though it is NOT advertised to the
+ * model. Injection-safe: the route forwards *model* tool-calls only via `isUiTool`
+ * (which excludes `answer`), so a model can never produce an `answer` event — only
+ * the trusted server can.
+ */
+export const RENDERABLE_TOOL_NAMES = new Set([...UI_TOOL_NAMES, 'answer'])
+
 // ── Streaming wire protocol (NDJSON: one JSON object per line) ───────────────
 
 export type UiEvent =
