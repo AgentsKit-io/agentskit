@@ -1,0 +1,72 @@
+name: Ask-docs eval
+
+# Quality gate for the "Ask the docs" RAG chat (apps/docs-next/lib/ask).
+#
+# Two tracks:
+#   1. Retrieval eval — DETERMINISTIC, no LLM, no secret. Runs the real docs
+#      retriever over the committed index (lib/ask-index/index.json — no
+#      gen:ask-index needed) and reports recall@6 + MRR against the golden set.
+#   2. LLM judge — $0 free OpenRouter models. Scores groundedness, citation
+#      correctness, and injection/leak resistance. Runs ONLY when the
+#      OPENROUTER_API_KEY secret is present; skips cleanly otherwise.
+#
+# MODE: WARN (report-only). EVAL_STRICT is NOT set, so threshold breaches are
+# printed but the job still exits 0 and never blocks a PR. To make this a
+# BLOCKING gate once the thresholds are stable, set `EVAL_STRICT: '1'` in the
+# eval step's `env:` (see the commented line below) and mark this check
+# Required in branch protection.
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      # Ask-docs surface (skill, protocol, guard, eval, the route)…
+      - 'apps/docs-next/lib/ask/**'
+      # …the RAG layer it depends on…
+      - 'apps/docs-next/lib/rag/**'
+      # …the committed index, the chat components, and the API route…
+      - 'apps/docs-next/lib/ask-index/**'
+      - 'apps/docs-next/components/docs/**'
+      - 'apps/docs-next/app/api/ask-docs/**'
+      # …the docs content itself (answers are grounded in these MDX pages)…
+      - 'apps/docs-next/content/docs/**'
+      # …and the eval packages it reuses + this workflow.
+      - 'packages/eval/**'
+      - 'packages/rag/**'
+      - 'packages/core/**'
+      - '.github/workflows/ask-docs-eval.yml'
+  workflow_dispatch:
+
+jobs:
+  eval:
+    name: Retrieval + judge
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+
+      - uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6
+
+      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # The eval imports @agentskit/{core,rag,eval} (and eval/snapshot) from
+      # their built dist. Build the workspace packages first.
+      - run: pnpm --filter "./packages/*" build
+
+      # Always runs: deterministic, needs no secret. The committed index is used
+      # as-is (no gen:ask-index step). First run downloads the ONNX embedder.
+      # WARN mode: EVAL_STRICT is intentionally unset, so the job reports
+      # threshold breaches without failing. Flip to blocking by adding:
+      #   env:
+      #     EVAL_STRICT: '1'
+      #     OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+      - name: Run ask-docs eval (retrieval always; judge if key present)
+        working-directory: apps/docs-next
+        env:
+          # Empty when the secret is unset → judge.ts skips gracefully (null).
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: pnpm exec tsx lib/ask/eval/run.ts
