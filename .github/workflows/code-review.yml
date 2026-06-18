@@ -1,0 +1,29 @@
+# AI code review on every PR — runs LOCALLY on a self-hosted runner via `claude -p`
+# (subscription, no per-call API cost). Advisory: posts a review, never blocks.
+name: Code Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  review:
+    # SECURITY: only PRs from branches in this repo (maintainers). Fork PRs are
+    # skipped — never run untrusted fork code on the self-hosted runner.
+    if: github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: self-hosted
+    steps:
+      - name: Add claude to PATH
+        run: echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+      - uses: AgentsKit-io/code-review-cli@main
+        with:
+          provider: 'claude-cli' # local claude -p — no API cost
+          claude-oauth-token: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          max-files: '25'
+          # advisory by default (posts only). To gate merges:
+          # fail-on-block: 'true'
+          # block: 'high'
