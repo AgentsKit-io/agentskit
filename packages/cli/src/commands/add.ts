@@ -1,15 +1,17 @@
 import type { Command } from 'commander'
 import { addAgent, resolveSystemPrompt } from '../registry'
 import { runAgent } from '../run'
+import { tryComponentAdd } from './add-component'
 
 export function registerAddCommand(program: Command): void {
   program
-    .command('add <agent>')
+    .command('add <name>')
     .description(
-      'Add a ready-made agent from the AgentsKit registry (registry.agentskit.io). Copies the agent source into your project — you own the code. With --run, also executes it. e.g. `agentskit add research` or `agentskit add legal-contract-reviewer --run "review this NDA…" --provider ollama`.',
+      'Add a ready-made agent or UI component from the AgentsKit registry (registry.agentskit.io). Auto-detects which: a component is scanned/validated against your project and installed transactionally; an agent is copied into ./agents. You own the code. e.g. `agentskit add docs-chat` (component) or `agentskit add research --run "…"` (agent).',
     )
-    .option('--out <dir>', 'Directory to write the agent into (default: ./agents)')
+    .option('--out <dir>', 'Directory to install into (component: the port dir; agent: ./agents)')
     .option('-f, --force', 'Overwrite existing files')
+    .option('--registry <url>', 'Registry base URL override (component install)')
     .option('--run <task>', 'Run the agent on this task right after adding it')
     .option('--provider <provider>', 'Provider for --run (openai, anthropic, gemini, ollama, demo)', 'demo')
     .option('--model <model>', 'Model for --run')
@@ -20,6 +22,7 @@ export function registerAddCommand(program: Command): void {
         options: {
           out?: string
           force?: boolean
+          registry?: string
           run?: string
           provider: string
           model?: string
@@ -27,6 +30,15 @@ export function registerAddCommand(program: Command): void {
         },
       ) => {
         try {
+          // Auto-detect (RFC-0006 D1): try the component registry first; fall back
+          // to the agent path when the id is not a component.
+          const outcome = await tryComponentAdd(agent, {
+            out: options.out,
+            force: options.force,
+            registry: options.registry,
+          })
+          if (outcome === 'installed') return
+
           const result = await addAgent(agent, { outDir: options.out, force: options.force === true })
           process.stdout.write(`\nAdded "${result.agent.title}" → ${result.targetDir}/\n`)
           for (const f of result.written) process.stdout.write(`  wrote  ${f}\n`)
