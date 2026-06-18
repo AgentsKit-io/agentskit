@@ -64,13 +64,41 @@ const corpora: Record<string, Corpus> = {
   },
 }
 
+/**
+ * Spoof-resistant client IP for rate-limiting.
+ *
+ * `x-forwarded-for` is "client, proxy1, proxy2…": the LEFTMOST entry is set by the
+ * caller and trivially forged (rotate it → bypass per-IP limits). Behind Railway's
+ * single trusted proxy the spoof-resistant value is the RIGHTMOST entry — the IP
+ * that proxy actually observed — so we take that. `x-real-ip` (proxy-set) wins when
+ * present. (If a future deploy adds proxy hops, trust the Nth-from-right instead.)
+ */
 function clientIp(req: Request): string {
-  return (
-    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
-    req.headers.get('x-real-ip') ??
-    'unknown'
-  )
+  const real = req.headers.get('x-real-ip')?.trim()
+  if (real) return real
+  const xff = req.headers.get('x-forwarded-for')
+  if (xff) {
+    const parts = xff.split(',').map((s) => s.trim()).filter(Boolean)
+    if (parts.length > 0) return parts[parts.length - 1]!
+  }
+  return 'unknown'
 }
+
+/** Hand the ask handler a request whose `x-real-ip` is our trusted IP, so its own
+ *  per-IP rate-limit keys off the spoof-resistant value (not leftmost XFF). */
+function withTrustedIp(req: Request): Request {
+  const headers = new Headers(req.headers)
+  headers.set('x-real-ip', clientIp(req))
+  return new Request(req, { headers })
+}
+
+/** Reject oversized bodies before any parse/compute (defense in depth with the
+ *  handler's own `maxBodyBytes` read-cap). Chat payloads are a few KB at most. */
+const MAX_BODY_BYTES = 32 * 1024
+
+/** Per-IP limiter for the raw `/v1/search` + MCP `search_docs` path (own bucket,
+ *  separate from the costlier `ask` path). */
+const searchLimiter = (ip: string) => rateLimit(`search:${ip}`)
 
 /** Build a warm `createAskHandler` per corpus (shared adapter/guards/limiter). */
 const handlers: Record<string, (req: Request) => Promise<Response>> = {}
@@ -85,6 +113,7 @@ for (const [id, c] of Object.entries(corpora)) {
     modelLabel: FREE_MODELS[0],
     formatContext: c.formatContext,
     rateLimiter: async (req) => rateLimit(clientIp(req)),
+    security: { maxBodyBytes: MAX_BODY_BYTES },
   })
 }
 
@@ -101,6 +130,16 @@ const origins = (
 ).split(',')
 app.use('/v1/*', cors({ origin: origins, allowMethods: ['POST', 'GET', 'OPTIONS'] }))
 
+// Reject oversized bodies up front on every compute route (cheap pre-parse guard).
+const bodyCap = async (c: { req: { header: (n: string) => string | undefined }; json: (b: unknown, s: number) => Response }, next: () => Promise<void>) => {
+  const len = Number(c.req.header('content-length') ?? 0)
+  if (len > MAX_BODY_BYTES) return c.json({ error: 'payload too large' }, 413)
+  await next()
+}
+app.use('/v1/ask', bodyCap)
+app.use('/v1/search', bodyCap)
+app.use('/mcp', bodyCap)
+
 app.get('/health', (c) => c.text('ok'))
 app.get('/v1/corpora', (c) => c.json({ corpora: Object.keys(corpora) }))
 
@@ -108,7 +147,7 @@ app.post('/v1/ask', (c) => {
   const corpus = c.req.query('corpus') ?? 'docs'
   const handler = handlers[corpus]
   if (!handler) return c.json({ error: `unknown corpus "${corpus}"` }, 400)
-  return handler(c.req.raw)
+  return handler(withTrustedIp(c.req.raw))
 })
 
 // Validate the search body against a JSON Schema via Ajv (the repo's runtime
@@ -117,7 +156,7 @@ const validateSearch = createAjvValidator({ coerceTypes: true })
 const SEARCH_SCHEMA: JSONSchema7 = {
   type: 'object',
   properties: {
-    query: { type: 'string', minLength: 1 },
+    query: { type: 'string', minLength: 1, maxLength: 2000 },
     k: { type: 'integer', minimum: 1, maximum: 20 },
   },
   required: ['query'],
@@ -130,6 +169,12 @@ app.post('/v1/search', async (c) => {
   const corpus = c.req.query('corpus') ?? 'docs'
   const cor = corpora[corpus]
   if (!cor) return c.json({ error: `unknown corpus "${corpus}"` }, 400)
+  const rl = await searchLimiter(clientIp(c.req.raw))
+  if (!rl.ok) {
+    return c.json({ error: 'rate limited', retryAfter: rl.retryAfterSec }, 429, {
+      'retry-after': String(rl.retryAfterSec ?? 1),
+    })
+  }
   let raw: unknown
   try {
     raw = await c.req.json()
@@ -164,6 +209,7 @@ const mcp = createMcpHandler(
   Object.fromEntries(
     Object.entries(corpora).map(([id, c]) => [id, { retriever: c.retriever, handler: handlers[id] }]),
   ),
+  { searchLimiter },
 )
 app.all('/mcp', (c) => mcp(c.req.raw))
 

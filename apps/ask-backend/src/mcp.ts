@@ -24,6 +24,33 @@ export interface McpCorpus {
   handler: (req: Request) => Promise<Response>
 }
 
+/** Per-IP limiter verdict (shape of `@agentskit/.../rate-limit`). */
+interface RateVerdict {
+  ok: boolean
+  retryAfterSec?: number
+}
+
+export interface McpOptions {
+  /** Rate-limit the raw `search_docs` tool per client IP (the LLM `ask` path is
+   *  limited by the underlying ask handler instead). */
+  searchLimiter?: (ip: string) => Promise<RateVerdict>
+}
+
+/** Cap free-text inputs so a single call can't drive unbounded embedding work. */
+const MAX_QUERY_CHARS = 2000
+
+/** Spoof-resistant client IP (see server.ts `clientIp` — rightmost XFF / x-real-ip). */
+function clientIp(req: Request): string {
+  const real = req.headers.get('x-real-ip')?.trim()
+  if (real) return real
+  const xff = req.headers.get('x-forwarded-for')
+  if (xff) {
+    const parts = xff.split(',').map((s) => s.trim()).filter(Boolean)
+    if (parts.length > 0) return parts[parts.length - 1]!
+  }
+  return 'unknown'
+}
+
 const CORS = {
   'access-control-allow-origin': '*',
   'access-control-allow-methods': 'GET, POST, OPTIONS',
@@ -81,13 +108,18 @@ function sourceTitle(d: RetrievedDocument): string | undefined {
 async function askOnce(
   handler: (req: Request) => Promise<Response>,
   question: string,
+  ip: string,
 ): Promise<{ answer: string; sources: Array<{ title?: string; path?: string; anchor?: string }> }> {
+  // Forward the trusted caller IP as `x-real-ip` (the handler reads it first) so its
+  // own per-IP rate-limit + guards attribute correctly — without this every MCP
+  // `ask` shares one "unknown" bucket.
   const req = new Request('http://ask.local/v1/ask?corpus=mcp', {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: { 'content-type': 'application/json', 'x-real-ip': ip },
     body: JSON.stringify({ messages: [{ role: 'user', content: question }] }),
   })
   const res = await handler(req)
+  if (res.status === 429) throw new Error('rate limited — slow down and retry shortly')
   const body = await res.text()
 
   let answer = ''
@@ -110,10 +142,10 @@ async function askOnce(
 }
 
 /** Build the MCP request handler over the given corpus registry. */
-export function createMcpHandler(corpora: Record<string, McpCorpus>) {
+export function createMcpHandler(corpora: Record<string, McpCorpus>, opts: McpOptions = {}) {
   const DEFAULT = 'docs'
 
-  async function callTool(name: string, args: Record<string, unknown>) {
+  async function callTool(name: string, args: Record<string, unknown>, ip: string) {
     switch (name) {
       case 'list_corpora':
         return text({ corpora: Object.keys(corpora) })
@@ -121,8 +153,14 @@ export function createMcpHandler(corpora: Record<string, McpCorpus>) {
         const corpus = (args.corpus as string) ?? DEFAULT
         const cor = corpora[corpus]
         if (!cor) return err(`Unknown corpus: ${corpus}`)
-        const query = typeof args.query === 'string' ? args.query.trim() : ''
+        let query = typeof args.query === 'string' ? args.query.trim() : ''
         if (!query) return err('query is required')
+        if (query.length > MAX_QUERY_CHARS) query = query.slice(0, MAX_QUERY_CHARS)
+        // Raw retrieval skips the ask handler, so rate-limit it here per IP.
+        if (opts.searchLimiter) {
+          const rl = await opts.searchLimiter(ip)
+          if (!rl.ok) return err(`rate limited — retry in ${rl.retryAfterSec ?? 1}s`)
+        }
         const k = typeof args.k === 'number' ? Math.min(Math.max(1, args.k), 20) : 6
         const docs = await cor.retriever.retrieve({ query, messages: [] })
         return text({
@@ -138,9 +176,10 @@ export function createMcpHandler(corpora: Record<string, McpCorpus>) {
         const corpus = (args.corpus as string) ?? DEFAULT
         const cor = corpora[corpus]
         if (!cor) return err(`Unknown corpus: ${corpus}`)
-        const question = typeof args.question === 'string' ? args.question.trim() : ''
+        let question = typeof args.question === 'string' ? args.question.trim() : ''
         if (!question) return err('question is required')
-        const { answer, sources } = await askOnce(cor.handler, question)
+        if (question.length > MAX_QUERY_CHARS) question = question.slice(0, MAX_QUERY_CHARS)
+        const { answer, sources } = await askOnce(cor.handler, question, ip)
         return text({ answer, sources })
       }
       default:
@@ -148,7 +187,7 @@ export function createMcpHandler(corpora: Record<string, McpCorpus>) {
     }
   }
 
-  async function handleRpc(msg: { id?: unknown; method?: string; params?: { name?: string; arguments?: Record<string, unknown> } }) {
+  async function handleRpc(msg: { id?: unknown; method?: string; params?: { name?: string; arguments?: Record<string, unknown> } }, ip: string) {
     const { id, method, params } = msg ?? {}
     const reply = (result: unknown) => ({ jsonrpc: '2.0', id, result })
     switch (method) {
@@ -164,7 +203,7 @@ export function createMcpHandler(corpora: Record<string, McpCorpus>) {
         return reply({ tools: TOOLS })
       case 'tools/call':
         try {
-          return reply(await callTool(params?.name ?? '', params?.arguments ?? {}))
+          return reply(await callTool(params?.name ?? '', params?.arguments ?? {}, ip))
         } catch (e) {
           return reply(err(e instanceof Error ? e.message : String(e)))
         }
@@ -195,9 +234,10 @@ export function createMcpHandler(corpora: Record<string, McpCorpus>) {
         { status: 400, headers: CORS },
       )
     }
+    const ip = clientIp(req)
     const out = Array.isArray(payload)
-      ? (await Promise.all(payload.map(handleRpc))).filter(Boolean)
-      : await handleRpc(payload as Parameters<typeof handleRpc>[0])
+      ? (await Promise.all(payload.map((m) => handleRpc(m, ip)))).filter(Boolean)
+      : await handleRpc(payload as Parameters<typeof handleRpc>[0], ip)
     if (out == null || (Array.isArray(out) && out.length === 0)) {
       return new Response(null, { status: 202, headers: CORS })
     }
