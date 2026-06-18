@@ -53,9 +53,16 @@ curl -s -XPOST 'http://localhost:8080/v1/ask?corpus=docs' \
   settle here permanently once the sites point their widgets at this backend (F4).
 - `createAskHandler` (RFC-0006 D5) is framework-neutral `(Request) => Response`, so
   it mounts straight onto Hono.
-- Protection: CORS allow-list (`*.agentskit.io`), per-IP rate-limit (Upstash durable,
-  in-memory fallback), the triage/injection/scope guards, body cap. Secrets stay
+- Protection (every public compute route): **per-IP rate-limit** (Upstash durable,
+  in-memory fallback) — the costly `ask` path and the raw `search` path use separate
+  buckets; **spoof-resistant client IP** (rightmost `x-forwarded-for` / `x-real-ip`,
+  not the caller-settable leftmost); **body cap** (32 KB, pre-parse) + **query cap**
+  (2000 chars); the triage/injection/scope guards before any model call. Secrets stay
   server-side.
+- CORS: `/v1/*` is allow-listed to `*.agentskit.io` (+ localhost dev). `/mcp` is `*`
+  — intentional: it is a public, read-only knowledge API with no auth/cookies, so
+  open CORS leaks nothing a direct request wouldn't; abuse is bounded by the same
+  rate-limit. (Same posture as the registry MCP.)
 
 ## Deploy (Railway)
 
