@@ -1,0 +1,122 @@
+:root {
+  color-scheme: light;
+  font-family: "IBM Plex Sans", "Avenir Next", sans-serif;
+  background:
+    radial-gradient(circle at top, rgba(91, 141, 239, 0.22), transparent 42%),
+    linear-gradient(180deg, #f5f7fb 0%, #e9eef8 100%);
+  color: #132033;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+}
+
+.app-shell {
+  max-width: 920px;
+  margin: 0 auto;
+  padding: 48px 20px 72px;
+}
+
+.hero {
+  margin-bottom: 28px;
+}
+
+.eyebrow {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  color: #4f6b9b;
+}
+
+.hero h1 {
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1;
+  margin: 0 0 12px;
+}
+
+.lede {
+  max-width: 62ch;
+  font-size: 1.05rem;
+  color: #41526f;
+}
+
+.setup {
+  margin-bottom: 20px;
+  display: grid;
+  gap: 12px;
+}
+
+.field {
+  display: grid;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #41526f;
+}
+
+.field-row {
+  display: flex;
+  gap: 8px;
+}
+
+.field input {
+  flex: 1;
+  padding: 10px 12px;
+  border-radius: 12px;
+  border: 1px solid rgba(62, 89, 138, 0.28);
+  background: rgba(255, 255, 255, 0.9);
+  font: inherit;
+}
+
+.field button {
+  padding: 10px 16px;
+  border-radius: 12px;
+  border: none;
+  background: #2f5bd6;
+  color: #fff;
+  font: inherit;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.field small a {
+  color: #2f5bd6;
+}
+
+.status {
+  margin: 0;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.status[data-state="indexing"] {
+  color: #8a6d1f;
+}
+
+.status[data-state="ready"] {
+  color: #1f7a4d;
+}
+
+.status[data-state="error"] {
+  color: #b23b3b;
+}
+
+.chat-card {
+  border-radius: 28px;
+  border: 1px solid rgba(62, 89, 138, 0.16);
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px);
+  box-shadow: 0 24px 80px rgba(31, 52, 97, 0.18);
+  overflow: hidden;
+}
+
+.chat-surface {
+  min-height: 420px;
+  padding: 24px;
+  display: grid;
+  gap: 16px;
+}

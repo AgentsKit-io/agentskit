@@ -1,0 +1,50 @@
+{"question": "How do I cancel a runtime run mid-flight?", "expected_paths": ["/docs/agents/runtime"], "must_mention": ["AbortSignal", "abort"], "must_not_say": []}
+{"question": "How do I create a runtime agent and run a task?", "expected_paths": ["/docs/agents/runtime", "/docs/get-started/concepts/runtime"], "must_mention": ["runtime", "run"], "must_not_say": []}
+{"question": "How does human-in-the-loop approval work for agents?", "expected_paths": ["/docs/agents/hitl"], "must_mention": ["approval"], "must_not_say": []}
+{"question": "How do I delegate work between multiple agents?", "expected_paths": ["/docs/agents/delegation"], "must_mention": ["delegate"], "must_not_say": []}
+{"question": "What does the durable execution feature give me for agents?", "expected_paths": ["/docs/agents/durable", "/docs/reference/recipes/durable-execution"], "must_mention": ["durable"], "must_not_say": []}
+{"question": "How do I run background or scheduled agents?", "expected_paths": ["/docs/agents/background", "/docs/reference/recipes/background-agents"], "must_mention": ["background"], "must_not_say": []}
+{"question": "How do I author a custom tool for an agent?", "expected_paths": ["/docs/agents/tools/authoring", "/docs/reference/packages/tools"], "must_mention": ["name", "description"], "must_not_say": []}
+{"question": "How do I chain several tools into one macro tool?", "expected_paths": ["/docs/agents/tools/authoring", "/docs/reference/recipes/tool-composer"], "must_mention": ["composeTool"], "must_not_say": []}
+{"question": "What built-in tools ship with AgentsKit?", "expected_paths": ["/docs/agents/tools/builtins", "/docs/reference/packages/tools"], "must_mention": ["tool"], "must_not_say": []}
+{"question": "How do I author a custom skill and what fields does it have?", "expected_paths": ["/docs/agents/skills/authoring"], "must_mention": ["systemPrompt", "examples"], "must_not_say": []}
+{"question": "What is the researcher skill for?", "expected_paths": ["/docs/agents/skills/researcher"], "must_mention": ["research"], "must_not_say": []}
+{"question": "How does the planner skill work?", "expected_paths": ["/docs/agents/skills/planner"], "must_mention": ["plan"], "must_not_say": []}
+{"question": "How do I connect an agent to GitHub?", "expected_paths": ["/docs/agents/tools/integrations/github"], "must_mention": ["github"], "must_not_say": []}
+{"question": "How do I send email from an agent tool?", "expected_paths": ["/docs/agents/tools/integrations/email"], "must_mention": ["email"], "must_not_say": []}
+{"question": "How do I use a Discord integration tool?", "expected_paths": ["/docs/agents/tools/integrations/discord"], "must_mention": ["discord"], "must_not_say": []}
+{"question": "How do I create a RAG pipeline with createRAG?", "expected_paths": ["/docs/data/rag/create-rag"], "must_mention": ["createRAG", "ingest", "retrieve"], "must_not_say": []}
+{"question": "How do I set up hybrid vector plus lexical search?", "expected_paths": ["/docs/data/rag/hybrid"], "must_mention": ["createHybridRetriever", "vector"], "must_not_say": []}
+{"question": "How do I rerank retrieved documents?", "expected_paths": ["/docs/data/rag/rerank"], "must_mention": ["rerank"], "must_not_say": []}
+{"question": "How do I chunk a long document for RAG?", "expected_paths": ["/docs/data/rag/chunking", "/docs/data/rag/loaders"], "must_mention": ["chunkSize", "chunkOverlap"], "must_not_say": []}
+{"question": "How do I inject retrieved context into the prompt?", "expected_paths": ["/docs/data/rag/context-injection"], "must_mention": ["context"], "must_not_say": []}
+{"question": "What document loaders are available for RAG?", "expected_paths": ["/docs/data/rag/loaders"], "must_mention": ["loader"], "must_not_say": []}
+{"question": "How do I store chat history in SQLite?", "expected_paths": ["/docs/data/memory/sqlite", "/docs/reference/packages/memory", "/docs/reference/recipes/persistent-memory"], "must_mention": ["sqliteChatMemory"], "must_not_say": []}
+{"question": "How do I use Redis for chat memory?", "expected_paths": ["/docs/data/memory/redis-chat", "/docs/data/memory/redis-vector"], "must_mention": ["redis"], "must_not_say": []}
+{"question": "How do I use pgvector as a vector store?", "expected_paths": ["/docs/data/memory/pgvector"], "must_mention": ["pgvector"], "must_not_say": []}
+{"question": "How do I use LanceDB for vector memory?", "expected_paths": ["/docs/data/memory/lancedb"], "must_mention": ["lancedb"], "must_not_say": []}
+{"question": "How do I use Pinecone as a vector store?", "expected_paths": ["/docs/data/memory/pinecone"], "must_mention": ["pinecone"], "must_not_say": []}
+{"question": "How do I auto-summarize long conversation memory?", "expected_paths": ["/docs/data/memory/auto-summarize"], "must_mention": ["summarize"], "must_not_say": []}
+{"question": "How do I configure the Ollama provider?", "expected_paths": ["/docs/data/providers/ollama"], "must_mention": ["ollama", "model"], "must_not_say": []}
+{"question": "How do I use the Anthropic provider adapter?", "expected_paths": ["/docs/data/providers/anthropic"], "must_mention": ["anthropic"], "must_not_say": []}
+{"question": "How do I use the OpenAI provider?", "expected_paths": ["/docs/data/providers/openai", "/docs/reference/recipes/more-providers"], "must_mention": ["openai"], "must_not_say": []}
+{"question": "How do I use the OpenRouter provider?", "expected_paths": ["/docs/data/providers/openrouter"], "must_mention": ["openrouter"], "must_not_say": []}
+{"question": "How do I use the Gemini provider?", "expected_paths": ["/docs/data/providers/gemini"], "must_mention": ["gemini"], "must_not_say": []}
+{"question": "How do I pick which provider to use?", "expected_paths": ["/docs/data/providers/choosing", "/docs/data/providers"], "must_mention": ["provider"], "must_not_say": []}
+{"question": "What is the contract returned by the useChat hook?", "expected_paths": ["/docs/ui/use-chat"], "must_mention": ["messages", "status", "send"], "must_not_say": []}
+{"question": "How do I use the ChatContainer component?", "expected_paths": ["/docs/ui/chat-container"], "must_mention": ["ChatContainer"], "must_not_say": []}
+{"question": "How do I theme the chat UI?", "expected_paths": ["/docs/ui/theming", "/docs/ui/chat-container", "/docs/ui"], "must_mention": ["theme"], "must_not_say": []}
+{"question": "How does the InputBar component work?", "expected_paths": ["/docs/ui/input-bar"], "must_mention": ["InputBar"], "must_not_say": []}
+{"question": "How do I show a tool confirmation in the UI?", "expected_paths": ["/docs/ui/tool-confirmation", "/docs/cookbook/tool-confirmation", "/docs/ui/tool-call-view"], "must_mention": ["confirmation"], "must_not_say": []}
+{"question": "What are the data-ak attributes used for?", "expected_paths": ["/docs/ui/data-attributes"], "must_mention": ["data-ak"], "must_not_say": []}
+{"question": "How do I install AgentsKit and add tools, skills, memory and RAG?", "expected_paths": ["/docs/get-started/getting-started/installation"], "must_mention": ["install", "@agentskit"], "must_not_say": []}
+{"question": "How do I build my first agent?", "expected_paths": ["/docs/get-started/getting-started/build-your-first-agent"], "must_mention": ["agent"], "must_not_say": []}
+{"question": "What is the quickstart for AgentsKit?", "expected_paths": ["/docs/get-started/getting-started/quickstart"], "must_mention": ["quickstart"], "must_not_say": []}
+{"question": "What is an adapter in AgentsKit?", "expected_paths": ["/docs/get-started/concepts/adapter"], "must_mention": ["adapter"], "must_not_say": []}
+{"question": "What is a Retriever concept in AgentsKit?", "expected_paths": ["/docs/get-started/concepts/retriever"], "must_mention": ["retriev"], "must_not_say": []}
+{"question": "How do I migrate from LangChain to AgentsKit?", "expected_paths": ["/docs/get-started/migrating/from-langchain"], "must_mention": ["langchain"], "must_not_say": []}
+{"question": "What does the adapters package export?", "expected_paths": ["/docs/reference/packages/adapters"], "must_mention": ["adapter"], "must_not_say": []}
+{"question": "Show me a basic chat example.", "expected_paths": ["/docs/reference/examples/basic-chat"], "must_mention": ["chat"], "must_not_say": []}
+{"question": "Show me a RAG chat example.", "expected_paths": ["/docs/reference/examples/rag-chat", "/docs/reference/recipes/rag-chat"], "must_mention": ["rag"], "must_not_say": []}
+{"question": "How do I run evals in CI?", "expected_paths": ["/docs/production/evals/ci", "/docs/production/evals", "/docs/reference/recipes/evals-ci", "/docs/reference/examples/eval-runner"], "must_mention": ["eval"], "must_not_say": []}
+{"question": "How does AgentsKit defend against prompt injection?", "expected_paths": ["/docs/production/security/prompt-injection"], "must_mention": ["injection"], "must_not_say": []}

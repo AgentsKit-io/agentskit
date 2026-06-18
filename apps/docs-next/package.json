@@ -18,7 +18,9 @@
     "lint:mdx": "node scripts/lint-mdx.mjs",
     "check:links": "node scripts/check-links.mjs",
     "gen:api": "node scripts/gen-api.mjs",
-    "postinstall": "fumadocs-mdx"
+    "postinstall": "fumadocs-mdx",
+    "gen:ask-index": "tsx scripts/gen-ask-index.mjs",
+    "eval:ask-docs": "tsx lib/ask/eval/run.ts"
   },
   "dependencies": {
     "@agentskit/adapters": "workspace:*",
@@ -33,7 +35,10 @@
     "@agentskit/skills": "workspace:*",
     "@agentskit/tools": "workspace:*",
     "@codesandbox/sandpack-react": "^2.20.0",
+    "@huggingface/transformers": "^4.2.0",
     "@tailwindcss/postcss": "^4.3.1",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.0",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
     "fumadocs-core": "^16.10.3",
@@ -47,6 +52,7 @@
     "react-dom": "^19.2.7",
     "react-markdown": "^10.1.0",
     "remark-gfm": "^4.0.1",
+    "shiki": "^4.2.0",
     "tailwindcss": "^4.3.1",
     "zod": "^4.4.3"
   },
@@ -55,6 +61,7 @@
     "@types/node": "^25.9.3",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "tsx": "^4.22.4",
     "typedoc": "^0.28.19",
     "typedoc-plugin-markdown": "^4.12.0",
     "typescript": "^6.0.3"
