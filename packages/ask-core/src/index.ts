@@ -1,9 +1,9 @@
 /**
  * @agentskit/ask-core — shared engine for the AgentsKit Ask backend (RFC-0007).
  *
- * The corpus-agnostic pieces reused by the docs site and the central Railway
- * backend. F0 extracts the keystone first: the shared ONNX embedder (one model,
- * loaded once, shared across every corpus). Guards, the streaming protocol, and
- * `createAskHandler` follow in later slices.
+ * The default entry is **client-safe**: the streaming wire protocol + the
+ * generative-UI tool definitions, with NO Node-only dependencies. The ONNX
+ * embedder is a separate Node-only entry, `@agentskit/ask-core/embed`, so a
+ * browser widget importing the protocol never pulls `@huggingface/transformers`.
  */
-export { embed, embedBatch, EMBED_DIM, EMBED_MODEL } from './embed'
+export * from './protocol'

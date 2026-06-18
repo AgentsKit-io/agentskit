@@ -24,7 +24,7 @@
  * grounded prompt) and caps both history length and per-message size.
  */
 import type { EmbedFn, Message } from '@agentskit/core'
-import { embed as defaultEmbed } from '@agentskit/ask-core'
+import { embed as defaultEmbed } from '@agentskit/ask-core/embed'
 
 interface IndexRecord {
   embedding: number[]

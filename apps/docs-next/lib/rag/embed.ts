@@ -1,6 +1,5 @@
 /**
- * Re-export of the shared embedder, now in `@agentskit/ask-core` (RFC-0007 F0).
- * Kept as a thin shim so existing `./embed` / `@/lib/rag/embed` imports across the
- * docs app keep working unchanged.
+ * Re-export of the shared Node embedder, now in `@agentskit/ask-core/embed`
+ * (RFC-0007 F0). Thin shim so existing `./embed` imports keep working.
  */
-export * from '@agentskit/ask-core'
+export * from '@agentskit/ask-core/embed'
