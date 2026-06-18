@@ -12,12 +12,29 @@ corpora (akos/playbook).
 ## API
 
 ```
-POST /v1/ask?corpus=docs   { messages }  → NDJSON UiEvent stream (grounded, cited)
-GET  /v1/corpora                          → { corpora: [...] }
-GET  /health                              → ok
+POST /v1/ask?corpus=docs    { messages }       → NDJSON UiEvent stream (grounded, cited)
+POST /v1/search?corpus=docs { query, k? }      → { results: [...] }   (raw retrieval, no LLM)
+GET  /v1/corpora                               → { corpora: [...] }
+GET  /health                                   → ok
+ALL  /mcp                                       → MCP server (JSON-RPC over POST)
 ```
 
-(`/v1/search` + `/mcp` land in F1/F3.)
+### MCP
+
+`/mcp` is a read-only [MCP](https://modelcontextprotocol.io) server (JSON-RPC 2.0
+over POST, public `CORS *`) so agents query AgentsKit knowledge over the same corpus
+registry — same transport as the registry MCP. Tools:
+
+- `list_corpora()` → the knowledge bases this server answers over.
+- `search_docs({ corpus?, query, k? })` → relevant chunks + source paths (raw retrieval).
+- `ask({ corpus?, question })` → a grounded, cited answer (non-streaming; reuses the
+  warm ask handler and collapses its `UiEvent` stream into one markdown answer + sources).
+
+```bash
+curl -s -XPOST http://localhost:8080/mcp \
+  -H 'content-type: application/json' \
+  -d '{"jsonrpc":"2.0","id":1,"method":"tools/call","params":{"name":"ask","arguments":{"question":"what memory backends are there?"}}}'
+```
 
 ## Run locally
 
