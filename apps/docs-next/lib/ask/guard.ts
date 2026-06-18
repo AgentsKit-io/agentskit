@@ -130,6 +130,73 @@ export async function checkScope(query: string, options: ScopeOptions = {}): Pro
   }
 }
 
+/**
+ * Cheap, pre-LLM triage. Returns a canned reply for trivia (greetings, "test",
+ * empty/noise) and a firm decline for obvious prompt-injection attempts — so we
+ * never spend a model call (or risk a jailbreak) on those. Real questions —
+ * including single-word ones like "memory" — fall through to `{ kind: 'ok' }`.
+ * This is defense-in-depth on top of sanitizeMessages + the grounded prompt
+ * (which already fences retrieved text as untrusted data); it is not the only
+ * safeguard.
+ */
+export type Triage = { kind: 'ok' } | { kind: 'canned'; reply: string }
+
+const INJECTION_PATTERNS: readonly RegExp[] = [
+  /ignore\s+(all\s+|the\s+|your\s+)?(previous|prior|above|earlier|those|these)\s+(instructions?|prompts?|rules?|messages?)/i,
+  /disregard\s+(all\s+|the\s+|your\s+)?(previous|prior|above|instructions?|rules?)/i,
+  /forget\s+(everything|all|your\s+(instructions?|rules?|prompt))/i,
+  /\b(system|developer)\s+(prompt|message|instructions?)\b/i,
+  /(reveal|show|print|repeat|leak|expose|tell\s+me)\b.{0,40}\b(your|the|initial|original)\b.{0,20}(prompt|instructions?|rules?|system)/i,
+  /\byou\s+are\s+now\b|\bact\s+as\s+(an?\s+)?|\bpretend\s+(to\s+be|you)|\bnew\s+(persona|role|character)\b/i,
+  /\bjailbreak\b|\bdo\s+anything\s+now\b|\bdeveloper\s+mode\b|\bunfiltered\b/i,
+  /\boverride\s+(your|the|all)\s+(instructions?|rules?|prompt|settings?)/i,
+  /\bfrom\s+now\s+on\b.{0,30}(ignore|forget|act|you\s+are)/i,
+]
+
+const GREETINGS: ReadonlySet<string> = new Set([
+  'oi', 'olá', 'ola', 'eai', 'e ai', 'opa', 'salve', 'hi', 'hello', 'hey', 'heya',
+  'yo', 'hola', 'sup', 'wsp', 'bom dia', 'boa tarde', 'boa noite', 'good morning',
+  'good afternoon', 'good evening',
+])
+
+const NOISE: ReadonlySet<string> = new Set([
+  'test', 'teste', 'testing', 'testando', 'ping', 'pong', 'check', 'hello world',
+  'asdf', 'qwerty', 'aaa', 'lorem ipsum', 'foo', 'bar',
+])
+
+export function triageMessage(query: string): Triage {
+  const raw = query.trim()
+  if (raw.length === 0) return { kind: 'canned', reply: 'Ask me anything about **AgentsKit** and I’ll answer from the docs.' }
+
+  if (INJECTION_PATTERNS.some((re) => re.test(raw))) {
+    return {
+      kind: 'canned',
+      reply:
+        "I only answer questions about the **AgentsKit** documentation — I can’t change my instructions or role, or reveal my prompt. Ask me about agents, tools, skills, memory, RAG, or deploying.",
+    }
+  }
+
+  const norm = raw.toLowerCase().replace(/[!?.…,~]+$/g, '').trim()
+  if (GREETINGS.has(norm)) {
+    return {
+      kind: 'canned',
+      reply:
+        '👋 Hi! I answer questions about **AgentsKit** straight from the docs. Try *“How do I create a runtime agent?”* or *“What memory backends are there?”*',
+    }
+  }
+
+  // Pure noise / non-words / "test". Single real words (e.g. "memory") pass.
+  const isNoise = NOISE.has(norm) || /^[^a-zÀ-ſ]+$/i.test(norm) || norm.length < 2
+  if (isNoise) {
+    return {
+      kind: 'canned',
+      reply: 'I’m working ✓ — ask a real question about **AgentsKit** and I’ll answer from the docs.',
+    }
+  }
+
+  return { kind: 'ok' }
+}
+
 /** A sanitized chat turn (only user/assistant survive). */
 export interface SanitizedMessage {
   role: 'user' | 'assistant'
