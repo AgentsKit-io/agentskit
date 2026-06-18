@@ -134,9 +134,9 @@ function Hero() {
         <div className="min-w-0">
           <HeroDemo />
           <p className="mt-3 text-center font-mono text-[11px] leading-relaxed text-ak-graphite sm:text-xs">
-            Agent renders real React components — not markdown.{' '}
-            <Link href="/docs/reference/examples/agent-actions" className="text-ak-blue hover:underline">
-              See how →
+            The chat in this site&apos;s corner is built on AgentsKit — drop the same RAG chat into your app.{' '}
+            <Link href="/docs/cookbook/ask-the-docs" className="text-ak-blue hover:underline">
+              Build it in minutes →
             </Link>
           </p>
 
