@@ -28,3 +28,4 @@ An RFC may grow into an ADR once the decision is committed and implemented.
 | [0004](./0004-framework-binding-stability.md) | Framework binding stability (beta → stable) | Proposed |
 | [0005](./0005-agent-progress-events.md) | Agent progress events + headless progress renderer | Proposed |
 | [0006](./0006-ui-component-registry.md) | UI component registry & shadcn-style `agentskit add` | Proposed |
+| [0007](./0007-central-ask-backend.md) | Central Ask backend (persistent, multi-corpus, public, MCP) | Proposed |
