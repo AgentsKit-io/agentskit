@@ -255,8 +255,11 @@ export function createAskHandler(config: AskConfig): (req: Request) => Promise<R
     } catch (err) {
       hooks.onError?.(err, { stage: 'retrieve' })
       console.error('[ask-docs] retrieval failed:', err)
+      // TEMP DIAGNOSTIC: surface the real error so we can see why retrieval fails
+      // in the serverless runtime (logs are truncated). Revert after diagnosis.
+      const detail = err instanceof Error ? `${err.name}: ${err.message}` : String(err)
       return singleEventStream(
-        [{ type: 'error', message: 'Could not search the docs right now. Please try again.' }],
+        [{ type: 'error', message: `Could not search the docs right now. [debug] ${detail.slice(0, 300)}` }],
         'unknown',
         cors,
       )
