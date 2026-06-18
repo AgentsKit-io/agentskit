@@ -9,6 +9,13 @@ export type AgentEvent =
   | { type: 'agent:step'; step: number; action: string }
   | { type: 'agent:delegate:start'; name: string; task: string; depth: number }
   | { type: 'agent:delegate:end'; name: string; result: string; durationMs: number; depth: number }
+  /**
+   * A domain-level progress step the agent (not the runtime) defines — e.g. a
+   * multi-stage pipeline reporting "classify", "sanitize", "publish". Lets agents
+   * emit their own stages through the SAME observer channel as runtime events, so
+   * one Observer renders both. The runtime never emits this; agents do.
+   */
+  | { type: 'progress'; label: string; status: 'start' | 'ok' | 'skip' | 'error'; detail?: string; durationMs?: number }
   | { type: 'error'; error: Error }
 
 export interface Observer {

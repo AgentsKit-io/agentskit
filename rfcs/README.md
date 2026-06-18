@@ -26,3 +26,4 @@ An RFC may grow into an ADR once the decision is committed and implemented.
 | [0002](./0002-agent-registry-and-ecosystem-cohesion.md) | Agent Registry & ecosystem cohesion | Accepted |
 | [0003](./0003-oss-akos-boundary.md) | OSS / AKOS product boundary | Accepted |
 | [0004](./0004-framework-binding-stability.md) | Framework binding stability (beta → stable) | Proposed |
+| [0005](./0005-agent-progress-events.md) | Agent progress events + headless progress renderer | Proposed |
