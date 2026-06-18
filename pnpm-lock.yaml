@@ -354,6 +354,49 @@ importers:
         specifier: ^8.0.16
         version: 8.0.16(@types/node@25.9.3)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0)
 
+  apps/example-rag-chat:
+    dependencies:
+      '@agentskit/adapters':
+        specifier: workspace:*
+        version: link:../../packages/adapters
+      '@agentskit/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@agentskit/memory':
+        specifier: workspace:*
+        version: link:../../packages/memory
+      '@agentskit/rag':
+        specifier: workspace:*
+        version: link:../../packages/rag
+      '@agentskit/react':
+        specifier: workspace:*
+        version: link:../../packages/react
+      '@huggingface/transformers':
+        specifier: ^4.2.0
+        version: 4.2.0
+      react:
+        specifier: ^19.2.7
+        version: 19.2.7
+      react-dom:
+        specifier: ^19.2.7
+        version: 19.2.7(react@19.2.7)
+    devDependencies:
+      '@types/react':
+        specifier: ^19.2.17
+        version: 19.2.17
+      '@types/react-dom':
+        specifier: ^19.2.3
+        version: 19.2.3(@types/react@19.2.17)
+      '@vitejs/plugin-react':
+        specifier: ^6.0.2
+        version: 6.0.2(vite@8.0.16(@types/node@25.9.3)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0))
+      typescript:
+        specifier: ^6.0.3
+        version: 6.0.3
+      vite:
+        specifier: ^8.0.16
+        version: 8.0.16(@types/node@25.9.3)(esbuild@0.28.1)(jiti@2.7.0)(terser@5.48.0)(tsx@4.22.4)(yaml@2.9.0)
+
   apps/example-react:
     dependencies:
       '@agentskit/adapters':
