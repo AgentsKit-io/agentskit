@@ -76,14 +76,25 @@ Served at **`ask.agentskit.io`** (Railway custom domain) — positioned as a pro
 ("AgentsKit knowledge API + MCP"), not an internal URL. The **MCP** endpoint ships
 in the early phases, not deferred.
 
-### D5. Reuse via an `ask-core` package (no breakage)
+### D5. The backend **app** owns the logic — NO new shared lib
 
-Extract the ask/RAG logic from `apps/docs-next/lib` into a workspace package
-**`packages/ask-core`** (or `@agentskit/ask-core`): `createAskHandler`, the guards,
-the retriever factory, the embedder, the streaming protocol, and the MCP tool
-definitions. `docs-next` then imports the package (mechanical, verified non-breaking
-against the live chat). The backend and any site reuse the same core — one source of
-truth.
+**`apps/ask-backend`** (a Hono app) is the single home of the ask engine —
+`createAskHandler`, the guards, the per-corpus retrievers, the embedder, the
+streaming protocol, the MCP tools. **No new `packages/*` lib is created.** The repo
+already carries ~24 packages; a heavy shared lib is unwarranted here because the
+sites **do not run the ask logic** — their widgets call the backend over HTTP, so
+there is nothing heavy to share.
+
+The only genuinely shared piece is the **wire protocol** (the widget renders the
+`UiEvent`s the backend emits). It is small (event types + a few helpers + tool
+names); it lives in the backend app and the docs widget imports it cross-app
+(monorepo) — or keeps a tiny local copy. No package.
+
+`createAskHandler` (RFC-0006 D5) is already framework-neutral, so it mounts into
+Hono unchanged. **Migration order avoids breakage:** stand up the backend first
+(it can reference `docs-next`'s ask source during dev), repoint the widgets, then
+the logic settles permanently in `apps/ask-backend` and `docs-next`'s route is
+removed — no duplication, no lib.
 
 ### D6. Indexes per-property, committed (for now)
 
@@ -126,15 +137,15 @@ retriever; everything else (guards, adapter, citations) is shared config.
 
 ## Phased rollout
 
-- **F0 — extract `ask-core`**: move `lib/ask/*` + `lib/rag/*` (handler, guards,
-  retriever factory, embed, protocol, skill, rate-limit) into `packages/ask-core`;
-  repoint `docs-next` imports; **verify the live chat still works** (build + a real
-  query). No behaviour change.
-- **F1 — `apps/ask-backend` (Hono) on Railway, multi-corpus**: `/v1/ask`,
-  `/v1/search`, `/v1/corpora`, `/health`; load docs + akos + playbook + registry
-  indexes (those that exist; others stubbed). Warm-load the model at boot. Deploy to
-  Railway, attach `ask.agentskit.io`. Point the **www** widget at it; verify warm +
-  fast + cited.
+- **F0 — scaffold `apps/ask-backend` (Hono)**: the app reuses `docs-next`'s ask
+  source (`createAskHandler` + guards + retriever + embed) — referenced during dev,
+  **no package extraction** — and serves `/v1/ask` + `/health` for the docs corpus.
+  Run it locally; verify a real query streams a cited answer. `docs-next`'s Vercel
+  route stays live (unchanged) the whole time.
+- **F1 — Railway + multi-corpus**: load docs + akos + playbook + registry indexes
+  (those that exist; others stubbed); `/v1/search`, `/v1/corpora`. Warm-load the
+  model at boot. Deploy to Railway, attach `ask.agentskit.io`. Point the **www**
+  widget at it; verify warm + fast + cited.
 - **F2 — wire the other sites**: akos/playbook/registry widgets point at
   `ask.agentskit.io/v1/ask?corpus=<their>`; generate + commit their indexes.
 - **F3 — MCP**: `/mcp` with `list_corpora` / `search_docs` / `ask`; document it for
