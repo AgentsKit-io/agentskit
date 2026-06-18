@@ -42,8 +42,14 @@ let extractorPromise: Promise<FeatureExtractor> | null = null
 async function getExtractor(): Promise<FeatureExtractor> {
   if (!extractorPromise) {
     extractorPromise = (async () => {
-      const { pipeline } = await import('@huggingface/transformers')
-      const extractor = (await pipeline(
+      const transformers = await import('@huggingface/transformers')
+      // Serverless functions have a read-only filesystem except for `/tmp`. The
+      // first call downloads the ONNX model from the HF hub and caches it; point
+      // that cache at the one writable dir, or the write fails and retrieval errors.
+      if (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+        transformers.env.cacheDir = '/tmp/.transformers-cache'
+      }
+      const extractor = (await transformers.pipeline(
         'feature-extraction',
         EMBED_MODEL,
       )) as unknown as FeatureExtractor

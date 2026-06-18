@@ -67,6 +67,12 @@ const DOC_REDIRECTS = [
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
+  // The Ask-the-docs route runs `@huggingface/transformers` (ONNX) in-process for
+  // local query embeddings. It MUST NOT be bundled into the serverless function —
+  // bundling its onnxruntime backend breaks it at runtime, surfacing as
+  // "[ask-docs] retrieval failed". Keeping it external resolves it from
+  // node_modules in the function (via output file tracing) at runtime instead.
+  serverExternalPackages: ['@huggingface/transformers'],
   async redirects() {
     // Legacy 404 fixes first — first match wins, so explicit per-URL rules
     // override the broad wildcard rules that used to chain into dead targets.
