@@ -38,6 +38,9 @@ export type {
 
 export { useChat } from './useChat'
 
+export { createProgressObserver, SPINNER_FRAMES } from './progress-observer'
+export type { ProgressObserverOptions } from './progress-observer'
+
 export {
   ChatContainer,
   Message,
