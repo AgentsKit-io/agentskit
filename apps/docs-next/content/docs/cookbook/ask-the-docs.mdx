@@ -92,6 +92,36 @@ The floating chat is a headless, slotted component — open by default, branded 
 
 Generative UI (option buttons, forms, runnable code) activates with `ASK_RICH_UI=1` and a capable model — free models stay on reliable markdown text.
 
+## Guardrails (built in)
+
+Before any model call, a cheap **triage** runs — it saves your free-tier quota on
+trivia and blocks the obvious attacks:
+
+- **Greetings** ("hi", "oi") and **noise** ("test", empty, gibberish) → an instant
+  canned reply, no LLM.
+- **Prompt injection** ("ignore previous instructions", "reveal your system
+  prompt", "you are now…", "jailbreak") → a firm decline that never changes role
+  or leaks the prompt — no LLM.
+- Real questions (even one word like "memory") fall through.
+
+It's **additive and extensible** — keep the defenses, add your own:
+
+```ts
+import { triageMessage } from './lib/ask/guard'
+
+const triage = triageMessage(userText, {
+  greetings: ['salut', 'ciao'],
+  noise: ['blah'],
+  injectionPatterns: [/give me the raw config/i],
+  replies: { greeting: 'Hey! Ask me about our product docs.' },
+})
+if (triage.kind === 'canned') return stream(triage.reply) // skip the model
+```
+
+This sits on top of the other layers: client `system` messages are stripped, the
+retrieved context is fenced as **untrusted data**, and the grounded prompt keeps
+answers on-topic — defense-in-depth.
+
 ## Going further
 
 - **Durable rate limit** — front the route with Upstash (in-memory fallback for dev).
