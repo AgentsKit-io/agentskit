@@ -4,6 +4,14 @@ import { useCallback, useEffect, useRef, useState } from 'react'
 import { decodeEvents, type UiEvent } from '@/lib/ask/protocol'
 
 /**
+ * Where to POST the chat. Defaults to the same-origin Vercel route; set
+ * `NEXT_PUBLIC_ASK_ENDPOINT` (e.g. `https://ask.agentskit.io/v1/ask?corpus=docs`)
+ * to route to the central persistent backend (RFC-0007). Both speak the same
+ * NDJSON `UiEvent` protocol, so nothing else changes.
+ */
+const ASK_ENDPOINT = process.env.NEXT_PUBLIC_ASK_ENDPOINT || '/api/ask-docs'
+
+/**
  * A rendered part of an assistant turn. Parts are kept in arrival order so the
  * widget can interleave streamed prose (`text`) with generative-UI tool calls
  * (`tool`) exactly as the model emitted them.
@@ -206,7 +214,7 @@ export function useAskChat(): UseAskChat {
       abortRef.current = ctrl
 
       try {
-        const res = await fetch('/api/ask-docs', {
+        const res = await fetch(ASK_ENDPOINT, {
           method: 'POST',
           signal: ctrl.signal,
           headers: { 'content-type': 'application/json' },

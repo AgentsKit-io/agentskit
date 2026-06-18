@@ -13,13 +13,15 @@
     "@agentskit/adapters": "workspace:*",
     "@agentskit/core": "workspace:*",
     "@agentskit/rag": "workspace:*",
-    "@huggingface/transformers": "^4.2.0",
+    "@agentskit/validation": "workspace:*",
     "@hono/node-server": "^1.13.7",
+    "@huggingface/transformers": "^4.2.0",
     "@upstash/ratelimit": "^2.0.5",
     "@upstash/redis": "^1.34.3",
     "hono": "^4.6.14"
   },
   "devDependencies": {
+    "@types/json-schema": "^7.0.15",
     "@types/node": "^25.9.3",
     "tsx": "^4.22.4",
     "typescript": "^6.0.3"

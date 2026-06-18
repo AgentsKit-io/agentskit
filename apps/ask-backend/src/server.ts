@@ -15,8 +15,10 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
+import type { JSONSchema7 } from 'json-schema'
 import type { RetrievedDocument, Retriever } from '@agentskit/core'
 import { createFallbackAdapter, openrouter } from '@agentskit/adapters'
+import { createAjvValidator } from '@agentskit/validation'
 // Reuse the docs app's ask source (relative — no shared package, RFC-0007 D5).
 import { createAskHandler } from '../../docs-next/lib/ask/handler'
 import { createDocsRetriever, formatCitedContext } from '../../docs-next/lib/rag/retrieve'
@@ -106,6 +108,52 @@ app.post('/v1/ask', (c) => {
   const handler = handlers[corpus]
   if (!handler) return c.json({ error: `unknown corpus "${corpus}"` }, 400)
   return handler(c.req.raw)
+})
+
+// Validate the search body against a JSON Schema via Ajv (the repo's runtime
+// validator, @agentskit/validation — JSON Schema is canonical here, not Zod).
+const validateSearch = createAjvValidator({ coerceTypes: true })
+const SEARCH_SCHEMA: JSONSchema7 = {
+  type: 'object',
+  properties: {
+    query: { type: 'string', minLength: 1 },
+    k: { type: 'integer', minimum: 1, maximum: 20 },
+  },
+  required: ['query'],
+  additionalProperties: false,
+}
+
+// Raw retrieval — relevant chunks for a query, no LLM. Powers tools + the MCP
+// search tool, and lets a site render sources without a full chat turn.
+app.post('/v1/search', async (c) => {
+  const corpus = c.req.query('corpus') ?? 'docs'
+  const cor = corpora[corpus]
+  if (!cor) return c.json({ error: `unknown corpus "${corpus}"` }, 400)
+  let raw: unknown
+  try {
+    raw = await c.req.json()
+  } catch {
+    return c.json({ error: 'invalid JSON' }, 400)
+  }
+  const result = validateSearch(SEARCH_SCHEMA, (raw ?? {}) as Record<string, unknown>)
+  if (!result.valid) {
+    return c.json({ error: 'invalid request body', detail: result.errors }, 400)
+  }
+  const { query, k = 6 } = raw as { query: string; k?: number }
+  try {
+    const docs = await cor.retriever.retrieve({ query: query.trim(), messages: [] })
+    return c.json({
+      results: docs.slice(0, k).map((d) => ({
+        content: d.content,
+        score: d.score,
+        path: (d.metadata as { path?: string } | undefined)?.path,
+        title: (d.metadata as { title?: string } | undefined)?.title,
+      })),
+    })
+  } catch (err) {
+    console.error('[ask-backend] search failed:', err)
+    return c.json({ error: 'search failed' }, 500)
+  }
 })
 
 const port = Number(process.env.PORT ?? 8080)
