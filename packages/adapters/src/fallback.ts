@@ -65,12 +65,36 @@ export function createFallbackAdapter(
             }
             active = source
 
+            // Pull until the first *committing* chunk. A throw, zero chunks, or
+            // a leading `error` chunk (e.g. a 404 stale-model / 429 rate-limit
+            // that the provider adapter surfaces as a chunk instead of throwing)
+            // marks this candidate failed → advance to the next. Once a real
+            // content chunk commits, mid-stream errors propagate (no retry).
             const iter = source.stream()[Symbol.asyncIterator]()
-            let first: IteratorResult<StreamChunk>
+            let firstReal: StreamChunk | undefined
+            let branchError: Error | undefined
             try {
-              first = await iter.next()
+              while (true) {
+                const r = await iter.next()
+                if (r.done) {
+                  branchError = new Error(`candidate ${candidate.id} emitted no chunks`)
+                  break
+                }
+                if (r.value.type === 'error') {
+                  branchError = new Error(
+                    `candidate ${candidate.id}: ${r.value.content ?? 'stream error'}`,
+                  )
+                  break
+                }
+                firstReal = r.value
+                break
+              }
             } catch (err) {
-              const error = err instanceof Error ? err : new Error(String(err))
+              branchError = err instanceof Error ? err : new Error(String(err))
+            }
+
+            if (branchError || !firstReal) {
+              const error = branchError ?? new Error(`candidate ${candidate.id} emitted no chunks`)
               errors.push({ id: candidate.id, error })
               options.onFallback?.({ id: candidate.id, index: i, error })
               if (options.shouldRetry && !options.shouldRetry(error, i)) throw error
@@ -78,17 +102,7 @@ export function createFallbackAdapter(
               continue
             }
 
-            if (first.done) {
-              // Candidate produced zero chunks — treat as a failed branch.
-              const error = new Error(`candidate ${candidate.id} emitted no chunks`)
-              errors.push({ id: candidate.id, error })
-              options.onFallback?.({ id: candidate.id, index: i, error })
-              if (options.shouldRetry && !options.shouldRetry(error, i)) throw error
-              active = undefined
-              continue
-            }
-
-            yield first.value
+            yield firstReal
             while (true) {
               const next = await iter.next()
               if (next.done) return
