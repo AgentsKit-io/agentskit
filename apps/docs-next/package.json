@@ -19,7 +19,8 @@
     "check:links": "node scripts/check-links.mjs",
     "gen:api": "node scripts/gen-api.mjs",
     "postinstall": "fumadocs-mdx",
-    "gen:ask-index": "tsx scripts/gen-ask-index.mjs"
+    "gen:ask-index": "tsx scripts/gen-ask-index.mjs",
+    "eval:ask-docs": "tsx lib/ask/eval/run.ts"
   },
   "dependencies": {
     "@agentskit/adapters": "workspace:*",
