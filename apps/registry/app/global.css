@@ -236,3 +236,61 @@ figure[data-rehype-pretty-code-figure] pre {
   white-space: pre-wrap;
   word-break: break-word;
 }
+
+/* ── Registry landing (rg-*) — animations + helpers, theme-aware via --ak-* ── */
+.rg-aurora { position: absolute; inset: 0; overflow: hidden; z-index: 0; pointer-events: none; }
+.rg-aurora::before, .rg-aurora::after {
+  content: ''; position: absolute; width: 60vw; height: 60vw; border-radius: 50%;
+  filter: blur(90px); opacity: 0.28; animation: rg-drift 18s ease-in-out infinite alternate;
+}
+.rg-aurora::before { top: -22%; left: -10%; background: radial-gradient(circle, var(--ak-blue), transparent 60%); }
+.rg-aurora::after { top: -12%; right: -14%; background: radial-gradient(circle, #8b5cf6, transparent 60%); animation-delay: -6s; }
+@keyframes rg-drift { from { transform: translate3d(0,0,0) scale(1); } to { transform: translate3d(40px,30px,0) scale(1.15); } }
+
+.rg-grid {
+  position: absolute; inset: 0; z-index: 0; pointer-events: none;
+  --rg-line: color-mix(in srgb, var(--ak-blue) 14%, transparent);
+  background-image: linear-gradient(var(--rg-line) 1px, transparent 1px), linear-gradient(90deg, var(--rg-line) 1px, transparent 1px);
+  background-size: 54px 54px; background-position: center top;
+  -webkit-mask-image: radial-gradient(ellipse 95% 80% at 50% 8%, #000 45%, transparent 85%);
+  mask-image: radial-gradient(ellipse 95% 80% at 50% 8%, #000 45%, transparent 85%);
+  opacity: 0.9;
+}
+
+.rg-reveal { opacity: 0; transform: translateY(16px); transition: opacity .6s ease, transform .6s ease; }
+.rg-reveal.in { opacity: 1; transform: none; }
+
+.rg-caret::after { content: '▋'; margin-left: 2px; color: var(--ak-blue); animation: rg-blink 1s steps(1) infinite; }
+@keyframes rg-blink { 50% { opacity: 0; } }
+
+.rg-mqtrack { display: flex; gap: 12px; width: max-content; animation: rg-marq 60s linear infinite; }
+.rg-mqtrack.rev { animation-direction: reverse; animation-duration: 48s; }
+.rg-marquee:hover .rg-mqtrack { animation-play-state: paused; }
+@keyframes rg-marq { to { transform: translateX(-50%); } }
+
+.rg-spin { animation: rg-spin 0.7s linear infinite; }
+@keyframes rg-spin { to { transform: rotate(360deg); } }
+
+.rg-line { stroke: color-mix(in srgb, var(--ak-blue) 35%, var(--ak-border)); stroke-width: 1.5; fill: none; stroke-dasharray: 4 6; animation: rg-flow 1.6s linear infinite; }
+.rg-line.active { stroke: var(--ak-blue); stroke-width: 2.2; }
+@keyframes rg-flow { to { stroke-dashoffset: -16; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .rg-aurora::before, .rg-aurora::after, .rg-mqtrack, .rg-line, .rg-spin { animation: none !important; }
+  .rg-reveal { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .rg-mqtrack { flex-wrap: wrap; width: auto; }
+}
+
+/* copy button icon swap + toast */
+.rg-copy .ck { display: none; }
+.rg-copy.rg-copied .cp { display: none; }
+.rg-copy.rg-copied .ck { display: inline-flex; color: var(--ak-green); }
+.rg-copy.rg-copied { color: var(--ak-green); border-color: color-mix(in srgb, var(--ak-green) 50%, var(--ak-border)); }
+.rg-toast {
+  position: fixed; left: 50%; bottom: 28px; transform: translateX(-50%) translateY(20px);
+  display: flex; align-items: center; gap: 8px; z-index: 100; pointer-events: none;
+  background: var(--ak-surface); border: 1px solid color-mix(in srgb, var(--ak-green) 45%, var(--ak-border));
+  color: var(--ak-foam); padding: 10px 18px; border-radius: 999px; font-size: .9rem; font-weight: 600;
+  box-shadow: 0 8px 24px rgba(0,0,0,.25); opacity: 0; transition: opacity .22s ease, transform .22s ease;
+}
+.rg-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
