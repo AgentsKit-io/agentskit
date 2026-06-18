@@ -1,4 +1,8 @@
 export { createChatController } from './controller'
+export { jaroWinkler, fuzzyMatchList } from './fuzzy-match'
+export type { FuzzyMatch } from './fuzzy-match'
+export { SEVERITY_ORDER } from './types/finding'
+export type { Severity, Finding } from './types/finding'
 export {
   AgentsKitError,
   AdapterError,
