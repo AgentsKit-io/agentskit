@@ -18,6 +18,11 @@ export interface OpenAIConfig {
 
 export function openai(config: OpenAIConfig): AdapterFactory {
   const { apiKey, model, baseUrl = 'https://api.openai.com', retry } = config
+  // Normalize: many compatible endpoints are declared WITH a trailing `/v1`
+  // (together, mistral, fireworks, openrouter `/api/v1`, …) while others are
+  // declared without it. We always append `/v1/chat/completions`, so strip a
+  // trailing `/v1` first to avoid a double `/v1/v1/...` (→ 404).
+  const apiRoot = baseUrl.replace(/\/v1\/?$/, '')
   // Auto: on for canonical OpenAI, off for every other compatible endpoint
   // where the param is a known source of 4xx surprises.
   // Match the canonical OpenAI host exactly — a substring/prefix check
@@ -60,7 +65,7 @@ export function openai(config: OpenAIConfig): AdapterFactory {
       if (includeUsage) body.stream_options = { include_usage: true }
 
       return createStreamSource(
-        (signal) => fetch(`${baseUrl}/v1/chat/completions`, {
+        (signal) => fetch(`${apiRoot}/v1/chat/completions`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
