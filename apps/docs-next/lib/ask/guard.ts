@@ -23,9 +23,11 @@
  * `sanitizeMessages` strips any client-supplied system role (we inject our own
  * grounded prompt) and caps both history length and per-message size.
  */
+import { readFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
+import { join, dirname } from 'node:path'
 import type { EmbedFn, Message } from '@agentskit/core'
 import { embed as defaultEmbed } from '../rag/embed'
-import snapshot from '../ask-index/index.json'
 
 interface IndexRecord {
   embedding: number[]
@@ -62,14 +64,27 @@ function cosine(a: number[], b: number[]): number {
 }
 
 /**
+ * Load the committed index from disk on first call; cached thereafter.
+ * Using readFileSync with a runtime-resolved path keeps the 20 MB JSON out of
+ * the module-load graph (RFC-0006 D6 — cold-start / bundle optimisation).
+ */
+function loadIndexRecords(): IndexRecord[] {
+  const dir = dirname(fileURLToPath(import.meta.url))
+  const indexPath = join(dir, '../ask-index/index.json')
+  const raw = readFileSync(indexPath, 'utf8')
+  return (JSON.parse(raw) as IndexSnapshot).records ?? []
+}
+
+/**
  * Mean of all chunk embeddings, re-normalized. Computed once from the committed
- * index. Returns `undefined` when the index is empty (→ guard fails open).
+ * index (loaded lazily on first call). Returns `undefined` when the index is
+ * empty (→ guard fails open).
  */
 let cachedCentroid: number[] | null | undefined
 function corpusCentroid(): number[] | undefined {
   if (cachedCentroid !== undefined) return cachedCentroid ?? undefined
 
-  const records = (snapshot as unknown as IndexSnapshot).records ?? []
+  const records = loadIndexRecords()
   if (records.length === 0) {
     cachedCentroid = null
     return undefined
