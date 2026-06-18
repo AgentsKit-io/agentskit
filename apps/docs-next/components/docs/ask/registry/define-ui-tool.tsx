@@ -1,7 +1,7 @@
 'use client'
 
 import type { ComponentType, ReactNode } from 'react'
-import { UI_TOOL_NAMES } from '@/lib/ask/protocol'
+import { RENDERABLE_TOOL_NAMES } from '@/lib/ask/protocol'
 
 /**
  * Generative-UI tool registry — the anti-injection render boundary.
@@ -86,7 +86,7 @@ export function createRegistry(tools: ReadonlyArray<UiTool<unknown>>): UiToolReg
   const components: Record<string, ComponentType<UiToolProps<unknown>>> = {}
 
   for (const tool of tools) {
-    if (!UI_TOOL_NAMES.has(tool.name)) {
+    if (!RENDERABLE_TOOL_NAMES.has(tool.name)) {
       // eslint-disable-next-line no-console
       console.warn(
         `[ask-registry] tool "${tool.name}" is not in UI_TOOL_NAMES; dropped from registry.`,
@@ -97,11 +97,11 @@ export function createRegistry(tools: ReadonlyArray<UiTool<unknown>>): UiToolReg
   }
 
   function has(name: string): boolean {
-    return UI_TOOL_NAMES.has(name) && name in components
+    return RENDERABLE_TOOL_NAMES.has(name) && name in components
   }
 
   function render(name: string, args: unknown, ctx: UiToolContext): ReactNode {
-    if (!UI_TOOL_NAMES.has(name)) {
+    if (!RENDERABLE_TOOL_NAMES.has(name)) {
       // eslint-disable-next-line no-console
       console.warn(`[ask-registry] blocked non-allow-listed tool "${name}".`)
       return null
