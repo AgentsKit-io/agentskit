@@ -148,8 +148,11 @@ export const openPageTool = defineTool({
  * per-schema generics; we only need the base `ToolDefinition` shape here (these
  * are never executed server-side), so widen through `unknown`.
  */
+// NOTE: `answer` is intentionally NOT advertised. Free models imitate a "answer"
+// tool by emitting its JSON as raw text (which then renders as a JSON blob). The
+// prose answer is plain streamed markdown text instead; `answerTool` is kept only
+// for the server-side off-topic decline event, which the widget still renders.
 export const UI_TOOLS: ToolDefinition[] = [
-  answerTool,
   citeTool,
   showOptionsTool,
   renderFormTool,
