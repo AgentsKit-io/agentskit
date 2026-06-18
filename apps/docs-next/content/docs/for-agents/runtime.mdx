@@ -28,6 +28,8 @@ npm install @agentskit/runtime
 - `createChatTrigger({ adapter, agent, ... })` — unified inbound trigger for chat-surface bots (Slack / Teams / Discord / WhatsApp). Wraps a `ChatSurfaceAdapter` that normalizes provider events into a `ChatSurfaceEvent` discriminated union (`message` / `mention` / `reply` / `reaction` / `file_upload` / `installation`). Returns a framework-agnostic `WebhookHandler`.
 - `createQuotaTracker` + `withQuotas` — per-tool quota / blast-radius limits (count / cost / duration windows).
 - `createValidatorGuard` + built-in validators `denyPattern`, `lengthRange`, `isJson` — agent-insurance primitive that rejects tool args / outputs against allow/deny rules before they propagate.
+- `piiDenyValidator(opts?)` — a `Validator` that fails when the output still contains PII (bridges `@agentskit/core/security`'s redactor into the guard chain); a deterministic last-line gate for redaction/export agents instead of trusting the prompt.
+- `invokeStructured({ adapter, tool, task, parse, skill? })` — first-class structured output: run a skill that must call one `submit_*` tool, read it back from `result.toolCalls`, return the validated value. Replaces the hand-rolled "offer one tool, find the call, parse args" boilerplate every pipeline agent writes.
 
 ## Minimal example
 
