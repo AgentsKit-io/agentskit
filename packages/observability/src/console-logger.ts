@@ -40,6 +40,9 @@ function formatHuman(event: AgentEvent): string {
     case 'error':
       return `[${timestamp()}] !! error: ${event.error.message}`
   }
+  // Fallback for any future AgentEvent variant (keeps the build green; TS 6 no
+  // longer treats the switch as exhaustively returning).
+  return `[${timestamp()}]    ${(event as AgentEvent).type}`
 }
 
 function formatJSON(event: AgentEvent): string {
@@ -68,6 +71,8 @@ function formatJSON(event: AgentEvent): string {
     case 'error':
       return JSON.stringify({ ...base, error: event.error.message })
   }
+  // Fallback for any future AgentEvent variant (keeps the build green).
+  return JSON.stringify(base)
 }
 
 export function consoleLogger(config: ConsoleLoggerConfig = {}): Observer {

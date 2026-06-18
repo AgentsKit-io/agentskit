@@ -48,6 +48,18 @@ function emitsNone(): AdapterFactory {
   }
 }
 
+/** Surfaces a provider failure (e.g. 404/429) as a leading `error` chunk. */
+function errorsOnFirst(msg: string): AdapterFactory {
+  return {
+    createSource: () => ({
+      abort: () => {},
+      stream: async function* () {
+        yield { type: 'error', content: msg } as StreamChunk
+      },
+    }),
+  }
+}
+
 async function collect(factory: AdapterFactory): Promise<StreamChunk[]> {
   const out: StreamChunk[] = []
   for await (const c of factory.createSource(req()).stream()) out.push(c)
@@ -93,6 +105,45 @@ describe('createFallbackAdapter', () => {
     ])
     const chunks = await collect(f)
     expect(chunks[0]!.content).toBe('B')
+  })
+
+  it('falls through when a candidate emits a leading error chunk', async () => {
+    const f = createFallbackAdapter([
+      { id: 'a', adapter: errorsOnFirst('OpenAI API error: 404') },
+      { id: 'b', adapter: ok('B') },
+    ])
+    const chunks = await collect(f)
+    expect(chunks[0]!.content).toBe('B')
+  })
+
+  it('cascades across several failing free models to the first healthy one', async () => {
+    const f = createFallbackAdapter([
+      { id: 'm1', adapter: errorsOnFirst('429 rate-limited') },
+      { id: 'm2', adapter: errorsOnFirst('404 stale model') },
+      { id: 'm3', adapter: throwsOnOpen() },
+      { id: 'm4', adapter: ok('M4') },
+    ])
+    const chunks = await collect(f)
+    expect(chunks[0]!.content).toBe('M4')
+  })
+
+  it('an error chunk *after* a candidate commits is propagated, not retried', async () => {
+    const lateError: AdapterFactory = {
+      createSource: () => ({
+        abort: () => {},
+        stream: async function* () {
+          yield { type: 'text', content: 'hi' } as StreamChunk
+          yield { type: 'error', content: 'boom' } as StreamChunk
+        },
+      }),
+    }
+    const f = createFallbackAdapter([
+      { id: 'a', adapter: lateError },
+      { id: 'b', adapter: ok('B') },
+    ])
+    const chunks = await collect(f)
+    expect(chunks[0]!.content).toBe('hi')
+    expect(chunks.some((c) => c.type === 'error')).toBe(true)
   })
 
   it('aggregates errors when every candidate fails', async () => {
