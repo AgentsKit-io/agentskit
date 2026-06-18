@@ -40,7 +40,21 @@ curl -s -XPOST 'http://localhost:8080/v1/ask?corpus=docs' \
   in-memory fallback), the triage/injection/scope guards, body cap. Secrets stay
   server-side.
 
-## Deploy
+## Deploy (Railway)
 
-Railway (F1): persistent instance, `pnpm --filter @agentskit/ask-backend start`,
-`/health` healthcheck, custom domain `ask.agentskit.io`. Config lands in F1.
+`railway.json` is checked in. In the Railway dashboard:
+
+1. **New project → Deploy from GitHub repo** (`AgentsKit-io/agentskit`).
+2. **Settings → Root Directory** = the **repo root** (the backend imports the docs
+   app's source + the committed index, so it needs the full workspace — not just
+   `apps/ask-backend`). The `railway.json` build/start commands run from there.
+3. **Variables**: `OPENROUTER_API_KEY` (required), optional `UPSTASH_REDIS_REST_URL`
+   + `UPSTASH_REDIS_REST_TOKEN` (durable rate-limit), `ASK_CORS_ORIGINS`.
+4. **Networking → Custom Domain** = `ask.agentskit.io`.
+
+Build = `pnpm install`; start = `pnpm --filter @agentskit/ask-backend start` (tsx).
+The persistent process means the model loads once at boot and stays warm — the
+writable Railway filesystem caches it (no `/tmp` hack needed; the Vercel-specific
+cache override doesn't fire here).
+
+Then point each site's chat widget at `https://ask.agentskit.io/v1/ask?corpus=<id>`.

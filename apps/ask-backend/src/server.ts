@@ -108,6 +108,37 @@ app.post('/v1/ask', (c) => {
   return handler(c.req.raw)
 })
 
+// Raw retrieval — relevant chunks for a query, no LLM. Powers tools + the MCP
+// search tool, and lets a site render sources without a full chat turn.
+app.post('/v1/search', async (c) => {
+  const corpus = c.req.query('corpus') ?? 'docs'
+  const cor = corpora[corpus]
+  if (!cor) return c.json({ error: `unknown corpus "${corpus}"` }, 400)
+  let body: { query?: unknown; k?: unknown }
+  try {
+    body = (await c.req.json()) as { query?: unknown; k?: unknown }
+  } catch {
+    return c.json({ error: 'invalid JSON' }, 400)
+  }
+  const query = typeof body.query === 'string' ? body.query.trim() : ''
+  if (!query) return c.json({ error: 'query required' }, 400)
+  const k = typeof body.k === 'number' && body.k > 0 ? Math.min(body.k, 20) : 6
+  try {
+    const docs = await cor.retriever.retrieve({ query, messages: [] })
+    return c.json({
+      results: docs.slice(0, k).map((d) => ({
+        content: d.content,
+        score: d.score,
+        path: (d.metadata as { path?: string } | undefined)?.path,
+        title: (d.metadata as { title?: string } | undefined)?.title,
+      })),
+    })
+  } catch (err) {
+    console.error('[ask-backend] search failed:', err)
+    return c.json({ error: 'search failed' }, 500)
+  }
+})
+
 const port = Number(process.env.PORT ?? 8080)
 serve({ fetch: app.fetch, port }, () => {
   console.log(`[ask-backend] listening on :${port} — corpora: ${Object.keys(corpora).join(', ')}`)
