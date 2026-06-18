@@ -1,7 +1,10 @@
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { createMDX } from 'fumadocs-mdx/next'
 import { LEGACY_404_REDIRECTS } from './legacy-404-redirects.mjs'
 
 const withMDX = createMDX()
+const repoRoot = join(dirname(fileURLToPath(import.meta.url)), '../..')
 
 /**
  * Redirects cover:
@@ -73,6 +76,21 @@ const config = {
   // "[ask-docs] retrieval failed". Keeping it external resolves it from
   // node_modules in the function (via output file tracing) at runtime instead.
   serverExternalPackages: ['@huggingface/transformers'],
+  // The ask-docs embedder uses onnxruntime-node, whose native `.so`/`.node`
+  // binaries are loaded via dlopen and therefore NOT picked up by Vercel's
+  // (static) output file tracing — the function then fails at query time with
+  // "libonnxruntime.so.1: cannot open shared object file". Force the Linux
+  // binaries into the function. `outputFileTracingRoot` points at the monorepo
+  // root so the pnpm store path resolves.
+  outputFileTracingRoot: repoRoot,
+  outputFileTracingIncludes: {
+    // Both relative forms — globs may resolve from the app dir or the tracing
+    // root depending on Next's monorepo handling; the non-matching one is a no-op.
+    '/api/ask-docs': [
+      '../../node_modules/.pnpm/onnxruntime-node@*/node_modules/onnxruntime-node/bin/napi-v*/linux/**/*',
+      './node_modules/.pnpm/onnxruntime-node@*/node_modules/onnxruntime-node/bin/napi-v*/linux/**/*',
+    ],
+  },
   async redirects() {
     // Legacy 404 fixes first — first match wins, so explicit per-URL rules
     // override the broad wildcard rules that used to chain into dead targets.
