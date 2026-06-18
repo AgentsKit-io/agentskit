@@ -31,6 +31,33 @@ describe('github', () => {
     expect(await run(tools.find((t) => t.name === 'github_create_issue')!, { owner: 'o', repo: 'r', title: 'x' })).toEqual({ number: 2, url: 'iu' })
     expect(await run(tools.find((t) => t.name === 'github_comment_issue')!, { owner: 'o', repo: 'r', number: 1, body: 'b' })).toEqual({ id: 9, url: 'cu' })
   })
+
+  it('PR review comment + batched PR review hit the pulls endpoints', async () => {
+    let path = ''; let body: Record<string, unknown> = {}
+    const fetch = fakeFetch((u, init) => {
+      path = u; body = JSON.parse(String(init.body ?? '{}'))
+      if (u.includes('/reviews')) return json({ id: 7, html_url: 'ru', state: 'CHANGES_REQUESTED' })
+      return json({ id: 5, html_url: 'pcu' })
+    })
+    const tools = toToolDefinitions(githubIntegration, { credential: 'gh', fetch })
+
+    const comment = tools.find((t) => t.name === 'github_create_pr_review_comment')!
+    expect(await run(comment, { owner: 'o', repo: 'r', number: 3, body: 'fix', commit_id: 'abc', path: 'a.ts', line: 12 }))
+      .toEqual({ id: 5, url: 'pcu' })
+    expect(path).toContain('/repos/o/r/pulls/3/comments')
+    expect(body).toMatchObject({ body: 'fix', commit_id: 'abc', path: 'a.ts', line: 12 })
+    expect(body).not.toHaveProperty('side') // omitted when not passed
+
+    const review = tools.find((t) => t.name === 'github_create_pr_review')!
+    expect(
+      await run(review, {
+        owner: 'o', repo: 'r', number: 3, event: 'REQUEST_CHANGES', body: 'summary',
+        comments: [{ path: 'a.ts', line: 12, body: 'inline' }],
+      }),
+    ).toEqual({ id: 7, url: 'ru', state: 'CHANGES_REQUESTED' })
+    expect(path).toContain('/repos/o/r/pulls/3/reviews')
+    expect(body).toMatchObject({ event: 'REQUEST_CHANGES', body: 'summary', comments: [{ path: 'a.ts', line: 12, body: 'inline' }] })
+  })
 })
 
 describe('github-actions', () => {
