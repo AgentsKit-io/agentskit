@@ -163,8 +163,10 @@ retriever; everything else (guards, adapter, citations) is shared config.
   where the backend pulls it (committed artifact or fetch-on-boot); register those
   corpora; their widgets point at `ask.agentskit.io/v1/ask?corpus=<their>`. (registry
   knowledge = the agents in `agentskit-registry`, not the site pages.)
-- **F3 — MCP**: `/mcp` with `list_corpora` / `search_docs` / `ask`; document it for
-  agents (and cross-link from the registry MCP).
+- **F3 — MCP** ✓: `/mcp` with `list_corpora` / `search_docs` / `ask` — a read-only
+  JSON-RPC server (same transport as the registry MCP), over the shared corpus
+  registry. `ask` reuses the warm handler and collapses the `UiEvent` stream into one
+  cited answer. (Cross-link from the registry MCP once the domain is live.)
 - **F4 — retire serverless routes**: remove the per-property Vercel `/api/ask-docs`
   routes (or leave a thin proxy); the backend is the single source.
 

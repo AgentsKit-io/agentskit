@@ -1,0 +1,18 @@
+# Docker build context for apps/ask-backend (context = repo root).
+# Keep it lean: deps + build artifacts are regenerated inside the image. Without
+# this the context is ~15 GB (node_modules + .git + every dist/.next/.turbo).
+**/node_modules
+.git
+.turbo
+**/.turbo
+**/dist
+**/.next
+**/.vercel
+**/coverage
+**/*.tsbuildinfo
+**/.DS_Store
+
+# Heavy app build outputs / fixtures not needed by the backend.
+**/storybook-static
+**/playwright-report
+**/test-results

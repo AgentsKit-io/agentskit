@@ -19,6 +19,7 @@ import type { JSONSchema7 } from 'json-schema'
 import type { RetrievedDocument, Retriever } from '@agentskit/core'
 import { createFallbackAdapter, openrouter } from '@agentskit/adapters'
 import { createAjvValidator } from '@agentskit/validation'
+import { createMcpHandler } from './mcp'
 // Reuse the docs app's ask source (relative — no shared package, RFC-0007 D5).
 import { createAskHandler } from '../../docs-next/lib/ask/handler'
 import { createDocsRetriever, formatCitedContext } from '../../docs-next/lib/rag/retrieve'
@@ -155,6 +156,16 @@ app.post('/v1/search', async (c) => {
     return c.json({ error: 'search failed' }, 500)
   }
 })
+
+// MCP endpoint (RFC-0007 F3) — read-only JSON-RPC over POST, public (CORS `*`),
+// over the same corpus registry. Reuses each corpus's retriever (search_docs) and
+// warm ask handler (ask). Its own CORS handling, so it sits outside `/v1/*`.
+const mcp = createMcpHandler(
+  Object.fromEntries(
+    Object.entries(corpora).map(([id, c]) => [id, { retriever: c.retriever, handler: handlers[id] }]),
+  ),
+)
+app.all('/mcp', (c) => mcp(c.req.raw))
 
 const port = Number(process.env.PORT ?? 8080)
 serve({ fetch: app.fetch, port }, () => {
