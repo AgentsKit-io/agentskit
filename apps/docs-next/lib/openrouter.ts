@@ -3,10 +3,17 @@
 
 // Current tool-capable :free model ids (verified against the OpenRouter /models
 // catalog 2026-06-17). Free ids rotate — refresh if you see 404s. The free pool
-// is shared and rate-limited (429); the fallback chain is the mitigation.
+// is shared + rate-limited (429); spreading across many DIVERSE providers (so
+// rate limits don't all hit at once) + the fallback cascade + a quick per-model
+// retry is the mitigation. Regenerate with: scripts/check-free-models (or the
+// /models catalog filtered by supported_parameters including "tools").
 export const FREE_MODELS = [
   'meta-llama/llama-3.3-70b-instruct:free',
   'qwen/qwen3-next-80b-a3b-instruct:free',
+  'google/gemma-4-26b-a4b-it:free',
+  'openai/gpt-oss-120b:free',
+  'nvidia/nemotron-3-ultra-550b-a55b:free',
+  'cohere/north-mini-code:free',
   'nousresearch/hermes-3-llama-3.1-405b:free',
   'meta-llama/llama-3.2-3b-instruct:free',
 ]
