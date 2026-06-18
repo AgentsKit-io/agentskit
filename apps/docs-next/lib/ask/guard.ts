@@ -23,9 +23,6 @@
  * `sanitizeMessages` strips any client-supplied system role (we inject our own
  * grounded prompt) and caps both history length and per-message size.
  */
-import { readFileSync } from 'node:fs'
-import { fileURLToPath } from 'node:url'
-import { join, dirname } from 'node:path'
 import type { EmbedFn, Message } from '@agentskit/core'
 import { embed as defaultEmbed } from '../rag/embed'
 
@@ -64,15 +61,14 @@ function cosine(a: number[], b: number[]): number {
 }
 
 /**
- * Load the committed index from disk on first call; cached thereafter.
- * Using readFileSync with a runtime-resolved path keeps the 20 MB JSON out of
- * the module-load graph (RFC-0006 D6 — cold-start / bundle optimisation).
+ * Load the committed index on first call; cached thereafter. The dynamic
+ * `import()` makes the JSON a lazily-loaded chunk — kept out of the module-load
+ * graph (RFC-0006 D6 cold-start win) while still bundled + shipped by the builder
+ * (no serverless file-resolution risk, unlike an `fs` read).
  */
-function loadIndexRecords(): IndexRecord[] {
-  const dir = dirname(fileURLToPath(import.meta.url))
-  const indexPath = join(dir, '../ask-index/index.json')
-  const raw = readFileSync(indexPath, 'utf8')
-  return (JSON.parse(raw) as IndexSnapshot).records ?? []
+async function loadIndexRecords(): Promise<IndexRecord[]> {
+  const mod = (await import('../ask-index/index.json')) as { default: IndexSnapshot }
+  return mod.default.records ?? []
 }
 
 /**
@@ -81,10 +77,10 @@ function loadIndexRecords(): IndexRecord[] {
  * empty (→ guard fails open).
  */
 let cachedCentroid: number[] | null | undefined
-function corpusCentroid(): number[] | undefined {
+async function corpusCentroid(): Promise<number[] | undefined> {
   if (cachedCentroid !== undefined) return cachedCentroid ?? undefined
 
-  const records = loadIndexRecords()
+  const records = await loadIndexRecords()
   if (records.length === 0) {
     cachedCentroid = null
     return undefined
@@ -123,7 +119,7 @@ export async function checkScope(query: string, options: ScopeOptions = {}): Pro
   const text = query.trim()
   if (text.length === 0) return { inScope: false, reason: 'empty query' }
 
-  const centroid = corpusCentroid()
+  const centroid = await corpusCentroid()
   if (!centroid) return { inScope: true }
 
   const threshold = options.threshold ?? ON_TOPIC_THRESHOLD

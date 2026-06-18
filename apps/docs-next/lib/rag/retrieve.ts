@@ -12,13 +12,10 @@
  * The returned `Retriever` caps its output at ~3k tokens of cited context so
  * the prompt budget stays bounded regardless of how many chunks match.
  *
- * RFC-0006 D6: the 20 MB index.json is loaded lazily on first retrieval and
- * cached in-process, so it is NOT part of the module-load graph. Serverless
- * cold-start and bundle size are unaffected.
+ * RFC-0006 D6: the ~20 MB index.json is loaded lazily on first retrieval (via a
+ * dynamic import → a separate, on-demand chunk) and cached in-process, so it is
+ * NOT part of the module-load graph and does not inflate serverless cold-start.
  */
-import { readFileSync } from 'node:fs'
-import { fileURLToPath } from 'node:url'
-import { join, dirname } from 'node:path'
 import type {
   EmbedFn,
   RetrievedDocument,
@@ -51,17 +48,15 @@ interface IndexSnapshot {
 let cachedSnapshot: IndexSnapshot | undefined
 
 /**
- * Load the committed index from disk on first call; return the cached copy
- * thereafter. Using readFileSync with a path resolved from import.meta.url
- * ensures bundlers cannot inline the JSON at build time — it is read at Node
- * runtime, not at module-parse time.
+ * Load the committed index on first call; return the cached copy thereafter. The
+ * dynamic `import()` makes the JSON a lazily-loaded chunk: the builder still
+ * bundles and ships it (so there is no runtime file-resolution risk, unlike an
+ * `fs` read in a serverless function), but it is not parsed at module init.
  */
-function loadSnapshot(): IndexSnapshot {
+async function loadSnapshot(): Promise<IndexSnapshot> {
   if (cachedSnapshot) return cachedSnapshot
-  const dir = dirname(fileURLToPath(import.meta.url))
-  const indexPath = join(dir, '../ask-index/index.json')
-  const raw = readFileSync(indexPath, 'utf8')
-  cachedSnapshot = JSON.parse(raw) as IndexSnapshot
+  const mod = (await import('../ask-index/index.json')) as { default: IndexSnapshot }
+  cachedSnapshot = mod.default
   return cachedSnapshot
 }
 
@@ -150,40 +145,43 @@ export function createDocsRetriever(options: DocsRetrieverOptions = {}): Retriev
   const maxChars = options.maxContextChars ?? MAX_CONTEXT_CHARS
 
   // Defer index access into the async retrieve path so createDocsRetriever()
-  // itself remains synchronous. RAG + hybrid retriever are built on first call
-  // and reused via closured references.
-  let base: Retriever | undefined
+  // itself remains synchronous. RAG + hybrid retriever are built once on the
+  // first call and reused via the cached promise.
+  let basePromise: Promise<Retriever> | undefined
 
-  function ensureRetriever(): Retriever {
-    if (base) return base
-    const data = loadSnapshot()
-    const store = createInMemoryVectorStore(data.records)
-    const rag = createRAG({
-      embed,
-      store,
-      // Inputs are pre-chunked; keep the query-side splitter inert.
-      chunkSize: 1_000_000,
-      chunkOverlap: 0,
-      topK: CANDIDATE_POOL,
-    })
-    base = options.vectorOnly
-      ? rag
-      : createHybridRetriever(rag, {
-          candidatePool: CANDIDATE_POOL,
-          topK: TOP_K,
-          // Semantic-heavier: keyword-matchy recipe/example siblings were
-          // out-ranking the canonical leaf page at #1. Leaning on the vector score
-          // promotes the conceptual page — measured MRR 0.546 → 0.678 with
-          // recall@6 unchanged at 98% (eval: lib/ask/eval/retrieval.ts).
-          vectorWeight: 0.85,
-          bm25Weight: 0.15,
-        })
-    return base
+  function ensureRetriever(): Promise<Retriever> {
+    if (basePromise) return basePromise
+    basePromise = (async () => {
+      const data = await loadSnapshot()
+      const store = createInMemoryVectorStore(data.records)
+      const rag = createRAG({
+        embed,
+        store,
+        // Inputs are pre-chunked; keep the query-side splitter inert.
+        chunkSize: 1_000_000,
+        chunkOverlap: 0,
+        topK: CANDIDATE_POOL,
+      })
+      return options.vectorOnly
+        ? rag
+        : createHybridRetriever(rag, {
+            candidatePool: CANDIDATE_POOL,
+            topK: TOP_K,
+            // Semantic-heavier: keyword-matchy recipe/example siblings were
+            // out-ranking the canonical leaf page at #1. Leaning on the vector score
+            // promotes the conceptual page — measured MRR 0.546 → 0.678 with
+            // recall@6 unchanged at 98% (eval: lib/ask/eval/retrieval.ts).
+            vectorWeight: 0.85,
+            bm25Weight: 0.15,
+          })
+    })()
+    return basePromise
   }
 
   return {
     async retrieve(request) {
-      const docs = await ensureRetriever().retrieve(request)
+      const retriever = await ensureRetriever()
+      const docs = await retriever.retrieve(request)
       return boundByChars(docs, maxChars)
     },
   }
