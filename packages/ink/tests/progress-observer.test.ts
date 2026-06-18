@@ -19,4 +19,18 @@ describe('createProgressObserver', () => {
     expect(text).toContain('⛔')
     expect(text).not.toContain('llm:start')
   })
+
+  it('emits no ANSI escapes in plain mode — including around the duration', () => {
+    const out: string[] = []
+    const obs = createProgressObserver({ write: (s) => out.push(s), plain: true })
+
+    obs.on({ type: 'progress', label: 'classify', status: 'start' })
+    obs.on({ type: 'progress', label: 'classify', status: 'ok', detail: 'done', durationMs: 1200 })
+
+    const text = out.join('')
+    // The duration used to carry raw \x1b[2m … \x1b[0m even in plain mode.
+    expect(text).toContain('(1.2s)')
+    // eslint-disable-next-line no-control-regex
+    expect(text).not.toMatch(/\x1b\[/)
+  })
 })

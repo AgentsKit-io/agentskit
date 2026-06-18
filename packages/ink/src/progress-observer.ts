@@ -67,12 +67,14 @@ export function createProgressObserver(options: ProgressObserverOptions = {}): O
       stop()
       const sym = event.status === 'ok' ? '✓' : event.status === 'error' ? '⛔' : '–'
       const color = event.status === 'ok' ? C.green : event.status === 'error' ? C.red : C.yellow
-      const time = event.durationMs ? ` ${C.dim}(${(event.durationMs / 1000).toFixed(1)}s)${C.reset}` : ''
       const cr = plain ? '' : '\r'
       const clr = plain ? '' : '\x1b[K' // clear to EOL so a long spinner line leaves no leftover chars
       const c = plain ? '' : color
       const r = plain ? '' : C.reset
       const d = plain ? '' : C.dim
+      // Build `time` from the plain-aware codes too — otherwise the duration keeps
+      // raw ANSI in non-TTY/CI logs, defeating the whole point of `plain`.
+      const time = event.durationMs ? ` ${d}(${(event.durationMs / 1000).toFixed(1)}s)${r}` : ''
       write(`${cr}  ${c}${sym}${r} ${label} ${d}${event.detail ?? ''}${r}${time}${clr}\n`)
     },
   }
