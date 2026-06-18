@@ -72,8 +72,18 @@ describe('github', () => {
     expect(capture.url).toContain('/repos/a/b/issues/3/comments')
   })
 
-  it('github() returns all three tools', () => {
-    expect(github({ token: 't' })).toHaveLength(3)
+  it('github() returns the full action set', () => {
+    const names = github({ token: 't' }).map((t) => t.name)
+    expect(names).toEqual(
+      expect.arrayContaining([
+        'github_search_issues',
+        'github_create_issue',
+        'github_comment_issue',
+        'github_create_pr_review_comment',
+        'github_create_pr_review',
+      ]),
+    )
+    expect(names).toHaveLength(5)
   })
 })
 
