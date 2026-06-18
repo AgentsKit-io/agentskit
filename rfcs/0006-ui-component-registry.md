@@ -1,7 +1,7 @@
 # RFC 0006 — UI component registry & shadcn-style `agentskit add`
 
 - **Status**: Proposed
-- **Version**: 2 (v1 → v2 hardened after adversarial enterprise review — see Changelog)
+- **Version**: 3 (v2 → v3 after a 6-lens consensus review — closes 2 BLOCKERs + the `AskConfig` cluster; see Changelog)
 - **Date**: 2026-06-18
 - **Author**: @EmersonBraun
 - **Related issues**: —
@@ -24,8 +24,9 @@ React/Next/Remix/TanStack, SvelteKit, Nuxt/Vue, Angular, React Native (Expo), an
 Ink.
 
 This RFC defines the **contracts** only. No implementation lands until accepted.
-v2 closes the blockers found in review; the **Resolved decisions** section is the
-core, **Open questions** now holds only genuine product calls.
+Two review rounds (v2, then a 6-lens consensus pass for v3) closed every BLOCKER;
+the **Resolved decisions** section is the core, **Open questions** now holds only
+genuine product calls.
 
 ## Motivation
 
@@ -37,8 +38,8 @@ detection, no placement, no server-handler delivery, no integrity verification.
 
 shadcn/ui proved the pattern that wins adoption — *init → scan → validate → copy →
 ready*, user owns the source. AgentsKit already has the registry client, the
-hosted-index + raw-GitHub fetch, and a line-diff updater. v2 reuses that and adds
-the contracts an enterprise flagship requires. Each install also pulls real
+hosted-index + raw-GitHub fetch, and a line-diff updater. This RFC reuses that and
+adds the contracts an enterprise flagship requires. Each install also pulls real
 downloads of the base packages the component composes.
 
 ## Resolved decisions (locked)
@@ -67,7 +68,10 @@ re-detecting.
 
 ```jsonc
 {
-  "$schema": "https://registry.agentskit.io/schema/components.json",
+  // v1 $schema is a versioned raw-GitHub tag URL so it resolves the day it ships,
+  // before registry.agentskit.io hosting exists; the hosted URL becomes an alias
+  // (redirect) once live, so no committed components.json ever needs to change it.
+  "$schema": "https://raw.githubusercontent.com/AgentsKit-io/agentskit-registry/v1/schema/components.json",
   "schemaVersion": 1,
   "uiBinding": "react",
   "metaFramework": "next-app",
@@ -77,6 +81,10 @@ re-detecting.
   "aliases": { "components": "@/components", "lib": "@/lib", "server": "@/app/api" },
   "paths": { "root": ".", "components": "components", "lib": "lib", "server": "app/api" },
   "registries": { "default": "https://registry.agentskit.io" },
+  // Private/enterprise registries: map a registry base URL → the ENV VAR NAME that
+  // holds its bearer token. The secret never lives in the committed file; the CLI
+  // injects `Authorization: Bearer <resolved-env>` for matching fetches.
+  "registryAuth": { "https://artifactory.acme.internal/agentskit": "ACME_REGISTRY_TOKEN" },
   "linkComponent": null
 }
 ```
@@ -84,6 +92,11 @@ re-detecting.
 In a monorepo `paths.*` anchor to a workspace package (`packages/ui/src/…`),
 resolved relative to the config file, not cwd. `init` detects `pnpm-workspace.yaml`
 / `turbo.json` / `nx.json` and prompts for the target package.
+
+The CLI reads the top-level `schemaVersion` and applies **forward-only**
+migrations, preserving unknown fields; `agentskit init --upgrade` rewrites the file
+to the current format. (Air-gapped/offline validators supply a local copy of the
+`$schema` file.)
 
 ### D4. Two-level framework model (so the server file lands correctly)
 
@@ -101,9 +114,14 @@ type MetaFramework =
 interface FrameworkTarget { uiBinding: UiBinding; metaFramework: MetaFramework }
 ```
 
-The scanner produces **both**. UI files key on `uiBinding`; server files key on
-`metaFramework`. The CLI never offers a `(uiBinding, metaFramework)` pair a
-component hasn't shipped.
+The scanner produces **both**. **The `ports` map is keyed by `uiBinding` alone**;
+the correct server mount file within a port is selected by
+`server.serverTargetByMeta[metaFramework]` (D5). The CLI builds the lookup key as
+`scan.uiBinding` and rejects the install if `ports` has no matching key. A
+publish-time validator rejects any `ports` key that is not a bare `UiBinding`
+literal (the compound `${uiBinding}:${metaFramework}` form is **not** allowed — it
+was ambiguous and is removed). The CLI never offers a
+`(uiBinding, metaFramework)` pair a component hasn't shipped.
 
 ### D5. Server-handler delivery contract (resolves v1 open Q1)
 
@@ -115,7 +133,40 @@ per-meta-framework mounts. The core is a **Web-standard handler**:
 export function createAskHandler(config: AskConfig): (req: Request) => Promise<Response>
 ```
 
-Per-`metaFramework` mount files adapt it (Next route handler, SvelteKit
+`AskConfig` is the runtime contract every mount wraps. It carries the **security
+envelope**, a **pluggable rate-limiter**, and **observability hooks** — so the four
+runtime concerns (handler security, rate-limit extensibility, telemetry, structured
+429/decline events) are one type, not per-port reinvention:
+
+```ts
+interface AskConfig {
+  retriever: Retriever
+  adapter: Adapter                       // free-pool fallback chain, etc.
+  // — security envelope (explicit defaults; locked in production) —
+  security?: {
+    rateLimit?: { windowSec: number; max: number }   // default 60s / 10 req, in-memory
+    bearerToken?: string                  // optional shared-secret auth
+    corsOrigins?: string[]                // default ['*'] in dev, MUST be set in prod
+    maxBodyBytes?: number                 // default 32_768
+  }
+  // — pluggable limiter; default = the in-memory limiter (process-local, see note) —
+  rateLimiter?: (req: Request) => Promise<{ ok: boolean; retryAfterSec?: number }>
+  // — observability; default no-op, each emits one structured JSON line —
+  hooks?: ObservabilityHooks
+}
+
+interface ObservabilityHooks {
+  onRateLimit?(ip: string, retryAfterSec: number): void
+  onScopeDecline?(ip: string, reason: string, queryHash: string): void
+  onError?(err: unknown, ctx: { stage: string }): void
+}
+```
+
+> The default `rateLimiter` is **process-local** — correct for a single Node
+> server, ineffective across serverless cold-starts / replicas. Ports declare this
+> via `PortServer.rateLimitBackend` and the installer warns (below).
+
+Per-`metaFramework` mount files adapt the handler (Next route handler, SvelteKit
 `+server.ts`, Nuxt `server/api/*.post.ts`, Remix `action`, Express middleware for
 `angular-ssr`, a local Node server for `ink`). The `ComponentPort.server` field
 declares delivery:
@@ -129,13 +180,34 @@ interface PortServer {
   serverTargetByMeta?: Partial<Record<MetaFramework, string>>
   runtimeRequirement: 'nodejs' | 'edge-compatible' | 'none'
   embeddingBackend: 'onnx-node' | 'api-remote' | 'browser-wasm' | 'none'
-  endpointEnvVar?: string  // for hosted/local: e.g. AGENTSKIT_ASK_ENDPOINT
+  rateLimitBackend: 'memory' | 'external-required'  // serverless-capable ⇒ warn if 'memory'
+  endpointEnvVar?: string       // hosted/local server-side endpoint, e.g. AGENTSKIT_ASK_ENDPOINT
+  clientEndpointProp?: string   // the hook/component prop that receives the runtime endpoint URL
+  securityHeaders?: Record<string, string>  // advisory CSP etc. (see D8/flagship)
+  bundleSizeKb?: number         // optional cold-start budget tooling can assert
 }
 ```
 
 The validator refuses an install whose `runtimeRequirement`/`embeddingBackend` the
 detected target can't satisfy (e.g. `onnx-node` on `expo`/edge) — with a concrete
 message and the supported alternative, never a silent broken install.
+
+**`serverTargetByMeta` is authoritative** for the matched `metaFramework`;
+`components.json` `paths.server` is the project default applied **only** when
+`serverTargetByMeta` has no entry for the detected `metaFramework`. When both are
+set and disagree, the installer emits a non-blocking warning so the developer
+reconciles consciously.
+
+**Client endpoint injection.** `endpointEnvVar` is server-side. Ports whose client
+must reach a runtime/deployed endpoint (Remix resource routes, TanStack Start, pure
+SPA, `angular-spa`, Expo — anything not served from a predictable
+`NEXT_PUBLIC_*`-style build var) MUST declare `clientEndpointProp` (the hook /
+component prop, e.g. `endpointUrl`; a `configureAskChat({ endpoint })` factory is an
+acceptable equivalent) and print a usage snippet passing it.
+
+**`delivery: 'local'`** runtime lifecycle (process management, port resolution,
+health-check, SIGTERM propagation) is **out of scope** for this RFC and must be
+specified as a `LocalServerSpec` before the Ink port (Rollout step 7) ships.
 
 ### D6. Embedding + index portability (resolves v1 open Q2)
 
@@ -172,28 +244,78 @@ portability refactor is **gate-enforced** before any port ships:
 - Cross-app imports are **inlined** (the logo) or **slotted** (`linkComponent`
   prop, default `<a>`) so non-Next ports work.
 
+**Enforcement** is a named gate, not a comment: `check:registry-headless`
+(`scripts/check-registry-headless.mjs`) grep/AST-fails on `className=`, hardcoded
+color literals, `next/*` imports, and `@/components/brand/*` imports in
+`registry:component` / `registry:route` **source** files (authoring-time, in the
+registry repo — not installed output). It is wired into `pnpm
+check:quality-gates` and is a **merge precondition** for the first port.
+
+#### D8a. CSS-merge contract (deterministic, diff-able)
+
+"Merge `cssVars` into the CSS entry" has one machine-readable algorithm so two CLI
+implementations produce identical output and the D15 3-way diff for CSS has a
+foundation:
+
+- **Selectors**: `light` tokens → `:root`; `dark` tokens →
+  `@media (prefers-color-scheme: dark)` and `[data-theme="dark"]`.
+- **Block markers**: each installed block is delimited by
+  `/* agentskit:<id>:start */ … /* agentskit:<id>:end */` so it can be located,
+  replaced, or removed idempotently.
+- **Conflict policy**: duplicate `--ak-*` token names → last-writer-wins with a
+  `--verbose` warning.
+- **Keyframes** are namespaced `ak-<componentId>-<name>` to avoid collisions.
+
 ### D9. Supply-chain integrity (enterprise trust)
 
 - **Pinned refs in production**: fetch from `/refs/tags/v<semver>/`, not `main`.
   `main` only behind an explicit `--channel preview`.
 - **Per-file `sha256`** in the item manifest; the CLI verifies every file after
   fetch and **aborts the whole install** on mismatch.
-- **Signed index manifest** (minisign/cosign detached signature) so the checksum
-  list itself can't be poisoned; CLI verifies the signature against a shipped
-  public key before trusting checksums.
+- **Signed index manifest** — a **minisign** detached signature (Ed25519) so the
+  checksum list itself can't be poisoned; the CLI verifies it against a shipped
+  Ed25519 public key embedded in the CLI binary before trusting checksums. (cosign/
+  Sigstore keyless is deferred to a future ADR — it has no shipped key and needs
+  outbound TLS to Fulcio/Rekor, which breaks air-gapped installs.)
+- **Key distribution + rotation**: the CLI ships a bootstrap key; at install it
+  fetches `keys.json` listing active keys (`kid` + `publicKey` + `validFrom` +
+  optional `validUntil`). The signed manifest carries a `kid`. Two keys overlap for
+  a rotation window (**≥ 30 days**); the CLI **warns** (not blocks) as the active
+  key nears expiry.
 - **Configurable / private registry**: resolution order `--registry` →
   `AGENTSKIT_REGISTRY_URL` → `components.json` `registries` map → default.
   Identifier forms: `name`, `@org/name` (namespaced via the map), `https://…`.
+  Private-registry credentials resolve **only** via `components.json` `registryAuth`
+  (base URL → env-var name) + env — a `--registry-token` argv flag is **prohibited**
+  for the same reason `--api-key` is (D10).
 - **Proxy/CA aware** fetch (`HTTPS_PROXY`/`NO_PROXY`/`NODE_EXTRA_CA_CERTS`) with an
   actionable error when blocked.
-- **Audit**: append `.agentskit/install-log.jsonl` (id, version, ref, files+sha,
-  timestamp) — the artifact a future `agentskit audit` consumes.
+- **Audit**: append `.agentskit/install-log.jsonl`, an **append-only, tamper-evident**
+  chain. Each entry:
+  ```ts
+  interface AuditEntry {
+    schemaVersion: 1
+    eventType: 'install' | 'update' | 'remove' | 'rollback'
+    id: string; version: string; ref: string
+    files: Array<{ path: string; sha256: string }>
+    manifestSigRef: string            // correlates to the verified signed manifest
+    prevEntryHash: string             // sha256 of the canonical prior entry ('' for first)
+    timestamp: string
+  }
+  ```
+  A future `agentskit audit` walks the `prevEntryHash` chain and fails on any
+  gap/mismatch. (Retention window, HMAC, and the `audit` command itself are deferred
+  to a follow-on ADR.)
 
 ### D10. Transactional, idempotent install
 
 - **Stage → verify → atomic commit.** Write to a temp dir, verify all files +
   checksums, then move as one step. Any pre-commit failure → delete temp, roll back
   partially-written files, report "rolled back N files." Never leave a dirty tree.
+  The staging temp dir is a **sibling of the target** (`target/../.agentskit-tmp-<uuid>/`),
+  not `os.tmpdir()`, so `rename(2)` stays atomic (same filesystem); on `EXDEV` the
+  CLI falls back to copy-then-delete and warns atomicity is best-effort. (The npm/
+  pnpm/Yarn pattern.)
 - **Idempotent**: identical content → silent no-op. Modified-by-user + no `--update`
   → skip with notice. Conflicts collected up front and resolved **per file**
   (interactive prompt, or `--overwrite` for the set) — never the current
@@ -209,8 +331,15 @@ portability refactor is **gate-enforced** before any port ships:
 - Registry items carry `schemaVersion` and a semver `version`; CLI refuses a
   `schemaVersion` it predates.
 - `ComponentPort.peerRanges: Record<string,string>` (e.g. `@agentskit/react: ">=2"`);
-  validator checks installed versions and blocks on mismatch.
-- All registry JSON + `components.json` carry `$schema` for editor/CI validation.
+  validator checks installed versions and blocks on mismatch. **Port-level overrides
+  component-level** for the same key (more-specific wins); `peerRanges` from all
+  resolved `registryDependency` ports are collected into **one** set and conflicts
+  surfaced in aggregate at the dry-run (step 7), not on first hit. The validator
+  treats any resolved version beginning with `workspace:` as **always-satisfying**
+  (the version is repo-owner-controlled and guaranteed present — avoids false-blocks
+  for monorepo contributors).
+- All registry JSON + `components.json` carry `$schema` (a versioned raw-GitHub tag
+  URL in v1; hosted alias later — see D3) for editor/CI validation.
 
 ### D12. TS ↔ JS parity
 
@@ -230,7 +359,7 @@ type RegistryFileType =
   | 'registry:route' | 'registry:page' | 'registry:css' | 'registry:test'
 
 interface RegistryFile {
-  path: string
+  path: string           // publish-time validated: no absolute paths, no `..` segments (D16)
   type: RegistryFileType
   sha256: string
   target?: string        // overrides defaultTarget for this file
@@ -258,6 +387,19 @@ components list` (all installed + sync status). `registryDependencies` resolve v
 topological sort with **cycle detection** and a depth cap; dedup by `id` against
 the marker.
 
+### D16. Path containment (no write-escape)
+
+`sha256` verifies content, the signed manifest verifies the checksum list, and
+stage→atomic-commit verifies completeness — but none constrain **where** a file is
+written. A valid-checksum entry with `path: '../../.env'` would escape the target
+via `path.join`. Therefore:
+
+- For every file, after `dest = join(targetDir, file.path)` the CLI MUST assert
+  `path.resolve(dest).startsWith(path.resolve(targetDir) + path.sep)` and throw
+  `IntegrityError` otherwise. **The same guard applies on the `diff` read path.**
+- `RegistryFile.path` is **publish-time validated** to reject absolute paths and any
+  `..` segment.
+
 ## Schema (consolidated)
 
 ```ts
@@ -273,7 +415,7 @@ interface RegistryComponent {
   description: string
   category: string                   // 'chat' | …
   frameworks: FrameworkTarget[]      // declared, not implied
-  ports: Record<string, ComponentPort>  // key = `${uiBinding}:${metaFramework}` or `${uiBinding}`
+  ports: Record<UiBinding, ComponentPort>  // key = uiBinding alone; server file picked via server.serverTargetByMeta[metaFramework] (D4)
   packages: string[]                 // common npm deps
   peerRanges?: Record<string, string>
   env?: RegistryEnvVar[]
@@ -317,19 +459,30 @@ surface in validation — never a silent guess.
 2. **Resolve identifier + registry** (D9): `name` / `@org/name` / URL → base URL.
 3. **Fetch item manifest** at the pinned ref; verify signature + `schemaVersion`.
 4. **Branch on `kind`** — `agent` → today's path (unchanged). `component` → on.
-5. **Validate** (D4/D5/D6/D11/D12): framework-target supported; `peerRanges`;
-   `runtimeRequirement` + `embeddingBackend` satisfiable; styling mode; env scope
-   (block a server-only key resolving into a client bundle); TS/JS.
-6. **Resolve `registryDependencies`** — topo sort, cycle-detect, dedup vs marker.
+5. **Validate** (D4/D5/D6/D11/D12/D16): lookup key = `scan.uiBinding`, reject if no
+   matching port; framework-target supported; `peerRanges`; `runtimeRequirement` +
+   `embeddingBackend` satisfiable; styling mode; env scope (block a server-only key
+   resolving into a client bundle); TS/JS. **Warn** (non-blocking) when
+   `paths.server` disagrees with `serverTargetByMeta[metaFramework]`, and when a
+   serverless-capable `metaFramework` ships `rateLimitBackend: 'memory'` (naming
+   `UPSTASH_REDIS_REST_URL` / `_TOKEN` + a setup link).
+6. **Resolve `registryDependencies`** — topo sort, cycle-detect, dedup vs marker;
+   collect all port `peerRanges` into one set (D11).
 7. **Plan**. `--dry-run [--json]` prints the full structured plan (files+targets,
-   deps, env, conflicts) using the **same pipeline** and exits — no writes.
-8. **Fetch files**, verify each `sha256`.
-9. **Stage → atomic commit** (D10); conflicts resolved per file.
-10. **Merge** `cssVars` into the CSS entry; write/append `.env.example`.
-11. **Write/update marker** + audit log (D9/D15) atomically.
+   deps, env, conflicts, aggregate peer-range conflicts) using the **same pipeline**
+   and exits — no writes.
+8. **Fetch files**, verify each `sha256`; assert path containment (D16) before any
+   write.
+9. **Stage → atomic commit** (D10), path-containment re-checked; conflicts resolved
+   per file.
+10. **Merge** `cssVars` into the CSS entry per the D8a algorithm; write/append
+    `.env.example`.
+11. **Write/update marker** + tamper-evident audit entry (D9/D15) atomically.
 12. **Install packages** via the detected PM (prompt unless `--yes`).
 13. **Ready output** — per-framework usage snippet, required env, "run the indexer"
-    (D6), endpoint setup for `hosted`/`local`.
+    (D6); for non-Next/`hosted` ports a snippet passing `clientEndpointProp`; a CSP
+    notice when `embeddingBackend === 'browser-wasm'` or a web-worker backend is used
+    (required `worker-src blob:` / scoped `connect-src`).
 
 ## The chat as the flagship
 
@@ -341,6 +494,12 @@ generative-UI registry (client); `createAskHandler` + the Next mount + guardrail
 (`lib/ask/guard.ts`, extensible per #1013) + retriever + free-pool adapter
 (server); the indexer + empty index stub; merged `--ak-*` tokens/keyframes.
 Everything is the user's to edit, including the guardrail rules.
+
+The flagship's default `webWorkerBackend` (runnable snippets) spawns a worker via
+blob URL with `fetch` access. Bundled handlers MUST document the required
+`Content-Security-Policy` directives (`worker-src blob:`, scoped `connect-src`), and
+any `WebWorkerBackend` option exposes `allowNetwork: boolean` **defaulting to
+false** — resolved before the `react × next-app` port ships (Rollout step 4).
 
 ## Alternatives considered
 
@@ -358,22 +517,28 @@ Everything is the user's to edit, including the guardrail rules.
 1. **Launch framework breadth.** Ship `react×next-app` first and expand, or block
    the GA announcement until `sveltekit` + `nuxt` also ship? (Recommendation:
    ship react/next first; each later port gated by RFC-0004 binding stability.)
-2. **Signing toolchain.** minisign (tiny, simple) vs cosign/Sigstore (heavier,
-   ecosystem-standard, keyless OIDC). (Recommendation: minisign now, cosign later.)
-3. **Stand up `registry.agentskit.io` (hosted + signed) now**, or run on
-   tag-pinned raw-GitHub + checksums until volume justifies hosting?
-4. **Default embedding for `hosted`/edge ports** — bundle a small `api-remote`
+2. **Default embedding for `hosted`/edge ports** — bundle a small `api-remote`
    embedder (which provider?) or require the user to supply one?
-5. **Telemetry** — default off, opt-in `agentskit add --telemetry`? (Recommendation:
-   off by default.)
+3. **Telemetry** — default off, opt-in `agentskit add --telemetry`? (Recommendation:
+   off by default.) The wire contract is already `ObservabilityHooks` (D5) — this OQ
+   is only the default + provider, not the surface.
+
+**Resolved in v3** (were open in v2): signing = **minisign Ed25519**, cosign
+deferred (D9). `$schema` = a **versioned raw-GitHub tag URL**, hosted
+`registry.agentskit.io` becomes an alias once live (D3/D11) — so standing up hosting
+is no longer a blocker for Rollout step 1; it can follow on its own timeline.
 
 ## Rollout (once accepted)
 
 1. **Contracts** — land `RegistryComponent` + `FrameworkTarget` + scanner +
    validator + `components.json` + `init` (no ports yet).
-2. **Integrity layer** — pinned refs, per-file sha256, signed manifest, configurable
-   registry, transactional install, marker + audit.
-3. **D8 portability refactor** of the chat (headless gate, server core extraction).
+2. **Integrity layer** — pinned refs, per-file sha256, signed (minisign) manifest +
+   `keys.json` rotation, configurable/auth'd registry, **path-containment guard
+   (D16) on write and diff read**, transactional install, tamper-evident marker +
+   audit.
+3. **D8 portability refactor** of the chat — `check:registry-headless` must pass
+   before the `react × next-app` port merges; server core extraction to
+   `createAskHandler(AskConfig)`; **dynamic (request-time) index import**.
 4. **react × next-app port** — first end-to-end `agentskit add docs-chat`.
 5. **Scanner + interactive flow** — detection, validation, placement, `--dry-run`/
    `--yes`, PM execution.
@@ -384,6 +549,22 @@ Everything is the user's to edit, including the guardrail rules.
 
 ## Changelog
 
+- **v3** — 6-lens consensus review (53 agents). Closed both BLOCKERs:
+  **ports-map key grammar** locked to `uiBinding` alone (D4/Schema) and a
+  **path-containment guard** added (new D16, on write + diff read, publish-time
+  `..`/abs-path rejection). Resolved the **`AskConfig` cluster** — defined
+  `AskConfig` + `ObservabilityHooks` (security envelope, pluggable `rateLimiter`,
+  telemetry hooks) in D5, collapsing 5 findings into one. Also: `rateLimitBackend` /
+  `clientEndpointProp` / `securityHeaders` / `bundleSizeKb` on `PortServer`;
+  `serverTargetByMeta` vs `paths.server` precedence; **D8a** CSS-merge algorithm;
+  D8 enforcement gate `check:registry-headless`; minisign Ed25519 + `keys.json`
+  rotation, cosign deferred (resolves a v2 contradiction); `registryAuth` + a
+  `--registry-token` ban; sibling temp-dir + EXDEV fallback (D10); tamper-evident
+  audit-chain schema (D9); per-file `peerRanges` merge order + `workspace:`
+  always-satisfy; `$schema` pinned to a versioned raw-GitHub URL (unblocks Rollout);
+  web-worker CSP/`allowNetwork`; `components.json` forward-migration;
+  `LocalServerSpec` (Ink) scoped out explicitly. Open questions down to 3 product
+  calls. Readiness per panel: 62→ (after these) no remaining BLOCKER.
 - **v2** — closed enterprise-review blockers: `init`/`components.json` (D3),
   two-level framework model (D4), server-handler delivery + neutral
   `createAskHandler` (D5), embedding/index portability (D6), streaming negotiation
