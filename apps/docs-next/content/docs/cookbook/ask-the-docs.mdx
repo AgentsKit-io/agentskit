@@ -13,21 +13,43 @@ Two ways in: scaffold it with the CLI, or wire it by hand.
 npx agentskit add docs-chat
 ```
 
-This copies a provider-agnostic `createDocsChatAgent` into `./agents/docs-chat/` (you own the source). Point it at a retriever and any adapter:
+`docs-chat` is a **UI component**, not just an agent file — `agentskit add` now installs it via the component registry flow defined in [RFC-0006](https://github.com/AgentsKit-io/agentskit/blob/main/rfcs/0006-ui-component-registry.md).
 
-```ts
-import { createDocsChatAgent } from './agents/docs-chat/agent'
-import { openrouter } from '@agentskit/adapters'
+### What the command actually does
 
-const agent = createDocsChatAgent({
-  adapter: openrouter({ apiKey: process.env.OPENROUTER_API_KEY!, model: 'meta-llama/llama-3.3-70b-instruct:free' }),
-  retriever, // your RAG retriever — see below
-})
+**Scan** — if `.agentskit/components.json` is absent, the CLI scans your project: UI binding (`react`, `svelte`, `vue`, …), meta-framework (`next-app`, `next-pages`, `sveltekit`, `nuxt`, `remix`, `tanstack-start`, `vite`, and more), package manager, TypeScript vs JavaScript, monorepo root. Ambiguous signals surface as validation errors — never a silent guess. With `components.json` committed (written once by `agentskit init`), the scan is skipped entirely and every `add` runs non-interactively.
 
-const { content } = await agent.run('How do I deploy to the edge?')
+**Validate** — before anything is written the CLI checks compatibility and refuses with a concrete error plus a pointer to a supported alternative if the detected environment can't satisfy the component's `runtimeRequirement` or `embeddingBackend` (for example, `onnx-node` is blocked on edge or Expo targets). Peer-range conflicts across all resolved dependencies are surfaced in aggregate, not on first hit. Pass `--dry-run` to see the full plan — files, targets, deps, env, conflicts — without writing anything.
+
+**Place** — files land in framework-correct locations. The server handler is placed per `serverTargetByMeta[metaFramework]`: a Next.js App Router route handler (`app/api/ask/route.ts`), a SvelteKit `+server.ts`, a Nuxt `server/api/*.post.ts`, a Remix resource route, and so on. The client component composes the matching `@agentskit/*` binding. You own every file — edit guardrails, styling tokens, and adapter choices freely.
+
+**Record** — the installer appends a tamper-evident entry to `.agentskit/install-log.jsonl` and updates the installed marker in `components.json` with per-file SHA-256 and the pinned registry ref, enabling `agentskit diff docs-chat` and `agentskit update docs-chat` later.
+
+### Safety guarantees
+
+- **Per-file SHA-256 verification** — every fetched file is verified against the signed manifest before any write. A mismatch aborts the entire install.
+- **Path-containment guard** — `path.resolve(dest)` is asserted to stay inside the target directory on every file, both on the write path and on `diff` reads. A `../../.env`-style path escape is an `IntegrityError`.
+- **Transactional (all-or-nothing)** — files are staged in a sibling temp directory, verified, then moved atomically. Any pre-commit failure rolls back all partial writes and reports "rolled back N files." Your tree is never left dirty.
+- **Append-only audit log** — `.agentskit/install-log.jsonl` chains entries via `prevEntryHash` (SHA-256 of the prior entry); a future `agentskit audit` command walks the chain and fails on any gap or mismatch.
+
+### Framework support
+
+The first shipping port is **React × Next.js (app router)**. Other frameworks (`sveltekit`, `nuxt`, `remix`, `tanstack-start`, `angular`, `expo`, `ink`) are rolling out port-by-port, each gated by the binding stability requirements in RFC-0004. The CLI will refuse to install a port that has not shipped — it will not copy broken source into an unsupported framework.
+
+### Zero-prompts via `agentskit init`
+
+```bash
+npx agentskit init        # writes .agentskit/components.json — commit this file
+npx agentskit add docs-chat
 ```
 
-A full runnable version lives in **`apps/example-rag-chat`** — swap the sample docs for yours.
+After `init`, every subsequent `add` reads the committed config and runs non-interactively. In CI pass `--yes` to exit non-zero on any blocker instead of hanging.
+
+### After install
+
+The ready output prints a per-framework usage snippet wiring `createAskHandler` to your retriever and adapter, the required env vars (written to `.env.example`), and a "run the indexer before first use" step. The installer copies an indexer (`agentskit ask index ./docs`) and an empty index stub — it never ships AgentsKit's own corpus.
+
+Point the handler at your retriever and adapter as shown in the sections below, then run the indexer. A full runnable version lives in **`apps/example-rag-chat`** — swap the sample docs for yours.
 
 ## 1. Index your docs (RAG)
 
