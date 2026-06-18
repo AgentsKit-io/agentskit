@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import { webWorkerBackend, runStreaming } from './web-worker-backend'
+import { webWorkerBackend, runStreaming } from '../src/web/web-worker-backend'
 
 /**
  * The web backend depends on browser globals (Worker / Blob /
@@ -87,7 +87,7 @@ describe('webWorkerBackend', () => {
       exitCode: 1,
     }
     const backend = webWorkerBackend()
-    const result = await backend.execute('throw new Error("boom")', {})
+    const result = await backend.execute('raiseBoom("boom")', {})
     expect(result.exitCode).toBe(1)
     expect(result.stderr).toBe('boom')
   })
