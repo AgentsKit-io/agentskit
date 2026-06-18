@@ -25,7 +25,7 @@ import type {
   VectorSearchOptions,
 } from '@agentskit/core'
 import { createRAG, createHybridRetriever } from '@agentskit/rag'
-import { embed as defaultEmbed } from './embed'
+import { embed as defaultEmbed } from '@agentskit/ask-core'
 import type { DocChunkMetadata } from './ingest'
 
 interface IndexRecord {
