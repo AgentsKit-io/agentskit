@@ -1,6 +1,7 @@
 # RFC 0006 — UI component registry & shadcn-style `agentskit add`
 
 - **Status**: Proposed
+- **Version**: 2 (v1 → v2 hardened after adversarial enterprise review — see Changelog)
 - **Date**: 2026-06-18
 - **Author**: @EmersonBraun
 - **Related issues**: —
@@ -9,244 +10,388 @@
 
 ## Summary
 
-Extend the existing shadcn-style `agentskit add` so it can install **UI components**
-(starting with the Ask-the-docs chat), not just **agents**. A single command
-`agentskit add <name>` scans the target project, detects its framework, validates
-compatibility, asks where to place the files, copies framework-correct source the
-user owns, and leaves it ready to use. The chat is the flagship: the goal is the
-market-standard, plug-and-play "drop an AI chat into any app" command, across
-React, Next, Svelte, Vue, Angular, React Native, and Ink.
+Extend the existing shadcn-style `agentskit add` so it installs **UI components**
+(starting with the Ask-the-docs chat), not just **agents**. `agentskit init`
+writes a project config (`.agentskit/components.json`) once; thereafter
+`agentskit add <name>` reads it, validates compatibility, copies framework-correct
+source the user owns, installs deps, and leaves the component ready — including its
+**server handler** where one is needed.
 
-This RFC defines the **contracts** only (registry schema, scanner, per-framework
-port, add/validate flow). No implementation lands until the design is accepted.
+The chat is the flagship: the bar is **enterprise-grade, market-standard,
+plug-and-play** — verifiable supply-chain integrity, transactional installs,
+private-registry support, TS/JS parity, multi-framework + multi-backend, across
+React/Next/Remix/TanStack, SvelteKit, Nuxt/Vue, Angular, React Native (Expo), and
+Ink.
+
+This RFC defines the **contracts** only. No implementation lands until accepted.
+v2 closes the blockers found in review; the **Resolved decisions** section is the
+core, **Open questions** now holds only genuine product calls.
 
 ## Motivation
 
-The Ask-the-docs chat (RFC-0010 work, PR #1010) is the strongest live proof of
-AgentsKit — grounded RAG, $0 free-tier, cited, generative-UI, guardrails. But
-today it is:
+The Ask-the-docs chat (#1010, #1013) is AgentsKit's strongest live proof —
+grounded RAG, $0 free-tier, cited, generative-UI, guardrails. But it is React-only
+and not installable as a component: `agentskit add` (RFC-0002) copies *agents*
+into `./agents/<id>/`; there is no UI path, no project scan, no framework
+detection, no placement, no server-handler delivery, no integrity verification.
 
-- **React-only** — the composite widget exists for React; the primitives exist
-  for svelte/solid/ink (full) and vue/angular/react-native (partial), but the
-  composite chat is not ported.
-- **Not installable as a component** — `agentskit add` (RFC-0002) copies
-  *agents* (`createDocsChatAgent` → `./agents/<id>/`). There is no UI-component
-  path, no project scan, no framework detection, no placement prompt.
+shadcn/ui proved the pattern that wins adoption — *init → scan → validate → copy →
+ready*, user owns the source. AgentsKit already has the registry client, the
+hosted-index + raw-GitHub fetch, and a line-diff updater. v2 reuses that and adds
+the contracts an enterprise flagship requires. Each install also pulls real
+downloads of the base packages the component composes.
 
-shadcn proved the pattern that wins adoption: *scan → validate → ask → copy →
-ready*, with the user owning the source. AgentsKit already has the registry
-client, the hosted-index + raw-GitHub fetch, and a line-diff updater (RFC-0002).
-This RFC reuses all of it and adds the UI-component shape on top.
+## Resolved decisions (locked)
 
-The chat is the "last mile" for UI the way ready agents are the last mile for
-runtime: each install pulls real downloads of the base packages it composes
-(`@agentskit/react|svelte|…`, `@agentskit/rag`, `@agentskit/adapters`).
+> v1 deferred too much. These are now decided. Each maps to a review blocker.
 
-## Current state
+### D1. One verb, explicit `kind`, auto-detect
 
-The registry client (`packages/cli/src/registry.ts`) already provides:
+Keep a single `agentskit add <name>`. Registry items carry an **explicit**
+`kind: 'agent' | 'component'` (no silent default — a missing/unknown kind is a
+publish-time validation error, not an implicit agent). The CLI branches on `kind`.
+No separate `ui add`.
 
-- `RegistryAgent` schema: `{ id, title, description, category, packages, env,
-  files, sources, skill }`
-- `fetchAgent(id)` — hosted `registry.agentskit.io/r/<id>.json` first, raw-GitHub
-  `registry/<id>/` fallback
-- `addAgent(id, { outDir, force })` — writes `sources` into `./agents/<id>/`,
-  refuses to clobber without `--force`
-- `diffAgent(id)` + `lineDiff` — keep a copied item in sync (shadcn-style update)
+### D2. RFC-first; reuse RFC-0002 infra
 
-`packages/cli/src/commands/add.ts` exposes `add <agent>` with `--out`, `--force`,
-`--run`, `--provider/--model/--api-key`.
+Contracts here are the deliverable. Components are a new item shape in the **same**
+registry (same repo, same hosted-index + raw-GitHub fallback, same user-owns-source
++ line-diff update) — not a new system.
 
-What is missing for components: a component schema variant, a project scanner, a
-validator, an interactive placement step, and per-framework source variants.
+### D3. `agentskit init` + `components.json` (the shadcn contract)
 
-## Decisions (locked for this RFC)
+`agentskit init` writes `.agentskit/components.json` once (committed to the repo).
+Every `add` reads it first and **skips scanning/prompts**; it scans only when the
+file is absent (and warns to run `init`). CI (`--yes`) trusts this file rather than
+re-detecting.
 
-1. **One command, auto-detect.** Keep a single `agentskit add <name>`. The CLI
-   fetches the registry item and branches on its `kind` (`agent` | `component`).
-   No second verb. (Chosen over a separate `agentskit ui add`.)
-2. **RFC-first.** Contracts here are the deliverable; implementation follows in
-   linked PRs once accepted. No component ports or scanner code land under this
-   RFC.
-3. **Reuse RFC-0002 infrastructure.** Same registry repo, same hosted-index +
-   raw-GitHub fetch, same "user owns the source" + line-diff update. Components
-   are a new item shape in the *same* registry, not a new system.
+```jsonc
+{
+  "$schema": "https://registry.agentskit.io/schema/components.json",
+  "schemaVersion": 1,
+  "uiBinding": "react",
+  "metaFramework": "next-app",
+  "typescript": true,
+  "rsc": true,
+  "styling": { "mode": "data-attrs-only", "css": "app/global.css", "tailwindConfig": null },
+  "aliases": { "components": "@/components", "lib": "@/lib", "server": "@/app/api" },
+  "paths": { "root": ".", "components": "components", "lib": "lib", "server": "app/api" },
+  "registries": { "default": "https://registry.agentskit.io" },
+  "linkComponent": null
+}
+```
 
-## Proposal
+In a monorepo `paths.*` anchor to a workspace package (`packages/ui/src/…`),
+resolved relative to the config file, not cwd. `init` detects `pnpm-workspace.yaml`
+/ `turbo.json` / `nx.json` and prompts for the target package.
 
-### 1. Registry item schema — `kind` discriminator
+### D4. Two-level framework model (so the server file lands correctly)
 
-Promote the registry item to a tagged union. Agents keep their exact current
-shape (back-compatible: a missing `kind` defaults to `'agent'`).
+`framework` was too coarse to know **where** a server route goes. Split it:
 
 ```ts
-type RegistryItem = RegistryAgent | RegistryComponent
+type UiBinding =
+  | 'react' | 'svelte' | 'vue' | 'solid' | 'angular' | 'react-native' | 'ink'
+
+type MetaFramework =
+  | 'next-app' | 'next-pages' | 'remix' | 'tanstack-start' | 'astro'
+  | 'sveltekit' | 'nuxt' | 'angular-ssr' | 'expo'
+  | 'vite' | 'cra' | 'angular-spa' | 'node' | 'none'
+
+interface FrameworkTarget { uiBinding: UiBinding; metaFramework: MetaFramework }
+```
+
+The scanner produces **both**. UI files key on `uiBinding`; server files key on
+`metaFramework`. The CLI never offers a `(uiBinding, metaFramework)` pair a
+component hasn't shipped.
+
+### D5. Server-handler delivery contract (resolves v1 open Q1)
+
+Every component that needs a backend ships a framework-neutral core plus thin
+per-meta-framework mounts. The core is a **Web-standard handler**:
+
+```ts
+// shipped, framework-agnostic — user owns it
+export function createAskHandler(config: AskConfig): (req: Request) => Promise<Response>
+```
+
+Per-`metaFramework` mount files adapt it (Next route handler, SvelteKit
+`+server.ts`, Nuxt `server/api/*.post.ts`, Remix `action`, Express middleware for
+`angular-ssr`, a local Node server for `ink`). The `ComponentPort.server` field
+declares delivery:
+
+```ts
+interface PortServer {
+  delivery: 'bundled' | 'hosted' | 'local'
+  //  bundled → server file(s) installed (Next/SvelteKit/Nuxt/Remix/Express)
+  //  hosted  → no server here; user points at a deployed endpoint (RN, pure SPA)
+  //  local   → a local Node server script is installed (Ink/CLI)
+  serverTargetByMeta?: Partial<Record<MetaFramework, string>>
+  runtimeRequirement: 'nodejs' | 'edge-compatible' | 'none'
+  embeddingBackend: 'onnx-node' | 'api-remote' | 'browser-wasm' | 'none'
+  endpointEnvVar?: string  // for hosted/local: e.g. AGENTSKIT_ASK_ENDPOINT
+}
+```
+
+The validator refuses an install whose `runtimeRequirement`/`embeddingBackend` the
+detected target can't satisfy (e.g. `onnx-node` on `expo`/edge) — with a concrete
+message and the supported alternative, never a silent broken install.
+
+### D6. Embedding + index portability (resolves v1 open Q2)
+
+The committed ONNX index is **corpus-specific** (AgentsKit docs) and Node-only.
+The install therefore:
+
+1. Copies an **indexer** (`agentskit ask index ./docs`) and an **empty** index
+   stub — never AgentsKit's corpus.
+2. Declares `embeddingBackend` (D5). `onnx-node` for Node servers;
+   `api-remote` (call an embedding API) for edge/RN/serverless without ONNX;
+   `browser-wasm` only where WASM SIMD is available.
+3. Loads the index at request time (not module-load) for large corpora, to keep
+   serverless cold-start small.
+4. Prints a "run the indexer before first use" step in the ready output.
+
+### D7. Streaming protocol negotiation
+
+The server speaks **NDJSON by default and SSE on `Accept: text/event-stream`**.
+`ComponentPort.streamingProtocol: 'ndjson' | 'sse' | 'both'`. Angular (`HttpClient`)
+and older React Native ports default to `sse`/`both` (cleaner to consume than
+`ReadableStream` reader). Client port code matches its declared protocol.
+
+### D8. Styling neutrality (enforced, not aspirational)
+
+Review found the current widget uses ~40 hardcoded Tailwind classes, `next/link`,
+and an app-local `AnimatedLogo` import — it is not actually headless. The
+portability refactor is **gate-enforced** before any port ships:
+
+- **No `className` / hardcoded color in installed source.** Visual state via
+  `data-ak-*` only. `ComponentPort.stylingMode: 'data-attrs-only' | 'tailwind-preset'`.
+- Tokens ship as **plain CSS** (`--ak-*`) plus a structured `cssVars` block
+  (`{ light?, dark? }`) the CLI **merges** into the project's CSS entry — not a
+  wholesale append. Keyframes ship as `styling.css: RegistryFile[]`.
+- Cross-app imports are **inlined** (the logo) or **slotted** (`linkComponent`
+  prop, default `<a>`) so non-Next ports work.
+
+### D9. Supply-chain integrity (enterprise trust)
+
+- **Pinned refs in production**: fetch from `/refs/tags/v<semver>/`, not `main`.
+  `main` only behind an explicit `--channel preview`.
+- **Per-file `sha256`** in the item manifest; the CLI verifies every file after
+  fetch and **aborts the whole install** on mismatch.
+- **Signed index manifest** (minisign/cosign detached signature) so the checksum
+  list itself can't be poisoned; CLI verifies the signature against a shipped
+  public key before trusting checksums.
+- **Configurable / private registry**: resolution order `--registry` →
+  `AGENTSKIT_REGISTRY_URL` → `components.json` `registries` map → default.
+  Identifier forms: `name`, `@org/name` (namespaced via the map), `https://…`.
+- **Proxy/CA aware** fetch (`HTTPS_PROXY`/`NO_PROXY`/`NODE_EXTRA_CA_CERTS`) with an
+  actionable error when blocked.
+- **Audit**: append `.agentskit/install-log.jsonl` (id, version, ref, files+sha,
+  timestamp) — the artifact a future `agentskit audit` consumes.
+
+### D10. Transactional, idempotent install
+
+- **Stage → verify → atomic commit.** Write to a temp dir, verify all files +
+  checksums, then move as one step. Any pre-commit failure → delete temp, roll back
+  partially-written files, report "rolled back N files." Never leave a dirty tree.
+- **Idempotent**: identical content → silent no-op. Modified-by-user + no `--update`
+  → skip with notice. Conflicts collected up front and resolved **per file**
+  (interactive prompt, or `--overwrite` for the set) — never the current
+  throw-on-first-conflict.
+- **Secrets never via argv** — drop `--api-key`; read keys from env only.
+- **`--yes`** suppresses every prompt and exits non-zero (never hangs) on any
+  blocker.
+- **Runs the package manager** (`scan.packageManager add …`), not just prints it;
+  prompts unless `--yes`. Generates/append `.env.example` for required env.
+
+### D11. Versioning + machine-verifiable schema
+
+- Registry items carry `schemaVersion` and a semver `version`; CLI refuses a
+  `schemaVersion` it predates.
+- `ComponentPort.peerRanges: Record<string,string>` (e.g. `@agentskit/react: ">=2"`);
+  validator checks installed versions and blocks on mismatch.
+- All registry JSON + `components.json` carry `$schema` for editor/CI validation.
+
+### D12. TS ↔ JS parity
+
+`ComponentPort.language: 'ts' | 'js' | 'both'`. For `both`, parallel sources; else
+a type-strip + extension-rename transform at install when `scan.typescript ===
+false`. A TS-only component refuses to install into a JS project with a clear
+message rather than writing broken `.tsx`.
+
+### D13. Per-file targets + file types
+
+`RegistryFile` gains `target?` and `type` so a component's client file, server
+route, hook, lib, css, and test each land in the right place:
+
+```ts
+type RegistryFileType =
+  | 'registry:component' | 'registry:hook' | 'registry:lib'
+  | 'registry:route' | 'registry:page' | 'registry:css' | 'registry:test'
+
+interface RegistryFile {
+  path: string
+  type: RegistryFileType
+  sha256: string
+  target?: string        // overrides defaultTarget for this file
+  language?: 'ts' | 'js'
+  content?: string        // optional inline; else fetched per-file by `path` (D14)
+}
+```
+
+### D14. Per-file fetch, not monolithic inline
+
+Components fetch files **individually** (cacheable, small metadata, cheap `diff`)
+rather than inlining all content in one JSON like agents do. The item manifest
+lists files + `sha256`; content is fetched per path. Agents keep their current
+inline shape (back-compatible).
+
+### D15. Marker, update, list (shadcn-grade sync)
+
+`.agentskit/components.json` `installed[]` entries, keyed by `{ id, installPath }`
+(monorepo-safe), each recording `ref`, `version`, and a per-file
+`{ sha, installedAt }` map. This enables **3-way diff**:
+`local==installed` → safe update; `local!=installed && upstream!=installed` →
+conflict, show diff + prompt; `local!=installed && upstream==installed` → skip.
+Commands: `agentskit diff <name>`, `agentskit update <name>`, `agentskit
+components list` (all installed + sync status). `registryDependencies` resolve via
+topological sort with **cycle detection** and a depth cap; dedup by `id` against
+the marker.
+
+## Schema (consolidated)
+
+```ts
+type RegistryItem = RegistryAgent | RegistryComponent  // discriminated on `kind`
 
 interface RegistryComponent {
+  $schema: string
+  schemaVersion: number
   kind: 'component'
-  id: string                       // 'docs-chat'
+  id: string
+  version: string                    // semver
   title: string
   description: string
-  category: string                 // 'chat' | 'input' | …
-
-  /** Frameworks this component ships a port for. */
-  frameworks: Framework[]          // ['react','next','svelte','vue','angular','react-native','ink']
-
-  /** Per-framework file sets. The scanner picks the matching entry. */
-  ports: Record<Framework, ComponentPort>
-
-  /** npm deps common to every port (per-port deps add to these). */
-  packages: string[]              // ['@agentskit/rag','@agentskit/adapters']
-  env?: RegistryEnvVar[]          // e.g. OPENROUTER_API_KEY (required)
+  category: string                   // 'chat' | …
+  frameworks: FrameworkTarget[]      // declared, not implied
+  ports: Record<string, ComponentPort>  // key = `${uiBinding}:${metaFramework}` or `${uiBinding}`
+  packages: string[]                 // common npm deps
+  peerRanges?: Record<string, string>
+  env?: RegistryEnvVar[]
 }
 
 interface ComponentPort {
-  /** Files relative to the chosen install dir; sources inlined like agents. */
-  files: string[]
-  sources: RegistryFile[]         // { path, content }[]
-  /** Extra npm deps for this framework only. */
+  uiBinding: UiBinding
+  language: 'ts' | 'js' | 'both'
+  stylingMode: 'data-attrs-only' | 'tailwind-preset'
+  streamingProtocol: 'ndjson' | 'sse' | 'both'
+  files: RegistryFile[]
+  testFiles?: RegistryFile[]
   packages?: string[]
   devPackages?: string[]
-  /** Other registry items this port needs (resolved + installed first). */
+  peerRanges?: Record<string, string>
   registryDependencies?: string[]
-  /** Default install dir, framework-idiomatic; overridable by scan/prompt/--out. */
-  defaultTarget: string           // react: 'components/ask', angular: 'src/app/ask'
-  /** Styling requirements the validator checks/applies. */
+  defaultTarget: string
+  server?: PortServer
   styling?: {
-    tailwind?: boolean
-    cssVars?: string[]            // '--ak-*' tokens the component expects
-    globalCss?: RegistryFile      // optional css to append (e.g. keyframes)
+    cssVars?: { light?: Record<string, string>; dark?: Record<string, string> }
+    css?: RegistryFile[]             // keyframes / token files, merged not appended
   }
 }
-```
 
-`RegistryFile` (`{ path, content }`) and `RegistryEnvVar` are reused verbatim.
-
-### 2. Project scanner contract
-
-A pure, dependency-light module that inspects the cwd and returns a `ProjectScan`.
-No network, no writes. Tested with an injectable fs (mirrors the registry client's
-`fetchImpl`/`writeFileImpl` style).
-
-```ts
-interface ProjectScan {
-  framework: Framework | 'unknown'   // from deps: next, react, svelte, @angular/core, react-native, ink…
-  packageManager: 'npm' | 'pnpm' | 'yarn' | 'bun'   // from lockfile
-  typescript: boolean                // tsconfig.json present
-  srcDir: string | null              // 'src' if present, else project root
-  importAlias: string | null         // from tsconfig "paths" (e.g. '@/*' → '@')
-  styling: { tailwind: boolean; cssEntry: string | null }
-  appRouter?: boolean                // Next: app/ vs pages/
+interface RegistryEnvVar {
+  name: string
+  description: string
+  required?: boolean
+  scope?: 'server' | 'client' | 'build'   // server-only keys never bundled client-side
 }
 ```
 
-Detection rules (deterministic, documented in the implementation PR):
-framework from `package.json` deps → lockfile → tsconfig → styling. Ambiguous or
-missing signals resolve to `'unknown'`/`null` and surface in the validator, never
-a silent guess.
+`ProjectScan` (when `components.json` absent): `{ uiBinding, metaFramework,
+packageManager, typescript, srcDir, importAlias, styling:{mode,cssEntry},
+monorepo:{tool,root}|null }`. Ambiguous signals resolve to `unknown`/`null` and
+surface in validation — never a silent guess.
 
-### 3. Validator + add/validate flow
+## Install flow (enterprise)
 
-`agentskit add <name>`:
-
-1. **Fetch** the item (hosted → raw fallback, existing path).
-2. **Branch on `kind`.** `agent` → today's `addAgent` (unchanged). `component` →
-   continue.
-3. **Scan** the project (§2).
-4. **Validate**:
-   - `scan.framework` ∈ `component.frameworks`? If not → fail with the list of
-     supported frameworks and the detected one. No partial install.
-   - styling: if the port needs tailwind and the scan finds none → warn + print
-     the manual step (do not hard-fail; the component still renders with the
-     `--ak-*` tokens documented).
-   - env: list required `env` vars the user must set.
-5. **Resolve placement**: `--out` > interactive prompt (default =
-   `port.defaultTarget`, joined under `scan.srcDir`/alias). `--yes` skips the
-   prompt and takes the default (CI-friendly).
-6. **Resolve `registryDependencies`** recursively, install those components first.
-7. **Write** `port.sources` (refuse to clobber without `--force`, existing rule);
-   append `styling.globalCss` if present.
-8. **Report**: files written, `npm/pnpm/yarn install <packages>`, required env,
-   and a one-line "ready" usage snippet for the detected framework.
-
-`agentskit add <name> --dry-run` prints the plan (framework, target, files, deps)
-without writing — the scan/validate output as a preview.
-
-### 4. Per-framework port contract
-
-Each component publishes a `ComponentPort` per supported framework. A port is
-**self-contained and idiomatic**: it composes that framework's `@agentskit/*`
-binding (`useChat` for react/vue/solid/svelte, the Ink components for terminal),
-uses only `data-ak-*` + `--ak-*` tokens (headless, no hardcoded colors — matches
-the framework convention in CLAUDE.md), and ships no styles beyond the optional
-`globalCss`.
-
-Port parity is **declared, not implied**: a component lists only the frameworks
-it actually ships. `docs-chat` ships `react` + `next` first (the live widget);
-svelte/vue/angular/react-native/ink are added as ports land, each gated by the
-binding's stability tier (RFC-0004). The CLI never offers a framework a component
-hasn't shipped.
-
-### 5. Update path
-
-`agentskit diff <name>` / update already exists for agents (`diffAgent` +
-`lineDiff`). For components it diffs against the **active port** at the recorded
-install dir. The install writes a tiny `.agentskit/components.json` marker
-(`{ id, framework, target }`) so update knows which port and where, without
-re-scanning.
+1. **Load config** (`components.json`); else scan + warn to run `init`.
+2. **Resolve identifier + registry** (D9): `name` / `@org/name` / URL → base URL.
+3. **Fetch item manifest** at the pinned ref; verify signature + `schemaVersion`.
+4. **Branch on `kind`** — `agent` → today's path (unchanged). `component` → on.
+5. **Validate** (D4/D5/D6/D11/D12): framework-target supported; `peerRanges`;
+   `runtimeRequirement` + `embeddingBackend` satisfiable; styling mode; env scope
+   (block a server-only key resolving into a client bundle); TS/JS.
+6. **Resolve `registryDependencies`** — topo sort, cycle-detect, dedup vs marker.
+7. **Plan**. `--dry-run [--json]` prints the full structured plan (files+targets,
+   deps, env, conflicts) using the **same pipeline** and exits — no writes.
+8. **Fetch files**, verify each `sha256`.
+9. **Stage → atomic commit** (D10); conflicts resolved per file.
+10. **Merge** `cssVars` into the CSS entry; write/append `.env.example`.
+11. **Write/update marker** + audit log (D9/D15) atomically.
+12. **Install packages** via the detected PM (prompt unless `--yes`).
+13. **Ready output** — per-framework usage snippet, required env, "run the indexer"
+    (D6), endpoint setup for `hosted`/`local`.
 
 ## The chat as the flagship
 
-`docs-chat` is the first and reference component. Its port files are the existing
-React widget set, refactored to be registry-portable:
-
-- `ask-widget.tsx` (headless compound shell), `useAskChat`, `Markdown`,
-  `registry` (allow-listed generative-UI render boundary)
-- `lib/ask/guard.ts` (the extensible triage + scope guard from #1013),
-  `lib/rag/*` (retriever + cited context), `lib/openrouter.ts` (free pool)
-- `app/api/ask-docs/route.ts` as a framework-appropriate server handler (Next
-  route handler for the `next` port; documented adapter for others)
-- `globalCss`: the `--ak-*` keyframes (loading dots, AI shimmer)
-
-Everything the user installs is theirs to edit — including the guardrail rules,
-which `triageMessage(query, extra)` already accepts additively.
+`docs-chat` is the reference component. First port = `react` × `next-app` (the
+live widget), shipped only **after** the D8 portability refactor (no `className`,
+inlined logo, slotted link, server core extracted to `createAskHandler`). Files:
+the headless compound shell + `useAskChat` + `Markdown` + allow-listed
+generative-UI registry (client); `createAskHandler` + the Next mount + guardrails
+(`lib/ask/guard.ts`, extensible per #1013) + retriever + free-pool adapter
+(server); the indexer + empty index stub; merged `--ak-*` tokens/keyframes.
+Everything is the user's to edit, including the guardrail rules.
 
 ## Alternatives considered
 
-- **Separate `agentskit ui add` namespace** — rejected per decision §1; one verb,
-  auto-detect is simpler for users and keeps RFC-0002's surface.
-- **A `@agentskit/registry` CLI package** — rejected by RFC-0002 already; extend
-  the existing CLI.
-- **Ship the chat as an installable npm package** — rejected: violates the "user
-  owns the source / shadcn-style" principle that makes the components forkable
-  and the guardrails extensible.
-- **Per-framework `create-*` scaffolds instead of `add`** — rejected: scaffolds
-  start new projects; `add` drops into existing ones, which is the adoption case.
+- **Separate `agentskit ui add`** — rejected (D1): one verb + explicit `kind`.
+- **`@agentskit/registry` CLI package** — rejected by RFC-0002; extend the CLI.
+- **Ship the chat as an npm package** — rejected: breaks user-owns-source / forkable
+  guardrails.
+- **Inline all file content (agent model) for components** — rejected (D14):
+  bloats the index, defeats per-file caching and cheap diff.
+- **Silent `kind` default to `'agent'`** — rejected (D1): explicit + validated.
+- **Single coarse `framework`** — rejected (D4): can't place server files.
 
-## Open questions
+## Open questions (genuine product calls — need your decision)
 
-1. **Server-side portability.** The chat's grounding route is a Next handler.
-   For non-Next React (Vite) and other frameworks, do we ship a framework-neutral
-   request handler the user mounts, or per-framework server adapters? (Leaning:
-   one neutral `handleAskRequest(req)` core + thin per-framework mounts.)
-2. **Embedding at install vs runtime.** The committed ONNX index (`gen-ask-index`)
-   is docs-specific. The component should ship the *indexer script* + an empty
-   index, not a corpus. Confirm the install copies the script and documents
-   "run it against your docs", not a prebuilt index.
-3. **Marker file location.** `.agentskit/components.json` vs per-component
-   frontmatter. (Leaning: single `.agentskit/components.json`.)
-4. **Framework rollout order** after react/next: svelte + vue (full `useChat`),
-   then angular + react-native (partial bindings — gated by RFC-0004), ink last.
+1. **Launch framework breadth.** Ship `react×next-app` first and expand, or block
+   the GA announcement until `sveltekit` + `nuxt` also ship? (Recommendation:
+   ship react/next first; each later port gated by RFC-0004 binding stability.)
+2. **Signing toolchain.** minisign (tiny, simple) vs cosign/Sigstore (heavier,
+   ecosystem-standard, keyless OIDC). (Recommendation: minisign now, cosign later.)
+3. **Stand up `registry.agentskit.io` (hosted + signed) now**, or run on
+   tag-pinned raw-GitHub + checksums until volume justifies hosting?
+4. **Default embedding for `hosted`/edge ports** — bundle a small `api-remote`
+   embedder (which provider?) or require the user to supply one?
+5. **Telemetry** — default off, opt-in `agentskit add --telemetry`? (Recommendation:
+   off by default.)
 
 ## Rollout (once accepted)
 
-1. **Contracts** — land `RegistryComponent` + scanner + validator types in the
-   CLI (no ports yet), behind the existing `add` command.
-2. **React/Next port** — make `docs-chat` registry-portable; first end-to-end
-   `agentskit add docs-chat` into a fresh Next app.
-3. **Scanner + interactive flow** — detection, validation, placement prompt,
-   `--dry-run`/`--yes`.
-4. **Second framework** (svelte) — proves the port contract generalizes.
-5. **Remaining ports** — vue, angular, react-native, ink, each gated by binding
-   stability (RFC-0004).
-6. Graduate the stable contracts (item schema, scanner) to an ADR.
+1. **Contracts** — land `RegistryComponent` + `FrameworkTarget` + scanner +
+   validator + `components.json` + `init` (no ports yet).
+2. **Integrity layer** — pinned refs, per-file sha256, signed manifest, configurable
+   registry, transactional install, marker + audit.
+3. **D8 portability refactor** of the chat (headless gate, server core extraction).
+4. **react × next-app port** — first end-to-end `agentskit add docs-chat`.
+5. **Scanner + interactive flow** — detection, validation, placement, `--dry-run`/
+   `--yes`, PM execution.
+6. **Second meta-framework (sveltekit)** — proves the port + server contract.
+7. **Remaining ports** — remix/tanstack, nuxt/vue, angular(-ssr/-spa), expo, ink —
+   each gated by binding stability (RFC-0004).
+8. Graduate the stable contracts (item schema, scanner, `components.json`) to an ADR.
+
+## Changelog
+
+- **v2** — closed enterprise-review blockers: `init`/`components.json` (D3),
+  two-level framework model (D4), server-handler delivery + neutral
+  `createAskHandler` (D5), embedding/index portability (D6), streaming negotiation
+  (D7), enforced styling neutrality (D8), supply-chain integrity — pinned refs,
+  per-file checksums, signed manifest, private registries, proxy/CA, audit (D9),
+  transactional/idempotent install + PM execution + secrets-not-in-argv (D10),
+  versioning + `$schema` (D11), TS/JS parity (D12), per-file targets/types (D13),
+  per-file fetch (D14), monorepo-safe marker + 3-way diff + `list` + cycle-safe
+  deps (D15). Open questions reduced to product calls.
+- **v1** — initial proposal: one-verb auto-detect, component schema, scanner,
+  per-framework ports, basic add/validate flow.
