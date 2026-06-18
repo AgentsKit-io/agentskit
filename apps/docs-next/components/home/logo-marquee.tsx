@@ -1,8 +1,8 @@
 'use client'
 
 import { motion, useReducedMotion } from 'motion/react'
-import { useState } from 'react'
 import { brandSlug } from '@/lib/brand-slugs'
+import { BrandIcon } from './brand-icon'
 
 export interface MarqueeItem {
   id: string
@@ -10,30 +10,10 @@ export interface MarqueeItem {
 }
 
 function Logo({ item }: { item: MarqueeItem }) {
-  const [failed, setFailed] = useState(false)
-  const slug = brandSlug(item.id)
-  const monogram = item.label.replace(/[^a-zA-Z0-9]/g, '').charAt(0).toUpperCase() || '•'
   return (
-    <span className="inline-flex shrink-0 items-center gap-2.5 pr-3">
-      <span className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-ak-foam/90">
-        {!failed ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={`https://cdn.simpleicons.org/${slug}`}
-            alt=""
-            width={20}
-            height={20}
-            loading="lazy"
-            onError={() => setFailed(true)}
-            className="h-5 w-5"
-          />
-        ) : (
-          <span aria-hidden="true" className="font-mono text-xs font-bold text-ak-midnight">
-            {monogram}
-          </span>
-        )}
-      </span>
-      <span className="font-mono text-sm text-ak-graphite">{item.label}</span>
+    <span className="inline-flex shrink-0 items-center gap-2 rounded-full border border-ak-border bg-ak-surface px-3.5 py-2">
+      <BrandIcon slug={brandSlug(item.id)} label={item.label} size={18} imgClass="h-[18px] w-[18px]" />
+      <span className="whitespace-nowrap font-mono text-sm text-ak-graphite">{item.label}</span>
     </span>
   )
 }

@@ -10,6 +10,7 @@ import {
   WorksWithSection,
 } from '@/components/home/showcases'
 import { Icon } from '@/components/home/icons'
+import { BrandIcon } from '@/components/home/brand-icon'
 import { counts, approx } from '@/lib/ecosystem-stats'
 
 export const metadata = {
@@ -160,17 +161,17 @@ function Hero() {
   )
 }
 
-// color override forces a visible fill for brands whose Simple Icons default is
-// near-black (invisible on the dark hero) — e.g. Angular (#0F0F11).
-const FRAMEWORKS: { slug: string; label: string; color?: string }[] = [
+// Theme-aware fills (Angular near-black, Deno/Bun invisible at one theme end)
+// are handled centrally in <BrandIcon> so these stay declarative.
+const FRAMEWORKS: { slug: string; label: string }[] = [
   { slug: 'react', label: 'React' },
   { slug: 'vuedotjs', label: 'Vue' },
   { slug: 'svelte', label: 'Svelte' },
   { slug: 'solid', label: 'Solid' },
-  { slug: 'angular', label: 'Angular', color: 'dd0031' },
+  { slug: 'angular', label: 'Angular' },
   { slug: 'nodedotjs', label: 'Node' },
-  { slug: 'deno', label: 'Deno', color: 'ffffff' },
-  { slug: 'bun', label: 'Bun', color: 'fbf0df' },
+  { slug: 'deno', label: 'Deno' },
+  { slug: 'bun', label: 'Bun' },
 ]
 
 /** Quiet static proof that the UI layer spans every framework. No animation. */
@@ -181,17 +182,7 @@ function HeroFrameworks() {
         Works with
       </span>
       {FRAMEWORKS.map((f) => (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img
-          key={f.label}
-          src={`https://cdn.simpleicons.org/${f.slug}${f.color ? `/${f.color}` : ''}`}
-          alt={f.label}
-          title={f.label}
-          width={22}
-          height={22}
-          loading="lazy"
-          className="h-[22px] w-[22px]"
-        />
+        <BrandIcon key={f.label} slug={f.slug} label={f.label} size={22} imgClass="h-[22px] w-[22px]" />
       ))}
     </div>
   )
