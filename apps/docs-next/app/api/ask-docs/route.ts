@@ -175,10 +175,13 @@ ${context || '(no relevant docs found for this query)'}
 === END CITED CONTEXT ===`
 
   // ── Build the $0 free-model fallback chain (tool-calling via OpenRouter). ──
+  // Per-model: one quick retry on transient 429/5xx (fetchWithRetry respects
+  // Retry-After), then the fallback cascades to the next free model. Keeping the
+  // retry short favours cascading across the diverse pool over long waits.
   const adapter = createFallbackAdapter(
     FREE_MODELS.map((model) => ({
       id: model,
-      adapter: openrouter({ apiKey, model }),
+      adapter: openrouter({ apiKey, model, retry: { maxAttempts: 2, baseDelayMs: 400 } }),
     })),
   )
 
