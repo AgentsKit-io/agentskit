@@ -172,10 +172,11 @@ export function AskDocsWidget({
               className="flex items-center gap-2.5 px-1 py-2 text-ak-blue"
               aria-label="Searching the docs"
             >
-              {/* The animated AgentsKit mark (dots circling the triangle). Swap
-                  via the `loadingState` slot. */}
-              <AnimatedLogo variant="nav" loop size={24} />
-              <span className="font-mono text-[11px] uppercase tracking-wide text-ak-graphite">
+              {/* AgentsKit mark with its three dots pulsing in sequence (CSS
+                  scoped to [data-ak-ask-loading]). Swap via the `loadingState`
+                  slot. */}
+              <AnimatedLogo variant="nav" size={24} />
+              <span className="ak-ai-shimmer font-mono text-[11px] uppercase tracking-wide">
                 Searching the docs…
               </span>
             </div>

@@ -251,3 +251,42 @@ button[data-theme-toggle] > svg {
 [data-ak-code-block] code {
   background-color: transparent !important;
 }
+
+/* Ask-the-docs loading: pulse the logo's three dots in sequence (rotating the
+   triangle) + a GPT-style shimmer sweep over the status text (text unchanged). */
+@keyframes ak-dot-pulse {
+  0%, 100% { transform: scale(0.62); opacity: 0.35; }
+  45% { transform: scale(1.15); opacity: 1; }
+}
+[data-ak-ask-loading] .ak-logo__dot {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: ak-dot-pulse 1.15s ease-in-out infinite;
+}
+[data-ak-ask-loading] .ak-logo__dot--top { animation-delay: 0s; }
+[data-ak-ask-loading] .ak-logo__dot--right { animation-delay: 0.38s; }
+[data-ak-ask-loading] .ak-logo__dot--left { animation-delay: 0.76s; }
+
+@keyframes ak-ai-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.ak-ai-shimmer {
+  background-image: linear-gradient(
+    90deg,
+    var(--ak-graphite) 35%,
+    var(--ak-foam) 50%,
+    var(--ak-graphite) 65%
+  );
+  background-size: 200% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: ak-ai-shimmer 1.8s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  [data-ak-ask-loading] .ak-logo__dot,
+  .ak-ai-shimmer { animation: none; }
+  .ak-ai-shimmer { -webkit-text-fill-color: var(--ak-graphite); color: var(--ak-graphite); }
+}
