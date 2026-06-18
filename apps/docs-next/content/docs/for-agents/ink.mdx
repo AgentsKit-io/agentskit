@@ -65,6 +65,21 @@ function Chat() {
 render(<Chat />)
 ```
 
+## Headless progress renderer (standalone agents)
+
+For non-chat agents (cron jobs, CI pipelines, registry agents), `createProgressObserver()` returns an `Observer` that renders `{ type: 'progress' }` `AgentEvent`s as an animated spinner line per stage — pure ANSI, no Ink/React render tree, so it also works in piped CI output.
+
+```ts
+import { createProgressObserver } from '@agentskit/ink'
+
+const agent = createMyAgent({ adapter, observers: [createProgressObserver()] })
+// the agent emits { type: 'progress', label, status, detail?, durationMs? } and
+// this renders: ⠹ classify → ✓ classify  ui-ux · enrich  (0.6s)
+```
+
+- `createProgressObserver(options?)` — `options.write` overrides the output sink (default `process.stdout`); `options.plain` disables the spinner/colors (auto-on for non-TTY). The interval is `unref`'d, so it never keeps the process alive.
+- `SPINNER_FRAMES` — the shared braille frames (also used by `ThinkingIndicator`), exported for custom renderers.
+
 ## Common patterns
 
 - **Node only / TTY required**: `@agentskit/ink` uses Ink which writes directly to `process.stdout`. It does not run in the browser or in non-TTY environments (e.g. piped CI output). Use `@agentskit/react` for browser targets.

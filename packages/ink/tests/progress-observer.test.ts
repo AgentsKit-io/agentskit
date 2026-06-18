@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createProgressObserver } from './progress-observer'
+import { createProgressObserver } from '../src/progress-observer'
 
 describe('createProgressObserver', () => {
   it('renders progress AgentEvents and ignores non-progress events', () => {

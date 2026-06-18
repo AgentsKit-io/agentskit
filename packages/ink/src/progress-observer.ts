@@ -56,8 +56,11 @@ export function createProgressObserver(options: ProgressObserverOptions = {}): O
         stop()
         timer = setInterval(() => {
           frame = (frame + 1) % SPINNER_FRAMES.length
-          write(`\r  ${C.cyan}${SPINNER_FRAMES[frame]}${C.reset} ${label}`)
+          write(`\r  ${C.cyan}${SPINNER_FRAMES[frame]}${C.reset} ${label}\x1b[K`)
         }, 80)
+        // Don't let the spinner keep the event loop alive if the run throws
+        // before the resolving event fires.
+        timer.unref?.()
         return
       }
 
@@ -66,10 +69,11 @@ export function createProgressObserver(options: ProgressObserverOptions = {}): O
       const color = event.status === 'ok' ? C.green : event.status === 'error' ? C.red : C.yellow
       const time = event.durationMs ? ` ${C.dim}(${(event.durationMs / 1000).toFixed(1)}s)${C.reset}` : ''
       const cr = plain ? '' : '\r'
+      const clr = plain ? '' : '\x1b[K' // clear to EOL so a long spinner line leaves no leftover chars
       const c = plain ? '' : color
       const r = plain ? '' : C.reset
       const d = plain ? '' : C.dim
-      write(`${cr}  ${c}${sym}${r} ${label} ${d}${event.detail ?? ''}${r}${time}\n`)
+      write(`${cr}  ${c}${sym}${r} ${label} ${d}${event.detail ?? ''}${r}${time}${clr}\n`)
     },
   }
 }
