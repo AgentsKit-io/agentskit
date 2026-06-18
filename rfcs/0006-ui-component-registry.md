@@ -1,7 +1,7 @@
 # RFC 0006 — UI component registry & shadcn-style `agentskit add`
 
 - **Status**: Proposed
-- **Version**: 3 (v2 → v3 after a 6-lens consensus review — closes 2 BLOCKERs + the `AskConfig` cluster; see Changelog)
+- **Version**: 3.1 (v3 consensus review + all product calls resolved — 0 open questions; see Changelog)
 - **Date**: 2026-06-18
 - **Author**: @EmersonBraun
 - **Related issues**: —
@@ -216,9 +216,10 @@ The install therefore:
 
 1. Copies an **indexer** (`agentskit ask index ./docs`) and an **empty** index
    stub — never AgentsKit's corpus.
-2. Declares `embeddingBackend` (D5). `onnx-node` for Node servers;
-   `api-remote` (call an embedding API) for edge/RN/serverless without ONNX;
-   `browser-wasm` only where WASM SIMD is available.
+2. Declares `embeddingBackend` (D5). **`onnx-node` is the launch default** for Node
+   servers ($0, local). `api-remote` (a **BYO** embed fn / API via `AskConfig.embed`)
+   serves edge/RN/serverless without ONNX — no bundled paid provider; `browser-wasm`
+   only where WASM SIMD is available. Edge/RN ports are deferred (see Open questions).
 3. Loads the index at request time (not module-load) for large corpora, to keep
    serverless cold-start small.
 4. Prints a "run the indexer before first use" step in the ready output.
@@ -512,33 +513,41 @@ false** — resolved before the `react × next-app` port ships (Rollout step 4).
 - **Silent `kind` default to `'agent'`** — rejected (D1): explicit + validated.
 - **Single coarse `framework`** — rejected (D4): can't place server files.
 
-## Open questions (genuine product calls — need your decision)
+## Open questions
 
-1. **Launch framework breadth.** Ship `react×next-app` first and expand, or block
-   the GA announcement until `sveltekit` + `nuxt` also ship? (Recommendation:
-   ship react/next first; each later port gated by RFC-0004 binding stability.)
-2. **Default embedding for `hosted`/edge ports** — bundle a small `api-remote`
-   embedder (which provider?) or require the user to supply one?
-3. **Telemetry** — default off, opt-in `agentskit add --telemetry`? (Recommendation:
-   off by default.) The wire contract is already `ObservabilityHooks` (D5) — this OQ
-   is only the default + provider, not the surface.
+**None — all resolved (v3.1).** The RFC has zero open items; implementation can
+begin.
 
-**Resolved in v3** (were open in v2): signing = **minisign Ed25519**, cosign
-deferred (D9). `$schema` = a **versioned raw-GitHub tag URL**, hosted
-`registry.agentskit.io` becomes an alias once live (D3/D11) — so standing up hosting
-is no longer a blocker for Rollout step 1; it can follow on its own timeline.
+Resolved product calls:
+
+1. **Launch breadth** → ship **`react × next-app` first**, expand port-by-port (each
+   gated by RFC-0004 binding stability).
+2. **Edge/RN/hosted embedding** → **`onnx-node` now** for Node ports ($0, local);
+   edge/RN/`hosted` ports are deferred and, when they land, take a **BYO embedder
+   via `AskConfig.embed`** (no bundled paid provider, preserves the $0 default).
+3. **Telemetry** → **off by default**, opt-in `agentskit add --telemetry`; the wire
+   contract is `ObservabilityHooks` (D5), no-op until enabled.
+
+Resolved earlier (v3): signing = **minisign Ed25519** (cosign deferred, D9);
+`$schema` = **versioned raw-GitHub tag URL** with the hosted URL as a later alias
+(D3/D11) — hosting is not a blocker for kickoff.
 
 ## Rollout (once accepted)
 
-1. **Contracts** — land `RegistryComponent` + `FrameworkTarget` + scanner +
-   validator + `components.json` + `init` (no ports yet).
-2. **Integrity layer** — pinned refs, per-file sha256, signed (minisign) manifest +
+Kickoff = **step 1 (D8)** per the locked decision — it's a self-contained refactor
+of the existing chat, needs no registry, and unblocks every later port.
+
+1. **D8 portability refactor (KICKOFF)** of the chat — extract the server core to
+   `createAskHandler(AskConfig)` (define `AskConfig` + `ObservabilityHooks`), make
+   the widget headless (no `className`/`next/*`/brand import; slotted `linkComponent`,
+   inlined logo), **dynamic (request-time) index import**, and land the
+   `check:registry-headless` gate wired into `pnpm check:quality-gates`.
+2. **Contracts** — `RegistryComponent` + `FrameworkTarget` + scanner + validator +
+   `components.json` + `init` (no ports yet).
+3. **Integrity layer** — pinned refs, per-file sha256, signed (minisign) manifest +
    `keys.json` rotation, configurable/auth'd registry, **path-containment guard
    (D16) on write and diff read**, transactional install, tamper-evident marker +
    audit.
-3. **D8 portability refactor** of the chat — `check:registry-headless` must pass
-   before the `react × next-app` port merges; server core extraction to
-   `createAskHandler(AskConfig)`; **dynamic (request-time) index import**.
 4. **react × next-app port** — first end-to-end `agentskit add docs-chat`.
 5. **Scanner + interactive flow** — detection, validation, placement, `--dry-run`/
    `--yes`, PM execution.
@@ -549,6 +558,10 @@ is no longer a blocker for Rollout step 1; it can follow on its own timeline.
 
 ## Changelog
 
+- **v3.1** — all 3 product calls resolved → **0 open questions**: launch
+  `react × next-app` first; `onnx-node` now + BYO embedder (`AskConfig.embed`) for
+  edge/RN later; telemetry off-by-default opt-in. Rollout reordered: **D8 is the
+  implementation kickoff**. Ready to implement.
 - **v3** — 6-lens consensus review (53 agents). Closed both BLOCKERs:
   **ports-map key grammar** locked to `uiBinding` alone (D4/Schema) and a
   **path-containment guard** added (new D16, on write + diff read, publish-time
