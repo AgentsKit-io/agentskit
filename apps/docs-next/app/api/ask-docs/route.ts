@@ -19,7 +19,7 @@ import type { AdapterRequest, Message, StreamChunk } from '@agentskit/core'
 import { createFallbackAdapter, openrouter } from '@agentskit/adapters'
 import { createDocsRetriever, formatCitedContext } from '@/lib/rag/retrieve'
 import { FREE_MODELS } from '@/lib/openrouter'
-import { checkScope, sanitizeMessages, type SanitizedMessage } from '@/lib/ask/guard'
+import { checkScope, sanitizeMessages, triageMessage, type SanitizedMessage } from '@/lib/ask/guard'
 import { docsAssistant } from '@/lib/ask/skill'
 import { UI_TOOLS, encodeEvent, isUiTool, type UiEvent } from '@/lib/ask/protocol'
 import { rateLimit } from '@/lib/ask/rate-limit'
@@ -115,6 +115,19 @@ export async function POST(req: Request): Promise<Response> {
 
   const lastUser = [...turns].reverse().find((m) => m.role === 'user')
   const query = lastUser?.content ?? turns[turns.length - 1]!.content
+
+  // ── Triage: canned replies for greetings/test/noise + injection declines, ──
+  // before any model call, embedding, or retrieval.
+  const triage = triageMessage(query)
+  if (triage.kind === 'canned') {
+    return singleEventStream(
+      [
+        { type: 'tool', id: 'triage', name: 'answer', args: { markdown: triage.reply } },
+        { type: 'done', model: 'guard' },
+      ],
+      'guard',
+    )
+  }
 
   // ── Scope guard: decline off-topic questions without a model call. ─────────
   const scope = await checkScope(query)
