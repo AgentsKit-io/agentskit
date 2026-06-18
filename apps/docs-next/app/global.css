@@ -242,3 +242,12 @@ button[data-theme-toggle] > svg {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(300%); }
 }
+
+/* Ask-the-docs code blocks: force the inner shiki/pre background transparent so
+   the (theme-aware) card surface shows through in BOTH light and dark — fumadocs'
+   global code styling otherwise bakes a dark background that breaks light mode. */
+[data-ak-code-block] pre,
+[data-ak-code-block] .shiki,
+[data-ak-code-block] code {
+  background-color: transparent !important;
+}
