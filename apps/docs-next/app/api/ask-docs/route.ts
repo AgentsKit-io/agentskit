@@ -22,28 +22,9 @@ import { FREE_MODELS } from '@/lib/openrouter'
 import { checkScope, sanitizeMessages, type SanitizedMessage } from '@/lib/ask/guard'
 import { docsAssistant } from '@/lib/ask/skill'
 import { UI_TOOLS, encodeEvent, isUiTool, type UiEvent } from '@/lib/ask/protocol'
+import { rateLimit } from '@/lib/ask/rate-limit'
 
 export const runtime = 'nodejs'
-
-// In-memory rate limit — per IP, per rolling minute. Single-instance only;
-// swap for Upstash (durable, cross-instance) before scaling out.
-const WINDOW_MS = 60_000
-const LIMIT = 8
-const hits = new Map<string, { count: number; resetAt: number }>()
-
-function rateLimit(ip: string): { ok: boolean; retryAfterSec: number } {
-  const now = Date.now()
-  const entry = hits.get(ip)
-  if (!entry || entry.resetAt < now) {
-    hits.set(ip, { count: 1, resetAt: now + WINDOW_MS })
-    return { ok: true, retryAfterSec: 0 }
-  }
-  entry.count += 1
-  if (entry.count > LIMIT) {
-    return { ok: false, retryAfterSec: Math.max(1, Math.ceil((entry.resetAt - now) / 1000)) }
-  }
-  return { ok: true, retryAfterSec: 0 }
-}
 
 const encoder = new TextEncoder()
 
@@ -99,7 +80,7 @@ export async function POST(req: Request): Promise<Response> {
     req.headers.get('x-real-ip') ??
     req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ??
     'unknown'
-  const rl = rateLimit(ip)
+  const rl = await rateLimit(ip)
   if (!rl.ok) {
     return new Response(JSON.stringify({ error: 'rate limited', retryAfter: rl.retryAfterSec }), {
       status: 429,
