@@ -138,8 +138,12 @@ export function createDocsRetriever(options: DocsRetrieverOptions = {}): Retriev
     : createHybridRetriever(rag, {
         candidatePool: CANDIDATE_POOL,
         topK: TOP_K,
-        vectorWeight: 0.6,
-        bm25Weight: 0.4,
+        // Semantic-heavier: keyword-matchy recipe/example siblings were
+        // out-ranking the canonical leaf page at #1. Leaning on the vector score
+        // promotes the conceptual page — measured MRR 0.546 → 0.678 with
+        // recall@6 unchanged at 98% (eval: lib/ask/eval/retrieval.ts).
+        vectorWeight: 0.85,
+        bm25Weight: 0.15,
       })
 
   return {
