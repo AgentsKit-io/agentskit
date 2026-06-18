@@ -1,0 +1,4 @@
+---
+---
+
+Internal: add `packages/cli/src/components/marker.ts` — install marker upsert/find/remove on `components.json`'s `installed[]` (keyed by `{ id, installPath }`, monorepo-safe) plus a tamper-evident, hash-linked audit chain for `.agentskit/install-log.jsonl` (RFC-0006 D9/D15). Marker entries record per-file SHA-256 at install time (injected `now`) to power the later 3-way diff/update; `appendAudit` links each entry to the canonical SHA-256 of its predecessor, and `verifyAuditChain` walks the chain to flag the first index where tampering, reordering, or deletion breaks it. All functions are pure + deterministic (timestamps injected, keys canonicalised before hashing), throws reuse `IntegrityError`, and the module is fully unit-tested. Not exported from the package entry yet — no public API change, no release.
