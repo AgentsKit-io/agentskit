@@ -1,8 +1,8 @@
 {
   "$schema": "https://railway.com/railway.schema.json",
   "build": {
-    "builder": "NIXPACKS",
-    "buildCommand": "corepack enable && pnpm install --frozen-lockfile"
+    "builder": "DOCKERFILE",
+    "dockerfilePath": "apps/ask-backend/Dockerfile"
   },
   "deploy": {
     "startCommand": "pnpm --filter @agentskit/ask-backend start",
