@@ -149,11 +149,22 @@ export function AskDocsWidget({
         className="flex max-w-[92%] flex-col gap-1.5 self-start"
       >
         {isEmpty && assistant.streaming ? (
-          <span className="inline-flex gap-1 px-1 py-2" aria-label="Thinking">
-            <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-ak-graphite [animation-delay:-0.2s]" />
-            <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-ak-graphite [animation-delay:-0.1s]" />
-            <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-ak-graphite" />
-          </span>
+          <div
+            data-ak-ask-loading
+            className="flex w-56 flex-col gap-2 rounded-xl bg-ak-surface/50 px-3.5 py-3"
+            aria-label="Searching the docs"
+          >
+            <span className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wide text-ak-graphite">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-ak-blue opacity-60" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-ak-blue" />
+              </span>
+              Searching the docs…
+            </span>
+            <span className="relative block h-1 w-full overflow-hidden rounded-full bg-ak-border/40">
+              <span className="absolute inset-y-0 left-0 w-1/3 animate-[ak-scan_1.3s_ease-in-out_infinite] rounded-full bg-gradient-to-r from-transparent via-ak-blue to-transparent" />
+            </span>
+          </div>
         ) : (
           assistant.parts.map((part, i) => renderPart(part, `${assistant.id}-${i}`))
         )}

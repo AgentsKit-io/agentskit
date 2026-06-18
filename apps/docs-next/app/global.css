@@ -236,3 +236,9 @@ button[data-theme-toggle] > svg {
     animation: none;
   }
 }
+
+/* Ask-the-docs loading shimmer — a scanning bar while retrieving/answering. */
+@keyframes ak-scan {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(300%); }
+}

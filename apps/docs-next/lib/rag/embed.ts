@@ -99,3 +99,7 @@ export async function embedBatch(texts: string[]): Promise<number[][]> {
   const tensor = await extractor(texts, { pooling: 'mean', normalize: true })
   return tensorToMatrix(tensor, texts.length)
 }
+
+// Warm the model at import so the first user query doesn't pay the cold load.
+// Fire-and-forget; failures are retried lazily on first real use.
+void getExtractor().catch(() => {})
