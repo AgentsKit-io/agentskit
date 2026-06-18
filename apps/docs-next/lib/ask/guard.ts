@@ -25,7 +25,6 @@
  */
 import type { EmbedFn, Message } from '@agentskit/core'
 import { embed as defaultEmbed } from '../rag/embed'
-import snapshot from '../ask-index/index.json'
 
 interface IndexRecord {
   embedding: number[]
@@ -62,14 +61,26 @@ function cosine(a: number[], b: number[]): number {
 }
 
 /**
+ * Load the committed index on first call; cached thereafter. The dynamic
+ * `import()` makes the JSON a lazily-loaded chunk — kept out of the module-load
+ * graph (RFC-0006 D6 cold-start win) while still bundled + shipped by the builder
+ * (no serverless file-resolution risk, unlike an `fs` read).
+ */
+async function loadIndexRecords(): Promise<IndexRecord[]> {
+  const mod = (await import('../ask-index/index.json')) as { default: IndexSnapshot }
+  return mod.default.records ?? []
+}
+
+/**
  * Mean of all chunk embeddings, re-normalized. Computed once from the committed
- * index. Returns `undefined` when the index is empty (→ guard fails open).
+ * index (loaded lazily on first call). Returns `undefined` when the index is
+ * empty (→ guard fails open).
  */
 let cachedCentroid: number[] | null | undefined
-function corpusCentroid(): number[] | undefined {
+async function corpusCentroid(): Promise<number[] | undefined> {
   if (cachedCentroid !== undefined) return cachedCentroid ?? undefined
 
-  const records = (snapshot as unknown as IndexSnapshot).records ?? []
+  const records = await loadIndexRecords()
   if (records.length === 0) {
     cachedCentroid = null
     return undefined
@@ -108,7 +119,7 @@ export async function checkScope(query: string, options: ScopeOptions = {}): Pro
   const text = query.trim()
   if (text.length === 0) return { inScope: false, reason: 'empty query' }
 
-  const centroid = corpusCentroid()
+  const centroid = await corpusCentroid()
   if (!centroid) return { inScope: true }
 
   const threshold = options.threshold ?? ON_TOPIC_THRESHOLD
