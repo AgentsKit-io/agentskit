@@ -196,10 +196,9 @@ export function AskDocsWidget({
         data-ak-ask-fab=""
         className="group fixed bottom-4 right-4 z-50 flex items-center gap-2 rounded-full border border-ak-border bg-ak-midnight px-4 py-2.5 font-mono text-xs font-semibold text-ak-foam shadow-lg transition-all hover:border-ak-blue hover:shadow-ak-blue/20"
       >
-        <span
-          aria-hidden
-          className="h-1.5 w-1.5 rounded-full bg-ak-green transition-transform group-hover:scale-125"
-        />
+        <span aria-hidden className="text-ak-foam transition-transform group-hover:scale-110">
+          {logo ?? <AnimatedLogo variant="nav" size={16} />}
+        </span>
         {fabLabel ?? 'Ask the docs'}
       </button>
     )
