@@ -13,7 +13,7 @@ const docsDir = join(root, 'apps/docs-next/content/docs/for-agents')
 const packagesDir = join(root, 'packages')
 
 const SKIP_PAGES = new Set(['index', 'angular', 'react-native'])
-const SKIP_PACKAGES = new Set(['framework-adapters', 'templates'])
+const SKIP_PACKAGES = new Set(['framework-adapters', 'templates', 'ask-core'])
 
 const IGNORE_EXPORTS = {
   core: new Set(['normalizeChunk', 'flushPending', 'mergeStreamChunks']),

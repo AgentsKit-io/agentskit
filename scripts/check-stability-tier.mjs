@@ -34,6 +34,7 @@ for (const name of readdirSync(pkgsDir)) {
   } catch {
     continue // not a package dir
   }
+  if (pkg.private) continue // private/internal packages aren't published — exempt from publish gates
   const tier = pkg.agentskit?.stability
   if (!tier) {
     errors.push(`${pkg.name}: no agentskit.stability declared in package.json`)
