@@ -1,0 +1,101 @@
+---
+title: Build an Ask-the-docs chat
+description: The exact grounded RAG chat in this site's corner — index your docs, ground a free model, stream cited answers. Copy it, or scaffold it with one command.
+---
+
+This is the recipe for the chat you're using right now: a **grounded RAG assistant** over your own docs that streams **concise, cited** answers — running at **$0** on the OpenRouter free pool, built entirely on `@agentskit/*`.
+
+Two ways in: scaffold it with the CLI, or wire it by hand.
+
+## Fastest path — the CLI
+
+```bash
+npx agentskit add docs-chat
+```
+
+This copies a provider-agnostic `createDocsChatAgent` into `./agents/docs-chat/` (you own the source). Point it at a retriever and any adapter:
+
+```ts
+import { createDocsChatAgent } from './agents/docs-chat/agent'
+import { openrouter } from '@agentskit/adapters'
+
+const agent = createDocsChatAgent({
+  adapter: openrouter({ apiKey: process.env.OPENROUTER_API_KEY!, model: 'meta-llama/llama-3.3-70b-instruct:free' }),
+  retriever, // your RAG retriever — see below
+})
+
+const { content } = await agent.run('How do I deploy to the edge?')
+```
+
+A full runnable version lives in **`apps/example-rag-chat`** — swap the sample docs for yours.
+
+## 1. Index your docs (RAG)
+
+Chunk + embed your docs once, into any `@agentskit/memory` vector store. Embedding stays **free + local** with an ONNX model:
+
+```ts
+import { createRAG } from '@agentskit/rag'
+import { fileVectorMemory } from '@agentskit/memory'
+import { pipeline } from '@huggingface/transformers'
+
+// Local ONNX embedder — $0, no API key.
+let extractor: Awaited<ReturnType<typeof pipeline>> | null = null
+const embed = async (text: string): Promise<number[]> => {
+  extractor ??= await pipeline('feature-extraction', 'Xenova/bge-small-en-v1.5')
+  const out = await extractor(text, { pooling: 'mean', normalize: true })
+  return Array.from(out.data as Float32Array)
+}
+
+const rag = createRAG({ embed, store: fileVectorMemory({ path: './docs-index' }), topK: 6 })
+await rag.ingest(docs) // docs: { id, content, metadata: { path, title } }[]
+```
+
+For a committed, read-only index (great for serverless), generate it at build time and ship the JSON — see the docs-site's `scripts/gen-ask-index.mjs`.
+
+## 2. Stream grounded, cited answers
+
+`createRAG` returns a `Retriever` — drop it straight into `useChat` (or `createRuntime`). Two design choices make it reliable on **free models**:
+
+- **Co-locate the context with the question** (free models attend to recent tokens far better than a long system prompt).
+- **Emit citations from what you retrieved** — don't depend on a weak model to call a `cite` tool.
+
+```ts
+import { useChat } from '@agentskit/react'
+import { openrouter, createFallbackAdapter } from '@agentskit/adapters'
+
+const FREE = ['meta-llama/llama-3.3-70b-instruct:free', 'qwen/qwen3-next-80b-a3b-instruct:free']
+const adapter = createFallbackAdapter(
+  FREE.map((model) => ({ id: model, adapter: openrouter({ apiKey, model }) })),
+)
+
+const chat = useChat({
+  adapter,
+  retriever: rag,
+  systemPrompt: 'Answer ONLY from the provided docs. Be concise. Decline + name the nearest page when uncovered. Never mention other frameworks.',
+})
+```
+
+`createFallbackAdapter` cascades across the free pool when one is rate-limited (429). Keep answers short and AgentsKit-specific with a tight system prompt.
+
+## 3. The widget (optional, fancy)
+
+The floating chat is a headless, slotted component — open by default, branded logo, animated loading, and a "build this" link, all overridable:
+
+```tsx
+<AskDocsWidget
+  logo={<YourMark />}          // header logo slot
+  loadingState={<YourSpinner />} // loading slot
+  title="Ask our docs"
+  docsHref="/docs/cookbook/ask-the-docs"
+/>
+```
+
+Generative UI (option buttons, forms, runnable code) activates with `ASK_RICH_UI=1` and a capable model — free models stay on reliable markdown text.
+
+## Going further
+
+- **Durable rate limit** — front the route with Upstash (in-memory fallback for dev).
+- **Eval it** — measure retrieval `recall@k` / `MRR` deterministically + an LLM judge; gate in CI.
+- **Run code in-browser** — `@agentskit/sandbox/web` `webWorkerBackend` (zero-vendor) powers runnable snippets.
+
+That's the whole thing: index → ground → stream → cite. Grounding quality scales with model quality — start free, bring your own key when you want the rich UI.
