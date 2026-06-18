@@ -7,6 +7,8 @@ import {
   useState,
   type ReactNode,
 } from 'react'
+import Link from 'next/link'
+import { AnimatedLogo } from '@/components/brand/animated-logo'
 import { Markdown } from './ask/Markdown'
 import { defaultRegistry } from './ask/registry'
 import type { UiToolContext, UiToolRegistry } from './ask/registry'
@@ -49,6 +51,17 @@ export interface AskDocsWidgetProps {
   ) => ReactNode | undefined
   /** Swap in a custom (still allow-list-guarded) registry. */
   registry?: UiToolRegistry
+  /** Logo shown beside the header title. Slot — defaults to the AgentsKit mark. */
+  logo?: ReactNode
+  /** Loading state shown while the assistant prepares its first chunk. Slot. */
+  loadingState?: ReactNode
+  /**
+   * Docs page that explains how to build this exact chat. Rendered as a link
+   * under the composer. Defaults to the AgentsKit "Ask the docs" recipe.
+   */
+  docsHref?: string
+  /** Open by default. Defaults to true (the chat is the flagship example). */
+  defaultOpen?: boolean
 }
 
 /**
@@ -77,8 +90,12 @@ export function AskDocsWidget({
   renderMessage,
   renderTool,
   registry = defaultRegistry,
+  logo,
+  loadingState,
+  docsHref = '/docs/cookbook/ask-the-docs',
+  defaultOpen = true,
 }: AskDocsWidgetProps = {}) {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(defaultOpen)
   const [input, setInput] = useState('')
   const { messages, streaming, error, send, stop, clear, appendLocalTool } = useAskChat()
   const endRef = useRef<HTMLDivElement | null>(null)
@@ -149,22 +166,20 @@ export function AskDocsWidget({
         className="flex max-w-[92%] flex-col gap-1.5 self-start"
       >
         {isEmpty && assistant.streaming ? (
-          <div
-            data-ak-ask-loading
-            className="flex w-56 flex-col gap-2 rounded-xl bg-ak-surface/50 px-3.5 py-3"
-            aria-label="Searching the docs"
-          >
-            <span className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-wide text-ak-graphite">
-              <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-ak-blue opacity-60" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-ak-blue" />
+          loadingState ?? (
+            <div
+              data-ak-ask-loading
+              className="flex items-center gap-2.5 px-1 py-2 text-ak-blue"
+              aria-label="Searching the docs"
+            >
+              {/* The animated AgentsKit mark (dots circling the triangle). Swap
+                  via the `loadingState` slot. */}
+              <AnimatedLogo variant="nav" loop size={24} />
+              <span className="font-mono text-[11px] uppercase tracking-wide text-ak-graphite">
+                Searching the docs…
               </span>
-              Searching the docs…
-            </span>
-            <span className="relative block h-1 w-full overflow-hidden rounded-full bg-ak-border/40">
-              <span className="absolute inset-y-0 left-0 w-1/3 animate-[ak-scan_1.3s_ease-in-out_infinite] rounded-full bg-gradient-to-r from-transparent via-ak-blue to-transparent" />
-            </span>
-          </div>
+            </div>
+          )
         ) : (
           assistant.parts.map((part, i) => renderPart(part, `${assistant.id}-${i}`))
         )}
@@ -197,7 +212,10 @@ export function AskDocsWidget({
     >
       <header className="flex items-center justify-between border-b border-ak-border bg-gradient-to-br from-ak-surface to-ak-midnight px-4 py-2.5">
         <div className="flex items-center gap-2">
-          <span aria-hidden className="h-1.5 w-1.5 rounded-full bg-ak-green" />
+          {/* Logo slot — defaults to the AgentsKit mark; swap via `logo`. */}
+          <span aria-hidden className="text-ak-foam" data-ak-ask-logo="">
+            {logo ?? <AnimatedLogo variant="nav" size={18} />}
+          </span>
           <span className="font-mono text-xs uppercase tracking-[0.2em] text-ak-graphite">
             {title ?? 'Ask the docs'}
           </span>
@@ -287,6 +305,16 @@ export function AskDocsWidget({
             </button>
           )}
         </div>
+        {docsHref ? (
+          <Link
+            href={docsHref}
+            data-ak-ask-docs-link=""
+            className="mt-2 flex items-center gap-1.5 px-1 font-mono text-[10px] text-ak-graphite transition-colors hover:text-ak-blue"
+          >
+            <AnimatedLogo variant="nav" size={12} />
+            Build a chat like this — step by step →
+          </Link>
+        ) : null}
       </div>
     </div>
   )
