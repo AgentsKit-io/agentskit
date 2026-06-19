@@ -10,7 +10,8 @@
  * serves the `docs` corpus. F1 adds `registry`; F2 wires the cross-repo corpora.
  *
  * Env: OPENROUTER_API_KEY (required), ASK_CORS_ORIGINS, ASK_RICH_UI, PORT,
- * UPSTASH_REDIS_REST_URL/_TOKEN (durable rate-limit; in-memory fallback otherwise).
+ * REDIS_URL/ASK_REDIS_URL or UPSTASH_REDIS_REST_URL/_TOKEN (durable rate-limit;
+ * in-memory fallback otherwise).
  */
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
