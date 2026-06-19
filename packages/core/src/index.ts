@@ -1,6 +1,4 @@
 export { createChatController } from './controller'
-export { SEVERITY_ORDER } from './types/finding'
-export type { Severity, Finding } from './types/finding'
 export {
   AgentsKitError,
   AdapterError,
