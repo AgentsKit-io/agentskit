@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
-import { jaroWinkler, fuzzyMatchList, SEVERITY_ORDER } from '../src/index'
+import { jaroWinkler, fuzzyMatchList } from '../src/fuzzy-match'
+import { SEVERITY_ORDER } from '../src/index'
 import { fenceUntrustedContent, UNTRUSTED_CONTENT_DIRECTIVE } from '../src/security/index'
 
 describe('jaroWinkler', () => {

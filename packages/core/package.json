@@ -58,6 +58,11 @@
       "import": "./dist/security.js",
       "require": "./dist/security.cjs"
     },
+    "./fuzzy-match": {
+      "types": "./dist/fuzzy-match.d.ts",
+      "import": "./dist/fuzzy-match.js",
+      "require": "./dist/fuzzy-match.cjs"
+    },
     "./compose-tool": {
       "types": "./dist/compose-tool.d.ts",
       "import": "./dist/compose-tool.js",

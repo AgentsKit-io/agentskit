@@ -36,9 +36,6 @@ npm install @agentskit/core
   `executeToolProgressively`.
 - `createVirtualizedMemory` — hot-window + cold-retriever wrapper
   (also re-exported from `@agentskit/memory`).
-- `jaroWinkler(a, b)` / `fuzzyMatchList(query, candidates, opts?)` —
-  zero-dependency fuzzy string matching (Jaro-Winkler) for approximate
-  name matching against a list (sanctions / KYC / dedup) without an LLM.
 - `Finding` / `Severity` / `SEVERITY_ORDER` — the canonical finding shape
   for agents that surface issues (review, audit, compliance), so findings
   are interoperable across agents and dashboards.
@@ -61,7 +58,8 @@ npm install @agentskit/core
 | `@agentskit/core/prompt-experiments` | A/B prompts with feature flags | [A/B prompts](/docs/reference/recipes/prompt-experiments) |
 | `@agentskit/core/auto-summarize` | Auto-summarizing `ChatMemory` wrapper | [Auto-summarize](/docs/reference/recipes/auto-summarize) |
 | `@agentskit/core/hitl` | Approval gates + `ApprovalStore` | [HITL approvals](/docs/reference/recipes/hitl-approvals) |
-| `@agentskit/core/security` | PII redactor + injection detector + rate limiter | [PII](/docs/reference/recipes/pii-redaction), [Injection](/docs/reference/recipes/prompt-injection), [Rate limit](/docs/reference/recipes/rate-limiting) |
+| `@agentskit/core/security` | PII redactor + injection detector + **`fenceUntrustedContent`** + rate limiter | [PII](/docs/reference/recipes/pii-redaction), [Injection](/docs/reference/recipes/prompt-injection), [Rate limit](/docs/reference/recipes/rate-limiting) |
+| `@agentskit/core/fuzzy-match` | `jaroWinkler` / `fuzzyMatchList` — zero-dep fuzzy name matching for sanctions/KYC/dedup without an LLM | — |
 | `@agentskit/core/compose-tool` | Chain N tools into one | [Tool composer](/docs/reference/recipes/tool-composer) |
 | `@agentskit/core/self-debug` | Retry tools with LLM-corrected args | [Self-debug](/docs/reference/recipes/self-debug) |
 | `@agentskit/core/generative-ui` | Typed UI element tree + artifacts | [Gen UI](/docs/reference/recipes/generative-ui) |
