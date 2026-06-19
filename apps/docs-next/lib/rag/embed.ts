@@ -43,10 +43,13 @@ async function getExtractor(): Promise<FeatureExtractor> {
   if (!extractorPromise) {
     extractorPromise = (async () => {
       const transformers = await import('@huggingface/transformers')
-      // Serverless functions have a read-only filesystem except for `/tmp`. The
-      // first call downloads the ONNX model from the HF hub and caches it; point
-      // that cache at the one writable dir, or the write fails and retrieval errors.
-      if (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME) {
+      // Point the model cache at a writable, persistent dir. In the container image
+      // (RFC-0007 backend) the model is pre-baked here at build time via
+      // `TRANSFORMERS_CACHE`, so runtime never downloads. On Vercel/Lambda only
+      // `/tmp` is writable, so the first call downloads there.
+      if (process.env.TRANSFORMERS_CACHE) {
+        transformers.env.cacheDir = process.env.TRANSFORMERS_CACHE
+      } else if (process.env.VERCEL || process.env.AWS_LAMBDA_FUNCTION_NAME) {
         transformers.env.cacheDir = '/tmp/.transformers-cache'
       }
       const extractor = (await transformers.pipeline(
@@ -54,7 +57,13 @@ async function getExtractor(): Promise<FeatureExtractor> {
         EMBED_MODEL,
       )) as unknown as FeatureExtractor
       return extractor
-    })()
+    })().catch((err) => {
+      // Never cache a rejected singleton — a transient first-load failure would
+      // otherwise poison the embedder for the whole process lifetime (fatal for a
+      // long-lived server). Reset so the next call retries.
+      extractorPromise = null
+      throw err
+    })
   }
   return extractorPromise
 }
