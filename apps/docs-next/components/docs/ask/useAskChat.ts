@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { decodeEvents, type UiEvent } from '@/lib/ask/protocol'
 
 /**
@@ -41,16 +41,55 @@ export type ChatMessage = UserMessage | AssistantMessage
 const STORAGE_KEY = 'ak:ask-thread-v2'
 const MAX_PERSISTED = 20
 
+export interface UseAskChatOptions {
+  /**
+   * Chat endpoint. May be relative (`/api/ask-docs`) or absolute
+   * (`https://ask.agentskit.io/v1/ask?corpus=docs`).
+   */
+  endpoint?: string
+  /** Corpus routed by the central ask backend, e.g. `docs`, `registry`, `playbook`, `akos`. */
+  corpus?: string
+  /** Optional persona override routed by the central ask backend. */
+  persona?: string
+  /** Session storage key. Defaults to a corpus/persona-scoped key. */
+  storageKey?: string
+}
+
 function newId(): string {
   // crypto.randomUUID is available in modern browsers + edge; fall back for SSR.
   if (typeof crypto !== 'undefined' && 'randomUUID' in crypto) return crypto.randomUUID()
   return `${Date.now()}-${Math.random().toString(36).slice(2)}`
 }
 
-function readThread(): ChatMessage[] {
+function scopedStorageKey(corpus?: string, persona?: string): string {
+  const scope = [corpus, persona].filter(Boolean).join(':')
+  return scope ? `${STORAGE_KEY}:${scope}` : STORAGE_KEY
+}
+
+function withAskParams(endpoint: string, options: Pick<UseAskChatOptions, 'corpus' | 'persona'>): string {
+  const params = Object.entries({ corpus: options.corpus, persona: options.persona }).filter(
+    (entry): entry is [string, string] => typeof entry[1] === 'string' && entry[1].trim() !== '',
+  )
+  if (params.length === 0) return endpoint
+
+  try {
+    const isRelative = endpoint.startsWith('/')
+    const base = typeof window === 'undefined' ? 'http://localhost' : window.location.origin
+    const url = new URL(endpoint, base)
+    for (const [key, value] of params) url.searchParams.set(key, value)
+    return isRelative ? `${url.pathname}${url.search}${url.hash}` : url.toString()
+  } catch {
+    const glue = endpoint.includes('?') ? '&' : '?'
+    return `${endpoint}${glue}${params
+      .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value)}`)
+      .join('&')}`
+  }
+}
+
+function readThread(storageKey: string): ChatMessage[] {
   if (typeof window === 'undefined') return []
   try {
-    const raw = window.sessionStorage.getItem(STORAGE_KEY)
+    const raw = window.sessionStorage.getItem(storageKey)
     if (!raw) return []
     const parsed = JSON.parse(raw) as ChatMessage[]
     return Array.isArray(parsed) ? parsed : []
@@ -59,10 +98,10 @@ function readThread(): ChatMessage[] {
   }
 }
 
-function writeThread(thread: ChatMessage[]): void {
+function writeThread(storageKey: string, thread: ChatMessage[]): void {
   if (typeof window === 'undefined') return
   try {
-    window.sessionStorage.setItem(STORAGE_KEY, JSON.stringify(thread.slice(-MAX_PERSISTED)))
+    window.sessionStorage.setItem(storageKey, JSON.stringify(thread.slice(-MAX_PERSISTED)))
   } catch {
     /* quota / disabled storage — ignore */
   }
@@ -114,7 +153,15 @@ export interface UseAskChat {
  *
  * Persists to `sessionStorage` (last 20 turns), matching the prior widget.
  */
-export function useAskChat(): UseAskChat {
+export function useAskChat(options: UseAskChatOptions = {}): UseAskChat {
+  const askEndpoint = useMemo(
+    () => withAskParams(options.endpoint ?? ASK_ENDPOINT, options),
+    [options.endpoint, options.corpus, options.persona],
+  )
+  const storageKey = useMemo(
+    () => options.storageKey ?? scopedStorageKey(options.corpus, options.persona),
+    [options.storageKey, options.corpus, options.persona],
+  )
   const [messages, setMessages] = useState<ChatMessage[]>([])
   const [streaming, setStreaming] = useState(false)
   const [error, setError] = useState<string | null>(null)
@@ -123,15 +170,15 @@ export function useAskChat(): UseAskChat {
   const messagesRef = useRef<ChatMessage[]>([])
 
   useEffect(() => {
-    const initial = readThread()
+    const initial = readThread(storageKey)
     setMessages(initial)
     messagesRef.current = initial
-  }, [])
+  }, [storageKey])
 
   useEffect(() => {
     messagesRef.current = messages
-    writeThread(messages)
-  }, [messages])
+    writeThread(storageKey, messages)
+  }, [messages, storageKey])
 
   const stop = useCallback(() => {
     abortRef.current?.abort()
@@ -141,8 +188,8 @@ export function useAskChat(): UseAskChat {
     setMessages([])
     messagesRef.current = []
     setError(null)
-    writeThread([])
-  }, [])
+    writeThread(storageKey, [])
+  }, [storageKey])
 
   /** Append an event to the trailing assistant turn (id `assistantId`). */
   const applyEvent = useCallback((assistantId: string, ev: UiEvent) => {
@@ -214,7 +261,7 @@ export function useAskChat(): UseAskChat {
       abortRef.current = ctrl
 
       try {
-        const res = await fetch(ASK_ENDPOINT, {
+        const res = await fetch(askEndpoint, {
           method: 'POST',
           signal: ctrl.signal,
           headers: { 'content-type': 'application/json' },
@@ -281,7 +328,7 @@ export function useAskChat(): UseAskChat {
         abortRef.current = null
       }
     },
-    [applyEvent, closeTurn, setAssistantText, streaming],
+    [applyEvent, askEndpoint, closeTurn, setAssistantText, streaming],
   )
 
   const appendLocalTool = useCallback(

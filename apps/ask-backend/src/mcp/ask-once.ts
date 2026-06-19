@@ -5,7 +5,7 @@
  * drives the warm `createAskHandler` with a one-shot request and collapses its
  * stream into a single markdown answer + the cited sources.
  */
-import { decodeEvents } from '../../../docs-next/lib/ask/protocol'
+import { decodeEvents } from '../ask/protocol'
 
 export interface CitedSource {
   title?: string

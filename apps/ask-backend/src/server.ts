@@ -6,11 +6,13 @@
  * native-binary tracing hacks. One embedder + one LLM pool + the shared guards serve
  * N per-property corpora, routed by a `corpus` query param.
  *
- * F0 reuses the docs app's ask source directly (no shared lib, per the author) and
- * serves the `docs` corpus. F1 adds `registry`; F2 wires the cross-repo corpora.
+ * The backend-owned ask handler serves docs plus ecosystem corpora. Docs uses the
+ * committed vector index; sibling properties can use configurable remote llms.txt
+ * sources until they publish dedicated indexes.
  *
  * Env: OPENROUTER_API_KEY (required), ASK_CORS_ORIGINS, ASK_RICH_UI, PORT,
- * UPSTASH_REDIS_REST_URL/_TOKEN (durable rate-limit; in-memory fallback otherwise).
+ * REDIS_URL (durable cache), UPSTASH_REDIS_REST_URL/_TOKEN (durable rate-limit +
+ * cache fallback; in-memory fallback otherwise).
  */
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
@@ -21,13 +23,16 @@ import type { RetrievedDocument, Retriever } from '@agentskit/core'
 import { createFallbackAdapter, openrouter } from '@agentskit/adapters'
 import { createAjvValidator } from '@agentskit/validation'
 import { createMcpHandler } from './mcp'
-// Reuse the docs app's ask source (relative — no shared package, RFC-0007 D5).
-import { createAskHandler } from '../../docs-next/lib/ask/handler'
+import { AskCache } from './ask/cache'
+import { createAskHandler } from './ask/handler'
+import { rateLimit } from './ask/rate-limit'
+import { ASK_PERSONAS, personaPrompt } from './ask/personas'
+import { UI_TOOLS } from './ask/protocol'
+import { createRemoteCorpusRetriever } from './ask/remote-corpus'
+import { embed } from '../../docs-next/lib/rag/embed'
 import { createDocsRetriever, formatCitedContext } from '../../docs-next/lib/rag/retrieve'
 import { FREE_MODELS } from '../../docs-next/lib/openrouter'
 import { docsAssistant } from '../../docs-next/lib/ask/skill'
-import { UI_TOOLS } from '../../docs-next/lib/ask/protocol'
-import { rateLimit } from '../../docs-next/lib/ask/rate-limit'
 
 const apiKey = process.env.OPENROUTER_API_KEY
 if (!apiKey) {
@@ -49,12 +54,13 @@ interface Corpus {
   systemPrompt: string
   temperature?: number
   formatContext: (docs: RetrievedDocument[]) => string
+  persona: string
+  title: string
 }
 
 /**
- * The corpus registry. F0 = `docs`. F1 adds `registry` (in-repo). F2 adds the
- * cross-repo corpora (akos/playbook) once their indexes are reachable. The embedder
- * + adapter + guards are shared; only the retriever + prompt differ per corpus.
+ * The corpus registry. The embedder + adapter + guards are shared; only the
+ * retriever + prompt differ per corpus.
  */
 const corpora: Record<string, Corpus> = {
   docs: {
@@ -62,6 +68,81 @@ const corpora: Record<string, Corpus> = {
     systemPrompt: docsAssistant.systemPrompt,
     temperature: docsAssistant.temperature,
     formatContext: (docs) => formatCitedContext(docs).context,
+    persona: 'docs-helper',
+    title: 'AgentsKit docs',
+  },
+  registry: {
+    retriever: createRemoteCorpusRetriever({
+      id: 'registry',
+      title: 'AgentsKit Registry',
+      sources: [
+        {
+          title: 'Registry full docs',
+          url: process.env.ASK_REGISTRY_LLMS_FULL_URL ?? 'https://registry.agentskit.io/llms-full.txt',
+        },
+        {
+          title: 'Registry llms',
+          url: process.env.ASK_REGISTRY_LLMS_URL ?? 'https://registry.agentskit.io/llms.txt',
+        },
+        {
+          title: 'Registry index',
+          url: process.env.ASK_REGISTRY_INDEX_URL ?? 'https://registry.agentskit.io/r/index.json',
+        },
+      ],
+    }),
+    systemPrompt: docsAssistant.systemPrompt,
+    temperature: docsAssistant.temperature,
+    formatContext: (docs) => formatCitedContext(docs).context,
+    persona: 'registry-guide',
+    title: 'AgentsKit Registry',
+  },
+  playbook: {
+    retriever: createRemoteCorpusRetriever({
+      id: 'playbook',
+      title: 'Agents Playbook',
+      sources: [
+        {
+          title: 'Playbook full docs',
+          url: process.env.ASK_PLAYBOOK_LLMS_FULL_URL ?? 'https://playbook.agentskit.io/llms-full.txt',
+        },
+        {
+          title: 'Playbook llms',
+          url: process.env.ASK_PLAYBOOK_LLMS_URL ?? 'https://playbook.agentskit.io/llms.txt',
+        },
+      ],
+    }),
+    systemPrompt: docsAssistant.systemPrompt,
+    temperature: docsAssistant.temperature,
+    formatContext: (docs) => formatCitedContext(docs).context,
+    persona: 'playbook-coach',
+    title: 'Agents Playbook',
+  },
+  akos: {
+    retriever: createRemoteCorpusRetriever({
+      id: 'akos',
+      title: 'AKOS',
+      sources: [
+        {
+          title: 'AKOS full docs',
+          url:
+            process.env.ASK_AKOS_LLMS_FULL_URL ??
+            process.env.AKOS_LLMS_FULL_URL ??
+            'https://akos.agentskit.io/llms-full.txt',
+        },
+        {
+          title: 'AKOS llms',
+          url:
+            process.env.ASK_AKOS_LLMS_URL ??
+            process.env.AKOS_LLMS_URL ??
+            'https://akos.agentskit.io/llms.txt',
+        },
+      ],
+    }),
+    systemPrompt: docsAssistant.systemPrompt,
+    temperature: docsAssistant.temperature,
+    formatContext: (docs) => formatCitedContext(docs).context,
+    persona: 'akos-sales',
+    title: 'AKOS',
   },
 }
 
@@ -101,13 +182,24 @@ const MAX_BODY_BYTES = 32 * 1024
  *  separate from the costlier `ask` path). */
 const searchLimiter = (ip: string) => rateLimit(`search:${ip}`)
 
+const cacheEnabled = process.env.ASK_CACHE_ENABLED !== '0'
+const askCache = cacheEnabled
+  ? new AskCache({
+      namespace: process.env.ASK_CACHE_NAMESPACE ?? 'ask:v1',
+      answerTtlMs: Number(process.env.ASK_ANSWER_CACHE_TTL_MS ?? 30 * 24 * 60 * 60 * 1000),
+      retrievalTtlMs: Number(process.env.ASK_RETRIEVAL_CACHE_TTL_MS ?? 7 * 24 * 60 * 60 * 1000),
+      semanticThreshold: Number(process.env.ASK_SEMANTIC_CACHE_THRESHOLD ?? 0.86),
+      embed,
+    })
+  : null
+
 /** Build a warm `createAskHandler` per corpus (shared adapter/guards/limiter). */
 const handlers: Record<string, (req: Request) => Promise<Response>> = {}
 for (const [id, c] of Object.entries(corpora)) {
   handlers[id] = createAskHandler({
     retriever: c.retriever,
     adapter,
-    systemPrompt: c.systemPrompt,
+    systemPrompt: personaPrompt(c.persona, c.systemPrompt),
     temperature: c.temperature,
     uiTools: UI_TOOLS,
     richUi: process.env.ASK_RICH_UI === '1',
@@ -115,6 +207,17 @@ for (const [id, c] of Object.entries(corpora)) {
     formatContext: c.formatContext,
     rateLimiter: async (req) => rateLimit(clientIp(req)),
     security: { maxBodyBytes: MAX_BODY_BYTES },
+    cache: askCache
+      ? {
+          corpus: id,
+          persona: c.persona,
+          promptVersion: process.env.ASK_PROMPT_VERSION ?? 'v1',
+          getAnswer: (key) => askCache.getAnswer(key),
+          setAnswer: (key, value) => askCache.setAnswer(key, value),
+          getRetrieval: (key) => askCache.getRetrieval(key),
+          setRetrieval: (key, docs) => askCache.setRetrieval(key, docs),
+        }
+      : undefined,
   })
 }
 
@@ -134,7 +237,7 @@ const app = new Hono()
 // drop empties. Log the effective list so a misconfigured ASK_CORS_ORIGINS is visible.
 const origins = (
   process.env.ASK_CORS_ORIGINS ??
-  'https://www.agentskit.io,https://agentskit.io,https://registry.agentskit.io,http://localhost:3000'
+  'https://www.agentskit.io,https://agentskit.io,https://registry.agentskit.io,https://playbook.agentskit.io,https://akos.agentskit.io,http://localhost:3000'
 )
   .split(',')
   .map((o) => o.trim().replace(/\/+$/, ''))
@@ -153,7 +256,17 @@ app.use('/v1/search', bodyCap)
 app.use('/mcp', bodyCap)
 
 app.get('/health', (c) => c.text('ok'))
-app.get('/v1/corpora', (c) => c.json({ corpora: Object.keys(corpora) }))
+app.get('/v1/corpora', (c) =>
+  c.json({
+    corpora: Object.entries(corpora).map(([id, corpus]) => ({
+      id,
+      title: corpus.title,
+      persona: corpus.persona,
+      brand: ASK_PERSONAS[corpus.persona]?.brand,
+      cta: ASK_PERSONAS[corpus.persona]?.cta,
+    })),
+  }),
+)
 
 app.post('/v1/ask', (c) => {
   const corpus = c.req.query('corpus') ?? 'docs'
@@ -199,7 +312,15 @@ app.post('/v1/search', async (c) => {
   }
   const { query, k = 6 } = raw as { query: string; k?: number }
   try {
-    const docs = await cor.retriever.retrieve({ query: query.trim(), messages: [] })
+    const cacheKey = {
+      corpus,
+      persona: 'search',
+      promptVersion: process.env.ASK_PROMPT_VERSION ?? 'v1',
+      query: query.trim(),
+    }
+    const cachedDocs = askCache ? await askCache.getRetrieval(cacheKey) : undefined
+    const docs = cachedDocs ?? (await cor.retriever.retrieve({ query: query.trim(), messages: [] }))
+    if (!cachedDocs && askCache) await askCache.setRetrieval(cacheKey, docs)
     return c.json({
       results: docs.slice(0, k).map((d) => ({
         content: d.content,

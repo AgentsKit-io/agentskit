@@ -6,14 +6,14 @@ serverless cold-start, no native-binary tracing hacks — serving grounded, cite
 for every AgentsKit property over HTTP.
 
 One embedder + one $0 LLM pool + the shared guards serve **N corpora**, routed by a
-`corpus` query param. F0 serves `docs`; F1 adds `registry`; F2 wires the cross-repo
-corpora (akos/playbook).
+`corpus` query param. Current corpora: `docs`, `registry`, `playbook`, `akos`.
 
 ## API
 
 ```
-POST /v1/ask?corpus=docs    { messages }       → NDJSON UiEvent stream (grounded, cited)
-POST /v1/search?corpus=docs { query, k? }      → { results: [...] }   (raw retrieval, no LLM)
+POST /v1/ask?corpus=docs     { messages }       → NDJSON UiEvent stream (grounded, cited)
+POST /v1/ask?corpus=akos     { messages }       → same protocol, AKOS sales persona
+POST /v1/search?corpus=docs  { query, k? }      → { results: [...] }   (raw retrieval, no LLM)
 GET  /v1/corpora                               → { corpora: [...] }
 GET  /health                                   → ok
 ALL  /mcp                                       → MCP server (JSON-RPC over POST)
@@ -49,8 +49,17 @@ curl -s -XPOST 'http://localhost:8080/v1/ask?corpus=docs' \
 ## Design
 
 - Reuses the docs app's ask source directly (`createAskHandler`, retriever, guards,
-  embedder) via relative imports — **no shared lib** (RFC-0007 D5). The logic will
-  settle here permanently once the sites point their widgets at this backend (F4).
+  embedder) via relative imports — **no shared lib** (RFC-0007 D5). The backend now
+  owns the ask handler and the docs app re-exports it while sites migrate.
+- Cache is enabled by default. Exact answers + retrieval results are kept in-process
+  and mirrored to Redis when `REDIS_URL` is set (Railway Redis volume/service).
+  Upstash REST (`UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN`) remains a
+  fallback. Semantic answer cache is in-process and uses the shared embedder.
+  Disable with `ASK_CACHE_ENABLED=0`.
+- `docs` uses the committed vector index. `registry`, `playbook`, and `akos` load
+  configurable remote `llms-full.txt` / `llms.txt` sources and rank them with BM25;
+  this is intentionally fast and cache-friendly until those repos publish dedicated
+  vector indexes.
 - `createAskHandler` (RFC-0006 D5) is framework-neutral `(Request) => Response`, so
   it mounts straight onto Hono.
 - Protection (every public compute route): **per-IP rate-limit** (Upstash durable,
@@ -83,8 +92,9 @@ In the Railway dashboard:
 1. **New project → Deploy from GitHub repo** (`AgentsKit-io/agentskit`).
 2. **Settings → Root Directory** = **leave empty / repo root** (do NOT set it to
    `apps/ask-backend`). Railway picks up `/railway.json` → Dockerfile builder.
-3. **Variables**: `OPENROUTER_API_KEY` (required), optional `UPSTASH_REDIS_REST_URL`
-   + `UPSTASH_REDIS_REST_TOKEN` (durable rate-limit), `ASK_CORS_ORIGINS`.
+3. **Variables**: `OPENROUTER_API_KEY` (required), `REDIS_URL` from the Railway
+   Redis service/volume for durable cache, optional `UPSTASH_REDIS_REST_URL` +
+   `UPSTASH_REDIS_REST_TOKEN` fallback, `ASK_CORS_ORIGINS`.
 4. **Networking → Custom Domain** = `ask.agentskit.io`.
 
 The Dockerfile installs the workspace + builds the backend's lib closure; start =
@@ -93,3 +103,28 @@ model loads once at boot and stays warm — the writable Railway filesystem cach
 (no `/tmp` hack needed; the Vercel-specific cache override doesn't fire here).
 
 Then point each site's chat widget at `https://ask.agentskit.io/v1/ask?corpus=<id>`.
+
+## Runtime configuration
+
+Cache:
+
+- `ASK_CACHE_ENABLED=0` disables answer/retrieval cache.
+- `REDIS_URL` enables the Railway Redis-backed durable exact/retrieval cache.
+- `UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN` are used only when
+  `REDIS_URL` is absent.
+- `ASK_CACHE_NAMESPACE=ask:v1` scopes keys; bump for global invalidation.
+- `ASK_ANSWER_CACHE_TTL_MS` defaults to 30 days.
+- `ASK_RETRIEVAL_CACHE_TTL_MS` defaults to 7 days.
+- `ASK_SEMANTIC_CACHE_THRESHOLD` defaults to `0.86`.
+- `ASK_PROMPT_VERSION=v1` is included in cache keys; bump when prompts materially change.
+
+Remote corpus sources:
+
+- `ASK_REGISTRY_LLMS_FULL_URL`, `ASK_REGISTRY_LLMS_URL`, `ASK_REGISTRY_INDEX_URL`
+- `ASK_PLAYBOOK_LLMS_FULL_URL`, `ASK_PLAYBOOK_LLMS_URL`
+- `ASK_AKOS_LLMS_FULL_URL`, `ASK_AKOS_LLMS_URL` (`AKOS_*` aliases are also accepted)
+
+AKOS funnel:
+
+- `AKOS_WAITLIST_URL` defaults to `https://www.agentskit.io/#waitlist`.
+- `AKOS_CTA_LABEL` defaults to `Join the AKOS waitlist`.
