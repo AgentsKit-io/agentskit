@@ -93,7 +93,9 @@ In the Railway dashboard:
 2. **Settings → Root Directory** = **leave empty / repo root** (do NOT set it to
    `apps/ask-backend`). Railway picks up `/railway.json` → Dockerfile builder.
 3. **Variables**: `OPENROUTER_API_KEY` (required), `REDIS_URL` from the Railway
-   Redis service/volume for durable cache, optional `UPSTASH_REDIS_REST_URL` +
+   Redis service/volume for durable cache + durable rate-limit (`ASK_REDIS_URL`
+   is also accepted by the rate limiter; use `?family=0` for Railway private
+   networking when needed), optional `UPSTASH_REDIS_REST_URL` +
    `UPSTASH_REDIS_REST_TOKEN` fallback, `ASK_CORS_ORIGINS`.
 4. **Networking → Custom Domain** = `ask.agentskit.io`.
 

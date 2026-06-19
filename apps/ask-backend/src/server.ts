@@ -10,9 +10,8 @@
  * committed vector index; sibling properties can use configurable remote llms.txt
  * sources until they publish dedicated indexes.
  *
- * Env: OPENROUTER_API_KEY (required), ASK_CORS_ORIGINS, ASK_RICH_UI, PORT,
- * REDIS_URL (durable cache), UPSTASH_REDIS_REST_URL/_TOKEN (durable rate-limit +
- * cache fallback; in-memory fallback otherwise).
+ * REDIS_URL (durable cache + rate-limit), ASK_REDIS_URL (rate-limit only), or
+ * UPSTASH_REDIS_REST_URL/_TOKEN fallback; in-memory fallback otherwise.
  */
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
