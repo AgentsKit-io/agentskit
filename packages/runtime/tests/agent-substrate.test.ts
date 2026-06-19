@@ -1,21 +1,23 @@
 import { describe, it, expect } from 'vitest'
-import type { AdapterFactory, ToolDefinition } from '@agentskit/core'
+import type { AdapterFactory, StreamChunk, ToolDefinition } from '@agentskit/core'
 import { invokeStructured } from '../src/structured'
 import { piiDenyValidator } from '../src/pii-validator'
 
 // Minimal inline mock adapter — avoids a cross-package dep on @agentskit/adapters.
-type Chunk = Record<string, unknown>
-function mock(chunks: Chunk[]): AdapterFactory {
-  return {
+// Typed against AdapterFactory + StreamChunk so it stays in sync with the real
+// contract (no `as unknown` escape hatch).
+function mock(chunks: StreamChunk[]): AdapterFactory {
+  const factory: AdapterFactory = {
     capabilities: { streaming: false, tools: true },
     createSource: () => ({
       // eslint-disable-next-line @typescript-eslint/require-await
       stream: async function* () {
-        for (const c of chunks) yield c as never
+        yield* chunks
       },
       abort: () => {},
     }),
-  } as unknown as AdapterFactory
+  }
+  return factory
 }
 
 describe('piiDenyValidator', () => {
@@ -26,6 +28,15 @@ describe('piiDenyValidator', () => {
     expect((dirty as { reason: string }).reason).toMatch(/email|phone/)
     expect(await v.check({ attempt: 0, output: 'no identifiers here' })).toMatchObject({ ok: true })
     expect(v.onFail).toBe('block')
+  })
+
+  it('uses the documented defaults and honors overrides', () => {
+    const def = piiDenyValidator()
+    expect(def.name).toBe('pii-deny')
+    expect(def.onFail).toBe('block')
+    const custom = piiDenyValidator({ name: 'no-pii', onFail: 'retry' })
+    expect(custom.name).toBe('no-pii')
+    expect(custom.onFail).toBe('retry')
   })
 })
 
@@ -51,5 +62,24 @@ describe('invokeStructured', () => {
     await expect(
       invokeStructured({ adapter: silent, tool: submit, task: 'x', parse: (a) => a }),
     ).rejects.toThrow(/did not call submit_x/)
+  })
+
+  it('surfaces a parse failure on malformed submit args rather than returning garbage', async () => {
+    const bad = mock([
+      { type: 'tool_call', toolCall: { id: 't', name: 'submit_x', args: JSON.stringify({ n: 'not-a-number' }) } },
+      { type: 'done' },
+    ])
+    await expect(
+      invokeStructured({
+        adapter: bad,
+        tool: submit,
+        task: 'x',
+        parse: (a) => {
+          const n = Number(a.n)
+          if (Number.isNaN(n)) throw new Error('n is not a number')
+          return { n }
+        },
+      }),
+    ).rejects.toThrow(/not a number/)
   })
 })
