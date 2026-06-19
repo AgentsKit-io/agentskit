@@ -33,10 +33,18 @@ RUN pnpm install --frozen-lockfile \
       --filter='@agentskit/rag...' \
       --filter='@agentskit/validation...'
 
+# Bake the ONNX embedding model into the image at build time, into a stable cache
+# dir. Runtime then loads it locally — no HF download on boot, no cold-start race, no
+# network dependency, and no chance a transient first-load failure poisons the server.
+# `embed.ts` reads the same TRANSFORMERS_CACHE, so build + runtime agree on the path.
+# Run from the app dir so pnpm resolves `@huggingface/transformers` (hoisted there).
+ENV TRANSFORMERS_CACHE=/app/.transformers-cache
+RUN cd apps/ask-backend && node --input-type=module -e "import('@huggingface/transformers').then(async (t) => { t.env.cacheDir = process.env.TRANSFORMERS_CACHE; await t.pipeline('feature-extraction', 'Xenova/bge-small-en-v1.5'); console.log('embedding model baked into image'); })"
+
 ENV NODE_ENV=production
 ENV PORT=8080
 EXPOSE 8080
 
-# The persistent process: the ONNX embedder + corpus index load once at boot and
-# stay warm. The container filesystem caches the model (no /tmp hack needed).
+# The persistent process: the embedder loads the pre-baked model at boot and stays
+# warm; the corpus index loads once too. No runtime model download.
 CMD ["pnpm", "--filter", "@agentskit/ask-backend", "start"]
