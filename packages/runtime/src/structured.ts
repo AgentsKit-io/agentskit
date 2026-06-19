@@ -1,4 +1,5 @@
 import type { AdapterFactory, ChatMemory, Observer, SkillDefinition, ToolCall, ToolDefinition } from '@agentskit/core'
+import { RuntimeError } from '@agentskit/core'
 import { createRuntime } from './runner'
 
 /**
@@ -44,6 +45,10 @@ export async function invokeStructured<T>(opts: {
   })
   const result = await runtime.run(opts.task, { skill: opts.skill, signal: opts.signal })
   const call = result.toolCalls.find((c) => c.name === opts.tool.name)
-  if (!call) throw new Error(`invokeStructured: ${opts.skill?.name ?? 'agent'} did not call ${opts.tool.name}`)
+  if (!call)
+    throw new RuntimeError({
+      code: 'AK_STRUCTURED_NO_TOOL_CALL',
+      message: `invokeStructured: ${opts.skill?.name ?? 'agent'} did not call ${opts.tool.name}`,
+    })
   return opts.parse(call.args)
 }

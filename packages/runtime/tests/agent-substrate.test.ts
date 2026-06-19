@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import type { AdapterFactory, ToolDefinition } from '@agentskit/core'
-import { invokeStructured, piiDenyValidator } from '../src/index'
+import { invokeStructured } from '../src/structured'
+import { piiDenyValidator } from '../src/pii-validator'
 
 // Minimal inline mock adapter — avoids a cross-package dep on @agentskit/adapters.
 type Chunk = Record<string, unknown>
