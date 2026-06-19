@@ -37,6 +37,9 @@ export type {
   RedactionAuditSink,
 } from './vault'
 
+export { fenceUntrustedContent, UNTRUSTED_CONTENT_DIRECTIVE } from './fence'
+export type { FenceOptions } from './fence'
+
 export {
   createInjectionDetector,
   DEFAULT_INJECTION_HEURISTICS,

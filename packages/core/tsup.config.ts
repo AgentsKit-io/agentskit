@@ -9,6 +9,8 @@ export default defineConfig({
     'auto-summarize': 'src/auto-summarize.ts',
     hitl: 'src/hitl.ts',
     security: 'src/security/index.ts',
+    'fuzzy-match': 'src/fuzzy-match.ts',
+    finding: 'src/types/finding.ts',
     'compose-tool': 'src/compose-tool.ts',
     'self-debug': 'src/self-debug.ts',
     'generative-ui': 'src/generative-ui.ts',

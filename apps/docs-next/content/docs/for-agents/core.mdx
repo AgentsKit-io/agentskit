@@ -36,6 +36,10 @@ npm install @agentskit/core
   `executeToolProgressively`.
 - `createVirtualizedMemory` — hot-window + cold-retriever wrapper
   (also re-exported from `@agentskit/memory`).
+- Untrusted-input fencing lives in the `@agentskit/core/security` entry:
+  `fenceUntrustedContent(content, opts?)` + `UNTRUSTED_CONTENT_DIRECTIVE`
+  wrap attacker-influenced text so the model treats it as data, not
+  instructions (the mitigation companion to `createInjectionDetector`).
 - Multi-modal content parts: `textPart`, `imagePart`, `audioPart`,
   `videoPart`, `filePart`, `partsToText`, `normalizeContent`,
   `filterParts`.
@@ -51,7 +55,9 @@ npm install @agentskit/core
 | `@agentskit/core/prompt-experiments` | A/B prompts with feature flags | [A/B prompts](/docs/reference/recipes/prompt-experiments) |
 | `@agentskit/core/auto-summarize` | Auto-summarizing `ChatMemory` wrapper | [Auto-summarize](/docs/reference/recipes/auto-summarize) |
 | `@agentskit/core/hitl` | Approval gates + `ApprovalStore` | [HITL approvals](/docs/reference/recipes/hitl-approvals) |
-| `@agentskit/core/security` | PII redactor + injection detector + rate limiter | [PII](/docs/reference/recipes/pii-redaction), [Injection](/docs/reference/recipes/prompt-injection), [Rate limit](/docs/reference/recipes/rate-limiting) |
+| `@agentskit/core/security` | PII redactor + injection detector + **`fenceUntrustedContent`** + rate limiter | [PII](/docs/reference/recipes/pii-redaction), [Injection](/docs/reference/recipes/prompt-injection), [Rate limit](/docs/reference/recipes/rate-limiting) |
+| `@agentskit/core/fuzzy-match` | `jaroWinkler` / `fuzzyMatchList` — zero-dep fuzzy name matching for sanctions/KYC/dedup without an LLM | — |
+| `@agentskit/core/finding` | `Finding` / `Severity` / `SEVERITY_ORDER` — canonical issue shape so review/audit/compliance findings are interoperable | — |
 | `@agentskit/core/compose-tool` | Chain N tools into one | [Tool composer](/docs/reference/recipes/tool-composer) |
 | `@agentskit/core/self-debug` | Retry tools with LLM-corrected args | [Self-debug](/docs/reference/recipes/self-debug) |
 | `@agentskit/core/generative-ui` | Typed UI element tree + artifacts | [Gen UI](/docs/reference/recipes/generative-ui) |
