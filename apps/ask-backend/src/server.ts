@@ -15,6 +15,7 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
+import { createMiddleware } from 'hono/factory'
 import type { JSONSchema7 } from 'json-schema'
 import type { RetrievedDocument, Retriever } from '@agentskit/core'
 import { createFallbackAdapter, openrouter } from '@agentskit/adapters'
@@ -131,11 +132,11 @@ const origins = (
 app.use('/v1/*', cors({ origin: origins, allowMethods: ['POST', 'GET', 'OPTIONS'] }))
 
 // Reject oversized bodies up front on every compute route (cheap pre-parse guard).
-const bodyCap = async (c: { req: { header: (n: string) => string | undefined }; json: (b: unknown, s: number) => Response }, next: () => Promise<void>) => {
-  const len = Number(c.req.header('content-length') ?? 0)
-  if (len > MAX_BODY_BYTES) return c.json({ error: 'payload too large' }, 413)
+const bodyCap = createMiddleware(async (c, next) => {
+  const length = Number(c.req.header('content-length') ?? 0)
+  if (length > MAX_BODY_BYTES) return c.json({ error: 'payload too large' }, 413)
   await next()
-}
+})
 app.use('/v1/ask', bodyCap)
 app.use('/v1/search', bodyCap)
 app.use('/mcp', bodyCap)
