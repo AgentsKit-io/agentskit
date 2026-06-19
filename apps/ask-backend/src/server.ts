@@ -118,9 +118,13 @@ for (const [id, c] of Object.entries(corpora)) {
   })
 }
 
-// Warm the model + every corpus index at boot — the persistent-process payoff.
-for (const c of Object.values(corpora)) {
-  void Promise.resolve(c.retriever.retrieve({ query: 'warmup', messages: [] })).catch(() => {})
+// Warm the model + every corpus index — the persistent-process payoff. Deferred
+// (not run at module load) so the embedder's CPU-heavy first load can't block the
+// initial `/health` healthcheck and get the container killed before it goes ready.
+function warmCorpora(): void {
+  for (const c of Object.values(corpora)) {
+    void Promise.resolve(c.retriever.retrieve({ query: 'warmup', messages: [] })).catch(() => {})
+  }
 }
 
 const app = new Hono()
@@ -221,4 +225,6 @@ serve({ fetch: app.fetch, port, hostname: '0.0.0.0' }, (info) => {
   console.log(
     `[ask-backend] listening on ${info.address}:${info.port} — corpora: ${Object.keys(corpora).join(', ')}`,
   )
+  // Let the healthcheck go green first, then warm the model in the background.
+  setTimeout(warmCorpora, 3000).unref()
 })
