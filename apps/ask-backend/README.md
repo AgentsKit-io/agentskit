@@ -83,8 +83,10 @@ In the Railway dashboard:
 1. **New project → Deploy from GitHub repo** (`AgentsKit-io/agentskit`).
 2. **Settings → Root Directory** = **leave empty / repo root** (do NOT set it to
    `apps/ask-backend`). Railway picks up `/railway.json` → Dockerfile builder.
-3. **Variables**: `OPENROUTER_API_KEY` (required), optional `UPSTASH_REDIS_REST_URL`
-   + `UPSTASH_REDIS_REST_TOKEN` (durable rate-limit), `ASK_CORS_ORIGINS`.
+3. **Variables**: `OPENROUTER_API_KEY` (required), optional `REDIS_URL` /
+   `ASK_REDIS_URL` (durable rate-limit over Redis protocol; use `?family=0` for
+   Railway private networking when needed), optional `UPSTASH_REDIS_REST_URL` +
+   `UPSTASH_REDIS_REST_TOKEN` fallback, `ASK_CORS_ORIGINS`.
 4. **Networking → Custom Domain** = `ask.agentskit.io`.
 
 The Dockerfile installs the workspace + builds the backend's lib closure; start =
