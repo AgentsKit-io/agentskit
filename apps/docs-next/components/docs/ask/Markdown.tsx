@@ -13,6 +13,17 @@ export interface MarkdownProps {
 }
 
 /**
+ * Free models often "cite" a page by writing a bare `[/docs/...]` bracket — valid
+ * markdown link *text* with no destination, so it renders as literal `[/docs/...]`.
+ * Turn a bare absolute-path bracket into a real link (`[/p](/p)`). The `(?!\()`
+ * lookahead leaves already-complete `[text](/path)` links untouched; the closing
+ * `]` requirement means a mid-stream partial isn't linkified until it's whole.
+ */
+function linkifyBarePaths(md: string): string {
+  return md.replace(/\[(\/[^\]\s()]+)\](?!\()/g, '[$1]($1)')
+}
+
+/**
  * Markdown renderer for the Ask-the-docs chat.
  *
  * Streaming tolerance
@@ -116,7 +127,7 @@ export function Markdown({ content, streaming = false }: MarkdownProps) {
           },
         }}
       >
-        {content}
+        {linkifyBarePaths(content)}
       </ReactMarkdown>
     </div>
   )
