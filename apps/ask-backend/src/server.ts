@@ -214,7 +214,11 @@ const mcp = createMcpHandler(
 )
 app.all('/mcp', (c) => mcp(c.req.raw))
 
+// Bind 0.0.0.0 explicitly — Railway's healthcheck reaches the container over its
+// private network, so listening only on localhost/::1 would fail the check.
 const port = Number(process.env.PORT ?? 8080)
-serve({ fetch: app.fetch, port }, () => {
-  console.log(`[ask-backend] listening on :${port} — corpora: ${Object.keys(corpora).join(', ')}`)
+serve({ fetch: app.fetch, port, hostname: '0.0.0.0' }, (info) => {
+  console.log(
+    `[ask-backend] listening on ${info.address}:${info.port} — corpora: ${Object.keys(corpora).join(', ')}`,
+  )
 })
