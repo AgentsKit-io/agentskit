@@ -8,6 +8,7 @@ export { highlight, getHighlighter, SHIKI_THEMES, SHIKI_LANGS } from './highligh
 export {
   useAskChat,
   type UseAskChat,
+  type UseAskChatOptions,
   type ChatMessage,
   type UserMessage,
   type AssistantMessage,

@@ -17,6 +17,7 @@ import {
   type AssistantMessage,
   type AssistantPart,
   type ChatMessage,
+  type UseAskChatOptions,
 } from './ask/useAskChat'
 
 /**
@@ -29,13 +30,53 @@ export interface AskRenderContext {
   ctx: UiToolContext
 }
 
-export interface AskDocsWidgetProps {
+export interface AskWidgetBrand {
   /** Override the floating-button label / open trigger content. */
   fabLabel?: ReactNode
   /** Override the header title. */
   title?: ReactNode
   /** Empty-state copy shown before the first turn. */
   emptyState?: ReactNode
+  /** Composer placeholder. */
+  placeholder?: string
+  /** Logo shown beside the header title. Slot — defaults to the AgentsKit mark. */
+  logo?: ReactNode
+  /** Docs page that explains this chat or the relevant product docs. */
+  docsHref?: string | null
+  /** Footer docs link label. */
+  docsLabel?: ReactNode
+}
+
+export interface AskWidgetCta {
+  /** CTA label, e.g. `Join the waitlist`. */
+  label: ReactNode
+  /** CTA URL. */
+  href: string
+  /** Anchor target for external funnels. */
+  target?: string
+}
+
+export interface AskDocsWidgetProps {
+  /** Chat endpoint override. */
+  endpoint?: UseAskChatOptions['endpoint']
+  /** Corpus routed by the central ask backend. */
+  corpus?: UseAskChatOptions['corpus']
+  /** Persona routed by the central ask backend. */
+  persona?: UseAskChatOptions['persona']
+  /** Session storage key override. */
+  storageKey?: UseAskChatOptions['storageKey']
+  /** Grouped branding config for other AgentsKit apps. */
+  brand?: AskWidgetBrand
+  /** Conversion CTA shown below the composer. */
+  cta?: AskWidgetCta | null
+  /** Override the floating-button label / open trigger content. */
+  fabLabel?: ReactNode
+  /** Override the header title. */
+  title?: ReactNode
+  /** Empty-state copy shown before the first turn. */
+  emptyState?: ReactNode
+  /** Composer placeholder. */
+  placeholder?: string
   /**
    * Override rendering of a whole assistant/user message. Return `undefined` to
    * fall back to the default renderer.
@@ -59,7 +100,9 @@ export interface AskDocsWidgetProps {
    * Docs page that explains how to build this exact chat. Rendered as a link
    * under the composer. Defaults to the AgentsKit "Ask the docs" recipe.
    */
-  docsHref?: string
+  docsHref?: string | null
+  /** Footer docs link label. */
+  docsLabel?: ReactNode
   /** Open by default. Defaults to true (the chat is the flagship example). */
   defaultOpen?: boolean
 }
@@ -84,21 +127,42 @@ export interface AskDocsWidgetProps {
  * the template (does NOT modify `@agentskit/react`).
  */
 export function AskDocsWidget({
+  endpoint,
+  corpus,
+  persona,
+  storageKey,
+  brand,
+  cta,
   fabLabel,
   title,
   emptyState,
+  placeholder,
   renderMessage,
   renderTool,
   registry = defaultRegistry,
   logo,
   loadingState,
-  docsHref = '/docs/cookbook/ask-the-docs',
+  docsHref,
+  docsLabel,
   defaultOpen = true,
 }: AskDocsWidgetProps = {}) {
   const [open, setOpen] = useState(defaultOpen)
   const [input, setInput] = useState('')
-  const { messages, streaming, error, send, stop, clear, appendLocalTool } = useAskChat()
+  const { messages, streaming, error, send, stop, clear, appendLocalTool } = useAskChat({
+    endpoint,
+    corpus,
+    persona,
+    storageKey,
+  })
   const endRef = useRef<HTMLDivElement | null>(null)
+  const effectiveFabLabel = fabLabel ?? brand?.fabLabel ?? 'Ask the docs'
+  const effectiveTitle = title ?? brand?.title ?? 'Ask the docs'
+  const effectiveEmptyState = emptyState ?? brand?.emptyState
+  const effectiveLogo = logo ?? brand?.logo
+  const effectivePlaceholder = placeholder ?? brand?.placeholder ?? 'Ask a question...'
+  const effectiveDocsHref = docsHref === undefined ? (brand?.docsHref ?? '/docs/cookbook/ask-the-docs') : docsHref
+  const effectiveDocsLabel = docsLabel ?? brand?.docsLabel ?? 'Build a chat like this - step by step ->'
+  const askLabel = typeof effectiveFabLabel === 'string' ? effectiveFabLabel : 'Ask the docs'
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ behavior: 'smooth' })
@@ -193,14 +257,14 @@ export function AskDocsWidget({
       <button
         type="button"
         onClick={() => setOpen(true)}
-        aria-label="Ask the docs"
+        aria-label={askLabel}
         data-ak-ask-fab=""
         className="group fixed bottom-4 right-4 z-50 flex items-center gap-2 rounded-full border border-ak-border bg-ak-midnight px-4 py-2.5 font-mono text-xs font-semibold text-ak-foam shadow-lg transition-all hover:border-ak-blue hover:shadow-ak-blue/20"
       >
         <span aria-hidden className="text-ak-foam transition-transform group-hover:scale-110">
-          {logo ?? <AnimatedLogo variant="nav" size={16} />}
+          {effectiveLogo ?? <AnimatedLogo variant="nav" size={16} />}
         </span>
-        {fabLabel ?? 'Ask the docs'}
+        {effectiveFabLabel}
       </button>
     )
   }
@@ -214,10 +278,10 @@ export function AskDocsWidget({
         <div className="flex items-center gap-2">
           {/* Logo slot — defaults to the AgentsKit mark; swap via `logo`. */}
           <span aria-hidden className="text-ak-foam" data-ak-ask-logo="">
-            {logo ?? <AnimatedLogo variant="nav" size={18} />}
+            {effectiveLogo ?? <AnimatedLogo variant="nav" size={18} />}
           </span>
           <span className="font-mono text-xs uppercase tracking-[0.2em] text-ak-graphite">
-            {title ?? 'Ask the docs'}
+            {effectiveTitle}
           </span>
         </div>
         <div className="flex items-center gap-3">
@@ -242,7 +306,7 @@ export function AskDocsWidget({
       <div className="flex-1 overflow-y-auto p-3">
         {messages.length === 0 ? (
           <p className="mb-3 text-sm text-ak-graphite" data-ak-empty="">
-            {emptyState ?? (
+            {effectiveEmptyState ?? (
               <>
                 Ask anything about AgentsKit. Answers come from the docs corpus via
                 OpenRouter free-tier models. Rate limited per IP.
@@ -280,7 +344,7 @@ export function AskDocsWidget({
               }
             }}
             rows={2}
-            placeholder="Ask a question…"
+            placeholder={effectivePlaceholder}
             data-ak-composer=""
             className="flex-1 resize-none rounded-md border border-ak-border bg-ak-surface p-2 font-mono text-xs text-ak-foam outline-none transition-colors focus:border-ak-blue"
           />
@@ -305,16 +369,29 @@ export function AskDocsWidget({
             </button>
           )}
         </div>
-        {docsHref ? (
+        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 px-1">
+        {effectiveDocsHref ? (
           <Link
-            href={docsHref}
+            href={effectiveDocsHref}
             data-ak-ask-docs-link=""
-            className="mt-2 flex items-center gap-1.5 px-1 font-mono text-[10px] text-ak-graphite transition-colors hover:text-ak-blue"
+            className="flex items-center gap-1.5 font-mono text-[10px] text-ak-graphite transition-colors hover:text-ak-blue"
           >
             <AnimatedLogo variant="nav" size={12} />
-            Build a chat like this — step by step →
+            {effectiveDocsLabel}
           </Link>
         ) : null}
+        {cta ? (
+          <a
+            href={cta.href}
+            target={cta.target}
+            rel={cta.target === '_blank' ? 'noreferrer' : undefined}
+            data-ak-ask-cta=""
+            className="font-mono text-[10px] font-semibold uppercase tracking-widest text-ak-blue transition-colors hover:text-ak-foam"
+          >
+            {cta.label}
+          </a>
+        ) : null}
+        </div>
       </div>
     </div>
   )
