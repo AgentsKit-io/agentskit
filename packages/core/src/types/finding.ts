@@ -5,10 +5,11 @@
  * and AKOS workflow steps can consume them without parsing free text.
  */
 
-export type Severity = 'critical' | 'high' | 'medium' | 'low' | 'info'
-
 /** Ordered most→least severe; use for sorting / gate thresholds. */
-export const SEVERITY_ORDER: readonly Severity[] = ['critical', 'high', 'medium', 'low', 'info']
+export const SEVERITY_ORDER = ['critical', 'high', 'medium', 'low', 'info'] as const
+
+/** Derived from SEVERITY_ORDER so the union and the order can never drift apart. */
+export type Severity = (typeof SEVERITY_ORDER)[number]
 
 export interface Finding {
   /** Stable id within a run (for dedup / referencing). */
