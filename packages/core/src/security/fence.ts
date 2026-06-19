@@ -24,10 +24,10 @@ export const UNTRUSTED_CONTENT_DIRECTIVE =
  * supported runtime (Node 18+, browsers, workers).
  */
 function markerId(): string {
-  const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'
+  // Hex encoding (16 evenly divides 256) — no modulo bias on the CSPRNG bytes.
   let s = ''
-  for (const b of globalThis.crypto.getRandomValues(new Uint8Array(10))) s += alphabet[b % alphabet.length]
-  return s
+  for (const b of globalThis.crypto.getRandomValues(new Uint8Array(5))) s += b.toString(16).padStart(2, '0')
+  return s.toUpperCase() // 10 hex chars
 }
 
 export interface FenceOptions {
