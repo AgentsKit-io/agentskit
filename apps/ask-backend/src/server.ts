@@ -129,10 +129,17 @@ function warmCorpora(): void {
 
 const app = new Hono()
 
+// Parse the CORS allow-list defensively: trim each entry and strip a trailing slash
+// (an `Origin` header never has one, so `https://x/` would silently never match), and
+// drop empties. Log the effective list so a misconfigured ASK_CORS_ORIGINS is visible.
 const origins = (
   process.env.ASK_CORS_ORIGINS ??
   'https://www.agentskit.io,https://agentskit.io,https://registry.agentskit.io,http://localhost:3000'
-).split(',')
+)
+  .split(',')
+  .map((o) => o.trim().replace(/\/+$/, ''))
+  .filter(Boolean)
+console.log('[ask-backend] CORS allow-origins:', origins.join(', ') || '(none!)')
 app.use('/v1/*', cors({ origin: origins, allowMethods: ['POST', 'GET', 'OPTIONS'] }))
 
 // Reject oversized bodies up front on every compute route (cheap pre-parse guard).
