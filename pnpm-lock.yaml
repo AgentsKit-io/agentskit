@@ -21,6 +21,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:packages/core
+      '@agentskit/doc-bridge':
+        specifier: link:/Users/rebecabraun/workspace/AgentsKit-io/doc-bridge
+        version: link:../../AgentsKit-io/doc-bridge
       '@agentskit/eval':
         specifier: workspace:*
         version: link:packages/eval
