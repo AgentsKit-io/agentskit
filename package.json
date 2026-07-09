@@ -23,7 +23,10 @@
     "docs:deploy:preview": "pnpm --filter @agentskit/docs-next exec vercel deploy --yes",
     "release": "pnpm build && pnpm changeset publish",
     "size": "pnpm build && size-limit",
-    "size:why": "pnpm build && size-limit --why"
+    "size:why": "pnpm build && size-limit --why",
+    "docs:bridge:index": "ak-docs index",
+    "docs:bridge:gate": "ak-docs gate run",
+    "docs:bridge:query": "ak-docs query"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
@@ -43,6 +46,7 @@
   },
   "devDependencies": {
     "@agentskit/core": "workspace:*",
+    "@agentskit/doc-bridge": "link:/Users/rebecabraun/workspace/AgentsKit-io/doc-bridge",
     "@agentskit/eval": "workspace:*",
     "@agentskit/observability": "workspace:*",
     "@agentskit/runtime": "workspace:*",

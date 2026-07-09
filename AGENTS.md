@@ -105,3 +105,15 @@ pnpm changeset                         # create a changeset for your change
 - Generating files into directories the task didn't mention.
 
 If a rule in this file conflicts with a user's explicit instruction in the current conversation, the user wins — but flag the conflict.
+
+## doc-bridge (agent routing)
+
+Before editing a package:
+
+```bash
+pnpm docs:bridge:index   # if index stale
+pnpm exec ak-docs query package <id> --agent
+# or MCP tool handoff.resolve
+```
+
+Gates: `pnpm docs:bridge:gate`
