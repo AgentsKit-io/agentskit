@@ -1,42 +1,71 @@
 {
   "schemaVersion": 1,
-  "project": { "name": "agentskit" },
+  "project": {
+    "name": "agentskit"
+  },
   "corpus": {
     "agent": {
       "root": "apps/docs-next/content/docs/for-agents",
       "index": "apps/docs-next/content/docs/for-agents/index.mdx",
-      "include": ["**/*.{md,mdx}"],
-      "exclude": ["**/meta.json", "**/node_modules/**"]
+      "include": [
+        "**/*.{md,mdx}"
+      ],
+      "exclude": [
+        "**/meta.json",
+        "**/node_modules/**"
+      ]
     },
     "human": {
       "plugin": "fumadocs",
       "options": {
         "contentDir": "apps/docs-next/content/docs",
         "urlPrefix": "/docs",
-        "metaFile": "meta.json"
+        "metaFile": "meta.json",
+        "excludePrefixes": [
+          "for-agents"
+        ]
       }
     }
   },
   "routing": {
     "plugin": "pnpm-monorepo",
     "options": {
-      "packages": ["packages/*"]
+      "packages": [
+        "packages/*"
+      ],
+      "ownershipFromCorpus": true
     }
   },
   "index": {
     "outFile": ".doc-bridge/index.json",
-    "llmsTxt": { "enabled": true, "outFile": ".doc-bridge/llms.txt" },
-    "capabilities": { "enabled": true, "outFile": ".doc-bridge/capabilities.json" }
+    "llmsTxt": {
+      "enabled": true,
+      "outFile": ".doc-bridge/llms.txt"
+    },
+    "capabilities": {
+      "enabled": true,
+      "outFile": ".doc-bridge/capabilities.json"
+    }
   },
   "gates": {
     "preset": "standard",
-    "exclude": ["okf-type"]
+    "exclude": [
+      "okf-type"
+    ]
   },
   "surfaces": {
-    "cli": { "bin": "ak-docs", "defaultFormat": "json" },
+    "cli": {
+      "bin": "ak-docs",
+      "defaultFormat": "json"
+    },
     "mcp": {
       "enabled": true,
-      "tools": ["handoff.resolve", "doc.search", "doc.get", "gate.status"]
+      "tools": [
+        "handoff.resolve",
+        "doc.search",
+        "doc.get",
+        "gate.status"
+      ]
     }
   },
   "federation": {
