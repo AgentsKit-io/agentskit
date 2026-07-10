@@ -13,6 +13,17 @@ React Native / Expo hook + headless chat components. Metro-safe (no DOM deps). S
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `react-native` · `expo` · `mobile` · `chat` · `streaming`
 
+## How this fits the ecosystem
+
+@agentskit/react-native brings the same AgentsKit chat contract to Expo and React Native mobile apps.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/react-native) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+
 ## Why
 
 - **One contract, every framework** — `useChat` returns the exact same shape as the web React / Vue / Svelte / Solid / Angular / Ink bindings.

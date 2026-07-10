@@ -12,6 +12,17 @@ The real untrusted boundary in an agent is **model output**. A model returns too
 
 JSON Schema stays the single source of truth: no Zod, no parallel contract.
 
+## How this fits the ecosystem
+
+@agentskit/validation protects tool boundaries by validating model-proposed arguments against JSON Schema before execution.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/validation) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+
 ## Install
 
 ```bash

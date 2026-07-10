@@ -13,6 +13,17 @@ Persist conversations and add vector search to your agents — swap backends wit
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `memory` · `vector-db` · `embeddings` · `rag` · `sqlite` · `redis` · `vector-search`
 
+## How this fits the ecosystem
+
+@agentskit/memory gives agents continuity: chat history, vector memory, graph memory, encrypted stores, and local or hosted backends.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/memory) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+
 ## Why memory
 
 - **Conversations that survive restarts** — SQLite for local development, Redis for production; your agent remembers context across sessions with zero code changes

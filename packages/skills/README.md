@@ -13,6 +13,17 @@ Pre-tuned agent personas that work out of the box — skills are what your agent
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `autonomous-agents` · `prompts` · `prompt-engineering` · `personas` · `multi-agent`
 
+## How this fits the ecosystem
+
+@agentskit/skills packages reusable agent behavior: prompts, personas, task patterns, and marketplace-ready capabilities.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/skills) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+
 ## Why skills
 
 - **Skip prompt engineering** — `researcher`, `coder`, `planner`, `critic`, and `summarizer` are battle-tested behavioral profiles; activate one and your agent immediately behaves like a specialist

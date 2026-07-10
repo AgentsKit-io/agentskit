@@ -9,6 +9,17 @@ Braintrust scoring pipeline for AgentsKit. Ships **8 scorers** in two families a
 - **Quality scorers** — task success, factual grounding, citation correctness, tool-arg validity
 - **Robustness scorers** — schema survival, HITL gate correctness, fallback resilience, no-crash survival
 
+## How this fits the ecosystem
+
+@agentskit/eval-braintrust connects AgentsKit evals to Braintrust so teams can score behavior, track regressions, and keep quality visible in CI.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/eval-braintrust) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+
 ## Install
 
 ```sh

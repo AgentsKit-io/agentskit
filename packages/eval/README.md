@@ -13,6 +13,17 @@ Measure agent quality with numbers, not vibes — ship with confidence.
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `eval` · `evaluation` · `benchmarking` · `testing` · `ci-cd` · `llm-testing`
 
+## How this fits the ecosystem
+
+@agentskit/eval is the quality layer: replay agent runs, compare outputs, snapshot behavior, and catch regressions before users do.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/eval) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+
 ## Why eval
 
 - **Replace "it seemed to work" with real metrics** — accuracy, per-case latency, token cost, and pass/fail for every test case in a single result object

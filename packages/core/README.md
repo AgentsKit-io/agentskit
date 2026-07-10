@@ -13,6 +13,17 @@ The zero-dependency foundation that every AgentsKit package builds on — 5 KB g
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `typescript` · `orchestration` · `streaming` · `chat`
 
+## How this fits the ecosystem
+
+@agentskit/core is the contract layer: the tiny, stable foundation that makes adapters, tools, skills, memory, retrievers, and runtimes interchangeable.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/core) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+
 ## Why core
 
 - **Zero external dependencies** — no npm bloat, no audit surprises; installs in milliseconds and works in Node, Deno, edge runtimes, and the browser

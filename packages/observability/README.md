@@ -13,6 +13,17 @@ See exactly what your agent does — every LLM call, tool execution, and reasoni
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `observability` · `tracing` · `opentelemetry` · `langsmith` · `logging` · `monitoring`
 
+## How this fits the ecosystem
+
+@agentskit/observability makes agent behavior inspectable with traces, costs, audit logs, devtools, and production telemetry hooks.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/observability) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+
 ## Why observability
 
 - **Debug in minutes, not hours** — trace the full ReAct loop: which tools were called, what the LLM received, where it went wrong, all in one place

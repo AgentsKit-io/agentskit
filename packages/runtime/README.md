@@ -13,6 +13,17 @@ Run autonomous agents in 5 lines — no UI, no boilerplate, just results.
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `openai` · `anthropic` · `ai-agents` · `autonomous-agents` · `react-loop` · `orchestration` · `multi-agent`
 
+## How this fits the ecosystem
+
+@agentskit/runtime is the headless agent engine: ReAct loops, tools, skills, delegation, memory, cancellation, and structured run results.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/runtime) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+
 ## Why runtime
 
 - **ReAct loop handled for you** — observe, think, act, repeat: the runtime drives the full cycle and stops when the agent decides it's done

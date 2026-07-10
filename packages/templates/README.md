@@ -13,6 +13,17 @@ Create, validate, and scaffold custom AgentsKit extensions — tools, skills, an
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `scaffolding` · `templates` · `authoring` · `plugin` · `extension`
 
+## How this fits the ecosystem
+
+@agentskit/templates helps you create new AgentsKit skills, tools, adapters, and project starters without inventing package shape from scratch.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/templates) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+
 ## Why templates
 
 - **Skip the boilerplate** — `scaffold()` generates a complete npm package with src, tests, tsconfig, and README in one call

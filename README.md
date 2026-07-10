@@ -48,39 +48,35 @@ AgentsKit is the missing kit: small, contracted, composable. Start with one pack
 
 ---
 
-## Part of the AgentsKit ecosystem
+## The AgentsKit ecosystem
 
-Four properties, one job each. Start where your goal is:
+AgentsKit is not only a package. It is the open-source foundation of a full agent ecosystem:
+build from composable parts, start faster with ready agents, follow production patterns, and run the result with enterprise controls.
 
-| I want to… | Go to | What it is |
+| Layer | Go to | What it unlocks |
 |---|---|---|
-| **Build an agent from scratch** in JavaScript | **AgentsKit** — you're here | The toolkit: core, adapters, runtime, tools, memory, RAG, and UI for every framework |
-| **Drop in a ready-made agent** | [**Registry →**](https://registry.agentskit.io) | The shadcn for agents — copy-paste, installable agents |
-| **Run agents in production** | [**AKOS →**](https://akos.agentskit.io) | AgentsKit OS — the operating system for AI agents in production (managed cloud / self-hosted) |
-| **Learn enterprise best practices** | [**Playbook →**](https://playbook.agentskit.io) | Methodology and patterns for building production agents |
+| **AgentsKit** | **This repo** | The agent building blocks: adapters, runtime, tools, memory, RAG, UI, evals, observability, and MCP |
+| **Registry** | [registry.agentskit.io →](https://registry.agentskit.io) | Ready-to-use agents, tools, and templates you can install instead of starting from blank |
+| **Playbook** | [playbook.agentskit.io →](https://playbook.agentskit.io) | Field-tested patterns for designing, evaluating, securing, and operating agents |
+| **AKOS** | [akos.agentskit.io →](https://akos.agentskit.io) | The enterprise operating system for deploying, governing, observing, and scaling agents |
 
-> Grab what you want from **AgentsKit**, follow best practices in the **Playbook**, drop in ready-made agents from the **Registry**, and run them in production on **AKOS**.
+The path is simple: compose with **AgentsKit**, learn the patterns in the **Playbook**, reuse agents from the **Registry**, and graduate to **AKOS** when you need enterprise operations.
 
 ```mermaid
 flowchart LR
-  Core["@agentskit/core<br/>contracts + controller"]
-  Adapters["@agentskit/adapters<br/>OpenAI · Anthropic · local"]
-  UI["@agentskit/react · ink · vue · svelte · solid<br/>human interfaces"]
-  Runtime["@agentskit/runtime<br/>agent loop + delegation"]
-  Tools["@agentskit/tools · skills<br/>actions + behavior"]
-  Memory["@agentskit/memory · rag<br/>context + retrieval"]
-  Ops["@agentskit/observability · eval · sandbox<br/>production guardrails"]
+  Playbook["Playbook<br/>best practices"]
+  Registry["Registry<br/>ready agents"]
+  AK["AgentsKit<br/>composable JS packages"]
+  AKOS["AKOS<br/>enterprise agent OS"]
 
-  Core --> Adapters
-  Core --> UI
-  Core --> Runtime
-  Runtime --> Tools
-  Runtime --> Memory
-  Runtime --> Ops
-  UI --> Runtime
+  Playbook --> AK
+  Registry --> AK
+  AK --> Registry
+  AK --> AKOS
+  Playbook --> AKOS
 ```
 
-Agents get the same map through [`llms.txt`](./llms.txt) and [`doc-bridge.config.json`](./doc-bridge.config.json): 24/24 package handoffs, 24/24 human-doc bridges.
+Humans get the docs site. Agents get [`llms.txt`](./llms.txt) and [`doc-bridge.config.json`](./doc-bridge.config.json): 24/24 package handoffs, 24/24 human-doc bridges.
 
 ---
 

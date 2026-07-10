@@ -13,6 +13,17 @@ Add streaming AI chat to any React app in 10 lines of code.
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `openai` · `anthropic` · `claude` · `gemini` · `chatgpt` · `react` · `react-hooks` · `chat-ui` · `ai-agents`
 
+## How this fits the ecosystem
+
+@agentskit/react is the React UI layer: hooks and headless components for streaming chat, tool calls, memory, and agent-facing interfaces.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/react) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+
 ## Why react
 
 - **Ship faster** — streaming chat with tool calls, memory, and markdown rendering works out of the box, no wiring required

@@ -7,6 +7,17 @@
 Expose AgentsKit tools as an [MCP](https://modelcontextprotocol.io) server — use
 them from Claude Desktop, Cursor, Windsurf, or any MCP host.
 
+## How this fits the ecosystem
+
+@agentskit/mcp is the bridge from AgentsKit tools and agents into MCP-compatible coding agents.
+
+- **AgentsKit**: expose tools, integrations, and registry agents through a standard MCP server.
+- **Registry**: serve ready agents from [registry.agentskit.io](https://registry.agentskit.io) as callable MCP tools.
+- **Playbook**: use [playbook.agentskit.io](https://playbook.agentskit.io) for safe tool design, approvals, and agent handoff patterns.
+- **AKOS**: run the same model with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/mcp) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+
 ```bash
 npx @agentskit/mcp --tools fetch,search
 ```

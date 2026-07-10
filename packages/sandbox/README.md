@@ -13,6 +13,17 @@ Let agents write and run code safely — in isolated cloud VMs, not on your mach
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `sandbox` · `code-execution` · `e2b` · `secure-execution` · `code-interpreter`
 
+## How this fits the ecosystem
+
+@agentskit/sandbox gives agents a safer place to execute code and commands instead of trusting arbitrary tool calls in your app process.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/sandbox) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+
 ## Why sandbox
 
 - **Code generation that actually executes** — agents can write, run, and iterate on code without you worrying about what they'll do to your filesystem or OS

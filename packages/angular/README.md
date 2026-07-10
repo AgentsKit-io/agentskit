@@ -13,6 +13,17 @@ Angular 18+ service (Signal + RxJS) + headless chat components. Same `ChatReturn
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `angular` · `signals` · `rxjs` · `chat` · `streaming`
 
+## How this fits the ecosystem
+
+@agentskit/angular brings the shared AgentsKit chat contract to Angular with Signals, RxJS, streaming, tools, and memory.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/angular) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+
 ## Why
 
 - **One contract, every framework** — `AgentskitChat` service surfaces the exact same shape as the React / Vue / Svelte / Solid / RN / Ink bindings.
