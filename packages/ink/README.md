@@ -1,5 +1,7 @@
 # @agentskit/ink
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 Build terminal AI chat interfaces with the exact same API as `@agentskit/react`.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/ink?color=blue)](https://www.npmjs.com/package/@agentskit/ink)
@@ -10,6 +12,17 @@ Build terminal AI chat interfaces with the exact same API as `@agentskit/react`.
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `terminal` · `cli` · `ink` · `tui` · `chat-ui`
+
+## How this fits the ecosystem
+
+@agentskit/ink turns AgentsKit agents into polished terminal experiences for CLIs, internal tools, and developer workflows.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/ink) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why ink
 

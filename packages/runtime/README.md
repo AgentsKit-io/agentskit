@@ -1,5 +1,7 @@
 # @agentskit/runtime
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 Run autonomous agents in 5 lines — no UI, no boilerplate, just results.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/runtime?color=blue)](https://www.npmjs.com/package/@agentskit/runtime)
@@ -10,6 +12,17 @@ Run autonomous agents in 5 lines — no UI, no boilerplate, just results.
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `openai` · `anthropic` · `ai-agents` · `autonomous-agents` · `react-loop` · `orchestration` · `multi-agent`
+
+## How this fits the ecosystem
+
+@agentskit/runtime is the headless agent engine: ReAct loops, tools, skills, delegation, memory, cancellation, and structured run results.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/runtime) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why runtime
 

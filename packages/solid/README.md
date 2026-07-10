@@ -1,5 +1,7 @@
 # @agentskit/solid
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 SolidJS hook + headless chat components. Same `ChatReturn` contract every AgentsKit framework binding ships — swap frameworks without changing your agent.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/solid?color=blue)](https://www.npmjs.com/package/@agentskit/solid)
@@ -10,6 +12,17 @@ SolidJS hook + headless chat components. Same `ChatReturn` contract every Agents
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `solid` · `solidjs` · `signals` · `chat` · `streaming`
+
+## How this fits the ecosystem
+
+@agentskit/solid brings the shared AgentsKit chat contract to Solid with streaming, tools, memory, and headless UI primitives.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/solid) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why
 

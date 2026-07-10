@@ -1,8 +1,21 @@
 # `@agentskit/observability-langfuse`
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 [![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 
 Langfuse tracing adapter for AgentsKit. Emits one trace per agent run with nested spans for plan, tool calls, model generations, memory IO, and HITL gates. Token, cost, and latency metadata flow into the standard Langfuse `usage` and metadata fields.
+
+## How this fits the ecosystem
+
+@agentskit/observability-langfuse sends AgentsKit traces to Langfuse with spans for planning, model calls, tools, HITL, latency, tokens, and cost.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/observability-langfuse) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Install
 

@@ -1,5 +1,7 @@
 # @agentskit/rag
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 Plug-and-play retrieval-augmented generation: chunk documents, embed them, and retrieve the right context at query time.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/rag?color=blue)](https://www.npmjs.com/package/@agentskit/rag)
@@ -10,6 +12,17 @@ Plug-and-play retrieval-augmented generation: chunk documents, embed them, and r
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `rag` · `retrieval` · `vector-search` · `embeddings` · `ai-agents` · `semantic-search` · `knowledge-base`
+
+## How this fits the ecosystem
+
+@agentskit/rag is the retrieval layer: load documents, chunk them, embed them, rerank results, and feed precise context back to agents.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/rag) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why rag
 

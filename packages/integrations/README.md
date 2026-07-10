@@ -1,11 +1,24 @@
 # @agentskit/integrations
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 [![stability](https://img.shields.io/badge/stability-alpha-orange)](../../docs/STABILITY.md)
 
 Unified, plug-and-play service integrations for AgentsKit agents — one descriptor
 per service, projected into tools, connectors, triggers, and auth. Every
 integration is HTTP/`fetch`-only: no vendor SDKs are bundled or required
 (see [ADR-0012](../../docs/architecture/adrs/0012-vendor-adapter-scope.md)).
+
+## How this fits the ecosystem
+
+@agentskit/integrations turns SaaS APIs into agent-ready tools, connectors, triggers, and auth from one service descriptor.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/integrations) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Install
 

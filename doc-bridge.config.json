@@ -1,0 +1,56 @@
+{
+  "schemaVersion": 1,
+  "project": {
+    "name": "AgentsKit"
+  },
+  "corpus": {
+    "agent": {
+      "root": "apps/docs-next/content/docs/for-agents",
+      "index": "apps/docs-next/content/docs/for-agents/index.mdx",
+      "include": [
+        "**/*.md",
+        "**/*.mdx"
+      ]
+    },
+    "human": {
+      "plugin": "fumadocs",
+      "options": {
+        "contentDir": "apps/docs-next/content/docs",
+        "urlPrefix": "/docs"
+      }
+    }
+  },
+  "routing": {
+    "plugin": "pnpm-monorepo",
+    "options": {
+      "packages": [
+        "packages/*"
+      ]
+    }
+  },
+  "index": {
+    "outFile": ".doc-bridge/index.json",
+    "llmsTxt": {
+      "enabled": true,
+      "outFile": "llms.txt",
+      "preamble": "AgentsKit is a plug-and-play TypeScript toolkit for building production agents: adapters, runtime, tools, skills, memory, RAG, UI, observability, sandboxing, evals, and templates."
+    },
+    "capabilities": {
+      "enabled": true,
+      "outFile": ".doc-bridge/capabilities.json"
+    }
+  },
+  "gates": {
+    "preset": "standard"
+  },
+  "surfaces": {
+    "cli": {
+      "bin": "ak-docs",
+      "defaultFormat": "text"
+    },
+    "mcp": {
+      "enabled": true,
+      "transport": "stdio"
+    }
+  }
+}

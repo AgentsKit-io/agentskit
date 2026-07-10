@@ -1,5 +1,7 @@
 # @agentskit/sandbox
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 Let agents write and run code safely — in isolated cloud VMs, not on your machine.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/sandbox?color=blue)](https://www.npmjs.com/package/@agentskit/sandbox)
@@ -10,6 +12,17 @@ Let agents write and run code safely — in isolated cloud VMs, not on your mach
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `sandbox` · `code-execution` · `e2b` · `secure-execution` · `code-interpreter`
+
+## How this fits the ecosystem
+
+@agentskit/sandbox gives agents a safer place to execute code and commands instead of trusting arbitrary tool calls in your app process.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/sandbox) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why sandbox
 

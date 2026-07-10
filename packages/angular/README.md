@@ -1,5 +1,7 @@
 # @agentskit/angular
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 Angular 18+ service (Signal + RxJS) + headless chat components. Same `ChatReturn` contract every AgentsKit framework binding ships.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/angular?color=blue)](https://www.npmjs.com/package/@agentskit/angular)
@@ -10,6 +12,17 @@ Angular 18+ service (Signal + RxJS) + headless chat components. Same `ChatReturn
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `angular` · `signals` · `rxjs` · `chat` · `streaming`
+
+## How this fits the ecosystem
+
+@agentskit/angular brings the shared AgentsKit chat contract to Angular with Signals, RxJS, streaming, tools, and memory.
+
+- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
+- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+
+Docs: [package guide](https://www.agentskit.io/docs/packages/angular) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why
 

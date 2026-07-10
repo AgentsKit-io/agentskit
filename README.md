@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="./apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="260" />
+
 # AgentsKit.js
 
 **The agent toolkit JavaScript actually deserves.**
@@ -15,6 +17,8 @@ A 10 KB core. Twenty-four focused packages. Zero lock-in. Six formal contracts t
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/AgentsKit-io/agentskit)](https://github.com/AgentsKit-io/agentskit/pulls)
 [![Last commit](https://img.shields.io/github/last-commit/AgentsKit-io/agentskit)](https://github.com/AgentsKit-io/agentskit/commits)
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/core?label=core%20downloads)](https://www.npmjs.com/package/@agentskit/core)
+[![handoff coverage](https://img.shields.io/badge/agent_handoffs-100%25-2ea44f)](./llms.txt)
+[![human bridge](https://img.shields.io/badge/human_docs-100%25-2ea44f)](./doc-bridge.config.json)
 
 [**Documentation**](https://www.agentskit.io) · [**Discord**](https://discord.gg/zx6z2p4jVb) · [**Roadmap**](https://github.com/orgs/AgentsKit-io/projects/1) · [**Manifesto**](./MANIFESTO.md) · [**Origin**](./ORIGIN.md) · [**Architecture**](./docs/architecture/adrs)
 
@@ -44,18 +48,35 @@ AgentsKit is the missing kit: small, contracted, composable. Start with one pack
 
 ---
 
-## Part of the AgentsKit ecosystem
+## The AgentsKit ecosystem
 
-Four properties, one job each. Start where your goal is:
+AgentsKit is not only a package. It is the open-source foundation of a full agent ecosystem:
+build from composable parts, start faster with ready agents, follow production patterns, and run the result with enterprise controls.
 
-| I want to… | Go to | What it is |
+| Layer | Go to | What it unlocks |
 |---|---|---|
-| **Build an agent from scratch** in JavaScript | **AgentsKit** — you're here | The toolkit: core, adapters, runtime, tools, memory, RAG, and UI for every framework |
-| **Drop in a ready-made agent** | [**Registry →**](https://registry.agentskit.io) | The shadcn for agents — copy-paste, installable agents |
-| **Run agents in production** | [**AKOS →**](https://akos.agentskit.io) | AgentsKit OS — the operating system for AI agents in production (managed cloud / self-hosted) |
-| **Learn enterprise best practices** | [**Playbook →**](https://playbook.agentskit.io) | Methodology and patterns for building production agents |
+| **AgentsKit** | **This repo** | The agent building blocks: adapters, runtime, tools, memory, RAG, UI, evals, observability, and MCP |
+| **Registry** | [registry.agentskit.io →](https://registry.agentskit.io) | Ready-to-use agents, tools, and templates you can install instead of starting from blank |
+| **Playbook** | [playbook.agentskit.io →](https://playbook.agentskit.io) | Field-tested patterns for designing, evaluating, securing, and operating agents |
+| **AKOS** | [akos.agentskit.io →](https://akos.agentskit.io) | The enterprise operating system for deploying, governing, observing, and scaling agents |
 
-> Grab what you want from **AgentsKit**, follow best practices in the **Playbook**, drop in ready-made agents from the **Registry**, and run them in production on **AKOS**.
+The path is simple: compose with **AgentsKit**, learn the patterns in the **Playbook**, reuse agents from the **Registry**, and graduate to **AKOS** when you need enterprise operations.
+
+```mermaid
+flowchart LR
+  Playbook["Playbook<br/>best practices"]
+  Registry["Registry<br/>ready agents"]
+  AK["AgentsKit<br/>composable JS packages"]
+  AKOS["AKOS<br/>enterprise agent OS"]
+
+  Playbook --> AK
+  Registry --> AK
+  AK --> Registry
+  AK --> AKOS
+  Playbook --> AKOS
+```
+
+Humans get the docs site. Agents get [`llms.txt`](./llms.txt) and [`doc-bridge.config.json`](./doc-bridge.config.json): 24/24 package handoffs, 24/24 human-doc bridges.
 
 ---
 

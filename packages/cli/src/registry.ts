@@ -33,6 +33,9 @@ export interface RegistryAgent {
   env?: RegistryEnvVar[]
   files: string[]
   sources: RegistryFile[]
+  /** draft agents are catalog-only until promoted to validated. */
+  status?: 'draft' | 'alpha' | 'validated' | 'deprecated'
+  installable?: boolean
   /** Inline skill for `--run` (data only). Null for agents that compose tools. */
   skill?: RegistrySkill | null
 }
@@ -123,9 +126,25 @@ async function defaultExists(path: string): Promise<boolean> {
   }
 }
 
+function assertInstallable(agent: RegistryAgent): void {
+  if (agent.status === 'draft' || agent.installable === false) {
+    throw new Error(
+      `"${agent.id}" is a catalog draft — not installable yet. ` +
+        `Browse the roadmap at https://registry.agentskit.io/r/catalog.json`,
+    )
+  }
+  if (agent.status === 'alpha') {
+    console.warn(`[agentskit] "${agent.id}" is alpha — experimental; review before production use.`)
+  }
+  if (agent.status === 'deprecated') {
+    throw new Error(`"${agent.id}" is deprecated and no longer installable from the registry.`)
+  }
+}
+
 /** Fetch an agent and write its source files into the project. */
 export async function addAgent(id: string, options: AddOptions = {}): Promise<AddResult> {
   const agent = await fetchAgent(id, options)
+  assertInstallable(agent)
   const baseDir = options.outDir ?? 'agents'
   const targetDir = join(baseDir, id)
   const exists = options.existsImpl ?? defaultExists
