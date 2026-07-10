@@ -1,5 +1,7 @@
 # @agentskit/sandbox
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 Let agents write and run code safely — in isolated cloud VMs, not on your machine.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/sandbox?color=blue)](https://www.npmjs.com/package/@agentskit/sandbox)

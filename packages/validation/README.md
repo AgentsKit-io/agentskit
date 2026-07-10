@@ -1,5 +1,7 @@
 # @agentskit/validation
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 [![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 
 Opt-in runtime validation of tool-call arguments against their JSON Schema for [AgentsKit](https://www.agentskit.io). Wraps [Ajv](https://ajv.js.org) and plugs into the core `ArgsValidator` contract ([ADR-0008](../../docs/architecture/adrs/0008-runtime-validation.md)).

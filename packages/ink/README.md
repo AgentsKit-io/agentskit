@@ -1,5 +1,7 @@
 # @agentskit/ink
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 Build terminal AI chat interfaces with the exact same API as `@agentskit/react`.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/ink?color=blue)](https://www.npmjs.com/package/@agentskit/ink)

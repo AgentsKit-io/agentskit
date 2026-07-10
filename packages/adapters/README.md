@@ -1,5 +1,7 @@
 # @agentskit/adapters
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 Connect to any LLM provider — and swap between them — without touching your app code.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/adapters?color=blue)](https://www.npmjs.com/package/@agentskit/adapters)

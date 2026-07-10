@@ -57,6 +57,17 @@ apps/
 
 Every package has its own `README.md` + `CONVENTIONS.md`. Read the CONVENTIONS file of the package you're editing before making changes.
 
+## doc-bridge routing
+
+Before editing a package, resolve the handoff:
+
+```bash
+pnpm docs:bridge:index   # only if docs changed or the index is stale
+pnpm exec ak-docs query package <id> --agent
+```
+
+The handoff tells you `startHere`, allowed `editRoots`, package checks, and the matching human documentation. CI runs `pnpm docs:bridge:gate`.
+
 ## Workflow expectations for agents
 
 - **Plan first for non-trivial changes.** If the task spans multiple packages or touches contracts, produce a plan and get approval before editing.
@@ -78,6 +89,8 @@ pnpm lint                              # type-check (tsc --noEmit)
 pnpm dev                               # watch mode
 pnpm size                              # enforce bundle budgets
 pnpm docs                              # Fumadocs dev server
+pnpm docs:bridge:doctor                # doc-bridge coverage for agents + humans
+pnpm docs:bridge:gate                  # stale index / human-doc bridge gate
 pnpm test:e2e                          # Playwright E2E
 
 pnpm --filter @agentskit/core test     # single package

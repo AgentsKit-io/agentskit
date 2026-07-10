@@ -1,5 +1,7 @@
 # `@agentskit/observability-langfuse`
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 [![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 
 Langfuse tracing adapter for AgentsKit. Emits one trace per agent run with nested spans for plan, tool calls, model generations, memory IO, and HITL gates. Token, cost, and latency metadata flow into the standard Langfuse `usage` and metadata fields.

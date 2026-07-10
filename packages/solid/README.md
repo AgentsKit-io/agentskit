@@ -1,5 +1,7 @@
 # @agentskit/solid
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 SolidJS hook + headless chat components. Same `ChatReturn` contract every AgentsKit framework binding ships — swap frameworks without changing your agent.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/solid?color=blue)](https://www.npmjs.com/package/@agentskit/solid)

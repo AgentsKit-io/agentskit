@@ -1,5 +1,7 @@
 # @agentskit/vue
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 Vue 3 composable + headless chat components. Same `ChatReturn` contract every AgentsKit framework binding ships — swap frameworks without changing your agent.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/vue?color=blue)](https://www.npmjs.com/package/@agentskit/vue)

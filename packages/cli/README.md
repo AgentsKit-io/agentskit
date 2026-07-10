@@ -1,5 +1,7 @@
 # @agentskit/cli
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 Chat with any LLM, scaffold projects, and run agents — all from your terminal.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/cli?color=blue)](https://www.npmjs.com/package/@agentskit/cli)

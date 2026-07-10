@@ -1,5 +1,7 @@
 # @agentskit/templates
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 Create, validate, and scaffold custom AgentsKit extensions — tools, skills, and adapters — ready to publish and share.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/templates?color=blue)](https://www.npmjs.com/package/@agentskit/templates)

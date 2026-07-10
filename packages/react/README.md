@@ -1,5 +1,7 @@
 # @agentskit/react
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 Add streaming AI chat to any React app in 10 lines of code.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/react?color=blue)](https://www.npmjs.com/package/@agentskit/react)

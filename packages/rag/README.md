@@ -1,5 +1,7 @@
 # @agentskit/rag
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 Plug-and-play retrieval-augmented generation: chunk documents, embed them, and retrieve the right context at query time.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/rag?color=blue)](https://www.npmjs.com/package/@agentskit/rag)

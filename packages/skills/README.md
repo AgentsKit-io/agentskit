@@ -1,5 +1,7 @@
 # @agentskit/skills
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 Pre-tuned agent personas that work out of the box — skills are what your agent IS, tools are what it CAN DO.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/skills?color=blue)](https://www.npmjs.com/package/@agentskit/skills)

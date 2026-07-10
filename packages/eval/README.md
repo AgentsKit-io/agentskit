@@ -1,5 +1,7 @@
 # @agentskit/eval
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 Measure agent quality with numbers, not vibes — ship with confidence.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/eval?color=blue)](https://www.npmjs.com/package/@agentskit/eval)

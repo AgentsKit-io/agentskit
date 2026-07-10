@@ -1,5 +1,7 @@
 <div align="center">
 
+<img src="./apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="260" />
+
 # AgentsKit.js
 
 **The agent toolkit JavaScript actually deserves.**
@@ -15,6 +17,8 @@ A 10 KB core. Twenty-four focused packages. Zero lock-in. Six formal contracts t
 [![GitHub pull requests](https://img.shields.io/github/issues-pr/AgentsKit-io/agentskit)](https://github.com/AgentsKit-io/agentskit/pulls)
 [![Last commit](https://img.shields.io/github/last-commit/AgentsKit-io/agentskit)](https://github.com/AgentsKit-io/agentskit/commits)
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/core?label=core%20downloads)](https://www.npmjs.com/package/@agentskit/core)
+[![handoff coverage](https://img.shields.io/badge/agent_handoffs-100%25-2ea44f)](./llms.txt)
+[![human bridge](https://img.shields.io/badge/human_docs-100%25-2ea44f)](./doc-bridge.config.json)
 
 [**Documentation**](https://www.agentskit.io) · [**Discord**](https://discord.gg/zx6z2p4jVb) · [**Roadmap**](https://github.com/orgs/AgentsKit-io/projects/1) · [**Manifesto**](./MANIFESTO.md) · [**Origin**](./ORIGIN.md) · [**Architecture**](./docs/architecture/adrs)
 
@@ -56,6 +60,27 @@ Four properties, one job each. Start where your goal is:
 | **Learn enterprise best practices** | [**Playbook →**](https://playbook.agentskit.io) | Methodology and patterns for building production agents |
 
 > Grab what you want from **AgentsKit**, follow best practices in the **Playbook**, drop in ready-made agents from the **Registry**, and run them in production on **AKOS**.
+
+```mermaid
+flowchart LR
+  Core["@agentskit/core<br/>contracts + controller"]
+  Adapters["@agentskit/adapters<br/>OpenAI · Anthropic · local"]
+  UI["@agentskit/react · ink · vue · svelte · solid<br/>human interfaces"]
+  Runtime["@agentskit/runtime<br/>agent loop + delegation"]
+  Tools["@agentskit/tools · skills<br/>actions + behavior"]
+  Memory["@agentskit/memory · rag<br/>context + retrieval"]
+  Ops["@agentskit/observability · eval · sandbox<br/>production guardrails"]
+
+  Core --> Adapters
+  Core --> UI
+  Core --> Runtime
+  Runtime --> Tools
+  Runtime --> Memory
+  Runtime --> Ops
+  UI --> Runtime
+```
+
+Agents get the same map through [`llms.txt`](./llms.txt) and [`doc-bridge.config.json`](./doc-bridge.config.json): 24/24 package handoffs, 24/24 human-doc bridges.
 
 ---
 

@@ -1,5 +1,7 @@
 # `@agentskit/eval-braintrust`
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 [![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 
 Braintrust scoring pipeline for AgentsKit. Ships **8 scorers** in two families and a thin runner that uploads results to a [Braintrust](https://www.braintrust.dev/) experiment.

@@ -1,5 +1,7 @@
 # @agentskit/angular
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 Angular 18+ service (Signal + RxJS) + headless chat components. Same `ChatReturn` contract every AgentsKit framework binding ships.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/angular?color=blue)](https://www.npmjs.com/package/@agentskit/angular)

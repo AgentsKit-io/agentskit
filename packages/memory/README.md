@@ -1,5 +1,7 @@
 # @agentskit/memory
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 Persist conversations and add vector search to your agents — swap backends without changing agent code.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/memory?color=blue)](https://www.npmjs.com/package/@agentskit/memory)

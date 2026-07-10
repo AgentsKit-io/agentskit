@@ -1,5 +1,7 @@
 # @agentskit/tools
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 Give your agents real-world capabilities without writing a single integration.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/tools?color=blue)](https://www.npmjs.com/package/@agentskit/tools)

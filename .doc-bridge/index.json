@@ -1,0 +1,1158 @@
+{
+  "schemaVersion": 1,
+  "contentHash": "d47856f3abb6613463f44e1be70ab8fc8b46a0be29142f4fe69579a6d5740be7",
+  "contentHashAlgo": "sha256-normalized-v1",
+  "generatedAt": "2026-07-10T00:14:09.486Z",
+  "project": {
+    "name": "AgentsKit",
+    "root": "."
+  },
+  "knowledge": [
+    {
+      "id": "adapters",
+      "type": "agent-doc",
+      "title": "adapters",
+      "path": "apps/docs-next/content/docs/for-agents/adapters.mdx",
+      "description": "Every LLM provider, one contract. Stream, tool calls, retry, abort all normalized. Plus higher-order adapters that compose candidates (router, ensemble, fallback) and a `createAdapter` factory for custom providers.",
+      "body": "Purpose Every LLM provider, one contract. Stream, tool calls, retry, abort all normalized. Plus higher-order adapters that compose candidates (router, ensemble, fallback) and a createAdapter factory for custom providers. Install Primary exports Native adapters - anthropic , openai , gemini , grok , ollama , deepseek , kimi , langchain , langgraph , vercelAI , generic . - azureOpenAI / azureOpenAIAdapter — Azure-hosted OpenAI deployments. - vertex / vertexAdapter — Google Vertex AI (Gemini, Anthropic-on-Vertex). - bedrock / bedrockAdapter — AWS Bedrock. - replicate / replicateAdapter — Replicate inference. - bail / bailAdapter (alias qwen ) — Alibaba DashScope / Qwen. - webllm / webllmAdapter — browser-only WebGPU via @mlc-ai/web-llm (peer dep). - createAdapter({ send, parse, abort }) — build your own. See . OpenAI-compatible providers mistral , cohere , together , groq , fireworks , openrouter , huggingface , lmstudio , vllm , llamacpp , cerebras (with cerebrasAdapter factory variant). All share the createOpenAICompatibleAdapter base; each exposes a default baseUrl and accepts an override. Composition - createRouter({ candidates, policy, classify, onRoute }) — pick one per request by cost / latency / tags / custom. See . - createEnsembleAdapter({ candidates, aggregate }) — fan-out + merge (majority-vote / concat / longest / fn). See . - createFallbackAdapter([candidates], { shouldRetry, onFallback }) — try in order, fall through on open / first-chunk / zero-chunk failures. See . Testing + utilities - mockAdapter , recordingAdapter , replayAdapter , inMemorySink — ship without network. - simulateStream , chunkText , fetchWithRetry — lower-level helpers. Cost / carbon / lifecycle - applyCarbonTable , estimateCO2Grams , DEFAULT CARBON TABLE — carbon-aware routing inputs; feed into createRouter policy. - resolveModel , withDeprecationPolicy , DEFAULT DEPRECATION TABLE — auto-upgrade deprecated model IDs at adapter construction. - refreshCredentials , createRotatingCredentials — async credential refresh for short-lived tokens (Bedrock, Vertex). Embedders - openaiEmbedder , geminiEmbedder , ollamaEmbedder , deepseekEmbedder , grokEmbedder , kimiEmbedder , createOpenAICompatibleEmbedder . Catalog ( @agentskit/adapters/catalog subpath) Data-driven provider/model metadata adapted from models.dev , cached as a committed snapshot. Large, so it ships only via the ./catalog subpath — never bundled into the main entry. The runtime never fetches models.dev ; regenerate with pnpm sync:models and commit the diff. - getProvider , getModel , listProviders , listOpenAICompatibleProviders — query the catalog. - dispatchFromCatalog({ provider, model, apiKey, baseUrl? }) — build a native OpenAI-compatible adapter for any provider the snapshot marks compatible (first-class anthropic/openai/gemini/ollama keep their own factories). Throws typed CatalogDispatchError . - resolveCost(provider, model, { live?, timeoutMs? }) — cache-only by default; opt-in live tries models.dev then falls back to cache, never throwing on a network failure. Returns { cost, source, stale } . - applyOverrides(snapshot, { allowedProviders, disabledProviders, allowedModels }) — local policy without forking the catalog. - detectCatalogDrift() — CI guard; flags undispatchable providers. - catalogSnapshotSchema (JSON Schema, public contract), catalogSource() (provenance + generatedAt for staleness). Minimal example Common patterns - Rank candidates by cost and fall back on errors: compose createRouter with createFallbackAdapter . - A/B providers without users: or . - Test without keys: pair recordingAdapter + replayAdapter ( ). Related packages - — the AdapterFactory contract lives here. - - Source - npm: https://www.npmjs.com/package/@agentskit/adapters - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/adapters"
+    },
+    {
+      "id": "angular",
+      "type": "agent-doc",
+      "title": "peers:",
+      "path": "apps/docs-next/content/docs/for-agents/angular.mdx",
+      "description": "Angular binding for the `ChatReturn` contract from `@agentskit/core`. Exposes chat state as a `WritableSignal<ChatState>` for template binding and as an `Observable<ChatState>` for RxJS pipelines, with automatic teardown via `ngOnDestroy`.",
+      "body": "Purpose Angular binding for the ChatReturn contract from @agentskit/core . Exposes chat state as a WritableSignal<ChatState for template binding and as an Observable<ChatState for RxJS pipelines, with automatic teardown via ngOnDestroy . Install Primary exports - AgentskitChat — @Injectable({ providedIn: 'root' }) service with: - init(config): ChatReturn — bootstrap the controller. - state: WritableSignal<ChatState — template-friendly (Angular 17+ signals). - stream$: Observable<ChatState — RxJS interop. - Actions: send , stop , retry , setInput , clear , approve , deny . - ngOnDestroy auto-unsubscribes. - Headless standalone components mirroring @agentskit/react ( data-ak- only, JIT inline templates): ChatContainerComponent , MessageComponent , InputBarComponent , MarkdownComponent , CodeBlockComponent , ToolCallViewComponent , ThinkingIndicatorComponent , ToolConfirmationComponent . Minimal example Common patterns - Signal-based (Angular 17+ required) : state is a WritableSignal — use chat.state() in templates. Angular 16 and below are not supported; the signals API is not available in those versions. - Call init() in the constructor : Angular initialises signals during construction. Calling init() in ngOnInit causes a one-tick delay that can produce ExpressionChangedAfterItHasBeenCheckedError in dev mode. - Standalone components recommended : AgentskitChat is provided in root and works with both module-based and standalone architectures, but standalone avoids the need to add the service to a module's providers array manually. - RxJS interop : use stream$ when you need to pipe chat state through RxJS operators (e.g. debounceTime , distinctUntilKeyChanged ) — ngOnDestroy handles unsubscription automatically so no takeUntilDestroyed boilerplate is needed. Related - — ChatReturn contract. - — provider adapters. - , , , , , — sibling bindings. Source - npm: https://www.npmjs.com/package/@agentskit/angular - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/angular"
+    },
+    {
+      "id": "cli",
+      "type": "agent-doc",
+      "title": "or:",
+      "path": "apps/docs-next/content/docs/for-agents/cli.mdx",
+      "body": "Install Commands Command Purpose --- --- agentskit init Scaffold a new project (templates: react, ink, runtime, multi-agent) agentskit chat Interactive chat (Ink-based) agentskit run \"<task \" Run an agent once; supports --provider , --model , --api-key , --base-url , --verbose agentskit dev Dev server with hot-reload agentskit doctor Diagnose env (providers, keys, tooling) agentskit ai \"<description \" NL → AgentSchema + scaffolded project. See agentskit tunnel ngrok-style tunnel for webhooks agentskit rag Local RAG helpers (ingest / search) agentskit config Read / write local config Programmatic helpers The CLI also exposes its internals as a library import — every subcommand above can be driven from your own code. - createCli() — assemble the full commander program. - loadConfig() — read .agentskit.config.{json,ts,js} . - Chat / run: ChatApp , renderChatHeader , runAgent . - Init: writeStarterProject , resolveChatProvider . - Doctor: runDoctor , renderReport . - Dev / tunnel: startDev , startTunnel . - Sessions API: listSessions , findSession , findLatestSession , renameSession , forkSession , resolveSession , writeSessionMeta , derivePreview , generateSessionId , sessionFilePath . - Plugins: loadPlugins , mergePluginsIntoBundle . - MCP: McpClient , bridgeMcpServers , disposeMcpClients . - Telemetry / pricing: computeCost , getPricing , registerPricing . - RAG: createOpenAiEmbedder , buildRagFromConfig , indexSources . - Hooks / permissions: HookDispatcher , configHooksToHandlers , defaultPolicy , evaluatePolicy , applyPolicyToTool , applyPolicyToTools . - @agentskit/cli/ai — scaffoldAgent , writeScaffold , createAdapterPlanner . Related - - Source - npm: https://www.npmjs.com/package/@agentskit/cli - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/cli"
+    },
+    {
+      "id": "core",
+      "type": "agent-doc",
+      "title": "core",
+      "path": "apps/docs-next/content/docs/for-agents/core.mdx",
+      "description": "Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + `createChatController` + primitives. Target: &lt;10 KB gzipped, zero runtime deps.",
+      "body": "Purpose Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + createChatController + primitives. Target: &lt;10 KB gzipped, zero runtime deps. Install Primary exports (main entry) - createChatController(config) — state machine behind every UI binding. Returns { getState, subscribe, send, stop, retry, edit, regenerate, setInput, clear, approve, deny, updateConfig } . - defineTool(config) — typed tool factory with JSON-Schema input inference. - createInMemoryMemory / createLocalStorageMemory — default ChatMemory implementations. - createStaticRetriever / formatRetrievedDocuments — RAG-less retrieval. - executeToolCall , consumeStream , createEventEmitter , safeParseArgs , generateId , buildMessage — low-level helpers. - AgentsKitError , AdapterError , ToolError , MemoryError , ConfigError , RuntimeError , SandboxError , SkillError , ErrorCodes — error taxonomy. - Token budget: compileBudget , approximateCounter . - Progressive tool args: createProgressiveArgParser , executeToolProgressively . - createVirtualizedMemory — hot-window + cold-retriever wrapper (also re-exported from @agentskit/memory ). - Untrusted-input fencing lives in the @agentskit/core/security entry: fenceUntrustedContent(content, opts?) + UNTRUSTED CONTENT DIRECTIVE wrap attacker-influenced text so the model treats it as data, not instructions (the mitigation companion to createInjectionDetector ). - Multi-modal content parts: textPart , imagePart , audioPart , videoPart , filePart , partsToText , normalizeContent , filterParts . - Agent-loop internals (advanced): buildToolMap , activateSkills , executeSafeTool , createToolLifecycle . - Memory serialization: serializeMessages , deserializeMessages . Subpath exports (zero main-bundle weight) Subpath Purpose Recipe --- --- --- @agentskit/core/agent-schema Declarative agent YAML/JSON + validator @agentskit/core/prompt-experiments A/B prompts with feature flags @agentskit/core/auto-summarize Auto-summarizing ChatMemory wrapper @agentskit/core/hitl Approval gates + ApprovalStore @agentskit/core/security PII redactor + injection detector + fenceUntrustedContent + rate limiter , , @agentskit/core/fuzzy-match jaroWinkler / fuzzyMatchList — zero-dep fuzzy name matching for sanctions/KYC/dedup without an LLM — @agentskit/core/finding Finding / Severity / SEVERITY ORDER — canonical issue shape so review/audit/compliance findings are interoperable — @agentskit/core/compose-tool Chain N tools into one @agentskit/core/self-debug Retry tools with LLM-corrected args @agentskit/core/generative-ui Typed UI element tree + artifacts @agentskit/core/a2a Agent-to-Agent protocol spec @agentskit/core/manifest Skill + tool manifest format (MCP-compat) @agentskit/core/eval-format Portable eval dataset + run-result Minimal example Common patterns - Wire a controller into any framework via getState + subscribe (see the framework bindings under ). - Compose tools with or wrap failing ones with . - Gate risky operations with + HITL + signed . Related packages - - - Source - npm: https://www.npmjs.com/package/@agentskit/core - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/core"
+    },
+    {
+      "id": "eval-braintrust",
+      "type": "agent-doc",
+      "title": "eval-braintrust",
+      "path": "apps/docs-next/content/docs/for-agents/eval-braintrust.mdx",
+      "body": "Install braintrust is loaded lazily; runs without it still produce scored output (no upload). Primary exports Runner - runBraintrustEval({ cases, agent, scorers, options, bt? }) — scores cases through the agent, optionally logs to a Braintrust experiment. - scoreCase(scorers, args) — scores a single case; surfaces scorer crashes as scorer error . - summarize(cases) — { name: { mean, n } } aggregate. Quality scorers - taskSuccess — substring / regex / predicate match against expected . - factualGrounding — fraction of metadata.sources referenced in the output. - citationCorrectness — cite-tag presence + match against metadata.expectedCitations . - toolArgValidity — fraction of metadata.toolCalls with schemaValid !== false . Robustness scorers - schemaSurvival — 1 unless metadata.parseError or schemaValid === false . - hitlGateCorrectness — 1 when hitlExpected === hitlTriggered . - fallbackResilience — 1 on clean run or recovered fallback; 0 on uncovered errors. - noCrashSurvival — 0 when metadata.crashed or uncaughtException . Families - qualityFamily , robustnessFamily , ALL SCORERS . Subpaths Subpath Contents --- --- @agentskit/eval-braintrust/scorers Individual scorer factories + families. @agentskit/eval-braintrust/ci detectRegressions(baseline, current, thresholds) , formatAlertsMarkdown(alerts) . Minimal example CI regression alert Related - — base eval primitives. - — pair with tracing for trace → eval datasets. Source - npm: https://www.npmjs.com/package/@agentskit/eval-braintrust - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/eval-braintrust"
+    },
+    {
+      "id": "eval",
+      "type": "agent-doc",
+      "title": "eval",
+      "path": "apps/docs-next/content/docs/for-agents/eval.mdx",
+      "body": "Install Primary exports - runEval({ agent, suite }) — run an EvalSuite against any async agent fn. Subpaths Subpath Contents --- --- @agentskit/eval/replay createRecordingAdapter , createReplayAdapter , cassettes, createTimeTravelSession , replayAgainst , summarizeReplay . See , , . @agentskit/eval/snapshot matchPromptSnapshot (exact / normalized / similarity). See . @agentskit/eval/diff promptDiff , attributePromptChange , formatDiff . See . @agentskit/eval/ci renderJUnit , renderMarkdown , renderGitHubAnnotations , reportToCi . See . Minimal example Related - — Braintrust reporter backend. - . - — trace + cost data feeds eval comparisons. - — portable format spec. Source - npm: https://www.npmjs.com/package/@agentskit/eval - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/eval"
+    },
+    {
+      "id": "index",
+      "type": "agent-doc",
+      "title": "index",
+      "path": "apps/docs-next/content/docs/for-agents/index.mdx",
+      "description": "If you're an AI agent reading this: every page in this section is a condensed reference for one AgentsKit package. Each page follows the same structure so you can skim quickly and quote accurately:",
+      "body": "If you're an AI agent reading this: every page in this section is a condensed reference for one AgentsKit package. Each page follows the same structure so you can skim quickly and quote accurately: 1. Purpose — one sentence. 2. Install — exact npm command. 3. Primary exports — name + one-line summary. 4. Minimal example — copy-pastable, always working. 5. Common patterns — 2–4 bullets with cross-links. 6. Related packages — what to read next. 7. Source — link to the package code + README. Human-facing docs (with narrative, screenshots, and storytelling) live under , , and . Packages covered Core - — contracts, controller, primitives. Adapters + runtime - — provider adapters + router + ensemble + fallback. - — ReAct loop + durable execution + topologies + speculate + background agents. UI bindings (same ChatReturn contract) - - (terminal) - - - - - Capabilities - — built-in + integrations + MCP bridge. - — chat + vector + graph + encrypted. - — ingestion + retrieval + reranking + loaders. - — personas + marketplace. Observability + evaluation - — trace viewer + audit log + devtools. - — Langfuse logger backend. - — suites + replay + snapshots + diff. - — Braintrust reporter backend. Infrastructure + authoring - — secure code execution + policy. - — init / chat / run / doctor / dev / ai. - — validated factories + scaffolds for custom tools / skills / adapters. How to use this section - Quoting : prefer these pages over README text — pages are version-synchronized with the code. - Linking : every page ends with \"Related packages\" + \"Source\" for pivoting. - Subpaths : most packages expose subpath exports (e.g. @agentskit/core/security ). They're always listed under \"Primary exports\"."
+    },
+    {
+      "id": "ink",
+      "type": "agent-doc",
+      "title": "peers:",
+      "path": "apps/docs-next/content/docs/for-agents/ink.mdx",
+      "description": "Ink binding for the `ChatReturn` contract from `@agentskit/core`. Renders a full chat interface in the terminal using React + Ink, with keyboard navigation, ANSI theming, and human-in-the-loop tool confirmation — no browser required.",
+      "body": "Purpose Ink binding for the ChatReturn contract from @agentskit/core . Renders a full chat interface in the terminal using React + Ink, with keyboard navigation, ANSI theming, and human-in-the-loop tool confirmation — no browser required. Install Primary exports - useChat(config): ChatReturn — mirrors @agentskit/react . - <ChatContainer , <Message , <InputBar , <ToolCallView , <ThinkingIndicator — Ink components with keyboard nav + ANSI theming. - <StatusHeader — header strip showing provider / model / cost / status. - <ToolConfirmation — HITL approval prompt for risky tool calls. - <MarkdownText — render Markdown to Ink Text nodes. - <TopologyGraphView — render a multi-agent topology snapshot as an ASCII/box graph. - InkThemeProvider , useInkTheme , defaultInkTheme — ANSI theme context for all components. Minimal example To use useChat directly and build a custom layout: Headless progress renderer (standalone agents) For non-chat agents (cron jobs, CI pipelines, registry agents), createProgressObserver() returns an Observer that renders { type: 'progress' } AgentEvent s as an animated spinner line per stage — pure ANSI, no Ink/React render tree, so it also works in piped CI output. - createProgressObserver(options?) — options.write overrides the output sink (default process.stdout ); options.plain disables the spinner/colors (auto-on for non-TTY). The interval is unref 'd, so it never keeps the process alive. - SPINNER FRAMES — the shared braille frames (also used by ThinkingIndicator ), exported for custom renderers. Common patterns - Node only / TTY required : @agentskit/ink uses Ink which writes directly to process.stdout . It does not run in the browser or in non-TTY environments (e.g. piped CI output). Use @agentskit/react for browser targets. - Peer deps on react and ink : both must be installed alongside @agentskit/ink — Ink requires React 18+ and does not bundle it. - Cleanup via useEffect return : if you call useChat outside of <ChatContainer , return chat.stop from a useEffect to abort in-flight streams when the component unmounts or the process exits. - ANSI theming : pass a theme prop to <ChatContainer or set CSS-variable-equivalent tokens via the theme config key to customise colours without forking components. Related - — ChatReturn contract. - — provider adapters. - , , , , , — sibling bindings. - — agentskit chat ships Ink internally. Source - npm: https://www.npmjs.com/package/@agentskit/ink - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/ink"
+    },
+    {
+      "id": "integrations",
+      "type": "agent-doc",
+      "title": "integrations",
+      "path": "apps/docs-next/content/docs/for-agents/integrations.mdx",
+      "body": "Install What it is One descriptor per service ( Integration ) that every consumer layer projects from — agent tools, connector senders, inbound triggers, OAuth specs, marketplace listings. Eliminates the per-service duplication that otherwise spreads across @agentskit/tools and host runtimes. Dependency-light: only @agentskit/core , with fetch + node:crypto at runtime. The catalog of concrete services is populated in later phases; this entry ships the contract + registry. Primary exports (main entry) - defineIntegration — author an Integration descriptor ( auth , actions , triggers , capabilities ). - defineAction — define one action; receives an auth-bound IntegrationHttp client, uses canonical JSON Schema. - defineTrigger — define one inbound trigger ( verify signature + normalize to a uniform event). - httpJson — shared HTTP helper (query/body/timeout, non-2xx → typed error). - bindHttp — bind options into a reusable IntegrationHttp client. - createRegistry — build an isolated catalog instance. - registerIntegration — register a descriptor into the default catalog. - getIntegration — look up a descriptor by service slug. - listIntegrations — list all registered descriptors. - integrationsByCategory — filter the default catalog by category. - toToolDefinitions — project a descriptor's actions into legacy ToolDefinition[] (auth-bound), preserving the fn(config) = Tool[] API consumers expect. - actionToToolDefinition — project a single action into a ToolDefinition . - httpOptionsFor — build the auth-bound HTTP options for a descriptor + caller config. - integrationTools — resolve a catalog integration (by slug or descriptor) and project it to ToolDefinition[] in one call. - integrationToolsFromEnv — project an integration reading its credential from the environment (via the apiKey envHint ). - credentialEnvVar — the conventional env var holding an integration's API key. - CONFIG FIELDS — declarative connect-form fields ( ConfigField[] ) for services that authenticate with structured config (Twilio, Jira, Stripe, …) rather than a single API key; attached to each descriptor's configFields . Subpath exports Subpath Contents --- --- @agentskit/integrations/testing Pure contract validators: validateIntegration , validateAction , validateTrigger , assertValidIntegration . Gate every service descriptor in CI. Minimal example Scaffolding Related - — @agentskit/tools (legacy integration home; being unified here)."
+    },
+    {
+      "id": "mcp",
+      "type": "agent-doc",
+      "title": "mcp",
+      "path": "apps/docs-next/content/docs/for-agents/mcp.mdx",
+      "description": "Serve AgentsKit tools to any MCP host. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` + `createStdioTransport`).",
+      "body": "Purpose Serve AgentsKit tools to any MCP host. A thin bridge over @agentskit/tools/mcp ( createMcpServer + createStdioTransport ). Install Primary exports - createAgentsKitMcpServer({ tools, serverInfo?, onEvent?, transport? }) — expose ToolDefinition[] as an MCP server. Defaults to stdio over the current process; pass transport to override (tests / custom hosts). - processStdio() — adapt the Node process into the StdioLikeProcess the transport expects (server receives on stdin, sends on stdout). - createAgentTool({ id, description, systemPrompt, adapter, maxSteps? }) — wrap a whole agent as one MCP tool. The host calls it with a task ; the agent runs server-side on the given adapter and returns the result (\"agents as MCP tools\"). - fetchAgentSkill(id, fetchImpl?) — fetch a registry agent's runnable skill (hosted index, raw-GitHub fallback); null for tool-composing agents. Bin agentskit-mcp — npx @agentskit/mcp --tools fetch,search . Expose whole agents with --agents <ids --provider <p (any of ~20 providers + catalog OpenAI-compatible). Flags: --tools , --fs-root , --sqlite , --allow-shell . stdout is the JSON-RPC channel; logs go to stderr. Minimal example Related packages - — the tools you expose + the MCP primitives. - — the ToolDefinition contract. Source - npm: https://www.npmjs.com/package/@agentskit/mcp - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/mcp"
+    },
+    {
+      "id": "memory",
+      "type": "agent-doc",
+      "title": "memory",
+      "path": "apps/docs-next/content/docs/for-agents/memory.mdx",
+      "body": "Install Primary exports Chat memory (ordered history) - fileChatMemory({ path }) — JSON file. - sqliteChatMemory — SQLite-backed. - redisChatMemory — Redis-backed. - tursoChatMemory — Turso / libSQL. Vector memory - fileVectorMemory({ path }) — JSON file. - redisVectorMemory — Redis Vector. - pgvector , pinecone , qdrant , chroma , upstashVector — BYO-client / HTTP vector adapters. See . - supabaseVectorStore , weaviateVectorStore , milvusVectorStore , mongoAtlasVectorStore — managed / cluster backends. - matchesFilter(record, filter) — utility for evaluating vector-store filter predicates outside an adapter. Higher-order memory - createVirtualizedMemory (from @agentskit/core ) — hot window + cold retriever. - createHierarchicalMemory — MemGPT tiers (working / recall / archival). - createAutoSummarizingMemory (from @agentskit/core/auto-summarize ) — fold oldest into a summary. - createEncryptedMemory — AES-GCM over any ChatMemory . See . - createInMemoryGraph — knowledge graph (nodes + edges + BFS). See . - createInMemoryPersonalization + renderProfileContext — per-subject profile. See . - wrapChatMemoryWithRedaction(mem, { rules, mode?, vault?, allowedRoles? }) — redact (or tokenize) PII at save() time on any ChatMemory . Pairs with @agentskit/core/security tokenize / reveal for role-gated read. - wrapVectorMemoryWithRedaction(mem, { rules, mode?, vault?, allowedRoles? }) — same for VectorMemory.store() . Embeddings pass through verbatim; redact the input to your embedder separately if it is a hosted provider. - forgetSubject(memory, subjectId) / makeForgettable(memory) — GDPR-style right-to-erasure helpers that purge all records for a subject across ChatMemory and VectorMemory . Key-value store ( AgentskitMemoryStore ) A generic get(key) / set(key,value) store with TTL + max-key eviction, complementing the conversation ChatMemory model — for agent scratchpad, pipeline state, and arbitrary JSON keyed by string. - createInMemoryStore(config) / createFileStore(config) / createLocalStorageStore({ config, storage? }) — zero-dependency backends. - createSqliteStore({ config, open }) — open is a better-sqlite3-style opener; tryDefaultSqliteOpener() lazy-imports better-sqlite3 . - createRedisStore({ config, client }) — client is a RedisLike ; adaptIoredis(io) bridges ioredis, tryDefaultRedisClient(url) lazy-imports node-redis. - createVectorStore({ config, vectorStore, embedder }) — exact-key get / set plus a recall(query, k) similarity search. - createKvMemoryFromConfig({ config, sqlite?, redis?, vectorStore?, embedder? }) / createKvMemoryFromConfigAuto(config) — dispatch over a KvMemoryConfig ( in-memory / file / sqlite / localstorage / redis / vector ); the auto form lazy-loads optional drivers. MEMORY BACKEND SUPPORT / isMemoryBackendSupported / MemoryBackendNotImplementedError describe coverage. Minimal example Related - — embedders + retrievers on top of vector memory. - — the ChatMemory / VectorMemory contracts. Source - npm: https://www.npmjs.com/package/@agentskit/memory - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/memory"
+    },
+    {
+      "id": "observability-langfuse",
+      "type": "agent-doc",
+      "title": "observability-langfuse",
+      "path": "apps/docs-next/content/docs/for-agents/observability-langfuse.mdx",
+      "body": "Install langfuse is loaded lazily and is a peer install. Primary exports - langfuse(config?) — returns an Observer that emits one Langfuse trace per agent run with nested span / generation objects per AgentsKit event. Config Field Default Notes --- --- --- publicKey LANGFUSE PUBLIC KEY Required (env or arg). secretKey LANGFUSE SECRET KEY Required (env or arg). baseUrl LANGFUSE HOST or https://cloud.langfuse.com Self-hosted or EU/US cloud. release / environment LANGFUSE RELEASE / LANGFUSE ENVIRONMENT Free-form metadata. sessionId / userId / tags — Attached to the trace. flushAt / flushInterval 15 / 1000 Forwarded to the Langfuse SDK. Span model AgentsKit event Langfuse object Notes --- --- --- agent:step span Top-level loop step (plan / act / observe). llm:start / llm:end generation Model, input message count, output content (truncated), token usage. tool:start / tool:end span Tool name, args, result snapshot, duration. memory:load / memory:save span Message count. error annotates current span Sets level: 'ERROR' and statusMessage . Minimal example Related - — base createTraceTracker shared by this adapter. - . Source - npm: https://www.npmjs.com/package/@agentskit/observability-langfuse - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/observability-langfuse"
+    },
+    {
+      "id": "observability",
+      "type": "agent-doc",
+      "title": "observability",
+      "path": "apps/docs-next/content/docs/for-agents/observability.mdx",
+      "body": "Install Primary exports Loggers / tracers - consoleLogger(config?) — local dev logging. - langsmith(config) — LangSmith observer. - opentelemetry(config) — OTel observer. - createTraceTracker({ onSpanStart, onSpanEnd }) — low-level span lifecycle. Sinks (batch HTTP exporters) - datadogSink(config) — Datadog Logs intake. - axiomSink(config) — Axiom dataset ingest. - newRelicSink(config) — New Relic Log API. Guards + counters - costGuard(options) — dollar ceiling per run. - multiTenantCostGuard(options) — per-tenant cost cap with shared bookkeeping. - createAdvancedCostGuard({ budgets, caps, mode, disableRuntime, alertSinks }) — production-grade guard with warn / reject / kill modes, rolling window caps ( perMinute / perDay / perMonth / custom), 50/80/100 % threshold alerts, linear forecast alerts, and pluggable sinks. - consoleAlertSink() , webhookAlertSink({ url, headers }) , throttle(sink, windowMs) — built-in alert sinks. - chargebackReport(samples, { groupBy, from, to }) + chargebackReportToCsv(report) — pure cost-attribution exporter for finance / per-tenant invoicing. - priceFor , computeCost , DEFAULT PRICES . - approximateCounter , countTokens , countTokensDetailed , createProviderCounter . PII redaction - wrapObserverWithRedaction(observer, { rules, mode?, vault?, allowedRoles? }) — redact (or tokenize via @agentskit/core/security ) string content fields in the AgentEvent stream ( llm:end.content , tool:start.args , tool:end.result , agent:delegate:end.result , error.message ) before they hit the underlying sink. Numeric / structural fields pass through unchanged so dashboards stay correct. Local trace viewer - createFileTraceSink(dir) , buildTraceReport , renderTraceViewerHtml . See . Devtools server - createDevtoolsServer , toSseFrame . See . - createTopologyGraph — live multi-agent topology graph for the devtools UI. - createControlSurface — production pause / step / replay control surface. SLO - sloObserver(targets?) , DEFAULT SLO TARGETS — emit SLO breach events from latency / error / cost windows. Signed audit log - createSignedAuditLog , createInMemoryAuditStore . Hash-chain + HMAC. See . - appendPiiAuditEvents(log, { actor, action, hits, subjectId?, reason? }) — append one signed entry per PII redaction hit to an existing SignedAuditLog . action is pii:redact , pii:reveal , or pii:reveal-denied ; each payload records rule id, counts, and match offset / length only (no raw spans), for tamper-evident audit evidence alongside the hash chain. Replay & timeline - replayEvents(events, handlers) — feed a historical event sequence through any number of handlers in order; generic over the event type, so it replays AgentEvent s, TraceSpan s, or a host app's own event union against live telemetry sinks. - replayBisect(history, oracle, opts?) — O(log n) regression localisation. Given a change history (oldest-first) and an async oracle that returns 'pass' 'fail' for a replay at a given index, it returns a BisectVerdict ( culprit / all clean / all broken / inconsistent ). - buildTimeline(steps) — turn recorded ReplayStep s into a Timeline of rows carrying cumulative cost / token / latency totals plus the run span. - diffState(previous, next) — structural diff between two state snapshots as add / remove / change entries. - positionAt(steps, timeline, index) — resolve a scrubber position to its cumulative row plus the diffState from the previous checkpoint (throws on an out-of-range index). Minimal example Related - — Langfuse logger backend. - - - — vault / tokenization used by wrapObserverWithRedaction . Source - npm: https://www.npmjs.com/package/@agentskit/observability - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/observability"
+    },
+    {
+      "id": "rag",
+      "type": "agent-doc",
+      "title": "rag",
+      "path": "apps/docs-next/content/docs/for-agents/rag.mdx",
+      "body": "Install Primary exports - createRAG({ embed, store, chunkSize, chunkOverlap, topK, threshold }) — ingest(docs) + retrieve(request) + search(query) . - chunkText({ chunkSize, chunkOverlap, split }) — lower-level splitter. - createRerankedRetriever(base, { candidatePool, topK, rerank }) — pluggable reranker (BM25 default). See . - createHybridRetriever(base, { vectorWeight, bm25Weight }) — vector + BM25 hybrid. - bm25Score , bm25Rerank — standalone helpers. - voyageReranker(config) — Voyage AI reranker. - jinaReranker(config) — Jina AI reranker. - RagError / RagErrorCodes — typed error (extends AgentsKitError ) thrown by loaders + rerankers; narrow on error.code ( AK RAG LOAD FAILED , AK RAG PEER MISSING , AK RAG RERANK FAILED ). Document loaders - loadUrl , loadGitHubFile , loadGitHubTree , loadNotionPage , loadConfluencePage , loadGoogleDriveFile , loadPdf (BYO parser). See . - Cloud storage: loadS3 , loadGcs , loadDropbox , loadOneDrive . Minimal example Related - — vector stores. - — embedders. Source - npm: https://www.npmjs.com/package/@agentskit/rag - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/rag"
+    },
+    {
+      "id": "react-native",
+      "type": "agent-doc",
+      "title": "peers:",
+      "path": "apps/docs-next/content/docs/for-agents/react-native.mdx",
+      "description": "React Native binding for the `ChatReturn` contract from `@agentskit/core`. Shares the same hook API as `@agentskit/react` but ships without any DOM dependency, making it safe for Metro bundler and the Hermes JS engine used in React Native and Expo.",
+      "body": "Purpose React Native binding for the ChatReturn contract from @agentskit/core . Shares the same hook API as @agentskit/react but ships without any DOM dependency, making it safe for Metro bundler and the Hermes JS engine used in React Native and Expo. Install Primary exports - useChat(config): ChatReturn — identical contract to @agentskit/react , imported from pure React (no DOM). - ChatContainer — ScrollView wrapper with auto-scroll to end. - Message — message → View + Text ; role/status via accessibilityLabel . - InputBar — chat: ChatReturn → TextInput + Send Pressable ; sends on submit, disabled when empty/streaming. - Markdown — content + streaming → Text . - CodeBlock — code , language , copyable → View + Text + optional copy Pressable . - ToolCallView — toolCall with collapsible details. - ThinkingIndicator — visible + label ; null when not visible. - ToolConfirmation — toolCall , onApprove , onDeny ; null unless status === 'requires confirmation' . Headless components render React Native primitives and expose stable testID s ( ak-message , ak-input , ak-send , …) in place of the web binding's data-ak- attributes — the same parity contract, surfaced through RN's native testID . Minimal example Common patterns - Streaming polyfills required : Hermes does not ship TextDecoder or the Web Streams API. Install react-native-polyfill-globals and call polyfillGlobal('TextDecoder', ...) at the top of your entry file before any AgentsKit import — otherwise streamed responses will silently fail. - No Node built-ins : Metro does not polyfill Node modules ( Buffer , stream , crypto ). If an adapter dependency pulls them in, add the react-native field in the adapter's package.json or use a Metro resolver alias. - Expo managed workflow : add the polyfill in app/ layout.tsx (or App.tsx ) as the very first import; do not rely on Babel plugins to hoist polyfills after module initialisation. - Keyboard avoiding : wrap the input in <KeyboardAvoidingView and use FlatList 's inverted prop + onContentSizeChange scroll-to-end for a chat-like feel. Related - — ChatReturn contract. - — provider adapters. - , , , , , — sibling bindings. Source - npm: https://www.npmjs.com/package/@agentskit/react-native - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/react-native"
+    },
+    {
+      "id": "react",
+      "type": "agent-doc",
+      "title": "react",
+      "path": "apps/docs-next/content/docs/for-agents/react.mdx",
+      "description": "`useChat` hook returning `ChatReturn` (state + actions) + headless components with `data-ak-*` attributes for theming.",
+      "body": "Purpose useChat hook returning ChatReturn (state + actions) + headless components with data-ak- attributes for theming. Install Primary exports - useChat(config): ChatReturn — same contract as every other framework binding. - useStream(source) — low-level streaming hook for any AsyncIterable<StreamChunk . - useReactive(controller) — reactive state adapter when you already hold a controller. - <ChatContainer , <Message , <InputBar , <ToolCallView , <ToolConfirmation , <ThinkingIndicator , <CodeBlock , <Markdown . - <TopologyGraphView — render a multi-agent topology snapshot (nodes + edges) as SVG. - Re-exports createChatController , all @agentskit/core types, and helpers. - @agentskit/react/theme — CSS variable theme. Minimal example Related frameworks (same contract) - - - - - - Source - npm: https://www.npmjs.com/package/@agentskit/react - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/react"
+    },
+    {
+      "id": "runtime",
+      "type": "agent-doc",
+      "title": "runtime",
+      "path": "apps/docs-next/content/docs/for-agents/runtime.mdx",
+      "description": "Run an agent without a UI. Supports reflection, planning, multi-agent orchestration, durable step logs, cron + webhooks, speculative execution.",
+      "body": "Purpose Run an agent without a UI. Supports reflection, planning, multi-agent orchestration, durable step logs, cron + webhooks, speculative execution. Install Primary exports - createRuntime({ adapter, tools, memory, skills, observers, ... }) — one-line agent; runtime.run(task) returns { content, steps, ... } . - createSharedContext — typed shared context across tools. - speculate({ candidates, pick, timeoutMs }) — race adapters, abort losers. See . - supervisor , swarm , hierarchical , blackboard — multi-agent topologies. See . - createCompareHandler , createVoteHandler , createDebateHandler , createAuctionHandler — cooperative fan-out-then-select topologies. Each is generic over the run context, takes a plain config + an injected TopologyRunAgent , and returns a TopologyOutcome ( ok / failed / paused ). Compare selects by all / first / eval / judge / manual ; vote tallies majority / weighted / unanimous / quorum ballots with a tie-break; debate runs a proponent/opponent/judge loop; auction picks the best bid by lowest-cost / highest-confidence / fastest / custom under a reserve price. Shared helpers: settleWithConcurrency , resolveConcurrency , DEFAULT TOPOLOGY CONCURRENCY , InMemoryScratchpadStore . - createDurableRunner + createInMemoryStepLog / createFileStepLog — Temporal-style step-log durability. See . - createCronScheduler (5-field cron + every:<ms ) + createWebhookHandler + parseSchedule + cronMatches — background agents. See . - compileFlow({ definition, registry }) + validateFlow + flowToMermaid — compile a YAML / object FlowDefinition into a durable DAG runner. See . - createChatTrigger({ adapter, agent, ... }) — unified inbound trigger for chat-surface bots (Slack / Teams / Discord / WhatsApp). Wraps a ChatSurfaceAdapter that normalizes provider events into a ChatSurfaceEvent discriminated union ( message / mention / reply / reaction / file upload / installation ). Returns a framework-agnostic WebhookHandler . - createQuotaTracker + withQuotas — per-tool quota / blast-radius limits (count / cost / duration windows). - createValidatorGuard + built-in validators denyPattern , lengthRange , isJson — agent-insurance primitive that rejects tool args / outputs against allow/deny rules before they propagate. - piiDenyValidator(opts?) — a Validator that fails when the output still contains PII (bridges @agentskit/core/security 's redactor into the guard chain); a deterministic last-line gate for redaction/export agents instead of trusting the prompt. - invokeStructured({ adapter, tool, task, parse, skill? }) — first-class structured output: run a skill that must call one submit tool, read it back from result.toolCalls , return the validated value. Replaces the hand-rolled \"offer one tool, find the call, parse args\" boilerplate every pipeline agent writes. Minimal example Common patterns - Survive crashes: wrap side effects in runner.step(id, fn) (durable). - A/B across models: speculate or replayAgainst . - Compose agents: supervisor / swarm / hierarchical / blackboard. - React to events: createWebhookHandler + createCronScheduler . Related packages - - - - Source - npm: https://www.npmjs.com/package/@agentskit/runtime - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/runtime"
+    },
+    {
+      "id": "sandbox",
+      "type": "agent-doc",
+      "title": "sandbox",
+      "path": "apps/docs-next/content/docs/for-agents/sandbox.mdx",
+      "body": "Install Primary exports - createSandbox(config?) — spawn a sandbox; default backend probes E2B. - sandboxTool() — ready-made code execution tool (js / python). - createE2BBackend(config) — bring your own E2B API key. - Types: Sandbox , SandboxConfig , SandboxBackend , ExecuteOptions , ExecuteResult . Policy wrapper - createMandatorySandbox({ sandbox, policy }) — enforce allow / deny / requireSandbox / validators across every tool. See . Local-process runtimes Host-process isolation complementing the cloud E2B backend. Each implements the SandboxRuntime adapter ( spawn / optional exec ) the agent runner spawns tool subprocesses through, shelling out to a host binary via an injected Spawner (no native deps). - noneSandbox — in-process, no isolation ( spawn rejects; for none -level trusted compute only). - processSandbox(opts?) — child-process with env allowlisting ( exposeAllowedEnvKeys ). - sandboxExecRuntime({ policy }) — macOS seatbelt ( /usr/bin/sandbox-exec ); renderSandboxExecProfile emits the SBPL (default-deny + workspace-scoped writes + no outbound network). - bwrapRuntime({ policy }) — Linux bubblewrap unshare-everything jail; renderBwrapArgs , isBwrapSupported , getBwrapPath . - dockerRuntime({ policy }) — docker run --rm with cap-drop / no-new-privileges / read-only rootfs; renderDockerArgs . - nodeSpawner() — default Spawner over node:child process (timeout + output-cap). - SandboxRegistry — maps SandboxLevel → runtime; resolveOrThrow . - assertStrongIsolation / isStrongIsolation / isWeakIsolation / weakSandboxBanner / WeakSandboxError — surface that none / process provide no OS-level fs/net isolation. - Contract types: SandboxRuntime , SandboxLevel , SANDBOX LEVELS , SandboxExecOptions , SandboxExecResult , Spawner , ChildHandle . Minimal example Related - — tools to wrap. - — human approvals on top. Source - npm: https://www.npmjs.com/package/@agentskit/sandbox - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/sandbox"
+    },
+    {
+      "id": "skills",
+      "type": "agent-doc",
+      "title": "skills",
+      "path": "apps/docs-next/content/docs/for-agents/skills.mdx",
+      "body": "Install Primary exports Ready-made skills - researcher — methodical web researcher. - coder — TDD-first coder. - planner — step-by-step planner. - critic — critic / reviewer. - summarizer — structured summarizer. - codeReviewer — PR review with severity tags. - sqlGen — NL → parameterized SQL. - dataAnalyst — hypothesis-driven data analysis. - translator / translatorWithGlossary — faithful translator (+ glossary variant). - prReviewer — opinionated PR reviewer. - sqlAnalyst — SQL analysis + recommendations. - technicalWriter — technical writing assistant. - securityAuditor — security review with OWASP framing. - customerSupport — empathetic support agent. Vertical skills (regulated domains) - healthcareAssistant — refuses diagnosis / dosage / triage. - clinicalNoteSummarizer — SOAP-format summarization, never interprets. - financialAdvisor — refuses tickers / \"should you\" / payment decisions. - transactionTriage — bookkeeping triage, fixed-shape output. - legalAssistant — informational legal explainer; never gives legal advice. - contractReviewer — flags risky clauses with severity tags; not a substitute for counsel. - tutor — Socratic tutor; questions/hints first, direct answers only on explicit opt-out. - curriculumDesigner — lesson plans + rubrics tagged to Bloom levels. - storefrontConcierge — e-commerce concierge for product discovery + cart. - merchandisingAnalyst — e-commerce merchandising / SKU performance analyst. - listingConcierge — real-estate listing concierge for buyers / renters. - marketAnalyst — real-estate market analyst (comps, trends, neighbourhood). Composition + discovery - composeSkills(a, b, ...) — merge skills into one. - listSkills() — metadata for every bundled skill. Marketplace - createSkillRegistry(initial?) — publish / list / install / unpublish. - parseSemver , compareSemver , matchesRange — tiny semver helpers. - Types: SkillPackage , SkillRegistry , SkillRegistryQuery . See . Minimal example Related - — SkillDefinition contract. - . Source - npm: https://www.npmjs.com/package/@agentskit/skills - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/skills"
+    },
+    {
+      "id": "solid",
+      "type": "agent-doc",
+      "title": "peer:",
+      "path": "apps/docs-next/content/docs/for-agents/solid.mdx",
+      "description": "SolidJS binding for the `ChatReturn` contract from `@agentskit/core`. Same shape as React/Vue/Svelte hooks — store-backed, cleanup wired via `onCleanup`.",
+      "body": "Purpose SolidJS binding for the ChatReturn contract from @agentskit/core . Same shape as React/Vue/Svelte hooks — store-backed, cleanup wired via onCleanup . Install Primary exports - useChat(config): ChatReturn — Solid hook backed by createStore + onCleanup . Headless components (full parity with @agentskit/react , data-ak- attributes only): - ChatContainer — scroll wrapper, auto-scrolls on new content via a MutationObserver . - Message — renders a message; optional avatar / actions slots. - InputBar — textarea + Send button; Enter submits, Shift+Enter newlines, disabled when empty/streaming. - Markdown — content surface with a streaming flag. - CodeBlock — code + language , optional copyable copy button. - ToolCallView — collapsible tool-call view (name → args/result). - ThinkingIndicator — shown while visible , with a label . - ToolConfirmation — HITL approve/deny, renders only when status === 'requires confirmation' . Minimal example Common patterns - Reactivity : Solid stores are fine-grained — access chat.messages directly inside JSX, not destructured. - SSR : useChat is client-only. Wrap in <ClientOnly for SolidStart SSR. - Cleanup : subscriptions tear down via onCleanup ; no manual unsubscribe needed. Related - — ChatReturn contract. - — provider adapters. - , , , — sibling bindings. Source - npm: https://www.npmjs.com/package/@agentskit/solid - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/solid"
+    },
+    {
+      "id": "svelte",
+      "type": "agent-doc",
+      "title": "peer:",
+      "path": "apps/docs-next/content/docs/for-agents/svelte.mdx",
+      "description": "Svelte binding for the `ChatReturn` contract from `@agentskit/core`. Returns a `Readable<ChatState>` plus action methods (send / stop / clear) and `destroy()` for cleanup.",
+      "body": "Purpose Svelte binding for the ChatReturn contract from @agentskit/core . Returns a Readable<ChatState plus action methods (send / stop / clear) and destroy() for cleanup. Install Primary exports - createChatStore(config): SvelteChatStore — Readable<ChatState + action methods + destroy() . - Headless components (Svelte 5, mirroring @agentskit/react , data-ak- only): ChatContainer , Message , InputBar , Markdown , CodeBlock , ToolCallView , ThinkingIndicator , ToolConfirmation . Minimal example Common patterns - Runes vs stores : works in both Svelte 5 runes mode and Svelte 4 stores — auto-subscription via $chat works the same. - Cleanup : call chat.destroy() in onDestroy() to abort in-flight streams and release the adapter. - SvelteKit SSR : instantiate in onMount or a client-only component; the adapter must run in the browser unless you proxy through a server endpoint. Related - — ChatReturn contract. - — provider adapters. - , , , , , — sibling bindings. Source - npm: https://www.npmjs.com/package/@agentskit/svelte - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/svelte"
+    },
+    {
+      "id": "templates",
+      "type": "agent-doc",
+      "title": "templates",
+      "path": "apps/docs-next/content/docs/for-agents/templates.mdx",
+      "description": "Generate AgentsKit extensions (tools, skills, adapters) as standalone packages with consistent blueprints (tsup, vitest, TypeScript) and runtime validation. Depends only on `@agentskit/core`.",
+      "body": "Purpose Generate AgentsKit extensions (tools, skills, adapters) as standalone packages with consistent blueprints (tsup, vitest, TypeScript) and runtime validation. Depends only on @agentskit/core . Install Primary exports - createToolTemplate(config) — build a validated ToolDefinition . - createSkillTemplate(config) — build a validated SkillDefinition . - createAdapterTemplate(config) — build an AdapterFactory with display name . - scaffold(config) — write a full package directory (async): package.json , tsup.config.ts , vitest, README. - validateToolTemplate / validateSkillTemplate / validateAdapterTemplate — assert well-formed definitions. - Types: ToolTemplateConfig , SkillTemplateConfig , AdapterTemplateConfig , ScaffoldType , ScaffoldConfig . Minimal example Validation throws if name , description , schema , or execute is missing — LLMs need schema + description for tool calling. Common patterns - Tool : createToolTemplate enforces JSON-schema arguments and async execute . Use requiresConfirmation for write actions. - Skill : createSkillTemplate requires name , description , systemPrompt . Add examples , tools , delegates , onActivate . - Adapter : createAdapterTemplate wraps an AdapterFactory with metadata used by registries. - Scaffold : scaffold({ type: 'tool' 'skill' 'adapter', dir, name }) writes a buildable package. Equivalent to agentskit init <type but programmatic. Related - — ToolDefinition , SkillDefinition , AdapterFactory contracts. - — built-in tools you can pattern-match against. - — built-in skills as reference. - — agentskit init uses this package under the hood. Source - npm: https://www.npmjs.com/package/@agentskit/templates - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/templates"
+    },
+    {
+      "id": "tools",
+      "type": "agent-doc",
+      "title": "tools",
+      "path": "apps/docs-next/content/docs/for-agents/tools.mdx",
+      "body": "Install Primary exports (main entry) - webSearch , fetchUrl , filesystem , shell — core built-ins. - sqliteQueryTool — parameterized SQLite query tool. - slackTool — Slack incoming-webhook tool (lighter than the OAuth integrations/slack ). - defineZodTool — define tools with Zod schemas. - listTools — discovery helper. - safeFetch — fetch with default-deny egress (ADR-0010): blocks private/loopback/link-local hosts (SSRF) and re-gates every redirect hop. Use for any tool fetching a model-influenced URL. Companions: checkEgress , isPrivateHost , isPrivateIPv4 , isPrivateIPv6 ; policy type EgressPolicy . Subpath exports Subpath Contents --- --- @agentskit/tools/mcp createMcpClient , createMcpServer , toolsFromMcpClient , createStdioTransport , createInMemoryTransportPair . See . @agentskit/tools/integrations Communication: slack , discord , gmail , twilio . Project tracking: linear , linearTriage , jira , confluence , notion . Source / CI: github , githubActions . Customer / commerce: hubspot , airtable , shopify , stripe , stripeWebhookTool (+ verifyStripeSignature ). Calendars / docs: googleCalendar , figma . Web / scraping: firecrawl , reader , documentParsers , browserAgent . Media: openaiImages , elevenlabs , whisper , deepgram . Data: postgres , postgresWithRoles , s3 , cloudflareR2 , coingecko , maps , weather . Operations: pagerduty , sentry . See + . Minimal example Related - — chain tools. - — enforce a sandbox policy across tools. - . Source - npm: https://www.npmjs.com/package/@agentskit/tools - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/tools"
+    },
+    {
+      "id": "validation",
+      "type": "agent-doc",
+      "title": "validation",
+      "path": "apps/docs-next/content/docs/for-agents/validation.mdx",
+      "body": "Install Why The real untrusted boundary in an agent is model output . A model returns tool-call args as arbitrary JSON; core parses them ( safeParseArgs ) but does not check them against the tool's schema — execute receives args the type system only claims are valid. This package enforces the tool's existing JSONSchema7 at runtime. JSON Schema stays the single source of truth (ADR-0008); no Zod, no duplicate contract. Primary exports - createAjvValidator(options?) — returns an ArgsValidator (the core contract) backed by Ajv. Pass it as validateArgs on the chat controller or runtime config. Invalid args raise AK TOOL INVALID INPUT before execute runs. Options ( AjvValidatorOptions ) Field Default Notes --- --- --- rejectAdditionalProperties false Reject keys not declared in the schema. Models often add harmless extras; enable for strict contracts. coerceTypes false Coerce unambiguous primitives (e.g. \"42\" → 42 ) before validating. ajv — Supply a pre-configured Ajv instance (formats, keywords, strict mode). Usage Same shape on the runtime: Notes - Opt-in. Omit validateArgs and behaviour is unchanged (passthrough). Core stays zero-dependency; Ajv lives only here. - Single source of truth. Validates the schema already on each ToolDefinition . Tools with no schema are skipped. - Compiled validators are cached by schema identity — repeated calls do not recompile. - See ADR-0008 ( docs/architecture/adrs/0008-runtime-validation.md )."
+    },
+    {
+      "id": "vue",
+      "type": "agent-doc",
+      "title": "peer:",
+      "path": "apps/docs-next/content/docs/for-agents/vue.mdx",
+      "description": "Vue 3 binding for the `ChatReturn` contract from `@agentskit/core`. Returns a reactive object via `reactive()` that tracks messages, input, and streaming state, and tears down automatically when the component scope is disposed.",
+      "body": "Purpose Vue 3 binding for the ChatReturn contract from @agentskit/core . Returns a reactive object via reactive() that tracks messages, input, and streaming state, and tears down automatically when the component scope is disposed. Install Primary exports - useChat(config): ChatReturn — Vue 3 composable, reactive via reactive() + auto-cleanup on scope dispose. - <ChatContainer :config=\"...\" — batteries-included headless container using data-ak- attributes. - Headless primitives mirroring @agentskit/react (compose them yourself): Message , InputBar , Markdown , CodeBlock , ToolCallView , ThinkingIndicator , ToolConfirmation . Each renders data-ak- attributes only. Minimal example Common patterns - Composition API only : useChat uses Vue's reactive() and getCurrentScope() — it must be called inside setup() or <script setup . Options API is not supported. - <script setup recommended : the composable's auto-cleanup relies on the component's effect scope; <script setup wires this transparently. - SSR / Nuxt : the adapter makes network calls directly from the browser. Wrap any component that calls useChat in <ClientOnly (Nuxt) or a dynamic import with ssr: false to prevent server-side execution. - Reactivity gotcha : do not destructure the return value — const { messages } = useChat(...) loses reactivity. Always access via chat.messages . Related - — ChatReturn contract. - — provider adapters. - , , , , , — sibling bindings. Source - npm: https://www.npmjs.com/package/@agentskit/vue - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/vue"
+    }
+  ],
+  "handoffs": {
+    "adapters": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "adapters",
+        "path": "packages/adapters"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/adapters.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/adapters.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/adapters"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/adapters test",
+        "pnpm --filter @agentskit/adapters lint"
+      ],
+      "humanDoc": "/docs/reference/packages/adapters",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": [
+        "Every LLM provider, one contract. Stream, tool calls, retry, abort all normalized. Plus higher-order adapters that compose candidates (router, ensemble, fallback) and a `createAdapter` factory for custom providers."
+      ]
+    },
+    "angular": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "angular",
+        "path": "packages/angular"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/angular.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/angular.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/angular"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/angular test",
+        "pnpm --filter @agentskit/angular lint"
+      ],
+      "humanDoc": "/docs/reference/packages/angular",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": [
+        "Angular binding for the `ChatReturn` contract from `@agentskit/core`. Exposes chat state as a `WritableSignal<ChatState>` for template binding and as an `Observable<ChatState>` for RxJS pipelines, with automatic teardown via `ngOnDestroy`."
+      ]
+    },
+    "cli": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "cli",
+        "path": "packages/cli"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/cli.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/cli.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/cli"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/cli test",
+        "pnpm --filter @agentskit/cli lint"
+      ],
+      "humanDoc": "/docs/reference/packages/cli",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": []
+    },
+    "core": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "core",
+        "path": "packages/core"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/core.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/core.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/core"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/core test",
+        "pnpm --filter @agentskit/core lint"
+      ],
+      "humanDoc": "/docs/reference/packages/core",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": [
+        "Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + `createChatController` + primitives. Target: &lt;10 KB gzipped, zero runtime deps."
+      ]
+    },
+    "eval": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "eval",
+        "path": "packages/eval"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/eval.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/eval.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/eval"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/eval test",
+        "pnpm --filter @agentskit/eval lint"
+      ],
+      "humanDoc": "/docs/reference/packages/eval",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": []
+    },
+    "eval-braintrust": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "eval-braintrust",
+        "path": "packages/eval-braintrust"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/eval-braintrust.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/eval-braintrust.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/eval-braintrust"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/eval-braintrust test",
+        "pnpm --filter @agentskit/eval-braintrust lint"
+      ],
+      "humanDoc": "/docs/reference/packages/eval-braintrust",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": []
+    },
+    "ink": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "ink",
+        "path": "packages/ink"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/ink.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/ink.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/ink"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/ink test",
+        "pnpm --filter @agentskit/ink lint"
+      ],
+      "humanDoc": "/docs/reference/examples/ink",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": [
+        "Ink binding for the `ChatReturn` contract from `@agentskit/core`. Renders a full chat interface in the terminal using React + Ink, with keyboard navigation, ANSI theming, and human-in-the-loop tool confirmation — no browser required."
+      ]
+    },
+    "integrations": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "integrations",
+        "path": "packages/integrations"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/integrations.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/integrations.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/integrations"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/integrations test",
+        "pnpm --filter @agentskit/integrations lint"
+      ],
+      "humanDoc": "/docs/reference/recipes/integrations",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": []
+    },
+    "mcp": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "mcp",
+        "path": "packages/mcp"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/mcp.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/mcp.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/mcp"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/mcp test",
+        "pnpm --filter @agentskit/mcp lint"
+      ],
+      "humanDoc": "/docs/agents/tools/mcp",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": [
+        "Serve AgentsKit tools to any MCP host. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` + `createStdioTransport`)."
+      ]
+    },
+    "memory": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "memory",
+        "path": "packages/memory"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/memory.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/memory.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/memory"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/memory test",
+        "pnpm --filter @agentskit/memory lint"
+      ],
+      "humanDoc": "/docs/get-started/concepts/memory",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": []
+    },
+    "observability": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "observability",
+        "path": "packages/observability"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/observability.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/observability.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/observability"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/observability test",
+        "pnpm --filter @agentskit/observability lint"
+      ],
+      "humanDoc": "/docs/cookbook/observability",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": []
+    },
+    "observability-langfuse": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "observability-langfuse",
+        "path": "packages/observability-langfuse"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/observability-langfuse.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/observability-langfuse.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/observability-langfuse"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/observability-langfuse test",
+        "pnpm --filter @agentskit/observability-langfuse lint"
+      ],
+      "humanDoc": "/docs/reference/packages/observability-langfuse",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": []
+    },
+    "rag": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "rag",
+        "path": "packages/rag"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/rag.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/rag.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/rag"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/rag test",
+        "pnpm --filter @agentskit/rag lint"
+      ],
+      "humanDoc": "/docs/cookbook/rag",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": []
+    },
+    "react": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "react",
+        "path": "packages/react"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/react.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/react.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/react"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/react test",
+        "pnpm --filter @agentskit/react lint"
+      ],
+      "humanDoc": "/docs/reference/examples/react",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": [
+        "`useChat` hook returning `ChatReturn` (state + actions) + headless components with `data-ak-*` attributes for theming."
+      ]
+    },
+    "react-native": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "react-native",
+        "path": "packages/react-native"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/react-native.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/react-native.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/react-native"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/react-native test",
+        "pnpm --filter @agentskit/react-native lint"
+      ],
+      "humanDoc": "/docs/reference/packages/react-native",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": [
+        "React Native binding for the `ChatReturn` contract from `@agentskit/core`. Shares the same hook API as `@agentskit/react` but ships without any DOM dependency, making it safe for Metro bundler and the Hermes JS engine used in React Native and Expo."
+      ]
+    },
+    "runtime": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "runtime",
+        "path": "packages/runtime"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/runtime.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/runtime.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/runtime"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/runtime test",
+        "pnpm --filter @agentskit/runtime lint"
+      ],
+      "humanDoc": "/docs/agents/runtime",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": [
+        "Run an agent without a UI. Supports reflection, planning, multi-agent orchestration, durable step logs, cron + webhooks, speculative execution."
+      ]
+    },
+    "sandbox": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "sandbox",
+        "path": "packages/sandbox"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/sandbox.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/sandbox.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/sandbox"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/sandbox test",
+        "pnpm --filter @agentskit/sandbox lint"
+      ],
+      "humanDoc": "/docs/production/security/sandbox",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": []
+    },
+    "skills": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "skills",
+        "path": "packages/skills"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/skills.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/skills.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/skills"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/skills test",
+        "pnpm --filter @agentskit/skills lint"
+      ],
+      "humanDoc": "/docs/reference/packages/skills",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": []
+    },
+    "solid": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "solid",
+        "path": "packages/solid"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/solid.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/solid.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/solid"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/solid test",
+        "pnpm --filter @agentskit/solid lint"
+      ],
+      "humanDoc": "/docs/reference/packages/solid",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": [
+        "SolidJS binding for the `ChatReturn` contract from `@agentskit/core`. Same shape as React/Vue/Svelte hooks — store-backed, cleanup wired via `onCleanup`."
+      ]
+    },
+    "svelte": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "svelte",
+        "path": "packages/svelte"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/svelte.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/svelte.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/svelte"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/svelte test",
+        "pnpm --filter @agentskit/svelte lint"
+      ],
+      "humanDoc": "/docs/reference/packages/svelte",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": [
+        "Svelte binding for the `ChatReturn` contract from `@agentskit/core`. Returns a `Readable<ChatState>` plus action methods (send / stop / clear) and `destroy()` for cleanup."
+      ]
+    },
+    "templates": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "templates",
+        "path": "packages/templates"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/templates.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/templates.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/templates"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/templates test",
+        "pnpm --filter @agentskit/templates lint"
+      ],
+      "humanDoc": "/docs/reference/packages/templates",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": [
+        "Generate AgentsKit extensions (tools, skills, adapters) as standalone packages with consistent blueprints (tsup, vitest, TypeScript) and runtime validation. Depends only on `@agentskit/core`."
+      ]
+    },
+    "tools": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "tools",
+        "path": "packages/tools"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/tools.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/tools.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/tools"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/tools test",
+        "pnpm --filter @agentskit/tools lint"
+      ],
+      "humanDoc": "/docs/reference/packages/tools",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": []
+    },
+    "validation": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "validation",
+        "path": "packages/validation"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/validation.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/validation.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/validation"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/validation test",
+        "pnpm --filter @agentskit/validation lint"
+      ],
+      "humanDoc": "/docs/production/security/input-validation",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": []
+    },
+    "vue": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "vue",
+        "path": "packages/vue"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/vue.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/vue.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/vue"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/vue test",
+        "pnpm --filter @agentskit/vue lint"
+      ],
+      "humanDoc": "/docs/reference/packages/vue",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": [
+        "Vue 3 binding for the `ChatReturn` contract from `@agentskit/core`. Returns a reactive object via `reactive()` that tracks messages, input, and streaming state, and tears down automatically when the component scope is disposed."
+      ]
+    }
+  },
+  "lookup": {
+    "packages": [
+      "adapters",
+      "angular",
+      "cli",
+      "core",
+      "eval",
+      "eval-braintrust",
+      "ink",
+      "integrations",
+      "mcp",
+      "memory",
+      "observability",
+      "observability-langfuse",
+      "rag",
+      "react",
+      "react-native",
+      "runtime",
+      "sandbox",
+      "skills",
+      "solid",
+      "svelte",
+      "templates",
+      "tools",
+      "validation",
+      "vue"
+    ],
+    "ownership": {
+      "adapters": {
+        "id": "adapters",
+        "path": "packages/adapters",
+        "checks": [
+          "pnpm --filter @agentskit/adapters test",
+          "pnpm --filter @agentskit/adapters lint"
+        ],
+        "purpose": "Every LLM provider, one contract. Stream, tool calls, retry, abort all normalized. Plus higher-order adapters that compose candidates (router, ensemble, fallback) and a `createAdapter` factory for custom providers.",
+        "humanDoc": "/docs/reference/packages/adapters",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/adapters.mdx"
+      },
+      "angular": {
+        "id": "angular",
+        "path": "packages/angular",
+        "checks": [
+          "pnpm --filter @agentskit/angular test",
+          "pnpm --filter @agentskit/angular lint"
+        ],
+        "purpose": "Angular binding for the `ChatReturn` contract from `@agentskit/core`. Exposes chat state as a `WritableSignal<ChatState>` for template binding and as an `Observable<ChatState>` for RxJS pipelines, with automatic teardown via `ngOnDestroy`.",
+        "humanDoc": "/docs/reference/packages/angular",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/angular.mdx"
+      },
+      "cli": {
+        "id": "cli",
+        "path": "packages/cli",
+        "checks": [
+          "pnpm --filter @agentskit/cli test",
+          "pnpm --filter @agentskit/cli lint"
+        ],
+        "humanDoc": "/docs/reference/packages/cli",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/cli.mdx"
+      },
+      "core": {
+        "id": "core",
+        "path": "packages/core",
+        "checks": [
+          "pnpm --filter @agentskit/core test",
+          "pnpm --filter @agentskit/core lint"
+        ],
+        "purpose": "Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + `createChatController` + primitives. Target: &lt;10 KB gzipped, zero runtime deps.",
+        "humanDoc": "/docs/reference/packages/core",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/core.mdx"
+      },
+      "eval": {
+        "id": "eval",
+        "path": "packages/eval",
+        "checks": [
+          "pnpm --filter @agentskit/eval test",
+          "pnpm --filter @agentskit/eval lint"
+        ],
+        "humanDoc": "/docs/reference/packages/eval",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/eval.mdx"
+      },
+      "eval-braintrust": {
+        "id": "eval-braintrust",
+        "path": "packages/eval-braintrust",
+        "checks": [
+          "pnpm --filter @agentskit/eval-braintrust test",
+          "pnpm --filter @agentskit/eval-braintrust lint"
+        ],
+        "humanDoc": "/docs/reference/packages/eval-braintrust",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/eval-braintrust.mdx"
+      },
+      "ink": {
+        "id": "ink",
+        "path": "packages/ink",
+        "checks": [
+          "pnpm --filter @agentskit/ink test",
+          "pnpm --filter @agentskit/ink lint"
+        ],
+        "purpose": "Ink binding for the `ChatReturn` contract from `@agentskit/core`. Renders a full chat interface in the terminal using React + Ink, with keyboard navigation, ANSI theming, and human-in-the-loop tool confirmation — no browser required.",
+        "humanDoc": "/docs/reference/examples/ink",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/ink.mdx"
+      },
+      "integrations": {
+        "id": "integrations",
+        "path": "packages/integrations",
+        "checks": [
+          "pnpm --filter @agentskit/integrations test",
+          "pnpm --filter @agentskit/integrations lint"
+        ],
+        "humanDoc": "/docs/reference/recipes/integrations",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/integrations.mdx"
+      },
+      "mcp": {
+        "id": "mcp",
+        "path": "packages/mcp",
+        "checks": [
+          "pnpm --filter @agentskit/mcp test",
+          "pnpm --filter @agentskit/mcp lint"
+        ],
+        "purpose": "Serve AgentsKit tools to any MCP host. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` + `createStdioTransport`).",
+        "humanDoc": "/docs/agents/tools/mcp",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/mcp.mdx"
+      },
+      "memory": {
+        "id": "memory",
+        "path": "packages/memory",
+        "checks": [
+          "pnpm --filter @agentskit/memory test",
+          "pnpm --filter @agentskit/memory lint"
+        ],
+        "humanDoc": "/docs/get-started/concepts/memory",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/memory.mdx"
+      },
+      "observability": {
+        "id": "observability",
+        "path": "packages/observability",
+        "checks": [
+          "pnpm --filter @agentskit/observability test",
+          "pnpm --filter @agentskit/observability lint"
+        ],
+        "humanDoc": "/docs/cookbook/observability",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/observability.mdx"
+      },
+      "observability-langfuse": {
+        "id": "observability-langfuse",
+        "path": "packages/observability-langfuse",
+        "checks": [
+          "pnpm --filter @agentskit/observability-langfuse test",
+          "pnpm --filter @agentskit/observability-langfuse lint"
+        ],
+        "humanDoc": "/docs/reference/packages/observability-langfuse",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/observability-langfuse.mdx"
+      },
+      "rag": {
+        "id": "rag",
+        "path": "packages/rag",
+        "checks": [
+          "pnpm --filter @agentskit/rag test",
+          "pnpm --filter @agentskit/rag lint"
+        ],
+        "humanDoc": "/docs/cookbook/rag",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/rag.mdx"
+      },
+      "react": {
+        "id": "react",
+        "path": "packages/react",
+        "checks": [
+          "pnpm --filter @agentskit/react test",
+          "pnpm --filter @agentskit/react lint"
+        ],
+        "purpose": "`useChat` hook returning `ChatReturn` (state + actions) + headless components with `data-ak-*` attributes for theming.",
+        "humanDoc": "/docs/reference/examples/react",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/react.mdx"
+      },
+      "react-native": {
+        "id": "react-native",
+        "path": "packages/react-native",
+        "checks": [
+          "pnpm --filter @agentskit/react-native test",
+          "pnpm --filter @agentskit/react-native lint"
+        ],
+        "purpose": "React Native binding for the `ChatReturn` contract from `@agentskit/core`. Shares the same hook API as `@agentskit/react` but ships without any DOM dependency, making it safe for Metro bundler and the Hermes JS engine used in React Native and Expo.",
+        "humanDoc": "/docs/reference/packages/react-native",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/react-native.mdx"
+      },
+      "runtime": {
+        "id": "runtime",
+        "path": "packages/runtime",
+        "checks": [
+          "pnpm --filter @agentskit/runtime test",
+          "pnpm --filter @agentskit/runtime lint"
+        ],
+        "purpose": "Run an agent without a UI. Supports reflection, planning, multi-agent orchestration, durable step logs, cron + webhooks, speculative execution.",
+        "humanDoc": "/docs/agents/runtime",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/runtime.mdx"
+      },
+      "sandbox": {
+        "id": "sandbox",
+        "path": "packages/sandbox",
+        "checks": [
+          "pnpm --filter @agentskit/sandbox test",
+          "pnpm --filter @agentskit/sandbox lint"
+        ],
+        "humanDoc": "/docs/production/security/sandbox",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/sandbox.mdx"
+      },
+      "skills": {
+        "id": "skills",
+        "path": "packages/skills",
+        "checks": [
+          "pnpm --filter @agentskit/skills test",
+          "pnpm --filter @agentskit/skills lint"
+        ],
+        "humanDoc": "/docs/reference/packages/skills",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/skills.mdx"
+      },
+      "solid": {
+        "id": "solid",
+        "path": "packages/solid",
+        "checks": [
+          "pnpm --filter @agentskit/solid test",
+          "pnpm --filter @agentskit/solid lint"
+        ],
+        "purpose": "SolidJS binding for the `ChatReturn` contract from `@agentskit/core`. Same shape as React/Vue/Svelte hooks — store-backed, cleanup wired via `onCleanup`.",
+        "humanDoc": "/docs/reference/packages/solid",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/solid.mdx"
+      },
+      "svelte": {
+        "id": "svelte",
+        "path": "packages/svelte",
+        "checks": [
+          "pnpm --filter @agentskit/svelte test",
+          "pnpm --filter @agentskit/svelte lint"
+        ],
+        "purpose": "Svelte binding for the `ChatReturn` contract from `@agentskit/core`. Returns a `Readable<ChatState>` plus action methods (send / stop / clear) and `destroy()` for cleanup.",
+        "humanDoc": "/docs/reference/packages/svelte",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/svelte.mdx"
+      },
+      "templates": {
+        "id": "templates",
+        "path": "packages/templates",
+        "checks": [
+          "pnpm --filter @agentskit/templates test",
+          "pnpm --filter @agentskit/templates lint"
+        ],
+        "purpose": "Generate AgentsKit extensions (tools, skills, adapters) as standalone packages with consistent blueprints (tsup, vitest, TypeScript) and runtime validation. Depends only on `@agentskit/core`.",
+        "humanDoc": "/docs/reference/packages/templates",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/templates.mdx"
+      },
+      "tools": {
+        "id": "tools",
+        "path": "packages/tools",
+        "checks": [
+          "pnpm --filter @agentskit/tools test",
+          "pnpm --filter @agentskit/tools lint"
+        ],
+        "humanDoc": "/docs/reference/packages/tools",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/tools.mdx"
+      },
+      "validation": {
+        "id": "validation",
+        "path": "packages/validation",
+        "checks": [
+          "pnpm --filter @agentskit/validation test",
+          "pnpm --filter @agentskit/validation lint"
+        ],
+        "humanDoc": "/docs/production/security/input-validation",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/validation.mdx"
+      },
+      "vue": {
+        "id": "vue",
+        "path": "packages/vue",
+        "checks": [
+          "pnpm --filter @agentskit/vue test",
+          "pnpm --filter @agentskit/vue lint"
+        ],
+        "purpose": "Vue 3 binding for the `ChatReturn` contract from `@agentskit/core`. Returns a reactive object via `reactive()` that tracks messages, input, and streaming state, and tears down automatically when the component scope is disposed.",
+        "humanDoc": "/docs/reference/packages/vue",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/vue.mdx"
+      }
+    },
+    "intents": {},
+    "changes": {}
+  }
+}

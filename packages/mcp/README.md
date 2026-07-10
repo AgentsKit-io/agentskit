@@ -1,5 +1,7 @@
 # @agentskit/mcp
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 [![stability](https://img.shields.io/badge/stability-alpha-orange)](../../docs/STABILITY.md)
 
 Expose AgentsKit tools as an [MCP](https://modelcontextprotocol.io) server — use

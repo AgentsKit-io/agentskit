@@ -1,5 +1,7 @@
 # @agentskit/observability
 
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
 See exactly what your agent does — every LLM call, tool execution, and reasoning step — with zero coupling to your agent code.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/observability?color=blue)](https://www.npmjs.com/package/@agentskit/observability)
