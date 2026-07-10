@@ -15,7 +15,7 @@
  *   node scripts/check-count-drift.mjs --update-baseline
  */
 import { readFileSync, writeFileSync, existsSync, readdirSync, statSync } from 'node:fs'
-import { join, relative } from 'node:path'
+import { join } from 'node:path'
 import { computeStats, REPO_ROOT } from './compute-stats.mjs'
 
 const counts = computeStats().counts
