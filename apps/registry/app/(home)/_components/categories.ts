@@ -8,9 +8,27 @@ export const CATEGORY: Record<string, { label: string; blurb: string; icon: stri
   fintech: { label: 'Fintech', blurb: 'KYC, sanctions, fraud, and transaction monitoring.', icon: 'landmark' },
   clinical: { label: 'Clinical', blurb: 'Intake triage, SOAP notes, redaction, and referrals.', icon: 'heart-pulse' },
   ops: { label: 'Ops', blurb: 'Internal workflows and knowledge promotion.', icon: 'git-branch' },
+  productivity: { label: 'Productivity', blurb: 'Docs chat, meeting actions, and weekly digests.', icon: 'calendar' },
+  sales: { label: 'Sales', blurb: 'Pipeline, outreach, proposals, and renewals.', icon: 'target' },
+  hr: { label: 'HR', blurb: 'Hiring, onboarding, policies, and performance.', icon: 'users' },
+  devops: { label: 'DevOps', blurb: 'Incidents, deploys, infra, and SRE workflows.', icon: 'server' },
+  data: { label: 'Data', blurb: 'SQL, lineage, quality, and analytics narratives.', icon: 'database' },
+  ecommerce: { label: 'E-commerce', blurb: 'Listings, returns, fraud, and fulfillment.', icon: 'shopping-cart' },
+  product: { label: 'Product', blurb: 'PRDs, prioritization, feedback, and roadmaps.', icon: 'layout' },
+  cybersecurity: { label: 'Security', blurb: 'Threat triage, vulns, IR, and compliance gaps.', icon: 'shield' },
+  insurance: { label: 'Insurance', blurb: 'Claims, underwriting, and policy workflows.', icon: 'umbrella' },
+  realestate: { label: 'Real Estate', blurb: 'Listings, leases, comps, and closings.', icon: 'home' },
+  education: { label: 'Education', blurb: 'Lesson plans, rubrics, and student feedback.', icon: 'graduation-cap' },
+  content: { label: 'Content', blurb: 'Blog, newsletter, podcast, and repurposing.', icon: 'file-text' },
+  compliance: { label: 'Compliance', blurb: 'LGPD, GDPR, retention, and breach notices.', icon: 'clipboard-check' },
+  ecosystem: { label: 'Ecosystem', blurb: 'Dogfood for doc-bridge, playbook, and registry.', icon: 'boxes' },
 }
 
-const ORDER = ['coding', 'research', 'marketing', 'agency', 'support', 'legal', 'fintech', 'clinical', 'ops']
+const ORDER = [
+  'coding', 'research', 'marketing', 'agency', 'support', 'legal', 'fintech', 'clinical', 'ops',
+  'productivity', 'sales', 'hr', 'devops', 'data', 'ecommerce', 'product', 'cybersecurity',
+  'insurance', 'realestate', 'education', 'content', 'compliance', 'ecosystem',
+]
 
 export function categoryMeta(id: string) {
   return CATEGORY[id] ?? { label: id.charAt(0).toUpperCase() + id.slice(1), blurb: '', icon: 'box' }
