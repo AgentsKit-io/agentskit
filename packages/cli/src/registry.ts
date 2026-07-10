@@ -34,7 +34,7 @@ export interface RegistryAgent {
   files: string[]
   sources: RegistryFile[]
   /** draft agents are catalog-only until promoted to validated. */
-  status?: 'draft' | 'validated' | 'deprecated'
+  status?: 'draft' | 'alpha' | 'validated' | 'deprecated'
   installable?: boolean
   /** Inline skill for `--run` (data only). Null for agents that compose tools. */
   skill?: RegistrySkill | null
@@ -132,6 +132,9 @@ function assertInstallable(agent: RegistryAgent): void {
       `"${agent.id}" is a catalog draft — not installable yet. ` +
         `Browse the roadmap at https://registry.agentskit.io/r/catalog.json`,
     )
+  }
+  if (agent.status === 'alpha') {
+    console.warn(`[agentskit] "${agent.id}" is alpha — experimental; review before production use.`)
   }
   if (agent.status === 'deprecated') {
     throw new Error(`"${agent.id}" is deprecated and no longer installable from the registry.`)
