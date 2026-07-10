@@ -95,7 +95,7 @@ export type SandboxExecRuntimeOpts = {
   readonly sandboxExecPath?: string
 }
 
-const sbplString = (raw: string): string => `"${raw.replace(/"/g, '\\"')}"`
+const sbplString = (raw: string): string => JSON.stringify(raw)
 
 export const renderSandboxExecProfile = (policy: SandboxExecPolicy): string => {
   const lines: string[] = [

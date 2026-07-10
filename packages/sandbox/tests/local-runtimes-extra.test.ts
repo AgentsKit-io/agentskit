@@ -71,6 +71,11 @@ describe('renderSandboxExecProfile', () => {
     expect(p).toContain('(allow network*)')
     expect(p).toContain('(allow file-read* (subpath "/data"))')
   })
+
+  it('escapes paths as SBPL string literals', () => {
+    const p = renderSandboxExecProfile({ workspaceRoot: '/tmp/a"b\\c\nnext' })
+    expect(p).toContain('(allow file-write* (subpath "/tmp/a\\"b\\\\c\\nnext"))')
+  })
 })
 
 describe('sandboxExecRuntime', () => {
