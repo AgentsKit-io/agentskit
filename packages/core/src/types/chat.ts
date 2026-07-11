@@ -1,7 +1,7 @@
 import type { MaybePromise } from './common'
 import type { StreamStatus, TokenUsage } from './stream'
 import type { Message } from './message'
-import type { ArgsValidator, ToolCall, ToolCallHandlerContext, ToolDefinition } from './tool'
+import type { ArgsValidator, ToolAuthorizer, ToolCall, ToolCallHandlerContext, ToolDefinition } from './tool'
 import type { AdapterFactory } from './adapter'
 import type { ChatMemory } from './memory'
 import type { Retriever } from './retrieval'
@@ -28,6 +28,7 @@ export interface ChatConfig {
   onMessage?: (message: Message) => void
   onError?: (error: Error) => void
   onToolCall?: (toolCall: ToolCall, context: ToolCallHandlerContext) => MaybePromise<void>
+  authorizeToolCall?: ToolAuthorizer
   observers?: Observer[]
   /**
    * Opt-in runtime validator for tool-call arguments (ADR-0008). When set,

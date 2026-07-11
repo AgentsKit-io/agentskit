@@ -5,6 +5,8 @@ import type {
   MaybePromise,
   SkillDefinition,
   ToolCall,
+  ToolAuthorizationContext,
+  ToolAuthorizer,
   ToolDefinition,
   ToolExecutionContext,
 } from './types'
@@ -31,25 +33,25 @@ export interface ActivateSkillsResult {
 
 export async function activateSkills(
   skills: SkillDefinition[],
-  baseSystemPrompt?: string,
+  prompt?: string,
 ): Promise<ActivateSkillsResult> {
   if (skills.length === 0) {
-    return { systemPrompt: baseSystemPrompt, skillTools: [] }
+    return { systemPrompt: prompt, skillTools: [] }
   }
 
-  const skillPrompts = skills.map(s => `--- ${s.name} ---\n${s.systemPrompt}`)
-  const base = baseSystemPrompt ? `${baseSystemPrompt}\n\n` : ''
-  const systemPrompt = `${base}${skillPrompts.join('\n\n')}`
+  const prompts = skills.map(s => `--- ${s.name} ---\n${s.systemPrompt}`)
+  const base = prompt ? `${prompt}\n\n` : ''
+  const system = `${base}${prompts.join('\n\n')}`
 
-  const skillTools: ToolDefinition[] = []
+  const tools: ToolDefinition[] = []
   for (const skill of skills) {
     if (skill.onActivate) {
-      const activation = await skill.onActivate()
-      skillTools.push(...(activation.tools ?? []))
+      const a = await skill.onActivate()
+      tools.push(...(a.tools ?? []))
     }
   }
 
-  return { systemPrompt, skillTools }
+  return { systemPrompt: system, skillTools: tools }
 }
 
 // --- executeSafeTool ---
@@ -71,23 +73,30 @@ export interface ExecuteSafeToolOptions {
   onConfirm?: (toolCall: ToolCall) => MaybePromise<boolean>
   /** Opt-in arg validation against `tool.schema` (ADR-0008). */
   validate?: ArgsValidator
+  authorize?: ToolAuthorizer
 }
+
+export async function auth(fn: ToolAuthorizer | undefined, call: ToolCall, context: ToolAuthorizationContext): Promise<void> {
+  if (!fn) return
+  await import('./tool-authorization-internal.js').then(m => m.authorize(fn, call, context))
+}
+
 
 export async function executeSafeTool(
   options: ExecuteSafeToolOptions,
 ): Promise<ToolExecResult> {
-  const { tool, toolCall, context, emitter, lifecycle, onPartial, onConfirm, validate } = options
-  const startTime = Date.now()
+  const { tool, toolCall, context, emitter, lifecycle, onPartial, onConfirm, validate, authorize } = options
+  const began = Date.now()
 
   // Missing tool
   if (!tool?.execute) {
     const err = new ToolError({
       code: ErrorCodes.AK_TOOL_NOT_FOUND,
       message: `Tool "${toolCall.name}" not found or has no execute function`,
-      hint: `Register the tool in your ChatConfig or runtime config, e.g. { tools: [myTool] }. Available tools must export an "execute" function.`,
+      hint: 'Register an executable tool in ChatConfig, e.g. { tools: [myTool] }.',
     })
     emitter.emit({ type: 'error', error: err })
-    return { status: 'error', error: err.toString(), durationMs: Date.now() - startTime }
+    return { status: 'error', error: err.toString(), durationMs: Date.now() - began }
   }
 
   if (validate && tool.schema) {
@@ -98,7 +107,7 @@ export async function executeSafeTool(
         message: v.message ?? `Tool "${toolCall.name}" received invalid arguments`,
       })
       emitter.emit({ type: 'error', error: err })
-      return { status: 'error', error: err.toString(), durationMs: Date.now() - startTime }
+      return { status: 'error', error: err.toString(), durationMs: Date.now() - began }
     }
   }
 
@@ -107,10 +116,18 @@ export async function executeSafeTool(
     if (onConfirm) {
       const confirmed = await onConfirm(toolCall)
       if (!confirmed) {
-        return { status: 'skipped', result: 'Tool execution declined by confirmation handler', durationMs: Date.now() - startTime }
+        return { status: 'skipped', result: 'Tool execution declined by confirmation handler', durationMs: Date.now() - began }
       }
     }
     // No onConfirm callback = auto-confirm (backwards compatible)
+  }
+
+  try {
+    await auth(authorize, toolCall, { ...context, tool, phase: 'execute' })
+  } catch (error) {
+    const err = error as ToolError
+    emitter.emit({ type: 'error', error: err })
+    return { status: 'error', error: err.toString(), durationMs: Date.now() - began }
   }
 
   await lifecycle.init(tool)
@@ -128,25 +145,25 @@ export async function executeSafeTool(
       type: 'tool:end',
       name: toolCall.name,
       result,
-      durationMs: Date.now() - startTime,
+      durationMs: Date.now() - began,
     })
-    return { status: 'complete', result, durationMs: Date.now() - startTime }
+    return { status: 'complete', result, durationMs: Date.now() - began }
   } catch (error) {
     const err = error instanceof ToolError
       ? error
       : new ToolError({
           code: ErrorCodes.AK_TOOL_EXEC_FAILED,
           message: `Tool "${toolCall.name}" threw during execution: ${error instanceof Error ? error.message : String(error)}`,
-          hint: `Check the tool's execute() implementation. The error above comes from the tool itself, not AgentsKit.`,
+          hint: 'Check the tool execute() implementation.',
           cause: error,
         })
     emitter.emit({
       type: 'tool:end',
       name: toolCall.name,
       result: `Error: ${err.message}`,
-      durationMs: Date.now() - startTime,
+      durationMs: Date.now() - began,
     })
     emitter.emit({ type: 'error', error: err })
-    return { status: 'error', error: err.toString(), durationMs: Date.now() - startTime }
+    return { status: 'error', error: err.toString(), durationMs: Date.now() - began }
   }
 }

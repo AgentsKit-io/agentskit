@@ -14,6 +14,110 @@ function createTestController(overrides: Partial<ChatConfig> = {}) {
 }
 
 describe('createChatController', () => {
+  it('authorizes application proposals and reauthorizes before execution', async () => {
+    let allowed = true
+    const execute = vi.fn()
+    const authorizeToolCall = vi.fn((_call, context) => ({ allowed, reason: `denied at ${context.phase}` }))
+    const ctrl = createTestController({
+      tools: [{ name: 'write', requiresConfirmation: true, execute }],
+      authorizeToolCall,
+    })
+    const proposal = { id: 'authorized-then-revoked', name: 'write', args: {} }
+    await proposeToolCall(ctrl, proposal)
+    allowed = false
+    await ctrl.approve(proposal.id)
+
+    expect(authorizeToolCall.mock.calls.map(([, context]) => context.phase)).toEqual(['propose', 'execute'])
+    expect(execute).not.toHaveBeenCalled()
+    expect(ctrl.getState().messages[0].toolCalls?.[0]).toMatchObject({ status: 'error', error: expect.stringContaining('denied at execute') })
+  })
+
+  it('refuses unauthorized application and model proposals before commit', async () => {
+    const authorizeToolCall = vi.fn(() => ({ allowed: false, reason: 'not allowed' }))
+    const tool = { name: 'write', requiresConfirmation: true, execute: vi.fn() }
+    const app = createTestController({ tools: [tool], authorizeToolCall })
+    await expect(proposeToolCall(app, { id: 'denied-app', name: 'write', args: {} })).rejects.toMatchObject({ code: 'AK_TOOL_FORBIDDEN' })
+    expect(app.getState().messages).toEqual([])
+
+    const model = createChatController({
+      adapter: createMockAdapter([
+        { type: 'tool_call', toolCall: { id: 'denied-model', name: 'write', args: '{}' } },
+        { type: 'done' },
+      ]),
+      tools: [tool],
+      authorizeToolCall,
+    })
+    await model.send('forge capability=write')
+    expect(model.getState().messages.flatMap(message => message.toolCalls ?? [])).toEqual([])
+    expect(model.getState().error).toMatchObject({ code: 'AK_TOOL_FORBIDDEN' })
+    expect(tool.execute).not.toHaveBeenCalled()
+  })
+
+  it('rechecks the current authorizer when policy changes during authorization', async () => {
+    let release = () => undefined
+    let executing = () => undefined
+    const blocked = new Promise<void>(resolve => { release = resolve })
+    const started = new Promise<void>(resolve => { executing = resolve })
+    const execute = vi.fn()
+    const authorizeToolCall = vi.fn(async (_call, context) => {
+      if (context.phase === 'execute') { executing(); await blocked }
+      return { allowed: true }
+    })
+    const ctrl = createTestController({
+      tools: [{ name: 'write', requiresConfirmation: true, execute }], authorizeToolCall,
+    })
+    await proposeToolCall(ctrl, { id: 'revoked-during-check', name: 'write', args: {} })
+    const approval = ctrl.approve('revoked-during-check')
+    await started
+    ctrl.updateConfig({ authorizeToolCall: () => ({ allowed: false, reason: 'revoked' }) })
+    release()
+    await approval
+    expect(execute).not.toHaveBeenCalled()
+    expect(ctrl.getState().messages[0].toolCalls?.[0]).toMatchObject({ status: 'error', error: expect.stringContaining('not authorized') })
+  })
+
+  it('fails closed when the tool registry changes during authorization', async () => {
+    let release = () => undefined
+    let executing = () => undefined
+    const blocked = new Promise<void>(resolve => { release = resolve })
+    const started = new Promise<void>(resolve => { executing = resolve })
+    const execute = vi.fn()
+    const authorizeToolCall = vi.fn(async (_call, context) => {
+      if (context.phase === 'execute') { executing(); await blocked }
+      return { allowed: true }
+    })
+    const ctrl = createTestController({
+      tools: [{ name: 'write', requiresConfirmation: true, execute }], authorizeToolCall,
+    })
+    await proposeToolCall(ctrl, { id: 'removed-during-check', name: 'write', args: {} })
+    const approval = ctrl.approve('removed-during-check')
+    await started
+    ctrl.updateConfig({ tools: [] })
+    release()
+    await approval
+    expect(execute).not.toHaveBeenCalled()
+  })
+
+  it('observes a policy added as approval begins', async () => {
+    const execute = vi.fn()
+    const ctrl = createTestController({ tools: [{ name: 'write', requiresConfirmation: true, execute }] })
+    await proposeToolCall(ctrl, { id: 'policy-added', name: 'write', args: {} })
+    const approval = ctrl.approve('policy-added')
+    ctrl.updateConfig({ authorizeToolCall: () => ({ allowed: false, reason: 'new policy' }) })
+    await approval
+    expect(execute).not.toHaveBeenCalled()
+  })
+
+  it('defaults authorizer failures to deny', async () => {
+    const ctrl = createTestController({
+      tools: [{ name: 'write', requiresConfirmation: true, execute: vi.fn() }],
+      authorizeToolCall: () => { throw new Error('secret policy failure') },
+    })
+    await expect(proposeToolCall(ctrl, { id: 'policy-failed', name: 'write', args: {} })).rejects.toMatchObject({
+      code: 'AK_TOOL_FORBIDDEN', message: 'Tool "write" is not authorized',
+    })
+  })
+
   it('makes a proposal non-executable when onToolCall rejects', async () => {
     const onToolCall = vi.fn().mockRejectedValue(new Error('policy denied'))
     const execute = vi.fn()

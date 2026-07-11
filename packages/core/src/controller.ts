@@ -1,5 +1,5 @@
-import { buildMessage, consumeStream, createEventEmitter, safeParseArgs, createToolLifecycle } from './primitives'
-import { buildToolMap, activateSkills, executeSafeTool } from './agent-loop'
+import { buildMessage as message, consumeStream, createEventEmitter, safeParseArgs, createToolLifecycle } from './primitives'
+import { buildToolMap, activateSkills, auth, executeSafeTool as execute } from './agent-loop'
 import { buildAdapterRequest } from './controller-helpers'
 import type {
   ChatConfig,
@@ -11,15 +11,13 @@ import type {
   ToolCall,
   ToolDefinition,
 } from './types'
-
-
-export function createChatController(initialConfig: ChatConfig): ChatController {
-  let config = initialConfig
+export function createChatController(initial: ChatConfig): ChatController {
+  let config = initial
   let system = config.systemPrompt
   let source: StreamSource | undefined
   let gen = 0
   let state: ChatState = {
-    messages: initialConfig.initialMessages ?? [],
+    messages: initial.initialMessages ?? [],
     status: 'idle',
     input: '',
     error: null,
@@ -31,6 +29,11 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
   let lifecycle = createToolLifecycle(toolMap)
   let hydrated = false
   let active = false
+  const authorize: NonNullable<ChatConfig['authorizeToolCall']> = async (call, context) => {
+    const fn = config.authorizeToolCall
+    const decision = fn ? await fn(call, context) : { allowed: true }
+    return fn === config.authorizeToolCall && toolMap.get(call.name) === context.tool ? decision : { allowed: false }
+  }
 
   const rebuild = (extraTools?: ToolDefinition[]) => {
     toolMap = buildToolMap(config.tools, extraTools)
@@ -56,11 +59,11 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
 
   const set = (updater: ChatState | ((current: ChatState) => ChatState)) => {
     state = typeof updater === 'function' ? updater(state) : updater
-    void persistMessages(state.messages)
+    void persist(state.messages)
     emit()
   }
 
-  const persistMessages = async (messages: Message[]) => {
+  const persist = async (messages: Message[]) => {
     try {
       await config.memory?.save(messages)
       if (config.memory) {
@@ -71,7 +74,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
     }
   }
 
-  const hydrateMemory = async () => {
+  const hydrate = async () => {
     if (hydrated || !config.memory) return
     hydrated = true
 
@@ -87,7 +90,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
     }
   }
 
-  void hydrateMemory()
+  void hydrate()
 
   const setMsg = (aid: string, updater: (message: Message) => Message) => {
     set(current => ({
@@ -120,6 +123,8 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
       status: tool?.requiresConfirmation ? 'requires_confirmation' : 'pending',
     }
 
+    await auth(authorize, toolCall, { messages: state.messages, tool, phase: 'propose' })
+
     setMsg(aid, message => ({
       ...message,
       toolCalls: [...(message.toolCalls ?? []), toolCall],
@@ -141,7 +146,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
 
     // No tool or no execute — use executeSafeTool for consistent error handling
     if (!tool?.execute) {
-      const outcome = await executeSafeTool({
+      const outcome = await execute({
         tool,
         toolCall,
         context: { messages: state.messages, call: toolCall },
@@ -157,13 +162,14 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
 
     patchCall(aid, toolCall.id, { status: 'running' })
 
-    const outcome = await executeSafeTool({
+    const outcome = await execute({
       tool,
       toolCall,
       context: { messages: state.messages, call: toolCall },
       emitter,
       lifecycle,
       validate: config.validateArgs,
+      authorize,
       onPartial: (partial) => {
         patchCall(aid, toolCall.id, { result: partial })
       },
@@ -176,38 +182,38 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
     })
   }
 
-  const DEFAULT_MAX_TOOL_ITERATIONS = 5
+  const LIMIT = 5
 
-  const isCallSettled = (status: ToolCall['status']): boolean =>
+  const settled = (status: ToolCall['status']): boolean =>
     status === 'complete' || status === 'error'
 
-  const isCallPending = (status: ToolCall['status']): boolean =>
+  const pending = (status: ToolCall['status']): boolean =>
     status === 'pending' || status === 'running' || status === 'requires_confirmation'
 
-  const run = async (aid: string, queryText: string, generation: number): Promise<boolean> => {
+  const run = async (aid: string, q: string, g: number): Promise<boolean> => {
     await activate()
-    const request = await buildAdapterRequest(config, state.messages, queryText, system, [...toolMap.values()])
-    if (generation !== gen) return false
+    const request = await buildAdapterRequest(config, state.messages, q, system, [...toolMap.values()])
+    if (g !== gen) return false
     source = config.adapter.createSource(request)
 
-    const streamStart = Date.now()
-    let firstTokenEmitted = false
+    const began = Date.now()
+    let first = false
     let errored = false
 
     emitter.emit({ type: 'llm:start', messageCount: request.messages.length })
 
     await consumeStream(source, {
-      onText(accumulated) {
-        if (!firstTokenEmitted) {
-          emitter.emit({ type: 'llm:first-token', latencyMs: Date.now() - streamStart })
-          firstTokenEmitted = true
+      onText(text) {
+        if (!first) {
+          emitter.emit({ type: 'llm:first-token', latencyMs: Date.now() - began })
+          first = true
         }
-        setMsg(aid, message => ({ ...message, content: accumulated }))
+        setMsg(aid, message => ({ ...message, content: text }))
       },
-      onReasoning(accumulated) {
+      onReasoning(text) {
         setMsg(aid, message => ({
           ...message,
-          metadata: { ...message.metadata, reasoning: accumulated },
+          metadata: { ...message.metadata, reasoning: text },
         }))
       },
       async onToolCall(chunk) {
@@ -242,38 +248,38 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
         emitter.emit({ type: 'error', error })
         config.onError?.(error)
       },
-      onDone(accumulatedText) {
-        emitter.emit({ type: 'llm:end', content: accumulatedText, durationMs: Date.now() - streamStart })
+      onDone(text) {
+        emitter.emit({ type: 'llm:end', content: text, durationMs: Date.now() - began })
       },
     })
 
-    return generation === gen && !errored
+    return g === gen && !errored
   }
 
   const finalize = (aid: string) => {
-    let completedMessage: Message | undefined
+    let done: Message | undefined
     set(current => ({
       ...current,
       messages: current.messages.map(message => {
         if (message.id !== aid) return message
-        completedMessage = { ...message, status: 'complete' as const }
-        return completedMessage
+        done = { ...message, status: 'complete' as const }
+        return done
       }),
       status: 'idle',
       error: null,
     }))
-    if (completedMessage) config.onMessage?.(completedMessage)
+    if (done) config.onMessage?.(done)
   }
 
-  const appendToolResultsAndContinue = (aid: string, settledCalls: ToolCall[]): string => {
-    const toolResultMessages = settledCalls.map(call =>
-      buildMessage({
+  const continueTools = (aid: string, calls: ToolCall[]): string => {
+    const results = calls.map(call =>
+      message({
         role: 'tool',
         content: call.result ?? call.error ?? '',
         toolCallId: call.id,
       })
     )
-    const nextAssistant = buildMessage({ role: 'assistant', content: '', status: 'streaming' })
+    const nextA = message({ role: 'assistant', content: '', status: 'streaming' })
 
     set(current => ({
       ...current,
@@ -281,14 +287,14 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
         ...current.messages.map(message =>
           message.id === aid ? { ...message, status: 'complete' as const } : message
         ),
-        ...toolResultMessages,
-        nextAssistant,
+        ...results,
+        nextA,
       ],
       status: 'streaming',
       error: null,
     }))
 
-    return nextAssistant.id
+    return nextA.id
   }
 
   /**
@@ -297,39 +303,39 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
    * `approve`/`deny` so the flow is identical whether tools auto-run or
    * wait for user confirmation.
    */
-  const resume = async (aid: string, generation: number) => {
-    const maxIterations = config.maxToolIterations ?? DEFAULT_MAX_TOOL_ITERATIONS
-    let currentId = aid
+  const resume = async (aid: string, g: number) => {
+    const max = config.maxToolIterations ?? LIMIT
+    let id = aid
 
-    for (let iteration = 0; iteration < maxIterations; iteration++) {
-      const assistant = state.messages.find(message => message.id === currentId)
+    for (let iteration = 0; iteration < max; iteration++) {
+      const assistant = state.messages.find(message => message.id === id)
       const calls = assistant?.toolCalls ?? []
-      const hasPending = calls.some(call => isCallPending(call.status))
-      const settled = calls.filter(call => isCallSettled(call.status))
+      const waits = calls.some(call => pending(call.status))
+      const complete = calls.filter(call => settled(call.status))
 
       // Nothing to feed back, or something still awaiting confirmation —
       // stop here; the caller drives the next step.
-      if (settled.length === 0 || hasPending) {
-        finalize(currentId)
+      if (complete.length === 0 || waits) {
+        finalize(id)
         return
       }
 
-      currentId = appendToolResultsAndContinue(currentId, settled)
-      const ok = await run(currentId, '', generation)
+      id = continueTools(id, complete)
+      const ok = await run(id, '', g)
       if (!ok) return
     }
 
-    finalize(currentId)
+    finalize(id)
   }
 
   /**
    * Runs one `send` — an LLM turn, plus any follow-up turns needed to feed
    * completed tool results back to the model.
    */
-  const startStream = async (aid: string, text: string, generation: number) => {
-    const ok = await run(aid, text, generation)
+  const start = async (aid: string, text: string, g: number) => {
+    const ok = await run(aid, text, g)
     if (!ok) return
-    await resume(aid, generation)
+    await resume(aid, g)
   }
 
   const controller: ChatController = {
@@ -342,18 +348,18 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
       if (!text.trim()) return
       gen++
 
-      const userMessage = buildMessage({ role: 'user', content: text })
-      const assistant = buildMessage({ role: 'assistant', content: '', status: 'streaming' })
+      const user = message({ role: 'user', content: text })
+      const assistant = message({ role: 'assistant', content: '', status: 'streaming' })
 
       set(current => ({
         ...current,
-        messages: [...current.messages, userMessage, assistant],
+        messages: [...current.messages, user, assistant],
         status: 'streaming',
         input: '',
         error: null,
       }))
 
-      await startStream(assistant.id, text, gen)
+      await start(assistant.id, text, gen)
     },
     stop() {
       gen++
@@ -364,22 +370,22 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
       const messages = [...state.messages]
       if (messages.length < 2) return
 
-      const lastAssistant = messages[messages.length - 1]
+      const last = messages[messages.length - 1]
       const lastUser = messages[messages.length - 2]
-      if (lastAssistant.role !== 'assistant' || lastUser.role !== 'user') return
+      if (last.role !== 'assistant' || lastUser.role !== 'user') return
       gen++
 
-      const withoutLast = messages.slice(0, -1)
-      const replacement = buildMessage({ role: 'assistant', content: '', status: 'streaming' })
+      const prior = messages.slice(0, -1)
+      const rep = message({ role: 'assistant', content: '', status: 'streaming' })
 
       set(current => ({
         ...current,
-        messages: [...withoutLast, replacement],
+        messages: [...prior, rep],
         status: 'streaming',
         error: null,
       }))
 
-      await startStream(replacement.id, lastUser.content, gen)
+      await start(rep.id, lastUser.content, gen)
     },
     async edit(messageId, newContent, opts = {}) {
       const messages = state.messages
@@ -411,59 +417,59 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
 
       gen++
       source?.abort()
-      const replacement = buildMessage({
+      const rep = message({
         role: 'assistant',
         content: '',
         status: 'streaming',
       })
 
-      const nextMessages = [...truncated, replacement]
+      const next = [...truncated, rep]
       set(current => ({
         ...current,
-        messages: nextMessages,
+        messages: next,
         status: 'streaming',
         error: null,
       }))
 
-      await startStream(replacement.id, newContent, gen)
+      await start(rep.id, newContent, gen)
     },
     async regenerate(messageId) {
       const messages = state.messages
       if (messages.length < 2) return
 
       // Find the target assistant message.
-      let targetIndex: number
+      let idx: number
       if (messageId) {
-        targetIndex = messages.findIndex(m => m.id === messageId && m.role === 'assistant')
-        if (targetIndex === -1) return
+        idx = messages.findIndex(m => m.id === messageId && m.role === 'assistant')
+        if (idx === -1) return
       } else {
-        targetIndex = messages.length - 1
-        if (messages[targetIndex].role !== 'assistant') return
+        idx = messages.length - 1
+        if (messages[idx].role !== 'assistant') return
       }
 
       // The preceding user message drives the regeneration.
-      let userIndex = targetIndex - 1
-      while (userIndex >= 0 && messages[userIndex].role !== 'user') userIndex--
-      if (userIndex < 0) return
+      let ui = idx - 1
+      while (ui >= 0 && messages[ui].role !== 'user') ui--
+      if (ui < 0) return
 
       gen++
       source?.abort()
-      const priorTurns = messages.slice(0, targetIndex)
-      const replacement = buildMessage({
+      const prior = messages.slice(0, idx)
+      const rep = message({
         role: 'assistant',
         content: '',
         status: 'streaming',
       })
-      const nextMessages = [...priorTurns, replacement]
+      const next = [...prior, rep]
 
       set(current => ({
         ...current,
-        messages: nextMessages,
+        messages: next,
         status: 'streaming',
         error: null,
       }))
 
-      await startStream(replacement.id, messages[userIndex].content, gen)
+      await start(rep.id, messages[ui].content, gen)
     },
     setInput(value) {
       set(current => ({ ...current, input: value }))
@@ -485,7 +491,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
     proposeToolCall: p => import('./tool-proposal-internal.js').then(m => m.withAuthority(
       controller,
       p,
-      n => [toolMap.get(n), config.validateArgs, config.onToolCall],
+      n => [toolMap.get(n), config.validateArgs, config.onToolCall, authorize],
     )),
     async approve(tid) {
       const msg = state.messages.find(m =>
@@ -499,13 +505,14 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
 
       patchCall(msg.id, tid, { status: 'running' })
 
-      const outcome = await executeSafeTool({
+      const outcome = await execute({
         tool,
         toolCall: tc,
         context: { messages: state.messages, call: tc },
         emitter,
         lifecycle,
         validate: config.validateArgs,
+        authorize,
         onPartial: (partial) => {
           patchCall(msg.id, tid, { result: partial })
         },
@@ -540,7 +547,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
       rebuild()
       lifecycle = createToolLifecycle(toolMap)
       void activate()
-      void hydrateMemory()
+      void hydrate()
     },
   }
   return controller

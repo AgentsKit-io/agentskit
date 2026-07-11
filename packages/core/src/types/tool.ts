@@ -144,3 +144,8 @@ export interface ToolCallHandlerContext {
   messages: Message[]
   tool?: ToolDefinition
 }
+
+export type ToolAuthorizationPhase = 'propose' | 'execute'
+export interface ToolAuthorizationContext extends ToolCallHandlerContext { phase: ToolAuthorizationPhase }
+export interface ToolAuthorizationDecision { allowed: boolean; reason?: string }
+export type ToolAuthorizer = (toolCall: ToolCall, context: ToolAuthorizationContext) => MaybePromise<ToolAuthorizationDecision>

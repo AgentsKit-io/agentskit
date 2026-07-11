@@ -23,6 +23,7 @@ npm install @agentskit/core
   regenerate, setInput, clear, approve, deny, updateConfig }`.
 - `defineTool(config)` — typed tool factory with JSON-Schema input
   inference.
+- `ChatConfig.authorizeToolCall` — trusted host authorization before tool proposal and again before execution. Callback failures default to deny.
 - `createInMemoryMemory` / `createLocalStorageMemory` — default
   `ChatMemory` implementations.
 - `createStaticRetriever` / `formatRetrievedDocuments` — RAG-less
