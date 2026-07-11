@@ -53,7 +53,10 @@ export function InputBar({
   }, [])
 
   useInput((input, key) => {
-    if (isBusy) return
+    if (isBusy) {
+      if (chat.status === 'streaming' && key.escape) chat.stop()
+      return
+    }
 
     if (key.upArrow) {
       if (effectiveHistory.length === 0) return
@@ -114,7 +117,7 @@ export function InputBar({
 
   const hint = isBusy
     ? chat.status === 'streaming'
-      ? 'streaming response... press Ctrl+C to abort'
+      ? 'streaming response... press Esc to stop'
       : 'input disabled'
     : effectiveHistory.length > 0
       ? `${placeholder}  ·  ↑/↓ to recall previous messages`
