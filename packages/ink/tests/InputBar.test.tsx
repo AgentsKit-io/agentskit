@@ -139,6 +139,15 @@ describe('InputBar', () => {
     expect(setInput).not.toHaveBeenCalled()
   })
 
+  it('stops the streaming response on escape', () => {
+    const stop = vi.fn()
+    const chat = mockChat({ status: 'streaming', stop })
+    render(<InputBar chat={chat} />)
+
+    capturedHandler!('', key({ escape: true }))
+    expect(stop).toHaveBeenCalledOnce()
+  })
+
   it('disabled prop blocks all input', () => {
     const setInput = vi.fn()
     const send = vi.fn()
@@ -350,6 +359,7 @@ describe('InputBar', () => {
     const chat = mockChat({ status: 'streaming' })
     const { lastFrame } = render(<InputBar chat={chat} />)
     expect(lastFrame()).toContain('streaming response')
+    expect(lastFrame()).toContain('Esc to stop')
   })
 
   it('shows disabled hint when disabled=true and not streaming', () => {
