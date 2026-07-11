@@ -3,6 +3,7 @@ import { createApp, h, nextTick, type Component } from 'vue'
 import type { Message as MessageType, ChatReturn, ToolCall } from '@agentskit/core'
 import {
   Message,
+  ChatRoot,
   InputBar,
   Markdown,
   CodeBlock,
@@ -26,6 +27,13 @@ const toolCall = (over: Partial<ToolCall> = {}): ToolCall =>
   ({ id: 't1', name: 'search', args: { q: 'x' }, status: 'pending', result: '', ...over }) as ToolCall
 
 describe('@agentskit/vue components', () => {
+  it('ChatRoot renders its default slot without creating chat state', async () => {
+    const { root, unmount } = mount(() => h(ChatRoot, {}, { default: () => h('p', 'application chat') }))
+    await nextTick()
+    expect(root.querySelector('[data-ak-chat]')?.textContent).toBe('application chat')
+    unmount()
+  })
+
   it('Message renders role, status, content + slots', async () => {
     const { root, unmount } = mount(() =>
       h(Message, { message: msg() }, { avatar: () => 'A', actions: () => 'X' }),

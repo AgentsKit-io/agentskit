@@ -18,6 +18,7 @@ npm install vue
 ## Primary exports
 
 - `useChat(config): ChatReturn` — Vue 3 composable, reactive via `reactive()` + auto-cleanup on scope dispose.
+- `<ChatRoot>` — controller-free `data-ak-chat` root that renders its default slot; use it when composing an application shell around an existing `useChat` result.
 - `<ChatContainer :config="...">` — batteries-included headless container using `data-ak-*` attributes.
 - Headless primitives mirroring `@agentskit/react` (compose them yourself): `Message`, `InputBar`, `Markdown`, `CodeBlock`, `ToolCallView`, `ThinkingIndicator`, `ToolConfirmation`. Each renders `data-ak-*` attributes only.
 
