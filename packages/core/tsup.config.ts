@@ -17,6 +17,7 @@ export default defineConfig({
     a2a: 'src/a2a.ts',
     manifest: 'src/manifest.ts',
     'eval-format': 'src/eval-format.ts',
+    'memory-validation': 'src/memory-validation.ts',
   },
   format: ['esm', 'cjs'],
   dts: { compilerOptions: { ignoreDeprecations: "6.0" } },
