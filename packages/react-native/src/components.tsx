@@ -61,10 +61,11 @@ export interface MessageProps {
   avatar?: ReactNode
   actions?: ReactNode
   style?: Style
+  contentStyle?: Style
   testID?: string
 }
 
-export function Message({ message, avatar, actions, style, testID = 'ak-message' }: MessageProps) {
+export function Message({ message, avatar, actions, style, contentStyle, testID = 'ak-message' }: MessageProps) {
   return (
     <View
       testID={testID}
@@ -72,7 +73,7 @@ export function Message({ message, avatar, actions, style, testID = 'ak-message'
       accessibilityLabel={`${message.role} message (${message.status})`}
     >
       {avatar ? <View testID="ak-avatar">{avatar}</View> : null}
-      <Text testID="ak-content">{message.content}</Text>
+      <Text testID="ak-content" style={contentStyle}>{message.content}</Text>
       {actions ? <View testID="ak-actions">{actions}</View> : null}
     </View>
   )
@@ -88,6 +89,7 @@ export interface InputBarProps {
   placeholder?: string
   disabled?: boolean
   style?: Style
+  inputStyle?: Style
   testID?: string
 }
 
@@ -96,6 +98,7 @@ export function InputBar({
   placeholder = 'Type a message...',
   disabled = false,
   style,
+  inputStyle,
   testID = 'ak-input-bar',
 }: InputBarProps) {
   const isStreaming = chat.status === 'streaming'
@@ -111,6 +114,7 @@ export function InputBar({
     <View testID={testID} style={style}>
       <TextInput
         testID="ak-input"
+        style={inputStyle}
         value={chat.input}
         onChangeText={chat.setInput}
         onSubmitEditing={handleSend}
