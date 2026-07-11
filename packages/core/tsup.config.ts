@@ -18,12 +18,15 @@ export default defineConfig({
     manifest: 'src/manifest.ts',
     'eval-format': 'src/eval-format.ts',
     'memory-validation': 'src/memory-validation.ts',
+    'tool-proposal': 'src/tool-proposal.ts',
+    'tool-proposal-internal': 'src/tool-proposal-internal.ts',
   },
   format: ['esm', 'cjs'],
   dts: { compilerOptions: { ignoreDeprecations: "6.0" } },
   sourcemap: true,
   clean: false,
   treeshake: true,
+  external: ['./tool-proposal-internal.js'],
   // tsup ships .ts entrypoints only; copy bundled JSON assets manually.
   async onSuccess() {
     await copyFile('src/security/default-taxonomy.json', 'dist/default-taxonomy.json')

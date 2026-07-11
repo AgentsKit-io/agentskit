@@ -82,6 +82,7 @@ export interface ChatController {
   setMessages: (messages: Message[]) => void
   clear: () => Promise<void>
   updateConfig: (config: Partial<ChatConfig>) => void
+  proposeToolCall: (proposal: Pick<ToolCall, 'id' | 'name' | 'args'>) => Promise<ToolCall>
   approve: (toolCallId: string) => Promise<void>
   deny: (toolCallId: string, reason?: string) => Promise<void>
 }
@@ -94,6 +95,7 @@ export interface ChatReturn extends ChatState {
   regenerate: (messageId?: string) => Promise<void>
   setInput: (value: string) => void
   clear: () => Promise<void>
+  proposeToolCall: (proposal: Pick<ToolCall, 'id' | 'name' | 'args'>) => Promise<ToolCall>
   approve: (toolCallId: string) => Promise<void>
   deny: (toolCallId: string, reason?: string) => Promise<void>
 }

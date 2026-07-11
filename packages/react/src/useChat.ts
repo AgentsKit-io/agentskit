@@ -34,6 +34,7 @@ export function useChat(config: ChatConfig): ChatReturn {
     regenerate: controllerRef.current.regenerate,
     setInput: controllerRef.current.setInput,
     clear: controllerRef.current.clear,
+    proposeToolCall: controllerRef.current.proposeToolCall,
     approve: controllerRef.current.approve,
     deny: controllerRef.current.deny,
   }
