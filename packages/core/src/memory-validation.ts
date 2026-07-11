@@ -1,12 +1,11 @@
 import { ConfigError, ErrorCodes } from './errors'
+import { cloneJsonRecord } from './json-validation'
 import type { ContentPart } from './types/content'
 import type { MemoryRecord } from './types/message'
 import type { ToolCall } from './types/tool'
 
 type SerializedMessage = MemoryRecord['messages'][number]
 
-const MAX_JSON_DEPTH = 32
-const MAX_JSON_NODES = 10_000
 const roles = new Set(['user', 'assistant', 'system', 'tool'])
 const messageStatuses = new Set(['pending', 'streaming', 'complete', 'error'])
 const toolStatuses = new Set(['pending', 'running', 'complete', 'error', 'requires_confirmation'])
@@ -24,35 +23,6 @@ function isRecord(value: unknown): value is Record<string, unknown> {
   if (typeof value !== 'object' || value === null || Array.isArray(value)) return false
   const prototype = Object.getPrototypeOf(value) as unknown
   return prototype === Object.prototype || prototype === null
-}
-
-function assertJsonValue(root: unknown): void {
-  const active = new WeakSet<object>()
-  const stack: Array<{ value: unknown; depth: number; exit?: boolean }> = [{ value: root, depth: 0 }]
-  let nodes = 0
-
-  while (stack.length > 0) {
-    const item = stack.pop()!
-    const value = item.value
-    if (item.exit) {
-      active.delete(value as object)
-      continue
-    }
-    if (++nodes > MAX_JSON_NODES || item.depth > MAX_JSON_DEPTH) invalidRecord()
-    if (value === null || typeof value === 'string' || typeof value === 'boolean') continue
-    if (typeof value === 'number') {
-      if (!Number.isFinite(value)) invalidRecord()
-      continue
-    }
-    if (!Array.isArray(value) && !isRecord(value)) invalidRecord()
-    if (active.has(value)) invalidRecord()
-    active.add(value)
-    stack.push({ value, depth: item.depth, exit: true })
-    const children = Array.isArray(value) ? value : Object.values(value)
-    for (let index = children.length - 1; index >= 0; index--) {
-      stack.push({ value: children[index], depth: item.depth + 1 })
-    }
-  }
 }
 
 function optionalString(record: Record<string, unknown>, key: string): void {
@@ -155,14 +125,8 @@ function projectMessage(message: SerializedMessage): SerializedMessage {
 }
 
 export function validateMemoryRecord(input: unknown): MemoryRecord {
-  let snapshot: unknown
-  try {
-    snapshot = structuredClone(input)
-  } catch {
-    invalidRecord()
-  }
-  assertJsonValue(snapshot)
-  if (!isRecord(snapshot) || snapshot.version !== 1 || !Array.isArray(snapshot.messages)) invalidRecord()
+  const snapshot = cloneJsonRecord(input, invalidRecord, Infinity, false)
+  if (snapshot.version !== 1 || !Array.isArray(snapshot.messages)) invalidRecord()
   const messages = snapshot.messages.map(message => {
     validateMessage(message)
     return projectMessage(message)

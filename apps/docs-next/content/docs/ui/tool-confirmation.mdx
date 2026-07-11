@@ -40,3 +40,19 @@ Surface is identical to [ToolCallView](./tool-call-view). Angular:
 
 - [HITL approvals recipe](/docs/reference/recipes/hitl-approvals)
 - [Security → mandatory sandbox](/docs/production/security/mandatory-sandbox)
+
+## Trusted application proposals
+
+Trusted application UI can enter the same confirmation flow without fabricating a model response:
+
+```ts
+const call = await chat.proposeToolCall({
+  id: crypto.randomUUID(),
+  name: 'send-email',
+  args: { to: 'ada@example.com' },
+})
+```
+
+The tool must be registered with `requiresConfirmation: true`. The configured `validateArgs` checks its schema before the canonical call appears. This method never executes the tool; use the existing `approve` or `deny` handlers.
+
+Headless controller users can import `proposeToolCall(controller, proposal)` from `@agentskit/core/tool-proposal`. The helper resolves the tool and validator through a controller-bound capability, so validation and later execution share one authority.

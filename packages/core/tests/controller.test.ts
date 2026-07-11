@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { createChatController } from '../src/controller'
+import { proposeToolCall } from '../src/tool-proposal'
 import { createInMemoryMemory } from '../src/memory'
 import { createMockAdapter } from './helpers'
 import type { Observer, AgentEvent, ChatConfig, SkillDefinition } from '../src/types'
@@ -13,6 +14,130 @@ function createTestController(overrides: Partial<ChatConfig> = {}) {
 }
 
 describe('createChatController', () => {
+  it('makes a proposal non-executable when onToolCall rejects', async () => {
+    const onToolCall = vi.fn().mockRejectedValue(new Error('policy denied'))
+    const execute = vi.fn()
+    const ctrl = createTestController({
+      tools: [{ name: 'write', requiresConfirmation: true, execute }],
+      onToolCall,
+    })
+    const proposal = { id: 'policy-denied', name: 'write', args: {} }
+
+    await expect(proposeToolCall(ctrl, proposal)).rejects.toThrow('policy denied')
+    expect(ctrl.getState().messages[0].toolCalls?.[0]).toMatchObject({ status: 'error', error: 'policy denied' })
+    await expect(proposeToolCall(ctrl, proposal)).resolves.toMatchObject({ id: proposal.id, status: 'error' })
+    expect(onToolCall).toHaveBeenCalledOnce()
+    await ctrl.approve(proposal.id)
+    expect(execute).not.toHaveBeenCalled()
+  })
+
+  it('deduplicates concurrent and reentrant proposals before the hook', async () => {
+    let ctrl: ReturnType<typeof createTestController>
+    const proposal = { id: 'same-id', name: 'write', args: {} }
+    const onToolCall = vi.fn(async () => {
+      await expect(proposeToolCall(ctrl, proposal)).resolves.toMatchObject({ id: proposal.id })
+    })
+    ctrl = createTestController({
+      tools: [{ name: 'write', requiresConfirmation: true, execute: vi.fn() }],
+      onToolCall,
+    })
+
+    const calls = await Promise.all([proposeToolCall(ctrl, proposal), proposeToolCall(ctrl, proposal)])
+    expect(calls[0]).toEqual(calls[1])
+    expect(onToolCall).toHaveBeenCalledOnce()
+    expect(ctrl.getState().messages.flatMap(message => message.toolCalls ?? [])).toHaveLength(1)
+  })
+
+  it('proposes a validated confirmed tool call without executing it', async () => {
+    const execute = vi.fn(() => 'sent')
+    const onToolCall = vi.fn()
+    const config: ChatConfig = {
+      adapter: createMockAdapter([]),
+      tools: [{
+        name: 'send-email', requiresConfirmation: true, execute,
+        schema: { type: 'object', properties: { to: { type: 'string' } }, required: ['to'] },
+      }],
+      validateArgs: (_schema, args) => ({ valid: typeof args.to === 'string' }),
+      onToolCall,
+    }
+    const ctrl = createChatController(config)
+    const proposal = { id: 'app-call-1', name: 'send-email', args: { to: 'ada@example.com' } }
+    const first = await proposeToolCall(ctrl, proposal)
+    const cyclicReplay: Record<string, unknown> = {}
+    cyclicReplay.self = cyclicReplay
+    const replay = await proposeToolCall(ctrl, { id: proposal.id, name: '', args: cyclicReplay })
+
+    expect(first).toEqual({ ...proposal, status: 'requires_confirmation' })
+    expect(replay).toEqual(first)
+    expect(ctrl.getState().messages.at(-1)?.toolCalls).toEqual([first])
+    expect(execute).not.toHaveBeenCalled()
+    expect(onToolCall).toHaveBeenCalledOnce()
+
+    await ctrl.approve(proposal.id)
+    await ctrl.approve(proposal.id)
+    expect(execute).toHaveBeenCalledOnce()
+  })
+
+  it('denies an application proposal without executing it', async () => {
+    const execute = vi.fn()
+    const ctrl = createTestController({
+      tools: [{ name: 'delete-record', requiresConfirmation: true, execute }],
+    })
+    await proposeToolCall(ctrl, { id: 'app-call-denied', name: 'delete-record', args: { id: 'record-1' } })
+    await ctrl.deny('app-call-denied', 'not now')
+    await ctrl.approve('app-call-denied')
+    expect(execute).not.toHaveBeenCalled()
+    expect(ctrl.getState().messages.flatMap(message => message.toolCalls ?? []).find(call => call.id === 'app-call-denied')).toMatchObject({ status: 'error' })
+  })
+
+  it('rejects invalid, missing, and non-confirmed application proposals', async () => {
+    const config: ChatConfig = {
+      adapter: createMockAdapter([]),
+      tools: [
+        { name: 'confirmed', requiresConfirmation: true, execute: () => undefined, schema: { type: 'object' } },
+        { name: 'immediate', execute: () => undefined },
+      ],
+      validateArgs: (_schema, args) => ({ valid: args.valid === true, message: 'invalid app args' }),
+    }
+    const ctrl = createChatController(config)
+    await expect(proposeToolCall(ctrl, { id: 'missing', name: 'missing', args: {} })).rejects.toMatchObject({ code: 'AK_TOOL_NOT_FOUND' })
+    await expect(proposeToolCall(ctrl, { id: 'immediate', name: 'immediate', args: {} })).rejects.toMatchObject({ code: 'AK_CONFIG_INVALID' })
+    await expect(proposeToolCall(ctrl, { id: 'invalid', name: 'confirmed', args: {} })).rejects.toMatchObject({ code: 'AK_TOOL_INVALID_INPUT' })
+    await expect(proposeToolCall(ctrl, { id: '', name: 'confirmed', args: {} })).rejects.toMatchObject({ code: 'AK_TOOL_INVALID_INPUT' })
+    const cyclic: Record<string, unknown> = {}
+    cyclic.self = cyclic
+    await expect(proposeToolCall(ctrl, { id: 'cyclic', name: 'confirmed', args: cyclic })).rejects.toMatchObject({ code: 'AK_TOOL_INVALID_INPUT' })
+    const hostile = new Proxy({}, { ownKeys: () => { throw new Error('blocked') } })
+    await expect(proposeToolCall(ctrl, { id: 'hostile', name: 'confirmed', args: hostile })).rejects.toMatchObject({ code: 'AK_TOOL_INVALID_INPUT' })
+    await expect(proposeToolCall(ctrl, { id: 'large', name: 'confirmed', args: { value: 'x'.repeat(16_385) } })).rejects.toMatchObject({ code: 'AK_TOOL_INVALID_INPUT' })
+    await expect(proposeToolCall(ctrl, { id: 'sparse', name: 'confirmed', args: { value: new Array(10_001) } })).rejects.toMatchObject({ code: 'AK_TOOL_INVALID_INPUT' })
+    const accessor = {}
+    Object.defineProperty(accessor, 'value', { enumerable: true, get: () => 'unsafe' })
+    await expect(proposeToolCall(ctrl, { id: 'accessor', name: 'confirmed', args: accessor })).rejects.toMatchObject({ code: 'AK_TOOL_INVALID_INPUT' })
+    expect(ctrl.getState().messages).toEqual([])
+  })
+
+  it('uses the controller current config as the only proposal authority', async () => {
+    const execute = vi.fn()
+    const ctrl = createTestController({
+      tools: [{ name: 'write', requiresConfirmation: true, execute }],
+    })
+    ctrl.updateConfig({ tools: [{ name: 'write', execute }] })
+    await expect(proposeToolCall(ctrl, { id: 'write-1', name: 'write', args: {} })).rejects.toMatchObject({ code: 'AK_CONFIG_INVALID' })
+    expect(ctrl.getState().messages).toEqual([])
+  })
+
+  it('snapshots proposal args before confirmation', async () => {
+    const execute = vi.fn()
+    const config: ChatConfig = { adapter: createMockAdapter([]), tools: [{ name: 'write', requiresConfirmation: true, execute }] }
+    const ctrl = createChatController(config)
+    const args = { value: 'original' }
+    await proposeToolCall(ctrl, { id: 'write-snapshot', name: 'write', args })
+    args.value = 'mutated'
+    await ctrl.approve('write-snapshot')
+    expect(execute).toHaveBeenCalledWith({ value: 'original' }, expect.anything())
+  })
+
   it('starts with idle status and empty messages', () => {
     const ctrl = createTestController()
     const state = ctrl.getState()

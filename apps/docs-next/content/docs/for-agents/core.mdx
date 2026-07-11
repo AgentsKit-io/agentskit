@@ -18,6 +18,7 @@ npm install @agentskit/core
 ## Primary exports (main entry)
 
 - `createChatController(config)` — state machine behind every UI
+- `proposeToolCall(...)` — place a trusted, validated action into the same confirmation lifecycle; never executes directly
   binding. Returns `{ getState, subscribe, send, stop, retry, edit,
   regenerate, setInput, clear, approve, deny, updateConfig }`.
 - `defineTool(config)` — typed tool factory with JSON-Schema input

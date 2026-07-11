@@ -102,6 +102,11 @@
       "types": "./dist/memory-validation.d.ts",
       "import": "./dist/memory-validation.js",
       "require": "./dist/memory-validation.cjs"
+    },
+    "./tool-proposal": {
+      "types": "./dist/tool-proposal.d.ts",
+      "import": "./dist/tool-proposal.js",
+      "require": "./dist/tool-proposal.cjs"
     }
   },
   "files": [

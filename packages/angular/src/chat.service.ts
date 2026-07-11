@@ -6,6 +6,7 @@ import type {
   ChatController,
   ChatReturn,
   ChatState,
+  ToolCall,
 } from '@agentskit/core'
 
 /**
@@ -54,6 +55,7 @@ export class AgentskitChat implements OnDestroy {
       regenerate: c.regenerate,
       setInput: c.setInput,
       clear: c.clear,
+      proposeToolCall: c.proposeToolCall,
       approve: c.approve,
       deny: c.deny,
     }
@@ -71,6 +73,8 @@ export class AgentskitChat implements OnDestroy {
   clear = (): void => {
     void this.requireController().clear()
   }
+  proposeToolCall = (proposal: Parameters<ChatReturn['proposeToolCall']>[0]): Promise<ToolCall> =>
+    this.requireController().proposeToolCall(proposal)
   approve = (id: string): void => {
     void this.requireController().approve(id)
   }

@@ -1,6 +1,6 @@
 import { writable, type Readable } from 'svelte/store'
 import { createChatController } from '@agentskit/core'
-import type { ChatConfig, ChatController, ChatState } from '@agentskit/core'
+import type { ChatConfig, ChatController, ChatReturn, ChatState } from '@agentskit/core'
 
 export interface SvelteChatStore extends Readable<ChatState> {
   send: ChatController['send']
@@ -10,6 +10,7 @@ export interface SvelteChatStore extends Readable<ChatState> {
   regenerate: ChatController['regenerate']
   setInput: ChatController['setInput']
   clear: ChatController['clear']
+  proposeToolCall: ChatReturn['proposeToolCall']
   approve: ChatController['approve']
   deny: ChatController['deny']
   destroy: () => void
@@ -33,6 +34,7 @@ export function createChatStore(config: ChatConfig): SvelteChatStore {
     regenerate: controller.regenerate,
     setInput: controller.setInput,
     clear: controller.clear,
+    proposeToolCall: controller.proposeToolCall,
     approve: controller.approve,
     deny: controller.deny,
     destroy: unsubscribe,
