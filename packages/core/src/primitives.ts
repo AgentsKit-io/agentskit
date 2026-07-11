@@ -1,4 +1,4 @@
-import { AdapterError, ErrorCodes } from './errors'
+import { AdapterError, AgentsKitError, ErrorCodes } from './errors'
 import type {
   AgentEvent,
   Message,
@@ -161,7 +161,7 @@ export async function consumeStream(
     }
     handlers.onDone(accumulatedText)
   } catch (error) {
-    const err = error instanceof AdapterError
+    const err = error instanceof AgentsKitError
       ? error
       : new AdapterError({
           code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,

@@ -1,14 +1,17 @@
 import { ErrorCodes, ToolError } from './errors'
 import { cloneJsonRecord } from './json-validation'
 import { buildMessage } from './primitives'
-import type { ArgsValidator, ChatController, MaybePromise, ToolCall, ToolCallHandlerContext, ToolDefinition } from './types'
+import { auth } from './agent-loop'
+import type { ArgsValidator, ChatController, MaybePromise, ToolAuthorizer, ToolCall, ToolCallHandlerContext, ToolDefinition } from './types'
 
 type Proposal = Pick<ToolCall, 'id' | 'name' | 'args'>
 type Authority = readonly [
   ToolDefinition | undefined,
   ArgsValidator | undefined,
   ((toolCall: ToolCall, context: ToolCallHandlerContext) => MaybePromise<void>) | undefined,
+  ToolAuthorizer | undefined,
 ]
+const pending = new WeakMap<ChatController, Map<string, Promise<ToolCall>>>()
 
 export async function withAuthority(
   controller: ChatController,
@@ -23,6 +26,11 @@ export async function withAuthority(
     const existing = message.toolCalls?.find(call => call.id === proposal.id)
     if (existing) return existing
   }
+  let calls = pending.get(controller)
+  if (!calls) { calls = new Map(); pending.set(controller, calls) }
+  const active = calls.get(proposal.id)
+  if (active) return active
+  const operation = (async () => {
   if (!identifier.test(proposal.name)) {
     throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: 'Invalid tool proposal identity' })
   }
@@ -30,7 +38,7 @@ export async function withAuthority(
     throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: 'Invalid tool proposal arguments' })
   }
   const args = cloneJsonRecord(proposal.args, invalidArgs, 16_384)
-  const [tool, validateArgs, onToolCall] = resolve(proposal.name)
+  const [tool, validateArgs, onToolCall, authorize] = resolve(proposal.name)
   if (!tool?.requiresConfirmation || !tool.execute) {
     throw new ToolError({
       code: tool ? ErrorCodes.AK_CONFIG_INVALID : ErrorCodes.AK_TOOL_NOT_FOUND,
@@ -47,6 +55,7 @@ export async function withAuthority(
     }
   }
   const call: ToolCall = { ...proposal, args, status: 'requires_confirmation' }
+  await auth(authorize, call, { messages: controller.getState().messages, tool, phase: 'propose' })
   const message = { ...buildMessage({ role: 'assistant', content: '' }), toolCalls: [call] }
   controller.setMessages([...controller.getState().messages, message])
   try {
@@ -63,4 +72,7 @@ export async function withAuthority(
     throw error
   }
   return call
+  })()
+  calls.set(proposal.id, operation)
+  try { return await operation } finally { calls.delete(proposal.id) }
 }

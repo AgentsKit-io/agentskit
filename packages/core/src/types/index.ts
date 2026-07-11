@@ -1,7 +1,7 @@
 export type { DataRegion, MaybePromise } from './common'
 export type { StreamStatus, StreamToolCallPayload, StreamChunk, StreamSource, TokenUsage, UseStreamOptions, UseStreamReturn } from './stream'
 export type { MessageRole, MessageStatus, Message, MemoryRecord } from './message'
-export type { ToolCallStatus, ToolCall, ToolExecutionContext, ToolDefinition, ToolCallHandlerContext, InferSchemaType, DefineToolConfig, ArgsValidator, ArgsValidationResult, ArgsValidationError } from './tool'
+export type { ToolCallStatus, ToolCall, ToolExecutionContext, ToolDefinition, ToolCallHandlerContext, ToolAuthorizationPhase, ToolAuthorizationContext, ToolAuthorizationDecision, ToolAuthorizer, InferSchemaType, DefineToolConfig, ArgsValidator, ArgsValidationResult, ArgsValidationError } from './tool'
 export { defineTool } from './tool'
 export type { AdapterContext, AdapterRequest, AdapterFactory, AdapterCapabilities } from './adapter'
 export type {

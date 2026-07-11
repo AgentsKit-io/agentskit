@@ -20,13 +20,14 @@ export default defineConfig({
     'memory-validation': 'src/memory-validation.ts',
     'tool-proposal': 'src/tool-proposal.ts',
     'tool-proposal-internal': 'src/tool-proposal-internal.ts',
+    'tool-authorization-internal': 'src/tool-authorization-internal.ts',
   },
   format: ['esm', 'cjs'],
   dts: { compilerOptions: { ignoreDeprecations: "6.0" } },
   sourcemap: true,
   clean: false,
   treeshake: true,
-  external: ['./tool-proposal-internal.js'],
+  external: ['./tool-proposal-internal.js', './tool-authorization-internal.js'],
   // tsup ships .ts entrypoints only; copy bundled JSON assets manually.
   async onSuccess() {
     await copyFile('src/security/default-taxonomy.json', 'dist/default-taxonomy.json')
