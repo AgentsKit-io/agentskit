@@ -76,7 +76,8 @@ function validatePart(value: unknown): asserts value is ContentPart {
 
 function validateToolCall(value: unknown): asserts value is ToolCall {
   if (!isRecord(value)) invalidRecord()
-  if (typeof value.id !== 'string' || typeof value.name !== 'string' || !isRecord(value.args)) invalidRecord()
+  if (typeof value.id !== 'string' || value.id.length === 0) invalidRecord()
+  if (typeof value.name !== 'string' || value.name.length === 0 || !isRecord(value.args)) invalidRecord()
   if (typeof value.status !== 'string' || !toolStatuses.has(value.status)) invalidRecord()
   optionalString(value, 'result')
   optionalString(value, 'error')
@@ -84,7 +85,7 @@ function validateToolCall(value: unknown): asserts value is ToolCall {
 
 function validateMessage(value: unknown): asserts value is SerializedMessage {
   if (!isRecord(value)) invalidRecord()
-  if (typeof value.id !== 'string' || typeof value.content !== 'string') invalidRecord()
+  if (typeof value.id !== 'string' || value.id.length === 0 || typeof value.content !== 'string') invalidRecord()
   if (typeof value.role !== 'string' || !roles.has(value.role)) invalidRecord()
   if (typeof value.status !== 'string' || !messageStatuses.has(value.status)) invalidRecord()
   if (typeof value.createdAt !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}Z$/.test(value.createdAt)) invalidRecord()
@@ -154,9 +155,15 @@ function projectMessage(message: SerializedMessage): SerializedMessage {
 }
 
 export function validateMemoryRecord(input: unknown): MemoryRecord {
-  assertJsonValue(input)
-  if (!isRecord(input) || input.version !== 1 || !Array.isArray(input.messages)) invalidRecord()
-  const messages = input.messages.map(message => {
+  let snapshot: unknown
+  try {
+    snapshot = structuredClone(input)
+  } catch {
+    invalidRecord()
+  }
+  assertJsonValue(snapshot)
+  if (!isRecord(snapshot) || snapshot.version !== 1 || !Array.isArray(snapshot.messages)) invalidRecord()
+  const messages = snapshot.messages.map(message => {
     validateMessage(message)
     return projectMessage(message)
   })
