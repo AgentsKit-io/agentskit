@@ -1,9 +1,7 @@
-import { formatRetrievedDocuments } from './rag'
 import { buildMessage, consumeStream, createEventEmitter, safeParseArgs, createToolLifecycle } from './primitives'
 import { buildToolMap, activateSkills, executeSafeTool } from './agent-loop'
-import { mergeSystemMessages, buildRetrievalMessage } from './controller-helpers'
+import { buildAdapterRequest } from './controller-helpers'
 import type {
-  AdapterRequest,
   ChatConfig,
   ChatController,
   ChatState,
@@ -17,7 +15,8 @@ import type {
 export function createChatController(initialConfig: ChatConfig): ChatController {
   let config = initialConfig
   let effectiveSystemPrompt = config.systemPrompt
-  let source: StreamSource | null = null
+  let source: StreamSource | undefined
+  let turnGeneration = 0
   let state: ChatState = {
     messages: initialConfig.initialMessages ?? [],
     status: 'idle',
@@ -176,26 +175,6 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
     })
   }
 
-  const buildAdapterRequest = async (messages: Message[], text: string): Promise<AdapterRequest> => {
-    await ensureSkillsActivated()
-    const withSystem = mergeSystemMessages(messages, effectiveSystemPrompt)
-    const retrievedDocuments = config.retriever && text
-      ? await config.retriever.retrieve({ query: text, messages })
-      : []
-    const retrievalMessage = buildRetrievalMessage(formatRetrievedDocuments(retrievedDocuments))
-
-    return {
-      messages: retrievalMessage ? [retrievalMessage, ...withSystem] : withSystem,
-      context: {
-        systemPrompt: effectiveSystemPrompt,
-        temperature: config.temperature,
-        maxTokens: config.maxTokens,
-        tools: [...toolMap.values()],
-        metadata: retrievedDocuments.length > 0 ? { retrievedDocuments } : undefined,
-      },
-    }
-  }
-
   const DEFAULT_MAX_TOOL_ITERATIONS = 5
 
   const isCallSettled = (status: ToolCall['status']): boolean =>
@@ -204,8 +183,10 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
   const isCallPending = (status: ToolCall['status']): boolean =>
     status === 'pending' || status === 'running' || status === 'requires_confirmation'
 
-  const runAdapterTurn = async (assistantId: string, queryText: string): Promise<boolean> => {
-    const request = await buildAdapterRequest(state.messages, queryText)
+  const runAdapterTurn = async (assistantId: string, queryText: string, generation: number): Promise<boolean> => {
+    await ensureSkillsActivated()
+    const request = await buildAdapterRequest(config, state.messages, queryText, effectiveSystemPrompt, [...toolMap.values()])
+    if (generation !== turnGeneration) return false
     source = config.adapter.createSource(request)
 
     const streamStart = Date.now()
@@ -265,7 +246,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
       },
     })
 
-    return !errored
+    return generation === turnGeneration && !errored
   }
 
   const finalizeAssistant = (assistantId: string) => {
@@ -315,7 +296,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
    * `approve`/`deny` so the flow is identical whether tools auto-run or
    * wait for user confirmation.
    */
-  const resumeAgentLoop = async (assistantId: string) => {
+  const resumeAgentLoop = async (assistantId: string, generation: number) => {
     const maxIterations = config.maxToolIterations ?? DEFAULT_MAX_TOOL_ITERATIONS
     let currentAssistantId = assistantId
 
@@ -333,7 +314,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
       }
 
       currentAssistantId = appendToolResultsAndContinue(currentAssistantId, settled)
-      const ok = await runAdapterTurn(currentAssistantId, '')
+      const ok = await runAdapterTurn(currentAssistantId, '', generation)
       if (!ok) return
     }
 
@@ -344,10 +325,10 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
    * Runs one `send` — an LLM turn, plus any follow-up turns needed to feed
    * completed tool results back to the model.
    */
-  const startStream = async (assistantId: string, text: string) => {
-    const ok = await runAdapterTurn(assistantId, text)
+  const startStream = async (assistantId: string, text: string, generation: number) => {
+    const ok = await runAdapterTurn(assistantId, text, generation)
     if (!ok) return
-    await resumeAgentLoop(assistantId)
+    await resumeAgentLoop(assistantId, generation)
   }
 
   return {
@@ -358,6 +339,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
     },
     async send(text) {
       if (!text.trim()) return
+      turnGeneration++
 
       const userMessage = buildMessage({ role: 'user', content: text })
       const assistantMessage = buildMessage({ role: 'assistant', content: '', status: 'streaming' })
@@ -370,9 +352,10 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
         error: null,
       }))
 
-      await startStream(assistantMessage.id, text)
+      await startStream(assistantMessage.id, text, turnGeneration)
     },
     stop() {
+      turnGeneration++
       source?.abort()
       setState(current => ({ ...current, status: 'idle' }))
     },
@@ -383,6 +366,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
       const lastAssistant = messages[messages.length - 1]
       const lastUser = messages[messages.length - 2]
       if (lastAssistant.role !== 'assistant' || lastUser.role !== 'user') return
+      turnGeneration++
 
       const withoutLast = messages.slice(0, -1)
       const replacementAssistant = buildMessage({ role: 'assistant', content: '', status: 'streaming' })
@@ -394,7 +378,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
         error: null,
       }))
 
-      await startStream(replacementAssistant.id, lastUser.content)
+      await startStream(replacementAssistant.id, lastUser.content, turnGeneration)
     },
     async edit(messageId, newContent, opts = {}) {
       const messages = state.messages
@@ -424,6 +408,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
         return
       }
 
+      turnGeneration++
       source?.abort()
       const replacementAssistant = buildMessage({
         role: 'assistant',
@@ -439,7 +424,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
         error: null,
       }))
 
-      await startStream(replacementAssistant.id, newContent)
+      await startStream(replacementAssistant.id, newContent, turnGeneration)
     },
     async regenerate(messageId) {
       const messages = state.messages
@@ -460,6 +445,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
       while (userIndex >= 0 && messages[userIndex].role !== 'user') userIndex--
       if (userIndex < 0) return
 
+      turnGeneration++
       source?.abort()
       const priorTurns = messages.slice(0, targetIndex)
       const replacementAssistant = buildMessage({
@@ -476,7 +462,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
         error: null,
       }))
 
-      await startStream(replacementAssistant.id, messages[userIndex].content)
+      await startStream(replacementAssistant.id, messages[userIndex].content, turnGeneration)
     },
     setInput(value) {
       setState(current => ({ ...current, input: value }))
@@ -525,7 +511,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
         error: execResult.error,
       })
 
-      await resumeAgentLoop(msg.id)
+      await resumeAgentLoop(msg.id, turnGeneration)
     },
     async deny(toolCallId, reason) {
       const msg = state.messages.find(m =>
@@ -539,7 +525,7 @@ export function createChatController(initialConfig: ChatConfig): ChatController 
         error: `Permission denied: ${reason ?? 'user denied access'}`,
       })
 
-      await resumeAgentLoop(msg.id)
+      await resumeAgentLoop(msg.id, turnGeneration)
     },
     updateConfig(nextConfig) {
       void lifecycle.disposeAll()

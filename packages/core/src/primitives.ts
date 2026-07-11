@@ -165,8 +165,8 @@ export async function consumeStream(
       ? error
       : new AdapterError({
           code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,
-          message: `Stream consumption failed: ${error instanceof Error ? error.message : String(error)}`,
-          hint: 'The adapter stream threw an exception. Verify your adapter is correctly configured and the provider API is reachable.',
+          message: `Stream failed: ${error instanceof Error ? error.message : String(error)}`,
+          hint: 'Verify the adapter and provider configuration.',
           cause: error,
         })
     handlers.onError?.(err)

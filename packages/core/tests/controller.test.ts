@@ -67,6 +67,61 @@ describe('createChatController', () => {
     expect(ctrl.getState().status).toBe('idle')
   })
 
+  it('stop() cancels a turn before its adapter source is created', async () => {
+    let releaseRetrieval: (() => void) | undefined
+    const createSource = vi.fn(() => ({
+      async *stream() { yield { type: 'done' as const } },
+      abort: vi.fn(),
+    }))
+    const ctrl = createChatController({
+      adapter: { createSource },
+      retriever: {
+        retrieve: () => new Promise(resolve => {
+          releaseRetrieval = () => resolve([])
+        }),
+      },
+    })
+
+    const sendPromise = ctrl.send('Go')
+    await vi.waitFor(() => expect(ctrl.getState().status).toBe('streaming'))
+    ctrl.stop()
+    releaseRetrieval?.()
+    await sendPromise
+
+    expect(createSource).not.toHaveBeenCalled()
+    expect(ctrl.getState().status).toBe('idle')
+  })
+
+  it('a stopped pre-source turn cannot mutate a later send', async () => {
+    let releaseFirst: (() => void) | undefined
+    let retrievalCount = 0
+    const createSource = vi.fn(() => createMockAdapter([
+      { type: 'text', content: 'latest' },
+      { type: 'done' },
+    ]).createSource({ messages: [], context: {} }))
+    const ctrl = createChatController({
+      adapter: { createSource },
+      retriever: {
+        retrieve: () => {
+          retrievalCount++
+          if (retrievalCount > 1) return Promise.resolve([])
+          return new Promise(resolve => { releaseFirst = () => resolve([]) })
+        },
+      },
+    })
+
+    const firstSend = ctrl.send('first')
+    await vi.waitFor(() => expect(ctrl.getState().status).toBe('streaming'))
+    ctrl.stop()
+    await ctrl.send('second')
+    releaseFirst?.()
+    await firstSend
+
+    expect(createSource).toHaveBeenCalledOnce()
+    expect(ctrl.getState().messages.at(-1)?.content).toBe('latest')
+    expect(ctrl.getState().status).toBe('idle')
+  })
+
   it('retry() replaces last assistant message', async () => {
     const adapter = createMockAdapter([
       { type: 'text', content: 'first' },
