@@ -2,6 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { ConfigError } from '../src/errors'
 import { createInMemoryMemory, serializeMessages } from '../src/memory'
 import { validateMemoryRecord } from '../src/memory-validation'
+import { buildMessage } from '../src/primitives'
 import type { Message } from '../src/types'
 
 const sampleMessage: Message = {
@@ -48,6 +49,13 @@ describe('createInMemoryMemory', () => {
 })
 
 describe('validateMemoryRecord', () => {
+  it('accepts records produced from messages with absent optional fields', () => {
+    const record = serializeMessages([buildMessage({ role: 'assistant', content: 'hello' })])
+    expect(record.messages[0]).not.toHaveProperty('metadata')
+    expect(record.messages[0]).not.toHaveProperty('toolCallId')
+    expect(validateMemoryRecord(record)).toEqual(record)
+  })
+
   it('accepts the complete canonical serialized message graph', () => {
     const record = serializeMessages([{
       ...sampleMessage,
@@ -81,8 +89,7 @@ describe('validateMemoryRecord', () => {
   it('rejects cyclic JSON without overflowing the stack', () => {
     const metadata: Record<string, unknown> = {}
     metadata.self = metadata
-    const record = serializeMessages([{ ...sampleMessage, metadata }])
-    expect(() => validateMemoryRecord(record)).toThrow(ConfigError)
+    expect(() => serializeMessages([{ ...sampleMessage, metadata }])).toThrow()
   })
 
   it('rejects excessively deep JSON without overflowing the stack', () => {

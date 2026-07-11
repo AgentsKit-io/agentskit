@@ -1,13 +1,10 @@
 import type { ChatMemory, MemoryRecord, Message } from './types'
 
 export function serializeMessages(messages: Message[]): MemoryRecord {
-  return {
+  return JSON.parse(JSON.stringify({
     version: 1,
-    messages: messages.map(message => ({
-      ...message,
-      createdAt: message.createdAt.toISOString(),
-    })),
-  }
+    messages,
+  })) as MemoryRecord
 }
 
 export function deserializeMessages(record: MemoryRecord | null | undefined): Message[] {
