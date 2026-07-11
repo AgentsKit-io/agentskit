@@ -60,6 +60,7 @@ The controller merges system prompts, runs retrieval, dispatches tool calls, per
 |--------|------|
 | `createInMemoryMemory`, `createLocalStorageMemory` | Simple bundled memories for tests or demos |
 | `serializeMessages` / `deserializeMessages` | Persistence helpers |
+| `validateMemoryRecord` from `@agentskit/core/memory-validation` | Bounded runtime validation for untrusted serialized messages |
 | `createStaticRetriever`, `formatRetrievedDocuments` | Retriever helpers for static context |
 
 Heavy backends live in [`@agentskit/memory`](/docs/reference/packages/memory); vector stores and chunking in [`@agentskit/rag`](/docs/reference/packages/rag).

@@ -97,6 +97,11 @@
       "types": "./dist/eval-format.d.ts",
       "import": "./dist/eval-format.js",
       "require": "./dist/eval-format.cjs"
+    },
+    "./memory-validation": {
+      "types": "./dist/memory-validation.d.ts",
+      "import": "./dist/memory-validation.js",
+      "require": "./dist/memory-validation.cjs"
     }
   },
   "files": [
