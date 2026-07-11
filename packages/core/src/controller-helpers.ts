@@ -1,5 +1,31 @@
 import { buildMessage } from './primitives'
-import type { Message } from './types'
+import { formatRetrievedDocuments } from './rag'
+import type { AdapterRequest, ChatConfig, Message, ToolDefinition } from './types'
+
+export async function buildAdapterRequest(
+  config: ChatConfig,
+  messages: Message[],
+  text: string,
+  systemPrompt: string | undefined,
+  tools: ToolDefinition[],
+): Promise<AdapterRequest> {
+  const withSystem = mergeSystemMessages(messages, systemPrompt)
+  const retrievedDocuments = config.retriever && text
+    ? await config.retriever.retrieve({ query: text, messages })
+    : []
+  const retrievalMessage = buildRetrievalMessage(formatRetrievedDocuments(retrievedDocuments))
+
+  return {
+    messages: retrievalMessage ? [retrievalMessage, ...withSystem] : withSystem,
+    context: {
+      systemPrompt,
+      temperature: config.temperature,
+      maxTokens: config.maxTokens,
+      tools,
+      metadata: retrievedDocuments.length > 0 ? { retrievedDocuments } : undefined,
+    },
+  }
+}
 
 /**
  * Ensure a system prompt is present at the head of the message list.
