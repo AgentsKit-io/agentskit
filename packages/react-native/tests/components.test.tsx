@@ -81,9 +81,20 @@ describe('Message', () => {
     expect(getByTestId('ak-avatar')).toBeTruthy()
     expect(getByTestId('ak-actions')).toBeTruthy()
   })
+
+  it('forwards content styles to the native text primitive', () => {
+    const { getByTestId } = render(<Message message={makeMessage()} contentStyle={{ color: '#ffffff', fontFamily: 'Brand Sans' }} />)
+    expect(getByTestId('ak-content').style.color).toBe('#ffffff')
+    expect(getByTestId('ak-content').style.fontFamily).toContain('Brand Sans')
+  })
 })
 
 describe('InputBar', () => {
+  it('forwards input styles to the native text input', () => {
+    const { getByTestId } = render(<InputBar chat={makeChat()} inputStyle={{ color: '#111827', fontFamily: 'Brand Sans' }} />)
+    expect(getByTestId('ak-input').style.fontFamily).toContain('Brand Sans')
+  })
+
   it('sends on submit and reflects input value', () => {
     const send = vi.fn()
     const chat = makeChat({ input: 'hi there', send })

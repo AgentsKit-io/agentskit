@@ -30,7 +30,7 @@ interface BaseProps {
 export const View = forwardRef<HTMLDivElement, BaseProps>(function View(props, ref) {
   const { testID, style, accessibilityLabel, children, accessibilityRole, accessibilityState, ...rest } = props
   return (
-    <div ref={ref} data-testid={testID} aria-label={accessibilityLabel} {...rest}>
+    <div ref={ref} data-testid={testID} aria-label={accessibilityLabel} style={style as React.CSSProperties | undefined} {...rest}>
       {children}
     </div>
   )
@@ -39,7 +39,7 @@ export const View = forwardRef<HTMLDivElement, BaseProps>(function View(props, r
 export const Text = forwardRef<HTMLSpanElement, BaseProps>(function Text(props, ref) {
   const { testID, style, accessibilityLabel, children, accessibilityRole, accessibilityState, ...rest } = props
   return (
-    <span ref={ref} data-testid={testID} aria-label={accessibilityLabel} {...rest}>
+    <span ref={ref} data-testid={testID} aria-label={accessibilityLabel} style={style as React.CSSProperties | undefined} {...rest}>
       {children}
     </span>
   )
@@ -72,6 +72,7 @@ export const TextInput = forwardRef<HTMLInputElement, TextInputProps>(function T
       ref={ref}
       data-testid={testID}
       aria-label={accessibilityLabel}
+      style={style as React.CSSProperties | undefined}
       value={value}
       placeholder={placeholder}
       disabled={editable === false}

@@ -33,7 +33,7 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/react-native) · [a
 
 ### Headless on React Native
 
-React Native has no DOM, so there are no `data-ak-*` attributes. The web-parity story is carried by **`testID`** props (`ak-message`, `ak-input`, `ak-send`, …): the same stable hooks the web components expose via `data-ak-*`, surfaced through RN's native `testID` (Appium / e2e). Role and status are conveyed via `accessibilityLabel`. No `StyleSheet`/colors are baked in — pass your own through the optional `style` prop where a host primitive accepts it.
+React Native has no DOM, so there are no `data-ak-*` attributes. The web-parity story is carried by **`testID`** props (`ak-message`, `ak-input`, `ak-send`, …): the same stable hooks the web components expose via `data-ak-*`, surfaced through RN's native `testID` (Appium / e2e). Role and status are conveyed via `accessibilityLabel`. No `StyleSheet`/colors are baked in — use `style` for wrappers, `Message.contentStyle` for message text, and `InputBar.inputStyle` for composer text.
 
 ## Install
 
