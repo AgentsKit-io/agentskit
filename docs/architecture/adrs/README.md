@@ -55,5 +55,6 @@ Do NOT write an ADR for: routine features, bug fixes, internal refactors, or any
 | [0013](./0013-memory-record-runtime-validation.md) | Runtime validation for serialized message records | Accepted |
 | [0014](./0014-trusted-tool-call-proposal.md) | Trusted application tool-call proposal | Accepted |
 | [0015](./0015-tool-authorization-hook.md) | Tool authorization before proposal and execution | Accepted |
+| [0019](./0019-cancellable-chat-memory-operations.md) | Cancellable ChatMemory operations | Accepted |
 
 The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.
