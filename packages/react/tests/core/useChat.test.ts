@@ -134,6 +134,26 @@ describe('useChat', () => {
     expect(abortFn).toHaveBeenCalled()
   })
 
+  it('aborts the current stream when unmounted', async () => {
+    const abort = vi.fn()
+    const adapter: AdapterFactory = {
+      createSource: () => ({
+        async *stream() {
+          yield { type: 'text', content: 'working' } as const
+          await new Promise(() => {})
+        },
+        abort,
+      }),
+    }
+    const { result, unmount } = renderHook(() => useChat({ adapter }))
+
+    void act(() => { void result.current.send('Go') })
+    await waitFor(() => expect(result.current.status).toBe('streaming'))
+    unmount()
+
+    expect(abort).toHaveBeenCalledOnce()
+  })
+
   it('hydrates from persistent memory', async () => {
     const adapter = createMockAdapter([])
     const memory = createInMemoryMemory([{

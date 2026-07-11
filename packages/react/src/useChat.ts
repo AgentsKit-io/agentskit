@@ -17,6 +17,8 @@ export function useChat(config: ChatConfig): ChatReturn {
     controllerRef.current?.updateConfig(config)
   }, [config])
 
+  useEffect(() => () => controllerRef.current?.stop(), [])
+
   const state = useSyncExternalStore(
     controllerRef.current.subscribe,
     controllerRef.current.getState,
