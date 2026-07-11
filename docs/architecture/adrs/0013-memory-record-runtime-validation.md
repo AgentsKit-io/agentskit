@@ -1,8 +1,9 @@
-# ADR-0013: Runtime validation for serialized message records
+# ADR 0013 — Runtime validation for serialized message records
 
-**Status:** Accepted
-
-**Date:** 2026-07-11
+- Status: Accepted
+- Date: 2026-07-11
+- Supersedes: —
+- Related issues: #1135
 
 ## Context
 
@@ -18,6 +19,10 @@ The function validates version 1 records and the complete serialized message gra
 
 `deserializeMessages` remains backward compatible and does not implicitly validate. Trust-boundary callers explicitly validate before deserializing.
 
+## Rationale
+
+An additive subpath provides one canonical validator without increasing the main entrypoint or changing trusted-call behavior.
+
 ## Alternatives considered
 
 1. Add Zod to core — rejected because core has a zero-runtime-dependency contract.
@@ -31,3 +36,12 @@ The function validates version 1 records and the complete serialized message gra
 - Existing serialization and deserialization behavior remains compatible.
 - Validation is bounded and safe for untrusted object graphs.
 - Core bundle size increases slightly and remains subject to the existing size gate.
+
+## Open questions
+
+None.
+
+## References
+
+- ADR 0003 — Memory contract
+- ADR 0008 — Runtime argument validation

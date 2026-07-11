@@ -52,5 +52,6 @@ Do NOT write an ADR for: routine features, bug fixes, internal refactors, or any
 | [0010](./0010-egress-policy.md) | Network egress policy (safeFetch) | Accepted |
 | [0011](./0011-inbound-validation.md) | Inbound request validation (chat triggers) | Accepted |
 | [0012](./0012-vendor-adapter-scope.md) | Vendor adapter scope & granularity | Accepted |
+| [0013](./0013-memory-record-runtime-validation.md) | Runtime validation for serialized message records | Accepted |
 
 The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.
