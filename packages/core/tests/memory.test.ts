@@ -57,13 +57,14 @@ describe('validateMemoryRecord', () => {
       metadata: { nested: { safe: true } },
     }])
 
-    expect(validateMemoryRecord(record)).toBe(record)
+    expect(validateMemoryRecord(record)).toEqual(record)
   })
 
   it.each([
     null,
     { version: 2, messages: [] },
     { version: 1, messages: [{ ...sampleMessage, createdAt: 'not-a-date' }] },
+    { version: 1, messages: [{ ...sampleMessage, createdAt: '2026-02-30T00:00:00.000Z' }] },
     { version: 1, messages: [{ id: 'x', role: 'unknown', content: '', status: 'complete', createdAt: '2026-01-01T00:00:00.000Z' }] },
   ])('rejects an invalid record without echoing input', input => {
     expect(() => validateMemoryRecord(input)).toThrow(ConfigError)
@@ -96,6 +97,23 @@ describe('validateMemoryRecord', () => {
   it('allows a shared non-cyclic JSON reference', () => {
     const shared = { safe: true }
     const record = serializeMessages([{ ...sampleMessage, metadata: { first: shared, second: shared } }])
-    expect(validateMemoryRecord(record)).toBe(record)
+    expect(validateMemoryRecord(record)).toEqual(record)
+  })
+
+  it('projects only canonical structural fields', () => {
+    const record = serializeMessages([{
+      ...sampleMessage,
+      parts: [{ type: 'text', text: 'hello', future: 'drop' }],
+      toolCalls: [{ id: 'call-1', name: 'lookup', args: { keep: true }, status: 'complete', future: 'drop' }],
+      metadata: { keep: true },
+      future: 'drop',
+    } as unknown as Message])
+
+    const validated = validateMemoryRecord(record)
+    expect(validated.messages[0]).not.toHaveProperty('future')
+    expect(validated.messages[0]?.parts?.[0]).not.toHaveProperty('future')
+    expect(validated.messages[0]?.toolCalls?.[0]).not.toHaveProperty('future')
+    expect(validated.messages[0]?.toolCalls?.[0]?.args).toEqual({ keep: true })
+    expect(validated.messages[0]?.metadata).toEqual({ keep: true })
   })
 })
