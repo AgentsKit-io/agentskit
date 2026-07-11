@@ -7,6 +7,13 @@ import type { Message as MessageType, ChatReturn, ToolCall } from '@agentskit/co
  * Compose them yourself, or use the batteries-included `<ChatContainer>`.
  */
 
+export const ChatRoot = defineComponent({
+  name: 'AkChatRoot',
+  setup(_, { slots }) {
+    return () => h('div', { 'data-ak-chat': '' }, slots.default?.())
+  },
+})
+
 export const Message = defineComponent({
   name: 'AkMessage',
   props: { message: { type: Object as PropType<MessageType>, required: true } },
