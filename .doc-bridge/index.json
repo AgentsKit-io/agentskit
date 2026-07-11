@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "b50080f31e03cc5293249259c83f0d1e45aa00113be998d7f8a21bedd3a72725",
+  "contentHash": "d60aaf1af533c4acc7ad153d6bd6537365b00786fcd98b87af6dcc3e901e2b4c",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-07-11T15:19:44.773Z",
+  "generatedAt": "2026-07-11T16:09:15.126Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -164,7 +164,7 @@
       "title": "peer:",
       "path": "apps/docs-next/content/docs/for-agents/svelte.mdx",
       "description": "Svelte binding for the `ChatReturn` contract from `@agentskit/core`. Returns a `Readable<ChatState>` plus action methods (send / stop / clear) and `destroy()` for cleanup.",
-      "body": "Purpose Svelte binding for the ChatReturn contract from @agentskit/core . Returns a Readable<ChatState plus action methods (send / stop / clear) and destroy() for cleanup. Install Primary exports - createChatStore(config): SvelteChatStore — Readable<ChatState + action methods + destroy() . - Headless components (Svelte 5, mirroring @agentskit/react , data-ak- only): ChatContainer , Message , InputBar , Markdown , CodeBlock , ToolCallView , ThinkingIndicator , ToolConfirmation . Minimal example Common patterns - Runes vs stores : works in both Svelte 5 runes mode and Svelte 4 stores — auto-subscription via $chat works the same. - Cleanup : call chat.destroy() in onDestroy() to abort in-flight streams and release the adapter. - SvelteKit SSR : instantiate in onMount or a client-only component; the adapter must run in the browser unless you proxy through a server endpoint. Related - — ChatReturn contract. - — provider adapters. - , , , , , — sibling bindings. Source - npm: https://www.npmjs.com/package/@agentskit/svelte - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/svelte"
+      "body": "Purpose Svelte binding for the ChatReturn contract from @agentskit/core . Returns a Readable<ChatState plus action methods (send / stop / clear) and destroy() for cleanup. Install Primary exports - createChatStore(config): SvelteChatStore — Readable<ChatState + action methods + destroy() . - Headless components (Svelte 5, mirroring @agentskit/react , data-ak- only): ChatContainer , Message , InputBar , Markdown , CodeBlock , ToolCallView , ThinkingIndicator , ToolConfirmation . Minimal example Common patterns - Runes vs stores : works in both Svelte 5 runes mode and Svelte 4 stores — auto-subscription via $chat works the same. - Cleanup : call chat.destroy() in onDestroy() to abort in-flight streams and release the adapter. - SvelteKit SSR : packaged components render on the server. Start browser-bound adapters in onMount , or proxy provider calls through a server endpoint. Related - — ChatReturn contract. - — provider adapters. - , , , , , — sibling bindings. Source - npm: https://www.npmjs.com/package/@agentskit/svelte - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/svelte"
     },
     {
       "id": "templates",

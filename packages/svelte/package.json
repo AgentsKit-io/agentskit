@@ -25,25 +25,25 @@
   ],
   "type": "module",
   "sideEffects": false,
-  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
+  "svelte": "./dist/index.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "svelte": "./dist/index.js",
+      "import": "./dist/index.js"
     }
   },
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "tsup",
-    "test": "vitest run",
+    "build": "svelte-package -i src -o dist",
+    "test": "pnpm build && vitest run && vitest run --config vitest.ssr.config.ts",
     "test:coverage": "vitest run --coverage",
     "lint": "tsc --noEmit",
-    "dev": "tsup --watch"
+    "dev": "svelte-package -i src -o dist --watch"
   },
   "dependencies": {
     "@agentskit/core": "workspace:*"
@@ -52,13 +52,12 @@
     "svelte": "^5.0.0"
   },
   "devDependencies": {
+    "@sveltejs/package": "^2.5.8",
     "@sveltejs/vite-plugin-svelte": "^7.2.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/svelte": "^5.4.2",
     "@types/node": "^25.9.5",
-    "esbuild-svelte": "^0.9.5",
     "svelte": "^5.56.4",
-    "tsup": "^8.5.1",
     "typescript": "^6.0.3",
     "vitest": "^4.1.10"
   },
