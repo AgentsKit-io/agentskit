@@ -8,5 +8,5 @@ import { svelteTesting } from '@testing-library/svelte/vite'
 // svelteTesting() wires browser-condition resolution + auto cleanup.
 export default mergeConfig(
   defineConfig(createTestConfig({ linesThreshold: 70, environment: 'happy-dom' })),
-  defineConfig({ plugins: [svelte({ hot: false }), svelteTesting()] }),
+  defineConfig({ test: { include: ['tests/{components,store}.test.ts'] }, plugins: [svelte(), svelteTesting()] }),
 )
