@@ -65,6 +65,9 @@ describe('validateMemoryRecord', () => {
     { version: 2, messages: [] },
     { version: 1, messages: [{ ...sampleMessage, createdAt: 'not-a-date' }] },
     { version: 1, messages: [{ ...sampleMessage, createdAt: '2026-02-30T00:00:00.000Z' }] },
+    { version: 1, messages: [{ ...sampleMessage, id: '' }] },
+    { version: 1, messages: [{ ...sampleMessage, toolCalls: [{ id: '', name: 'lookup', args: {}, status: 'complete' }] }] },
+    { version: 1, messages: [{ ...sampleMessage, toolCalls: [{ id: 'call-1', name: '', args: {}, status: 'complete' }] }] },
     { version: 1, messages: [{ id: 'x', role: 'unknown', content: '', status: 'complete', createdAt: '2026-01-01T00:00:00.000Z' }] },
   ])('rejects an invalid record without echoing input', input => {
     expect(() => validateMemoryRecord(input)).toThrow(ConfigError)
@@ -115,5 +118,23 @@ describe('validateMemoryRecord', () => {
     expect(validated.messages[0]?.toolCalls?.[0]).not.toHaveProperty('future')
     expect(validated.messages[0]?.toolCalls?.[0]?.args).toEqual({ keep: true })
     expect(validated.messages[0]?.metadata).toEqual({ keep: true })
+  })
+
+  it('snapshots stateful properties once before validation', () => {
+    let reads = 0
+    const message = { ...serializeMessages([sampleMessage]).messages[0] }
+    Object.defineProperty(message, 'content', {
+      enumerable: true,
+      get: () => (++reads === 1 ? 'stable' : { unsafe: true }),
+    })
+
+    const validated = validateMemoryRecord({ version: 1, messages: [message] })
+    expect(validated.messages[0]?.content).toBe('stable')
+    expect(reads).toBe(1)
+  })
+
+  it('rejects proxy-backed records with a typed error', () => {
+    const proxy = new Proxy({}, {})
+    expect(() => validateMemoryRecord(proxy)).toThrow(ConfigError)
   })
 })
