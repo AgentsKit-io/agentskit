@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { act, renderHook, waitFor } from '@testing-library/react'
 import type { AdapterFactory, AdapterRequest, StreamChunk } from '@agentskit/core'
 import { useChat } from '../src'
@@ -62,6 +62,26 @@ describe('@agentskit/react-native useChat', () => {
     for (const fn of ['stop', 'retry', 'edit', 'regenerate', 'clear', 'approve', 'deny'] as const) {
       expect(typeof result.current[fn]).toBe('function')
     }
+  })
+
+  it('aborts the current stream when unmounted', async () => {
+    const abort = vi.fn()
+    const adapter: AdapterFactory = {
+      createSource: () => ({
+        async *stream() {
+          yield { type: 'text', content: 'working' } as const
+          await new Promise(() => {})
+        },
+        abort,
+      }),
+    }
+    const { result, unmount } = renderHook(() => useChat({ adapter }))
+
+    void act(() => { void result.current.send('Go') })
+    await waitFor(() => expect(result.current.status).toBe('streaming'))
+    unmount()
+
+    expect(abort).toHaveBeenCalledOnce()
   })
 
   it('updateConfig fires when config reference changes', () => {
