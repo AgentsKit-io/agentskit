@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { createRoot } from 'solid-js'
 import type { AdapterFactory, AdapterRequest, StreamChunk } from '@agentskit/core'
 import { useChat } from '../src'
@@ -64,5 +64,28 @@ describe('@agentskit/solid', () => {
       expect(chat.input).toBe('draft')
       dispose()
     })
+  })
+
+  it('stops an active stream when its owner is disposed', async () => {
+    let release: (() => void) | undefined
+    const gate = new Promise<void>(resolve => { release = resolve })
+    let sourceReady: (() => void) | undefined
+    const ready = new Promise<void>(resolve => { sourceReady = resolve })
+    const abort = vi.fn(() => release?.())
+    let dispose = () => {}
+    const chat = createRoot(ownerDispose => {
+      dispose = ownerDispose
+      return useChat({ adapter: { createSource: () => { sourceReady?.(); return { async *stream() {
+        yield { type: 'text' as const, content: 'started' }
+        await gate
+        yield { type: 'done' as const }
+      }, abort } } } })
+    })
+
+    const sending = chat.send('hello')
+    await ready
+    dispose()
+    expect(abort).toHaveBeenCalledOnce()
+    await sending
   })
 })

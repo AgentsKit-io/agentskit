@@ -10,7 +10,10 @@ export function useChat(config: ChatConfig): ChatReturn {
   const controller = createChatController(config)
   const [state, setState] = createStore<ChatState>(controller.getState())
   const unsubscribe = controller.subscribe(() => setState(controller.getState()))
-  onCleanup(() => unsubscribe())
+  onCleanup(() => {
+    unsubscribe()
+    controller.stop()
+  })
 
   return new Proxy(
     {
