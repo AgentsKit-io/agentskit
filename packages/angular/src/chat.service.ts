@@ -84,6 +84,7 @@ export class AgentskitChat implements OnDestroy {
 
   destroy(): void {
     this.unsubscribe?.()
+    this.controller?.stop()
     this.unsubscribe = undefined
     this.controller = undefined
     this.state.set(null)

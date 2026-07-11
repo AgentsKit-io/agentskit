@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import 'zone.js'
 import type { AdapterFactory, AdapterRequest, StreamChunk } from '@agentskit/core'
 import { AgentskitChat } from '../src'
@@ -89,5 +89,24 @@ describe('AgentskitChat', () => {
     svc.init({ adapter: mockAdapter([]) })
     svc.ngOnDestroy()
     expect(svc.state()).toBeNull()
+  })
+
+  it('destroy() stops an active adapter source', async () => {
+    let release: (() => void) | undefined
+    const gate = new Promise<void>(resolve => { release = resolve })
+    let sourceReady: (() => void) | undefined
+    const ready = new Promise<void>(resolve => { sourceReady = resolve })
+    const abort = vi.fn(() => release?.())
+    const svc = new AgentskitChat()
+    svc.init({ adapter: { createSource: () => { sourceReady?.(); return { async *stream() {
+      yield { type: 'text' as const, content: 'started' }
+      await gate
+      yield { type: 'done' as const }
+    }, abort } } } })
+
+    svc.send('hello')
+    await ready
+    svc.destroy()
+    expect(abort).toHaveBeenCalledOnce()
   })
 })
