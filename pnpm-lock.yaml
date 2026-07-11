@@ -1329,15 +1329,9 @@ importers:
       '@types/node':
         specifier: ^25.9.5
         version: 25.9.5
-      esbuild-svelte:
-        specifier: ^0.9.5
-        version: 0.9.5(esbuild@0.28.1)(svelte@5.56.4)
       svelte:
         specifier: ^5.56.4
         version: 5.56.4
-      tsup:
-        specifier: ^8.5.1
-        version: 8.5.1(jiti@2.7.0)(postcss@8.5.15)(tsx@4.23.0)(typescript@6.0.3)(yaml@2.9.0)
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
@@ -5162,13 +5156,6 @@ packages:
     peerDependencies:
       esbuild: '>=0.28.1 <1'
       solid-js: '>= 1.0'
-
-  esbuild-svelte@0.9.5:
-    resolution: {integrity: sha512-16FUSj64aiS28CCxYeK3hVxCyU4PwGBSkeArawAtnWSV7l0Gc+frIOP88MNj8Q7tDAGyEJAHT6OpOvM24BG46w==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      esbuild: '>=0.28.1 <1'
-      svelte: '>=4.2.1 <6'
 
   esbuild@0.28.1:
     resolution: {integrity: sha512-HrJrvZv5ayxBzPfwphOoNzkzOIIlifzk0KJrGK2c8R4+LKpMtpYLQeUdjnwjWv/LZlkH2laZk+4w78pi99D4Vw==}
@@ -11992,12 +11979,6 @@ snapshots:
       solid-js: 1.9.14
     transitivePeerDependencies:
       - supports-color
-
-  esbuild-svelte@0.9.5(esbuild@0.28.1)(svelte@5.56.4):
-    dependencies:
-      '@jridgewell/trace-mapping': 0.3.31
-      esbuild: 0.28.1
-      svelte: 5.56.4
 
   esbuild@0.28.1:
     optionalDependencies:
