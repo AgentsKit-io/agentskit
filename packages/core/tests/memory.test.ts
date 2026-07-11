@@ -14,6 +14,18 @@ const sampleMessage: Message = {
 }
 
 describe('createInMemoryMemory', () => {
+  it('allows memory implementations to observe cancellation', async () => {
+    const controller = new AbortController()
+    controller.abort(new Error('cancelled'))
+    const mem: import('../src/types').ChatMemory = {
+      load: async options => { options?.signal?.throwIfAborted(); return [] },
+      save: async (_messages, options) => { options?.signal?.throwIfAborted() },
+      clear: async options => { options?.signal?.throwIfAborted() },
+    }
+    await expect(mem.load({ signal: controller.signal })).rejects.toThrow('cancelled')
+    await expect(mem.save([], { signal: controller.signal })).rejects.toThrow('cancelled')
+    await expect(mem.clear?.({ signal: controller.signal })).rejects.toThrow('cancelled')
+  })
   it('starts empty by default', async () => {
     const mem = createInMemoryMemory()
     expect(await mem.load()).toEqual([])

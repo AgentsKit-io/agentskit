@@ -5,9 +5,13 @@ import type { RetrievedDocument } from './retrieval'
 export interface ChatMemory {
   /** Data-residency region for this memory backend, when known. */
   region?: DataRegion
-  load: () => MaybePromise<Message[]>
-  save: (messages: Message[]) => MaybePromise<void>
-  clear?: () => MaybePromise<void>
+  load: (options?: MemoryOperationOptions) => MaybePromise<Message[]>
+  save: (messages: Message[], options?: MemoryOperationOptions) => MaybePromise<void>
+  clear?: (options?: MemoryOperationOptions) => MaybePromise<void>
+}
+
+export interface MemoryOperationOptions {
+  signal?: AbortSignal
 }
 
 export interface VectorDocument {
