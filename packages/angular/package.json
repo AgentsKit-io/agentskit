@@ -26,10 +26,10 @@
   "sideEffects": false,
   "main": "./dist/fesm2022/agentskit-angular.mjs",
   "module": "./dist/fesm2022/agentskit-angular.mjs",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/types/agentskit-angular.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/index.d.ts",
+      "types": "./dist/types/agentskit-angular.d.ts",
       "import": "./dist/fesm2022/agentskit-angular.mjs",
       "default": "./dist/fesm2022/agentskit-angular.mjs"
     }
