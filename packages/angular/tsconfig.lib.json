@@ -1,0 +1,6 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": { "declarationMap": true, "inlineSources": true, "ignoreDeprecations": "6.0" },
+  "angularCompilerOptions": { "compilationMode": "partial" },
+  "include": ["src/**/*.ts"]
+}
