@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/memory",
-  "version": "0.10.13",
+  "version": "0.11.0",
   "description": "Persistent and vector memory backends for AgentsKit.",
   "keywords": [
     "agentskit",
@@ -37,6 +37,11 @@
       "types": "./dist/personalization.d.ts",
       "import": "./dist/personalization.js",
       "require": "./dist/personalization.cjs"
+    },
+    "./web-storage": {
+      "types": "./dist/web-storage.d.ts",
+      "import": "./dist/web-storage.js",
+      "require": "./dist/web-storage.cjs"
     }
   },
   "files": [

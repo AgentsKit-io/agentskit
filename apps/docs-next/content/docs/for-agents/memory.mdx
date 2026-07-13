@@ -17,6 +17,9 @@ npm install @agentskit/memory
 - `sqliteChatMemory` — SQLite-backed.
 - `redisChatMemory` — Redis-backed.
 - `tursoChatMemory` — Turso / libSQL.
+- `createWebStorageMemory` from `@agentskit/memory/web-storage` — injected,
+  SSR-safe `localStorage`/`sessionStorage` with runtime validation, byte/message
+  bounds, cancellation, and host-owned legacy migration.
 
 ### Vector memory
 

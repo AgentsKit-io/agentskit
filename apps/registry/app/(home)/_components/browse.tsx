@@ -200,7 +200,6 @@ export function Browse({ agents }: { agents: RegistryAgentSummary[] }) {
                 <button type="button" disabled={page === pageCount} onClick={() => update({ page: page + 1 })} className="text-sm text-ak-blue disabled:pointer-events-none disabled:text-ak-graphite">Next</button>
               </nav>
             )}
-
             {compareIds.length > 0 && (
               <div role="status" className="sticky bottom-4 z-20 mt-8 grid min-h-14 grid-cols-[auto_1fr_auto] items-center gap-3 rounded-md border border-ak-blue bg-ak-midnight px-4 py-3 shadow-xl sm:flex">
                 <Icon name="scale" size={18} className="text-ak-blue" />

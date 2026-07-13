@@ -7,7 +7,7 @@ description: Chat memory + vector stores + hierarchical / encrypted / graph / pe
 
 ## When to reach for it
 
-- You need persistent chat history (file / SQLite / Redis).
+- You need persistent chat history (Web Storage / file / SQLite / Redis).
 - You need vector search (pgvector / Pinecone / Qdrant / Chroma / Upstash / Redis / file).
 - You need MemGPT-style tiered memory, or client-side encryption, or a knowledge graph.
 
@@ -40,7 +40,7 @@ In most real products, memory is the difference between a clever demo and a usef
 
 ## Surface
 
-- Chat: `fileChatMemory` · `sqliteChatMemory` · `redisChatMemory`.
+- Chat: `createWebStorageMemory` · `fileChatMemory` · `sqliteChatMemory` · `redisChatMemory`.
 - Vector: `fileVectorMemory` · `redisVectorMemory` · `pgvector` · `pinecone` · `qdrant` · `chroma` · `upstashVector`.
 - HoF wrappers: `createHierarchicalMemory` · `createEncryptedMemory` · `createInMemoryGraph` · `createInMemoryPersonalization`.
 
