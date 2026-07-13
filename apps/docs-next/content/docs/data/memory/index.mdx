@@ -7,6 +7,8 @@ description: Chat memory + vector stores + wrappers that make long-running agent
 
 - `createInMemoryMemory` — default, zero deps.
 - `createLocalStorageMemory` — browser-persisted.
+- `createWebStorageMemory` — validated and bounded browser storage, including
+  injectable `sessionStorage` and legacy migration.
 - `fileChatMemory` — JSON file.
 - `sqliteChatMemory` — SQLite-backed.
 - `redisChatMemory` — Redis-backed.

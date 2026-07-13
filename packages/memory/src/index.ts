@@ -1,4 +1,6 @@
 export { fileChatMemory } from './file-chat'
+export { createWebStorageMemory } from './web-storage'
+export type { WebStorageLike, WebStorageMemoryMigration, WebStorageMemoryOptions } from './web-storage'
 
 export { sqliteChatMemory } from './sqlite'
 export type { SqliteChatMemoryConfig } from './sqlite'
