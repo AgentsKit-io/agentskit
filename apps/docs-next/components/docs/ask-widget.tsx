@@ -248,7 +248,7 @@ export function AskDocsWidget({
             <button type="button" onClick={() => setOpen(false)} aria-label="Close" className="text-ak-graphite">✕</button>
           </div>
         </header>
-        <div className="min-h-0 flex-1 overflow-hidden p-3 [&>[data-ak-app-chat]]:flex [&>[data-ak-app-chat]]:h-full [&>[data-ak-app-chat]]:min-h-0 [&>[data-ak-app-chat]]:flex-col">
+        <div className="min-h-0 flex-1 overflow-hidden p-3 [&>[data-ak-app-chat]]:flex [&>[data-ak-app-chat]]:h-full [&>[data-ak-app-chat]]:min-h-0 [&>[data-ak-app-chat]]:flex-col [&>[data-ak-app-chat]>[role=log]]:flex [&>[data-ak-app-chat]>[role=log]]:min-h-0 [&>[data-ak-app-chat]>[role=log]]:flex-1 [&>[data-ak-app-chat]>[role=log]]:overflow-hidden">
           <AgentChat
             key={effectiveStorageKey}
             definition={definition}
