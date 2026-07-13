@@ -364,13 +364,7 @@ export function createChatController(initial: ChatConfig): ChatController {
     stop() {
       gen++
       source?.abort()
-      set(current => ({
-        ...current,
-        messages: current.messages.map(message =>
-          message.status === 'streaming' ? { ...message, status: 'complete' as const } : message
-        ),
-        status: 'idle',
-      }))
+      set(current => ({ ...current, messages: current.messages.map(message => message.status === 'streaming' ? { ...message, status: 'complete' as const } : message), status: 'idle' }))
     },
     async retry() {
       const messages = [...state.messages]
