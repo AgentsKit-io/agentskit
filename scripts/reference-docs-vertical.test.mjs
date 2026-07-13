@@ -60,7 +60,10 @@ test('Lighthouse keeps the Vercel bypass out of audited URLs', () => {
 
   assert.doesNotMatch(workflow, /x-vercel-protection-bypass=\$\{BYPASS\}/)
   assert.match(workflow, /configPath: \.\/apps\/docs-next\/lighthouserc\.cjs/)
-  assert.match(workflow, /if: always\(\) && steps\.preview\.outputs\.url != ''/)
+  assert.match(workflow, /if: always\(\) && steps\.target\.outputs\.url != ''/)
+  assert.match(workflow, /pnpm --filter @agentskit\/docs-next build/)
+  assert.match(workflow, /http:\/\/127\.0\.0\.1:3000/)
+  assert.match(workflow, /EXPECTED_ORIGIN: \$\{\{ steps\.target\.outputs\.url \}\}/)
   assert.match(workflow, /Lighthouse did not produce a report manifest/)
   assert.match(config, /'x-vercel-protection-bypass': bypass/)
   assert.match(config, /extraHeaders/)

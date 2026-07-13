@@ -32,7 +32,7 @@ jobs:
           SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           set -eu
-          for i in $(seq 1 60); do
+          for i in $(seq 1 12); do
             deployment=$(gh api "repos/${GITHUB_REPOSITORY}/deployments?sha=${SHA}&per_page=50" \
               --jq '[.[] | select((.environment // "") | test("[Pp]review"))] | .[0]' 2>/dev/null || echo '{}')
             statuses_url=$(printf '%s' "$deployment" | jq -r '.statuses_url // empty')
@@ -46,16 +46,54 @@ jobs:
               fi
             fi
             echo "attempt $i: preview not ready yet"
-            sleep 15
+            sleep 10
           done
-          echo "::warning::No Vercel preview deployment resolved within 15 minutes — skipping Lighthouse."
-          exit 0
+          echo "::notice::No Vercel preview deployment resolved within 2 minutes — using a local production build."
+
+      - uses: pnpm/action-setup@v4
+        if: steps.preview.outputs.url == ''
+
+      - uses: actions/setup-node@v4
+        if: steps.preview.outputs.url == ''
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install dependencies for local fallback
+        if: steps.preview.outputs.url == ''
+        run: pnpm install --frozen-lockfile
+
+      - name: Build local production fallback
+        if: steps.preview.outputs.url == ''
+        run: pnpm --filter @agentskit/docs-next build
+
+      - name: Start local production fallback
+        id: local
+        if: steps.preview.outputs.url == ''
+        run: |
+          set -eu
+          pnpm --filter @agentskit/docs-next exec next start --hostname 127.0.0.1 --port 3000 > "$RUNNER_TEMP/docs-next.log" 2>&1 &
+          for i in $(seq 1 30); do
+            if curl --fail --silent --show-error http://127.0.0.1:3000/ > /dev/null; then
+              echo "url=http://127.0.0.1:3000" >> "$GITHUB_OUTPUT"
+              exit 0
+            fi
+            sleep 2
+          done
+          cat "$RUNNER_TEMP/docs-next.log"
+          exit 1
+
+      - name: Select Lighthouse target
+        id: target
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.url }}
+          LOCAL_URL: ${{ steps.local.outputs.url }}
+        run: echo "url=${PREVIEW_URL:-$LOCAL_URL}" >> "$GITHUB_OUTPUT"
 
       - name: Build Lighthouse URL list
         id: urls
-        if: steps.preview.outputs.url != ''
         env:
-          BASE: ${{ steps.preview.outputs.url }}
+          BASE: ${{ steps.target.outputs.url }}
         run: |
           set -eu
           paths="/ /docs /docs/get-started/getting-started/quickstart /stack /showcase"
@@ -68,7 +106,6 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Run Lighthouse CI
-        if: steps.preview.outputs.url != ''
         uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18 # v12
         id: lhci
         env:
@@ -82,14 +119,14 @@ jobs:
 
       - name: Validate audited destinations
         id: destinations
-        if: always() && steps.preview.outputs.url != ''
+        if: always() && steps.target.outputs.url != ''
         env:
-          EXPECTED_ORIGIN: ${{ steps.preview.outputs.url }}
+          EXPECTED_ORIGIN: ${{ steps.target.outputs.url }}
           LH_MANIFEST: ${{ steps.lhci.outputs.manifest }}
         run: node scripts/validate-lighthouse-manifest.mjs
 
       - name: Post Lighthouse summary
-        if: always() && steps.preview.outputs.url != ''
+        if: always() && steps.target.outputs.url != ''
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
           LH_MANIFEST: ${{ steps.lhci.outputs.manifest }}
@@ -102,9 +139,9 @@ jobs:
                 '## Lighthouse',
                 '',
                 manifest
-                  ? 'Audit rejected: the collected page did not remain on the resolved Vercel preview origin.'
+                  ? 'Audit rejected: the collected page did not remain on the selected Lighthouse target origin.'
                   : 'Audit rejected: Lighthouse did not produce a report manifest.',
-                'Check the preview deployment and `VERCEL_AUTOMATION_BYPASS_SECRET`, then rerun this workflow.',
+                'Check the preview protection or local production fallback, then rerun this workflow.',
               ].join('\n')
               const prNumber = context.payload.pull_request?.number
               if (!prNumber) return
