@@ -61,3 +61,21 @@ export function groupByCategory(agents: RegistryAgentSummary[]): Record<string, 
   for (const a of agents) (out[a.category] ??= []).push(a)
   return out
 }
+
+export function relatedAgents(
+  current: RegistryAgentSummary,
+  agents: RegistryAgentSummary[],
+  limit = 4,
+): RegistryAgentSummary[] {
+  const tags = new Set(current.tags ?? [])
+  return agents
+    .filter((agent) => agent.id !== current.id)
+    .map((agent) => ({
+      agent,
+      score: (agent.category === current.category ? 10 : 0) + (agent.tags ?? []).filter((tag) => tags.has(tag)).length,
+    }))
+    .filter(({ score }) => score > 0)
+    .sort((a, b) => b.score - a.score || a.agent.title.localeCompare(b.agent.title))
+    .slice(0, limit)
+    .map(({ agent }) => agent)
+}

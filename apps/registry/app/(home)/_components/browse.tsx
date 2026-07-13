@@ -1,94 +1,148 @@
 'use client'
 
 import Link from 'next/link'
-import { useMemo, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { useMemo } from 'react'
 import type { RegistryAgentSummary } from '@/lib/registry'
 import { Icon, CopyButton } from './ui'
 import { categoryMeta, sortedCategories } from './categories'
 
-function AgentCard({ a }: { a: RegistryAgentSummary }) {
-  const cat = categoryMeta(a.category)
+const PAGE_SIZE = 24
+
+function AgentCard({ agent }: { agent: RegistryAgentSummary }) {
+  const category = categoryMeta(agent.category)
   return (
-    <article className="flex flex-col overflow-hidden rounded-xl border border-ak-border bg-ak-surface transition hover:-translate-y-0.5 hover:border-ak-blue/50 hover:shadow-lg">
-      <Link href={`/agents/${a.id}`} className="flex-1 p-5">
-        <div className="mb-3 flex items-center gap-2">
-          <span className="rounded-full border border-ak-blue/30 bg-ak-blue/10 px-2.5 py-0.5 text-[11px] font-medium text-ak-blue">{cat.label}</span>
-          {a.runnable && (
-            <span className="inline-flex items-center gap-1 rounded-full border border-ak-green/40 px-2.5 py-0.5 text-[11px] font-medium text-ak-green">
-              <span className="h-1.5 w-1.5 rounded-full bg-ak-green" /> Runnable
-            </span>
-          )}
+    <article className="group flex min-h-56 min-w-0 max-w-full flex-col overflow-hidden border-t border-ak-border py-5 transition hover:border-ak-blue">
+      <Link href={`/agents/${agent.id}`} className="min-w-0 flex-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ak-blue">
+        <div className="flex items-center gap-2 text-xs text-ak-graphite">
+          <Icon name={category.icon} size={15} />
+          <span>{category.label}</span>
+          {agent.runnable && <span className="ml-auto text-ak-green">Runnable</span>}
         </div>
-        <div className="mb-2 flex items-center gap-2.5">
-          <span className="inline-grid h-8 w-8 shrink-0 place-items-center rounded-lg border border-ak-blue/25 bg-ak-blue/10 text-ak-blue">
-            <Icon name="bot" size={18} />
-          </span>
-          <h3 className="text-[1.05rem] font-semibold text-ak-foam">{a.title}</h3>
-        </div>
-        <p className="line-clamp-3 text-sm text-ak-graphite">{a.description}</p>
+        <h3 className="mt-4 text-lg font-semibold text-ak-foam group-hover:text-ak-blue">{agent.title}</h3>
+        <p className="mt-2 line-clamp-3 text-sm leading-6 text-ak-graphite">{agent.description}</p>
       </Link>
-      <div className="flex items-center gap-2 border-t border-ak-border bg-ak-midnight/40 px-4 py-2.5">
-        <code className="flex-1 truncate font-mono text-xs text-ak-graphite">npx agentskit add {a.id}</code>
-        <CopyButton value={`npx agentskit add ${a.id}`} variant="icon" />
+      <div className="mt-5 flex items-center gap-2">
+        <code className="min-w-0 flex-1 truncate font-mono text-xs text-ak-graphite">npx agentskit add {agent.id}</code>
+        <CopyButton value={`npx agentskit add ${agent.id}`} variant="icon" />
       </div>
     </article>
   )
 }
 
 export function Browse({ agents }: { agents: RegistryAgentSummary[] }) {
-  const cats = useMemo(() => sortedCategories(agents.map((a) => a.category)), [agents])
-  const [active, setActive] = useState(cats[0] ?? '')
+  const router = useRouter()
+  const searchParams = useSearchParams()
+  const categories = useMemo(() => sortedCategories(agents.map((agent) => agent.category)), [agents])
+  const query = searchParams.get('q')?.trim() ?? ''
+  const category = searchParams.get('category') ?? ''
+  const requestedPage = Number(searchParams.get('page') ?? '1')
+
   const counts = useMemo(() => {
-    const m: Record<string, number> = {}
-    for (const a of agents) m[a.category] = (m[a.category] ?? 0) + 1
-    return m
+    const result: Record<string, number> = {}
+    for (const agent of agents) result[agent.category] = (result[agent.category] ?? 0) + 1
+    return result
   }, [agents])
-  const filtered = agents.filter((a) => a.category === active)
+
+  const filtered = useMemo(() => {
+    const needle = query.toLocaleLowerCase()
+    return agents.filter((agent) => {
+      if (category && agent.category !== category) return false
+      if (!needle) return true
+      return [agent.title, agent.description, agent.id, agent.category, ...(agent.tags ?? [])]
+        .join(' ')
+        .toLocaleLowerCase()
+        .includes(needle)
+    })
+  }, [agents, category, query])
+
+  const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
+  const page = Number.isInteger(requestedPage) ? Math.min(Math.max(requestedPage, 1), pageCount) : 1
+  const visible = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+
+  function update(next: { q?: string; category?: string; page?: number }) {
+    const params = new URLSearchParams(searchParams.toString())
+    for (const [key, value] of Object.entries(next)) {
+      if (!value || value === 1) params.delete(key)
+      else params.set(key, String(value))
+    }
+    router.replace(`/?${params.toString()}#agents`, { scroll: false })
+  }
 
   return (
-    <section id="agents" className="scroll-mt-20 px-4 py-16 sm:px-6 sm:py-20">
+    <section id="agents" className="scroll-mt-20 px-4 py-14 sm:px-6 sm:py-20">
       <div className="mx-auto max-w-5xl">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-ak-blue">Browse by category</div>
-        <h2 className="mt-2 text-2xl font-bold tracking-tight text-ak-foam sm:text-3xl">Browse by category</h2>
-        <p className="mt-2 max-w-xl text-ak-graphite">Pick a category to filter the agents below.</p>
-
-        <div role="tablist" aria-label="Filter agents by category" className="mt-7 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {cats.map((id) => {
-            const m = categoryMeta(id)
-            const on = id === active
-            return (
+        <div className="grid min-w-0 gap-6 lg:grid-cols-[15rem_1fr] lg:gap-10">
+          <aside aria-label="Agent categories" className="min-w-0 max-w-full overflow-hidden lg:sticky lg:top-20 lg:self-start lg:overflow-visible">
+            <h2 className="text-xl font-semibold text-ak-foam">Explore agents</h2>
+            <p className="mt-1 text-sm text-ak-graphite">Filter by domain or search by task.</p>
+            <nav className="mt-5 flex w-full min-w-0 gap-2 overflow-x-auto pb-2 lg:block lg:space-y-0.5 lg:overflow-visible">
               <button
-                key={id}
                 type="button"
-                role="tab"
-                aria-selected={on}
-                onClick={() => setActive(id)}
-                className={`relative flex items-start gap-3.5 rounded-xl border p-4 text-left transition hover:-translate-y-0.5 hover:shadow-lg ${
-                  on ? 'border-ak-blue/60 bg-ak-blue/5' : 'border-ak-border bg-ak-surface hover:border-ak-blue/40'
-                }`}
+                onClick={() => update({ category: '', page: 1 })}
+                aria-current={!category ? 'page' : undefined}
+                className={`flex shrink-0 items-center gap-2 rounded-md px-2.5 py-2 text-sm lg:w-full ${!category ? 'bg-ak-surface font-medium text-ak-foam' : 'text-ak-graphite hover:text-ak-foam'}`}
               >
-                <span className="inline-grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-ak-blue/20 bg-ak-blue/10 text-ak-blue">
-                  <Icon name={m.icon} size={20} />
-                </span>
-                <span className="min-w-0 flex-1">
-                  <span className="flex items-baseline justify-between gap-2">
-                    <span className="font-semibold text-ak-foam">{m.label}</span>
-                    <span className="shrink-0 font-mono text-[11px] text-ak-graphite">{counts[id]} agents</span>
-                  </span>
-                  <span className="mt-1 block text-sm text-ak-graphite">{m.blurb}</span>
-                </span>
-                {on && (
-                  <span className="absolute right-3 top-3 grid h-5 w-5 place-items-center rounded-full bg-ak-blue text-white">
-                    <Icon name="check" size={13} />
-                  </span>
-                )}
+                <Icon name="layers" size={16} /> All <span className="ml-auto font-mono text-[11px]">{agents.length}</span>
               </button>
-            )
-          })}
-        </div>
+              {categories.map((id) => {
+                const meta = categoryMeta(id)
+                const active = id === category
+                return (
+                  <button
+                    key={id}
+                    type="button"
+                    onClick={() => update({ category: id, page: 1 })}
+                    aria-current={active ? 'page' : undefined}
+                    className={`flex shrink-0 items-center gap-2 rounded-md px-2.5 py-2 text-sm lg:w-full ${active ? 'bg-ak-surface font-medium text-ak-foam' : 'text-ak-graphite hover:text-ak-foam'}`}
+                  >
+                    <Icon name={meta.icon} size={16} /> {meta.label}
+                    <span className="ml-auto font-mono text-[11px]">{counts[id]}</span>
+                  </button>
+                )
+              })}
+            </nav>
+          </aside>
 
-        <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((a) => <AgentCard key={a.id} a={a} />)}
+          <div className="min-w-0">
+            <label className="relative block">
+              <span className="sr-only">Search agents</span>
+              <Icon name="search" size={18} className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-ak-graphite" />
+              <input
+                type="search"
+                value={query}
+                onChange={(event) => update({ q: event.target.value, page: 1 })}
+                placeholder="Search by task, agent, or capability"
+                className="h-11 w-full rounded-md border border-ak-border bg-ak-midnight pr-4 pl-11 text-sm text-ak-foam outline-none transition placeholder:text-ak-graphite focus:border-ak-blue focus:ring-2 focus:ring-ak-blue/20"
+              />
+            </label>
+
+            <div className="mt-5 flex items-center justify-between gap-4 border-b border-ak-border pb-3 text-sm">
+              <p className="text-ak-graphite"><strong className="font-medium text-ak-foam">{filtered.length}</strong> {filtered.length === 1 ? 'agent' : 'agents'}</p>
+              {(query || category) && (
+                <button type="button" onClick={() => router.replace('/#agents', { scroll: false })} className="text-ak-blue hover:underline">Clear filters</button>
+              )}
+            </div>
+
+            {visible.length > 0 ? (
+              <div className="grid gap-x-6 sm:grid-cols-2 xl:grid-cols-3">
+                {visible.map((agent) => <AgentCard key={agent.id} agent={agent} />)}
+              </div>
+            ) : (
+              <div className="border-b border-ak-border py-16 text-center">
+                <h3 className="font-semibold text-ak-foam">No matching agents</h3>
+                <p className="mt-2 text-sm text-ak-graphite">Try a broader task or clear the selected category.</p>
+              </div>
+            )}
+
+            {pageCount > 1 && (
+              <nav aria-label="Agent result pages" className="mt-8 flex items-center justify-between border-t border-ak-border pt-5">
+                <button type="button" disabled={page === 1} onClick={() => update({ page: page - 1 })} className="text-sm text-ak-blue disabled:pointer-events-none disabled:text-ak-graphite">Previous</button>
+                <span className="text-sm text-ak-graphite">Page {page} of {pageCount}</span>
+                <button type="button" disabled={page === pageCount} onClick={() => update({ page: page + 1 })} className="text-sm text-ak-blue disabled:pointer-events-none disabled:text-ak-graphite">Next</button>
+              </nav>
+            )}
+          </div>
         </div>
       </div>
     </section>

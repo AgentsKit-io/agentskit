@@ -1,0 +1,38 @@
+---
+title: Troubleshooting
+description: Fix common installation, provider, structured output, and update problems.
+---
+
+## Agent not found
+
+Confirm the id on the agent page or in [`/r/index.json`](/r/index.json). Agent ids are lowercase
+and hyphenated. Update the CLI before retrying an agent added recently.
+
+## Missing package or import
+
+Install every package listed on the agent page. The Registry copies source, but your package manager
+still owns dependencies. Keep the import path pointed at your configured output directory.
+
+## Provider authentication failed
+
+Verify the provider-specific environment variable in the same process that runs the agent. Avoid
+loading server credentials into client-side environment variables.
+
+## Structured output failed
+
+Choose a model with reliable tool calling or structured output, reduce conflicting custom prompt
+instructions, and retry with the exact input in the agent's evaluation suite.
+
+## Tool call is blocked
+
+Check `onConfirm`, tool allow-lists, MCP transport permissions, and sandbox policy. A blocked write
+is normally safer than silently broadening permissions.
+
+## Local copy differs from Registry
+
+```bash
+npx agentskit diff <agent>
+```
+
+Review the diff before `npx agentskit update <agent>`. Preserve application-specific changes and
+run tests after resolving conflicts.

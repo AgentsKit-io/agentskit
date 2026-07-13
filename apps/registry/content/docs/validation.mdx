@@ -1,0 +1,31 @@
+---
+title: Validation and safety
+description: Understand what validated v1 means and what you must verify in your environment.
+---
+
+Every validated v1 agent has a typed factory, unit tests, evaluation cases, and a manifest that
+passes the Registry schema and catalog policies. Validation catches known contract and behavior
+regressions; it is not a guarantee for every model, prompt, dataset, or production environment.
+
+## Registry checks
+
+- TypeScript type checking
+- Manifest and catalog schema validation
+- Unit tests with deterministic adapters
+- Agent-specific evaluation cases
+- Build freshness for installable manifests
+- Safety conventions for untrusted content and sensitive domains
+
+## Before deployment
+
+1. Run the included tests after modifying the copied source.
+2. Replay evaluation cases with your provider and model.
+3. Add cases from your own traffic, including ambiguous and adversarial inputs.
+4. Require human approval for consequential tool calls.
+5. Monitor errors, latency, cost, and sampled output quality.
+
+## Version ownership
+
+Your installed copy does not change automatically. Use `npx agentskit diff <agent>` to inspect
+upstream changes and `npx agentskit update <agent>` when you decide to adopt them. Re-run your own
+tests and evaluations after every update.

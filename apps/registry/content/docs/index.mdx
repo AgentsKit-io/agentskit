@@ -3,12 +3,29 @@ title: AgentsKit Registry
 description: Ready-to-use AI agents you copy into your project — you own the code.
 ---
 
-The registry is a collection of ready-to-use AI agents for [AgentsKit](https://www.agentskit.io).
-Each agent is a small, self-contained factory wiring published `@agentskit/*` packages
-(a skill + tools + the runtime). The CLI copies the source into your project — shadcn-style —
-so you can read it, edit it, and keep it. **No new framework dependency, no lock-in.**
+The Registry is the fastest path from a task to an agent you can own. Each entry is a
+provider-agnostic TypeScript factory with a typed contract, tests, evaluation coverage, and
+source code. The CLI copies it into your repository — shadcn-style — so there is no registry
+runtime and no lock-in.
 
-- **[Browse the agents](/)** — the gallery.
-- **[Using an agent](/docs/using)** — add, run, and keep it up to date.
-- **[Create your own](/docs/authoring)** — the agent contract + conventions.
-- **[Contributing](/docs/contributing)** — submit an agent to the registry.
+## Choose a path
+
+- **I want to install one:** start with the [quick start](/docs/quick-start), then [browse agents](/#agents).
+- **I need another model:** see [providers and models](/docs/providers).
+- **I need tools, RAG, memory, or approvals:** read [customizing an agent](/docs/customizing).
+- **I need to understand quality:** see [validation and safety](/docs/validation).
+- **Something failed:** use [troubleshooting](/docs/troubleshooting).
+- **I want to publish an agent:** follow [Create your own](/docs/authoring) and [Contributing](/docs/contributing).
+
+## What gets installed
+
+`npx agentskit add <id>` downloads the manifest at `/r/<id>.json`, verifies the files listed by
+the agent, and writes the source to `./agents/<id>/`. Your application imports that local source.
+Updating is explicit, so Registry releases never silently change a running agent.
+
+## Discovery for tools and LLMs
+
+- [`/r/index.json`](/r/index.json) — machine-readable catalog.
+- [`/llms.txt`](/llms.txt) — concise documentation and agent index.
+- [`/llms-full.txt`](/llms-full.txt) — full agent context.
+- [`/api/mcp`](/api/mcp) — MCP discovery endpoint.

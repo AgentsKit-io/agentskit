@@ -1,0 +1,53 @@
+---
+title: Customizing an agent
+description: Add tools, retrieval, memory, permissions, observability, and delegation.
+---
+
+The copied factory is deliberately small. Edit it directly for product-specific behavior and pass
+runtime capabilities through its config when they should remain replaceable.
+
+## Tools and MCP
+
+```ts
+import { webSearch } from '@agentskit/tools'
+import { createMcpClient, toolsFromMcpClient } from '@agentskit/tools/mcp'
+
+const mcp = await createMcpClient(/* transport */)
+const agent = createMyAgent({
+  adapter,
+  tools: [webSearch(), ...(await toolsFromMcpClient(mcp))],
+  onConfirm: (call) => approve(call),
+})
+```
+
+Use `onConfirm` for tools that write data, spend money, publish content, or trigger external actions.
+
+## RAG and memory
+
+```ts
+const agent = createMyAgent({
+  adapter,
+  retriever: knowledgeBase,
+  memory: conversationMemory,
+})
+```
+
+Retrieval supplies grounded context for a run. Memory preserves conversation state. Treat both as
+untrusted input: enforce tenant boundaries and keep prompt-injection defenses in the skill.
+
+## Observability
+
+```ts
+const agent = createMyAgent({
+  adapter,
+  observers: [tracer, auditLog],
+})
+```
+
+Record latency, model usage, tool calls, errors, and approval decisions. Redact personal data and
+secrets before sending traces to third-party systems.
+
+## Delegation
+
+Agents expose `.asHandle()` for supervisor and swarm topologies. Keep delegation depth and step
+limits bounded, and propagate cancellation signals through every child run.
