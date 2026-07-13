@@ -11,6 +11,7 @@
     "test:e2e": "pnpm build && playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:ecosystem": "vitest run scripts/ecosystem-contract.test.mjs",
+    "test:reference-docs": "vitest run scripts/reference-docs-vertical.test.mjs",
     "lint": "turbo run lint",
     "sync:models": "node scripts/sync-models-dev.mjs",
     "gen:integration": "node scripts/gen-integration.mjs",

@@ -11,12 +11,13 @@ import {
 } from '@/components/home/showcases'
 import { Icon } from '@/components/home/icons'
 import { BrandIcon } from '@/components/home/brand-icon'
+import { ReferenceJourney } from '@/components/home/reference-journey'
 import { counts, approx } from '@/lib/ecosystem-stats'
+import { agentsKitIdentity } from '@/lib/reference-journey'
 
 export const metadata = {
-  title: 'AgentsKit.js — Ship AI agents in JavaScript without gluing 8 libraries',
-  description:
-    'One ecosystem for chat UI, runtime, tools, memory, RAG, and production guardrails. Start with one package, grow into the full stack. MIT, 10KB core.',
+  title: `${agentsKitIdentity.name}.js — ${agentsKitIdentity.promise}`,
+  description: `${agentsKitIdentity.promise} A composable TypeScript foundation for runtime, tools, memory, RAG, and chat interfaces.`,
   openGraph: {
     title: 'AgentsKit.js — Ship AI agents in JavaScript',
     description:
@@ -53,8 +54,7 @@ const JSON_LD = {
       '@type': 'SoftwareApplication',
       '@id': 'https://www.agentskit.io/#software',
       name: 'AgentsKit.js',
-      description:
-        'One ecosystem for building AI agents in JavaScript — chat UI, runtime, tools, memory, RAG, and production guardrails. Start with one package, grow into the full stack.',
+      description: agentsKitIdentity.promise,
       applicationCategory: 'DeveloperApplication',
       operatingSystem: 'Cross-platform',
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
@@ -88,6 +88,7 @@ export default function HomePage() {
       <CliSection />
       <ComposeSection />
       <EcosystemStats />
+      <ReferenceJourney />
       <FinalCta />
       <SiteFooter />
     </main>
@@ -103,6 +104,9 @@ function Hero() {
             <AnimatedLogo variant="hero" size={44} loop />
             <span className="font-mono text-lg font-bold tracking-tight text-ak-foam sm:text-xl">
               agentskit<span className="text-ak-graphite">.js</span>
+            </span>
+            <span className="rounded-full border border-ak-border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-ak-graphite">
+              {agentsKitIdentity.role} · {agentsKitIdentity.maturity}
             </span>
           </div>
 
@@ -129,6 +133,12 @@ function Hero() {
 
           <FadeIn delay={0.3}>
             <HeroFrameworks />
+          </FadeIn>
+
+          <FadeIn delay={0.35}>
+            <p className="mt-6 max-w-xl border-l-2 border-ak-green pl-4 text-sm leading-relaxed text-ak-graphite">
+              Built for {agentsKitIdentity.audience}
+            </p>
           </FadeIn>
         </div>
 
@@ -157,6 +167,19 @@ function Hero() {
           </div>
         </div>
       </div>
+
+      <dl className="mx-auto mt-12 grid max-w-6xl grid-cols-2 gap-px overflow-hidden rounded-xl border border-ak-border bg-ak-border sm:grid-cols-4 lg:mt-16">
+        {agentsKitIdentity.proof.slice(0, 4).map((claim) => (
+          <div key={claim.id} className="bg-ak-midnight px-4 py-4 sm:px-5">
+            <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-ak-graphite">
+              verified in repo
+            </dt>
+            <dd className="mt-1 font-mono text-sm font-semibold text-ak-foam sm:text-base">
+              {claim.value.toLocaleString('en-US')} {claim.noun}
+            </dd>
+          </div>
+        ))}
+      </dl>
     </section>
   )
 }
@@ -292,70 +315,10 @@ function EcosystemStats() {
           </div>
         </div>
 
-        <div className="mt-16">
-          <p className="mb-6 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-graphite/60 sm:text-xs">
-            Beyond the libraries
-          </p>
-          <div className="grid gap-4 sm:gap-5 md:grid-cols-3">
-            {ECOSYSTEM_PROPERTIES.map((p) => (
-              <a
-                key={p.name}
-                href={p.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group relative flex flex-col overflow-hidden rounded-2xl bg-ak-surface/50 p-6 transition hover:bg-ak-surface"
-              >
-                <span
-                  aria-hidden="true"
-                  className="pointer-events-none absolute -right-10 -top-10 h-28 w-28 rounded-full bg-ak-blue/0 blur-2xl transition group-hover:bg-ak-blue/10"
-                />
-                <div className="mb-4 flex items-center justify-between gap-3">
-                  <span className="inline-flex h-11 w-11 items-center justify-center rounded-xl bg-ak-blue/10 text-ak-blue transition group-hover:bg-ak-blue group-hover:text-ak-midnight">
-                    <Icon name={p.icon} className="h-5 w-5" />
-                  </span>
-                  <span className="font-mono text-sm text-ak-graphite transition group-hover:translate-x-0.5 group-hover:text-ak-blue">
-                    ↗
-                  </span>
-                </div>
-                <span className="font-mono text-base font-bold text-ak-foam transition group-hover:text-ak-blue">
-                  {p.name}
-                </span>
-                <span className="mb-2 mt-1 font-mono text-[11px] uppercase tracking-wide text-ak-graphite/60">
-                  {p.tag}
-                </span>
-                <p className="text-sm leading-relaxed text-ak-graphite">{p.desc}</p>
-              </a>
-            ))}
-          </div>
-        </div>
       </div>
     </section>
   )
 }
-
-const ECOSYSTEM_PROPERTIES = [
-  {
-    name: 'Registry',
-    icon: 'registry',
-    href: 'https://registry.agentskit.io',
-    tag: 'Ready-made agents',
-    desc: 'Copy production-ready agents into your project — research, PR review, support, and more. You own the source, zero lock-in.',
-  },
-  {
-    name: 'Playbook',
-    icon: 'playbook',
-    href: 'https://playbook.agentskit.io',
-    tag: 'Best practices',
-    desc: 'The engineering standards for building agents that ship — runtime validation, quality gates, security, and evals.',
-  },
-  {
-    name: 'AKOS',
-    icon: 'akos',
-    href: 'https://akos.agentskit.io',
-    tag: 'Production OS',
-    desc: 'The operating system for agents at scale — orchestration, egress control, and RBAC for running agents in production.',
-  },
-] as const
 
 function FinalCta() {
   return (

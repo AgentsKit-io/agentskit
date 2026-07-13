@@ -1,33 +1,95 @@
 ---
 title: Build your first agent
-description: Go from model adapter to real agent runtime with tools, memory, observability, and a production path.
+description: Run a deterministic AgentsKit agent locally, then connect any supported model provider without changing the runtime.
 ---
 
-This guide is the shortest path to what AgentsKit actually is: not just a chat UI, but a complete agent stack you can grow one layer at a time.
+AgentsKit is the composable JavaScript and TypeScript foundation for agent runtimes, tools, memory, RAG, and interfaces. This guide starts with a real runtime that succeeds without an account, then shows the one seam you replace to use a model.
 
-By the end, you will have:
+- **For:** JavaScript and TypeScript developers evaluating AgentsKit.
+- **Maturity:** Beta. The core contracts are stable; the wider runtime continues to evolve.
+- **First proof:** a complete local run in one file, with no hidden service.
 
-- an adapter
-- a runtime
-- tools
-- memory
-- observability hooks
-- a clear next step for RAG, evals, and security
+## Run your first agent locally
 
-## 1. Start with a model adapter
+Create an empty project with Node.js 20 or newer:
 
-```ts title="agent.ts"
-import { openai } from '@agentskit/adapters'
-
-const adapter = openai({
-  apiKey: process.env.OPENAI_API_KEY!,
-  model: 'gpt-4o',
-})
+```bash
+mkdir first-agent && cd first-agent
+npm init -y
+npm install @agentskit/core @agentskit/runtime tsx
 ```
 
-This is the provider seam. Swap `openai()` for `anthropic()`, `gemini()`, or `ollama()` and the rest of your agent stays the same.
+Create `agent.ts`:
 
-## 2. Add the runtime
+```ts title="agent.ts"
+import type { AdapterFactory } from '@agentskit/core'
+import { createRuntime } from '@agentskit/runtime'
+
+const localAdapter: AdapterFactory = {
+  createSource(request) {
+    const task = request.messages.at(-1)?.content ?? 'your task'
+
+    return {
+      async *stream() {
+        yield {
+          type: 'text' as const,
+          content: `Agent ready. I received: ${task}`,
+        }
+        yield { type: 'done' as const }
+      },
+      abort() {},
+    }
+  },
+}
+
+async function main() {
+  const runtime = createRuntime({ adapter: localAdapter })
+  const result = await runtime.run('Plan my first production agent')
+  console.log(result.content)
+}
+
+void main()
+```
+
+Run it:
+
+```bash
+npx tsx agent.ts
+```
+
+You should see:
+
+```text
+Agent ready. I received: Plan my first production agent
+```
+
+No account, API key, or network call is required. The example uses the same `AdapterFactory` and `createRuntime` contracts as a provider-backed agent, so this first result is executable documentation rather than pseudocode.
+
+## Understand the two moving parts
+
+```mermaid
+flowchart LR
+  T["Your task"] --> R["AgentsKit runtime"]
+  R --> A["Adapter contract"]
+  A --> S["Streaming response"]
+  S --> R
+  R --> O["Typed run result"]
+```
+
+- The **runtime** owns the agent loop, messages, tools, memory, and events.
+- The **adapter** turns a provider or local implementation into one streaming contract.
+
+That boundary is why you can validate behavior locally and connect a model without rewriting orchestration.
+
+## Connect a model provider
+
+When the local run works, install the provider adapters:
+
+```bash
+npm install @agentskit/adapters
+```
+
+Replace `localAdapter` with the provider you want:
 
 ```ts title="agent.ts"
 import { createRuntime } from '@agentskit/runtime'
@@ -40,132 +102,27 @@ const runtime = createRuntime({
   }),
 })
 
-const result = await runtime.run('Summarize the top three changes in this repo.')
+const result = await runtime.run('Plan my first production agent')
 console.log(result.content)
 ```
 
-At this point you already have a headless agent loop, not just a one-shot completion call.
+Set `OPENAI_API_KEY` and run the same command. You can use Anthropic, Gemini, Ollama, or another [supported provider](/docs/data/providers) through the same seam.
 
-## 3. Give the agent tools
+## Grow only when the task needs it
 
-```ts title="agent.ts"
-import { createRuntime } from '@agentskit/runtime'
-import { openai } from '@agentskit/adapters'
-import { webSearch, filesystem } from '@agentskit/tools'
+1. Add a [tool](/docs/agents/tools) when the agent must act.
+2. Add [memory](/docs/data/memory) when it must retain useful context.
+3. Add [RAG](/docs/data/rag/create-rag) when answers need your own sources.
+4. Add [observability](/docs/production/observability) before production traffic.
+5. Add [evals](/docs/production/evals) before changing prompts or models confidently.
 
-const runtime = createRuntime({
-  adapter: openai({
-    apiKey: process.env.OPENAI_API_KEY!,
-    model: 'gpt-4o',
-  }),
-  tools: [
-    webSearch(),
-    ...filesystem({ basePath: './workspace' }),
-  ],
-})
+## Continue in the ecosystem
 
-const result = await runtime.run(
-  'Research the latest AgentsKit mentions and save a summary to notes/summary.md',
-)
-```
+- Need working source to adapt? Browse the [AgentsKit Registry](https://registry.agentskit.io/docs).
+- Need the same agent across chat surfaces? Use [AgentsKit Chat](https://github.com/AgentsKit-io/agentskit-chat/tree/main/docs).
+- Need repeatable engineering standards? Follow the [Agents Playbook](https://playbook.agentskit.io/docs).
+- Need agent-readable repository handoffs? Add [Doc Bridge](https://github.com/AgentsKit-io/doc-bridge/tree/master/docs).
+- Need low-noise verification? Run [AgentsKit Code Review](https://github.com/AgentsKit-io/code-review-cli#readme).
+- Need orchestration and governance? Continue to [AgentsKit OS](https://akos.agentskit.io/docs).
 
-Now the model can act, not just answer.
-
-## 4. Make it remember
-
-```ts title="agent.ts"
-import { createRuntime } from '@agentskit/runtime'
-import { openai } from '@agentskit/adapters'
-import { sqliteChatMemory } from '@agentskit/memory'
-
-const runtime = createRuntime({
-  adapter: openai({
-    apiKey: process.env.OPENAI_API_KEY!,
-    model: 'gpt-4o',
-  }),
-  memory: sqliteChatMemory({
-    path: './.agentskit/chat.db',
-  }),
-})
-```
-
-The same runtime now keeps context across runs. If you need vector memory, graph memory, or encrypted memory, you can layer those in without changing the rest of the stack.
-
-## 5. Add observability before production
-
-```ts title="agent.ts"
-import { createRuntime } from '@agentskit/runtime'
-import { openai } from '@agentskit/adapters'
-import { consoleObserver } from '@agentskit/observability'
-
-const runtime = createRuntime({
-  adapter: openai({
-    apiKey: process.env.OPENAI_API_KEY!,
-    model: 'gpt-4o',
-  }),
-  observers: [consoleObserver()],
-})
-```
-
-This gives you visibility into runs, tool calls, and failures before the system gets complicated.
-
-## 6. Full example
-
-```ts title="agent.ts"
-import { createRuntime } from '@agentskit/runtime'
-import { openai } from '@agentskit/adapters'
-import { webSearch, filesystem } from '@agentskit/tools'
-import { sqliteChatMemory } from '@agentskit/memory'
-import { consoleObserver } from '@agentskit/observability'
-
-const runtime = createRuntime({
-  adapter: openai({
-    apiKey: process.env.OPENAI_API_KEY!,
-    model: 'gpt-4o',
-  }),
-  tools: [
-    webSearch(),
-    ...filesystem({ basePath: './workspace' }),
-  ],
-  memory: sqliteChatMemory({
-    path: './.agentskit/chat.db',
-  }),
-  observers: [consoleObserver()],
-  maxSteps: 6,
-})
-
-const result = await runtime.run(
-  'Research the top three AI agent frameworks and write a comparison to docs/agent-frameworks.md',
-)
-
-console.log(result.content)
-```
-
-That is the core AgentsKit story in one file: provider + runtime + tools + memory + observability.
-
-## 7. Where to go next
-
-- Want a UI on top of the same agent stack? Add [`@agentskit/react`](/docs/reference/packages/react) or [`@agentskit/ink`](/docs/reference/packages/ink).
-- Need retrieval? Continue with [createRAG](/docs/data/rag/create-rag).
-- Need production guardrails? Go to [Observability](/docs/production/observability), [Security](/docs/production/security), and [Evals](/docs/production/evals).
-- Want the tiny hello-world first? Go back to [Quick start](./quickstart).
-
-## Recommended install sets
-
-### Minimal real agent
-
-```bash
-npm install @agentskit/adapters @agentskit/runtime @agentskit/tools
-```
-
-### Agent with memory and observability
-
-```bash
-npm install @agentskit/adapters @agentskit/runtime @agentskit/tools @agentskit/memory @agentskit/observability
-```
-
-### UI + agent stack
-
-```bash
-npm install @agentskit/react @agentskit/adapters @agentskit/runtime @agentskit/tools @agentskit/memory
-```
+Every step is optional. AgentsKit remains the foundation; the link appears where that adjacent product solves the next concrete problem.
