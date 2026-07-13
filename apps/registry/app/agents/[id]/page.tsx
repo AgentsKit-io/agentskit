@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { DynamicCodeBlock } from 'fumadocs-ui/components/dynamic-codeblock'
 import { factoryName, getAgent, getRegistryIndex, relatedAgents } from '@/lib/registry'
 import type { RegistryValidationEvidence } from '@/lib/registry'
+import { categoryMeta } from '@/lib/categories'
 import { AgentAnalytics } from './agent-analytics'
 import { AgentFeedback } from './agent-feedback'
 import { InstallCommand } from './install-command'
@@ -128,6 +129,7 @@ console.log(result.content)`
     license: agent.license ?? 'MIT',
     url: `https://registry.agentskit.io/agents/${agent.id}`,
   }
+  const category = categoryMeta(agent.category)
 
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
@@ -135,7 +137,7 @@ console.log(result.content)`
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-ak-graphite">
         <Link href="/#agents" className="hover:text-ak-blue">Agents</Link><span>/</span>
-        <Link href={`/?category=${agent.category}#agents`} className="capitalize hover:text-ak-blue">{agent.category}</Link><span>/</span>
+        <Link href={`/categories/${agent.category}`} className="hover:text-ak-blue">{category.label}</Link><span>/</span>
         <span aria-current="page" className="truncate text-ak-foam">{agent.title}</span>
       </nav>
 
@@ -237,7 +239,7 @@ console.log(result.content)`
         <section className="mt-14 border-t border-ak-border pt-8">
           <div className="flex items-end justify-between gap-4">
             <div><p className="font-mono text-xs uppercase tracking-[0.14em] text-ak-blue">Keep exploring</p><h2 className="mt-2 text-2xl font-semibold text-ak-foam">Related agents</h2></div>
-            <Link href={`/?category=${agent.category}#agents`} className="text-sm text-ak-blue hover:underline">View category</Link>
+            <Link href={`/categories/${agent.category}`} className="text-sm text-ak-blue hover:underline">View category</Link>
           </div>
           <div className="mt-6 grid gap-x-6 sm:grid-cols-2 lg:grid-cols-4">
             {related.map((item) => (
