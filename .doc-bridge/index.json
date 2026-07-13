@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "49efcd5e12748706047816674426349aa395a096004fb063966812f0ae41cf18",
+  "contentHash": "304329fa6ed54ace6d8f96ffdf5261ee26f00192b7459254a6f85a4e4d1e221f",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-07-13T13:04:11.092Z",
+  "generatedAt": "2026-07-13T15:44:50.188Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -59,7 +59,7 @@
       "title": "index",
       "path": "apps/docs-next/content/docs/for-agents/index.mdx",
       "description": "If you're an AI agent reading this: every page in this section is a condensed reference for one AgentsKit package. Each page follows the same structure so you can skim quickly and quote accurately:",
-      "body": "If you're an AI agent reading this: every page in this section is a condensed reference for one AgentsKit package. Each page follows the same structure so you can skim quickly and quote accurately: 1. Purpose — one sentence. 2. Install — exact npm command. 3. Primary exports — name + one-line summary. 4. Minimal example — copy-pastable, always working. 5. Common patterns — 2–4 bullets with cross-links. 6. Related packages — what to read next. 7. Source — link to the package code + README. Human-facing docs (with narrative, screenshots, and storytelling) live under , , and . Packages covered Core - — contracts, controller, primitives. Adapters + runtime - — provider adapters + router + ensemble + fallback. - — ReAct loop + durable execution + topologies + speculate + background agents. UI bindings (same ChatReturn contract) - - (terminal) - - - - - Capabilities - — built-in + integrations + MCP bridge. - — chat + vector + graph + encrypted. - — ingestion + retrieval + reranking + loaders. - — personas + marketplace. Observability + evaluation - — trace viewer + audit log + devtools. - — Langfuse logger backend. - — suites + replay + snapshots + diff. - — Braintrust reporter backend. Infrastructure + authoring - — secure code execution + policy. - — init / chat / run / doctor / dev / ai. - — validated factories + scaffolds for custom tools / skills / adapters. How to use this section - Quoting : prefer these pages over README text — pages are version-synchronized with the code. - Linking : every page ends with \"Related packages\" + \"Source\" for pivoting. - Subpaths : most packages expose subpath exports (e.g. @agentskit/core/security ). They're always listed under \"Primary exports\"."
+      "body": "If you're an AI agent reading this: every page in this section is a condensed reference for one AgentsKit package. Each page follows the same structure so you can skim quickly and quote accurately: 1. Purpose — one sentence. 2. Install — exact npm command. 3. Primary exports — name + one-line summary. 4. Minimal example — copy-pastable, always working. 5. Common patterns — 2–4 bullets with cross-links. 6. Related packages — what to read next. 7. Source — link to the package code + README. Human-facing docs (with narrative, screenshots, and storytelling) live under , , and . Packages covered Core - — contracts, controller, primitives. Adapters + runtime - — provider adapters + router + ensemble + fallback. - — ReAct loop + durable execution + topologies + speculate + background agents. - — deterministic interaction state + validated snapshots, independent from UI and execution. UI bindings (same ChatReturn contract) - - (terminal) - - - - - Capabilities - — built-in + integrations + MCP bridge. - — chat + vector + graph + encrypted. - — ingestion + retrieval + reranking + loaders. - — personas + marketplace. Observability + evaluation - — trace viewer + audit log + devtools. - — Langfuse logger backend. - — suites + replay + snapshots + diff. - — Braintrust reporter backend. Infrastructure + authoring - — secure code execution + policy. - — init / chat / run / doctor / dev / ai. - — validated factories + scaffolds for custom tools / skills / adapters. How to use this section - Quoting : prefer these pages over README text — pages are version-synchronized with the code. - Linking : every page ends with \"Related packages\" + \"Source\" for pivoting. - Subpaths : most packages expose subpath exports (e.g. @agentskit/core/security ). They're always listed under \"Primary exports\"."
     },
     {
       "id": "ink",
@@ -157,6 +157,14 @@
       "path": "apps/docs-next/content/docs/for-agents/solid.mdx",
       "description": "SolidJS binding for the `ChatReturn` contract from `@agentskit/core`. Same shape as React/Vue/Svelte hooks — store-backed, cleanup wired via `onCleanup`.",
       "body": "Purpose SolidJS binding for the ChatReturn contract from @agentskit/core . Same shape as React/Vue/Svelte hooks — store-backed, cleanup wired via onCleanup . Install Primary exports - useChat(config): ChatReturn — Solid hook backed by createStore + onCleanup . Headless components (full parity with @agentskit/react , data-ak- attributes only): - ChatContainer — scroll wrapper, auto-scrolls on new content via a MutationObserver . - Message — renders a message; optional avatar / actions slots. - InputBar — textarea + Send button; Enter submits, Shift+Enter newlines, disabled when empty/streaming. - Markdown — content surface with a streaming flag. - CodeBlock — code + language , optional copyable copy button. - ToolCallView — collapsible tool-call view (name → args/result). - ThinkingIndicator — shown while visible , with a label . - ToolConfirmation — HITL approve/deny, renders only when status === 'requires confirmation' . Minimal example Common patterns - Reactivity : Solid stores are fine-grained — access chat.messages directly inside JSX, not destructured. - SSR : useChat is client-only. Wrap in <ClientOnly for SolidStart SSR. - Cleanup : subscriptions tear down via onCleanup ; no manual unsubscribe needed. Related - — ChatReturn contract. - — provider adapters. - , , , — sibling bindings. Source - npm: https://www.npmjs.com/package/@agentskit/solid - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/solid"
+    },
+    {
+      "id": "statechart",
+      "type": "agent-doc",
+      "title": "statechart",
+      "path": "apps/docs-next/content/docs/for-agents/statechart.mdx",
+      "description": "Represent deterministic interaction state independently from UI frameworks, providers, agent execution, and persistence.",
+      "body": "Purpose Represent deterministic interaction state independently from UI frameworks, providers, agent execution, and persistence. Install Primary exports - defineStatechart(definition) — validates transition targets and returns a frozen definition. - createStatechartInstance(definition, context, { instanceId, now }) — validates JSON context and creates revision zero. - transitionStatechart(definition, instance, event, { now }) — pure synchronous transition with an accepted / rejected result. - serializeStatechart(instance) — versioned JSON snapshot. - restoreStatechart(definition, unknown) — runtime-validated restore using the definition's injected parseContext . - notifyStatechartObserver(observer, result) — isolated observer delivery after transition. - StatechartDiagnosticCodes / StatechartError — stable diagnostic surface. - STATECHART SNAPSHOT VERSION — current serialized snapshot schema version. Constraints - Supply IDs and timestamps from the host; the package has no clock or randomness. - Context and event data must be JSON-compatible. - Keep guards and reducers deterministic for replay equivalence. - Persistence, event deduplication, effects, tools, agents, and rendering are outside this package. - Never deserialize a definition; restore snapshots against trusted runtime code. Choose the right owner - Interaction state and snapshots: @agentskit/statechart . - Agent loop, durable execution, DAGs, tools, effects: @agentskit/runtime . - Chat orchestration and shared contracts: @agentskit/core . - Framework rendering and hooks: the matching UI binding. Source - - -"
     },
     {
       "id": "svelte",
@@ -729,6 +737,35 @@
         "SolidJS binding for the `ChatReturn` contract from `@agentskit/core`. Same shape as React/Vue/Svelte hooks — store-backed, cleanup wired via `onCleanup`."
       ]
     },
+    "statechart": {
+      "type": "agent-handoff",
+      "schemaVersion": 1,
+      "source": ".doc-bridge/index.json",
+      "target": {
+        "type": "package",
+        "id": "statechart",
+        "path": "packages/statechart"
+      },
+      "startHere": "apps/docs-next/content/docs/for-agents/statechart.mdx",
+      "readBeforeEditing": [
+        "apps/docs-next/content/docs/for-agents/statechart.mdx",
+        "AGENTS.md"
+      ],
+      "editRoots": [
+        "packages/statechart"
+      ],
+      "checks": [
+        "pnpm --filter @agentskit/statechart test",
+        "pnpm --filter @agentskit/statechart lint"
+      ],
+      "humanDoc": "/docs/reference/packages/statechart",
+      "bridge": {
+        "humanDoc": "linked"
+      },
+      "notes": [
+        "Represent deterministic interaction state independently from UI frameworks, providers, agent execution, and persistence."
+      ]
+    },
     "svelte": {
       "type": "agent-handoff",
       "schemaVersion": 1,
@@ -892,6 +929,7 @@
       "sandbox",
       "skills",
       "solid",
+      "statechart",
       "svelte",
       "templates",
       "tools",
@@ -1097,6 +1135,17 @@
         "purpose": "SolidJS binding for the `ChatReturn` contract from `@agentskit/core`. Same shape as React/Vue/Svelte hooks — store-backed, cleanup wired via `onCleanup`.",
         "humanDoc": "/docs/reference/packages/solid",
         "agentDoc": "apps/docs-next/content/docs/for-agents/solid.mdx"
+      },
+      "statechart": {
+        "id": "statechart",
+        "path": "packages/statechart",
+        "checks": [
+          "pnpm --filter @agentskit/statechart test",
+          "pnpm --filter @agentskit/statechart lint"
+        ],
+        "purpose": "Represent deterministic interaction state independently from UI frameworks, providers, agent execution, and persistence.",
+        "humanDoc": "/docs/reference/packages/statechart",
+        "agentDoc": "apps/docs-next/content/docs/for-agents/statechart.mdx"
       },
       "svelte": {
         "id": "svelte",

@@ -1,0 +1,110 @@
+# @agentskit/statechart
+
+<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+
+[![stability](https://img.shields.io/badge/stability-alpha-orange)](../../docs/STABILITY.md)
+
+Deterministic, serializable interaction state for [AgentsKit](https://www.agentskit.io) applications. It is framework-neutral and has zero runtime dependencies.
+
+## Why
+
+Interactive agent experiences often need explicit states such as waiting for input, confirming an action, or completing a task. This package gives every UI binding and host the same small transition and snapshot contract without coupling them to React, an LLM provider, `ChatController`, or the Runtime execution engine.
+
+Use Runtime flows for durable execution, DAGs, tools, and effects. Use this package for local or host-managed interaction state.
+
+## Install
+
+```bash
+npm install @agentskit/statechart
+```
+
+## Usage
+
+```ts
+import {
+  createStatechartInstance,
+  defineStatechart,
+  serializeStatechart,
+  transitionStatechart,
+  type StatechartEvent,
+} from '@agentskit/statechart'
+
+type Context = { confirmed: boolean }
+type Event = StatechartEvent<'confirm'> | StatechartEvent<'cancel'>
+
+const parseContext = (input: unknown): Context => {
+  if (
+    input === null ||
+    typeof input !== 'object' ||
+    typeof (input as { confirmed?: unknown }).confirmed !== 'boolean'
+  ) {
+    throw new TypeError('invalid context')
+  }
+  return input as Context
+}
+
+const confirmation = defineStatechart<
+  Context,
+  Event,
+  'waiting' | 'confirmed' | 'cancelled'
+>({
+  id: 'confirmation',
+  version: '1',
+  initial: 'waiting',
+  parseContext,
+  states: {
+    waiting: {
+      on: {
+        confirm: {
+          target: 'confirmed',
+          reduce: (context) => ({ ...context, confirmed: true }),
+        },
+        cancel: { target: 'cancelled' },
+      },
+    },
+    confirmed: {},
+    cancelled: {},
+  },
+})
+
+const initial = createStatechartInstance(
+  confirmation,
+  { confirmed: false },
+  { instanceId: 'interaction-42', now: '2026-07-13T12:00:00.000Z' },
+)
+
+const result = transitionStatechart(
+  confirmation,
+  initial,
+  { type: 'confirm' },
+  { now: '2026-07-13T12:01:00.000Z' },
+)
+
+if (result.status === 'accepted') {
+  const snapshot = serializeStatechart(result.instance)
+  await yourStorage.save(snapshot)
+}
+```
+
+The host supplies IDs, timestamps, storage, and event delivery. That keeps transitions reproducible and the package portable across browser, server, native, and terminal runtimes.
+
+## Contract
+
+- `defineStatechart` validates targets and freezes a trusted runtime definition.
+- `createStatechartInstance` validates and freezes JSON-compatible context.
+- `transitionStatechart` is synchronous and returns an `accepted` or `rejected` result.
+- `serializeStatechart` creates a versioned JSON-compatible snapshot.
+- `restoreStatechart` accepts `unknown`, validates metadata and context, and never trusts serialized definitions.
+- `notifyStatechartObserver` delivers a completed result separately; observer failure cannot alter state.
+
+Context validation is injected through `parseContext`, so applications can use any validation library without adding one to this package.
+
+## Deliberate boundaries
+
+This package does not execute actions, persist snapshots, call agents or tools, retry events, deduplicate delivery, render components, or define product-specific states. Repeated events follow the current state's transition table; delivery idempotency belongs to the host.
+
+See [ADR-0020](../../docs/architecture/adrs/0020-serializable-interaction-state.md) for the ownership decision.
+
+## License
+
+MIT
