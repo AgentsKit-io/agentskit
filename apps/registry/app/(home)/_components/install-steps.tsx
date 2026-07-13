@@ -3,14 +3,14 @@
 import { useEffect, useState } from 'react'
 import { Icon, CopyButton } from './ui'
 
-function CodeBox({ code }: { code: string }) {
+function CodeBox({ code, installAgent }: { code: string; installAgent?: string }) {
   return (
     <div className="relative">
       <pre className="h-[168px] overflow-auto rounded-lg border border-[#222b38] bg-[#0d1117] p-4 font-mono text-[13px] leading-relaxed text-[#e6edf3]">
         <code>{code}</code>
       </pre>
       <div className="absolute right-2 top-2">
-        <CopyButton value={code} variant="icon" />
+        <CopyButton value={code} variant="icon" analytics={installAgent ? { agentId: installAgent, surface: 'guide' } : undefined} />
       </div>
     </div>
   )
@@ -97,7 +97,7 @@ export function InstallSteps() {
                 <p className="mt-2 text-sm text-ak-graphite">{s.d}</p>
               </div>
               <div className="min-w-0">
-                <CodeBox code={s.code} />
+                <CodeBox code={s.code} installAgent={s.n === 1 ? 'research' : undefined} />
                 {s.n === 3 && <RunTerminal />}
               </div>
             </li>

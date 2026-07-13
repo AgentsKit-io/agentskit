@@ -3,6 +3,7 @@ import type { Metadata } from 'next'
 import { getAgent, getRegistryIndex } from '@/lib/registry'
 import type { RegistryAgentDetail } from '@/lib/registry'
 import { mergeComparisonSummary, parseCompareIds } from '@/lib/catalog'
+import { ComparisonAnalytics } from './comparison-analytics'
 
 export const revalidate = 3600
 
@@ -50,6 +51,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
+      <ComparisonAnalytics agentIds={details.map((agent) => agent.id)} />
       <nav aria-label="Breadcrumb" className="text-sm text-ak-graphite">
         <Link href={`/?compare=${selected}#agents`} className="hover:text-ak-blue">Agents</Link>
         <span className="px-2">/</span>

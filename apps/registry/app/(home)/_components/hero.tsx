@@ -48,6 +48,8 @@ export function Hero({ agentCount, categoryCount, sampleIds }: { agentCount: num
             <button
               type="button"
               data-copy={cmd}
+              data-agent-id={id}
+              data-copy-surface="hero"
               aria-label="Copy install command"
               className="rg-copy inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-ak-border bg-ak-midnight text-ak-graphite transition hover:border-ak-blue hover:text-ak-foam"
             >
