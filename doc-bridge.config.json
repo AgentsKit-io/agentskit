@@ -41,7 +41,102 @@
     }
   },
   "gates": {
-    "preset": "standard"
+    "preset": "standard",
+    "include": [
+      "documentation-standard-v1"
+    ]
+  },
+  "conformance": {
+    "documentationStandardV1": {
+      "rawSources": [
+        "README.md",
+        "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx",
+        "apps/docs-next/content/docs/for-agents/index.mdx"
+      ],
+      "contributionPaths": [
+        "CONTRIBUTING.md"
+      ],
+      "metadata": [
+        {
+          "path": "apps/docs-next/app/layout.tsx",
+          "contains": [
+            "export const metadata",
+            "title:",
+            "description:",
+            "openGraph:",
+            "twitter:"
+          ]
+        }
+      ],
+      "links": [
+        {
+          "url": "https://registry.agentskit.io/docs",
+          "paths": [
+            "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx"
+          ]
+        },
+        {
+          "url": "https://github.com/AgentsKit-io/agentskit-chat/tree/main/docs",
+          "paths": [
+            "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx"
+          ]
+        },
+        {
+          "url": "https://playbook.agentskit.io/docs",
+          "paths": [
+            "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx"
+          ]
+        },
+        {
+          "url": "https://github.com/AgentsKit-io/doc-bridge/tree/master/docs",
+          "paths": [
+            "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx"
+          ]
+        },
+        {
+          "url": "https://github.com/AgentsKit-io/code-review-cli#readme",
+          "paths": [
+            "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx"
+          ]
+        },
+        {
+          "url": "https://akos.agentskit.io/docs",
+          "paths": [
+            "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx"
+          ]
+        }
+      ],
+      "ecosystemContract": {
+        "manifest": "ecosystem.json",
+        "claims": "ecosystem-claims.json",
+        "productId": "agentskit"
+      },
+      "quickstarts": [
+        {
+          "id": "first-agent",
+          "doc": "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx",
+          "test": "scripts/reference-docs-vertical.test.mjs",
+          "command": "pnpm test:reference-docs",
+          "testContains": [
+            "the first-agent fixture runs without credentials or network access",
+            "fixtures/first-agent/agent.ts"
+          ]
+        }
+      ],
+      "visuals": [
+        "apps/docs-next/public/demos/install.gif",
+        "apps/docs-next/public/demos/chat-streaming.gif",
+        "apps/docs-next/public/brand/og-default.png"
+      ],
+      "diagrams": [
+        {
+          "path": "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx",
+          "contains": [
+            "```mermaid"
+          ]
+        }
+      ]
+    }
   },
   "surfaces": {
     "cli": {
