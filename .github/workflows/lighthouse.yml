@@ -22,11 +22,9 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
 
-      # Vercel previews may have Deployment Protection enabled, which makes the
-      # public URL return 401 for unauthenticated pollers. Read the URL straight
-      # from the GitHub deployments API instead of HTTP-probing, then pass the
-      # VERCEL_AUTOMATION_BYPASS_SECRET through as a query param so Lighthouse
-      # gets a 200 (and the auto-set cookie keeps subresources authenticated).
+      # Vercel previews may have Deployment Protection enabled. Read the URL
+      # from the deployments API, then let Lighthouse send the automation
+      # bypass as a header so report artifacts never retain the secret.
       - name: Resolve Vercel preview URL
         id: preview
         env:
@@ -58,18 +56,13 @@ jobs:
         if: steps.preview.outputs.url != ''
         env:
           BASE: ${{ steps.preview.outputs.url }}
-          BYPASS: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         run: |
           set -eu
-          suffix=""
-          if [ -n "$BYPASS" ]; then
-            suffix="?x-vercel-protection-bypass=${BYPASS}&x-vercel-set-bypass-cookie=true"
-          fi
           paths="/ /docs /docs/get-started/getting-started/quickstart /stack /showcase"
           {
             echo "urls<<EOF"
             for p in $paths; do
-              echo "${BASE}${p}${suffix}"
+              echo "${BASE}${p}"
             done
             echo "EOF"
           } >> "$GITHUB_OUTPUT"
@@ -78,22 +71,49 @@ jobs:
         if: steps.preview.outputs.url != ''
         uses: treosh/lighthouse-ci-action@3e7e23fb74242897f95c0ba9cabad3d0227b9b18 # v12
         id: lhci
+        env:
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
         with:
           urls: ${{ steps.urls.outputs.urls }}
+          configPath: ./apps/docs-next/lighthouserc.cjs
           runs: 1
           uploadArtifacts: true
           temporaryPublicStorage: true
+
+      - name: Validate audited destinations
+        id: destinations
+        if: always() && steps.preview.outputs.url != ''
+        env:
+          EXPECTED_ORIGIN: ${{ steps.preview.outputs.url }}
+          LH_MANIFEST: ${{ steps.lhci.outputs.manifest }}
+        run: node scripts/validate-lighthouse-manifest.mjs
 
       - name: Post Lighthouse summary
         if: always() && steps.preview.outputs.url != ''
         uses: actions/github-script@3a2844b7e9c422d3c10d287c895573f7108da1b3 # v9
         env:
           LH_MANIFEST: ${{ steps.lhci.outputs.manifest }}
+          VALIDATION_OUTCOME: ${{ steps.destinations.outcome }}
         with:
           script: |
             const manifest = process.env.LH_MANIFEST
-            if (!manifest) {
-              console.log('No Lighthouse manifest; nothing to post.')
+            if (process.env.VALIDATION_OUTCOME !== 'success') {
+              const body = [
+                '## Lighthouse',
+                '',
+                manifest
+                  ? 'Audit rejected: the collected page did not remain on the resolved Vercel preview origin.'
+                  : 'Audit rejected: Lighthouse did not produce a report manifest.',
+                'Check the preview deployment and `VERCEL_AUTOMATION_BYPASS_SECRET`, then rerun this workflow.',
+              ].join('\n')
+              const prNumber = context.payload.pull_request?.number
+              if (!prNumber) return
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+                body,
+              })
               return
             }
             let entries

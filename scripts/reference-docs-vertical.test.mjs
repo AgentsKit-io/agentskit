@@ -4,6 +4,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { test } from 'vitest'
 import { REPO_ROOT } from './compute-stats.mjs'
+import { validateLighthouseManifest } from './lib/lighthouse-manifest.mjs'
 
 const read = (path) => readFileSync(join(REPO_ROOT, path), 'utf8')
 
@@ -51,4 +52,40 @@ test('the shared ecosystem bar contains its own mobile overflow', () => {
   assert.match(bar, /@media\(max-width:767px\)/)
   assert.match(bar, /max-width:100vw;overflow-x:auto/)
   assert.match(bar, /scrollbar-width:none/)
+})
+
+test('Lighthouse keeps the Vercel bypass out of audited URLs', () => {
+  const workflow = read('.github/workflows/lighthouse.yml')
+  const config = read('apps/docs-next/lighthouserc.cjs')
+
+  assert.doesNotMatch(workflow, /x-vercel-protection-bypass=\$\{BYPASS\}/)
+  assert.match(workflow, /configPath: \.\/apps\/docs-next\/lighthouserc\.cjs/)
+  assert.match(workflow, /if: always\(\) && steps\.preview\.outputs\.url != ''/)
+  assert.match(workflow, /Lighthouse did not produce a report manifest/)
+  assert.match(config, /'x-vercel-protection-bypass': bypass/)
+  assert.match(config, /extraHeaders/)
+})
+
+test('Lighthouse rejects authentication redirects and empty manifests', () => {
+  const reports = new Map([
+    ['/tmp/site.json', JSON.stringify({ finalUrl: 'https://preview.example/docs' })],
+    ['/tmp/login.json', JSON.stringify({ finalUrl: 'https://vercel.com/login?secret=redacted' })],
+  ])
+  const readReport = (path) => reports.get(path)
+
+  assert.equal(validateLighthouseManifest(
+    [{ jsonPath: '/tmp/site.json' }],
+    'https://preview.example',
+    readReport,
+  ).valid, true)
+  assert.deepEqual(validateLighthouseManifest(
+    [{ jsonPath: '/tmp/login.json' }],
+    'https://preview.example',
+    readReport,
+  ), {
+    expectedOrigin: 'https://preview.example',
+    actualOrigins: ['https://vercel.com'],
+    valid: false,
+  })
+  assert.throws(() => validateLighthouseManifest([], 'https://preview.example', readReport), /manifest is empty/)
 })
