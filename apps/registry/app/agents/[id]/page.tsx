@@ -4,6 +4,7 @@ import { DynamicCodeBlock } from 'fumadocs-ui/components/dynamic-codeblock'
 import { factoryName, getAgent, getRegistryIndex, relatedAgents } from '@/lib/registry'
 import type { RegistryValidationEvidence } from '@/lib/registry'
 import { AgentAnalytics } from './agent-analytics'
+import { AgentFeedback } from './agent-feedback'
 import { InstallCommand } from './install-command'
 
 export const revalidate = 3600
@@ -218,6 +219,8 @@ console.log(result.content)`
               <div className="mt-4"><DynamicCodeBlock lang="ts" code={evaluation} /></div>
             </details>
           )}
+
+          <AgentFeedback agentId={agent.id} agentTitle={agent.title} />
         </article>
 
         <aside className="lg:pt-10">
