@@ -2,10 +2,12 @@
 
 import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { useMemo } from 'react'
+import { useEffect, useMemo } from 'react'
 import type { RegistryAgentSummary } from '@/lib/registry'
 import { comparisonControlLabel, filterAndSortAgents, parseCompareIds, toggleCompareId } from '@/lib/catalog'
 import type { CatalogSort } from '@/lib/catalog'
+import { queryLengthBucket } from '@/lib/analytics'
+import { trackRegistryEvent } from '@/lib/posthog-client'
 import { Icon, CopyButton } from './ui'
 import { categoryMeta, sortedCategories } from './categories'
 
@@ -25,7 +27,10 @@ function AgentCard({
   const category = categoryMeta(agent.category)
   return (
     <article className={`group flex min-h-60 min-w-0 max-w-full flex-col overflow-hidden border-t py-5 transition ${selected ? 'border-ak-blue' : 'border-ak-border hover:border-ak-blue'}`}>
-      <Link href={`/agents/${agent.id}`} className="min-w-0 flex-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ak-blue">
+      <Link
+        href={`/agents/${agent.id}`}
+        className="min-w-0 flex-1 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ak-blue"
+      >
         <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-xs text-ak-graphite">
           <Icon name={category.icon} size={15} />
           <span>{category.label}</span>
@@ -50,7 +55,7 @@ function AgentCard({
           Compare
         </label>
         <code className="min-w-0 flex-1 truncate font-mono text-xs text-ak-graphite">npx agentskit add {agent.id}</code>
-        <CopyButton value={`npx agentskit add ${agent.id}`} variant="icon" />
+        <CopyButton value={`npx agentskit add ${agent.id}`} variant="icon" analytics={{ agentId: agent.id, surface: 'catalog' }} />
       </div>
     </article>
   )
@@ -79,10 +84,30 @@ export function Browse({ agents }: { agents: RegistryAgentSummary[] }) {
   const filtered = useMemo(() => {
     return filterAndSortAgents(agents, { query, category, reviewed, runnable, sort })
   }, [agents, category, query, reviewed, runnable, sort])
+  const searchResultCount = useMemo(() => {
+    return filterAndSortAgents(agents, {
+      query,
+      category: '',
+      reviewed: false,
+      runnable: false,
+      sort: 'recommended',
+    }).length
+  }, [agents, query])
 
   const pageCount = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE))
   const page = Number.isInteger(requestedPage) ? Math.min(Math.max(requestedPage, 1), pageCount) : 1
   const visible = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE)
+
+  useEffect(() => {
+    if (!query) return
+    const timer = window.setTimeout(() => {
+      trackRegistryEvent('registry_catalog_search_used', {
+        query_length: queryLengthBucket(query.length),
+        result_count: searchResultCount,
+      })
+    }, 700)
+    return () => window.clearTimeout(timer)
+  }, [query, searchResultCount])
 
   function update(next: { q?: string; category?: string; reviewed?: boolean; runnable?: boolean; sort?: CatalogSort; compare?: string[]; page?: number }) {
     const params = new URLSearchParams(searchParams.toString())
@@ -106,7 +131,10 @@ export function Browse({ agents }: { agents: RegistryAgentSummary[] }) {
             <nav className="mt-5 flex w-full min-w-0 gap-2 overflow-x-auto pb-2 lg:block lg:space-y-0.5 lg:overflow-visible">
               <button
                 type="button"
-                onClick={() => update({ category: '', page: 1 })}
+                onClick={() => {
+                  trackRegistryEvent('registry_catalog_filter_changed', { filter: 'category', value: 'all' })
+                  update({ category: '', page: 1 })
+                }}
                 aria-current={!category ? 'page' : undefined}
                 className={`flex shrink-0 items-center gap-2 rounded-md px-2.5 py-2 text-sm lg:w-full ${!category ? 'bg-ak-surface font-medium text-ak-foam' : 'text-ak-graphite hover:text-ak-foam'}`}
               >
@@ -119,7 +147,10 @@ export function Browse({ agents }: { agents: RegistryAgentSummary[] }) {
                   <button
                     key={id}
                     type="button"
-                    onClick={() => update({ category: id, page: 1 })}
+                    onClick={() => {
+                      trackRegistryEvent('registry_catalog_filter_changed', { filter: 'category', value: id })
+                      update({ category: id, page: 1 })
+                    }}
                     aria-current={active ? 'page' : undefined}
                     className={`flex shrink-0 items-center gap-2 rounded-md px-2.5 py-2 text-sm lg:w-full ${active ? 'bg-ak-surface font-medium text-ak-foam' : 'text-ak-graphite hover:text-ak-foam'}`}
                   >
@@ -132,11 +163,17 @@ export function Browse({ agents }: { agents: RegistryAgentSummary[] }) {
             <fieldset className="mt-5 border-t border-ak-border pt-4">
               <legend className="text-xs font-semibold uppercase text-ak-graphite">Capabilities</legend>
               <label className="mt-3 flex cursor-pointer items-center gap-2 text-sm text-ak-graphite hover:text-ak-foam">
-                <input type="checkbox" checked={reviewed} onChange={(event) => update({ reviewed: event.target.checked, page: 1 })} className="size-4 accent-ak-blue" />
+                <input type="checkbox" checked={reviewed} onChange={(event) => {
+                  trackRegistryEvent('registry_catalog_filter_changed', { filter: 'reviewed', value: event.target.checked })
+                  update({ reviewed: event.target.checked, page: 1 })
+                }} className="size-4 accent-ak-blue" />
                 Independently reviewed
               </label>
               <label className="mt-3 flex cursor-pointer items-center gap-2 text-sm text-ak-graphite hover:text-ak-foam">
-                <input type="checkbox" checked={runnable} onChange={(event) => update({ runnable: event.target.checked, page: 1 })} className="size-4 accent-ak-blue" />
+                <input type="checkbox" checked={runnable} onChange={(event) => {
+                  trackRegistryEvent('registry_catalog_filter_changed', { filter: 'runnable', value: event.target.checked })
+                  update({ runnable: event.target.checked, page: 1 })
+                }} className="size-4 accent-ak-blue" />
                 Runnable from CLI
               </label>
             </fieldset>
@@ -161,7 +198,11 @@ export function Browse({ agents }: { agents: RegistryAgentSummary[] }) {
                 <span>Sort</span>
                 <select
                   value={sort}
-                  onChange={(event) => update({ sort: event.target.value as CatalogSort, page: 1 })}
+                  onChange={(event) => {
+                    const nextSort = event.target.value as CatalogSort
+                    trackRegistryEvent('registry_catalog_filter_changed', { filter: 'sort', value: nextSort })
+                    update({ sort: nextSort, page: 1 })
+                  }}
                   className="h-9 rounded-md border border-ak-border bg-ak-midnight px-2 text-sm text-ak-foam outline-none focus:border-ak-blue"
                 >
                   <option value="recommended">Recommended</option>
@@ -170,7 +211,10 @@ export function Browse({ agents }: { agents: RegistryAgentSummary[] }) {
                 </select>
               </label>
               {hasFilters && (
-                <button type="button" onClick={() => update({ q: '', category: '', reviewed: false, runnable: false, sort: 'recommended', page: 1 })} className="text-ak-blue hover:underline">Clear filters</button>
+                <button type="button" onClick={() => {
+                  trackRegistryEvent('registry_catalog_filter_changed', { filter: 'clear', value: true })
+                  update({ q: '', category: '', reviewed: false, runnable: false, sort: 'recommended', page: 1 })
+                }} className="text-ak-blue hover:underline">Clear filters</button>
               )}
             </div>
 
@@ -182,7 +226,15 @@ export function Browse({ agents }: { agents: RegistryAgentSummary[] }) {
                     agent={agent}
                     selected={compareIds.includes(agent.id)}
                     selectionFull={compareIds.length === 3}
-                    onToggle={() => update({ compare: toggleCompareId(compareIds, agent.id) })}
+                    onToggle={() => {
+                      const nextIds = toggleCompareId(compareIds, agent.id)
+                      trackRegistryEvent('registry_compare_selection_changed', {
+                        action: compareIds.includes(agent.id) ? 'removed' : 'added',
+                        agent_id: agent.id,
+                        selected_count: nextIds.length,
+                      })
+                      update({ compare: nextIds })
+                    }}
                   />
                 ))}
               </div>
@@ -205,9 +257,15 @@ export function Browse({ agents }: { agents: RegistryAgentSummary[] }) {
               <div role="status" className="sticky bottom-4 z-20 mt-8 grid min-h-14 grid-cols-[auto_1fr_auto] items-center gap-3 rounded-md border border-ak-blue bg-ak-midnight px-4 py-3 shadow-xl sm:flex">
                 <Icon name="scale" size={18} className="text-ak-blue" />
                 <p className="text-sm text-ak-foam"><strong>{compareIds.length}</strong> of 3 selected</p>
-                <button type="button" onClick={() => update({ compare: [] })} className="justify-self-end text-sm text-ak-graphite hover:text-ak-foam sm:ml-auto">Clear</button>
+                <button type="button" onClick={() => {
+                  trackRegistryEvent('registry_compare_selection_changed', { action: 'cleared', selected_count: 0 })
+                  update({ compare: [] })
+                }} className="justify-self-end text-sm text-ak-graphite hover:text-ak-foam sm:ml-auto">Clear</button>
                 {compareIds.length >= 2 ? (
-                  <Link href={`/compare?agents=${compareIds.join(',')}`} className="col-span-3 inline-flex h-9 items-center justify-center rounded-md bg-ak-blue px-3 text-sm font-semibold text-ak-midnight hover:brightness-110 sm:col-auto">
+                  <Link
+                    href={`/compare?agents=${compareIds.join(',')}`}
+                    className="col-span-3 inline-flex h-9 items-center justify-center rounded-md bg-ak-blue px-3 text-sm font-semibold text-ak-midnight hover:brightness-110 sm:col-auto"
+                  >
                     Compare agents
                   </Link>
                 ) : (

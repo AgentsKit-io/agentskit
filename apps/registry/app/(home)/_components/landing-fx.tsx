@@ -1,21 +1,25 @@
 'use client'
 
 import { useEffect } from 'react'
+import { trackRegistryEvent } from '@/lib/posthog-client'
+import { copyText } from '@/lib/clipboard'
 
 /** Mounted once: copy-to-clipboard delegation + "Copied!" toast + scroll reveal. */
 export function LandingFx() {
   useEffect(() => {
     let toast: HTMLDivElement | null = null
     let timer: number | undefined
-    const showToast = () => {
+    const buttonTimers = new Map<HTMLButtonElement, number>()
+    const showToast = (copied: boolean) => {
       if (!toast) {
         toast = document.createElement('div')
         toast.className = 'rg-toast'
         toast.setAttribute('role', 'status')
-        toast.innerHTML =
-          '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color:var(--ak-green)"><polyline points="20 6 9 17 4 12"/></svg><span>Copied!</span>'
+        toast.innerHTML = '<span>Copied!</span>'
         document.body.appendChild(toast)
       }
+      const message = toast.querySelector('span')
+      if (message) message.textContent = copied ? 'Copied!' : 'Copy failed'
       toast.classList.add('show')
       window.clearTimeout(timer)
       timer = window.setTimeout(() => toast?.classList.remove('show'), 1800)
@@ -25,19 +29,21 @@ export function LandingFx() {
       const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-copy]')
       if (!btn) return
       const value = btn.getAttribute('data-copy') ?? ''
-      try {
-        await navigator.clipboard.writeText(value)
-      } catch {
-        const ta = document.createElement('textarea')
-        ta.value = value
-        document.body.appendChild(ta)
-        ta.select()
-        document.execCommand('copy')
-        ta.remove()
+      const copied = await copyText(value)
+      const agentId = btn.dataset.agentId
+      const surface = btn.dataset.copySurface as 'catalog' | 'hero' | 'guide' | undefined
+      if (copied && agentId && surface) {
+        trackRegistryEvent('registry_install_command_copied', { agent_id: agentId, surface })
       }
-      btn.classList.add('rg-copied')
-      showToast()
-      window.setTimeout(() => btn.classList.remove('rg-copied'), 1600)
+      if (copied) {
+        btn.classList.add('rg-copied')
+        window.clearTimeout(buttonTimers.get(btn))
+        buttonTimers.set(btn, window.setTimeout(() => {
+          btn.classList.remove('rg-copied')
+          buttonTimers.delete(btn)
+        }, 1600))
+      }
+      showToast(copied)
     }
     document.addEventListener('click', onClick)
 
@@ -65,6 +71,8 @@ export function LandingFx() {
       io?.disconnect()
       toast?.remove()
       window.clearTimeout(timer)
+      buttonTimers.forEach((buttonTimer) => window.clearTimeout(buttonTimer))
+      buttonTimers.clear()
     }
   }, [])
 

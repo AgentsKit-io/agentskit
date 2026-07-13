@@ -3,6 +3,8 @@ import { notFound } from 'next/navigation'
 import { DynamicCodeBlock } from 'fumadocs-ui/components/dynamic-codeblock'
 import { factoryName, getAgent, getRegistryIndex, relatedAgents } from '@/lib/registry'
 import type { RegistryValidationEvidence } from '@/lib/registry'
+import { AgentAnalytics } from './agent-analytics'
+import { InstallCommand } from './install-command'
 
 export const revalidate = 3600
 export const dynamicParams = true
@@ -100,6 +102,7 @@ export default async function AgentPage({ params }: { params: Promise<{ id: stri
   const evaluation = agent.sources?.find((item) => item.path === 'eval.ts')?.content
   const examples = examplesFromReadme(readme)
   const related = relatedAgents(agent, index, 4)
+  const summary = index.find((item) => item.id === agent.id)
   const install = `npx agentskit add ${agent.id}`
   const quickStart = `import { openai } from '@agentskit/adapters'
 import { ${fn} } from './agents/${agent.id}/agent'
@@ -127,6 +130,7 @@ console.log(result.content)`
 
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
+      <AgentAnalytics agentId={agent.id} category={agent.category} reviewed={Boolean(agent.validation)} runnable={Boolean(summary?.runnable)} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-ak-graphite">
         <Link href="/#agents" className="hover:text-ak-blue">Agents</Link><span>/</span>
@@ -155,7 +159,7 @@ console.log(result.content)`
         </div>
         <div className="self-end rounded-lg border border-ak-border bg-ak-surface p-4">
           <p className="text-xs font-medium text-ak-graphite">Install</p>
-          <code className="mt-2 block overflow-x-auto font-mono text-sm text-ak-foam">{install}</code>
+          <InstallCommand agentId={agent.id} command={install} />
           <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs">
             <Link href={`/?compare=${agent.id}#agents`} className="text-ak-blue hover:underline">Compare agent</Link>
             <a href={`/r/${agent.id}.json`} className="text-ak-blue hover:underline">View raw manifest</a>

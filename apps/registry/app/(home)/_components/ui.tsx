@@ -65,16 +65,25 @@ export function CopyButton({
   value,
   variant = 'ghost',
   className = '',
+  analytics,
 }: {
   value: string
   variant?: 'ghost' | 'icon'
   className?: string
+  analytics?: { agentId: string; surface: 'catalog' | 'hero' | 'guide' }
 }) {
   const base =
     'rg-copy inline-flex items-center justify-center gap-1.5 rounded-lg border border-ak-border bg-ak-surface text-ak-graphite transition hover:border-ak-blue hover:text-ak-foam cursor-pointer'
   const pad = variant === 'icon' ? 'p-2' : 'px-3 py-1.5 text-xs font-semibold'
   return (
-    <button type="button" data-copy={value} aria-label="Copy" className={`${base} ${pad} ${className}`}>
+    <button
+      type="button"
+      data-copy={value}
+      data-agent-id={analytics?.agentId}
+      data-copy-surface={analytics?.surface}
+      aria-label="Copy"
+      className={`${base} ${pad} ${className}`}
+    >
       <span className="cp inline-flex"><Icon name="copy" size={15} /></span>
       <span className="ck"><Icon name="check" size={15} /></span>
       {variant !== 'icon' && <span>Copy</span>}
