@@ -6,7 +6,7 @@
 
 **The agent toolkit JavaScript actually deserves.**
 
-A 10 KB core. Twenty-four focused packages. Zero lock-in. Six formal contracts that make every adapter, tool, skill, memory, retriever, and runtime substitutable.
+A 10 KB core budget. Twenty-five focused packages. Zero lock-in. Six formal contracts that make every adapter, tool, skill, memory, retriever, and runtime substitutable.
 
 [![npm](https://img.shields.io/npm/v/@agentskit/react?label=npm)](https://www.npmjs.com/package/@agentskit/react)
 [![bundle](https://img.shields.io/bundlephobia/minzip/@agentskit/react?label=react%20bundle)](https://bundlephobia.com/package/@agentskit/react)
@@ -19,6 +19,8 @@ A 10 KB core. Twenty-four focused packages. Zero lock-in. Six formal contracts t
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/core?label=core%20downloads)](https://www.npmjs.com/package/@agentskit/core)
 [![handoff coverage](https://img.shields.io/badge/agent_handoffs-100%25-2ea44f)](./llms.txt)
 [![human bridge](https://img.shields.io/badge/human_docs-100%25-2ea44f)](./doc-bridge.config.json)
+
+**Tags:** `agentskit` · `ai-agents` · `typescript` · `javascript` · `llm` · `agent-runtime` · `tools` · `rag`
 
 [**Documentation**](https://www.agentskit.io) · [**Discord**](https://discord.gg/zx6z2p4jVb) · [**Roadmap**](https://github.com/orgs/AgentsKit-io/projects/1) · [**Manifesto**](./MANIFESTO.md) · [**Origin**](./ORIGIN.md) · [**Architecture**](./docs/architecture/adrs)
 
@@ -35,6 +37,16 @@ A 10 KB core. Twenty-four focused packages. Zero lock-in. Six formal contracts t
 *You started building an AI agent last week. You're three libraries deep, two of them fight each other, and nothing you wrote is reusable. This is for you.*
 
 > **⭐ If this saves you from gluing five libraries together, [star the repo](https://github.com/AgentsKit-io/agentskit).** AgentsKit is solo-built — a star is the cheapest signal that it's worth continuing, and it's what puts it in front of the next person.
+
+## Verified proof
+
+The current [evidence ledger](./ecosystem-claims.json), generated from repository sources by [`scripts/compute-stats.mjs`](./scripts/compute-stats.mjs), verifies **25 published packages**, **7 framework bindings**, **25 native adapters**, **50 integrations**, **140 catalog providers**, **5,000+ catalog models**, **21 ready-made skills**, **17 memory backends**, and **69 recipes**.
+
+- The core has zero runtime dependencies and a CI-enforced **10 KB gzipped budget**.
+- Every public package has an explicit stability tier, test floor, README, human guide, and agent handoff.
+- Numeric claims fail CI when their repository derivation, committed snapshot, or public evidence drifts.
+
+Inspect the machine-readable [claims ledger](./ecosystem-claims.json), [ecosystem contract](./ecosystem.json), and [Doc Bridge index](./llms.txt) instead of trusting a screenshot or an unversioned marketing count.
 
 ## Why this exists
 
@@ -80,29 +92,52 @@ Humans get the docs site. Agents get [`llms.txt`](./llms.txt) and [`doc-bridge.c
 
 ---
 
-## Quick start — chat in 10 lines
+## Quick start — your first agent, no key required
 
+<!-- readme-command:first-agent-install -->
 ```bash
-npm install @agentskit/react @agentskit/adapters
+npm install @agentskit/core @agentskit/runtime tsx
 ```
 
-```tsx
-import { useChat, ChatContainer, Message, InputBar } from '@agentskit/react'
-import { anthropic } from '@agentskit/adapters'
-import '@agentskit/react/theme'
+Create `agent.ts`:
 
-export default function Chat() {
-  const chat = useChat({ adapter: anthropic({ apiKey: KEY, model: 'claude-sonnet-4-6' }) })
-  return (
-    <ChatContainer>
-      {chat.messages.map(m => <Message key={m.id} message={m} />)}
-      <InputBar chat={chat} />
-    </ChatContainer>
-  )
+<!-- readme-example:first-agent -->
+```ts
+import type { AdapterFactory } from '@agentskit/core'
+import { createRuntime } from '@agentskit/runtime'
+
+const localAdapter: AdapterFactory = {
+  createSource(request) {
+    const task = request.messages.at(-1)?.content ?? 'your task'
+
+    return {
+      async *stream() {
+        yield {
+          type: 'text' as const,
+          content: `Agent ready. I received: ${task}`,
+        }
+        yield { type: 'done' as const }
+      },
+      abort() {},
+    }
+  },
 }
+
+async function main() {
+  const runtime = createRuntime({ adapter: localAdapter })
+  const result = await runtime.run('Plan my first production agent')
+  console.log(result.content)
+}
+
+void main()
 ```
 
-Streaming, tool calls, default styling, abortable. No setup. No boilerplate.
+<!-- readme-command:first-agent-run -->
+```bash
+npx tsx agent.ts
+```
+
+It prints `Agent ready. I received: Plan my first production agent`. No account, API key, or network request is required. The [executable fixture](./apps/docs-next/fixtures/first-agent/agent.ts) is byte-synchronized with this README and runs in CI; connect any supported provider later through the same adapter contract.
 
 ---
 
@@ -337,18 +372,19 @@ Read these once and you can predict how every package behaves.
 
 ---
 
-## Status
+## Maturity and compatibility
 
 `@agentskit/core` is at **v1.0.0** — API frozen at the minor level, deprecations carry a cycle, contracts pinned to ADRs. The rest of the ecosystem ships on independent beta/alpha tracks with explicit [stability tiers](./docs/STABILITY.md).
 
-Concretely, as of the Phase 1 release:
+AgentsKit targets **Node.js 20+** and modern JavaScript runtimes. Packages ship strict **TypeScript** declarations and dual ESM/CJS output unless their platform binding documents a narrower target. Browser, edge, React Native, Angular, Vue, Svelte, Solid, React, and terminal compatibility is package-specific and declared in each package README and guide.
 
-- **538 tests** across the ecosystem
-- **5.17 KB** gzipped core — 48% under the 10 KB manifesto budget (enforced in CI)
-- **Six formal contracts** pinned to ADRs 0001–0006
-- **74 documentation routes** including 13 copy-paste recipes and 3 migration guides
+The current verified release surface is:
 
-See the [Phase 1 release notes](./docs/RELEASE-CORE-V1.md) for what shipped, and the [roadmap burn-down](https://github.com/AgentsKit-io/agentskit/issues/774) for what's next.
+- **Stable:** `@agentskit/core`, with six formal contracts pinned to ADRs 0001–0006.
+- **Beta/alpha:** every other package graduates independently under the published stability policy.
+- **Evidence:** current package, adapter, integration, provider, skill, memory, and recipe counts come from the [generated claims ledger](./ecosystem-claims.json), not this prose.
+
+See the [stability policy](./docs/STABILITY.md), [core v1 release notes](./docs/RELEASE-CORE-V1.md), and [public roadmap](https://github.com/orgs/AgentsKit-io/projects/1) before depending on a pre-1.0 package contract.
 
 ---
 
@@ -363,6 +399,7 @@ AgentsKit is built in the open and ships because contributors show up. Every pac
 - **[Discussions](https://github.com/AgentsKit-io/agentskit/discussions)** — ask, propose, share
 - **[RFC template](https://github.com/AgentsKit-io/agentskit/issues/new?template=rfc.yml)** — open before touching a contract
 - **[`CONTRIBUTING.md`](./CONTRIBUTING.md)** — dev setup + PR checklist
+- **[README Standard v1](./docs/README-STANDARD-V1.md)** — executable quality profiles for repositories, apps, and packages
 
 ### Contributors
 
