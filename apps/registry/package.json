@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
-    "test": "vitest run lib/validation.test.ts",
+    "test": "vitest run lib",
     "postinstall": "fumadocs-mdx",
     "lint": "tsc --noEmit"
   },
