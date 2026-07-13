@@ -1,131 +1,180 @@
 'use client'
 
+import Link from 'next/link'
 import {
-  useCallback,
-  useEffect,
+  createContext,
+  useContext,
+  useMemo,
   useRef,
   useState,
+  type ComponentProps,
+  type FormEvent,
   type ReactNode,
 } from 'react'
-import Link from 'next/link'
+import { createLocalStorageMemory, type ChatReturn, type Message as AgentsKitMessage } from '@agentskit/core'
+import {
+  SourceListPropsSchema,
+  StandardComponentCatalog,
+  defineChat,
+  defineComponentManifest,
+  type ComponentDefinition,
+} from '@agentskit/chat'
+import {
+  AgentChat,
+  StandardComponent as FrameworkStandardComponent,
+  type AgentChatSlots,
+  type StandardComponentProps,
+} from '@agentskit/chat-react'
+import { z } from 'zod'
 import { AnimatedLogo } from '@/components/brand/animated-logo'
 import { Markdown } from './ask/Markdown'
-import { defaultRegistry } from './ask/registry'
-import type { UiToolContext, UiToolRegistry } from './ask/registry'
-import {
-  useAskChat,
-  type AssistantMessage,
-  type AssistantPart,
-  type ChatMessage,
-  type UseAskChatOptions,
-} from './ask/useAskChat'
+import { createAskAdapter, type AskAdapterOptions } from './ask/ask-adapter'
+import { defaultRegistry, type UiToolContext, type UiToolRegistry } from './ask/registry'
 
-/**
- * Customization surface passed to render-prop slots. Consumers can override how
- * a whole message renders, or just how a single tool part renders, while
- * reusing the default for everything else.
- */
-export interface AskRenderContext {
-  registry: UiToolRegistry
-  ctx: UiToolContext
+const AskToolPropsSchema = z.object({
+  name: z.enum(['answer', 'showOptions', 'renderForm', 'codeBlock', 'runExample', 'openPage']),
+  args: z.record(z.string(), z.json()),
+}).strict()
+
+const AskToolComponent: ComponentDefinition<z.infer<typeof AskToolPropsSchema>> = {
+  key: 'ask-tool',
+  propsSchema: AskToolPropsSchema,
+  accessibility: { role: 'group', keyboard: true, live: 'polite' },
+  capabilities: ['display', 'selection', 'input', 'navigation'],
+  fallback: props => `Interactive documentation content: ${props.name}.`,
+}
+
+const ASK_COMPONENTS = defineComponentManifest([...StandardComponentCatalog, AskToolComponent])
+
+interface AskRuntime {
+  readonly chat: { current: ChatReturn | null }
+  readonly registry: UiToolRegistry
+  readonly context: UiToolContext
+  readonly emptyState: ReactNode
+  readonly loadingState?: ReactNode
+}
+
+const AskRuntimeContext = createContext<AskRuntime | undefined>(undefined)
+
+function useAskRuntime(): AskRuntime {
+  const runtime = useContext(AskRuntimeContext)
+  if (!runtime) throw new Error('Ask runtime is unavailable.')
+  return runtime
+}
+
+function AskMessage({ message }: { message: AgentsKitMessage }) {
+  return message.role === 'assistant' ? (
+    <div data-ak-message="assistant" className="flex max-w-[92%] flex-col gap-1.5 self-start">
+      <Markdown content={message.content} streaming={message.status === 'streaming'} />
+    </div>
+  ) : (
+    <div data-ak-message="user" className="max-w-[85%] self-end rounded-lg rounded-br-sm bg-ak-blue/10 px-3 py-2 text-sm text-ak-foam">
+      {message.content}
+    </div>
+  )
+}
+
+function AskContainer({ children }: { children: ReactNode }) {
+  const runtime = useAskRuntime()
+  return <div className="flex flex-col gap-3">{runtime.chat.current?.messages.length ? null : <div data-ak-empty="" className="mb-3 text-sm text-ak-graphite">{runtime.emptyState}</div>}{children}</div>
+}
+
+function AskThinking({ visible }: { visible: boolean }) {
+  const runtime = useAskRuntime()
+  if (!visible) return null
+  if (runtime.loadingState) return <>{runtime.loadingState}</>
+  return (
+    <div data-ak-ask-loading className="flex items-center gap-2.5 px-1 py-2 text-ak-blue" aria-label="Searching the docs">
+      <AnimatedLogo variant="nav" size={24} />
+      <span className="ak-ai-shimmer font-mono text-[11px] uppercase tracking-wide">Searching the docs…</span>
+    </div>
+  )
+}
+
+function AskInput({ chat, placeholder, disabled }: ComponentProps<NonNullable<AgentChatSlots['Input']>>) {
+  const runtime = useAskRuntime()
+  runtime.chat.current = chat
+  const submit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    if (!disabled && chat.input.trim()) void chat.send(chat.input)
+  }
+  return (
+    <form data-ak-composer="" className="flex gap-2" onSubmit={submit}>
+      <textarea
+        value={chat.input}
+        onChange={event => chat.setInput(event.target.value)}
+        onKeyDown={event => {
+          if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault()
+            if (!disabled && chat.input.trim()) void chat.send(chat.input)
+          }
+        }}
+        rows={2}
+        placeholder={placeholder}
+        disabled={disabled}
+        className="flex-1 resize-none rounded-md border border-ak-border bg-ak-surface p-2 font-mono text-xs text-ak-foam outline-none transition-colors focus:border-ak-blue"
+      />
+      {chat.status === 'streaming' ? (
+        <button type="button" onClick={chat.stop} data-ak-stop="" className="rounded-md border border-ak-red/40 bg-ak-red/10 px-3 font-mono text-xs text-ak-red">stop</button>
+      ) : (
+        <button type="submit" disabled={!chat.input.trim()} data-ak-send="" className="rounded-md bg-ak-foam px-3 font-mono text-xs font-semibold text-ak-midnight disabled:opacity-40">send</button>
+      )}
+    </form>
+  )
+}
+
+function AskStandardComponent(props: StandardComponentProps) {
+  const runtime = useAskRuntime()
+  if (props.frame.componentKey === 'source-list') {
+    const parsed = SourceListPropsSchema.safeParse(props.frame.props)
+    if (!parsed.success) return null
+    return (
+      <div data-ak-tool="cite" className="my-1">
+        <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-ak-graphite">{parsed.data.label}</div>
+        <ul className="flex flex-col gap-1.5">
+          {parsed.data.sources.map((source, index) => <li key={source.id}><a href={source.url} data-ak-citation="" className="group flex items-center gap-2 rounded-md border border-ak-border bg-ak-surface px-2.5 py-1.5 text-xs hover:border-ak-blue"><span className="flex h-5 w-5 items-center justify-center rounded-full border border-ak-border font-mono text-[10px] text-ak-blue">{index + 1}</span><span className="truncate font-medium text-ak-foam">{source.title}</span></a></li>)}
+        </ul>
+      </div>
+    )
+  }
+  if (props.frame.componentKey !== 'ask-tool') return <FrameworkStandardComponent {...props} />
+  const parsed = AskToolPropsSchema.safeParse(props.frame.props)
+  if (!parsed.success) return null
+  return <div>{runtime.registry.render(parsed.data.name, parsed.data.args, { ...runtime.context, id: props.frame.instanceId })}</div>
 }
 
 export interface AskWidgetBrand {
-  /** Override the floating-button label / open trigger content. */
   fabLabel?: ReactNode
-  /** Override the header title. */
   title?: ReactNode
-  /** Empty-state copy shown before the first turn. */
   emptyState?: ReactNode
-  /** Composer placeholder. */
   placeholder?: string
-  /** Logo shown beside the header title. Slot — defaults to the AgentsKit mark. */
   logo?: ReactNode
-  /** Docs page that explains this chat or the relevant product docs. */
   docsHref?: string | null
-  /** Footer docs link label. */
   docsLabel?: ReactNode
 }
 
 export interface AskWidgetCta {
-  /** CTA label, e.g. `Join the waitlist`. */
   label: ReactNode
-  /** CTA URL. */
   href: string
-  /** Anchor target for external funnels. */
   target?: string
 }
 
-export interface AskDocsWidgetProps {
-  /** Chat endpoint override. */
-  endpoint?: UseAskChatOptions['endpoint']
-  /** Corpus routed by the central ask backend. */
-  corpus?: UseAskChatOptions['corpus']
-  /** Persona routed by the central ask backend. */
-  persona?: UseAskChatOptions['persona']
-  /** Session storage key override. */
-  storageKey?: UseAskChatOptions['storageKey']
-  /** Grouped branding config for other AgentsKit apps. */
+export interface AskDocsWidgetProps extends AskAdapterOptions {
+  storageKey?: string
   brand?: AskWidgetBrand
-  /** Conversion CTA shown below the composer. */
   cta?: AskWidgetCta | null
-  /** Override the floating-button label / open trigger content. */
   fabLabel?: ReactNode
-  /** Override the header title. */
   title?: ReactNode
-  /** Empty-state copy shown before the first turn. */
   emptyState?: ReactNode
-  /** Composer placeholder. */
   placeholder?: string
-  /**
-   * Override rendering of a whole assistant/user message. Return `undefined` to
-   * fall back to the default renderer.
-   */
-  renderMessage?: (message: ChatMessage, render: AskRenderContext) => ReactNode | undefined
-  /**
-   * Override rendering of a single tool part. Return `undefined` to fall back to
-   * the registry's allow-listed renderer.
-   */
-  renderTool?: (
-    part: Extract<AssistantPart, { kind: 'tool' }>,
-    render: AskRenderContext,
-  ) => ReactNode | undefined
-  /** Swap in a custom (still allow-list-guarded) registry. */
   registry?: UiToolRegistry
-  /** Logo shown beside the header title. Slot — defaults to the AgentsKit mark. */
   logo?: ReactNode
-  /** Loading state shown while the assistant prepares its first chunk. Slot. */
   loadingState?: ReactNode
-  /**
-   * Docs page that explains how to build this exact chat. Rendered as a link
-   * under the composer. Defaults to the AgentsKit "Ask the docs" recipe.
-   */
   docsHref?: string | null
-  /** Footer docs link label. */
   docsLabel?: ReactNode
-  /** Open by default. Defaults to true (the chat is the flagship example). */
   defaultOpen?: boolean
 }
 
-/**
- * Ask-the-docs chat — a compound, template-owned shell composing `useAskChat`
- * (timeline + streaming) with the generative-UI registry (allow-listed render
- * boundary). It renders each assistant turn as an ordered list of parts: `text`
- * parts go through the shared `Markdown` renderer; `tool` parts are resolved by
- * name through `registry.render`, which renders nothing for any name not in
- * `UI_TOOL_NAMES`.
- *
- * Interaction wiring:
- *   - `onSelect(value)` (from `Options`) sends `value` as a new user turn.
- *   - `onSubmit(action, values)` (from `Form`) sends a serialized turn so the
- *     model can react to the collected inputs.
- *   - `onRun(code)` (from a runnable `CodeBlock`) appends a local `runExample`
- *     tool part; `RunResult` then executes it in-browser via the zero-vendor
- *     `webWorkerBackend` / `runStreaming` from `@agentskit/sandbox/web`.
- *
- * Headless + `data-ak-*` + `--ak-*` tokens only; no hardcoded colors. Lives in
- * the template (does NOT modify `@agentskit/react`).
- */
 export function AskDocsWidget({
   endpoint,
   corpus,
@@ -137,8 +186,6 @@ export function AskDocsWidget({
   title,
   emptyState,
   placeholder,
-  renderMessage,
-  renderTool,
   registry = defaultRegistry,
   logo,
   loadingState,
@@ -147,14 +194,8 @@ export function AskDocsWidget({
   defaultOpen = true,
 }: AskDocsWidgetProps = {}) {
   const [open, setOpen] = useState(defaultOpen)
-  const [input, setInput] = useState('')
-  const { messages, streaming, error, send, stop, clear, appendLocalTool } = useAskChat({
-    endpoint,
-    corpus,
-    persona,
-    storageKey,
-  })
-  const endRef = useRef<HTMLDivElement | null>(null)
+  const [localRuns, setLocalRuns] = useState<string[]>([])
+  const chatRef = useRef<ChatReturn | null>(null)
   const effectiveFabLabel = fabLabel ?? brand?.fabLabel ?? 'Ask the docs'
   const effectiveTitle = title ?? brand?.title ?? 'Ask the docs'
   const effectiveEmptyState = emptyState ?? brand?.emptyState
@@ -163,236 +204,60 @@ export function AskDocsWidget({
   const effectiveDocsHref = docsHref === undefined ? (brand?.docsHref ?? '/docs/cookbook/ask-the-docs') : docsHref
   const effectiveDocsLabel = docsLabel ?? brand?.docsLabel ?? 'Build a chat like this - step by step ->'
   const askLabel = typeof effectiveFabLabel === 'string' ? effectiveFabLabel : 'Ask the docs'
-
-  useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }, [messages])
-
-  const onSelect = useCallback((value: string) => void send(value), [send])
-
-  const onSubmit = useCallback(
-    (action: string, values: Record<string, string>) => {
-      const summary = Object.entries(values)
-        .filter(([, v]) => v !== '')
-        .map(([k, v]) => `${k}=${v}`)
-        .join(', ')
-      void send(`${action}(${summary})`)
+  const definition = useMemo(() => defineChat({
+    id: `docs-ask-${corpus ?? 'docs'}-${persona ?? 'default'}`,
+    components: ASK_COMPONENTS,
+    chat: {
+      adapter: createAskAdapter({ endpoint, corpus, persona }),
+      memory: createLocalStorageMemory(storageKey ?? `ak:ask-thread-v3:${corpus ?? 'docs'}:${persona ?? 'default'}`),
     },
-    [send],
+  }), [endpoint, corpus, persona, storageKey])
+  const runtime = useMemo<AskRuntime>(() => ({
+    chat: chatRef,
+    registry,
+    emptyState: effectiveEmptyState ?? <>Ask anything about AgentsKit. Answers come from the docs corpus and cite their sources.</>,
+    ...(loadingState === undefined ? {} : { loadingState }),
+    context: {
+      onSelect: value => void chatRef.current?.send(value),
+      onSubmit: (action, values) => {
+        const summary = Object.entries(values).filter(([, value]) => value !== '').map(([key, value]) => `${key}=${value}`).join(', ')
+        void chatRef.current?.send(`${action}(${summary})`)
+      },
+      onRun: code => setLocalRuns(current => [...current, code]),
+    },
+  }), [effectiveEmptyState, loadingState, registry])
+
+  if (!open) return (
+    <button type="button" onClick={() => setOpen(true)} aria-label={askLabel} data-ak-ask-fab="" className="group fixed bottom-4 right-4 z-50 flex items-center gap-2 rounded-full border border-ak-border bg-ak-midnight px-4 py-2.5 font-mono text-xs font-semibold text-ak-foam shadow-lg">
+      <span aria-hidden>{effectiveLogo ?? <AnimatedLogo variant="nav" size={16} />}</span>{effectiveFabLabel}
+    </button>
   )
-
-  const onRun = useCallback(
-    (code: string) => appendLocalTool('runExample', { code }),
-    [appendLocalTool],
-  )
-
-  const ctx: UiToolContext = { onSelect, onSubmit, onRun }
-  const renderCtx: AskRenderContext = { registry, ctx }
-
-  const submit = useCallback(() => {
-    const text = input.trim()
-    if (!text || streaming) return
-    setInput('')
-    void send(text)
-  }, [input, send, streaming])
-
-  const renderPart = (part: AssistantPart, key: string): ReactNode => {
-    if (part.kind === 'text') {
-      if (!part.text) return null
-      return <Markdown key={key} content={part.text} streaming={streaming} />
-    }
-    const override = renderTool?.(part, renderCtx)
-    if (override !== undefined) return <div key={key}>{override}</div>
-    return <div key={key}>{registry.render(part.name, part.args, { ...ctx, id: part.id })}</div>
-  }
-
-  const renderMsg = (m: ChatMessage): ReactNode => {
-    const override = renderMessage?.(m, renderCtx)
-    if (override !== undefined) return override
-
-    if (m.role === 'user') {
-      return (
-        <div
-          data-ak-message="user"
-          className="max-w-[85%] self-end rounded-lg rounded-br-sm bg-ak-blue/10 px-3 py-2 text-sm text-ak-foam"
-        >
-          {m.text}
-        </div>
-      )
-    }
-
-    const assistant = m as AssistantMessage
-    const isEmpty = assistant.parts.length === 0
-    return (
-      <div
-        data-ak-message="assistant"
-        data-ak-streaming={assistant.streaming ? 'true' : undefined}
-        className="flex max-w-[92%] flex-col gap-1.5 self-start"
-      >
-        {isEmpty && assistant.streaming ? (
-          loadingState ?? (
-            <div
-              data-ak-ask-loading
-              className="flex items-center gap-2.5 px-1 py-2 text-ak-blue"
-              aria-label="Searching the docs"
-            >
-              {/* AgentsKit mark with its three dots pulsing in sequence (CSS
-                  scoped to [data-ak-ask-loading]). Swap via the `loadingState`
-                  slot. */}
-              <AnimatedLogo variant="nav" size={24} />
-              <span className="ak-ai-shimmer font-mono text-[11px] uppercase tracking-wide">
-                Searching the docs…
-              </span>
-            </div>
-          )
-        ) : (
-          assistant.parts.map((part, i) => renderPart(part, `${assistant.id}-${i}`))
-        )}
-      </div>
-    )
-  }
-
-  if (!open) {
-    return (
-      <button
-        type="button"
-        onClick={() => setOpen(true)}
-        aria-label={askLabel}
-        data-ak-ask-fab=""
-        className="group fixed bottom-4 right-4 z-50 flex items-center gap-2 rounded-full border border-ak-border bg-ak-midnight px-4 py-2.5 font-mono text-xs font-semibold text-ak-foam shadow-lg transition-all hover:border-ak-blue hover:shadow-ak-blue/20"
-      >
-        <span aria-hidden className="text-ak-foam transition-transform group-hover:scale-110">
-          {effectiveLogo ?? <AnimatedLogo variant="nav" size={16} />}
-        </span>
-        {effectiveFabLabel}
-      </button>
-    )
-  }
 
   return (
-    <div
-      data-ak-ask-panel=""
-      className="fixed bottom-4 right-4 z-50 flex h-[min(620px,82vh)] w-[min(440px,94vw)] flex-col overflow-hidden rounded-xl border border-ak-border bg-ak-midnight shadow-2xl"
-    >
-      <header className="flex items-center justify-between border-b border-ak-border bg-gradient-to-br from-ak-surface to-ak-midnight px-4 py-2.5">
-        <div className="flex items-center gap-2">
-          {/* Logo slot — defaults to the AgentsKit mark; swap via `logo`. */}
-          <span aria-hidden className="text-ak-foam" data-ak-ask-logo="">
-            {effectiveLogo ?? <AnimatedLogo variant="nav" size={18} />}
-          </span>
-          <span className="font-mono text-xs uppercase tracking-[0.2em] text-ak-graphite">
-            {effectiveTitle}
-          </span>
-        </div>
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={clear}
-            className="font-mono text-[10px] uppercase tracking-widest text-ak-graphite transition-colors hover:text-ak-foam"
-          >
-            clear
-          </button>
-          <button
-            type="button"
-            onClick={() => setOpen(false)}
-            aria-label="Close"
-            className="text-ak-graphite transition-colors hover:text-ak-foam"
-          >
-            ✕
-          </button>
-        </div>
-      </header>
-
-      <div className="flex-1 overflow-y-auto p-3">
-        {messages.length === 0 ? (
-          <p className="mb-3 text-sm text-ak-graphite" data-ak-empty="">
-            {effectiveEmptyState ?? (
-              <>
-                Ask anything about AgentsKit. Answers come from the docs corpus via
-                OpenRouter free-tier models. Rate limited per IP.
-              </>
-            )}
-          </p>
-        ) : null}
-        <div className="flex flex-col gap-3">
-          {messages.map((m) => (
-            <div key={m.id} className="flex flex-col">
-              {renderMsg(m)}
-            </div>
-          ))}
-          <div ref={endRef} />
-        </div>
-        {error ? (
-          <p
-            data-ak-error=""
-            className="mt-3 rounded-md border border-ak-red/40 bg-ak-red/5 p-2 text-xs text-ak-red"
-          >
-            {error}
-          </p>
-        ) : null}
-      </div>
-
-      <div className="border-t border-ak-border p-2">
-        <div className="flex gap-2">
-          <textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter' && !e.shiftKey) {
-                e.preventDefault()
-                submit()
-              }
-            }}
-            rows={2}
+    <AskRuntimeContext.Provider value={runtime}>
+      <div data-ak-ask-panel="" className="fixed bottom-4 right-4 z-50 flex h-[min(620px,82vh)] w-[min(440px,94vw)] flex-col overflow-hidden rounded-xl border border-ak-border bg-ak-midnight shadow-2xl">
+        <header className="flex items-center justify-between border-b border-ak-border bg-gradient-to-br from-ak-surface to-ak-midnight px-4 py-2.5">
+          <div className="flex items-center gap-2"><span aria-hidden>{effectiveLogo ?? <AnimatedLogo variant="nav" size={18} />}</span><span className="font-mono text-xs uppercase tracking-[0.2em] text-ak-graphite">{effectiveTitle}</span></div>
+          <div className="flex items-center gap-3">
+            <button type="button" onClick={() => void chatRef.current?.clear()} className="font-mono text-[10px] uppercase tracking-widest text-ak-graphite">clear</button>
+            <button type="button" onClick={() => setOpen(false)} aria-label="Close" className="text-ak-graphite">✕</button>
+          </div>
+        </header>
+        <div className="flex-1 overflow-y-auto p-3">
+          <AgentChat
+            definition={definition}
             placeholder={effectivePlaceholder}
-            data-ak-composer=""
-            className="flex-1 resize-none rounded-md border border-ak-border bg-ak-surface p-2 font-mono text-xs text-ak-foam outline-none transition-colors focus:border-ak-blue"
+            slots={{ Container: AskContainer, Message: AskMessage, Input: AskInput, Thinking: AskThinking, StandardComponent: AskStandardComponent }}
           />
-          {streaming ? (
-            <button
-              type="button"
-              onClick={stop}
-              data-ak-stop=""
-              className="rounded-md border border-ak-red/40 bg-ak-red/10 px-3 font-mono text-xs text-ak-red transition-colors hover:bg-ak-red/20"
-            >
-              stop
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={submit}
-              disabled={!input.trim()}
-              data-ak-send=""
-              className="rounded-md bg-ak-foam px-3 font-mono text-xs font-semibold text-ak-midnight transition-colors hover:bg-ak-blue disabled:opacity-40"
-            >
-              send
-            </button>
-          )}
+          {localRuns.map((code, index) => <div key={`${index}-${code.length}`}>{registry.render('runExample', { code }, { ...runtime.context, id: `local-run-${index}` })}</div>)}
         </div>
-        <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 px-1">
-        {effectiveDocsHref ? (
-          <Link
-            href={effectiveDocsHref}
-            data-ak-ask-docs-link=""
-            className="flex items-center gap-1.5 font-mono text-[10px] text-ak-graphite transition-colors hover:text-ak-blue"
-          >
-            <AnimatedLogo variant="nav" size={12} />
-            {effectiveDocsLabel}
-          </Link>
-        ) : null}
-        {cta ? (
-          <a
-            href={cta.href}
-            target={cta.target}
-            rel={cta.target === '_blank' ? 'noreferrer' : undefined}
-            data-ak-ask-cta=""
-            className="font-mono text-[10px] font-semibold uppercase tracking-widest text-ak-blue transition-colors hover:text-ak-foam"
-          >
-            {cta.label}
-          </a>
-        ) : null}
+        <div className="border-t border-ak-border p-2">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-1">
+            {effectiveDocsHref ? <Link href={effectiveDocsHref} data-ak-ask-docs-link="" className="flex items-center gap-1.5 font-mono text-[10px] text-ak-graphite"><AnimatedLogo variant="nav" size={12} />{effectiveDocsLabel}</Link> : null}
+            {cta ? <a href={cta.href} target={cta.target} rel={cta.target === '_blank' ? 'noreferrer' : undefined} data-ak-ask-cta="" className="font-mono text-[10px] font-semibold uppercase tracking-widest text-ak-blue">{cta.label}</a> : null}
+          </div>
         </div>
       </div>
-    </div>
+    </AskRuntimeContext.Provider>
   )
 }

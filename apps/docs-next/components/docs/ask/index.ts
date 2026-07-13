@@ -4,16 +4,7 @@ export { CodeBlock } from './CodeBlock'
 export type { CodeBlockProps } from './CodeBlock'
 export { highlight, getHighlighter, SHIKI_THEMES, SHIKI_LANGS } from './highlighter'
 
-// Generative-UI chat: hook + allow-listed registry render boundary.
-export {
-  useAskChat,
-  type UseAskChat,
-  type UseAskChatOptions,
-  type ChatMessage,
-  type UserMessage,
-  type AssistantMessage,
-  type AssistantPart,
-} from './useAskChat'
+export { createAskAdapter, projectAskEvent, type AskAdapterOptions } from './ask-adapter'
 export {
   createRegistry,
   defineUITool,
