@@ -3,7 +3,7 @@ import { createChatController } from '../src/controller'
 import { proposeToolCall } from '../src/tool-proposal'
 import { createInMemoryMemory } from '../src/memory'
 import { createMockAdapter } from './helpers'
-import type { Observer, AgentEvent, ChatConfig, SkillDefinition } from '../src/types'
+import type { Observer, AgentEvent, ChatConfig, Message, SkillDefinition } from '../src/types'
 
 function createTestController(overrides: Partial<ChatConfig> = {}) {
   const adapter = createMockAdapter([
@@ -274,7 +274,9 @@ describe('createChatController', () => {
   it('stop() aborts the stream', async () => {
     const abortFn = vi.fn()
     let resolve: (() => void) | undefined
+    const memory = createInMemoryMemory()
     const ctrl = createChatController({
+      memory,
       adapter: {
         createSource: () => ({
           stream: async function* () {
@@ -294,6 +296,121 @@ describe('createChatController', () => {
 
     expect(abortFn).toHaveBeenCalled()
     expect(ctrl.getState().status).toBe('idle')
+    expect(ctrl.getState().messages.at(-1)?.status).toBe('complete')
+    await vi.waitFor(async () => expect((await memory.load()).at(-1)?.status).toBe('complete'))
+    ctrl.stop()
+    expect(ctrl.getState().messages.at(-1)?.status).toBe('complete')
+  })
+
+  it('keeps late chunks and abort errors inert after stop()', async () => {
+    let release: (() => void) | undefined
+    const onError = vi.fn()
+    const ctrl = createChatController({
+      onError,
+      adapter: {
+        createSource: () => ({
+          stream: async function* () {
+            yield { type: 'text' as const, content: 'before' }
+            await new Promise<void>(resolve => { release = resolve })
+            yield { type: 'text' as const, content: 'late' }
+            throw new Error('aborted')
+          },
+          abort: () => release?.(),
+        }),
+      },
+    })
+
+    const sending = ctrl.send('Go')
+    await vi.waitFor(() => expect(ctrl.getState().messages.at(-1)?.content).toBe('before'))
+    ctrl.stop()
+    await sending
+
+    expect(ctrl.getState().messages.at(-1)).toMatchObject({ content: 'before', status: 'complete' })
+    expect(ctrl.getState().status).toBe('idle')
+    expect(onError).not.toHaveBeenCalled()
+  })
+
+  it('orders memory saves and reports a stopped completion', async () => {
+    const stored: Message[][] = []
+    let releaseStream: (() => void) | undefined
+    let releaseSave: (() => void) | undefined
+    let saves = 0
+    const onMessage = vi.fn()
+    const ctrl = createChatController({
+      onMessage,
+      memory: {
+        load: async () => stored.at(-1) ?? [],
+        save: async messages => {
+          saves++
+          if (saves === 1) await new Promise<void>(resolve => { releaseSave = resolve })
+          stored.push(messages)
+        },
+        clear: async () => {},
+      },
+      adapter: {
+        createSource: () => ({
+          stream: async function* () {
+            yield { type: 'text' as const, content: 'partial' }
+            await new Promise<void>(resolve => { releaseStream = resolve })
+          },
+          abort: () => releaseStream?.(),
+        }),
+      },
+    })
+
+    const sending = ctrl.send('Go')
+    await vi.waitFor(() => expect(ctrl.getState().messages.at(-1)?.content).toBe('partial'))
+    ctrl.stop()
+    await sending
+    releaseSave?.()
+    await vi.waitFor(() => expect(stored.at(-1)?.at(-1)?.status).toBe('complete'))
+
+    expect(stored).toHaveLength(2)
+    expect(onMessage).toHaveBeenCalledWith(expect.objectContaining({ content: 'partial', status: 'complete' }))
+  })
+
+  it('settles every overlapping streaming message on stop()', async () => {
+    const releases: Array<() => void> = []
+    const ctrl = createChatController({
+      adapter: {
+        createSource: () => ({
+          stream: async function* () {
+            await new Promise<void>(resolve => { releases.push(resolve) })
+          },
+          abort: () => releases.at(-1)?.(),
+        }),
+      },
+    })
+
+    const first = ctrl.send('first')
+    await vi.waitFor(() => expect(releases).toHaveLength(1))
+    const second = ctrl.send('second')
+    await vi.waitFor(() => expect(releases).toHaveLength(2))
+    ctrl.stop()
+    await Promise.all([first, second])
+
+    expect(ctrl.getState().messages.filter(message => message.role === 'assistant').map(message => message.status))
+      .toEqual(['complete', 'complete'])
+  })
+
+  it('ignores tool completion after stop()', async () => {
+    let resolveTool: ((value: string) => void) | undefined
+    const ctrl = createChatController({
+      tools: [{ name: 'slow', execute: () => new Promise<string>(resolve => { resolveTool = resolve }) }],
+      adapter: createMockAdapter([
+        { type: 'tool_call', toolCall: { id: 'slow-1', name: 'slow', args: '{}' } },
+        { type: 'done' },
+      ]),
+    })
+
+    const sending = ctrl.send('Go')
+    await vi.waitFor(() => expect(resolveTool).toBeTypeOf('function'))
+    ctrl.stop()
+    const stopped = ctrl.getState().messages.at(-1)
+    resolveTool?.('late result')
+    await sending
+
+    expect(ctrl.getState().messages.at(-1)).toEqual(stopped)
   })
 
   it('stop() cancels a turn before its adapter source is created', async () => {
@@ -312,13 +429,14 @@ describe('createChatController', () => {
     })
 
     const sendPromise = ctrl.send('Go')
-    await vi.waitFor(() => expect(ctrl.getState().status).toBe('streaming'))
+    await vi.waitFor(() => expect(releaseRetrieval).toBeTypeOf('function'))
     ctrl.stop()
     releaseRetrieval?.()
     await sendPromise
 
     expect(createSource).not.toHaveBeenCalled()
     expect(ctrl.getState().status).toBe('idle')
+    expect(ctrl.getState().messages.at(-1)?.status).toBe('complete')
   })
 
   it('a stopped pre-source turn cannot mutate a later send', async () => {
@@ -348,6 +466,45 @@ describe('createChatController', () => {
 
     expect(createSource).toHaveBeenCalledOnce()
     expect(ctrl.getState().messages.at(-1)?.content).toBe('latest')
+    expect(ctrl.getState().status).toBe('idle')
+  })
+
+  it('applies a registry update made during streaming', async () => {
+    let release: (() => void) | undefined
+    const execute = vi.fn()
+    const ctrl = createChatController({
+      adapter: {
+        createSource: () => ({
+          stream: async function* () { await new Promise<void>(resolve => { release = resolve }) },
+          abort: () => release?.(),
+        }),
+      },
+      tools: [{ name: 'old', requiresConfirmation: true, execute }],
+    })
+
+    const sending = ctrl.send('Go')
+    await vi.waitFor(() => expect(release).toBeTypeOf('function'))
+    ctrl.updateConfig({ tools: [{ name: 'new', requiresConfirmation: true, execute }] })
+    ctrl.stop()
+    await sending
+
+    await expect(proposeToolCall(ctrl, { id: 'new-1', name: 'new', args: {} })).resolves.toMatchObject({ name: 'new' })
+  })
+
+  it('treats a negative maxToolIterations as zero follow-up turns', async () => {
+    const createSource = vi.fn(() => createMockAdapter([
+      { type: 'tool_call', toolCall: { id: 'once', name: 'tool', args: '{}' } },
+      { type: 'done' },
+    ]).createSource({ messages: [], context: {} }))
+    const ctrl = createChatController({
+      adapter: { createSource },
+      maxToolIterations: -1,
+      tools: [{ name: 'tool', execute: () => 'done' }],
+    })
+
+    await ctrl.send('Go')
+
+    expect(createSource).toHaveBeenCalledOnce()
     expect(ctrl.getState().status).toBe('idle')
   })
 
