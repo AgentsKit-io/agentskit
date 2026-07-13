@@ -28,6 +28,19 @@ const { content } = await agent.run('Review this NDA: …')
 
 Swap the adapter for any provider (`anthropic`, `gemini`, `ollama`, …) — no lock-in.
 
+## Compare before installing
+
+The [agent catalog](/#agents) can narrow the registry to independently reviewed or directly
+runnable agents. Results can be ordered by recommendation, independent review score, or name.
+
+Select two or three agents and choose **Compare agents** to inspect review evidence, packages,
+required environment variables, capabilities, and install commands side by side. Filter and
+comparison state stays in the URL, so the resulting view can be shared with a teammate.
+
+Catalog URLs accept `q`, `category`, `reviewed=1`, `runnable=1`, `sort`, `page`, and `compare`
+query parameters. Comparison pages are intentionally excluded from search indexing because each
+URL represents a temporary decision workspace rather than canonical agent content.
+
 ## Run it in one command
 
 ```bash

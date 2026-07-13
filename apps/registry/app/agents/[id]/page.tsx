@@ -156,7 +156,10 @@ console.log(result.content)`
         <div className="self-end rounded-lg border border-ak-border bg-ak-surface p-4">
           <p className="text-xs font-medium text-ak-graphite">Install</p>
           <code className="mt-2 block overflow-x-auto font-mono text-sm text-ak-foam">{install}</code>
-          <a href={`/r/${agent.id}.json`} className="mt-4 inline-block text-xs text-ak-blue hover:underline">View raw manifest</a>
+          <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs">
+            <Link href={`/?compare=${agent.id}#agents`} className="text-ak-blue hover:underline">Compare agent</Link>
+            <a href={`/r/${agent.id}.json`} className="text-ak-blue hover:underline">View raw manifest</a>
+          </div>
         </div>
       </header>
 
