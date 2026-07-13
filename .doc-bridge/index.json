@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "29f947290e0a399ecccd81dfb2fe91e1a8b5c162171031a460056e01fc234031",
+  "contentHash": "9927f3a04f387aab43f6d4eb0f0581f3d38c7299bbc8a7961187b2bf3357e176",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-07-13T18:12:47.836Z",
+  "generatedAt": "2026-07-13T18:24:09.198Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -51,7 +51,7 @@
       "type": "agent-doc",
       "title": "eval",
       "path": "apps/docs-next/content/docs/for-agents/eval.mdx",
-      "body": "Install Primary exports - runEval({ agent, suite }) — run an EvalSuite against any async agent fn. Subpaths Subpath Contents --- --- @agentskit/eval/replay Universal in-memory APIs: createRecordingAdapter , createReplayAdapter , cassettes, createTimeTravelSession , replayAgainst , summarizeReplay . Browser and React Native conditions exclude Node built-ins. See , , . @agentskit/eval/replay/io Node-only saveCassette and loadCassette filesystem helpers. Do not import this subpath from browser, Expo, or React Native applications. @agentskit/eval/snapshot matchPromptSnapshot (exact / normalized / similarity). See . @agentskit/eval/diff promptDiff , attributePromptChange , formatDiff . See . @agentskit/eval/ci renderJUnit , renderMarkdown , renderGitHubAnnotations , reportToCi . See . Minimal example Related - — Braintrust reporter backend. - . - — trace + cost data feeds eval comparisons. - — portable format spec. Source - npm: https://www.npmjs.com/package/@agentskit/eval - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/eval"
+      "body": "Install Primary exports - runEval({ agent, suite }) — run an EvalSuite against any async agent fn. Subpaths Subpath Contents --- --- @agentskit/eval/replay Universal in-memory APIs: createRecordingAdapter , createReplayAdapter , cassettes, createTimeTravelSession , replayAgainst , summarizeReplay . Browser and React Native conditions exclude Node built-ins; legacy filesystem export names reject with a Node-only diagnostic. See , , . @agentskit/eval/replay/io Node-only saveCassette and loadCassette filesystem helpers. Do not import this subpath from browser, Expo, or React Native applications. @agentskit/eval/snapshot matchPromptSnapshot (exact / normalized / similarity). See . @agentskit/eval/diff promptDiff , attributePromptChange , formatDiff . See . @agentskit/eval/ci renderJUnit , renderMarkdown , renderGitHubAnnotations , reportToCi . See . Minimal example Related - — Braintrust reporter backend. - . - — trace + cost data feeds eval comparisons. - — portable format spec. Source - npm: https://www.npmjs.com/package/@agentskit/eval - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/eval"
     },
     {
       "id": "index",

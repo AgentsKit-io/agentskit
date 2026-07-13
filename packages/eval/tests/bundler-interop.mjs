@@ -11,6 +11,7 @@ const execute = promisify(execFile)
 const packageRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const repositoryRoot = resolve(packageRoot, '../..')
 const metroRuntimeRoot = await realpath(resolve(packageRoot, 'node_modules/metro-runtime'))
+const typeScriptCli = resolve(packageRoot, 'node_modules/typescript/bin/tsc')
 
 async function linkPackage(projectRoot, name, target) {
   const destination = join(projectRoot, 'node_modules', ...name.split('/'))
@@ -67,9 +68,47 @@ async function verifyVite(projectRoot) {
   if (/node:(?:fs|path)|fs\/promises/u.test(bundle)) throw new Error('Vite bundle contains Node IO')
 }
 
+async function verifyBundlerTypes(projectRoot) {
+  const validEntry = join(projectRoot, 'valid.ts')
+  const invalidEntry = join(projectRoot, 'invalid.ts')
+  const nodeEntry = join(projectRoot, 'node-valid.mts')
+  const argumentsFor = entry => [
+    typeScriptCli,
+    '--noEmit',
+    '--module', 'ESNext',
+    '--moduleResolution', 'bundler',
+    '--target', 'ES2022',
+    '--skipLibCheck',
+    entry,
+  ]
+  await writeFile(validEntry, "import { createCassette, saveCassette } from '@agentskit/eval/replay'; createCassette(); void saveCassette;\n")
+  await execute(process.execPath, argumentsFor(validEntry), { cwd: projectRoot })
+
+  await writeFile(nodeEntry, "import { saveCassette } from '@agentskit/eval/replay'; void saveCassette;\n")
+  await execute(process.execPath, [
+    typeScriptCli,
+    '--noEmit',
+    '--module', 'NodeNext',
+    '--moduleResolution', 'NodeNext',
+    '--target', 'ES2022',
+    '--skipLibCheck',
+    nodeEntry,
+  ], { cwd: projectRoot })
+
+  await writeFile(invalidEntry, "import { missingReplayExport } from '@agentskit/eval/replay'; void missingReplayExport;\n")
+  try {
+    await execute(process.execPath, argumentsFor(invalidEntry), { cwd: projectRoot })
+    throw new Error('Bundler TypeScript accepted an unknown replay export')
+  } catch (error) {
+    if (error instanceof Error && error.message === 'Bundler TypeScript accepted an unknown replay export') throw error
+    const stdout = typeof error === 'object' && error !== null && 'stdout' in error ? String(error.stdout) : ''
+    if (!stdout.includes("has no exported member 'missingReplayExport'")) throw error
+  }
+}
+
 async function verifyMetro(projectRoot) {
   const entry = join(projectRoot, 'index.js')
-  await writeFile(entry, "import { createCassette } from '@agentskit/eval/replay'; globalThis.__agentskitEval = createCassette;\n")
+  await writeFile(entry, "import { createCassette, saveCassette } from '@agentskit/eval/replay'; globalThis.__agentskitEval = [createCassette, saveCassette];\n")
   const baseConfig = await loadConfig({ cwd: projectRoot, projectRoot })
   const config = {
     ...baseConfig,
@@ -103,6 +142,20 @@ export async function runBundlerInteropChecks() {
   if (/\bimport\s*\(/u.test(universalSource)) throw new Error('The universal replay entry contains a dynamic import')
   if (/node:(?:fs|path)|fs\/promises/u.test(universalSource)) throw new Error('The universal replay entry contains Node IO')
 
+  const universalEntry = await import(new URL('../dist/replay.browser.js', import.meta.url).href)
+  const universalIoCalls = [
+    () => universalEntry.saveCassette('fixture.json', universalEntry.createCassette()),
+    () => universalEntry.loadCassette('fixture.json'),
+  ]
+  for (const call of universalIoCalls) {
+    try {
+      await call()
+      throw new Error('Universal cassette IO unexpectedly succeeded')
+    } catch (error) {
+      if (!(error instanceof Error) || !error.message.includes('available only in Node.js')) throw error
+    }
+  }
+
   await verifyNodeIo()
 
   const projectRoot = await mkdtemp(join(tmpdir(), 'agentskit-eval-bundlers-'))
@@ -110,6 +163,7 @@ export async function runBundlerInteropChecks() {
     await linkPackage(projectRoot, '@agentskit/eval', packageRoot)
     await linkPackage(projectRoot, '@agentskit/core', resolve(repositoryRoot, 'packages/core'))
     await linkPackage(projectRoot, 'metro-runtime', metroRuntimeRoot)
+    await verifyBundlerTypes(projectRoot)
     await verifyVite(projectRoot)
     await verifyMetro(projectRoot)
   } finally {

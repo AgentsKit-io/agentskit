@@ -89,7 +89,7 @@ await saveCassette('./fixtures/session.json', createCassette())
 const cassette = await loadCassette('./fixtures/session.json')
 ```
 
-The original Node exports from `@agentskit/eval/replay` remain available for compatibility. Browser and native hosts should combine `serializeCassette` or `parseCassette` with their own storage APIs.
+The original Node exports from `@agentskit/eval/replay` remain available for compatibility. Browser and native builds retain those export names so types and runtime stay aligned, but calls reject with a Node-only diagnostic. Those hosts should combine `serializeCassette` or `parseCassette` with their own storage APIs.
 
 ## Ecosystem
 
