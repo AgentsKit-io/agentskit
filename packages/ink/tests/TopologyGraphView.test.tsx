@@ -204,9 +204,7 @@ describe('TopologyGraphView', () => {
       ],
     }
     emitUpdate!(updated)
-    await new Promise(r => setTimeout(r, 20))
-
-    expect(lastFrame()).toContain('reactive')
+    await vi.waitFor(() => expect(lastFrame()).toContain('reactive'))
   })
 
   it('renders multiple non-root nodes', () => {
