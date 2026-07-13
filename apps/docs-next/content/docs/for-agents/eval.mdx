@@ -17,7 +17,8 @@ npm install @agentskit/eval
 
 | Subpath | Contents |
 |---|---|
-| `@agentskit/eval/replay` | `createRecordingAdapter`, `createReplayAdapter`, cassettes, `createTimeTravelSession`, `replayAgainst`, `summarizeReplay`. See [Deterministic replay](/docs/reference/recipes/deterministic-replay), [Time travel](/docs/reference/recipes/time-travel-debug), [Replay-different-model](/docs/reference/recipes/replay-different-model). |
+| `@agentskit/eval/replay` | Universal in-memory APIs: `createRecordingAdapter`, `createReplayAdapter`, cassettes, `createTimeTravelSession`, `replayAgainst`, `summarizeReplay`. Browser and React Native conditions exclude Node built-ins; legacy filesystem export names reject with a Node-only diagnostic. See [Deterministic replay](/docs/reference/recipes/deterministic-replay), [Time travel](/docs/reference/recipes/time-travel-debug), [Replay-different-model](/docs/reference/recipes/replay-different-model). |
+| `@agentskit/eval/replay/io` | Node-only `saveCassette` and `loadCassette` filesystem helpers. Do not import this subpath from browser, Expo, or React Native applications. |
 | `@agentskit/eval/snapshot` | `matchPromptSnapshot` (exact / normalized / similarity). See [Snapshots](/docs/reference/recipes/prompt-snapshots). |
 | `@agentskit/eval/diff` | `promptDiff`, `attributePromptChange`, `formatDiff`. See [Prompt diff](/docs/reference/recipes/prompt-diff). |
 | `@agentskit/eval/ci` | `renderJUnit`, `renderMarkdown`, `renderGitHubAnnotations`, `reportToCi`. See [Evals in CI](/docs/reference/recipes/evals-ci). |

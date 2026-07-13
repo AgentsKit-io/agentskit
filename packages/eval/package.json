@@ -35,9 +35,24 @@
       "require": "./dist/index.cjs"
     },
     "./replay": {
+      "react-native": {
+        "types": "./dist/replay.browser.d.ts",
+        "import": "./dist/replay.browser.js",
+        "require": "./dist/replay.browser.cjs"
+      },
+      "browser": {
+        "types": "./dist/replay.browser.d.ts",
+        "import": "./dist/replay.browser.js",
+        "require": "./dist/replay.browser.cjs"
+      },
       "types": "./dist/replay.d.ts",
       "import": "./dist/replay.js",
       "require": "./dist/replay.cjs"
+    },
+    "./replay/io": {
+      "types": "./dist/replay-io.d.ts",
+      "import": "./dist/replay-io.js",
+      "require": "./dist/replay-io.cjs"
     },
     "./snapshot": {
       "types": "./dist/snapshot.d.ts",
@@ -63,8 +78,10 @@
   },
   "scripts": {
     "build": "tsup",
-    "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
+    "test": "pnpm test:prepare && vitest run",
+    "test:prepare": "pnpm --filter @agentskit/core build && pnpm build",
+    "test:interop": "pnpm test:prepare && vitest run tests/bundler-interop.test.ts",
+    "test:coverage": "pnpm test:prepare && vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"
   },
@@ -73,8 +90,11 @@
   },
   "devDependencies": {
     "@types/node": "^25.9.5",
+    "metro": "0.84.4",
+    "metro-runtime": "0.84.4",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
+    "vite": "^8.1.4",
     "vitest": "^4.1.10"
   },
   "agentskit": {

@@ -20,7 +20,8 @@ npm install -D @agentskit/eval
 ## Compare a cassette against a candidate
 
 ```ts
-import { loadCassette, replayAgainst, summarizeReplay } from '@agentskit/eval/replay'
+import { replayAgainst, summarizeReplay } from '@agentskit/eval/replay'
+import { loadCassette } from '@agentskit/eval/replay/io'
 import { anthropic, openai } from '@agentskit/adapters'
 
 const cassette = await loadCassette('./fixtures/production.cassette.json')
