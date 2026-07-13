@@ -3,8 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "prebuild": "node ../../scripts/gen-ecosystem-stats.mjs && node ../../scripts/sync-ecosystem.mjs && node ../../scripts/sync-brand.mjs --property agentskit --format landing --out apps/landing/app/globals.css",
+    "prebuild": "node ../../scripts/gen-ecosystem-stats.mjs && node ../../scripts/gen-ecosystem-claims.mjs && node ../../scripts/sync-ecosystem.mjs && node ../../scripts/sync-brand.mjs --property agentskit --format landing --out apps/landing/app/globals.css",
     "gen:stats": "node ../../scripts/gen-ecosystem-stats.mjs",
+    "gen:claims": "node ../../scripts/gen-ecosystem-claims.mjs",
     "dev": "next dev --turbo --port 4180",
     "build": "next build",
     "start": "next start --port 4180",
