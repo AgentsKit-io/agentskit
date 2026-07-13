@@ -17,8 +17,12 @@ import { ChatContainer } from '@agentskit/react'
 import {
   SourceListPropsSchema,
   StandardComponentCatalog,
+  createAskAdapter,
+  createAskSessionMemory,
   defineChat,
   defineComponentManifest,
+  type AskAdapterOptions,
+  type AskToolProjector,
   type ComponentDefinition,
 } from '@agentskit/chat'
 import {
@@ -30,7 +34,6 @@ import {
 import { z } from 'zod'
 import { AnimatedLogo } from '@/components/brand/animated-logo'
 import { Markdown } from './ask/Markdown'
-import { createAskAdapter, createAskSessionMemory, type AskAdapterOptions } from './ask/ask-adapter'
 import { defaultRegistry, type UiToolContext, type UiToolRegistry } from './ask/registry'
 
 const AskToolPropsSchema = z.object({
@@ -47,6 +50,22 @@ const AskToolComponent: ComponentDefinition<z.infer<typeof AskToolPropsSchema>> 
 }
 
 const ASK_COMPONENTS = defineComponentManifest([...StandardComponentCatalog, AskToolComponent])
+
+const projectDocsAskTool: AskToolProjector = event => {
+  const props = AskToolPropsSchema.safeParse({ name: event.name, args: event.args })
+  if (!props.success) return undefined
+  const safeId = event.id.replace(/[^A-Za-z0-9._:-]/g, '-')
+  const instanceId = (/^[A-Za-z0-9]/.test(safeId) ? safeId : `ask-${safeId}`).slice(0, 128)
+  return {
+    protocol: 'agentskit.chat.component',
+    version: 1,
+    type: 'render',
+    componentKey: 'ask-tool',
+    instanceId,
+    props: props.data,
+    fallback: { kind: 'ask-tool', summary: `Interactive documentation content: ${props.data.name}.` },
+  }
+}
 
 interface AskRuntime {
   readonly chat: { current: ChatReturn | null }
@@ -207,15 +226,21 @@ export function AskDocsWidget({
   const effectiveDocsHref = docsHref === undefined ? (brand?.docsHref ?? '/docs/cookbook/ask-the-docs') : docsHref
   const effectiveDocsLabel = docsLabel ?? brand?.docsLabel ?? 'Build a chat like this - step by step ->'
   const askLabel = typeof effectiveFabLabel === 'string' ? effectiveFabLabel : 'Ask the docs'
-  const effectiveStorageKey = storageKey ?? ([corpus, persona].filter(Boolean).length > 0 ? `ak:ask-thread-v2:${[corpus, persona].filter(Boolean).join(':')}` : 'ak:ask-thread-v2')
+  const storageIdentity = [corpus, persona].filter(Boolean).join(':')
+  const legacyStorageKey = storageIdentity ? `ak:ask-thread-v2:${storageIdentity}` : 'ak:ask-thread-v2'
+  const effectiveStorageKey = storageKey ?? (storageIdentity ? `ak:ask-thread-v3:${storageIdentity}` : 'ak:ask-thread-v3')
   const definition = useMemo(() => defineChat({
     id: `docs-ask-${corpus ?? 'docs'}-${persona ?? 'default'}`,
     components: ASK_COMPONENTS,
     chat: {
-      adapter: createAskAdapter({ endpoint, corpus, persona }),
-      memory: createAskSessionMemory(effectiveStorageKey),
+      adapter: createAskAdapter({ endpoint, corpus, persona, projectTool: projectDocsAskTool }),
+      memory: createAskSessionMemory({
+        key: effectiveStorageKey,
+        legacyKeys: storageKey === undefined ? [legacyStorageKey] : [],
+        projectTool: projectDocsAskTool,
+      }),
     },
-  }), [endpoint, corpus, persona, effectiveStorageKey])
+  }), [endpoint, corpus, persona, effectiveStorageKey, legacyStorageKey, storageKey])
   const runtime = useMemo<AskRuntime>(() => ({
     chat: chatRef,
     registry,

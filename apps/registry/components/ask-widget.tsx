@@ -1,11 +1,10 @@
 'use client'
 
-import { Children, createContext, useContext, useMemo, useRef, useState, type ComponentProps, type FormEvent, type ReactNode } from 'react'
+import { Children, createContext, useContext, useEffect, useMemo, useRef, useState, type ComponentProps, type FormEvent, type ReactNode } from 'react'
 import type { ChatReturn, Message as AgentsKitMessage } from '@agentskit/core'
 import { ChatContainer } from '@agentskit/react'
-import { SourceListPropsSchema, StandardComponentCatalog, defineChat, defineComponentManifest } from '@agentskit/chat'
+import { SourceListPropsSchema, StandardComponentCatalog, createAskAdapter, createAskSessionMemory, defineChat, defineComponentManifest } from '@agentskit/chat'
 import { AgentChat, StandardComponent as FrameworkStandardComponent, type AgentChatSlots, type StandardComponentProps } from '@agentskit/chat-react'
-import { createAskAdapter, createAskSessionMemory } from './ask-chat/ask-adapter'
 
 const CORPUS = 'registry'
 const STORAGE_KEY = 'ak:ask-thread-v3:registry'
@@ -76,6 +75,9 @@ function RegistryComponent(props: StandardComponentProps) {
 export function RegistryAskWidget() {
   const [open, setOpen] = useState(false)
   const chatRef = useRef<ChatReturn | null>(null)
+  const fabRef = useRef<HTMLButtonElement>(null)
+  const panelRef = useRef<HTMLElement>(null)
+  const openedOnceRef = useRef(false)
   const endpoint = process.env.NEXT_PUBLIC_ASK_ENDPOINT ?? 'https://ask.agentskit.io/v1/ask'
   const definition = useMemo(() => defineChat({
     id: 'ask-registry',
@@ -87,10 +89,28 @@ export function RegistryAskWidget() {
   }), [endpoint])
   const runtime = useMemo(() => ({ chat: chatRef }), [])
 
-  if (!open) return <><button type="button" className="rg-ask-fab" aria-label="Ask Registry" onClick={() => setOpen(true)}><Mark/><span>Ask Registry</span></button><Styles/></>
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      if (open) {
+        openedOnceRef.current = true
+        panelRef.current?.querySelector<HTMLTextAreaElement>('textarea')?.focus()
+      } else if (openedOnceRef.current) {
+        openedOnceRef.current = false
+        fabRef.current?.focus()
+      }
+    })
+    return () => cancelAnimationFrame(frame)
+  }, [open])
+
+  if (!open) return <><button ref={fabRef} type="button" className="rg-ask-fab" aria-label="Ask Registry" onClick={() => setOpen(true)}><Mark/><span>Ask Registry</span></button><Styles/></>
 
   return <RuntimeContext.Provider value={runtime}>
-    <section className="rg-ask-panel" aria-label="Ask Registry">
+    <section ref={panelRef} className="rg-ask-panel" role="dialog" aria-label="Ask Registry" onKeyDown={event => {
+      if (event.key === 'Escape') {
+        event.stopPropagation()
+        setOpen(false)
+      }
+    }}>
       <header className="rg-ask-header"><strong><Mark size={18}/><span>Ask Registry</span></strong><div><button type="button" onClick={() => void chatRef.current?.clear()}>clear</button><button type="button" aria-label="Close" onClick={() => setOpen(false)}>×</button></div></header>
       <div className="rg-ask-runtime"><AgentChat key={STORAGE_KEY} definition={definition} placeholder="Ask about an agent…" slots={{ Container: RegistryContainer, Message: RegistryMessage, Input: RegistryInput, Thinking: RegistryThinking, StandardComponent: RegistryComponent }}/></div>
       <footer className="rg-ask-footer"><a href="/#agents"><Mark size={12}/> Browse registry agents →</a></footer>

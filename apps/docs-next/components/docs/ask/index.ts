@@ -4,7 +4,6 @@ export { CodeBlock } from './CodeBlock'
 export type { CodeBlockProps } from './CodeBlock'
 export { highlight, getHighlighter, SHIKI_THEMES, SHIKI_LANGS } from './highlighter'
 
-export { createAskAdapter, createAskSessionMemory, projectAskEvent, type AskAdapterOptions } from './ask-adapter'
 export {
   createRegistry,
   defineUITool,
