@@ -1,0 +1,39 @@
+---
+title: Providers and models
+description: Use Registry agents with OpenAI, Anthropic, Gemini, Ollama, or another AgentsKit adapter.
+---
+
+Registry agents accept an `AdapterFactory`; they do not hard-code a model provider. The rest of
+the factory stays unchanged when you switch adapters.
+
+## Hosted provider
+
+```ts
+import { anthropic } from '@agentskit/adapters'
+
+const agent = createMyAgent({
+  adapter: anthropic({
+    apiKey: process.env.ANTHROPIC_API_KEY!,
+    model: 'claude-sonnet-4-5',
+  }),
+})
+```
+
+## Local provider
+
+```bash
+npx agentskit add my-agent --run "Summarize this" --provider ollama
+```
+
+Local models avoid a provider key, but tool calling and structured output support vary by model.
+Run the agent evaluation suite against the exact model you plan to deploy.
+
+## Configuration file
+
+The CLI also reads `.agentskit.config.json` for defaults. Keep secrets in environment variables;
+store only provider names, model identifiers, and non-secret options in configuration files.
+
+## Choosing a model
+
+Use a model that supports the capabilities the agent requires. Check structured output and tool
+calling first, then compare quality, latency, and cost with representative evaluation inputs.

@@ -15,6 +15,7 @@ export const CATEGORY: Record<string, { label: string; blurb: string; icon: stri
   data: { label: 'Data', blurb: 'SQL, lineage, quality, and analytics narratives.', icon: 'database' },
   ecommerce: { label: 'E-commerce', blurb: 'Listings, returns, fraud, and fulfillment.', icon: 'shopping-cart' },
   product: { label: 'Product', blurb: 'PRDs, prioritization, feedback, and roadmaps.', icon: 'layout' },
+  security: { label: 'Security', blurb: 'Threat triage, vulns, IR, and compliance gaps.', icon: 'shield' },
   cybersecurity: { label: 'Security', blurb: 'Threat triage, vulns, IR, and compliance gaps.', icon: 'shield' },
   insurance: { label: 'Insurance', blurb: 'Claims, underwriting, and policy workflows.', icon: 'umbrella' },
   realestate: { label: 'Real Estate', blurb: 'Listings, leases, comps, and closings.', icon: 'home' },
@@ -26,7 +27,7 @@ export const CATEGORY: Record<string, { label: string; blurb: string; icon: stri
 
 const ORDER = [
   'coding', 'research', 'marketing', 'agency', 'support', 'legal', 'fintech', 'clinical', 'ops',
-  'productivity', 'sales', 'hr', 'devops', 'data', 'ecommerce', 'product', 'cybersecurity',
+  'productivity', 'sales', 'hr', 'devops', 'data', 'ecommerce', 'product', 'cybersecurity', 'security',
   'insurance', 'realestate', 'education', 'content', 'compliance', 'ecosystem',
 ]
 

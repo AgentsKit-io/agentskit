@@ -19,6 +19,10 @@
   --ak-red: #cf222e;
 }
 
+html {
+  overflow-x: clip;
+}
+
 .dark {
   --ak-midnight: #0D1117;
   --ak-foam: #E6EDF3;

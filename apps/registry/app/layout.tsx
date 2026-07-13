@@ -19,6 +19,7 @@ export const metadata: Metadata = {
   description: DESCRIPTION,
   openGraph: { title: 'AgentsKit Registry', description: DESCRIPTION, url: SITE_URL, siteName: 'AgentsKit Registry' },
   twitter: { card: 'summary_large_image', title: 'AgentsKit Registry', description: DESCRIPTION, creator: '@agentskit' },
+  robots: { index: true, follow: true },
 }
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -28,9 +29,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       className={`${inter.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable}`}
       suppressHydrationWarning
     >
+      <head>
+        <link rel="alternate" type="text/plain" href="/llms.txt" title="Agent and docs index for LLMs" />
+        <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Full agent context for LLMs" />
+      </head>
       <body className="flex min-h-screen flex-col overflow-x-clip font-sans">
         <PostHogProvider>
-          <RootProvider>{children}</RootProvider>
+          <RootProvider search={{ options: { allowClear: true } }}>{children}</RootProvider>
         </PostHogProvider>
         <Script src="https://www.agentskit.io/ecosystem-bar.js" strategy="afterInteractive" data-current="registry" />
       </body>

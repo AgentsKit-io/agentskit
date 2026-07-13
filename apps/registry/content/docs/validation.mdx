@@ -1,0 +1,44 @@
+---
+title: Validation and safety
+description: Understand Registry checks, independent review, and what to verify in your environment.
+---
+
+Every installable agent has a typed factory, unit tests, and a manifest that passes the Registry
+schema and catalog policies. Most also publish an `eval.ts` contract with reproducible cases. These
+deterministic checks are separate from the independent behavioral review shown on some agent pages.
+Neither signal is a guarantee for every model, prompt, dataset, or production environment.
+
+## Registry checks
+
+- TypeScript type checking
+- Manifest and catalog schema validation
+- Unit tests with deterministic adapters
+- Agent-specific evaluation cases
+- Build freshness for installable manifests
+- Safety conventions for untrusted content and sensitive domains
+
+## Independent review
+
+Agents with a **Validation evidence** section were exercised by one Codex agent and assessed by a
+separate reviewer. The public score appears only when the reviewer approved the result with both a
+score and confidence of at least 95%, with no critical failures. The page lists the number of cases
+and iterations, the review summary, strengths, and remaining notes.
+
+No badge means that independent evidence is unavailable or did not clear that threshold. It does
+not change whether the source is installable. When an evaluation contract is included, replay it
+with your exact provider, model, configuration, and data. Otherwise, add representative cases before
+deployment.
+
+## Before deployment
+
+1. Run the included tests after modifying the copied source.
+2. Replay evaluation cases with your provider and model.
+3. Add cases from your own traffic, including ambiguous and adversarial inputs.
+4. Require human approval for consequential tool calls.
+5. Monitor errors, latency, cost, and sampled output quality.
+
+## Version ownership
+
+Your installed copy does not change automatically. Use `npx agentskit diff <agent>` to inspect
+upstream changes and `npx agentskit update <agent>` when you decide to adopt them. Re-run your own
+tests and evaluations after every update.

@@ -27,7 +27,7 @@ importers:
         version: link:packages/core
       '@agentskit/doc-bridge':
         specifier: 1.0.2
-        version: 1.0.2(@agentskit/adapters@0.13.12(@aws-sdk/client-bedrock-runtime@3.1068.0))(@agentskit/core@packages+core)(@agentskit/ink@0.10.3(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/memory@0.10.12)(@agentskit/rag@0.4.12)(react@19.2.7)
+        version: 1.0.2(@agentskit/adapters@0.13.13(@aws-sdk/client-bedrock-runtime@3.1068.0))(@agentskit/core@packages+core)(@agentskit/ink@0.10.4(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/memory@0.10.13)(@agentskit/rag@0.4.13)(react@19.2.7)
       '@agentskit/eval':
         specifier: workspace:*
         version: link:packages/eval
@@ -693,6 +693,9 @@ importers:
       typescript:
         specifier: ^6.0.3
         version: 6.0.3
+      vitest:
+        specifier: ^4.1.10
+        version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@25.9.5)(@vitest/coverage-v8@4.1.10)(happy-dom@20.10.6)(jsdom@29.1.1)(msw@2.15.0(@types/node@25.9.5)(typescript@6.0.3))(vite@8.1.4(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.48.0)(tsx@4.23.0)(yaml@2.9.0))
 
   apps/visual-react:
     dependencies:
@@ -1464,8 +1467,8 @@ packages:
   '@adobe/css-tools@4.5.0':
     resolution: {integrity: sha512-6OzddxPio9UiWTCemp4N8cYLV2ZN1ncRnV1cVGtve7dhPOtRkleRyx32GQCYSwDYgaHU3USMm84tNsvKzRCa1Q==}
 
-  '@agentskit/adapters@0.13.12':
-    resolution: {integrity: sha512-uEKG9XE+Cv6zIsPoh25bTWNOon0uLDynVmgDq9+o4MTLFqu9aA7hrF4NgRYV6ZdCyI90sfJrFN8QMc9KWrjAAA==}
+  '@agentskit/adapters@0.13.13':
+    resolution: {integrity: sha512-goVGDN3eMwRVtOsKOGkpGI0kXvgfFJhbuJD/GuIB9Fq1zoAOIUWeAyfrA8ngTgfv0dmlLsVzmN36J5fI/FuuQA==}
     peerDependencies:
       '@aws-sdk/client-bedrock-runtime': ^3.0.0
     peerDependenciesMeta:
@@ -1491,8 +1494,8 @@ packages:
     peerDependencies:
       '@agentskit/core': ^1.12.1
 
-  '@agentskit/core@1.12.2':
-    resolution: {integrity: sha512-QujFUgjJhzSleWpYjaGzWI1d1V7NIZDKVKIbX1YExOxY/n1laazBNVUK/Jc94dyNOM4oRu/urzeztScY2qMDPg==}
+  '@agentskit/core@1.12.3':
+    resolution: {integrity: sha512-fNHrzpEoCaWHDK2fwk/BIhcPseN6zCdy3N0WjzdelnmRuh7zy9/Ki0zcukesK5ZAAmXdz2+Dj8FI7AM32JyOKw==}
 
   '@agentskit/doc-bridge@1.0.2':
     resolution: {integrity: sha512-kE5oKKvmFOZliMm9Rfr8N+G1RWaBoDabOK3Vqjz7IJLHyTSyYnHxiE08O6HYKudtAbyV8x0o2R/IEsWNohyLVw==}
@@ -1519,16 +1522,16 @@ packages:
       react:
         optional: true
 
-  '@agentskit/ink@0.10.3':
-    resolution: {integrity: sha512-iVrDjHKYImSElpvb7JGtF68JoK1paVLmZLvT4ByQHJgzPagYl2vrPZQUn8wvdgdfiPEFh8FSfflPEbrD2T5k+w==}
+  '@agentskit/ink@0.10.4':
+    resolution: {integrity: sha512-M3/yBrEM2Pen1LVa+0xZQds0bDaSaY5jK90jpwg6fGg+dDcU+ZyxgqcW2TufddQJxVrOFzJr9xlRVBELmdJB3g==}
     peerDependencies:
       react: '>=18.0.0'
 
-  '@agentskit/memory@0.10.12':
-    resolution: {integrity: sha512-UvpUI059n8jUedIeX0LO+L+fapRQhU9BBxVfJI6ASRZ8S1kwpwpA8nU7UC3uovC6JCkULE1E9YF4k0/W4h5Wig==}
+  '@agentskit/memory@0.10.13':
+    resolution: {integrity: sha512-RoOSSGq0mOnMpwOJBtvcuZ3jLCMYlN9+wPCSjhNMBwAfqRL/9V7TS2Ek8pEWXLRYo/ADG7uqSfw5k/oj/ZgOKQ==}
 
-  '@agentskit/rag@0.4.12':
-    resolution: {integrity: sha512-hceZxEVEMo0mw4WAa2e8HjWsyFSF0CbugBqwQg3jVSBHPPrvKgNNYHwD9lAc0tXszZpku+ASMU6rGAnAB0AOGw==}
+  '@agentskit/rag@0.4.13':
+    resolution: {integrity: sha512-ZTXs87QfXxrCx/jLAhYHEG9UDmyLoZEgrjeXaHs1dSU94b6/3qbpWTtx5JFvENmNQhEIuvcKYc3EFfwaa5E6TA==}
 
   '@alcalzone/ansi-tokenize@0.3.0':
     resolution: {integrity: sha512-p+CMKJ93HFmLkjXKlXiVGlMQEuRb6H0MokBSwUsX+S6BRX8eV5naFZpQJFfJHjRZY0Hmnqy1/r6UWl3x+19zYA==}
@@ -8605,9 +8608,9 @@ snapshots:
 
   '@adobe/css-tools@4.5.0': {}
 
-  '@agentskit/adapters@0.13.12(@aws-sdk/client-bedrock-runtime@3.1068.0)':
+  '@agentskit/adapters@0.13.13(@aws-sdk/client-bedrock-runtime@3.1068.0)':
     dependencies:
-      '@agentskit/core': 1.12.2
+      '@agentskit/core': 1.12.3
     optionalDependencies:
       '@aws-sdk/client-bedrock-runtime': 3.1068.0
     optional: true
@@ -8632,23 +8635,23 @@ snapshots:
       '@agentskit/core': link:packages/core
       zod: 4.4.3
 
-  '@agentskit/core@1.12.2':
+  '@agentskit/core@1.12.3':
     optional: true
 
-  '@agentskit/doc-bridge@1.0.2(@agentskit/adapters@0.13.12(@aws-sdk/client-bedrock-runtime@3.1068.0))(@agentskit/core@packages+core)(@agentskit/ink@0.10.3(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/memory@0.10.12)(@agentskit/rag@0.4.12)(react@19.2.7)':
+  '@agentskit/doc-bridge@1.0.2(@agentskit/adapters@0.13.13(@aws-sdk/client-bedrock-runtime@3.1068.0))(@agentskit/core@packages+core)(@agentskit/ink@0.10.4(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/memory@0.10.13)(@agentskit/rag@0.4.13)(react@19.2.7)':
     dependencies:
       zod: 3.25.76
     optionalDependencies:
-      '@agentskit/adapters': 0.13.12(@aws-sdk/client-bedrock-runtime@3.1068.0)
+      '@agentskit/adapters': 0.13.13(@aws-sdk/client-bedrock-runtime@3.1068.0)
       '@agentskit/core': link:packages/core
-      '@agentskit/ink': 0.10.3(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)
-      '@agentskit/memory': 0.10.12
-      '@agentskit/rag': 0.4.12
+      '@agentskit/ink': 0.10.4(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)
+      '@agentskit/memory': 0.10.13
+      '@agentskit/rag': 0.4.13
       react: 19.2.7
 
-  '@agentskit/ink@0.10.3(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)':
+  '@agentskit/ink@0.10.4(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)':
     dependencies:
-      '@agentskit/core': 1.12.2
+      '@agentskit/core': 1.12.3
       ink: 7.1.0(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)
       marked: 15.0.12
       marked-terminal: 7.3.0(marked@15.0.12)
@@ -8660,14 +8663,14 @@ snapshots:
       - utf-8-validate
     optional: true
 
-  '@agentskit/memory@0.10.12':
+  '@agentskit/memory@0.10.13':
     dependencies:
-      '@agentskit/core': 1.12.2
+      '@agentskit/core': 1.12.3
     optional: true
 
-  '@agentskit/rag@0.4.12':
+  '@agentskit/rag@0.4.13':
     dependencies:
-      '@agentskit/core': 1.12.2
+      '@agentskit/core': 1.12.3
     optional: true
 
   '@alcalzone/ansi-tokenize@0.3.0':

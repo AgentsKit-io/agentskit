@@ -1,0 +1,58 @@
+---
+title: Quick start
+description: Install and run your first Registry agent in a TypeScript project.
+---
+
+## Requirements
+
+- Node.js 20 or newer
+- An existing TypeScript project
+- An LLM provider key, unless you use a local provider such as Ollama
+
+## 1. Find an agent
+
+Use the [catalog](/#agents) to search by task, category, or capability. Open an agent page to
+review its description, packages, examples, required environment variables, and source.
+
+## 2. Add the source
+
+```bash
+npx agentskit add coding-test-runner
+```
+
+The command writes `./agents/coding-test-runner/`. Commit this directory: it is application code,
+not generated cache.
+
+## 3. Install its packages
+
+The CLI reports the required packages. For a typical agent:
+
+```bash
+npm install @agentskit/core @agentskit/runtime @agentskit/adapters
+```
+
+## 4. Configure and run
+
+```ts
+import { openai } from '@agentskit/adapters'
+import { createCodingTestRunnerAgent } from './agents/coding-test-runner/agent'
+
+const agent = createCodingTestRunnerAgent({
+  adapter: openai({
+    apiKey: process.env.OPENAI_API_KEY!,
+    model: 'gpt-4o',
+  }),
+})
+
+const result = await agent.run(vitestOutput)
+console.log(result.content)
+```
+
+Keep provider credentials on the server. Never expose API keys in browser bundles.
+
+## 5. Review before production
+
+Read the copied `agent.ts`, run its tests, and verify tool permissions for your environment.
+Agents in sensitive domains produce decision support; keep a human approval step for consequential actions.
+
+Next: [customize the agent](/docs/customizing) or learn how [validation works](/docs/validation).
