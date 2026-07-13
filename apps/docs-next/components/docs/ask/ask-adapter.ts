@@ -120,6 +120,32 @@ function wireMessages(messages: readonly Message[]): Array<{ role: 'user' | 'ass
   return projected
 }
 
+function legacyMessages(value: unknown): Message[] | undefined {
+  if (!Array.isArray(value)) return undefined
+  const createdAt = new Date()
+  return value.flatMap((candidate, index): Message[] => {
+    if (typeof candidate !== 'object' || candidate === null) return []
+    const message = candidate as Record<string, unknown>
+    const id = typeof message.id === 'string' && message.id !== '' ? message.id : `legacy-${index + 1}`
+    if (message.role === 'user' && typeof message.text === 'string') {
+      return [{ id, role: 'user', content: message.text, status: 'complete', createdAt }]
+    }
+    if (message.role !== 'assistant' || !Array.isArray(message.parts)) return []
+    const encoder = createAssistantContentEncoder()
+    const encoded = message.parts.flatMap((candidatePart): string[] => {
+      if (typeof candidatePart !== 'object' || candidatePart === null) return []
+      const part = candidatePart as Record<string, unknown>
+      if (part.kind === 'text' && typeof part.text === 'string') {
+        return part.text === '' ? [] : [encoder.encode({ kind: 'text', text: part.text })]
+      }
+      if (part.kind !== 'tool' || typeof part.id !== 'string' || typeof part.name !== 'string' || typeof part.args !== 'object' || part.args === null || Array.isArray(part.args)) return []
+      const projected = projectAskEvent({ type: 'tool', id: part.id, name: part.name, args: part.args as Record<string, unknown> })
+      return projected.part ? [encoder.encode(projected.part)] : []
+    }).join('')
+    return [{ id, role: 'assistant', content: encoded, status: 'complete', createdAt }]
+  })
+}
+
 export function createAskAdapter(options: AskAdapterOptions = {}): AdapterFactory {
   return {
     capabilities: { streaming: true, structuredOutput: true },
@@ -203,7 +229,13 @@ export function createAskSessionMemory(key: string, maxMessages = 20): ChatMemor
       const raw = sessionStorage.getItem(key)
       if (!raw) return []
       try {
-        return deserializeMessages(JSON.parse(raw))
+        const parsed: unknown = JSON.parse(raw)
+        const legacy = legacyMessages(parsed)
+        if (!legacy) return deserializeMessages(parsed as Parameters<typeof deserializeMessages>[0])
+        try {
+          sessionStorage.setItem(key, JSON.stringify(serializeMessages(legacy)))
+        } catch {}
+        return legacy
       } catch {
         return []
       }

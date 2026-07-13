@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import {
+  Children,
   createContext,
   useContext,
   useMemo,
@@ -12,6 +13,7 @@ import {
   type ReactNode,
 } from 'react'
 import type { ChatReturn, Message as AgentsKitMessage } from '@agentskit/core'
+import { ChatContainer } from '@agentskit/react'
 import {
   SourceListPropsSchema,
   StandardComponentCatalog,
@@ -74,9 +76,15 @@ function AskMessage({ message }: { message: AgentsKitMessage }) {
   )
 }
 
-function AskContainer({ children }: { children: ReactNode }) {
+function AskContainer({ children, className }: ComponentProps<typeof ChatContainer>) {
   const runtime = useAskRuntime()
-  return <div className="flex flex-col gap-3">{runtime.chat.current?.messages.length ? null : <div data-ak-empty="" className="mb-3 text-sm text-ak-graphite">{runtime.emptyState}</div>}{children}</div>
+  const hasMessages = Children.count(children) > 1
+  return (
+    <ChatContainer className={`${className ?? ''} flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto`}>
+      {hasMessages ? null : <div data-ak-empty="" className="mb-3 text-sm text-ak-graphite">{runtime.emptyState}</div>}
+      {children}
+    </ChatContainer>
+  )
 }
 
 function AskThinking({ visible }: { visible: boolean }) {
@@ -199,14 +207,15 @@ export function AskDocsWidget({
   const effectiveDocsHref = docsHref === undefined ? (brand?.docsHref ?? '/docs/cookbook/ask-the-docs') : docsHref
   const effectiveDocsLabel = docsLabel ?? brand?.docsLabel ?? 'Build a chat like this - step by step ->'
   const askLabel = typeof effectiveFabLabel === 'string' ? effectiveFabLabel : 'Ask the docs'
+  const effectiveStorageKey = storageKey ?? ([corpus, persona].filter(Boolean).length > 0 ? `ak:ask-thread-v2:${[corpus, persona].filter(Boolean).join(':')}` : 'ak:ask-thread-v2')
   const definition = useMemo(() => defineChat({
     id: `docs-ask-${corpus ?? 'docs'}-${persona ?? 'default'}`,
     components: ASK_COMPONENTS,
     chat: {
       adapter: createAskAdapter({ endpoint, corpus, persona }),
-      memory: createAskSessionMemory(storageKey ?? ([corpus, persona].filter(Boolean).length > 0 ? `ak:ask-thread-v2:${[corpus, persona].filter(Boolean).join(':')}` : 'ak:ask-thread-v2')),
+      memory: createAskSessionMemory(effectiveStorageKey),
     },
-  }), [endpoint, corpus, persona, storageKey])
+  }), [endpoint, corpus, persona, effectiveStorageKey])
   const runtime = useMemo<AskRuntime>(() => ({
     chat: chatRef,
     registry,
@@ -239,8 +248,9 @@ export function AskDocsWidget({
             <button type="button" onClick={() => setOpen(false)} aria-label="Close" className="text-ak-graphite">✕</button>
           </div>
         </header>
-        <div className="flex-1 overflow-y-auto p-3">
+        <div className="min-h-0 flex-1 overflow-hidden p-3 [&>[data-ak-app-chat]]:flex [&>[data-ak-app-chat]]:h-full [&>[data-ak-app-chat]]:min-h-0 [&>[data-ak-app-chat]]:flex-col">
           <AgentChat
+            key={effectiveStorageKey}
             definition={definition}
             placeholder={effectivePlaceholder}
             slots={{ Container: AskContainer, Message: AskMessage, Input: AskInput, Thinking: AskThinking, StandardComponent: AskStandardComponent }}

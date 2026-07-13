@@ -123,4 +123,37 @@ describe('Docs Ask AgentsKit Chat adapter', () => {
     await memory.clear?.()
     expect(await memory.load()).toEqual([])
   })
+
+  it('migrates the legacy Ask thread without losing ordered assistant content', async () => {
+    const values = new Map<string, string>([['ask-legacy', JSON.stringify([
+      { id: 'user', role: 'user', text: 'How?' },
+      { id: 'assistant', role: 'assistant', streaming: false, parts: [
+        { kind: 'text', text: 'Read this.' },
+        { kind: 'tool', id: 'sources', name: 'cite', args: { sources: [{ title: 'RAG', path: '/docs/rag' }] } },
+      ] },
+    ])]])
+    vi.stubGlobal('sessionStorage', {
+      getItem: (key: string) => values.get(key) ?? null,
+      setItem: (key: string, value: string) => values.set(key, value),
+      removeItem: (key: string) => values.delete(key),
+    })
+
+    const messages = await createAskSessionMemory('ask-legacy').load()
+
+    expect(messages).toMatchObject([
+      { id: 'user', role: 'user', content: 'How?', status: 'complete' },
+      { id: 'assistant', role: 'assistant', status: 'complete' },
+    ])
+    const assistant = messages[1]
+    expect(assistant).toBeDefined()
+    if (!assistant) return
+    expect(decodeAssistantContent(assistant.content)).toMatchObject({
+      ok: true,
+      parts: [
+        { kind: 'text', text: 'Read this.' },
+        { kind: 'component', frame: { componentKey: 'source-list' } },
+      ],
+    })
+    expect(JSON.parse(values.get('ask-legacy') ?? '{}')).toMatchObject({ version: 1, messages: [{ id: 'user' }, { id: 'assistant' }] })
+  })
 })
