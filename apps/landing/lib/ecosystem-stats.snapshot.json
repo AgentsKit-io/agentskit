@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "property": "agentskit",
   "counts": {
-    "packages": 24,
+    "packages": 25,
     "frameworkBindings": 7,
     "nativeAdapters": 25,
     "integrations": 50,
@@ -108,6 +108,11 @@
         "name": "@agentskit/solid",
         "description": "Solid hook + headless chat components for AgentsKit — streaming, tools, and memory across any LLM provider.",
         "stability": "beta"
+      },
+      {
+        "name": "@agentskit/statechart",
+        "description": "Deterministic, serializable interaction state for AgentsKit applications.",
+        "stability": "alpha"
       },
       {
         "name": "@agentskit/svelte",

@@ -67,6 +67,7 @@ the badges can never drift apart.
 | `@agentskit/sandbox` | `beta` | E2B backend works; fallback and policy APIs still maturing |
 | `@agentskit/templates` | `beta` | Authoring toolkit usable; scaffolding surface still expanding |
 | `@agentskit/validation` | `beta` | `ArgsValidator` contract stable (ADR-0008); Ajv-backed, tiny surface |
+| `@agentskit/statechart` | `alpha` | Initial framework-neutral interaction-state contract; downstream integrations will exercise it before beta |
 | `@agentskit/eval-braintrust` | `beta` | Scorer API stable; Braintrust SDK peer-resolved at runtime |
 | `@agentskit/observability-langfuse` | `beta` | Adapter contract stable; Langfuse SDK peer-resolved at runtime |
 | `@agentskit/integrations` | `alpha` | Descriptor + registry contract in place; catalog and OSS/AKOS split still being decided |

@@ -22,6 +22,7 @@ AgentsKit is a plug-and-play TypeScript toolkit for building production agents: 
 - [sandbox](apps/docs-next/content/docs/for-agents/sandbox.mdx)
 - [skills](apps/docs-next/content/docs/for-agents/skills.mdx)
 - [peer:](apps/docs-next/content/docs/for-agents/solid.mdx): SolidJS binding for the `ChatReturn` contract from `@agentskit/core`. Same shape as React/Vue/Svelte hooks — store-backed, cleanup wired via `onCleanup`.
+- [statechart](apps/docs-next/content/docs/for-agents/statechart.mdx): Represent deterministic interaction state independently from UI frameworks, providers, agent execution, and persistence.
 - [peer:](apps/docs-next/content/docs/for-agents/svelte.mdx): Svelte binding for the `ChatReturn` contract from `@agentskit/core`. Returns a `Readable<ChatState>` plus action methods (send / stop / clear) and `destroy()` for cleanup.
 - [templates](apps/docs-next/content/docs/for-agents/templates.mdx): Generate AgentsKit extensions (tools, skills, adapters) as standalone packages with consistent blueprints (tsup, vitest, TypeScript) and runtime validation. Depends only on `@agentskit/core`.
 - [tools](apps/docs-next/content/docs/for-agents/tools.mdx)
