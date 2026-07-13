@@ -165,6 +165,15 @@ test('badge and image budgets fail independently', () => {
   assert.equal(report.surfaces[0].rules.find(rule => rule.ruleId === 'image-budget').status, 'fail')
 })
 
+test('trusted badge hosts must match the complete URL origin', () => {
+  const { root, value } = fixture()
+  mutateReadme(root, markdown => `${markdown}\n![Host confusion](https://attacker.example/img.shields.io/fake.svg)\n`)
+  value.profiles[0].budgets.images.max = 3
+  refreshHash(root, value)
+  const report = auditReadmeStandard(value, { root, today: '2026-07-13' })
+  assert.equal(report.surfaces[0].rules.find(rule => rule.ruleId === 'image-budget').status, 'fail')
+})
+
 test('missing alt text and invalid dark-mode declarations fail', () => {
   const { root, value } = fixture()
   mutateReadme(root, markdown => markdown.replace('alt="AgentsKit"', 'alt=""'))
