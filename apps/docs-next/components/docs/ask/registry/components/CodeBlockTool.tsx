@@ -1,8 +1,9 @@
 'use client'
 
-import { useCallback } from 'react'
+import { useCallback, useState } from 'react'
 import { CodeBlock } from '../../CodeBlock'
 import type { UiToolProps } from '../define-ui-tool'
+import { RunResult } from './RunResult'
 
 /** `codeBlock` tool args — see `codeBlockTool` in `protocol.ts`. */
 interface CodeBlockArgs {
@@ -29,11 +30,16 @@ function narrow(args: unknown): CodeBlockArgs | null {
  */
 export function CodeBlockTool({ args, ctx }: UiToolProps<unknown>) {
   const a = narrow(args)
-  const onRun = useCallback((code: string) => ctx.onRun?.(code), [ctx])
+  const [runningCode, setRunningCode] = useState<string>()
+  const onRun = useCallback((code: string) => {
+    setRunningCode(code)
+    ctx.onRun?.(code)
+  }, [ctx])
   if (!a) return null
   return (
     <div data-ak-tool="codeBlock">
       <CodeBlock code={a.code} lang={a.lang} runnable={a.runnable ?? false} onRun={onRun} />
+      {runningCode === undefined ? null : <RunResult args={{ code: runningCode }} ctx={ctx} />}
     </div>
   )
 }
