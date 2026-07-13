@@ -11,9 +11,9 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "@agentskit/chat": "https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.2/agentskit-chat-0.1.0-alpha.2.tgz",
-    "@agentskit/chat-protocol": "https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.2/agentskit-chat-protocol-0.1.0-alpha.2.tgz",
-    "@agentskit/chat-react": "https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.2/agentskit-chat-react-0.1.0-alpha.2.tgz",
+    "@agentskit/chat": "0.1.0",
+    "@agentskit/chat-protocol": "0.1.0",
+    "@agentskit/chat-react": "0.1.0",
     "@agentskit/core": "workspace:*",
     "@agentskit/react": "workspace:*",
     "fumadocs-core": "^16.11.1",

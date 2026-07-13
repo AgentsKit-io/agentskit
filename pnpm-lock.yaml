@@ -5,8 +5,6 @@ settings:
   excludeLinksFromLockfile: false
 
 overrides:
-  '@agentskit/chat': https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-0.1.0.tgz
-  '@agentskit/chat-protocol': https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-protocol-0.1.0.tgz
   serialize-javascript: '>=7.0.5 <8'
   axios: '>=0.31.1 <2'
   fast-xml-builder: '>=1.1.7 <2'
@@ -129,14 +127,14 @@ importers:
         specifier: workspace:*
         version: link:../../packages/adapters
       '@agentskit/chat':
-        specifier: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-0.1.0.tgz
-        version: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-0.1.0.tgz(@agentskit/core@packages+core)
+        specifier: 0.1.0
+        version: 0.1.0(@agentskit/core@packages+core)
       '@agentskit/chat-protocol':
-        specifier: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-protocol-0.1.0.tgz
-        version: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-protocol-0.1.0.tgz(@agentskit/core@packages+core)
+        specifier: 0.1.0
+        version: 0.1.0(@agentskit/core@packages+core)
       '@agentskit/chat-react':
-        specifier: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-react-0.1.0.tgz
-        version: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-react-0.1.0.tgz(@agentskit/core@packages+core)(@agentskit/react@packages+react)(react@19.2.7)
+        specifier: 0.1.0
+        version: 0.1.0(@agentskit/core@packages+core)(@agentskit/react@packages+react)(react@19.2.7)
       '@agentskit/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -645,14 +643,14 @@ importers:
   apps/registry:
     dependencies:
       '@agentskit/chat':
-        specifier: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-0.1.0.tgz
-        version: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-0.1.0.tgz(@agentskit/core@packages+core)
+        specifier: 0.1.0
+        version: 0.1.0(@agentskit/core@packages+core)
       '@agentskit/chat-protocol':
-        specifier: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-protocol-0.1.0.tgz
-        version: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-protocol-0.1.0.tgz(@agentskit/core@packages+core)
+        specifier: 0.1.0
+        version: 0.1.0(@agentskit/core@packages+core)
       '@agentskit/chat-react':
-        specifier: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.2/agentskit-chat-react-0.1.0-alpha.2.tgz
-        version: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.2/agentskit-chat-react-0.1.0-alpha.2.tgz(@agentskit/core@packages+core)(@agentskit/react@packages+react)(react@19.2.7)
+        specifier: 0.1.0
+        version: 0.1.0(@agentskit/core@packages+core)(@agentskit/react@packages+react)(react@19.2.7)
       '@agentskit/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -1520,29 +1518,19 @@ packages:
       '@aws-sdk/client-bedrock-runtime':
         optional: true
 
-  '@agentskit/chat-protocol@https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-protocol-0.1.0.tgz':
-    resolution: {integrity: sha512-EiBIhj8KVMeonPNeA5jaTvw88G6u0iVjRIZfXV9r3GInsgR7FfuQVclRXjqLasiNBgzLCtmVEdSind+ZJMnitw==, tarball: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-protocol-0.1.0.tgz}
-    version: 0.1.0
+  '@agentskit/chat-protocol@0.1.0':
+    resolution: {integrity: sha512-8Tm/rcjK6mSOULj2rJP4FUC72nHa6hIvM1sBIPoDysUHSyXM/YLYxrxdLVL0swMI0iW3gVcfDoFaLSR5b9Km+w==}
     peerDependencies:
       '@agentskit/core': ^1.12.1
 
-  '@agentskit/chat-react@https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.2/agentskit-chat-react-0.1.0-alpha.2.tgz':
-    resolution: {integrity: sha512-YfrPt44JY8oRSf7osLYD3xyb90SwSVfXJ0Bj0ZYLjCBZla/5h09/NV8b5Yamd//MnkB0VGbHHkuDBRWON1pUDg==, tarball: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.2/agentskit-chat-react-0.1.0-alpha.2.tgz}
-    version: 0.1.0-alpha.2
+  '@agentskit/chat-react@0.1.0':
+    resolution: {integrity: sha512-byFy1PFziZpjBqeVNmBaAoTZMW2XnPlVhdKa3d7YRSyq13MDg7XzSG5YbtA3TgDaOxrOyB41JckUdpfkhlDcIA==}
     peerDependencies:
       '@agentskit/react': ^0.7.1
       react: '>=18'
 
-  '@agentskit/chat-react@https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-react-0.1.0.tgz':
-    resolution: {integrity: sha512-coGJj9wglv3kME1VOFIxal3YcSzI948PRqOLZprd69g0C+j6C1JwqCOn7zsbCu3EfdZddcyC2UtPZZsfKqv20w==, tarball: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-react-0.1.0.tgz}
-    version: 0.1.0
-    peerDependencies:
-      '@agentskit/react': ^0.7.1
-      react: '>=18'
-
-  '@agentskit/chat@https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-0.1.0.tgz':
-    resolution: {integrity: sha512-RuLoiD1LagoBRXTFo5QoR9ZK2vEIyO+VuO6GlsNNvimUe6E25LWzfE8bzqntbyt2Udsg7DQzD3ImycakCSjvrw==, tarball: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-0.1.0.tgz}
-    version: 0.1.0
+  '@agentskit/chat@0.1.0':
+    resolution: {integrity: sha512-ZItuWjvXWWPvflLECN3FBk7doGPHX+oG/2La2zadArkjEpCkQMXufFz3wfvKk8QyjyLbyvfAyH2xVWbWd9F02g==}
     peerDependencies:
       '@agentskit/core': ^1.12.3
 
@@ -8675,33 +8663,24 @@ snapshots:
       '@aws-sdk/client-bedrock-runtime': 3.1068.0
     optional: true
 
-  '@agentskit/chat-protocol@https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-protocol-0.1.0.tgz(@agentskit/core@packages+core)':
+  '@agentskit/chat-protocol@0.1.0(@agentskit/core@packages+core)':
     dependencies:
       '@agentskit/core': link:packages/core
       '@noble/hashes': 2.2.0
       zod: 4.4.3
 
-  '@agentskit/chat-react@https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.2/agentskit-chat-react-0.1.0-alpha.2.tgz(@agentskit/core@packages+core)(@agentskit/react@packages+react)(react@19.2.7)':
+  '@agentskit/chat-react@0.1.0(@agentskit/core@packages+core)(@agentskit/react@packages+react)(react@19.2.7)':
     dependencies:
-      '@agentskit/chat': https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-0.1.0.tgz(@agentskit/core@packages+core)
-      '@agentskit/chat-protocol': https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-protocol-0.1.0.tgz(@agentskit/core@packages+core)
+      '@agentskit/chat': 0.1.0(@agentskit/core@packages+core)
+      '@agentskit/chat-protocol': 0.1.0(@agentskit/core@packages+core)
       '@agentskit/react': link:packages/react
       react: 19.2.7
     transitivePeerDependencies:
       - '@agentskit/core'
 
-  '@agentskit/chat-react@https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-react-0.1.0.tgz(@agentskit/core@packages+core)(@agentskit/react@packages+react)(react@19.2.7)':
+  '@agentskit/chat@0.1.0(@agentskit/core@packages+core)':
     dependencies:
-      '@agentskit/chat': https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-0.1.0.tgz(@agentskit/core@packages+core)
-      '@agentskit/chat-protocol': https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-protocol-0.1.0.tgz(@agentskit/core@packages+core)
-      '@agentskit/react': link:packages/react
-      react: 19.2.7
-    transitivePeerDependencies:
-      - '@agentskit/core'
-
-  '@agentskit/chat@https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-0.1.0.tgz(@agentskit/core@packages+core)':
-    dependencies:
-      '@agentskit/chat-protocol': https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-dogfood.0/agentskit-chat-protocol-0.1.0.tgz(@agentskit/core@packages+core)
+      '@agentskit/chat-protocol': 0.1.0(@agentskit/core@packages+core)
       '@agentskit/core': link:packages/core
       '@agentskit/memory': 0.11.0
       '@agentskit/statechart': 0.2.0
