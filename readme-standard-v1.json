@@ -1,0 +1,215 @@
+{
+  "schemaVersion": 1,
+  "standardId": "agentskit-readme-standard-v1",
+  "status": "approved",
+  "approval": {
+    "approvedBy": "EmersonBraun",
+    "approvedOn": "2026-07-13",
+    "record": "https://github.com/AgentsKit-io/agentskit/issues/1203#issuecomment-4963143065"
+  },
+  "profiles": [
+    {
+      "id": "top-level-repository",
+      "description": "Parent or product repository with a full adoption and contribution journey.",
+      "budgets": {
+        "badges": {
+          "max": 12
+        },
+        "images": {
+          "min": 1,
+          "max": 6,
+          "zeroRequiresException": true
+        },
+        "accessibility": {
+          "maxMissingAlt": 0
+        },
+        "darkMode": {
+          "requireStrategy": true
+        },
+        "commandVerification": {
+          "maxUnverifiedPrimary": 0
+        },
+        "freshness": {
+          "reviewCadenceDays": 90,
+          "requireSourceHash": true
+        }
+      }
+    },
+    {
+      "id": "public-app",
+      "description": "Runnable public product or documentation application.",
+      "budgets": {
+        "badges": {
+          "max": 8
+        },
+        "images": {
+          "min": 1,
+          "max": 5,
+          "zeroRequiresException": true
+        },
+        "accessibility": {
+          "maxMissingAlt": 0
+        },
+        "darkMode": {
+          "requireStrategy": true
+        },
+        "commandVerification": {
+          "maxUnverifiedPrimary": 0
+        },
+        "freshness": {
+          "reviewCadenceDays": 90,
+          "requireSourceHash": true
+        }
+      }
+    },
+    {
+      "id": "major-package",
+      "description": "Primary package with its own adoption journey, examples, and compatibility surface.",
+      "budgets": {
+        "badges": {
+          "max": 8
+        },
+        "images": {
+          "min": 1,
+          "max": 4,
+          "zeroRequiresException": true
+        },
+        "accessibility": {
+          "maxMissingAlt": 0
+        },
+        "darkMode": {
+          "requireStrategy": true
+        },
+        "commandVerification": {
+          "maxUnverifiedPrimary": 0
+        },
+        "freshness": {
+          "reviewCadenceDays": 120,
+          "requireSourceHash": true
+        }
+      }
+    },
+    {
+      "id": "concise-package",
+      "description": "Focused package whose README may stay short when the package guide carries depth.",
+      "budgets": {
+        "badges": {
+          "max": 6
+        },
+        "images": {
+          "min": 0,
+          "max": 2,
+          "zeroRequiresException": true
+        },
+        "accessibility": {
+          "maxMissingAlt": 0
+        },
+        "darkMode": {
+          "requireStrategy": true
+        },
+        "commandVerification": {
+          "maxUnverifiedPrimary": 0
+        },
+        "freshness": {
+          "reviewCadenceDays": 180,
+          "requireSourceHash": true
+        }
+      }
+    }
+  ],
+  "surfaces": [
+    {
+      "id": "agentskit-root",
+      "path": "README.md",
+      "profileId": "top-level-repository",
+      "dimensions": {
+        "promise": [
+          "**The agent toolkit JavaScript actually deserves.**"
+        ],
+        "proof": [
+          "## Verified proof",
+          "ecosystem-claims.json"
+        ],
+        "examples": [
+          "## Quick start — your first agent, no key required",
+          "<!-- readme-example:first-agent -->"
+        ],
+        "visuals": [
+          "./.github/assets/demo.gif",
+          "```mermaid"
+        ],
+        "maturity": [
+          "## Maturity and compatibility",
+          "@agentskit/core"
+        ],
+        "compatibility": [
+          "Node.js 20+",
+          "TypeScript"
+        ],
+        "contribution": [
+          "## Contributing",
+          "CONTRIBUTING.md",
+          "LICENSE"
+        ],
+        "metadata": [
+          "**Tags:**",
+          "`agentskit`",
+          "`typescript`"
+        ],
+        "ecosystem": [
+          "## The AgentsKit ecosystem",
+          "registry.agentskit.io",
+          "playbook.agentskit.io",
+          "akos.agentskit.io"
+        ]
+      },
+      "visuals": [
+        {
+          "src": "apps/docs-next/public/brand/logo-wordmark.svg",
+          "kind": "brand",
+          "darkMode": "neutral"
+        },
+        {
+          "src": ".github/assets/demo.gif",
+          "kind": "explanation",
+          "darkMode": "neutral"
+        }
+      ],
+      "commands": [
+        {
+          "id": "first-agent-install",
+          "command": "npm install @agentskit/core @agentskit/runtime tsx",
+          "test": "scripts/reference-docs-vertical.test.mjs",
+          "testCommand": "pnpm test:reference-docs"
+        },
+        {
+          "id": "first-agent-run",
+          "command": "npx tsx agent.ts",
+          "test": "scripts/reference-docs-vertical.test.mjs",
+          "testCommand": "pnpm test:reference-docs"
+        }
+      ],
+      "examples": [
+        {
+          "id": "first-agent",
+          "fixture": "apps/docs-next/fixtures/first-agent/agent.ts",
+          "test": "scripts/reference-docs-vertical.test.mjs",
+          "testCommand": "pnpm test:reference-docs"
+        }
+      ],
+      "freshness": {
+        "reviewedOn": "2026-07-13",
+        "reviewDueOn": "2026-10-11",
+        "sources": [
+          "README.md",
+          "apps/docs-next/fixtures/first-agent/agent.ts",
+          "docs/STABILITY.md",
+          "ecosystem-claims.json",
+          "ecosystem.json"
+        ],
+        "sourceHash": "sha256:1d36c96cb65b13199f0879b6e378722ca2a4adc00fcd8ff4a72f5e0df7399391"
+      },
+      "exceptions": []
+    }
+  ]
+}
