@@ -152,7 +152,7 @@ export async function consumeStream(
         handlers.onError?.(new AdapterError({
           code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,
           message: chunk.content ?? 'Stream error',
-          hint: 'Check key/network/model/provider',
+          hint: 'Key/network/model/provider',
         }))
         return
       } else if (chunk.type === 'done') {
@@ -166,7 +166,7 @@ export async function consumeStream(
       : new AdapterError({
           code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,
           message: `Stream failed: ${error instanceof Error ? error.message : String(error)}`,
-          hint: 'Check adapter/provider',
+          hint: 'Adapter/provider',
           cause: error,
         })
     handlers.onError?.(err)

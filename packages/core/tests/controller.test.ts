@@ -429,7 +429,7 @@ describe('createChatController', () => {
     })
 
     const sendPromise = ctrl.send('Go')
-    await vi.waitFor(() => expect(ctrl.getState().status).toBe('streaming'))
+    await vi.waitFor(() => expect(releaseRetrieval).toBeTypeOf('function'))
     ctrl.stop()
     releaseRetrieval?.()
     await sendPromise
@@ -466,6 +466,45 @@ describe('createChatController', () => {
 
     expect(createSource).toHaveBeenCalledOnce()
     expect(ctrl.getState().messages.at(-1)?.content).toBe('latest')
+    expect(ctrl.getState().status).toBe('idle')
+  })
+
+  it('applies a registry update made during streaming', async () => {
+    let release: (() => void) | undefined
+    const execute = vi.fn()
+    const ctrl = createChatController({
+      adapter: {
+        createSource: () => ({
+          stream: async function* () { await new Promise<void>(resolve => { release = resolve }) },
+          abort: () => release?.(),
+        }),
+      },
+      tools: [{ name: 'old', requiresConfirmation: true, execute }],
+    })
+
+    const sending = ctrl.send('Go')
+    await vi.waitFor(() => expect(release).toBeTypeOf('function'))
+    ctrl.updateConfig({ tools: [{ name: 'new', requiresConfirmation: true, execute }] })
+    ctrl.stop()
+    await sending
+
+    await expect(proposeToolCall(ctrl, { id: 'new-1', name: 'new', args: {} })).resolves.toMatchObject({ name: 'new' })
+  })
+
+  it('treats a negative maxToolIterations as zero follow-up turns', async () => {
+    const createSource = vi.fn(() => createMockAdapter([
+      { type: 'tool_call', toolCall: { id: 'once', name: 'tool', args: '{}' } },
+      { type: 'done' },
+    ]).createSource({ messages: [], context: {} }))
+    const ctrl = createChatController({
+      adapter: { createSource },
+      maxToolIterations: -1,
+      tools: [{ name: 'tool', execute: () => 'done' }],
+    })
+
+    await ctrl.send('Go')
+
+    expect(createSource).toHaveBeenCalledOnce()
     expect(ctrl.getState().status).toBe('idle')
   })
 

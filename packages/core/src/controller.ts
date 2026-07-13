@@ -34,7 +34,7 @@ export function createChatController(initial: ChatConfig): ChatController {
   const authorize: NonNullable<ChatConfig['authorizeToolCall']> = async (call, context) => {
     const fn = config.authorizeToolCall
     const decision = fn ? await fn(call, context) : { allowed: true }
-    return fn === config.authorizeToolCall && toolMap.get(call.name) === context.tool ? decision : { allowed: false }
+    return fn === config.authorizeToolCall && toolMap.get(call.name)?.execute === context.tool?.execute ? decision : { allowed: false }
   }
 
   const rebuild = (extraTools?: ToolDefinition[]) => {
@@ -47,7 +47,7 @@ export function createChatController(initial: ChatConfig): ChatController {
     active = true
     const result = await activateSkills(config.skills ?? [], config.systemPrompt)
     system = result.systemPrompt
-    rebuild(result.skillTools)
+    if (result.skillTools.length > 0) rebuild(result.skillTools)
   }
   void activate()
 
@@ -116,16 +116,26 @@ export function createChatController(initial: ChatConfig): ChatController {
     }))
   }
 
+  const runTool = (tool: ToolDefinition | undefined, call: ToolCall, onPartial: (result: string) => void) => execute({
+    tool,
+    toolCall: call,
+    context: { messages: state.messages, call },
+    emitter,
+    lifecycle,
+    validate: config.validateArgs,
+    authorize,
+    onPartial,
+  })
+
   const handleCall = async (aid: string, chunk: StreamChunk, g: number) => {
     const call = chunk.toolCall
     if (!call) return
 
-    const args = safeParseArgs(call.args)
     const tool = toolMap.get(call.name)
     const toolCall: ToolCall = {
       id: call.id,
       name: call.name,
-      args,
+      args: safeParseArgs(call.args),
       result: call.result,
       status: tool?.requiresConfirmation ? 'requires_confirmation' : 'pending',
     }
@@ -155,18 +165,9 @@ export function createChatController(initial: ChatConfig): ChatController {
 
     if (tool?.execute) patchCall(aid, toolCall.id, { status: 'running' })
 
-    const outcome = await execute({
-      tool,
-      toolCall,
-      context: { messages: state.messages, call: toolCall },
-      emitter,
-      lifecycle,
-      validate: config.validateArgs,
-      authorize,
-      onPartial: (partial) => {
+    const outcome = await runTool(tool, toolCall, partial => {
         if (g !== gen) return
         patchCall(aid, toolCall.id, { result: partial })
-      },
     })
     if (g !== gen) return
 
@@ -290,10 +291,9 @@ export function createChatController(initial: ChatConfig): ChatController {
    * wait for user confirmation.
    */
   const resume = async (aid: string, g: number) => {
-    const max = config.maxToolIterations ?? 5
     let id = aid
 
-    for (let iteration = 0; iteration < max; iteration++) {
+    for (let remaining = config.maxToolIterations ?? 5; remaining > 0; remaining--) {
       const assistant = state.messages.find(message => message.id === id)
       const calls = assistant?.toolCalls ?? []
       const waits = calls.some(call => call.status !== 'complete' && call.status !== 'error')
@@ -493,18 +493,7 @@ export function createChatController(initial: ChatConfig): ChatController {
 
       patchCall(msg.id, tid, { status: 'running' })
 
-      const outcome = await execute({
-        tool,
-        toolCall: tc,
-        context: { messages: state.messages, call: tc },
-        emitter,
-        lifecycle,
-        validate: config.validateArgs,
-        authorize,
-        onPartial: (partial) => {
-          patchCall(msg.id, tid, { result: partial })
-        },
-      })
+      const outcome = await runTool(tool, tc, partial => patchCall(msg.id, tid, { result: partial }))
 
       patchCall(msg.id, tid, {
         status: outcome.status === 'complete' ? 'complete' : 'error',
