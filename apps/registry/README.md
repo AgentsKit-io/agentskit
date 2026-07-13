@@ -27,12 +27,16 @@ structured catalog choices are sent only through the explicit events below.
 | `registry_compare_selection_changed` | Comparison selection changes | Where does comparison become difficult? |
 | `registry_comparison_opened` | A valid comparison renders | Which agents are evaluated together? |
 | `registry_install_command_copied` | An install command is copied | Did the visit reach activation? |
+| `registry_agent_feedback_submitted` | A visitor rates an agent as `helpful` or `not_helpful` | Which opened agents need quality review? |
 
 Search events contain only a coarse query-length bucket and result count, never the query. Suggested
 PostHog funnel: `registry_agent_opened` or `registry_comparison_opened` →
 `registry_install_command_copied`, segmented by copy surface. Review this funnel weekly; use search
 zero-result counts and comparison drop-off to prioritize catalog improvements.
 
+Agent feedback contains only the agent ID and the structured response. Comments, issue bodies, and
+page query strings are never captured. Review the helpful rate alongside agent opens and install
+copies to prioritize investigation without treating low-volume agents as low-quality by default.
 ## Deploy (Vercel)
 
 Import the **`agentskit`** monorepo, set **Root Directory = `apps/registry`**,

@@ -28,6 +28,10 @@ export interface RegistryAnalyticsEvents {
     agent_id: string
     surface: 'catalog' | 'hero' | 'agent_detail' | 'guide'
   }
+  registry_agent_feedback_submitted: {
+    agent_id: string
+    response: 'helpful' | 'not_helpful'
+  }
 }
 
 export type RegistryAnalyticsEvent = keyof RegistryAnalyticsEvents
@@ -62,6 +66,7 @@ const EVENT_PROPERTIES: Partial<Record<RegistryAnalyticsEvent, ReadonlySet<strin
   registry_compare_selection_changed: new Set(['action', 'agent_id', 'selected_count']),
   registry_comparison_opened: new Set(['agent_ids', 'agent_count']),
   registry_install_command_copied: new Set(['agent_id', 'surface']),
+  registry_agent_feedback_submitted: new Set(['agent_id', 'response']),
 }
 const SAFE_SDK_PROPERTIES = new Set(['token', 'distinct_id'])
 
@@ -85,6 +90,7 @@ export function sanitizeAnalyticsUrl(value: unknown): unknown {
 export function sanitizeAnalyticsCapture<T extends AnalyticsCapture | null>(capture: T): T {
   if (!capture) return capture
   const allowed = EVENT_PROPERTIES[capture.event as RegistryAnalyticsEvent]
+  const allowUrls = capture.event === '$pageview'
 
   const sanitizeProperties = (source: Record<string, unknown> | undefined, allowEventProperties: boolean) => {
     if (!source) return source
@@ -92,6 +98,7 @@ export function sanitizeAnalyticsCapture<T extends AnalyticsCapture | null>(capt
     for (const [key, value] of Object.entries(source)) {
       if (DROPPED_PROPERTIES.has(key) || /^utm_/i.test(key) || /^\$exception_/i.test(key)) continue
       if (URL_PROPERTIES.has(key)) {
+        if (!allowUrls) continue
         const sanitized = sanitizeAnalyticsUrl(value)
         if (sanitized !== undefined) properties[key] = sanitized
         continue

@@ -74,4 +74,23 @@ describe('analytics privacy', () => {
       distinct_id: 'anonymous-id',
     })
   })
+
+  it('allows only the structured agent feedback fields', () => {
+    const sanitized = sanitizeAnalyticsCapture({
+      event: 'registry_agent_feedback_submitted',
+      properties: {
+        agent_id: 'legal-contract-reviewer',
+        response: 'not_helpful',
+        comment: 'private contract text',
+        issue_body: 'customer details',
+        query: 'confidential search',
+        $current_url: 'https://registry.agentskit.io/agents/legal-contract-reviewer?source=private',
+      },
+    })
+
+    expect(sanitized.properties).toEqual({
+      agent_id: 'legal-contract-reviewer',
+      response: 'not_helpful',
+    })
+  })
 })
