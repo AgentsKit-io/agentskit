@@ -274,7 +274,9 @@ describe('createChatController', () => {
   it('stop() aborts the stream', async () => {
     const abortFn = vi.fn()
     let resolve: (() => void) | undefined
+    const memory = createInMemoryMemory()
     const ctrl = createChatController({
+      memory,
       adapter: {
         createSource: () => ({
           stream: async function* () {
@@ -294,6 +296,10 @@ describe('createChatController', () => {
 
     expect(abortFn).toHaveBeenCalled()
     expect(ctrl.getState().status).toBe('idle')
+    expect(ctrl.getState().messages.at(-1)?.status).toBe('complete')
+    await vi.waitFor(async () => expect((await memory.load()).at(-1)?.status).toBe('complete'))
+    ctrl.stop()
+    expect(ctrl.getState().messages.at(-1)?.status).toBe('complete')
   })
 
   it('stop() cancels a turn before its adapter source is created', async () => {
@@ -319,6 +325,7 @@ describe('createChatController', () => {
 
     expect(createSource).not.toHaveBeenCalled()
     expect(ctrl.getState().status).toBe('idle')
+    expect(ctrl.getState().messages.at(-1)?.status).toBe('complete')
   })
 
   it('a stopped pre-source turn cannot mutate a later send', async () => {

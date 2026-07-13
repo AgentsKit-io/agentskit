@@ -364,7 +364,13 @@ export function createChatController(initial: ChatConfig): ChatController {
     stop() {
       gen++
       source?.abort()
-      set(current => ({ ...current, status: 'idle' }))
+      set(current => ({
+        ...current,
+        messages: current.messages.map(message =>
+          message.status === 'streaming' ? { ...message, status: 'complete' as const } : message
+        ),
+        status: 'idle',
+      }))
     },
     async retry() {
       const messages = [...state.messages]
@@ -545,7 +551,6 @@ export function createChatController(initial: ChatConfig): ChatController {
       config = { ...config, ...nextConfig }
       active = false
       rebuild()
-      lifecycle = createToolLifecycle(toolMap)
       void activate()
       void hydrate()
     },
