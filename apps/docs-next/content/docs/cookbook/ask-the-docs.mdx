@@ -5,6 +5,21 @@ description: The exact grounded RAG chat in this site's corner — index your do
 
 This is the recipe for the chat you're using right now: a **grounded RAG assistant** over your own docs that streams **concise, cited** answers — running at **$0** on the OpenRouter free pool, built entirely on `@agentskit/*`.
 
+The production widget dogfoods the public AgentsKit Chat framework. `AgentChat` owns the canonical message timeline, streaming lifecycle, cancellation, retry/edit/regenerate behavior, persistence through AgentsKit memory, component validation, and accessible rendering diagnostics. The docs host keeps only its corpus branding, Markdown slot, and a small adapter that converts the existing Ask NDJSON boundary into ordered assistant content. Citations use the standard `source-list` contract rather than a site-private citation component.
+
+```ts
+import { createAssistantContentEncoder } from '@agentskit/chat-protocol'
+
+const content = createAssistantContentEncoder()
+yield { type: 'text', content: content.encode({ kind: 'text', text: answerChunk }) }
+yield { type: 'text', content: content.encode({
+  kind: 'component',
+  frame: { componentKey: 'source-list', /* validated sources + fallback */ },
+}) }
+```
+
+Every text delta passes through the encoder, so model output cannot manufacture component framing. Unknown tools stay inert, and malformed sources never reach the standard renderer.
+
 Two ways in: scaffold it with the CLI, or wire it by hand.
 
 ## Fastest path — the CLI
@@ -76,7 +91,7 @@ For a committed, read-only index (great for serverless), generate it at build ti
 
 ## 2. Stream grounded, cited answers
 
-`createRAG` returns a `Retriever` — drop it straight into `useChat` (or `createRuntime`). Two design choices make it reliable on **free models**:
+`createRAG` returns a `Retriever` — drop it straight into an AgentsKit adapter consumed by `AgentChat` (or into `useChat` / `createRuntime` for a lower-level surface). Two design choices make it reliable on **free models**:
 
 - **Co-locate the context with the question** (free models attend to recent tokens far better than a long system prompt).
 - **Emit citations from what you retrieved** — don't depend on a weak model to call a `cite` tool.
