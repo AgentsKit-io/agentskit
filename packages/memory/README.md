@@ -71,6 +71,27 @@ Use a **vector** backend with [`@agentskit/rag`](https://www.npmjs.com/package/@
 All on top of `createInMemoryMemory` / `createLocalStorageMemory` from
 `@agentskit/core`.
 
+### Browser Web Storage
+
+Use the browser-safe subpath when a host needs validated, bounded storage or
+`sessionStorage` instead of the legacy Core `localStorage` helper:
+
+```ts
+import { createWebStorageMemory } from '@agentskit/memory/web-storage'
+
+const memory = createWebStorageMemory({
+  key: 'app:chat',
+  getStorage: () => typeof sessionStorage === 'undefined' ? undefined : sessionStorage,
+  maxMessages: 20,
+  maxRecordBytes: 1_048_576,
+})
+```
+
+Canonical records are runtime validated. Oversized saves reject with
+`AK_MEMORY_SAVE_FAILED` before changing storage. `migration` may supply legacy
+keys and a host-owned parser; a legacy key is removed only after canonical
+persistence succeeds.
+
 ### Vector memory (7)
 
 - `fileVectorMemory` — pure-JS, file-persisted (good to ~10k vectors).
