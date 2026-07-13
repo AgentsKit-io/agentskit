@@ -132,6 +132,14 @@ describe('loadPdf', () => {
 })
 
 describe('loadS3', () => {
+  it('fails at invocation time when universal runtimes omit command injection', async () => {
+    const send = vi.fn()
+    await expect(loadS3({ client: { send }, bucket: 'bk' })).rejects.toMatchObject({
+      code: 'AK_RAG_PEER_MISSING',
+    })
+    expect(send).not.toHaveBeenCalled()
+  })
+
   it('paginates and stops at maxFiles', async () => {
     let listCall = 0
     const client = {

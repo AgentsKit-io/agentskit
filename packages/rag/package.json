@@ -27,10 +27,14 @@
   "sideEffects": false,
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
+  "browser": "./dist/index.browser.js",
+  "react-native": "./dist/index.browser.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
+      "react-native": "./dist/index.browser.js",
+      "browser": "./dist/index.browser.js",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
     },
@@ -45,8 +49,10 @@
   ],
   "scripts": {
     "build": "tsup",
-    "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
+    "test": "pnpm test:prepare && vitest run",
+    "test:prepare": "pnpm --filter @agentskit/core build && pnpm build",
+    "test:metro": "pnpm test:prepare && vitest run tests/metro-bundle.test.ts",
+    "test:coverage": "pnpm test:prepare && vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"
   },
@@ -55,6 +61,8 @@
   },
   "devDependencies": {
     "@types/node": "^25.9.5",
+    "metro": "0.84.4",
+    "metro-runtime": "0.84.4",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
     "vitest": "^4.1.10"

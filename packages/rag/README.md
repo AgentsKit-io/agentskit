@@ -86,6 +86,21 @@ You can also call `rag.retrieve({ query, messages })` to satisfy the core `Retri
 - **Rerankers:** `createRerankedRetriever` (Cohere Rerank, BGE, BM25 default), `createHybridRetriever` (vector + BM25 blend), standalone `bm25Score`. [Recipe](https://www.agentskit.io/docs/recipes/rag-reranking).
 - **Document loaders:** `loadUrl`, `loadGitHubFile`, `loadGitHubTree`, `loadNotionPage`, `loadConfluencePage`, `loadGoogleDriveFile`, `loadPdf` (BYO parser). [Recipe](https://www.agentskit.io/docs/recipes/doc-loaders).
 
+### S3 in Expo and React Native runtimes
+
+Node consumers may install `@aws-sdk/client-s3` and let `loadS3` resolve it lazily. Browser, Expo/Metro, and React Native bundles keep that peer out of the universal entry; pass the command constructors explicitly when invoking the loader:
+
+```ts
+import { GetObjectCommand, ListObjectsV2Command, S3Client } from '@aws-sdk/client-s3'
+import { loadS3 } from '@agentskit/rag'
+
+await loadS3({
+  client: new S3Client({}),
+  bucket: 'knowledge',
+  commands: { GetObjectCommand, ListObjectsV2Command },
+})
+```
+
 ## Ecosystem
 
 | Package | Role |

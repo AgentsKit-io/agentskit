@@ -179,7 +179,8 @@ export interface S3LoaderOptions extends LoaderOptions {
   /**
    * AWS SDK v3 commands. Pass them in to skip the dynamic import:
    * \`{ ListObjectsV2Command, GetObjectCommand }\` from \`@aws-sdk/client-s3\`.
-   * Optional — when omitted the loader resolves them lazily.
+   * Optional in Node, where the loader resolves them lazily.
+   * Required in browser, Expo/Metro, and React Native universal bundles.
    */
   commands?: {
     ListObjectsV2Command: new (input: Record<string, unknown>) => { input: Record<string, unknown> }
@@ -193,28 +194,15 @@ export interface S3LoaderOptions extends LoaderOptions {
   maxFiles?: number
 }
 
-interface S3SdkLike {
-  ListObjectsV2Command: new (input: Record<string, unknown>) => { input: Record<string, unknown> }
-  GetObjectCommand: new (input: Record<string, unknown>) => { input: Record<string, unknown> }
-}
-
-let cachedS3Sdk: Promise<S3SdkLike> | null = null
-const importOptionalPeer = (moduleId: string): Promise<unknown> => import(/* @vite-ignore */ moduleId)
-async function loadS3Sdk(): Promise<S3SdkLike> {
-  if (!cachedS3Sdk) {
-    cachedS3Sdk = (async () => {
-      try {
-        return (await importOptionalPeer('@aws-sdk/client-s3')) as S3SdkLike
-      } catch {
-        throw new RagError({ code: RagErrorCodes.AK_RAG_PEER_MISSING, message: 'Install @aws-sdk/client-s3 to use loadS3: npm install @aws-sdk/client-s3', hint: 'loadS3 uses the optional peer "@aws-sdk/client-s3".' })
-      }
-    })()
-  }
-  return cachedS3Sdk
-}
-
 export async function loadS3(options: S3LoaderOptions): Promise<InputDocument[]> {
-  const { ListObjectsV2Command, GetObjectCommand } = options.commands ?? await loadS3Sdk()
+  if (!options.commands) {
+    throw new RagError({
+      code: RagErrorCodes.AK_RAG_PEER_MISSING,
+      message: 'Pass S3 command constructors through loadS3({ commands }) in browser, Expo/Metro, and React Native runtimes.',
+      hint: 'Universal bundles do not resolve the optional "@aws-sdk/client-s3" peer automatically.',
+    })
+  }
+  const { ListObjectsV2Command, GetObjectCommand } = options.commands
   const docs: InputDocument[] = []
   let continuationToken: string | undefined
   const maxFiles = options.maxFiles ?? 100
