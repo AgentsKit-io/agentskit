@@ -37,7 +37,6 @@ zero-result counts and comparison drop-off to prioritize catalog improvements.
 Agent feedback contains only the agent ID and the structured response. Comments, issue bodies, and
 page query strings are never captured. Review the helpful rate alongside agent opens and install
 copies to prioritize investigation without treating low-volume agents as low-quality by default.
-
 ## Deploy (Vercel)
 
 Import the **`agentskit`** monorepo, set **Root Directory = `apps/registry`**,
@@ -49,3 +48,36 @@ Framework = Next.js. Point `registry.agentskit.io` at the project.
 pnpm --filter @agentskit/registry-app dev
 pnpm --filter @agentskit/registry-app build
 ```
+
+## AgentsKit Chat dogfood
+
+The floating **Ask Registry** surface consumes the immutable
+`@agentskit/chat`, `@agentskit/chat-protocol`, and `@agentskit/chat-react`
+`v0.1.0-alpha.2` artifacts. This app owns only the `registry` corpus,
+`NEXT_PUBLIC_ASK_ENDPOINT`, Registry branding, CTA, and React slots. AgentsKit
+Chat owns the Ask wire contract, streaming adapter, ordered content, standard
+`source-list`, memory migration, and application shell. AgentsKit owns
+controller lifecycle, messages, cancellation, retry, edit, and regenerate.
+
+Implementation:
+
+- `components/ask-widget.tsx` — native Registry shell, renderer slots, corpus,
+  endpoint, and canonical storage identity;
+- `@agentskit/chat` — shared Ask adapter and session-memory integration;
+- `@agentskit/chat-protocol` — runtime-validated Ask NDJSON boundary and
+  ordered event projection.
+
+The adapter always adds `corpus=registry`. It migrates
+`ak:ask-thread:registry` and `ak:ask-thread-v2:registry` into canonical
+`ak:ask-thread-v3:registry` records. Unknown tools and unsafe citation URLs are
+inert.
+
+The former Astro host was removed by Registry RFC 0002 and commit `5d4fc56`;
+`AgentsKit-io/agentskit-registry` remains data-only. Do not reintroduce a site or
+chat runtime there. The orphaned `src/components/AskWidget.astro` was removed as
+part of this migration.
+
+Parity for AgentsKit Chat issue #27 covers the shared protocol and integration
+test suites, host typecheck, production generation of all Registry routes,
+keyboard/open/close/clear/send semantics, and panel measurements at 375, 768,
+1280, and 1440 px with no sub-44 px interactive targets.
