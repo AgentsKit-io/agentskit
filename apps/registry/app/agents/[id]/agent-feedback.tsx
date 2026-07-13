@@ -1,22 +1,22 @@
 'use client'
 
 import { useMemo, useRef, useState } from 'react'
+import { Icon } from '@/app/(home)/_components/ui'
+import { agentFeedbackMessage, claimFeedbackSubmission } from '@/lib/agent-feedback'
+import type { AgentFeedbackResponse } from '@/lib/agent-feedback'
 import { buildAgentIssueUrl } from '@/lib/github-issue'
 import { trackRegistryEvent } from '@/lib/posthog-client'
 
-type FeedbackResponse = 'helpful' | 'not_helpful'
-
 export function AgentFeedback({ agentId, agentTitle }: { agentId: string; agentTitle: string }) {
-  const [response, setResponse] = useState<FeedbackResponse | null>(null)
+  const [response, setResponse] = useState<AgentFeedbackResponse | null>(null)
   const submitted = useRef(false)
   const issueUrls = useMemo(() => ({
     problem: buildAgentIssueUrl('problem', { id: agentId, title: agentTitle }),
     improvement: buildAgentIssueUrl('improvement', { id: agentId, title: agentTitle }),
   }), [agentId, agentTitle])
 
-  function submit(nextResponse: FeedbackResponse) {
-    if (submitted.current) return
-    submitted.current = true
+  function submit(nextResponse: AgentFeedbackResponse) {
+    if (!claimFeedbackSubmission(submitted)) return
     setResponse(nextResponse)
     trackRegistryEvent('registry_agent_feedback_submitted', {
       agent_id: agentId,
@@ -32,9 +32,7 @@ export function AgentFeedback({ agentId, agentTitle }: { agentId: string; agentT
         <div>
           <h2 id="agent-feedback-title" className="text-sm font-semibold text-ak-foam">Was this agent useful?</h2>
           <p className="mt-1 text-sm text-ak-graphite" aria-live="polite">
-            {response
-              ? negative ? 'Thanks. Report the problem below so we can investigate.' : 'Thanks for your feedback.'
-              : 'Your response helps us prioritize agent quality.'}
+            {agentFeedbackMessage(response)}
           </p>
         </div>
         <div className="flex gap-2" role="group" aria-label="Rate this agent">
@@ -64,14 +62,23 @@ export function AgentFeedback({ agentId, agentTitle }: { agentId: string; agentT
           href={issueUrls.problem}
           target="_blank"
           rel="noreferrer"
+          aria-label="Report a problem (opens in new tab)"
           className={negative
-            ? 'font-semibold text-ak-red underline underline-offset-4'
-            : 'text-ak-blue hover:underline'}
+            ? 'inline-flex min-h-8 items-center gap-1.5 font-semibold text-ak-red underline underline-offset-4'
+            : 'inline-flex min-h-8 items-center gap-1.5 text-ak-blue hover:underline'}
         >
           Report a problem
+          <Icon name="external-link" size={14} />
         </a>
-        <a href={issueUrls.improvement} target="_blank" rel="noreferrer" className="text-ak-blue hover:underline">
+        <a
+          href={issueUrls.improvement}
+          target="_blank"
+          rel="noreferrer"
+          aria-label="Suggest an improvement (opens in new tab)"
+          className="inline-flex min-h-8 items-center gap-1.5 text-ak-blue hover:underline"
+        >
           Suggest an improvement
+          <Icon name="external-link" size={14} />
         </a>
       </div>
     </section>

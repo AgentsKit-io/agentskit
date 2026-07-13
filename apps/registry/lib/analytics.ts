@@ -90,6 +90,7 @@ export function sanitizeAnalyticsUrl(value: unknown): unknown {
 export function sanitizeAnalyticsCapture<T extends AnalyticsCapture | null>(capture: T): T {
   if (!capture) return capture
   const allowed = EVENT_PROPERTIES[capture.event as RegistryAnalyticsEvent]
+  const allowUrls = capture.event === '$pageview'
 
   const sanitizeProperties = (source: Record<string, unknown> | undefined, allowEventProperties: boolean) => {
     if (!source) return source
@@ -97,6 +98,7 @@ export function sanitizeAnalyticsCapture<T extends AnalyticsCapture | null>(capt
     for (const [key, value] of Object.entries(source)) {
       if (DROPPED_PROPERTIES.has(key) || /^utm_/i.test(key) || /^\$exception_/i.test(key)) continue
       if (URL_PROPERTIES.has(key)) {
+        if (!allowUrls) continue
         const sanitized = sanitizeAnalyticsUrl(value)
         if (sanitized !== undefined) properties[key] = sanitized
         continue

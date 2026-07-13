@@ -91,7 +91,6 @@ describe('analytics privacy', () => {
     expect(sanitized.properties).toEqual({
       agent_id: 'legal-contract-reviewer',
       response: 'not_helpful',
-      $current_url: '/agents/legal-contract-reviewer',
     })
   })
 })
