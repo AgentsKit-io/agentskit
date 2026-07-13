@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
+    "test": "vitest run lib/validation.test.ts",
     "postinstall": "fumadocs-mdx",
     "lint": "tsc --noEmit"
   },
@@ -27,6 +28,7 @@
     "@types/react-dom": "^19.2.3",
     "postcss": "^8.5.16",
     "tailwindcss": "^4.3.2",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
   }
 }

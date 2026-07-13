@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { notFound } from 'next/navigation'
 import { DynamicCodeBlock } from 'fumadocs-ui/components/dynamic-codeblock'
 import { factoryName, getAgent, getRegistryIndex, relatedAgents } from '@/lib/registry'
+import type { RegistryValidationEvidence } from '@/lib/registry'
 
 export const revalidate = 3600
 export const dynamicParams = true
@@ -37,6 +38,56 @@ function examplesFromReadme(readme: string | undefined): Array<{ language: strin
     .slice(0, 2)
 }
 
+function ReviewEvidence({ validation }: { validation: RegistryValidationEvidence }) {
+  const metrics = [
+    ['Review score', `${validation.score}/100`],
+    ['Confidence', `${Math.round(validation.confidence * 100)}%`],
+    ['Evaluation cases', String(validation.cases)],
+    ['Iterations', String(validation.iterations)],
+  ]
+
+  return (
+    <section aria-labelledby="independent-review">
+      <div className="mt-10 flex flex-wrap items-end justify-between gap-3">
+        <div>
+          <p className="font-mono text-xs uppercase text-ak-green">Independent reviewer approved</p>
+          <h2 id="independent-review" className="mt-2 text-xl font-semibold text-ak-foam">Validation evidence</h2>
+        </div>
+        <Link href="/docs/validation" className="text-sm text-ak-blue hover:underline">How validation works</Link>
+      </div>
+
+      <dl className="mt-5 grid grid-cols-2 border-y border-ak-border sm:grid-cols-4">
+        {metrics.map(([label, value]) => (
+          <div key={label} className="py-4 pr-4 sm:border-r sm:border-ak-border sm:pl-4 sm:first:pl-0 sm:last:border-r-0">
+            <dt className="text-xs text-ak-graphite">{label}</dt>
+            <dd className="mt-1 font-mono text-lg font-semibold text-ak-foam">{value}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <p className="mt-5 text-sm leading-6 text-ak-graphite">{validation.summary}</p>
+
+      {validation.strengths.length > 0 && (
+        <div className="mt-6">
+          <h3 className="text-sm font-semibold text-ak-foam">What passed review</h3>
+          <ul className="mt-3 space-y-2 text-sm leading-6 text-ak-graphite">
+            {validation.strengths.map((strength) => <li key={strength} className="border-l-2 border-ak-green pl-3">{strength}</li>)}
+          </ul>
+        </div>
+      )}
+
+      {validation.notes.length > 0 && (
+        <div className="mt-6 border-l-2 border-ak-blue pl-4">
+          <h3 className="text-sm font-semibold text-ak-foam">Reviewer notes</h3>
+          <ul className="mt-2 space-y-2 text-sm leading-6 text-ak-graphite">
+            {validation.notes.map((note) => <li key={note}>{note}</li>)}
+          </ul>
+        </div>
+      )}
+    </section>
+  )
+}
+
 export default async function AgentPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params
   const [agent, index] = await Promise.all([getAgent(id), getRegistryIndex()])
@@ -46,6 +97,7 @@ export default async function AgentPage({ params }: { params: Promise<{ id: stri
   const required = (agent.env ?? []).filter((env) => env.required)
   const source = agent.sources?.find((item) => item.path === 'agent.ts')?.content
   const readme = agent.sources?.find((item) => item.path === 'README.md')?.content
+  const evaluation = agent.sources?.find((item) => item.path === 'eval.ts')?.content
   const examples = examplesFromReadme(readme)
   const related = relatedAgents(agent, index, 4)
   const install = `npx agentskit add ${agent.id}`
@@ -87,7 +139,11 @@ console.log(result.content)`
           <div className="flex flex-wrap items-center gap-2 text-xs">
             <span className="font-mono uppercase tracking-[0.14em] text-ak-blue">{agent.category}</span>
             <span className="text-ak-border">·</span>
-            <span className="text-ak-green">Validated v{agent.version ?? '1.0.0'}</span>
+            {agent.validation ? (
+              <span className="text-ak-green">Independently reviewed · {agent.validation.score}/100</span>
+            ) : (
+              <span className="text-ak-graphite">Registry checks passed · v{agent.version ?? '1.0.0'}</span>
+            )}
           </div>
           <h1 className="mt-3 font-display text-3xl font-semibold text-ak-foam sm:text-4xl">{agent.title}</h1>
           <p className="mt-4 max-w-3xl text-base leading-7 text-ak-graphite sm:text-lg">{agent.description}</p>
@@ -108,6 +164,8 @@ console.log(result.content)`
         <article className="min-w-0">
           <SectionTitle>Quick start</SectionTitle>
           <DynamicCodeBlock lang="ts" code={quickStart} />
+
+          {agent.validation && <ReviewEvidence validation={agent.validation} />}
 
           {examples.length > 0 && (
             <section>
@@ -143,6 +201,14 @@ console.log(result.content)`
             <details className="mt-10 border-y border-ak-border py-4">
               <summary className="cursor-pointer font-medium text-ak-foam">View agent factory source</summary>
               <div className="mt-4"><DynamicCodeBlock lang="ts" code={source} /></div>
+            </details>
+          )}
+
+          {evaluation && (
+            <details className="mt-4 border-b border-ak-border py-4">
+              <summary className="cursor-pointer font-medium text-ak-foam">View evaluation contract</summary>
+              <p className="mt-3 text-sm leading-6 text-ak-graphite">Replay these cases with the provider and model you plan to deploy.</p>
+              <div className="mt-4"><DynamicCodeBlock lang="ts" code={evaluation} /></div>
             </details>
           )}
         </article>
