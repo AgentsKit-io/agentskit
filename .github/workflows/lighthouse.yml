@@ -50,26 +50,50 @@ jobs:
           done
           echo "::notice::No Vercel preview deployment resolved within 2 minutes — using a local production build."
 
+      - name: Verify preview accessibility
+        id: usable_preview
+        env:
+          PREVIEW_URL: ${{ steps.preview.outputs.url }}
+          VERCEL_AUTOMATION_BYPASS_SECRET: ${{ secrets.VERCEL_AUTOMATION_BYPASS_SECRET }}
+        run: |
+          set -eu
+          if [ -z "$PREVIEW_URL" ]; then
+            exit 0
+          fi
+          headers=()
+          if [ -n "$VERCEL_AUTOMATION_BYPASS_SECRET" ]; then
+            headers+=(--header "x-vercel-protection-bypass: $VERCEL_AUTOMATION_BYPASS_SECRET")
+            headers+=(--header "x-vercel-set-bypass-cookie: true")
+          fi
+          final=$(curl --location --silent --show-error --output /dev/null --write-out '%{url_effective}' "${headers[@]}" "$PREVIEW_URL" || true)
+          expected_origin=$(node -e 'console.log(new URL(process.argv[1]).origin)' "$PREVIEW_URL")
+          actual_origin=$(node -e 'try { console.log(new URL(process.argv[1]).origin) } catch { console.log("invalid-origin") }' "$final")
+          if [ "$actual_origin" = "$expected_origin" ]; then
+            echo "url=$PREVIEW_URL" >> "$GITHUB_OUTPUT"
+          else
+            echo "::notice::Preview protection did not preserve the expected origin — using a local production build."
+          fi
+
       - uses: pnpm/action-setup@v4
-        if: steps.preview.outputs.url == ''
+        if: steps.usable_preview.outputs.url == ''
 
       - uses: actions/setup-node@v4
-        if: steps.preview.outputs.url == ''
+        if: steps.usable_preview.outputs.url == ''
         with:
           node-version: 22
           cache: pnpm
 
       - name: Install dependencies for local fallback
-        if: steps.preview.outputs.url == ''
+        if: steps.usable_preview.outputs.url == ''
         run: pnpm install --frozen-lockfile
 
       - name: Build local production fallback
-        if: steps.preview.outputs.url == ''
+        if: steps.usable_preview.outputs.url == ''
         run: pnpm --filter @agentskit/docs-next build
 
       - name: Start local production fallback
         id: local
-        if: steps.preview.outputs.url == ''
+        if: steps.usable_preview.outputs.url == ''
         run: |
           set -eu
           pnpm --filter @agentskit/docs-next exec next start --hostname 127.0.0.1 --port 3000 > "$RUNNER_TEMP/docs-next.log" 2>&1 &
@@ -86,7 +110,7 @@ jobs:
       - name: Select Lighthouse target
         id: target
         env:
-          PREVIEW_URL: ${{ steps.preview.outputs.url }}
+          PREVIEW_URL: ${{ steps.usable_preview.outputs.url }}
           LOCAL_URL: ${{ steps.local.outputs.url }}
         run: echo "url=${PREVIEW_URL:-$LOCAL_URL}" >> "$GITHUB_OUTPUT"
 
