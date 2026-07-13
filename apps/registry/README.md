@@ -53,7 +53,7 @@ pnpm --filter @agentskit/registry-app build
 
 The floating **Ask Registry** surface consumes the stable npm packages
 `@agentskit/chat`, `@agentskit/chat-protocol`, and `@agentskit/chat-react` at
-exact version `0.1.0`. This app owns only the `registry` corpus,
+exact version `0.2.0`. This app owns only the `registry` corpus,
 `NEXT_PUBLIC_ASK_ENDPOINT`, Registry branding, CTA, and React slots. AgentsKit
 Chat owns the Ask wire contract, streaming adapter, ordered content, standard
 `source-list`, memory migration, and application shell. AgentsKit owns
