@@ -1,7 +1,6 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { DynamicCodeBlock } from 'fumadocs-ui/components/dynamic-codeblock'
 import {
   FRAMEWORKS,
   PROVIDERS,
@@ -156,10 +155,12 @@ export function StackBuilder() {
     <div data-ak-stack-builder className="my-6 overflow-hidden rounded-lg border border-ak-border bg-ak-surface">
       <header className="flex items-center justify-between border-b border-ak-border px-4 py-2">
         <div className="font-mono text-xs uppercase tracking-[0.2em] text-ak-graphite">Stack builder</div>
+        <label htmlFor="stack-package-manager" className="sr-only">Package manager</label>
         <select
+          id="stack-package-manager"
           value={packageManager}
           onChange={(e) => setPackageManager(e.target.value as typeof packageManager)}
-          className="rounded border border-ak-border bg-ak-midnight px-2 py-1 font-mono text-[10px] uppercase tracking-widest text-ak-graphite"
+          className="min-h-11 rounded border border-ak-border bg-ak-midnight px-3 py-2 font-mono text-xs uppercase tracking-widest text-ak-graphite focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
         >
           {PACKAGE_MANAGERS.map((p) => (
             <option key={p.value} value={p.value}>
@@ -169,22 +170,25 @@ export function StackBuilder() {
         </select>
       </header>
       <div className="grid gap-4 p-4 md:grid-cols-2">
-        <Field label="1. Framework">
+        <Field label="1. Framework" htmlFor="stack-framework">
           <Choice<Framework>
+            id="stack-framework"
             options={FRAMEWORKS.map((f) => ({ value: f.value, label: f.label }))}
             value={framework}
             onChange={setFramework}
           />
         </Field>
-        <Field label="2. Provider">
+        <Field label="2. Provider" htmlFor="stack-provider">
           <Choice<Provider>
+            id="stack-provider"
             options={PROVIDERS.map((p) => ({ value: p.value, label: p.label }))}
             value={provider}
             onChange={setProvider}
           />
         </Field>
-        <Field label="3. Memory">
+        <Field label="3. Memory" htmlFor="stack-memory">
           <Choice<Memory>
+            id="stack-memory"
             options={MEMORIES.map((m) => ({ value: m.value, label: m.label }))}
             value={memory}
             onChange={setMemory}
@@ -199,7 +203,7 @@ export function StackBuilder() {
                   key={c.value}
                   type="button"
                   onClick={() => toggleCap(c.value)}
-                  className={`rounded border px-3 py-1 font-mono text-xs ${
+                  className={`min-h-11 rounded border px-3 py-2 font-mono text-xs focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue ${
                     on
                       ? 'border-ak-foam bg-ak-foam/15 text-ak-foam'
                       : 'border-ak-border bg-ak-midnight text-ak-graphite hover:text-ak-foam'
@@ -215,58 +219,63 @@ export function StackBuilder() {
 
       <section className="border-t border-ak-border p-4">
         <header className="mb-2 flex items-center justify-between">
-          <div className="font-mono text-[10px] uppercase tracking-widest text-ak-graphite">Install</div>
+          <div className="font-mono text-xs uppercase tracking-widest text-ak-graphite">Install</div>
           <button
             type="button"
             onClick={() => copy('install', install)}
-            className="font-mono text-[10px] uppercase tracking-widest text-ak-graphite hover:text-ak-foam"
+            className="min-h-11 rounded px-2 font-mono text-xs uppercase tracking-widest text-ak-graphite hover:text-ak-foam focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
           >
             {copied === 'install' ? '✓ copied' : 'copy'}
           </button>
         </header>
-        <DynamicCodeBlock lang="bash" code={install} />
+        <CodeOutput code={install} label="Install command" />
       </section>
 
       <section className="border-t border-ak-border p-4">
         <header className="mb-2 flex items-center justify-between">
-          <div className="font-mono text-[10px] uppercase tracking-widest text-ak-graphite">Starter code</div>
+          <div className="font-mono text-xs uppercase tracking-widest text-ak-graphite">Starter code</div>
           <button
             type="button"
             onClick={() => copy('code', code)}
-            className="font-mono text-[10px] uppercase tracking-widest text-ak-graphite hover:text-ak-foam"
+            className="min-h-11 rounded px-2 font-mono text-xs uppercase tracking-widest text-ak-graphite hover:text-ak-foam focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
           >
             {copied === 'code' ? '✓ copied' : 'copy'}
           </button>
         </header>
-        <DynamicCodeBlock lang="tsx" code={code} />
+        <CodeOutput code={code} label="Generated starter code" />
       </section>
     </div>
   )
 }
 
-function Field({ label, children }: { label: string; children: React.ReactNode }) {
+function Field({ label, htmlFor, children }: { label: string; htmlFor?: string; children: React.ReactNode }) {
   return (
     <div>
-      <div className="mb-1 font-mono text-[10px] uppercase tracking-widest text-ak-graphite">{label}</div>
+      <label htmlFor={htmlFor} className="mb-1 block font-mono text-xs uppercase tracking-widest text-ak-graphite">
+        {label}
+      </label>
       {children}
     </div>
   )
 }
 
 function Choice<T extends string>({
+  id,
   options,
   value,
   onChange,
 }: {
+  id: string
   options: { value: T; label: string }[]
   value: T
   onChange: (v: T) => void
 }) {
   return (
     <select
+      id={id}
       value={value}
       onChange={(e) => onChange(e.target.value as T)}
-      className="w-full rounded border border-ak-border bg-ak-midnight px-3 py-2 font-mono text-xs text-ak-foam"
+      className="min-h-11 w-full rounded border border-ak-border bg-ak-midnight px-3 py-2 font-mono text-xs text-ak-foam focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
     >
       {options.map((o) => (
         <option key={o.value} value={o.value}>
@@ -274,5 +283,16 @@ function Choice<T extends string>({
         </option>
       ))}
     </select>
+  )
+}
+
+function CodeOutput({ code, label }: { code: string; label: string }) {
+  return (
+    <pre
+      aria-label={label}
+      className="max-h-[32rem] overflow-auto rounded-md border border-ak-border bg-ak-midnight p-4 font-mono text-sm leading-relaxed text-ak-foam"
+    >
+      <code>{code}</code>
+    </pre>
   )
 }

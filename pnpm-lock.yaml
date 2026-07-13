@@ -26,8 +26,8 @@ importers:
         specifier: workspace:*
         version: link:packages/core
       '@agentskit/doc-bridge':
-        specifier: 1.0.2
-        version: 1.0.2(@agentskit/adapters@0.13.13(@aws-sdk/client-bedrock-runtime@3.1068.0))(@agentskit/core@packages+core)(@agentskit/ink@0.10.4(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/memory@0.11.0)(@agentskit/rag@0.4.13)(react@19.2.7)
+        specifier: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz
+        version: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz(@agentskit/adapters@0.13.13(@aws-sdk/client-bedrock-runtime@3.1068.0))(@agentskit/core@packages+core)(@agentskit/ink@0.10.4(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/memory@0.11.0)(@agentskit/rag@0.4.14)(react@19.2.7)
       '@agentskit/eval':
         specifier: workspace:*
         version: link:packages/eval
@@ -1542,8 +1542,9 @@ packages:
   '@agentskit/core@1.12.3':
     resolution: {integrity: sha512-fNHrzpEoCaWHDK2fwk/BIhcPseN6zCdy3N0WjzdelnmRuh7zy9/Ki0zcukesK5ZAAmXdz2+Dj8FI7AM32JyOKw==}
 
-  '@agentskit/doc-bridge@1.0.2':
-    resolution: {integrity: sha512-kE5oKKvmFOZliMm9Rfr8N+G1RWaBoDabOK3Vqjz7IJLHyTSyYnHxiE08O6HYKudtAbyV8x0o2R/IEsWNohyLVw==}
+  '@agentskit/doc-bridge@https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz':
+    resolution: {integrity: sha512-n5JHwmoL24Ie6hQQZj8RquZxedQUxtwDoidLVdlMkEwJ/Nr1tLJl3wnK9MxGlmoU0uuodOFDD9JmySqoOzc0nw==, tarball: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz}
+    version: 1.1.0
     engines: {node: '>=22'}
     hasBin: true
     peerDependencies:
@@ -1575,8 +1576,8 @@ packages:
   '@agentskit/memory@0.11.0':
     resolution: {integrity: sha512-sTAVVmaHIKLUYH3nFfbjmWwm3zfQ1Ljy1ct4mVhOlrvqfequ+sekrA+dzStX4PrQEtGob3MEy3qZlwwA+oxsqw==}
 
-  '@agentskit/rag@0.4.13':
-    resolution: {integrity: sha512-ZTXs87QfXxrCx/jLAhYHEG9UDmyLoZEgrjeXaHs1dSU94b6/3qbpWTtx5JFvENmNQhEIuvcKYc3EFfwaa5E6TA==}
+  '@agentskit/rag@0.4.14':
+    resolution: {integrity: sha512-MYIKHWuoBHf+5Nvmtp7RsPogQCdy/WLKvepl7L2+iU74x/vpTNuCjeQZz7Hqu9BWwAgGShejHoLNHlRLQSYtNw==}
 
   '@alcalzone/ansi-tokenize@0.3.0':
     resolution: {integrity: sha512-p+CMKJ93HFmLkjXKlXiVGlMQEuRb6H0MokBSwUsX+S6BRX8eV5naFZpQJFfJHjRZY0Hmnqy1/r6UWl3x+19zYA==}
@@ -8683,7 +8684,7 @@ snapshots:
 
   '@agentskit/core@1.12.3': {}
 
-  '@agentskit/doc-bridge@1.0.2(@agentskit/adapters@0.13.13(@aws-sdk/client-bedrock-runtime@3.1068.0))(@agentskit/core@packages+core)(@agentskit/ink@0.10.4(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/memory@0.11.0)(@agentskit/rag@0.4.13)(react@19.2.7)':
+  '@agentskit/doc-bridge@https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz(@agentskit/adapters@0.13.13(@aws-sdk/client-bedrock-runtime@3.1068.0))(@agentskit/core@packages+core)(@agentskit/ink@0.10.4(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/memory@0.11.0)(@agentskit/rag@0.4.14)(react@19.2.7)':
     dependencies:
       zod: 3.25.76
     optionalDependencies:
@@ -8691,7 +8692,7 @@ snapshots:
       '@agentskit/core': link:packages/core
       '@agentskit/ink': 0.10.4(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)
       '@agentskit/memory': 0.11.0
-      '@agentskit/rag': 0.4.13
+      '@agentskit/rag': 0.4.14
       react: 19.2.7
 
   '@agentskit/ink@0.10.4(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)':
@@ -8712,7 +8713,7 @@ snapshots:
     dependencies:
       '@agentskit/core': 1.12.3
 
-  '@agentskit/rag@0.4.13':
+  '@agentskit/rag@0.4.14':
     dependencies:
       '@agentskit/core': 1.12.3
     optional: true

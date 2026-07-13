@@ -4,7 +4,7 @@ import { ShowcaseGrid } from '@/components/showcase/grid'
 export const metadata = {
   title: 'Showcase — runnable AgentsKit examples',
   description:
-    'Every example mock-runs in your browser. Click any card to open the full playground. Filter by tag.',
+    'Browse runnable AgentsKit examples and open any card in its full browser playground. Filter by tag.',
 }
 
 export default function ShowcasePage() {
@@ -16,7 +16,7 @@ export default function ShowcasePage() {
           {SHOWCASE.length} runnable examples
         </h1>
         <p className="mt-3 max-w-2xl text-ak-graphite">
-          Every card below is a real, interactive demo — no API keys, no setup. Click to open the full playground.
+          Every card opens a real interactive demo — no API keys, no setup. Filter the gallery, then launch the full playground.
         </p>
       </div>
       <ShowcaseGrid />
