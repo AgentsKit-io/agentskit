@@ -52,5 +52,5 @@ const copy = packageClaim
 External consumers can read the static `/api/claims.json` route. Existing
 `/api/stats.json` consumers remain supported; the claim ledger is additive.
 
-See [ADR-0020](./adrs/0020-ecosystem-manifest-and-claims.md) for the decision and
+See [ADR-0021](./adrs/0021-ecosystem-manifest-and-claims.md) for the decision and
 trade-offs.

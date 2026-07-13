@@ -1,0 +1,50 @@
+---
+title: '@agentskit/statechart'
+description: Deterministic, serializable interaction state without a UI or execution-engine dependency.
+---
+
+`@agentskit/statechart` is a small, framework-neutral primitive for interactive agent experiences that need explicit states and resumable JSON snapshots.
+
+## When to reach for it
+
+- A chat or agent UI has deterministic interaction states.
+- The same state contract must work across web, native, server, and terminal hosts.
+- A host needs to save and restore interaction state with its own storage.
+- Replay must not depend on hidden clocks or random IDs.
+
+Use [`@agentskit/runtime`](/docs/reference/packages/runtime) instead when you need durable execution, tools, effects, or flow orchestration.
+
+## Install
+
+```bash
+npm install @agentskit/statechart
+```
+
+## Core operations
+
+- `defineStatechart` — validate and freeze a trusted definition.
+- `createStatechartInstance` — create validated JSON state with a host-supplied ID and timestamp.
+- `transitionStatechart` — run one pure transition and receive an `accepted` / `rejected` result.
+- `serializeStatechart` — produce a versioned JSON-compatible snapshot.
+- `restoreStatechart` — validate an unknown snapshot against the trusted definition and injected context parser.
+- `notifyStatechartObserver` — deliver a completed result without putting observation inside the transition core.
+
+## Ownership boundary
+
+The package owns transition and snapshot semantics. Hosts own persistence, event delivery, deduplication, clocks, IDs, and side effects. Framework adapters own rendering. Runtime owns agent and tool execution.
+
+## Stability
+
+- **Version:** `0.1.0`
+- **Tier:** alpha
+- **Contract:** [ADR-0020](../../../../../../docs/architecture/adrs/0020-serializable-interaction-state.md)
+
+## Related
+
+- [For agents: statechart](/docs/for-agents/statechart)
+- [@agentskit/runtime](/docs/reference/packages/runtime)
+- [@agentskit/core](/docs/reference/packages/core)
+
+## Source
+
+repo: [packages/statechart](../../../../../../packages/statechart/README.md)

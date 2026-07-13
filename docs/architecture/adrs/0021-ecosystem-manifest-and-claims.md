@@ -1,4 +1,4 @@
-# ADR 0020 — Versioned ecosystem manifest and evidence-backed claims
+# ADR 0021 — Versioned ecosystem manifest and evidence-backed claims
 
 - **Status**: Proposed
 - **Date**: 2026-07-13

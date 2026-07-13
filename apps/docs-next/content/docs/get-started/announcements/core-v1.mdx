@@ -21,7 +21,7 @@ npm install @agentskit/core@1
 |---|---|
 | **Core bundle** | 5.17 KB gzipped — **48% under** the 10 KB Manifesto budget |
 | **Runtime deps** | Zero |
-| **Packages** | 14, independently installable |
+| **Packages** | Independently installable |
 | **Tests** | 538 passing across the ecosystem |
 | **ADR-pinned contracts** | 6 (Adapter, Tool, Memory, Retriever, Skill, Runtime) |
 | **PRs through the gauntlet** | 18 in Phase 0 + 9 in Phase 1, zero contract breakage |
@@ -44,7 +44,7 @@ None of these are fine. The agent era deserves a substrate that works like React
 
 ## What AgentsKit.js actually is
 
-AgentsKit.js is a family of **14 small packages** built on one **5 KB core**. Every package is plug-and-play. Every contract is open. Every combination composes.
+AgentsKit.js is a family of **small, independently installable packages** built on one **5 KB core**. Every package is plug-and-play. Every contract is open. Every combination composes.
 
 ```
 @agentskit/core            ← pure foundation, zero deps, v1.0.0
@@ -130,7 +130,7 @@ That's it. Both helpers were Node-only and crashed browser consumers. Moving the
 From the [Manifesto](https://github.com/AgentsKit-io/agentskit/blob/main/MANIFESTO.md), with v1 scorecards:
 
 1. ✅ Core under 10 KB gzipped, zero deps — **5.17 KB, zero deps**
-2. ✅ Every package plug-and-play — **14 packages, independently installable at the time of the Phase 1 release**
+2. ✅ Every package plug-and-play — **the complete Phase 1 package set was independently installable**
 3. ✅ Interop radical — **any combination composes**
 4. ✅ Zero lock-in — **all contracts open, storage local-first**
 5. ✅ Agent-first — **runtime, skills, delegation are first-class**
@@ -157,7 +157,7 @@ None of it requires a breaking change to core. That's the point of v1.
 
 ## Built by one. Ready for many.
 
-Everything you just read — 14 packages, 538 tests, 6 ADR contracts, two full release phases at that point in the roadmap — was shipped by **one maintainer** ([Emerson Braun](https://github.com/EmersonBraun)).
+Everything you just read — the original package family, 538 tests, 6 ADR contracts, two full release phases at that point in the roadmap — was shipped by **one maintainer** ([Emerson Braun](https://github.com/EmersonBraun)).
 
 That's a signal about the architecture, not a flex. The substrate is small enough, the contracts are clear enough, and the tests are rigorous enough that one person can hold the whole thing in their head. **That's the point.** It means you can, too.
 
