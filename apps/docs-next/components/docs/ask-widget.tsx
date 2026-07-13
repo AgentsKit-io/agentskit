@@ -19,6 +19,7 @@ import {
   StandardComponentCatalog,
   createAskAdapter,
   createAskSessionMemory,
+  createDeterministicAnswerAdapter,
   defineChat,
   defineComponentManifest,
   type AskAdapterOptions,
@@ -31,8 +32,14 @@ import {
   type AgentChatSlots,
   type StandardComponentProps,
 } from '@agentskit/chat-react'
+import {
+  decodeDeterministicSiteConfig,
+  verifyLocalKnowledgeArtifactSync,
+} from '@agentskit/chat-protocol'
 import { z } from 'zod'
 import { AnimatedLogo } from '@/components/brand/animated-logo'
+import deterministicKnowledge from '@/lib/deterministic-knowledge.generated.json'
+import deterministicSiteConfig from '@/lib/deterministic-site.generated.json'
 import { Markdown } from './ask/Markdown'
 import { defaultRegistry, type UiToolContext, type UiToolRegistry } from './ask/registry'
 
@@ -50,6 +57,21 @@ const AskToolComponent: ComponentDefinition<z.infer<typeof AskToolPropsSchema>> 
 }
 
 const ASK_COMPONENTS = defineComponentManifest([...StandardComponentCatalog, AskToolComponent])
+
+const INVALID_CONTENT_HASH = `sha256:${'0'.repeat(64)}`
+const decodedDeterministicSite = decodeDeterministicSiteConfig(deterministicSiteConfig)
+const deterministicSite = decodedDeterministicSite.ok
+  ? decodedDeterministicSite.value
+  : {
+      siteId: 'agentskit-docs',
+      artifact: { href: '/deterministic-knowledge/unavailable.json', contentHash: INVALID_CONTENT_HASH },
+      fallback: { mode: 'backend' as const },
+    }
+const decodedDeterministicKnowledge = verifyLocalKnowledgeArtifactSync(deterministicKnowledge, {
+  expectedContentHash: deterministicSite.artifact.contentHash,
+  expectedSiteId: deterministicSite.siteId,
+})
+const verifiedDeterministicKnowledge = decodedDeterministicKnowledge.ok ? decodedDeterministicKnowledge.value : null
 
 const projectDocsAskTool: AskToolProjector = event => {
   const props = AskToolPropsSchema.safeParse({ name: event.name, args: event.args })
@@ -217,6 +239,7 @@ export function AskDocsWidget({
   defaultOpen = true,
 }: AskDocsWidgetProps = {}) {
   const [open, setOpen] = useState(defaultOpen)
+  const [answerPath, setAnswerPath] = useState<'local' | 'choices' | 'backend' | null>(null)
   const chatRef = useRef<ChatReturn | null>(null)
   const effectiveFabLabel = fabLabel ?? brand?.fabLabel ?? 'Ask the docs'
   const effectiveTitle = title ?? brand?.title ?? 'Ask the docs'
@@ -229,18 +252,34 @@ export function AskDocsWidget({
   const storageIdentity = [corpus, persona].filter(Boolean).join(':')
   const legacyStorageKey = storageIdentity ? `ak:ask-thread-v2:${storageIdentity}` : 'ak:ask-thread-v2'
   const effectiveStorageKey = storageKey ?? (storageIdentity ? `ak:ask-thread-v3:${storageIdentity}` : 'ak:ask-thread-v3')
-  const definition = useMemo(() => defineChat({
-    id: `docs-ask-${corpus ?? 'docs'}-${persona ?? 'default'}`,
-    components: ASK_COMPONENTS,
-    chat: {
-      adapter: createAskAdapter({ endpoint, corpus, persona, projectTool: projectDocsAskTool }),
-      memory: createAskSessionMemory({
-        key: effectiveStorageKey,
-        legacyKeys: storageKey === undefined ? [legacyStorageKey] : [],
-        projectTool: projectDocsAskTool,
-      }),
-    },
-  }), [endpoint, corpus, persona, effectiveStorageKey, legacyStorageKey, storageKey])
+  const definition = useMemo(() => {
+    const fallback = createAskAdapter({ endpoint, corpus, persona, projectTool: projectDocsAskTool })
+    const adapter = createDeterministicAnswerAdapter({
+      artifact: verifiedDeterministicKnowledge,
+      expectedContentHash: deterministicSite.artifact.contentHash,
+      expectedSiteId: deterministicSite.siteId,
+      fallbackMode: deterministicSite.fallback.mode,
+      fallback,
+      backend: { provider: 'agentskit-ask-docs' },
+      onDecision: decision => {
+        if (decision.outcome === 'choices') setAnswerPath('choices')
+        else if (decision.outcome === 'answer') setAnswerPath(decision.provenance.source)
+      },
+    })
+    return defineChat({
+      id: `docs-ask-${corpus ?? 'docs'}-${persona ?? 'default'}`,
+      components: ASK_COMPONENTS,
+      choiceSubmission: adapter.resolveChoiceSubmission,
+      chat: {
+        adapter,
+        memory: createAskSessionMemory({
+          key: effectiveStorageKey,
+          legacyKeys: storageKey === undefined ? [legacyStorageKey] : [],
+          projectTool: projectDocsAskTool,
+        }),
+      },
+    })
+  }, [endpoint, corpus, persona, effectiveStorageKey, legacyStorageKey, storageKey])
   const runtime = useMemo<AskRuntime>(() => ({
     chat: chatRef,
     registry,
@@ -269,7 +308,8 @@ export function AskDocsWidget({
         <header className="flex items-center justify-between border-b border-ak-border bg-gradient-to-br from-ak-surface to-ak-midnight px-4 py-2.5">
           <div className="flex items-center gap-2"><span aria-hidden>{effectiveLogo ?? <AnimatedLogo variant="nav" size={18} />}</span><span className="font-mono text-xs uppercase tracking-[0.2em] text-ak-graphite">{effectiveTitle}</span></div>
           <div className="flex items-center gap-3">
-            <button type="button" onClick={() => void chatRef.current?.clear()} className="font-mono text-[10px] uppercase tracking-widest text-ak-graphite">clear</button>
+            {answerPath ? <span aria-live="polite" data-ak-answer-path={answerPath} className="rounded-full border border-ak-border px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-ak-blue">{answerPath === 'local' ? 'instant · local' : answerPath === 'choices' ? 'local · choose' : 'grounded · backend'}</span> : null}
+            <button type="button" onClick={() => { setAnswerPath(null); void chatRef.current?.clear() }} className="font-mono text-[10px] uppercase tracking-widest text-ak-graphite">clear</button>
             <button type="button" onClick={() => setOpen(false)} aria-label="Close" className="text-ak-graphite">✕</button>
           </div>
         </header>

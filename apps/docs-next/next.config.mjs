@@ -98,6 +98,12 @@ const config = {
       (r) => r.source !== r.destination,
     )
   },
+  async headers() {
+    return [{
+      source: '/deterministic-knowledge/:hash.json',
+      headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+    }]
+  },
 }
 
 export default withMDX(config)

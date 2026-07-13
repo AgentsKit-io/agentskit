@@ -50,10 +50,42 @@ export async function startDevServer(
     url: `http://localhost:${port}`,
     async close() {
       child.kill('SIGTERM')
-      await Promise.race([once(child, 'exit'), sleep(3_000)])
-      if (!child.killed) child.kill('SIGKILL')
+      const exited = await Promise.race([once(child, 'exit').then(() => true), sleep(3_000).then(() => false)])
+      if (!exited) child.kill('SIGKILL')
     },
   }
+}
+
+/** Start a built workspace application through its package `start` script. */
+export async function startPackageServer(pkgFilter: string, port: number): Promise<DevServer> {
+  const child = spawn('pnpm', ['--filter', pkgFilter, 'start', '--port', String(port)], {
+    env: { ...process.env, PORT: String(port), FORCE_COLOR: '0' },
+    stdio: ['ignore', 'pipe', 'pipe'],
+  })
+  const output: string[] = []
+  child.stdout?.on('data', d => output.push(String(d)))
+  child.stderr?.on('data', d => output.push(String(d)))
+  const url = `http://127.0.0.1:${port}`
+  const deadline = Date.now() + 60_000
+  while (Date.now() < deadline) {
+    if (child.exitCode !== null) throw new Error(`Package server exited with code ${child.exitCode}\n${output.join('')}`)
+    try {
+      const response = await fetch(url)
+      if (response.ok) return {
+        url,
+        async close() {
+          child.kill('SIGTERM')
+          const exited = await Promise.race([once(child, 'exit').then(() => true), sleep(3_000).then(() => false)])
+          if (!exited) child.kill('SIGKILL')
+        },
+      }
+    } catch {
+      // The process is still starting.
+    }
+    await sleep(500)
+  }
+  child.kill('SIGKILL')
+  throw new Error(`Package server did not become ready in 60s\n${output.join('')}`)
 }
 
 /**

@@ -1,0 +1,2264 @@
+{
+  "protocol": "agentskit.chat.knowledge",
+  "version": 1,
+  "artifactId": "agentskit-docs-v1",
+  "siteId": "agentskit-docs",
+  "generatedAt": "2026-07-13T18:26:31-03:00",
+  "entries": [
+    {
+      "id": "claim.catalog-models",
+      "kind": "restricted-faq",
+      "label": "5162 models",
+      "match": {
+        "type": "exact",
+        "values": [
+          "how many models does agentskit have?",
+          "agentskit models count",
+          "catalog-models claim"
+        ]
+      },
+      "answer": {
+        "markdown": "The verified AgentsKit ledger currently reports **5162 models**. The public conservative floor is 5000.",
+        "citations": [
+          {
+            "id": "claim-catalog-models",
+            "title": "AgentsKit models evidence",
+            "href": "https://www.agentskit.io/api/stats.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": "claim.catalog-providers",
+      "kind": "restricted-faq",
+      "label": "140 providers",
+      "match": {
+        "type": "exact",
+        "values": [
+          "how many providers does agentskit have?",
+          "agentskit providers count",
+          "catalog-providers claim"
+        ]
+      },
+      "answer": {
+        "markdown": "The verified AgentsKit ledger currently reports **140 providers**. The public conservative floor is 140.",
+        "citations": [
+          {
+            "id": "claim-catalog-providers",
+            "title": "AgentsKit providers evidence",
+            "href": "https://www.agentskit.io/api/stats.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": "claim.core-size-kb-gzip",
+      "kind": "restricted-faq",
+      "label": "10 KB gzipped core budget",
+      "match": {
+        "type": "exact",
+        "values": [
+          "how many KB gzipped core budget does agentskit have?",
+          "agentskit KB gzipped core budget count",
+          "core-size-kb-gzip claim"
+        ]
+      },
+      "answer": {
+        "markdown": "The verified AgentsKit ledger currently reports **10 KB gzipped core budget**.",
+        "citations": [
+          {
+            "id": "claim-core-size-kb-gzip",
+            "title": "AgentsKit KB gzipped core budget evidence",
+            "href": "https://www.agentskit.io/api/stats.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": "claim.framework-bindings",
+      "kind": "restricted-faq",
+      "label": "7 framework bindings",
+      "match": {
+        "type": "exact",
+        "values": [
+          "how many framework bindings does agentskit have?",
+          "agentskit framework bindings count",
+          "framework-bindings claim"
+        ]
+      },
+      "answer": {
+        "markdown": "The verified AgentsKit ledger currently reports **7 framework bindings**.",
+        "citations": [
+          {
+            "id": "claim-framework-bindings",
+            "title": "AgentsKit framework bindings evidence",
+            "href": "https://www.agentskit.io/api/stats.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": "claim.integrations",
+      "kind": "restricted-faq",
+      "label": "50 integrations",
+      "match": {
+        "type": "exact",
+        "values": [
+          "how many integrations does agentskit have?",
+          "agentskit integrations count",
+          "integrations claim"
+        ]
+      },
+      "answer": {
+        "markdown": "The verified AgentsKit ledger currently reports **50 integrations**. The public conservative floor is 50.",
+        "citations": [
+          {
+            "id": "claim-integrations",
+            "title": "AgentsKit integrations evidence",
+            "href": "https://www.agentskit.io/api/stats.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": "claim.memory-backends",
+      "kind": "restricted-faq",
+      "label": "17 memory backends",
+      "match": {
+        "type": "exact",
+        "values": [
+          "how many memory backends does agentskit have?",
+          "agentskit memory backends count",
+          "memory-backends claim"
+        ]
+      },
+      "answer": {
+        "markdown": "The verified AgentsKit ledger currently reports **17 memory backends**.",
+        "citations": [
+          {
+            "id": "claim-memory-backends",
+            "title": "AgentsKit memory backends evidence",
+            "href": "https://www.agentskit.io/api/stats.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": "claim.native-adapters",
+      "kind": "restricted-faq",
+      "label": "25 native adapters",
+      "match": {
+        "type": "exact",
+        "values": [
+          "how many native adapters does agentskit have?",
+          "agentskit native adapters count",
+          "native-adapters claim"
+        ]
+      },
+      "answer": {
+        "markdown": "The verified AgentsKit ledger currently reports **25 native adapters**. The public conservative floor is 25.",
+        "citations": [
+          {
+            "id": "claim-native-adapters",
+            "title": "AgentsKit native adapters evidence",
+            "href": "https://www.agentskit.io/api/stats.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": "claim.packages",
+      "kind": "restricted-faq",
+      "label": "25 packages",
+      "match": {
+        "type": "exact",
+        "values": [
+          "how many packages does agentskit have?",
+          "agentskit packages count",
+          "packages claim"
+        ]
+      },
+      "answer": {
+        "markdown": "The verified AgentsKit ledger currently reports **25 packages**. The public conservative floor is 25.",
+        "citations": [
+          {
+            "id": "claim-packages",
+            "title": "AgentsKit packages evidence",
+            "href": "https://www.agentskit.io/api/stats.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": "claim.recipes",
+      "kind": "restricted-faq",
+      "label": "69 recipes",
+      "match": {
+        "type": "exact",
+        "values": [
+          "how many recipes does agentskit have?",
+          "agentskit recipes count",
+          "recipes claim"
+        ]
+      },
+      "answer": {
+        "markdown": "The verified AgentsKit ledger currently reports **69 recipes**. The public conservative floor is 69.",
+        "citations": [
+          {
+            "id": "claim-recipes",
+            "title": "AgentsKit recipes evidence",
+            "href": "https://www.agentskit.io/api/stats.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": "claim.skills",
+      "kind": "restricted-faq",
+      "label": "21 ready-made skills",
+      "match": {
+        "type": "exact",
+        "values": [
+          "how many ready-made skills does agentskit have?",
+          "agentskit ready-made skills count",
+          "skills claim"
+        ]
+      },
+      "answer": {
+        "markdown": "The verified AgentsKit ledger currently reports **21 ready-made skills**. The public conservative floor is 21.",
+        "citations": [
+          {
+            "id": "claim-skills",
+            "title": "AgentsKit ready-made skills evidence",
+            "href": "https://www.agentskit.io/api/stats.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": "command.install-core",
+      "kind": "command",
+      "label": "Install AgentsKit core",
+      "match": {
+        "type": "exact",
+        "values": [
+          "How do I install AgentsKit?",
+          "install agentskit",
+          "agentskit install command"
+        ]
+      },
+      "answer": {
+        "markdown": "Install the framework and provider adapters with:\n\n```bash\npnpm add @agentskit/core @agentskit/adapters\n```\n\nThe first-agent guide starts with a deterministic local adapter, so you can verify the setup without an API key or network call.",
+        "citations": [
+          {
+            "id": "install-guide",
+            "title": "Build your first agent",
+            "href": "/docs/get-started/getting-started/build-your-first-agent"
+          }
+        ]
+      }
+    },
+    {
+      "id": "command.install-react",
+      "kind": "command",
+      "label": "Install the React binding",
+      "match": {
+        "type": "exact",
+        "values": [
+          "How do I install AgentsKit React?",
+          "install @agentskit/react",
+          "agentskit react install command"
+        ]
+      },
+      "answer": {
+        "markdown": "Install the React binding together with the core contract:\n\n```bash\npnpm add @agentskit/core @agentskit/react\n```",
+        "citations": [
+          {
+            "id": "react-docs",
+            "title": "React package",
+            "href": "/docs/reference/packages/react"
+          }
+        ]
+      }
+    },
+    {
+      "id": "contribution.start",
+      "kind": "contribution",
+      "label": "Contribute to AgentsKit",
+      "match": {
+        "type": "exact",
+        "values": [
+          "How do I contribute to AgentsKit?",
+          "contribute to agentskit",
+          "agentskit contribution guide"
+        ]
+      },
+      "answer": {
+        "markdown": "Start with the contribution guide, choose a scoped issue, and run the package-specific lint and test commands before opening a pull request.",
+        "citations": [
+          {
+            "id": "contribution-guide",
+            "title": "Contribution guide",
+            "href": "/docs/reference/contribute"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.adapters",
+      "kind": "document",
+      "label": "adapters documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "adapters documentation",
+          "docs for adapters",
+          "adapters"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the adapters documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-adapters",
+            "title": "adapters agent handoff",
+            "href": "/docs/for-agents/adapters"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.angular",
+      "kind": "document",
+      "label": "angular documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "angular documentation",
+          "docs for angular",
+          "angular"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the angular documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-angular",
+            "title": "angular agent handoff",
+            "href": "/docs/for-agents/angular"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.cli",
+      "kind": "document",
+      "label": "cli documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "cli documentation",
+          "docs for cli",
+          "cli"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the cli documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-cli",
+            "title": "cli agent handoff",
+            "href": "/docs/for-agents/cli"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.core",
+      "kind": "document",
+      "label": "core documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "core documentation",
+          "docs for core",
+          "core"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the core documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-core",
+            "title": "core agent handoff",
+            "href": "/docs/for-agents/core"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.eval",
+      "kind": "document",
+      "label": "eval documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "eval documentation",
+          "docs for eval",
+          "eval"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the eval documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-eval",
+            "title": "eval agent handoff",
+            "href": "/docs/for-agents/eval"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.eval-braintrust",
+      "kind": "document",
+      "label": "eval-braintrust documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "eval-braintrust documentation",
+          "docs for eval-braintrust",
+          "eval-braintrust"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the eval-braintrust documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-eval-braintrust",
+            "title": "eval-braintrust agent handoff",
+            "href": "/docs/for-agents/eval-braintrust"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.index",
+      "kind": "document",
+      "label": "index documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "index documentation",
+          "docs for index",
+          "index"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the index documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-index",
+            "title": "index agent handoff",
+            "href": "/docs/for-agents/index"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.ink",
+      "kind": "document",
+      "label": "ink documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "ink documentation",
+          "docs for ink",
+          "ink"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the ink documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-ink",
+            "title": "ink agent handoff",
+            "href": "/docs/for-agents/ink"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.integrations",
+      "kind": "document",
+      "label": "integrations documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "integrations documentation",
+          "docs for integrations",
+          "integrations"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the integrations documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-integrations",
+            "title": "integrations agent handoff",
+            "href": "/docs/for-agents/integrations"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.mcp",
+      "kind": "document",
+      "label": "mcp documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "mcp documentation",
+          "docs for mcp",
+          "mcp"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the mcp documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-mcp",
+            "title": "mcp agent handoff",
+            "href": "/docs/for-agents/mcp"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.memory",
+      "kind": "document",
+      "label": "memory documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "memory documentation",
+          "docs for memory",
+          "memory"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the memory documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-memory",
+            "title": "memory agent handoff",
+            "href": "/docs/for-agents/memory"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.observability",
+      "kind": "document",
+      "label": "observability documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "observability documentation",
+          "docs for observability",
+          "observability"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the observability documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-observability",
+            "title": "observability agent handoff",
+            "href": "/docs/for-agents/observability"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.observability-langfuse",
+      "kind": "document",
+      "label": "observability-langfuse documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "observability-langfuse documentation",
+          "docs for observability-langfuse",
+          "observability-langfuse"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the observability-langfuse documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-observability-langfuse",
+            "title": "observability-langfuse agent handoff",
+            "href": "/docs/for-agents/observability-langfuse"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.rag",
+      "kind": "document",
+      "label": "rag documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "rag documentation",
+          "docs for rag",
+          "rag"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the rag documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-rag",
+            "title": "rag agent handoff",
+            "href": "/docs/for-agents/rag"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.react",
+      "kind": "document",
+      "label": "react documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "react documentation",
+          "docs for react",
+          "react"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the react documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-react",
+            "title": "react agent handoff",
+            "href": "/docs/for-agents/react"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.react-native",
+      "kind": "document",
+      "label": "react-native documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "react-native documentation",
+          "docs for react-native",
+          "react-native"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the react-native documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-react-native",
+            "title": "react-native agent handoff",
+            "href": "/docs/for-agents/react-native"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.runtime",
+      "kind": "document",
+      "label": "runtime documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "runtime documentation",
+          "docs for runtime",
+          "runtime"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the runtime documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-runtime",
+            "title": "runtime agent handoff",
+            "href": "/docs/for-agents/runtime"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.sandbox",
+      "kind": "document",
+      "label": "sandbox documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "sandbox documentation",
+          "docs for sandbox",
+          "sandbox"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the sandbox documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-sandbox",
+            "title": "sandbox agent handoff",
+            "href": "/docs/for-agents/sandbox"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.skills",
+      "kind": "document",
+      "label": "skills documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "skills documentation",
+          "docs for skills",
+          "skills"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the skills documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-skills",
+            "title": "skills agent handoff",
+            "href": "/docs/for-agents/skills"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.solid",
+      "kind": "document",
+      "label": "solid documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "solid documentation",
+          "docs for solid",
+          "solid"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the solid documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-solid",
+            "title": "solid agent handoff",
+            "href": "/docs/for-agents/solid"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.statechart",
+      "kind": "document",
+      "label": "statechart documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "statechart documentation",
+          "docs for statechart",
+          "statechart"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the statechart documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-statechart",
+            "title": "statechart agent handoff",
+            "href": "/docs/for-agents/statechart"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.svelte",
+      "kind": "document",
+      "label": "svelte documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "svelte documentation",
+          "docs for svelte",
+          "svelte"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the svelte documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-svelte",
+            "title": "svelte agent handoff",
+            "href": "/docs/for-agents/svelte"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.templates",
+      "kind": "document",
+      "label": "templates documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "templates documentation",
+          "docs for templates",
+          "templates"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the templates documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-templates",
+            "title": "templates agent handoff",
+            "href": "/docs/for-agents/templates"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.tools",
+      "kind": "document",
+      "label": "tools documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "tools documentation",
+          "docs for tools",
+          "tools"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the tools documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-tools",
+            "title": "tools agent handoff",
+            "href": "/docs/for-agents/tools"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.validation",
+      "kind": "document",
+      "label": "validation documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "validation documentation",
+          "docs for validation",
+          "validation"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the validation documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-validation",
+            "title": "validation agent handoff",
+            "href": "/docs/for-agents/validation"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.vue",
+      "kind": "document",
+      "label": "vue documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "vue documentation",
+          "docs for vue",
+          "vue"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the vue documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-vue",
+            "title": "vue agent handoff",
+            "href": "/docs/for-agents/vue"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ecosystem.agentskit",
+      "kind": "ecosystem",
+      "label": "AgentsKit",
+      "match": {
+        "type": "exact",
+        "values": [
+          "what is AgentsKit",
+          "open AgentsKit",
+          "agentskit ecosystem"
+        ]
+      },
+      "answer": {
+        "markdown": "**AgentsKit** is the ecosystem's foundation: Build agents without gluing many libraries together. Maturity: **beta**.",
+        "citations": [
+          {
+            "id": "ecosystem-agentskit",
+            "title": "AgentsKit",
+            "href": "https://www.agentskit.io/docs"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ecosystem.agentskit-chat",
+      "kind": "ecosystem",
+      "label": "AgentsKit Chat",
+      "match": {
+        "type": "exact",
+        "values": [
+          "what is Chat",
+          "open Chat",
+          "agentskit-chat ecosystem"
+        ]
+      },
+      "answer": {
+        "markdown": "**AgentsKit Chat** is the ecosystem's experience: Define one agent experience and deliver it across interfaces. Maturity: **alpha**.",
+        "citations": [
+          {
+            "id": "ecosystem-agentskit-chat",
+            "title": "AgentsKit Chat",
+            "href": "https://github.com/AgentsKit-io/agentskit-chat/tree/main/docs"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ecosystem.akos",
+      "kind": "ecosystem",
+      "label": "AgentsKit OS",
+      "match": {
+        "type": "exact",
+        "values": [
+          "what is AKOS",
+          "open AKOS",
+          "akos ecosystem"
+        ]
+      },
+      "answer": {
+        "markdown": "**AgentsKit OS** is the ecosystem's operation: Run and govern agents in production. Maturity: **stable**.",
+        "citations": [
+          {
+            "id": "ecosystem-akos",
+            "title": "AgentsKit OS",
+            "href": "https://akos.agentskit.io/docs"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ecosystem.code-review",
+      "kind": "ecosystem",
+      "label": "AgentsKit Code Review",
+      "match": {
+        "type": "exact",
+        "values": [
+          "what is Code Review",
+          "open Code Review",
+          "code-review ecosystem"
+        ]
+      },
+      "answer": {
+        "markdown": "**AgentsKit Code Review** is the ecosystem's verification: Run deep, low-noise review with the model already in use. Maturity: **alpha**.",
+        "citations": [
+          {
+            "id": "ecosystem-code-review",
+            "title": "AgentsKit Code Review",
+            "href": "https://github.com/AgentsKit-io/code-review-cli#readme"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ecosystem.doc-bridge",
+      "kind": "ecosystem",
+      "label": "Doc Bridge",
+      "match": {
+        "type": "exact",
+        "values": [
+          "what is Doc Bridge",
+          "open Doc Bridge",
+          "doc-bridge ecosystem"
+        ]
+      },
+      "answer": {
+        "markdown": "**Doc Bridge** is the ecosystem's understanding: Turn repository documentation into executable agent handoffs. Maturity: **stable**.",
+        "citations": [
+          {
+            "id": "ecosystem-doc-bridge",
+            "title": "Doc Bridge",
+            "href": "https://github.com/AgentsKit-io/doc-bridge/tree/master/docs"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ecosystem.playbook",
+      "kind": "ecosystem",
+      "label": "Agents Playbook",
+      "match": {
+        "type": "exact",
+        "values": [
+          "what is Playbook",
+          "open Playbook",
+          "playbook ecosystem"
+        ]
+      },
+      "answer": {
+        "markdown": "**Agents Playbook** is the ecosystem's discipline: Make agents ship code a human would actually merge. Maturity: **stable**.",
+        "citations": [
+          {
+            "id": "ecosystem-playbook",
+            "title": "Agents Playbook",
+            "href": "https://playbook.agentskit.io/docs"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ecosystem.registry",
+      "kind": "ecosystem",
+      "label": "AgentsKit Registry",
+      "match": {
+        "type": "exact",
+        "values": [
+          "what is Registry",
+          "open Registry",
+          "registry ecosystem"
+        ]
+      },
+      "answer": {
+        "markdown": "**AgentsKit Registry** is the ecosystem's starting-point: Copy ready-made agents and own the source. Maturity: **beta**.",
+        "citations": [
+          {
+            "id": "ecosystem-registry",
+            "title": "AgentsKit Registry",
+            "href": "https://registry.agentskit.io/docs"
+          }
+        ]
+      }
+    },
+    {
+      "id": "faq.what-is-agentskit",
+      "kind": "restricted-faq",
+      "label": "What AgentsKit is",
+      "match": {
+        "type": "exact",
+        "values": [
+          "What is AgentsKit?",
+          "explain agentskit",
+          "agentskit overview"
+        ]
+      },
+      "answer": {
+        "markdown": "AgentsKit is a TypeScript framework for building agents without gluing many libraries together. It provides one contract for models, tools, memory, runtime, evaluation, and framework bindings.",
+        "citations": [
+          {
+            "id": "agentskit-home",
+            "title": "AgentsKit overview",
+            "href": "/docs"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.adapters",
+      "kind": "contribution",
+      "label": "adapters ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns adapters",
+          "how do i change adapters",
+          "adapters handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/adapters.mdx`. Edit only `packages/adapters` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/adapters test`\n- `pnpm --filter @agentskit/adapters lint`",
+        "citations": [
+          {
+            "id": "handoff-adapters",
+            "title": "adapters handoff",
+            "href": "/docs/for-agents/adapters"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.angular",
+      "kind": "contribution",
+      "label": "angular ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns angular",
+          "how do i change angular",
+          "angular handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/angular.mdx`. Edit only `packages/angular` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/angular test`\n- `pnpm --filter @agentskit/angular lint`",
+        "citations": [
+          {
+            "id": "handoff-angular",
+            "title": "angular handoff",
+            "href": "/docs/for-agents/angular"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.cli",
+      "kind": "contribution",
+      "label": "cli ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns cli",
+          "how do i change cli",
+          "cli handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/cli.mdx`. Edit only `packages/cli` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/cli test`\n- `pnpm --filter @agentskit/cli lint`",
+        "citations": [
+          {
+            "id": "handoff-cli",
+            "title": "cli handoff",
+            "href": "/docs/for-agents/cli"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.core",
+      "kind": "contribution",
+      "label": "core ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns core",
+          "how do i change core",
+          "core handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/core.mdx`. Edit only `packages/core` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/core test`\n- `pnpm --filter @agentskit/core lint`",
+        "citations": [
+          {
+            "id": "handoff-core",
+            "title": "core handoff",
+            "href": "/docs/for-agents/core"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.eval",
+      "kind": "contribution",
+      "label": "eval ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns eval",
+          "how do i change eval",
+          "eval handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/eval.mdx`. Edit only `packages/eval` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/eval test`\n- `pnpm --filter @agentskit/eval lint`",
+        "citations": [
+          {
+            "id": "handoff-eval",
+            "title": "eval handoff",
+            "href": "/docs/for-agents/eval"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.eval-braintrust",
+      "kind": "contribution",
+      "label": "eval-braintrust ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns eval-braintrust",
+          "how do i change eval-braintrust",
+          "eval-braintrust handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/eval-braintrust.mdx`. Edit only `packages/eval-braintrust` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/eval-braintrust test`\n- `pnpm --filter @agentskit/eval-braintrust lint`",
+        "citations": [
+          {
+            "id": "handoff-eval-braintrust",
+            "title": "eval-braintrust handoff",
+            "href": "/docs/for-agents/eval-braintrust"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.ink",
+      "kind": "contribution",
+      "label": "ink ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns ink",
+          "how do i change ink",
+          "ink handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/ink.mdx`. Edit only `packages/ink` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/ink test`\n- `pnpm --filter @agentskit/ink lint`",
+        "citations": [
+          {
+            "id": "handoff-ink",
+            "title": "ink handoff",
+            "href": "/docs/for-agents/ink"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.integrations",
+      "kind": "contribution",
+      "label": "integrations ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns integrations",
+          "how do i change integrations",
+          "integrations handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/integrations.mdx`. Edit only `packages/integrations` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/integrations test`\n- `pnpm --filter @agentskit/integrations lint`",
+        "citations": [
+          {
+            "id": "handoff-integrations",
+            "title": "integrations handoff",
+            "href": "/docs/for-agents/integrations"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.mcp",
+      "kind": "contribution",
+      "label": "mcp ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns mcp",
+          "how do i change mcp",
+          "mcp handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/mcp.mdx`. Edit only `packages/mcp` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/mcp test`\n- `pnpm --filter @agentskit/mcp lint`",
+        "citations": [
+          {
+            "id": "handoff-mcp",
+            "title": "mcp handoff",
+            "href": "/docs/for-agents/mcp"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.memory",
+      "kind": "contribution",
+      "label": "memory ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns memory",
+          "how do i change memory",
+          "memory handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/memory.mdx`. Edit only `packages/memory` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/memory test`\n- `pnpm --filter @agentskit/memory lint`",
+        "citations": [
+          {
+            "id": "handoff-memory",
+            "title": "memory handoff",
+            "href": "/docs/for-agents/memory"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.observability",
+      "kind": "contribution",
+      "label": "observability ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns observability",
+          "how do i change observability",
+          "observability handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/observability.mdx`. Edit only `packages/observability` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/observability test`\n- `pnpm --filter @agentskit/observability lint`",
+        "citations": [
+          {
+            "id": "handoff-observability",
+            "title": "observability handoff",
+            "href": "/docs/for-agents/observability"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.observability-langfuse",
+      "kind": "contribution",
+      "label": "observability-langfuse ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns observability-langfuse",
+          "how do i change observability-langfuse",
+          "observability-langfuse handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/observability-langfuse.mdx`. Edit only `packages/observability-langfuse` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/observability-langfuse test`\n- `pnpm --filter @agentskit/observability-langfuse lint`",
+        "citations": [
+          {
+            "id": "handoff-observability-langfuse",
+            "title": "observability-langfuse handoff",
+            "href": "/docs/for-agents/observability-langfuse"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.rag",
+      "kind": "contribution",
+      "label": "rag ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns rag",
+          "how do i change rag",
+          "rag handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/rag.mdx`. Edit only `packages/rag` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/rag test`\n- `pnpm --filter @agentskit/rag lint`",
+        "citations": [
+          {
+            "id": "handoff-rag",
+            "title": "rag handoff",
+            "href": "/docs/for-agents/rag"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.react",
+      "kind": "contribution",
+      "label": "react ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns react",
+          "how do i change react",
+          "react handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/react.mdx`. Edit only `packages/react` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/react test`\n- `pnpm --filter @agentskit/react lint`",
+        "citations": [
+          {
+            "id": "handoff-react",
+            "title": "react handoff",
+            "href": "/docs/for-agents/react"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.react-native",
+      "kind": "contribution",
+      "label": "react-native ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns react-native",
+          "how do i change react-native",
+          "react-native handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/react-native.mdx`. Edit only `packages/react-native` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/react-native test`\n- `pnpm --filter @agentskit/react-native lint`",
+        "citations": [
+          {
+            "id": "handoff-react-native",
+            "title": "react-native handoff",
+            "href": "/docs/for-agents/react-native"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.runtime",
+      "kind": "contribution",
+      "label": "runtime ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns runtime",
+          "how do i change runtime",
+          "runtime handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/runtime.mdx`. Edit only `packages/runtime` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/runtime test`\n- `pnpm --filter @agentskit/runtime lint`",
+        "citations": [
+          {
+            "id": "handoff-runtime",
+            "title": "runtime handoff",
+            "href": "/docs/for-agents/runtime"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.sandbox",
+      "kind": "contribution",
+      "label": "sandbox ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns sandbox",
+          "how do i change sandbox",
+          "sandbox handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/sandbox.mdx`. Edit only `packages/sandbox` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/sandbox test`\n- `pnpm --filter @agentskit/sandbox lint`",
+        "citations": [
+          {
+            "id": "handoff-sandbox",
+            "title": "sandbox handoff",
+            "href": "/docs/for-agents/sandbox"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.skills",
+      "kind": "contribution",
+      "label": "skills ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns skills",
+          "how do i change skills",
+          "skills handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/skills.mdx`. Edit only `packages/skills` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/skills test`\n- `pnpm --filter @agentskit/skills lint`",
+        "citations": [
+          {
+            "id": "handoff-skills",
+            "title": "skills handoff",
+            "href": "/docs/for-agents/skills"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.solid",
+      "kind": "contribution",
+      "label": "solid ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns solid",
+          "how do i change solid",
+          "solid handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/solid.mdx`. Edit only `packages/solid` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/solid test`\n- `pnpm --filter @agentskit/solid lint`",
+        "citations": [
+          {
+            "id": "handoff-solid",
+            "title": "solid handoff",
+            "href": "/docs/for-agents/solid"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.statechart",
+      "kind": "contribution",
+      "label": "statechart ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns statechart",
+          "how do i change statechart",
+          "statechart handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/statechart.mdx`. Edit only `packages/statechart` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/statechart test`\n- `pnpm --filter @agentskit/statechart lint`",
+        "citations": [
+          {
+            "id": "handoff-statechart",
+            "title": "statechart handoff",
+            "href": "/docs/for-agents/statechart"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.svelte",
+      "kind": "contribution",
+      "label": "svelte ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns svelte",
+          "how do i change svelte",
+          "svelte handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/svelte.mdx`. Edit only `packages/svelte` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/svelte test`\n- `pnpm --filter @agentskit/svelte lint`",
+        "citations": [
+          {
+            "id": "handoff-svelte",
+            "title": "svelte handoff",
+            "href": "/docs/for-agents/svelte"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.templates",
+      "kind": "contribution",
+      "label": "templates ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns templates",
+          "how do i change templates",
+          "templates handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/templates.mdx`. Edit only `packages/templates` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/templates test`\n- `pnpm --filter @agentskit/templates lint`",
+        "citations": [
+          {
+            "id": "handoff-templates",
+            "title": "templates handoff",
+            "href": "/docs/for-agents/templates"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.tools",
+      "kind": "contribution",
+      "label": "tools ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns tools",
+          "how do i change tools",
+          "tools handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/tools.mdx`. Edit only `packages/tools` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/tools test`\n- `pnpm --filter @agentskit/tools lint`",
+        "citations": [
+          {
+            "id": "handoff-tools",
+            "title": "tools handoff",
+            "href": "/docs/for-agents/tools"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.validation",
+      "kind": "contribution",
+      "label": "validation ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns validation",
+          "how do i change validation",
+          "validation handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/validation.mdx`. Edit only `packages/validation` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/validation test`\n- `pnpm --filter @agentskit/validation lint`",
+        "citations": [
+          {
+            "id": "handoff-validation",
+            "title": "validation handoff",
+            "href": "/docs/for-agents/validation"
+          }
+        ]
+      }
+    },
+    {
+      "id": "handoff.vue",
+      "kind": "contribution",
+      "label": "vue ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns vue",
+          "how do i change vue",
+          "vue handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/vue.mdx`. Edit only `packages/vue` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/vue test`\n- `pnpm --filter @agentskit/vue lint`",
+        "citations": [
+          {
+            "id": "handoff-vue",
+            "title": "vue handoff",
+            "href": "/docs/for-agents/vue"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.adapters",
+      "kind": "package",
+      "label": "@agentskit/adapters package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/adapters",
+          "adapters package",
+          "adapters"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/adapters** — Every LLM provider, one contract. Stream, tool calls, retry, abort all normalized. Plus higher-order adapters that compose candidates (router, ensemble, fallback) and a `createAdapter` factory for custom providers.\n\nInstall it with `pnpm add @agentskit/adapters`.",
+        "citations": [
+          {
+            "id": "package-adapters",
+            "title": "@agentskit/adapters documentation",
+            "href": "/docs/reference/packages/adapters"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.angular",
+      "kind": "package",
+      "label": "@agentskit/angular package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/angular",
+          "angular package",
+          "angular"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/angular** — Angular binding for the `ChatReturn` contract from `@agentskit/core`. Exposes chat state as a `WritableSignal<ChatState>` for template binding and as an `Observable<ChatState>` for RxJS pipelines, with automatic teardown via `ngOnDestroy`.\n\nInstall it with `pnpm add @agentskit/angular`.",
+        "citations": [
+          {
+            "id": "package-angular",
+            "title": "@agentskit/angular documentation",
+            "href": "/docs/reference/packages/angular"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.cli",
+      "kind": "package",
+      "label": "@agentskit/cli package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/cli",
+          "cli package",
+          "cli"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/cli** — undefined\n\nInstall it with `pnpm add @agentskit/cli`.",
+        "citations": [
+          {
+            "id": "package-cli",
+            "title": "@agentskit/cli documentation",
+            "href": "/docs/reference/packages/cli"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.core",
+      "kind": "package",
+      "label": "@agentskit/core package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/core",
+          "core package",
+          "core"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/core** — Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + `createChatController` + primitives. Target: &lt;10 KB gzipped, zero runtime deps.\n\nInstall it with `pnpm add @agentskit/core`.",
+        "citations": [
+          {
+            "id": "package-core",
+            "title": "@agentskit/core documentation",
+            "href": "/docs/reference/packages/core"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.eval",
+      "kind": "package",
+      "label": "@agentskit/eval package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/eval",
+          "eval package",
+          "eval"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/eval** — undefined\n\nInstall it with `pnpm add @agentskit/eval`.",
+        "citations": [
+          {
+            "id": "package-eval",
+            "title": "@agentskit/eval documentation",
+            "href": "/docs/reference/packages/eval"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.eval-braintrust",
+      "kind": "package",
+      "label": "@agentskit/eval-braintrust package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/eval-braintrust",
+          "eval-braintrust package",
+          "eval-braintrust"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/eval-braintrust** — undefined\n\nInstall it with `pnpm add @agentskit/eval-braintrust`.",
+        "citations": [
+          {
+            "id": "package-eval-braintrust",
+            "title": "@agentskit/eval-braintrust documentation",
+            "href": "/docs/reference/packages/eval-braintrust"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.index",
+      "kind": "package",
+      "label": "@agentskit/index package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/index",
+          "index package",
+          "index"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/index** — If you're an AI agent reading this: every page in this section is a condensed reference for one AgentsKit package. Each page follows the same structure so you can skim quickly and quote accurately:\n\nInstall it with `pnpm add @agentskit/index`.",
+        "citations": [
+          {
+            "id": "package-index",
+            "title": "@agentskit/index documentation",
+            "href": "/docs/reference/packages/index"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.ink",
+      "kind": "package",
+      "label": "@agentskit/ink package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/ink",
+          "ink package",
+          "ink"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/ink** — Ink binding for the `ChatReturn` contract from `@agentskit/core`. Renders a full chat interface in the terminal using React + Ink, with keyboard navigation, ANSI theming, and human-in-the-loop tool confirmation — no browser required.\n\nInstall it with `pnpm add @agentskit/ink`.",
+        "citations": [
+          {
+            "id": "package-ink",
+            "title": "@agentskit/ink documentation",
+            "href": "/docs/reference/examples/ink"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.integrations",
+      "kind": "package",
+      "label": "@agentskit/integrations package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/integrations",
+          "integrations package",
+          "integrations"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/integrations** — undefined\n\nInstall it with `pnpm add @agentskit/integrations`.",
+        "citations": [
+          {
+            "id": "package-integrations",
+            "title": "@agentskit/integrations documentation",
+            "href": "/docs/reference/recipes/integrations"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.mcp",
+      "kind": "package",
+      "label": "@agentskit/mcp package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/mcp",
+          "mcp package",
+          "mcp"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/mcp** — Serve AgentsKit tools to any MCP host. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` + `createStdioTransport`).\n\nInstall it with `pnpm add @agentskit/mcp`.",
+        "citations": [
+          {
+            "id": "package-mcp",
+            "title": "@agentskit/mcp documentation",
+            "href": "/docs/agents/tools/mcp"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.memory",
+      "kind": "package",
+      "label": "@agentskit/memory package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/memory",
+          "memory package",
+          "memory"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/memory** — undefined\n\nInstall it with `pnpm add @agentskit/memory`.",
+        "citations": [
+          {
+            "id": "package-memory",
+            "title": "@agentskit/memory documentation",
+            "href": "/docs/get-started/concepts/memory"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.observability",
+      "kind": "package",
+      "label": "@agentskit/observability package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/observability",
+          "observability package",
+          "observability"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/observability** — undefined\n\nInstall it with `pnpm add @agentskit/observability`.",
+        "citations": [
+          {
+            "id": "package-observability",
+            "title": "@agentskit/observability documentation",
+            "href": "/docs/cookbook/observability"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.observability-langfuse",
+      "kind": "package",
+      "label": "@agentskit/observability-langfuse package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/observability-langfuse",
+          "observability-langfuse package",
+          "observability-langfuse"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/observability-langfuse** — undefined\n\nInstall it with `pnpm add @agentskit/observability-langfuse`.",
+        "citations": [
+          {
+            "id": "package-observability-langfuse",
+            "title": "@agentskit/observability-langfuse documentation",
+            "href": "/docs/reference/packages/observability-langfuse"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.rag",
+      "kind": "package",
+      "label": "@agentskit/rag package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/rag",
+          "rag package",
+          "rag"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/rag** — undefined\n\nInstall it with `pnpm add @agentskit/rag`.",
+        "citations": [
+          {
+            "id": "package-rag",
+            "title": "@agentskit/rag documentation",
+            "href": "/docs/cookbook/rag"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.react",
+      "kind": "package",
+      "label": "@agentskit/react package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/react",
+          "react package",
+          "react"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/react** — `useChat` hook returning `ChatReturn` (state + actions) + headless components with `data-ak-*` attributes for theming.\n\nInstall it with `pnpm add @agentskit/react`.",
+        "citations": [
+          {
+            "id": "package-react",
+            "title": "@agentskit/react documentation",
+            "href": "/docs/reference/examples/react"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.react-native",
+      "kind": "package",
+      "label": "@agentskit/react-native package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/react-native",
+          "react-native package",
+          "react-native"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/react-native** — React Native binding for the `ChatReturn` contract from `@agentskit/core`. Shares the same hook API as `@agentskit/react` but ships without any DOM dependency, making it safe for Metro bundler and the Hermes JS engine used in React Native and Expo.\n\nInstall it with `pnpm add @agentskit/react-native`.",
+        "citations": [
+          {
+            "id": "package-react-native",
+            "title": "@agentskit/react-native documentation",
+            "href": "/docs/reference/packages/react-native"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.runtime",
+      "kind": "package",
+      "label": "@agentskit/runtime package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/runtime",
+          "runtime package",
+          "runtime"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/runtime** — Run an agent without a UI. Supports reflection, planning, multi-agent orchestration, durable step logs, cron + webhooks, speculative execution.\n\nInstall it with `pnpm add @agentskit/runtime`.",
+        "citations": [
+          {
+            "id": "package-runtime",
+            "title": "@agentskit/runtime documentation",
+            "href": "/docs/agents/runtime"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.sandbox",
+      "kind": "package",
+      "label": "@agentskit/sandbox package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/sandbox",
+          "sandbox package",
+          "sandbox"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/sandbox** — undefined\n\nInstall it with `pnpm add @agentskit/sandbox`.",
+        "citations": [
+          {
+            "id": "package-sandbox",
+            "title": "@agentskit/sandbox documentation",
+            "href": "/docs/production/security/sandbox"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.skills",
+      "kind": "package",
+      "label": "@agentskit/skills package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/skills",
+          "skills package",
+          "skills"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/skills** — undefined\n\nInstall it with `pnpm add @agentskit/skills`.",
+        "citations": [
+          {
+            "id": "package-skills",
+            "title": "@agentskit/skills documentation",
+            "href": "/docs/reference/packages/skills"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.solid",
+      "kind": "package",
+      "label": "@agentskit/solid package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/solid",
+          "solid package",
+          "solid"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/solid** — SolidJS binding for the `ChatReturn` contract from `@agentskit/core`. Same shape as React/Vue/Svelte hooks — store-backed, cleanup wired via `onCleanup`.\n\nInstall it with `pnpm add @agentskit/solid`.",
+        "citations": [
+          {
+            "id": "package-solid",
+            "title": "@agentskit/solid documentation",
+            "href": "/docs/reference/packages/solid"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.statechart",
+      "kind": "package",
+      "label": "@agentskit/statechart package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/statechart",
+          "statechart package",
+          "statechart"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/statechart** — Represent deterministic interaction state independently from UI frameworks, providers, agent execution, and persistence.\n\nInstall it with `pnpm add @agentskit/statechart`.",
+        "citations": [
+          {
+            "id": "package-statechart",
+            "title": "@agentskit/statechart documentation",
+            "href": "/docs/reference/packages/statechart"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.svelte",
+      "kind": "package",
+      "label": "@agentskit/svelte package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/svelte",
+          "svelte package",
+          "svelte"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/svelte** — Svelte binding for the `ChatReturn` contract from `@agentskit/core`. Returns a `Readable<ChatState>` plus action methods (send / stop / clear) and `destroy()` for cleanup.\n\nInstall it with `pnpm add @agentskit/svelte`.",
+        "citations": [
+          {
+            "id": "package-svelte",
+            "title": "@agentskit/svelte documentation",
+            "href": "/docs/reference/packages/svelte"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.templates",
+      "kind": "package",
+      "label": "@agentskit/templates package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/templates",
+          "templates package",
+          "templates"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/templates** — Generate AgentsKit extensions (tools, skills, adapters) as standalone packages with consistent blueprints (tsup, vitest, TypeScript) and runtime validation. Depends only on `@agentskit/core`.\n\nInstall it with `pnpm add @agentskit/templates`.",
+        "citations": [
+          {
+            "id": "package-templates",
+            "title": "@agentskit/templates documentation",
+            "href": "/docs/reference/packages/templates"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.tools",
+      "kind": "package",
+      "label": "@agentskit/tools package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/tools",
+          "tools package",
+          "tools"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/tools** — undefined\n\nInstall it with `pnpm add @agentskit/tools`.",
+        "citations": [
+          {
+            "id": "package-tools",
+            "title": "@agentskit/tools documentation",
+            "href": "/docs/reference/packages/tools"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.validation",
+      "kind": "package",
+      "label": "@agentskit/validation package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/validation",
+          "validation package",
+          "validation"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/validation** — undefined\n\nInstall it with `pnpm add @agentskit/validation`.",
+        "citations": [
+          {
+            "id": "package-validation",
+            "title": "@agentskit/validation documentation",
+            "href": "/docs/production/security/input-validation"
+          }
+        ]
+      }
+    },
+    {
+      "id": "package.vue",
+      "kind": "package",
+      "label": "@agentskit/vue package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/vue",
+          "vue package",
+          "vue"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/vue** — Vue 3 binding for the `ChatReturn` contract from `@agentskit/core`. Returns a reactive object via `reactive()` that tracks messages, input, and streaming state, and tears down automatically when the component scope is disposed.\n\nInstall it with `pnpm add @agentskit/vue`.",
+        "citations": [
+          {
+            "id": "package-vue",
+            "title": "@agentskit/vue documentation",
+            "href": "/docs/reference/packages/vue"
+          }
+        ]
+      }
+    }
+  ],
+  "contentHash": "sha256:09eff42d21bed1dc7a14d6fe78574206b2adb587a974e0b1ed5c76ae0efc7b28"
+}
