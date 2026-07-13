@@ -89,3 +89,24 @@ test('Lighthouse rejects authentication redirects and empty manifests', () => {
   })
   assert.throws(() => validateLighthouseManifest([], 'https://preview.example', readReport), /manifest is empty/)
 })
+
+test('the showcase index keeps interactive bundles on their detail routes', () => {
+  const grid = read('apps/docs-next/components/showcase/grid.tsx')
+
+  assert.doesNotMatch(grid, /LiveExample/)
+  assert.doesNotMatch(grid, /components\/examples/)
+  assert.match(grid, /<ShowcasePreview meta=\{s\} \/>/)
+  assert.match(grid, /<h2 className=/)
+  assert.doesNotMatch(grid, /text-\[(?:10|11)px\]/)
+})
+
+test('the stack builder labels controls and uses a lightweight code output', () => {
+  const builder = read('apps/docs-next/components/mdx/stack-builder.tsx')
+
+  assert.doesNotMatch(builder, /DynamicCodeBlock/)
+  assert.match(builder, /htmlFor="stack-package-manager"/)
+  assert.match(builder, /htmlFor="stack-framework"/)
+  assert.match(builder, /htmlFor="stack-provider"/)
+  assert.match(builder, /htmlFor="stack-memory"/)
+  assert.match(builder, /function CodeOutput/)
+})
