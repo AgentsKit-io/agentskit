@@ -24,6 +24,9 @@
   },
   "dependencies": {
     "@agentskit/adapters": "workspace:*",
+    "@agentskit/chat": "https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.1/agentskit-chat-0.1.0-alpha.1.tgz",
+    "@agentskit/chat-protocol": "https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.1/agentskit-chat-protocol-0.1.0-alpha.1.tgz",
+    "@agentskit/chat-react": "https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.1/agentskit-chat-react-0.1.0-alpha.1.tgz",
     "@agentskit/core": "workspace:*",
     "@agentskit/eval": "workspace:*",
     "@agentskit/memory": "workspace:*",

@@ -1,7 +1,5 @@
 import { createRegistry, defineUITool, type UiTool } from './define-ui-tool'
 import {
-  Answer,
-  Citations,
   CodeBlockTool,
   Form,
   OpenPage,
@@ -19,8 +17,6 @@ import {
  * the registry stores `UiTool<unknown>` — no erasure gymnastics needed.
  */
 export const DEFAULT_UI_TOOLS: ReadonlyArray<UiTool<unknown>> = [
-  defineUITool({ name: 'answer', Component: Answer }),
-  defineUITool({ name: 'cite', Component: Citations }),
   defineUITool({ name: 'showOptions', Component: Options }),
   defineUITool({ name: 'renderForm', Component: Form }),
   defineUITool({ name: 'codeBlock', Component: CodeBlockTool }),
