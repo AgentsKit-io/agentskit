@@ -17,6 +17,7 @@ AgentsKit is the most complete agent toolkit for the JavaScript ecosystem — 14
 3. **Interop is mandatory.** Any combination of packages must compose.
 4. **Contracts are pinned to ADRs.** The six core contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) live in [`docs/architecture/adrs/`](./docs/architecture/adrs/). Changing a contract requires a new ADR + coordinated major bump of affected packages.
 5. **v1 stability promise.** Breaking changes to core require a major bump and a deprecation cycle of ≥ 1 minor release.
+6. **Private consumers are black-box evidence only.** Public issues, ADRs, RFCs, docs, tests, fixtures, and source must not expose private repository identifiers, implementation details, product flows, policies, data, topology, or business logic. Convert confidential observations into independently specified public requirements and synthetic fixtures. Follow [`docs/PRIVATE-CONSUMER-POLICY.md`](./docs/PRIVATE-CONSUMER-POLICY.md).
 
 ## Code conventions
 
