@@ -11,9 +11,9 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "@agentskit/chat": "0.1.0",
-    "@agentskit/chat-protocol": "0.1.0",
-    "@agentskit/chat-react": "0.1.0",
+    "@agentskit/chat": "0.2.0",
+    "@agentskit/chat-protocol": "0.2.0",
+    "@agentskit/chat-react": "0.2.0",
     "@agentskit/core": "workspace:*",
     "@agentskit/react": "workspace:*",
     "fumadocs-core": "^16.11.1",
