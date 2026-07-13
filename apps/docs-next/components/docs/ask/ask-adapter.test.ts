@@ -1,4 +1,5 @@
 import { createAssistantContentEncoder, decodeAssistantContent } from '@agentskit/chat-protocol'
+import { createChatController } from '@agentskit/core'
 import { afterEach, describe, expect, it, vi } from 'vitest'
 import { createAskAdapter, createAskSessionMemory, projectAskEvent } from './ask-adapter'
 
@@ -86,6 +87,23 @@ describe('Docs Ask AgentsKit Chat adapter', () => {
     let wire = ''
     for await (const chunk of source.stream()) if (chunk.type === 'text') wire += chunk.content ?? ''
     expect(decodeAssistantContent(wire)).toEqual({ ok: true, complete: true, parts: [{ kind: 'text', text: 'Plain fallback' }] })
+  })
+
+  it('settles the canonical assistant message when Ask is stopped', async () => {
+    let connected: (() => void) | undefined
+    const ready = new Promise<void>(resolve => { connected = resolve })
+    vi.stubGlobal('fetch', vi.fn((_input: RequestInfo | URL, init?: RequestInit) => new Promise<Response>((_resolve, reject) => {
+      connected?.()
+      init?.signal?.addEventListener('abort', () => reject(new DOMException('aborted', 'AbortError')))
+    })))
+    const chat = createChatController({ adapter: createAskAdapter() })
+
+    const sending = chat.send('stop me')
+    await ready
+    chat.stop()
+    await sending
+
+    expect(chat.getState()).toMatchObject({ status: 'idle', messages: [{ role: 'user' }, { role: 'assistant', status: 'complete' }] })
   })
 
   it('persists only the latest canonical messages in session storage', async () => {
