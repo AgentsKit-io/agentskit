@@ -199,12 +199,12 @@ interface S3SdkLike {
 }
 
 let cachedS3Sdk: Promise<S3SdkLike> | null = null
+const importOptionalPeer = (moduleId: string): Promise<unknown> => import(/* @vite-ignore */ moduleId)
 async function loadS3Sdk(): Promise<S3SdkLike> {
   if (!cachedS3Sdk) {
     cachedS3Sdk = (async () => {
       try {
-        const moduleId = '@aws-sdk/client-s3'
-        return (await import(/* @vite-ignore */ moduleId)) as unknown as S3SdkLike
+        return (await importOptionalPeer('@aws-sdk/client-s3')) as S3SdkLike
       } catch {
         throw new RagError({ code: RagErrorCodes.AK_RAG_PEER_MISSING, message: 'Install @aws-sdk/client-s3 to use loadS3: npm install @aws-sdk/client-s3', hint: 'loadS3 uses the optional peer "@aws-sdk/client-s3".' })
       }
