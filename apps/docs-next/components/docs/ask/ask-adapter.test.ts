@@ -1,8 +1,11 @@
 import { createAssistantContentEncoder, decodeAssistantContent } from '@agentskit/chat-protocol'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { createAskAdapter, projectAskEvent } from './ask-adapter'
+import { createAskAdapter, createAskSessionMemory, projectAskEvent } from './ask-adapter'
 
-afterEach(() => vi.restoreAllMocks())
+afterEach(() => {
+  vi.restoreAllMocks()
+  vi.unstubAllGlobals()
+})
 
 describe('Docs Ask AgentsKit Chat adapter', () => {
   it('projects deterministic citations into the standard SourceList contract', () => {
@@ -27,6 +30,12 @@ describe('Docs Ask AgentsKit Chat adapter', () => {
     expect(projectAskEvent({ type: 'tool', id: 'answer', name: 'answer', args: { markdown: 'Read the docs.' } })).toEqual({
       part: { kind: 'text', text: 'Read the docs.' },
     })
+  })
+
+  it('bounds citation fallback even when a source title is oversized', () => {
+    const projected = projectAskEvent({ type: 'tool', id: 'sources', name: 'cite', args: { sources: [{ title: 'x'.repeat(8_000), path: '/docs' }] } })
+    expect(projected.part?.kind).toBe('component')
+    if (projected.part?.kind === 'component') expect(projected.part.frame.fallback.summary.length).toBeLessThanOrEqual(4_096)
   })
 
   it('streams grounded text followed by SourceList through one canonical message', async () => {
@@ -77,5 +86,23 @@ describe('Docs Ask AgentsKit Chat adapter', () => {
     let wire = ''
     for await (const chunk of source.stream()) if (chunk.type === 'text') wire += chunk.content ?? ''
     expect(decodeAssistantContent(wire)).toEqual({ ok: true, complete: true, parts: [{ kind: 'text', text: 'Plain fallback' }] })
+  })
+
+  it('persists only the latest canonical messages in session storage', async () => {
+    const values = new Map<string, string>()
+    vi.stubGlobal('sessionStorage', {
+      getItem: (key: string) => values.get(key) ?? null,
+      setItem: (key: string, value: string) => values.set(key, value),
+      removeItem: (key: string) => values.delete(key),
+    })
+    const memory = createAskSessionMemory('ask-test', 1)
+    const messages = [
+      { id: 'one', role: 'user' as const, content: 'one', status: 'complete' as const, createdAt: new Date() },
+      { id: 'two', role: 'assistant' as const, content: 'two', status: 'complete' as const, createdAt: new Date() },
+    ]
+    await memory.save(messages)
+    expect(await memory.load()).toMatchObject([{ id: 'two', content: 'two' }])
+    await memory.clear?.()
+    expect(await memory.load()).toEqual([])
   })
 })

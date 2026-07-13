@@ -11,7 +11,7 @@ import {
   type FormEvent,
   type ReactNode,
 } from 'react'
-import { createLocalStorageMemory, type ChatReturn, type Message as AgentsKitMessage } from '@agentskit/core'
+import type { ChatReturn, Message as AgentsKitMessage } from '@agentskit/core'
 import {
   SourceListPropsSchema,
   StandardComponentCatalog,
@@ -28,7 +28,7 @@ import {
 import { z } from 'zod'
 import { AnimatedLogo } from '@/components/brand/animated-logo'
 import { Markdown } from './ask/Markdown'
-import { createAskAdapter, type AskAdapterOptions } from './ask/ask-adapter'
+import { createAskAdapter, createAskSessionMemory, type AskAdapterOptions } from './ask/ask-adapter'
 import { defaultRegistry, type UiToolContext, type UiToolRegistry } from './ask/registry'
 
 const AskToolPropsSchema = z.object({
@@ -114,11 +114,7 @@ function AskInput({ chat, placeholder, disabled }: ComponentProps<NonNullable<Ag
         disabled={disabled}
         className="flex-1 resize-none rounded-md border border-ak-border bg-ak-surface p-2 font-mono text-xs text-ak-foam outline-none transition-colors focus:border-ak-blue"
       />
-      {chat.status === 'streaming' ? (
-        <button type="button" onClick={chat.stop} data-ak-stop="" className="rounded-md border border-ak-red/40 bg-ak-red/10 px-3 font-mono text-xs text-ak-red">stop</button>
-      ) : (
-        <button type="submit" disabled={!chat.input.trim()} data-ak-send="" className="rounded-md bg-ak-foam px-3 font-mono text-xs font-semibold text-ak-midnight disabled:opacity-40">send</button>
-      )}
+      <button type="submit" disabled={disabled || !chat.input.trim()} data-ak-send="" className="rounded-md bg-ak-foam px-3 font-mono text-xs font-semibold text-ak-midnight disabled:opacity-40">send</button>
     </form>
   )
 }
@@ -194,7 +190,6 @@ export function AskDocsWidget({
   defaultOpen = true,
 }: AskDocsWidgetProps = {}) {
   const [open, setOpen] = useState(defaultOpen)
-  const [localRuns, setLocalRuns] = useState<string[]>([])
   const chatRef = useRef<ChatReturn | null>(null)
   const effectiveFabLabel = fabLabel ?? brand?.fabLabel ?? 'Ask the docs'
   const effectiveTitle = title ?? brand?.title ?? 'Ask the docs'
@@ -209,7 +204,7 @@ export function AskDocsWidget({
     components: ASK_COMPONENTS,
     chat: {
       adapter: createAskAdapter({ endpoint, corpus, persona }),
-      memory: createLocalStorageMemory(storageKey ?? `ak:ask-thread-v3:${corpus ?? 'docs'}:${persona ?? 'default'}`),
+      memory: createAskSessionMemory(storageKey ?? ([corpus, persona].filter(Boolean).length > 0 ? `ak:ask-thread-v2:${[corpus, persona].filter(Boolean).join(':')}` : 'ak:ask-thread-v2')),
     },
   }), [endpoint, corpus, persona, storageKey])
   const runtime = useMemo<AskRuntime>(() => ({
@@ -218,12 +213,13 @@ export function AskDocsWidget({
     emptyState: effectiveEmptyState ?? <>Ask anything about AgentsKit. Answers come from the docs corpus and cite their sources.</>,
     ...(loadingState === undefined ? {} : { loadingState }),
     context: {
-      onSelect: value => void chatRef.current?.send(value),
+      onSelect: value => {
+        if (chatRef.current?.status !== 'streaming') void chatRef.current?.send(value)
+      },
       onSubmit: (action, values) => {
         const summary = Object.entries(values).filter(([, value]) => value !== '').map(([key, value]) => `${key}=${value}`).join(', ')
-        void chatRef.current?.send(`${action}(${summary})`)
+        if (chatRef.current?.status !== 'streaming') void chatRef.current?.send(`${action}(${summary})`)
       },
-      onRun: code => setLocalRuns(current => [...current, code]),
     },
   }), [effectiveEmptyState, loadingState, registry])
 
@@ -249,7 +245,6 @@ export function AskDocsWidget({
             placeholder={effectivePlaceholder}
             slots={{ Container: AskContainer, Message: AskMessage, Input: AskInput, Thinking: AskThinking, StandardComponent: AskStandardComponent }}
           />
-          {localRuns.map((code, index) => <div key={`${index}-${code.length}`}>{registry.render('runExample', { code }, { ...runtime.context, id: `local-run-${index}` })}</div>)}
         </div>
         <div className="border-t border-ak-border p-2">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-1">

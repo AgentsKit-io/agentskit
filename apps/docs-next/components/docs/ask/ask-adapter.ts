@@ -1,4 +1,4 @@
-import type { AdapterFactory, Message, StreamChunk } from '@agentskit/core'
+import { deserializeMessages, serializeMessages, type AdapterFactory, type ChatMemory, type Message, type StreamChunk } from '@agentskit/core'
 import {
   createAssistantContentEncoder,
   decodeAssistantContent,
@@ -69,7 +69,7 @@ function sourceListFrame(event: Extract<UiEvent, { type: 'tool' }>): ComponentRe
         url: `${source.path.startsWith('/') ? source.path : `/${source.path}`}${source.anchor ? `#${source.anchor}` : ''}`,
       })),
     },
-    fallback: { kind: 'source-list', summary: `Sources: ${sources.map(source => source.title).join(', ').slice(0, 4_087)}.` },
+    fallback: { kind: 'source-list', summary: `Sources: ${sources.map(source => source.title).join(', ')}.`.slice(0, 4_096) },
   }
 }
 
@@ -130,12 +130,19 @@ export function createAskAdapter(options: AskAdapterOptions = {}): AdapterFactor
         async *stream(): AsyncIterableIterator<StreamChunk> {
           const content = createAssistantContentEncoder()
           try {
-            const response = await fetch(endpointWithParams(options), {
-              method: 'POST',
-              signal: AbortSignal.any([controller.signal, AbortSignal.timeout(30_000)]),
-              headers: { 'content-type': 'application/json' },
-              body: JSON.stringify({ messages: wireMessages(request.messages) }),
-            })
+            const connection = new AbortController()
+            const connectionTimeout = setTimeout(() => connection.abort(), 30_000)
+            let response: Response
+            try {
+              response = await fetch(endpointWithParams(options), {
+                method: 'POST',
+                signal: AbortSignal.any([controller.signal, connection.signal]),
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({ messages: wireMessages(request.messages) }),
+              })
+            } finally {
+              clearTimeout(connectionTimeout)
+            }
             if (!response.ok || !response.body) throw new Error(`Ask request failed (${response.status}).`)
 
             const reader = response.body.getReader()
@@ -185,6 +192,29 @@ export function createAskAdapter(options: AskAdapterOptions = {}): AdapterFactor
           }
         },
       }
+    },
+  }
+}
+
+export function createAskSessionMemory(key: string, maxMessages = 20): ChatMemory {
+  return {
+    async load() {
+      if (typeof sessionStorage === 'undefined') return []
+      const raw = sessionStorage.getItem(key)
+      if (!raw) return []
+      try {
+        return deserializeMessages(JSON.parse(raw))
+      } catch {
+        return []
+      }
+    },
+    async save(messages) {
+      if (typeof sessionStorage === 'undefined') return
+      sessionStorage.setItem(key, JSON.stringify(serializeMessages(messages.slice(-maxMessages))))
+    },
+    async clear() {
+      if (typeof sessionStorage === 'undefined') return
+      sessionStorage.removeItem(key)
     },
   }
 }
