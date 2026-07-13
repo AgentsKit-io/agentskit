@@ -644,6 +644,21 @@ importers:
 
   apps/registry:
     dependencies:
+      '@agentskit/chat':
+        specifier: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.1/agentskit-chat-0.1.0-alpha.1.tgz
+        version: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.1/agentskit-chat-0.1.0-alpha.1.tgz(@agentskit/core@packages+core)
+      '@agentskit/chat-protocol':
+        specifier: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.1/agentskit-chat-protocol-0.1.0-alpha.1.tgz
+        version: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.1/agentskit-chat-protocol-0.1.0-alpha.1.tgz(@agentskit/core@packages+core)
+      '@agentskit/chat-react':
+        specifier: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.1/agentskit-chat-react-0.1.0-alpha.1.tgz
+        version: https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.1/agentskit-chat-react-0.1.0-alpha.1.tgz(@agentskit/core@packages+core)(@agentskit/react@packages+react)(react@19.2.7)
+      '@agentskit/core':
+        specifier: workspace:*
+        version: link:../../packages/core
+      '@agentskit/react':
+        specifier: workspace:*
+        version: link:../../packages/react
       fumadocs-core:
         specifier: ^16.11.1
         version: 16.11.1(@mdx-js/mdx@3.1.1)(@types/estree-jsx@1.0.5)(@types/hast@3.0.4)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.24.0(react@19.2.7))(next@16.2.9(@opentelemetry/api@1.9.1)(@playwright/test@1.61.1)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.101.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.4.3)

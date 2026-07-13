@@ -8,9 +8,16 @@
     "build": "next build",
     "test": "vitest run lib",
     "postinstall": "fumadocs-mdx",
-    "lint": "tsc --noEmit"
+    "lint": "tsc --noEmit",
+    "pretest": "pnpm --filter @agentskit/core build && pnpm --filter @agentskit/react build",
+    "test": "vitest run components/ask-chat/ask-adapter.test.ts"
   },
   "dependencies": {
+    "@agentskit/chat": "https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.1/agentskit-chat-0.1.0-alpha.1.tgz",
+    "@agentskit/chat-protocol": "https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.1/agentskit-chat-protocol-0.1.0-alpha.1.tgz",
+    "@agentskit/chat-react": "https://github.com/AgentsKit-io/agentskit-chat/releases/download/v0.1.0-alpha.1/agentskit-chat-react-0.1.0-alpha.1.tgz",
+    "@agentskit/core": "workspace:*",
+    "@agentskit/react": "workspace:*",
     "fumadocs-core": "^16.11.1",
     "fumadocs-mdx": "^15.1.0",
     "fumadocs-ui": "^16.11.1",

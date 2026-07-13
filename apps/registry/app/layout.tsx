@@ -5,6 +5,7 @@ import type { ReactNode } from 'react'
 import type { Metadata } from 'next'
 import Script from 'next/script'
 import { PostHogProvider } from './posthog-provider'
+import { RegistryAskWidget } from '@/components/ask-widget'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
@@ -35,7 +36,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body className="flex min-h-screen flex-col overflow-x-clip font-sans">
         <PostHogProvider>
-          <RootProvider search={{ options: { allowClear: true } }}>{children}</RootProvider>
+          <RootProvider search={{ options: { allowClear: true } }}>
+            {children}
+            <RegistryAskWidget />
+          </RootProvider>
         </PostHogProvider>
         <Script src="https://www.agentskit.io/ecosystem-bar.js" strategy="afterInteractive" data-current="registry" />
       </body>
