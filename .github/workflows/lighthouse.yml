@@ -89,7 +89,7 @@ jobs:
 
       - name: Build local production fallback
         if: steps.usable_preview.outputs.url == ''
-        run: pnpm --filter @agentskit/docs-next build
+        run: pnpm --filter @agentskit/docs-next... build
 
       - name: Start local production fallback
         id: local
