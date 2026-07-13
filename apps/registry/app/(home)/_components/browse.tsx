@@ -108,7 +108,6 @@ export function Browse({ agents }: { agents: RegistryAgentSummary[] }) {
     }, 700)
     return () => window.clearTimeout(timer)
   }, [query, searchResultCount])
-
   function update(next: { q?: string; category?: string; reviewed?: boolean; runnable?: boolean; sort?: CatalogSort; compare?: string[]; page?: number }) {
     const params = new URLSearchParams(searchParams.toString())
     for (const [key, value] of Object.entries(next)) {
