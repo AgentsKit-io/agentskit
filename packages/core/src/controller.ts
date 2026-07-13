@@ -29,10 +29,12 @@ export function createChatController(initial: ChatConfig): ChatController {
   let lifecycle = createToolLifecycle(toolMap)
   let hydrated = false
   let active = false
+  let saving = false
+  let queued: [Message[], ChatConfig['memory']] | undefined
   const authorize: NonNullable<ChatConfig['authorizeToolCall']> = async (call, context) => {
     const fn = config.authorizeToolCall
     const decision = fn ? await fn(call, context) : { allowed: true }
-    return fn === config.authorizeToolCall && toolMap.get(call.name) === context.tool ? decision : { allowed: false }
+    return fn === config.authorizeToolCall && toolMap.get(call.name)?.execute === context.tool?.execute ? decision : { allowed: false }
   }
 
   const rebuild = (extraTools?: ToolDefinition[]) => {
@@ -64,14 +66,18 @@ export function createChatController(initial: ChatConfig): ChatController {
   }
 
   const persist = async (messages: Message[]) => {
-    try {
-      await config.memory?.save(messages)
-      if (config.memory) {
-        emitter.emit({ type: 'memory:save', messageCount: messages.length })
-      }
-    } catch {
-      // Memory failures should not break chat usage.
+    queued = [messages, config.memory]
+    if (saving) return
+    saving = true
+    while (queued) {
+      const [next, memory] = queued
+      queued = undefined
+      try {
+        await memory?.save(next)
+        if (memory) emitter.emit({ type: 'memory:save', messageCount: next.length })
+      } catch {}
     }
+    saving = false
   }
 
   const hydrate = async () => {
@@ -110,20 +116,32 @@ export function createChatController(initial: ChatConfig): ChatController {
     }))
   }
 
-  const handleCall = async (aid: string, chunk: StreamChunk) => {
-    if (!chunk.toolCall) return
+  const runTool = (tool: ToolDefinition | undefined, call: ToolCall, onPartial: (result: string) => void) => execute({
+    tool,
+    toolCall: call,
+    context: { messages: state.messages, call },
+    emitter,
+    lifecycle,
+    validate: config.validateArgs,
+    authorize,
+    onPartial,
+  })
 
-    const args = safeParseArgs(chunk.toolCall.args)
-    const tool = toolMap.get(chunk.toolCall.name)
+  const handleCall = async (aid: string, chunk: StreamChunk, g: number) => {
+    const call = chunk.toolCall
+    if (!call) return
+
+    const tool = toolMap.get(call.name)
     const toolCall: ToolCall = {
-      id: chunk.toolCall.id,
-      name: chunk.toolCall.name,
-      args,
-      result: chunk.toolCall.result,
+      id: call.id,
+      name: call.name,
+      args: safeParseArgs(call.args),
+      result: call.result,
       status: tool?.requiresConfirmation ? 'requires_confirmation' : 'pending',
     }
 
     await auth(authorize, toolCall, { messages: state.messages, tool, phase: 'propose' })
+    if (g !== gen) return
 
     setMsg(aid, message => ({
       ...message,
@@ -131,49 +149,27 @@ export function createChatController(initial: ChatConfig): ChatController {
     }))
 
     await config.onToolCall?.(toolCall, { messages: state.messages, tool })
+    if (g !== gen) return
 
     // Handle requiresConfirmation: controller keeps existing behavior —
     // sets status to 'requires_confirmation' and waits for external confirmation
     if (tool?.requiresConfirmation) {
-      if (chunk.toolCall.result) {
+      if (call.result) {
         patchCall(aid, toolCall.id, {
-          result: chunk.toolCall.result,
+          result: call.result,
           status: 'complete',
         })
       }
       return
     }
 
-    // No tool or no execute — use executeSafeTool for consistent error handling
-    if (!tool?.execute) {
-      const outcome = await execute({
-        tool,
-        toolCall,
-        context: { messages: state.messages, call: toolCall },
-        emitter,
-        lifecycle,
-      })
-      patchCall(aid, toolCall.id, {
-        status: 'error',
-        error: outcome.error,
-      })
-      return
-    }
+    if (tool?.execute) patchCall(aid, toolCall.id, { status: 'running' })
 
-    patchCall(aid, toolCall.id, { status: 'running' })
-
-    const outcome = await execute({
-      tool,
-      toolCall,
-      context: { messages: state.messages, call: toolCall },
-      emitter,
-      lifecycle,
-      validate: config.validateArgs,
-      authorize,
-      onPartial: (partial) => {
+    const outcome = await runTool(tool, toolCall, partial => {
+        if (g !== gen) return
         patchCall(aid, toolCall.id, { result: partial })
-      },
     })
+    if (g !== gen) return
 
     patchCall(aid, toolCall.id, {
       status: outcome.status === 'complete' ? 'complete' : 'error',
@@ -181,14 +177,6 @@ export function createChatController(initial: ChatConfig): ChatController {
       error: outcome.error,
     })
   }
-
-  const LIMIT = 5
-
-  const settled = (status: ToolCall['status']): boolean =>
-    status === 'complete' || status === 'error'
-
-  const pending = (status: ToolCall['status']): boolean =>
-    status === 'pending' || status === 'running' || status === 'requires_confirmation'
 
   const run = async (aid: string, q: string, g: number): Promise<boolean> => {
     await activate()
@@ -198,34 +186,33 @@ export function createChatController(initial: ChatConfig): ChatController {
 
     const began = Date.now()
     let first = false
-    let errored = false
-
     emitter.emit({ type: 'llm:start', messageCount: request.messages.length })
 
     await consumeStream(source, {
       onText(text) {
-        if (!first) {
+        if (g !== gen) return; if (!first) {
           emitter.emit({ type: 'llm:first-token', latencyMs: Date.now() - began })
           first = true
         }
         setMsg(aid, message => ({ ...message, content: text }))
       },
       onReasoning(text) {
-        setMsg(aid, message => ({
+        if (g !== gen) return; setMsg(aid, message => ({
           ...message,
           metadata: { ...message.metadata, reasoning: text },
         }))
       },
       async onToolCall(chunk) {
-        await handleCall(aid, chunk)
+        if (g !== gen) return; await handleCall(aid, chunk, g)
       },
       onToolResult(content) {
-        setMsg(aid, message => ({
+        if (g !== gen) return; setMsg(aid, message => ({
           ...message,
           metadata: { ...message.metadata, toolResult: content },
         }))
       },
       onUsage(usage) {
+        if (g !== gen) return
         // Attach to this turn's assistant message + accumulate the session total.
         set(current => ({
           ...current,
@@ -242,18 +229,18 @@ export function createChatController(initial: ChatConfig): ChatController {
         }))
       },
       onError(error) {
-        errored = true
+        if (g !== gen) return; gen++
         setMsg(aid, message => ({ ...message, status: 'error' }))
         set(current => ({ ...current, status: 'error', error }))
         emitter.emit({ type: 'error', error })
         config.onError?.(error)
       },
       onDone(text) {
-        emitter.emit({ type: 'llm:end', content: text, durationMs: Date.now() - began })
+        if (g !== gen) return; emitter.emit({ type: 'llm:end', content: text, durationMs: Date.now() - began })
       },
     })
 
-    return g === gen && !errored
+    return g === gen
   }
 
   const finalize = (aid: string) => {
@@ -304,23 +291,21 @@ export function createChatController(initial: ChatConfig): ChatController {
    * wait for user confirmation.
    */
   const resume = async (aid: string, g: number) => {
-    const max = config.maxToolIterations ?? LIMIT
     let id = aid
 
-    for (let iteration = 0; iteration < max; iteration++) {
+    for (let remaining = config.maxToolIterations ?? 5; remaining > 0; remaining--) {
       const assistant = state.messages.find(message => message.id === id)
       const calls = assistant?.toolCalls ?? []
-      const waits = calls.some(call => pending(call.status))
-      const complete = calls.filter(call => settled(call.status))
+      const waits = calls.some(call => call.status !== 'complete' && call.status !== 'error')
 
       // Nothing to feed back, or something still awaiting confirmation —
       // stop here; the caller drives the next step.
-      if (complete.length === 0 || waits) {
+      if (!calls.length || waits) {
         finalize(id)
         return
       }
 
-      id = continueTools(id, complete)
+      id = continueTools(id, calls)
       const ok = await run(id, '', g)
       if (!ok) return
     }
@@ -346,6 +331,7 @@ export function createChatController(initial: ChatConfig): ChatController {
     },
     async send(text) {
       if (!text.trim()) return
+      if (state.status === 'streaming') controller.stop()
       gen++
 
       const user = message({ role: 'user', content: text })
@@ -364,7 +350,9 @@ export function createChatController(initial: ChatConfig): ChatController {
     stop() {
       gen++
       source?.abort()
-      set(current => ({ ...current, status: 'idle' }))
+      const stopped = state.messages.filter(message => message.status === 'streaming')
+      set(current => ({ ...current, messages: current.messages.map(message => message.status === 'streaming' ? { ...message, status: 'complete' as const } : message), status: 'idle' }))
+      stopped.forEach(message => config.onMessage?.({ ...message, status: 'complete' }))
     },
     async retry() {
       const messages = [...state.messages]
@@ -505,18 +493,7 @@ export function createChatController(initial: ChatConfig): ChatController {
 
       patchCall(msg.id, tid, { status: 'running' })
 
-      const outcome = await execute({
-        tool,
-        toolCall: tc,
-        context: { messages: state.messages, call: tc },
-        emitter,
-        lifecycle,
-        validate: config.validateArgs,
-        authorize,
-        onPartial: (partial) => {
-          patchCall(msg.id, tid, { result: partial })
-        },
-      })
+      const outcome = await runTool(tool, tc, partial => patchCall(msg.id, tid, { result: partial }))
 
       patchCall(msg.id, tid, {
         status: outcome.status === 'complete' ? 'complete' : 'error',
@@ -545,7 +522,6 @@ export function createChatController(initial: ChatConfig): ChatController {
       config = { ...config, ...nextConfig }
       active = false
       rebuild()
-      lifecycle = createToolLifecycle(toolMap)
       void activate()
       void hydrate()
     },

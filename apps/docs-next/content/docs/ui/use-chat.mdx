@@ -40,6 +40,14 @@ type ChatConfig = {
 }
 ```
 
+## Cancellation
+
+`stop()` aborts the active source, returns the controller to `idle`, and
+settles every active assistant message as `complete`. Late stream and tool
+updates from the stopped turn are ignored, and memory receives the settled
+snapshot instead of a stale `streaming` message. Calling `stop()` again is
+safe and has no additional effect.
+
 ## Per-framework usage
 
 | Framework | Import | Shape |
