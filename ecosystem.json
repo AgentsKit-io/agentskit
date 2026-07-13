@@ -1,65 +1,178 @@
 {
-  "schemaVersion": 1,
-  "$comment": "Canonical registry of the AgentsKit ecosystem web properties. Owned in this repo (the hub). Other repos receive a generated copy via scripts/sync-ecosystem.mjs. Drives the ecosystem bar, cross-link anchors, and the llms.txt ecosystem block. Edit here, never in a copy.",
-  "properties": [
+  "schemaVersion": 2,
+  "$comment": "Canonical registry of AgentsKit ecosystem products. Owned in this repository and distributed as generated copies. Stable identity lives here; numeric values live in the generated ecosystem-claims ledger.",
+  "parentBrand": {
+    "id": "agentskit",
+    "name": "AgentsKit"
+  },
+  "products": [
     {
       "id": "agentskit",
       "name": "AgentsKit",
-      "barLabel": "AgentsKit",
-      "domain": "www.agentskit.io",
-      "url": "https://www.agentskit.io",
-      "repo": "AgentsKit-io/agentskit",
-      "tagline": "The most complete agent toolkit for JavaScript.",
+      "shortName": "AgentsKit",
       "kind": "library",
+      "role": "foundation",
+      "promise": "Build agents without gluing many libraries together.",
+      "maturity": "beta",
+      "repo": "AgentsKit-io/agentskit",
       "accent": "#2EA043",
-      "llms": "https://www.agentskit.io/llms.txt",
-      "stats": "https://www.agentskit.io/api/stats.json"
+      "surfaces": {
+        "home": "https://www.agentskit.io",
+        "docs": "https://www.agentskit.io/docs",
+        "llms": "https://www.agentskit.io/llms.txt",
+        "stats": "https://www.agentskit.io/api/stats.json",
+        "documentation": "fumadocs",
+        "chat": "custom"
+      },
+      "navigation": {
+        "showInBar": true,
+        "order": 0,
+        "next": ["registry", "agentskit-chat", "playbook", "doc-bridge", "akos"]
+      }
     },
     {
-      "id": "akos",
-      "name": "AgentsKit OS",
-      "barLabel": "AKOS",
-      "domain": "akos.agentskit.io",
-      "url": "https://akos.agentskit.io",
-      "repo": "AgentsKit-io/agentskit-os",
-      "tagline": "The operating system for AI agents in production.",
-      "kind": "product",
-      "accent": "#34D399",
-      "llms": "https://akos.agentskit.io/llms.txt",
-      "stats": "https://akos.agentskit.io/api/stats.json"
+      "id": "registry",
+      "name": "AgentsKit Registry",
+      "shortName": "Registry",
+      "kind": "registry",
+      "role": "starting-point",
+      "promise": "Copy ready-made agents and own the source.",
+      "maturity": "beta",
+      "repo": "AgentsKit-io/agentskit-registry",
+      "accent": "#58A6FF",
+      "surfaces": {
+        "home": "https://registry.agentskit.io",
+        "docs": "https://registry.agentskit.io/docs",
+        "llms": "https://registry.agentskit.io/llms.txt",
+        "stats": "https://registry.agentskit.io/r/index.json",
+        "documentation": "fumadocs",
+        "chat": "custom"
+      },
+      "navigation": {
+        "showInBar": true,
+        "order": 1,
+        "next": ["agentskit", "playbook", "agentskit-chat"]
+      }
+    },
+    {
+      "id": "agentskit-chat",
+      "name": "AgentsKit Chat",
+      "shortName": "Chat",
+      "kind": "framework",
+      "role": "experience",
+      "promise": "Define one agent experience and deliver it across interfaces.",
+      "maturity": "alpha",
+      "repo": "AgentsKit-io/agentskit-chat",
+      "accent": "#F59E0B",
+      "surfaces": {
+        "home": "https://github.com/AgentsKit-io/agentskit-chat",
+        "docs": "https://github.com/AgentsKit-io/agentskit-chat/tree/main/docs",
+        "documentation": "repository",
+        "chat": "none"
+      },
+      "navigation": {
+        "showInBar": true,
+        "order": 2,
+        "next": ["agentskit", "registry", "doc-bridge"]
+      }
     },
     {
       "id": "playbook",
       "name": "Agents Playbook",
-      "barLabel": "Playbook",
-      "domain": "playbook.agentskit.io",
-      "url": "https://playbook.agentskit.io",
-      "repo": "AgentsKit-io/agents-playbook",
-      "tagline": "Best practices for building production AI agents.",
+      "shortName": "Playbook",
       "kind": "methodology",
+      "role": "discipline",
+      "promise": "Make agents ship code a human would actually merge.",
+      "maturity": "stable",
+      "repo": "AgentsKit-io/agents-playbook",
       "accent": "#8B5CF6",
-      "llms": "https://playbook.agentskit.io/llms.txt",
-      "stats": "https://playbook.agentskit.io/api/stats.json"
+      "surfaces": {
+        "home": "https://playbook.agentskit.io",
+        "docs": "https://playbook.agentskit.io/docs",
+        "llms": "https://playbook.agentskit.io/llms.txt",
+        "stats": "https://playbook.agentskit.io/api/stats.json",
+        "documentation": "fumadocs",
+        "chat": "custom"
+      },
+      "navigation": {
+        "showInBar": true,
+        "order": 3,
+        "next": ["doc-bridge", "code-review", "agentskit"]
+      }
     },
     {
-      "id": "registry",
-      "name": "Registry",
-      "barLabel": "Registry",
-      "domain": "registry.agentskit.io",
-      "url": "https://registry.agentskit.io",
-      "repo": "AgentsKit-io/agentskit-registry",
-      "tagline": "The shadcn for agents.",
-      "kind": "registry",
-      "accent": "#58A6FF",
-      "llms": "https://registry.agentskit.io/llms.txt",
-      "stats": "https://registry.agentskit.io/r/index.json"
+      "id": "doc-bridge",
+      "name": "Doc Bridge",
+      "shortName": "Doc Bridge",
+      "kind": "developer-tool",
+      "role": "understanding",
+      "promise": "Turn repository documentation into executable agent handoffs.",
+      "maturity": "stable",
+      "repo": "AgentsKit-io/doc-bridge",
+      "accent": "#06B6D4",
+      "surfaces": {
+        "home": "https://agentskit-io.github.io/doc-bridge/",
+        "docs": "https://github.com/AgentsKit-io/doc-bridge/tree/master/docs",
+        "llms": "https://raw.githubusercontent.com/AgentsKit-io/doc-bridge/master/llms.txt",
+        "documentation": "repository",
+        "chat": "none"
+      },
+      "navigation": {
+        "showInBar": true,
+        "order": 4,
+        "next": ["playbook", "code-review", "agentskit-chat"]
+      }
+    },
+    {
+      "id": "code-review",
+      "name": "AgentsKit Code Review",
+      "shortName": "Code Review",
+      "kind": "developer-tool",
+      "role": "verification",
+      "promise": "Run deep, low-noise review with the model already in use.",
+      "maturity": "alpha",
+      "repo": "AgentsKit-io/code-review-cli",
+      "accent": "#F97316",
+      "surfaces": {
+        "home": "https://github.com/AgentsKit-io/code-review-cli",
+        "docs": "https://github.com/AgentsKit-io/code-review-cli#readme",
+        "documentation": "repository",
+        "chat": "none"
+      },
+      "navigation": {
+        "showInBar": false,
+        "next": ["playbook", "agentskit", "doc-bridge"]
+      }
+    },
+    {
+      "id": "akos",
+      "name": "AgentsKit OS",
+      "shortName": "AKOS",
+      "kind": "product",
+      "role": "operation",
+      "promise": "Run and govern agents in production.",
+      "maturity": "stable",
+      "repo": "AgentsKit-io/agentskit-os",
+      "accent": "#34D399",
+      "surfaces": {
+        "home": "https://akos.agentskit.io",
+        "docs": "https://akos.agentskit.io/docs",
+        "llms": "https://akos.agentskit.io/llms.txt",
+        "stats": "https://akos.agentskit.io/api/stats.json",
+        "documentation": "fumadocs",
+        "chat": "none"
+      },
+      "navigation": {
+        "showInBar": true,
+        "order": 5,
+        "next": ["agentskit", "registry", "playbook"]
+      }
     }
   ],
   "builder": {
     "id": "emersonbraun",
     "name": "Emerson Braun",
-    "domain": "emersonbraun.dev",
     "url": "https://emersonbraun.dev",
-    "$comment": "Link-source only. The four product properties do NOT link back here (no personal attribution on product surfaces). Not shown in the ecosystem bar as a peer; optional 'built by' is the builder's own choice on his site."
+    "$comment": "Link-source only. The builder is not a peer product and is not shown in shared product navigation."
   }
 }

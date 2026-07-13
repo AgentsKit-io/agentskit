@@ -14,10 +14,11 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { join, dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { parseEcosystemManifest } from './lib/ecosystem-contract.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const canonical = readFileSync(join(root, 'ecosystem.json'), 'utf8')
-const ecosystem = JSON.parse(canonical)
+const ecosystem = parseEcosystemManifest(JSON.parse(canonical))
 const check = process.argv.includes('--check')
 
 let drift = false
@@ -40,12 +41,14 @@ for (const rel of ['apps/docs-next/lib/ecosystem.json', 'apps/landing/lib/ecosys
 
 // 2. Regenerate the ecosystem-bar PROPS block from the same registry (single
 //    source — the bar's labels/hosts/urls never drift from ecosystem.json).
-//    Funnel order: libs → registry → akos → playbook.
-const BAR_ORDER = ['agentskit', 'registry', 'akos', 'playbook']
-const byId = Object.fromEntries(ecosystem.properties.map((p) => [p.id, p]))
-const propLines = BAR_ORDER.map((id) => {
-  const p = byId[id]
-  return `    { id: '${id}', label: '${p.barLabel}', host: '${p.domain}', url: '${p.url}' },`
+//    Product order is explicit in the manifest. Repository-only products may
+//    opt out until they have a suitable shared-navigation surface.
+const barProducts = ecosystem.products
+  .filter((product) => product.navigation.showInBar)
+  .sort((a, b) => a.navigation.order - b.navigation.order)
+const propLines = barProducts.map((product) => {
+  const host = new URL(product.surfaces.home).host
+  return `    { id: ${JSON.stringify(product.id)}, label: ${JSON.stringify(product.shortName)}, host: ${JSON.stringify(host)}, url: ${JSON.stringify(product.surfaces.home)} },`
 }).join('\n')
 const barRel = 'apps/docs-next/public/ecosystem-bar.js'
 const barPath = join(root, barRel)

@@ -1,0 +1,187 @@
+{
+  "schemaVersion": 1,
+  "manifestSchemaVersion": 2,
+  "products": [
+    {
+      "productId": "agentskit",
+      "source": {
+        "type": "endpoint",
+        "url": "https://www.agentskit.io/api/stats.json"
+      },
+      "verification": "verified",
+      "claims": [
+        {
+          "id": "packages",
+          "value": 24,
+          "noun": "packages",
+          "conservativeFloor": 24,
+          "evidence": {
+            "type": "repository-derivation",
+            "repo": "AgentsKit-io/agentskit",
+            "path": "scripts/compute-stats.mjs",
+            "summary": "Published non-private @agentskit/* package directories."
+          }
+        },
+        {
+          "id": "framework-bindings",
+          "value": 7,
+          "noun": "framework bindings",
+          "evidence": {
+            "type": "repository-derivation",
+            "repo": "AgentsKit-io/agentskit",
+            "path": "scripts/compute-stats.mjs",
+            "summary": "Published framework bindings from the supported binding list."
+          }
+        },
+        {
+          "id": "native-adapters",
+          "value": 25,
+          "noun": "native adapters",
+          "conservativeFloor": 25,
+          "evidence": {
+            "type": "repository-derivation",
+            "repo": "AgentsKit-io/agentskit",
+            "path": "scripts/compute-stats.mjs",
+            "summary": "Provider exports in the adapters package excluding composition helpers."
+          }
+        },
+        {
+          "id": "integrations",
+          "value": 50,
+          "noun": "integrations",
+          "conservativeFloor": 50,
+          "evidence": {
+            "type": "repository-derivation",
+            "repo": "AgentsKit-io/agentskit",
+            "path": "scripts/compute-stats.mjs",
+            "summary": "Service directories in the integrations catalog."
+          }
+        },
+        {
+          "id": "catalog-providers",
+          "value": 140,
+          "noun": "providers",
+          "conservativeFloor": 140,
+          "evidence": {
+            "type": "repository-derivation",
+            "repo": "AgentsKit-io/agentskit",
+            "path": "scripts/compute-stats.mjs",
+            "summary": "Providers in the committed model catalog snapshot."
+          }
+        },
+        {
+          "id": "catalog-models",
+          "value": 5162,
+          "noun": "models",
+          "conservativeFloor": 5000,
+          "evidence": {
+            "type": "repository-derivation",
+            "repo": "AgentsKit-io/agentskit",
+            "path": "scripts/compute-stats.mjs",
+            "summary": "Models in the committed provider catalog snapshot."
+          }
+        },
+        {
+          "id": "skills",
+          "value": 21,
+          "noun": "ready-made skills",
+          "conservativeFloor": 21,
+          "evidence": {
+            "type": "repository-derivation",
+            "repo": "AgentsKit-io/agentskit",
+            "path": "scripts/compute-stats.mjs",
+            "summary": "Concrete skill modules excluding registry and composition helpers."
+          }
+        },
+        {
+          "id": "memory-backends",
+          "value": 17,
+          "noun": "memory backends",
+          "evidence": {
+            "type": "repository-derivation",
+            "repo": "AgentsKit-io/agentskit",
+            "path": "scripts/compute-stats.mjs",
+            "summary": "Concrete memory modules excluding contracts and helpers."
+          }
+        },
+        {
+          "id": "recipes",
+          "value": 69,
+          "noun": "recipes",
+          "conservativeFloor": 69,
+          "evidence": {
+            "type": "repository-derivation",
+            "repo": "AgentsKit-io/agentskit",
+            "path": "scripts/compute-stats.mjs",
+            "summary": "Published recipe MDX pages excluding indexes and metadata."
+          }
+        },
+        {
+          "id": "core-size-kb-gzip",
+          "value": 10,
+          "noun": "KB gzipped core budget",
+          "evidence": {
+            "type": "repository-derivation",
+            "repo": "AgentsKit-io/agentskit",
+            "path": "scripts/compute-stats.mjs",
+            "summary": "Configured ESM gzip size budget for @agentskit/core."
+          }
+        }
+      ]
+    },
+    {
+      "productId": "registry",
+      "source": {
+        "type": "endpoint",
+        "url": "https://registry.agentskit.io/r/index.json"
+      },
+      "verification": "declared",
+      "claims": []
+    },
+    {
+      "productId": "agentskit-chat",
+      "source": {
+        "type": "repository",
+        "repo": "AgentsKit-io/agentskit-chat"
+      },
+      "verification": "declared",
+      "claims": []
+    },
+    {
+      "productId": "playbook",
+      "source": {
+        "type": "endpoint",
+        "url": "https://playbook.agentskit.io/api/stats.json"
+      },
+      "verification": "declared",
+      "claims": []
+    },
+    {
+      "productId": "doc-bridge",
+      "source": {
+        "type": "repository",
+        "repo": "AgentsKit-io/doc-bridge"
+      },
+      "verification": "declared",
+      "claims": []
+    },
+    {
+      "productId": "code-review",
+      "source": {
+        "type": "repository",
+        "repo": "AgentsKit-io/code-review-cli"
+      },
+      "verification": "declared",
+      "claims": []
+    },
+    {
+      "productId": "akos",
+      "source": {
+        "type": "endpoint",
+        "url": "https://akos.agentskit.io/api/stats.json"
+      },
+      "verification": "declared",
+      "claims": []
+    }
+  ]
+}

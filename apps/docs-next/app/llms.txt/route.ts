@@ -9,9 +9,16 @@ const SITE = 'https://www.agentskit.io'
 /** Sibling-property discovery block — generated from the canonical ecosystem.json. */
 function ecosystemLines(): string[] {
   const out = ['## The AgentsKit ecosystem', '']
-  for (const p of ecosystem.properties as Array<{ id: string; name: string; tagline: string; url: string; llms: string }>) {
-    if (p.id === 'agentskit') continue
-    out.push(`- [${p.name}](${p.url}): ${p.tagline} llms.txt: ${p.llms}`)
+  const products = ecosystem.products as Array<{
+    id: string
+    name: string
+    promise: string
+    surfaces: { home?: string; llms?: string }
+  }>
+  for (const product of products) {
+    if (product.id === 'agentskit' || !product.surfaces.home) continue
+    const llms = product.surfaces.llms ? ` llms.txt: ${product.surfaces.llms}` : ''
+    out.push(`- [${product.name}](${product.surfaces.home}): ${product.promise}${llms}`)
   }
   out.push('')
   return out

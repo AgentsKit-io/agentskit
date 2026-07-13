@@ -3,8 +3,9 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
-    "prebuild": "node scripts/build-dependencies.mjs && node scripts/gen-api.mjs && node scripts/gen-changelog.mjs && node scripts/gen-performance.mjs && node scripts/gen-ask-context.mjs && node ../../scripts/gen-ecosystem-stats.mjs && node ../../scripts/sync-ecosystem.mjs && node ../../scripts/sync-brand.mjs --property agentskit --out apps/docs-next/app/brand-tokens.css",
+    "prebuild": "node scripts/build-dependencies.mjs && node scripts/gen-api.mjs && node scripts/gen-changelog.mjs && node scripts/gen-performance.mjs && node scripts/gen-ask-context.mjs && node ../../scripts/gen-ecosystem-stats.mjs && node ../../scripts/gen-ecosystem-claims.mjs && node ../../scripts/sync-ecosystem.mjs && node ../../scripts/sync-brand.mjs --property agentskit --out apps/docs-next/app/brand-tokens.css",
     "gen:stats": "node ../../scripts/gen-ecosystem-stats.mjs",
+    "gen:claims": "node ../../scripts/gen-ecosystem-claims.mjs",
     "gen:ask-context": "node scripts/gen-ask-context.mjs",
     "gen:changelog": "node scripts/gen-changelog.mjs",
     "gen:performance": "node scripts/gen-performance.mjs",
