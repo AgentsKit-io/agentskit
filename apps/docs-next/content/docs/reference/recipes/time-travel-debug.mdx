@@ -21,7 +21,8 @@ npm install -D @agentskit/eval
 ## Step through a session
 
 ```ts
-import { loadCassette, createTimeTravelSession } from '@agentskit/eval/replay'
+import { createTimeTravelSession } from '@agentskit/eval/replay'
+import { loadCassette } from '@agentskit/eval/replay/io'
 
 const cassette = await loadCassette('./fixtures/bug-427.cassette.json')
 const session = createTimeTravelSession(cassette)
@@ -44,7 +45,8 @@ The workflow:
 4. Feed the forked cassette into `createReplayAdapter` to re-run.
 
 ```ts
-import { createReplayAdapter, loadCassette, createTimeTravelSession } from '@agentskit/eval/replay'
+import { createReplayAdapter, createTimeTravelSession } from '@agentskit/eval/replay'
+import { loadCassette } from '@agentskit/eval/replay/io'
 import { createRuntime } from '@agentskit/runtime'
 
 const session = createTimeTravelSession(await loadCassette('./fixtures/bug-427.cassette.json'))

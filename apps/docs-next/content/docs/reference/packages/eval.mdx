@@ -45,7 +45,8 @@ That feedback loop is what lets a team keep improving an agent without losing co
 ## Surface
 
 - `runEval({ agent, suite })`.
-- `/replay`: `createRecordingAdapter` · `createReplayAdapter` · cassettes · `createTimeTravelSession` · `replayAgainst` · `summarizeReplay`.
+- `/replay`: universal in-memory `createRecordingAdapter` · `createReplayAdapter` · cassettes · `createTimeTravelSession` · `replayAgainst` · `summarizeReplay`.
+- `/replay/io`: Node-only `saveCassette` · `loadCassette`. Browser and native applications should persist serialized cassettes through a host-owned storage adapter.
 - `/snapshot`: `matchPromptSnapshot`.
 - `/diff`: `promptDiff` · `attributePromptChange` · `formatDiff`.
 - `/ci`: `renderJUnit` · `renderMarkdown` · `renderGitHubAnnotations` · `reportToCi`.

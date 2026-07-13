@@ -75,6 +75,22 @@ console.log(`Passed: ${result.passed}/${result.totalCases}`)
 - CI exit codes — non-zero on failure for pipeline gating
 - Pair with `@agentskit/observability` to trace failed cases
 
+## Deterministic replay
+
+Import recording, replay, cassette serialization, time travel, and comparison APIs from `@agentskit/eval/replay`. That entry is safe for Node, browsers, Expo, and React Native; browser and native package conditions exclude filesystem code.
+
+Node applications that persist cassettes to disk should import `saveCassette` and `loadCassette` from the explicit Node-only subpath:
+
+```ts
+import { createCassette } from '@agentskit/eval/replay'
+import { saveCassette, loadCassette } from '@agentskit/eval/replay/io'
+
+await saveCassette('./fixtures/session.json', createCassette())
+const cassette = await loadCassette('./fixtures/session.json')
+```
+
+The original Node exports from `@agentskit/eval/replay` remain available for compatibility. Browser and native hosts should combine `serializeCassette` or `parseCassette` with their own storage APIs.
+
 ## Ecosystem
 
 | Package | Role |

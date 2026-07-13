@@ -24,7 +24,8 @@ Wrap any real adapter. Every streamed chunk is captured into a
 `Cassette` object you can persist to disk.
 
 ```ts title="record-session.ts"
-import { createRecordingAdapter, saveCassette } from '@agentskit/eval/replay'
+import { createRecordingAdapter } from '@agentskit/eval/replay'
+import { saveCassette } from '@agentskit/eval/replay/io'
 import { createRuntime } from '@agentskit/runtime'
 import { anthropic } from '@agentskit/adapters'
 
@@ -43,7 +44,8 @@ In tests — or when you're iterating on a fix — swap the real adapter
 for the cassette. No API keys, no latency, no flake.
 
 ```ts title="bug-427.test.ts"
-import { createReplayAdapter, loadCassette } from '@agentskit/eval/replay'
+import { createReplayAdapter } from '@agentskit/eval/replay'
+import { loadCassette } from '@agentskit/eval/replay/io'
 import { createRuntime } from '@agentskit/runtime'
 
 const cassette = await loadCassette('./fixtures/bug-427.cassette.json')
@@ -52,6 +54,8 @@ const runtime = createRuntime({ adapter: createReplayAdapter(cassette) })
 const result = await runtime.run('Summarize the quarterly report')
 expect(result.content).toContain('Q3 revenue')
 ```
+
+`@agentskit/eval/replay/io` is Node-only. Browser, Expo, and React Native applications can use `serializeCassette` and `parseCassette` from the universal replay entry, then delegate persistence to host storage.
 
 ## Matching modes
 
