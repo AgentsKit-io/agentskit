@@ -37,7 +37,7 @@ product declares:
 - brand accent;
 - optional home, docs, `llms.txt`, and stats surfaces;
 - documentation mode (`fumadocs` or `repository`);
-- chat mode (`agentschat` or `none`);
+- chat mode (`agentschat`, transitional `custom`, or `none`);
 - whether and where it appears in shared navigation;
 - contextual next-product IDs.
 
@@ -78,6 +78,10 @@ v2 parser and navigation projection.
 The existing `/api/stats.json` contract remains property-specific and backward compatible.
 The claims ledger complements it; it does not rename or remove current count fields.
 
+During the cross-repository migration, v2 also retains the deprecated v1 `properties`
+projection for AgentsKit, Registry, Playbook, and AKOS. Validation keeps it aligned with
+`products`; removal requires a coordinated v3 after all sibling consumers migrate.
+
 ## Rationale
 
 1. **Extend what already works.** The repository already has derivation, snapshots, copies,
@@ -106,7 +110,7 @@ The claims ledger complements it; it does not rename or remove current count fie
 
 ### Negative
 
-- v1 consumers must migrate from `properties` to `products` when they receive the v2 copy.
+- v1 consumers remain supported while migrating from `properties` to `products`.
 - Product metadata is intentionally more verbose than the current web-property registry.
 - The first claims ledger is incomplete for sibling-owned counts until their migration
   slices publish authoritative data.

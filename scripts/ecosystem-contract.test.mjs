@@ -1,7 +1,7 @@
 import assert from 'node:assert/strict'
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import test from 'node:test'
+import { test } from 'vitest'
 import { computeStats, REPO_ROOT } from './compute-stats.mjs'
 import {
   buildEcosystemClaims,
@@ -32,6 +32,19 @@ test('repository-native products do not need a Fumadocs or chat deployment', () 
   const codeReview = parsed.products.find((product) => product.id === 'code-review')
   assert.equal(codeReview.surfaces.documentation, 'repository')
   assert.equal(codeReview.navigation.showInBar, false)
+})
+
+test('the v1 compatibility projection remains aligned with v2 products', () => {
+  const parsed = parseEcosystemManifest(manifest)
+  assert.deepEqual(parsed.properties.map((property) => property.id), ['agentskit', 'akos', 'playbook', 'registry'])
+  assert.equal(parsed.properties[0].url, parsed.products[0].surfaces.home)
+})
+
+test('v1 compatibility drift is rejected', () => {
+  assert.throws(
+    () => parseEcosystemManifest(changed((copy) => { copy.properties[0].tagline = 'stale' })),
+    /must match the v2 product projection/,
+  )
 })
 
 test('duplicate product identities are rejected', () => {

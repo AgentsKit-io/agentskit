@@ -27,7 +27,7 @@ const GATES = [
   ['for-agents docs coverage', 'check-for-agents-coverage.mjs'],
   ['ADR/RFC index sync', 'check-doc-index.mjs'],
   ['docs locale parity', 'check-intl-parity.mjs'],
-  ['ecosystem contract tests', 'ecosystem-contract.test.mjs'],
+  ['ecosystem contract tests', 'ecosystem-contract.test.mjs', [], 'vitest'],
   ['ecosystem count drift', 'check-count-drift.mjs'],
   ['ecosystem claims freshness', 'gen-ecosystem-claims.mjs', ['--check']],
   ['ecosystem registry sync', 'sync-ecosystem.mjs', ['--check']],
@@ -37,9 +37,13 @@ const GATES = [
 
 const failed = []
 
-for (const [label, script, args = []] of GATES) {
+for (const [label, script, args = [], runner = 'node'] of GATES) {
   process.stdout.write(`\n▶ ${label}\n`)
-  const res = spawnSync(process.execPath, [join(root, 'scripts', script), ...args], {
+  const executable = runner === 'vitest' ? 'pnpm' : process.execPath
+  const runnerArgs = runner === 'vitest'
+    ? ['exec', 'vitest', 'run', join(root, 'scripts', script), ...args]
+    : [join(root, 'scripts', script), ...args]
+  const res = spawnSync(executable, runnerArgs, {
     stdio: 'inherit',
     cwd: root,
   })

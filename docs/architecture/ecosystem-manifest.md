@@ -11,6 +11,10 @@ repositories, maturity, documentation and chat modes, public URLs, shared
 navigation order, and useful next-product links. It does not own numeric
 marketing claims.
 
+The root `properties` array is a deprecated v1 compatibility projection for sibling
+repositories that have not migrated yet. Do not add new consumers of it. Contract
+validation prevents it from drifting from the corresponding v2 products.
+
 The claim ledger owns exact values, optional conservative display floors, and
 the evidence used to derive each value. It is deterministic and contains no
 timestamps. The generator never fetches sibling sites at build time; a sibling

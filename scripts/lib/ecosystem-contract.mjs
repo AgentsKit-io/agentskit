@@ -2,6 +2,7 @@ const MATURITY = new Set(['planning', 'alpha', 'beta', 'stable', 'deprecated'])
 const DOCUMENTATION_MODES = new Set(['fumadocs', 'repository'])
 const CHAT_MODES = new Set(['agentschat', 'custom', 'none'])
 const SURFACE_KEYS = ['home', 'docs', 'llms', 'stats']
+const LEGACY_PRODUCT_IDS = ['agentskit', 'akos', 'playbook', 'registry']
 
 function fail(path, message) {
   throw new TypeError(`ecosystem contract: ${path} ${message}`)
@@ -103,6 +104,33 @@ export function parseEcosystemManifest(input) {
   for (const [index, product] of manifest.products.entries()) {
     for (const [nextIndex, nextId] of product.navigation.next.entries()) {
       if (!ids.has(nextId)) fail(`$.products[${index}].navigation.next[${nextIndex}]`, `references unknown product ${nextId}`)
+    }
+  }
+
+  if (!Array.isArray(manifest.properties)) fail('$.properties', 'must preserve the v1 compatibility array')
+  if (manifest.properties.length !== LEGACY_PRODUCT_IDS.length) {
+    fail('$.properties', `must contain the ${LEGACY_PRODUCT_IDS.length} v1 products`)
+  }
+  for (const [index, legacyId] of LEGACY_PRODUCT_IDS.entries()) {
+    const path = `$.properties[${index}]`
+    const property = object(manifest.properties[index], path)
+    if (property.id !== legacyId) fail(`${path}.id`, `must equal ${legacyId}`)
+    const product = manifest.products.find((candidate) => candidate.id === legacyId)
+    if (!product) fail(`${path}.id`, `references missing v2 product ${legacyId}`)
+    const expected = {
+      name: product.name,
+      barLabel: product.shortName,
+      domain: new URL(product.surfaces.home).host,
+      url: product.surfaces.home,
+      repo: product.repo,
+      tagline: product.promise,
+      kind: product.kind,
+      accent: product.accent,
+      llms: product.surfaces.llms,
+      stats: product.surfaces.stats,
+    }
+    for (const [key, value] of Object.entries(expected)) {
+      if (property[key] !== value) fail(`${path}.${key}`, 'must match the v2 product projection')
     }
   }
 

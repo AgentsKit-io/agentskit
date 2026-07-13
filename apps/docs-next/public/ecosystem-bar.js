@@ -15,7 +15,7 @@
     { id: "registry", label: "Registry", host: "registry.agentskit.io", url: "https://registry.agentskit.io" },
     { id: "agentskit-chat", label: "Chat", host: "github.com", url: "https://github.com/AgentsKit-io/agentskit-chat" },
     { id: "playbook", label: "Playbook", host: "playbook.agentskit.io", url: "https://playbook.agentskit.io" },
-    { id: "doc-bridge", label: "Doc Bridge", host: "agentskit-io.github.io", url: "https://agentskit-io.github.io/doc-bridge/" },
+    { id: "doc-bridge", label: "Doc Bridge", host: "github.com", url: "https://github.com/AgentsKit-io/doc-bridge" },
     { id: "akos", label: "AKOS", host: "akos.agentskit.io", url: "https://akos.agentskit.io" },
   ]
   // ecobar:props-end
