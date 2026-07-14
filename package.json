@@ -10,7 +10,7 @@
     "test:interop": "vitest run --config tests/vitest.config.ts",
     "test:e2e": "pnpm build && playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "test:ecosystem": "vitest run scripts/ecosystem-contract.test.mjs",
+    "test:ecosystem": "vitest run scripts/ecosystem-contract.test.mjs scripts/ecosystem-readiness.test.mjs",
     "test:reference-docs": "vitest run scripts/reference-docs-vertical.test.mjs",
     "test:deterministic-docs": "vitest run apps/docs-next/tests/deterministic-docs-answers.test.mjs",
     "test:readme-standard": "vitest run scripts/readme-standard.test.mjs",
@@ -34,7 +34,10 @@
     "release": "pnpm build && pnpm changeset publish",
     "check:publication-surface": "node scripts/check-publication-surface.mjs",
     "size": "pnpm build && size-limit",
-    "size:why": "pnpm build && size-limit --why"
+    "size:why": "pnpm build && size-limit --why",
+    "check:ecosystem-readiness": "node scripts/check-ecosystem-readiness.mjs",
+    "report:ecosystem-readiness": "node scripts/report-ecosystem-readiness.mjs",
+    "test:ecosystem-readiness": "vitest run scripts/ecosystem-readiness.test.mjs"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
