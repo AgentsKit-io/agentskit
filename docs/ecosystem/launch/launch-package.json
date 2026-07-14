@@ -1,0 +1,202 @@
+{
+  "schemaVersion": 1,
+  "protocol": "agentskit.ecosystem.launch",
+  "title": "AgentsKit ecosystem contributor funnel and community launch package",
+  "parentPrd": "https://github.com/AgentsKit-io/agentskit/issues/1198",
+  "issue": "https://github.com/AgentsKit-io/agentskit/issues/1205",
+  "preparedOn": "2026-07-14",
+  "status": "prepared",
+  "hitl": {
+    "publicPackageApproved": false,
+    "launchTimingApproved": false,
+    "approvedBy": null,
+    "approvedOn": null,
+    "notes": "Public launch timing requires ecosystem readiness overall=ready (#1204) and explicit HITL approval."
+  },
+  "readinessGate": {
+    "requiredOverall": "ready",
+    "artifact": "artifacts/ecosystem-readiness/latest.json",
+    "fallbackWhenMissing": "blocked"
+  },
+  "landing": {
+    "campaignUrl": "/community",
+    "docsUrl": "/docs/reference/contribute/newcomer-journey",
+    "announcementPath": "docs/ecosystem/launch/announcement.md",
+    "description": "One destination for understanding the ecosystem, running a demo, and choosing a contribution path."
+  },
+  "funnel": [
+    {
+      "id": "understand",
+      "title": "Understand the ecosystem",
+      "href": "/docs/get-started/architecture-at-a-glance",
+      "metric": "understanding"
+    },
+    {
+      "id": "try",
+      "title": "Run a three-command demo",
+      "href": "/docs/reference/contribute/newcomer-journey#three-command-demos",
+      "metric": "activation"
+    },
+    {
+      "id": "use",
+      "title": "Pick a product path",
+      "href": "/docs/get-started",
+      "metric": "use"
+    },
+    {
+      "id": "contribute",
+      "title": "Claim a starter issue",
+      "href": "/docs/reference/contribute/good-first-issues",
+      "metric": "contribution"
+    },
+    {
+      "id": "showcase",
+      "title": "Submit a showcase or recipe",
+      "href": "/docs/reference/contribute/recipe-submission",
+      "metric": "retention"
+    }
+  ],
+  "demos": [
+    {
+      "id": "first-agent",
+      "title": "First agent without a provider key",
+      "commands": [
+        "npm install @agentskit/core @agentskit/runtime tsx",
+        "cp apps/docs-next/fixtures/first-agent/agent.ts ./agent.ts",
+        "npx tsx agent.ts"
+      ],
+      "claims": [
+        { "productId": "agentskit", "claimId": "packages" },
+        { "productId": "agentskit", "claimId": "framework-bindings" }
+      ],
+      "verification": {
+        "type": "executable",
+        "command": [
+          "pnpm",
+          "--filter",
+          "@agentskit/docs-next",
+          "exec",
+          "tsx",
+          "fixtures/first-agent/agent.ts"
+        ],
+        "expectStdoutIncludes": "Agent ready. I received: Plan my first production agent"
+      }
+    },
+    {
+      "id": "registry-start",
+      "title": "Start from a ready agent (Registry path)",
+      "commands": [
+        "open https://registry.agentskit.io/agents",
+        "npx agentskit add research",
+        "cat agents/research/agent.ts | head"
+      ],
+      "claims": [{ "productId": "agentskit", "claimId": "packages" }],
+      "verification": {
+        "type": "manifest-product",
+        "productId": "registry"
+      }
+    },
+    {
+      "id": "playbook-discipline",
+      "title": "Apply Playbook discipline next",
+      "commands": [
+        "open https://playbook.agentskit.io/docs",
+        "curl -s https://playbook.agentskit.io/llms.txt | head -n 20",
+        "open https://playbook.agentskit.io/docs/onboard-your-agent"
+      ],
+      "claims": [{ "productId": "agentskit", "claimId": "recipes" }],
+      "verification": {
+        "type": "manifest-product",
+        "productId": "playbook"
+      }
+    }
+  ],
+  "contributionMatrix": {
+    "path": "docs/ecosystem/launch/contribution-matrix.json",
+    "requiredFiles": [
+      "CONTRIBUTING.md",
+      "CODE_OF_CONDUCT.md",
+      "SECURITY.md",
+      "LICENSE",
+      ".github/ISSUE_TEMPLATE",
+      ".github/PULL_REQUEST_TEMPLATE.md"
+    ]
+  },
+  "starterIssues": [
+    {
+      "id": "docs-link-fix",
+      "title": "Fix broken documentation links",
+      "area": "documentation",
+      "setup": "pnpm install",
+      "test": "pnpm --filter @agentskit/docs-next build",
+      "guide": "/docs/reference/contribute/local-setup",
+      "labels": ["good first issue", "documentation"]
+    },
+    {
+      "id": "package-readme-example",
+      "title": "Keep a package README example synchronized with its fixture",
+      "area": "documentation",
+      "setup": "pnpm install",
+      "test": "pnpm check:readme-standard",
+      "guide": "/docs/reference/contribute/package-docs",
+      "labels": ["good first issue", "documentation"]
+    },
+    {
+      "id": "community-showcase",
+      "title": "Add a verified community showcase entry",
+      "area": "community",
+      "setup": "pnpm install",
+      "test": "node -e \"JSON.parse(require('fs').readFileSync('apps/docs-next/data/community.json','utf8'))\"",
+      "guide": "/docs/reference/contribute/recipe-submission",
+      "labels": ["good first issue", "community"]
+    }
+  ],
+  "maintainerExpectations": {
+    "firstResponseSlaBusinessDays": 2,
+    "triageLabels": ["good first issue", "help wanted", "documentation", "bug", "enhancement"],
+    "securityPath": "SECURITY.md",
+    "conductPath": "CODE_OF_CONDUCT.md",
+    "supportChannels": [
+      {
+        "name": "GitHub Issues",
+        "url": "https://github.com/AgentsKit-io/agentskit/issues"
+      },
+      {
+        "name": "GitHub Discussions",
+        "url": "https://github.com/AgentsKit-io/agentskit/discussions"
+      }
+    ]
+  },
+  "metrics": [
+    {
+      "id": "understanding",
+      "name": "Visitor can name each product role",
+      "source": "docs analytics + qualitative spot checks",
+      "target": ">= 90% in lightweight user test"
+    },
+    {
+      "id": "activation",
+      "name": "Clean three-command demo success",
+      "source": "launch package demo verification",
+      "target": "100% of declared executable demos"
+    },
+    {
+      "id": "use",
+      "name": "Primary docs quickstart completion",
+      "source": "docs funnel + CLI telemetry (if enabled)",
+      "target": "baseline then improve"
+    },
+    {
+      "id": "contribution",
+      "name": "Starter issues with setup + test instructions",
+      "source": "launch-package starterIssues + good-first-issues page",
+      "target": "100% of curated starters"
+    },
+    {
+      "id": "retention",
+      "name": "Showcase/recipe submissions reviewed",
+      "source": "community.json PRs + recipe issues",
+      "target": "response within maintainer SLA"
+    }
+  ]
+}

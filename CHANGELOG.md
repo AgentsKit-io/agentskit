@@ -10,6 +10,12 @@ Entries are versioned by semver and dated by release. Future monthly entries sho
 
 ---
 
+## Unreleased
+
+### Added
+
+- **Ecosystem contributor funnel and community launch package** (`docs/ecosystem/launch/`, `/community` funnel, contribute journey docs, `pnpm check:launch-package`) for issue #1205. Public launch timing stays HITL-gated behind readiness.
+
 ## v1.0.0 — April 2026 · "Public Launch"
 
 April 2026 was the moment AgentsKit.js stepped out of early access and into the open. The v1.0.0 release consolidated the entire ecosystem under a single stable foundation — hardened contracts, a rebuilt documentation site, a full contribution pathway, and production-ready CI. The name was also officially registered: **AgentsKit.js**, clearly distinct from Inngest AgentKit.

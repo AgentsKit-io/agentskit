@@ -1,0 +1,50 @@
+---
+title: Maintainer expectations
+description: Explicit support ownership and response expectations for ecosystem contributors.
+---
+
+These expectations apply to the AgentsKit organization public repositories. Sibling products (Registry, Playbook, Chat, Doc Bridge, Code Review, AgentsKit OS) follow the same spirit even when ownership maps differ.
+
+## Response SLA
+
+| Signal | Target |
+|---|---|
+| First maintainer response on a new issue | **2 business days** |
+| Security reports | Follow [`SECURITY.md`](https://github.com/AgentsKit-io/agentskit/blob/main/SECURITY.md) private process — do not discuss in public issues |
+| `good first issue` claim | Acknowledge claim; un-claim if silent after **7 days** |
+
+## Ownership
+
+- Code owners: [`.github/CODEOWNERS`](https://github.com/AgentsKit-io/agentskit/blob/main/.github/CODEOWNERS)
+- Package conventions: each package’s `CONVENTIONS.md`
+- Architecture changes: ADR / RFC process ([RFC process](./rfc-process))
+
+## Labels we keep meaningful
+
+| Label | Meaning |
+|---|---|
+| `good first issue` | Small, reproducible, setup + test known |
+| `help wanted` | Maintainer-welcome help; may need context |
+| `documentation` | Docs-only or docs-primary |
+| `bug` | Broken behavior with reproduction |
+| `enhancement` | Net-new capability |
+
+## Contributor interactions
+
+1. Be specific and kind — link failing commands and logs.
+2. Prefer draft PRs early over perfect first shots.
+3. Do not request free consulting for private product work in public issues.
+4. Never pressure contributors to ignore security or license constraints.
+
+## Support channels
+
+- Bugs / features: GitHub Issues (templates required)
+- How-to questions: [GitHub Discussions](https://github.com/AgentsKit-io/agentskit/discussions)
+- Security: private disclosure only
+
+## Launch and promotion
+
+Maintainers must not announce broad public campaigns while ecosystem readiness is blocked. See:
+
+- [Readiness harness](https://github.com/AgentsKit-io/agentskit/blob/main/docs/ecosystem/readiness.md)
+- [Launch package](https://github.com/AgentsKit-io/agentskit/tree/main/docs/ecosystem/launch)
