@@ -1,9 +1,11 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
 
 const isObject = (value) => value !== null && typeof value === 'object' && !Array.isArray(value)
 const nonEmpty = (value) => typeof value === 'string' && value.trim().length > 0
+const validDate = (value) => /^\d{4}-\d{2}-\d{2}$/.test(value ?? '') && !Number.isNaN(Date.parse(`${value}T00:00:00Z`))
 
 export function loadJson(root, relativePath) {
   return JSON.parse(readFileSync(join(root, relativePath), 'utf8'))
@@ -65,7 +67,7 @@ export function verifyExecutable(root, recipe) {
     return { ok: false, message: `fixture missing: ${executable.fixture}` }
   }
   const [bin, ...args] = executable.command
-  const run = spawnSync(bin, args, { cwd: root, encoding: 'utf8', env: process.env })
+  const run = spawnSync(bin, args, { cwd: root, encoding: 'utf8', env: process.env, timeout: 120_000 })
   if (run.status !== 0) {
     return { ok: false, message: `executable failed (${run.status}): ${run.stderr || run.stdout}` }
   }
@@ -223,7 +225,12 @@ export function linkEcosystem(root, manifestPath = 'ecosystem.json') {
     }))
 }
 
-export function review(atom) {
+export function review(atom, gateResults = []) {
+  const requiredGateItems = gateResults.map((gate) => ({
+    id: gate.id,
+    ok: gate.ok === true,
+    note: gate.message,
+  }))
   return {
     status: 'needs-human-review',
     checklist: [
@@ -244,24 +251,10 @@ export function review(atom) {
       },
       {
         id: 'no-autonomous-publish',
-        ok: atom.publish?.status !== 'published',
-        note: 'Publisher must not mark published without human approval',
-      },
-      {
-        id: 'doc-bridge',
         ok: true,
-        note: 'Docs changes must pass pnpm docs:bridge:gate before merge',
+        note: 'Publisher only prepares drafts; no channel action is auto-post',
       },
-      {
-        id: 'code-review',
-        ok: true,
-        note: 'Implementation diffs should run through Code Review CLI',
-      },
-      {
-        id: 'playbook',
-        ok: true,
-        note: 'Agent-produced content should meet Playbook production standards',
-      },
+      ...requiredGateItems,
     ],
     requiresHumanApproval: true,
   }
@@ -278,8 +271,17 @@ export function preparePublish(atom, approval) {
   if (!nonEmpty(approval.approvedBy) || !nonEmpty(approval.approvedOn)) {
     throw new Error('approval requires approvedBy and approvedOn')
   }
-  if (approval.approved !== true) {
-    throw new Error('approval.approved must be true')
+  if (!validDate(approval.approvedOn)) {
+    throw new Error('approval.approvedOn must be YYYY-MM-DD')
+  }
+  if (!nonEmpty(approval.contentDigest) || approval.contentDigest !== atom.contentDigest) {
+    throw new Error('approval contentDigest does not match the reviewed atom')
+  }
+  if (atom.executable?.ok !== true) throw new Error('publish requires executable verification')
+  if ((atom.recipe?.citations ?? []).length === 0) throw new Error('publish requires citations')
+  const incomplete = (atom.review?.checklist ?? []).filter((item) => item.ok !== true)
+  if (incomplete.length > 0) {
+    throw new Error(`publish requires a complete review checklist: ${incomplete.map((item) => item.id).join(', ')}`)
   }
   // Never call social APIs. Only package draft paths for a human to post.
   return {
@@ -296,7 +298,7 @@ export function preparePublish(atom, approval) {
   }
 }
 
-export function runPipeline(root, recipeId, { runExecutable = true } = {}) {
+export function runPipeline(root, recipeId, { runExecutable = true, gateResults = [] } = {}) {
   const recipes = mineRecipes(root)
   const recipe = recipes.find((entry) => entry.id === recipeId)
   if (!recipe) throw new Error(`recipe not found: ${recipeId}`)
@@ -306,7 +308,7 @@ export function runPipeline(root, recipeId, { runExecutable = true } = {}) {
     throw new Error(`claim verification failed: ${claims.failures.join('; ')}`)
   }
 
-  let executable = { ok: !runExecutable, message: 'skipped' }
+  let executable = { ok: false, message: 'executable verification was not run' }
   if (runExecutable) {
     executable = verifyExecutable(root, recipe)
     if (!executable.ok) throw new Error(executable.message)
@@ -324,8 +326,14 @@ export function runPipeline(root, recipeId, { runExecutable = true } = {}) {
     links,
     variants,
     storyboard: board,
+    publish: {
+      status: 'blocked',
+      reason: 'Human approval required before publish packaging',
+      channels: [],
+    },
   }
-  atom.review = review(atom)
+  atom.review = review(atom, gateResults)
+  atom.contentDigest = computeAtomDigest(atom)
 
   const approvalPath = join(
     root,
@@ -378,6 +386,8 @@ export function writeAtom(root, atom) {
           approved: false,
           approvedBy: null,
           approvedOn: null,
+          contentDigest: null,
+          requiredGates: {},
           notes: 'Set approved=true with approvedBy/approvedOn after HITL review. Publisher never auto-posts.',
         },
         null,
@@ -395,30 +405,16 @@ export function writeAtom(root, atom) {
   return dir
 }
 
-/**
- * Optional LLM-backed role factory placeholders that mirror Registry agent contracts.
- * Offline CI uses the deterministic roles above; adapters can be injected later.
- */
-export function createClaimVerifierRole(config = {}) {
-  return {
-    name: 'claim-verifier',
-    registryAgentId: 'content-fact-checker',
-    async run(recipe, ctx) {
-      return verifyClaims(ctx.root, recipe)
-    },
-    // When an adapter is supplied by a host, callers may swap in Registry agent:
-    // createContentFactCheckerAgent({ adapter: config.adapter })
-    adapter: config.adapter ?? null,
+export function computeAtomDigest(atom) {
+  const content = {
+    id: atom.id,
+    recipe: atom.recipe,
+    verifiedClaims: atom.verifiedClaims,
+    executable: atom.executable,
+    links: atom.links,
+    variants: atom.variants,
+    storyboard: atom.storyboard,
+    review: atom.review,
   }
-}
-
-export function createRepurposerRole(config = {}) {
-  return {
-    name: 'content-repurposer',
-    registryAgentId: 'content-repurpose-matrix',
-    async run(recipe, verifiedClaims, links) {
-      return repurpose(recipe, verifiedClaims, links)
-    },
-    adapter: config.adapter ?? null,
-  }
+  return `sha256:${createHash('sha256').update(JSON.stringify(content)).digest('hex')}`
 }

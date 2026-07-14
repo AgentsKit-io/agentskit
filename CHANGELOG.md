@@ -14,7 +14,7 @@ Entries are versioned by semver and dated by release. Future monthly entries sho
 
 ### Added
 
-- **Human-approved content atom pipeline** (`docs/ecosystem/content-pipeline/`, `pnpm content-pipeline:run`) dogfooding Registry content agents with offline claim verification for issue #1206. Publishing stays human-gated.
+- **Human-approved content atom pipeline** (`docs/ecosystem/content-pipeline/`, `pnpm content-pipeline:run`) with deterministic local roles mapped honestly to Registry contracts and offline claim verification for issue #1206. Publishing stays content-digest-bound, evidence-gated, and human-approved.
 
 ## v1.0.0 — April 2026 · "Public Launch"
 

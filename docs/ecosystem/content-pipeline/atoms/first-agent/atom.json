@@ -1,6 +1,6 @@
 {
   "id": "first-agent",
-  "generatedAt": "2026-07-14T18:22:43.025Z",
+  "generatedAt": "2026-07-14T19:03:13.673Z",
   "recipe": {
     "id": "first-agent",
     "title": "First agent without a provider key",
@@ -80,7 +80,8 @@
   ],
   "executable": {
     "ok": true,
-    "message": "skipped"
+    "message": "executable verified",
+    "stdout": "Agent ready. I received: Plan my first production agent"
   },
   "links": [
     {
@@ -142,6 +143,11 @@
     }
   },
   "storyboard": "# Storyboard — First agent without a provider key\n\nFormat: 5-frame carousel / 15s silent GIF\n\n1. **Hook** — \"New developers need a zero-key path to feel the AgentsKit runtime contract.\"\n2. **Install** — show `npm install @agentskit/core @agentskit/runtime tsx`\n3. **Copy fixture** — show the agent.ts path\n4. **Run** — terminal output includes the expected ready line\n5. **Next step** — point to Registry / Playbook / Chat without inventing counts\n\nAccessibility: every frame needs alt text; prefer reduced-motion static frames.\nNo auto-publish — storyboard is a draft for human design review.\n",
+  "publish": {
+    "status": "blocked",
+    "reason": "Human approval required before publish packaging",
+    "channels": []
+  },
   "review": {
     "status": "needs-human-review",
     "checklist": [
@@ -163,29 +169,25 @@
       {
         "id": "no-autonomous-publish",
         "ok": true,
-        "note": "Publisher must not mark published without human approval"
+        "note": "Publisher only prepares drafts; no channel action is auto-post"
       },
       {
         "id": "doc-bridge",
         "ok": true,
-        "note": "Docs changes must pass pnpm docs:bridge:gate before merge"
-      },
-      {
-        "id": "code-review",
-        "ok": true,
-        "note": "Implementation diffs should run through Code Review CLI"
+        "note": "doc-bridge command passed"
       },
       {
         "id": "playbook",
-        "ok": true,
-        "note": "Agent-produced content should meet Playbook production standards"
+        "ok": false,
+        "note": "playbook requires human attestation with evidence"
+      },
+      {
+        "id": "code-review",
+        "ok": false,
+        "note": "code-review requires human attestation with evidence"
       }
     ],
     "requiresHumanApproval": true
   },
-  "publish": {
-    "status": "blocked",
-    "reason": "Human approval required before publish packaging",
-    "channels": []
-  }
+  "contentDigest": "sha256:18570ae2d19a90a415e528a1a4792356676befb21d13317735b4cf23a6068821"
 }

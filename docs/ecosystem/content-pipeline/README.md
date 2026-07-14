@@ -3,7 +3,7 @@
 Issue: [#1206](https://github.com/AgentsKit-io/agentskit/issues/1206)  
 Parent: [#1198](https://github.com/AgentsKit-io/agentskit/issues/1198)
 
-Human-approved content atom pipeline that dogfoods AgentsKit + Registry contracts:
+Human-approved content atom pipeline with deterministic local roles and explicit mappings to Registry agent contracts. The committed CI path does not pretend to invoke remote Registry agents; hosts may replace a compatible local role only after adding a real adapter-backed integration and tests.
 
 | Role | Registry agent | Offline behavior |
 |---|---|---|
@@ -15,7 +15,14 @@ Human-approved content atom pipeline that dogfoods AgentsKit + Registry contract
 | post-reviewer | `content-style-guide-enforcer` | Checklist + requires human |
 | publisher | policy-gated | Packages drafts only after `APPROVAL.json` |
 
-**Never auto-publishes** to social networks. `APPROVAL.json` must set `approved: true` with `approvedBy` / `approvedOn` before `ready-for-human-publish`.
+**Never auto-publishes** to social networks. Before `ready-for-human-publish`, `APPROVAL.json` must contain:
+
+- `approved: true`, `approvedBy`, and `approvedOn`;
+- the exact `contentDigest` emitted by the reviewed atom;
+- evidence-backed `pass` attestations for the Playbook and Code Review gates;
+- a complete review checklist and a successful executable verification.
+
+Any content change invalidates the digest and requires a new approval.
 
 ## Commands
 
@@ -23,7 +30,7 @@ Human-approved content atom pipeline that dogfoods AgentsKit + Registry contract
 # Generate / refresh the first-agent atom (runs executable demo)
 pnpm content-pipeline:run
 
-# Structural audit (CI)
+# Full audit: executable recipe + Doc Bridge command gate
 pnpm check:content-pipeline
 
 # Tests
@@ -48,6 +55,8 @@ Variants:
 
 ## Required external gates before expanding the pipeline
 
-1. Doc Bridge — `pnpm docs:bridge:gate` for docs PRs  
-2. Playbook — production content standards  
-3. Code Review — review implementation diffs  
+1. Doc Bridge — executed as `pnpm docs:bridge:gate` by the pipeline audit.
+2. Playbook — evidence-backed human attestation in `APPROVAL.json`.
+3. Code Review — evidence-backed human attestation in `APPROVAL.json`.
+
+`--skip-exec` is a draft-generation convenience only: it records `ok: false`, leaves review incomplete, and can never produce a passing audit or publishable atom.
