@@ -1,0 +1,148 @@
+{
+  "schemaVersion": 1,
+  "protocol": "agentskit.ecosystem.readiness",
+  "productId": "registry",
+  "repo": "AgentsKit-io/agentskit-registry",
+  "auditedOn": "2026-07-14",
+  "auditor": "ecosystem-readiness harness",
+  "maturity": {
+    "declared": "beta",
+    "source": "ecosystem.json"
+  },
+  "gates": [
+    {
+      "id": "quickstart",
+      "category": "quickstart",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Clean-fixture add/run quickstart test proves installable agent source.",
+      "owner": "AgentsKit-io/agentskit-registry",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-registry/blob/main/scripts/quickstart.test.mjs"
+      ]
+    },
+    {
+      "id": "documentation",
+      "category": "documentation",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Ecosystem 07 shipped Fumadocs + deterministic discovery for the catalog.",
+      "owner": "AgentsKit-io/agentskit-registry",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-registry/pull/78"
+      ]
+    },
+    {
+      "id": "seo",
+      "category": "seo",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Public registry site exposes SEO metadata and agent pages.",
+      "owner": "AgentsKit-io/agentskit-registry",
+      "evidence": [
+        "https://registry.agentskit.io"
+      ]
+    },
+    {
+      "id": "accessibility",
+      "category": "accessibility",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Site migration acceptance included accessibility checks.",
+      "owner": "AgentsKit-io/agentskit-registry",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-registry/pull/78"
+      ]
+    },
+    {
+      "id": "performance",
+      "category": "performance",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Static catalog artifacts stay within published discovery budgets.",
+      "owner": "AgentsKit-io/agentskit-registry",
+      "evidence": [
+        "https://registry.agentskit.io"
+      ]
+    },
+    {
+      "id": "links",
+      "category": "links",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Catalog and docs links validated in migration CI.",
+      "owner": "AgentsKit-io/agentskit-registry",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-registry/pull/78"
+      ]
+    },
+    {
+      "id": "llms",
+      "category": "llms",
+      "status": "pass",
+      "severity": "info",
+      "summary": "llms.txt published for the Registry property.",
+      "owner": "AgentsKit-io/agentskit-registry",
+      "evidence": [
+        "https://registry.agentskit.io/llms.txt"
+      ]
+    },
+    {
+      "id": "doc-bridge",
+      "category": "doc-bridge",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Doc Bridge config and gates are part of the repository scripts.",
+      "owner": "AgentsKit-io/agentskit-registry",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-registry"
+      ]
+    },
+    {
+      "id": "chat",
+      "category": "chat",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Deterministic-first AgentsChat discovery is live for exact catalog questions.",
+      "owner": "AgentsKit-io/agentskit-registry",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-registry/pull/78"
+      ]
+    },
+    {
+      "id": "readme",
+      "category": "readme",
+      "status": "blocked",
+      "severity": "p1",
+      "summary": "README Standard v1 certification PR open for root README.",
+      "owner": "AgentsKit-io/agentskit-registry",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-registry/pull/79"
+      ],
+      "remediation": "Merge AgentsKit-io/agentskit-registry#79 and re-run check:readme-standard on main."
+    },
+    {
+      "id": "security",
+      "category": "security",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Validation and independent-review pipelines keep private reviewer output offline.",
+      "owner": "AgentsKit-io/agentskit-registry",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-registry"
+      ]
+    },
+    {
+      "id": "maturity",
+      "category": "maturity",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Maturity beta; claims derive from public/r/index.json.",
+      "owner": "AgentsKit-io/agentskit-registry",
+      "evidence": [
+        "ecosystem.json",
+        "https://registry.agentskit.io/r/index.json"
+      ]
+    }
+  ]
+}

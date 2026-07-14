@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "protocol": "agentskit.ecosystem.readiness",
+  "productId": "code-review",
+  "repo": "AgentsKit-io/code-review-cli",
+  "auditedOn": "2026-07-14",
+  "auditor": "ecosystem-readiness harness",
+  "maturity": {
+    "declared": "alpha",
+    "source": "ecosystem.json"
+  },
+  "gates": [
+    {
+      "id": "quickstart",
+      "category": "quickstart",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Offline CLI discovery and stdin review fixtures run without credentials.",
+      "owner": "AgentsKit-io/code-review-cli",
+      "evidence": [
+        "https://github.com/AgentsKit-io/code-review-cli"
+      ]
+    },
+    {
+      "id": "documentation",
+      "category": "documentation",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Repository-native docs, operations guide, and for-agents handoff shipped (Ecosystem 12).",
+      "owner": "AgentsKit-io/code-review-cli",
+      "evidence": [
+        "https://github.com/AgentsKit-io/code-review-cli/issues/3"
+      ]
+    },
+    {
+      "id": "seo",
+      "category": "seo",
+      "status": "skipped",
+      "severity": "info",
+      "summary": "Repository-native product \u2014 SEO site gates are not applicable; marked skipped with info severity.",
+      "owner": "AgentsKit-io/code-review-cli",
+      "evidence": [
+        "https://github.com/AgentsKit-io/code-review-cli"
+      ]
+    },
+    {
+      "id": "accessibility",
+      "category": "accessibility",
+      "status": "skipped",
+      "severity": "info",
+      "summary": "No Fumadocs UI; accessibility gate is N/A for CLI-only surface (skipped).",
+      "owner": "AgentsKit-io/code-review-cli",
+      "evidence": [
+        "https://github.com/AgentsKit-io/code-review-cli"
+      ]
+    },
+    {
+      "id": "performance",
+      "category": "performance",
+      "status": "skipped",
+      "severity": "info",
+      "summary": "CLI smoke completes offline without network; no web perf budget required.",
+      "owner": "AgentsKit-io/code-review-cli",
+      "evidence": [
+        "https://github.com/AgentsKit-io/code-review-cli"
+      ]
+    },
+    {
+      "id": "links",
+      "category": "links",
+      "status": "pass",
+      "severity": "info",
+      "summary": "README and docs links covered by documentation tests.",
+      "owner": "AgentsKit-io/code-review-cli",
+      "evidence": [
+        "https://github.com/AgentsKit-io/code-review-cli"
+      ]
+    },
+    {
+      "id": "llms",
+      "category": "llms",
+      "status": "pass",
+      "severity": "info",
+      "summary": "llms.txt repository artifact is published.",
+      "owner": "AgentsKit-io/code-review-cli",
+      "evidence": [
+        "https://github.com/AgentsKit-io/code-review-cli/blob/main/llms.txt"
+      ]
+    },
+    {
+      "id": "doc-bridge",
+      "category": "doc-bridge",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Doc Bridge config and gates are package scripts.",
+      "owner": "AgentsKit-io/code-review-cli",
+      "evidence": [
+        "https://github.com/AgentsKit-io/code-review-cli"
+      ]
+    },
+    {
+      "id": "chat",
+      "category": "chat",
+      "status": "skipped",
+      "severity": "info",
+      "summary": "Explicitly out of scope \u2014 no AgentsChat embed (pass as policy exception/skipped? use pass with summary).",
+      "owner": "AgentsKit-io/code-review-cli",
+      "evidence": [
+        "https://github.com/AgentsKit-io/code-review-cli"
+      ]
+    },
+    {
+      "id": "readme",
+      "category": "readme",
+      "status": "blocked",
+      "severity": "p1",
+      "summary": "README Standard v1 certification PR open.",
+      "owner": "AgentsKit-io/code-review-cli",
+      "evidence": [
+        "https://github.com/AgentsKit-io/code-review-cli/pull/6"
+      ],
+      "remediation": "Merge AgentsKit-io/code-review-cli#6 and re-audit."
+    },
+    {
+      "id": "security",
+      "category": "security",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Provider keys via env; Action posts only with explicit permissions.",
+      "owner": "AgentsKit-io/code-review-cli",
+      "evidence": [
+        "https://github.com/AgentsKit-io/code-review-cli"
+      ]
+    },
+    {
+      "id": "maturity",
+      "category": "maturity",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Maturity alpha / pre-v1; roadmap documents npm and Action pin plans.",
+      "owner": "AgentsKit-io/code-review-cli",
+      "evidence": [
+        "ecosystem.json"
+      ]
+    }
+  ]
+}

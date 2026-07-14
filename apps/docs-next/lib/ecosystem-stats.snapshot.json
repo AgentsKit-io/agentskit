@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "property": "agentskit",
   "counts": {
-    "packages": 25,
+    "packages": 22,
     "frameworkBindings": 7,
     "nativeAdapters": 25,
     "integrations": 50,
@@ -40,11 +40,6 @@
         "stability": "beta"
       },
       {
-        "name": "@agentskit/eval-braintrust",
-        "description": "Braintrust scoring pipeline for AgentsKit. Quality + robustness scorers, CI regression alerts, and dataset upload helpers.",
-        "stability": "beta"
-      },
-      {
         "name": "@agentskit/ink",
         "description": "Ink terminal components and hooks for AgentsKit.",
         "stability": "beta"
@@ -67,11 +62,6 @@
       {
         "name": "@agentskit/observability",
         "description": "Logging and tracing layer for AgentsKit agents.",
-        "stability": "beta"
-      },
-      {
-        "name": "@agentskit/observability-langfuse",
-        "description": "Langfuse tracing adapter for AgentsKit. Spans for plan, tool, model, and HITL gates with token/cost/latency capture.",
         "stability": "beta"
       },
       {
@@ -127,11 +117,6 @@
       {
         "name": "@agentskit/tools",
         "description": "Reusable executable tools for AgentsKit agents.",
-        "stability": "beta"
-      },
-      {
-        "name": "@agentskit/validation",
-        "description": "Opt-in runtime validation of tool-call arguments against their JSON Schema for AgentsKit. Wraps Ajv; plugs into the core ArgsValidator contract (ADR-0008).",
         "stability": "beta"
       },
       {

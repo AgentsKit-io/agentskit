@@ -38,7 +38,7 @@ type CompiledValidate = ((data: unknown) => boolean) & {
  * @example
  * ```ts
  * import { createChatController } from '@agentskit/core'
- * import { createAjvValidator } from '@agentskit/validation'
+ * import { createAjvValidator } from '@agentskit/tools/validation'
  *
  * const chat = createChatController({
  *   adapter,

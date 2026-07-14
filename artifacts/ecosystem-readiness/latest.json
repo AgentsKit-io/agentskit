@@ -1,0 +1,1542 @@
+{
+  "protocol": "agentskit.ecosystem.readiness",
+  "schemaVersion": 1,
+  "auditDate": "2026-07-14",
+  "overall": "blocked",
+  "promotionAllowed": false,
+  "summary": {
+    "products": 7,
+    "ready": 3,
+    "blocked": 4,
+    "incomplete": 0,
+    "findings": 10,
+    "p0": 2,
+    "p1": 8
+  },
+  "products": [
+    {
+      "id": "agentskit",
+      "repo": "AgentsKit-io/agentskit",
+      "status": "blocked",
+      "maturity": {
+        "declared": "beta",
+        "source": "ecosystem.json#products[agentskit].maturity"
+      },
+      "auditedOn": "2026-07-14",
+      "categories": [
+        {
+          "category": "quickstart",
+          "covered": true
+        },
+        {
+          "category": "documentation",
+          "covered": true
+        },
+        {
+          "category": "seo",
+          "covered": true
+        },
+        {
+          "category": "accessibility",
+          "covered": true
+        },
+        {
+          "category": "performance",
+          "covered": true
+        },
+        {
+          "category": "links",
+          "covered": true
+        },
+        {
+          "category": "llms",
+          "covered": true
+        },
+        {
+          "category": "doc-bridge",
+          "covered": true
+        },
+        {
+          "category": "chat",
+          "covered": true
+        },
+        {
+          "category": "readme",
+          "covered": true
+        },
+        {
+          "category": "security",
+          "covered": true
+        },
+        {
+          "category": "maturity",
+          "covered": true
+        }
+      ],
+      "gates": [
+        {
+          "id": "quickstart",
+          "category": "quickstart",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Reference docs vertical and first-agent fixture verify install/run without a provider key.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "apps/docs-next/fixtures/first-agent/agent.ts",
+            "scripts/reference-docs-vertical.test.mjs"
+          ]
+        },
+        {
+          "id": "documentation",
+          "category": "documentation",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Fumadocs docs-next ships human + for-agents corpus with Doc Bridge ownership.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "apps/docs-next",
+            "doc-bridge.config.json"
+          ]
+        },
+        {
+          "id": "seo",
+          "category": "seo",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Docs and landing expose metadata, sitemap, robots, and OG routes.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "apps/docs-next",
+            "apps/landing"
+          ]
+        },
+        {
+          "id": "accessibility",
+          "category": "accessibility",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Docs dogfood and landing include accessibility checks in CI matrices.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "apps/docs-next"
+          ]
+        },
+        {
+          "id": "performance",
+          "category": "performance",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Bundle budgets and size-limit gates enforce core package performance floors.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "scripts/check-quality-gates.mjs"
+          ]
+        },
+        {
+          "id": "links",
+          "category": "links",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Quality gates and docs checks cover internal documentation links.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "scripts/check-quality-gates.mjs"
+          ]
+        },
+        {
+          "id": "llms",
+          "category": "llms",
+          "status": "pass",
+          "severity": "info",
+          "summary": "llms.txt is generated/served from the public docs property.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "https://www.agentskit.io/llms.txt",
+            "llms.txt"
+          ]
+        },
+        {
+          "id": "doc-bridge",
+          "category": "doc-bridge",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Doc Bridge index/gate scripts are first-class monorepo commands.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "doc-bridge.config.json",
+            "package.json"
+          ]
+        },
+        {
+          "id": "chat",
+          "category": "chat",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Deterministic docs answers integrate before Ask backend fallback.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "apps/docs-next/tests/deterministic-docs-answers.test.mjs"
+          ]
+        },
+        {
+          "id": "readme",
+          "category": "readme",
+          "status": "blocked",
+          "severity": "p1",
+          "summary": "README Standard v1 root surface is on main; package/app rollout PR #1233 is still open.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "readme-standard-v1.json",
+            "scripts/check-readme-standard.mjs"
+          ],
+          "remediation": "Merge AgentsKit-io/agentskit#1233 package/app README rollout, then re-audit."
+        },
+        {
+          "id": "security",
+          "category": "security",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Security-sensitive packages use typed errors, sandbox, and CI audit workflows.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "packages/sandbox",
+            ".github/workflows"
+          ]
+        },
+        {
+          "id": "maturity",
+          "category": "maturity",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Maturity declared beta in ecosystem.json; STABILITY.md is the tier map.",
+          "owner": "AgentsKit-io/agentskit",
+          "evidence": [
+            "ecosystem.json",
+            "docs/STABILITY.md"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "registry",
+      "repo": "AgentsKit-io/agentskit-registry",
+      "status": "blocked",
+      "maturity": {
+        "declared": "beta",
+        "source": "ecosystem.json"
+      },
+      "auditedOn": "2026-07-14",
+      "categories": [
+        {
+          "category": "quickstart",
+          "covered": true
+        },
+        {
+          "category": "documentation",
+          "covered": true
+        },
+        {
+          "category": "seo",
+          "covered": true
+        },
+        {
+          "category": "accessibility",
+          "covered": true
+        },
+        {
+          "category": "performance",
+          "covered": true
+        },
+        {
+          "category": "links",
+          "covered": true
+        },
+        {
+          "category": "llms",
+          "covered": true
+        },
+        {
+          "category": "doc-bridge",
+          "covered": true
+        },
+        {
+          "category": "chat",
+          "covered": true
+        },
+        {
+          "category": "readme",
+          "covered": true
+        },
+        {
+          "category": "security",
+          "covered": true
+        },
+        {
+          "category": "maturity",
+          "covered": true
+        }
+      ],
+      "gates": [
+        {
+          "id": "quickstart",
+          "category": "quickstart",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Clean-fixture add/run quickstart test proves installable agent source.",
+          "owner": "AgentsKit-io/agentskit-registry",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-registry/blob/main/scripts/quickstart.test.mjs"
+          ]
+        },
+        {
+          "id": "documentation",
+          "category": "documentation",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Ecosystem 07 shipped Fumadocs + deterministic discovery for the catalog.",
+          "owner": "AgentsKit-io/agentskit-registry",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-registry/pull/78"
+          ]
+        },
+        {
+          "id": "seo",
+          "category": "seo",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Public registry site exposes SEO metadata and agent pages.",
+          "owner": "AgentsKit-io/agentskit-registry",
+          "evidence": [
+            "https://registry.agentskit.io"
+          ]
+        },
+        {
+          "id": "accessibility",
+          "category": "accessibility",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Site migration acceptance included accessibility checks.",
+          "owner": "AgentsKit-io/agentskit-registry",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-registry/pull/78"
+          ]
+        },
+        {
+          "id": "performance",
+          "category": "performance",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Static catalog artifacts stay within published discovery budgets.",
+          "owner": "AgentsKit-io/agentskit-registry",
+          "evidence": [
+            "https://registry.agentskit.io"
+          ]
+        },
+        {
+          "id": "links",
+          "category": "links",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Catalog and docs links validated in migration CI.",
+          "owner": "AgentsKit-io/agentskit-registry",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-registry/pull/78"
+          ]
+        },
+        {
+          "id": "llms",
+          "category": "llms",
+          "status": "pass",
+          "severity": "info",
+          "summary": "llms.txt published for the Registry property.",
+          "owner": "AgentsKit-io/agentskit-registry",
+          "evidence": [
+            "https://registry.agentskit.io/llms.txt"
+          ]
+        },
+        {
+          "id": "doc-bridge",
+          "category": "doc-bridge",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Doc Bridge config and gates are part of the repository scripts.",
+          "owner": "AgentsKit-io/agentskit-registry",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-registry"
+          ]
+        },
+        {
+          "id": "chat",
+          "category": "chat",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Deterministic-first AgentsChat discovery is live for exact catalog questions.",
+          "owner": "AgentsKit-io/agentskit-registry",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-registry/pull/78"
+          ]
+        },
+        {
+          "id": "readme",
+          "category": "readme",
+          "status": "blocked",
+          "severity": "p1",
+          "summary": "README Standard v1 certification PR open for root README.",
+          "owner": "AgentsKit-io/agentskit-registry",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-registry/pull/79"
+          ],
+          "remediation": "Merge AgentsKit-io/agentskit-registry#79 and re-run check:readme-standard on main."
+        },
+        {
+          "id": "security",
+          "category": "security",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Validation and independent-review pipelines keep private reviewer output offline.",
+          "owner": "AgentsKit-io/agentskit-registry",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-registry"
+          ]
+        },
+        {
+          "id": "maturity",
+          "category": "maturity",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Maturity beta; claims derive from public/r/index.json.",
+          "owner": "AgentsKit-io/agentskit-registry",
+          "evidence": [
+            "ecosystem.json",
+            "https://registry.agentskit.io/r/index.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "agentskit-chat",
+      "repo": "AgentsKit-io/agentskit-chat",
+      "status": "ready",
+      "maturity": {
+        "declared": "alpha",
+        "source": "ecosystem.json"
+      },
+      "auditedOn": "2026-07-14",
+      "categories": [
+        {
+          "category": "quickstart",
+          "covered": true
+        },
+        {
+          "category": "documentation",
+          "covered": true
+        },
+        {
+          "category": "seo",
+          "covered": true
+        },
+        {
+          "category": "accessibility",
+          "covered": true
+        },
+        {
+          "category": "performance",
+          "covered": true
+        },
+        {
+          "category": "links",
+          "covered": true
+        },
+        {
+          "category": "llms",
+          "covered": true
+        },
+        {
+          "category": "doc-bridge",
+          "covered": true
+        },
+        {
+          "category": "chat",
+          "covered": true
+        },
+        {
+          "category": "readme",
+          "covered": true
+        },
+        {
+          "category": "security",
+          "covered": true
+        },
+        {
+          "category": "maturity",
+          "covered": true
+        }
+      ],
+      "gates": [
+        {
+          "id": "quickstart",
+          "category": "quickstart",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Framework dogfood portal and package examples verify one definition across clients.",
+          "owner": "AgentsKit-io/agentskit-chat",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-chat/pull/94"
+          ]
+        },
+        {
+          "id": "documentation",
+          "category": "documentation",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Ecosystem 10 Fumadocs dogfood merged with canonical docs/ corpus.",
+          "owner": "AgentsKit-io/agentskit-chat",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-chat/issues/71"
+          ]
+        },
+        {
+          "id": "seo",
+          "category": "seo",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Docs portal publishes sitemap, robots, llms, and raw Markdown routes.",
+          "owner": "AgentsKit-io/agentskit-chat",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-chat/pull/94"
+          ]
+        },
+        {
+          "id": "accessibility",
+          "category": "accessibility",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Playwright + axe gates cover landing, docs, and assistant chrome.",
+          "owner": "AgentsKit-io/agentskit-chat",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-chat/pull/94"
+          ]
+        },
+        {
+          "id": "performance",
+          "category": "performance",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Docs client JS budget enforced in dogfood release gates.",
+          "owner": "AgentsKit-io/agentskit-chat",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-chat/pull/94"
+          ]
+        },
+        {
+          "id": "links",
+          "category": "links",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Doc Bridge and CI cover documentation links for the monorepo corpus.",
+          "owner": "AgentsKit-io/agentskit-chat",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-chat"
+          ]
+        },
+        {
+          "id": "llms",
+          "category": "llms",
+          "status": "pass",
+          "severity": "info",
+          "summary": "llms.txt and llms-full.txt routes ship with the docs app.",
+          "owner": "AgentsKit-io/agentskit-chat",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-chat/pull/94"
+          ]
+        },
+        {
+          "id": "doc-bridge",
+          "category": "doc-bridge",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Doc Bridge index/gate are package scripts and CI jobs.",
+          "owner": "AgentsKit-io/agentskit-chat",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-chat"
+          ]
+        },
+        {
+          "id": "chat",
+          "category": "chat",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Real AgentsChat packages power deterministic-first docs assistant.",
+          "owner": "AgentsKit-io/agentskit-chat",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-chat/pull/94"
+          ]
+        },
+        {
+          "id": "readme",
+          "category": "readme",
+          "status": "pass",
+          "severity": "info",
+          "summary": "README Standard v1 certified and merged for repository and packages.",
+          "owner": "AgentsKit-io/agentskit-chat",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-chat/pull/93"
+          ]
+        },
+        {
+          "id": "security",
+          "category": "security",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Ask path fails closed without trusted adapters; no private corpus selection from browser hints.",
+          "owner": "AgentsKit-io/agentskit-chat",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-chat/pull/94"
+          ]
+        },
+        {
+          "id": "maturity",
+          "category": "maturity",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Packages released at 0.2.0; portal dogfood remains alpha and must stay labeled honestly.",
+          "owner": "AgentsKit-io/agentskit-chat",
+          "evidence": [
+            "ecosystem.json",
+            "https://github.com/AgentsKit-io/agentskit-chat/pull/94"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "playbook",
+      "repo": "AgentsKit-io/agents-playbook",
+      "status": "ready",
+      "maturity": {
+        "declared": "stable",
+        "source": "ecosystem.json"
+      },
+      "auditedOn": "2026-07-14",
+      "categories": [
+        {
+          "category": "quickstart",
+          "covered": true
+        },
+        {
+          "category": "documentation",
+          "covered": true
+        },
+        {
+          "category": "seo",
+          "covered": true
+        },
+        {
+          "category": "accessibility",
+          "covered": true
+        },
+        {
+          "category": "performance",
+          "covered": true
+        },
+        {
+          "category": "links",
+          "covered": true
+        },
+        {
+          "category": "llms",
+          "covered": true
+        },
+        {
+          "category": "doc-bridge",
+          "covered": true
+        },
+        {
+          "category": "chat",
+          "covered": true
+        },
+        {
+          "category": "readme",
+          "covered": true
+        },
+        {
+          "category": "security",
+          "covered": true
+        },
+        {
+          "category": "maturity",
+          "covered": true
+        }
+      ],
+      "gates": [
+        {
+          "id": "quickstart",
+          "category": "quickstart",
+          "status": "pass",
+          "severity": "info",
+          "summary": "verify-playbook example and onboarding fixtures run without backend.",
+          "owner": "AgentsKit-io/agents-playbook",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agents-playbook/pull/17"
+          ]
+        },
+        {
+          "id": "documentation",
+          "category": "documentation",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Ecosystem 08 standardized Fumadocs + local discovery.",
+          "owner": "AgentsKit-io/agents-playbook",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agents-playbook/issues/13"
+          ]
+        },
+        {
+          "id": "seo",
+          "category": "seo",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Lighthouse SEO 100 reported on production-local migration evidence.",
+          "owner": "AgentsKit-io/agents-playbook",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agents-playbook/pull/17"
+          ]
+        },
+        {
+          "id": "accessibility",
+          "category": "accessibility",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Lighthouse accessibility 100 on migration evidence.",
+          "owner": "AgentsKit-io/agents-playbook",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agents-playbook/pull/17"
+          ]
+        },
+        {
+          "id": "performance",
+          "category": "performance",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Lighthouse performance ≥90 on migration evidence.",
+          "owner": "AgentsKit-io/agents-playbook",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agents-playbook/pull/17"
+          ]
+        },
+        {
+          "id": "links",
+          "category": "links",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Automated docs and Playwright cover critical paths.",
+          "owner": "AgentsKit-io/agents-playbook",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agents-playbook/pull/17"
+          ]
+        },
+        {
+          "id": "llms",
+          "category": "llms",
+          "status": "pass",
+          "severity": "info",
+          "summary": "llms.txt and llms-full.txt routes are live.",
+          "owner": "AgentsKit-io/agents-playbook",
+          "evidence": [
+            "https://playbook.agentskit.io/llms.txt"
+          ]
+        },
+        {
+          "id": "doc-bridge",
+          "category": "doc-bridge",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Doc Bridge doctor 100/100 with ownership routes certified.",
+          "owner": "AgentsKit-io/agents-playbook",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agents-playbook/pull/17"
+          ]
+        },
+        {
+          "id": "chat",
+          "category": "chat",
+          "status": "pass",
+          "severity": "info",
+          "summary": "AgentsChat deterministic plane answers before backend.",
+          "owner": "AgentsKit-io/agents-playbook",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agents-playbook/pull/17"
+          ]
+        },
+        {
+          "id": "readme",
+          "category": "readme",
+          "status": "pass",
+          "severity": "info",
+          "summary": "README Standard v1 certified on main.",
+          "owner": "AgentsKit-io/agents-playbook",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agents-playbook/pull/17"
+          ]
+        },
+        {
+          "id": "security",
+          "category": "security",
+          "status": "pass",
+          "severity": "info",
+          "summary": "No private corpus; public documentation only.",
+          "owner": "AgentsKit-io/agents-playbook",
+          "evidence": [
+            "https://playbook.agentskit.io"
+          ]
+        },
+        {
+          "id": "maturity",
+          "category": "maturity",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Maturity stable in ecosystem.json.",
+          "owner": "AgentsKit-io/agents-playbook",
+          "evidence": [
+            "ecosystem.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "doc-bridge",
+      "repo": "AgentsKit-io/doc-bridge",
+      "status": "ready",
+      "maturity": {
+        "declared": "stable",
+        "source": "ecosystem.json"
+      },
+      "auditedOn": "2026-07-14",
+      "categories": [
+        {
+          "category": "quickstart",
+          "covered": true
+        },
+        {
+          "category": "documentation",
+          "covered": true
+        },
+        {
+          "category": "seo",
+          "covered": true
+        },
+        {
+          "category": "accessibility",
+          "covered": true
+        },
+        {
+          "category": "performance",
+          "covered": true
+        },
+        {
+          "category": "links",
+          "covered": true
+        },
+        {
+          "category": "llms",
+          "covered": true
+        },
+        {
+          "category": "doc-bridge",
+          "covered": true
+        },
+        {
+          "category": "chat",
+          "covered": true
+        },
+        {
+          "category": "readme",
+          "covered": true
+        },
+        {
+          "category": "security",
+          "covered": true
+        },
+        {
+          "category": "maturity",
+          "covered": true
+        }
+      ],
+      "gates": [
+        {
+          "id": "quickstart",
+          "category": "quickstart",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Packaged smoke and handoff verification examples run in CI.",
+          "owner": "AgentsKit-io/doc-bridge",
+          "evidence": [
+            "https://github.com/AgentsKit-io/doc-bridge/pull/36"
+          ]
+        },
+        {
+          "id": "documentation",
+          "category": "documentation",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Ecosystem 09 Fumadocs portal + executable handoffs shipped.",
+          "owner": "AgentsKit-io/doc-bridge",
+          "evidence": [
+            "https://github.com/AgentsKit-io/doc-bridge/issues/28"
+          ]
+        },
+        {
+          "id": "seo",
+          "category": "seo",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Deployed GitHub Pages site returns SEO-capable routes (sitemap/robots/llms).",
+          "owner": "AgentsKit-io/doc-bridge",
+          "evidence": [
+            "https://agentskit-io.github.io/doc-bridge/"
+          ]
+        },
+        {
+          "id": "accessibility",
+          "category": "accessibility",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Lighthouse accessibility 100 on release evidence.",
+          "owner": "AgentsKit-io/doc-bridge",
+          "evidence": [
+            "https://github.com/AgentsKit-io/doc-bridge/pull/36"
+          ]
+        },
+        {
+          "id": "performance",
+          "category": "performance",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Lighthouse performance 99 on release evidence.",
+          "owner": "AgentsKit-io/doc-bridge",
+          "evidence": [
+            "https://github.com/AgentsKit-io/doc-bridge/pull/36"
+          ]
+        },
+        {
+          "id": "links",
+          "category": "links",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Portal E2E covers critical documentation paths.",
+          "owner": "AgentsKit-io/doc-bridge",
+          "evidence": [
+            "https://github.com/AgentsKit-io/doc-bridge/pull/36"
+          ]
+        },
+        {
+          "id": "llms",
+          "category": "llms",
+          "status": "pass",
+          "severity": "info",
+          "summary": "llms.txt and llms-full.txt return HTTP 200 in production.",
+          "owner": "AgentsKit-io/doc-bridge",
+          "evidence": [
+            "https://agentskit-io.github.io/doc-bridge/"
+          ]
+        },
+        {
+          "id": "doc-bridge",
+          "category": "doc-bridge",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Product is Doc Bridge; doctor 100/100 and gates are the product surface.",
+          "owner": "AgentsKit-io/doc-bridge",
+          "evidence": [
+            "https://github.com/AgentsKit-io/doc-bridge/pull/36"
+          ]
+        },
+        {
+          "id": "chat",
+          "category": "chat",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Deterministic knowledge artifact answers before semantic fallback.",
+          "owner": "AgentsKit-io/doc-bridge",
+          "evidence": [
+            "https://github.com/AgentsKit-io/doc-bridge/pull/36"
+          ]
+        },
+        {
+          "id": "readme",
+          "category": "readme",
+          "status": "pass",
+          "severity": "info",
+          "summary": "README Standard v1 certified with product module handoffs.",
+          "owner": "AgentsKit-io/doc-bridge",
+          "evidence": [
+            "https://github.com/AgentsKit-io/doc-bridge/pull/36"
+          ]
+        },
+        {
+          "id": "security",
+          "category": "security",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Public docs only; backend corpus isolation covered in AgentsKit Ask PRs.",
+          "owner": "AgentsKit-io/doc-bridge",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit/pull/1229"
+          ]
+        },
+        {
+          "id": "maturity",
+          "category": "maturity",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Maturity stable in ecosystem.json.",
+          "owner": "AgentsKit-io/doc-bridge",
+          "evidence": [
+            "ecosystem.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "code-review",
+      "repo": "AgentsKit-io/code-review-cli",
+      "status": "blocked",
+      "maturity": {
+        "declared": "alpha",
+        "source": "ecosystem.json"
+      },
+      "auditedOn": "2026-07-14",
+      "categories": [
+        {
+          "category": "quickstart",
+          "covered": true
+        },
+        {
+          "category": "documentation",
+          "covered": true
+        },
+        {
+          "category": "seo",
+          "covered": true
+        },
+        {
+          "category": "accessibility",
+          "covered": true
+        },
+        {
+          "category": "performance",
+          "covered": true
+        },
+        {
+          "category": "links",
+          "covered": true
+        },
+        {
+          "category": "llms",
+          "covered": true
+        },
+        {
+          "category": "doc-bridge",
+          "covered": true
+        },
+        {
+          "category": "chat",
+          "covered": true
+        },
+        {
+          "category": "readme",
+          "covered": true
+        },
+        {
+          "category": "security",
+          "covered": true
+        },
+        {
+          "category": "maturity",
+          "covered": true
+        }
+      ],
+      "gates": [
+        {
+          "id": "quickstart",
+          "category": "quickstart",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Offline CLI discovery and stdin review fixtures run without credentials.",
+          "owner": "AgentsKit-io/code-review-cli",
+          "evidence": [
+            "https://github.com/AgentsKit-io/code-review-cli"
+          ]
+        },
+        {
+          "id": "documentation",
+          "category": "documentation",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Repository-native docs, operations guide, and for-agents handoff shipped (Ecosystem 12).",
+          "owner": "AgentsKit-io/code-review-cli",
+          "evidence": [
+            "https://github.com/AgentsKit-io/code-review-cli/issues/3"
+          ]
+        },
+        {
+          "id": "seo",
+          "category": "seo",
+          "status": "skipped",
+          "severity": "info",
+          "summary": "Repository-native product — SEO site gates are not applicable; marked skipped with info severity.",
+          "owner": "AgentsKit-io/code-review-cli",
+          "evidence": [
+            "https://github.com/AgentsKit-io/code-review-cli"
+          ]
+        },
+        {
+          "id": "accessibility",
+          "category": "accessibility",
+          "status": "skipped",
+          "severity": "info",
+          "summary": "No Fumadocs UI; accessibility gate is N/A for CLI-only surface (skipped).",
+          "owner": "AgentsKit-io/code-review-cli",
+          "evidence": [
+            "https://github.com/AgentsKit-io/code-review-cli"
+          ]
+        },
+        {
+          "id": "performance",
+          "category": "performance",
+          "status": "skipped",
+          "severity": "info",
+          "summary": "CLI smoke completes offline without network; no web perf budget required.",
+          "owner": "AgentsKit-io/code-review-cli",
+          "evidence": [
+            "https://github.com/AgentsKit-io/code-review-cli"
+          ]
+        },
+        {
+          "id": "links",
+          "category": "links",
+          "status": "pass",
+          "severity": "info",
+          "summary": "README and docs links covered by documentation tests.",
+          "owner": "AgentsKit-io/code-review-cli",
+          "evidence": [
+            "https://github.com/AgentsKit-io/code-review-cli"
+          ]
+        },
+        {
+          "id": "llms",
+          "category": "llms",
+          "status": "pass",
+          "severity": "info",
+          "summary": "llms.txt repository artifact is published.",
+          "owner": "AgentsKit-io/code-review-cli",
+          "evidence": [
+            "https://github.com/AgentsKit-io/code-review-cli/blob/main/llms.txt"
+          ]
+        },
+        {
+          "id": "doc-bridge",
+          "category": "doc-bridge",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Doc Bridge config and gates are package scripts.",
+          "owner": "AgentsKit-io/code-review-cli",
+          "evidence": [
+            "https://github.com/AgentsKit-io/code-review-cli"
+          ]
+        },
+        {
+          "id": "chat",
+          "category": "chat",
+          "status": "skipped",
+          "severity": "info",
+          "summary": "Explicitly out of scope — no AgentsChat embed (pass as policy exception/skipped? use pass with summary).",
+          "owner": "AgentsKit-io/code-review-cli",
+          "evidence": [
+            "https://github.com/AgentsKit-io/code-review-cli"
+          ]
+        },
+        {
+          "id": "readme",
+          "category": "readme",
+          "status": "blocked",
+          "severity": "p1",
+          "summary": "README Standard v1 certification PR open.",
+          "owner": "AgentsKit-io/code-review-cli",
+          "evidence": [
+            "https://github.com/AgentsKit-io/code-review-cli/pull/6"
+          ],
+          "remediation": "Merge AgentsKit-io/code-review-cli#6 and re-audit."
+        },
+        {
+          "id": "security",
+          "category": "security",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Provider keys via env; Action posts only with explicit permissions.",
+          "owner": "AgentsKit-io/code-review-cli",
+          "evidence": [
+            "https://github.com/AgentsKit-io/code-review-cli"
+          ]
+        },
+        {
+          "id": "maturity",
+          "category": "maturity",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Maturity alpha / pre-v1; roadmap documents npm and Action pin plans.",
+          "owner": "AgentsKit-io/code-review-cli",
+          "evidence": [
+            "ecosystem.json"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "akos",
+      "repo": "AgentsKit-io/agentskit-os",
+      "status": "blocked",
+      "maturity": {
+        "declared": "stable",
+        "source": "ecosystem.json"
+      },
+      "auditedOn": "2026-07-14",
+      "categories": [
+        {
+          "category": "quickstart",
+          "covered": true
+        },
+        {
+          "category": "documentation",
+          "covered": true
+        },
+        {
+          "category": "seo",
+          "covered": true
+        },
+        {
+          "category": "accessibility",
+          "covered": true
+        },
+        {
+          "category": "performance",
+          "covered": true
+        },
+        {
+          "category": "links",
+          "covered": true
+        },
+        {
+          "category": "llms",
+          "covered": true
+        },
+        {
+          "category": "doc-bridge",
+          "covered": true
+        },
+        {
+          "category": "chat",
+          "covered": true
+        },
+        {
+          "category": "readme",
+          "covered": true
+        },
+        {
+          "category": "security",
+          "covered": true
+        },
+        {
+          "category": "maturity",
+          "covered": true
+        }
+      ],
+      "gates": [
+        {
+          "id": "quickstart",
+          "category": "quickstart",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Public quickstart and build-to-operate journey are defined; production dogfood migration still open.",
+          "owner": "AgentsKit-io/agentskit-os",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+          ]
+        },
+        {
+          "id": "documentation",
+          "category": "documentation",
+          "status": "blocked",
+          "severity": "p0",
+          "summary": "Ecosystem 11 site migration (local-first AgentsChat + journey) is still open on PR #5317.",
+          "owner": "AgentsKit-io/agentskit-os",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-os/issues/5314"
+          ],
+          "remediation": "Merge AgentsKit-io/agentskit-os#5317 and close #5314 with production evidence."
+        },
+        {
+          "id": "seo",
+          "category": "seo",
+          "status": "blocked",
+          "severity": "p1",
+          "summary": "SITE defaults to akos.agentskit.io; full SEO parity pending migration merge.",
+          "owner": "AgentsKit-io/agentskit-os",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+          ],
+          "remediation": "Merge AgentsKit-io/agentskit-os#5317 and verify sitemap/robots/canonicals on production."
+        },
+        {
+          "id": "accessibility",
+          "category": "accessibility",
+          "status": "blocked",
+          "severity": "p1",
+          "summary": "Migration PR adds chat E2E; full a11y certification pending merge.",
+          "owner": "AgentsKit-io/agentskit-os",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+          ],
+          "remediation": "Complete Ecosystem 11 acceptance matrix after #5317 merges."
+        },
+        {
+          "id": "performance",
+          "category": "performance",
+          "status": "blocked",
+          "severity": "p1",
+          "summary": "Web performance budgets pending post-migration Lighthouse evidence.",
+          "owner": "AgentsKit-io/agentskit-os",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+          ],
+          "remediation": "Capture Lighthouse evidence after #5317 deploys."
+        },
+        {
+          "id": "links",
+          "category": "links",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Cross-ecosystem footer links are part of #5317.",
+          "owner": "AgentsKit-io/agentskit-os",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+          ]
+        },
+        {
+          "id": "llms",
+          "category": "llms",
+          "status": "blocked",
+          "severity": "p1",
+          "summary": "llms.txt route exists; llms-full and raw routes land with #5317.",
+          "owner": "AgentsKit-io/agentskit-os",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+          ],
+          "remediation": "Merge #5317 and verify /llms.txt and /llms-full.txt on akos.agentskit.io."
+        },
+        {
+          "id": "doc-bridge",
+          "category": "doc-bridge",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Doc Bridge config exists in the monorepo; freshness gates must stay green on main.",
+          "owner": "AgentsKit-io/agentskit-os",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-os"
+          ]
+        },
+        {
+          "id": "chat",
+          "category": "chat",
+          "status": "blocked",
+          "severity": "p0",
+          "summary": "Production local-first AgentsChat composition is delivered in open PR #5317, not yet on main.",
+          "owner": "AgentsKit-io/agentskit-os",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-os/issues/5314",
+            "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+          ],
+          "remediation": "Merge and deploy AgentsKit-io/agentskit-os#5317 (Ecosystem 11)."
+        },
+        {
+          "id": "readme",
+          "category": "readme",
+          "status": "blocked",
+          "severity": "p1",
+          "summary": "README Standard v1 root certification PR open.",
+          "owner": "AgentsKit-io/agentskit-os",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-os/pull/5318"
+          ],
+          "remediation": "Merge AgentsKit-io/agentskit-os#5318."
+        },
+        {
+          "id": "security",
+          "category": "security",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Public corpus only for docs chat; tenant isolation remains a product runtime concern outside docs chat.",
+          "owner": "AgentsKit-io/agentskit-os",
+          "evidence": [
+            "https://github.com/AgentsKit-io/agentskit-os"
+          ]
+        },
+        {
+          "id": "maturity",
+          "category": "maturity",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Maturity labeled stable in ecosystem.json while customer path docs emphasize beta/assisted pilots — keep claims aligned with public-promise-matrix.",
+          "owner": "AgentsKit-io/agentskit-os",
+          "evidence": [
+            "ecosystem.json",
+            "https://github.com/AgentsKit-io/agentskit-os"
+          ]
+        }
+      ]
+    }
+  ],
+  "findings": [
+    {
+      "productId": "akos",
+      "repo": "AgentsKit-io/agentskit-os",
+      "gateId": "chat",
+      "category": "chat",
+      "status": "blocked",
+      "severity": "p0",
+      "summary": "Production local-first AgentsChat composition is delivered in open PR #5317, not yet on main.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "remediation": "Merge and deploy AgentsKit-io/agentskit-os#5317 (Ecosystem 11).",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-os/issues/5314",
+        "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+      ]
+    },
+    {
+      "productId": "akos",
+      "repo": "AgentsKit-io/agentskit-os",
+      "gateId": "documentation",
+      "category": "documentation",
+      "status": "blocked",
+      "severity": "p0",
+      "summary": "Ecosystem 11 site migration (local-first AgentsChat + journey) is still open on PR #5317.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "remediation": "Merge AgentsKit-io/agentskit-os#5317 and close #5314 with production evidence.",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-os/issues/5314"
+      ]
+    },
+    {
+      "productId": "agentskit",
+      "repo": "AgentsKit-io/agentskit",
+      "gateId": "readme",
+      "category": "readme",
+      "status": "blocked",
+      "severity": "p1",
+      "summary": "README Standard v1 root surface is on main; package/app rollout PR #1233 is still open.",
+      "owner": "AgentsKit-io/agentskit",
+      "remediation": "Merge AgentsKit-io/agentskit#1233 package/app README rollout, then re-audit.",
+      "evidence": [
+        "readme-standard-v1.json",
+        "scripts/check-readme-standard.mjs"
+      ]
+    },
+    {
+      "productId": "akos",
+      "repo": "AgentsKit-io/agentskit-os",
+      "gateId": "accessibility",
+      "category": "accessibility",
+      "status": "blocked",
+      "severity": "p1",
+      "summary": "Migration PR adds chat E2E; full a11y certification pending merge.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "remediation": "Complete Ecosystem 11 acceptance matrix after #5317 merges.",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+      ]
+    },
+    {
+      "productId": "akos",
+      "repo": "AgentsKit-io/agentskit-os",
+      "gateId": "llms",
+      "category": "llms",
+      "status": "blocked",
+      "severity": "p1",
+      "summary": "llms.txt route exists; llms-full and raw routes land with #5317.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "remediation": "Merge #5317 and verify /llms.txt and /llms-full.txt on akos.agentskit.io.",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+      ]
+    },
+    {
+      "productId": "akos",
+      "repo": "AgentsKit-io/agentskit-os",
+      "gateId": "performance",
+      "category": "performance",
+      "status": "blocked",
+      "severity": "p1",
+      "summary": "Web performance budgets pending post-migration Lighthouse evidence.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "remediation": "Capture Lighthouse evidence after #5317 deploys.",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+      ]
+    },
+    {
+      "productId": "akos",
+      "repo": "AgentsKit-io/agentskit-os",
+      "gateId": "readme",
+      "category": "readme",
+      "status": "blocked",
+      "severity": "p1",
+      "summary": "README Standard v1 root certification PR open.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "remediation": "Merge AgentsKit-io/agentskit-os#5318.",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-os/pull/5318"
+      ]
+    },
+    {
+      "productId": "akos",
+      "repo": "AgentsKit-io/agentskit-os",
+      "gateId": "seo",
+      "category": "seo",
+      "status": "blocked",
+      "severity": "p1",
+      "summary": "SITE defaults to akos.agentskit.io; full SEO parity pending migration merge.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "remediation": "Merge AgentsKit-io/agentskit-os#5317 and verify sitemap/robots/canonicals on production.",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+      ]
+    },
+    {
+      "productId": "code-review",
+      "repo": "AgentsKit-io/code-review-cli",
+      "gateId": "readme",
+      "category": "readme",
+      "status": "blocked",
+      "severity": "p1",
+      "summary": "README Standard v1 certification PR open.",
+      "owner": "AgentsKit-io/code-review-cli",
+      "remediation": "Merge AgentsKit-io/code-review-cli#6 and re-audit.",
+      "evidence": [
+        "https://github.com/AgentsKit-io/code-review-cli/pull/6"
+      ]
+    },
+    {
+      "productId": "registry",
+      "repo": "AgentsKit-io/agentskit-registry",
+      "gateId": "readme",
+      "category": "readme",
+      "status": "blocked",
+      "severity": "p1",
+      "summary": "README Standard v1 certification PR open for root README.",
+      "owner": "AgentsKit-io/agentskit-registry",
+      "remediation": "Merge AgentsKit-io/agentskit-registry#79 and re-run check:readme-standard on main.",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-registry/pull/79"
+      ]
+    }
+  ]
+}

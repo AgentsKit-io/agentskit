@@ -8,7 +8,7 @@ Every observer receives the same event sequence — `chat.start`, `llm.call`, `t
 ```ts
 import { createRuntime } from '@agentskit/runtime'
 import { consoleLogger, langsmith, opentelemetry } from '@agentskit/observability'
-import { langfuse } from '@agentskit/observability-langfuse'
+import { langfuse } from '@agentskit/observability/langfuse'
 
 const runtime = createRuntime({
   adapter,
@@ -29,7 +29,7 @@ const runtime = createRuntime({
 | `consoleLogger()` | `@agentskit/observability` | dev | — |
 | `langsmith({ apiKey, project })` | `@agentskit/observability` | traces UI | `LANGSMITH_API_KEY` |
 | `opentelemetry({ serviceName })` | `@agentskit/observability` | OTel pipeline | OTLP endpoint |
-| `langfuse({ publicKey, secretKey })` | `@agentskit/observability-langfuse` | Langfuse traces + generations | `LANGFUSE_PUBLIC_KEY` `LANGFUSE_SECRET_KEY` |
+| `langfuse({ publicKey, secretKey })` | `@agentskit/observability/langfuse` | Langfuse traces + generations | `LANGFUSE_PUBLIC_KEY` `LANGFUSE_SECRET_KEY` |
 | `datadogSink({ apiKey, site?, env? })` | `@agentskit/observability` | Datadog Logs HTTP intake | `DD_API_KEY` |
 | `axiomSink({ token, dataset, endpoint? })` | `@agentskit/observability` | Axiom dataset ingest | `AXIOM_TOKEN` |
 | `newRelicSink({ apiKey, region? })` | `@agentskit/observability` | New Relic Logs API (`US` / `EU`) | `NEW_RELIC_LICENSE_KEY` |
@@ -37,14 +37,14 @@ const runtime = createRuntime({
 
 ## Langfuse
 
-`langfuse` is a separate package (`@agentskit/observability-langfuse`) with `langfuse` as an optional peer dependency. Install both:
+`langfuse` is a separate package (`@agentskit/observability/langfuse`) with `langfuse` as an optional peer dependency. Install both:
 
 ```bash
-pnpm add @agentskit/observability-langfuse langfuse
+pnpm add @agentskit/observability langfuse
 ```
 
 ```ts
-import { langfuse } from '@agentskit/observability-langfuse'
+import { langfuse } from '@agentskit/observability/langfuse'
 
 createRuntime({
   adapter,
@@ -85,5 +85,5 @@ createRuntime({
 ## Related
 
 - [Trace viewer](./trace-viewer) · [Devtools](./devtools)
-- [Package: @agentskit/observability-langfuse](/docs/reference/packages/observability-langfuse)
+- [Package: @agentskit/observability/langfuse](/docs/reference/packages/observability-langfuse)
 - [For agents: observability-langfuse](/docs/for-agents/observability-langfuse)

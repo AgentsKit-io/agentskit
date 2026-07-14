@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "protocol": "agentskit.ecosystem.readiness",
+  "productId": "doc-bridge",
+  "repo": "AgentsKit-io/doc-bridge",
+  "auditedOn": "2026-07-14",
+  "auditor": "ecosystem-readiness harness",
+  "maturity": {
+    "declared": "stable",
+    "source": "ecosystem.json"
+  },
+  "gates": [
+    {
+      "id": "quickstart",
+      "category": "quickstart",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Packaged smoke and handoff verification examples run in CI.",
+      "owner": "AgentsKit-io/doc-bridge",
+      "evidence": [
+        "https://github.com/AgentsKit-io/doc-bridge/pull/36"
+      ]
+    },
+    {
+      "id": "documentation",
+      "category": "documentation",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Ecosystem 09 Fumadocs portal + executable handoffs shipped.",
+      "owner": "AgentsKit-io/doc-bridge",
+      "evidence": [
+        "https://github.com/AgentsKit-io/doc-bridge/issues/28"
+      ]
+    },
+    {
+      "id": "seo",
+      "category": "seo",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Deployed GitHub Pages site returns SEO-capable routes (sitemap/robots/llms).",
+      "owner": "AgentsKit-io/doc-bridge",
+      "evidence": [
+        "https://agentskit-io.github.io/doc-bridge/"
+      ]
+    },
+    {
+      "id": "accessibility",
+      "category": "accessibility",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Lighthouse accessibility 100 on release evidence.",
+      "owner": "AgentsKit-io/doc-bridge",
+      "evidence": [
+        "https://github.com/AgentsKit-io/doc-bridge/pull/36"
+      ]
+    },
+    {
+      "id": "performance",
+      "category": "performance",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Lighthouse performance 99 on release evidence.",
+      "owner": "AgentsKit-io/doc-bridge",
+      "evidence": [
+        "https://github.com/AgentsKit-io/doc-bridge/pull/36"
+      ]
+    },
+    {
+      "id": "links",
+      "category": "links",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Portal E2E covers critical documentation paths.",
+      "owner": "AgentsKit-io/doc-bridge",
+      "evidence": [
+        "https://github.com/AgentsKit-io/doc-bridge/pull/36"
+      ]
+    },
+    {
+      "id": "llms",
+      "category": "llms",
+      "status": "pass",
+      "severity": "info",
+      "summary": "llms.txt and llms-full.txt return HTTP 200 in production.",
+      "owner": "AgentsKit-io/doc-bridge",
+      "evidence": [
+        "https://agentskit-io.github.io/doc-bridge/"
+      ]
+    },
+    {
+      "id": "doc-bridge",
+      "category": "doc-bridge",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Product is Doc Bridge; doctor 100/100 and gates are the product surface.",
+      "owner": "AgentsKit-io/doc-bridge",
+      "evidence": [
+        "https://github.com/AgentsKit-io/doc-bridge/pull/36"
+      ]
+    },
+    {
+      "id": "chat",
+      "category": "chat",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Deterministic knowledge artifact answers before semantic fallback.",
+      "owner": "AgentsKit-io/doc-bridge",
+      "evidence": [
+        "https://github.com/AgentsKit-io/doc-bridge/pull/36"
+      ]
+    },
+    {
+      "id": "readme",
+      "category": "readme",
+      "status": "pass",
+      "severity": "info",
+      "summary": "README Standard v1 certified with product module handoffs.",
+      "owner": "AgentsKit-io/doc-bridge",
+      "evidence": [
+        "https://github.com/AgentsKit-io/doc-bridge/pull/36"
+      ]
+    },
+    {
+      "id": "security",
+      "category": "security",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Public docs only; backend corpus isolation covered in AgentsKit Ask PRs.",
+      "owner": "AgentsKit-io/doc-bridge",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit/pull/1229"
+      ]
+    },
+    {
+      "id": "maturity",
+      "category": "maturity",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Maturity stable in ecosystem.json.",
+      "owner": "AgentsKit-io/doc-bridge",
+      "evidence": [
+        "ecosystem.json"
+      ]
+    }
+  ]
+}

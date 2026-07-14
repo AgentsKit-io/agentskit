@@ -24,6 +24,10 @@ npm install @agentskit/observability
 - `axiomSink(config)` — Axiom dataset ingest.
 - `newRelicSink(config)` — New Relic Log API.
 
+### Vendor adapters
+
+- `@agentskit/observability/langfuse` — Langfuse logger backend. Install the optional `langfuse` peer when using this subpath.
+
 ### Guards + counters
 
 - `costGuard(options)` — dollar ceiling per run.
@@ -79,7 +83,6 @@ const runtime = createRuntime({
 
 ## Related
 
-- [@agentskit/observability-langfuse](/docs/for-agents/observability-langfuse) — Langfuse logger backend.
 - [@agentskit/eval](/docs/for-agents/eval)
 - [@agentskit/runtime](/docs/for-agents/runtime)
 - [@agentskit/core/security](/docs/for-agents/core) — vault / tokenization used by `wrapObserverWithRedaction`.

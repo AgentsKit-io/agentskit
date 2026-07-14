@@ -6,10 +6,12 @@ export default defineConfig({
     mcp: 'src/mcp/index.ts',
     integrations: 'src/integrations/index.ts',
     'mcp-devtools': 'src/mcp-devtools/index.ts',
+    validation: '../validation/src/index.ts',
   },
   format: ['esm', 'cjs'],
   dts: { compilerOptions: { ignoreDeprecations: "6.0" } },
   sourcemap: true,
   clean: false,
   treeshake: true,
+  noExternal: ['ajv'],
 })

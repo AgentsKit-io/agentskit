@@ -15,6 +15,8 @@ Entries are versioned by semver and dated by release. Future monthly entries sho
 ### Added
 
 - **Ecosystem contributor funnel and community launch package** (`docs/ecosystem/launch/`, `/community` funnel, contribute journey docs, `pnpm check:launch-package`) for issue #1205. Public launch timing stays HITL-gated behind readiness.
+- **Ecosystem readiness certification harness** (`pnpm check:ecosystem-readiness` / `pnpm report:ecosystem-readiness`) with versioned per-product evidence under `ecosystem-readiness/` for issue #1204. Broad promotion stays gated until overall status is `ready`.
+- Readiness evidence now fails closed when it is empty, stale, future-dated, non-canonical, duplicated, or covered by an unapproved/expired exception.
 
 ## v1.0.0 — April 2026 · "Public Launch"
 

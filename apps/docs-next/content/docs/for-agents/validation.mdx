@@ -1,12 +1,12 @@
 ---
-title: '@agentskit/validation — for agents'
+title: '@agentskit/tools/validation — for agents'
 description: Opt-in runtime validation of tool-call arguments against their JSON Schema. Wraps Ajv; plugs into the core ArgsValidator contract (ADR-0008).
 ---
 
 ## Install
 
 ```bash
-npm install @agentskit/validation
+npm install @agentskit/tools
 ```
 
 ## Why
@@ -29,7 +29,7 @@ The real untrusted boundary in an agent is **model output**. A model returns too
 
 ```ts
 import { createChatController } from '@agentskit/core'
-import { createAjvValidator } from '@agentskit/validation'
+import { createAjvValidator } from '@agentskit/tools/validation'
 
 const chat = createChatController({
   adapter,
@@ -42,7 +42,7 @@ Same shape on the runtime:
 
 ```ts
 import { createRuntime } from '@agentskit/runtime'
-import { createAjvValidator } from '@agentskit/validation'
+import { createAjvValidator } from '@agentskit/tools/validation'
 
 const runtime = createRuntime({ adapter, tools, validateArgs: createAjvValidator() })
 ```

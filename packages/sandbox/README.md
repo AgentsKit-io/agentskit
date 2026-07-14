@@ -1,6 +1,8 @@
 # @agentskit/sandbox
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>concise-package</code>
+
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
 Let agents write and run code safely — in isolated cloud VMs, not on your machine.
 
@@ -12,6 +14,12 @@ Let agents write and run code safely — in isolated cloud VMs, not on your mach
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `sandbox` · `code-execution` · `e2b` · `secure-execution` · `code-interpreter`
+
+## Verified proof
+
+- Package metadata and tests live under `packages/sandbox/`.
+- Package guide: https://www.agentskit.io/docs/packages/sandbox
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
 
@@ -33,12 +41,14 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/sandbox) · [agent 
 
 ## Install
 
+<!-- readme-command:install -->
 ```bash
 npm install @agentskit/sandbox @e2b/code-interpreter
 ```
 
 ## Quick example
 
+<!-- readme-example:quickstart -->
 ```ts
 import { createRuntime } from '@agentskit/runtime'
 import { anthropic } from '@agentskit/adapters'
@@ -83,3 +93,13 @@ MIT — see [LICENSE](../../LICENSE).
 ## Docs
 
 [Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/AgentsKit-io/agentskit)
+
+## Maturity and compatibility
+
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published as `@agentskit/sandbox`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).
