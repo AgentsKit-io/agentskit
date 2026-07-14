@@ -1,4 +1,8 @@
 import type { AdapterRequest, Message, StreamChunk, StreamSource } from '@agentskit/core'
+import { readNDJSONLines, readSSELines } from './stream-lines'
+
+export { parseOpenAIStream } from './openai-stream'
+export { readNDJSONLines, readSSELines } from './stream-lines'
 
 export function toProviderMessages(messages: Message[]) {
   // Track which tool_call ids were declared by preceding assistant turns so
@@ -49,120 +53,6 @@ export function toProviderMessages(messages: Message[]) {
   }
 
   return output
-}
-
-export async function* readSSELines(stream: ReadableStream): AsyncIterableIterator<string> {
-  const reader = stream.getReader()
-  const decoder = new TextDecoder()
-  let buffer = ''
-
-  try {
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-
-      buffer += decoder.decode(value, { stream: true })
-      const lines = buffer.split('\n')
-      buffer = lines.pop() ?? ''
-
-      for (const line of lines) {
-        if (!line.startsWith('data: ')) continue
-        const data = line.slice(6).trim()
-        if (data) yield data
-      }
-    }
-  } finally {
-    reader.releaseLock()
-  }
-}
-
-export async function* readNDJSONLines(stream: ReadableStream): AsyncIterableIterator<string> {
-  const reader = stream.getReader()
-  const decoder = new TextDecoder()
-  let buffer = ''
-
-  try {
-    while (true) {
-      const { done, value } = await reader.read()
-      if (done) break
-
-      buffer += decoder.decode(value, { stream: true })
-      const lines = buffer.split('\n')
-      buffer = lines.pop() ?? ''
-
-      for (const line of lines) {
-        const trimmed = line.trim()
-        if (trimmed) yield trimmed
-      }
-    }
-  } finally {
-    reader.releaseLock()
-  }
-}
-
-export async function* parseOpenAIStream(stream: ReadableStream): AsyncIterableIterator<StreamChunk> {
-  const pendingToolCalls = new Map<number, { id: string; name: string; args: string }>()
-
-  for await (const data of readSSELines(stream)) {
-    if (data === '[DONE]') {
-      for (const [, tc] of pendingToolCalls) {
-        yield { type: 'tool_call', toolCall: { id: tc.id, name: tc.name, args: tc.args || '{}' } }
-      }
-      pendingToolCalls.clear()
-      yield { type: 'done' }
-      return
-    }
-
-    try {
-      const event = JSON.parse(data)
-      const delta = event.choices?.[0]?.delta
-
-      if (typeof delta?.content === 'string') {
-        yield { type: 'text', content: delta.content }
-      }
-
-      if (Array.isArray(delta?.tool_calls)) {
-        for (const toolCall of delta.tool_calls) {
-          const index: number = toolCall.index ?? 0
-          const existing = pendingToolCalls.get(index)
-
-          if (toolCall?.function?.name) {
-            // First chunk for this tool call — store it
-            pendingToolCalls.set(index, {
-              id: toolCall.id ?? existing?.id ?? `tool-${index}-${Date.now()}`,
-              name: toolCall.function.name,
-              args: (existing?.args ?? '') + (toolCall.function.arguments ?? ''),
-            })
-          } else if (existing && toolCall?.function?.arguments) {
-            // Subsequent chunk — accumulate arguments
-            existing.args += toolCall.function.arguments
-          }
-        }
-      }
-
-      // Final usage chunk — emitted when `stream_options.include_usage` is set.
-      if (event.usage) {
-        yield {
-          type: 'usage',
-          usage: {
-            promptTokens: event.usage.prompt_tokens ?? 0,
-            completionTokens: event.usage.completion_tokens ?? 0,
-            totalTokens: event.usage.total_tokens ?? 0,
-          },
-        }
-      }
-    } catch {
-      // Ignore malformed events.
-    }
-  }
-
-  // Flush any remaining tool calls if stream ends without [DONE]
-  for (const [, tc] of pendingToolCalls) {
-    yield { type: 'tool_call', toolCall: { id: tc.id, name: tc.name, args: tc.args || '{}' } }
-  }
-  pendingToolCalls.clear()
-
-  yield { type: 'done' }
 }
 
 export async function* parseAnthropicStream(stream: ReadableStream): AsyncIterableIterator<StreamChunk> {

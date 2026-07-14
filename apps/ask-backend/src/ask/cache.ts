@@ -3,6 +3,7 @@ import net from 'node:net'
 import tls from 'node:tls'
 import type { EmbedFn, RetrievedDocument } from '@agentskit/core'
 import type { UiEvent } from './protocol'
+import { isCompleteCachedAnswer } from './cache-integrity'
 
 export interface AskCacheOptions {
   namespace?: string
@@ -12,6 +13,7 @@ export interface AskCacheOptions {
   semanticThreshold?: number
   maxSemanticEntries?: number
   embed?: EmbedFn
+  storage?: AskCacheStorage | null
 }
 
 export interface AskCacheKey {
@@ -45,8 +47,8 @@ interface StoredRetrieval {
   createdAt: number
 }
 
-interface PersistentCache {
-  get<T>(key: string): Promise<T | undefined>
+export interface AskCacheStorage {
+  get(key: string): Promise<unknown>
   set(key: string, value: unknown, ttlMs: number): Promise<void>
 }
 
@@ -75,15 +77,15 @@ function cosine(a: number[], b: number[]): number {
   return dot
 }
 
-class UpstashCache implements PersistentCache {
+class UpstashCache implements AskCacheStorage {
   private readonly client: UpstashRedis
 
   constructor(url: string, token: string) {
     this.client = new UpstashRedis({ url, token })
   }
 
-  async get<T>(key: string): Promise<T | undefined> {
-    return (await this.client.get<T>(key)) ?? undefined
+  async get(key: string): Promise<unknown> {
+    return (await this.client.get<unknown>(key)) ?? undefined
   }
 
   async set(key: string, value: unknown, ttlMs: number): Promise<void> {
@@ -91,13 +93,13 @@ class UpstashCache implements PersistentCache {
   }
 }
 
-class RailwayRedisCache implements PersistentCache {
+class RailwayRedisCache implements AskCacheStorage {
   constructor(private readonly url: string) {}
 
-  async get<T>(key: string): Promise<T | undefined> {
+  async get(key: string): Promise<unknown> {
     const raw = await redisCommand(this.url, ['GET', key])
     if (!raw) return undefined
-    return JSON.parse(raw) as T
+    return JSON.parse(raw) as unknown
   }
 
   async set(key: string, value: unknown, ttlMs: number): Promise<void> {
@@ -183,7 +185,7 @@ async function redisCommand(redisUrl: string, command: string[]): Promise<string
   })
 }
 
-function persistentCache(): PersistentCache | null {
+function persistentCache(): AskCacheStorage | null {
   const redisUrl = process.env.REDIS_URL
   if (redisUrl) return new RailwayRedisCache(redisUrl)
 
@@ -201,7 +203,7 @@ export class AskCache {
   private readonly semanticThreshold: number
   private readonly maxSemanticEntries: number
   private readonly embed?: EmbedFn
-  private readonly persistent = persistentCache()
+  private readonly persistent: AskCacheStorage | null
   private readonly answers = new Map<string, StoredAnswer & { expiresAt: number }>()
   private readonly retrievals = new Map<string, StoredRetrieval & { expiresAt: number }>()
   private readonly semantic: SemanticEntry[] = []
@@ -214,6 +216,7 @@ export class AskCache {
     this.semanticThreshold = options.semanticThreshold ?? 0.86
     this.maxSemanticEntries = options.maxSemanticEntries ?? 400
     this.embed = options.embed
+    this.persistent = options.storage === undefined ? persistentCache() : options.storage
   }
 
   answerKey(input: AskCacheKey): string {
@@ -234,7 +237,7 @@ export class AskCache {
   }
 
   async setAnswer(input: AskCacheKey, value: StoredAnswer): Promise<void> {
-    if (value.events.some((event) => event.type === 'error')) return
+    if (!isCompleteCachedAnswer(value)) return
     const key = this.answerKey(input)
     const expiresAt = Date.now() + this.answerTtlMs
     this.answers.set(key, { ...value, expiresAt })
@@ -265,11 +268,11 @@ export class AskCache {
   private async getExactAnswer(key: string): Promise<StoredAnswer | undefined> {
     const now = Date.now()
     const mem = this.answers.get(key)
-    if (mem && mem.expiresAt >= now) return mem
+    if (mem && mem.expiresAt >= now && isCompleteCachedAnswer(mem)) return mem
     if (mem) this.answers.delete(key)
 
-    const stored = await this.redisGet<StoredAnswer>(key)
-    if (!stored) return undefined
+    const stored = await this.redisGet<unknown>(key)
+    if (!isCompleteCachedAnswer(stored)) return undefined
     this.answers.set(key, { ...stored, expiresAt: now + this.answerTtlMs })
     return stored
   }
@@ -321,7 +324,7 @@ export class AskCache {
   private async redisGet<T>(key: string): Promise<T | undefined> {
     if (!this.persistent) return undefined
     try {
-      return (await this.persistent.get<T>(key)) ?? undefined
+      return ((await this.persistent.get(key)) as T | undefined) ?? undefined
     } catch {
       return undefined
     }
