@@ -1,5 +1,5 @@
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
-import { dirname, join } from 'node:path'
+import { join } from 'node:path'
 import { spawnSync } from 'node:child_process'
 
 const isObject = (value) => value !== null && typeof value === 'object' && !Array.isArray(value)
@@ -370,7 +370,7 @@ export function writeAtom(root, atom) {
       .join('\n'),
   )
   const approvalPath = join(dir, 'APPROVAL.json')
-  if (!existsSync(approvalPath)) {
+  try {
     writeFileSync(
       approvalPath,
       `${JSON.stringify(
@@ -383,7 +383,10 @@ export function writeAtom(root, atom) {
         null,
         2,
       )}\n`,
+      { flag: 'wx' },
     )
+  } catch (error) {
+    if (!isObject(error) || error.code !== 'EEXIST') throw error
   }
   writeFileSync(
     join(dir, 'example.json'),
