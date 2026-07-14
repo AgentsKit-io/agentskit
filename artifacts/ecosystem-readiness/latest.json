@@ -1301,10 +1301,11 @@
           "category": "performance",
           "status": "pass",
           "severity": "info",
-          "summary": "Post-migration production Lighthouse performance reaches the approved 90 floor (91 measured).",
+          "summary": "Three consecutive production Lighthouse runs meet the approved 90 floor (95, 91, and 93 measured; CLS 0 in every run).",
           "owner": "AgentsKit-io/agentskit-os",
           "evidence": [
-            "https://github.com/AgentsKit-io/agentskit-os/pull/5319"
+            "https://github.com/AgentsKit-io/agentskit-os/pull/5324",
+            "https://akos.agentskit.io/docs"
           ]
         },
         {
