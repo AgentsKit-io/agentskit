@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "protocol": "agentskit.ecosystem.content-pipeline",
+  "title": "Human-approved content atom pipeline",
+  "issue": "https://github.com/AgentsKit-io/agentskit/issues/1206",
+  "parentPrd": "https://github.com/AgentsKit-io/agentskit/issues/1198",
+  "orchestration": "agentskit-runtime-roles",
+  "roles": [
+    {
+      "id": "recipe-miner",
+      "title": "Recipe miner",
+      "registryAgentId": null,
+      "agentskitContract": "skill+tool",
+      "description": "Discover publishable recipes from committed docs and fixtures.",
+      "implementation": "scripts/lib/content-pipeline/roles.mjs#mineRecipes"
+    },
+    {
+      "id": "claim-verifier",
+      "title": "Claim verifier",
+      "registryAgentId": "content-fact-checker",
+      "registryUrl": "https://github.com/AgentsKit-io/agentskit-registry/tree/main/registry/content-fact-checker",
+      "agentskitContract": "createContentFactCheckerAgent",
+      "description": "Verify numeric and factual claims against ecosystem-claims.json and recipe evidence.",
+      "implementation": "scripts/lib/content-pipeline/roles.mjs#verifyClaims"
+    },
+    {
+      "id": "content-repurposer",
+      "title": "Content repurposer",
+      "registryAgentId": "content-repurpose-matrix",
+      "registryUrl": "https://github.com/AgentsKit-io/agentskit-registry/tree/main/registry/content-repurpose-matrix",
+      "agentskitContract": "createContentRepurposeMatrixAgent",
+      "description": "Produce platform variants from a verified recipe atom.",
+      "implementation": "scripts/lib/content-pipeline/roles.mjs#repurpose"
+    },
+    {
+      "id": "visual-storyboarder",
+      "title": "Visual storyboarder",
+      "registryAgentId": "content-youtube-metadata",
+      "registryUrl": "https://github.com/AgentsKit-io/agentskit-registry/tree/main/registry/content-youtube-metadata",
+      "agentskitContract": "structured-agent",
+      "description": "Create GIF/carousel/video storyboard scripts without inventing product claims.",
+      "implementation": "scripts/lib/content-pipeline/roles.mjs#storyboard"
+    },
+    {
+      "id": "ecosystem-linker",
+      "title": "Ecosystem linker",
+      "registryAgentId": "content-internal-link-planner",
+      "registryUrl": "https://github.com/AgentsKit-io/agentskit-registry/tree/main/registry/content-internal-link-planner",
+      "agentskitContract": "structured-agent",
+      "description": "Inject contextual next-product links from ecosystem.json only.",
+      "implementation": "scripts/lib/content-pipeline/roles.mjs#linkEcosystem"
+    },
+    {
+      "id": "post-reviewer",
+      "title": "Post reviewer",
+      "registryAgentId": "content-style-guide-enforcer",
+      "registryUrl": "https://github.com/AgentsKit-io/agentskit-registry/tree/main/registry/content-style-guide-enforcer",
+      "agentskitContract": "structured-agent",
+      "description": "Technical accuracy, voice, accessibility, and link review checklist.",
+      "implementation": "scripts/lib/content-pipeline/roles.mjs#review"
+    },
+    {
+      "id": "publisher",
+      "title": "Publisher (draft only)",
+      "registryAgentId": null,
+      "agentskitContract": "policy-gated",
+      "description": "Prepare publish package only after human approval. Never posts to social networks autonomously.",
+      "implementation": "scripts/lib/content-pipeline/roles.mjs#preparePublish"
+    }
+  ],
+  "requiredGates": [
+    {
+      "id": "doc-bridge",
+      "summary": "Doc Bridge ownership/freshness for docs changes",
+      "command": "pnpm docs:bridge:gate"
+    },
+    {
+      "id": "playbook",
+      "summary": "Playbook quality expectations for agent-produced content",
+      "href": "https://playbook.agentskit.io/docs"
+    },
+    {
+      "id": "code-review",
+      "summary": "Code Review on implementation diffs before merge",
+      "href": "https://github.com/AgentsKit-io/code-review-cli"
+    }
+  ],
+  "atomsDir": "docs/ecosystem/content-pipeline/atoms",
+  "recipesDir": "docs/ecosystem/content-pipeline/recipes"
+}

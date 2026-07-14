@@ -32,7 +32,10 @@
     "docs:bridge:doctor": "ak-docs doctor --text",
     "release": "pnpm build && pnpm changeset publish",
     "size": "pnpm build && size-limit",
-    "size:why": "pnpm build && size-limit --why"
+    "size:why": "pnpm build && size-limit --why",
+    "content-pipeline:run": "node scripts/run-content-pipeline.mjs",
+    "check:content-pipeline": "node scripts/check-content-pipeline.mjs",
+    "test:content-pipeline": "vitest run scripts/content-pipeline.test.mjs"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

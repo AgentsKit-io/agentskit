@@ -1,0 +1,45 @@
+{
+  "id": "first-agent",
+  "title": "First agent without a provider key",
+  "status": "verified-source",
+  "problem": "New developers need a zero-key path to feel the AgentsKit runtime contract.",
+  "audience": "JavaScript/TypeScript developers evaluating AgentsKit",
+  "docs": [
+    "/docs/get-started/getting-started/build-your-first-agent",
+    "apps/docs-next/fixtures/first-agent/agent.ts"
+  ],
+  "executable": {
+    "fixture": "apps/docs-next/fixtures/first-agent/agent.ts",
+    "command": [
+      "pnpm",
+      "--filter",
+      "@agentskit/docs-next",
+      "exec",
+      "tsx",
+      "fixtures/first-agent/agent.ts"
+    ],
+    "expectStdoutIncludes": "Agent ready. I received: Plan my first production agent"
+  },
+  "commands": [
+    "npm install @agentskit/core @agentskit/runtime tsx",
+    "cp apps/docs-next/fixtures/first-agent/agent.ts ./agent.ts",
+    "npx tsx agent.ts"
+  ],
+  "claims": [
+    { "productId": "agentskit", "claimId": "packages" },
+    { "productId": "agentskit", "claimId": "framework-bindings" }
+  ],
+  "maturity": "stable-demo",
+  "citations": [
+    {
+      "id": "fixture",
+      "title": "first-agent fixture",
+      "href": "apps/docs-next/fixtures/first-agent/agent.ts"
+    },
+    {
+      "id": "claims",
+      "title": "ecosystem claims ledger",
+      "href": "ecosystem-claims.json"
+    }
+  ]
+}

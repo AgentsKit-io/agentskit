@@ -10,6 +10,12 @@ Entries are versioned by semver and dated by release. Future monthly entries sho
 
 ---
 
+## Unreleased
+
+### Added
+
+- **Human-approved content atom pipeline** (`docs/ecosystem/content-pipeline/`, `pnpm content-pipeline:run`) dogfooding Registry content agents with offline claim verification for issue #1206. Publishing stays human-gated.
+
 ## v1.0.0 — April 2026 · "Public Launch"
 
 April 2026 was the moment AgentsKit.js stepped out of early access and into the open. The v1.0.0 release consolidated the entire ecosystem under a single stable foundation — hardened contracts, a rebuilt documentation site, a full contribution pathway, and production-ready CI. The name was also officially registered: **AgentsKit.js**, clearly distinct from Inngest AgentKit.
