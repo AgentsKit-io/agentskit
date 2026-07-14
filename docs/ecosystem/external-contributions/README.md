@@ -26,7 +26,7 @@ pnpm test:external-contributions
 | Path | Purpose |
 |---|---|
 | `program.json` | Policy + metrics |
-| `targets/index.json` | Curated targets (including rejected promotional lists) |
+| `targets/index.json` | Curated targets with dated snapshots of their published contribution criteria |
 | `fixtures/sample-cli` | Offline target used to prove the workflow |
 | `contributions/*` | Prepared packages with proposal, utility check, evidence, approval |
 
@@ -42,3 +42,7 @@ pnpm test:external-contributions
 - rejection learning  
 
 We do **not** treat impressions or raw link counts as success.
+
+An approval is valid only for the SHA-256 digest of the exact proposal and files reviewed. Any
+content change blocks submission until a human reviews the new digest. Target-rule snapshots expire
+after 180 days, and only currently pending approvals count toward the mass-submission guard.

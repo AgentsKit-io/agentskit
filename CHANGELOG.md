@@ -19,6 +19,7 @@ Entries are versioned by semver and dated by release. Future monthly entries sho
 - **Ecosystem readiness certification harness** (`pnpm check:ecosystem-readiness` / `pnpm report:ecosystem-readiness`) with versioned per-product evidence under `ecosystem-readiness/` for issue #1204. Broad promotion stays gated until overall status is `ready`.
 - Readiness evidence now fails closed when it is empty, stale, future-dated, non-canonical, duplicated, or covered by an unapproved/expired exception.
 - **Utility-first external contribution program** (`docs/ecosystem/external-contributions/`, `pnpm check:external-contributions`) with fixture proof, Ollama OpenAI-compat draft, human approval gates, and non-vanity metrics for issue #1207.
+- **Review-bound contribution approvals** now require fresh published rules, passing utility/tests, and a digest of the exact proposal files; completed submissions no longer inflate the pending mass-submission guard.
 
 ## v1.0.0 — April 2026 · "Public Launch"
 

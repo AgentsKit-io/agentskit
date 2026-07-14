@@ -4,12 +4,15 @@ import { join } from 'node:path'
 import { test } from 'vitest'
 import {
   auditExternalContributions,
+  computeContributionDigest,
+  countPendingApprovals,
   loadContributions,
   loadTargets,
   prepareSubmission,
   reportOutcomes,
   selectTargets,
   utilityWithoutPromo,
+  validateTargetRules,
 } from './lib/external-contributions.mjs'
 import { REPO_ROOT } from './compute-stats.mjs'
 
@@ -69,10 +72,78 @@ test('external submission packaging is blocked without human approval', () => {
   )
   const ready = prepareSubmission({
     proposal: { id: 'x', outcome: { state: 'pending' } },
-    approval: { approved: true, approvedBy: 'reviewer', approvedOn: '2026-07-14' },
+    approval: {
+      approved: true,
+      approvedBy: 'reviewer',
+      approvedOn: '2026-07-14',
+      contentDigest: 'reviewed-digest',
+    },
+  }, {
+    targetEligible: true,
+    utility: { ok: true },
+    tests: { ok: true },
+    contentDigest: 'reviewed-digest',
   })
   assert.equal(ready.status, 'ready-for-human-submit')
   assert.equal(ready.action, 'manual-submit')
+})
+
+test('approval cannot bypass technical checks or authorize changed content', () => {
+  const contribution = {
+    proposal: { id: 'x', outcome: { state: 'pending' } },
+    approval: {
+      approved: true,
+      approvedBy: 'reviewer',
+      approvedOn: '2026-07-14',
+      contentDigest: 'reviewed-digest',
+    },
+  }
+  const incomplete = prepareSubmission(contribution, {
+    targetEligible: true,
+    utility: { ok: true },
+    tests: { ok: false },
+    contentDigest: 'reviewed-digest',
+  })
+  assert.equal(incomplete.status, 'blocked')
+
+  const changed = prepareSubmission(contribution, {
+    targetEligible: true,
+    utility: { ok: true },
+    tests: { ok: true },
+    contentDigest: 'changed-digest',
+  })
+  assert.equal(changed.status, 'blocked')
+  assert.match(changed.reason, /exact reviewed proposal/)
+})
+
+test('content digest changes when a proposal changes', () => {
+  const contributions = loadContributions(REPO_ROOT)
+  const contribution = contributions[0]
+  const original = computeContributionDigest(REPO_ROOT, contribution.proposal)
+  const changed = computeContributionDigest(REPO_ROOT, {
+    ...contribution.proposal,
+    title: `${contribution.proposal.title} changed`,
+  })
+  assert.notEqual(original, changed)
+  assert.match(original, /^[a-f0-9]{64}$/)
+})
+
+test('target rules must point to a fresh, reviewed CONTRIBUTING document', () => {
+  const targets = loadTargets(REPO_ROOT)
+  for (const target of targets.filter((item) => item.technicalRelationship)) {
+    assert.equal(validateTargetRules(target).ok, true)
+  }
+  assert.equal(
+    validateTargetRules({
+      contributionRulesUrl: 'https://example.com/api',
+      contributionRules: {
+        sourceUrl: 'https://example.com/api',
+        reviewedOn: '2026-07-14',
+        criteria: ['looks useful'],
+      },
+    }).ok,
+    false,
+  )
 })
 
 test('accepted outcomes require maintenance ownership', () => {
@@ -80,7 +151,12 @@ test('accepted outcomes require maintenance ownership', () => {
     () =>
       prepareSubmission({
         proposal: { id: 'x', outcome: { state: 'accepted' }, maintenanceOwner: null },
-        approval: { approved: true, approvedBy: 'a', approvedOn: '2026-07-14' },
+        approval: {
+          approved: true,
+          approvedBy: 'a',
+          approvedOn: '2026-07-14',
+          contentDigest: 'digest',
+        },
       }),
     /maintenanceOwner/,
   )
@@ -92,6 +168,23 @@ test('reporting distinguishes utility outcomes from vanity metrics', () => {
   assert.equal(report.counts.pending, contributions.length)
   assert.ok(report.notTracked.includes('impressions'))
   assert.ok(report.notTracked.includes('raw-link-count'))
+})
+
+test('mass-submission guard counts only approved packages still pending', () => {
+  const contribution = (state, approved = true) => ({
+    proposal: { outcome: { state } },
+    approval: { approved },
+  })
+  assert.equal(
+    countPendingApprovals([
+      contribution('pending'),
+      contribution('submitted'),
+      contribution('accepted'),
+      contribution('rejected'),
+      contribution('pending', false),
+    ]),
+    1,
+  )
 })
 
 test('program audit passes for committed packages and fixture target tests', () => {

@@ -1,12 +1,56 @@
 import { closeSync, existsSync, fstatSync, openSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { isAbsolute, join, relative, resolve, sep } from 'node:path'
 import { spawnSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
 
 export const PROTOCOL = 'agentskit.ecosystem.external-contributions'
 export const SCHEMA_VERSION = 1
 
 const isObject = (value) => value !== null && typeof value === 'object' && !Array.isArray(value)
 const nonEmpty = (value) => typeof value === 'string' && value.trim().length > 0
+const ISO_DATE = /^\d{4}-\d{2}-\d{2}$/
+const MAX_RULES_AGE_DAYS = 180
+
+function stableJson(value) {
+  if (Array.isArray(value)) return `[${value.map(stableJson).join(',')}]`
+  if (isObject(value)) {
+    return `{${Object.keys(value)
+      .sort()
+      .map((key) => `${JSON.stringify(key)}:${stableJson(value[key])}`)
+      .join(',')}}`
+  }
+  return JSON.stringify(value)
+}
+
+function parseIsoDate(value) {
+  if (!nonEmpty(value) || !ISO_DATE.test(value)) return null
+  const date = new Date(`${value}T00:00:00.000Z`)
+  return Number.isNaN(date.getTime()) ? null : date
+}
+
+export function validateTargetRules(target, now = new Date()) {
+  const rules = target.contributionRules
+  if (!isObject(rules)) return { ok: false, reason: 'missing contribution rules snapshot' }
+  if (!nonEmpty(rules.sourceUrl) || rules.sourceUrl !== target.contributionRulesUrl) {
+    return { ok: false, reason: 'contribution rules source does not match the reviewed URL' }
+  }
+  const publishedRules =
+    /(^|\/)CONTRIBUTING\.md(?:$|[?#])/i.test(rules.sourceUrl) ||
+    (target.kind === 'fixture' && rules.sourceUrl.endsWith('/CONTRIBUTING.md'))
+  if (!publishedRules) {
+    return { ok: false, reason: 'source URL is not a published CONTRIBUTING.md' }
+  }
+  const reviewedOn = parseIsoDate(rules.reviewedOn)
+  if (!reviewedOn) return { ok: false, reason: 'rules snapshot requires a valid reviewedOn date' }
+  const ageDays = Math.floor((now.getTime() - reviewedOn.getTime()) / 86_400_000)
+  if (ageDays < 0 || ageDays > MAX_RULES_AGE_DAYS) {
+    return { ok: false, reason: `rules snapshot must be 0-${MAX_RULES_AGE_DAYS} days old` }
+  }
+  if (!Array.isArray(rules.criteria) || rules.criteria.length === 0 || !rules.criteria.every(nonEmpty)) {
+    return { ok: false, reason: 'rules snapshot requires non-empty review criteria' }
+  }
+  return { ok: true, reviewedOn: rules.reviewedOn, criteria: rules.criteria }
+}
 
 export function loadJson(root, relativePath) {
   return JSON.parse(readFileSync(join(root, relativePath), 'utf8'))
@@ -60,8 +104,9 @@ export function selectTargets(targets, { allowPromotional = false } = {}) {
       rejected.push({ id: target.id, reason: 'no technical relationship / promotional-only' })
       continue
     }
-    if (!nonEmpty(target.contributionRulesUrl)) {
-      rejected.push({ id: target.id, reason: 'missing published contribution rules' })
+    const rules = validateTargetRules(target)
+    if (!rules.ok) {
+      rejected.push({ id: target.id, reason: rules.reason })
       continue
     }
     if (!allowPromotional && target.priority === 'rejected-by-policy') {
@@ -115,6 +160,13 @@ function collectFiles(root, relativePaths) {
   return chunks
 }
 
+export function computeContributionDigest(root, proposal) {
+  const files = collectFiles(root, proposal.files ?? []).sort((a, b) => a.path.localeCompare(b.path))
+  return createHash('sha256')
+    .update(stableJson({ proposal, files }))
+    .digest('hex')
+}
+
 export function utilityWithoutPromo(root, proposal) {
   const markers = proposal.utilityWithoutPromo?.promoMarkers ?? [
     'AgentsKit',
@@ -156,7 +208,7 @@ export function utilityWithoutPromo(root, proposal) {
   }
 }
 
-export function prepareSubmission(contribution) {
+export function prepareSubmission(contribution, assessment = {}) {
   const { proposal, approval } = contribution
   if (proposal.outcome?.state === 'accepted' && !nonEmpty(proposal.maintenanceOwner)) {
     throw new Error(`${proposal.id}: accepted contributions require maintenanceOwner`)
@@ -169,6 +221,25 @@ export function prepareSubmission(contribution) {
   }
   if (!nonEmpty(approval.approvedBy) || !nonEmpty(approval.approvedOn)) {
     throw new Error(`${proposal.id}: approval requires approvedBy and approvedOn`)
+  }
+  if (!parseIsoDate(approval.approvedOn)) {
+    throw new Error(`${proposal.id}: approvedOn must be an ISO date`)
+  }
+  if (
+    assessment.targetEligible !== true ||
+    assessment.utility?.ok !== true ||
+    assessment.tests?.ok !== true
+  ) {
+    return {
+      status: 'blocked',
+      reason: 'Technical target, utility, and test checks must pass before submission',
+    }
+  }
+  if (!nonEmpty(approval.contentDigest) || approval.contentDigest !== assessment.contentDigest) {
+    return {
+      status: 'blocked',
+      reason: 'Approval does not match the exact reviewed proposal and files',
+    }
   }
   return {
     status: 'ready-for-human-submit',
@@ -185,7 +256,16 @@ export function runContributionTests(root, proposal) {
   }
   const cwd = proposal.tests.cwd ? join(root, proposal.tests.cwd) : root
   const [bin, ...args] = proposal.tests.command
-  const run = spawnSync(bin, args, { cwd, encoding: 'utf8', env: process.env })
+  const run = spawnSync(bin, args, {
+    cwd,
+    encoding: 'utf8',
+    env: process.env,
+    timeout: 120_000,
+    killSignal: 'SIGTERM',
+  })
+  if (run.error) {
+    return { ok: false, message: `tests could not run: ${run.error.message}` }
+  }
   if (run.status !== 0) {
     return {
       ok: false,
@@ -217,6 +297,13 @@ export function reportOutcomes(contributions) {
   }
 }
 
+export function countPendingApprovals(contributions) {
+  return contributions.filter(
+    (item) =>
+      item.approval?.approved === true && (item.proposal.outcome?.state ?? 'pending') === 'pending',
+  ).length
+}
+
 export function auditExternalContributions(root) {
   const failures = []
   const program = parseProgram(
@@ -237,7 +324,7 @@ export function auditExternalContributions(root) {
   if (contributions.length === 0) failures.push('no contribution packages found')
 
   // Mass submission guard: more than 5 ready-to-submit without approval is forbidden.
-  const approvedCount = contributions.filter((item) => item.approval?.approved === true).length
+  const approvedCount = countPendingApprovals(contributions)
   if (program.policy.forbidMassSubmission && approvedCount > 5) {
     failures.push('mass submission risk: more than 5 approved packages pending submit')
   }
@@ -252,9 +339,8 @@ export function auditExternalContributions(root) {
     if (!target.technicalRelationship || target.promotionalOnly) {
       failures.push(`${id}: target ${target.id} fails technical relationship policy`)
     }
-    if (!nonEmpty(target.contributionRulesUrl)) {
-      failures.push(`${id}: target missing contribution rules URL`)
-    }
+    const targetRules = validateTargetRules(target)
+    if (!targetRules.ok) failures.push(`${id}: target rules invalid — ${targetRules.reason}`)
     if (!existsSync(join(root, contribution.base, 'utility-check.md'))) {
       failures.push(`${id}: missing utility-check.md`)
     }
@@ -267,7 +353,16 @@ export function auditExternalContributions(root) {
     const tests = runContributionTests(root, proposal)
     if (!tests.ok) failures.push(`${id}: ${tests.message}`)
 
-    const submission = prepareSubmission(contribution)
+    const contentDigest = computeContributionDigest(root, proposal)
+    const submission = prepareSubmission(contribution, {
+      targetEligible:
+        target.technicalRelationship === true &&
+        target.promotionalOnly !== true &&
+        targetRules.ok,
+      utility,
+      tests,
+      contentDigest,
+    })
     if (approval?.approved === true && submission.status !== 'ready-for-human-submit') {
       failures.push(`${id}: approved package did not become ready-for-human-submit`)
     }
