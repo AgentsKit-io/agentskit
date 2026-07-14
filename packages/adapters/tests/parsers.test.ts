@@ -152,6 +152,45 @@ describe('parseOpenAIStream', () => {
     expect(toolCalls[0].toolCall!.name).toBe('foo')
     expect(toolCalls[1].toolCall!.name).toBe('bar')
   })
+
+  it('reports an error when the provider closes without a terminal marker', async () => {
+    const stream = sseStream([
+      JSON.stringify({ choices: [{ delta: { content: 'Partial answer' } }] }),
+    ])
+
+    const chunks = await collect(parseOpenAIStream(stream))
+
+    expect(chunks[0]).toEqual({ type: 'text', content: 'Partial answer' })
+    expect(chunks[1]?.type).toBe('error')
+    expect(chunks[1]?.metadata?.error).toBeInstanceOf(Error)
+    expect(chunks).not.toContainEqual({ type: 'done' })
+  })
+
+  it('accepts a provider finish reason when the SSE done sentinel is absent', async () => {
+    const stream = sseStream([
+      JSON.stringify({ choices: [{ delta: { content: 'Complete answer' } }] }),
+      JSON.stringify({ choices: [{ delta: {}, finish_reason: 'stop' }] }),
+    ])
+
+    await expect(collect(parseOpenAIStream(stream))).resolves.toEqual([
+      { type: 'text', content: 'Complete answer' },
+      { type: 'done' },
+    ])
+  })
+
+  it.each(['length', 'content_filter', 'cancelled'])('reports %s as a non-success terminal reason', async (finishReason) => {
+    const stream = sseStream([
+      JSON.stringify({ choices: [{ delta: { content: 'Truncated answer' } }] }),
+      JSON.stringify({ choices: [{ delta: {}, finish_reason: finishReason }] }),
+      '[DONE]',
+    ])
+
+    const chunks = await collect(parseOpenAIStream(stream))
+
+    expect(chunks.at(-1)?.type).toBe('error')
+    expect(chunks.at(-1)?.metadata?.finishReason).toBe(finishReason)
+    expect(chunks).not.toContainEqual({ type: 'done' })
+  })
 })
 
 // ---------------------------------------------------------------------------

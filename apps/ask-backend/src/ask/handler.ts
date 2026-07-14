@@ -142,7 +142,7 @@ function singleEventStream(events: UiEvent[], model: string, extra: Record<strin
     },
   })
   return new Response(stream, {
-    headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store', 'x-model': model, ...extra },
+    headers: { 'content-type': 'application/x-ndjson; charset=utf-8', 'cache-control': 'no-store', 'x-model': model, ...extra },
   })
 }
 
@@ -360,6 +360,7 @@ Question: ${m.content}`,
           }
         }
         let sawError = false
+        let sawDone = false
         try {
           for await (const chunk of source.stream() as AsyncIterable<StreamChunk>) {
             if (closed) break // client disconnected — stop pulling from the provider
@@ -374,14 +375,24 @@ Question: ${m.content}`,
               sawError = true
               send({ type: 'error', message: 'The model is busy or unavailable. Please try again.' })
               break
+            } else if (chunk.type === 'done') {
+              sawDone = true
+              break
             }
           }
-          if (!sawError) {
+          if (!sawError && !sawDone && !closed) {
+            const error = new Error('The adapter stream ended without a terminal chunk.')
+            hooks.onError?.(error, { stage: 'stream' })
+            console.error('[ask-docs] adapter stream ended without a terminal chunk')
+            sawError = true
+            send({ type: 'error', message: 'The model is busy or unavailable. Please try again.' })
+          }
+          if (!sawError && sawDone && !closed) {
             if (!richUi && citeSources.length > 0) {
               send({ type: 'tool', id: 'sources', name: 'cite', args: { sources: citeSources } })
             }
             send({ type: 'done', model })
-            if (cacheKey && config.cache?.setAnswer) {
+            if (!closed && cacheKey && config.cache?.setAnswer) {
               await config.cache.setAnswer(cacheKey, { events: cachedEvents, model, createdAt: Date.now() })
             }
           }
@@ -400,7 +411,7 @@ Question: ${m.content}`,
     })
 
     return new Response(uiStream, {
-      headers: { 'content-type': 'text/plain; charset=utf-8', 'cache-control': 'no-store', 'x-model': model, ...cors },
+      headers: { 'content-type': 'application/x-ndjson; charset=utf-8', 'cache-control': 'no-store', 'x-model': model, ...cors },
     })
   }
 }
