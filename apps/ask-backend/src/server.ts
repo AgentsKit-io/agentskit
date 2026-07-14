@@ -116,6 +116,31 @@ const corpora: Record<string, Corpus> = {
     persona: 'playbook-coach',
     title: 'Agents Playbook',
   },
+  'doc-bridge': {
+    retriever: createRemoteCorpusRetriever({
+      id: 'doc-bridge',
+      title: 'AgentsKit Doc Bridge',
+      sources: [
+        {
+          title: 'Doc Bridge full docs',
+          url:
+            process.env.ASK_DOC_BRIDGE_LLMS_FULL_URL ??
+            'https://agentskit-io.github.io/doc-bridge/llms-full.txt',
+        },
+        {
+          title: 'Doc Bridge llms',
+          url:
+            process.env.ASK_DOC_BRIDGE_LLMS_URL ??
+            'https://agentskit-io.github.io/doc-bridge/llms.txt',
+        },
+      ],
+    }),
+    systemPrompt: docsAssistant.systemPrompt,
+    temperature: docsAssistant.temperature,
+    formatContext: (docs) => formatCitedContext(docs).context,
+    persona: 'docs-helper',
+    title: 'AgentsKit Doc Bridge',
+  },
   akos: {
     retriever: createRemoteCorpusRetriever({
       id: 'akos',
@@ -236,7 +261,7 @@ const app = new Hono()
 // drop empties. Log the effective list so a misconfigured ASK_CORS_ORIGINS is visible.
 const origins = (
   process.env.ASK_CORS_ORIGINS ??
-  'https://www.agentskit.io,https://agentskit.io,https://registry.agentskit.io,https://playbook.agentskit.io,https://akos.agentskit.io,http://localhost:3000'
+  'https://www.agentskit.io,https://agentskit.io,https://registry.agentskit.io,https://playbook.agentskit.io,https://akos.agentskit.io,https://agentskit-io.github.io,http://localhost:3000'
 )
   .split(',')
   .map((o) => o.trim().replace(/\/+$/, ''))

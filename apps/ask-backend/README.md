@@ -6,7 +6,7 @@ serverless cold-start, no native-binary tracing hacks — serving grounded, cite
 for every AgentsKit property over HTTP.
 
 One embedder + one $0 LLM pool + the shared guards serve **N corpora**, routed by a
-`corpus` query param. Current corpora: `docs`, `registry`, `playbook`, `akos`.
+`corpus` query param. Current corpora: `docs`, `registry`, `playbook`, `doc-bridge`, `akos`.
 
 ## API
 
@@ -126,6 +126,7 @@ Remote corpus sources:
 
 - `ASK_REGISTRY_LLMS_FULL_URL`, `ASK_REGISTRY_LLMS_URL`, `ASK_REGISTRY_INDEX_URL`
 - `ASK_PLAYBOOK_LLMS_FULL_URL`, `ASK_PLAYBOOK_LLMS_URL`
+- `ASK_DOC_BRIDGE_LLMS_FULL_URL`, `ASK_DOC_BRIDGE_LLMS_URL`
 - `ASK_AKOS_LLMS_FULL_URL`, `ASK_AKOS_LLMS_URL` (`AKOS_*` aliases are also accepted)
 
 AKOS funnel:
