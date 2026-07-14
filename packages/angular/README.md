@@ -2,7 +2,7 @@
 
 Profile: <code>concise-package</code>
 
-<p align="center"><img alt="AgentsKit" src="../../apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
 Angular 18+ service (Signal + RxJS) + headless chat components. Same `ChatReturn` contract every AgentsKit framework binding ships.
 

@@ -22,6 +22,7 @@ afterEach(() => {
 function fixture() {
   const root = mkdtempSync(join(tmpdir(), 'agentskit-readme-standard-'))
   temporaryRoots.push(root)
+  const visualPaths = new Set(config.surfaces[0].visuals.map(visual => visual.src))
   const paths = new Set([
     config.surfaces[0].path,
     ...config.surfaces[0].freshness.sources,
@@ -32,9 +33,15 @@ function fixture() {
   for (const path of paths) {
     const destination = join(root, path)
     mkdirSync(dirname(destination), { recursive: true })
-    cpSync(join(REPO_ROOT, path), destination)
+    // The audit only requires visual files to resolve. Avoid copying binary
+    // GIFs into Vitest's temporary source tree, where source-map discovery can
+    // misinterpret arbitrary bytes as an inline source-map comment.
+    if (visualPaths.has(path)) writeFileSync(destination, 'visual fixture')
+    else cpSync(join(REPO_ROOT, path), destination)
   }
   const value = structuredClone(config)
+  // Unit fixtures copy one surface's evidence only. Keep the audit scoped to
+  // that surface so unrelated repository surfaces cannot invalidate the case.
   value.surfaces = [value.surfaces[0]]
   return { root, value }
 }
@@ -127,6 +134,11 @@ test('the AgentsKit top-level README passes its locked profile with evidence', (
 test('the marked README example runs without credentials or network', () => {
   const source = readFileSync(join(REPO_ROOT, 'apps/docs-next/fixtures/first-agent/agent.ts'), 'utf8')
   assert.doesNotMatch(source, /process\.env|fetch\(|https?:\/\//)
+  const build = spawnSync('pnpm', ['--filter', '@agentskit/runtime...', 'build'], {
+    cwd: REPO_ROOT,
+    encoding: 'utf8',
+  })
+  assert.equal(build.status, 0, build.stderr)
   const run = spawnSync(
     'pnpm',
     ['--filter', '@agentskit/docs-next', 'exec', 'tsx', 'fixtures/first-agent/agent.ts'],
@@ -134,7 +146,7 @@ test('the marked README example runs without credentials or network', () => {
   )
   assert.equal(run.status, 0, run.stderr)
   assert.equal(run.stdout.trim(), 'Agent ready. I received: Plan my first production agent')
-})
+}, 60_000)
 
 for (const [dimension, marker] of [
   ['promise', '**The agent toolkit JavaScript actually deserves.**'],
