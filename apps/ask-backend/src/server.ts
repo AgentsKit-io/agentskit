@@ -16,6 +16,7 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
+import { resolveCorsOrigins } from './cors-origins.js'
 import { createMiddleware } from 'hono/factory'
 import type { JSONSchema7 } from 'json-schema'
 import type { RetrievedDocument, Retriever } from '@agentskit/core'
@@ -256,16 +257,9 @@ function warmCorpora(): void {
 
 const app = new Hono()
 
-// Parse the CORS allow-list defensively: trim each entry and strip a trailing slash
-// (an `Origin` header never has one, so `https://x/` would silently never match), and
-// drop empties. Log the effective list so a misconfigured ASK_CORS_ORIGINS is visible.
-const origins = (
-  process.env.ASK_CORS_ORIGINS ??
-  'https://www.agentskit.io,https://agentskit.io,https://registry.agentskit.io,https://playbook.agentskit.io,https://akos.agentskit.io,https://agentskit-io.github.io,http://localhost:3000'
-)
-  .split(',')
-  .map((o) => o.trim().replace(/\/+$/, ''))
-  .filter(Boolean)
+// Environment origins extend the official Doc Bridge origin rather than replacing
+// it, so the published chat keeps working when production has an explicit allow-list.
+const origins = resolveCorsOrigins(process.env.ASK_CORS_ORIGINS)
 console.log('[ask-backend] CORS allow-origins:', origins.join(', ') || '(none!)')
 app.use('/v1/*', cors({ origin: origins, allowMethods: ['POST', 'GET', 'OPTIONS'] }))
 
