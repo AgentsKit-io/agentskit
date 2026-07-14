@@ -31,11 +31,11 @@ import {
   StandardComponent as FrameworkStandardComponent,
   type AgentChatSlots,
   type StandardComponentProps,
-} from '@agentskit/chat-react'
+} from '@agentskit/chat/react'
 import {
   decodeDeterministicSiteConfig,
   verifyLocalKnowledgeArtifactSync,
-} from '@agentskit/chat-protocol'
+} from '@agentskit/chat/protocol'
 import { z } from 'zod'
 import { AnimatedLogo } from '@/components/brand/animated-logo'
 import deterministicKnowledge from '@/lib/deterministic-knowledge.generated.json'

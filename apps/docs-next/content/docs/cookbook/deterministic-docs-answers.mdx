@@ -35,7 +35,7 @@ import {
 import {
   decodeDeterministicSiteConfig,
   verifyLocalKnowledgeArtifact,
-} from '@agentskit/chat-protocol'
+} from '@agentskit/chat/protocol'
 
 const site = decodeDeterministicSiteConfig(siteJson)
 if (!site.ok) throw new Error(site.diagnostic.message)
@@ -67,7 +67,7 @@ pnpm --filter @agentskit/docs-next gen:deterministic-knowledge
 The generator:
 
 1. Sorts every source and entry for byte-stable output.
-2. Validates all v1 bounds and safe links with `@agentskit/chat-protocol`.
+2. Validates all v1 bounds and safe links with `@agentskit/chat/protocol`.
 3. Computes and verifies the canonical SHA-256 content hash.
 4. Enforces a **96 KiB product budget**, below the protocol's 512 KiB ceiling.
 5. Publishes a content-addressed JSON URL with a one-year immutable cache header.

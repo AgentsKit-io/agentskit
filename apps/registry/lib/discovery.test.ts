@@ -7,7 +7,7 @@ import {
   DETERMINISTIC_SITE_PROTOCOL_VERSION,
   computeLocalKnowledgeArtifactContentHash,
   type LocalKnowledgeArtifactHashInput,
-} from '@agentskit/chat-protocol'
+} from '@agentskit/chat/protocol'
 import { createRegistryDiscoveryAdapter, loadRegistryDiscovery } from './discovery'
 
 const request = (content: string): AdapterRequest => ({

@@ -7,7 +7,7 @@ import {
   decodeDeterministicSiteConfig,
   verifyLocalKnowledgeArtifactSync,
   type AnswerResponse,
-} from '@agentskit/chat-protocol'
+} from '@agentskit/chat/protocol'
 
 const DEFAULT_BASE =
   'https://raw.githubusercontent.com/AgentsKit-io/agentskit-registry/main/public/deterministic'

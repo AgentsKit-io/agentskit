@@ -12,7 +12,7 @@ import {
   computeLocalKnowledgeArtifactContentHash,
   normalizeKnowledgeKey,
   verifyLocalKnowledgeArtifact,
-} from '@agentskit/chat-protocol'
+} from '@agentskit/chat/protocol'
 
 const appRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 const repoRoot = join(appRoot, '../..')

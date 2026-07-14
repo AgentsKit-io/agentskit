@@ -8,7 +8,7 @@ This is the recipe for the chat you're using right now: a **grounded RAG assista
 The production widget dogfoods the public AgentsKit Chat framework. `AgentChat` owns the canonical message timeline, streaming lifecycle, cancellation, retry/edit/regenerate behavior, persistence through AgentsKit memory, component validation, and accessible rendering diagnostics. The docs host keeps only its corpus branding, Markdown slot, generated local knowledge, and a small adapter that converts the existing Ask NDJSON boundary into ordered assistant content. Citations use the standard `source-list` contract rather than a site-private citation component. Known exact questions now use the [deterministic local answer plane](./deterministic-docs-answers) before this RAG path, so they require no backend request.
 
 ```ts
-import { createAssistantContentEncoder } from '@agentskit/chat-protocol'
+import { createAssistantContentEncoder } from '@agentskit/chat/protocol'
 
 const content = createAssistantContentEncoder()
 yield { type: 'text', content: content.encode({ kind: 'text', text: answerChunk }) }
