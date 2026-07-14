@@ -14,6 +14,7 @@
     "test:reference-docs": "vitest run scripts/reference-docs-vertical.test.mjs",
     "test:deterministic-docs": "vitest run apps/docs-next/tests/deterministic-docs-answers.test.mjs",
     "test:readme-standard": "vitest run scripts/readme-standard.test.mjs",
+    "test:readme-fixtures": "vitest run scripts/readme-fixtures.test.mjs",
     "check:readme-standard": "node scripts/check-readme-standard.mjs",
     "readme:standard:refresh": "node scripts/refresh-readme-standard.mjs",
     "lint": "turbo run lint",

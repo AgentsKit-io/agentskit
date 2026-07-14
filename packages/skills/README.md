@@ -2,7 +2,7 @@
 
 Profile: <code>major-package</code>
 
-<p align="center"><img alt="AgentsKit" src="../../apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
 Pre-tuned agent personas that work out of the box — skills are what your agent IS, tools are what it CAN DO.
 

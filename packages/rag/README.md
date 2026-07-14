@@ -2,7 +2,7 @@
 
 Profile: <code>major-package</code>
 
-<p align="center"><img alt="AgentsKit" src="../../apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
 Plug-and-play retrieval-augmented generation: chunk documents, embed them, and retrieve the right context at query time.
 

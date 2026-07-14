@@ -2,7 +2,7 @@
 
 Profile: <code>concise-package</code>
 
-<p align="center"><img alt="AgentsKit" src="../../apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
 Measure agent quality with numbers, not vibes — ship with confidence.
 

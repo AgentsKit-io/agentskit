@@ -4,6 +4,12 @@ import {
   robustnessFamily,
 } from '@agentskit/eval-braintrust'
 
+const myAgent = {
+  async run(input: string) {
+    return { text: `Answer for: ${input}`, toolCalls: [] }
+  },
+}
+
 const result = await runBraintrustEval({
   cases: [
     { input: 'What is the capital of France?', output: '', expected: 'Paris' },

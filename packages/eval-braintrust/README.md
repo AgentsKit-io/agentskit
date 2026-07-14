@@ -2,7 +2,7 @@
 
 Profile: <code>concise-package</code>
 
-<p align="center"><img alt="AgentsKit" src="../../apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
 **Tags:** `agentskit` · `typescript` · `ai-agents`
 
@@ -49,6 +49,12 @@ import {
   qualityFamily,
   robustnessFamily,
 } from '@agentskit/eval-braintrust'
+
+const myAgent = {
+  async run(input: string) {
+    return { text: `Answer for: ${input}`, toolCalls: [] }
+  },
+}
 
 const result = await runBraintrustEval({
   cases: [

@@ -193,8 +193,8 @@
         {
           "id": "first-agent",
           "fixture": "apps/docs-next/fixtures/first-agent/agent.ts",
-          "test": "scripts/reference-docs-vertical.test.mjs",
-          "testCommand": "pnpm test:reference-docs"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -205,9 +205,10 @@
           "apps/docs-next/fixtures/first-agent/agent.ts",
           "docs/STABILITY.md",
           "ecosystem-claims.json",
-          "ecosystem.json"
+          "ecosystem.json",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:f9a726c03c7e2b633a62d60cdee4a392ab7d06c5467cb7a7064546bf21a832ce"
+        "sourceHash": "sha256:4548d570cde8e532a7863dbdc6d4bff44b6d671f6297d4cc48f7adf13baea17c"
       },
       "exceptions": []
     },
@@ -272,8 +273,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/adapters/fixtures/readme-quickstart.ts",
-          "test": "packages/adapters/tests/azure-openai.test.ts",
-          "testCommand": "pnpm --filter @agentskit/adapters test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -283,9 +284,10 @@
           "packages/adapters/README.md",
           "packages/adapters/package.json",
           "packages/adapters/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:71fe1e97c33d38fe5ddec10425507dd3af5b95825fcf6ed774e22839aac5e6d8"
+        "sourceHash": "sha256:313991bbeef598c323849650219fd02ca02a7e142c3e560240e87b58276eb4a2"
       },
       "exceptions": []
     },
@@ -349,9 +351,9 @@
       "examples": [
         {
           "id": "quickstart",
-          "fixture": "packages/angular/fixtures/readme-quickstart.ts",
-          "test": "packages/angular/tests/components.test.ts",
-          "testCommand": "pnpm --filter @agentskit/angular test"
+          "fixture": "packages/angular/fixtures/readme-quickstart.tsx",
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -360,10 +362,11 @@
         "sources": [
           "packages/angular/README.md",
           "packages/angular/package.json",
-          "packages/angular/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "packages/angular/fixtures/readme-quickstart.tsx",
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:24047bd66320f47cae6cf491720f905ed72f290413cf51fd759a091c1c6149d7"
+        "sourceHash": "sha256:8ab2835e0934c260f2d3f684c434968f45dc0cb6ebee1928581af3ec05ccaaf3"
       },
       "exceptions": []
     },
@@ -427,9 +430,9 @@
       "examples": [
         {
           "id": "quickstart",
-          "fixture": "packages/cli/fixtures/readme-quickstart.ts",
-          "test": "packages/cli/tests/ai.test.ts",
-          "testCommand": "pnpm --filter @agentskit/cli test"
+          "fixture": "packages/cli/tests/fixtures/readme-quickstart.ts",
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -438,10 +441,11 @@
         "sources": [
           "packages/cli/README.md",
           "packages/cli/package.json",
-          "packages/cli/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "packages/cli/tests/fixtures/readme-quickstart.ts",
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:280a969fbc0ed736d16ec49e0c793dd28240309639550ecfd2a1df823c067402"
+        "sourceHash": "sha256:1349082b321555e824b03e3a1d2f6c913b4203e8738923fb1ba0c64d50b162a3"
       },
       "exceptions": []
     },
@@ -506,8 +510,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/core/fixtures/readme-quickstart.ts",
-          "test": "packages/core/tests/a2a.test.ts",
-          "testCommand": "pnpm --filter @agentskit/core test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -517,9 +521,10 @@
           "packages/core/README.md",
           "packages/core/package.json",
           "packages/core/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:d2bfbd0896af5dc41564b575062104f7533b50716dd66b2f31215c0189a8f741"
+        "sourceHash": "sha256:7915cf04187d0e2cf31854780c9fd4bbd0aac40cfb8687a508dac11f421bb5ed"
       },
       "exceptions": []
     },
@@ -584,8 +589,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/eval/fixtures/readme-quickstart.ts",
-          "test": "packages/eval/tests/against.test.ts",
-          "testCommand": "pnpm --filter @agentskit/eval test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -595,9 +600,10 @@
           "packages/eval/README.md",
           "packages/eval/package.json",
           "packages/eval/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:0b636f5ec4ff55c25fa9ee0d1b6b4b33a5bc821bd6f05c744efa166341997276"
+        "sourceHash": "sha256:0d78de9ae47b2d84dc07d0924aff67fc1c621328d4d6fa1dc2963013233ce0ca"
       },
       "exceptions": []
     },
@@ -662,8 +668,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/eval-braintrust/fixtures/readme-quickstart.ts",
-          "test": "packages/eval-braintrust/tests/ci.test.ts",
-          "testCommand": "pnpm --filter @agentskit/eval-braintrust test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -673,9 +679,10 @@
           "packages/eval-braintrust/README.md",
           "packages/eval-braintrust/package.json",
           "packages/eval-braintrust/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:9bea346698170a086bbd8abd5cd7d36682eea8df1953f8925b921f9c3061384c"
+        "sourceHash": "sha256:6afcd507acc09f10190ca484dd001fc604fe4d5bc74012ce1569dc1a8e4eb59c"
       },
       "exceptions": []
     },
@@ -739,9 +746,9 @@
       "examples": [
         {
           "id": "quickstart",
-          "fixture": "packages/ink/fixtures/readme-quickstart.ts",
-          "test": "packages/ink/tests/exports.test.ts",
-          "testCommand": "pnpm --filter @agentskit/ink test"
+          "fixture": "packages/ink/fixtures/readme-quickstart.tsx",
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -750,10 +757,11 @@
         "sources": [
           "packages/ink/README.md",
           "packages/ink/package.json",
-          "packages/ink/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "packages/ink/fixtures/readme-quickstart.tsx",
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:b14ab2f28d423d80a56969ff423649a0e9775a7d01487dcaeef6107b37e9e7ef"
+        "sourceHash": "sha256:7e0723e08a23b55a418c7b408114d99e764a29d034beda565a03a537f36c8090"
       },
       "exceptions": []
     },
@@ -818,8 +826,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/integrations/fixtures/readme-quickstart.ts",
-          "test": "packages/integrations/tests/ai-web.test.ts",
-          "testCommand": "pnpm --filter @agentskit/integrations test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -829,9 +837,10 @@
           "packages/integrations/README.md",
           "packages/integrations/package.json",
           "packages/integrations/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:37c369f12f4187a46c0b61e28d21f36214e56c65ef88db7c095f4a22c91d9a4c"
+        "sourceHash": "sha256:d9805197903f2f14cd425c737e3271e11710dcdee1d1db5aff3527461a2844bf"
       },
       "exceptions": []
     },
@@ -896,8 +905,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/mcp/fixtures/readme-quickstart.ts",
-          "test": "packages/mcp/tests/server.test.ts",
-          "testCommand": "pnpm --filter @agentskit/mcp test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -907,9 +916,10 @@
           "packages/mcp/README.md",
           "packages/mcp/package.json",
           "packages/mcp/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:b38041953c6ca77853d3da1c80d52e8ad0ac3cb666175fe9acaf565b6d6d8537"
+        "sourceHash": "sha256:84d93173ae493421df6e1f2905eb2c7262b8c95360ffa805347f74545a5394d4"
       },
       "exceptions": []
     },
@@ -974,8 +984,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/memory/fixtures/readme-quickstart.ts",
-          "test": "packages/memory/tests/encrypted-extra.test.ts",
-          "testCommand": "pnpm --filter @agentskit/memory test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -985,9 +995,10 @@
           "packages/memory/README.md",
           "packages/memory/package.json",
           "packages/memory/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:63afb4200a006a3970c4aa30bdf56bcb5d744041160edb93d125d2d5a70a7cf7"
+        "sourceHash": "sha256:f990348d18e2fe484151660b6f7a35a446f1bdd3cdecf5fcfa52da225a35bb8e"
       },
       "exceptions": []
     },
@@ -1052,8 +1063,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/observability/fixtures/readme-quickstart.ts",
-          "test": "packages/observability/tests/audit-log.test.ts",
-          "testCommand": "pnpm --filter @agentskit/observability test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -1063,9 +1074,10 @@
           "packages/observability/README.md",
           "packages/observability/package.json",
           "packages/observability/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:d127f233580b1753d8902a60649648d74f722686cca2a33f01bc11aa8aa100cb"
+        "sourceHash": "sha256:0f2a34a1bee18a48bf179b1bf40e6a3e0821b989ee3b512943d804eb7ca2cd5b"
       },
       "exceptions": []
     },
@@ -1130,8 +1142,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/observability-langfuse/fixtures/readme-quickstart.ts",
-          "test": "packages/observability-langfuse/tests/langfuse-missing.test.ts",
-          "testCommand": "pnpm --filter @agentskit/observability-langfuse test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -1141,9 +1153,10 @@
           "packages/observability-langfuse/README.md",
           "packages/observability-langfuse/package.json",
           "packages/observability-langfuse/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:f4ebe0c07f47e82da009773e6cd81f8a5df3ccc9bde38286f2312258792983a7"
+        "sourceHash": "sha256:5f84ba80c1b356cf6bdc98a25df3670873d7ba10c34c29ef547cc7c854125bc9"
       },
       "exceptions": []
     },
@@ -1208,8 +1221,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/rag/fixtures/readme-quickstart.ts",
-          "test": "packages/rag/tests/chunker.test.ts",
-          "testCommand": "pnpm --filter @agentskit/rag test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -1219,9 +1232,10 @@
           "packages/rag/README.md",
           "packages/rag/package.json",
           "packages/rag/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:4dac5961983ac18e15f4120097c350276986a6c27c93511a8866b2cea0d262b3"
+        "sourceHash": "sha256:7b2cb68eea07bfae7d6bda25a1cc6699352ad586237d7b0a15a99a2fae4c049f"
       },
       "exceptions": []
     },
@@ -1285,9 +1299,9 @@
       "examples": [
         {
           "id": "quickstart",
-          "fixture": "packages/react/fixtures/readme-quickstart.ts",
-          "test": "packages/react/tests/setup.ts",
-          "testCommand": "pnpm --filter @agentskit/react test"
+          "fixture": "packages/react/fixtures/readme-quickstart.tsx",
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -1296,10 +1310,11 @@
         "sources": [
           "packages/react/README.md",
           "packages/react/package.json",
-          "packages/react/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "packages/react/fixtures/readme-quickstart.tsx",
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:2ffe0709feb11757f9c078b7ae87d429517106c573752ac16f0045f9a0a4b30a"
+        "sourceHash": "sha256:a14352d24b248a8e09d7d785a2931af992d747920206937e1044293b152cd457"
       },
       "exceptions": []
     },
@@ -1363,9 +1378,9 @@
       "examples": [
         {
           "id": "quickstart",
-          "fixture": "packages/react-native/fixtures/readme-quickstart.ts",
-          "test": "packages/react-native/tests/useChat.test.ts",
-          "testCommand": "pnpm --filter @agentskit/react-native test"
+          "fixture": "packages/react-native/fixtures/readme-quickstart.tsx",
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -1374,10 +1389,11 @@
         "sources": [
           "packages/react-native/README.md",
           "packages/react-native/package.json",
-          "packages/react-native/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "packages/react-native/fixtures/readme-quickstart.tsx",
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:da041088c1e0ca6a664c20a3548d0b861d03dfc42878dcb24c22926b20146c5d"
+        "sourceHash": "sha256:c60b1f8cfff42cd49d90e98126997176a5ad26cbe5833666b37b6dd0ff989db3"
       },
       "exceptions": []
     },
@@ -1442,8 +1458,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/runtime/fixtures/readme-quickstart.ts",
-          "test": "packages/runtime/tests/agent-substrate.test.ts",
-          "testCommand": "pnpm --filter @agentskit/runtime test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -1453,9 +1469,10 @@
           "packages/runtime/README.md",
           "packages/runtime/package.json",
           "packages/runtime/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:b358d06ddabba133b151b61895a54a40a0483e929519c8adff82260713f5620b"
+        "sourceHash": "sha256:f59bb34d1ef875aabefccfeec4a532d4e199067f3d283d5368c9f7998f9ba3bf"
       },
       "exceptions": []
     },
@@ -1520,8 +1537,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/sandbox/fixtures/readme-quickstart.ts",
-          "test": "packages/sandbox/tests/container-runtimes.test.ts",
-          "testCommand": "pnpm --filter @agentskit/sandbox test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -1531,9 +1548,10 @@
           "packages/sandbox/README.md",
           "packages/sandbox/package.json",
           "packages/sandbox/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:27bb9baed6da03b4b30d4464e72695636bf810390aee1ecb6d729afbf5dc09fd"
+        "sourceHash": "sha256:878dd7b9d9ce579a1d0af108e48ee59b4c9ad38bea9cef04c56a91fbaceee37e"
       },
       "exceptions": []
     },
@@ -1598,8 +1616,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/skills/fixtures/readme-quickstart.ts",
-          "test": "packages/skills/tests/compose.test.ts",
-          "testCommand": "pnpm --filter @agentskit/skills test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -1609,9 +1627,10 @@
           "packages/skills/README.md",
           "packages/skills/package.json",
           "packages/skills/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:0bb722892abbf4823570726acdc56344e873557598a9afd432d7fec4153f13fb"
+        "sourceHash": "sha256:54db54a315670f0eb377585f1dcf02469649c0587f12eb0dbcc3352cb8a18750"
       },
       "exceptions": []
     },
@@ -1675,9 +1694,9 @@
       "examples": [
         {
           "id": "quickstart",
-          "fixture": "packages/solid/fixtures/readme-quickstart.ts",
-          "test": "packages/solid/tests/components.test.ts",
-          "testCommand": "pnpm --filter @agentskit/solid test"
+          "fixture": "packages/solid/fixtures/readme-quickstart.tsx",
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -1686,10 +1705,11 @@
         "sources": [
           "packages/solid/README.md",
           "packages/solid/package.json",
-          "packages/solid/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "packages/solid/fixtures/readme-quickstart.tsx",
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:7298800855d00062ebf96fca16118d3e8ba14b3fe160b75358df11cbae5616fc"
+        "sourceHash": "sha256:fea263942be789561c41c1ebc79b6920de9b707cf25e869628d2d5009cff1ad6"
       },
       "exceptions": []
     },
@@ -1754,8 +1774,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/statechart/fixtures/readme-quickstart.ts",
-          "test": "packages/statechart/tests/json.test.ts",
-          "testCommand": "pnpm --filter @agentskit/statechart test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -1765,9 +1785,10 @@
           "packages/statechart/README.md",
           "packages/statechart/package.json",
           "packages/statechart/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:dd63c9bd613153e136cb06543570634193a7b833f5c87c065ddc966b8ea33719"
+        "sourceHash": "sha256:314b87964eac95ce0dcaae73834789d684da7de176b57caa39f31709a0b8dab9"
       },
       "exceptions": []
     },
@@ -1832,8 +1853,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/svelte/fixtures/readme-quickstart.ts",
-          "test": "packages/svelte/tests/components.test.ts",
-          "testCommand": "pnpm --filter @agentskit/svelte test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -1843,9 +1864,10 @@
           "packages/svelte/README.md",
           "packages/svelte/package.json",
           "packages/svelte/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:459cf59df66294c89144132a1227ef900fbef1f9150d7d9cf089f0e7eba9ce1d"
+        "sourceHash": "sha256:38494af8771b3d9d1ed3a64e8120f47fed078ddaebea6d5feacb4d2cdb9c293b"
       },
       "exceptions": []
     },
@@ -1910,8 +1932,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/templates/fixtures/readme-quickstart.ts",
-          "test": "packages/templates/tests/factories.test.ts",
-          "testCommand": "pnpm --filter @agentskit/templates test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -1921,9 +1943,10 @@
           "packages/templates/README.md",
           "packages/templates/package.json",
           "packages/templates/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:a0304012be1d074d94672ab27fe512dba9f0cd92f4918fb4c46c581baec5643c"
+        "sourceHash": "sha256:c1a7792ea756257d33ad9323a38bb49ef7be8f73634d470430f64c30419a0e3a"
       },
       "exceptions": []
     },
@@ -1988,8 +2011,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/tools/fixtures/readme-quickstart.ts",
-          "test": "packages/tools/tests/discovery.test.ts",
-          "testCommand": "pnpm --filter @agentskit/tools test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -1999,9 +2022,10 @@
           "packages/tools/README.md",
           "packages/tools/package.json",
           "packages/tools/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:af2e090d88bca3d7c7a068410104f6522154f7eb144f2cf095750261a08a076d"
+        "sourceHash": "sha256:aaa4807fa3e2221663328dee1d850f1fdba51261548679414cf7d29eccadb327"
       },
       "exceptions": []
     },
@@ -2066,8 +2090,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/validation/fixtures/readme-quickstart.ts",
-          "test": "packages/validation/tests/ajv-validator.test.ts",
-          "testCommand": "pnpm --filter @agentskit/validation test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -2077,9 +2101,10 @@
           "packages/validation/README.md",
           "packages/validation/package.json",
           "packages/validation/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:1e2ac2b3961d7f8671e8f98563a6ae8b66ff4c13ae583a8be88175eb08e01a02"
+        "sourceHash": "sha256:41551d0d960ff7f7bae9405ff0986c2e7d7fedb56c7f62417d3be358b1fe6001"
       },
       "exceptions": []
     },
@@ -2144,8 +2169,8 @@
         {
           "id": "quickstart",
           "fixture": "packages/vue/fixtures/readme-quickstart.ts",
-          "test": "packages/vue/tests/components.test.ts",
-          "testCommand": "pnpm --filter @agentskit/vue test"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -2155,9 +2180,10 @@
           "packages/vue/README.md",
           "packages/vue/package.json",
           "packages/vue/fixtures/readme-quickstart.ts",
-          "docs/STABILITY.md"
+          "docs/STABILITY.md",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:945848cd971c19063fc0b67114e0723a2aa9cde18d07be3ee6bcf9a97f192028"
+        "sourceHash": "sha256:d7f3244a62ad482488c75cd57b12913d2d5d51b0f5fa6a0f1cd80242d970e9b3"
       },
       "exceptions": []
     },
@@ -2213,8 +2239,8 @@
         {
           "id": "quickstart",
           "fixture": "apps/docs-next/fixtures/readme-quickstart.sh",
-          "test": "apps/docs-next/package.json",
-          "testCommand": "pnpm --filter ./apps/docs-next build"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -2224,9 +2250,10 @@
           "apps/docs-next/README.md",
           "apps/docs-next/package.json",
           "apps/docs-next/fixtures/readme-quickstart.sh",
-          "ecosystem-claims.json"
+          "ecosystem-claims.json",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:6f7761315fd8f68be400587b3c7504953452c0a8b4a43a1c90448793d709c7e7"
+        "sourceHash": "sha256:ebf8ca48695252b792f83c0f5f097f701c41907f33c9a097db1d38b8afc61000"
       },
       "exceptions": [
         {
@@ -2297,8 +2324,8 @@
         {
           "id": "quickstart",
           "fixture": "apps/landing/fixtures/readme-quickstart.sh",
-          "test": "apps/landing/package.json",
-          "testCommand": "pnpm --filter ./apps/landing build"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -2308,9 +2335,10 @@
           "apps/landing/README.md",
           "apps/landing/package.json",
           "apps/landing/fixtures/readme-quickstart.sh",
-          "ecosystem-claims.json"
+          "ecosystem-claims.json",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:953d4eb60c984030aa61060b4a377b9142fa6f979df349a2395ae8354a5f6ba0"
+        "sourceHash": "sha256:d6deb1af533b7057de22748a54b955167b3f2d8524a981b7b159a931edac351b"
       },
       "exceptions": [
         {
@@ -2381,8 +2409,8 @@
         {
           "id": "quickstart",
           "fixture": "apps/registry/fixtures/readme-quickstart.sh",
-          "test": "apps/registry/package.json",
-          "testCommand": "pnpm --filter ./apps/registry build"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -2392,9 +2420,10 @@
           "apps/registry/README.md",
           "apps/registry/package.json",
           "apps/registry/fixtures/readme-quickstart.sh",
-          "ecosystem-claims.json"
+          "ecosystem-claims.json",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:fe663f7a1ab1c13140ed2ca38708b241b94b75223009f610fd8ae57278eab3a5"
+        "sourceHash": "sha256:9f7297dd62c25408497876fed23cea3fadc5bb51b7e04f8b5e16a552201c826d"
       },
       "exceptions": [
         {
@@ -2465,8 +2494,8 @@
         {
           "id": "quickstart",
           "fixture": "apps/ask-backend/fixtures/readme-quickstart.sh",
-          "test": "apps/ask-backend/package.json",
-          "testCommand": "pnpm --filter ./apps/ask-backend build"
+          "test": "scripts/readme-fixtures.test.mjs",
+          "testCommand": "pnpm test:readme-fixtures"
         }
       ],
       "freshness": {
@@ -2476,9 +2505,10 @@
           "apps/ask-backend/README.md",
           "apps/ask-backend/package.json",
           "apps/ask-backend/fixtures/readme-quickstart.sh",
-          "ecosystem-claims.json"
+          "ecosystem-claims.json",
+          "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:ca942fc1bc710c3fbf504d050a15c8d7517418202e837c5d45449eaa0d4368b9"
+        "sourceHash": "sha256:3adbe94f9bcca28cbf00eee34250cea414f655cbbaa3bf112ce7a14034563f4c"
       },
       "exceptions": [
         {
