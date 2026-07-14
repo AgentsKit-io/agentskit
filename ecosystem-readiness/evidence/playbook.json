@@ -1,0 +1,146 @@
+{
+  "schemaVersion": 1,
+  "protocol": "agentskit.ecosystem.readiness",
+  "productId": "playbook",
+  "repo": "AgentsKit-io/agents-playbook",
+  "auditedOn": "2026-07-14",
+  "auditor": "ecosystem-readiness harness",
+  "maturity": {
+    "declared": "stable",
+    "source": "ecosystem.json"
+  },
+  "gates": [
+    {
+      "id": "quickstart",
+      "category": "quickstart",
+      "status": "pass",
+      "severity": "info",
+      "summary": "verify-playbook example and onboarding fixtures run without backend.",
+      "owner": "AgentsKit-io/agents-playbook",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agents-playbook/pull/17"
+      ]
+    },
+    {
+      "id": "documentation",
+      "category": "documentation",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Ecosystem 08 standardized Fumadocs + local discovery.",
+      "owner": "AgentsKit-io/agents-playbook",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agents-playbook/issues/13"
+      ]
+    },
+    {
+      "id": "seo",
+      "category": "seo",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Lighthouse SEO 100 reported on production-local migration evidence.",
+      "owner": "AgentsKit-io/agents-playbook",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agents-playbook/pull/17"
+      ]
+    },
+    {
+      "id": "accessibility",
+      "category": "accessibility",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Lighthouse accessibility 100 on migration evidence.",
+      "owner": "AgentsKit-io/agents-playbook",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agents-playbook/pull/17"
+      ]
+    },
+    {
+      "id": "performance",
+      "category": "performance",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Lighthouse performance \u226590 on migration evidence.",
+      "owner": "AgentsKit-io/agents-playbook",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agents-playbook/pull/17"
+      ]
+    },
+    {
+      "id": "links",
+      "category": "links",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Automated docs and Playwright cover critical paths.",
+      "owner": "AgentsKit-io/agents-playbook",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agents-playbook/pull/17"
+      ]
+    },
+    {
+      "id": "llms",
+      "category": "llms",
+      "status": "pass",
+      "severity": "info",
+      "summary": "llms.txt and llms-full.txt routes are live.",
+      "owner": "AgentsKit-io/agents-playbook",
+      "evidence": [
+        "https://playbook.agentskit.io/llms.txt"
+      ]
+    },
+    {
+      "id": "doc-bridge",
+      "category": "doc-bridge",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Doc Bridge doctor 100/100 with ownership routes certified.",
+      "owner": "AgentsKit-io/agents-playbook",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agents-playbook/pull/17"
+      ]
+    },
+    {
+      "id": "chat",
+      "category": "chat",
+      "status": "pass",
+      "severity": "info",
+      "summary": "AgentsChat deterministic plane answers before backend.",
+      "owner": "AgentsKit-io/agents-playbook",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agents-playbook/pull/17"
+      ]
+    },
+    {
+      "id": "readme",
+      "category": "readme",
+      "status": "pass",
+      "severity": "info",
+      "summary": "README Standard v1 certified on main.",
+      "owner": "AgentsKit-io/agents-playbook",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agents-playbook/pull/17"
+      ]
+    },
+    {
+      "id": "security",
+      "category": "security",
+      "status": "pass",
+      "severity": "info",
+      "summary": "No private corpus; public documentation only.",
+      "owner": "AgentsKit-io/agents-playbook",
+      "evidence": [
+        "https://playbook.agentskit.io"
+      ]
+    },
+    {
+      "id": "maturity",
+      "category": "maturity",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Maturity stable in ecosystem.json.",
+      "owner": "AgentsKit-io/agents-playbook",
+      "evidence": [
+        "ecosystem.json"
+      ]
+    }
+  ]
+}

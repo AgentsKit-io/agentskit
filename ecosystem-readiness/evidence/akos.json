@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "protocol": "agentskit.ecosystem.readiness",
+  "productId": "akos",
+  "repo": "AgentsKit-io/agentskit-os",
+  "auditedOn": "2026-07-14",
+  "auditor": "ecosystem-readiness harness",
+  "maturity": {
+    "declared": "stable",
+    "source": "ecosystem.json"
+  },
+  "gates": [
+    {
+      "id": "quickstart",
+      "category": "quickstart",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Public quickstart and build-to-operate journey are defined; production dogfood migration still open.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+      ]
+    },
+    {
+      "id": "documentation",
+      "category": "documentation",
+      "status": "blocked",
+      "severity": "p0",
+      "summary": "Ecosystem 11 site migration (local-first AgentsChat + journey) is still open on PR #5317.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-os/issues/5314"
+      ],
+      "remediation": "Merge AgentsKit-io/agentskit-os#5317 and close #5314 with production evidence."
+    },
+    {
+      "id": "seo",
+      "category": "seo",
+      "status": "blocked",
+      "severity": "p1",
+      "summary": "SITE defaults to akos.agentskit.io; full SEO parity pending migration merge.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+      ],
+      "remediation": "Merge AgentsKit-io/agentskit-os#5317 and verify sitemap/robots/canonicals on production."
+    },
+    {
+      "id": "accessibility",
+      "category": "accessibility",
+      "status": "blocked",
+      "severity": "p1",
+      "summary": "Migration PR adds chat E2E; full a11y certification pending merge.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+      ],
+      "remediation": "Complete Ecosystem 11 acceptance matrix after #5317 merges."
+    },
+    {
+      "id": "performance",
+      "category": "performance",
+      "status": "blocked",
+      "severity": "p1",
+      "summary": "Web performance budgets pending post-migration Lighthouse evidence.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+      ],
+      "remediation": "Capture Lighthouse evidence after #5317 deploys."
+    },
+    {
+      "id": "links",
+      "category": "links",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Cross-ecosystem footer links are part of #5317.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+      ]
+    },
+    {
+      "id": "llms",
+      "category": "llms",
+      "status": "blocked",
+      "severity": "p1",
+      "summary": "llms.txt route exists; llms-full and raw routes land with #5317.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+      ],
+      "remediation": "Merge #5317 and verify /llms.txt and /llms-full.txt on akos.agentskit.io."
+    },
+    {
+      "id": "doc-bridge",
+      "category": "doc-bridge",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Doc Bridge config exists in the monorepo; freshness gates must stay green on main.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-os"
+      ]
+    },
+    {
+      "id": "chat",
+      "category": "chat",
+      "status": "blocked",
+      "severity": "p0",
+      "summary": "Production local-first AgentsChat composition is delivered in open PR #5317, not yet on main.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-os/issues/5314",
+        "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
+      ],
+      "remediation": "Merge and deploy AgentsKit-io/agentskit-os#5317 (Ecosystem 11)."
+    },
+    {
+      "id": "readme",
+      "category": "readme",
+      "status": "blocked",
+      "severity": "p1",
+      "summary": "README Standard v1 root certification PR open.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-os/pull/5318"
+      ],
+      "remediation": "Merge AgentsKit-io/agentskit-os#5318."
+    },
+    {
+      "id": "security",
+      "category": "security",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Public corpus only for docs chat; tenant isolation remains a product runtime concern outside docs chat.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-os"
+      ]
+    },
+    {
+      "id": "maturity",
+      "category": "maturity",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Maturity labeled stable in ecosystem.json while customer path docs emphasize beta/assisted pilots \u2014 keep claims aligned with public-promise-matrix.",
+      "owner": "AgentsKit-io/agentskit-os",
+      "evidence": [
+        "ecosystem.json",
+        "https://github.com/AgentsKit-io/agentskit-os"
+      ]
+    }
+  ]
+}

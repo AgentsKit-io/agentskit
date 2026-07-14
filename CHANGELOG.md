@@ -10,6 +10,12 @@ Entries are versioned by semver and dated by release. Future monthly entries sho
 
 ---
 
+## Unreleased
+
+### Added
+
+- **Ecosystem readiness certification harness** (`pnpm check:ecosystem-readiness` / `pnpm report:ecosystem-readiness`) with versioned per-product evidence under `ecosystem-readiness/` for issue #1204. Broad promotion stays gated until overall status is `ready`.
+
 ## v1.0.0 — April 2026 · "Public Launch"
 
 April 2026 was the moment AgentsKit.js stepped out of early access and into the open. The v1.0.0 release consolidated the entire ecosystem under a single stable foundation — hardened contracts, a rebuilt documentation site, a full contribution pathway, and production-ready CI. The name was also officially registered: **AgentsKit.js**, clearly distinct from Inngest AgentKit.
