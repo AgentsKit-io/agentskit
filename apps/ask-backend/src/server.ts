@@ -16,6 +16,7 @@
 import { serve } from '@hono/node-server'
 import { Hono } from 'hono'
 import { cors } from 'hono/cors'
+import { resolveCorsOrigins } from './cors-origins.js'
 import { createMiddleware } from 'hono/factory'
 import type { JSONSchema7 } from 'json-schema'
 import type { RetrievedDocument, Retriever } from '@agentskit/core'
@@ -115,6 +116,31 @@ const corpora: Record<string, Corpus> = {
     formatContext: (docs) => formatCitedContext(docs).context,
     persona: 'playbook-coach',
     title: 'Agents Playbook',
+  },
+  'doc-bridge': {
+    retriever: createRemoteCorpusRetriever({
+      id: 'doc-bridge',
+      title: 'AgentsKit Doc Bridge',
+      sources: [
+        {
+          title: 'Doc Bridge full docs',
+          url:
+            process.env.ASK_DOC_BRIDGE_LLMS_FULL_URL ??
+            'https://agentskit-io.github.io/doc-bridge/llms-full.txt',
+        },
+        {
+          title: 'Doc Bridge llms',
+          url:
+            process.env.ASK_DOC_BRIDGE_LLMS_URL ??
+            'https://agentskit-io.github.io/doc-bridge/llms.txt',
+        },
+      ],
+    }),
+    systemPrompt: docsAssistant.systemPrompt,
+    temperature: docsAssistant.temperature,
+    formatContext: (docs) => formatCitedContext(docs).context,
+    persona: 'docs-helper',
+    title: 'AgentsKit Doc Bridge',
   },
   akos: {
     retriever: createRemoteCorpusRetriever({
@@ -231,16 +257,9 @@ function warmCorpora(): void {
 
 const app = new Hono()
 
-// Parse the CORS allow-list defensively: trim each entry and strip a trailing slash
-// (an `Origin` header never has one, so `https://x/` would silently never match), and
-// drop empties. Log the effective list so a misconfigured ASK_CORS_ORIGINS is visible.
-const origins = (
-  process.env.ASK_CORS_ORIGINS ??
-  'https://www.agentskit.io,https://agentskit.io,https://registry.agentskit.io,https://playbook.agentskit.io,https://akos.agentskit.io,http://localhost:3000'
-)
-  .split(',')
-  .map((o) => o.trim().replace(/\/+$/, ''))
-  .filter(Boolean)
+// Environment origins extend the official Doc Bridge origin rather than replacing
+// it, so the published chat keeps working when production has an explicit allow-list.
+const origins = resolveCorsOrigins(process.env.ASK_CORS_ORIGINS)
 console.log('[ask-backend] CORS allow-origins:', origins.join(', ') || '(none!)')
 app.use('/v1/*', cors({ origin: origins, allowMethods: ['POST', 'GET', 'OPTIONS'] }))
 

@@ -59,4 +59,58 @@ describe('AskCache', () => {
       { id: '1', content: 'RAG docs', score: 0.9, metadata: { path: '/docs/rag' } },
     ])
   })
+
+  it('does not store answers without a terminal done event', async () => {
+    const cache = new AskCache({ namespace: 'test-incomplete-write' })
+
+    await cache.setAnswer(key('Which agent reviews code?'), {
+      model: 'test-model',
+      createdAt: 1,
+      events: [{ type: 'text', delta: 'You can use' }],
+    })
+
+    await expect(cache.getAnswer(key('Which agent reviews code?'))).resolves.toBeUndefined()
+  })
+
+  it('bypasses incomplete persisted answers', async () => {
+    let reads = 0
+    const cache = new AskCache({
+      namespace: 'test-incomplete-read',
+      storage: {
+        async get() {
+          reads += 1
+          return {
+            model: 'test-model',
+            createdAt: 1,
+            events: [{ type: 'text', delta: 'You can use' }],
+          }
+        },
+        async set() {},
+      },
+    })
+
+    await expect(cache.getAnswer(key('Which agent reviews code?'))).resolves.toBeUndefined()
+    expect(reads).toBe(1)
+  })
+
+  it('accepts complete persisted answers', async () => {
+    const events = [
+      { type: 'text' as const, delta: 'Use the code reviewer.' },
+      { type: 'done' as const, model: 'test-model' },
+    ]
+    const cache = new AskCache({
+      namespace: 'test-complete-read',
+      storage: {
+        async get() {
+          return { model: 'test-model', createdAt: 1, events }
+        },
+        async set() {},
+      },
+    })
+
+    await expect(cache.getAnswer(key('Which agent reviews code?'))).resolves.toMatchObject({
+      events,
+      source: 'exact',
+    })
+  })
 })

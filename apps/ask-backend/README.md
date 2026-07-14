@@ -6,7 +6,7 @@ serverless cold-start, no native-binary tracing hacks — serving grounded, cite
 for every AgentsKit property over HTTP.
 
 One embedder + one $0 LLM pool + the shared guards serve **N corpora**, routed by a
-`corpus` query param. Current corpora: `docs`, `registry`, `playbook`, `akos`.
+`corpus` query param. Current corpora: `docs`, `registry`, `playbook`, `doc-bridge`, `akos`.
 
 ## API
 
@@ -54,7 +54,9 @@ curl -s -XPOST 'http://localhost:8080/v1/ask?corpus=docs' \
 - Cache is enabled by default. Exact answers + retrieval results are kept in-process
   and mirrored to Redis when `REDIS_URL` is set (Railway Redis volume/service).
   Upstash REST (`UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN`) remains a
-  fallback. Semantic answer cache is in-process and uses the shared embedder.
+  fallback. Answer entries are admitted only when they contain one terminal `done`
+  event and no error; incomplete persisted entries are bypassed and replaced after
+  successful regeneration. Semantic answer cache is in-process and uses the shared embedder.
   Disable with `ASK_CACHE_ENABLED=0`.
 - `docs` uses the committed vector index. `registry`, `playbook`, and `akos` load
   configurable remote `llms-full.txt` / `llms.txt` sources and rank them with BM25;
@@ -124,6 +126,7 @@ Remote corpus sources:
 
 - `ASK_REGISTRY_LLMS_FULL_URL`, `ASK_REGISTRY_LLMS_URL`, `ASK_REGISTRY_INDEX_URL`
 - `ASK_PLAYBOOK_LLMS_FULL_URL`, `ASK_PLAYBOOK_LLMS_URL`
+- `ASK_DOC_BRIDGE_LLMS_FULL_URL`, `ASK_DOC_BRIDGE_LLMS_URL`
 - `ASK_AKOS_LLMS_FULL_URL`, `ASK_AKOS_LLMS_URL` (`AKOS_*` aliases are also accepted)
 
 AKOS funnel:
