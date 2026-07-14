@@ -18,6 +18,9 @@
 # Typedoc-generated API pages — present at build time, not in repo
 ^/docs/api/
 
+# Next application routes — generated at build time, not backed by MDX files
+^/community$
+
 # Anchored fragments that mdx-lint can't resolve cleanly (per-page, fine in browser)
 #strikes-known
 
