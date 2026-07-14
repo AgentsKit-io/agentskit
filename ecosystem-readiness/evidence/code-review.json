@@ -112,14 +112,13 @@
     {
       "id": "readme",
       "category": "readme",
-      "status": "blocked",
-      "severity": "p1",
-      "summary": "README Standard v1 certification PR open.",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Repository-native README Standard v1 certification and executable first-review proof pass on main.",
       "owner": "AgentsKit-io/code-review-cli",
       "evidence": [
         "https://github.com/AgentsKit-io/code-review-cli/pull/6"
-      ],
-      "remediation": "Merge AgentsKit-io/code-review-cli#6 and re-audit."
+      ]
     },
     {
       "id": "security",
