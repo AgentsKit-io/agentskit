@@ -20,7 +20,7 @@ import { createMiddleware } from 'hono/factory'
 import type { JSONSchema7 } from 'json-schema'
 import type { RetrievedDocument, Retriever } from '@agentskit/core'
 import { createFallbackAdapter, openrouter } from '@agentskit/adapters'
-import { createAjvValidator } from '@agentskit/validation'
+import { createAjvValidator } from '@agentskit/tools/validation'
 import { createMcpHandler } from './mcp'
 import { AskCache } from './ask/cache'
 import { createAskHandler } from './ask/handler'
@@ -275,7 +275,7 @@ app.post('/v1/ask', (c) => {
 })
 
 // Validate the search body against a JSON Schema via Ajv (the repo's runtime
-// validator, @agentskit/validation — JSON Schema is canonical here, not Zod).
+// validator, @agentskit/tools/validation — JSON Schema is canonical here, not Zod).
 const validateSearch = createAjvValidator({ coerceTypes: true })
 const SEARCH_SCHEMA: JSONSchema7 = {
   type: 'object',

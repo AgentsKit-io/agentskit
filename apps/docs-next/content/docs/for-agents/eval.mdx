@@ -22,6 +22,9 @@ npm install @agentskit/eval
 | `@agentskit/eval/snapshot` | `matchPromptSnapshot` (exact / normalized / similarity). See [Snapshots](/docs/reference/recipes/prompt-snapshots). |
 | `@agentskit/eval/diff` | `promptDiff`, `attributePromptChange`, `formatDiff`. See [Prompt diff](/docs/reference/recipes/prompt-diff). |
 | `@agentskit/eval/ci` | `renderJUnit`, `renderMarkdown`, `renderGitHubAnnotations`, `reportToCi`. See [Evals in CI](/docs/reference/recipes/evals-ci). |
+| `@agentskit/eval/braintrust` | Braintrust scoring pipeline, scorer families, regression detection, and dataset upload helpers. Install the optional `braintrust` peer when using this subpath. |
+| `@agentskit/eval/braintrust/scorers` | Braintrust-compatible quality and robustness scorers. |
+| `@agentskit/eval/braintrust/ci` | Braintrust regression detection and Markdown alerts. |
 
 ## Minimal example
 
@@ -41,7 +44,6 @@ console.log(`${result.passed}/${result.totalCases}`)
 
 ## Related
 
-- [@agentskit/eval-braintrust](/docs/for-agents/eval-braintrust) — Braintrust reporter backend.
 - [@agentskit/runtime](/docs/for-agents/runtime).
 - [@agentskit/observability](/docs/for-agents/observability) — trace + cost data feeds eval comparisons.
 - [@agentskit/core/eval-format](/docs/reference/recipes/open-specs) — portable format spec.

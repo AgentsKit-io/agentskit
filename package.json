@@ -31,6 +31,7 @@
     "docs:bridge:gate": "ak-docs gate run",
     "docs:bridge:doctor": "ak-docs doctor --text",
     "release": "pnpm build && pnpm changeset publish",
+    "check:publication-surface": "node scripts/check-publication-surface.mjs",
     "size": "pnpm build && size-limit",
     "size:why": "pnpm build && size-limit --why"
   },

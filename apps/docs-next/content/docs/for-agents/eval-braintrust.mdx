@@ -1,12 +1,12 @@
 ---
-title: '@agentskit/eval-braintrust — for agents'
+title: '@agentskit/eval/braintrust — for agents'
 description: Braintrust scoring pipeline — 4 quality + 4 robustness scorers, runner, and CI regression helpers.
 ---
 
 ## Install
 
 ```bash
-npm install @agentskit/eval-braintrust braintrust
+npm install @agentskit/eval braintrust
 ```
 
 `braintrust` is loaded lazily; runs without it still produce scored output (no upload).
@@ -41,8 +41,8 @@ npm install @agentskit/eval-braintrust braintrust
 
 | Subpath | Contents |
 |---|---|
-| `@agentskit/eval-braintrust/scorers` | Individual scorer factories + families. |
-| `@agentskit/eval-braintrust/ci` | `detectRegressions(baseline, current, thresholds)`, `formatAlertsMarkdown(alerts)`. |
+| `@agentskit/eval/braintrust/scorers` | Individual scorer factories + families. |
+| `@agentskit/eval/braintrust/ci` | `detectRegressions(baseline, current, thresholds)`, `formatAlertsMarkdown(alerts)`. |
 
 ## Minimal example
 
@@ -50,7 +50,7 @@ npm install @agentskit/eval-braintrust braintrust
 import {
   runBraintrustEval,
   ALL_SCORERS,
-} from '@agentskit/eval-braintrust'
+} from '@agentskit/eval/braintrust'
 
 const result = await runBraintrustEval({
   cases: [{ input: 'Capital of France?', output: '', expected: 'Paris' }],
@@ -65,7 +65,7 @@ console.log(result.summary, result.url)
 ## CI regression alert
 
 ```ts
-import { detectRegressions, formatAlertsMarkdown } from '@agentskit/eval-braintrust/ci'
+import { detectRegressions, formatAlertsMarkdown } from '@agentskit/eval/braintrust/ci'
 
 const alerts = detectRegressions(baseline.summary, current.summary, { default: 0.05 })
 if (alerts.length) {
@@ -77,9 +77,9 @@ if (alerts.length) {
 ## Related
 
 - [@agentskit/eval](/docs/for-agents/eval) — base eval primitives.
-- [@agentskit/observability-langfuse](/docs/for-agents/observability-langfuse) — pair with tracing for trace → eval datasets.
+- [@agentskit/observability/langfuse](/docs/for-agents/observability-langfuse) — pair with tracing for trace → eval datasets.
 
 ## Source
 
-- npm: https://www.npmjs.com/package/@agentskit/eval-braintrust
+- npm: https://www.npmjs.com/package/@agentskit/eval/braintrust
 - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/eval-braintrust

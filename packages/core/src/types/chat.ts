@@ -35,7 +35,7 @@ export interface ChatConfig {
    * args produced by the model are checked against each tool's JSON Schema
    * before execution; mismatches raise `AK_TOOL_INVALID_INPUT`. Omit for the
    * default passthrough behaviour. Use `createAjvValidator()` from
-   * `@agentskit/validation`.
+   * `@agentskit/tools/validation`.
    */
   validateArgs?: ArgsValidator
 }

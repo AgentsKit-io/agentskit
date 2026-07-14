@@ -60,7 +60,7 @@
     "@agentskit/core": "workspace:*"
   },
   "devDependencies": {
-    "@agentskit/validation": "workspace:*",
+    "@agentskit/tools": "workspace:*",
     "@types/json-schema": "^7.0.15",
     "@types/node": "^25.9.5",
     "msw": "^2.15.0",
@@ -77,7 +77,8 @@
     }
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "agentskit": {
     "stability": "beta",

@@ -66,10 +66,10 @@ the badges can never drift apart.
 | `@agentskit/eval` | `beta` | Replay + suite concepts in place; multi-subpath surface not frozen yet |
 | `@agentskit/sandbox` | `beta` | E2B backend works; fallback and policy APIs still maturing |
 | `@agentskit/templates` | `beta` | Authoring toolkit usable; scaffolding surface still expanding |
-| `@agentskit/validation` | `beta` | `ArgsValidator` contract stable (ADR-0008); Ajv-backed, tiny surface |
+| `@agentskit/tools/validation` | `beta` | `ArgsValidator` contract stable (ADR-0008); Ajv-backed tools subpath |
 | `@agentskit/statechart` | `alpha` | Initial framework-neutral interaction-state contract; downstream integrations will exercise it before beta |
-| `@agentskit/eval-braintrust` | `beta` | Scorer API stable; Braintrust SDK peer-resolved at runtime |
-| `@agentskit/observability-langfuse` | `beta` | Adapter contract stable; Langfuse SDK peer-resolved at runtime |
+| `@agentskit/eval/braintrust` | `beta` | Scorer API stable; Braintrust SDK peer-resolved at runtime |
+| `@agentskit/observability/langfuse` | `beta` | Adapter contract stable; Langfuse SDK peer-resolved at runtime |
 | `@agentskit/integrations` | `alpha` | Descriptor + registry contract in place; catalog and OSS/AKOS split still being decided |
 | `@agentskit/mcp` | `alpha` | MCP server bridge works; export + CLI surface still settling |
 | `@agentskit/vue` | `beta` | First binding at full headless component parity with React; `useChat` + 7 primitives, 100% component coverage |
