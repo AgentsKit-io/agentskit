@@ -19,7 +19,7 @@ test('Registry answers exact facts locally and escalates semantic recommendation
       status: 200,
       contentType: 'application/x-ndjson',
       body: [
-        JSON.stringify({ type: 'text', delta: 'Use the Research Agent.' }),
+        JSON.stringify({ type: 'text', delta: 'Use the Research Agent.\n\n```bash\nnpx agentskit add research\n```' }),
         JSON.stringify({ type: 'tool', id: 'sources', name: 'cite', args: { sources: [{ title: 'Research Agent', path: '/agents/research' }] } }),
         JSON.stringify({ type: 'done' }),
         '',
@@ -43,12 +43,51 @@ test('Registry answers exact facts locally and escalates semantic recommendation
   await input.fill(semantic)
   await input.press('Enter')
   await expect(page.getByText('Use the Research Agent.')).toBeVisible()
+  await expect(page.locator('.rg-ask-message.assistant pre code')).toHaveText('npx agentskit add research')
   await expect(page.locator('[data-rg-answer-path="backend"]')).toHaveText(/grounded · backend/)
   expect(backendBodies).toHaveLength(1)
   expect(backendBodies[0]).toMatchObject({
     messages: expect.arrayContaining([{ role: 'user', content: semantic }]),
     deterministic: { outcome: 'escalation', reason: 'miss' },
   })
+})
+
+test('Registry retries local knowledge and never labels a failed backend response as grounded', async ({ page }) => {
+  let siteConfigRequests = 0
+  await page.route('**/deterministic/site-config.json', async (route) => {
+    siteConfigRequests += 1
+    if (siteConfigRequests === 1) await route.fulfill({ status: 503, contentType: 'application/json', body: '{}' })
+    else await route.continue()
+  })
+  await page.route('https://ask.agentskit.io/v1/ask?corpus=registry', async (route) => {
+    await route.fulfill({
+      status: 200,
+      contentType: 'application/x-ndjson',
+      body: `${JSON.stringify({ type: 'error', message: 'backend unavailable' })}\n`,
+    })
+  })
+
+  await page.goto(server.url)
+  const trigger = page.getByRole('button', { name: 'Ask Registry' })
+  await trigger.click()
+  const input = page.getByLabel('Ask a Registry question')
+  await input.fill('Which agent should investigate this market?')
+  await input.press('Enter')
+  await expect(page.locator('[data-rg-answer-path="backend"]')).toHaveCount(0)
+
+  await page.getByRole('button', { name: 'Close' }).click()
+  await page.waitForTimeout(1_050)
+  await trigger.click()
+  await expect.poll(() => siteConfigRequests).toBeGreaterThanOrEqual(2)
+  await input.fill('npx agentskit add research')
+  await input.press('Enter')
+  await expect(page.locator('[data-rg-answer-path="local"]')).toHaveText(/instant · local/)
+
+  await page.getByRole('button', { name: 'clear' }).click()
+  await input.fill('Which agent should investigate this market?')
+  await input.press('Enter')
+  await expect(page.locator('[data-rg-answer-path="pending"]')).toHaveText(/consulting backend/)
+  await expect(page.locator('[data-rg-answer-path="backend"]')).toHaveCount(0)
 })
 
 test('Registry chat remains keyboard-accessible and viewport-safe on mobile', async ({ page }) => {

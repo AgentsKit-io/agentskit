@@ -9,6 +9,7 @@ import { createRegistryDiscoveryAdapter, loadRegistryDiscovery, type RegistryDis
 
 const CORPUS = 'registry'
 const STORAGE_KEY = 'ak:ask-thread-v3:registry'
+const DISCOVERY_RETRY_DELAY_MS = 1_000
 const COMPONENTS = defineComponentManifest(StandardComponentCatalog)
 const RuntimeContext = createContext<{ readonly chat: { current: ChatReturn | null } } | undefined>(undefined)
 
@@ -46,6 +47,18 @@ function MarkdownContent({ content }: { readonly content: string }) {
   while (index < lines.length) {
     const line = lines[index]?.trim() ?? ''
     if (!line) { index += 1; continue }
+    if (line.startsWith('```')) {
+      const language = line.slice(3).trim()
+      const code: string[] = []
+      index += 1
+      while (index < lines.length && !(lines[index]?.trim() ?? '').startsWith('```')) {
+        code.push(lines[index] ?? '')
+        index += 1
+      }
+      if (index < lines.length) index += 1
+      nodes.push(<pre key={`code-block-${index}`}><code data-language={language || undefined}>{code.join('\n')}</code></pre>)
+      continue
+    }
     if (line.startsWith('## ')) {
       nodes.push(<h3 key={`heading-${index}`}><InlineContent content={line.slice(3)}/></h3>)
       index += 1
@@ -64,7 +77,7 @@ function MarkdownContent({ content }: { readonly content: string }) {
     const paragraph: string[] = []
     while (index < lines.length) {
       const value = lines[index]?.trim() ?? ''
-      if (!value || value.startsWith('## ') || value.startsWith('- ')) break
+      if (!value || value.startsWith('## ') || value.startsWith('- ') || value.startsWith('```')) break
       paragraph.push(value)
       index += 1
     }
@@ -112,17 +125,23 @@ function RegistryComponent(props: StandardComponentProps) {
 export function RegistryAskWidget() {
   const [open, setOpen] = useState(false)
   const [discovery, setDiscovery] = useState<RegistryDiscoveryInputs | null | undefined>(undefined)
-  const [answerPath, setAnswerPath] = useState<'local' | 'backend' | null>(null)
+  const [answerPath, setAnswerPath] = useState<'local' | 'backend' | 'pending' | null>(null)
   const chatRef = useRef<ChatReturn | null>(null)
   const discoveryPromiseRef = useRef<Promise<void> | null>(null)
+  const discoveryFailureAtRef = useRef(0)
   const fabRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLElement>(null)
   const openedOnceRef = useRef(false)
   const endpoint = process.env.NEXT_PUBLIC_ASK_ENDPOINT ?? 'https://ask.agentskit.io/v1/ask'
   const ensureDiscovery = useCallback(() => {
-    if (discovery !== undefined || discoveryPromiseRef.current) return discoveryPromiseRef.current
+    if (discovery || discoveryPromiseRef.current) return discoveryPromiseRef.current
+    if (discovery === null && Date.now() - discoveryFailureAtRef.current < DISCOVERY_RETRY_DELAY_MS) return null
     const pending = loadRegistryDiscovery(fetch, '/deterministic')
-      .then(setDiscovery)
+      .then((inputs) => {
+        if (inputs) discoveryFailureAtRef.current = 0
+        else discoveryFailureAtRef.current = Date.now()
+        setDiscovery(inputs)
+      })
       .finally(() => { discoveryPromiseRef.current = null })
     discoveryPromiseRef.current = pending
     return pending
@@ -134,7 +153,7 @@ export function RegistryAskWidget() {
       fallback,
       onDecision: (decision) => {
         if (decision.outcome === 'answer') setAnswerPath(decision.provenance.source)
-        else if (decision.outcome === 'escalation') setAnswerPath('backend')
+        else if (decision.outcome === 'escalation') setAnswerPath('pending')
         else setAnswerPath('local')
       },
     })
@@ -176,7 +195,7 @@ export function RegistryAskWidget() {
       <div className="rg-ask-runtime">{discovery === undefined
         ? <p className="rg-ask-loading" role="status"><Mark size={15}/> Preparing local Registry knowledge…</p>
         : <AgentChat key={STORAGE_KEY} definition={definition} placeholder="Ask about an agent…" slots={{ Container: RegistryContainer, Message: RegistryMessage, Input: RegistryInput, Thinking: RegistryThinking, StandardComponent: RegistryComponent }}/>}</div>
-      <footer className="rg-ask-footer"><a href="/#agents"><Mark size={12}/> Browse registry agents →</a>{answerPath ? <span data-rg-answer-path={answerPath}>{answerPath === 'local' ? 'instant · local' : 'grounded · backend'}</span> : null}</footer>
+      <footer className="rg-ask-footer"><a href="/#agents"><Mark size={12}/> Browse registry agents →</a>{answerPath ? <span data-rg-answer-path={answerPath}>{answerPath === 'local' ? 'instant · local' : answerPath === 'backend' ? 'grounded · backend' : 'consulting backend'}</span> : null}</footer>
       <Styles/>
     </section>
   </RuntimeContext.Provider>
@@ -190,7 +209,7 @@ function Styles() {
     .rg-ask-header{display:flex;min-height:48px;align-items:center;justify-content:space-between;border-bottom:1px solid var(--ask-border);background:linear-gradient(135deg,var(--ask-surface),var(--ask-bg));padding:.5rem .75rem}.rg-ask-header strong,.rg-ask-header div{display:flex;align-items:center;gap:.5rem}.rg-ask-header strong{color:var(--ask-muted);font-size:.75rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase}
     .rg-ask-header button,.rg-ask-footer a,.rg-ask-compose button,.rg-ask-runtime [data-ak-app-chat]>button,.rg-ask-runtime [aria-label="Response actions"] button{min-width:44px;min-height:44px;border:0;background:transparent;color:var(--ask-accent);font:inherit;font-size:.6875rem;text-transform:uppercase;cursor:pointer}
     .rg-ask-runtime{min-height:0;flex:1;overflow:hidden;padding:.75rem}.rg-ask-runtime>[data-ak-app-chat]{display:flex;height:100%;min-height:0;flex-direction:column}.rg-ask-runtime>[data-ak-app-chat]>[role=log]{display:flex;min-height:0;flex:1;overflow:hidden}
-    .rg-ask-body{display:flex;min-height:0;flex:1;flex-direction:column;gap:.65rem;overflow-y:auto}.rg-ask-empty{margin:0;color:var(--ask-muted);font-size:.8125rem;line-height:1.5}.rg-ask-message{max-width:92%;font-size:.8125rem;line-height:1.55}.rg-ask-message.user{align-self:flex-end;white-space:pre-wrap;border-radius:.625rem;background:color-mix(in srgb,var(--ask-accent) 14%,transparent);padding:.5rem .625rem}.rg-ask-message.assistant{align-self:flex-start}.rg-ask-message.assistant h3{margin:0 0 .6rem;font-family:var(--font-display),sans-serif;font-size:1rem}.rg-ask-message.assistant p{margin:0 0 .65rem}.rg-ask-message.assistant ul{margin:0 0 .65rem;padding-left:1.25rem}.rg-ask-message.assistant code{border:1px solid var(--ask-border);border-radius:.25rem;background:var(--ask-surface);padding:.08rem .25rem;font-size:.75rem}.rg-ask-message a,.rg-ask-sources a{color:var(--ask-accent);text-decoration:underline;text-underline-offset:3px}
+    .rg-ask-body{display:flex;min-height:0;flex:1;flex-direction:column;gap:.65rem;overflow-y:auto}.rg-ask-empty{margin:0;color:var(--ask-muted);font-size:.8125rem;line-height:1.5}.rg-ask-message{max-width:92%;font-size:.8125rem;line-height:1.55}.rg-ask-message.user{align-self:flex-end;white-space:pre-wrap;border-radius:.625rem;background:color-mix(in srgb,var(--ask-accent) 14%,transparent);padding:.5rem .625rem}.rg-ask-message.assistant{align-self:flex-start}.rg-ask-message.assistant h3{margin:0 0 .6rem;font-family:var(--font-display),sans-serif;font-size:1rem}.rg-ask-message.assistant p{margin:0 0 .65rem}.rg-ask-message.assistant ul{margin:0 0 .65rem;padding-left:1.25rem}.rg-ask-message.assistant code{border:1px solid var(--ask-border);border-radius:.25rem;background:var(--ask-surface);padding:.08rem .25rem;font-size:.75rem}.rg-ask-message.assistant pre{max-width:100%;overflow-x:auto;border:1px solid var(--ask-border);border-radius:.5rem;background:var(--ask-surface);padding:.625rem}.rg-ask-message.assistant pre code{display:block;border:0;background:transparent;padding:0;white-space:pre}.rg-ask-message a,.rg-ask-sources a{color:var(--ask-accent);text-decoration:underline;text-underline-offset:3px}
     .rg-ask-thinking{display:flex;align-items:center;gap:.5rem;color:var(--ask-muted);font-size:.75rem}.rg-ask-sources{border-top:1px solid var(--ask-border);padding-top:.5rem;font-size:.75rem}.rg-ask-sources strong{color:var(--ask-muted);text-transform:uppercase}.rg-ask-sources ol{margin:.4rem 0 0;padding-left:1.25rem}
     .rg-ask-loading{display:flex;align-items:center;gap:.5rem;color:var(--ask-muted);font-size:.75rem}
     .rg-ask-compose{display:grid;grid-template-columns:1fr auto;gap:.5rem;border-top:1px solid var(--ask-border);padding-top:.625rem}.rg-ask-compose label{min-width:0}.rg-ask-compose textarea{box-sizing:border-box;width:100%;resize:none;border:1px solid var(--ask-border);border-radius:.625rem;background:var(--ask-surface);color:var(--ask-text);padding:.5rem;font:inherit;font-size:.75rem}.rg-ask-runtime [role=alert]{margin:.4rem 0;color:var(--ask-danger);font-size:.75rem}.rg-ask-runtime [aria-label="Response actions"]{display:flex;flex-wrap:wrap;gap:.25rem;border-top:1px solid var(--ask-border)}
