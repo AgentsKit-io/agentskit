@@ -1,0 +1,193 @@
+{
+  "id": "first-agent",
+  "generatedAt": "2026-07-14T19:03:13.673Z",
+  "recipe": {
+    "id": "first-agent",
+    "title": "First agent without a provider key",
+    "status": "verified-source",
+    "problem": "New developers need a zero-key path to feel the AgentsKit runtime contract.",
+    "audience": "JavaScript/TypeScript developers evaluating AgentsKit",
+    "docs": [
+      "/docs/get-started/getting-started/build-your-first-agent",
+      "apps/docs-next/fixtures/first-agent/agent.ts"
+    ],
+    "executable": {
+      "fixture": "apps/docs-next/fixtures/first-agent/agent.ts",
+      "command": [
+        "pnpm",
+        "--filter",
+        "@agentskit/docs-next",
+        "exec",
+        "tsx",
+        "fixtures/first-agent/agent.ts"
+      ],
+      "expectStdoutIncludes": "Agent ready. I received: Plan my first production agent"
+    },
+    "commands": [
+      "npm install @agentskit/core @agentskit/runtime tsx",
+      "cp apps/docs-next/fixtures/first-agent/agent.ts ./agent.ts",
+      "npx tsx agent.ts"
+    ],
+    "claims": [
+      {
+        "productId": "agentskit",
+        "claimId": "packages"
+      },
+      {
+        "productId": "agentskit",
+        "claimId": "framework-bindings"
+      }
+    ],
+    "maturity": "stable-demo",
+    "citations": [
+      {
+        "id": "fixture",
+        "title": "first-agent fixture",
+        "href": "apps/docs-next/fixtures/first-agent/agent.ts"
+      },
+      {
+        "id": "claims",
+        "title": "ecosystem claims ledger",
+        "href": "ecosystem-claims.json"
+      }
+    ]
+  },
+  "verifiedClaims": [
+    {
+      "productId": "agentskit",
+      "claimId": "packages",
+      "value": 25,
+      "noun": "packages",
+      "evidence": {
+        "type": "repository-derivation",
+        "repo": "AgentsKit-io/agentskit",
+        "path": "scripts/compute-stats.mjs",
+        "summary": "Published non-private @agentskit/* package directories."
+      }
+    },
+    {
+      "productId": "agentskit",
+      "claimId": "framework-bindings",
+      "value": 7,
+      "noun": "framework bindings",
+      "evidence": {
+        "type": "repository-derivation",
+        "repo": "AgentsKit-io/agentskit",
+        "path": "scripts/compute-stats.mjs",
+        "summary": "Published framework bindings from the supported binding list."
+      }
+    }
+  ],
+  "executable": {
+    "ok": true,
+    "message": "executable verified",
+    "stdout": "Agent ready. I received: Plan my first production agent"
+  },
+  "links": [
+    {
+      "id": "agentskit",
+      "name": "AgentsKit",
+      "promise": "Build agents without gluing many libraries together.",
+      "href": "https://www.agentskit.io/docs"
+    },
+    {
+      "id": "registry",
+      "name": "AgentsKit Registry",
+      "promise": "Copy ready-made agents and own the source.",
+      "href": "https://registry.agentskit.io/docs"
+    },
+    {
+      "id": "agentskit-chat",
+      "name": "AgentsKit Chat",
+      "promise": "Define one agent experience and deliver it across interfaces.",
+      "href": "https://github.com/AgentsKit-io/agentskit-chat/tree/main/docs"
+    },
+    {
+      "id": "playbook",
+      "name": "Agents Playbook",
+      "promise": "Make agents ship code a human would actually merge.",
+      "href": "https://playbook.agentskit.io/docs"
+    },
+    {
+      "id": "doc-bridge",
+      "name": "Doc Bridge",
+      "promise": "Turn repository documentation into executable agent handoffs.",
+      "href": "https://github.com/AgentsKit-io/doc-bridge/tree/master/docs"
+    },
+    {
+      "id": "code-review",
+      "name": "AgentsKit Code Review",
+      "promise": "Run deep, low-noise review with the model already in use.",
+      "href": "https://github.com/AgentsKit-io/code-review-cli#readme"
+    },
+    {
+      "id": "akos",
+      "name": "AgentsKit OS",
+      "promise": "Run and govern agents in production.",
+      "href": "https://akos.agentskit.io/docs"
+    }
+  ],
+  "variants": {
+    "docsPage": "---\ntitle: First agent without a provider key\ndescription: New developers need a zero-key path to feel the AgentsKit runtime contract.\n---\n\n# First agent without a provider key\n\nNew developers need a zero-key path to feel the AgentsKit runtime contract.\n\n## Audience\n\nJavaScript/TypeScript developers evaluating AgentsKit\n\n## Commands\n\n```bash\nnpm install @agentskit/core @agentskit/runtime tsx\ncp apps/docs-next/fixtures/first-agent/agent.ts ./agent.ts\nnpx tsx agent.ts\n```\n\n## Verified claims\n\n- **agentskit/packages**: 25 packages (from ecosystem-claims.json)\n- **agentskit/framework-bindings**: 7 framework bindings (from ecosystem-claims.json)\n\n## Citations\n\n- [first-agent fixture](apps/docs-next/fixtures/first-agent/agent.ts)\n- [ecosystem claims ledger](ecosystem-claims.json)\n\n## Ecosystem next steps\n\n- [AgentsKit](https://www.agentskit.io/docs) — Build agents without gluing many libraries together.\n- [AgentsKit Registry](https://registry.agentskit.io/docs) — Copy ready-made agents and own the source.\n- [AgentsKit Chat](https://github.com/AgentsKit-io/agentskit-chat/tree/main/docs) — Define one agent experience and deliver it across interfaces.\n- [Agents Playbook](https://playbook.agentskit.io/docs) — Make agents ship code a human would actually merge.\n- [Doc Bridge](https://github.com/AgentsKit-io/doc-bridge/tree/master/docs) — Turn repository documentation into executable agent handoffs.\n- [AgentsKit Code Review](https://github.com/AgentsKit-io/code-review-cli#readme) — Run deep, low-noise review with the model already in use.\n- [AgentsKit OS](https://akos.agentskit.io/docs) — Run and govern agents in production.\n\n> Draft generated by the content pipeline. Human approval required before publishing.\n",
+    "shortPost": "First agent without a provider key.\n\nThree commands. No provider key.\n\n```bash\nnpx tsx agent.ts\n```\n\nBuilt on AgentsKit (25 packages, 7 framework bindings).\n\nDocs + fixture linked in the atom. Human-reviewed drafts only.",
+    "thread": "1/ First agent without a provider key\n\nWhy it exists: New developers need a zero-key path to feel the AgentsKit runtime contract.\n\n2/ The path:\n1. `npm install @agentskit/core @agentskit/runtime tsx`\n2. `cp apps/docs-next/fixtures/first-agent/agent.ts ./agent.ts`\n3. `npx tsx agent.ts`\n\n3/ Claims (generated, not hand-typed):\n- 25 packages\n- 7 framework bindings\n\n4/ Next products:\n- AgentsKit: Build agents without gluing many libraries together.\n- AgentsKit Registry: Copy ready-made agents and own the source.\n- AgentsKit Chat: Define one agent experience and deliver it across interfaces.\n\n5/ This thread is a draft atom. Publishing requires explicit human approval.",
+    "communityPost": "## First agent without a provider key\n\nNew developers need a zero-key path to feel the AgentsKit runtime contract.\n\n### Try it\n\n```bash\nnpm install @agentskit/core @agentskit/runtime tsx\ncp apps/docs-next/fixtures/first-agent/agent.ts ./agent.ts\nnpx tsx agent.ts\n```\n\n### Claims\n25 packages, 7 framework bindings\n\nSource fixture: `apps/docs-next/fixtures/first-agent/agent.ts`\n\nStatus: draft — awaiting human approval before community publish.",
+    "example": {
+      "kind": "fixture-link",
+      "path": "apps/docs-next/fixtures/first-agent/agent.ts",
+      "commands": [
+        "npm install @agentskit/core @agentskit/runtime tsx",
+        "cp apps/docs-next/fixtures/first-agent/agent.ts ./agent.ts",
+        "npx tsx agent.ts"
+      ]
+    }
+  },
+  "storyboard": "# Storyboard — First agent without a provider key\n\nFormat: 5-frame carousel / 15s silent GIF\n\n1. **Hook** — \"New developers need a zero-key path to feel the AgentsKit runtime contract.\"\n2. **Install** — show `npm install @agentskit/core @agentskit/runtime tsx`\n3. **Copy fixture** — show the agent.ts path\n4. **Run** — terminal output includes the expected ready line\n5. **Next step** — point to Registry / Playbook / Chat without inventing counts\n\nAccessibility: every frame needs alt text; prefer reduced-motion static frames.\nNo auto-publish — storyboard is a draft for human design review.\n",
+  "publish": {
+    "status": "blocked",
+    "reason": "Human approval required before publish packaging",
+    "channels": []
+  },
+  "review": {
+    "status": "needs-human-review",
+    "checklist": [
+      {
+        "id": "claims",
+        "ok": true,
+        "note": "Claims verified against ecosystem-claims.json"
+      },
+      {
+        "id": "executable",
+        "ok": true,
+        "note": "Source recipe executable passed"
+      },
+      {
+        "id": "citations",
+        "ok": true,
+        "note": "Citations present"
+      },
+      {
+        "id": "no-autonomous-publish",
+        "ok": true,
+        "note": "Publisher only prepares drafts; no channel action is auto-post"
+      },
+      {
+        "id": "doc-bridge",
+        "ok": true,
+        "note": "doc-bridge command passed"
+      },
+      {
+        "id": "playbook",
+        "ok": false,
+        "note": "playbook requires human attestation with evidence"
+      },
+      {
+        "id": "code-review",
+        "ok": false,
+        "note": "code-review requires human attestation with evidence"
+      }
+    ],
+    "requiresHumanApproval": true
+  },
+  "contentDigest": "sha256:18570ae2d19a90a415e528a1a4792356676befb21d13317735b4cf23a6068821"
+}

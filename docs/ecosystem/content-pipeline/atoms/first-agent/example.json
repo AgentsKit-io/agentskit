@@ -1,0 +1,9 @@
+{
+  "kind": "fixture-link",
+  "path": "apps/docs-next/fixtures/first-agent/agent.ts",
+  "commands": [
+    "npm install @agentskit/core @agentskit/runtime tsx",
+    "cp apps/docs-next/fixtures/first-agent/agent.ts ./agent.ts",
+    "npx tsx agent.ts"
+  ]
+}

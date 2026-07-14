@@ -1,0 +1,17 @@
+{
+  "approved": false,
+  "approvedBy": null,
+  "approvedOn": null,
+  "contentDigest": null,
+  "requiredGates": {
+    "playbook": {
+      "status": "pending",
+      "evidence": []
+    },
+    "code-review": {
+      "status": "pending",
+      "evidence": []
+    }
+  },
+  "notes": "Set approved=true with approvedBy/approvedOn after HITL review. Publisher never auto-posts."
+}
