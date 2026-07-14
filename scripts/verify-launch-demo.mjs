@@ -29,7 +29,13 @@ if (demoId === 'first-agent') {
 } else if (demoId === 'playbook-discipline') {
   const product = ecosystem.products.find((entry) => entry.id === 'playbook')
   assert.equal(product?.surfaces?.llms, 'https://playbook.agentskit.io/llms.txt')
-  assert.ok(demo.commands.every((command) => command.includes('playbook.agentskit.io')))
+  for (const command of demo.commands) {
+    const rawUrl = command.match(/https:\/\/[^\s|]+/)?.[0]
+    assert.ok(rawUrl, `Playbook command has no HTTPS URL: ${command}`)
+    const url = new URL(rawUrl)
+    assert.equal(url.protocol, 'https:')
+    assert.equal(url.hostname, 'playbook.agentskit.io')
+  }
 } else {
   assert.fail(`Launch demo has no verifier: ${demoId}`)
 }
