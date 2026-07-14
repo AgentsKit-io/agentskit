@@ -1,6 +1,8 @@
 # @agentskit/solid
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>concise-package</code>
+
+<p align="center"><img alt="AgentsKit" src="../../apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
 SolidJS hook + headless chat components. Same `ChatReturn` contract every AgentsKit framework binding ships — swap frameworks without changing your agent.
 
@@ -12,6 +14,12 @@ SolidJS hook + headless chat components. Same `ChatReturn` contract every Agents
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `solid` · `solidjs` · `signals` · `chat` · `streaming`
+
+## Verified proof
+
+- Package metadata and tests live under `packages/solid/`.
+- Package guide: https://www.agentskit.io/docs/packages/solid
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
 
@@ -33,6 +41,7 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/solid) · [agent ha
 
 ## Install
 
+<!-- readme-command:install -->
 ```bash
 npm install @agentskit/solid @agentskit/adapters
 ```
@@ -41,6 +50,7 @@ Peers: `solid-js ^1.8`.
 
 ## Quick example
 
+<!-- readme-example:quickstart -->
 ```tsx
 import { useChat, ChatContainer, Message, InputBar } from '@agentskit/solid'
 import { For } from 'solid-js'
@@ -98,3 +108,13 @@ MIT — see [LICENSE](../../LICENSE).
 ## Docs
 
 [Full documentation](https://www.agentskit.io/docs/packages/solid) · [GitHub](https://github.com/AgentsKit-io/agentskit)
+
+## Maturity and compatibility
+
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published as `@agentskit/solid`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).

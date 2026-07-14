@@ -1,6 +1,8 @@
 # @agentskit/tools
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>major-package</code>
+
+<p align="center"><img alt="AgentsKit" src="../../apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
 Give your agents real-world capabilities without writing a single integration.
 
@@ -12,6 +14,12 @@ Give your agents real-world capabilities without writing a single integration.
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `function-calling` · `tool-use` · `mcp` · `web-search` · `filesystem`
+
+## Verified proof
+
+- Package metadata and tests live under `packages/tools/`.
+- Package guide: https://www.agentskit.io/docs/packages/tools
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
 
@@ -33,12 +41,14 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/tools) · [agent ha
 
 ## Install
 
+<!-- readme-command:install -->
 ```bash
 npm install @agentskit/tools
 ```
 
 ## Quick example
 
+<!-- readme-example:quickstart -->
 ```ts
 import { createRuntime } from '@agentskit/runtime'
 import { openai } from '@agentskit/adapters'
@@ -166,3 +176,13 @@ MIT — see [LICENSE](../../LICENSE).
 ## Docs
 
 [Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/AgentsKit-io/agentskit)
+
+## Maturity and compatibility
+
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published as `@agentskit/tools`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).

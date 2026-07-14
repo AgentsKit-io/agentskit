@@ -1,6 +1,8 @@
 # @agentskit/angular
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>concise-package</code>
+
+<p align="center"><img alt="AgentsKit" src="../../apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
 Angular 18+ service (Signal + RxJS) + headless chat components. Same `ChatReturn` contract every AgentsKit framework binding ships.
 
@@ -12,6 +14,12 @@ Angular 18+ service (Signal + RxJS) + headless chat components. Same `ChatReturn
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `angular` · `signals` · `rxjs` · `chat` · `streaming`
+
+## Verified proof
+
+- Package metadata and tests live under `packages/angular/`.
+- Package guide: https://www.agentskit.io/docs/packages/angular
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
 
@@ -33,6 +41,7 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/angular) · [agent 
 
 ## Install
 
+<!-- readme-command:install -->
 ```bash
 npm install @agentskit/angular @agentskit/adapters
 ```
@@ -41,6 +50,7 @@ Peers: `@angular/core ^18 || ^19 || ^20`, `rxjs ^7`.
 
 ## Quick example
 
+<!-- readme-example:quickstart -->
 ```ts
 import { Component, inject } from '@angular/core'
 import { AgentskitChat, ChatContainerComponent, MessageComponent } from '@agentskit/angular'
@@ -107,3 +117,13 @@ MIT — see [LICENSE](../../LICENSE).
 ## Docs
 
 [Full documentation](https://www.agentskit.io/docs/packages/angular) · [GitHub](https://github.com/AgentsKit-io/agentskit)
+
+## Maturity and compatibility
+
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published as `@agentskit/angular`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).

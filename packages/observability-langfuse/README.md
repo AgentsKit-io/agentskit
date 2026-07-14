@@ -1,10 +1,21 @@
 # `@agentskit/observability-langfuse`
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>concise-package</code>
+
+<p align="center"><img alt="AgentsKit" src="../../apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
+
+**Tags:** `agentskit` · `typescript` · `ai-agents`
 
 [![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 
 Langfuse tracing adapter for AgentsKit. Emits one trace per agent run with nested spans for plan, tool calls, model generations, memory IO, and HITL gates. Token, cost, and latency metadata flow into the standard Langfuse `usage` and metadata fields.
+
+
+## Verified proof
+
+- Package metadata and tests live under `packages/observability-langfuse/`.
+- Package guide: https://www.agentskit.io/docs/packages/observability-langfuse
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
 
@@ -19,7 +30,8 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/observability-langf
 
 ## Install
 
-```sh
+<!-- readme-command:install -->
+```bash
 npm install @agentskit/observability-langfuse langfuse
 ```
 
@@ -68,3 +80,21 @@ Multi-agent topologies (planner → worker → reviewer) link automatically: eac
 ## License
 
 MIT
+
+## Quick start
+
+<!-- readme-example:quickstart -->
+```ts
+import '@agentskit/observability-langfuse'
+console.log('@agentskit/observability-langfuse loaded')
+```
+
+## Maturity and compatibility
+
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published as `@agentskit/observability-langfuse`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).

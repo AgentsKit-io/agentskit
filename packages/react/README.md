@@ -1,6 +1,8 @@
 # @agentskit/react
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>major-package</code>
+
+<p align="center"><img alt="AgentsKit" src="../../apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
 Add streaming AI chat to any React app in 10 lines of code.
 
@@ -12,6 +14,12 @@ Add streaming AI chat to any React app in 10 lines of code.
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `openai` · `anthropic` · `claude` · `gemini` · `chatgpt` · `react` · `react-hooks` · `chat-ui` · `ai-agents`
+
+## Verified proof
+
+- Package metadata and tests live under `packages/react/`.
+- Package guide: https://www.agentskit.io/docs/packages/react
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
 
@@ -33,12 +41,14 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/react) · [agent ha
 
 ## Install
 
+<!-- readme-command:install -->
 ```bash
 npm install @agentskit/react @agentskit/adapters
 ```
 
 ## Quick example
 
+<!-- readme-example:quickstart -->
 ```tsx
 import { useChat, ChatContainer, Message, InputBar } from '@agentskit/react'
 import { anthropic } from '@agentskit/adapters'
@@ -100,3 +110,13 @@ MIT — see [LICENSE](../../LICENSE).
 ## Docs
 
 [Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/AgentsKit-io/agentskit)
+
+## Maturity and compatibility
+
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published as `@agentskit/react`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).

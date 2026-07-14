@@ -1,4 +1,47 @@
+# registry
+
+Profile: <code>public-app</code>
+
+## Verified proof
+
+- App package lives at `apps/registry`.
+- Root claims: [ecosystem-claims.json](../../ecosystem-claims.json)
+
+## Install / run
+
+<!-- readme-command:install -->
+```bash
+pnpm --filter ./apps/registry build
+```
+
+## Quick start
+
+<!-- readme-example:quickstart -->
+```bash
+pnpm --filter ./apps/registry build
+```
+
+## Maturity and compatibility
+
+- Private monorepo app surface; ships with AgentsKit docs/product properties.
+- **Node.js 20+** and **TypeScript**
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and [LICENSE](../../LICENSE).
+
+## Ecosystem
+
+- [AgentsKit](https://www.agentskit.io)
+- [Registry](https://registry.agentskit.io)
+- [Playbook](https://playbook.agentskit.io)
+- [AKOS](https://akos.agentskit.io)
+
+**Tags:** `agentskit` · `typescript`
+
 # @agentskit/registry-app
+
+Profile: <code>public-app</code>
 
 The fumadocs site for the AgentsKit agent registry — deployed to
 **registry.agentskit.io**.

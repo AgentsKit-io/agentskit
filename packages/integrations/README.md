@@ -1,6 +1,10 @@
 # @agentskit/integrations
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>major-package</code>
+
+<p align="center"><img alt="AgentsKit" src="../../apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
+
+**Tags:** `agentskit` · `typescript` · `ai-agents`
 
 [![stability](https://img.shields.io/badge/stability-alpha-orange)](../../docs/STABILITY.md)
 
@@ -8,6 +12,13 @@ Unified, plug-and-play service integrations for AgentsKit agents — one descrip
 per service, projected into tools, connectors, triggers, and auth. Every
 integration is HTTP/`fetch`-only: no vendor SDKs are bundled or required
 (see [ADR-0012](../../docs/architecture/adrs/0012-vendor-adapter-scope.md)).
+
+
+## Verified proof
+
+- Package metadata and tests live under `packages/integrations/`.
+- Package guide: https://www.agentskit.io/docs/packages/integrations
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
 
@@ -22,12 +33,14 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/integrations) · [a
 
 ## Install
 
-```sh
+<!-- readme-command:install -->
+```bash
 npm install @agentskit/integrations
 ```
 
 ## Quick start
 
+<!-- readme-example:quickstart -->
 ```ts
 import { defineIntegration, defineAction } from '@agentskit/integrations'
 
@@ -66,3 +79,13 @@ export const myService = defineIntegration({
 `alpha` — the descriptor + registry contract is in place, but the catalog and
 the OSS/AKOS split are still being decided (see `docs/studies/integrations-*.md`).
 Pin exact and read the CHANGELOG on every update.
+
+## Maturity and compatibility
+
+- Stability: **alpha** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published as `@agentskit/integrations`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).
