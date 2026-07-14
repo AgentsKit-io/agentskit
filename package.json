@@ -35,6 +35,8 @@
     "check:publication-surface": "node scripts/check-publication-surface.mjs",
     "size": "pnpm build && size-limit",
     "size:why": "pnpm build && size-limit --why",
+    "check:launch-package": "node scripts/check-launch-package.mjs",
+    "test:launch-package": "vitest run scripts/launch-package.test.mjs",
     "check:ecosystem-readiness": "node scripts/check-ecosystem-readiness.mjs",
     "report:ecosystem-readiness": "node scripts/report-ecosystem-readiness.mjs",
     "test:ecosystem-readiness": "vitest run scripts/ecosystem-readiness.test.mjs"

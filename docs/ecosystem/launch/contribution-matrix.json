@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "title": "Public repository contribution surface matrix",
+  "repositories": [
+    {
+      "id": "agentskit",
+      "repo": "AgentsKit-io/agentskit",
+      "localRoot": ".",
+      "required": [
+        "CONTRIBUTING.md",
+        "CODE_OF_CONDUCT.md",
+        "SECURITY.md",
+        "LICENSE",
+        ".github/ISSUE_TEMPLATE",
+        ".github/PULL_REQUEST_TEMPLATE.md"
+      ]
+    },
+    {
+      "id": "agentskit-chat",
+      "repo": "AgentsKit-io/agentskit-chat",
+      "required": [
+        "CONTRIBUTING.md",
+        "CODE_OF_CONDUCT.md",
+        "SECURITY.md",
+        "LICENSE"
+      ],
+      "notes": "Sibling repository; matrix records expectations. Local presence is checked only when the path exists beside this monorepo."
+    },
+    {
+      "id": "registry",
+      "repo": "AgentsKit-io/agentskit-registry",
+      "required": ["CONTRIBUTING.md", "LICENSE", "SECURITY.md"]
+    },
+    {
+      "id": "playbook",
+      "repo": "AgentsKit-io/agents-playbook",
+      "required": ["CONTRIBUTING.md", "LICENSE"]
+    },
+    {
+      "id": "doc-bridge",
+      "repo": "AgentsKit-io/doc-bridge",
+      "required": ["CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "LICENSE"]
+    },
+    {
+      "id": "code-review",
+      "repo": "AgentsKit-io/code-review-cli",
+      "required": ["CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "SECURITY.md", "LICENSE"]
+    },
+    {
+      "id": "akos",
+      "repo": "AgentsKit-io/agentskit-os",
+      "required": ["CONTRIBUTING.md", "CODE_OF_CONDUCT.md", "LICENSE"]
+    }
+  ]
+}

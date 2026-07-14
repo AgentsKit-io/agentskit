@@ -9,6 +9,18 @@ Curated, tractable issues. Each ships end-to-end in a few hours. Comment on the 
 
 <GoodFirstIssuesList />
 
+## Curated starters with setup + test (launch package)
+
+These three are the launch-package starters. Each has explicit setup and verification commands.
+
+| ID | Setup | Test | Guide |
+|---|---|---|---|
+| `docs-link-fix` | `pnpm install` | `pnpm --filter @agentskit/docs-next build` | [Local setup](./local-setup) |
+| `package-readme-example` | `pnpm install` | `pnpm check:readme-standard` | [Package docs](./package-docs) |
+| `community-showcase` | `pnpm install` | validate `apps/docs-next/data/community.json` | [Recipe submission](./recipe-submission) |
+
+Machine source: `docs/ecosystem/launch/launch-package.json` → `starterIssues`.
+
 ## Seeded starter issues
 
 If the live list above is short, any of these are fair game — open an issue using the PR template and link back to this page. Maintainers will triage + label `good first issue`.

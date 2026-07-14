@@ -1,0 +1,43 @@
+---
+title: Recipe and showcase submission
+description: Submit a verified community showcase or recipe for review without private channels.
+---
+
+There are two public submission paths. Both are reviewable as pull requests — no private DMs required.
+
+## Showcase (Community wall)
+
+1. Fork `AgentsKit-io/agentskit`.
+2. Add an entry to [`apps/docs-next/data/community.json`](https://github.com/AgentsKit-io/agentskit/blob/main/apps/docs-next/data/community.json).
+3. Include: `name`, `description`, `url`, `tags`, `by`.
+4. Open a PR titled `community: add <project name>`.
+5. Ensure the linked project is public and runnable or clearly documented.
+
+Live wall: [Community](/community).
+
+## Recipe (Cookbook / docs)
+
+1. Prefer a small, reproducible path (ideally three commands or fewer for the proof).
+2. Open a documentation issue with template [docs.yml](https://github.com/AgentsKit-io/agentskit/issues/new?template=docs.yml) **or** a PR under `apps/docs-next/content/docs/cookbook/`.
+3. Include:
+   - problem and audience
+   - prerequisites
+   - copy-paste commands
+   - expected output
+   - links to packages used
+   - maturity honesty (alpha/beta/stable)
+4. Claims and package counts must match generated sources (`ecosystem-claims.json` / package docs) — do not invent metrics.
+
+## Verification checklist (reviewers)
+
+- [ ] Commands run in a clean environment or have a committed fixture
+- [ ] No secrets in samples
+- [ ] Links resolve
+- [ ] Product relationships are accurate (no overselling maturity)
+- [ ] Attribution is clear
+
+## Related
+
+- [Good first issues](./good-first-issues)
+- [Local setup](./local-setup)
+- [Maintainer expectations](./maintainer-expectations)
