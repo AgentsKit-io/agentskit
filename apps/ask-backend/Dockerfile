@@ -38,8 +38,21 @@ RUN pnpm install --frozen-lockfile \
 # network dependency, and no chance a transient first-load failure poisons the server.
 # `embed.ts` reads the same TRANSFORMERS_CACHE, so build + runtime agree on the path.
 # Run from the app dir so pnpm resolves `@huggingface/transformers` (hoisted there).
+# Retry transient Hub/CDN failures; a partial download remains in the cache and can
+# resume on the next attempt, while a persistent failure still stops the image build.
 ENV TRANSFORMERS_CACHE=/app/.transformers-cache
-RUN cd apps/ask-backend && node --input-type=module -e "import('@huggingface/transformers').then(async (t) => { t.env.cacheDir = process.env.TRANSFORMERS_CACHE; await t.pipeline('feature-extraction', 'Xenova/bge-small-en-v1.5'); console.log('embedding model baked into image'); })"
+RUN cd apps/ask-backend \
+ && attempt=1 \
+ && until node --input-type=module -e "import('@huggingface/transformers').then(async (t) => { t.env.cacheDir = process.env.TRANSFORMERS_CACHE; await t.pipeline('feature-extraction', 'Xenova/bge-small-en-v1.5'); console.log('embedding model baked into image'); })"; do \
+      if [ "$attempt" -ge 3 ]; then \
+        echo "embedding model download failed after $attempt attempts" >&2; \
+        exit 1; \
+      fi; \
+      delay=$((attempt * 5)); \
+      echo "embedding model download failed; retrying in ${delay}s" >&2; \
+      sleep "$delay"; \
+      attempt=$((attempt + 1)); \
+    done
 
 ENV NODE_ENV=production
 ENV PORT=8080
