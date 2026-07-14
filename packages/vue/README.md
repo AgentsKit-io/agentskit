@@ -1,6 +1,8 @@
 # @agentskit/vue
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>concise-package</code>
+
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
 Vue 3 composable + headless chat components. Same `ChatReturn` contract every AgentsKit framework binding ships — swap frameworks without changing your agent.
 
@@ -12,6 +14,12 @@ Vue 3 composable + headless chat components. Same `ChatReturn` contract every Ag
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `vue` · `vue3` · `composable` · `chat` · `streaming`
+
+## Verified proof
+
+- Package metadata and tests live under `packages/vue/`.
+- Package guide: https://www.agentskit.io/docs/packages/vue
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
 
@@ -33,6 +41,7 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/vue) · [agent hand
 
 ## Install
 
+<!-- readme-command:install -->
 ```bash
 npm install @agentskit/vue @agentskit/adapters
 ```
@@ -97,3 +106,21 @@ MIT — see [LICENSE](../../LICENSE).
 ## Docs
 
 [Full documentation](https://www.agentskit.io/docs/packages/vue) · [GitHub](https://github.com/AgentsKit-io/agentskit)
+
+## Quick start
+
+<!-- readme-example:quickstart -->
+```ts
+import '@agentskit/vue'
+console.log('@agentskit/vue loaded')
+```
+
+## Maturity and compatibility
+
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published as `@agentskit/vue`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).

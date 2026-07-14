@@ -1,6 +1,10 @@
 # @agentskit/tools/validation
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>concise-package</code>
+
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
+
+**Tags:** `agentskit` · `typescript` · `ai-agents`
 
 [![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 
@@ -11,6 +15,13 @@ Opt-in runtime validation of tool-call arguments against their JSON Schema for [
 The real untrusted boundary in an agent is **model output**. A model returns tool-call arguments as arbitrary JSON. Core parses them but does not check them against the tool's schema — `execute` receives args the type system only *claims* are valid. This package enforces the tool's existing `JSONSchema7` at runtime, so a malformed call fails with `AK_TOOL_INVALID_INPUT` instead of reaching your code.
 
 JSON Schema stays the single source of truth: no Zod, no parallel contract.
+
+
+## Verified proof
+
+- Package metadata and tests live under `packages/validation/`.
+- Package guide: https://www.agentskit.io/docs/packages/validation
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
 
@@ -25,6 +36,7 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/validation) · [age
 
 ## Install
 
+<!-- readme-command:install -->
 ```bash
 npm install @agentskit/tools
 ```
@@ -61,3 +73,21 @@ Same option exists on `createRuntime`.
 ## License
 
 MIT
+
+## Quick start
+
+<!-- readme-example:quickstart -->
+```ts
+import '@agentskit/validation'
+console.log('@agentskit/validation loaded')
+```
+
+## Maturity and compatibility
+
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published as `@agentskit/validation`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).

@@ -1,6 +1,8 @@
 # @agentskit/eval
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>concise-package</code>
+
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
 Measure agent quality with numbers, not vibes — ship with confidence.
 
@@ -12,6 +14,12 @@ Measure agent quality with numbers, not vibes — ship with confidence.
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `eval` · `evaluation` · `benchmarking` · `testing` · `ci-cd` · `llm-testing`
+
+## Verified proof
+
+- Package metadata and tests live under `packages/eval/`.
+- Package guide: https://www.agentskit.io/docs/packages/eval
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
 
@@ -33,12 +41,14 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/eval) · [agent han
 
 ## Install
 
+<!-- readme-command:install -->
 ```bash
 npm install @agentskit/eval
 ```
 
 ## Quick example
 
+<!-- readme-example:quickstart -->
 ```ts
 import { runEval } from '@agentskit/eval'
 import { createRuntime } from '@agentskit/runtime'
@@ -112,3 +122,13 @@ MIT — see [LICENSE](../../LICENSE).
 ## Docs
 
 [Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/AgentsKit-io/agentskit)
+
+## Maturity and compatibility
+
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published as `@agentskit/eval`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).

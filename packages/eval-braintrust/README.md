@@ -1,6 +1,10 @@
 # `@agentskit/eval/braintrust`
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>concise-package</code>
+
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
+
+**Tags:** `agentskit` · `typescript` · `ai-agents`
 
 [![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 
@@ -8,6 +12,13 @@ Braintrust scoring pipeline for AgentsKit. Ships **8 scorers** in two families a
 
 - **Quality scorers** — task success, factual grounding, citation correctness, tool-arg validity
 - **Robustness scorers** — schema survival, HITL gate correctness, fallback resilience, no-crash survival
+
+
+## Verified proof
+
+- Package metadata and tests live under `packages/eval-braintrust/`.
+- Package guide: https://www.agentskit.io/docs/packages/eval-braintrust
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
 
@@ -22,7 +33,8 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/eval-braintrust) ·
 
 ## Install
 
-```sh
+<!-- readme-command:install -->
+```bash
 npm install @agentskit/eval braintrust
 ```
 
@@ -30,12 +42,19 @@ npm install @agentskit/eval braintrust
 
 ## Quick start
 
+<!-- readme-example:quickstart -->
 ```ts
 import {
   runBraintrustEval,
   qualityFamily,
   robustnessFamily,
 } from '@agentskit/eval/braintrust'
+
+const myAgent = {
+  async run(input: string) {
+    return { text: `Answer for: ${input}`, toolCalls: [] }
+  },
+}
 
 const result = await runBraintrustEval({
   cases: [
@@ -92,3 +111,13 @@ Robustness scorers read fields from the case `metadata` (e.g. `parseError`, `hit
 ## License
 
 MIT
+
+## Maturity and compatibility
+
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published through `@agentskit/eval/braintrust`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).

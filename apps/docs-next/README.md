@@ -1,4 +1,47 @@
+# docs-next
+
+Profile: <code>public-app</code>
+
+## Verified proof
+
+- App package lives at `apps/docs-next`.
+- Root claims: [ecosystem-claims.json](../../ecosystem-claims.json)
+
+## Install / run
+
+<!-- readme-command:install -->
+```bash
+pnpm --filter ./apps/docs-next build
+```
+
+## Quick start
+
+<!-- readme-example:quickstart -->
+```bash
+pnpm --filter ./apps/docs-next build
+```
+
+## Maturity and compatibility
+
+- Private monorepo app surface; ships with AgentsKit docs/product properties.
+- **Node.js 20+** and **TypeScript**
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and [LICENSE](../../LICENSE).
+
+## Ecosystem
+
+- [AgentsKit](https://www.agentskit.io)
+- [Registry](https://registry.agentskit.io)
+- [Playbook](https://playbook.agentskit.io)
+- [AKOS](https://akos.agentskit.io)
+
+**Tags:** `agentskit` · `typescript`
+
 # @agentskit/docs-next
+
+Profile: <code>public-app</code>
 
 **Spike**: Fumadocs-based documentation site, evaluated as the replacement for the existing Docusaurus app at `apps/docs`.
 

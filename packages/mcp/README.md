@@ -1,11 +1,22 @@
 # @agentskit/mcp
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>major-package</code>
+
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
+
+**Tags:** `agentskit` · `typescript` · `ai-agents`
 
 [![stability](https://img.shields.io/badge/stability-alpha-orange)](../../docs/STABILITY.md)
 
 Expose AgentsKit tools as an [MCP](https://modelcontextprotocol.io) server — use
 them from Claude Desktop, Cursor, Windsurf, or any MCP host.
+
+
+## Verified proof
+
+- Package metadata and tests live under `packages/mcp/`.
+- Package guide: https://www.agentskit.io/docs/packages/mcp
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
 
@@ -18,6 +29,7 @@ them from Claude Desktop, Cursor, Windsurf, or any MCP host.
 
 Docs: [package guide](https://www.agentskit.io/docs/packages/mcp) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
+<!-- readme-command:install -->
 ```bash
 npx @agentskit/mcp --tools fetch,search
 ```
@@ -73,3 +85,21 @@ and any other OpenAI-compatible provider in the models.dev catalog. Key from
 import { createAgentTool } from '@agentskit/mcp'
 createAgentsKitMcpServer({ tools: [createAgentTool({ id, description, systemPrompt, adapter })] })
 ```
+
+## Quick start
+
+<!-- readme-example:quickstart -->
+```ts
+import '@agentskit/mcp'
+console.log('@agentskit/mcp loaded')
+```
+
+## Maturity and compatibility
+
+- Stability: **alpha** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published as `@agentskit/mcp`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).

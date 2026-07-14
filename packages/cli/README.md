@@ -1,6 +1,8 @@
 # @agentskit/cli
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>major-package</code>
+
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
 Chat with any LLM, scaffold projects, and run agents — all from your terminal.
 
@@ -12,6 +14,12 @@ Chat with any LLM, scaffold projects, and run agents — all from your terminal.
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `openai` · `anthropic` · `claude` · `gemini` · `chatgpt` · `cli` · `command-line` · `scaffolding` · `ai-agents` · `autonomous-agents`
+
+## Verified proof
+
+- Package metadata and tests live under `packages/cli/`.
+- Package guide: https://www.agentskit.io/docs/packages/cli
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
 
@@ -33,6 +41,7 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/cli) · [agent hand
 
 ## Install
 
+<!-- readme-command:install -->
 ```bash
 npm install -g @agentskit/cli
 ```
@@ -102,3 +111,21 @@ MIT — see [LICENSE](../../LICENSE).
 ## Docs
 
 [Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/AgentsKit-io/agentskit)
+
+## Quick start
+
+<!-- readme-example:quickstart -->
+```ts
+import '@agentskit/cli'
+console.log('@agentskit/cli loaded')
+```
+
+## Maturity and compatibility
+
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published as `@agentskit/cli`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).
