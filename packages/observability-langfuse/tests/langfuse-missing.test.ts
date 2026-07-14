@@ -29,7 +29,7 @@ describe('langfuse observer — package missing', () => {
     await flush()
 
     expect(warn).toHaveBeenCalled()
-    expect(String(warn.mock.calls[0]?.[0] ?? '')).toContain('observability-langfuse')
+    expect(String(warn.mock.calls[0]?.[0] ?? '')).toContain('observability/langfuse')
     warn.mockRestore()
   })
 })

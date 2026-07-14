@@ -50,7 +50,8 @@
     "vitest": "^4.1.10"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/packages/mcp",

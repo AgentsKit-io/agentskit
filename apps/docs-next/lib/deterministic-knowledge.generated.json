@@ -169,7 +169,7 @@
     {
       "id": "claim.packages",
       "kind": "restricted-faq",
-      "label": "25 packages",
+      "label": "22 packages",
       "match": {
         "type": "exact",
         "values": [
@@ -179,7 +179,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **25 packages**. The public conservative floor is 25.",
+        "markdown": "The verified AgentsKit ledger currently reports **22 packages**. The public conservative floor is 22.",
         "citations": [
           {
             "id": "claim-packages",
@@ -2260,5 +2260,5 @@
       }
     }
   ],
-  "contentHash": "sha256:09eff42d21bed1dc7a14d6fe78574206b2adb587a974e0b1ed5c76ae0efc7b28"
+  "contentHash": "sha256:a14a1455081124e2028651a7bcf4556b0b83b89ad28415cc388ac3fcd6fbae8f"
 }

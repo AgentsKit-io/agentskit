@@ -83,9 +83,9 @@ importers:
       '@agentskit/rag':
         specifier: workspace:*
         version: link:../../packages/rag
-      '@agentskit/validation':
+      '@agentskit/tools':
         specifier: workspace:*
-        version: link:../../packages/validation
+        version: link:../../packages/tools
       '@hono/node-server':
         specifier: ^1.19.14
         version: 1.19.14(hono@4.12.28)
@@ -284,9 +284,9 @@ importers:
 
   apps/example-dspy:
     dependencies:
-      '@agentskit/eval-braintrust':
+      '@agentskit/eval':
         specifier: workspace:*
-        version: link:../../packages/eval-braintrust
+        version: link:../../packages/eval
     devDependencies:
       '@types/node':
         specifier: ^25.9.5
@@ -753,9 +753,9 @@ importers:
         specifier: ^3.0.0
         version: 3.1068.0
     devDependencies:
-      '@agentskit/validation':
+      '@agentskit/tools':
         specifier: workspace:*
-        version: link:../validation
+        version: link:../tools
       '@types/json-schema':
         specifier: ^7.0.15
         version: 7.0.15
@@ -936,6 +936,9 @@ importers:
       '@types/node':
         specifier: ^25.9.5
         version: 25.9.5
+      braintrust:
+        specifier: ^3.21.0
+        version: 3.21.0(@aws-sdk/credential-provider-web-identity@3.972.52)(zod@4.4.3)
       metro:
         specifier: 0.84.4
         version: 0.84.4
@@ -1119,6 +1122,9 @@ importers:
       '@types/node':
         specifier: ^25.9.5
         version: 25.9.5
+      langfuse:
+        specifier: ^3.38.20
+        version: 3.38.20
       langsmith:
         specifier: ^0.8.1
         version: 0.8.1(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.9.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@4.4.3))(ws@8.21.0)
@@ -1442,6 +1448,9 @@ importers:
       '@types/node':
         specifier: ^25.9.5
         version: 25.9.5
+      ajv:
+        specifier: ^8.20.0
+        version: 8.20.0
       better-sqlite3:
         specifier: ^12.11.1
         version: 12.11.1
@@ -16113,7 +16122,7 @@ snapshots:
     dependencies:
       '@jridgewell/remapping': 2.3.5
       acorn: 8.17.0
-      picomatch: 4.0.4
+      picomatch: 4.0.5
       webpack-virtual-modules: 0.6.2
 
   until-async@3.0.2: {}

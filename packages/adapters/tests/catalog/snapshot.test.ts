@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createAjvValidator } from '@agentskit/validation'
+import { createAjvValidator } from '@agentskit/tools/validation'
 import { catalog, catalogSnapshotSchema, catalogSource } from '../../src/catalog'
 
 const validate = createAjvValidator({ rejectAdditionalProperties: true })

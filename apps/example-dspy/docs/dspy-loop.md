@@ -7,8 +7,8 @@ The four steps below are how `prompts/optimized.txt` was produced from `prompts/
 Run the baseline prompt against your existing eval set with `@agentskit/observability` enabled. Each run produces a trace tree with the model call inputs, tool-call args, and final response. Persist them to a JSONL file (`traces.jsonl`).
 
 ```ts
-import { runBraintrustEval, ALL_SCORERS } from '@agentskit/eval-braintrust'
-import { langfuse } from '@agentskit/observability-langfuse'
+import { runBraintrustEval, ALL_SCORERS } from '@agentskit/eval/braintrust'
+import { langfuse } from '@agentskit/observability/langfuse'
 
 await runBraintrustEval({
   cases,
