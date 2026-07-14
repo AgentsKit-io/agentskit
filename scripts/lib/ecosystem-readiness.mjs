@@ -7,9 +7,11 @@ export const READINESS_PROTOCOL = 'agentskit.ecosystem.readiness'
 const STATUSES = new Set(['pass', 'fail', 'blocked', 'skipped', 'excepted'])
 const SEVERITIES = new Set(['p0', 'p1', 'p2', 'info'])
 const OVERALL = new Set(['ready', 'blocked', 'incomplete'])
+const EXCEPTION_STATUSES = new Set(['skipped', 'excepted'])
 
 const isObject = (value) => value !== null && typeof value === 'object' && !Array.isArray(value)
 const nonEmpty = (value) => typeof value === 'string' && value.trim().length > 0
+const validDate = (value) => /^\d{4}-\d{2}-\d{2}$/.test(value ?? '') && !Number.isNaN(Date.parse(`${value}T00:00:00Z`))
 
 export function parseInventory(input) {
   if (!isObject(input)) throw new Error('inventory must be an object')
@@ -21,6 +23,12 @@ export function parseInventory(input) {
   if (!Array.isArray(input.requiredGateCategories) || input.requiredGateCategories.length === 0) {
     throw new Error('inventory must declare requiredGateCategories')
   }
+  if (!Number.isInteger(input.maxEvidenceAgeDays) || input.maxEvidenceAgeDays < 1) {
+    throw new Error('inventory maxEvidenceAgeDays must be a positive integer')
+  }
+  if (new Set(input.requiredGateCategories).size !== input.requiredGateCategories.length || input.requiredGateCategories.some((category) => !nonEmpty(category))) {
+    throw new Error('inventory requiredGateCategories must be unique non-empty strings')
+  }
   const ids = new Set()
   for (const product of input.products) {
     if (!nonEmpty(product.id) || !nonEmpty(product.repo) || !nonEmpty(product.evidenceFile)) {
@@ -28,6 +36,17 @@ export function parseInventory(input) {
     }
     if (ids.has(product.id)) throw new Error(`duplicate product id: ${product.id}`)
     ids.add(product.id)
+    const exceptionCategories = new Set()
+    for (const exception of product.gateExceptions ?? []) {
+      if (!nonEmpty(exception.category) || !input.requiredGateCategories.includes(exception.category) || !EXCEPTION_STATUSES.has(exception.status)) {
+        throw new Error(`${product.id} has an invalid gate exception`)
+      }
+      if (exceptionCategories.has(exception.category)) throw new Error(`${product.id} duplicate gate exception: ${exception.category}`)
+      exceptionCategories.add(exception.category)
+      if (!nonEmpty(exception.reason) || !validDate(exception.expiresOn)) {
+        throw new Error(`${product.id} gate exception ${exception.category} needs reason and expiresOn`)
+      }
+    }
   }
   return input
 }
@@ -42,7 +61,7 @@ export function parseEvidence(input, { productId } = {}) {
   if (productId && input.productId !== productId) {
     throw new Error(`evidence productId ${input.productId} does not match expected ${productId}`)
   }
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(input.auditedOn)) {
+  if (!validDate(input.auditedOn)) {
     throw new Error(`evidence auditedOn must be YYYY-MM-DD: ${input.auditedOn}`)
   }
   if (!isObject(input.maturity) || !nonEmpty(input.maturity.declared) || !nonEmpty(input.maturity.source)) {
@@ -67,15 +86,20 @@ export function parseEvidence(input, { productId } = {}) {
     if (!Array.isArray(gate.evidence)) {
       throw new Error(`${input.productId} gate ${gate.id} evidence must be an array`)
     }
+    if (gate.evidence.length === 0 || gate.evidence.some((item) => !nonEmpty(item))) {
+      throw new Error(`${input.productId} gate ${gate.id} requires non-empty evidence`)
+    }
   }
   return input
 }
 
-function categoryCoverage(requiredCategories, gates) {
-  const present = new Set(gates.map((gate) => gate.category))
+function categoryCoverage(requiredCategories, gates, exceptions = []) {
+  const approvedExceptions = new Map(exceptions.map((exception) => [exception.category, exception.status]))
   return requiredCategories.map((category) => ({
     category,
-    covered: present.has(category),
+    covered: gates.some((gate) => gate.category === category && (
+      !EXCEPTION_STATUSES.has(gate.status) || approvedExceptions.get(category) === gate.status
+    )),
   }))
 }
 
@@ -96,6 +120,8 @@ function findingFromGate(product, gate) {
 
 export function evaluateReadiness({ inventory, evidenceByProductId, auditDate = new Date().toISOString().slice(0, 10) }) {
   const parsedInventory = parseInventory(inventory)
+  const auditTime = Date.parse(`${auditDate}T00:00:00Z`)
+  if (!validDate(auditDate) || Number.isNaN(auditTime)) throw new Error('auditDate must be YYYY-MM-DD')
   const products = []
   const findings = []
   let missingEvidence = 0
@@ -155,6 +181,7 @@ export function evaluateReadiness({ inventory, evidenceByProductId, auditDate = 
       continue
     }
 
+    const productFindingStart = findings.length
     if (product.repo !== evidence.repo) {
       findings.push({
         productId: product.id,
@@ -170,7 +197,61 @@ export function evaluateReadiness({ inventory, evidenceByProductId, auditDate = 
       })
     }
 
-    const categories = categoryCoverage(parsedInventory.requiredGateCategories, evidence.gates)
+    const requiredCategories = new Set(parsedInventory.requiredGateCategories)
+    const categoryCounts = new Map()
+    for (const gate of evidence.gates) {
+      categoryCounts.set(gate.category, (categoryCounts.get(gate.category) ?? 0) + 1)
+      if (!requiredCategories.has(gate.category) || gate.id !== gate.category) {
+        findings.push({
+          productId: product.id,
+          repo: product.repo,
+          gateId: gate.id,
+          category: gate.category,
+          status: 'fail',
+          severity: 'p1',
+          summary: `Unknown or non-canonical gate: ${gate.id}/${gate.category}`,
+          owner: product.repo,
+          remediation: 'Use exactly one canonical gate whose id equals a required category.',
+          evidence: [product.evidenceFile],
+        })
+      }
+    }
+    for (const [category, count] of categoryCounts) {
+      if (requiredCategories.has(category) && count > 1) {
+        findings.push({
+          productId: product.id,
+          repo: product.repo,
+          gateId: `category:${category}:duplicate`,
+          category,
+          status: 'fail',
+          severity: 'p1',
+          summary: `Required gate category has ${count} records: ${category}`,
+          owner: product.repo,
+          remediation: 'Keep exactly one evidence gate per required category.',
+          evidence: [product.evidenceFile],
+        })
+      }
+    }
+
+    const evidenceTime = Date.parse(`${evidence.auditedOn}T00:00:00Z`)
+    const ageDays = Math.floor((auditTime - evidenceTime) / 86_400_000)
+    if (ageDays < 0 || ageDays > parsedInventory.maxEvidenceAgeDays) {
+      findings.push({
+        productId: product.id,
+        repo: product.repo,
+        gateId: 'evidence-freshness',
+        category: 'process',
+        status: 'fail',
+        severity: 'p0',
+        summary: ageDays < 0 ? `Evidence is future-dated: ${evidence.auditedOn}` : `Evidence is ${ageDays} days old (maximum ${parsedInventory.maxEvidenceAgeDays})`,
+        owner: product.repo,
+        remediation: 'Re-run the product audit and commit current evidence.',
+        evidence: [product.evidenceFile],
+      })
+    }
+
+    const liveExceptions = (product.gateExceptions ?? []).filter((exception) => Date.parse(`${exception.expiresOn}T00:00:00Z`) >= auditTime)
+    const categories = categoryCoverage(parsedInventory.requiredGateCategories, evidence.gates, liveExceptions)
     for (const row of categories) {
       if (!row.covered) {
         findings.push({
@@ -191,12 +272,22 @@ export function evaluateReadiness({ inventory, evidenceByProductId, auditDate = 
     for (const gate of evidence.gates) {
       if (gate.status === 'fail' || gate.status === 'blocked') {
         findings.push(findingFromGate(product, gate))
+      } else if (EXCEPTION_STATUSES.has(gate.status)) {
+        const exception = liveExceptions.find((item) => item.category === gate.category && item.status === gate.status)
+        if (!exception) {
+          findings.push({
+            ...findingFromGate(product, gate),
+            status: 'fail',
+            severity: 'p1',
+            summary: `${gate.status} gate lacks a live inventory exception with justification and expiry`,
+            remediation: 'Add a narrowly scoped gateExceptions entry or execute the gate.',
+          })
+        }
       }
     }
 
-    const blocking = evidence.gates.some(
-      (gate) => (gate.status === 'fail' || gate.status === 'blocked') && (gate.severity === 'p0' || gate.severity === 'p1'),
-    )
+    const productFindings = findings.slice(productFindingStart)
+    const blocking = productFindings.some((finding) => finding.severity === 'p0' || finding.severity === 'p1')
     const missingCategory = categories.some((row) => !row.covered)
     products.push({
       id: product.id,

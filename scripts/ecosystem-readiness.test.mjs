@@ -66,12 +66,87 @@ test('inventory and evidence parsers reject invalid payloads', () => {
       }),
     /at least one gate/,
   )
+  const emptyEvidence = {
+    schemaVersion: 1,
+    protocol: 'agentskit.ecosystem.readiness',
+    productId: 'x',
+    repo: 'r',
+    auditedOn: '2026-07-14',
+    maturity: { declared: 'beta', source: 'ecosystem.json' },
+    gates: [baseGate({ evidence: [] })],
+  }
+  assert.throws(() => parseEvidence(emptyEvidence), /requires non-empty evidence/)
+})
+
+test('stale, future, unknown, and unapproved skipped gates fail closed', () => {
+  const inventory = {
+    schemaVersion: 1,
+    protocol: 'agentskit.ecosystem.readiness',
+    maxEvidenceAgeDays: 30,
+    requiredGateCategories: required,
+    products: [{ id: 'playbook', repo: 'AgentsKit-io/agents-playbook', evidenceFile: 'x' }],
+  }
+  const evidence = {
+    schemaVersion: 1,
+    protocol: 'agentskit.ecosystem.readiness',
+    productId: 'playbook',
+    repo: 'AgentsKit-io/agents-playbook',
+    auditedOn: '2026-06-01',
+    maturity: { declared: 'stable', source: 'ecosystem.json' },
+    gates: [
+      ...fullGates('pass').filter((gate) => gate.category !== 'chat'),
+      baseGate({ id: 'not-chat', category: 'chat', status: 'skipped', summary: 'not applicable' }),
+    ],
+  }
+  const stale = evaluateReadiness({ inventory, evidenceByProductId: { playbook: evidence }, auditDate: '2026-07-14' })
+  assert.equal(stale.overall, 'blocked')
+  assert.ok(stale.findings.some((finding) => finding.gateId === 'evidence-freshness'))
+  assert.ok(stale.findings.some((finding) => finding.summary.includes('non-canonical')))
+  assert.ok(stale.findings.some((finding) => finding.summary.includes('lacks a live inventory exception')))
+
+  evidence.auditedOn = '2026-07-15'
+  const future = evaluateReadiness({ inventory, evidenceByProductId: { playbook: evidence }, auditDate: '2026-07-14' })
+  assert.ok(future.findings.some((finding) => finding.summary.includes('future-dated')))
+})
+
+test('a skipped gate counts only with a matching justified, unexpired allowlist entry', () => {
+  const inventory = {
+    schemaVersion: 1,
+    protocol: 'agentskit.ecosystem.readiness',
+    maxEvidenceAgeDays: 30,
+    requiredGateCategories: required,
+    products: [{
+      id: 'code-review',
+      repo: 'AgentsKit-io/code-review-cli',
+      evidenceFile: 'x',
+      gateExceptions: [{
+        category: 'chat',
+        status: 'skipped',
+        reason: 'The CLI intentionally has no chat surface.',
+        expiresOn: '2026-08-01',
+      }],
+    }],
+  }
+  const evidence = {
+    schemaVersion: 1,
+    protocol: 'agentskit.ecosystem.readiness',
+    productId: 'code-review',
+    repo: 'AgentsKit-io/code-review-cli',
+    auditedOn: '2026-07-14',
+    maturity: { declared: 'stable', source: 'ecosystem.json' },
+    gates: fullGates('pass').map((gate) => gate.category === 'chat' ? { ...gate, status: 'skipped' } : gate),
+  }
+  const live = evaluateReadiness({ inventory, evidenceByProductId: { 'code-review': evidence }, auditDate: '2026-07-14' })
+  assert.equal(live.overall, 'ready')
+  const expired = evaluateReadiness({ inventory, evidenceByProductId: { 'code-review': evidence }, auditDate: '2026-08-02' })
+  assert.equal(expired.overall, 'blocked')
 })
 
 test('missing required categories and P0 findings block readiness', () => {
   const inventory = {
     schemaVersion: 1,
     protocol: 'agentskit.ecosystem.readiness',
+    maxEvidenceAgeDays: 30,
     requiredGateCategories: required,
     products: [{ id: 'agentskit', repo: 'AgentsKit-io/agentskit', evidenceFile: 'ecosystem-readiness/evidence/agentskit.json' }],
   }
@@ -109,6 +184,7 @@ test('complete passing evidence yields ready status', () => {
   const inventory = {
     schemaVersion: 1,
     protocol: 'agentskit.ecosystem.readiness',
+    maxEvidenceAgeDays: 30,
     requiredGateCategories: required,
     products: [{ id: 'playbook', repo: 'AgentsKit-io/agents-playbook', evidenceFile: 'x' }],
   }
@@ -135,6 +211,7 @@ test('missing evidence fails closed as incomplete', () => {
   const inventory = {
     schemaVersion: 1,
     protocol: 'agentskit.ecosystem.readiness',
+    maxEvidenceAgeDays: 30,
     requiredGateCategories: required,
     products: [{ id: 'akos', repo: 'AgentsKit-io/agentskit-os', evidenceFile: 'missing.json' }],
   }
@@ -147,6 +224,7 @@ test('report serialization is deterministic for a fixed fixture', () => {
   const inventory = {
     schemaVersion: 1,
     protocol: 'agentskit.ecosystem.readiness',
+    maxEvidenceAgeDays: 30,
     requiredGateCategories: required,
     products: [{ id: 'doc-bridge', repo: 'AgentsKit-io/doc-bridge', evidenceFile: 'x' }],
   }
@@ -176,6 +254,7 @@ test('artifact writer creates latest and stamped reports', () => {
     inventory: {
       schemaVersion: 1,
       protocol: 'agentskit.ecosystem.readiness',
+      maxEvidenceAgeDays: 30,
       requiredGateCategories: required,
       products: [{ id: 'playbook', repo: 'AgentsKit-io/agents-playbook', evidenceFile: 'x' }],
     },

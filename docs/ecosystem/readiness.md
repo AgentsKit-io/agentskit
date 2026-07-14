@@ -33,14 +33,14 @@ ECOSYSTEM_READINESS_DATE=2026-07-14 pnpm check:ecosystem-readiness -- --json
 
 | Path | Role |
 |---|---|
-| `ecosystem-readiness/inventory.json` | In-scope products + required gate categories |
+| `ecosystem-readiness/inventory.json` | In-scope products, canonical gates, freshness window, and narrow exceptions |
 | `ecosystem-readiness/evidence/<product>.json` | Versioned evidence for one product |
 | `scripts/lib/ecosystem-readiness.mjs` | Schema validation + evaluation |
 | `artifacts/ecosystem-readiness/` | Generated reports (latest + dated) |
 
 ## Required gate categories
 
-Every product evidence file must include at least one gate in each category:
+Every product evidence file must include exactly one canonical gate in each category. The gate `id` must equal its category, and every gate must carry at least one non-empty evidence reference:
 
 - `quickstart`
 - `documentation`
@@ -55,7 +55,9 @@ Every product evidence file must include at least one gate in each category:
 - `security`
 - `maturity`
 
-Repository-native products (for example Code Review) may mark site-only categories as `skipped` with an explanatory summary. Skipped still counts as category coverage; it does not pretend the gate passed.
+Repository-native products (for example Code Review) may mark site-only categories as `skipped` only when the inventory explicitly allowlists that product/category/status with a justification and future expiry. Expired, mismatched, or ad-hoc `skipped`/`excepted` gates fail closed.
+
+Evidence must not be future-dated and must be no older than `maxEvidenceAgeDays` (30 days in v1). Unknown gates, duplicate categories, empty evidence arrays, and stale manifests block promotion.
 
 ## Severity and promotion
 
@@ -64,6 +66,7 @@ Repository-native products (for example Code Review) may mark site-only categori
 | `p0` / `p1` `fail` or `blocked` | Overall status becomes `blocked`; promotion forbidden |
 | `p2` / `info` | Recorded; does not alone block promotion |
 | Missing evidence file | Overall `incomplete`; promotion forbidden |
+| Stale/future evidence or invalid exception | Overall becomes `blocked`; promotion forbidden |
 
 `check:ecosystem-readiness` exits `0` only when `promotionAllowed` is true.
 

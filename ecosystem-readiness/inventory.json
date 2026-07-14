@@ -4,6 +4,7 @@
   "title": "AgentsKit ecosystem documentation and product readiness inventory",
   "parentPrd": "https://github.com/AgentsKit-io/agentskit/issues/1198",
   "certificationIssue": "https://github.com/AgentsKit-io/agentskit/issues/1204",
+  "maxEvidenceAgeDays": 30,
   "requiredGateCategories": [
     "quickstart",
     "documentation",
@@ -47,7 +48,33 @@
     {
       "id": "code-review",
       "repo": "AgentsKit-io/code-review-cli",
-      "evidenceFile": "ecosystem-readiness/evidence/code-review.json"
+      "evidenceFile": "ecosystem-readiness/evidence/code-review.json",
+      "gateExceptions": [
+        {
+          "category": "seo",
+          "status": "skipped",
+          "reason": "The product is distributed as a repository-native CLI and has no public documentation site.",
+          "expiresOn": "2027-07-14"
+        },
+        {
+          "category": "accessibility",
+          "status": "skipped",
+          "reason": "The product has no browser UI; terminal output remains covered by CLI smoke tests.",
+          "expiresOn": "2027-07-14"
+        },
+        {
+          "category": "performance",
+          "status": "skipped",
+          "reason": "Web performance budgets do not apply to the repository-native CLI distribution.",
+          "expiresOn": "2027-07-14"
+        },
+        {
+          "category": "chat",
+          "status": "skipped",
+          "reason": "AgentsChat is intentionally excluded from the code-review CLI product surface.",
+          "expiresOn": "2027-07-14"
+        }
+      ]
     },
     {
       "id": "akos",
