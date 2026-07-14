@@ -643,14 +643,14 @@ importers:
   apps/registry:
     dependencies:
       '@agentskit/chat':
-        specifier: 0.1.0
-        version: 0.1.0(@agentskit/core@packages+core)
+        specifier: 0.2.0
+        version: 0.2.0(@agentskit/core@packages+core)
       '@agentskit/chat-protocol':
-        specifier: 0.1.0
-        version: 0.1.0(@agentskit/core@packages+core)
+        specifier: 0.2.0
+        version: 0.2.0(@agentskit/core@packages+core)
       '@agentskit/chat-react':
-        specifier: 0.1.0
-        version: 0.1.0(@agentskit/core@packages+core)(@agentskit/react@packages+react)(react@19.2.7)
+        specifier: 0.2.0
+        version: 0.2.0(@agentskit/core@packages+core)(@agentskit/react@packages+react)(react@19.2.7)
       '@agentskit/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -1523,14 +1523,30 @@ packages:
     peerDependencies:
       '@agentskit/core': ^1.12.1
 
+  '@agentskit/chat-protocol@0.2.0':
+    resolution: {integrity: sha512-zzQrj4YRDi3wpdQ5GkSSyO1iafrMY0VwSat7XaxG2kf6A6xYyEuYVEFEee/2aWU+VVPLwR2qC2Mq8+oCIk9ItQ==}
+    peerDependencies:
+      '@agentskit/core': ^1.12.1
+
   '@agentskit/chat-react@0.1.0':
     resolution: {integrity: sha512-byFy1PFziZpjBqeVNmBaAoTZMW2XnPlVhdKa3d7YRSyq13MDg7XzSG5YbtA3TgDaOxrOyB41JckUdpfkhlDcIA==}
     peerDependencies:
       '@agentskit/react': ^0.7.1
       react: '>=18'
 
+  '@agentskit/chat-react@0.2.0':
+    resolution: {integrity: sha512-md1LjRoDbPM0BQPtzcTSUMrfUlO4WxfMBd7YTblaIW5uD5bvtY/SVSBPI1YldI1A/lhGi7PBFSDB5+VLzxiUzg==}
+    peerDependencies:
+      '@agentskit/react': ^0.7.1
+      react: '>=18'
+
   '@agentskit/chat@0.1.0':
     resolution: {integrity: sha512-ZItuWjvXWWPvflLECN3FBk7doGPHX+oG/2La2zadArkjEpCkQMXufFz3wfvKk8QyjyLbyvfAyH2xVWbWd9F02g==}
+    peerDependencies:
+      '@agentskit/core': ^1.12.3
+
+  '@agentskit/chat@0.2.0':
+    resolution: {integrity: sha512-7bxvOwFPkxZYywQkghL5f/1H8uW0Mx4H+T8BsZ7Xmh6fomdS3T2vk14mrX6V+YN3dcRUJ1uO1CHYOhvhJ3et8w==}
     peerDependencies:
       '@agentskit/core': ^1.12.3
 
@@ -8669,6 +8685,12 @@ snapshots:
       '@noble/hashes': 2.2.0
       zod: 4.4.3
 
+  '@agentskit/chat-protocol@0.2.0(@agentskit/core@packages+core)':
+    dependencies:
+      '@agentskit/core': link:packages/core
+      '@noble/hashes': 2.2.0
+      zod: 4.4.3
+
   '@agentskit/chat-react@0.1.0(@agentskit/core@packages+core)(@agentskit/react@packages+react)(react@19.2.7)':
     dependencies:
       '@agentskit/chat': 0.1.0(@agentskit/core@packages+core)
@@ -8678,9 +8700,26 @@ snapshots:
     transitivePeerDependencies:
       - '@agentskit/core'
 
+  '@agentskit/chat-react@0.2.0(@agentskit/core@packages+core)(@agentskit/react@packages+react)(react@19.2.7)':
+    dependencies:
+      '@agentskit/chat': 0.2.0(@agentskit/core@packages+core)
+      '@agentskit/chat-protocol': 0.2.0(@agentskit/core@packages+core)
+      '@agentskit/react': link:packages/react
+      react: 19.2.7
+    transitivePeerDependencies:
+      - '@agentskit/core'
+
   '@agentskit/chat@0.1.0(@agentskit/core@packages+core)':
     dependencies:
       '@agentskit/chat-protocol': 0.1.0(@agentskit/core@packages+core)
+      '@agentskit/core': link:packages/core
+      '@agentskit/memory': 0.11.0
+      '@agentskit/statechart': 0.2.0
+      zod: 4.4.3
+
+  '@agentskit/chat@0.2.0(@agentskit/core@packages+core)':
+    dependencies:
+      '@agentskit/chat-protocol': 0.2.0(@agentskit/core@packages+core)
       '@agentskit/core': link:packages/core
       '@agentskit/memory': 0.11.0
       '@agentskit/statechart': 0.2.0

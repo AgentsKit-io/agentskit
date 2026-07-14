@@ -38,6 +38,9 @@ jobs:
       - name: Build the production docs app for docs E2E
         run: pnpm --filter @agentskit/docs-next build
 
+      - name: Build the production Registry app for Registry E2E
+        run: pnpm --filter @agentskit/registry-app build
+
       - run: pnpm exec playwright test
 
       - if: always()

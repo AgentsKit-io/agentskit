@@ -1,10 +1,11 @@
 'use client'
 
-import { Children, createContext, useContext, useEffect, useMemo, useRef, useState, type ComponentProps, type FormEvent, type ReactNode } from 'react'
+import { Children, createContext, useCallback, useContext, useEffect, useMemo, useRef, useState, type ComponentProps, type FormEvent, type ReactNode } from 'react'
 import type { ChatReturn, Message as AgentsKitMessage } from '@agentskit/core'
 import { ChatContainer } from '@agentskit/react'
 import { SourceListPropsSchema, StandardComponentCatalog, createAskAdapter, createAskSessionMemory, defineChat, defineComponentManifest } from '@agentskit/chat'
 import { AgentChat, StandardComponent as FrameworkStandardComponent, type AgentChatSlots, type StandardComponentProps } from '@agentskit/chat-react'
+import { createRegistryDiscoveryAdapter, loadRegistryDiscovery, type RegistryDiscoveryInputs } from '@/lib/discovery'
 
 const CORPUS = 'registry'
 const STORAGE_KEY = 'ak:ask-thread-v3:registry'
@@ -21,23 +22,59 @@ function Mark({ size = 16 }: { readonly size?: number }) {
   return <svg width={size} height={Math.round(size * 64 / 72)} viewBox="0 0 72 64" fill="none" aria-hidden="true"><path d="M12 52 36 12l24 40H12Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round"/><circle cx="36" cy="12" r="6" fill="currentColor"/><circle cx="12" cy="52" r="6" fill="currentColor"/><circle cx="60" cy="52" r="6" fill="currentColor"/></svg>
 }
 
-function LinkedText({ content }: { readonly content: string }) {
-  const pattern = /\[([^\]]+)\]\((https?:\/\/[^)\s]+|\/[^)\s]+)\)|(https?:\/\/[^\s)]+)/g
+function InlineContent({ content }: { readonly content: string }) {
+  const pattern = /\[([^\]]+)\]\((https?:\/\/[^)\s]+|\/[^)\s]+)\)|`([^`]+)`|\*\*([^*]+)\*\*|(https?:\/\/[^\s)]+)/g
   const nodes: ReactNode[] = []
   let cursor = 0
   for (const match of content.matchAll(pattern)) {
     const index = match.index ?? 0
     if (index > cursor) nodes.push(content.slice(cursor, index))
-    const href = match[2] || match[3] || ''
-    nodes.push(<a key={`${href}-${index}`} href={href} target="_blank" rel="noreferrer">{match[1] || match[3]}</a>)
+    const href = match[2] || match[5]
+    if (href) nodes.push(<a key={`${href}-${index}`} href={href} target="_blank" rel="noreferrer">{match[1] || match[5]}</a>)
+    else if (match[3]) nodes.push(<code key={`code-${index}`}>{match[3]}</code>)
+    else nodes.push(<strong key={`strong-${index}`}>{match[4]}</strong>)
     cursor = index + match[0].length
   }
   if (cursor < content.length) nodes.push(content.slice(cursor))
   return <>{nodes}</>
 }
 
+function MarkdownContent({ content }: { readonly content: string }) {
+  const lines = content.split('\n')
+  const nodes: ReactNode[] = []
+  let index = 0
+  while (index < lines.length) {
+    const line = lines[index]?.trim() ?? ''
+    if (!line) { index += 1; continue }
+    if (line.startsWith('## ')) {
+      nodes.push(<h3 key={`heading-${index}`}><InlineContent content={line.slice(3)}/></h3>)
+      index += 1
+      continue
+    }
+    if (line.startsWith('- ')) {
+      const items: ReactNode[] = []
+      while ((lines[index]?.trim() ?? '').startsWith('- ')) {
+        const item = lines[index]?.trim().slice(2) ?? ''
+        items.push(<li key={`item-${index}`}><InlineContent content={item}/></li>)
+        index += 1
+      }
+      nodes.push(<ul key={`list-${index}`}>{items}</ul>)
+      continue
+    }
+    const paragraph: string[] = []
+    while (index < lines.length) {
+      const value = lines[index]?.trim() ?? ''
+      if (!value || value.startsWith('## ') || value.startsWith('- ')) break
+      paragraph.push(value)
+      index += 1
+    }
+    nodes.push(<p key={`paragraph-${index}`}><InlineContent content={paragraph.join(' ')}/></p>)
+  }
+  return <>{nodes}</>
+}
+
 function RegistryMessage({ message }: { readonly message: AgentsKitMessage }) {
-  return <div className={`rg-ask-message ${message.role === 'user' ? 'user' : 'assistant'}`} data-ak-message={message.role}><LinkedText content={message.content}/></div>
+  return <div className={`rg-ask-message ${message.role === 'user' ? 'user' : 'assistant'}`} data-ak-message={message.role}>{message.role === 'user' ? message.content : <MarkdownContent content={message.content}/>}</div>
 }
 
 function RegistryContainer({ children, className }: ComponentProps<typeof ChatContainer>) {
@@ -74,19 +111,43 @@ function RegistryComponent(props: StandardComponentProps) {
 
 export function RegistryAskWidget() {
   const [open, setOpen] = useState(false)
+  const [discovery, setDiscovery] = useState<RegistryDiscoveryInputs | null | undefined>(undefined)
+  const [answerPath, setAnswerPath] = useState<'local' | 'backend' | null>(null)
   const chatRef = useRef<ChatReturn | null>(null)
+  const discoveryPromiseRef = useRef<Promise<void> | null>(null)
   const fabRef = useRef<HTMLButtonElement>(null)
   const panelRef = useRef<HTMLElement>(null)
   const openedOnceRef = useRef(false)
   const endpoint = process.env.NEXT_PUBLIC_ASK_ENDPOINT ?? 'https://ask.agentskit.io/v1/ask'
-  const definition = useMemo(() => defineChat({
-    id: 'ask-registry',
-    components: COMPONENTS,
-    chat: {
-      adapter: createAskAdapter({ endpoint, corpus: CORPUS }),
-      memory: createAskSessionMemory({ key: STORAGE_KEY, legacyKeys: ['ak:ask-thread:registry', 'ak:ask-thread-v2:registry'] }),
-    },
-  }), [endpoint])
+  const ensureDiscovery = useCallback(() => {
+    if (discovery !== undefined || discoveryPromiseRef.current) return discoveryPromiseRef.current
+    const pending = loadRegistryDiscovery(fetch, '/deterministic')
+      .then(setDiscovery)
+      .finally(() => { discoveryPromiseRef.current = null })
+    discoveryPromiseRef.current = pending
+    return pending
+  }, [discovery])
+  const definition = useMemo(() => {
+    const fallback = createAskAdapter({ endpoint, corpus: CORPUS })
+    const answer = createRegistryDiscoveryAdapter({
+      inputs: discovery ?? null,
+      fallback,
+      onDecision: (decision) => {
+        if (decision.outcome === 'answer') setAnswerPath(decision.provenance.source)
+        else if (decision.outcome === 'escalation') setAnswerPath('backend')
+        else setAnswerPath('local')
+      },
+    })
+    return defineChat({
+      id: 'ask-registry',
+      components: COMPONENTS,
+      ...(answer.deterministic ? { choiceSubmission: answer.deterministic.resolveChoiceSubmission } : {}),
+      chat: {
+        adapter: answer.adapter,
+        memory: createAskSessionMemory({ key: STORAGE_KEY, legacyKeys: ['ak:ask-thread:registry', 'ak:ask-thread-v2:registry'] }),
+      },
+    })
+  }, [discovery, endpoint])
   const runtime = useMemo(() => ({ chat: chatRef }), [])
 
   useEffect(() => {
@@ -100,9 +161,9 @@ export function RegistryAskWidget() {
       }
     })
     return () => cancelAnimationFrame(frame)
-  }, [open])
+  }, [discovery, open])
 
-  if (!open) return <><button ref={fabRef} type="button" className="rg-ask-fab" aria-label="Ask Registry" onClick={() => setOpen(true)}><Mark/><span>Ask Registry</span></button><Styles/></>
+  if (!open) return <><button ref={fabRef} type="button" className="rg-ask-fab" aria-label="Ask Registry" onFocus={() => { void ensureDiscovery() }} onPointerEnter={() => { void ensureDiscovery() }} onClick={() => { void ensureDiscovery(); setOpen(true) }}><Mark/><span>Ask Registry</span></button><Styles/></>
 
   return <RuntimeContext.Provider value={runtime}>
     <section ref={panelRef} className="rg-ask-panel" role="dialog" aria-label="Ask Registry" onKeyDown={event => {
@@ -111,9 +172,11 @@ export function RegistryAskWidget() {
         setOpen(false)
       }
     }}>
-      <header className="rg-ask-header"><strong><Mark size={18}/><span>Ask Registry</span></strong><div><button type="button" onClick={() => void chatRef.current?.clear()}>clear</button><button type="button" aria-label="Close" onClick={() => setOpen(false)}>×</button></div></header>
-      <div className="rg-ask-runtime"><AgentChat key={STORAGE_KEY} definition={definition} placeholder="Ask about an agent…" slots={{ Container: RegistryContainer, Message: RegistryMessage, Input: RegistryInput, Thinking: RegistryThinking, StandardComponent: RegistryComponent }}/></div>
-      <footer className="rg-ask-footer"><a href="/#agents"><Mark size={12}/> Browse registry agents →</a></footer>
+      <header className="rg-ask-header"><strong><Mark size={18}/><span>Ask Registry</span></strong><div><button type="button" onClick={() => { setAnswerPath(null); void chatRef.current?.clear() }}>clear</button><button type="button" aria-label="Close" onClick={() => setOpen(false)}>×</button></div></header>
+      <div className="rg-ask-runtime">{discovery === undefined
+        ? <p className="rg-ask-loading" role="status"><Mark size={15}/> Preparing local Registry knowledge…</p>
+        : <AgentChat key={STORAGE_KEY} definition={definition} placeholder="Ask about an agent…" slots={{ Container: RegistryContainer, Message: RegistryMessage, Input: RegistryInput, Thinking: RegistryThinking, StandardComponent: RegistryComponent }}/>}</div>
+      <footer className="rg-ask-footer"><a href="/#agents"><Mark size={12}/> Browse registry agents →</a>{answerPath ? <span data-rg-answer-path={answerPath}>{answerPath === 'local' ? 'instant · local' : 'grounded · backend'}</span> : null}</footer>
       <Styles/>
     </section>
   </RuntimeContext.Provider>
@@ -127,10 +190,11 @@ function Styles() {
     .rg-ask-header{display:flex;min-height:48px;align-items:center;justify-content:space-between;border-bottom:1px solid var(--ask-border);background:linear-gradient(135deg,var(--ask-surface),var(--ask-bg));padding:.5rem .75rem}.rg-ask-header strong,.rg-ask-header div{display:flex;align-items:center;gap:.5rem}.rg-ask-header strong{color:var(--ask-muted);font-size:.75rem;font-weight:500;letter-spacing:.16em;text-transform:uppercase}
     .rg-ask-header button,.rg-ask-footer a,.rg-ask-compose button,.rg-ask-runtime [data-ak-app-chat]>button,.rg-ask-runtime [aria-label="Response actions"] button{min-width:44px;min-height:44px;border:0;background:transparent;color:var(--ask-accent);font:inherit;font-size:.6875rem;text-transform:uppercase;cursor:pointer}
     .rg-ask-runtime{min-height:0;flex:1;overflow:hidden;padding:.75rem}.rg-ask-runtime>[data-ak-app-chat]{display:flex;height:100%;min-height:0;flex-direction:column}.rg-ask-runtime>[data-ak-app-chat]>[role=log]{display:flex;min-height:0;flex:1;overflow:hidden}
-    .rg-ask-body{display:flex;min-height:0;flex:1;flex-direction:column;gap:.65rem;overflow-y:auto}.rg-ask-empty{margin:0;color:var(--ask-muted);font-size:.8125rem;line-height:1.5}.rg-ask-message{max-width:92%;white-space:pre-wrap;font-size:.8125rem;line-height:1.55}.rg-ask-message.user{align-self:flex-end;border-radius:.625rem;background:color-mix(in srgb,var(--ask-accent) 14%,transparent);padding:.5rem .625rem}.rg-ask-message.assistant{align-self:flex-start}.rg-ask-message a,.rg-ask-sources a{color:var(--ask-accent);text-decoration:underline;text-underline-offset:3px}
+    .rg-ask-body{display:flex;min-height:0;flex:1;flex-direction:column;gap:.65rem;overflow-y:auto}.rg-ask-empty{margin:0;color:var(--ask-muted);font-size:.8125rem;line-height:1.5}.rg-ask-message{max-width:92%;font-size:.8125rem;line-height:1.55}.rg-ask-message.user{align-self:flex-end;white-space:pre-wrap;border-radius:.625rem;background:color-mix(in srgb,var(--ask-accent) 14%,transparent);padding:.5rem .625rem}.rg-ask-message.assistant{align-self:flex-start}.rg-ask-message.assistant h3{margin:0 0 .6rem;font-family:var(--font-display),sans-serif;font-size:1rem}.rg-ask-message.assistant p{margin:0 0 .65rem}.rg-ask-message.assistant ul{margin:0 0 .65rem;padding-left:1.25rem}.rg-ask-message.assistant code{border:1px solid var(--ask-border);border-radius:.25rem;background:var(--ask-surface);padding:.08rem .25rem;font-size:.75rem}.rg-ask-message a,.rg-ask-sources a{color:var(--ask-accent);text-decoration:underline;text-underline-offset:3px}
     .rg-ask-thinking{display:flex;align-items:center;gap:.5rem;color:var(--ask-muted);font-size:.75rem}.rg-ask-sources{border-top:1px solid var(--ask-border);padding-top:.5rem;font-size:.75rem}.rg-ask-sources strong{color:var(--ask-muted);text-transform:uppercase}.rg-ask-sources ol{margin:.4rem 0 0;padding-left:1.25rem}
+    .rg-ask-loading{display:flex;align-items:center;gap:.5rem;color:var(--ask-muted);font-size:.75rem}
     .rg-ask-compose{display:grid;grid-template-columns:1fr auto;gap:.5rem;border-top:1px solid var(--ask-border);padding-top:.625rem}.rg-ask-compose label{min-width:0}.rg-ask-compose textarea{box-sizing:border-box;width:100%;resize:none;border:1px solid var(--ask-border);border-radius:.625rem;background:var(--ask-surface);color:var(--ask-text);padding:.5rem;font:inherit;font-size:.75rem}.rg-ask-runtime [role=alert]{margin:.4rem 0;color:var(--ask-danger);font-size:.75rem}.rg-ask-runtime [aria-label="Response actions"]{display:flex;flex-wrap:wrap;gap:.25rem;border-top:1px solid var(--ask-border)}
-    .rg-ask-footer{border-top:1px solid var(--ask-border);padding:0 .75rem}.rg-ask-footer a{display:inline-flex;align-items:center;gap:.4rem}.rg-ask-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.rg-ask-panel button:focus-visible,.rg-ask-panel a:focus-visible,.rg-ask-panel textarea:focus-visible,.rg-ask-fab:focus-visible{outline:2px solid var(--ask-accent);outline-offset:2px}
+    .rg-ask-footer{display:flex;min-height:44px;align-items:center;justify-content:space-between;gap:.5rem;border-top:1px solid var(--ask-border);padding:0 .75rem}.rg-ask-footer a{display:inline-flex;align-items:center;gap:.4rem}.rg-ask-footer [data-rg-answer-path]{color:var(--ask-muted);font-size:.625rem;letter-spacing:.08em;text-transform:uppercase}.rg-ask-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.rg-ask-panel button:focus-visible,.rg-ask-panel a:focus-visible,.rg-ask-panel textarea:focus-visible,.rg-ask-fab:focus-visible{outline:2px solid var(--ask-accent);outline-offset:2px}
     @media(max-width:639px){.rg-ask-panel{inset:.5rem;width:auto;height:auto}.rg-ask-fab{right:.75rem;bottom:.75rem}}@media(prefers-reduced-motion:reduce){.rg-ask-fab{transition:none}.rg-ask-fab:hover{transform:none}}
   `}</style>
 }

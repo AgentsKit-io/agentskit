@@ -22,6 +22,8 @@ export async function GET() {
     '## Machine-readable resources',
     '',
     `- [Registry index](${SITE}/r/index.json)`,
+    `- [Deterministic site config](${SITE}/deterministic/site-config.json)`,
+    `- [Deterministic knowledge artifact](${SITE}/deterministic/knowledge.json)`,
     `- [Full agent context](${SITE}/llms-full.txt)`,
     `- [Sitemap](${SITE}/sitemap.xml)`,
     `- [MCP endpoint](${SITE}/api/mcp)`,
