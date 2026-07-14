@@ -7,6 +7,7 @@ import {
   auditLaunchPackage,
   parseLaunchPackage,
   readReadinessOverall,
+  readReadinessReport,
 } from './lib/launch-package.mjs'
 import { REPO_ROOT } from './compute-stats.mjs'
 
@@ -55,6 +56,25 @@ test('launch timing remains blocked while readiness is not ready', () => {
   assert.equal(pkg.hitl.publicPackageApproved, false)
 })
 
+test('a hand-written or stale ready artifact cannot unlock launch timing', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'ak-readiness-artifact-'))
+  mkdirSync(join(dir, 'artifacts'), { recursive: true })
+  writeFileSync(join(dir, 'artifacts/latest.json'), JSON.stringify({ overall: 'ready' }))
+  assert.equal(readReadinessReport(dir, 'artifacts/latest.json', { auditDate: '2026-07-14' }).valid, false)
+
+  writeFileSync(join(dir, 'artifacts/latest.json'), JSON.stringify({
+    schemaVersion: 1,
+    protocol: 'agentskit.ecosystem.readiness',
+    auditDate: '2026-05-01',
+    overall: 'ready',
+    promotionAllowed: true,
+    summary: { p0: 0, p1: 0 },
+    findings: [],
+    products: [{ id: 'agentskit', status: 'ready' }],
+  }))
+  assert.equal(readReadinessReport(dir, 'artifacts/latest.json', { auditDate: '2026-07-14', maxAgeDays: 30 }).valid, false)
+})
+
 test('approving launch timing while readiness is blocked fails the audit', () => {
   const dir = mkdtempSync(join(tmpdir(), 'ak-launch-'))
   // Minimal fake tree
@@ -100,14 +120,6 @@ test('approving launch timing while readiness is blocked fails the audit', () =>
   base.hitl.launchTimingApproved = true
   base.hitl.approvedBy = 'tester'
   base.hitl.approvedOn = '2026-07-14'
-  base.demos = base.demos.map((demo) =>
-    demo.verification.type === 'executable'
-      ? {
-          ...demo,
-          verification: { type: 'manifest-product', productId: 'agentskit' },
-        }
-      : demo,
-  )
   writeFileSync(join(dir, 'docs/ecosystem/launch/launch-package.json'), JSON.stringify(base, null, 2))
 
   const report = auditLaunchPackage(dir, { runExecutables: false })
@@ -115,8 +127,9 @@ test('approving launch timing while readiness is blocked fails the audit', () =>
   assert.ok(report.failures.some((failure) => failure.includes('launchTimingApproved')))
 })
 
-test('repository launch package passes structural audit when demos are skipped for speed', () => {
+test('skipping executable demos can never produce a passing launch audit', () => {
   const report = auditLaunchPackage(REPO_ROOT, { runExecutables: false })
-  assert.equal(report.ok, true, report.failures.join('\n'))
+  assert.equal(report.ok, false)
+  assert.equal(report.failures.filter((failure) => failure.includes('verification was not run')).length, 3)
   assert.equal(report.launchTimingAllowed, false)
 })

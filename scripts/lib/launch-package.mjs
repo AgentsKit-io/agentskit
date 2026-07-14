@@ -19,6 +19,9 @@ export function parseLaunchPackage(input) {
   if (!Array.isArray(input.starterIssues) || input.starterIssues.length === 0) {
     throw new Error('launch package requires starterIssues')
   }
+  if (!isObject(input.readinessGate) || !Number.isInteger(input.readinessGate.maxAgeDays) || input.readinessGate.maxAgeDays < 1) {
+    throw new Error('launch package requires a positive readinessGate.maxAgeDays')
+  }
   for (const demo of input.demos) {
     if (!nonEmpty(demo.id) || !Array.isArray(demo.commands) || demo.commands.length !== 3) {
       throw new Error(`demo ${demo.id ?? '?'} must declare exactly three commands`)
@@ -26,6 +29,7 @@ export function parseLaunchPackage(input) {
     if (!isObject(demo.verification) || !nonEmpty(demo.verification.type)) {
       throw new Error(`demo ${demo.id} must declare verification.type`)
     }
+    if (demo.verification.type !== 'executable') throw new Error(`demo ${demo.id} must use executable verification`)
   }
   for (const issue of input.starterIssues) {
     if (!nonEmpty(issue.setup) || !nonEmpty(issue.test) || !nonEmpty(issue.guide)) {
@@ -40,13 +44,37 @@ export function loadJson(root, relativePath) {
 }
 
 export function readReadinessOverall(root, artifactPath, fallback = 'blocked') {
+  return readReadinessReport(root, artifactPath, { fallback }).overall
+}
+
+export function readReadinessReport(root, artifactPath, {
+  fallback = 'blocked',
+  auditDate = new Date().toISOString().slice(0, 10),
+  maxAgeDays = 30,
+} = {}) {
   const absolute = join(root, artifactPath)
-  if (!existsSync(absolute)) return fallback
+  if (!existsSync(absolute)) return { overall: fallback, valid: false, reason: 'readiness artifact missing' }
   try {
     const report = JSON.parse(readFileSync(absolute, 'utf8'))
-    return typeof report.overall === 'string' ? report.overall : fallback
+    const ageDays = Math.floor((Date.parse(`${auditDate}T00:00:00Z`) - Date.parse(`${report.auditDate}T00:00:00Z`)) / 86_400_000)
+    const valid = report.schemaVersion === 1
+      && report.protocol === 'agentskit.ecosystem.readiness'
+      && report.overall === 'ready'
+      && report.promotionAllowed === true
+      && ageDays >= 0
+      && ageDays <= maxAgeDays
+      && report.summary?.p0 === 0
+      && report.summary?.p1 === 0
+      && Array.isArray(report.findings)
+      && report.findings.length === 0
+      && Array.isArray(report.products)
+      && report.products.length > 0
+      && report.products.every((product) => product.status === 'ready')
+    return valid
+      ? { overall: 'ready', valid: true, reason: null }
+      : { overall: fallback, valid: false, reason: 'readiness artifact is stale, incomplete, or not promotion-ready' }
   } catch {
-    return fallback
+    return { overall: fallback, valid: false, reason: 'readiness artifact is invalid JSON' }
   }
 }
 
@@ -97,14 +125,6 @@ function verifyDemo(root, demo, claims, manifest) {
       }
     }
     return { ok: true, message: `${demo.id}: claims verification passed` }
-  }
-  if (type === 'manifest-product') {
-    const productId = demo.verification.productId
-    const product = (manifest.products ?? []).find((entry) => entry.id === productId)
-    if (!product) {
-      return { ok: false, message: `${demo.id}: ecosystem product missing: ${productId}` }
-    }
-    return { ok: true, message: `${demo.id}: product ${productId} is registered` }
   }
   return { ok: false, message: `${demo.id}: unknown verification type ${type}` }
 }
@@ -163,12 +183,19 @@ export function auditLaunchPackage(root, {
     failures.push(`missing announcement: ${pkg.landing.announcementPath}`)
   }
 
-  const readinessOverall = readReadinessOverall(
+  const readiness = readReadinessReport(
     root,
     pkg.readinessGate.artifact,
-    pkg.readinessGate.fallbackWhenMissing ?? 'blocked',
+    {
+      fallback: pkg.readinessGate.fallbackWhenMissing ?? 'blocked',
+      maxAgeDays: pkg.readinessGate.maxAgeDays ?? 30,
+    },
   )
+  const readinessOverall = readiness.overall
   const readinessReady = readinessOverall === pkg.readinessGate.requiredOverall
+  if (!readiness.valid && readinessOverall === pkg.readinessGate.requiredOverall) {
+    failures.push(readiness.reason)
+  }
 
   if (pkg.hitl.launchTimingApproved && !readinessReady) {
     failures.push(
@@ -189,9 +216,11 @@ export function auditLaunchPackage(root, {
         failures.push(`demo ${demo.id} references missing claim ${ref.productId}:${ref.claimId}`)
       }
     }
-    if (runExecutables || demo.verification.type !== 'executable') {
+    if (runExecutables) {
       const result = verifyDemo(root, demo, claims, manifest)
       if (!result.ok) failures.push(result.message)
+    } else {
+      failures.push(`demo ${demo.id}: executable verification was not run`)
     }
   }
 

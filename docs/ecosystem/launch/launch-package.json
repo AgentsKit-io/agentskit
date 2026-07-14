@@ -16,7 +16,8 @@
   "readinessGate": {
     "requiredOverall": "ready",
     "artifact": "artifacts/ecosystem-readiness/latest.json",
-    "fallbackWhenMissing": "blocked"
+    "fallbackWhenMissing": "blocked",
+    "maxAgeDays": 30
   },
   "landing": {
     "campaignUrl": "/community",
@@ -72,14 +73,11 @@
       "verification": {
         "type": "executable",
         "command": [
-          "pnpm",
-          "--filter",
-          "@agentskit/docs-next",
-          "exec",
-          "tsx",
-          "fixtures/first-agent/agent.ts"
+          "node",
+          "scripts/verify-launch-demo.mjs",
+          "first-agent"
         ],
-        "expectStdoutIncludes": "Agent ready. I received: Plan my first production agent"
+        "expectStdoutIncludes": "verified:first-agent"
       }
     },
     {
@@ -92,8 +90,9 @@
       ],
       "claims": [{ "productId": "agentskit", "claimId": "packages" }],
       "verification": {
-        "type": "manifest-product",
-        "productId": "registry"
+        "type": "executable",
+        "command": ["node", "scripts/verify-launch-demo.mjs", "registry-start"],
+        "expectStdoutIncludes": "verified:registry-start"
       }
     },
     {
@@ -106,8 +105,9 @@
       ],
       "claims": [{ "productId": "agentskit", "claimId": "recipes" }],
       "verification": {
-        "type": "manifest-product",
-        "productId": "playbook"
+        "type": "executable",
+        "command": ["node", "scripts/verify-launch-demo.mjs", "playbook-discipline"],
+        "expectStdoutIncludes": "verified:playbook-discipline"
       }
     }
   ],
