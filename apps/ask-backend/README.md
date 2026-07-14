@@ -54,7 +54,9 @@ curl -s -XPOST 'http://localhost:8080/v1/ask?corpus=docs' \
 - Cache is enabled by default. Exact answers + retrieval results are kept in-process
   and mirrored to Redis when `REDIS_URL` is set (Railway Redis volume/service).
   Upstash REST (`UPSTASH_REDIS_REST_URL` + `UPSTASH_REDIS_REST_TOKEN`) remains a
-  fallback. Semantic answer cache is in-process and uses the shared embedder.
+  fallback. Answer entries are admitted only when they contain one terminal `done`
+  event and no error; incomplete persisted entries are bypassed and replaced after
+  successful regeneration. Semantic answer cache is in-process and uses the shared embedder.
   Disable with `ASK_CACHE_ENABLED=0`.
 - `docs` uses the committed vector index. `registry`, `playbook`, and `akos` load
   configurable remote `llms-full.txt` / `llms.txt` sources and rank them with BM25;
