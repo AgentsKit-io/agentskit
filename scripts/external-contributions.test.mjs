@@ -38,6 +38,13 @@ test('utility-first check fails when only promo docs exist', () => {
   void proposal
 })
 
+test('utility-first check rejects files outside the repository', () => {
+  assert.throws(
+    () => utilityWithoutPromo(REPO_ROOT, { files: ['../outside.ts'] }),
+    /escapes repository root/,
+  )
+})
+
 test('utility-first check passes for ollama smoke contribution', () => {
   const contributions = loadContributions(REPO_ROOT)
   const ollama = contributions.find((item) => item.id === 'ollama-openai-compat-smoke')

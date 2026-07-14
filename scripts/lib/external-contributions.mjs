@@ -1,5 +1,5 @@
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
-import { join } from 'node:path'
+import { closeSync, existsSync, fstatSync, openSync, readFileSync, readdirSync, statSync } from 'node:fs'
+import { isAbsolute, join, relative, resolve, sep } from 'node:path'
 import { spawnSync } from 'node:child_process'
 
 export const PROTOCOL = 'agentskit.ecosystem.external-contributions'
@@ -76,17 +76,40 @@ export function selectTargets(targets, { allowPromotional = false } = {}) {
 function collectFiles(root, relativePaths) {
   const chunks = []
   for (const relativePath of relativePaths) {
-    const absolute = join(root, relativePath)
-    if (!existsSync(absolute)) continue
-    if (statSync(absolute).isDirectory()) {
-      for (const name of readdirSync(absolute)) {
-        const child = join(relativePath, name)
-        if (statSync(join(root, child)).isFile()) {
-          chunks.push({ path: child, content: readFileSync(join(root, child), 'utf8') })
-        }
+    const absolute = resolve(root, relativePath)
+    const fromRoot = relative(resolve(root), absolute)
+    if (fromRoot === '..' || fromRoot.startsWith(`..${sep}`) || isAbsolute(fromRoot)) {
+      throw new Error(`contribution file escapes repository root: ${relativePath}`)
+    }
+
+    let names
+    try {
+      names = readdirSync(absolute)
+    } catch (error) {
+      if (isObject(error) && error.code === 'ENOENT') continue
+      if (!isObject(error) || error.code !== 'ENOTDIR') throw error
+      names = null
+    }
+
+    const files = names === null
+      ? [{ path: relativePath, absolute }]
+      : names.map((name) => ({ path: join(relativePath, name), absolute: join(absolute, name) }))
+
+    for (const file of files) {
+      let descriptor
+      try {
+        descriptor = openSync(file.absolute, 'r')
+      } catch (error) {
+        if (isObject(error) && error.code === 'ENOENT') continue
+        throw error
       }
-    } else {
-      chunks.push({ path: relativePath, content: readFileSync(absolute, 'utf8') })
+      try {
+        if (fstatSync(descriptor).isFile()) {
+          chunks.push({ path: file.path, content: readFileSync(descriptor, 'utf8') })
+        }
+      } finally {
+        closeSync(descriptor)
+      }
     }
   }
   return chunks
