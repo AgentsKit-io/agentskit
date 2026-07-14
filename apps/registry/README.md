@@ -94,9 +94,9 @@ pnpm --filter @agentskit/registry-app build
 
 ## AgentsKit Chat dogfood
 
-The floating **Ask Registry** surface consumes the stable npm packages
-`@agentskit/chat`, `@agentskit/chat-protocol`, and `@agentskit/chat-react` at
-exact version `0.2.0`. This app owns only the `registry` corpus,
+The floating **Ask Registry** surface consumes the stable npm package
+`@agentskit/chat` at exact version `0.3.0`, using its `/protocol` and `/react`
+subpaths. This app owns only the `registry` corpus,
 `NEXT_PUBLIC_ASK_ENDPOINT`, Registry branding, CTA, and React slots. AgentsKit
 Chat owns the Ask wire contract, streaming adapter, ordered content, standard
 `source-list`, memory migration, and application shell. AgentsKit owns
@@ -107,7 +107,7 @@ Implementation:
 - `components/ask-widget.tsx` — native Registry shell, renderer slots, corpus,
   endpoint, and canonical storage identity;
 - `@agentskit/chat` — shared Ask adapter and session-memory integration;
-- `@agentskit/chat-protocol` — runtime-validated Ask NDJSON boundary and
+- `@agentskit/chat/protocol` — runtime-validated Ask NDJSON boundary and
   ordered event projection.
 
 The browser preloads the Registry-owned, content-hashed deterministic artifact

@@ -9,7 +9,7 @@ import {
   decodeAssistantContent,
   decodeDeterministicSiteConfig,
   verifyLocalKnowledgeArtifactSync,
-} from '@agentskit/chat-protocol'
+} from '@agentskit/chat/protocol'
 import { test } from 'vitest'
 import { REPO_ROOT } from '../../../scripts/compute-stats.mjs'
 
@@ -150,9 +150,8 @@ test('the real widget composes published AgentsChat local-first contracts', () =
   assert.match(widget, /choiceSubmission: adapter\.resolveChoiceSubmission/)
   assert.match(widget, /fallbackMode: deterministicSite\.fallback\.mode/)
   assert.match(widget, /data-ak-answer-path/)
-  assert.match(docsPackage, /"@agentskit\/chat": "0\.2\.0"/)
-  assert.match(docsPackage, /"@agentskit\/chat-protocol": "0\.2\.0"/)
-  assert.match(docsPackage, /"@agentskit\/chat-react": "0\.2\.0"/)
+  assert.match(docsPackage, /"@agentskit\/chat": "0\.3\.0"/)
+  assert.doesNotMatch(docsPackage, /"@agentskit\/chat-(?:protocol|react)":/)
   assert.doesNotMatch(rootPackage, /"@agentskit\/chat(?:-protocol)?":/)
   assert.doesNotMatch(widget, /function normalizeDeterministic|new Map<string, DeterministicKnowledgeEntry/)
 })

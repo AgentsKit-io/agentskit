@@ -4,7 +4,7 @@ import { Children, createContext, useCallback, useContext, useEffect, useMemo, u
 import type { ChatReturn, Message as AgentsKitMessage } from '@agentskit/core'
 import { ChatContainer } from '@agentskit/react'
 import { SourceListPropsSchema, StandardComponentCatalog, createAskAdapter, createAskSessionMemory, defineChat, defineComponentManifest } from '@agentskit/chat'
-import { AgentChat, StandardComponent as FrameworkStandardComponent, type AgentChatSlots, type StandardComponentProps } from '@agentskit/chat-react'
+import { AgentChat, StandardComponent as FrameworkStandardComponent, type AgentChatSlots, type StandardComponentProps } from '@agentskit/chat/react'
 import { createRegistryDiscoveryAdapter, loadRegistryDiscovery, type RegistryDiscoveryInputs } from '@/lib/discovery'
 
 const CORPUS = 'registry'
