@@ -5,10 +5,12 @@ export default defineConfig({
     index: 'src/index.ts',
     'trace-tracker': 'src/trace-tracker.ts',
     'cost-guard': 'src/cost-guard.ts',
+    langfuse: '../observability-langfuse/src/index.ts',
   },
   format: ['esm', 'cjs'],
   dts: { compilerOptions: { ignoreDeprecations: "6.0" } },
   sourcemap: true,
   clean: false,
   treeshake: true,
+  external: ['@agentskit/observability', 'langfuse'],
 })

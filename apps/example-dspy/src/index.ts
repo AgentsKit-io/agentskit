@@ -4,7 +4,7 @@ import {
   formatAlertsMarkdown,
   runBraintrustEval,
   type ExperimentResult,
-} from '@agentskit/eval-braintrust'
+} from '@agentskit/eval/braintrust'
 import { dataset } from './dataset'
 import { loadPrompt, makeAgent, type PromptVariant } from './agent'
 

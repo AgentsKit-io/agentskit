@@ -6,7 +6,7 @@ import type { JSONSchema7 } from 'json-schema'
  * JSON Schema is the single source of truth for contracts across AgentsKit
  * (core stays zero-dep; Zod is opt-in convenience only, never canonical). The
  * snapshot is validated against this schema at build time via the opt-in Ajv
- * path (`@agentskit/validation`), not at runtime.
+ * path (`@agentskit/tools/validation`), not at runtime.
  */
 export const catalogSnapshotSchema: JSONSchema7 = {
   $schema: 'http://json-schema.org/draft-07/schema#',

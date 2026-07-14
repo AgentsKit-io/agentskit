@@ -207,7 +207,7 @@
           "ecosystem-claims.json",
           "ecosystem.json"
         ],
-        "sourceHash": "sha256:f9a726c03c7e2b633a62d60cdee4a392ab7d06c5467cb7a7064546bf21a832ce"
+        "sourceHash": "sha256:fd1a363ee0633b6e52edf1eac68b74cc46ff14175a18777a7c020ce9ef0e42d5"
       },
       "exceptions": []
     },
@@ -285,7 +285,7 @@
           "packages/adapters/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:71fe1e97c33d38fe5ddec10425507dd3af5b95825fcf6ed774e22839aac5e6d8"
+        "sourceHash": "sha256:491328b8ef47d4f10090096e6e2d764bac9ba5c05f7ae85105403147bfa4f54e"
       },
       "exceptions": []
     },
@@ -363,7 +363,7 @@
           "packages/angular/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:24047bd66320f47cae6cf491720f905ed72f290413cf51fd759a091c1c6149d7"
+        "sourceHash": "sha256:f86d56a0149bb838064c7475eb3edf6b447e7522e800a85ffb756e80f2f5a262"
       },
       "exceptions": []
     },
@@ -441,7 +441,7 @@
           "packages/cli/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:280a969fbc0ed736d16ec49e0c793dd28240309639550ecfd2a1df823c067402"
+        "sourceHash": "sha256:955969d1b36c96bb4884aeac35f3005aaf89226e0564cae3bf46bac32415abbc"
       },
       "exceptions": []
     },
@@ -519,7 +519,7 @@
           "packages/core/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:d2bfbd0896af5dc41564b575062104f7533b50716dd66b2f31215c0189a8f741"
+        "sourceHash": "sha256:866517fe0dfad2c3a5d99637e1d3f4e2ddd24b8891e69b50362d3ac111bf1d1f"
       },
       "exceptions": []
     },
@@ -597,7 +597,7 @@
           "packages/eval/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:0b636f5ec4ff55c25fa9ee0d1b6b4b33a5bc821bd6f05c744efa166341997276"
+        "sourceHash": "sha256:8961d458eb71fa3ad3d175a358f81e54a6fda627fdc8b6508391f40a239b2aad"
       },
       "exceptions": []
     },
@@ -607,8 +607,8 @@
       "profileId": "concise-package",
       "dimensions": {
         "promise": [
-          "`@agentskit/eval-braintrust`",
-          "@agentskit/eval-braintrust"
+          "`@agentskit/eval/braintrust`",
+          "@agentskit/eval/braintrust"
         ],
         "proof": [
           "## Verified proof",
@@ -653,7 +653,7 @@
       "commands": [
         {
           "id": "install",
-          "command": "npm install @agentskit/eval-braintrust braintrust",
+          "command": "npm install @agentskit/eval braintrust",
           "test": "packages/eval-braintrust/tests/ci.test.ts",
           "testCommand": "pnpm --filter @agentskit/eval-braintrust test"
         }
@@ -675,7 +675,7 @@
           "packages/eval-braintrust/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:9bea346698170a086bbd8abd5cd7d36682eea8df1953f8925b921f9c3061384c"
+        "sourceHash": "sha256:29696d43a0a65f691d81a9bf20b4610ed2ee85384fb8cdf4bab571920fc76a87"
       },
       "exceptions": []
     },
@@ -753,7 +753,7 @@
           "packages/ink/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:b14ab2f28d423d80a56969ff423649a0e9775a7d01487dcaeef6107b37e9e7ef"
+        "sourceHash": "sha256:3ae1943af6807cc1327800e1f515f18c48cd99fc5ec97db60a608222bc5483ba"
       },
       "exceptions": []
     },
@@ -831,7 +831,7 @@
           "packages/integrations/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:37c369f12f4187a46c0b61e28d21f36214e56c65ef88db7c095f4a22c91d9a4c"
+        "sourceHash": "sha256:943ceb3886f87f6ce0f481eee1cad4e2aa9459321bb85a6dac20c986180133ce"
       },
       "exceptions": []
     },
@@ -909,7 +909,7 @@
           "packages/mcp/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:b38041953c6ca77853d3da1c80d52e8ad0ac3cb666175fe9acaf565b6d6d8537"
+        "sourceHash": "sha256:3239bc8c465ae320f38cdc23617908ee59529f5d4a500cf62dbb2b692326e13e"
       },
       "exceptions": []
     },
@@ -987,7 +987,7 @@
           "packages/memory/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:63afb4200a006a3970c4aa30bdf56bcb5d744041160edb93d125d2d5a70a7cf7"
+        "sourceHash": "sha256:7e447d0fe3966a68b4276d7ef2d4a0702f3cea450b6c47679d6c48a6e244640b"
       },
       "exceptions": []
     },
@@ -1065,7 +1065,7 @@
           "packages/observability/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:d127f233580b1753d8902a60649648d74f722686cca2a33f01bc11aa8aa100cb"
+        "sourceHash": "sha256:2b1d776965a8dcee47e5e93d144aacd6f89f2220f0a35717b1ead5dee31b45be"
       },
       "exceptions": []
     },
@@ -1075,8 +1075,8 @@
       "profileId": "concise-package",
       "dimensions": {
         "promise": [
-          "`@agentskit/observability-langfuse`",
-          "@agentskit/observability-langfuse"
+          "`@agentskit/observability/langfuse`",
+          "@agentskit/observability/langfuse"
         ],
         "proof": [
           "## Verified proof",
@@ -1121,7 +1121,7 @@
       "commands": [
         {
           "id": "install",
-          "command": "npm install @agentskit/observability-langfuse langfuse",
+          "command": "npm install @agentskit/observability langfuse",
           "test": "packages/observability-langfuse/tests/langfuse-missing.test.ts",
           "testCommand": "pnpm --filter @agentskit/observability-langfuse test"
         }
@@ -1143,7 +1143,7 @@
           "packages/observability-langfuse/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:f4ebe0c07f47e82da009773e6cd81f8a5df3ccc9bde38286f2312258792983a7"
+        "sourceHash": "sha256:6b0dccb88a9335c791281250cc77c33e35ce1ef410c5c6df2440b6aa25c4008d"
       },
       "exceptions": []
     },
@@ -1221,7 +1221,7 @@
           "packages/rag/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:4dac5961983ac18e15f4120097c350276986a6c27c93511a8866b2cea0d262b3"
+        "sourceHash": "sha256:8cebdf284fd4e404381a652e2a7c680466da04dc7aa6a9b56ccacbdb955ca3c9"
       },
       "exceptions": []
     },
@@ -1299,7 +1299,7 @@
           "packages/react/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:2ffe0709feb11757f9c078b7ae87d429517106c573752ac16f0045f9a0a4b30a"
+        "sourceHash": "sha256:f18dc5dccf12cdc2e0e5f019b5d695139c201e4dcc03bca25ca7cba42a6e5ae9"
       },
       "exceptions": []
     },
@@ -1377,7 +1377,7 @@
           "packages/react-native/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:da041088c1e0ca6a664c20a3548d0b861d03dfc42878dcb24c22926b20146c5d"
+        "sourceHash": "sha256:622b6c3855e8904ed4412a49b0e840059c9febe14a4c9a92e64a1fe5cbf71b20"
       },
       "exceptions": []
     },
@@ -1455,7 +1455,7 @@
           "packages/runtime/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:b358d06ddabba133b151b61895a54a40a0483e929519c8adff82260713f5620b"
+        "sourceHash": "sha256:3d18367afa8d0831940116b8b082f3080ec04a19de118638dc23bd48bb0e2d5c"
       },
       "exceptions": []
     },
@@ -1533,7 +1533,7 @@
           "packages/sandbox/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:27bb9baed6da03b4b30d4464e72695636bf810390aee1ecb6d729afbf5dc09fd"
+        "sourceHash": "sha256:617abe36d4832b330900807284944ad5be9976981b20d863f1e11f79bbf41185"
       },
       "exceptions": []
     },
@@ -1611,7 +1611,7 @@
           "packages/skills/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:0bb722892abbf4823570726acdc56344e873557598a9afd432d7fec4153f13fb"
+        "sourceHash": "sha256:144519b3afbdff2c480579187f9b45d3345fcf6cff3085f73615d66d1590cbd4"
       },
       "exceptions": []
     },
@@ -1689,7 +1689,7 @@
           "packages/solid/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:7298800855d00062ebf96fca16118d3e8ba14b3fe160b75358df11cbae5616fc"
+        "sourceHash": "sha256:95e59c570eb1926cf3e9b6a9b0473f2963736b93899c4b16abc803d0fd88a359"
       },
       "exceptions": []
     },
@@ -1767,7 +1767,7 @@
           "packages/statechart/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:dd63c9bd613153e136cb06543570634193a7b833f5c87c065ddc966b8ea33719"
+        "sourceHash": "sha256:558cfd254367f9d7cfc73b46f63f6e38e4b440e71b6749a23562930aa1c4be5d"
       },
       "exceptions": []
     },
@@ -1845,7 +1845,7 @@
           "packages/svelte/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:459cf59df66294c89144132a1227ef900fbef1f9150d7d9cf089f0e7eba9ce1d"
+        "sourceHash": "sha256:f31bc09ce438ca4378c4ed4f3c9b73b8d35c5232aa3f17705e54cde74e2e221f"
       },
       "exceptions": []
     },
@@ -1923,7 +1923,7 @@
           "packages/templates/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:a0304012be1d074d94672ab27fe512dba9f0cd92f4918fb4c46c581baec5643c"
+        "sourceHash": "sha256:cefdc25753e32dd4e7dea0034688b178468b98ae221f7142b490d6fccdebb749"
       },
       "exceptions": []
     },
@@ -2001,7 +2001,7 @@
           "packages/tools/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:af2e090d88bca3d7c7a068410104f6522154f7eb144f2cf095750261a08a076d"
+        "sourceHash": "sha256:17e363d400eabd599ad3211b817382c90953e91f4b38aecedb3c0d7fe56abf87"
       },
       "exceptions": []
     },
@@ -2057,7 +2057,7 @@
       "commands": [
         {
           "id": "install",
-          "command": "npm install @agentskit/validation",
+          "command": "npm install @agentskit/tools",
           "test": "packages/validation/tests/ajv-validator.test.ts",
           "testCommand": "pnpm --filter @agentskit/validation test"
         }
@@ -2079,7 +2079,7 @@
           "packages/validation/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:1e2ac2b3961d7f8671e8f98563a6ae8b66ff4c13ae583a8be88175eb08e01a02"
+        "sourceHash": "sha256:af29f6882007a9c1d1e7714003887d3a1df0230282c355bfcaec3b2ef302ccc1"
       },
       "exceptions": []
     },
@@ -2157,7 +2157,7 @@
           "packages/vue/fixtures/readme-quickstart.ts",
           "docs/STABILITY.md"
         ],
-        "sourceHash": "sha256:945848cd971c19063fc0b67114e0723a2aa9cde18d07be3ee6bcf9a97f192028"
+        "sourceHash": "sha256:79fdaac74580152943a1fc614aeb1483116e1c806a1adf2119d0b44e4f1e1c8b"
       },
       "exceptions": []
     },
@@ -2226,7 +2226,7 @@
           "apps/docs-next/fixtures/readme-quickstart.sh",
           "ecosystem-claims.json"
         ],
-        "sourceHash": "sha256:6f7761315fd8f68be400587b3c7504953452c0a8b4a43a1c90448793d709c7e7"
+        "sourceHash": "sha256:050d1d5ff29cd79d4c0f988c499e39ec66f9a47d7ff3ff17e4a91a2f55a6f64e"
       },
       "exceptions": [
         {
@@ -2310,7 +2310,7 @@
           "apps/landing/fixtures/readme-quickstart.sh",
           "ecosystem-claims.json"
         ],
-        "sourceHash": "sha256:953d4eb60c984030aa61060b4a377b9142fa6f979df349a2395ae8354a5f6ba0"
+        "sourceHash": "sha256:141571ab52735de657004d507d4d775eb2f1857e065e30b205bf5525674d0fe3"
       },
       "exceptions": [
         {
@@ -2394,7 +2394,7 @@
           "apps/registry/fixtures/readme-quickstart.sh",
           "ecosystem-claims.json"
         ],
-        "sourceHash": "sha256:fe663f7a1ab1c13140ed2ca38708b241b94b75223009f610fd8ae57278eab3a5"
+        "sourceHash": "sha256:c0d0fe670a0aabdbbcbd789a4dc619ad6e9682dbe7283f6f077ce6cdc05d76df"
       },
       "exceptions": [
         {
@@ -2478,7 +2478,7 @@
           "apps/ask-backend/fixtures/readme-quickstart.sh",
           "ecosystem-claims.json"
         ],
-        "sourceHash": "sha256:ca942fc1bc710c3fbf504d050a15c8d7517418202e837c5d45449eaa0d4368b9"
+        "sourceHash": "sha256:85205d3be9a1159b116c4aa47165efcb50b6f7dde214a143aba58aa6816b7454"
       },
       "exceptions": [
         {

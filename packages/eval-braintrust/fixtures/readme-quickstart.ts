@@ -2,7 +2,7 @@ import {
   runBraintrustEval,
   qualityFamily,
   robustnessFamily,
-} from '@agentskit/eval-braintrust'
+} from '@agentskit/eval/braintrust'
 
 const result = await runBraintrustEval({
   cases: [

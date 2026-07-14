@@ -1,4 +1,4 @@
-# @agentskit/validation
+# @agentskit/tools/validation
 
 Profile: <code>concise-package</code>
 
@@ -25,7 +25,7 @@ JSON Schema stays the single source of truth: no Zod, no parallel contract.
 
 ## How this fits the ecosystem
 
-@agentskit/validation protects tool boundaries by validating model-proposed arguments against JSON Schema before execution.
+`@agentskit/tools/validation` protects tool boundaries by validating model-proposed arguments against JSON Schema before execution.
 
 - **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
 - **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
@@ -38,14 +38,14 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/validation) · [age
 
 <!-- readme-command:install -->
 ```bash
-npm install @agentskit/validation
+npm install @agentskit/tools
 ```
 
 ## Usage
 
 ```ts
 import { createChatController } from '@agentskit/core'
-import { createAjvValidator } from '@agentskit/validation'
+import { createAjvValidator } from '@agentskit/tools/validation'
 
 const chat = createChatController({
   adapter,

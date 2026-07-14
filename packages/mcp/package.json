@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/mcp",
-  "version": "0.2.17",
+  "version": "0.2.18",
   "description": "Expose AgentsKit tools as an MCP server — use them from Claude Desktop, Cursor, Windsurf, or any MCP host.",
   "keywords": [
     "agentskit",
@@ -50,7 +50,8 @@
     "vitest": "^4.1.10"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/packages/mcp",

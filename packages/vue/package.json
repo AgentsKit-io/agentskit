@@ -61,7 +61,8 @@
     "vue": "^3.5.39"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "agentskit": {
     "stability": "beta",

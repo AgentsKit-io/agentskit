@@ -1,4 +1,4 @@
-# `@agentskit/observability-langfuse`
+# `@agentskit/observability/langfuse`
 
 Profile: <code>concise-package</code>
 
@@ -19,7 +19,7 @@ Langfuse tracing adapter for AgentsKit. Emits one trace per agent run with neste
 
 ## How this fits the ecosystem
 
-@agentskit/observability-langfuse sends AgentsKit traces to Langfuse with spans for planning, model calls, tools, HITL, latency, tokens, and cost.
+@agentskit/observability/langfuse sends AgentsKit traces to Langfuse with spans for planning, model calls, tools, HITL, latency, tokens, and cost.
 
 - **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
 - **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
@@ -32,7 +32,7 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/observability-langf
 
 <!-- readme-command:install -->
 ```bash
-npm install @agentskit/observability-langfuse langfuse
+npm install @agentskit/observability langfuse
 ```
 
 `langfuse` is loaded lazily — install it alongside this adapter.
@@ -41,7 +41,7 @@ npm install @agentskit/observability-langfuse langfuse
 
 ```ts
 import { runAgent } from '@agentskit/runtime'
-import { langfuse } from '@agentskit/observability-langfuse'
+import { langfuse } from '@agentskit/observability/langfuse'
 
 const observer = langfuse({
   publicKey: process.env.LANGFUSE_PUBLIC_KEY!,
@@ -85,15 +85,15 @@ MIT
 
 <!-- readme-example:quickstart -->
 ```ts
-import '@agentskit/observability-langfuse'
-console.log('@agentskit/observability-langfuse loaded')
+import '@agentskit/observability/langfuse'
+console.log('@agentskit/observability/langfuse loaded')
 ```
 
 ## Maturity and compatibility
 
 - Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
 - **Node.js 20+** and **TypeScript** strict mode
-- Published as `@agentskit/observability-langfuse`
+- Published through `@agentskit/observability/langfuse`
 
 ## Contributing
 

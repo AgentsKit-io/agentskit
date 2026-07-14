@@ -69,7 +69,8 @@
     "zone.js": "^0.16.2"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "agentskit": {
     "stability": "beta",

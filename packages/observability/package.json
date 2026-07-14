@@ -41,13 +41,19 @@
       "types": "./dist/cost-guard.d.ts",
       "import": "./dist/cost-guard.js",
       "require": "./dist/cost-guard.cjs"
+    },
+    "./langfuse": {
+      "types": "./dist/langfuse.d.ts",
+      "import": "./dist/langfuse.js",
+      "require": "./dist/langfuse.cjs"
     }
   },
   "files": [
     "dist"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "scripts": {
     "build": "tsup",
@@ -59,12 +65,21 @@
   "dependencies": {
     "@agentskit/core": "workspace:*"
   },
+  "peerDependencies": {
+    "langfuse": "^3.38.20"
+  },
+  "peerDependenciesMeta": {
+    "langfuse": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@opentelemetry/api": "^1.9.1",
     "@opentelemetry/exporter-trace-otlp-http": "^0.220.0",
     "@opentelemetry/sdk-trace-base": "^2.9.0",
     "@types/node": "^25.9.5",
     "langsmith": "^0.8.1",
+    "langfuse": "^3.38.20",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
     "vitest": "^4.1.10"

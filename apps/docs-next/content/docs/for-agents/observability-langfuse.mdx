@@ -1,12 +1,12 @@
 ---
-title: '@agentskit/observability-langfuse — for agents'
+title: '@agentskit/observability/langfuse — for agents'
 description: Langfuse tracing adapter — plan / tool / model / HITL spans with token, cost, latency capture and parent linking across multi-agent topologies.
 ---
 
 ## Install
 
 ```bash
-npm install @agentskit/observability-langfuse langfuse
+npm install @agentskit/observability langfuse
 ```
 
 `langfuse` is loaded lazily and is a peer install.
@@ -40,7 +40,7 @@ npm install @agentskit/observability-langfuse langfuse
 
 ```ts
 import { createRuntime } from '@agentskit/runtime'
-import { langfuse } from '@agentskit/observability-langfuse'
+import { langfuse } from '@agentskit/observability/langfuse'
 
 const runtime = createRuntime({
   adapter,
@@ -62,5 +62,5 @@ const runtime = createRuntime({
 
 ## Source
 
-- npm: https://www.npmjs.com/package/@agentskit/observability-langfuse
+- npm: https://www.npmjs.com/package/@agentskit/observability/langfuse
 - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/observability-langfuse

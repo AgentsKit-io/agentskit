@@ -207,7 +207,7 @@ export interface ChatTriggerOptions<TContext = unknown> {
   eventSchema?: Parameters<ArgsValidator>[0]
   /**
    * Validator used with `eventSchema`. Use `createAjvValidator()` from
-   * `@agentskit/validation`. No-op unless `eventSchema` is also set.
+   * `@agentskit/tools/validation`. No-op unless `eventSchema` is also set.
    */
   validateEvent?: ArgsValidator
   /** Observability hook. */
