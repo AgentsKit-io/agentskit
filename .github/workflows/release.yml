@@ -17,6 +17,8 @@ jobs:
       id-token: write
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
+        with:
+          fetch-depth: 2
       - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6
       - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6
         with:
@@ -32,7 +34,31 @@ jobs:
 
       - run: pnpm check:publication-surface
 
+      - name: Detect release intent
+        id: release_intent
+        shell: bash
+        run: |
+          has_changesets=false
+          if find .changeset -maxdepth 1 -type f -name '*.md' -print -quit | grep -q .; then
+            has_changesets=true
+          fi
+
+          has_version_changes=false
+          if git rev-parse --verify HEAD^ >/dev/null 2>&1 && \
+            git diff --unified=0 HEAD^ HEAD -- 'packages/*/package.json' | \
+            grep -Eq '^[+-][[:space:]]*"version"[[:space:]]*:'; then
+            has_version_changes=true
+          fi
+
+          if [[ "$has_changesets" == true || "$has_version_changes" == true ]]; then
+            echo "run=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run=false" >> "$GITHUB_OUTPUT"
+            echo "No pending changesets or package version changes; release is a no-op." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
       - id: changesets
+        if: steps.release_intent.outputs.run == 'true'
         uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1
         with:
           publish: pnpm changeset publish
