@@ -1,9 +1,9 @@
 ---
-title: '@agentskit/observability-langfuse'
+title: '@agentskit/observability/langfuse'
 description: Langfuse tracing backend for @agentskit/observability — spans for plan, tool, model, and HITL gates with token/cost/latency capture.
 ---
 
-`@agentskit/observability-langfuse` is a drop-in observer that ships AgentsKit trace spans to [Langfuse](https://langfuse.com). LLM generations become `generation` nodes; tool calls, planning steps, and HITL gates become `span` nodes. Token usage and error state are captured on each node end.
+`@agentskit/observability/langfuse` is a drop-in observer that ships AgentsKit trace spans to [Langfuse](https://langfuse.com). LLM generations become `generation` nodes; tool calls, planning steps, and HITL gates become `span` nodes. Token usage and error state are captured on each node end.
 
 The `langfuse` npm package is an optional peer — loaded dynamically at runtime. If it is absent or no API keys are provided, the observer is a no-op and does not throw.
 
@@ -22,7 +22,7 @@ The `langfuse` npm package is an optional peer — loaded dynamically at runtime
 ## Install
 
 ```bash
-npm install @agentskit/observability-langfuse
+npm install @agentskit/observability
 # peer deps
 npm install @agentskit/observability langfuse
 ```
@@ -30,7 +30,7 @@ npm install @agentskit/observability langfuse
 ## Hello world
 
 ```ts
-import { langfuse } from '@agentskit/observability-langfuse'
+import { langfuse } from '@agentskit/observability/langfuse'
 import { createRuntime } from '@agentskit/runtime'
 
 const runtime = createRuntime({
@@ -67,7 +67,7 @@ Named export — the type of the config object above. Useful when building helpe
 ## Per-session tracing
 
 ```ts
-import { langfuse } from '@agentskit/observability-langfuse'
+import { langfuse } from '@agentskit/observability/langfuse'
 
 // One observer instance per request / conversation to isolate sessions.
 const observer = langfuse({
@@ -116,4 +116,4 @@ Explicit config fields always take precedence over env vars.
 
 ## Source
 
-npm: [@agentskit/observability-langfuse](https://www.npmjs.com/package/@agentskit/observability-langfuse) · repo: [packages/observability-langfuse](https://github.com/AgentsKit-io/agentskit/tree/main/packages/observability-langfuse)
+npm: [@agentskit/observability/langfuse](https://www.npmjs.com/package/@agentskit/observability/langfuse) · repo: [packages/observability-langfuse](https://github.com/AgentsKit-io/agentskit/tree/main/packages/observability-langfuse)

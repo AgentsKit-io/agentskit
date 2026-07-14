@@ -15,7 +15,7 @@ You'll get a markdown table comparing the two prompt variants across the 8 bundl
 - A **baseline** ReAct-style prompt (in `prompts/baseline.txt`) — short, cheap, the kind of prompt you write on day one.
 - A **DSPy-optimized** prompt (in `prompts/optimized.txt`) — the artifact you'd get after running a DSPy compile loop with the bundled `agentskit` traces as a bootstrap dataset.
 - Both prompts drive the same simulated tool-calling agent in `src/agent.ts`. The agent reads "instruction signals" from the prompt (does it teach citations? schema-strict args? HITL?) and adjusts behavior accordingly.
-- Scoring uses `@agentskit/eval-braintrust`'s `ALL_SCORERS`, so the report covers task success, factual grounding, citation correctness, tool-arg validity, schema survival, HITL gate correctness, fallback resilience, and no-crash survival.
+- Scoring uses `@agentskit/eval/braintrust`'s `ALL_SCORERS`, so the report covers task success, factual grounding, citation correctness, tool-arg validity, schema survival, HITL gate correctness, fallback resilience, and no-crash survival.
 
 ## Optimization loop
 

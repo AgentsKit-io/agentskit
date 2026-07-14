@@ -1,9 +1,9 @@
 ---
-title: '@agentskit/eval-braintrust'
+title: '@agentskit/eval/braintrust'
 description: Braintrust scoring pipeline for @agentskit/eval — quality + robustness scorers, CI regression alerts, dataset sync.
 ---
 
-`@agentskit/eval-braintrust` connects AgentsKit eval suites to [Braintrust](https://www.braintrust.dev). It runs your test cases through a set of deterministic scorers, ships results to a Braintrust experiment, and surfaces regressions as CI annotations — all without requiring Braintrust to be installed at build time (peer-resolved at runtime).
+`@agentskit/eval/braintrust` connects AgentsKit eval suites to [Braintrust](https://www.braintrust.dev). It runs your test cases through a set of deterministic scorers, ships results to a Braintrust experiment, and surfaces regressions as CI annotations — all without requiring Braintrust to be installed at build time (peer-resolved at runtime).
 
 ## When to reach for it
 
@@ -14,7 +14,7 @@ description: Braintrust scoring pipeline for @agentskit/eval — quality + robus
 ## Install
 
 ```bash
-npm install @agentskit/eval-braintrust
+npm install @agentskit/eval
 # peer deps
 npm install @agentskit/eval braintrust
 ```
@@ -23,7 +23,7 @@ npm install @agentskit/eval braintrust
 
 ## Public API
 
-### Root (`@agentskit/eval-braintrust`)
+### Root (`@agentskit/eval/braintrust`)
 
 | Export | Kind | Purpose |
 |---|---|---|
@@ -39,7 +39,7 @@ npm install @agentskit/eval braintrust
 | `ScorerResult` | `type` | `{ name, score, rationale?, metadata? }` |
 | `ScorerFamily` | `type` | `{ family: 'quality' \| 'robustness'; scorers }` |
 
-### Scorers (`@agentskit/eval-braintrust/scorers`)
+### Scorers (`@agentskit/eval/braintrust/scorers`)
 
 | Export | Family | What it measures |
 |---|---|---|
@@ -55,7 +55,7 @@ npm install @agentskit/eval braintrust
 | `robustnessFamily` | — | All four robustness scorers bundled |
 | `ALL_SCORERS` | — | Flat array of all eight scorers |
 
-### CI helpers (`@agentskit/eval-braintrust/ci`)
+### CI helpers (`@agentskit/eval/braintrust/ci`)
 
 | Export | Purpose |
 |---|---|
@@ -67,8 +67,8 @@ npm install @agentskit/eval braintrust
 ## Minimal example
 
 ```ts
-import { runBraintrustEval } from '@agentskit/eval-braintrust'
-import { ALL_SCORERS } from '@agentskit/eval-braintrust/scorers'
+import { runBraintrustEval } from '@agentskit/eval/braintrust'
+import { ALL_SCORERS } from '@agentskit/eval/braintrust/scorers'
 
 const result = await runBraintrustEval({
   cases: [
@@ -90,7 +90,7 @@ console.log(result.url) // Braintrust experiment URL if BRAINTRUST_API_KEY is se
 ## CI regression check
 
 ```ts
-import { detectRegressions, formatAlertsMarkdown } from '@agentskit/eval-braintrust/ci'
+import { detectRegressions, formatAlertsMarkdown } from '@agentskit/eval/braintrust/ci'
 
 const alerts = detectRegressions(baselineSummary, currentSummary, {
   default: 0.05,
@@ -127,4 +127,4 @@ You can also pass `apiKey` / `baseUrl` directly in `BraintrustRunOptions` — ex
 
 ## Source
 
-npm: [@agentskit/eval-braintrust](https://www.npmjs.com/package/@agentskit/eval-braintrust) · repo: [packages/eval-braintrust](https://github.com/AgentsKit-io/agentskit/tree/main/packages/eval-braintrust)
+npm: [@agentskit/eval/braintrust](https://www.npmjs.com/package/@agentskit/eval/braintrust) · repo: [packages/eval-braintrust](https://github.com/AgentsKit-io/agentskit/tree/main/packages/eval-braintrust)

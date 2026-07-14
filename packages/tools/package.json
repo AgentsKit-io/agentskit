@@ -48,13 +48,19 @@
       "types": "./dist/mcp-devtools.d.ts",
       "import": "./dist/mcp-devtools.js",
       "require": "./dist/mcp-devtools.cjs"
+    },
+    "./validation": {
+      "types": "./dist/validation.d.ts",
+      "import": "./dist/validation.js",
+      "require": "./dist/validation.cjs"
     }
   },
   "files": [
     "dist"
   ],
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "scripts": {
     "build": "tsup",
@@ -71,6 +77,7 @@
     "@types/better-sqlite3": "^7.6.13",
     "@types/json-schema": "^7.0.15",
     "@types/node": "^25.9.5",
+    "ajv": "^8.20.0",
     "better-sqlite3": "^12.11.1",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",

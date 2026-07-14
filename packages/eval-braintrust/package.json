@@ -1,5 +1,6 @@
 {
   "name": "@agentskit/eval-braintrust",
+  "private": true,
   "version": "0.2.13",
   "description": "Braintrust scoring pipeline for AgentsKit. Quality + robustness scorers, CI regression alerts, and dataset upload helpers.",
   "keywords": [
@@ -41,9 +42,7 @@
   "files": [
     "dist"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
+  "publishConfig": {},
   "scripts": {
     "build": "tsup",
     "test": "vitest run",

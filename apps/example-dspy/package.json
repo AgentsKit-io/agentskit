@@ -11,7 +11,7 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "@agentskit/eval-braintrust": "workspace:*"
+    "@agentskit/eval": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^25.9.5",

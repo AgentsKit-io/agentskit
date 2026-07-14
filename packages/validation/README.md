@@ -1,6 +1,10 @@
-# @agentskit/validation
+# @agentskit/tools/validation
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>concise-package</code>
+
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
+
+**Tags:** `agentskit` · `typescript` · `ai-agents`
 
 [![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 
@@ -12,9 +16,16 @@ The real untrusted boundary in an agent is **model output**. A model returns too
 
 JSON Schema stays the single source of truth: no Zod, no parallel contract.
 
+
+## Verified proof
+
+- Package metadata and tests live under `packages/validation/`.
+- Package guide: https://www.agentskit.io/docs/packages/validation
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
+
 ## How this fits the ecosystem
 
-@agentskit/validation protects tool boundaries by validating model-proposed arguments against JSON Schema before execution.
+`@agentskit/tools/validation` protects tool boundaries by validating model-proposed arguments against JSON Schema before execution.
 
 - **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
 - **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
@@ -25,15 +36,16 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/validation) · [age
 
 ## Install
 
+<!-- readme-command:install -->
 ```bash
-npm install @agentskit/validation
+npm install @agentskit/tools
 ```
 
 ## Usage
 
 ```ts
 import { createChatController } from '@agentskit/core'
-import { createAjvValidator } from '@agentskit/validation'
+import { createAjvValidator } from '@agentskit/tools/validation'
 
 const chat = createChatController({
   adapter,
@@ -61,3 +73,21 @@ Same option exists on `createRuntime`.
 ## License
 
 MIT
+
+## Quick start
+
+<!-- readme-example:quickstart -->
+```ts
+import '@agentskit/validation'
+console.log('@agentskit/validation loaded')
+```
+
+## Maturity and compatibility
+
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published as `@agentskit/validation`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).

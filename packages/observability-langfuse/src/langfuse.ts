@@ -81,7 +81,7 @@ export function langfuse(config: LangfuseConfig = {}): Observer {
         })
       } catch (cause) {
         console.warn(
-          '[@agentskit/observability-langfuse] Optional peer `langfuse` failed to load; spans will not be sent.',
+          '[@agentskit/observability/langfuse] Optional peer `langfuse` failed to load; spans will not be sent.',
           cause,
         )
         throw cause instanceof AdapterError

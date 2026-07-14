@@ -1,6 +1,10 @@
 # @agentskit/statechart
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>concise-package</code>
+
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
+
+**Tags:** `agentskit` · `typescript` · `ai-agents`
 
 [![stability](https://img.shields.io/badge/stability-alpha-orange)](../../docs/STABILITY.md)
 
@@ -12,8 +16,16 @@ Interactive agent experiences often need explicit states such as waiting for inp
 
 Use Runtime flows for durable execution, DAGs, tools, and effects. Use this package for local or host-managed interaction state.
 
+
+## Verified proof
+
+- Package metadata and tests live under `packages/statechart/`.
+- Package guide: https://www.agentskit.io/docs/packages/statechart
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
+
 ## Install
 
+<!-- readme-command:install -->
 ```bash
 npm install @agentskit/statechart
 ```
@@ -108,3 +120,25 @@ See [ADR-0020](../../docs/architecture/adrs/0020-serializable-interaction-state.
 ## License
 
 MIT
+
+## Quick start
+
+<!-- readme-example:quickstart -->
+```ts
+import '@agentskit/statechart'
+console.log('@agentskit/statechart loaded')
+```
+
+## Maturity and compatibility
+
+- Stability: **alpha** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published as `@agentskit/statechart`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).
+
+## How this fits the ecosystem
+
+AgentsKit package — compose with the monorepo; see registry.agentskit.io, playbook.agentskit.io, akos.agentskit.io.

@@ -1,6 +1,8 @@
 # @agentskit/skills
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>major-package</code>
+
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
 Pre-tuned agent personas that work out of the box — skills are what your agent IS, tools are what it CAN DO.
 
@@ -12,6 +14,12 @@ Pre-tuned agent personas that work out of the box — skills are what your agent
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `ai-agents` · `autonomous-agents` · `prompts` · `prompt-engineering` · `personas` · `multi-agent`
+
+## Verified proof
+
+- Package metadata and tests live under `packages/skills/`.
+- Package guide: https://www.agentskit.io/docs/packages/skills
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
 
@@ -33,12 +41,14 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/skills) · [agent h
 
 ## Install
 
+<!-- readme-command:install -->
 ```bash
 npm install @agentskit/skills
 ```
 
 ## Quick example
 
+<!-- readme-example:quickstart -->
 ```ts
 import { createRuntime } from '@agentskit/runtime'
 import { anthropic } from '@agentskit/adapters'
@@ -86,3 +96,13 @@ MIT — see [LICENSE](../../LICENSE).
 ## Docs
 
 [Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/AgentsKit-io/agentskit)
+
+## Maturity and compatibility
+
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published as `@agentskit/skills`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).

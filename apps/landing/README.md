@@ -1,4 +1,47 @@
+# landing
+
+Profile: <code>public-app</code>
+
+## Verified proof
+
+- App package lives at `apps/landing`.
+- Root claims: [ecosystem-claims.json](../../ecosystem-claims.json)
+
+## Install / run
+
+<!-- readme-command:install -->
+```bash
+pnpm --filter ./apps/landing build
+```
+
+## Quick start
+
+<!-- readme-example:quickstart -->
+```bash
+pnpm --filter ./apps/landing build
+```
+
+## Maturity and compatibility
+
+- Private monorepo app surface; ships with AgentsKit docs/product properties.
+- **Node.js 20+** and **TypeScript**
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and [LICENSE](../../LICENSE).
+
+## Ecosystem
+
+- [AgentsKit](https://www.agentskit.io)
+- [Registry](https://registry.agentskit.io)
+- [Playbook](https://playbook.agentskit.io)
+- [AKOS](https://akos.agentskit.io)
+
+**Tags:** `agentskit` · `typescript`
+
 # @agentskit/landing
+
+Profile: <code>public-app</code>
 
 Standalone Next.js 16 landing page for AgentsKit — issue [#230](https://github.com/AgentsKit-io/agentskit/issues/230) (P0.19).
 
