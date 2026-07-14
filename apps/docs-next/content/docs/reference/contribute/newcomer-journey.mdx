@@ -1,0 +1,80 @@
+---
+title: Newcomer journey
+description: Understand the AgentsKit ecosystem, run a verified demo, and choose a contribution path without private guidance.
+---
+
+Welcome. This page is the public **newcomer journey** for the AgentsKit ecosystem: understand → try → use → contribute → showcase.
+
+Campaign landing: [Community](/community)  
+Launch package (maintainers): [`docs/ecosystem/launch`](https://github.com/AgentsKit-io/agentskit/tree/main/docs/ecosystem/launch)
+
+> **Launch timing:** Broad promotion stays blocked until ecosystem readiness is `ready` ([#1204](https://github.com/AgentsKit-io/agentskit/issues/1204)) and HITL approval is recorded in the launch package.
+
+## 1. Understand the ecosystem
+
+| Product | Role | Start |
+|---|---|---|
+| AgentsKit | Foundation — build agents without glue code | [Get started](/docs/get-started) |
+| Registry | Starting point — copy ready agents | [registry.agentskit.io](https://registry.agentskit.io) |
+| AgentsKit Chat | Experience — one definition, many interfaces | [agentskit-chat](https://github.com/AgentsKit-io/agentskit-chat) |
+| Doc Bridge | Understanding — executable handoffs | [Doc Bridge](https://agentskit-io.github.io/doc-bridge/) |
+| Playbook | Discipline — ship mergeable agent work | [playbook.agentskit.io](https://playbook.agentskit.io) |
+| Code Review | Verification — low-noise review | [code-review-cli](https://github.com/AgentsKit-io/code-review-cli) |
+| AgentsKit OS | Operation — run agents in production | [akos.agentskit.io](https://akos.agentskit.io) |
+
+Architecture overview: [Architecture at a glance](/docs/get-started/architecture-at-a-glance).
+
+## 2. Three-command demos
+
+These demos are declared in `docs/ecosystem/launch/launch-package.json` and checked by `pnpm check:launch-package`. Public numbers must come from generated `ecosystem-claims.json`.
+
+### Demo A — first agent (no provider key)
+
+```bash
+npm install @agentskit/core @agentskit/runtime tsx
+cp apps/docs-next/fixtures/first-agent/agent.ts ./agent.ts
+npx tsx agent.ts
+```
+
+Expected output includes: `Agent ready. I received: Plan my first production agent`.
+
+### Demo B — start from the Registry
+
+```bash
+open https://registry.agentskit.io/agents
+npx agentskit add research
+cat agents/research/agent.ts | head
+```
+
+### Demo C — apply Playbook discipline
+
+```bash
+open https://playbook.agentskit.io/docs
+curl -s https://playbook.agentskit.io/llms.txt | head -n 20
+open https://playbook.agentskit.io/docs/onboard-your-agent
+```
+
+## 3. Choose a use path
+
+- Chat UI → [UI](/docs/ui)
+- Autonomous agents → [Agents](/docs/agents)
+- RAG / memory → [Data](/docs/data)
+- Production ops → [Production](/docs/production)
+- Package API → [Reference](/docs/reference)
+
+## 4. Contribute
+
+1. Read [Contributing](https://github.com/AgentsKit-io/agentskit/blob/main/CONTRIBUTING.md), [Code of Conduct](https://github.com/AgentsKit-io/agentskit/blob/main/CODE_OF_CONDUCT.md), and [Security](https://github.com/AgentsKit-io/agentskit/blob/main/SECURITY.md).
+2. Complete [local setup](./local-setup).
+3. Claim a [good first issue](./good-first-issues) (each curated starter lists setup + test commands).
+4. Open a draft PR early and link the issue.
+
+Maintainer response expectations: [Maintainer expectations](./maintainer-expectations).
+
+## 5. Showcase and recipes
+
+Built something useful? Submit a showcase entry or recipe through [Recipe & showcase submission](./recipe-submission).
+
+## Metrics we care about
+
+Understanding, activation, use, contribution, and retention — defined in [Launch metrics](./launch-metrics).

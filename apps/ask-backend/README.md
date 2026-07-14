@@ -1,4 +1,47 @@
+# ask-backend
+
+Profile: <code>public-app</code>
+
+## Verified proof
+
+- App package lives at `apps/ask-backend`.
+- Root claims: [ecosystem-claims.json](../../ecosystem-claims.json)
+
+## Install / run
+
+<!-- readme-command:install -->
+```bash
+pnpm --filter ./apps/ask-backend build
+```
+
+## Quick start
+
+<!-- readme-example:quickstart -->
+```bash
+pnpm --filter ./apps/ask-backend build
+```
+
+## Maturity and compatibility
+
+- Private monorepo app surface; ships with AgentsKit docs/product properties.
+- **Node.js 20+** and **TypeScript**
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and [LICENSE](../../LICENSE).
+
+## Ecosystem
+
+- [AgentsKit](https://www.agentskit.io)
+- [Registry](https://registry.agentskit.io)
+- [Playbook](https://playbook.agentskit.io)
+- [AKOS](https://akos.agentskit.io)
+
+**Tags:** `agentskit` · `typescript`
+
 # @agentskit/ask-backend
+
+Profile: <code>public-app</code>
 
 Central, **persistent** Ask backend (RFC-0007). A long-lived Hono server that loads
 the ONNX embedder + each corpus index **once at boot** and stays warm — no

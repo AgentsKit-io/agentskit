@@ -23,7 +23,7 @@ export interface ToolExecutionContext {
 //
 // Validation is an injectable, opt-in capability. Core ships no validator and
 // stays zero-dependency; callers provide an `ArgsValidator` (e.g. from
-// `@agentskit/validation`) to enforce a tool's JSON Schema against the args a
+// `@agentskit/tools/validation`) to enforce a tool's JSON Schema against the args a
 // model produced. Default behaviour (no validator) is passthrough.
 // ---------------------------------------------------------------------------
 

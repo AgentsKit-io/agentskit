@@ -10,9 +10,11 @@ concurrency:
 jobs:
   release:
     runs-on: ubuntu-latest
+    environment: npm
     permissions:
       contents: write
       pull-requests: write
+      id-token: write
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6
       - uses: pnpm/action-setup@0ebf47130e4866e96fce0953f49152a61190b271 # v6
@@ -24,7 +26,11 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      - run: npm install --global npm@11
+
       - run: pnpm --filter "./packages/*" build
+
+      - run: pnpm check:publication-surface
 
       - id: changesets
         uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1
@@ -35,8 +41,7 @@ jobs:
           commit: "chore: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
 
       - name: Generate SBOM (CycloneDX)
         if: steps.changesets.outputs.published == 'true'

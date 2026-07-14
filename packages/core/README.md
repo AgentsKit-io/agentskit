@@ -1,6 +1,8 @@
 # @agentskit/core
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>major-package</code>
+
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
 The zero-dependency foundation that every AgentsKit package builds on — 5 KB gzipped, edge-ready, works everywhere JavaScript runs.
 
@@ -12,6 +14,12 @@ The zero-dependency foundation that every AgentsKit package builds on — 5 KB g
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `typescript` · `orchestration` · `streaming` · `chat`
+
+## Verified proof
+
+- Package metadata and tests live under `packages/core/`.
+- Package guide: https://www.agentskit.io/docs/packages/core
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
 
@@ -33,12 +41,14 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/core) · [agent han
 
 ## Install
 
+<!-- readme-command:install -->
 ```bash
 npm install @agentskit/core
 ```
 
 ## Quick example
 
+<!-- readme-example:quickstart -->
 ```ts
 import { createChatController, createInMemoryMemory } from '@agentskit/core'
 import { anthropic } from '@agentskit/adapters'
@@ -173,3 +183,13 @@ MIT — see [LICENSE](../../LICENSE).
 ## Docs
 
 [Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/AgentsKit-io/agentskit)
+
+## Maturity and compatibility
+
+- Stability: **stable** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published as `@agentskit/core`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).

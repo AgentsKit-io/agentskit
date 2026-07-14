@@ -18,6 +18,15 @@
 # Typedoc-generated API pages — present at build time, not in repo
 ^/docs/api/
 
+# Next.js application routes are validated by the docs build/E2E, not as files.
+^/community$
+^file://.*/apps/docs-next/content/community$
+
+# These sources land atomically with the contributor-funnel PR; main resolves
+# them immediately after merge, while pre-merge link checks otherwise see 404.
+^https://github\.com/AgentsKit-io/agentskit/(?:blob|tree)/main/docs/ecosystem/launch(?:/.*)?$
+^https://github\.com/AgentsKit-io/agentskit/blob/main/docs/ecosystem/readiness\.md$
+
 # Anchored fragments that mdx-lint can't resolve cleanly (per-page, fine in browser)
 #strikes-known
 

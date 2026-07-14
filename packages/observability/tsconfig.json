@@ -2,7 +2,10 @@
   "extends": "../../tsconfig.base.json",
   "compilerOptions": {
     "outDir": "dist",
-    "types": ["node"]
+    "types": ["node"],
+    "paths": {
+      "@agentskit/observability": ["./src/index.ts"]
+    }
   },
   "include": ["src"]
 }

@@ -12,9 +12,9 @@
       "claims": [
         {
           "id": "packages",
-          "value": 25,
+          "value": 22,
           "noun": "packages",
-          "conservativeFloor": 25,
+          "conservativeFloor": 22,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",

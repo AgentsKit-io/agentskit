@@ -35,7 +35,7 @@ sandboxed code; memory/vector stores; the npm publish path.
 
 | # | Threat | Mitigation | Status |
 |---|---|---|---|
-| 1 | Model emits malformed/hostile tool args; `execute` trusts them | Opt-in runtime validation against the tool's JSON Schema → `AK_TOOL_INVALID_INPUT` (ADR-0008, `@agentskit/validation`) | shipped (opt-in) |
+| 1 | Model emits malformed/hostile tool args; `execute` trusts them | Opt-in runtime validation against the tool's JSON Schema → `AK_TOOL_INVALID_INPUT` (ADR-0008, `@agentskit/tools/validation`) | shipped (opt-in) |
 | 2 | Prompt injection steers the agent | Injection heuristics + taxonomy (`packages/core/src/security/injection.ts`, `taxonomy.ts`); human-in-the-loop confirmation (`requiresConfirmation`) | shipped |
 | 3 | PII leaks into logs/traces/model context | PII detection + regional routing (`security/pii.ts`); redaction in observability | shipped |
 | 4 | Secrets hard-coded or logged | Vault references (`security/vault.ts`); no secrets in errors (typed error system carries codes/hints, not internals) | shipped |

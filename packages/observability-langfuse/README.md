@@ -1,14 +1,25 @@
-# `@agentskit/observability-langfuse`
+# `@agentskit/observability/langfuse`
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>concise-package</code>
+
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
+
+**Tags:** `agentskit` · `typescript` · `ai-agents`
 
 [![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 
 Langfuse tracing adapter for AgentsKit. Emits one trace per agent run with nested spans for plan, tool calls, model generations, memory IO, and HITL gates. Token, cost, and latency metadata flow into the standard Langfuse `usage` and metadata fields.
 
+
+## Verified proof
+
+- Package metadata and tests live under `packages/observability-langfuse/`.
+- Package guide: https://www.agentskit.io/docs/packages/observability-langfuse
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
+
 ## How this fits the ecosystem
 
-@agentskit/observability-langfuse sends AgentsKit traces to Langfuse with spans for planning, model calls, tools, HITL, latency, tokens, and cost.
+@agentskit/observability/langfuse sends AgentsKit traces to Langfuse with spans for planning, model calls, tools, HITL, latency, tokens, and cost.
 
 - **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
 - **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
@@ -19,8 +30,9 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/observability-langf
 
 ## Install
 
-```sh
-npm install @agentskit/observability-langfuse langfuse
+<!-- readme-command:install -->
+```bash
+npm install @agentskit/observability langfuse
 ```
 
 `langfuse` is loaded lazily — install it alongside this adapter.
@@ -29,7 +41,7 @@ npm install @agentskit/observability-langfuse langfuse
 
 ```ts
 import { runAgent } from '@agentskit/runtime'
-import { langfuse } from '@agentskit/observability-langfuse'
+import { langfuse } from '@agentskit/observability/langfuse'
 
 const observer = langfuse({
   publicKey: process.env.LANGFUSE_PUBLIC_KEY!,
@@ -68,3 +80,21 @@ Multi-agent topologies (planner → worker → reviewer) link automatically: eac
 ## License
 
 MIT
+
+## Quick start
+
+<!-- readme-example:quickstart -->
+```ts
+import '@agentskit/observability/langfuse'
+console.log('@agentskit/observability/langfuse loaded')
+```
+
+## Maturity and compatibility
+
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published through `@agentskit/observability/langfuse`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).

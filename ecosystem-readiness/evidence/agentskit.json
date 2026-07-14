@@ -1,0 +1,155 @@
+{
+  "schemaVersion": 1,
+  "protocol": "agentskit.ecosystem.readiness",
+  "productId": "agentskit",
+  "repo": "AgentsKit-io/agentskit",
+  "auditedOn": "2026-07-14",
+  "auditor": "ecosystem-readiness harness",
+  "maturity": {
+    "declared": "beta",
+    "source": "ecosystem.json#products[agentskit].maturity"
+  },
+  "gates": [
+    {
+      "id": "quickstart",
+      "category": "quickstart",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Reference docs vertical and first-agent fixture verify install/run without a provider key.",
+      "owner": "AgentsKit-io/agentskit",
+      "evidence": [
+        "apps/docs-next/fixtures/first-agent/agent.ts",
+        "scripts/reference-docs-vertical.test.mjs"
+      ]
+    },
+    {
+      "id": "documentation",
+      "category": "documentation",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Fumadocs docs-next ships human + for-agents corpus with Doc Bridge ownership.",
+      "owner": "AgentsKit-io/agentskit",
+      "evidence": [
+        "apps/docs-next",
+        "doc-bridge.config.json"
+      ]
+    },
+    {
+      "id": "seo",
+      "category": "seo",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Docs and landing expose metadata, sitemap, robots, and OG routes.",
+      "owner": "AgentsKit-io/agentskit",
+      "evidence": [
+        "apps/docs-next",
+        "apps/landing"
+      ]
+    },
+    {
+      "id": "accessibility",
+      "category": "accessibility",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Docs dogfood and landing include accessibility checks in CI matrices.",
+      "owner": "AgentsKit-io/agentskit",
+      "evidence": [
+        "apps/docs-next"
+      ]
+    },
+    {
+      "id": "performance",
+      "category": "performance",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Bundle budgets and size-limit gates enforce core package performance floors.",
+      "owner": "AgentsKit-io/agentskit",
+      "evidence": [
+        "scripts/check-quality-gates.mjs"
+      ]
+    },
+    {
+      "id": "links",
+      "category": "links",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Quality gates and docs checks cover internal documentation links.",
+      "owner": "AgentsKit-io/agentskit",
+      "evidence": [
+        "scripts/check-quality-gates.mjs"
+      ]
+    },
+    {
+      "id": "llms",
+      "category": "llms",
+      "status": "pass",
+      "severity": "info",
+      "summary": "llms.txt is generated/served from the public docs property.",
+      "owner": "AgentsKit-io/agentskit",
+      "evidence": [
+        "https://www.agentskit.io/llms.txt",
+        "llms.txt"
+      ]
+    },
+    {
+      "id": "doc-bridge",
+      "category": "doc-bridge",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Doc Bridge index/gate scripts are first-class monorepo commands.",
+      "owner": "AgentsKit-io/agentskit",
+      "evidence": [
+        "doc-bridge.config.json",
+        "package.json"
+      ]
+    },
+    {
+      "id": "chat",
+      "category": "chat",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Deterministic docs answers integrate before Ask backend fallback.",
+      "owner": "AgentsKit-io/agentskit",
+      "evidence": [
+        "apps/docs-next/tests/deterministic-docs-answers.test.mjs"
+      ]
+    },
+    {
+      "id": "readme",
+      "category": "readme",
+      "status": "blocked",
+      "severity": "p1",
+      "summary": "README Standard v1 root surface is on main; package/app rollout PR #1233 is still open.",
+      "owner": "AgentsKit-io/agentskit",
+      "evidence": [
+        "readme-standard-v1.json",
+        "scripts/check-readme-standard.mjs"
+      ],
+      "remediation": "Merge AgentsKit-io/agentskit#1233 package/app README rollout, then re-audit."
+    },
+    {
+      "id": "security",
+      "category": "security",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Security-sensitive packages use typed errors, sandbox, and CI audit workflows.",
+      "owner": "AgentsKit-io/agentskit",
+      "evidence": [
+        "packages/sandbox",
+        ".github/workflows"
+      ]
+    },
+    {
+      "id": "maturity",
+      "category": "maturity",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Maturity declared beta in ecosystem.json; STABILITY.md is the tier map.",
+      "owner": "AgentsKit-io/agentskit",
+      "evidence": [
+        "ecosystem.json",
+        "docs/STABILITY.md"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,37 @@
+---
+title: Launch metrics
+description: How we measure understanding, activation, use, contribution, and retention for ecosystem launch.
+---
+
+Launch metrics distinguish **attention** from **successful use**. Vanity stars alone are not success.
+
+Source of truth for the metric definitions: [`docs/ecosystem/launch/launch-package.json`](https://github.com/AgentsKit-io/agentskit/blob/main/docs/ecosystem/launch/launch-package.json).
+
+## Dimensions
+
+| ID | Question | Initial target |
+|---|---|---|
+| `understanding` | Can a visitor name each product’s role? | ≥ 90% in a lightweight user test |
+| `activation` | Do declared executable demos succeed cleanly? | 100% of executable demos in the launch package |
+| `use` | Do people complete a primary docs quickstart? | Baseline, then improve |
+| `contribution` | Do starter issues include setup + test instructions? | 100% of curated starters |
+| `retention` | Are showcase/recipe submissions reviewed within SLA? | First response ≤ 2 business days |
+
+## How we collect
+
+- **Docs / community analytics** — product page funnels (privacy-preserving)
+- **Launch package gate** — `pnpm check:launch-package` for demo integrity
+- **GitHub** — issues, PRs, labels (`good first issue`, community submissions)
+- **Generated claims** — public numeric claims only from `ecosystem-claims.json`
+
+## What we refuse to report
+
+- Hand-typed package/agent counts that disagree with generated claims
+- “Stable” claims for alpha surfaces
+- Engagement metrics without a path back to a real demo or contribution
+
+## Related
+
+- [Newcomer journey](./newcomer-journey)
+- [Recipe submission](./recipe-submission)
+- [Ecosystem readiness](https://github.com/AgentsKit-io/agentskit/blob/main/docs/ecosystem/readiness.md)

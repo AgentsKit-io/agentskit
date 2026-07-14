@@ -30,11 +30,11 @@ Agent quality degrades silently — a prompt change that improves one case break
 
 ## CI integration with Braintrust
 
-`@agentskit/eval-braintrust` wraps the Braintrust SDK to push eval results to [Braintrust](https://braintrust.dev) — experiments, scores, and traces are visible in the Braintrust dashboard without any additional pipeline setup.
+`@agentskit/eval/braintrust` wraps the Braintrust SDK to push eval results to [Braintrust](https://braintrust.dev) — experiments, scores, and traces are visible in the Braintrust dashboard without any additional pipeline setup.
 
 ```ts
 import { runEval } from '@agentskit/eval'
-import { braintrustReporter } from '@agentskit/eval-braintrust'
+import { braintrustReporter } from '@agentskit/eval/braintrust'
 
 await runEval({
   agent: myAgent,
@@ -45,7 +45,7 @@ await runEval({
 
 In CI, set `BRAINTRUST_API_KEY` as a secret and add the eval run as a step after your test suite. Failed evals surface as non-zero exit codes.
 
-- [Package: @agentskit/eval-braintrust](/docs/reference/packages/eval-braintrust)
+- [Package: @agentskit/eval/braintrust](/docs/reference/packages/eval-braintrust)
 - [For agents: eval-braintrust](/docs/for-agents/eval-braintrust)
 
 ## Related

@@ -1,6 +1,8 @@
 # @agentskit/rag
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>major-package</code>
+
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
 Plug-and-play retrieval-augmented generation: chunk documents, embed them, and retrieve the right context at query time.
 
@@ -12,6 +14,12 @@ Plug-and-play retrieval-augmented generation: chunk documents, embed them, and r
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `rag` · `retrieval` · `vector-search` · `embeddings` · `ai-agents` · `semantic-search` · `knowledge-base`
+
+## Verified proof
+
+- Package metadata and tests live under `packages/rag/`.
+- Package guide: https://www.agentskit.io/docs/packages/rag
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
 
@@ -33,12 +41,14 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/rag) · [agent hand
 
 ## Install
 
+<!-- readme-command:install -->
 ```bash
 npm install @agentskit/rag @agentskit/memory @agentskit/adapters
 ```
 
 ## Quick example
 
+<!-- readme-example:quickstart -->
 ```ts
 import { createRAG } from '@agentskit/rag'
 import { openaiEmbedder } from '@agentskit/adapters'
@@ -124,3 +134,13 @@ MIT — see [LICENSE](../../LICENSE).
 ## Docs
 
 [Full documentation](https://www.agentskit.io) · [GitHub](https://github.com/AgentsKit-io/agentskit)
+
+## Maturity and compatibility
+
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published as `@agentskit/rag`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).

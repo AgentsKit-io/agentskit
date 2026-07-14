@@ -1,0 +1,85 @@
+{
+  "schemaVersion": 1,
+  "protocol": "agentskit.ecosystem.readiness",
+  "title": "AgentsKit ecosystem documentation and product readiness inventory",
+  "parentPrd": "https://github.com/AgentsKit-io/agentskit/issues/1198",
+  "certificationIssue": "https://github.com/AgentsKit-io/agentskit/issues/1204",
+  "maxEvidenceAgeDays": 30,
+  "requiredGateCategories": [
+    "quickstart",
+    "documentation",
+    "seo",
+    "accessibility",
+    "performance",
+    "links",
+    "llms",
+    "doc-bridge",
+    "chat",
+    "readme",
+    "security",
+    "maturity"
+  ],
+  "products": [
+    {
+      "id": "agentskit",
+      "repo": "AgentsKit-io/agentskit",
+      "evidenceFile": "ecosystem-readiness/evidence/agentskit.json"
+    },
+    {
+      "id": "registry",
+      "repo": "AgentsKit-io/agentskit-registry",
+      "evidenceFile": "ecosystem-readiness/evidence/registry.json"
+    },
+    {
+      "id": "agentskit-chat",
+      "repo": "AgentsKit-io/agentskit-chat",
+      "evidenceFile": "ecosystem-readiness/evidence/agentskit-chat.json"
+    },
+    {
+      "id": "playbook",
+      "repo": "AgentsKit-io/agents-playbook",
+      "evidenceFile": "ecosystem-readiness/evidence/playbook.json"
+    },
+    {
+      "id": "doc-bridge",
+      "repo": "AgentsKit-io/doc-bridge",
+      "evidenceFile": "ecosystem-readiness/evidence/doc-bridge.json"
+    },
+    {
+      "id": "code-review",
+      "repo": "AgentsKit-io/code-review-cli",
+      "evidenceFile": "ecosystem-readiness/evidence/code-review.json",
+      "gateExceptions": [
+        {
+          "category": "seo",
+          "status": "skipped",
+          "reason": "The product is distributed as a repository-native CLI and has no public documentation site.",
+          "expiresOn": "2027-07-14"
+        },
+        {
+          "category": "accessibility",
+          "status": "skipped",
+          "reason": "The product has no browser UI; terminal output remains covered by CLI smoke tests.",
+          "expiresOn": "2027-07-14"
+        },
+        {
+          "category": "performance",
+          "status": "skipped",
+          "reason": "Web performance budgets do not apply to the repository-native CLI distribution.",
+          "expiresOn": "2027-07-14"
+        },
+        {
+          "category": "chat",
+          "status": "skipped",
+          "reason": "AgentsChat is intentionally excluded from the code-review CLI product surface.",
+          "expiresOn": "2027-07-14"
+        }
+      ]
+    },
+    {
+      "id": "akos",
+      "repo": "AgentsKit-io/agentskit-os",
+      "evidenceFile": "ecosystem-readiness/evidence/akos.json"
+    }
+  ]
+}

@@ -20,7 +20,7 @@ Inventory of consumer-facing surfaces. Status: `stable` / `beta` / `planned`
 | Sandbox | `@agentskit/sandbox` | E2B / WebContainer code execution | beta |
 | Observability | `@agentskit/observability` `/observability-langfuse` | logging, tracing, spans | beta |
 | Eval | `@agentskit/eval` `/eval-braintrust` | metrics, scorers, regression alerts | beta |
-| Validation | `@agentskit/validation` | Ajv-backed `ArgsValidator` (ADR-0008) | beta |
+| Validation | `@agentskit/tools/validation` | Ajv-backed `ArgsValidator` (ADR-0008) | beta |
 
 ## CLI
 

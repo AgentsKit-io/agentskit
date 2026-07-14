@@ -1,6 +1,8 @@
 # @agentskit/react-native
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>concise-package</code>
+
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
 React Native / Expo hook + headless chat components. Metro-safe (no DOM deps). Same `ChatReturn` contract every AgentsKit framework binding ships.
 
@@ -12,6 +14,12 @@ React Native / Expo hook + headless chat components. Metro-safe (no DOM deps). S
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 
 **Tags:** `ai` · `agents` · `llm` · `agentskit` · `react-native` · `expo` · `mobile` · `chat` · `streaming`
+
+## Verified proof
+
+- Package metadata and tests live under `packages/react-native/`.
+- Package guide: https://www.agentskit.io/docs/packages/react-native
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
 
@@ -37,6 +45,7 @@ React Native has no DOM, so there are no `data-ak-*` attributes. The web-parity 
 
 ## Install
 
+<!-- readme-command:install -->
 ```bash
 npm install @agentskit/react-native @agentskit/adapters
 ```
@@ -45,6 +54,7 @@ Peers: `react`, `react-native`.
 
 ## Quick example
 
+<!-- readme-example:quickstart -->
 ```tsx
 import { useChat, ChatContainer, Message, InputBar } from '@agentskit/react-native'
 import { anthropic } from '@agentskit/adapters'
@@ -99,3 +109,13 @@ MIT — see [LICENSE](../../LICENSE).
 ## Docs
 
 [Full documentation](https://www.agentskit.io/docs/packages/react-native) · [GitHub](https://github.com/AgentsKit-io/agentskit)
+
+## Maturity and compatibility
+
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published as `@agentskit/react-native`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).

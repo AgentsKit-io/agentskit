@@ -1,0 +1,147 @@
+{
+  "schemaVersion": 1,
+  "protocol": "agentskit.ecosystem.readiness",
+  "productId": "agentskit-chat",
+  "repo": "AgentsKit-io/agentskit-chat",
+  "auditedOn": "2026-07-14",
+  "auditor": "ecosystem-readiness harness",
+  "maturity": {
+    "declared": "alpha",
+    "source": "ecosystem.json"
+  },
+  "gates": [
+    {
+      "id": "quickstart",
+      "category": "quickstart",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Framework dogfood portal and package examples verify one definition across clients.",
+      "owner": "AgentsKit-io/agentskit-chat",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-chat/pull/94"
+      ]
+    },
+    {
+      "id": "documentation",
+      "category": "documentation",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Ecosystem 10 Fumadocs dogfood merged with canonical docs/ corpus.",
+      "owner": "AgentsKit-io/agentskit-chat",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-chat/issues/71"
+      ]
+    },
+    {
+      "id": "seo",
+      "category": "seo",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Docs portal publishes sitemap, robots, llms, and raw Markdown routes.",
+      "owner": "AgentsKit-io/agentskit-chat",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-chat/pull/94"
+      ]
+    },
+    {
+      "id": "accessibility",
+      "category": "accessibility",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Playwright + axe gates cover landing, docs, and assistant chrome.",
+      "owner": "AgentsKit-io/agentskit-chat",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-chat/pull/94"
+      ]
+    },
+    {
+      "id": "performance",
+      "category": "performance",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Docs client JS budget enforced in dogfood release gates.",
+      "owner": "AgentsKit-io/agentskit-chat",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-chat/pull/94"
+      ]
+    },
+    {
+      "id": "links",
+      "category": "links",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Doc Bridge and CI cover documentation links for the monorepo corpus.",
+      "owner": "AgentsKit-io/agentskit-chat",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-chat"
+      ]
+    },
+    {
+      "id": "llms",
+      "category": "llms",
+      "status": "pass",
+      "severity": "info",
+      "summary": "llms.txt and llms-full.txt routes ship with the docs app.",
+      "owner": "AgentsKit-io/agentskit-chat",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-chat/pull/94"
+      ]
+    },
+    {
+      "id": "doc-bridge",
+      "category": "doc-bridge",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Doc Bridge index/gate are package scripts and CI jobs.",
+      "owner": "AgentsKit-io/agentskit-chat",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-chat"
+      ]
+    },
+    {
+      "id": "chat",
+      "category": "chat",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Real AgentsChat packages power deterministic-first docs assistant.",
+      "owner": "AgentsKit-io/agentskit-chat",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-chat/pull/94"
+      ]
+    },
+    {
+      "id": "readme",
+      "category": "readme",
+      "status": "pass",
+      "severity": "info",
+      "summary": "README Standard v1 certified and merged for repository and packages.",
+      "owner": "AgentsKit-io/agentskit-chat",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-chat/pull/93"
+      ]
+    },
+    {
+      "id": "security",
+      "category": "security",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Ask path fails closed without trusted adapters; no private corpus selection from browser hints.",
+      "owner": "AgentsKit-io/agentskit-chat",
+      "evidence": [
+        "https://github.com/AgentsKit-io/agentskit-chat/pull/94"
+      ]
+    },
+    {
+      "id": "maturity",
+      "category": "maturity",
+      "status": "pass",
+      "severity": "info",
+      "summary": "Packages released at 0.2.0; portal dogfood remains alpha and must stay labeled honestly.",
+      "owner": "AgentsKit-io/agentskit-chat",
+      "evidence": [
+        "ecosystem.json",
+        "https://github.com/AgentsKit-io/agentskit-chat/pull/94"
+      ]
+    }
+  ]
+}

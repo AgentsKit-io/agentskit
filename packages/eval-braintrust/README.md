@@ -1,6 +1,10 @@
-# `@agentskit/eval-braintrust`
+# `@agentskit/eval/braintrust`
 
-<p align="center"><img src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="180" /></p>
+Profile: <code>concise-package</code>
+
+<p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
+
+**Tags:** `agentskit` · `typescript` · `ai-agents`
 
 [![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 
@@ -9,9 +13,16 @@ Braintrust scoring pipeline for AgentsKit. Ships **8 scorers** in two families a
 - **Quality scorers** — task success, factual grounding, citation correctness, tool-arg validity
 - **Robustness scorers** — schema survival, HITL gate correctness, fallback resilience, no-crash survival
 
+
+## Verified proof
+
+- Package metadata and tests live under `packages/eval-braintrust/`.
+- Package guide: https://www.agentskit.io/docs/packages/eval-braintrust
+- Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
+
 ## How this fits the ecosystem
 
-@agentskit/eval-braintrust connects AgentsKit evals to Braintrust so teams can score behavior, track regressions, and keep quality visible in CI.
+@agentskit/eval/braintrust connects AgentsKit evals to Braintrust so teams can score behavior, track regressions, and keep quality visible in CI.
 
 - **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
 - **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
@@ -22,20 +33,28 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/eval-braintrust) ·
 
 ## Install
 
-```sh
-npm install @agentskit/eval-braintrust braintrust
+<!-- readme-command:install -->
+```bash
+npm install @agentskit/eval braintrust
 ```
 
 `braintrust` is loaded lazily — install it alongside.
 
 ## Quick start
 
+<!-- readme-example:quickstart -->
 ```ts
 import {
   runBraintrustEval,
   qualityFamily,
   robustnessFamily,
-} from '@agentskit/eval-braintrust'
+} from '@agentskit/eval/braintrust'
+
+const myAgent = {
+  async run(input: string) {
+    return { text: `Answer for: ${input}`, toolCalls: [] }
+  },
+}
 
 const result = await runBraintrustEval({
   cases: [
@@ -61,7 +80,7 @@ If `BRAINTRUST_API_KEY` is missing or the SDK is not installed, the runner still
 ## CI regression alerts
 
 ```ts
-import { detectRegressions, formatAlertsMarkdown } from '@agentskit/eval-braintrust/ci'
+import { detectRegressions, formatAlertsMarkdown } from '@agentskit/eval/braintrust/ci'
 
 const alerts = detectRegressions(baselineSummary, currentSummary, { default: 0.05 })
 process.stdout.write(formatAlertsMarkdown(alerts))
@@ -73,7 +92,7 @@ Wire into a GitHub Actions step that posts the comment on the PR.
 ## Adding a custom scorer
 
 ```ts
-import type { Scorer } from '@agentskit/eval-braintrust'
+import type { Scorer } from '@agentskit/eval/braintrust'
 
 const verbosityPenalty: Scorer = ({ output }) => ({
   name: 'verbosity_penalty',
@@ -92,3 +111,13 @@ Robustness scorers read fields from the case `metadata` (e.g. `parseError`, `hit
 ## License
 
 MIT
+
+## Maturity and compatibility
+
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- **Node.js 20+** and **TypeScript** strict mode
+- Published through `@agentskit/eval/braintrust`
+
+## Contributing
+
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).
