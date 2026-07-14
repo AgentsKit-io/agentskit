@@ -33,26 +33,21 @@ RUN pnpm install --frozen-lockfile \
       --filter='@agentskit/rag...' \
       --filter='@agentskit/validation...'
 
-# Bake the ONNX embedding model into the image at build time, into a stable cache
-# dir. Runtime then loads it locally — no HF download on boot, no cold-start race, no
-# network dependency, and no chance a transient first-load failure poisons the server.
+# Bake the pinned ONNX embedding model into the image from an AgentsKit-owned release
+# asset. Hugging Face serves the public model through Xet, which rejects some hosted
+# builder egress IPs; the release mirror makes builds deterministic without requiring
+# a third-party token. The checksum fails closed if the artifact ever changes.
 # `embed.ts` reads the same TRANSFORMERS_CACHE, so build + runtime agree on the path.
-# Run from the app dir so pnpm resolves `@huggingface/transformers` (hoisted there).
-# Retry transient Hub/CDN failures; a partial download remains in the cache and can
-# resume on the next attempt, while a persistent failure still stops the image build.
 ENV TRANSFORMERS_CACHE=/app/.transformers-cache
-RUN cd apps/ask-backend \
- && attempt=1 \
- && until node --input-type=module -e "import('@huggingface/transformers').then(async (t) => { t.env.cacheDir = process.env.TRANSFORMERS_CACHE; await t.pipeline('feature-extraction', 'Xenova/bge-small-en-v1.5'); console.log('embedding model baked into image'); })"; do \
-      if [ "$attempt" -ge 3 ]; then \
-        echo "embedding model download failed after $attempt attempts" >&2; \
-        exit 1; \
-      fi; \
-      delay=$((attempt * 5)); \
-      echo "embedding model download failed; retrying in ${delay}s" >&2; \
-      sleep "$delay"; \
-      attempt=$((attempt + 1)); \
-    done
+ARG ASK_MODEL_ARCHIVE_URL=https://github.com/AgentsKit-io/agentskit/releases/download/ask-model-bge-small-en-v1.5-v1/bge-small-en-v1.5-transformersjs.tar.gz
+ARG ASK_MODEL_ARCHIVE_SHA256=dfcdca3b93a40f1afb10248d2b3b8c206fe128dc2d8e1f0ccf985cf608c4e3d6
+RUN ARCHIVE_URL="$ASK_MODEL_ARCHIVE_URL" node --input-type=module -e "import { createWriteStream } from 'node:fs'; import { Readable } from 'node:stream'; import { pipeline } from 'node:stream/promises'; const response = await fetch(process.env.ARCHIVE_URL); if (!response.ok || !response.body) throw new Error('model archive download failed: HTTP ' + response.status); await pipeline(Readable.fromWeb(response.body), createWriteStream('/tmp/ask-model.tar.gz'));" \
+ && echo "${ASK_MODEL_ARCHIVE_SHA256}  /tmp/ask-model.tar.gz" | sha256sum -c - \
+ && mkdir -p "$TRANSFORMERS_CACHE" \
+ && tar -xzf /tmp/ask-model.tar.gz -C "$TRANSFORMERS_CACHE" \
+ && rm /tmp/ask-model.tar.gz \
+ && cd apps/ask-backend \
+ && node --input-type=module -e "import('@huggingface/transformers').then(async (t) => { t.env.cacheDir = process.env.TRANSFORMERS_CACHE; t.env.allowRemoteModels = false; await t.pipeline('feature-extraction', 'Xenova/bge-small-en-v1.5'); console.log('embedding model baked into image'); })"
 
 ENV NODE_ENV=production
 ENV PORT=8080
