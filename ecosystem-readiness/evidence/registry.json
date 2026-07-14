@@ -112,14 +112,13 @@
     {
       "id": "readme",
       "category": "readme",
-      "status": "blocked",
-      "severity": "p1",
-      "summary": "README Standard v1 certification PR open for root README.",
+      "status": "pass",
+      "severity": "info",
+      "summary": "README Standard v1 and its clean research-agent quickstart evidence pass on main.",
       "owner": "AgentsKit-io/agentskit-registry",
       "evidence": [
         "https://github.com/AgentsKit-io/agentskit-registry/pull/79"
-      ],
-      "remediation": "Merge AgentsKit-io/agentskit-registry#79 and re-run check:readme-standard on main."
+      ]
     },
     {
       "id": "security",

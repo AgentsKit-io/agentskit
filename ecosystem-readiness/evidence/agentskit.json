@@ -117,15 +117,15 @@
     {
       "id": "readme",
       "category": "readme",
-      "status": "blocked",
-      "severity": "p1",
-      "summary": "README Standard v1 root surface is on main; package/app rollout PR #1233 is still open.",
+      "status": "pass",
+      "severity": "info",
+      "summary": "README Standard v1 passes for the root, public apps, and all public packages after PR #1233.",
       "owner": "AgentsKit-io/agentskit",
       "evidence": [
         "readme-standard-v1.json",
-        "scripts/check-readme-standard.mjs"
-      ],
-      "remediation": "Merge AgentsKit-io/agentskit#1233 package/app README rollout, then re-audit."
+        "scripts/check-readme-standard.mjs",
+        "https://github.com/AgentsKit-io/agentskit/pull/1233"
+      ]
     },
     {
       "id": "security",

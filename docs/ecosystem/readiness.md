@@ -79,6 +79,6 @@ Evidence must not be future-dated and must be no older than `maxEvidenceAgeDays`
 
 ## Current posture
 
-The committed evidence set is intentionally honest. While AgentsKit OS Ecosystem 11 and several README Standard rollout PRs remain open, the certification result is **`blocked`** and broad promotion must wait.
-
-Re-run the harness after those PRs merge and refresh the evidence files before signing a launch-ready declaration.
+All seven product evidence files pass their canonical gates. The certification result is
+**`ready`** and `promotionAllowed` is true. Public publishing and external submissions still
+retain their separate human-approval gates; product readiness does not bypass those controls.

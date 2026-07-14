@@ -2,22 +2,22 @@
   "protocol": "agentskit.ecosystem.readiness",
   "schemaVersion": 1,
   "auditDate": "2026-07-14",
-  "overall": "blocked",
-  "promotionAllowed": false,
+  "overall": "ready",
+  "promotionAllowed": true,
   "summary": {
     "products": 7,
-    "ready": 3,
-    "blocked": 4,
+    "ready": 7,
+    "blocked": 0,
     "incomplete": 0,
-    "findings": 10,
-    "p0": 2,
-    "p1": 8
+    "findings": 0,
+    "p0": 0,
+    "p1": 0
   },
   "products": [
     {
       "id": "agentskit",
       "repo": "AgentsKit-io/agentskit",
-      "status": "blocked",
+      "status": "ready",
       "maturity": {
         "declared": "beta",
         "source": "ecosystem.json#products[agentskit].maturity"
@@ -181,15 +181,15 @@
         {
           "id": "readme",
           "category": "readme",
-          "status": "blocked",
-          "severity": "p1",
-          "summary": "README Standard v1 root surface is on main; package/app rollout PR #1233 is still open.",
+          "status": "pass",
+          "severity": "info",
+          "summary": "README Standard v1 passes for the root, public apps, and all public packages after PR #1233.",
           "owner": "AgentsKit-io/agentskit",
           "evidence": [
             "readme-standard-v1.json",
-            "scripts/check-readme-standard.mjs"
-          ],
-          "remediation": "Merge AgentsKit-io/agentskit#1233 package/app README rollout, then re-audit."
+            "scripts/check-readme-standard.mjs",
+            "https://github.com/AgentsKit-io/agentskit/pull/1233"
+          ]
         },
         {
           "id": "security",
@@ -220,7 +220,7 @@
     {
       "id": "registry",
       "repo": "AgentsKit-io/agentskit-registry",
-      "status": "blocked",
+      "status": "ready",
       "maturity": {
         "declared": "beta",
         "source": "ecosystem.json"
@@ -379,14 +379,13 @@
         {
           "id": "readme",
           "category": "readme",
-          "status": "blocked",
-          "severity": "p1",
-          "summary": "README Standard v1 certification PR open for root README.",
+          "status": "pass",
+          "severity": "info",
+          "summary": "README Standard v1 and its clean research-agent quickstart evidence pass on main.",
           "owner": "AgentsKit-io/agentskit-registry",
           "evidence": [
             "https://github.com/AgentsKit-io/agentskit-registry/pull/79"
-          ],
-          "remediation": "Merge AgentsKit-io/agentskit-registry#79 and re-run check:readme-standard on main."
+          ]
         },
         {
           "id": "security",
@@ -999,7 +998,7 @@
     {
       "id": "code-review",
       "repo": "AgentsKit-io/code-review-cli",
-      "status": "blocked",
+      "status": "ready",
       "maturity": {
         "declared": "alpha",
         "source": "ecosystem.json"
@@ -1158,14 +1157,13 @@
         {
           "id": "readme",
           "category": "readme",
-          "status": "blocked",
-          "severity": "p1",
-          "summary": "README Standard v1 certification PR open.",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Repository-native README Standard v1 certification and executable first-review proof pass on main.",
           "owner": "AgentsKit-io/code-review-cli",
           "evidence": [
             "https://github.com/AgentsKit-io/code-review-cli/pull/6"
-          ],
-          "remediation": "Merge AgentsKit-io/code-review-cli#6 and re-audit."
+          ]
         },
         {
           "id": "security",
@@ -1194,7 +1192,7 @@
     {
       "id": "akos",
       "repo": "AgentsKit-io/agentskit-os",
-      "status": "blocked",
+      "status": "ready",
       "maturity": {
         "declared": "stable",
         "source": "ecosystem.json"
@@ -1256,7 +1254,7 @@
           "category": "quickstart",
           "status": "pass",
           "severity": "info",
-          "summary": "Public quickstart and build-to-operate journey are defined; production dogfood migration still open.",
+          "summary": "Public quickstart and build-to-operate journey pass in production on desktop and mobile.",
           "owner": "AgentsKit-io/agentskit-os",
           "evidence": [
             "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
@@ -1265,50 +1263,49 @@
         {
           "id": "documentation",
           "category": "documentation",
-          "status": "blocked",
-          "severity": "p0",
-          "summary": "Ecosystem 11 site migration (local-first AgentsChat + journey) is still open on PR #5317.",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Ecosystem 11 Fumadocs, local-first AgentsChat, and build-to-operate journey are deployed.",
           "owner": "AgentsKit-io/agentskit-os",
           "evidence": [
-            "https://github.com/AgentsKit-io/agentskit-os/issues/5314"
-          ],
-          "remediation": "Merge AgentsKit-io/agentskit-os#5317 and close #5314 with production evidence."
+            "https://github.com/AgentsKit-io/agentskit-os/pull/5317",
+            "https://github.com/AgentsKit-io/agentskit-os/pull/5319"
+          ]
         },
         {
           "id": "seo",
           "category": "seo",
-          "status": "blocked",
-          "severity": "p1",
-          "summary": "SITE defaults to akos.agentskit.io; full SEO parity pending migration merge.",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Production canonicals, sitemap, robots, head metadata, and Lighthouse SEO reach 100.",
           "owner": "AgentsKit-io/agentskit-os",
           "evidence": [
-            "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
-          ],
-          "remediation": "Merge AgentsKit-io/agentskit-os#5317 and verify sitemap/robots/canonicals on production."
+            "https://github.com/AgentsKit-io/agentskit-os/pull/5320",
+            "https://akos.agentskit.io/sitemap.xml",
+            "https://akos.agentskit.io/robots.txt"
+          ]
         },
         {
           "id": "accessibility",
           "category": "accessibility",
-          "status": "blocked",
-          "severity": "p1",
-          "summary": "Migration PR adds chat E2E; full a11y certification pending merge.",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Production Lighthouse accessibility reaches 100; chat E2E covers desktop and mobile.",
           "owner": "AgentsKit-io/agentskit-os",
           "evidence": [
-            "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
-          ],
-          "remediation": "Complete Ecosystem 11 acceptance matrix after #5317 merges."
+            "https://github.com/AgentsKit-io/agentskit-os/pull/5319"
+          ]
         },
         {
           "id": "performance",
           "category": "performance",
-          "status": "blocked",
-          "severity": "p1",
-          "summary": "Web performance budgets pending post-migration Lighthouse evidence.",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Post-migration production Lighthouse performance reaches the approved 90 floor (91 measured).",
           "owner": "AgentsKit-io/agentskit-os",
           "evidence": [
-            "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
-          ],
-          "remediation": "Capture Lighthouse evidence after #5317 deploys."
+            "https://github.com/AgentsKit-io/agentskit-os/pull/5319"
+          ]
         },
         {
           "id": "links",
@@ -1324,14 +1321,14 @@
         {
           "id": "llms",
           "category": "llms",
-          "status": "blocked",
-          "severity": "p1",
-          "summary": "llms.txt route exists; llms-full and raw routes land with #5317.",
+          "status": "pass",
+          "severity": "info",
+          "summary": "llms.txt, llms-full.txt, and raw documentation routes return HTTP 200 in production.",
           "owner": "AgentsKit-io/agentskit-os",
           "evidence": [
-            "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
-          ],
-          "remediation": "Merge #5317 and verify /llms.txt and /llms-full.txt on akos.agentskit.io."
+            "https://akos.agentskit.io/llms.txt",
+            "https://akos.agentskit.io/llms-full.txt"
+          ]
         },
         {
           "id": "doc-bridge",
@@ -1347,27 +1344,26 @@
         {
           "id": "chat",
           "category": "chat",
-          "status": "blocked",
-          "severity": "p0",
-          "summary": "Production local-first AgentsChat composition is delivered in open PR #5317, not yet on main.",
+          "status": "pass",
+          "severity": "info",
+          "summary": "Published AgentsChat packages answer deterministic questions locally and clear failed backend fallback state truthfully.",
           "owner": "AgentsKit-io/agentskit-os",
           "evidence": [
             "https://github.com/AgentsKit-io/agentskit-os/issues/5314",
-            "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
-          ],
-          "remediation": "Merge and deploy AgentsKit-io/agentskit-os#5317 (Ecosystem 11)."
+            "https://github.com/AgentsKit-io/agentskit-os/pull/5319"
+          ]
         },
         {
           "id": "readme",
           "category": "readme",
-          "status": "blocked",
-          "severity": "p1",
-          "summary": "README Standard v1 root certification PR open.",
+          "status": "pass",
+          "severity": "info",
+          "summary": "AgentsKit OS README Standard v1 certification and release changeset are on main.",
           "owner": "AgentsKit-io/agentskit-os",
           "evidence": [
-            "https://github.com/AgentsKit-io/agentskit-os/pull/5318"
-          ],
-          "remediation": "Merge AgentsKit-io/agentskit-os#5318."
+            "https://github.com/AgentsKit-io/agentskit-os/pull/5318",
+            "https://github.com/AgentsKit-io/agentskit-os/pull/5319"
+          ]
         },
         {
           "id": "security",
@@ -1395,148 +1391,5 @@
       ]
     }
   ],
-  "findings": [
-    {
-      "productId": "akos",
-      "repo": "AgentsKit-io/agentskit-os",
-      "gateId": "chat",
-      "category": "chat",
-      "status": "blocked",
-      "severity": "p0",
-      "summary": "Production local-first AgentsChat composition is delivered in open PR #5317, not yet on main.",
-      "owner": "AgentsKit-io/agentskit-os",
-      "remediation": "Merge and deploy AgentsKit-io/agentskit-os#5317 (Ecosystem 11).",
-      "evidence": [
-        "https://github.com/AgentsKit-io/agentskit-os/issues/5314",
-        "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
-      ]
-    },
-    {
-      "productId": "akos",
-      "repo": "AgentsKit-io/agentskit-os",
-      "gateId": "documentation",
-      "category": "documentation",
-      "status": "blocked",
-      "severity": "p0",
-      "summary": "Ecosystem 11 site migration (local-first AgentsChat + journey) is still open on PR #5317.",
-      "owner": "AgentsKit-io/agentskit-os",
-      "remediation": "Merge AgentsKit-io/agentskit-os#5317 and close #5314 with production evidence.",
-      "evidence": [
-        "https://github.com/AgentsKit-io/agentskit-os/issues/5314"
-      ]
-    },
-    {
-      "productId": "agentskit",
-      "repo": "AgentsKit-io/agentskit",
-      "gateId": "readme",
-      "category": "readme",
-      "status": "blocked",
-      "severity": "p1",
-      "summary": "README Standard v1 root surface is on main; package/app rollout PR #1233 is still open.",
-      "owner": "AgentsKit-io/agentskit",
-      "remediation": "Merge AgentsKit-io/agentskit#1233 package/app README rollout, then re-audit.",
-      "evidence": [
-        "readme-standard-v1.json",
-        "scripts/check-readme-standard.mjs"
-      ]
-    },
-    {
-      "productId": "akos",
-      "repo": "AgentsKit-io/agentskit-os",
-      "gateId": "accessibility",
-      "category": "accessibility",
-      "status": "blocked",
-      "severity": "p1",
-      "summary": "Migration PR adds chat E2E; full a11y certification pending merge.",
-      "owner": "AgentsKit-io/agentskit-os",
-      "remediation": "Complete Ecosystem 11 acceptance matrix after #5317 merges.",
-      "evidence": [
-        "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
-      ]
-    },
-    {
-      "productId": "akos",
-      "repo": "AgentsKit-io/agentskit-os",
-      "gateId": "llms",
-      "category": "llms",
-      "status": "blocked",
-      "severity": "p1",
-      "summary": "llms.txt route exists; llms-full and raw routes land with #5317.",
-      "owner": "AgentsKit-io/agentskit-os",
-      "remediation": "Merge #5317 and verify /llms.txt and /llms-full.txt on akos.agentskit.io.",
-      "evidence": [
-        "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
-      ]
-    },
-    {
-      "productId": "akos",
-      "repo": "AgentsKit-io/agentskit-os",
-      "gateId": "performance",
-      "category": "performance",
-      "status": "blocked",
-      "severity": "p1",
-      "summary": "Web performance budgets pending post-migration Lighthouse evidence.",
-      "owner": "AgentsKit-io/agentskit-os",
-      "remediation": "Capture Lighthouse evidence after #5317 deploys.",
-      "evidence": [
-        "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
-      ]
-    },
-    {
-      "productId": "akos",
-      "repo": "AgentsKit-io/agentskit-os",
-      "gateId": "readme",
-      "category": "readme",
-      "status": "blocked",
-      "severity": "p1",
-      "summary": "README Standard v1 root certification PR open.",
-      "owner": "AgentsKit-io/agentskit-os",
-      "remediation": "Merge AgentsKit-io/agentskit-os#5318.",
-      "evidence": [
-        "https://github.com/AgentsKit-io/agentskit-os/pull/5318"
-      ]
-    },
-    {
-      "productId": "akos",
-      "repo": "AgentsKit-io/agentskit-os",
-      "gateId": "seo",
-      "category": "seo",
-      "status": "blocked",
-      "severity": "p1",
-      "summary": "SITE defaults to akos.agentskit.io; full SEO parity pending migration merge.",
-      "owner": "AgentsKit-io/agentskit-os",
-      "remediation": "Merge AgentsKit-io/agentskit-os#5317 and verify sitemap/robots/canonicals on production.",
-      "evidence": [
-        "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
-      ]
-    },
-    {
-      "productId": "code-review",
-      "repo": "AgentsKit-io/code-review-cli",
-      "gateId": "readme",
-      "category": "readme",
-      "status": "blocked",
-      "severity": "p1",
-      "summary": "README Standard v1 certification PR open.",
-      "owner": "AgentsKit-io/code-review-cli",
-      "remediation": "Merge AgentsKit-io/code-review-cli#6 and re-audit.",
-      "evidence": [
-        "https://github.com/AgentsKit-io/code-review-cli/pull/6"
-      ]
-    },
-    {
-      "productId": "registry",
-      "repo": "AgentsKit-io/agentskit-registry",
-      "gateId": "readme",
-      "category": "readme",
-      "status": "blocked",
-      "severity": "p1",
-      "summary": "README Standard v1 certification PR open for root README.",
-      "owner": "AgentsKit-io/agentskit-registry",
-      "remediation": "Merge AgentsKit-io/agentskit-registry#79 and re-run check:readme-standard on main.",
-      "evidence": [
-        "https://github.com/AgentsKit-io/agentskit-registry/pull/79"
-      ]
-    }
-  ]
+  "findings": []
 }

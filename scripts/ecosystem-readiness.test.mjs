@@ -285,8 +285,9 @@ test('repository inventory and evidence load and evaluate without network', () =
     evidenceByProductId,
     auditDate: '2026-07-14',
   })
-  assert.equal(report.overall, 'blocked')
-  assert.equal(report.promotionAllowed, false)
-  assert.ok(report.findings.some((finding) => finding.productId === 'akos' && finding.severity === 'p0'))
-  assert.ok(report.summary.p0 + report.summary.p1 > 0)
+  assert.equal(report.overall, 'ready')
+  assert.equal(report.promotionAllowed, true)
+  assert.deepEqual(report.findings, [])
+  assert.equal(report.summary.p0 + report.summary.p1, 0)
+  assert.ok(report.products.every((product) => product.status === 'ready'))
 })
