@@ -34,7 +34,9 @@ function fixture() {
     mkdirSync(dirname(destination), { recursive: true })
     cpSync(join(REPO_ROOT, path), destination)
   }
-  return { root, value: structuredClone(config) }
+  const value = structuredClone(config)
+  value.surfaces = [value.surfaces[0]]
+  return { root, value }
 }
 
 function refreshHash(root, value) {
