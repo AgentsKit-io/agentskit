@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "id": "sample-cli-version-flag",
+  "targetId": "fixture-sample-cli",
+  "title": "Add a --version flag to sample-cli",
+  "kind": "tests+docs+feature",
+  "status": "prepared",
+  "technicalRelationship": "Fixture target used to prove the workflow in CI.",
+  "userValue": "Users can confirm which binary they are running without reading package.json.",
+  "reproducedSetup": {
+    "commands": ["node --test"],
+    "cwd": "docs/ecosystem/external-contributions/fixtures/sample-cli",
+    "observed": "greet works; no version command exists"
+  },
+  "utilityWithoutPromo": {
+    "required": true,
+    "promoMarkers": ["AgentsKit", "agentskit.io", "AgentsKit OS", "Registry"],
+    "statement": "The --version flag and its test remain useful with all ecosystem mentions removed."
+  },
+  "files": [
+    "docs/ecosystem/external-contributions/fixtures/sample-cli/bin/sample-cli.js",
+    "docs/ecosystem/external-contributions/fixtures/sample-cli/tests/version.test.js",
+    "docs/ecosystem/external-contributions/fixtures/sample-cli/README.md"
+  ],
+  "tests": {
+    "command": ["node", "--test"],
+    "cwd": "docs/ecosystem/external-contributions/fixtures/sample-cli"
+  },
+  "targetVoice": "Match existing ESM + node:test style; short README usage note.",
+  "maintenanceOwner": null,
+  "outcome": {
+    "state": "pending",
+    "submittedAt": null,
+    "externalUrl": null,
+    "feedback": null
+  }
+}

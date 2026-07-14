@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "protocol": "agentskit.ecosystem.external-contributions",
+  "title": "Utility-first external contribution program",
+  "issue": "https://github.com/AgentsKit-io/agentskit/issues/1207",
+  "parentPrd": "https://github.com/AgentsKit-io/agentskit/issues/1198",
+  "policy": {
+    "requireTechnicalRelationship": true,
+    "requirePublishedContributionRules": true,
+    "requireUtilityWithoutPromo": true,
+    "requireHumanApprovalBeforeSubmit": true,
+    "forbidMassSubmission": true,
+    "requireMaintenanceOwnerOnAccept": true
+  },
+  "metrics": [
+    {
+      "id": "accepted-utility",
+      "description": "Contributions accepted that remain useful without promotional copy"
+    },
+    {
+      "id": "qualified-adoption",
+      "description": "Referrals or integrations that produce verified installs/usage, not raw impressions"
+    },
+    {
+      "id": "rejection-learning",
+      "description": "Rejected submissions that produced documented process improvements"
+    }
+  ],
+  "paths": {
+    "targets": "docs/ecosystem/external-contributions/targets",
+    "contributions": "docs/ecosystem/external-contributions/contributions",
+    "fixtures": "docs/ecosystem/external-contributions/fixtures"
+  }
+}

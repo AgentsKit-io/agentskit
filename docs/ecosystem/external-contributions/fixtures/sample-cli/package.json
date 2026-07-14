@@ -1,0 +1,13 @@
+{
+  "name": "sample-cli-fixture",
+  "private": true,
+  "type": "module",
+  "version": "0.0.0",
+  "description": "Fixture target for AgentsKit external contribution workflow tests.",
+  "scripts": {
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

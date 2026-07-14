@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "targets": [
+    {
+      "id": "fixture-sample-cli",
+      "name": "Sample CLI (fixture target)",
+      "kind": "fixture",
+      "relationship": "Local fixture used to prove the contribution workflow offline in CI.",
+      "technicalRelationship": true,
+      "promotionalOnly": false,
+      "contributionRulesUrl": "docs/ecosystem/external-contributions/fixtures/sample-cli/CONTRIBUTING.md",
+      "contributionRules": {
+        "sourceUrl": "docs/ecosystem/external-contributions/fixtures/sample-cli/CONTRIBUTING.md",
+        "reviewedOn": "2026-07-14",
+        "criteria": ["Run the fixture test suite", "Keep the CLI dependency-free", "Document user-visible commands"]
+      },
+      "repo": null,
+      "accepts": ["documentation", "tests", "examples"],
+      "priority": "proof"
+    },
+    {
+      "id": "ollama-openai-compat",
+      "name": "Ollama OpenAI-compatible HTTP API",
+      "kind": "provider",
+      "relationship": "AgentsKit adapters speak OpenAI-compatible chat completions; Ollama exposes that surface for local models.",
+      "technicalRelationship": true,
+      "promotionalOnly": false,
+      "contributionRulesUrl": "https://github.com/ollama/ollama/blob/main/CONTRIBUTING.md",
+      "contributionRules": {
+        "sourceUrl": "https://github.com/ollama/ollama/blob/main/CONTRIBUTING.md",
+        "reviewedOn": "2026-07-14",
+        "criteria": ["Discuss significant changes before submission", "Add tests for behavior changes", "Keep the contribution focused"]
+      },
+      "repo": "ollama/ollama",
+      "accepts": ["examples", "documentation"],
+      "priority": "draft-for-hitl",
+      "notes": "Contribution must be a standalone smoke example for /v1/chat/completions streaming. AgentsKit mention is optional and removable."
+    },
+    {
+      "id": "modelcontextprotocol-docs",
+      "name": "Model Context Protocol documentation",
+      "kind": "protocol",
+      "relationship": "@agentskit/mcp exposes tools over MCP; improving host-facing examples helps every MCP implementer.",
+      "technicalRelationship": true,
+      "promotionalOnly": false,
+      "contributionRulesUrl": "https://github.com/modelcontextprotocol/docs/blob/main/CONTRIBUTING.md",
+      "contributionRules": {
+        "sourceUrl": "https://github.com/modelcontextprotocol/docs/blob/main/CONTRIBUTING.md",
+        "reviewedOn": "2026-07-14",
+        "criteria": ["Follow the documented contribution workflow", "Keep examples technically reproducible", "Pass repository validation"]
+      },
+      "repo": "modelcontextprotocol/docs",
+      "accepts": ["documentation", "examples"],
+      "priority": "backlog"
+    },
+    {
+      "id": "awesome-ai-agents",
+      "name": "Awesome AI Agents (example list target)",
+      "kind": "list",
+      "relationship": "Weak — list entry alone is promotional.",
+      "technicalRelationship": false,
+      "promotionalOnly": true,
+      "contributionRulesUrl": "https://github.com/e2b-dev/awesome-ai-agents",
+      "repo": "e2b-dev/awesome-ai-agents",
+      "accepts": ["list-entry"],
+      "priority": "rejected-by-policy",
+      "notes": "Rejected by utility-first policy unless paired with a standalone technical contribution accepted elsewhere."
+    }
+  ]
+}
