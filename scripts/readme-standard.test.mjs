@@ -230,7 +230,12 @@ test('source drift and an overdue review both fail freshness', () => {
   assert.equal(driftReport.surfaces[0].rules.find(rule => rule.ruleId === 'freshness').status, 'fail')
 
   const overdue = fixture()
-  const overdueReport = auditReadmeStandard(overdue.value, { root: overdue.root, today: '2026-10-12' })
+  const due = new Date(`${overdue.value.surfaces[0].freshness.reviewDueOn}T00:00:00.000Z`)
+  due.setUTCDate(due.getUTCDate() + 1)
+  const overdueReport = auditReadmeStandard(overdue.value, {
+    root: overdue.root,
+    today: due.toISOString().slice(0, 10),
+  })
   assert.equal(overdueReport.surfaces[0].rules.find(rule => rule.ruleId === 'freshness').status, 'fail')
 })
 

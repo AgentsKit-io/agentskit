@@ -67,7 +67,12 @@ Implementation:
 - `@agentskit/chat-protocol` — runtime-validated Ask NDJSON boundary and
   ordered event projection.
 
-The adapter always adds `corpus=registry`. It migrates
+The browser preloads the Registry-owned, content-hashed deterministic artifact
+on the first hover, focus, or open of Ask Registry through a same-origin cached
+route. The chat mounts only after verification. Exact IDs, categories,
+capabilities, install commands, docs, and ecosystem links resolve locally with
+zero Ask calls. Only a validated miss reaches the fallback adapter, which always
+adds `corpus=registry`. It migrates
 `ak:ask-thread:registry` and `ak:ask-thread-v2:registry` into canonical
 `ak:ask-thread-v3:registry` records. Unknown tools and unsafe citation URLs are
 inert.

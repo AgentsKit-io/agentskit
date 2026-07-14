@@ -5,8 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "next dev --turbo",
+    "start": "next start",
     "build": "next build",
-    "test": "vitest run lib",
+    "test": "vitest run lib app/deterministic",
     "postinstall": "fumadocs-mdx",
     "lint": "tsc --noEmit"
   },
