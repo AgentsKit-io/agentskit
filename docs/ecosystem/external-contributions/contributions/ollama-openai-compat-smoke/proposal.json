@@ -1,0 +1,38 @@
+{
+  "schemaVersion": 1,
+  "id": "ollama-openai-compat-smoke",
+  "targetId": "ollama-openai-compat",
+  "title": "Add a standalone OpenAI-compat streaming smoke script for local Ollama",
+  "kind": "examples",
+  "status": "prepared",
+  "technicalRelationship": "Ollama exposes OpenAI-compatible chat completions; AgentsKit adapters consume the same surface for local models.",
+  "userValue": "Any Node developer can verify local OpenAI-compatible streaming against Ollama without installing an agent framework.",
+  "reproducedSetup": {
+    "commands": [
+      "curl -s http://127.0.0.1:11434/api/tags",
+      "curl -s http://127.0.0.1:11434/v1/models"
+    ],
+    "observed": "Documented against Ollama OpenAI-compat docs; runtime check is optional when Ollama is not installed in CI."
+  },
+  "utilityWithoutPromo": {
+    "required": true,
+    "promoMarkers": ["AgentsKit", "agentskit.io", "@agentskit", "AgentsKit OS", "Registry"],
+    "statement": "scripts/openai-compat-smoke.mjs only needs fetch + a local OpenAI-compatible server."
+  },
+  "files": [
+    "docs/ecosystem/external-contributions/contributions/ollama-openai-compat-smoke/files/openai-compat-smoke.mjs",
+    "docs/ecosystem/external-contributions/contributions/ollama-openai-compat-smoke/files/README.md"
+  ],
+  "tests": {
+    "command": ["node", "--test", "docs/ecosystem/external-contributions/contributions/ollama-openai-compat-smoke/files/openai-compat-smoke.test.mjs"],
+    "cwd": "."
+  },
+  "targetVoice": "Practical, short, no framework marketing. Optional ecosystem note lives in a clearly marked section that can be deleted.",
+  "maintenanceOwner": null,
+  "outcome": {
+    "state": "pending",
+    "submittedAt": null,
+    "externalUrl": null,
+    "feedback": null
+  }
+}

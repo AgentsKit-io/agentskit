@@ -42,7 +42,9 @@
     "test:launch-package": "vitest run scripts/launch-package.test.mjs",
     "check:ecosystem-readiness": "node scripts/check-ecosystem-readiness.mjs",
     "report:ecosystem-readiness": "node scripts/report-ecosystem-readiness.mjs",
-    "test:ecosystem-readiness": "vitest run scripts/ecosystem-readiness.test.mjs"
+    "test:ecosystem-readiness": "vitest run scripts/ecosystem-readiness.test.mjs",
+    "check:external-contributions": "node scripts/check-external-contributions.mjs",
+    "test:external-contributions": "vitest run scripts/external-contributions.test.mjs"
   },
   "pnpm": {
     "onlyBuiltDependencies": [
