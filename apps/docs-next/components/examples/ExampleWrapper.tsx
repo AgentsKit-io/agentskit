@@ -1,5 +1,13 @@
 'use client'
 
+/**
+ * Low-level binding example shell (educational).
+ *
+ * Classified under `scripts/lib/product-chat-adoption.mjs` as a low-level
+ * binding demo — not a product-chat host. Prefer `@agentskit/react` (etc.)
+ * here; product Ask widgets live under `components/docs` / Registry and pin
+ * exact `@agentskit/chat@0.3.0`.
+ */
 import React, { useState, type ReactNode } from 'react'
 
 interface ExampleWrapperProps {
@@ -14,6 +22,7 @@ export function ExampleWrapper({ children, title, description, source }: Example
 
   return (
     <div
+      data-ak-example-class="low-level-binding"
       style={{
         border: '1px solid var(--color-ak-border)',
         borderRadius: '12px',
