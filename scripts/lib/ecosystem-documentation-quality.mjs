@@ -449,8 +449,10 @@ export function evaluateDocumentationQuality(profileInput, evidenceInput, { root
       try { head = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim() } catch {}
       if (evidence.attestation.sourceMode === 'commit') {
         let status = ''
-        try { status = execFileSync('git', ['status', '--porcelain'], { cwd: root, encoding: 'utf8' }).trim() } catch { status = 'unavailable' }
-        if (status) add('attestation-dirty', 'sourceMode commit requires a clean working tree')
+        try {
+          status = execFileSync('git', ['status', '--porcelain', '--', ...documentationEvidencePaths(evidence)], { cwd: root, encoding: 'utf8' }).trim()
+        } catch { status = 'unavailable' }
+        if (status) add('attestation-dirty', 'sourceMode commit requires clean certified documentation paths')
         let commitExists = false
         try {
           execFileSync('git', ['cat-file', '-e', `${evidence.commit}^{commit}`], { cwd: root, stdio: 'ignore' })
