@@ -4,7 +4,7 @@
   "profileVersion": 1,
   "productId": "playbook",
   "repo": "AgentsKit-io/agents-playbook",
-  "commit": "566d599f75ac8d6ee96128ada1e16aa735d9e99c",
+  "commit": "dc552ae1c381b0c1ea6e9a7936b1df0cb0052147",
   "auditedOn": "2026-07-15",
   "docBridge": {
     "artifact": "docs/evidence/ecosystem-documentation-quality/doc-bridge/playbook.json",
@@ -12,7 +12,7 @@
     "coverage": { "agent": { "ready": 131, "total": 131 }, "human": { "ready": 131, "total": 131 } },
     "conformance": { "requiredPassed": 7, "requiredTotal": 7, "requiredExcepted": 0, "recommendedPassed": 2, "recommendedTotal": 2, "recommendedExcepted": 0 }
   },
-  "attestation": { "sourceMode": "working-tree", "contentDigest": "sha256:3cfb56819d7db4f6b3d8bf3786f7012f61a4b889c4e00dbeb54051d3c7f768f6" },
+  "attestation": { "sourceMode": "commit", "contentDigest": "sha256:3cfb56819d7db4f6b3d8bf3786f7012f61a4b889c4e00dbeb54051d3c7f768f6" },
   "machineSurfaces": {
     "llmsTxt": "app/llms.txt/route.ts",
     "llmsFullTxt": "app/llms-full.txt/route.ts",

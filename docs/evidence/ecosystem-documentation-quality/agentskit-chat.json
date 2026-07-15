@@ -4,7 +4,7 @@
   "profileVersion": 1,
   "productId": "agentskit-chat",
   "repo": "AgentsKit-io/agentskit-chat",
-  "commit": "35ad87892fecff35f359f95024ea11bc3d6bb834",
+  "commit": "48bcfac9a548b005b0e4200ce4cd91751b3f5529",
   "auditedOn": "2026-07-15",
   "docBridge": {
     "artifact": "docs/evidence/ecosystem-documentation-quality/doc-bridge/agentskit-chat.json",
@@ -12,7 +12,7 @@
     "coverage": { "agent": { "ready": 28, "total": 28 }, "human": { "ready": 28, "total": 28 } },
     "conformance": { "requiredPassed": 7, "requiredTotal": 7, "requiredExcepted": 0, "recommendedPassed": 2, "recommendedTotal": 2, "recommendedExcepted": 0 }
   },
-  "attestation": { "sourceMode": "working-tree", "contentDigest": "sha256:a70c2c90e678e9022f00aa0b062d8ede5a73ba243d9447acd10637f8d39c448d" },
+  "attestation": { "sourceMode": "commit", "contentDigest": "sha256:a70c2c90e678e9022f00aa0b062d8ede5a73ba243d9447acd10637f8d39c448d" },
   "machineSurfaces": {
     "llmsTxt": "apps/docs/app/llms.txt/route.ts",
     "llmsFullTxt": "apps/docs/app/llms-full.txt/route.ts",

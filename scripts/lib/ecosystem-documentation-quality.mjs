@@ -447,11 +447,34 @@ export function evaluateDocumentationQuality(profileInput, evidenceInput, { root
     if (root) {
       let head = ''
       try { head = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim() } catch {}
-      if (head !== evidence.commit) add('attestation-commit', `repository HEAD is ${head || 'unavailable'}, expected base commit ${evidence.commit}`)
       if (evidence.attestation.sourceMode === 'commit') {
         let status = ''
         try { status = execFileSync('git', ['status', '--porcelain'], { cwd: root, encoding: 'utf8' }).trim() } catch { status = 'unavailable' }
         if (status) add('attestation-dirty', 'sourceMode commit requires a clean working tree')
+        let commitExists = false
+        try {
+          execFileSync('git', ['cat-file', '-e', `${evidence.commit}^{commit}`], { cwd: root, stdio: 'ignore' })
+          commitExists = true
+        } catch {}
+        if (!commitExists) {
+          add('attestation-commit', `declared content commit ${evidence.commit} is unavailable`)
+        } else {
+          let isAncestor = false
+          try {
+            execFileSync('git', ['merge-base', '--is-ancestor', evidence.commit, 'HEAD'], { cwd: root, stdio: 'ignore' })
+            isAncestor = true
+          } catch {}
+          if (!isAncestor) add('attestation-commit', `declared content commit ${evidence.commit} is not an ancestor of repository HEAD ${head || 'unavailable'}`)
+
+          let evidenceChanged = true
+          try {
+            execFileSync('git', ['diff', '--quiet', evidence.commit, 'HEAD', '--', ...documentationEvidencePaths(evidence)], { cwd: root, stdio: 'ignore' })
+            evidenceChanged = false
+          } catch {}
+          if (evidenceChanged) add('attestation-commit-drift', `certified documentation paths changed after ${evidence.commit}`)
+        }
+      } else if (head !== evidence.commit) {
+        add('attestation-commit', `repository HEAD is ${head || 'unavailable'}, expected working-tree base commit ${evidence.commit}`)
       }
       const measuredDigest = computeDocumentationEvidenceDigest(root, evidence)
       if (measuredDigest !== evidence.attestation.contentDigest) add('attestation-digest', `content digest is ${measuredDigest}, expected ${evidence.attestation.contentDigest}`)

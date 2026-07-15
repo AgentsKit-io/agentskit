@@ -4,7 +4,7 @@
   "profileVersion": 1,
   "productId": "code-review",
   "repo": "AgentsKit-io/code-review-cli",
-  "commit": "d580c32cbc08134a0841c7c2d9190f8f60830e94",
+  "commit": "28a5fa86dfc89ed8112480bde812c4e4be4b137f",
   "auditedOn": "2026-07-15",
   "docBridge": {
     "artifact": "docs/evidence/ecosystem-documentation-quality/doc-bridge/code-review.json",
@@ -12,7 +12,7 @@
     "coverage": { "agent": { "ready": 1, "total": 1 }, "human": { "ready": 1, "total": 1 } },
     "conformance": { "requiredPassed": 7, "requiredTotal": 7, "requiredExcepted": 0, "recommendedPassed": 2, "recommendedTotal": 2, "recommendedExcepted": 0 }
   },
-  "attestation": { "sourceMode": "working-tree", "contentDigest": "sha256:5b20db1f3f771c13d475bf43d9c91ffb656f1ff39404a31560a929061d327fac" },
+  "attestation": { "sourceMode": "commit", "contentDigest": "sha256:5b20db1f3f771c13d475bf43d9c91ffb656f1ff39404a31560a929061d327fac" },
   "machineSurfaces": {
     "llmsTxt": "llms.txt",
     "llmsFullTxt": "llms-full.txt",
