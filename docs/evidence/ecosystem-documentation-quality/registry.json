@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "profileId": "agentskit.ecosystem.documentation-quality",
+  "profileVersion": 1,
+  "productId": "registry",
+  "repo": "AgentsKit-io/agentskit-registry",
+  "commit": "85e5d399771fda091542bae79e56388db52ef27e",
+  "auditedOn": "2026-07-15",
+  "docBridge": {
+    "artifact": "docs/evidence/ecosystem-documentation-quality/doc-bridge/registry.json",
+    "doctorScore": 100,
+    "coverage": { "agent": { "ready": 25, "total": 25 }, "human": { "ready": 25, "total": 25 } },
+    "conformance": { "requiredPassed": 7, "requiredTotal": 7, "requiredExcepted": 0, "recommendedPassed": 2, "recommendedTotal": 2, "recommendedExcepted": 0 }
+  },
+  "attestation": { "sourceMode": "working-tree", "contentDigest": "sha256:5f4d8b92b2c64c54483c2550e7816f306c2db4a932adb7459419ff52ce6942d1" },
+  "machineSurfaces": {
+    "llmsTxt": "apps/registry/app/llms.txt/route.ts",
+    "llmsFullTxt": "apps/registry/app/llms-full.txt/route.ts",
+    "rawSources": ["apps/registry/README.md", "apps/registry/content/docs/index.mdx", "apps/registry/content/docs/for-agents.mdx"],
+    "forAgents": "apps/registry/content/docs/for-agents.mdx"
+  },
+  "narrative": {
+    "readme": "apps/registry/README.md",
+    "readmeWordCount": 643,
+    "humanDocs": "apps/registry/content/docs/index.mdx",
+    "forAgents": "apps/registry/content/docs/for-agents.mdx",
+    "keyJourneys": [
+      { "id": "registry-discovery", "path": "apps/registry/content/docs/discovery.mdx", "wordCount": 228, "visualDecision": "diagram", "evidence": ["apps/registry/content/docs/discovery.mdx#discovery-flow"] },
+      { "id": "registry-using", "path": "apps/registry/content/docs/using.mdx", "wordCount": 222, "visualDecision": "runnable-example", "evidence": ["apps/registry/lib/catalog.test.ts"] },
+      { "id": "registry-validation", "path": "apps/registry/content/docs/validation.mdx", "wordCount": 281, "visualDecision": "runnable-example", "evidence": ["apps/registry/lib/validation.test.ts"] }
+    ]
+  },
+  "discovery": {
+    "globalProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"],
+    "siblingProductIds": ["agentskit", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"],
+    "contextualHooks": [
+      { "id": "documentation", "status": "linked", "targetProductId": "doc-bridge", "evidence": ["apps/registry/content/docs/for-agents.mdx"] },
+      { "id": "chat", "status": "linked", "targetProductId": "agentskit-chat", "evidence": ["apps/registry/content/docs/for-agents.mdx"] },
+      { "id": "enterprise", "status": "linked", "targetProductId": "akos", "evidence": ["apps/registry/content/docs/for-agents.mdx"] }
+    ]
+  }
+}

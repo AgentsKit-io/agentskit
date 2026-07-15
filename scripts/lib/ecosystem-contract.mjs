@@ -3,6 +3,7 @@ const DOCUMENTATION_MODES = new Set(['fumadocs', 'repository'])
 const CHAT_MODES = new Set(['agentschat', 'custom', 'none'])
 const SURFACE_KEYS = ['home', 'docs', 'llms', 'stats']
 const LEGACY_PRODUCT_IDS = ['agentskit', 'akos', 'playbook', 'registry']
+const CANONICAL_PRODUCT_IDS = ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge', 'code-review', 'akos']
 
 function fail(path, message) {
   throw new TypeError(`ecosystem contract: ${path} ${message}`)
@@ -104,6 +105,23 @@ export function parseEcosystemManifest(input) {
   for (const [index, product] of manifest.products.entries()) {
     for (const [nextIndex, nextId] of product.navigation.next.entries()) {
       if (!ids.has(nextId)) fail(`$.products[${index}].navigation.next[${nextIndex}]`, `references unknown product ${nextId}`)
+    }
+  }
+
+  if (JSON.stringify([...ids]) !== JSON.stringify(CANONICAL_PRODUCT_IDS)) {
+    fail('$.products', `must contain the canonical products in order: ${CANONICAL_PRODUCT_IDS.join(', ')}`)
+  }
+  for (const [index, product] of manifest.products.entries()) {
+    if (!product.navigation.showInBar) fail(`$.products[${index}].navigation.showInBar`, 'must be true for global seven-product discovery')
+    if (product.navigation.order !== index) fail(`$.products[${index}].navigation.order`, `must equal ${index}`)
+    const expectedPeers = product.id === 'akos'
+      ? []
+      : CANONICAL_PRODUCT_IDS.filter((id) => id !== product.id).sort()
+    const actualPeers = [...product.navigation.next].sort()
+    if (JSON.stringify(actualPeers) !== JSON.stringify(expectedPeers)) {
+      fail(`$.products[${index}].navigation.next`, product.id === 'akos'
+        ? 'must be empty because AKOS is excluded from the continuation component'
+        : 'must contain every other canonical product exactly once')
     }
   }
 

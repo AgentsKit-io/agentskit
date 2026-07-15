@@ -1,0 +1,74 @@
+{
+  "schemaVersion": 1,
+  "id": "agentskit.ecosystem.documentation-quality",
+  "version": 1,
+  "status": "stable",
+  "productIds": [
+    "agentskit",
+    "registry",
+    "agentskit-chat",
+    "playbook",
+    "doc-bridge",
+    "code-review",
+    "akos"
+  ],
+  "docBridge": {
+    "doctorScore": 100,
+    "requireExactCoverage": true,
+    "requiredRules": 7,
+    "recommendedRules": 2,
+    "allowExceptions": false
+  },
+  "machineSurfaces": [
+    "llmsTxt",
+    "llmsFullTxt",
+    "rawSources",
+    "forAgents"
+  ],
+  "narrative": {
+    "requiredEntryPoints": [
+      "readme",
+      "humanDocs",
+      "forAgents"
+    ],
+    "readmeWordBudget": {
+      "minimum": 250,
+      "maximum": 1800
+    },
+    "keyJourneyWordBudget": {
+      "minimum": 200,
+      "maximum": 1200
+    },
+    "minimumKeyJourneys": 3
+  },
+  "visuals": {
+    "allowedDecisions": [
+      "diagram",
+      "interactive",
+      "animation",
+      "runnable-example",
+      "not-applicable"
+    ],
+    "notApplicableRequiresRationale": true
+  },
+  "discovery": {
+    "globalProductCount": 7,
+    "siblingDestinationCount": 6,
+    "ecosystemComponentProducts": [
+      "agentskit",
+      "registry",
+      "agentskit-chat",
+      "playbook",
+      "doc-bridge",
+      "code-review"
+    ],
+    "ecosystemComponentExcludedProducts": [
+      "akos"
+    ],
+    "contextualHooks": {
+      "documentation": "doc-bridge",
+      "chat": "agentskit-chat",
+      "enterprise": "akos"
+    }
+  }
+}

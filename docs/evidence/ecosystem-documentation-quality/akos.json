@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "profileId": "agentskit.ecosystem.documentation-quality",
+  "profileVersion": 1,
+  "productId": "akos",
+  "repo": "AgentsKit-io/agentskit-os",
+  "commit": "93ba65ca13186e72ee04cc61b10b169bb806d0ba",
+  "auditedOn": "2026-07-15",
+  "docBridge": {
+    "artifact": "docs/evidence/ecosystem-documentation-quality/doc-bridge/akos.json",
+    "doctorScore": 100,
+    "coverage": { "agent": { "ready": 163, "total": 163 }, "human": { "ready": 163, "total": 163 } },
+    "conformance": { "requiredPassed": 7, "requiredTotal": 7, "requiredExcepted": 0, "recommendedPassed": 2, "recommendedTotal": 2, "recommendedExcepted": 0 }
+  },
+  "attestation": { "sourceMode": "working-tree", "contentDigest": "sha256:7b06df0aab1a17a0967797639feeb7557b3ea8b6f6ef1b3aa24ed839b2f13cc2" },
+  "machineSurfaces": {
+    "llmsTxt": "apps/web/app/llms.txt/route.ts",
+    "llmsFullTxt": "apps/web/app/llms-full.txt/route.ts",
+    "rawSources": ["README.md", "apps/web/content/docs/index.mdx", "docs/for-agents/INDEX.md"],
+    "forAgents": "apps/web/app/for-agents/page.tsx"
+  },
+  "narrative": {
+    "readme": "README.md",
+    "readmeWordCount": 1051,
+    "humanDocs": "apps/web/content/docs/index.mdx",
+    "forAgents": "docs/for-agents/INDEX.md",
+    "keyJourneys": [
+      { "id": "build-to-operate", "path": "apps/web/content/docs/getting-started/build-to-operate.mdx", "wordCount": 281, "visualDecision": "runnable-example", "evidence": ["apps/web/content/docs/getting-started/build-to-operate.mdx", "apps/web/tests/e2e/akos-chat.spec.ts"] },
+      { "id": "architecture-layers", "path": "docs/architecture/layers.md", "wordCount": 325, "visualDecision": "diagram", "evidence": ["docs/architecture/layers.md"] },
+      { "id": "marketplace-operation", "path": "apps/web/content/docs/using-the-app/templates-and-marketplace.mdx", "wordCount": 608, "visualDecision": "interactive", "evidence": ["apps/web/content/docs/using-the-app/templates-and-marketplace.mdx", "tests/e2e-playwright/specs/web-integrations-functional.spec.ts"] }
+    ]
+  },
+  "discovery": {
+    "globalProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"],
+    "siblingProductIds": [],
+    "contextualHooks": [
+      { "id": "documentation", "status": "linked", "targetProductId": "doc-bridge", "evidence": ["README.md", "apps/web/content/docs/index.mdx"] },
+      { "id": "chat", "status": "linked", "targetProductId": "agentskit-chat", "evidence": ["README.md", "apps/web/content/docs/getting-started/build-to-operate.mdx"] },
+      { "id": "enterprise", "status": "linked", "targetProductId": "akos", "evidence": ["README.md", "apps/web/app/for-agents/page.tsx"] }
+    ]
+  }
+}

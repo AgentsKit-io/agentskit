@@ -54,7 +54,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
       />
 
       <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-ak-graphite">
-        <Link href="/#agents" className="hover:text-ak-blue">Agents</Link>
+        <Link href="/agents" className="hover:text-ak-blue">Agents</Link>
         <span aria-hidden="true">/</span>
         <span aria-current="page" className="text-ak-foam">{label}</span>
       </nav>
@@ -83,7 +83,7 @@ export default async function CategoryPage({ params }: { params: Promise<{ categ
       <section aria-labelledby="category-agents" className="mt-9">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <h2 id="category-agents" className="text-xl font-semibold text-ak-foam">All {label} agents</h2>
-          <Link href={`/?category=${encodeURIComponent(category)}#agents`} className="text-sm text-ak-blue hover:underline">
+          <Link href={`/agents?category=${encodeURIComponent(category)}#agents`} className="text-sm text-ak-blue hover:underline">
             Filter in catalog
           </Link>
         </div>

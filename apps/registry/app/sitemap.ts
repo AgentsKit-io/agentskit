@@ -9,6 +9,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const agents = await getRegistryIndex()
   return [
     { url: SITE, changeFrequency: 'daily', priority: 1 },
+    { url: `${SITE}/agents`, changeFrequency: 'daily', priority: 0.95 },
     ...source.getPages().map((page) => ({
       url: `${SITE}${page.url}`,
       changeFrequency: 'monthly' as const,

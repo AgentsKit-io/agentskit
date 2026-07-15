@@ -51,7 +51,7 @@
       "navigation": {
         "showInBar": true,
         "order": 1,
-        "next": ["agentskit", "playbook", "agentskit-chat"]
+        "next": ["agentskit", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"]
       }
     },
     {
@@ -65,15 +65,16 @@
       "repo": "AgentsKit-io/agentskit-chat",
       "accent": "#F59E0B",
       "surfaces": {
-        "home": "https://github.com/AgentsKit-io/agentskit-chat",
-        "docs": "https://github.com/AgentsKit-io/agentskit-chat/tree/main/docs",
-        "documentation": "repository",
-        "chat": "none"
+        "home": "https://chat.agentskit.io",
+        "docs": "https://chat.agentskit.io/docs",
+        "llms": "https://chat.agentskit.io/llms.txt",
+        "documentation": "fumadocs",
+        "chat": "agentschat"
       },
       "navigation": {
         "showInBar": true,
         "order": 2,
-        "next": ["agentskit", "registry", "doc-bridge"]
+        "next": ["agentskit", "registry", "playbook", "doc-bridge", "code-review", "akos"]
       }
     },
     {
@@ -97,7 +98,7 @@
       "navigation": {
         "showInBar": true,
         "order": 3,
-        "next": ["doc-bridge", "code-review", "agentskit"]
+        "next": ["agentskit", "registry", "agentskit-chat", "doc-bridge", "code-review", "akos"]
       }
     },
     {
@@ -111,15 +112,16 @@
       "repo": "AgentsKit-io/doc-bridge",
       "accent": "#06B6D4",
       "surfaces": {
-        "home": "https://github.com/AgentsKit-io/doc-bridge",
-        "docs": "https://github.com/AgentsKit-io/doc-bridge/tree/master/docs",
-        "documentation": "repository",
+        "home": "https://agentskit-io.github.io/doc-bridge/",
+        "docs": "https://agentskit-io.github.io/doc-bridge/",
+        "llms": "https://agentskit-io.github.io/doc-bridge/llms.txt",
+        "documentation": "fumadocs",
         "chat": "none"
       },
       "navigation": {
         "showInBar": true,
         "order": 4,
-        "next": ["playbook", "code-review", "agentskit-chat"]
+        "next": ["agentskit", "registry", "agentskit-chat", "playbook", "code-review", "akos"]
       }
     },
     {
@@ -135,12 +137,14 @@
       "surfaces": {
         "home": "https://github.com/AgentsKit-io/code-review-cli",
         "docs": "https://github.com/AgentsKit-io/code-review-cli#readme",
+        "llms": "https://raw.githubusercontent.com/AgentsKit-io/code-review-cli/main/llms.txt",
         "documentation": "repository",
         "chat": "none"
       },
       "navigation": {
-        "showInBar": false,
-        "next": ["playbook", "agentskit", "doc-bridge"]
+        "showInBar": true,
+        "order": 5,
+        "next": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "akos"]
       }
     },
     {
@@ -163,8 +167,8 @@
       },
       "navigation": {
         "showInBar": true,
-        "order": 5,
-        "next": ["agentskit", "registry", "playbook"]
+        "order": 6,
+        "next": []
       }
     }
   ],

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "profileId": "agentskit.ecosystem.documentation-quality",
+  "profileVersion": 1,
+  "productId": "playbook",
+  "repo": "AgentsKit-io/agents-playbook",
+  "commit": "566d599f75ac8d6ee96128ada1e16aa735d9e99c",
+  "auditedOn": "2026-07-15",
+  "docBridge": {
+    "artifact": "docs/evidence/ecosystem-documentation-quality/doc-bridge/playbook.json",
+    "doctorScore": 100,
+    "coverage": { "agent": { "ready": 131, "total": 131 }, "human": { "ready": 131, "total": 131 } },
+    "conformance": { "requiredPassed": 7, "requiredTotal": 7, "requiredExcepted": 0, "recommendedPassed": 2, "recommendedTotal": 2, "recommendedExcepted": 0 }
+  },
+  "attestation": { "sourceMode": "working-tree", "contentDigest": "sha256:3cfb56819d7db4f6b3d8bf3786f7012f61a4b889c4e00dbeb54051d3c7f768f6" },
+  "machineSurfaces": {
+    "llmsTxt": "app/llms.txt/route.ts",
+    "llmsFullTxt": "app/llms-full.txt/route.ts",
+    "rawSources": ["app/raw/[...path]/route.ts", "content/docs/index.mdx", "content/docs/for-agents.mdx"],
+    "forAgents": "app/for-agents/page.tsx"
+  },
+  "narrative": {
+    "readme": "README.md",
+    "readmeWordCount": 587,
+    "humanDocs": "content/docs/index.mdx",
+    "forAgents": "content/docs/for-agents.mdx",
+    "keyJourneys": [
+      { "id": "local-first-discovery", "path": "content/docs/discovery.mdx", "wordCount": 347, "visualDecision": "diagram", "evidence": ["content/docs/discovery.mdx#local-first-pattern-discovery"] },
+      { "id": "adopt-playbook", "path": "content/docs/getting-started.mdx", "wordCount": 293, "visualDecision": "runnable-example", "evidence": ["scripts/onboarding-proof.test.mjs", "content/docs/scripts/check-no-any.example.mjs"] },
+      { "id": "agent-retrieval", "path": "content/docs/for-agents.mdx", "wordCount": 203, "visualDecision": "diagram", "evidence": ["content/docs/for-agents.mdx#for-agents"] }
+    ]
+  },
+  "discovery": {
+    "globalProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"],
+    "siblingProductIds": ["agentskit", "registry", "agentskit-chat", "doc-bridge", "code-review", "akos"],
+    "contextualHooks": [
+      { "id": "documentation", "status": "linked", "targetProductId": "doc-bridge", "evidence": ["components/docs-ecosystem-handoff.tsx", "content/docs/for-agents.mdx#ecosystem-routing"] },
+      { "id": "chat", "status": "linked", "targetProductId": "agentskit-chat", "evidence": ["components/docs-ecosystem-handoff.tsx", "content/docs/for-agents.mdx#ecosystem-routing"] },
+      { "id": "enterprise", "status": "linked", "targetProductId": "akos", "evidence": ["components/docs-ecosystem-handoff.tsx", "content/docs/for-agents.mdx#ecosystem-routing"] }
+    ]
+  }
+}

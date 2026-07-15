@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import type { RegistryAgentSummary } from './registry'
-import { comparisonControlLabel, filterAndSortAgents, mergeComparisonSummary, parseCompareIds, toggleCompareId } from './catalog'
+import { catalogUrl, comparisonControlLabel, filterAndSortAgents, mergeComparisonSummary, parseCompareIds, toggleCompareId } from './catalog'
 
 const agents: RegistryAgentSummary[] = [
   {
@@ -90,5 +90,13 @@ describe('comparison selection', () => {
     const realEstate = { ...agents[0], id: 'realestate-drafter', title: 'Offer Letter Drafter', category: 'realestate' }
     expect(comparisonControlLabel(hr, 'HR')).toBe('Compare Offer Letter Drafter (HR)')
     expect(comparisonControlLabel(realEstate, 'Real Estate')).toBe('Compare Offer Letter Drafter (Real Estate)')
+  })
+})
+
+describe('catalogUrl', () => {
+  it('keeps catalog state on the canonical route without an empty query', () => {
+    expect(catalogUrl('/agents', new URLSearchParams())).toBe('/agents#agents')
+    expect(catalogUrl('/agents', new URLSearchParams({ q: 'support', reviewed: '1' })))
+      .toBe('/agents?q=support&reviewed=1#agents')
   })
 })

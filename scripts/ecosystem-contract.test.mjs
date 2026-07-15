@@ -31,7 +31,15 @@ test('repository-native products do not need a Fumadocs or chat deployment', () 
   const parsed = parseEcosystemManifest(manifest)
   const codeReview = parsed.products.find((product) => product.id === 'code-review')
   assert.equal(codeReview.surfaces.documentation, 'repository')
-  assert.equal(codeReview.navigation.showInBar, false)
+  assert.equal(codeReview.navigation.showInBar, true)
+})
+
+test('global navigation lists seven products and every continuation except AKOS lists six peers', () => {
+  const parsed = parseEcosystemManifest(manifest)
+  assert.deepEqual(parsed.products.map((product) => product.navigation.order), [0, 1, 2, 3, 4, 5, 6])
+  assert.ok(parsed.products.every((product) => product.navigation.showInBar))
+  assert.ok(parsed.products.filter((product) => product.id !== 'akos').every((product) => product.navigation.next.length === 6))
+  assert.deepEqual(parsed.products.find((product) => product.id === 'akos').navigation.next, [])
 })
 
 test('the v1 compatibility projection remains aligned with v2 products', () => {
@@ -58,6 +66,13 @@ test('unknown cross-product navigation targets are rejected', () => {
   assert.throws(
     () => parseEcosystemManifest(changed((copy) => { copy.products[0].navigation.next.push('missing') })),
     /references unknown product missing/,
+  )
+})
+
+test('missing sibling destinations are rejected', () => {
+  assert.throws(
+    () => parseEcosystemManifest(changed((copy) => { copy.products[1].navigation.next.pop() })),
+    /must contain every other canonical product exactly once/,
   )
 })
 

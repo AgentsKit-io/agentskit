@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "profileId": "agentskit.ecosystem.documentation-quality",
+  "profileVersion": 1,
+  "productId": "doc-bridge",
+  "repo": "AgentsKit-io/doc-bridge",
+  "commit": "e210abd389f76dfb0a25cca61e90588a88119265",
+  "auditedOn": "2026-07-15",
+  "docBridge": {
+    "artifact": "docs/evidence/ecosystem-documentation-quality/doc-bridge/doc-bridge.json",
+    "doctorScore": 100,
+    "coverage": { "agent": { "ready": 10, "total": 10 }, "human": { "ready": 10, "total": 10 } },
+    "conformance": { "requiredPassed": 7, "requiredTotal": 7, "requiredExcepted": 0, "recommendedPassed": 2, "recommendedTotal": 2, "recommendedExcepted": 0 }
+  },
+  "attestation": { "sourceMode": "working-tree", "contentDigest": "sha256:dda1340df9b836e0c883a09f9ca46558ce372ce9dc63a12b3a8e1768bafdf3c4" },
+  "machineSurfaces": {
+    "llmsTxt": "apps/docs/public/llms.txt",
+    "llmsFullTxt": "apps/docs/public/llms-full.txt",
+    "rawSources": ["apps/docs/public/raw/getting-started.md", "apps/docs/public/raw/for-agents.md", "apps/docs/public/raw/MARKETPLACE.md"],
+    "forAgents": "docs/for-agents.md"
+  },
+  "narrative": {
+    "readme": "README.md",
+    "readmeWordCount": 1028,
+    "humanDocs": "docs/index.md",
+    "forAgents": "docs/for-agents.md",
+    "keyJourneys": [
+      { "id": "getting-started", "path": "docs/getting-started.md", "wordCount": 327, "visualDecision": "runnable-example", "evidence": ["docs/getting-started.md", "tests/demo-mcp.test.ts"] },
+      { "id": "documentation-standard", "path": "docs/spec/documentation-standard-v1.md", "wordCount": 369, "visualDecision": "diagram", "evidence": ["docs/spec/documentation-standard-v1.md"] },
+      { "id": "chat-and-rag", "path": "docs/chat-and-rag.md", "wordCount": 316, "visualDecision": "diagram", "evidence": ["docs/chat-and-rag.md"] }
+    ]
+  },
+  "discovery": {
+    "globalProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"],
+    "siblingProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "code-review", "akos"],
+    "contextualHooks": [
+      { "id": "documentation", "status": "linked", "targetProductId": "doc-bridge", "evidence": ["README.md", "docs/index.md"] },
+      { "id": "chat", "status": "linked", "targetProductId": "agentskit-chat", "evidence": ["README.md", "docs/for-agents.md"] },
+      { "id": "enterprise", "status": "linked", "targetProductId": "akos", "evidence": ["README.md", "apps/docs/ecosystem-presentation-overrides.json"] }
+    ]
+  }
+}
