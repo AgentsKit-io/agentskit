@@ -240,9 +240,10 @@ test('verified local content digest and Doc Bridge artifact are required for cer
     attestationRoot: REPO_ROOT,
     verifyAttestation: true,
   })
-  assert.equal(certified.certified, true)
-  assert.equal(certified.attestationVerified, true)
-  assert.equal(certified.docBridgeLiveVerified, true)
+  const certificationDiagnostics = JSON.stringify(certified.findings)
+  assert.equal(certified.certified, true, certificationDiagnostics)
+  assert.equal(certified.attestationVerified, true, certificationDiagnostics)
+  assert.equal(certified.docBridgeLiveVerified, true, certificationDiagnostics)
 
   const tampered = structuredClone(committed)
   tampered.attestation.contentDigest = `sha256:${'f'.repeat(64)}`
