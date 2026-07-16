@@ -1,9 +1,11 @@
 ---
 title: Quick start
-description: Build a working AI chat in under 10 lines.
+description: Headless useChat binding hello-world in under 10 lines.
 ---
 
-This page is the fastest hello-world. If you want the full AgentsKit story with runtime, tools, memory, and observability, jump to [Build your first agent](./build-your-first-agent).
+This page is the fastest **UI binding** hello-world (`useChat` + a framework package). It is not the product chat framework — for a versioned multi-surface chat application, use [AgentsKit Chat](https://chat.agentskit.io/).
+
+If you want the full AgentsKit foundation story with runtime, tools, memory, and observability, jump to [Build your first agent](./build-your-first-agent).
 
 ## Basic chat
 
@@ -41,14 +43,15 @@ Out of the box: streaming, message history, default styling. No extra setup.
 
 ## What this page is not
 
-This quickstart shows the UI layer only. AgentsKit gets more compelling when you compose the rest of the ecosystem:
+This quickstart shows the **headless UI binding** only — a thin React (or other framework) shell over AgentsKit primitives.
 
-- [`@agentskit/runtime`](/docs/reference/packages/runtime) for autonomous runs
-- [`@agentskit/tools`](/docs/reference/packages/tools) for tool use and integrations
-- [`@agentskit/memory`](/docs/reference/packages/memory) for persistence across runs
-- [`@agentskit/observability`](/docs/reference/packages/observability) for tracing and auditability
+- Product chat apps (routes, actions, multi-renderer definition, Ask backend) → [AgentsKit Chat](https://chat.agentskit.io/)
+- Autonomous runs → [`@agentskit/runtime`](/docs/reference/packages/runtime)
+- Tools and integrations → [`@agentskit/tools`](/docs/reference/packages/tools)
+- Persistence → [`@agentskit/memory`](/docs/reference/packages/memory)
+- Tracing → [`@agentskit/observability`](/docs/reference/packages/observability)
 
-For that path, continue to [Build your first agent](./build-your-first-agent).
+For the foundation path, continue to [Build your first agent](./build-your-first-agent).
 
 ## Swap providers
 
