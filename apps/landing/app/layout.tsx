@@ -1,5 +1,4 @@
 import type { Metadata } from 'next'
-import Script from 'next/script'
 import './globals.css'
 import { PostHogProvider } from './_components/posthog-provider'
 
@@ -29,7 +28,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en">
       <body>
         {/* Shared ecosystem bar — single source on www.agentskit.io, embedded across all properties. */}
-        <Script src="https://www.agentskit.io/ecosystem-bar.js" strategy="afterInteractive" data-current="agentskit" />
+        <script src="https://www.agentskit.io/ecosystem-bar.js" defer data-current="agentskit" />
         <PostHogProvider>{children}</PostHogProvider>
       </body>
     </html>
