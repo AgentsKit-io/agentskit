@@ -41,15 +41,16 @@ export function WorksWith() {
         <div className="rg-reveal font-mono text-xs uppercase tracking-[0.2em] text-ak-blue">Works with everything</div>
         <h2 className="rg-reveal mt-2 text-2xl font-bold tracking-tight text-ak-foam sm:text-3xl">One contract. Every tool, every model.</h2>
         <p className="rg-reveal mt-2 max-w-2xl text-ak-graphite">
-          Every agent you copy runs on the AgentsKit core — 50+ built-in integrations and 100+ providers (5,000+ models)
-          behind a single contract. Swap the model, provider, or tool without touching the rest.
+          Every agent you copy runs on the AgentsKit core — 50 built-in integrations and 140+ catalog
+          providers (5,162 models) behind a single contract. Swap the model, provider, or tool without
+          touching the rest.
         </p>
         <div className="rg-reveal mt-5 flex flex-wrap gap-x-6 gap-y-2">
           <a href={intUrl} rel="noopener" className="inline-flex items-center gap-1.5 text-sm font-semibold text-ak-blue hover:underline">
             All 50 integrations <Icon name="arrow-right" size={15} />
           </a>
           <a href={provUrl} rel="noopener" className="inline-flex items-center gap-1.5 text-sm font-semibold text-ak-blue hover:underline">
-            All 100+ providers <Icon name="arrow-right" size={15} />
+            All 140+ providers <Icon name="arrow-right" size={15} />
           </a>
         </div>
 
