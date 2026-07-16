@@ -27,7 +27,14 @@
       "navigation": {
         "showInBar": true,
         "order": 0,
-        "next": ["registry", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"]
+        "next": [
+          "registry",
+          "agentskit-chat",
+          "playbook",
+          "doc-bridge",
+          "code-review",
+          "akos"
+        ]
       }
     },
     {
@@ -51,7 +58,14 @@
       "navigation": {
         "showInBar": true,
         "order": 1,
-        "next": ["agentskit", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"]
+        "next": [
+          "agentskit",
+          "agentskit-chat",
+          "playbook",
+          "doc-bridge",
+          "code-review",
+          "akos"
+        ]
       }
     },
     {
@@ -74,7 +88,14 @@
       "navigation": {
         "showInBar": true,
         "order": 2,
-        "next": ["agentskit", "registry", "playbook", "doc-bridge", "code-review", "akos"]
+        "next": [
+          "agentskit",
+          "registry",
+          "playbook",
+          "doc-bridge",
+          "code-review",
+          "akos"
+        ]
       }
     },
     {
@@ -98,7 +119,14 @@
       "navigation": {
         "showInBar": true,
         "order": 3,
-        "next": ["agentskit", "registry", "agentskit-chat", "doc-bridge", "code-review", "akos"]
+        "next": [
+          "agentskit",
+          "registry",
+          "agentskit-chat",
+          "doc-bridge",
+          "code-review",
+          "akos"
+        ]
       }
     },
     {
@@ -112,16 +140,23 @@
       "repo": "AgentsKit-io/doc-bridge",
       "accent": "#06B6D4",
       "surfaces": {
-        "home": "https://agentskit-io.github.io/doc-bridge/",
-        "docs": "https://agentskit-io.github.io/doc-bridge/",
-        "llms": "https://agentskit-io.github.io/doc-bridge/llms.txt",
+        "home": "https://doc-bridge.agentskit.io/",
+        "docs": "https://doc-bridge.agentskit.io/",
+        "llms": "https://doc-bridge.agentskit.io/llms.txt",
         "documentation": "fumadocs",
         "chat": "none"
       },
       "navigation": {
         "showInBar": true,
         "order": 4,
-        "next": ["agentskit", "registry", "agentskit-chat", "playbook", "code-review", "akos"]
+        "next": [
+          "agentskit",
+          "registry",
+          "agentskit-chat",
+          "playbook",
+          "code-review",
+          "akos"
+        ]
       }
     },
     {
@@ -144,7 +179,14 @@
       "navigation": {
         "showInBar": false,
         "order": 5,
-        "next": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "akos"]
+        "next": [
+          "agentskit",
+          "registry",
+          "agentskit-chat",
+          "playbook",
+          "doc-bridge",
+          "akos"
+        ]
       }
     },
     {

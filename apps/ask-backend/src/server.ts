@@ -126,13 +126,13 @@ const corpora: Record<string, Corpus> = {
           title: 'Doc Bridge full docs',
           url:
             process.env.ASK_DOC_BRIDGE_LLMS_FULL_URL ??
-            'https://agentskit-io.github.io/doc-bridge/llms-full.txt',
+            'https://doc-bridge.agentskit.io/llms-full.txt',
         },
         {
           title: 'Doc Bridge llms',
           url:
             process.env.ASK_DOC_BRIDGE_LLMS_URL ??
-            'https://agentskit-io.github.io/doc-bridge/llms.txt',
+            'https://doc-bridge.agentskit.io/llms.txt',
         },
       ],
     }),

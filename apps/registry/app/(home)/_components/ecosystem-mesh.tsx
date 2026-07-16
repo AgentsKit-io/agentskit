@@ -23,7 +23,7 @@ export const ecosystemPeers = [
   {
     name: 'Doc Bridge',
     role: 'understanding',
-    href: 'https://agentskit-io.github.io/doc-bridge/',
+    href: 'https://doc-bridge.agentskit.io/',
     action: 'Keep documentation handoffs agent-ready and deterministic.',
   },
   {
