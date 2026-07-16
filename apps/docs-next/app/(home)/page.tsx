@@ -21,14 +21,14 @@ export const metadata = {
   openGraph: {
     title: 'AgentsKit.js — Ship AI agents in JavaScript',
     description:
-      'Chat UI, runtime, tools, memory, RAG, observability. One ecosystem. Zero lock-in. 10KB core.',
+      'Composable TypeScript foundation: runtime, tools, memory, RAG, adapters, and headless UI bindings. Zero lock-in. Under 10KB core.',
     type: 'website',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'AgentsKit.js — Ship AI agents in JavaScript',
     description:
-      'Chat UI, runtime, tools, memory, RAG, observability. One ecosystem. Zero lock-in.',
+      'Composable TypeScript foundation: runtime, tools, memory, RAG, adapters, and headless UI bindings. Zero lock-in.',
   },
 }
 
@@ -121,8 +121,8 @@ function Hero() {
 
           <FadeIn delay={0.1}>
           <p className="mb-7 max-w-xl text-base leading-relaxed text-ak-graphite sm:mb-8 sm:text-lg">
-            Chat UI, runtime, tools, memory, and RAG in one ecosystem. Swap{' '}
-            <span className="text-ak-foam">OpenAI for Claude</span>, React for
+            Runtime, tools, memory, RAG, adapters, and headless UI bindings in one foundation.
+            Swap <span className="text-ak-foam">OpenAI for Claude</span>, React for
             terminal, in-memory for vector DB — without a rewrite.
           </p>
           </FadeIn>
@@ -145,10 +145,11 @@ function Hero() {
         <div className="min-w-0">
           <HeroDemo />
           <p className="mt-3 text-center font-mono text-[11px] leading-relaxed text-ak-graphite sm:text-xs">
-            The chat in this site&apos;s corner is built on AgentsKit — drop the same RAG chat into your app.{' '}
-            <Link href="/docs/cookbook/ask-the-docs" className="text-ak-blue hover:underline">
-              Build it in minutes →
-            </Link>
+            The chat in this site&apos;s corner is built with{' '}
+            <span className="text-ak-foam">AgentsKit Chat</span> on this foundation.{' '}
+            <a href="https://chat.agentskit.io/" className="text-ak-blue hover:underline">
+              Build product chats →
+            </a>
           </p>
 
           <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
@@ -215,9 +216,9 @@ const LAYERS = [
   { name: 'Adapters', icon: 'adapters', href: '/docs/data/providers', meta: `${counts.nativeAdapters} adapters · ${approx(counts.catalogProviders)} providers` },
   { name: 'UI', icon: 'ui', href: '/docs/ui', meta: `${counts.frameworkBindings} frameworks` },
   { name: 'Runtime', icon: 'runtime', href: '/docs/reference/packages/runtime', meta: 'ReAct · planning · multi-agent' },
-  { name: 'Tools', icon: 'tools', href: '/docs/agents/tools/integrations', meta: `${counts.integrations}+ integrations` },
+  { name: 'Tools', icon: 'tools', href: '/docs/agents/tools/integrations', meta: `${counts.integrations} integrations` },
   { name: 'Skills', icon: 'skills', href: '/docs/agents/skills/personas', meta: `${counts.skills} ready-made` },
-  { name: 'Memory', icon: 'memory', href: '/docs/data/memory', meta: `${counts.memoryBackends}+ backends` },
+  { name: 'Memory', icon: 'memory', href: '/docs/data/memory', meta: `${counts.memoryBackends} backends` },
   { name: 'RAG', icon: 'rag', href: '/docs/reference/packages/rag', meta: 'chunk · embed · retrieve' },
   { name: 'Observability', icon: 'observability', href: '/docs/reference/packages/observability', meta: 'traces · LangSmith · OTel' },
 ] as const
