@@ -1,11 +1,66 @@
 import type { Metadata } from 'next'
+import Link from 'next/link'
 import { lists, counts } from '@/lib/ecosystem-stats'
 
 export const metadata: Metadata = {
-  title: 'Ecosystem',
+  title: 'Ecosystem — products and packages',
   description:
-    'The AgentsKit ecosystem at a glance — every package, its stability, and the integrations, providers, models, adapters, and skills that ship with it.',
+    'AgentsKit product mesh (seven properties) plus the monorepo package matrix — stability, integrations, providers, models, adapters, and skills.',
 }
+
+/** Canonical seven-product mesh (roles from ecosystem.json). */
+const PRODUCT_MESH = [
+  {
+    id: 'agentskit',
+    name: 'AgentsKit',
+    role: 'foundation',
+    href: 'https://www.agentskit.io',
+    blurb: 'Foundation library — runtime, tools, memory, RAG, and UI bindings.',
+    youAreHere: true,
+  },
+  {
+    id: 'registry',
+    name: 'Registry',
+    role: 'starting-point',
+    href: 'https://registry.agentskit.io',
+    blurb: 'Copy ready-to-use agent source into your repo.',
+  },
+  {
+    id: 'agentskit-chat',
+    name: 'AgentsKit Chat',
+    role: 'experience',
+    href: 'https://chat.agentskit.io',
+    blurb: 'Opinionated product chat layer over AgentsKit primitives.',
+  },
+  {
+    id: 'playbook',
+    name: 'Playbook',
+    role: 'discipline',
+    href: 'https://playbook.agentskit.io',
+    blurb: 'Engineering standards for agent-built software.',
+  },
+  {
+    id: 'doc-bridge',
+    name: 'Doc Bridge',
+    role: 'understanding',
+    href: 'https://agentskit-io.github.io/doc-bridge/',
+    blurb: 'Human↔agent documentation handoffs.',
+  },
+  {
+    id: 'code-review',
+    name: 'Code Review',
+    role: 'verification',
+    href: 'https://github.com/AgentsKit-io/code-review-cli',
+    blurb: 'Focused model review before merge.',
+  },
+  {
+    id: 'akos',
+    name: 'AKOS',
+    role: 'operation',
+    href: 'https://akos.agentskit.io',
+    blurb: 'Enterprise operation and governance.',
+  },
+] as const
 
 const STABILITY_RANK: Record<string, number> = {
   stable: 0,
@@ -51,18 +106,46 @@ export default function EcosystemPage() {
       <header className="max-w-2xl">
         <p className="font-mono text-sm text-ak-blue">/ecosystem</p>
         <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight text-ak-foam sm:text-5xl">
-          The AgentsKit ecosystem
+          Products and packages
         </h1>
         <p className="mt-5 text-lg leading-relaxed text-ak-graphite">
-          One toolkit for the agent era — every package is independently
-          installable, plug-and-play, and interoperable. Here is the whole
-          surface area, with each package&apos;s current stability.
+          Two layers, one ecosystem: the <strong className="font-medium text-ak-foam">seven products</strong> you
+          pick by job, and the <strong className="font-medium text-ak-foam">monorepo packages</strong> that power
+          the foundation toolkit on this site.
         </p>
       </header>
 
+      <section aria-labelledby="product-mesh" className="mt-14">
+        <h2 id="product-mesh" className="font-mono text-sm uppercase tracking-wider text-ak-graphite">
+          Product mesh
+        </h2>
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ak-graphite">
+          Canonical roles. Start where your problem is — not every team needs every product.
+        </p>
+        <ul className="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {PRODUCT_MESH.map((p) => (
+            <li key={p.id}>
+              <Link
+                href={p.href}
+                className={`flex h-full flex-col rounded-lg border p-5 transition hover:border-ak-blue ${
+                  p.youAreHere ? 'border-ak-blue/50 bg-ak-surface' : 'border-ak-border bg-ak-surface'
+                }`}
+              >
+                <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ak-graphite">
+                  {p.role}
+                  {p.youAreHere ? ' · you are here (site)' : ''}
+                </p>
+                <h3 className="mt-1 font-semibold text-ak-foam">{p.name}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-ak-graphite">{p.blurb}</p>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       <section
         aria-label="By the numbers"
-        className="mt-10 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-sm text-ak-graphite"
+        className="mt-12 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-sm text-ak-graphite"
       >
         {numbers.map((n, i) => (
           <span key={n.label} className="inline-flex items-center">
@@ -75,8 +158,12 @@ export default function EcosystemPage() {
 
       <section aria-label="Package matrix" className="mt-12">
         <h2 className="font-mono text-sm uppercase tracking-wider text-ak-graphite">
-          Package matrix
+          Foundation package matrix
         </h2>
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ak-graphite">
+          Installable <code className="text-ak-foam">@agentskit/*</code> packages in this monorepo — not the full
+          product catalog above. Counts below are exact verified stats.
+        </p>
         <ul className="mt-5 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {packages.map((pkg) => (
             <li
