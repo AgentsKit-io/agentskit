@@ -48,7 +48,7 @@ test('global navigation keeps seven-product order; bar can hide early-stage tool
 
 test('the v1 compatibility projection remains aligned with v2 products', () => {
   const parsed = parseEcosystemManifest(manifest)
-  assert.deepEqual(parsed.properties.map((property) => property.id), ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge', 'code-review', 'akos'])
+  assert.deepEqual(parsed.properties.map((property) => property.id), ['agentskit', 'akos', 'playbook', 'registry'])
   assert.equal(parsed.properties[0].url, parsed.products[0].surfaces.home)
 })
 
