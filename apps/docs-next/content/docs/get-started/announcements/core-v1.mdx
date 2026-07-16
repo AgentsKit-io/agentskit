@@ -1,11 +1,11 @@
 ---
 title: "@agentskit/core hits 1.0"
-description: "The JavaScript agent toolkit that doesn't lock you in. 5.17 KB gzipped. Zero dependencies. Six contracts pinned to ADRs. Forever stable at the minor level."
+description: "The JavaScript agent foundation library that doesn't lock you in. Measured ~5.17 KB gzipped at v1 (budget ≤10 KB). Zero dependencies. Six contracts pinned to ADRs."
 ---
 
-# The JavaScript agent toolkit just hit 1.0
+# The JavaScript agent foundation library hit 1.0
 
-**5.17 KB gzipped. Zero dependencies. Six contracts pinned to ADRs.**
+**~5.17 KB gzipped at the v1 ship (within the ≤10 KB gzip Manifesto budget). Zero dependencies. Six contracts pinned to ADRs.**
 
 Today, `@agentskit/core` graduates to **v1.0.0** — the stable substrate for every agent you'll ship in JavaScript this decade.
 
@@ -19,7 +19,7 @@ npm install @agentskit/core@1
 
 | | |
 |---|---|
-| **Core bundle** | 5.17 KB gzipped — **48% under** the 10 KB Manifesto budget |
+| **Core bundle** | ~5.17 KB gzipped at v1 ship — **within** the ≤10 KB Manifesto budget (stats ledger still reports the 10 KB budget floor) |
 | **Runtime deps** | Zero |
 | **Packages** | Independently installable |
 | **Tests** | 538 passing across the ecosystem |
@@ -129,7 +129,7 @@ That's it. Both helpers were Node-only and crashed browser consumers. Moving the
 
 From the [Manifesto](https://github.com/AgentsKit-io/agentskit/blob/main/MANIFESTO.md), with v1 scorecards:
 
-1. ✅ Core under 10 KB gzipped, zero deps — **5.17 KB, zero deps**
+1. ✅ Core under 10 KB gzipped, zero deps — **~5.17 KB at v1 ship, zero deps**
 2. ✅ Every package plug-and-play — **the complete Phase 1 package set was independently installable**
 3. ✅ Interop radical — **any combination composes**
 4. ✅ Zero lock-in — **all contracts open, storage local-first**
