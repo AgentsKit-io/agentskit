@@ -41,6 +41,7 @@ vi.mock('@/lib/categories', () => ({
 }))
 
 import ForAgentsPage from '../for-agents/page'
+import { GET as getFavicon } from '../favicon.ico/route'
 import { GET as getLlmsFull } from '../llms-full.txt/route'
 import { GET as getLlmsIndex } from '../llms.txt/route'
 import sitemap from '../sitemap'
@@ -62,6 +63,26 @@ describe('Registry machine documentation contracts', () => {
     expect(body).toContain(`[For agents](${SITE}/docs/for-agents)`)
     expect(body).toContain(`[Full agent context](${SITE}/llms-full.txt)`)
     expect(body).toContain(`[Registry index](${SITE}/r/index.json)`)
+    expect(body.match(/^## AgentsKit ecosystem$/gm)).toHaveLength(1)
+
+    const expectedProducts = [
+      ['AgentsKit', 'https://www.agentskit.io/docs', 'https://www.agentskit.io/llms.txt'],
+      ['AgentsKit Registry', `${SITE}/docs`, `${SITE}/llms.txt`],
+      ['AgentsKit Chat', 'https://chat.agentskit.io/docs', 'https://chat.agentskit.io/llms.txt'],
+      ['Agents Playbook', 'https://playbook.agentskit.io/docs', 'https://playbook.agentskit.io/llms.txt'],
+      ['Doc Bridge', 'https://agentskit-io.github.io/doc-bridge/', 'https://agentskit-io.github.io/doc-bridge/llms.txt'],
+      ['AgentsKit Code Review', 'https://github.com/AgentsKit-io/code-review-cli#readme', 'https://raw.githubusercontent.com/AgentsKit-io/code-review-cli/main/llms.txt'],
+      ['AgentsKit OS', 'https://akos.agentskit.io/docs', 'https://akos.agentskit.io/llms.txt'],
+    ] as const
+
+    let previous = -1
+    for (const [name, docs, llms] of expectedProducts) {
+      const position = body.indexOf(`[${name}](${docs})`)
+      expect(position).toBeGreaterThan(previous)
+      expect(body).toContain(`Machine index: ${llms}`)
+      previous = position
+    }
+    expect(body).toContain(`[AgentsKit Registry](${SITE}/docs) **(current)**`)
   })
 
   it('publishes llms-full.txt as plain text with docs before the catalog', async () => {
@@ -100,5 +121,12 @@ describe('Registry machine documentation contracts', () => {
     expect(icon).toContain('<svg')
     expect(icon).toContain('viewBox="0 0 64 64"')
     expect(icon).toContain('#58A6FF')
+  })
+
+  it('serves the conventional favicon path from the canonical Registry icon', () => {
+    const response = getFavicon(new Request(`${SITE}/favicon.ico`))
+
+    expect(response.status).toBe(308)
+    expect(response.headers.get('location')).toBe(`${SITE}/icon.svg`)
   })
 })
