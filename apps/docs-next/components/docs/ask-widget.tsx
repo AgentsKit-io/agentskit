@@ -247,7 +247,7 @@ export function AskDocsWidget({
   const effectiveLogo = logo ?? brand?.logo
   const effectivePlaceholder = placeholder ?? brand?.placeholder ?? 'Ask a question...'
   const effectiveDocsHref = docsHref === undefined ? (brand?.docsHref ?? 'https://chat.agentskit.io/') : docsHref
-  const effectiveDocsLabel = docsLabel ?? brand?.docsLabel ?? 'Build a chat like this — step by step →'
+  const effectiveDocsLabel = docsLabel ?? brand?.docsLabel ?? 'Build a chat like this - step by step ->'
   const askLabel = typeof effectiveFabLabel === 'string' ? effectiveFabLabel : 'Ask the docs'
   const storageIdentity = [corpus, persona].filter(Boolean).join(':')
   const legacyStorageKey = storageIdentity ? `ak:ask-thread-v2:${storageIdentity}` : 'ak:ask-thread-v2'

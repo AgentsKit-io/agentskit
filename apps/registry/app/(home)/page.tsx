@@ -5,13 +5,14 @@ import { LandingFx } from './_components/landing-fx'
 import { Hero } from './_components/hero'
 import { Browse } from './_components/browse'
 import { InstallSteps } from './_components/install-steps'
+import { EcosystemMesh } from './_components/ecosystem-mesh'
 
 export const revalidate = 3600
 
 export const metadata = {
   title: 'AgentsKit Registry — ready-to-use AI agents',
   description:
-    'The shadcn for AI agents. Copy a production-grade agent into your project with one command — you own the code, no lock-in.',
+    'Ready-to-use AI agents for AgentsKit. Copy production-grade source into your project with one command — you own the code, no lock-in.',
   alternates: { canonical: 'https://registry.agentskit.io' },
 }
 
@@ -31,6 +32,7 @@ export default async function HomePage() {
         <Browse agents={agents} />
       </Suspense>
       <InstallSteps />
+      <EcosystemMesh />
     </main>
   )
 }

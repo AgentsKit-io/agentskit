@@ -112,7 +112,8 @@ export function parseEcosystemManifest(input) {
     fail('$.products', `must contain the canonical products in order: ${CANONICAL_PRODUCT_IDS.join(', ')}`)
   }
   for (const [index, product] of manifest.products.entries()) {
-    if (!product.navigation.showInBar) fail(`$.products[${index}].navigation.showInBar`, 'must be true for global seven-product discovery')
+    // Products may set showInBar:false to leave the shared header (e.g. early-stage tools).
+    // Order stays stable so re-enabling a product does not reshuffle peers.
     if (product.navigation.order !== index) fail(`$.products[${index}].navigation.order`, `must equal ${index}`)
     const expectedPeers = product.id === 'akos'
       ? []
