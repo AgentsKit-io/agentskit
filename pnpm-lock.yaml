@@ -1565,7 +1565,7 @@ packages:
     resolution: {integrity: sha512-fNHrzpEoCaWHDK2fwk/BIhcPseN6zCdy3N0WjzdelnmRuh7zy9/Ki0zcukesK5ZAAmXdz2+Dj8FI7AM32JyOKw==}
 
   '@agentskit/doc-bridge@https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz':
-    resolution: {tarball: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz}
+    resolution: {integrity: sha512-n5JHwmoL24Ie6hQQZj8RquZxedQUxtwDoidLVdlMkEwJ/Nr1tLJl3wnK9MxGlmoU0uuodOFDD9JmySqoOzc0nw==, tarball: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz}
     version: 1.1.0
     engines: {node: '>=22'}
     hasBin: true
