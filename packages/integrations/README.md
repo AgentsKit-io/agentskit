@@ -42,13 +42,13 @@ npm install @agentskit/integrations
 
 <!-- readme-example:quickstart -->
 ```ts
-import { defineIntegration, defineAction } from '@agentskit/integrations'
-
 // Most consumers don't author integrations directly — they pull ready-made
 // service descriptors from the registry and project them into tools:
-import { registry, toTools } from '@agentskit/integrations'
+import { integrationTools } from '@agentskit/integrations'
 
-const tools = toTools(registry.get('resend'))
+export const tools = integrationTools('slack', {
+  credential: process.env.SLACK_BOT_TOKEN,
+})
 ```
 
 Service descriptors live under `src/services/`. The descriptor declares the
