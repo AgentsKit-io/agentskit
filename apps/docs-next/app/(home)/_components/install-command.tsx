@@ -7,7 +7,7 @@ const STEPS: { label: string; command: string; subtext: string; recommended?: bo
     label: 'Start fresh',
     command: 'npx @agentskit/cli init',
     recommended: true,
-    subtext: 'Scaffold a chat, terminal, or runtime starter — zero-config demo provider, hot-reload included.',
+    subtext: 'Scaffold a UI binding, terminal, or runtime starter — zero-config demo provider, hot-reload included. For versioned multi-surface chat apps, use AgentsKit Chat.',
   },
   {
     label: 'Add to a project',
