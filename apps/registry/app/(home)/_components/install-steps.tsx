@@ -29,7 +29,7 @@ console.log(content)`
 
 const STEPS = [
   { n: 1, t: 'Add it', d: 'Run one command. The CLI copies the full agent source into ./agents/<id>/ in your repo. From here, the code is yours — read it, edit it, commit it.', code: 'npx agentskit add research' },
-  { n: 2, t: 'Wire it', d: 'It is plain TypeScript in your project. Import the factory and pass any adapter — OpenAI, Anthropic, or any of 100+ providers. Swap the model whenever you want.', code: WIRE },
+  { n: 2, t: 'Wire it', d: 'It is plain TypeScript in your project. Import the factory and pass any adapter — OpenAI, Anthropic, or any of 140+ catalog providers. Swap the model whenever you want.', code: WIRE },
   { n: 3, t: 'Run it anywhere', d: 'Call agent.run() from Node, a serverless function, an edge runtime, or your terminal. It is your code on your infrastructure — nothing phones home to this registry.', code: RUN },
 ]
 
