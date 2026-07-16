@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "$comment": "Canonical registry of AgentsKit ecosystem products. Stable identity lives here; numeric values live in the generated ecosystem-claims ledger. The deprecated properties array temporarily preserves v1 sibling consumers.",
+  "$comment": "Canonical registry of AgentsKit ecosystem products. Stable identity lives in products[] (seven). Numeric values live in the generated ecosystem-claims ledger. The deprecated properties array remains a v1 four-product shim for Doc Bridge / sibling consumers until those schemas accept the full seven-product set \u2014 do not treat properties as the product catalog.",
   "parentBrand": {
     "id": "agentskit",
     "name": "AgentsKit"
