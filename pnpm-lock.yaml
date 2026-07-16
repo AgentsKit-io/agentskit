@@ -24,8 +24,8 @@ importers:
         specifier: workspace:*
         version: link:packages/core
       '@agentskit/doc-bridge':
-        specifier: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz
-        version: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz(@agentskit/core@packages+core)(react@19.2.7)
+        specifier: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.2.2/agentskit-doc-bridge-1.2.2.tgz
+        version: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.2.2/agentskit-doc-bridge-1.2.2.tgz(@agentskit/core@packages+core)(react@19.2.7)
       '@agentskit/eval':
         specifier: workspace:*
         version: link:packages/eval
@@ -1564,9 +1564,9 @@ packages:
   '@agentskit/core@1.12.3':
     resolution: {integrity: sha512-fNHrzpEoCaWHDK2fwk/BIhcPseN6zCdy3N0WjzdelnmRuh7zy9/Ki0zcukesK5ZAAmXdz2+Dj8FI7AM32JyOKw==}
 
-  '@agentskit/doc-bridge@https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz':
-    resolution: {integrity: sha512-n5JHwmoL24Ie6hQQZj8RquZxedQUxtwDoidLVdlMkEwJ/Nr1tLJl3wnK9MxGlmoU0uuodOFDD9JmySqoOzc0nw==, tarball: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz}
-    version: 1.1.0
+  '@agentskit/doc-bridge@https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.2.2/agentskit-doc-bridge-1.2.2.tgz':
+    resolution: {integrity: sha512-xlAxTxcTdU9Mqw2bdLtBBi2JUfPozOR3lsNqrys9R7xqoL27YhSpH2gDZHQUjXPFwKFUzUQY60Oyg+era1NTEQ==, tarball: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.2.2/agentskit-doc-bridge-1.2.2.tgz}
+    version: 1.2.2
     engines: {node: '>=22'}
     hasBin: true
     peerDependencies:
@@ -9028,8 +9028,9 @@ snapshots:
 
   '@agentskit/core@1.12.3': {}
 
-  '@agentskit/doc-bridge@https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz(@agentskit/core@packages+core)(react@19.2.7)':
+  '@agentskit/doc-bridge@https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.2.2/agentskit-doc-bridge-1.2.2.tgz(@agentskit/core@packages+core)(react@19.2.7)':
     dependencies:
+      mermaid: 11.16.0
       zod: 3.25.76
     optionalDependencies:
       '@agentskit/core': link:packages/core

@@ -1,27 +1,25 @@
 import { source } from '@/lib/source'
 import { counts } from '@/lib/ecosystem-stats'
 import ecosystem from '@/lib/ecosystem.json'
+import { formatEcosystemLlmsBlock } from '@agentskit/doc-bridge'
 
 export const dynamic = 'force-static'
 
 const SITE = 'https://www.agentskit.io'
 
-/** Sibling-property discovery block — generated from the canonical ecosystem.json. */
+/** Shared seven-product mesh from ecosystem.json (canonical template). */
 function ecosystemLines(): string[] {
-  const out = ['## The AgentsKit ecosystem', '']
-  const products = ecosystem.products as Array<{
-    id: string
-    name: string
-    promise: string
-    surfaces: { home?: string; llms?: string }
-  }>
-  for (const product of products) {
-    if (product.id === 'agentskit' || !product.surfaces.home) continue
-    const llms = product.surfaces.llms ? ` llms.txt: ${product.surfaces.llms}` : ''
-    out.push(`- [${product.name}](${product.surfaces.home}): ${product.promise}${llms}`)
-  }
-  out.push('')
-  return out
+  return formatEcosystemLlmsBlock({
+    products: ecosystem.products as Array<{
+      id: string
+      name: string
+      role?: string
+      promise: string
+      maturity?: string
+      surfaces: { home?: string; docs?: string; llms?: string }
+    }>,
+    currentProductId: 'agentskit',
+  })
 }
 
 export function GET() {

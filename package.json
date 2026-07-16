@@ -10,7 +10,7 @@
     "test:interop": "vitest run --config tests/vitest.config.ts",
     "test:e2e": "pnpm build && playwright test",
     "test:e2e:ui": "playwright test --ui",
-    "test:ecosystem": "vitest run scripts/ecosystem-contract.test.mjs scripts/ecosystem-readiness.test.mjs",
+    "test:ecosystem": "vitest run scripts/ecosystem-contract.test.mjs scripts/ecosystem-readiness.test.mjs scripts/ecosystem-llms-block.test.mjs",
     "test:ecosystem-doc-quality": "vitest run scripts/ecosystem-documentation-quality.test.mjs",
     "check:ecosystem-doc-quality": "node scripts/check-ecosystem-documentation-quality.mjs --evidence-dir docs/evidence/ecosystem-documentation-quality",
     "check:ecosystem-doc-quality:profile": "node scripts/check-ecosystem-documentation-quality.mjs --profile-only",
@@ -71,7 +71,7 @@
   },
   "devDependencies": {
     "@agentskit/core": "workspace:*",
-    "@agentskit/doc-bridge": "https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz",
+    "@agentskit/doc-bridge": "https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.2.2/agentskit-doc-bridge-1.2.2.tgz",
     "@agentskit/eval": "workspace:*",
     "@agentskit/observability": "workspace:*",
     "@agentskit/runtime": "workspace:*",
