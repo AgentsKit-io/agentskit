@@ -3,7 +3,6 @@ import { RootProvider } from 'fumadocs-ui/provider/next'
 import { Inter, JetBrains_Mono, Space_Grotesk } from 'next/font/google'
 import type { ReactNode } from 'react'
 import type { Metadata } from 'next'
-import Script from 'next/script'
 import { PostHogProvider } from './posthog-provider'
 import { RegistryAskWidget } from '@/components/ask-widget'
 
@@ -41,7 +40,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <RegistryAskWidget />
           </RootProvider>
         </PostHogProvider>
-        <Script src="https://www.agentskit.io/ecosystem-bar.js" strategy="afterInteractive" data-current="registry" />
+        <script src="https://www.agentskit.io/ecosystem-bar.js" defer data-current="registry" />
       </body>
     </html>
   )

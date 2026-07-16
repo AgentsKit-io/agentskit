@@ -16,7 +16,6 @@
     { id: "agentskit-chat", label: "Chat", host: "chat.agentskit.io", url: "https://chat.agentskit.io" },
     { id: "playbook", label: "Playbook", host: "playbook.agentskit.io", url: "https://playbook.agentskit.io" },
     { id: "doc-bridge", label: "Doc Bridge", host: "agentskit-io.github.io", url: "https://agentskit-io.github.io/doc-bridge/" },
-    { id: "code-review", label: "Code Review", host: "github.com", url: "https://github.com/AgentsKit-io/code-review-cli" },
     { id: "akos", label: "AKOS", host: "akos.agentskit.io", url: "https://akos.agentskit.io" },
   ]
   // ecobar:props-end
@@ -35,13 +34,17 @@
     '#ak-eco{position:relative;z-index:30;display:flex;gap:4px;align-items:center;' +
     'font:500 13px/1 ui-sans-serif,system-ui,-apple-system,sans-serif;padding:8px 16px;' +
     'background:#0b0b0f;color:#e7e7ea;border-bottom:1px solid #23232b}' +
-    '#ak-eco .ak-eco-brand{font-weight:700;letter-spacing:-.01em;margin-right:8px;color:#fff;text-decoration:none}' +
+    '#ak-eco .ak-eco-brand{display:inline-flex;align-items:center;justify-content:center;' +
+    'margin-right:8px;color:#fff;text-decoration:none;line-height:0}' +
+    '#ak-eco .ak-eco-brand svg{width:18px;height:16px;display:block}' +
     '#ak-eco a.ak-eco-link{color:#a9a9b3;text-decoration:none;padding:5px 10px;border-radius:7px}' +
     '#ak-eco a.ak-eco-link:hover{color:#fff;background:#1c1c24}' +
     '#ak-eco a.ak-eco-link[aria-current="page"]{color:#fff;background:#2a2a35}' +
     '#ak-eco .ak-eco-spacer{flex:1}' +
     '#ak-eco a.ak-eco-cta{display:inline-flex;align-items:center;gap:6px}' +
     '#ak-eco a.ak-eco-cta svg{width:14px;height:14px;fill:currentColor}' +
+    // Discord is kept in the DOM for an easy restore; hidden until community is ready.
+    '#ak-eco a.ak-eco-cta[data-ak-eco-discord]{display:none}' +
     '@media(max-width:767px){#ak-eco{box-sizing:border-box;width:100%;max-width:100vw;overflow-x:auto;' +
     'overscroll-behavior-x:contain;scrollbar-width:none}#ak-eco::-webkit-scrollbar{display:none}' +
     '#ak-eco .ak-eco-brand{position:sticky;left:0;z-index:1;background:inherit}' +
@@ -50,6 +53,19 @@
     '#ak-eco .ak-eco-brand{color:#0b0b0f}#ak-eco a.ak-eco-link{color:#555}' +
     '#ak-eco a.ak-eco-link:hover{color:#000;background:#f1f1f4}' +
     '#ak-eco a.ak-eco-link[aria-current="page"]{color:#000;background:#ececf1}}'
+
+  // Brand mark only (no "AgentsKit" wordmark) — product list still includes AgentsKit.
+  var BRAND_ICON =
+    '<svg viewBox="0 0 72 64" fill="none" aria-hidden="true">' +
+    '<g stroke="currentColor" stroke-width="1.5" stroke-linecap="round">' +
+    '<line x1="12" y1="52" x2="36" y2="12"/>' +
+    '<line x1="36" y1="12" x2="60" y2="52"/>' +
+    '<line x1="12" y1="52" x2="60" y2="52"/>' +
+    '</g>' +
+    '<circle cx="36" cy="12" r="6" fill="currentColor"/>' +
+    '<circle cx="12" cy="52" r="6" fill="currentColor"/>' +
+    '<circle cx="60" cy="52" r="6" fill="currentColor"/>' +
+    '</svg>'
 
   // Community links — pinned to the right of the bar (after the spacer). Project
   // surfaces only: no personal-brand links. Icons are inline SVG (zero deps).
@@ -70,7 +86,9 @@
     var brand = document.createElement('a')
     brand.className = 'ak-eco-brand'
     brand.href = 'https://www.agentskit.io'
-    brand.textContent = 'AgentsKit'
+    brand.setAttribute('aria-label', 'AgentsKit')
+    brand.title = 'AgentsKit'
+    brand.innerHTML = BRAND_ICON
     bar.appendChild(brand)
 
     PROPS.forEach(function (p) {
@@ -88,7 +106,8 @@
 
     var community = [
       { label: 'Star on GitHub', icon: GH_ICON, url: 'https://github.com/AgentsKit-io/agentskit' },
-      { label: 'Discord', icon: DISCORD_ICON, url: 'https://discord.gg/zx6z2p4jVb' },
+      // Discord kept for restore — hidden via CSS (data-ak-eco-discord).
+      { label: 'Discord', icon: DISCORD_ICON, url: 'https://discord.gg/zx6z2p4jVb', discord: true },
     ]
     community.forEach(function (c) {
       var a = document.createElement('a')
@@ -96,6 +115,7 @@
       a.href = c.url
       a.target = '_blank'
       a.rel = 'noopener'
+      if (c.discord) a.setAttribute('data-ak-eco-discord', '')
       a.innerHTML = c.icon + '<span>' + c.label + '</span>'
       bar.appendChild(a)
     })

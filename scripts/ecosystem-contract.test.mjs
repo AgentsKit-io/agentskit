@@ -31,13 +31,17 @@ test('repository-native products do not need a Fumadocs or chat deployment', () 
   const parsed = parseEcosystemManifest(manifest)
   const codeReview = parsed.products.find((product) => product.id === 'code-review')
   assert.equal(codeReview.surfaces.documentation, 'repository')
-  assert.equal(codeReview.navigation.showInBar, true)
+  // Code Review stays in the ecosystem catalog but is hidden from the shared header for now.
+  assert.equal(codeReview.navigation.showInBar, false)
 })
 
-test('global navigation lists seven products and every continuation except AKOS lists six peers', () => {
+test('global navigation keeps seven-product order; bar can hide early-stage tools', () => {
   const parsed = parseEcosystemManifest(manifest)
   assert.deepEqual(parsed.products.map((product) => product.navigation.order), [0, 1, 2, 3, 4, 5, 6])
-  assert.ok(parsed.products.every((product) => product.navigation.showInBar))
+  assert.deepEqual(
+    parsed.products.filter((product) => product.navigation.showInBar).map((product) => product.id),
+    ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge', 'akos'],
+  )
   assert.ok(parsed.products.filter((product) => product.id !== 'akos').every((product) => product.navigation.next.length === 6))
   assert.deepEqual(parsed.products.find((product) => product.id === 'akos').navigation.next, [])
 })

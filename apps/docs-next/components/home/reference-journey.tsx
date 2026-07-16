@@ -8,10 +8,7 @@ export function ReferenceJourney() {
       className="border-y border-ak-border bg-ak-bg px-4 py-16 sm:px-6 sm:py-20"
     >
       <div className="mx-auto max-w-6xl">
-        <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ak-muted sm:text-xs">
-          Continue with context
-        </p>
-        <div className="mt-3 grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(18rem,0.72fr)] md:items-end md:gap-10">
+        <div className="grid gap-4 md:grid-cols-[minmax(0,1fr)_minmax(18rem,0.72fr)] md:items-end md:gap-10">
           <h2
             id="reference-journey-title"
             className="max-w-3xl font-display text-3xl font-bold tracking-tight text-ak-fg sm:text-4xl"
