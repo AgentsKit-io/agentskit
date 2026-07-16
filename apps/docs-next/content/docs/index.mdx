@@ -1,15 +1,15 @@
 ---
 title: AgentsKit.js
-description: The JavaScript ecosystem for building AI agents — UI, runtime, tools, memory, RAG, observability, and production guardrails.
+description: The TypeScript foundation for building AI agents — runtime, tools, memory, RAG, adapters, headless UI bindings, and production guardrails.
 ---
 
 import { counts } from '@/lib/ecosystem-stats'
 
 Agents shouldn't be a monolith. AgentsKit.js is a family of small,
 plug-and-play packages covering the whole agent lifecycle in
-JavaScript: chat UIs, autonomous runtimes, tools, skills, memory,
-RAG, observability, evaluation, sandboxing. Install what you need.
-Everything else stays out of your bundle.
+JavaScript: autonomous runtimes, tools, skills, memory, RAG, headless
+UI bindings, observability, evaluation, and sandboxing. Install what
+you need. Everything else stays out of your bundle.
 
 ## Start here
 
@@ -17,7 +17,8 @@ Pick a path by what you're shipping.
 
 - **Want the real ecosystem in one guide?** → [Build your first agent](/docs/get-started/getting-started/build-your-first-agent)
 - **Want to start from an outcome?** → [Use cases](/docs/use-cases)
-- **Just want a chat UI?** → [Quick start](/docs/get-started/getting-started/quickstart) · [React](/docs/reference/packages/react) · [Vue](/docs/reference/packages/vue) · [Svelte](/docs/reference/packages/svelte) · [Solid](/docs/reference/packages/solid) · [Angular](/docs/reference/packages/angular) · [React Native](/docs/reference/packages/react-native) · [Ink](/docs/reference/packages/ink)
+- **Building a versioned multi-surface chat app?** → [AgentsKit Chat](https://chat.agentskit.io/) (application layer on this foundation)
+- **Just need a headless `useChat` binding?** → [Quick start](/docs/get-started/getting-started/quickstart) · [React](/docs/reference/packages/react) · [Vue](/docs/reference/packages/vue) · [Svelte](/docs/reference/packages/svelte) · [Solid](/docs/reference/packages/solid) · [Angular](/docs/reference/packages/angular) · [React Native](/docs/reference/packages/react-native) · [Ink](/docs/reference/packages/ink)
 - **Building an autonomous agent?** → [Runtime](/docs/agents/runtime) · [Tools](/docs/agents/tools) · [Skills](/docs/agents/skills) · [Multi-agent topologies](/docs/agents/topologies)
 - **Need RAG?** → [createRAG](/docs/data/rag/create-rag) · [Loaders](/docs/data/rag/loaders) · [Reranking](/docs/data/rag/rerank)
 - **Shipping to production?** → [Observability](/docs/production/observability) · [Security](/docs/production/security) · [Evals](/docs/production/evals) · [Durable execution](/docs/agents/durable)
@@ -57,8 +58,9 @@ compose.
 ## What's inside
 
 - **{counts.packages} packages** under `@agentskit/*` — foundation, providers, UI bindings, runtime, capabilities, observability, infrastructure. [Full index](/docs/reference/packages/overview).
-- **7 framework bindings** sharing one `useChat` contract. [UI matrix](/docs/ui).
-- **20+ provider adapters** (hosted + local + embedders). [Providers](/docs/data/providers).
+- **{counts.frameworkBindings} framework bindings** sharing one `useChat` contract. [UI matrix](/docs/ui).
+- **{counts.nativeAdapters} native adapters** plus a catalog of {counts.catalogProviders} providers. [Providers](/docs/data/providers).
+- **{counts.integrations} integrations** for tools agents call. [Integrations](/docs/agents/tools/integrations).
 - **60+ recipes** grouped by theme. [Recipes](/docs/reference/recipes).
 - **Open specs** — A2A, Manifest, Eval Format, AgentSchema — portable JSON. [Specs](/docs/reference/specs).
 
@@ -69,4 +71,4 @@ compose.
 - **[For agents](/docs/for-agents)** — dense LLM-friendly reference per contract.
 - **[Examples](/docs/reference/examples)** — live interactive demos.
 - **[Contribute](/docs/reference/contribute)** — built in the open. Your PR helps.
-- **[Discord](https://discord.gg/zx6z2p4jVb)** — Office Hours every Friday; direct line to maintainers.
+- **[AgentsKit Chat](https://chat.agentskit.io/)** — versioned chat applications on this foundation.

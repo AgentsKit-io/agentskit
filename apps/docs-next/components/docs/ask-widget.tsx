@@ -246,8 +246,8 @@ export function AskDocsWidget({
   const effectiveEmptyState = emptyState ?? brand?.emptyState
   const effectiveLogo = logo ?? brand?.logo
   const effectivePlaceholder = placeholder ?? brand?.placeholder ?? 'Ask a question...'
-  const effectiveDocsHref = docsHref === undefined ? (brand?.docsHref ?? '/docs/cookbook/ask-the-docs') : docsHref
-  const effectiveDocsLabel = docsLabel ?? brand?.docsLabel ?? 'Build a chat like this - step by step ->'
+  const effectiveDocsHref = docsHref === undefined ? (brand?.docsHref ?? 'https://chat.agentskit.io/') : docsHref
+  const effectiveDocsLabel = docsLabel ?? brand?.docsLabel ?? 'Build a chat like this — step by step →'
   const askLabel = typeof effectiveFabLabel === 'string' ? effectiveFabLabel : 'Ask the docs'
   const storageIdentity = [corpus, persona].filter(Boolean).join(':')
   const legacyStorageKey = storageIdentity ? `ak:ask-thread-v2:${storageIdentity}` : 'ak:ask-thread-v2'
@@ -323,7 +323,11 @@ export function AskDocsWidget({
         </div>
         <div className="border-t border-ak-border p-2">
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-1">
-            {effectiveDocsHref ? <Link href={effectiveDocsHref} data-ak-ask-docs-link="" className="flex items-center gap-1.5 font-mono text-[10px] text-ak-graphite"><AnimatedLogo variant="nav" size={12} />{effectiveDocsLabel}</Link> : null}
+            {effectiveDocsHref ? (
+              effectiveDocsHref.startsWith('http')
+                ? <a href={effectiveDocsHref} data-ak-ask-docs-link="" className="flex items-center gap-1.5 font-mono text-[10px] text-ak-graphite"><AnimatedLogo variant="nav" size={12} />{effectiveDocsLabel}</a>
+                : <Link href={effectiveDocsHref} data-ak-ask-docs-link="" className="flex items-center gap-1.5 font-mono text-[10px] text-ak-graphite"><AnimatedLogo variant="nav" size={12} />{effectiveDocsLabel}</Link>
+            ) : null}
             {cta ? <a href={cta.href} target={cta.target} rel={cta.target === '_blank' ? 'noreferrer' : undefined} data-ak-ask-cta="" className="font-mono text-[10px] font-semibold uppercase tracking-widest text-ak-blue">{cta.label}</a> : null}
           </div>
         </div>
