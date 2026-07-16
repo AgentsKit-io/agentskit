@@ -25,7 +25,7 @@ importers:
         version: link:packages/core
       '@agentskit/doc-bridge':
         specifier: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz
-        version: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz(@agentskit/core@packages+core)(@agentskit/ink@0.10.4(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/memory@0.11.0)(@agentskit/rag@0.4.14)(react@19.2.7)
+        version: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz(@agentskit/core@packages+core)(react@19.2.7)
       '@agentskit/eval':
         specifier: workspace:*
         version: link:packages/eval
@@ -127,8 +127,8 @@ importers:
         specifier: workspace:*
         version: link:../../packages/adapters
       '@agentskit/chat':
-        specifier: 0.3.0
-        version: 0.3.0(@agentskit/core@packages+core)(@agentskit/ink@0.10.4(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/react@packages+react)(@angular/common@21.2.18(@angular/core@21.2.18(@angular/compiler@21.2.18)(rxjs@7.8.2)(zone.js@0.16.2))(rxjs@7.8.2))(@angular/core@21.2.18(@angular/compiler@21.2.18)(rxjs@7.8.2)(zone.js@0.16.2))(ink@7.1.0(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.7))(react@19.2.7)(rxjs@7.8.2)(solid-js@1.9.14)(svelte@5.56.4)(vue@3.5.39(typescript@6.0.3))
+        specifier: 0.4.0
+        version: 0.4.0(@agentskit/core@packages+core)(@agentskit/react@packages+react)(@angular/common@21.2.18(@angular/core@21.2.18(@angular/compiler@21.2.18)(rxjs@7.8.2)(zone.js@0.16.2))(rxjs@7.8.2))(@angular/core@21.2.18(@angular/compiler@21.2.18)(rxjs@7.8.2)(zone.js@0.16.2))(ink@7.1.0(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.7))(react@19.2.7)(rxjs@7.8.2)(solid-js@1.9.14)(svelte@5.56.4)(vue@3.5.39(typescript@6.0.3))
       '@agentskit/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -637,8 +637,8 @@ importers:
   apps/registry:
     dependencies:
       '@agentskit/chat':
-        specifier: 0.3.0
-        version: 0.3.0(@agentskit/core@packages+core)(@agentskit/ink@0.10.4(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/react@packages+react)(@angular/common@21.2.18(@angular/core@21.2.18(@angular/compiler@21.2.18)(rxjs@7.8.2)(zone.js@0.16.2))(rxjs@7.8.2))(@angular/core@21.2.18(@angular/compiler@21.2.18)(rxjs@7.8.2)(zone.js@0.16.2))(ink@7.1.0(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.7))(react@19.2.7)(rxjs@7.8.2)(solid-js@1.9.14)(svelte@5.56.4)(vue@3.5.39(typescript@6.0.3))
+        specifier: 0.4.0
+        version: 0.4.0(@agentskit/core@packages+core)(@agentskit/react@packages+react)(@angular/common@21.2.18(@angular/core@21.2.18(@angular/compiler@21.2.18)(rxjs@7.8.2)(zone.js@0.16.2))(rxjs@7.8.2))(@angular/core@21.2.18(@angular/compiler@21.2.18)(rxjs@7.8.2)(zone.js@0.16.2))(ink@7.1.0(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.7))(react@19.2.7)(rxjs@7.8.2)(solid-js@1.9.14)(svelte@5.56.4)(vue@3.5.39(typescript@6.0.3))
       '@agentskit/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -1507,8 +1507,8 @@ packages:
   '@adobe/css-tools@4.5.0':
     resolution: {integrity: sha512-6OzddxPio9UiWTCemp4N8cYLV2ZN1ncRnV1cVGtve7dhPOtRkleRyx32GQCYSwDYgaHU3USMm84tNsvKzRCa1Q==}
 
-  '@agentskit/chat@0.3.0':
-    resolution: {integrity: sha512-N424oOZ5DClrCMTp5V5djOg+N2rwj2LJ+ZtqQvpwBEO/sZ1BORFnenqFAJEyWptAw3/REHi9etDhhTWJcWGBnQ==}
+  '@agentskit/chat@0.4.0':
+    resolution: {integrity: sha512-RJ4akVS3LtoXrFpy7/3Lqd92cCpdbg10DcGxnm/w0DgdO1wM33s5OTD6JeWJ6QBojUFbG0IdH+AGm1ZPsh1KtQ==}
     peerDependencies:
       '@agentskit/angular': ^0.4.6
       '@agentskit/core': ^1.12.3
@@ -1593,16 +1593,8 @@ packages:
   '@agentskit/eval@0.4.19':
     resolution: {integrity: sha512-DYjEa6bgzP/rVqTZBuguXjn+JuoPG9NfVUa/ogubm5hPlVKL0SVD1ThTDfuhTqrMqOgqHIBwIHv5yFbjnqheDg==}
 
-  '@agentskit/ink@0.10.4':
-    resolution: {integrity: sha512-M3/yBrEM2Pen1LVa+0xZQds0bDaSaY5jK90jpwg6fGg+dDcU+ZyxgqcW2TufddQJxVrOFzJr9xlRVBELmdJB3g==}
-    peerDependencies:
-      react: '>=18.0.0'
-
   '@agentskit/memory@0.11.0':
     resolution: {integrity: sha512-sTAVVmaHIKLUYH3nFfbjmWwm3zfQ1Ljy1ct4mVhOlrvqfequ+sekrA+dzStX4PrQEtGob3MEy3qZlwwA+oxsqw==}
-
-  '@agentskit/rag@0.4.14':
-    resolution: {integrity: sha512-MYIKHWuoBHf+5Nvmtp7RsPogQCdy/WLKvepl7L2+iU74x/vpTNuCjeQZz7Hqu9BWwAgGShejHoLNHlRLQSYtNw==}
 
   '@agentskit/statechart@0.2.0':
     resolution: {integrity: sha512-P1wn2s5tcKe/WvtJWySm7/Pu1tKAKbet6vqocJuQUTlzRgdQeGq9l8DEj1mqR6duYSaQJW2Kb0w2zPLFUNLosQ==}
@@ -8686,7 +8678,7 @@ snapshots:
 
   '@adobe/css-tools@4.5.0': {}
 
-  '@agentskit/chat@0.3.0(@agentskit/core@packages+core)(@agentskit/ink@0.10.4(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/react@packages+react)(@angular/common@21.2.18(@angular/core@21.2.18(@angular/compiler@21.2.18)(rxjs@7.8.2)(zone.js@0.16.2))(rxjs@7.8.2))(@angular/core@21.2.18(@angular/compiler@21.2.18)(rxjs@7.8.2)(zone.js@0.16.2))(ink@7.1.0(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.7))(react@19.2.7)(rxjs@7.8.2)(solid-js@1.9.14)(svelte@5.56.4)(vue@3.5.39(typescript@6.0.3))':
+  '@agentskit/chat@0.4.0(@agentskit/core@packages+core)(@agentskit/react@packages+react)(@angular/common@21.2.18(@angular/core@21.2.18(@angular/compiler@21.2.18)(rxjs@7.8.2)(zone.js@0.16.2))(rxjs@7.8.2))(@angular/core@21.2.18(@angular/compiler@21.2.18)(rxjs@7.8.2)(zone.js@0.16.2))(ink@7.1.0(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.7))(react@19.2.7)(rxjs@7.8.2)(solid-js@1.9.14)(svelte@5.56.4)(vue@3.5.39(typescript@6.0.3))':
     dependencies:
       '@agentskit/core': link:packages/core
       '@agentskit/eval': 0.4.19
@@ -8695,7 +8687,6 @@ snapshots:
       tslib: 2.8.1
       zod: 4.4.3
     optionalDependencies:
-      '@agentskit/ink': 0.10.4(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)
       '@agentskit/react': link:packages/react
       '@angular/common': 21.2.18(@angular/core@21.2.18(@angular/compiler@21.2.18)(rxjs@7.8.2)(zone.js@0.16.2))(rxjs@7.8.2)
       '@angular/core': 21.2.18(@angular/compiler@21.2.18)(rxjs@7.8.2)(zone.js@0.16.2)
@@ -8709,42 +8700,20 @@ snapshots:
 
   '@agentskit/core@1.12.3': {}
 
-  '@agentskit/doc-bridge@https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz(@agentskit/core@packages+core)(@agentskit/ink@0.10.4(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/memory@0.11.0)(@agentskit/rag@0.4.14)(react@19.2.7)':
+  '@agentskit/doc-bridge@https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.1.0/agentskit-doc-bridge-1.1.0.tgz(@agentskit/core@packages+core)(react@19.2.7)':
     dependencies:
       zod: 3.25.76
     optionalDependencies:
       '@agentskit/core': link:packages/core
-      '@agentskit/ink': 0.10.4(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)
-      '@agentskit/memory': 0.11.0
-      '@agentskit/rag': 0.4.14
       react: 19.2.7
 
   '@agentskit/eval@0.4.19':
     dependencies:
       '@agentskit/core': 1.12.3
 
-  '@agentskit/ink@0.10.4(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)':
-    dependencies:
-      '@agentskit/core': 1.12.3
-      ink: 7.1.0(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)
-      marked: 15.0.12
-      marked-terminal: 7.3.0(marked@15.0.12)
-      react: 19.2.7
-    transitivePeerDependencies:
-      - '@types/react'
-      - bufferutil
-      - react-devtools-core
-      - utf-8-validate
-    optional: true
-
   '@agentskit/memory@0.11.0':
     dependencies:
       '@agentskit/core': 1.12.3
-
-  '@agentskit/rag@0.4.14':
-    dependencies:
-      '@agentskit/core': 1.12.3
-    optional: true
 
   '@agentskit/statechart@0.2.0': {}
 

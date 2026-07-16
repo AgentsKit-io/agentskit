@@ -6,7 +6,7 @@
  * Classified under `scripts/lib/product-chat-adoption.mjs` as a low-level
  * binding demo — not a product-chat host. Prefer `@agentskit/react` (etc.)
  * here; product Ask widgets live under `components/docs` / Registry and pin
- * exact `@agentskit/chat@0.3.0`.
+ * exact `@agentskit/chat@0.4.0`.
  */
 import React, { useState, type ReactNode } from 'react'
 

@@ -1,7 +1,7 @@
 /**
  * Deterministic classification + audit for AgentsKit product-chat surfaces.
  *
- * Product chats (Docs Ask + Registry Ask) must pin exact `@agentskit/chat@0.3.0`
+ * Product chats (Docs Ask + Registry Ask) must pin exact `@agentskit/chat@0.4.0`
  * and may only import supported subpaths. Legacy standalone packages
  * (`@agentskit/chat-protocol`, `@agentskit/chat-react`) are forbidden.
  *
@@ -13,7 +13,7 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs'
 import { join, relative, sep } from 'node:path'
 
-export const EXACT_CHAT_VERSION = '0.3.0'
+export const EXACT_CHAT_VERSION = '0.4.0'
 
 export const LEGACY_CHAT_PACKAGES = Object.freeze([
   '@agentskit/chat-protocol',
