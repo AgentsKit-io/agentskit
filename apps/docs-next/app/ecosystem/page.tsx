@@ -9,7 +9,14 @@ export const metadata: Metadata = {
 }
 
 /** Canonical seven-product mesh (roles from ecosystem.json). */
-const PRODUCT_MESH = [
+const PRODUCT_MESH: ReadonlyArray<{
+  id: string
+  name: string
+  role: string
+  href: string
+  blurb: string
+  youAreHere?: boolean
+}> = [
   {
     id: 'agentskit',
     name: 'AgentsKit',
@@ -60,7 +67,7 @@ const PRODUCT_MESH = [
     href: 'https://akos.agentskit.io',
     blurb: 'Enterprise operation and governance.',
   },
-] as const
+]
 
 const STABILITY_RANK: Record<string, number> = {
   stable: 0,

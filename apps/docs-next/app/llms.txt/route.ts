@@ -60,9 +60,9 @@ export function GET() {
   const lines: string[] = [
     '# AgentsKit.js',
     '',
-    `> The agent toolkit the JavaScript ecosystem finally has. Small packages, one contract, everything composes — chat UIs (${counts.frameworkBindings} frameworks), autonomous runtimes, tools, skills, memory, RAG, observability, evaluation, sandboxing.`,
+    `> Foundation library for JavaScript agents. Small packages, one contract, everything composes — UI bindings (${counts.frameworkBindings} frameworks), autonomous runtimes, tools, skills, memory, RAG, observability, evaluation, sandboxing. Product chat UI is AgentsKit Chat (sibling), not this monorepo alone.`,
     '',
-    `Six stable contracts (Adapter, Tool, Skill, Memory, Retriever, Runtime). ${counts.packages} packages under \`@agentskit/*\`. Install what you need. Zero-dep foundation under 10 KB gzipped.`,
+    `Six stable contracts (Adapter, Tool, Skill, Memory, Retriever, Runtime). ${counts.packages} packages under \`@agentskit/*\`. Install what you need. Zero-dep foundation under the 10 KB gzip budget.`,
     '',
     '## For agents',
     '',
