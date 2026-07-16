@@ -1,5 +1,5 @@
 import assert from 'node:assert/strict'
-import test from 'node:test'
+import { test } from 'vitest'
 import { formatEcosystemLlmsBlock } from './lib/ecosystem-llms-block.mjs'
 
 test('formatEcosystemLlmsBlock marks current product and includes roles', () => {
