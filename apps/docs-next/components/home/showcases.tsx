@@ -151,8 +151,8 @@ export function WorksWithSection() {
           One contract. Every tool, every model.
         </h2>
         <p className="mx-auto mt-3 max-w-xl text-ak-graphite">
-          {counts.integrations}+ built-in integrations and {Math.floor(counts.catalogProviders / 100) * 100}+ providers
-          ({Math.floor(counts.catalogModels / 1000)}k+ models) behind a single contract — Slack,
+          {counts.integrations} built-in integrations and {counts.catalogProviders} providers
+          ({counts.catalogModels.toLocaleString('en-US')} models) behind a single contract — Slack,
           Notion, Stripe, OpenAI, Anthropic, and the long tail.
         </p>
         <div className="mt-4 flex flex-wrap items-center justify-center gap-x-6">

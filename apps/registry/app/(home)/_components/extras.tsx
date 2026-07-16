@@ -12,7 +12,7 @@ export function WhatIs() {
   return (
     <section className="px-4 py-16 sm:px-6 sm:py-20">
       <div className="mx-auto max-w-5xl">
-        <div className="rg-reveal font-mono text-xs uppercase tracking-[0.2em] text-ak-blue">The shadcn for AI agents</div>
+        <div className="rg-reveal font-mono text-xs uppercase tracking-[0.2em] text-ak-blue">Copy the source. Own the agent.</div>
         <h2 className="rg-reveal mt-2 text-2xl font-bold tracking-tight text-ak-foam sm:text-3xl">Install an agent the way you install a component</h2>
         <p className="rg-reveal mt-2 max-w-2xl text-ak-graphite">
           Each agent is a small, self-contained factory wiring published @agentskit/* packages into a one-call

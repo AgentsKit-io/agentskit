@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "$comment": "Canonical registry of AgentsKit ecosystem products. Stable identity lives here; numeric values live in the generated ecosystem-claims ledger. The deprecated properties array temporarily preserves v1 sibling consumers.",
+  "$comment": "Canonical registry of AgentsKit ecosystem products. Stable identity lives in products[] (seven). Numeric values live in the generated ecosystem-claims ledger. The deprecated properties array remains a v1 four-product shim for Doc Bridge / sibling consumers until those schemas accept the full seven-product set \u2014 do not treat properties as the product catalog.",
   "parentBrand": {
     "id": "agentskit",
     "name": "AgentsKit"
@@ -27,7 +27,14 @@
       "navigation": {
         "showInBar": true,
         "order": 0,
-        "next": ["registry", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"]
+        "next": [
+          "registry",
+          "agentskit-chat",
+          "playbook",
+          "doc-bridge",
+          "code-review",
+          "akos"
+        ]
       }
     },
     {
@@ -51,7 +58,14 @@
       "navigation": {
         "showInBar": true,
         "order": 1,
-        "next": ["agentskit", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"]
+        "next": [
+          "agentskit",
+          "agentskit-chat",
+          "playbook",
+          "doc-bridge",
+          "code-review",
+          "akos"
+        ]
       }
     },
     {
@@ -74,7 +88,14 @@
       "navigation": {
         "showInBar": true,
         "order": 2,
-        "next": ["agentskit", "registry", "playbook", "doc-bridge", "code-review", "akos"]
+        "next": [
+          "agentskit",
+          "registry",
+          "playbook",
+          "doc-bridge",
+          "code-review",
+          "akos"
+        ]
       }
     },
     {
@@ -98,7 +119,14 @@
       "navigation": {
         "showInBar": true,
         "order": 3,
-        "next": ["agentskit", "registry", "agentskit-chat", "doc-bridge", "code-review", "akos"]
+        "next": [
+          "agentskit",
+          "registry",
+          "agentskit-chat",
+          "doc-bridge",
+          "code-review",
+          "akos"
+        ]
       }
     },
     {
@@ -121,7 +149,14 @@
       "navigation": {
         "showInBar": true,
         "order": 4,
-        "next": ["agentskit", "registry", "agentskit-chat", "playbook", "code-review", "akos"]
+        "next": [
+          "agentskit",
+          "registry",
+          "agentskit-chat",
+          "playbook",
+          "code-review",
+          "akos"
+        ]
       }
     },
     {
@@ -144,7 +179,14 @@
       "navigation": {
         "showInBar": false,
         "order": 5,
-        "next": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "akos"]
+        "next": [
+          "agentskit",
+          "registry",
+          "agentskit-chat",
+          "playbook",
+          "doc-bridge",
+          "akos"
+        ]
       }
     },
     {

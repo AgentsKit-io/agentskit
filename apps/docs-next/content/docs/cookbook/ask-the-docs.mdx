@@ -1,9 +1,11 @@
 ---
 title: Build an Ask-the-docs chat
-description: The exact grounded RAG chat in this site's corner — index your docs, ground a free model, stream cited answers. Copy it, or scaffold it with one command.
+description: Recipe for a grounded RAG docs chat using AgentsKit Chat on the AgentsKit foundation. For the product chat framework home, start at chat.agentskit.io.
 ---
 
-This is the recipe for the chat you're using right now: a **grounded RAG assistant** over your own docs that streams **concise, cited** answers — running at **$0** on the OpenRouter free pool, built entirely on `@agentskit/*`.
+> **Ownership.** Product chat applications and the shared Ask shell live in **[AgentsKit Chat](https://chat.agentskit.io/)**. This cookbook is a foundation-side recipe that dogfoods Chat on top of `@agentskit/*` (adapters, memory, RAG). Prefer the Chat docs when you want the versioned multi-surface application layer.
+
+This is the recipe for the chat you're using right now: a **grounded RAG assistant** over your own docs that streams **concise, cited** answers — running at **$0** on the OpenRouter free pool, composed with **AgentsKit Chat** over the AgentsKit foundation.
 
 The production widget dogfoods the public AgentsKit Chat framework. `AgentChat` owns the canonical message timeline, streaming lifecycle, cancellation, retry/edit/regenerate behavior, persistence through AgentsKit memory, component validation, and accessible rendering diagnostics. The docs host keeps only its corpus branding, Markdown slot, generated local knowledge, and a small adapter that converts the existing Ask NDJSON boundary into ordered assistant content. Citations use the standard `source-list` contract rather than a site-private citation component. Known exact questions now use the [deterministic local answer plane](./deterministic-docs-answers) before this RAG path, so they require no backend request.
 
