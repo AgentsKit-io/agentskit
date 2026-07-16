@@ -11,26 +11,27 @@ const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mon
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' })
 
 const SITE_URL = 'https://www.agentskit.io'
-const DESCRIPTION = 'The agent toolkit JavaScript actually deserves.'
+const DESCRIPTION =
+  'AgentsKit is the foundation library for JavaScript agents — runtime, tools, memory, RAG, and UI bindings. Product chat lives in AgentsKit Chat.'
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'AgentsKit.js — the agent toolkit JavaScript actually deserves',
+    default: 'AgentsKit.js — foundation library for JavaScript agents',
     template: '%s | AgentsKit.js',
   },
   description: DESCRIPTION,
   keywords: [
     'AI agents',
     'JavaScript agent toolkit',
-    'TypeScript AI',
-    'LLM chat UI',
-    'React AI hooks',
+    'TypeScript agent library',
+    'foundation agent library',
+    'AgentsKit',
+    'LLM adapters',
+    'agent runtime',
+    'RAG toolkit',
     'OpenAI adapter',
     'Anthropic adapter',
-    'streaming chat',
-    'agent framework',
-    'RAG toolkit',
   ],
   authors: [{ name: 'Emerson Braun', url: 'https://github.com/EmersonBraun' }],
   creator: 'Emerson Braun',
@@ -66,20 +67,20 @@ export const metadata = {
     locale: 'en_US',
     url: SITE_URL,
     siteName: 'AgentsKit.js',
-    title: 'AgentsKit.js — the agent toolkit JavaScript actually deserves',
+    title: 'AgentsKit.js — foundation library for JavaScript agents',
     description: DESCRIPTION,
     images: [
       {
         url: '/api/og',
         width: 1200,
         height: 630,
-        alt: 'AgentsKit.js — the agent toolkit JavaScript actually deserves',
+        alt: 'AgentsKit.js — foundation library for JavaScript agents',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AgentsKit.js — the agent toolkit JavaScript actually deserves',
+    title: 'AgentsKit.js — foundation library for JavaScript agents',
     description: DESCRIPTION,
     images: ['/api/og'],
   },
