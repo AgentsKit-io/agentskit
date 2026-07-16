@@ -4,8 +4,8 @@
   "profileVersion": 1,
   "productId": "agentskit",
   "repo": "AgentsKit-io/agentskit",
-  "commit": "54281fb5c92061f0e9ba9200097f013ee1bba08a",
-  "auditedOn": "2026-08-13",
+  "commit": "9b518ba562d202bf0d62426b8897dcd326fb0fc2",
+  "auditedOn": "2026-07-16",
   "docBridge": {
     "artifact": "docs/evidence/ecosystem-documentation-quality/doc-bridge/agentskit.json",
     "doctorScore": 100,
@@ -30,7 +30,7 @@
   },
   "attestation": {
     "sourceMode": "commit",
-    "contentDigest": "sha256:a992df46d9e5e4267abcb99edc6059d62b9c887a88c905c21e3fbda2bdb6b5d9"
+    "contentDigest": "sha256:5a6679862d896a2efd818b049814fe1351738d24d76caf0ca2dcf9f38ac58e00"
   },
   "machineSurfaces": {
     "llmsTxt": "llms.txt",
@@ -44,7 +44,7 @@
   },
   "narrative": {
     "readme": "README.md",
-    "readmeWordCount": 1667,
+    "readmeWordCount": 1670,
     "humanDocs": "apps/docs-next/content/docs/index.mdx",
     "forAgents": "apps/docs-next/content/docs/for-agents/index.mdx",
     "keyJourneys": [
