@@ -2,6 +2,8 @@ const MATURITY = new Set(['planning', 'alpha', 'beta', 'stable', 'deprecated'])
 const DOCUMENTATION_MODES = new Set(['fumadocs', 'repository'])
 const CHAT_MODES = new Set(['agentschat', 'custom', 'none'])
 const SURFACE_KEYS = ['home', 'docs', 'llms', 'stats']
+/** v1 properties array tracks the full seven-product set (expanded from original four). */
+/** Deprecated v1 four-product shim — products[] is the seven-product catalog. */
 const LEGACY_PRODUCT_IDS = ['agentskit', 'akos', 'playbook', 'registry']
 const CANONICAL_PRODUCT_IDS = ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge', 'code-review', 'akos']
 
