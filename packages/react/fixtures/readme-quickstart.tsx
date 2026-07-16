@@ -2,7 +2,7 @@ import { useChat, ChatContainer, Message, InputBar } from '@agentskit/react'
 import { anthropic } from '@agentskit/adapters'
 import '@agentskit/react/theme'
 
-function Chat() {
+export function Chat() {
   const chat = useChat({
     adapter: anthropic({ apiKey: process.env.ANTHROPIC_API_KEY, model: 'claude-sonnet-4-6' }),
   })

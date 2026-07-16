@@ -1,4 +1,4 @@
-import { anthropic, openai, ollama } from '@agentskit/adapters'
+import { anthropic } from '@agentskit/adapters'
 import { createRuntime } from '@agentskit/runtime'
 
 // Switch provider by swapping one import

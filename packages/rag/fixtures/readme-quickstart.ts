@@ -12,3 +12,4 @@ await rag.ingest([
 ])
 
 const docs = await rag.search('How does AgentsKit work?', { topK: 5 })
+console.log(docs)

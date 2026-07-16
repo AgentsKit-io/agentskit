@@ -54,7 +54,7 @@ npm install @agentskit/memory better-sqlite3
 ```ts
 import { createRuntime } from '@agentskit/runtime'
 import { anthropic } from '@agentskit/adapters'
-import { sqliteChatMemory, fileVectorMemory } from '@agentskit/memory'
+import { sqliteChatMemory } from '@agentskit/memory'
 
 const runtime = createRuntime({
   adapter: anthropic({ apiKey: process.env.ANTHROPIC_API_KEY, model: 'claude-sonnet-4-6' }),

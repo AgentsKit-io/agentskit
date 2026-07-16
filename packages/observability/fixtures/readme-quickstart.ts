@@ -11,4 +11,5 @@ const runtime = createRuntime({
 })
 
 const result = await runtime.run('Analyze sales data in ./data/sales.csv')
+console.log(result.content)
 // Every step is now logged and traced automatically

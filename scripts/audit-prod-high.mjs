@@ -19,9 +19,6 @@ const BULK_URL = 'https://registry.npmjs.org/-/npm/v1/security/advisories/bulk'
 const FAIL_SEVERITIES = new Set(['high', 'critical'])
 
 const require = createRequire(import.meta.url)
-const pnpmBin = process.env.npm_execpath
-  ? process.execPath
-  : null
 
 function listProductionDependencies() {
   // Use the workspace package manager for lockfile-consistent resolution.
