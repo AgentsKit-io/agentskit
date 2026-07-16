@@ -1,7 +1,7 @@
 import { source } from '@/lib/source'
 import { counts } from '@/lib/ecosystem-stats'
 import ecosystem from '@/lib/ecosystem.json'
-import { formatEcosystemLlmsBlock } from '@/lib/ecosystem-llms-block'
+import { formatEcosystemLlmsBlock } from '@agentskit/doc-bridge'
 
 export const dynamic = 'force-static'
 

@@ -1,7 +1,7 @@
 import { source } from '@/lib/source'
 import { getRegistryIndex } from '@/lib/registry'
 import ecosystemManifest from '../../../../ecosystem.json'
-import { formatEcosystemLlmsBlock } from '@/lib/ecosystem-llms-block'
+import { formatEcosystemLlmsBlock } from '@agentskit/doc-bridge'
 
 export const revalidate = 3600
 const SITE = 'https://registry.agentskit.io'

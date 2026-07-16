@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { test } from 'vitest'
-import { formatEcosystemLlmsBlock } from './lib/ecosystem-llms-block.mjs'
+import { formatEcosystemLlmsBlock } from '@agentskit/doc-bridge'
 
 test('formatEcosystemLlmsBlock marks current product and includes roles', () => {
   const lines = formatEcosystemLlmsBlock({
