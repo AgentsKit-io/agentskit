@@ -7,6 +7,13 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import Script from 'next/script'
 import { alternatesFor } from '@/lib/locales'
 
+/** next/script ScriptProps drops HTML attrs under TS 6 + React 19 types. */
+const EcosystemBarScript = Script as unknown as (props: {
+  src: string
+  strategy?: 'afterInteractive' | 'lazyOnload' | 'beforeInteractive' | 'worker'
+  'data-current'?: string
+}) => ReactNode
+
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' })
@@ -109,7 +116,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         </RootProvider>
         <Analytics />
         <SpeedInsights />
-        <Script src="/ecosystem-bar.js" strategy="afterInteractive" data-current="agentskit" />
+        <EcosystemBarScript src="/ecosystem-bar.js" strategy="afterInteractive" data-current="agentskit" />
       </body>
     </html>
   )

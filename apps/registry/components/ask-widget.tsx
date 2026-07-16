@@ -202,7 +202,9 @@ export function RegistryAskWidget() {
 }
 
 function Styles() {
-  return <style jsx global>{`
+  // Plain global <style> avoids styled-jsx typings under React 19 / TS 6.
+  return (
+    <style>{`
     .rg-ask-fab,.rg-ask-panel{--ask-bg:var(--ak-midnight);--ask-surface:var(--ak-surface);--ask-border:var(--ak-border);--ask-text:var(--ak-foam);--ask-muted:var(--ak-graphite);--ask-accent:var(--ak-blue);--ask-danger:var(--ak-red);position:fixed;right:1rem;bottom:1rem;z-index:80;color:var(--ask-text);font-family:var(--font-mono),ui-monospace,monospace}
     .rg-ask-fab{display:inline-flex;min-height:44px;align-items:center;gap:.5rem;border:1px solid var(--ask-border);border-radius:999px;background:var(--ask-bg);padding:.625rem 1rem;box-shadow:0 12px 32px rgb(0 0 0/.2);font-size:.75rem;font-weight:700;cursor:pointer;transition:border-color 160ms ease,transform 160ms ease}.rg-ask-fab:hover{border-color:var(--ask-accent);transform:translateY(-1px)}
     .rg-ask-panel{display:flex;width:min(440px,calc(100vw - 2rem));height:min(620px,calc(100dvh - 2rem));flex-direction:column;overflow:hidden;border:1px solid var(--ask-border);border-radius:.75rem;background:var(--ask-bg);box-shadow:0 24px 70px rgb(0 0 0/.38)}
@@ -216,4 +218,5 @@ function Styles() {
     .rg-ask-footer{display:flex;min-height:44px;align-items:center;justify-content:space-between;gap:.5rem;border-top:1px solid var(--ask-border);padding:0 .75rem}.rg-ask-footer a{display:inline-flex;align-items:center;gap:.4rem}.rg-ask-footer [data-rg-answer-path]{color:var(--ask-muted);font-size:.625rem;letter-spacing:.08em;text-transform:uppercase}.rg-ask-sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}.rg-ask-panel button:focus-visible,.rg-ask-panel a:focus-visible,.rg-ask-panel textarea:focus-visible,.rg-ask-fab:focus-visible{outline:2px solid var(--ask-accent);outline-offset:2px}
     @media(max-width:639px){.rg-ask-panel{inset:.5rem;width:auto;height:auto}.rg-ask-fab{right:.75rem;bottom:.75rem}}@media(prefers-reduced-motion:reduce){.rg-ask-fab{transition:none}.rg-ask-fab:hover{transform:none}}
   `}</style>
+  )
 }

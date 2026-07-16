@@ -7,6 +7,13 @@ import Script from 'next/script'
 import { PostHogProvider } from './posthog-provider'
 import { RegistryAskWidget } from '@/components/ask-widget'
 
+/** next/script ScriptProps drops HTML attrs under TS 6 + React 19 types. */
+const EcosystemBarScript = Script as unknown as (props: {
+  src: string
+  strategy?: 'afterInteractive' | 'lazyOnload' | 'beforeInteractive' | 'worker'
+  'data-current'?: string
+}) => ReactNode
+
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' })
@@ -41,7 +48,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <RegistryAskWidget />
           </RootProvider>
         </PostHogProvider>
-        <Script src="https://www.agentskit.io/ecosystem-bar.js" strategy="afterInteractive" data-current="registry" />
+        <EcosystemBarScript
+          src="https://www.agentskit.io/ecosystem-bar.js"
+          strategy="afterInteractive"
+          data-current="registry"
+        />
       </body>
     </html>
   )
