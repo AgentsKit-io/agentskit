@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "profileId": "agentskit.ecosystem.documentation-quality",
+  "profileVersion": 1,
+  "productId": "agentskit-chat",
+  "repo": "AgentsKit-io/agentskit-chat",
+  "commit": "48bcfac9a548b005b0e4200ce4cd91751b3f5529",
+  "auditedOn": "2026-07-15",
+  "docBridge": {
+    "artifact": "docs/evidence/ecosystem-documentation-quality/doc-bridge/agentskit-chat.json",
+    "doctorScore": 100,
+    "coverage": { "agent": { "ready": 28, "total": 28 }, "human": { "ready": 28, "total": 28 } },
+    "conformance": { "requiredPassed": 7, "requiredTotal": 7, "requiredExcepted": 0, "recommendedPassed": 2, "recommendedTotal": 2, "recommendedExcepted": 0 }
+  },
+  "attestation": { "sourceMode": "commit", "contentDigest": "sha256:a70c2c90e678e9022f00aa0b062d8ede5a73ba243d9447acd10637f8d39c448d" },
+  "machineSurfaces": {
+    "llmsTxt": "apps/docs/app/llms.txt/route.ts",
+    "llmsFullTxt": "apps/docs/app/llms-full.txt/route.ts",
+    "rawSources": ["apps/docs/app/raw/[...path]/route.ts", "docs/index.mdx", "docs/for-agents/index.md"],
+    "forAgents": "apps/docs/app/for-agents/page.tsx"
+  },
+  "narrative": {
+    "readme": "README.md",
+    "readmeWordCount": 519,
+    "humanDocs": "docs/index.mdx",
+    "forAgents": "docs/for-agents/index.md",
+    "keyJourneys": [
+      { "id": "hosted-self-hosted-backend", "path": "docs/backend.md", "wordCount": 359, "visualDecision": "diagram", "evidence": ["docs/backend.md#hosted-and-self-hosted-ask-backend"] },
+      { "id": "deterministic-answers", "path": "docs/protocol/deterministic-answers.md", "wordCount": 677, "visualDecision": "diagram", "evidence": ["docs/protocol/deterministic-answers.md#exact-means-exact"] },
+      { "id": "ecosystem-convergence", "path": "docs/architecture/adrs/0030-ecosystem-product-chat-convergence.md", "wordCount": 823, "visualDecision": "diagram", "evidence": ["docs/architecture/adrs/0030-ecosystem-product-chat-convergence.md#system-boundary"] }
+    ]
+  },
+  "discovery": {
+    "globalProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"],
+    "siblingProductIds": ["agentskit", "registry", "playbook", "doc-bridge", "code-review", "akos"],
+    "contextualHooks": [
+      { "id": "documentation", "status": "linked", "targetProductId": "doc-bridge", "evidence": ["docs/index.mdx#continue-through-the-ecosystem"] },
+      { "id": "chat", "status": "linked", "targetProductId": "agentskit-chat", "evidence": ["docs/product/positioning.md"] },
+      { "id": "enterprise", "status": "linked", "targetProductId": "akos", "evidence": ["docs/index.mdx#continue-through-the-ecosystem"] }
+    ]
+  }
+}

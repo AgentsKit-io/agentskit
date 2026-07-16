@@ -1,7 +1,7 @@
 # Ecosystem bar
 
-`ecosystem-bar.js` is the shared top nav linking the four AgentsKit properties
-(AgentsKit · Registry · AKOS · Playbook). It is hosted here on the main site and
+`ecosystem-bar.js` is the shared top nav linking the seven AgentsKit products
+(AgentsKit · Registry · Chat · Playbook · Doc Bridge · Code Review · AKOS). It is hosted here on the main site and
 embedded by every property. Editing this one file updates the bar everywhere.
 
 On the right side it also surfaces two community CTAs — **Star on GitHub**
@@ -12,13 +12,14 @@ are defined inline in the `build()` function.
 
 ## Embed on the other properties
 
-Add to each site's HTML (akos, playbook, registry repos):
+Add to each product surface. Repository-native Code Review links to its GitHub home:
 
 ```html
 <script src="https://www.agentskit.io/ecosystem-bar.js" defer data-current="akos"></script>
 ```
 
-Set `data-current` to one of: `framework` · `playbook` · `registry` · `akos`
+Set `data-current` to one of: `agentskit` · `registry` · `agentskit-chat` ·
+`playbook` · `doc-bridge` · `code-review` · `akos`
 (or omit it — the bar auto-detects by hostname). The current property is highlighted.
 
 ## Why no Subresource Integrity (SRI)

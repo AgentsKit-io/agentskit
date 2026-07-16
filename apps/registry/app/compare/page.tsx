@@ -42,7 +42,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
         <p className="font-mono text-xs uppercase text-ak-blue">Agent comparison</p>
         <h1 className="mt-3 text-3xl font-semibold text-ak-foam">Choose at least two agents</h1>
         <p className="mt-4 max-w-xl leading-7 text-ak-graphite">Select two or three agents in the catalog to compare their review evidence, capabilities, and setup requirements.</p>
-        <Link href={`/?compare=${ids.join(',')}#agents`} className="mt-7 inline-flex h-10 items-center rounded-md bg-ak-blue px-4 text-sm font-semibold text-ak-midnight hover:brightness-110">Browse agents</Link>
+        <Link href={`/agents?compare=${ids.join(',')}#agents`} className="mt-7 inline-flex h-10 items-center rounded-md bg-ak-blue px-4 text-sm font-semibold text-ak-midnight hover:brightness-110">Browse agents</Link>
       </main>
     )
   }
@@ -53,7 +53,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
     <main className="mx-auto w-full max-w-6xl px-4 py-10 sm:px-6 sm:py-14">
       <ComparisonAnalytics agentIds={details.map((agent) => agent.id)} />
       <nav aria-label="Breadcrumb" className="text-sm text-ak-graphite">
-        <Link href={`/?compare=${selected}#agents`} className="hover:text-ak-blue">Agents</Link>
+        <Link href={`/agents?compare=${selected}#agents`} className="hover:text-ak-blue">Agents</Link>
         <span className="px-2">/</span>
         <span aria-current="page" className="text-ak-foam">Compare</span>
       </nav>
@@ -62,7 +62,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
         <p className="font-mono text-xs uppercase text-ak-blue">Decision workspace</p>
         <h1 className="mt-3 text-3xl font-semibold text-ak-foam sm:text-4xl">Compare agents</h1>
         <p className="mt-4 max-w-2xl leading-7 text-ak-graphite">Review the published facts side by side. Final quality, cost, and latency still depend on your provider, model, tools, and evaluation inputs.</p>
-        <Link href={`/?compare=${selected}#agents`} className="mt-5 inline-block text-sm text-ak-blue hover:underline">Edit selection</Link>
+        <Link href={`/agents?compare=${selected}#agents`} className="mt-5 inline-block text-sm text-ak-blue hover:underline">Edit selection</Link>
       </header>
 
       <div className="mt-8 overflow-x-auto border-y border-ak-border">

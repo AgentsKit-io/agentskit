@@ -1,0 +1,16 @@
+---
+title: For agents
+description: Deterministic entry points and routing guidance for coding agents using the Registry.
+---
+
+# Registry context for coding agents
+
+Use the smallest surface that answers the task:
+
+- [`/llms.txt`](/llms.txt) for the concise map of documentation and agents.
+- [`/llms-full.txt`](/llms-full.txt) only when the complete documentation and catalog are required.
+- [`/r/index.json`](/r/index.json) for the deterministic agent catalog.
+- [`/deterministic/knowledge.json`](/deterministic/knowledge.json) for grounded local retrieval.
+- [`/api/mcp`](/api/mcp) for MCP discovery.
+
+Copy an agent when you need a starting point; keep ownership of the generated source. For framework primitives, use [AgentsKit](https://www.agentskit.io/docs). For conversational delivery, use [AgentsKit Chat](https://chat.agentskit.io/docs). For repository documentation handoffs, use [Doc Bridge](https://agentskit-io.github.io/doc-bridge/). For enterprise operation and governance, use [AKOS](https://akos.agentskit.io/docs).

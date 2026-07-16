@@ -4,7 +4,7 @@ import Link from 'next/link'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useEffect, useMemo } from 'react'
 import type { RegistryAgentSummary } from '@/lib/registry'
-import { comparisonControlLabel, filterAndSortAgents, parseCompareIds, toggleCompareId } from '@/lib/catalog'
+import { catalogUrl, comparisonControlLabel, filterAndSortAgents, parseCompareIds, toggleCompareId } from '@/lib/catalog'
 import type { CatalogSort } from '@/lib/catalog'
 import { queryLengthBucket } from '@/lib/analytics'
 import { trackRegistryEvent } from '@/lib/posthog-client'
@@ -61,7 +61,13 @@ function AgentCard({
   )
 }
 
-export function Browse({ agents }: { agents: RegistryAgentSummary[] }) {
+export function Browse({
+  agents,
+  basePath = '/',
+}: {
+  agents: RegistryAgentSummary[]
+  basePath?: '/' | '/agents'
+}) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const categories = useMemo(() => sortedCategories(agents.map((agent) => agent.category)), [agents])
@@ -115,7 +121,7 @@ export function Browse({ agents }: { agents: RegistryAgentSummary[] }) {
       if (!value || value === 1 || value === 'recommended' || (Array.isArray(value) && value.length === 0)) params.delete(key)
       else params.set(key, serialized)
     }
-    router.replace(`/?${params.toString()}#agents`, { scroll: false })
+    router.replace(catalogUrl(basePath, params), { scroll: false })
   }
 
   const hasFilters = Boolean(query || category || reviewed || runnable || sort !== 'recommended')

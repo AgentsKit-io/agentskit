@@ -59,5 +59,6 @@ Do NOT write an ADR for: routine features, bug fixes, internal refactors, or any
 | [0020](./0020-serializable-interaction-state.md) | Serializable interaction state | Accepted |
 | [0021](./0021-ecosystem-manifest-and-claims.md) | Versioned ecosystem manifest and evidence-backed claims | Proposed |
 | [0022](./0022-public-package-consolidation.md) | Public package consolidation | Accepted |
+| [0023](./0023-ecosystem-documentation-quality.md) | Strict ecosystem documentation quality profile | Proposed |
 
 The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.

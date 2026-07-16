@@ -28,6 +28,8 @@ const GATES = [
   ['ADR/RFC index sync', 'check-doc-index.mjs'],
   ['docs locale parity', 'check-intl-parity.mjs'],
   ['ecosystem contract tests', 'ecosystem-contract.test.mjs', [], 'vitest'],
+  ['ecosystem documentation quality contract', 'ecosystem-documentation-quality.test.mjs', [], 'vitest'],
+  ['ecosystem documentation quality attestations', 'check-ecosystem-documentation-quality.mjs', ['--evidence-dir', 'docs/evidence/ecosystem-documentation-quality']],
   ['ecosystem count drift', 'check-count-drift.mjs'],
   ['ecosystem claims freshness', 'gen-ecosystem-claims.mjs', ['--check']],
   ['ecosystem registry sync', 'sync-ecosystem.mjs', ['--check']],

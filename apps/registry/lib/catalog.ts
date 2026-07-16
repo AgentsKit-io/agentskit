@@ -4,6 +4,11 @@ export const MAX_COMPARE_AGENTS = 3
 
 export type CatalogSort = 'recommended' | 'score' | 'name'
 
+export function catalogUrl(basePath: '/' | '/agents', params: URLSearchParams): string {
+  const query = params.toString()
+  return `${basePath}${query ? `?${query}` : ''}#agents`
+}
+
 export interface CatalogFilters {
   query: string
   category: string

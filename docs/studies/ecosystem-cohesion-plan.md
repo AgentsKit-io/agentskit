@@ -1,6 +1,11 @@
 # AgentsKit Ecosystem Cohesion Plan
 
-**Status:** Draft for approval · **Date:** 2026-06-10 · **Owner:** Emerson Braun
+**Status:** Superseded baseline · **Date:** 2026-06-10 · **Owner:** Emerson Braun
+
+> Historical five-property study. The current seven-product identity contract is ADR 0021
+> and `ecosystem.json`; the active documentation certification rollout is ADR 0023 and
+> `docs/studies/ecosystem-documentation-quality-rollout.md`. Do not use the counts, URLs,
+> or property list below as current product truth.
 
 Unify the five AgentsKit-ecosystem web properties into one coherent surface:
 shared identity, reciprocal cross-references, perfect SEO, machine-readable

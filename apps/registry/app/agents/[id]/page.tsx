@@ -136,7 +136,7 @@ console.log(result.content)`
       <AgentAnalytics agentId={agent.id} category={agent.category} reviewed={Boolean(agent.validation)} runnable={Boolean(summary?.runnable)} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-ak-graphite">
-        <Link href="/#agents" className="hover:text-ak-blue">Agents</Link><span>/</span>
+        <Link href="/agents" className="hover:text-ak-blue">Agents</Link><span>/</span>
         <Link href={`/categories/${agent.category}`} className="hover:text-ak-blue">{category.label}</Link><span>/</span>
         <span aria-current="page" className="truncate text-ak-foam">{agent.title}</span>
       </nav>
@@ -164,7 +164,7 @@ console.log(result.content)`
           <p className="text-xs font-medium text-ak-graphite">Install</p>
           <InstallCommand agentId={agent.id} command={install} />
           <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 text-xs">
-            <Link href={`/?compare=${agent.id}#agents`} className="text-ak-blue hover:underline">Compare agent</Link>
+            <Link href={`/agents?compare=${agent.id}#agents`} className="text-ak-blue hover:underline">Compare agent</Link>
             <a href={`/r/${agent.id}.json`} className="text-ak-blue hover:underline">View raw manifest</a>
           </div>
         </div>

@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "profileId": "agentskit.ecosystem.documentation-quality",
+  "profileVersion": 1,
+  "productId": "code-review",
+  "repo": "AgentsKit-io/code-review-cli",
+  "commit": "28a5fa86dfc89ed8112480bde812c4e4be4b137f",
+  "auditedOn": "2026-07-15",
+  "docBridge": {
+    "artifact": "docs/evidence/ecosystem-documentation-quality/doc-bridge/code-review.json",
+    "doctorScore": 100,
+    "coverage": { "agent": { "ready": 1, "total": 1 }, "human": { "ready": 1, "total": 1 } },
+    "conformance": { "requiredPassed": 7, "requiredTotal": 7, "requiredExcepted": 0, "recommendedPassed": 2, "recommendedTotal": 2, "recommendedExcepted": 0 }
+  },
+  "attestation": { "sourceMode": "commit", "contentDigest": "sha256:5b20db1f3f771c13d475bf43d9c91ffb656f1ff39404a31560a929061d327fac" },
+  "machineSurfaces": {
+    "llmsTxt": "llms.txt",
+    "llmsFullTxt": "llms-full.txt",
+    "rawSources": ["README.md", "docs/OPERATIONS.md", "docs/for-agents/code-review-cli.md"],
+    "forAgents": "docs/for-agents/index.md"
+  },
+  "narrative": {
+    "readme": "README.md",
+    "readmeWordCount": 1253,
+    "humanDocs": "docs/OPERATIONS.md",
+    "forAgents": "docs/for-agents/code-review-cli.md",
+    "keyJourneys": [
+      { "id": "operate-code-review", "path": "docs/OPERATIONS.md", "wordCount": 869, "visualDecision": "runnable-example", "evidence": ["docs/OPERATIONS.md", "test/documentation.test.mjs"] },
+      { "id": "agent-handoff", "path": "docs/for-agents/code-review-cli.md", "wordCount": 338, "visualDecision": "runnable-example", "evidence": ["docs/for-agents/code-review-cli.md", "test/documentation.test.mjs"] },
+      { "id": "contribute", "path": "CONTRIBUTING.md", "wordCount": 216, "visualDecision": "runnable-example", "evidence": ["CONTRIBUTING.md", "test/cli-smoke.test.mjs"] }
+    ]
+  },
+  "discovery": {
+    "globalProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"],
+    "siblingProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "akos"],
+    "contextualHooks": [
+      { "id": "documentation", "status": "linked", "targetProductId": "doc-bridge", "evidence": ["README.md", "docs/for-agents/code-review-cli.md"] },
+      { "id": "chat", "status": "linked", "targetProductId": "agentskit-chat", "evidence": ["README.md", "docs/OPERATIONS.md"] },
+      { "id": "enterprise", "status": "linked", "targetProductId": "akos", "evidence": ["README.md", "docs/OPERATIONS.md"] }
+    ]
+  }
+}

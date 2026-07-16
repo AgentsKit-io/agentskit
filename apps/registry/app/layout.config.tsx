@@ -8,7 +8,7 @@ export const baseOptions: BaseLayoutProps = {
     url: '/',
   },
   links: [
-    { text: 'Agents', url: '/', active: 'none' },
+    { text: 'Agents', url: '/agents', active: 'nested-url' },
     { text: 'Docs', url: '/docs', active: 'nested-url' },
     { text: 'llms.txt', url: '/llms.txt', active: 'none' },
     { text: 'Framework', url: 'https://www.agentskit.io', external: true },
