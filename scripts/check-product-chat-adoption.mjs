@@ -4,7 +4,7 @@
  *
  * Fails when Docs or Registry product widgets reintroduce legacy standalone
  * packages (`@agentskit/chat-protocol`, `@agentskit/chat-react`) or drift from
- * the exact `@agentskit/chat@0.3.0` pin / supported subpaths.
+ * the exact `@agentskit/chat@0.4.0` pin / supported subpaths.
  *
  * Low-level binding examples are classified and excluded — they are educational
  * demos of `@agentskit/react` (etc.), not product-chat framework hosts.
