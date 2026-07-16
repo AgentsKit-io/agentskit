@@ -11,7 +11,7 @@ export const baseOptions: BaseLayoutProps = {
     { text: 'Agents', url: '/agents', active: 'nested-url' },
     { text: 'Docs', url: '/docs', active: 'nested-url' },
     { text: 'llms.txt', url: '/llms.txt', active: 'none' },
-    { text: 'Framework', url: 'https://www.agentskit.io', external: true },
+    { text: 'AgentsKit', url: 'https://www.agentskit.io', external: true },
   ],
   githubUrl: 'https://github.com/AgentsKit-io/agentskit-registry',
 }

@@ -4,19 +4,42 @@
   "profileVersion": 1,
   "productId": "agentskit",
   "repo": "AgentsKit-io/agentskit",
-  "commit": "4a2a7cb8851b539c6a70db95d848b393f01c5385",
-  "auditedOn": "2026-07-15",
+  "commit": "19a4642380241a730731130520389e312e389220",
+  "auditedOn": "2026-07-16",
   "docBridge": {
     "artifact": "docs/evidence/ecosystem-documentation-quality/doc-bridge/agentskit.json",
     "doctorScore": 100,
-    "coverage": { "agent": { "ready": 25, "total": 25 }, "human": { "ready": 25, "total": 25 } },
-    "conformance": { "requiredPassed": 7, "requiredTotal": 7, "requiredExcepted": 0, "recommendedPassed": 2, "recommendedTotal": 2, "recommendedExcepted": 0 }
+    "coverage": {
+      "agent": {
+        "ready": 25,
+        "total": 25
+      },
+      "human": {
+        "ready": 25,
+        "total": 25
+      }
+    },
+    "conformance": {
+      "requiredPassed": 7,
+      "requiredTotal": 7,
+      "requiredExcepted": 0,
+      "recommendedPassed": 2,
+      "recommendedTotal": 2,
+      "recommendedExcepted": 0
+    }
   },
-  "attestation": { "sourceMode": "commit", "contentDigest": "sha256:241094c03c931dbe1bdbc8ea388e946ce4ca7ce59a7c16bdd3065704543a1066" },
+  "attestation": {
+    "sourceMode": "commit",
+    "contentDigest": "sha256:8f02ffecd85c3860520c26a755cf136c5555b9a28e07133f7a452a076f053936"
+  },
   "machineSurfaces": {
     "llmsTxt": "llms.txt",
     "llmsFullTxt": "apps/docs-next/app/llms-full.txt/route.ts",
-    "rawSources": ["README.md", "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx", "apps/docs-next/content/docs/for-agents/index.mdx"],
+    "rawSources": [
+      "README.md",
+      "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx",
+      "apps/docs-next/content/docs/for-agents/index.mdx"
+    ],
     "forAgents": "apps/docs-next/content/docs/for-agents/index.mdx"
   },
   "narrative": {
@@ -25,18 +48,78 @@
     "humanDocs": "apps/docs-next/content/docs/index.mdx",
     "forAgents": "apps/docs-next/content/docs/for-agents/index.mdx",
     "keyJourneys": [
-      { "id": "build-first-agent", "path": "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx", "wordCount": 353, "visualDecision": "diagram", "evidence": ["apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx#execution-flow"] },
-      { "id": "architecture-at-a-glance", "path": "apps/docs-next/content/docs/get-started/architecture-at-a-glance.mdx", "wordCount": 372, "visualDecision": "diagram", "evidence": ["apps/docs-next/content/docs/get-started/architecture-at-a-glance.mdx#the-stack-in-one-view"] },
-      { "id": "deterministic-docs-answers", "path": "apps/docs-next/content/docs/cookbook/deterministic-docs-answers.mdx", "wordCount": 337, "visualDecision": "diagram", "evidence": ["apps/docs-next/content/docs/cookbook/deterministic-docs-answers.mdx#architecture"] }
+      {
+        "id": "build-first-agent",
+        "path": "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx",
+        "wordCount": 353,
+        "visualDecision": "diagram",
+        "evidence": [
+          "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx#execution-flow"
+        ]
+      },
+      {
+        "id": "architecture-at-a-glance",
+        "path": "apps/docs-next/content/docs/get-started/architecture-at-a-glance.mdx",
+        "wordCount": 372,
+        "visualDecision": "diagram",
+        "evidence": [
+          "apps/docs-next/content/docs/get-started/architecture-at-a-glance.mdx#the-stack-in-one-view"
+        ]
+      },
+      {
+        "id": "deterministic-docs-answers",
+        "path": "apps/docs-next/content/docs/cookbook/deterministic-docs-answers.mdx",
+        "wordCount": 337,
+        "visualDecision": "diagram",
+        "evidence": [
+          "apps/docs-next/content/docs/cookbook/deterministic-docs-answers.mdx#architecture"
+        ]
+      }
     ]
   },
   "discovery": {
-    "globalProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"],
-    "siblingProductIds": ["registry", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"],
+    "globalProductIds": [
+      "agentskit",
+      "registry",
+      "agentskit-chat",
+      "playbook",
+      "doc-bridge",
+      "code-review",
+      "akos"
+    ],
+    "siblingProductIds": [
+      "registry",
+      "agentskit-chat",
+      "playbook",
+      "doc-bridge",
+      "code-review",
+      "akos"
+    ],
     "contextualHooks": [
-      { "id": "documentation", "status": "linked", "targetProductId": "doc-bridge", "evidence": ["apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx"] },
-      { "id": "chat", "status": "linked", "targetProductId": "agentskit-chat", "evidence": ["apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx"] },
-      { "id": "enterprise", "status": "linked", "targetProductId": "akos", "evidence": ["apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx"] }
+      {
+        "id": "documentation",
+        "status": "linked",
+        "targetProductId": "doc-bridge",
+        "evidence": [
+          "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx"
+        ]
+      },
+      {
+        "id": "chat",
+        "status": "linked",
+        "targetProductId": "agentskit-chat",
+        "evidence": [
+          "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx"
+        ]
+      },
+      {
+        "id": "enterprise",
+        "status": "linked",
+        "targetProductId": "akos",
+        "evidence": [
+          "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx"
+        ]
+      }
     ]
   }
 }
