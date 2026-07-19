@@ -96,7 +96,6 @@ async function* parseAnthropicBedrockEvents(
 ): AsyncIterableIterator<StreamChunk> {
   const decoder = new TextDecoder()
   const pendingToolCalls = new Map<number, { id: string; name: string; args: string }>()
-  let sawMessageStop = false
 
   const emitTool = function* (
     tc: { id: string; name: string; args: string },
@@ -172,7 +171,6 @@ async function* parseAnthropicBedrockEvents(
         } as StreamChunk
       }
     } else if (type === 'message_stop') {
-      sawMessageStop = true
       for (const [, tc] of pendingToolCalls) {
         if (!(yield* emitTool(tc))) {
           pendingToolCalls.clear()
@@ -186,11 +184,7 @@ async function* parseAnthropicBedrockEvents(
   }
 
   pendingToolCalls.clear()
-  if (!sawMessageStop) {
-    yield adapterErrorChunk('Bedrock stream ended before message_stop')
-    return
-  }
-  yield { type: 'done' }
+  yield adapterErrorChunk('Bedrock stream ended before message_stop')
 }
 
 export function bedrock(config: BedrockConfig): AdapterFactory {

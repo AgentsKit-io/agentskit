@@ -170,18 +170,16 @@ export function matchesRange(version: string, range: string): boolean {
     return sameCore(v, t) && comparePrerelease(v.prerelease, t.prerelease) === 0
   }
 
-  let op: '^' | '~' | '>=' | null = null
-  let target = range
+  let parsed: { op: '^' | '~' | '>='; target: string }
   if (range.startsWith('>=')) {
-    op = '>='
-    target = range.slice(2).trim()
+    parsed = { op: '>=', target: range.slice(2).trim() }
   } else if (range.startsWith('^') || range.startsWith('~')) {
-    op = range[0] as '^' | '~'
-    target = range.slice(1).trim()
+    parsed = { op: range[0] as '^' | '~', target: range.slice(1).trim() }
   } else {
     return false
   }
 
+  const { op, target } = parsed
   const t = parseSemverFull(target)
   const v = parseSemverFull(version)
   if (!prereleaseAllowed(v, t) || compareSemver(version, target) < 0) return false

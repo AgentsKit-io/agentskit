@@ -42,11 +42,8 @@ async function* parseVercelTextStream(stream: ReadableStream): AsyncIterableIter
 async function* parseVercelUiMessageStreamV1(
   stream: ReadableStream,
 ): AsyncIterableIterator<StreamChunk> {
-  let sawDone = false
-
   for await (const data of readSSELines(stream)) {
     if (data === '[DONE]') {
-      sawDone = true
       yield { type: 'done' }
       return
     }
@@ -87,9 +84,7 @@ async function* parseVercelUiMessageStreamV1(
     }
   }
 
-  if (!sawDone) {
-    yield adapterErrorChunk('Vercel AI UI stream truncated before [DONE]')
-  }
+  yield adapterErrorChunk('Vercel AI UI stream truncated before [DONE]')
 }
 
 /**

@@ -26,13 +26,6 @@ export interface ContractAdapterCase {
   successBody(): ContractStubResponse
 }
 
-function bodyToBytes(body: string | Uint8Array | ReadableStream<Uint8Array>): Uint8Array {
-  if (body instanceof ReadableStream) {
-    throw new Error('contract harness: successBody must be string|Uint8Array for delayed streams')
-  }
-  return typeof body === 'string' ? new TextEncoder().encode(body) : body
-}
-
 function bodyToStream(body: string | Uint8Array | ReadableStream<Uint8Array>): ReadableStream<Uint8Array> {
   if (body instanceof ReadableStream) return body
   const bytes = typeof body === 'string' ? new TextEncoder().encode(body) : body

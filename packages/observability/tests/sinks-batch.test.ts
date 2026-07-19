@@ -15,7 +15,7 @@ const providers: Array<{
   name: string
   create: SinkFactory
   base: Record<string, unknown>
-  expectedUrl: string | RegExp
+  expectedUrl: string
   authHeader: { key: string; value: string | RegExp }
 }> = [
   {
@@ -28,7 +28,7 @@ const providers: Array<{
         ...opts,
       } as Parameters<typeof datadogSink>[0]),
     base: {},
-    expectedUrl: /http-intake\.logs\.datadoghq\.com/,
+    expectedUrl: 'https://http-intake.logs.datadoghq.com/api/v2/logs',
     authHeader: { key: 'dd-api-key', value: 'dd-test' },
   },
   {
@@ -113,11 +113,7 @@ describe.each(providers)('$name HTTP sink', (provider) => {
     sink.on(llmStart(1))
     sink.on(llmEnd(1))
     await vi.waitFor(() => expect(calls.length).toBe(1))
-    if (typeof provider.expectedUrl === 'string') {
-      expect(calls[0]!.url).toBe(provider.expectedUrl)
-    } else {
-      expect(calls[0]!.url).toMatch(provider.expectedUrl)
-    }
+    expect(calls[0]!.url).toBe(provider.expectedUrl)
     const headers = calls[0]!.init.headers as Record<string, string>
     expect(headers['content-type']).toBe('application/json')
     expect(headers[provider.authHeader.key]).toMatch(provider.authHeader.value)
@@ -550,7 +546,7 @@ describe('provider-specific endpoints', () => {
     const sink = datadogSink({ apiKey: 'k', site: 'datadoghq.eu', fetch, batchSize: 1 })
     sink.on(llmStart())
     await sink.flush()
-    expect(calls[0]!.url).toContain('http-intake.logs.datadoghq.eu')
+    expect(calls[0]!.url).toBe('https://http-intake.logs.datadoghq.eu/api/v2/logs')
   })
 
   it('axiom honors custom endpoint', async () => {

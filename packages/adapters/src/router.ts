@@ -7,7 +7,7 @@ import type {
   StreamChunk,
   StreamSource,
 } from '@agentskit/core'
-import { isAbortError } from './stream-errors'
+import { isAbortError, raceAbort } from './stream-errors'
 
 export interface RouterCandidate {
   id: string
@@ -183,20 +183,19 @@ export function createRouter(options: RouterOptions): AdapterFactory {
         const maybe = policy({ request, candidates: pool })
         if (typeof maybe !== 'string') {
           // Defer resolution into the streamed source.
-          let aborted = false
+          const controller = new AbortController()
           let child: StreamSource | undefined
           return {
             abort: () => {
-              aborted = true
+              controller.abort()
               child?.abort()
             },
             stream: async function* () {
-              if (aborted) return
               let id: string
               try {
-                id = await maybe
+                id = await raceAbort(maybe, controller.signal)
               } catch (err) {
-                if (aborted || isAbortError(err)) return
+                if (isAbortError(err)) return
                 const error = err instanceof Error ? err : new Error(String(err))
                 yield {
                   type: 'error',
@@ -205,7 +204,6 @@ export function createRouter(options: RouterOptions): AdapterFactory {
                 } as StreamChunk
                 return
               }
-              if (aborted) return
               const c = pool.find(x => x.id === id)
               if (!c) {
                 const error = new ConfigError({
@@ -220,23 +218,14 @@ export function createRouter(options: RouterOptions): AdapterFactory {
                 } as StreamChunk
                 return
               }
-              if (aborted) return
               try {
                 options.onRoute?.({ id: c.id, reason: pickedBy ?? 'custom policy', request })
                 child = c.adapter.createSource(request)
-                if (aborted) {
-                  child.abort()
-                  return
-                }
                 for await (const chunk of child.stream()) {
-                  if (aborted) {
-                    child.abort()
-                    return
-                  }
                   yield chunk
                 }
               } catch (err) {
-                if (aborted || isAbortError(err)) return
+                if (controller.signal.aborted || isAbortError(err)) return
                 const error = err instanceof Error ? err : new Error(String(err))
                 yield {
                   type: 'error',

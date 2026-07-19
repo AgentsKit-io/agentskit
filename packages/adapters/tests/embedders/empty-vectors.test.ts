@@ -102,15 +102,6 @@ describe('embedder empty/malformed vector responses', () => {
       }),
     )
     const embed = ollamaEmbedder({})
-    let result: number[] | undefined = [1]
-    let caught: unknown
-    try {
-      result = await embed('hello')
-    } catch (err) {
-      caught = err
-      result = undefined
-    }
-    expect(caught).toBeInstanceOf(AgentsKitError)
-    expect(result).toBeUndefined()
+    await expect(embed('hello')).rejects.toBeInstanceOf(AgentsKitError)
   })
 })

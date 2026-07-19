@@ -130,7 +130,6 @@ export function isPathInsidePackage(packageRoot, candidate, pathApi = {}) {
   })
 
   const root = resolve(packageRoot, '.')
-  const target = resolve(packageRoot, candidate.startsWith(packageRoot) ? candidate.slice(packageRoot.length).replace(/^\//, '') : candidate)
   // When candidate is already absolute under root, use it directly
   const absolute = candidate.startsWith(root) ? candidate : resolve(root, candidate.replace(/^\.\//, ''))
   const rel = relative(root, absolute)

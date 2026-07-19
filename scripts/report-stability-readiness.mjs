@@ -10,7 +10,7 @@
  * Evidence | Soak | Axes | Ready
  */
 
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
@@ -43,20 +43,21 @@ for (const dir of readdirSync(pkgsDir)) {
   })
 }
 
-const rfcs = existsSync(rfcsDir)
-  ? readdirSync(rfcsDir)
-      .filter((f) => /^\d{4}-.*\.md$/.test(f))
-      .map((f) => ({ file: f, text: readFileSync(join(rfcsDir, f), 'utf8') }))
-  : []
+let rfcs = []
+try {
+  rfcs = readdirSync(rfcsDir)
+    .filter((f) => /^\d{4}-.*\.md$/.test(f))
+    .map((f) => ({ file: f, text: readFileSync(join(rfcsDir, f), 'utf8') }))
+} catch {}
 
 function loadEvidence(pkg) {
   const filePath = join(evidenceDir, `${pkg.dir}.json`)
-  if (!existsSync(filePath) || !statSync(filePath).isFile()) {
-    return { kind: 'missing' }
-  }
   try {
     return { kind: 'ok', doc: JSON.parse(readFileSync(filePath, 'utf8')) }
   } catch (err) {
+    if (err && typeof err === 'object' && 'code' in err && (err.code === 'ENOENT' || err.code === 'EISDIR')) {
+      return { kind: 'missing' }
+    }
     return {
       kind: 'invalid-json',
       detail: err instanceof Error ? err.message : String(err),
@@ -67,7 +68,8 @@ function loadEvidence(pkg) {
 function pathExists(relPath) {
   const abs = join(root, relPath)
   try {
-    return existsSync(abs) && statSync(abs).isFile()
+    readFileSync(abs)
+    return true
   } catch {
     return false
   }
@@ -76,7 +78,8 @@ function pathExists(relPath) {
 function hasConventions(pkg) {
   const p = join(pkgsDir, pkg.dir, 'CONVENTIONS.md')
   try {
-    return existsSync(p) && statSync(p).isFile()
+    readFileSync(p)
+    return true
   } catch {
     return false
   }

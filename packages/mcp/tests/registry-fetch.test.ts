@@ -30,7 +30,7 @@ describe('fetchAgentSkill', () => {
 
   it('falls back to bounded raw metadata and source', async () => {
     const fetchImpl = vi.fn(async (url: string) => {
-      if (url.includes('registry.agentskit.io')) return response('malformed-json')
+      if (new URL(url).origin === 'https://registry.agentskit.io') return response('malformed-json')
       if (url.endsWith('meta.json')) return response(JSON.stringify({ description: 'Raw agent' }))
       return response('export const skill = { systemPrompt: `Use \\`care\\` and \\${context}.` }')
     })
@@ -72,7 +72,7 @@ describe('fetchAgentSkill', () => {
 
   it('rejects malformed hosted and raw payload shapes', async () => {
     const fetchImpl = vi.fn(async (url: string) => {
-      if (url.includes('registry.agentskit.io')) {
+      if (new URL(url).origin === 'https://registry.agentskit.io') {
         return response(JSON.stringify({ description: 1, skill: { systemPrompt: 2 } }))
       }
       if (url.endsWith('meta.json')) return response(JSON.stringify([]))

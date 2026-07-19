@@ -13,7 +13,7 @@
  * a gate failure, until the package is declared stable.
  */
 
-import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
+import { readFileSync, readdirSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import {
@@ -43,12 +43,12 @@ for (const dir of readdirSync(pkgsDir)) {
 
 function loadEvidence(pkg) {
   const filePath = join(evidenceDir, `${pkg.dir}.json`)
-  if (!existsSync(filePath) || !statSync(filePath).isFile()) {
-    return { kind: 'missing' }
-  }
   try {
     return { kind: 'ok', doc: JSON.parse(readFileSync(filePath, 'utf8')) }
   } catch (err) {
+    if (err && typeof err === 'object' && 'code' in err && (err.code === 'ENOENT' || err.code === 'EISDIR')) {
+      return { kind: 'missing' }
+    }
     return {
       kind: 'invalid-json',
       detail: err instanceof Error ? err.message : String(err),
@@ -59,7 +59,8 @@ function loadEvidence(pkg) {
 function pathExists(relPath) {
   const abs = join(root, relPath)
   try {
-    return existsSync(abs) && statSync(abs).isFile()
+    readFileSync(abs)
+    return true
   } catch {
     return false
   }
