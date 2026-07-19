@@ -1,6 +1,8 @@
 import { ConfigError, ErrorCodes, MemoryError } from '@agentskit/core'
 import type { ChatMemory, Message } from '@agentskit/core'
 
+type MemoryOperationOptions = Parameters<ChatMemory['load']>[0]
+
 /**
  * Client-side encrypted ChatMemory wrapper. Keys never leave the
  * caller — the backing store only ever sees an opaque
@@ -131,16 +133,21 @@ export async function createEncryptedMemory(
   }
 
   return {
-    async load() {
-      const stored = await options.backing.load()
+    async load(memoryOptions?: MemoryOperationOptions) {
+      memoryOptions?.signal?.throwIfAborted()
+      const stored = await options.backing.load(memoryOptions)
+      memoryOptions?.signal?.throwIfAborted()
       return Promise.all(stored.map(decryptMessage))
     },
-    async save(messages) {
+    async save(messages, memoryOptions?: MemoryOperationOptions) {
+      memoryOptions?.signal?.throwIfAborted()
       const encrypted = await Promise.all(messages.map(encryptMessage))
-      await options.backing.save(encrypted)
+      memoryOptions?.signal?.throwIfAborted()
+      await options.backing.save(encrypted, memoryOptions)
     },
-    async clear() {
-      await options.backing.clear?.()
+    async clear(memoryOptions?: MemoryOperationOptions) {
+      memoryOptions?.signal?.throwIfAborted()
+      await options.backing.clear?.(memoryOptions)
     },
   }
 }

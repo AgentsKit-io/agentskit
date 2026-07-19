@@ -191,6 +191,30 @@ describe('parseOpenAIStream', () => {
     expect(chunks.at(-1)?.metadata?.finishReason).toBe(finishReason)
     expect(chunks).not.toContainEqual({ type: 'done' })
   })
+
+  it('incomplete tool-call JSON at terminal must not emit tool_call and must terminal-error', async () => {
+    const stream = sseStream([
+      JSON.stringify({
+        choices: [{
+          delta: {
+            tool_calls: [{
+              index: 0,
+              id: 'call_bad',
+              function: { name: 'get_weather', arguments: '{"location":' },
+            }],
+          },
+        }],
+      }),
+      JSON.stringify({ choices: [{ delta: {}, finish_reason: 'tool_calls' }] }),
+      '[DONE]',
+    ])
+
+    const chunks = await collect(parseOpenAIStream(stream))
+    expect(chunks.some(c => c.type === 'tool_call')).toBe(false)
+    expect(chunks.at(-1)?.type).toBe('error')
+    expect(chunks.at(-1)?.metadata?.error).toBeInstanceOf(Error)
+    expect(chunks).not.toContainEqual({ type: 'done' })
+  })
 })
 
 // ---------------------------------------------------------------------------
@@ -285,6 +309,36 @@ describe('parseAnthropicStream', () => {
     expect(toolCalls[1].toolCall!.name).toBe('fetch')
     expect(toolCalls[1].toolCall!.args).toBe('{"url":"b"}')
   })
+
+  it('ends without message_stop as terminal error, not done', async () => {
+    const stream = sseStream([
+      JSON.stringify({ type: 'content_block_delta', delta: { type: 'text_delta', text: 'partial' } }),
+    ])
+
+    const chunks = await collect(parseAnthropicStream(stream))
+    expect(chunks.some(c => c.type === 'text')).toBe(true)
+    expect(chunks.at(-1)?.type).toBe('error')
+    expect(chunks.at(-1)?.metadata?.error).toBeInstanceOf(Error)
+    expect(chunks).not.toContainEqual({ type: 'done' })
+  })
+
+  it('provider error SSE event terminals with metadata.error', async () => {
+    const stream = sseStream([
+      JSON.stringify({
+        type: 'error',
+        error: { type: 'api_error', message: 'Overloaded' },
+      }),
+    ])
+
+    const chunks = await collect(parseAnthropicStream(stream))
+    expect(chunks.at(-1)?.type).toBe('error')
+    expect(chunks.at(-1)?.metadata?.error).toBeInstanceOf(Error)
+    expect(
+      (chunks.at(-1)?.content ?? '') +
+        String((chunks.at(-1)?.metadata?.error as Error | undefined)?.message ?? ''),
+    ).toMatch(/Overloaded|api_error/i)
+    expect(chunks).not.toContainEqual({ type: 'done' })
+  })
 })
 
 // ---------------------------------------------------------------------------
@@ -297,7 +351,7 @@ describe('parseGeminiStream', () => {
         candidates: [{ content: { parts: [{ text: 'Hello' }] } }],
       }),
       JSON.stringify({
-        candidates: [{ content: { parts: [{ text: ' world' }] } }],
+        candidates: [{ content: { parts: [{ text: ' world' }] }, finishReason: 'STOP' }],
       }),
     ])
 
@@ -321,6 +375,7 @@ describe('parseGeminiStream', () => {
               },
             }],
           },
+          finishReason: 'STOP',
         }],
       }),
     ])
@@ -342,6 +397,7 @@ describe('parseGeminiStream', () => {
               { functionCall: { name: 'get_weather', args: { city: 'NYC' } } },
             ],
           },
+          finishReason: 'STOP',
         }],
       }),
     ])
@@ -350,6 +406,21 @@ describe('parseGeminiStream', () => {
     expect(chunks[0]).toEqual({ type: 'text', content: 'Checking weather...' })
     expect(chunks[1].type).toBe('tool_call')
     expect(chunks[1].toolCall!.name).toBe('get_weather')
+  })
+
+  it('ends without provider terminal indication as error, not done', async () => {
+    // Partial stream: text delta only, no finishReason / STOP candidate.
+    const stream = sseStream([
+      JSON.stringify({
+        candidates: [{ content: { parts: [{ text: 'partial' }] } }],
+      }),
+    ])
+
+    const chunks = await collect(parseGeminiStream(stream))
+    expect(chunks.some(c => c.type === 'text')).toBe(true)
+    expect(chunks.at(-1)?.type).toBe('error')
+    expect(chunks.at(-1)?.metadata?.error).toBeInstanceOf(Error)
+    expect(chunks).not.toContainEqual({ type: 'done' })
   })
 })
 
@@ -421,5 +492,17 @@ describe('parseOllamaStream', () => {
     expect(toolCalls).toHaveLength(2)
     expect(toolCalls[0].toolCall!.name).toBe('foo')
     expect(toolCalls[1].toolCall!.name).toBe('bar')
+  })
+
+  it('ends without done:true as terminal error, not done', async () => {
+    const stream = ndjsonStream([
+      { message: { content: 'partial' }, done: false },
+    ])
+
+    const chunks = await collect(parseOllamaStream(stream))
+    expect(chunks.some(c => c.type === 'text')).toBe(true)
+    expect(chunks.at(-1)?.type).toBe('error')
+    expect(chunks.at(-1)?.metadata?.error).toBeInstanceOf(Error)
+    expect(chunks).not.toContainEqual({ type: 'done' })
   })
 })

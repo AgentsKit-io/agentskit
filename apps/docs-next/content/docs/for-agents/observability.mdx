@@ -14,11 +14,13 @@ npm install @agentskit/observability
 ### Loggers / tracers
 
 - `consoleLogger(config?)` — local dev logging.
-- `langsmith(config)` — LangSmith observer.
-- `opentelemetry(config)` — OTel observer.
+- `langsmith(config)` — LangSmith **lifecycle** observer (`flush` / idempotent `shutdown`; optional `langsmith` peer, lazy).
+- `opentelemetry(config)` — OpenTelemetry **lifecycle** observer (optional OTel peers, lazy).
 - `createTraceTracker({ onSpanStart, onSpanEnd })` — low-level span lifecycle.
 
 ### Sinks (batch HTTP exporters)
+
+All three return `LifecycleObserver` (`flush(): Promise<void>`, idempotent `shutdown(): Promise<void>`). Shared `HttpBatchOptions` defaults: `batchSize` 25, `maxQueueSize` 1000 (drop-oldest), `flushIntervalMs` 2000, `maxRetries` 3, `retryBaseDelayMs` 100, `requestTimeoutMs` 10000, plus isolated `onError`. Single-flight batching, timeout, and retries are best-effort — not an at-least-once guarantee. **Await `shutdown()`** on graceful termination.
 
 - `datadogSink(config)` — Datadog Logs intake.
 - `axiomSink(config)` — Axiom dataset ingest.
@@ -30,12 +32,16 @@ npm install @agentskit/observability
 
 ### Guards + counters
 
-- `costGuard(options)` — dollar ceiling per run.
-- `multiTenantCostGuard(options)` — per-tenant cost cap with shared bookkeeping.
-- `createAdvancedCostGuard({ budgets, caps, mode, disableRuntime, alertSinks })` — production-grade guard with `warn` / `reject` / `kill` modes, rolling window caps (`perMinute` / `perDay` / `perMonth` / custom), 50/80/100 % threshold alerts, linear forecast alerts, and pluggable sinks.
-- `consoleAlertSink()`, `webhookAlertSink({ url, headers })`, `throttle(sink, windowMs)` — built-in alert sinks.
-- `chargebackReport(samples, { groupBy, from, to })` + `chargebackReportToCsv(report)` — pure cost-attribution exporter for finance / per-tenant invoicing.
-- `priceFor`, `computeCost`, `DEFAULT_PRICES`.
+- `costGuard({ budgetUsd, controller, prices?, onCost?, onExceeded?, onError? })` — per-run dollar ceiling; aborts via `AbortController` when exceeded.
+- `multiTenantCostGuard({ budgets, defaultBudgetUsd?, tenantOf?, … })` — per-tenant bookkeeping; host enforces (no automatic abort).
+- `createAdvancedCostGuard({ budgets, caps?, mode?, disableRuntime?, alertSinks?, onError?, now? })` — production guard with rolling window caps, 50/80/100 % threshold + forecast alerts, and modes:
+  - **`warn`** — observe only.
+  - **`reject`** — host must consult **`isRejected(tenant)`** (window rejections clear on roll; overall until `reset`). Package does not abort the runtime.
+  - **`kill`** — requires `disableRuntime`; use **`isDisabled(tenant)`**; fail-closed if disable fails.
+- Accounting is **incremental per `llm:end` / active model**; hostile usage normalizes to zero; zero-budget payloads stay finite. Callback/sink/clock errors are isolated.
+- `consoleAlertSink()`, `webhookAlertSink({ url, headers, fetch? })`, `throttle(sink, windowMs)` — built-in alert sinks (`webhook` uses injected or `globalThis.fetch`; no-op if none).
+- `chargebackReport(samples, { groupBy, from, to })` + `chargebackReportToCsv(report)` — pure cost-attribution exporter.
+- `priceFor`, `computeCost`, `DEFAULT_PRICES` — **baseline** prices; override for current provider rates.
 - `approximateCounter`, `countTokens`, `countTokensDetailed`, `createProviderCounter`.
 
 ### PII redaction
@@ -72,13 +78,26 @@ npm install @agentskit/observability
 ## Minimal example
 
 ```ts
-import { consoleLogger, costGuard } from '@agentskit/observability'
+import { consoleLogger, costGuard, datadogSink } from '@agentskit/observability'
 import { createRuntime } from '@agentskit/runtime'
+
+const controller = new AbortController()
+const dd = datadogSink({ apiKey: process.env.DD_API_KEY!, service: 'agent' })
 
 const runtime = createRuntime({
   adapter,
-  observers: [consoleLogger(), costGuard({ maxUsd: 0.5 })],
+  observers: [
+    consoleLogger(),
+    costGuard({ budgetUsd: 0.5, controller }),
+    dd,
+  ],
 })
+
+try {
+  await runtime.run('…', { signal: controller.signal })
+} finally {
+  await dd.shutdown()
+}
 ```
 
 ## Related

@@ -1,4 +1,4 @@
-import type { AgentEvent, Observer } from '@agentskit/core'
+import { ConfigError, ErrorCodes, type AgentEvent, type Observer } from '@agentskit/core'
 import type { CostAlertEvent, CostAlertSink } from './cost-guard-advanced'
 
 /**
@@ -8,7 +8,11 @@ import type { CostAlertEvent, CostAlertSink } from './cost-guard-advanced'
  *   - success rate (per agent / per skill / per tool)
  *   - p50 / p95 / p99 latency
  *   - tool-error rate
- *   - streaming-stall rate (no chunk for `stallThresholdMs`)
+ *   - streaming-stall rate (first-token latency above threshold)
+ *
+ * Operates on canonical AgentEvent only (no correlation id). In-flight
+ * operations are tracked as a single active op under the sequential
+ * event-stream assumption.
  *
  * Exposes Prometheus + OpenTelemetry-shaped snapshots and burn-rate
  * alerts (1h + 6h windows) that fire into the same alert sink contract
@@ -30,7 +34,7 @@ export interface SloTargets {
 
 export interface SloOptions {
   targets?: SloTargets
-  /** A chunk gap > this counts as a stall. Default 8000ms. */
+  /** First-token latency above this counts as a stall. Default 8000ms. */
   stallThresholdMs?: number
   /** Burn-rate windows. Default `[3_600_000, 21_600_000]` (1h, 6h). */
   burnRateWindowsMs?: number[]
@@ -53,6 +57,17 @@ interface CallSample {
   ok: boolean
   kind: 'llm' | 'tool' | 'agent'
   name?: string
+  /** Present on llm samples: first-token latency exceeded stall threshold. */
+  stall?: boolean
+}
+
+interface ActiveOp {
+  kind: CallSample['kind']
+  name?: string
+  startedAt: number
+  failed: boolean
+  recorded: boolean
+  stall: boolean
 }
 
 export interface SloSnapshot {
@@ -82,25 +97,77 @@ function quantile(sorted: number[], q: number): number {
   return sorted[idx]
 }
 
+function assertFiniteNonNegative(name: string, value: number): void {
+  if (!Number.isFinite(value) || value < 0) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `sloObserver: ${name} must be a finite non-negative number (received ${String(value)})`,
+      hint: 'Pass finite values ≥ 0 for intervals, thresholds, and rate targets.',
+    })
+  }
+}
+
+function assertUnitInterval(name: string, value: number): void {
+  assertFiniteNonNegative(name, value)
+  if (value > 1) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `sloObserver: ${name} must be between 0 and 1 (received ${String(value)})`,
+      hint: 'Rate targets are fractions in [0, 1], e.g. 0.99 for 99%.',
+    })
+  }
+}
+
+function assertPositive(name: string, value: number): void {
+  if (!Number.isFinite(value) || value <= 0) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `sloObserver: ${name} must be a finite positive number (received ${String(value)})`,
+      hint: 'Windows and thresholds must be > 0 to avoid NaN rates.',
+    })
+  }
+}
+
+function validateOptions(options: SloOptions): void {
+  if (options.stallThresholdMs !== undefined) {
+    assertPositive('stallThresholdMs', options.stallThresholdMs)
+  }
+  if (options.burnRateWindowsMs !== undefined) {
+    if (options.burnRateWindowsMs.length === 0) {
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: 'sloObserver: burnRateWindowsMs must not be an empty array',
+        hint: 'Omit burnRateWindowsMs for defaults, or pass one or more positive window lengths.',
+      })
+    }
+    for (let i = 0; i < options.burnRateWindowsMs.length; i++) {
+      assertPositive(`burnRateWindowsMs[${i}]`, options.burnRateWindowsMs[i]!)
+    }
+  }
+  const t = options.targets
+  if (!t) return
+  if (t.successRate !== undefined) assertUnitInterval('targets.successRate', t.successRate)
+  if (t.toolErrorRate !== undefined) assertUnitInterval('targets.toolErrorRate', t.toolErrorRate)
+  if (t.streamingStallRate !== undefined) {
+    assertUnitInterval('targets.streamingStallRate', t.streamingStallRate)
+  }
+  if (t.latencyP95Ms !== undefined) assertFiniteNonNegative('targets.latencyP95Ms', t.latencyP95Ms)
+}
+
 export function sloObserver(options: SloOptions = {}): SloObserver {
+  validateOptions(options)
+
   const targets = { ...DEFAULT_SLO_TARGETS, ...options.targets }
   const stallThresholdMs = options.stallThresholdMs ?? 8_000
   const windows = options.burnRateWindowsMs ?? [3_600_000, 21_600_000]
   const now = options.now ?? (() => Date.now())
 
   const samples: CallSample[] = []
-  let toolErrors = 0
-  let toolCalls = 0
-  let streamCount = 0
-  let streamStalls = 0
-
-  // In-flight call tracking by event id.
-  const inFlight = new Map<string, { startedAt: number; kind: CallSample['kind']; name?: string }>()
-  const lastChunkAt = new Map<string, number>()
+  let active: ActiveOp | null = null
 
   function trim(windowMs: number): void {
     const cutoff = now() - windowMs
-    while (samples.length > 0 && samples[0].at < cutoff) samples.shift()
+    while (samples.length > 0 && samples[0]!.at < cutoff) samples.shift()
   }
 
   function snapshotForWindow(windowMs: number): SloSnapshot {
@@ -109,6 +176,8 @@ export function sloObserver(options: SloOptions = {}): SloObserver {
     const recent = samples.filter(s => s.at >= cutoff)
     const tools = recent.filter(s => s.kind === 'tool')
     const toolErr = tools.filter(s => !s.ok).length
+    const llm = recent.filter(s => s.kind === 'llm')
+    const stalls = llm.filter(s => s.stall).length
     const ok = recent.filter(s => s.ok).length
     const sortedDurations = recent.map(s => s.durationMs).sort((a, b) => a - b)
     return {
@@ -119,7 +188,20 @@ export function sloObserver(options: SloOptions = {}): SloObserver {
       latencyP95Ms: quantile(sortedDurations, 0.95),
       latencyP99Ms: quantile(sortedDurations, 0.99),
       toolErrorRate: tools.length === 0 ? 0 : toolErr / tools.length,
-      streamingStallRate: streamCount === 0 ? 0 : streamStalls / streamCount,
+      streamingStallRate: llm.length === 0 ? 0 : stalls / llm.length,
+    }
+  }
+
+  function fireAlert(event: CostAlertEvent): void {
+    if (!options.alert) return
+    try {
+      const result = options.alert(event)
+      // Isolate async rejections so the burn timer never surfaces unhandledRejection.
+      if (result != null && typeof (result as Promise<void>).then === 'function') {
+        void Promise.resolve(result).catch(() => {})
+      }
+    } catch {
+      // Isolate synchronous throws from the burn-rate timer.
     }
   }
 
@@ -128,11 +210,18 @@ export function sloObserver(options: SloOptions = {}): SloObserver {
     if (!options.alert) return
     const errorBudget = 1 - targets.successRate
     const observedFailure = 1 - snap.successRate
-    // Burn rate = how fast we're consuming the error budget. >1 means
-    // we're on track to exhaust it within the window.
-    const burnRate = errorBudget === 0 ? 0 : observedFailure / errorBudget
+    // Burn rate = how fast we're consuming the error budget. ≥1 means
+    // we're on track to exhaust it within the window. A perfect success
+    // target (errorBudget 0) treats any observed failure as fully burned.
+    // Utilization stays finite so alert payloads remain JSON-serializable.
+    const burnRate =
+      errorBudget === 0
+        ? observedFailure > 0
+          ? 1
+          : 0
+        : observedFailure / errorBudget
     if (burnRate >= 1) {
-      void options.alert({
+      fireAlert({
         type: 'cost:threshold',
         tenant: 'slo',
         window: `slo:${windowMs}ms`,
@@ -142,7 +231,7 @@ export function sloObserver(options: SloOptions = {}): SloObserver {
         utilization: burnRate,
         threshold: 1,
         reason: `success rate ${(snap.successRate * 100).toFixed(2)}% < SLO ${(targets.successRate * 100).toFixed(2)}% over ${windowMs}ms`,
-      } satisfies CostAlertEvent)
+      })
     }
   }
 
@@ -151,69 +240,108 @@ export function sloObserver(options: SloOptions = {}): SloObserver {
   }, 60_000)
   if (typeof timer === 'object' && 'unref' in timer) (timer as { unref?: () => void }).unref?.()
 
-  function record(kind: CallSample['kind'], durationMs: number, ok: boolean, name?: string): void {
-    samples.push({ at: now(), durationMs, ok, kind, name })
-    if (kind === 'tool') {
-      toolCalls += 1
-      if (!ok) toolErrors += 1
+  function record(
+    kind: CallSample['kind'],
+    durationMs: number,
+    ok: boolean,
+    name?: string,
+    stall?: boolean,
+  ): void {
+    samples.push({
+      at: now(),
+      durationMs: Number.isFinite(durationMs) && durationMs >= 0 ? durationMs : 0,
+      ok,
+      kind,
+      name,
+      stall,
+    })
+  }
+
+  function failActive(): void {
+    if (!active || active.recorded) return
+    record(active.kind, now() - active.startedAt, false, active.name, active.stall || undefined)
+    active.failed = true
+    active.recorded = true
+  }
+
+  /** Record a previous incomplete op as failed before starting a replacement. */
+  function replaceActive(next: ActiveOp): void {
+    if (active && !active.recorded) failActive()
+    active = next
+  }
+
+  function completeActive(
+    kind: CallSample['kind'],
+    durationMs: number,
+    name?: string,
+  ): void {
+    if (active?.kind === kind) {
+      if (!active.recorded) {
+        record(kind, durationMs, !active.failed, active.name ?? name, active.stall || undefined)
+      }
+      active = null
+      return
     }
+    // End for a different kind (or no matching active): fail/clear the
+    // previous incomplete op first so state never leaks into the next cycle.
+    if (active && !active.recorded) {
+      failActive()
+    }
+    active = null
+    record(kind, durationMs, true, name)
   }
 
   return {
     name: 'slo-preset',
-    on: event => {
-      const e = event as AgentEvent & { id?: string }
+    on: (event: AgentEvent) => {
       switch (event.type) {
         case 'llm:start':
-          if (e.id) {
-            inFlight.set(e.id, { startedAt: now(), kind: 'llm' })
-            streamCount += 1
-            lastChunkAt.set(e.id, now())
-          }
+          replaceActive({
+            kind: 'llm',
+            startedAt: now(),
+            failed: false,
+            recorded: false,
+            stall: false,
+          })
           break
         case 'llm:first-token':
-          if (e.id) {
-            const last = lastChunkAt.get(e.id)
-            if (last && now() - last > stallThresholdMs) streamStalls += 1
-            lastChunkAt.set(e.id, now())
+          if (active?.kind === 'llm' && event.latencyMs > stallThresholdMs) {
+            active.stall = true
           }
           break
-        case 'llm:end': {
-          const start = e.id ? inFlight.get(e.id) : undefined
-          const durationMs = start ? now() - start.startedAt : 0
-          record('llm', durationMs, true)
-          if (e.id) {
-            inFlight.delete(e.id)
-            lastChunkAt.delete(e.id)
-          }
+        case 'llm:end':
+          completeActive('llm', event.durationMs)
           break
-        }
         case 'tool:start':
-          if (e.id) inFlight.set(e.id, { startedAt: now(), kind: 'tool', name: (event as { name?: string }).name })
+          replaceActive({
+            kind: 'tool',
+            name: event.name,
+            startedAt: now(),
+            failed: false,
+            recorded: false,
+            stall: false,
+          })
           break
-        case 'tool:end': {
-          const start = e.id ? inFlight.get(e.id) : undefined
-          const durationMs = start ? now() - start.startedAt : 0
-          record('tool', durationMs, true, start?.name)
-          if (e.id) inFlight.delete(e.id)
+        case 'tool:end':
+          completeActive('tool', event.durationMs, event.name)
           break
-        }
-        case 'error': {
-          // Best-effort: an error event without a matching start still
-          // counts as a failure on whatever the most-recent in-flight
-          // op was.
-          if (e.id && inFlight.has(e.id)) {
-            const start = inFlight.get(e.id)!
-            record(start.kind, now() - start.startedAt, false, start.name)
-            inFlight.delete(e.id)
+        case 'error':
+          if (active) {
+            failActive()
           } else {
             record('agent', 0, false)
           }
           break
-        }
+        case 'run-aborted':
+          failActive()
+          active = null
+          break
       }
     },
-    snapshot: (windowMs = 3_600_000) => snapshotForWindow(windowMs),
+    snapshot: (windowMs = 3_600_000) => {
+      assertPositive('windowMs', windowMs)
+      return snapshotForWindow(windowMs)
+    },
     prometheus: () => {
       const snap = snapshotForWindow(3_600_000)
       const lines = [
@@ -228,7 +356,7 @@ export function sloObserver(options: SloOptions = {}): SloObserver {
         '# HELP agentskit_tool_error_rate Tool error rate over the last hour',
         '# TYPE agentskit_tool_error_rate gauge',
         `agentskit_tool_error_rate ${snap.toolErrorRate}`,
-        '# HELP agentskit_streaming_stall_rate Fraction of streams with a chunk gap > threshold',
+        '# HELP agentskit_streaming_stall_rate Fraction of streams with first-token latency > threshold',
         '# TYPE agentskit_streaming_stall_rate gauge',
         `agentskit_streaming_stall_rate ${snap.streamingStallRate}`,
       ]

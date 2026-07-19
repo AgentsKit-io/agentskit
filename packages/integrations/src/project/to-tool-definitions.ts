@@ -12,7 +12,10 @@ export interface ProjectionConfig {
   baseUrl?: string
   headers?: Record<string, string>
   timeoutMs?: number
+  signal?: AbortSignal
   fetch?: typeof globalThis.fetch
+  /** Policy-enforcing fetch for model-controlled URLs; propagated to action context. */
+  fetchUntrusted?: typeof globalThis.fetch
 }
 
 function authHeaders(auth: AuthSpec, credential: string): Record<string, string> {
@@ -35,8 +38,17 @@ export function httpOptionsFor(integration: Integration, config: ProjectionConfi
       ...config.headers,
     },
     timeoutMs: config.timeoutMs,
+    signal: config.signal,
     fetch: config.fetch,
   }
+}
+
+function requiresConfirmationFor(action: IntegrationAction): boolean | undefined {
+  const sideEffect = action.sideEffect
+  if (sideEffect === 'write' || sideEffect === 'external' || sideEffect === 'destructive') {
+    return true
+  }
+  return action.requiresConfirmation
 }
 
 /** Project a single action into a ToolDefinition bound to `http`. */
@@ -45,7 +57,7 @@ export function actionToToolDefinition(action: IntegrationAction, ctx: Integrati
     name: action.name,
     description: action.description,
     schema: action.schema,
-    requiresConfirmation: action.requiresConfirmation,
+    requiresConfirmation: requiresConfirmationFor(action),
     execute: (args) => action.execute(args, ctx),
   }
 }
@@ -56,6 +68,7 @@ export function toToolDefinitions(integration: Integration, config: ProjectionCo
   const ctx: IntegrationActionContext = {
     http,
     fetch: config.fetch ?? globalThis.fetch,
+    fetchUntrusted: config.fetchUntrusted,
     config: config.config,
   }
   return integration.actions.map((a) => actionToToolDefinition(a, ctx))

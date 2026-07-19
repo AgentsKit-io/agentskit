@@ -72,6 +72,7 @@ export function shell(config: ShellConfig = {}): ToolDefinition {
     description: 'Execute an executable directly (no shell). Returns stdout, stderr, and exit code. Shell metacharacters are rejected.',
     tags: ['shell', 'command'],
     category: 'execution',
+    requiresConfirmation: true,
     schema: {
       type: 'object',
       properties: {

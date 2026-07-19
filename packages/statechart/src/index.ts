@@ -1,9 +1,10 @@
 export {
   createStatechartInstance,
-  defineStatechart,
   notifyStatechartObserver,
   transitionStatechart,
 } from './statechart'
+
+export { defineStatechart } from './definition'
 
 export { restoreStatechart, serializeStatechart } from './snapshot'
 

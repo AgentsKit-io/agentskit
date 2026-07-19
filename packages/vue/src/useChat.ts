@@ -12,7 +12,13 @@ export function useChat(config: ChatConfig): ChatReturn {
   const unsubscribe = controller.subscribe(() => {
     Object.assign(state, controller.getState())
   })
-  onScopeDispose(() => unsubscribe())
+  let disposed = false
+  onScopeDispose(() => {
+    if (disposed) return
+    disposed = true
+    unsubscribe()
+    controller.stop()
+  })
 
   return Object.assign(state, {
     send: controller.send,

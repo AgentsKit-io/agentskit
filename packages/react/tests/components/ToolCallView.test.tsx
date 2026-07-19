@@ -23,10 +23,45 @@ describe('ToolCallView', () => {
     expect(container.firstElementChild).toHaveAttribute('data-ak-tool-status', 'complete')
   })
 
+  it('exposes aria-expanded=false when collapsed', () => {
+    render(<ToolCallView toolCall={toolCall} />)
+    expect(screen.getByRole('button', { name: 'search' })).toHaveAttribute('aria-expanded', 'false')
+  })
+
+  it('toggles aria-expanded when details open and close', () => {
+    render(<ToolCallView toolCall={toolCall} />)
+    const toggle = screen.getByRole('button', { name: 'search' })
+    fireEvent.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'true')
+    fireEvent.click(toggle)
+    expect(toggle).toHaveAttribute('aria-expanded', 'false')
+  })
+
   it('shows args and result when expanded', () => {
     render(<ToolCallView toolCall={toolCall} />)
     fireEvent.click(screen.getByText('search'))
     expect(screen.getByText(/"query"/)).toBeInTheDocument()
     expect(screen.getByText('3 results found')).toBeInTheDocument()
+  })
+
+  it('omits result block when no result is present', () => {
+    const pending: ToolCall = { ...toolCall, result: undefined, status: 'pending' }
+    const { container } = render(<ToolCallView toolCall={pending} />)
+    fireEvent.click(screen.getByText('search'))
+    expect(container.querySelector('[data-ak-tool-args]')).not.toBeNull()
+    expect(container.querySelector('[data-ak-tool-result]')).toBeNull()
+  })
+
+  it('isolates expand state across multi-instance mounts', () => {
+    const other: ToolCall = { ...toolCall, id: 'tc-2', name: 'weather' }
+    render(
+      <>
+        <ToolCallView toolCall={toolCall} />
+        <ToolCallView toolCall={other} />
+      </>,
+    )
+    fireEvent.click(screen.getByRole('button', { name: 'search' }))
+    expect(screen.getByRole('button', { name: 'search' })).toHaveAttribute('aria-expanded', 'true')
+    expect(screen.getByRole('button', { name: 'weather' })).toHaveAttribute('aria-expanded', 'false')
   })
 })

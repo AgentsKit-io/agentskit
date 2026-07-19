@@ -16,7 +16,10 @@ const request: AdapterRequest = {
   tools: [],
 }
 
-function mockBody(text: string): typeof globalThis.fetch {
+function mockBody(
+  text: string,
+  headers?: Record<string, string>,
+): typeof globalThis.fetch {
   return vi.fn(async (_url: unknown, _init?: RequestInit) => {
     const stream = new ReadableStream<Uint8Array>({
       start(controller) {
@@ -24,7 +27,7 @@ function mockBody(text: string): typeof globalThis.fetch {
         controller.close()
       },
     })
-    return new Response(stream, { status: 200 })
+    return new Response(stream, { status: 200, headers })
   }) as unknown as typeof globalThis.fetch
 }
 
@@ -89,5 +92,71 @@ describe('vercelAI adapter', () => {
   it('declares empty capabilities by default', () => {
     const adapter = vercelAI({ api: 'https://x' })
     expect(adapter.capabilities).toEqual({})
+  })
+
+  describe('UI Message Stream v1', () => {
+    const uiHeaders = { 'x-vercel-ai-ui-message-stream': 'v1' }
+
+    it('decodes text-delta + finish + [DONE]', async () => {
+      const body =
+        `data: ${JSON.stringify({ type: 'text-delta', id: 't1', delta: 'Hel' })}\n\n` +
+        `data: ${JSON.stringify({ type: 'text-delta', id: 't1', delta: 'lo' })}\n\n` +
+        `data: ${JSON.stringify({ type: 'finish' })}\n\n` +
+        `data: [DONE]\n\n`
+      globalThis.fetch = mockBody(body, uiHeaders)
+      const chunks = await drain(vercelAI({ api: 'https://example/api' }))
+      const text = chunks.filter(c => c.type === 'text').map(c => c.content).join('')
+      expect(text).toBe('Hello')
+      expect(chunks.at(-1)?.type).toBe('done')
+      expect(chunks.some(c => c.type === 'error')).toBe(false)
+    })
+
+    it('terminals on error part with metadata.error', async () => {
+      const body =
+        `data: ${JSON.stringify({ type: 'text-delta', delta: 'partial' })}\n\n` +
+        `data: ${JSON.stringify({ type: 'error', errorText: 'upstream failed' })}\n\n`
+      globalThis.fetch = mockBody(body, uiHeaders)
+      const chunks = await drain(vercelAI({ api: 'https://example/api' }))
+      expect(chunks.some(c => c.type === 'text')).toBe(true)
+      expect(chunks.at(-1)?.type).toBe('error')
+      expect(chunks.at(-1)?.metadata?.error).toBeInstanceOf(Error)
+      expect(chunks.some(c => c.type === 'done')).toBe(false)
+    })
+
+    it('decodes reasoning-delta parts', async () => {
+      const body =
+        `data: ${JSON.stringify({ type: 'reasoning-delta', delta: 'think' })}\n\n` +
+        `data: ${JSON.stringify({ type: 'finish' })}\n\n` +
+        `data: [DONE]\n\n`
+      globalThis.fetch = mockBody(body, uiHeaders)
+      const chunks = await drain(vercelAI({ api: 'https://example/api' }))
+      expect(chunks.some(c => c.type === 'reasoning' && c.content === 'think')).toBe(true)
+      expect(chunks.at(-1)?.type).toBe('done')
+    })
+
+    it('turns provider abort parts into terminal errors', async () => {
+      const body =
+        `data: ${JSON.stringify({ type: 'text-delta', delta: 'x' })}\n\n` +
+        `data: ${JSON.stringify({ type: 'abort', reason: 'provider cancelled' })}\n\n`
+      globalThis.fetch = mockBody(body, uiHeaders)
+      const chunks = await drain(vercelAI({ api: 'https://example/api' }))
+      expect(chunks.some(c => c.type === 'text')).toBe(true)
+      expect(chunks.at(-1)?.type).toBe('error')
+      expect(chunks.at(-1)?.metadata?.error).toBeInstanceOf(Error)
+      expect((chunks.at(-1)?.metadata?.error as Error).message).toMatch(/provider cancelled/)
+    })
+
+    it('terminals on truncation without [DONE]', async () => {
+      const body =
+        `data: ${JSON.stringify({ type: 'text-delta', delta: 'cut' })}\n\n` +
+        `data: ${JSON.stringify({ type: 'finish' })}\n\n`
+      globalThis.fetch = mockBody(body, uiHeaders)
+      const chunks = await drain(vercelAI({ api: 'https://example/api' }))
+      expect(chunks.some(c => c.type === 'text')).toBe(true)
+      expect(chunks.at(-1)?.type).toBe('error')
+      expect(chunks.at(-1)?.metadata?.error).toBeInstanceOf(Error)
+      expect(String((chunks.at(-1)?.metadata?.error as Error).message)).toMatch(/truncated|DONE/i)
+      expect(chunks.some(c => c.type === 'done')).toBe(false)
+    })
   })
 })

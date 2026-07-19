@@ -58,6 +58,17 @@ export interface ControlSurfaceOptions {
   bearerToken?: string
   /** Audit log sink — gets every control action. */
   audit?: (entry: ControlAuditEntry) => void
+  /**
+   * Optional resolver for correlating events to a run. Checked first.
+   * Canonical AgentEvent has no runId; use this or `defaultRunId` when
+   * feeding runtime events into the control surface.
+   */
+  runIdOf?: (event: AgentEvent) => string | undefined
+  /**
+   * Fallback run id when neither `runIdOf` nor enriched top-level
+   * `runId`/`id` fields are present on the event.
+   */
+  defaultRunId?: string
 }
 
 export interface ControlAuditEntry {
@@ -120,15 +131,58 @@ function constantTimeEqual(a: string, b: string): boolean {
   return mismatch === 0
 }
 
-function eventRunId(event: AgentEvent): string | undefined {
-  // Most agent events carry a `runId` in metadata. Fall back to a
-  // top-level `id` for older sinks.
-  const candidate = (event as { runId?: string; id?: string }).runId
-  return candidate
+function shallowEvent(event: AgentEvent): AgentEvent {
+  return { ...event } as AgentEvent
+}
+
+function shallowOverride(override: ToolOverride): ToolOverride {
+  return { ...override }
+}
+
+/**
+ * Resolve run id for an event.
+ * Order: `runIdOf` callback → enriched top-level `runId` → top-level `id` → `defaultRunId`.
+ * Callback throws are isolated so `observer.on` never throws from user resolvers.
+ */
+function resolveRunId(
+  event: AgentEvent,
+  options: ControlSurfaceOptions,
+): string | undefined {
+  if (options.runIdOf) {
+    try {
+      const fromCallback = options.runIdOf(event)
+      if (typeof fromCallback === 'string' && fromCallback.length > 0) return fromCallback
+    } catch {
+      // Fall through to enriched / default resolvers.
+    }
+  }
+
+  // Enriched streams may attach runId/id without changing the AgentEvent contract.
+  const enriched = event as AgentEvent & { runId?: unknown; id?: unknown }
+  if (typeof enriched.runId === 'string' && enriched.runId.length > 0) return enriched.runId
+  if (typeof enriched.id === 'string' && enriched.id.length > 0) return enriched.id
+
+  if (typeof options.defaultRunId === 'string' && options.defaultRunId.length > 0) {
+    return options.defaultRunId
+  }
+  return undefined
+}
+
+function assertPositiveInteger(name: string, value: number): void {
+  if (!Number.isFinite(value) || !Number.isInteger(value) || value <= 0) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `createControlSurface: ${name} must be a finite positive integer (received ${String(value)})`,
+      hint: 'Pass a positive whole number (e.g. 200) for buffer sizes.',
+    })
+  }
 }
 
 export function createControlSurface(options: ControlSurfaceOptions = {}): ControlSurface {
-  const bufferSize = Math.max(10, options.snapshotBufferSize ?? 200)
+  if (options.snapshotBufferSize !== undefined) {
+    assertPositiveInteger('snapshotBufferSize', options.snapshotBufferSize)
+  }
+  const bufferSize = options.snapshotBufferSize ?? 200
   const runs = new Map<string, RunState>()
 
   function ensureRun(runId: string): RunState {
@@ -153,11 +207,12 @@ export function createControlSurface(options: ControlSurfaceOptions = {}): Contr
     observer: {
       name: 'prod-control',
       on: event => {
-        const runId = eventRunId(event)
+        const runId = resolveRunId(event, options)
         if (!runId) return
         const state = ensureRun(runId)
         state.seq += 1
-        state.events.push(event)
+        // Shallow-copy so later caller mutation cannot rewrite retained history.
+        state.events.push(shallowEvent(event))
         while (state.events.length > bufferSize) state.events.shift()
       },
     },
@@ -183,7 +238,7 @@ export function createControlSurface(options: ControlSurfaceOptions = {}): Contr
     },
 
     inject(runId, override, actor) {
-      ensureRun(runId).overrides.push(override)
+      ensureRun(runId).overrides.push(shallowOverride(override))
       audit({ action: 'inject', runId, actor, payload: { tool: override.tool, reason: override.reason } })
     },
 
@@ -194,8 +249,10 @@ export function createControlSurface(options: ControlSurfaceOptions = {}): Contr
         capturedAt: new Date().toISOString(),
         paused: state.paused,
         seq: state.seq,
-        events: [...state.events],
-        overrides: [...state.overrides],
+        // Top-level isolation only (shallow): returned arrays and top-level
+        // event/override objects are copies; nested fields are shared refs.
+        events: state.events.map(shallowEvent),
+        overrides: state.overrides.map(shallowOverride),
         metadata,
       }
       audit({ action: 'snapshot', runId, payload: { seq: state.seq, eventCount: state.events.length } })
@@ -205,7 +262,7 @@ export function createControlSurface(options: ControlSurfaceOptions = {}): Contr
     replay(snap, actor) {
       const state = ensureRun(snap.runId)
       state.paused = snap.paused
-      state.overrides = [...snap.overrides]
+      state.overrides = snap.overrides.map(shallowOverride)
       audit({ action: 'replay', runId: snap.runId, actor, payload: { capturedAt: snap.capturedAt } })
     },
 

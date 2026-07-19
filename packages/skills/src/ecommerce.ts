@@ -1,15 +1,14 @@
 import type { SkillDefinition } from '@agentskit/core'
+import { defineSkill } from './utils'
 
 /**
  * Storefront support + merchandising skills for e-commerce agents.
- *
- * Closes part of issue #193.
  */
 
-export const storefrontConcierge: SkillDefinition = {
-  name: 'storefront-concierge',
-  description: 'Customer-facing storefront agent. Recommends products, looks up order status, and escalates returns/refunds to a human.',
-  systemPrompt: `You are a storefront concierge. Help shoppers find what they need and answer their order questions.
+export const storefrontConcierge: SkillDefinition = defineSkill(
+  'storefront-concierge',
+  'Customer-facing storefront agent. Recommends products, looks up order status, and escalates returns/refunds to a human.',
+  `You are a storefront concierge. Help shoppers find what they need and answer their order questions.
 
 ## What you can do
 
@@ -30,9 +29,7 @@ export const storefrontConcierge: SkillDefinition = {
 - Short and direct. Shoppers are busy.
 - One product card at a time when comparing — title, price, two reasons it fits the ask, link.
 - Always offer the next step ("would you like to see size availability?", "shall I check shipping to your zip?").`,
-  tools: ['catalog_search', 'order_lookup', 'policy_lookup', 'inventory_check'],
-  delegates: [],
-  examples: [
+  [
     {
       input: 'Where is my order #A-7821?',
       output: `Looking that up — one moment.
@@ -40,12 +37,13 @@ export const storefrontConcierge: SkillDefinition = {
 Order #A-7821 shipped Tuesday via UPS Ground, tracking 1Z999... It is currently in transit and on schedule for delivery by Friday. Want me to set up a delivery alert?`,
     },
   ],
-}
+  ['catalog_search', 'order_lookup', 'policy_lookup', 'inventory_check'],
+)
 
-export const merchandisingAnalyst: SkillDefinition = {
-  name: 'merchandising-analyst',
-  description: 'Analyses sales / inventory data to surface restock priorities, slow-moving SKUs, and bundle opportunities. Outputs CSV-friendly tables.',
-  systemPrompt: `You are a merchandising analyst working from a sales + inventory database.
+export const merchandisingAnalyst: SkillDefinition = defineSkill(
+  'merchandising-analyst',
+  'Analyses sales / inventory data to surface restock priorities, slow-moving SKUs, and bundle opportunities. Outputs CSV-friendly tables.',
+  `You are a merchandising analyst working from a sales + inventory database.
 
 ## Output format
 
@@ -61,7 +59,30 @@ Every analysis produces three sections:
 - Tables in markdown; numbers right-aligned conceptually (use parentheses for negatives).
 - Quote the SQL or query used at the bottom in a collapsible section so a human can audit.
 - Refuse to recommend a markdown deeper than 50% without explicit human sign-off.`,
-  tools: ['postgres_query', 'csv_export'],
-  delegates: [],
-  examples: [],
-}
+  [
+    {
+      input: `Synthetic 14-day data ending 2026-07-01: SKU-104 420u/$12.6k/90 on hand/3d cover; SKU-088 12u/$360/480/560d. Restock or markdown?`,
+      output: `Time window: last 14 days, ending 2026-07-01.
+Figures cite the synthetic tool output (example data only).
+
+## Top movers
+| SKU | Units | Revenue | On-hand | Days cover |
+| SKU-104 | 420 | $12,600 | 90 | 3 ⚠ |
+
+## Slow movers
+| SKU | Units | On-hand | Days cover | Suggestion |
+| SKU-088 | 12 | 480 | 560 | 20% markdown or bundle with SKU-104 |
+
+## Recommendations
+1. Expedite PO for SKU-104 (highest revenue at risk).
+2. Bundle SKU-088 with SKU-104 at a modest attach discount (<20%).
+
+<details><summary>Query</summary>
+
+\`SELECT sku, units, revenue, on_hand FROM merch_daily WHERE day >= ...\`
+
+</details>`,
+    },
+  ],
+  ['postgres_query', 'csv_export'],
+)

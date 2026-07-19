@@ -111,15 +111,19 @@ export async function executeSafeTool(
     }
   }
 
-  // Requires confirmation
+  // Requires confirmation — refuse by default when no approver is configured (RT6)
   if (tool.requiresConfirmation) {
-    if (onConfirm) {
-      const confirmed = await onConfirm(toolCall)
-      if (!confirmed) {
-        return { status: 'skipped', result: 'Tool execution declined by confirmation handler', durationMs: Date.now() - began }
+    if (!onConfirm) {
+      return {
+        status: 'skipped',
+        result: 'No confirmation handler',
+        durationMs: Date.now() - began,
       }
     }
-    // No onConfirm callback = auto-confirm (backwards compatible)
+    const confirmed = await onConfirm(toolCall)
+    if (!confirmed) {
+      return { status: 'skipped', result: 'Tool execution declined by confirmation handler', durationMs: Date.now() - began }
+    }
   }
 
   try {
@@ -157,13 +161,14 @@ export async function executeSafeTool(
           hint: 'Check the tool execute() implementation.',
           cause: error,
         })
+    // Emit error before tool:end so trackers can mark the active tool span.
+    emitter.emit({ type: 'error', error: err })
     emitter.emit({
       type: 'tool:end',
       name: toolCall.name,
       result: `Error: ${err.message}`,
       durationMs: Date.now() - began,
     })
-    emitter.emit({ type: 'error', error: err })
     return { status: 'error', error: err.toString(), durationMs: Date.now() - began }
   }
 }

@@ -124,6 +124,31 @@ describe('InputBar', () => {
     expect((getByTestId('ak-input') as HTMLInputElement).disabled).toBe(true)
   })
 
+  it('blocks onSubmitEditing while streaming', () => {
+    const send = vi.fn()
+    const chat = makeChat({ input: 'ready', status: 'streaming', send })
+    const { getByTestId } = render(<InputBar chat={chat} />)
+    fireEvent.keyDown(getByTestId('ak-input'), { key: 'Enter' })
+    expect(send).not.toHaveBeenCalled()
+  })
+
+  it('blocks Send press while streaming', () => {
+    const send = vi.fn()
+    const chat = makeChat({ input: 'ready', status: 'streaming', send })
+    const { getByTestId } = render(<InputBar chat={chat} />)
+    fireEvent.click(getByTestId('ak-send'))
+    expect(send).not.toHaveBeenCalled()
+  })
+
+  it('blocks all send paths when disabled', () => {
+    const send = vi.fn()
+    const chat = makeChat({ input: 'ready', send })
+    const { getByTestId } = render(<InputBar chat={chat} disabled />)
+    fireEvent.keyDown(getByTestId('ak-input'), { key: 'Enter' })
+    fireEvent.click(getByTestId('ak-send'))
+    expect(send).not.toHaveBeenCalled()
+  })
+
   it('sends on Send press when input present', () => {
     const send = vi.fn()
     const chat = makeChat({ input: 'go', send })
@@ -138,6 +163,23 @@ describe('InputBar', () => {
     const { getByTestId } = render(<InputBar chat={chat} />)
     fireEvent.keyDown(getByTestId('ak-input'), { key: 'Enter' })
     expect(send).not.toHaveBeenCalled()
+  })
+
+  it('isolates multi-instance send paths', () => {
+    const sendA = vi.fn()
+    const sendB = vi.fn()
+    const { getAllByTestId } = render(
+      <>
+        <InputBar chat={makeChat({ input: 'alpha', send: sendA })} />
+        <InputBar chat={makeChat({ input: 'beta', send: sendB })} />
+      </>,
+    )
+    fireEvent.click(getAllByTestId('ak-send')[0]!)
+    expect(sendA).toHaveBeenCalledWith('alpha')
+    expect(sendB).not.toHaveBeenCalled()
+    fireEvent.click(getAllByTestId('ak-send')[1]!)
+    expect(sendB).toHaveBeenCalledWith('beta')
+    expect(sendA).toHaveBeenCalledTimes(1)
   })
 })
 
@@ -183,12 +225,35 @@ describe('ToolCallView', () => {
     expect(queryByTestId('ak-tool-details')).toBeNull()
   })
 
+  it('exposes accessibilityState.expanded via aria-expanded', () => {
+    const { getByTestId } = render(<ToolCallView toolCall={makeToolCall()} />)
+    const toggle = getByTestId('ak-tool-toggle')
+    expect(toggle.getAttribute('aria-expanded')).toBe('false')
+    fireEvent.click(toggle)
+    expect(toggle.getAttribute('aria-expanded')).toBe('true')
+    fireEvent.click(toggle)
+    expect(toggle.getAttribute('aria-expanded')).toBe('false')
+  })
+
   it('shows result when expanded and present', () => {
     const { getByTestId } = render(
       <ToolCallView toolCall={makeToolCall({ status: 'complete', result: 'found 3' })} />,
     )
     fireEvent.click(getByTestId('ak-tool-toggle'))
     expect(getByTestId('ak-tool-result').textContent).toBe('found 3')
+  })
+
+  it('isolates expand state across multi-instance mounts', () => {
+    const { getAllByTestId } = render(
+      <>
+        <ToolCallView toolCall={makeToolCall({ id: 't1', name: 'search' })} />
+        <ToolCallView toolCall={makeToolCall({ id: 't2', name: 'weather' })} />
+      </>,
+    )
+    const toggles = getAllByTestId('ak-tool-toggle')
+    fireEvent.click(toggles[0]!)
+    expect(toggles[0]!.getAttribute('aria-expanded')).toBe('true')
+    expect(toggles[1]!.getAttribute('aria-expanded')).toBe('false')
   })
 })
 

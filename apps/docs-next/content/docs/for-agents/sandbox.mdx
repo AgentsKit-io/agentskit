@@ -1,57 +1,74 @@
 ---
 title: '@agentskit/sandbox — for agents'
-description: Secure code execution (E2B / WebContainer) + mandatory sandbox policy wrapper.
+description: Secure code execution (E2B / Web Worker / local runtimes) + mandatory sandbox policy wrapper.
 ---
 
 ## Install
 
 ```bash
 npm install @agentskit/sandbox
+# optional peer for the default E2B cloud backend:
+npm install @e2b/code-interpreter
 ```
 
 ## Primary exports
 
-- `createSandbox(config?)` — spawn a sandbox; default backend probes E2B.
-- `sandboxTool()` — ready-made `code_execution` tool (js / python).
-- `createE2BBackend(config)` — bring your own E2B API key.
+- `createSandbox(config?)` — facade over a `SandboxBackend` or E2B (`apiKey` required when no `backend`). Defaults: `network: false`, `timeout: 30_000`, language `javascript`.
+- `sandboxTool(config?)` — ready-made `code_execution` tool (js / python).
+- `createE2BBackend({ apiKey, timeout?, network? })` — E2B VM backend; maps to `Sandbox.create({ apiKey, timeoutMs, allowInternetAccess })`.
 - Types: `Sandbox`, `SandboxConfig`, `SandboxBackend`, `ExecuteOptions`, `ExecuteResult`.
 
 ### Policy wrapper
 
-- `createMandatorySandbox({ sandbox, policy })` — enforce allow / deny / requireSandbox / validators across every tool. See [Mandatory sandbox](/docs/reference/recipes/mandatory-sandbox).
+- `createMandatorySandbox({ sandbox, policy })` — enforce allow / deny / requireSandbox / validators across every tool.
+- **`requireSandbox` does not execute the original tool body.** It delegates `args` to `sandbox.execute` (routing shim).
+
+### Browser (`@agentskit/sandbox/web`)
+
+- `webWorkerBackend(opts?)` / `runStreaming(code, onChunk, opts?)` — JavaScript only.
+- Isolation: **thread + DOM only**. Not a network/filesystem security boundary. **Not WebContainer.**
 
 ### Local-process runtimes
 
-Host-process isolation complementing the cloud E2B backend. Each implements the `SandboxRuntime` adapter (`spawn` / optional `exec`) the agent runner spawns tool subprocesses through, shelling out to a host binary via an injected `Spawner` (no native deps).
+Host-process isolation complementing the cloud E2B backend. Each implements the `SandboxRuntime` adapter (`spawn` / optional `exec`) via an injected `Spawner` (no native deps).
 
-- `noneSandbox` — in-process, no isolation (`spawn` rejects; for `none`-level trusted compute only).
+- `noneSandbox` — in-process, no isolation (`spawn` rejects).
 - `processSandbox(opts?)` — child-process with env allowlisting (`exposeAllowedEnvKeys`).
-- `sandboxExecRuntime({ policy })` — macOS seatbelt (`/usr/bin/sandbox-exec`); `renderSandboxExecProfile` emits the SBPL (default-deny + workspace-scoped writes + no outbound network).
-- `bwrapRuntime({ policy })` — Linux bubblewrap unshare-everything jail; `renderBwrapArgs`, `isBwrapSupported`, `getBwrapPath`.
-- `dockerRuntime({ policy })` — `docker run --rm` with cap-drop / no-new-privileges / read-only rootfs; `renderDockerArgs`.
-- `nodeSpawner()` — default `Spawner` over `node:child_process` (timeout + output-cap).
-- `SandboxRegistry` — maps `SandboxLevel` → runtime; `resolveOrThrow`.
-- `assertStrongIsolation` / `isStrongIsolation` / `isWeakIsolation` / `weakSandboxBanner` / `WeakSandboxError` — surface that `none`/`process` provide no OS-level fs/net isolation.
-- Contract types: `SandboxRuntime`, `SandboxLevel`, `SANDBOX_LEVELS`, `SandboxExecOptions`, `SandboxExecResult`, `Spawner`, `ChildHandle`.
+- `sandboxExecRuntime({ policy })` — macOS seatbelt; profile scopes file-read to system paths + `workspaceRoot` + `extraReadablePaths` (no global `file-read*`).
+- `bwrapRuntime({ policy })` — Linux bubblewrap; `level` remains `'process'` for registry compatibility (beta; not remapped to `'container'` yet).
+- `dockerRuntime({ policy })` — `docker run --rm` with cap-drop / no-new-privileges / read-only rootfs; rejects obvious escape `extraArgs` / capabilities.
+- `nodeSpawner()` — default `Spawner`; combined stdout+stderr **byte** cap + timeout.
+- `SandboxRegistry` / `SANDBOX_LEVELS` / `assertStrongIsolation` — runtime discovery and isolation policy.
+- Profile and capability helpers: `renderSandboxExecProfile`, `renderBwrapArgs`, `isBwrapSupported`, `getBwrapPath`, `renderDockerArgs`.
+- Isolation classification helpers: `isStrongIsolation`, `isWeakIsolation`, `weakSandboxBanner`, `WeakSandboxError`.
+
+## Config notes
+
+- **`memoryLimit`**: type-compatible hint for custom backends. **Not applied** by E2B or Web Worker.
+- Invalid `language` / non-positive `timeout` throw typed `ConfigError` / `SandboxError`.
+- Dispose is idempotent; execute after dispose fails clearly.
 
 ## Minimal example
 
 ```ts
 import { sandboxTool, createMandatorySandbox } from '@agentskit/sandbox'
-import { shell, filesystem, webSearch } from '@agentskit/tools'
+import { filesystem, webSearch } from '@agentskit/tools'
+
+const codeExecution = sandboxTool({ apiKey: process.env.E2B_API_KEY })
 
 const policy = createMandatorySandbox({
-  sandbox: sandboxTool(),
-  policy: { requireSandbox: ['shell'], deny: ['filesystem'] },
+  sandbox: codeExecution,
+  policy: { requireSandbox: ['code_execution'], deny: ['filesystem'] },
 })
 
-const safeTools = [shell(), filesystem({ basePath }), webSearch()].map(t => policy.wrap(t))
+const safeTools = [codeExecution, filesystem({ basePath }), webSearch()].map(t => policy.wrap(t))
 ```
 
 ## Related
 
 - [@agentskit/tools](/docs/for-agents/tools) — tools to wrap.
-- [@agentskit/core/hitl](/docs/reference/recipes/hitl-approvals) — human approvals on top.
+- [Sandbox deep dive](/docs/production/security/sandbox)
+- [Mandatory sandbox](/docs/production/security/mandatory-sandbox)
 
 ## Source
 

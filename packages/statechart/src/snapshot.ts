@@ -5,7 +5,9 @@ import {
   StatechartDiagnosticCodes,
 } from './types'
 import type {
+  DeepReadonly,
   JsonObject,
+  RejectedRestore,
   StatechartDefinition,
   StatechartDiagnostic,
   StatechartEvent,
@@ -22,8 +24,13 @@ const diagnostic = (
 const hasOwn = (input: object, key: PropertyKey): boolean =>
   Object.prototype.hasOwnProperty.call(input, key)
 
-const isRecord = (input: unknown): input is Record<string, unknown> =>
-  input !== null && typeof input === 'object' && !Array.isArray(input)
+const rejectRestore = (
+  code: StatechartDiagnostic['code'],
+  message: string,
+): RejectedRestore => Object.freeze({
+  diagnostic: diagnostic(code, message),
+  status: 'rejected',
+})
 
 export const serializeStatechart = <
   TContext extends JsonObject,
@@ -50,77 +57,65 @@ export const restoreStatechart = <
   definition: StatechartDefinition<TContext, TEvent, TState>,
   input: unknown,
 ): StatechartRestoreResult<TContext, TState> => {
-  if (!isRecord(input)) {
-    return {
-      diagnostic: diagnostic(
-        StatechartDiagnosticCodes.SNAPSHOT_INVALID,
-        'snapshot must be an object',
-      ),
-      status: 'rejected',
-    }
+  let snapshot: DeepReadonly<JsonObject>
+  try {
+    snapshot = cloneJsonObject(input)
+  } catch {
+    return rejectRestore(
+      StatechartDiagnosticCodes.SNAPSHOT_INVALID,
+      'snapshot must be a JSON-compatible object',
+    )
   }
 
-  if (input.schemaVersion !== STATECHART_SNAPSHOT_VERSION) {
-    return {
-      diagnostic: diagnostic(
-        StatechartDiagnosticCodes.SNAPSHOT_VERSION_UNSUPPORTED,
-        'snapshot schema version is unsupported',
-      ),
-      status: 'rejected',
-    }
+  if (snapshot.schemaVersion !== STATECHART_SNAPSHOT_VERSION) {
+    return rejectRestore(
+      StatechartDiagnosticCodes.SNAPSHOT_VERSION_UNSUPPORTED,
+      'snapshot schema version is unsupported',
+    )
   }
 
   if (
-    input.machineId !== definition.id ||
-    input.machineVersion !== definition.version
+    snapshot.machineId !== definition.id ||
+    snapshot.machineVersion !== definition.version
   ) {
-    return {
-      diagnostic: diagnostic(
-        StatechartDiagnosticCodes.INSTANCE_MISMATCH,
-        'snapshot does not belong to this statechart definition',
-      ),
-      status: 'rejected',
-    }
+    return rejectRestore(
+      StatechartDiagnosticCodes.INSTANCE_MISMATCH,
+      'snapshot does not belong to this statechart definition',
+    )
   }
 
   if (
-    typeof input.instanceId !== 'string' ||
-    input.instanceId.length === 0 ||
-    typeof input.updatedAt !== 'string' ||
-    input.updatedAt.length === 0 ||
-    typeof input.state !== 'string' ||
-    !hasOwn(definition.states, input.state) ||
-    typeof input.revision !== 'number' ||
-    !Number.isSafeInteger(input.revision) ||
-    input.revision < 0
+    typeof snapshot.instanceId !== 'string' ||
+    snapshot.instanceId.trim().length === 0 ||
+    typeof snapshot.updatedAt !== 'string' ||
+    snapshot.updatedAt.trim().length === 0 ||
+    typeof snapshot.state !== 'string' ||
+    !hasOwn(definition.states, snapshot.state) ||
+    typeof snapshot.revision !== 'number' ||
+    !Number.isSafeInteger(snapshot.revision) ||
+    snapshot.revision < 0
   ) {
-    return {
-      diagnostic: diagnostic(
-        StatechartDiagnosticCodes.SNAPSHOT_INVALID,
-        'snapshot metadata is invalid',
-      ),
-      status: 'rejected',
-    }
+    return rejectRestore(
+      StatechartDiagnosticCodes.SNAPSHOT_INVALID,
+      'snapshot metadata is invalid',
+    )
   }
 
   try {
     const instance: StatechartInstance<TContext, TState> = Object.freeze({
-      context: parseStatechartContext(definition, input.context),
-      instanceId: input.instanceId,
+      context: parseStatechartContext(definition, snapshot.context),
+      instanceId: snapshot.instanceId,
       machineId: definition.id,
       machineVersion: definition.version,
-      revision: input.revision,
-      state: input.state as TState,
-      updatedAt: input.updatedAt,
+      revision: snapshot.revision,
+      state: snapshot.state as TState,
+      updatedAt: snapshot.updatedAt,
     })
     return Object.freeze({ instance, status: 'restored' })
   } catch {
-    return {
-      diagnostic: diagnostic(
-        StatechartDiagnosticCodes.CONTEXT_INVALID,
-        'snapshot context failed runtime validation',
-      ),
-      status: 'rejected',
-    }
+    return rejectRestore(
+      StatechartDiagnosticCodes.CONTEXT_INVALID,
+      'snapshot context failed runtime validation',
+    )
   }
 }

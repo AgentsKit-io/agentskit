@@ -27,10 +27,30 @@ interface BaseProps {
   [key: string]: unknown
 }
 
+function a11yProps(accessibilityLabel?: string, accessibilityRole?: string, accessibilityState?: Record<string, unknown>) {
+  const attrs: Record<string, string | boolean | undefined> = {
+    'aria-label': accessibilityLabel,
+    role: accessibilityRole,
+  }
+  if (accessibilityState && typeof accessibilityState.expanded === 'boolean') {
+    attrs['aria-expanded'] = accessibilityState.expanded ? 'true' : 'false'
+  }
+  if (accessibilityState && typeof accessibilityState.disabled === 'boolean') {
+    attrs['aria-disabled'] = accessibilityState.disabled ? 'true' : 'false'
+  }
+  return attrs
+}
+
 export const View = forwardRef<HTMLDivElement, BaseProps>(function View(props, ref) {
   const { testID, style, accessibilityLabel, children, accessibilityRole, accessibilityState, ...rest } = props
   return (
-    <div ref={ref} data-testid={testID} aria-label={accessibilityLabel} style={style as React.CSSProperties | undefined} {...rest}>
+    <div
+      ref={ref}
+      data-testid={testID}
+      style={style as React.CSSProperties | undefined}
+      {...a11yProps(accessibilityLabel, accessibilityRole, accessibilityState)}
+      {...rest}
+    >
       {children}
     </div>
   )
@@ -39,7 +59,13 @@ export const View = forwardRef<HTMLDivElement, BaseProps>(function View(props, r
 export const Text = forwardRef<HTMLSpanElement, BaseProps>(function Text(props, ref) {
   const { testID, style, accessibilityLabel, children, accessibilityRole, accessibilityState, ...rest } = props
   return (
-    <span ref={ref} data-testid={testID} aria-label={accessibilityLabel} style={style as React.CSSProperties | undefined} {...rest}>
+    <span
+      ref={ref}
+      data-testid={testID}
+      style={style as React.CSSProperties | undefined}
+      {...a11yProps(accessibilityLabel, accessibilityRole, accessibilityState)}
+      {...rest}
+    >
       {children}
     </span>
   )
@@ -133,9 +159,9 @@ export const Pressable = forwardRef<HTMLButtonElement, PressableProps>(function 
       ref={ref}
       type="button"
       data-testid={testID}
-      aria-label={accessibilityLabel}
       disabled={disabled}
       onClick={() => onPress?.()}
+      {...a11yProps(accessibilityLabel, accessibilityRole, accessibilityState)}
       {...rest}
     >
       {children}

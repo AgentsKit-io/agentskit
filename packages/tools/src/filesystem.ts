@@ -140,6 +140,7 @@ export function filesystem(config: FilesystemConfig): ToolDefinition[] {
     description: 'Write content to a file. Creates the file if it does not exist. Path is relative to the workspace.',
     tags: ['filesystem', 'write'],
     category: 'filesystem',
+    requiresConfirmation: true,
     schema: {
       type: 'object',
       properties: {

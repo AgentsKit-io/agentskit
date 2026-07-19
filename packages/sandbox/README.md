@@ -4,7 +4,7 @@ Profile: <code>concise-package</code>
 
 <p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
-Let agents write and run code safely — in isolated cloud VMs, not on your machine.
+Let agents write and run code safely — in isolated cloud VMs (E2B), constrained local runtimes, or a browser Web Worker.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/sandbox?color=blue)](https://www.npmjs.com/package/@agentskit/sandbox)
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/sandbox)](https://www.npmjs.com/package/@agentskit/sandbox)
@@ -20,6 +20,7 @@ Let agents write and run code safely — in isolated cloud VMs, not on your mach
 - Package metadata and tests live under `packages/sandbox/`.
 - Package guide: https://www.agentskit.io/docs/packages/sandbox
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
+- Graduation track: [RFC 0013](../../rfcs/0013-sandbox-stable.md) (Proposed — not stable)
 
 ## How this fits the ecosystem
 
@@ -34,10 +35,11 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/sandbox) · [agent 
 
 ## Why sandbox
 
-- **Code generation that actually executes** — agents can write, run, and iterate on code without you worrying about what they'll do to your filesystem or OS
-- **E2B cloud VMs out of the box** — each execution runs in an isolated environment with configurable timeouts, no network by default, and a 50MB memory cap
-- **Bring your own backend** — the `SandboxBackend` interface is 2 methods; plug in Docker, Firecracker, or any custom isolation layer
-- **Works alongside any other tools** — add `sandboxTool` to the same `tools` array as `webSearch` or `filesystem`; no special wiring needed
+- **Code generation that actually executes** — agents can write, run, and iterate without unrestricted host access
+- **E2B cloud VMs** — optional peer `@e2b/code-interpreter`; defaults to no internet (`allowInternetAccess: false`); per-execute timeout; combined stdout/stderr byte cap
+- **Bring your own backend** — `SandboxBackend` is two methods; plug in Docker, Firecracker, or any custom isolation layer
+- **Policy wrapper** — `createMandatorySandbox` allow/deny/requireSandbox (requireSandbox **routes args to the sandbox tool** and does **not** run the original body)
+- **Works alongside any other tools** — add `sandboxTool` to the same `tools` array as `webSearch` or `filesystem`
 
 ## Install
 
@@ -65,18 +67,30 @@ console.log(result.content)
 
 ## Features
 
-- `sandboxTool({ apiKey })` — drop-in tool for code execution via E2B cloud VMs
-- Configurable timeouts and resource limits
-- No network by default — agents cannot exfiltrate data
-- `SandboxBackend` interface — 2 methods to bring Docker, Firecracker, or any custom backend
+- `sandboxTool({ apiKey })` — drop-in tool for code execution via E2B (optional peer)
+- `createSandbox({ backend | apiKey, network?, timeout?, language? })` — facade with security defaults
+- **Defaults:** `network: false`, `timeout: 30_000` ms per execute, language `javascript`
+- **`memoryLimit`:** accepted for compatibility; **not enforced** by E2B or Web Worker (custom backends may honor it)
+- `SandboxBackend` interface — `execute` + optional `dispose`
+- Local runtimes: process, macOS seatbelt, Linux bwrap (beta), Docker
+- Browser: `@agentskit/sandbox/web` — Web Worker (thread + DOM isolation only; **not** WebContainer)
 - Follows `ToolDefinition` contract — works in `runtime`, `useChat`, or any custom loop
+
+## Honest isolation claims
+
+| Backend | What you get | What you do **not** get |
+|---|---|---|
+| E2B | Remote VM isolation, optional network deny | Per-instance `memoryLimit` via AgentsKit |
+| Web Worker | Off-main-thread + no DOM | Network/FS security boundary; WebContainer |
+| `processSandbox` | Child process + env allowlist | OS-level fs/net isolation |
+| seatbelt / bwrap / docker | Platform jails (beta) | A stable multi-tenant guarantee yet |
 
 ## Ecosystem
 
 | Package | Role |
 |---------|------|
 | [@agentskit/runtime](https://www.npmjs.com/package/@agentskit/runtime) | `createRuntime({ tools })` |
-| [@agentskit/tools](https://www.npmjs.com/package/@agentskit/tools) | `code` tool can delegate to sandbox |
+| [@agentskit/tools](https://www.npmjs.com/package/@agentskit/tools) | tools that pair with mandatory sandbox policy |
 | [@agentskit/adapters](https://www.npmjs.com/package/@agentskit/adapters) | LLM for codegen tasks |
 | [@agentskit/core](https://www.npmjs.com/package/@agentskit/core) | Tool contract |
 
@@ -96,7 +110,7 @@ MIT — see [LICENSE](../../LICENSE).
 
 ## Maturity and compatibility
 
-- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md). Not 1.0.
 - **Node.js 20+** and **TypeScript** strict mode
 - Published as `@agentskit/sandbox`
 

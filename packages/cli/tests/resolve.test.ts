@@ -81,7 +81,55 @@ describe('getBuiltinToolNames', () => {
   })
 })
 
+/** S1 skill name shape — ADR 0005 / ADR 0002 T1. */
+const SKILL_NAME_RE = /^[a-zA-Z_][a-zA-Z0-9_-]{0,63}$/
+
+/** All 26 built-in skill names expected in the CLI skillRegistry. */
+const ALL_BUNDLED_SKILL_NAMES = [
+  'researcher',
+  'coder',
+  'planner',
+  'critic',
+  'summarizer',
+  'code-reviewer',
+  'pr-reviewer',
+  'sql-gen',
+  'data-analyst',
+  'translator',
+  'sql-analyst',
+  'technical-writer',
+  'security-auditor',
+  'customer-support',
+  'healthcare-assistant',
+  'clinical-note-summarizer',
+  'financial-advisor',
+  'transaction-triage',
+  'legal-assistant',
+  'contract-reviewer',
+  'tutor',
+  'curriculum-designer',
+  'storefront-concierge',
+  'merchandising-analyst',
+  'listing-concierge',
+  'real-estate-market-analyst',
+] as const
+
 describe('resolveSkill / resolveSkills', () => {
+  it('skillRegistry covers all 26 bundled skills', () => {
+    const keys = Object.keys(skillRegistry)
+    expect(keys).toHaveLength(26)
+    for (const name of ALL_BUNDLED_SKILL_NAMES) {
+      expect(skillRegistry[name], `missing skillRegistry entry: ${name}`).toBeDefined()
+      expect(skillRegistry[name]!.name).toBe(name)
+    }
+  })
+
+  it('resolveSkill covers representative specialty skills', () => {
+    expect(resolveSkill('pr-reviewer')?.name).toBe('pr-reviewer')
+    expect(resolveSkill('contract-reviewer')?.name).toBe('contract-reviewer')
+    expect(resolveSkill('real-estate-market-analyst')?.name).toBe('real-estate-market-analyst')
+  })
+
   it('resolveSkill returns undefined for missing input', () => {
     expect(resolveSkill(undefined)).toBeUndefined()
   })
@@ -104,10 +152,13 @@ describe('resolveSkill / resolveSkills', () => {
     expect(resolveSkills('researcher')).toBe(skillRegistry.researcher)
   })
 
-  it('resolveSkills composes when multiple', () => {
+  it('resolveSkills composes when multiple with an S1-valid composed name', () => {
     const skill = resolveSkills('researcher,coder')
     expect(skill).toBeDefined()
     expect(skill!.name).toBeTruthy()
+    expect(skill!.name).toMatch(SKILL_NAME_RE)
+    expect(skill!.name.length).toBeLessThanOrEqual(64)
+    expect(skill!.name).not.toContain('+')
   })
 
   it('resolveSkills warns + returns undefined when nothing matches', () => {

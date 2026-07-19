@@ -1,5 +1,5 @@
 import type { EmbedFn } from '@agentskit/core'
-import { throwIfNotOk } from './shared'
+import { embeddingError, requireEmbeddingVector, throwIfNotOk } from './shared'
 
 export interface GeminiEmbedderConfig {
   apiKey: string
@@ -8,9 +8,11 @@ export interface GeminiEmbedderConfig {
 }
 
 async function fetchAvailableModels(baseUrl: string, apiKey: string): Promise<string[]> {
-  const url = `${baseUrl}/v1beta/models?key=${apiKey}`
-  const response = await fetch(url)
-  await throwIfNotOk(response, 'gemini', `${baseUrl}/v1beta/models`)
+  const url = `${baseUrl}/v1beta/models`
+  const response = await fetch(url, {
+    headers: { 'x-goog-api-key': apiKey },
+  })
+  await throwIfNotOk(response, 'gemini', url)
   const data = (await response.json()) as {
     models: Array<{ name: string; supportedGenerationMethods: string[] }>
   }
@@ -28,13 +30,9 @@ async function buildModelError(
   try {
     const models = await fetchAvailableModels(baseUrl, apiKey)
     const list = models.length > 0 ? models.join(', ') : 'none found'
-    return new Error(
-      `Gemini embedding failed: ${originalError}. Available embedding models: ${list}`,
-    )
+    return embeddingError('Gemini', `${originalError}. Available embedding models: ${list}`)
   } catch (fetchError) {
-    return new Error(
-      `Gemini embedding failed: ${originalError}. Could not fetch available models: ${(fetchError as Error).message}`,
-    )
+    return embeddingError('Gemini', `${originalError}. Could not fetch available models`, fetchError)
   }
 }
 
@@ -47,10 +45,13 @@ export function geminiEmbedder(config: GeminiEmbedderConfig): EmbedFn {
 
   return async (text: string): Promise<number[]> => {
     const response = await fetch(
-      `${baseUrl}/v1beta/models/${model}:embedContent?key=${apiKey}`,
+      `${baseUrl}/v1beta/models/${model}:embedContent`,
       {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'x-goog-api-key': apiKey,
+        },
         body: JSON.stringify({
           model: `models/${model}`,
           content: { parts: [{ text }] },
@@ -59,14 +60,12 @@ export function geminiEmbedder(config: GeminiEmbedderConfig): EmbedFn {
     )
 
     if (!response.ok) {
-      const errorBody = (await response.json().catch(() => ({}))) as {
-        error?: { message?: string }
-      }
-      const message = errorBody.error?.message ?? `HTTP ${response.status}`
+      void response.body?.cancel().catch(() => {})
+      const message = `HTTP ${response.status}`
       throw await buildModelError(baseUrl, apiKey, message)
     }
 
-    const data = (await response.json()) as { embedding: { values: number[] } }
-    return data.embedding.values
+    const data = (await response.json()) as { embedding?: { values?: unknown } }
+    return requireEmbeddingVector(data.embedding?.values, 'Gemini')
   }
 }

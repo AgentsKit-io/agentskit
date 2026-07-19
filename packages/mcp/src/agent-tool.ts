@@ -1,5 +1,13 @@
-import type { AdapterFactory, SkillDefinition, ToolDefinition } from '@agentskit/core'
+import {
+  ConfigError,
+  ErrorCodes,
+  ToolError,
+  type AdapterFactory,
+  type SkillDefinition,
+  type ToolDefinition,
+} from '@agentskit/core'
 import { createRuntime } from '@agentskit/runtime'
+import { assertNonEmptyString, assertPositiveInteger, assertToolName, isRecord } from './validation'
 
 export interface AgentToolConfig {
   /** Tool name exposed to the MCP host (the agent id). */
@@ -10,6 +18,8 @@ export interface AgentToolConfig {
   /** Model adapter the agent runs on (server-side). */
   adapter: AdapterFactory
   maxSteps?: number
+  /** Maximum UTF-8 bytes accepted in one task. Default 65536. */
+  maxTaskBytes?: number
 }
 
 /**
@@ -19,23 +29,48 @@ export interface AgentToolConfig {
  * host delegates a specialized job rather than orchestrating primitives.
  */
 export function createAgentTool(config: AgentToolConfig): ToolDefinition {
-  const skill: SkillDefinition = {
-    name: config.id,
-    description: config.description,
-    systemPrompt: config.systemPrompt,
+  const id = assertToolName(config?.id, 'agent tool id')
+  const description = assertNonEmptyString(config?.description, 'agent tool description', 4096)
+  const systemPrompt = assertNonEmptyString(config?.systemPrompt, 'agent tool systemPrompt', 65_536)
+  if (!isRecord(config?.adapter) || typeof config.adapter.createSource !== 'function') {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'agent tool adapter must implement createSource',
+    })
   }
-  return {
-    name: config.id,
-    description: config.description,
+  const maxSteps = assertPositiveInteger(config.maxSteps ?? 8, 'agent tool maxSteps', 100)
+  const maxTaskBytes = assertPositiveInteger(config.maxTaskBytes ?? 65_536, 'agent tool maxTaskBytes', 1_048_576)
+  const skill: SkillDefinition = {
+    name: id,
+    description,
+    systemPrompt,
+  }
+  const tool: ToolDefinition = {
+    name: id,
+    description,
     schema: {
       type: 'object',
       properties: { task: { type: 'string', description: 'The task or input for the agent.' } },
       required: ['task'],
+      additionalProperties: false,
     },
     execute: async (args: Record<string, unknown>) => {
-      const runtime = createRuntime({ adapter: config.adapter, maxSteps: config.maxSteps ?? 8 })
-      const result = await runtime.run(String(args.task ?? ''), { skill })
+      if (typeof args.task !== 'string' || args.task.trim().length === 0) {
+        throw new ToolError({
+          code: ErrorCodes.AK_TOOL_INVALID_INPUT,
+          message: 'agent tool task must be a non-empty string',
+        })
+      }
+      if (new TextEncoder().encode(args.task).byteLength > maxTaskBytes) {
+        throw new ToolError({
+          code: ErrorCodes.AK_TOOL_INVALID_INPUT,
+          message: `agent tool task must not exceed ${maxTaskBytes} bytes`,
+        })
+      }
+      const runtime = createRuntime({ adapter: config.adapter, maxSteps })
+      const result = await runtime.run(args.task, { skill })
       return { content: result.content, steps: result.steps }
     },
   }
+  return Object.freeze(tool)
 }

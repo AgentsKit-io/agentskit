@@ -19,6 +19,8 @@ Scorer signatures and family layout are stable. Field additions to `ScorerInput`
 - **Scores are numbers in `[0, 1]`.** Booleans coerce.
 - **Metadata is the contract.** Robustness scorers read fields the agent wrapper is expected to populate (`parseError`, `hitlTriggered`, `fallbackFired`, `crashed`). Document any new field in the scorer file.
 - **Braintrust is optional.** Local runs without a key still produce scored output.
+- **SDK work is awaited.** Experiment logs flush before summarize; failures become bounded `warnings` and never erase local scores.
+- **Custom scorer output is validated.** Malformed names or scores outside `[0, 1]` become isolated `scorer_error` results.
 
 ## Adding a scorer
 
@@ -29,7 +31,8 @@ Scorer signatures and family layout are stable. Field additions to `ScorerInput`
 ## Testing
 
 - All unit tests run without network access.
-- The runner test covers both the SDK-present and SDK-absent paths via the `bt` injection point.
+- The runner test covers SDK-present/absent, async log/flush/summarize, warnings, malformed agent output, and local fallback via the `bt` injection point.
+- Coverage must remain at or above 95% lines.
 
 ## Common pitfalls
 

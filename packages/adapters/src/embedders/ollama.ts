@@ -1,5 +1,5 @@
 import type { EmbedFn } from '@agentskit/core'
-import { throwIfNotOk } from './shared'
+import { embeddingError, requireEmbeddingVector, throwIfNotOk } from './shared'
 
 export interface OllamaEmbedderConfig {
   model?: string
@@ -24,13 +24,9 @@ async function buildModelError(
   try {
     const models = await fetchAvailableModels(baseUrl)
     const list = models.length > 0 ? models.join(', ') : 'none found'
-    return new Error(
-      `Ollama embedding failed: ${originalError}. Available embedding models: ${list}`,
-    )
+    return embeddingError('Ollama', `${originalError}. Available embedding models: ${list}`)
   } catch (fetchError) {
-    return new Error(
-      `Ollama embedding failed: ${originalError}. Could not fetch available models: ${(fetchError as Error).message}`,
-    )
+    return embeddingError('Ollama', `${originalError}. Could not fetch available models`, fetchError)
   }
 }
 
@@ -45,12 +41,13 @@ export function ollamaEmbedder(config: OllamaEmbedderConfig): EmbedFn {
     })
 
     if (!response.ok) {
-      const errorBody = (await response.json().catch(() => ({}))) as { error?: string }
-      const message = errorBody.error ?? `HTTP ${response.status}`
+      void response.body?.cancel().catch(() => {})
+      const message = `HTTP ${response.status}`
       throw await buildModelError(baseUrl, message)
     }
 
-    const data = (await response.json()) as { embeddings: number[][] }
-    return data.embeddings[0]
+    const data = (await response.json()) as { embeddings?: unknown[] }
+    const first = Array.isArray(data.embeddings) ? data.embeddings[0] : undefined
+    return requireEmbeddingVector(first, 'Ollama')
   }
 }

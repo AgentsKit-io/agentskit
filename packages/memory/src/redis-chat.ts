@@ -1,7 +1,13 @@
-import type { ChatMemory, Message, MemoryRecord } from '@agentskit/core'
+import type {
+  ChatMemory,
+  Message,
+  MemoryRecord,
+} from '@agentskit/core'
 import { serializeMessages, deserializeMessages } from '@agentskit/core'
 import type { RedisClientAdapter, RedisConnectionConfig } from './redis-client'
 import { createRedisClientAdapter } from './redis-client'
+
+type MemoryOperationOptions = Parameters<ChatMemory['load']>[0]
 
 export interface RedisChatMemoryConfig extends RedisConnectionConfig {
   keyPrefix?: string
@@ -34,17 +40,23 @@ export function redisChatMemory(config: RedisChatMemoryConfig): ChatMemory {
   }
 
   return {
-    async load() {
+    async load(options?: MemoryOperationOptions) {
+      options?.signal?.throwIfAborted()
       const client = await getClient()
+      options?.signal?.throwIfAborted()
       const json = await client.get(key)
       return decodeMessages(json)
     },
-    async save(messages) {
+    async save(messages, options?: MemoryOperationOptions) {
+      options?.signal?.throwIfAborted()
       const client = await getClient()
+      options?.signal?.throwIfAborted()
       await client.set(key, encodeMessages(messages))
     },
-    async clear() {
+    async clear(options?: MemoryOperationOptions) {
+      options?.signal?.throwIfAborted()
       const client = await getClient()
+      options?.signal?.throwIfAborted()
       await client.del(key)
     },
   }

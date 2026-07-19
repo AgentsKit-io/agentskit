@@ -1,8 +1,13 @@
 import { describe, it, expect, vi } from 'vitest'
 import { renderHook, act, waitFor } from '@testing-library/react'
+import { createElement, StrictMode, type ReactNode } from 'react'
 import { useChat } from '../../src/useChat'
 import { createInMemoryMemory } from '@agentskit/core'
 import type { AdapterFactory, AdapterRequest, Message, StreamChunk } from '@agentskit/core'
+
+function StrictWrapper({ children }: { children: ReactNode }) {
+  return createElement(StrictMode, null, children)
+}
 
 function createMockAdapter(chunks: StreamChunk[]): AdapterFactory {
   return {
@@ -206,5 +211,54 @@ describe('useChat', () => {
         call: expect.objectContaining({ name: 'weather' }),
       })
     )
+  })
+
+  it('mounts and streams under React StrictMode', async () => {
+    const adapter = createMockAdapter([
+      { type: 'text', content: 'strict' },
+      { type: 'done' },
+    ])
+    const { result } = renderHook(() => useChat({ adapter }), {
+      wrapper: StrictWrapper,
+    })
+
+    await act(async () => {
+      await result.current.send('hello')
+    })
+
+    await waitFor(() => {
+      expect(result.current.status).toBe('idle')
+    })
+    expect(result.current.messages.some(m => m.role === 'assistant' && m.content.includes('strict'))).toBe(true)
+  })
+
+  it('keeps multi-instance controllers isolated', async () => {
+    const adapterA = createMockAdapter([
+      { type: 'text', content: 'from-a' },
+      { type: 'done' },
+    ])
+    const adapterB = createMockAdapter([
+      { type: 'text', content: 'from-b' },
+      { type: 'done' },
+    ])
+
+    const a = renderHook(() => useChat({ adapter: adapterA }))
+    const b = renderHook(() => useChat({ adapter: adapterB }))
+
+    await act(async () => {
+      await a.result.current.send('A')
+    })
+    await waitFor(() => expect(a.result.current.status).toBe('idle'))
+
+    expect(b.result.current.messages).toEqual([])
+    expect(a.result.current.messages.some(m => m.content === 'from-a')).toBe(true)
+
+    await act(async () => {
+      await b.result.current.send('B')
+    })
+    await waitFor(() => expect(b.result.current.status).toBe('idle'))
+
+    expect(a.result.current.messages.some(m => m.content === 'from-b')).toBe(false)
+    expect(b.result.current.messages.some(m => m.content === 'from-b')).toBe(true)
   })
 })

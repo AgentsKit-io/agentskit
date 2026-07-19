@@ -7,8 +7,11 @@
     disabled = false,
   }: { chat: ChatReturn; placeholder?: string; disabled?: boolean } = $props()
 
+  const blocked = $derived(disabled || chat.status === 'streaming')
+
   function submit() {
-    if (chat.input.trim()) chat.send(chat.input)
+    if (blocked || !chat.input.trim()) return
+    void chat.send(chat.input)
   }
 </script>
 
@@ -20,11 +23,10 @@
   }}
 >
   <textarea
-    role="textbox"
     data-ak-input
     rows="1"
     {placeholder}
-    {disabled}
+    disabled={blocked}
     value={chat.input}
     oninput={(e) => chat.setInput(e.currentTarget.value)}
     onkeydown={(e) => {
@@ -34,5 +36,5 @@
       }
     }}
   ></textarea>
-  <button data-ak-send type="submit" disabled={disabled || !chat.input.trim()}>Send</button>
+  <button data-ak-send type="submit" disabled={blocked || !chat.input.trim()}>Send</button>
 </form>

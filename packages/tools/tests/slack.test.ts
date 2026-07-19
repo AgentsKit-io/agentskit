@@ -19,6 +19,11 @@ describe('slackTool', () => {
     expect(tool.execute).toBeTypeOf('function')
   })
 
+  it('sets requiresConfirmation: true (T9)', () => {
+    const tool = slackTool({ webhookUrl: WEBHOOK })
+    expect(tool.requiresConfirmation).toBe(true)
+  })
+
   it('POSTs to the webhook with JSON body', async () => {
     const fetchMock = fakeFetch(() => new Response(null, { status: 200 }))
     const tool = slackTool({ webhookUrl: WEBHOOK, fetch: fetchMock })

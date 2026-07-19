@@ -53,30 +53,30 @@ the badges can never drift apart.
 | Package | Tier | Rationale |
 |---|---|---|
 | `@agentskit/core` | `stable` | Sacred package. Contract-stable per ADRs 0001–0006; the only package past v1.0 |
-| `@agentskit/adapters` | `beta` | Adapter contract is stable; promotion to stable pending an API-freeze RFC + 1.0.0 bump |
+| `@agentskit/adapters` | `beta` | Contract/resilience hardening complete; promotion still awaits ≥90 beta days, two distinct released minor lines, Accepted RFC/evidence, and 1.0.0 |
 | `@agentskit/runtime` | `beta` | ReAct loop is solid; topology and durable APIs settling toward an RFC freeze |
 | `@agentskit/tools` | `beta` | Core tools usable in production; integrations and MCP ergonomics still evolving |
 | `@agentskit/memory` | `beta` | Main backends working; vector-store surface sharpening toward freeze |
-| `@agentskit/skills` | `beta` | Skill contract proven; strongest stable candidate, pending promotion RFC |
-| `@agentskit/observability` | `beta` | Observer contract stable; integration coverage growing |
+| `@agentskit/skills` | `beta` | Contract/catalog/registry hardening complete; the 0.9 breaking beta line restarts the ≥90-day clock, and promotion still needs a second released minor line, Accepted RFC/evidence, and 1.0.0 |
+| `@agentskit/observability` | `beta` | Lifecycle / cost-guard / provider-resilience hardening complete; stable promotion still awaits publishing this breaking/additive beta minor as appropriate, clean ≥90-day soak, two distinct released minor lines, Accepted RFC/evidence, and 1.0.0 |
 | `@agentskit/react` | `beta` | Production-ready; the shared `ChatReturn` surface is still tracked toward 1.0 |
 | `@agentskit/ink` | `beta` | Terminal UI strong; parity and keyboard UX still being refined |
 | `@agentskit/cli` | `beta` | Core commands useful now; programmatic surface large and still settling |
-| `@agentskit/rag` | `beta` | Retriever contract (ADR 0004) shipped; chunking/reranking defaults still moving |
-| `@agentskit/eval` | `beta` | Replay + suite concepts in place; multi-subpath surface not frozen yet |
-| `@agentskit/sandbox` | `beta` | E2B backend works; fallback and policy APIs still maturing |
-| `@agentskit/templates` | `beta` | Authoring toolkit usable; scaffolding surface still expanding |
-| `@agentskit/validation` | `beta` | Private workspace implementation exposed through `@agentskit/tools/validation`; `ArgsValidator` contract stable (ADR-0008) |
-| `@agentskit/statechart` | `alpha` | Initial framework-neutral interaction-state contract; downstream integrations will exercise it before beta |
-| `@agentskit/eval-braintrust` | `beta` | Private workspace implementation exposed through `@agentskit/eval/braintrust`; Braintrust SDK peer-resolved at runtime |
+| `@agentskit/rag` | `beta` | Retriever/loaders/resilience hardening complete; the next minor restarts the ≥90-day clock, and promotion still needs a second released minor line, Accepted RFC/evidence, and 1.0.0 |
+| `@agentskit/eval` | `beta` | Suite/replay/snapshot/CI/Braintrust hardening complete; stable promotion still awaits publication, soak, two released minor lines, Accepted RFC/evidence, stable dependencies, and 1.0.0 |
+| `@agentskit/sandbox` | `beta` | Lifecycle/config/runtime hardening complete; promotion still awaits publish, ≥90 beta days, two released minor lines, Accepted RFC 0013/evidence, and 1.0.0 |
+| `@agentskit/templates` | `beta` | Scaffold/validation hardening complete; promotion still awaits publish, soak, two released minor lines, Accepted RFC 0014/evidence, and 1.0.0 |
+| `@agentskit/validation` | `beta` | Private implementation hardened behind `@agentskit/tools/validation`; it does not graduate independently from the public tools surface (ADR-0008, RFC 0015) |
+| `@agentskit/statechart` | `beta` | Deterministic transitions, total unknown-snapshot restore, hostile JSON/key handling, synchronous observer isolation, packaging, and adversarial coverage hardened (ADR-0020, ADR-0027) |
+| `@agentskit/eval-braintrust` | `beta` | Private implementation exposed through `@agentskit/eval/braintrust`; awaited SDK lifecycle and score validation complete, but it graduates with the public eval surface |
 | `@agentskit/observability-langfuse` | `beta` | Private workspace implementation exposed through `@agentskit/observability/langfuse`; Langfuse SDK peer-resolved at runtime |
-| `@agentskit/integrations` | `alpha` | Descriptor + registry contract in place; catalog and OSS/AKOS split still being decided |
-| `@agentskit/mcp` | `alpha` | MCP server bridge works; export + CLI surface still settling |
+| `@agentskit/integrations` | `beta` | Descriptor/registry/projection contract shipped; 50-service fetch-only catalog; auth/actions/triggers/testing; packed API gates; execution boundaries explicit (ADR-0026). Not yet stable |
+| `@agentskit/mcp` | `beta` | Tool bridge, fail-closed CLI, agent delegation, bounded registry IO, stdio isolation, publication, and adversarial coverage hardened (ADR-0028) |
 | `@agentskit/vue` | `beta` | First binding at full headless component parity with React; `useChat` + 7 primitives, 100% component coverage |
 | `@agentskit/svelte` | `beta` | At headless component parity with React (Svelte 5 runes); `createChatStore` + 8 components |
 | `@agentskit/solid` | `beta` | At headless component parity with React (Solid JSX, `data-ak-*`); `useChat` + 8 components, 100% component coverage |
 | `@agentskit/react-native` | `beta` | Headless component parity with React via RN primitives (`testID`-keyed); `useChat` + 8 components, 100% component coverage |
-| `@agentskit/angular` | `beta` | Service + 8 headless standalone components at React parity (JIT; AOT/ng-packagr build tracked); Signals + RxJS surface |
+| `@agentskit/angular` | `beta` | Service + 8 headless standalone components at React parity; partial-Ivy AOT/APF (ESM-only) via ng-packagr; Signals + RxJS surface |
 
 ## Until v1.0.0
 
@@ -94,7 +94,18 @@ in [`V1-READINESS-TRACKER.md`](./V1-READINESS-TRACKER.md).
 ## How to change a tier
 
 - **`alpha` → `beta`**: open a PR that updates `package.json.agentskit.stability`, the README badge, and explains in the PR what changed to earn the bump. No RFC needed.
-- **`beta` → `stable`**: requires an RFC and at least one minor release where the package operated at beta without breaking changes. The RFC documents the public API surface being committed to.
+- **`beta` → `stable`**: requires a dedicated Accepted promotion RFC, at least
+  90 consecutive days at beta after the last breaking change, and at least two
+  released beta versions from distinct minor lines during that window. Every
+  direct internal runtime/optional/peer dependency must already be stable. The
+  package must also provide repository evidence for its public API, pack/install
+  smoke, functional completeness, resilience, compatibility, sustainability,
+  and breaking-change audit. See [ADR 0024](./architecture/adrs/0024-package-graduation-evidence.md)
+  and the [evidence schema](./stability/README.md).
+  Common API and compatibility evidence follows
+  [ADR 0025](./architecture/adrs/0025-public-api-and-compatibility-gates.md):
+  declaration snapshots, packed consumers on TypeScript 5.9 and 6.0, blocking
+  supported Node LTS lines, and a pre-LTS Node canary.
 - **`stable` → `beta`** or lower: requires an RFC and a major version bump of the package. Do not demote a stable package lightly.
 
 ## How consumers should read this

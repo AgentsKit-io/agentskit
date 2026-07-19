@@ -31,8 +31,6 @@ const BASELINE = {
   'packages/cli/src/init.ts': 1553,
   'packages/adapters/src/utils.ts': 575,
   'packages/core/src/controller.ts': 555,
-  'packages/observability/src/cost-guard-advanced.ts': 462,
-  'packages/rag/src/loaders.ts': 441,
 }
 
 const root = process.cwd()

@@ -102,6 +102,27 @@ describe('@agentskit/vue components', () => {
     unmount()
   })
 
+  it('InputBar blocks submit and Enter while streaming and omits redundant textbox role', async () => {
+    const sent: string[] = []
+    const chat = {
+      input: 'hi',
+      status: 'streaming',
+      send: (t: string) => sent.push(t),
+      setInput: () => {},
+    } as unknown as ChatReturn
+    const { root, unmount } = mount(() => h(InputBar, { chat }))
+    await nextTick()
+    const ta = root.querySelector('[data-ak-input]') as HTMLTextAreaElement
+    const form = root.querySelector('[data-ak-input-bar]') as HTMLFormElement
+    expect(ta.getAttribute('role')).toBeNull()
+    expect(ta.disabled).toBe(true)
+    expect((root.querySelector('[data-ak-send]') as HTMLButtonElement).disabled).toBe(true)
+    form.dispatchEvent(new Event('submit', { cancelable: true }))
+    ta.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    expect(sent).toEqual([])
+    unmount()
+  })
+
   it('Markdown reflects streaming flag', async () => {
     const a = mount(() => h(Markdown, { content: 'c', streaming: true }))
     await nextTick()
@@ -126,14 +147,21 @@ describe('@agentskit/vue components', () => {
     b.unmount()
   })
 
-  it('ToolCallView toggles details', async () => {
+  it('ToolCallView toggles details and exposes aria-expanded', async () => {
     const { root, unmount } = mount(() => h(ToolCallView, { toolCall: toolCall({ result: 'ok' }) }))
     await nextTick()
+    const toggle = root.querySelector('[data-ak-tool-toggle]') as HTMLButtonElement
+    expect(toggle.getAttribute('aria-expanded')).toBe('false')
     expect(root.querySelector('[data-ak-tool-details]')).toBeNull()
-    ;(root.querySelector('[data-ak-tool-toggle]') as HTMLButtonElement).click()
+    toggle.click()
     await nextTick()
+    expect(toggle.getAttribute('aria-expanded')).toBe('true')
     expect(root.querySelector('[data-ak-tool-args]')).not.toBeNull()
     expect(root.querySelector('[data-ak-tool-result]')?.textContent).toBe('ok')
+    toggle.click()
+    await nextTick()
+    expect(toggle.getAttribute('aria-expanded')).toBe('false')
+    expect(root.querySelector('[data-ak-tool-details]')).toBeNull()
     unmount()
   })
 

@@ -27,9 +27,14 @@ type WhisperConfig = {
   apiKey: string
   model?: 'whisper-1' | 'gpt-4o-transcribe' | 'gpt-4o-mini-transcribe'
   defaultLanguage?: string    // ISO-639-1 hint
-  fetch?: typeof fetch
+  fetch?: typeof fetch          // provider upload transport
+  fetchUntrusted?: typeof fetch // explicit policy transport for audio URLs
 }
 ```
+
+Audio URLs are model-controlled and use `safeFetch` by default. Supplying
+`fetch` customizes only the provider upload and does not disable the SSRF gate;
+override `fetchUntrusted` only with an equivalent egress-policy transport.
 
 ## Example — meeting notes agent
 

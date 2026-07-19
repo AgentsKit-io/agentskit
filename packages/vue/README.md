@@ -78,10 +78,10 @@ State is `reactive` — read `chat.messages` / `chat.input` directly (no `.value
 
 ## API
 
-- `useChat(config)` — composable returning `ChatReturn`: reactive `messages`, `status`, `input`, `error`, `usage` + actions `send(text)`, `setInput(v)`, `stop`, `retry`, `clear`, `approve`, `deny`, `edit`, `regenerate`.
+- `useChat(config)` — composable returning `ChatReturn`: reactive `messages`, `status`, `input`, `error`, `usage` + actions `send(text)`, `setInput(v)`, `stop`, `retry`, `clear`, `approve`, `deny`, `edit`, `regenerate`. Call inside `setup()` / `<script setup>`; scope dispose unsubscribes and stops in-flight work (idempotent).
 - `<ChatRoot>` — controller-free `data-ak-chat` root with a default slot for application shells that already use `useChat`.
 - `<ChatContainer :config>` — batteries-included headless container.
-- Headless primitives at parity with `@agentskit/react`: `Message`, `InputBar`, `Markdown`, `CodeBlock`, `ToolCallView`, `ThinkingIndicator`, `ToolConfirmation` — each emits `data-ak-*` only.
+- Headless primitives at parity with `@agentskit/react`: `Message`, `InputBar` (blocks submit/Enter while streaming), `Markdown`, `CodeBlock`, `ToolCallView` (`aria-expanded` on the toggle), `ThinkingIndicator`, `ToolConfirmation` — each emits `data-ak-*` only.
 
 ## Ecosystem
 

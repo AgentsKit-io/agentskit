@@ -56,6 +56,13 @@ describe('processSandbox', () => {
     const rt = processSandbox({ spawner })
     await expect(rt.exec!({ command: 'node', args: [] })).rejects.toThrow(/does not support exec/)
   })
+
+  it('rejects non-positive timeoutMs / maxOutputBytes', async () => {
+    const { spawner } = mockSpawner(true)
+    const rt = processSandbox({ spawner })
+    await expect(rt.exec!({ command: 'node', args: [], timeoutMs: 0 })).rejects.toThrow(/timeoutMs/)
+    await expect(rt.exec!({ command: 'node', args: [], maxOutputBytes: -3 })).rejects.toThrow(/maxOutputBytes/)
+  })
 })
 
 describe('renderSandboxExecProfile', () => {
@@ -76,6 +83,15 @@ describe('renderSandboxExecProfile', () => {
     const p = renderSandboxExecProfile({ workspaceRoot: '/tmp/a"b\\c\nnext' })
     expect(p).toContain('(allow file-write* (subpath "/tmp/a\\"b\\\\c\\nnext"))')
   })
+
+  it('snapshots extraReadablePaths so later mutation is ignored', () => {
+    const extra = ['/data']
+    const policy = { workspaceRoot: '/ws', extraReadablePaths: extra }
+    const first = renderSandboxExecProfile(policy)
+    extra.push('/evil')
+    // render uses the array at call time; runtime snapshot is tested below.
+    expect(first).not.toContain('/evil')
+  })
 })
 
 describe('sandboxExecRuntime', () => {
@@ -88,5 +104,18 @@ describe('sandboxExecRuntime', () => {
     const args = (opts as { args: string[] }).args
     expect(args[0]).toBe('-p')
     expect(args).toContain('echo')
+  })
+
+  it('snapshots policy so post-create mutation does not widen reads', async () => {
+    const { spawner, calls } = mockSpawner()
+    const extra = ['/data']
+    const policy = { workspaceRoot: '/ws', extraReadablePaths: extra }
+    const rt = sandboxExecRuntime({ policy, spawner })
+    extra.push('/should-not-appear')
+    await rt.spawn({ command: 'echo', args: [] })
+    const [, opts] = calls.find(([k]) => k === 'spawn')!
+    const profile = (opts as { args: string[] }).args[1]!
+    expect(profile).toContain('/data')
+    expect(profile).not.toContain('/should-not-appear')
   })
 })

@@ -1,5 +1,6 @@
 import type { AdapterFactory, AdapterRequest, StreamSource } from '@agentskit/core'
-import { createStreamSource, parseOpenAIStream, toProviderMessages, type RetryOptions } from './utils'
+import { parseOpenAIStream, toProviderMessages, type RetryOptions } from './utils'
+import { createStreamSource } from './stream-source'
 
 export interface OpenAIConfig {
   apiKey: string

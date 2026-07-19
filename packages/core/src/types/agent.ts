@@ -16,6 +16,7 @@ export type AgentEvent =
    * one Observer renders both. The runtime never emits this; agents do.
    */
   | { type: 'progress'; label: string; status: 'start' | 'ok' | 'skip' | 'error'; detail?: string; durationMs?: number }
+  | { type: 'run-aborted' }
   | { type: 'error'; error: Error }
 
 export interface Observer {

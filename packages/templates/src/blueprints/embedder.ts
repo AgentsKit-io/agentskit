@@ -142,3 +142,54 @@ export function ${camelCase(name)}(config: ${pascalCase(name)}Config): AdapterFa
 }
 `
 }
+
+export function generateBrowserAdapterTest(name: string): string {
+  return `import { describe, expect, it } from 'vitest'
+import { ${camelCase(name)} } from '../src/index'
+
+describe('${name}', () => {
+  it('satisfies AdapterFactory contract with tools disabled', () => {
+    const adapter = ${camelCase(name)}({
+      model: 'demo',
+      engine: {
+        reload: async () => {},
+        chat: {
+          completions: {
+            create: async function* () {
+              yield { choices: [{ delta: { content: 'hi' } }] }
+            },
+          },
+        },
+      },
+    })
+    expect(adapter.createSource).toBeTypeOf('function')
+    expect(adapter.capabilities?.tools).toBe(false)
+  })
+
+  it('streams text chunks from the engine', async () => {
+    const adapter = ${camelCase(name)}({
+      model: 'demo',
+      engine: {
+        reload: async () => {},
+        chat: {
+          completions: {
+            create: async function* () {
+              yield { choices: [{ delta: { content: 'hello' } }] }
+            },
+          },
+        },
+      },
+    })
+    const source = adapter.createSource({
+      messages: [{ id: '1', role: 'user', content: 'hi', status: 'complete', createdAt: new Date() }],
+    })
+    const chunks: Array<{ type: string; content?: string }> = []
+    for await (const chunk of source.stream()) {
+      chunks.push(chunk)
+    }
+    expect(chunks.some(c => c.type === 'text' && c.content === 'hello')).toBe(true)
+    expect(chunks.some(c => c.type === 'done')).toBe(true)
+  })
+})
+`
+}

@@ -6,11 +6,12 @@ description: Consume or publish Model Context Protocol tools. Interop with Claud
 ## Consume an MCP server
 
 ```ts
-import { createMcpClient, toolsFromMcpClient } from '@agentskit/tools'
+import { spawn } from 'node:child_process'
+import { createMcpClient, createStdioTransport, toolsFromMcpClient } from '@agentskit/tools/mcp'
 
+const child = spawn('my-mcp-server', [], { stdio: ['pipe', 'pipe', 'inherit'] })
 const client = await createMcpClient({
-  transport: 'stdio',
-  command: 'my-mcp-server',
+  transport: createStdioTransport(child),
 })
 
 const mcpTools = await toolsFromMcpClient(client)
@@ -21,38 +22,35 @@ const runtime = createRuntime({ adapter, tools: [...mcpTools, ...myTools] })
 ## Publish AgentsKit tools as MCP
 
 ```ts
-import { createMcpServer } from '@agentskit/tools'
+import { createAgentsKitMcpServer } from '@agentskit/mcp'
 
-const server = createMcpServer({
-  name: 'agentskit-devtools',
-  version: '0.1.0',
+const server = createAgentsKitMcpServer({
+  serverInfo: { name: 'agentskit-devtools', version: '1.0.0' },
   tools: [github(...), slack(...)],
 })
-
-await server.listen({ transport: 'stdio' })
 ```
 
 ## Transports
 
-- `stdio` — sub-process pipe
-- `http` — HTTP/SSE
-- `ws` — WebSocket
+- `stdio` — built in for child-process and current-process pipes
+- in-memory — built in for tests
+- custom — implement `McpTransport` for HTTP, WebSocket, or another framing layer
+
+The package does not ship HTTP or WebSocket listeners. Authentication and
+authorization belong to the custom transport or host boundary.
 
 ## Devtools over MCP
 
 `@agentskit/tools/mcp-devtools` exposes a running runtime as MCP tools — any MCP-aware client (Claude Code, Cursor, Codex) can list sessions, inspect messages, pause / step, replay, and run evals.
 
 ```ts
-import { createMcpServer } from '@agentskit/tools'
+import { createAgentsKitMcpServer } from '@agentskit/mcp'
 import { devtoolsTools } from '@agentskit/tools/mcp-devtools'
 
-const server = createMcpServer({
-  name: 'agentskit-devtools',
-  version: '0.1.0',
+const server = createAgentsKitMcpServer({
+  serverInfo: { name: 'agentskit-devtools', version: '1.0.0' },
   tools: devtoolsTools({ inspector: myRuntimeInspector }),
 })
-
-await server.listen({ transport: 'stdio' })
 ```
 
 The inspector is a capability bag — only methods you implement get exposed. Read-only consumers pass `listSessions` + `inspectSession` and never expose `pause` / `step` / `replay`. Auth lives at the transport (bearer header on HTTP/WS, file perms on stdio).

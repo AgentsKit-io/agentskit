@@ -65,6 +65,8 @@ Every interactive component must:
 - Be keyboard-reachable (Tab focus, Enter activation)
 - Expose ARIA attributes for role and state
 - Not trap focus unless explicitly modal
+- Prefer native element semantics — do not add redundant `role="textbox"` on `<textarea>`
+- Collapsible controls (e.g. `ToolCallView`) must set `aria-expanded`
 
 ## Review checklist for this package
 

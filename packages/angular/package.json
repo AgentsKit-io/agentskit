@@ -40,7 +40,7 @@
   "scripts": {
     "build": "ng-packagr -p ng-package.json -c tsconfig.lib.json",
     "test": "pnpm build && vitest run",
-    "test:coverage": "vitest run --coverage",
+    "test:coverage": "pnpm build && vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"
   },
@@ -74,7 +74,7 @@
   },
   "agentskit": {
     "stability": "beta",
-    "stabilityNote": "AgentskitChat service (ChatReturn contract) + full headless component parity with @agentskit/react (standalone, JIT)."
+    "stabilityNote": "AgentskitChat service (ChatReturn contract) + full headless component parity with @agentskit/react (standalone, partial-Ivy AOT/APF)."
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/packages/angular",

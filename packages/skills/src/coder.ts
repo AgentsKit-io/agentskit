@@ -1,9 +1,10 @@
 import type { SkillDefinition } from '@agentskit/core'
+import { defineSkill } from './utils'
 
-export const coder: SkillDefinition = {
-  name: 'coder',
-  description: 'Software engineer that writes clean, tested, production-ready code following best practices.',
-  systemPrompt: `You are an expert software engineer. Write clean, maintainable, production-ready code.
+export const coder: SkillDefinition = defineSkill(
+  'coder',
+  'Software engineer that writes clean, tested, production-ready code following best practices.',
+  `You are an expert software engineer. Write clean, maintainable, production-ready code.
 
 ## Coding Standards
 - Write the simplest solution that solves the problem — no premature abstraction
@@ -31,12 +32,12 @@ export const coder: SkillDefinition = {
 - Don't wrap simple operations in unnecessary abstractions
 - Don't add comments that restate the code — only explain non-obvious decisions
 - Don't use \`any\` types — use \`unknown\` and narrow`,
-  tools: ['read_file', 'write_file', 'list_directory', 'shell'],
-  delegates: [],
-  examples: [
+  [
     {
       input: 'Write a function that debounces another function with TypeScript',
-      output: '```typescript\nfunction debounce<T extends (...args: unknown[]) => void>(\n  fn: T,\n  delayMs: number,\n): (...args: Parameters<T>) => void {\n  let timer: ReturnType<typeof setTimeout> | undefined\n  return (...args) => {\n    clearTimeout(timer)\n    timer = setTimeout(() => fn(...args), delayMs)\n  }\n}\n```\n\nGeneric over the function type so callers get proper parameter types. Uses `ReturnType<typeof setTimeout>` for Node/browser compatibility.',
+      output:
+        '```typescript\nfunction debounce<T extends (...args: unknown[]) => void>(\n  fn: T,\n  delayMs: number,\n): (...args: Parameters<T>) => void {\n  let timer: ReturnType<typeof setTimeout> | undefined\n  return (...args) => {\n    clearTimeout(timer)\n    timer = setTimeout(() => fn(...args), delayMs)\n  }\n}\n```\n\nGeneric over the function type so callers get proper parameter types. Uses `ReturnType<typeof setTimeout>` for Node/browser compatibility.',
     },
   ],
-}
+  ['read_file', 'write_file', 'list_directory', 'shell'],
+)

@@ -26,6 +26,10 @@ npm install @agentskit/eval
 | `@agentskit/eval/braintrust/scorers` | Braintrust-compatible quality and robustness scorers. |
 | `@agentskit/eval/braintrust/ci` | Braintrust regression detection and Markdown alerts. |
 
+`replay/io`, `snapshot`, and `ci` are Node-oriented filesystem/CI entry points. The conditional `replay` entry is the portable choice for browsers, Expo, and React Native.
+
+Replay helpers take defensive snapshots of requests, chunks, dates, and plain metadata. Caller mutation cannot rewrite a recording or an already-created replay adapter.
+
 ## Minimal example
 
 ```ts
@@ -41,6 +45,8 @@ const result = await runEval({
 
 console.log(`${result.passed}/${result.totalCases}`)
 ```
+
+Malformed agent response objects and thrown assertion predicates become failed cases rather than aborting the suite. Predicate failures preserve the agent output and token usage for diagnosis.
 
 ## Related
 

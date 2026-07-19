@@ -1,4 +1,4 @@
-import type { EvalResult } from '@agentskit/core'
+import { ConfigError, ErrorCodes, type EvalResult } from '@agentskit/core'
 import { renderGitHubAnnotations, renderJUnit, renderMarkdown } from './reporters'
 
 export { renderJUnit, renderMarkdown, renderGitHubAnnotations } from './reporters'
@@ -26,16 +26,28 @@ export interface CiReportOutput {
   accuracy: number
 }
 
+function assertUnitInterval(value: unknown, name: string): number {
+  if (typeof value !== 'number' || !Number.isFinite(value) || value < 0 || value > 1) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `${name} must be a finite number in [0, 1]`,
+    })
+  }
+  return value
+}
+
 /**
  * One-shot CI reporter. Writes `report.xml` (JUnit) + `report.md`,
  * optionally appends the markdown to `$GITHUB_STEP_SUMMARY`, emits
  * annotations, and returns pass/fail against `minAccuracy`. Designed
  * to be wired up as a GitHub Actions `run:` step.
+ *
+ * Does **not** call `process.exit` — the caller decides how to fail CI.
  */
 export async function reportToCi(options: CiReportOptions): Promise<CiReportOutput> {
   const outDir = options.outDir ?? 'agentskit-evals'
   const prefix = options.prefix ?? 'report'
-  const minAccuracy = options.minAccuracy ?? 1
+  const minAccuracy = assertUnitInterval(options.minAccuracy ?? 1, 'minAccuracy')
   const annotations = options.annotations ?? process.env?.GITHUB_ACTIONS === 'true'
   const stepSummary = options.stepSummary ?? Boolean(process.env?.GITHUB_STEP_SUMMARY)
 

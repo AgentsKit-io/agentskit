@@ -62,6 +62,36 @@ describe('comparePrompt', () => {
     expect(r.matched).toBe(true)
     expect(r.similarity).toBe(1)
   })
+
+  it('rejects non-finite / out-of-range thresholds', async () => {
+    await expect(
+      comparePrompt('a', 'b', { kind: 'similarity', threshold: Number.NaN }),
+    ).rejects.toThrow(/\[0, 1\]/)
+    await expect(
+      comparePrompt('a', 'b', { kind: 'similarity', threshold: 1.2 }),
+    ).rejects.toThrow(/\[0, 1\]/)
+    await expect(
+      comparePrompt('a', 'b', { kind: 'similarity', threshold: -0.01 }),
+    ).rejects.toThrow(/\[0, 1\]/)
+  })
+
+  it('rejects non-finite or mismatched embeddings with a clear error (no NaN scores)', async () => {
+    await expect(
+      comparePrompt('a', 'b', {
+        kind: 'similarity',
+        threshold: 0.5,
+        embed: (t: string) => (t === 'a' ? [1, Number.NaN] : [1, 0]),
+      }),
+    ).rejects.toThrow(/finite number/)
+
+    await expect(
+      comparePrompt('a', 'b', {
+        kind: 'similarity',
+        threshold: 0.5,
+        embed: (t: string) => (t === 'a' ? [1, 0, 0] : [1, 0]),
+      }),
+    ).rejects.toThrow(/dimension mismatch/i)
+  })
 })
 
 describe('matchPromptSnapshot', () => {

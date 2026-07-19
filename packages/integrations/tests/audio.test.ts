@@ -1,8 +1,9 @@
 import { describe, it, expect } from 'vitest'
+import { ErrorCodes, ToolError } from '@agentskit/core'
 import { elevenlabsIntegration } from '../src/services/elevenlabs/index'
 import { deepgramIntegration } from '../src/services/deepgram/index'
 import { whisperIntegration } from '../src/services/whisper/index'
-import { toToolDefinitions } from '../src/project/to-tool-definitions'
+import { toToolDefinitions, type ProjectionConfig } from '../src/project/to-tool-definitions'
 import { assertValidIntegration } from '../src/testing/validate'
 import type { ToolDefinition } from '@agentskit/core'
 
@@ -42,19 +43,73 @@ describe('deepgram', () => {
 })
 
 describe('whisper', () => {
-  it('valid + fetches audio then multipart-uploads', async () => {
+  it('downloads model-controlled audio via fetchUntrusted and uploads via fetch', async () => {
     expect(() => assertValidIntegration(whisperIntegration)).not.toThrow()
-    const calls: string[] = []
+    const untrustedCalls: string[] = []
+    const providerCalls: Array<{ url: string; method: string; formBody: boolean }> = []
+
+    const fetchUntrusted = fakeFetch((u) => {
+      untrustedCalls.push(u)
+      return new Response(new Uint8Array([9, 9]), { status: 200 })
+    })
     const fetch = fakeFetch((u, init) => {
-      calls.push(u)
+      providerCalls.push({
+        url: u,
+        method: String(init.method ?? 'GET'),
+        formBody: init.body instanceof FormData,
+      })
       if (u.includes('/audio/transcriptions')) {
-        expect(init.body).toBeInstanceOf(FormData)
         return new Response(JSON.stringify({ text: 'transcribed' }), { status: 200 })
       }
       return new Response(new Uint8Array([9, 9]), { status: 200 })
     })
-    const [tr] = toToolDefinitions(whisperIntegration, { config: { apiKey: 'sk', model: 'whisper-1' }, fetch })
+
+    const projection: ProjectionConfig = {
+      config: { apiKey: 'sk', model: 'whisper-1' },
+      fetch,
+      fetchUntrusted,
+    }
+    const [tr] = toToolDefinitions(whisperIntegration, projection)
     expect(await run(tr, { url: 'http://a.mp3' })).toEqual({ text: 'transcribed' })
-    expect(calls[0]).toBe('http://a.mp3'); expect(calls[1]).toContain('/audio/transcriptions')
+
+    expect(untrustedCalls).toEqual(['http://a.mp3'])
+    expect(providerCalls).toEqual([
+      {
+        url: 'https://api.openai.com/v1/audio/transcriptions',
+        method: 'POST',
+        formBody: true,
+      },
+    ])
+    expect(providerCalls.some((c) => c.url === 'http://a.mp3')).toBe(false)
+    expect(untrustedCalls.some((u) => u.includes('/audio/transcriptions'))).toBe(false)
+  })
+
+  it('rejects with AK_TOOL_INVALID_INPUT before any transport when fetchUntrusted is absent', async () => {
+    let providerCalls = 0
+
+    const fetch = fakeFetch(() => {
+      providerCalls += 1
+      return new Response(JSON.stringify({ text: 'should-not-run' }), { status: 200 })
+    })
+    const fetchUntrustedAbsent: ProjectionConfig = {
+      config: { apiKey: 'sk', model: 'whisper-1' },
+      fetch,
+    }
+
+    const [tr] = toToolDefinitions(whisperIntegration, fetchUntrustedAbsent)
+
+    let caught: unknown
+    try {
+      await run(tr, { url: 'http://a.mp3' })
+    } catch (err) {
+      caught = err
+    }
+
+    expect(caught).toBeInstanceOf(ToolError)
+    expect(caught).toMatchObject({
+      name: 'ToolError',
+      code: ErrorCodes.AK_TOOL_INVALID_INPUT,
+    })
+    expect(providerCalls).toBe(0)
   })
 })

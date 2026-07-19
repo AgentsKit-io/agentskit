@@ -79,10 +79,10 @@ export function Chat() {
 - Headless components (RN primitives, `testID`-keyed):
   - `ChatContainer` — `ScrollView` wrapper with auto-scroll to end.
   - `Message` — `message` prop → `View` + `Text`; role/status via `accessibilityLabel`.
-  - `InputBar` — `chat: ChatReturn` → `TextInput` + Send `Pressable`; sends on submit, disabled while empty or streaming.
+  - `InputBar` — `chat: ChatReturn` → `TextInput` + Send `Pressable`; sends on submit/press, gated while empty, `disabled`, or `chat.status === 'streaming'`.
   - `Markdown` — `content` + `streaming` → `Text`.
   - `CodeBlock` — `code`, `language`, `copyable`, `onCopy` → `View` + `Text` + optional copy `Pressable`.
-  - `ToolCallView` — `toolCall`; collapsible details via a toggle `Pressable`.
+  - `ToolCallView` — `toolCall`; collapsible details via a toggle `Pressable` with `accessibilityState.expanded`.
   - `ThinkingIndicator` — `visible` + `label`; renders `null` when not visible.
   - `ToolConfirmation` — `toolCall`, `onApprove`, `onDeny`; renders `null` unless `status === 'requires_confirmation'`.
 

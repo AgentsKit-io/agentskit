@@ -1,6 +1,89 @@
 import { buildMessage } from './primitives'
 import { formatRetrievedDocuments } from './rag'
-import type { AdapterRequest, ChatConfig, Message, ToolDefinition } from './types'
+import type { AdapterRequest, ChatConfig, Message, ToolCall, ToolDefinition } from './types'
+import type { TokenUsage } from './types/stream'
+
+/** Normalize stream usage to finite nonnegative prompt/completion counts for llm:end. */
+export function normalizeLlmUsage(
+  usage: TokenUsage | undefined,
+): { promptTokens: number; completionTokens: number } | undefined {
+  if (!usage) return undefined
+  const promptTokens = Number.isFinite(usage.promptTokens) && usage.promptTokens >= 0
+    ? usage.promptTokens
+    : 0
+  const completionTokens = Number.isFinite(usage.completionTokens) && usage.completionTokens >= 0
+    ? usage.completionTokens
+    : 0
+  return { promptTokens, completionTokens }
+}
+
+/** Add one stream usage chunk into cumulative session totals (hostile values → 0). */
+export function accumulateUsage(
+  current: TokenUsage,
+  usage: TokenUsage,
+): TokenUsage {
+  const prompt = Number.isFinite(usage.promptTokens) && usage.promptTokens >= 0 ? usage.promptTokens : 0
+  const completion = Number.isFinite(usage.completionTokens) && usage.completionTokens >= 0
+    ? usage.completionTokens
+    : 0
+  const total = Number.isFinite(usage.totalTokens) && usage.totalTokens >= 0 ? usage.totalTokens : 0
+  return {
+    promptTokens: current.promptTokens + prompt,
+    completionTokens: current.completionTokens + completion,
+    totalTokens: current.totalTokens + total,
+  }
+}
+
+/** Immutable map over a single message by id. */
+export function mapMessageById(
+  messages: Message[],
+  messageId: string,
+  updater: (message: Message) => Message,
+): Message[] {
+  return messages.map(message => (message.id === messageId ? updater(message) : message))
+}
+
+/** Immutable patch of one tool call nested under an assistant message. */
+export function mapToolCallById(
+  messages: Message[],
+  messageId: string,
+  toolCallId: string,
+  patch: Partial<ToolCall>,
+): Message[] {
+  return mapMessageById(messages, messageId, message => ({
+    ...message,
+    toolCalls: (message.toolCalls ?? []).map(call =>
+      call.id === toolCallId ? { ...call, ...patch } : call,
+    ),
+  }))
+}
+
+/** Build tool-result messages + a fresh streaming assistant for multi-turn tool loops. */
+export function buildToolContinuation(
+  messages: Message[],
+  assistantId: string,
+  calls: ToolCall[],
+  buildMsg: (init: { role: Message['role']; content: string; toolCallId?: string; status?: Message['status'] }) => Message,
+): { messages: Message[]; nextAssistantId: string } {
+  const results = calls.map(call =>
+    buildMsg({
+      role: 'tool',
+      content: call.result ?? call.error ?? '',
+      toolCallId: call.id,
+    }),
+  )
+  const nextA = buildMsg({ role: 'assistant', content: '', status: 'streaming' })
+  return {
+    messages: [
+      ...messages.map(message =>
+        message.id === assistantId ? { ...message, status: 'complete' as const } : message
+      ),
+      ...results,
+      nextA,
+    ],
+    nextAssistantId: nextA.id,
+  }
+}
 
 export async function buildAdapterRequest(
   config: ChatConfig,

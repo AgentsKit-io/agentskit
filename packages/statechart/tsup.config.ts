@@ -5,6 +5,6 @@ export default defineConfig({
   format: ['esm', 'cjs'],
   dts: { compilerOptions: { ignoreDeprecations: '6.0' } },
   sourcemap: true,
-  clean: false,
+  clean: true,
   treeshake: true,
 })

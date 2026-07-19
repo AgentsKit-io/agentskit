@@ -1,4 +1,5 @@
-import { describe, expect, it, vi } from 'vitest'
+import { describe, expect, it, vi, afterEach } from 'vitest'
+import { ErrorCodes, ToolError } from '@agentskit/core'
 import {
   browserAgent,
   browserClick,
@@ -33,6 +34,10 @@ import {
   whisper,
   whisperTranscribe,
 } from '../src/integrations'
+
+afterEach(() => {
+  vi.unstubAllGlobals()
+})
 
 function mockJson(payload: unknown, opts: { status?: number } = {}) {
   const capture: { url?: string; init?: RequestInit } = {}
@@ -198,10 +203,42 @@ describe('whisper', () => {
       if (call === 1) return new Response(new Uint8Array([1, 2, 3]), { status: 200 })
       return new Response(JSON.stringify({ text: 'hi' }), { status: 200 })
     }) as unknown as typeof globalThis.fetch
-    const tool = whisperTranscribe({ apiKey: 'k', fetch: fake })
+    const tool = whisperTranscribe({ apiKey: 'k', fetch: fake, fetchUntrusted: fake })
     const out = await tool.execute!({ url: 'https://x/audio.mp3' }, ctx)
     expect(out).toEqual({ text: 'hi' })
     expect(call).toBe(2)
+  })
+
+  it('default facade rejects a private audio URL via safeFetch before any fetch', async () => {
+    const globalFetch = vi.fn(async () => new Response('should-not-run', { status: 200 }))
+    vi.stubGlobal('fetch', globalFetch)
+
+    const tool = whisperTranscribe({ apiKey: 'k' })
+    const privateAudioUrl = 'http://169.254.169.254/latest/meta-data/audio.mp3'
+
+    let caught: unknown
+    try {
+      await tool.execute!({ url: privateAudioUrl }, ctx)
+    } catch (err) {
+      caught = err
+    }
+
+    expect(caught).toBeInstanceOf(ToolError)
+    expect(caught).toMatchObject({
+      name: 'ToolError',
+      code: ErrorCodes.AK_TOOL_INVALID_INPUT,
+    })
+    expect(globalFetch).not.toHaveBeenCalled()
+  })
+
+  it('does not let a provider fetch override bypass safe audio egress', async () => {
+    const providerFetch = vi.fn(async () => new Response('should-not-run', { status: 200 }))
+    const tool = whisperTranscribe({ apiKey: 'k', fetch: providerFetch })
+
+    await expect(
+      tool.execute!({ url: 'http://169.254.169.254/latest/meta-data/audio.mp3' }, ctx),
+    ).rejects.toMatchObject({ code: ErrorCodes.AK_TOOL_INVALID_INPUT })
+    expect(providerFetch).not.toHaveBeenCalled()
   })
 
   it('bundles one tool', () => {

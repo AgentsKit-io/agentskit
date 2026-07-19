@@ -1,30 +1,36 @@
 ---
 title: RAG in 15 lines
-description: createRAG with a file loader and in-memory vector store. Working retrieval in under a screen of code.
+description: createRAG with a file vector store. Working retrieval in under a screen of code.
 ---
 
 RAG does not require a vector database, a cluster, or a PhD. Start here, swap pieces later.
 
 ```ts
 import { createRAG } from '@agentskit/rag'
-import { fileLoader } from '@agentskit/rag/loaders'
-import { inMemoryStore } from '@agentskit/memory/vector'
+import { openaiEmbedder } from '@agentskit/adapters'
+import { fileVectorMemory } from '@agentskit/memory'
 
 const rag = createRAG({
-  store: inMemoryStore(),
-  loaders: [fileLoader({ glob: './docs/**/*.md' })],
-  embed: { model: 'text-embedding-3-small' },
+  embed: openaiEmbedder({ apiKey: process.env.OPENAI_API_KEY! }),
+  store: fileVectorMemory({ path: './vectors.json' }),
 })
 
-await rag.ingest() // chunks + embeds every doc
+await rag.ingest([
+  { id: 'streams', content: 'AgentsKit adapters emit streaming chunks.' },
+])
 
-const context = await rag.retrieve('how do streams work?', { topK: 5 })
+const context = await rag.retrieve({
+  query: 'how do streams work?',
+  messages: [],
+})
 ```
 
 <Tip>
-Swap `inMemoryStore()` for `lanceStore({ path: './vectors.lance' })` when your corpus outgrows RAM. Zero code change anywhere else.
+Swap `fileVectorMemory` for another `VectorMemory` implementation without
+changing the RAG pipeline.
 </Tip>
 
-<Performance>
-`rag.ingest()` is **idempotent** — reruns only re-embed chunks whose source content changed. Safe to call on every deploy.
-</Performance>
+<Info>
+`ingest` embeds and stores every supplied chunk. Idempotency and replacement
+semantics belong to the injected vector store.
+</Info>

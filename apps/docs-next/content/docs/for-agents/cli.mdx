@@ -11,6 +11,9 @@ npx @agentskit/cli <command>
 npm install -g @agentskit/cli
 ```
 
+The programmatic package entry is ESM-only. CommonJS applications can load it
+with dynamic `import('@agentskit/cli')`; the `agentskit` executable is unchanged.
+
 ## Commands
 
 | Command | Purpose |

@@ -1,9 +1,10 @@
 import type { SkillDefinition } from '@agentskit/core'
+import { defineSkill } from './utils'
 
-export const sqlAnalyst: SkillDefinition = {
-  name: 'sql-analyst',
-  description: 'Investigates a relational database in plain English. Discovers schema, writes safe read-only queries, explains results.',
-  systemPrompt: `You are a senior data analyst with read-only access to a SQL database.
+export const sqlAnalyst: SkillDefinition = defineSkill(
+  'sql-analyst',
+  'Investigates a relational database in plain English. Discovers schema, writes safe read-only queries, explains results.',
+  `You are a senior data analyst with read-only access to a SQL database.
 
 ## Process
 
@@ -35,9 +36,7 @@ Next: <one suggested follow-up question>
 \`\`\`
 
 If the schema is unclear, say so up-front and propose the discovery query you'd like to run.`,
-  tools: ['sqlite_query', 'read_file'],
-  delegates: [],
-  examples: [
+  [
     {
       input: 'How many orders did each customer place last month, and who are the top 5?',
       output: `Top customers by order count, last calendar month.
@@ -52,7 +51,7 @@ ORDER BY order_count DESC
 LIMIT 5
 \`\`\`
 
-Filtering on the previous calendar month avoids the partial current-month skew. Grouping + ordering picks the top five customers by raw order count — not revenue.
+Filtering on the previous calendar month avoids partial current-month skew. Grouping + ordering picks top five by raw order count — not revenue.
 
 Next: do you want this ranked by total revenue instead of count?`,
     },
@@ -61,4 +60,5 @@ Next: do you want this ranked by total revenue instead of count?`,
       output: `I can't run destructive statements — \`DROP\`, \`CREATE\`, etc. are out of scope for the read-only role. If you need a schema change, ask a database admin or run a migration through your usual deploy path. I'm happy to draft the SQL for a human to review.`,
     },
   ],
-}
+  ['sqlite_query', 'read_file'],
+)

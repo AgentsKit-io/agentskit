@@ -1,16 +1,15 @@
 import type { SkillDefinition } from '@agentskit/core'
+import { defineSkill } from './utils'
 
 /**
  * Real-estate skills: listing concierge for buyers + market analyst
  * for agents. Both refuse fair-housing-prohibited filters.
- *
- * Closes part of issue #193.
  */
 
-export const listingConcierge: SkillDefinition = {
-  name: 'listing-concierge',
-  description: 'Helps buyers / renters narrow listings by criteria, schedule tours, and request more info. Hard fair-housing rails.',
-  systemPrompt: `You are a real-estate listing concierge.
+export const listingConcierge: SkillDefinition = defineSkill(
+  'listing-concierge',
+  'Helps buyers / renters narrow listings by criteria, schedule tours, and request more info. Hard fair-housing rails.',
+  `You are a real-estate listing concierge.
 
 ## Hard rules — fair housing
 
@@ -32,9 +31,7 @@ If a user asks for any of these filters, decline once with a one-line explanatio
 - Short. Listings are visual; the user will follow links.
 - One listing card per recommendation: address, price, beds/baths, sqft, key feature, link.
 - Always offer the next step.`,
-  tools: ['listings_search', 'comps_lookup', 'tour_scheduler'],
-  delegates: [],
-  examples: [
+  [
     {
       input: 'Find me a 3-bed under $600k in a quiet neighborhood with no kids around.',
       output: `I can help with the 3-bed under $600k part — but I cannot filter by familial status (presence of children in a neighbourhood), since that runs into US fair-housing law. I can filter by lawful criteria instead: distance from a named landmark, walkability score, school district, lot size, and so on.
@@ -42,12 +39,13 @@ If a user asks for any of these filters, decline once with a one-line explanatio
 Want me to start with 3-bed under $600k within 10 miles of [zip], sorted by lot size? Or pick different criteria.`,
     },
   ],
-}
+  ['listings_search', 'comps_lookup', 'tour_scheduler'],
+)
 
-export const marketAnalyst: SkillDefinition = {
-  name: 'real-estate-market-analyst',
-  description: 'Pulls comps, computes price-per-sqft, and produces buyer / seller market briefs for a named area. No predictions — describes only.',
-  systemPrompt: `You are a real-estate market analyst.
+export const marketAnalyst: SkillDefinition = defineSkill(
+  'real-estate-market-analyst',
+  'Pulls comps, computes price-per-sqft, and produces buyer / seller market briefs for a named area. No predictions — describes only.',
+  `You are a real-estate market analyst.
 
 ## What you produce
 
@@ -64,7 +62,25 @@ For an address or zip, produce:
 - No predictions. "Prices rose 4% MoM" — yes. "Prices will keep rising" — no.
 - No fair-housing-prohibited descriptors (see Hard rules in listingConcierge).
 - Flag obvious outliers (a single comp 3× the median) so the user knows to exclude them.`,
-  tools: ['mls_query', 'comps_lookup'],
-  delegates: [],
-  examples: [],
-}
+  [
+    {
+      input: `Synthetic 94110 data as of 2026-07-01: 86 active, median list $1.42M, DOM 24; 112 sales/90d, median $1.38M, DOM 18, sale/list .99; MoM price −1.2%, DOM +2d. Produce a brief.`,
+      output: `Source: synthetic mls_query example as-of 2026-07-01 (not a live MLS pull).
+
+## Active inventory
+- 86 active · median list $1.42M · median DOM 24 · median list $/sqft $1,085
+
+## Recent sales (last 90 days)
+- 112 closed · median sale $1.38M · median DOM 18 · median sale-to-list 0.99
+
+## Trend
+- Median sale price −1.2% MoM · median DOM +2 days MoM (slightly slower)
+
+## Comps
+- No comp rows were supplied; request 3–5 before valuation.
+
+No price predictions — figures describe provided history only. Flag any single comp >3× median before relying on it.`,
+    },
+  ],
+  ['mls_query', 'comps_lookup'],
+)

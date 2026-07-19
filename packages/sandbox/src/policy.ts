@@ -32,6 +32,21 @@ function inList(list: string[] | '*' | undefined, name: string): boolean {
   return list.includes(name)
 }
 
+function snapshotPolicy(policy: SandboxPolicy): SandboxPolicy {
+  return {
+    requireSandbox:
+      policy.requireSandbox === '*'
+        ? '*'
+        : policy.requireSandbox
+          ? [...policy.requireSandbox]
+          : undefined,
+    deny: policy.deny ? [...policy.deny] : undefined,
+    allow: policy.allow ? [...policy.allow] : undefined,
+    validators: policy.validators ? { ...policy.validators } : undefined,
+    onPolicyEvent: policy.onPolicyEvent,
+  }
+}
+
 /**
  * Enforce a sandbox policy across every tool the runtime sees.
  *
@@ -44,15 +59,21 @@ function inList(list: string[] | '*' | undefined, name: string): boolean {
  * Wrapping strategy:
  *   - denied / not-in-allow: `execute` throws — runtime returns an error
  *     to the model instead of actually running.
- *   - require-sandbox: the tool's execute is replaced with a shim that
- *     routes calls through the shared sandbox tool's execute.
+ *   - **requireSandbox:** the tool's original `execute` body is **not** run.
+ *     Args are delegated to `sandbox.execute` (the shared sandbox tool). The
+ *     original tool implementation is skipped entirely — this is a routing
+ *     shim, not a transparent wrapper around the original body.
  *   - validators: run synchronously before execute; throw aborts the call.
+ *
+ * Policy arrays/records are snapshotted at create time so later caller
+ * mutations do not change allow/deny/require decisions.
  */
 export function createMandatorySandbox(options: {
   sandbox: ToolDefinition
   policy: SandboxPolicy
 }): MandatorySandboxWrapper {
-  const { sandbox, policy } = options
+  const { sandbox } = options
+  const policy = snapshotPolicy(options.policy)
   const emit = (e: PolicyEvent): void => policy.onPolicyEvent?.(e)
 
   const decide = (
@@ -86,6 +107,7 @@ export function createMandatorySandbox(options: {
         }
       }
       const validator = policy.validators?.[tool.name]
+      // requireSandbox: delegate args to sandbox.execute — original body is skipped.
       const baseExecute = decision.mustSandbox ? sandbox.execute : tool.execute
 
       if (decision.mustSandbox) {

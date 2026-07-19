@@ -1,5 +1,6 @@
 import { ErrorCodes, ToolError } from '@agentskit/core'
 import type { ToolDefinition } from '@agentskit/core'
+import { safeFetch } from './safe-fetch'
 
 export interface WebSearchResult {
   title: string
@@ -141,10 +142,12 @@ function stripTags(html: string): string {
  * Final fallback: if the query looks like a URL, fetch it directly and
  * return the page title + a text snippet. Lets the tool still produce
  * something useful when every search backend is unavailable.
+ * Model-controlled URLs go through {@link safeFetch} so the initial host
+ * and every redirect hop are egress-gated (ADR-0010).
  */
 async function fetchUrlAsResult(url: string): Promise<WebSearchResult[]> {
   try {
-    const response = await fetch(url, {
+    const response = await safeFetch(url, {
       headers: { 'User-Agent': 'Mozilla/5.0 (compatible; AgentsKit/1.0)' },
     })
     if (!response.ok) return []
@@ -153,7 +156,9 @@ async function fetchUrlAsResult(url: string): Promise<WebSearchResult[]> {
     const title = titleMatch ? stripTags(titleMatch[1]).trim() : url
     const text = stripTags(html).slice(0, SNIPPET_MAX * 2)
     return [{ title, url, snippet: text }]
-  } catch {
+  } catch (err) {
+    // Surface egress rejections as readable errors; other failures stay empty.
+    if (err instanceof ToolError) throw err
     return []
   }
 }
@@ -199,8 +204,15 @@ export function webSearch(config: WebSearchConfig = {}): ToolDefinition {
       }
 
       if (URL_RE.test(query)) {
-        const direct = await fetchUrlAsResult(query)
-        if (direct.length > 0) return formatResults(direct, query)
+        try {
+          const direct = await fetchUrlAsResult(query)
+          if (direct.length > 0) return formatResults(direct, query)
+        } catch (err) {
+          if (err instanceof ToolError) {
+            return err.message.startsWith('Error:') ? err.message : `Error: ${err.message}`
+          }
+          throw err
+        }
       }
 
       const { backend, apiKey: resolvedKey } = resolveBackend(provider, apiKey)

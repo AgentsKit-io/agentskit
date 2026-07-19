@@ -3,58 +3,68 @@
  * Promotion-RFC gate.
  *
  * docs/STABILITY.md: "beta → stable requires an RFC ... The RFC documents the
- * public API surface being committed to." This asserts every package declared
- * `stable` has a matching RFC in `rfcs/` (filename or body names the package),
- * so a package can't silently flip to stable without committing its surface.
+ * public API surface being committed to." Every non-exempt package declared
+ * `stable` must ship a *dedicated* Accepted promotion RFC:
  *
- * `core` is exempt: it graduated via the six contract ADRs (0001-0006) +
- * docs/RELEASE-CORE-V1.md, predating the RFC-promotion process. Any *other*
- * package that goes stable must ship a promotion RFC.
+ *   rfcs/NNNN-<package-directory>-stable.md
+ *
+ * with exact package + status metadata lines. A general RFC that merely
+ * mentions the package, or a dedicated RFC still at Proposed, fails.
+ *
+ * `@agentskit/core` is the sole documented exemption (ADR-backed graduation).
  */
 
 import { readFileSync, readdirSync, existsSync } from 'node:fs'
 import { resolve, dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import {
+  PROMOTION_RFC_EXEMPT,
+  auditPromotionRfcs,
+} from './lib/stability-gates.mjs'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const root = resolve(here, '..')
 const pkgsDir = join(root, 'packages')
 const rfcsDir = join(root, 'rfcs')
 
-// Packages allowed to be `stable` without a promotion RFC, with the reason.
-const EXEMPT = new Map([['@agentskit/core', 'ADR-backed graduation (ADRs 0001-0006 + docs/RELEASE-CORE-V1.md)']])
-
-// Load every RFC's filename + body once.
-const rfcs = existsSync(rfcsDir)
-  ? readdirSync(rfcsDir)
-      .filter(f => /^\d{4}-.*\.md$/.test(f))
-      .map(f => ({ file: f, text: readFileSync(join(rfcsDir, f), 'utf8') }))
-  : []
-
-const errors = []
-for (const name of readdirSync(pkgsDir)) {
+const packages = []
+for (const dir of readdirSync(pkgsDir)) {
   let pkg
   try {
-    pkg = JSON.parse(readFileSync(join(pkgsDir, name, 'package.json'), 'utf8'))
+    pkg = JSON.parse(readFileSync(join(pkgsDir, dir, 'package.json'), 'utf8'))
   } catch {
     continue
   }
-  if (pkg.agentskit?.stability !== 'stable') continue
-  if (EXEMPT.has(pkg.name)) continue
-
-  const hasRfc = rfcs.some(r => r.file.includes(name) || r.text.includes(pkg.name))
-  if (!hasRfc) {
-    errors.push(`${pkg.name}: declared "stable" but no promotion RFC in rfcs/ names it`)
-  }
+  packages.push({
+    name: pkg.name,
+    dir,
+    stability: pkg.agentskit?.stability,
+  })
 }
+
+const rfcs = existsSync(rfcsDir)
+  ? readdirSync(rfcsDir)
+      .filter((f) => /^\d{4}-.*\.md$/.test(f))
+      .map((f) => ({ file: f, text: readFileSync(join(rfcsDir, f), 'utf8') }))
+  : []
+
+const errors = auditPromotionRfcs({
+  packages,
+  rfcs,
+  exempt: PROMOTION_RFC_EXEMPT,
+})
 
 if (errors.length > 0) {
   console.error(
     '\nPromotion-RFC check failed:\n' +
-      errors.map(e => `  - ${e}`).join('\n') +
-      '\n\nbeta → stable requires an RFC committing the public API (docs/STABILITY.md).\n' +
-      'Write rfcs/NNNN-<pkg>-stable.md, or revert the package to beta.\n',
+      errors.map((e) => `  - ${e}`).join('\n') +
+      '\n\nbeta → stable requires a dedicated Accepted promotion RFC (docs/STABILITY.md).\n' +
+      'Write rfcs/NNNN-<package-directory>-stable.md containing:\n' +
+      '  - **Package**: `@agentskit/<name>`\n' +
+      '  - **Status**: Accepted\n' +
+      'A general RFC that merely mentions the package is not enough; Proposed is not enough.\n' +
+      `@agentskit/core is the sole documented exemption.\n`,
   )
   process.exit(1)
 }
-console.log('every stable package has a promotion RFC (or documented exemption) ✓')
+console.log('every stable package has a dedicated Accepted promotion RFC (or documented exemption) ✓')

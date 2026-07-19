@@ -21,12 +21,14 @@ describe('resolveTools', () => {
     }
   })
 
-  it('resolves known tools without confirmation when listed explicitly', () => {
+  it('preserves intrinsic confirmation gates when listed explicitly', () => {
     const tools = resolveTools('web_search,shell')
     expect(tools.length).toBe(2)
     expect(tools.map(t => t.name)).toContain('web_search')
-    // Explicit listing = user opted in, no confirmation wrapper.
-    expect(tools.every(t => t.requiresConfirmation !== true)).toBe(true)
+    expect(tools.find(t => t.name === 'web_search')?.requiresConfirmation).not.toBe(
+      true,
+    )
+    expect(tools.find(t => t.name === 'shell')?.requiresConfirmation).toBe(true)
   })
 
   it('writes to stderr for unknown tools', () => {
@@ -66,10 +68,13 @@ describe('resolveSkills', () => {
     expect(skill!.name).toBe('researcher')
   })
 
-  it('composes multiple skills', () => {
+  it('composes multiple skills with an S1-valid name', () => {
     const skill = resolveSkills('researcher,coder')
     expect(skill).toBeDefined()
-    expect(skill!.name).toBe('researcher+coder')
+    expect(skill!.name).toBeTruthy()
+    expect(skill!.name).toMatch(/^[a-zA-Z_][a-zA-Z0-9_-]{0,63}$/)
+    expect(skill!.name.length).toBeLessThanOrEqual(64)
+    expect(skill!.name).not.toContain('+')
   })
 
   it('returns undefined for all unknown skills', () => {

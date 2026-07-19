@@ -71,6 +71,8 @@ export function Chat() {
 
 - `useChat` hook — streaming, abort, tool calls, memory, and skills in one API
 - Headless components: `ChatContainer`, `Message`, `InputBar`, `ToolCallView`, `ThinkingIndicator`
+- `InputBar` blocks form submit and Enter while `chat.status === 'streaming'` (and when `disabled`)
+- `ToolCallView` toggle exposes `aria-expanded` for assistive tech
 - `data-ak-*` attributes for styling — zero hardcoded styles, full design-system control
 - Theme via `@agentskit/react/theme` — opt-in CSS variables, override per component
 - Works with React 18 and 19

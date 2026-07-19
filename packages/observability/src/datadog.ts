@@ -1,7 +1,12 @@
-import type { Observer } from '@agentskit/core'
-import { createTraceTracker, type TraceSpan } from './trace-tracker'
+import type { TraceSpan } from './trace-tracker'
+import {
+  createHttpBatchSink,
+  snapshotAttributes,
+  type HttpBatchOptions,
+  type LifecycleObserver,
+} from './http-batch-sink'
 
-export interface DatadogSinkConfig {
+export interface DatadogSinkConfig extends HttpBatchOptions {
   apiKey: string
   /** Datadog site, defaults to `datadoghq.com` (US1). Use `datadoghq.eu`, `us5.datadoghq.com`, etc. */
   site?: string
@@ -9,18 +14,25 @@ export interface DatadogSinkConfig {
   service?: string
   /** Environment tag (`prod`, `staging`, ...). */
   env?: string
-  fetch?: typeof globalThis.fetch
 }
+
+export type DatadogSinkObserver = LifecycleObserver
 
 function siteEndpoint(site = 'datadoghq.com'): string {
   return `https://http-intake.logs.${site}/api/v2/logs`
 }
 
-function spanToLog(span: TraceSpan, config: DatadogSinkConfig, isEnd: boolean): Record<string, unknown> {
+function spanToLog(
+  span: TraceSpan,
+  config: DatadogSinkConfig,
+  isEnd: boolean,
+): Record<string, unknown> {
   return {
     ddsource: 'agentskit',
     service: config.service ?? 'agentskit',
-    ddtags: [config.env ? `env:${config.env}` : null, `phase:${isEnd ? 'end' : 'start'}`].filter(Boolean).join(','),
+    ddtags: [config.env ? `env:${config.env}` : null, `phase:${isEnd ? 'end' : 'start'}`]
+      .filter(Boolean)
+      .join(','),
     message: `${span.name} ${isEnd ? 'ended' : 'started'}`,
     span: {
       id: span.id,
@@ -30,42 +42,24 @@ function spanToLog(span: TraceSpan, config: DatadogSinkConfig, isEnd: boolean): 
       end_time: span.endTime,
       duration_ms: span.endTime ? span.endTime - span.startTime : undefined,
       status: span.status,
-      attributes: span.attributes,
+      attributes: snapshotAttributes(span.attributes),
     },
   }
 }
 
 /**
- * Datadog Logs sink. Forwards every TraceSpan start/end as a JSON log entry
- * to Datadog's HTTP intake. Failures are swallowed — observability never
- * breaks the main loop.
+ * Datadog Logs sink. Batches span start/end as JSON log entries to Datadog's
+ * HTTP intake. Failures are isolated — observability never breaks the main loop.
  */
-export function datadogSink(config: DatadogSinkConfig): Observer {
-  const fetchImpl = config.fetch ?? globalThis.fetch
-  const url = siteEndpoint(config.site)
-
-  const send = async (span: TraceSpan, isEnd: boolean) => {
-    try {
-      await fetchImpl(url, {
-        method: 'POST',
-        headers: {
-          'content-type': 'application/json',
-          'dd-api-key': config.apiKey,
-        },
-        body: JSON.stringify([spanToLog(span, config, isEnd)]),
-      })
-    } catch {
-      // observability errors must not break the main loop
-    }
-  }
-
-  const tracker = createTraceTracker({
-    onSpanStart(span) { void send(span, false) },
-    onSpanEnd(span) { void send(span, true) },
-  })
-
-  return {
+export function datadogSink(config: DatadogSinkConfig): DatadogSinkObserver {
+  return createHttpBatchSink({
     name: 'datadog',
-    on(event) { tracker.handle(event) },
-  }
+    url: siteEndpoint(config.site),
+    headers: {
+      'content-type': 'application/json',
+      'dd-api-key': config.apiKey,
+    },
+    toPayload: (span, isEnd) => spanToLog(span, config, isEnd),
+    options: config,
+  })
 }
