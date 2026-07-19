@@ -36,8 +36,9 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/eval) · [agent han
 
 - **Replace "it seemed to work" with real metrics** — accuracy, per-case latency, token cost, and pass/fail for every test case in a single result object
 - **CI/CD ready** — exit codes reflect suite results; gate deployments on accuracy thresholds so regressions never reach production
-- **Flexible assertions** — exact string matching, `includes` for LLM verbosity, or full control with a custom `(result) => boolean` function per case
+- **Flexible assertions** — substring matching or full control with a custom `(result) => boolean` predicate per case
 - **Provider-agnostic** — the `agent` closure can wrap any async boundary: `createRuntime`, a custom controller, or an HTTP endpoint
+- **Failure isolation** — malformed responses, agent failures, and assertion failures become failed cases without aborting the suite
 
 ## Install
 
@@ -100,6 +101,16 @@ const cassette = await loadCassette('./fixtures/session.json')
 ```
 
 The original Node exports from `@agentskit/eval/replay` remain available for compatibility. Browser and native builds retain those export names so types and runtime stay aligned, but calls reject with a Node-only diagnostic. Those hosts should combine `serializeCassette` or `parseCassette` with their own storage APIs.
+
+`@agentskit/eval/snapshot` and `@agentskit/eval/ci` are Node-oriented subpaths because they write files and inspect CI environment variables. Pure comparison helpers remain callable anywhere their entry can be bundled, but browser applications should not depend on their filesystem workflows.
+
+Replay boundaries snapshot cassettes, requests, chunks, dates, and plain metadata. Mutating a live request or a replayed chunk does not rewrite the recorded cassette.
+
+## Braintrust lifecycle
+
+`@agentskit/eval/braintrust` computes every score locally. When `BRAINTRUST_API_KEY` or `options.apiKey` is present, it lazily initializes Braintrust, awaits each experiment log, flushes the experiment, and then summarizes it. Non-fatal SDK failures are returned as bounded `result.warnings`; local cases and summaries remain available.
+
+Custom scorer results are validated at runtime. A malformed name or score outside `[0, 1]` becomes an isolated `scorer_error` rather than corrupting the aggregate.
 
 ## Ecosystem
 

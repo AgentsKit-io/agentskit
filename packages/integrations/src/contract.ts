@@ -71,8 +71,13 @@ export type AuthSpec =
 export interface IntegrationActionContext {
   /** Auth-bound JSON HTTP client (base URL + auth headers applied). */
   http: IntegrationHttp
-  /** Raw fetch for non-JSON transports. */
+  /** Raw fetch for provider / non-JSON transports (not model-controlled URLs). */
   fetch: typeof globalThis.fetch
+  /**
+   * Host-injected, policy-enforcing transport for model-controlled URLs
+   * (SSRF egress gate). Distinct from `fetch`, which remains the provider path.
+   */
+  fetchUntrusted?: typeof globalThis.fetch
   /** Service-specific config: extra credentials, injected adapters, options. */
   config: unknown
 }

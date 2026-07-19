@@ -1,17 +1,22 @@
 ---
 title: "@agentskit/templates"
-description: "Authoring toolkit for AgentsKit extensions — validated Tool, Skill, Adapter factories + on-disk scaffolds."
+description: "Authoring toolkit for AgentsKit extensions — validated Tool, Skill, Adapter factories + secure on-disk scaffolds."
 ---
 import { ContributeCallout } from '@/components/contribute/contribute-callout'
 
 
-Authoring toolkit for **generating** AgentsKit extensions: validated `ToolDefinition` / `SkillDefinition` / `AdapterFactory` objects and **on-disk scaffolds** (package.json, tsup, tests, README). Depends only on [`@agentskit/core`](./core).
+Authoring toolkit for **generating** AgentsKit extensions: validated
+`ToolDefinition` / `SkillDefinition` / `AdapterFactory` objects and **on-disk
+scaffolds** (package.json, tsup, tests, README). Depends only on
+[`@agentskit/core`](./core).
 
-If you want project starters instead of authoring primitives, see [`agentskit init`](/docs/production/cli/init). `@agentskit/templates` is the lower-level toolkit behind that bootstrap path.
+For full **application** starters, see [`agentskit init`](/docs/production/cli/init).
+`@agentskit/templates` is the lower-level programmatic toolkit for extension
+packages — it is **not** the implementation behind `agentskit init`.
 
 ## When to use
 
-- You publish **custom tools**, **skills**, or **adapters** as standalone packages.
+- You publish **custom tools**, **skills**, **adapters**, **memory**, **embedders**, or **flows** as standalone packages.
 - You want **consistent blueprints** (tsup, vitest, TypeScript) across internal plugins.
 - You need **runtime validation** before registering a template with a runtime or marketplace.
 
@@ -25,15 +30,19 @@ npm install @agentskit/templates @agentskit/core
 
 | Export | Role |
 |--------|------|
-| `createToolTemplate(config)` | Build a `ToolDefinition` with defaults and validation |
-| `createSkillTemplate(config)` | Build a `SkillDefinition` with defaults and validation |
-| `createAdapterTemplate(config)` | Build an `AdapterFactory` + display `name` |
-| `scaffold(config)` | Write a full package directory (async) |
+| `createToolTemplate(config)` | Build a `ToolDefinition` with validation |
+| `createSkillTemplate(config)` | Build a `SkillDefinition` with validation + `metadata` passthrough |
+| `createAdapterTemplate(config)` | Build an `AdapterFactory` + `name` + optional `capabilities` |
+| `scaffold(config)` | Write a full package directory (async, atomic) |
+| `validateScaffoldConfig(config)` | Validate scaffold input before write |
 | `validateToolTemplate` / `validateSkillTemplate` / `validateAdapterTemplate` | Assert well-formed definitions |
+| `SCAFFOLD_TYPES` | Tuple of the eight allowed types |
 
 ### `createToolTemplate`
 
-`ToolTemplateConfig` extends a partial tool with required `name` and optional `description`, `schema`, `execute`, `tags`, `category`, `requiresConfirmation`, `init`, `dispose`, and `base` merge.
+`ToolTemplateConfig` extends a partial tool with required `name` and optional
+`description`, `schema` (JSON Schema object), `execute`, `tags`, `category`,
+`requiresConfirmation`, `init`, `dispose`, and `base` merge.
 
 ```ts
 import { createToolTemplate } from '@agentskit/templates'
@@ -53,11 +62,13 @@ export const rollDice = createToolTemplate({
 })
 ```
 
-Validation **throws** if `name`, `description`, `schema`, or `execute` is missing (LLMs need schema + description for tool calling).
+Validation **throws** if `name`/`description` are empty after trim, `schema`
+is not a plain object, or `execute` is not a function.
 
 ### `createSkillTemplate`
 
-Requires `name`, `description`, and `systemPrompt`. Optional: `examples`, `tools`, `delegates`, `temperature`, `onActivate`, `base`.
+Requires `name`, `description`, and `systemPrompt` (trim non-empty). Optional:
+`examples`, `tools`, `delegates`, finite `temperature`, `metadata`, `onActivate`, `base`.
 
 ```ts
 import { createSkillTemplate } from '@agentskit/templates'
@@ -67,20 +78,21 @@ export const researcher = createSkillTemplate({
   description: 'Gather facts before writing.',
   systemPrompt: 'You are a careful researcher. Cite sources when possible.',
   tools: ['web_search'],
+  metadata: { team: 'research' },
 })
 ```
 
 ### `createAdapterTemplate`
 
-Requires `name` and `createSource` matching `AdapterFactory['createSource']`.
+Requires non-empty `name` and `createSource`. Optional `capabilities` passthrough.
 
 ```ts
 import { createAdapterTemplate } from '@agentskit/templates'
 
 export const myAdapter = createAdapterTemplate({
   name: 'my-llm',
+  capabilities: { tools: true, streaming: true },
   createSource: (request) => {
-    // return StreamSource compatible with @agentskit/core
     throw new Error('Implement streaming to your backend')
   },
 })
@@ -91,9 +103,9 @@ export const myAdapter = createAdapterTemplate({
 Creates a directory `join(dir, name)` with:
 
 - `package.json`, `tsconfig.json`, `tsup.config.ts`
-- `src/index.ts` (stub implementation)
-- `tests/index.test.ts`
-- `README.md`
+- `src/index.ts` (named-export stub — no default export in source)
+- `tests/index.test.ts` (contract tests)
+- `README.md` (+ `flow.yaml` for `type: 'flow'`)
 
 ```ts
 import { scaffold } from '@agentskit/templates'
@@ -104,22 +116,38 @@ const files = await scaffold({
   name: 'my-company-search',
   dir: join(process.cwd(), 'packages'),
   description: 'Internal web search tool',
+  // overwrite: false by default
 })
 console.log('Created:', files)
 ```
 
-`ScaffoldType` is `'tool' | 'skill' | 'adapter'`.
+`ScaffoldType`:
+`'tool' | 'skill' | 'adapter' | 'memory-vector' | 'memory-chat' | 'flow' | 'embedder' | 'browser-adapter'`.
 
-Register scaffolded packages like any other tool, skill, or adapter via [`createRuntime`](/docs/agents/runtime) or [`useChat`](/docs/ui/use-chat).
+**Security:** config validated first; unscoped kebab-case names only; existing
+destinations fail unless `overwrite: true`; symlink destination roots rejected; sibling staging
++ atomic rename; cleanup on failure. Returned paths are final, not staging.
+
+**Dependencies generated:** `@agentskit/core ^1.0.0` always; `flow` also
+`@agentskit/runtime ^0.10.0`. No wildcards. No unused adapters/memory deps.
+
+**Scoped packages** are not supported in this beta; a future minor may add them
+with an explicit migration.
+
+Register scaffolded packages like any other tool, skill, or adapter via
+[`createRuntime`](/docs/agents/runtime) or [`useChat`](/docs/ui/use-chat).
 
 ## Troubleshooting
 
 | Error | Cause |
 |-------|--------|
-| `Tool requires a name` | Pass `name` to `createToolTemplate`. |
-| `requires a schema` | JSON Schema required for function calling. |
-| `Skill ... requires a systemPrompt` | Skills must define behavior via `systemPrompt`. |
-| `Adapter requires createSource` | Factory must expose `createSource(request)`. |
+| `Tool name must be a non-empty string` | Pass a trim-non-empty `name`. |
+| `requires a schema` | JSON Schema plain object required (not null/array). |
+| `Skill ... systemPrompt` | Skills must define behavior via `systemPrompt`. |
+| `Adapter ... createSource` | Factory must expose `createSource(request)`. |
+| `Destination already exists` | Choose another name/dir or pass `overwrite: true`. |
+| `Refusing to ... symlink` | Point `dir` at a real directory, not a symlink target name. |
+| `not a safe unscoped npm package id` | Use kebab-case like `my-search` (no scopes yet). |
 
 ## See also
 
@@ -129,7 +157,6 @@ Register scaffolded packages like any other tool, skill, or adapter via [`create
 
 ## Stability
 
-- **Version:** `0.1.10`
-- **Tier:** alpha
-- **Contract:** evolving
-- **Roadmap:** see [packages roadmap](./roadmap) for what this package needs to reach v1.0.
+- **Tier:** beta (hardened scaffold/validation surface; not yet stable)
+- **Promotion path:** [RFC 0014](../../../../../../rfcs/0014-templates-stable.md)
+- **Contract:** evolving under beta semver (breaking changes allowed in minors with CHANGELOG notes)

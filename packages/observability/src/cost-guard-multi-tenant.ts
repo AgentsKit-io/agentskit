@@ -1,5 +1,16 @@
 import type { AgentEvent, Observer } from '@agentskit/core'
-import { DEFAULT_PRICES, priceFor, computeCost, type TokenPrice } from './cost-guard'
+import {
+  DEFAULT_PRICES,
+  priceFor,
+  computeCost,
+  assertFiniteNonNegative,
+  validateTokenPrices,
+  normalizeTokenCount,
+  invokeCostGuardCallback,
+  reportCostGuardError,
+  type TokenPrice,
+  type CostGuardErrorHandler,
+} from './cost-guard'
 
 export interface MultiTenantCostGuardOptions {
   /**
@@ -18,6 +29,9 @@ export interface MultiTenantCostGuardOptions {
    * does not propagate tenant ids natively; wire this up with
    * AsyncLocalStorage or by calling `setTenant(...)` from the returned
    * observer immediately before invoking `runtime.run`.
+   *
+   * Throws are isolated; when the resolver throws, `activeTenant` is used
+   * as fallback when set.
    */
   tenantOf?: () => string | undefined
   /** Optional price table override. */
@@ -27,9 +41,14 @@ export interface MultiTenantCostGuardOptions {
    * automatically — multi-tenant deployments typically reject the
    * inbound request at the gateway instead. Wire your own enforcement
    * here (`controllers[tenant].abort()`, log+drop, send 402, etc.).
+   * Sync throws and async rejections are isolated.
    */
-  onExceeded?: (info: { tenant: string; costUsd: number; budgetUsd: number }) => void
-  /** Called whenever a tenant's running total changes. */
+  onExceeded?: (info: {
+    tenant: string
+    costUsd: number
+    budgetUsd: number
+  }) => void | Promise<void>
+  /** Called whenever a tenant's running total changes. Isolated. */
   onCost?: (info: {
     tenant: string
     costUsd: number
@@ -37,7 +56,9 @@ export interface MultiTenantCostGuardOptions {
     completionTokens: number
     budgetUsd: number | undefined
     budgetRemainingUsd: number | undefined
-  }) => void
+  }) => void | Promise<void>
+  /** Isolated sink for internal / callback failures. */
+  onError?: CostGuardErrorHandler
   modelOverride?: string
   name?: string
 }
@@ -54,10 +75,20 @@ function freshState(modelOverride?: string): TenantState {
   return { prompt: 0, completion: 0, cost: 0, model: modelOverride, exceeded: false }
 }
 
+function validateOptions(options: MultiTenantCostGuardOptions): void {
+  for (const [tenant, budget] of Object.entries(options.budgets)) {
+    assertFiniteNonNegative('multiTenantCostGuard', `budgets['${tenant}']`, budget)
+  }
+  if (options.defaultBudgetUsd !== undefined) {
+    assertFiniteNonNegative('multiTenantCostGuard', 'defaultBudgetUsd', options.defaultBudgetUsd)
+  }
+  validateTokenPrices('multiTenantCostGuard', options.prices)
+}
+
 /**
- * Per-tenant cost-guard. Same accounting as `costGuard`, partitioned by
- * tenant id, with separate budgets per tenant and a no-abort default
- * (the SaaS gateway typically enforces).
+ * Per-tenant cost-guard. Same incremental accounting as `costGuard`,
+ * partitioned by tenant id, with separate budgets per tenant and a
+ * no-abort default (the SaaS gateway typically enforces).
  */
 export function multiTenantCostGuard(options: MultiTenantCostGuardOptions): Observer & {
   /** Active tenant. The observer ignores events while this is unset. */
@@ -70,12 +101,21 @@ export function multiTenantCostGuard(options: MultiTenantCostGuardOptions): Obse
   reset: (tenant?: string) => void
   tenants: () => string[]
 } {
+  validateOptions(options)
+
   const mergedPrices = options.prices ? { ...DEFAULT_PRICES, ...options.prices } : DEFAULT_PRICES
+  const onError = options.onError
   const tenants = new Map<string, TenantState>()
   let activeTenant: string | undefined
 
   const resolve = (): string | undefined => {
-    return options.tenantOf?.() ?? activeTenant
+    if (!options.tenantOf) return activeTenant
+    try {
+      return options.tenantOf() ?? activeTenant
+    } catch (err) {
+      reportCostGuardError(onError, err)
+      return activeTenant
+    }
   }
 
   const budgetOf = (tenant: string): number | undefined => {
@@ -91,21 +131,36 @@ export function multiTenantCostGuard(options: MultiTenantCostGuardOptions): Obse
     return s
   }
 
-  const update = (tenant: string, s: TenantState) => {
+  const update = (
+    tenant: string,
+    s: TenantState,
+    deltaPrompt: number,
+    deltaCompletion: number,
+  ) => {
+    s.prompt += deltaPrompt
+    s.completion += deltaCompletion
     const price = priceFor(s.model, mergedPrices)
-    s.cost = computeCost({ promptTokens: s.prompt, completionTokens: s.completion }, price)
+    // Incremental cost for this event only — never reprice historical tokens.
+    s.cost += computeCost(
+      { promptTokens: deltaPrompt, completionTokens: deltaCompletion },
+      price,
+    )
     const budget = budgetOf(tenant)
-    options.onCost?.({
-      tenant,
-      costUsd: s.cost,
-      promptTokens: s.prompt,
-      completionTokens: s.completion,
-      budgetUsd: budget,
-      budgetRemainingUsd: budget !== undefined ? Math.max(0, budget - s.cost) : undefined,
-    })
+    invokeCostGuardCallback(() => {
+      return options.onCost?.({
+        tenant,
+        costUsd: s.cost,
+        promptTokens: s.prompt,
+        completionTokens: s.completion,
+        budgetUsd: budget,
+        budgetRemainingUsd: budget !== undefined ? Math.max(0, budget - s.cost) : undefined,
+      })
+    }, onError)
     if (budget !== undefined && s.cost > budget && !s.exceeded) {
       s.exceeded = true
-      options.onExceeded?.({ tenant, costUsd: s.cost, budgetUsd: budget })
+      invokeCostGuardCallback(() => {
+        return options.onExceeded?.({ tenant, costUsd: s.cost, budgetUsd: budget })
+      }, onError)
     }
   }
 
@@ -121,14 +176,16 @@ export function multiTenantCostGuard(options: MultiTenantCostGuardOptions): Obse
           break
         case 'llm:end':
           if (event.usage) {
-            s.prompt += event.usage.promptTokens
-            s.completion += event.usage.completionTokens
-            update(tenant, s)
+            const deltaPrompt = normalizeTokenCount(event.usage.promptTokens)
+            const deltaCompletion = normalizeTokenCount(event.usage.completionTokens)
+            update(tenant, s, deltaPrompt, deltaCompletion)
           }
           break
       }
     },
-    setTenant(tenant) { activeTenant = tenant },
+    setTenant(tenant) {
+      activeTenant = tenant
+    },
     costUsd: (tenant) => stateOf(tenant).cost,
     promptTokens: (tenant) => stateOf(tenant).prompt,
     completionTokens: (tenant) => stateOf(tenant).completion,

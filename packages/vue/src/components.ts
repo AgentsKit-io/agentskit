@@ -44,10 +44,12 @@ export const InputBar = defineComponent({
   },
   setup(props) {
     const submit = (): void => {
-      if (props.chat.input.trim()) props.chat.send(props.chat.input)
+      if (props.disabled || props.chat.status === 'streaming' || !props.chat.input.trim()) return
+      void props.chat.send(props.chat.input)
     }
-    return () =>
-      h(
+    return () => {
+      const blocked = props.disabled || props.chat.status === 'streaming'
+      return h(
         'form',
         {
           'data-ak-input-bar': '',
@@ -58,12 +60,11 @@ export const InputBar = defineComponent({
         },
         [
           h('textarea', {
-            role: 'textbox',
             'data-ak-input': '',
             rows: 1,
             value: props.chat.input,
             placeholder: props.placeholder,
-            disabled: props.disabled,
+            disabled: blocked,
             onInput: (e: Event) => props.chat.setInput((e.target as HTMLTextAreaElement).value),
             onKeydown: (e: KeyboardEvent) => {
               if (e.key === 'Enter' && !e.shiftKey) {
@@ -74,11 +75,12 @@ export const InputBar = defineComponent({
           }),
           h(
             'button',
-            { 'data-ak-send': '', type: 'submit', disabled: props.disabled || !props.chat.input.trim() },
+            { 'data-ak-send': '', type: 'submit', disabled: blocked || !props.chat.input.trim() },
             'Send',
           ),
         ],
       )
+    }
   },
 })
 
@@ -129,6 +131,7 @@ export const ToolCallView = defineComponent({
           {
             'data-ak-tool-toggle': '',
             type: 'button',
+            'aria-expanded': expanded.value,
             onClick: () => {
               expanded.value = !expanded.value
             },

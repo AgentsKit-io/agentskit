@@ -5,7 +5,7 @@ description: Ready-made personas + composition + marketplace registry with semve
 
 ## When to reach for it
 
-- You want a preset persona (researcher / coder / planner / critic / summarizer / code-reviewer / sql-gen / data-analyst / translator).
+- You want one of 26 contract-tested personas across general, engineering, data, support, or regulated-domain workflows.
 - You want to publish + install skills by semver.
 
 ## Install
@@ -25,9 +25,13 @@ const runtime = createRuntime({ adapter, systemPrompt: researcher.systemPrompt }
 
 ## Surface
 
-- Ready-made: `researcher` · `coder` · `planner` · `critic` · `summarizer` · `codeReviewer` · `sqlGen` · `dataAnalyst` · `translator`.
-- Composition: `composeSkills` · `listSkills`.
+- Ready-made: 26 named `SkillDefinition` exports; use `getBuiltinSkills()` for the canonical defensive catalog.
+- Composition: `composeSkills` · `getBuiltinSkills` · `listSkills`.
 - Marketplace: `createSkillRegistry` · `parseSemver` · `compareSemver` · `matchesRange`.
+
+Tool and delegate fields are declarative references. Wire the corresponding
+registries in the consuming runtime; importing a skill alone does not install or
+execute those capabilities.
 
 ## Recipes
 
@@ -37,10 +41,10 @@ const runtime = createRuntime({ adapter, systemPrompt: researcher.systemPrompt }
 
 ## Stability
 
-- **Version:** `0.5.1`
+- **Version:** `0.8.16`
 - **Tier:** beta
-- **Contract:** evolving
-- **Roadmap:** see [packages roadmap](./roadmap) for what this package needs to reach v1.0.
+- **Contract:** SkillDefinition semantics pinned by ADR 0005; package conveniences remain beta.
+- **Roadmap:** stable surface proposed in [RFC 0009](../../../../../../rfcs/0009-skills-stable.md); ADR 0024 evidence remains mandatory.
 
 ## Related
 

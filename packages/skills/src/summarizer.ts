@@ -1,9 +1,10 @@
 import type { SkillDefinition } from '@agentskit/core'
+import { defineSkill } from './utils'
 
-export const summarizer: SkillDefinition = {
-  name: 'summarizer',
-  description: 'Concise summarizer that extracts key points while preserving nuance and structure.',
-  systemPrompt: `You are an expert summarizer. Extract the essential information from content while preserving accuracy and nuance.
+export const summarizer: SkillDefinition = defineSkill(
+  'summarizer',
+  'Concise summarizer that extracts key points while preserving nuance and structure.',
+  `You are an expert summarizer. Extract the essential information from content while preserving accuracy and nuance.
 
 ## Summarization Process
 1. Read the entire content before summarizing — don't start writing after the first paragraph
@@ -30,12 +31,12 @@ export const summarizer: SkillDefinition = {
 - Preserve the author's conclusions — don't editorialize
 - Flag if the original content is contradictory or ambiguous
 - If asked to summarize a conversation, capture all participants' positions, not just the majority view`,
-  tools: [],
-  delegates: [],
-  examples: [
+  [
     {
-      input: 'Summarize: The team decided to use PostgreSQL after evaluating MySQL and MongoDB. PostgreSQL was chosen for its JSONB support, which allows storing flexible metadata without a separate document store. The migration is planned for Q2. There were concerns about connection pooling under load, but the team agreed to address this with PgBouncer.',
-      output: '**TL;DR:** Team chose PostgreSQL over MySQL/MongoDB for JSONB flexibility, migration planned for Q2.\n\n- PostgreSQL selected primarily for JSONB support — eliminates need for a separate document store\n- Evaluated against MySQL and MongoDB\n- Migration timeline: Q2\n- Known risk: connection pooling under load — mitigation plan: PgBouncer',
+      input:
+        'Summarize: The team decided to use PostgreSQL after evaluating MySQL and MongoDB. PostgreSQL was chosen for its JSONB support, which allows storing flexible metadata without a separate document store. The migration is planned for Q2. There were concerns about connection pooling under load, but the team agreed to address this with PgBouncer.',
+      output:
+        '**TL;DR:** Team chose PostgreSQL over MySQL/MongoDB for JSONB flexibility, migration planned for Q2.\n\n- PostgreSQL selected primarily for JSONB support — eliminates need for a separate document store\n- Evaluated against MySQL and MongoDB\n- Migration timeline: Q2\n- Known risk: connection pooling under load — mitigation plan: PgBouncer',
     },
   ],
-}
+)

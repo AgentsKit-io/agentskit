@@ -139,4 +139,32 @@ describe('bedrockAdapter', () => {
     // is wired up by inspecting the function (smoke test).
     expect(() => bedrock({ model: 'anthropic.claude-3-5-sonnet-20241022-v2:0' })).not.toThrow()
   })
+
+  it('ends without message_stop as terminal error, not done', async () => {
+    const { client } = fakeClient([
+      asEvent({ type: 'content_block_delta', delta: { type: 'text_delta', text: 'partial' } }),
+      // stream ends without message_stop
+    ])
+    const factory = bedrock({ model: 'anthropic.claude-3-5-sonnet-20241022-v2:0', client })
+    const out = await collect(factory)
+    expect(out.some(c => c.type === 'text')).toBe(true)
+    expect(out.at(-1)?.type).toBe('error')
+    expect(out.at(-1)?.metadata?.error).toBeInstanceOf(Error)
+    expect(out.some(c => c.type === 'done')).toBe(false)
+  })
+
+  it('forwards abort signal to injected client send options', async () => {
+    const sendSpy = vi.fn(async (_command: unknown, _options?: { abortSignal?: AbortSignal }) => ({
+      body: asyncIter([asEvent({ type: 'message_stop' })]),
+    }))
+    const client: BedrockRuntimeClientLike = {
+      send: sendSpy as unknown as BedrockRuntimeClientLike['send'],
+    }
+    const factory = bedrock({ model: 'anthropic.claude-3-5-sonnet-20241022-v2:0', client })
+    await collect(factory)
+
+    expect(sendSpy).toHaveBeenCalled()
+    const opts = sendSpy.mock.calls[0]?.[1] as { abortSignal?: AbortSignal } | undefined
+    expect(opts?.abortSignal).toBeInstanceOf(AbortSignal)
+  })
 })

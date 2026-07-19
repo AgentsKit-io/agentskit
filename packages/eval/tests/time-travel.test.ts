@@ -139,4 +139,23 @@ describe('time travel', () => {
     const snap = s.snapshot()
     expect(snap.entries[0]!.chunks[0]!.content).toBe('MUTATED')
   })
+
+  it('rejects NaN and fractional indices for seek/override/fork', () => {
+    const s = createTimeTravelSession(build())
+    expect(() => s.seek(Number.NaN)).toThrow(/out of range/)
+    expect(() => s.seek(1.5)).toThrow(/out of range/)
+    expect(() => s.override(0.5, { type: 'done' })).toThrow(/out of range/)
+    expect(() => s.fork(Number.POSITIVE_INFINITY)).toThrow(/out of range/)
+  })
+
+  it('snapshot and fork are isolated from later session mutation', () => {
+    const s = createTimeTravelSession(build())
+    const snap = s.snapshot()
+    const forked = s.fork(2)
+    s.override(0, { type: 'text', content: 'LATER' })
+    expect(snap.entries[0]!.chunks[0]!.content).toBe('A1')
+    expect(forked.entries[0]!.chunks[0]!.content).toBe('A1')
+    snap.entries[0]!.chunks[0] = { type: 'text', content: 'SNAP_HACK' }
+    expect(s.peek(0)?.content).toBe('LATER')
+  })
 })

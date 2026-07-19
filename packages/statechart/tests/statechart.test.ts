@@ -159,6 +159,91 @@ describe('definitions and instances', () => {
       }),
     )
   })
+
+  it('supports prototype-sensitive state and event names without pollution', () => {
+    type HostileState = '__proto__' | 'done'
+    type HostileEvent = StatechartEvent<'__proto__'>
+    const states = Object.create(null) as Record<HostileState, Record<string, unknown>>
+    const transitions = Object.create(null) as Record<string, unknown>
+    transitions.__proto__ = { target: 'done' }
+    states.__proto__ = { on: transitions }
+    states.done = {}
+
+    const hostile = defineStatechart<JsonObject, HostileEvent, HostileState>({
+      id: 'hostile-names',
+      initial: '__proto__',
+      parseContext: (input) => input as JsonObject,
+      states,
+      version: '1',
+    })
+    const result = transitionStatechart(
+      hostile,
+      createStatechartInstance(hostile, {}, { instanceId: 'one', now: 'zero' }),
+      { type: '__proto__' },
+      { now: 'one' },
+    )
+
+    expect(Object.getPrototypeOf(hostile.states)).toBeNull()
+    expect(Object.getPrototypeOf(hostile.states.__proto__.on)).toBeNull()
+    expect(result).toMatchObject({ status: 'accepted', to: 'done' })
+    expect(({} as { target?: string }).target).toBeUndefined()
+  })
+
+  it.each([
+    [null, 'definition'],
+    [{ id: 1, initial: 'idle', parseContext: (input: unknown) => input, states: { idle: {} }, version: '1' }, 'id'],
+    [{ id: 'x', initial: 'idle', parseContext: null, states: { idle: {} }, version: '1' }, 'parseContext'],
+    [{ id: 'x', initial: 'idle', parseContext: (input: unknown) => input, states: [], version: '1' }, 'states'],
+    [{ id: 'x', initial: 'idle', parseContext: (input: unknown) => input, states: { idle: null }, version: '1' }, 'plain object'],
+    [{ id: 'x', initial: 'idle', parseContext: (input: unknown) => input, states: { idle: { on: [] } }, version: '1' }, 'transitions'],
+    [{ id: 'x', initial: 'idle', parseContext: (input: unknown) => input, states: { idle: { on: { go: null } } }, version: '1' }, 'transition'],
+    [{ id: 'x', initial: 'idle', parseContext: (input: unknown) => input, states: { idle: { on: { go: { guard: 'yes', target: 'idle' } } } }, version: '1' }, 'guard'],
+    [{ id: 'x', initial: 'idle', parseContext: (input: unknown) => input, states: { idle: { on: { go: { reduce: 'yes', target: 'idle' } } } }, version: '1' }, 'reducer'],
+  ])('rejects malformed runtime definitions with typed diagnostics', (input, message) => {
+    expect(() => defineStatechart(input as never)).toThrow(
+      expect.objectContaining({ code: StatechartDiagnosticCodes.DEFINITION_INVALID }),
+    )
+    expect(() => defineStatechart(input as never)).toThrow(message)
+  })
+
+  it('rejects unsafe definition accessors without invoking them', () => {
+    const getter = vi.fn(() => ({}))
+    const states = {}
+    Object.defineProperty(states, 'idle', { enumerable: true, get: getter })
+    expect(() => defineStatechart({
+      id: 'accessor',
+      initial: 'idle',
+      parseContext: (input) => input as JsonObject,
+      states,
+      version: '1',
+    } as never)).toThrow(expect.objectContaining({ code: StatechartDiagnosticCodes.DEFINITION_INVALID }))
+    expect(getter).not.toHaveBeenCalled()
+  })
+
+  it('rejects top-level definition accessors without invoking them', () => {
+    const getter = vi.fn(() => 'secret')
+    const definition = {
+      initial: 'idle',
+      parseContext: (input: unknown) => input,
+      states: { idle: {} },
+      version: '1',
+    }
+    Object.defineProperty(definition, 'id', { enumerable: true, get: getter })
+
+    expect(() => defineStatechart(definition as never)).toThrow(
+      expect.objectContaining({ code: StatechartDiagnosticCodes.DEFINITION_INVALID }),
+    )
+    expect(getter).not.toHaveBeenCalled()
+  })
+
+  it('uses input diagnostics for invalid creation metadata', () => {
+    expect(() => createStatechartInstance(machine, {}, { instanceId: ' ', now: 'now' })).toThrow(
+      expect.objectContaining({ code: StatechartDiagnosticCodes.INPUT_INVALID }),
+    )
+    expect(() => createStatechartInstance(machine, {}, { instanceId: 'one', now: '' })).toThrow(
+      expect.objectContaining({ code: StatechartDiagnosticCodes.INPUT_INVALID }),
+    )
+  })
 })
 
 describe('transitionStatechart', () => {
@@ -298,6 +383,93 @@ describe('transitionStatechart', () => {
       status: 'rejected',
     })
   })
+
+  it('rejects malformed events and timestamps without invoking accessors', () => {
+    const getter = vi.fn(() => 'approve')
+    const event = {}
+    Object.defineProperty(event, 'type', { enumerable: true, get: getter })
+    const invalidEvent = transitionStatechart(machine, createWaiting(), event as never, { now: 'one' })
+    const invalidTime = transitionStatechart(
+      machine,
+      createWaiting(),
+      { type: 'approve', payload: { reviewer: 'Ada' } },
+      { now: ' ' },
+    )
+
+    expect(getter).not.toHaveBeenCalled()
+    expect(invalidEvent).toMatchObject({
+      diagnostic: { code: StatechartDiagnosticCodes.INPUT_INVALID },
+      event: { type: '' },
+      status: 'rejected',
+    })
+    expect(invalidTime).toMatchObject({
+      diagnostic: { code: StatechartDiagnosticCodes.INPUT_INVALID },
+      status: 'rejected',
+    })
+  })
+
+  it('rejects malformed instance metadata and safe-integer overflow', () => {
+    const invalidState = transitionStatechart(
+      machine,
+      { ...createWaiting(), state: 'toString' } as never,
+      { type: 'approve', payload: { reviewer: 'Ada' } },
+      { now: 'one' },
+    )
+    const overflow = transitionStatechart(
+      machine,
+      { ...createWaiting(), revision: Number.MAX_SAFE_INTEGER },
+      { type: 'approve', payload: { reviewer: 'Ada' } },
+      { now: 'one' },
+    )
+
+    expect(invalidState).toMatchObject({
+      diagnostic: { code: StatechartDiagnosticCodes.INSTANCE_MISMATCH },
+      status: 'rejected',
+    })
+    expect(overflow).toMatchObject({
+      diagnostic: { code: StatechartDiagnosticCodes.INPUT_INVALID },
+      status: 'rejected',
+    })
+  })
+
+  it('prevents guards and reducers from mutating transition inputs', () => {
+    const mutating = defineStatechart<JsonObject, StatechartEvent<'guard'> | StatechartEvent<'reduce'>, 'idle'>({
+      id: 'mutating',
+      initial: 'idle',
+      parseContext: (input) => input as JsonObject,
+      states: {
+        idle: {
+          on: {
+            guard: {
+              guard: (context) => {
+                ;(context as { value?: string }).value = 'changed'
+                return true
+              },
+              target: 'idle',
+            },
+            reduce: {
+              reduce: (_context, event) => {
+                ;(event as { type: string }).type = 'changed'
+                return {}
+              },
+              target: 'idle',
+            },
+          },
+        },
+      },
+      version: '1',
+    })
+    const instance = createStatechartInstance(mutating, {}, { instanceId: 'one', now: 'zero' })
+
+    expect(transitionStatechart(mutating, instance, { type: 'guard' }, { now: 'one' })).toMatchObject({
+      diagnostic: { code: StatechartDiagnosticCodes.GUARD_FAILED },
+      status: 'rejected',
+    })
+    expect(transitionStatechart(mutating, instance, { type: 'reduce' }, { now: 'one' })).toMatchObject({
+      diagnostic: { code: StatechartDiagnosticCodes.REDUCER_FAILED },
+      status: 'rejected',
+    })
+  })
 })
 
 describe('snapshots and replay', () => {
@@ -392,5 +564,29 @@ describe('observers', () => {
       status: 'rejected',
     })
     expect(result.instance).toBe(before)
+  })
+
+  it('rejects async observers and consumes their rejection', async () => {
+    const result = transitionStatechart(
+      machine,
+      createWaiting(),
+      { type: 'approve', payload: { reviewer: 'Ada' } },
+      { now: 'one' },
+    )
+    const unhandled = vi.fn()
+    process.once('unhandledRejection', unhandled)
+
+    expect(notifyStatechartObserver(async () => {
+      throw new Error('private async failure')
+    }, result)).toEqual({
+      diagnostic: {
+        code: StatechartDiagnosticCodes.OBSERVER_FAILED,
+        message: 'statechart observer must be synchronous',
+      },
+      status: 'rejected',
+    })
+    await new Promise((resolve) => setTimeout(resolve, 0))
+    process.removeListener('unhandledRejection', unhandled)
+    expect(unhandled).not.toHaveBeenCalled()
   })
 })

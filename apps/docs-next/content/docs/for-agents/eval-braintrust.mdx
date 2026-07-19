@@ -15,9 +15,11 @@ npm install @agentskit/eval braintrust
 
 ### Runner
 
-- `runBraintrustEval({ cases, agent, scorers, options, bt? })` — scores cases through the agent, optionally logs to a Braintrust experiment.
+- `runBraintrustEval({ cases, agent, scorers, options }, { bt? })` — scores cases through the agent and optionally logs to an injected or lazily loaded Braintrust experiment.
 - `scoreCase(scorers, args)` — scores a single case; surfaces scorer crashes as `scorer_error`.
 - `summarize(cases)` — `{ name: { mean, n } }` aggregate.
+
+With an API key, experiment logs are awaited, `flush()` runs when supported, and `summarize()` runs last. SDK failures are non-fatal and appear as deterministic `result.warnings`; local scores remain available. Custom scorer results require a non-empty name and a finite score in `[0, 1]`.
 
 ### Quality scorers
 

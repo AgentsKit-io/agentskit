@@ -46,7 +46,7 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/angular) · [agent 
 npm install @agentskit/angular @agentskit/adapters
 ```
 
-Peers: `@angular/core ^18 || ^19 || ^20`, `rxjs ^7`.
+Peers: `@angular/core ^18 || ^19 || ^20 || ^21`, `rxjs ^7`.
 
 ## Quick example
 
@@ -81,17 +81,18 @@ export class ChatWidget {
 }
 ```
 
-The headless components compile in **JIT** (inline templates). Most Angular apps
-are JIT-capable in dev/test; for fully AOT-only prod builds, render via the
-`AgentskitChat` service + your own templates (an `ng-packagr`/AOT build of these
-components is tracked for a future release).
+Published as **partial-Ivy AOT** via `ng-packagr` (APF FESM2022 + `.d.ts`, ESM-only).
+Works in AOT production apps — no JIT-only caveat. The package intentionally
+does not ship dual CJS; Angular Package Format is ESM.
 
 `init(config)` wires the controller and returns a `ChatReturn` snapshot; read live
 state from the `state` `Signal` (`chat.state()`) or the `stream$` `Observable`.
+Async actions return the underlying controller Promises. Call `destroy()` (or rely
+on `ngOnDestroy`) to unsubscribe + stop; both are idempotent and safe to re-init.
 
 ## API
 
-- `AgentskitChat` service — DI-friendly. `init(config)` returns a `ChatReturn` snapshot and starts the session; `state: Signal<ChatState | null>` and `stream$: Observable<ChatState | null>` expose live state. Actions: `send(text)`, `setInput(v)`, `stop`, `retry`, `clear`, `approve`, `deny`, `edit`, `regenerate`, `destroy`.
+- `AgentskitChat` service — DI-friendly. `init(config)` returns a `ChatReturn` snapshot and starts the session; `state: Signal<ChatState | null>` and `stream$: Observable<ChatState | null>` expose live state. Full action surface: `send(text)`, `setInput(v)`, `stop`, `retry`, `clear`, `approve`, `deny(id, reason?)`, `edit`, `regenerate`, `proposeToolCall`, `destroy`.
 - Headless standalone components at parity with `@agentskit/react` (`data-ak-*` only): `ChatContainerComponent` (`<ak-chat-container>`), `MessageComponent`, `InputBarComponent`, `MarkdownComponent`, `CodeBlockComponent`, `ToolCallViewComponent`, `ThinkingIndicatorComponent`, `ToolConfirmationComponent`.
 
 ## Ecosystem

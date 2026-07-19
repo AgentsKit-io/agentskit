@@ -116,6 +116,25 @@ describe('createFallbackAdapter', () => {
     expect(chunks[0]!.content).toBe('B')
   })
 
+  it('falls through when leading usage is followed by an error', async () => {
+    const usageThenError: AdapterFactory = {
+      createSource: () => ({
+        abort: () => {},
+        stream: async function* () {
+          yield { type: 'usage', usage: { inputTokens: 1, outputTokens: 0 } } as StreamChunk
+          yield { type: 'error', content: 'failed before content' } as StreamChunk
+        },
+      }),
+    }
+    const f = createFallbackAdapter([
+      { id: 'a', adapter: usageThenError },
+      { id: 'b', adapter: ok('B') },
+    ])
+    const chunks = await collect(f)
+    expect(chunks.map(chunk => chunk.type)).toEqual(['text', 'done'])
+    expect(chunks[0]!.content).toBe('B')
+  })
+
   it('cascades across several failing free models to the first healthy one', async () => {
     const f = createFallbackAdapter([
       { id: 'm1', adapter: errorsOnFirst('429 rate-limited') },
@@ -151,7 +170,21 @@ describe('createFallbackAdapter', () => {
       { id: 'a', adapter: throwsOnOpen() },
       { id: 'b', adapter: throwsOnFirst() },
     ])
-    await expect(collect(f)).rejects.toThrow(/all fallback candidates failed.*a:.*b:/)
+    // ADR 0001 A9 — composition adapters report terminal failure as an error
+    // chunk, never by rejecting the stream iterator.
+    let rejected: unknown
+    let chunks: StreamChunk[] = []
+    try {
+      chunks = await collect(f)
+    } catch (err) {
+      rejected = err
+    }
+    expect(rejected).toBeUndefined()
+    const err = chunks.find(c => c.type === 'error')
+    expect(err).toBeDefined()
+    expect(err!.metadata?.error).toBeInstanceOf(Error)
+    expect((err!.metadata?.error as Error).message).toMatch(/all fallback candidates failed.*a:.*b:/)
+    expect(chunks.some(c => c.type === 'done')).toBe(false)
   })
 
   it('onFallback observes each hop', async () => {
@@ -167,7 +200,7 @@ describe('createFallbackAdapter', () => {
     expect(hops[0]).toMatch(/^a@0:cannot open/)
   })
 
-  it('shouldRetry=false stops the chain and rethrows', async () => {
+  it('shouldRetry=false stops the chain with a terminal error chunk', async () => {
     const f = createFallbackAdapter(
       [
         { id: 'a', adapter: throwsOnOpen() },
@@ -175,10 +208,23 @@ describe('createFallbackAdapter', () => {
       ],
       { shouldRetry: () => false },
     )
-    await expect(collect(f)).rejects.toThrow(/cannot open/)
+    // ADR 0001 A9 — shouldRetry=false is still a stream-visible failure.
+    let rejected: unknown
+    let chunks: StreamChunk[] = []
+    try {
+      chunks = await collect(f)
+    } catch (err) {
+      rejected = err
+    }
+    expect(rejected).toBeUndefined()
+    const err = chunks.find(c => c.type === 'error')
+    expect(err).toBeDefined()
+    expect(err!.metadata?.error).toBeInstanceOf(Error)
+    expect((err!.metadata?.error as Error).message).toMatch(/cannot open/)
+    expect(chunks.some(c => c.type === 'done')).toBe(false)
   })
 
-  it('committed candidate propagates mid-stream errors without retrying', async () => {
+  it('committed candidate normalizes mid-stream throws without retrying', async () => {
     const flaky: AdapterFactory = {
       createSource: () => ({
         abort: () => {},
@@ -192,10 +238,12 @@ describe('createFallbackAdapter', () => {
       { id: 'flaky', adapter: flaky },
       { id: 'backup', adapter: ok('backup') },
     ])
-    const iter = f.createSource(req()).stream()[Symbol.asyncIterator]()
-    const first = await iter.next()
-    expect(first.value.content).toBe('partial')
-    await expect(iter.next()).rejects.toThrow(/mid-stream/)
+    const chunks = await collect(f)
+    expect(chunks[0]?.content).toBe('partial')
+    expect(chunks[1]?.type).toBe('error')
+    expect(chunks[1]?.metadata?.error).toBeInstanceOf(Error)
+    expect((chunks[1]?.metadata?.error as Error).message).toMatch(/mid-stream/)
+    expect(chunks.some(chunk => chunk.content === 'backup')).toBe(false)
   })
 
   it('abort stops further fallthrough', async () => {

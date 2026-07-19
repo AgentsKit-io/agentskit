@@ -69,10 +69,14 @@
     "vitest": "^4.1.10"
   },
   "peerDependencies": {
-    "@aws-sdk/client-bedrock-runtime": "^3.0.0"
+    "@aws-sdk/client-bedrock-runtime": "^3.0.0",
+    "@mlc-ai/web-llm": "^0.2.0"
   },
   "peerDependenciesMeta": {
     "@aws-sdk/client-bedrock-runtime": {
+      "optional": true
+    },
+    "@mlc-ai/web-llm": {
       "optional": true
     }
   },
@@ -82,7 +86,7 @@
   },
   "agentskit": {
     "stability": "beta",
-    "stabilityNote": "All 10+ adapters satisfy Adapter contract v1 (ADR 0001)."
+    "stabilityNote": "Contract v1 is mechanically covered across fetch adapters and provider-specific resilience suites; stable promotion awaits soak and qualifying minor releases."
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/packages/adapters",

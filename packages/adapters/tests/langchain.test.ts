@@ -65,6 +65,26 @@ describe('langchain adapter', () => {
     expect(chunks.some(c => c.type === 'tool_call')).toBe(true)
   })
 
+  it('on_chain_start and on_chat_model_start must not emit tool_call; on_tool_start may', async () => {
+    const adapter = langchain({
+      mode: 'events',
+      runnable: {
+        streamEvents: async function* () {
+          yield { event: 'on_chain_start', name: 'RunnableSequence', data: {}, run_id: 'c1' }
+          yield { event: 'on_chat_model_start', name: 'ChatOpenAI', data: {}, run_id: 'm1' }
+          yield { event: 'on_tool_start', name: 'search', data: { q: 'x' }, run_id: 't1' }
+          yield { event: 'on_chat_model_stream', data: 'ok' }
+        },
+      },
+    })
+    const chunks = await drain(adapter)
+    const toolCalls = chunks.filter(c => c.type === 'tool_call')
+    expect(toolCalls).toHaveLength(1)
+    expect(toolCalls[0]!.toolCall?.name).toBe('search')
+    expect(chunks.some(c => c.type === 'tool_call' && c.toolCall?.name === 'RunnableSequence')).toBe(false)
+    expect(chunks.some(c => c.type === 'tool_call' && c.toolCall?.name === 'ChatOpenAI')).toBe(false)
+  })
+
   it('catches thrown errors and emits an error chunk', async () => {
     const adapter = langchain({
       runnable: {

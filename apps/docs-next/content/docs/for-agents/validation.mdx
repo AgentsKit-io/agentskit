@@ -21,9 +21,9 @@ The real untrusted boundary in an agent is **model output**. A model returns too
 
 | Field | Default | Notes |
 |---|---|---|
-| `rejectAdditionalProperties` | `false` | Reject keys not declared in the schema. Models often add harmless extras; enable for strict contracts. |
-| `coerceTypes` | `false` | Coerce unambiguous primitives (e.g. `"42"` → `42`) before validating. |
-| `ajv` | — | Supply a pre-configured Ajv instance (formats, keywords, strict mode). |
+| `rejectAdditionalProperties` | `false` | Recursively closes ordinary object boundaries that omit `additionalProperties`. Explicit policies are preserved. Composition/applicator boundaries stay as authored; close them explicitly when required. |
+| `coerceTypes` | `false` | Coerce unambiguous primitives (e.g. `"42"` → `42`). Successful validation may mutate the args object. |
+| `ajv` | — | Supply a pre-configured Ajv instance. It owns coercion, formats, keywords, strictness, and other Ajv behavior. |
 
 ## Usage
 
@@ -50,6 +50,8 @@ const runtime = createRuntime({ adapter, tools, validateArgs: createAjvValidator
 ## Notes
 
 - **Opt-in.** Omit `validateArgs` and behaviour is unchanged (passthrough). Core stays zero-dependency; Ajv lives only here.
-- **Single source of truth.** Validates the `schema` already on each `ToolDefinition`. Tools with no `schema` are skipped.
+- **Single source of truth.** Validates the optional `schema` already on each `ToolDefinition`. Tools with no `schema` are skipped.
 - Compiled validators are cached by schema identity — repeated calls do not recompile.
+- Schemas are trusted application configuration. Invalid schemas throw when first compiled; invalid model arguments return structured field errors without echoing values.
+- The implementation package is private. Install `@agentskit/tools` and import only `@agentskit/tools/validation`.
 - See ADR-0008 (`docs/architecture/adrs/0008-runtime-validation.md`).

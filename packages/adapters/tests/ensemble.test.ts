@@ -126,14 +126,78 @@ describe('createEnsembleAdapter', () => {
     expect(chunks[0]!.content).toBe('hi')
   })
 
-  it('throws when every branch fails', async () => {
+  it('yields terminal error chunk when every branch fails', async () => {
     const ens = createEnsembleAdapter({
       candidates: [
         { id: 'a', adapter: adapter([], { throwImmediately: true }) },
         { id: 'b', adapter: adapter([], { throwImmediately: true }) },
       ],
     })
-    await expect(collect(ens)).rejects.toThrow(/all ensemble branches failed/)
+    // ADR 0001 A9 — all-fail must not reject the stream iterator.
+    let rejected: unknown
+    let chunks: StreamChunk[] = []
+    try {
+      chunks = await collect(ens)
+    } catch (err) {
+      rejected = err
+    }
+    expect(rejected).toBeUndefined()
+    const err = chunks.find(c => c.type === 'error')
+    expect(err).toBeDefined()
+    expect(err!.metadata?.error).toBeInstanceOf(Error)
+    expect((err!.metadata?.error as Error).message).toMatch(/all ensemble branches failed/)
+    expect(chunks.some(c => c.type === 'done')).toBe(false)
+  })
+
+  it('yields terminal error chunk when createSource throws on a branch and all fail', async () => {
+    const boomOnCreate: AdapterFactory = {
+      createSource: () => {
+        throw new Error('cannot construct source')
+      },
+    }
+    const ens = createEnsembleAdapter({
+      candidates: [
+        { id: 'a', adapter: boomOnCreate },
+        { id: 'b', adapter: boomOnCreate },
+      ],
+    })
+    let rejected: unknown
+    let chunks: StreamChunk[] = []
+    try {
+      chunks = await collect(ens)
+    } catch (err) {
+      rejected = err
+    }
+    expect(rejected).toBeUndefined()
+    const err = chunks.find(c => c.type === 'error')
+    expect(err).toBeDefined()
+    expect(err!.metadata?.error).toBeInstanceOf(Error)
+    expect(chunks.some(c => c.type === 'done')).toBe(false)
+  })
+
+  it('yields terminal error chunk when custom aggregate throws', async () => {
+    const ens = createEnsembleAdapter({
+      aggregate: () => {
+        throw new Error('aggregate exploded')
+      },
+      candidates: [
+        { id: 'a', adapter: textOnly('x') },
+        { id: 'b', adapter: textOnly('y') },
+      ],
+    })
+    let rejected: unknown
+    let chunks: StreamChunk[] = []
+    try {
+      chunks = await collect(ens)
+    } catch (err) {
+      rejected = err
+    }
+    expect(rejected).toBeUndefined()
+    const err = chunks.find(c => c.type === 'error')
+    expect(err).toBeDefined()
+    expect(err!.metadata?.error).toBeInstanceOf(Error)
+    expect((err!.metadata?.error as Error).message).toMatch(/aggregate exploded/)
+    expect(chunks.some(c => c.type === 'done')).toBe(false)
   })
 
   it('timeoutMs marks slow branches as errors', async () => {

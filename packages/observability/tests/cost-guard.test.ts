@@ -1,6 +1,24 @@
 import { describe, it, expect, vi } from 'vitest'
-import type { AgentEvent } from '@agentskit/core'
+import { ConfigError, ErrorCodes, type AgentEvent } from '@agentskit/core'
 import { costGuard, priceFor, computeCost, DEFAULT_PRICES } from '../src/cost-guard'
+
+const flush = () => new Promise<void>((r) => setImmediate(r))
+
+async function expectNoUnhandledRejection(fn: () => void | Promise<void>): Promise<void> {
+  const rejections: unknown[] = []
+  const onUR = (reason: unknown) => {
+    rejections.push(reason)
+  }
+  process.on('unhandledRejection', onUR)
+  try {
+    await fn()
+    await flush()
+    await flush()
+    expect(rejections).toEqual([])
+  } finally {
+    process.off('unhandledRejection', onUR)
+  }
+}
 
 describe('priceFor', () => {
   it('exact model match wins', () => {
@@ -199,5 +217,176 @@ describe('costGuard observer', () => {
 
     // 1 * 1 + 0.5 * 2 = 2.0
     expect(guard.costUsd()).toBeCloseTo(2, 6)
+  })
+
+  it('mixed-model accounting is incremental per active model (not recomputed with latest price)', () => {
+    const controller = new AbortController()
+    const guard = costGuard({
+      budgetUsd: 100,
+      controller,
+      prices: {
+        cheap: { input: 1, output: 0 },
+        expensive: { input: 100, output: 0 },
+      },
+    })
+
+    guard.on({ type: 'llm:start', model: 'cheap', messageCount: 1 })
+    guard.on(llmEnd(1000, 0)) // $1
+    guard.on({ type: 'llm:start', model: 'expensive', messageCount: 1 })
+    guard.on(llmEnd(1000, 0)) // +$100
+
+    // Incremental: 1 + 100 = 101. Wrong (reprice all): 2000 * 100/1000 = 200.
+    expect(guard.promptTokens()).toBe(2000)
+    expect(guard.costUsd()).toBeCloseTo(101, 6)
+  })
+
+  it('normalizes hostile usage (NaN / Infinity / negative) to zero without poisoning cost/state/JSON', () => {
+    const controller = new AbortController()
+    const onCost = vi.fn()
+    const guard = costGuard({
+      budgetUsd: 10,
+      controller,
+      modelOverride: 'gpt-4o',
+      onCost,
+      prices: { 'gpt-4o': { input: 1, output: 1 } },
+    })
+
+    guard.on(llmEnd(Number.NaN, Number.POSITIVE_INFINITY))
+    guard.on(llmEnd(-5, -10))
+    expect(guard.promptTokens()).toBe(0)
+    expect(guard.completionTokens()).toBe(0)
+    expect(guard.costUsd()).toBe(0)
+    expect(Number.isFinite(guard.costUsd())).toBe(true)
+
+    guard.on(llmEnd(1000, 0))
+    expect(guard.costUsd()).toBeCloseTo(1, 6)
+    const payload = onCost.mock.calls.at(-1)![0] as Record<string, number>
+    expect(Number.isFinite(payload.costUsd)).toBe(true)
+    expect(Number.isFinite(payload.promptTokens)).toBe(true)
+    expect(Number.isFinite(payload.completionTokens)).toBe(true)
+    expect(Number.isFinite(payload.budgetRemainingUsd)).toBe(true)
+    expect(JSON.parse(JSON.stringify(payload))).toEqual(payload)
+  })
+
+  it('rejects invalid budgetUsd / prices at construction with ConfigError AK_CONFIG_INVALID', () => {
+    const controller = new AbortController()
+    for (const budgetUsd of [Number.NaN, Number.POSITIVE_INFINITY, -1]) {
+      try {
+        costGuard({ budgetUsd, controller })
+        expect.unreachable(`expected ConfigError for budgetUsd=${String(budgetUsd)}`)
+      } catch (error) {
+        expect(error).toBeInstanceOf(ConfigError)
+        expect((error as ConfigError).code).toBe(ErrorCodes.AK_CONFIG_INVALID)
+      }
+    }
+    for (const price of [
+      { input: -1, output: 0 },
+      { input: Number.NaN, output: 0 },
+      { input: 0, output: Number.POSITIVE_INFINITY },
+    ]) {
+      try {
+        costGuard({ budgetUsd: 1, controller, prices: { bad: price } })
+        expect.unreachable(`expected ConfigError for price=${JSON.stringify(price)}`)
+      } catch (error) {
+        expect(error).toBeInstanceOf(ConfigError)
+        expect((error as ConfigError).code).toBe(ErrorCodes.AK_CONFIG_INVALID)
+      }
+    }
+  })
+
+  it('onCost sync throw does not block exceeded mark or abort; onExceeded is isolated', async () => {
+    await expectNoUnhandledRejection(async () => {
+      const controller = new AbortController()
+      const onExceeded = vi.fn(() => {
+        throw new Error('onExceeded boom')
+      })
+      const errors: unknown[] = []
+      const guard = costGuard({
+        budgetUsd: 0.01,
+        controller,
+        modelOverride: 'gpt-4o',
+        onCost: () => {
+          throw new Error('onCost boom')
+        },
+        onExceeded,
+        onError: (e) => {
+          errors.push(e)
+        },
+      })
+
+      expect(() => guard.on(llmEnd(10_000, 0))).not.toThrow()
+      expect(guard.exceeded()).toBe(true)
+      expect(controller.signal.aborted).toBe(true)
+      expect(onExceeded).toHaveBeenCalledTimes(1)
+      expect(errors.length).toBeGreaterThanOrEqual(1)
+    })
+  })
+
+  it('onCost / onExceeded async reject never produces unhandledRejection; abort still fires once', async () => {
+    await expectNoUnhandledRejection(async () => {
+      const controller = new AbortController()
+      const errors: unknown[] = []
+      const guard = costGuard({
+        budgetUsd: 0.01,
+        controller,
+        modelOverride: 'gpt-4o',
+        onCost: async () => {
+          throw new Error('onCost reject')
+        },
+        onExceeded: async () => {
+          throw new Error('onExceeded reject')
+        },
+        onError: (e) => {
+          errors.push(e)
+        },
+      })
+
+      guard.on(llmEnd(10_000, 0))
+      expect(guard.exceeded()).toBe(true)
+      expect(controller.signal.aborted).toBe(true)
+      await flush()
+      await flush()
+      expect(errors.length).toBeGreaterThanOrEqual(1)
+    })
+  })
+
+  it('marks exceeded and aborts synchronously before hostile onExceeded runs', () => {
+    const controller = new AbortController()
+    let sawAbortInsideOnExceeded = false
+    let sawExceededInsideOnExceeded = false
+    const guard = costGuard({
+      budgetUsd: 0.01,
+      controller,
+      modelOverride: 'gpt-4o',
+      onExceeded: () => {
+        sawAbortInsideOnExceeded = controller.signal.aborted
+        sawExceededInsideOnExceeded = guard.exceeded()
+        throw new Error('hostile onExceeded')
+      },
+    })
+
+    expect(() => guard.on(llmEnd(10_000, 0))).not.toThrow()
+    expect(sawExceededInsideOnExceeded).toBe(true)
+    expect(sawAbortInsideOnExceeded).toBe(true)
+    expect(controller.signal.aborted).toBe(true)
+  })
+
+  it('onError itself throwing never escapes observer.on', async () => {
+    await expectNoUnhandledRejection(async () => {
+      const controller = new AbortController()
+      const guard = costGuard({
+        budgetUsd: 0.01,
+        controller,
+        modelOverride: 'gpt-4o',
+        onCost: () => {
+          throw new Error('onCost')
+        },
+        onError: () => {
+          throw new Error('onError hostile')
+        },
+      })
+      expect(() => guard.on(llmEnd(10_000, 0))).not.toThrow()
+      expect(controller.signal.aborted).toBe(true)
+    })
   })
 })

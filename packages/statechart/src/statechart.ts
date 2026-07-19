@@ -11,7 +11,6 @@ import type {
   StatechartInstance,
   StatechartObserver,
   StatechartObserverResult,
-  StatechartState,
   StatechartTransition,
   StatechartTransitionOptions,
   StatechartTransitionResult,
@@ -25,111 +24,19 @@ const diagnostic = (
 const hasOwn = (input: object, key: PropertyKey): boolean =>
   Object.prototype.hasOwnProperty.call(input, key)
 
-const assertNonEmpty = (value: string, field: string): void => {
-  if (value.trim().length === 0) {
+function assertNonEmpty(
+  value: unknown,
+  field: string,
+  code: StatechartDiagnostic['code'] = StatechartDiagnosticCodes.DEFINITION_INVALID,
+): asserts value is string {
+  if (typeof value !== 'string' || value.trim().length === 0) {
     throw new StatechartError(
       diagnostic(
-        StatechartDiagnosticCodes.DEFINITION_INVALID,
+        code,
         `${field} must be a non-empty string`,
       ),
     )
   }
-}
-
-const freezeDefinition = <
-  TContext extends JsonObject,
-  TEvent extends StatechartEvent,
-  TState extends string,
->(
-  input: StatechartDefinitionInput<TContext, TEvent, TState>,
-): StatechartDefinition<TContext, TEvent, TState> => {
-  const states: Partial<
-    Record<TState, StatechartState<TContext, TEvent, TState>>
-  > = {}
-
-  for (const stateName of Object.keys(input.states) as TState[]) {
-    const state = input.states[stateName]
-    const on: Record<
-      string,
-      StatechartTransition<TContext, TEvent, TState>
-    > = {}
-
-    const transitions = Object.entries(state.on ?? {}) as Array<
-      [string, StatechartTransition<TContext, TEvent, TState> | undefined]
-    >
-    for (const [eventType, transition] of transitions) {
-      if (transition === undefined) continue
-      on[eventType] = Object.freeze({ ...transition })
-    }
-
-    states[stateName] = Object.freeze({
-      ...(Object.keys(on).length > 0 ? { on: Object.freeze(on) } : {}),
-    }) as StatechartState<TContext, TEvent, TState>
-  }
-
-  return Object.freeze({
-    id: input.id,
-    initial: input.initial,
-    parseContext: input.parseContext,
-    states: Object.freeze(states) as Readonly<
-      Record<TState, StatechartState<TContext, TEvent, TState>>
-    >,
-    version: input.version,
-  }) as StatechartDefinition<TContext, TEvent, TState>
-}
-
-export const defineStatechart = <
-  TContext extends JsonObject,
-  TEvent extends StatechartEvent,
-  const TState extends string,
->(
-  input: StatechartDefinitionInput<TContext, TEvent, TState>,
-): StatechartDefinition<TContext, TEvent, TState> => {
-  assertNonEmpty(input.id, 'id')
-  assertNonEmpty(input.version, 'version')
-
-  const stateNames = Object.keys(input.states)
-  if (stateNames.length === 0) {
-    throw new StatechartError(
-      diagnostic(
-        StatechartDiagnosticCodes.DEFINITION_INVALID,
-        'states must contain at least one state',
-      ),
-    )
-  }
-
-  if (!hasOwn(input.states, input.initial)) {
-    throw new StatechartError(
-      diagnostic(
-        StatechartDiagnosticCodes.DEFINITION_INVALID,
-        `initial state "${input.initial}" is not defined`,
-      ),
-    )
-  }
-
-  const states = Object.entries(input.states) as Array<
-    [string, StatechartState<TContext, TEvent, TState>]
-  >
-  for (const [stateName, state] of states) {
-    assertNonEmpty(stateName, 'state name')
-    const transitions = Object.entries(state.on ?? {}) as Array<
-      [string, StatechartTransition<TContext, TEvent, TState> | undefined]
-    >
-    for (const [eventType, transition] of transitions) {
-      if (transition === undefined) continue
-      assertNonEmpty(eventType, 'event type')
-      if (!hasOwn(input.states, transition.target)) {
-        throw new StatechartError(
-          diagnostic(
-            StatechartDiagnosticCodes.DEFINITION_INVALID,
-            `transition "${stateName}.${eventType}" targets unknown state "${transition.target}"`,
-          ),
-        )
-      }
-    }
-  }
-
-  return freezeDefinition(input)
 }
 
 export const parseStatechartContext = <TContext extends JsonObject>(
@@ -147,8 +54,8 @@ export const createStatechartInstance = <
   context: unknown,
   options: StatechartCreationOptions,
 ): StatechartInstance<TContext, TState> => {
-  assertNonEmpty(options.instanceId, 'instanceId')
-  assertNonEmpty(options.now, 'now')
+  assertNonEmpty(options?.instanceId, 'instanceId', StatechartDiagnosticCodes.INPUT_INVALID)
+  assertNonEmpty(options?.now, 'now', StatechartDiagnosticCodes.INPUT_INVALID)
 
   try {
     return Object.freeze({
@@ -198,11 +105,38 @@ export const transitionStatechart = <
   event: TEvent,
   options: StatechartTransitionOptions,
 ): StatechartTransitionResult<TContext, TEvent, TState> => {
-  const frozenEvent = cloneJsonObject({ ...event }) as DeepReadonly<TEvent>
+  let frozenEvent: DeepReadonly<TEvent>
+  try {
+    frozenEvent = cloneJsonObject(event) as unknown as DeepReadonly<TEvent>
+    assertNonEmpty(frozenEvent.type, 'event type', StatechartDiagnosticCodes.INPUT_INVALID)
+  } catch {
+    return rejectTransition(
+      instance,
+      Object.freeze({ type: '' }) as DeepReadonly<TEvent>,
+      diagnostic(StatechartDiagnosticCodes.INPUT_INVALID, 'event must be a JSON-compatible object with a non-empty type'),
+    )
+  }
+
+  const now = options?.now
+  if (typeof now !== 'string' || now.trim().length === 0) {
+    return rejectTransition(
+      instance,
+      frozenEvent,
+      diagnostic(StatechartDiagnosticCodes.INPUT_INVALID, 'now must be a non-empty string'),
+    )
+  }
 
   if (
     instance.machineId !== definition.id ||
-    instance.machineVersion !== definition.version
+    instance.machineVersion !== definition.version ||
+    typeof instance.instanceId !== 'string' ||
+    instance.instanceId.trim().length === 0 ||
+    typeof instance.updatedAt !== 'string' ||
+    instance.updatedAt.trim().length === 0 ||
+    typeof instance.state !== 'string' ||
+    !hasOwn(definition.states, instance.state) ||
+    !Number.isSafeInteger(instance.revision) ||
+    instance.revision < 0
   ) {
     return rejectTransition(
       instance,
@@ -218,7 +152,7 @@ export const transitionStatechart = <
   const transitions = state.on as
     | Readonly<Record<string, StatechartTransition<TContext, TEvent, TState>>>
     | undefined
-  const candidate = transitions?.[event.type]
+  const candidate = transitions?.[frozenEvent.type]
 
   if (candidate === undefined) {
     return rejectTransition(
@@ -226,8 +160,16 @@ export const transitionStatechart = <
       frozenEvent,
       diagnostic(
         StatechartDiagnosticCodes.TRANSITION_UNAVAILABLE,
-        `event "${event.type}" is not accepted in state "${instance.state}"`,
+        `event "${frozenEvent.type}" is not accepted in state "${instance.state}"`,
       ),
+    )
+  }
+
+  if (instance.revision === Number.MAX_SAFE_INTEGER) {
+    return rejectTransition(
+      instance,
+      frozenEvent,
+      diagnostic(StatechartDiagnosticCodes.INPUT_INVALID, 'instance revision cannot be incremented safely'),
     )
   }
 
@@ -239,7 +181,7 @@ export const transitionStatechart = <
           frozenEvent,
           diagnostic(
             StatechartDiagnosticCodes.GUARD_REJECTED,
-            `guard rejected event "${event.type}"`,
+            `guard rejected event "${frozenEvent.type}"`,
           ),
         )
       }
@@ -249,7 +191,7 @@ export const transitionStatechart = <
         frozenEvent,
         diagnostic(
           StatechartDiagnosticCodes.GUARD_FAILED,
-          `guard failed while evaluating event "${event.type}"`,
+          `guard failed while evaluating event "${frozenEvent.type}"`,
         ),
       )
     }
@@ -266,7 +208,7 @@ export const transitionStatechart = <
         frozenEvent,
         diagnostic(
           StatechartDiagnosticCodes.REDUCER_FAILED,
-          `reducer failed while handling event "${event.type}"`,
+          `reducer failed while handling event "${frozenEvent.type}"`,
         ),
       )
     }
@@ -279,7 +221,7 @@ export const transitionStatechart = <
         frozenEvent,
         diagnostic(
           StatechartDiagnosticCodes.CONTEXT_INVALID,
-          `reducer returned invalid context for event "${event.type}"`,
+          `reducer returned invalid context for event "${frozenEvent.type}"`,
         ),
       )
     }
@@ -292,7 +234,7 @@ export const transitionStatechart = <
     machineVersion: instance.machineVersion,
     revision: instance.revision + 1,
     state: candidate.target,
-    updatedAt: options.now,
+    updatedAt: now,
   })
 
   return Object.freeze({
@@ -313,7 +255,20 @@ export const notifyStatechartObserver = <
   result: StatechartTransitionResult<TContext, TEvent, TState>,
 ): StatechartObserverResult => {
   try {
-    observer(result)
+    const delivered = (observer as (value: typeof result) => unknown)(result)
+    if (delivered !== null && (typeof delivered === 'object' || typeof delivered === 'function')) {
+      const then = (delivered as { then?: unknown }).then
+      if (typeof then === 'function') {
+        void Promise.resolve(delivered).catch(() => undefined)
+        return Object.freeze({
+          diagnostic: diagnostic(
+            StatechartDiagnosticCodes.OBSERVER_FAILED,
+            'statechart observer must be synchronous',
+          ),
+          status: 'rejected',
+        })
+      }
+    }
     return Object.freeze({ status: 'delivered' })
   } catch {
     return Object.freeze({

@@ -29,3 +29,11 @@ An RFC may grow into an ADR once the decision is committed and implemented.
 | [0005](./0005-agent-progress-events.md) | Agent progress events + headless progress renderer | Proposed |
 | [0006](./0006-ui-component-registry.md) | UI component registry & shadcn-style `agentskit add` | Proposed |
 | [0007](./0007-central-ask-backend.md) | Central Ask backend (persistent, multi-corpus, public, MCP) | Proposed |
+| [0008](./0008-adapters-stable.md) | `@agentskit/adapters` stable surface | Proposed |
+| [0009](./0009-skills-stable.md) | `@agentskit/skills` stable surface | Proposed |
+| [0010](./0010-rag-stable.md) | `@agentskit/rag` stable surface | Proposed |
+| [0011](./0011-observability-stable.md) | `@agentskit/observability` stable surface | Proposed |
+| [0012](./0012-eval-stable.md) | `@agentskit/eval` stable surface | Proposed |
+| [0013](./0013-sandbox-stable.md) | `@agentskit/sandbox` stable surface | Proposed |
+| [0014](./0014-templates-stable.md) | `@agentskit/templates` stable surface | Proposed |
+| [0015](./0015-tools-validation-stable.md) | `@agentskit/tools/validation` stable surface | Proposed |

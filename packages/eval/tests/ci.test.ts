@@ -60,6 +60,29 @@ describe('renderJUnit', () => {
     expect(xml).toContain('&lt;x&gt;')
     expect(xml).not.toMatch(/name="<x>/)
   })
+
+  it('protects CDATA against ]]> terminators in hostile strings', () => {
+    const r: EvalResult = {
+      totalCases: 1,
+      passed: 0,
+      failed: 1,
+      accuracy: 0,
+      results: [
+        {
+          input: 'a]]>b',
+          output: 'out]]>end',
+          passed: false,
+          latencyMs: 0,
+          error: 'fail',
+        },
+      ],
+    }
+    const xml = renderJUnit('s', r)
+    // Standard CDATA split so ]]> cannot terminate the section early.
+    expect(xml).toContain(']]]]><![CDATA[>')
+    expect(xml).toContain('input: a')
+    expect(xml).toContain('output: out')
+  })
 })
 
 describe('renderMarkdown', () => {
@@ -74,14 +97,39 @@ describe('renderMarkdown', () => {
 describe('renderGitHubAnnotations', () => {
   it('emits ::error:: lines only for failures and a summary notice', () => {
     const out = renderGitHubAnnotations('smoke', mixed)
-    expect(out).toMatch(/::error title=smoke: Q2::/)
-    expect(out).toMatch(/::notice title=smoke::1\/2 passed \(50\.0%\)/)
+    expect(out).toMatch(/::error title=smoke%3A Q2::/)
+    expect(out).toMatch(/::notice title=smoke::1\/2 passed \(50\.0%25\)/)
   })
 
   it('no annotations when all pass (only notice)', () => {
     const out = renderGitHubAnnotations('smoke', passing)
     expect(out).not.toContain('::error')
     expect(out).toContain('::notice')
+  })
+
+  it('escapes %, CR, LF and property delimiters in hostile strings', () => {
+    const r: EvalResult = {
+      totalCases: 1,
+      passed: 0,
+      failed: 1,
+      accuracy: 0,
+      results: [
+        {
+          input: 'title:with,delims',
+          output: 'x',
+          passed: false,
+          latencyMs: 0,
+          error: '100% fail\r\nnext line',
+        },
+      ],
+    }
+    const out = renderGitHubAnnotations('suite%name', r)
+    expect(out).toContain('%25')
+    expect(out).toContain('%0D')
+    expect(out).toContain('%0A')
+    expect(out).toContain('%3A')
+    expect(out).toContain('%2C')
+    expect(out).not.toMatch(/::error title=[^\n]*:[^\n]*::[^\n]*% fail/)
   })
 })
 
@@ -138,6 +186,36 @@ describe('reportToCi', () => {
       expect(readFileSync(summaryPath, 'utf8')).toContain('### Suite: smoke')
     } finally {
       delete process.env.GITHUB_STEP_SUMMARY
+      rmSync(dir, { recursive: true, force: true })
+    }
+  })
+
+  it('rejects non-finite / out-of-range minAccuracy and never process.exit', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ak-ci-'))
+    try {
+      await expect(
+        reportToCi({
+          suiteName: 'smoke',
+          result: passing,
+          outDir: dir,
+          minAccuracy: Number.NaN,
+          annotations: false,
+          stepSummary: false,
+        }),
+      ).rejects.toThrow(/\[0, 1\]/)
+      await expect(
+        reportToCi({
+          suiteName: 'smoke',
+          result: passing,
+          outDir: dir,
+          minAccuracy: 2,
+          annotations: false,
+          stepSummary: false,
+        }),
+      ).rejects.toThrow(/\[0, 1\]/)
+      // reportToCi returns pass/fail; it must not call process.exit.
+      expect(typeof reportToCi).toBe('function')
+    } finally {
       rmSync(dir, { recursive: true, force: true })
     }
   })

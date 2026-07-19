@@ -25,6 +25,22 @@ describe('detectRegressions', () => {
     const a = detectRegressions({}, { x: { mean: 0, n: 1 } })
     expect(a).toHaveLength(0)
   })
+
+  it('rejects non-finite / out-of-range thresholds', () => {
+    expect(() =>
+      detectRegressions({ x: { mean: 1, n: 1 } }, { x: { mean: 0, n: 1 } }, { default: Number.NaN }),
+    ).toThrow(/\[0, 1\]/)
+    expect(() =>
+      detectRegressions({ x: { mean: 1, n: 1 } }, { x: { mean: 0, n: 1 } }, { default: 1.5 }),
+    ).toThrow(/\[0, 1\]/)
+    expect(() =>
+      detectRegressions(
+        { x: { mean: 1, n: 1 } },
+        { x: { mean: 0, n: 1 } },
+        { perScorer: { x: -0.1 } },
+      ),
+    ).toThrow(/\[0, 1\]/)
+  })
 })
 
 describe('formatAlertsMarkdown', () => {

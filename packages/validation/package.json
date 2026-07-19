@@ -51,7 +51,7 @@
   },
   "agentskit": {
     "stability": "beta",
-    "stabilityNote": "ArgsValidator contract stable (ADR-0008); Ajv-backed implementation."
+    "stabilityNote": "Private Ajv implementation hardened behind @agentskit/tools/validation; graduation is coupled to the public tools surface (ADR-0008, RFC-0015)."
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/packages/validation",

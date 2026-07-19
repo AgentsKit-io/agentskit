@@ -1,8 +1,16 @@
-import type { AdapterRequest, Message, StreamChunk, StreamSource } from '@agentskit/core'
+import type { Message, StreamChunk, StreamSource } from '@agentskit/core'
 import { readNDJSONLines, readSSELines } from './stream-lines'
+import {
+  abortableSleep,
+  adapterErrorChunk,
+  cancelBody,
+  isAbortError,
+  parseCompleteToolArgs,
+} from './stream-errors'
 
 export { parseOpenAIStream } from './openai-stream'
 export { readNDJSONLines, readSSELines } from './stream-lines'
+export type { StreamParser } from './stream-types'
 
 export function toProviderMessages(messages: Message[]) {
   // Track which tool_call ids were declared by preceding assistant turns so
@@ -54,15 +62,52 @@ export function toProviderMessages(messages: Message[]) {
 
   return output
 }
-
 export async function* parseAnthropicStream(stream: ReadableStream): AsyncIterableIterator<StreamChunk> {
   const pendingToolCalls = new Map<number, { id: string; name: string; args: string }>()
+  let sawMessageStop = false
+
+  const emitToolCall = function* (
+    tc: { id: string; name: string; args: string },
+  ): Generator<StreamChunk, boolean> {
+    const parsed = parseCompleteToolArgs(tc.args)
+    if (!parsed.ok) {
+      yield {
+        type: 'error',
+        content: parsed.error.message,
+        metadata: { error: parsed.error },
+      }
+      return false
+    }
+    yield {
+      type: 'tool_call',
+      toolCall: { id: tc.id, name: tc.name, args: parsed.args },
+    }
+    return true
+  }
 
   for await (const data of readSSELines(stream)) {
     if (data === '[DONE]') continue
 
     try {
-      const event = JSON.parse(data)
+      const event = JSON.parse(data) as {
+        type?: string
+        index?: number
+        delta?: { type?: string; text?: string; partial_json?: string }
+        content_block?: { type?: string; id?: string; name?: string }
+        usage?: { input_tokens?: number; output_tokens?: number }
+        message?: { usage?: { input_tokens?: number } }
+        error?: { type?: string; message?: string }
+      }
+
+      if (event.type === 'error') {
+        const msg =
+          event.error?.message ??
+          event.error?.type ??
+          'Anthropic stream error'
+        yield adapterErrorChunk(String(msg))
+        return
+      }
+
       if (event.type === 'content_block_delta' && event.delta?.type === 'text_delta' && event.delta?.text) {
         yield { type: 'text', content: event.delta.text }
       } else if (event.type === 'content_block_delta' && event.delta?.type === 'input_json_delta') {
@@ -74,28 +119,21 @@ export async function* parseAnthropicStream(stream: ReadableStream): AsyncIterab
       } else if (event.type === 'content_block_start' && event.content_block?.type === 'tool_use') {
         const index: number = event.index ?? 0
         pendingToolCalls.set(index, {
-          id: event.content_block.id,
-          name: event.content_block.name,
+          id: event.content_block.id ?? `tool-${index}`,
+          name: event.content_block.name ?? 'unknown',
           args: '',
         })
       } else if (event.type === 'content_block_stop') {
         const index: number = event.index ?? 0
         const tc = pendingToolCalls.get(index)
         if (tc) {
-          yield {
-            type: 'tool_call',
-            toolCall: {
-              id: tc.id,
-              name: tc.name,
-              args: tc.args || '{}',
-            },
+          if (!(yield* emitToolCall(tc))) {
+            pendingToolCalls.clear()
+            return
           }
           pendingToolCalls.delete(index)
         }
       } else if (event.type === 'message_delta' && event.usage) {
-        // Anthropic emits output_tokens on `message_delta`, input_tokens on
-        // `message_start`. We publish whatever we have on the delta — the
-        // consumer accumulates across turns.
         yield {
           type: 'usage',
           usage: {
@@ -103,7 +141,7 @@ export async function* parseAnthropicStream(stream: ReadableStream): AsyncIterab
             completionTokens: event.usage.output_tokens ?? 0,
             totalTokens: (event.usage.input_tokens ?? 0) + (event.usage.output_tokens ?? 0),
           },
-        }
+        } as StreamChunk
       } else if (event.type === 'message_start' && event.message?.usage) {
         yield {
           type: 'usage',
@@ -112,11 +150,14 @@ export async function* parseAnthropicStream(stream: ReadableStream): AsyncIterab
             completionTokens: 0,
             totalTokens: event.message.usage.input_tokens ?? 0,
           },
-        }
+        } as StreamChunk
       } else if (event.type === 'message_stop') {
-        // Flush any remaining tool calls
+        sawMessageStop = true
         for (const [, tc] of pendingToolCalls) {
-          yield { type: 'tool_call', toolCall: { id: tc.id, name: tc.name, args: tc.args || '{}' } }
+          if (!(yield* emitToolCall(tc))) {
+            pendingToolCalls.clear()
+            return
+          }
         }
         pendingToolCalls.clear()
         yield { type: 'done' }
@@ -127,19 +168,41 @@ export async function* parseAnthropicStream(stream: ReadableStream): AsyncIterab
     }
   }
 
-  // Flush remaining if stream ends without message_stop
-  for (const [, tc] of pendingToolCalls) {
-    yield { type: 'tool_call', toolCall: { id: tc.id, name: tc.name, args: tc.args || '{}' } }
-  }
   pendingToolCalls.clear()
-
+  if (!sawMessageStop) {
+    yield adapterErrorChunk('Anthropic stream ended before message_stop')
+    return
+  }
   yield { type: 'done' }
 }
 
+const GEMINI_SUCCESS_FINISH = new Set([
+  'STOP',
+  'stop',
+  'FINISH_REASON_STOP',
+])
+
 export async function* parseGeminiStream(stream: ReadableStream): AsyncIterableIterator<StreamChunk> {
+  let finishReason: string | undefined
+
   for await (const data of readSSELines(stream)) {
     try {
-      const event = JSON.parse(data)
+      const event = JSON.parse(data) as {
+        usageMetadata?: {
+          promptTokenCount?: number
+          candidatesTokenCount?: number
+          totalTokenCount?: number
+        }
+        candidates?: Array<{
+          finishReason?: string
+          content?: {
+            parts?: Array<{
+              text?: string
+              functionCall?: { id?: string; name?: string; args?: unknown }
+            }>
+          }
+        }>
+      }
 
       if (event.usageMetadata) {
         yield {
@@ -149,10 +212,15 @@ export async function* parseGeminiStream(stream: ReadableStream): AsyncIterableI
             completionTokens: event.usageMetadata.candidatesTokenCount ?? 0,
             totalTokens: event.usageMetadata.totalTokenCount ?? 0,
           },
-        }
+        } as StreamChunk
       }
 
-      const parts = event.candidates?.[0]?.content?.parts
+      const candidate = event.candidates?.[0]
+      if (typeof candidate?.finishReason === 'string') {
+        finishReason = candidate.finishReason
+      }
+
+      const parts = candidate?.content?.parts
       if (!Array.isArray(parts)) continue
 
       for (const part of parts) {
@@ -160,12 +228,23 @@ export async function* parseGeminiStream(stream: ReadableStream): AsyncIterableI
           yield { type: 'text', content: part.text }
         } else if (part.functionCall) {
           const fc = part.functionCall
+          const args =
+            typeof fc.args === 'string' ? fc.args : JSON.stringify(fc.args ?? {})
+          const parsed = parseCompleteToolArgs(args)
+          if (!parsed.ok) {
+            yield {
+              type: 'error',
+              content: parsed.error.message,
+              metadata: { error: parsed.error },
+            }
+            return
+          }
           yield {
             type: 'tool_call',
             toolCall: {
               id: fc.id ?? `${fc.name}-${Date.now()}`,
-              name: fc.name,
-              args: JSON.stringify(fc.args ?? {}),
+              name: fc.name ?? 'unknown',
+              args: parsed.args,
             },
           }
         }
@@ -175,33 +254,69 @@ export async function* parseGeminiStream(stream: ReadableStream): AsyncIterableI
     }
   }
 
+  if (!finishReason || !GEMINI_SUCCESS_FINISH.has(finishReason)) {
+    if (finishReason && !GEMINI_SUCCESS_FINISH.has(finishReason)) {
+      yield adapterErrorChunk(
+        `Gemini stream ended with non-success finish reason "${finishReason}"`,
+      )
+      return
+    }
+    yield adapterErrorChunk('Gemini stream ended without a successful finishReason')
+    return
+  }
+
   yield { type: 'done' }
 }
 
 export async function* parseOllamaStream(stream: ReadableStream): AsyncIterableIterator<StreamChunk> {
+  let sawDone = false
+
   for await (const data of readNDJSONLines(stream)) {
     try {
-      const event = JSON.parse(data)
+      const event = JSON.parse(data) as {
+        message?: {
+          content?: string
+          tool_calls?: Array<{
+            id?: string
+            function?: { name?: string; arguments?: unknown }
+          }>
+        }
+        done?: boolean
+        prompt_eval_count?: number
+        eval_count?: number
+      }
       if (event.message?.content) {
         yield { type: 'text', content: event.message.content }
       }
       if (Array.isArray(event.message?.tool_calls)) {
         for (const tc of event.message.tool_calls) {
           if (tc?.function?.name) {
+            const args =
+              typeof tc.function.arguments === 'string'
+                ? tc.function.arguments
+                : JSON.stringify(tc.function.arguments ?? {})
+            const parsed = parseCompleteToolArgs(args)
+            if (!parsed.ok) {
+              yield {
+                type: 'error',
+                content: parsed.error.message,
+                metadata: { error: parsed.error },
+              }
+              return
+            }
             yield {
               type: 'tool_call',
               toolCall: {
                 id: tc.id ?? `${tc.function.name}-${Date.now()}`,
                 name: tc.function.name,
-                args: typeof tc.function.arguments === 'string'
-                  ? tc.function.arguments
-                  : JSON.stringify(tc.function.arguments ?? {}),
+                args: parsed.args,
               },
             }
           }
         }
       }
       if (event.done) {
+        sawDone = true
         if (typeof event.prompt_eval_count === 'number' || typeof event.eval_count === 'number') {
           const promptTokens = event.prompt_eval_count ?? 0
           const completionTokens = event.eval_count ?? 0
@@ -212,7 +327,7 @@ export async function* parseOllamaStream(stream: ReadableStream): AsyncIterableI
               completionTokens,
               totalTokens: promptTokens + completionTokens,
             },
-          }
+          } as StreamChunk
         }
         yield { type: 'done' }
         return
@@ -222,6 +337,10 @@ export async function* parseOllamaStream(stream: ReadableStream): AsyncIterableI
     }
   }
 
+  if (!sawDone) {
+    yield adapterErrorChunk('Ollama stream ended without done:true')
+    return
+  }
   yield { type: 'done' }
 }
 
@@ -261,7 +380,7 @@ const DEFAULT_RETRY: Required<Omit<RetryOptions, 'onRetry' | 'sleep' | 'retryOn'
     if (response) {
       return [408, 429, 500, 502, 503, 504].includes(response.status)
     }
-    if (error instanceof DOMException && error.name === 'AbortError') return false
+    if (isAbortError(error)) return false
     // Network error: TypeError from fetch, AbortError from upstream timeout, etc.
     return true
   },
@@ -318,58 +437,26 @@ export async function fetchWithRetry(
       const retryAfterMs = parseRetryAfter(response.headers.get('retry-after'))
       const delay = retryAfterMs ?? computeDelay(attempt, opts)
       retryOpt.onRetry?.({ attempt, delayMs: delay, reason: `HTTP ${response.status}` })
-      await sleep(delay)
-      // Drain the body so the connection can be reused.
-      response.body?.cancel().catch(() => {})
+      // Drain the body so the connection can be reused / does not leak.
+      await cancelBody(response.body)
+      await abortableSleep(delay, signal, sleep)
     } catch (err) {
       lastError = err
-      if (err instanceof DOMException && err.name === 'AbortError') throw err
+      if (isAbortError(err)) throw err
       if (attempt >= opts.maxAttempts || !opts.retryOn({ error: err, attempt })) throw err
 
       const delay = computeDelay(attempt, opts)
-      retryOpt.onRetry?.({ attempt, delayMs: delay, reason: (err as Error).message })
-      await sleep(delay)
+      retryOpt.onRetry?.({
+        attempt,
+        delayMs: delay,
+        reason: err instanceof Error ? err.message : String(err),
+      })
+      await abortableSleep(delay, signal, sleep)
     }
   }
 
   // Unreachable, but the TS narrowing needs it.
   throw lastError ?? new Error('fetchWithRetry: exhausted attempts')
-}
-
-export function createStreamSource(
-  doFetch: (signal: AbortSignal) => Promise<Response>,
-  parse: (stream: ReadableStream) => AsyncIterableIterator<StreamChunk>,
-  errorLabel: string,
-  retry?: RetryOptions,
-): StreamSource {
-  let abortController: AbortController | null = new AbortController()
-
-  return {
-    stream: async function* (): AsyncIterableIterator<StreamChunk> {
-      const controller = abortController
-      if (!controller) return
-      try {
-        const response = await fetchWithRetry(doFetch, controller.signal, retry ?? {})
-
-        if (!response.ok || !response.body) {
-          yield { type: 'error', content: `${errorLabel} error: ${response.status}` }
-          return
-        }
-
-        yield* parse(response.body)
-      } catch (err) {
-        if (err instanceof DOMException && err.name === 'AbortError') return
-        yield {
-          type: 'error',
-          content: err instanceof Error ? err.message : String(err),
-        }
-      }
-    },
-    abort: () => {
-      abortController?.abort()
-      abortController = null
-    },
-  }
 }
 
 /**
@@ -424,36 +511,35 @@ export function simulateStream(
         const response = await fetchWithRetry(doFetch, controller.signal, retry ?? {})
 
         if (!response.ok) {
-          yield { type: 'error', content: `${errorLabel} error: ${response.status}` }
+          await cancelBody(response.body)
+          yield adapterErrorChunk(`${errorLabel} error: ${response.status}`)
           return
         }
 
-        const text = await extractText(response)
+        let text: string
+        try {
+          text = await extractText(response)
+        } catch (err) {
+          await cancelBody(response.body)
+          if (isAbortError(err)) return
+          const message = err instanceof Error ? err.message : String(err)
+          yield adapterErrorChunk(message, { cause: err })
+          return
+        }
+
         const chunks = chunkText(text, chunkSize)
         for (const chunk of chunks) {
-          if (abortController === null) return
+          if (abortController === null || controller.signal.aborted) return
           if (delayMs > 0) {
-            await new Promise<void>((resolve, reject) => {
-              const timer = setTimeout(resolve, delayMs)
-              controller.signal.addEventListener(
-                'abort',
-                () => {
-                  clearTimeout(timer)
-                  reject(new DOMException('Aborted', 'AbortError'))
-                },
-                { once: true },
-              )
-            })
+            await abortableSleep(delayMs, controller.signal, defaultSleep)
           }
           yield { type: 'text', content: chunk }
         }
         yield { type: 'done' }
       } catch (err) {
-        if (err instanceof DOMException && err.name === 'AbortError') return
-        yield {
-          type: 'error',
-          content: err instanceof Error ? err.message : String(err),
-        }
+        if (isAbortError(err)) return
+        const message = err instanceof Error ? err.message : String(err)
+        yield adapterErrorChunk(message, { cause: err })
       }
     },
     abort: () => {

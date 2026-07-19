@@ -1,5 +1,7 @@
 # @agentskit/cli
 
+> The programmatic package entry is ESM-only because its Ink 7 UI dependency uses an ESM graph with top-level await.
+
 Profile: <code>major-package</code>
 
 <p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>

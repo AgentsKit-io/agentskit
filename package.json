@@ -36,8 +36,15 @@
     "docs:bridge:index": "ak-docs index",
     "docs:bridge:gate": "ak-docs gate run",
     "docs:bridge:doctor": "ak-docs doctor --text",
-    "release": "pnpm build && pnpm changeset publish",
+    "release:preflight": "pnpm check:publication-surface && pnpm check:release-registry && pnpm check:packed-consumers && pnpm check:public-api-snapshot",
+    "check:release-registry": "node scripts/check-release-registry.mjs",
+    "test:release-registry": "node --test scripts/release-registry.test.mjs",
     "check:publication-surface": "node scripts/check-publication-surface.mjs",
+    "check:packed-consumers": "node --test scripts/packed-consumers.test.mjs && node scripts/check-packed-consumers.mjs",
+    "test:packed-consumers": "node --test scripts/packed-consumers.test.mjs",
+    "check:public-api-snapshot": "node --test scripts/public-api-snapshot.test.mjs && node scripts/check-public-api-snapshot.mjs",
+    "check:public-api-snapshot:update": "node scripts/check-public-api-snapshot.mjs --update",
+    "test:public-api-snapshot": "node --test scripts/public-api-snapshot.test.mjs",
     "size": "pnpm build && size-limit",
     "size:why": "pnpm build && size-limit --why",
     "content-pipeline:run": "node scripts/run-content-pipeline.mjs",
@@ -48,6 +55,8 @@
     "check:ecosystem-readiness": "node scripts/check-ecosystem-readiness.mjs",
     "report:ecosystem-readiness": "node scripts/report-ecosystem-readiness.mjs",
     "test:ecosystem-readiness": "vitest run scripts/ecosystem-readiness.test.mjs",
+    "check:stability-evidence": "node scripts/check-stability-evidence.mjs",
+    "report:stability-readiness": "node scripts/report-stability-readiness.mjs",
     "check:external-contributions": "node scripts/check-external-contributions.mjs",
     "test:external-contributions": "vitest run scripts/external-contributions.test.mjs"
   },
@@ -86,6 +95,7 @@
     "size-limit": "^12.1.0",
     "turbo": "2.10.4",
     "typescript": "^6.0.3",
+    "typescript-5-9": "npm:typescript@5.9.3",
     "vitest": "^4.1.10"
   }
 }

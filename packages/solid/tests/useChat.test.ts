@@ -88,4 +88,31 @@ describe('@agentskit/solid', () => {
     expect(abort).toHaveBeenCalledOnce()
     await sending
   })
+
+  it('isolates state across concurrent useChat instances', async () => {
+    await createRoot(async dispose => {
+      const a = useChat({
+        adapter: mockAdapter([
+          { type: 'text', content: 'from-a' },
+          { type: 'done' },
+        ]),
+      })
+      const b = useChat({
+        adapter: mockAdapter([
+          { type: 'text', content: 'from-b' },
+          { type: 'done' },
+        ]),
+      })
+
+      a.setInput('draft-a')
+      b.setInput('draft-b')
+      expect(a.input).toBe('draft-a')
+      expect(b.input).toBe('draft-b')
+
+      await a.send('hello-a')
+      expect(a.messages.some(m => m.content === 'from-a')).toBe(true)
+      expect(b.messages).toHaveLength(0)
+      dispose()
+    })
+  })
 })

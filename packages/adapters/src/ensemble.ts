@@ -1,5 +1,6 @@
 import { AdapterError, ConfigError, ErrorCodes } from '@agentskit/core'
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
+import { isAbortError } from './stream-errors'
 
 export interface EnsembleCandidate {
   id: string
@@ -47,9 +48,19 @@ async function drain(source: StreamSource, timeoutMs?: number): Promise<{ chunks
     for await (const chunk of source.stream()) {
       chunks.push(chunk)
       if (chunk.type === 'text' && typeof chunk.content === 'string') text += chunk.content
+      if (chunk.type === 'error') {
+        const metaErr = chunk.metadata?.error
+        error = metaErr instanceof Error
+          ? metaErr
+          : new Error(chunk.content ?? 'stream error')
+      }
     }
   } catch (err) {
-    error = err instanceof Error ? err : new Error(String(err))
+    if (!isAbortError(err)) {
+      error = err instanceof Error ? err : new Error(String(err))
+    } else if (!timedOut) {
+      error = err instanceof Error ? err : new Error(String(err))
+    }
   } finally {
     if (timer) clearTimeout(timer)
   }
@@ -102,10 +113,19 @@ export function createEnsembleAdapter(options: EnsembleOptions): AdapterFactory 
 
       const run = async (): Promise<EnsembleBranchResult[]> => {
         const tasks = options.candidates.map(async (c, i): Promise<EnsembleBranchResult> => {
-          const source = c.adapter.createSource(request)
-          sources[i] = source
-          const { chunks, text, error } = await drain(source, options.timeoutMs)
-          return { id: c.id, chunks, text, error }
+          try {
+            const source = c.adapter.createSource(request)
+            sources[i] = source
+            if (aborted) {
+              source.abort()
+              return { id: c.id, chunks: [], text: '', error: new Error('aborted') }
+            }
+            const { chunks, text, error } = await drain(source, options.timeoutMs)
+            return { id: c.id, chunks, text, error }
+          } catch (err) {
+            const error = err instanceof Error ? err : new Error(String(err))
+            return { id: c.id, chunks: [], text: '', error }
+          }
         })
         return Promise.all(tasks)
       }
@@ -135,25 +155,54 @@ export function createEnsembleAdapter(options: EnsembleOptions): AdapterFactory 
           for (const s of sources) s?.abort()
         },
         stream: async function* () {
+          if (aborted) return
           const branches = await run()
           options.onBranches?.(branches)
-          if (aborted) return
-          const text = await finalText(branches)
-          if (!text && branches.every(b => b.error)) {
-            const summary = branches
-              .map(b => `${b.id}: ${b.error?.message ?? 'unknown'}`)
-              .join('; ')
-            const err = new AdapterError({
-              code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,
-              message: `all ensemble branches failed (${summary})`,
-              hint: 'Inspect each branch error via options.onBranches or the err.branchErrors field.',
-            })
-            ;(err as AdapterError & { branchErrors: Array<{ id: string; error: Error | undefined }> }).branchErrors =
-              branches.map(b => ({ id: b.id, error: b.error }))
-            throw err
+          if (aborted) {
+            for (const s of sources) s?.abort()
+            return
           }
-          yield { type: 'text', content: text, metadata: { ensemble: branches.map(b => ({ id: b.id, bytes: b.text.length, error: b.error?.message })) } } as StreamChunk
-          yield { type: 'done' } as StreamChunk
+          try {
+            const text = await finalText(branches)
+            if (!text && branches.every(b => b.error)) {
+              const summary = branches
+                .map(b => `${b.id}: ${b.error?.message ?? 'unknown'}`)
+                .join('; ')
+              const err = new AdapterError({
+                code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,
+                message: `all ensemble branches failed (${summary})`,
+                hint: 'Inspect each branch error via options.onBranches or the err.branchErrors field.',
+              })
+              ;(err as AdapterError & { branchErrors: Array<{ id: string; error: Error | undefined }> }).branchErrors =
+                branches.map(b => ({ id: b.id, error: b.error }))
+              yield {
+                type: 'error',
+                content: err.message,
+                metadata: { error: err },
+              } as StreamChunk
+              return
+            }
+            yield {
+              type: 'text',
+              content: text,
+              metadata: {
+                ensemble: branches.map(b => ({
+                  id: b.id,
+                  bytes: b.text.length,
+                  error: b.error?.message,
+                })),
+              },
+            } as StreamChunk
+            yield { type: 'done' } as StreamChunk
+          } catch (err) {
+            if (aborted || isAbortError(err)) return
+            const error = err instanceof Error ? err : new Error(String(err))
+            yield {
+              type: 'error',
+              content: error.message,
+              metadata: { error },
+            } as StreamChunk
+          }
         },
       }
     },

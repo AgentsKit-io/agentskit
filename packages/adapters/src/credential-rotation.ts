@@ -1,20 +1,25 @@
 /**
- * Credential rotation hook for adapters. Today rotating a provider key
- * means bouncing the runtime — unacceptable for 24/7 production.
+ * Opt-in credential rotation primitives.
  *
- * Adapters opt in by accepting `apiKey` as either a `string`, a
- * `() => string | Promise<string>`, or a `RotatingCredentials` holder.
- * The holder lets external code (Vault, AWS Secrets Manager, KMS)
- * push a new value without restart, and `refreshCredentials()` is the
- * one-call API that performs the swap and emits an audit event.
+ * These utilities do **not** automatically wire into stock adapters. Built-in
+ * factories (openai, anthropic, bedrock, vertex, …) still take a plain
+ * `apiKey` / `accessToken` string (or a caller-supplied resolver) at
+ * construction. Use `createRotatingCredentials` / `refreshCredentials` only
+ * when you explicitly opt in — e.g. custom wrappers that call `current()` on
+ * every request, or adapters you implement that expose
+ * `CredentialRefreshable.refreshCredentials`.
  *
- * Closes issue #799.
+ * Without that opt-in, rotating a provider key still means reconstructing the
+ * adapter (or restarting the process). The helpers stay exported so production
+ * apps can build that layer without re-inventing the holder + audit event shape.
+ *
+ * Closes issue #799 (primitives only; adapter adoption is opt-in).
  */
 
 export type CredentialResolver = () => string | Promise<string>
 
 export interface RotatingCredentials {
-  /** Resolve the current secret. Adapters call this on every request. */
+  /** Resolve the current secret. Opt-in adapters call this on every request. */
   current: CredentialResolver
   /** Replace the in-memory secret. Returns the new value. */
   rotate: (next: string) => Promise<string>
@@ -33,7 +38,8 @@ export interface CredentialRotationEvent {
 
 export interface CredentialRefreshable {
   /**
-   * Adapters that support credential rotation expose this method.
+   * Opt-in adapters that support credential rotation expose this method.
+   * Stock AgentsKit adapters do not implement it unless documented otherwise.
    * Calling it replaces the in-memory secret. The next request uses
    * the new value; in-flight requests are unaffected.
    */
@@ -71,6 +77,9 @@ export function createRotatingCredentials(
  * `CredentialRefreshable`. A no-op (with a debug log) if the adapter
  * doesn't support rotation, so callers can run the rotation playbook
  * across a heterogeneous set of adapters without branching.
+ *
+ * Most stock adapters do **not** implement `refreshCredentials` — this
+ * remains an opt-in primitive unless an adapter documents support.
  */
 export async function refreshCredentials(
   adapter: unknown,

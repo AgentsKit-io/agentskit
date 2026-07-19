@@ -1,4 +1,4 @@
-import type { AgentEvent, Observer } from '@agentskit/core'
+import { ConfigError, ErrorCodes, type AgentEvent, type Observer } from '@agentskit/core'
 
 /**
  * Dollar cost per 1K tokens for input and output.
@@ -7,6 +7,9 @@ export interface TokenPrice {
   input: number
   output: number
 }
+
+/** Isolated error reporter shared by all cost guards. */
+export type CostGuardErrorHandler = (error: unknown) => void | Promise<void>
 
 /**
  * Pricing registry keyed by model name (case-insensitive prefix match).
@@ -56,22 +59,31 @@ export interface CostGuardOptions {
   prices?: Record<string, TokenPrice>
   /**
    * Called whenever the running total changes. Useful for progress UI.
+   * Sync throws and async rejections are isolated.
    */
   onCost?: (info: {
     costUsd: number
     promptTokens: number
     completionTokens: number
     budgetRemainingUsd: number
-  }) => void
+  }) => void | Promise<void>
   /**
-   * Called when the budget is exceeded (just before abort). By default
-   * also logs a warning to stderr.
+   * Called when the budget is exceeded (just before / after abort bookkeeping).
+   * Sync throws and async rejections are isolated.
    */
-  onExceeded?: (info: { costUsd: number; budgetUsd: number }) => void
+  onExceeded?: (info: { costUsd: number; budgetUsd: number }) => void | Promise<void>
+  /** Isolated sink for internal / callback failures. Never allowed to escape. */
+  onError?: CostGuardErrorHandler
   /** Force a specific model id if the runtime doesn't emit one. */
   modelOverride?: string
   /** Observer name for tracing. */
   name?: string
+}
+
+/** Coerce hostile token counts (NaN / Infinity / negative / non-number) to 0. */
+export function normalizeTokenCount(value: unknown): number {
+  if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) return 0
+  return value
 }
 
 /**
@@ -87,42 +99,116 @@ export function priceFor(
 
   const keys = Object.keys(prices).sort((a, b) => b.length - a.length)
   for (const key of keys) {
-    if (model.toLowerCase().startsWith(key.toLowerCase())) return prices[key]
+    if (model.toLowerCase().startsWith(key.toLowerCase())) return prices[key]!
   }
   return { input: 0, output: 0 }
 }
 
 /**
  * Compute dollar cost from a usage record plus a price record.
+ * Hostile token counts are normalized to zero so NaN never poisons totals.
  */
 export function computeCost(
   usage: { promptTokens: number; completionTokens: number },
   price: TokenPrice,
 ): number {
-  return (usage.promptTokens / 1000) * price.input + (usage.completionTokens / 1000) * price.output
+  const promptTokens = normalizeTokenCount(usage.promptTokens)
+  const completionTokens = normalizeTokenCount(usage.completionTokens)
+  return (promptTokens / 1000) * price.input + (completionTokens / 1000) * price.output
+}
+
+/** Report an error through onError without ever escaping or generating unhandledRejection. */
+export function reportCostGuardError(
+  onError: CostGuardErrorHandler | undefined,
+  error: unknown,
+): void {
+  if (!onError) return
+  try {
+    const result = onError(error)
+    if (result != null && typeof (result as PromiseLike<void>).then === 'function') {
+      void Promise.resolve(result).then(undefined, () => {})
+    }
+  } catch {
+    // onError must never escape
+  }
+}
+
+/**
+ * Invoke a user callback, isolating sync throws and async rejections.
+ * Failures are forwarded to onError (also isolated).
+ */
+export function invokeCostGuardCallback(
+  fn: (() => void | Promise<void>) | undefined,
+  onError: CostGuardErrorHandler | undefined,
+): void {
+  if (!fn) return
+  try {
+    const result = fn()
+    if (result != null && typeof (result as PromiseLike<void>).then === 'function') {
+      void Promise.resolve(result).then(undefined, (err: unknown) => {
+        reportCostGuardError(onError, err)
+      })
+    }
+  } catch (err) {
+    reportCostGuardError(onError, err)
+  }
+}
+
+export function assertFiniteNonNegative(
+  scope: string,
+  name: string,
+  value: number,
+): void {
+  if (!Number.isFinite(value) || value < 0) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `${scope}: ${name} must be a finite number ≥ 0 (received ${String(value)})`,
+      hint: 'Pass finite non-negative numbers for budgets and token prices.',
+    })
+  }
+}
+
+export function assertFinitePositive(
+  scope: string,
+  name: string,
+  value: number,
+): void {
+  if (!Number.isFinite(value) || value <= 0) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `${scope}: ${name} must be a finite positive number (received ${String(value)})`,
+      hint: 'Pass a finite value > 0 for window lengths and throttle intervals.',
+    })
+  }
+}
+
+export function validateTokenPrices(
+  scope: string,
+  prices: Record<string, TokenPrice> | undefined,
+): void {
+  if (!prices) return
+  for (const [model, price] of Object.entries(prices)) {
+    assertFiniteNonNegative(scope, `prices['${model}'].input`, price.input)
+    assertFiniteNonNegative(scope, `prices['${model}'].output`, price.output)
+  }
+}
+
+/**
+ * Finite utilization for alerts/callbacks. Zero budget + positive spend uses
+ * sentinel `1` so payloads stay JSON-serializable (never Infinity).
+ */
+export function finiteUtilization(costUsd: number, budgetUsd: number): number {
+  if (budgetUsd > 0) {
+    const u = costUsd / budgetUsd
+    return Number.isFinite(u) ? u : 1
+  }
+  return costUsd > 0 ? 1 : 0
 }
 
 /**
  * A `cost-guarded` observer. Tracks token usage from llm:end events,
- * computes running cost, aborts the run when the budget is exceeded.
- *
- * Usage:
- *
- * ```ts
- * const controller = new AbortController()
- * const runtime = createRuntime({
- *   adapter,
- *   observers: [costGuard({ budgetUsd: 0.10, controller })],
- * })
- *
- * try {
- *   await runtime.run('long task', { signal: controller.signal })
- * } catch (err) {
- *   if ((err as Error).name === 'AbortError') {
- *     console.log('Aborted due to cost budget.')
- *   }
- * }
- * ```
+ * computes running cost incrementally per active model, aborts the run
+ * when the budget is exceeded.
  */
 export function costGuard(options: CostGuardOptions): Observer & {
   /** Total cost so far, in USD. */
@@ -136,7 +222,10 @@ export function costGuard(options: CostGuardOptions): Observer & {
   /** Reset the internal counters. */
   reset: () => void
 } {
-  const { budgetUsd, controller, prices, onCost, onExceeded, modelOverride } = options
+  assertFiniteNonNegative('costGuard', 'budgetUsd', options.budgetUsd)
+  validateTokenPrices('costGuard', options.prices)
+
+  const { budgetUsd, controller, prices, onCost, onExceeded, onError, modelOverride } = options
   const mergedPrices = prices ? { ...DEFAULT_PRICES, ...prices } : DEFAULT_PRICES
 
   let currentModel: string | undefined = modelOverride
@@ -145,19 +234,36 @@ export function costGuard(options: CostGuardOptions): Observer & {
   let cost = 0
   let exceededOnce = false
 
-  const update = () => {
+  const update = (deltaPrompt: number, deltaCompletion: number) => {
+    prompt += deltaPrompt
+    completion += deltaCompletion
     const price = priceFor(currentModel, mergedPrices)
-    cost = computeCost({ promptTokens: prompt, completionTokens: completion }, price)
-    onCost?.({
-      costUsd: cost,
-      promptTokens: prompt,
-      completionTokens: completion,
-      budgetRemainingUsd: Math.max(0, budgetUsd - cost),
-    })
+    // Incremental: price only the tokens from this event with the active model.
+    cost += computeCost(
+      { promptTokens: deltaPrompt, completionTokens: deltaCompletion },
+      price,
+    )
+
+    invokeCostGuardCallback(() => {
+      return onCost?.({
+        costUsd: cost,
+        promptTokens: prompt,
+        completionTokens: completion,
+        budgetRemainingUsd: Math.max(0, budgetUsd - cost),
+      })
+    }, onError)
+
     if (cost > budgetUsd && !exceededOnce) {
+      // Mark + abort synchronously before any potentially hostile onExceeded.
       exceededOnce = true
-      onExceeded?.({ costUsd: cost, budgetUsd })
-      controller.abort()
+      try {
+        controller.abort()
+      } catch (err) {
+        reportCostGuardError(onError, err)
+      }
+      invokeCostGuardCallback(() => {
+        return onExceeded?.({ costUsd: cost, budgetUsd })
+      }, onError)
     }
   }
 
@@ -170,9 +276,9 @@ export function costGuard(options: CostGuardOptions): Observer & {
           break
         case 'llm:end':
           if (event.usage) {
-            prompt += event.usage.promptTokens
-            completion += event.usage.completionTokens
-            update()
+            const deltaPrompt = normalizeTokenCount(event.usage.promptTokens)
+            const deltaCompletion = normalizeTokenCount(event.usage.completionTokens)
+            update(deltaPrompt, deltaCompletion)
           }
           break
       }

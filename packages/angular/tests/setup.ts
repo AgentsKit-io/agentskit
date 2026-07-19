@@ -6,5 +6,5 @@ import {
   platformBrowserDynamicTesting,
 } from '@angular/platform-browser-dynamic/testing'
 
-// Initialise the Angular JIT testing environment once for all component specs.
+// Initialise the Angular testing environment once for all component specs.
 getTestBed().initTestEnvironment(BrowserDynamicTestingModule, platformBrowserDynamicTesting())

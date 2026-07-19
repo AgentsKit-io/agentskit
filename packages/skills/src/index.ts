@@ -33,5 +33,5 @@ export type {
 } from './marketplace'
 
 export { composeSkills } from './compose'
-export { listSkills } from './discovery'
+export { listSkills, getBuiltinSkills } from './discovery'
 export type { SkillMetadata } from './discovery'

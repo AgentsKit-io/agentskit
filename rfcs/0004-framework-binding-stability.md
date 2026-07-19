@@ -43,7 +43,7 @@ and `data-ak-*` keys are the committed surface and must not change in a minor at
 - **vue / solid** — runtime-rendered; surface is stable.
 - **svelte** — `.svelte` + `esbuild-svelte` build; ship-as-source vs bundled is a build decision, not a surface one.
 - **react-native** — `testID`-keyed headless (not `data-ak-*`); confirm the `ak-*` testID names are the committed hooks.
-- **angular** — components are **JIT** today (inline templates). A stable promotion should be gated on an **AOT/`ng-packagr` build** so the components work in AOT-only prod apps. Note: that build is **ESM-only (APF)**, which conflicts with the repo's "tsup, dual CJS/ESM" convention — promoting angular to stable needs an explicit convention exception (or the AOT build lands first).
+- **angular** — **partial-Ivy AOT/`ng-packagr` (APF) is the published path** (FESM2022 + `.d.ts`). The package is **ESM-only by APF design** — that is the deliberate convention exception vs the repo's default "tsup, dual CJS/ESM" for non-Angular packages. Stable promotion still needs the beta soak + this RFC's acceptance, not another packaging rewrite.
 
 ## Promotion checklist (per binding, when soak is met)
 
@@ -55,6 +55,8 @@ and `data-ak-*` keys are the committed surface and must not change in a minor at
 
 ## Status / next steps
 
-Proposed. Discuss the per-binding caveats (esp. angular AOT + react `TopologyGraphView`).
+Proposed. Discuss remaining per-binding caveats (esp. react `TopologyGraphView`).
+Angular AOT/APF packaging is landed; the soak clock still starts only after a
+published release — this RFC alone does not promote any binding to stable.
 No package flips to stable under this RFC until its soak gate is met and a follow-up
 changeset lands.
