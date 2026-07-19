@@ -4,7 +4,7 @@
   "profileVersion": 1,
   "productId": "agentskit",
   "repo": "AgentsKit-io/agentskit",
-  "commit": "3b800120d2e9311b4a3b8f567d27a5753cfcf61c",
+  "commit": "d81b31e788251f90a7f385dd7ca00832a4ef81a9",
   "auditedOn": "2026-07-16",
   "docBridge": {
     "artifact": "docs/evidence/ecosystem-documentation-quality/doc-bridge/agentskit.json",
@@ -12,7 +12,7 @@
     "coverage": { "agent": { "ready": 25, "total": 25 }, "human": { "ready": 25, "total": 25 } },
     "conformance": { "requiredPassed": 7, "requiredTotal": 7, "requiredExcepted": 0, "recommendedPassed": 2, "recommendedTotal": 2, "recommendedExcepted": 0 }
   },
-  "attestation": { "sourceMode": "working-tree", "contentDigest": "sha256:6db749ba659140321e8e1518770a44849f561b8d4dcd30e5dc38a2a464524592" },
+  "attestation": { "sourceMode": "commit", "contentDigest": "sha256:a31ca7853ad430aea0d0174357608f69efdb53013e95fda0834b6bf4c7a6a1a2" },
   "machineSurfaces": {
     "llmsTxt": "llms.txt",
     "llmsFullTxt": "apps/docs-next/app/llms-full.txt/route.ts",
