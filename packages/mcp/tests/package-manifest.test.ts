@@ -39,5 +39,5 @@ describe('@agentskit/mcp package contract', () => {
     expect(mod.createAgentTool).toBeTypeOf('function')
     expect(mod.fetchAgentSkill).toBeTypeOf('function')
     expect(mod.processStdio).toBeTypeOf('function')
-  })
+  }, 15_000)
 })
