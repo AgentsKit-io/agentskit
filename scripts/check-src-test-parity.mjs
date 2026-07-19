@@ -64,12 +64,6 @@ const ALLOW_FILES = new Set([
   //   via apps/visual-react Playwright suite; no unit test yet.
   'packages/ink/src/components/TopologyGraphView.tsx',
   'packages/react/src/components/TopologyGraphView.tsx',
-  // - Vertical skills aggregated in their own test files:
-  //   ecommerce.ts / education.ts / real-estate.ts each export multiple
-  //   skills covered by tests/vertical-{ecommerce,education,real-estate}.test.ts.
-  'packages/skills/src/ecommerce.ts',
-  'packages/skills/src/education.ts',
-  'packages/skills/src/real-estate.ts',
 ])
 
 const ALLOW_PREFIXES = [
@@ -85,6 +79,8 @@ const ALLOW_PREFIXES = [
   'packages/tools/src/mcp/',
   'packages/adapters/src/embedders/',
   'packages/rag/src/loaders.ts',
+  // Loader modules are exercised through loaders.test.ts and hardening.test.ts.
+  'packages/rag/src/loaders/',
   'packages/rag/src/rerankers/',
   'packages/core/src/security/',
   'packages/core/src/types/',

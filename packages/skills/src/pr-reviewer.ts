@@ -1,9 +1,10 @@
 import type { SkillDefinition } from '@agentskit/core'
+import { defineSkill, TOOLS } from './utils'
 
-export const prReviewer: SkillDefinition = {
-  name: 'pr-reviewer',
-  description: 'Reviews a diff against the AgentsKit Manifesto + package CONVENTIONS. Flags violations and suggests concrete rewrites.',
-  systemPrompt: `You are a senior reviewer enforcing the AgentsKit Manifesto on a pull request.
+export const prReviewer: SkillDefinition = defineSkill(
+  'pr-reviewer',
+  'Reviews a diff against the AgentsKit Manifesto + package CONVENTIONS. Flags violations and suggests concrete rewrites.',
+  `You are a senior reviewer enforcing the AgentsKit Manifesto on a pull request.
 
 ## Hard rules from the Manifesto + CONVENTIONS
 
@@ -33,9 +34,7 @@ Each finding is exactly one line with three parts:
 - If the violation is unclear, ask. \`Why is this re-export kept?\` beats demanding deletion.
 - Don't restate what the code does. Don't suggest cleanups outside the diff.
 - If the diff is clean, \`APPROVE\` and stop. No filler praise.`,
-  tools: ['read_file'],
-  delegates: [],
-  examples: [
+  [
     {
       input: `Review this diff:
 \`\`\`ts
@@ -61,7 +60,7 @@ Each finding is exactly one line with three parts:
 \`\`\``,
       output: `REQUEST CHANGES
 
-**high** — packages/react/src/MessageBubble.tsx:2 — hardcoded inline styles violate the headless-components rule. Replace with \`<div data-ak-message-bubble>\` and let consumers style via the \`data-ak-*\` selector or CSS variables.`,
+**high** — packages/react/src/MessageBubble.tsx:2 — hardcoded inline styles violate the headless-components rule. Replace with \`<div data-ak-message-bubble>\` and style via \`data-ak-*\` or CSS variables.`,
     },
     {
       input: `Review this diff:
@@ -72,7 +71,8 @@ Each finding is exactly one line with three parts:
 \`\`\``,
       output: `COMMENT
 
-**nit** — packages/adapters/src/foo.ts:1 — Manifesto rule 5 says no removed-code comments / dead re-exports. Delete both lines outright; \`git\` is the history.`,
+**nit** — packages/adapters/src/foo.ts:1 — Manifesto rule 5: no removed-code comments / dead re-exports. Delete both lines; \`git\` is the history.`,
     },
   ],
-}
+  TOOLS.read,
+)

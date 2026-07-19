@@ -105,9 +105,42 @@ describe('simulateStream', () => {
 
   it('emits an error chunk on non-ok responses', async () => {
     const doFetch = vi.fn().mockResolvedValue(new Response('err', { status: 500 }))
-    const source = simulateStream(doFetch, noopText, 'Test', { delayMs: 0 })
+    const source = simulateStream(doFetch, noopText, 'Test', {
+      delayMs: 0,
+      retry: { maxAttempts: 1, sleep: async () => {} },
+    })
     const chunks = await collect(source)
-    expect(chunks).toEqual([{ type: 'error', content: 'Test error: 500' }])
+    expect(chunks).toHaveLength(1)
+    expect(chunks[0]).toMatchObject({ type: 'error', content: 'Test error: 500' })
+    expect(chunks[0]!.metadata?.error).toBeInstanceOf(Error)
+  })
+
+  it('emits error chunk when extractText throws', async () => {
+    const doFetch = vi.fn().mockResolvedValue(new Response('ok', { status: 200 }))
+    const extract = async () => {
+      throw new Error('parse body failed')
+    }
+    const source = simulateStream(doFetch, extract, 'Test', {
+      delayMs: 0,
+      retry: { maxAttempts: 1, sleep: async () => {} },
+    })
+    const chunks = await collect(source)
+    expect(chunks).toHaveLength(1)
+    expect(chunks[0]).toMatchObject({ type: 'error', content: 'parse body failed' })
+    expect(chunks[0]!.metadata?.error).toBeInstanceOf(Error)
+  })
+
+  it('emits error chunk when extractText throws a non-Error', async () => {
+    const doFetch = vi.fn().mockResolvedValue(new Response('ok', { status: 200 }))
+    const extract = async () => {
+      throw 'bad-body'
+    }
+    const source = simulateStream(doFetch, extract, 'Test', {
+      delayMs: 0,
+      retry: { maxAttempts: 1, sleep: async () => {} },
+    })
+    const chunks = await collect(source)
+    expect(chunks[0]).toMatchObject({ type: 'error', content: 'bad-body' })
   })
 
   it('stops cleanly when aborted mid-stream', async () => {

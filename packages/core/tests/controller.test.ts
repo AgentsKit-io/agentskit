@@ -652,6 +652,51 @@ describe('ChatController event emission', () => {
     expect(end?.type === 'llm:end' && end.durationMs).toBeGreaterThanOrEqual(0)
   })
 
+  it('includes per-turn normalized usage on llm:end without double-counting session usage', async () => {
+    const events: AgentEvent[] = []
+    const obs: Observer = { name: 'test', on: (e) => { events.push(e) } }
+    const adapter = createMockAdapter([
+      { type: 'text', content: 'hi' },
+      { type: 'usage', usage: { promptTokens: 10, completionTokens: 5, totalTokens: 15 } },
+      { type: 'done' },
+    ])
+    const ctrl = createChatController({ adapter, observers: [obs] })
+
+    await ctrl.send('Hello')
+
+    const end = events.find(e => e.type === 'llm:end')
+    expect(end?.type === 'llm:end' && end.usage).toEqual({ promptTokens: 10, completionTokens: 5 })
+    expect(ctrl.getState().usage).toEqual({ promptTokens: 10, completionTokens: 5, totalTokens: 15 })
+
+    // Second turn accumulates session totals; llm:end carries only this turn.
+    const adapter2 = createMockAdapter([
+      { type: 'text', content: 'again' },
+      { type: 'usage', usage: { promptTokens: 3, completionTokens: 2, totalTokens: 5 } },
+      { type: 'done' },
+    ])
+    ctrl.updateConfig({ adapter: adapter2 })
+    events.length = 0
+    await ctrl.send('Again')
+
+    const end2 = events.find(e => e.type === 'llm:end')
+    expect(end2?.type === 'llm:end' && end2.usage).toEqual({ promptTokens: 3, completionTokens: 2 })
+    expect(ctrl.getState().usage).toEqual({ promptTokens: 13, completionTokens: 7, totalTokens: 20 })
+  })
+
+  it('normalizes non-finite/negative usage counts on llm:end', async () => {
+    const events: AgentEvent[] = []
+    const obs: Observer = { name: 'test', on: (e) => { events.push(e) } }
+    const adapter = createMockAdapter([
+      { type: 'text', content: 'x' },
+      { type: 'usage', usage: { promptTokens: Number.NaN, completionTokens: -4, totalTokens: 0 } },
+      { type: 'done' },
+    ])
+    const ctrl = createChatController({ adapter, observers: [obs] })
+    await ctrl.send('x')
+    const end = events.find(e => e.type === 'llm:end')
+    expect(end?.type === 'llm:end' && end.usage).toEqual({ promptTokens: 0, completionTokens: 0 })
+  })
+
   it('emits llm:first-token event', async () => {
     const events: AgentEvent[] = []
     const obs: Observer = { name: 'test', on: (e) => { events.push(e) } }

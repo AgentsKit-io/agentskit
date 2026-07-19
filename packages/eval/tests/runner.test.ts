@@ -202,4 +202,52 @@ describe('runEval', () => {
     expect(result.results[0]).toHaveProperty('passed')
     expect(result.results[0]).toHaveProperty('latencyMs')
   })
+
+  it('rejects hostile AgentResponse shapes with a clear error', async () => {
+    const hostile = [
+      null,
+      42,
+      true,
+      [],
+      { content: 123 },
+      { content: 'ok', tokenUsage: { prompt: Number.NaN, completion: 1 } },
+      { content: 'ok', tokenUsage: { prompt: -1, completion: 1 } },
+      { content: 'ok', tokenUsage: { prompt: 1.5, completion: 1 } },
+    ]
+    for (const response of hostile) {
+      const agent = vi.fn().mockResolvedValue(response)
+      const result = await runEval({
+        agent,
+        suite: { name: 'hostile', cases: [{ input: 'Q', expected: 'ok' }] },
+      })
+      expect(result.results[0]?.passed).toBe(false)
+      expect(result.results[0]?.output).toBe('')
+      expect(result.results[0]?.error).toMatch(/Invalid AgentResponse/)
+    }
+  })
+
+  it('separates expected-predicate throws from agent failure and preserves output/tokenUsage', async () => {
+    const agent = vi.fn().mockResolvedValue({
+      content: 'agent-output',
+      tokenUsage: { prompt: 11, completion: 3 },
+    })
+    const result = await runEval({
+      agent,
+      suite: {
+        name: 'pred',
+        cases: [
+          {
+            input: 'Q',
+            expected: () => {
+              throw new Error('predicate boom')
+            },
+          },
+        ],
+      },
+    })
+    expect(result.results[0]?.passed).toBe(false)
+    expect(result.results[0]?.output).toBe('agent-output')
+    expect(result.results[0]?.tokenUsage).toEqual({ prompt: 11, completion: 3 })
+    expect(result.results[0]?.error).toBe('predicate boom')
+  })
 })

@@ -1,9 +1,10 @@
 import type { SkillDefinition } from '@agentskit/core'
+import { defineSkill } from './utils'
 
-export const planner: SkillDefinition = {
-  name: 'planner',
-  description: 'Strategic planner that breaks complex tasks into steps, identifies dependencies, and coordinates specialist agents.',
-  systemPrompt: `You are a strategic planner. Your job is to decompose complex tasks into executable steps and coordinate their completion.
+export const planner: SkillDefinition = defineSkill(
+  'planner',
+  'Strategic planner that breaks complex tasks into steps, identifies dependencies, and coordinates specialist agents.',
+  `You are a strategic planner. Your job is to decompose complex tasks into executable steps and coordinate their completion.
 
 ## Planning Process
 1. Understand the goal and constraints
@@ -31,12 +32,13 @@ When delegating to specialists:
 - Each step should be verifiable — you can tell if it succeeded
 - Build incrementally: each step should produce something useful even if later steps fail
 - Replan when a step fails instead of blindly continuing`,
-  tools: [],
-  delegates: ['researcher', 'coder'],
-  examples: [
+  [
     {
       input: 'Build a REST API for a task management app',
-      output: 'Plan:\n1. **Research** (researcher): Identify best practices for task API design — REST conventions, common endpoints, auth patterns\n2. **Design schema** (coder): Define Task model with fields (id, title, status, priority, createdAt, updatedAt)\n3. **Implement CRUD** (coder): Create endpoints — POST /tasks, GET /tasks, GET /tasks/:id, PATCH /tasks/:id, DELETE /tasks/:id\n4. **Add validation** (coder): Input validation for required fields, status enum, priority range\n5. **Write tests** (coder): Integration tests for each endpoint with success and error cases\n\nDependencies: 1→2→3→4→5 (sequential)\nRisk: Auth pattern choice in step 1 affects all subsequent steps.',
+      output:
+        'Plan:\n1. **Research** (researcher): Identify best practices for task API design — REST conventions, common endpoints, auth patterns\n2. **Design schema** (coder): Define Task model with fields (id, title, status, priority, createdAt, updatedAt)\n3. **Implement CRUD** (coder): Create endpoints — POST /tasks, GET /tasks, GET /tasks/:id, PATCH /tasks/:id, DELETE /tasks/:id\n4. **Add validation** (coder): Input validation for required fields, status enum, priority range\n5. **Write tests** (coder): Integration tests for each endpoint with success and error cases\n\nDependencies: 1→2→3→4→5 (sequential)\nRisk: Auth pattern choice in step 1 affects all subsequent steps.',
     },
   ],
-}
+  [],
+  ['researcher', 'coder'],
+)

@@ -7,6 +7,7 @@ export {
   generateVectorMemorySource,
   generateVectorMemoryTest,
   generateChatMemorySource,
+  generateChatMemoryTest,
 } from './memory'
 export {
   generateFlowSource,
@@ -18,6 +19,7 @@ export {
   generateEmbedderSource,
   generateEmbedderTest,
   generateBrowserAdapterSource,
+  generateBrowserAdapterTest,
 } from './embedder'
 export { generateReadme } from './readme'
 export { camelCase, pascalCase, packageName } from './utils'

@@ -1,4 +1,9 @@
-import type { ToolDefinition, SkillDefinition, AdapterFactory } from '@agentskit/core'
+import type {
+  ToolDefinition,
+  SkillDefinition,
+  AdapterFactory,
+  AdapterCapabilities,
+} from '@agentskit/core'
 import { validateToolTemplate, validateSkillTemplate, validateAdapterTemplate } from './validate'
 
 export interface ToolTemplateConfig {
@@ -10,8 +15,8 @@ export interface ToolTemplateConfig {
   tags?: string[]
   category?: string
   requiresConfirmation?: boolean
-  init?: () => Promise<void>
-  dispose?: () => Promise<void>
+  init?: ToolDefinition['init']
+  dispose?: ToolDefinition['dispose']
 }
 
 export function createToolTemplate(config: ToolTemplateConfig): ToolDefinition {
@@ -23,7 +28,9 @@ export function createToolTemplate(config: ToolTemplateConfig): ToolDefinition {
     ...(config.execute !== undefined ? { execute: config.execute } : {}),
     ...(config.tags !== undefined ? { tags: config.tags } : {}),
     ...(config.category !== undefined ? { category: config.category } : {}),
-    ...(config.requiresConfirmation !== undefined ? { requiresConfirmation: config.requiresConfirmation } : {}),
+    ...(config.requiresConfirmation !== undefined
+      ? { requiresConfirmation: config.requiresConfirmation }
+      : {}),
     ...(config.init !== undefined ? { init: config.init } : {}),
     ...(config.dispose !== undefined ? { dispose: config.dispose } : {}),
   }
@@ -41,6 +48,8 @@ export interface SkillTemplateConfig {
   tools?: string[]
   delegates?: string[]
   temperature?: number
+  /** Opaque skill metadata — passed through to `SkillDefinition.metadata`. */
+  metadata?: Record<string, unknown>
   onActivate?: SkillDefinition['onActivate']
 }
 
@@ -54,6 +63,7 @@ export function createSkillTemplate(config: SkillTemplateConfig): SkillDefinitio
     ...(config.tools !== undefined ? { tools: config.tools } : {}),
     ...(config.delegates !== undefined ? { delegates: config.delegates } : {}),
     ...(config.temperature !== undefined ? { temperature: config.temperature } : {}),
+    ...(config.metadata !== undefined ? { metadata: config.metadata } : {}),
     ...(config.onActivate !== undefined ? { onActivate: config.onActivate } : {}),
   }
 
@@ -64,12 +74,17 @@ export function createSkillTemplate(config: SkillTemplateConfig): SkillDefinitio
 export interface AdapterTemplateConfig {
   name: string
   createSource: AdapterFactory['createSource']
+  /** Optional capabilities hint — passed through to the factory. */
+  capabilities?: AdapterCapabilities
 }
 
-export function createAdapterTemplate(config: AdapterTemplateConfig): AdapterFactory & { name: string } {
-  const adapter = {
+export function createAdapterTemplate(
+  config: AdapterTemplateConfig,
+): AdapterFactory & { name: string } {
+  const adapter: AdapterFactory & { name: string } = {
     name: config.name,
     createSource: config.createSource,
+    ...(config.capabilities !== undefined ? { capabilities: config.capabilities } : {}),
   }
 
   validateAdapterTemplate(adapter)

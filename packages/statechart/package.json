@@ -13,6 +13,9 @@
     "chat"
   ],
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "sideEffects": false,
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -45,8 +48,8 @@
     "vitest": "^4.1.10"
   },
   "agentskit": {
-    "stability": "alpha",
-    "stabilityNote": "Initial framework-neutral interaction-state contract (ADR-0020)."
+    "stability": "beta",
+    "stabilityNote": "Deterministic transition and hostile-input boundaries hardened for beta (ADR-0020, ADR-0027)."
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/packages/statechart",

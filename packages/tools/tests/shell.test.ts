@@ -16,6 +16,11 @@ describe('shell', () => {
     expect(tool.execute).toBeTypeOf('function')
   })
 
+  it('sets requiresConfirmation: true (T9)', () => {
+    const tool = shell({ allowed: ['echo'] })
+    expect(tool.requiresConfirmation).toBe(true)
+  })
+
   it('refuses to register with no allowlist (default-deny)', () => {
     expect(() => shell()).toThrow(/allowlist/)
   })

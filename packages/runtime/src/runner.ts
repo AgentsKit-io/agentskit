@@ -13,10 +13,70 @@ import type {
   AdapterRequest,
   Message,
   StreamChunk,
+  StreamSource,
+  TokenUsage,
   ToolCall,
 } from '@agentskit/core'
 import type { RuntimeConfig, RunOptions, RunResult } from './types'
 import { buildDelegateTools } from './delegates'
+
+function createAbortError(): Error {
+  const error = new Error('The operation was aborted')
+  error.name = 'AbortError'
+  return error
+}
+
+/** Normalize stream usage to finite nonnegative prompt/completion counts for llm:end. */
+function normalizeLlmUsage(
+  usage: TokenUsage | undefined,
+): { promptTokens: number; completionTokens: number } | undefined {
+  if (!usage) return undefined
+  const promptTokens = Number.isFinite(usage.promptTokens) && usage.promptTokens >= 0
+    ? usage.promptTokens
+    : 0
+  const completionTokens = Number.isFinite(usage.completionTokens) && usage.completionTokens >= 0
+    ? usage.completionTokens
+    : 0
+  return { promptTokens, completionTokens }
+}
+
+function isAborted(signal?: AbortSignal): boolean {
+  return signal?.aborted === true
+}
+
+async function consumeStreamWithAbort(
+  source: StreamSource,
+  signal: AbortSignal | undefined,
+  handlers: Parameters<typeof consumeStream>[1],
+): Promise<void> {
+  const onAbort = () => {
+    source.abort()
+  }
+
+  if (signal) {
+    if (signal.aborted) {
+      source.abort()
+      throw createAbortError()
+    }
+    signal.addEventListener('abort', onAbort, { once: true })
+  }
+
+  try {
+    await consumeStream(source, handlers)
+    if (isAborted(signal)) {
+      throw createAbortError()
+    }
+  } catch (error) {
+    if (isAborted(signal)) {
+      throw createAbortError()
+    }
+    throw error
+  } finally {
+    if (signal) {
+      signal.removeEventListener('abort', onAbort)
+    }
+  }
+}
 
 export function createRuntime(config: RuntimeConfig) {
   const emitter = createEventEmitter()
@@ -95,31 +155,47 @@ export function createRuntime(config: RuntimeConfig) {
     const tools = [...toolMap.values()]
     const lifecycle = createToolLifecycle(toolMap)
 
-    // Build initial messages
     const messages: Message[] = []
 
     if (effectiveSystemPrompt) {
       messages.push(buildMessage({ role: 'system', content: effectiveSystemPrompt }))
     }
 
-    messages.push(buildMessage({ role: 'user', content: task }))
-
     const allToolCalls: ToolCall[] = []
     let step = 0
     let finalContent = ''
 
     try {
+      if (isAborted(signal)) {
+        throw createAbortError()
+      }
+
+      if (config.memory) {
+        const loaded = await config.memory.load({ signal })
+        if (isAborted(signal)) {
+          throw createAbortError()
+        }
+        messages.push(...loaded)
+        emitter.emit({ type: 'memory:load', messageCount: loaded.length })
+      }
+
+      messages.push(buildMessage({ role: 'user', content: task }))
+
+      const retrievedDocuments = config.retriever
+        ? await config.retriever.retrieve({ query: task, messages })
+        : []
+      if (isAborted(signal)) {
+        throw createAbortError()
+      }
+      const retrievalContext = formatRetrievedDocuments(retrievedDocuments)
+
       while (step < maxSteps) {
-        if (signal?.aborted) break
+        if (isAborted(signal)) {
+          throw createAbortError()
+        }
 
         step++
         emitter.emit({ type: 'agent:step', step, action: step === 1 ? 'initial' : 'tool-result-loop' })
-
-        // Retrieve context if configured
-        const retrievedDocuments = config.retriever
-          ? await config.retriever.retrieve({ query: task, messages })
-          : []
-        const retrievalContext = formatRetrievedDocuments(retrievedDocuments)
 
         const requestMessages = retrievalContext
           ? [buildMessage({ role: 'system', content: `Use the retrieved context below when it is relevant.\n\n${retrievalContext}` }), ...messages]
@@ -143,8 +219,9 @@ export function createRuntime(config: RuntimeConfig) {
         let accumulatedText = ''
         const stepToolCalls: Array<{ toolCall: StreamChunk['toolCall'] }> = []
         let streamError: Error | null = null
+        let turnUsage: { promptTokens: number; completionTokens: number } | undefined
 
-        await consumeStream(source, {
+        await consumeStreamWithAbort(source, signal, {
           onText(accumulated) {
             accumulatedText = accumulated
           },
@@ -152,6 +229,9 @@ export function createRuntime(config: RuntimeConfig) {
             if (chunk.toolCall) {
               stepToolCalls.push({ toolCall: chunk.toolCall })
             }
+          },
+          onUsage(usage) {
+            turnUsage = normalizeLlmUsage(usage)
           },
           onError(error) {
             streamError = error
@@ -161,18 +241,25 @@ export function createRuntime(config: RuntimeConfig) {
           },
         })
 
+        // Emit error before llm:end so trackers can mark the active LLM span.
+        if (streamError && !isAborted(signal)) {
+          emitter.emit({ type: 'error', error: streamError })
+        }
+
         emitter.emit({
           type: 'llm:end',
           content: accumulatedText,
+          ...(turnUsage ? { usage: turnUsage } : {}),
           durationMs: Date.now() - streamStart,
         })
 
-        if (streamError) {
-          emitter.emit({ type: 'error', error: streamError })
-          throw streamError
+        if (isAborted(signal)) {
+          throw createAbortError()
         }
 
-        if (signal?.aborted) break
+        if (streamError) {
+          throw streamError
+        }
 
         // Build assistant message with tool calls
         const assistantToolCalls: ToolCall[] = stepToolCalls
@@ -203,7 +290,9 @@ export function createRuntime(config: RuntimeConfig) {
 
         // Execute all tool calls using shared executeSafeTool
         for (const toolCall of assistantToolCalls) {
-          if (signal?.aborted) break
+          if (isAborted(signal)) {
+            throw createAbortError()
+          }
 
           const tool = toolMap.get(toolCall.name)
           allToolCalls.push(toolCall)
@@ -218,6 +307,10 @@ export function createRuntime(config: RuntimeConfig) {
             onPartial: (partial) => { toolCall.result = partial },
             onConfirm: config.onConfirm,
           })
+
+          if (isAborted(signal)) {
+            throw createAbortError()
+          }
 
           toolCall.status = execResult.status === 'complete' ? 'complete' : 'error'
           if (execResult.status === 'complete') {
@@ -236,9 +329,15 @@ export function createRuntime(config: RuntimeConfig) {
         finalContent = accumulatedText
       }
 
-      // Save to memory if configured
+      if (isAborted(signal)) {
+        throw createAbortError()
+      }
+
       if (config.memory) {
-        await config.memory.save(messages)
+        await config.memory.save(messages, { signal })
+        if (isAborted(signal)) {
+          throw createAbortError()
+        }
         emitter.emit({ type: 'memory:save', messageCount: messages.length })
       }
 
@@ -249,6 +348,12 @@ export function createRuntime(config: RuntimeConfig) {
         toolCalls: allToolCalls,
         durationMs: Date.now() - startTime,
       }
+    } catch (error) {
+      if (isAborted(signal)) {
+        emitter.emit({ type: 'run-aborted' })
+        throw createAbortError()
+      }
+      throw error
     } finally {
       await lifecycle.disposeAll()
     }

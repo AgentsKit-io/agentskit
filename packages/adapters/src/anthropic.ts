@@ -1,5 +1,7 @@
 import type { AdapterFactory, AdapterRequest, StreamSource } from '@agentskit/core'
-import { createStreamSource, parseAnthropicStream, type RetryOptions } from './utils'
+import { parseAnthropicStream, type RetryOptions } from './utils'
+import { createStreamSource } from './stream-source'
+import { toAnthropicMessages } from './tool-history'
 
 export interface AnthropicConfig {
   apiKey: string
@@ -24,9 +26,7 @@ export function anthropic(config: AnthropicConfig): AdapterFactory {
       const body = {
         model,
         max_tokens: request.context?.maxTokens ?? maxTokens,
-        messages: request.messages
-          .filter(message => message.role !== 'system')
-          .map(message => ({ role: message.role, content: message.content })),
+        messages: toAnthropicMessages(request.messages),
         system: request.messages.find(message => message.role === 'system')?.content,
         tools: request.context?.tools?.map(tool => ({
           name: tool.name,

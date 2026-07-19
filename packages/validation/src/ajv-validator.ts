@@ -1,30 +1,32 @@
 import Ajv from 'ajv'
-import type { JSONSchema7 } from 'json-schema'
+import type { ErrorObject } from 'ajv'
+import type { JSONSchema7, JSONSchema7Definition } from 'json-schema'
 import type { ArgsValidationError, ArgsValidationResult, ArgsValidator } from '@agentskit/core'
 
 /** Options for {@link createAjvValidator}. */
 export interface AjvValidatorOptions {
   /**
-   * Reject args that contain properties not declared in the schema.
-   * Default `false` — models often add harmless extra keys, and rejecting
-   * them tends to produce noisy failures. Set `true` for strict contracts.
+   * Recursively close ordinary object schemas that omit `additionalProperties`.
+   * Explicit policies and composition/applicator boundaries stay as authored.
+   * Default `false` — set `true` for strict contracts.
    */
   rejectAdditionalProperties?: boolean
   /**
    * Coerce primitive types where unambiguous (e.g. "42" → 42) before
    * validating. Default `false` — surfaces model mistakes rather than
-   * silently fixing them.
+   * silently fixing them. Coercion can mutate the supplied args object.
    */
   coerceTypes?: boolean
   /**
    * Provide a pre-configured Ajv instance to control formats, keywords, or
-   * strict mode. When omitted a sensible default instance is created.
+   * strict mode. A supplied instance owns its Ajv behavior; `coerceTypes` only
+   * configures the default instance created here.
    */
   ajv?: Ajv
 }
 
 type CompiledValidate = ((data: unknown) => boolean) & {
-  errors?: Array<{ instancePath?: string; message?: string }> | null
+  errors?: ErrorObject[] | null
 }
 
 /**
@@ -64,10 +66,7 @@ export function createAjvValidator(options: AjvValidatorOptions = {}): ArgsValid
   function compile(schema: JSONSchema7): CompiledValidate {
     const cached = cache.get(schema as object)
     if (cached) return cached
-    const effective =
-      options.rejectAdditionalProperties && isPlainObjectSchema(schema)
-        ? { ...schema, additionalProperties: false }
-        : schema
+    const effective = options.rejectAdditionalProperties ? hardenObjectBoundaries(schema) : schema
     const validate = ajv.compile(effective) as CompiledValidate
     cache.set(schema as object, validate)
     return validate
@@ -78,7 +77,7 @@ export function createAjvValidator(options: AjvValidatorOptions = {}): ArgsValid
     const ok = validate(args)
     if (ok) return { valid: true }
     const errors: ArgsValidationError[] = (validate.errors ?? []).map(e => ({
-      path: normalizePath(e.instancePath),
+      path: errorPath(e),
       message: e.message ?? 'is invalid',
     }))
     const safe = errors.length > 0 ? errors : [{ path: '', message: 'is invalid' }]
@@ -87,12 +86,126 @@ export function createAjvValidator(options: AjvValidatorOptions = {}): ArgsValid
   }
 }
 
-function isPlainObjectSchema(schema: JSONSchema7): boolean {
-  return typeof schema === 'object' && schema.type === 'object' && schema.additionalProperties === undefined
+function hardenObjectBoundaries(schema: JSONSchema7): JSONSchema7 {
+  const regular = new WeakMap<object, JSONSchema7>()
+  const suppressed = new WeakMap<object, JSONSchema7>()
+
+  function visitDefinition(definition: JSONSchema7Definition, suppressBoundary = false): JSONSchema7Definition {
+    return typeof definition === 'boolean' ? definition : visit(definition, suppressBoundary)
+  }
+
+  function visit(current: JSONSchema7, suppressBoundary = false): JSONSchema7 {
+    const seen = suppressBoundary ? suppressed : regular
+    const cached = seen.get(current)
+    if (cached) return cached
+
+    const clone: JSONSchema7 = { ...current }
+    seen.set(current, clone)
+
+    clone.properties = mapDefinitions(current.properties)
+    clone.patternProperties = mapDefinitions(current.patternProperties)
+    clone.definitions = mapDefinitions(current.definitions)
+    clone.$defs = mapDefinitions(current.$defs)
+    clone.items = Array.isArray(current.items)
+      ? current.items.map(item => visitDefinition(item))
+      : current.items === undefined
+        ? undefined
+        : visitDefinition(current.items)
+    clone.additionalItems = visitOptional(current.additionalItems)
+    clone.contains = visitOptional(current.contains)
+    clone.propertyNames = visitOptional(current.propertyNames)
+    clone.additionalProperties = visitOptional(current.additionalProperties)
+    clone.dependencies = current.dependencies
+      ? Object.fromEntries(
+          Object.entries(current.dependencies).map(([key, dependency]) => [
+            key,
+            Array.isArray(dependency) ? [...dependency] : visitDefinition(dependency, true),
+          ]),
+        )
+      : undefined
+
+    const hasComposition = Boolean(
+      current.allOf || current.anyOf || current.oneOf || current.not || current.if || current.then || current.else,
+    )
+    clone.allOf = visitComposition(current.allOf)
+    clone.anyOf = visitComposition(current.anyOf)
+    clone.oneOf = visitComposition(current.oneOf)
+    clone.not = visitCompositionDefinition(current.not)
+    clone.if = visitCompositionDefinition(current.if)
+    clone.then = visitCompositionDefinition(current.then)
+    clone.else = visitCompositionDefinition(current.else)
+
+    if (
+      !suppressBoundary &&
+      !hasComposition &&
+      current.additionalProperties === undefined &&
+      isObjectBoundary(current)
+    ) {
+      clone.additionalProperties = false
+    }
+
+    return clone
+  }
+
+  function mapDefinitions(
+    definitions: Record<string, JSONSchema7Definition> | undefined,
+  ): Record<string, JSONSchema7Definition> | undefined {
+    return definitions
+      ? Object.fromEntries(Object.entries(definitions).map(([key, value]) => [key, visitDefinition(value)]))
+      : undefined
+  }
+
+  function visitOptional(definition: JSONSchema7Definition | undefined): JSONSchema7Definition | undefined {
+    return definition === undefined ? undefined : visitDefinition(definition)
+  }
+
+  function visitComposition(
+    definitions: JSONSchema7Definition[] | undefined,
+  ): JSONSchema7Definition[] | undefined {
+    return definitions?.map(definition => visitDefinition(definition, true))
+  }
+
+  function visitCompositionDefinition(
+    definition: JSONSchema7Definition | undefined,
+  ): JSONSchema7Definition | undefined {
+    return definition === undefined ? undefined : visitDefinition(definition, true)
+  }
+
+  return visit(schema)
 }
 
-/** Ajv uses JSON-pointer instancePaths ("/city"); expose a dotted path. */
-function normalizePath(instancePath: string | undefined): string {
-  if (!instancePath) return ''
-  return instancePath.replace(/^\//, '').replace(/\//g, '.')
+function isObjectBoundary(schema: JSONSchema7): boolean {
+  const types = Array.isArray(schema.type) ? schema.type : [schema.type]
+  return types.includes('object') || schema.properties !== undefined || schema.patternProperties !== undefined
+}
+
+function errorPath(error: ErrorObject): string {
+  const segments = decodePointer(error.instancePath)
+  if (error.keyword === 'required' && hasStringProperty(error.params, 'missingProperty')) {
+    segments.push(error.params.missingProperty)
+  }
+  if (error.keyword === 'additionalProperties' && hasStringProperty(error.params, 'additionalProperty')) {
+    segments.push(error.params.additionalProperty)
+  }
+  return formatPath(segments)
+}
+
+function decodePointer(pointer: string): string[] {
+  if (!pointer) return []
+  return pointer
+    .slice(1)
+    .split('/')
+    .map(segment => segment.replace(/~1/g, '/').replace(/~0/g, '~'))
+}
+
+function formatPath(segments: string[]): string {
+  return segments.reduce((path, segment) => {
+    if (/^(0|[1-9]\d*)$/.test(segment)) return `${path}[${segment}]`
+    if (/^[A-Za-z_$][\w$]*$/.test(segment)) return path ? `${path}.${segment}` : segment
+    return `${path}[${JSON.stringify(segment)}]`
+  }, '')
+}
+
+function hasStringProperty<T extends string>(value: Record<string, unknown>, key: T): value is Record<T, string> {
+  return typeof value[key] === 'string'
 }

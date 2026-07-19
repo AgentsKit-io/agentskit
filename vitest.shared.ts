@@ -25,6 +25,10 @@ export interface PackageTestConfig {
   environment?: 'node' | 'jsdom' | 'happy-dom'
   /** Setup files to run before tests (relative to package root). */
   setupFiles?: string[]
+  /** Per-test timeout for packages with process/UI integration tests. */
+  testTimeout?: number
+  /** Hook timeout for packages whose fixtures build or spawn consumers. */
+  hookTimeout?: number
   /**
    * Files that must be held to a higher coverage bar than the package
    * default. Map of glob → required lines%. Use for security-critical
@@ -49,6 +53,8 @@ export function createTestConfig(opts: PackageTestConfig = {}): ViteUserConfig {
       globals: true,
       passWithNoTests: true,
       setupFiles: opts.setupFiles,
+      testTimeout: opts.testTimeout,
+      hookTimeout: opts.hookTimeout,
       coverage: {
         provider: 'v8',
         reporter: ['text', 'html', 'lcov', 'json-summary'],

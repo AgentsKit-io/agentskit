@@ -12,13 +12,17 @@ afterAll(() => server.close())
 describe('geminiEmbedder', () => {
   it('returns an embedding vector from the Gemini API', async () => {
     const mockEmbedding = [0.1, 0.2, 0.3]
+    let keyInQuery = false
+    let headerKey: string | null = null
 
     server.use(
       http.post(
         'https://generativelanguage.googleapis.com/v1beta/models/text-embedding-004\\:embedContent',
         ({ request }) => {
           const url = new URL(request.url)
-          expect(url.searchParams.get('key')).toBe('test-key')
+          // Capture wire shape; assert after response so MSW does not 500 on red.
+          keyInQuery = url.searchParams.has('key')
+          headerKey = request.headers.get('x-goog-api-key')
           return HttpResponse.json({
             embedding: { values: mockEmbedding },
           })
@@ -30,6 +34,9 @@ describe('geminiEmbedder', () => {
     const result = await embed('hello')
 
     expect(result).toEqual(mockEmbedding)
+    // API key must travel as x-goog-api-key header, never the URL query.
+    expect(keyInQuery).toBe(false)
+    expect(headerKey).toBe('test-key')
   })
 
   it('uses custom model', async () => {

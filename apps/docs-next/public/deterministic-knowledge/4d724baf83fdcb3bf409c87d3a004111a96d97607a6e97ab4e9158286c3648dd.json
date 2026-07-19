@@ -3,7 +3,7 @@
   "version": 1,
   "artifactId": "agentskit-docs-v1",
   "siteId": "agentskit-docs",
-  "generatedAt": "2026-07-16T17:11:24-03:00",
+  "generatedAt": "2026-07-16T19:39:03-03:00",
   "entries": [
     {
       "id": "claim.catalog-models",
@@ -215,7 +215,7 @@
     {
       "id": "claim.skills",
       "kind": "restricted-faq",
-      "label": "21 ready-made skills",
+      "label": "22 ready-made skills",
       "match": {
         "type": "exact",
         "values": [
@@ -225,7 +225,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **21 ready-made skills**. The public conservative floor is 21.",
+        "markdown": "The verified AgentsKit ledger currently reports **22 ready-made skills**. The public conservative floor is 22.",
         "citations": [
           {
             "id": "claim-skills",
@@ -1697,7 +1697,7 @@
         ]
       },
       "answer": {
-        "markdown": "**@agentskit/angular** — Angular binding for the `ChatReturn` contract from `@agentskit/core`. Exposes chat state as a `WritableSignal<ChatState>` for template binding and as an `Observable<ChatState>` for RxJS pipelines, with automatic teardown via `ngOnDestroy`.\n\nInstall it with `pnpm add @agentskit/angular`.",
+        "markdown": "**@agentskit/angular** — Angular binding for the `ChatReturn` contract from `@agentskit/core`. Exposes chat state as a `WritableSignal<ChatState | null>` for template binding and as an `Observable<ChatState | null>` for RxJS pipelines, with automatic teardown via `ngOnDestroy`.\n\nInstall it with `pnpm add @agentskit/angular`.",
         "citations": [
           {
             "id": "package-angular",
@@ -2180,7 +2180,7 @@
         ]
       },
       "answer": {
-        "markdown": "**@agentskit/templates** — Generate AgentsKit extensions (tools, skills, adapters) as standalone packages with consistent blueprints (tsup, vitest, TypeScript) and runtime validation. Depends only on `@agentskit/core`.\n\nInstall it with `pnpm add @agentskit/templates`.",
+        "markdown": "**@agentskit/templates** — Generate AgentsKit extensions as standalone packages with consistent blueprints (tsup, vitest, TypeScript) and runtime validation. Depends only on `@agentskit/core`. This is a **programmatic** authoring toolkit — it is **not** what `agentskit init` uses under the hood (the CLI has separate app templates).\n\nInstall it with `pnpm add @agentskit/templates`.",
         "citations": [
           {
             "id": "package-templates",
@@ -2260,5 +2260,5 @@
       }
     }
   ],
-  "contentHash": "sha256:4b09a2cb27aae7727fa256047d509877eebdd9ef5a6b6b6612be8e44e47837fb"
+  "contentHash": "sha256:4d724baf83fdcb3bf409c87d3a004111a96d97607a6e97ab4e9158286c3648dd"
 }

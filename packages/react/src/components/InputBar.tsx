@@ -8,35 +8,38 @@ export interface InputBarProps {
 }
 
 export function InputBar({ chat, placeholder = 'Type a message...', disabled = false }: InputBarProps) {
+  const isStreaming = chat.status === 'streaming'
+  const blocked = disabled || isStreaming
+
+  const trySend = (): void => {
+    if (blocked || !chat.input.trim()) return
+    void chat.send(chat.input)
+  }
+
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault()
-    if (chat.input.trim()) {
-      chat.send(chat.input)
-    }
+    trySend()
   }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
-      if (chat.input.trim()) {
-        chat.send(chat.input)
-      }
+      trySend()
     }
   }
 
   return (
     <form data-ak-input-bar="" onSubmit={handleSubmit}>
       <textarea
-        role="textbox"
         value={chat.input}
         onChange={(e) => chat.setInput(e.target.value)}
         onKeyDown={handleKeyDown}
         placeholder={placeholder}
-        disabled={disabled}
+        disabled={blocked}
         data-ak-input=""
         rows={1}
       />
-      <button type="submit" disabled={disabled || !chat.input.trim()} data-ak-send="">
+      <button type="submit" disabled={blocked || !chat.input.trim()} data-ak-send="">
         Send
       </button>
     </form>

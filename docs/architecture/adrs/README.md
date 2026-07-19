@@ -60,5 +60,10 @@ Do NOT write an ADR for: routine features, bug fixes, internal refactors, or any
 | [0021](./0021-ecosystem-manifest-and-claims.md) | Versioned ecosystem manifest and evidence-backed claims | Proposed |
 | [0022](./0022-public-package-consolidation.md) | Public package consolidation | Accepted |
 | [0023](./0023-ecosystem-documentation-quality.md) | Strict ecosystem documentation quality profile | Proposed |
+| [0024](./0024-package-graduation-evidence.md) | Evidence-backed package graduation | Accepted |
+| [0025](./0025-public-api-and-compatibility-gates.md) | Public API snapshots and compatibility matrix | Accepted |
+| [0026](./0026-integration-execution-boundaries.md) | Integration execution safety boundaries | Accepted |
+| [0027](./0027-statechart-beta-boundaries.md) | Statechart beta safety boundaries | Accepted |
+| [0028](./0028-mcp-beta-boundaries.md) | MCP bridge beta boundaries | Accepted |
 
 The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.

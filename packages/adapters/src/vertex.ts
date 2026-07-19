@@ -1,5 +1,7 @@
 import type { AdapterFactory, AdapterRequest, StreamSource } from '@agentskit/core'
-import { createStreamSource, parseGeminiStream, type RetryOptions } from './utils'
+import { parseGeminiStream, type RetryOptions } from './utils'
+import { createStreamSource } from './stream-source'
+import { toGeminiContents } from './tool-history'
 
 export interface VertexConfig {
   /** GCP project id. */
@@ -35,12 +37,7 @@ export function vertex(config: VertexConfig): AdapterFactory {
     createSource: (request: AdapterRequest): StreamSource => {
       const systemMessage = request.messages.find(message => message.role === 'system')
       const body = {
-        contents: request.messages
-          .filter(message => message.role !== 'system')
-          .map(message => ({
-            role: message.role === 'assistant' ? 'model' : 'user',
-            parts: [{ text: message.content }],
-          })),
+        contents: toGeminiContents(request.messages),
         systemInstruction: systemMessage
           ? { role: 'system', parts: [{ text: systemMessage.content }] }
           : undefined,

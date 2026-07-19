@@ -1,5 +1,7 @@
 import type { ChatMemory, Message } from '@agentskit/core'
 
+type MemoryOperationOptions = Parameters<ChatMemory['load']>[0]
+
 export interface HierarchicalRecall {
   /**
    * Index a message for later retrieval. Called once per message as
@@ -69,18 +71,24 @@ export function createHierarchicalMemory(
   const workingLimit = Math.max(1, options.workingLimit ?? 50)
   const recallTopK = Math.max(0, options.recallTopK ?? 5)
 
-  const loadAll = async (source: ChatMemory): Promise<Message[]> => [...(await source.load())]
+  const loadAll = async (
+    source: ChatMemory,
+    memoryOptions?: MemoryOperationOptions,
+  ): Promise<Message[]> => [...(await source.load(memoryOptions))]
 
   return {
-    async load() {
-      const hot = await loadAll(options.working)
+    async load(memoryOptions?: MemoryOperationOptions) {
+      memoryOptions?.signal?.throwIfAborted()
+      const hot = await loadAll(options.working, memoryOptions)
       if (!options.recall || recallTopK === 0) return hot
+      memoryOptions?.signal?.throwIfAborted()
       let recalled: Message[] = []
       try {
         recalled = [...(await options.recall.query({ working: hot, topK: recallTopK }))]
       } catch {
         recalled = []
       }
+      memoryOptions?.signal?.throwIfAborted()
       const hotIds = new Set(hot.map(m => m.id))
       return mergeChronological(
         recalled.filter(m => !hotIds.has(m.id)),
@@ -88,34 +96,49 @@ export function createHierarchicalMemory(
       )
     },
 
-    async save(messages) {
-      const knownArchival = await loadAll(options.archival)
+    async save(messages, memoryOptions?: MemoryOperationOptions) {
+      memoryOptions?.signal?.throwIfAborted()
+      const knownArchival = await loadAll(options.archival, memoryOptions)
+      memoryOptions?.signal?.throwIfAborted()
       const archivalIds = new Set(knownArchival.map(m => m.id))
       const fresh = messages.filter(m => !archivalIds.has(m.id))
 
       // Archival: append everything, preserving full history.
       if (fresh.length > 0) {
-        await options.archival.save(mergeChronological(knownArchival, fresh))
+        await options.archival.save(
+          mergeChronological(knownArchival, fresh),
+          memoryOptions,
+        )
       }
 
       // Working: trim to the tail `workingLimit` of the caller's view.
       const tail = messages.slice(Math.max(0, messages.length - workingLimit))
       const overflow = messages.slice(0, Math.max(0, messages.length - workingLimit))
-      await options.working.save(tail)
+      memoryOptions?.signal?.throwIfAborted()
+      await options.working.save(tail, memoryOptions)
 
       if (options.recall) {
+        memoryOptions?.signal?.throwIfAborted()
         const knownOverflow = overflow.filter(m => fresh.some(f => f.id === m.id))
-        for (const m of knownOverflow) await options.recall.index(m)
+        for (const m of knownOverflow) {
+          memoryOptions?.signal?.throwIfAborted()
+          await options.recall.index(m)
+        }
         // Also index freshly saved messages that never hit working
         // (e.g. system/tool transcripts).
         const appended = fresh.filter(m => !tail.some(t => t.id === m.id))
-        for (const m of appended) await options.recall.index(m)
+        for (const m of appended) {
+          memoryOptions?.signal?.throwIfAborted()
+          await options.recall.index(m)
+        }
       }
     },
 
-    async clear() {
-      await options.working.clear?.()
-      await options.archival.clear?.()
+    async clear(memoryOptions?: MemoryOperationOptions) {
+      memoryOptions?.signal?.throwIfAborted()
+      await options.working.clear?.(memoryOptions)
+      memoryOptions?.signal?.throwIfAborted()
+      await options.archival.clear?.(memoryOptions)
     },
 
     async archival() {

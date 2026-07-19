@@ -5,6 +5,8 @@ import { camelCase, pascalCase } from './utils'
  * `FlowDefinition` (see `/docs/agents/flow`) and pairs it with a
  * registry module that this skeleton produces. `compileFlow` consumes
  * both and returns a durable runner.
+ *
+ * Named export only — package source never uses default exports.
  */
 export function generateFlowSource(name: string): string {
   return `import type { FlowRegistry } from '@agentskit/runtime'
@@ -35,8 +37,6 @@ export const ${camelCase(name)}Registry: FlowRegistry = {
 
   // Add more handlers as your flow's nodes need them.
 }
-
-export default ${camelCase(name)}Registry
 `
 }
 
@@ -63,6 +63,7 @@ nodes:
 }
 
 export function generateFlowReadme(name: string): string {
+  const registry = `${camelCase(name)}Registry`
   return `# ${name}
 
 A visual flow + handler registry for AgentsKit.
@@ -84,13 +85,16 @@ agentskit flow run      flow.yaml --registry ./dist/index.js \\\\
 
 ## Programmatic use
 
+Install the optional YAML parser first: \`npm install yaml\`.
+
 \`\`\`ts
+import { readFile } from 'node:fs/promises'
 import { compileFlow } from '@agentskit/runtime'
 import { parse } from 'yaml'
-import registry from './src/index'
+import { ${registry} } from './src/index'
 
 const definition = parse(await readFile('./flow.yaml', 'utf8'))
-const compiled = compileFlow({ definition, registry })
+const compiled = compileFlow({ definition, registry: ${registry} })
 const outputs = await compiled.run()
 \`\`\`
 
@@ -99,16 +103,17 @@ See [Visual flows](https://www.agentskit.io/docs/agents/flow).
 }
 
 export function generateFlowTest(name: string): string {
+  const registry = `${camelCase(name)}Registry`
   return `import { describe, expect, it } from 'vitest'
 import { compileFlow } from '@agentskit/runtime'
-import registry from '../src/index'
+import { ${registry} } from '../src/index'
 
 describe('${name} registry', () => {
   it('exposes a handler for every node referenced in flow.yaml', () => {
-    expect(typeof registry).toBe('object')
+    expect(typeof ${registry}).toBe('object')
     // The registry is consumed by compileFlow at run time. This test
     // just guards against accidental "{}" exports during refactors.
-    expect(Object.keys(registry).length).toBeGreaterThan(0)
+    expect(Object.keys(${registry}).length).toBeGreaterThan(0)
   })
 
   it('compiles a minimal flow against the registry', () => {
@@ -116,9 +121,9 @@ describe('${name} registry', () => {
       compileFlow({
         definition: {
           name: 'smoke',
-          nodes: Object.keys(registry).slice(0, 1).map(run => ({ id: 'a', run })),
+          nodes: Object.keys(${registry}).slice(0, 1).map(run => ({ id: 'a', run })),
         },
-        registry,
+        registry: ${registry},
       }),
     ).not.toThrow()
   })

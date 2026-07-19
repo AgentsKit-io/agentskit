@@ -4,7 +4,9 @@ Profile: <code>concise-package</code>
 
 <p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
-Create, validate, and scaffold custom AgentsKit extensions — tools, skills, and adapters — ready to publish and share.
+Create, validate, and scaffold custom AgentsKit extensions — tools, skills,
+adapters, memory backends, embedders, and flows — ready to customize, build,
+and publish.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/templates?color=blue)](https://www.npmjs.com/package/@agentskit/templates)
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/templates)](https://www.npmjs.com/package/@agentskit/templates)
@@ -23,7 +25,8 @@ Create, validate, and scaffold custom AgentsKit extensions — tools, skills, an
 
 ## How this fits the ecosystem
 
-@agentskit/templates helps you create new AgentsKit skills, tools, adapters, and project starters without inventing package shape from scratch.
+@agentskit/templates helps you create new AgentsKit skills, tools, adapters,
+and package starters without inventing package shape from scratch.
 
 - **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
 - **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
@@ -35,9 +38,10 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/templates) · [agen
 ## Why templates
 
 - **Skip the boilerplate** — `scaffold()` generates a complete npm package with src, tests, tsconfig, and README in one call
-- **Catch mistakes early** — `createToolTemplate()` validates required fields and gives clear error messages before your code runs
+- **Safe by default** — validates names, refuses symlink destinations, stages atomically, and fails on collisions unless `overwrite: true`
+- **Catch mistakes early** — `createToolTemplate()` validates required fields before your code runs
 - **Extend, don't rewrite** — inherit from built-in skills/tools and override only what you need
-- **Publish-ready output** — scaffolded packages include the correct tsup config, dual CJS/ESM exports, and a contract test
+- **Build-ready output** — compilable skeletons with dual CJS/ESM, `engines.node >=20`, MIT, and caret-pinned AgentsKit deps
 
 ## Install
 
@@ -80,42 +84,60 @@ const myResearcher = createSkillTemplate({
   name: 'my-researcher',
   systemPrompt: researcher.systemPrompt + '\nAlways cite sources with URLs.',
   temperature: 0.3,
+  metadata: { team: 'research' },
 })
 ```
 
 ## Scaffold a full package
 
+Eight shapes: `tool`, `skill`, `adapter`, `memory-vector`, `memory-chat`,
+`flow`, `embedder`, `browser-adapter`.
+
 ```ts
 import { scaffold } from '@agentskit/templates'
 
 await scaffold({
-  type: 'tool',       // 'tool' | 'skill' | 'adapter'
-  name: 'my-search',
+  type: 'tool',
+  name: 'my-search',          // unscoped kebab-case only
   dir: './packages',
   description: 'Custom search tool for AgentsKit',
+  // overwrite: true,         // default false — existing dirs fail safely
 })
 // → packages/my-search/
 //     package.json, tsconfig.json, tsup.config.ts
-//     src/index.ts (template with ToolDefinition)
+//     src/index.ts (named export ToolDefinition factory)
 //     tests/index.test.ts (contract test)
 //     README.md
 ```
 
+**Not the same as `agentskit init`.** The CLI bootstraps full apps with its own
+templates. This package is the programmatic authoring toolkit for extension
+packages (tools, skills, adapters, …).
+
+### Name & security notes
+
+- Names must be unscoped npm-safe kebab-case (`my-search`). Scoped packages
+  (`@org/pkg`) are not supported in this beta — migration will land in a later
+  minor if needed.
+- Destinations are staged then renamed atomically; symlink destination roots are refused;
+  collisions fail unless you pass `overwrite: true`.
+
 ## Features
 
-- `createToolTemplate` — validated tool factory with type-safe schema
-- `createSkillTemplate` — extend built-in skills with overrides
-- `scaffold({ type, name, dir })` — generate a complete npm package ready to publish
-- All outputs align with `@agentskit/core` contracts — no manual ADR compliance required
+- `createToolTemplate` / `createSkillTemplate` / `createAdapterTemplate` — validated factories
+- `scaffold({ type, name, dir, overwrite? })` — generate a complete npm package
+- `validateToolTemplate` / `validateSkillTemplate` / `validateAdapterTemplate`
+- `SCAFFOLD_TYPES`, `validateScaffoldConfig`
+- Outputs align with `@agentskit/core` contracts (JSON Schema, not Zod)
 
 ## Ecosystem
 
 | Package | Role |
 |---------|------|
-| [@agentskit/core](https://www.npmjs.com/package/@agentskit/core) | `ToolDefinition`, `SkillDefinition` |
-| [@agentskit/tools](https://www.npmjs.com/package/@agentskit/tools) | Reference implementations |
+| [@agentskit/core](https://www.npmjs.com/package/@agentskit/core) | `ToolDefinition`, `SkillDefinition`, `AdapterFactory` |
+| [@agentskit/tools](https://www.npmjs.com/package/@agentskit/tools) | Reference tool implementations |
 | [@agentskit/skills](https://www.npmjs.com/package/@agentskit/skills) | Skills you can extend with `createSkillTemplate` |
-| [@agentskit/runtime](https://www.npmjs.com/package/@agentskit/runtime) | Where custom tools/skills run |
+| [@agentskit/runtime](https://www.npmjs.com/package/@agentskit/runtime) | Where custom tools/skills run; flow scaffolds depend on it |
 
 ## Contributors
 
@@ -135,8 +157,16 @@ MIT — see [LICENSE](../../LICENSE).
 
 <!-- readme-example:quickstart -->
 ```ts
-import '@agentskit/templates'
-console.log('@agentskit/templates loaded')
+import { createToolTemplate } from '@agentskit/templates'
+
+const echo = createToolTemplate({
+  name: 'echo',
+  description: 'Echo a string back',
+  schema: { type: 'object', properties: { text: { type: 'string' } }, required: ['text'] },
+  execute: async (args) => String(args.text),
+})
+
+console.log(echo.name)
 ```
 
 ## Maturity and compatibility

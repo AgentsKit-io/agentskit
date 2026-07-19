@@ -1,5 +1,8 @@
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
-import { createStreamSource, type RetryOptions } from './utils'
+import type { RetryOptions } from './utils'
+import { createStreamSource } from './stream-source'
+import { readSSELines } from './stream-lines'
+import { adapterErrorChunk } from './stream-errors'
 
 export interface VercelAIConfig {
   api: string
@@ -7,7 +10,13 @@ export interface VercelAIConfig {
   retry?: RetryOptions
 }
 
-async function* parseVercelStream(stream: ReadableStream): AsyncIterableIterator<StreamChunk> {
+const UI_STREAM_HEADER = 'x-vercel-ai-ui-message-stream'
+
+/**
+ * Plain text mode: body bytes are text deltas. Used when the response is not
+ * UI Message Stream v1.
+ */
+async function* parseVercelTextStream(stream: ReadableStream): AsyncIterableIterator<StreamChunk> {
   const reader = stream.getReader()
   const decoder = new TextDecoder()
 
@@ -23,6 +32,82 @@ async function* parseVercelStream(stream: ReadableStream): AsyncIterableIterator
   }
 
   yield { type: 'done' }
+}
+
+/**
+ * Official AI SDK UI Message Stream protocol v1 (SSE):
+ * data JSON parts (text-delta / reasoning-delta / error / abort / finish),
+ * ending with `data: [DONE]`.
+ */
+async function* parseVercelUiMessageStreamV1(
+  stream: ReadableStream,
+): AsyncIterableIterator<StreamChunk> {
+  let sawDone = false
+
+  for await (const data of readSSELines(stream)) {
+    if (data === '[DONE]') {
+      sawDone = true
+      yield { type: 'done' }
+      return
+    }
+
+    try {
+      const part = JSON.parse(data) as {
+        type?: string
+        delta?: string
+        textDelta?: string
+        errorText?: string
+        message?: string
+        reason?: string
+      }
+      const type = part.type
+      if (type === 'text-delta') {
+        const delta = part.delta ?? part.textDelta
+        if (typeof delta === 'string' && delta) {
+          yield { type: 'text', content: delta }
+        }
+      } else if (type === 'reasoning-delta') {
+        const delta = part.delta ?? part.textDelta
+        if (typeof delta === 'string' && delta) {
+          yield { type: 'reasoning', content: delta }
+        }
+      } else if (type === 'error') {
+        const message = part.errorText ?? part.message ?? 'Vercel AI UI stream error'
+        yield adapterErrorChunk(String(message))
+        return
+      } else if (type === 'abort') {
+        yield adapterErrorChunk(part.reason ?? 'Vercel AI UI stream aborted by provider')
+        return
+      } else if (type === 'finish') {
+        // Wait for [DONE] sentinel.
+        continue
+      }
+    } catch {
+      // Ignore non-JSON data lines.
+    }
+  }
+
+  if (!sawDone) {
+    yield adapterErrorChunk('Vercel AI UI stream truncated before [DONE]')
+  }
+}
+
+/**
+ * Dispatch parser: UI Message Stream v1 when header is present; otherwise
+ * plain text mode. Second arg is the Response from createStreamSource.
+ */
+export async function* parseVercelStream(
+  stream: ReadableStream,
+  response?: Response,
+): AsyncIterableIterator<StreamChunk> {
+  const header =
+    response?.headers.get(UI_STREAM_HEADER) ??
+    response?.headers.get(UI_STREAM_HEADER.toLowerCase())
+  if (header === 'v1') {
+    yield* parseVercelUiMessageStreamV1(stream)
+    return
+  }
+  yield* parseVercelTextStream(stream)
 }
 
 export function vercelAI(config: VercelAIConfig): AdapterFactory {

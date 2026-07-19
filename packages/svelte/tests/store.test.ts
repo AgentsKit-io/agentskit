@@ -21,6 +21,21 @@ function mockAdapter(chunks: StreamChunk[]): AdapterFactory {
   }
 }
 
+function hangingAdapter(opts: { abort: () => void; onSource?: () => void }): AdapterFactory {
+  return {
+    createSource: () => {
+      opts.onSource?.()
+      return {
+        async *stream() {
+          yield { type: 'text' as const, content: 'started' }
+          await new Promise(() => {})
+        },
+        abort: opts.abort,
+      }
+    },
+  }
+}
+
 describe('@agentskit/svelte', () => {
   it('exports createChatStore', () => {
     expect(typeof createChatStore).toBe('function')
@@ -76,5 +91,73 @@ describe('@agentskit/svelte', () => {
     store.setInput('after-destroy')
     expect(count).toBeGreaterThanOrEqual(before)
     unsub()
+  })
+
+  it('destroy stops an in-flight stream and is safe to call repeatedly', async () => {
+    const abort = vi.fn()
+    let sourceReady: (() => void) | undefined
+    const ready = new Promise<void>(resolve => {
+      sourceReady = resolve
+    })
+    const store = createChatStore({
+      adapter: hangingAdapter({
+        abort,
+        onSource: () => sourceReady?.(),
+      }),
+    })
+    const unsub = store.subscribe(() => {})
+
+    void store.send('go')
+    await ready
+
+    store.destroy()
+    store.destroy()
+    store.destroy()
+
+    expect(abort).toHaveBeenCalledOnce()
+    unsub()
+  })
+
+  it('isolates state across concurrent stores', async () => {
+    const a = createChatStore({
+      adapter: mockAdapter([
+        { type: 'text', content: 'from-a' },
+        { type: 'done' },
+      ]),
+    })
+    const b = createChatStore({
+      adapter: mockAdapter([
+        { type: 'text', content: 'from-b' },
+        { type: 'done' },
+      ]),
+    })
+
+    a.setInput('draft-a')
+    b.setInput('draft-b')
+
+    let aInput = ''
+    let bInput = ''
+    let aMessages: { content: string }[] = []
+    let bMessages: { content: string }[] = []
+    const unsubA = a.subscribe(state => {
+      aInput = state.input
+      aMessages = state.messages
+    })
+    const unsubB = b.subscribe(state => {
+      bInput = state.input
+      bMessages = state.messages
+    })
+
+    expect(aInput).toBe('draft-a')
+    expect(bInput).toBe('draft-b')
+
+    await a.send('hello-a')
+    expect(aMessages.some(m => m.content === 'from-a')).toBe(true)
+    expect(bMessages).toHaveLength(0)
+
+    unsubA()
+    unsubB()
+    a.destroy()
+    b.destroy()
   })
 })

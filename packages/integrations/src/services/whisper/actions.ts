@@ -17,10 +17,17 @@ export const whisperTranscribe = defineAction({
     properties: { url: { type: 'string' }, language: { type: 'string' } },
     required: ['url'],
   },
-  async execute(args, { fetch, config }) {
+  async execute(args, { fetch, fetchUntrusted, config }) {
     const cfg = config as WhisperRuntimeConfig
     const baseUrl = cfg.baseUrl ?? 'https://api.openai.com/v1'
-    const audio = await fetch(String(args.url))
+    if (!fetchUntrusted) {
+      throw new ToolError({
+        code: ErrorCodes.AK_TOOL_INVALID_INPUT,
+        message: 'whisper_transcribe: fetchUntrusted is required for model-controlled audio URLs',
+        hint: 'Inject an egress-policy fetch as ProjectionConfig.fetchUntrusted (or IntegrationActionContext.fetchUntrusted) when using @agentskit/integrations directly.',
+      })
+    }
+    const audio = await fetchUntrusted(String(args.url))
     if (!audio.ok) {
       throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `whisper: audio fetch ${audio.status}`, hint: `URL ${String(args.url)}.` })
     }

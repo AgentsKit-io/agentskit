@@ -4,6 +4,7 @@ import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { AdapterFactory, AdapterRequest, StreamChunk } from '@agentskit/core'
 import {
+  createCassette,
   createRecordingAdapter,
   createReplayAdapter,
   saveCassette,
@@ -194,5 +195,96 @@ describe('replay engine', () => {
     await collect(factory.createSource(req('a')).stream())
     const src = createReplayAdapter(cassette).createSource(req('a'))
     expect(() => src.abort()).not.toThrow()
+  })
+
+  it('isolates request/chunks from post-record mutation of the live request', async () => {
+    const request = req('mutable')
+    const base = fakeAdapter([{ type: 'text', content: 'orig' }, { type: 'done' }])
+    const { factory, cassette } = createRecordingAdapter(base, {
+      metadata: { tag: 'v1' },
+    })
+    await collect(factory.createSource(request).stream())
+
+    request.messages[0]!.content = 'MUTATED'
+    expect(cassette.entries[0]!.request.messages[0]!.content).toBe('mutable')
+
+    const chunk = cassette.entries[0]!.chunks[0]!
+    if (chunk.type === 'text') {
+      // Mutating a recorded chunk object must not affect a defensive copy used elsewhere.
+      const copy = { ...chunk, content: 'HACK' }
+      expect(cassette.entries[0]!.chunks[0]!.content).toBe('orig')
+      expect(copy.content).toBe('HACK')
+    }
+  })
+
+  it('captures the request before a base adapter can mutate it synchronously', () => {
+    const request = req('original')
+    const base: AdapterFactory = {
+      createSource(input) {
+        input.messages[0]!.content = 'changed-by-adapter'
+        return fakeAdapter([{ type: 'done' }]).createSource(input)
+      },
+    }
+    const { factory, cassette } = createRecordingAdapter(base)
+    factory.createSource(request)
+    expect(cassette.entries[0]!.request.messages[0]!.content).toBe('original')
+  })
+
+  it('replay yields isolated chunks; mutations do not affect cassette', async () => {
+    const base = fakeAdapter([{ type: 'text', content: 'A' }, { type: 'done' }])
+    const { factory, cassette } = createRecordingAdapter(base)
+    await collect(factory.createSource(req('ping')).stream())
+
+    const replay = createReplayAdapter(cassette)
+    const replayed = await collect(replay.createSource(req('ping')).stream())
+    replayed[0] = { type: 'text', content: 'HACKED' }
+    expect(cassette.entries[0]!.chunks[0]!.content).toBe('A')
+
+    const again = await collect(createReplayAdapter(cassette).createSource(req('ping')).stream())
+    expect(again[0]!.content).toBe('A')
+  })
+
+  it('snapshots cassette entries when the replay adapter is created', async () => {
+    const cassette = createCassette({
+      entries: [
+        {
+          request: req('stable'),
+          chunks: [{ type: 'text', content: 'stable-output' }],
+        },
+      ],
+    })
+    const replay = createReplayAdapter(cassette)
+    cassette.entries[0]!.request.messages[0]!.content = 'external-change'
+    cassette.entries[0]!.chunks[0] = { type: 'text', content: 'external-output' }
+    const chunks = await collect(replay.createSource(req('stable')).stream())
+    expect(chunks[0]?.content).toBe('stable-output')
+  })
+
+  it('rejects invalid replay mode at runtime', () => {
+    const cassette = parseCassette(JSON.stringify({ version: 1, entries: [] }))
+    expect(() => createReplayAdapter(cassette, { mode: 'nope' as 'strict' })).toThrow(
+      /Invalid replay mode/,
+    )
+  })
+
+  it('parseCassette validates essential shape and returns an isolated snapshot', () => {
+    const json = JSON.stringify({
+      version: 1,
+      entries: [{ request: req('round-trip'), chunks: [{ type: 'done' }] }],
+    })
+    const a = parseCassette(json)
+    const b = parseCassette(json)
+    a.entries[0]!.chunks[0] = { type: 'text', content: 'x' }
+    expect(b.entries[0]!.chunks[0]!.type).toBe('done')
+    expect(b.entries[0]!.request.messages[0]!.createdAt).toBeInstanceOf(Date)
+
+    expect(() => parseCassette(JSON.stringify({ version: 1, entries: [{}] }))).toThrow(
+      /request must be an object/,
+    )
+    expect(() =>
+      parseCassette(
+        JSON.stringify({ version: 1, entries: [{ request: { messages: 'nope' }, chunks: [] }] }),
+      ),
+    ).toThrow(/messages must be an array/)
   })
 })

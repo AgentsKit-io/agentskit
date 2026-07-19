@@ -21,6 +21,7 @@ export function slackTool(config: SlackToolConfig): ToolDefinition {
     description: 'Send a message to a Slack channel via an Incoming Webhook.',
     tags: ['slack', 'notify', 'webhook'],
     category: 'notification',
+    requiresConfirmation: true,
     schema: {
       type: 'object',
       properties: {

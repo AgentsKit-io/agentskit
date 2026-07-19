@@ -37,8 +37,9 @@ export {
   integrationsByCategory,
 } from './registry'
 
-// Side-effect import: registers every catalog service into the default
-// registry. Empty until services land in the move/add phases.
+// Projection helpers (toToolDefinitions binds auth + propagates signal /
+// fetchUntrusted). Catalog services are re-exported below and register into
+// the default registry via side effects.
 export type { ProjectionConfig } from './project/to-tool-definitions'
 export {
   toToolDefinitions,

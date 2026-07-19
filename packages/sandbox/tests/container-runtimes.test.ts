@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { renderBwrapArgs, renderDockerArgs } from '../src/index'
 import {
+  assertSafeDockerCapability,
+  assertSafeDockerExtraArgs,
   bwrapRuntime,
   dockerRuntime,
   getBwrapPath,
@@ -44,12 +46,15 @@ describe('renderBwrapArgs', () => {
     })
     const ro = args.indexOf('--ro-bind')
     expect([args[ro + 1], args[ro + 2]]).toEqual(['/ro', '/ro'])
-    // both /ws and /rw are bound read-write
     const binds: string[] = []
     args.forEach((a, i) => {
       if (a === '--bind') binds.push(args[i + 1]!)
     })
     expect(binds).toEqual(['/ws', '/rw'])
+  })
+
+  it('rejects relative workspaceRoot', () => {
+    expect(() => renderBwrapArgs({ workspaceRoot: 'ws' })).toThrow(/absolute/)
   })
 })
 
@@ -63,17 +68,17 @@ describe('isBwrapSupported / getBwrapPath', () => {
 })
 
 describe('renderDockerArgs (full policy)', () => {
-  it('honors capabilities, user, mountTarget, and extraArgs', () => {
+  it('honors capabilities, user, mountTarget, and safe extraArgs', () => {
     const args = renderDockerArgs({
       image: 'node:20',
       workspaceRoot: '/ws',
       mountTarget: '/app',
-      capabilities: ['NET_ADMIN'],
+      capabilities: ['NET_BIND_SERVICE'],
       user: '1000:1000',
       extraArgs: ['--memory', '256m'],
     })
     expect(args).toContain('--cap-add')
-    expect(args).toContain('NET_ADMIN')
+    expect(args).toContain('NET_BIND_SERVICE')
     const u = args.indexOf('--user')
     expect(args[u + 1]).toBe('1000:1000')
     expect(args).toContain('/ws:/app:ro')
@@ -82,11 +87,61 @@ describe('renderDockerArgs (full policy)', () => {
   })
 })
 
+describe('docker extraArgs / capabilities safety', () => {
+  it('rejects obvious escapes', () => {
+    expect(() => assertSafeDockerExtraArgs(['--privileged'])).toThrow(/privileged/)
+    expect(() => assertSafeDockerExtraArgs(['--pid=host'])).toThrow(/PID/)
+    expect(() => assertSafeDockerExtraArgs(['--ipc', 'host'])).toThrow(/IPC/)
+    expect(() => assertSafeDockerExtraArgs(['--network=host'])).toThrow(/network/)
+    expect(() => assertSafeDockerExtraArgs(['--network', 'bridge'])).toThrow(/policy\.network/)
+    expect(() => assertSafeDockerExtraArgs(['--cap-add', 'NET_BIND_SERVICE'])).toThrow(/policy\.capabilities/)
+    expect(() => assertSafeDockerExtraArgs(['-v', '/:/host'])).toThrow(/volume/)
+    expect(() => assertSafeDockerExtraArgs(['--device=/dev/sda'])).toThrow(/device/)
+    expect(() => assertSafeDockerExtraArgs(['--security-opt', 'seccomp=unconfined'])).toThrow(/security-opt/)
+    expect(() => assertSafeDockerCapability('ALL')).toThrow(/capability/)
+    expect(() => assertSafeDockerCapability('SYS_ADMIN')).toThrow(/capability/)
+  })
+
+  it('allows safe resource limits', () => {
+    expect(() => assertSafeDockerExtraArgs(['--memory', '256m', '--cpus', '1'])).not.toThrow()
+  })
+
+  it('renderDockerArgs rejects host network and dangerous caps', () => {
+    expect(() =>
+      renderDockerArgs({ image: 'node:20', workspaceRoot: '/ws', network: 'host' }),
+    ).toThrow(/host/)
+    expect(() =>
+      renderDockerArgs({ image: 'node:20', workspaceRoot: '/ws', capabilities: ['SYS_ADMIN'] }),
+    ).toThrow(/capability/)
+    expect(() =>
+      renderDockerArgs({ image: 'node:20', workspaceRoot: '/ws', extraArgs: ['--privileged'] }),
+    ).toThrow(/privileged/)
+  })
+
+  it('snapshots extraArgs on dockerRuntime so later mutation is ignored', async () => {
+    const extra = ['--memory', '64m']
+    const { spawner, calls } = mockSpawner()
+    const rt = dockerRuntime({
+      policy: { image: 'node:20', workspaceRoot: '/ws', extraArgs: extra },
+      spawner,
+    })
+    extra.push('--privileged')
+    await rt.spawn({ command: 'true', args: [] })
+    const [, opts] = calls.find(([k]) => k === 'spawn')!
+    const args = (opts as { args: string[] }).args
+    expect(args).toContain('--memory')
+    expect(args).toContain('64m')
+    expect(args).not.toContain('--privileged')
+  })
+})
+
 describe('bwrapRuntime', () => {
   it('spawns through the injected spawner', async () => {
     const { spawner, calls } = mockSpawner()
     const rt = bwrapRuntime({ policy: { workspaceRoot: '/ws' }, spawner })
     expect(rt.name).toBe('bwrap')
+    // level stays 'process' for registry compatibility (beta/future remap)
+    expect(rt.level).toBe('process')
     const handle = await rt.spawn({ command: 'echo', args: ['hi'] })
     expect(handle.pid).toBe(4242)
     const [, opts] = calls.find(([k]) => k === 'spawn')!

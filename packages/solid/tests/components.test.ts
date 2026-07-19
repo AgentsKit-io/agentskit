@@ -131,7 +131,7 @@ describe('CodeBlock', () => {
 })
 
 describe('ToolCallView', () => {
-  it('collapsed by default, toggles details on click', async () => {
+  it('collapsed by default, toggles details on click, and exposes aria-expanded', async () => {
     const { container } = render(() => ToolCallView({ toolCall: makeToolCall({ result: 'res' }) }))
     const root = container.querySelector('[data-ak-tool-call]') as HTMLElement
     expect(root.getAttribute('data-ak-tool-status')).toBe('complete')
@@ -139,12 +139,15 @@ describe('ToolCallView', () => {
 
     const toggle = container.querySelector('[data-ak-tool-toggle]') as HTMLButtonElement
     expect(toggle.textContent).toBe('search')
+    expect(toggle.getAttribute('aria-expanded')).toBe('false')
     fireEvent.click(toggle)
+    expect(toggle.getAttribute('aria-expanded')).toBe('true')
     expect(container.querySelector('[data-ak-tool-details]')).toBeTruthy()
     expect(container.querySelector('[data-ak-tool-args]')?.textContent).toContain('cats')
     expect(container.querySelector('[data-ak-tool-result]')?.textContent).toBe('res')
 
     fireEvent.click(toggle)
+    expect(toggle.getAttribute('aria-expanded')).toBe('false')
     expect(container.querySelector('[data-ak-tool-details]')).toBeNull()
   })
 
@@ -271,6 +274,20 @@ describe('InputBar', () => {
     const { container } = render(() => InputBar({ chat, disabled: true }))
     expect((container.querySelector('[data-ak-input]') as HTMLTextAreaElement).disabled).toBe(true)
     expect((container.querySelector('[data-ak-send]') as HTMLButtonElement).disabled).toBe(true)
+  })
+
+  it('blocks submit and Enter while streaming and omits redundant textbox role', () => {
+    const send = vi.fn()
+    const chat = makeChat({ input: 'hi', status: 'streaming', send })
+    const { container } = render(() => InputBar({ chat }))
+    const ta = container.querySelector('[data-ak-input]') as HTMLTextAreaElement
+    const form = container.querySelector('[data-ak-input-bar]') as HTMLFormElement
+    expect(ta.getAttribute('role')).toBeNull()
+    expect(ta.disabled).toBe(true)
+    expect((container.querySelector('[data-ak-send]') as HTMLButtonElement).disabled).toBe(true)
+    fireEvent.submit(form)
+    fireEvent.keyDown(ta, { key: 'Enter', shiftKey: false })
+    expect(send).not.toHaveBeenCalled()
   })
 })
 

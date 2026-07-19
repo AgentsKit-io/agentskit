@@ -93,6 +93,23 @@ describe('replayAgainst', () => {
     expect(r).toHaveLength(6)
     expect(r.map(x => x.turn)).toEqual([0, 1, 2, 3, 4, 5])
   })
+
+  it('rejects non-integer / non-finite concurrency and limit', async () => {
+    const cassette = buildCassette([{ input: 'a', output: 'A' }])
+    const candidate = mapAdapter(x => x)
+    await expect(replayAgainst(cassette, candidate, { concurrency: 1.5 })).rejects.toThrow(
+      /non-negative finite integer/,
+    )
+    await expect(replayAgainst(cassette, candidate, { concurrency: Number.NaN })).rejects.toThrow(
+      /non-negative finite integer/,
+    )
+    await expect(replayAgainst(cassette, candidate, { limit: -1 })).rejects.toThrow(
+      /non-negative finite integer/,
+    )
+    await expect(replayAgainst(cassette, candidate, { limit: Number.POSITIVE_INFINITY })).rejects.toThrow(
+      /non-negative finite integer/,
+    )
+  })
 })
 
 describe('summarizeReplay', () => {

@@ -25,13 +25,25 @@ npm install @agentskit/mcp
   wrap a whole agent as one MCP tool. The host calls it with a `task`; the agent
   runs server-side on the given adapter and returns the result ("agents as MCP tools").
 - `fetchAgentSkill(id, fetchImpl?)` — fetch a registry agent's runnable skill
-  (hosted index, raw-GitHub fallback); `null` for tool-composing agents.
+  (hosted index, raw-GitHub fallback); `null` for tool-composing agents. An
+  optional third argument controls abort, timeout, and response-byte limits.
 
 ## Bin
 
 `agentskit-mcp` — `npx @agentskit/mcp --tools fetch,search`. Expose whole agents
 with `--agents <ids> --provider <p>` (any of ~20 providers + catalog OpenAI-compatible). Flags: `--tools`,
-`--fs-root`, `--sqlite`, `--allow-shell`. stdout is the JSON-RPC channel; logs go to stderr.
+`--fs-root`, `--sqlite`, `--allow-shell`, `--model`, `--max-steps`, `--api-key`,
+`--base-url`. Unknown, duplicate, or valueless flags fail closed. stdout is the
+JSON-RPC channel; diagnostics and help go to stderr.
+
+## Beta boundaries
+
+- Tool names are unique and follow the current MCP 1–128 character interoperability grammar.
+- Server configuration and agent-tool configuration fail with typed AgentsKit diagnostics.
+- Published tool definitions are snapshotted; observer failures cannot alter protocol behavior.
+- Agent tasks, step counts, prompts, descriptions, registry IDs, request time, and response bytes are bounded.
+- Registry source is treated as data and never executed.
+- The built-in surface is the MCP tools subset over stdio or an injected transport. HTTP/WebSocket, resources, prompts, sampling, auth, rate limiting, and persistence are host responsibilities.
 
 ## Minimal example
 
@@ -51,3 +63,4 @@ createAgentsKitMcpServer({ tools: [fetchUrl()] })
 
 - npm: https://www.npmjs.com/package/@agentskit/mcp
 - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/mcp
+- contract: [ADR-0028](../../../../../docs/architecture/adrs/0028-mcp-beta-boundaries.md)

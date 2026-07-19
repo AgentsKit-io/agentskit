@@ -26,6 +26,13 @@ export interface ContractAdapterCase {
   successBody(): ContractStubResponse
 }
 
+function bodyToBytes(body: string | Uint8Array | ReadableStream<Uint8Array>): Uint8Array {
+  if (body instanceof ReadableStream) {
+    throw new Error('contract harness: successBody must be string|Uint8Array for delayed streams')
+  }
+  return typeof body === 'string' ? new TextEncoder().encode(body) : body
+}
+
 function bodyToStream(body: string | Uint8Array | ReadableStream<Uint8Array>): ReadableStream<Uint8Array> {
   if (body instanceof ReadableStream) return body
   const bytes = typeof body === 'string' ? new TextEncoder().encode(body) : body
@@ -33,6 +40,50 @@ function bodyToStream(body: string | Uint8Array | ReadableStream<Uint8Array>): R
     start(controller) {
       controller.enqueue(bytes)
       controller.close()
+    },
+  })
+}
+
+/**
+ * Deliver body in small pieces, honouring AbortSignal so mid-stream abort
+ * is observable (instant full-body responses race past abort).
+ */
+function delayedAbortableStream(
+  body: string | Uint8Array,
+  signal: AbortSignal | undefined,
+  chunkSize = 16,
+  delayMs = 5,
+): ReadableStream<Uint8Array> {
+  const bytes = typeof body === 'string' ? new TextEncoder().encode(body) : body
+  let offset = 0
+  return new ReadableStream({
+    async pull(controller) {
+      if (signal?.aborted) {
+        controller.close()
+        return
+      }
+      if (offset >= bytes.length) {
+        controller.close()
+        return
+      }
+      await new Promise<void>((resolve) => {
+        const timer = setTimeout(resolve, delayMs)
+        signal?.addEventListener(
+          'abort',
+          () => {
+            clearTimeout(timer)
+            resolve()
+          },
+          { once: true },
+        )
+      })
+      if (signal?.aborted) {
+        controller.close()
+        return
+      }
+      const next = bytes.subarray(offset, offset + chunkSize)
+      offset += next.length
+      controller.enqueue(next)
     },
   })
 }
@@ -66,6 +117,10 @@ async function drain(factory: AdapterFactory): Promise<StreamChunk[]> {
   return out
 }
 
+function isTerminal(chunk: StreamChunk | undefined): boolean {
+  return chunk?.type === 'done' || chunk?.type === 'error'
+}
+
 /**
  * Run the ADR 0001 contract suite against one adapter. Call from a
  * `describe(...)` so vitest's `beforeEach` / `afterEach` scope correctly.
@@ -87,12 +142,12 @@ export function runAdapterContract(adapterCase: ContractAdapterCase): void {
       expect((fetchSpy as unknown as { mock: { calls: unknown[] } }).mock.calls.length).toBe(0)
     })
 
-    it('A3 + A4: stream ends with a terminal chunk (done or error)', async () => {
+    it('A3 + A4: stream ends with exactly one terminal chunk (done or error)', async () => {
       globalThis.fetch = mockSuccess(adapterCase.successBody())
       const out = await drain(adapterCase.build())
-      const last = out[out.length - 1]
-      expect(last).toBeDefined()
-      expect(['done', 'error']).toContain(last!.type)
+      const terminals = out.filter(c => c.type === 'done' || c.type === 'error')
+      expect(terminals).toHaveLength(1)
+      expect(isTerminal(out[out.length - 1])).toBe(true)
     })
 
     it('A6: abort is safe before stream() is called', () => {
@@ -108,6 +163,35 @@ export function runAdapterContract(adapterCase: ContractAdapterCase): void {
       expect(() => source.abort()).not.toThrow()
     })
 
+    it('A6: mid-stream abort stops further chunks', async () => {
+      const stub = adapterCase.successBody()
+      const raw = stub.body
+      if (raw instanceof ReadableStream) {
+        // Skip exotic bodies; all stock cases use string bodies.
+        return
+      }
+      globalThis.fetch = vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
+        return new Response(delayedAbortableStream(raw, init?.signal), {
+          status: stub.status ?? 200,
+          headers: { 'content-type': stub.contentType ?? 'text/event-stream' },
+        })
+      }) as unknown as typeof globalThis.fetch
+
+      const source = adapterCase.build().createSource({ messages: [userMessage('hi')] })
+      const iter = source.stream()[Symbol.asyncIterator]()
+      const first = await iter.next()
+      // May or may not have decoded a full SSE frame yet; either way, abort.
+      void first
+      source.abort()
+      const afterAbort: StreamChunk[] = []
+      while (true) {
+        const next = await iter.next()
+        if (next.done) break
+        afterAbort.push(next.value)
+      }
+      expect(afterAbort).toEqual([])
+    })
+
     it('A7: input messages are not mutated', async () => {
       globalThis.fetch = mockSuccess(adapterCase.successBody())
       const messages = [userMessage('hi')]
@@ -116,16 +200,25 @@ export function runAdapterContract(adapterCase: ContractAdapterCase): void {
       expect(JSON.stringify(messages)).toBe(snapshot)
     })
 
-    it('A9: errors surface as an error chunk, not a thrown exception', async () => {
+    it('A9: upstream failure yields exactly one error chunk with metadata.error', async () => {
       globalThis.fetch = mockFailure()
       const out: StreamChunk[] = []
       // Must not throw — caller drains, contract says no rejection here.
-      for await (const chunk of adapterCase.build().createSource({ messages: [userMessage('hi')] }).stream()) {
-        out.push(chunk)
+      let rejected: unknown
+      try {
+        for await (const chunk of adapterCase.build().createSource({ messages: [userMessage('hi')] }).stream()) {
+          out.push(chunk)
+        }
+      } catch (err) {
+        rejected = err
       }
-      // Either an error chunk somewhere, or a graceful done — but not zero output.
-      expect(out.length).toBeGreaterThan(0)
-      expect(out.some(c => c.type === 'error' || c.type === 'done')).toBe(true)
+      expect(rejected).toBeUndefined()
+
+      const terminals = out.filter(c => c.type === 'done' || c.type === 'error')
+      expect(terminals).toHaveLength(1)
+      expect(terminals[0]!.type).toBe('error')
+      expect(terminals[0]!.metadata?.error).toBeInstanceOf(Error)
+      expect(out.some(c => c.type === 'done')).toBe(false)
     })
   })
 }
@@ -152,11 +245,11 @@ export function anthropicSuccessBody(): ContractStubResponse {
   }
 }
 
-/** Minimal Gemini SSE stream: one text candidate. */
+/** Minimal Gemini SSE stream: one text candidate with finish reason (terminal). */
 export function geminiSuccessBody(): ContractStubResponse {
   return {
     body:
-      `data: {"candidates":[{"content":{"parts":[{"text":"hi"}]}}]}\n\n`,
+      `data: {"candidates":[{"content":{"parts":[{"text":"hi"}]},"finishReason":"STOP"}]}\n\n`,
   }
 }
 

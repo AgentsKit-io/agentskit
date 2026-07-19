@@ -4,8 +4,10 @@ import type {
   AdapterFactory,
   AdapterRequest,
   DataRegion,
+  StreamChunk,
   StreamSource,
 } from '@agentskit/core'
+import { isAbortError } from './stream-errors'
 
 export interface RouterCandidate {
   id: string
@@ -141,6 +143,7 @@ export function createRouter(options: RouterOptions): AdapterFactory {
       const eligible = capable.filter(c => matchesRegion(c, region))
 
       if (capable.length > 0 && eligible.length === 0 && region !== undefined) {
+        // Programmer configuration at createSource time — ADR allows throw.
         throw new ConfigError({
           code: ErrorCodes.AK_CONFIG_INVALID,
           message: `no candidate satisfies required region: ${region}`,
@@ -168,6 +171,7 @@ export function createRouter(options: RouterOptions): AdapterFactory {
       }
 
       if (pool.length === 0) {
+        // No eligible candidate for this request — config/setup failure at createSource.
         throw new AdapterError({
           code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,
           message: 'no candidate satisfies the request',
@@ -177,27 +181,75 @@ export function createRouter(options: RouterOptions): AdapterFactory {
 
       if (typeof policy === 'function') {
         const maybe = policy({ request, candidates: pool })
-        if (maybe instanceof Promise) {
+        if (typeof maybe !== 'string') {
           // Defer resolution into the streamed source.
+          let aborted = false
+          let child: StreamSource | undefined
           return {
-            abort: () => {},
+            abort: () => {
+              aborted = true
+              child?.abort()
+            },
             stream: async function* () {
-              const id = await maybe
+              if (aborted) return
+              let id: string
+              try {
+                id = await maybe
+              } catch (err) {
+                if (aborted || isAbortError(err)) return
+                const error = err instanceof Error ? err : new Error(String(err))
+                yield {
+                  type: 'error',
+                  content: error.message,
+                  metadata: { error },
+                } as StreamChunk
+                return
+              }
+              if (aborted) return
               const c = pool.find(x => x.id === id)
               if (!c) {
-                throw new ConfigError({
+                const error = new ConfigError({
                   code: ErrorCodes.AK_CONFIG_INVALID,
                   message: `policy returned unknown id: ${id}`,
                   hint: 'Custom policy functions must return one of the candidate ids.',
                 })
+                yield {
+                  type: 'error',
+                  content: error.message,
+                  metadata: { error },
+                } as StreamChunk
+                return
               }
-              options.onRoute?.({ id: c.id, reason: pickedBy ?? 'custom policy', request })
-              for await (const chunk of c.adapter.createSource(request).stream()) yield chunk
+              if (aborted) return
+              try {
+                options.onRoute?.({ id: c.id, reason: pickedBy ?? 'custom policy', request })
+                child = c.adapter.createSource(request)
+                if (aborted) {
+                  child.abort()
+                  return
+                }
+                for await (const chunk of child.stream()) {
+                  if (aborted) {
+                    child.abort()
+                    return
+                  }
+                  yield chunk
+                }
+              } catch (err) {
+                if (aborted || isAbortError(err)) return
+                const error = err instanceof Error ? err : new Error(String(err))
+                yield {
+                  type: 'error',
+                  content: error.message,
+                  metadata: { error },
+                } as StreamChunk
+              }
             },
           }
         }
         const c = pool.find(x => x.id === maybe)
         if (!c) {
+          // Sync policy at createSource — programmer error may throw.
           throw new ConfigError({
             code: ErrorCodes.AK_CONFIG_INVALID,
             message: `policy returned unknown id: ${maybe}`,

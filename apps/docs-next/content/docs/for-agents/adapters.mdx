@@ -10,6 +10,26 @@ all normalized. Plus higher-order adapters that compose candidates
 (router, ensemble, fallback) and a `createAdapter` factory for
 custom providers.
 
+## Contract and failure semantics
+
+- Every stream ends exactly once with `done` or `error`. Error chunks expose an
+  `Error` as `metadata.error`; a provider connection that closes before its
+  native completion marker is an error, not a partial success.
+- `abort(reason)` propagates to active transports. Custom parsers receive the
+  request signal and response so they can cancel work and validate protocols.
+- Tool-capable native adapters serialize assistant calls and correlated tool
+  results across turns. Parallel results are grouped into one provider turn
+  for Anthropic and Gemini/Vertex.
+- Gemini authenticates through `x-goog-api-key`, keeping credentials out of
+  request URLs. `vercelAI` validates and parses the Vercel UI message stream v1
+  framing rather than treating it as OpenAI SSE.
+- Embedders reject empty, missing, or non-numeric vectors instead of returning
+  unusable data.
+
+The package remains **beta**. Its implementation is being prepared for an API
+freeze, but ADR 0024 still requires the elapsed beta window, qualifying release
+lines, an accepted package RFC, and complete repository evidence before 1.0.
+
 ## Install
 
 ```bash
@@ -64,8 +84,10 @@ npm install @agentskit/adapters
   carbon-aware routing inputs; feed into `createRouter` policy.
 - `resolveModel`, `withDeprecationPolicy`, `DEFAULT_DEPRECATION_TABLE`
   — auto-upgrade deprecated model IDs at adapter construction.
-- `refreshCredentials`, `createRotatingCredentials` — async credential
-  refresh for short-lived tokens (Bedrock, Vertex).
+- `refreshCredentials`, `createRotatingCredentials` — **opt-in**
+  credential-rotation primitives. Stock adapters do not call these
+  automatically; wire them yourself (e.g. resolve `current()` per
+  request) or reconstruct the adapter after rotation.
 
 ### Embedders
 

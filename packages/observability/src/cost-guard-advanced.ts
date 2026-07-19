@@ -1,204 +1,65 @@
 import { ConfigError, ErrorCodes, type AgentEvent, type Observer } from '@agentskit/core'
-import { DEFAULT_PRICES, computeCost, priceFor, type TokenPrice } from './cost-guard'
+import {
+  DEFAULT_PRICES,
+  computeCost,
+  priceFor,
+  normalizeTokenCount,
+  finiteUtilization,
+  reportCostGuardError,
+} from './cost-guard'
+import type {
+  AdvancedCostGuardOptions,
+  CostAlertEvent,
+  CostGuardMode,
+} from './cost-guard-advanced-types'
+import {
+  THRESHOLDS,
+  createSafeNow,
+  ensureBucket,
+  finiteMs,
+  freshTenant,
+  pickCaps,
+  rollBucket,
+  shallowAlertCopy,
+  validateAdvancedOptions,
+  type TenantState,
+} from './cost-guard-advanced-internal'
+
+export type {
+  CostGuardMode,
+  CostCapWindow,
+  CostCaps,
+  CostAlertType,
+  CostAlertEvent,
+  CostAlertSink,
+  AdvancedCostGuardOptions,
+} from './cost-guard-advanced-types'
+
+export {
+  consoleAlertSink,
+  webhookAlertSink,
+  throttle,
+} from './cost-guard-alert-sinks'
+export type { WebhookAlertSinkOptions } from './cost-guard-alert-sinks'
 
 /**
- * Production-grade cost guard. Extends the multi-tenant guard with:
- *
- *   - **Modes**: `warn` (log only) · `reject` (per-tenant flag, no abort)
- *     · `kill` (disable the tenant runtime via an injected
- *     `disableRuntime` callback; requires explicit re-enable).
- *   - **Window caps**: per-minute / per-day / per-month rolling buckets.
- *     Each window has its own threshold; tripping any one fires alerts
- *     and (in `kill` mode) disables the tenant.
- *   - **Linear forecasting**: at 50 / 80 / 100 % of any window cap, emit
- *     a `cost:threshold` alert with an extrapolated time-to-cap.
- *   - **Pluggable alert sinks**: the same contract regardless of where
- *     the alert lands (Slack webhook, PagerDuty, email gateway).
- *   - **Throttled alerting**: at most one alert per (tenant, window,
- *     threshold) per cap window — avoids alert storms.
- *
- * Closes #787 (hard-kill), #788 (forecasting + caps), #789 (alert sinks).
- * Chargeback report (#790) lives in `chargebackReport()` below.
+ * Production-grade cost guard. Extends the multi-tenant guard with modes
+ * (`warn` / `reject` / `kill`), rolling window caps, threshold + forecast
+ * alerts, and pluggable sinks. Closes #787–#789.
  */
-
-export type CostGuardMode = 'warn' | 'reject' | 'kill'
-
-export interface CostCapWindow {
-  /** Window length in milliseconds. */
-  windowMs: number
-  /** USD ceiling per window. */
-  budgetUsd: number
-}
-
-export interface CostCaps {
-  perMinute?: CostCapWindow
-  perDay?: CostCapWindow
-  perMonth?: CostCapWindow
-  /** Custom additional windows. */
-  custom?: Record<string, CostCapWindow>
-}
-
-export type CostAlertType =
-  | 'cost:threshold'      // 50/80/100 % of a window cap reached
-  | 'cost:exceeded'       // hard cap exceeded
-  | 'cost:disabled'       // kill mode triggered → tenant disabled
-  | 'cost:forecast'       // linear extrapolation predicts overrun
-
-export interface CostAlertEvent {
-  type: CostAlertType
-  tenant: string
-  /** Window id (`'perMinute'`, `'perDay'`, `'perMonth'`, custom name). */
-  window: string
-  /** ISO 8601 timestamp. */
-  at: string
-  /** Spend so far in this window (USD). */
-  costUsd: number
-  /** Cap for this window (USD). */
-  budgetUsd: number
-  /** Fraction of budget consumed (0–∞). */
-  utilization: number
-  /** Threshold that triggered this alert (`0.5`, `0.8`, `1.0`, or undefined for forecast). */
-  threshold?: number
-  /**
-   * Estimated milliseconds until the budget is exhausted at the
-   * current spend rate, when type is `'cost:forecast'`.
-   */
-  msUntilExceeded?: number
-  /** Optional human-readable reason (mode change, etc.). */
-  reason?: string
-}
-
-export type CostAlertSink = (event: CostAlertEvent) => void | Promise<void>
-
-export interface AdvancedCostGuardOptions {
-  /** Per-tenant USD budgets (overall, applied alongside windows). */
-  budgets: Record<string, number>
-  /** Fallback overall budget for tenants not listed. */
-  defaultBudgetUsd?: number
-  /** Window caps applied to every tenant. Per-tenant overrides via `tenantCaps`. */
-  caps?: CostCaps
-  /** Per-tenant override of `caps`. Wins over the workspace-wide `caps`. */
-  tenantCaps?: Record<string, CostCaps>
-  /** Active tenant resolver (same shape as `multiTenantCostGuard.tenantOf`). */
-  tenantOf?: () => string | undefined
-  prices?: Record<string, TokenPrice>
-  /**
-   * Enforcement mode (default `'warn'`). `'kill'` requires
-   * `disableRuntime`.
-   */
-  mode?: CostGuardMode
-  /**
-   * Called when a tenant is disabled in `'kill'` mode. Must persist the
-   * disabled state (Redis flag, DB row) so the runtime stays disabled
-   * across restarts. The tenant is re-enabled only via your own
-   * out-of-band call (e.g. an admin API).
-   */
-  disableRuntime?: (tenant: string, reason: string) => void | Promise<void>
-  /** One or more alert sinks. Fired in registration order. */
-  alertSinks?: CostAlertSink[]
-  modelOverride?: string
-  /** Clock override for tests. */
-  now?: () => number
-  name?: string
-}
-
-interface SpendBucket {
-  /** Window id this bucket belongs to. */
-  window: string
-  /** [start, end) times in ms epoch. */
-  start: number
-  /** Cap budget for this window. */
-  budgetUsd: number
-  /** Window length in ms. */
-  windowMs: number
-  /** Spend so far in this window. */
-  costUsd: number
-  /** Thresholds already alerted this window (e.g. {0.5, 0.8, 1.0}). */
-  alerted: Set<number>
-  /** Whether the forecast alert has fired this window. */
-  forecastAlerted: boolean
-}
-
-interface TenantState {
-  prompt: number
-  completion: number
-  totalCost: number
-  model: string | undefined
-  exceededOverall: boolean
-  disabled: boolean
-  buckets: Map<string, SpendBucket>
-}
-
-function freshTenant(modelOverride?: string): TenantState {
-  return {
-    prompt: 0,
-    completion: 0,
-    totalCost: 0,
-    model: modelOverride,
-    exceededOverall: false,
-    disabled: false,
-    buckets: new Map(),
-  }
-}
-
-function rollBucket(bucket: SpendBucket, now: number): void {
-  if (now >= bucket.start + bucket.windowMs) {
-    bucket.start = now - (now - bucket.start) % bucket.windowMs
-    bucket.costUsd = 0
-    bucket.alerted.clear()
-    bucket.forecastAlerted = false
-  }
-}
-
-function ensureBucket(
-  state: TenantState,
-  windowId: string,
-  cap: CostCapWindow,
-  now: number,
-): SpendBucket {
-  let bucket = state.buckets.get(windowId)
-  if (!bucket) {
-    bucket = {
-      window: windowId,
-      start: now,
-      budgetUsd: cap.budgetUsd,
-      windowMs: cap.windowMs,
-      costUsd: 0,
-      alerted: new Set(),
-      forecastAlerted: false,
-    }
-    state.buckets.set(windowId, bucket)
-  } else {
-    rollBucket(bucket, now)
-    // Update cap if the caller changed it between calls.
-    bucket.budgetUsd = cap.budgetUsd
-    bucket.windowMs = cap.windowMs
-  }
-  return bucket
-}
-
-const THRESHOLDS = [0.5, 0.8, 1.0] as const
-
-function pickCaps(
-  options: AdvancedCostGuardOptions,
-  tenant: string,
-): Array<[string, CostCapWindow]> {
-  const merged: CostCaps = { ...(options.caps ?? {}), ...(options.tenantCaps?.[tenant] ?? {}) }
-  const out: Array<[string, CostCapWindow]> = []
-  if (merged.perMinute) out.push(['perMinute', merged.perMinute])
-  if (merged.perDay) out.push(['perDay', merged.perDay])
-  if (merged.perMonth) out.push(['perMonth', merged.perMonth])
-  if (merged.custom) {
-    for (const [name, cap] of Object.entries(merged.custom)) out.push([name, cap])
-  }
-  return out
-}
 
 export interface AdvancedCostGuard extends Observer {
   setTenant: (tenant: string | undefined) => void
   costUsd: (tenant: string) => number
   windowSpend: (tenant: string, window: string) => number | undefined
   isDisabled: (tenant: string) => boolean
+  /**
+   * Reject mode only: true when this tenant has tripped the overall budget
+   * or an active window's 100% cap. Window-only rejections clear when the
+   * window rolls; overall rejections last until `reset`. Always false in
+   * `warn` / `kill` modes.
+   */
+  isRejected: (tenant: string) => boolean
   /** Re-enable a tenant disabled by `kill` mode. Caller must also clear the persisted flag. */
   enable: (tenant: string) => void
   reset: (tenant?: string) => void
@@ -208,6 +69,8 @@ export interface AdvancedCostGuard extends Observer {
 export function createAdvancedCostGuard(
   options: AdvancedCostGuardOptions,
 ): AdvancedCostGuard {
+  validateAdvancedOptions(options)
+
   if (options.mode === 'kill' && !options.disableRuntime) {
     throw new ConfigError({
       code: ErrorCodes.AK_CONFIG_INVALID,
@@ -217,16 +80,19 @@ export function createAdvancedCostGuard(
   }
   const mode: CostGuardMode = options.mode ?? 'warn'
   const mergedPrices = options.prices ? { ...DEFAULT_PRICES, ...options.prices } : DEFAULT_PRICES
-  const now = options.now ?? Date.now
+  const clock = options.now ?? Date.now
+  const onError = options.onError
   const tenants = new Map<string, TenantState>()
   let activeTenant: string | undefined
+  const safeNow = createSafeNow(clock, onError, reportCostGuardError)
 
   const fireAlert = async (event: CostAlertEvent): Promise<void> => {
     for (const sink of options.alertSinks ?? []) {
+      const copy = shallowAlertCopy(event)
       try {
-        await sink(event)
-      } catch {
-        // Sinks must not break the metering loop.
+        await sink(copy)
+      } catch (err) {
+        reportCostGuardError(onError, err)
       }
     }
   }
@@ -244,14 +110,19 @@ export function createAdvancedCostGuard(
     return state
   }
 
+  const resolveTenant = (): string | undefined => {
+    if (!options.tenantOf) return activeTenant
+    try {
+      return options.tenantOf() ?? activeTenant
+    } catch (err) {
+      reportCostGuardError(onError, err)
+      return activeTenant
+    }
+  }
+
   /**
-   * Synchronously update state + bucket counters and decide which
-   * alerts must fire. Returns the alert events ready for the caller
-   * to dispatch via the (async) sinks. Keeping this synchronous is
-   * what closes the concurrency window: by the time `on()` returns,
-   * `state.totalCost`, every bucket's `costUsd`, the alert bookkeeping
-   * (`alerted`, `forecastAlerted`, `exceededOverall`), and the
-   * `state.disabled` flag are all in their final consistent shape.
+   * Synchronously update state + bucket counters and decide which alerts must
+   * fire. Keeps concurrency-safe totals before any async sink work.
    */
   const recordSpend = (
     tenant: string,
@@ -259,14 +130,14 @@ export function createAdvancedCostGuard(
     deltaCost: number,
   ): { alerts: CostAlertEvent[]; disable?: { reason: string } } => {
     state.totalCost += deltaCost
-    const t = now()
+    const t = safeNow()
     const alerts: CostAlertEvent[] = []
 
     const caps = pickCaps(options, tenant)
     for (const [windowId, cap] of caps) {
       const bucket = ensureBucket(state, windowId, cap, t)
       bucket.costUsd += deltaCost
-      const utilization = bucket.budgetUsd > 0 ? bucket.costUsd / bucket.budgetUsd : 0
+      const utilization = finiteUtilization(bucket.costUsd, bucket.budgetUsd)
       for (const threshold of THRESHOLDS) {
         if (utilization >= threshold && !bucket.alerted.has(threshold)) {
           bucket.alerted.add(threshold)
@@ -304,7 +175,7 @@ export function createAdvancedCostGuard(
             costUsd: bucket.costUsd,
             budgetUsd: bucket.budgetUsd,
             utilization,
-            msUntilExceeded,
+            msUntilExceeded: finiteMs(msUntilExceeded),
           })
         }
       }
@@ -320,7 +191,7 @@ export function createAdvancedCostGuard(
         at: new Date(t).toISOString(),
         costUsd: state.totalCost,
         budgetUsd: overall,
-        utilization: state.totalCost / overall,
+        utilization: finiteUtilization(state.totalCost, overall),
         threshold: 1.0,
       })
     }
@@ -342,7 +213,9 @@ export function createAdvancedCostGuard(
         at: new Date(t).toISOString(),
         costUsd: state.totalCost,
         budgetUsd: overall ?? 0,
-        utilization: overall ? state.totalCost / overall : 0,
+        utilization: overall !== undefined
+          ? finiteUtilization(state.totalCost, overall)
+          : finiteUtilization(state.totalCost, 0),
         reason,
       })
     }
@@ -356,13 +229,19 @@ export function createAdvancedCostGuard(
     disable?: { reason: string },
   ): Promise<void> => {
     for (const event of alerts) await fireAlert(event)
-    if (disable) await options.disableRuntime?.(tenant, disable.reason)
+    if (disable && options.disableRuntime) {
+      try {
+        await options.disableRuntime(tenant, disable.reason)
+      } catch (err) {
+        reportCostGuardError(onError, err)
+      }
+    }
   }
 
   return {
     name: options.name ?? 'cost-guard-advanced',
     on(event: AgentEvent) {
-      const tenant = options.tenantOf?.() ?? activeTenant
+      const tenant = resolveTenant()
       if (!tenant) return
       const state = stateOf(tenant)
       if (state.disabled && mode === 'kill') return
@@ -370,21 +249,21 @@ export function createAdvancedCostGuard(
         state.model = event.model
       }
       if (event.type === 'llm:end' && event.usage) {
-        state.prompt += event.usage.promptTokens
-        state.completion += event.usage.completionTokens
+        const deltaPrompt = normalizeTokenCount(event.usage.promptTokens)
+        const deltaCompletion = normalizeTokenCount(event.usage.completionTokens)
+        state.prompt += deltaPrompt
+        state.completion += deltaCompletion
         const price = priceFor(state.model, mergedPrices)
-        const newTotal = computeCost(
-          { promptTokens: state.prompt, completionTokens: state.completion },
+        const delta = computeCost(
+          { promptTokens: deltaPrompt, completionTokens: deltaCompletion },
           price,
         )
-        const delta = newTotal - state.totalCost
         if (delta > 0) {
-          // Mutate state SYNCHRONOUSLY so concurrent on() calls see the
-          // updated totals. Async work (alert sinks, disableRuntime) is
-          // fire-and-forget afterward and does not touch state again.
           const { alerts, disable } = recordSpend(tenant, state, delta)
           if (alerts.length > 0 || disable) {
-            void dispatchAlerts(tenant, alerts, disable)
+            void dispatchAlerts(tenant, alerts, disable).then(undefined, (err: unknown) => {
+              reportCostGuardError(onError, err)
+            })
           }
         }
       }
@@ -395,6 +274,29 @@ export function createAdvancedCostGuard(
     costUsd: (tenant) => stateOf(tenant).totalCost,
     windowSpend: (tenant, window) => stateOf(tenant).buckets.get(window)?.costUsd,
     isDisabled: (tenant) => stateOf(tenant).disabled,
+    isRejected: (tenant) => {
+      if (mode !== 'reject') return false
+      try {
+        const state = tenants.get(tenant)
+        if (!state) return false
+        if (state.exceededOverall) return true
+        const t = safeNow()
+        const caps = pickCaps(options, tenant)
+        for (const [windowId, cap] of caps) {
+          const bucket = state.buckets.get(windowId)
+          if (!bucket) continue
+          rollBucket(bucket, t)
+          bucket.budgetUsd = cap.budgetUsd
+          bucket.windowMs = cap.windowMs
+          if (bucket.alerted.has(1.0)) return true
+          if (finiteUtilization(bucket.costUsd, bucket.budgetUsd) >= 1) return true
+        }
+        return false
+      } catch (err) {
+        reportCostGuardError(onError, err)
+        return false
+      }
+    },
     enable: (tenant) => {
       const state = stateOf(tenant)
       state.disabled = false
@@ -404,58 +306,5 @@ export function createAdvancedCostGuard(
       else tenants.clear()
     },
     tenants: () => Array.from(tenants.keys()),
-  }
-}
-
-// ---------------------------------------------------------------------------
-// Built-in alert sinks
-// ---------------------------------------------------------------------------
-
-/** Console alert sink — `[cost:<type>] <tenant> <window> $<cost>/$<budget>`. */
-export function consoleAlertSink(): CostAlertSink {
-  return event => {
-    const line = `[${event.type}] tenant=${event.tenant} window=${event.window} ` +
-      `cost=$${event.costUsd.toFixed(4)} budget=$${event.budgetUsd.toFixed(4)} ` +
-      `util=${(event.utilization * 100).toFixed(1)}%` +
-      (event.threshold ? ` threshold=${(event.threshold * 100).toFixed(0)}%` : '') +
-      (event.reason ? ` reason="${event.reason}"` : '')
-    process.stderr.write(`${line}\n`)
-  }
-}
-
-export interface WebhookAlertSinkOptions {
-  url: string
-  /** Override fetch (tests / custom clients). */
-  fetch?: typeof fetch
-  /** Optional bearer / signing header. */
-  headers?: Record<string, string>
-}
-
-/** Generic webhook sink — POSTs the event JSON. Wrap with throttle() for noisy windows. */
-export function webhookAlertSink(options: WebhookAlertSinkOptions): CostAlertSink {
-  const fetchImpl = options.fetch ?? fetch
-  return async event => {
-    if (!fetchImpl) return
-    await fetchImpl(options.url, {
-      method: 'POST',
-      headers: { 'content-type': 'application/json', ...(options.headers ?? {}) },
-      body: JSON.stringify(event),
-    })
-  }
-}
-
-/**
- * Throttle wrapper — at most one alert per (tenant, window, type)
- * per `windowMs`. Wrap any sink to bound emit rate.
- */
-export function throttle(sink: CostAlertSink, windowMs: number, now: () => number = Date.now): CostAlertSink {
-  const lastFired = new Map<string, number>()
-  return async event => {
-    const key = `${event.type}|${event.tenant}|${event.window}|${event.threshold ?? ''}`
-    const t = now()
-    const previous = lastFired.get(key)
-    if (previous !== undefined && t - previous < windowMs) return
-    lastFired.set(key, t)
-    await sink(event)
   }
 }

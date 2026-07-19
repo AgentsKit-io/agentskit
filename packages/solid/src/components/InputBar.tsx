@@ -9,39 +9,39 @@ export interface InputBarProps {
 
 export function InputBar(props: InputBarProps): JSX.Element {
   const placeholder = () => props.placeholder ?? 'Type a message...'
-  const disabled = () => props.disabled ?? false
+  const blocked = () => (props.disabled ?? false) || props.chat.status === 'streaming'
+
+  const trySend = (): void => {
+    if (blocked() || !props.chat.input.trim()) return
+    void props.chat.send(props.chat.input)
+  }
 
   const handleSubmit = (e: Event) => {
     e.preventDefault()
-    if (props.chat.input.trim()) {
-      props.chat.send(props.chat.input)
-    }
+    trySend()
   }
 
   const handleKeyDown = (e: KeyboardEvent) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
-      if (props.chat.input.trim()) {
-        props.chat.send(props.chat.input)
-      }
+      trySend()
     }
   }
 
   return (
     <form data-ak-input-bar="" onSubmit={handleSubmit}>
       <textarea
-        role="textbox"
         value={props.chat.input}
         onInput={(e) => props.chat.setInput(e.currentTarget.value)}
         onKeyDown={handleKeyDown}
         placeholder={placeholder()}
-        disabled={disabled()}
+        disabled={blocked()}
         data-ak-input=""
         rows={1}
       />
       <button
         type="submit"
-        disabled={disabled() || !props.chat.input.trim()}
+        disabled={blocked() || !props.chat.input.trim()}
         data-ak-send=""
       >
         Send

@@ -1,29 +1,39 @@
 ---
 title: '@agentskit/angular — for agents'
-description: Angular 17+ service exposing chat state as a `WritableSignal` and RxJS `Observable` — signal-based, standalone-component friendly.
+description: Angular 18+ service exposing chat state as a WritableSignal and RxJS Observable — partial-Ivy AOT/APF, standalone-component friendly.
 ---
 
 ## Purpose
 
-Angular binding for the `ChatReturn` contract from `@agentskit/core`. Exposes chat state as a `WritableSignal<ChatState>` for template binding and as an `Observable<ChatState>` for RxJS pipelines, with automatic teardown via `ngOnDestroy`.
+Angular binding for the `ChatReturn` contract from `@agentskit/core`. Exposes chat state as a `WritableSignal<ChatState | null>` for template binding and as an `Observable<ChatState | null>` for RxJS pipelines, with automatic teardown via `ngOnDestroy`.
 
 ## Install
 
 ```bash
 npm install @agentskit/angular
 # peers:
-npm install @angular/core rxjs
+npm install @angular/core@^18 rxjs@^7
 ```
+
+Peers: `@angular/core ^18 || ^19 || ^20 || ^21`, `rxjs ^7`.
 
 ## Primary exports
 
 - `AgentskitChat` — `@Injectable({ providedIn: 'root' })` service with:
-  - `init(config): ChatReturn` — bootstrap the controller.
-  - `state: WritableSignal<ChatState>` — template-friendly (Angular 17+ signals).
-  - `stream$: Observable<ChatState>` — RxJS interop.
-  - Actions: `send`, `stop`, `retry`, `setInput`, `clear`, `approve`, `deny`.
-  - `ngOnDestroy` auto-unsubscribes.
-- Headless standalone components mirroring `@agentskit/react` (`data-ak-*` only, JIT inline templates): `ChatContainerComponent`, `MessageComponent`, `InputBarComponent`, `MarkdownComponent`, `CodeBlockComponent`, `ToolCallViewComponent`, `ThinkingIndicatorComponent`, `ToolConfirmationComponent`.
+  - `init(config): ChatReturn` — bootstrap the controller (destroys any prior session first).
+  - `state: WritableSignal<ChatState | null>` — template-friendly (Angular signals).
+  - `stream$: Observable<ChatState | null>` — RxJS interop.
+  - Full `ChatReturn` actions: `send`, `stop`, `retry`, `setInput`, `clear`, `approve`, `deny(id, reason?)`, `edit`, `regenerate`, `proposeToolCall`.
+  - Async actions return the underlying controller Promises.
+  - `destroy()` / `ngOnDestroy` unsubscribe + stop idempotently and null `state` / `stream$`.
+- Headless standalone components mirroring `@agentskit/react` (`data-ak-*` only, **partial-Ivy AOT** via ng-packagr APF): `ChatContainerComponent`, `MessageComponent`, `InputBarComponent`, `MarkdownComponent`, `CodeBlockComponent`, `ToolCallViewComponent`, `ThinkingIndicatorComponent`, `ToolConfirmationComponent`.
+
+## Packaging truth (AOT / APF)
+
+- Build path is **ng-packagr partial compilation** → FESM2022 + bundled `.d.ts`.
+- Published surface is **ESM-only Angular Package Format** (not dual CJS/ESM). That is intentional for Angular libraries.
+- The published root export map resolves the generated FESM2022 and declaration entries under `./dist/...`.
+- Components work in AOT production apps — there is no JIT-only beta caveat.
 
 ## Minimal example
 
@@ -38,7 +48,9 @@ const adapter = anthropic({ apiKey: import.meta.env['NG_APP_ANTHROPIC_KEY'], mod
   selector: 'ak-chat',
   standalone: true,
   template: `
-    <div *ngFor="let m of chat.state()?.messages ?? []">{{ m.content }}</div>
+    @for (m of chat.state()?.messages ?? []; track m.id) {
+      <div>{{ m.content }}</div>
+    }
     <input [value]="chat.state()?.input ?? ''" (input)="chat.setInput($any($event.target).value)">
     <button (click)="chat.send(chat.state()?.input ?? '')">Send</button>
   `,
@@ -55,10 +67,12 @@ export class ChatComponent {
 
 ## Common patterns
 
-- **Signal-based (Angular 17+ required)**: `state` is a `WritableSignal` — use `chat.state()` in templates. Angular 16 and below are not supported; the signals API is not available in those versions.
+- **Angular 18+ required**: peers start at `@angular/core ^18`. Signals + standalone components are the supported surface.
 - **Call `init()` in the constructor**: Angular initialises signals during construction. Calling `init()` in `ngOnInit` causes a one-tick delay that can produce `ExpressionChangedAfterItHasBeenCheckedError` in dev mode.
 - **Standalone components recommended**: `AgentskitChat` is provided in root and works with both module-based and standalone architectures, but standalone avoids the need to add the service to a module's `providers` array manually.
-- **RxJS interop**: use `stream$` when you need to pipe chat state through RxJS operators (e.g. `debounceTime`, `distinctUntilKeyChanged`) — `ngOnDestroy` handles unsubscription automatically so no `takeUntilDestroyed` boilerplate is needed.
+- **RxJS interop**: use `stream$` when you need to pipe chat state through RxJS operators (e.g. `debounceTime`, `distinctUntilKeyChanged`) — `ngOnDestroy` handles unsubscription automatically so no `takeUntilDestroyed` boilerplate is needed for the service subscription itself.
+- **HITL deny reason**: `chat.deny(toolCallId, reason?)` forwards the optional reason to the controller.
+- **InputBar streaming**: the headless `InputBarComponent` disables the textarea/send button and blocks Enter submit while `status === 'streaming'`.
 
 ## Related
 

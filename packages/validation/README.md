@@ -8,29 +8,29 @@ Profile: <code>concise-package</code>
 
 [![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 
-Opt-in runtime validation of tool-call arguments against their JSON Schema for [AgentsKit](https://www.agentskit.io). Wraps [Ajv](https://ajv.js.org) and plugs into the core `ArgsValidator` contract ([ADR-0008](../../docs/architecture/adrs/0008-runtime-validation.md)).
+Opt-in runtime validation of model-proposed tool arguments against each tool's existing JSON Schema. The implementation is private to this monorepo and ships through the public `@agentskit/tools/validation` subpath.
 
 ## Why
 
-The real untrusted boundary in an agent is **model output**. A model returns tool-call arguments as arbitrary JSON. Core parses them but does not check them against the tool's schema — `execute` receives args the type system only *claims* are valid. This package enforces the tool's existing `JSONSchema7` at runtime, so a malformed call fails with `AK_TOOL_INVALID_INPUT` instead of reaching your code.
+Model output is untrusted data. TypeScript inference describes a tool's expected arguments, but it does not validate the JSON produced by a model. `createAjvValidator()` enforces the same JSON Schema at runtime before `execute` runs, without adding Ajv to the zero-dependency core.
 
-JSON Schema stays the single source of truth: no Zod, no parallel contract.
-
+Validation is not automatic. You must pass the validator as `validateArgs`; tools without a `schema` remain passthrough.
 
 ## Verified proof
 
-- Package metadata and tests live under `packages/validation/`.
+- Adversarial tests cover nested objects, arrays, local references, structured paths, coercion, custom Ajv instances, schema failures, caching, and strict-extra behavior.
+- Public consumers import `@agentskit/tools/validation`; `@agentskit/validation` is a private workspace implementation.
 - Package guide: https://www.agentskit.io/docs/packages/validation
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
 
-`@agentskit/tools/validation` protects tool boundaries by validating model-proposed arguments against JSON Schema before execution.
+`@agentskit/tools/validation` protects the boundary between model output and tool execution.
 
-- **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
-- **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
-- **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
-- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
+- **AgentsKit**: compose it with controllers or runtimes as an opt-in `ArgsValidator`.
+- **Registry**: look for ready agents and templates at [registry.agentskit.io](https://registry.agentskit.io).
+- **Playbook**: learn production validation patterns at [playbook.agentskit.io](https://playbook.agentskit.io).
+- **AKOS**: apply the same boundary with enterprise governance at [akos.agentskit.io](https://akos.agentskit.io).
 
 Docs: [package guide](https://www.agentskit.io/docs/packages/validation) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
@@ -41,7 +41,26 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/validation) · [age
 npm install @agentskit/tools
 ```
 
-## Usage
+## Quick start
+
+<!-- readme-example:quickstart -->
+```ts
+import { createAjvValidator } from '@agentskit/tools/validation'
+
+const validate = createAjvValidator()
+const result = validate(
+  {
+    type: 'object',
+    properties: { city: { type: 'string' } },
+    required: ['city'],
+  },
+  { city: 'Lisbon' },
+)
+
+console.log(result.valid)
+```
+
+Pass the same validator to a controller or runtime:
 
 ```ts
 import { createChatController } from '@agentskit/core'
@@ -54,39 +73,28 @@ const chat = createChatController({
 })
 ```
 
-Same option exists on `createRuntime`.
+Invalid arguments become `AK_TOOL_INVALID_INPUT` before tool execution.
 
 ## Options
 
-| Field | Default | Notes |
+| Field | Default | Contract |
 |---|---|---|
-| `rejectAdditionalProperties` | `false` | Reject keys not declared in the schema. |
-| `coerceTypes` | `false` | Coerce unambiguous primitives before validating. |
-| `ajv` | — | Supply a pre-configured Ajv instance. |
+| `rejectAdditionalProperties` | `false` | Recursively adds `additionalProperties: false` to ordinary object boundaries that omit an explicit policy. Explicit `additionalProperties` is preserved. Composition/applicator boundaries are left as authored because draft-07 cannot safely infer their combined property set; declare `additionalProperties: false` explicitly there. |
+| `coerceTypes` | `false` | Enables Ajv primitive coercion. Successful validation may mutate the supplied argument object. |
+| `ajv` | — | Uses a pre-configured Ajv instance. That instance owns coercion, formats, keywords, strictness, and other Ajv behavior; `coerceTypes` is only used when this package creates Ajv. |
 
-## Notes
-
-- **Opt-in.** Without `validateArgs`, behaviour is unchanged. Core stays zero-dependency; Ajv lives only here.
-- Tools without a `schema` are skipped.
-- Compiled validators are cached by schema identity.
-
-## License
-
-MIT
-
-## Quick start
-
-<!-- readme-example:quickstart -->
-```ts
-import '@agentskit/validation'
-console.log('@agentskit/validation loaded')
-```
+Schemas are trusted application configuration. Invalid or unsupported schemas can throw when first compiled. Argument values are never included in generated validation messages.
 
 ## Maturity and compatibility
 
 - Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
-- **Node.js 20+** and **TypeScript** strict mode
-- Published as `@agentskit/validation`
+- Public surface: `@agentskit/tools/validation`
+- Private implementation: `packages/validation` (`@agentskit/validation`, not separately published)
+- Node.js 20+ and TypeScript strict mode
+
+## License
+
+MIT
 
 ## Contributing
 

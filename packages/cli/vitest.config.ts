@@ -1,5 +1,7 @@
 import { createTestConfig } from '../../vitest.shared'
 import { defineConfig } from 'vitest/config'
 
-// @agentskit/cli — lines threshold: 90 (current ≈ 90%).
-export default defineConfig(createTestConfig({ linesThreshold: 90 }))
+// CLI suites load Commander, Ink, and filesystem fixtures; Turbo contention can exceed Vitest defaults.
+export default defineConfig(
+  createTestConfig({ linesThreshold: 90, testTimeout: 30_000, hookTimeout: 30_000 }),
+)

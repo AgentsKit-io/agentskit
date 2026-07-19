@@ -15,16 +15,19 @@ One descriptor per service (`Integration`) that every consumer layer projects fr
 agent tools, connector senders, inbound triggers, OAuth specs, marketplace listings.
 Eliminates the per-service duplication that otherwise spreads across `@agentskit/tools`
 and host runtimes. Dependency-light: only `@agentskit/core`, with `fetch` + `node:crypto`
-at runtime. The catalog of concrete services is populated in later phases; this entry
-ships the contract + registry.
+at runtime. Ships the canonical descriptor + registry + projection contract, a
+**bundled ~50-service fetch-only catalog** (ADR-0012), auth/actions/triggers, and a
+`/testing` subpath. OSS owns this package; AKOS consumes it (RFC 0003). Stability:
+**beta** — not yet stable.
 
 ## Primary exports (main entry)
 
 - `defineIntegration` — author an `Integration` descriptor (`auth`, `actions`, `triggers`, `capabilities`).
 - `defineAction` — define one action; receives an auth-bound `IntegrationHttp` client, uses canonical JSON Schema.
 - `defineTrigger` — define one inbound trigger (`verify` signature + `normalize` to a uniform event).
-- `httpJson` — shared HTTP helper (query/body/timeout, non-2xx → typed error).
+- `httpJson` — shared HTTP helper (query/body/timeout, non-2xx → typed error; origin-confined when `baseUrl` is set).
 - `bindHttp` — bind options into a reusable `IntegrationHttp` client.
+- `HttpToolOptions` — shared HTTP options including `signal` for caller cancellation.
 - `createRegistry` — build an isolated catalog instance.
 - `registerIntegration` — register a descriptor into the default catalog.
 - `getIntegration` — look up a descriptor by service slug.
@@ -33,10 +36,18 @@ ships the contract + registry.
 - `toToolDefinitions` — project a descriptor's actions into legacy `ToolDefinition[]` (auth-bound), preserving the `fn(config) => Tool[]` API consumers expect.
 - `actionToToolDefinition` — project a single action into a `ToolDefinition`.
 - `httpOptionsFor` — build the auth-bound HTTP options for a descriptor + caller config.
+- `ProjectionConfig` — projection knobs: `credential`, `config`, `signal`, `fetch`, **`fetchUntrusted`** (egress-policy fetch for model-controlled URLs).
 - `integrationTools` — resolve a catalog integration (by slug or descriptor) and project it to `ToolDefinition[]` in one call.
 - `integrationToolsFromEnv` — project an integration reading its credential from the environment (via the apiKey `envHint`).
 - `credentialEnvVar` — the conventional env var holding an integration's API key.
 - `CONFIG_FIELDS` — declarative connect-form fields (`ConfigField[]`) for services that authenticate with structured config (Twilio, Jira, Stripe, …) rather than a single API key; attached to each descriptor's `configFields`.
+- Named service descriptors — e.g. `slackIntegration`, `githubIntegration`, … (one per catalog entry).
+
+## Execution boundaries (ADR-0026)
+
+- **Origin-confined auth-bound HTTP** — credentials stay on the configured `baseUrl` origin; automatic redirects are disabled.
+- **Derived confirmation** — projection forces confirmation for `write` / `external` / `destructive` side effects.
+- **`fetchUntrusted`** — required for model-controlled downloads (e.g. Whisper audio URLs). Direct `@agentskit/integrations` consumers must inject an egress-policy fetch; the `@agentskit/tools` Whisper facade injects `safeFetch` independently of provider `fetch`.
 
 ## Subpath exports
 
@@ -45,6 +56,16 @@ ships the contract + registry.
 | `@agentskit/integrations/testing` | Pure contract validators: `validateIntegration`, `validateAction`, `validateTrigger`, `assertValidIntegration`. Gate every service descriptor in CI. |
 
 ## Minimal example
+
+```ts
+import { slackIntegration, toToolDefinitions } from '@agentskit/integrations'
+
+const tools = toToolDefinitions(slackIntegration, {
+  credential: process.env.SLACK_BOT_TOKEN ?? 'xoxb-your-bot-token',
+})
+```
+
+## Authoring a descriptor
 
 ```ts
 import { defineIntegration, defineAction } from '@agentskit/integrations'
@@ -76,4 +97,7 @@ pnpm gen:integration <name>   # copies services/_template → services/<name>
 
 ## Related
 
-- [Tools](/docs/for-agents/tools) — `@agentskit/tools` (legacy integration home; being unified here).
+- [Tools](/docs/for-agents/tools) — `@agentskit/tools` (legacy integration home; facades project from this package).
+- [ADR-0012](https://github.com/AgentsKit-io/agentskit/blob/main/docs/architecture/adrs/0012-vendor-adapter-scope.md) — bundled fetch-only catalog.
+- [ADR-0026](https://github.com/AgentsKit-io/agentskit/blob/main/docs/architecture/adrs/0026-integration-execution-boundaries.md) — execution safety boundaries.
+- [RFC 0003](https://github.com/AgentsKit-io/agentskit/blob/main/rfcs/0003-oss-akos-boundary.md) — OSS / AKOS product boundary.

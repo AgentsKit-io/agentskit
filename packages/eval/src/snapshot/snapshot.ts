@@ -1,3 +1,5 @@
+import { ConfigError, ErrorCodes, RuntimeError } from '@agentskit/core'
+
 export type SnapshotMode =
   | { kind: 'exact' }
   | { kind: 'normalized' }
@@ -57,6 +59,35 @@ export function cosine(a: number[], b: number[]): number {
   return denom === 0 ? 0 : dot / denom
 }
 
+function assertUnitInterval(value: unknown, name: string): number {
+  if (typeof value !== 'number' || !Number.isFinite(value) || value < 0 || value > 1) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `${name} must be a finite number in [0, 1]`,
+    })
+  }
+  return value
+}
+
+function assertEmbeddingVector(value: unknown, label: string): number[] {
+  if (!Array.isArray(value) || value.length === 0) {
+    throw new RuntimeError({
+      code: ErrorCodes.AK_RUNTIME_INVALID_INPUT,
+      message: `${label}: embedding must be a non-empty number array`,
+    })
+  }
+  for (let i = 0; i < value.length; i++) {
+    const n = value[i]
+    if (typeof n !== 'number' || !Number.isFinite(n)) {
+      throw new RuntimeError({
+        code: ErrorCodes.AK_RUNTIME_INVALID_INPUT,
+        message: `${label}: embedding[${i}] must be a finite number`,
+      })
+    }
+  }
+  return value as number[]
+}
+
 export async function comparePrompt(
   actual: string,
   expected: string,
@@ -80,19 +111,38 @@ export async function comparePrompt(
       actual,
     }
   }
+
+  const threshold = assertUnitInterval(mode.threshold, 'similarity threshold')
+
   let sim: number
   if (mode.embed) {
-    const [va, ve] = await Promise.all([mode.embed(actual), mode.embed(expected)])
+    const [rawA, rawE] = await Promise.all([mode.embed(actual), mode.embed(expected)])
+    const va = assertEmbeddingVector(rawA, 'actual embedding')
+    const ve = assertEmbeddingVector(rawE, 'expected embedding')
+    if (va.length !== ve.length) {
+      throw new RuntimeError({
+        code: ErrorCodes.AK_RUNTIME_INVALID_INPUT,
+        message: `Embedding dimension mismatch: actual=${va.length}, expected=${ve.length}`,
+      })
+    }
     sim = cosine(va, ve)
   } else {
     sim = jaccard(actual, expected)
   }
+
+  if (!Number.isFinite(sim)) {
+    throw new RuntimeError({
+      code: ErrorCodes.AK_RUNTIME_INVALID_INPUT,
+      message: 'similarity computation produced a non-finite value',
+    })
+  }
+
   return {
-    matched: sim >= mode.threshold,
+    matched: sim >= threshold,
     reason:
-      sim >= mode.threshold
-        ? `similarity ${sim.toFixed(3)} ≥ ${mode.threshold}`
-        : `similarity ${sim.toFixed(3)} < ${mode.threshold}`,
+      sim >= threshold
+        ? `similarity ${sim.toFixed(3)} ≥ ${threshold}`
+        : `similarity ${sim.toFixed(3)} < ${threshold}`,
     similarity: sim,
     expected,
     actual,

@@ -247,7 +247,9 @@ describe('Cross-package interop', () => {
   describe('skills composition', () => {
     it('composeSkills merges prompts and tools', () => {
       const composed = composeSkills(researcher, coder)
-      expect(composed.name).toBe('researcher+coder')
+      // S1 forbids `+` in skill names; compose uses `_` join.
+      expect(composed.name).toBe('researcher_coder')
+      expect(composed.name).toMatch(/^[a-zA-Z_][a-zA-Z0-9_-]{0,63}$/)
       expect(composed.systemPrompt).toContain('researcher')
       expect(composed.systemPrompt).toContain('coder')
       expect(composed.tools).toContain('web_search')
@@ -258,13 +260,13 @@ describe('Cross-package interop', () => {
   describe('discovery functions', () => {
     it('listTools returns all built-in tools', () => {
       const tools = listTools()
-      expect(tools.length).toBe(5)
+      expect(tools.length).toBe(6)
       expect(tools.map(t => t.name)).toContain('web_search')
     })
 
     it('listSkills returns all built-in skills', () => {
       const skills = listSkills()
-      expect(skills.length).toBe(5)
+      expect(skills.length).toBe(26)
       expect(skills.map(s => s.name)).toContain('researcher')
     })
   })
@@ -292,7 +294,7 @@ describe('Cross-package interop', () => {
 })
 
 describe('Ecosystem health checks', () => {
-  it('all 5 built-in skills have required fields', () => {
+  it('representative built-in skills have required fields', () => {
     for (const skill of [researcher, coder, planner, critic, summarizer]) {
       expect(skill.name).toBeTruthy()
       expect(skill.description).toBeTruthy()
@@ -300,11 +302,11 @@ describe('Ecosystem health checks', () => {
     }
   })
 
-  it('all 5 built-in tools have schemas', () => {
+  it('all built-in tool instances have schemas', () => {
     const allTools = [
       webSearch(),
       ...filesystem({ basePath: '/tmp' }),
-      shell(),
+      shell({ allowed: [] }),
     ]
     for (const tool of allTools) {
       expect(tool.name).toBeTruthy()

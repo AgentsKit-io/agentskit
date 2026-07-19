@@ -106,8 +106,8 @@ describe('${name}', () => {
 
 /**
  * Chat-memory backend skeleton. Implements load + save against any
- * persistent store. Pair with \`generateVectorMemorySource\` for a
- * combined backend, or ship one without the other.
+ * persistent store using the real `MemoryRecord` shape from core
+ * (`{ version: 1, messages: [...] }`), not a bare message array.
  */
 export function generateChatMemorySource(name: string): string {
   return `import {
@@ -125,17 +125,21 @@ export interface ${pascalCase(name)}Config {
   conversationId?: string
 }
 
+const EMPTY_RECORD: MemoryRecord = { version: 1, messages: [] }
+
 export function ${camelCase(name)}(config: ${pascalCase(name)}Config): ChatMemory {
   const conversationId = config.conversationId ?? 'default'
 
   // TODO: wire your backend client here (open connection, prepare statements, etc.)
+  // In-memory stand-in so the skeleton typechecks and the contract test can run.
+  let store: MemoryRecord = EMPTY_RECORD
 
   return {
     async load(): Promise<Message[]> {
       try {
-        // TODO: read serialised JSON for conversationId from your store.
-        const raw = '[]'
-        return deserializeMessages(JSON.parse(raw) as MemoryRecord[])
+        // TODO: read serialised MemoryRecord JSON for conversationId from your store.
+        void conversationId
+        return deserializeMessages(store)
       } catch (err) {
         throw new MemoryError({
           code: ErrorCodes.AK_MEMORY_LOAD_FAILED,
@@ -146,9 +150,10 @@ export function ${camelCase(name)}(config: ${pascalCase(name)}Config): ChatMemor
     },
     async save(messages: Message[]): Promise<void> {
       try {
-        const encoded = JSON.stringify(serializeMessages(messages))
-        // TODO: write \`encoded\` against \`conversationId\` in your store.
-        void encoded
+        // serializeMessages returns MemoryRecord ({ version: 1, messages }).
+        const record = serializeMessages(messages)
+        // TODO: write JSON.stringify(record) against conversationId in your store.
+        store = record
       } catch (err) {
         throw new MemoryError({
           code: ErrorCodes.AK_MEMORY_SAVE_FAILED,
@@ -158,9 +163,43 @@ export function ${camelCase(name)}(config: ${pascalCase(name)}Config): ChatMemor
       }
     },
     async clear(): Promise<void> {
-      // TODO: delete \`conversationId\` row(s) in your store.
+      // TODO: delete conversationId row(s) in your store.
+      store = EMPTY_RECORD
     },
   }
 }
+`
+}
+
+export function generateChatMemoryTest(name: string): string {
+  return `import { describe, expect, it } from 'vitest'
+import { ${camelCase(name)} } from '../src/index'
+import type { Message } from '@agentskit/core'
+
+describe('${name}', () => {
+  it('satisfies ChatMemory load/save/clear with MemoryRecord round-trip', async () => {
+    const memory = ${camelCase(name)}({ url: 'memory://local' })
+    expect(await memory.load()).toEqual([])
+
+    const messages: Message[] = [
+      {
+        id: 'm1',
+        role: 'user',
+        content: 'hello',
+        status: 'complete',
+        createdAt: new Date('2024-01-01T00:00:00.000Z'),
+      },
+    ]
+    await memory.save(messages)
+    const loaded = await memory.load()
+    expect(loaded).toHaveLength(1)
+    expect(loaded[0]!.id).toBe('m1')
+    expect(loaded[0]!.content).toBe('hello')
+    expect(loaded[0]!.createdAt).toBeInstanceOf(Date)
+
+    await memory.clear?.()
+    expect(await memory.load()).toEqual([])
+  })
+})
 `
 }

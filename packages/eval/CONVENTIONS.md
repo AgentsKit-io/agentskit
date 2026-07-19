@@ -8,31 +8,27 @@ Core `runEval(dataset)` is stable. Reporters, metrics, dataset shape may gain fi
 
 ## Scope
 
-- `runEval({ runtime, dataset, concurrency })` — runs a dataset, returns a report
-- Scoring helpers (exact-match, regex, LLM-as-judge)
-- Reporters (console, JSON file; more coming)
-- Types: `EvalCase`, `EvalReport`, `ScoreFn`
+- `runEval({ agent, suite })` — runs an `EvalSuite` sequentially and returns an `EvalResult`
+- Deterministic cassette recording, replay, time travel, and replay-against comparison
+- Prompt snapshot, diff, attribution, JUnit, Markdown, and GitHub Actions reporting
+- Braintrust quality/robustness scoring through the optional `braintrust` peer
+- Types: `AgentFn`, `AgentResponse`, `RunEvalConfig`, `EvalSuite`, `EvalResult`
 
 ## Design principles
 
 - **Evaluation is testing for non-determinism.** Consumers should use `vitest` or similar as the runner; this package provides the primitives.
-- **Scores are numbers in `[0, 1]`.** Boolean outcomes coerce (`true` → 1, `false` → 0).
-- **Every metric is optional**. Latency, cost, tokens — report if available, skip otherwise.
+- **Evaluation input is read-only.** Runners and replay helpers snapshot mutable data at their boundaries.
+- **Malformed agent output becomes a failed case.** One bad case does not abort the suite.
+- **Every metric is optional.** Latency and token usage are reported when available.
+- **Host boundaries are explicit.** `replay` is universal; `replay/io`, `snapshot`, and `ci` use Node filesystem/process APIs.
 - **Replay-first** (future): when deterministic replay lands, eval runs should be reproducible from a recorded trace.
 
-## Adding a metric
+## Adding a public surface
 
-1. Add the field to `EvalReport` in `src/types.ts`.
-2. Compute it in `runEval`'s aggregation loop.
-3. Make it optional — some runtimes/adapters won't have it.
-4. Document in the package README.
-
-## Adding a reporter
-
-1. Create `src/reporters/<name>.ts`.
-2. Export a factory: `export function jsonReporter(opts): Reporter`.
-3. `Reporter` has `onCase(case, result)` and `onComplete(report)` events.
-4. Keep it synchronous where possible; non-blocking where not.
+1. Extend an existing subpath unless a distinct host boundary requires a new one.
+2. Keep browser/React Native entries free of Node built-ins.
+3. Add package-manifest, packed-consumer, ESM/CJS, declaration, and direct behavior tests.
+4. Update README, for-agents documentation, and the public API snapshot.
 
 ## Testing
 
@@ -44,13 +40,14 @@ Core `runEval(dataset)` is stable. Reporters, metrics, dataset shape may gain fi
 | Pitfall | What to do instead |
 |---|---|
 | Blocking tests on real model calls | Use deterministic mock adapters |
-| Assuming every result has `tokensUsed` | Make metrics optional |
-| Scoring via string equality on LLM outputs | Use LLM-as-judge for fuzzy outputs |
-| Mutating input dataset | Treat `EvalCase[]` as read-only |
+| Assuming every result has token usage | Make metrics optional |
+| Importing filesystem helpers in browser code | Use `serializeCassette` / `parseCassette` with host storage |
+| Mutating suites or cassettes | Snapshot at the package boundary |
 
 ## Review checklist for this package
 
 - [ ] Bundle size under 10KB gzipped
-- [ ] Coverage threshold holds (95% lines — mostly pure logic)
-- [ ] New metric documented in README
-- [ ] No hard dependency on any one adapter or reporter
+- [ ] Coverage threshold holds (95% lines)
+- [ ] Root plus all eight subpaths pass packed ESM/CJS/TypeScript consumers
+- [ ] Browser and React Native replay entries contain no eager Node built-ins
+- [ ] No hard dependency on an adapter, model provider, or optional Braintrust SDK

@@ -1,9 +1,10 @@
 import type { SkillDefinition } from '@agentskit/core'
+import { defineSkill } from './utils'
 
-export const codeReviewer: SkillDefinition = {
-  name: 'code-reviewer',
-  description: 'Rigorous code reviewer focused on correctness, security, performance, and readability.',
-  systemPrompt: `You are a senior engineer reviewing a pull request.
+export const codeReviewer: SkillDefinition = defineSkill(
+  'code-reviewer',
+  'Rigorous code reviewer focused on correctness, security, performance, and readability.',
+  `You are a senior engineer reviewing a pull request.
 
 ## Review Priorities (top to bottom)
 1. Correctness — does the code do what it claims?
@@ -25,12 +26,11 @@ export const codeReviewer: SkillDefinition = {
 - Only mention style if the project has a stated convention and this violates it.
 - If a concern is speculative, say so — "potential race condition if caller Y does Z".
 - Prefer asking a question over demanding a change when intent is unclear.`,
-  tools: [],
-  delegates: [],
-  examples: [
+  [
     {
       input: 'Review this diff: [diff content...]',
-      output: 'REQUEST CHANGES\n\n**blocker** — src/auth.ts:42: password compared with `==`, vulnerable to timing attacks. Use `crypto.timingSafeEqual`.\n\n**high** — src/db.ts:88: SQL concatenation with user input. Switch to parameterized query.',
+      output:
+        'REQUEST CHANGES\n\n**blocker** — src/auth.ts:42: password compared with `==`, vulnerable to timing attacks. Use `crypto.timingSafeEqual`.\n\n**high** — src/db.ts:88: SQL concatenation with user input. Switch to parameterized query.',
     },
   ],
-}
+)

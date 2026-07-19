@@ -145,16 +145,31 @@ describe('webSearch', () => {
 
     const tool = webSearch()
     const result = await tool.execute!(
-      { query: 'https://example.com/doc' },
-      { messages: [], call: { id: '1', name: 'web_search', args: { query: 'https://example.com/doc' }, status: 'running' } },
+      { query: 'https://93.184.216.34/doc' },
+      { messages: [], call: { id: '1', name: 'web_search', args: { query: 'https://93.184.216.34/doc' }, status: 'running' } },
     ) as string
 
     expect(fetchMock).toHaveBeenCalledWith(
-      'https://example.com/doc',
+      'https://93.184.216.34/doc',
       expect.any(Object),
     )
     expect(result).toContain('My Page')
     expect(result).toContain('Hello world')
+    vi.unstubAllGlobals()
+  })
+
+  it('blocks direct-URL mode for loopback and never calls fetch (SSRF)', async () => {
+    const fetchMock = vi.fn()
+    vi.stubGlobal('fetch', fetchMock)
+
+    const tool = webSearch()
+    const result = await tool.execute!(
+      { query: 'http://127.0.0.1/' },
+      { messages: [], call: { id: '1', name: 'web_search', args: { query: 'http://127.0.0.1/' }, status: 'running' } },
+    ) as string
+
+    expect(result).toMatch(/SSRF blocked|private\/loopback|private host/i)
+    expect(fetchMock).not.toHaveBeenCalled()
     vi.unstubAllGlobals()
   })
 
