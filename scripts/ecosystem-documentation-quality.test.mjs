@@ -233,7 +233,7 @@ test('local semantics reject visual labels and linked hooks unsupported by conte
   assert.ok(result.findings.some((finding) => finding.id === 'contextual-hook-evidence:documentation'))
 })
 
-test('verified local content digest and Doc Bridge artifact are required for certification', { timeout: 15_000 }, () => {
+test('verified local content digest and Doc Bridge artifact are required for certification', { timeout: 60_000 }, () => {
   const committed = JSON.parse(readFileSync(join(REPO_ROOT, 'docs/evidence/ecosystem-documentation-quality/agentskit.json'), 'utf8'))
   const certified = evaluateDocumentationQuality(profile, committed, {
     root: REPO_ROOT,

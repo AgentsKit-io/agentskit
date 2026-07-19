@@ -14,6 +14,7 @@ export function ToolCallView({ toolCall }: ToolCallViewProps) {
         onClick={() => setExpanded(!expanded)}
         data-ak-tool-toggle=""
         type="button"
+        aria-expanded={expanded}
       >
         {toolCall.name}
       </button>

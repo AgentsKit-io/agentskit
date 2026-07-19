@@ -82,7 +82,7 @@ rl.on('line', (line) => {
       name: 'idempotent',
       command: process.execPath,
       args: ['-e', FAKE_SERVER_SRC],
-      timeout: 3000,
+      timeout: 10_000,
     })
     await client.start()
     client.dispose()

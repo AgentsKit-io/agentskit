@@ -82,9 +82,18 @@ const rag = createRAG({
 
 - Providers: Anthropic, OpenAI, Gemini, Ollama, DeepSeek, Grok, Kimi, Mistral, Cohere, Together, Groq, Fireworks, OpenRouter, Hugging Face, LM Studio, vLLM, llama.cpp, LangChain, LangGraph, Vercel AI SDK, generic `ReadableStream`
 - Embedders: `openaiEmbedder`, `geminiEmbedder`, `ollamaEmbedder`, `deepseekEmbedder`, `grokEmbedder`, `kimiEmbedder`, `createOpenAICompatibleEmbedder`
-- All adapters satisfy `Adapter` contract v1 (ADR 0001) — substitutable anywhere in the ecosystem
+- Fetch-backed adapters run against the shared `Adapter` contract v1 suite (ADR 0001); SDK-backed adapters have provider-specific contract and resilience coverage
 - Custom adapter authoring via `createAdapter()`
 - Higher-order adapters: `createRouter` (cost/latency/classifier), `createEnsembleAdapter` (fan-out + merge), `createFallbackAdapter` (ordered try-next)
+
+## Stream guarantees
+
+- A stream terminates exactly once with `done` or `error`; terminal errors carry an `Error` in `metadata.error`.
+- Provider streams that close before their native completion marker are treated as truncated, not successful.
+- `abort(reason)` propagates to active fetch readers and SDK requests and terminates with the same error semantics.
+- Native tool histories preserve call/result correlation. Parallel tool results are encoded in a single provider turn where required.
+- Credentials stay in provider headers when the protocol supports them; Gemini API keys are never placed in request URLs.
+- `vercelAI` consumes the Vercel AI SDK UI message stream v1 protocol, including its required response header and `[DONE]` marker.
 
 ## Higher-order adapters
 
@@ -172,6 +181,7 @@ MIT — see [LICENSE](../../LICENSE).
 ## Maturity and compatibility
 
 - Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- The implementation is hardened for a future freeze, but promotion still requires the 90-day beta window, two released minor lines, accepted package RFC, and repository evidence required by ADR 0024.
 - **Node.js 20+** and **TypeScript** strict mode
 - Published as `@agentskit/adapters`
 

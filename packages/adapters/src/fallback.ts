@@ -1,5 +1,6 @@
 import { AdapterError, ConfigError, ErrorCodes } from '@agentskit/core'
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
+import { isAbortError } from './stream-errors'
 
 export interface FallbackOptions {
   /**
@@ -60,7 +61,14 @@ export function createFallbackAdapter(
               const error = err instanceof Error ? err : new Error(String(err))
               errors.push({ id: candidate.id, error })
               options.onFallback?.({ id: candidate.id, index: i, error })
-              if (options.shouldRetry && !options.shouldRetry(error, i)) throw error
+              if (options.shouldRetry && !options.shouldRetry(error, i)) {
+                yield {
+                  type: 'error',
+                  content: error.message,
+                  metadata: { error },
+                } as StreamChunk
+                return
+              }
               continue
             }
             active = source
@@ -73,23 +81,40 @@ export function createFallbackAdapter(
             const iter = source.stream()[Symbol.asyncIterator]()
             let firstReal: StreamChunk | undefined
             let branchError: Error | undefined
+            const leadingUsage: StreamChunk[] = []
             try {
               while (true) {
+                if (aborted) {
+                  source.abort()
+                  return
+                }
                 const r = await iter.next()
                 if (r.done) {
                   branchError = new Error(`candidate ${candidate.id} emitted no chunks`)
                   break
                 }
                 if (r.value.type === 'error') {
-                  branchError = new Error(
-                    `candidate ${candidate.id}: ${r.value.content ?? 'stream error'}`,
-                  )
+                  const metaErr = r.value.metadata?.error
+                  branchError =
+                    metaErr instanceof Error
+                      ? metaErr
+                      : new Error(
+                          `candidate ${candidate.id}: ${r.value.content ?? 'stream error'}`,
+                        )
                   break
+                }
+                if (r.value.type === 'usage') {
+                  leadingUsage.push(r.value)
+                  continue
                 }
                 firstReal = r.value
                 break
               }
             } catch (err) {
+              if (isAbortError(err) || aborted) {
+                source.abort()
+                return
+              }
               branchError = err instanceof Error ? err : new Error(String(err))
             }
 
@@ -97,24 +122,67 @@ export function createFallbackAdapter(
               const error = branchError ?? new Error(`candidate ${candidate.id} emitted no chunks`)
               errors.push({ id: candidate.id, error })
               options.onFallback?.({ id: candidate.id, index: i, error })
-              if (options.shouldRetry && !options.shouldRetry(error, i)) throw error
+              try {
+                source.abort()
+              } catch {
+                // ignore
+              }
+              if (typeof iter.return === 'function') {
+                try {
+                  await iter.return(undefined)
+                } catch {
+                  // ignore
+                }
+              }
+              if (options.shouldRetry && !options.shouldRetry(error, i)) {
+                yield {
+                  type: 'error',
+                  content: error.message,
+                  metadata: { error },
+                } as StreamChunk
+                return
+              }
               active = undefined
               continue
             }
 
+            for (const chunk of leadingUsage) yield chunk
             yield firstReal
             while (true) {
-              const next = await iter.next()
-              if (next.done) return
-              yield next.value
+              if (aborted) {
+                source.abort()
+                return
+              }
+              try {
+                const next = await iter.next()
+                if (next.done) return
+                yield next.value
+              } catch (err) {
+                if (isAbortError(err) || aborted) {
+                  source.abort()
+                  return
+                }
+                const error = err instanceof Error ? err : new Error(String(err))
+                yield {
+                  type: 'error',
+                  content: error.message,
+                  metadata: { error },
+                } as StreamChunk
+                return
+              }
             }
           }
           const summary = errors.map(e => `${e.id}: ${e.error.message}`).join('; ')
-          throw new AdapterError({
+          const err = new AdapterError({
             code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,
             message: `all fallback candidates failed (${summary})`,
             hint: 'Check each candidate adapter\'s configuration and provider keys.',
           })
+          yield {
+            type: 'error',
+            content: err.message,
+            metadata: { error: err },
+          } as StreamChunk
         },
       }
     },

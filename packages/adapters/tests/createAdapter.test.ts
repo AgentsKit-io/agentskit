@@ -65,7 +65,35 @@ describe('createAdapter', () => {
     for await (const c of adapter.createSource({ messages: [] }).stream()) {
       out.push(c)
     }
-    expect(out).toEqual([{ type: 'error', content: 'boom' }])
+    expect(out).toHaveLength(1)
+    expect(out[0]).toMatchObject({ type: 'error', content: 'boom' })
+    expect((out[0] as { metadata?: { error?: unknown } }).metadata?.error).toBeInstanceOf(Error)
+  })
+
+  it('normalizes parsers that end without a terminal chunk', async () => {
+    const adapter = createAdapter({
+      send: vi.fn().mockResolvedValue(new ReadableStream()),
+      parse: vi.fn(async function* () {
+        yield { type: 'text' as const, content: 'partial' }
+      }),
+    })
+    const out: Array<{ type: string; metadata?: { error?: unknown } }> = []
+    for await (const chunk of adapter.createSource({ messages: [] }).stream()) out.push(chunk)
+    expect(out.map(chunk => chunk.type)).toEqual(['text', 'error'])
+    expect(out[1]?.metadata?.error).toBeInstanceOf(Error)
+  })
+
+  it('stops at the first terminal chunk', async () => {
+    const adapter = createAdapter({
+      send: vi.fn().mockResolvedValue(new ReadableStream()),
+      parse: vi.fn(async function* () {
+        yield { type: 'done' as const }
+        yield { type: 'text' as const, content: 'after-terminal' }
+      }),
+    })
+    const out: Array<{ type: string }> = []
+    for await (const chunk of adapter.createSource({ messages: [] }).stream()) out.push(chunk)
+    expect(out.map(chunk => chunk.type)).toEqual(['done'])
   })
 
   it('error chunk uses String(err) when error is not an Error instance', async () => {
@@ -76,7 +104,9 @@ describe('createAdapter', () => {
     for await (const c of adapter.createSource({ messages: [] }).stream()) {
       out.push(c)
     }
-    expect(out).toEqual([{ type: 'error', content: 'nope' }])
+    expect(out).toHaveLength(1)
+    expect(out[0]).toMatchObject({ type: 'error', content: 'nope' })
+    expect((out[0] as { metadata?: { error?: unknown } }).metadata?.error).toBeInstanceOf(Error)
   })
 
   it('abort invokes the configured abort callback', () => {
@@ -96,5 +126,74 @@ describe('createAdapter', () => {
       parse: vi.fn(async function* () {}),
     })
     expect(() => adapter.createSource({ messages: [] }).abort()).not.toThrow()
+  })
+
+  it('pre-abort prevents send from producing chunks', async () => {
+    const send = vi.fn().mockResolvedValue(new ReadableStream())
+    const parse = vi.fn(async function* () {
+      yield { type: 'text' as const, content: 'nope' }
+      yield { type: 'done' as const }
+    })
+    const adapter = createAdapter({ send, parse })
+    const source = adapter.createSource({ messages: [] })
+    source.abort()
+    const out: unknown[] = []
+    for await (const c of source.stream()) out.push(c)
+    expect(out).toEqual([])
+  })
+
+  it('abort during pending send terminates quietly without unhandled rejection', async () => {
+    let resolveSend!: (v: ReadableStream) => void
+    const send = vi.fn(
+      () =>
+        new Promise<ReadableStream>(resolve => {
+          resolveSend = resolve
+        }),
+    )
+    const parse = vi.fn(async function* () {
+      yield { type: 'text' as const, content: 'late' }
+      yield { type: 'done' as const }
+    })
+    const adapter = createAdapter({ send, parse })
+    const source = adapter.createSource({ messages: [] })
+    const iter = source.stream()[Symbol.asyncIterator]()
+    const pending = iter.next()
+    source.abort()
+    resolveSend(new ReadableStream({ start(c) { c.close() } }))
+    const first = await pending
+    expect(first.done).toBe(true)
+  })
+
+  it('abort mid-parse stops further chunks and calls configured abort', async () => {
+    const abort = vi.fn()
+    let release!: () => void
+    const gate = new Promise<void>(r => {
+      release = r
+    })
+    const parse = vi.fn(async function* () {
+      yield { type: 'text' as const, content: 'a' }
+      await gate
+      yield { type: 'text' as const, content: 'b' }
+      yield { type: 'done' as const }
+    })
+    const adapter = createAdapter({
+      send: vi.fn().mockResolvedValue(new ReadableStream()),
+      parse,
+      abort,
+    })
+    const source = adapter.createSource({ messages: [] })
+    const iter = source.stream()[Symbol.asyncIterator]()
+    const first = await iter.next()
+    expect(first.value).toMatchObject({ type: 'text', content: 'a' })
+    source.abort()
+    release()
+    const after: unknown[] = []
+    while (true) {
+      const n = await iter.next()
+      if (n.done) break
+      after.push(n.value)
+    }
+    expect(after).toEqual([])
+    expect(abort).toHaveBeenCalled()
   })
 })

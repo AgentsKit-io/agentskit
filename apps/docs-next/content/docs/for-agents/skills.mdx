@@ -45,16 +45,25 @@ npm install @agentskit/skills
 
 ### Composition + discovery
 
-- `composeSkills(a, b, ...)` — merge skills into one.
+- `composeSkills(a, b, ...)` — validate and defensively merge skills into one; composed names satisfy ADR 0005 S1.
+- `getBuiltinSkills()` — defensive full definitions for all 26 bundled skills.
 - `listSkills()` — metadata for every bundled skill.
 
 ### Marketplace
 
 - `createSkillRegistry(initial?)` — publish / list / install / unpublish.
-- `parseSemver`, `compareSemver`, `matchesRange` — tiny semver helpers.
+- `parseSemver`, `compareSemver`, `matchesRange` — strict SemVer helpers for exact, `^`, `~`, `>=`, and `*` ranges; prereleases are excluded unless explicitly targeted.
 - Types: `SkillPackage`, `SkillRegistry`, `SkillRegistryQuery`.
 
 See [Skill marketplace](/docs/reference/recipes/skill-marketplace).
+
+`tools` and `delegates` inside a skill are declarative names. The runtime does
+not gain those capabilities unless the caller supplies matching tool and skill
+registries. `onActivate` is the only executable field and is reserved for
+constructing per-user or per-tenant dynamic tools.
+
+The package remains beta. Its implementation is being prepared for the stable
+surface proposed in [RFC 0009](../../../../../rfcs/0009-skills-stable.md), but promotion still requires the release history and soak evidence mandated by ADR 0024.
 
 ## Minimal example
 

@@ -496,4 +496,22 @@ describe('registerChatCommand', () => {
     expect(optionNames).toContain('--new')
     expect(optionNames).toContain('--list-sessions')
   })
+
+  it('chat --skill help must not hard-code a stale five-skill list', async () => {
+    const { registerChatCommand } = await import('../src/commands/chat')
+    const program = makeProgram()
+    registerChatCommand(program)
+    const cmd = program.commands.find(c => c.name() === 'chat')
+    expect(cmd).toBeDefined()
+    const skillOpt = cmd!.options.find(o => o.long === '--skill')
+    expect(skillOpt).toBeDefined()
+    const description = skillOpt!.description ?? ''
+    // Stale help text only enumerated the original five built-ins.
+    expect(description).not.toBe(
+      'Comma-separated skills: researcher,coder,planner,critic,summarizer',
+    )
+    expect(description).not.toMatch(
+      /researcher\s*,\s*coder\s*,\s*planner\s*,\s*critic\s*,\s*summarizer/,
+    )
+  })
 })

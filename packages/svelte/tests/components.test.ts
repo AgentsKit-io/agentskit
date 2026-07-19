@@ -40,6 +40,25 @@ describe('@agentskit/svelte components', () => {
     expect((container.querySelector('[data-ak-send]') as HTMLButtonElement).disabled).toBe(true)
   })
 
+  it('InputBar blocks submit and Enter while streaming and omits redundant textbox role', () => {
+    const sent: string[] = []
+    const chat = {
+      input: 'hi',
+      status: 'streaming',
+      send: (t: string) => sent.push(t),
+      setInput: () => {},
+    } as unknown as ChatReturn
+    const { container } = render(InputBar, { props: { chat } })
+    const ta = container.querySelector('[data-ak-input]') as HTMLTextAreaElement
+    const form = container.querySelector('[data-ak-input-bar]') as HTMLFormElement
+    expect(ta.getAttribute('role')).toBeNull()
+    expect(ta.disabled).toBe(true)
+    expect((container.querySelector('[data-ak-send]') as HTMLButtonElement).disabled).toBe(true)
+    form.dispatchEvent(new Event('submit', { cancelable: true }))
+    ta.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    expect(sent).toEqual([])
+  })
+
   it('Markdown reflects streaming flag', () => {
     const a = render(Markdown, { props: { content: 'c', streaming: true } })
     expect(a.container.querySelector('[data-ak-markdown]')?.getAttribute('data-ak-streaming')).toBe('true')
@@ -55,12 +74,19 @@ describe('@agentskit/svelte components', () => {
     expect(b.container.querySelector('[data-ak-copy]')).toBeNull()
   })
 
-  it('ToolCallView toggles details', async () => {
+  it('ToolCallView toggles details and exposes aria-expanded', async () => {
     const { container } = render(ToolCallView, { props: { toolCall: toolCall({ result: 'ok' }) } })
+    const toggle = container.querySelector('[data-ak-tool-toggle]') as HTMLButtonElement
+    expect(toggle.getAttribute('aria-expanded')).toBe('false')
     expect(container.querySelector('[data-ak-tool-details]')).toBeNull()
-    ;(container.querySelector('[data-ak-tool-toggle]') as HTMLButtonElement).click()
+    toggle.click()
     await Promise.resolve()
+    expect(toggle.getAttribute('aria-expanded')).toBe('true')
     expect(container.querySelector('[data-ak-tool-args]')).not.toBeNull()
+    toggle.click()
+    await Promise.resolve()
+    expect(toggle.getAttribute('aria-expanded')).toBe('false')
+    expect(container.querySelector('[data-ak-tool-details]')).toBeNull()
   })
 
   it('ThinkingIndicator shows only when visible', () => {

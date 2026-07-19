@@ -5,6 +5,7 @@ import type {
   StreamChunk,
   StreamSource,
 } from '@agentskit/core'
+import { abortableSleep, adapterErrorChunk, isAbortError } from './stream-errors'
 
 export type MockResponse = StreamChunk[] | ((request: AdapterRequest) => StreamChunk[])
 
@@ -71,29 +72,51 @@ export function mockAdapter(options: MockAdapterOptions): AdapterFactory {
       usage: true,
     },
     createSource: (request: AdapterRequest): StreamSource => {
-      history?.push(request)
-      const myCall = callIndex++
+      const controller = new AbortController()
+      let myCall: number | undefined
       let cancelled = false
 
       return {
         stream: async function* (): AsyncIterableIterator<StreamChunk> {
-          const chunks = resolve(response, myCall, request)
-          let endedExplicitly = false
-
-          for (const chunk of chunks) {
-            if (cancelled) return
-            if (delayMs > 0) await new Promise(r => setTimeout(r, delayMs))
-            yield chunk
-            if (chunk.type === 'done' || chunk.type === 'error') {
-              endedExplicitly = true
+          if (cancelled || controller.signal.aborted) return
+          try {
+            if (myCall === undefined) {
+              myCall = callIndex++
+              history?.push(request)
             }
-          }
+            const chunks = resolve(response, myCall, request)
 
-          // ADR 0001 A3 — every stream ends with a terminal chunk.
-          if (!endedExplicitly) yield { type: 'done' }
+            for (const chunk of chunks) {
+              if (cancelled || controller.signal.aborted) return
+              if (delayMs > 0) {
+                await abortableSleep(delayMs, controller.signal, ms => new Promise(resolveTimer => setTimeout(resolveTimer, ms)))
+              }
+              if (cancelled || controller.signal.aborted) return
+              if (chunk.type === 'error' && !(chunk.metadata?.error instanceof Error)) {
+                const normalized = adapterErrorChunk(
+                  chunk.content ?? 'Mock adapter error',
+                  { cause: chunk.metadata?.error },
+                )
+                yield {
+                  ...chunk,
+                  metadata: { ...chunk.metadata, ...normalized.metadata },
+                }
+                return
+              }
+              yield chunk
+              if (chunk.type === 'done' || chunk.type === 'error') return
+            }
+
+            yield { type: 'done' }
+          } catch (error) {
+            if (cancelled || controller.signal.aborted || isAbortError(error)) return
+            const message = error instanceof Error ? error.message : String(error)
+            yield adapterErrorChunk(message, { cause: error })
+          }
         },
         abort: () => {
           cancelled = true
+          controller.abort()
         },
       }
     },
@@ -150,23 +173,45 @@ export function recordingAdapter(
   sink: RecordingSink,
 ): AdapterFactory {
   return {
+    capabilities: inner.capabilities,
     createSource: (request: AdapterRequest): StreamSource => {
-      const innerSource = inner.createSource(request)
+      let innerSource: StreamSource | undefined
       const captured: StreamChunk[] = []
-      const recordedAt = new Date().toISOString()
+      let aborted = false
 
       return {
         stream: async function* (): AsyncIterableIterator<StreamChunk> {
+          if (aborted) return
+          const recordedAt = new Date().toISOString()
           try {
+            innerSource = inner.createSource(request)
             for await (const chunk of innerSource.stream()) {
+              if (aborted) return
               captured.push(chunk)
               yield chunk
+              if (chunk.type === 'done' || chunk.type === 'error') return
             }
+            const errorChunk = adapterErrorChunk('Recorded adapter ended without a terminal chunk')
+            captured.push(errorChunk)
+            yield errorChunk
+          } catch (error) {
+            if (aborted || isAbortError(error)) return
+            const message = error instanceof Error ? error.message : String(error)
+            const errorChunk = adapterErrorChunk(message, { cause: error })
+            captured.push(errorChunk)
+            yield errorChunk
           } finally {
-            await sink.push({ recordedAt, request, chunks: captured })
+            try {
+              await sink.push({ recordedAt, request, chunks: captured })
+            } catch {
+              // Recording must not corrupt the wrapped adapter stream.
+            }
           }
         },
-        abort: () => innerSource.abort(),
+        abort: () => {
+          aborted = true
+          innerSource?.abort()
+        },
       }
     },
   }

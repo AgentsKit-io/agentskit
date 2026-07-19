@@ -1,5 +1,7 @@
 import { AdapterError, ConfigError, ErrorCodes } from '@agentskit/core'
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
+import { adapterErrorChunk, isAbortError, parseCompleteToolArgs } from './stream-errors'
+import { toAnthropicMessages } from './tool-history'
 
 export interface BedrockConfig {
   /** Bedrock model id, e.g. `anthropic.claude-3-5-sonnet-20241022-v2:0`. */
@@ -19,9 +21,15 @@ export interface BedrockConfig {
 /**
  * Minimal structural type for `BedrockRuntimeClient` so we don't take a hard
  * dep on `@aws-sdk/client-bedrock-runtime`.
+ *
+ * Second options argument is optional so existing one-argument injected
+ * clients remain structurally valid.
  */
 export interface BedrockRuntimeClientLike {
-  send(command: { input: BedrockInvokeInput }): Promise<{
+  send(
+    command: { input: BedrockInvokeInput },
+    options?: { abortSignal?: AbortSignal },
+  ): Promise<{
     body?: AsyncIterable<{ chunk?: { bytes?: Uint8Array } }>
   }>
 }
@@ -66,9 +74,7 @@ function isAnthropicModel(model: string): boolean {
 }
 
 function buildAnthropicBody(request: AdapterRequest, maxTokens: number): string {
-  const messages = request.messages
-    .filter(m => m.role !== 'system')
-    .map(m => ({ role: m.role, content: m.content }))
+  const messages = toAnthropicMessages(request.messages)
   const system = request.messages.find(m => m.role === 'system')?.content
   const tools = request.context?.tools?.map(tool => ({
     name: tool.name,
@@ -90,6 +96,22 @@ async function* parseAnthropicBedrockEvents(
 ): AsyncIterableIterator<StreamChunk> {
   const decoder = new TextDecoder()
   const pendingToolCalls = new Map<number, { id: string; name: string; args: string }>()
+
+  const emitTool = function* (
+    tc: { id: string; name: string; args: string },
+  ): Generator<StreamChunk, boolean> {
+    const parsed = parseCompleteToolArgs(tc.args)
+    if (!parsed.ok) {
+      yield {
+        type: 'error',
+        content: parsed.error.message,
+        metadata: { error: parsed.error },
+      }
+      return false
+    }
+    yield { type: 'tool_call', toolCall: { id: tc.id, name: tc.name, args: parsed.args } }
+    return true
+  }
 
   for await (const item of events) {
     const bytes = item.chunk?.bytes
@@ -120,7 +142,10 @@ async function* parseAnthropicBedrockEvents(
       const index = (event.index as number | undefined) ?? 0
       const tc = pendingToolCalls.get(index)
       if (tc) {
-        yield { type: 'tool_call', toolCall: { id: tc.id, name: tc.name, args: tc.args || '{}' } }
+        if (!(yield* emitTool(tc))) {
+          pendingToolCalls.clear()
+          return
+        }
         pendingToolCalls.delete(index)
       }
     } else if (type === 'message_delta') {
@@ -131,7 +156,7 @@ async function* parseAnthropicBedrockEvents(
         yield {
           type: 'usage',
           usage: { promptTokens, completionTokens, totalTokens: promptTokens + completionTokens },
-        }
+        } as StreamChunk
       }
     } else if (type === 'message_start') {
       const usage = (event.message as { usage?: { input_tokens?: number } } | undefined)?.usage
@@ -143,11 +168,14 @@ async function* parseAnthropicBedrockEvents(
             completionTokens: 0,
             totalTokens: usage.input_tokens ?? 0,
           },
-        }
+        } as StreamChunk
       }
     } else if (type === 'message_stop') {
       for (const [, tc] of pendingToolCalls) {
-        yield { type: 'tool_call', toolCall: { id: tc.id, name: tc.name, args: tc.args || '{}' } }
+        if (!(yield* emitTool(tc))) {
+          pendingToolCalls.clear()
+          return
+        }
       }
       pendingToolCalls.clear()
       yield { type: 'done' }
@@ -155,11 +183,8 @@ async function* parseAnthropicBedrockEvents(
     }
   }
 
-  for (const [, tc] of pendingToolCalls) {
-    yield { type: 'tool_call', toolCall: { id: tc.id, name: tc.name, args: tc.args || '{}' } }
-  }
   pendingToolCalls.clear()
-  yield { type: 'done' }
+  yield adapterErrorChunk('Bedrock stream ended before message_stop')
 }
 
 export function bedrock(config: BedrockConfig): AdapterFactory {
@@ -199,9 +224,10 @@ export function bedrock(config: BedrockConfig): AdapterFactory {
 
       return {
         stream: async function* (): AsyncIterableIterator<StreamChunk> {
-          if (aborted) return
+          if (aborted || controller.signal.aborted) return
           try {
             const client = await getClient()
+            if (aborted || controller.signal.aborted) return
             const sdk = config.client ? null : await loadSdk()
             const input: BedrockInvokeInput = {
               modelId: model,
@@ -212,17 +238,19 @@ export function bedrock(config: BedrockConfig): AdapterFactory {
             const command = sdk
               ? new sdk.InvokeModelWithResponseStreamCommand(input)
               : { input }
-            const response = await client.send(command)
+            const response = await client.send(command, { abortSignal: controller.signal })
             if (!response.body) {
-              yield { type: 'error', content: 'Bedrock: empty response body' }
+              yield adapterErrorChunk('Bedrock: empty response body')
               return
             }
             for await (const chunk of parseAnthropicBedrockEvents(response.body)) {
-              if (aborted) return
+              if (aborted || controller.signal.aborted) return
               yield chunk
             }
           } catch (err) {
-            yield { type: 'error', content: err instanceof Error ? err.message : String(err) }
+            if (isAbortError(err) || aborted) return
+            const message = err instanceof Error ? err.message : String(err)
+            yield adapterErrorChunk(message, { cause: err })
           }
         },
         abort: () => {

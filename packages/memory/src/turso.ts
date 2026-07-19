@@ -1,10 +1,16 @@
-import type { ChatMemory, Message, MemoryRecord } from '@agentskit/core'
+import type {
+  ChatMemory,
+  Message,
+  MemoryRecord,
+} from '@agentskit/core'
 import {
   ErrorCodes,
   MemoryError,
   deserializeMessages,
   serializeMessages,
 } from '@agentskit/core'
+
+type MemoryOperationOptions = Parameters<ChatMemory['load']>[0]
 
 export interface TursoChatMemoryConfig {
   /** libSQL URL — file:..., libsql://..., or http://... */
@@ -80,8 +86,10 @@ export function tursoChatMemory(config: TursoChatMemoryConfig): ChatMemory {
   }
 
   return {
-    async load() {
+    async load(options?: MemoryOperationOptions) {
+      options?.signal?.throwIfAborted()
       const client = await getClient()
+      options?.signal?.throwIfAborted()
       const result = await client.execute({
         sql: 'SELECT messages FROM conversations WHERE id = ?',
         args: [conversationId],
@@ -89,8 +97,10 @@ export function tursoChatMemory(config: TursoChatMemoryConfig): ChatMemory {
       const row = result.rows[0]
       return decodeMessages(row?.messages as string | undefined)
     },
-    async save(messages) {
+    async save(messages, options?: MemoryOperationOptions) {
+      options?.signal?.throwIfAborted()
       const client = await getClient()
+      options?.signal?.throwIfAborted()
       const json = encodeMessages(messages)
       await client.execute({
         sql: `INSERT INTO conversations (id, messages) VALUES (?, ?)
@@ -98,8 +108,10 @@ export function tursoChatMemory(config: TursoChatMemoryConfig): ChatMemory {
         args: [conversationId, json],
       })
     },
-    async clear() {
+    async clear(options?: MemoryOperationOptions) {
+      options?.signal?.throwIfAborted()
       const client = await getClient()
+      options?.signal?.throwIfAborted()
       await client.execute({
         sql: 'DELETE FROM conversations WHERE id = ?',
         args: [conversationId],

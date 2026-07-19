@@ -1,4 +1,5 @@
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
+import { adapterErrorChunk, isAbortError } from './stream-errors'
 
 type LangChainRunnable = {
   stream?: (input: unknown, config?: Record<string, unknown>) => AsyncIterable<unknown> | Promise<AsyncIterable<unknown>>
@@ -19,58 +20,79 @@ function asText(value: unknown): string {
   return ''
 }
 
+function isToolStartEvent(eventName: string): boolean {
+  return eventName === 'on_tool_start' || eventName.endsWith('_tool_start')
+}
+
 export function langchain(config: LangChainConfig): AdapterFactory {
   const { runnable, mode = 'stream' } = config
 
   return {
-    createSource: (request: AdapterRequest): StreamSource => ({
-      stream: async function* (): AsyncIterableIterator<StreamChunk> {
-        try {
-          if (mode === 'events' && runnable.streamEvents) {
-            const events = await runnable.streamEvents(
-              { messages: request.messages },
-              { version: 'v2' }
-            )
+    createSource: (request: AdapterRequest): StreamSource => {
+      const controller = new AbortController()
 
-            for await (const event of events) {
-              const eventName = String(event.event ?? '')
-              if (eventName.endsWith('_stream')) {
-                const chunk = asText(event.data)
-                if (chunk) yield { type: 'text', content: chunk }
-              } else if (eventName.endsWith('_start') && event.name) {
-                yield {
-                  type: 'tool_call',
-                  toolCall: {
-                    id: String(event.run_id ?? `${event.name}-${Date.now()}`),
-                    name: String(event.name),
-                    args: JSON.stringify(event.data ?? {}),
-                  },
+      return {
+        stream: async function* (): AsyncIterableIterator<StreamChunk> {
+          if (controller.signal.aborted) return
+          try {
+            const runnableConfig: Record<string, unknown> = {
+              version: 'v2',
+              signal: controller.signal,
+            }
+
+            if (mode === 'events' && runnable.streamEvents) {
+              const events = await runnable.streamEvents(
+                { messages: request.messages },
+                runnableConfig,
+              )
+
+              for await (const event of events) {
+                if (controller.signal.aborted) return
+                const eventName = String(event.event ?? '')
+                if (eventName.endsWith('_stream')) {
+                  const chunk = asText(event.data)
+                  if (chunk) yield { type: 'text', content: chunk }
+                } else if (isToolStartEvent(eventName) && event.name) {
+                  // Only genuine tool-start events — not chain/model starts.
+                  yield {
+                    type: 'tool_call',
+                    toolCall: {
+                      id: String(event.run_id ?? `${event.name}-${Date.now()}`),
+                      name: String(event.name),
+                      args: JSON.stringify(event.data ?? {}),
+                    },
+                  }
                 }
-              } else if (eventName.endsWith('_end')) {
-                continue
               }
+            } else if (runnable.stream) {
+              const stream = await runnable.stream(
+                { messages: request.messages },
+                runnableConfig,
+              )
+              for await (const value of stream) {
+                if (controller.signal.aborted) return
+                const chunk = asText(value)
+                if (chunk) yield { type: 'text', content: chunk }
+              }
+            } else {
+              yield adapterErrorChunk('Runnable does not implement stream() or streamEvents()')
+              return
             }
-          } else if (runnable.stream) {
-            const stream = await runnable.stream({ messages: request.messages })
-            for await (const value of stream) {
-              const chunk = asText(value)
-              if (chunk) yield { type: 'text', content: chunk }
-            }
-          } else {
-            yield { type: 'error', content: 'Runnable does not implement stream() or streamEvents()' }
-            return
-          }
 
-          yield { type: 'done' }
-        } catch (error) {
-          yield {
-            type: 'error',
-            content: error instanceof Error ? error.message : String(error),
+            if (controller.signal.aborted) return
+            yield { type: 'done' }
+          } catch (error) {
+            // Abort should terminate quietly (no error chunk).
+            if (isAbortError(error) || controller.signal.aborted) return
+            const message = error instanceof Error ? error.message : String(error)
+            yield adapterErrorChunk(message, { cause: error })
           }
-        }
-      },
-      abort: () => {},
-    }),
+        },
+        abort: () => {
+          controller.abort()
+        },
+      }
+    },
   }
 }
 

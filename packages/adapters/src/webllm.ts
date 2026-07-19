@@ -1,5 +1,6 @@
 import { AdapterError, ErrorCodes } from '@agentskit/core'
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
+import { adapterErrorChunk, isAbortError, raceAbort } from './stream-errors'
 
 /**
  * Browser-only adapter backed by WebLLM (https://github.com/mlc-ai/web-llm).
@@ -30,7 +31,7 @@ export interface WebLlmEngineLike {
       create(params: {
         messages: Array<{ role: string; content: string }>
         stream: true
-      }): AsyncIterable<{ choices: Array<{ delta?: { content?: string } }> }>
+      }): AsyncIterable<{ choices: Array<{ delta?: { content?: string } }> }> | Promise<AsyncIterable<{ choices: Array<{ delta?: { content?: string } }> }>>
     }
   }
 }
@@ -77,26 +78,64 @@ export function webllm(config: WebLlmConfig): AdapterFactory {
       tools: false,
     },
     createSource: (request: AdapterRequest): StreamSource => {
+      const controller = new AbortController()
       let aborted = false
+      let activeIter: AsyncIterator<{ choices: Array<{ delta?: { content?: string } }> }> | null = null
+
+      const softAbort = (): void => {
+        aborted = true
+        if (!controller.signal.aborted) controller.abort()
+        if (activeIter && typeof activeIter.return === 'function') {
+          void activeIter.return(undefined).catch(() => {})
+        }
+      }
 
       return {
         stream: async function* (): AsyncIterableIterator<StreamChunk> {
-          if (aborted) return
+          if (aborted || controller.signal.aborted) return
           try {
-            const engine = await getEngine()
+            const engine = await raceAbort(getEngine(), controller.signal)
+            if (aborted || controller.signal.aborted) return
+
             const messages = request.messages.map(m => ({ role: m.role, content: m.content }))
-            const completion = await engine.chat.completions.create({ messages, stream: true })
-            for await (const chunk of completion) {
-              if (aborted) return
-              const delta = chunk.choices[0]?.delta?.content
+            const completion = await raceAbort(
+              Promise.resolve(
+                engine.chat.completions.create({ messages, stream: true }),
+              ),
+              controller.signal,
+            )
+            if (aborted || controller.signal.aborted) return
+
+            activeIter = completion[Symbol.asyncIterator]()
+            while (true) {
+              if (aborted || controller.signal.aborted) {
+                if (typeof activeIter.return === 'function') {
+                  await activeIter.return(undefined).catch(() => {})
+                }
+                return
+              }
+              const next = await raceAbort(activeIter.next(), controller.signal)
+              if (next.done) break
+              if (aborted || controller.signal.aborted) {
+                if (typeof activeIter.return === 'function') {
+                  await activeIter.return(undefined).catch(() => {})
+                }
+                return
+              }
+              const delta = next.value.choices[0]?.delta?.content
               if (delta) yield { type: 'text', content: delta }
             }
+            if (aborted || controller.signal.aborted) return
             yield { type: 'done' }
           } catch (err) {
-            yield { type: 'error', content: err instanceof Error ? err.message : String(err) }
+            if (isAbortError(err) || aborted || controller.signal.aborted) return
+            const message = err instanceof Error ? err.message : String(err)
+            yield adapterErrorChunk(message, { cause: err })
           }
         },
-        abort: () => { aborted = true },
+        abort: () => {
+          softAbort()
+        },
       }
     },
   }

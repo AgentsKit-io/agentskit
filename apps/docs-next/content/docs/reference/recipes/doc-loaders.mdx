@@ -1,10 +1,10 @@
 ---
 title: Document loaders
-description: One-line fetchers for URL, GitHub, Notion, Confluence, Google Drive, and PDF into your RAG pipeline.
+description: Fetchers for URL, GitHub, Notion, Confluence, Drive, PDF, and cloud stores into your RAG pipeline.
 ---
 
 Every RAG pipeline starts with "turn an external document into an
-`InputDocument`". `@agentskit/rag` now ships six loaders that cover
+`InputDocument`". `@agentskit/rag` ships eleven loaders that cover
 the common sources; each accepts a custom `fetch` for tests and
 returns `InputDocument[]` ready to pipe into `RAG.ingest`.
 
@@ -25,6 +25,14 @@ npm install @agentskit/rag
 | `loadConfluencePage(pageId, { baseUrl, token })` | Atlassian storage body |
 | `loadGoogleDriveFile(fileId, { accessToken })` | Drive export as `text/plain` |
 | `loadPdf(url, { parsePdf })` | BYO PDF parser (`pdf-parse`, `pdfjs`, etc.) |
+| `loadS3({ client, bucket, commands? })` | S3, R2, or MinIO objects |
+| `loadGcs({ bucket, accessToken })` | Google Cloud Storage objects |
+| `loadDropbox({ accessToken, path? })` | Recursive Dropbox folder |
+| `loadOneDrive({ accessToken, folderItemId? })` | Recursive, paginated OneDrive folder |
+
+All loader options accept `signal?: AbortSignal`. Paginated loaders reject
+missing or repeated continuation tokens. Tree loaders may return partial
+success, but throw `AK_RAG_LOAD_FAILED` when every eligible download fails.
 
 ## Example — RAG over a GitHub repo
 

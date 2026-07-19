@@ -6,7 +6,7 @@ Profile: <code>concise-package</code>
 
 **Tags:** `agentskit` · `typescript` · `ai-agents`
 
-[![stability](https://img.shields.io/badge/stability-alpha-orange)](../../docs/STABILITY.md)
+[![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 
 Deterministic, serializable interaction state for [AgentsKit](https://www.agentskit.io) applications. It is framework-neutral and has zero runtime dependencies.
 
@@ -109,13 +109,15 @@ The host supplies IDs, timestamps, storage, and event delivery. That keeps trans
 - `restoreStatechart` accepts `unknown`, validates metadata and context, and never trusts serialized definitions.
 - `notifyStatechartObserver` delivers a completed result separately; observer failure cannot alter state.
 
+Events, contexts, and snapshots use an exact JSON boundary: sparse or decorated arrays, accessors, symbols, exotic prototypes, and non-finite numbers are rejected without invoking getters. Hostile but valid object keys such as `__proto__` remain ordinary data keys. Observers must complete synchronously; returned thenables are isolated as typed failures.
+
 Context validation is injected through `parseContext`, so applications can use any validation library without adding one to this package.
 
 ## Deliberate boundaries
 
 This package does not execute actions, persist snapshots, call agents or tools, retry events, deduplicate delivery, render components, or define product-specific states. Repeated events follow the current state's transition table; delivery idempotency belongs to the host.
 
-See [ADR-0020](../../docs/architecture/adrs/0020-serializable-interaction-state.md) for the ownership decision.
+See [ADR-0020](../../docs/architecture/adrs/0020-serializable-interaction-state.md) for the ownership decision and [ADR-0027](../../docs/architecture/adrs/0027-statechart-beta-boundaries.md) for the hardened beta boundaries.
 
 ## License
 
@@ -125,13 +127,27 @@ MIT
 
 <!-- readme-example:quickstart -->
 ```ts
-import '@agentskit/statechart'
-console.log('@agentskit/statechart loaded')
+import { createStatechartInstance, defineStatechart } from '@agentskit/statechart'
+
+const toggle = defineStatechart({
+  id: 'toggle',
+  version: '1',
+  initial: 'off',
+  parseContext: () => ({}),
+  states: { off: { on: { toggle: { target: 'on' } } }, on: {} },
+})
+
+const instance = createStatechartInstance(toggle, {}, {
+  instanceId: 'toggle-1',
+  now: '2026-07-17T12:00:00.000Z',
+})
+
+console.log(instance.state)
 ```
 
 ## Maturity and compatibility
 
-- Stability: **alpha** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
 - **Node.js 20+** and **TypeScript** strict mode
 - Published as `@agentskit/statechart`
 

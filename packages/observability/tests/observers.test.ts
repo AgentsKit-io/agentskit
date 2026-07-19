@@ -11,17 +11,21 @@ describe('Observer contract compliance', () => {
     expect(obs.on).toBeTypeOf('function')
   })
 
-  it('langsmith satisfies Observer', () => {
+  it('langsmith satisfies Observer + lifecycle', () => {
     const obs = langsmith({ apiKey: 'test-key' })
     expect(obs.name).toBeTypeOf('string')
     expect(obs.name).toBeTruthy()
     expect(obs.on).toBeTypeOf('function')
+    expect(obs.flush).toBeTypeOf('function')
+    expect(obs.shutdown).toBeTypeOf('function')
   })
 
-  it('opentelemetry satisfies Observer', () => {
+  it('opentelemetry satisfies Observer + lifecycle', () => {
     const obs = opentelemetry()
     expect(obs.name).toBeTypeOf('string')
     expect(obs.name).toBeTruthy()
     expect(obs.on).toBeTypeOf('function')
+    expect(obs.flush).toBeTypeOf('function')
+    expect(obs.shutdown).toBeTypeOf('function')
   })
 })

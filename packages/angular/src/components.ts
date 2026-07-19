@@ -11,8 +11,8 @@ import type { Message as MessageType, ChatReturn, ToolCall } from '@agentskit/co
 
 /**
  * Headless Angular chat components mirroring `@agentskit/react`'s set. Each
- * renders `data-ak-*` attributes only — bring your own CSS. Standalone +
- * JIT-friendly (inline templates); pairs with the `AgentskitChat` service.
+ * renders `data-ak-*` attributes only — bring your own CSS. Standalone with
+ * inline templates; published as partial-Ivy (AOT/APF) via ng-packagr.
  */
 
 @Component({
@@ -61,22 +61,25 @@ export class MessageComponent {
   standalone: true,
   template: `<form data-ak-input-bar (submit)="onSubmit($event)">
     <textarea
-      role="textbox"
       data-ak-input
       rows="1"
       [value]="chat.input"
       [attr.placeholder]="placeholder"
-      [disabled]="disabled"
+      [disabled]="isBlocked"
       (input)="chat.setInput($any($event.target).value)"
       (keydown.enter)="onEnter($event)"
     ></textarea>
-    <button data-ak-send type="submit" [disabled]="disabled || !chat.input.trim()">Send</button>
+    <button data-ak-send type="submit" [disabled]="isBlocked || !chat.input.trim()">Send</button>
   </form>`,
 })
 export class InputBarComponent {
   @Input({ required: true }) chat!: ChatReturn
   @Input() placeholder = 'Type a message...'
   @Input() disabled = false
+
+  get isBlocked(): boolean {
+    return this.disabled || this.chat.status === 'streaming'
+  }
 
   onSubmit(e: Event): void {
     e.preventDefault()
@@ -91,7 +94,8 @@ export class InputBarComponent {
   }
 
   private submit(): void {
-    if (this.chat.input.trim()) this.chat.send(this.chat.input)
+    if (this.isBlocked || !this.chat.input.trim()) return
+    void this.chat.send(this.chat.input)
   }
 }
 
@@ -129,7 +133,12 @@ export class CodeBlockComponent {
   selector: 'ak-tool-call-view',
   standalone: true,
   template: `<div data-ak-tool-call [attr.data-ak-tool-status]="toolCall.status">
-    <button data-ak-tool-toggle type="button" (click)="expanded.set(!expanded())">
+    <button
+      data-ak-tool-toggle
+      type="button"
+      [attr.aria-expanded]="expanded()"
+      (click)="expanded.set(!expanded())"
+    >
       {{ toolCall.name }}
     </button>
     @if (expanded()) {

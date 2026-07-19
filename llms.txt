@@ -3,7 +3,7 @@ AgentsKit is a plug-and-play TypeScript toolkit for building production agents: 
 ## Knowledge
 
 - [adapters](apps/docs-next/content/docs/for-agents/adapters.mdx): Every LLM provider, one contract. Stream, tool calls, retry, abort all normalized. Plus higher-order adapters that compose candidates (router, ensemble, fallback) and a `createAdapter` factory for custom providers.
-- [peers:](apps/docs-next/content/docs/for-agents/angular.mdx): Angular binding for the `ChatReturn` contract from `@agentskit/core`. Exposes chat state as a `WritableSignal<ChatState>` for template binding and as an `Observable<ChatState>` for RxJS pipelines, with automatic teardown via `ngOnDestroy`.
+- [peers:](apps/docs-next/content/docs/for-agents/angular.mdx): Angular binding for the `ChatReturn` contract from `@agentskit/core`. Exposes chat state as a `WritableSignal<ChatState | null>` for template binding and as an `Observable<ChatState | null>` for RxJS pipelines, with automatic teardown via `ngOnDestroy`.
 - [or:](apps/docs-next/content/docs/for-agents/cli.mdx)
 - [core](apps/docs-next/content/docs/for-agents/core.mdx): Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + `createChatController` + primitives. Target: &lt;10 KB gzipped, zero runtime deps.
 - [eval-braintrust](apps/docs-next/content/docs/for-agents/eval-braintrust.mdx)
@@ -19,12 +19,12 @@ AgentsKit is a plug-and-play TypeScript toolkit for building production agents: 
 - [peers:](apps/docs-next/content/docs/for-agents/react-native.mdx): React Native binding for the `ChatReturn` contract from `@agentskit/core`. Shares the same hook API as `@agentskit/react` but ships without any DOM dependency, making it safe for Metro bundler and the Hermes JS engine used in React Native and Expo.
 - [react](apps/docs-next/content/docs/for-agents/react.mdx): `useChat` hook returning `ChatReturn` (state + actions) + headless components with `data-ak-*` attributes for theming.
 - [runtime](apps/docs-next/content/docs/for-agents/runtime.mdx): Run an agent without a UI. Supports reflection, planning, multi-agent orchestration, durable step logs, cron + webhooks, speculative execution.
-- [sandbox](apps/docs-next/content/docs/for-agents/sandbox.mdx)
+- [optional peer for the default E2B cloud backend:](apps/docs-next/content/docs/for-agents/sandbox.mdx)
 - [skills](apps/docs-next/content/docs/for-agents/skills.mdx)
 - [peer:](apps/docs-next/content/docs/for-agents/solid.mdx): SolidJS binding for the `ChatReturn` contract from `@agentskit/core`. Same shape as React/Vue/Svelte hooks — store-backed, cleanup wired via `onCleanup`.
 - [statechart](apps/docs-next/content/docs/for-agents/statechart.mdx): Represent deterministic interaction state independently from UI frameworks, providers, agent execution, and persistence.
 - [peer:](apps/docs-next/content/docs/for-agents/svelte.mdx): Svelte binding for the `ChatReturn` contract from `@agentskit/core`. Returns a `Readable<ChatState>` plus action methods (send / stop / clear) and `destroy()` for cleanup.
-- [templates](apps/docs-next/content/docs/for-agents/templates.mdx): Generate AgentsKit extensions (tools, skills, adapters) as standalone packages with consistent blueprints (tsup, vitest, TypeScript) and runtime validation. Depends only on `@agentskit/core`.
+- [templates](apps/docs-next/content/docs/for-agents/templates.mdx): Generate AgentsKit extensions as standalone packages with consistent blueprints (tsup, vitest, TypeScript) and runtime validation. Depends only on `@agentskit/core`. This is a **programmatic** authoring toolkit — it is **not** what `agentskit init` uses under the hood (the CLI has separate app templates).
 - [tools](apps/docs-next/content/docs/for-agents/tools.mdx)
 - [validation](apps/docs-next/content/docs/for-agents/validation.mdx)
 - [peer:](apps/docs-next/content/docs/for-agents/vue.mdx): Vue 3 binding for the `ChatReturn` contract from `@agentskit/core`. Returns a reactive object via `reactive()` that tracks messages, input, and streaming state, and tears down automatically when the component scope is disposed.

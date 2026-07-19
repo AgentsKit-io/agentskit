@@ -106,6 +106,21 @@ describe('replicateAdapter', () => {
     expect(err?.content).toContain('rate limit')
   })
 
+  it('ends without done event as terminal error, not done', async () => {
+    mockFetchSequence([
+      () => new Response(JSON.stringify({ id: 'p1', urls: { stream: STREAM_URL } }), { status: 201 }),
+      () => new Response(sseStream([
+        { event: 'output', data: 'partial' },
+        // stream closes without a `done` event
+      ]), { status: 200 }),
+    ])
+    const out = await collect(replicate({ apiKey: 'k', model: 'm/m' }))
+    expect(out.some(c => c.type === 'text')).toBe(true)
+    expect(out.at(-1)?.type).toBe('error')
+    expect(out.at(-1)?.metadata?.error).toBeInstanceOf(Error)
+    expect(out.some(c => c.type === 'done')).toBe(false)
+  })
+
   it('errors when prediction returns no stream URL', async () => {
     mockFetchSequence([
       () => new Response(JSON.stringify({ id: 'p1' }), { status: 201 }),

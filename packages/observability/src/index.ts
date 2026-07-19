@@ -8,25 +8,27 @@ export type {
 } from './redaction'
 
 export { langsmith } from './langsmith'
-export type { LangSmithConfig } from './langsmith'
+export type { LangSmithConfig, LangSmithObserver } from './langsmith'
 
 export { datadogSink } from './datadog'
-export type { DatadogSinkConfig } from './datadog'
+export type { DatadogSinkConfig, DatadogSinkObserver } from './datadog'
 
 export { axiomSink } from './axiom'
-export type { AxiomSinkConfig } from './axiom'
+export type { AxiomSinkConfig, AxiomSinkObserver } from './axiom'
 
 export { newRelicSink } from './new-relic'
-export type { NewRelicSinkConfig } from './new-relic'
+export type { NewRelicSinkConfig, NewRelicSinkObserver } from './new-relic'
 
 export { opentelemetry } from './opentelemetry'
-export type { OpenTelemetryConfig } from './opentelemetry'
+export type { OpenTelemetryConfig, OpenTelemetryObserver } from './opentelemetry'
+
+export type { LifecycleObserver, HttpBatchOptions } from './http-batch-sink'
 
 export { createTraceTracker } from './trace-tracker'
 export type { TraceSpan, TraceTrackerCallbacks } from './trace-tracker'
 
 export { costGuard, priceFor, computeCost, DEFAULT_PRICES } from './cost-guard'
-export type { CostGuardOptions, TokenPrice } from './cost-guard'
+export type { CostGuardOptions, TokenPrice, CostGuardErrorHandler } from './cost-guard'
 
 export { multiTenantCostGuard } from './cost-guard-multi-tenant'
 export type { MultiTenantCostGuardOptions } from './cost-guard-multi-tenant'

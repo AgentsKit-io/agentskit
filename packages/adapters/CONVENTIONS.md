@@ -15,7 +15,7 @@ The provider layer. Every file in this package maps one LLM or one embedding pro
 2. Accept configuration at construction time only: `apiKey`, `model`, `baseUrl` as needed.
 3. In `createSource`, build the request but **do not fetch yet**. Defer all I/O to `stream()` — invariant A1.
 4. In `stream()`, use the SSE utility from `src/utils.ts` if the provider speaks server-sent events. Otherwise write a parser that respects the chunk shape in `@agentskit/core`.
-5. Always end with `{ type: 'done' }`, an error chunk, or iterator return on abort — invariant A3.
+5. Always end with exactly one `{ type: 'done' }` or `{ type: 'error', metadata: { error } }`. An abort must cancel transport work and produce the terminal error shape — invariants A3, A6, and A9.
 6. Yield `{ type: 'text', content }` for text deltas. Yield `{ type: 'tool_call', toolCall: { id, name, args } }` with **complete args** per invariant A5.
 7. Put provider-specific data in `chunk.metadata` (usage counts, raw response, reasoning). Consumers must not depend on its shape — A8.
 8. Re-export from `src/index.ts`.
@@ -39,10 +39,11 @@ The provider layer. Every file in this package maps one LLM or one embedding pro
 
 For every new adapter:
 
-- **Contract test** using the shared `AdapterContractSuite` (when it lands — for now, at minimum run the ten invariants mentally against your implementation)
+- **Contract test** using the shared suite in `tests/adapter-contract.test.ts`, including deferred I/O, exactly one terminal chunk, complete tool-call arguments, and mid-stream abort
 - **Stream parsing test** with a recorded fixture (JSON file of SSE chunks) so tests are fast and deterministic
-- **Error path test** — what happens on 401, 429, 500, malformed response
-- **Abort test** — `stream()` iteration terminates when `abort()` is called mid-flight
+- **Error path test** — 401, 429, 500, malformed response, and a transport that closes before its provider terminal marker
+- **Abort test** — `abort(reason)` cancels the active reader or request and emits one terminal error chunk carrying that reason
+- **Tool-history test** — providers with native tools must encode assistant calls and correlated results, including parallel results in one provider turn
 
 Tests live in `tests/<provider>.test.ts`.
 
@@ -60,7 +61,7 @@ Tests live in `tests/<provider>.test.ts`.
 
 - [ ] Implements all ten invariants A1–A10
 - [ ] Bundle size under 20KB gzipped (tightens over time)
-- [ ] Coverage threshold holds (60% lines; aiming for 80%)
+- [ ] Coverage threshold holds (90% lines)
 - [ ] Contract-tested against the ten invariants
 - [ ] SSE parsing uses `src/utils.ts` helpers where possible
 - [ ] README updated if the public export surface changed

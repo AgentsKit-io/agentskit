@@ -1,5 +1,6 @@
 import type { StreamChunk } from '@agentskit/core'
 import { readSSELines } from './stream-lines'
+import { adapterErrorChunk, parseCompleteToolArgs } from './stream-errors'
 
 const SUCCESS_FINISH_REASONS = new Set(['stop', 'tool_calls', 'function_call'])
 
@@ -7,40 +8,72 @@ export async function* parseOpenAIStream(stream: ReadableStream): AsyncIterableI
   const pendingToolCalls = new Map<number, { id: string; name: string; args: string }>()
   let finishReason: string | undefined
 
-  const terminalError = (): StreamChunk | undefined => {
-    if (finishReason === undefined || SUCCESS_FINISH_REASONS.has(finishReason)) return undefined
-    const error = new Error(`OpenAI stream ended with non-success finish reason "${finishReason}".`)
-    return { type: 'error', content: error.message, metadata: { error, finishReason } }
+  const terminalError = (message: string, extra?: Record<string, unknown>): StreamChunk => {
+    const chunk = adapterErrorChunk(message)
+    return {
+      ...chunk,
+      metadata: { ...chunk.metadata, ...extra, finishReason },
+    }
   }
 
-  const flushToolCalls = function* (): Generator<StreamChunk> {
+  const flushToolCalls = function* (): Generator<StreamChunk, boolean> {
     for (const [, toolCall] of pendingToolCalls) {
+      const parsed = parseCompleteToolArgs(toolCall.args)
+      if (!parsed.ok) {
+        pendingToolCalls.clear()
+        yield {
+          type: 'error',
+          content: parsed.error.message,
+          metadata: { error: parsed.error, finishReason },
+        }
+        return false
+      }
       yield {
         type: 'tool_call',
-        toolCall: { id: toolCall.id, name: toolCall.name, args: toolCall.args || '{}' },
+        toolCall: { id: toolCall.id, name: toolCall.name, args: parsed.args },
       }
     }
     pendingToolCalls.clear()
+    return true
   }
 
   for await (const data of readSSELines(stream)) {
     if (data === '[DONE]') {
-      const incomplete = terminalError()
-      if (incomplete) {
+      if (finishReason !== undefined && !SUCCESS_FINISH_REASONS.has(finishReason)) {
         pendingToolCalls.clear()
-        yield incomplete
+        yield terminalError(
+          `OpenAI stream ended with non-success finish reason "${finishReason}".`,
+          { finishReason },
+        )
         return
       }
-      yield* flushToolCalls()
+      if (!(yield* flushToolCalls())) return
       yield { type: 'done' }
       return
     }
 
     try {
-      const event = JSON.parse(data)
+      const event = JSON.parse(data) as {
+        choices?: Array<{
+          delta?: {
+            content?: string
+            tool_calls?: Array<{
+              index?: number
+              id?: string
+              function?: { name?: string; arguments?: string }
+            }>
+          }
+          finish_reason?: string
+        }>
+        usage?: {
+          prompt_tokens?: number
+          completion_tokens?: number
+          total_tokens?: number
+        }
+      }
       const delta = event.choices?.[0]?.delta
       const candidateFinishReason = event.choices?.find(
-        (choice: { finish_reason?: unknown }) => typeof choice.finish_reason === 'string',
+        choice => typeof choice.finish_reason === 'string',
       )?.finish_reason
       if (typeof candidateFinishReason === 'string') finishReason = candidateFinishReason
 
@@ -70,26 +103,27 @@ export async function* parseOpenAIStream(stream: ReadableStream): AsyncIterableI
             completionTokens: event.usage.completion_tokens ?? 0,
             totalTokens: event.usage.total_tokens ?? 0,
           },
-        }
+        } as StreamChunk
       }
     } catch {
       // Ignore malformed events.
     }
   }
 
-  const incomplete = terminalError()
-  if (incomplete) {
+  if (finishReason !== undefined && !SUCCESS_FINISH_REASONS.has(finishReason)) {
     pendingToolCalls.clear()
-    yield incomplete
+    yield terminalError(
+      `OpenAI stream ended with non-success finish reason "${finishReason}".`,
+      { finishReason },
+    )
     return
   }
   if (!finishReason) {
     pendingToolCalls.clear()
-    const error = new Error('OpenAI stream ended before a terminal marker.')
-    yield { type: 'error', content: error.message, metadata: { error } }
+    yield terminalError('OpenAI stream ended before a terminal marker.')
     return
   }
 
-  yield* flushToolCalls()
+  if (!(yield* flushToolCalls())) return
   yield { type: 'done' }
 }

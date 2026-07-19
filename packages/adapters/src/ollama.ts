@@ -1,5 +1,6 @@
 import type { AdapterFactory, AdapterRequest, StreamSource } from '@agentskit/core'
-import { createStreamSource, parseOllamaStream, type RetryOptions } from './utils'
+import { parseOllamaStream, type RetryOptions } from './utils'
+import { createStreamSource } from './stream-source'
 
 export interface OllamaConfig {
   model: string

@@ -1,6 +1,7 @@
 import { readFile, readdir } from 'node:fs/promises'
 const packagesRoot = new URL('../packages/', import.meta.url)
 const releaseWorkflow = await readFile(new URL('../.github/workflows/release.yml', import.meta.url), 'utf8')
+const rootManifest = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'))
 const manifests = []
 
 for (const directory of await readdir(packagesRoot)) {
@@ -18,6 +19,13 @@ const diagnostics = []
 if (!releaseWorkflow.includes('id-token: write')) diagnostics.push('release workflow must grant id-token: write')
 if (!releaseWorkflow.includes('environment: npm')) diagnostics.push('release workflow must use the npm environment')
 if (/NPM_TOKEN|NODE_AUTH_TOKEN/.test(releaseWorkflow)) diagnostics.push('release workflow must not depend on saved npm tokens')
+if (!releaseWorkflow.includes('package-manager-cache: false')) diagnostics.push('release workflow must disable package-manager caching')
+if (!/npm install --global npm@11\.\d+\.\d+/.test(releaseWorkflow)) diagnostics.push('release workflow must pin an exact npm 11 version')
+if (!releaseWorkflow.includes('pnpm check:release-registry')) diagnostics.push('release workflow must run the registry preflight')
+if (!releaseWorkflow.includes('recover_unpublished')) diagnostics.push('release workflow must expose explicit unpublished-version recovery')
+if (Object.values(rootManifest.scripts ?? {}).some(command => command.includes('changeset publish'))) {
+  diagnostics.push('root scripts must not publish packages outside the OIDC release workflow')
+}
 
 for (const { directory, manifest } of manifests) {
   const isPrivate = manifest.private === true

@@ -16,7 +16,7 @@ const cloneJsonValue = (
     if (!Number.isFinite(input)) {
       throw new TypeError('JSON numbers must be finite')
     }
-    return input
+    return Object.is(input, -0) ? 0 : input
   }
 
   if (typeof input !== 'object') {
@@ -31,6 +31,24 @@ const cloneJsonValue = (
   nextAncestors.add(input)
 
   if (Array.isArray(input)) {
+    if (Object.getOwnPropertySymbols(input).length > 0) {
+      throw new TypeError('JSON arrays cannot contain symbol keys')
+    }
+    const names = Object.getOwnPropertyNames(input)
+    const indices = names.filter((key) => key !== 'length')
+    if (indices.length !== input.length) {
+      throw new TypeError('JSON arrays must be dense and contain only indexed values')
+    }
+    for (let index = 0; index < input.length; index += 1) {
+      const key = String(index)
+      if (indices[index] !== key) {
+        throw new TypeError('JSON arrays must be dense and contain only indexed values')
+      }
+      const descriptor = Object.getOwnPropertyDescriptor(input, key)
+      if (!descriptor || !('value' in descriptor)) {
+        throw new TypeError('JSON arrays cannot contain accessors')
+      }
+    }
     return Object.freeze(
       input.map((item) => cloneJsonValue(item, nextAncestors)),
     )
@@ -45,13 +63,21 @@ const cloneJsonValue = (
     throw new TypeError('JSON objects cannot contain symbol keys')
   }
 
+  const names = Object.getOwnPropertyNames(input)
   const output: Record<string, DeepReadonly<JsonValue>> = {}
-  for (const key of Object.keys(input)) {
+  for (const key of names) {
+    const descriptor = Object.getOwnPropertyDescriptor(input, key)
+    if (!descriptor || !('value' in descriptor)) {
+      throw new TypeError('JSON objects cannot contain accessors')
+    }
+    if (!descriptor.enumerable) {
+      throw new TypeError('JSON objects cannot contain non-enumerable properties')
+    }
     Object.defineProperty(output, key, {
       configurable: false,
       enumerable: true,
       value: cloneJsonValue(
-        (input as Record<string, unknown>)[key],
+        descriptor.value,
         nextAncestors,
       ),
       writable: false,

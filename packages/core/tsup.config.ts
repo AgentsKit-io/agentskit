@@ -26,6 +26,7 @@ export default defineConfig({
   dts: { compilerOptions: { ignoreDeprecations: "6.0" } },
   sourcemap: true,
   clean: false,
+  minify: true,
   treeshake: true,
   external: ['./tool-proposal-internal.js', './tool-authorization-internal.js'],
   // tsup ships .ts entrypoints only; copy bundled JSON assets manually.

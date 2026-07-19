@@ -1,16 +1,19 @@
 import type { ChatMemory, SkillDefinition, ToolDefinition } from '@agentskit/core'
 import { webSearch, fetchUrl, filesystem, shell } from '@agentskit/tools'
-import { researcher, coder, planner, critic, summarizer, composeSkills } from '@agentskit/skills'
+import { composeSkills, getBuiltinSkills } from '@agentskit/skills'
 import { fileChatMemory, sqliteChatMemory } from '@agentskit/memory'
 import { getIntegration, integrationToolsFromEnv } from '@agentskit/integrations'
 
-export const skillRegistry: Record<string, SkillDefinition> = {
-  researcher,
-  coder,
-  planner,
-  critic,
-  summarizer,
+/** Prototype-safe registry built from the canonical skills catalog. */
+function buildSkillRegistry(): Record<string, SkillDefinition> {
+  const reg = Object.create(null) as Record<string, SkillDefinition>
+  for (const skill of getBuiltinSkills()) {
+    reg[skill.name] = skill
+  }
+  return reg
 }
+
+export const skillRegistry: Record<string, SkillDefinition> = buildSkillRegistry()
 
 type ToolKind = 'web_search' | 'fetch_url' | 'filesystem' | 'shell'
 
@@ -92,18 +95,24 @@ export function getBuiltinToolNames(kind: ToolKind): readonly string[] {
 
 export function resolveSkill(skillName: string | undefined): SkillDefinition | undefined {
   if (!skillName) return undefined
-  const skill = skillRegistry[skillName.trim()]
-  if (!skill) {
+  const key = skillName.trim()
+  // Object.create(null) registry is prototype-safe; hasOwn still documents intent.
+  if (!Object.prototype.hasOwnProperty.call(skillRegistry, key)) {
     process.stderr.write(`Unknown skill: ${skillName}\n`)
     return undefined
   }
-  return skill
+  return skillRegistry[key]
 }
 
 export function resolveSkills(skillNames: string | undefined): SkillDefinition | undefined {
   if (!skillNames) return undefined
-  const names = skillNames.split(',').map(s => s.trim())
-  const resolved = names.map(n => skillRegistry[n]).filter(Boolean)
+  const names = skillNames.split(',').map(s => s.trim()).filter(Boolean)
+  const resolved: SkillDefinition[] = []
+  for (const n of names) {
+    if (Object.prototype.hasOwnProperty.call(skillRegistry, n)) {
+      resolved.push(skillRegistry[n]!)
+    }
+  }
   if (resolved.length === 0) {
     process.stderr.write(`No valid skills found in: ${skillNames}\n`)
     return undefined

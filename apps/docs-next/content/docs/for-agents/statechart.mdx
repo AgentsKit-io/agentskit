@@ -28,7 +28,11 @@ npm install @agentskit/statechart
 
 - Supply IDs and timestamps from the host; the package has no clock or randomness.
 - Context and event data must be JSON-compatible.
+- JSON arrays must be dense and undecorated. Symbols, accessors, exotic prototypes, and non-finite numbers are rejected without invoking getters.
+- Valid hostile object keys such as `__proto__` remain data keys and cannot mutate definition-map prototypes.
 - Keep guards and reducers deterministic for replay equivalence.
+- Treat `INPUT_INVALID` as a host-boundary failure for malformed events, metadata, or exhausted safe revisions.
+- Observer callbacks must be synchronous; returned thenables are caught and reported as `OBSERVER_FAILED`.
 - Persistence, event deduplication, effects, tools, agents, and rendering are outside this package.
 - Never deserialize a definition; restore snapshots against trusted runtime code.
 
@@ -43,4 +47,5 @@ npm install @agentskit/statechart
 
 - [README](../../../../../packages/statechart/README.md)
 - [ADR-0020](../../../../../docs/architecture/adrs/0020-serializable-interaction-state.md)
+- [ADR-0027](../../../../../docs/architecture/adrs/0027-statechart-beta-boundaries.md)
 - [Issue #1199](https://github.com/AgentsKit-io/agentskit/issues/1199)

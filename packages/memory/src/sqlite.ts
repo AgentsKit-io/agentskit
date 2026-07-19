@@ -1,10 +1,16 @@
-import type { ChatMemory, Message, MemoryRecord } from '@agentskit/core'
+import type {
+  ChatMemory,
+  Message,
+  MemoryRecord,
+} from '@agentskit/core'
 import {
   ErrorCodes,
   MemoryError,
   deserializeMessages,
   serializeMessages,
 } from '@agentskit/core'
+
+type MemoryOperationOptions = Parameters<ChatMemory['load']>[0]
 
 export interface SqliteChatMemoryConfig {
   path: string
@@ -65,21 +71,27 @@ export function sqliteChatMemory(config: SqliteChatMemoryConfig): ChatMemory {
   }
 
   return {
-    async load() {
+    async load(options?: MemoryOperationOptions) {
+      options?.signal?.throwIfAborted()
       const db = await getDb()
+      options?.signal?.throwIfAborted()
       const row = db.prepare('SELECT messages FROM conversations WHERE id = ?').get(conversationId)
       return decodeMessages(row?.messages as string | undefined)
     },
-    async save(messages) {
+    async save(messages, options?: MemoryOperationOptions) {
+      options?.signal?.throwIfAborted()
       const db = await getDb()
+      options?.signal?.throwIfAborted()
       const json = encodeMessages(messages)
       db.prepare(`
         INSERT INTO conversations (id, messages) VALUES (?, ?)
         ON CONFLICT(id) DO UPDATE SET messages = ?
       `).run(conversationId, json, json)
     },
-    async clear() {
+    async clear(options?: MemoryOperationOptions) {
+      options?.signal?.throwIfAborted()
       const db = await getDb()
+      options?.signal?.throwIfAborted()
       db.prepare('DELETE FROM conversations WHERE id = ?').run(conversationId)
     },
   }

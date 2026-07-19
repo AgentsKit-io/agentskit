@@ -1,16 +1,18 @@
 ---
 title: Input validation
-description: Schema validation of tool inputs and user messages — zod, JSON Schema, prompt injection, length limits, and allowlists.
+description: Opt-in JSON Schema validation of tool inputs plus user-message limits, prompt-injection checks, and allowlists.
 ---
 
 Every agent boundary is an attack surface. Validate tool arguments and user messages before they enter the agent loop.
 
-## Tool schema requirements
+## Validate model-proposed tool arguments
 
-`@agentskit/core` enforces a JSON Schema contract on every tool definition. The `schema` field is required and must describe all accepted arguments:
+Tool schemas are optional in the core contract, and core does not bundle a runtime validator. For production tool boundaries, attach a JSON Schema and opt in to the Ajv-backed validator published through `@agentskit/tools/validation`:
 
 ```ts
 import type { ToolDefinition } from '@agentskit/core'
+import { createChatController } from '@agentskit/core'
+import { createAjvValidator } from '@agentskit/tools/validation'
 
 const fetchUrl: ToolDefinition = {
   name: 'fetch_url',
@@ -30,37 +32,31 @@ const fetchUrl: ToolDefinition = {
   },
   execute: async (args) => { /* ... */ },
 }
+
+const chat = createChatController({
+  adapter,
+  tools: [fetchUrl],
+  validateArgs: createAjvValidator(),
+})
 ```
 
-The runtime validates `args` against the schema before calling `execute`. Any argument that does not conform is rejected before the tool runs.
+With `validateArgs` configured, a mismatch is rejected as `AK_TOOL_INVALID_INPUT` before `execute`. Without it, behavior remains passthrough. A tool without `schema` is also skipped by the validator.
 
-## Zod-based validation
+JSON Schema is the canonical tool contract. Do not maintain a second schema solely for runtime validation; that invites drift between the model-visible schema and the executable boundary.
 
-For complex argument shapes, derive the JSON Schema from a Zod schema to keep validation co-located with types:
+### Strict additional properties
 
 ```ts
-import { z } from 'zod'
-import { zodToJsonSchema } from 'zod-to-json-schema'
-
-const ArgsSchema = z.object({
-  query: z.string().min(1).max(512),
-  limit: z.number().int().min(1).max(50).default(10),
+const validateArgs = createAjvValidator({
+  rejectAdditionalProperties: true,
 })
-
-type Args = z.infer<typeof ArgsSchema>
-
-const searchTool: ToolDefinition = {
-  name: 'search',
-  description: 'Search the knowledge base.',
-  schema: zodToJsonSchema(ArgsSchema, { $refStrategy: 'none' }),
-  execute: async (rawArgs) => {
-    const args = ArgsSchema.parse(rawArgs)   // throws ZodError on invalid input
-    // ...
-  },
-}
 ```
 
-Parse at the top of `execute` even if the runtime already validated against JSON Schema — Zod gives you typed, narrowed args.
+This recursively adds `additionalProperties: false` to ordinary object boundaries that omit a policy, without mutating the source schema. Explicit `additionalProperties` policies are preserved. Draft-07 composition and applicator boundaries (`allOf`, `anyOf`, `oneOf`, conditionals, and schema dependencies) cannot safely infer one combined property set, so they stay as authored; declare `additionalProperties: false` explicitly on the appropriate composed boundary.
+
+`coerceTypes` is off by default. Enabling it can mutate the argument object. If you pass a pre-configured Ajv instance, that instance owns coercion, formats, keywords, and strictness.
+
+Schemas are trusted application configuration and compile lazily. An invalid schema throws on its first validation attempt; invalid model arguments return structured paths without including argument values.
 
 ## User message validation
 

@@ -74,14 +74,14 @@ State surfaces through a reactive proxy — read `chat.messages` / `chat.input` 
 
 ## API
 
-- `useChat(config)` — hook returning `ChatReturn` via a reactive proxy: `messages`, `status`, `input` + actions `send(text)`, `setInput(v)`, `stop`, `retry`, `clear`, `approve`, `deny`, `edit`, `regenerate`.
+- `useChat(config)` — hook returning `ChatReturn` via a reactive proxy: `messages`, `status`, `input` + actions `send(text)`, `setInput(v)`, `stop`, `retry`, `clear`, `approve`, `deny`, `edit`, `regenerate`. Owner dispose unsubscribes and stops in-flight work.
 - Headless components — emit `data-ak-*` attributes only, no styling. Full parity with `@agentskit/react`:
   - `ChatContainer` — scroll wrapper, auto-scrolls on new content.
   - `Message` — renders a message; optional `avatar` / `actions` slots.
-  - `InputBar` — textarea + Send; Enter submits, Shift+Enter newlines, disabled while empty/streaming.
+  - `InputBar` — textarea + Send; Enter submits, Shift+Enter newlines; blocks submit/Enter while empty/streaming.
   - `Markdown` — content surface with a `streaming` flag.
   - `CodeBlock` — `code` + `language`, optional `copyable` copy button.
-  - `ToolCallView` — collapsible tool-call view (name → args/result).
+  - `ToolCallView` — collapsible tool-call view (name → args/result) with `aria-expanded` on the toggle.
   - `ThinkingIndicator` — shown while `visible`, with a `label`.
   - `ToolConfirmation` — HITL approve/deny, renders only when `status === 'requires_confirmation'`.
 

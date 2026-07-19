@@ -25,8 +25,8 @@ The Agents Playbook lists "typed boundaries — all external inputs validated by
 
 1. **JSON Schema stays the single canonical schema format.** Core already standardises on `JSONSchema7` for tool, manifest, agent-schema, and security taxonomy. We do **not** introduce Zod as a parallel canonical.
 2. **Validation is an injectable, opt-in capability.** Core exposes a `validateArgs?: ArgsValidator` hook with a **default passthrough** (current behaviour). No validator is bundled into core; the zero-dependency contract (`scripts/check-core-no-deps.mjs`) is preserved.
-3. **A new optional package `@agentskit/validation`** wraps `ajv` and provides `createAjvValidator()` returning an `ArgsValidator` that checks parsed tool args against the tool's existing `JSONSchema7`.
-4. **Validation failure raises a typed error** `ToolError` with code `AK_TOOL_INVALID_ARGS`, carrying the offending field path(s) as hint. It flows through the existing didactic error system.
+3. **An optional Ajv implementation** provides `createAjvValidator()` returning an `ArgsValidator` that checks parsed tool args against the tool's existing `JSONSchema7`. It is implemented in the private `@agentskit/validation` workspace package and published through `@agentskit/tools/validation`.
+4. **Validation failure raises a typed error** `ToolError` with code `AK_TOOL_INVALID_INPUT`, carrying a safe field summary. It flows through the existing didactic error system.
 
 ## Rationale
 
@@ -38,8 +38,8 @@ The Agents Playbook lists "typed boundaries — all external inputs validated by
 ## Consequences
 
 - New public contract: `ArgsValidator` type + `validateArgs` option on the chat controller and runtime.
-- New error code `AK_TOOL_INVALID_ARGS` (additive — minor bump).
-- New package `@agentskit/validation` (peer-deps `ajv`).
+- Validation uses the existing `AK_TOOL_INVALID_INPUT` error code.
+- Ajv remains outside core and is bundled into the opt-in `@agentskit/tools/validation` public subpath.
 - Default behaviour unchanged: callers who do not pass a validator get today's passthrough. Documented as opt-in; turning it on is recommended for production.
 - Inbound `adapter.parse(req)` validation is **out of scope** here; covered when an HTTP-surface ADR lands. Flagged in `docs/security/threat-model.md`.
 
