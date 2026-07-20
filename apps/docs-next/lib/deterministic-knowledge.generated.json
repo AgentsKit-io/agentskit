@@ -3,12 +3,12 @@
   "version": 1,
   "artifactId": "agentskit-docs-v1",
   "siteId": "agentskit-docs",
-  "generatedAt": "2026-08-12T22:55:06-03:00",
+  "generatedAt": "2026-07-16T18:58:26-03:00",
   "entries": [
     {
       "id": "claim.catalog-models",
       "kind": "restricted-faq",
-      "label": "6297 models",
+      "label": "5162 models",
       "match": {
         "type": "exact",
         "values": [
@@ -18,7 +18,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **6297 models**. The public conservative floor is 6000.",
+        "markdown": "The verified AgentsKit ledger currently reports **5162 models**. The public conservative floor is 5000.",
         "citations": [
           {
             "id": "claim-catalog-models",
@@ -31,7 +31,7 @@
     {
       "id": "claim.catalog-providers",
       "kind": "restricted-faq",
-      "label": "184 providers",
+      "label": "140 providers",
       "match": {
         "type": "exact",
         "values": [
@@ -41,7 +41,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **184 providers**. The public conservative floor is 180.",
+        "markdown": "The verified AgentsKit ledger currently reports **140 providers**. The public conservative floor is 140.",
         "citations": [
           {
             "id": "claim-catalog-providers",
@@ -192,7 +192,7 @@
     {
       "id": "claim.recipes",
       "kind": "restricted-faq",
-      "label": "71 recipes",
+      "label": "69 recipes",
       "match": {
         "type": "exact",
         "values": [
@@ -202,7 +202,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **71 recipes**. The public conservative floor is 71.",
+        "markdown": "The verified AgentsKit ledger currently reports **69 recipes**. The public conservative floor is 69.",
         "citations": [
           {
             "id": "claim-recipes",
@@ -215,7 +215,7 @@
     {
       "id": "claim.skills",
       "kind": "restricted-faq",
-      "label": "22 ready-made skills",
+      "label": "21 ready-made skills",
       "match": {
         "type": "exact",
         "values": [
@@ -225,7 +225,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **22 ready-made skills**. The public conservative floor is 22.",
+        "markdown": "The verified AgentsKit ledger currently reports **21 ready-made skills**. The public conservative floor is 21.",
         "citations": [
           {
             "id": "claim-skills",
@@ -1030,7 +1030,7 @@
         ]
       },
       "answer": {
-        "markdown": "**Agents Playbook** is the ecosystem's discipline: Train coding agents to ship code your team would merge. Maturity: **stable**.",
+        "markdown": "**Agents Playbook** is the ecosystem's discipline: Make agents ship code a human would actually merge. Maturity: **stable**.",
         "citations": [
           {
             "id": "ecosystem-playbook",
@@ -1697,7 +1697,7 @@
         ]
       },
       "answer": {
-        "markdown": "**@agentskit/angular** — Angular binding for the `ChatReturn` contract from `@agentskit/core`. Exposes chat state as a `WritableSignal<ChatState | null>` for template binding and as an `Observable<ChatState | null>` for RxJS pipelines, with automatic teardown via `ngOnDestroy`.\n\nInstall it with `pnpm add @agentskit/angular`.",
+        "markdown": "**@agentskit/angular** — Angular binding for the `ChatReturn` contract from `@agentskit/core`. Exposes chat state as a `WritableSignal<ChatState>` for template binding and as an `Observable<ChatState>` for RxJS pipelines, with automatic teardown via `ngOnDestroy`.\n\nInstall it with `pnpm add @agentskit/angular`.",
         "citations": [
           {
             "id": "package-angular",
@@ -2180,7 +2180,7 @@
         ]
       },
       "answer": {
-        "markdown": "**@agentskit/templates** — Generate AgentsKit extensions as standalone packages with consistent blueprints (tsup, vitest, TypeScript) and runtime validation. Depends only on `@agentskit/core`. This is a **programmatic** authoring toolkit — it is **not** what `agentskit init` uses under the hood (the CLI has separate app templates).\n\nInstall it with `pnpm add @agentskit/templates`.",
+        "markdown": "**@agentskit/templates** — Generate AgentsKit extensions (tools, skills, adapters) as standalone packages with consistent blueprints (tsup, vitest, TypeScript) and runtime validation. Depends only on `@agentskit/core`.\n\nInstall it with `pnpm add @agentskit/templates`.",
         "citations": [
           {
             "id": "package-templates",
@@ -2260,5 +2260,5 @@
       }
     }
   ],
-  "contentHash": "sha256:9e9eab3eb9092363ef2c1a8848ffd54a2eaecaa432b6fd2acf55eb84f5542792"
+  "contentHash": "sha256:1cae9acd775fc1867fdc7ae5b29d764d5d4117e9c9fd01737a03b8f5c5d9115d"
 }

@@ -1,5 +1,5 @@
 /**
- * AgentsKit ecosystem bar — one shared top nav across the six public products.
+ * AgentsKit ecosystem bar — one shared top nav across the seven products.
  * Embed on any site with: <script src="https://www.agentskit.io/ecosystem-bar.js" defer></script>
  *
  * Self-contained, zero deps. Detects the current property by hostname and
@@ -28,44 +28,24 @@
       "shortName": "AgentsKit",
       "accent": "#2EA043",
       "href": "https://www.agentskit.io/docs",
-      "claimSource": {
-        "url": "https://www.agentskit.io/api/stats.json",
-        "claims": {
-          "packages": {
-            "path": "counts.packages"
-          },
-          "core-size-kb-gzip": {
-            "path": "coreSizeKbGzip"
-          },
-          "catalog-providers": {
-            "path": "counts.catalogProviders"
-          },
-          "native-adapters": {
-            "path": "counts.nativeAdapters"
-          },
-          "integrations": {
-            "path": "counts.integrations"
-          }
-        }
-      },
       "stage": "Build",
       "headline": "One foundation. Every layer stays yours.",
       "detail": "Compose runtime, adapters, tools, memory, RAG, and UI without glue code or lock-in.",
-      "proof": "{{packages}} packages · <{{core-size-kb-gzip}} KB core",
+      "proof": "22 packages · <10 KB core",
       "sales": {
         "kind": "integration-stack",
         "headline": "Swap the stack. Keep the agent.",
         "metrics": [
           {
-            "value": "{{catalog-providers}}",
+            "value": "140+",
             "label": "providers"
           },
           {
-            "value": "{{native-adapters}}",
+            "value": "25",
             "label": "adapters"
           },
           {
-            "value": "{{integrations}}",
+            "value": "50",
             "label": "integrations"
           }
         ],
@@ -81,38 +61,22 @@
           "Ship without rewrites"
         ]
       },
-      "cta": "Build with AgentsKit",
-      "ctaSurface": "docs"
+      "cta": "Build with AgentsKit"
     },
     {
       "id": "registry",
       "name": "AgentsKit Registry",
       "shortName": "Registry",
       "accent": "#58A6FF",
-      "href": "https://registry.agentskit.io",
-      "claimSource": {
-        "url": "https://registry.agentskit.io/r/index.json",
-        "claims": {
-          "agents": {
-            "path": "agents",
-            "aggregate": "length"
-          },
-          "remaining-categories": {
-            "path": "agents",
-            "aggregate": "distinct",
-            "field": "category",
-            "subtract": 5
-          }
-        }
-      },
+      "href": "https://registry.agentskit.io/docs",
       "stage": "Discover",
       "headline": "Shadcn-like agents. Installed as source.",
       "detail": "Find a working agent, copy its source into your project, and change every line.",
       "proof": "Ready-made · source-owned",
       "sales": {
         "kind": "registry-install",
-        "headline": "Ready-to-use agents from the live Registry.",
-        "metric": "{{agents}}",
+        "headline": "300+ ready-to-use agents.",
+        "metric": "300+",
         "metricLabel": "shadcn-like agents",
         "capabilities": [
           "Research",
@@ -120,7 +84,7 @@
           "Coding",
           "Data",
           "Marketing",
-          "{{remaining-categories}} additional categories"
+          "18+ more categories"
         ],
         "steps": [
           "Find the right agent",
@@ -129,15 +93,14 @@
         ],
         "command": "npx agentskit add research"
       },
-      "cta": "Explore the Registry",
-      "ctaSurface": "home"
+      "cta": "Explore the Registry"
     },
     {
       "id": "agentskit-chat",
       "name": "AgentsKit Chat",
       "shortName": "Chat",
       "accent": "#F59E0B",
-      "href": "https://chat.agentskit.io",
+      "href": "https://chat.agentskit.io/docs",
       "stage": "Deliver",
       "headline": "One agent. Every conversation surface.",
       "detail": "Define the experience once and deliver it across web, desktop, CLI, and mobile.",
@@ -177,19 +140,18 @@
           "The conversation continues everywhere"
         ]
       },
-      "cta": "Explore AgentsKit Chat",
-      "ctaSurface": "home"
+      "cta": "Explore AgentsKit Chat"
     },
     {
       "id": "playbook",
       "name": "Agents Playbook",
       "shortName": "Playbook",
       "accent": "#8B5CF6",
-      "href": "https://playbook.agentskit.io",
+      "href": "https://playbook.agentskit.io/docs",
       "stage": "Standardize",
-      "headline": "The open engineering harness for coding agents.",
-      "detail": "Open rules, prompts, memory, evals, and executable gates turn every correction into behavior coding agents can repeat.",
-      "proof": "Train the behavior · not the model",
+      "headline": "Engineering standards agents can execute.",
+      "detail": "Turn repeatable practices into guidance that coding agents can follow in every repository.",
+      "proof": "Convention → executable guidance",
       "sales": {
         "kind": "standards-flow",
         "headline": "Your standards. Every agent. Every repository.",
@@ -225,8 +187,7 @@
           "Review consistent output"
         ]
       },
-      "cta": "Explore the harness",
-      "ctaSurface": "home"
+      "cta": "Explore the Playbook"
     },
     {
       "id": "doc-bridge",
@@ -273,15 +234,14 @@
           "Agent findings return to humans"
         ]
       },
-      "cta": "Generate your first handoff",
-      "ctaSurface": "home"
+      "cta": "Explore Doc Bridge"
     },
     {
       "id": "akos",
       "name": "AgentsKit OS",
       "shortName": "AKOS",
       "accent": "#34D399",
-      "href": "https://akos.agentskit.io",
+      "href": "https://akos.agentskit.io/docs",
       "stage": "Operate",
       "headline": "Run and govern agents in production.",
       "detail": "Add orchestration, governance, and operational control when your system needs it.",
@@ -323,79 +283,10 @@
           "Human approves; logs and trace persist"
         ]
       },
-      "cta": "Explore AgentsKit OS",
-      "ctaSurface": "home"
+      "cta": "Explore AgentsKit OS"
     }
   ]
   // ecobar:showcase-end
-
-  // ecobar:claims-start — GENERATED from ecosystem-claims.json by scripts/sync-ecosystem.mjs. Do not edit by hand.
-  var INITIAL_CLAIMS = {
-    "agentskit": {
-      "packages": 22,
-      "framework-bindings": 7,
-      "native-adapters": 25,
-      "integrations": 50,
-      "catalog-providers": 184,
-      "catalog-models": 6297,
-      "skills": 22,
-      "memory-backends": 17,
-      "recipes": 71,
-      "core-size-kb-gzip": 10
-    },
-    "registry": {},
-    "agentskit-chat": {},
-    "playbook": {},
-    "doc-bridge": {},
-    "code-review": {},
-    "akos": {}
-  }
-  // ecobar:claims-end
-
-  var claimsByProduct = JSON.parse(JSON.stringify(INITIAL_CLAIMS))
-  var claimsPromise = null
-  var ecosystemScript = document.currentScript
-  var ecosystemOrigin = ecosystemScript && ecosystemScript.src
-    ? new URL(ecosystemScript.src).origin
-    : 'https://www.agentskit.io'
-
-  window.__akApplyEcosystemClaims = function (canonicalClaims) {
-    Object.keys(canonicalClaims || {}).forEach(function (productId) {
-      claimsByProduct[productId] = Object.assign({}, claimsByProduct[productId], canonicalClaims[productId])
-    })
-    if (window.__akResolveEcosystemClaims) window.__akResolveEcosystemClaims(claimsByProduct)
-  }
-
-  function loadCanonicalClaims() {
-    if (claimsPromise) return claimsPromise
-    claimsPromise = new Promise(function (resolve) {
-      window.__akResolveEcosystemClaims = resolve
-      var script = document.createElement('script')
-      script.src = ecosystemOrigin + '/ecosystem-claims.js?source=ecosystem-bar-v1'
-      script.async = true
-      script.onerror = function () { resolve(claimsByProduct) }
-      script.onload = function () { window.setTimeout(function () { resolve(claimsByProduct) }, 0) }
-      document.head.appendChild(script)
-    })
-    return claimsPromise
-  }
-
-  function resolveTemplates(value, claims) {
-    if (typeof value === 'string') {
-      var resolved = value.replace(/\{\{([a-z][a-z0-9-]*)\}\}/g, function (_, claimId) {
-        return claims[claimId] === undefined ? '' : String(claims[claimId])
-      }).replace(/\s+/g, ' ').trim()
-      return resolved || '—'
-    }
-    if (Array.isArray(value)) return value.map(function (item) { return resolveTemplates(item, claims) })
-    if (value && typeof value === 'object') {
-      return Object.keys(value).reduce(function (result, key) {
-        result[key] = resolveTemplates(value[key], claims)
-        return result
-      }, {})
-    }
-    return value
-  }
 
   var host = location.hostname
   // Match agentskit.io only as the registrable domain suffix (not a substring,
@@ -433,23 +324,14 @@
     policies: 'M19 3h-4.18A3 3 0 0 0 9.18 3H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 16-4-4 1.41-1.41L10 16.17l6.59-6.59L18 11l-8 8z',
   }
 
-  var PRODUCT_ICONS = {
-    agentskit: 'M12 2 1.6 20h20.8L12 2zm0 4.1L18.8 18H5.2L12 6.1z',
-    registry: 'M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z',
-    'agentskit-chat': 'M4 4h16v12H7l-3 3V4zm2 2v8h12V6H6z',
-    playbook: 'M4 3h7a3 3 0 0 1 3 3 3 3 0 0 1 3-3h3v17h-6a2 2 0 0 0-2 2 2 2 0 0 0-2-2H4V3zm2 2v13h4a4 4 0 0 1 2 .54V6a1 1 0 0 0-1-1H6zm12 0h-1a1 1 0 0 0-1 1v12.54a4 4 0 0 1 2-.54V5z',
-    'doc-bridge': 'M7 7h11l-3-3 1.4-1.4L21.8 8l-5.4 5.4L15 12l3-3H7V7zm10 10H6l3 3-1.4 1.4L2.2 16l5.4-5.4L9 12l-3 3h11v2z',
-    akos: 'M12 2 21 7v10l-9 5-9-5V7l9-5zm0 3.2L6 8.5v7l6 3.3 6-3.3v-7l-6-3.3zm0 3.3a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7z',
-  }
-
   var css =
     '#ak-eco{position:relative;z-index:30;display:flex;gap:4px;align-items:center;' +
     'font:500 13px/1 ui-sans-serif,system-ui,-apple-system,sans-serif;padding:8px 16px;' +
     'background:#0b0b0f;color:#e7e7ea;border-bottom:1px solid #23232b}' +
-    '#ak-eco .ak-eco-brand{display:inline-flex;min-width:36px;min-height:36px;align-items:center;justify-content:center;' +
+    '#ak-eco .ak-eco-brand{display:inline-flex;align-items:center;justify-content:center;' +
     'margin-right:8px;color:#fff;text-decoration:none;line-height:0}' +
     '#ak-eco .ak-eco-brand svg{width:18px;height:16px;display:block}' +
-    '#ak-eco a.ak-eco-link{display:inline-flex;min-height:36px;align-items:center;color:#a9a9b3;text-decoration:none;padding:5px 10px;border-radius:7px}' +
+    '#ak-eco a.ak-eco-link{color:#a9a9b3;text-decoration:none;padding:5px 10px;border-radius:7px}' +
     '#ak-eco a.ak-eco-link:hover{color:#fff;background:#1c1c24}' +
     '#ak-eco a.ak-eco-link[aria-current="page"]{color:#fff;background:#2a2a35}' +
     '#ak-eco .ak-eco-spacer{flex:1}' +
@@ -457,10 +339,9 @@
     '#ak-eco a.ak-eco-cta svg{width:14px;height:14px;fill:currentColor}' +
     // Discord is kept in the DOM for an easy restore; hidden until community is ready.
     '#ak-eco a.ak-eco-cta[data-ak-eco-discord]{display:none}' +
-    '@media(max-width:767px){#ak-eco{box-sizing:border-box;width:100%;max-width:100vw;flex-wrap:nowrap;overflow-x:auto;' +
+    '@media(max-width:767px){#ak-eco{box-sizing:border-box;width:100%;max-width:100vw;overflow-x:auto;' +
     'overscroll-behavior-x:contain;scrollbar-width:none}#ak-eco::-webkit-scrollbar{display:none}' +
-    '#ak-eco .ak-eco-brand{position:sticky;left:0;z-index:1;flex:0 0 44px;min-width:44px;min-height:44px;background:inherit}' +
-    '#ak-eco a.ak-eco-link{box-sizing:border-box;flex:0 0 auto;min-height:44px;white-space:nowrap}' +
+    '#ak-eco .ak-eco-brand{position:sticky;left:0;z-index:1;background:inherit}' +
     '#ak-eco .ak-eco-spacer,#ak-eco a.ak-eco-cta{display:none}}' +
     '@media(prefers-color-scheme:light){#ak-eco{background:#fff;color:#0b0b0f;border-bottom-color:#e6e6ea}' +
     '#ak-eco .ak-eco-brand{color:#0b0b0f}#ak-eco a.ak-eco-link{color:#555}' +
@@ -488,8 +369,6 @@
     .akx-tab[aria-selected="true"]{color:var(--akx-fg);background:#11171e;box-shadow:inset 0 -2px 0 var(--akx-accent)}
     .akx-tab-stage{display:block;margin-bottom:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--akx-accent)}
     .akx-tab-name{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:650;white-space:nowrap}
-    .akx-product-mark{display:inline-flex;width:16px;height:16px;flex:0 0 auto;align-items:center;justify-content:center;color:var(--akx-accent)}
-    .akx-product-mark svg{display:block;width:15px;height:15px;fill:currentColor}
     .akx-current-dot{width:5px;height:5px;border-radius:50%;background:var(--akx-accent)}
     .akx-content{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:410px}
     .akx-story{display:flex;flex-direction:column;padding:48px;border-right:1px solid var(--akx-line)}
@@ -503,7 +382,7 @@
     .akx-cta{display:inline-flex;min-height:44px;align-items:center;color:var(--akx-accent);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:13px;text-decoration:none;white-space:nowrap;transition:color 180ms cubic-bezier(.25,1,.5,1),transform 180ms cubic-bezier(.25,1,.5,1)}
     .akx-cta:hover{color:var(--akx-fg);transform:translateX(3px)}
     .akx-cta:focus-visible{outline:2px solid var(--akx-accent);outline-offset:4px}
-    .akx-sales{display:flex;min-width:0;flex-direction:column;padding:40px 40px 88px;background:#0e141a}
+    .akx-sales{display:flex;min-width:0;flex-direction:column;padding:40px;background:#0e141a}
     .akx-sales-top{display:flex;align-items:start;justify-content:space-between;gap:24px}
     .akx-sales-headline{max-width:330px;margin:0;font-size:clamp(1.35rem,2.4vw,2rem);line-height:1.08;letter-spacing:-.03em}
     .akx-metrics{display:flex;flex-shrink:0;align-items:flex-start;justify-content:flex-end;gap:18px}
@@ -529,14 +408,14 @@
     .akx-command::before{content:"$";color:var(--akx-accent)}
     .akx-capabilities{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:18px}
     .akx-capabilities[data-count="6"]{grid-template-columns:repeat(3,minmax(0,1fr))}
-    .akx-capability{display:flex;min-width:0;min-height:34px;align-items:center;justify-content:center;border:1px solid var(--akx-line);padding:6px 8px;color:var(--akx-muted);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:8.5px;line-height:1.35;text-align:center;text-transform:uppercase;letter-spacing:.04em;overflow-wrap:anywhere}
+    .akx-capability{display:flex;min-width:0;min-height:34px;align-items:center;justify-content:center;border:1px solid var(--akx-line);padding:6px 8px;color:var(--akx-muted);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:9px;line-height:1.35;text-align:center;text-transform:uppercase;letter-spacing:.06em}
     @keyframes akx-step-in{to{opacity:1;transform:translateY(0)}}
     .akx-controls{display:flex;align-items:center;justify-content:space-between;gap:20px;border-top:1px solid var(--akx-line);padding:12px 16px;color:var(--akx-muted);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:10px;letter-spacing:.08em}
     .akx-play{min-height:44px;border:0;background:transparent;color:var(--akx-muted);cursor:pointer;padding:0 8px;text-transform:uppercase;letter-spacing:.12em}
     .akx-play:hover{color:var(--akx-fg)}
     .akx-play:focus-visible{outline:2px solid var(--akx-accent);outline-offset:2px}
-    @media(max-width:820px){.akx-inner{padding:64px 20px}.akx-intro{grid-template-columns:1fr;gap:20px}.akx-tabs{grid-template-columns:repeat(6,minmax(128px,1fr))}.akx-content{grid-template-columns:1fr}.akx-story{min-height:410px;border-right:0;border-bottom:1px solid var(--akx-line);padding:36px}.akx-sales{min-height:520px;padding:36px 36px 88px}.akx-headline{margin-top:38px}}
-    @media(max-width:540px){.akx-inner{padding:52px 16px}.akx-intro{padding-bottom:32px}.akx-story{min-height:430px;padding:28px}.akx-story-bottom{align-items:flex-start;flex-direction:column}.akx-sales{min-height:560px;padding:28px 28px 92px}.akx-sales-top{flex-direction:column}.akx-metrics{width:100%;justify-content:flex-start}.akx-metric{text-align:left}.akx-demo-step{grid-template-columns:26px minmax(0,1fr)}.akx-demo-state{display:none}.akx-capabilities,.akx-capabilities[data-count="6"]{grid-template-columns:repeat(2,minmax(0,1fr))}.akx-controls span{display:none}}
+    @media(max-width:820px){.akx-inner{padding:64px 20px}.akx-intro{grid-template-columns:1fr;gap:20px}.akx-tabs{grid-template-columns:repeat(6,minmax(128px,1fr))}.akx-content{grid-template-columns:1fr}.akx-story{min-height:410px;border-right:0;border-bottom:1px solid var(--akx-line);padding:36px}.akx-sales{min-height:520px;padding:36px}.akx-headline{margin-top:38px}}
+    @media(max-width:540px){.akx-inner{padding:52px 16px}.akx-intro{padding-bottom:32px}.akx-story{min-height:430px;padding:28px}.akx-story-bottom{align-items:flex-start;flex-direction:column}.akx-sales{min-height:560px;padding:28px}.akx-sales-top{flex-direction:column}.akx-metrics{width:100%;justify-content:flex-start}.akx-metric{text-align:left}.akx-demo-step{grid-template-columns:26px minmax(0,1fr)}.akx-demo-state{display:none}.akx-capabilities,.akx-capabilities[data-count="6"]{grid-template-columns:repeat(2,minmax(0,1fr))}.akx-controls span{display:none}}
     @media(prefers-reduced-motion:reduce){.akx-demo-step{opacity:1;transform:none;animation:none}.akx-cta,.akx-tab{transition:none}}
   `
 
@@ -571,7 +450,6 @@
           return product.id === (this.getAttribute('current') || this.getAttribute('data-current') || current)
         }, this))
         this.currentProduct = this.getAttribute('current') || this.getAttribute('data-current') || current
-        this.claimValues = claimsByProduct
         this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
         this.manualPaused = false
         this.transientPaused = false
@@ -588,7 +466,7 @@
               '</header>' +
               '<div class="akx-frame">' +
                 '<div class="akx-tabs" role="tablist" aria-label="AgentsKit ecosystem products"></div>' +
-                '<div class="akx-content" role="tabpanel">' +
+                '<div class="akx-content" role="tabpanel" aria-live="polite">' +
                   '<article class="akx-story">' +
                     '<div class="akx-story-top"><p class="akx-stage-label"></p><p class="akx-index"></p></div>' +
                     '<h3 class="akx-headline"></h3>' +
@@ -631,17 +509,7 @@
 
           var name = document.createElement('span')
           name.className = 'akx-tab-name'
-          var productMark = document.createElement('span')
-          productMark.className = 'akx-product-mark'
-          productMark.setAttribute('aria-hidden', 'true')
-          var productIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
-          productIcon.setAttribute('viewBox', '0 0 24 24')
-          var productPath = document.createElementNS('http://www.w3.org/2000/svg', 'path')
-          productPath.setAttribute('d', PRODUCT_ICONS[product.id])
-          productIcon.appendChild(productPath)
-          productMark.appendChild(productIcon)
-          name.appendChild(productMark)
-          name.appendChild(document.createTextNode(product.shortName))
+          name.textContent = product.shortName
           if (product.id === this.currentProduct) {
             var dot = document.createElement('span')
             dot.className = 'akx-current-dot'
@@ -699,21 +567,15 @@
         root.querySelector('.akx-content').id = 'akx-panel'
         this.setActive(this.activeIndex, false)
         this.syncPlayback()
-        loadCanonicalClaims().then(function (canonicalClaims) {
-          if (!this.isConnected) return
-          this.claimValues = canonicalClaims
-          this.setActive(this.activeIndex, false, true)
-        }.bind(this))
       }
 
       disconnectedCallback() {
         window.clearInterval(this.timer)
       }
 
-      setActive(index, userInitiated, skipAnimation) {
-        var sourceProduct = SHOWCASE_PRODUCTS[index]
-        if (!sourceProduct) return
-        var product = resolveTemplates(sourceProduct, this.claimValues[sourceProduct.id] || {})
+      setActive(index, userInitiated) {
+        var product = SHOWCASE_PRODUCTS[index]
+        if (!product) return
         this.activeIndex = index
         this.shell.style.setProperty('--akx-accent', product.accent)
         this.tabs.forEach(function (tab, tabIndex) {
@@ -721,12 +583,6 @@
           tab.setAttribute('aria-selected', selected ? 'true' : 'false')
           tab.tabIndex = selected ? 0 : -1
         })
-        var selectedTab = this.tabs[index]
-        this.shadowRoot.querySelector('.akx-content').setAttribute('aria-labelledby', selectedTab.id)
-        if (this.tabsRoot.scrollWidth > this.tabsRoot.clientWidth) {
-          var left = selectedTab.offsetLeft - (this.tabsRoot.clientWidth - selectedTab.offsetWidth) / 2
-          this.tabsRoot.scrollTo({ left: Math.max(0, left), behavior: this.reducedMotion ? 'auto' : 'smooth' })
-        }
         this.stageLabel.textContent = String(index + 1).padStart(2, '0') + ' / ' + product.stage
         this.indexLabel.textContent = product.name
         this.headline.textContent = product.headline
@@ -739,7 +595,7 @@
           ? 'Current product · choose the next layer'
           : 'From ' + (SHOWCASE_PRODUCTS.find(function (item) { return item.id === this.currentProduct }.bind(this)) || SHOWCASE_PRODUCTS[0]).shortName + ' to ' + product.shortName
 
-        if (!skipAnimation && !this.reducedMotion && this.story.animate) {
+        if (!this.reducedMotion && this.story.animate) {
           var animation = [
             { opacity: 0.35, transform: 'translateY(6px)' },
             { opacity: 1, transform: 'translateY(0)' },
@@ -895,174 +751,6 @@
 
   registerEcosystemShowcase()
 
-  function registerEcosystemFooter() {
-    if (!window.customElements || customElements.get('agentskit-ecosystem-footer')) return
-
-    var footerCss = `
-      :host{display:block;color-scheme:dark;--akf-bg:#0b0f14;--akf-surface:#11171e;--akf-line:#27313a;--akf-fg:#e7edf4;--akf-muted:#8b98a6;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
-      *{box-sizing:border-box}
-      a{font:inherit}
-      .akf-footer{border-top:1px solid var(--akf-line);background:var(--akf-bg);color:var(--akf-fg)}
-      .akf-inner{max-width:1152px;margin:0 auto;padding:56px 24px 28px}
-      .akf-main{display:grid;grid-template-columns:minmax(14rem,.8fr) minmax(0,1.7fr);gap:64px}
-      .akf-eyebrow,.akf-heading{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;text-transform:uppercase;letter-spacing:.16em}
-      .akf-eyebrow{margin:0 0 14px;color:var(--akf-muted);font-size:10px}
-      .akf-product{margin:0;font-size:24px;line-height:1.15;letter-spacing:-.025em}
-      .akf-tagline{max-width:31rem;margin:14px 0 0;color:var(--akf-muted);font-size:14px;line-height:1.65}
-      .akf-navs{display:grid;grid-template-columns:minmax(0,2fr) repeat(2,minmax(8rem,1fr));gap:40px}
-      .akf-section[hidden]{display:none}
-      .akf-heading{margin:0 0 16px;color:var(--akf-muted);font-size:10px}
-      .akf-products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 20px;margin:0;padding:0;list-style:none}
-      .akf-link{display:inline-flex;min-height:36px;align-items:center;color:var(--akf-muted);font-size:13px;text-decoration:none;transition:color 160ms cubic-bezier(.25,1,.5,1)}
-      .akf-link:hover{color:var(--akf-fg)}
-      .akf-link:focus-visible{border-radius:3px;outline:2px solid currentColor;outline-offset:3px}
-      .akf-link[aria-current="page"]{color:var(--akf-fg);font-weight:650}
-      .akf-slots{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
-      ::slotted(a){display:inline-flex;min-height:36px;align-items:center;color:var(--akf-muted);font-size:13px;text-decoration:none;transition:color 160ms cubic-bezier(.25,1,.5,1)}
-      ::slotted(a:hover){color:var(--akf-fg)}
-      ::slotted(a:focus-visible){border-radius:3px;outline:2px solid currentColor;outline-offset:3px}
-      .akf-meta{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:44px;padding-top:20px;border-top:1px solid var(--akf-line);color:var(--akf-muted);font-size:11px}
-      .akf-home{color:inherit;text-decoration:none}
-      .akf-home:hover{color:var(--akf-fg)}
-      .akf-home:focus-visible{border-radius:3px;outline:2px solid currentColor;outline-offset:3px}
-      @media(max-width:860px){.akf-main{grid-template-columns:1fr;gap:40px}.akf-navs{grid-template-columns:minmax(0,1.6fr) repeat(2,minmax(7rem,1fr));gap:28px}}
-      @media(max-width:640px){.akf-inner{padding:44px 20px 24px}.akf-navs{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 24px}.akf-section:first-child{grid-column:1/-1}.akf-products{grid-template-columns:repeat(2,minmax(0,1fr))}.akf-meta{align-items:flex-start;flex-direction:column;gap:8px}}
-      @media(prefers-color-scheme:light){:host{color-scheme:light;--akf-bg:#fff;--akf-surface:#f6f8fa;--akf-line:#d0d7de;--akf-fg:#0d1117;--akf-muted:#57606a}}
-    `
-
-    class AgentsKitEcosystemFooter extends HTMLElement {
-      static get observedAttributes() {
-        return ['data-current', 'tagline']
-      }
-
-      constructor() {
-        super()
-        this.attachShadow({ mode: 'open' })
-      }
-
-      connectedCallback() {
-        this.render()
-      }
-
-      attributeChangedCallback() {
-        if (this.isConnected) this.render()
-      }
-
-      render() {
-        var root = this.shadowRoot
-        while (root.firstChild) root.removeChild(root.firstChild)
-
-        var currentId = this.getAttribute('data-current') || current
-        var currentProduct = PROPS.filter(function (product) { return product.id === currentId })[0] || PROPS[0]
-
-        var style = document.createElement('style')
-        style.textContent = footerCss
-        root.appendChild(style)
-
-        var footer = document.createElement('footer')
-        footer.className = 'akf-footer'
-        footer.setAttribute('aria-label', 'AgentsKit ecosystem footer')
-        var inner = document.createElement('div')
-        inner.className = 'akf-inner'
-        var main = document.createElement('div')
-        main.className = 'akf-main'
-
-        var identity = document.createElement('section')
-        var eyebrow = document.createElement('p')
-        eyebrow.className = 'akf-eyebrow'
-        eyebrow.textContent = 'AgentsKit ecosystem'
-        var productName = document.createElement('h2')
-        productName.className = 'akf-product'
-        productName.textContent = currentProduct.label
-        var tagline = document.createElement('p')
-        tagline.className = 'akf-tagline'
-        var taglineSlot = document.createElement('slot')
-        taglineSlot.name = 'tagline'
-        var taglineFallback = document.createElement('span')
-        taglineFallback.textContent = this.getAttribute('tagline') || 'Part of the AgentsKit ecosystem.'
-        taglineSlot.appendChild(taglineFallback)
-        tagline.appendChild(taglineSlot)
-        identity.appendChild(eyebrow)
-        identity.appendChild(productName)
-        identity.appendChild(tagline)
-        main.appendChild(identity)
-
-        var navs = document.createElement('div')
-        navs.className = 'akf-navs'
-
-        var ecosystemSection = document.createElement('section')
-        ecosystemSection.className = 'akf-section'
-        var ecosystemHeading = document.createElement('h3')
-        ecosystemHeading.className = 'akf-heading'
-        ecosystemHeading.textContent = 'Products'
-        var ecosystemNav = document.createElement('nav')
-        ecosystemNav.setAttribute('aria-label', 'AgentsKit products')
-        var products = document.createElement('ul')
-        products.className = 'akf-products'
-        PROPS.forEach(function (product) {
-          var item = document.createElement('li')
-          var link = document.createElement('a')
-          link.className = 'akf-link'
-          link.href = product.url
-          link.textContent = product.label
-          if (product.id === currentProduct.id) link.setAttribute('aria-current', 'page')
-          item.appendChild(link)
-          products.appendChild(item)
-        })
-        ecosystemNav.appendChild(products)
-        ecosystemSection.appendChild(ecosystemHeading)
-        ecosystemSection.appendChild(ecosystemNav)
-        navs.appendChild(ecosystemSection)
-
-        function appendSlottedSection(name, label) {
-          var section = document.createElement('section')
-          section.className = 'akf-section'
-          section.hidden = true
-          var heading = document.createElement('h3')
-          heading.className = 'akf-heading'
-          heading.textContent = label
-          var links = document.createElement('div')
-          links.className = 'akf-slots'
-          var slot = document.createElement('slot')
-          slot.name = name
-          var syncVisibility = function () {
-            section.hidden = slot.assignedElements().length === 0
-          }
-          slot.addEventListener('slotchange', syncVisibility)
-          links.appendChild(slot)
-          section.appendChild(heading)
-          section.appendChild(links)
-          navs.appendChild(section)
-          window.setTimeout(syncVisibility, 0)
-        }
-
-        appendSlottedSection('local', 'Product')
-        appendSlottedSection('resources', 'Resources')
-        main.appendChild(navs)
-
-        var meta = document.createElement('div')
-        meta.className = 'akf-meta'
-        var ownership = document.createElement('span')
-        ownership.textContent = 'One ecosystem. Every product stays focused.'
-        var home = document.createElement('a')
-        home.className = 'akf-home'
-        home.href = PROPS[0].url
-        home.textContent = 'AgentsKit home'
-        meta.appendChild(ownership)
-        meta.appendChild(home)
-
-        inner.appendChild(main)
-        inner.appendChild(meta)
-        footer.appendChild(inner)
-        root.appendChild(footer)
-      }
-    }
-
-    customElements.define('agentskit-ecosystem-footer', AgentsKitEcosystemFooter)
-  }
-
-  registerEcosystemFooter()
-
   function build() {
     var style = document.createElement('style')
     style.textContent = css
@@ -1075,7 +763,7 @@
     var brand = document.createElement('a')
     brand.className = 'ak-eco-brand'
     brand.href = 'https://www.agentskit.io'
-    brand.setAttribute('aria-label', 'AgentsKit home')
+    brand.setAttribute('aria-label', 'AgentsKit')
     brand.title = 'AgentsKit'
     brand.innerHTML = BRAND_ICON
     bar.appendChild(brand)
@@ -1110,13 +798,6 @@
     })
 
     document.body.insertBefore(bar, document.body.firstChild)
-
-    var currentLink = bar.querySelector('a.ak-eco-link[aria-current="page"]')
-    if (currentLink && window.matchMedia('(max-width: 767px)').matches) {
-      var maxScroll = Math.max(0, bar.scrollWidth - bar.clientWidth)
-      var centered = currentLink.offsetLeft - (bar.clientWidth - currentLink.offsetWidth) / 2
-      bar.scrollTo({ left: Math.max(0, Math.min(maxScroll, centered)), behavior: 'auto' })
-    }
   }
 
   if (document.readyState === 'loading') {

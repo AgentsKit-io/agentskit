@@ -1,25 +1,9 @@
 {
   "schemaVersion": 2,
-  "$comment": "Canonical registry of AgentsKit ecosystem products. Stable identity lives in products[] (seven). Numeric values live in the generated ecosystem-claims ledger. The properties array is the full seven-product v1 projection of products[] (same order) for sibling consumers.",
+  "$comment": "Canonical registry of AgentsKit ecosystem products. Stable identity lives in products[] (seven). Numeric values live in the generated ecosystem-claims ledger. The deprecated properties array remains a v1 four-product shim for Doc Bridge / sibling consumers until those schemas accept the full seven-product set \u2014 do not treat properties as the product catalog.",
   "parentBrand": {
     "id": "agentskit",
     "name": "AgentsKit"
-  },
-  "positioning": {
-    "canonicalDescription": "AgentsKit is the open-source TypeScript ecosystem for building production AI agents without locking application architecture to a model provider, framework, database, or hosted platform.",
-    "metaDescription": "Open-source TypeScript ecosystem for production AI agents. Swap models, providers, tools, memory, RAG, and interfaces without architectural lock-in.",
-    "commercialBoundary": "AgentsKit, Chat, Registry, Playbook, Doc Bridge, and Code Review are free and open source. AKOS is the optional paid managed control plane for teams that need enterprise operations, governance, and infrastructure.",
-    "openSourceProductIds": [
-      "agentskit",
-      "registry",
-      "agentskit-chat",
-      "playbook",
-      "doc-bridge",
-      "code-review"
-    ],
-    "managedProductIds": [
-      "akos"
-    ]
   },
   "products": [
     {
@@ -28,67 +12,27 @@
       "shortName": "AgentsKit",
       "kind": "library",
       "role": "foundation",
-      "accessModel": "open-source",
       "promise": "Build agents without gluing many libraries together.",
       "maturity": "beta",
       "repo": "AgentsKit-io/agentskit",
       "accent": "#2EA043",
-      "metadata": {
-        "alternateName": "AgentsKit.js",
-        "description": "A free, MIT-licensed TypeScript ecosystem for production AI agents with replaceable contracts for models, runtimes, tools, memory, RAG, observability, sandboxing, evaluation, and interfaces.",
-        "dateCreated": "2026-04-02",
-        "applicationCategory": "DeveloperApplication",
-        "runtimePlatform": "JavaScript runtimes supporting ES2022",
-        "license": "MIT",
-        "author": {
-          "givenName": "Emerson",
-          "familyName": "Braun",
-          "url": "https://github.com/EmersonBraun"
-        },
-        "keywords": [
-          "AI agents",
-          "agent framework",
-          "TypeScript",
-          "JavaScript",
-          "LLM",
-          "multi-agent",
-          "tools",
-          "memory",
-          "RAG",
-          "observability",
-          "sandboxing",
-          "evaluation",
-          "MCP"
-        ]
-      },
       "showcase": {
-        "claimSource": {
-          "url": "https://www.agentskit.io/api/stats.json",
-          "claims": {
-            "packages": { "path": "counts.packages" },
-            "core-size-kb-gzip": { "path": "coreSizeKbGzip" },
-            "catalog-providers": { "path": "counts.catalogProviders" },
-            "native-adapters": { "path": "counts.nativeAdapters" },
-            "integrations": { "path": "counts.integrations" }
-          }
-        },
         "stage": "Build",
         "headline": "One foundation. Every layer stays yours.",
         "detail": "Compose runtime, adapters, tools, memory, RAG, and UI without glue code or lock-in.",
-        "proof": "{{packages}} packages · <{{core-size-kb-gzip}} KB core",
+        "proof": "22 packages · <10 KB core",
         "sales": {
           "kind": "integration-stack",
           "headline": "Swap the stack. Keep the agent.",
           "metrics": [
-            { "value": "{{catalog-providers}}", "label": "providers" },
-            { "value": "{{native-adapters}}", "label": "adapters" },
-            { "value": "{{integrations}}", "label": "integrations" }
+            { "value": "140+", "label": "providers" },
+            { "value": "25", "label": "adapters" },
+            { "value": "50", "label": "integrations" }
           ],
           "capabilities": ["Tools", "RAG", "Memory", "MCP"],
           "steps": ["Choose any adapter", "Add tools and memory", "Ship without rewrites"]
         },
-        "cta": "Build with AgentsKit",
-        "ctaSurface": "docs"
+        "cta": "Build with AgentsKit"
       },
       "surfaces": {
         "home": "https://www.agentskit.io",
@@ -117,34 +61,25 @@
       "shortName": "Registry",
       "kind": "registry",
       "role": "starting-point",
-      "accessModel": "open-source",
       "promise": "Copy ready-made agents and own the source.",
       "maturity": "beta",
       "repo": "AgentsKit-io/agentskit-registry",
       "accent": "#58A6FF",
       "showcase": {
-        "claimSource": {
-          "url": "https://registry.agentskit.io/r/index.json",
-          "claims": {
-            "agents": { "path": "agents", "aggregate": "length" },
-            "remaining-categories": { "path": "agents", "aggregate": "distinct", "field": "category", "subtract": 5 }
-          }
-        },
         "stage": "Discover",
         "headline": "Shadcn-like agents. Installed as source.",
         "detail": "Find a working agent, copy its source into your project, and change every line.",
         "proof": "Ready-made · source-owned",
         "sales": {
           "kind": "registry-install",
-          "headline": "Ready-to-use agents from the live Registry.",
-          "metric": "{{agents}}",
+          "headline": "300+ ready-to-use agents.",
+          "metric": "300+",
           "metricLabel": "shadcn-like agents",
-          "capabilities": ["Research", "Support", "Coding", "Data", "Marketing", "{{remaining-categories}} additional categories"],
+          "capabilities": ["Research", "Support", "Coding", "Data", "Marketing", "18+ more categories"],
           "steps": ["Find the right agent", "Run npx agentskit add", "Own every line"],
           "command": "npx agentskit add research"
         },
-        "cta": "Explore the Registry",
-        "ctaSurface": "home"
+        "cta": "Explore the Registry"
       },
       "surfaces": {
         "home": "https://registry.agentskit.io",
@@ -173,7 +108,6 @@
       "shortName": "Chat",
       "kind": "framework",
       "role": "experience",
-      "accessModel": "open-source",
       "promise": "Define one agent experience and deliver it across interfaces.",
       "maturity": "alpha",
       "repo": "AgentsKit-io/agentskit-chat",
@@ -197,8 +131,7 @@
           "capabilities": ["Streaming", "Approvals", "Tool results", "Shared state"],
           "steps": ["Agent requests a protected action", "Human approves", "The conversation continues everywhere"]
         },
-        "cta": "Explore AgentsKit Chat",
-        "ctaSurface": "home"
+        "cta": "Explore AgentsKit Chat"
       },
       "surfaces": {
         "home": "https://chat.agentskit.io",
@@ -226,16 +159,15 @@
       "shortName": "Playbook",
       "kind": "methodology",
       "role": "discipline",
-      "accessModel": "open-source",
-      "promise": "Train coding agents to ship code your team would merge.",
+      "promise": "Make agents ship code a human would actually merge.",
       "maturity": "stable",
       "repo": "AgentsKit-io/agents-playbook",
       "accent": "#8B5CF6",
       "showcase": {
         "stage": "Standardize",
-        "headline": "The open engineering harness for coding agents.",
-        "detail": "Open rules, prompts, memory, evals, and executable gates turn every correction into behavior coding agents can repeat.",
-        "proof": "Train the behavior · not the model",
+        "headline": "Engineering standards agents can execute.",
+        "detail": "Turn repeatable practices into guidance that coding agents can follow in every repository.",
+        "proof": "Convention → executable guidance",
         "sales": {
           "kind": "standards-flow",
           "headline": "Your standards. Every agent. Every repository.",
@@ -250,8 +182,7 @@
           "capabilities": ["Repository rules", "Review criteria", "Agent guidance", "Team conventions"],
           "steps": ["Define the standard once", "Agents receive executable guidance", "Review consistent output"]
         },
-        "cta": "Explore the harness",
-        "ctaSurface": "home"
+        "cta": "Explore the Playbook"
       },
       "surfaces": {
         "home": "https://playbook.agentskit.io",
@@ -280,7 +211,6 @@
       "shortName": "Doc Bridge",
       "kind": "developer-tool",
       "role": "understanding",
-      "accessModel": "open-source",
       "promise": "Turn repository documentation into executable agent handoffs.",
       "maturity": "stable",
       "repo": "AgentsKit-io/doc-bridge",
@@ -304,8 +234,7 @@
           "capabilities": ["ADRs", "Handoffs", "Agent findings", "Human-readable docs"],
           "steps": ["Humans document decisions", "Agents receive precise context", "Agent findings return to humans"]
         },
-        "cta": "Generate your first handoff",
-        "ctaSurface": "home"
+        "cta": "Explore Doc Bridge"
       },
       "surfaces": {
         "home": "https://doc-bridge.agentskit.io/",
@@ -333,7 +262,6 @@
       "shortName": "Code Review",
       "kind": "developer-tool",
       "role": "verification",
-      "accessModel": "open-source",
       "promise": "Run deep, low-noise review with the model already in use.",
       "maturity": "alpha",
       "repo": "AgentsKit-io/code-review-cli",
@@ -364,7 +292,6 @@
       "shortName": "AKOS",
       "kind": "product",
       "role": "operation",
-      "accessModel": "paid-managed-service",
       "promise": "Run and govern agents in production.",
       "maturity": "stable",
       "repo": "AgentsKit-io/agentskit-os",
@@ -388,13 +315,13 @@
           "capabilities": ["Logs", "Approvals", "RBAC", "Policies", "Tracing", "Costs"],
           "steps": ["Agent requests a protected action", "RBAC and policy gates evaluate", "Human approves; logs and trace persist"]
         },
-        "cta": "Explore AgentsKit OS",
-        "ctaSurface": "home"
+        "cta": "Explore AgentsKit OS"
       },
       "surfaces": {
         "home": "https://akos.agentskit.io",
         "docs": "https://akos.agentskit.io/docs",
         "llms": "https://akos.agentskit.io/llms.txt",
+        "stats": "https://akos.agentskit.io/api/stats.json",
         "documentation": "fumadocs",
         "chat": "none"
       },
@@ -420,6 +347,32 @@
       "stats": "https://www.agentskit.io/api/stats.json"
     },
     {
+      "id": "akos",
+      "name": "AgentsKit OS",
+      "barLabel": "AKOS",
+      "domain": "akos.agentskit.io",
+      "url": "https://akos.agentskit.io",
+      "repo": "AgentsKit-io/agentskit-os",
+      "tagline": "Run and govern agents in production.",
+      "kind": "product",
+      "accent": "#34D399",
+      "llms": "https://akos.agentskit.io/llms.txt",
+      "stats": "https://akos.agentskit.io/api/stats.json"
+    },
+    {
+      "id": "playbook",
+      "name": "Agents Playbook",
+      "barLabel": "Playbook",
+      "domain": "playbook.agentskit.io",
+      "url": "https://playbook.agentskit.io",
+      "repo": "AgentsKit-io/agents-playbook",
+      "tagline": "Make agents ship code a human would actually merge.",
+      "kind": "methodology",
+      "accent": "#8B5CF6",
+      "llms": "https://playbook.agentskit.io/llms.txt",
+      "stats": "https://playbook.agentskit.io/api/stats.json"
+    },
+    {
       "id": "registry",
       "name": "AgentsKit Registry",
       "barLabel": "Registry",
@@ -431,67 +384,6 @@
       "accent": "#58A6FF",
       "llms": "https://registry.agentskit.io/llms.txt",
       "stats": "https://registry.agentskit.io/r/index.json"
-    },
-    {
-      "id": "agentskit-chat",
-      "name": "AgentsKit Chat",
-      "barLabel": "Chat",
-      "domain": "chat.agentskit.io",
-      "url": "https://chat.agentskit.io",
-      "repo": "AgentsKit-io/agentskit-chat",
-      "tagline": "Define one agent experience and deliver it across interfaces.",
-      "kind": "framework",
-      "accent": "#F59E0B",
-      "llms": "https://chat.agentskit.io/llms.txt"
-    },
-    {
-      "id": "playbook",
-      "name": "Agents Playbook",
-      "barLabel": "Playbook",
-      "domain": "playbook.agentskit.io",
-      "url": "https://playbook.agentskit.io",
-      "repo": "AgentsKit-io/agents-playbook",
-      "tagline": "Train coding agents to ship code your team would merge.",
-      "kind": "methodology",
-      "accent": "#8B5CF6",
-      "llms": "https://playbook.agentskit.io/llms.txt",
-      "stats": "https://playbook.agentskit.io/api/stats.json"
-    },
-    {
-      "id": "doc-bridge",
-      "name": "Doc Bridge",
-      "barLabel": "Doc Bridge",
-      "domain": "doc-bridge.agentskit.io",
-      "url": "https://doc-bridge.agentskit.io/",
-      "repo": "AgentsKit-io/doc-bridge",
-      "tagline": "Turn repository documentation into executable agent handoffs.",
-      "kind": "developer-tool",
-      "accent": "#06B6D4",
-      "llms": "https://doc-bridge.agentskit.io/llms.txt"
-    },
-    {
-      "id": "code-review",
-      "name": "AgentsKit Code Review",
-      "barLabel": "Code Review",
-      "domain": "github.com",
-      "url": "https://github.com/AgentsKit-io/code-review-cli",
-      "repo": "AgentsKit-io/code-review-cli",
-      "tagline": "Run deep, low-noise review with the model already in use.",
-      "kind": "developer-tool",
-      "accent": "#F97316",
-      "llms": "https://raw.githubusercontent.com/AgentsKit-io/code-review-cli/main/llms.txt"
-    },
-    {
-      "id": "akos",
-      "name": "AgentsKit OS",
-      "barLabel": "AKOS",
-      "domain": "akos.agentskit.io",
-      "url": "https://akos.agentskit.io",
-      "repo": "AgentsKit-io/agentskit-os",
-      "tagline": "Run and govern agents in production.",
-      "kind": "product",
-      "accent": "#34D399",
-      "llms": "https://akos.agentskit.io/llms.txt"
     }
   ],
   "builder": {
