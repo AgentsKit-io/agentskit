@@ -102,6 +102,34 @@ test('Fumadocs products require a documentation URL', () => {
   )
 })
 
+test('showcase numbers reference canonical claim sources instead of literals', () => {
+  const parsed = parseEcosystemManifest(manifest)
+  const agentskit = parsed.products.find((product) => product.id === 'agentskit')
+  const registry = parsed.products.find((product) => product.id === 'registry')
+
+  assert.equal(agentskit.showcase.claimSource.url, agentskit.surfaces.stats)
+  assert.match(agentskit.showcase.proof, /\{\{packages\}\}/)
+  assert.deepEqual(agentskit.showcase.sales.metrics.map((metric) => metric.value), [
+    '{{catalog-providers}}',
+    '{{native-adapters}}',
+    '{{integrations}}',
+  ])
+  assert.equal(registry.showcase.claimSource.url, registry.surfaces.stats)
+  assert.equal(registry.showcase.sales.metric, '{{agents}}')
+  assert.match(registry.showcase.sales.capabilities.at(-1), /\{\{remaining-categories\}\}/)
+})
+
+test('showcase templates reject unknown claims and mismatched origins', () => {
+  assert.throws(
+    () => parseEcosystemManifest(changed((copy) => { copy.products[0].showcase.proof = '{{missing}} packages' })),
+    /references unknown showcase claim missing/,
+  )
+  assert.throws(
+    () => parseEcosystemManifest(changed((copy) => { copy.products[0].showcase.claimSource.url = 'https://example.com/stats.json' })),
+    /must match the product stats surface/,
+  )
+})
+
 test('claims are deterministic and preserve exact repository-derived values', () => {
   const stats = computeStats()
   const first = buildEcosystemClaims(manifest, stats)

@@ -2,6 +2,7 @@ const MATURITY = new Set(['planning', 'alpha', 'beta', 'stable', 'deprecated'])
 const DOCUMENTATION_MODES = new Set(['fumadocs', 'repository'])
 const CHAT_MODES = new Set(['agentschat', 'custom', 'none'])
 const SALES_KINDS = new Set(['integration-stack', 'registry-install', 'human-agent', 'standards-flow', 'knowledge-bridge', 'enterprise-control'])
+const CLAIM_AGGREGATES = new Set(['length', 'distinct'])
 const SURFACE_KEYS = ['home', 'docs', 'llms', 'stats']
 /** properties[] is the seven-product v1 projection of products[] (same order). */
 const LEGACY_PRODUCT_IDS = ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge', 'code-review', 'akos']
@@ -38,6 +39,13 @@ function enumValue(value, allowed, path) {
 function integer(value, path) {
   if (!Number.isSafeInteger(value)) fail(path, 'must be a safe integer')
   return value
+}
+
+function template(value, path, claimIds) {
+  string(value, path)
+  for (const match of value.matchAll(/\{\{([a-z][a-z0-9-]*)\}\}/g)) {
+    if (!claimIds.has(match[1])) fail(path, `references unknown showcase claim ${match[1]}`)
+  }
 }
 
 function optionalUrl(container, key, path) {
@@ -79,10 +87,28 @@ export function parseEcosystemManifest(input) {
 
     if (product.navigation?.showInBar) {
       const showcase = object(product.showcase, `${path}.showcase`)
+      const claimIds = new Set()
+      if (showcase.claimSource !== undefined) {
+        const claimSource = object(showcase.claimSource, `${path}.showcase.claimSource`)
+        url(claimSource.url, `${path}.showcase.claimSource.url`)
+        const claimSpecs = object(claimSource.claims, `${path}.showcase.claimSource.claims`)
+        for (const [claimId, rawClaim] of Object.entries(claimSpecs)) {
+          if (!/^[a-z][a-z0-9-]*$/.test(claimId)) fail(`${path}.showcase.claimSource.claims.${claimId}`, 'must use a lowercase slug key')
+          claimIds.add(claimId)
+          const claim = object(rawClaim, `${path}.showcase.claimSource.claims.${claimId}`)
+          string(claim.path, `${path}.showcase.claimSource.claims.${claimId}.path`)
+          if (claim.aggregate !== undefined) enumValue(claim.aggregate, CLAIM_AGGREGATES, `${path}.showcase.claimSource.claims.${claimId}.aggregate`)
+          if (claim.aggregate === 'distinct') string(claim.field, `${path}.showcase.claimSource.claims.${claimId}.field`)
+          if (claim.subtract !== undefined) {
+            integer(claim.subtract, `${path}.showcase.claimSource.claims.${claimId}.subtract`)
+            if (claim.subtract < 0) fail(`${path}.showcase.claimSource.claims.${claimId}.subtract`, 'must be zero or greater')
+          }
+        }
+      }
       string(showcase.stage, `${path}.showcase.stage`)
       string(showcase.headline, `${path}.showcase.headline`)
       string(showcase.detail, `${path}.showcase.detail`)
-      string(showcase.proof, `${path}.showcase.proof`)
+      template(showcase.proof, `${path}.showcase.proof`, claimIds)
       string(showcase.cta, `${path}.showcase.cta`)
 
       const sales = object(showcase.sales, `${path}.showcase.sales`)
@@ -94,11 +120,11 @@ export function parseEcosystemManifest(input) {
         }
         for (const [metricIndex, rawMetric] of sales.metrics.entries()) {
           const metric = object(rawMetric, `${path}.showcase.sales.metrics[${metricIndex}]`)
-          string(metric.value, `${path}.showcase.sales.metrics[${metricIndex}].value`)
+          template(metric.value, `${path}.showcase.sales.metrics[${metricIndex}].value`, claimIds)
           string(metric.label, `${path}.showcase.sales.metrics[${metricIndex}].label`)
         }
       } else {
-        string(sales.metric, `${path}.showcase.sales.metric`)
+        template(sales.metric, `${path}.showcase.sales.metric`, claimIds)
         string(sales.metricLabel, `${path}.showcase.sales.metricLabel`)
       }
       if (sales.command !== undefined) string(sales.command, `${path}.showcase.sales.command`)
@@ -116,7 +142,7 @@ export function parseEcosystemManifest(input) {
           fail(`${path}.showcase.sales.${key}`, 'must contain at least three items')
         }
         for (const [itemIndex, item] of sales[key].entries()) {
-          string(item, `${path}.showcase.sales.${key}[${itemIndex}]`)
+          template(item, `${path}.showcase.sales.${key}[${itemIndex}]`, claimIds)
         }
       }
     }
@@ -125,6 +151,9 @@ export function parseEcosystemManifest(input) {
     enumValue(surfaces.documentation, DOCUMENTATION_MODES, `${path}.surfaces.documentation`)
     enumValue(surfaces.chat, CHAT_MODES, `${path}.surfaces.chat`)
     for (const key of SURFACE_KEYS) optionalUrl(surfaces, key, `${path}.surfaces`)
+    if (product.showcase?.claimSource?.url !== undefined && product.showcase.claimSource.url !== surfaces.stats) {
+      fail(`${path}.showcase.claimSource.url`, 'must match the product stats surface')
+    }
     if (surfaces.documentation === 'fumadocs' && surfaces.docs === undefined) {
       fail(`${path}.surfaces.docs`, 'is required when documentation is fumadocs')
     }

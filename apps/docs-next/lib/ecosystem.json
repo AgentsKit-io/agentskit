@@ -17,17 +17,27 @@
       "repo": "AgentsKit-io/agentskit",
       "accent": "#2EA043",
       "showcase": {
+        "claimSource": {
+          "url": "https://www.agentskit.io/api/stats.json",
+          "claims": {
+            "packages": { "path": "counts.packages" },
+            "core-size-kb-gzip": { "path": "coreSizeKbGzip" },
+            "catalog-providers": { "path": "counts.catalogProviders" },
+            "native-adapters": { "path": "counts.nativeAdapters" },
+            "integrations": { "path": "counts.integrations" }
+          }
+        },
         "stage": "Build",
         "headline": "One foundation. Every layer stays yours.",
         "detail": "Compose runtime, adapters, tools, memory, RAG, and UI without glue code or lock-in.",
-        "proof": "22 packages · <10 KB core",
+        "proof": "{{packages}} packages · <{{core-size-kb-gzip}} KB core",
         "sales": {
           "kind": "integration-stack",
           "headline": "Swap the stack. Keep the agent.",
           "metrics": [
-            { "value": "140+", "label": "providers" },
-            { "value": "25", "label": "adapters" },
-            { "value": "50", "label": "integrations" }
+            { "value": "{{catalog-providers}}", "label": "providers" },
+            { "value": "{{native-adapters}}", "label": "adapters" },
+            { "value": "{{integrations}}", "label": "integrations" }
           ],
           "capabilities": ["Tools", "RAG", "Memory", "MCP"],
           "steps": ["Choose any adapter", "Add tools and memory", "Ship without rewrites"]
@@ -66,16 +76,23 @@
       "repo": "AgentsKit-io/agentskit-registry",
       "accent": "#58A6FF",
       "showcase": {
+        "claimSource": {
+          "url": "https://registry.agentskit.io/r/index.json",
+          "claims": {
+            "agents": { "path": "agents", "aggregate": "length" },
+            "remaining-categories": { "path": "agents", "aggregate": "distinct", "field": "category", "subtract": 5 }
+          }
+        },
         "stage": "Discover",
         "headline": "Shadcn-like agents. Installed as source.",
         "detail": "Find a working agent, copy its source into your project, and change every line.",
         "proof": "Ready-made · source-owned",
         "sales": {
           "kind": "registry-install",
-          "headline": "300+ ready-to-use agents.",
-          "metric": "300+",
+          "headline": "Ready-to-use agents from the live Registry.",
+          "metric": "{{agents}}",
           "metricLabel": "shadcn-like agents",
-          "capabilities": ["Research", "Support", "Coding", "Data", "Marketing", "18+ more categories"],
+          "capabilities": ["Research", "Support", "Coding", "Data", "Marketing", "{{remaining-categories}} additional categories"],
           "steps": ["Find the right agent", "Run npx agentskit add", "Own every line"],
           "command": "npx agentskit add research"
         },

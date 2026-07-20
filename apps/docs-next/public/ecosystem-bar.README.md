@@ -1,8 +1,15 @@
 # Ecosystem bar
 
-`ecosystem-bar.js` is the shared top nav linking the seven AgentsKit products
-(AgentsKit · Registry · Chat · Playbook · Doc Bridge · Code Review · AKOS). It is hosted here on the main site and
+`ecosystem-bar.js` is the shared top nav linking the six public AgentsKit sites
+(AgentsKit · Registry · Chat · Playbook · Doc Bridge · AKOS). Code Review remains
+part of the seven-product manifest but is intentionally repository-native. The bar is hosted here on the main site and
 embedded by every property. Editing this one file updates the bar everywhere.
+
+The same artifact defines the interactive ecosystem showcase. Its numeric text
+uses claim templates from `ecosystem.json`, a generated snapshot from
+`ecosystem-claims.json`, and the cacheable `/ecosystem-claims.js` runtime artifact.
+That artifact resolves AgentsKit values from `/api/stats.json` and Registry values
+from `/r/index.json`, so consuming sites never maintain their own copies.
 
 On the right side it also surfaces two community CTAs — **Star on GitHub**
 (`github.com/AgentsKit-io/agentskit`) and **Discord** (`discord.gg/zx6z2p4jVb`).
@@ -25,5 +32,5 @@ Set `data-current` to one of: `agentskit` · `registry` · `agentskit-chat` ·
 ## Why no Subresource Integrity (SRI)
 
 Intentional. The bar is first-party, served over HTTPS from our own origin, and
-**mutable by design** — a central edit must propagate to all four sites. An SRI
+**mutable by design** — a central edit must propagate to every site. An SRI
 hash would break on every update, defeating the single-source model (RFC 0002).

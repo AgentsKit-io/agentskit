@@ -8,8 +8,9 @@ for numeric product claims and their evidence.
 
 The manifest owns stable identity and relationships: product IDs, names,
 repositories, maturity, documentation and chat modes, public URLs, shared
-navigation order, and useful next-product links. It does not own numeric
-marketing claims.
+navigation order, useful next-product links, and mappings from showcase claim
+IDs to their owning product's public stats surface. It does not own numeric
+marketing values.
 
 The root `properties` array is a deprecated v1 compatibility projection for sibling
 repositories that have not migrated yet. Do not add new consumers of it. Contract
@@ -20,6 +21,13 @@ the evidence used to derive each value. It is deterministic and contains no
 timestamps. The generator never fetches sibling sites at build time; a sibling
 starts as `declared` with an empty claim list until its own repository exposes a
 verifiable snapshot.
+
+The shared showcase receives a deterministic AgentsKit snapshot during the
+build, then loads `/ecosystem-claims.js`. That same-origin script resolves each
+showcase claim from the owning application's canonical data and safely updates
+all consumers without requiring cross-origin `connect-src` permissions. If an
+external origin is unavailable, its unverified numbers are omitted rather than
+served stale.
 
 ## Update workflow
 
