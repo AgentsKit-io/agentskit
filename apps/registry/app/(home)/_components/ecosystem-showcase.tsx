@@ -8,10 +8,10 @@ export function EcosystemShowcase() {
       <div className="mx-auto max-w-5xl">
         <p className="font-mono text-xs uppercase tracking-wider text-ak-blue">The AgentsKit ecosystem</p>
         <h2 className="mt-3 max-w-3xl font-display text-3xl font-semibold sm:text-4xl">
-          Build the agent. Then take it all the way.
+          Start from working source. Take the agent all the way.
         </h2>
         <p className="mt-4 max-w-2xl text-ak-graphite">
-          One connected toolkit from ready-made source to governed production.
+          Registry is the discovery layer in one connected toolkit, from JavaScript foundation to governed production.
         </p>
       </div>
     </section>,

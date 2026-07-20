@@ -179,15 +179,15 @@
       "shortName": "Playbook",
       "kind": "methodology",
       "role": "discipline",
-      "promise": "Make agents ship code a human would actually merge.",
+      "promise": "Train coding agents to ship code your team would merge.",
       "maturity": "stable",
       "repo": "AgentsKit-io/agents-playbook",
       "accent": "#8B5CF6",
       "showcase": {
         "stage": "Standardize",
-        "headline": "Engineering standards agents can execute.",
-        "detail": "Turn repeatable practices into guidance that coding agents can follow in every repository.",
-        "proof": "Convention → executable guidance",
+        "headline": "The open engineering harness for coding agents.",
+        "detail": "Open rules, prompts, memory, evals, and executable gates turn every correction into behavior coding agents can repeat.",
+        "proof": "Train the behavior · not the model",
         "sales": {
           "kind": "standards-flow",
           "headline": "Your standards. Every agent. Every repository.",
@@ -202,7 +202,7 @@
           "capabilities": ["Repository rules", "Review criteria", "Agent guidance", "Team conventions"],
           "steps": ["Define the standard once", "Agents receive executable guidance", "Review consistent output"]
         },
-        "cta": "Explore the Playbook",
+        "cta": "Explore the harness",
         "ctaSurface": "home"
       },
       "surfaces": {
@@ -255,7 +255,7 @@
           "capabilities": ["ADRs", "Handoffs", "Agent findings", "Human-readable docs"],
           "steps": ["Humans document decisions", "Agents receive precise context", "Agent findings return to humans"]
         },
-        "cta": "Explore Doc Bridge",
+        "cta": "Generate your first handoff",
         "ctaSurface": "home"
       },
       "surfaces": {
@@ -400,7 +400,7 @@
       "domain": "playbook.agentskit.io",
       "url": "https://playbook.agentskit.io",
       "repo": "AgentsKit-io/agents-playbook",
-      "tagline": "Make agents ship code a human would actually merge.",
+      "tagline": "Train coding agents to ship code your team would merge.",
       "kind": "methodology",
       "accent": "#8B5CF6",
       "llms": "https://playbook.agentskit.io/llms.txt",

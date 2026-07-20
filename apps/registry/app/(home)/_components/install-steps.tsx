@@ -82,9 +82,9 @@ function RunTerminal() {
 
 export function InstallSteps() {
   return (
-    <section className="px-4 py-16 sm:px-6 sm:py-20">
+    <section id="how-it-works" className="scroll-mt-20 px-4 py-16 sm:px-6 sm:py-20">
       <div className="mx-auto max-w-5xl">
-        <div className="rg-reveal font-mono text-xs uppercase tracking-[0.2em] text-ak-blue">One command. The code is yours.</div>
+        <div className="rg-reveal font-mono text-xs uppercase tracking-[0.2em] text-ak-blue">From catalog to owned source</div>
         <h2 className="rg-reveal mt-2 text-2xl font-bold tracking-tight text-ak-foam sm:text-3xl">One command. The code is yours.</h2>
         <p className="rg-reveal mt-2 max-w-xl text-ak-graphite">Three steps from registry to running in your own stack — no lock-in, no hidden runtime.</p>
 

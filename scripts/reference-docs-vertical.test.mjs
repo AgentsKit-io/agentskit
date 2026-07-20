@@ -67,6 +67,20 @@ test('the shared ecosystem bar resolves public numbers from canonical sources', 
   assert.doesNotMatch(bar, /fetch\(product\.claimSource\.url/)
 })
 
+test('the shared ecosystem footer derives the six public products from PROPS', () => {
+  const bar = read('apps/docs-next/public/ecosystem-bar.js')
+  const props = bar.match(/ecobar:props-start[^\n]*\n([\s\S]*?)\n\s*\/\/ ecobar:props-end/)?.[1] ?? ''
+
+  assert.match(bar, /customElements\.define\('agentskit-ecosystem-footer'/)
+  assert.match(bar, /footer\.setAttribute\('aria-label', 'AgentsKit ecosystem footer'\)/)
+  assert.match(bar, /ecosystemNav\.setAttribute\('aria-label', 'AgentsKit products'\)/)
+  assert.match(bar, /PROPS\.forEach\(function \(product\)/)
+  assert.match(bar, /slot\.name = name/)
+  assert.match(bar, /slot\.assignedElements\(\)\.length === 0/)
+  assert.equal((props.match(/\{ id:/g) || []).length, 6)
+  assert.doesNotMatch(props, /code-review|Code Review/)
+})
+
 test('Lighthouse keeps the Vercel bypass out of audited URLs', () => {
   const workflow = read('.github/workflows/lighthouse.yml')
   const config = read('apps/docs-next/lighthouserc.cjs')

@@ -11,11 +11,11 @@ const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mon
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' })
 
 const SITE_URL = 'https://registry.agentskit.io'
-const DESCRIPTION = 'Ready-to-use AI agents for AgentsKit. Copy the source into your project — you own the code.'
+const DESCRIPTION = 'Shadcn-like AI agents for AgentsKit. Copy validated TypeScript source into your project — you own the code.'
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
-  title: { default: 'AgentsKit Registry — ready-to-use AI agents', template: '%s — AgentsKit Registry' },
+  title: { default: 'AgentsKit Registry — shadcn-like AI agents', template: '%s — AgentsKit Registry' },
   description: DESCRIPTION,
   openGraph: { title: 'AgentsKit Registry', description: DESCRIPTION, url: SITE_URL, siteName: 'AgentsKit Registry' },
   twitter: { card: 'summary_large_image', title: 'AgentsKit Registry', description: DESCRIPTION, creator: '@agentskit' },

@@ -1,5 +1,5 @@
 /**
- * AgentsKit ecosystem bar — one shared top nav across the seven products.
+ * AgentsKit ecosystem bar — one shared top nav across the six public products.
  * Embed on any site with: <script src="https://www.agentskit.io/ecosystem-bar.js" defer></script>
  *
  * Self-contained, zero deps. Detects the current property by hostname and
@@ -187,9 +187,9 @@
       "accent": "#8B5CF6",
       "href": "https://playbook.agentskit.io",
       "stage": "Standardize",
-      "headline": "Engineering standards agents can execute.",
-      "detail": "Turn repeatable practices into guidance that coding agents can follow in every repository.",
-      "proof": "Convention → executable guidance",
+      "headline": "The open engineering harness for coding agents.",
+      "detail": "Open rules, prompts, memory, evals, and executable gates turn every correction into behavior coding agents can repeat.",
+      "proof": "Train the behavior · not the model",
       "sales": {
         "kind": "standards-flow",
         "headline": "Your standards. Every agent. Every repository.",
@@ -225,7 +225,7 @@
           "Review consistent output"
         ]
       },
-      "cta": "Explore the Playbook",
+      "cta": "Explore the harness",
       "ctaSurface": "home"
     },
     {
@@ -273,7 +273,7 @@
           "Agent findings return to humans"
         ]
       },
-      "cta": "Explore Doc Bridge",
+      "cta": "Generate your first handoff",
       "ctaSurface": "home"
     },
     {
@@ -894,6 +894,174 @@
   }
 
   registerEcosystemShowcase()
+
+  function registerEcosystemFooter() {
+    if (!window.customElements || customElements.get('agentskit-ecosystem-footer')) return
+
+    var footerCss = `
+      :host{display:block;color-scheme:dark;--akf-bg:#0b0f14;--akf-surface:#11171e;--akf-line:#27313a;--akf-fg:#e7edf4;--akf-muted:#8b98a6;font-family:ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+      *{box-sizing:border-box}
+      a{font:inherit}
+      .akf-footer{border-top:1px solid var(--akf-line);background:var(--akf-bg);color:var(--akf-fg)}
+      .akf-inner{max-width:1152px;margin:0 auto;padding:56px 24px 28px}
+      .akf-main{display:grid;grid-template-columns:minmax(14rem,.8fr) minmax(0,1.7fr);gap:64px}
+      .akf-eyebrow,.akf-heading{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;text-transform:uppercase;letter-spacing:.16em}
+      .akf-eyebrow{margin:0 0 14px;color:var(--akf-muted);font-size:10px}
+      .akf-product{margin:0;font-size:24px;line-height:1.15;letter-spacing:-.025em}
+      .akf-tagline{max-width:31rem;margin:14px 0 0;color:var(--akf-muted);font-size:14px;line-height:1.65}
+      .akf-navs{display:grid;grid-template-columns:minmax(0,2fr) repeat(2,minmax(8rem,1fr));gap:40px}
+      .akf-section[hidden]{display:none}
+      .akf-heading{margin:0 0 16px;color:var(--akf-muted);font-size:10px}
+      .akf-products{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 20px;margin:0;padding:0;list-style:none}
+      .akf-link{display:inline-flex;min-height:36px;align-items:center;color:var(--akf-muted);font-size:13px;text-decoration:none;transition:color 160ms cubic-bezier(.25,1,.5,1)}
+      .akf-link:hover{color:var(--akf-fg)}
+      .akf-link:focus-visible{border-radius:3px;outline:2px solid currentColor;outline-offset:3px}
+      .akf-link[aria-current="page"]{color:var(--akf-fg);font-weight:650}
+      .akf-slots{display:flex;flex-direction:column;align-items:flex-start;gap:4px}
+      ::slotted(a){display:inline-flex;min-height:36px;align-items:center;color:var(--akf-muted);font-size:13px;text-decoration:none;transition:color 160ms cubic-bezier(.25,1,.5,1)}
+      ::slotted(a:hover){color:var(--akf-fg)}
+      ::slotted(a:focus-visible){border-radius:3px;outline:2px solid currentColor;outline-offset:3px}
+      .akf-meta{display:flex;align-items:center;justify-content:space-between;gap:24px;margin-top:44px;padding-top:20px;border-top:1px solid var(--akf-line);color:var(--akf-muted);font-size:11px}
+      .akf-home{color:inherit;text-decoration:none}
+      .akf-home:hover{color:var(--akf-fg)}
+      .akf-home:focus-visible{border-radius:3px;outline:2px solid currentColor;outline-offset:3px}
+      @media(max-width:860px){.akf-main{grid-template-columns:1fr;gap:40px}.akf-navs{grid-template-columns:minmax(0,1.6fr) repeat(2,minmax(7rem,1fr));gap:28px}}
+      @media(max-width:640px){.akf-inner{padding:44px 20px 24px}.akf-navs{grid-template-columns:repeat(2,minmax(0,1fr));gap:32px 24px}.akf-section:first-child{grid-column:1/-1}.akf-products{grid-template-columns:repeat(2,minmax(0,1fr))}.akf-meta{align-items:flex-start;flex-direction:column;gap:8px}}
+      @media(prefers-color-scheme:light){:host{color-scheme:light;--akf-bg:#fff;--akf-surface:#f6f8fa;--akf-line:#d0d7de;--akf-fg:#0d1117;--akf-muted:#57606a}}
+    `
+
+    class AgentsKitEcosystemFooter extends HTMLElement {
+      static get observedAttributes() {
+        return ['data-current', 'tagline']
+      }
+
+      constructor() {
+        super()
+        this.attachShadow({ mode: 'open' })
+      }
+
+      connectedCallback() {
+        this.render()
+      }
+
+      attributeChangedCallback() {
+        if (this.isConnected) this.render()
+      }
+
+      render() {
+        var root = this.shadowRoot
+        while (root.firstChild) root.removeChild(root.firstChild)
+
+        var currentId = this.getAttribute('data-current') || current
+        var currentProduct = PROPS.filter(function (product) { return product.id === currentId })[0] || PROPS[0]
+
+        var style = document.createElement('style')
+        style.textContent = footerCss
+        root.appendChild(style)
+
+        var footer = document.createElement('footer')
+        footer.className = 'akf-footer'
+        footer.setAttribute('aria-label', 'AgentsKit ecosystem footer')
+        var inner = document.createElement('div')
+        inner.className = 'akf-inner'
+        var main = document.createElement('div')
+        main.className = 'akf-main'
+
+        var identity = document.createElement('section')
+        var eyebrow = document.createElement('p')
+        eyebrow.className = 'akf-eyebrow'
+        eyebrow.textContent = 'AgentsKit ecosystem'
+        var productName = document.createElement('h2')
+        productName.className = 'akf-product'
+        productName.textContent = currentProduct.label
+        var tagline = document.createElement('p')
+        tagline.className = 'akf-tagline'
+        var taglineSlot = document.createElement('slot')
+        taglineSlot.name = 'tagline'
+        var taglineFallback = document.createElement('span')
+        taglineFallback.textContent = this.getAttribute('tagline') || 'Part of the AgentsKit ecosystem.'
+        taglineSlot.appendChild(taglineFallback)
+        tagline.appendChild(taglineSlot)
+        identity.appendChild(eyebrow)
+        identity.appendChild(productName)
+        identity.appendChild(tagline)
+        main.appendChild(identity)
+
+        var navs = document.createElement('div')
+        navs.className = 'akf-navs'
+
+        var ecosystemSection = document.createElement('section')
+        ecosystemSection.className = 'akf-section'
+        var ecosystemHeading = document.createElement('h3')
+        ecosystemHeading.className = 'akf-heading'
+        ecosystemHeading.textContent = 'Products'
+        var ecosystemNav = document.createElement('nav')
+        ecosystemNav.setAttribute('aria-label', 'AgentsKit products')
+        var products = document.createElement('ul')
+        products.className = 'akf-products'
+        PROPS.forEach(function (product) {
+          var item = document.createElement('li')
+          var link = document.createElement('a')
+          link.className = 'akf-link'
+          link.href = product.url
+          link.textContent = product.label
+          if (product.id === currentProduct.id) link.setAttribute('aria-current', 'page')
+          item.appendChild(link)
+          products.appendChild(item)
+        })
+        ecosystemNav.appendChild(products)
+        ecosystemSection.appendChild(ecosystemHeading)
+        ecosystemSection.appendChild(ecosystemNav)
+        navs.appendChild(ecosystemSection)
+
+        function appendSlottedSection(name, label) {
+          var section = document.createElement('section')
+          section.className = 'akf-section'
+          section.hidden = true
+          var heading = document.createElement('h3')
+          heading.className = 'akf-heading'
+          heading.textContent = label
+          var links = document.createElement('div')
+          links.className = 'akf-slots'
+          var slot = document.createElement('slot')
+          slot.name = name
+          var syncVisibility = function () {
+            section.hidden = slot.assignedElements().length === 0
+          }
+          slot.addEventListener('slotchange', syncVisibility)
+          links.appendChild(slot)
+          section.appendChild(heading)
+          section.appendChild(links)
+          navs.appendChild(section)
+          window.setTimeout(syncVisibility, 0)
+        }
+
+        appendSlottedSection('local', 'Product')
+        appendSlottedSection('resources', 'Resources')
+        main.appendChild(navs)
+
+        var meta = document.createElement('div')
+        meta.className = 'akf-meta'
+        var ownership = document.createElement('span')
+        ownership.textContent = 'One ecosystem. Every product stays focused.'
+        var home = document.createElement('a')
+        home.className = 'akf-home'
+        home.href = PROPS[0].url
+        home.textContent = 'AgentsKit home'
+        meta.appendChild(ownership)
+        meta.appendChild(home)
+
+        inner.appendChild(main)
+        inner.appendChild(meta)
+        footer.appendChild(inner)
+        root.appendChild(footer)
+      }
+    }
+
+    customElements.define('agentskit-ecosystem-footer', AgentsKitEcosystemFooter)
+  }
+
+  registerEcosystemFooter()
 
   function build() {
     var style = document.createElement('style')
