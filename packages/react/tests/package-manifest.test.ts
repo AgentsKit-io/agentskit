@@ -15,6 +15,7 @@ describe('@agentskit/react package manifest + import safety', () => {
         '.': { types: string; import: string; require: string }
         './theme': string
       }
+      scripts: Record<string, string>
       dependencies: Record<string, string>
       peerDependencies: Record<string, string>
     }
@@ -27,6 +28,7 @@ describe('@agentskit/react package manifest + import safety', () => {
     expect(pkg.exports['.'].import).toBe(pkg.module)
     expect(pkg.exports['.'].require).toBe(pkg.main)
     expect(pkg.exports['./theme']).toBe('./dist/theme/default.css')
+    expect(pkg.scripts['test:coverage']).toBe('vitest run --coverage')
     expect(pkg.dependencies).toEqual({ '@agentskit/core': 'workspace:*' })
     expect(pkg.peerDependencies.react).toBeDefined()
     expect(pkg.peerDependencies['react-dom']).toBeDefined()
