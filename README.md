@@ -40,7 +40,7 @@ A 10 KB core budget. Twenty-five focused packages. Zero lock-in. Six formal cont
 
 ## Verified proof
 
-The current [evidence ledger](./ecosystem-claims.json), generated from repository sources by [`scripts/compute-stats.mjs`](./scripts/compute-stats.mjs), verifies **25 published packages**, **7 framework bindings**, **25 native adapters**, **50 integrations**, **140 catalog providers**, **5,000+ catalog models**, **21 ready-made skills**, **17 memory backends**, and **69 recipes**.
+The current [evidence ledger](./ecosystem-claims.json), generated from repository sources by [`scripts/compute-stats.mjs`](./scripts/compute-stats.mjs), publishes the canonical package, framework, adapter, integration, provider, model, skill, memory, and recipe counts used by every AgentsKit surface.
 
 - The core has zero runtime dependencies and a CI-enforced **10 KB gzipped budget**.
 - Every public package has an explicit stability tier, test floor, README, human guide, and agent handoff.

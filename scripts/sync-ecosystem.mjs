@@ -14,11 +14,13 @@
 import { readFileSync, writeFileSync, existsSync } from 'node:fs'
 import { join, dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { parseEcosystemManifest } from './lib/ecosystem-contract.mjs'
+import { parseEcosystemClaims, parseEcosystemManifest } from './lib/ecosystem-contract.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const canonical = readFileSync(join(root, 'ecosystem.json'), 'utf8')
 const ecosystem = parseEcosystemManifest(JSON.parse(canonical))
+const claimsCanonical = readFileSync(join(root, 'ecosystem-claims.json'), 'utf8')
+const claims = parseEcosystemClaims(JSON.parse(claimsCanonical), ecosystem)
 const check = process.argv.includes('--check')
 
 let drift = false
@@ -59,16 +61,23 @@ const showcaseProducts = barProducts.map((product) => ({
   ...product.showcase,
 }))
 const showcaseJson = JSON.stringify(showcaseProducts, null, 2).replace(/\n/g, '\n  ')
+const initialClaims = Object.fromEntries(claims.products.map((product) => [
+  product.productId,
+  Object.fromEntries(product.claims.map((claim) => [claim.id, claim.value])),
+]))
+const initialClaimsJson = JSON.stringify(initialClaims, null, 2).replace(/\n/g, '\n  ')
 const barRel = 'apps/docs-next/public/ecosystem-bar.js'
 const barPath = join(root, barRel)
 if (existsSync(barPath)) {
   const bar = readFileSync(barPath, 'utf8')
   const propsPattern = /(\/\/ ecobar:props-start[^\n]*\n)[\s\S]*?(\n\s*\/\/ ecobar:props-end)/
   const showcasePattern = /(\/\/ ecobar:showcase-start[^\n]*\n)[\s\S]*?(\n\s*\/\/ ecobar:showcase-end)/
-  if (propsPattern.test(bar) && showcasePattern.test(bar)) {
+  const claimsPattern = /(\/\/ ecobar:claims-start[^\n]*\n)[\s\S]*?(\n\s*\/\/ ecobar:claims-end)/
+  if (propsPattern.test(bar) && showcasePattern.test(bar) && claimsPattern.test(bar)) {
     const next = bar
       .replace(propsPattern, `$1  var PROPS = [\n${propLines}\n  ]$2`)
       .replace(showcasePattern, `$1  var SHOWCASE_PRODUCTS = ${showcaseJson}$2`)
+      .replace(claimsPattern, `$1  var INITIAL_CLAIMS = ${initialClaimsJson}$2`)
     step(barRel, bar, next)
   } else {
     console.error(`ecosystem: ${barRel} missing generated markers — cannot sync bar.`)

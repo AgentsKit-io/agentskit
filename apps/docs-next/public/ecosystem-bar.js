@@ -28,24 +28,44 @@
       "shortName": "AgentsKit",
       "accent": "#2EA043",
       "href": "https://www.agentskit.io/docs",
+      "claimSource": {
+        "url": "https://www.agentskit.io/api/stats.json",
+        "claims": {
+          "packages": {
+            "path": "counts.packages"
+          },
+          "core-size-kb-gzip": {
+            "path": "coreSizeKbGzip"
+          },
+          "catalog-providers": {
+            "path": "counts.catalogProviders"
+          },
+          "native-adapters": {
+            "path": "counts.nativeAdapters"
+          },
+          "integrations": {
+            "path": "counts.integrations"
+          }
+        }
+      },
       "stage": "Build",
       "headline": "One foundation. Every layer stays yours.",
       "detail": "Compose runtime, adapters, tools, memory, RAG, and UI without glue code or lock-in.",
-      "proof": "22 packages · <10 KB core",
+      "proof": "{{packages}} packages · <{{core-size-kb-gzip}} KB core",
       "sales": {
         "kind": "integration-stack",
         "headline": "Swap the stack. Keep the agent.",
         "metrics": [
           {
-            "value": "140+",
+            "value": "{{catalog-providers}}",
             "label": "providers"
           },
           {
-            "value": "25",
+            "value": "{{native-adapters}}",
             "label": "adapters"
           },
           {
-            "value": "50",
+            "value": "{{integrations}}",
             "label": "integrations"
           }
         ],
@@ -69,14 +89,29 @@
       "shortName": "Registry",
       "accent": "#58A6FF",
       "href": "https://registry.agentskit.io/docs",
+      "claimSource": {
+        "url": "https://registry.agentskit.io/r/index.json",
+        "claims": {
+          "agents": {
+            "path": "agents",
+            "aggregate": "length"
+          },
+          "remaining-categories": {
+            "path": "agents",
+            "aggregate": "distinct",
+            "field": "category",
+            "subtract": 5
+          }
+        }
+      },
       "stage": "Discover",
       "headline": "Shadcn-like agents. Installed as source.",
       "detail": "Find a working agent, copy its source into your project, and change every line.",
       "proof": "Ready-made · source-owned",
       "sales": {
         "kind": "registry-install",
-        "headline": "300+ ready-to-use agents.",
-        "metric": "300+",
+        "headline": "Ready-to-use agents from the live Registry.",
+        "metric": "{{agents}}",
         "metricLabel": "shadcn-like agents",
         "capabilities": [
           "Research",
@@ -84,7 +119,7 @@
           "Coding",
           "Data",
           "Marketing",
-          "18+ more categories"
+          "{{remaining-categories}} additional categories"
         ],
         "steps": [
           "Find the right agent",
@@ -288,6 +323,74 @@
   ]
   // ecobar:showcase-end
 
+  // ecobar:claims-start — GENERATED from ecosystem-claims.json by scripts/sync-ecosystem.mjs. Do not edit by hand.
+  var INITIAL_CLAIMS = {
+    "agentskit": {
+      "packages": 22,
+      "framework-bindings": 7,
+      "native-adapters": 25,
+      "integrations": 50,
+      "catalog-providers": 140,
+      "catalog-models": 5162,
+      "skills": 22,
+      "memory-backends": 17,
+      "recipes": 69,
+      "core-size-kb-gzip": 10
+    },
+    "registry": {},
+    "agentskit-chat": {},
+    "playbook": {},
+    "doc-bridge": {},
+    "code-review": {},
+    "akos": {}
+  }
+  // ecobar:claims-end
+
+  var claimsByProduct = JSON.parse(JSON.stringify(INITIAL_CLAIMS))
+  var claimsPromise = null
+  var ecosystemScript = document.currentScript
+  var ecosystemOrigin = ecosystemScript && ecosystemScript.src
+    ? new URL(ecosystemScript.src).origin
+    : 'https://www.agentskit.io'
+
+  window.__akApplyEcosystemClaims = function (canonicalClaims) {
+    Object.keys(canonicalClaims || {}).forEach(function (productId) {
+      claimsByProduct[productId] = Object.assign({}, claimsByProduct[productId], canonicalClaims[productId])
+    })
+    if (window.__akResolveEcosystemClaims) window.__akResolveEcosystemClaims(claimsByProduct)
+  }
+
+  function loadCanonicalClaims() {
+    if (claimsPromise) return claimsPromise
+    claimsPromise = new Promise(function (resolve) {
+      window.__akResolveEcosystemClaims = resolve
+      var script = document.createElement('script')
+      script.src = ecosystemOrigin + '/ecosystem-claims.js?source=ecosystem-bar-v1'
+      script.async = true
+      script.onerror = function () { resolve(claimsByProduct) }
+      script.onload = function () { window.setTimeout(function () { resolve(claimsByProduct) }, 0) }
+      document.head.appendChild(script)
+    })
+    return claimsPromise
+  }
+
+  function resolveTemplates(value, claims) {
+    if (typeof value === 'string') {
+      var resolved = value.replace(/\{\{([a-z][a-z0-9-]*)\}\}/g, function (_, claimId) {
+        return claims[claimId] === undefined ? '' : String(claims[claimId])
+      }).replace(/\s+/g, ' ').trim()
+      return resolved || '—'
+    }
+    if (Array.isArray(value)) return value.map(function (item) { return resolveTemplates(item, claims) })
+    if (value && typeof value === 'object') {
+      return Object.keys(value).reduce(function (result, key) {
+        result[key] = resolveTemplates(value[key], claims)
+        return result
+      }, {})
+    }
+    return value
+  }
+
   var host = location.hostname
   // Match agentskit.io only as the registrable domain suffix (not a substring,
   // so evil-agentskit.io.attacker.test does not match).
@@ -328,10 +431,10 @@
     '#ak-eco{position:relative;z-index:30;display:flex;gap:4px;align-items:center;' +
     'font:500 13px/1 ui-sans-serif,system-ui,-apple-system,sans-serif;padding:8px 16px;' +
     'background:#0b0b0f;color:#e7e7ea;border-bottom:1px solid #23232b}' +
-    '#ak-eco .ak-eco-brand{display:inline-flex;align-items:center;justify-content:center;' +
+    '#ak-eco .ak-eco-brand{display:inline-flex;min-width:36px;min-height:36px;align-items:center;justify-content:center;' +
     'margin-right:8px;color:#fff;text-decoration:none;line-height:0}' +
     '#ak-eco .ak-eco-brand svg{width:18px;height:16px;display:block}' +
-    '#ak-eco a.ak-eco-link{color:#a9a9b3;text-decoration:none;padding:5px 10px;border-radius:7px}' +
+    '#ak-eco a.ak-eco-link{display:inline-flex;min-height:36px;align-items:center;color:#a9a9b3;text-decoration:none;padding:5px 10px;border-radius:7px}' +
     '#ak-eco a.ak-eco-link:hover{color:#fff;background:#1c1c24}' +
     '#ak-eco a.ak-eco-link[aria-current="page"]{color:#fff;background:#2a2a35}' +
     '#ak-eco .ak-eco-spacer{flex:1}' +
@@ -341,7 +444,8 @@
     '#ak-eco a.ak-eco-cta[data-ak-eco-discord]{display:none}' +
     '@media(max-width:767px){#ak-eco{box-sizing:border-box;width:100%;max-width:100vw;overflow-x:auto;' +
     'overscroll-behavior-x:contain;scrollbar-width:none}#ak-eco::-webkit-scrollbar{display:none}' +
-    '#ak-eco .ak-eco-brand{position:sticky;left:0;z-index:1;background:inherit}' +
+    '#ak-eco .ak-eco-brand{position:sticky;left:0;z-index:1;min-width:44px;min-height:44px;background:inherit}' +
+    '#ak-eco a.ak-eco-link{min-height:44px}' +
     '#ak-eco .ak-eco-spacer,#ak-eco a.ak-eco-cta{display:none}}' +
     '@media(prefers-color-scheme:light){#ak-eco{background:#fff;color:#0b0b0f;border-bottom-color:#e6e6ea}' +
     '#ak-eco .ak-eco-brand{color:#0b0b0f}#ak-eco a.ak-eco-link{color:#555}' +
@@ -382,7 +486,7 @@
     .akx-cta{display:inline-flex;min-height:44px;align-items:center;color:var(--akx-accent);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:13px;text-decoration:none;white-space:nowrap;transition:color 180ms cubic-bezier(.25,1,.5,1),transform 180ms cubic-bezier(.25,1,.5,1)}
     .akx-cta:hover{color:var(--akx-fg);transform:translateX(3px)}
     .akx-cta:focus-visible{outline:2px solid var(--akx-accent);outline-offset:4px}
-    .akx-sales{display:flex;min-width:0;flex-direction:column;padding:40px;background:#0e141a}
+    .akx-sales{display:flex;min-width:0;flex-direction:column;padding:40px 40px 88px;background:#0e141a}
     .akx-sales-top{display:flex;align-items:start;justify-content:space-between;gap:24px}
     .akx-sales-headline{max-width:330px;margin:0;font-size:clamp(1.35rem,2.4vw,2rem);line-height:1.08;letter-spacing:-.03em}
     .akx-metrics{display:flex;flex-shrink:0;align-items:flex-start;justify-content:flex-end;gap:18px}
@@ -408,14 +512,14 @@
     .akx-command::before{content:"$";color:var(--akx-accent)}
     .akx-capabilities{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-top:18px}
     .akx-capabilities[data-count="6"]{grid-template-columns:repeat(3,minmax(0,1fr))}
-    .akx-capability{display:flex;min-width:0;min-height:34px;align-items:center;justify-content:center;border:1px solid var(--akx-line);padding:6px 8px;color:var(--akx-muted);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:9px;line-height:1.35;text-align:center;text-transform:uppercase;letter-spacing:.06em}
+    .akx-capability{display:flex;min-width:0;min-height:34px;align-items:center;justify-content:center;border:1px solid var(--akx-line);padding:6px 8px;color:var(--akx-muted);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:8.5px;line-height:1.35;text-align:center;text-transform:uppercase;letter-spacing:.04em;overflow-wrap:anywhere}
     @keyframes akx-step-in{to{opacity:1;transform:translateY(0)}}
     .akx-controls{display:flex;align-items:center;justify-content:space-between;gap:20px;border-top:1px solid var(--akx-line);padding:12px 16px;color:var(--akx-muted);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:10px;letter-spacing:.08em}
     .akx-play{min-height:44px;border:0;background:transparent;color:var(--akx-muted);cursor:pointer;padding:0 8px;text-transform:uppercase;letter-spacing:.12em}
     .akx-play:hover{color:var(--akx-fg)}
     .akx-play:focus-visible{outline:2px solid var(--akx-accent);outline-offset:2px}
-    @media(max-width:820px){.akx-inner{padding:64px 20px}.akx-intro{grid-template-columns:1fr;gap:20px}.akx-tabs{grid-template-columns:repeat(6,minmax(128px,1fr))}.akx-content{grid-template-columns:1fr}.akx-story{min-height:410px;border-right:0;border-bottom:1px solid var(--akx-line);padding:36px}.akx-sales{min-height:520px;padding:36px}.akx-headline{margin-top:38px}}
-    @media(max-width:540px){.akx-inner{padding:52px 16px}.akx-intro{padding-bottom:32px}.akx-story{min-height:430px;padding:28px}.akx-story-bottom{align-items:flex-start;flex-direction:column}.akx-sales{min-height:560px;padding:28px}.akx-sales-top{flex-direction:column}.akx-metrics{width:100%;justify-content:flex-start}.akx-metric{text-align:left}.akx-demo-step{grid-template-columns:26px minmax(0,1fr)}.akx-demo-state{display:none}.akx-capabilities,.akx-capabilities[data-count="6"]{grid-template-columns:repeat(2,minmax(0,1fr))}.akx-controls span{display:none}}
+    @media(max-width:820px){.akx-inner{padding:64px 20px}.akx-intro{grid-template-columns:1fr;gap:20px}.akx-tabs{grid-template-columns:repeat(6,minmax(128px,1fr))}.akx-content{grid-template-columns:1fr}.akx-story{min-height:410px;border-right:0;border-bottom:1px solid var(--akx-line);padding:36px}.akx-sales{min-height:520px;padding:36px 36px 88px}.akx-headline{margin-top:38px}}
+    @media(max-width:540px){.akx-inner{padding:52px 16px}.akx-intro{padding-bottom:32px}.akx-story{min-height:430px;padding:28px}.akx-story-bottom{align-items:flex-start;flex-direction:column}.akx-sales{min-height:560px;padding:28px 28px 92px}.akx-sales-top{flex-direction:column}.akx-metrics{width:100%;justify-content:flex-start}.akx-metric{text-align:left}.akx-demo-step{grid-template-columns:26px minmax(0,1fr)}.akx-demo-state{display:none}.akx-capabilities,.akx-capabilities[data-count="6"]{grid-template-columns:repeat(2,minmax(0,1fr))}.akx-controls span{display:none}}
     @media(prefers-reduced-motion:reduce){.akx-demo-step{opacity:1;transform:none;animation:none}.akx-cta,.akx-tab{transition:none}}
   `
 
@@ -450,6 +554,7 @@
           return product.id === (this.getAttribute('current') || this.getAttribute('data-current') || current)
         }, this))
         this.currentProduct = this.getAttribute('current') || this.getAttribute('data-current') || current
+        this.claimValues = claimsByProduct
         this.reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
         this.manualPaused = false
         this.transientPaused = false
@@ -466,7 +571,7 @@
               '</header>' +
               '<div class="akx-frame">' +
                 '<div class="akx-tabs" role="tablist" aria-label="AgentsKit ecosystem products"></div>' +
-                '<div class="akx-content" role="tabpanel" aria-live="polite">' +
+                '<div class="akx-content" role="tabpanel">' +
                   '<article class="akx-story">' +
                     '<div class="akx-story-top"><p class="akx-stage-label"></p><p class="akx-index"></p></div>' +
                     '<h3 class="akx-headline"></h3>' +
@@ -567,15 +672,21 @@
         root.querySelector('.akx-content').id = 'akx-panel'
         this.setActive(this.activeIndex, false)
         this.syncPlayback()
+        loadCanonicalClaims().then(function (canonicalClaims) {
+          if (!this.isConnected) return
+          this.claimValues = canonicalClaims
+          this.setActive(this.activeIndex, false, true)
+        }.bind(this))
       }
 
       disconnectedCallback() {
         window.clearInterval(this.timer)
       }
 
-      setActive(index, userInitiated) {
-        var product = SHOWCASE_PRODUCTS[index]
-        if (!product) return
+      setActive(index, userInitiated, skipAnimation) {
+        var sourceProduct = SHOWCASE_PRODUCTS[index]
+        if (!sourceProduct) return
+        var product = resolveTemplates(sourceProduct, this.claimValues[sourceProduct.id] || {})
         this.activeIndex = index
         this.shell.style.setProperty('--akx-accent', product.accent)
         this.tabs.forEach(function (tab, tabIndex) {
@@ -583,6 +694,12 @@
           tab.setAttribute('aria-selected', selected ? 'true' : 'false')
           tab.tabIndex = selected ? 0 : -1
         })
+        var selectedTab = this.tabs[index]
+        this.shadowRoot.querySelector('.akx-content').setAttribute('aria-labelledby', selectedTab.id)
+        if (this.tabsRoot.scrollWidth > this.tabsRoot.clientWidth) {
+          var left = selectedTab.offsetLeft - (this.tabsRoot.clientWidth - selectedTab.offsetWidth) / 2
+          this.tabsRoot.scrollTo({ left: Math.max(0, left), behavior: this.reducedMotion ? 'auto' : 'smooth' })
+        }
         this.stageLabel.textContent = String(index + 1).padStart(2, '0') + ' / ' + product.stage
         this.indexLabel.textContent = product.name
         this.headline.textContent = product.headline
@@ -595,7 +712,7 @@
           ? 'Current product · choose the next layer'
           : 'From ' + (SHOWCASE_PRODUCTS.find(function (item) { return item.id === this.currentProduct }.bind(this)) || SHOWCASE_PRODUCTS[0]).shortName + ' to ' + product.shortName
 
-        if (!this.reducedMotion && this.story.animate) {
+        if (!skipAnimation && !this.reducedMotion && this.story.animate) {
           var animation = [
             { opacity: 0.35, transform: 'translateY(6px)' },
             { opacity: 1, transform: 'translateY(0)' },
@@ -763,7 +880,7 @@
     var brand = document.createElement('a')
     brand.className = 'ak-eco-brand'
     brand.href = 'https://www.agentskit.io'
-    brand.setAttribute('aria-label', 'AgentsKit')
+    brand.setAttribute('aria-label', 'AgentsKit home')
     brand.title = 'AgentsKit'
     brand.innerHTML = BRAND_ICON
     bar.appendChild(brand)

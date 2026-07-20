@@ -52,6 +52,19 @@ test('the shared ecosystem bar contains its own mobile overflow', () => {
   assert.match(bar, /@media\(max-width:767px\)/)
   assert.match(bar, /max-width:100vw;overflow-x:auto/)
   assert.match(bar, /scrollbar-width:none/)
+  assert.match(bar, /selectedTab\.offsetLeft/)
+  assert.match(bar, /this\.tabsRoot\.scrollTo/)
+  assert.doesNotMatch(bar, /role="tabpanel" aria-live="polite"/)
+})
+
+test('the shared ecosystem bar resolves public numbers from canonical sources', () => {
+  const bar = read('apps/docs-next/public/ecosystem-bar.js')
+  assert.match(bar, /var INITIAL_CLAIMS =/)
+  assert.match(bar, /loadCanonicalClaims/)
+  assert.match(bar, /ecosystem-claims\.js/)
+  assert.match(bar, /__akApplyEcosystemClaims/)
+  assert.match(bar, /document\.currentScript/)
+  assert.doesNotMatch(bar, /fetch\(product\.claimSource\.url/)
 })
 
 test('Lighthouse keeps the Vercel bypass out of audited URLs', () => {
