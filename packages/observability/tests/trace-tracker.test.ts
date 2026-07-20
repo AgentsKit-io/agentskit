@@ -115,6 +115,92 @@ describe('createTraceTracker', () => {
     expect(started[1].attributes['error.message']).toBe('timeout')
   })
 
+  it('on error marks both active child span and currentStepSpan as error', () => {
+    const started: TraceSpan[] = []
+    const tracker = createTraceTracker({
+      onSpanStart: (s) => started.push(s),
+      onSpanEnd: () => {},
+    })
+
+    tracker.handle({ type: 'agent:step', step: 1, action: 'initial' })
+    tracker.handle({ type: 'llm:start', messageCount: 1 })
+    tracker.handle({ type: 'error', error: new Error('child-failed') })
+
+    const step = started.find(s => s.name === 'agentskit.agent.step')
+    const llm = started.find(s => s.name === 'gen_ai.chat')
+    expect(llm?.status).toBe('error')
+    expect(llm?.attributes['error.message']).toBe('child-failed')
+    expect(step?.status).toBe('error')
+    expect(step?.attributes['error.message']).toBe('child-failed')
+  })
+
+  it('on agent:step closes orphaned child spans as error before starting new step', () => {
+    const started: TraceSpan[] = []
+    const ended: TraceSpan[] = []
+    const tracker = createTraceTracker({
+      onSpanStart: (s) => started.push(s),
+      onSpanEnd: (s) => ended.push(s),
+    })
+
+    tracker.handle({ type: 'agent:step', step: 1, action: 'initial' })
+    tracker.handle({ type: 'llm:start', messageCount: 1 })
+    // Malformed: next step without llm:end — orphan must close as incomplete error
+    // BEFORE the old step closes and the new step starts.
+    tracker.handle({ type: 'agent:step', step: 2, action: 'tool-result-loop' })
+    tracker.handle({ type: 'tool:start', name: 'search', args: {} })
+
+    const closedLlm = ended.find(s => s.name === 'gen_ai.chat')
+    expect(closedLlm).toBeDefined()
+    expect(closedLlm?.status).toBe('error')
+    expect(closedLlm?.attributes['agentskit.incomplete']).toBe(true)
+    expect(closedLlm?.endTime).toBeDefined()
+
+    const closedStep1 = ended.find(
+      s => s.name === 'agentskit.agent.step' && s.attributes['agentskit.step'] === 1,
+    )
+    expect(closedStep1).toBeDefined()
+    // With orphan children, the previous step also closes as error/incomplete.
+    expect(closedStep1?.status).toBe('error')
+    expect(closedStep1?.attributes['agentskit.incomplete']).toBe(true)
+    // Orphan close order: child before parent step.
+    expect(ended.indexOf(closedLlm!)).toBeLessThan(ended.indexOf(closedStep1!))
+
+    const step2 = started.find(
+      s => s.name === 'agentskit.agent.step' && s.attributes['agentskit.step'] === 2,
+    )
+    const tool = started.find(s => s.name === 'agentskit.tool.search')
+    expect(step2).toBeDefined()
+    expect(tool?.parentId).toBe(step2?.id)
+    expect(tool?.parentId).not.toBe(closedLlm?.id)
+    expect(tool?.parentId).not.toBe(closedStep1?.id)
+  })
+
+  it('tool args snapshot never throws for circular refs or BigInt and stays bounded', () => {
+    const started: TraceSpan[] = []
+    const tracker = createTraceTracker({
+      onSpanStart: (s) => started.push(s),
+      onSpanEnd: () => {},
+    })
+
+    const circular: Record<string, unknown> = { a: 1 }
+    circular.self = circular
+    const big = { n: BigInt(42), payload: 'x'.repeat(600) }
+
+    expect(() => {
+      tracker.handle({ type: 'agent:step', step: 1, action: 'initial' })
+      tracker.handle({ type: 'tool:start', name: 'circ', args: circular })
+      tracker.handle({ type: 'tool:start', name: 'bigint', args: big })
+    }).not.toThrow()
+
+    const circSpan = started.find(s => s.name === 'agentskit.tool.circ')
+    const bigSpan = started.find(s => s.name === 'agentskit.tool.bigint')
+    expect(typeof circSpan?.attributes['agentskit.tool.args']).toBe('string')
+    expect(typeof bigSpan?.attributes['agentskit.tool.args']).toBe('string')
+    expect(String(circSpan?.attributes['agentskit.tool.args']).length).toBeLessThanOrEqual(500)
+    expect(String(bigSpan?.attributes['agentskit.tool.args']).length).toBeLessThanOrEqual(500)
+    expect(String(bigSpan?.attributes['agentskit.tool.args'])).toContain('42')
+  })
+
   it('flush closes all open spans', () => {
     const ended: TraceSpan[] = []
     const tracker = createTraceTracker({
@@ -130,6 +216,107 @@ describe('createTraceTracker', () => {
 
     // LLM span + step span should both be closed
     expect(ended.length).toBeGreaterThanOrEqual(2)
+  })
+
+  it('preserves error status when an end event follows error', () => {
+    const ended: TraceSpan[] = []
+    const tracker = createTraceTracker({
+      onSpanStart: () => {},
+      onSpanEnd: (s) => ended.push(s),
+    })
+
+    tracker.handle({ type: 'agent:step', step: 1, action: 'initial' })
+    tracker.handle({ type: 'tool:start', name: 'search', args: {} })
+    tracker.handle({ type: 'error', error: new Error('boom') })
+    tracker.handle({ type: 'tool:end', name: 'search', result: 'Error: boom', durationMs: 10 })
+
+    expect(ended).toHaveLength(1)
+    expect(ended[0].status).toBe('error')
+    expect(ended[0].attributes['error.message']).toBe('boom')
+  })
+
+  it('run-aborted closes open spans and current step with error/abort attributes', () => {
+    const ended: TraceSpan[] = []
+    const tracker = createTraceTracker({
+      onSpanStart: () => {},
+      onSpanEnd: (s) => ended.push(s),
+    })
+
+    tracker.handle({ type: 'agent:step', step: 1, action: 'initial' })
+    tracker.handle({ type: 'llm:start', messageCount: 1 })
+    tracker.handle({ type: 'run-aborted' })
+
+    expect(ended.length).toBeGreaterThanOrEqual(2)
+    expect(ended.every(s => s.status === 'error')).toBe(true)
+    expect(ended.every(s => s.attributes['agentskit.abort'] === true)).toBe(true)
+    expect(ended.every(s => s.endTime !== undefined)).toBe(true)
+  })
+
+  it('handles agent:delegate:start/end as nested spans with bounded snapshots', () => {
+    const started: TraceSpan[] = []
+    const ended: TraceSpan[] = []
+    const tracker = createTraceTracker({
+      onSpanStart: (s) => started.push(s),
+      onSpanEnd: (s) => ended.push(s),
+    })
+
+    const longTask = 't'.repeat(600)
+    const longResult = 'r'.repeat(600)
+
+    tracker.handle({ type: 'agent:step', step: 1, action: 'initial' })
+    tracker.handle({ type: 'agent:delegate:start', name: 'researcher', task: longTask, depth: 1 })
+    tracker.handle({
+      type: 'agent:delegate:end',
+      name: 'researcher',
+      result: longResult,
+      durationMs: 42,
+      depth: 1,
+    })
+
+    const startSpan = started.find(s => s.name === 'agentskit.agent.delegate.researcher')
+    expect(startSpan).toBeDefined()
+    expect(startSpan?.parentId).toBe(started[0].id)
+    expect(startSpan?.attributes['agentskit.delegate.depth']).toBe(1)
+    expect(String(startSpan?.attributes['agentskit.delegate.task']).length).toBeLessThanOrEqual(500)
+
+    const endSpan = ended.find(s => s.name === 'agentskit.agent.delegate.researcher')
+    expect(endSpan?.attributes['agentskit.duration_ms']).toBe(42)
+    expect(String(endSpan?.attributes['agentskit.delegate.result']).length).toBeLessThanOrEqual(500)
+  })
+
+  it('closes previous step span when step resets to 1', () => {
+    const ended: TraceSpan[] = []
+    const started: TraceSpan[] = []
+    const tracker = createTraceTracker({
+      onSpanStart: (s) => started.push(s),
+      onSpanEnd: (s) => ended.push(s),
+    })
+
+    tracker.handle({ type: 'agent:step', step: 1, action: 'initial' })
+    tracker.handle({ type: 'agent:step', step: 2, action: 'tool-result-loop' })
+    tracker.handle({ type: 'agent:step', step: 1, action: 'initial' })
+
+    const closedSteps = ended.filter(s => s.name === 'agentskit.agent.step')
+    expect(closedSteps).toHaveLength(2)
+    expect(closedSteps[0].attributes['agentskit.step']).toBe(1)
+    expect(closedSteps[1].attributes['agentskit.step']).toBe(2)
+    expect(started.filter(s => s.name === 'agentskit.agent.step')).toHaveLength(3)
+  })
+
+  it('flush is idempotent', () => {
+    const ended: TraceSpan[] = []
+    const tracker = createTraceTracker({
+      onSpanStart: () => {},
+      onSpanEnd: (s) => ended.push(s),
+    })
+
+    tracker.handle({ type: 'agent:step', step: 1, action: 'initial' })
+    tracker.handle({ type: 'llm:start', messageCount: 1 })
+    tracker.flush()
+    const afterFirst = ended.length
+    expect(afterFirst).toBeGreaterThanOrEqual(2)
+    tracker.flush()
+    expect(ended).toHaveLength(afterFirst)
   })
 
   it('full trace: step → llm → tool → llm → done', () => {

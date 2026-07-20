@@ -1,7 +1,7 @@
 {
   "name": "@agentskit/validation",
   "private": true,
-  "version": "0.2.13",
+  "version": "0.2.14",
   "description": "Opt-in runtime validation of tool-call arguments against their JSON Schema for AgentsKit. Wraps Ajv; plugs into the core ArgsValidator contract (ADR-0008).",
   "keywords": [
     "agentskit",
@@ -51,7 +51,7 @@
   },
   "agentskit": {
     "stability": "beta",
-    "stabilityNote": "ArgsValidator contract stable (ADR-0008); Ajv-backed implementation."
+    "stabilityNote": "Private Ajv implementation hardened behind @agentskit/tools/validation; graduation is coupled to the public tools surface (ADR-0008, RFC-0015)."
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/packages/validation",

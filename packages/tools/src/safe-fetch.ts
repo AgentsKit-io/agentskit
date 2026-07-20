@@ -52,15 +52,97 @@ export function isPrivateIPv4(ip: string): boolean {
   return false
 }
 
+/**
+ * Expand a compressed/expanded IPv6 literal into 8 16-bit words.
+ * Supports dotted IPv4 tails (`::ffff:127.0.0.1`). Returns null when the
+ * literal is not a well-formed 128-bit address.
+ */
+function parseIPv6Words(ip: string): number[] | null {
+  const lower = ip.toLowerCase()
+  if (!lower || lower.includes(':::')) return null
+
+  let v4Tail: number[] | null = null
+  let core = lower
+  const lastColon = lower.lastIndexOf(':')
+  if (lastColon >= 0) {
+    const maybeV4 = lower.slice(lastColon + 1)
+    if (maybeV4.includes('.')) {
+      const n = ipv4ToInt(maybeV4)
+      if (n === null) return null
+      v4Tail = [(n >>> 16) & 0xffff, n & 0xffff]
+      core = lower.slice(0, lastColon)
+    }
+  }
+
+  const sides = core.split('::')
+  if (sides.length > 2) return null
+
+  const parseSide = (side: string): number[] | null => {
+    if (side === '') return []
+    const segs = side.split(':')
+    const words: number[] = []
+    for (const seg of segs) {
+      if (!/^[0-9a-f]{1,4}$/.test(seg)) return null
+      words.push(parseInt(seg, 16))
+    }
+    return words
+  }
+
+  const head = parseSide(sides[0]!)
+  if (head === null) return null
+  const tail = sides.length === 2 ? parseSide(sides[1]!) : []
+  if (tail === null) return null
+
+  const fixed = head.length + tail.length + (v4Tail ? 2 : 0)
+  if (sides.length === 1) {
+    if (fixed !== 8) return null
+    return v4Tail ? [...head, ...v4Tail] : head
+  }
+  // Compression must omit at least one word.
+  if (fixed >= 8) return null
+  const zeros = 8 - fixed
+  return [...head, ...Array<number>(zeros).fill(0), ...tail, ...(v4Tail ?? [])]
+}
+
+function wordsToIPv4(hi: number, lo: number): string {
+  return `${(hi >>> 8) & 0xff}.${hi & 0xff}.${(lo >>> 8) & 0xff}.${lo & 0xff}`
+}
+
 /** True if `ip` is an IPv6 loopback / unique-local / link-local / mapped-private address. */
 export function isPrivateIPv6(ip: string): boolean {
-  const lower = ip.toLowerCase()
-  if (lower === '::1' || lower === '::') return true
-  if (lower === '0:0:0:0:0:0:0:1' || lower === '0:0:0:0:0:0:0:0') return true
-  if (/^f[cd][0-9a-f]{2}:/i.test(lower)) return true // fc00::/7 unique-local
-  if (/^fe[89ab][0-9a-f]:/i.test(lower)) return true // fe80::/10 link-local
-  const mapped = lower.match(/^::ffff:(\d+\.\d+\.\d+\.\d+)$/)
-  if (mapped) return isPrivateIPv4(mapped[1]!)
+  const words = parseIPv6Words(ip)
+  if (words === null) return false
+
+  // Unspecified :: and loopback ::1.
+  const allZero = words.every((w) => w === 0)
+  if (allZero) return true
+  if (
+    words[0] === 0 && words[1] === 0 && words[2] === 0 && words[3] === 0 &&
+    words[4] === 0 && words[5] === 0 && words[6] === 0 && words[7] === 1
+  ) {
+    return true
+  }
+
+  // fc00::/7 unique-local, fe80::/10 link-local.
+  if ((words[0]! & 0xfe00) === 0xfc00) return true
+  if ((words[0]! & 0xffc0) === 0xfe80) return true
+
+  // IPv4-mapped ::ffff:0:0/96 — reconstruct last 32 bits, classify as IPv4.
+  if (
+    words[0] === 0 && words[1] === 0 && words[2] === 0 && words[3] === 0 &&
+    words[4] === 0 && words[5] === 0xffff
+  ) {
+    return isPrivateIPv4(wordsToIPv4(words[6]!, words[7]!))
+  }
+
+  // Deprecated IPv4-compatible ::/96 (fail closed for private embedded IPv4).
+  if (
+    words[0] === 0 && words[1] === 0 && words[2] === 0 && words[3] === 0 &&
+    words[4] === 0 && words[5] === 0
+  ) {
+    return isPrivateIPv4(wordsToIPv4(words[6]!, words[7]!))
+  }
+
   return false
 }
 
@@ -141,6 +223,13 @@ export async function safeFetch(
     if (r.status >= 300 && r.status < 400) {
       const loc = r.headers.get('location')
       if (!loc) return r
+      // Best-effort drain of the discarded redirect body so the connection can
+      // be reused; cancellation failure must not skip egress re-gating.
+      try {
+        await r.body?.cancel()
+      } catch {
+        // ignore
+      }
       try {
         currentUrl = new URL(loc, currentUrl).toString()
       } catch {

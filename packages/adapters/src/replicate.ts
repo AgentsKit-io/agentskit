@@ -1,4 +1,5 @@
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
+import { adapterErrorChunk, isAbortError } from './stream-errors'
 
 export interface ReplicateConfig {
   apiKey: string
@@ -35,6 +36,7 @@ async function* parseReplicateStream(stream: ReadableStream): AsyncIterableItera
   const decoder = new TextDecoder()
   let buffer = ''
   let currentEvent = ''
+  let sawDone = false
 
   try {
     while (true) {
@@ -53,16 +55,21 @@ async function* parseReplicateStream(stream: ReadableStream): AsyncIterableItera
         if (currentEvent === 'output' && data) {
           yield { type: 'text', content: data }
         } else if (currentEvent === 'done') {
+          sawDone = true
           yield { type: 'done' }
           return
         } else if (currentEvent === 'error') {
-          yield { type: 'error', content: data || 'replicate stream error' }
+          yield adapterErrorChunk(data || 'replicate stream error')
           return
         }
       }
     }
   } finally {
     reader.releaseLock()
+  }
+  if (!sawDone) {
+    yield adapterErrorChunk('Replicate stream ended without done event')
+    return
   }
   yield { type: 'done' }
 }
@@ -104,18 +111,18 @@ export function replicate(config: ReplicateConfig): AdapterFactory {
             })
 
             if (!response.ok) {
-              yield { type: 'error', content: `Replicate API error: ${response.status}` }
+              yield adapterErrorChunk(`Replicate API error: ${response.status}`)
               return
             }
 
             const prediction = await response.json() as PredictionResponse
             if (prediction.error) {
-              yield { type: 'error', content: prediction.error }
+              yield adapterErrorChunk(prediction.error)
               return
             }
             const streamUrl = prediction.urls?.stream
             if (!streamUrl) {
-              yield { type: 'error', content: 'Replicate prediction has no stream URL' }
+              yield adapterErrorChunk('Replicate prediction has no stream URL')
               return
             }
 
@@ -125,7 +132,7 @@ export function replicate(config: ReplicateConfig): AdapterFactory {
               signal: controller.signal,
             })
             if (!streamResponse.ok || !streamResponse.body) {
-              yield { type: 'error', content: `Replicate stream error: ${streamResponse.status}` }
+              yield adapterErrorChunk(`Replicate stream error: ${streamResponse.status}`)
               return
             }
 
@@ -134,8 +141,9 @@ export function replicate(config: ReplicateConfig): AdapterFactory {
               yield chunk
             }
           } catch (err) {
-            if (err instanceof DOMException && err.name === 'AbortError') return
-            yield { type: 'error', content: err instanceof Error ? err.message : String(err) }
+            if (isAbortError(err) || aborted) return
+            const message = err instanceof Error ? err.message : String(err)
+            yield adapterErrorChunk(message, { cause: err })
           }
         },
         abort: () => {

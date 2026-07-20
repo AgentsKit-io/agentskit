@@ -1,6 +1,13 @@
 import { buildMessage as message, consumeStream, createEventEmitter, safeParseArgs, createToolLifecycle } from './primitives'
 import { buildToolMap, activateSkills, auth, executeSafeTool as execute } from './agent-loop'
-import { buildAdapterRequest } from './controller-helpers'
+import {
+  accumulateUsage,
+  buildAdapterRequest,
+  buildToolContinuation,
+  mapMessageById,
+  mapToolCallById,
+  normalizeLlmUsage,
+} from './controller-helpers'
 import type {
   ChatConfig,
   ChatController,
@@ -11,6 +18,7 @@ import type {
   ToolCall,
   ToolDefinition,
 } from './types'
+
 export function createChatController(initial: ChatConfig): ChatController {
   let config = initial
   let system = config.systemPrompt
@@ -101,22 +109,22 @@ export function createChatController(initial: ChatConfig): ChatController {
   const setMsg = (aid: string, updater: (message: Message) => Message) => {
     set(current => ({
       ...current,
-      messages: current.messages.map(message =>
-        message.id === aid ? updater(message) : message
-      ),
+      messages: mapMessageById(current.messages, aid, updater),
     }))
   }
 
   const patchCall = (aid: string, tid: string, patch: Partial<ToolCall>) => {
-    setMsg(aid, message => ({
-      ...message,
-      toolCalls: (message.toolCalls ?? []).map(call =>
-        call.id === tid ? { ...call, ...patch } : call
-      ),
+    set(current => ({
+      ...current,
+      messages: mapToolCallById(current.messages, aid, tid, patch),
     }))
   }
 
-  const runTool = (tool: ToolDefinition | undefined, call: ToolCall, onPartial: (result: string) => void) => execute({
+  const runTool = (
+    tool: ToolDefinition | undefined,
+    call: ToolCall,
+    onPartial: (result: string) => void,
+  ) => execute({
     tool,
     toolCall: call,
     context: { messages: state.messages, call },
@@ -186,6 +194,7 @@ export function createChatController(initial: ChatConfig): ChatController {
 
     const began = Date.now()
     let first = false
+    let turnUsage: { promptTokens: number; completionTokens: number } | undefined
     emitter.emit({ type: 'llm:start', messageCount: request.messages.length })
 
     await consumeStream(source, {
@@ -213,19 +222,17 @@ export function createChatController(initial: ChatConfig): ChatController {
       },
       onUsage(usage) {
         if (g !== gen) return
+        // Per-turn usage for llm:end (last chunk wins; adapters emit totals once).
+        const normalized = normalizeLlmUsage(usage)
+        if (normalized) turnUsage = normalized
         // Attach to this turn's assistant message + accumulate the session total.
         set(current => ({
           ...current,
-          messages: current.messages.map(message =>
-            message.id === aid
-              ? { ...message, metadata: { ...message.metadata, usage } }
-              : message
-          ),
-          usage: {
-            promptTokens: current.usage.promptTokens + (usage.promptTokens ?? 0),
-            completionTokens: current.usage.completionTokens + (usage.completionTokens ?? 0),
-            totalTokens: current.usage.totalTokens + (usage.totalTokens ?? 0),
-          },
+          messages: mapMessageById(current.messages, aid, m => ({
+            ...m,
+            metadata: { ...m.metadata, usage },
+          })),
+          usage: accumulateUsage(current.usage, usage),
         }))
       },
       onError(error) {
@@ -236,7 +243,13 @@ export function createChatController(initial: ChatConfig): ChatController {
         config.onError?.(error)
       },
       onDone(text) {
-        if (g !== gen) return; emitter.emit({ type: 'llm:end', content: text, durationMs: Date.now() - began })
+        if (g !== gen) return
+        emitter.emit({
+          type: 'llm:end',
+          content: text,
+          ...(turnUsage ? { usage: turnUsage } : {}),
+          durationMs: Date.now() - began,
+        })
       },
     })
 
@@ -259,29 +272,23 @@ export function createChatController(initial: ChatConfig): ChatController {
   }
 
   const continueTools = (aid: string, calls: ToolCall[]): string => {
-    const results = calls.map(call =>
-      message({
-        role: 'tool',
-        content: call.result ?? call.error ?? '',
-        toolCallId: call.id,
-      })
-    )
-    const nextA = message({ role: 'assistant', content: '', status: 'streaming' })
-
-    set(current => ({
-      ...current,
-      messages: [
-        ...current.messages.map(message =>
-          message.id === aid ? { ...message, status: 'complete' as const } : message
-        ),
-        ...results,
-        nextA,
-      ],
-      status: 'streaming',
-      error: null,
-    }))
-
-    return nextA.id
+    let nextId = ''
+    set(current => {
+      const { messages: next, nextAssistantId } = buildToolContinuation(
+        current.messages,
+        aid,
+        calls,
+        message,
+      )
+      nextId = nextAssistantId
+      return {
+        ...current,
+        messages: next,
+        status: 'streaming',
+        error: null,
+      }
+    })
+    return nextId
   }
 
   /**
@@ -493,7 +500,11 @@ export function createChatController(initial: ChatConfig): ChatController {
 
       patchCall(msg.id, tid, { status: 'running' })
 
-      const outcome = await runTool(tool, tc, partial => patchCall(msg.id, tid, { result: partial }))
+      const outcome = await runTool(
+        { ...tool, requiresConfirmation: false },
+        tc,
+        partial => patchCall(msg.id, tid, { result: partial }),
+      )
 
       patchCall(msg.id, tid, {
         status: outcome.status === 'complete' ? 'complete' : 'error',

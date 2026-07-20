@@ -6,7 +6,12 @@
 </script>
 
 <div data-ak-tool-call data-ak-tool-status={toolCall.status}>
-  <button data-ak-tool-toggle type="button" onclick={() => (expanded = !expanded)}>
+  <button
+    data-ak-tool-toggle
+    type="button"
+    aria-expanded={expanded}
+    onclick={() => (expanded = !expanded)}
+  >
     {toolCall.name}
   </button>
   {#if expanded}

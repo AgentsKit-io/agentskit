@@ -4,7 +4,7 @@ Profile: <code>major-package</code>
 
 <p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
-Pre-tuned agent personas that work out of the box — skills are what your agent IS, tools are what it CAN DO.
+Reusable agent personas and behavioral instructions — skills describe what your agent IS, while tools describe what it CAN DO.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/skills?color=blue)](https://www.npmjs.com/package/@agentskit/skills)
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/skills)](https://www.npmjs.com/package/@agentskit/skills)
@@ -34,9 +34,9 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/skills) · [agent h
 
 ## Why skills
 
-- **Skip prompt engineering** — `researcher`, `coder`, `planner`, `critic`, and `summarizer` are battle-tested behavioral profiles; activate one and your agent immediately behaves like a specialist
-- **Composable by design** — combine skills with `composeSkills` to merge prompts, tools, and delegates; build a research-and-code pipeline in one line
-- **Multi-agent delegation built in** — the `planner` skill knows how to coordinate `researcher` and `coder` as sub-agents, so you get multi-agent workflows without writing orchestration code
+- **Contract-tested catalog** — 26 built-ins share one ADR 0005 harness for names, prompts, examples, serialization, and declarative references
+- **Composable by design** — `composeSkills` defensively combines prompts, tools, delegates, examples, temperature, metadata, and activation hooks
+- **Explicit runtime wiring** — `tools` and `delegates` are names, not executable implementations; provide matching registries to the runtime or orchestrator that activates the skill
 - **Extend without starting over** — override just `systemPrompt` or `temperature` on top of an existing skill via `@agentskit/templates`
 
 ## Install
@@ -68,11 +68,17 @@ console.log(result.content)
 
 ## Features
 
-- Built-in skills: `researcher`, `coder`, `planner`, `critic`, `summarizer`, `codeReviewer`, `prReviewer`, `sqlGen`, `dataAnalyst`, `translator`
-- `composeSkills(...skills)` — merge system prompts and behavioral defaults
+- 26 built-in skills across general, engineering, data, support, healthcare, finance, legal, education, e-commerce, and real-estate use cases
+- `getBuiltinSkills()` / `listSkills()` — defensive full-definition and metadata discovery
+- `composeSkills(...skills)` — validated, deterministic composition with S1-compatible names
+- `createSkillRegistry()` — isolated in-memory publish/list/install/unpublish boundary with strict SemVer validation
 - Skill contract v1 (ADR 0005): `{ name, description, systemPrompt }`
 - Works with `@agentskit/runtime`, `useChat`, and the CLI `--skill` flag
 - Fork and override with `@agentskit/templates` `createSkillTemplate`
+
+The package does not automatically resolve tool names or execute delegates. Those
+references become capabilities only when the consuming runtime supplies the
+corresponding tool and skill registries.
 
 ## Ecosystem
 
@@ -100,7 +106,8 @@ MIT — see [LICENSE](../../LICENSE).
 ## Maturity and compatibility
 
 - Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
-- **Node.js 20+** and **TypeScript** strict mode
+- Stable-ready implementation work is tracked in [RFC 0009](../../rfcs/0009-skills-stable.md); promotion still requires the elapsed release evidence in ADR 0024
+- **Node.js 22+** and **TypeScript** strict mode
 - Published as `@agentskit/skills`
 
 ## Contributing

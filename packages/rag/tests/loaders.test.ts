@@ -96,6 +96,110 @@ describe('loadNotionPage', () => {
     expect(docs[0]!.content).toContain('# Title')
     expect(docs[0]!.content).toContain('body')
   })
+
+  it('follows has_more/next_cursor, preserves block order, and passes start_cursor', async () => {
+    const { fetch, calls } = makeFetch([
+      [
+        200,
+        {
+          results: [
+            { type: 'heading_1', heading_1: { rich_text: [{ plain_text: 'Page1' }] } },
+            { type: 'paragraph', paragraph: { rich_text: [{ plain_text: 'first' }] } },
+          ],
+          has_more: true,
+          next_cursor: 'cur-2',
+        },
+        'json',
+      ],
+      [
+        200,
+        {
+          results: [
+            { type: 'heading_2', heading_2: { rich_text: [{ plain_text: 'Page2' }] } },
+            { type: 'paragraph', paragraph: { rich_text: [{ plain_text: 'second' }] } },
+          ],
+          has_more: false,
+          next_cursor: null,
+        },
+        'json',
+      ],
+    ])
+    const docs = await loadNotionPage('p1', { token: 't', fetch })
+    expect(docs[0]!.content).toBe('# Page1\n\nfirst\n\n## Page2\n\nsecond')
+    expect(calls).toHaveLength(2)
+    expect(calls[0]).toBe('https://api.notion.com/v1/blocks/p1/children?page_size=100')
+    expect(calls[1]).toContain('start_cursor=cur-2')
+    expect(calls[1]).toContain('page_size=100')
+  })
+
+  it('throws AK_RAG_LOAD_FAILED on incomplete pagination (has_more without new cursor)', async () => {
+    const { fetch } = makeFetch([
+      [
+        200,
+        {
+          results: [{ type: 'paragraph', paragraph: { rich_text: [{ plain_text: 'only' }] } }],
+          has_more: true,
+          next_cursor: null,
+        },
+        'json',
+      ],
+    ])
+    await expect(loadNotionPage('p1', { token: 't', fetch })).rejects.toMatchObject({
+      code: 'AK_RAG_LOAD_FAILED',
+      message: expect.stringMatching(/incomplete pagination/),
+    })
+  })
+
+  it('throws AK_RAG_LOAD_FAILED when next_cursor enters a cycle', async () => {
+    const { fetch } = makeFetch([
+      [
+        200,
+        {
+          results: [{ type: 'paragraph', paragraph: { rich_text: [{ plain_text: 'a' }] } }],
+          has_more: true,
+          next_cursor: 'cursor-a',
+        },
+        'json',
+      ],
+      [
+        200,
+        {
+          results: [{ type: 'paragraph', paragraph: { rich_text: [{ plain_text: 'b' }] } }],
+          has_more: true,
+          next_cursor: 'cursor-b',
+        },
+        'json',
+      ],
+      [
+        200,
+        {
+          results: [{ type: 'paragraph', paragraph: { rich_text: [{ plain_text: 'c' }] } }],
+          has_more: true,
+          next_cursor: 'cursor-a',
+        },
+        'json',
+      ],
+    ])
+    await expect(loadNotionPage('p1', { token: 't', fetch })).rejects.toMatchObject({
+      code: 'AK_RAG_LOAD_FAILED',
+      message: expect.stringMatching(/incomplete pagination/),
+    })
+  })
+
+  it('forwards signal and maps abort to AK_RAG_LOAD_FAILED', async () => {
+    const controller = new AbortController()
+    controller.abort()
+    const fetch = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      expect(init?.signal).toBe(controller.signal)
+      throw new DOMException('Aborted', 'AbortError')
+    }) as unknown as typeof globalThis.fetch
+    await expect(
+      loadNotionPage('p1', { token: 't', fetch, signal: controller.signal }),
+    ).rejects.toMatchObject({
+      code: 'AK_RAG_LOAD_FAILED',
+      message: expect.stringMatching(/aborted/),
+    })
+  })
 })
 
 describe('loadConfluencePage', () => {

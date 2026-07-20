@@ -5,8 +5,9 @@ export default defineConfig({
     index: 'src/index.ts',
   },
   format: ['esm', 'cjs'],
-  dts: { compilerOptions: { ignoreDeprecations: "6.0" } },
+  dts: { compilerOptions: { ignoreDeprecations: '6.0' } },
   sourcemap: true,
   clean: false,
   treeshake: true,
+  minify: true,
 })

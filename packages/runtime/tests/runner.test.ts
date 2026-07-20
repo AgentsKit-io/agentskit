@@ -1,8 +1,43 @@
 import { describe, it, expect, vi } from 'vitest'
 import { createRuntime } from '../src/runner'
 import { createInMemoryMemory } from '@agentskit/core'
-import type { AgentEvent, Observer, SkillDefinition, ToolDefinition } from '@agentskit/core'
+import type {
+  AdapterFactory,
+  AdapterRequest,
+  AgentEvent,
+  ChatMemory,
+  Message,
+  Observer,
+  Retriever,
+  SkillDefinition,
+  StreamChunk,
+  ToolDefinition,
+} from '@agentskit/core'
 import { createMockAdapter, createSequentialAdapter } from './helpers'
+
+function createDeferred<T = void>(): {
+  promise: Promise<T>
+  resolve: (value: T | PromiseLike<T>) => void
+  reject: (reason?: unknown) => void
+} {
+  let resolve!: (value: T | PromiseLike<T>) => void
+  let reject!: (reason?: unknown) => void
+  const promise = new Promise<T>((res, rej) => {
+    resolve = res
+    reject = rej
+  })
+  return { promise, resolve, reject }
+}
+
+function whenAborted(signal: AbortSignal): Promise<void> {
+  return new Promise((resolve) => {
+    if (signal.aborted) {
+      resolve()
+      return
+    }
+    signal.addEventListener('abort', () => resolve(), { once: true })
+  })
+}
 
 describe('createRuntime', () => {
   describe('single-step task (no tools)', () => {
@@ -100,7 +135,7 @@ describe('createRuntime', () => {
   })
 
   describe('abort', () => {
-    it('stops the loop when signal is aborted', async () => {
+    it('rejects with AbortError when the signal is aborted between steps', async () => {
       const controller = new AbortController()
       let callCount = 0
 
@@ -127,10 +162,9 @@ describe('createRuntime', () => {
         }],
       })
 
-      const result = await runtime.run('go', { signal: controller.signal })
-
+      const runPromise = runtime.run('go', { signal: controller.signal })
+      await expect(runPromise).rejects.toMatchObject({ name: 'AbortError' })
       expect(callCount).toBe(1)
-      expect(result.steps).toBeLessThanOrEqual(2)
     })
   })
 
@@ -395,26 +429,257 @@ describe('createRuntime', () => {
       expect(saved[0].role).toBe('user')
     })
 
-    it('does not hydrate from memory at start', async () => {
-      const memory = createInMemoryMemory([{
+    it('RT7: configured memory is loaded and prefixed before the current user task is sent to the adapter', async () => {
+      const prior: Message = {
         id: 'old',
         role: 'assistant',
         content: 'old message',
         status: 'complete',
         createdAt: new Date(),
-      }])
+      }
+      const memory = createInMemoryMemory([prior])
+      const load = vi.spyOn(memory, 'load')
 
-      const adapter = createMockAdapter([
-        { type: 'text', content: 'Fresh response.' },
-        { type: 'done' },
-      ])
+      let capturedRequest: AdapterRequest | undefined
+      const adapter: AdapterFactory = {
+        createSource: (request) => {
+          capturedRequest = request
+          return createMockAdapter([
+            { type: 'text', content: 'Fresh response.' },
+            { type: 'done' },
+          ]).createSource(request)
+        },
+      }
 
       const runtime = createRuntime({ adapter, memory })
       const result = await runtime.run('New task')
 
-      // Should NOT contain the old memory message
-      expect(result.messages.find(m => m.content === 'old message')).toBeUndefined()
-      expect(result.messages[0].role).toBe('user')
+      expect(load).toHaveBeenCalled()
+      expect(capturedRequest).toBeDefined()
+
+      const adapterMessages = capturedRequest!.messages
+      const userTaskIndex = adapterMessages.findIndex(
+        (m) => m.role === 'user' && m.content === 'New task',
+      )
+      expect(userTaskIndex).toBeGreaterThan(0)
+      expect(
+        adapterMessages.slice(0, userTaskIndex).some((m) => m.content === 'old message'),
+      ).toBe(true)
+
+      expect(result.messages.find((m) => m.content === 'old message')).toBeDefined()
+      const resultUserIndex = result.messages.findIndex(
+        (m) => m.role === 'user' && m.content === 'New task',
+      )
+      expect(resultUserIndex).toBeGreaterThan(0)
+      expect(
+        result.messages.slice(0, resultUserIndex).some((m) => m.content === 'old message'),
+      ).toBe(true)
+    })
+  })
+
+  describe('retrieval (RT8)', () => {
+    it('RT8: multi-step tool loop calls retriever.retrieve exactly once per run with the original task as query', async () => {
+      const task = 'What is the weather in SP?'
+      const retrieve = vi.fn().mockResolvedValue([
+        { id: 'doc-1', content: 'SP climate notes' },
+      ])
+      const retriever: Retriever = { retrieve }
+
+      const adapter = createSequentialAdapter([
+        [
+          { type: 'tool_call', toolCall: { id: 'tc1', name: 'weather', args: '{"city":"SP"}' } },
+          { type: 'done' },
+        ],
+        [
+          { type: 'text', content: 'Sunny in SP.' },
+          { type: 'done' },
+        ],
+      ])
+
+      const runtime = createRuntime({
+        adapter,
+        retriever,
+        tools: [{ name: 'weather', execute: async () => 'Sunny' }],
+      })
+      const result = await runtime.run(task)
+
+      expect(result.steps).toBe(2)
+      expect(retrieve).toHaveBeenCalledTimes(1)
+      expect(retrieve).toHaveBeenCalledWith(
+        expect.objectContaining({ query: task }),
+      )
+    })
+  })
+
+  describe('confirmation (RT6)', () => {
+    it('RT6: requiresConfirmation tool with no onConfirm never executes and yields a refusal/tool error result', async () => {
+      const execute = vi.fn().mockResolvedValue('should-not-run')
+
+      const adapter = createSequentialAdapter([
+        [
+          {
+            type: 'tool_call',
+            toolCall: { id: 'tc1', name: 'dangerous', args: '{"op":"wipe"}' },
+          },
+          { type: 'done' },
+        ],
+        [
+          { type: 'text', content: 'I could not run that tool.' },
+          { type: 'done' },
+        ],
+      ])
+
+      const runtime = createRuntime({
+        adapter,
+        tools: [{
+          name: 'dangerous',
+          requiresConfirmation: true,
+          execute,
+        }],
+      })
+      const result = await runtime.run('wipe everything')
+
+      expect(execute).not.toHaveBeenCalled()
+      expect(result.toolCalls).toHaveLength(1)
+      expect(result.toolCalls[0].status).toBe('error')
+      expect(result.toolCalls[0].error).toBeDefined()
+      const toolMsg = result.messages.find((m) => m.role === 'tool')
+      expect(toolMsg?.content.toLowerCase()).toMatch(/confirm|refus|approv|declin/)
+    })
+  })
+
+  describe('abort (RT13)', () => {
+    it('RT13: abort mid-stream calls source.abort, rejects with AbortError, skips memory.save, emits run-aborted', async () => {
+      const controller = new AbortController()
+      const streamEntered = createDeferred()
+      const abortSpy = vi.fn()
+      const save = vi.fn().mockResolvedValue(undefined)
+      const memory: ChatMemory = {
+        load: async () => [],
+        save,
+      }
+
+      const eventTypes: string[] = []
+      const obs: Observer = {
+        name: 'abort-observer',
+        on: (e) => {
+          eventTypes.push(e.type)
+        },
+      }
+
+      const adapter: AdapterFactory = {
+        createSource: () => {
+          let released = false
+          const release = createDeferred()
+          return {
+            stream: async function* (): AsyncGenerator<StreamChunk> {
+              streamEntered.resolve()
+              await Promise.race([release.promise, whenAborted(controller.signal)])
+              if (controller.signal.aborted || released) return
+              yield { type: 'text', content: 'should not complete' }
+              yield { type: 'done' }
+            },
+            abort: () => {
+              released = true
+              abortSpy()
+              release.resolve()
+            },
+          }
+        },
+      }
+
+      const runtime = createRuntime({ adapter, memory, observers: [obs] })
+      const runPromise = runtime.run('abort me', { signal: controller.signal })
+
+      await streamEntered.promise
+      controller.abort()
+
+      await expect(runPromise).rejects.toMatchObject({ name: 'AbortError' })
+      expect(abortSpy).toHaveBeenCalled()
+      expect(save).not.toHaveBeenCalled()
+      expect(eventTypes).toContain('run-aborted')
+    })
+
+    it('RT13: abort after tool init still disposes the initialized tool and rejects with AbortError', async () => {
+      const controller = new AbortController()
+      const secondStreamEntered = createDeferred()
+      const abortSpy = vi.fn()
+      const disposeFn = vi.fn().mockResolvedValue(undefined)
+      const initFn = vi.fn().mockResolvedValue(undefined)
+      const save = vi.fn().mockResolvedValue(undefined)
+      const memory: ChatMemory = {
+        load: async () => [],
+        save,
+      }
+
+      const eventTypes: string[] = []
+      const obs: Observer = {
+        name: 'abort-dispose-observer',
+        on: (e) => {
+          eventTypes.push(e.type)
+        },
+      }
+
+      let callIndex = 0
+      const adapter: AdapterFactory = {
+        createSource: () => {
+          callIndex++
+          if (callIndex === 1) {
+            return {
+              stream: async function* (): AsyncGenerator<StreamChunk> {
+                yield {
+                  type: 'tool_call',
+                  toolCall: { id: 'tc1', name: 'browser', args: '{}' },
+                }
+                yield { type: 'done' }
+              },
+              abort: () => {},
+            }
+          }
+
+          let released = false
+          const release = createDeferred()
+          return {
+            stream: async function* (): AsyncGenerator<StreamChunk> {
+              secondStreamEntered.resolve()
+              await Promise.race([release.promise, whenAborted(controller.signal)])
+              if (controller.signal.aborted || released) return
+              yield { type: 'text', content: 'should not complete' }
+              yield { type: 'done' }
+            },
+            abort: () => {
+              released = true
+              abortSpy()
+              release.resolve()
+            },
+          }
+        },
+      }
+
+      const runtime = createRuntime({
+        adapter,
+        memory,
+        observers: [obs],
+        tools: [{
+          name: 'browser',
+          init: initFn,
+          dispose: disposeFn,
+          execute: async () => 'page content',
+        }],
+      })
+
+      const runPromise = runtime.run('browse then abort', { signal: controller.signal })
+
+      await secondStreamEntered.promise
+      expect(initFn).toHaveBeenCalledTimes(1)
+
+      controller.abort()
+
+      await expect(runPromise).rejects.toMatchObject({ name: 'AbortError' })
+      expect(abortSpy).toHaveBeenCalled()
+      expect(save).not.toHaveBeenCalled()
+      expect(eventTypes).toContain('run-aborted')
+      expect(disposeFn).toHaveBeenCalledTimes(1)
     })
   })
 
@@ -434,6 +699,61 @@ describe('createRuntime', () => {
       expect(events.find(e => e.type === 'agent:step')).toBeDefined()
       expect(events.find(e => e.type === 'llm:start')).toBeDefined()
       expect(events.find(e => e.type === 'llm:end')).toBeDefined()
+    })
+
+    it('includes normalized usage from stream chunks on llm:end', async () => {
+      const events: AgentEvent[] = []
+      const obs: Observer = { name: 'test', on: (e) => { events.push(e) } }
+
+      const adapter = createMockAdapter([
+        { type: 'text', content: 'Hi' },
+        { type: 'usage', usage: { promptTokens: 12, completionTokens: 4, totalTokens: 16 } },
+        { type: 'done' },
+      ])
+
+      const runtime = createRuntime({ adapter, observers: [obs] })
+      await runtime.run('Hello')
+
+      const end = events.find(e => e.type === 'llm:end')
+      expect(end?.type === 'llm:end' && end.usage).toEqual({ promptTokens: 12, completionTokens: 4 })
+    })
+
+    it('normalizes non-finite/negative usage on llm:end', async () => {
+      const events: AgentEvent[] = []
+      const obs: Observer = { name: 'test', on: (e) => { events.push(e) } }
+
+      const adapter = createMockAdapter([
+        { type: 'text', content: 'Hi' },
+        { type: 'usage', usage: { promptTokens: Number.POSITIVE_INFINITY, completionTokens: -1, totalTokens: 0 } },
+        { type: 'done' },
+      ])
+
+      const runtime = createRuntime({ adapter, observers: [obs] })
+      await runtime.run('Hello')
+
+      const end = events.find(e => e.type === 'llm:end')
+      expect(end?.type === 'llm:end' && end.usage).toEqual({ promptTokens: 0, completionTokens: 0 })
+    })
+
+    it('emits error before llm:end on stream errors', async () => {
+      const types: string[] = []
+      const obs: Observer = { name: 'test', on: (e) => { types.push(e.type) } }
+
+      const adapter = createMockAdapter([
+        { type: 'text', content: 'partial' },
+        { type: 'error', content: 'upstream failed' },
+      ])
+
+      const runtime = createRuntime({ adapter, observers: [obs] })
+      await expect(runtime.run('Hello')).rejects.toThrow(/upstream failed/)
+
+      const llmStart = types.indexOf('llm:start')
+      const err = types.indexOf('error')
+      const llmEnd = types.indexOf('llm:end')
+      expect(llmStart).toBeGreaterThanOrEqual(0)
+      expect(err).toBeGreaterThan(llmStart)
+      expect(llmEnd).toBeGreaterThan(err)
+      expect(types.slice(err, err + 2)).toEqual(['error', 'llm:end'])
     })
 
     it('emits tool:start, tool:end events', async () => {
@@ -476,6 +796,38 @@ describe('createRuntime', () => {
       await runtime.run('Hello')
 
       expect(events.find(e => e.type === 'memory:save')).toBeDefined()
+    })
+
+    it('RT9: throwing observer does not fail the run and another observer still receives later events', async () => {
+      const laterEvents: AgentEvent[] = []
+      const throwing: Observer = {
+        name: 'throwing',
+        on: () => {
+          throw new Error('observer boom')
+        },
+      }
+      const healthy: Observer = {
+        name: 'healthy',
+        on: (e) => {
+          laterEvents.push(e)
+        },
+      }
+
+      const adapter = createMockAdapter([
+        { type: 'text', content: 'OK' },
+        { type: 'done' },
+      ])
+
+      const runtime = createRuntime({
+        adapter,
+        observers: [throwing, healthy],
+      })
+      const result = await runtime.run('Hello')
+
+      expect(result.content).toBe('OK')
+      expect(laterEvents.find((e) => e.type === 'agent:step')).toBeDefined()
+      expect(laterEvents.find((e) => e.type === 'llm:start')).toBeDefined()
+      expect(laterEvents.find((e) => e.type === 'llm:end')).toBeDefined()
     })
   })
 })

@@ -1,5 +1,6 @@
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
 import { createCassette } from './cassette'
+import { defensiveSnapshot } from './clone'
 import type { Cassette, RecordOptions } from './types'
 
 export interface RecordingAdapter {
@@ -20,15 +21,19 @@ export function createRecordingAdapter(
   const factory: AdapterFactory = {
     capabilities: base.capabilities,
     createSource: (request: AdapterRequest): StreamSource => {
+      const recordedRequest = defensiveSnapshot(request)
       const source = base.createSource(request)
       const recorded: StreamChunk[] = []
-      cassette.entries.push({ request, chunks: recorded })
+      cassette.entries.push({
+        request: recordedRequest,
+        chunks: recorded,
+      })
 
       return {
         abort: source.abort,
         stream: async function* () {
           for await (const chunk of source.stream()) {
-            recorded.push(chunk)
+            recorded.push(defensiveSnapshot(chunk))
             yield chunk
           }
         },

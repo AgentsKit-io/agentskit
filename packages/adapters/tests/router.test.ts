@@ -158,6 +158,117 @@ describe('createRouter', () => {
     expect(() => router.createSource(req('x'))).toThrow(/unknown id/)
   })
 
+  it('async policy unknown id yields terminal error chunk, never rejects', async () => {
+    const router = createRouter({
+      policy: async () => 'nope',
+      candidates: [{ id: 'a', adapter: fake('a') }],
+    })
+    const source = router.createSource(req('x'))
+    const chunks: StreamChunk[] = []
+    let rejected: unknown
+    try {
+      for await (const c of source.stream()) chunks.push(c)
+    } catch (err) {
+      rejected = err
+    }
+    expect(rejected).toBeUndefined()
+    const err = chunks.find(c => c.type === 'error')
+    expect(err).toBeDefined()
+    expect(err!.metadata?.error).toBeInstanceOf(Error)
+    expect((err!.metadata?.error as Error).message).toMatch(/unknown id/)
+    expect(chunks.some(c => c.type === 'done')).toBe(false)
+  })
+
+  it('async policy rejection yields terminal error chunk, never rejects', async () => {
+    const router = createRouter({
+      policy: async () => {
+        throw new Error('policy rejected')
+      },
+      candidates: [{ id: 'a', adapter: fake('a') }],
+    })
+    const source = router.createSource(req('x'))
+    const chunks: StreamChunk[] = []
+    let rejected: unknown
+    try {
+      for await (const c of source.stream()) chunks.push(c)
+    } catch (err) {
+      rejected = err
+    }
+    expect(rejected).toBeUndefined()
+    const err = chunks.find(c => c.type === 'error')
+    expect(err).toBeDefined()
+    expect(err!.metadata?.error).toBeInstanceOf(Error)
+    expect((err!.metadata?.error as Error).message).toMatch(/policy rejected/)
+    expect(chunks.some(c => c.type === 'done')).toBe(false)
+  })
+
+  it('async policy normalizes child createSource failures', async () => {
+    const router = createRouter({
+      policy: async () => 'broken',
+      candidates: [{
+        id: 'broken',
+        adapter: { createSource: () => { throw new Error('child construction failed') } },
+      }],
+    })
+    const chunks: StreamChunk[] = []
+    for await (const chunk of router.createSource(req('x')).stream()) chunks.push(chunk)
+    expect(chunks).toHaveLength(1)
+    expect(chunks[0]?.type).toBe('error')
+    expect(chunks[0]?.metadata?.error).toBeInstanceOf(Error)
+    expect((chunks[0]?.metadata?.error as Error).message).toMatch(/child construction failed/)
+  })
+
+  it('async policy abort prevents selected child and emits nothing after abort', async () => {
+    let childStarted = false
+    let childAborted = false
+    const slow: AdapterFactory = {
+      createSource: () => ({
+        abort: () => {
+          childAborted = true
+        },
+        stream: async function* () {
+          childStarted = true
+          yield { type: 'text', content: 'slow-child' } as StreamChunk
+          yield { type: 'done' } as StreamChunk
+        },
+      }),
+    }
+
+    let resolvePolicy: ((id: string) => void) | undefined
+    const policyPromise = new Promise<string>(resolve => {
+      resolvePolicy = resolve
+    })
+
+    const router = createRouter({
+      policy: async () => policyPromise,
+      candidates: [{ id: 'slow', adapter: slow }],
+    })
+    const source = router.createSource(req('x'))
+    const iter = source.stream()[Symbol.asyncIterator]()
+
+    // Abort while async policy is still pending — selected child must not run
+    // (or must be aborted) and no chunks may arrive after the caller's abort.
+    source.abort()
+    resolvePolicy?.('slow')
+
+    const afterAbort: StreamChunk[] = []
+    let rejected: unknown
+    try {
+      while (true) {
+        const next = await iter.next()
+        if (next.done) break
+        afterAbort.push(next.value)
+      }
+    } catch (err) {
+      rejected = err
+    }
+
+    expect(rejected).toBeUndefined()
+    expect(afterAbort).toEqual([])
+    // Either the child never started, or it was aborted before emitting.
+    expect(childStarted === false || childAborted === true).toBe(true)
+  })
+
   it('onRoute fires with decision', async () => {
     const decisions: string[] = []
     const router = createRouter({

@@ -83,9 +83,9 @@
         },
         {
           "id": "skills",
-          "value": 21,
+          "value": 22,
           "noun": "ready-made skills",
-          "conservativeFloor": 21,
+          "conservativeFloor": 22,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",
@@ -177,8 +177,8 @@
     {
       "productId": "akos",
       "source": {
-        "type": "endpoint",
-        "url": "https://akos.agentskit.io/api/stats.json"
+        "type": "repository",
+        "repo": "AgentsKit-io/agentskit-os"
       },
       "verification": "declared",
       "claims": []

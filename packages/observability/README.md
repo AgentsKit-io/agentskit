@@ -116,13 +116,80 @@ const exact = await countTokens(messages, { counter: tiktokenCounter, model: 'gp
 ## Features
 
 - `consoleLogger({ format })` — pretty-print or JSON structured logs for local dev
-- `langsmith({ apiKey })` — send runs to LangSmith for tracing and evaluation
-- OpenTelemetry OTLP exporter — ship traces to any OTEL-compatible backend
+- `langsmith({ apiKey })` — LangSmith lifecycle observer (optional `langsmith` peer)
+- `opentelemetry(config)` — OTLP lifecycle observer (optional OpenTelemetry peers)
+- `datadogSink` / `axiomSink` / `newRelicSink` — HTTP lifecycle sinks with managed batching
+- Cost guards — `costGuard`, `multiTenantCostGuard`, `createAdvancedCostGuard`
 - `approximateCounter` — zero-dep synchronous token counter (`chars/4` heuristic)
 - `countTokens` / `countTokensDetailed` — async token counting with optional custom counter
 - `createProviderCounter` — factory to wrap tiktoken or any tokenizer in the `TokenCounter` contract
 - Observer interface: `{ name: string, on(event: AgentEvent): void }` — write custom observers in minutes
 - Attaches via `observers` array on `createRuntime` — zero changes to agent logic
+
+## Production lifecycle (sinks + SDK bridges)
+
+Datadog, Axiom, New Relic, LangSmith, and OpenTelemetry factories return **lifecycle observers**:
+
+```ts
+type LifecycleObserver = Observer & {
+  flush(): Promise<void>
+  shutdown(): Promise<void> // idempotent
+}
+```
+
+HTTP sinks share bounded, best-effort export (not a delivery guarantee):
+
+| Option | Default | Role |
+|---|---|---|
+| `batchSize` | `25` | Max events per POST |
+| `maxQueueSize` | `1000` | Hard queue cap; **drop oldest** when full |
+| `flushIntervalMs` | `2000` | Periodic drain |
+| `maxRetries` | `3` | Retries after the initial attempt |
+| `retryBaseDelayMs` | `100` | Exponential backoff base (capped; no jitter) |
+| `requestTimeoutMs` | `10000` | Per-request timeout |
+| `onError` | — | Isolated error sink (throws/rejections never escape `on`) |
+
+Batching is **single-flight**. Optional SDK peers resolve lazily; the package owns flush/shutdown for SDKs it constructs. During graceful process or request termination, **await `shutdown()`** so in-flight batches have a chance to drain. Overflow still drops oldest under pressure — plan capacity and `onError` monitoring accordingly.
+
+## Cost guards
+
+```ts
+import {
+  costGuard,
+  multiTenantCostGuard,
+  createAdvancedCostGuard,
+} from '@agentskit/observability'
+
+const controller = new AbortController()
+const guard = costGuard({
+  budgetUsd: 0.10,
+  controller,
+  // prices: { 'gpt-4o': { input: …, output: … } }, // override DEFAULT_PRICES
+})
+
+// Advanced modes
+const advanced = createAdvancedCostGuard({
+  budgets: { tenantA: 1 },
+  mode: 'reject', // 'warn' | 'reject' | 'kill'
+  // mode 'kill' requires disableRuntime(tenant, reason)
+})
+advanced.setTenant('tenantA')
+// Host enforcement for reject:
+if (advanced.isRejected('tenantA')) {
+  // reject the request / stop scheduling work
+}
+```
+
+Semantics (current hardening line):
+
+- **Incremental accounting** — each `llm:end` adds cost for tokens on that event using the **active model** for that event. Historical tokens are never repriced when the model changes. Token totals stay cumulative.
+- **Hostile usage** — `NaN` / `Infinity` / negative prompt or completion counts become `0` and never poison cost, state, or JSON payloads.
+- **Zero budgets** — first positive spend exceeds; utilization and callbacks stay finite (sentinel `1` when budget is `0` and spend is positive).
+- **Isolation** — `onCost` / `onExceeded` / alert sinks / `disableRuntime` / `tenantOf` / `now` failures are isolated; optional `onError` reports them without unhandled rejections.
+- **Modes** — `warn` observes only; `reject` is enforced by the **host consulting `isRejected(tenant)`** (window rejections clear when the window rolls; overall rejections until `reset`); `kill` calls persistent `disableRuntime` and exposes `isDisabled` (fail-closed if disable fails).
+- **`DEFAULT_PRICES`** is a baseline snapshot for convenience. **Override `prices` for current provider rates** — table numbers are not a stability contract.
+
+Simple `costGuard` aborts via the supplied `AbortController` when the run budget is exceeded (mark + abort before potentially hostile `onExceeded`). Multi-tenant and advanced guards do not abort the runtime by default.
 
 ## Ecosystem
 

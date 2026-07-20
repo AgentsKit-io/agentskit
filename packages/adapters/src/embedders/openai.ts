@@ -1,5 +1,5 @@
 import type { EmbedFn } from '@agentskit/core'
-import { throwIfNotOk } from './shared'
+import { embeddingError, requireEmbeddingVector, throwIfNotOk } from './shared'
 
 export interface OpenAIEmbedderConfig {
   apiKey: string
@@ -28,13 +28,9 @@ async function buildModelError(
   try {
     const models = await fetchAvailableModels(baseUrl, apiKey)
     const list = models.length > 0 ? models.join(', ') : 'none found'
-    return new Error(
-      `OpenAI embedding failed: ${originalError}. Available embedding models: ${list}`,
-    )
+    return embeddingError('OpenAI', `${originalError}. Available embedding models: ${list}`)
   } catch (fetchError) {
-    return new Error(
-      `OpenAI embedding failed: ${originalError}. Could not fetch available models: ${(fetchError as Error).message}`,
-    )
+    return embeddingError('OpenAI', `${originalError}. Could not fetch available models`, fetchError)
   }
 }
 
@@ -52,14 +48,13 @@ export function openaiEmbedder(config: OpenAIEmbedderConfig): EmbedFn {
     })
 
     if (!response.ok) {
-      const errorBody = (await response.json().catch(() => ({}))) as {
-        error?: { message?: string }
-      }
-      const message = errorBody.error?.message ?? `HTTP ${response.status}`
+      void response.body?.cancel().catch(() => {})
+      const message = `HTTP ${response.status}`
       throw await buildModelError(baseUrl, apiKey, message)
     }
 
-    const data = (await response.json()) as { data: Array<{ embedding: number[] }> }
-    return data.data[0].embedding
+    const data = (await response.json()) as { data?: Array<{ embedding?: unknown }> }
+    const embedding = data.data?.[0]?.embedding
+    return requireEmbeddingVector(embedding, 'OpenAI')
   }
 }

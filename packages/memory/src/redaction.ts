@@ -13,6 +13,8 @@ import {
   type RedactionVault,
 } from '@agentskit/core/security'
 
+type MemoryOperationOptions = Parameters<ChatMemory['load']>[0]
+
 /**
  * Wrap any `ChatMemory` so PII is redacted (or tokenized) on every
  * `save()`. Works with the in-memory, file, sqlite, turso, and redis
@@ -81,17 +83,27 @@ export function wrapChatMemoryWithRedaction(
   options: ChatMemoryRedactionOptions,
 ): ChatMemory {
   return {
-    load: () => inner.load(),
-    save: async messages => {
+    load: (memoryOptions?: MemoryOperationOptions) => {
+      memoryOptions?.signal?.throwIfAborted()
+      return inner.load(memoryOptions)
+    },
+    save: async (messages, memoryOptions?: MemoryOperationOptions) => {
+      memoryOptions?.signal?.throwIfAborted()
       const redacted: Message[] = await Promise.all(
         messages.map(async m => ({
           ...m,
           content: await transform(m.content ?? '', options),
         })),
       )
-      await inner.save(redacted)
+      memoryOptions?.signal?.throwIfAborted()
+      await inner.save(redacted, memoryOptions)
     },
-    clear: inner.clear ? () => inner.clear!() : undefined,
+    clear: inner.clear
+      ? (memoryOptions?: MemoryOperationOptions) => {
+          memoryOptions?.signal?.throwIfAborted()
+          return inner.clear!(memoryOptions)
+        }
+      : undefined,
   }
 }
 

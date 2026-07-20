@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/mcp",
-  "version": "0.2.20",
+  "version": "0.3.0",
   "description": "Expose AgentsKit tools as an MCP server — use them from Claude Desktop, Cursor, Windsurf, or any MCP host.",
   "keywords": [
     "agentskit",
@@ -13,6 +13,9 @@
     "cursor"
   ],
   "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
   "sideEffects": false,
   "main": "./dist/index.cjs",
   "module": "./dist/index.js",
@@ -62,7 +65,7 @@
   },
   "author": "AgentsKit Contributors",
   "agentskit": {
-    "stability": "alpha",
-    "stabilityNote": "MCP server bridge — exposes tools/skills to MCP hosts. Surface still settling."
+    "stability": "beta",
+    "stabilityNote": "Tool bridge, CLI, agent delegation, registry IO, and publication boundaries hardened (ADR-0028)."
   }
 }

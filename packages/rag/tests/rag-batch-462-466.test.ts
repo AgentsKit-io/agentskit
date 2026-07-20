@@ -162,6 +162,22 @@ describe('voyageReranker', () => {
     const fn = voyageReranker({ apiKey: 'k', fetch: fetchMock })
     await expect(fn({ query: 'q', documents: [{ id: 'a', content: 'x' }] })).rejects.toThrow(/voyage rerank/)
   })
+
+  it('forwards optional signal and maps abort to AK_RAG_RERANK_FAILED', async () => {
+    const controller = new AbortController()
+    const fetchMock = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      expect(init?.signal).toBe(controller.signal)
+      throw new DOMException('Aborted', 'AbortError')
+    }) as unknown as typeof globalThis.fetch
+    const fn = voyageReranker({ apiKey: 'k', fetch: fetchMock, signal: controller.signal })
+    await expect(fn({ query: 'q', documents: [{ id: 'a', content: 'x' }] })).rejects.toMatchObject({
+      code: 'AK_RAG_RERANK_FAILED',
+    })
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://api.voyageai.com/v1/rerank',
+      expect.objectContaining({ signal: controller.signal }),
+    )
+  })
 })
 
 describe('jinaReranker', () => {
@@ -182,5 +198,21 @@ describe('jinaReranker', () => {
     })
     expect(out.map(d => d.id)).toEqual(['a', 'b'])
     expect(out[0].score).toBe(0.95)
+  })
+
+  it('forwards optional signal and maps abort to AK_RAG_RERANK_FAILED', async () => {
+    const controller = new AbortController()
+    const fetchMock = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
+      expect(init?.signal).toBe(controller.signal)
+      throw new DOMException('Aborted', 'AbortError')
+    }) as unknown as typeof globalThis.fetch
+    const fn = jinaReranker({ apiKey: 'k', fetch: fetchMock, signal: controller.signal })
+    await expect(fn({ query: 'q', documents: [{ id: 'a', content: 'x' }] })).rejects.toMatchObject({
+      code: 'AK_RAG_RERANK_FAILED',
+    })
+    expect(fetchMock).toHaveBeenCalledWith(
+      'https://api.jina.ai/v1/rerank',
+      expect.objectContaining({ signal: controller.signal }),
+    )
   })
 })

@@ -77,6 +77,10 @@ console.log(result.url) // public Braintrust experiment URL
 
 If `BRAINTRUST_API_KEY` is missing or the SDK is not installed, the runner still computes scores locally and returns them — useful for local iteration without uploads.
 
+When upload is enabled by an API key, the runner awaits experiment logs, calls `flush()` when the SDK exposes it, and only then requests the experiment summary. Import, initialization, log, flush, and summarize failures do not erase local scores; deterministic messages are returned in `result.warnings` without SDK error text or credentials.
+
+Custom scorer output is checked at runtime. Names must be non-empty and scores must be finite numbers in `[0, 1]`; invalid output becomes an isolated `scorer_error` with scorer identity metadata.
+
 ## CI regression alerts
 
 ```ts

@@ -1,6 +1,6 @@
 ---
 title: '@agentskit/rag — for agents'
-description: Plug-and-play RAG. Chunking + ingest + retrieve + rerank + hybrid + six document loaders.
+description: Plug-and-play RAG. Chunking + ingest + retrieve + rerank + hybrid + eleven document loaders.
 ---
 
 ## Install
@@ -24,6 +24,21 @@ npm install @agentskit/rag
 
 - `loadUrl`, `loadGitHubFile`, `loadGitHubTree`, `loadNotionPage`, `loadConfluencePage`, `loadGoogleDriveFile`, `loadPdf` (BYO parser). See [Doc loaders](/docs/reference/recipes/doc-loaders).
 - Cloud storage: `loadS3`, `loadGcs`, `loadDropbox`, `loadOneDrive`.
+
+## Failure and cancellation contract
+
+- Loader request, response-body, pagination, and total-download failures throw
+  `RagError` with `AK_RAG_LOAD_FAILED`. Tree loaders may return partial
+  success only after at least one eligible document loaded.
+- Loader options accept `signal?: AbortSignal`; Voyage and Jina reranker
+  options accept the same additive field.
+- Notion and OneDrive follow provider pagination and reject repeated or missing
+  continuation cursors instead of returning truncated content.
+- Scoreless Retriever results keep their order. If any score is present, all
+  scores must be finite and the result is ordered descending; malformed mixed
+  score sets throw.
+- Hybrid retrieval min-max normalizes candidate scores and normalizes relative
+  weights before blending.
 
 ## Minimal example
 

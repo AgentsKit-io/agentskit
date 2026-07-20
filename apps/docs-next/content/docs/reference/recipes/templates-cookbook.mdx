@@ -1,36 +1,35 @@
 ---
 title: 'Recipe: Scaffolding with @agentskit/templates'
-description: Generate a publishable AgentsKit package — tool, skill, adapter, embedder, memory, browser-adapter, or flow — in a few lines of Node.
+description: Generate a build-ready AgentsKit package skeleton — tool, skill, adapter, embedder, memory, browser-adapter, or flow — in a few lines of Node.
 ---
 
-`@agentskit/templates` powers `agentskit init` under the hood, but
-you can call its scaffolds directly. Useful for:
+`@agentskit/templates` is the programmatic authoring toolkit for extension
+packages. You can call its scaffolds directly from monorepo tasks, custom CLIs,
+or migration scripts.
 
-- A monorepo task that generates a new internal tool / skill / adapter on demand.
-- A custom CLI that wraps AgentsKit conventions (e.g. one that
-  pre-seeds your team's tsconfig + ESLint).
-- A code-mod / migration script that creates the new shape and
-  copies your existing impl into it.
+> **Note:** This package is **not** what `agentskit init` uses. The CLI has its
+> own application starters. Use `@agentskit/templates` when you want to generate
+> a build-ready tool/skill/adapter/memory/flow skeleton with AgentsKit contracts;
+> complete its implementation stubs before publishing.
 
 ## Available shapes
 
 | `ScaffoldType` | What lands on disk |
 |---|---|
-| `tool` | `ToolDefinition` skeleton + Zod-style schema example. |
+| `tool` | `ToolDefinition` skeleton + **JSON Schema** example. |
 | `skill` | `SkillDefinition` with system prompt + few-shot block. |
 | `adapter` | `AdapterFactory` skeleton + abort-signal wiring. |
 | `memory-vector` | `VectorMemory` HTTP-backed skeleton with typed errors. |
-| `memory-chat` | `ChatMemory` + `serializeMessages` integration. |
-| `flow` | `flow.yaml` + `FlowRegistry` stubs + smoke test. |
+| `memory-chat` | `ChatMemory` + real `MemoryRecord` via `serializeMessages`. |
+| `flow` | `flow.yaml` + named `FlowRegistry` export + smoke test. |
 | `embedder` | `EmbedFn` factory (OpenAI-compatible HTTP shape). |
-| `browser-adapter` | Browser-only `AdapterFactory` (webllm shape). |
+| `browser-adapter` | Browser-only `AdapterFactory` with contract tests. |
 
-Every shape produces a publishable package: `package.json`,
-`tsconfig.json`, `tsup.config.ts`, `src/index.ts`, `tests/index.test.ts`,
-`README.md`. Dependencies are picked per type — `tool`/`skill` get
-only `@agentskit/core`; `adapter`/`embedder`/`browser-adapter` add
-`@agentskit/adapters`; `memory-*` add `@agentskit/memory`; `flow`
-adds `@agentskit/runtime`.
+Every shape produces a build-ready package skeleton: `package.json`,
+`tsconfig.json`, `tsup.config.ts`, `src/index.ts` (named exports),
+`tests/index.test.ts`, `README.md`. Dependencies are minimal and
+caret-pinned — every package gets `@agentskit/core ^1.0.0`; only `flow`
+also adds `@agentskit/runtime ^0.10.0`. No wildcards; no unused deps.
 
 ## Quick start
 
@@ -42,22 +41,29 @@ const created = await scaffold({
   name: 'my-llm',
   dir: './packages',
   description: 'Adapter for our internal inference proxy',
+  // overwrite: false by default — existing dirs fail safely
 })
 
 console.log(`Wrote ${created.length} files into ./packages/my-llm`)
-// → ./packages/my-llm/package.json
-//   ./packages/my-llm/tsconfig.json
-//   ./packages/my-llm/tsup.config.ts
-//   ./packages/my-llm/src/index.ts
-//   ./packages/my-llm/tests/index.test.ts
-//   ./packages/my-llm/README.md
+// Paths are final destinations (never staging paths).
 ```
+
+### Name rules
+
+Unscoped kebab-case only (`my-llm`). Scoped packages (`@org/pkg`) are
+intentionally unsupported in this beta line.
+
+### Safety defaults
+
+- Config validated before any filesystem write
+- Symlink destination roots rejected
+- Sibling staging directory + atomic rename
+- Collision fails unless `overwrite: true` (backup + rollback)
 
 ## Programmatic factories
 
-Per-type factories let you build a `ToolDefinition` /
-`SkillDefinition` / `AdapterFactory` in memory (no disk). Useful in
-tests or in a server that constructs tools dynamically:
+Per-type factories build a `ToolDefinition` /
+`SkillDefinition` / `AdapterFactory` in memory (no disk):
 
 ```ts
 import {
@@ -78,10 +84,12 @@ const skill = createSkillTemplate({
   description: 'Methodical web researcher.',
   systemPrompt: 'You are a methodical researcher…',
   tools: ['web_search', 'fetch_url'],
+  metadata: { team: 'research' },
 })
 
 const adapter = createAdapterTemplate({
   name: 'echo',
+  capabilities: { streaming: true, tools: false },
   createSource: () => ({
     stream: async function* () { yield { type: 'text', content: 'echo' }; yield { type: 'done' } },
     abort: () => {},
@@ -98,24 +106,23 @@ Wrap `scaffold` in your team's CLI to seed conventions:
 
 ```ts
 #!/usr/bin/env node
-import { scaffold } from '@agentskit/templates'
+import { scaffold, SCAFFOLD_TYPES } from '@agentskit/templates'
 import { writeFile } from 'node:fs/promises'
 import { join } from 'node:path'
 
 const [type, name] = process.argv.slice(2)
-if (!type || !name) {
-  console.error('Usage: my-team-cli <type> <name>')
+if (!type || !name || !(SCAFFOLD_TYPES as readonly string[]).includes(type)) {
+  console.error(`Usage: my-team-cli <${SCAFFOLD_TYPES.join('|')}> <name>`)
   process.exit(1)
 }
 
 const dir = join(process.cwd(), 'packages')
-await scaffold({ type, name, dir })
+await scaffold({ type: type as typeof SCAFFOLD_TYPES[number], name, dir })
 
-// Drop in our shared tooling files.
 await writeFile(join(dir, name, '.eslintrc.cjs'), `module.exports = require('@myteam/eslint-config')\n`)
 await writeFile(join(dir, name, '.prettierrc'), `"@myteam/prettier-config"\n`)
 
-console.log(`Done. Run: pnpm --filter @myorg/${name} dev`)
+console.log(`Done. Run: pnpm --filter agentskit-${name} dev`)
 ```
 
 ## Testing your generated code
@@ -123,9 +130,9 @@ console.log(`Done. Run: pnpm --filter @myorg/${name} dev`)
 The scaffolded tests use Vitest with the same conventions as the
 core packages (`vitest run`, lint via `tsc --noEmit`). Wire them
 into your monorepo's CI right away — every new scaffold ships with
-its own test that compiles + runs.
+its own contract test that typechecks + runs.
 
 ## Related
 
-- [`agentskit init`](/docs/production/cli/init) — the CLI counterpart.
+- [`agentskit init`](/docs/production/cli/init) — CLI app starters (separate system).
 - [`@agentskit/templates` package reference](/docs/reference/packages/templates).

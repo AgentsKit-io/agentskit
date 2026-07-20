@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import type { ToolDefinition } from '@agentskit/core'
-import { createMandatorySandbox, type PolicyEvent } from '../src/policy'
+import { createMandatorySandbox, type PolicyEvent, type SandboxPolicy } from '../src/policy'
 
 function makeTool(name: string, run: (args: Record<string, unknown>) => unknown | Promise<unknown> = () => 'ok'): ToolDefinition {
   return { name, description: name, execute: async args => run(args) }
@@ -22,15 +22,17 @@ describe('createMandatorySandbox', () => {
     expect(result).toBe('ok')
   })
 
-  it('routes require-listed tools through the sandbox', async () => {
+  it('routes require-listed tools through the sandbox and skips the original body', async () => {
+    const original = vi.fn(() => 'raw')
     const m = createMandatorySandbox({
       sandbox,
       policy: { requireSandbox: ['shell'] },
     })
-    const wrapped = m.wrap(makeTool('shell', () => 'raw'))
+    const wrapped = m.wrap(makeTool('shell', original))
     const result = await wrapped.execute!({ cmd: 'ls' }, stubCtx)
     expect(result).toContain('sandboxed:')
     expect(result).toContain('cmd')
+    expect(original).not.toHaveBeenCalled()
   })
 
   it('deny-listed tool throws', async () => {
@@ -126,7 +128,15 @@ describe('createMandatorySandbox', () => {
     await expect(wrapped.execute!({}, stubCtx)).rejects.toThrow(/no execute function/)
   })
 
-  it('vi is referenced to avoid unused import lint', () => {
-    expect(vi).toBeDefined()
+  it('snapshots policy arrays so post-create mutations do not change decisions', async () => {
+    const deny = ['filesystem']
+    const policy: SandboxPolicy = { deny }
+    const m = createMandatorySandbox({ sandbox, policy })
+    deny.push('search')
+    // search was not denied at create time
+    const wrapped = m.wrap(makeTool('search'))
+    expect(await wrapped.execute!({}, stubCtx)).toBe('ok')
+    // filesystem still denied from snapshot
+    await expect(m.wrap(makeTool('filesystem')).execute!({}, stubCtx)).rejects.toThrow(/denied/)
   })
 })

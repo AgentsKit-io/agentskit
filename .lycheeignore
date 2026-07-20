@@ -39,6 +39,9 @@
 # Private GitHub project board referenced from public docs
 ^https://github\.com/orgs/AgentsKit-io/projects/1$
 
+# Dynamically rendered contributor image; availability is independent of docs links
+^https://contrib\.rocks/image\?repo=AgentsKit-io/agentskit$
+
 # Demo GIFs not yet recorded; tracked separately
 demos/.*\.gif$
 img/examples/.*\.gif$

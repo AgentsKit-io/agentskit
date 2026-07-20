@@ -4,13 +4,13 @@ Pre-built personas (prompts + behavioral rules) that satisfy the Skill contract 
 
 ## Scope
 
-- General-purpose skills: researcher, critic, summarizer, coder, planner, debater
-- Skill composition helpers when a pattern shows up repeatedly
+- Declarative general-purpose, engineering, data, support, and regulated-domain skills
+- Composition, defensive discovery, and the in-memory marketplace boundary
 
 ## What does NOT belong here
 
 - Skill implementations that require custom code paths beyond a prompt → they're probably not skills, they're runtimes or tools
-- UI to edit skills → a future skill marketplace package
+- Hosted registry, ratings, authentication, or marketplace UI
 
 ## Adding a new skill
 
@@ -40,16 +40,17 @@ The only function on a `SkillDefinition` is `onActivate`, and it's used **only**
 
 ## Naming
 
-- Snake_case for `name` field (matches Tool convention).
-- File name matches the skill: `code_reviewer.ts` exports `codeReviewer`.
+- Kebab-case for bundled multi-word `name` fields; all names must satisfy ADR 0005 S1.
+- File name follows the package grouping; named exports use camelCase (`codeReviewer`).
 - Keep names short — used in delegation tool names (`delegate_code_reviewer`).
 
 ## Testing
 
-- Skills are mostly prompts; traditional unit tests don't apply.
-- Provide a small **golden dataset** of `{ input, expected }` pairs per skill.
+- Every built-in runs through `tests/adr-0005-contract.test.ts`; do not create a smaller private contract harness.
+- Provide at least one structurally valid `{ input, output }` example per bundled skill. ADR 0005 keeps examples optional for consumer-defined skills; this is a catalog quality policy.
+- Add focused safety or vertical tests when the prompt has domain-specific boundaries.
 - Use `@agentskit/eval` to score the skill periodically. Don't block PRs on eval scores; do flag regressions.
-- Schema-check that `name` matches the regex and that `systemPrompt` is non-empty.
+- Composition and marketplace changes require mutation-isolation, malformed-input, and interoperability coverage.
 
 ## Common pitfalls
 
@@ -63,9 +64,11 @@ The only function on a `SkillDefinition` is `onActivate`, and it's used **only**
 
 ## Review checklist for this package
 
-- [ ] Bundle size under 10KB gzipped
+- [ ] Bundle size under 28 KB compressed (`.size-limit.json`)
 - [ ] Coverage threshold holds (95% lines — mostly structural checks)
-- [ ] Every new skill has at least one example in `examples`
+- [ ] Central ADR 0005 harness and the relevant vertical/safety suite cover the change
+- [ ] Every bundled skill has at least one example in `examples`
 - [ ] Prompt reviewed by a second set of eyes for clarity
 - [ ] Name matches the regex `^[a-zA-Z_][a-zA-Z0-9_-]{0,63}$`
 - [ ] No inline tool implementations; names only
+- [ ] User-facing changes include a Changeset and keep README, canonical docs, and Doc Bridge aligned

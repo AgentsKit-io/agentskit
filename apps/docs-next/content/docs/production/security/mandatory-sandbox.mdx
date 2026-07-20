@@ -1,39 +1,70 @@
 ---
 title: Mandatory sandbox
-description: Wrap any tool with allow/deny lists and validators so agents can't execute commands you haven't explicitly permitted.
+description: Wrap tools with allow/deny lists and validators so agents cannot run unrestricted side effects.
 ---
 
-Without explicit constraints, a tool-calling agent can run arbitrary shell commands. `createMandatorySandbox` wraps any tool with a policy layer — calls that don't match the allow list, match the deny list, or fail a validator are rejected before execution.
+Without explicit constraints, a tool-calling agent can invoke dangerous tools
+with arbitrary arguments. `createMandatorySandbox` (from
+`@agentskit/sandbox`) wraps each tool with a policy layer — calls that match
+the deny list, miss the allow list, or fail a validator are rejected before
+execution.
 
 ```ts
-import { createMandatorySandbox } from '@agentskit/tools'
-import { shell } from '@agentskit/tools'
+import { createMandatorySandbox, sandboxTool } from '@agentskit/sandbox'
+import { filesystem, webSearch } from '@agentskit/tools'
 
-const guarded = createMandatorySandbox(shell(), {
-  allow: ['ls', 'cat', 'grep'],
-  deny: ['rm', 'sudo', 'curl', 'wget'],
-  requireSandbox: true,
-  validators: [
-    (args) => args.cmd.length < 256 || 'command too long',
-  ],
+const codeExecution = sandboxTool({ apiKey: process.env.E2B_API_KEY })
+
+const mandatory = createMandatorySandbox({
+  sandbox: codeExecution,
+  policy: {
+    allow: ['code_execution', 'web_search'],
+    deny: ['filesystem'],
+    requireSandbox: ['code_execution'],
+    validators: {
+      code_execution: (args) => {
+        if (typeof args.code === 'string' && args.code.length > 10_000) {
+          throw new Error('code too long')
+        }
+      },
+    },
+  },
 })
+
+const tools = [codeExecution, filesystem({ basePath: './workspace' }), webSearch()].map((t) =>
+  mandatory.wrap(t),
+)
 ```
 
 ## Modes
 
 | Rule | Effect |
 |---|---|
-| `allow: string[]` | only listed cmds pass |
-| `deny: string[]` | listed cmds rejected |
-| `requireSandbox: true` | execute via [@agentskit/sandbox](/docs/reference/packages/sandbox) |
-| `validators: Fn[]` | return `string` to reject with message |
+| `allow: string[]` | only listed tool **names** pass |
+| `deny: string[]` | listed tool names rejected |
+| `requireSandbox: string[] \| '*'` | matched tools route through `sandbox.execute` |
+| `validators: Record<name, fn>` | throw to reject with message |
+
+### requireSandbox semantics
+
+When a tool is in `requireSandbox`, its original `execute` body is **not**
+run. Arguments are delegated to the shared sandbox tool's `execute`. This is
+a routing shim for code-execution style tools — it does **not** transparently
+wrap arbitrary tool implementations while still calling them.
+
+Policy arrays/records are snapshotted at `createMandatorySandbox` time so
+later caller mutations cannot widen allow/deny/require decisions.
 
 ## Sandbox backends
 
-E2B (default) · WebContainer · Deno worker — see
-[sandbox package](/docs/reference/packages/sandbox).
+- **E2B** (optional peer `@e2b/code-interpreter`) — default cloud path
+- **Web Worker** (`@agentskit/sandbox/web`) — browser thread + DOM isolation only; not WebContainer
+- **Custom** `SandboxBackend` — Docker, Firecracker, etc.
+- **Local runtimes** — process / seatbelt / bwrap / docker for host-process isolation
+
+See the [sandbox deep dive](./sandbox).
 
 ## Related
 
-- [Recipe: mandatory sandbox](/docs/reference/recipes/mandatory-sandbox)
+- [Sandbox deep dive](./sandbox)
 - [HITL](/docs/agents/hitl)

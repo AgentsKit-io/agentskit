@@ -22,6 +22,8 @@ interface FakeBehavior {
   hang?: boolean
   /** When set, fire `onerror` with this message instead of replying. */
   error?: string
+  /** Extra malformed messages to inject. */
+  malformed?: unknown[]
 }
 
 let behavior: FakeBehavior = {}
@@ -40,6 +42,9 @@ class FakeWorker {
       if (behavior.error) {
         this.onerror?.({ message: behavior.error })
         return
+      }
+      for (const bad of behavior.malformed ?? []) {
+        this.onmessage?.({ data: bad })
       }
       for (const chunk of behavior.chunks ?? []) {
         this.onmessage?.({ data: chunk })
@@ -92,6 +97,38 @@ describe('webWorkerBackend', () => {
     expect(result.stderr).toBe('boom')
   })
 
+  it('ignores malformed messages and still finishes cleanly', async () => {
+    behavior = {
+      malformed: [
+        { type: 'done', exitCode: NaN, stderr: '' },
+        { type: 'chunk', stream: 'nope', data: 'x' },
+        'garbage',
+      ],
+      chunks: [{ type: 'chunk', stream: 'stdout', data: 'ok\n' }],
+      exitCode: 0,
+    }
+    const backend = webWorkerBackend()
+    const result = await backend.execute('1', {})
+    expect(result.exitCode).toBe(0)
+    expect(result.stdout).toBe('ok')
+  })
+
+  it('rejects invalid timeout at construction and execute', async () => {
+    expect(() => webWorkerBackend({ timeout: 0 })).toThrow(/timeout/)
+    const backend = webWorkerBackend()
+    await expect(backend.execute('1', { timeout: -1 })).rejects.toThrow(/timeout/)
+  })
+
+  it('rejects an invalid language when the backend is used directly', async () => {
+    const backend = webWorkerBackend()
+    await expect(
+      backend.execute('1', { language: 'ruby' as 'javascript' }),
+    ).rejects.toThrow(/language/)
+    expect(() =>
+      runStreaming('1', () => undefined, { language: 'ruby' as 'javascript' }),
+    ).toThrow(/language/)
+  })
+
   it('respects the timeout and returns exitCode 1 with a timeout message', async () => {
     vi.useFakeTimers()
     behavior = { hang: true }
@@ -119,6 +156,23 @@ describe('webWorkerBackend', () => {
     const result = await backend.execute('print(1)', { language: 'python' })
     expect(result.exitCode).toBe(1)
     expect(result.stderr).toMatch(/only supports JavaScript/)
+  })
+
+  it('caps total stdout+stderr by bytes', async () => {
+    behavior = {
+      chunks: [
+        { type: 'chunk', stream: 'stdout', data: 'a'.repeat(40) },
+        { type: 'chunk', stream: 'stderr', data: 'b'.repeat(40) },
+      ],
+      exitCode: 0,
+    }
+    const backend = webWorkerBackend({ maxOutputBytes: 30 })
+    const result = await backend.execute('big', {})
+    expect(result.stderr).toMatch(/truncated/)
+    const total =
+      new TextEncoder().encode(result.stdout).length +
+      new TextEncoder().encode(result.stderr.replace(/\n?\[output truncated[^\]]+\]/, '')).length
+    expect(total).toBeLessThanOrEqual(30)
   })
 
   it('terminates the worker and revokes the object URL after success', async () => {
@@ -162,6 +216,22 @@ describe('runStreaming', () => {
     expect(chunks).toEqual(['a\n', 'b\n'])
     expect(result.stdout).toBe('a\nb')
     expect(result.exitCode).toBe(0)
+  })
+
+  it('does not call onChunk past the byte cap', async () => {
+    behavior = {
+      chunks: [
+        { type: 'chunk', stream: 'stdout', data: '12345' },
+        { type: 'chunk', stream: 'stdout', data: '67890' },
+        { type: 'chunk', stream: 'stdout', data: 'XXXXX' },
+      ],
+      exitCode: 0,
+    }
+    const chunks: string[] = []
+    await runStreaming('x', (c) => chunks.push(c.data), { maxOutputBytes: 8 })
+    const delivered = chunks.join('')
+    expect(new TextEncoder().encode(delivered).length).toBeLessThanOrEqual(8)
+    expect(chunks.join('')).not.toContain('XXXXX')
   })
 
   it('honors the timeout', async () => {

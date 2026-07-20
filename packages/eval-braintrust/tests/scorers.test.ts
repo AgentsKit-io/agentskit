@@ -34,6 +34,35 @@ describe('quality scorers', () => {
     expect(r.score).toBe(1)
   })
 
+  it('taskSuccess reuses global/sticky regex without mutating lastIndex', async () => {
+    const globalRe = /value=\d+/g
+    const stickyRe = /value=\d+/y
+    stickyRe.lastIndex = 0
+    globalRe.lastIndex = 0
+
+    const r1 = await taskSuccess({ input: 'q', output: 'value=42', expected: globalRe })
+    const r2 = await taskSuccess({ input: 'q', output: 'value=42', expected: globalRe })
+    expect(r1.score).toBe(1)
+    expect(r2.score).toBe(1)
+    expect(globalRe.lastIndex).toBe(0)
+
+    const s1 = await taskSuccess({ input: 'q', output: 'value=7', expected: stickyRe })
+    const s2 = await taskSuccess({ input: 'q', output: 'value=7', expected: stickyRe })
+    expect(s1.score).toBe(1)
+    expect(s2.score).toBe(1)
+    expect(stickyRe.lastIndex).toBe(0)
+
+    const offset = /value=\d+/y
+    offset.lastIndex = 2
+    const offsetResult = await taskSuccess({
+      input: 'q',
+      output: 'xxvalue=9',
+      expected: offset,
+    })
+    expect(offsetResult.score).toBe(1)
+    expect(offset.lastIndex).toBe(2)
+  })
+
   it('taskSuccess returns 0 with no expected', async () => {
     const r = await taskSuccess({ input: 'q', output: 'x' })
     expect(r.score).toBe(0)

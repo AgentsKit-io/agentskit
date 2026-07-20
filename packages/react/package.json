@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/react",
-  "version": "0.7.6",
+  "version": "0.8.0",
   "description": "React hooks and UI components for AgentsKit.",
   "keywords": [
     "agentskit",
@@ -43,7 +43,7 @@
   ],
   "scripts": {
     "build": "tsup",
-    "test": "vitest run",
+    "test": "pnpm build && vitest run",
     "test:coverage": "vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"

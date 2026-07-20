@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import type { AdapterRequest, StreamChunk } from '@agentskit/core'
+import type { AdapterFactory, AdapterRequest, StreamChunk } from '@agentskit/core'
 import {
   mockAdapter,
   recordingAdapter,
@@ -67,7 +67,9 @@ describe('mockAdapter — static response', () => {
       response: [{ type: 'error', content: 'kaboom' }],
     })
     const chunks = await collect(adapter.createSource(sampleRequest))
-    expect(chunks).toEqual([{ type: 'error', content: 'kaboom' }])
+    expect(chunks).toHaveLength(1)
+    expect(chunks[0]).toMatchObject({ type: 'error', content: 'kaboom' })
+    expect(chunks[0]?.metadata?.error).toBeInstanceOf(Error)
   })
 
   it('does not start work until stream() is called (ADR 0001 A1)', () => {
@@ -82,14 +84,14 @@ describe('mockAdapter — static response', () => {
     expect(started).toBe(false)
   })
 
-  it('records request history when sink is supplied', () => {
+  it('records request history when streams start', async () => {
     const history: AdapterRequest[] = []
     const adapter = mockAdapter({
       response: [{ type: 'done' }],
       history,
     })
-    adapter.createSource(sampleRequest)
-    adapter.createSource(sampleRequest)
+    for await (const _ of adapter.createSource(sampleRequest).stream()) void _
+    for await (const _ of adapter.createSource(sampleRequest).stream()) void _
     expect(history).toHaveLength(2)
   })
 })
@@ -149,6 +151,65 @@ describe('mockAdapter — abort', () => {
     await reader
 
     expect(chunks.length).toBeLessThan(4)
+  })
+})
+
+describe('mockAdapter — contract boundaries', () => {
+  it('defers history and sequence advancement until stream starts', async () => {
+    const history: AdapterRequest[] = []
+    const adapter = mockAdapter({ response: [{ type: 'done' }], history })
+    const source = adapter.createSource(sampleRequest)
+    expect(history).toEqual([])
+    for await (const _ of source.stream()) void _
+    expect(history).toEqual([sampleRequest])
+  })
+
+  it('stops at the first terminal chunk', async () => {
+    const adapter = mockAdapter({
+      response: [
+        { type: 'done' },
+        { type: 'text', content: 'after-terminal' },
+      ],
+    })
+    expect(await collect(adapter.createSource(sampleRequest))).toEqual([{ type: 'done' }])
+  })
+
+  it('preserves wrapped capabilities in recordingAdapter', () => {
+    const inner = mockAdapter({ response: [{ type: 'done' }] })
+    expect(recordingAdapter(inner, inMemorySink()).capabilities).toEqual(inner.capabilities)
+  })
+
+  it('normalizes a recorded adapter that ends without a terminal chunk', async () => {
+    const inner: AdapterFactory = {
+      createSource: () => ({
+        abort: () => {},
+        stream: async function* () {
+          yield { type: 'text', content: 'partial' } as StreamChunk
+        },
+      }),
+    }
+    const sink = inMemorySink()
+    const chunks = await collect(recordingAdapter(inner, sink).createSource(sampleRequest))
+    expect(chunks.map(chunk => chunk.type)).toEqual(['text', 'error'])
+    expect(chunks[1]?.metadata?.error).toBeInstanceOf(Error)
+    expect(sink.fixture[0]?.chunks).toEqual(chunks)
+  })
+
+  it('normalizes recorded stream throws and ignores sink failures', async () => {
+    const inner: AdapterFactory = {
+      createSource: () => ({
+        abort: () => {},
+        stream: async function* () {
+          throw new Error('recorded stream failed')
+        },
+      }),
+    }
+    const chunks = await collect(recordingAdapter(inner, {
+      push: () => { throw new Error('sink failed') },
+    }).createSource(sampleRequest))
+    expect(chunks).toHaveLength(1)
+    expect(chunks[0]?.type).toBe('error')
+    expect(chunks[0]?.metadata?.error).toBeInstanceOf(Error)
   })
 })
 

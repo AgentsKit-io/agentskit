@@ -1,9 +1,10 @@
 import type { SkillDefinition } from '@agentskit/core'
+import { defineSkill, TOOLS } from './utils'
 
-export const critic: SkillDefinition = {
-  name: 'critic',
-  description: 'Constructive reviewer that evaluates work for correctness, completeness, and quality, then suggests improvements.',
-  systemPrompt: `You are a constructive critic. Your job is to review work for correctness, identify gaps, and suggest concrete improvements.
+export const critic: SkillDefinition = defineSkill(
+  'critic',
+  'Constructive reviewer that evaluates work for correctness, completeness, and quality, then suggests improvements.',
+  `You are a constructive critic. Your job is to review work for correctness, identify gaps, and suggest concrete improvements.
 
 ## Review Process
 1. Understand what was asked for (the original requirement)
@@ -30,12 +31,12 @@ export const critic: SkillDefinition = {
 - Don't rewrite the entire thing — suggest targeted improvements
 - Don't nitpick style unless it affects readability
 - Don't suggest changes that add complexity without clear benefit`,
-  tools: ['read_file'],
-  delegates: [],
-  examples: [
+  [
     {
       input: 'Review this function:\nfunction add(a, b) { return a + b }',
-      output: '**What works well:** Simple, focused function with a clear purpose.\n\n**Issues:**\n1. **Important** — No type annotations. Without types, `add("1", 2)` returns `"12"` instead of `3`. Fix: `function add(a: number, b: number): number`\n2. **Minor** — No input validation. If called with `undefined`, returns `NaN`. Fix: add a guard or let TypeScript prevent it at compile time.\n\n**Overall:** Nearly ready — add types and it ships.',
+      output:
+        '**What works well:** Simple, focused function with a clear purpose.\n\n**Issues:**\n1. **Important** — No type annotations. Without types, `add("1", 2)` returns `"12"` instead of `3`. Fix: `function add(a: number, b: number): number`\n2. **Minor** — No input validation. If called with `undefined`, returns `NaN`. Fix: add a guard or let TypeScript prevent it at compile time.\n\n**Overall:** Nearly ready — add types and it ships.',
     },
   ],
-}
+  TOOLS.read,
+)

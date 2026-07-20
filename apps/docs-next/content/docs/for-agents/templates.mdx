@@ -1,11 +1,14 @@
 ---
 title: '@agentskit/templates — for agents'
-description: Authoring toolkit — validated factories + on-disk scaffolds for custom tools, skills, and adapters.
+description: Authoring toolkit — validated factories + secure on-disk scaffolds for custom tools, skills, adapters, memory, embedders, and flows.
 ---
 
 ## Purpose
 
-Generate AgentsKit extensions (tools, skills, adapters) as standalone packages with consistent blueprints (tsup, vitest, TypeScript) and runtime validation. Depends only on `@agentskit/core`.
+Generate AgentsKit extensions as standalone packages with consistent blueprints
+(tsup, vitest, TypeScript) and runtime validation. Depends only on
+`@agentskit/core`. This is a **programmatic** authoring toolkit — it is **not**
+what `agentskit init` uses under the hood (the CLI has separate app templates).
 
 ## Install
 
@@ -16,16 +19,22 @@ npm install @agentskit/templates @agentskit/core
 ## Primary exports
 
 - `createToolTemplate(config)` — build a validated `ToolDefinition`.
-- `createSkillTemplate(config)` — build a validated `SkillDefinition`.
-- `createAdapterTemplate(config)` — build an `AdapterFactory` with display `name`.
-- `scaffold(config)` — write a full package directory (async): `package.json`, `tsup.config.ts`, vitest, README.
+- `createSkillTemplate(config)` — build a validated `SkillDefinition` (optional `metadata` passthrough).
+- `createAdapterTemplate(config)` — build an `AdapterFactory` with display `name` and optional `capabilities`.
+- `scaffold(config)` — write a full package directory (async), atomic + collision-safe.
+- `validateScaffoldConfig(config)` — runtime config validation (`ConfigError` / `AK_CONFIG_INVALID`).
 - `validateToolTemplate` / `validateSkillTemplate` / `validateAdapterTemplate` — assert well-formed definitions.
+- `SCAFFOLD_TYPES` — the eight allowed scaffold type strings.
 - Types: `ToolTemplateConfig`, `SkillTemplateConfig`, `AdapterTemplateConfig`, `ScaffoldType`, `ScaffoldConfig`.
+
+## Scaffold types
+
+`tool` · `skill` · `adapter` · `memory-vector` · `memory-chat` · `flow` · `embedder` · `browser-adapter`
 
 ## Minimal example
 
 ```ts
-import { createToolTemplate } from '@agentskit/templates'
+import { createToolTemplate, scaffold } from '@agentskit/templates'
 
 export const rollDice = createToolTemplate({
   name: 'roll_dice',
@@ -40,23 +49,42 @@ export const rollDice = createToolTemplate({
     return String(1 + Math.floor(Math.random() * sides))
   },
 })
+
+await scaffold({
+  type: 'tool',
+  name: 'roll-dice',
+  dir: './packages',
+  description: 'Dice tool package',
+})
 ```
 
-Validation **throws** if `name`, `description`, `schema`, or `execute` is missing — LLMs need schema + description for tool calling.
+Validation **throws** `ConfigError` (`AK_CONFIG_INVALID`) if required fields
+fail: trim-non-empty `name`/`description`/`systemPrompt`, function
+`execute`/`createSource`, JSON Schema object (not null/array; `type` optional),
+finite `temperature` when set.
+
+## Scaffold security
+
+- Validate config **before** any write.
+- Unscoped kebab-case names only (no `@scope/pkg` yet — documented beta restriction).
+- Existing destination fails unless `overwrite: true`.
+- Symlink destination roots rejected; staging sibling + atomic rename; cleanup on failure.
+- Returned paths are final destinations, never staging paths.
+- Generated deps: `@agentskit/core ^1.0.0`; flow also `@agentskit/runtime ^0.10.0`. No wildcards.
 
 ## Common patterns
 
-- **Tool**: `createToolTemplate` enforces JSON-schema arguments and async `execute`. Use `requiresConfirmation` for write actions.
-- **Skill**: `createSkillTemplate` requires `name`, `description`, `systemPrompt`. Add `examples`, `tools`, `delegates`, `onActivate`.
-- **Adapter**: `createAdapterTemplate` wraps an `AdapterFactory` with metadata used by registries.
-- **Scaffold**: `scaffold({ type: 'tool' | 'skill' | 'adapter', dir, name })` writes a buildable package. Equivalent to `agentskit init <type>` but programmatic.
+- **Tool**: `createToolTemplate` enforces JSON Schema arguments and async `execute`.
+- **Skill**: requires `name`, `description`, `systemPrompt`; optional `metadata`, `examples`, `tools`, `delegates`, `onActivate`.
+- **Adapter**: requires `name` + `createSource`; optional `capabilities`.
+- **Scaffold**: programmatic package generation — distinct from `agentskit init`.
 
 ## Related
 
 - [@agentskit/core](/docs/for-agents/core) — `ToolDefinition`, `SkillDefinition`, `AdapterFactory` contracts.
 - [@agentskit/tools](/docs/for-agents/tools) — built-in tools you can pattern-match against.
 - [@agentskit/skills](/docs/for-agents/skills) — built-in skills as reference.
-- [@agentskit/cli](/docs/for-agents/cli) — `agentskit init` uses this package under the hood.
+- [@agentskit/cli](/docs/for-agents/cli) — `agentskit init` for full app bootstraps (separate from this package).
 
 ## Source
 

@@ -3,6 +3,13 @@ name: Release
 on:
   push:
     branches: [main]
+  workflow_dispatch:
+    inputs:
+      recover_unpublished:
+        description: Retry package versions already committed but missing from npm
+        required: true
+        default: false
+        type: boolean
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -23,16 +30,30 @@ jobs:
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
           node-version: 22
-          cache: pnpm
+          package-manager-cache: false
           registry-url: https://registry.npmjs.org
 
       - run: pnpm install --frozen-lockfile
 
-      - run: npm install --global npm@11
+      - run: npm install --global npm@11.18.0
+
+      - name: Registry release-train preflight
+        run: |
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.recover_unpublished }}" == "true" ]]; then
+            pnpm check:release-registry -- --allow-unpublished-with-changesets
+          else
+            pnpm check:release-registry
+          fi
 
       - run: pnpm --filter "./packages/*" build
 
       - run: pnpm check:publication-surface
+
+      - name: Packed consumer publication contract
+        run: pnpm check:packed-consumers
+
+      - name: Public API snapshot contract
+        run: pnpm check:public-api-snapshot
 
       - name: Detect release intent
         id: release_intent
@@ -44,13 +65,19 @@ jobs:
           fi
 
           has_version_changes=false
-          if git rev-parse --verify HEAD^ >/dev/null 2>&1 && \
-            git diff --unified=0 HEAD^ HEAD -- 'packages/*/package.json' | \
-            grep -Eq '^[+-][[:space:]]*"version"[[:space:]]*:'; then
-            has_version_changes=true
+          if git rev-parse --verify HEAD^ >/dev/null 2>&1; then
+            version_diff=$(git diff --unified=0 HEAD^ HEAD -- 'packages/*/package.json')
+            if grep -Eq '^[+-][[:space:]]*"version"[[:space:]]*:' <<< "$version_diff"; then
+              has_version_changes=true
+            fi
           fi
 
-          if [[ "$has_changesets" == true || "$has_version_changes" == true ]]; then
+          recover_unpublished=false
+          if [[ "${{ github.event_name }}" == "workflow_dispatch" && "${{ inputs.recover_unpublished }}" == "true" ]]; then
+            recover_unpublished=true
+          fi
+
+          if [[ "$has_changesets" == true || "$has_version_changes" == true || "$recover_unpublished" == true ]]; then
             echo "run=true" >> "$GITHUB_OUTPUT"
           else
             echo "run=false" >> "$GITHUB_OUTPUT"
@@ -58,7 +85,7 @@ jobs:
           fi
 
       - id: changesets
-        if: steps.release_intent.outputs.run == 'true'
+        if: steps.release_intent.outputs.run == 'true' && inputs.recover_unpublished != true
         uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1
         with:
           publish: pnpm changeset publish
@@ -69,8 +96,17 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
 
+      - name: Recover committed unpublished versions
+        id: recovery_publish
+        if: github.event_name == 'workflow_dispatch' && inputs.recover_unpublished
+        run: |
+          pnpm changeset publish
+          echo "published=true" >> "$GITHUB_OUTPUT"
+        env:
+          NPM_CONFIG_PROVENANCE: true
+
       - name: Generate SBOM (CycloneDX)
-        if: steps.changesets.outputs.published == 'true'
+        if: steps.changesets.outputs.published == 'true' || steps.recovery_publish.outputs.published == 'true'
         run: |
           npx --yes @cyclonedx/cyclonedx-npm@2.0.0 \
             --output-format JSON \
@@ -78,7 +114,7 @@ jobs:
             --short-PURLs \
             --ignore-npm-errors
       - name: Upload SBOM artifact
-        if: steps.changesets.outputs.published == 'true'
+        if: steps.changesets.outputs.published == 'true' || steps.recovery_publish.outputs.published == 'true'
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: sbom-cyclonedx

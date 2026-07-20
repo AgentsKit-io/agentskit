@@ -37,6 +37,13 @@ describe('filesystem', () => {
     }
   })
 
+  it('write_file requires confirmation; read_file and list_directory do not (T9)', () => {
+    const [readFile, writeFileTool, listDir] = filesystem({ basePath })
+    expect(writeFileTool.requiresConfirmation).toBe(true)
+    expect(readFile.requiresConfirmation).toBeFalsy()
+    expect(listDir.requiresConfirmation).toBeFalsy()
+  })
+
   describe('read_file', () => {
     it('reads a file', async () => {
       const [readFile] = filesystem({ basePath })

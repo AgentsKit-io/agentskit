@@ -22,7 +22,7 @@ export function registerChatCommand(program: Command): void {
     .option('--system <prompt>', 'System prompt')
     .option('--memory <path>', 'Explicit memory file path (overrides session management)')
     .option('--tools <tools>', 'Comma-separated tools: web_search,fetch_url,filesystem,shell')
-    .option('--skill <skills>', 'Comma-separated skills: researcher,coder,planner,critic,summarizer')
+    .option('--skill <skills>', 'Comma-separated skill names from @agentskit/skills (e.g. researcher, pr-reviewer)')
     .option('--memory-backend <backend>', 'Memory backend: file (default), sqlite')
     .option('--new', 'Start a fresh chat session (ignore previous conversations in this directory)')
     .option('--resume [id]', 'Resume a prior session by id; omit id to resume the latest')

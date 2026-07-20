@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/integrations",
-  "version": "0.5.13",
+  "version": "0.6.0",
   "description": "Unified, plug-and-play service integrations for AgentsKit agents — one descriptor per service projected into tools, connectors, triggers, and auth.",
   "keywords": [
     "agentskit",
@@ -62,8 +62,8 @@
     "vitest": "^4.1.10"
   },
   "agentskit": {
-    "stability": "alpha",
-    "stabilityNote": "Integration contract v1 — descriptor + registry. Catalog populated in later phases."
+    "stability": "beta",
+    "stabilityNote": "Canonical descriptor/registry/projection contract shipped; 50-service fetch-only catalog; auth/actions/triggers/testing; packed API gates; execution boundaries explicit (ADR-0026). Not yet stable."
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/packages/integrations",

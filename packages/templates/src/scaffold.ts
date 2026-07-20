@@ -1,5 +1,3 @@
-import { writeFile, mkdir } from 'node:fs/promises'
-import { join } from 'node:path'
 import {
   generatePackageJson,
   generateTsConfig,
@@ -11,6 +9,7 @@ import {
   generateAdapterSource,
   generateAdapterTest,
   generateChatMemorySource,
+  generateChatMemoryTest,
   generateVectorMemorySource,
   generateVectorMemoryTest,
   generateFlowSource,
@@ -20,37 +19,22 @@ import {
   generateEmbedderSource,
   generateEmbedderTest,
   generateBrowserAdapterSource,
+  generateBrowserAdapterTest,
   generateReadme,
 } from './blueprints'
+import {
+  type ScaffoldConfig,
+  type ScaffoldType,
+  validateScaffoldConfig,
+} from './scaffold-config'
+import {
+  type PlannedFile,
+  resolveScaffoldRoots,
+  writePackageAtomically,
+} from './scaffold-fs'
 
-export type ScaffoldType =
-  | 'tool'
-  | 'skill'
-  | 'adapter'
-  | 'memory-vector'
-  | 'memory-chat'
-  | 'flow'
-  | 'embedder'
-  | 'browser-adapter'
-
-export interface ScaffoldConfig {
-  type: ScaffoldType
-  name: string
-  dir: string
-  description?: string
-}
-
-function placeholderTest(name: string): string {
-  return `import { describe, expect, it } from 'vitest'
-import * as mod from '../src/index'
-
-describe('${name}', () => {
-  it('exports the factory', () => {
-    expect(typeof mod).toBe('object')
-  })
-})
-`
-}
+export type { ScaffoldType, ScaffoldConfig } from './scaffold-config'
+export { SCAFFOLD_TYPES, validateScaffoldConfig } from './scaffold-config'
 
 const sourceGenerators: Record<ScaffoldType, (name: string) => string> = {
   tool: generateToolSource,
@@ -68,35 +52,54 @@ const testGenerators: Record<ScaffoldType, (name: string) => string> = {
   skill: generateSkillTest,
   adapter: generateAdapterTest,
   'memory-vector': generateVectorMemoryTest,
-  'memory-chat': placeholderTest,
+  'memory-chat': generateChatMemoryTest,
   flow: generateFlowTest,
   embedder: generateEmbedderTest,
-  'browser-adapter': placeholderTest,
+  'browser-adapter': generateBrowserAdapterTest,
 }
 
-export async function scaffold(config: ScaffoldConfig): Promise<string[]> {
-  const root = join(config.dir, config.name)
-  const created: string[] = []
-
-  const write = async (path: string, content: string) => {
-    const full = join(root, path)
-    await mkdir(join(root, path, '..'), { recursive: true })
-    await writeFile(full, content, 'utf8')
-    created.push(full)
-  }
-
-  await write('package.json', generatePackageJson(config))
-  await write('tsconfig.json', generateTsConfig())
-  await write('tsup.config.ts', generateTsupConfig())
-  await write('src/index.ts', sourceGenerators[config.type](config.name))
-  await write('tests/index.test.ts', testGenerators[config.type](config.name))
+/** Build the deterministic file plan for a scaffold (no I/O). */
+export function planScaffoldFiles(config: ScaffoldConfig): PlannedFile[] {
+  validateScaffoldConfig(config)
+  const files: PlannedFile[] = [
+    { relativePath: 'package.json', content: generatePackageJson(config) },
+    { relativePath: 'tsconfig.json', content: generateTsConfig() },
+    { relativePath: 'tsup.config.ts', content: generateTsupConfig() },
+    { relativePath: 'src/index.ts', content: sourceGenerators[config.type](config.name) },
+    { relativePath: 'tests/index.test.ts', content: testGenerators[config.type](config.name) },
+  ]
 
   if (config.type === 'flow') {
-    await write('flow.yaml', generateFlowYaml(config.name))
-    await write('README.md', generateFlowReadme(config.name))
+    files.push(
+      { relativePath: 'flow.yaml', content: generateFlowYaml(config.name) },
+      { relativePath: 'README.md', content: generateFlowReadme(config.name) },
+    )
   } else {
-    await write('README.md', generateReadme(config))
+    files.push({ relativePath: 'README.md', content: generateReadme(config) })
   }
 
-  return created
+  return files
+}
+
+/**
+ * Scaffold a complete AgentsKit extension package on disk.
+ *
+ * Validates config first, writes into a sibling staging directory, then
+ * renames atomically into `join(dir, name)`. Existing destinations fail
+ * unless `overwrite: true`. Symlink destinations are always rejected.
+ * Returned paths are the final destinations (never staging paths).
+ */
+export async function scaffold(config: ScaffoldConfig): Promise<string[]> {
+  validateScaffoldConfig(config)
+
+  const overwrite = config.overwrite === true
+  const { parentDir, finalRoot } = resolveScaffoldRoots(config.dir, config.name)
+  const files = planScaffoldFiles(config)
+
+  return writePackageAtomically({
+    parentDir,
+    finalRoot,
+    overwrite,
+    files,
+  })
 }

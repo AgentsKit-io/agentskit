@@ -66,8 +66,10 @@ const hybrid = createHybridRetriever(base, {
 })
 ```
 
-Scores are normalized to `[0, 1]` within the candidate set before
-mixing, so the weights behave as you'd expect.
+Scores are min-max normalized to `[0, 1]` within the candidate set and the
+non-negative relative weights are normalized before mixing. Invalid BM25
+`k1` / `b` values fall back to documented defaults, so emitted scores stay
+finite.
 
 ## BM25 standalone
 

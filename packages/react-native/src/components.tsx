@@ -105,10 +105,9 @@ export function InputBar({
   const canSend = !disabled && !isStreaming && chat.input.trim().length > 0
 
   const handleSend = useCallback(() => {
-    if (chat.input.trim()) {
-      chat.send(chat.input)
-    }
-  }, [chat])
+    if (disabled || chat.status === 'streaming' || !chat.input.trim()) return
+    void chat.send(chat.input)
+  }, [chat, disabled])
 
   return (
     <View testID={testID} style={style}>

@@ -1,5 +1,7 @@
 import type { AdapterFactory, AdapterRequest, StreamSource } from '@agentskit/core'
-import { createStreamSource, parseGeminiStream, type RetryOptions } from './utils'
+import { parseGeminiStream, type RetryOptions } from './utils'
+import { createStreamSource } from './stream-source'
+import { toGeminiContents } from './tool-history'
 
 export interface GeminiConfig {
   apiKey: string
@@ -21,23 +23,30 @@ export function gemini(config: GeminiConfig): AdapterFactory {
     createSource: (request: AdapterRequest): StreamSource => {
       const systemMessage = request.messages.find(message => message.role === 'system')
       const body = {
-        contents: request.messages
-          .filter(message => message.role !== 'system')
-          .map(message => ({
-            role: message.role === 'assistant' ? 'model' : 'user',
-            parts: [{ text: message.content }],
-          })),
+        contents: toGeminiContents(request.messages),
         systemInstruction: systemMessage
           ? { role: 'system', parts: [{ text: systemMessage.content }] }
+          : undefined,
+        tools: request.context?.tools && request.context.tools.length > 0
+          ? [{
+              functionDeclarations: request.context.tools.map(tool => ({
+                name: tool.name,
+                description: tool.description,
+                parameters: tool.schema,
+              })),
+            }]
           : undefined,
       }
 
       return createStreamSource(
         (signal) => fetch(
-          `${baseUrl}/v1beta/models/${model}:streamGenerateContent?alt=sse&key=${apiKey}`,
+          `${baseUrl}/v1beta/models/${model}:streamGenerateContent?alt=sse`,
           {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+            headers: {
+              'Content-Type': 'application/json',
+              'x-goog-api-key': apiKey,
+            },
             body: JSON.stringify(body),
             signal,
           },

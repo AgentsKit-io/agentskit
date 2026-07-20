@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/sandbox",
-  "version": "0.5.12",
+  "version": "0.6.0",
   "description": "Secure code execution for AgentsKit agents.",
   "keywords": [
     "agentskit",
@@ -67,6 +67,14 @@
   "dependencies": {
     "@agentskit/core": "workspace:*"
   },
+  "peerDependencies": {
+    "@e2b/code-interpreter": "^2.6.1"
+  },
+  "peerDependenciesMeta": {
+    "@e2b/code-interpreter": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@e2b/code-interpreter": "^2.6.1",
     "@types/node": "^25.9.5",
@@ -76,7 +84,7 @@
   },
   "agentskit": {
     "stability": "beta",
-    "stabilityNote": "E2B integration works; WebContainer fallback experimental."
+    "stabilityNote": "Lifecycle/config/runtime hardening complete on the beta line; E2B peer optional; Web Worker is thread+DOM only (not WebContainer). Stable promotion awaits soak and qualifying releases."
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/packages/sandbox",

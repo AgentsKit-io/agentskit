@@ -75,8 +75,8 @@ state; call actions (`chat.send(...)`) directly on the store object.
 
 ## API
 
-- `createChatStore(config)` — returns a `Readable<ChatState>` (`$chat.messages`, `$chat.status`, `$chat.input`) plus actions `send(text)`, `setInput(v)`, `stop`, `retry`, `clear`, `approve`, `deny`, `edit`, `regenerate`, `destroy`.
-- Headless components at parity with `@agentskit/react` (Svelte 5, `data-ak-*` only): `ChatContainer`, `Message`, `InputBar`, `Markdown`, `CodeBlock`, `ToolCallView`, `ThinkingIndicator`, `ToolConfirmation`.
+- `createChatStore(config)` — returns a `Readable<ChatState>` (`$chat.messages`, `$chat.status`, `$chat.input`) plus actions `send(text)`, `setInput(v)`, `stop`, `retry`, `clear`, `approve`, `deny`, `edit`, `regenerate`, `destroy`. Call `destroy()` from `onDestroy` (or equivalent); it unsubscribes and stops in-flight work, and is safe to call repeatedly.
+- Headless components at parity with `@agentskit/react` (Svelte 5, `data-ak-*` only): `ChatContainer`, `Message`, `InputBar` (blocks submit/Enter while streaming), `Markdown`, `CodeBlock`, `ToolCallView` (`aria-expanded` on the toggle), `ThinkingIndicator`, `ToolConfirmation`.
 
 ## Ecosystem
 

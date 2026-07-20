@@ -1,4 +1,5 @@
-import type { AdapterFactory, StreamChunk } from '@agentskit/core'
+import { ConfigError, ErrorCodes, type AdapterFactory, type StreamChunk } from '@agentskit/core'
+import { defensiveSnapshot } from './clone'
 import type { Cassette } from './types'
 
 export interface ReplayAgainstResult {
@@ -42,6 +43,16 @@ function jaccard(a: string, b: string): number {
   return union === 0 ? 0 : inter / union
 }
 
+function assertNonNegativeInt(value: unknown, name: string): number {
+  if (typeof value !== 'number' || !Number.isFinite(value) || !Number.isInteger(value) || value < 0) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `${name} must be a non-negative finite integer`,
+    })
+  }
+  return value
+}
+
 /**
  * Re-run every recorded turn in `cassette` through a different
  * `candidate` adapter and return a per-turn comparison. Fast way to
@@ -53,7 +64,17 @@ export async function replayAgainst(
   candidate: AdapterFactory,
   options: ReplayAgainstOptions = {},
 ): Promise<ReplayAgainstResult[]> {
-  const entries = cassette.entries.slice(0, options.limit ?? cassette.entries.length)
+  const limit =
+    options.limit !== undefined
+      ? assertNonNegativeInt(options.limit, 'limit')
+      : cassette.entries.length
+  const concurrencyRaw =
+    options.concurrency !== undefined
+      ? assertNonNegativeInt(options.concurrency, 'concurrency')
+      : 1
+  const concurrency = Math.max(1, concurrencyRaw)
+
+  const entries = cassette.entries.slice(0, limit).map(e => defensiveSnapshot(e))
 
   const runOne = async (entry: Cassette['entries'][number], turn: number): Promise<ReplayAgainstResult> => {
     const recordedText = textOf(entry.chunks)
@@ -62,7 +83,7 @@ export async function replayAgainst(
     let candidateChunks: StreamChunk[] = []
     let error: string | undefined
     try {
-      const source = candidate.createSource(entry.request)
+      const source = candidate.createSource(defensiveSnapshot(entry.request))
       for await (const c of source.stream()) candidateChunks.push(c)
     } catch (err) {
       error = err instanceof Error ? err.message : String(err)
@@ -77,7 +98,6 @@ export async function replayAgainst(
     }
   }
 
-  const concurrency = Math.max(1, options.concurrency ?? 1)
   const results: ReplayAgainstResult[] = new Array(entries.length)
   let next = 0
   const workers: Promise<void>[] = []

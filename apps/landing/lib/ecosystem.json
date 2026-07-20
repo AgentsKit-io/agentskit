@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "$comment": "Canonical registry of AgentsKit ecosystem products. Stable identity lives in products[] (seven). Numeric values live in the generated ecosystem-claims ledger. The deprecated properties array remains a v1 four-product shim for Doc Bridge / sibling consumers until those schemas accept the full seven-product set \u2014 do not treat properties as the product catalog.",
+  "$comment": "Canonical registry of AgentsKit ecosystem products. Stable identity lives in products[] (seven). Numeric values live in the generated ecosystem-claims ledger. The properties array is the full seven-product v1 projection of products[] (same order) for sibling consumers.",
   "parentBrand": {
     "id": "agentskit",
     "name": "AgentsKit"
@@ -321,7 +321,6 @@
         "home": "https://akos.agentskit.io",
         "docs": "https://akos.agentskit.io/docs",
         "llms": "https://akos.agentskit.io/llms.txt",
-        "stats": "https://akos.agentskit.io/api/stats.json",
         "documentation": "fumadocs",
         "chat": "none"
       },
@@ -347,17 +346,29 @@
       "stats": "https://www.agentskit.io/api/stats.json"
     },
     {
-      "id": "akos",
-      "name": "AgentsKit OS",
-      "barLabel": "AKOS",
-      "domain": "akos.agentskit.io",
-      "url": "https://akos.agentskit.io",
-      "repo": "AgentsKit-io/agentskit-os",
-      "tagline": "Run and govern agents in production.",
-      "kind": "product",
-      "accent": "#34D399",
-      "llms": "https://akos.agentskit.io/llms.txt",
-      "stats": "https://akos.agentskit.io/api/stats.json"
+      "id": "registry",
+      "name": "AgentsKit Registry",
+      "barLabel": "Registry",
+      "domain": "registry.agentskit.io",
+      "url": "https://registry.agentskit.io",
+      "repo": "AgentsKit-io/agentskit-registry",
+      "tagline": "Copy ready-made agents and own the source.",
+      "kind": "registry",
+      "accent": "#58A6FF",
+      "llms": "https://registry.agentskit.io/llms.txt",
+      "stats": "https://registry.agentskit.io/r/index.json"
+    },
+    {
+      "id": "agentskit-chat",
+      "name": "AgentsKit Chat",
+      "barLabel": "Chat",
+      "domain": "chat.agentskit.io",
+      "url": "https://chat.agentskit.io",
+      "repo": "AgentsKit-io/agentskit-chat",
+      "tagline": "Define one agent experience and deliver it across interfaces.",
+      "kind": "framework",
+      "accent": "#F59E0B",
+      "llms": "https://chat.agentskit.io/llms.txt"
     },
     {
       "id": "playbook",
@@ -373,17 +384,40 @@
       "stats": "https://playbook.agentskit.io/api/stats.json"
     },
     {
-      "id": "registry",
-      "name": "AgentsKit Registry",
-      "barLabel": "Registry",
-      "domain": "registry.agentskit.io",
-      "url": "https://registry.agentskit.io",
-      "repo": "AgentsKit-io/agentskit-registry",
-      "tagline": "Copy ready-made agents and own the source.",
-      "kind": "registry",
-      "accent": "#58A6FF",
-      "llms": "https://registry.agentskit.io/llms.txt",
-      "stats": "https://registry.agentskit.io/r/index.json"
+      "id": "doc-bridge",
+      "name": "Doc Bridge",
+      "barLabel": "Doc Bridge",
+      "domain": "agentskit-io.github.io",
+      "url": "https://agentskit-io.github.io/doc-bridge/",
+      "repo": "AgentsKit-io/doc-bridge",
+      "tagline": "Turn repository documentation into executable agent handoffs.",
+      "kind": "developer-tool",
+      "accent": "#06B6D4",
+      "llms": "https://agentskit-io.github.io/doc-bridge/llms.txt"
+    },
+    {
+      "id": "code-review",
+      "name": "AgentsKit Code Review",
+      "barLabel": "Code Review",
+      "domain": "github.com",
+      "url": "https://github.com/AgentsKit-io/code-review-cli",
+      "repo": "AgentsKit-io/code-review-cli",
+      "tagline": "Run deep, low-noise review with the model already in use.",
+      "kind": "developer-tool",
+      "accent": "#F97316",
+      "llms": "https://raw.githubusercontent.com/AgentsKit-io/code-review-cli/main/llms.txt"
+    },
+    {
+      "id": "akos",
+      "name": "AgentsKit OS",
+      "barLabel": "AKOS",
+      "domain": "akos.agentskit.io",
+      "url": "https://akos.agentskit.io",
+      "repo": "AgentsKit-io/agentskit-os",
+      "tagline": "Run and govern agents in production.",
+      "kind": "product",
+      "accent": "#34D399",
+      "llms": "https://akos.agentskit.io/llms.txt"
     }
   ],
   "builder": {

@@ -6,6 +6,7 @@ import type {
   ChatController,
   ChatReturn,
   ChatState,
+  EditOptions,
   ToolCall,
 } from '@agentskit/core'
 
@@ -61,26 +62,27 @@ export class AgentskitChat implements OnDestroy {
     }
   }
 
-  send = (text: string): void => {
-    void this.requireController().send(text)
-  }
+  send = (text: string): Promise<void> => this.requireController().send(text)
 
   stop = (): void => this.requireController().stop()
-  retry = (): void => {
-    void this.requireController().retry()
-  }
+
+  retry = (): Promise<void> => this.requireController().retry()
+
+  edit = (messageId: string, newContent: string, opts?: EditOptions): Promise<void> =>
+    this.requireController().edit(messageId, newContent, opts)
+
+  regenerate = (messageId?: string): Promise<void> => this.requireController().regenerate(messageId)
+
   setInput = (value: string): void => this.requireController().setInput(value)
-  clear = (): void => {
-    void this.requireController().clear()
-  }
+
+  clear = (): Promise<void> => this.requireController().clear()
+
   proposeToolCall = (proposal: Parameters<ChatReturn['proposeToolCall']>[0]): Promise<ToolCall> =>
     this.requireController().proposeToolCall(proposal)
-  approve = (id: string): void => {
-    void this.requireController().approve(id)
-  }
-  deny = (id: string): void => {
-    void this.requireController().deny(id)
-  }
+
+  approve = (id: string): Promise<void> => this.requireController().approve(id)
+
+  deny = (id: string, reason?: string): Promise<void> => this.requireController().deny(id, reason)
 
   destroy(): void {
     this.unsubscribe?.()

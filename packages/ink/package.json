@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/ink",
-  "version": "0.10.5",
+  "version": "0.10.6",
   "description": "Ink terminal components and hooks for AgentsKit.",
   "keywords": [
     "agentskit",
@@ -24,14 +24,12 @@
   ],
   "type": "module",
   "sideEffects": false,
-  "main": "./dist/index.cjs",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": "./dist/index.js"
     }
   },
   "files": [

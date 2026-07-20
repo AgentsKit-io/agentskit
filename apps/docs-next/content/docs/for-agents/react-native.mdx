@@ -56,7 +56,7 @@ export function Chat() {
 
 ## Common patterns
 
-- **Streaming polyfills required**: Hermes does not ship `TextDecoder` or the Web Streams API. Install `react-native-polyfill-globals` and call `polyfillGlobal('TextDecoder', ...)` at the top of your entry file before any AgentsKit import — otherwise streamed responses will silently fail.
+- **Streaming polyfills required**: Hermes does not ship `TextDecoder` or the Web Streams API. Install `react-native-polyfill-globals` and call `polyfillGlobal('TextDecoder', ...)` at the top of your entry file **before any AgentsKit import**. Missing polyfills fail **predictably** (thrown / rejected stream errors) rather than failing silently — do not catch-and-ignore those errors at the app boundary without surfacing them.
 - **No Node built-ins**: Metro does not polyfill Node modules (`Buffer`, `stream`, `crypto`). If an adapter dependency pulls them in, add the `react-native` field in the adapter's `package.json` or use a Metro resolver alias.
 - **Expo managed workflow**: add the polyfill in `app/_layout.tsx` (or `App.tsx`) as the very first import; do not rely on Babel plugins to hoist polyfills after module initialisation.
 - **Keyboard avoiding**: wrap the input in `<KeyboardAvoidingView>` and use `FlatList`'s `inverted` prop + `onContentSizeChange` scroll-to-end for a chat-like feel.

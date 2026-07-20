@@ -211,6 +211,28 @@ describe('executeSafeTool', () => {
     expect(result.error).toContain('API timeout')
   })
 
+  it('emits error before tool:end on failed tool execution', async () => {
+    const tool: ToolDefinition = {
+      name: 'flaky',
+      execute: async () => { throw new Error('API timeout') },
+    }
+    const emitter = createEventEmitter()
+    const lifecycle = createToolLifecycle(buildToolMap([tool]))
+    const types: string[] = []
+    emitter.addObserver({ name: 'test', on: (e) => { types.push(e.type) } })
+
+    const result = await executeSafeTool({
+      tool,
+      toolCall: makeToolCall('flaky'),
+      context: { messages: [], call: makeToolCall('flaky') },
+      emitter,
+      lifecycle,
+    })
+
+    expect(result.status).toBe('error')
+    expect(types).toEqual(['tool:start', 'error', 'tool:end'])
+  })
+
   it('calls onPartial during streaming execution', async () => {
     const tool: ToolDefinition = {
       name: 'streamer',
@@ -271,11 +293,15 @@ describe('executeSafeTool', () => {
     expect(denied.status).toBe('skipped')
   })
 
-  it('auto-confirms when no onConfirm callback provided', async () => {
+  it('refuses when requiresConfirmation and no onConfirm callback is provided', async () => {
+    let executed = false
     const tool: ToolDefinition = {
       name: 'dangerous',
       requiresConfirmation: true,
-      execute: async () => 'auto-executed',
+      execute: async () => {
+        executed = true
+        return 'should-not-run'
+      },
     }
     const emitter = createEventEmitter()
     const toolMap = buildToolMap([tool])
@@ -288,7 +314,9 @@ describe('executeSafeTool', () => {
       emitter,
       lifecycle,
     })
-    expect(result.status).toBe('complete')
-    expect(result.result).toBe('auto-executed')
+    expect(executed).toBe(false)
+    expect(result.status).toBe('skipped')
+    expect(result.result?.toLowerCase()).toMatch(/confirm|refus|approv|declin/)
+    expect(result.result?.toLowerCase()).toContain('handler')
   })
 })

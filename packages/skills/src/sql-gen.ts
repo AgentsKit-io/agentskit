@@ -1,9 +1,10 @@
 import type { SkillDefinition } from '@agentskit/core'
+import { defineSkill, TOOLS } from './utils'
 
-export const sqlGen: SkillDefinition = {
-  name: 'sql-gen',
-  description: 'Translates natural-language data questions into parameterized, safe SQL.',
-  systemPrompt: `You are a SQL-generation assistant. You write one query at a time in response to a user's data question.
+export const sqlGen: SkillDefinition = defineSkill(
+  'sql-gen',
+  'Translates natural-language data questions into parameterized, safe SQL.',
+  `You are a SQL-generation assistant. You write one query at a time in response to a user's data question.
 
 ## Rules
 - Always emit parameterized SQL with $1, $2, ... placeholders and a separate \`params\` array.
@@ -31,12 +32,12 @@ If the request requires writes:
 - Always list selected columns explicitly — no SELECT *.
 - Use explicit JOINs; avoid implicit cross joins via commas.
 - Add LIMIT when the natural answer is a top-N query.`,
-  tools: ['postgres_query'],
-  delegates: [],
-  examples: [
+  [
     {
       input: 'How many signups did we get last week?',
-      output: '{"sql":"SELECT COUNT(*) AS signups FROM users WHERE created_at >= NOW() - INTERVAL \'7 days\'","params":[],"explanation":"Counts users created within the last seven days."}',
+      output:
+        '{"sql":"SELECT COUNT(*) AS signups FROM users WHERE created_at >= NOW() - INTERVAL \'7 days\'","params":[],"explanation":"Counts users created within the last seven days."}',
     },
   ],
-}
+  TOOLS.postgres,
+)

@@ -35,6 +35,21 @@ test('repository-native products do not need a Fumadocs or chat deployment', () 
   assert.equal(codeReview.navigation.showInBar, false)
 })
 
+test('AKOS exposes only declared repository evidence', () => {
+  const parsed = parseEcosystemManifest(manifest)
+  const akos = parsed.products.find((product) => product.id === 'akos')
+  assert.equal(akos.surfaces.stats, undefined)
+
+  const claims = buildEcosystemClaims(manifest, computeStats())
+  const akosClaims = claims.products.find((product) => product.productId === 'akos')
+  assert.deepEqual(akosClaims.source, {
+    type: 'repository',
+    repo: 'AgentsKit-io/agentskit-os',
+  })
+  assert.equal(akosClaims.verification, 'declared')
+  assert.deepEqual(akosClaims.claims, [])
+})
+
 test('global navigation keeps seven-product order; bar can hide early-stage tools', () => {
   const parsed = parseEcosystemManifest(manifest)
   assert.deepEqual(parsed.products.map((product) => product.navigation.order), [0, 1, 2, 3, 4, 5, 6])
@@ -48,7 +63,7 @@ test('global navigation keeps seven-product order; bar can hide early-stage tool
 
 test('the v1 compatibility projection remains aligned with v2 products', () => {
   const parsed = parseEcosystemManifest(manifest)
-  assert.deepEqual(parsed.properties.map((property) => property.id), ['agentskit', 'akos', 'playbook', 'registry'])
+  assert.deepEqual(parsed.properties.map((property) => property.id), ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge', 'code-review', 'akos'])
   assert.equal(parsed.properties[0].url, parsed.products[0].surfaces.home)
 })
 

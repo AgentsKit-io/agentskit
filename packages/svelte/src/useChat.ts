@@ -24,6 +24,14 @@ export function createChatStore(config: ChatConfig): SvelteChatStore {
   const controller = createChatController(config)
   const store = writable<ChatState>(controller.getState())
   const unsubscribe = controller.subscribe(() => store.set(controller.getState()))
+  let destroyed = false
+
+  const destroy = (): void => {
+    if (destroyed) return
+    destroyed = true
+    unsubscribe()
+    controller.stop()
+  }
 
   return {
     subscribe: store.subscribe,
@@ -37,6 +45,6 @@ export function createChatStore(config: ChatConfig): SvelteChatStore {
     proposeToolCall: controller.proposeToolCall,
     approve: controller.approve,
     deny: controller.deny,
-    destroy: unsubscribe,
+    destroy,
   }
 }

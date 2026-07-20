@@ -31,15 +31,38 @@ describe('@agentskit/angular components', () => {
 
   it('InputBar sends on Enter, not Shift+Enter', () => {
     const sent: string[] = []
-    const chat = { input: 'hey', send: (t: string) => sent.push(t), setInput: () => {} } as unknown as ChatReturn
+    const chat = { input: 'hey', status: 'idle', send: (t: string) => sent.push(t), setInput: () => {} } as unknown as ChatReturn
     const f = TestBed.createComponent(InputBarComponent)
     f.componentInstance.chat = chat
     f.detectChanges()
     const ta = f.nativeElement.querySelector('[data-ak-input]')
+    expect(ta.getAttribute('role')).toBeNull()
     ta.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', shiftKey: true, bubbles: true }))
     expect(sent).toEqual([])
     ta.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
     expect(sent).toEqual(['hey'])
+  })
+
+  it('InputBar blocks submit and Enter while streaming', () => {
+    const sent: string[] = []
+    const chat = {
+      input: 'hey',
+      status: 'streaming',
+      send: (t: string) => sent.push(t),
+      setInput: () => {},
+    } as unknown as ChatReturn
+    const f = TestBed.createComponent(InputBarComponent)
+    f.componentInstance.chat = chat
+    f.detectChanges()
+
+    const ta = f.nativeElement.querySelector('[data-ak-input]')
+    const send = f.nativeElement.querySelector('[data-ak-send]')
+    expect(ta.disabled).toBe(true)
+    expect(send.disabled).toBe(true)
+
+    ta.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
+    f.nativeElement.querySelector('[data-ak-input-bar]').dispatchEvent(new Event('submit'))
+    expect(sent).toEqual([])
   })
 
   it('Message renders role, status, content', () => {
@@ -54,7 +77,7 @@ describe('@agentskit/angular components', () => {
 
   it('InputBar submits + disables on empty', () => {
     const sent: string[] = []
-    const chat = { input: 'hi', send: (t: string) => sent.push(t), setInput: () => {} } as unknown as ChatReturn
+    const chat = { input: 'hi', status: 'idle', send: (t: string) => sent.push(t), setInput: () => {} } as unknown as ChatReturn
     const f = TestBed.createComponent(InputBarComponent)
     f.componentInstance.chat = chat
     f.detectChanges()
@@ -64,7 +87,7 @@ describe('@agentskit/angular components', () => {
   })
 
   it('InputBar disables send when blank', () => {
-    const chat = { input: '   ', send: () => {}, setInput: () => {} } as unknown as ChatReturn
+    const chat = { input: '   ', status: 'idle', send: () => {}, setInput: () => {} } as unknown as ChatReturn
     const f = TestBed.createComponent(InputBarComponent)
     f.componentInstance.chat = chat
     f.componentInstance.disabled = true
@@ -99,13 +122,17 @@ describe('@agentskit/angular components', () => {
     expect(b.nativeElement.querySelector('[data-ak-copy]')).toBeNull()
   })
 
-  it('ToolCallView toggles details', () => {
+  it('ToolCallView toggles details and exposes aria-expanded', () => {
     const f = TestBed.createComponent(ToolCallViewComponent)
     f.componentInstance.toolCall = toolCall({ result: 'ok' })
     f.detectChanges()
+    const toggle = f.nativeElement.querySelector('[data-ak-tool-toggle]')
     expect(f.nativeElement.querySelector('[data-ak-tool-details]')).toBeNull()
-    f.nativeElement.querySelector('[data-ak-tool-toggle]').click()
+    expect(toggle.getAttribute('aria-expanded')).toBe('false')
+
+    toggle.click()
     f.detectChanges()
+    expect(toggle.getAttribute('aria-expanded')).toBe('true')
     expect(f.nativeElement.querySelector('[data-ak-tool-args]')).not.toBeNull()
     expect(f.nativeElement.querySelector('[data-ak-tool-result]').textContent.trim()).toBe('ok')
   })

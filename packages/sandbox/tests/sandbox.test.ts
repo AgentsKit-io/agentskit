@@ -1,7 +1,8 @@
 import { describe, it, expect, vi } from 'vitest'
+import { ConfigError, SandboxError } from '@agentskit/core'
 import { createSandbox } from '../src/sandbox'
 import { sandboxTool } from '../src/tool'
-import type { SandboxBackend, ExecuteOptions, ExecuteResult } from '../src/types'
+import type { SandboxBackend, ExecuteResult } from '../src/types'
 
 function createMockBackend(results?: Partial<ExecuteResult>): SandboxBackend {
   return {
@@ -66,17 +67,48 @@ describe('createSandbox', () => {
     }))
   })
 
-  it('dispose calls backend dispose', async () => {
+  it('dispose calls backend dispose and is idempotent', async () => {
     const backend = createMockBackend()
     const sandbox = createSandbox({ backend })
 
     await sandbox.dispose()
-    expect(backend.dispose).toHaveBeenCalled()
+    await sandbox.dispose()
+    expect(backend.dispose).toHaveBeenCalledTimes(1)
   })
 
-  it('throws if no apiKey and no backend', () => {
+  it('execute after dispose fails clearly', async () => {
+    const backend = createMockBackend()
+    const sandbox = createSandbox({ backend })
+    await sandbox.dispose()
+    await expect(sandbox.execute('x')).rejects.toThrow(/disposed/)
+  })
+
+  it('throws if no apiKey and no backend', async () => {
     const sandbox = createSandbox({})
-    expect(sandbox.execute('test')).rejects.toThrow('apiKey')
+    await expect(sandbox.execute('test')).rejects.toThrow('apiKey')
+  })
+
+  it('rejects empty apiKey', () => {
+    expect(() => createSandbox({ apiKey: '   ' })).toThrow(ConfigError)
+  })
+
+  it('rejects invalid language at config time', () => {
+    expect(() =>
+      createSandbox({ backend: createMockBackend(), language: 'ruby' as 'javascript' }),
+    ).toThrow(/language/)
+  })
+
+  it('rejects invalid timeout at config time', () => {
+    expect(() => createSandbox({ backend: createMockBackend(), timeout: 0 })).toThrow(/timeout/)
+    expect(() => createSandbox({ backend: createMockBackend(), timeout: NaN })).toThrow(/timeout/)
+  })
+
+  it('rejects invalid language/timeout at execute time', async () => {
+    const sandbox = createSandbox({ backend: createMockBackend() })
+    await expect(
+      sandbox.execute('x', { language: 'ruby' as 'javascript' }),
+    ).rejects.toThrow(ConfigError)
+    await expect(sandbox.execute('x', { timeout: -5 })).rejects.toThrow(ConfigError)
   })
 
   it('handles backend errors gracefully', async () => {
@@ -149,7 +181,7 @@ describe('sandboxTool', () => {
     expect(result).toContain('Error')
   })
 
-  it('passes language option', async () => {
+  it('passes language option and rejects invalid language', async () => {
     const backend = createMockBackend()
     const tool = sandboxTool({ backend })
 
@@ -161,13 +193,45 @@ describe('sandboxTool', () => {
     expect(backend.execute).toHaveBeenCalledWith('print(1)', expect.objectContaining({
       language: 'python',
     }))
+
+    await expect(
+      tool.execute!(
+        { code: 'x', language: 'ruby' },
+        { messages: [], call: { id: '1', name: 'code_execution', args: {}, status: 'running' } },
+      ),
+    ).rejects.toThrow(ConfigError)
   })
 
-  it('dispose cleans up sandbox', async () => {
+  it('dispose cleans up sandbox and is idempotent', async () => {
     const backend = createMockBackend()
     const tool = sandboxTool({ backend })
 
     await tool.dispose!()
-    expect(backend.dispose).toHaveBeenCalled()
+    await tool.dispose!()
+    expect(backend.dispose).toHaveBeenCalledTimes(1)
+  })
+
+  it('warmup rethrows config errors and tolerates operational failures', async () => {
+    const configBackend: SandboxBackend = {
+      execute: vi.fn().mockRejectedValue(
+        new ConfigError({ code: 'AK_CONFIG_INVALID', message: 'bad config' }),
+      ),
+    }
+    const configTool = sandboxTool({ backend: configBackend })
+    await expect(configTool.init!()).rejects.toThrow(ConfigError)
+
+    const peerBackend: SandboxBackend = {
+      execute: vi.fn().mockRejectedValue(
+        new SandboxError({ code: 'AK_SANDBOX_PEER_MISSING', message: 'peer missing' }),
+      ),
+    }
+    const peerTool = sandboxTool({ backend: peerBackend })
+    await expect(peerTool.init!()).rejects.toThrow(SandboxError)
+
+    const opBackend: SandboxBackend = {
+      execute: vi.fn().mockRejectedValue(new Error('transient warmup blip')),
+    }
+    const opTool = sandboxTool({ backend: opBackend })
+    await expect(opTool.init!()).resolves.toBeUndefined()
   })
 })

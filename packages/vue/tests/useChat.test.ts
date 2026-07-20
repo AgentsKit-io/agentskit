@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { createApp, effectScope, h, nextTick } from 'vue'
 import type { AdapterFactory, AdapterRequest, StreamChunk } from '@agentskit/core'
 import { useChat, ChatContainer } from '../src'
@@ -17,6 +17,21 @@ function mockAdapter(chunks: StreamChunk[]): AdapterFactory {
         abort: () => {
           aborted = true
         },
+      }
+    },
+  }
+}
+
+function hangingAdapter(opts: { abort: () => void; onSource?: () => void }): AdapterFactory {
+  return {
+    createSource: () => {
+      opts.onSource?.()
+      return {
+        async *stream() {
+          yield { type: 'text' as const, content: 'started' }
+          await new Promise(() => {})
+        },
+        abort: opts.abort,
       }
     },
   }
@@ -117,5 +132,62 @@ describe('@agentskit/vue', () => {
 
     app.unmount()
     root.remove()
+  })
+
+  it('scope dispose unsubscribes and stops an in-flight stream', async () => {
+    const abort = vi.fn()
+    let sourceReady: (() => void) | undefined
+    const ready = new Promise<void>(resolve => {
+      sourceReady = resolve
+    })
+    const scope = effectScope()
+    const chat = scope.run(() =>
+      useChat({
+        adapter: hangingAdapter({
+          abort,
+          onSource: () => sourceReady?.(),
+        }),
+      }),
+    )!
+
+    void chat.send('go')
+    await ready
+
+    scope.stop()
+    scope.stop()
+
+    expect(abort).toHaveBeenCalledOnce()
+  })
+
+  it('isolates state across concurrent useChat instances', async () => {
+    const scope = effectScope()
+    const a = scope.run(() =>
+      useChat({
+        adapter: mockAdapter([
+          { type: 'text', content: 'from-a' },
+          { type: 'done' },
+        ]),
+      }),
+    )!
+    const b = scope.run(() =>
+      useChat({
+        adapter: mockAdapter([
+          { type: 'text', content: 'from-b' },
+          { type: 'done' },
+        ]),
+      }),
+    )!
+
+    a.setInput('draft-a')
+    b.setInput('draft-b')
+    expect(a.input).toBe('draft-a')
+    expect(b.input).toBe('draft-b')
+
+    await a.send('hello-a')
+    await nextTick()
+    expect(a.messages.some(m => m.content === 'from-a')).toBe(true)
+    expect(b.messages).toHaveLength(0)
+
+    scope.stop()
   })
 })

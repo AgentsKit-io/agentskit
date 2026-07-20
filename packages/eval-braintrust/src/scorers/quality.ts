@@ -7,9 +7,15 @@ export const taskSuccess: Scorer<string | RegExp | ((output: string) => boolean)
     return { name: 'task_success', score: 0, rationale: 'no expected value provided' }
   }
   let pass: boolean
-  if (typeof expected === 'function') pass = expected(output)
-  else if (expected instanceof RegExp) pass = expected.test(output)
-  else pass = output.includes(expected)
+  if (typeof expected === 'function') {
+    pass = expected(output)
+  } else if (expected instanceof RegExp) {
+    const isolated = new RegExp(expected.source, expected.flags)
+    isolated.lastIndex = expected.lastIndex
+    pass = isolated.test(output)
+  } else {
+    pass = output.includes(expected)
+  }
   return { name: 'task_success', score: pass ? 1 : 0 }
 }
 
