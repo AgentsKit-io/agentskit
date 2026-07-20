@@ -1,6 +1,7 @@
 const MATURITY = new Set(['planning', 'alpha', 'beta', 'stable', 'deprecated'])
 const DOCUMENTATION_MODES = new Set(['fumadocs', 'repository'])
 const CHAT_MODES = new Set(['agentschat', 'custom', 'none'])
+const SALES_KINDS = new Set(['integration-stack', 'registry-install', 'human-agent', 'standards-flow', 'knowledge-bridge', 'enterprise-control'])
 const SURFACE_KEYS = ['home', 'docs', 'llms', 'stats']
 /** properties[] is the seven-product v1 projection of products[] (same order). */
 const LEGACY_PRODUCT_IDS = ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge', 'code-review', 'akos']
@@ -75,6 +76,50 @@ export function parseEcosystemManifest(input) {
     if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo)) fail(`${path}.repo`, 'must use owner/name')
     const accent = string(product.accent, `${path}.accent`)
     if (!/^#[0-9A-Fa-f]{6}$/.test(accent)) fail(`${path}.accent`, 'must be a six-digit hex color')
+
+    if (product.navigation?.showInBar) {
+      const showcase = object(product.showcase, `${path}.showcase`)
+      string(showcase.stage, `${path}.showcase.stage`)
+      string(showcase.headline, `${path}.showcase.headline`)
+      string(showcase.detail, `${path}.showcase.detail`)
+      string(showcase.proof, `${path}.showcase.proof`)
+      string(showcase.cta, `${path}.showcase.cta`)
+
+      const sales = object(showcase.sales, `${path}.showcase.sales`)
+      enumValue(sales.kind, SALES_KINDS, `${path}.showcase.sales.kind`)
+      string(sales.headline, `${path}.showcase.sales.headline`)
+      if (sales.metrics !== undefined) {
+        if (!Array.isArray(sales.metrics) || sales.metrics.length < 2) {
+          fail(`${path}.showcase.sales.metrics`, 'must contain at least two metrics')
+        }
+        for (const [metricIndex, rawMetric] of sales.metrics.entries()) {
+          const metric = object(rawMetric, `${path}.showcase.sales.metrics[${metricIndex}]`)
+          string(metric.value, `${path}.showcase.sales.metrics[${metricIndex}].value`)
+          string(metric.label, `${path}.showcase.sales.metrics[${metricIndex}].label`)
+        }
+      } else {
+        string(sales.metric, `${path}.showcase.sales.metric`)
+        string(sales.metricLabel, `${path}.showcase.sales.metricLabel`)
+      }
+      if (sales.command !== undefined) string(sales.command, `${path}.showcase.sales.command`)
+      if (sales.logos !== undefined && (!Array.isArray(sales.logos) || sales.logos.length < 3)) {
+        fail(`${path}.showcase.sales.logos`, 'must contain at least three recognizable items')
+      }
+      for (const [logoIndex, rawLogo] of (sales.logos || []).entries()) {
+        const logo = object(rawLogo, `${path}.showcase.sales.logos[${logoIndex}]`)
+        string(logo.id, `${path}.showcase.sales.logos[${logoIndex}].id`)
+        string(logo.label, `${path}.showcase.sales.logos[${logoIndex}].label`)
+        if (logo.glyph !== undefined) string(logo.glyph, `${path}.showcase.sales.logos[${logoIndex}].glyph`)
+      }
+      for (const key of ['capabilities', 'steps']) {
+        if (!Array.isArray(sales[key]) || sales[key].length < 3) {
+          fail(`${path}.showcase.sales.${key}`, 'must contain at least three items')
+        }
+        for (const [itemIndex, item] of sales[key].entries()) {
+          string(item, `${path}.showcase.sales.${key}[${itemIndex}]`)
+        }
+      }
+    }
 
     const surfaces = object(product.surfaces, `${path}.surfaces`)
     enumValue(surfaces.documentation, DOCUMENTATION_MODES, `${path}.surfaces.documentation`)

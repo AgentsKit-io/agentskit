@@ -5,7 +5,7 @@ import { LandingFx } from './_components/landing-fx'
 import { Hero } from './_components/hero'
 import { Browse } from './_components/browse'
 import { InstallSteps } from './_components/install-steps'
-import { EcosystemMesh } from './_components/ecosystem-mesh'
+import { EcosystemShowcase } from './_components/ecosystem-showcase'
 
 export const revalidate = 3600
 
@@ -32,7 +32,7 @@ export default async function HomePage() {
         <Browse agents={agents} />
       </Suspense>
       <InstallSteps />
-      <EcosystemMesh />
+      <EcosystemShowcase />
     </main>
   )
 }

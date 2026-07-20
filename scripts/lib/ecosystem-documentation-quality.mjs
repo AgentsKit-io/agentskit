@@ -11,7 +11,7 @@ export const CANONICAL_PRODUCTS = Object.freeze([
   { id: 'registry', repo: 'AgentsKit-io/agentskit-registry', docsUrl: 'https://registry.agentskit.io/docs' },
   { id: 'agentskit-chat', repo: 'AgentsKit-io/agentskit-chat', docsUrl: 'https://chat.agentskit.io/docs' },
   { id: 'playbook', repo: 'AgentsKit-io/agents-playbook', docsUrl: 'https://playbook.agentskit.io/docs' },
-  { id: 'doc-bridge', repo: 'AgentsKit-io/doc-bridge', docsUrl: 'https://agentskit-io.github.io/doc-bridge/' },
+  { id: 'doc-bridge', repo: 'AgentsKit-io/doc-bridge', docsUrl: 'https://doc-bridge.agentskit.io/' },
   { id: 'code-review', repo: 'AgentsKit-io/code-review-cli', docsUrl: 'https://github.com/AgentsKit-io/code-review-cli#readme' },
   { id: 'akos', repo: 'AgentsKit-io/agentskit-os', docsUrl: 'https://akos.agentskit.io/docs' },
 ])

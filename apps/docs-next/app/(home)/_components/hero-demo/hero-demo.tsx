@@ -1,356 +1,347 @@
 'use client'
 
-import { useEffect, useLayoutEffect, useRef, useState } from 'react'
-import { SCENES, type WidgetKind, type Event } from './scenes'
-import {
-  WeatherCard,
-  PriceCard,
-  OrderTracker,
-  FlightList,
-  RAGCite,
-  SandboxRun,
-  MultiAgent,
-  ObsTrace,
-  MemoryRecall,
-  ProviderSwap,
-  IntegrationCard,
-  TerminalMirror,
-  EvalRun,
-  SkillSwap,
-} from './widgets'
+import { useReducedMotion } from 'motion/react'
+import { useEffect, useMemo, useState } from 'react'
+import { counts } from '@/lib/ecosystem-stats'
 
-type ToolState = { label: string; done: boolean; ms: number } | null
-
-type Frame = {
-  userDraft: string
-  userMsg: string | null
-  thinking: boolean
-  tool: ToolState
-  widget: WidgetKind | null
-  assistant: string
+type CodeRow = {
+  id: string
+  property: string
+  variants: readonly string[]
+  comment: string
+  step: number
 }
 
-const EMPTY: Frame = {
-  userDraft: '',
-  userMsg: null,
-  thinking: false,
-  tool: null,
-  widget: null,
-  assistant: '',
+type DemoStep = {
+  id: string
+  label: string
+  eyebrow: string
+  title: string
+  description: string
+  proof: string
 }
+
+const CODE_ROWS: readonly CodeRow[] = [
+  {
+    id: 'adapter',
+    property: 'adapter',
+    variants: [
+      "anthropic({ model: 'claude-sonnet-4-6' })",
+      "openai({ model: 'gpt-4o' })",
+      "kimi({ model: 'kimi-k2.5' })",
+    ],
+    comment: `${counts.catalogProviders} providers · ${counts.catalogModels.toLocaleString('en-US')} models`,
+    step: 0,
+  },
+  {
+    id: 'tools',
+    property: 'tools',
+    variants: [
+      '[webSearch()]',
+      '[webSearch(), ...github()]',
+      '[webSearch(), ...github(), ...slack()]',
+    ],
+    comment: `${counts.integrations} integrations + MCP`,
+    step: 1,
+  },
+  {
+    id: 'retriever',
+    property: 'retriever',
+    variants: ['docsRag', 'hybridRag', 'productKnowledge'],
+    comment: 'any Retriever plugs in',
+    step: 2,
+  },
+  {
+    id: 'memory',
+    property: 'memory',
+    variants: [
+      "fileChatMemory('./history.json')",
+      "sqliteChatMemory({ path: './agent.db' })",
+      'redisChatMemory({ client })',
+    ],
+    comment: `${counts.memoryBackends} backends`,
+    step: 3,
+  },
+  {
+    id: 'on-confirm',
+    property: 'onConfirm',
+    variants: ['approveSensitiveActions'],
+    comment: 'HITL · deny by default',
+    step: 4,
+  },
+  {
+    id: 'delegates',
+    property: 'delegates',
+    variants: ['{ researcher, coder, reviewer }'],
+    comment: 'multi-agent, same runtime',
+    step: 5,
+  },
+] as const
+
+const STEPS: readonly DemoStep[] = [
+  {
+    id: 'model',
+    label: 'Model',
+    eyebrow: '01 · Connect a model',
+    title: 'Change the model. Keep the agent.',
+    description: 'OpenAI, Anthropic, Gemini, Kimi, local models, or your own adapter use one contract.',
+    proof: `${counts.nativeAdapters} native adapters · ${counts.catalogProviders} providers · ${counts.catalogModels.toLocaleString('en-US')} models`,
+  },
+  {
+    id: 'tools',
+    label: 'Tools',
+    eyebrow: '02 · Give it actions',
+    title: 'Connect the work your agent needs to do.',
+    description: 'Add built-in tools, full integration families, MCP servers, or a function you already own.',
+    proof: `${counts.integrations} integrations · custom tools · MCP`,
+  },
+  {
+    id: 'rag',
+    label: 'RAG',
+    eyebrow: '03 · Ground every answer',
+    title: 'Bring your own knowledge.',
+    description: 'RAG, BM25, web search, code search, and hybrid retrieval share one narrow interface.',
+    proof: 'chunk · embed · retrieve · cite',
+  },
+  {
+    id: 'memory',
+    label: 'Memory',
+    eyebrow: '04 · Keep useful context',
+    title: 'Start local. Scale the backend later.',
+    description: 'Conversation history and vector recall stay separate, swappable, and easy to test.',
+    proof: `${counts.memoryBackends} memory backends`,
+  },
+  {
+    id: 'safety',
+    label: 'Safety',
+    eyebrow: '05 · Control sensitive actions',
+    title: 'Automation with an approval boundary.',
+    description: 'Confirmation gates stop sensitive tools before execution and deny when no approver exists.',
+    proof: 'HITL · RBAC · sandboxing · guardrails',
+  },
+  {
+    id: 'team',
+    label: 'Team',
+    eyebrow: '06 · Delegate the work',
+    title: 'One agent or a coordinated team.',
+    description: 'Planner, researcher, coder, and reviewer become delegates without replacing the runtime.',
+    proof: 'ReAct · planning · delegation · multi-agent',
+  },
+  {
+    id: 'surfaces',
+    label: 'Surfaces',
+    eyebrow: '07 · Deliver the experience',
+    title: 'Build the agent once. Meet users anywhere.',
+    description: 'The same foundation powers product experiences across browser, desktop, terminal, and mobile.',
+    proof: 'Web · Desktop · CLI · Mobile',
+  },
+] as const
+
+const VALUE_STEP_MS = 900
+const SLIDE_HOLD_MS = 2500
 
 export function HeroDemo() {
-  const [sceneIdx, setSceneIdx] = useState(0)
-  const [frame, setFrame] = useState<Frame>(EMPTY)
-  const [reducedMotion, setReducedMotion] = useState(false)
-  const railRef = useRef<HTMLDivElement>(null)
+  const reduceMotion = useReducedMotion()
+  const [activeStep, setActiveStep] = useState(0)
+  const [variantIndex, setVariantIndex] = useState(0)
+  const [manualPaused, setManualPaused] = useState(false)
+  const [hovered, setHovered] = useState(false)
+  const [focusWithin, setFocusWithin] = useState(false)
+  const paused = Boolean(reduceMotion) || manualPaused || hovered || focusWithin
+  const step = STEPS[activeStep]
+
+  const activeRow = useMemo(
+    () => CODE_ROWS.find((row) => row.step === activeStep),
+    [activeStep],
+  )
 
   useEffect(() => {
-    const m = window.matchMedia('(prefers-reduced-motion: reduce)')
-    setReducedMotion(m.matches)
-  }, [])
-
-  // pin the active scene chip to the start of the single-line carousel so the
-  // current demo always leads, clearly highlighted
-  useEffect(() => {
-    const rail = railRef.current
-    const el = rail?.children[sceneIdx] as HTMLElement | undefined
-    if (!rail || !el) return
-    const delta = el.getBoundingClientRect().left - rail.getBoundingClientRect().left
-    rail.scrollTo({ left: rail.scrollLeft + delta - 8, behavior: 'smooth' })
-  }, [sceneIdx])
+    setVariantIndex(0)
+  }, [activeStep])
 
   useEffect(() => {
-    let cancelled = false
-    let activeTimeout: ReturnType<typeof setTimeout> | null = null
-    let cancelResolve: (() => void) | null = null
+    if (paused) return
 
-    const scene = SCENES[sceneIdx]
-    let current: Frame = { ...EMPTY }
-    setFrame(current)
+    const timers: number[] = []
+    const variants = activeRow?.variants.length ?? 1
 
-    const sleep = (ms: number) =>
-      new Promise<void>(resolve => {
-        if (cancelled) return resolve()
-        activeTimeout = setTimeout(() => {
-          activeTimeout = null
-          cancelResolve = null
-          resolve()
-        }, ms)
-        cancelResolve = resolve
-      })
-
-    const patch = (next: Partial<Frame>) => {
-      if (cancelled) return
-      current = { ...current, ...next }
-      setFrame(current)
+    for (let index = 1; index < variants; index += 1) {
+      timers.push(window.setTimeout(() => setVariantIndex(index), VALUE_STEP_MS * index))
     }
 
-    const applyEvent = async (ev: Event) => {
-      if (cancelled) return
-      switch (ev.type) {
-        case 'userType': {
-          const cps = ev.cps ?? 32
-          const step = 1000 / cps
-          if (reducedMotion) {
-            patch({ userDraft: ev.text })
-            return
-          }
-          for (let i = 1; i <= ev.text.length; i++) {
-            if (cancelled) return
-            patch({ userDraft: ev.text.slice(0, i) })
-            await sleep(step + (Math.random() * step) / 2)
-          }
-          return
-        }
-        case 'userSend':
-          patch({ userMsg: current.userDraft, userDraft: '' })
-          return
-        case 'thinking':
-          patch({ thinking: true })
-          await sleep(reducedMotion ? 100 : 500)
-          return
-        case 'tool':
-          patch({ tool: { label: ev.label, done: false, ms: ev.ms } })
-          await sleep(reducedMotion ? 150 : ev.ms)
-          if (cancelled) return
-          patch({ tool: { label: ev.label, done: true, ms: ev.ms } })
-          await sleep(reducedMotion ? 80 : 300)
-          return
-        case 'widget':
-          patch({ widget: ev.kind, thinking: false })
-          await sleep(reducedMotion ? 80 : 350)
-          return
-        case 'assistantStream': {
-          const cps = ev.cps ?? 55
-          const step = 1000 / cps
-          if (reducedMotion) {
-            patch({ assistant: ev.text })
-            return
-          }
-          for (let i = 1; i <= ev.text.length; i++) {
-            if (cancelled) return
-            patch({ assistant: ev.text.slice(0, i) })
-            await sleep(step)
-          }
-          return
-        }
-        case 'pause':
-          await sleep(reducedMotion ? 200 : ev.ms)
-          return
-      }
-    }
+    const slideDuration = Math.max(
+      4300,
+      VALUE_STEP_MS * Math.max(1, variants - 1) + SLIDE_HOLD_MS,
+    )
+    timers.push(
+      window.setTimeout(() => {
+        setActiveStep((current) => (current + 1) % STEPS.length)
+      }, slideDuration),
+    )
 
-    const run = async () => {
-      for (const ev of scene.events) {
-        if (cancelled) return
-        await applyEvent(ev)
-        if (cancelled) return
-      }
-      await sleep(200)
-      if (!cancelled) {
-        setSceneIdx(i => (i + 1) % SCENES.length)
-      }
-    }
+    return () => timers.forEach((timer) => window.clearTimeout(timer))
+  }, [activeRow, activeStep, paused])
 
-    run()
-
-    return () => {
-      cancelled = true
-      if (activeTimeout) {
-        clearTimeout(activeTimeout)
-        activeTimeout = null
-      }
-      if (cancelResolve) {
-        cancelResolve()
-        cancelResolve = null
-      }
-    }
-  }, [sceneIdx, reducedMotion])
-
-  const selectScene = (i: number) => {
-    if (i === sceneIdx) return
-    setFrame(EMPTY)
-    setSceneIdx(i)
+  const selectStep = (index: number) => {
+    setVariantIndex(0)
+    setActiveStep(index)
   }
 
-  const scrollRef = useRef<HTMLDivElement | null>(null)
-  useLayoutEffect(() => {
-    const el = scrollRef.current
-    if (!el) return
-    el.scrollTop = el.scrollHeight
-  }, [frame])
-
   return (
-    <div className="flex min-w-0 flex-col overflow-hidden rounded-xl border border-ak-border bg-ak-surface shadow-2xl shadow-black/40">
-      <div className="flex items-center justify-between border-b border-ak-border px-4 py-2.5">
-        <div className="flex gap-1.5">
-          <span className="h-2.5 w-2.5 rounded-full bg-ak-red/70" />
-          <span className="h-2.5 w-2.5 rounded-full bg-[#f0b429]/70" />
-          <span className="h-2.5 w-2.5 rounded-full bg-ak-green/70" />
+    <div
+      className="min-w-0 overflow-hidden rounded-xl border border-ak-border bg-ak-surface shadow-2xl shadow-black/30"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocusCapture={() => setFocusWithin(true)}
+      onBlurCapture={() => setFocusWithin(false)}
+    >
+      <div className="flex items-center justify-between border-b border-ak-border bg-ak-midnight/70 px-4 py-3">
+        <div className="flex items-center gap-2">
+          <span className="h-2.5 w-2.5 rounded-full bg-ak-red/80" />
+          <span className="h-2.5 w-2.5 rounded-full bg-[#f0b429]/80" />
+          <span className="h-2.5 w-2.5 rounded-full bg-ak-green/80" />
+          <span className="ml-2 font-mono text-[11px] text-ak-graphite">agent.ts</span>
         </div>
-        <span className="font-mono text-xs text-ak-graphite">chat.agentskit.io</span>
-        <span className="flex items-center gap-1.5 font-mono text-xs text-ak-green">
-          <span className="inline-block h-1.5 w-1.5 animate-pulse rounded-full bg-ak-green" />
-          live
-        </span>
-      </div>
-
-      <div className="flex h-[380px] min-w-0 flex-col overflow-hidden bg-ak-midnight font-sans text-sm sm:h-[440px] md:h-[460px]">
-        <div
-          ref={scrollRef}
-          className="flex min-w-0 flex-1 flex-col gap-3 overflow-y-auto p-4"
-          style={{ scrollbarWidth: 'thin' }}
-        >
-        {frame.userMsg && (
-          <div className="flex min-w-0 justify-end">
-            <div className="max-w-[80%] break-words rounded-2xl rounded-br-md bg-ak-blue/20 px-3.5 py-2 text-ak-foam">
-              {frame.userMsg}
-            </div>
-          </div>
-        )}
-
-        {(frame.thinking || frame.tool || frame.widget || frame.assistant) && (
-          <div className="flex w-full min-w-0 justify-start">
-            <div className="flex w-full min-w-0 max-w-[92%] flex-col gap-2">
-              {frame.thinking && !frame.widget && (
-                <div className="flex items-center gap-2 text-ak-graphite">
-                  <span className="inline-flex gap-1">
-                    <Dot />
-                    <Dot delay={150} />
-                    <Dot delay={300} />
-                  </span>
-                </div>
-              )}
-
-              {frame.tool && (
-                <div
-                  className={`inline-flex max-w-full items-start gap-2 rounded-md border px-2.5 py-1 font-mono text-xs transition ${
-                    frame.tool.done
-                      ? 'border-ak-green/30 bg-ak-green/5 text-ak-green'
-                      : 'border-ak-blue/30 bg-ak-blue/5 text-ak-blue'
-                  }`}
-                >
-                  <span className="mt-0.5 shrink-0">
-                    {frame.tool.done ? '✓' : <Spinner />}
-                  </span>
-                  <span className="min-w-0 break-all">{frame.tool.label}</span>
-                  {frame.tool.done && (
-                    <span className="shrink-0 text-ak-graphite">{frame.tool.ms}ms</span>
-                  )}
-                </div>
-              )}
-
-              {frame.widget && (
-                <div key={frame.widget} className="min-w-0 max-w-full animate-fade-in">
-                  {frame.widget === 'weather' && <WeatherCard />}
-                  {frame.widget === 'price' && <PriceCard />}
-                  {frame.widget === 'order' && <OrderTracker />}
-                  {frame.widget === 'flight' && <FlightList />}
-                  {frame.widget === 'rag' && <RAGCite />}
-                  {frame.widget === 'sandbox' && <SandboxRun />}
-                  {frame.widget === 'agents' && <MultiAgent />}
-                  {frame.widget === 'trace' && <ObsTrace />}
-                  {frame.widget === 'memory' && <MemoryRecall />}
-                  {frame.widget === 'providers' && <ProviderSwap />}
-                  {frame.widget === 'integration' && <IntegrationCard />}
-                  {frame.widget === 'terminal' && <TerminalMirror />}
-                  {frame.widget === 'eval' && <EvalRun />}
-                  {frame.widget === 'skill' && <SkillSwap />}
-                </div>
-              )}
-
-              {frame.assistant && (
-                <div
-                  className="w-fit max-w-full rounded-2xl rounded-bl-md bg-ak-surface px-3.5 py-2 text-left text-ak-foam"
-                  style={{ wordBreak: 'break-word', overflowWrap: 'anywhere', textAlign: 'left' }}
-                >
-                  {frame.assistant}
-                  <span className="ml-0.5 inline-block h-3.5 w-[2px] translate-y-0.5 animate-pulse bg-ak-blue" />
-                </div>
-              )}
-            </div>
-          </div>
-        )}
-
-        </div>
-
-        <div className="flex min-w-0 items-center gap-2 border-t border-ak-border bg-ak-surface px-3 py-2.5">
-          <span className="shrink-0 font-mono text-xs text-ak-graphite">›</span>
-          <span className="min-w-0 flex-1 truncate text-ak-foam">
-            {frame.userDraft}
-            {frame.userDraft && (
-              <span className="ml-0.5 inline-block h-3.5 w-[2px] translate-y-0.5 animate-pulse bg-ak-foam" />
-            )}
-            {!frame.userDraft && <span className="text-ak-graphite">ask anything…</span>}
+        {!reduceMotion ? (
+          <button
+            type="button"
+            onClick={() => setManualPaused((current) => !current)}
+            aria-label={manualPaused ? 'Play demo' : 'Pause demo'}
+            className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-ak-graphite transition hover:text-ak-foam"
+          >
+            <span className={`h-1.5 w-1.5 rounded-full ${paused ? 'bg-ak-graphite' : 'bg-ak-green'}`} />
+            {manualPaused ? 'play' : hovered || focusWithin ? 'paused' : 'playing'}
+          </button>
+        ) : (
+          <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-ak-graphite">
+            manual
           </span>
-          <kbd className="rounded border border-ak-border px-1.5 py-0.5 font-mono text-[10px] text-ak-graphite">
-            ⏎
-          </kbd>
+        )}
+      </div>
+
+      <div className="h-[250px] overflow-hidden bg-ak-midnight px-4 py-5 sm:px-5">
+        <div className="min-w-0 font-mono text-[11px] leading-6 sm:text-xs">
+          <div>
+            <span className="text-ak-blue">const</span>{' '}
+            <span className="text-ak-foam">runtime</span>{' '}
+            <span className="text-ak-graphite">=</span>{' '}
+            <span className="text-ak-green">createRuntime</span>
+            <span className="text-ak-graphite">({'{'}</span>
+          </div>
+
+          {CODE_ROWS.filter((row) => row.step <= activeStep).map((row) => {
+            const isActive = row.step === activeStep
+            const valueIndex = isActive
+              ? Math.min(variantIndex, row.variants.length - 1)
+              : row.variants.length - 1
+            const value = row.variants[valueIndex]
+
+            return (
+              <div
+                key={row.id}
+                className={`rounded-sm pl-4 transition-colors duration-200 ${
+                  !reduceMotion && isActive ? 'animate-fade-in' : ''
+                } ${
+                  isActive ? 'bg-ak-blue/8' : ''
+                }`}
+              >
+                <div className="grid min-w-0 grid-cols-[6.5rem_minmax(0,1fr)] items-baseline gap-1">
+                  <span className={isActive ? 'text-ak-blue' : 'text-ak-foam'}>
+                    {row.property}:
+                  </span>
+                  <span
+                    key={value}
+                    className={`${isActive ? 'text-ak-green' : 'text-ak-graphite'} ${
+                      !reduceMotion && isActive ? 'animate-fade-in' : ''
+                    } truncate`}
+                  >
+                    {value},
+                  </span>
+                </div>
+                {isActive ? (
+                  <div className="pl-[6.75rem] text-[10px] leading-4 text-ak-graphite/55">
+                    {'// '}{row.comment}
+                  </div>
+                ) : null}
+              </div>
+            )
+          })}
+
+          <div className={activeStep === STEPS.length - 1 ? 'text-ak-blue' : 'text-ak-graphite'}>
+            {'})'}
+            {activeStep === STEPS.length - 1 ? (
+              <span className="ml-4 text-ak-graphite/60">
+                {'// one runtime → every surface'}
+              </span>
+            ) : null}
+          </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-1 border-t border-ak-border bg-ak-surface px-2 py-2">
-        <button
-          type="button"
-          aria-label="Previous demo"
-          onClick={() => selectScene((sceneIdx - 1 + SCENES.length) % SCENES.length)}
-          className="shrink-0 rounded-md p-1 text-ak-graphite transition hover:bg-ak-midnight hover:text-ak-foam"
-        >
-          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-            <path d="m15 18-6-6 6-6" />
-          </svg>
-        </button>
+      <div className="border-t border-ak-border bg-ak-surface/65 px-4 py-4 sm:px-5">
+          <div key={step.id} className={`min-h-32 ${!reduceMotion ? 'animate-fade-in' : ''}`}>
+            <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-ak-blue">
+              {step.eyebrow}
+            </div>
+            <h3 className="mt-2 text-base font-semibold leading-tight text-ak-foam sm:text-lg">
+              {step.title}
+            </h3>
+            <p className="mt-2 text-xs leading-relaxed text-ak-graphite sm:text-sm">
+              {step.description}
+            </p>
+            <div className="mt-3 flex flex-wrap items-center gap-2">
+              <span className="font-mono text-[10px] text-ak-green">{step.proof}</span>
+              {activeStep === STEPS.length - 1 ? <SurfaceRail /> : null}
+            </div>
+          </div>
+      </div>
+
+      <div className="border-t border-ak-border bg-ak-midnight px-2 py-2">
         <div
-          ref={railRef}
-          className="flex flex-1 gap-1.5 overflow-x-auto [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          className="flex min-w-0 gap-1 overflow-x-auto [&::-webkit-scrollbar]:hidden"
+          style={{ scrollbarWidth: 'none' }}
         >
-          {SCENES.map((s, i) => (
+          {STEPS.map((item, index) => (
             <button
-              key={s.id}
+              key={item.id}
               type="button"
-              onClick={() => selectScene(i)}
-              className={`shrink-0 whitespace-nowrap rounded-full px-2.5 py-1 font-mono text-[11px] transition ${
-                i === sceneIdx
-                  ? 'bg-ak-blue/20 text-ak-blue'
-                  : 'text-ak-graphite hover:text-ak-foam'
+              onClick={() => selectStep(index)}
+              aria-current={index === activeStep ? 'step' : undefined}
+              className={`relative shrink-0 rounded px-2 py-1.5 font-mono text-[9px] uppercase tracking-[0.08em] transition sm:flex-1 ${
+                index === activeStep
+                  ? 'bg-ak-surface text-ak-foam'
+                  : index < activeStep
+                    ? 'text-ak-green'
+                    : 'text-ak-graphite hover:text-ak-foam'
               }`}
             >
-              <span
-                className={`mr-1.5 inline-block h-1.5 w-1.5 rounded-full ${
-                  i === sceneIdx ? 'bg-ak-blue' : 'bg-ak-border'
-                }`}
-              />
-              {s.label}
+              {index < activeStep ? <span aria-hidden="true">✓ </span> : null}
+              {item.label}
+              {index === activeStep ? (
+                <span
+                  aria-hidden="true"
+                  className="absolute inset-x-2 bottom-0 h-px bg-ak-blue"
+                />
+              ) : null}
             </button>
           ))}
         </div>
-        <button
-          type="button"
-          aria-label="Next demo"
-          onClick={() => selectScene((sceneIdx + 1) % SCENES.length)}
-          className="shrink-0 rounded-md p-1 text-ak-graphite transition hover:bg-ak-midnight hover:text-ak-foam"
-        >
-          <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" aria-hidden>
-            <path d="m9 18 6-6-6-6" />
-          </svg>
-        </button>
       </div>
     </div>
   )
 }
 
-function Dot({ delay = 0 }: { delay?: number }) {
+function SurfaceRail() {
   return (
-    <span
-      className="inline-block h-1.5 w-1.5 animate-bounce rounded-full bg-ak-graphite"
-      style={{ animationDelay: `${delay}ms` }}
-    />
-  )
-}
-
-function Spinner() {
-  return (
-    <span className="inline-block h-3 w-3 animate-spin rounded-full border-2 border-ak-blue border-t-transparent" />
+    <span aria-label="Supported surfaces" className="flex gap-1">
+      {['Web', 'Desktop', 'CLI', 'Mobile'].map((surface) => (
+        <span
+          key={surface}
+          className="border border-ak-border bg-ak-midnight px-1.5 py-0.5 font-mono text-[8px] text-ak-foam"
+        >
+          {surface}
+        </span>
+      ))}
+    </span>
   )
 }

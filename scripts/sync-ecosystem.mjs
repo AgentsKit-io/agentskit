@@ -50,16 +50,28 @@ const propLines = barProducts.map((product) => {
   const host = new URL(product.surfaces.home).host
   return `    { id: ${JSON.stringify(product.id)}, label: ${JSON.stringify(product.shortName)}, host: ${JSON.stringify(host)}, url: ${JSON.stringify(product.surfaces.home)} },`
 }).join('\n')
+const showcaseProducts = barProducts.map((product) => ({
+  id: product.id,
+  name: product.name,
+  shortName: product.shortName,
+  accent: product.accent,
+  href: product.surfaces.docs || product.surfaces.home,
+  ...product.showcase,
+}))
+const showcaseJson = JSON.stringify(showcaseProducts, null, 2).replace(/\n/g, '\n  ')
 const barRel = 'apps/docs-next/public/ecosystem-bar.js'
 const barPath = join(root, barRel)
 if (existsSync(barPath)) {
   const bar = readFileSync(barPath, 'utf8')
-  const re = /(\/\/ ecobar:props-start[^\n]*\n)[\s\S]*?(\n\s*\/\/ ecobar:props-end)/
-  if (re.test(bar)) {
-    const next = bar.replace(re, `$1  var PROPS = [\n${propLines}\n  ]$2`)
+  const propsPattern = /(\/\/ ecobar:props-start[^\n]*\n)[\s\S]*?(\n\s*\/\/ ecobar:props-end)/
+  const showcasePattern = /(\/\/ ecobar:showcase-start[^\n]*\n)[\s\S]*?(\n\s*\/\/ ecobar:showcase-end)/
+  if (propsPattern.test(bar) && showcasePattern.test(bar)) {
+    const next = bar
+      .replace(propsPattern, `$1  var PROPS = [\n${propLines}\n  ]$2`)
+      .replace(showcasePattern, `$1  var SHOWCASE_PRODUCTS = ${showcaseJson}$2`)
     step(barRel, bar, next)
   } else {
-    console.error(`ecosystem: ${barRel} missing ecobar:props markers — cannot sync bar.`)
+    console.error(`ecosystem: ${barRel} missing generated markers — cannot sync bar.`)
     drift = true
   }
 }
