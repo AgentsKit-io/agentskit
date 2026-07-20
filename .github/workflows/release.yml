@@ -65,10 +65,11 @@ jobs:
           fi
 
           has_version_changes=false
-          if git rev-parse --verify HEAD^ >/dev/null 2>&1 && \
-            git diff --unified=0 HEAD^ HEAD -- 'packages/*/package.json' | \
-            grep -Eq '^[+-][[:space:]]*"version"[[:space:]]*:'; then
-            has_version_changes=true
+          if git rev-parse --verify HEAD^ >/dev/null 2>&1; then
+            version_diff=$(git diff --unified=0 HEAD^ HEAD -- 'packages/*/package.json')
+            if grep -Eq '^[+-][[:space:]]*"version"[[:space:]]*:' <<< "$version_diff"; then
+              has_version_changes=true
+            fi
           fi
 
           recover_unpublished=false
