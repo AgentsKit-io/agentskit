@@ -3,6 +3,7 @@ const DOCUMENTATION_MODES = new Set(['fumadocs', 'repository'])
 const CHAT_MODES = new Set(['agentschat', 'custom', 'none'])
 const SALES_KINDS = new Set(['integration-stack', 'registry-install', 'human-agent', 'standards-flow', 'knowledge-bridge', 'enterprise-control'])
 const CLAIM_AGGREGATES = new Set(['length', 'distinct'])
+const CTA_SURFACES = new Set(['home', 'docs'])
 const SURFACE_KEYS = ['home', 'docs', 'llms', 'stats']
 /** properties[] is the seven-product v1 projection of products[] (same order). */
 const LEGACY_PRODUCT_IDS = ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge', 'code-review', 'akos']
@@ -110,6 +111,7 @@ export function parseEcosystemManifest(input) {
       string(showcase.detail, `${path}.showcase.detail`)
       template(showcase.proof, `${path}.showcase.proof`, claimIds)
       string(showcase.cta, `${path}.showcase.cta`)
+      enumValue(showcase.ctaSurface, CTA_SURFACES, `${path}.showcase.ctaSurface`)
 
       const sales = object(showcase.sales, `${path}.showcase.sales`)
       enumValue(sales.kind, SALES_KINDS, `${path}.showcase.sales.kind`)

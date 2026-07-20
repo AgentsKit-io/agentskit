@@ -81,14 +81,15 @@
           "Ship without rewrites"
         ]
       },
-      "cta": "Build with AgentsKit"
+      "cta": "Build with AgentsKit",
+      "ctaSurface": "docs"
     },
     {
       "id": "registry",
       "name": "AgentsKit Registry",
       "shortName": "Registry",
       "accent": "#58A6FF",
-      "href": "https://registry.agentskit.io/docs",
+      "href": "https://registry.agentskit.io",
       "claimSource": {
         "url": "https://registry.agentskit.io/r/index.json",
         "claims": {
@@ -128,14 +129,15 @@
         ],
         "command": "npx agentskit add research"
       },
-      "cta": "Explore the Registry"
+      "cta": "Explore the Registry",
+      "ctaSurface": "home"
     },
     {
       "id": "agentskit-chat",
       "name": "AgentsKit Chat",
       "shortName": "Chat",
       "accent": "#F59E0B",
-      "href": "https://chat.agentskit.io/docs",
+      "href": "https://chat.agentskit.io",
       "stage": "Deliver",
       "headline": "One agent. Every conversation surface.",
       "detail": "Define the experience once and deliver it across web, desktop, CLI, and mobile.",
@@ -175,14 +177,15 @@
           "The conversation continues everywhere"
         ]
       },
-      "cta": "Explore AgentsKit Chat"
+      "cta": "Explore AgentsKit Chat",
+      "ctaSurface": "home"
     },
     {
       "id": "playbook",
       "name": "Agents Playbook",
       "shortName": "Playbook",
       "accent": "#8B5CF6",
-      "href": "https://playbook.agentskit.io/docs",
+      "href": "https://playbook.agentskit.io",
       "stage": "Standardize",
       "headline": "Engineering standards agents can execute.",
       "detail": "Turn repeatable practices into guidance that coding agents can follow in every repository.",
@@ -222,7 +225,8 @@
           "Review consistent output"
         ]
       },
-      "cta": "Explore the Playbook"
+      "cta": "Explore the Playbook",
+      "ctaSurface": "home"
     },
     {
       "id": "doc-bridge",
@@ -269,14 +273,15 @@
           "Agent findings return to humans"
         ]
       },
-      "cta": "Explore Doc Bridge"
+      "cta": "Explore Doc Bridge",
+      "ctaSurface": "home"
     },
     {
       "id": "akos",
       "name": "AgentsKit OS",
       "shortName": "AKOS",
       "accent": "#34D399",
-      "href": "https://akos.agentskit.io/docs",
+      "href": "https://akos.agentskit.io",
       "stage": "Operate",
       "headline": "Run and govern agents in production.",
       "detail": "Add orchestration, governance, and operational control when your system needs it.",
@@ -318,7 +323,8 @@
           "Human approves; logs and trace persist"
         ]
       },
-      "cta": "Explore AgentsKit OS"
+      "cta": "Explore AgentsKit OS",
+      "ctaSurface": "home"
     }
   ]
   // ecobar:showcase-end
@@ -427,6 +433,15 @@
     policies: 'M19 3h-4.18A3 3 0 0 0 9.18 3H5c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 0c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1zm-2 16-4-4 1.41-1.41L10 16.17l6.59-6.59L18 11l-8 8z',
   }
 
+  var PRODUCT_ICONS = {
+    agentskit: 'M12 2 1.6 20h20.8L12 2zm0 4.1L18.8 18H5.2L12 6.1z',
+    registry: 'M3 3h8v8H3V3zm10 0h8v8h-8V3zM3 13h8v8H3v-8zm10 0h8v8h-8v-8z',
+    'agentskit-chat': 'M4 4h16v12H7l-3 3V4zm2 2v8h12V6H6z',
+    playbook: 'M4 3h7a3 3 0 0 1 3 3 3 3 0 0 1 3-3h3v17h-6a2 2 0 0 0-2 2 2 2 0 0 0-2-2H4V3zm2 2v13h4a4 4 0 0 1 2 .54V6a1 1 0 0 0-1-1H6zm12 0h-1a1 1 0 0 0-1 1v12.54a4 4 0 0 1 2-.54V5z',
+    'doc-bridge': 'M7 7h11l-3-3 1.4-1.4L21.8 8l-5.4 5.4L15 12l3-3H7V7zm10 10H6l3 3-1.4 1.4L2.2 16l5.4-5.4L9 12l-3 3h11v2z',
+    akos: 'M12 2 21 7v10l-9 5-9-5V7l9-5zm0 3.2L6 8.5v7l6 3.3 6-3.3v-7l-6-3.3zm0 3.3a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7z',
+  }
+
   var css =
     '#ak-eco{position:relative;z-index:30;display:flex;gap:4px;align-items:center;' +
     'font:500 13px/1 ui-sans-serif,system-ui,-apple-system,sans-serif;padding:8px 16px;' +
@@ -473,6 +488,8 @@
     .akx-tab[aria-selected="true"]{color:var(--akx-fg);background:#11171e;box-shadow:inset 0 -2px 0 var(--akx-accent)}
     .akx-tab-stage{display:block;margin-bottom:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--akx-accent)}
     .akx-tab-name{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:650;white-space:nowrap}
+    .akx-product-mark{display:inline-flex;width:16px;height:16px;flex:0 0 auto;align-items:center;justify-content:center;color:var(--akx-accent)}
+    .akx-product-mark svg{display:block;width:15px;height:15px;fill:currentColor}
     .akx-current-dot{width:5px;height:5px;border-radius:50%;background:var(--akx-accent)}
     .akx-content{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:410px}
     .akx-story{display:flex;flex-direction:column;padding:48px;border-right:1px solid var(--akx-line)}
@@ -614,7 +631,17 @@
 
           var name = document.createElement('span')
           name.className = 'akx-tab-name'
-          name.textContent = product.shortName
+          var productMark = document.createElement('span')
+          productMark.className = 'akx-product-mark'
+          productMark.setAttribute('aria-hidden', 'true')
+          var productIcon = document.createElementNS('http://www.w3.org/2000/svg', 'svg')
+          productIcon.setAttribute('viewBox', '0 0 24 24')
+          var productPath = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+          productPath.setAttribute('d', PRODUCT_ICONS[product.id])
+          productIcon.appendChild(productPath)
+          productMark.appendChild(productIcon)
+          name.appendChild(productMark)
+          name.appendChild(document.createTextNode(product.shortName))
           if (product.id === this.currentProduct) {
             var dot = document.createElement('span')
             dot.className = 'akx-current-dot'

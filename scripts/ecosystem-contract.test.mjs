@@ -119,6 +119,30 @@ test('showcase numbers reference canonical claim sources instead of literals', (
   assert.match(registry.showcase.sales.capabilities.at(-1), /\{\{remaining-categories\}\}/)
 })
 
+test('showcase CTAs declare whether they open the product or its documentation', () => {
+  const parsed = parseEcosystemManifest(manifest)
+  const agentskit = parsed.products.find((product) => product.id === 'agentskit')
+  const registry = parsed.products.find((product) => product.id === 'registry')
+
+  assert.equal(agentskit.showcase.ctaSurface, 'docs')
+  assert.equal(registry.showcase.ctaSurface, 'home')
+  assert.throws(
+    () => parseEcosystemManifest(changed((copy) => { copy.products[1].showcase.ctaSurface = 'pricing' })),
+    /must be one of: home, docs/,
+  )
+})
+
+test('the generated showcase gives every visible product a recognizable mark', () => {
+  const bar = readFileSync(join(REPO_ROOT, 'apps/docs-next/public/ecosystem-bar.js'), 'utf8')
+
+  assert.match(bar, /var PRODUCT_ICONS =/)
+  assert.match(bar, /akx-product-mark/)
+  assert.match(bar, /PRODUCT_ICONS\[product\.id\]/)
+  assert.ok(manifest.products.filter((product) => product.navigation.showInBar).every((product) => {
+    return new RegExp(`['"]?${product.id}['"]?:`).test(bar)
+  }))
+})
+
 test('showcase templates reject unknown claims and mismatched origins', () => {
   assert.throws(
     () => parseEcosystemManifest(changed((copy) => { copy.products[0].showcase.proof = '{{missing}} packages' })),
