@@ -57,7 +57,7 @@ const showcaseProducts = barProducts.map((product) => ({
   name: product.name,
   shortName: product.shortName,
   accent: product.accent,
-  href: product.surfaces.docs || product.surfaces.home,
+  href: product.surfaces[product.showcase.ctaSurface],
   ...product.showcase,
 }))
 const showcaseJson = JSON.stringify(showcaseProducts, null, 2).replace(/\n/g, '\n  ')

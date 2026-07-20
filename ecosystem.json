@@ -42,7 +42,8 @@
           "capabilities": ["Tools", "RAG", "Memory", "MCP"],
           "steps": ["Choose any adapter", "Add tools and memory", "Ship without rewrites"]
         },
-        "cta": "Build with AgentsKit"
+        "cta": "Build with AgentsKit",
+        "ctaSurface": "docs"
       },
       "surfaces": {
         "home": "https://www.agentskit.io",
@@ -96,7 +97,8 @@
           "steps": ["Find the right agent", "Run npx agentskit add", "Own every line"],
           "command": "npx agentskit add research"
         },
-        "cta": "Explore the Registry"
+        "cta": "Explore the Registry",
+        "ctaSurface": "home"
       },
       "surfaces": {
         "home": "https://registry.agentskit.io",
@@ -148,7 +150,8 @@
           "capabilities": ["Streaming", "Approvals", "Tool results", "Shared state"],
           "steps": ["Agent requests a protected action", "Human approves", "The conversation continues everywhere"]
         },
-        "cta": "Explore AgentsKit Chat"
+        "cta": "Explore AgentsKit Chat",
+        "ctaSurface": "home"
       },
       "surfaces": {
         "home": "https://chat.agentskit.io",
@@ -199,7 +202,8 @@
           "capabilities": ["Repository rules", "Review criteria", "Agent guidance", "Team conventions"],
           "steps": ["Define the standard once", "Agents receive executable guidance", "Review consistent output"]
         },
-        "cta": "Explore the Playbook"
+        "cta": "Explore the Playbook",
+        "ctaSurface": "home"
       },
       "surfaces": {
         "home": "https://playbook.agentskit.io",
@@ -251,7 +255,8 @@
           "capabilities": ["ADRs", "Handoffs", "Agent findings", "Human-readable docs"],
           "steps": ["Humans document decisions", "Agents receive precise context", "Agent findings return to humans"]
         },
-        "cta": "Explore Doc Bridge"
+        "cta": "Explore Doc Bridge",
+        "ctaSurface": "home"
       },
       "surfaces": {
         "home": "https://doc-bridge.agentskit.io/",
@@ -332,7 +337,8 @@
           "capabilities": ["Logs", "Approvals", "RBAC", "Policies", "Tracing", "Costs"],
           "steps": ["Agent requests a protected action", "RBAC and policy gates evaluate", "Human approves; logs and trace persist"]
         },
-        "cta": "Explore AgentsKit OS"
+        "cta": "Explore AgentsKit OS",
+        "ctaSurface": "home"
       },
       "surfaces": {
         "home": "https://akos.agentskit.io",
