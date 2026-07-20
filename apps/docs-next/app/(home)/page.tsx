@@ -3,10 +3,8 @@ import { InstallCommand } from './_components/install-command'
 import { HeroDemo } from './_components/hero-demo/hero-demo'
 import { AnimatedLogo } from '@/components/brand/animated-logo'
 import { JsonLd } from '@/components/seo/json-ld'
-import { FadeIn } from '@/components/motion/fade-in'
 import {
   CliSection,
-  ComposeSection,
   WorksWithSection,
 } from '@/components/home/showcases'
 import { Icon } from '@/components/home/icons'
@@ -85,9 +83,8 @@ export default function HomePage() {
       <JsonLd data={JSON_LD} />
       <Hero />
       <WorksWithSection />
-      <CliSection />
-      <ComposeSection />
       <EcosystemStats />
+      <CliSection />
       <ReferenceJourney />
       <FinalCta />
       <SiteFooter />
@@ -105,50 +102,35 @@ function Hero() {
             <span className="font-mono text-lg font-bold tracking-tight text-ak-foam sm:text-xl">
               agentskit<span className="text-ak-graphite">.js</span>
             </span>
-            <span className="rounded-full border border-ak-border px-2.5 py-1 font-mono text-[10px] uppercase tracking-[0.12em] text-ak-graphite">
-              {agentsKitIdentity.role} · {agentsKitIdentity.maturity}
-            </span>
           </div>
 
-          <FadeIn>
-            <h1 className="mb-5 max-w-2xl text-[2rem] font-bold leading-[1.08] tracking-tight text-ak-foam sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl">
-              Ship AI agents in JavaScript.
-              <span className="block text-ak-graphite">
-                Without gluing 8 libraries together.
-              </span>
-            </h1>
-          </FadeIn>
+          <h1 className="mb-5 max-w-2xl text-[2rem] font-bold leading-[1.08] tracking-tight text-ak-foam sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl">
+            Ship AI agents in JavaScript.
+            <span className="block text-ak-graphite">
+              Without gluing 8 libraries together.
+            </span>
+          </h1>
 
-          <FadeIn delay={0.1}>
           <p className="mb-7 max-w-xl text-base leading-relaxed text-ak-graphite sm:mb-8 sm:text-lg">
             Runtime, tools, memory, RAG, adapters, and headless UI bindings in one foundation.
             Swap <span className="text-ak-foam">OpenAI for Claude</span>, React for
             terminal, in-memory for vector DB — without a rewrite.
           </p>
-          </FadeIn>
 
-          <FadeIn delay={0.2}>
-            <InstallCommand />
-          </FadeIn>
-
-          <FadeIn delay={0.3}>
-            <HeroFrameworks />
-          </FadeIn>
-
-          <FadeIn delay={0.35}>
-            <p className="mt-6 max-w-xl border-l-2 border-ak-green pl-4 text-sm leading-relaxed text-ak-graphite">
-              Built for {agentsKitIdentity.audience}
-            </p>
-          </FadeIn>
+          <InstallCommand />
+          <HeroFrameworks />
+          <p className="mt-6 max-w-xl border-l-2 border-ak-green pl-4 text-sm leading-relaxed text-ak-graphite">
+            Built for {agentsKitIdentity.audience}
+          </p>
         </div>
 
         <div className="min-w-0">
           <HeroDemo />
           <p className="mt-3 text-center font-mono text-[11px] leading-relaxed text-ak-graphite sm:text-xs">
-            The chat in this site&apos;s corner is built with{' '}
-            <span className="text-ak-foam">AgentsKit Chat</span> on this foundation.{' '}
+            Compose the agent here. Use <span className="text-ak-foam">AgentsKit Chat</span>{' '}
+            when you need its product interface across every surface.{' '}
             <a href="https://chat.agentskit.io/" className="text-ak-blue hover:underline">
-              Build product chats →
+              Explore Chat →
             </a>
           </p>
 
@@ -169,18 +151,6 @@ function Hero() {
         </div>
       </div>
 
-      <dl className="mx-auto mt-12 grid max-w-6xl grid-cols-2 gap-px overflow-hidden rounded-xl border border-ak-border bg-ak-border sm:grid-cols-4 lg:mt-16">
-        {agentsKitIdentity.proof.slice(0, 4).map((claim) => (
-          <div key={claim.id} className="bg-ak-midnight px-4 py-4 sm:px-5">
-            <dt className="font-mono text-[10px] uppercase tracking-[0.12em] text-ak-graphite">
-              verified in repo
-            </dt>
-            <dd className="mt-1 font-mono text-sm font-semibold text-ak-foam sm:text-base">
-              {claim.value.toLocaleString('en-US')} {claim.noun}
-            </dd>
-          </div>
-        ))}
-      </dl>
     </section>
   )
 }

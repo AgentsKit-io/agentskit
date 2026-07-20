@@ -70,6 +70,7 @@ const DOC_REDIRECTS = [
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
+  allowedDevOrigins: ['192.168.*.*'],
   // The Ask-the-docs route runs `@huggingface/transformers` (ONNX) in-process for
   // local query embeddings. It MUST NOT be bundled into the serverless function —
   // bundling its onnxruntime backend breaks it at runtime, surfacing as

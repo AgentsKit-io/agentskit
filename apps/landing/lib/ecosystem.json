@@ -16,6 +16,24 @@
       "maturity": "beta",
       "repo": "AgentsKit-io/agentskit",
       "accent": "#2EA043",
+      "showcase": {
+        "stage": "Build",
+        "headline": "One foundation. Every layer stays yours.",
+        "detail": "Compose runtime, adapters, tools, memory, RAG, and UI without glue code or lock-in.",
+        "proof": "22 packages · <10 KB core",
+        "sales": {
+          "kind": "integration-stack",
+          "headline": "Swap the stack. Keep the agent.",
+          "metrics": [
+            { "value": "140+", "label": "providers" },
+            { "value": "25", "label": "adapters" },
+            { "value": "50", "label": "integrations" }
+          ],
+          "capabilities": ["Tools", "RAG", "Memory", "MCP"],
+          "steps": ["Choose any adapter", "Add tools and memory", "Ship without rewrites"]
+        },
+        "cta": "Build with AgentsKit"
+      },
       "surfaces": {
         "home": "https://www.agentskit.io",
         "docs": "https://www.agentskit.io/docs",
@@ -47,6 +65,22 @@
       "maturity": "beta",
       "repo": "AgentsKit-io/agentskit-registry",
       "accent": "#58A6FF",
+      "showcase": {
+        "stage": "Discover",
+        "headline": "Shadcn-like agents. Installed as source.",
+        "detail": "Find a working agent, copy its source into your project, and change every line.",
+        "proof": "Ready-made · source-owned",
+        "sales": {
+          "kind": "registry-install",
+          "headline": "300+ ready-to-use agents.",
+          "metric": "300+",
+          "metricLabel": "shadcn-like agents",
+          "capabilities": ["Research", "Support", "Coding", "Data", "Marketing", "18+ more categories"],
+          "steps": ["Find the right agent", "Run npx agentskit add", "Own every line"],
+          "command": "npx agentskit add research"
+        },
+        "cta": "Explore the Registry"
+      },
       "surfaces": {
         "home": "https://registry.agentskit.io",
         "docs": "https://registry.agentskit.io/docs",
@@ -78,6 +112,27 @@
       "maturity": "alpha",
       "repo": "AgentsKit-io/agentskit-chat",
       "accent": "#F59E0B",
+      "showcase": {
+        "stage": "Deliver",
+        "headline": "One agent. Every conversation surface.",
+        "detail": "Define the experience once and deliver it across web, desktop, CLI, and mobile.",
+        "proof": "Web · Desktop · CLI · Mobile",
+        "sales": {
+          "kind": "human-agent",
+          "headline": "Human ↔ agent. Without losing control.",
+          "metric": "4",
+          "metricLabel": "surfaces · one conversation",
+          "logos": [
+            { "id": "web", "label": "Web" },
+            { "id": "desktop", "label": "Desktop" },
+            { "id": "cli", "label": "CLI" },
+            { "id": "mobile", "label": "Mobile" }
+          ],
+          "capabilities": ["Streaming", "Approvals", "Tool results", "Shared state"],
+          "steps": ["Agent requests a protected action", "Human approves", "The conversation continues everywhere"]
+        },
+        "cta": "Explore AgentsKit Chat"
+      },
       "surfaces": {
         "home": "https://chat.agentskit.io",
         "docs": "https://chat.agentskit.io/docs",
@@ -108,6 +163,27 @@
       "maturity": "stable",
       "repo": "AgentsKit-io/agents-playbook",
       "accent": "#8B5CF6",
+      "showcase": {
+        "stage": "Standardize",
+        "headline": "Engineering standards agents can execute.",
+        "detail": "Turn repeatable practices into guidance that coding agents can follow in every repository.",
+        "proof": "Convention → executable guidance",
+        "sales": {
+          "kind": "standards-flow",
+          "headline": "Your standards. Every agent. Every repository.",
+          "metric": "1×",
+          "metricLabel": "define · reuse everywhere",
+          "logos": [
+            { "id": "architecture", "label": "Architecture" },
+            { "id": "tests", "label": "Tests" },
+            { "id": "security", "label": "Security" },
+            { "id": "style", "label": "Style" }
+          ],
+          "capabilities": ["Repository rules", "Review criteria", "Agent guidance", "Team conventions"],
+          "steps": ["Define the standard once", "Agents receive executable guidance", "Review consistent output"]
+        },
+        "cta": "Explore the Playbook"
+      },
       "surfaces": {
         "home": "https://playbook.agentskit.io",
         "docs": "https://playbook.agentskit.io/docs",
@@ -139,6 +215,27 @@
       "maturity": "stable",
       "repo": "AgentsKit-io/doc-bridge",
       "accent": "#06B6D4",
+      "showcase": {
+        "stage": "Understand",
+        "headline": "Documentation that hands work off precisely.",
+        "detail": "Connect repository knowledge to agents with structured, executable context.",
+        "proof": "Code → precise handoff",
+        "sales": {
+          "kind": "knowledge-bridge",
+          "headline": "Knowledge flows both ways.",
+          "metric": "↔",
+          "metricLabel": "humans and agents",
+          "logos": [
+            { "id": "human", "label": "Humans" },
+            { "id": "markdown", "label": "Docs" },
+            { "id": "code", "label": "Code" },
+            { "id": "agent", "label": "Agents" }
+          ],
+          "capabilities": ["ADRs", "Handoffs", "Agent findings", "Human-readable docs"],
+          "steps": ["Humans document decisions", "Agents receive precise context", "Agent findings return to humans"]
+        },
+        "cta": "Explore Doc Bridge"
+      },
       "surfaces": {
         "home": "https://doc-bridge.agentskit.io/",
         "docs": "https://doc-bridge.agentskit.io/",
@@ -199,6 +296,27 @@
       "maturity": "stable",
       "repo": "AgentsKit-io/agentskit-os",
       "accent": "#34D399",
+      "showcase": {
+        "stage": "Operate",
+        "headline": "Run and govern agents in production.",
+        "detail": "Add orchestration, governance, and operational control when your system needs it.",
+        "proof": "Orchestration · governance · control",
+        "sales": {
+          "kind": "enterprise-control",
+          "headline": "The enterprise control plane for agents.",
+          "metric": "Enterprise",
+          "metricLabel": "operations and governance",
+          "logos": [
+            { "id": "logs", "label": "Logs" },
+            { "id": "approvals", "label": "Approvals" },
+            { "id": "rbac", "label": "RBAC" },
+            { "id": "policies", "label": "Policies" }
+          ],
+          "capabilities": ["Logs", "Approvals", "RBAC", "Policies", "Tracing", "Costs"],
+          "steps": ["Agent requests a protected action", "RBAC and policy gates evaluate", "Human approves; logs and trace persist"]
+        },
+        "cta": "Explore AgentsKit OS"
+      },
       "surfaces": {
         "home": "https://akos.agentskit.io",
         "docs": "https://akos.agentskit.io/docs",

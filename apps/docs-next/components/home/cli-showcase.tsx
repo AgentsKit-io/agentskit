@@ -3,96 +3,127 @@
 import { useEffect, useRef, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 
-const COMMAND =
-  '$ npx agentskit add research --run "What changed in the EU AI Act in 2025?"'
+type OutputTone = 'success' | 'muted' | 'stream'
 
-const OUTPUT_LINES: { text: string; tone: 'success' | 'muted' | 'stream' | 'prompt' }[] = [
-  { text: '✓ added ./agents/research  ·  running via openai…', tone: 'success' },
+type CliFlow = {
+  id: string
+  label: string
+  command: string
+  output: { text: string; tone: OutputTone }[]
+}
+
+const FLOWS: CliFlow[] = [
   {
-    text: '> The 2025 amendments tightened GPAI transparency… [source]',
-    tone: 'stream',
+    id: 'add',
+    label: 'Add',
+    command: '$ npx agentskit add research --run "Summarize today’s AI news"',
+    output: [
+      { text: '✓ copied source to ./agents/research', tone: 'success' },
+      { text: '✓ installed dependencies · running…', tone: 'success' },
+      { text: '> Here are the developments that matter… [sources]', tone: 'stream' },
+    ],
   },
-  { text: '', tone: 'muted' },
   {
-    text: '$ npx agentskit ai "a support agent for my SaaS"',
-    tone: 'prompt',
+    id: 'ai',
+    label: 'Create',
+    command: '$ npx agentskit ai "a support agent with RAG and approvals"',
+    output: [
+      { text: '✓ generated a typed AgentSchema', tone: 'success' },
+      { text: '✓ added tools · retriever · memory · onConfirm', tone: 'success' },
+      { text: '→ edit ./agents/support/agent.ts', tone: 'muted' },
+    ],
   },
-  { text: '# …or scaffold your own from a one-line description', tone: 'muted' },
+  {
+    id: 'run',
+    label: 'Run',
+    command: '$ npx agentskit run "Summarize today’s PRs" --provider anthropic',
+    output: [
+      { text: '✓ provider anthropic · streaming', tone: 'success' },
+      { text: '> 4 pull requests need review; 2 are ready to merge…', tone: 'stream' },
+      { text: '✓ run completed', tone: 'muted' },
+    ],
+  },
+  {
+    id: 'doctor',
+    label: 'Diagnose',
+    command: '$ npx agentskit doctor',
+    output: [
+      { text: '✓ runtime packages', tone: 'success' },
+      { text: '✓ provider configuration', tone: 'success' },
+      { text: '✓ environment ready to run agents', tone: 'success' },
+    ],
+  },
 ]
 
-const TYPE_MS = 38
-const OUTPUT_STAGGER_MS = 520
-const HOLD_MS = 4200
-
-type Phase = 'typing' | 'output' | 'hold'
+const TYPE_MS = 24
+const OUTPUT_STAGGER_MS = 420
+const HOLD_MS = 3000
 
 export function CliShowcase() {
   const reduced = useReducedMotion()
+  const [activeIndex, setActiveIndex] = useState(0)
+  const [playing, setPlaying] = useState(true)
   const [typed, setTyped] = useState('')
   const [visibleLines, setVisibleLines] = useState(0)
   const timers = useRef<ReturnType<typeof setTimeout>[]>([])
+  const activeFlow = FLOWS[activeIndex]
 
   useEffect(() => {
-    if (reduced) return
-
-    const clearAll = () => {
-      timers.current.forEach(clearTimeout)
-      timers.current = []
-    }
+    if (reduced || !playing) return
 
     const schedule = (fn: () => void, ms: number) => {
       timers.current.push(setTimeout(fn, ms))
     }
 
     let cancelled = false
+    setTyped('')
+    setVisibleLines(0)
 
-    const runCycle = () => {
+    let characterIndex = 0
+    const typeNext = () => {
       if (cancelled) return
-      setTyped('')
-      setVisibleLines(0)
+      characterIndex += 1
+      setTyped(activeFlow.command.slice(0, characterIndex))
 
-      // Phase: typing
-      let i = 0
-      const typeNext = () => {
-        if (cancelled) return
-        i += 1
-        setTyped(COMMAND.slice(0, i))
-        if (i < COMMAND.length) {
-          schedule(typeNext, TYPE_MS)
-        } else {
-          // Phase: output stagger
-          OUTPUT_LINES.forEach((_, idx) => {
-            schedule(
-              () => setVisibleLines(idx + 1),
-              OUTPUT_STAGGER_MS * (idx + 1),
-            )
-          })
-          // Phase: hold, then loop
-          schedule(
-            runCycle,
-            OUTPUT_STAGGER_MS * (OUTPUT_LINES.length + 1) + HOLD_MS,
-          )
-        }
+      if (characterIndex < activeFlow.command.length) {
+        schedule(typeNext, TYPE_MS)
+        return
       }
-      schedule(typeNext, TYPE_MS)
+
+      activeFlow.output.forEach((_, lineIndex) => {
+        schedule(
+          () => setVisibleLines(lineIndex + 1),
+          OUTPUT_STAGGER_MS * (lineIndex + 1),
+        )
+      })
+
+      schedule(
+        () => setActiveIndex((current) => (current + 1) % FLOWS.length),
+        OUTPUT_STAGGER_MS * (activeFlow.output.length + 1) + HOLD_MS,
+      )
     }
 
-    runCycle()
+    schedule(typeNext, TYPE_MS)
 
     return () => {
       cancelled = true
-      clearAll()
+      timers.current.forEach(clearTimeout)
+      timers.current = []
     }
-  }, [reduced])
+  }, [activeFlow, playing, reduced])
 
-  const showStatic = reduced
-  const displayCommand = showStatic ? COMMAND : typed
-  const displayLines = showStatic ? OUTPUT_LINES.length : visibleLines
-  const commandComplete = showStatic || typed.length === COMMAND.length
+  const showStatic = Boolean(reduced) || !playing
+  const displayCommand = showStatic ? activeFlow.command : typed
+  const displayLines = showStatic ? activeFlow.output.length : visibleLines
+  const commandComplete = showStatic || typed.length === activeFlow.command.length
+
+  const selectFlow = (index: number) => {
+    setActiveIndex(index)
+    setPlaying(false)
+  }
 
   return (
-    <div className="rounded-xl border border-ak-border bg-ak-surface/40 font-mono text-sm shadow-lg shadow-black/20">
-      {/* Title bar */}
+    <div className="overflow-hidden rounded-xl border border-ak-border bg-ak-surface/40 font-mono text-sm shadow-lg shadow-black/20">
       <div className="flex items-center gap-2 border-b border-ak-border px-4 py-3">
         <span className="h-3 w-3 rounded-full bg-[#ff5f57]" aria-hidden />
         <span className="h-3 w-3 rounded-full bg-[#febc2e]" aria-hidden />
@@ -100,35 +131,71 @@ export function CliShowcase() {
         <span className="ml-2 select-none text-xs text-ak-graphite">
           agentskit — zsh
         </span>
+        {!reduced && (
+          <button
+            type="button"
+            onClick={() => setPlaying((current) => !current)}
+            className="ml-auto min-h-11 px-2 text-[11px] uppercase tracking-[0.12em] text-ak-graphite transition hover:text-ak-foam focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
+            aria-label={playing ? 'Pause CLI demo' : 'Play CLI demo'}
+          >
+            {playing ? 'Pause' : 'Play'}
+          </button>
+        )}
       </div>
 
-      {/* Terminal body — fixed height so progressive lines don't grow the box */}
-      <div className="min-h-[15rem] space-y-1.5 px-4 py-4 leading-relaxed">
+      <div className="flex overflow-x-auto border-b border-ak-border px-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {FLOWS.map((flow, index) => {
+          const active = index === activeIndex
+          return (
+            <button
+              key={flow.id}
+              type="button"
+              onClick={() => selectFlow(index)}
+              aria-pressed={active}
+              className={`relative min-h-11 shrink-0 px-3 text-xs transition focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ak-blue ${
+                active ? 'text-ak-foam' : 'text-ak-graphite hover:text-ak-foam'
+              }`}
+            >
+              {flow.label}
+              {active && (
+                <motion.span
+                  layoutId="cli-active-flow"
+                  className="absolute inset-x-2 bottom-0 h-px bg-ak-blue"
+                  transition={{ duration: 0.24, ease: [0.25, 1, 0.5, 1] }}
+                />
+              )}
+            </button>
+          )
+        })}
+        <span className="ml-auto hidden items-center pr-3 text-[10px] text-ak-graphite/60 sm:flex">
+          also: init · chat · dev
+        </span>
+      </div>
+
+      <div className="min-h-[13.5rem] space-y-2 px-4 py-5 leading-relaxed sm:min-h-[14.5rem]">
         <p className="break-words text-ak-foam">
           <span>{displayCommand}</span>
           {!commandComplete && <Cursor />}
         </p>
 
-        <div className="space-y-1.5">
+        <div className="space-y-1.5 pt-2">
           <AnimatePresence initial={false}>
-            {OUTPUT_LINES.slice(0, displayLines).map((line, idx) => (
+            {activeFlow.output.slice(0, displayLines).map((line) => (
               <motion.p
-                key={idx}
+                key={`${activeFlow.id}-${line.text}`}
                 initial={showStatic ? false : { opacity: 0, y: 4 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.28, ease: 'easeOut' }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.24, ease: [0.25, 1, 0.5, 1] }}
                 className={
                   line.tone === 'success'
                     ? 'break-words text-ak-green'
-                    : line.tone === 'prompt'
+                    : line.tone === 'stream'
                       ? 'break-words text-ak-foam'
                       : 'break-words text-ak-graphite'
                 }
               >
                 {line.text}
-                {!showStatic &&
-                  line.tone === 'stream' &&
-                  idx === displayLines - 1 && <Cursor />}
               </motion.p>
             ))}
           </AnimatePresence>

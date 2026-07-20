@@ -2,7 +2,6 @@ import Link from 'next/link'
 import { counts, lists } from '@/lib/ecosystem-stats'
 import { brandSlug } from '@/lib/brand-slugs'
 import { CliShowcase } from './cli-showcase'
-import { ComposeShowcase } from './compose-showcase'
 import { LogoMarquee, type MarqueeItem } from './logo-marquee'
 
 type Cta = { href: string; text: string }
@@ -24,6 +23,7 @@ function Section({
   blurb,
   cta,
   children,
+  footer,
   alt,
 }: {
   eyebrow: string
@@ -31,22 +31,26 @@ function Section({
   blurb: string
   cta: Cta
   children: React.ReactNode
+  footer?: React.ReactNode
   alt?: boolean
 }) {
   return (
     <section
       className={`px-4 py-16 sm:px-6 sm:py-20 ${alt ? 'bg-ak-surface/40' : 'bg-ak-midnight'}`}
     >
-      <div className="mx-auto grid max-w-6xl items-center gap-8 md:gap-12 lg:grid-cols-2">
-        <div className="min-w-0">
-          <div className="font-mono text-xs uppercase tracking-[0.2em] text-ak-graphite/60">{eyebrow}</div>
-          <h2 className="mt-2 text-[1.6rem] font-bold leading-tight tracking-tight text-ak-foam sm:text-3xl md:text-4xl">
-            {title}
-          </h2>
-          <p className="mt-3 max-w-md text-ak-graphite">{blurb}</p>
-          <CtaLink cta={cta} />
+      <div className="mx-auto max-w-6xl">
+        <div className="grid items-center gap-8 md:gap-12 lg:grid-cols-2">
+          <div className="min-w-0">
+            <div className="font-mono text-xs uppercase tracking-[0.2em] text-ak-graphite/60">{eyebrow}</div>
+            <h2 className="mt-2 text-[1.6rem] font-bold leading-tight tracking-tight text-ak-foam sm:text-3xl md:text-4xl">
+              {title}
+            </h2>
+            <p className="mt-3 max-w-md text-ak-graphite">{blurb}</p>
+            <CtaLink cta={cta} />
+          </div>
+          <div className="min-w-0">{children}</div>
         </div>
-        <div className="min-w-0">{children}</div>
+        {footer}
       </div>
     </section>
   )
@@ -112,25 +116,27 @@ export function CliSection() {
   return (
     <Section
       eyebrow="CLI"
-      title="Add and run agents in one line."
-      blurb="`npx agentskit add <agent>` copies the source into your project — you own the code. `--run` executes it on any provider."
-      cta={{ href: '/docs/reference/packages/cli', text: 'Read the CLI docs' }}
+      title="From idea to running agent. One CLI."
+      blurb="Install a ready-made agent, scaffold one from a description, run it on any provider, and diagnose the setup without leaving your terminal."
+      cta={{ href: '/docs/reference/packages/cli', text: 'Explore every CLI command' }}
+      footer={
+        <div className="mt-10 flex flex-col gap-3 border-t border-ak-border pt-6 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="font-semibold text-ak-foam">Looking for a ready-made agent?</p>
+            <p className="mt-1 text-sm text-ak-graphite">
+              Choose one in the Registry, add it with one command, and own the source.
+            </p>
+          </div>
+          <a
+            href="https://registry.agentskit.io/"
+            className="inline-flex min-h-11 shrink-0 items-center font-mono text-sm text-ak-blue transition hover:text-ak-foam focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-ak-blue"
+          >
+            Explore the Registry →
+          </a>
+        </div>
+      }
     >
       <CliShowcase />
-    </Section>
-  )
-}
-
-export function ComposeSection() {
-  return (
-    <Section
-      eyebrow="Compose"
-      title="Tools, RAG, MCP, memory, permissions."
-      blurb="Every agent is overridable. Wire web search, an MCP server, a retriever, memory, and a permission gate — all optional, no glue code."
-      cta={{ href: '/docs/reference/packages/runtime', text: 'See how it composes' }}
-      alt
-    >
-      <ComposeShowcase />
     </Section>
   )
 }
