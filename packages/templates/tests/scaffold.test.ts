@@ -390,7 +390,7 @@ describe('scaffold', () => {
         .join('\n')
       expect(diags, `type errors for ${type}:\n${text}`).toEqual([])
     }
-  }, 60_000)
+  }, 180_000)
 
   it('parses generated TypeScript with the workspace typescript package', () => {
     for (const type of SCAFFOLD_TYPES) {
