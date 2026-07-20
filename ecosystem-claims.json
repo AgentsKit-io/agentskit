@@ -177,8 +177,8 @@
     {
       "productId": "akos",
       "source": {
-        "type": "endpoint",
-        "url": "https://akos.agentskit.io/api/stats.json"
+        "type": "repository",
+        "repo": "AgentsKit-io/agentskit-os"
       },
       "verification": "declared",
       "claims": []
