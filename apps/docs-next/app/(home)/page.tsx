@@ -117,6 +117,21 @@ function Hero() {
             terminal, in-memory for vector DB — without a rewrite.
           </p>
 
+          <div className="mb-7 flex flex-wrap items-center gap-2.5 lg:hidden">
+            <Link
+              href="/docs/get-started/getting-started/build-your-first-agent"
+              className="inline-flex items-center gap-2 rounded-md bg-ak-foam px-4 py-2.5 text-sm font-semibold text-ak-midnight transition hover:bg-white"
+            >
+              Build your first agent →
+            </Link>
+            <Link
+              href="/docs/reference/examples"
+              className="inline-flex items-center gap-2 px-2 py-2.5 text-sm font-medium text-ak-graphite transition hover:text-ak-foam"
+            >
+              See live examples →
+            </Link>
+          </div>
+
           <InstallCommand />
           <HeroFrameworks />
           <p className="mt-6 max-w-xl border-l-2 border-ak-green pl-4 text-sm leading-relaxed text-ak-graphite">
@@ -134,7 +149,7 @@ function Hero() {
             </a>
           </p>
 
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
+          <div className="mt-5 hidden flex-wrap items-center justify-center gap-2.5 sm:gap-3 lg:flex">
             <Link
               href="/docs/get-started/getting-started/build-your-first-agent"
               className="inline-flex items-center gap-2 rounded-md bg-ak-foam px-4 py-2.5 text-sm font-semibold text-ak-midnight transition hover:bg-white sm:px-5"
@@ -364,7 +379,9 @@ function SiteFooter() {
       links: [
         { text: 'Libs', href: '/' },
         { text: 'Registry · agents', href: 'https://registry.agentskit.io' },
+        { text: 'Chat · interfaces', href: 'https://chat.agentskit.io' },
         { text: 'Playbook · standards', href: 'https://playbook.agentskit.io' },
+        { text: 'Doc Bridge · knowledge', href: 'https://doc-bridge.agentskit.io' },
         { text: 'AKOS · production OS', href: 'https://akos.agentskit.io' },
       ],
     },

@@ -1,44 +1,16 @@
 import Link from 'next/link'
+import ecosystemManifest from '../../../../../ecosystem.json'
 
 /** Canonical peer products (Registry is the current surface — not listed). */
-export const ecosystemPeers = [
-  {
-    name: 'AgentsKit',
-    role: 'foundation',
-    href: 'https://www.agentskit.io',
-    action: 'Build and extend agents with core, tools, memory, and RAG.',
-  },
-  {
-    name: 'AgentsKit Chat',
-    role: 'experience',
-    href: 'https://chat.agentskit.io',
-    action: 'Deliver a native chat experience over the same runtime.',
-  },
-  {
-    name: 'Agents Playbook',
-    role: 'discipline',
-    href: 'https://playbook.agentskit.io',
-    action: 'Apply engineering and delivery standards for agent work.',
-  },
-  {
-    name: 'Doc Bridge',
-    role: 'understanding',
-    href: 'https://doc-bridge.agentskit.io/',
-    action: 'Keep documentation handoffs agent-ready and deterministic.',
-  },
-  {
-    name: 'Code Review',
-    role: 'verification',
-    href: 'https://github.com/AgentsKit-io/code-review-cli',
-    action: 'Review agent-generated diffs before merge.',
-  },
-  {
-    name: 'AKOS',
-    role: 'operation',
-    href: 'https://akos.agentskit.io',
-    action: 'Operate with enterprise controls and governance.',
-  },
-] as const
+export const ecosystemPeers = ecosystemManifest.products
+  .filter((product) => product.id !== 'registry' && product.navigation.showInBar)
+  .sort((left, right) => (left.navigation.order ?? 0) - (right.navigation.order ?? 0))
+  .map((product) => ({
+    name: product.name,
+    role: product.role,
+    href: product.surfaces.home,
+    action: product.showcase?.detail ?? product.promise,
+  }))
 
 export function EcosystemMesh({
   headingId = 'continue-ecosystem',

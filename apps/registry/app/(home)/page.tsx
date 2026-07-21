@@ -6,13 +6,15 @@ import { Hero } from './_components/hero'
 import { Browse } from './_components/browse'
 import { InstallSteps } from './_components/install-steps'
 import { EcosystemShowcase } from './_components/ecosystem-showcase'
+import { ClosingCta } from './_components/closing-cta'
+import { SiteFooter } from './_components/site-footer'
 
 export const revalidate = 3600
 
 export const metadata = {
-  title: 'AgentsKit Registry — ready-to-use AI agents',
+  title: 'Shadcn-like AI agents',
   description:
-    'Ready-to-use AI agents for AgentsKit. Copy production-grade source into your project with one command — you own the code, no lock-in.',
+    'Shadcn-like AI agents for AgentsKit. Copy validated TypeScript source into your project with one command — you own the code, no lock-in.',
   alternates: { canonical: 'https://registry.agentskit.io' },
 }
 
@@ -33,6 +35,8 @@ export default async function HomePage() {
       </Suspense>
       <InstallSteps />
       <EcosystemShowcase />
+      <ClosingCta agentCount={agents.length} />
+      <SiteFooter />
     </main>
   )
 }
