@@ -43,14 +43,14 @@ function AgentCard({
         <p className="mt-2 line-clamp-3 text-sm leading-6 text-ak-graphite">{agent.description}</p>
       </Link>
       <div className="mt-5 flex items-center gap-2 border-t border-ak-border pt-3">
-        <label className={`flex shrink-0 items-center gap-2 text-xs ${selectionFull && !selected ? 'cursor-not-allowed text-ak-border' : 'cursor-pointer text-ak-graphite hover:text-ak-foam'}`}>
+        <label className={`flex min-h-11 shrink-0 items-center gap-2 text-xs ${selectionFull && !selected ? 'cursor-not-allowed text-ak-border' : 'cursor-pointer text-ak-graphite hover:text-ak-foam'}`}>
           <input
             type="checkbox"
             checked={selected}
             disabled={selectionFull && !selected}
             onChange={onToggle}
             aria-label={comparisonControlLabel(agent, category.label)}
-            className="size-4 accent-ak-blue"
+            className="size-5 accent-ak-blue"
           />
           Compare
         </label>
@@ -141,7 +141,7 @@ export function Browse({
                   update({ category: '', page: 1 })
                 }}
                 aria-current={!category ? 'page' : undefined}
-                className={`flex shrink-0 items-center gap-2 rounded-md px-2.5 py-2 text-sm lg:w-full ${!category ? 'bg-ak-surface font-medium text-ak-foam' : 'text-ak-graphite hover:text-ak-foam'}`}
+                className={`flex min-h-11 shrink-0 items-center gap-2 rounded-md px-2.5 py-2 text-sm lg:w-full ${!category ? 'bg-ak-surface font-medium text-ak-foam' : 'text-ak-graphite hover:text-ak-foam'}`}
               >
                 <Icon name="layers" size={16} /> All <span className="ml-auto font-mono text-[11px]">{agents.length}</span>
               </button>
@@ -157,7 +157,7 @@ export function Browse({
                       update({ category: id, page: 1 })
                     }}
                     aria-current={active ? 'page' : undefined}
-                    className={`flex shrink-0 items-center gap-2 rounded-md px-2.5 py-2 text-sm lg:w-full ${active ? 'bg-ak-surface font-medium text-ak-foam' : 'text-ak-graphite hover:text-ak-foam'}`}
+                    className={`flex min-h-11 shrink-0 items-center gap-2 rounded-md px-2.5 py-2 text-sm lg:w-full ${active ? 'bg-ak-surface font-medium text-ak-foam' : 'text-ak-graphite hover:text-ak-foam'}`}
                   >
                     <Icon name={meta.icon} size={16} /> {meta.label}
                     <span className="ml-auto font-mono text-[11px]">{counts[id]}</span>
@@ -167,18 +167,18 @@ export function Browse({
             </nav>
             <fieldset className="mt-5 border-t border-ak-border pt-4">
               <legend className="text-xs font-semibold uppercase text-ak-graphite">Capabilities</legend>
-              <label className="mt-3 flex cursor-pointer items-center gap-2 text-sm text-ak-graphite hover:text-ak-foam">
+              <label className="mt-1 flex min-h-11 cursor-pointer items-center gap-2 text-sm text-ak-graphite hover:text-ak-foam">
                 <input type="checkbox" checked={reviewed} onChange={(event) => {
                   trackRegistryEvent('registry_catalog_filter_changed', { filter: 'reviewed', value: event.target.checked })
                   update({ reviewed: event.target.checked, page: 1 })
-                }} className="size-4 accent-ak-blue" />
+                }} className="size-5 accent-ak-blue" />
                 Independently reviewed
               </label>
-              <label className="mt-3 flex cursor-pointer items-center gap-2 text-sm text-ak-graphite hover:text-ak-foam">
+              <label className="flex min-h-11 cursor-pointer items-center gap-2 text-sm text-ak-graphite hover:text-ak-foam">
                 <input type="checkbox" checked={runnable} onChange={(event) => {
                   trackRegistryEvent('registry_catalog_filter_changed', { filter: 'runnable', value: event.target.checked })
                   update({ runnable: event.target.checked, page: 1 })
-                }} className="size-4 accent-ak-blue" />
+                }} className="size-5 accent-ak-blue" />
                 Runnable from CLI
               </label>
             </fieldset>
@@ -208,7 +208,7 @@ export function Browse({
                     trackRegistryEvent('registry_catalog_filter_changed', { filter: 'sort', value: nextSort })
                     update({ sort: nextSort, page: 1 })
                   }}
-                  className="h-9 rounded-md border border-ak-border bg-ak-midnight px-2 text-sm text-ak-foam outline-none focus:border-ak-blue"
+                  className="h-11 rounded-md border border-ak-border bg-ak-midnight px-2 text-sm text-ak-foam outline-none focus:border-ak-blue"
                 >
                   <option value="recommended">Recommended</option>
                   <option value="score">Review score</option>
@@ -219,7 +219,7 @@ export function Browse({
                 <button type="button" onClick={() => {
                   trackRegistryEvent('registry_catalog_filter_changed', { filter: 'clear', value: true })
                   update({ q: '', category: '', reviewed: false, runnable: false, sort: 'recommended', page: 1 })
-                }} className="text-ak-blue hover:underline">Clear filters</button>
+                }} className="min-h-11 px-1 text-ak-blue hover:underline">Clear filters</button>
               )}
             </div>
 

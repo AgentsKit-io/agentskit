@@ -27,7 +27,7 @@ export default async function HomePage() {
   const sampleIds = SAMPLE.filter((id) => byId.has(id))
 
   return (
-    <main className="w-full">
+    <div className="w-full">
       <LandingFx />
       <Hero agentCount={agents.length} categoryCount={categoryCount} sampleIds={sampleIds} />
       <Suspense fallback={<div className="mx-auto h-96 max-w-5xl px-4 py-14 text-sm text-ak-graphite">Loading agents…</div>}>
@@ -37,6 +37,6 @@ export default async function HomePage() {
       <EcosystemShowcase />
       <ClosingCta agentCount={agents.length} />
       <SiteFooter />
-    </main>
+    </div>
   )
 }

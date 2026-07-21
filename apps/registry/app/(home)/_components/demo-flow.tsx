@@ -102,7 +102,7 @@ export function DemoFlow({ agents, agentCount, categoryCount }: { agents: DemoAg
                 type="button"
                 data-copy={`npx agentskit add ${current?.id}`}
                 aria-label="Copy"
-                className="rg-copy inline-flex h-7 w-7 shrink-0 items-center justify-center rounded-md border border-ak-border bg-ak-surface text-ak-graphite transition hover:border-ak-blue hover:text-ak-foam"
+                className="rg-copy inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-ak-border bg-ak-surface text-ak-graphite transition hover:border-ak-blue hover:text-ak-foam focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
               >
                 <span className="cp inline-flex"><Icon name="copy" size={14} /></span>
                 <span className="ck"><Icon name="check" size={14} /></span>

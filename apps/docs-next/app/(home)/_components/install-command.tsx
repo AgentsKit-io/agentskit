@@ -40,7 +40,7 @@ export function InstallCommand({ withSubtext = false }: { withSubtext?: boolean 
             role="tab"
             aria-selected={i === active}
             onClick={() => setActive(i)}
-            className={`inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 font-mono text-[11px] uppercase tracking-wide transition sm:text-xs ${
+            className={`inline-flex min-h-11 items-center gap-1.5 rounded-md px-3 py-1.5 font-mono text-[11px] uppercase tracking-wide transition focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ak-blue sm:text-xs ${
               i === active
                 ? 'bg-ak-surface text-ak-foam'
                 : 'text-ak-graphite hover:text-ak-foam'
@@ -79,7 +79,7 @@ function CommandLine({ command }: { command: string }) {
     <button
       type="button"
       onClick={copy}
-      className="group mt-2 flex w-full min-w-0 items-center gap-2 rounded-md bg-ak-surface/50 px-2.5 py-2.5 text-left font-mono text-[11px] text-ak-foam transition hover:bg-ak-surface sm:gap-3 sm:px-3 sm:text-[13px] md:text-sm"
+      className="group mt-2 flex min-h-11 w-full min-w-0 items-center gap-2 rounded-md bg-ak-surface/50 px-2.5 py-2.5 text-left font-mono text-[11px] text-ak-foam transition hover:bg-ak-surface focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue sm:gap-3 sm:px-3 sm:text-[13px] md:text-sm"
     >
       <span className="shrink-0 text-ak-green">$</span>
       <span className="min-w-0 flex-1 overflow-x-auto whitespace-nowrap [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
