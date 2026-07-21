@@ -55,6 +55,7 @@ test('the shared ecosystem bar contains its own mobile overflow', () => {
   assert.match(bar, /flex:0 0 auto;min-height:44px;white-space:nowrap/)
   assert.match(bar, /currentLink\.offsetLeft/)
   assert.match(bar, /bar\.scrollTo/)
+  assert.doesNotMatch(bar, /requestAnimationFrame\(function \(\) \{\s*var maxScroll/)
   assert.match(bar, /selectedTab\.offsetLeft/)
   assert.match(bar, /this\.tabsRoot\.scrollTo/)
   assert.doesNotMatch(bar, /role="tabpanel" aria-live="polite"/)
