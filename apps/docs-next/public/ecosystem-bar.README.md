@@ -35,6 +35,8 @@ Add to each product surface. Repository-native Code Review links to its GitHub h
 Set `data-current` to one of: `agentskit` · `registry` · `agentskit-chat` ·
 `playbook` · `doc-bridge` · `code-review` · `akos`
 (or omit it — the bar auto-detects by hostname). The current property is highlighted.
+On mobile, the bar remains a single horizontal 44px-target navigation row and
+automatically scrolls the current property into view when it loads.
 
 ## Semantic ecosystem footer
 
