@@ -73,8 +73,8 @@ export function CopyButton({
   analytics?: { agentId: string; surface: 'catalog' | 'hero' | 'guide' }
 }) {
   const base =
-    'rg-copy inline-flex items-center justify-center gap-1.5 rounded-lg border border-ak-border bg-ak-surface text-ak-graphite transition hover:border-ak-blue hover:text-ak-foam cursor-pointer'
-  const pad = variant === 'icon' ? 'p-2' : 'px-3 py-1.5 text-xs font-semibold'
+    'rg-copy inline-flex cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-ak-border bg-ak-surface text-ak-graphite transition hover:border-ak-blue hover:text-ak-foam focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue'
+  const pad = variant === 'icon' ? 'min-h-11 min-w-11 p-2' : 'min-h-11 px-3 py-1.5 text-xs font-semibold'
   return (
     <button
       type="button"

@@ -195,7 +195,7 @@ export function HeroDemo() {
       onFocusCapture={() => setFocusWithin(true)}
       onBlurCapture={() => setFocusWithin(false)}
     >
-      <div className="flex items-center justify-between border-b border-ak-border bg-ak-midnight/70 px-4 py-3">
+      <div className="flex min-h-14 items-center justify-between border-b border-ak-border bg-ak-midnight/70 px-4">
         <div className="flex items-center gap-2">
           <span className="h-2.5 w-2.5 rounded-full bg-ak-red/80" />
           <span className="h-2.5 w-2.5 rounded-full bg-[#f0b429]/80" />
@@ -207,7 +207,7 @@ export function HeroDemo() {
             type="button"
             onClick={() => setManualPaused((current) => !current)}
             aria-label={manualPaused ? 'Play demo' : 'Pause demo'}
-            className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-ak-graphite transition hover:text-ak-foam"
+            className="flex min-h-11 items-center gap-2 px-1 font-mono text-[10px] uppercase tracking-[0.12em] text-ak-graphite transition hover:text-ak-foam focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
           >
             <span className={`h-1.5 w-1.5 rounded-full ${paused ? 'bg-ak-graphite' : 'bg-ak-green'}`} />
             {manualPaused ? 'play' : hovered || focusWithin ? 'paused' : 'playing'}
@@ -307,7 +307,7 @@ export function HeroDemo() {
               type="button"
               onClick={() => selectStep(index)}
               aria-current={index === activeStep ? 'step' : undefined}
-              className={`relative shrink-0 rounded px-2 py-1.5 font-mono text-[9px] uppercase tracking-[0.08em] transition sm:flex-1 ${
+              className={`relative min-h-11 shrink-0 rounded px-2 font-mono text-[9px] uppercase tracking-[0.08em] transition focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-ak-blue sm:flex-1 ${
                 index === activeStep
                   ? 'bg-ak-surface text-ak-foam'
                   : index < activeStep

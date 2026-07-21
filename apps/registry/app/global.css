@@ -298,3 +298,10 @@ figure[data-rehype-pretty-code-figure] pre {
   box-shadow: 0 8px 24px rgba(0,0,0,.25); opacity: 0; transition: opacity .22s ease, transform .22s ease;
 }
 .rg-toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+/* Fumadocs keeps its compact visual controls while exposing a touch-safe target. */
+button[data-search],
+button[aria-label="Toggle Menu"] {
+  min-width: 44px;
+  min-height: 44px;
+}

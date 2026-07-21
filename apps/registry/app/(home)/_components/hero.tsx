@@ -19,13 +19,13 @@ export function Hero({ agentCount, categoryCount, sampleIds }: { agentCount: num
           <div className="mt-7 flex flex-wrap items-center gap-3">
             <a
               href="#agents"
-              className="inline-flex items-center gap-2 rounded-lg bg-ak-blue px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
+              className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-ak-blue px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
             >
               Browse {agentCount} agents <Icon name="arrow-right" size={17} />
             </a>
             <a
               href="#how-it-works"
-              className="inline-flex items-center gap-2 rounded-lg border border-ak-border bg-ak-surface px-4 py-2.5 text-sm font-semibold text-ak-foam transition hover:border-ak-blue"
+              className="inline-flex min-h-11 items-center gap-2 rounded-lg border border-ak-border bg-ak-surface px-4 py-2.5 text-sm font-semibold text-ak-foam transition hover:border-ak-blue focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
             >
               See how source ownership works
             </a>
@@ -48,7 +48,7 @@ export function Hero({ agentCount, categoryCount, sampleIds }: { agentCount: num
               data-agent-id={id}
               data-copy-surface="hero"
               aria-label="Copy install command"
-              className="rg-copy inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-md border border-ak-border bg-ak-midnight text-ak-graphite transition hover:border-ak-blue hover:text-ak-foam"
+              className="rg-copy inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-ak-border bg-ak-midnight text-ak-graphite transition hover:border-ak-blue hover:text-ak-foam focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
             >
               <span className="cp inline-flex"><Icon name="copy" size={15} /></span>
               <span className="ck"><Icon name="check" size={15} /></span>
