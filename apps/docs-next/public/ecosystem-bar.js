@@ -457,10 +457,10 @@
     '#ak-eco a.ak-eco-cta svg{width:14px;height:14px;fill:currentColor}' +
     // Discord is kept in the DOM for an easy restore; hidden until community is ready.
     '#ak-eco a.ak-eco-cta[data-ak-eco-discord]{display:none}' +
-    '@media(max-width:767px){#ak-eco{box-sizing:border-box;width:100%;max-width:100vw;overflow-x:auto;' +
+    '@media(max-width:767px){#ak-eco{box-sizing:border-box;width:100%;max-width:100vw;flex-wrap:nowrap;overflow-x:auto;' +
     'overscroll-behavior-x:contain;scrollbar-width:none}#ak-eco::-webkit-scrollbar{display:none}' +
-    '#ak-eco .ak-eco-brand{position:sticky;left:0;z-index:1;min-width:44px;min-height:44px;background:inherit}' +
-    '#ak-eco a.ak-eco-link{min-height:44px}' +
+    '#ak-eco .ak-eco-brand{position:sticky;left:0;z-index:1;flex:0 0 44px;min-width:44px;min-height:44px;background:inherit}' +
+    '#ak-eco a.ak-eco-link{box-sizing:border-box;flex:0 0 auto;min-height:44px;white-space:nowrap}' +
     '#ak-eco .ak-eco-spacer,#ak-eco a.ak-eco-cta{display:none}}' +
     '@media(prefers-color-scheme:light){#ak-eco{background:#fff;color:#0b0b0f;border-bottom-color:#e6e6ea}' +
     '#ak-eco .ak-eco-brand{color:#0b0b0f}#ak-eco a.ak-eco-link{color:#555}' +
@@ -1110,6 +1110,15 @@
     })
 
     document.body.insertBefore(bar, document.body.firstChild)
+
+    var currentLink = bar.querySelector('a.ak-eco-link[aria-current="page"]')
+    if (currentLink && window.matchMedia('(max-width: 767px)').matches) {
+      window.requestAnimationFrame(function () {
+        var maxScroll = Math.max(0, bar.scrollWidth - bar.clientWidth)
+        var centered = currentLink.offsetLeft - (bar.clientWidth - currentLink.offsetWidth) / 2
+        bar.scrollTo({ left: Math.max(0, Math.min(maxScroll, centered)), behavior: 'auto' })
+      })
+    }
   }
 
   if (document.readyState === 'loading') {

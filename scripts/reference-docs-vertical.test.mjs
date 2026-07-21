@@ -50,8 +50,11 @@ test('the primary guide starts locally and keeps the provider step as progressiv
 test('the shared ecosystem bar contains its own mobile overflow', () => {
   const bar = read('apps/docs-next/public/ecosystem-bar.js')
   assert.match(bar, /@media\(max-width:767px\)/)
-  assert.match(bar, /max-width:100vw;overflow-x:auto/)
+  assert.match(bar, /max-width:100vw;flex-wrap:nowrap;overflow-x:auto/)
   assert.match(bar, /scrollbar-width:none/)
+  assert.match(bar, /flex:0 0 auto;min-height:44px;white-space:nowrap/)
+  assert.match(bar, /currentLink\.offsetLeft/)
+  assert.match(bar, /bar\.scrollTo/)
   assert.match(bar, /selectedTab\.offsetLeft/)
   assert.match(bar, /this\.tabsRoot\.scrollTo/)
   assert.doesNotMatch(bar, /role="tabpanel" aria-live="polite"/)
