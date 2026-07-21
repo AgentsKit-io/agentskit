@@ -1113,11 +1113,9 @@
 
     var currentLink = bar.querySelector('a.ak-eco-link[aria-current="page"]')
     if (currentLink && window.matchMedia('(max-width: 767px)').matches) {
-      window.requestAnimationFrame(function () {
-        var maxScroll = Math.max(0, bar.scrollWidth - bar.clientWidth)
-        var centered = currentLink.offsetLeft - (bar.clientWidth - currentLink.offsetWidth) / 2
-        bar.scrollTo({ left: Math.max(0, Math.min(maxScroll, centered)), behavior: 'auto' })
-      })
+      var maxScroll = Math.max(0, bar.scrollWidth - bar.clientWidth)
+      var centered = currentLink.offsetLeft - (bar.clientWidth - currentLink.offsetWidth) / 2
+      bar.scrollTo({ left: Math.max(0, Math.min(maxScroll, centered)), behavior: 'auto' })
     }
   }
 
