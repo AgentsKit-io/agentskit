@@ -17,7 +17,7 @@ beforeEach(() => {
     }) => {
       opts?.onStdout?.({ line: 'hello' })
       opts?.onStderr?.({ line: 'warn' })
-      return { exitCode: 0 }
+      return {}
     }),
     kill: vi.fn(async () => undefined),
   }
@@ -76,7 +76,7 @@ describe('createE2BBackend', () => {
     await expect(backend.dispose()).resolves.toBeUndefined()
   })
 
-  it('execute streams stdout/stderr and returns exit code', async () => {
+  it('maps a successful E2B execution to exit code 0', async () => {
     const { createE2BBackend: factory } = await import('../src/e2b-backend')
     const backend = factory({ apiKey: 'sk-test' })
     const result = await backend.execute('print(1)', { language: 'python' })
@@ -88,6 +88,21 @@ describe('createE2BBackend', () => {
       'print(1)',
       expect.objectContaining({ language: 'python' }),
     )
+  })
+
+  it('maps an E2B execution error to exit code 1 and stderr', async () => {
+    fakeSandbox.runCode = vi.fn(async () => ({
+      error: {
+        name: 'ZeroDivisionError',
+        value: 'division by zero',
+        traceback: 'Traceback: ZeroDivisionError: division by zero',
+      },
+    }))
+    const { createE2BBackend: factory } = await import('../src/e2b-backend')
+    const backend = factory({ apiKey: 'sk-test' })
+    const result = await backend.execute('1 / 0', { language: 'python' })
+    expect(result.exitCode).toBe(1)
+    expect(result.stderr).toBe('Traceback: ZeroDivisionError: division by zero')
   })
 
   it('default language is javascript', async () => {
@@ -175,7 +190,7 @@ describe('createE2BBackend', () => {
     expect(result.stderr).toMatch(/timed out/)
     expect(fakeSandbox.kill).toHaveBeenCalled()
     // next execute recreates
-    fakeSandbox.runCode = vi.fn(async () => ({ exitCode: 0 }))
+    fakeSandbox.runCode = vi.fn(async () => ({}))
     await backend.execute('next')
     expect(createMock).toHaveBeenCalledTimes(2)
   })
@@ -232,7 +247,7 @@ describe('createE2BBackend', () => {
     }) => {
       opts?.onStdout?.({ line: 'x'.repeat(80) })
       opts?.onStderr?.({ line: 'y'.repeat(80) })
-      return { exitCode: 0 }
+      return {}
     })
     const { createE2BBackend: factory } = await import('../src/e2b-backend')
     const backend = factory({ apiKey: 'sk-test', maxOutputBytes: 50 })
