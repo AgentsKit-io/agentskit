@@ -34,7 +34,13 @@ interface E2BSandboxInstance {
       onStdout?: (data: { line: string }) => void
       onStderr?: (data: { line: string }) => void
     },
-  ): Promise<{ exitCode: number }>
+  ): Promise<{
+    error?: {
+      name: string
+      value: string
+      traceback: string
+    }
+  }>
   kill(): Promise<void>
 }
 
@@ -300,6 +306,22 @@ export function createE2BBackend(config: E2BConfig): SandboxBackend {
 
         let out = stdout.trimEnd()
         let err = stderr.trimEnd()
+        if (result.error) {
+          const executionError =
+            result.error.traceback || `${result.error.name}: ${result.error.value}`
+          if (!err.includes(executionError)) {
+            if (err) {
+              err = appendCapped(err, '\n', totalBytes, maxOutputBytes, markTruncated)
+            }
+            err = appendCapped(
+              err,
+              executionError,
+              totalBytes,
+              maxOutputBytes,
+              markTruncated,
+            ).trimEnd()
+          }
+        }
         if (truncated) {
           err = (err ? err + '\n' : '') + `[output truncated at ${maxOutputBytes} bytes]`
         }
@@ -307,7 +329,7 @@ export function createE2BBackend(config: E2BConfig): SandboxBackend {
         return {
           stdout: out,
           stderr: err,
-          exitCode: result.exitCode,
+          exitCode: result.error ? 1 : 0,
           durationMs: Date.now() - startTime,
         }
       } catch (err) {
