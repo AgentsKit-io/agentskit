@@ -149,12 +149,30 @@ describe('qdrant — extra', () => {
     expect(fetch).not.toHaveBeenCalled()
   })
 
-  it('delete posts point ids', async () => {
+  it('delete maps source ids to the same deterministic point ids used by store', async () => {
     const { fetch, calls } = mockFetch({})
     const store = qdrant({ url: 'https://qdrant', collection: 'c', fetch })
-    await store.delete!(['p1', 'p2'])
-    const body = JSON.parse(calls[0]!.init!.body as string) as { points: string[] }
-    expect(body.points).toEqual(['p1', 'p2'])
+    await store.store([{ id: 'p1', content: 'one', embedding: [1] }])
+    await store.delete!(['p1'])
+    const stored = JSON.parse(calls[0]!.init!.body as string) as {
+      points: Array<{ id: string }>
+    }
+    const deleted = JSON.parse(calls[1]!.init!.body as string) as { points: string[] }
+    expect(deleted.points).toEqual([stored.points[0]!.id])
+  })
+
+  it('preserves valid UUIDs and converts safe numeric ids', async () => {
+    const { fetch, calls } = mockFetch({})
+    const store = qdrant({ url: 'https://qdrant', collection: 'c', fetch })
+    const uuid = '00000000-0000-4000-8000-000000000001'
+    await store.store([
+      { id: uuid, content: 'uuid', embedding: [1] },
+      { id: '42', content: 'number', embedding: [1] },
+    ])
+    const body = JSON.parse(calls[0]!.init!.body as string) as {
+      points: Array<{ id: string | number }>
+    }
+    expect(body.points.map(point => point.id)).toEqual([uuid, 42])
   })
 
   it('store is no-op when docs array is empty', async () => {

@@ -80,21 +80,38 @@ describe('pinecone', () => {
 })
 
 describe('qdrant', () => {
-  it('store uses PUT collections/*/points', async () => {
+  it('store uses a deterministic Qdrant UUID while preserving the source id', async () => {
     const { fetch, calls } = mockFetch({})
     const store = qdrant({ url: 'https://q', collection: 'c', fetch })
     await store.store([{ id: 'a', content: 'x', embedding: [1] }])
     expect(calls[0]!.init!.method).toBe('PUT')
     expect(calls[0]!.url).toContain('/collections/c/points')
+    const body = JSON.parse(calls[0]!.init!.body as string) as {
+      points: Array<{ id: string; payload: Record<string, unknown> }>
+    }
+    expect(body.points[0]!.id).toMatch(
+      /^[0-9a-f]{8}-[0-9a-f]{4}-5[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/,
+    )
+    expect(body.points[0]!.payload).toMatchObject({ content: 'x', __agentskitSourceId: 'a' })
   })
 
-  it('search maps scored points', async () => {
+  it('search restores the source id without leaking adapter metadata', async () => {
     const { fetch } = mockFetch({
-      result: [{ id: 42, score: 0.77, payload: { content: 'hello' } }],
+      result: [{
+        id: 'ca978112-ca1b-5dca-bac2-31b39a23dc4d',
+        score: 0.77,
+        payload: { content: 'hello', topic: 'support', __agentskitSourceId: 'a' },
+      }],
     })
     const store = qdrant({ url: 'https://q', collection: 'c', fetch, apiKey: 'k' })
     const out = await store.search([1])
-    expect(out[0]).toMatchObject({ id: '42', content: 'hello', score: 0.77 })
+    expect(out[0]).toMatchObject({
+      id: 'a',
+      content: 'hello',
+      metadata: { content: 'hello', topic: 'support' },
+      score: 0.77,
+    })
+    expect(out[0]!.metadata).not.toHaveProperty('__agentskitSourceId')
   })
 })
 
