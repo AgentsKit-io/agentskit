@@ -22,8 +22,8 @@ function base64url(bytes: Uint8Array | string): string {
   return btoa(bin).replace(/=+$/, '').replace(/\+/g, '-').replace(/\//g, '_')
 }
 
-async function makeJwt(privateKey: CryptoKey, claims: Record<string, unknown>, kid = 'k1') {
-  const header = { alg: 'RS256', typ: 'JWT', kid }
+async function makeJwt(privateKey: CryptoKey, claims: Record<string, unknown>, kid = 'k1', alg = 'RS256') {
+  const header = { alg, typ: 'JWT', kid }
   const headerSeg = base64url(JSON.stringify(header))
   const payloadSeg = base64url(JSON.stringify(claims))
   const sig = await crypto.subtle.sign(
@@ -103,6 +103,77 @@ describe('createOidcVerifier', () => {
       iat: now,
     })
     await expect(verifier.verify(token)).rejects.toThrow(/aud mismatch/)
+  })
+
+  it('rejects RSA signing keys smaller than 2048 bits', async () => {
+    const { keys, jwk } = await generateRsaSigningKey()
+    const weakModulus = base64url(new Uint8Array(128).fill(0xff))
+    const verifier = createOidcVerifier({
+      issuer: 'https://idp.test',
+      audience: 'agentskit',
+      fetch: (async () =>
+        ({ ok: true, status: 200, statusText: 'OK', json: async () => ({ keys: [{ ...jwk, kid: 'k1', n: weakModulus }] }) }) as unknown as Response) as unknown as typeof fetch,
+    })
+    const now = Math.floor(Date.now() / 1000)
+    const token = await makeJwt(keys.privateKey, {
+      iss: 'https://idp.test',
+      aud: 'agentskit',
+      sub: 'user-1',
+      exp: now + 60,
+      iat: now,
+    })
+
+    await expect(verifier.verify(token)).rejects.toThrow(/at least 2048 bits/)
+  })
+
+  it('rejects a JWK whose key type does not match the token algorithm', async () => {
+    const { keys } = await generateRsaSigningKey()
+    const verifier = createOidcVerifier({
+      issuer: 'https://idp.test',
+      audience: 'agentskit',
+      fetch: (async () =>
+        ({
+          ok: true,
+          status: 200,
+          statusText: 'OK',
+          json: async () => ({ keys: [{ kid: 'k1', kty: 'EC', crv: 'P-256', x: 'AA', y: 'AA' }] }),
+        }) as unknown as Response) as unknown as typeof fetch,
+    })
+    const now = Math.floor(Date.now() / 1000)
+    const token = await makeJwt(keys.privateKey, {
+      iss: 'https://idp.test',
+      aud: 'agentskit',
+      sub: 'user-1',
+      exp: now + 60,
+      iat: now,
+    })
+
+    await expect(verifier.verify(token)).rejects.toThrow(/RS256 requires an RSA JWK/)
+  })
+
+  it('rejects an EC curve that is incompatible with ES256', async () => {
+    const { keys } = await generateRsaSigningKey()
+    const verifier = createOidcVerifier({
+      issuer: 'https://idp.test',
+      audience: 'agentskit',
+      fetch: (async () =>
+        ({
+          ok: true,
+          status: 200,
+          statusText: 'OK',
+          json: async () => ({ keys: [{ kid: 'k1', kty: 'EC', crv: 'P-384', x: 'AA', y: 'AA' }] }),
+        }) as unknown as Response) as unknown as typeof fetch,
+    })
+    const now = Math.floor(Date.now() / 1000)
+    const token = await makeJwt(keys.privateKey, {
+      iss: 'https://idp.test',
+      aud: 'agentskit',
+      sub: 'user-1',
+      exp: now + 60,
+      iat: now,
+    }, 'k1', 'ES256')
+
+    await expect(verifier.verify(token)).rejects.toThrow(/ES256 requires a P-256 JWK/)
   })
 })
 
