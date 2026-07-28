@@ -1,6 +1,8 @@
 import { describe, it, expect, vi } from 'vitest'
+import { mockAdapter } from '@agentskit/adapters'
 import { ErrorCodes, type ToolDefinition } from '@agentskit/core'
 import { createInMemoryTransportPair, type JsonRpcMessage } from '@agentskit/tools/mcp'
+import { createAgentTool } from '../src/agent-tool'
 import { createAgentsKitMcpServer } from '../src/index'
 
 const echo: ToolDefinition = {
@@ -103,8 +105,6 @@ describe('createAgentsKitMcpServer', () => {
 
 describe('createAgentTool', () => {
   it('exposes an agent as a tool whose execute runs it via the adapter', async () => {
-    const { createAgentTool } = await import('../src/agent-tool')
-    const { mockAdapter } = await import('@agentskit/adapters')
     const tool = createAgentTool({
       id: 'legal-contract-reviewer',
       description: 'Reviews a contract.',
@@ -118,8 +118,6 @@ describe('createAgentTool', () => {
   })
 
   it('validates agent configuration and task input', async () => {
-    const { createAgentTool } = await import('../src/agent-tool')
-    const { mockAdapter } = await import('@agentskit/adapters')
     const adapter = mockAdapter({ response: [{ type: 'text', content: 'ok' }] })
 
     expect(() => createAgentTool({

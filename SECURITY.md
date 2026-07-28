@@ -2,10 +2,15 @@
 
 ## Supported Versions
 
-| Version | Supported |
-|---------|-----------|
-| 0.3.x   | Yes       |
-| < 0.3   | No        |
+AgentsKit packages are versioned and released independently. Security fixes are
+provided for the latest version published to npm of each `@agentskit/*` package.
+Older versions stop receiving security fixes when a newer version of that
+package is published.
+
+Package maturity and compatibility guarantees are documented in
+[`docs/STABILITY.md`](./docs/STABILITY.md). Stable packages follow the documented
+deprecation cycle for API changes; that cycle does not extend security support
+to superseded versions.
 
 ## Reporting a Vulnerability
 
@@ -15,8 +20,7 @@ reporting:
 → <https://github.com/AgentsKit-io/agentskit/security/advisories/new>
 
 If that channel is unavailable, email `emersonfbraun@gmail.com` with
-`[agentskit-security]` in the subject. Encrypted reports are welcome —
-key fingerprint will be published here once generated.
+`[agentskit-security]` in the subject.
 
 Please include:
 
