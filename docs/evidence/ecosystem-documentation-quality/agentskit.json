@@ -4,7 +4,7 @@
   "profileVersion": 1,
   "productId": "agentskit",
   "repo": "AgentsKit-io/agentskit",
-  "commit": "a6c99e7de325840154f204580bafca49d6db50f6",
+  "commit": "43bad40eeb11852232d3a81d409b596a960bff5d",
   "auditedOn": "2026-07-28",
   "docBridge": {
     "artifact": "docs/evidence/ecosystem-documentation-quality/doc-bridge/agentskit.json",
@@ -12,7 +12,7 @@
     "coverage": { "agent": { "ready": 25, "total": 25 }, "human": { "ready": 25, "total": 25 } },
     "conformance": { "requiredPassed": 7, "requiredTotal": 7, "requiredExcepted": 0, "recommendedPassed": 2, "recommendedTotal": 2, "recommendedExcepted": 0 }
   },
-  "attestation": { "sourceMode": "commit", "contentDigest": "sha256:1fd064f08126c3ba1d4804ff96675114ad82b7e3e23b33abf09c3aff92d86868" },
+  "attestation": { "sourceMode": "commit", "contentDigest": "sha256:70fd34cb80c8863adad2f7a87e9adf5517680806732f8baacbc516256581439c" },
   "machineSurfaces": {
     "llmsTxt": "llms.txt",
     "llmsFullTxt": "apps/docs-next/app/llms-full.txt/route.ts",
@@ -21,7 +21,7 @@
   },
   "narrative": {
     "readme": "README.md",
-    "readmeWordCount": 1663,
+    "readmeWordCount": 1664,
     "humanDocs": "apps/docs-next/content/docs/index.mdx",
     "forAgents": "apps/docs-next/content/docs/for-agents/index.mdx",
     "keyJourneys": [
