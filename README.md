@@ -11,6 +11,7 @@ A 10 KB core budget. Twenty-five focused packages. Zero lock-in. Six formal cont
 [![npm](https://img.shields.io/npm/v/@agentskit/react?label=npm)](https://www.npmjs.com/package/@agentskit/react)
 [![bundle](https://img.shields.io/bundlephobia/minzip/@agentskit/react?label=react%20bundle)](https://bundlephobia.com/package/@agentskit/react)
 [![license](https://img.shields.io/npm/l/@agentskit/react?label=license)](./LICENSE)
+[![OpenSSF Baseline](https://www.bestpractices.dev/projects/13861/baseline)](https://www.bestpractices.dev/projects/13861)
 [![Discord](https://img.shields.io/badge/Discord-join-5865F2?logo=discord&logoColor=white)](https://discord.gg/zx6z2p4jVb)
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 [![GitHub issues](https://img.shields.io/github/issues/AgentsKit-io/agentskit)](https://github.com/AgentsKit-io/agentskit/issues)
