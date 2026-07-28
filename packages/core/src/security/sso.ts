@@ -95,10 +95,73 @@ function decodeJwtJson<T>(segment: string): T {
   return JSON.parse(new TextDecoder().decode(bytes)) as T
 }
 
-async function importJwksKey(key: JwksKey): Promise<CryptoKey> {
+function rsaModulusBits(modulus: string | undefined): number {
+  if (!modulus) return 0
+  const bytes = base64UrlDecode(modulus)
+  const firstSignificant = bytes.findIndex(byte => byte !== 0)
+  if (firstSignificant === -1) return 0
+  const firstByteBits = 32 - Math.clz32(bytes[firstSignificant]!)
+  return (bytes.length - firstSignificant - 1) * 8 + firstByteBits
+}
+
+function assertJwksKeyCompatible(key: JwksKey, alg: string): void {
+  if (key.use && key.use !== 'sig') {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `JWKS key ${key.kid} is not a signing key`,
+      hint: 'Use a JWK whose use is "sig".',
+    })
+  }
+  if (key.alg && key.alg !== alg) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `JWKS key ${key.kid} declares alg=${key.alg}, expected ${alg}`,
+    })
+  }
+  if (alg === 'RS256') {
+    if (key.kty !== 'RSA') {
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: `RS256 requires an RSA JWK, got ${key.kty}`,
+      })
+    }
+    const modulusBits = rsaModulusBits(key.n)
+    if (modulusBits < 2048) {
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: `RSA JWK modulus is ${modulusBits} bits; at least 2048 bits are required`,
+        hint: 'Rotate the IdP signing key to RSA 2048 bits or stronger.',
+      })
+    }
+    return
+  }
+  if (alg === 'ES256') {
+    if (key.kty !== 'EC') {
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: `ES256 requires an EC JWK, got ${key.kty}`,
+      })
+    }
+    if (key.crv !== 'P-256') {
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: `ES256 requires a P-256 JWK, got ${key.crv ?? '<missing>'}`,
+      })
+    }
+    return
+  }
+  throw new ConfigError({
+    code: ErrorCodes.AK_CONFIG_INVALID,
+    message: `unsupported JWT alg: ${alg}`,
+    hint: 'AgentsKit OIDC verifier supports RS256 and ES256.',
+  })
+}
+
+async function importJwksKey(key: JwksKey, alg: string): Promise<CryptoKey> {
+  assertJwksKeyCompatible(key, alg)
   const algForKty: Record<string, RsaHashedImportParams | EcKeyImportParams> = {
     RSA: { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' },
-    EC: { name: 'ECDSA', namedCurve: key.crv ?? 'P-256' },
+    EC: { name: 'ECDSA', namedCurve: key.crv! },
   }
   const algorithm = algForKty[key.kty]
   if (!algorithm) {
@@ -190,7 +253,7 @@ export function createOidcVerifier(options: OidcVerifierOptions): OidcVerifier {
         })
       }
 
-      const cryptoKey = await importJwksKey(key)
+      const cryptoKey = await importJwksKey(key, header.alg)
       const signedInput = new TextEncoder().encode(`${headerSeg}.${payloadSeg}`)
       const signature = base64UrlDecode(signatureSeg)
       const ok = await verifySignature(header.alg, cryptoKey, signedInput, signature)
