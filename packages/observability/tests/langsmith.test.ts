@@ -63,6 +63,7 @@ describe('langsmith observer', () => {
 
   it('construction is pure — no SDK import until first span', async () => {
     let imported = false
+    vi.doUnmock('langsmith')
     vi.doMock('langsmith', () => {
       imported = true
       return {
@@ -79,6 +80,7 @@ describe('langsmith observer', () => {
 
   it('empty flush does not import SDK', async () => {
     let imported = false
+    vi.doUnmock('langsmith')
     vi.doMock('langsmith', () => {
       imported = true
       return {
@@ -98,6 +100,7 @@ describe('langsmith observer', () => {
   it('updateRun awaits matching createRun (deferred)', async () => {
     vi.resetModules()
     const gate = defer()
+    vi.doUnmock('langsmith')
     vi.doMock('langsmith', () => ({
       Client: class {
         async createRun(p: Record<string, unknown>) {
@@ -129,8 +132,10 @@ describe('langsmith observer', () => {
 
   it('child create waits for parent create', async () => {
     const parentGate = defer()
+    const parentStarted = defer()
     let parentId: string | null = null
     vi.resetModules()
+    vi.doUnmock('langsmith')
     vi.doMock('langsmith', () => ({
       Client: class {
         async createRun(p: Record<string, unknown>) {
@@ -139,6 +144,7 @@ describe('langsmith observer', () => {
           captured.createRun.push(p)
           if (p.parent_run_id == null) {
             parentId = id
+            parentStarted.resolve()
             await parentGate.promise
           }
         }
@@ -152,8 +158,7 @@ describe('langsmith observer', () => {
     const sink = langsmith({ apiKey: 'k' })
     sink.on({ type: 'agent:step', step: 1, action: 'a' })
     sink.on(llmStart())
-    await Promise.resolve()
-    await Promise.resolve()
+    await parentStarted.promise
     const childCreates = captured.createRun.filter((r) => r.parent_run_id != null)
     expect(childCreates.length).toBe(0)
     parentGate.resolve()
@@ -168,6 +173,7 @@ describe('langsmith observer', () => {
     process.on('unhandledRejection', onUR)
     try {
       vi.resetModules()
+      vi.doUnmock('langsmith')
       vi.doMock('langsmith', () => ({
         Client: class {
           async createRun() {
@@ -217,7 +223,8 @@ describe('langsmith observer', () => {
   it('flush waits for awaitPendingTraceBatches after local pending', async () => {
     vi.resetModules()
     const sdkGate = defer()
-    let sdkReached = false
+    const sdkReached = defer()
+    vi.doUnmock('langsmith')
     vi.doMock('langsmith', () => ({
       Client: class {
         async createRun(p: Record<string, unknown>) {
@@ -227,7 +234,7 @@ describe('langsmith observer', () => {
           captured.updateRun.push({ id, params })
         }
         async awaitPendingTraceBatches() {
-          sdkReached = true
+          sdkReached.resolve()
           captured.awaitPendingCalls += 1
           await sdkGate.promise
         }
@@ -241,7 +248,7 @@ describe('langsmith observer', () => {
     const flushP = sink.flush().then(() => {
       flushDone = true
     })
-    await vi.waitFor(() => expect(sdkReached).toBe(true))
+    await sdkReached.promise
     expect(flushDone).toBe(false)
     sdkGate.resolve()
     await flushP
@@ -249,10 +256,11 @@ describe('langsmith observer', () => {
     expect(captured.awaitPendingCalls).toBe(1)
   })
 
-  it('isolates awaitPendingTraceBatches sync throw and async reject', async () => {
-    for (const mode of ['sync', 'async'] as const) {
+  it.each(['sync', 'async'] as const)(
+    'isolates awaitPendingTraceBatches %s failure',
+    async (mode) => {
       vi.resetModules()
-      captured = { createRun: [], updateRun: [], order: [], awaitPendingCalls: 0 }
+      vi.doUnmock('langsmith')
       vi.doMock('langsmith', () => ({
         Client: class {
           async createRun(p: Record<string, unknown>) {
@@ -278,8 +286,8 @@ describe('langsmith observer', () => {
       await expect(sink.flush()).resolves.toBeUndefined()
       expect(captured.awaitPendingCalls).toBe(1)
       expect(errors.some((e) => String(e).includes('sdk queue'))).toBe(true)
-    }
-  })
+    },
+  )
 
   it('shutdown is idempotent; events after are ignored', async () => {
     const { langsmith } = await import('../src/langsmith')
@@ -295,6 +303,7 @@ describe('langsmith observer', () => {
 
   it('missing SDK never throws from on/flush/shutdown', async () => {
     vi.resetModules()
+    vi.doUnmock('langsmith')
     vi.doMock('langsmith', () => {
       throw new Error('not installed')
     })
@@ -331,6 +340,7 @@ describe('langsmith observer', () => {
 
   it('swallows client errors so the main loop is not interrupted', async () => {
     vi.resetModules()
+    vi.doUnmock('langsmith')
     vi.doMock('langsmith', () => ({
       Client: class Bad {
         async createRun() {
