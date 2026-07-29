@@ -290,6 +290,33 @@ test('text and JSON CLI output are stable, actionable, and profile-aware', () =>
   assert.equal(JSON.parse(first.stdout).surfaces[0].profileId, 'top-level-repository')
 })
 
+test('automated release refreshes source hashes without claiming a new review', () => {
+  const { root, value } = fixture()
+  const surface = value.surfaces[0]
+  const reviewedOn = surface.freshness.reviewedOn
+  const reviewDueOn = surface.freshness.reviewDueOn
+  const previousHash = surface.freshness.sourceHash
+  mutateReadme(root, markdown => `${markdown}\n`)
+  writeFileSync(join(root, 'readme-standard-v1.json'), `${JSON.stringify(value, null, 2)}\n`)
+
+  const run = spawnSync(process.execPath, [
+    'scripts/refresh-readme-standard.mjs',
+    '--root', root,
+    '--config', 'readme-standard-v1.json',
+    '--preserve-review-dates',
+  ], { cwd: REPO_ROOT, encoding: 'utf8' })
+
+  assert.equal(run.status, 0, run.stderr)
+  const refreshed = JSON.parse(readFileSync(join(root, 'readme-standard-v1.json'), 'utf8'))
+  assert.equal(refreshed.surfaces[0].freshness.reviewedOn, reviewedOn)
+  assert.equal(refreshed.surfaces[0].freshness.reviewDueOn, reviewDueOn)
+  assert.notEqual(refreshed.surfaces[0].freshness.sourceHash, previousHash)
+  assert.equal(
+    refreshed.surfaces[0].freshness.sourceHash,
+    computeReadmeSourceHash(root, refreshed.surfaces[0].freshness.sources),
+  )
+})
+
 test('the CLI exits one and returns remediation for a broken fixture', () => {
   const { root, value } = fixture()
   mutateReadme(root, markdown => markdown.replace('## Verified proof', '## Missing proof'))

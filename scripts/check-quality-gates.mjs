@@ -22,6 +22,7 @@ const GATES = [
   ['stable internal dependencies', 'check-stable-dependencies.mjs'],
   ['stability graduation evidence', 'check-stability-evidence.mjs'],
   ['release registry preflight helpers', 'release-registry.test.mjs'],
+  ['release workflow authentication', 'release-workflow-auth.test.mjs'],
   ['typed errors (no bare throw)', 'check-no-bare-throw.mjs'],
   ['no explicit any', 'check-no-any.mjs'],
   ['named exports only', 'check-named-exports.mjs'],

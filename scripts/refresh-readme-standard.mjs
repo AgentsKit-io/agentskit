@@ -12,15 +12,19 @@ const root = resolve(argument('--root') ?? REPO_ROOT)
 const configPath = resolve(root, argument('--config') ?? 'readme-standard-v1.json')
 const config = parseReadmeStandard(JSON.parse(readFileSync(configPath, 'utf8')))
 const reviewedOn = argument('--date') ?? process.env.README_STANDARD_DATE ?? new Date().toISOString().slice(0, 10)
+const preserveReviewDates = process.argv.includes('--preserve-review-dates')
 
 for (const surface of config.surfaces) {
-  surface.freshness.reviewedOn = reviewedOn
-  const profile = config.profiles.find(item => item.id === surface.profileId)
-  const due = new Date(`${reviewedOn}T00:00:00Z`)
-  due.setUTCDate(due.getUTCDate() + profile.budgets.freshness.reviewCadenceDays)
-  surface.freshness.reviewDueOn = due.toISOString().slice(0, 10)
+  if (!preserveReviewDates) {
+    surface.freshness.reviewedOn = reviewedOn
+    const profile = config.profiles.find(item => item.id === surface.profileId)
+    const due = new Date(`${reviewedOn}T00:00:00Z`)
+    due.setUTCDate(due.getUTCDate() + profile.budgets.freshness.reviewCadenceDays)
+    surface.freshness.reviewDueOn = due.toISOString().slice(0, 10)
+  }
   surface.freshness.sourceHash = computeReadmeSourceHash(root, surface.freshness.sources)
 }
 
 writeFileSync(configPath, `${JSON.stringify(config, null, 2)}\n`)
-console.log(`README Standard v1 freshness refreshed for ${config.surfaces.length} surface(s) on ${reviewedOn}.`)
+const reviewMessage = preserveReviewDates ? 'with review dates preserved' : `on ${reviewedOn}`
+console.log(`README Standard v1 freshness refreshed for ${config.surfaces.length} surface(s) ${reviewMessage}.`)
