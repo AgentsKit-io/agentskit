@@ -124,6 +124,25 @@ describe('executeToolCall', () => {
     expect(result).toBe('result: hello')
   })
 
+  it('serializes structured tool results as JSON for the next model turn', async () => {
+    const result = await executeToolCall(
+      {
+        name: 'search',
+        execute: () => ({
+          results: [{ title: 'AgentsKit', score: 0.98 }],
+          cached: false,
+        }),
+      },
+      {},
+      {
+        messages: [],
+        call: { id: 'call-1', name: 'search', args: {}, status: 'running' },
+      },
+    )
+
+    expect(result).toBe('{"results":[{"title":"AgentsKit","score":0.98}],"cached":false}')
+  })
+
   it('executes an async tool', async () => {
     const tool: ToolDefinition = {
       name: 'test',
