@@ -6,7 +6,7 @@ export const firecrawlIntegration = defineIntegration({
   name: 'firecrawl',
   displayName: 'Firecrawl',
   categories: ['web'],
-  http: { baseUrl: 'https://api.firecrawl.dev/v1' },
+  http: { baseUrl: 'https://api.firecrawl.dev/v2/' },
   auth: { kind: 'apiKey', header: 'authorization', prefix: 'Bearer ', envHint: 'FIRECRAWL_API_KEY' },
   actions: firecrawlActions,
 })

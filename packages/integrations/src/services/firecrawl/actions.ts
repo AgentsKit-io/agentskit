@@ -15,7 +15,7 @@ export const firecrawlScrape = defineAction({
   async execute(args, { http }) {
     const result = await http<{ data?: { markdown?: string; html?: string; metadata?: Record<string, unknown> } }>({
       method: 'POST',
-      path: '/scrape',
+      path: 'scrape',
       body: { url: args.url, formats: ['markdown'], onlyMainContent: args.only_main ?? true },
     })
     return { markdown: result.data?.markdown ?? '', metadata: result.data?.metadata ?? {} }
@@ -34,7 +34,7 @@ export const firecrawlCrawl = defineAction({
   async execute(args, { http }) {
     const result = await http<{ id?: string; jobId?: string; url?: string }>({
       method: 'POST',
-      path: '/crawl',
+      path: 'crawl',
       body: { url: args.url, limit: (args.limit as number) ?? 50 },
     })
     return { jobId: result.id ?? result.jobId, statusUrl: result.url }
