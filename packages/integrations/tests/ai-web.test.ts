@@ -30,10 +30,18 @@ describe('openai-images', () => {
 describe('firecrawl', () => {
   it('valid + scrape/crawl', async () => {
     expect(() => assertValidIntegration(firecrawlIntegration)).not.toThrow()
-    const fetch = fakeFetch((u) => u.includes('/scrape') ? json({ data: { markdown: '# t', metadata: { title: 'T' } } }) : json({ id: 'job1', url: 'su' }))
+    const urls: string[] = []
+    const fetch = fakeFetch((u) => {
+      urls.push(u)
+      return u.endsWith('/scrape') ? json({ data: { markdown: '# t', metadata: { title: 'T' } } }) : json({ id: 'job1', url: 'su' })
+    })
     const tools = toToolDefinitions(firecrawlIntegration, { credential: 'fc', fetch })
     expect(await run(tools.find((t) => t.name === 'firecrawl_scrape')!, { url: 'http://x' })).toEqual({ markdown: '# t', metadata: { title: 'T' } })
     expect(await run(tools.find((t) => t.name === 'firecrawl_crawl')!, { url: 'http://x' })).toEqual({ jobId: 'job1', statusUrl: 'su' })
+    expect(urls).toEqual([
+      'https://api.firecrawl.dev/v2/scrape',
+      'https://api.firecrawl.dev/v2/crawl',
+    ])
   })
 })
 
