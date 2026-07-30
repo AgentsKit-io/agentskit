@@ -315,14 +315,26 @@ export function createRuntime(config: RuntimeConfig) {
           toolCall.status = execResult.status === 'complete' ? 'complete' : 'error'
           if (execResult.status === 'complete') {
             toolCall.result = execResult.result
-            messages.push(buildMessage({ role: 'tool', content: execResult.result ?? '' }))
+            messages.push(buildMessage({
+              role: 'tool',
+              content: execResult.result ?? '',
+              toolCallId: toolCall.id,
+            }))
           } else if (execResult.status === 'skipped') {
             toolCall.status = 'error'
             toolCall.error = execResult.result
-            messages.push(buildMessage({ role: 'tool', content: execResult.result ?? 'Tool execution skipped' }))
+            messages.push(buildMessage({
+              role: 'tool',
+              content: execResult.result ?? 'Tool execution skipped',
+              toolCallId: toolCall.id,
+            }))
           } else {
             toolCall.error = execResult.error
-            messages.push(buildMessage({ role: 'tool', content: `Error: ${execResult.error}` }))
+            messages.push(buildMessage({
+              role: 'tool',
+              content: `Error: ${execResult.error}`,
+              toolCallId: toolCall.id,
+            }))
           }
         }
 

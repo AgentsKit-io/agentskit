@@ -107,6 +107,38 @@ describe('createRuntime', () => {
       expect(result.messages.filter(m => m.role === 'tool')[0].content).toBe('Sunny in SP')
     })
 
+    it('feeds structured tool results back to the adapter as JSON', async () => {
+      const adapter = createSequentialAdapter([
+        [
+          { type: 'tool_call', toolCall: { id: 'tc1', name: 'scrape', args: '{"url":"https://example.com"}' } },
+          { type: 'done' },
+        ],
+        [
+          { type: 'text', content: 'The page is titled Example.' },
+          { type: 'done' },
+        ],
+      ])
+
+      const runtime = createRuntime({
+        adapter,
+        tools: [{
+          name: 'scrape',
+          execute: async () => ({
+            markdown: '# Example',
+            metadata: { title: 'Example' },
+          }),
+        }],
+      })
+
+      const result = await runtime.run('Read the page')
+      const toolMessage = result.messages.find(message => message.role === 'tool')
+
+      expect(toolMessage?.content).toBe('{"markdown":"# Example","metadata":{"title":"Example"}}')
+      expect(toolMessage?.toolCallId).toBe('tc1')
+      expect(result.toolCalls[0]?.result).toBe('{"markdown":"# Example","metadata":{"title":"Example"}}')
+      expect(result.content).toBe('The page is titled Example.')
+    })
+
     it('handles text alongside tool calls', async () => {
       const adapter = createSequentialAdapter([
         [
@@ -247,6 +279,7 @@ describe('createRuntime', () => {
       // Tool error injected as message
       const toolMsg = result.messages.find(m => m.role === 'tool')
       expect(toolMsg?.content).toContain('API timeout')
+      expect(toolMsg?.toolCallId).toBe('tc1')
     })
 
     it('injects error for missing tool', async () => {
@@ -267,6 +300,7 @@ describe('createRuntime', () => {
       expect(result.toolCalls[0].status).toBe('error')
       const toolMsg = result.messages.find(m => m.role === 'tool')
       expect(toolMsg?.content).toContain('not found')
+      expect(toolMsg?.toolCallId).toBe('tc1')
     })
   })
 

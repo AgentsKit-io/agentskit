@@ -63,6 +63,17 @@ function isAsyncIterable(value: unknown): value is AsyncIterable<unknown> {
   return value != null && typeof value === 'object' && Symbol.asyncIterator in value
 }
 
+function serializeToolResult(result: unknown): string {
+  if (result == null) return ''
+  if (typeof result === 'string' || result instanceof Error) return String(result)
+
+  try {
+    return JSON.stringify(result) ?? String(result)
+  } catch {
+    return String(result)
+  }
+}
+
 export async function executeToolCall(
   tool: ToolDefinition,
   args: Record<string, unknown>,
@@ -81,7 +92,7 @@ export async function executeToolCall(
   }
 
   const result = await raw
-  return result == null ? '' : String(result)
+  return serializeToolResult(result)
 }
 
 export function safeParseArgs(args: string): Record<string, unknown> {
