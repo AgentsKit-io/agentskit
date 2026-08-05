@@ -4,6 +4,8 @@ import { supabaseVectorStore } from '../src/vector/supabase'
 describe('supabaseVectorStore', () => {
   it('throws a clear hint when @supabase/supabase-js is missing', async () => {
     const store = supabaseVectorStore({ url: 'https://x.supabase.co', serviceRoleKey: 'k' })
-    await expect(store.store([])).rejects.toThrow(/@supabase\/supabase-js/)
+    await expect(store.store([{ id: 'a', content: 'x', embedding: [1] }])).rejects.toThrow(
+      /@supabase\/supabase-js/,
+    )
   })
 })

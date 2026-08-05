@@ -1,6 +1,5 @@
 import { ErrorCodes, MemoryError } from '@agentskit/core'
-import type { VectorMemory } from '@agentskit/core'
-import { pgvector, type PgVectorRunner } from './pgvector'
+import type { RetrievedDocument, VectorMemory, VectorSearchOptions } from '@agentskit/core'
 
 export interface SupabaseVectorStoreConfig {
   /** Supabase project URL, e.g. `https://xyz.supabase.co`. */
@@ -9,34 +8,42 @@ export interface SupabaseVectorStoreConfig {
   serviceRoleKey: string
   /** Table name. Default `agentskit_vectors`. */
   table?: string
+  /** Purpose-specific similarity-search RPC. Default `match_agentskit_vectors`. */
+  matchFunction?: string
   /** Default topK for search. Default 10. */
   topK?: number
 }
 
-interface SupabaseRpcResult<T> {
+interface SupabaseResult<T> {
   data: T | null
   error: { message: string } | null
 }
 
-interface SupabasePostgrestQuery {
-  rpc<T>(fn: string, params?: Record<string, unknown>): Promise<SupabaseRpcResult<T>>
+interface SupabaseTableQuery {
+  upsert(rows: unknown[], options?: { onConflict?: string }): PromiseLike<SupabaseResult<unknown>>
+  delete(): {
+    in(column: string, values: string[]): PromiseLike<SupabaseResult<unknown>>
+  }
 }
 
 interface SupabaseClientLike {
-  from(table: string): SupabasePostgrestQuery & {
-    select(columns?: string): unknown
-    insert(rows: unknown[]): unknown
-    upsert(rows: unknown[], opts?: { onConflict?: string }): unknown
-    delete(): { in(column: string, values: unknown[]): unknown }
-  }
-  rpc<T>(fn: string, params?: Record<string, unknown>): Promise<SupabaseRpcResult<T>>
+  from(table: string): SupabaseTableQuery
+  rpc<T>(fn: string, params?: Record<string, unknown>): PromiseLike<SupabaseResult<T>>
 }
 
 interface SupabaseModule {
   createClient(url: string, key: string): SupabaseClientLike
 }
 
+interface SupabaseMatchRow {
+  id: string
+  content: string
+  metadata: Record<string, unknown> | null
+  similarity: number
+}
+
 let cachedSdk: Promise<SupabaseModule> | null = null
+
 async function loadSdk(): Promise<SupabaseModule> {
   if (!cachedSdk) {
     cachedSdk = (async () => {
@@ -55,83 +62,78 @@ async function loadSdk(): Promise<SupabaseModule> {
   return cachedSdk
 }
 
-function buildRunner(client: SupabaseClientLike): PgVectorRunner {
-  // Supabase has no public raw-SQL API on `supabase-js`. We expose the same
-  // shape via a thin wrapper around an `execute_sql` RPC that the user
-  // creates server-side; this keeps the pgvector adapter wiring intact.
-  return {
-    async query<T>(sql: string, params: unknown[]) {
-      const result = await client.rpc<T[]>('agentskit_execute_sql', { sql, params })
-      if (result.error) {
-        throw new MemoryError({
-          code: ErrorCodes.AK_MEMORY_REMOTE_HTTP,
-          message: `supabase: ${result.error.message}`,
-          hint: 'Check the agentskit_execute_sql RPC + service role key permissions.',
-        })
-      }
-      return { rows: (result.data ?? []) as T[] }
-    },
-  }
+function throwOnError(result: SupabaseResult<unknown>, operation: string): void {
+  if (!result.error) return
+  throw new MemoryError({
+    code: ErrorCodes.AK_MEMORY_REMOTE_HTTP,
+    message: `supabase ${operation}: ${result.error.message}`,
+    hint: 'Check the table, purpose-specific match RPC, and service-role key permissions.',
+  })
 }
 
 /**
- * Supabase-hosted pgvector. Wraps the existing `pgvector` adapter with a
- * Supabase RPC runner so callers don't need to import a separate pg driver.
- *
- * Server-side setup (run once in Supabase SQL editor):
- *   create extension if not exists vector;
- *   create table agentskit_vectors (
- *     id text primary key, content text, embedding vector(1536),
- *     metadata jsonb
- *   );
- *   create or replace function agentskit_execute_sql(sql text, params jsonb)
- *     returns setof json language plpgsql security definer as $$
- *   begin
- *     return query execute sql using params;
- *   end;
- *   $$;
- *
- * `@supabase/supabase-js` is an optional peer dependency loaded lazily.
+ * Supabase-hosted pgvector using direct PostgREST mutations and one
+ * purpose-specific similarity-search RPC. The service-role key stays
+ * server-side and `@supabase/supabase-js` is loaded lazily.
  */
 export function supabaseVectorStore(config: SupabaseVectorStoreConfig): VectorMemory {
-  let runnerPromise: Promise<PgVectorRunner> | null = null
-  const getRunner = (): Promise<PgVectorRunner> => {
-    if (!runnerPromise) {
-      runnerPromise = (async () => {
-        const sdk = await loadSdk()
-        const client = sdk.createClient(config.url, config.serviceRoleKey)
-        return buildRunner(client)
-      })()
-    }
-    return runnerPromise
-  }
+  const table = config.table ?? 'agentskit_vectors'
+  const matchFunction = config.matchFunction ?? 'match_agentskit_vectors'
+  const defaultTopK = Math.max(1, Math.floor(config.topK ?? 10))
+  let clientPromise: Promise<SupabaseClientLike> | null = null
 
-  // Lazy delegate — we don't have a runner until first call.
-  let backend: VectorMemory | null = null
-  const getBackend = async (): Promise<VectorMemory> => {
-    if (!backend) {
-      const runner = await getRunner()
-      backend = pgvector({
-        runner,
-        table: config.table,
-        topK: config.topK,
-      })
+  const getClient = (): Promise<SupabaseClientLike> => {
+    if (!clientPromise) {
+      clientPromise = loadSdk().then(sdk => sdk.createClient(config.url, config.serviceRoleKey))
     }
-    return backend
+    return clientPromise
   }
 
   return {
     async store(docs) {
-      const b = await getBackend()
-      return b.store(docs)
+      if (docs.length === 0) return
+      const client = await getClient()
+      const result = await client.from(table).upsert(
+        docs.map(doc => ({
+          id: doc.id,
+          content: doc.content,
+          embedding: doc.embedding,
+          metadata: doc.metadata ?? {},
+        })),
+        { onConflict: 'id' },
+      )
+      throwOnError(result, 'store')
     },
-    async search(embedding, options) {
-      const b = await getBackend()
-      return b.search(embedding, options)
+
+    async search(embedding, options: VectorSearchOptions = {}): Promise<RetrievedDocument[]> {
+      const client = await getClient()
+      const topK = Math.max(1, Math.floor(options.topK ?? defaultTopK))
+      const threshold = options.threshold ?? 0
+      const result = await client.rpc<SupabaseMatchRow[]>(matchFunction, {
+        query_embedding: embedding,
+        match_count: topK,
+        match_threshold: threshold,
+        filter: options.filter ?? {},
+      })
+      throwOnError(result, 'search')
+
+      return (result.data ?? [])
+        .map(row => ({
+          id: row.id,
+          content: row.content,
+          metadata: row.metadata ?? undefined,
+          score: row.similarity,
+        }))
+        .filter(row => (row.score ?? 0) > threshold)
+        .sort((left, right) => (right.score ?? 0) - (left.score ?? 0))
+        .slice(0, topK)
     },
+
     async delete(ids) {
-      const b = await getBackend()
-      return b.delete?.(ids)
+      if (ids.length === 0) return
+      const client = await getClient()
+      const result = await client.from(table).delete().in('id', ids)
+      throwOnError(result, 'delete')
     },
   }
 }
