@@ -20,15 +20,26 @@ function mockFetch(response: unknown, opts: { status?: number } = {}) {
   return { fetch: fake as unknown as typeof globalThis.fetch, calls }
 }
 
+function mockChromaFetch(response: unknown) {
+  const calls: Array<{ url: string; init?: RequestInit }> = []
+  const fake = vi.fn(async (url: string | URL | Request, init?: RequestInit) => {
+    const urlStr = typeof url === 'string' ? url : url instanceof URL ? url.href : (url as Request).url
+    calls.push({ url: urlStr, init })
+    const body = init?.method === 'GET' ? { id: 'collection-id' } : response
+    return new Response(JSON.stringify(body))
+  })
+  return { fetch: fake as unknown as typeof globalThis.fetch, calls }
+}
+
 // ─── chroma ──────────────────────────────────────────────────────────────────
 
 describe('chroma — extra', () => {
   it('store upserts documents', async () => {
-    const { fetch, calls } = mockFetch({})
+    const { fetch, calls } = mockChromaFetch({})
     const store = chroma({ url: 'https://chroma', collection: 'docs', fetch })
     await store.store([{ id: 'a', content: 'hello', embedding: [0.1, 0.2] }])
-    expect(calls[0]!.url).toContain('/upsert')
-    expect(calls[0]!.init!.method).toBe('POST')
+    expect(calls[1]!.url).toContain('/upsert')
+    expect(calls[1]!.init!.method).toBe('POST')
   })
 
   it('store is no-op when docs array is empty', async () => {
@@ -45,7 +56,7 @@ describe('chroma — extra', () => {
   })
 
   it('search filters by threshold', async () => {
-    const { fetch } = mockFetch({
+    const { fetch } = mockChromaFetch({
       ids: [['a', 'b']],
       documents: [['doc a', 'doc b']],
       metadatas: [[{}, {}]],
@@ -66,7 +77,7 @@ describe('chroma — extra', () => {
   })
 
   it('empty response body yields empty result for search', async () => {
-    const { fetch } = mockFetch({})
+    const { fetch } = mockChromaFetch({})
     const store = chroma({ url: 'https://chroma', collection: 'docs', fetch })
     const out = await store.search([1, 2])
     expect(out).toEqual([])

@@ -1,6 +1,6 @@
 ---
 title: chroma
-description: Chroma vector DB via HTTP.
+description: Chroma v2 vector memory via HTTP, with local and hosted deployment support.
 ---
 
 ```ts
@@ -9,8 +9,16 @@ import { chroma } from '@agentskit/memory'
 const store = chroma({
   url: process.env.CHROMA_URL ?? 'http://localhost:8000',
   collection: 'agentskit',
+  tenant: process.env.CHROMA_TENANT,
+  database: process.env.CHROMA_DATABASE,
+  apiKey: process.env.CHROMA_API_KEY,
 })
 ```
+
+The adapter resolves the collection name to its Chroma v2 collection ID on the
+first operation and caches it for subsequent stores, searches, and deletes.
+`tenant` and `database` default to Chroma's `default_tenant` and
+`default_database`, so local deployments only need `url` and `collection`.
 
 ## Options
 
@@ -20,6 +28,13 @@ const store = chroma({
 | `collection` | `string` |
 | `tenant` | `string?` |
 | `database` | `string?` |
+| `apiKey` | `string?` |
+| `headers` | `Record<string, string>?` |
+| `topK` | `number?` |
+| `fetch` | `typeof globalThis.fetch?` |
+
+`apiKey` is sent as `x-chroma-token`. Use `headers` when a hosted or proxied
+deployment requires additional request headers.
 
 ## Related
 

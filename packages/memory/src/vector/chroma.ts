@@ -5,6 +5,14 @@ export interface ChromaConfig {
   /** Base URL of a running Chroma HTTP server. */
   url: string
   collection: string
+  /** Chroma tenant. Defaults to `default_tenant`. */
+  tenant?: string
+  /** Chroma database. Defaults to `default_database`. */
+  database?: string
+  /** Chroma token sent through the `x-chroma-token` header. */
+  apiKey?: string
+  /** Additional headers for hosted or proxied Chroma deployments. */
+  headers?: Record<string, string>
   topK?: number
   fetch?: typeof globalThis.fetch
 }
@@ -16,9 +24,12 @@ async function call<T>(
   body?: unknown,
 ): Promise<T> {
   const fetchImpl = config.fetch ?? globalThis.fetch
+  const headers = new Headers(config.headers)
+  if (config.apiKey !== undefined) headers.set('x-chroma-token', config.apiKey)
+  headers.set('content-type', 'application/json')
   const response = await fetchImpl(`${config.url}${path}`, {
     method,
-    headers: { 'content-type': 'application/json' },
+    headers,
     body: body === undefined ? undefined : JSON.stringify(body),
   })
   const text = await response.text()
@@ -34,11 +45,43 @@ async function call<T>(
 
 export function chroma(config: ChromaConfig): VectorMemory {
   const defaultTopK = Math.max(1, config.topK ?? 10)
+  const resolvedConfig = { ...config, url: config.url.replace(/\/+$/, '') }
+  const tenant = encodeURIComponent(config.tenant ?? 'default_tenant')
+  const database = encodeURIComponent(config.database ?? 'default_database')
+  const collection = encodeURIComponent(config.collection)
+  const collectionsPath = `/api/v2/tenants/${tenant}/databases/${database}/collections`
+  let collectionIdPromise: Promise<string> | undefined
+
+  function resolveCollectionId(): Promise<string> {
+    collectionIdPromise ??= call<{ id?: string }>(
+      resolvedConfig,
+      'GET',
+      `${collectionsPath}/${collection}`,
+    ).then(result => {
+      if (typeof result.id !== 'string' || result.id.length === 0) {
+        throw new MemoryError({
+          code: ErrorCodes.AK_MEMORY_REMOTE_HTTP,
+          message: 'chroma collection response did not include an id',
+          hint: `Check collection ${config.collection} in tenant ${config.tenant ?? 'default_tenant'} and database ${config.database ?? 'default_database'}.`,
+        })
+      }
+      return result.id
+    }).catch(error => {
+      collectionIdPromise = undefined
+      throw error
+    })
+    return collectionIdPromise
+  }
+
+  async function collectionPath(operation: 'upsert' | 'query' | 'delete'): Promise<string> {
+    const collectionId = encodeURIComponent(await resolveCollectionId())
+    return `${collectionsPath}/${collectionId}/${operation}`
+  }
 
   return {
     async store(docs: VectorDocument[]) {
       if (docs.length === 0) return
-      await call(config, 'POST', `/api/v1/collections/${config.collection}/upsert`, {
+      await call(resolvedConfig, 'POST', await collectionPath('upsert'), {
         ids: docs.map(d => d.id),
         embeddings: docs.map(d => d.embedding),
         documents: docs.map(d => d.content),
@@ -54,7 +97,7 @@ export function chroma(config: ChromaConfig): VectorMemory {
         documents?: string[][]
         metadatas?: Array<Array<Record<string, unknown>>>
         distances?: number[][]
-      }>(config, 'POST', `/api/v1/collections/${config.collection}/query`, {
+      }>(resolvedConfig, 'POST', await collectionPath('query'), {
         query_embeddings: [embedding],
         n_results: topK,
       })
@@ -74,7 +117,7 @@ export function chroma(config: ChromaConfig): VectorMemory {
 
     async delete(ids: string[]) {
       if (ids.length === 0) return
-      await call(config, 'POST', `/api/v1/collections/${config.collection}/delete`, { ids })
+      await call(resolvedConfig, 'POST', await collectionPath('delete'), { ids })
     },
   }
 }
