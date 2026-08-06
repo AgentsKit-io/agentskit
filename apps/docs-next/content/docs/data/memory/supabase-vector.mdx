@@ -1,6 +1,6 @@
 ---
 title: supabaseVectorStore
-description: Supabase-hosted pgvector — wraps the pgvector adapter with a Supabase RPC runner.
+description: Supabase-hosted pgvector with direct mutations and a purpose-specific similarity-search RPC.
 ---
 
 ```ts
@@ -12,31 +12,71 @@ const store = supabaseVectorStore({
 })
 ```
 
-`@supabase/supabase-js` is an **optional peer dependency** loaded lazily.
+`@supabase/supabase-js` is an **optional peer dependency** loaded lazily. Keep
+the service-role key in server-only code.
 
 ## Server-side setup
 
-Run once in the Supabase SQL editor:
+Run this once in the Supabase SQL editor. Change both vector dimensions if your
+embedding model does not produce 1536-dimensional vectors.
 
 ```sql
-create extension if not exists vector;
+create extension if not exists vector with schema extensions;
 
-create table agentskit_vectors (
+create table public.agentskit_vectors (
   id text primary key,
-  content text,
-  embedding vector(1536),
-  metadata jsonb
+  content text not null,
+  embedding extensions.vector(1536) not null,
+  metadata jsonb not null default '{}'::jsonb
 );
 
-create or replace function agentskit_execute_sql(sql text, params jsonb)
-  returns setof json language plpgsql security definer as $$
-begin
-  return query execute sql using params;
-end;
+create or replace function public.match_agentskit_vectors(
+  query_embedding extensions.vector(1536),
+  match_count integer default 10,
+  match_threshold double precision default 0,
+  filter jsonb default '{}'::jsonb
+)
+returns table (
+  id text,
+  content text,
+  metadata jsonb,
+  similarity double precision
+)
+language sql
+stable
+security invoker
+set search_path = ''
+as $$
+  select
+    vectors.id,
+    vectors.content,
+    vectors.metadata,
+    1 - (vectors.embedding operator(extensions.<=>) query_embedding) as similarity
+  from public.agentskit_vectors as vectors
+  where vectors.metadata @> filter
+    and 1 - (vectors.embedding operator(extensions.<=>) query_embedding) > match_threshold
+  order by vectors.embedding operator(extensions.<=>) query_embedding
+  limit least(greatest(match_count, 1), 100);
 $$;
+
+revoke all on function public.match_agentskit_vectors(
+  extensions.vector,
+  integer,
+  double precision,
+  jsonb
+) from public, anon;
+
+grant execute on function public.match_agentskit_vectors(
+  extensions.vector,
+  integer,
+  double precision,
+  jsonb
+) to service_role;
 ```
 
-The wrapper expects the `agentskit_execute_sql` RPC to exist — it's how we channel parameterized SQL from the Supabase client to pgvector without bundling a separate `pg` driver.
+The adapter writes through PostgREST `upsert`, deletes through
+`delete().in(...)`, and calls only `match_agentskit_vectors` for search. It does
+not expose an RPC that accepts arbitrary SQL.
 
 ## Config
 
@@ -45,18 +85,43 @@ The wrapper expects the `agentskit_execute_sql` RPC to exist — it's how we cha
 | `url` | `string` | required |
 | `serviceRoleKey` | `string` | required (server-side only) |
 | `table` | `string` | `'agentskit_vectors'` |
+| `matchFunction` | `string` | `'match_agentskit_vectors'` |
 | `topK` | `number` | `10` |
+
+If you change `table`, provide a matching purpose-specific function and set
+`matchFunction` to its name.
 
 ## Surface
 
-Implements `VectorMemory`: `store(docs)` / `search(embedding, options)` / `delete(ids)`. Inherits the `VectorFilter` contract — pass `options.filter` for metadata-scoped retrieval.
+Implements `VectorMemory`: `store(docs)` / `search(embedding, options)` /
+`delete(ids)`. The default SQL function accepts simple metadata equality
+filters through JSON containment, for example `{ tenantId: 'acme' }`. To
+support compound or comparison operators, provide a custom bounded RPC with
+the same parameters and return columns.
 
-## Caveats
+## Security
 
-- Service-role key bypasses RLS — keep it server-side only.
-- Cosine-distance search is the default; switch operators in the underlying RPC if you need a different metric.
+- Never expose `SUPABASE_SERVICE_ROLE_KEY` to a browser or mobile client.
+- Keep the search function `security invoker`; it needs no definer privileges.
+- Do not replace it with a function that accepts SQL text from the caller.
+- Use a dedicated table and the narrowest database grants required by your
+  server-side role.
+
+## Cleanup
+
+Remove the integration objects if you no longer use them:
+
+```sql
+drop function if exists public.match_agentskit_vectors(
+  extensions.vector,
+  integer,
+  double precision,
+  jsonb
+);
+drop table if exists public.agentskit_vectors;
+```
 
 ## Related
 
-- [pgvector](./pgvector) — the adapter this wraps.
+- [pgvector](./pgvector) — use this when you already have a safe SQL runner.
 - [Memory overview](./)
