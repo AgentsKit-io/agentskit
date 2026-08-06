@@ -19,7 +19,7 @@ const REQUIRED_DIMENSIONS = [
 
 const VALID_PROFILES = new Set(['top-level-repository', 'public-app', 'major-package', 'concise-package'])
 const VALID_DARK_MODE = new Set(['neutral', 'paired'])
-const NON_CONTENT_IMAGE_URL = /^(?:(?:https?:)?\/\/(?:img\.shields\.io|bundlephobia\.com|bundlejs\.com)(?:\/|$)|(?:https?:)?\/\/api\.producthunt\.com\/widgets(?:\/|$))/
+const NON_CONTENT_IMAGE_URL = /^(?:(?:https?:)?\/\/(?:img\.shields\.io|bundlephobia\.com|bundlejs\.com)(?:\/|$)|(?:https?:)?\/\/api\.producthunt\.com\/widgets(?:\/|$)|(?:https?:)?\/\/www\.codetriage\.com\/[^/]+\/[^/]+\/badges\/)/
 const COMPLETE_EXCEPTION_FIELDS = ['ruleId', 'reason', 'approvedBy', 'trackingUrl', 'reviewOn']
 const EXCEPTION_RULES = new Set([
   ...REQUIRED_DIMENSIONS,
