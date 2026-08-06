@@ -109,7 +109,7 @@ persistence succeeds.
 - `pgvector` — BYO SQL runner (`postgres.js`, `pg`, Drizzle, Prisma, Neon).
 - `pinecone` — managed; namespaces + metadata filters.
 - `qdrant` — self-hosted or cloud via HTTP.
-- `chroma` — HTTP collection client.
+- `chroma` — Chroma v2 HTTP client with tenant, database, and token support.
 - `upstashVector` — serverless HTTP.
 
 Same 3-method `VectorStore` contract — swap without touching agent code.
