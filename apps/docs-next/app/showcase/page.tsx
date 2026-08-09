@@ -1,10 +1,12 @@
 import { SHOWCASE } from '@/lib/showcase'
 import { ShowcaseGrid } from '@/components/showcase/grid'
+import { canonicalUrl } from '@/lib/canonical-url'
 
 export const metadata = {
   title: 'Showcase — runnable AgentsKit examples',
   description:
     'Browse runnable AgentsKit examples and open any card in its full browser playground. Filter by tag.',
+  alternates: { canonical: canonicalUrl('/showcase') },
 }
 
 export default function ShowcasePage() {

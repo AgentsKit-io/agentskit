@@ -12,10 +12,16 @@ import { BrandIcon } from '@/components/home/brand-icon'
 import { ReferenceJourney } from '@/components/home/reference-journey'
 import { counts, approx } from '@/lib/ecosystem-stats'
 import { agentsKitIdentity } from '@/lib/reference-journey'
+import { canonicalUrl } from '@/lib/canonical-url'
+import { alternatesFor } from '@/lib/locales'
 
 export const metadata = {
   title: `${agentsKitIdentity.name}.js — ${agentsKitIdentity.promise}`,
   description: `${agentsKitIdentity.promise} A composable TypeScript foundation for runtime, tools, memory, RAG, and chat interfaces.`,
+  alternates: {
+    canonical: canonicalUrl('/'),
+    languages: alternatesFor('/'),
+  },
   openGraph: {
     title: 'AgentsKit.js — Ship AI agents in JavaScript',
     description:

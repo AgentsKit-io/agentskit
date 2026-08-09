@@ -1,9 +1,11 @@
 import { StackBuilder } from '@/components/mdx/stack-builder'
+import { canonicalUrl } from '@/lib/canonical-url'
 
 export const metadata = {
   title: 'Stack builder — pick your AgentsKit',
   description:
     'Choose framework, provider, memory, and capabilities. Get install command + starter code. Your choices sync with every framework tab across the docs.',
+  alternates: { canonical: canonicalUrl('/stack') },
 }
 
 export default function StackPage() {
