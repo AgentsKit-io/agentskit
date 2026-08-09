@@ -4,13 +4,12 @@ import { Inter, JetBrains_Mono, Space_Grotesk } from 'next/font/google'
 import type { ReactNode } from 'react'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import { alternatesFor } from '@/lib/locales'
+import { SITE_URL } from '@/lib/canonical-url'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' })
 
-const SITE_URL = 'https://www.agentskit.io'
 const DESCRIPTION =
   'AgentsKit is the foundation library for JavaScript agents — runtime, tools, memory, RAG, and UI bindings. Product chat lives in AgentsKit Chat.'
 
@@ -36,10 +35,6 @@ export const metadata = {
   authors: [{ name: 'Emerson Braun', url: 'https://github.com/EmersonBraun' }],
   creator: 'Emerson Braun',
   category: 'technology',
-  alternates: {
-    canonical: SITE_URL,
-    languages: alternatesFor('/'),
-  },
   verification: {
     // Fill after verifying site in Google Search Console + Bing Webmaster:
     // google: 'YOUR_GSC_META_CONTENT',

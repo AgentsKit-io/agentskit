@@ -1,11 +1,13 @@
 import Link from 'next/link'
 import { STEPS } from '@/lib/learn-steps'
 import { Stepper } from '@/components/learn/stepper'
+import { canonicalUrl } from '@/lib/canonical-url'
 
 export const metadata = {
   title: 'Learn AgentsKit — interactive tutorial',
   description:
     'Ship a streaming chat, swap providers, register tools, and persist memory. Runs in your browser. Progress saved locally.',
+  alternates: { canonical: canonicalUrl('/learn') },
 }
 
 export default function LearnIndex() {

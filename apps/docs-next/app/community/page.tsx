@@ -1,11 +1,13 @@
 import Link from 'next/link'
 import community from '@/data/community.json'
 import { PartnerStrip } from '@/components/brand/partner-strip'
+import { canonicalUrl } from '@/lib/canonical-url'
 
 export const metadata = {
   title: 'Community — AgentsKit ecosystem',
   description:
     'Campaign landing for the AgentsKit ecosystem: understand the products, run a verified demo, contribute, and showcase what you built.',
+  alternates: { canonical: canonicalUrl('/community') },
 }
 
 type Project = { name: string; description: string; url: string; tags: string[]; by: string }

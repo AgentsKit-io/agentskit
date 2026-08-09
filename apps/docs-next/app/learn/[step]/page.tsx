@@ -10,6 +10,7 @@ import {
   ProviderBlock,
   MemoryBlock,
 } from '@/components/learn/selector-tabs'
+import { canonicalUrl } from '@/lib/canonical-url'
 
 export function generateStaticParams() {
   return STEPS.map((s) => ({ step: s.slug }))
@@ -19,7 +20,11 @@ export async function generateMetadata({ params }: { params: Promise<{ step: str
   const { step } = await params
   const s = STEPS.find((x) => x.slug === step)
   if (!s) return { title: 'Learn AgentsKit' }
-  return { title: `${s.title} — Learn AgentsKit`, description: s.intro }
+  return {
+    title: `${s.title} — Learn AgentsKit`,
+    description: s.intro,
+    alternates: { canonical: canonicalUrl(`/learn/${step}`) },
+  }
 }
 
 function renderBody(body: string) {

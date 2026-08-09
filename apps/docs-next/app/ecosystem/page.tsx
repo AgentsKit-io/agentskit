@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { lists, counts } from '@/lib/ecosystem-stats'
+import { canonicalUrl } from '@/lib/canonical-url'
 
 export const metadata: Metadata = {
   title: 'Ecosystem — products and packages',
   description:
     'AgentsKit product mesh (seven properties) plus the monorepo package matrix — stability, integrations, providers, models, adapters, and skills.',
+  alternates: { canonical: canonicalUrl('/ecosystem') },
 }
 
 /** Canonical seven-product mesh (roles from ecosystem.json). */
