@@ -1,28 +1,71 @@
 ---
 title: vercelAI
-description: Wrap a Vercel AI SDK `LanguageModel` as an AgentsKit adapter.
+description: Connect AgentsKit to an existing Vercel AI SDK route without replacing its provider setup.
 ---
+
+`vercelAI` is an HTTP route adapter. Point it at a route handler that already uses the Vercel AI SDK; AgentsKit sends the conversation to that route and consumes its streamed response.
 
 ```ts
 import { vercelAI } from '@agentskit/adapters'
-import { openai as vercelOpenAI } from '@ai-sdk/openai'
 
 const adapter = vercelAI({
-  model: vercelOpenAI('gpt-4o'),
+  api: '/api/chat',
 })
 ```
 
+This adapter does not wrap a `LanguageModel` object. Your Vercel AI SDK model and provider configuration stay inside the route handler.
+
+## Route handler
+
+The adapter posts `messages`, `systemPrompt`, and any declared AgentsKit `tools`. For a conversation without tool results, a minimal Next.js route can keep the existing model boundary and return the AI SDK UI Message Stream:
+
+```ts title="app/api/chat/route.ts"
+import { streamText } from 'ai'
+
+type TextMessage =
+  | { role: 'user'; content: string }
+  | { role: 'assistant'; content: string }
+  | { role: 'system'; content: string }
+
+type AgentsKitRouteBody = {
+  messages: TextMessage[]
+  systemPrompt?: string
+}
+
+export async function POST(request: Request) {
+  const { messages, systemPrompt }: AgentsKitRouteBody = await request.json()
+  const result = streamText({
+    model: 'anthropic/claude-sonnet-4.5',
+    system: systemPrompt,
+    messages,
+  })
+
+  return result.toUIMessageStreamResponse()
+}
+```
+
+`toUIMessageStreamResponse()` sets `x-vercel-ai-ui-message-stream: v1`; the adapter consumes its SSE text and reasoning deltas until `[DONE]`. A route that returns plain text is also supported, but it does not carry UI-stream metadata.
+
+Keep tool execution inside the route if you need it: configure AI SDK tools there, run them under your server policy, and return their final streamed text. The current adapter does not preserve AgentsKit `toolCallId` values or assistant tool-call parts across this HTTP boundary, so it cannot round-trip an AgentsKit tool history into AI SDK structured parts. `vercelAI` therefore declares no tool capability by default. Use a direct provider adapter when the AgentsKit runtime must own the tool loop.
+
 ## Options
 
-| Option | Type |
-|---|---|
-| `model` | `LanguageModel` (from `ai` SDK) |
+| Option | Type | Required | Purpose |
+|---|---|---:|---|
+| `api` | `string` | Yes | URL of the existing route handler. |
+| `headers` | `Record<string, string>` | No | Additional request headers, such as route authentication. |
+| `retry` | `RetryOptions` | No | Retry policy for route requests. |
 
-## Why vercelAI
+Use same-origin routes when possible. For a remote route, authenticate it through `headers`, enforce authorization server-side, and avoid exposing reusable secrets in browser bundles.
 
-- Migrate from Vercel AI SDK incrementally.
-- Keep your existing `@ai-sdk/*` provider choices.
+## Why use this adapter
+
+- Keep the Vercel AI SDK route and provider choices you already operate.
+- Add an AgentsKit runtime or another AgentsKit surface without rewriting the model boundary.
+- Change the provider behind the route without changing AgentsKit consumers.
+- Migrate incrementally instead of coupling application code to a second provider SDK.
 
 ## Related
 
-- [Providers overview](./) · [Migrating → Vercel AI SDK](/docs/get-started/migrating/from-vercel-ai-sdk)
+- [Providers overview](./) · [Migrating from Vercel AI SDK](/docs/get-started/migrating/from-vercel-ai-sdk)
+- [AI SDK UI stream protocol](https://ai-sdk.dev/docs/ai-sdk-ui/stream-protocol)
