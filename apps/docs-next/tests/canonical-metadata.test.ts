@@ -12,11 +12,12 @@ describe('canonical metadata', () => {
       '/community',
       '/evals',
       '/ecosystem',
+      '/resources',
       ...STEPS.map((step) => `/learn/${step.slug}`),
       ...SHOWCASE.map((entry) => `/showcase/${entry.slug}`),
     ]
 
-    expect(routes).toHaveLength(32)
+    expect(routes).toHaveLength(33)
     expect(new Set(routes).size).toBe(routes.length)
 
     for (const route of routes) {
