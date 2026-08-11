@@ -22,7 +22,7 @@ describe('chroma v2', () => {
       metadatas: [[{ topic: 'test' }]],
       distances: [[0.2]],
     })
-    const store = chroma({ url: 'https://chroma.example/', collection: 'docs', fetch })
+    const store = chroma({ url: 'https://chroma.example///', collection: 'docs', fetch })
 
     await store.store([{ id: 'doc-1', content: 'hello', embedding: [0.1] }])
     const result = await store.search([0.1])

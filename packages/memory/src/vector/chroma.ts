@@ -45,7 +45,9 @@ async function call<T>(
 
 export function chroma(config: ChromaConfig): VectorMemory {
   const defaultTopK = Math.max(1, config.topK ?? 10)
-  const resolvedConfig = { ...config, url: config.url.replace(/\/+$/, '') }
+  let urlEnd = config.url.length
+  while (urlEnd > 0 && config.url.charCodeAt(urlEnd - 1) === 47) urlEnd--
+  const resolvedConfig = { ...config, url: config.url.slice(0, urlEnd) }
   const tenant = encodeURIComponent(config.tenant ?? 'default_tenant')
   const database = encodeURIComponent(config.database ?? 'default_database')
   const collection = encodeURIComponent(config.collection)
