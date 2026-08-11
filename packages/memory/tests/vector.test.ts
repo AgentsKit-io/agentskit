@@ -10,6 +10,16 @@ function mockFetch(response: unknown, opts: { status?: number } = {}) {
   return { fetch: fake as unknown as typeof globalThis.fetch, calls }
 }
 
+function mockChromaFetch(response: unknown) {
+  const calls: Array<{ url: string; init?: RequestInit }> = []
+  const fake = vi.fn(async (url: string | URL | Request, init?: RequestInit) => {
+    calls.push({ url: typeof url === 'string' ? url : url instanceof URL ? url.href : url.url, init })
+    const body = init?.method === 'GET' ? { id: 'collection-id' } : response
+    return new Response(JSON.stringify(body))
+  })
+  return { fetch: fake as unknown as typeof globalThis.fetch, calls }
+}
+
 describe('pgvector', () => {
   const runner = {
     query: vi.fn(async () => ({ rows: [] as Array<Record<string, unknown>> })),
@@ -117,7 +127,7 @@ describe('qdrant', () => {
 
 describe('chroma', () => {
   it('search flattens per-query arrays', async () => {
-    const { fetch } = mockFetch({
+    const { fetch } = mockChromaFetch({
       ids: [['a', 'b']],
       documents: [['first', 'second']],
       metadatas: [[{ x: 1 }, { x: 2 }]],
@@ -130,10 +140,10 @@ describe('chroma', () => {
   })
 
   it('delete posts ids', async () => {
-    const { fetch, calls } = mockFetch({})
+    const { fetch, calls } = mockChromaFetch({})
     const store = chroma({ url: 'https://chroma', collection: 'c', fetch })
     await store.delete!(['a'])
-    expect(calls[0]!.url).toContain('/delete')
+    expect(calls[1]!.url).toContain('/delete')
   })
 })
 
