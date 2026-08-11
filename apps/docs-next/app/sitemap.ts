@@ -25,6 +25,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${SITE}/docs/reference/contribute`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${SITE}/learn`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
     { url: `${SITE}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${SITE}/resources`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
     { url: `${SITE}/showcase`, lastModified: now, changeFrequency: 'weekly', priority: 0.75 },
     { url: `${SITE}/stack`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
     { url: `${SITE}/community`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },

@@ -1,11 +1,13 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { lists, counts } from '@/lib/ecosystem-stats'
+import { canonicalUrl } from '@/lib/canonical-url'
 
 export const metadata: Metadata = {
   title: 'Ecosystem — products and packages',
   description:
     'AgentsKit product mesh (seven properties) plus the monorepo package matrix — stability, integrations, providers, models, adapters, and skills.',
+  alternates: { canonical: canonicalUrl('/ecosystem') },
 }
 
 /** Canonical seven-product mesh (roles from ecosystem.json). */
@@ -195,6 +197,22 @@ export default function EcosystemPage() {
             </li>
           ))}
         </ul>
+      </section>
+
+      <section className="mt-16 rounded-lg border border-ak-blue/40 bg-ak-surface p-6 sm:p-8">
+        <p className="font-mono text-xs uppercase tracking-[0.18em] text-ak-blue">Public footprint</p>
+        <h2 className="mt-2 font-display text-2xl font-semibold text-ak-foam">
+          Follow the ecosystem beyond this site
+        </h2>
+        <p className="mt-3 max-w-2xl leading-relaxed text-ak-graphite">
+          Browse verified MCP registries, technical publications, independent listings, trust signals, and contributor resources.
+        </p>
+        <Link
+          href="/resources"
+          className="mt-5 inline-flex min-h-11 items-center rounded-md bg-ak-blue px-4 font-medium text-ak-ink transition hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
+        >
+          Explore public resources
+        </Link>
       </section>
     </main>
   )

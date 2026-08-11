@@ -81,6 +81,8 @@ export function GET() {
 
   lines.push('## Optional')
   lines.push('')
+  lines.push(`- [Ecosystem resources](${SITE}/resources): verified tools, MCP registries, publications, directories, trust signals, and contributor surfaces`)
+  lines.push(`- [Public resources JSON](${SITE}/resources.json): machine-readable projection of the curated resource catalog`)
   lines.push(`- [Full markdown index](${SITE}/llms-full.txt): complete text of every docs page in one file`)
   lines.push(`- [Sitemap](${SITE}/sitemap.xml): machine-readable URL list`)
   lines.push(`- [GitHub](https://github.com/AgentsKit-io/agentskit): source + issues`)

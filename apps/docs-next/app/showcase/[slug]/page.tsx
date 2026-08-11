@@ -7,6 +7,7 @@ import { Tabs, Tab } from 'fumadocs-ui/components/tabs'
 import { SHOWCASE, findShowcase, type ShowcaseFramework } from '@/lib/showcase'
 import { LiveExample } from '@/components/showcase/live'
 import { ShowcaseFrameworkTabs } from '@/components/showcase/framework-tabs'
+import { canonicalUrl } from '@/lib/canonical-url'
 
 const SHARED_FILES: { label: string; path: string }[] = [
   { label: '_shared/mock-adapter.ts', path: 'components/examples/_shared/mock-adapter.ts' },
@@ -48,7 +49,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const { slug } = await params
   const entry = findShowcase(slug)
   if (!entry) return { title: 'Showcase' }
-  return { title: `${entry.name} — AgentsKit showcase`, description: entry.description }
+  return {
+    title: `${entry.name} — AgentsKit showcase`,
+    description: entry.description,
+    alternates: { canonical: canonicalUrl(`/showcase/${slug}`) },
+  }
 }
 
 export default async function ShowcaseDetail({ params }: { params: Promise<{ slug: string }> }) {
