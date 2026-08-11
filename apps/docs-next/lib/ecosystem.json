@@ -5,6 +5,22 @@
     "id": "agentskit",
     "name": "AgentsKit"
   },
+  "positioning": {
+    "canonicalDescription": "AgentsKit is the open-source TypeScript ecosystem for building production AI agents without locking application architecture to a model provider, framework, database, or hosted platform.",
+    "metaDescription": "Open-source TypeScript ecosystem for production AI agents. Swap models, providers, tools, memory, RAG, and interfaces without architectural lock-in.",
+    "commercialBoundary": "AgentsKit, Chat, Registry, Playbook, Doc Bridge, and Code Review are free and open source. AKOS is the optional paid managed control plane for teams that need enterprise operations, governance, and infrastructure.",
+    "openSourceProductIds": [
+      "agentskit",
+      "registry",
+      "agentskit-chat",
+      "playbook",
+      "doc-bridge",
+      "code-review"
+    ],
+    "managedProductIds": [
+      "akos"
+    ]
+  },
   "products": [
     {
       "id": "agentskit",
@@ -12,6 +28,7 @@
       "shortName": "AgentsKit",
       "kind": "library",
       "role": "foundation",
+      "accessModel": "open-source",
       "promise": "Build agents without gluing many libraries together.",
       "maturity": "beta",
       "repo": "AgentsKit-io/agentskit",
@@ -72,6 +89,7 @@
       "shortName": "Registry",
       "kind": "registry",
       "role": "starting-point",
+      "accessModel": "open-source",
       "promise": "Copy ready-made agents and own the source.",
       "maturity": "beta",
       "repo": "AgentsKit-io/agentskit-registry",
@@ -127,6 +145,7 @@
       "shortName": "Chat",
       "kind": "framework",
       "role": "experience",
+      "accessModel": "open-source",
       "promise": "Define one agent experience and deliver it across interfaces.",
       "maturity": "alpha",
       "repo": "AgentsKit-io/agentskit-chat",
@@ -179,6 +198,7 @@
       "shortName": "Playbook",
       "kind": "methodology",
       "role": "discipline",
+      "accessModel": "open-source",
       "promise": "Train coding agents to ship code your team would merge.",
       "maturity": "stable",
       "repo": "AgentsKit-io/agents-playbook",
@@ -232,6 +252,7 @@
       "shortName": "Doc Bridge",
       "kind": "developer-tool",
       "role": "understanding",
+      "accessModel": "open-source",
       "promise": "Turn repository documentation into executable agent handoffs.",
       "maturity": "stable",
       "repo": "AgentsKit-io/doc-bridge",
@@ -284,6 +305,7 @@
       "shortName": "Code Review",
       "kind": "developer-tool",
       "role": "verification",
+      "accessModel": "open-source",
       "promise": "Run deep, low-noise review with the model already in use.",
       "maturity": "alpha",
       "repo": "AgentsKit-io/code-review-cli",
@@ -314,6 +336,7 @@
       "shortName": "AKOS",
       "kind": "product",
       "role": "operation",
+      "accessModel": "paid-managed-service",
       "promise": "Run and govern agents in production.",
       "maturity": "stable",
       "repo": "AgentsKit-io/agentskit-os",

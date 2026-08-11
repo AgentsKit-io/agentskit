@@ -14,18 +14,18 @@ import { counts, approx } from '@/lib/ecosystem-stats'
 import { agentsKitIdentity } from '@/lib/reference-journey'
 import { canonicalUrl } from '@/lib/canonical-url'
 import { alternatesFor } from '@/lib/locales'
+import ecosystem from '@/lib/ecosystem.json'
 
 export const metadata = {
   title: `${agentsKitIdentity.name}.js — ${agentsKitIdentity.promise}`,
-  description: `${agentsKitIdentity.promise} A composable TypeScript foundation for runtime, tools, memory, RAG, and chat interfaces.`,
+  description: ecosystem.positioning.metaDescription,
   alternates: {
     canonical: canonicalUrl('/'),
     languages: alternatesFor('/'),
   },
   openGraph: {
     title: 'AgentsKit.js — Ship AI agents in JavaScript',
-    description:
-      'Composable TypeScript foundation: runtime, tools, memory, RAG, adapters, and headless UI bindings. Zero lock-in. Under 10KB core.',
+    description: ecosystem.positioning.metaDescription,
     type: 'website',
     images: [
       {
@@ -39,8 +39,7 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'AgentsKit.js — Ship AI agents in JavaScript',
-    description:
-      'Composable TypeScript foundation: runtime, tools, memory, RAG, adapters, and headless UI bindings. Zero lock-in.',
+    description: ecosystem.positioning.metaDescription,
     images: ['/api/og'],
   },
 }
@@ -59,22 +58,25 @@ const JSON_LD = {
       url: 'https://www.agentskit.io',
       logo: 'https://www.agentskit.io/favicon.svg',
       sameAs: [
-        'https://github.com/AgentsKit-io/agentskit',
+        'https://github.com/AgentsKit-io',
         'https://www.npmjs.com/org/agentskit',
+        'https://x.com/agentskit',
       ],
     },
     {
       '@type': 'SoftwareApplication',
       '@id': 'https://www.agentskit.io/#software',
       name: 'AgentsKit.js',
-      description: agentsKitIdentity.promise,
+      description: ecosystem.positioning.canonicalDescription,
       applicationCategory: 'DeveloperApplication',
       operatingSystem: 'Cross-platform',
+      isAccessibleForFree: true,
       offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
       url: 'https://www.agentskit.io',
       license: 'https://github.com/AgentsKit-io/agentskit/blob/main/LICENSE',
       author: { '@id': 'https://www.agentskit.io/#org' },
       programmingLanguage: 'TypeScript',
+      featureList: 'Provider-agnostic adapters, agent runtime, tools, skills, memory, RAG, observability, evaluation, sandboxing, and headless UI bindings',
       keywords: 'AI agents, autonomous agent, multi-agent, JavaScript, TypeScript, LLM, streaming chat, RAG, tools, memory, observability, React, Vue, Svelte, Next.js, OpenAI, Anthropic Claude, Gemini, Ollama, LangChain',
     },
     {
