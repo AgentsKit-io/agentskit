@@ -57,7 +57,12 @@ const JSON_LD = {
       '@id': 'https://www.agentskit.io/#org',
       name: 'AgentsKit.js',
       url: 'https://www.agentskit.io',
-      logo: 'https://www.agentskit.io/favicon.svg',
+      logo: {
+        '@type': 'ImageObject',
+        url: 'https://www.agentskit.io/apple-touch-icon.png',
+        width: 180,
+        height: 180,
+      },
       sameAs: [
         'https://github.com/AgentsKit-io/agentskit',
         'https://www.npmjs.com/org/agentskit',

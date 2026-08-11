@@ -12,6 +12,9 @@ Direction **1.4 — Triangle / foam monochrome** (chosen 2026-04-15).
 
 - **`/favicon.svg`** — square version with rounded background, baked colors.
 - **`/apple-touch-icon.svg`** — same, larger, 36px corner radius.
+- **`/favicon.ico`** — compatibility fallback for crawlers and legacy clients.
+- **`/favicon-16x16.png`** and **`/favicon-32x32.png`** — raster fallbacks for directory and browser pipelines.
+- **`/apple-touch-icon.png`** — 180×180 raster fallback for touch icons and logo harvesters.
 - **`/api/og`** — dynamic OG image with optional `?title=` and `?description=` query params.
 
 ## Palette
