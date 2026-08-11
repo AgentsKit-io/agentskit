@@ -5,6 +5,7 @@ import type { ReactNode } from 'react'
 import type { Metadata } from 'next'
 import { PostHogProvider } from './posthog-provider'
 import { RegistryAskWidget } from '@/components/ask-widget'
+import { serializedRegistryStructuredData } from '@/lib/structured-data'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
@@ -32,6 +33,10 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <link rel="alternate" type="text/plain" href="/llms.txt" title="Agent and docs index for LLMs" />
         <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Full agent context for LLMs" />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializedRegistryStructuredData }}
+        />
       </head>
       <body className="flex min-h-screen flex-col overflow-x-clip font-sans">
         <PostHogProvider>
