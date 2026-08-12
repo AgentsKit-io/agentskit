@@ -27,6 +27,9 @@
 ^https://github\.com/AgentsKit-io/agentskit/(?:blob|tree)/main/docs/ecosystem/launch(?:/.*)?$
 ^https://github\.com/AgentsKit-io/agentskit/blob/main/docs/ecosystem/readiness\.md$
 
+# This executable fixture lands atomically with the provider-swap recipe PR.
+^https://github\.com/AgentsKit-io/agentskit/blob/main/apps/docs-next/fixtures/provider-swap/agent\.ts$
+
 # Anchored fragments that mdx-lint can't resolve cleanly (per-page, fine in browser)
 #strikes-known
 

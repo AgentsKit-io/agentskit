@@ -1,0 +1,54 @@
+{
+  "id": "provider-swap",
+  "title": "Swap the model provider without rewriting the agent",
+  "status": "verified-source",
+  "problem": "Agent applications should be able to change model providers without moving provider-specific logic into the task, runtime, tools, or result handling.",
+  "audience": "JavaScript and TypeScript developers who want a portable agent path before choosing a paid model provider",
+  "docs": [
+    "/docs/reference/recipes/provider-swap",
+    "apps/docs-next/fixtures/provider-swap/agent.ts"
+  ],
+  "executable": {
+    "fixture": "apps/docs-next/fixtures/provider-swap/agent.ts",
+    "setupCommands": [
+      ["pnpm", "--filter", "@agentskit/adapters...", "build"],
+      ["pnpm", "--filter", "@agentskit/runtime...", "build"]
+    ],
+    "command": [
+      "pnpm",
+      "--filter",
+      "@agentskit/docs-next",
+      "exec",
+      "tsx",
+      "fixtures/provider-swap/agent.ts"
+    ],
+    "expectStdoutIncludes": "[local] Local model received: Explain why provider portability matters"
+  },
+  "commands": [
+    "npm install @agentskit/adapters @agentskit/core @agentskit/runtime tsx",
+    "cp apps/docs-next/fixtures/provider-swap/agent.ts ./agent.ts",
+    "AGENT_PROVIDER=local npx tsx agent.ts"
+  ],
+  "claims": [
+    { "productId": "agentskit", "claimId": "native-adapters" },
+    { "productId": "agentskit", "claimId": "catalog-providers" }
+  ],
+  "maturity": "stable-demo",
+  "citations": [
+    {
+      "id": "fixture",
+      "title": "provider-swap fixture",
+      "href": "apps/docs-next/fixtures/provider-swap/agent.ts"
+    },
+    {
+      "id": "docs",
+      "title": "provider-swap recipe",
+      "href": "/docs/reference/recipes/provider-swap"
+    },
+    {
+      "id": "openrouter-free",
+      "title": "OpenRouter free models router",
+      "href": "https://openrouter.ai/docs/guides/routing/routers/free-router"
+    }
+  ]
+}

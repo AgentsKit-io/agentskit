@@ -16,7 +16,7 @@ export interface AgentsKitMcpServerOptions {
   onEvent?: (event: { type: 'call' | 'error' | 'list'; tool?: string; error?: string }) => void
   /**
    * Transport override. Defaults to stdio over the current process (the form
-   * Claude Desktop / Cursor / Windsurf launch). Inject a custom transport for tests.
+   * Codex / Claude Code / Cursor launch). Inject a custom transport for tests.
    */
   transport?: McpTransport
 }
@@ -39,7 +39,7 @@ export function processStdio(): StdioLikeProcess {
 
 /**
  * Expose a set of AgentsKit tools as an MCP server (over stdio by default), so
- * any MCP host — Claude Desktop, Cursor, Windsurf — can call them.
+ * any MCP host — Codex, Claude Code, Cursor — can call them.
  */
 export function createAgentsKitMcpServer(options: AgentsKitMcpServerOptions): McpServer {
   if (!isRecord(options) || !Array.isArray(options.tools)) {

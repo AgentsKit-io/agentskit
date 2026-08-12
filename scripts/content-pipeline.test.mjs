@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict'
+import { spawnSync } from 'node:child_process'
 import { mkdtempSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -60,9 +61,11 @@ test('publisher refuses publish packaging without human approval', () => {
   )
 })
 
-test('recipe miner discovers first-agent and pipeline generates a blocked draft offline', () => {
+test('recipe miner discovers both executable recipes and generates a blocked draft offline', () => {
   const recipes = mineRecipes(REPO_ROOT)
   assert.ok(recipes.some((recipe) => recipe.id === 'first-agent'))
+  assert.ok(recipes.some((recipe) => recipe.id === 'provider-swap'))
+  assert.ok(recipes.some((recipe) => recipe.id === 'coding-agent-mcp'))
   const atom = runPipeline(REPO_ROOT, 'first-agent', { runExecutable: false, gateResults: [] })
   assert.equal(atom.id, 'first-agent')
   assert.ok(atom.variants.docsPage.includes('Verified claims'))
@@ -74,6 +77,67 @@ test('recipe miner discovers first-agent and pipeline generates a blocked draft 
   assert.equal(atom.publish.status, 'blocked')
   assert.equal(atom.executable.ok, false)
   assert.match(atom.contentDigest, /^sha256:/)
+})
+
+test('coding-agent MCP recipe proves one safe command across supported hosts', () => {
+  const source = readFileSync(
+    join(REPO_ROOT, 'packages/mcp/fixtures/coding-agent-hosts.ts'),
+    'utf8',
+  )
+  assert.match(source, /codex mcp add agentskit -- npx -y @agentskit\/mcp@0\.3\.3/)
+  assert.match(source, /claude mcp add --scope project --transport stdio/)
+  assert.match(source, /\.cursor\/mcp\.json/)
+  assert.doesNotMatch(source, /--allow-shell/)
+  assert.doesNotMatch(source, /--api-key/)
+
+  const atom = runPipeline(REPO_ROOT, 'coding-agent-mcp', { runExecutable: true, gateResults: [] })
+  assert.equal(atom.executable.ok, true)
+  assert.equal(
+    atom.executable.stdout,
+    'verified hosts: claude, codex, cursor; cli tools: fetch_url, web_search',
+  )
+  assert.equal(atom.publish.status, 'blocked')
+}, 120_000)
+
+test('provider-swap recipe keeps one application path and a credential-free proof', () => {
+  const source = readFileSync(
+    join(REPO_ROOT, 'apps/docs-next/fixtures/provider-swap/agent.ts'),
+    'utf8',
+  )
+  assert.match(source, /model: 'openrouter\/free'/)
+  assert.match(source, /export async function runTask\(adapter: AdapterFactory, task: string\)/)
+  assert.match(source, /OPENROUTER_API_KEY is required/)
+  assert.doesNotMatch(source, /fetch\(/)
+
+  const atom = runPipeline(REPO_ROOT, 'provider-swap', { runExecutable: true, gateResults: [] })
+  assert.equal(atom.executable.ok, true)
+  assert.match(atom.executable.stdout, /^\[local\] Local model received:/)
+  assert.equal(atom.publish.status, 'blocked')
+}, 120_000)
+
+test('provider-swap rejects missing credentials and unknown providers before transport', () => {
+  const command = [
+    '--filter',
+    '@agentskit/docs-next',
+    'exec',
+    'tsx',
+    'fixtures/provider-swap/agent.ts',
+  ]
+  const missingKey = spawnSync('pnpm', command, {
+    cwd: REPO_ROOT,
+    encoding: 'utf8',
+    env: { ...process.env, AGENT_PROVIDER: 'openrouter', OPENROUTER_API_KEY: '' },
+  })
+  assert.notEqual(missingKey.status, 0)
+  assert.match(missingKey.stderr, /OPENROUTER_API_KEY is required/)
+
+  const unknown = spawnSync('pnpm', command, {
+    cwd: REPO_ROOT,
+    encoding: 'utf8',
+    env: { ...process.env, AGENT_PROVIDER: 'unknown' },
+  })
+  assert.notEqual(unknown.status, 0)
+  assert.match(unknown.stderr, /Unsupported AGENT_PROVIDER: unknown/)
 })
 
 test('repurposer preserves claim values from the ledger', () => {
@@ -115,6 +179,20 @@ test('required gates execute commands and require evidence-backed human attestat
   assert.equal(results.find((gate) => gate.id === 'local').ok, true)
   assert.equal(results.find((gate) => gate.id === 'review').ok, true)
   assert.equal(results.find((gate) => gate.id === 'missing').ok, false)
+})
+
+test('shared command gates execute once while every recipe is audited', () => {
+  const cache = new Map()
+  const config = {
+    requiredGates: [
+      { id: 'local', mode: 'command', command: [process.execPath, '-e', 'process.exit(0)'] },
+    ],
+  }
+  const first = evaluateRequiredGates(REPO_ROOT, config, 'first-agent', { commandCache: cache })
+  const second = evaluateRequiredGates(REPO_ROOT, config, 'provider-swap', { commandCache: cache })
+  assert.equal(first[0].ok, true)
+  assert.equal(second[0].ok, true)
+  assert.equal(cache.size, 1)
 })
 
 test('atom writes never overwrite an existing approval', () => {

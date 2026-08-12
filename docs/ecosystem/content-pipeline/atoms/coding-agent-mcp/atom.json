@@ -1,0 +1,212 @@
+{
+  "id": "coding-agent-mcp",
+  "generatedAt": "2026-08-12T17:29:18.218Z",
+  "recipe": {
+    "id": "coding-agent-mcp",
+    "title": "Use AgentsKit from Codex, Claude Code, and Cursor",
+    "status": "verified-source",
+    "problem": "Developers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host.",
+    "audience": "JavaScript and TypeScript developers using Codex, Claude Code, Cursor, or another MCP-compatible host",
+    "docs": [
+      "/docs/reference/recipes/coding-agent-mcp",
+      "packages/mcp/fixtures/coding-agent-hosts.ts"
+    ],
+    "executable": {
+      "fixture": "packages/mcp/fixtures/run-coding-agent-hosts.mjs",
+      "setupCommands": [
+        [
+          "pnpm",
+          "--filter",
+          "@agentskit/mcp...",
+          "build"
+        ]
+      ],
+      "command": [
+        "node",
+        "packages/mcp/fixtures/run-coding-agent-hosts.mjs"
+      ],
+      "expectStdoutIncludes": "verified hosts: claude, codex, cursor; cli tools: fetch_url, web_search"
+    },
+    "commands": [
+      "codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search",
+      "claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search",
+      "pnpm --filter @agentskit/mcp exec vitest run tests/coding-agent-hosts.test.ts"
+    ],
+    "claims": [
+      {
+        "productId": "agentskit",
+        "claimId": "packages"
+      },
+      {
+        "productId": "agentskit",
+        "claimId": "integrations"
+      }
+    ],
+    "maturity": "stable-demo",
+    "citations": [
+      {
+        "id": "fixture",
+        "title": "coding-agent MCP host fixture",
+        "href": "packages/mcp/fixtures/coding-agent-hosts.ts"
+      },
+      {
+        "id": "docs",
+        "title": "coding-agent MCP recipe",
+        "href": "/docs/reference/recipes/coding-agent-mcp"
+      },
+      {
+        "id": "codex",
+        "title": "Codex MCP configuration",
+        "href": "https://developers.openai.com/codex/mcp/"
+      },
+      {
+        "id": "claude",
+        "title": "Claude Code MCP configuration",
+        "href": "https://docs.anthropic.com/en/docs/claude-code/mcp"
+      },
+      {
+        "id": "cursor",
+        "title": "Cursor MCP configuration",
+        "href": "https://cursor.com/docs/mcp"
+      }
+    ]
+  },
+  "verifiedClaims": [
+    {
+      "productId": "agentskit",
+      "claimId": "packages",
+      "value": 22,
+      "noun": "packages",
+      "evidence": {
+        "type": "repository-derivation",
+        "repo": "AgentsKit-io/agentskit",
+        "path": "scripts/compute-stats.mjs",
+        "summary": "Published non-private @agentskit/* package directories."
+      }
+    },
+    {
+      "productId": "agentskit",
+      "claimId": "integrations",
+      "value": 50,
+      "noun": "integrations",
+      "evidence": {
+        "type": "repository-derivation",
+        "repo": "AgentsKit-io/agentskit",
+        "path": "scripts/compute-stats.mjs",
+        "summary": "Service directories in the integrations catalog."
+      }
+    }
+  ],
+  "executable": {
+    "ok": true,
+    "message": "executable verified",
+    "stdout": "verified hosts: claude, codex, cursor; cli tools: fetch_url, web_search"
+  },
+  "links": [
+    {
+      "id": "agentskit",
+      "name": "AgentsKit",
+      "promise": "Build agents without gluing many libraries together.",
+      "href": "https://www.agentskit.io/docs"
+    },
+    {
+      "id": "registry",
+      "name": "AgentsKit Registry",
+      "promise": "Copy ready-made agents and own the source.",
+      "href": "https://registry.agentskit.io/docs"
+    },
+    {
+      "id": "agentskit-chat",
+      "name": "AgentsKit Chat",
+      "promise": "Define one agent experience and deliver it across interfaces.",
+      "href": "https://chat.agentskit.io/docs"
+    },
+    {
+      "id": "playbook",
+      "name": "Agents Playbook",
+      "promise": "Train coding agents to ship code your team would merge.",
+      "href": "https://playbook.agentskit.io/docs"
+    },
+    {
+      "id": "doc-bridge",
+      "name": "Doc Bridge",
+      "promise": "Turn repository documentation into executable agent handoffs.",
+      "href": "https://doc-bridge.agentskit.io/"
+    },
+    {
+      "id": "code-review",
+      "name": "AgentsKit Code Review",
+      "promise": "Run deep, low-noise review with the model already in use.",
+      "href": "https://github.com/AgentsKit-io/code-review-cli#readme"
+    },
+    {
+      "id": "akos",
+      "name": "AgentsKit OS",
+      "promise": "Run and govern agents in production.",
+      "href": "https://akos.agentskit.io/docs"
+    }
+  ],
+  "variants": {
+    "docsPage": "---\ntitle: Use AgentsKit from Codex, Claude Code, and Cursor\ndescription: Developers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host.\n---\n\n# Use AgentsKit from Codex, Claude Code, and Cursor\n\nDevelopers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host.\n\n## Audience\n\nJavaScript and TypeScript developers using Codex, Claude Code, Cursor, or another MCP-compatible host\n\n## Commands\n\n```bash\ncodex mcp add agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search\nclaude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search\npnpm --filter @agentskit/mcp exec vitest run tests/coding-agent-hosts.test.ts\n```\n\n## Verified claims\n\n- **agentskit/packages**: 22 packages (from ecosystem-claims.json)\n- **agentskit/integrations**: 50 integrations (from ecosystem-claims.json)\n\n## Citations\n\n- [coding-agent MCP host fixture](packages/mcp/fixtures/coding-agent-hosts.ts)\n- [coding-agent MCP recipe](/docs/reference/recipes/coding-agent-mcp)\n- [Codex MCP configuration](https://developers.openai.com/codex/mcp/)\n- [Claude Code MCP configuration](https://docs.anthropic.com/en/docs/claude-code/mcp)\n- [Cursor MCP configuration](https://cursor.com/docs/mcp)\n\n## Ecosystem next steps\n\n- [AgentsKit](https://www.agentskit.io/docs) — Build agents without gluing many libraries together.\n- [AgentsKit Registry](https://registry.agentskit.io/docs) — Copy ready-made agents and own the source.\n- [AgentsKit Chat](https://chat.agentskit.io/docs) — Define one agent experience and deliver it across interfaces.\n- [Agents Playbook](https://playbook.agentskit.io/docs) — Train coding agents to ship code your team would merge.\n- [Doc Bridge](https://doc-bridge.agentskit.io/) — Turn repository documentation into executable agent handoffs.\n- [AgentsKit Code Review](https://github.com/AgentsKit-io/code-review-cli#readme) — Run deep, low-noise review with the model already in use.\n- [AgentsKit OS](https://akos.agentskit.io/docs) — Run and govern agents in production.\n\n> Draft generated by the content pipeline. Human approval required before publishing.\n",
+    "shortPost": "Use AgentsKit from Codex, Claude Code, and Cursor.\n\nThree commands. No provider key.\n\n```bash\npnpm --filter @agentskit/mcp exec vitest run tests/coding-agent-hosts.test.ts\n```\n\nBuilt on AgentsKit (22 packages, 50 integrations).\n\nDocs + fixture linked in the atom. Human-reviewed drafts only.",
+    "thread": "1/ Use AgentsKit from Codex, Claude Code, and Cursor\n\nWhy it exists: Developers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host.\n\n2/ The path:\n1. `codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search`\n2. `claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search`\n3. `pnpm --filter @agentskit/mcp exec vitest run tests/coding-agent-hosts.test.ts`\n\n3/ Claims (generated, not hand-typed):\n- 22 packages\n- 50 integrations\n\n4/ Next products:\n- AgentsKit: Build agents without gluing many libraries together.\n- AgentsKit Registry: Copy ready-made agents and own the source.\n- AgentsKit Chat: Define one agent experience and deliver it across interfaces.\n\n5/ This thread is a draft atom. Publishing requires explicit human approval.",
+    "communityPost": "## Use AgentsKit from Codex, Claude Code, and Cursor\n\nDevelopers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host.\n\n### Try it\n\n```bash\ncodex mcp add agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search\nclaude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search\npnpm --filter @agentskit/mcp exec vitest run tests/coding-agent-hosts.test.ts\n```\n\n### Claims\n22 packages, 50 integrations\n\nSource fixture: `packages/mcp/fixtures/run-coding-agent-hosts.mjs`\n\nStatus: draft — awaiting human approval before community publish.",
+    "example": {
+      "kind": "fixture-link",
+      "path": "packages/mcp/fixtures/run-coding-agent-hosts.mjs",
+      "commands": [
+        "codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search",
+        "claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search",
+        "pnpm --filter @agentskit/mcp exec vitest run tests/coding-agent-hosts.test.ts"
+      ]
+    }
+  },
+  "storyboard": "# Storyboard — Use AgentsKit from Codex, Claude Code, and Cursor\n\nFormat: 5-frame carousel / 15s silent GIF\n\n1. **Hook** — \"Developers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host.\"\n2. **Install** — show `codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search`\n3. **Copy fixture** — show the agent.ts path\n4. **Run** — terminal output includes the expected ready line\n5. **Next step** — point to Registry / Playbook / Chat without inventing counts\n\nAccessibility: every frame needs alt text; prefer reduced-motion static frames.\nNo auto-publish — storyboard is a draft for human design review.\n",
+  "publish": {
+    "status": "blocked",
+    "reason": "Human approval required before publish packaging",
+    "channels": []
+  },
+  "review": {
+    "status": "needs-human-review",
+    "checklist": [
+      {
+        "id": "claims",
+        "ok": true,
+        "note": "Claims verified against ecosystem-claims.json"
+      },
+      {
+        "id": "executable",
+        "ok": true,
+        "note": "Source recipe executable passed"
+      },
+      {
+        "id": "citations",
+        "ok": true,
+        "note": "Citations present"
+      },
+      {
+        "id": "no-autonomous-publish",
+        "ok": true,
+        "note": "Publisher only prepares drafts; no channel action is auto-post"
+      },
+      {
+        "id": "doc-bridge",
+        "ok": true,
+        "note": "doc-bridge command passed"
+      },
+      {
+        "id": "playbook",
+        "ok": false,
+        "note": "playbook requires human attestation with evidence"
+      },
+      {
+        "id": "code-review",
+        "ok": false,
+        "note": "code-review requires human attestation with evidence"
+      }
+    ],
+    "requiresHumanApproval": true
+  },
+  "contentDigest": "sha256:81b8368849f3408dd4a3bb3542b7965e42dfa211ad7f9598758c6786bd438086"
+}

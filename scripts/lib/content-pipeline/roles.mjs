@@ -66,6 +66,24 @@ export function verifyExecutable(root, recipe) {
   if (!existsSync(join(root, executable.fixture))) {
     return { ok: false, message: `fixture missing: ${executable.fixture}` }
   }
+  for (const [index, command] of (executable.setupCommands ?? []).entries()) {
+    if (!Array.isArray(command) || command.length === 0) {
+      return { ok: false, message: `executable setup command ${index} is empty` }
+    }
+    const [setupBin, ...setupArgs] = command
+    const setup = spawnSync(setupBin, setupArgs, {
+      cwd: root,
+      encoding: 'utf8',
+      env: process.env,
+      timeout: 120_000,
+    })
+    if (setup.status !== 0) {
+      return {
+        ok: false,
+        message: `executable setup failed (${setup.status}): ${setup.stderr || setup.stdout}`,
+      }
+    }
+  }
   const [bin, ...args] = executable.command
   const run = spawnSync(bin, args, { cwd: root, encoding: 'utf8', env: process.env, timeout: 120_000 })
   if (run.status !== 0) {

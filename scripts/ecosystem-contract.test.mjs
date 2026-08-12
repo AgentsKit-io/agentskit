@@ -109,6 +109,21 @@ test('duplicate product identities are rejected', () => {
   )
 })
 
+test('software identity metadata rejects invalid dates, licenses, and duplicate keywords', () => {
+  assert.throws(
+    () => parseEcosystemManifest(changed((copy) => { copy.products[0].metadata.dateCreated = 'April 2, 2026' })),
+    /must use YYYY-MM-DD/,
+  )
+  assert.throws(
+    () => parseEcosystemManifest(changed((copy) => { copy.products[0].metadata.license = 'MIT License' })),
+    /must be an SPDX identifier/,
+  )
+  assert.throws(
+    () => parseEcosystemManifest(changed((copy) => { copy.products[0].metadata.keywords.push('ai AGENTS') })),
+    /duplicates another keyword/,
+  )
+})
+
 test('unknown cross-product navigation targets are rejected', () => {
   assert.throws(
     () => parseEcosystemManifest(changed((copy) => { copy.products[0].navigation.next.push('missing') })),

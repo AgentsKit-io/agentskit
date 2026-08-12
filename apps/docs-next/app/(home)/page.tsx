@@ -15,6 +15,7 @@ import { agentsKitIdentity } from '@/lib/reference-journey'
 import { canonicalUrl } from '@/lib/canonical-url'
 import { alternatesFor } from '@/lib/locales'
 import ecosystem from '@/lib/ecosystem.json'
+import softwareIdentity from '@/lib/software-identity.generated.json'
 
 export const metadata = {
   title: `${agentsKitIdentity.name}.js — ${agentsKitIdentity.promise}`,
@@ -51,40 +52,15 @@ const GITHUB = 'https://github.com/AgentsKit-io/agentskit'
 const JSON_LD = {
   '@context': 'https://schema.org',
   '@graph': [
-    {
-      '@type': 'Organization',
-      '@id': 'https://www.agentskit.io/#org',
-      name: 'AgentsKit.js',
-      url: 'https://www.agentskit.io',
-      logo: 'https://www.agentskit.io/favicon.svg',
-      sameAs: [
-        'https://github.com/AgentsKit-io',
-        'https://www.npmjs.com/org/agentskit',
-        'https://x.com/agentskit',
-      ],
-    },
-    {
-      '@type': 'SoftwareApplication',
-      '@id': 'https://www.agentskit.io/#software',
-      name: 'AgentsKit.js',
-      description: ecosystem.positioning.canonicalDescription,
-      applicationCategory: 'DeveloperApplication',
-      operatingSystem: 'Cross-platform',
-      isAccessibleForFree: true,
-      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-      url: 'https://www.agentskit.io',
-      license: 'https://github.com/AgentsKit-io/agentskit/blob/main/LICENSE',
-      author: { '@id': 'https://www.agentskit.io/#org' },
-      programmingLanguage: 'TypeScript',
-      featureList: 'Provider-agnostic adapters, agent runtime, tools, skills, memory, RAG, observability, evaluation, sandboxing, and headless UI bindings',
-      keywords: 'AI agents, autonomous agent, multi-agent, JavaScript, TypeScript, LLM, streaming chat, RAG, tools, memory, observability, React, Vue, Svelte, Next.js, OpenAI, Anthropic Claude, Gemini, Ollama, LangChain',
-    },
+    softwareIdentity.organization,
+    softwareIdentity.sourceCode,
+    softwareIdentity.application,
     {
       '@type': 'WebSite',
       '@id': 'https://www.agentskit.io/#website',
       url: 'https://www.agentskit.io',
       name: 'AgentsKit.js',
-      publisher: { '@id': 'https://www.agentskit.io/#org' },
+      publisher: { '@id': softwareIdentity.organization['@id'] },
       potentialAction: {
         '@type': 'SearchAction',
         target: 'https://www.agentskit.io/docs?q={search_term_string}',

@@ -1,0 +1,212 @@
+{
+  "id": "provider-swap",
+  "generatedAt": "2026-08-12T16:14:15.952Z",
+  "recipe": {
+    "id": "provider-swap",
+    "title": "Swap the model provider without rewriting the agent",
+    "status": "verified-source",
+    "problem": "Agent applications should be able to change model providers without moving provider-specific logic into the task, runtime, tools, or result handling.",
+    "audience": "JavaScript and TypeScript developers who want a portable agent path before choosing a paid model provider",
+    "docs": [
+      "/docs/reference/recipes/provider-swap",
+      "apps/docs-next/fixtures/provider-swap/agent.ts"
+    ],
+    "executable": {
+      "fixture": "apps/docs-next/fixtures/provider-swap/agent.ts",
+      "setupCommands": [
+        [
+          "pnpm",
+          "--filter",
+          "@agentskit/adapters...",
+          "build"
+        ],
+        [
+          "pnpm",
+          "--filter",
+          "@agentskit/runtime...",
+          "build"
+        ]
+      ],
+      "command": [
+        "pnpm",
+        "--filter",
+        "@agentskit/docs-next",
+        "exec",
+        "tsx",
+        "fixtures/provider-swap/agent.ts"
+      ],
+      "expectStdoutIncludes": "[local] Local model received: Explain why provider portability matters"
+    },
+    "commands": [
+      "npm install @agentskit/adapters @agentskit/core @agentskit/runtime tsx",
+      "cp apps/docs-next/fixtures/provider-swap/agent.ts ./agent.ts",
+      "AGENT_PROVIDER=local npx tsx agent.ts"
+    ],
+    "claims": [
+      {
+        "productId": "agentskit",
+        "claimId": "native-adapters"
+      },
+      {
+        "productId": "agentskit",
+        "claimId": "catalog-providers"
+      }
+    ],
+    "maturity": "stable-demo",
+    "citations": [
+      {
+        "id": "fixture",
+        "title": "provider-swap fixture",
+        "href": "apps/docs-next/fixtures/provider-swap/agent.ts"
+      },
+      {
+        "id": "docs",
+        "title": "provider-swap recipe",
+        "href": "/docs/reference/recipes/provider-swap"
+      },
+      {
+        "id": "openrouter-free",
+        "title": "OpenRouter free models router",
+        "href": "https://openrouter.ai/docs/guides/routing/routers/free-router"
+      }
+    ]
+  },
+  "verifiedClaims": [
+    {
+      "productId": "agentskit",
+      "claimId": "native-adapters",
+      "value": 25,
+      "noun": "native adapters",
+      "evidence": {
+        "type": "repository-derivation",
+        "repo": "AgentsKit-io/agentskit",
+        "path": "scripts/compute-stats.mjs",
+        "summary": "Provider exports in the adapters package excluding composition helpers."
+      }
+    },
+    {
+      "productId": "agentskit",
+      "claimId": "catalog-providers",
+      "value": 140,
+      "noun": "providers",
+      "evidence": {
+        "type": "repository-derivation",
+        "repo": "AgentsKit-io/agentskit",
+        "path": "scripts/compute-stats.mjs",
+        "summary": "Providers in the committed model catalog snapshot."
+      }
+    }
+  ],
+  "executable": {
+    "ok": true,
+    "message": "executable verified",
+    "stdout": "[local] Local model received: Explain why provider portability matters"
+  },
+  "links": [
+    {
+      "id": "agentskit",
+      "name": "AgentsKit",
+      "promise": "Build agents without gluing many libraries together.",
+      "href": "https://www.agentskit.io/docs"
+    },
+    {
+      "id": "registry",
+      "name": "AgentsKit Registry",
+      "promise": "Copy ready-made agents and own the source.",
+      "href": "https://registry.agentskit.io/docs"
+    },
+    {
+      "id": "agentskit-chat",
+      "name": "AgentsKit Chat",
+      "promise": "Define one agent experience and deliver it across interfaces.",
+      "href": "https://chat.agentskit.io/docs"
+    },
+    {
+      "id": "playbook",
+      "name": "Agents Playbook",
+      "promise": "Train coding agents to ship code your team would merge.",
+      "href": "https://playbook.agentskit.io/docs"
+    },
+    {
+      "id": "doc-bridge",
+      "name": "Doc Bridge",
+      "promise": "Turn repository documentation into executable agent handoffs.",
+      "href": "https://doc-bridge.agentskit.io/"
+    },
+    {
+      "id": "code-review",
+      "name": "AgentsKit Code Review",
+      "promise": "Run deep, low-noise review with the model already in use.",
+      "href": "https://github.com/AgentsKit-io/code-review-cli#readme"
+    },
+    {
+      "id": "akos",
+      "name": "AgentsKit OS",
+      "promise": "Run and govern agents in production.",
+      "href": "https://akos.agentskit.io/docs"
+    }
+  ],
+  "variants": {
+    "docsPage": "---\ntitle: Swap the model provider without rewriting the agent\ndescription: Agent applications should be able to change model providers without moving provider-specific logic into the task, runtime, tools, or result handling.\n---\n\n# Swap the model provider without rewriting the agent\n\nAgent applications should be able to change model providers without moving provider-specific logic into the task, runtime, tools, or result handling.\n\n## Audience\n\nJavaScript and TypeScript developers who want a portable agent path before choosing a paid model provider\n\n## Commands\n\n```bash\nnpm install @agentskit/adapters @agentskit/core @agentskit/runtime tsx\ncp apps/docs-next/fixtures/provider-swap/agent.ts ./agent.ts\nAGENT_PROVIDER=local npx tsx agent.ts\n```\n\n## Verified claims\n\n- **agentskit/native-adapters**: 25 native adapters (from ecosystem-claims.json)\n- **agentskit/catalog-providers**: 140 providers (from ecosystem-claims.json)\n\n## Citations\n\n- [provider-swap fixture](apps/docs-next/fixtures/provider-swap/agent.ts)\n- [provider-swap recipe](/docs/reference/recipes/provider-swap)\n- [OpenRouter free models router](https://openrouter.ai/docs/guides/routing/routers/free-router)\n\n## Ecosystem next steps\n\n- [AgentsKit](https://www.agentskit.io/docs) — Build agents without gluing many libraries together.\n- [AgentsKit Registry](https://registry.agentskit.io/docs) — Copy ready-made agents and own the source.\n- [AgentsKit Chat](https://chat.agentskit.io/docs) — Define one agent experience and deliver it across interfaces.\n- [Agents Playbook](https://playbook.agentskit.io/docs) — Train coding agents to ship code your team would merge.\n- [Doc Bridge](https://doc-bridge.agentskit.io/) — Turn repository documentation into executable agent handoffs.\n- [AgentsKit Code Review](https://github.com/AgentsKit-io/code-review-cli#readme) — Run deep, low-noise review with the model already in use.\n- [AgentsKit OS](https://akos.agentskit.io/docs) — Run and govern agents in production.\n\n> Draft generated by the content pipeline. Human approval required before publishing.\n",
+    "shortPost": "Swap the model provider without rewriting the agent.\n\nThree commands. No provider key.\n\n```bash\nAGENT_PROVIDER=local npx tsx agent.ts\n```\n\nBuilt on AgentsKit (25 native adapters, 140 providers).\n\nDocs + fixture linked in the atom. Human-reviewed drafts only.",
+    "thread": "1/ Swap the model provider without rewriting the agent\n\nWhy it exists: Agent applications should be able to change model providers without moving provider-specific logic into the task, runtime, tools, or result handling.\n\n2/ The path:\n1. `npm install @agentskit/adapters @agentskit/core @agentskit/runtime tsx`\n2. `cp apps/docs-next/fixtures/provider-swap/agent.ts ./agent.ts`\n3. `AGENT_PROVIDER=local npx tsx agent.ts`\n\n3/ Claims (generated, not hand-typed):\n- 25 native adapters\n- 140 providers\n\n4/ Next products:\n- AgentsKit: Build agents without gluing many libraries together.\n- AgentsKit Registry: Copy ready-made agents and own the source.\n- AgentsKit Chat: Define one agent experience and deliver it across interfaces.\n\n5/ This thread is a draft atom. Publishing requires explicit human approval.",
+    "communityPost": "## Swap the model provider without rewriting the agent\n\nAgent applications should be able to change model providers without moving provider-specific logic into the task, runtime, tools, or result handling.\n\n### Try it\n\n```bash\nnpm install @agentskit/adapters @agentskit/core @agentskit/runtime tsx\ncp apps/docs-next/fixtures/provider-swap/agent.ts ./agent.ts\nAGENT_PROVIDER=local npx tsx agent.ts\n```\n\n### Claims\n25 native adapters, 140 providers\n\nSource fixture: `apps/docs-next/fixtures/provider-swap/agent.ts`\n\nStatus: draft — awaiting human approval before community publish.",
+    "example": {
+      "kind": "fixture-link",
+      "path": "apps/docs-next/fixtures/provider-swap/agent.ts",
+      "commands": [
+        "npm install @agentskit/adapters @agentskit/core @agentskit/runtime tsx",
+        "cp apps/docs-next/fixtures/provider-swap/agent.ts ./agent.ts",
+        "AGENT_PROVIDER=local npx tsx agent.ts"
+      ]
+    }
+  },
+  "storyboard": "# Storyboard — Swap the model provider without rewriting the agent\n\nFormat: 5-frame carousel / 15s silent GIF\n\n1. **Hook** — \"Agent applications should be able to change model providers without moving provider-specific logic into the task, runtime, tools, or result handling.\"\n2. **Install** — show `npm install @agentskit/adapters @agentskit/core @agentskit/runtime tsx`\n3. **Copy fixture** — show the agent.ts path\n4. **Run** — terminal output includes the expected ready line\n5. **Next step** — point to Registry / Playbook / Chat without inventing counts\n\nAccessibility: every frame needs alt text; prefer reduced-motion static frames.\nNo auto-publish — storyboard is a draft for human design review.\n",
+  "publish": {
+    "status": "blocked",
+    "reason": "Human approval required before publish packaging",
+    "channels": []
+  },
+  "review": {
+    "status": "needs-human-review",
+    "checklist": [
+      {
+        "id": "claims",
+        "ok": true,
+        "note": "Claims verified against ecosystem-claims.json"
+      },
+      {
+        "id": "executable",
+        "ok": true,
+        "note": "Source recipe executable passed"
+      },
+      {
+        "id": "citations",
+        "ok": true,
+        "note": "Citations present"
+      },
+      {
+        "id": "no-autonomous-publish",
+        "ok": true,
+        "note": "Publisher only prepares drafts; no channel action is auto-post"
+      },
+      {
+        "id": "doc-bridge",
+        "ok": true,
+        "note": "doc-bridge command passed"
+      },
+      {
+        "id": "playbook",
+        "ok": false,
+        "note": "playbook requires human attestation with evidence"
+      },
+      {
+        "id": "code-review",
+        "ok": false,
+        "note": "code-review requires human attestation with evidence"
+      }
+    ],
+    "requiresHumanApproval": true
+  },
+  "contentDigest": "sha256:c2482b1d4ab47ccb3d796286f62956f199d45a3b635359d639766bf2c9c343dd"
+}
