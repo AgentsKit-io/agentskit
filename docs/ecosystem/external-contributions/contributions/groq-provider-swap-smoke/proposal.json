@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "id": "groq-provider-swap-smoke",
+  "targetId": "groq-api-cookbook",
+  "title": "Add a zero-dependency OpenAI-to-Groq migration smoke check",
+  "kind": "examples",
+  "status": "prepared",
+  "technicalRelationship": "Groq exposes an OpenAI-compatible chat completions endpoint, and AgentsKit's Groq adapter consumes that same protocol.",
+  "userValue": "JavaScript developers can verify request compatibility, streaming, authentication, and model selection before migrating an application to Groq.",
+  "reproducedSetup": {
+    "commands": [
+      "node --test groq-provider-swap-smoke.test.mjs",
+      "GROQ_API_KEY=your-key node groq-provider-swap-smoke.mjs"
+    ],
+    "observed": "The offline test verifies the OpenAI-compatible request and SSE response contract without contacting Groq; the live command remains optional."
+  },
+  "utilityWithoutPromo": {
+    "required": true,
+    "promoMarkers": ["AgentsKit", "agentskit.io", "@agentskit", "AgentsKit OS", "Registry"],
+    "statement": "The script depends only on Node.js fetch and Groq's documented OpenAI-compatible endpoint."
+  },
+  "files": [
+    "docs/ecosystem/external-contributions/contributions/groq-provider-swap-smoke/files/groq-provider-swap-smoke.mjs",
+    "docs/ecosystem/external-contributions/contributions/groq-provider-swap-smoke/files/groq-provider-swap-smoke.test.mjs",
+    "docs/ecosystem/external-contributions/contributions/groq-provider-swap-smoke/files/README.md"
+  ],
+  "tests": {
+    "command": ["node", "--test", "docs/ecosystem/external-contributions/contributions/groq-provider-swap-smoke/files/groq-provider-swap-smoke.test.mjs"],
+    "cwd": "."
+  },
+  "targetVoice": "Neutral, practical, concise, and executable. Explain the protocol seam without framework promotion.",
+  "maintenanceOwner": null,
+  "outcome": {
+    "state": "pending",
+    "submittedAt": null,
+    "externalUrl": null,
+    "feedback": null
+  }
+}

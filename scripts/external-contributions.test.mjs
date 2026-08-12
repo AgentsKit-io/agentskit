@@ -21,6 +21,7 @@ test('target selection rejects promotional-only targets', () => {
   const { selected, rejected } = selectTargets(targets)
   assert.ok(selected.some((target) => target.id === 'fixture-sample-cli'))
   assert.ok(selected.some((target) => target.id === 'ollama-openai-compat'))
+  assert.ok(selected.some((target) => target.id === 'groq-api-cookbook'))
   assert.ok(rejected.some((entry) => entry.id === 'awesome-ai-agents'))
   assert.ok(!selected.some((target) => target.id === 'awesome-ai-agents'))
 })
@@ -53,6 +54,14 @@ test('utility-first check passes for ollama smoke contribution', () => {
   const ollama = contributions.find((item) => item.id === 'ollama-openai-compat-smoke')
   assert.ok(ollama)
   const result = utilityWithoutPromo(REPO_ROOT, ollama.proposal)
+  assert.equal(result.ok, true, result.reason)
+})
+
+test('utility-first check passes for groq provider-swap contribution', () => {
+  const contributions = loadContributions(REPO_ROOT)
+  const groq = contributions.find((item) => item.id === 'groq-provider-swap-smoke')
+  assert.ok(groq)
+  const result = utilityWithoutPromo(REPO_ROOT, groq.proposal)
   assert.equal(result.ok, true, result.reason)
 })
 
