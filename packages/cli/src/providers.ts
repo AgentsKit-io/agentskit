@@ -2,10 +2,12 @@ import {
   anthropic,
   deepseek,
   gemini,
+  groq,
   grok,
   kimi,
   ollama,
   openai,
+  openrouter,
 } from '@agentskit/adapters'
 import type { AdapterFactory } from '@agentskit/core'
 
@@ -74,6 +76,18 @@ const providers: Record<string, ProviderEntry> = {
     envKeys: ['KIMI_API_KEY', 'MOONSHOT_API_KEY'],
     requiresModel: true,
     factory: (c) => kimi(c),
+  },
+  groq: {
+    label: 'Groq',
+    envKeys: ['GROQ_API_KEY'],
+    defaultModel: 'openai/gpt-oss-120b',
+    factory: (c) => groq(c),
+  },
+  openrouter: {
+    label: 'OpenRouter',
+    envKeys: ['OPENROUTER_API_KEY'],
+    defaultModel: '~anthropic/claude-haiku-latest',
+    factory: (c) => openrouter(c),
   },
 }
 

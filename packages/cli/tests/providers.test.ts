@@ -12,6 +12,8 @@ beforeEach(() => {
   delete process.env.XAI_API_KEY
   delete process.env.KIMI_API_KEY
   delete process.env.MOONSHOT_API_KEY
+  delete process.env.GROQ_API_KEY
+  delete process.env.OPENROUTER_API_KEY
 })
 
 afterEach(() => {
@@ -86,6 +88,26 @@ describe('resolveChatProvider', () => {
     const r = resolveChatProvider({ provider: 'ollama', model: 'llama3.1' })
     expect(r.mode).toBe('live')
     expect(r.model).toBe('llama3.1')
+  })
+
+  it('resolves Groq with its current default model', () => {
+    process.env.GROQ_API_KEY = 'gsk-test-key'
+    const r = resolveChatProvider({ provider: 'groq' })
+    expect(r.provider).toBe('groq')
+    expect(r.model).toBe('openai/gpt-oss-120b')
+    expect(r.mode).toBe('live')
+  })
+
+  it('resolves OpenRouter with a fully-qualified default model', () => {
+    process.env.OPENROUTER_API_KEY = 'sk-or-test-key'
+    const r = resolveChatProvider({ provider: 'openrouter' })
+    expect(r.provider).toBe('openrouter')
+    expect(r.model).toBe('~anthropic/claude-haiku-latest')
+    expect(r.mode).toBe('live')
+  })
+
+  it('requires a key for OpenRouter', () => {
+    expect(() => resolveChatProvider({ provider: 'openrouter' })).toThrow(/OPENROUTER_API_KEY/)
   })
 
   it('case-insensitive provider name', () => {

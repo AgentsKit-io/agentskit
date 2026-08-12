@@ -108,7 +108,7 @@ export const PROVIDER_REGISTRY = [
   {
     id: 'groq',
     label: 'Groq',
-    runtime: 'adapter-only',
+    runtime: 'cli',
     catalogId: 'groq',
     env: { status: 'required', keys: ['GROQ_API_KEY'] },
     reachability: { status: 'supported', url: 'https://api.groq.com/openai/v1/models' },
@@ -117,7 +117,7 @@ export const PROVIDER_REGISTRY = [
   {
     id: 'openrouter',
     label: 'OpenRouter',
-    runtime: 'adapter-only',
+    runtime: 'cli',
     catalogId: 'openrouter',
     env: { status: 'required', keys: ['OPENROUTER_API_KEY'] },
     reachability: { status: 'supported', url: 'https://openrouter.ai/api/v1/models' },
