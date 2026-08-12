@@ -102,8 +102,17 @@ const readJsonServer = (value: unknown, host: string): Record<string, unknown> =
     throw new Error(`invalid coding-agent host config: ${host} is not JSON-serializable`)
   }
   requireValue(isRecord(parsed), `${host} must be a JSON object`)
+  requireValue('mcpServers' in parsed, `${host}.mcpServers must be an object`)
+  requireValue(
+    JSON.stringify(Object.keys(parsed).sort()) === JSON.stringify(['mcpServers']),
+    `${host} must contain only mcpServers`,
+  )
   const servers = parsed.mcpServers
   requireValue(isRecord(servers), `${host}.mcpServers must be an object`)
+  requireValue(
+    JSON.stringify(Object.keys(servers).sort()) === JSON.stringify(['agentskit']),
+    `${host}.mcpServers must contain only agentskit`,
+  )
   const server = servers.agentskit
   requireValue(isRecord(server), `${host}.mcpServers.agentskit must be an object`)
   return server

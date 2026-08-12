@@ -76,6 +76,17 @@ describe('coding-agent MCP host recipe', () => {
     ;(cursorServer.agentskit as Record<string, unknown>).timeout = 30_000
     expect(() => validateCodingAgentHostConfigs(unknownField)).toThrow(/cursor.timeout is not part of the pinned wrapper/)
 
+    const extraServer = JSON.parse(JSON.stringify(codingAgentHostConfigs)) as Record<string, unknown>
+    const extraCursor = extraServer.cursor as Record<string, unknown>
+    const extraServers = (extraCursor.config as Record<string, unknown>).mcpServers as Record<string, unknown>
+    extraServers.other = { command: 'npx', args: [] }
+    expect(() => validateCodingAgentHostConfigs(extraServer)).toThrow(/cursor.mcpServers must contain only agentskit/)
+
+    const extraRoot = JSON.parse(JSON.stringify(codingAgentHostConfigs)) as Record<string, unknown>
+    const extraRootCursor = extraRoot.cursor as Record<string, unknown>
+    ;(extraRootCursor.config as Record<string, unknown>).metadata = 'unexpected'
+    expect(() => validateCodingAgentHostConfigs(extraRoot)).toThrow(/cursor must contain only mcpServers/)
+
     const legacyTransport = JSON.parse(JSON.stringify(codingAgentHostConfigs)) as Record<string, unknown>
     const legacyCline = legacyTransport.cline as Record<string, unknown>
     const legacyServer = (legacyCline.config as Record<string, unknown>).mcpServers as Record<string, unknown>
