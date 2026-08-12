@@ -92,7 +92,7 @@ test('coding-agent MCP recipe proves one safe command across supported hosts', (
     join(REPO_ROOT, 'apps/docs-next/content/docs/reference/recipes/coding-agent-mcp.mdx'),
     'utf8',
   )
-  assert.match(source, /codex mcp add agentskit -- npx -y @agentskit\/mcp@0\.3\.3/)
+  assert.match(source, /codex mcp add agentskit -- npx -y @agentskit\/mcp@\d+\.\d+\.\d+/)
   assert.match(source, /claude mcp add --scope project --transport stdio/)
   assert.match(source, /claudeDesktop/)
   assert.match(source, /\.cursor\/mcp\.json/)
@@ -176,13 +176,14 @@ test('provider-swap recipe keeps one application path and a credential-free proo
     'utf8',
   )
   assert.match(source, /model: 'openrouter\/free'/)
+  assert.match(source, /anthropic, gemini, groq, ollama, openai, openrouter/)
   assert.match(source, /export async function runTask\(adapter: AdapterFactory, task: string\)/)
-  assert.match(source, /OPENROUTER_API_KEY is required/)
+  assert.match(source, /PROVIDER_DEFAULTS/)
   assert.doesNotMatch(source, /fetch\(/)
 
   const atom = runPipeline(REPO_ROOT, 'provider-swap', { runExecutable: true, gateResults: [] })
   assert.equal(atom.executable.ok, true)
-  assert.match(atom.executable.stdout, /^\[local\] Local model received:/)
+  assert.match(atom.executable.stdout, /^\[demo\] Demo model received:/)
   assert.equal(atom.publish.status, 'blocked')
 }, 120_000)
 
@@ -209,6 +210,46 @@ test('provider-swap rejects missing credentials and unknown providers before tra
   })
   assert.notEqual(unknown.status, 0)
   assert.match(unknown.stderr, /Unsupported AGENT_PROVIDER: unknown/)
+})
+
+test('provider recipe and canonical docs stay aligned with adapter configuration', () => {
+  const docsRoot = join(REPO_ROOT, 'apps/docs-next/content/docs')
+  const recipe = readFileSync(join(docsRoot, 'reference/recipes/provider-swap.mdx'), 'utf8')
+  for (const provider of ['openai', 'anthropic', 'gemini', 'openrouter', 'groq', 'ollama']) {
+    assert.ok(recipe.includes(`| \`${provider}\` |`))
+  }
+  assert.match(recipe, /adapter compatibility matrix/)
+
+  const unsupportedOptions = {
+    openai: ['organization', 'project', 'fetch'],
+    anthropic: ['version', 'fetch'],
+    gemini: ['apiVersion', 'fetch'],
+    openrouter: ['appUrl', 'appName', 'fetch'],
+    ollama: ['url', 'fetch'],
+  }
+  for (const [provider, options] of Object.entries(unsupportedOptions)) {
+    const page = readFileSync(join(docsRoot, `data/providers/${provider}.mdx`), 'utf8')
+    for (const option of options) {
+      assert.ok(!page.includes(`| \`${option}\` |`))
+    }
+  }
+
+  const ollama = readFileSync(join(docsRoot, 'data/providers/ollama.mdx'), 'utf8')
+  const choosing = readFileSync(join(docsRoot, 'data/providers/choosing.mdx'), 'utf8')
+  assert.match(ollama, /\| `baseUrl` \| `string` \| `http:\/\/localhost:11434` \|/)
+  assert.match(choosing, /`ollama`\s+\| ✅\s+\| ❌ current adapter/)
+
+  const moreProviders = readFileSync(join(docsRoot, 'reference/recipes/more-providers.mdx'), 'utf8')
+  assert.match(moreProviders, /groq\(\{ apiKey: process\.env\.GROQ_API_KEY!, model: 'openai\/gpt-oss-120b' \}\)/)
+  assert.doesNotMatch(moreProviders, /llama-3\.3-70b-versatile/)
+
+  const mcpCli = readFileSync(join(REPO_ROOT, 'packages/mcp/src/cli.ts'), 'utf8')
+  assert.match(mcpCli, /groq: 'openai\/gpt-oss-120b'/)
+  assert.doesNotMatch(mcpCli, /groq: 'llama-3\.3-70b-versatile'/)
+
+  const stackState = readFileSync(join(REPO_ROOT, 'apps/docs-next/lib/stack-state.ts'), 'utf8')
+  assert.match(stackState, /value: 'groq'.*model: 'openai\/gpt-oss-120b'/)
+  assert.doesNotMatch(stackState, /value: 'groq'.*model: 'llama-3\.3-70b-versatile'/)
 })
 
 test('repurposer preserves claim values from the ledger', () => {

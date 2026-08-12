@@ -34,6 +34,7 @@ pnpm test:external-contributions
 
 1. **sample-cli-version-flag** — fixture target proof with tests  
 2. **ollama-openai-compat-smoke** — real-world draft for HITL (standalone OpenAI-compat smoke script)
+3. **groq-provider-swap-smoke** — real-world draft for HITL (neutral OpenAI-to-Groq migration smoke script)
 
 ## Metrics we track
 

@@ -208,7 +208,7 @@
           "ecosystem.json",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:d4c7cd7c8a7dbe18d6ada6c93ad51a9e6519b2d3607082214da21605ed4492aa"
+        "sourceHash": "sha256:df79aca16932a0a7196b236c2c34b65fbdc9a2f2b596851517c017da89a89271"
       },
       "exceptions": []
     },
@@ -287,7 +287,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:b5aa3feb2338b438d250ab2a38b34a94bbb9f2eb51264c49e1c2b109cf44f2e1"
+        "sourceHash": "sha256:d210b9657181c5e6cc761fcd6e39dee8b1a8b8b631a3fe711a62f0c3956edc4b"
       },
       "exceptions": []
     },
@@ -445,7 +445,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:1f21b2129c368db27fd74f40bbcb67ca2890fd7721ca69b0f04e944000c93a69"
+        "sourceHash": "sha256:42fe7b5e1df07f27683694b8d95a51f99732aefb8dde1aa95d854d687fb9ec7c"
       },
       "exceptions": []
     },
@@ -896,7 +896,7 @@
       "commands": [
         {
           "id": "install",
-          "command": "npx -y @agentskit/mcp@0.3.3 --tools fetch,search",
+          "command": "npx -y @agentskit/mcp@0.3.4 --tools fetch,search",
           "test": "packages/mcp/tests/server.test.ts",
           "testCommand": "pnpm --filter @agentskit/mcp test"
         }
@@ -919,7 +919,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:fab8f5feb3247e2aff6d1c37e474fa082bd277e9b96e30a910a0a461d4a4410c"
+        "sourceHash": "sha256:60dd3eaef1138dfd77da94d75435ee93c562ae9203bea014d733805a94f64a00"
       },
       "exceptions": []
     },
@@ -998,7 +998,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:0231aaac8184e6652431e2ce6fab509552c503d72bd28dd165dd248537bafbf7"
+        "sourceHash": "sha256:9a84389349e686a9cfbd7237080017793b9ae078d2d330687efdb76600af3a0a"
       },
       "exceptions": []
     },

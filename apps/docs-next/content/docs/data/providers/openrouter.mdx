@@ -9,8 +9,6 @@ import { openrouter } from '@agentskit/adapters'
 const adapter = openrouter({
   apiKey: process.env.OPENROUTER_API_KEY!,
   model: 'anthropic/claude-sonnet-4',
-  appUrl: 'https://www.agentskit.io',
-  appName: 'AgentsKit',
 })
 ```
 
@@ -21,9 +19,8 @@ const adapter = openrouter({
 | `apiKey` | `string` | required |
 | `model` | `string` | required |
 | `baseUrl` | `string` | `https://openrouter.ai/api/v1` |
-| `appUrl` | `string` | — (optional attribution) |
-| `appName` | `string` | — |
-| `fetch` | `typeof fetch` | global |
+| `retry` | `RetryOptions` | package default |
+| `includeUsage` | `boolean` | `false` |
 
 ## Why openrouter
 
