@@ -23,25 +23,31 @@ the existing surface.
 
 | Package | Level | Note |
 |---|---|---|
-| `@agentskit/core` | stable | Sacred — every other package depends on its contracts. |
-| `@agentskit/adapters` | stable | 29 provider factories; the contract is locked per ADR 0001. |
-| `@agentskit/runtime` | stable | ReAct loop + delegation per ADR 0006. |
-| `@agentskit/memory` | stable | Per ADR 0003. |
-| `@agentskit/rag` | stable | Per ADR 0004. |
-| `@agentskit/skills` | stable | Per ADR 0005. |
-| `@agentskit/tools` | stable | Per ADR 0002. |
-| `@agentskit/react` | stable | `useChat` shape locked. |
-| `@agentskit/ink` | stable | Mirrors React contract. |
-| `@agentskit/cli` | stable | `chat`, `init`, `run` commands stable. |
-| `@agentskit/templates` | stable | Scaffolding contract stable. |
-| `@agentskit/observability` | beta | Sink set still growing (Datadog, Axiom, New Relic shipped — Splunk / Honeycomb on roadmap). |
-| `@agentskit/eval` | beta | LLM-judge pipeline shipped; broader benchmarks queued. |
-| `@agentskit/sandbox` | beta | E2B backend stable; alternative backends (WebContainer, MicroVM) queued. |
-| `@agentskit/vue` | alpha | Composable contract mirrors React; promotion blocked on coverage gate. |
-| `@agentskit/svelte` | alpha | Store contract mirrors React; promotion blocked on coverage gate. |
-| `@agentskit/solid` | alpha | Hook contract mirrors React; promotion blocked on coverage gate. |
-| `@agentskit/angular` | alpha | Service contract; promotion blocked on coverage gate. |
-| `@agentskit/react-native` | alpha | Hook mirrors React; promotion blocked on coverage gate. |
+| `@agentskit/core` | stable | Sacred package; contract-stable per ADRs 0001–0006. |
+| `@agentskit/adapters` | beta | Provider contract and resilience hardening continue toward 1.0. |
+| `@agentskit/runtime` | beta | ReAct, topology, and durable APIs are still settling. |
+| `@agentskit/tools` | beta | Core tools are usable; integrations and MCP ergonomics evolve. |
+| `@agentskit/memory` | beta | Main backends work; vector-store surface is sharpening. |
+| `@agentskit/skills` | beta | Catalog and contract hardening continue toward promotion. |
+| `@agentskit/observability` | beta | Lifecycle, cost-guard, and provider coverage continue to grow. |
+| `@agentskit/react` | beta | Production-ready; shared `ChatReturn` remains pre-1.0. |
+| `@agentskit/ink` | beta | Terminal parity and keyboard UX continue to mature. |
+| `@agentskit/cli` | beta | Core commands are useful; programmatic surface is settling. |
+| `@agentskit/rag` | beta | Retriever, loader, and resilience contracts are hardening. |
+| `@agentskit/eval` | beta | Suite, replay, snapshot, and CI surfaces are still pre-1.0. |
+| `@agentskit/sandbox` | beta | Lifecycle, config, and backend surfaces are still pre-1.0. |
+| `@agentskit/templates` | beta | Scaffold and validation surfaces are still pre-1.0. |
+| `@agentskit/validation` | beta | Private implementation behind the public tools validation surface. |
+| `@agentskit/statechart` | beta | Serializable interaction-state contract is hardened but pre-1.0. |
+| `@agentskit/eval-braintrust` | beta | Private implementation exposed through the public eval surface. |
+| `@agentskit/observability-langfuse` | beta | Private workspace implementation exposed through observability. |
+| `@agentskit/integrations` | beta | Fetch-only catalog and execution boundaries are still pre-1.0. |
+| `@agentskit/mcp` | beta | Tool bridge and bounded registry surfaces are still pre-1.0. |
+| `@agentskit/vue` | beta | Framework binding at headless parity, still pre-1.0. |
+| `@agentskit/svelte` | beta | Framework binding at headless parity, still pre-1.0. |
+| `@agentskit/solid` | beta | Framework binding at headless parity, still pre-1.0. |
+| `@agentskit/react-native` | beta | Framework binding at headless parity, still pre-1.0. |
+| `@agentskit/angular` | beta | Framework binding at headless parity, still pre-1.0. |
 
 ## Promotion criteria
 
@@ -87,9 +93,8 @@ If you depend on an `alpha` or `beta` package today, do the following:
 
 ## Roadmap
 
-The 5 alpha UI bindings are the most concrete near-term promotion target.
-Once their coverage thresholds are at 70+ (real tests, not the placeholder
-existence checks), promotion follows. The 3 beta packages graduate when
+The framework bindings are the most concrete near-term promotion target.
+Once their coverage thresholds and release evidence are complete, promotion follows. The beta packages graduate when
 their respective ADRs are written + locked.
 
 ## Related

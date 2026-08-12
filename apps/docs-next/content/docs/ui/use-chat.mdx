@@ -13,15 +13,20 @@ signal, Angular service, React Native hook, Ink hook).
 ```ts
 type ChatReturn = {
   messages: Message[]
-  status: 'idle' | 'streaming' | 'error' | 'awaiting-tool'
+  status: 'idle' | 'streaming' | 'complete' | 'error'
+  input: string
+  usage: TokenUsage
   error: Error | null
-  send: (text: string, opts?: SendOptions) => Promise<void>
+  send: (text: string) => Promise<void>
   retry: () => Promise<void>
   stop: () => void
-  clear: () => void
-  approve: (toolCallId: string, result?: unknown) => void
-  deny: (toolCallId: string, reason?: string) => void
-  edit: (messageId: string, text: string) => Promise<void>
+  clear: () => Promise<void>
+  approve: (toolCallId: string) => Promise<void>
+  deny: (toolCallId: string, reason?: string) => Promise<void>
+  edit: (messageId: string, text: string, opts?: EditOptions) => Promise<void>
+  regenerate: (messageId?: string) => Promise<void>
+  setInput: (value: string) => void
+  proposeToolCall: (proposal: Pick<ToolCall, 'id' | 'name' | 'args'>) => Promise<ToolCall>
 }
 ```
 
@@ -29,14 +34,14 @@ type ChatReturn = {
 
 ```ts
 type ChatConfig = {
-  adapter: Adapter
-  tools?: Tool[]
-  skills?: Skill[]
-  memory?: Memory
-  rag?: Retriever
-  system?: string
-  onEvent?: (e: ChatEvent) => void
+  adapter: AdapterFactory
+  tools?: ToolDefinition[]
+  skills?: SkillDefinition[]
+  memory?: ChatMemory
+  retriever?: Retriever
+  systemPrompt?: string
   onError?: (e: Error) => void
+  onMessage?: (message: Message) => void
 }
 ```
 
@@ -60,10 +65,11 @@ safe and has no additional effect.
 | Angular | `import { AgentskitChat } from '@agentskit/angular'` | `constructor(private chat: AgentskitChat)` — `Signal` + `RxJS` |
 | Ink | `import { useChat } from '@agentskit/ink'` | Terminal-safe |
 
-## Events (`onEvent`)
+## Events and observers
 
-`chat.start` · `message.append` · `message.update` · `tool.call` ·
-`tool.result` · `error` · `status.change` · `chat.end`.
+Use `onMessage` for per-message updates or `observers` for the shared
+`AgentEvent` stream. The controller does not expose an `onEvent` option on
+`ChatConfig`; framework bindings mirror the same core contract.
 
 Full schema: [Concepts → mental model](/docs/get-started/concepts/mental-model).
 

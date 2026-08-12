@@ -17,7 +17,7 @@ Braintrust scoring pipeline for AgentsKit. Ships **8 scorers** in two families a
 ## Verified proof
 
 - Package metadata and tests live under `packages/eval-braintrust/`.
-- Package guide: https://www.agentskit.io/docs/packages/eval-braintrust
+- Package guide: https://www.agentskit.io/docs/for-agents/eval-braintrust
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -29,7 +29,7 @@ Braintrust scoring pipeline for AgentsKit. Ships **8 scorers** in two families a
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/eval-braintrust) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/for-agents/eval-braintrust) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Install
 

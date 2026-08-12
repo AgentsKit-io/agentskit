@@ -37,6 +37,9 @@ export const baseOptions: BaseLayoutProps = {
       text: 'Resources',
       items: [
         { text: 'Ecosystem resources', url: '/resources' },
+        { text: 'Integrations', url: '/integrations' },
+        { text: 'Recipes', url: '/recipes' },
+        { text: 'Publications', url: '/publications' },
         { text: 'Examples', url: '/docs/reference/examples' },
         { text: 'Learn', url: '/learn' },
         { text: 'Stack builder', url: '/stack' },

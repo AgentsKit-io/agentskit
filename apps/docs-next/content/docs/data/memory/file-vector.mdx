@@ -6,7 +6,7 @@ description: Pure-JS file-persisted vector store. Zero infra.
 ```ts
 import { fileVectorMemory } from '@agentskit/memory'
 
-const store = fileVectorMemory({ path: '.agentskit/vectors.json', dim: 1536 })
+const store = fileVectorMemory({ path: '.agentskit/vectors' })
 ```
 
 ## Options
@@ -14,8 +14,10 @@ const store = fileVectorMemory({ path: '.agentskit/vectors.json', dim: 1536 })
 | Option | Type | Default |
 |---|---|---|
 | `path` | `string` | required |
-| `dim` | `number` | required |
-| `metric` | `'cosine' \| 'dot' \| 'euclidean'` | `cosine` |
+| `store` | `VectorStore` | Vectra-backed on-disk store |
+
+`path` names a Vectra index directory. Install the optional `vectra` peer for
+the default on-disk store, or provide a custom `VectorStore` implementation.
 
 ## Scale
 

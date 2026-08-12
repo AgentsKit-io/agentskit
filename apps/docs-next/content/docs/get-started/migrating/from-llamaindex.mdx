@@ -27,7 +27,7 @@ Stay with LlamaIndex when:
 | `index.as_retriever()` | The `RAG` instance itself implements `Retriever` | Use it as `retriever:` on the runtime. |
 | `index.as_query_engine()` | `runtime.run(query)` with `retriever` set | Retrieval per-turn is automatic. |
 | `Document(text, metadata)` | `{ content, metadata }` | Same shape, plain object. |
-| `SimpleNodeParser`, `SentenceSplitter` | `chunkText({ chunkSize, chunkOverlap })` | Lower-level helper if you want to chunk yourself. |
+| `SimpleNodeParser`, `SentenceSplitter` | `chunkText(text, { chunkSize, chunkOverlap, split? })` | `split` is `(text: string) => string[]`. `createRAG` defaults 512 / 50. |
 | `OpenAIEmbedding` | `openaiEmbedder({ apiKey, model })` | Embedders are first-class adapters. |
 | `Chroma`, `Pinecone`, `Qdrant`, `Weaviate` | `chroma`, `pinecone`, `qdrant`, `weaviateVectorStore` | All in `@agentskit/memory`. |
 | `OpenAIAgent.from_tools(tools)` | `createRuntime({ adapter, tools })` | Same idea; one runtime for every model. |

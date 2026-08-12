@@ -5,10 +5,11 @@ description: Every AgentsKit package at a glance — what it does, when to reach
 
 import { ContributeCallout } from '@/components/contribute/contribute-callout'
 
-Twenty-one focused packages under `@agentskit/*`. Install what you need; every UI and runtime layer composes against the zero-dep **[@agentskit/core](./core)**.
+Twenty-two published packages under `@agentskit/*`, plus private workspace implementations that back public subpaths. Install what you need; every UI and runtime layer composes against the zero-dep **[@agentskit/core](./core)**.
 
 :::tip API reference
-Full signatures: **[TypeDoc HTML](pathname:///agentskit/api-reference/)** (generated on `pnpm --filter @agentskit/docs build`; for local dev run `pnpm --filter @agentskit/docs docs:api` once).
+Full package contracts: start with each package guide below, then follow its
+generated API links when you need declaration-level signatures.
 :::
 
 ## Foundation
@@ -45,9 +46,11 @@ Full signatures: **[TypeDoc HTML](pathname:///agentskit/api-reference/)** (gener
 
 | Package | One-liner |
 |---|---|
-| [@agentskit/tools](./tools) | Built-in tools + 50 integrations + MCP bridge. |
+| [@agentskit/tools](./tools) | Built-in tools + integration tools + MCP bridge. |
+| [@agentskit/integrations](/docs/for-agents/integrations) | Fetch-only service descriptors and integration catalog. |
+| [@agentskit/mcp](/docs/agents/tools/mcp) | MCP tool bridge and bounded registry transport. |
 | [@agentskit/memory](./memory) | Chat + vector + hierarchical + encrypted + graph memory. |
-| [@agentskit/rag](./rag) | Chunk + retrieve + rerank + hybrid + six loaders. |
+| [@agentskit/rag](./rag) | Chunk + retrieve + rerank + hybrid + document loaders. |
 | [@agentskit/skills](./skills) | Ready-made personas + marketplace. |
 
 ## Observability + evaluation
@@ -66,6 +69,7 @@ Full signatures: **[TypeDoc HTML](pathname:///agentskit/api-reference/)** (gener
 | [@agentskit/sandbox](./sandbox) | Secure code execution + mandatory-sandbox policy. |
 | [@agentskit/cli](./cli) | `agentskit init / chat / run / ai / dev / doctor`. |
 | [@agentskit/templates](./templates) | Starter templates used by `agentskit init`. |
+| [@agentskit/statechart](./statechart) | Serializable interaction state for host-managed UI flows. |
 
 ## See also
 

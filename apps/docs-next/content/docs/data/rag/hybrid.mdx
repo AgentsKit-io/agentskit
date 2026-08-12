@@ -3,13 +3,19 @@ title: Hybrid search
 description: Vector + BM25 blend with weighted normalization.
 ---
 
+`baseRetriever` is any Retriever that already produces vector candidates.
+
+`createHybridRetriever(base, { vectorWeight?, bm25Weight?, topK?, candidatePool? })`
+returns a Retriever. Weights are relative and normalized before blending (defaults
+to `0.6` vector / `0.4` BM25); it considers up to 20 candidates and returns 5 by
+default. If both weights are zero, the blend uses `0.5` / `0.5`.
+
 ```ts
 import { createHybridRetriever } from '@agentskit/rag'
 
-const retriever = createHybridRetriever({
-  vector: rag,
-  lexical: bm25Index,
-  weights: { vector: 0.7, lexical: 0.3 },
+const hybrid = createHybridRetriever(baseRetriever, {
+  vectorWeight: 0.7,
+  bm25Weight: 0.3,
 })
 ```
 

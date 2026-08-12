@@ -1,7 +1,9 @@
-// AUTO-GENERATED from GSC "Not found (404)" export (2026-05-19).
-// 226 crawled-but-404 URLs from doc IA churn. Each destination verified
-// against the live sitemap (or its nearest live ancestor section).
-// Junk (code-snippet file paths, unbuilt locales) intentionally left to 404.
+// AUTO-GENERATED from GSC "Not found (404)" exports (latest source: 2026-06-03).
+// 203 explicit crawled-but-404 candidates from doc IA churn. Grok CLI
+// classification: 42 extension-normalization, 87 same-leaf IA moves, 30
+// API-symbol-to-ancestor moves, and 44 dead-page-to-ancestor fallbacks.
+// The remaining 23 URLs (code-snippet paths, unbuilt locales, and junk) are
+// intentionally left to 404. Every destination below is a current docs route.
 // Prepended before the wildcard rules so first-match wins over stale chains.
 export const LEGACY_404_REDIRECTS = [
   // From GSC "Not found (404)" export 2026-06-03: reference recipes moved under /recipes; a2a spec moved under /specs.

@@ -73,7 +73,7 @@ Heavy backends live in [`@agentskit/memory`](/docs/reference/packages/memory); v
 | `AdapterError` | Thrown on adapter/stream failures; links to adapter docs |
 | `ToolError` | Thrown on tool lookup or execution failures; links to tool docs |
 | `MemoryError` | Thrown on memory load/save/deserialize failures; links to memory docs |
-| `ConfigError` | Thrown on invalid configuration; links to configuration docs |
+| `ConfigError` | Thrown on invalid configuration; links to [error handling](/docs/get-started/concepts/errors) |
 | `ErrorCodes` | `as const` map of all `AK_*` error code strings |
 
 See [Error handling](#error-handling-1) below for usage examples.
@@ -144,6 +144,9 @@ import {
   ToolError,
   MemoryError,
   ConfigError,
+  RuntimeError,
+  SandboxError,
+  SkillError,
   ErrorCodes,
 } from '@agentskit/core'
 ```
@@ -152,9 +155,12 @@ import {
 |-------|-------------|
 | `AgentsKitError` | Base class — all errors extend this |
 | `AdapterError` | Adapter is missing or a stream call fails |
-| `ToolError` | A tool is not found or its `execute` throws |
-| `MemoryError` | Memory load, save, or deserialization fails |
+| `ToolError` | A tool is missing, forbidden, invalid, or its `execute` call fails |
+| `MemoryError` | Memory load, save, deserialization, or backend access fails |
 | `ConfigError` | Required configuration is absent or invalid |
+| `RuntimeError` | Runtime input, step, or delegation fails |
+| `SandboxError` | Sandbox policy, backend, or peer setup fails |
+| `SkillError` | A skill is invalid or duplicated |
 
 ### Error shape
 
@@ -172,7 +178,7 @@ class AgentsKitError extends Error {
 ```
 error[AK_ADAPTER_MISSING]: No adapter provided
   --> Hint: Pass an adapter when creating the chat controller, e.g.
-            createChatController({ adapter: openaiAdapter() })
+            createChatController({ adapter: openai({ apiKey, model: 'gpt-4o' }) })
   --> Docs: https://www.agentskit.io/docs/data/providers
 ```
 
@@ -185,11 +191,30 @@ ErrorCodes.AK_ADAPTER_MISSING          // adapter not provided
 ErrorCodes.AK_ADAPTER_STREAM_FAILED    // streaming call failed
 ErrorCodes.AK_TOOL_NOT_FOUND          // tool name not registered
 ErrorCodes.AK_TOOL_EXEC_FAILED        // execute() threw
+ErrorCodes.AK_TOOL_PEER_MISSING       // optional tool peer is not installed
+ErrorCodes.AK_TOOL_INVALID_INPUT      // tool arguments or proposal are invalid
+ErrorCodes.AK_TOOL_QUOTA_EXCEEDED     // tool execution exceeds its quota
+ErrorCodes.AK_TOOL_FORBIDDEN          // tool execution is denied by policy
 ErrorCodes.AK_MEMORY_LOAD_FAILED      // memory.load() failed
 ErrorCodes.AK_MEMORY_SAVE_FAILED      // memory.save() failed
 ErrorCodes.AK_MEMORY_DESERIALIZE_FAILED // corrupt persisted state
+ErrorCodes.AK_MEMORY_PEER_MISSING     // optional memory backend is not installed
+ErrorCodes.AK_MEMORY_REMOTE_HTTP      // remote memory request failed
 ErrorCodes.AK_CONFIG_INVALID          // missing or bad config
+ErrorCodes.AK_RUNTIME_INVALID_INPUT   // runtime input is invalid
+ErrorCodes.AK_RUNTIME_STEP_FAILED     // a runtime step failed
+ErrorCodes.AK_RUNTIME_DELEGATE_FAILED // delegated agent execution failed
+ErrorCodes.AK_SANDBOX_DENIED          // sandbox policy denied execution
+ErrorCodes.AK_SANDBOX_INVALID_TOOL    // tool is invalid for the sandbox
+ErrorCodes.AK_SANDBOX_PEER_MISSING    // optional sandbox backend is not installed
+ErrorCodes.AK_SANDBOX_BACKEND_FAILED  // sandbox backend failed
+ErrorCodes.AK_SKILL_INVALID           // skill definition is invalid
+ErrorCodes.AK_SKILL_DUPLICATE         // skill identity is duplicated
 ```
+
+RAG loader and reranker errors are package-specific. Import
+`RagError` / `RagErrorCodes` from `@agentskit/rag` for
+`AK_RAG_LOAD_FAILED`, `AK_RAG_PEER_MISSING`, and `AK_RAG_RERANK_FAILED`.
 
 ### Catching and narrowing errors
 

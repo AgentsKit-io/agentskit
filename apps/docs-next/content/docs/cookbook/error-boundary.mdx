@@ -5,8 +5,11 @@ description: Surface LLM and tool errors without crashing the UI or silently hid
 
 Agents fail in interesting ways: timeouts, malformed tool args, provider outages, budget exceeded. Show the user something useful instead of a spinning loader that never ends.
 
+`useChat` exposes `error: Error | null`. There is no `ChatError` type — narrow with `AgentsKitError` and `ErrorCodes`.
+
 ```tsx
-import { useChat, type ChatError } from '@agentskit/react'
+import { useChat } from '@agentskit/react'
+import { AgentsKitError, ErrorCodes } from '@agentskit/core'
 
 export function Chat() {
   const { messages, error, retry } = useChat({ adapter })
@@ -21,14 +24,19 @@ export function Chat() {
   )
 }
 
-function ErrorBox({ error, onRetry }: { error: ChatError; onRetry: () => void }) {
-  if (error.code === 'budget_exceeded') {
-    return <p>You hit your daily token limit. Resets at midnight UTC.</p>
-  }
-  if (error.code === 'tool_failed') {
+function ErrorBox({ error, onRetry }: { error: Error; onRetry: () => void }) {
+  if (error instanceof AgentsKitError) {
+    if (error.code === ErrorCodes.AK_TOOL_EXEC_FAILED) {
+      return (
+        <p>
+          A tool couldn't run. {error.hint ?? error.message}{' '}
+          <button onClick={onRetry}>Try again</button>
+        </p>
+      )
+    }
     return (
       <p>
-        Action <code>{error.toolName}</code> couldn't run. <button onClick={onRetry}>Try again</button>
+        {error.message} <button onClick={onRetry}>Retry</button>
       </p>
     )
   }
@@ -37,5 +45,5 @@ function ErrorBox({ error, onRetry }: { error: ChatError; onRetry: () => void })
 ```
 
 <Tip>
-`ChatError` is a **discriminated union**. Let TypeScript narrow each branch — never `catch (e: any)` and render `String(e)`.
+`ChatReturn.error` is `Error | null`. Use `instanceof AgentsKitError` and compare `error.code` to `ErrorCodes` — never `catch (e: any)` and render `String(e)`.
 </Tip>

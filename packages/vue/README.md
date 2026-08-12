@@ -18,7 +18,7 @@ Vue 3 composable + headless chat components. Same `ChatReturn` contract every Ag
 ## Verified proof
 
 - Package metadata and tests live under `packages/vue/`.
-- Package guide: https://www.agentskit.io/docs/packages/vue
+- Package guide: https://www.agentskit.io/docs/reference/packages/vue
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -30,7 +30,7 @@ Vue 3 composable + headless chat components. Same `ChatReturn` contract every Ag
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/vue) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/reference/packages/vue) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why
 
@@ -105,7 +105,7 @@ MIT — see [LICENSE](../../LICENSE).
 
 ## Docs
 
-[Full documentation](https://www.agentskit.io/docs/packages/vue) · [GitHub](https://github.com/AgentsKit-io/agentskit)
+[Full documentation](https://www.agentskit.io/docs/reference/packages/vue) · [GitHub](https://github.com/AgentsKit-io/agentskit)
 
 ## Quick start
 

@@ -78,15 +78,17 @@ and the [tool ecosystem](/docs/agents/tools/integrations).
 [chroma](/docs/data/memory/chroma) ·
 [upstash](/docs/data/memory/upstash-vector)
 
-**Wrappers:** `createEncryptedMemory`, `createHierarchicalMemory`,
-`createVirtualizedMemory`, `createAutoSummarizingMemory`,
+**Wrappers (memory):** `createEncryptedMemory`, `createHierarchicalMemory`,
 `createInMemoryGraph`, `createInMemoryPersonalization` —
 [encrypted](/docs/data/memory/encrypted) ·
 [hierarchical](/docs/data/memory/hierarchical) ·
-[virtualized](/docs/data/memory/virtualized) ·
-[auto-summarize](/docs/data/memory/auto-summarize) ·
 [graph](/docs/data/memory/graph) ·
 [personalization](/docs/data/memory/personalization)
+
+**Wrappers (core):** `createVirtualizedMemory` from `@agentskit/core`;
+`createAutoSummarizingMemory` from `@agentskit/core/auto-summarize` —
+[virtualized](/docs/data/memory/virtualized) ·
+[auto-summarize](/docs/data/memory/auto-summarize)
 
 ## Retriever — RAG pipeline
 
@@ -95,8 +97,8 @@ and the [tool ecosystem](/docs/agents/tools/integrations).
 **Core:** `createRAG`, `chunkText` —
 [createRAG](/docs/data/rag/create-rag) · [chunking](/docs/data/rag/chunking)
 
-**Rerankers:** `createRerankedRetriever`, `cohereReranker`,
-`bgeReranker`, `bm25Reranker` — [deep dive](/docs/data/rag/rerank)
+**Rerankers:** `createRerankedRetriever`, `voyageReranker`,
+`jinaReranker`, `bm25Rerank` — [deep dive](/docs/data/rag/rerank)
 
 **Hybrid:** `createHybridRetriever` — [deep dive](/docs/data/rag/hybrid)
 

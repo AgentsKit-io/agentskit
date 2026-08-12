@@ -35,7 +35,6 @@ const DOC_REDIRECTS = [
   { source: '/docs/tools', destination: '/docs/agents/tools', permanent: true },
   { source: '/docs/skills/:slug*', destination: '/docs/agents/skills/:slug*', permanent: true },
   { source: '/docs/skills', destination: '/docs/agents/skills', permanent: true },
-  { source: '/docs/agents/tools', destination: '/docs/agents/tools', permanent: false }, // self no-op retained for old redirect fallback
 
   // Tab restructure — Production
   { source: '/docs/observability/:slug*', destination: '/docs/production/observability/:slug*', permanent: true },
@@ -52,6 +51,7 @@ const DOC_REDIRECTS = [
   { source: '/docs/infrastructure/:slug*', destination: '/docs/reference/packages/:slug*', permanent: true },
 
   // Tab restructure — Reference
+  { source: '/docs/packages/integrations', destination: '/docs/for-agents/integrations', permanent: true },
   { source: '/docs/packages/:slug*', destination: '/docs/reference/packages/:slug*', permanent: true },
   { source: '/docs/packages', destination: '/docs/reference/packages', permanent: true },
   // For agents is its own top-level tab — keep the short legacy path working

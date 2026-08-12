@@ -17,7 +17,7 @@ integration is HTTP/`fetch`-only: no vendor SDKs are bundled or required
 ## Verified proof
 
 - Package metadata and tests live under `packages/integrations/`.
-- Package guide: https://www.agentskit.io/docs/packages/integrations
+- Package guide: https://www.agentskit.io/docs/for-agents/integrations
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -29,7 +29,7 @@ integration is HTTP/`fetch`-only: no vendor SDKs are bundled or required
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/integrations) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/for-agents/integrations) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Install
 

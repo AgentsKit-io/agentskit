@@ -18,7 +18,7 @@ The zero-dependency foundation that every AgentsKit package builds on — 5 KB g
 ## Verified proof
 
 - Package metadata and tests live under `packages/core/`.
-- Package guide: https://www.agentskit.io/docs/packages/core
+- Package guide: https://www.agentskit.io/docs/reference/packages/core
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -30,7 +30,7 @@ The zero-dependency foundation that every AgentsKit package builds on — 5 KB g
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/core) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/reference/packages/core) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why core
 
@@ -90,11 +90,11 @@ try {
   if (err instanceof ToolError) {
     // err.code     → 'AK_TOOL_EXEC_FAILED'
     // err.hint     → actionable suggestion
-    // err.docsUrl  → https://www.agentskit.io/docs/tools
+    // err.docsUrl  → https://www.agentskit.io/docs/agents/tools
     console.error(err.toString())
     // error[AK_TOOL_EXEC_FAILED]: ...
     //   --> Hint: ...
-    //   --> Docs: https://www.agentskit.io/docs/tools
+    //   --> Docs: https://www.agentskit.io/docs/agents/tools
   }
 }
 ```
@@ -107,10 +107,25 @@ Available error codes (via `ErrorCodes`):
 | `AK_ADAPTER_STREAM_FAILED` | streaming call to the provider fails |
 | `AK_TOOL_NOT_FOUND` | requested tool name is not registered |
 | `AK_TOOL_EXEC_FAILED` | `execute()` throws |
+| `AK_TOOL_PEER_MISSING` | optional tool peer dependency is not installed |
+| `AK_TOOL_INVALID_INPUT` | tool arguments or proposal are invalid |
+| `AK_TOOL_QUOTA_EXCEEDED` | tool execution exceeds its configured quota |
+| `AK_TOOL_FORBIDDEN` | tool execution is denied by policy |
 | `AK_MEMORY_LOAD_FAILED` | memory.load() fails |
 | `AK_MEMORY_SAVE_FAILED` | memory.save() fails |
 | `AK_MEMORY_DESERIALIZE_FAILED` | persisted state is corrupt |
+| `AK_MEMORY_PEER_MISSING` | optional memory backend is not installed |
+| `AK_MEMORY_REMOTE_HTTP` | remote memory request fails |
 | `AK_CONFIG_INVALID` | required config is missing or wrong type |
+| `AK_RUNTIME_INVALID_INPUT` | runtime input is invalid |
+| `AK_RUNTIME_STEP_FAILED` | a runtime step fails |
+| `AK_RUNTIME_DELEGATE_FAILED` | delegated agent execution fails |
+| `AK_SANDBOX_DENIED` | sandbox policy denies execution |
+| `AK_SANDBOX_INVALID_TOOL` | tool is not valid for the sandbox |
+| `AK_SANDBOX_PEER_MISSING` | optional sandbox backend is not installed |
+| `AK_SANDBOX_BACKEND_FAILED` | sandbox backend fails |
+| `AK_SKILL_INVALID` | skill definition is invalid |
+| `AK_SKILL_DUPLICATE` | skill identity is duplicated |
 
 ## Type-safe tools with `defineTool`
 
@@ -151,7 +166,7 @@ Use `InferSchemaType<typeof schema>` to reference the inferred type elsewhere in
 | `@agentskit/core/manifest` | Skill + tool manifest format (MCP-compatible) |
 | `@agentskit/core/eval-format` | Portable eval dataset + run-result JSON |
 
-See each page under [docs.agentskit.io / for-agents](https://www.agentskit.io/docs/for-agents/core) for the full contract.
+See the [core guide for agents](https://www.agentskit.io/docs/for-agents/core) for the full contract.
 
 ## Ecosystem
 

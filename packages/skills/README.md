@@ -18,7 +18,7 @@ Reusable agent personas and behavioral instructions — skills describe what you
 ## Verified proof
 
 - Package metadata and tests live under `packages/skills/`.
-- Package guide: https://www.agentskit.io/docs/packages/skills
+- Package guide: https://www.agentskit.io/docs/reference/packages/skills
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -30,7 +30,7 @@ Reusable agent personas and behavioral instructions — skills describe what you
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/skills) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/reference/packages/skills) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why skills
 

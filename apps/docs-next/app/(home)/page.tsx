@@ -17,7 +17,7 @@ import { alternatesFor } from '@/lib/locales'
 import softwareIdentity from '@/lib/software-identity.generated.json'
 
 export const metadata = {
-  title: `${agentsKitIdentity.name}.js — ${agentsKitIdentity.promise}`,
+  title: 'TypeScript AI agent framework',
   description: `${agentsKitIdentity.promise} A composable TypeScript foundation for runtime, tools, memory, RAG, and chat interfaces.`,
   alternates: {
     canonical: canonicalUrl('/'),
@@ -131,6 +131,16 @@ function Hero() {
           <p className="mt-6 max-w-xl border-l-2 border-ak-green pl-4 text-sm leading-relaxed text-ak-graphite">
             Built for {agentsKitIdentity.audience}
           </p>
+          <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[11px] uppercase tracking-[0.14em] text-ak-graphite/80">
+            <span>{agentsKitIdentity.role}</span>
+            <span aria-hidden="true">·</span>
+            <span>{agentsKitIdentity.maturity}</span>
+            {agentsKitIdentity.proof.length > 0 && (
+              <span className="w-full normal-case tracking-normal text-ak-graphite">
+                {agentsKitIdentity.proof.map((claim) => `${claim.value} ${claim.noun}`).join(' · ')}
+              </span>
+            )}
+          </div>
         </div>
 
         <div className="min-w-0">

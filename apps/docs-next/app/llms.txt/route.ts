@@ -85,6 +85,10 @@ export function GET() {
 
   lines.push('## Optional')
   lines.push('')
+  lines.push(`- [Ecosystem hub](${SITE}/ecosystem): canonical product mesh and package matrix`)
+  lines.push(`- [Integrations hub](${SITE}/integrations): verified connectors for TypeScript AI agents`)
+  lines.push(`- [Recipes hub](${SITE}/recipes): copy-paste implementation patterns for production agents`)
+  lines.push(`- [Publications hub](${SITE}/publications): first-party releases and engineering deep dives`)
   lines.push(`- [Ecosystem resources](${SITE}/resources): verified tools, MCP registries, publications, directories, trust signals, and contributor surfaces`)
   lines.push(`- [Public resources JSON](${SITE}/resources.json): machine-readable projection of the curated resource catalog`)
   lines.push(`- [Full markdown index](${SITE}/llms-full.txt): complete text of every docs page in one file`)

@@ -18,7 +18,7 @@ Let agents write and run code safely — in isolated cloud VMs (E2B), constraine
 ## Verified proof
 
 - Package metadata and tests live under `packages/sandbox/`.
-- Package guide: https://www.agentskit.io/docs/packages/sandbox
+- Package guide: https://www.agentskit.io/docs/reference/packages/sandbox
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 - Graduation track: [RFC 0013](../../rfcs/0013-sandbox-stable.md) (Proposed — not stable)
 
@@ -31,7 +31,7 @@ Let agents write and run code safely — in isolated cloud VMs (E2B), constraine
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/sandbox) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/reference/packages/sandbox) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why sandbox
 

@@ -18,7 +18,7 @@ Connect to any LLM provider — and swap between them — without touching your 
 ## Verified proof
 
 - Package metadata and tests live under `packages/adapters/`.
-- Package guide: https://www.agentskit.io/docs/packages/adapters
+- Package guide: https://www.agentskit.io/docs/reference/packages/adapters
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -30,12 +30,12 @@ Connect to any LLM provider — and swap between them — without touching your 
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/adapters) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/reference/packages/adapters) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why adapters
 
 - **Vendor independence** — switch from OpenAI to Anthropic to a local Ollama model by changing one line; your hooks, runtime, and tools stay untouched
-- **20+ providers included** — Anthropic, OpenAI, Gemini, Ollama, DeepSeek, Grok, Kimi, Mistral, Cohere, Together, Groq, Fireworks, OpenRouter, Hugging Face, LM Studio, vLLM, llama.cpp, LangChain, Vercel AI SDK, and any raw `ReadableStream`
+- **25 native adapters in the catalog** — Anthropic, OpenAI, Gemini, Ollama, DeepSeek, Grok, Kimi, Mistral, Cohere, Together, Groq, Fireworks, OpenRouter, Hugging Face, LM Studio, vLLM, llama.cpp, LangChain, Vercel AI SDK, and additional compatible providers
 - **Embedder functions built in** — the same adapter pattern covers text embeddings, so you can reuse provider config for both chat and RAG
 - **One-line local AI** — `ollama({ model: 'llama3.1' })` for fully offline agents with no API key required
 
@@ -110,7 +110,7 @@ const router = createRouter({
 })
 ```
 
-See [Adapter router](https://www.agentskit.io/docs/recipes/adapter-router), [Ensemble](https://www.agentskit.io/docs/recipes/adapter-ensemble), and [Fallback chain](https://www.agentskit.io/docs/recipes/fallback-chain).
+See [Adapter router](https://www.agentskit.io/docs/reference/recipes/adapter-router), [Ensemble](https://www.agentskit.io/docs/reference/recipes/adapter-ensemble), and [Fallback chain](https://www.agentskit.io/docs/reference/recipes/fallback-chain).
 
 ## Ecosystem
 

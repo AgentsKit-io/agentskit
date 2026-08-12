@@ -210,7 +210,7 @@ CI runs all of these on every PR. Run them locally first to avoid burning CI min
 If your change affects what a consumer sees or does:
 
 - Update the relevant page in `apps/docs-next/content/docs/`
-- Add a recipe if you've added a new building block (`apps/docs-next/content/docs/recipes/`)
+- Add a recipe if you've added a new building block (`apps/docs-next/content/docs/reference/recipes/`)
 - Update the relevant ADR if you've changed how a contract behaves (rare — usually a new ADR superseding the old one)
 - Update the package's `README.md` if its public surface changed
 

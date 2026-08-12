@@ -18,7 +18,7 @@ Measure agent quality with numbers, not vibes — ship with confidence.
 ## Verified proof
 
 - Package metadata and tests live under `packages/eval/`.
-- Package guide: https://www.agentskit.io/docs/packages/eval
+- Package guide: https://www.agentskit.io/docs/reference/packages/eval
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -30,7 +30,7 @@ Measure agent quality with numbers, not vibes — ship with confidence.
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/eval) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/reference/packages/eval) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why eval
 

@@ -18,7 +18,7 @@ SolidJS hook + headless chat components. Same `ChatReturn` contract every Agents
 ## Verified proof
 
 - Package metadata and tests live under `packages/solid/`.
-- Package guide: https://www.agentskit.io/docs/packages/solid
+- Package guide: https://www.agentskit.io/docs/reference/packages/solid
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -30,7 +30,7 @@ SolidJS hook + headless chat components. Same `ChatReturn` contract every Agents
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/solid) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/reference/packages/solid) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why
 
@@ -107,7 +107,7 @@ MIT — see [LICENSE](../../LICENSE).
 
 ## Docs
 
-[Full documentation](https://www.agentskit.io/docs/packages/solid) · [GitHub](https://github.com/AgentsKit-io/agentskit)
+[Full documentation](https://www.agentskit.io/docs/reference/packages/solid) · [GitHub](https://github.com/AgentsKit-io/agentskit)
 
 ## Maturity and compatibility
 

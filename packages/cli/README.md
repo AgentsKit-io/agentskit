@@ -20,7 +20,7 @@ Chat with any LLM, scaffold projects, and run agents — all from your terminal.
 ## Verified proof
 
 - Package metadata and tests live under `packages/cli/`.
-- Package guide: https://www.agentskit.io/docs/packages/cli
+- Package guide: https://www.agentskit.io/docs/reference/packages/cli
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -32,7 +32,7 @@ Chat with any LLM, scaffold projects, and run agents — all from your terminal.
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/cli) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/reference/packages/cli) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why cli
 

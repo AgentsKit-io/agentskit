@@ -7,21 +7,21 @@ Want a working RAG agent rather than wiring the pipeline yourself? The [Registry
 
 ## Core pipeline
 
-- `createRAG({ embed, store })` — one-liner ingest + retrieve + search.
-- `chunkText({ chunkSize, chunkOverlap, split })` — standalone splitter.
+- `createRAG({ embed, store })` — one-liner ingest + retrieve + search. Defaults: `chunkSize` 512, `chunkOverlap` 50.
+- `chunkText(text, { chunkSize, chunkOverlap, split? })` — standalone splitter. `split` is an optional `(text: string) => string[]`.
 
 ## Reranking + hybrid
 
-- `createRerankedRetriever` — plug in Cohere Rerank, BGE, or the built-in BM25.
+- `createRerankedRetriever(base, { candidatePool?, topK?, rerank? })` — plug in `voyageReranker`, `jinaReranker`, or the built-in `bm25Rerank`.
 - `createHybridRetriever` — vector + BM25 blend with weighted normalization.
 - [Recipe: RAG reranking](/docs/reference/recipes/rag-reranking).
 
 ## Document loaders
 
-- `loadUrl`, `loadGitHubFile`, `loadGitHubTree`, `loadNotionPage`, `loadConfluencePage`, `loadGoogleDriveFile`, `loadPdf` (BYO parser).
+- `loadUrl` (raw response text), `loadGitHubFile`, `loadGitHubTree`, `loadNotionPage`, `loadConfluencePage`, `loadGoogleDriveFile`, `loadPdf` (BYO parser). All return `InputDocument[]`.
 - [Recipe: Document loaders](/docs/reference/recipes/doc-loaders).
 
-*Per-loader + per-reranker deep dives land in step 4 of the docs IA rollout.*
+Loader and reranker guides are available through the [document loaders recipe](/docs/reference/recipes/doc-loaders) and [RAG reranking recipe](/docs/reference/recipes/rag-reranking).
 
 ## Related
 

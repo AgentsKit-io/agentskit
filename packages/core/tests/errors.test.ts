@@ -5,6 +5,9 @@ import {
   ToolError,
   MemoryError,
   ConfigError,
+  RuntimeError,
+  SandboxError,
+  SkillError,
   ErrorCodes,
 } from '../src/errors'
 
@@ -84,7 +87,7 @@ describe('AdapterError', () => {
       code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,
       message: 'stream broke',
     })
-    expect(err.docsUrl).toContain('/adapters')
+    expect(err.docsUrl).toBe('https://www.agentskit.io/docs/data/providers')
   })
 
   it('allows overriding docsUrl', () => {
@@ -106,7 +109,7 @@ describe('ToolError', () => {
     expect(err).toBeInstanceOf(AgentsKitError)
     expect(err).toBeInstanceOf(ToolError)
     expect(err.name).toBe('ToolError')
-    expect(err.docsUrl).toContain('/tools')
+    expect(err.docsUrl).toBe('https://www.agentskit.io/docs/agents/tools')
   })
 })
 
@@ -119,7 +122,7 @@ describe('MemoryError', () => {
     expect(err).toBeInstanceOf(AgentsKitError)
     expect(err).toBeInstanceOf(MemoryError)
     expect(err.name).toBe('MemoryError')
-    expect(err.docsUrl).toContain('/memory')
+    expect(err.docsUrl).toBe('https://www.agentskit.io/docs/data/memory')
   })
 })
 
@@ -133,8 +136,22 @@ describe('ConfigError', () => {
     expect(err).toBeInstanceOf(AgentsKitError)
     expect(err).toBeInstanceOf(ConfigError)
     expect(err.name).toBe('ConfigError')
-    expect(err.docsUrl).toContain('/configuration')
+    expect(err.docsUrl).toBe('https://www.agentskit.io/docs/get-started/concepts/errors')
     expect(err.hint).toBe('check your config object')
+  })
+})
+
+describe('domain docs links', () => {
+  it('uses canonical docs routes for every built-in error subclass', () => {
+    expect(new RuntimeError({ code: 'AK_TEST', message: 'runtime' }).docsUrl).toBe(
+      'https://www.agentskit.io/docs/agents/runtime',
+    )
+    expect(new SandboxError({ code: 'AK_TEST', message: 'sandbox' }).docsUrl).toBe(
+      'https://www.agentskit.io/docs/production/security/mandatory-sandbox',
+    )
+    expect(new SkillError({ code: 'AK_TEST', message: 'skill' }).docsUrl).toBe(
+      'https://www.agentskit.io/docs/agents/skills',
+    )
   })
 })
 
@@ -162,6 +179,6 @@ describe('toString() multiline format', () => {
     expect(lines).toHaveLength(3)
     expect(lines[0]).toBe('error[AK_TOOL_NOT_FOUND]: Tool "webSearch" not found or has no execute function')
     expect(lines[1]).toBe('  --> Hint: Register the tool in your ChatConfig, e.g. { tools: [webSearchTool] }.')
-    expect(lines[2]).toMatch(/^ {2}--> Docs: https:\/\/www\.agentskit\.io\/docs\/tools$/)
+    expect(lines[2]).toMatch(/^ {2}--> Docs: https:\/\/www\.agentskit\.io\/docs\/agents\/tools$/)
   })
 })

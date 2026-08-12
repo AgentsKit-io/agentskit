@@ -14,7 +14,7 @@ Langfuse tracing adapter for AgentsKit. Emits one trace per agent run with neste
 ## Verified proof
 
 - Package metadata and tests live under `packages/observability-langfuse/`.
-- Package guide: https://www.agentskit.io/docs/packages/observability-langfuse
+- Package guide: https://www.agentskit.io/docs/for-agents/observability-langfuse
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -26,7 +26,7 @@ Langfuse tracing adapter for AgentsKit. Emits one trace per agent run with neste
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/observability-langfuse) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/for-agents/observability-langfuse) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Install
 

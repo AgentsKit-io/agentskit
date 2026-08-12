@@ -107,7 +107,10 @@ function postprocess(dir, pkgName) {
       const raw = readFileSync(p, 'utf8')
       const isReadme = entry.name === 'README.md'
       const title = isReadme ? `@agentskit/${pkgName}` : entry.name.replace(/\.md$/, '')
-      const description = `Auto-generated API reference for ${title}.`
+      const description =
+        pkgName === 'core' && title === 'ArgsValidator'
+          ? 'ArgsValidator contract for validating TypeScript AI agent tool arguments against JSON Schema before execution.'
+          : `Auto-generated API reference for ${title}.`
       const frontmatter = `---\ntitle: ${JSON.stringify(title)}\ndescription: ${JSON.stringify(description)}\n---\n\n`
       const body = escapeMdx(raw)
       const newPath = isReadme ? join(d, 'index.md') : p

@@ -20,7 +20,7 @@ and publish.
 ## Verified proof
 
 - Package metadata and tests live under `packages/templates/`.
-- Package guide: https://www.agentskit.io/docs/packages/templates
+- Package guide: https://www.agentskit.io/docs/reference/packages/templates
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -33,7 +33,7 @@ and package starters without inventing package shape from scratch.
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/templates) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/reference/packages/templates) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why templates
 

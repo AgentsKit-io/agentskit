@@ -37,7 +37,7 @@ const RESOURCE_LABELS: Record<PublicResourceType, { title: string; description: 
 }
 
 export const metadata: Metadata = {
-  title: 'Resources — publications, registries, and ecosystem proof',
+  title: 'Resources: proofs, registries, publications',
   description:
     'Explore official AgentsKit tools, MCP registries, technical publications, independent listings, trust signals, and contributor resources.',
   alternates: { canonical: canonicalUrl('/resources') },
@@ -72,6 +72,13 @@ const structuredData = {
     '@type': 'WebSite',
     name: 'AgentsKit.js',
     url: canonicalUrl('/'),
+  },
+  breadcrumb: {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', url: canonicalUrl('/') },
+      { '@type': 'ListItem', position: 2, name: 'Resources', url: canonicalUrl('/resources') },
+    ],
   },
   mainEntity: {
     '@type': 'ItemList',

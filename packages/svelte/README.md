@@ -18,7 +18,7 @@ Svelte 5 store + headless chat components. Same `ChatReturn` contract every Agen
 ## Verified proof
 
 - Package metadata and tests live under `packages/svelte/`.
-- Package guide: https://www.agentskit.io/docs/packages/svelte
+- Package guide: https://www.agentskit.io/docs/reference/packages/svelte
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -30,7 +30,7 @@ Svelte 5 store + headless chat components. Same `ChatReturn` contract every Agen
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/svelte) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/reference/packages/svelte) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why
 
@@ -100,7 +100,7 @@ MIT — see [LICENSE](../../LICENSE).
 
 ## Docs
 
-[Full documentation](https://www.agentskit.io/docs/packages/svelte) · [GitHub](https://github.com/AgentsKit-io/agentskit)
+[Full documentation](https://www.agentskit.io/docs/reference/packages/svelte) · [GitHub](https://github.com/AgentsKit-io/agentskit)
 
 ## Quick start
 

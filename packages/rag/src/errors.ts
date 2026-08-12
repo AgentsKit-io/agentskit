@@ -1,5 +1,7 @@
 import { AgentsKitError } from '@agentskit/core'
 
+const RAG_DOCS_URL = 'https://www.agentskit.io/docs/data/rag'
+
 /**
  * Error codes raised by `@agentskit/rag` loaders and rerankers. Kept local to
  * the package (rather than in core's `ErrorCodes`) because they describe RAG
@@ -23,7 +25,7 @@ export type RagErrorCode = (typeof RagErrorCodes)[keyof typeof RagErrorCodes]
  */
 export class RagError extends AgentsKitError {
   constructor(options: { code: RagErrorCode; message: string; hint?: string; cause?: unknown }) {
-    super(options)
+    super({ docsUrl: RAG_DOCS_URL, ...options })
     this.name = 'RagError'
   }
 }

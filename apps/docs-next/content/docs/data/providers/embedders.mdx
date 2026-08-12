@@ -8,18 +8,15 @@ description: Turn text into vectors. Used by RAG + vector memory.
 | [OpenAI](./openai-embedder) | `openaiEmbedder` | `text-embedding-3-small`, `...-large` |
 | [Gemini](./gemini-embedder) | `geminiEmbedder` | `text-embedding-004` |
 | [Ollama](./ollama-embedder) | `ollamaEmbedder` | `nomic-embed-text`, `mxbai-embed-large` |
-| [DeepSeek](./deepseek-embedder) | `deepseekEmbedder` | provider defaults |
-| [Grok](./grok-embedder) | `grokEmbedder` | provider defaults |
-| [Kimi](./kimi-embedder) | `kimiEmbedder` | provider defaults |
+| [DeepSeek](./deepseek-embedder) | `deepseekEmbedder` | pass the provider model |
+| [Grok](./grok-embedder) | `grokEmbedder` | pass the provider model |
+| [Kimi](./kimi-embedder) | `kimiEmbedder` | pass the provider model |
 | [OpenAI-compatible](./openai-compatible-embedder) | `createOpenAICompatibleEmbedder` | any `/v1/embeddings` endpoint |
 
 ## Contract
 
 ```ts
-type Embedder = {
-  embed: (texts: string[]) => Promise<number[][]>
-  dim: number
-}
+type EmbedFn = (text: string) => Promise<number[]>
 ```
 
 ## Usage
@@ -27,7 +24,7 @@ type Embedder = {
 ```ts
 import { openaiEmbedder } from '@agentskit/adapters'
 
-const embed = openaiEmbedder({
+const embed: EmbedFn = openaiEmbedder({
   apiKey: process.env.OPENAI_API_KEY!,
   model: 'text-embedding-3-small',
 })

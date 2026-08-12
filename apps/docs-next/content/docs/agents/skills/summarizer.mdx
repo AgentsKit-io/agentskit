@@ -31,12 +31,19 @@ await runtime.run('Summarize this 40-page PDF into 10 bullets.')
 Use alongside `createAutoSummarizingMemory` to fold old turns automatically:
 
 ```ts
-import { createAutoSummarizingMemory } from '@agentskit/memory'
+import { createAutoSummarizingMemory } from '@agentskit/core/auto-summarize'
+import { createInMemoryMemory } from '@agentskit/core'
 
-const memory = createAutoSummarizingMemory({
-  summarize: async (msgs) => runtime.run({ input: msgs, skill: summarizer }),
-  triggerAt: 30,
-  keep: 10,
+const memory = createAutoSummarizingMemory(createInMemoryMemory(), {
+  maxTokens: 8_000,
+  keepRecent: 10,
+  summarizer: async msgs => ({
+    id: crypto.randomUUID(),
+    role: 'system',
+    content: msgs.map(m => `${m.role}: ${m.content}`).join('\\n'),
+    status: 'complete',
+    createdAt: new Date(),
+  }),
 })
 ```
 

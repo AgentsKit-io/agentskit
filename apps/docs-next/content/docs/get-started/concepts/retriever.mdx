@@ -42,7 +42,7 @@ import { fileVectorMemory } from '@agentskit/memory'
 import { openaiEmbedder } from '@agentskit/adapters'
 
 const rag = createRAG({
-  store: fileVectorMemory({ path: './embeddings.json' }),
+  store: fileVectorMemory({ path: './vectors' }),
   embed: openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' }),
   topK: 5,
 })

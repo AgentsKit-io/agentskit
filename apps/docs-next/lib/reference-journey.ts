@@ -32,6 +32,7 @@ function productById(id: string): ManifestProduct {
 }
 
 const agentskit = productById('agentskit')
+const ecosystemNext = agentskit.navigation.next.map(productById)
 
 export const agentsKitIdentity = {
   name: agentskit.name,
@@ -42,9 +43,8 @@ export const agentsKitIdentity = {
   proof: claimsFor('agentskit'),
 } as const
 
-export const ecosystemShowcase = manifest.products
+export const ecosystemShowcase = ecosystemNext
   .filter(hasShowcase)
-  .sort((a, b) => a.navigation.order - b.navigation.order)
   .map((product) => ({
     id: product.id,
     name: product.name,

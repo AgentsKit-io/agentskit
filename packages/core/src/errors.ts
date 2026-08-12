@@ -11,8 +11,8 @@ const DOCS_BASE = 'https://www.agentskit.io/docs'
  * ```
  * error[AK_ADAPTER_MISSING]: No adapter provided
  *   --> Hint: Pass an adapter when creating the chat controller, e.g.
- *             createChatController({ adapter: openaiAdapter() })
- *   --> Docs: https://www.agentskit.io/docs/adapters
+ *             createChatController({ adapter: openai({ apiKey, model: 'gpt-4o' }) })
+ *   --> Docs: https://www.agentskit.io/docs/data/providers
  * ```
  */
 function formatError(code: string, message: string, hint?: string, docsUrl?: string): string {
@@ -64,7 +64,7 @@ export class AdapterError extends AgentsKitError {
     docsUrl?: string
     cause?: unknown
   }) {
-    super({ docsUrl: `${DOCS_BASE}/adapters`, ...options })
+    super({ docsUrl: `${DOCS_BASE}/data/providers`, ...options })
     this.name = 'AdapterError'
   }
 }
@@ -77,7 +77,7 @@ export class ToolError extends AgentsKitError {
     docsUrl?: string
     cause?: unknown
   }) {
-    super({ docsUrl: `${DOCS_BASE}/tools`, ...options })
+    super({ docsUrl: `${DOCS_BASE}/agents/tools`, ...options })
     this.name = 'ToolError'
   }
 }
@@ -90,7 +90,7 @@ export class MemoryError extends AgentsKitError {
     docsUrl?: string
     cause?: unknown
   }) {
-    super({ docsUrl: `${DOCS_BASE}/memory`, ...options })
+    super({ docsUrl: `${DOCS_BASE}/data/memory`, ...options })
     this.name = 'MemoryError'
   }
 }
@@ -103,7 +103,7 @@ export class ConfigError extends AgentsKitError {
     docsUrl?: string
     cause?: unknown
   }) {
-    super({ docsUrl: `${DOCS_BASE}/configuration`, ...options })
+    super({ docsUrl: `${DOCS_BASE}/get-started/concepts/errors`, ...options })
     this.name = 'ConfigError'
   }
 }
