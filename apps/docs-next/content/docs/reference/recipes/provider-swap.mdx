@@ -1,0 +1,73 @@
+---
+title: Swap providers without rewriting the agent
+description: Keep one runtime path and select OpenRouter's free router or a credential-free local adapter at the boundary.
+---
+
+Provider choice should be configuration, not application architecture. This recipe keeps
+the task and runtime code unchanged while the adapter selection moves between a local,
+credential-free implementation and OpenRouter's `openrouter/free` router.
+
+## Install
+
+```bash
+npm install @agentskit/adapters @agentskit/core @agentskit/runtime tsx
+```
+
+## Copy the verified fixture
+
+The complete runnable source is committed at
+[`apps/docs-next/fixtures/provider-swap/agent.ts`](https://github.com/AgentsKit-io/agentskit/blob/main/apps/docs-next/fixtures/provider-swap/agent.ts).
+
+The boundary that changes is one adapter selection:
+
+```ts
+const adapter = selectAdapter(provider)
+const result = await runTask(adapter, 'Explain why provider portability matters')
+```
+
+`runTask` contains no provider-specific branch. OpenRouter is configured explicitly with
+the free router:
+
+```ts
+return openrouter({ apiKey: openRouterApiKey, model: 'openrouter/free' })
+```
+
+## Run locally without credentials
+
+```bash
+AGENT_PROVIDER=local npx tsx agent.ts
+```
+
+Expected prefix:
+
+```text
+[local] Local model received:
+```
+
+This path performs no network request.
+
+## Switch to OpenRouter
+
+```bash
+OPENROUTER_API_KEY=your-key AGENT_PROVIDER=openrouter npx tsx agent.ts
+```
+
+Only configuration changes. The task, runtime construction, and result handling remain
+the same. The free router selects among currently available free models, so availability,
+latency, and the concrete selected model can vary.
+
+## What the automated proof covers
+
+- the local path completes without credentials or network access;
+- the OpenRouter path uses the explicit `openrouter/free` model;
+- missing credentials and unknown provider names fail before transport work;
+- the same `runTask` function is used for both adapters.
+
+The committed test intentionally does not call the live OpenRouter API. A live call is an
+optional manual check because free-model availability and rate limits are external state.
+
+## See also
+
+- [More provider adapters](./more-providers)
+- [Fallback chain](./fallback-chain)
+- [Adapter router](./adapter-router)

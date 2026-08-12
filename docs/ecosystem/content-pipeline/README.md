@@ -27,8 +27,9 @@ Any content change invalidates the digest and requires a new approval.
 ## Commands
 
 ```bash
-# Generate / refresh the first-agent atom (runs executable demo)
+# Generate / refresh an atom (runs its executable demo)
 pnpm content-pipeline:run
+pnpm content-pipeline:run -- --recipe provider-swap
 
 # Full audit: executable recipe + Doc Bridge command gate
 pnpm check:content-pipeline
@@ -37,10 +38,20 @@ pnpm check:content-pipeline
 pnpm test:content-pipeline
 ```
 
-## First atom
+## Verified recipe atoms
 
-`atoms/first-agent/` is produced from `recipes/first-agent.json` and the committed fixture
-`apps/docs-next/fixtures/first-agent/agent.ts`.
+Each JSON file in `recipes/` points to a committed executable fixture. The audit runs every
+discovered recipe; a broken second recipe cannot hide behind a passing first recipe. Shared
+command gates execute once per audit, while recipe claims, fixtures, variants, and publication
+boundaries are checked independently.
+
+Current vertical slices:
+
+- `first-agent` — credential-free first runtime path;
+- `provider-swap` — the same application task across a local adapter and OpenRouter's explicit
+  `openrouter/free` route.
+
+`atoms/<recipe-id>/` is produced from `recipes/<recipe-id>.json` and its committed fixture.
 
 Variants:
 
