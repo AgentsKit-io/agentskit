@@ -80,6 +80,30 @@ describe('@agentskit/cli', () => {
     expect(env).toContain('OPENAI_API_KEY=')
   })
 
+  it('writes a runtime starter wired to Groq', async () => {
+    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+    await writeStarterProject({ targetDir: tempDir, template: 'runtime', provider: 'groq' })
+
+    const file = await readFile(path.join(tempDir, 'src/index.ts'), 'utf8')
+    expect(file).toContain("import { groq } from '@agentskit/adapters'")
+    expect(file).toContain("model: 'openai/gpt-oss-120b'")
+
+    const env = await readFile(path.join(tempDir, '.env.example'), 'utf8')
+    expect(env).toContain('GROQ_API_KEY=')
+  })
+
+  it('writes a browser starter wired to OpenRouter', async () => {
+    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+    await writeStarterProject({ targetDir: tempDir, template: 'react', provider: 'openrouter' })
+
+    const app = await readFile(path.join(tempDir, 'src/App.tsx'), 'utf8')
+    expect(app).toContain("import { openrouter } from '@agentskit/adapters'")
+    expect(app).toContain("model: '~anthropic/claude-haiku-latest'")
+
+    const env = await readFile(path.join(tempDir, '.env.example'), 'utf8')
+    expect(env).toContain('VITE_OPENROUTER_API_KEY=')
+  })
+
   it('writes a multi-agent starter with planner + researcher', async () => {
     const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
     await writeStarterProject({

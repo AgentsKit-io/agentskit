@@ -89,6 +89,7 @@ agentskit run --help
 - Provider flags: `--provider`, `--model`, `--system`, `--skill`, `--memory`, `--mode`, `--plugin-dir`
 - Env-var based key injection — works seamlessly in CI and scripts
 - Built-in live providers include OpenAI, Anthropic, Gemini, DeepSeek, Grok, Kimi, Groq, and OpenRouter; Ollama remains local and keyless
+- `agentskit init --provider groq|openrouter` — scaffold a starter already wired to either provider
 
 Full reference: [docs/infrastructure/cli](https://www.agentskit.io/docs/infrastructure/cli) · [ARCHITECTURE.md](./ARCHITECTURE.md)
 
