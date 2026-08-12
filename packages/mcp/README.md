@@ -9,7 +9,7 @@ Profile: <code>major-package</code>
 [![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 
 Expose AgentsKit tools as an [MCP](https://modelcontextprotocol.io) server — use
-them from Claude Desktop, Cursor, Windsurf, or any MCP host.
+them from Codex, Claude Code, Cursor, or any MCP host.
 
 
 ## Verified proof
@@ -34,7 +34,7 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/mcp) · [agent hand
 npx @agentskit/mcp --tools fetch,search
 ```
 
-Then point your MCP host at the command. Example (Claude Desktop config):
+Then point your MCP host at the command. Example (generic JSON config):
 
 ```json
 {
@@ -43,6 +43,24 @@ Then point your MCP host at the command. Example (Claude Desktop config):
   }
 }
 ```
+
+## Coding-agent hosts
+
+Every host launches the same safe STDIO command. Only its configuration wrapper
+changes:
+
+```bash
+# Codex
+codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search
+
+# Claude Code (shared project configuration)
+claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search
+```
+
+Cursor uses the same `command` and `args` in `.cursor/mcp.json`. See the
+[verified coding-agent recipe](../../apps/docs-next/content/docs/reference/recipes/coding-agent-mcp.mdx)
+for complete Codex, Claude Code, Cursor, and generic MCP configurations plus the
+offline protocol proof.
 
 ## Flags
 

@@ -49,7 +49,9 @@ Current vertical slices:
 
 - `first-agent` — credential-free first runtime path;
 - `provider-swap` — the same application task across a local adapter and OpenRouter's explicit
-  `openrouter/free` route.
+  `openrouter/free` route;
+- `coding-agent-mcp` — one credential-free MCP proof and host-specific configuration for
+  Codex, Claude Code, Cursor, and generic MCP clients.
 
 `atoms/<recipe-id>/` is produced from `recipes/<recipe-id>.json` and its committed fixture.
 

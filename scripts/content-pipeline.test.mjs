@@ -65,6 +65,7 @@ test('recipe miner discovers both executable recipes and generates a blocked dra
   const recipes = mineRecipes(REPO_ROOT)
   assert.ok(recipes.some((recipe) => recipe.id === 'first-agent'))
   assert.ok(recipes.some((recipe) => recipe.id === 'provider-swap'))
+  assert.ok(recipes.some((recipe) => recipe.id === 'coding-agent-mcp'))
   const atom = runPipeline(REPO_ROOT, 'first-agent', { runExecutable: false, gateResults: [] })
   assert.equal(atom.id, 'first-agent')
   assert.ok(atom.variants.docsPage.includes('Verified claims'))
@@ -77,6 +78,26 @@ test('recipe miner discovers both executable recipes and generates a blocked dra
   assert.equal(atom.executable.ok, false)
   assert.match(atom.contentDigest, /^sha256:/)
 })
+
+test('coding-agent MCP recipe proves one safe command across supported hosts', () => {
+  const source = readFileSync(
+    join(REPO_ROOT, 'packages/mcp/fixtures/coding-agent-hosts.ts'),
+    'utf8',
+  )
+  assert.match(source, /codex mcp add agentskit -- npx -y @agentskit\/mcp@0\.3\.3/)
+  assert.match(source, /claude mcp add --scope project --transport stdio/)
+  assert.match(source, /\.cursor\/mcp\.json/)
+  assert.doesNotMatch(source, /--allow-shell/)
+  assert.doesNotMatch(source, /--api-key/)
+
+  const atom = runPipeline(REPO_ROOT, 'coding-agent-mcp', { runExecutable: true, gateResults: [] })
+  assert.equal(atom.executable.ok, true)
+  assert.equal(
+    atom.executable.stdout,
+    'verified hosts: claude, codex, cursor; cli tools: fetch_url, web_search',
+  )
+  assert.equal(atom.publish.status, 'blocked')
+}, 120_000)
 
 test('provider-swap recipe keeps one application path and a credential-free proof', () => {
   const source = readFileSync(
