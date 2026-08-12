@@ -117,7 +117,8 @@ pnpm size                                      # all packages, gzipped
 `pnpm check:quality-gates` runs every structural gate (typed errors, named
 exports, no `any`, file-size budgets, src↔test parity, for-agents coverage,
 ADR/RFC index sync, locale parity). `pnpm check:all` adds typecheck + build +
-test. A husky **pre-push** hook runs gates + typecheck + build automatically.
+test. Husky runs the commit-message check before each commit and the gates +
+typecheck + build before each push.
 
 `@agentskit/core` is capped at **10KB gzipped** by [Manifesto principle 1](./MANIFESTO.md). The `size` workflow blocks PRs that exceed any package's budget.
 
