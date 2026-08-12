@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import type { SkillDefinition, ToolCall, ToolDefinition } from '../src/types'
 import { buildToolMap, activateSkills, executeSafeTool } from '../src/agent-loop'
 import { createEventEmitter, createToolLifecycle } from '../src/primitives'
@@ -318,5 +318,93 @@ describe('executeSafeTool', () => {
     expect(result.status).toBe('skipped')
     expect(result.result?.toLowerCase()).toMatch(/confirm|refus|approv|declin/)
     expect(result.result?.toLowerCase()).toContain('handler')
+  })
+
+  it('defers disposal until an active execution settles', async () => {
+    let markStarted = () => undefined
+    let releaseExecution = () => undefined
+    const started = new Promise<void>(resolve => { markStarted = resolve })
+    const blocked = new Promise<void>(resolve => { releaseExecution = resolve })
+    const dispose = vi.fn()
+    const tool: ToolDefinition = {
+      name: 'slow',
+      init: vi.fn(),
+      execute: async () => {
+        markStarted()
+        await blocked
+        return 'done'
+      },
+      dispose,
+    }
+    const lifecycle = createToolLifecycle(buildToolMap([tool]))
+    const running = executeSafeTool({
+      tool,
+      toolCall: makeToolCall('slow'),
+      context: { messages: [], call: makeToolCall('slow') },
+      emitter: createEventEmitter(),
+      lifecycle,
+    })
+
+    await started
+    const retired = lifecycle.disposeAll()
+    await Promise.resolve()
+    expect(dispose).not.toHaveBeenCalled()
+
+    releaseExecution()
+    await running
+    await retired
+    expect(dispose).toHaveBeenCalledOnce()
+  })
+
+  it('initializes concurrent executions once and disposes once after retirement', async () => {
+    let releaseInit = () => undefined
+    const initStarted = new Promise<void>(resolve => {
+      const original = resolve
+      releaseInit = original
+    })
+    const init = vi.fn(async () => { await initStarted })
+    const dispose = vi.fn()
+    const tool: ToolDefinition = {
+      name: 'shared',
+      init,
+      execute: async () => 'ok',
+      dispose,
+    }
+    const lifecycle = createToolLifecycle(buildToolMap([tool]))
+    const options = {
+      tool,
+      toolCall: makeToolCall('shared'),
+      context: { messages: [], call: makeToolCall('shared') },
+      emitter: createEventEmitter(),
+      lifecycle,
+    }
+
+    const first = executeSafeTool(options)
+    await vi.waitFor(() => expect(init).toHaveBeenCalledOnce())
+    const second = executeSafeTool(options)
+    const retired = lifecycle.disposeAll()
+    releaseInit()
+
+    await Promise.all([first, second, retired])
+    expect(init).toHaveBeenCalledOnce()
+    expect(dispose).toHaveBeenCalledOnce()
+  })
+
+  it('skips executions that arrive after lifecycle retirement', async () => {
+    const init = vi.fn()
+    const tool: ToolDefinition = { name: 'retired', init, execute: async () => 'nope' }
+    const lifecycle = createToolLifecycle(buildToolMap([tool]))
+    await lifecycle.disposeAll()
+
+    const result = await executeSafeTool({
+      tool,
+      toolCall: makeToolCall('retired'),
+      context: { messages: [], call: makeToolCall('retired') },
+      emitter: createEventEmitter(),
+      lifecycle,
+    })
+
+    expect(result.status).toBe('skipped')
+    expect(init).not.toHaveBeenCalled()
   })
 })

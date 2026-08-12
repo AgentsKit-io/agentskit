@@ -7,6 +7,7 @@ import {
   mapMessageById,
   mapToolCallById,
   normalizeLlmUsage,
+  sameToolLifecycle,
 } from './controller-helpers'
 import type {
   ChatConfig,
@@ -35,6 +36,7 @@ export function createChatController(initial: ChatConfig): ChatController {
   const emitter = createEventEmitter()
   let toolMap = buildToolMap(config.tools)
   let lifecycle = createToolLifecycle(toolMap)
+  let skillTools: ToolDefinition[] = []
   let hydrated = false
   let active = false
   let saving = false
@@ -45,9 +47,14 @@ export function createChatController(initial: ChatConfig): ChatController {
     return fn === config.authorizeToolCall && toolMap.get(call.name)?.execute === context.tool?.execute ? decision : { allowed: false }
   }
 
-  const rebuild = (extraTools?: ToolDefinition[]) => {
-    toolMap = buildToolMap(config.tools, extraTools)
-    lifecycle = createToolLifecycle(toolMap)
+  const rebuild = () => {
+    const nextToolMap = buildToolMap(config.tools, skillTools)
+    if (!sameToolLifecycle(toolMap, nextToolMap)) {
+      const previousLifecycle = lifecycle
+      lifecycle = createToolLifecycle(nextToolMap)
+      void previousLifecycle.disposeAll()
+    }
+    toolMap = nextToolMap
   }
 
   const activate = async () => {
@@ -55,7 +62,8 @@ export function createChatController(initial: ChatConfig): ChatController {
     active = true
     const result = await activateSkills(config.skills ?? [], config.systemPrompt)
     system = result.systemPrompt
-    if (result.skillTools.length > 0) rebuild(result.skillTools)
+    skillTools = result.skillTools
+    rebuild()
   }
   void activate()
 
@@ -529,7 +537,6 @@ export function createChatController(initial: ChatConfig): ChatController {
       await resume(msg.id, gen)
     },
     updateConfig(nextConfig) {
-      void lifecycle.disposeAll()
       config = { ...config, ...nextConfig }
       active = false
       rebuild()
