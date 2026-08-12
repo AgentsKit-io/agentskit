@@ -100,6 +100,11 @@ test('coding-agent MCP recipe proves one safe command across supported hosts', (
   assert.match(localSmoke, /SIGKILL/)
   assert.match(localSmoke, /client\.close\(\)\.catch/)
 
+  const recipe = mineRecipes(REPO_ROOT).find((entry) => entry.id === 'coding-agent-mcp')
+  assert.deepEqual(recipe.executable.setupCommands[1], [
+    'pnpm', '--filter', '@agentskit/mcp', 'exec', 'vitest', 'run', 'tests/coding-agent-hosts.test.ts',
+  ])
+
   const atom = runPipeline(REPO_ROOT, 'coding-agent-mcp', { runExecutable: true, gateResults: [] })
   assert.equal(atom.executable.ok, true)
   assert.equal(

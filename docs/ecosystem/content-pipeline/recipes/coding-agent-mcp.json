@@ -11,7 +11,8 @@
   "executable": {
     "fixture": "packages/mcp/fixtures/run-coding-agent-hosts.mjs",
     "setupCommands": [
-      ["pnpm", "--filter", "@agentskit/mcp...", "build"]
+      ["pnpm", "--filter", "@agentskit/mcp...", "build"],
+      ["pnpm", "--filter", "@agentskit/mcp", "exec", "vitest", "run", "tests/coding-agent-hosts.test.ts"]
     ],
     "command": [
       "node",

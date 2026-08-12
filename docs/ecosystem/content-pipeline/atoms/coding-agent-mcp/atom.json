@@ -1,6 +1,6 @@
 {
   "id": "coding-agent-mcp",
-  "generatedAt": "2026-08-12T18:53:00.383Z",
+  "generatedAt": "2026-08-12T21:27:56.648Z",
   "recipe": {
     "id": "coding-agent-mcp",
     "title": "Connect AgentsKit to your coding agent",
@@ -19,6 +19,15 @@
           "--filter",
           "@agentskit/mcp...",
           "build"
+        ],
+        [
+          "pnpm",
+          "--filter",
+          "@agentskit/mcp",
+          "exec",
+          "vitest",
+          "run",
+          "tests/coding-agent-hosts.test.ts"
         ]
       ],
       "command": [
@@ -220,5 +229,5 @@
     ],
     "requiresHumanApproval": true
   },
-  "contentDigest": "sha256:524c86bc9969530581e285da30e538b9ac77473f2b13287a182937f85f58b1ac"
+  "contentDigest": "sha256:15a5f12c4d6576defb484c6a09b27091ea73a14c707ea6e3f8c69888343bff03"
 }
