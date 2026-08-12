@@ -44,11 +44,11 @@ const ECOSYSTEM_JSON_LD = {
     '@type': 'ListItem',
     position: index + 1,
     item: {
-      '@type': 'SoftwareApplication',
+      '@type': product.kind === 'methodology' ? 'CreativeWork' : 'SoftwareApplication',
       name: product.name,
       url: product.surfaces.home,
       description: product.promise,
-      applicationCategory: 'DeveloperApplication',
+      ...(product.kind === 'methodology' ? {} : { applicationCategory: 'DeveloperApplication' }),
       isAccessibleForFree: product.accessModel === 'open-source',
       ...(product.accessModel === 'open-source'
         ? { offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } }

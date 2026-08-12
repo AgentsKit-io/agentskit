@@ -27,6 +27,7 @@ describe('canonical ecosystem positioning', () => {
 
     expect(ecosystemPage).toContain('ecosystem.positioning.commercialBoundary')
     expect(ecosystemPage).toContain('isAccessibleForFree')
+    expect(ecosystemPage).toContain("product.kind === 'methodology' ? 'CreativeWork' : 'SoftwareApplication'")
     expect(llmsRoute).toContain('## Access and commercial model')
     expect(llmsRoute).toContain('ecosystem.positioning.commercialBoundary')
   })
