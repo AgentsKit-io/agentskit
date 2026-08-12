@@ -139,9 +139,11 @@ Open MCP Servers, choose Configure MCP Servers, and add:
 
 Keep `autoApprove` empty so this server adds no per-tool auto-approval entries.
 Cline's global “Use MCP servers” approval and CLI `--auto-approve` setting still
-control whether calls prompt. Its current documentation describes more than one
-settings location across IDE and CLI surfaces, so use the configuration UI or
-`cline mcp` instead of assuming a shared file path.
+control whether calls prompt. For the CLI, pass `--auto-approve false` when you
+want global auto-approval disabled; its default is `true`. Its current
+documentation describes more than one settings location across IDE and CLI
+surfaces, so use the configuration UI or `cline mcp` instead of assuming a
+shared file path.
 
 ## Continue
 

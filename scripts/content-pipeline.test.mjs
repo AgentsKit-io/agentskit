@@ -105,6 +105,7 @@ test('coding-agent MCP recipe proves one safe command across supported hosts', (
   assert.match(localSmoke, /client\.close\(\)\.catch/)
   assert.match(recipeDoc, /In interactive sessions, Claude Code asks for approval/)
   assert.match(recipeDoc, /Non-interactive `claude -p` and SDK sessions cannot show that\s+prompt/)
+  assert.match(recipeDoc, /For the CLI, pass `--auto-approve false` when you\s+want global auto-approval disabled/)
   assert.doesNotMatch(recipeDoc, /Claude Code asks for approval before using a project-scoped server\./)
 
   const recipe = mineRecipes(REPO_ROOT).find((entry) => entry.id === 'coding-agent-mcp')
