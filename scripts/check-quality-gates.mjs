@@ -31,6 +31,8 @@ const GATES = [
   ['for-agents docs coverage', 'check-for-agents-coverage.mjs'],
   ['ADR/RFC index sync', 'check-doc-index.mjs'],
   ['docs locale parity', 'check-intl-parity.mjs'],
+  ['content pipeline tests', 'content-pipeline.test.mjs', [], 'vitest'],
+  ['verified recipe factory', 'check-content-pipeline.mjs'],
   ['ecosystem contract tests', 'ecosystem-contract.test.mjs', [], 'vitest'],
   ['software metadata tests', 'software-metadata.test.mjs', [], 'vitest'],
   ['software metadata freshness', 'generate-software-metadata.mjs', ['--check']],
