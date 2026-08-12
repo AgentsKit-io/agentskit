@@ -1,75 +1,66 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { JsonLd } from '@/components/seo/json-ld'
+import ecosystem from '@/lib/ecosystem.json'
 import { lists, counts } from '@/lib/ecosystem-stats'
 import { canonicalUrl } from '@/lib/canonical-url'
 
 export const metadata: Metadata = {
   title: 'Ecosystem — products and packages',
-  description:
-    'AgentsKit product mesh (seven properties) plus the monorepo package matrix — stability, integrations, providers, models, adapters, and skills.',
+  description: ecosystem.positioning.metaDescription,
   alternates: { canonical: canonicalUrl('/ecosystem') },
 }
 
-/** Canonical seven-product mesh (roles from ecosystem.json). */
-const PRODUCT_MESH: ReadonlyArray<{
-  id: string
-  name: string
-  role: string
-  href: string
-  blurb: string
-  youAreHere?: boolean
-}> = [
-  {
-    id: 'agentskit',
-    name: 'AgentsKit',
-    role: 'foundation',
-    href: 'https://www.agentskit.io',
-    blurb: 'Foundation library — runtime, tools, memory, RAG, and UI bindings.',
-    youAreHere: true,
-  },
-  {
-    id: 'registry',
-    name: 'Registry',
-    role: 'starting-point',
-    href: 'https://registry.agentskit.io',
-    blurb: 'Copy ready-to-use agent source into your repo.',
-  },
-  {
-    id: 'agentskit-chat',
-    name: 'AgentsKit Chat',
-    role: 'experience',
-    href: 'https://chat.agentskit.io',
-    blurb: 'Opinionated product chat layer over AgentsKit primitives.',
-  },
-  {
-    id: 'playbook',
-    name: 'Playbook',
-    role: 'discipline',
-    href: 'https://playbook.agentskit.io',
-    blurb: 'Engineering standards for agent-built software.',
-  },
-  {
-    id: 'doc-bridge',
-    name: 'Doc Bridge',
-    role: 'understanding',
-    href: 'https://agentskit-io.github.io/doc-bridge/',
-    blurb: 'Human↔agent documentation handoffs.',
-  },
-  {
-    id: 'code-review',
-    name: 'Code Review',
-    role: 'verification',
-    href: 'https://github.com/AgentsKit-io/code-review-cli',
-    blurb: 'Focused model review before merge.',
-  },
-  {
-    id: 'akos',
-    name: 'AKOS',
-    role: 'operation',
-    href: 'https://akos.agentskit.io',
-    blurb: 'Enterprise operation and governance.',
-  },
-]
+const PRODUCT_MESH = ecosystem.products.map((product) => ({
+  id: product.id,
+  name: product.shortName,
+  role: product.role,
+  href: product.surfaces.home,
+  blurb: product.promise,
+  youAreHere: product.id === 'agentskit',
+  accessModel: product.accessModel,
+}))
+
+const ACCESS_LABELS = {
+  'open-source': 'Free · open source',
+  'paid-managed-service': 'Optional · paid managed service',
+} as const
+
+function accessLabel(accessModel: string): string {
+  if (accessModel in ACCESS_LABELS) {
+    return ACCESS_LABELS[accessModel as keyof typeof ACCESS_LABELS]
+  }
+  throw new TypeError(`Unknown ecosystem access model: ${accessModel}`)
+}
+
+const ECOSYSTEM_JSON_LD = {
+  '@context': 'https://schema.org',
+  '@type': 'ItemList',
+  '@id': 'https://www.agentskit.io/ecosystem#products',
+  name: 'AgentsKit ecosystem',
+  description: `${ecosystem.positioning.canonicalDescription} ${ecosystem.positioning.commercialBoundary}`,
+  numberOfItems: ecosystem.products.length,
+  itemListElement: ecosystem.products.map((product, index) => ({
+    '@type': 'ListItem',
+    position: index + 1,
+    item: {
+      '@type': product.kind === 'methodology' ? 'CreativeWork' : 'SoftwareApplication',
+      name: product.name,
+      url: product.surfaces.home,
+      description: product.promise,
+      ...(product.kind === 'methodology' ? {} : { applicationCategory: 'DeveloperApplication' }),
+      isAccessibleForFree: product.accessModel === 'open-source',
+      ...(product.accessModel === 'open-source'
+        ? { offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' } }
+        : {}),
+      additionalProperty: {
+        '@type': 'PropertyValue',
+        name: 'Access model',
+        value: accessLabel(product.accessModel),
+      },
+    },
+  })),
+}
 
 const STABILITY_RANK: Record<string, number> = {
   stable: 0,
@@ -112,17 +103,28 @@ export default function EcosystemPage() {
 
   return (
     <main className="mx-auto w-full max-w-5xl px-6 py-16 sm:py-24">
+      <JsonLd data={ECOSYSTEM_JSON_LD} />
       <header className="max-w-2xl">
         <p className="font-mono text-sm text-ak-blue">/ecosystem</p>
         <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight text-ak-foam sm:text-5xl">
           Products and packages
         </h1>
         <p className="mt-5 text-lg leading-relaxed text-ak-graphite">
-          Two layers, one ecosystem: the <strong className="font-medium text-ak-foam">seven products</strong> you
-          pick by job, and the <strong className="font-medium text-ak-foam">monorepo packages</strong> that power
-          the foundation toolkit on this site.
+          {ecosystem.positioning.canonicalDescription} The product mesh solves the full path from building and
+          delivering agents to governing them in production; the package matrix is the composable foundation
+          underneath it.
         </p>
       </header>
+
+      <section className="mt-10 rounded-lg border border-ak-green/40 bg-ak-surface p-6 sm:p-8">
+        <p className="font-mono text-xs uppercase tracking-[0.18em] text-ak-green">Commercial model</p>
+        <h2 className="mt-2 font-display text-2xl font-semibold text-ak-foam">
+          Open by default. Managed only when you need it.
+        </h2>
+        <p className="mt-3 max-w-3xl leading-relaxed text-ak-graphite">
+          {ecosystem.positioning.commercialBoundary}
+        </p>
+      </section>
 
       <section aria-labelledby="product-mesh" className="mt-14">
         <h2 id="product-mesh" className="font-mono text-sm uppercase tracking-wider text-ak-graphite">
@@ -145,6 +147,9 @@ export default function EcosystemPage() {
                   {p.youAreHere ? ' · you are here (site)' : ''}
                 </p>
                 <h3 className="mt-1 font-semibold text-ak-foam">{p.name}</h3>
+                <p className="mt-2 font-mono text-[11px] text-ak-green">
+                  {accessLabel(p.accessModel)}
+                </p>
                 <p className="mt-2 text-sm leading-relaxed text-ak-graphite">{p.blurb}</p>
               </Link>
             </li>
