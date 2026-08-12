@@ -144,6 +144,10 @@ test('coding-agent MCP pins stay aligned with the package version', () => {
     assertPinned(readFileSync(join(REPO_ROOT, relativePath), 'utf8'), relativePath)
   }
 
+  const readme = readFileSync(join(REPO_ROOT, 'packages/mcp/README.md'), 'utf8')
+  assert.doesNotMatch(readme, /npx @agentskit\/mcp(?:\s|`)/, 'README must not install the floating MCP package')
+  assert.doesNotMatch(readme, /"args": \["@agentskit\/mcp"/, 'README JSON must not use an unpinned MCP package')
+
   const fixture = readFileSync(join(REPO_ROOT, 'packages/mcp/fixtures/coding-agent-hosts.ts'), 'utf8')
   assert.throws(
     () => assertPinned(fixture.replace(`@agentskit/mcp@${packageVersion}`, '@agentskit/mcp@0.0.0'), 'synthetic stale fixture'),
