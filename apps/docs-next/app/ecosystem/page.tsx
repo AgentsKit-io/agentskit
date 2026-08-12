@@ -36,9 +36,22 @@ function accessLabel(accessModel: string): string {
 const ECOSYSTEM_JSON_LD = {
   '@context': 'https://schema.org',
   '@type': 'ItemList',
-  '@id': 'https://www.agentskit.io/ecosystem#products',
+  '@id': `${canonicalUrl('/ecosystem')}#products`,
+  url: canonicalUrl('/ecosystem'),
   name: 'AgentsKit ecosystem',
   description: `${ecosystem.positioning.canonicalDescription} ${ecosystem.positioning.commercialBoundary}`,
+  isPartOf: {
+    '@type': 'WebSite',
+    name: 'AgentsKit.js',
+    url: canonicalUrl('/'),
+  },
+  breadcrumb: {
+    '@type': 'BreadcrumbList',
+    itemListElement: [
+      { '@type': 'ListItem', position: 1, name: 'Home', url: canonicalUrl('/') },
+      { '@type': 'ListItem', position: 2, name: 'Ecosystem', url: canonicalUrl('/ecosystem') },
+    ],
+  },
   numberOfItems: ecosystem.products.length,
   itemListElement: ecosystem.products.map((product, index) => ({
     '@type': 'ListItem',
