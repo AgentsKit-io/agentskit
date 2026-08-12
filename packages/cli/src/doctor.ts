@@ -2,6 +2,7 @@ import { readFile } from 'node:fs/promises'
 import { join } from 'node:path'
 import { existsSync } from 'node:fs'
 import { loadConfig } from './config'
+import { DEFAULT_DOCTOR_PROVIDERS, resolveProviderRegistryEntry } from './provider-registry'
 
 export type CheckStatus = 'pass' | 'warn' | 'fail' | 'skip'
 
@@ -18,22 +19,6 @@ export interface DoctorReport {
   warn: number
   fail: number
   skip: number
-}
-
-const PROVIDER_ENV_KEYS: Record<string, string> = {
-  openai: 'OPENAI_API_KEY',
-  anthropic: 'ANTHROPIC_API_KEY',
-  gemini: 'GEMINI_API_KEY',
-  deepseek: 'DEEPSEEK_API_KEY',
-  grok: 'XAI_API_KEY',
-  kimi: 'KIMI_API_KEY',
-}
-
-const PROVIDER_REACH_URLS: Record<string, string> = {
-  openai: 'https://api.openai.com/v1/models',
-  anthropic: 'https://api.anthropic.com/v1/messages',
-  gemini: 'https://generativelanguage.googleapis.com/v1beta/models',
-  ollama: 'http://localhost:11434/api/tags',
 }
 
 // ============================================================================
@@ -122,17 +107,22 @@ export async function checkPackageJson(): Promise<CheckResult> {
 }
 
 export async function checkProviderEnv(provider: string): Promise<CheckResult> {
-  const envKey = PROVIDER_ENV_KEYS[provider]
-  if (!envKey) {
-    return { status: 'skip', name: `${provider} API key`, detail: 'No env-key requirement for this provider' }
+  const entry = resolveProviderRegistryEntry(provider)
+  if (entry.env.status === 'unsupported') {
+    return { status: 'skip', name: `${provider} API key`, detail: entry.env.reason }
   }
-  const value = process.env[envKey]
+  if (entry.env.status === 'not-required') {
+    return { status: 'skip', name: `${provider} API key`, detail: entry.env.reason }
+  }
+  const envKey = entry.env.keys.find(key => process.env[key])
+  const expectedKeys = entry.env.keys.join(' or ')
+  const value = envKey ? process.env[envKey] : undefined
   if (!value) {
     return {
       status: 'skip',
       name: `${provider} API key`,
-      detail: `${envKey} not set`,
-      fix: `export ${envKey}=... (only needed if you use ${provider})`,
+      detail: `${expectedKeys} not set`,
+      fix: `export ${entry.env.keys[0]}=... (only needed if you use ${provider})`,
     }
   }
   if (value.length < 16) {
@@ -151,14 +141,14 @@ export async function checkProviderReachable(
   fetchImpl: typeof fetch = fetch,
   timeoutMs = 4000,
 ): Promise<CheckResult> {
-  const url = PROVIDER_REACH_URLS[provider]
-  if (!url) {
-    return { status: 'skip', name: `${provider} reachable`, detail: 'No reachability check configured' }
+  const entry = resolveProviderRegistryEntry(provider)
+  if (entry.reachability.status === 'unsupported') {
+    return { status: 'skip', name: `${provider} reachable`, detail: entry.reachability.reason }
   }
+  const url = entry.reachability.url
 
   // Skip reachability if no API key is set for keyed providers
-  const envKey = PROVIDER_ENV_KEYS[provider]
-  if (envKey && !process.env[envKey]) {
+  if (entry.env.status === 'required' && !entry.env.keys.some(key => process.env[key])) {
     return { status: 'skip', name: `${provider} reachable`, detail: 'Skipped — no API key configured' }
   }
 
@@ -190,12 +180,26 @@ export async function checkProviderReachable(
       name: `${provider} reachable`,
       detail: `${url} → ${reason}`,
       fix:
-        provider === 'ollama'
+        entry.id === 'ollama'
           ? 'Start Ollama: `ollama serve` (or install from https://ollama.com)'
+          : entry.runtime === 'local'
+            ? `Start ${entry.label} server and verify its local endpoint`
           : 'Check network / firewall / VPN settings',
     }
   } finally {
     clearTimeout(timer)
+  }
+}
+
+export async function checkProviderDefaultModel(provider: string): Promise<CheckResult> {
+  const entry = resolveProviderRegistryEntry(provider)
+  if (entry.defaultModel.status === 'unsupported') {
+    return { status: 'skip', name: `${provider} default model`, detail: entry.defaultModel.reason }
+  }
+  return {
+    status: 'pass',
+    name: `${provider} default model`,
+    detail: entry.defaultModel.id,
   }
 }
 
@@ -233,7 +237,7 @@ export interface DoctorOptions {
 }
 
 export async function runDoctor(options: DoctorOptions = {}): Promise<DoctorReport> {
-  const providers = options.providers ?? ['openai', 'anthropic', 'gemini', 'ollama']
+  const providers = options.providers ?? DEFAULT_DOCTOR_PROVIDERS
   const fetchImpl = options.fetchImpl ?? fetch
 
   const checks: Array<Promise<CheckResult>> = [
@@ -245,6 +249,7 @@ export async function runDoctor(options: DoctorOptions = {}): Promise<DoctorRepo
 
   for (const provider of providers) {
     checks.push(checkProviderEnv(provider))
+    checks.push(checkProviderDefaultModel(provider))
     if (!options.noNetwork) {
       checks.push(checkProviderReachable(provider, fetchImpl))
     }

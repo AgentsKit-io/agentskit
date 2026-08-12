@@ -1,5 +1,6 @@
 import type { Command } from 'commander'
 import { runDoctor, renderReport } from '../doctor'
+import { DEFAULT_DOCTOR_PROVIDERS } from '../provider-registry'
 
 export function registerDoctorCommand(program: Command): void {
   program
@@ -8,7 +9,7 @@ export function registerDoctorCommand(program: Command): void {
     .option('--no-network', 'Skip provider reachability checks')
     .option(
       '--providers <providers>',
-      'Comma-separated providers to check (default: openai,anthropic,gemini,ollama)',
+      `Comma-separated providers to check (default: ${DEFAULT_DOCTOR_PROVIDERS.join(',')})`,
     )
     .option('--json', 'Emit JSON instead of formatted output')
     .action(async (options) => {
