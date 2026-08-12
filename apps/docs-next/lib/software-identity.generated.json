@@ -1,0 +1,109 @@
+{
+  "organization": {
+    "@type": "Organization",
+    "@id": "https://www.agentskit.io/#org",
+    "name": "AgentsKit",
+    "url": "https://www.agentskit.io",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.agentskit.io/apple-touch-icon.png",
+      "width": 180,
+      "height": 180
+    },
+    "sameAs": [
+      "https://github.com/AgentsKit-io/agentskit",
+      "https://www.npmjs.com/org/agentskit"
+    ]
+  },
+  "sourceCode": {
+    "@type": "SoftwareSourceCode",
+    "@id": "https://www.agentskit.io/#source",
+    "name": "AgentsKit",
+    "alternateName": "AgentsKit.js",
+    "description": "A free, MIT-licensed TypeScript ecosystem for production AI agents with replaceable contracts for models, runtimes, tools, memory, RAG, observability, sandboxing, evaluation, and interfaces.",
+    "codeRepository": "https://github.com/AgentsKit-io/agentskit",
+    "url": "https://www.agentskit.io",
+    "mainEntityOfPage": "https://www.agentskit.io/docs",
+    "license": "https://github.com/AgentsKit-io/agentskit/blob/main/LICENSE",
+    "version": "1.12.7",
+    "dateCreated": "2026-04-02",
+    "programmingLanguage": [
+      "TypeScript",
+      "JavaScript"
+    ],
+    "runtimePlatform": "JavaScript runtimes supporting ES2022",
+    "applicationCategory": "DeveloperApplication",
+    "keywords": [
+      "AI agents",
+      "agent framework",
+      "TypeScript",
+      "JavaScript",
+      "LLM",
+      "multi-agent",
+      "tools",
+      "memory",
+      "RAG",
+      "observability",
+      "sandboxing",
+      "evaluation",
+      "MCP"
+    ],
+    "author": {
+      "@type": "Person",
+      "name": "Emerson Braun",
+      "givenName": "Emerson",
+      "familyName": "Braun",
+      "url": "https://github.com/EmersonBraun"
+    },
+    "publisher": {
+      "@id": "https://www.agentskit.io/#org"
+    },
+    "issueTracker": "https://github.com/AgentsKit-io/agentskit/issues"
+  },
+  "application": {
+    "@type": "SoftwareApplication",
+    "@id": "https://www.agentskit.io/#software",
+    "name": "AgentsKit",
+    "alternateName": "AgentsKit.js",
+    "description": "A free, MIT-licensed TypeScript ecosystem for production AI agents with replaceable contracts for models, runtimes, tools, memory, RAG, observability, sandboxing, evaluation, and interfaces.",
+    "applicationCategory": "DeveloperApplication",
+    "operatingSystem": "Cross-platform",
+    "softwareVersion": "1.12.7",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "url": "https://www.agentskit.io",
+    "downloadUrl": "https://www.npmjs.com/org/agentskit",
+    "license": "https://github.com/AgentsKit-io/agentskit/blob/main/LICENSE",
+    "author": {
+      "@type": "Person",
+      "name": "Emerson Braun",
+      "givenName": "Emerson",
+      "familyName": "Braun",
+      "url": "https://github.com/EmersonBraun"
+    },
+    "publisher": {
+      "@id": "https://www.agentskit.io/#org"
+    },
+    "isBasedOn": {
+      "@id": "https://www.agentskit.io/#source"
+    },
+    "keywords": [
+      "AI agents",
+      "agent framework",
+      "TypeScript",
+      "JavaScript",
+      "LLM",
+      "multi-agent",
+      "tools",
+      "memory",
+      "RAG",
+      "observability",
+      "sandboxing",
+      "evaluation",
+      "MCP"
+    ]
+  }
+}

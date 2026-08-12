@@ -14,6 +14,7 @@ import { counts, approx } from '@/lib/ecosystem-stats'
 import { agentsKitIdentity } from '@/lib/reference-journey'
 import { canonicalUrl } from '@/lib/canonical-url'
 import { alternatesFor } from '@/lib/locales'
+import softwareIdentity from '@/lib/software-identity.generated.json'
 
 export const metadata = {
   title: `${agentsKitIdentity.name}.js — ${agentsKitIdentity.promise}`,
@@ -52,42 +53,15 @@ const GITHUB = 'https://github.com/AgentsKit-io/agentskit'
 const JSON_LD = {
   '@context': 'https://schema.org',
   '@graph': [
-    {
-      '@type': 'Organization',
-      '@id': 'https://www.agentskit.io/#org',
-      name: 'AgentsKit.js',
-      url: 'https://www.agentskit.io',
-      logo: {
-        '@type': 'ImageObject',
-        url: 'https://www.agentskit.io/apple-touch-icon.png',
-        width: 180,
-        height: 180,
-      },
-      sameAs: [
-        'https://github.com/AgentsKit-io/agentskit',
-        'https://www.npmjs.com/org/agentskit',
-      ],
-    },
-    {
-      '@type': 'SoftwareApplication',
-      '@id': 'https://www.agentskit.io/#software',
-      name: 'AgentsKit.js',
-      description: agentsKitIdentity.promise,
-      applicationCategory: 'DeveloperApplication',
-      operatingSystem: 'Cross-platform',
-      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-      url: 'https://www.agentskit.io',
-      license: 'https://github.com/AgentsKit-io/agentskit/blob/main/LICENSE',
-      author: { '@id': 'https://www.agentskit.io/#org' },
-      programmingLanguage: 'TypeScript',
-      keywords: 'AI agents, autonomous agent, multi-agent, JavaScript, TypeScript, LLM, streaming chat, RAG, tools, memory, observability, React, Vue, Svelte, Next.js, OpenAI, Anthropic Claude, Gemini, Ollama, LangChain',
-    },
+    softwareIdentity.organization,
+    softwareIdentity.sourceCode,
+    softwareIdentity.application,
     {
       '@type': 'WebSite',
       '@id': 'https://www.agentskit.io/#website',
       url: 'https://www.agentskit.io',
       name: 'AgentsKit.js',
-      publisher: { '@id': 'https://www.agentskit.io/#org' },
+      publisher: { '@id': softwareIdentity.organization['@id'] },
       potentialAction: {
         '@type': 'SearchAction',
         target: 'https://www.agentskit.io/docs?q={search_term_string}',
