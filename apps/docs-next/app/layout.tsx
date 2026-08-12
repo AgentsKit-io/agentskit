@@ -5,18 +5,18 @@ import type { ReactNode } from 'react'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { SITE_URL } from '@/lib/canonical-url'
-import ecosystem from '@/lib/ecosystem.json'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' })
 
-const DESCRIPTION = ecosystem.positioning.metaDescription
+const DESCRIPTION =
+  'AgentsKit is the foundation library for JavaScript agents — runtime, tools, memory, RAG, and UI bindings. Product chat lives in AgentsKit Chat.'
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'AgentsKit.js — open-source TypeScript ecosystem for AI agents',
+    default: 'AgentsKit.js — foundation library for JavaScript agents',
     template: '%s | AgentsKit.js',
   },
   description: DESCRIPTION,
@@ -69,20 +69,20 @@ export const metadata = {
     locale: 'en_US',
     url: SITE_URL,
     siteName: 'AgentsKit.js',
-    title: 'AgentsKit.js — open-source TypeScript ecosystem for AI agents',
+    title: 'AgentsKit.js — foundation library for JavaScript agents',
     description: DESCRIPTION,
     images: [
       {
         url: '/api/og',
         width: 1200,
         height: 630,
-        alt: 'AgentsKit.js — open-source TypeScript ecosystem for AI agents',
+        alt: 'AgentsKit.js — foundation library for JavaScript agents',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AgentsKit.js — open-source TypeScript ecosystem for AI agents',
+    title: 'AgentsKit.js — foundation library for JavaScript agents',
     description: DESCRIPTION,
     images: ['/api/og'],
   },

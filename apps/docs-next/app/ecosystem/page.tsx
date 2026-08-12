@@ -122,9 +122,7 @@ export default function EcosystemPage() {
           Open by default. Managed only when you need it.
         </h2>
         <p className="mt-3 max-w-3xl leading-relaxed text-ak-graphite">
-          {ecosystem.positioning.commercialBoundary} The managed layer does not replace the open ecosystem: it
-          adds RBAC, policy gates, approvals, auditability, cost controls, and production operations while your
-          models, tools, data, and infrastructure remain replaceable.
+          {ecosystem.positioning.commercialBoundary}
         </p>
       </section>
 

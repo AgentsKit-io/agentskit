@@ -14,19 +14,19 @@ import { counts, approx } from '@/lib/ecosystem-stats'
 import { agentsKitIdentity } from '@/lib/reference-journey'
 import { canonicalUrl } from '@/lib/canonical-url'
 import { alternatesFor } from '@/lib/locales'
-import ecosystem from '@/lib/ecosystem.json'
 import softwareIdentity from '@/lib/software-identity.generated.json'
 
 export const metadata = {
   title: `${agentsKitIdentity.name}.js — ${agentsKitIdentity.promise}`,
-  description: ecosystem.positioning.metaDescription,
+  description: `${agentsKitIdentity.promise} A composable TypeScript foundation for runtime, tools, memory, RAG, and chat interfaces.`,
   alternates: {
     canonical: canonicalUrl('/'),
     languages: alternatesFor('/'),
   },
   openGraph: {
     title: 'AgentsKit.js — Ship AI agents in JavaScript',
-    description: ecosystem.positioning.metaDescription,
+    description:
+      'Composable TypeScript foundation: runtime, tools, memory, RAG, adapters, and headless UI bindings. Zero lock-in. Under 10KB core.',
     type: 'website',
     images: [
       {
@@ -40,7 +40,8 @@ export const metadata = {
   twitter: {
     card: 'summary_large_image',
     title: 'AgentsKit.js — Ship AI agents in JavaScript',
-    description: ecosystem.positioning.metaDescription,
+    description:
+      'Composable TypeScript foundation: runtime, tools, memory, RAG, adapters, and headless UI bindings. Zero lock-in.',
     images: ['/api/og'],
   },
 }
