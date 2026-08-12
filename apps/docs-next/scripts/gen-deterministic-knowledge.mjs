@@ -16,11 +16,16 @@ import {
 
 const appRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 const repoRoot = join(appRoot, '../..')
-const generatedAt = process.env.DETERMINISTIC_KNOWLEDGE_GENERATED_AT ?? execFileSync(
-  'git',
-  ['log', '-1', '--format=%cI', '--', '.doc-bridge/index.json', 'ecosystem-claims.json', 'ecosystem.json', 'apps/docs-next/scripts/gen-deterministic-knowledge.mjs'],
-  { cwd: repoRoot, encoding: 'utf8' },
-).trim()
+const gitValue = (args) => {
+  try {
+    return execFileSync('git', args, { cwd: repoRoot, encoding: 'utf8' }).trim()
+  } catch {
+    return ''
+  }
+}
+const generatedAt = (process.env.DETERMINISTIC_KNOWLEDGE_GENERATED_AT
+  ?? gitValue(['log', '-1', '--format=%cI', '--', '.doc-bridge/index.json', 'ecosystem-claims.json', 'ecosystem.json', 'apps/docs-next/scripts/gen-deterministic-knowledge.mjs']))
+  || '1970-01-01T00:00:00.000Z'
 const budgetBytes = 96 * 1024
 
 const readJson = async path => JSON.parse(await readFile(join(repoRoot, path), 'utf8'))
@@ -177,5 +182,5 @@ await Promise.all([
   writeFile(join(publicDir, `${contentHash.slice('sha256:'.length)}.json`), serializedArtifact),
 ])
 
-const revision = execFileSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: repoRoot, encoding: 'utf8' }).trim()
+const revision = process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) || gitValue(['rev-parse', '--short', 'HEAD']) || 'source-archive'
 console.log(`deterministic knowledge: ${entries.length} entries, ${byteLength}/${budgetBytes} bytes, ${contentHash}, source ${revision}`)
