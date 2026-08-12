@@ -4,6 +4,7 @@ const CHAT_MODES = new Set(['agentschat', 'custom', 'none'])
 const SALES_KINDS = new Set(['integration-stack', 'registry-install', 'human-agent', 'standards-flow', 'knowledge-bridge', 'enterprise-control'])
 const CLAIM_AGGREGATES = new Set(['length', 'distinct'])
 const CTA_SURFACES = new Set(['home', 'docs'])
+const ACCESS_MODELS = new Set(['open-source', 'paid-managed-service'])
 const SURFACE_KEYS = ['home', 'docs', 'llms', 'stats']
 /** properties[] is the seven-product v1 projection of products[] (same order). */
 const LEGACY_PRODUCT_IDS = ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge', 'code-review', 'akos']
@@ -62,6 +63,14 @@ export function parseEcosystemManifest(input) {
   string(parentBrand.id, '$.parentBrand.id')
   string(parentBrand.name, '$.parentBrand.name')
 
+  const positioning = object(manifest.positioning, '$.positioning')
+  string(positioning.canonicalDescription, '$.positioning.canonicalDescription')
+  string(positioning.metaDescription, '$.positioning.metaDescription')
+  if (positioning.metaDescription.length > 160) fail('$.positioning.metaDescription', 'must be 160 characters or fewer')
+  string(positioning.commercialBoundary, '$.positioning.commercialBoundary')
+  if (!Array.isArray(positioning.openSourceProductIds)) fail('$.positioning.openSourceProductIds', 'must be an array')
+  if (!Array.isArray(positioning.managedProductIds)) fail('$.positioning.managedProductIds', 'must be an array')
+
   if (!Array.isArray(manifest.products) || manifest.products.length === 0) {
     fail('$.products', 'must be a non-empty array')
   }
@@ -80,6 +89,7 @@ export function parseEcosystemManifest(input) {
     string(product.shortName, `${path}.shortName`)
     string(product.kind, `${path}.kind`)
     string(product.role, `${path}.role`)
+    enumValue(product.accessModel, ACCESS_MODELS, `${path}.accessModel`)
     string(product.promise, `${path}.promise`)
     enumValue(product.maturity, MATURITY, `${path}.maturity`)
     const repo = string(product.repo, `${path}.repo`)
@@ -218,6 +228,18 @@ export function parseEcosystemManifest(input) {
     fail('$.products', `must contain the canonical products in order: ${CANONICAL_PRODUCT_IDS.join(', ')}`)
   }
   if (manifest.products[0].metadata === undefined) fail('$.products[0].metadata', 'is required for generated software identity surfaces')
+  const openSourceProductIds = manifest.products
+    .filter((product) => product.accessModel === 'open-source')
+    .map((product) => product.id)
+  const managedProductIds = manifest.products
+    .filter((product) => product.accessModel === 'paid-managed-service')
+    .map((product) => product.id)
+  if (JSON.stringify(positioning.openSourceProductIds) !== JSON.stringify(openSourceProductIds)) {
+    fail('$.positioning.openSourceProductIds', 'must match products with accessModel open-source')
+  }
+  if (JSON.stringify(positioning.managedProductIds) !== JSON.stringify(managedProductIds)) {
+    fail('$.positioning.managedProductIds', 'must match products with accessModel paid-managed-service')
+  }
   for (const [index, product] of manifest.products.entries()) {
     // Products may set showInBar:false to leave the shared header (e.g. early-stage tools).
     // Order stays stable so re-enabling a product does not reshuffle peers.

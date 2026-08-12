@@ -27,6 +27,34 @@ test('the canonical manifest describes every ecosystem product', () => {
   assert.equal(parsed.products.find((product) => product.id === 'code-review').surfaces.chat, 'none')
 })
 
+test('the canonical manifest makes the commercial boundary explicit', () => {
+  const parsed = parseEcosystemManifest(manifest)
+
+  assert.deepEqual(parsed.positioning.openSourceProductIds, [
+    'agentskit',
+    'registry',
+    'agentskit-chat',
+    'playbook',
+    'doc-bridge',
+    'code-review',
+  ])
+  assert.deepEqual(parsed.positioning.managedProductIds, ['akos'])
+  assert.match(parsed.positioning.canonicalDescription, /open-source TypeScript ecosystem/)
+  assert.ok(parsed.positioning.metaDescription.length <= 160)
+  assert.match(parsed.positioning.commercialBoundary, /AKOS is the optional paid managed control plane/)
+})
+
+test('commercial positioning must match each product access model', () => {
+  assert.throws(
+    () => parseEcosystemManifest(changed((copy) => { copy.positioning.openSourceProductIds.pop() })),
+    /must match products with accessModel open-source/,
+  )
+  assert.throws(
+    () => parseEcosystemManifest(changed((copy) => { copy.products[6].accessModel = 'open-source' })),
+    /openSourceProductIds.*must match/,
+  )
+})
+
 test('repository-native products do not need a Fumadocs or chat deployment', () => {
   const parsed = parseEcosystemManifest(manifest)
   const codeReview = parsed.products.find((product) => product.id === 'code-review')
