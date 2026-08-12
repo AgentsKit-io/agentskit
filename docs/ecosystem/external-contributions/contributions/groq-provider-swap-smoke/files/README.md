@@ -17,9 +17,3 @@ GROQ_API_KEY=your-key node groq-provider-swap-smoke.mjs
 ```
 
 Override the model with `MODEL`. The API key is read from the environment and is never written to output.
-
-## Optional ecosystem note
-
-> This section can be deleted without affecting the script.
-
-AgentsKit's `groq` adapter uses the same OpenAI-compatible transport. The script remains framework-independent so it can validate the endpoint before any larger integration.

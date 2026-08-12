@@ -7,7 +7,7 @@ Agent applications should be able to change between OpenAI, Anthropic, Gemini, O
 ```bash
 npm install @agentskit/adapters @agentskit/core @agentskit/runtime tsx
 cp apps/docs-next/fixtures/provider-swap/agent.ts ./agent.ts
-AGENT_PROVIDER=ollama npx tsx agent.ts
+npx tsx agent.ts
 ```
 
 ### Claims

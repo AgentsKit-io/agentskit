@@ -8,7 +8,7 @@ export const PROVIDER_DEFAULTS = {
   anthropic: { envVar: 'ANTHROPIC_API_KEY', model: 'claude-sonnet-4-6' },
   gemini: { envVar: 'GOOGLE_API_KEY', model: 'gemini-2.5-flash' },
   openrouter: { envVar: 'OPENROUTER_API_KEY', model: 'openrouter/free' },
-  groq: { envVar: 'GROQ_API_KEY', model: 'llama-3.3-70b-versatile' },
+  groq: { envVar: 'GROQ_API_KEY', model: 'openai/gpt-oss-120b' },
   ollama: { envVar: null, model: 'llama3.2' },
 } as const
 

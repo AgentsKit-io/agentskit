@@ -6,12 +6,12 @@ Ship a zero-dependency Node.js script that verifies the OpenAI-compatible reques
 
 ## Strip-test
 
-Remove the optional ecosystem note from the contribution README.
+Search the prepared contribution files for product-specific references.
 
 | Still works | Gone |
 |---|---|
-| Request-shape and SSE validation | AgentsKit adapter mention |
+| Request-shape and SSE validation | Product-specific references |
 | Offline mock-server test | Ecosystem links |
-| Optional live Groq command | Product promotion |
+| Optional live Groq command | Promotional copy |
 
-**Verdict:** standalone protocol and migration utility. Promotional text is unnecessary.
+**Verdict:** standalone protocol and migration utility. The prepared files contain no product promotion.

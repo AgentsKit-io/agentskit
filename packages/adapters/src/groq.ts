@@ -4,7 +4,7 @@ import { createOpenAICompatibleAdapter, type OpenAICompatibleConfig } from './op
 export interface GroqConfig extends OpenAICompatibleConfig {}
 
 const GROQ_BASE_URL = 'https://api.groq.com/openai/v1'
-const DEFAULT_MODEL = 'llama-3.3-70b-versatile'
+const DEFAULT_MODEL = 'openai/gpt-oss-120b'
 
 const baseFactory = createOpenAICompatibleAdapter(GROQ_BASE_URL)
 
@@ -12,7 +12,7 @@ const baseFactory = createOpenAICompatibleAdapter(GROQ_BASE_URL)
  * Groq — OpenAI-compatible endpoint serving Llama / Mixtral on LPUs.
  * Known for very low first-token latency.
  *
- * Default model: `llama-3.3-70b-versatile`.
+ * Default model: `openai/gpt-oss-120b`.
  */
 export function groq(config: Partial<GroqConfig> & { apiKey: string }): AdapterFactory {
   const factory = baseFactory({

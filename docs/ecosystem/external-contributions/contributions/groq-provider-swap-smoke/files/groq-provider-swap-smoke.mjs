@@ -2,7 +2,7 @@
 import { pathToFileURL } from 'node:url'
 
 const defaultBaseUrl = 'https://api.groq.com/openai/v1'
-const defaultModel = 'llama-3.3-70b-versatile'
+const defaultModel = 'openai/gpt-oss-120b'
 
 function parseSse(body) {
   let content = ''

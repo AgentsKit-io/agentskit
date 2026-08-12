@@ -5,7 +5,7 @@ Why it exists: Agent applications should be able to change between OpenAI, Anthr
 2/ The path:
 1. `npm install @agentskit/adapters @agentskit/core @agentskit/runtime tsx`
 2. `cp apps/docs-next/fixtures/provider-swap/agent.ts ./agent.ts`
-3. `AGENT_PROVIDER=ollama npx tsx agent.ts`
+3. `npx tsx agent.ts`
 
 3/ Claims (generated, not hand-typed):
 - 25 native adapters
