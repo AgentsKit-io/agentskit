@@ -15,16 +15,17 @@ filesystem, SQLite, or a model provider, and it needs no credential to start.
 
 | Host | Configuration checked | How to inspect it | Evidence |
 | --- | --- | --- | --- |
-| Codex CLI, IDE, desktop | `.codex/config.toml` | `codex mcp list` or `/mcp` | Official format + fixture |
-| Claude Code | `.mcp.json` | `claude mcp list` or `/mcp` | Official format + fixture |
-| Claude Desktop | `claude_desktop_config.json` | Settings → Developer | Official format + fixture |
-| Cursor | `.cursor/mcp.json` | Settings → MCP | Official format + fixture |
-| Cline | MCP Servers configuration UI | MCP Servers panel | Official format + fixture |
-| Continue | `.continue/mcpServers/agentskit.yaml` | Agent mode tool list | Official format + fixture |
+| Codex CLI, IDE, desktop | `.codex/config.toml` | `codex mcp list` or `/mcp` | Official format + pinned TOML fixture validator |
+| Claude Code | `.mcp.json` | `claude mcp list` or `/mcp` | Official format + JSON round-trip validator |
+| Claude Desktop | `claude_desktop_config.json` | Settings → Developer | Official format + JSON round-trip validator |
+| Cursor | `.cursor/mcp.json` | Settings → MCP | Official format + JSON round-trip validator |
+| Cline | MCP Servers configuration UI | MCP Servers panel | Official format + JSON round-trip validator |
+| Continue | `.continue/mcpServers/agentskit.yaml` | Agent mode tool list | Official format + pinned YAML fixture validator |
 
-The fixtures assert the exact version-pinned wrappers. Codex and Cline encode
-reviewable approval settings directly; the other hosts retain the approval and
-trust behavior documented by their vendors.
+The fixtures validate the exact version-pinned wrappers. Codex encodes prompt
+approval directly; Cline encodes an empty per-server auto-approval allowlist.
+Global Cline approval settings still govern whether calls prompt, while the
+other hosts retain the approval and trust behavior documented by their vendors.
 The executable proofs initialize the shared STDIO server and list its tools from
 both the local build and the published npm package. They do not automate each
 host application's UI, login, or trust prompt.
@@ -134,10 +135,11 @@ Open MCP Servers, choose Configure MCP Servers, and add:
 }
 ```
 
-Keep `autoApprove` empty so every MCP tool call remains reviewable. Cline's
-current documentation describes more than one settings location across its IDE
-and CLI surfaces, so use the configuration UI or `cline mcp` instead of assuming
-a shared file path.
+Keep `autoApprove` empty so this server adds no per-tool auto-approval entries.
+Cline's global “Use MCP servers” approval and CLI `--auto-approve` setting still
+control whether calls prompt. Its current documentation describes more than one
+settings location across IDE and CLI surfaces, so use the configuration UI or
+`cline mcp` instead of assuming a shared file path.
 
 ## Continue
 
