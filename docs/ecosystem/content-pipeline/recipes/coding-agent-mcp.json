@@ -1,0 +1,59 @@
+{
+  "id": "coding-agent-mcp",
+  "title": "Use AgentsKit from Codex, Claude Code, and Cursor",
+  "status": "verified-source",
+  "problem": "Developers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host.",
+  "audience": "JavaScript and TypeScript developers using Codex, Claude Code, Cursor, or another MCP-compatible host",
+  "docs": [
+    "/docs/reference/recipes/coding-agent-mcp",
+    "packages/mcp/fixtures/coding-agent-hosts.ts"
+  ],
+  "executable": {
+    "fixture": "packages/mcp/fixtures/run-coding-agent-hosts.mjs",
+    "setupCommands": [
+      ["pnpm", "--filter", "@agentskit/mcp...", "build"]
+    ],
+    "command": [
+      "node",
+      "packages/mcp/fixtures/run-coding-agent-hosts.mjs"
+    ],
+    "expectStdoutIncludes": "verified hosts: claude, codex, cursor; cli tools: fetch_url, web_search"
+  },
+  "commands": [
+    "codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search",
+    "claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search",
+    "pnpm --filter @agentskit/mcp exec vitest run tests/coding-agent-hosts.test.ts"
+  ],
+  "claims": [
+    { "productId": "agentskit", "claimId": "packages" },
+    { "productId": "agentskit", "claimId": "integrations" }
+  ],
+  "maturity": "stable-demo",
+  "citations": [
+    {
+      "id": "fixture",
+      "title": "coding-agent MCP host fixture",
+      "href": "packages/mcp/fixtures/coding-agent-hosts.ts"
+    },
+    {
+      "id": "docs",
+      "title": "coding-agent MCP recipe",
+      "href": "/docs/reference/recipes/coding-agent-mcp"
+    },
+    {
+      "id": "codex",
+      "title": "Codex MCP configuration",
+      "href": "https://developers.openai.com/codex/mcp/"
+    },
+    {
+      "id": "claude",
+      "title": "Claude Code MCP configuration",
+      "href": "https://docs.anthropic.com/en/docs/claude-code/mcp"
+    },
+    {
+      "id": "cursor",
+      "title": "Cursor MCP configuration",
+      "href": "https://cursor.com/docs/mcp"
+    }
+  ]
+}

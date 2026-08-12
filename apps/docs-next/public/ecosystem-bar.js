@@ -340,7 +340,7 @@
       "catalog-models": 5162,
       "skills": 22,
       "memory-backends": 17,
-      "recipes": 70,
+      "recipes": 71,
       "core-size-kb-gzip": 10
     },
     "registry": {},
