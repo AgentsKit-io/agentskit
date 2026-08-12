@@ -84,6 +84,10 @@ test('coding-agent MCP recipe proves one safe command across supported hosts', (
     join(REPO_ROOT, 'packages/mcp/fixtures/coding-agent-hosts.ts'),
     'utf8',
   )
+  const localSmoke = readFileSync(
+    join(REPO_ROOT, 'packages/mcp/fixtures/run-coding-agent-hosts.mjs'),
+    'utf8',
+  )
   assert.match(source, /codex mcp add agentskit -- npx -y @agentskit\/mcp@0\.3\.3/)
   assert.match(source, /claude mcp add --scope project --transport stdio/)
   assert.match(source, /claudeDesktop/)
@@ -92,6 +96,9 @@ test('coding-agent MCP recipe proves one safe command across supported hosts', (
   assert.match(source, /\.continue\/mcpServers\/agentskit\.yaml/)
   assert.doesNotMatch(source, /--allow-shell/)
   assert.doesNotMatch(source, /--api-key/)
+  assert.match(localSmoke, /timed out after 30s/)
+  assert.match(localSmoke, /SIGKILL/)
+  assert.match(localSmoke, /client\.close\(\)\.catch/)
 
   const atom = runPipeline(REPO_ROOT, 'coding-agent-mcp', { runExecutable: true, gateResults: [] })
   assert.equal(atom.executable.ok, true)
