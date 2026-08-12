@@ -88,6 +88,10 @@ test('coding-agent MCP recipe proves one safe command across supported hosts', (
     join(REPO_ROOT, 'packages/mcp/fixtures/run-coding-agent-hosts.mjs'),
     'utf8',
   )
+  const recipeDoc = readFileSync(
+    join(REPO_ROOT, 'apps/docs-next/content/docs/reference/recipes/coding-agent-mcp.mdx'),
+    'utf8',
+  )
   assert.match(source, /codex mcp add agentskit -- npx -y @agentskit\/mcp@0\.3\.3/)
   assert.match(source, /claude mcp add --scope project --transport stdio/)
   assert.match(source, /claudeDesktop/)
@@ -99,6 +103,9 @@ test('coding-agent MCP recipe proves one safe command across supported hosts', (
   assert.match(localSmoke, /timed out after 30s/)
   assert.match(localSmoke, /SIGKILL/)
   assert.match(localSmoke, /client\.close\(\)\.catch/)
+  assert.match(recipeDoc, /In interactive sessions, Claude Code asks for approval/)
+  assert.match(recipeDoc, /Non-interactive `claude -p` and SDK sessions cannot show that\s+prompt/)
+  assert.doesNotMatch(recipeDoc, /Claude Code asks for approval before using a project-scoped server\./)
 
   const recipe = mineRecipes(REPO_ROOT).find((entry) => entry.id === 'coding-agent-mcp')
   assert.deepEqual(recipe.executable.setupCommands[1], [

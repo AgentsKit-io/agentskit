@@ -74,8 +74,10 @@ The equivalent `.mcp.json` is:
 }
 ```
 
-Claude Code asks for approval before using a project-scoped server. Review the
-command, approve it, and use `/mcp` to check its status.
+In interactive sessions, Claude Code asks for approval before using a
+project-scoped server. Review the command, approve it, and use `/mcp` to check
+its status. Non-interactive `claude -p` and SDK sessions cannot show that
+prompt, so keep their configured permission and trust controls in scope.
 
 ## Cursor
 
@@ -218,7 +220,7 @@ recipe does not publish or submit the package to any registry or marketplace.
 - `--allow-shell` is absent, so shell execution stays disabled.
 - Filesystem access is absent until you pass both `filesystem` and `--fs-root`.
 - Provider calls are absent until you select an agent, provider, model, and key.
-- Host approval remains enabled; the recipe does not bypass Codex or Claude trust prompts.
+- Host approval remains enabled; the recipe does not bypass Codex or Claude's configured approval and trust controls.
 
 ## Sources
 
