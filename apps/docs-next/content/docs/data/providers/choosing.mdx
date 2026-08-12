@@ -30,7 +30,7 @@ Every chat adapter implements the same `AdapterFactory` contract, so swapping on
 | `fireworks`    | ✅        | ✅    | ⚠️         | ❌        | ✅    | ❌          | $ |
 | `openrouter`   | ✅        | ⚠️    | ⚠️         | ⚠️        | ⚠️    | ❌          | $–$$$ |
 | `huggingface`  | ✅        | ❌    | ⚠️         | ❌        | ❌    | ❌          | $ |
-| `ollama`       | ✅        | ⚠️ model-dep. | ⚠️ (llava) | ❌ | ❌ | ✅ | free |
+| `ollama`       | ✅        | ❌ current adapter | ⚠️ (llava / vision model id) | ❌ | ❌ | ✅ | free |
 | `lmstudio`     | ✅        | ⚠️    | ❌          | ❌        | ❌    | ✅          | free |
 | `vllm`         | ✅        | ⚠️    | ❌          | ❌        | ❌    | ✅          | free |
 | `llamacpp`     | ✅        | ⚠️    | ❌          | ❌        | ❌    | ✅          | free |
@@ -39,7 +39,7 @@ Every chat adapter implements the same `AdapterFactory` contract, so swapping on
 | `vercelAI`     | ✅        | passthrough | passthrough | passthrough | passthrough | passthrough | passthrough |
 | `generic`      | ✅        | bring-your-own | bring-your-own | bring-your-own | bring-your-own | bring-your-own | — |
 
-Legend: ✅ supported · ⚠️ depends on model / config · ❌ not supported · `passthrough` = inherits whatever the wrapped runtime exposes. Cost tiers are relative ranges, not contractual prices — consult the provider for current rates.
+Legend: ✅ supported · ⚠️ depends on model / config · ❌ not exposed by the current adapter · `passthrough` = inherits whatever the wrapped runtime exposes. The table describes AgentsKit adapter behavior, not every capability a provider may expose outside this library. Cost tiers are relative ranges, not contractual prices — consult the provider for current rates.
 
 ## When to pick which
 

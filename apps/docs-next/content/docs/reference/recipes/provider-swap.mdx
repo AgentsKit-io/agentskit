@@ -1,11 +1,11 @@
 ---
 title: Swap providers without rewriting the agent
-description: Keep one runtime path and select OpenRouter's free router or a credential-free local adapter at the boundary.
+description: Run one agent path with OpenAI, Anthropic, Gemini, OpenRouter, Groq, or Ollama.
 ---
 
-Provider choice should be configuration, not application architecture. This recipe keeps
-the task and runtime code unchanged while the adapter selection moves between a local,
-credential-free implementation and OpenRouter's `openrouter/free` router.
+Provider choice should be configuration, not application architecture. This recipe keeps the
+task, runtime, and result handling unchanged while the adapter boundary moves between six hosted
+and local providers.
 
 ## Install
 
@@ -18,56 +18,82 @@ npm install @agentskit/adapters @agentskit/core @agentskit/runtime tsx
 The complete runnable source is committed at
 [`apps/docs-next/fixtures/provider-swap/agent.ts`](https://github.com/AgentsKit-io/agentskit/blob/main/apps/docs-next/fixtures/provider-swap/agent.ts).
 
-The boundary that changes is one adapter selection:
+The application path has no provider-specific branch:
 
 ```ts
 const adapter = selectAdapter(provider)
 const result = await runTask(adapter, 'Explain why provider portability matters')
 ```
 
-`runTask` contains no provider-specific branch. OpenRouter is configured explicitly with
-the free router:
+Only `selectAdapter` knows which provider factory, credential, and default model to use.
 
-```ts
-return openrouter({ apiKey: openRouterApiKey, model: 'openrouter/free' })
-```
+## Provider compatibility
 
-## Run locally without credentials
+| `AGENT_PROVIDER` | Credential | Default model | Transport |
+|---|---|---|---|
+| `openai` | `OPENAI_API_KEY` | `gpt-4o-mini` | Hosted |
+| `anthropic` | `ANTHROPIC_API_KEY` | `claude-sonnet-4-6` | Hosted |
+| `gemini` | `GOOGLE_API_KEY` | `gemini-2.5-flash` | Hosted |
+| `openrouter` | `OPENROUTER_API_KEY` | `openrouter/free` | Hosted router |
+| `groq` | `GROQ_API_KEY` | `llama-3.3-70b-versatile` | Hosted |
+| `ollama` | none | `llama3.2` | Local |
+
+Set `AGENT_MODEL` to override any default. Set `OLLAMA_BASE_URL` when Ollama is not listening
+at `http://localhost:11434`. For streaming, tools, multimodal, reasoning, usage, and self-hosting
+details, use the canonical [adapter compatibility matrix](/docs/data/providers/choosing).
+
+## Run without credentials
+
+The fixture defaults to a deterministic `demo` adapter so you can verify installation and the
+runtime path without network access:
 
 ```bash
-AGENT_PROVIDER=local npx tsx agent.ts
+npx tsx agent.ts
 ```
 
 Expected prefix:
 
 ```text
-[local] Local model received:
+[demo] Demo model received:
 ```
 
-This path performs no network request.
+## Switch providers
 
-## Switch to OpenRouter
+Hosted providers require only their documented environment variable:
 
 ```bash
+OPENAI_API_KEY=your-key AGENT_PROVIDER=openai npx tsx agent.ts
+ANTHROPIC_API_KEY=your-key AGENT_PROVIDER=anthropic npx tsx agent.ts
+GOOGLE_API_KEY=your-key AGENT_PROVIDER=gemini npx tsx agent.ts
 OPENROUTER_API_KEY=your-key AGENT_PROVIDER=openrouter npx tsx agent.ts
+GROQ_API_KEY=your-key AGENT_PROVIDER=groq npx tsx agent.ts
 ```
 
-Only configuration changes. The task, runtime construction, and result handling remain
-the same. The free router selects among currently available free models, so availability,
-latency, and the concrete selected model can vary.
+For local Ollama:
+
+```bash
+ollama pull llama3.2
+AGENT_PROVIDER=ollama npx tsx agent.ts
+```
+
+The task, runtime construction, and result handling remain identical for every command.
 
 ## What the automated proof covers
 
-- the local path completes without credentials or network access;
-- the OpenRouter path uses the explicit `openrouter/free` model;
-- missing credentials and unknown provider names fail before transport work;
-- the same `runTask` function is used for both adapters.
+- all six adapters execute the same `runTask` function;
+- provider-native SSE or NDJSON is parsed through a deterministic HTTP mock, with no live API call;
+- hosted credentials are validated before transport work;
+- Ollama needs no API key and accepts model/base URL overrides;
+- OpenRouter uses the explicit `openrouter/free` model;
+- unknown provider names fail before adapter construction;
+- the credential-free demo remains executable in CI.
 
-The committed test intentionally does not call the live OpenRouter API. A live call is an
-optional manual check because free-model availability and rate limits are external state.
+Live calls remain optional because provider availability, accounts, rate limits, and local model
+installation are external state. Tests never inspect or print credential values.
 
 ## See also
 
+- [Choosing an adapter](/docs/data/providers/choosing)
 - [More provider adapters](./more-providers)
 - [Fallback chain](./fallback-chain)
 - [Adapter router](./adapter-router)

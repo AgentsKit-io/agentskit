@@ -18,10 +18,9 @@ const adapter = openai({
 |---|---|---|
 | `apiKey` | `string` | required |
 | `model` | `string` | required |
-| `baseUrl` | `string` | `https://api.openai.com/v1` |
-| `organization` | `string` | — |
-| `project` | `string` | — |
-| `fetch` | `typeof fetch` | global |
+| `baseUrl` | `string` | `https://api.openai.com` |
+| `retry` | `RetryOptions` | package default |
+| `includeUsage` | `boolean` | `true` for the canonical OpenAI host |
 
 ## Model examples
 

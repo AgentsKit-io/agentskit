@@ -141,6 +141,34 @@ test('provider-swap rejects missing credentials and unknown providers before tra
   assert.match(unknown.stderr, /Unsupported AGENT_PROVIDER: unknown/)
 })
 
+test('provider recipe and canonical docs stay aligned with adapter configuration', () => {
+  const docsRoot = join(REPO_ROOT, 'apps/docs-next/content/docs')
+  const recipe = readFileSync(join(docsRoot, 'reference/recipes/provider-swap.mdx'), 'utf8')
+  for (const provider of ['openai', 'anthropic', 'gemini', 'openrouter', 'groq', 'ollama']) {
+    assert.ok(recipe.includes(`| \`${provider}\` |`))
+  }
+  assert.match(recipe, /adapter compatibility matrix/)
+
+  const unsupportedOptions = {
+    openai: ['organization', 'project', 'fetch'],
+    anthropic: ['version', 'fetch'],
+    gemini: ['apiVersion', 'fetch'],
+    openrouter: ['appUrl', 'appName', 'fetch'],
+    ollama: ['url', 'fetch'],
+  }
+  for (const [provider, options] of Object.entries(unsupportedOptions)) {
+    const page = readFileSync(join(docsRoot, `data/providers/${provider}.mdx`), 'utf8')
+    for (const option of options) {
+      assert.ok(!page.includes(`| \`${option}\` |`))
+    }
+  }
+
+  const ollama = readFileSync(join(docsRoot, 'data/providers/ollama.mdx'), 'utf8')
+  const choosing = readFileSync(join(docsRoot, 'data/providers/choosing.mdx'), 'utf8')
+  assert.match(ollama, /\| `baseUrl` \| `string` \| `http:\/\/localhost:11434` \|/)
+  assert.match(choosing, /`ollama`\s+\| ✅\s+\| ❌ current adapter/)
+})
+
 test('repurposer preserves claim values from the ledger', () => {
   const recipe = mineRecipes(REPO_ROOT).find((entry) => entry.id === 'first-agent')
   const claims = verifyClaims(REPO_ROOT, recipe)

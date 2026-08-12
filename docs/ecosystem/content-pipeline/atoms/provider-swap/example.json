@@ -4,6 +4,6 @@
   "commands": [
     "npm install @agentskit/adapters @agentskit/core @agentskit/runtime tsx",
     "cp apps/docs-next/fixtures/provider-swap/agent.ts ./agent.ts",
-    "AGENT_PROVIDER=local npx tsx agent.ts"
+    "AGENT_PROVIDER=ollama npx tsx agent.ts"
   ]
 }
