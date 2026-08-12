@@ -57,7 +57,10 @@ ANTHROPIC_API_KEY=... agentskit chat --provider anthropic --model claude-sonnet-
 # Chat with a local model (no API key needed)
 agentskit chat --provider ollama --model llama3.1
 
-# Chat through Groq or OpenRouter
+# Chat through DeepSeek, Grok, Kimi, Groq, or OpenRouter
+DEEPSEEK_API_KEY=... agentskit chat --provider deepseek
+XAI_API_KEY=... agentskit chat --provider grok
+KIMI_API_KEY=... agentskit chat --provider kimi
 GROQ_API_KEY=... agentskit chat --provider groq
 OPENROUTER_API_KEY=... agentskit chat --provider openrouter
 
@@ -89,7 +92,7 @@ agentskit run --help
 - Provider flags: `--provider`, `--model`, `--system`, `--skill`, `--memory`, `--mode`, `--plugin-dir`
 - Env-var based key injection — works seamlessly in CI and scripts
 - Built-in live providers include OpenAI, Anthropic, Gemini, DeepSeek, Grok, Kimi, Groq, and OpenRouter; Ollama remains local and keyless
-- `agentskit init --provider groq|openrouter` — scaffold a starter already wired to either provider
+- `agentskit init --provider deepseek|grok|kimi|groq|openrouter` — scaffold a starter already wired to the selected provider
 
 Full reference: [docs/infrastructure/cli](https://www.agentskit.io/docs/infrastructure/cli) · [ARCHITECTURE.md](./ARCHITECTURE.md)
 

@@ -10,7 +10,7 @@ export function registerInitCommand(program: Command): void {
     .description('Generate a starter project. Run with no flags for interactive mode.')
     .option('--template <template>', 'Starter template (react|nextjs|sveltekit|nuxt|ink|vite-ink|cloudflare-workers|bun|deno-deploy|expo|angular|runtime|multi-agent)')
     .option('--dir <directory>', 'Target directory', 'agentskit-app')
-    .option('--provider <provider>', 'LLM provider (openai|anthropic|gemini|ollama|groq|openrouter|demo)')
+    .option('--provider <provider>', 'LLM provider (openai|anthropic|gemini|ollama|deepseek|grok|kimi|groq|openrouter|demo)')
     .option('--tools <tools>', 'Comma-separated tools (web_search,filesystem,shell)')
     .option('--memory <backend>', 'Memory backend (none|file|sqlite)')
     .option('--pm <packageManager>', 'Package manager (pnpm|npm|yarn|bun)')

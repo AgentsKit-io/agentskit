@@ -15,7 +15,17 @@ export type StarterKind =
   | 'expo'
   | 'deno-deploy'
   | 'angular'
-export type Provider = 'openai' | 'anthropic' | 'gemini' | 'ollama' | 'groq' | 'openrouter' | 'demo'
+export type Provider =
+  | 'openai'
+  | 'anthropic'
+  | 'gemini'
+  | 'ollama'
+  | 'deepseek'
+  | 'grok'
+  | 'kimi'
+  | 'groq'
+  | 'openrouter'
+  | 'demo'
 export type ToolKind = 'web_search' | 'filesystem' | 'shell'
 export type MemoryKind = 'none' | 'file' | 'sqlite'
 export type PackageManager = 'pnpm' | 'npm' | 'yarn' | 'bun'
@@ -42,6 +52,9 @@ const PROVIDER_IMPORT: Record<Exclude<Provider, 'demo'>, string> = {
   anthropic: 'anthropic',
   gemini: 'gemini',
   ollama: 'ollama',
+  deepseek: 'deepseek',
+  grok: 'grok',
+  kimi: 'kimi',
   groq: 'groq',
   openrouter: 'openrouter',
 }
@@ -51,6 +64,9 @@ const PROVIDER_DEFAULT_MODEL: Record<Provider, string> = {
   anthropic: 'claude-sonnet-4-6',
   gemini: 'gemini-2.5-flash',
   ollama: 'llama3.1',
+  deepseek: 'deepseek-chat',
+  grok: 'grok-4.20-0309-non-reasoning',
+  kimi: 'kimi-k2-0711-preview',
   groq: 'openai/gpt-oss-120b',
   openrouter: '~anthropic/claude-haiku-latest',
   demo: 'demo',
@@ -61,6 +77,9 @@ const PROVIDER_ENV_KEY: Record<Provider, string | null> = {
   anthropic: 'ANTHROPIC_API_KEY',
   gemini: 'GEMINI_API_KEY',
   ollama: null,
+  deepseek: 'DEEPSEEK_API_KEY',
+  grok: 'XAI_API_KEY',
+  kimi: 'KIMI_API_KEY',
   groq: 'GROQ_API_KEY',
   openrouter: 'OPENROUTER_API_KEY',
   demo: null,

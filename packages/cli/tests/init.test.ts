@@ -104,6 +104,22 @@ describe('@agentskit/cli', () => {
     expect(env).toContain('VITE_OPENROUTER_API_KEY=')
   })
 
+  it.each([
+    ['deepseek', 'deepseek', 'deepseek-chat', 'DEEPSEEK_API_KEY'],
+    ['grok', 'grok', 'grok-4.20-0309-non-reasoning', 'XAI_API_KEY'],
+    ['kimi', 'kimi', 'kimi-k2-0711-preview', 'KIMI_API_KEY'],
+  ] as const)('writes a runtime starter wired to %s', async (provider, importName, model, envKey) => {
+    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+    await writeStarterProject({ targetDir: tempDir, template: 'runtime', provider })
+
+    const file = await readFile(path.join(tempDir, 'src/index.ts'), 'utf8')
+    expect(file).toContain(`import { ${importName} } from '@agentskit/adapters'`)
+    expect(file).toContain(`model: '${model}'`)
+
+    const env = await readFile(path.join(tempDir, '.env.example'), 'utf8')
+    expect(env).toContain(`${envKey}=`)
+  })
+
   it('writes a multi-agent starter with planner + researcher', async () => {
     const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
     await writeStarterProject({
