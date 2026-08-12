@@ -39,6 +39,7 @@
     "build": "tsup",
     "test": "vitest run",
     "test:coverage": "vitest run --coverage",
+    "smoke:published": "node fixtures/run-published-coding-agent-hosts.mjs",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"
   },

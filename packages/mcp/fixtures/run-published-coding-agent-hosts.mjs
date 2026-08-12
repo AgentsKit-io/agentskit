@@ -1,14 +1,17 @@
 import { spawn } from 'node:child_process'
+import { tmpdir } from 'node:os'
 import { createMcpClient, createStdioTransport } from '@agentskit/tools/mcp'
 
-const child = spawn(process.execPath, ['packages/mcp/dist/bin.js', '--tools', 'fetch,search'], {
-  cwd: process.cwd(),
+const packageSpec = '@agentskit/mcp@0.3.4'
+const child = spawn('npx', ['-y', packageSpec, '--tools', 'fetch,search'], {
+  cwd: tmpdir(),
   stdio: ['pipe', 'pipe', 'pipe'],
 })
 let stderr = ''
 child.stderr.on('data', chunk => {
   stderr += String(chunk)
 })
+
 const transport = createStdioTransport(child)
 const client = createMcpClient({ transport })
 let timeout
@@ -44,24 +47,23 @@ try {
       const listed = await client.listTools()
       const toolNames = listed.tools.map(tool => tool.name).sort()
       if (
-        initialized.serverInfo.name === 'agentskit-mcp'
-        && toolNames.join(',') === 'fetch_url,web_search'
+        initialized.serverInfo.name !== 'agentskit-mcp'
+        || toolNames.join(',') !== 'fetch_url,web_search'
       ) {
-        process.stdout.write('verified local MCP stdio protocol; cli tools: fetch_url, web_search\n')
-      } else {
-        process.exitCode = 1
+        throw new Error(`unexpected published MCP handshake: ${initialized.serverInfo.name}; ${toolNames.join(',')}`)
       }
+      process.stdout.write(`verified published ${packageSpec}; cli tools: fetch_url, web_search\n`)
     })(),
     new Promise((_, reject) => {
       child.once('exit', (code, signal) => {
-        reject(new Error(`local MCP exited before verification: code=${code}; signal=${signal}`))
+        reject(new Error(`published MCP exited before verification: code=${code}; signal=${signal}`))
       })
     }),
     new Promise((_, reject) => {
       child.once('error', error => reject(error))
     }),
     new Promise((_, reject) => {
-      timeout = setTimeout(() => reject(new Error('local MCP verification timed out after 30s')), 30_000)
+      timeout = setTimeout(() => reject(new Error('published MCP verification timed out after 30s')), 30_000)
     }),
   ])
 } catch (error) {
