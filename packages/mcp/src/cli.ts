@@ -118,7 +118,7 @@ const DEFAULT_MODEL: Record<string, string> = {
   deepseek: 'deepseek-chat',
   gemini: 'gemini-2.0-flash',
   grok: 'grok-2',
-  groq: 'llama-3.3-70b-versatile',
+  groq: 'openai/gpt-oss-120b',
   mistral: 'mistral-large-latest',
   ollama: 'llama3',
   openai: 'gpt-4o',

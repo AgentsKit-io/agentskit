@@ -22,7 +22,7 @@ import { mistral, cohere, together, groq, fireworks, openrouter, huggingface } f
 const a = mistral({ apiKey: process.env.MISTRAL_API_KEY!, model: 'mistral-large-latest' })
 const b = cohere({ apiKey: process.env.COHERE_API_KEY!, model: 'command-r-plus' })
 const c = together({ apiKey: process.env.TOGETHER_API_KEY!, model: 'meta-llama/Meta-Llama-3.1-70B-Instruct-Turbo' })
-const d = groq({ apiKey: process.env.GROQ_API_KEY!, model: 'llama-3.3-70b-versatile' })
+const d = groq({ apiKey: process.env.GROQ_API_KEY!, model: 'openai/gpt-oss-120b' })
 const e = fireworks({ apiKey: process.env.FIREWORKS_API_KEY!, model: 'accounts/fireworks/models/qwen2p5-72b-instruct' })
 const f = openrouter({ apiKey: process.env.OPENROUTER_API_KEY!, model: 'anthropic/claude-sonnet-4-6' })
 const g = huggingface({ apiKey: process.env.HF_TOKEN!, model: 'meta-llama/Meta-Llama-3.1-8B-Instruct' })

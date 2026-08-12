@@ -76,7 +76,7 @@ export const PROVIDERS: {
   { value: 'openrouter', label: 'OpenRouter', pkg: '@agentskit/adapters/openrouter', factory: 'openrouter', model: 'meta-llama/llama-3.1-8b-instruct:free' },
   { value: 'ollama', label: 'Ollama', pkg: '@agentskit/adapters/ollama', factory: 'ollama', model: 'llama3.1' },
   { value: 'grok', label: 'Grok (xAI)', pkg: '@agentskit/adapters/grok', factory: 'grok', model: 'grok-2-latest' },
-  { value: 'groq', label: 'Groq', pkg: '@agentskit/adapters/groq', factory: 'groq', model: 'llama-3.3-70b-versatile' },
+  { value: 'groq', label: 'Groq', pkg: '@agentskit/adapters/groq', factory: 'groq', model: 'openai/gpt-oss-120b' },
   { value: 'mistral', label: 'Mistral', pkg: '@agentskit/adapters/mistral', factory: 'mistral', model: 'mistral-large-latest' },
   { value: 'together', label: 'Together', pkg: '@agentskit/adapters/together', factory: 'together', model: 'meta-llama/Llama-3.3-70B-Instruct-Turbo' },
   { value: 'cohere', label: 'Cohere', pkg: '@agentskit/adapters/cohere', factory: 'cohere', model: 'command-r-plus' },

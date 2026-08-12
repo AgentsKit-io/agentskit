@@ -167,6 +167,18 @@ test('provider recipe and canonical docs stay aligned with adapter configuration
   const choosing = readFileSync(join(docsRoot, 'data/providers/choosing.mdx'), 'utf8')
   assert.match(ollama, /\| `baseUrl` \| `string` \| `http:\/\/localhost:11434` \|/)
   assert.match(choosing, /`ollama`\s+\| ✅\s+\| ❌ current adapter/)
+
+  const moreProviders = readFileSync(join(docsRoot, 'reference/recipes/more-providers.mdx'), 'utf8')
+  assert.match(moreProviders, /groq\(\{ apiKey: process\.env\.GROQ_API_KEY!, model: 'openai\/gpt-oss-120b' \}\)/)
+  assert.doesNotMatch(moreProviders, /llama-3\.3-70b-versatile/)
+
+  const mcpCli = readFileSync(join(REPO_ROOT, 'packages/mcp/src/cli.ts'), 'utf8')
+  assert.match(mcpCli, /groq: 'openai\/gpt-oss-120b'/)
+  assert.doesNotMatch(mcpCli, /groq: 'llama-3\.3-70b-versatile'/)
+
+  const stackState = readFileSync(join(REPO_ROOT, 'apps/docs-next/lib/stack-state.ts'), 'utf8')
+  assert.match(stackState, /value: 'groq'.*model: 'openai\/gpt-oss-120b'/)
+  assert.doesNotMatch(stackState, /value: 'groq'.*model: 'llama-3\.3-70b-versatile'/)
 })
 
 test('repurposer preserves claim values from the ledger', () => {
