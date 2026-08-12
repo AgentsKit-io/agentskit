@@ -126,6 +126,8 @@ test('coding-agent MCP pins stay aligned with the package version', () => {
     'docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/example.json',
     'docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/social-thread.md',
     'docs/ecosystem/content-pipeline/recipes/coding-agent-mcp.json',
+    'apps/docs-next/content/docs/for-agents/mcp.mdx',
+    'readme-standard-v1.json',
     'packages/mcp/README.md',
     'packages/mcp/fixtures/coding-agent-hosts.ts',
     'packages/mcp/fixtures/run-published-coding-agent-hosts.mjs',
@@ -138,6 +140,11 @@ test('coding-agent MCP pins stay aligned with the package version', () => {
     if (yamlPins.length > 0) {
       assert.deepEqual([...new Set(yamlPins)], [packageVersion], `${relativePath} has YAML-version drift`)
     }
+    assert.doesNotMatch(
+      source,
+      /(?:npx|npm install) @agentskit\/mcp(?:\s|`)/,
+      `${relativePath} must not use an unpinned MCP package command`,
+    )
   }
 
   for (const relativePath of pinFiles) {
