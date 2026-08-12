@@ -1,6 +1,6 @@
 ---
 title: '@agentskit/mcp — for agents'
-description: Expose AgentsKit tools as an MCP server over stdio for Codex, Claude Code, Cursor, and other MCP hosts.
+description: Expose AgentsKit tools as an MCP server over stdio for Codex, Claude Code/Desktop, Cursor, Cline, Continue, and other MCP hosts.
 ---
 
 ## Purpose
@@ -35,6 +35,12 @@ with `--agents <ids> --provider <p>` (any of ~20 providers + catalog OpenAI-comp
 `--fs-root`, `--sqlite`, `--allow-shell`, `--model`, `--max-steps`, `--api-key`,
 `--base-url`. Unknown, duplicate, or valueless flags fail closed. stdout is the
 JSON-RPC channel; diagnostics and help go to stderr.
+
+Pinned coding-agent configs and their evidence levels live in the
+[coding-agent MCP recipe](/docs/reference/recipes/coding-agent-mcp). Host config
+fixtures cover Codex, Claude Code/Desktop, Cursor, Cline, and Continue. The
+local-build and published-package smoke scripts both initialize the shared STDIO
+path and require the tool list to equal `fetch_url,web_search`.
 
 ## Beta boundaries
 

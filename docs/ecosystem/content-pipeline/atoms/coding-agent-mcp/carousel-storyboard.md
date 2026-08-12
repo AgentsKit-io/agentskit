@@ -1,4 +1,4 @@
-# Storyboard — Use AgentsKit from Codex, Claude Code, and Cursor
+# Storyboard — Connect AgentsKit to your coding agent
 
 Format: 5-frame carousel / 15s silent GIF
 

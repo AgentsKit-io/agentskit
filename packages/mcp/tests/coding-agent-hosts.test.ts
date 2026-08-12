@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { codingAgentHostConfigs, verifyCodingAgentMcp } from '../fixtures/coding-agent-hosts'
+import { codingAgentHostConfigs, verifyMcpProtocol } from '../fixtures/coding-agent-hosts'
 
 const expectedArgs = ['-y', '@agentskit/mcp@0.3.3', '--tools', 'fetch,search']
 
@@ -13,6 +13,22 @@ describe('coding-agent MCP host recipe', () => {
       expect(server.args).not.toContain('--fs-root')
     }
 
+    for (const host of ['claudeDesktop', 'cline'] as const) {
+      const server = codingAgentHostConfigs[host].config.mcpServers.agentskit
+      expect(server.command).toBe('npx')
+      expect(server.args).toEqual(expectedArgs)
+      expect(server.args).not.toContain('--allow-shell')
+      expect(server.args).not.toContain('--api-key')
+      expect(server.args).not.toContain('--fs-root')
+    }
+
+    expect(codingAgentHostConfigs.cline.config.mcpServers.agentskit.autoApprove).toEqual([])
+    expect(codingAgentHostConfigs.continue.config).toContain('type: stdio')
+    expect(codingAgentHostConfigs.continue.config).toContain('command: npx')
+    for (const arg of expectedArgs) {
+      expect(codingAgentHostConfigs.continue.config).toContain(`- "${arg}"`)
+    }
+
     expect(codingAgentHostConfigs.codex.config).toContain('[mcp_servers.agentskit]')
     expect(codingAgentHostConfigs.codex.config).toContain('command = "npx"')
     expect(codingAgentHostConfigs.codex.config).toContain('default_tools_approval_mode = "prompt"')
@@ -23,13 +39,17 @@ describe('coding-agent MCP host recipe', () => {
     expect(codingAgentHostConfigs.codex.path).toBe('.codex/config.toml')
     expect(codingAgentHostConfigs.claude.path).toBe('.mcp.json')
     expect(codingAgentHostConfigs.cursor.path).toBe('.cursor/mcp.json')
+    expect(codingAgentHostConfigs.claudeDesktop.paths.macos).toContain('claude_desktop_config.json')
+    expect(codingAgentHostConfigs.claudeDesktop.paths.windows).toContain('claude_desktop_config.json')
+    expect(codingAgentHostConfigs.cline.configureWith).toBe('MCP Servers > Configure MCP Servers')
+    expect(codingAgentHostConfigs.continue.path).toBe('.continue/mcpServers/agentskit.yaml')
     expect(codingAgentHostConfigs.codex.cli).toContain('agentskit -- npx')
     expect(codingAgentHostConfigs.claude.cli).toContain('--scope project --transport stdio agentskit -- npx')
   })
 
   it('initializes, discovers, and calls an AgentsKit tool without credentials', async () => {
-    await expect(verifyCodingAgentMcp()).resolves.toBe(
-      'verified hosts: claude, codex, cursor, generic; tool: agentskit_echo',
+    await expect(verifyMcpProtocol()).resolves.toBe(
+      'verified in-memory MCP protocol; tool: agentskit_echo',
     )
   })
 })

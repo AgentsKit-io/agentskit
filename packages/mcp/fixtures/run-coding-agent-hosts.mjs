@@ -16,7 +16,7 @@ try {
     initialized.serverInfo.name === 'agentskit-mcp'
     && toolNames.join(',') === 'fetch_url,web_search'
   ) {
-    process.stdout.write('verified hosts: claude, codex, cursor; cli tools: fetch_url, web_search\n')
+    process.stdout.write('verified local MCP stdio protocol; cli tools: fetch_url, web_search\n')
   } else {
     process.exitCode = 1
   }

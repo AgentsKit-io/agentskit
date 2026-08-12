@@ -86,7 +86,10 @@ test('coding-agent MCP recipe proves one safe command across supported hosts', (
   )
   assert.match(source, /codex mcp add agentskit -- npx -y @agentskit\/mcp@0\.3\.3/)
   assert.match(source, /claude mcp add --scope project --transport stdio/)
+  assert.match(source, /claudeDesktop/)
   assert.match(source, /\.cursor\/mcp\.json/)
+  assert.match(source, /cline/)
+  assert.match(source, /\.continue\/mcpServers\/agentskit\.yaml/)
   assert.doesNotMatch(source, /--allow-shell/)
   assert.doesNotMatch(source, /--api-key/)
 
@@ -94,7 +97,7 @@ test('coding-agent MCP recipe proves one safe command across supported hosts', (
   assert.equal(atom.executable.ok, true)
   assert.equal(
     atom.executable.stdout,
-    'verified hosts: claude, codex, cursor; cli tools: fetch_url, web_search',
+    'verified local MCP stdio protocol; cli tools: fetch_url, web_search',
   )
   assert.equal(atom.publish.status, 'blocked')
 }, 120_000)

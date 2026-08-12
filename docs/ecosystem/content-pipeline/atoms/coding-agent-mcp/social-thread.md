@@ -1,4 +1,4 @@
-1/ Use AgentsKit from Codex, Claude Code, and Cursor
+1/ Connect AgentsKit to your coding agent
 
 Why it exists: Developers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host.
 
@@ -6,6 +6,7 @@ Why it exists: Developers should be able to use the same AgentsKit tools and age
 1. `codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search`
 2. `claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search`
 3. `pnpm --filter @agentskit/mcp exec vitest run tests/coding-agent-hosts.test.ts`
+4. `pnpm --filter @agentskit/mcp smoke:published`
 
 3/ Claims (generated, not hand-typed):
 - 22 packages

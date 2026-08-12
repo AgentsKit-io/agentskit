@@ -1,15 +1,33 @@
 ---
-title: Use AgentsKit from Codex, Claude Code, and Cursor
-description: Expose one safe AgentsKit MCP server to the coding agent you already use, with verified configuration for each host.
+title: Connect AgentsKit to your coding agent
+description: Fix MCP setup across Codex, Claude, Cursor, Cline, and Continue with pinned configurations and an executable server proof.
 ---
 
 You should not need a separate interface to use an AgentsKit tool or agent while
-coding. `@agentskit/mcp` exposes the same server over STDIO to Codex, Claude Code,
-Cursor, and other MCP hosts. The host configuration changes; the AgentsKit
-command does not.
+coding. `@agentskit/mcp` exposes the same server over STDIO to Codex, Claude,
+Cursor, Cline, Continue, and other MCP hosts. The host configuration changes;
+the AgentsKit command does not.
 
 The verified default exposes `fetch` and `search`. It does not enable shell,
 filesystem, SQLite, or a model provider, and it needs no credential to start.
+
+## What is actually verified
+
+| Host | Configuration checked | How to inspect it | Evidence |
+| --- | --- | --- | --- |
+| Codex CLI, IDE, desktop | `.codex/config.toml` | `codex mcp list` or `/mcp` | Official format + fixture |
+| Claude Code | `.mcp.json` | `claude mcp list` or `/mcp` | Official format + fixture |
+| Claude Desktop | `claude_desktop_config.json` | Settings → Developer | Official format + fixture |
+| Cursor | `.cursor/mcp.json` | Settings → MCP | Official format + fixture |
+| Cline | MCP Servers configuration UI | MCP Servers panel | Official format + fixture |
+| Continue | `.continue/mcpServers/agentskit.yaml` | Agent mode tool list | Official format + fixture |
+
+The fixtures assert the exact version-pinned wrappers. Codex and Cline encode
+reviewable approval settings directly; the other hosts retain the approval and
+trust behavior documented by their vendors.
+The executable proofs initialize the shared STDIO server and list its tools from
+both the local build and the published npm package. They do not automate each
+host application's UI, login, or trust prompt.
 
 ## Codex
 
@@ -77,6 +95,72 @@ Create `.cursor/mcp.json`:
 Restart or reload Cursor, then inspect the MCP settings to confirm that the
 server and its tools are available.
 
+## Claude Desktop
+
+Open Settings → Developer → Edit Config. On macOS this edits
+`~/Library/Application Support/Claude/claude_desktop_config.json`; on Windows it
+edits `%APPDATA%\Claude\claude_desktop_config.json`.
+
+```json
+{
+  "mcpServers": {
+    "agentskit": {
+      "command": "npx",
+      "args": ["-y", "@agentskit/mcp@0.3.3", "--tools", "fetch,search"]
+    }
+  }
+}
+```
+
+Fully quit and restart Claude Desktop, then check the server status under
+Developer settings. This is the local Desktop configuration, not a remote
+Claude connector.
+
+## Cline
+
+Open MCP Servers, choose Configure MCP Servers, and add:
+
+```json
+{
+  "mcpServers": {
+    "agentskit": {
+      "command": "npx",
+      "args": ["-y", "@agentskit/mcp@0.3.3", "--tools", "fetch,search"],
+      "env": {},
+      "disabled": false,
+      "autoApprove": []
+    }
+  }
+}
+```
+
+Keep `autoApprove` empty so every MCP tool call remains reviewable. Cline's
+current documentation describes more than one settings location across its IDE
+and CLI surfaces, so use the configuration UI or `cline mcp` instead of assuming
+a shared file path.
+
+## Continue
+
+Create `.continue/mcpServers/agentskit.yaml`:
+
+```yaml
+name: AgentsKit MCP
+version: 0.3.3
+schema: v1
+mcpServers:
+  - name: agentskit
+    type: stdio
+    command: npx
+    args:
+      - "-y"
+      - "@agentskit/mcp@0.3.3"
+      - "--tools"
+      - "fetch,search"
+```
+
+Restart the Continue extension and switch to Agent mode. MCP tools are not
+available in its other modes.
+
 ## Expose a complete Registry agent
 
 The same bridge can publish a bounded Registry agent as one MCP tool. Extend the
@@ -100,17 +184,32 @@ local processes.
 
 The repository proof first launches the built CLI over real child-process STDIO
 and verifies that `--tools fetch,search` exposes `fetch_url` and `web_search`.
-The package test also initializes an in-memory client, lists a bounded echo tool,
-calls it, and closes both ends:
+The published proof launches the pinned npm package through `npx`. The package
+test also initializes an in-memory client, lists a bounded echo tool, calls it,
+and closes both ends:
 
 ```bash
 pnpm --filter @agentskit/mcp... build
 node packages/mcp/fixtures/run-coding-agent-hosts.mjs
+pnpm --filter @agentskit/mcp smoke:published
 pnpm --filter @agentskit/mcp exec vitest run tests/coding-agent-hosts.test.ts
 ```
 
-Both proofs are offline and credential-free. Their sources are under
+The local and in-memory proofs are offline. The published proof is
+credential-free but requires npm network access. Their sources are under
 `packages/mcp/fixtures/`.
+
+## When Doc Bridge or a Registry helps
+
+Use Doc Bridge when another agent needs package-aware documentation handoffs or
+must generate the right host wrapper. It improves configuration discovery; it
+is not required to run the safe `fetch,search` server.
+
+Use `--agents <id>` when you want to expose a bounded agent from the AgentsKit
+Registry as one MCP tool. That path requires a provider and model credentials.
+The official MCP Registry is useful for discovery metadata and downstream
+catalogs, but its `server.json` does not replace these host-specific files. This
+recipe does not publish or submit the package to any registry or marketplace.
 
 ## Security boundary
 
@@ -124,7 +223,10 @@ Both proofs are offline and credential-free. Their sources are under
 - [Codex MCP configuration](https://developers.openai.com/codex/mcp/)
 - [Claude Code MCP configuration](https://docs.anthropic.com/en/docs/claude-code/mcp)
 - [Cursor MCP configuration](https://cursor.com/docs/mcp)
+- [Cline MCP configuration](https://docs.cline.bot/mcp/mcp-overview)
+- [Continue MCP configuration](https://docs.continue.dev/customize/deep-dives/mcp)
 - [MCP architecture](https://modelcontextprotocol.io/specification/2025-06-18/architecture)
+- [MCP Registry](https://modelcontextprotocol.io/registry/about)
 - [AgentsKit MCP package](/docs/agents/tools/mcp)
 
 ## See also
