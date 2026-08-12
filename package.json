@@ -50,7 +50,7 @@
     "size:why": "pnpm build && size-limit --why",
     "content-pipeline:run": "node scripts/run-content-pipeline.mjs",
     "check:content-pipeline": "node scripts/check-content-pipeline.mjs",
-    "test:content-pipeline": "vitest run scripts/content-pipeline.test.mjs",
+    "test:content-pipeline": "vitest run scripts/content-pipeline.test.mjs apps/docs-next/fixtures/provider-swap/agent.test.ts",
     "check:launch-package": "node scripts/check-launch-package.mjs",
     "test:launch-package": "vitest run scripts/launch-package.test.mjs",
     "check:ecosystem-readiness": "node scripts/check-ecosystem-readiness.mjs",

@@ -2,8 +2,8 @@
   "id": "provider-swap",
   "title": "Swap the model provider without rewriting the agent",
   "status": "verified-source",
-  "problem": "Agent applications should be able to change model providers without moving provider-specific logic into the task, runtime, tools, or result handling.",
-  "audience": "JavaScript and TypeScript developers who want a portable agent path before choosing a paid model provider",
+  "problem": "Agent applications should be able to change between OpenAI, Anthropic, Gemini, OpenRouter, Groq, and Ollama without moving provider-specific logic into the task, runtime, tools, or result handling.",
+  "audience": "JavaScript and TypeScript developers who want one portable agent path across hosted and local model providers",
   "docs": [
     "/docs/reference/recipes/provider-swap",
     "apps/docs-next/fixtures/provider-swap/agent.ts"
@@ -22,12 +22,13 @@
       "tsx",
       "fixtures/provider-swap/agent.ts"
     ],
-    "expectStdoutIncludes": "[local] Local model received: Explain why provider portability matters"
+    "expectStdoutIncludes": "[demo] Demo model received: Explain why provider portability matters"
   },
   "commands": [
     "npm install @agentskit/adapters @agentskit/core @agentskit/runtime tsx",
     "cp apps/docs-next/fixtures/provider-swap/agent.ts ./agent.ts",
-    "AGENT_PROVIDER=local npx tsx agent.ts"
+    "AGENT_PROVIDER=demo npx tsx agent.ts",
+    "AGENT_PROVIDER=ollama npx tsx agent.ts"
   ],
   "claims": [
     { "productId": "agentskit", "claimId": "native-adapters" },

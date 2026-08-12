@@ -105,13 +105,14 @@ test('provider-swap recipe keeps one application path and a credential-free proo
     'utf8',
   )
   assert.match(source, /model: 'openrouter\/free'/)
+  assert.match(source, /anthropic, gemini, groq, ollama, openai, openrouter/)
   assert.match(source, /export async function runTask\(adapter: AdapterFactory, task: string\)/)
-  assert.match(source, /OPENROUTER_API_KEY is required/)
+  assert.match(source, /PROVIDER_DEFAULTS/)
   assert.doesNotMatch(source, /fetch\(/)
 
   const atom = runPipeline(REPO_ROOT, 'provider-swap', { runExecutable: true, gateResults: [] })
   assert.equal(atom.executable.ok, true)
-  assert.match(atom.executable.stdout, /^\[local\] Local model received:/)
+  assert.match(atom.executable.stdout, /^\[demo\] Demo model received:/)
   assert.equal(atom.publish.status, 'blocked')
 }, 120_000)
 
