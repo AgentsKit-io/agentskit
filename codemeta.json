@@ -1,0 +1,71 @@
+{
+  "@context": "https://w3id.org/codemeta/3.1",
+  "@type": "SoftwareSourceCode",
+  "@id": "https://www.agentskit.io/#source",
+  "name": "AgentsKit",
+  "alternateName": "AgentsKit.js",
+  "description": "A free, MIT-licensed TypeScript ecosystem for production AI agents with replaceable contracts for models, runtimes, tools, memory, RAG, observability, sandboxing, evaluation, and interfaces.",
+  "codeRepository": "https://github.com/AgentsKit-io/agentskit",
+  "issueTracker": "https://github.com/AgentsKit-io/agentskit/issues",
+  "url": "https://www.agentskit.io",
+  "buildInstructions": "https://www.agentskit.io/docs/get-started/getting-started/installation",
+  "license": "https://spdx.org/licenses/MIT",
+  "version": "1.12.7",
+  "dateCreated": "2026-04-02",
+  "developmentStatus": "active",
+  "programmingLanguage": [
+    "TypeScript",
+    "JavaScript"
+  ],
+  "runtimePlatform": "JavaScript runtimes supporting ES2022",
+  "applicationCategory": "DeveloperApplication",
+  "keywords": [
+    "AI agents",
+    "agent framework",
+    "TypeScript",
+    "JavaScript",
+    "LLM",
+    "multi-agent",
+    "tools",
+    "memory",
+    "RAG",
+    "observability",
+    "sandboxing",
+    "evaluation",
+    "MCP"
+  ],
+  "author": {
+    "@type": "Person",
+    "name": "Emerson Braun",
+    "givenName": "Emerson",
+    "familyName": "Braun",
+    "url": "https://github.com/EmersonBraun"
+  },
+  "maintainer": {
+    "@type": "Person",
+    "name": "Emerson Braun",
+    "givenName": "Emerson",
+    "familyName": "Braun",
+    "url": "https://github.com/EmersonBraun"
+  },
+  "producer": {
+    "@type": "Organization",
+    "@id": "https://www.agentskit.io/#org",
+    "name": "AgentsKit",
+    "url": "https://www.agentskit.io",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://www.agentskit.io/apple-touch-icon.png",
+      "width": 180,
+      "height": 180
+    },
+    "sameAs": [
+      "https://github.com/AgentsKit-io/agentskit",
+      "https://www.npmjs.com/org/agentskit"
+    ]
+  },
+  "relatedLink": [
+    "https://www.agentskit.io/docs",
+    "https://www.agentskit.io/llms.txt"
+  ]
+}

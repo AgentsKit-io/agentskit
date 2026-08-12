@@ -8,6 +8,7 @@ const SURFACE_KEYS = ['home', 'docs', 'llms', 'stats']
 /** properties[] is the seven-product v1 projection of products[] (same order). */
 const LEGACY_PRODUCT_IDS = ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge', 'code-review', 'akos']
 const CANONICAL_PRODUCT_IDS = ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge', 'code-review', 'akos']
+const SPDX_LICENSE = /^[A-Za-z0-9][A-Za-z0-9.+-]*$/
 
 function fail(path, message) {
   throw new TypeError(`ecosystem contract: ${path} ${message}`)
@@ -85,6 +86,34 @@ export function parseEcosystemManifest(input) {
     if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo)) fail(`${path}.repo`, 'must use owner/name')
     const accent = string(product.accent, `${path}.accent`)
     if (!/^#[0-9A-Fa-f]{6}$/.test(accent)) fail(`${path}.accent`, 'must be a six-digit hex color')
+
+    if (product.metadata !== undefined) {
+      if (id !== 'agentskit') fail(`${path}.metadata`, 'is currently supported only for the canonical AgentsKit product')
+      const metadata = object(product.metadata, `${path}.metadata`)
+      string(metadata.alternateName, `${path}.metadata.alternateName`)
+      string(metadata.description, `${path}.metadata.description`)
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(string(metadata.dateCreated, `${path}.metadata.dateCreated`))) {
+        fail(`${path}.metadata.dateCreated`, 'must use YYYY-MM-DD')
+      }
+      string(metadata.applicationCategory, `${path}.metadata.applicationCategory`)
+      string(metadata.runtimePlatform, `${path}.metadata.runtimePlatform`)
+      if (!SPDX_LICENSE.test(string(metadata.license, `${path}.metadata.license`))) {
+        fail(`${path}.metadata.license`, 'must be an SPDX identifier')
+      }
+      const author = object(metadata.author, `${path}.metadata.author`)
+      string(author.givenName, `${path}.metadata.author.givenName`)
+      string(author.familyName, `${path}.metadata.author.familyName`)
+      url(author.url, `${path}.metadata.author.url`)
+      if (!Array.isArray(metadata.keywords) || metadata.keywords.length < 3) {
+        fail(`${path}.metadata.keywords`, 'must contain at least three terms')
+      }
+      const keywords = new Set()
+      for (const [keywordIndex, keyword] of metadata.keywords.entries()) {
+        const normalized = string(keyword, `${path}.metadata.keywords[${keywordIndex}]`).toLowerCase()
+        if (keywords.has(normalized)) fail(`${path}.metadata.keywords[${keywordIndex}]`, 'duplicates another keyword')
+        keywords.add(normalized)
+      }
+    }
 
     if (product.navigation?.showInBar) {
       const showcase = object(product.showcase, `${path}.showcase`)
@@ -188,6 +217,7 @@ export function parseEcosystemManifest(input) {
   if (JSON.stringify([...ids]) !== JSON.stringify(CANONICAL_PRODUCT_IDS)) {
     fail('$.products', `must contain the canonical products in order: ${CANONICAL_PRODUCT_IDS.join(', ')}`)
   }
+  if (manifest.products[0].metadata === undefined) fail('$.products[0].metadata', 'is required for generated software identity surfaces')
   for (const [index, product] of manifest.products.entries()) {
     // Products may set showInBar:false to leave the shared header (e.g. early-stage tools).
     // Order stays stable so re-enabling a product does not reshuffle peers.
