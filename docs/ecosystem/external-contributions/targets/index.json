@@ -37,6 +37,28 @@
       "notes": "Contribution must be a standalone smoke example for /v1/chat/completions streaming. AgentsKit mention is optional and removable."
     },
     {
+      "id": "groq-api-cookbook",
+      "name": "Groq API Cookbook",
+      "kind": "provider",
+      "relationship": "AgentsKit exposes a Groq adapter over Groq's OpenAI-compatible chat completions endpoint; a standalone migration smoke check helps users validate that shared protocol.",
+      "technicalRelationship": true,
+      "promotionalOnly": false,
+      "contributionRulesUrl": "https://github.com/groq/groq-api-cookbook/blob/main/CONTRIBUTING.md",
+      "contributionRules": {
+        "sourceUrl": "https://github.com/groq/groq-api-cookbook/blob/main/CONTRIBUTING.md",
+        "reviewedOn": "2026-08-12",
+        "criteria": [
+          "Provide a helpful and broadly reusable practical application",
+          "Keep the guide clear, complete, accurate, and executable",
+          "Maintain a neutral stance on tools and products"
+        ]
+      },
+      "repo": "groq/groq-api-cookbook",
+      "accepts": ["guides", "examples", "suggestions"],
+      "priority": "draft-for-hitl",
+      "notes": "Prepare one neutral, zero-dependency JavaScript migration smoke check. Do not submit without human approval."
+    },
+    {
       "id": "modelcontextprotocol-docs",
       "name": "Model Context Protocol documentation",
       "kind": "protocol",

@@ -19,8 +19,8 @@ const adapter = anthropic({
 | `apiKey` | `string` | required |
 | `model` | `string` | required |
 | `baseUrl` | `string` | `https://api.anthropic.com` |
-| `version` | `string` | `2023-06-01` |
-| `fetch` | `typeof fetch` | global |
+| `maxTokens` | `number` | `4096` |
+| `retry` | `RetryOptions` | package default |
 
 ## Model examples
 
@@ -36,7 +36,7 @@ const adapter = anthropic({
 
 - Streaming via SSE; `content_block_delta` events → `text` and `tool_use` chunks.
 - Vision: pass `{ type: 'image', source: { ... } }` content parts.
-- Long-context: Sonnet supports 1M-token context when `anthropic-beta: context-1m-2025-08-07` set via `headers`.
+- The adapter sends the fixed `anthropic-version: 2023-06-01` transport header.
 
 ## Related
 

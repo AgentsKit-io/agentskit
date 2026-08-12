@@ -8,7 +8,7 @@ import { ollama } from '@agentskit/adapters'
 
 const adapter = ollama({
   model: 'llama3.2',
-  url: 'http://localhost:11434',
+  baseUrl: 'http://localhost:11434',
 })
 ```
 
@@ -17,13 +17,13 @@ const adapter = ollama({
 | Option | Type | Default |
 |---|---|---|
 | `model` | `string` | required |
-| `url` | `string` | `http://localhost:11434` |
-| `fetch` | `typeof fetch` | global |
+| `baseUrl` | `string` | `http://localhost:11434` |
+| `retry` | `RetryOptions` | package default |
 
 ## Why ollama
 
 - Zero config, zero cost, offline.
-- Supports tool calling for models that implement it (Llama 3.1+, Qwen 2.5+).
+- The current adapter exposes text streaming; its declared tool capability is `false`.
 - Install: `curl -fsSL https://ollama.com/install.sh | sh`.
 
 ## Notes

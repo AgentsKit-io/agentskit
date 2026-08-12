@@ -19,8 +19,7 @@ const adapter = gemini({
 | `apiKey` | `string` | required |
 | `model` | `string` | required |
 | `baseUrl` | `string` | `https://generativelanguage.googleapis.com` |
-| `apiVersion` | `string` | `v1beta` |
-| `fetch` | `typeof fetch` | global |
+| `retry` | `RetryOptions` | package default |
 
 ## Model examples
 
@@ -34,7 +33,7 @@ const adapter = gemini({
 
 ## Notes
 
-- Streaming via SSE `streamGenerateContent`.
+- Streaming via the `v1beta` SSE `streamGenerateContent` endpoint.
 - Multimodal: inline image data or URI parts.
 - For Vertex AI (IAM + GCP billing) use the forthcoming [vertexAdapter](https://github.com/AgentsKit-io/agentskit/issues/427).
 

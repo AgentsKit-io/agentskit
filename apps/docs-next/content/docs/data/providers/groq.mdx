@@ -8,7 +8,7 @@ import { groq } from '@agentskit/adapters'
 
 const adapter = groq({
   apiKey: process.env.GROQ_API_KEY!,
-  model: 'llama-3.3-70b-versatile',
+  model: 'openai/gpt-oss-120b',
 })
 ```
 
@@ -17,9 +17,10 @@ const adapter = groq({
 | Option | Type | Default |
 |---|---|---|
 | `apiKey` | `string` | required |
-| `model` | `string` | `llama-3.3-70b-versatile` |
+| `model` | `string` | `openai/gpt-oss-120b` |
 | `baseUrl` | `string` | `https://api.groq.com/openai/v1` |
 | `retry` | `RetryOptions` | inherited |
+| `includeUsage` | `boolean` | `false` |
 
 ## Capabilities
 

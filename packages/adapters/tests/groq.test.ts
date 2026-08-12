@@ -59,12 +59,12 @@ describe('groqAdapter', () => {
     expect(cap.url).toContain('https://api.groq.com/openai/v1')
   })
 
-  it('defaults to llama-3.3-70b-versatile when no model is given', async () => {
+  it('defaults to openai/gpt-oss-120b when no model is given', async () => {
     const cap: Capture = {}
     mockFetch(cap)
     await drain(groq({ apiKey: 'k' }))
     const body = JSON.parse(String(cap.body)) as { model: string }
-    expect(body.model).toBe('llama-3.3-70b-versatile')
+    expect(body.model).toBe('openai/gpt-oss-120b')
   })
 
   it('honours explicit model override', async () => {

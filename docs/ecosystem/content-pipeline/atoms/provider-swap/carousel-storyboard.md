@@ -2,7 +2,7 @@
 
 Format: 5-frame carousel / 15s silent GIF
 
-1. **Hook** — "Agent applications should be able to change model providers without moving provider-specific logic into the task, runtime, tools, or result handling."
+1. **Hook** — "Agent applications should be able to change between OpenAI, Anthropic, Gemini, OpenRouter, Groq, and Ollama without moving provider-specific logic into the task, runtime, tools, or result handling."
 2. **Install** — show `npm install @agentskit/adapters @agentskit/core @agentskit/runtime tsx`
 3. **Copy fixture** — show the agent.ts path
 4. **Run** — terminal output includes the expected ready line
