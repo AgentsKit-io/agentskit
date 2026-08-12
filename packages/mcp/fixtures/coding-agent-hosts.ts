@@ -109,10 +109,17 @@ const readJsonServer = (value: unknown, host: string): Record<string, unknown> =
   return server
 }
 
-const validateStdioServer = (server: Record<string, unknown>, host: string, explicitType: boolean): void => {
+const validateStdioServer = (
+  server: Record<string, unknown>,
+  host: string,
+  explicitType: boolean,
+  allowedKeys: readonly string[] = ['type', 'command', 'args'],
+): void => {
   for (const key of ['url', 'headers', 'transportType', 'sse', 'streamableHttp']) {
     requireValue(!(key in server), `${host}.${key} must not configure a remote transport`)
   }
+  const unexpectedKey = Object.keys(server).find((key) => !allowedKeys.includes(key))
+  requireValue(unexpectedKey === undefined, `${host}.${unexpectedKey ?? 'unknown'} is not part of the pinned wrapper`)
   requireValue(
     explicitType ? server.type === 'stdio' : server.type === undefined || server.type === 'stdio',
     `${host}.type must be absent or "stdio"`,
@@ -224,7 +231,7 @@ export const validateCodingAgentHostConfigs = (configs: unknown = codingAgentHos
   const clineConfig = configs.cline
   requireValue(isRecord(clineConfig), 'cline must be an object')
   const cline = readJsonServer(clineConfig.config ?? null, 'cline')
-  validateStdioServer(cline, 'cline', false)
+  validateStdioServer(cline, 'cline', false, ['type', 'command', 'args', 'env', 'disabled', 'autoApprove'])
   requireValue(isRecord(cline.env) && Object.keys(cline.env).length === 0, 'cline.env must stay empty')
   requireValue(Array.isArray(cline.autoApprove) && cline.autoApprove.length === 0, 'cline.autoApprove must stay empty')
   requireValue(cline.disabled === false, 'cline.disabled must stay false')

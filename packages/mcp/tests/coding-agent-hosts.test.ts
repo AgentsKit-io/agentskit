@@ -64,6 +64,18 @@ describe('coding-agent MCP host recipe', () => {
     ;(remoteServer.agentskit as Record<string, unknown>).url = 'https://example.invalid/mcp'
     expect(() => validateCodingAgentHostConfigs(remoteField)).toThrow(/claudeDesktop.url must not configure a remote transport/)
 
+    const credentialField = JSON.parse(JSON.stringify(codingAgentHostConfigs)) as Record<string, unknown>
+    const claude = credentialField.claude as Record<string, unknown>
+    const claudeServer = (claude.config as Record<string, unknown>).mcpServers as Record<string, unknown>
+    ;(claudeServer.agentskit as Record<string, unknown>).env = { API_KEY: 'secret' }
+    expect(() => validateCodingAgentHostConfigs(credentialField)).toThrow(/claude.env is not part of the pinned wrapper/)
+
+    const unknownField = JSON.parse(JSON.stringify(codingAgentHostConfigs)) as Record<string, unknown>
+    const cursor = unknownField.cursor as Record<string, unknown>
+    const cursorServer = (cursor.config as Record<string, unknown>).mcpServers as Record<string, unknown>
+    ;(cursorServer.agentskit as Record<string, unknown>).timeout = 30_000
+    expect(() => validateCodingAgentHostConfigs(unknownField)).toThrow(/cursor.timeout is not part of the pinned wrapper/)
+
     const legacyTransport = JSON.parse(JSON.stringify(codingAgentHostConfigs)) as Record<string, unknown>
     const legacyCline = legacyTransport.cline as Record<string, unknown>
     const legacyServer = (legacyCline.config as Record<string, unknown>).mcpServers as Record<string, unknown>
