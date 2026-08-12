@@ -102,6 +102,43 @@ test('coding-agent MCP recipe proves one safe command across supported hosts', (
   assert.equal(atom.publish.status, 'blocked')
 }, 120_000)
 
+test('coding-agent MCP pins stay aligned with the package version', () => {
+  const packageVersion = JSON.parse(readFileSync(join(REPO_ROOT, 'packages/mcp/package.json'), 'utf8')).version
+  assert.match(packageVersion, /^\d+\.\d+\.\d+$/)
+  const pinFiles = [
+    'apps/docs-next/content/docs/reference/recipes/coding-agent-mcp.mdx',
+    'docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/atom.json',
+    'docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/carousel-storyboard.md',
+    'docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/community-post.md',
+    'docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/docs.mdx',
+    'docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/example.json',
+    'docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/social-thread.md',
+    'docs/ecosystem/content-pipeline/recipes/coding-agent-mcp.json',
+    'packages/mcp/README.md',
+    'packages/mcp/fixtures/coding-agent-hosts.ts',
+    'packages/mcp/fixtures/run-published-coding-agent-hosts.mjs',
+  ]
+  const assertPinned = (source, relativePath) => {
+    const packagePins = [...source.matchAll(/@agentskit\/mcp@(\d+\.\d+\.\d+)/g)].map((match) => match[1])
+    assert.ok(packagePins.length > 0, `${relativePath} has no pinned package version`)
+    assert.deepEqual([...new Set(packagePins)], [packageVersion], `${relativePath} has package-version drift`)
+    const yamlPins = [...source.matchAll(/version:\s*(\d+\.\d+\.\d+)/g)].map((match) => match[1])
+    if (yamlPins.length > 0) {
+      assert.deepEqual([...new Set(yamlPins)], [packageVersion], `${relativePath} has YAML-version drift`)
+    }
+  }
+
+  for (const relativePath of pinFiles) {
+    assertPinned(readFileSync(join(REPO_ROOT, relativePath), 'utf8'), relativePath)
+  }
+
+  const fixture = readFileSync(join(REPO_ROOT, 'packages/mcp/fixtures/coding-agent-hosts.ts'), 'utf8')
+  assert.throws(
+    () => assertPinned(fixture.replace(`@agentskit/mcp@${packageVersion}`, '@agentskit/mcp@0.0.0'), 'synthetic stale fixture'),
+    /package-version drift/,
+  )
+}, 120_000)
+
 test('provider-swap recipe keeps one application path and a credential-free proof', () => {
   const source = readFileSync(
     join(REPO_ROOT, 'apps/docs-next/fixtures/provider-swap/agent.ts'),
