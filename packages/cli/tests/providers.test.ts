@@ -8,6 +8,8 @@ beforeEach(() => {
   delete process.env.OPENAI_API_KEY
   delete process.env.ANTHROPIC_API_KEY
   delete process.env.GEMINI_API_KEY
+  delete process.env.GOOGLE_API_KEY
+  delete process.env.GOOGLE_GENERATIVE_AI_API_KEY
   delete process.env.DEEPSEEK_API_KEY
   delete process.env.XAI_API_KEY
   delete process.env.KIMI_API_KEY
@@ -67,6 +69,13 @@ describe('resolveChatProvider', () => {
     expect(r.model).toBeTruthy()
   })
 
+  it('accepts Google aliases for Gemini credentials', () => {
+    process.env.GOOGLE_API_KEY = 'google-test-key'
+    const r = resolveChatProvider({ provider: 'gemini' })
+    expect(r.provider).toBe('gemini')
+    expect(r.mode).toBe('live')
+  })
+
   it('explicit apiKey wins over env', () => {
     process.env.OPENAI_API_KEY = 'env-key'
     const r = resolveChatProvider({ provider: 'openai', apiKey: 'flag-key' })
@@ -79,9 +88,10 @@ describe('resolveChatProvider', () => {
     expect(r.provider).toBe('kimi')
   })
 
-  it('throws when requiresModel and no model given (grok)', () => {
+  it('uses the registry default model for Grok', () => {
     process.env.XAI_API_KEY = 'sk-xai'
-    expect(() => resolveChatProvider({ provider: 'grok' })).toThrow(/--model/)
+    const r = resolveChatProvider({ provider: 'grok' })
+    expect(r.model).toBe('grok-4.20-0309-non-reasoning')
   })
 
   it('ollama works without env keys', () => {
