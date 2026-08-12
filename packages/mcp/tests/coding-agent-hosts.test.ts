@@ -41,6 +41,14 @@ describe('coding-agent MCP host recipe', () => {
     const duplicateCodex = duplicateKey.codex as Record<string, unknown>
     duplicateCodex.config = `${duplicateCodex.config}\ncommand = "npx"`
     expect(() => validateCodingAgentHostConfigs(duplicateKey)).toThrow(/Codex TOML key command is duplicated/)
+
+    const unknownHost = JSON.parse(JSON.stringify(codingAgentHostConfigs)) as Record<string, unknown>
+    unknownHost.neovim = { config: {} }
+    expect(() => validateCodingAgentHostConfigs(unknownHost)).toThrow(/root hosts must be exactly/)
+
+    const missingHost = JSON.parse(JSON.stringify(codingAgentHostConfigs)) as Record<string, unknown>
+    delete missingHost.continue
+    expect(() => validateCodingAgentHostConfigs(missingHost)).toThrow(/root hosts must be exactly/)
   })
 
   it('rejects non-stdio transports, Cline env values, and drifting CLI commands', () => {

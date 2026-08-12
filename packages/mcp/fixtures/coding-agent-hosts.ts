@@ -201,6 +201,11 @@ const validateContinueYaml = (source: string): void => {
 
 export const validateCodingAgentHostConfigs = (configs: unknown = codingAgentHostConfigs): void => {
   requireValue(isRecord(configs), 'root must be an object')
+  const expectedHosts = ['claude', 'claudeDesktop', 'codex', 'cursor', 'cline', 'continue', 'generic']
+  requireValue(
+    JSON.stringify(Object.keys(configs).sort()) === JSON.stringify(expectedHosts.slice().sort()),
+    `root hosts must be exactly ${expectedHosts.join(', ')}`,
+  )
 
   for (const host of ['claude', 'cursor', 'generic'] as const) {
     const hostConfig = configs[host]
