@@ -68,6 +68,11 @@ export async function runInteractiveInit(
         { name: 'Anthropic', value: 'anthropic' },
         { name: 'Gemini', value: 'gemini' },
         { name: 'Ollama (local, no key)', value: 'ollama' },
+        { name: 'DeepSeek', value: 'deepseek' },
+        { name: 'xAI Grok', value: 'grok' },
+        { name: 'Kimi', value: 'kimi' },
+        { name: 'Groq', value: 'groq' },
+        { name: 'OpenRouter', value: 'openrouter' },
       ],
     })
 

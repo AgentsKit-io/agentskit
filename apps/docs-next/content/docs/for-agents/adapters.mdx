@@ -100,7 +100,9 @@ npm install @agentskit/adapters
 Data-driven provider/model metadata adapted from `models.dev`, cached
 as a committed snapshot. Large, so it ships only via the `./catalog`
 subpath — never bundled into the main entry. The runtime never fetches
-`models.dev`; regenerate with `pnpm sync:models` and commit the diff.
+`models.dev`; regenerate with `pnpm sync:models` and commit the diff. The
+snapshot carries a normalized content hash and ETag, while scheduled CI checks
+freshness and upstream drift.
 
 - `getProvider`, `getModel`, `listProviders`,
   `listOpenAICompatibleProviders` — query the catalog.
@@ -114,6 +116,9 @@ subpath — never bundled into the main entry. The runtime never fetches
 - `applyOverrides(snapshot, { allowedProviders, disabledProviders, allowedModels })`
   — local policy without forking the catalog.
 - `detectCatalogDrift()` — CI guard; flags undispatchable providers.
+- `classifyCatalogProvider(provider)` — marks each entry as `native`,
+  `openai-compatible`, or `unsupported` so catalog breadth is not confused with
+  transport coverage.
 - `catalogSnapshotSchema` (JSON Schema, public contract),
   `catalogSource()` (provenance + `generatedAt` for staleness).
 

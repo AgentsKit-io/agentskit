@@ -10,6 +10,17 @@ import type { CatalogProvider } from './types'
  */
 export const FIRST_CLASS_PROVIDERS = ['anthropic', 'openai', 'google'] as const
 
+/** How a catalog provider is expected to reach an AgentsKit adapter. */
+export type CatalogProviderSupport = 'native' | 'openai-compatible' | 'unsupported'
+
+export function classifyCatalogProvider(
+  provider: Pick<CatalogProvider, 'id' | 'openaiCompatible'>,
+): CatalogProviderSupport {
+  if (FIRST_CLASS_PROVIDERS.includes(provider.id as (typeof FIRST_CLASS_PROVIDERS)[number])) return 'native'
+  if (provider.openaiCompatible) return 'openai-compatible'
+  return 'unsupported'
+}
+
 export interface CatalogDriftReport {
   /** Catalog providers that are neither first-class nor OpenAI-compatible — undispatchable. */
   undispatchable: string[]
@@ -27,9 +38,8 @@ export interface CatalogDriftReport {
 export function detectCatalogDrift(
   providers: CatalogProvider[] = listProviders(),
 ): CatalogDriftReport {
-  const firstClass = new Set<string>(FIRST_CLASS_PROVIDERS)
   const undispatchable = providers
-    .filter((p) => !p.openaiCompatible && !firstClass.has(p.id))
+    .filter((p) => classifyCatalogProvider(p) === 'unsupported')
     .map((p) => p.id)
   const ids = new Set(providers.map((p) => p.id))
   const missingFromCatalog = FIRST_CLASS_PROVIDERS.filter((id) => !ids.has(id))

@@ -2,10 +2,12 @@ import {
   anthropic,
   deepseek,
   gemini,
+  groq,
   grok,
   kimi,
   ollama,
   openai,
+  openrouter,
 } from '@agentskit/adapters'
 import type { AdapterFactory } from '@agentskit/core'
 
@@ -42,12 +44,12 @@ const providers: Record<string, ProviderEntry> = {
   anthropic: {
     label: 'Anthropic',
     envKeys: ['ANTHROPIC_API_KEY'],
-    defaultModel: 'claude-3-5-sonnet-latest',
+    defaultModel: 'claude-sonnet-4-6',
     factory: (c) => anthropic(c),
   },
   gemini: {
     label: 'Gemini',
-    envKeys: ['GEMINI_API_KEY'],
+    envKeys: ['GEMINI_API_KEY', 'GOOGLE_API_KEY', 'GOOGLE_GENERATIVE_AI_API_KEY'],
     defaultModel: 'gemini-2.5-flash',
     factory: (c) => gemini(c),
   },
@@ -66,14 +68,26 @@ const providers: Record<string, ProviderEntry> = {
   grok: {
     label: 'xAI Grok',
     envKeys: ['XAI_API_KEY'],
-    requiresModel: true,
+    defaultModel: 'grok-4.20-0309-non-reasoning',
     factory: (c) => grok(c),
   },
   kimi: {
     label: 'Kimi',
     envKeys: ['KIMI_API_KEY', 'MOONSHOT_API_KEY'],
-    requiresModel: true,
+    defaultModel: 'kimi-k2-0711-preview',
     factory: (c) => kimi(c),
+  },
+  groq: {
+    label: 'Groq',
+    envKeys: ['GROQ_API_KEY'],
+    defaultModel: 'openai/gpt-oss-120b',
+    factory: (c) => groq(c),
+  },
+  openrouter: {
+    label: 'OpenRouter',
+    envKeys: ['OPENROUTER_API_KEY'],
+    defaultModel: '~anthropic/claude-haiku-latest',
+    factory: (c) => openrouter(c),
   },
 }
 

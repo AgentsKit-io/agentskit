@@ -3,6 +3,7 @@ import {
   checkNodeVersion,
   checkProviderEnv,
   checkProviderReachable,
+  checkProviderDefaultModel,
   runDoctor,
   renderReport,
 } from '../src/doctor'
@@ -46,6 +47,21 @@ describe('checkProviderEnv', () => {
     const result = await checkProviderEnv('ollama')
     expect(result.status).toBe('skip')
   })
+
+  it('covers registry providers without exposing the key value', async () => {
+    const secret = 'groq-secret-value-that-must-not-escape'
+    process.env.GROQ_API_KEY = secret
+    const result = await checkProviderEnv('groq')
+    expect(result.status).toBe('pass')
+    expect(result.detail).toContain('GROQ_API_KEY set')
+    expect(result.detail).not.toContain(secret)
+  })
+
+  it('marks unknown providers as explicitly unsupported', async () => {
+    const result = await checkProviderEnv('unknown-provider')
+    expect(result.status).toBe('skip')
+    expect(result.detail).toContain('not in the CLI doctor registry')
+  })
 })
 
 describe('checkProviderReachable', () => {
@@ -78,6 +94,14 @@ describe('checkProviderReachable', () => {
     const fakeFetch = vi.fn()
     const result = await checkProviderReachable('openai', fakeFetch as unknown as typeof fetch)
     expect(result.status).toBe('skip')
+    expect(fakeFetch).not.toHaveBeenCalled()
+  })
+
+  it('skips unsupported reachability without touching the network', async () => {
+    const fakeFetch = vi.fn()
+    const result = await checkProviderReachable('unknown-provider', fakeFetch as unknown as typeof fetch)
+    expect(result.status).toBe('skip')
+    expect(result.detail).toContain('not in the CLI doctor registry')
     expect(fakeFetch).not.toHaveBeenCalled()
   })
 
@@ -114,6 +138,29 @@ describe('runDoctor', () => {
     expect(fakeFetch).not.toHaveBeenCalled()
     // No reachability rows when noNetwork
     expect(report.results.find(r => r.name === 'openai reachable')).toBeUndefined()
+  })
+
+  it('reports a known default model while leaving network opt-in', async () => {
+    const fakeFetch = vi.fn()
+    const report = await runDoctor({
+      providers: ['groq'],
+      noNetwork: true,
+      fetchImpl: fakeFetch as unknown as typeof fetch,
+    })
+    expect(report.results.find(r => r.name === 'groq default model')).toMatchObject({
+      status: 'pass',
+      detail: 'openai/gpt-oss-120b',
+    })
+    expect(report.results.find(r => r.name === 'groq reachable')).toBeUndefined()
+    expect(fakeFetch).not.toHaveBeenCalled()
+  })
+})
+
+describe('checkProviderDefaultModel', () => {
+  it('returns an explicit unsupported result for an unknown provider', async () => {
+    const result = await checkProviderDefaultModel('unknown-provider')
+    expect(result.status).toBe('skip')
+    expect(result.detail).toContain('not in the CLI doctor registry')
   })
 })
 

@@ -59,9 +59,9 @@
         },
         {
           "id": "catalog-providers",
-          "value": 140,
+          "value": 184,
           "noun": "providers",
-          "conservativeFloor": 140,
+          "conservativeFloor": 180,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",
@@ -71,9 +71,9 @@
         },
         {
           "id": "catalog-models",
-          "value": 5162,
+          "value": 6293,
           "noun": "models",
-          "conservativeFloor": 5000,
+          "conservativeFloor": 6000,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",

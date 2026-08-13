@@ -99,7 +99,7 @@ export const builtinSlashCommands: SlashCommand[] = [
   {
     name: 'provider',
     description: 'Switch the adapter provider.',
-    usage: '/provider openai|anthropic|gemini|ollama|deepseek|grok|kimi|demo',
+    usage: '/provider openai|anthropic|gemini|ollama|deepseek|grok|kimi|groq|openrouter|demo',
     run(ctx, args) {
       const value = args.trim()
       if (!value) {

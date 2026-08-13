@@ -26,6 +26,8 @@ export const catalogSnapshotSchema: JSONSchema7 = {
         name: { type: 'string', const: 'models.dev' },
         url: { type: 'string' },
         version: { type: 'string' },
+        contentHash: { type: 'string', pattern: '^[a-f0-9]{64}$' },
+        etag: { type: 'string' },
       },
     },
     providers: {
@@ -42,6 +44,7 @@ export const catalogSnapshotSchema: JSONSchema7 = {
         id: { type: 'string', minLength: 1 },
         name: { type: 'string', minLength: 1 },
         env: { type: 'array', items: { type: 'string' } },
+        npm: { type: 'string' },
         baseUrl: { type: 'string' },
         doc: { type: 'string' },
         openaiCompatible: { type: 'boolean' },
@@ -69,6 +72,7 @@ export const catalogSnapshotSchema: JSONSchema7 = {
           additionalProperties: false,
           properties: {
             context: { type: 'number' },
+            input: { type: 'number' },
             output: { type: 'number' },
           },
         },
@@ -80,6 +84,11 @@ export const catalogSnapshotSchema: JSONSchema7 = {
             output: { type: 'number' },
             cacheRead: { type: 'number' },
             cacheWrite: { type: 'number' },
+            tiers: {
+              type: 'array',
+              items: { $ref: '#/definitions/costTier' },
+            },
+            contextOver200k: { $ref: '#/definitions/costTier' },
           },
         },
         modalities: {
@@ -96,10 +105,45 @@ export const catalogSnapshotSchema: JSONSchema7 = {
         reasoning: { type: 'boolean' },
         attachment: { type: 'boolean' },
         openWeights: { type: 'boolean' },
+        status: { type: 'string' },
+        reasoningOptions: {
+          type: 'array',
+          items: { $ref: '#/definitions/reasoningOption' },
+        },
         knowledge: { type: 'string' },
         releaseDate: { type: 'string' },
         lastUpdated: { type: 'string' },
         deprecated: { type: 'boolean' },
+      },
+    },
+    costTier: {
+      type: 'object',
+      additionalProperties: false,
+      properties: {
+        input: { type: 'number' },
+        output: { type: 'number' },
+        cacheRead: { type: 'number' },
+        cacheWrite: { type: 'number' },
+        tier: {
+          type: 'object',
+          required: ['type'],
+          additionalProperties: false,
+          properties: {
+            type: { type: 'string' },
+            size: { type: 'number' },
+          },
+        },
+      },
+    },
+    reasoningOption: {
+      type: 'object',
+      required: ['type'],
+      additionalProperties: false,
+      properties: {
+        type: { type: 'string' },
+        values: { type: 'array', items: { type: 'string' } },
+        min: { type: 'number' },
+        max: { type: 'number' },
       },
     },
   },

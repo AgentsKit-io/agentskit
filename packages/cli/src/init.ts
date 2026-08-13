@@ -1,5 +1,13 @@
 import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import {
+  PROVIDER_DEFAULT_MODEL,
+  PROVIDER_ENV_KEY,
+  PROVIDER_IMPORT,
+} from './init-providers'
+import type { Provider } from './init-providers'
+
+export type { Provider } from './init-providers'
 
 export type StarterKind =
   | 'react'
@@ -15,7 +23,6 @@ export type StarterKind =
   | 'expo'
   | 'deno-deploy'
   | 'angular'
-export type Provider = 'openai' | 'anthropic' | 'gemini' | 'ollama' | 'demo'
 export type ToolKind = 'web_search' | 'filesystem' | 'shell'
 export type MemoryKind = 'none' | 'file' | 'sqlite'
 export type PackageManager = 'pnpm' | 'npm' | 'yarn' | 'bun'
@@ -37,35 +44,18 @@ interface RenderContext {
   pm: PackageManager
 }
 
-const PROVIDER_IMPORT: Record<Exclude<Provider, 'demo'>, string> = {
-  openai: 'openai',
-  anthropic: 'anthropic',
-  gemini: 'gemini',
-  ollama: 'ollama',
-}
-
-const PROVIDER_DEFAULT_MODEL: Record<Provider, string> = {
-  openai: 'gpt-4o-mini',
-  anthropic: 'claude-sonnet-4-6',
-  gemini: 'gemini-2.5-flash',
-  ollama: 'llama3.1',
-  demo: 'demo',
-}
-
-const PROVIDER_ENV_KEY: Record<Provider, string | null> = {
-  openai: 'OPENAI_API_KEY',
-  anthropic: 'ANTHROPIC_API_KEY',
-  gemini: 'GEMINI_API_KEY',
-  ollama: null,
-  demo: null,
-}
-
 function adapterCall(provider: Provider, prefix = 'process.env'): string {
   const model = PROVIDER_DEFAULT_MODEL[provider]
   if (provider === 'demo') return `demoAdapter()`
   if (provider === 'ollama') return `ollama({ model: '${model}' })`
   const envKey = PROVIDER_ENV_KEY[provider]!
   return `${PROVIDER_IMPORT[provider]}({ apiKey: ${prefix}.${envKey} ?? '', model: '${model}' })`
+}
+
+function denoAdapterCall(provider: Provider): string {
+  if (provider === 'demo') return 'demoAdapter()'
+  if (provider === 'ollama') return `ollama({ model: '${PROVIDER_DEFAULT_MODEL[provider]}' })`
+  return `${PROVIDER_IMPORT[provider]}({ apiKey: Deno.env.get('${PROVIDER_ENV_KEY[provider]!}') ?? '', model: '${PROVIDER_DEFAULT_MODEL[provider]}' })`
 }
 
 function viteAdapterCall(provider: Provider): string {
@@ -798,11 +788,7 @@ function cloudflareWorkersStarter(ctx: RenderContext): Record<string, string> {
   }
   if (ctx.provider !== 'demo') deps['@agentskit/adapters'] = '^0.4.0'
 
-  const adapterCallEdge = ctx.provider === 'demo'
-    ? 'demoAdapter()'
-    : ctx.provider === 'ollama'
-      ? `ollama({ model: '${PROVIDER_DEFAULT_MODEL[ctx.provider]}' })`
-      : `${PROVIDER_IMPORT[ctx.provider]}({ apiKey: env.${PROVIDER_ENV_KEY[ctx.provider]!} ?? '', model: '${PROVIDER_DEFAULT_MODEL[ctx.provider]}' })`
+  const adapterCallEdge = adapterCall(ctx.provider, 'env')
   const adapterImport = buildAdapterServerImport(ctx.provider)
   const demoSnippet = ctx.provider === 'demo' ? demoAdapterSnippet() : ''
   const envKey = PROVIDER_ENV_KEY[ctx.provider]
@@ -1305,11 +1291,7 @@ export const useAuth = () => useContext(AuthCtx)
 }
 
 function denoDeployStarter(ctx: RenderContext): Record<string, string> {
-  const adapterCallEdge = ctx.provider === 'demo'
-    ? 'demoAdapter()'
-    : ctx.provider === 'ollama'
-      ? `ollama({ model: '${PROVIDER_DEFAULT_MODEL[ctx.provider]}' })`
-      : `${PROVIDER_IMPORT[ctx.provider]}({ apiKey: Deno.env.get('${PROVIDER_ENV_KEY[ctx.provider]!}') ?? '', model: '${PROVIDER_DEFAULT_MODEL[ctx.provider]}' })`
+  const adapterCallEdge = denoAdapterCall(ctx.provider)
   const adapterImport = ctx.provider === 'demo'
     ? ''
     : `import { ${PROVIDER_IMPORT[ctx.provider]} } from 'npm:@agentskit/adapters'\n`

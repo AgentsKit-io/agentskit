@@ -13,7 +13,7 @@ export function registerAddCommand(program: Command): void {
     .option('-f, --force', 'Overwrite existing files')
     .option('--registry <url>', 'Registry base URL override (component install)')
     .option('--run <task>', 'Run the agent on this task right after adding it')
-    .option('--provider <provider>', 'Provider for --run (openai, anthropic, gemini, ollama, demo)', 'demo')
+    .option('--provider <provider>', 'Provider for --run (openai, anthropic, gemini, ollama, groq, openrouter, demo)', 'demo')
     .option('--model <model>', 'Model for --run')
     .option('--api-key <key>', 'API key for --run (else read from the provider env var)')
     .action(
