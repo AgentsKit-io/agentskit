@@ -5,8 +5,8 @@ Developers should be able to use the same AgentsKit tools and agents inside thei
 ### Try it
 
 ```bash
-codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.7 --tools fetch,search
-claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.7 --tools fetch,search
+codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.8 --tools fetch,search
+claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.8 --tools fetch,search
 pnpm --filter @agentskit/mcp exec vitest run tests/coding-agent-hosts.test.ts
 pnpm --filter @agentskit/mcp smoke:published
 ```

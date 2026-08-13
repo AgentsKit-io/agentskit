@@ -46,6 +46,10 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/adapters)
 npm install @agentskit/adapters
 ```
 
+The runtime example below also needs `@agentskit/runtime`. The RAG example
+also needs `@agentskit/rag`, `@agentskit/memory`, and the optional `vectra`
+peer (`npm install @agentskit/rag @agentskit/memory vectra`).
+
 ## Quick example
 
 <!-- readme-example:quickstart -->
