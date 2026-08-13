@@ -20,8 +20,8 @@ if (!releaseWorkflow.includes('id-token: write')) diagnostics.push('release work
 if (!releaseWorkflow.includes('environment: npm')) diagnostics.push('release workflow must use the npm environment')
 if (/NPM_TOKEN|NODE_AUTH_TOKEN/.test(releaseWorkflow)) diagnostics.push('release workflow must not depend on saved npm tokens')
 if (!releaseWorkflow.includes('package-manager-cache: false')) diagnostics.push('release workflow must disable package-manager caching')
-if (!/NPM_TARBALL_SHA512: [A-Za-z0-9+/]+=*/.test(releaseWorkflow) || !/npm install --global \.\/npm-11\.\d+\.\d+\.tgz/.test(releaseWorkflow)) {
-  diagnostics.push('release workflow must install npm from a SHA-512-verified tarball')
+if (!/NPM_TARBALL_SHA512: [A-Za-z0-9+/]+=*/.test(releaseWorkflow) || !/tar -xzf npm-11\.\d+\.\d+\.tgz/.test(releaseWorkflow) || !/npm_client_dir.*RUNNER_TEMP/.test(releaseWorkflow)) {
+  diagnostics.push('release workflow must extract npm from a SHA-512-verified tarball')
 }
 if (!releaseWorkflow.includes('pnpm check:release-registry')) diagnostics.push('release workflow must run the registry preflight')
 if (!releaseWorkflow.includes('recover_unpublished')) diagnostics.push('release workflow must expose explicit unpublished-version recovery')
