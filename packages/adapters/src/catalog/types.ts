@@ -20,12 +20,32 @@ export interface CatalogModelCost {
   output?: number
   cacheRead?: number
   cacheWrite?: number
+  tiers?: CatalogModelCostTier[]
+  contextOver200k?: CatalogModelCostTier
+}
+
+/** A pricing tier descriptor from models.dev. */
+export interface CatalogModelCostTier {
+  input?: number
+  output?: number
+  cacheRead?: number
+  cacheWrite?: number
+  tier?: { type: string; size?: number }
 }
 
 /** Context / output token ceilings. */
 export interface CatalogModelLimit {
   context?: number
+  input?: number
   output?: number
+}
+
+/** A supported reasoning control from models.dev. */
+export interface CatalogReasoningOption {
+  type: string
+  values?: string[]
+  min?: number
+  max?: number
 }
 
 /** A single model entry within a provider. */
@@ -36,12 +56,15 @@ export interface CatalogModel {
   limit?: CatalogModelLimit
   cost?: CatalogModelCost
   modalities?: CatalogModalities
+  reasoningOptions?: CatalogReasoningOption[]
   /** Capability flags — consult these instead of assuming "openai-compatible = works". */
   toolCall: boolean
   structuredOutput: boolean
   reasoning: boolean
   attachment: boolean
   openWeights: boolean
+  /** Upstream lifecycle status, when models.dev provides one. */
+  status?: string
   /** ISO-ish knowledge cutoff (e.g. "2024-05"). */
   knowledge?: string
   releaseDate?: string
@@ -55,6 +78,8 @@ export interface CatalogProvider {
   name: string
   /** Environment variable names that hold this provider's API key. */
   env: string[]
+  /** Provider package identifier from models.dev, when available. */
+  npm?: string
   /** Default API base URL (when `models.dev` records one). */
   baseUrl?: string
   doc?: string
@@ -72,6 +97,10 @@ export interface CatalogSource {
   url: string
   /** Pinned upstream version/commit the snapshot was generated from. */
   version: string
+  /** Hash of the normalized provider/model payload. */
+  contentHash?: string
+  /** Upstream HTTP validator, when available. */
+  etag?: string
 }
 
 /** The committed, schema-validated catalog artifact loaded at runtime. */

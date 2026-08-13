@@ -837,6 +837,12 @@
               ]
             },
             {
+              "name": "CatalogModelCostTier",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "CatalogModelLimit",
               "kinds": [
                 "type"
@@ -850,6 +856,18 @@
             },
             {
               "name": "CatalogProvider",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CatalogProviderSupport",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CatalogReasoningOption",
               "kinds": [
                 "type"
               ]
@@ -876,6 +894,12 @@
               "name": "CatalogSource",
               "kinds": [
                 "type"
+              ]
+            },
+            {
+              "name": "classifyCatalogProvider",
+              "kinds": [
+                "value"
               ]
             },
             {

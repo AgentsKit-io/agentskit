@@ -39,7 +39,7 @@ The important part is not the constructor itself, but that the rest of your stac
 
 The `@agentskit/adapters/catalog` subpath: data-driven provider/model metadata adapted from [`models.dev`](https://models.dev) into AgentsKit's own JSON Schema and cached as a committed snapshot. Broad, current coverage lands via a version bump instead of bespoke per-provider code.
 
-The snapshot is large (thousands of models), so it ships **only** via the `./catalog` subpath — the main `@agentskit/adapters` bundle is unaffected.
+The snapshot is large (thousands of models), so it ships **only** via the `./catalog` subpath — the main `@agentskit/adapters` bundle is unaffected. The current committed snapshot covers 184 providers and 6,293 models; those counts are regenerated from the artifact rather than hand-maintained.
 
 ```ts
 import {
@@ -61,10 +61,11 @@ const adapter = dispatchFromCatalog({
 })
 ```
 
-**No runtime fetch.** The runtime loads the committed snapshot; it never calls `models.dev`. If `models.dev` ever disappears, the last snapshot keeps working. Regenerate on demand (run monthly) and commit the diff:
+**No runtime fetch.** The runtime loads the committed snapshot; it never calls `models.dev`. If `models.dev` ever disappears, the last snapshot keeps working. Refresh it with `pnpm sync:models`; the snapshot includes a normalized content hash and upstream ETag. A scheduled CI check compares the committed hash with the live source and fails when the snapshot is older than 35 days or has drifted:
 
 ```bash
 pnpm sync:models   # fetch → normalize → emit packages/adapters/src/catalog/snapshot.json
+pnpm check:models  # offline freshness check for local/normal CI
 ```
 
 The snapshot carries `generatedAt` + a pinned `source.version` (`catalogSource()`) so you can reason about staleness. **Pricing/limits are advisory cached metadata**, not a hard contract.
@@ -76,7 +77,7 @@ const { cost, source, stale } = await resolveCost('openai', 'o3', { live: true }
 // source: 'live' | 'cache'  ·  stale: true when the snapshot is > 30 days old
 ```
 
-**Policy overrides** (`applyOverrides`) constrain the catalog without forking it (allowed/disabled providers, per-provider model allow-lists). **Drift** (`detectCatalogDrift`) flags any snapshot provider that is neither first-class nor OpenAI-compatible — wire it into CI so a regenerated snapshot can't ship an unroutable provider silently.
+**Policy overrides** (`applyOverrides`) constrain the catalog without forking it (allowed/disabled providers, per-provider model allow-lists). **Drift** (`detectCatalogDrift`) flags any snapshot provider that is neither first-class nor OpenAI-compatible — wire it into CI so a regenerated snapshot can't ship an unroutable provider silently. `classifyCatalogProvider(provider)` exposes the explicit `native` / `openai-compatible` / `unsupported` matrix so catalog breadth is never confused with transport coverage.
 
 The catalog schema (`catalogSnapshotSchema`, JSON Schema) is the public contract; the snapshot is validated against it at build time.
 

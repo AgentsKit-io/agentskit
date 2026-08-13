@@ -2,14 +2,10 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 import type { AdapterFactory, StreamChunk } from '@agentskit/core'
 
 /**
- * Contract test harness from ADR 0001 — runs invariants A1–A10 against any
- * adapter that goes through `globalThis.fetch`. Bring your own fetch stub:
- * for OpenAI-compatible adapters, return an SSE body with a `[DONE]`
- * sentinel; for Anthropic-style, return its event stream; etc.
- *
- * Adapters that don't use the global fetch (bedrock, replicate, langchain,
- * vercel-ai) need their own per-adapter test files — this harness skips
- * them.
+ * Contract test harness from ADR 0001 — runs invariants A1–A10 through an
+ * explicit transport driver. Fetch-backed adapters use the stock driver;
+ * SDK- or client-backed adapters can inject a driver without being silently
+ * skipped.
  */
 export interface ContractStubResponse {
   /** Raw body of the streaming response. Will be passed back as `Response.body`. */
@@ -18,12 +14,29 @@ export interface ContractStubResponse {
   contentType?: string
 }
 
+/**
+ * Transport seam used by the contract harness. The default fetch-backed
+ * driver keeps existing adapters unchanged; adapters backed by an SDK or
+ * another client can provide their own driver instead of silently skipping
+ * the shared contract suite.
+ */
+export interface ContractTransport {
+  installProbe(): void
+  installSuccess(stub: ContractStubResponse): void
+  installFailure(): void
+  installAbortable(stub: ContractStubResponse): void
+  callCount(): number
+  restore(originalFetch: typeof globalThis.fetch): void
+}
+
 export interface ContractAdapterCase {
   name: string
   /** Construct the adapter under test. */
   build(): AdapterFactory
   /** Provider-shaped success body. */
   successBody(): ContractStubResponse
+  /** Explicit transport driver; no adapter is silently skipped. */
+  transport: ContractTransport
 }
 
 function bodyToStream(body: string | Uint8Array | ReadableStream<Uint8Array>): ReadableStream<Uint8Array> {
@@ -81,15 +94,108 @@ function delayedAbortableStream(
   })
 }
 
-function mockSuccess(stub: ContractStubResponse): typeof globalThis.fetch {
-  return vi.fn(async () => new Response(bodyToStream(stub.body), {
+function responseFor(stub: ContractStubResponse): Response {
+  return new Response(bodyToStream(stub.body), {
     status: stub.status ?? 200,
     headers: { 'content-type': stub.contentType ?? 'text/event-stream' },
-  })) as unknown as typeof globalThis.fetch
+  })
 }
 
-function mockFailure(): typeof globalThis.fetch {
-  return vi.fn(async () => new Response('upstream broke', { status: 500 })) as unknown as typeof globalThis.fetch
+function installFetch(
+  handler: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>,
+  onCall: () => void,
+): void {
+  globalThis.fetch = vi.fn(async (input: RequestInfo | URL, init?: RequestInit) => {
+    onCall()
+    return handler(input, init)
+  }) as unknown as typeof globalThis.fetch
+}
+
+/** Create the explicit driver used by fetch-backed adapters. */
+export function createFetchContractTransport(): ContractTransport {
+  let calls = 0
+
+  const install = (handler: (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>) => {
+    calls = 0
+    installFetch(handler, () => { calls += 1 })
+  }
+
+  return {
+    installProbe() {
+      install(async () => new Response(null, { status: 204 }))
+    },
+    installSuccess(stub) {
+      install(async () => responseFor(stub))
+    },
+    installFailure() {
+      install(async () => new Response('upstream broke', { status: 500 }))
+    },
+    installAbortable(stub) {
+      install(async (_input, init) => {
+        const raw = stub.body
+        if (raw instanceof ReadableStream) return responseFor(stub)
+        return new Response(delayedAbortableStream(raw, init?.signal), {
+          status: stub.status ?? 200,
+          headers: { 'content-type': stub.contentType ?? 'text/event-stream' },
+        })
+      })
+    },
+    callCount() {
+      return calls
+    },
+    restore(originalFetch) {
+      globalThis.fetch = originalFetch
+      calls = 0
+    },
+  }
+}
+
+/**
+ * Small deterministic non-fetch driver used to prove the seam itself. It is
+ * intentionally test-only: production adapters remain responsible for
+ * adapting their SDK/client streams to the core contract.
+ */
+export interface InjectedContractTransport extends ContractTransport {
+  stream(signal: AbortSignal): AsyncIterableIterator<StreamChunk>
+}
+
+export function createInjectedContractTransport(): InjectedContractTransport {
+  type Scenario = 'probe' | 'success' | 'failure' | 'abortable'
+  let scenario: Scenario = 'probe'
+  let calls = 0
+
+  const reset = (next: Scenario) => {
+    scenario = next
+    calls = 0
+  }
+
+  return {
+    installProbe() { reset('probe') },
+    installSuccess() { reset('success') },
+    installFailure() { reset('failure') },
+    installAbortable() { reset('abortable') },
+    callCount() { return calls },
+    restore() { reset('probe') },
+    async *stream(signal) {
+      calls += 1
+      if (scenario === 'failure') throw new Error('upstream broke')
+      if (scenario === 'abortable') {
+        yield { type: 'text', content: 'hi' }
+        await new Promise<void>((resolve) => {
+          const timer = setTimeout(resolve, 25)
+          signal.addEventListener('abort', () => {
+            clearTimeout(timer)
+            resolve()
+          }, { once: true })
+        })
+        if (signal.aborted) return
+        yield { type: 'done' }
+        return
+      }
+      yield { type: 'text', content: 'hi' }
+      yield { type: 'done' }
+    },
+  }
 }
 
 function userMessage(content: string) {
@@ -119,24 +225,29 @@ function isTerminal(chunk: StreamChunk | undefined): boolean {
  * `describe(...)` so vitest's `beforeEach` / `afterEach` scope correctly.
  */
 export function runAdapterContract(adapterCase: ContractAdapterCase): void {
+  if (!adapterCase.transport) {
+    throw new Error(`adapter contract "${adapterCase.name}" requires an explicit transport driver`)
+  }
+
   describe(`adapter contract — ${adapterCase.name}`, () => {
     let originalFetch: typeof globalThis.fetch
-    beforeEach(() => { originalFetch = globalThis.fetch })
-    afterEach(() => { globalThis.fetch = originalFetch })
+    beforeEach(() => {
+      originalFetch = globalThis.fetch
+      adapterCase.transport.installProbe()
+    })
+    afterEach(() => { adapterCase.transport.restore(originalFetch) })
 
     it('A1: createSource is synchronous and does not fetch eagerly', () => {
-      const fetchSpy = vi.fn() as unknown as typeof globalThis.fetch
-      globalThis.fetch = fetchSpy
       const factory = adapterCase.build()
       const source = factory.createSource({ messages: [userMessage('hi')] })
       expect(source).toBeDefined()
       expect(source.stream).toBeTypeOf('function')
       expect(source.abort).toBeTypeOf('function')
-      expect((fetchSpy as unknown as { mock: { calls: unknown[] } }).mock.calls.length).toBe(0)
+      expect(adapterCase.transport.callCount()).toBe(0)
     })
 
     it('A3 + A4: stream ends with exactly one terminal chunk (done or error)', async () => {
-      globalThis.fetch = mockSuccess(adapterCase.successBody())
+      adapterCase.transport.installSuccess(adapterCase.successBody())
       const out = await drain(adapterCase.build())
       const terminals = out.filter(c => c.type === 'done' || c.type === 'error')
       expect(terminals).toHaveLength(1)
@@ -144,13 +255,13 @@ export function runAdapterContract(adapterCase: ContractAdapterCase): void {
     })
 
     it('A6: abort is safe before stream() is called', () => {
-      globalThis.fetch = mockSuccess(adapterCase.successBody())
+      adapterCase.transport.installSuccess(adapterCase.successBody())
       const source = adapterCase.build().createSource({ messages: [userMessage('hi')] })
       expect(() => source.abort()).not.toThrow()
     })
 
     it('A6: abort is safe after stream() completes', async () => {
-      globalThis.fetch = mockSuccess(adapterCase.successBody())
+      adapterCase.transport.installSuccess(adapterCase.successBody())
       const source = adapterCase.build().createSource({ messages: [userMessage('hi')] })
       for await (const _ of source.stream()) { /* drain */ void _ }
       expect(() => source.abort()).not.toThrow()
@@ -163,12 +274,7 @@ export function runAdapterContract(adapterCase: ContractAdapterCase): void {
         // Skip exotic bodies; all stock cases use string bodies.
         return
       }
-      globalThis.fetch = vi.fn(async (_input: RequestInfo | URL, init?: RequestInit) => {
-        return new Response(delayedAbortableStream(raw, init?.signal), {
-          status: stub.status ?? 200,
-          headers: { 'content-type': stub.contentType ?? 'text/event-stream' },
-        })
-      }) as unknown as typeof globalThis.fetch
+      adapterCase.transport.installAbortable(stub)
 
       const source = adapterCase.build().createSource({ messages: [userMessage('hi')] })
       const iter = source.stream()[Symbol.asyncIterator]()
@@ -186,7 +292,7 @@ export function runAdapterContract(adapterCase: ContractAdapterCase): void {
     })
 
     it('A7: input messages are not mutated', async () => {
-      globalThis.fetch = mockSuccess(adapterCase.successBody())
+      adapterCase.transport.installSuccess(adapterCase.successBody())
       const messages = [userMessage('hi')]
       const snapshot = JSON.stringify(messages)
       for await (const _ of adapterCase.build().createSource({ messages }).stream()) { void _ }
@@ -194,7 +300,7 @@ export function runAdapterContract(adapterCase: ContractAdapterCase): void {
     })
 
     it('A9: upstream failure yields exactly one error chunk with metadata.error', async () => {
-      globalThis.fetch = mockFailure()
+      adapterCase.transport.installFailure()
       const out: StreamChunk[] = []
       // Must not throw — caller drains, contract says no rejection here.
       let rejected: unknown
@@ -214,6 +320,17 @@ export function runAdapterContract(adapterCase: ContractAdapterCase): void {
       expect(out.some(c => c.type === 'done')).toBe(false)
     })
   })
+}
+
+/**
+ * Convenience wrapper for the stock adapters that use global fetch. Keeping
+ * this explicit at each call site makes a missing transport driver fail at
+ * type-check time instead of becoming an untested adapter.
+ */
+export function runFetchAdapterContract(
+  adapterCase: Omit<ContractAdapterCase, 'transport'>,
+): void {
+  runAdapterContract({ ...adapterCase, transport: createFetchContractTransport() })
 }
 
 // ---------------------------------------------------------------------------

@@ -39,7 +39,7 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/cli) · [
 - **Zero setup for prototyping** — go from idea to running conversation in under a minute; no boilerplate, no config files to write
 - **Scaffold production-ready projects** — generate a React chat app or terminal agent with the right structure so you skip the boring setup
 - **Script and automate** — pipe inputs, use env vars for keys, and compose with other Unix tools for lightweight agent scripting
-- **Every provider, one command** — switch between OpenAI, Anthropic, Ollama (local), and more with a single flag
+- **Every provider, one command** — switch between OpenAI, Anthropic, Groq, OpenRouter, Ollama (local), and more with a single flag
 
 ## Install
 
@@ -56,6 +56,13 @@ ANTHROPIC_API_KEY=... agentskit chat --provider anthropic --model claude-sonnet-
 
 # Chat with a local model (no API key needed)
 agentskit chat --provider ollama --model llama3.1
+
+# Chat through DeepSeek, Grok, Kimi, Groq, or OpenRouter
+DEEPSEEK_API_KEY=... agentskit chat --provider deepseek
+XAI_API_KEY=... agentskit chat --provider grok
+KIMI_API_KEY=... agentskit chat --provider kimi
+GROQ_API_KEY=... agentskit chat --provider groq
+OPENROUTER_API_KEY=... agentskit chat --provider openrouter
 
 # Scaffold a new React chat app
 agentskit init --template react --dir my-app
@@ -84,6 +91,8 @@ agentskit run --help
 - **Extensibility** — plugins (slash commands, tools, skills, providers, hooks, MCP servers), permission policy with modes, lifecycle hooks (shell or JS), MCP stdio bridge, session rename + fork, `/usage` + `/cost`
 - Provider flags: `--provider`, `--model`, `--system`, `--skill`, `--memory`, `--mode`, `--plugin-dir`
 - Env-var based key injection — works seamlessly in CI and scripts
+- Built-in live providers include OpenAI, Anthropic, Gemini, DeepSeek, Grok, Kimi, Groq, and OpenRouter; Ollama remains local and keyless
+- `agentskit init --provider deepseek|grok|kimi|groq|openrouter` — scaffold a starter already wired to the selected provider
 
 Full reference: [docs/infrastructure/cli](https://www.agentskit.io/docs/infrastructure/cli) · [ARCHITECTURE.md](./ARCHITECTURE.md)
 

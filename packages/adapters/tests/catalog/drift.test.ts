@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { detectCatalogDrift, FIRST_CLASS_PROVIDERS } from '../../src/catalog'
+import { classifyCatalogProvider, detectCatalogDrift, FIRST_CLASS_PROVIDERS } from '../../src/catalog'
 import type { CatalogProvider } from '../../src/catalog'
 
 function provider(id: string, openaiCompatible: boolean): CatalogProvider {
@@ -7,6 +7,11 @@ function provider(id: string, openaiCompatible: boolean): CatalogProvider {
 }
 
 describe('detectCatalogDrift', () => {
+  it('classifies native, generic, and unsupported providers explicitly', () => {
+    expect(classifyCatalogProvider(provider('openai', false))).toBe('native')
+    expect(classifyCatalogProvider(provider('deepseek', true))).toBe('openai-compatible')
+    expect(classifyCatalogProvider(provider('mystery', false))).toBe('unsupported')
+  })
   it('is ok when every provider is first-class or openai-compatible', () => {
     const report = detectCatalogDrift([
       ...FIRST_CLASS_PROVIDERS.map((id) => provider(id, false)),

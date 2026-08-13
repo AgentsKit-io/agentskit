@@ -1,9 +1,11 @@
 import {
   runAdapterContract,
+  runFetchAdapterContract,
   openAISuccessBody,
   anthropicSuccessBody,
   geminiSuccessBody,
   ollamaSuccessBody,
+  createInjectedContractTransport,
 } from './contract'
 import {
   openai,
@@ -38,26 +40,26 @@ const noRetry = { maxAttempts: 1, sleep: async () => {} }
 
 // One contract block per adapter — all OpenAI-compatible adapters share the
 // same fetch shape, so they share the same successBody factory.
-runAdapterContract({ name: 'openai',     build: () => openai({ apiKey: 'k', model: 'gpt-4o-mini', retry: noRetry }), successBody: oai })
-runAdapterContract({ name: 'anthropic',  build: () => anthropic({ apiKey: 'k', model: 'claude-sonnet-4-6', retry: noRetry }), successBody: anth })
-runAdapterContract({ name: 'gemini',     build: () => gemini({ apiKey: 'k', model: 'gemini-2.5-flash', retry: noRetry }), successBody: gem })
-runAdapterContract({ name: 'grok',       build: () => grok({ apiKey: 'k', model: 'grok-2', retry: noRetry }), successBody: oai })
-runAdapterContract({ name: 'deepseek',   build: () => deepseek({ apiKey: 'k', model: 'deepseek-chat', retry: noRetry }), successBody: oai })
-runAdapterContract({ name: 'kimi',       build: () => kimi({ apiKey: 'k', model: 'moonshot-v1-8k', retry: noRetry }), successBody: oai })
-runAdapterContract({ name: 'mistral',    build: () => mistral({ apiKey: 'k', model: 'mistral-small-latest', retry: noRetry }), successBody: oai })
-runAdapterContract({ name: 'cohere',     build: () => cohere({ apiKey: 'k', model: 'command-r-plus', retry: noRetry }), successBody: oai })
-runAdapterContract({ name: 'together',   build: () => together({ apiKey: 'k', model: 'meta-llama/Llama-3-70b', retry: noRetry }), successBody: oai })
-runAdapterContract({ name: 'groq',       build: () => groq({ apiKey: 'k', model: 'llama-3.3-70b-versatile', retry: noRetry }), successBody: oai })
-runAdapterContract({ name: 'fireworks',  build: () => fireworks({ apiKey: 'k', model: 'accounts/fireworks/models/llama-v3-70b-instruct', retry: noRetry }), successBody: oai })
-runAdapterContract({ name: 'openrouter', build: () => openrouter({ apiKey: 'k', model: 'meta-llama/llama-3-70b', retry: noRetry }), successBody: oai })
-runAdapterContract({ name: 'huggingface',build: () => huggingface({ apiKey: 'k', model: 'meta-llama/Llama-3-70b', retry: noRetry }), successBody: oai })
-runAdapterContract({ name: 'ollama',     build: () => ollama({ model: 'llama3.1', retry: noRetry }), successBody: oll })
-runAdapterContract({ name: 'lmstudio',   build: () => lmstudio({ apiKey: 'lm-studio', model: 'local-model', retry: noRetry }), successBody: oai })
-runAdapterContract({ name: 'vllm',       build: () => vllm({ apiKey: 'k', model: 'meta-llama/Llama-3-70b', retry: noRetry }), successBody: oai })
-runAdapterContract({ name: 'llamacpp',   build: () => llamacpp({ apiKey: 'k', model: 'local', retry: noRetry }), successBody: oai })
-runAdapterContract({ name: 'cerebras',   build: () => cerebras({ apiKey: 'k', retry: noRetry }), successBody: oai })
-runAdapterContract({ name: 'bail/qwen',  build: () => bail({ apiKey: 'k', retry: noRetry }), successBody: oai })
-runAdapterContract({
+runFetchAdapterContract({ name: 'openai',     build: () => openai({ apiKey: 'k', model: 'gpt-4o-mini', retry: noRetry }), successBody: oai })
+runFetchAdapterContract({ name: 'anthropic',  build: () => anthropic({ apiKey: 'k', model: 'claude-sonnet-4-6', retry: noRetry }), successBody: anth })
+runFetchAdapterContract({ name: 'gemini',     build: () => gemini({ apiKey: 'k', model: 'gemini-2.5-flash', retry: noRetry }), successBody: gem })
+runFetchAdapterContract({ name: 'grok',       build: () => grok({ apiKey: 'k', model: 'grok-2', retry: noRetry }), successBody: oai })
+runFetchAdapterContract({ name: 'deepseek',   build: () => deepseek({ apiKey: 'k', model: 'deepseek-chat', retry: noRetry }), successBody: oai })
+runFetchAdapterContract({ name: 'kimi',       build: () => kimi({ apiKey: 'k', model: 'moonshot-v1-8k', retry: noRetry }), successBody: oai })
+runFetchAdapterContract({ name: 'mistral',    build: () => mistral({ apiKey: 'k', model: 'mistral-small-latest', retry: noRetry }), successBody: oai })
+runFetchAdapterContract({ name: 'cohere',     build: () => cohere({ apiKey: 'k', model: 'command-r-plus', retry: noRetry }), successBody: oai })
+runFetchAdapterContract({ name: 'together',   build: () => together({ apiKey: 'k', model: 'meta-llama/Llama-3-70b', retry: noRetry }), successBody: oai })
+runFetchAdapterContract({ name: 'groq',       build: () => groq({ apiKey: 'k', model: 'llama-3.3-70b-versatile', retry: noRetry }), successBody: oai })
+runFetchAdapterContract({ name: 'fireworks',  build: () => fireworks({ apiKey: 'k', model: 'accounts/fireworks/models/llama-v3-70b-instruct', retry: noRetry }), successBody: oai })
+runFetchAdapterContract({ name: 'openrouter', build: () => openrouter({ apiKey: 'k', model: 'meta-llama/llama-3-70b', retry: noRetry }), successBody: oai })
+runFetchAdapterContract({ name: 'huggingface',build: () => huggingface({ apiKey: 'k', model: 'meta-llama/Llama-3-70b', retry: noRetry }), successBody: oai })
+runFetchAdapterContract({ name: 'ollama',     build: () => ollama({ model: 'llama3.1', retry: noRetry }), successBody: oll })
+runFetchAdapterContract({ name: 'lmstudio',   build: () => lmstudio({ apiKey: 'lm-studio', model: 'local-model', retry: noRetry }), successBody: oai })
+runFetchAdapterContract({ name: 'vllm',       build: () => vllm({ apiKey: 'k', model: 'meta-llama/Llama-3-70b', retry: noRetry }), successBody: oai })
+runFetchAdapterContract({ name: 'llamacpp',   build: () => llamacpp({ apiKey: 'k', model: 'local', retry: noRetry }), successBody: oai })
+runFetchAdapterContract({ name: 'cerebras',   build: () => cerebras({ apiKey: 'k', retry: noRetry }), successBody: oai })
+runFetchAdapterContract({ name: 'bail/qwen',  build: () => bail({ apiKey: 'k', retry: noRetry }), successBody: oai })
+runFetchAdapterContract({
   name: 'azureOpenAI',
   build: () => azureOpenAI({
     apiKey: 'k',
@@ -66,6 +68,31 @@ runAdapterContract({
     retry: noRetry,
   }),
   successBody: oai,
+})
+
+const injectedTransport = createInjectedContractTransport()
+runAdapterContract({
+  name: 'injected transport fixture',
+  transport: injectedTransport,
+  successBody: oai,
+  build: () => ({
+    createSource: () => {
+      const controller = new AbortController()
+      return {
+        stream: async function* () {
+          try {
+            for await (const chunk of injectedTransport.stream(controller.signal)) yield chunk
+          } catch (error) {
+            yield {
+              type: 'error',
+              metadata: { error: error instanceof Error ? error : new Error(String(error)) },
+            }
+          }
+        },
+        abort: () => controller.abort(),
+      }
+    },
+  }),
 })
 
 // Adapters that need their own contract surface (different fetch shape, SDK
