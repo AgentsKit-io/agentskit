@@ -2,7 +2,7 @@ import { spawn } from 'node:child_process'
 import { tmpdir } from 'node:os'
 import { createMcpClient, createStdioTransport } from '@agentskit/tools/mcp'
 
-const packageSpec = '@agentskit/mcp@0.3.4'
+const packageSpec = '@agentskit/mcp@0.3.5'
 const child = spawn('npx', ['-y', packageSpec, '--tools', 'fetch,search'], {
   cwd: tmpdir(),
   stdio: ['pipe', 'pipe', 'pipe'],
