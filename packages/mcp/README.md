@@ -31,7 +31,7 @@ Docs: [package guide](https://www.agentskit.io/docs/agents/tools/mcp) · [agent 
 
 <!-- readme-command:install -->
 ```bash
-npx -y @agentskit/mcp@0.3.7 --tools fetch,search
+npx -y @agentskit/mcp@0.3.8 --tools fetch,search
 ```
 
 Then point your MCP host at the command. Example (generic JSON config):
@@ -39,7 +39,7 @@ Then point your MCP host at the command. Example (generic JSON config):
 ```json
 {
   "mcpServers": {
-    "agentskit": { "command": "npx", "args": ["-y", "@agentskit/mcp@0.3.7", "--tools", "fetch,search"] }
+    "agentskit": { "command": "npx", "args": ["-y", "@agentskit/mcp@0.3.8", "--tools", "fetch,search"] }
   }
 }
 ```
@@ -51,10 +51,10 @@ changes:
 
 ```bash
 # Codex
-codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.7 --tools fetch,search
+codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.8 --tools fetch,search
 
 # Claude Code (shared project configuration)
-claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.7 --tools fetch,search
+claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.8 --tools fetch,search
 ```
 
 Cursor, Cline, Claude Desktop, and Continue use the same pinned command with
@@ -103,7 +103,7 @@ Run a registry agent server-side and expose it as a single MCP tool — the host
 delegates a specialized job instead of orchestrating primitives:
 
 ```bash
-npx -y @agentskit/mcp@0.3.7 --agents legal-contract-reviewer,fintech-kyc-screener --provider openai
+npx -y @agentskit/mcp@0.3.8 --agents legal-contract-reviewer,fintech-kyc-screener --provider openai
 ```
 
 `--provider` covers the first-class adapters (openai, anthropic, gemini, ollama)
