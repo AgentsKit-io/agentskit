@@ -46,6 +46,10 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/rag) · [
 npm install @agentskit/rag @agentskit/memory @agentskit/adapters
 ```
 
+The file-backed example also needs the optional `vectra` peer. Add
+`vectra` to the install command when using `fileVectorMemory`; the runtime
+integration example additionally needs `@agentskit/runtime`.
+
 ## Quick example
 
 <!-- readme-example:quickstart -->
