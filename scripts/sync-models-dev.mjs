@@ -6,13 +6,24 @@
  * never depend on models.dev availability. Use --input for an offline payload
  * and --generated-at for reproducible snapshot commits.
  */
-import { readFileSync, writeFileSync } from 'node:fs'
+import { mkdtempSync, readFileSync, renameSync, rmSync, writeFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { dirname, join } from 'node:path'
 import { buildSnapshot, fetchModelsDev } from './lib/models-dev-catalog.mjs'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 const OUT = join(__dirname, '..', 'packages', 'adapters', 'src', 'catalog', 'snapshot.json')
+
+function writeSnapshot(snapshot) {
+  const temporaryDirectory = mkdtempSync(join(dirname(OUT), '.models-dev-snapshot-'))
+  const temporaryPath = join(temporaryDirectory, 'snapshot.json')
+  try {
+    writeFileSync(temporaryPath, JSON.stringify(snapshot, null, 2) + '\n')
+    renameSync(temporaryPath, OUT)
+  } finally {
+    rmSync(temporaryDirectory, { recursive: true, force: true })
+  }
+}
 
 function arg(name) {
   const index = process.argv.indexOf(name)
@@ -39,7 +50,7 @@ async function loadSnapshot() {
 
 async function main() {
   const snapshot = await loadSnapshot()
-  writeFileSync(OUT, JSON.stringify(snapshot, null, 2) + '\n')
+  writeSnapshot(snapshot)
   const modelCount = snapshot.providers.reduce((count, provider) => count + provider.models.length, 0)
   const compatibleCount = snapshot.providers.filter((provider) => provider.openaiCompatible).length
   console.log(
