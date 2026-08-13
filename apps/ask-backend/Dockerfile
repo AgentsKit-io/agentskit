@@ -8,7 +8,7 @@
 # binary; musl would fail to load it. Build context is the REPO ROOT (the backend
 # imports the docs app's source + the committed index via relative paths, so it
 # needs the whole workspace).
-FROM node:22-bookworm-slim
+FROM node:22-bookworm-slim@sha256:d649c27dae7ba0137b3cef5dd75baa422c08dc3d9e3fc0c23dfb172dc3cc6437
 
 ENV PNPM_HOME=/pnpm
 ENV PATH=/pnpm:$PATH

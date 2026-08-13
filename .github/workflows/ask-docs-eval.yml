@@ -37,6 +37,9 @@ on:
       - '.github/workflows/ask-docs-eval.yml'
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   eval:
     name: Retrieval + judge

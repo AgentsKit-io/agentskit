@@ -8,7 +8,7 @@ describe('release workflow authentication', () => {
   test('creates a short-lived token from the dedicated release app', () => {
     assert.match(
       workflow,
-      /actions\/create-github-app-token@[0-9a-f]{40} # v2/,
+      /actions\/create-github-app-token@[0-9a-f]{40} # v3\.2\.0/,
     )
     assert.match(workflow, /app-id: \$\{\{ vars\.RELEASE_APP_ID \}\}/)
     assert.match(workflow, /private-key: \$\{\{ secrets\.RELEASE_APP_PRIVATE_KEY \}\}/)
