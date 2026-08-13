@@ -3,6 +3,7 @@ import { join } from 'node:path'
 import { existsSync } from 'node:fs'
 import { loadConfig } from './config'
 import { DEFAULT_DOCTOR_PROVIDERS, resolveProviderRegistryEntry } from './provider-registry'
+import type { ProviderRegistryEntry } from './provider-registry'
 
 export type CheckStatus = 'pass' | 'warn' | 'fail' | 'skip'
 
@@ -19,6 +20,16 @@ export interface DoctorReport {
   warn: number
   fail: number
   skip: number
+}
+
+function providerReachabilityFix(entry: ProviderRegistryEntry): string {
+  if (entry.id === 'ollama') {
+    return 'Start Ollama: `ollama serve` (or install from https://ollama.com)'
+  }
+  if (entry.runtime === 'local') {
+    return `Start ${entry.label} server and verify its local endpoint`
+  }
+  return 'Check network / firewall / VPN settings'
 }
 
 // ============================================================================
@@ -179,12 +190,7 @@ export async function checkProviderReachable(
       status: 'fail',
       name: `${provider} reachable`,
       detail: `${url} → ${reason}`,
-      fix:
-        entry.id === 'ollama'
-          ? 'Start Ollama: `ollama serve` (or install from https://ollama.com)'
-          : entry.runtime === 'local'
-            ? `Start ${entry.label} server and verify its local endpoint`
-          : 'Check network / firewall / VPN settings',
+      fix: providerReachabilityFix(entry),
     }
   } finally {
     clearTimeout(timer)

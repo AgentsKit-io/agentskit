@@ -14,6 +14,7 @@ describe('catalog snapshot', () => {
     const src = catalogSource()
     expect(src.name).toBe('models.dev')
     expect(src.version).toMatch(/\d/)
+    expect(src.contentHash).toMatch(/^[a-f0-9]{64}$/)
     expect(() => new Date(src.generatedAt).toISOString()).not.toThrow()
   })
 

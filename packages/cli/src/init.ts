@@ -52,6 +52,12 @@ function adapterCall(provider: Provider, prefix = 'process.env'): string {
   return `${PROVIDER_IMPORT[provider]}({ apiKey: ${prefix}.${envKey} ?? '', model: '${model}' })`
 }
 
+function denoAdapterCall(provider: Provider): string {
+  if (provider === 'demo') return 'demoAdapter()'
+  if (provider === 'ollama') return `ollama({ model: '${PROVIDER_DEFAULT_MODEL[provider]}' })`
+  return `${PROVIDER_IMPORT[provider]}({ apiKey: Deno.env.get('${PROVIDER_ENV_KEY[provider]!}') ?? '', model: '${PROVIDER_DEFAULT_MODEL[provider]}' })`
+}
+
 function viteAdapterCall(provider: Provider): string {
   if (provider === 'demo') return `demoAdapter()`
   if (provider === 'ollama') return `ollama({ model: '${PROVIDER_DEFAULT_MODEL[provider]}' })`
@@ -782,11 +788,7 @@ function cloudflareWorkersStarter(ctx: RenderContext): Record<string, string> {
   }
   if (ctx.provider !== 'demo') deps['@agentskit/adapters'] = '^0.4.0'
 
-  const adapterCallEdge = ctx.provider === 'demo'
-    ? 'demoAdapter()'
-    : ctx.provider === 'ollama'
-      ? `ollama({ model: '${PROVIDER_DEFAULT_MODEL[ctx.provider]}' })`
-      : `${PROVIDER_IMPORT[ctx.provider]}({ apiKey: env.${PROVIDER_ENV_KEY[ctx.provider]!} ?? '', model: '${PROVIDER_DEFAULT_MODEL[ctx.provider]}' })`
+  const adapterCallEdge = adapterCall(ctx.provider, 'env')
   const adapterImport = buildAdapterServerImport(ctx.provider)
   const demoSnippet = ctx.provider === 'demo' ? demoAdapterSnippet() : ''
   const envKey = PROVIDER_ENV_KEY[ctx.provider]
@@ -1289,11 +1291,7 @@ export const useAuth = () => useContext(AuthCtx)
 }
 
 function denoDeployStarter(ctx: RenderContext): Record<string, string> {
-  const adapterCallEdge = ctx.provider === 'demo'
-    ? 'demoAdapter()'
-    : ctx.provider === 'ollama'
-      ? `ollama({ model: '${PROVIDER_DEFAULT_MODEL[ctx.provider]}' })`
-      : `${PROVIDER_IMPORT[ctx.provider]}({ apiKey: Deno.env.get('${PROVIDER_ENV_KEY[ctx.provider]!}') ?? '', model: '${PROVIDER_DEFAULT_MODEL[ctx.provider]}' })`
+  const adapterCallEdge = denoAdapterCall(ctx.provider)
   const adapterImport = ctx.provider === 'demo'
     ? ''
     : `import { ${PROVIDER_IMPORT[ctx.provider]} } from 'npm:@agentskit/adapters'\n`

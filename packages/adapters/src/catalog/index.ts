@@ -10,8 +10,10 @@ export type {
   CatalogModalities,
   CatalogModel,
   CatalogModelCost,
+  CatalogModelCostTier,
   CatalogModelLimit,
   CatalogProvider,
+  CatalogReasoningOption,
   CatalogSnapshot,
   CatalogSource,
 } from './types'
@@ -32,6 +34,8 @@ export {
 } from './dispatch'
 export {
   type CatalogDriftReport,
+  type CatalogProviderSupport,
+  classifyCatalogProvider,
   detectCatalogDrift,
   FIRST_CLASS_PROVIDERS,
 } from './drift'
