@@ -1,5 +1,5 @@
 import { ToolError, ErrorCodes } from './errors'
-import { executeToolCall, createToolLifecycle, createEventEmitter } from './primitives'
+import { acquireToolLifecycle, executeToolCall, createToolLifecycle, createEventEmitter } from './primitives'
 import type {
   ArgsValidator,
   MaybePromise,
@@ -134,7 +134,21 @@ export async function executeSafeTool(
     return { status: 'error', error: err.toString(), durationMs: Date.now() - began }
   }
 
-  await lifecycle.init(tool)
+  const releaseLifecycle = acquireToolLifecycle(lifecycle)
+  if (!releaseLifecycle) {
+    return {
+      status: 'skipped',
+      result: 'Tool execution superseded by a configuration update',
+      durationMs: Date.now() - began,
+    }
+  }
+
+  try {
+    await lifecycle.init(tool)
+  } catch (error) {
+    await releaseLifecycle()
+    throw error
+  }
 
   emitter.emit({ type: 'tool:start', name: toolCall.name, args: toolCall.args })
 
@@ -153,11 +167,12 @@ export async function executeSafeTool(
     })
     return { status: 'complete', result, durationMs: Date.now() - began }
   } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error)
     const err = error instanceof ToolError
       ? error
       : new ToolError({
           code: ErrorCodes.AK_TOOL_EXEC_FAILED,
-          message: `Tool "${toolCall.name}" threw during execution: ${error instanceof Error ? error.message : String(error)}`,
+          message: `Tool "${toolCall.name}" threw during execution: ${detail}`,
           hint: 'Check the tool execute() implementation.',
           cause: error,
         })
@@ -170,5 +185,7 @@ export async function executeSafeTool(
       durationMs: Date.now() - began,
     })
     return { status: 'error', error: err.toString(), durationMs: Date.now() - began }
+  } finally {
+    await releaseLifecycle()
   }
 }

@@ -104,26 +104,117 @@ export function safeParseArgs(args: string): Record<string, unknown> {
   }
 }
 
-export function createToolLifecycle(tools: Map<string, ToolDefinition>) {
-  const initialized = new Set<string>()
+interface ToolLifecycleState {
+  initialized: Set<string>
+  initializing: Map<string, Promise<void>>
+  activeExecutions: number
+  retired: boolean
+  disposal: Promise<void> | undefined
+  retirement: Promise<void> | undefined
+  resolveRetirement: (() => void) | undefined
+  tools: Map<string, ToolDefinition>
+}
 
-  return {
+const lifecycleStates = new WeakMap<object, ToolLifecycleState>()
+
+function retirementPromise(state: ToolLifecycleState): Promise<void> {
+  if (!state.retirement) {
+    state.retirement = new Promise<void>(resolve => {
+      state.resolveRetirement = resolve
+    })
+  }
+  return state.retirement
+}
+
+function scheduleLifecycleDisposal(state: ToolLifecycleState): void {
+  if (
+    !state.retired
+    || state.activeExecutions > 0
+    || state.initializing.size > 0
+    || state.disposal
+  ) return
+
+  state.disposal = (async () => {
+    const names = [...state.initialized]
+    state.initialized.clear()
+    for (const name of names) {
+      try {
+        await state.tools.get(name)?.dispose?.()
+      } catch {
+        // Dispose errors should not propagate.
+      }
+    }
+  })().finally(() => {
+    state.disposal = undefined
+    state.resolveRetirement?.()
+    state.resolveRetirement = undefined
+  })
+}
+
+export function createToolLifecycle(tools: Map<string, ToolDefinition>) {
+  const state: ToolLifecycleState = {
+    initialized: new Set<string>(),
+    initializing: new Map<string, Promise<void>>(),
+    activeExecutions: 0,
+    retired: false,
+    disposal: undefined,
+    retirement: undefined,
+    resolveRetirement: undefined,
+    tools,
+  }
+
+  const lifecycle = {
     async init(tool: ToolDefinition): Promise<void> {
-      if (tool.init && !initialized.has(tool.name)) {
-        await tool.init()
-        initialized.add(tool.name)
+      // A retired lifecycle cannot start new work. An execution that acquired
+      // it before retirement may still finish initialization safely.
+      if (state.retired && state.activeExecutions === 0) return
+      if (!tool.init || state.initialized.has(tool.name)) return
+
+      const pending = state.initializing.get(tool.name)
+      if (pending) {
+        await pending
+        return
+      }
+
+      const initialization = (async () => {
+        await tool.init?.()
+        state.initialized.add(tool.name)
+      })()
+      state.initializing.set(tool.name, initialization)
+      try {
+        await initialization
+      } finally {
+        state.initializing.delete(tool.name)
+        scheduleLifecycleDisposal(state)
       }
     },
     async disposeAll(): Promise<void> {
-      for (const name of initialized) {
-        try {
-          await tools.get(name)?.dispose?.()
-        } catch {
-          // Dispose errors should not propagate.
-        }
-      }
-      initialized.clear()
+      state.retired = true
+      const completion = retirementPromise(state)
+      scheduleLifecycleDisposal(state)
+      await completion
     },
+  }
+
+  lifecycleStates.set(lifecycle, state)
+  return lifecycle
+}
+
+/** Hold a lifecycle open for one tool execution without changing its public shape. */
+export function acquireToolLifecycle(
+  lifecycle: ReturnType<typeof createToolLifecycle>,
+): (() => Promise<void>) | undefined {
+  const state = lifecycleStates.get(lifecycle)
+  if (!state || state.retired) return undefined
+
+  state.activeExecutions++
+  let released = false
+  return async () => {
+    if (released) return
+    released = true
+    state.activeExecutions--
+    scheduleLifecycleDisposal(state)
+    if (state.retirement) await state.retirement
   }
 }
 
@@ -172,11 +263,12 @@ export async function consumeStream(
     }
     handlers.onDone(accumulatedText)
   } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error)
     const err = error instanceof AgentsKitError
       ? error
       : new AdapterError({
           code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,
-          message: `Stream failed: ${error instanceof Error ? error.message : String(error)}`,
+          message: `Stream failed: ${detail}`,
           hint: 'Adapter/provider',
           cause: error,
         })

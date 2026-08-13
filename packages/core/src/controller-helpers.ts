@@ -58,6 +58,23 @@ export function mapToolCallById(
   }))
 }
 
+export function sameToolLifecycle(
+  previous: Map<string, ToolDefinition>,
+  next: Map<string, ToolDefinition>,
+): boolean {
+  if (previous.size !== next.size) return false
+  for (const [name, tool] of previous) {
+    const replacement = next.get(name)
+    if (
+      !replacement
+      || replacement.execute !== tool.execute
+      || replacement.init !== tool.init
+      || replacement.dispose !== tool.dispose
+    ) return false
+  }
+  return true
+}
+
 /** Build tool-result messages + a fresh streaming assistant for multi-turn tool loops. */
 export function buildToolContinuation(
   messages: Message[],

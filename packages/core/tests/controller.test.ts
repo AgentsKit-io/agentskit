@@ -876,3 +876,67 @@ describe('ChatController skills support', () => {
     expect(content).toContain('You are skill B.')
   })
 })
+
+describe('ChatController tool lifecycle retirement', () => {
+  it('keeps an active lifecycle across equivalent config rerenders', async () => {
+    let markStarted = () => undefined
+    let releaseExecution = () => undefined
+    const started = new Promise<void>(resolve => { markStarted = resolve })
+    const blocked = new Promise<void>(resolve => { releaseExecution = resolve })
+    const execute = vi.fn(async () => {
+      markStarted()
+      await blocked
+      return 'done'
+    })
+    const init = vi.fn()
+    const dispose = vi.fn()
+    const tool = { name: 'slow', requiresConfirmation: true, init, execute, dispose }
+    const ctrl = createChatController({
+      adapter: createMockAdapter([]),
+      tools: [tool],
+    })
+
+    await proposeToolCall(ctrl, { id: 'slow-1', name: 'slow', args: {} })
+    const sending = ctrl.approve('slow-1')
+    await started
+    ctrl.updateConfig({ tools: [{ ...tool, description: 'same lifecycle' }] })
+    expect(dispose).not.toHaveBeenCalled()
+
+    releaseExecution()
+    await sending
+    expect(execute).toHaveBeenCalledOnce()
+    expect(dispose).not.toHaveBeenCalled()
+
+    await ctrl.clear()
+    expect(dispose).toHaveBeenCalledOnce()
+  })
+
+  it('retires replaced lifecycles after the active execution settles', async () => {
+    let markStarted = () => undefined
+    let releaseExecution = () => undefined
+    const started = new Promise<void>(resolve => { markStarted = resolve })
+    const blocked = new Promise<void>(resolve => { releaseExecution = resolve })
+    const execute = vi.fn(async () => {
+      markStarted()
+      await blocked
+      return 'done'
+    })
+    const init = vi.fn()
+    const dispose = vi.fn()
+    const tool = { name: 'replaceable', requiresConfirmation: true, init, execute, dispose }
+    const ctrl = createChatController({
+      adapter: createMockAdapter([]),
+      tools: [tool],
+    })
+
+    await proposeToolCall(ctrl, { id: 'replace-1', name: 'replaceable', args: {} })
+    const sending = ctrl.approve('replace-1')
+    await started
+    ctrl.updateConfig({ tools: [{ name: 'replaceable', execute: async () => 'new' }] })
+    expect(dispose).not.toHaveBeenCalled()
+
+    releaseExecution()
+    await sending
+    expect(dispose).toHaveBeenCalledOnce()
+  })
+})
