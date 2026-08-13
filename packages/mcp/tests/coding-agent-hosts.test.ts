@@ -5,7 +5,7 @@ import {
   verifyMcpProtocol,
 } from '../fixtures/coding-agent-hosts'
 
-const expectedArgs = ['-y', '@agentskit/mcp@0.3.6', '--tools', 'fetch,search']
+const expectedArgs = ['-y', '@agentskit/mcp@0.3.7', '--tools', 'fetch,search']
 
 describe('coding-agent MCP host recipe', () => {
   it('validates every JSON, TOML, and YAML wrapper', () => {
@@ -101,7 +101,7 @@ describe('coding-agent MCP host recipe', () => {
 
     const driftingCli = JSON.parse(JSON.stringify(codingAgentHostConfigs)) as Record<string, unknown>
     const codex = driftingCli.codex as Record<string, unknown>
-    codex.cli = String(codex.cli).replace('@agentskit/mcp@0.3.6', '@agentskit/mcp')
+    codex.cli = String(codex.cli).replace('@agentskit/mcp@0.3.7', '@agentskit/mcp')
     expect(() => validateCodingAgentHostConfigs(driftingCli)).toThrow(/Codex CLI command must remain version-pinned/)
   })
 
