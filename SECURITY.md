@@ -79,7 +79,9 @@ broken, not that the underlying capability exists.
 - All third-party GitHub Actions are pinned to commit SHAs.
 - `actions/dependency-review-action` runs on every PR; high-severity
   vulnerabilities or copyleft-licensed deps fail the build.
-- `pnpm audit --prod --audit-level=high` runs in CI.
+- `node scripts/audit-prod-high.mjs` runs in CI against npm's Bulk Advisory API
+  and fails closed on high or critical production advisories. (The legacy
+  `pnpm audit` endpoint is retired in the current pnpm/npm registry path.)
 - `CodeQL` (security-and-quality query pack) runs on every PR plus a
   weekly schedule.
 - SBOMs are generated on release; ask if you need a specific format.
