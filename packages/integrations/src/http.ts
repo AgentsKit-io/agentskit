@@ -10,6 +10,10 @@ export interface HttpToolOptions {
   signal?: AbortSignal
   /** Swap in a fake for tests. */
   fetch?: typeof globalThis.fetch
+  /** Injectable backoff seam for deterministic tests. Defaults to a signal-aware timer. */
+  sleep?: (delayMs: number) => Promise<void>
+  /** Injectable clock used when interpreting HTTP-date Retry-After values. */
+  now?: () => number
   /** Optional retry policy. Retries are limited to idempotent methods. */
   retry?: RetryPolicy
 }
@@ -21,7 +25,11 @@ export interface RetryPolicy {
   baseDelayMs?: number
   /** Upper bound for exponential backoff and Retry-After. */
   maxDelayMs?: number
+  /** Methods eligible for retry. Defaults to GET, PUT, and DELETE. */
+  methods?: RetryableHttpMethod[]
 }
+
+export type RetryableHttpMethod = NonNullable<HttpJsonRequest['method']>
 
 export interface HttpJsonRequest {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
@@ -100,7 +108,10 @@ export function composeTimeoutSignal(
   if (outer?.aborted) {
     controller.abort(outer.reason)
   } else {
-    timer = setTimeout(() => controller.abort(), timeoutMs)
+    timer = setTimeout(
+      () => controller.abort(new DOMException('The request timed out.', 'TimeoutError')),
+      timeoutMs,
+    )
     outer?.addEventListener('abort', abortFromOuter, { once: true })
   }
 
@@ -113,7 +124,8 @@ export function composeTimeoutSignal(
   }
 }
 
-function isRetryableMethod(method: HttpJsonRequest['method']): boolean {
+function isRetryableMethod(method: HttpJsonRequest['method'], allowed: RetryableHttpMethod[] | undefined): boolean {
+  if (allowed !== undefined) return allowed.includes(method ?? 'GET')
   return method === undefined || method === 'GET' || method === 'PUT' || method === 'DELETE'
 }
 
@@ -121,13 +133,28 @@ function isRetryableStatus(status: number): boolean {
   return status === 408 || status === 425 || status === 429 || status === 500 || status === 502 || status === 503 || status === 504
 }
 
-function retryAfterMs(value: string | null): number | undefined {
+function retryAfterMs(value: string | null, now: number): number | undefined {
   if (!value) return undefined
   const seconds = Number(value)
   if (Number.isFinite(seconds) && seconds >= 0) return seconds * 1000
   const timestamp = Date.parse(value)
   if (!Number.isFinite(timestamp)) return undefined
-  return Math.max(0, timestamp - Date.now())
+  return Math.max(0, timestamp - now)
+}
+
+function redactSensitiveText(value: string): string {
+  return value
+    .replace(/(\/bot)[^/\s]+/gi, '$1[REDACTED]')
+    .replace(/((?:"?(?:access[-_]?token|refresh[-_]?token|client[-_]?secret|bot[-_]?token|token|secret|password|api[-_]?key|authorization|signature)"?)\s*:\s*")[^"]*(")/gi, '$1[REDACTED]$2')
+    .replace(/((?:access[-_]?token|refresh[-_]?token|client[-_]?secret|bot[-_]?token|token|secret|password|api[-_]?key|authorization|signature)\s*[=:]\s*["']?)[^\s,"'}]+/gi, '$1[REDACTED]')
+}
+
+function upstreamHint(status: number, attempt: number, maxAttempts: number): string {
+  if (status === 429) return 'Provider rate-limited the request; respect Retry-After before trying again.'
+  if (attempt === maxAttempts && isRetryableStatus(status)) {
+    return `Provider returned HTTP ${status} after retry attempts were exhausted.`
+  }
+  return `Provider returned HTTP ${status}.`
 }
 
 function waitForRetry(delayMs: number, signal: AbortSignal): Promise<void> {
@@ -208,7 +235,9 @@ export async function httpJson<TResult = unknown>(
           redirect: 'error',
         })
       } catch (err) {
-        if (err instanceof ToolError || signal.aborted || isAbortError(err)) throw err
+        if (err instanceof ToolError || signal.aborted || isAbortError(err)) {
+          throw signal.aborted ? signal.reason ?? err : err
+        }
         throw new ToolError({
           code: ErrorCodes.AK_TOOL_EXEC_FAILED,
           message: 'HTTP request failed before a response was received.',
@@ -221,7 +250,9 @@ export async function httpJson<TResult = unknown>(
       try {
         text = await response.text()
       } catch (err) {
-        if (err instanceof ToolError || signal.aborted || isAbortError(err)) throw err
+        if (err instanceof ToolError || signal.aborted || isAbortError(err)) {
+          throw signal.aborted ? signal.reason ?? err : err
+        }
         throw new ToolError({
           code: ErrorCodes.AK_TOOL_EXEC_FAILED,
           message: 'Failed to read the HTTP response body.',
@@ -233,12 +264,17 @@ export async function httpJson<TResult = unknown>(
       if (
         !response.ok &&
         attempt < maxAttempts &&
-        isRetryableMethod(request.method) &&
+        isRetryableMethod(request.method, retryPolicy?.methods) &&
         isRetryableStatus(response.status)
       ) {
-        const retryDelay = retryAfterMs(response.headers.get('retry-after'))
+        const retryDelay = retryAfterMs(response.headers.get('retry-after'), (options.now ?? Date.now)())
         const delayMs = Math.min(retryDelay ?? baseDelayMs * 2 ** (attempt - 1), maxDelayMs)
-        await waitForRetry(delayMs, signal)
+        if (options.sleep) {
+          await options.sleep(delayMs)
+          if (signal.aborted) throw signal.reason ?? new DOMException('The request was aborted.', 'AbortError')
+        } else {
+          await waitForRetry(delayMs, signal)
+        }
         continue
       }
 
@@ -247,8 +283,8 @@ export async function httpJson<TResult = unknown>(
       if (!response.ok) {
         throw new ToolError({
           code: ErrorCodes.AK_TOOL_EXEC_FAILED,
-          message: `HTTP ${response.status} ${response.statusText}: ${text.slice(0, 500)}`,
-          hint: `Provider returned HTTP ${response.status}.`,
+          message: `HTTP ${response.status} ${response.statusText}: ${redactSensitiveText(text).slice(0, 500)}`,
+          hint: upstreamHint(response.status, attempt, maxAttempts),
         })
       }
       return parsed as TResult
@@ -266,7 +302,7 @@ function safeParse(text: string, contentType: string, _url: string): unknown {
       throw new ToolError({
         code: ErrorCodes.AK_TOOL_EXEC_FAILED,
         message: `Invalid JSON response (content-type: ${contentType})`,
-        hint: `Body preview: ${text.slice(0, 200)}`,
+        hint: `Body preview: ${redactSensitiveText(text).slice(0, 200)}`,
         cause: err,
       })
     }

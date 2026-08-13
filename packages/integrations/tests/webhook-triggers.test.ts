@@ -40,6 +40,7 @@ describe('slack', () => {
   it('rejects a stale timestamp and a bad signature', () => {
     expect(slackEvent.verify!(inp({ secret, rawBody: body, headers: { 'x-slack-signature': sig, 'x-slack-request-timestamp': ts }, nowSeconds: Number(ts) + 1000 })).ok).toBe(false)
     expect(slackEvent.verify!(inp({ secret, rawBody: body, headers: { 'x-slack-signature': 'v0=bad', 'x-slack-request-timestamp': ts }, nowSeconds: Number(ts) })).ok).toBe(false)
+    expect(slackEvent.verify!(inp({ secret, rawBody: body, headers: { 'x-slack-signature': sig, 'x-slack-request-timestamp': '1700000000.5' }, nowSeconds: Number(ts) })).ok).toBe(false)
   })
   it('normalizes + extracts thread ref', () => {
     expect(slackEvent.normalize(body).kind).toBe('app_mention')

@@ -28,7 +28,7 @@ at runtime. Ships the canonical descriptor + registry + projection contract, a
 - `httpJson` — shared HTTP helper (query/body/timeout, non-2xx → typed error; origin-confined when `baseUrl` is set; opt-in idempotent retries).
 - `bindHttp` — bind options into a reusable `IntegrationHttp` client.
 - `composeTimeoutSignal` — compose a timeout with a caller-owned `AbortSignal` for custom transports.
-- `HttpToolOptions` — shared HTTP options including `signal` for caller cancellation and bounded idempotent retries.
+- `HttpToolOptions` — shared HTTP options including `signal` for caller cancellation, bounded retries, and injectable `sleep`/`now` seams for deterministic hosts.
 - `createRegistry` — build an isolated catalog instance.
 - `registerIntegration` — register a descriptor into the default catalog.
 - `getIntegration` — look up a descriptor by service slug.
@@ -49,6 +49,12 @@ at runtime. Ships the canonical descriptor + registry + projection contract, a
 - **Origin-confined auth-bound HTTP** — credentials stay on the configured `baseUrl` origin; automatic redirects are disabled.
 - **Derived confirmation** — projection forces confirmation for `write` / `external` / `destructive` side effects.
 - **`fetchUntrusted`** — required for model-controlled downloads (e.g. Whisper audio URLs). Direct `@agentskit/integrations` consumers must inject an egress-policy fetch; the `@agentskit/tools` Whisper facade injects `safeFetch` independently of provider `fetch`.
+- **Retry policy** — `GET`, `PUT`, and `DELETE` retry only on `408`, `425`, `429`, and transient `5xx` responses. `Retry-After` is honored and bounded by `maxDelayMs`; writes such as `POST` require an explicit `retry.methods` opt-in because replaying them can duplicate side effects.
+- **Diagnostics** — upstream bodies are truncated and redact token-like fields before entering typed errors. Auth headers and request payloads are never included in transport messages.
+
+## Webhook verification requirements
+
+Webhook triggers verify the provider's **raw, unparsed body** and case-insensitive headers. Hosts must pass the exact request body bytes decoded as UTF-8, preserve signature headers, and supply `nowSeconds` when deterministic replay-window checks are needed. Slack rejects non-integer timestamps and requests outside its five-minute window; Discord uses the raw timestamp-plus-body Ed25519 message; Telegram compares its secret header; WhatsApp and other HMAC triggers verify the raw body with their documented digest prefix. Parse JSON only after verification.
 
 ## Subpath exports
 
