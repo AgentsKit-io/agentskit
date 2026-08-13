@@ -13,7 +13,9 @@ export const twilioEvent = defineTrigger({
     } else if (raw && typeof raw === 'object') {
       Object.assign(form, raw as Record<string, string>)
     }
-    const kind = form.MessageSid ? 'message' : form.CallSid ? 'call' : 'unknown'
+    let kind = 'unknown'
+    if (form.MessageSid) kind = 'message'
+    else if (form.CallSid) kind = 'call'
     return { kind, payload: form, raw }
   },
 })

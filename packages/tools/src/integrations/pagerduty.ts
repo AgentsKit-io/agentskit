@@ -13,6 +13,8 @@ export interface PagerDutyConfig extends HttpToolOptions {
 function cfg(config: PagerDutyConfig): ProjectionConfig {
   return {
     config: { routingKey: config.routingKey, apiToken: config.apiToken, baseUrl: config.baseUrl, timeoutMs: config.timeoutMs },
+    retry: config.retry,
+    signal: config.signal,
     fetch: config.fetch,
   }
 }

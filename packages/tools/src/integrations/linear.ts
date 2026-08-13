@@ -8,7 +8,7 @@ export interface LinearConfig extends HttpToolOptions {
 }
 
 function cfg(config: LinearConfig): ProjectionConfig {
-  return { credential: config.apiKey, baseUrl: config.baseUrl, headers: config.headers, timeoutMs: config.timeoutMs, fetch: config.fetch }
+  return { credential: config.apiKey, baseUrl: config.baseUrl, headers: config.headers, timeoutMs: config.timeoutMs, retry: config.retry, signal: config.signal, fetch: config.fetch }
 }
 
 /** @deprecated import from `@agentskit/integrations`. */

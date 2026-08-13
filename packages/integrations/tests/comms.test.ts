@@ -57,17 +57,21 @@ describe('twilio', () => {
     let body = ''
     let auth = ''
     let url = ''
+    const signal = new AbortController().signal
+    let seenSignal: AbortSignal | undefined
     const fetch = fakeFetch((u, init) => {
       url = u
       body = String(init.body)
       auth = String((init.headers as Record<string, string>).Authorization)
+      seenSignal = init.signal
       return json({ sid: 'SM1', status: 'queued' })
     })
-    const [sms] = toToolDefinitions(twilioIntegration, { config: tw, fetch })
+    const [sms] = toToolDefinitions(twilioIntegration, { config: tw, fetch, signal })
     expect(await run(sms, { to: '+14155550111', body: 'hello' })).toEqual({ sid: 'SM1', status: 'queued' })
     expect(url).toContain('/Accounts/AC1/Messages.json')
     expect(body).toContain('To=%2B14155550111')
     expect(auth).toMatch(/^Basic /)
+    expect(seenSignal).toBe(signal)
   })
   it('rejects non-E.164 numbers', async () => {
     const fetch = fakeFetch(() => json({}))

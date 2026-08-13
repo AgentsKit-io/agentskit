@@ -4,7 +4,7 @@ description: Postgres change-data-capture — logical replication slots (pgoutpu
 ---
 
 ```ts
-import { postgresCdc, createCdcStream } from '@agentskit/tools'
+import { postgresCdc, createCdcStream } from '@agentskit/tools/integrations'
 
 const runtime = createRuntime({
   adapter,
@@ -61,7 +61,7 @@ type CdcChangeEvent = {
 ## Example — slot bootstrap + stream
 
 ```ts
-import { postgresCdc, createCdcStream } from '@agentskit/tools'
+import { postgresCdc, createCdcStream } from '@agentskit/tools/integrations'
 
 await runtime.run('Create the CDC slot if missing and report status.')
 

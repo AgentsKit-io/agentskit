@@ -1,4 +1,5 @@
 import { defineTrigger, type NormalizedEvent } from '../../contract'
+import { invalidJsonEvent, parseJsonRecord } from '../../normalize'
 import { verifyDiscord } from '../../webhook-verify'
 
 export const discordInteraction = defineTrigger({
@@ -6,8 +7,12 @@ export const discordInteraction = defineTrigger({
   source: 'discord',
   verify: verifyDiscord,
   normalize: (raw): NormalizedEvent => {
-    const json = (typeof raw === 'string' ? JSON.parse(raw) : raw) as { type?: number }
-    const kind = json.type === 1 ? 'ping' : typeof json.type === 'number' ? 'interaction' : 'unknown'
+    const parsed = parseJsonRecord(raw)
+    if (!parsed.ok) return invalidJsonEvent(raw)
+    const json = parsed.value as { type?: number }
+    let kind = 'unknown'
+    if (json.type === 1) kind = 'ping'
+    else if (typeof json.type === 'number') kind = 'interaction'
     return { kind, payload: json, raw }
   },
 })

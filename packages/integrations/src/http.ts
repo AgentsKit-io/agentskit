@@ -10,6 +10,17 @@ export interface HttpToolOptions {
   signal?: AbortSignal
   /** Swap in a fake for tests. */
   fetch?: typeof globalThis.fetch
+  /** Optional retry policy. Retries are limited to idempotent methods. */
+  retry?: RetryPolicy
+}
+
+export interface RetryPolicy {
+  /** Total attempts, including the first request. Defaults to one. */
+  maxAttempts?: number
+  /** Delay before the first retry when Retry-After is absent. */
+  baseDelayMs?: number
+  /** Upper bound for exponential backoff and Retry-After. */
+  maxDelayMs?: number
 }
 
 export interface HttpJsonRequest {
@@ -75,7 +86,7 @@ function resolveRequestUrl(options: HttpToolOptions, path: string): URL {
   return url
 }
 
-function composeTimeoutSignal(
+export function composeTimeoutSignal(
   timeoutMs: number,
   outer?: AbortSignal,
 ): { signal: AbortSignal; cleanup: () => void } {
@@ -100,6 +111,44 @@ function composeTimeoutSignal(
       outer?.removeEventListener('abort', abortFromOuter)
     },
   }
+}
+
+function isRetryableMethod(method: HttpJsonRequest['method']): boolean {
+  return method === undefined || method === 'GET' || method === 'PUT' || method === 'DELETE'
+}
+
+function isRetryableStatus(status: number): boolean {
+  return status === 408 || status === 425 || status === 429 || status === 500 || status === 502 || status === 503 || status === 504
+}
+
+function retryAfterMs(value: string | null): number | undefined {
+  if (!value) return undefined
+  const seconds = Number(value)
+  if (Number.isFinite(seconds) && seconds >= 0) return seconds * 1000
+  const timestamp = Date.parse(value)
+  if (!Number.isFinite(timestamp)) return undefined
+  return Math.max(0, timestamp - Date.now())
+}
+
+function waitForRetry(delayMs: number, signal: AbortSignal): Promise<void> {
+  if (delayMs <= 0) {
+    if (signal.aborted) return Promise.reject(signal.reason)
+    return Promise.resolve()
+  }
+  return new Promise((resolve, reject) => {
+    let timer: ReturnType<typeof setTimeout> | undefined
+    const abort = () => {
+      if (timer !== undefined) clearTimeout(timer)
+      signal.removeEventListener('abort', abort)
+      reject(signal.reason)
+    }
+    timer = setTimeout(() => {
+      signal.removeEventListener('abort', abort)
+      resolve()
+    }, delayMs)
+    if (signal.aborted) abort()
+    else signal.addEventListener('abort', abort, { once: true })
+  })
 }
 
 /**
@@ -141,61 +190,82 @@ export async function httpJson<TResult = unknown>(
   const { signal, cleanup } = composeTimeoutSignal(timeoutMs, options.signal)
 
   try {
-    let response: Response
-    try {
-      response = await fetchImpl(url.toString(), {
-        method: request.method ?? 'GET',
-        headers,
-        body: request.body === undefined ? undefined : JSON.stringify(request.body),
-        signal,
-        redirect: 'error',
-      })
-    } catch (err) {
-      if (err instanceof ToolError || signal.aborted || isAbortError(err)) throw err
-      throw new ToolError({
-        code: ErrorCodes.AK_TOOL_EXEC_FAILED,
-        message: `HTTP request failed for ${url.toString()}`,
-        hint: err instanceof Error ? err.message : 'Network or transport failure.',
-        cause: err,
-      })
-    }
+    const retryPolicy = options.retry
+    const maxAttempts = Math.max(1, Math.floor(retryPolicy?.maxAttempts ?? 1))
+    const baseDelayMs = Math.max(0, retryPolicy?.baseDelayMs ?? 100)
+    const maxDelayMs = Math.max(baseDelayMs, retryPolicy?.maxDelayMs ?? 2_000)
+    let attempt = 0
 
-    let text: string
-    try {
-      text = await response.text()
-    } catch (err) {
-      if (err instanceof ToolError || signal.aborted || isAbortError(err)) throw err
-      throw new ToolError({
-        code: ErrorCodes.AK_TOOL_EXEC_FAILED,
-        message: `Failed to read response body from ${url.toString()}`,
-        hint: err instanceof Error ? err.message : 'Body transport failure.',
-        cause: err,
-      })
-    }
+    while (true) {
+      attempt += 1
+      let response: Response
+      try {
+        response = await fetchImpl(url.toString(), {
+          method: request.method ?? 'GET',
+          headers,
+          body: request.body === undefined ? undefined : JSON.stringify(request.body),
+          signal,
+          redirect: 'error',
+        })
+      } catch (err) {
+        if (err instanceof ToolError || signal.aborted || isAbortError(err)) throw err
+        throw new ToolError({
+          code: ErrorCodes.AK_TOOL_EXEC_FAILED,
+          message: 'HTTP request failed before a response was received.',
+          hint: 'Network or transport failure. Inspect the attached cause for diagnostics.',
+          cause: err,
+        })
+      }
 
-    const contentType = response.headers.get('content-type') ?? ''
-    const parsed = text.length > 0 ? safeParse(text, contentType, url.toString()) : undefined
-    if (!response.ok) {
-      throw new ToolError({
-        code: ErrorCodes.AK_TOOL_EXEC_FAILED,
-        message: `HTTP ${response.status} ${response.statusText}: ${text.slice(0, 500)}`,
-        hint: `URL ${url.toString()}.`,
-      })
+      let text: string
+      try {
+        text = await response.text()
+      } catch (err) {
+        if (err instanceof ToolError || signal.aborted || isAbortError(err)) throw err
+        throw new ToolError({
+          code: ErrorCodes.AK_TOOL_EXEC_FAILED,
+          message: 'Failed to read the HTTP response body.',
+          hint: 'Response body transport failure. Inspect the attached cause for diagnostics.',
+          cause: err,
+        })
+      }
+
+      if (
+        !response.ok &&
+        attempt < maxAttempts &&
+        isRetryableMethod(request.method) &&
+        isRetryableStatus(response.status)
+      ) {
+        const retryDelay = retryAfterMs(response.headers.get('retry-after'))
+        const delayMs = Math.min(retryDelay ?? baseDelayMs * 2 ** (attempt - 1), maxDelayMs)
+        await waitForRetry(delayMs, signal)
+        continue
+      }
+
+      const contentType = response.headers.get('content-type') ?? ''
+      const parsed = text.length > 0 ? safeParse(text, contentType, url.toString()) : undefined
+      if (!response.ok) {
+        throw new ToolError({
+          code: ErrorCodes.AK_TOOL_EXEC_FAILED,
+          message: `HTTP ${response.status} ${response.statusText}: ${text.slice(0, 500)}`,
+          hint: `Provider returned HTTP ${response.status}.`,
+        })
+      }
+      return parsed as TResult
     }
-    return parsed as TResult
   } finally {
     cleanup()
   }
 }
 
-function safeParse(text: string, contentType: string, url: string): unknown {
+function safeParse(text: string, contentType: string, _url: string): unknown {
   try {
     return JSON.parse(text) as unknown
   } catch (err) {
     if (/\bjson\b/i.test(contentType)) {
       throw new ToolError({
         code: ErrorCodes.AK_TOOL_EXEC_FAILED,
-        message: `Invalid JSON from ${url} (content-type: ${contentType})`,
+        message: `Invalid JSON response (content-type: ${contentType})`,
         hint: `Body preview: ${text.slice(0, 200)}`,
         cause: err,
       })

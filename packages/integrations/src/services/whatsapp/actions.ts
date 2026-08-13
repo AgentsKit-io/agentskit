@@ -1,7 +1,16 @@
+import { ErrorCodes, ToolError } from '@agentskit/core'
 import { defineAction } from '../../contract'
 
 function phoneId(config: unknown): string {
-  return (config as { phoneNumberId: string }).phoneNumberId
+  const value = (config as { phoneNumberId?: unknown } | undefined)?.phoneNumberId
+  if (typeof value !== 'string' || value.trim().length === 0) {
+    throw new ToolError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'whatsapp_send_text: phoneNumberId is required',
+      hint: 'Configure the WhatsApp Cloud API phone number ID before sending messages.',
+    })
+  }
+  return value
 }
 
 export const whatsappSendText = defineAction({

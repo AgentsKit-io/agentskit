@@ -8,7 +8,7 @@ export interface StripeConfig extends HttpToolOptions {
 }
 
 function cfg(config: StripeConfig): ProjectionConfig {
-  return { config: { apiKey: config.apiKey, baseUrl: config.baseUrl }, fetch: config.fetch }
+  return { config: { apiKey: config.apiKey, baseUrl: config.baseUrl }, retry: config.retry, signal: config.signal, fetch: config.fetch }
 }
 
 /** @deprecated import from `@agentskit/integrations`. */

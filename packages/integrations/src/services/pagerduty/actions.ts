@@ -12,16 +12,17 @@ export interface PagerDutyRuntimeConfig {
   timeoutMs?: number
 }
 
-function eventsOpts(cfg: PagerDutyRuntimeConfig, fetch: typeof globalThis.fetch): HttpToolOptions {
+function eventsOpts(cfg: PagerDutyRuntimeConfig, fetch: typeof globalThis.fetch, signal?: AbortSignal): HttpToolOptions {
   return {
     baseUrl: cfg.baseUrl ?? EVENTS_BASE,
     headers: { 'content-type': 'application/json', accept: 'application/json' },
     timeoutMs: cfg.timeoutMs,
+    signal,
     fetch,
   }
 }
 
-function restOpts(cfg: PagerDutyRuntimeConfig, fetch: typeof globalThis.fetch): HttpToolOptions {
+function restOpts(cfg: PagerDutyRuntimeConfig, fetch: typeof globalThis.fetch, signal?: AbortSignal): HttpToolOptions {
   if (!cfg.apiToken) {
     throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: 'pagerduty: apiToken required for REST queries' })
   }
@@ -29,6 +30,7 @@ function restOpts(cfg: PagerDutyRuntimeConfig, fetch: typeof globalThis.fetch): 
     baseUrl: REST_BASE,
     headers: { authorization: `Token token=${cfg.apiToken}`, accept: 'application/vnd.pagerduty+json;version=2' },
     timeoutMs: cfg.timeoutMs,
+    signal,
     fetch,
   }
 }
@@ -48,9 +50,9 @@ export const pagerdutyTrigger = defineAction({
     },
     required: ['summary', 'source', 'severity'],
   },
-  async execute(args, { fetch, config }) {
+  async execute(args, { fetch, signal, config }) {
     const cfg = config as PagerDutyRuntimeConfig
-    const result = await httpJson<{ status: string; dedup_key?: string; message?: string }>(eventsOpts(cfg, fetch), {
+    const result = await httpJson<{ status: string; dedup_key?: string; message?: string }>(eventsOpts(cfg, fetch, signal), {
       method: 'POST',
       path: '/v2/enqueue',
       body: { routing_key: cfg.routingKey, event_action: 'trigger', dedup_key: args.dedup_key, payload: { summary: args.summary, source: args.source, severity: args.severity } },
@@ -72,9 +74,9 @@ function eventAction(action: 'acknowledge' | 'resolve') {
       properties: { dedup_key: { type: 'string', description: 'The dedup key returned by pagerduty_trigger.' } },
       required: ['dedup_key'],
     },
-    async execute(args, { fetch, config }) {
+    async execute(args, { fetch, signal, config }) {
       const cfg = config as PagerDutyRuntimeConfig
-      const result = await httpJson<{ status: string; message?: string }>(eventsOpts(cfg, fetch), {
+      const result = await httpJson<{ status: string; message?: string }>(eventsOpts(cfg, fetch, signal), {
         method: 'POST',
         path: '/v2/enqueue',
         body: { routing_key: cfg.routingKey, event_action: action, dedup_key: args.dedup_key },
@@ -99,9 +101,9 @@ export const pagerdutyOncall = defineAction({
     properties: { schedule_id: { type: 'string', description: 'Schedule ID.' } },
     required: ['schedule_id'],
   },
-  async execute(args, { fetch, config }) {
+  async execute(args, { fetch, signal, config }) {
     const cfg = config as PagerDutyRuntimeConfig
-    const result = await httpJson<{ users?: Array<{ id: string; name: string; email: string }> }>(restOpts(cfg, fetch), {
+      const result = await httpJson<{ users?: Array<{ id: string; name: string; email: string }> }>(restOpts(cfg, fetch, signal), {
       method: 'GET',
       path: `/schedules/${args.schedule_id}/users`,
       query: { since: new Date().toISOString(), until: new Date(Date.now() + 60_000).toISOString() },

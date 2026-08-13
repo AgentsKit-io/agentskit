@@ -1,9 +1,9 @@
 ---
 title: Provider integrations
-description: Ready-made tools for GitHub, Linear, Slack, Notion, Discord, Gmail, Google Calendar, Stripe, Postgres, and S3.
+description: Compatibility recipes for legacy tool projections. The canonical integration catalog is in @agentskit/integrations.
 ---
 
-Every integration lives under `@agentskit/tools/integrations`. Each
+The canonical descriptors live under `@agentskit/integrations`; legacy projections remain under `@agentskit/tools/integrations`. Each
 module exports focused `defineTool` factories plus a bundle helper
 that returns all tools for that provider — mix and match.
 
@@ -11,6 +11,12 @@ that returns all tools for that provider — mix and match.
 
 ```bash
 npm install @agentskit/tools
+```
+
+For new integrations, install the canonical package instead:
+
+```bash
+npm install @agentskit/integrations
 ```
 
 ```ts

@@ -15,6 +15,8 @@ function cfg(config: NotionConfig): ProjectionConfig {
     baseUrl: config.baseUrl,
     headers: { ...(config.version ? { 'notion-version': config.version } : {}), ...config.headers },
     timeoutMs: config.timeoutMs,
+    retry: config.retry,
+    signal: config.signal,
     fetch: config.fetch,
   }
 }

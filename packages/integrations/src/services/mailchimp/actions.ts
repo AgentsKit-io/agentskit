@@ -7,10 +7,10 @@ interface MailchimpRuntimeConfig {
   dc: string
 }
 
-function opts(config: unknown, fetch: typeof globalThis.fetch): HttpToolOptions {
+function opts(config: unknown, fetch: typeof globalThis.fetch, signal?: AbortSignal): HttpToolOptions {
   const cfg = config as MailchimpRuntimeConfig
   const auth = `Basic ${Buffer.from(`anystring:${cfg.apiKey}`).toString('base64')}`
-  return { baseUrl: `https://${cfg.dc}.api.mailchimp.com/3.0/`, headers: { authorization: auth }, fetch }
+  return { baseUrl: `https://${cfg.dc}.api.mailchimp.com/3.0/`, headers: { authorization: auth }, fetch, signal }
 }
 
 export const mailchimpAddMember = defineAction({
@@ -27,8 +27,8 @@ export const mailchimpAddMember = defineAction({
     },
     required: ['list_id', 'email'],
   },
-  async execute(args, { fetch, config }) {
-    const result = await httpJson<{ id: string; email_address: string; status: string }>(opts(config, fetch), {
+  async execute(args, { fetch, signal, config }) {
+    const result = await httpJson<{ id: string; email_address: string; status: string }>(opts(config, fetch, signal), {
       method: 'POST',
       path: `lists/${args.list_id}/members`,
       body: { email_address: args.email, status: args.status ?? 'subscribed' },
@@ -42,8 +42,8 @@ export const mailchimpListAudiences = defineAction({
   description: 'List Mailchimp audiences (lists).',
   sideEffect: 'read',
   schema: { type: 'object', properties: {} },
-  async execute(_args, { fetch, config }) {
-    const result = await httpJson<{ lists?: Array<{ id: string; name: string; stats?: { member_count: number } }> }>(opts(config, fetch), {
+  async execute(_args, { fetch, signal, config }) {
+    const result = await httpJson<{ lists?: Array<{ id: string; name: string; stats?: { member_count: number } }> }>(opts(config, fetch, signal), {
       method: 'GET',
       path: 'lists',
     })

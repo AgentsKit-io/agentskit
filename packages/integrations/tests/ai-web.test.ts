@@ -83,10 +83,11 @@ describe('coingecko', () => {
 describe('reader', () => {
   it('valid + fetches text via custom url', async () => {
     expect(() => assertValidIntegration(readerIntegration)).not.toThrow()
-    let url = ''; let auth = ''
-    const fetch = fakeFetch((u, init) => { url = u; auth = String((init.headers as Record<string, string>).authorization ?? ''); return new Response('extracted text', { status: 200 }) })
-    const [rf] = toToolDefinitions(readerIntegration, { config: { apiKey: 'jk' }, fetch })
+    let url = ''; let auth = ''; let seenSignal: AbortSignal | undefined
+    const signal = new AbortController().signal
+    const fetch = fakeFetch((u, init) => { url = u; auth = String((init.headers as Record<string, string>).authorization ?? ''); seenSignal = init.signal; return new Response('extracted text', { status: 200 }) })
+    const [rf] = toToolDefinitions(readerIntegration, { config: { apiKey: 'jk' }, fetch, signal })
     expect(await run(rf, { url: 'https://example.com' })).toBe('extracted text')
-    expect(url).toBe('https://r.jina.ai/https://example.com'); expect(auth).toBe('Bearer jk')
+    expect(url).toBe('https://r.jina.ai/https://example.com'); expect(auth).toBe('Bearer jk'); expect(seenSignal).toBe(signal)
   })
 })

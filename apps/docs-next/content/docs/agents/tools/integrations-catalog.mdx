@@ -1,0 +1,76 @@
+---
+title: Canonical integration catalog
+description: Generated compatibility matrix for the 50 services in @agentskit/integrations.
+---
+
+This matrix is derived from the descriptors registered by `@agentskit/integrations`. It is
+the canonical inventory; the legacy `@agentskit/tools/integrations` modules are projections
+and compatibility shims.
+
+`R` = read, `E` = external side effect, `W` = write. A trigger is an inbound normalized
+event; Slack, Telegram, and WhatsApp expose thread stitching.
+
+| Service | Categories | Auth/config | Actions | Triggers |
+|---|---|---|---|---|
+| `slack` | comms | API key + OAuth | `slack_post_message` (E), `slack_search` (R) | `slack.event` (thread) |
+| `discord` | comms | Bot API key + OAuth | `discord_post_message` (E) | `discord.interaction` |
+| `gmail` | comms, productivity | OAuth2 | `gmail_list_messages` (R), `gmail_send_email` (E) | — |
+| `twilio` | comms | `accountSid`, `authToken`, `fromNumber` | `twilio_send_sms` (E) | `twilio.event` |
+| `email` | comms | SMTP/IMAP adapters | `email_send` (E), `email_fetch` (R) | — |
+| `teams` | comms | `webhookUrl` | `teams_send_webhook` (E), `teams_send_bot` (E) | — |
+| `telegram` | comms | `token` | `telegram_send_message` (E), `telegram_send_photo` (E) | `telegram.update` (thread) |
+| `sendgrid` | comms | API key | `sendgrid_send_email` (E) | — |
+| `intercom` | crm, comms | API key | `intercom_create_contact` (E), `intercom_list_contacts` (R) | — |
+| `whatsapp` | comms | API key + `phoneNumberId` | `whatsapp_send_text` (E) | `whatsapp.webhook` (thread) |
+| `mailchimp` | comms | `apiKey`, `dc` | `mailchimp_add_member` (E), `mailchimp_list_audiences` (R) | — |
+| `github` | dev | API key + OAuth | `github_search_issues` (R), `github_create_issue` (E), `github_comment_issue` (E), `github_create_pr_review_comment` (E), `github_create_pr_review` (E) | `github.event` |
+| `github-actions` | dev | API key | `github_actions_list_runs` (R), `github_actions_dispatch` (E) | — |
+| `sentry` | dev | API key + OAuth | `sentry_search_issues` (R), `sentry_resolve_issue` (W) | `sentry.event` |
+| `linear` | dev | API key + OAuth | `linear_search_issues` (R), `linear_create_issue` (E) | `linear.event` |
+| `linear-triage` | dev | API key | `linear_triage_list` (R), `linear_triage_assign` (W) | — |
+| `jira` | dev, productivity | `baseUrl` + OAuth | `jira_search_issues` (R), `jira_create_issue` (E) | — |
+| `pagerduty` | dev | `routingKey`, optional `apiToken` + OAuth | `pagerduty_trigger` (E), `pagerduty_acknowledge` (E), `pagerduty_resolve` (E), `pagerduty_oncall` (R) | `pagerduty.event` |
+| `notion` | productivity | API key + OAuth | `notion_search` (R), `notion_create_page` (E) | — |
+| `airtable` | productivity | API key | `airtable_list_records` (R), `airtable_create_record` (E) | — |
+| `confluence` | productivity | `baseUrl` + OAuth | `confluence_search` (R), `confluence_create_page` (E) | — |
+| `figma` | productivity, design | API key | `figma_get_file` (R), `figma_export_images` (R) | — |
+| `google-calendar` | productivity | OAuth2 | `calendar_list_events` (R), `calendar_create_event` (E) | — |
+| `hubspot` | crm, commerce | API key | `hubspot_search_contacts` (R), `hubspot_create_deal` (E) | — |
+| `shopify` | commerce | API key | `shopify_search_products` (R), `shopify_list_orders` (R) | — |
+| `stripe` | commerce | `apiKey` + OAuth | `stripe_create_customer` (E), `stripe_create_payment_intent` (E) | `stripe.event` |
+| `openai-images` | ai, media | API key | `openai_image_generate` (E) | — |
+| `firecrawl` | web | API key | `firecrawl_scrape` (R), `firecrawl_crawl` (R) | — |
+| `maps` | web | None | `maps_geocode` (R), `maps_reverse_geocode` (R) | — |
+| `weather` | web | None | `weather_current` (R) | — |
+| `coingecko` | web, crypto | None | `coingecko_price` (R), `coingecko_market_chart` (R) | — |
+| `reader` | web | None | `reader_fetch` (R) | — |
+| `elevenlabs` | ai, media | `apiKey` | `elevenlabs_tts` (E) | — |
+| `deepgram` | ai, media | `apiKey` | `deepgram_transcribe` (E) | — |
+| `whisper` | ai, media | `apiKey` | `whisper_transcribe` (E) | — |
+| `asana` | productivity | API key | `asana_create_task` (E), `asana_list_tasks` (R) | — |
+| `cal-com` | productivity | `apiKey` | `cal_list_bookings` (R), `cal_list_event_types` (R) | — |
+| `pipedrive` | crm | `apiToken` | `pipedrive_create_deal` (E), `pipedrive_search_persons` (R) | — |
+| `calendly` | productivity | API key | `calendly_me` (R), `calendly_list_event_types` (R) | — |
+| `dropbox` | storage | API key + OAuth | `dropbox_list_folder` (R), `dropbox_create_folder` (E) | — |
+| `box` | storage | API key | `box_list_items` (R), `box_create_folder` (E) | — |
+| `baserow` | productivity | API key | `baserow_list_rows` (R), `baserow_create_row` (E) | — |
+| `google-drive` | storage | OAuth2 | `drive_list_files` (R), `drive_create_folder` (E) | — |
+| `assemblyai` | ai, media | API key | `assemblyai_transcribe` (E), `assemblyai_get_transcript` (R) | — |
+| `attio` | crm | API key | `attio_query_records` (R), `attio_create_record` (E) | — |
+| `apollo` | crm | API key | `apollo_search_people` (R) | — |
+| `bigcommerce` | commerce | API key | `bigcommerce_list_products` (R), `bigcommerce_list_orders` (R) | — |
+| `salesforce` | crm | OAuth2 | `salesforce_query` (R), `salesforce_create_record` (E) | — |
+| `azure-openai` | ai | API key | `azure_openai_chat` (E) | — |
+| `acuity` | productivity | `userId`, `apiKey` | `acuity_list_appointments` (R), `acuity_list_appointment_types` (R) | — |
+
+## Projection and safety guarantees
+
+- `httpJson` confines auth-bound requests to the configured origin, rejects redirects, and
+  composes caller cancellation with the timeout.
+- Mutating actions receive derived confirmation when projected into tools.
+- Model-controlled downloads must use the host-injected `fetchUntrusted` port.
+- Retry policy is opt-in and only retries idempotent methods; external POSTs are never retried
+  implicitly.
+
+For authoring and runtime examples, see
+[`@agentskit/integrations — for agents`](/docs/for-agents/integrations).

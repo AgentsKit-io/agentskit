@@ -25,6 +25,14 @@ describe('whatsapp', () => {
     expect(await run(send, { to: '15551234', text: 'hi' })).toEqual({ messageId: 'wamid.1' })
     expect(url).toContain('/12345/messages'); expect(auth).toBe('Bearer EAAB')
   })
+
+  it('rejects a missing phone number id before making a request', async () => {
+    let calls = 0
+    const fetch = fakeFetch(() => { calls += 1; return json({ messages: [{ id: 'wamid.1' }] }) })
+    const [send] = toToolDefinitions(whatsappIntegration, { credential: 'EAAB', config: {}, fetch })
+    await expect(run(send, { to: '15551234', text: 'hi' })).rejects.toThrow(/phoneNumberId/)
+    expect(calls).toBe(0)
+  })
 })
 
 describe('bigcommerce', () => {

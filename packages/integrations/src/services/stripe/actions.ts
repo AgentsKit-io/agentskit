@@ -18,6 +18,7 @@ function form(params: Record<string, unknown>): string {
 async function postForm<TResult>(
   cfg: StripeRuntimeConfig,
   fetchImpl: typeof globalThis.fetch,
+  signal: AbortSignal | undefined,
   path: string,
   params: Record<string, unknown>,
 ): Promise<TResult> {
@@ -27,6 +28,8 @@ async function postForm<TResult>(
     method: 'POST',
     headers: { authorization: `Bearer ${cfg.apiKey}`, 'content-type': 'application/x-www-form-urlencoded' },
     body: form(params),
+    signal,
+    redirect: 'error',
   })
   const text = await response.text()
   const parsed = text.length > 0 ? (JSON.parse(text) as TResult) : ({} as TResult)
@@ -49,8 +52,8 @@ export const stripeCreateCustomer = defineAction({
     type: 'object',
     properties: { email: { type: 'string' }, name: { type: 'string' }, description: { type: 'string' } },
   },
-  async execute(args, { fetch, config }) {
-    const result = await postForm<{ id: string }>(config as StripeRuntimeConfig, fetch, '/customers', args)
+  async execute(args, { fetch, signal, config }) {
+    const result = await postForm<{ id: string }>(config as StripeRuntimeConfig, fetch, signal, '/customers', args)
     return { id: result.id }
   },
 })
@@ -69,8 +72,8 @@ export const stripeCreatePaymentIntent = defineAction({
     },
     required: ['amount', 'currency'],
   },
-  async execute(args, { fetch, config }) {
-    const result = await postForm<{ id: string; client_secret: string; status: string }>(config as StripeRuntimeConfig, fetch, '/payment_intents', args)
+  async execute(args, { fetch, signal, config }) {
+    const result = await postForm<{ id: string; client_secret: string; status: string }>(config as StripeRuntimeConfig, fetch, signal, '/payment_intents', args)
     return { id: result.id, client_secret: result.client_secret, status: result.status }
   },
 })

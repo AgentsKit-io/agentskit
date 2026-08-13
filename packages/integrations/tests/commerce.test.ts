@@ -43,14 +43,16 @@ describe('shopify', () => {
 describe('stripe', () => {
   it('valid + form-encoded customer/payment-intent + Bearer', async () => {
     expect(() => assertValidIntegration(stripeIntegration)).not.toThrow()
-    let body = ''; let auth = ''; let ct = ''
+    let body = ''; let auth = ''; let ct = ''; let seenSignal: AbortSignal | undefined
+    const signal = new AbortController().signal
     const fetch = fakeFetch((u, init) => {
-      body = String(init.body); auth = String((init.headers as Record<string, string>).authorization); ct = String((init.headers as Record<string, string>)['content-type'])
+      body = String(init.body); auth = String((init.headers as Record<string, string>).authorization); ct = String((init.headers as Record<string, string>)['content-type']); seenSignal = init.signal
       return u.includes('payment_intents') ? json({ id: 'pi', client_secret: 'cs', status: 'requires_payment_method' }) : json({ id: 'cus' })
     })
-    const tools = toToolDefinitions(stripeIntegration, { config: { apiKey: 'sk_test' }, fetch })
+    const tools = toToolDefinitions(stripeIntegration, { config: { apiKey: 'sk_test' }, fetch, signal })
     expect(await run(tools.find((t) => t.name === 'stripe_create_customer')!, { email: 'a@x.io' })).toEqual({ id: 'cus' })
     expect(auth).toBe('Bearer sk_test'); expect(ct).toBe('application/x-www-form-urlencoded'); expect(body).toContain('email=a%40x.io')
+    expect(seenSignal).toBe(signal)
     expect(await run(tools.find((t) => t.name === 'stripe_create_payment_intent')!, { amount: 500, currency: 'usd' })).toEqual({ id: 'pi', client_secret: 'cs', status: 'requires_payment_method' })
   })
   it('errors surface the Stripe message', async () => {

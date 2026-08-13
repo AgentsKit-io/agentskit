@@ -25,9 +25,10 @@ at runtime. Ships the canonical descriptor + registry + projection contract, a
 - `defineIntegration` — author an `Integration` descriptor (`auth`, `actions`, `triggers`, `capabilities`).
 - `defineAction` — define one action; receives an auth-bound `IntegrationHttp` client, uses canonical JSON Schema.
 - `defineTrigger` — define one inbound trigger (`verify` signature + `normalize` to a uniform event).
-- `httpJson` — shared HTTP helper (query/body/timeout, non-2xx → typed error; origin-confined when `baseUrl` is set).
+- `httpJson` — shared HTTP helper (query/body/timeout, non-2xx → typed error; origin-confined when `baseUrl` is set; opt-in idempotent retries).
 - `bindHttp` — bind options into a reusable `IntegrationHttp` client.
-- `HttpToolOptions` — shared HTTP options including `signal` for caller cancellation.
+- `composeTimeoutSignal` — compose a timeout with a caller-owned `AbortSignal` for custom transports.
+- `HttpToolOptions` — shared HTTP options including `signal` for caller cancellation and bounded idempotent retries.
 - `createRegistry` — build an isolated catalog instance.
 - `registerIntegration` — register a descriptor into the default catalog.
 - `getIntegration` — look up a descriptor by service slug.

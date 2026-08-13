@@ -41,6 +41,7 @@ describe('CONFIG_FIELDS', () => {
       'from',
     ])
     expect(getIntegration('teams')!.configFields?.map((f) => f.key)).toEqual(['webhookUrl'])
+    expect(getIntegration('whatsapp')!.configFields?.map((f) => f.key)).toEqual(['phoneNumberId'])
     // api-key + oauth connectors don't use configFields
     expect(getIntegration('firecrawl')!.configFields).toBeUndefined()
     expect(getIntegration('gmail')!.configFields).toBeUndefined()

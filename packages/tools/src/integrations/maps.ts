@@ -13,6 +13,8 @@ function cfg(config: MapsConfig): ProjectionConfig {
     baseUrl: config.baseUrl,
     headers: { ...(config.userAgent ? { 'user-agent': config.userAgent } : {}), ...config.headers },
     timeoutMs: config.timeoutMs,
+    retry: config.retry,
+    signal: config.signal,
     fetch: config.fetch,
   }
 }

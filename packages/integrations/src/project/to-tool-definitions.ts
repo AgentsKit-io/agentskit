@@ -2,6 +2,7 @@ import type { ToolDefinition } from '@agentskit/core'
 import type { Integration, IntegrationAction, AuthSpec } from '../contract'
 import { bindHttp, type HttpToolOptions } from '../http'
 import type { IntegrationActionContext } from '../contract'
+import type { RetryPolicy } from '../http'
 
 /** Per-call config for projecting a descriptor into legacy ToolDefinitions. */
 export interface ProjectionConfig {
@@ -12,6 +13,7 @@ export interface ProjectionConfig {
   baseUrl?: string
   headers?: Record<string, string>
   timeoutMs?: number
+  retry?: RetryPolicy
   signal?: AbortSignal
   fetch?: typeof globalThis.fetch
   /** Policy-enforcing fetch for model-controlled URLs; propagated to action context. */
@@ -38,6 +40,7 @@ export function httpOptionsFor(integration: Integration, config: ProjectionConfi
       ...config.headers,
     },
     timeoutMs: config.timeoutMs,
+    retry: config.retry,
     signal: config.signal,
     fetch: config.fetch,
   }
@@ -69,6 +72,7 @@ export function toToolDefinitions(integration: Integration, config: ProjectionCo
     http,
     fetch: config.fetch ?? globalThis.fetch,
     fetchUntrusted: config.fetchUntrusted,
+    signal: config.signal,
     config: config.config,
   }
   return integration.actions.map((a) => actionToToolDefinition(a, ctx))

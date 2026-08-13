@@ -35,6 +35,8 @@ export interface TeamsConfig {
 function webhookTool(config: TeamsWebhookConfig): ToolDefinition {
   return toToolDefinitions(teamsIntegration, {
     config: { webhook: { webhookUrl: config.webhookUrl, headers: config.headers, timeoutMs: config.timeoutMs } },
+    retry: config.retry,
+    signal: config.signal,
     fetch: config.fetch,
   }).find((t) => t.name === 'teams_send_webhook')!
 }

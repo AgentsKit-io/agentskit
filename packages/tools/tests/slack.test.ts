@@ -48,12 +48,24 @@ describe('slackTool', () => {
     expect(captured).toEqual({ text: 'hi', channel: '#alerts', username: 'bot' })
   })
 
-  it('reports non-2xx as ok=false with status', async () => {
+  it('throws a typed error for non-2xx responses', async () => {
     const fetchMock = fakeFetch(() => new Response('rate limited', { status: 429 }))
     const tool = slackTool({ webhookUrl: WEBHOOK, fetch: fetchMock })
-    const result = await tool.execute({ text: 'hi' }) as { ok: boolean; status: number }
-    expect(result.ok).toBe(false)
-    expect(result.status).toBe(429)
+    await expect(tool.execute({ text: 'hi' })).rejects.toThrow(/HTTP 429/)
+  })
+
+  it('forwards caller cancellation and timeout to fetch', async () => {
+    const controller = new AbortController()
+    let seenSignal: AbortSignal | undefined
+    const fetchMock = fakeFetch((_url, init) => {
+      seenSignal = init.signal
+      controller.abort()
+      return new Response(null, { status: 200 })
+    })
+    const tool = slackTool({ webhookUrl: WEBHOOK, fetch: fetchMock, signal: controller.signal, timeoutMs: 1000 })
+    await tool.execute({ text: 'hi' })
+    expect(seenSignal).toBeDefined()
+    expect(seenSignal?.aborted).toBe(true)
   })
 
   it('rejects missing text', async () => {

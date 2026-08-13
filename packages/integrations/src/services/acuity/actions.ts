@@ -6,10 +6,10 @@ interface AcuityRuntimeConfig {
   apiKey: string
 }
 
-function opts(config: unknown, fetch: typeof globalThis.fetch): HttpToolOptions {
+function opts(config: unknown, fetch: typeof globalThis.fetch, signal?: AbortSignal): HttpToolOptions {
   const cfg = config as AcuityRuntimeConfig
   const auth = `Basic ${Buffer.from(`${cfg.userId}:${cfg.apiKey}`).toString('base64')}`
-  return { baseUrl: 'https://acuityscheduling.com/api/v1', headers: { authorization: auth }, fetch }
+  return { baseUrl: 'https://acuityscheduling.com/api/v1', headers: { authorization: auth }, fetch, signal }
 }
 
 export const acuityListAppointments = defineAction({
@@ -20,8 +20,8 @@ export const acuityListAppointments = defineAction({
     type: 'object',
     properties: { max: { type: 'number' }, calendarID: { type: 'number' } },
   },
-  async execute(args, { fetch, config }) {
-    const result = await httpJson<Array<{ id: number; firstName: string; lastName: string; datetime: string; type: string }>>(opts(config, fetch), {
+  async execute(args, { fetch, signal, config }) {
+    const result = await httpJson<Array<{ id: number; firstName: string; lastName: string; datetime: string; type: string }>>(opts(config, fetch, signal), {
       method: 'GET',
       path: '/appointments',
       query: { max: typeof args.max === 'number' ? args.max : 25, calendarID: typeof args.calendarID === 'number' ? args.calendarID : undefined },
@@ -35,8 +35,8 @@ export const acuityListAppointmentTypes = defineAction({
   description: 'List Acuity appointment types.',
   sideEffect: 'read',
   schema: { type: 'object', properties: {} },
-  async execute(_args, { fetch, config }) {
-    const result = await httpJson<Array<{ id: number; name: string; duration: number; price: string }>>(opts(config, fetch), {
+  async execute(_args, { fetch, signal, config }) {
+    const result = await httpJson<Array<{ id: number; name: string; duration: number; price: string }>>(opts(config, fetch, signal), {
       method: 'GET',
       path: '/appointment-types',
     })

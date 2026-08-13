@@ -20,13 +20,15 @@ export const deepgramTranscribe = defineAction({
     },
     required: ['url'],
   },
-  async execute(args, { fetch, config }) {
+  async execute(args, { fetch, signal, config }) {
     const cfg = config as DeepgramRuntimeConfig
     const baseUrl = cfg.baseUrl ?? 'https://api.deepgram.com/v1'
     const response = await fetch(`${baseUrl}/listen`, {
       method: 'POST',
       headers: { authorization: `Token ${cfg.apiKey}`, 'content-type': 'application/json', ...cfg.headers },
       body: JSON.stringify({ url: args.url, model: args.model ?? 'nova-3', language: args.language, smart_format: true }),
+      signal,
+      redirect: 'error',
     })
     const text = await response.text()
     if (!response.ok) {
