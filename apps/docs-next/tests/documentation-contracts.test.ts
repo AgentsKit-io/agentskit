@@ -43,8 +43,13 @@ describe('documentation and package contract surfaces', () => {
     for (const packageDir of packageDirs) {
       const readme = read(`packages/${packageDir}/README.md`)
       const manifest = JSON.parse(read(`packages/${packageDir}/package.json`)) as { homepage?: string }
-      expect(readme).not.toMatch(/https:\/\/www\.agentskit\.io\/docs\/(packages|recipes|tools|adapters|memory|configuration)\b/)
-      expect(manifest.homepage).not.toMatch(/https:\/\/www\.agentskit\.io\/docs\/packages\//)
+      expect(readme.includes('https://www.agentskit.io/docs/packages/')).toBe(false)
+      expect(readme.includes('https://www.agentskit.io/docs/recipes/')).toBe(false)
+      expect(readme.includes('https://www.agentskit.io/docs/tools/')).toBe(false)
+      expect(readme.includes('https://www.agentskit.io/docs/adapters/')).toBe(false)
+      expect(readme.includes('https://www.agentskit.io/docs/memory/')).toBe(false)
+      expect(readme.includes('https://www.agentskit.io/docs/configuration/')).toBe(false)
+      expect(manifest.homepage?.includes('https://www.agentskit.io/docs/packages/')).toBe(false)
     }
 
     expect(read('packages/mcp/README.md')).toContain('/docs/agents/tools/mcp')
