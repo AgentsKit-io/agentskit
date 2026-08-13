@@ -46,6 +46,7 @@ const GATES = [
   ['ecosystem claims freshness', 'gen-ecosystem-claims.mjs', ['--check']],
   ['ecosystem registry sync', 'sync-ecosystem.mjs', ['--check']],
   ['product-chat Chat 0.4 adoption', 'check-product-chat-adoption.mjs'],
+  ['canonical package doc versions', 'check-doc-package-versions.mjs'],
   ['product-chat adoption tests', 'product-chat-adoption.test.mjs', [], 'vitest'],
   ['brand token sync', 'sync-brand.mjs', ['--property', 'agentskit', '--out', 'apps/docs-next/app/brand-tokens.css', '--check']],
   ['brand token sync (landing)', 'sync-brand.mjs', ['--property', 'agentskit', '--format', 'landing', '--out', 'apps/landing/app/globals.css', '--check']],
