@@ -1,9 +1,9 @@
-Use AgentsKit from Codex, Claude Code, and Cursor.
+Connect AgentsKit to your coding agent.
 
-Three commands. No provider key.
+4 commands. No provider key.
 
 ```bash
-pnpm --filter @agentskit/mcp exec vitest run tests/coding-agent-hosts.test.ts
+pnpm --filter @agentskit/mcp smoke:published
 ```
 
 Built on AgentsKit (22 packages, 50 integrations).

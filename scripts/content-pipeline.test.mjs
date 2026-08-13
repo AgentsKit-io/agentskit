@@ -84,19 +84,90 @@ test('coding-agent MCP recipe proves one safe command across supported hosts', (
     join(REPO_ROOT, 'packages/mcp/fixtures/coding-agent-hosts.ts'),
     'utf8',
   )
-  assert.match(source, /codex mcp add agentskit -- npx -y @agentskit\/mcp@0\.3\.3/)
+  const localSmoke = readFileSync(
+    join(REPO_ROOT, 'packages/mcp/fixtures/run-coding-agent-hosts.mjs'),
+    'utf8',
+  )
+  const recipeDoc = readFileSync(
+    join(REPO_ROOT, 'apps/docs-next/content/docs/reference/recipes/coding-agent-mcp.mdx'),
+    'utf8',
+  )
+  assert.match(source, /codex mcp add agentskit -- npx -y @agentskit\/mcp@\d+\.\d+\.\d+/)
   assert.match(source, /claude mcp add --scope project --transport stdio/)
+  assert.match(source, /claudeDesktop/)
   assert.match(source, /\.cursor\/mcp\.json/)
+  assert.match(source, /cline/)
+  assert.match(source, /\.continue\/mcpServers\/agentskit\.yaml/)
   assert.doesNotMatch(source, /--allow-shell/)
   assert.doesNotMatch(source, /--api-key/)
+  assert.match(localSmoke, /timed out after 30s/)
+  assert.match(localSmoke, /SIGKILL/)
+  assert.match(localSmoke, /client\.close\(\)\.catch/)
+  assert.match(recipeDoc, /In interactive sessions, Claude Code asks for approval/)
+  assert.match(recipeDoc, /Non-interactive `claude -p` and SDK sessions cannot show that\s+prompt/)
+  assert.match(recipeDoc, /For the CLI, pass `--auto-approve false` when you\s+want global auto-approval disabled/)
+  assert.doesNotMatch(recipeDoc, /Claude Code asks for approval before using a project-scoped server\./)
+
+  const recipe = mineRecipes(REPO_ROOT).find((entry) => entry.id === 'coding-agent-mcp')
+  assert.deepEqual(recipe.executable.setupCommands[1], [
+    'pnpm', '--filter', '@agentskit/mcp', 'exec', 'vitest', 'run', 'tests/coding-agent-hosts.test.ts',
+  ])
 
   const atom = runPipeline(REPO_ROOT, 'coding-agent-mcp', { runExecutable: true, gateResults: [] })
   assert.equal(atom.executable.ok, true)
   assert.equal(
     atom.executable.stdout,
-    'verified hosts: claude, codex, cursor; cli tools: fetch_url, web_search',
+    'verified local MCP stdio protocol; cli tools: fetch_url, web_search',
   )
   assert.equal(atom.publish.status, 'blocked')
+}, 120_000)
+
+test('coding-agent MCP pins stay aligned with the package version', () => {
+  const packageVersion = JSON.parse(readFileSync(join(REPO_ROOT, 'packages/mcp/package.json'), 'utf8')).version
+  assert.match(packageVersion, /^\d+\.\d+\.\d+$/)
+  const pinFiles = [
+    'apps/docs-next/content/docs/reference/recipes/coding-agent-mcp.mdx',
+    'docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/atom.json',
+    'docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/carousel-storyboard.md',
+    'docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/community-post.md',
+    'docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/docs.mdx',
+    'docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/example.json',
+    'docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/social-thread.md',
+    'docs/ecosystem/content-pipeline/recipes/coding-agent-mcp.json',
+    'apps/docs-next/content/docs/for-agents/mcp.mdx',
+    'readme-standard-v1.json',
+    'packages/mcp/README.md',
+    'packages/mcp/fixtures/coding-agent-hosts.ts',
+    'packages/mcp/fixtures/run-published-coding-agent-hosts.mjs',
+  ]
+  const assertPinned = (source, relativePath) => {
+    const packagePins = [...source.matchAll(/@agentskit\/mcp@(\d+\.\d+\.\d+)/g)].map((match) => match[1])
+    assert.ok(packagePins.length > 0, `${relativePath} has no pinned package version`)
+    assert.deepEqual([...new Set(packagePins)], [packageVersion], `${relativePath} has package-version drift`)
+    const yamlPins = [...source.matchAll(/version:\s*(\d+\.\d+\.\d+)/g)].map((match) => match[1])
+    if (yamlPins.length > 0) {
+      assert.deepEqual([...new Set(yamlPins)], [packageVersion], `${relativePath} has YAML-version drift`)
+    }
+    assert.doesNotMatch(
+      source,
+      /(?:npx|npm install) @agentskit\/mcp(?:\s|`)/,
+      `${relativePath} must not use an unpinned MCP package command`,
+    )
+  }
+
+  for (const relativePath of pinFiles) {
+    assertPinned(readFileSync(join(REPO_ROOT, relativePath), 'utf8'), relativePath)
+  }
+
+  const readme = readFileSync(join(REPO_ROOT, 'packages/mcp/README.md'), 'utf8')
+  assert.doesNotMatch(readme, /npx @agentskit\/mcp(?:\s|`)/, 'README must not install the floating MCP package')
+  assert.doesNotMatch(readme, /"args": \["@agentskit\/mcp"/, 'README JSON must not use an unpinned MCP package')
+
+  const fixture = readFileSync(join(REPO_ROOT, 'packages/mcp/fixtures/coding-agent-hosts.ts'), 'utf8')
+  assert.throws(
+    () => assertPinned(fixture.replace(`@agentskit/mcp@${packageVersion}`, '@agentskit/mcp@0.0.0'), 'synthetic stale fixture'),
+    /package-version drift/,
+  )
 }, 120_000)
 
 test('provider-swap recipe keeps one application path and a credential-free proof', () => {

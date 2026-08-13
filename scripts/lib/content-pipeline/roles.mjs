@@ -153,7 +153,7 @@ export function repurpose(recipe, verifiedClaims, links) {
   const shortPost = [
     `${recipe.title}.`,
     ``,
-    `Three commands. No provider key.`,
+    `${recipe.commands.length} commands. No provider key.`,
     ``,
     '```bash',
     recipe.commands[recipe.commands.length - 1],
