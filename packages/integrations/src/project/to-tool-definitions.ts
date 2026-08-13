@@ -14,6 +14,8 @@ export interface ProjectionConfig {
   headers?: Record<string, string>
   timeoutMs?: number
   retry?: RetryPolicy
+  sleep?: (delayMs: number) => Promise<void>
+  now?: () => number
   signal?: AbortSignal
   fetch?: typeof globalThis.fetch
   /** Policy-enforcing fetch for model-controlled URLs; propagated to action context. */
@@ -41,6 +43,8 @@ export function httpOptionsFor(integration: Integration, config: ProjectionConfi
     },
     timeoutMs: config.timeoutMs,
     retry: config.retry,
+    sleep: config.sleep,
+    now: config.now,
     signal: config.signal,
     fetch: config.fetch,
   }

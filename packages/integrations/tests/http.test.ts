@@ -106,6 +106,20 @@ describe('httpJson', () => {
     ).rejects.toThrow(/HTTP 404/)
   })
 
+  it('redacts sensitive fields from upstream response diagnostics', async () => {
+    const fetch = fakeFetch(() => new Response('{"access_token":"SYNTHETIC-SECRET"}', { status: 500 }))
+    const outcome = await httpJson(
+      { baseUrl: 'https://api.example.com', fetch },
+      { path: '/failed' },
+    ).then(
+      () => undefined,
+      (error: unknown) => error as { message?: string },
+    )
+
+    expect(outcome?.message).not.toContain('SYNTHETIC-SECRET')
+    expect(outcome?.message).toContain('[REDACTED]')
+  })
+
   it('does not expose credential-bearing request paths in transport hints', async () => {
     const fetch = fakeFetch(() => new Response('nope', { status: 500, statusText: 'Server Error' }))
     const outcome = await httpJson(
@@ -244,6 +258,33 @@ describe('httpJson', () => {
         ),
       ).rejects.toThrow(/HTTP 503/)
       expect(calls).toBe(1)
+    })
+
+    it('allows an explicitly replayable method and honors Retry-After through injected seams', async () => {
+      let calls = 0
+      const delays: number[] = []
+      const fetch = fakeFetch(() => {
+        calls += 1
+        if (calls === 1) return new Response('busy', { status: 429, headers: { 'retry-after': '2' } })
+        return jsonResponse({ ok: true })
+      })
+
+      await expect(
+        httpJson(
+          {
+            baseUrl: 'https://api.example.com',
+            fetch,
+            now: () => 1_700_000_000_000,
+            sleep: async (delayMs) => {
+              delays.push(delayMs)
+            },
+            retry: { maxAttempts: 2, methods: ['POST'] },
+          },
+          { method: 'POST', path: '/send', body: { message: 'hi' } },
+        ),
+      ).resolves.toEqual({ ok: true })
+      expect(calls).toBe(2)
+      expect(delays).toEqual([2_000])
     })
 
     it('composes an optional caller AbortSignal so abort cancels in-flight work', async () => {

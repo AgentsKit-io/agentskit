@@ -46,7 +46,7 @@ export function verifySlack(input: WebhookInput): VerifyResult {
   const sig = headerValue(input.headers, 'x-slack-signature')
   if (ts === undefined || sig === undefined) return { ok: false, reason: 'missing slack headers' }
   const tsInt = Number(ts)
-  if (!Number.isFinite(tsInt)) return { ok: false, reason: 'invalid timestamp' }
+  if (!Number.isSafeInteger(tsInt) || tsInt < 0) return { ok: false, reason: 'invalid timestamp' }
   const now = input.nowSeconds ?? Math.floor(Date.now() / 1000)
   if (Math.abs(now - tsInt) > SLACK_REPLAY_WINDOW_SECONDS) {
     return { ok: false, reason: 'timestamp outside replay window' }
