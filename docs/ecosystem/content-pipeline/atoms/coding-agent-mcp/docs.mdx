@@ -1,22 +1,23 @@
 ---
-title: Use AgentsKit from Codex, Claude Code, and Cursor
+title: Connect AgentsKit to your coding agent
 description: Developers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host.
 ---
 
-# Use AgentsKit from Codex, Claude Code, and Cursor
+# Connect AgentsKit to your coding agent
 
 Developers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host.
 
 ## Audience
 
-JavaScript and TypeScript developers using Codex, Claude Code, Cursor, or another MCP-compatible host
+JavaScript and TypeScript developers using Codex, Claude Code or Desktop, Cursor, Cline, Continue, or another MCP-compatible host
 
 ## Commands
 
 ```bash
-codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search
-claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search
+codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.4 --tools fetch,search
+claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.4 --tools fetch,search
 pnpm --filter @agentskit/mcp exec vitest run tests/coding-agent-hosts.test.ts
+pnpm --filter @agentskit/mcp smoke:published
 ```
 
 ## Verified claims
@@ -31,6 +32,8 @@ pnpm --filter @agentskit/mcp exec vitest run tests/coding-agent-hosts.test.ts
 - [Codex MCP configuration](https://developers.openai.com/codex/mcp/)
 - [Claude Code MCP configuration](https://docs.anthropic.com/en/docs/claude-code/mcp)
 - [Cursor MCP configuration](https://cursor.com/docs/mcp)
+- [Cline MCP configuration](https://docs.cline.bot/mcp/mcp-overview)
+- [Continue MCP configuration](https://docs.continue.dev/customize/deep-dives/mcp)
 
 ## Ecosystem next steps
 

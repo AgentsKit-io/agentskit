@@ -9,7 +9,7 @@ Profile: <code>major-package</code>
 [![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 
 Expose AgentsKit tools as an [MCP](https://modelcontextprotocol.io) server — use
-them from Codex, Claude Code, Cursor, or any MCP host.
+them from Codex, Claude Code/Desktop, Cursor, Cline, Continue, or any MCP host.
 
 
 ## Verified proof
@@ -31,7 +31,7 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/mcp) · [agent hand
 
 <!-- readme-command:install -->
 ```bash
-npx @agentskit/mcp --tools fetch,search
+npx -y @agentskit/mcp@0.3.4 --tools fetch,search
 ```
 
 Then point your MCP host at the command. Example (generic JSON config):
@@ -39,7 +39,7 @@ Then point your MCP host at the command. Example (generic JSON config):
 ```json
 {
   "mcpServers": {
-    "agentskit": { "command": "npx", "args": ["@agentskit/mcp", "--tools", "fetch,search"] }
+    "agentskit": { "command": "npx", "args": ["-y", "@agentskit/mcp@0.3.4", "--tools", "fetch,search"] }
   }
 }
 ```
@@ -51,16 +51,17 @@ changes:
 
 ```bash
 # Codex
-codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search
+codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.4 --tools fetch,search
 
 # Claude Code (shared project configuration)
-claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search
+claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.4 --tools fetch,search
 ```
 
-Cursor uses the same `command` and `args` in `.cursor/mcp.json`. See the
+Cursor, Cline, Claude Desktop, and Continue use the same pinned command with
+host-specific wrappers. See the
 [verified coding-agent recipe](../../apps/docs-next/content/docs/reference/recipes/coding-agent-mcp.mdx)
-for complete Codex, Claude Code, Cursor, and generic MCP configurations plus the
-offline protocol proof.
+for the support matrix, exact configurations, local protocol proof, and npm
+published-package smoke test.
 
 ## Flags
 
@@ -102,7 +103,7 @@ Run a registry agent server-side and expose it as a single MCP tool — the host
 delegates a specialized job instead of orchestrating primitives:
 
 ```bash
-npx @agentskit/mcp --agents legal-contract-reviewer,fintech-kyc-screener --provider openai
+npx -y @agentskit/mcp@0.3.4 --agents legal-contract-reviewer,fintech-kyc-screener --provider openai
 ```
 
 `--provider` covers the first-class adapters (openai, anthropic, gemini, ollama)

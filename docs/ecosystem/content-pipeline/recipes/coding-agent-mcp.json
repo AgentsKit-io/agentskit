@@ -1,9 +1,9 @@
 {
   "id": "coding-agent-mcp",
-  "title": "Use AgentsKit from Codex, Claude Code, and Cursor",
+  "title": "Connect AgentsKit to your coding agent",
   "status": "verified-source",
   "problem": "Developers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host.",
-  "audience": "JavaScript and TypeScript developers using Codex, Claude Code, Cursor, or another MCP-compatible host",
+  "audience": "JavaScript and TypeScript developers using Codex, Claude Code or Desktop, Cursor, Cline, Continue, or another MCP-compatible host",
   "docs": [
     "/docs/reference/recipes/coding-agent-mcp",
     "packages/mcp/fixtures/coding-agent-hosts.ts"
@@ -11,18 +11,20 @@
   "executable": {
     "fixture": "packages/mcp/fixtures/run-coding-agent-hosts.mjs",
     "setupCommands": [
-      ["pnpm", "--filter", "@agentskit/mcp...", "build"]
+      ["pnpm", "--filter", "@agentskit/mcp...", "build"],
+      ["pnpm", "--filter", "@agentskit/mcp", "exec", "vitest", "run", "tests/coding-agent-hosts.test.ts"]
     ],
     "command": [
       "node",
       "packages/mcp/fixtures/run-coding-agent-hosts.mjs"
     ],
-    "expectStdoutIncludes": "verified hosts: claude, codex, cursor; cli tools: fetch_url, web_search"
+    "expectStdoutIncludes": "verified local MCP stdio protocol; cli tools: fetch_url, web_search"
   },
   "commands": [
-    "codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search",
-    "claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.3 --tools fetch,search",
-    "pnpm --filter @agentskit/mcp exec vitest run tests/coding-agent-hosts.test.ts"
+    "codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.4 --tools fetch,search",
+    "claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.4 --tools fetch,search",
+    "pnpm --filter @agentskit/mcp exec vitest run tests/coding-agent-hosts.test.ts",
+    "pnpm --filter @agentskit/mcp smoke:published"
   ],
   "claims": [
     { "productId": "agentskit", "claimId": "packages" },
@@ -54,6 +56,16 @@
       "id": "cursor",
       "title": "Cursor MCP configuration",
       "href": "https://cursor.com/docs/mcp"
+    },
+    {
+      "id": "cline",
+      "title": "Cline MCP configuration",
+      "href": "https://docs.cline.bot/mcp/mcp-overview"
+    },
+    {
+      "id": "continue",
+      "title": "Continue MCP configuration",
+      "href": "https://docs.continue.dev/customize/deep-dives/mcp"
     }
   ]
 }
