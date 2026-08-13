@@ -108,7 +108,7 @@ Replay boundaries snapshot cassettes, requests, chunks, dates, and plain metadat
 
 ## Braintrust lifecycle
 
-The optional [`@agentskit/eval-braintrust`](../eval-braintrust) package computes Braintrust-backed scores locally. When `BRAINTRUST_API_KEY` or `options.apiKey` is present, it lazily initializes Braintrust, awaits each experiment log, flushes the experiment, and then summarizes it. Non-fatal SDK failures are returned as bounded `result.warnings`; local cases and summaries remain available.
+`@agentskit/eval/braintrust` computes every score locally. When `BRAINTRUST_API_KEY` or `options.apiKey` is present, it lazily initializes Braintrust, awaits each experiment log, flushes the experiment, and then summarizes it. Non-fatal SDK failures are returned as bounded `result.warnings`; local cases and summaries remain available.
 
 Custom scorer results are validated at runtime. A malformed name or score outside `[0, 1]` becomes an isolated `scorer_error` rather than corrupting the aggregate.
 

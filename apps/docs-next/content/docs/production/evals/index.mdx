@@ -30,29 +30,22 @@ Agent quality degrades silently — a prompt change that improves one case break
 
 ## CI integration with Braintrust
 
-`@agentskit/eval-braintrust` wraps the Braintrust SDK to push eval results to [Braintrust](https://braintrust.dev) — experiments, scores, and traces are visible in the Braintrust dashboard without any additional pipeline setup.
+`@agentskit/eval/braintrust` wraps the Braintrust SDK to push eval results to [Braintrust](https://braintrust.dev) — experiments, scores, and traces are visible in the Braintrust dashboard without any additional pipeline setup.
 
 ```ts
-import { runBraintrustEval, qualityFamily, robustnessFamily } from '@agentskit/eval-braintrust'
+import { runEval } from '@agentskit/eval'
+import { braintrustReporter } from '@agentskit/eval/braintrust'
 
-await runBraintrustEval({
-  cases: mySuite.cases,
-  agent: async input => {
-    const result = await myAgent.run(input)
-    return { output: result.output, metadata: result.metadata }
-  },
-  scorers: [...qualityFamily.scorers, ...robustnessFamily.scorers],
-  options: {
-    apiKey: process.env.BRAINTRUST_API_KEY,
-    projectName: 'my-agent',
-    experimentName: `ci-${process.env.GITHUB_SHA ?? 'local'}`,
-  },
+await runEval({
+  agent: myAgent,
+  suite: mySuite,
+  reporters: [braintrustReporter({ apiKey: process.env.BRAINTRUST_API_KEY! })],
 })
 ```
 
 In CI, set `BRAINTRUST_API_KEY` as a secret and add the eval run as a step after your test suite. Failed evals surface as non-zero exit codes.
 
-- [Package: @agentskit/eval-braintrust](/docs/reference/packages/eval-braintrust)
+- [Package: @agentskit/eval/braintrust](/docs/reference/packages/eval-braintrust)
 - [For agents: eval-braintrust](/docs/for-agents/eval-braintrust)
 
 ## Related

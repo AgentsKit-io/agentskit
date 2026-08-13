@@ -235,8 +235,8 @@ Pick what you need. Every package works alone. Combinations work without glue co
 | [`@agentskit/mcp`](packages/mcp) | Expose AgentsKit tools as an MCP server (Claude Desktop, Cursor, Windsurf) | beta |
 | [`@agentskit/integrations`](packages/integrations) | Plug-and-play service integrations (one descriptor → tools, connectors, triggers, auth) | beta |
 | [`@agentskit/tools/validation`](packages/validation) | Runtime JSON-Schema validation of tool-call arguments (Ajv) | beta |
-| [`@agentskit/eval-braintrust`](packages/eval-braintrust) | Braintrust scoring pipeline + CI regression alerts | beta |
-| [`@agentskit/observability-langfuse`](packages/observability-langfuse) | Langfuse tracing adapter (plan, tool, model, HITL spans) | beta |
+| [`@agentskit/eval/braintrust`](packages/eval-braintrust) | Braintrust scoring pipeline + CI regression alerts | beta |
+| [`@agentskit/observability/langfuse`](packages/observability-langfuse) | Langfuse tracing adapter (plan, tool, model, HITL spans) | beta |
 
 ### What can you build?
 

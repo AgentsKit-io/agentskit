@@ -109,7 +109,7 @@ docs or the unreleased changeset land.
 `@agentskit/eval` now has suite, replay, snapshot, CI-reporting, and optional
 Braintrust hardening for its current beta surface. The private
 `@agentskit/eval-braintrust` implementation continues to ship only through the
-public `@agentskit/eval-braintrust` package and its `scorers`/`ci` subpaths.
+public `@agentskit/eval/braintrust` subpaths.
 
 - **Implemented:** malformed agent/scorer isolation; finite `[0, 1]` score and
   threshold enforcement; cassette shape/date validation; defensive snapshots

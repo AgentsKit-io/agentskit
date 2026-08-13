@@ -52,7 +52,7 @@ const systemPrompt = [
 ].filter(Boolean).join('\n\n')
 ```
 
-Pass `systemPrompt` to `createRuntime({ systemPrompt })` (or include it in the request context when calling a controller). Adapter factories configure providers; they do not accept prompt fields.
+Pass `systemPrompt` as `context.systemPrompt` when calling `adapter.createSource`, or use it as the `systemPrompt` field in `createRuntime`.
 
 ## Runtime integration — pass `retriever` directly
 

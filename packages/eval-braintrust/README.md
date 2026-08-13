@@ -1,4 +1,4 @@
-# `@agentskit/eval-braintrust`
+# `@agentskit/eval/braintrust`
 
 Profile: <code>concise-package</code>
 
@@ -22,7 +22,7 @@ Braintrust scoring pipeline for AgentsKit. Ships **8 scorers** in two families a
 
 ## How this fits the ecosystem
 
-@agentskit/eval-braintrust connects AgentsKit evals to Braintrust so teams can score behavior, track regressions, and keep quality visible in CI.
+@agentskit/eval/braintrust connects AgentsKit evals to Braintrust so teams can score behavior, track regressions, and keep quality visible in CI.
 
 - **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
 - **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
@@ -35,7 +35,7 @@ Docs: [package guide](https://www.agentskit.io/docs/for-agents/eval-braintrust) 
 
 <!-- readme-command:install -->
 ```bash
-npm install @agentskit/eval-braintrust braintrust
+npm install @agentskit/eval braintrust
 ```
 
 `braintrust` is loaded lazily — install it alongside.
@@ -48,7 +48,7 @@ import {
   runBraintrustEval,
   qualityFamily,
   robustnessFamily,
-} from '@agentskit/eval-braintrust'
+} from '@agentskit/eval/braintrust'
 
 const myAgent = {
   async run(input: string) {
@@ -84,7 +84,7 @@ Custom scorer output is checked at runtime. Names must be non-empty and scores m
 ## CI regression alerts
 
 ```ts
-import { detectRegressions, formatAlertsMarkdown } from '@agentskit/eval-braintrust/ci'
+import { detectRegressions, formatAlertsMarkdown } from '@agentskit/eval/braintrust/ci'
 
 const alerts = detectRegressions(baselineSummary, currentSummary, { default: 0.05 })
 process.stdout.write(formatAlertsMarkdown(alerts))
@@ -96,7 +96,7 @@ Wire into a GitHub Actions step that posts the comment on the PR.
 ## Adding a custom scorer
 
 ```ts
-import type { Scorer } from '@agentskit/eval-braintrust'
+import type { Scorer } from '@agentskit/eval/braintrust'
 
 const verbosityPenalty: Scorer = ({ output }) => ({
   name: 'verbosity_penalty',
@@ -120,7 +120,7 @@ MIT
 
 - Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
 - **Node.js 20+** and **TypeScript** strict mode
-- Published through `@agentskit/eval-braintrust`
+- Published through `@agentskit/eval/braintrust`
 
 ## Contributing
 

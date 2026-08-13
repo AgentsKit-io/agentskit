@@ -1,2 +1,2 @@
-import '@agentskit/observability-langfuse'
-console.log('@agentskit/observability-langfuse loaded')
+import '@agentskit/observability/langfuse'
+console.log('@agentskit/observability/langfuse loaded')
