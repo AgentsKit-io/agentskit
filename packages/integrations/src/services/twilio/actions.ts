@@ -34,7 +34,7 @@ export const twilioSendSms = defineAction({
     },
     required: ['to', 'body'],
   },
-  async execute(args, { fetch, config }) {
+  async execute(args, { fetch, signal, config }) {
     const cfg = config as TwilioRuntimeConfig
     assertE164('to', String(args.to))
     const sender = args.from ? String(args.from) : cfg.fromNumber
@@ -47,6 +47,8 @@ export const twilioSendSms = defineAction({
       method: 'POST',
       headers: { Authorization: auth, 'Content-Type': 'application/x-www-form-urlencoded' },
       body: params.toString(),
+      signal,
+      redirect: 'error',
     })
     const data = (await response.json()) as { sid?: string; status?: string; message?: string; code?: number }
     if (!response.ok) {

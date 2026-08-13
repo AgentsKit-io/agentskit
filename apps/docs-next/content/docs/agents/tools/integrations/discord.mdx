@@ -4,7 +4,7 @@ description: Discord Bot API — post messages. For community bots, notifier age
 ---
 
 ```ts
-import { discord } from '@agentskit/tools'
+import { discord } from '@agentskit/tools/integrations'
 
 const runtime = createRuntime({
   adapter,
@@ -16,7 +16,7 @@ const runtime = createRuntime({
 
 | Name | Purpose |
 |---|---|
-| `discordPostMessage` | Send a message to a channel (supports embeds) |
+| `discordPostMessage` | Send a text message to a channel |
 
 Bundled: `discord(config)`.
 

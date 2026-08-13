@@ -17,7 +17,7 @@ export const whisperTranscribe = defineAction({
     properties: { url: { type: 'string' }, language: { type: 'string' } },
     required: ['url'],
   },
-  async execute(args, { fetch, fetchUntrusted, config }) {
+  async execute(args, { fetch, fetchUntrusted, signal, config }) {
     const cfg = config as WhisperRuntimeConfig
     const baseUrl = cfg.baseUrl ?? 'https://api.openai.com/v1'
     if (!fetchUntrusted) {
@@ -27,7 +27,7 @@ export const whisperTranscribe = defineAction({
         hint: 'Inject an egress-policy fetch as ProjectionConfig.fetchUntrusted (or IntegrationActionContext.fetchUntrusted) when using @agentskit/integrations directly.',
       })
     }
-    const audio = await fetchUntrusted(String(args.url))
+    const audio = await fetchUntrusted(String(args.url), { signal })
     if (!audio.ok) {
       throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `whisper: audio fetch ${audio.status}`, hint: `URL ${String(args.url)}.` })
     }
@@ -40,6 +40,8 @@ export const whisperTranscribe = defineAction({
       method: 'POST',
       headers: { authorization: `Bearer ${cfg.apiKey}`, ...cfg.headers },
       body: form,
+      signal,
+      redirect: 'error',
     })
     const text = await response.text()
     if (!response.ok) {

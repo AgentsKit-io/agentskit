@@ -13,6 +13,8 @@ function cfg(config: CoinGeckoConfig): ProjectionConfig {
     baseUrl: config.baseUrl,
     headers: { ...(config.apiKey ? { 'x-cg-pro-api-key': config.apiKey } : {}), ...config.headers },
     timeoutMs: config.timeoutMs,
+    retry: config.retry,
+    signal: config.signal,
     fetch: config.fetch,
   }
 }

@@ -18,6 +18,8 @@ function cfg(config: ShopifyConfig): ProjectionConfig {
     baseUrl: config.baseUrl ?? `https://${config.shop}/admin/api/${config.apiVersion ?? '2024-10'}/`,
     headers: config.headers,
     timeoutMs: config.timeoutMs,
+    retry: config.retry,
+    signal: config.signal,
     fetch: config.fetch,
   }
 }

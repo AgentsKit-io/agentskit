@@ -16,6 +16,7 @@
     "dev": "next dev --turbo",
     "docs": "next dev --turbo",
     "start": "next start",
+    "test": "vitest run",
     "lint": "node scripts/gen-ask-context.mjs && tsc --noEmit",
     "test": "vitest run",
     "lint:mdx": "node scripts/lint-mdx.mjs",

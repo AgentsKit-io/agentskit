@@ -17,6 +17,8 @@ function cfg(config: ConfluenceConfig): ProjectionConfig {
     headers: { authorization: auth, ...config.headers },
     config: { baseUrl: config.baseUrl },
     timeoutMs: config.timeoutMs,
+    retry: config.retry,
+    signal: config.signal,
     fetch: config.fetch,
   }
 }

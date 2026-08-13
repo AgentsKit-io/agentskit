@@ -8,7 +8,7 @@ export interface DeepgramConfig extends HttpToolOptions {
 }
 
 function cfg(config: DeepgramConfig): ProjectionConfig {
-  return { config: { apiKey: config.apiKey, baseUrl: config.baseUrl, headers: config.headers }, fetch: config.fetch }
+  return { config: { apiKey: config.apiKey, baseUrl: config.baseUrl, headers: config.headers }, retry: config.retry, signal: config.signal, fetch: config.fetch }
 }
 
 /** @deprecated import from `@agentskit/integrations`. */

@@ -27,6 +27,7 @@ export const CONFIG_FIELDS = {
   ],
   stripe: [{ key: 'apiKey', label: 'Secret key', secret: true, required: true, placeholder: 'sk_live_…' }],
   telegram: [{ key: 'token', label: 'Bot token', secret: true, required: true }],
+  whatsapp: [{ key: 'phoneNumberId', label: 'Phone number ID', required: true }],
   elevenlabs: [{ key: 'apiKey', label: 'API key', secret: true, required: true }],
   deepgram: [{ key: 'apiKey', label: 'API key', secret: true, required: true }],
   whisper: [{ key: 'apiKey', label: 'API key', secret: true, required: true }],

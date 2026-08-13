@@ -4,7 +4,7 @@ description: Slack Web API — post messages, search history. For notifier bots 
 ---
 
 ```ts
-import { slack } from '@agentskit/tools'
+import { slack } from '@agentskit/tools/integrations'
 
 const runtime = createRuntime({
   adapter,
@@ -16,7 +16,7 @@ const runtime = createRuntime({
 
 | Name | Purpose |
 |---|---|
-| `slackPostMessage` | Post to a channel or DM (supports threading + blocks) |
+| `slackPostMessage` | Post to a channel or DM (supports threading) |
 | `slackSearch` | `search.messages` — query your workspace history |
 
 Bundled: `slack(config)`.
@@ -47,7 +47,7 @@ await runtime.run('Summarize yesterday\'s merged PRs and post to #eng-updates')
 
 ## Scopes
 
-- **Bot tokens** need: `chat:write`, `channels:history`, `search:read` (user-token-only for `search`).
+- **Bot tokens** need: `chat:write`, `channels:history`, `search:read`.
 - Create a Slack app → OAuth & Permissions → install to workspace.
 
 ## Related

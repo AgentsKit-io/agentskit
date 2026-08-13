@@ -18,6 +18,8 @@ function cfg(config: DiscordConfig): ProjectionConfig {
         ? { authorization: `Bearer ${config.token}`, ...config.headers }
         : config.headers,
     timeoutMs: config.timeoutMs,
+    retry: config.retry,
+    signal: config.signal,
     fetch: config.fetch,
   }
 }

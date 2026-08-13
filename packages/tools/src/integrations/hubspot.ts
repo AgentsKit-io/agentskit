@@ -9,7 +9,7 @@ export interface HubspotConfig extends HttpToolOptions {
 }
 
 function cfg(config: HubspotConfig): ProjectionConfig {
-  return { credential: config.accessToken, baseUrl: config.baseUrl, headers: config.headers, timeoutMs: config.timeoutMs, fetch: config.fetch }
+  return { credential: config.accessToken, baseUrl: config.baseUrl, headers: config.headers, timeoutMs: config.timeoutMs, retry: config.retry, signal: config.signal, fetch: config.fetch }
 }
 
 /** @deprecated import from `@agentskit/integrations`. */

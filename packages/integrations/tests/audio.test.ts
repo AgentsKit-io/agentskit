@@ -16,15 +16,16 @@ function fakeFetch(h: (url: string, init: RequestInit) => Response): typeof glob
 describe('elevenlabs', () => {
   it('valid + tts returns base64 audio with xi-api-key', async () => {
     expect(() => assertValidIntegration(elevenlabsIntegration)).not.toThrow()
-    let url = ''; let key = ''
+    let url = ''; let key = ''; let seenSignal: AbortSignal | undefined
+    const signal = new AbortController().signal
     const fetch = fakeFetch((u, init) => {
-      url = u; key = String((init.headers as Record<string, string>)['xi-api-key'])
+      url = u; key = String((init.headers as Record<string, string>)['xi-api-key']); seenSignal = init.signal
       return new Response(new Uint8Array([1, 2, 3]), { status: 200 })
     })
-    const [tts] = toToolDefinitions(elevenlabsIntegration, { config: { apiKey: 'xi' }, fetch })
+    const [tts] = toToolDefinitions(elevenlabsIntegration, { config: { apiKey: 'xi' }, fetch, signal })
     const out = (await run(tts, { voice_id: 'v1', text: 'hi' })) as { bytesBase64: string; length: number }
     expect(out.length).toBe(3); expect(out.bytesBase64).toBe(Buffer.from([1, 2, 3]).toString('base64'))
-    expect(url).toBe('https://api.elevenlabs.io/v1/text-to-speech/v1'); expect(key).toBe('xi')
+    expect(url).toBe('https://api.elevenlabs.io/v1/text-to-speech/v1'); expect(key).toBe('xi'); expect(seenSignal).toBe(signal)
   })
 })
 
@@ -46,10 +47,13 @@ describe('whisper', () => {
   it('downloads model-controlled audio via fetchUntrusted and uploads via fetch', async () => {
     expect(() => assertValidIntegration(whisperIntegration)).not.toThrow()
     const untrustedCalls: string[] = []
-    const providerCalls: Array<{ url: string; method: string; formBody: boolean }> = []
+    const untrustedSignals: Array<AbortSignal | undefined> = []
+    const providerCalls: Array<{ url: string; method: string; formBody: boolean; signal?: AbortSignal }> = []
+    const signal = new AbortController().signal
 
-    const fetchUntrusted = fakeFetch((u) => {
+    const fetchUntrusted = fakeFetch((u, init) => {
       untrustedCalls.push(u)
+      untrustedSignals.push(init.signal)
       return new Response(new Uint8Array([9, 9]), { status: 200 })
     })
     const fetch = fakeFetch((u, init) => {
@@ -57,6 +61,7 @@ describe('whisper', () => {
         url: u,
         method: String(init.method ?? 'GET'),
         formBody: init.body instanceof FormData,
+        signal: init.signal,
       })
       if (u.includes('/audio/transcriptions')) {
         return new Response(JSON.stringify({ text: 'transcribed' }), { status: 200 })
@@ -68,6 +73,7 @@ describe('whisper', () => {
       config: { apiKey: 'sk', model: 'whisper-1' },
       fetch,
       fetchUntrusted,
+      signal,
     }
     const [tr] = toToolDefinitions(whisperIntegration, projection)
     expect(await run(tr, { url: 'http://a.mp3' })).toEqual({ text: 'transcribed' })
@@ -78,8 +84,10 @@ describe('whisper', () => {
         url: 'https://api.openai.com/v1/audio/transcriptions',
         method: 'POST',
         formBody: true,
+        signal,
       },
     ])
+    expect(untrustedSignals).toEqual([signal])
     expect(providerCalls.some((c) => c.url === 'http://a.mp3')).toBe(false)
     expect(untrustedCalls.some((u) => u.includes('/audio/transcriptions'))).toBe(false)
   })

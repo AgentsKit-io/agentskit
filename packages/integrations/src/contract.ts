@@ -78,6 +78,8 @@ export interface IntegrationActionContext {
    * (SSRF egress gate). Distinct from `fetch`, which remains the provider path.
    */
   fetchUntrusted?: typeof globalThis.fetch
+  /** Caller cancellation propagated to non-JSON provider transports. */
+  signal?: AbortSignal
   /** Service-specific config: extra credentials, injected adapters, options. */
   config: unknown
 }

@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { CONFIG_FIELDS } from '../../config-fields'
 import { registerIntegration } from '../../registry'
 import { telegramActions } from './actions'
+import { telegramTriggers } from './triggers'
 
 export const telegramIntegration = defineIntegration({
   name: 'telegram',
@@ -12,6 +13,7 @@ export const telegramIntegration = defineIntegration({
   auth: { kind: 'none' },
   configFields: CONFIG_FIELDS.telegram,
   actions: telegramActions,
+  triggers: telegramTriggers,
   capabilities: { send: 'telegram_send_message', notify: 'telegram_send_message' },
 })
 

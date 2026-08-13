@@ -106,6 +106,34 @@ describe('httpJson', () => {
     ).rejects.toThrow(/HTTP 404/)
   })
 
+  it('does not expose credential-bearing request paths in transport hints', async () => {
+    const fetch = fakeFetch(() => new Response('nope', { status: 500, statusText: 'Server Error' }))
+    const outcome = await httpJson(
+      { baseUrl: 'https://api.example.com', fetch },
+      { path: '/botSYNTHETIC-SECRET/sendMessage' },
+    ).then(
+      () => undefined,
+      (error: unknown) => error as { hint?: string; message?: string },
+    )
+
+    expect(outcome?.hint).not.toContain('SYNTHETIC-SECRET')
+    expect(outcome?.message).not.toContain('SYNTHETIC-SECRET')
+  })
+
+  it('does not expose credential-bearing request paths in invalid JSON errors', async () => {
+    const fetch = fakeFetch(() => new Response('{bad', { status: 500, headers: { 'content-type': 'application/json' } }))
+    const outcome = await httpJson(
+      { baseUrl: 'https://api.example.com', fetch },
+      { path: '/botSYNTHETIC-SECRET/sendMessage' },
+    ).then(
+      () => undefined,
+      (error: unknown) => error as { hint?: string; message?: string },
+    )
+
+    expect(outcome?.hint).not.toContain('SYNTHETIC-SECRET')
+    expect(outcome?.message).not.toContain('SYNTHETIC-SECRET')
+  })
+
   it('throws when a JSON content-type body is unparseable', async () => {
     const fetch = fakeFetch(() => new Response('{bad', { status: 200, headers: { 'content-type': 'application/json' } }))
     await expect(
@@ -186,6 +214,38 @@ describe('httpJson', () => {
   })
 
   describe('cancellation and typed transport failures', () => {
+    it('retries idempotent requests on transient responses when configured', async () => {
+      let calls = 0
+      const fetch = fakeFetch(() => {
+        calls += 1
+        return calls === 1 ? new Response('busy', { status: 503 }) : jsonResponse({ ok: true })
+      })
+
+      await expect(
+        httpJson(
+          { baseUrl: 'https://api.example.com', fetch, retry: { maxAttempts: 2, baseDelayMs: 0 } },
+          { path: '/status' },
+        ),
+      ).resolves.toEqual({ ok: true })
+      expect(calls).toBe(2)
+    })
+
+    it('does not retry external POSTs by default', async () => {
+      let calls = 0
+      const fetch = fakeFetch(() => {
+        calls += 1
+        return new Response('busy', { status: 503 })
+      })
+
+      await expect(
+        httpJson(
+          { baseUrl: 'https://api.example.com', fetch, retry: { maxAttempts: 3, baseDelayMs: 0 } },
+          { method: 'POST', path: '/send', body: { message: 'hi' } },
+        ),
+      ).rejects.toThrow(/HTTP 503/)
+      expect(calls).toBe(1)
+    })
+
     it('composes an optional caller AbortSignal so abort cancels in-flight work', async () => {
       const controller = new AbortController()
       let fetchSignalAborted = false

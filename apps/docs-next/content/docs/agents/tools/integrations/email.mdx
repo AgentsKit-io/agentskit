@@ -4,7 +4,7 @@ description: Provider-agnostic SMTP send + IMAP fetch. BYO transport (nodemailer
 ---
 
 ```ts
-import { email } from '@agentskit/tools'
+import { email } from '@agentskit/tools/integrations'
 
 const runtime = createRuntime({
   adapter,
@@ -50,7 +50,7 @@ Heavy drivers (nodemailer, imapflow, mailparser) are **not** bundled. Wrap whate
 ## Example — outbound transactional
 
 ```ts
-import { email } from '@agentskit/tools'
+import { email } from '@agentskit/tools/integrations'
 import nodemailer from 'nodemailer'
 
 const transporter = nodemailer.createTransport({ host: 'smtp.example.com', port: 587, auth: { user, pass } })

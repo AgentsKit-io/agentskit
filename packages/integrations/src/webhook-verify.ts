@@ -111,6 +111,15 @@ export function verifyDiscord(input: WebhookInput): VerifyResult {
   }
 }
 
+/** Telegram: compare the configured secret token with the webhook header. */
+export function verifyTelegram(input: WebhookInput): VerifyResult {
+  const token = headerValue(input.headers, 'x-telegram-bot-api-secret-token')
+  if (token === undefined) return { ok: false, reason: 'missing x-telegram-bot-api-secret-token' }
+  return safeEqual(token, input.secret)
+    ? { ok: true }
+    : { ok: false, reason: 'secret token mismatch' }
+}
+
 /** Generic HMAC-SHA256 verifier where the header carries the bare hex digest
  *  of the raw body (Linear `linear-signature`, Sentry `sentry-hook-signature`). */
 export function verifyHmacSha256Bare(input: WebhookInput, headerName: string): VerifyResult {

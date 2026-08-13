@@ -77,6 +77,7 @@ export interface TeamsBotMessage {
   text?: string
   card?: TeamsAdaptiveCard | TeamsMessageCard
   replyToId?: string
+  signal?: AbortSignal
 }
 
 export interface TeamsBotSendResult {
