@@ -12,10 +12,10 @@ export const gmailIntegration = defineIntegration({
     kind: 'oauth2',
     authorizationUrl: 'https://accounts.google.com/o/oauth2/v2/auth',
     tokenUrl: 'https://oauth2.googleapis.com/token',
-    defaultScopes: ['https://www.googleapis.com/auth/gmail.modify'],
+    defaultScopes: ['https://www.googleapis.com/auth/gmail.readonly', 'https://www.googleapis.com/auth/gmail.send'],
     usePkce: true,
   },
-  oauth: OAUTH_SPECS.google,
+  oauth: OAUTH_SPECS.gmail,
   actions: gmailActions,
   capabilities: { send: 'gmail_send_email', notify: 'gmail_send_email' },
 })

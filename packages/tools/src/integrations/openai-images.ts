@@ -10,7 +10,7 @@ export interface OpenAIImagesConfig extends HttpToolOptions {
 }
 
 function cfg(config: OpenAIImagesConfig): ProjectionConfig {
-  return { credential: config.apiKey, config: { model: config.model }, baseUrl: config.baseUrl, headers: config.headers, timeoutMs: config.timeoutMs, fetch: config.fetch }
+  return { credential: config.apiKey, config: { model: config.model }, baseUrl: config.baseUrl, headers: config.headers, timeoutMs: config.timeoutMs, retry: config.retry, signal: config.signal, fetch: config.fetch }
 }
 
 /** @deprecated import from `@agentskit/integrations`. */

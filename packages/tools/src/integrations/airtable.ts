@@ -16,6 +16,8 @@ function cfg(config: AirtableConfig): ProjectionConfig {
     baseUrl: config.baseUrl ?? `https://api.airtable.com/v0/${config.baseId}/`,
     headers: config.headers,
     timeoutMs: config.timeoutMs,
+    retry: config.retry,
+    signal: config.signal,
     fetch: config.fetch,
   }
 }

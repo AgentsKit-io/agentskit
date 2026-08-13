@@ -13,14 +13,22 @@ export interface WhisperConfig extends HttpToolOptions {
 }
 
 const gatedAudioFetch: typeof globalThis.fetch = (input, init) => {
-  const url =
-    typeof input === 'string' ? input : input instanceof URL ? input.href : input.url
+  let url: string
+  if (typeof input === 'string') {
+    url = input
+  } else if (input instanceof URL) {
+    url = input.href
+  } else {
+    url = input.url
+  }
   return safeFetch(url, init ?? {})
 }
 
 function cfg(config: WhisperConfig): ProjectionConfig {
   return {
     config: { apiKey: config.apiKey, model: config.model, baseUrl: config.baseUrl, headers: config.headers },
+    retry: config.retry,
+    signal: config.signal,
     fetch: config.fetch,
     fetchUntrusted: config.fetchUntrusted ?? gatedAudioFetch,
   }

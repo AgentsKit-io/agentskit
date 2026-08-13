@@ -16,6 +16,8 @@ function cfg(config: GitHubActionsConfig): ProjectionConfig {
     baseUrl: config.baseUrl,
     headers: config.headers,
     timeoutMs: config.timeoutMs,
+    retry: config.retry,
+    signal: config.signal,
     fetch: config.fetch,
   }
 }

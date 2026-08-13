@@ -1,10 +1,13 @@
 import { ConfigError, ErrorCodes, ToolError } from '@agentskit/core'
+import { composeTimeoutSignal } from '@agentskit/integrations'
 import type { ToolDefinition } from '@agentskit/core'
 
 export interface SlackToolConfig {
   webhookUrl: string
   /** Override fetch (mainly for tests). Defaults to the global `fetch`. */
   fetch?: typeof fetch
+  timeoutMs?: number
+  signal?: AbortSignal
 }
 
 export function slackTool(config: SlackToolConfig): ToolDefinition {
@@ -43,12 +46,27 @@ export function slackTool(config: SlackToolConfig): ToolDefinition {
       if (typeof args.channel === 'string' && args.channel) payload.channel = args.channel
       if (typeof args.username === 'string' && args.username) payload.username = args.username
 
-      const response = await doFetch(config.webhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      })
-      return { ok: response.ok, status: response.status }
+      const { signal, cleanup } = composeTimeoutSignal(config.timeoutMs ?? 20_000, config.signal)
+      try {
+        const response = await doFetch(config.webhookUrl, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload),
+          signal,
+          redirect: 'error',
+        })
+        if (!response.ok) {
+          const body = await response.text().catch(() => '')
+          throw new ToolError({
+            code: ErrorCodes.AK_TOOL_EXEC_FAILED,
+            message: `slack_send: HTTP ${response.status} ${response.statusText}: ${body.slice(0, 200)}`,
+            hint: 'Verify the webhook URL and Slack channel configuration.',
+          })
+        }
+        return { ok: true, status: response.status }
+      } finally {
+        cleanup()
+      }
     },
   }
 }

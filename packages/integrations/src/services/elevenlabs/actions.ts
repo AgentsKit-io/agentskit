@@ -27,13 +27,15 @@ export const elevenlabsTts = defineAction({
     },
     required: ['voice_id', 'text'],
   },
-  async execute(args, { fetch, config }) {
+  async execute(args, { fetch, signal, config }) {
     const cfg = config as ElevenLabsRuntimeConfig
     const baseUrl = cfg.baseUrl ?? 'https://api.elevenlabs.io/v1'
     const response = await fetch(`${baseUrl}/text-to-speech/${String(args.voice_id)}`, {
       method: 'POST',
       headers: { 'xi-api-key': cfg.apiKey, 'content-type': 'application/json', accept: 'audio/mpeg', ...cfg.headers },
       body: JSON.stringify({ text: args.text, model_id: args.model ?? 'eleven_multilingual_v2' }),
+      signal,
+      redirect: 'error',
     })
     if (!response.ok) {
       const detail = await response.text()

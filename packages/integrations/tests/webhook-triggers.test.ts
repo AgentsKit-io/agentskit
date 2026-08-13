@@ -7,8 +7,12 @@ import { sentryEvent } from '../src/services/sentry/triggers'
 import { pagerdutyEvent } from '../src/services/pagerduty/triggers'
 import { twilioEvent } from '../src/services/twilio/triggers'
 import { discordInteraction } from '../src/services/discord/triggers'
+import { telegramUpdate } from '../src/services/telegram/triggers'
+import { whatsappWebhook } from '../src/services/whatsapp/triggers'
 import { slackIntegration } from '../src/services/slack/index'
 import { githubIntegration } from '../src/services/github/index'
+import { telegramIntegration } from '../src/services/telegram/index'
+import { whatsappIntegration } from '../src/services/whatsapp/index'
 import { assertValidIntegration } from '../src/testing/validate'
 import type { WebhookInput } from '../src/contract'
 import { hmacSha256Hex, hmacSha1Base64, headerValue } from '../src/webhook-verify'
@@ -21,6 +25,8 @@ describe('webhook triggers — descriptors valid', () => {
     expect(() => assertValidIntegration(slackIntegration)).not.toThrow()
     expect(() => assertValidIntegration(githubIntegration)).not.toThrow()
     expect(slackIntegration.triggers?.[0]?.source).toBe('slack')
+    expect(() => assertValidIntegration(telegramIntegration)).not.toThrow()
+    expect(() => assertValidIntegration(whatsappIntegration)).not.toThrow()
   })
 })
 
@@ -104,6 +110,26 @@ describe('discord', () => {
     expect(discordInteraction.verify!(inp({ secret: pubHex, rawBody: body, headers: { 'x-signature-ed25519': 'aa'.repeat(64), 'x-signature-timestamp': ts } })).ok).toBe(false)
     expect(discordInteraction.normalize(body).kind).toBe('interaction')
     expect(discordInteraction.normalize(JSON.stringify({ type: 1 })).kind).toBe('ping')
+    expect(discordInteraction.normalize('{bad').kind).toBe('invalid_payload')
+  })
+})
+
+describe('telegram', () => {
+  const body = JSON.stringify({ update_id: 7, message: { message_id: 9, message_thread_id: 3, chat: { id: 42 }, from: { id: 5 }, text: 'hi' } })
+  it('verifies the secret header and stitches message threads', () => {
+    expect(telegramUpdate.verify!(inp({ secret: 'tgsecret', rawBody: body, headers: { 'x-telegram-bot-api-secret-token': 'tgsecret' } }))).toEqual({ ok: true })
+    expect(telegramUpdate.verify!(inp({ secret: 'tgsecret', rawBody: body, headers: { 'x-telegram-bot-api-secret-token': 'wrong' } })).ok).toBe(false)
+    expect(telegramUpdate.normalize(body).kind).toBe('message')
+    expect(telegramUpdate.externalThreadRef!(body)).toEqual({ kind: 'telegram.thread', id: '42:3', parentId: '42' })
+  })
+})
+
+describe('whatsapp', () => {
+  const body = JSON.stringify({ entry: [{ changes: [{ value: { metadata: { phone_number_id: 'p1' }, messages: [{ id: 'm1', from: '1555', type: 'text', text: { body: 'hi' } }] } }] }] })
+  it('verifies HMAC signatures and stitches sender conversations', () => {
+    expect(whatsappWebhook.verify!(inp({ secret: 'wa', rawBody: body, headers: { 'x-hub-signature-256': `sha256=${hmac256('wa', body)}` } }))).toEqual({ ok: true })
+    expect(whatsappWebhook.normalize(body).kind).toBe('message')
+    expect(whatsappWebhook.externalThreadRef!(body)).toEqual({ kind: 'whatsapp.thread', id: 'p1:1555', parentId: 'p1' })
   })
 })
 

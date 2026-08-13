@@ -4,7 +4,7 @@ description: Microsoft Teams — Incoming Webhook (one-way) or Bot Framework (bi
 ---
 
 ```ts
-import { teams } from '@agentskit/tools'
+import { teams } from '@agentskit/tools/integrations'
 
 const runtime = createRuntime({
   adapter,
@@ -44,7 +44,7 @@ type TeamsBotClient = {
 ## Example — release-channel notifier
 
 ```ts
-import { teams, messageCard } from '@agentskit/tools'
+import { teams, messageCard } from '@agentskit/tools/integrations'
 
 await runtime.run('Notify #releases that v1.2.0 shipped.', {
   tools: teams({
@@ -56,7 +56,7 @@ await runtime.run('Notify #releases that v1.2.0 shipped.', {
 ## Example — bidirectional bot
 
 ```ts
-import { teams } from '@agentskit/tools'
+import { teams } from '@agentskit/tools/integrations'
 import { myBotClient } from './teams-bot-adapter'  // wraps botbuilder
 
 const runtime = createRuntime({

@@ -4,7 +4,7 @@ description: Postgres query tool — BYO runner keeps the adapter client-agnosti
 ---
 
 ```ts
-import { postgres } from '@agentskit/tools'
+import { postgres } from '@agentskit/tools/integrations'
 import postgresJs from 'postgres'
 
 const sql = postgresJs(process.env.DATABASE_URL!)
@@ -38,7 +38,7 @@ type PostgresConfig = {
 ## Example — data analyst agent
 
 ```ts
-import { postgres } from '@agentskit/tools'
+import { postgres } from '@agentskit/tools/integrations'
 import { sqlAnalystSkill } from '@agentskit/skills'
 
 const runtime = createRuntime({

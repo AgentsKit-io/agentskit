@@ -19,7 +19,18 @@ describe('oauth specs', () => {
   it('attaches the right spec to descriptors via the oauth field', () => {
     expect(githubIntegration.oauth).toBe(OAUTH_SPECS.github)
     expect(jiraIntegration.oauth?.extraAuthParams).toEqual({ audience: 'api.atlassian.com', prompt: 'consent' })
-    expect(gmailIntegration.oauth).toBe(OAUTH_SPECS.google) // gmail uses the shared Google spec
+    expect(gmailIntegration.oauth).toBe(OAUTH_SPECS.gmail)
+    expect(gmailIntegration.auth).toMatchObject({
+      kind: 'oauth2',
+      defaultScopes: [
+        'https://www.googleapis.com/auth/gmail.readonly',
+        'https://www.googleapis.com/auth/gmail.send',
+      ],
+    })
+    expect(OAUTH_SPECS.gmail.defaultScopes).toEqual([
+      'https://www.googleapis.com/auth/gmail.readonly',
+      'https://www.googleapis.com/auth/gmail.send',
+    ])
   })
 
   it('the oauth registry covers the OAuth-capable services in the catalog', () => {

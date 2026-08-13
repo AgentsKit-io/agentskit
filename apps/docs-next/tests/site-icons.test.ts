@@ -1,8 +1,9 @@
 import { existsSync, readFileSync } from 'node:fs'
-import { join } from 'node:path'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 import { describe, expect, it } from 'vitest'
 
-const publicDir = join(process.cwd(), 'apps/docs-next/public')
+const publicDir = join(dirname(fileURLToPath(import.meta.url)), '../public')
 
 describe('site icon fallbacks', () => {
   it.each([

@@ -1,5 +1,6 @@
 import { ErrorCodes, ToolError, type ToolDefinition } from '@agentskit/core'
 import { twilioIntegration, toToolDefinitions, type ProjectionConfig } from '@agentskit/integrations'
+import type { HttpToolOptions } from './http'
 
 const E164 = /^\+[1-9]\d{6,14}$/
 
@@ -13,7 +14,7 @@ function assertFromNumber(value: string): void {
 }
 
 /** @deprecated Moved to `@agentskit/integrations` (services/twilio). */
-export interface TwilioConfig {
+export interface TwilioConfig extends HttpToolOptions {
   accountSid: string
   authToken: string
   /** Default `from` number in E.164 format (e.g. `+14155551234`). */
@@ -31,6 +32,8 @@ function cfg(config: TwilioConfig): ProjectionConfig {
       fromNumber: config.fromNumber,
       baseUrl: config.baseUrl,
     },
+    retry: config.retry,
+    signal: config.signal,
     fetch: config.fetch,
   }
 }

@@ -64,16 +64,16 @@ and consumes this package rather than re-shipping integrations.
 ## Authoring a new integration
 
 ```ts
-import { defineIntegration, defineAction, httpJson } from '@agentskit/integrations'
+import { defineIntegration, defineAction } from '@agentskit/integrations'
 
 export const myService = defineIntegration({
   name: 'my-service',
-  baseUrl: 'https://api.example.com',
+  http: { baseUrl: 'https://api.example.com' },
   actions: [
     defineAction({
       name: 'send',
       schema: { type: 'object', properties: { to: { type: 'string' } }, required: ['to'] },
-      execute: (args, ctx) => httpJson(ctx, 'POST', '/send', args),
+      execute: (args, { http }) => http({ method: 'POST', path: '/send', body: args }),
     }),
   ],
 })
@@ -85,6 +85,7 @@ Projection and HTTP share a small set of safety contracts
 ([ADR-0026](../../docs/architecture/adrs/0026-integration-execution-boundaries.md)):
 
 - **`HttpToolOptions.signal` / `ProjectionConfig.signal`** — caller cancellation composed with the per-request timeout.
+- **`HttpToolOptions.retry`** — opt-in retries for idempotent methods only, honoring `Retry-After` with bounded backoff.
 - **Origin-confined auth-bound HTTP** — when `baseUrl` is set, `httpJson` rejects cross-origin paths and disables automatic redirects so bound credentials cannot leave that origin.
 - **Derived confirmation** — projection forces `requiresConfirmation` for actions with `sideEffect` of `write`, `external`, or `destructive` (descriptors cannot opt out).
 - **`ProjectionConfig.fetchUntrusted`** — policy-enforcing fetch for model-controlled URLs. Direct Whisper (and similar) consumers **must inject** an egress-policy fetch; the deprecated `@agentskit/tools` Whisper facade injects `safeFetch` independently of provider `fetch`.

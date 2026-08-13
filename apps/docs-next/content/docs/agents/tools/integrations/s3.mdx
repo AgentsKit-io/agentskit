@@ -4,7 +4,7 @@ description: AWS S3 — get, put, list objects. BYO client keeps the tool AWS-SD
 ---
 
 ```ts
-import { s3 } from '@agentskit/tools'
+import { s3 } from '@agentskit/tools/integrations'
 import { S3Client } from '@aws-sdk/client-s3'
 
 const client = new S3Client({ region: 'us-east-1' })

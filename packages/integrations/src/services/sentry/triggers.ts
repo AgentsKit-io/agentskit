@@ -1,4 +1,5 @@
 import { defineTrigger, type NormalizedEvent } from '../../contract'
+import { invalidJsonEvent, parseJsonRecord } from '../../normalize'
 import { verifyHmacSha256Bare, headerValue } from '../../webhook-verify'
 
 export const sentryEvent = defineTrigger({
@@ -10,7 +11,9 @@ export const sentryEvent = defineTrigger({
     return verifyHmacSha256Bare(input, 'sentry-hook-signature')
   },
   normalize: (raw): NormalizedEvent => {
-    const json = (typeof raw === 'string' ? JSON.parse(raw) : raw) as { action?: string; data?: unknown }
+    const parsed = parseJsonRecord(raw)
+    if (!parsed.ok) return invalidJsonEvent(raw)
+    const json = parsed.value as { action?: string; data?: unknown }
     return { kind: json.action ?? 'unknown', payload: json.data ?? json, raw }
   },
 })

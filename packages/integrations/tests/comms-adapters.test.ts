@@ -62,10 +62,31 @@ describe('teams', () => {
     await expect(run(noHook, { text: 'x' })).rejects.toThrow(/no webhookUrl/)
   })
 
+  it('propagates caller cancellation to the webhook transport', async () => {
+    const controller = new AbortController()
+    let seenSignal: AbortSignal | undefined
+    const fetch = fakeFetch((_url, init) => {
+      seenSignal = init.signal
+      controller.abort()
+      return new Response('', { status: 200 })
+    })
+    const tool = toToolDefinitions(teamsIntegration, {
+      config: { webhook: { webhookUrl: 'https://teams.example/hook' } },
+      fetch,
+      signal: controller.signal,
+    }).find((t) => t.name === 'teams_send_webhook')!
+    await run(tool, { text: 'hello' })
+    expect(seenSignal).toBeDefined()
+    expect(seenSignal?.aborted).toBe(true)
+  })
+
   it('sends via bot client', async () => {
-    const client = { send: async () => ({ id: 'a1', conversationId: 'c1' }) }
-    const tool = toToolDefinitions(teamsIntegration, { config: { bot: { client } } }).find((t) => t.name === 'teams_send_bot')!
+    let seenSignal: AbortSignal | undefined
+    const client = { send: async (message: { signal?: AbortSignal }) => { seenSignal = message.signal; return { id: 'a1', conversationId: 'c1' } } }
+    const signal = new AbortController().signal
+    const tool = toToolDefinitions(teamsIntegration, { config: { bot: { client } }, signal }).find((t) => t.name === 'teams_send_bot')!
     expect(await run(tool, { conversation_id: 'c1', text: 'hi' })).toEqual({ id: 'a1', conversationId: 'c1' })
+    expect(seenSignal).toBe(signal)
     const noBot = toToolDefinitions(teamsIntegration, { config: {} }).find((t) => t.name === 'teams_send_bot')!
     await expect(run(noBot, { conversation_id: 'c1', text: 'x' })).rejects.toThrow(/no bot client/)
   })

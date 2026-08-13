@@ -9,7 +9,7 @@ export interface WeatherConfig extends HttpToolOptions {
 }
 
 function cfg(config: WeatherConfig): ProjectionConfig {
-  return { config: { apiKey: config.apiKey }, baseUrl: config.baseUrl, headers: config.headers, timeoutMs: config.timeoutMs, fetch: config.fetch }
+  return { config: { apiKey: config.apiKey }, baseUrl: config.baseUrl, headers: config.headers, timeoutMs: config.timeoutMs, retry: config.retry, signal: config.signal, fetch: config.fetch }
 }
 
 /** @deprecated import from `@agentskit/integrations`. */

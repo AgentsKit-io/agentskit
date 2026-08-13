@@ -52,6 +52,12 @@ describe('slack integration', () => {
     expect(out).toEqual([{ channel: 'gen', text: 'hello', url: 'http://x' }])
   })
 
+  it('normalizes malformed JSON without throwing', async () => {
+    const { slackEvent } = await import('../src/services/slack/triggers')
+    expect(slackEvent.normalize('{bad')).toMatchObject({ kind: 'invalid_payload', payload: { reason: 'invalid_json' } })
+    expect(slackEvent.externalThreadRef?.('{bad')).toBeUndefined()
+  })
+
   it('projects a no-auth integration (no auth header)', async () => {
     let seenAuth: string | undefined
     const fetch = fakeFetch((_url, init) => {

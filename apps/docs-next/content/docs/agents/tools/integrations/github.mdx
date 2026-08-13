@@ -4,7 +4,7 @@ description: GitHub REST v3 — search issues, create issues, comment. Pairs wit
 ---
 
 ```ts
-import { github } from '@agentskit/tools'
+import { github } from '@agentskit/tools/integrations'
 import { createRuntime } from '@agentskit/runtime'
 
 const runtime = createRuntime({
@@ -36,8 +36,8 @@ type GitHubConfig = {
 ## Example — triage agent
 
 ```ts
-import { defineZodTool } from '@agentskit/tools'
-import { github } from '@agentskit/tools'
+import { defineZodTool } from '@agentskit/tools/integrations'
+import { github } from '@agentskit/tools/integrations'
 import { createRuntime } from '@agentskit/runtime'
 
 const runtime = createRuntime({

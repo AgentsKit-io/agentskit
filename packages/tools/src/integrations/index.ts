@@ -137,7 +137,8 @@ export type { CloudflareR2Config, R2ClientLike } from './cloudflare-r2'
 export { s3, s3GetObject, s3PutObject, s3ListObjects } from './s3'
 export type { S3Config, S3Client } from './s3'
 
-export type { HttpToolOptions, HttpJsonRequest } from './http'
+export { httpJson, bindHttp, composeTimeoutSignal } from './http'
+export type { HttpToolOptions, HttpJsonRequest, IntegrationHttp, RetryPolicy } from './http'
 
 export { firecrawl, firecrawlScrape, firecrawlCrawl } from './firecrawl'
 export type { FirecrawlConfig } from './firecrawl'

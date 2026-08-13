@@ -1,7 +1,11 @@
 ---
 title: Integrations
-description: 50 verified connectors for the services agents actually need. Each follows the same contract — install, config, execute — and ships granular sub-tools alongside a bundled set.
+description: Legacy tool projections plus the canonical 50-service catalog. New code should start from @agentskit/integrations.
 ---
+
+The canonical catalog lives in [`@agentskit/integrations`](/docs/for-agents/integrations) and is the source of truth for service descriptors, auth, actions, triggers, and OAuth. This page documents the deprecated `@agentskit/tools/integrations` projections kept for compatibility.
+
+See the [generated catalog matrix](../integrations-catalog) for all 50 canonical services.
 
 ## Categories
 
@@ -21,7 +25,7 @@ description: 50 verified connectors for the services agents actually need. Each 
 Import whole integrations for the full tool set, or cherry-pick sub-tools:
 
 ```ts
-import { github, slack, stripeCreatePaymentIntent } from '@agentskit/tools'
+import { github, slack, stripeCreatePaymentIntent } from '@agentskit/tools/integrations'
 import { createRuntime } from '@agentskit/runtime'
 
 const runtime = createRuntime({

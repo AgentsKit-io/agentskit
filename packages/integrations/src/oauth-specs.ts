@@ -7,10 +7,11 @@ import type { OAuth2ProviderSpec } from './contract'
  * field so the catalog is the open OAuth provider registry.
  */
 export const OAUTH_SPECS = {
-  slack: { authorizationUrl: 'https://slack.com/oauth/v2/authorize', tokenUrl: 'https://slack.com/api/oauth.v2.access', defaultScopes: ['app_mentions:read', 'chat:write', 'channels:history'], usePkce: false },
+  slack: { authorizationUrl: 'https://slack.com/oauth/v2/authorize', tokenUrl: 'https://slack.com/api/oauth.v2.access', defaultScopes: ['app_mentions:read', 'chat:write', 'channels:history', 'search:read'], usePkce: false },
   github: { authorizationUrl: 'https://github.com/login/oauth/authorize', tokenUrl: 'https://github.com/login/oauth/access_token', defaultScopes: ['repo', 'read:user', 'workflow'], usePkce: false },
   linear: { authorizationUrl: 'https://linear.app/oauth/authorize', tokenUrl: 'https://api.linear.app/oauth/token', defaultScopes: ['read', 'write'], usePkce: false },
   google: { authorizationUrl: 'https://accounts.google.com/o/oauth2/v2/auth', tokenUrl: 'https://oauth2.googleapis.com/token', defaultScopes: ['openid', 'email', 'profile'], usePkce: true },
+  gmail: { authorizationUrl: 'https://accounts.google.com/o/oauth2/v2/auth', tokenUrl: 'https://oauth2.googleapis.com/token', defaultScopes: ['https://www.googleapis.com/auth/gmail.readonly', 'https://www.googleapis.com/auth/gmail.send'], usePkce: true },
   notion: { authorizationUrl: 'https://api.notion.com/v1/oauth/authorize', tokenUrl: 'https://api.notion.com/v1/oauth/token', defaultScopes: [], usePkce: false },
   jira: { authorizationUrl: 'https://auth.atlassian.com/authorize', tokenUrl: 'https://auth.atlassian.com/oauth/token', defaultScopes: ['read:jira-user', 'read:jira-work', 'write:jira-work', 'offline_access'], usePkce: true, extraAuthParams: { audience: 'api.atlassian.com', prompt: 'consent' } },
   confluence: { authorizationUrl: 'https://auth.atlassian.com/authorize', tokenUrl: 'https://auth.atlassian.com/oauth/token', defaultScopes: ['read:confluence-content.all', 'read:confluence-user', 'offline_access'], usePkce: true, extraAuthParams: { audience: 'api.atlassian.com', prompt: 'consent' } },

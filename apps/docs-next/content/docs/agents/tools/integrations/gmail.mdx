@@ -4,7 +4,7 @@ description: Gmail API — list messages, send email. For inbox-triage agents + 
 ---
 
 ```ts
-import { gmail } from '@agentskit/tools'
+import { gmail } from '@agentskit/tools/integrations'
 
 const runtime = createRuntime({
   adapter,
@@ -17,7 +17,7 @@ const runtime = createRuntime({
 | Name | Purpose |
 |---|---|
 | `gmailListMessages` | Query inbox (supports `q` filter syntax) |
-| `gmailSendEmail` | Compose + send a plain-text or HTML email |
+| `gmailSendEmail` | Compose + send a plain-text email |
 
 Bundled: `gmail(config)`.
 
@@ -46,7 +46,7 @@ const runtime = createRuntime({
 ## Credentials
 
 - **OAuth 2.0 required** — Gmail has no long-lived API keys.
-- Scopes: `gmail.readonly` + `gmail.send`.
+- Scopes: `https://www.googleapis.com/auth/gmail.readonly` + `https://www.googleapis.com/auth/gmail.send`.
 - Handle token refresh in your app — this tool accepts short-lived access tokens.
 
 ## Safety

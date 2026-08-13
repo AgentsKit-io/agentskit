@@ -1,4 +1,5 @@
 import { ErrorCodes, ToolError } from '@agentskit/core'
+import { composeTimeoutSignal } from '../../http'
 import { defineAction } from '../../contract'
 import { messageCard, type TeamsAdaptiveCard, type TeamsMessageCard, type TeamsRuntimeConfig } from './cards'
 
@@ -15,7 +16,7 @@ export const teamsSendWebhook = defineAction({
       card: { type: 'object', description: 'Pre-built Adaptive Card or MessageCard payload.' },
     },
   },
-  async execute(args, { fetch, config }) {
+  async execute(args, { fetch, config, signal }) {
     const webhook = (config as TeamsRuntimeConfig | undefined)?.webhook
     if (!webhook?.webhookUrl) {
       throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: 'teams_send_webhook: no webhookUrl configured' })
@@ -28,15 +29,23 @@ export const teamsSendWebhook = defineAction({
     else if (text || title) payload = { type: 'message', attachments: [messageCard({ title, text })] }
     else throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: 'teams_send_webhook: provide text, title, or card' })
 
-    const timeoutMs = webhook.timeoutMs ?? 20_000
-    const controller = new AbortController()
-    const timer = setTimeout(() => controller.abort(), timeoutMs)
+    let webhookUrl: URL
     try {
-      const response = await fetch(webhook.webhookUrl, {
+      webhookUrl = new URL(webhook.webhookUrl)
+    } catch {
+      throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: 'teams_send_webhook: webhookUrl must be a valid HTTPS URL' })
+    }
+    if (webhookUrl.protocol !== 'https:') {
+      throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: 'teams_send_webhook: webhookUrl must use HTTPS' })
+    }
+    const { signal: requestSignal, cleanup } = composeTimeoutSignal(webhook.timeoutMs ?? 20_000, signal)
+    try {
+      const response = await fetch(webhookUrl.toString(), {
         method: 'POST',
         headers: { 'content-type': 'application/json', ...webhook.headers },
         body: JSON.stringify(payload),
-        signal: controller.signal,
+        signal: requestSignal,
+        redirect: 'error',
       })
       if (!response.ok) {
         const body = await response.text().catch(() => '')
@@ -48,7 +57,7 @@ export const teamsSendWebhook = defineAction({
       }
       return { ok: true, status: response.status }
     } finally {
-      clearTimeout(timer)
+      cleanup()
     }
   },
 })
@@ -68,7 +77,7 @@ export const teamsSendBot = defineAction({
     },
     required: ['conversation_id'],
   },
-  async execute(args, { config }) {
+  async execute(args, { config, signal }) {
     const client = (config as TeamsRuntimeConfig | undefined)?.bot?.client
     if (!client) {
       throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: 'teams_send_bot: no bot client configured' })
@@ -85,6 +94,7 @@ export const teamsSendBot = defineAction({
         text,
         card,
         replyToId: typeof args.reply_to_id === 'string' ? args.reply_to_id : undefined,
+        signal,
       })
       return { id: result.id, conversationId: result.conversationId }
     } catch (err) {
