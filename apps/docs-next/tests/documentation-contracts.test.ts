@@ -9,6 +9,27 @@ function read(relativePath: string): string {
   return readFileSync(resolve(repoRoot, relativePath), 'utf8')
 }
 
+const legacyGuidePaths = new Set([
+  '/docs/packages/',
+  '/docs/recipes/',
+  '/docs/tools/',
+  '/docs/adapters/',
+  '/docs/memory/',
+  '/docs/configuration/',
+])
+
+function hasLegacyGuideUrl(value: string): boolean {
+  const candidates = value.match(/https?:\/\/[^\s<>)"']+/g) ?? []
+  return candidates.some((candidate) => {
+    try {
+      const url = new URL(candidate)
+      return url.host === 'www.agentskit.io' && [...legacyGuidePaths].some((path) => url.pathname.startsWith(path))
+    } catch {
+      return false
+    }
+  })
+}
+
 describe('documentation and package contract surfaces', () => {
   it('keeps built-in error docs links canonical and documented', () => {
     const source = read('packages/core/src/errors.ts')
@@ -43,13 +64,8 @@ describe('documentation and package contract surfaces', () => {
     for (const packageDir of packageDirs) {
       const readme = read(`packages/${packageDir}/README.md`)
       const manifest = JSON.parse(read(`packages/${packageDir}/package.json`)) as { homepage?: string }
-      expect(readme.includes('https://www.agentskit.io/docs/packages/')).toBe(false)
-      expect(readme.includes('https://www.agentskit.io/docs/recipes/')).toBe(false)
-      expect(readme.includes('https://www.agentskit.io/docs/tools/')).toBe(false)
-      expect(readme.includes('https://www.agentskit.io/docs/adapters/')).toBe(false)
-      expect(readme.includes('https://www.agentskit.io/docs/memory/')).toBe(false)
-      expect(readme.includes('https://www.agentskit.io/docs/configuration/')).toBe(false)
-      expect(manifest.homepage?.includes('https://www.agentskit.io/docs/packages/')).toBe(false)
+      expect(hasLegacyGuideUrl(readme)).toBe(false)
+      expect(hasLegacyGuideUrl(manifest.homepage ?? '')).toBe(false)
     }
 
     expect(read('packages/mcp/README.md')).toContain('/docs/agents/tools/mcp')
