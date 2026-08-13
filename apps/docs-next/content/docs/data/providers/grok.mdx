@@ -1,6 +1,6 @@
 ---
-title: grok
-description: xAI Grok — streaming chat + tool calls. OpenAI-compatible API surface.
+title: Grok provider for TypeScript AI agents
+description: Use xAI Grok with a TypeScript AI agent using AgentsKit's OpenAI-compatible adapter, streaming, and tool calls.
 ---
 
 ```ts
@@ -18,8 +18,9 @@ const adapter = grok({
 |---|---|---|
 | `apiKey` | `string` | required |
 | `model` | `string` | required |
-| `baseUrl` | `string` | `https://api.x.ai/v1` |
-| `fetch` | `typeof fetch` | global |
+| `baseUrl` | `string` | `https://api.x.ai` |
+| `includeUsage` | `boolean` | adapter default |
+| `retry` | `RetryOptions` | adapter defaults |
 
 ## Model examples
 

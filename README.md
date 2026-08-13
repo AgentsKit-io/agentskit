@@ -6,7 +6,7 @@
 
 **The agent toolkit JavaScript actually deserves.**
 
-A 10 KB core budget. Twenty-five focused packages. Zero lock-in. Six formal contracts that make every adapter, tool, skill, memory, retriever, and runtime substitutable.
+A 10 KB core budget. Twenty-two published packages. Zero lock-in. Six formal contracts that make every adapter, tool, skill, memory, retriever, and runtime substitutable.
 
 [![npm](https://img.shields.io/npm/v/@agentskit/react?label=npm)](https://www.npmjs.com/package/@agentskit/react)
 [![bundle](https://img.shields.io/bundlephobia/minzip/@agentskit/react?label=react%20bundle)](https://bundlephobia.com/package/@agentskit/react)
@@ -394,7 +394,7 @@ See the [stability policy](./docs/STABILITY.md), [core v1 release notes](./docs/
 
 AgentsKit is built in the open and ships because contributors show up. Every package, every doc, every example is fair game.
 
-- **[How to contribute →](https://www.agentskit.io/docs/contribute)** — start here
+- **[How to contribute →](https://www.agentskit.io/docs/reference/contribute)** — start here
 - **[Public roadmap board](https://github.com/orgs/AgentsKit-io/projects/1)** — what's planned, in flight, and shipped
 - **[Good-first-issues](https://github.com/AgentsKit-io/agentskit/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)** — curated, tractable tickets
 - **[Help-wanted](https://github.com/AgentsKit-io/agentskit/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)** — larger scoped work

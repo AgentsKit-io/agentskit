@@ -1,6 +1,6 @@
 ---
 title: grokEmbedder
-description: xAI embedding model.
+description: xAI embedding models through the OpenAI-compatible embeddings API.
 ---
 
 ```ts
@@ -8,6 +8,7 @@ import { grokEmbedder } from '@agentskit/adapters'
 
 const embed = grokEmbedder({
   apiKey: process.env.XAI_API_KEY!,
+  model: 'grok-embed-model',
 })
 ```
 
@@ -16,8 +17,8 @@ const embed = grokEmbedder({
 | Option | Type | Default |
 |---|---|---|
 | `apiKey` | `string` | required |
-| `model` | `string` | provider default |
-| `baseUrl` | `string` | `https://api.x.ai/v1` |
+| `model` | `string` | required |
+| `baseUrl` | `string` | `https://api.x.ai` |
 
 ## Related
 

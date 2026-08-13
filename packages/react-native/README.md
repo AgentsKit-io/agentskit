@@ -18,7 +18,7 @@ React Native / Expo hook + headless chat components. Metro-safe (no DOM deps). S
 ## Verified proof
 
 - Package metadata and tests live under `packages/react-native/`.
-- Package guide: https://www.agentskit.io/docs/packages/react-native
+- Package guide: https://www.agentskit.io/docs/reference/packages/react-native
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -30,7 +30,7 @@ React Native / Expo hook + headless chat components. Metro-safe (no DOM deps). S
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/react-native) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/reference/packages/react-native) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why
 
@@ -108,7 +108,7 @@ MIT — see [LICENSE](../../LICENSE).
 
 ## Docs
 
-[Full documentation](https://www.agentskit.io/docs/packages/react-native) · [GitHub](https://github.com/AgentsKit-io/agentskit)
+[Full documentation](https://www.agentskit.io/docs/reference/packages/react-native) · [GitHub](https://github.com/AgentsKit-io/agentskit)
 
 ## Maturity and compatibility
 

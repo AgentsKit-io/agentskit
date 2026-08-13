@@ -20,7 +20,7 @@ Validation is not automatic. You must pass the validator as `validateArgs`; tool
 
 - Adversarial tests cover nested objects, arrays, local references, structured paths, coercion, custom Ajv instances, schema failures, caching, and strict-extra behavior.
 - Public consumers import `@agentskit/tools/validation`; `@agentskit/validation` is a private workspace implementation.
-- Package guide: https://www.agentskit.io/docs/packages/validation
+- Package guide: https://www.agentskit.io/docs/for-agents/validation
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -32,7 +32,7 @@ Validation is not automatic. You must pass the validator as `validateArgs`; tool
 - **Playbook**: learn production validation patterns at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: apply the same boundary with enterprise governance at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/validation) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/for-agents/validation) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Install
 

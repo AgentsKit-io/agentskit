@@ -4,16 +4,42 @@ description: Fold oldest messages into a running summary. Token-budget-friendly.
 ---
 
 ```ts
-import { createAutoSummarizingMemory } from '@agentskit/memory'
+import { createAutoSummarizingMemory } from '@agentskit/core/auto-summarize'
+import { createInMemoryMemory } from '@agentskit/core'
+import { createRuntime } from '@agentskit/runtime'
 
-const memory = createAutoSummarizingMemory({
-  summarize: async (msgs) => adapter.complete({
-    messages: [{ role: 'system', content: 'Summarize tersely' }, ...msgs],
-  }),
-  triggerAt: 30,
-  keep: 10,
+const summaryRuntime = createRuntime({
+  adapter,
+  systemPrompt: 'Summarize the following chat transcript in 3 bullet points.',
+  maxTokens: 512,
+})
+
+const memory = createAutoSummarizingMemory(createInMemoryMemory(), {
+  maxTokens: 8_000,
+  keepRecent: 6,
+  summarizer: async (msgs) => {
+    const src = msgs.map(m => `${m.role}: ${m.content}`).join('\n')
+    const result = await summaryRuntime.run(src)
+    return {
+      id: crypto.randomUUID(),
+      role: 'system',
+      content: result.content,
+      status: 'complete',
+      createdAt: new Date(),
+    }
+  },
 })
 ```
+
+`createAutoSummarizingMemory` is not exported from `@agentskit/memory`. Import it from `@agentskit/core/auto-summarize` and pass a backing `ChatMemory` as the first argument.
+
+## Options
+
+| Option | Default | Purpose |
+|--------|---------|---------|
+| `maxTokens` | required | Budget trigger |
+| `summarizer` | required | `(messages) => Message` — your compaction prompt |
+| `keepRecent` | `4` | Messages always kept verbatim at the tail |
 
 ## Related
 

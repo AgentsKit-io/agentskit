@@ -8,6 +8,7 @@ describe('RagError', () => {
     expect(err).toBeInstanceOf(AgentsKitError)
     expect(err).toBeInstanceOf(Error)
     expect(err.name).toBe('RagError')
+    expect(err.docsUrl).toBe('https://www.agentskit.io/docs/data/rag')
   })
 
   it('carries the code and message', () => {

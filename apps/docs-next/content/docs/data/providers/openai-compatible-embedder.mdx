@@ -6,9 +6,8 @@ description: Escape hatch for any OpenAI-compatible `/v1/embeddings` endpoint â€
 ```ts
 import { createOpenAICompatibleEmbedder } from '@agentskit/adapters'
 
-const embed = createOpenAICompatibleEmbedder({
+const embed = createOpenAICompatibleEmbedder('Voyage', 'https://api.voyageai.com')({
   apiKey: process.env.VOYAGE_API_KEY!,
-  baseUrl: 'https://api.voyageai.com/v1',
   model: 'voyage-3-large',
 })
 ```
@@ -18,10 +17,8 @@ const embed = createOpenAICompatibleEmbedder({
 | Option | Type | Default |
 |---|---|---|
 | `apiKey` | `string` | required (unless the endpoint is keyless) |
-| `baseUrl` | `string` | required |
+| `baseUrl` | `string` | provider default; omit or override |
 | `model` | `string` | required |
-| `dimensions` | `number` | â€” |
-| `fetch` | `typeof fetch` | global |
 
 ## Use cases
 

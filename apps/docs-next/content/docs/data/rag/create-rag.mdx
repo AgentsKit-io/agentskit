@@ -10,26 +10,32 @@ import { fileVectorMemory } from '@agentskit/memory'
 
 const rag = createRAG({
   embed: openaiEmbedder({ apiKey: process.env.OPENAI_API_KEY! }),
-  store: fileVectorMemory({ path: '.agentskit/vec.json', dim: 1536 }),
+  store: fileVectorMemory({ path: '.agentskit/vectors' }),
 })
 
-await rag.ingest([{ id: 'doc-1', text: longDoc }])
-const hits = await rag.retrieve('How does token budgeting work?')
+await rag.ingest([{ id: 'doc-1', content: longDoc }])
+const hits = await rag.retrieve({
+  query: 'How does token budgeting work?',
+  messages: [],
+})
 ```
+
+`ingest` takes `InputDocument[]` — the text field is `content`, not `text`.
 
 ## API
 
 | Method | Purpose |
 |---|---|
-| `ingest(docs, opts?)` | chunk + embed + store |
-| `retrieve(query, opts?)` | vector top-k |
-| `search(query, opts?)` | alias for retrieve with filters |
-| `delete(ids)` | remove docs |
+| `ingest(docs)` | chunk + embed + store |
+| `retrieve({ query, messages })` | `Retriever` contract — uses `query` |
+| `search(query, { topK?, threshold? })` | vector search with optional overrides |
+
+`retrieve` and `search` both return `RetrievedDocument[]`. Use `retrieve` when you need the contract (runtime, rerank wrappers). Use `search` when you already have a query string.
 
 ## Options
 
-- `chunkSize` / `chunkOverlap` / `split` — passed to [chunking](./chunking).
-- `topK` — default retrieve count.
+- `chunkSize` / `chunkOverlap` / `split` — passed to [chunking](./chunking). Defaults: `chunkSize` 512, `chunkOverlap` 50. `split` is an optional `(text: string) => string[]`.
+- `topK` / `threshold` — defaults for `search` (and therefore `retrieve`).
 
 ## Related
 

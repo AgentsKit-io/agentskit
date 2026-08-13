@@ -7,47 +7,46 @@ import { SHOWCASE } from '@/lib/showcase'
 const SITE = 'https://www.agentskit.io'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const now = new Date()
-
   const staticRoutes: MetadataRoute.Sitemap = [
-    { url: `${SITE}/`, lastModified: now, changeFrequency: 'weekly', priority: 1.0 },
-    { url: `${SITE}/docs`, lastModified: now, changeFrequency: 'weekly', priority: 0.95 },
-    { url: `${SITE}/docs/get-started`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${SITE}/docs/use-cases`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${SITE}/docs/compare`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${SITE}/docs/for-agents`, lastModified: now, changeFrequency: 'weekly', priority: 0.9 },
-    { url: `${SITE}/docs/ui`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
-    { url: `${SITE}/docs/agents`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
-    { url: `${SITE}/docs/data`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
-    { url: `${SITE}/docs/production`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
-    { url: `${SITE}/docs/reference`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
-    { url: `${SITE}/docs/reference/examples`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
-    { url: `${SITE}/docs/reference/contribute`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
-    { url: `${SITE}/learn`, lastModified: now, changeFrequency: 'weekly', priority: 0.85 },
-    { url: `${SITE}/blog`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
-    { url: `${SITE}/resources`, lastModified: now, changeFrequency: 'weekly', priority: 0.8 },
-    { url: `${SITE}/showcase`, lastModified: now, changeFrequency: 'weekly', priority: 0.75 },
-    { url: `${SITE}/stack`, lastModified: now, changeFrequency: 'weekly', priority: 0.7 },
-    { url: `${SITE}/community`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
-    { url: `${SITE}/evals`, lastModified: now, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${SITE}/`, changeFrequency: 'weekly', priority: 1.0 },
+    { url: `${SITE}/docs`, changeFrequency: 'weekly', priority: 0.95 },
+    { url: `${SITE}/docs/get-started`, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${SITE}/docs/use-cases`, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${SITE}/docs/compare`, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${SITE}/docs/for-agents`, changeFrequency: 'weekly', priority: 0.9 },
+    { url: `${SITE}/docs/ui`, changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${SITE}/docs/agents`, changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${SITE}/docs/data`, changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${SITE}/docs/production`, changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${SITE}/docs/reference`, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${SITE}/docs/reference/examples`, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${SITE}/docs/reference/contribute`, changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${SITE}/learn`, changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${SITE}/blog`, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${SITE}/ecosystem`, changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${SITE}/integrations`, changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${SITE}/recipes`, changeFrequency: 'weekly', priority: 0.85 },
+    { url: `${SITE}/publications`, changeFrequency: 'weekly', priority: 0.75 },
+    { url: `${SITE}/resources`, changeFrequency: 'weekly', priority: 0.8 },
+    { url: `${SITE}/showcase`, changeFrequency: 'weekly', priority: 0.75 },
+    { url: `${SITE}/stack`, changeFrequency: 'weekly', priority: 0.7 },
+    { url: `${SITE}/community`, changeFrequency: 'monthly', priority: 0.6 },
+    { url: `${SITE}/evals`, changeFrequency: 'monthly', priority: 0.6 },
   ]
 
   const dynamicRoutes: MetadataRoute.Sitemap = [
     ...slugsOfAll().map((slug) => ({
       url: `${SITE}/blog/${slug}`,
-      lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     })),
     ...STEPS.map((s) => ({
       url: `${SITE}/learn/${s.slug}`,
-      lastModified: now,
       changeFrequency: 'weekly' as const,
       priority: 0.7,
     })),
     ...SHOWCASE.map((s) => ({
       url: `${SITE}/showcase/${s.slug}`,
-      lastModified: now,
       changeFrequency: 'monthly' as const,
       priority: 0.6,
     })),
@@ -58,7 +57,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
     const url = slug ? `${SITE}/docs/${slug}` : `${SITE}/docs`
     return {
       url,
-      lastModified: now,
       changeFrequency: 'weekly',
       priority: priorityFor(slug),
     }

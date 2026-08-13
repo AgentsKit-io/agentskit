@@ -11,10 +11,10 @@ npm install @agentskit/rag
 
 ## Primary exports
 
-- `createRAG({ embed, store, chunkSize, chunkOverlap, topK, threshold })` — `ingest(docs)` + `retrieve(request)` + `search(query)`.
-- `chunkText({ chunkSize, chunkOverlap, split })` — lower-level splitter.
+- `createRAG({ embed, store, chunkSize, chunkOverlap, topK, threshold })` — `ingest(InputDocument[])` + `retrieve({ query, messages })` + `search(query, { topK?, threshold? })`. `InputDocument` uses `content`, not `text`. Chunk defaults: 512 / 50.
+- `chunkText(text, { chunkSize, chunkOverlap, split? })` — lower-level splitter. `split` is `(text: string) => string[]`.
 - `createRerankedRetriever(base, { candidatePool, topK, rerank })` — pluggable reranker (BM25 default). See [RAG reranking](/docs/reference/recipes/rag-reranking).
-- `createHybridRetriever(base, { vectorWeight, bm25Weight })` — vector + BM25 hybrid.
+- `createHybridRetriever(base, { vectorWeight?, bm25Weight?, topK?, candidatePool? })` — vector + BM25 hybrid; defaults to `0.6` / `0.4`, 20 candidates, and 5 results.
 - `bm25Score`, `bm25Rerank` — standalone helpers.
 - `voyageReranker(config)` — Voyage AI reranker.
 - `jinaReranker(config)` — Jina AI reranker.
@@ -22,7 +22,7 @@ npm install @agentskit/rag
 
 ### Document loaders
 
-- `loadUrl`, `loadGitHubFile`, `loadGitHubTree`, `loadNotionPage`, `loadConfluencePage`, `loadGoogleDriveFile`, `loadPdf` (BYO parser). See [Doc loaders](/docs/reference/recipes/doc-loaders).
+- `loadUrl(url)` — raw response text as `InputDocument.content`. `loadGitHubFile(owner, repo, path, opts)`, `loadGitHubTree(owner, repo, { filter?, ... })`, `loadNotionPage(pageId, { token })`, `loadConfluencePage(pageId, { baseUrl, token?, authorization? })`, `loadGoogleDriveFile(fileId, { accessToken })`, `loadPdf(url, { parsePdf })`. All return `InputDocument[]`. See [Doc loaders](/docs/reference/recipes/doc-loaders).
 - Cloud storage: `loadS3`, `loadGcs`, `loadDropbox`, `loadOneDrive`.
 
 ## Failure and cancellation contract
@@ -49,7 +49,7 @@ import { openaiEmbedder } from '@agentskit/adapters'
 
 const rag = createRAG({
   embed: openaiEmbedder({ apiKey }),
-  store: fileVectorMemory({ path: './kb.json' }),
+  store: fileVectorMemory({ path: './kb-vectors' }),
 })
 
 await rag.ingest(await loadGitHubTree('org', 'repo', { token }))

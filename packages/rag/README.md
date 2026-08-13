@@ -18,7 +18,7 @@ Plug-and-play retrieval-augmented generation: chunk documents, embed them, and r
 ## Verified proof
 
 - Package metadata and tests live under `packages/rag/`.
-- Package guide: https://www.agentskit.io/docs/packages/rag
+- Package guide: https://www.agentskit.io/docs/reference/packages/rag
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -30,7 +30,7 @@ Plug-and-play retrieval-augmented generation: chunk documents, embed them, and r
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/rag) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/reference/packages/rag) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why rag
 
@@ -94,8 +94,8 @@ You can also call `rag.retrieve({ query, messages })` to satisfy the core `Retri
 - `rag.retrieve({ query, messages })` — `Retriever` contract v1 for runtime/controller injection.
 - Configurable chunking: `chunkSize`, `chunkOverlap`, custom `split`.
 - Works with any `EmbedFn` and any `VectorMemory`.
-- **Rerankers:** `createRerankedRetriever` (Cohere Rerank, BGE, BM25 default), `createHybridRetriever` (vector + BM25 blend), standalone `bm25Score`. [Recipe](https://www.agentskit.io/docs/recipes/rag-reranking).
-- **Document loaders:** `loadUrl`, `loadGitHubFile`, `loadGitHubTree`, `loadNotionPage`, `loadConfluencePage`, `loadGoogleDriveFile`, `loadPdf` (BYO parser). [Recipe](https://www.agentskit.io/docs/recipes/doc-loaders).
+- **Rerankers:** `createRerankedRetriever` (Voyage, Jina, custom `RerankFn`, BM25 default), `createHybridRetriever` (vector + BM25 blend), standalone `bm25Score`. [Recipe](https://www.agentskit.io/docs/reference/recipes/rag-reranking).
+- **Document loaders:** `loadUrl`, `loadGitHubFile`, `loadGitHubTree`, `loadNotionPage`, `loadConfluencePage`, `loadGoogleDriveFile`, `loadPdf` (BYO parser). [Recipe](https://www.agentskit.io/docs/reference/recipes/doc-loaders).
 - **Loader resilience:** HTTP/network and response-body read/parse failures surface as `RagError` (`AK_RAG_LOAD_FAILED`). Optional `signal` aborts (including mid-body reads) are never swallowed as a per-object skip. Tree/list loaders may return partial success when at least one eligible download succeeded; if every attempted eligible download failed, they throw. Missing/invalid S3 object bodies count as failed downloads. Pagination that reports more data without a new cursor/token throws (no silent truncation). `loadNotionPage` follows Notion `has_more` / `next_cursor` with `start_cursor` until complete (preserving block order; incomplete or repeated cursors throw). Non-positive / non-finite `maxFiles` yields `[]`.
 - **Score contracts:** scoreless search/rerank results keep order. When any score is present, every result must have a finite numeric score and is sorted descending — mixed or non-finite scores throw (never fabricate `-Infinity`). Malformed Voyage/Jina/custom reranker output throws `AK_RAG_RERANK_FAILED`. Optional `signal` on `voyageReranker` / `jinaReranker` is forwarded to `fetch`; request/body aborts remain `AK_RAG_RERANK_FAILED`. `bm25Score` sanitizes invalid `k1`/`b` to documented defaults and always emits finite scores. Hybrid relative weights are normalized to a finite pair that sums to 1 (both zero → 0.5/0.5).
 - **Chunk/config safety:** invalid `chunkSize` / `chunkOverlap` / `topK` values are sanitized so chunking always terminates and search never sends non-finite limits to the store.

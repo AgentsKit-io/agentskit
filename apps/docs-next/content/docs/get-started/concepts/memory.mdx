@@ -57,7 +57,7 @@ export interface VectorMemory {
 import { fileVectorMemory } from '@agentskit/memory'
 import { openaiEmbedder } from '@agentskit/adapters'
 
-const store = fileVectorMemory({ path: './embeddings.json' })
+const store = fileVectorMemory({ path: '.agentskit/vectors' })
 const embed = openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' })
 
 await store.store([

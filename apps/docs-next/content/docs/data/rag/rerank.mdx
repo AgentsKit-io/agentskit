@@ -1,25 +1,27 @@
 ---
 title: Rerank
-description: Post-retrieval reranker. Cohere / BGE / built-in BM25.
+description: Post-retrieval reranker. Voyage / Jina / custom functions / built-in BM25.
 ---
 
 ```ts
-import { createRerankedRetriever, cohereReranker } from '@agentskit/rag'
+import { createRerankedRetriever, voyageReranker } from '@agentskit/rag'
 
-const retriever = createRerankedRetriever({
-  retriever: rag,
-  rerank: cohereReranker({ apiKey: process.env.COHERE_API_KEY! }),
-  topN: 5,
+const retriever = createRerankedRetriever(rag, {
+  candidatePool: 20,
+  topK: 5,
+  rerank: voyageReranker({ apiKey: process.env.VOYAGE_API_KEY! }),
 })
 ```
 
+`createRerankedRetriever(base, { candidatePool?, topK?, rerank? })` pulls `candidatePool` hits from the base retriever (default 20), re-scores them, and returns `topK` (default 5). Omit `rerank` and the default is `bm25Rerank`.
+
 ## Rerankers
 
-- `cohereReranker({ apiKey, model? })` — Cohere Rerank.
-- `bgeReranker({ url, model? })` — self-hosted BGE cross-encoder.
 - `voyageReranker({ apiKey, model? })` — Voyage AI; defaults to `rerank-2`. Pass `rerank-2-lite` for cheaper / faster runs.
 - `jinaReranker({ apiKey, model? })` — Jina AI; defaults to `jina-reranker-v2-base-multilingual`.
 - `bm25Rerank` — zero-dep fallback.
+
+There is no `cohereReranker` or `bgeReranker` export. To call Cohere, BGE, or anything else, pass a custom `RerankFn` — see [Recipe: RAG reranking](/docs/reference/recipes/rag-reranking).
 
 All rerankers are drop-in `RerankFn` values — they share the same `createRerankedRetriever` API so you can swap them without changing call sites.
 

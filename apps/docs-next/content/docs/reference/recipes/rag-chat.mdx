@@ -23,7 +23,7 @@ import { readFileSync, readdirSync } from 'node:fs'
 import { join } from 'node:path'
 
 const rag = createRAG({
-  store: fileVectorMemory({ path: './embeddings.json' }),
+  store: fileVectorMemory({ path: '.agentskit/vectors' }),
   embed: openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' }),
 })
 
@@ -51,7 +51,7 @@ import { openaiEmbedder } from '@agentskit/adapters'
 import '@agentskit/react/theme'
 
 const rag = createRAG({
-  store: fileVectorMemory({ path: './embeddings.json' }),
+  store: fileVectorMemory({ path: '.agentskit/vectors' }),
   embed: openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' }),
 })
 

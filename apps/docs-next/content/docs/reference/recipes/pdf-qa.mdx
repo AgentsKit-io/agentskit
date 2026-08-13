@@ -52,7 +52,7 @@ function chunk(text: string, size = 500): string[] {
 
 // 3. Index in-memory (per-PDF, ephemeral)
 const rag = createRAG({
-  store: fileVectorMemory({ path: `./.cache/${pdfPath}.embeddings.json` }),
+  store: fileVectorMemory({ path: `./.cache/vectors/${pdfPath}` }),
   embed: openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' }),
   topK: 4,
 })
@@ -86,7 +86,7 @@ npx tsx ask-pdf.ts paper.pdf "What is the main contribution of this work?"
 
 ## Why this works
 
-- **Per-PDF cache** at `./.cache/<file>.embeddings.json` — second run is instant
+- **Per-PDF index** at `./.cache/vectors/<file>` — second run is instant
 - **Source citations** because `RetrievedDocument.source` makes it into the prompt
 - **No memory** — each invocation is independent; perfect for one-shot Q&A
 

@@ -8,6 +8,7 @@ import { deepseekEmbedder } from '@agentskit/adapters'
 
 const embed = deepseekEmbedder({
   apiKey: process.env.DEEPSEEK_API_KEY!,
+  model: process.env.DEEPSEEK_EMBED_MODEL!,
 })
 ```
 
@@ -16,8 +17,15 @@ const embed = deepseekEmbedder({
 | Option | Type | Default |
 |---|---|---|
 | `apiKey` | `string` | required |
-| `model` | `string` | provider default |
+| `model` | `string` | required |
 | `baseUrl` | `string` | `https://api.deepseek.com` |
+
+## Env
+
+| Var | Purpose |
+|---|---|
+| `DEEPSEEK_API_KEY` | API key |
+| `DEEPSEEK_EMBED_MODEL` | Embedding model |
 
 ## Related
 

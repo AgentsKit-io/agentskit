@@ -18,7 +18,7 @@ Persist conversations and add vector search to your agents — swap backends wit
 ## Verified proof
 
 - Package metadata and tests live under `packages/memory/`.
-- Package guide: https://www.agentskit.io/docs/packages/memory
+- Package guide: https://www.agentskit.io/docs/reference/packages/memory
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -30,7 +30,7 @@ Persist conversations and add vector search to your agents — swap backends wit
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/memory) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/reference/packages/memory) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why memory
 
@@ -116,12 +116,12 @@ Same 3-method `VectorStore` contract — swap without touching agent code.
 
 ### Higher-order wrappers (6)
 
-- `createHierarchicalMemory` — MemGPT-style tiers: working / recall / archival. [Recipe](https://www.agentskit.io/docs/recipes/hierarchical-memory).
-- `createVirtualizedMemory` — hot window + cold retriever for long sessions. [Recipe](https://www.agentskit.io/docs/recipes/virtualized-memory).
-- `createAutoSummarizingMemory` *(via `@agentskit/core/auto-summarize`)* — fold oldest turns into a running summary. [Recipe](https://www.agentskit.io/docs/recipes/auto-summarize).
-- `createEncryptedMemory` — AES-GCM-256 envelope over any `ChatMemory`; keys never leave the caller. [Recipe](https://www.agentskit.io/docs/recipes/encrypted-memory).
-- `createInMemoryGraph` — knowledge graph (nodes + edges + BFS). [Recipe](https://www.agentskit.io/docs/recipes/graph-memory).
-- `createInMemoryPersonalization` + `renderProfileContext` — per-user trait profile. [Recipe](https://www.agentskit.io/docs/recipes/personalization).
+- `createHierarchicalMemory` — MemGPT-style tiers: working / recall / archival. [Recipe](https://www.agentskit.io/docs/reference/recipes/hierarchical-memory).
+- `createVirtualizedMemory` — hot window + cold retriever for long sessions. [Recipe](https://www.agentskit.io/docs/reference/recipes/virtualized-memory).
+- `createAutoSummarizingMemory` *(via `@agentskit/core/auto-summarize`)* — fold oldest turns into a running summary. [Recipe](https://www.agentskit.io/docs/reference/recipes/auto-summarize).
+- `createEncryptedMemory` — AES-GCM-256 envelope over any `ChatMemory`; keys never leave the caller. [Recipe](https://www.agentskit.io/docs/reference/recipes/encrypted-memory).
+- `createInMemoryGraph` — knowledge graph (nodes + edges + BFS). [Recipe](https://www.agentskit.io/docs/reference/recipes/graph-memory).
+- `createInMemoryPersonalization` + `renderProfileContext` — per-user trait profile. [Recipe](https://www.agentskit.io/docs/reference/recipes/personalization).
 
 Memory contract v1 (ADR 0003) — substitutable across `runtime`,
 `useChat`, and every framework binding.

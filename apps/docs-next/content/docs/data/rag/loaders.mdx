@@ -3,7 +3,7 @@ title: Document loaders
 description: Fetch + normalize documents from URLs, GitHub, Notion, Confluence, Google Drive, S3, GCS, Dropbox, OneDrive, PDFs.
 ---
 
-All loaders return `LoadedDocument[]` ready for `rag.ingest`.
+All loaders return `InputDocument[]` ready for `rag.ingest`. `loadUrl` puts the raw response body in `content` — no boilerplate stripping.
 
 ## URL
 
@@ -12,15 +12,18 @@ import { loadUrl } from '@agentskit/rag'
 const docs = await loadUrl('https://example.com/post')
 ```
 
-Strips boilerplate; keeps main content + title.
+`docs[0].content` is the raw response text (HTML or otherwise). Pipe it into `rag.ingest` as-is, or clean it first.
 
 ## GitHub
 
 ```ts
 import { loadGitHubFile, loadGitHubTree } from '@agentskit/rag'
 
-const single = await loadGitHubFile({ owner, repo, path: 'README.md', ref: 'main' })
-const tree = await loadGitHubTree({ owner, repo, ref: 'main', include: ['**/*.md'] })
+const single = await loadGitHubFile(owner, repo, 'README.md', { ref: 'main' })
+const tree = await loadGitHubTree(owner, repo, {
+  ref: 'main',
+  filter: path => path.endsWith('.md'),
+})
 ```
 
 Requires `GITHUB_TOKEN` for private repos.
@@ -29,21 +32,24 @@ Requires `GITHUB_TOKEN` for private repos.
 
 ```ts
 import { loadNotionPage } from '@agentskit/rag'
-const docs = await loadNotionPage({ token: process.env.NOTION_TOKEN!, pageId })
+const docs = await loadNotionPage(pageId, { token: process.env.NOTION_TOKEN! })
 ```
 
 ## Confluence
 
 ```ts
 import { loadConfluencePage } from '@agentskit/rag'
-const docs = await loadConfluencePage({ baseUrl, auth, pageId })
+const docs = await loadConfluencePage(pageId, {
+  baseUrl,
+  token,            // or authorization
+})
 ```
 
 ## Google Drive
 
 ```ts
 import { loadGoogleDriveFile } from '@agentskit/rag'
-const docs = await loadGoogleDriveFile({ fileId, accessToken })
+const docs = await loadGoogleDriveFile(fileId, { accessToken })
 ```
 
 ## S3 (and S3-compatible: R2, MinIO)
@@ -112,7 +118,14 @@ Walks the drive children recursively, follows `@microsoft.graph.downloadUrl` for
 
 ```ts
 import { loadPdf } from '@agentskit/rag'
-const docs = await loadPdf({ buffer, parse: myPdfParse })
+import pdfParse from 'pdf-parse'
+
+const docs = await loadPdf('https://example.com/report.pdf', {
+  parsePdf: async bytes => {
+    const result = await pdfParse(Buffer.from(bytes))
+    return { text: result.text, pages: result.numpages }
+  },
+})
 ```
 
 BYO parser (e.g. `pdf-parse`, `unpdf`) to keep core deps zero.

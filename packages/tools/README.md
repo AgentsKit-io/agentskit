@@ -18,7 +18,7 @@ Give your agents real-world capabilities without writing a single integration.
 ## Verified proof
 
 - Package metadata and tests live under `packages/tools/`.
-- Package guide: https://www.agentskit.io/docs/packages/tools
+- Package guide: https://www.agentskit.io/docs/reference/packages/tools
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -30,7 +30,7 @@ Give your agents real-world capabilities without writing a single integration.
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/tools) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/reference/packages/tools) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why tools
 
@@ -151,8 +151,8 @@ or a custom loop.
 
 | Subpath | Contents |
 |---------|----------|
-| `@agentskit/tools/mcp` | `createMcpClient`, `createMcpServer`, `toolsFromMcpClient`, stdio + in-memory transports. [MCP bridge recipe](https://www.agentskit.io/docs/recipes/mcp-bridge). |
-| `@agentskit/tools/integrations` | `github`, `linear`, `slack`, `notion`, `discord`, `gmail`, `googleCalendar`, `stripe`, `postgres`, `s3`, `firecrawl`, `reader`, `documentParsers`, `openaiImages`, `elevenlabs`, `whisper`, `deepgram`, `maps`, `weather`, `coingecko`, `browserAgent`. [Integrations recipe](https://www.agentskit.io/docs/recipes/integrations) + [More integrations](https://www.agentskit.io/docs/recipes/more-integrations). |
+| `@agentskit/tools/mcp` | `createMcpClient`, `createMcpServer`, `toolsFromMcpClient`, stdio + in-memory transports. [MCP bridge recipe](https://www.agentskit.io/docs/reference/recipes/mcp-bridge). |
+| `@agentskit/tools/integrations` | `github`, `linear`, `slack`, `notion`, `discord`, `gmail`, `googleCalendar`, `stripe`, `postgres`, `s3`, `firecrawl`, `reader`, `documentParsers`, `openaiImages`, `elevenlabs`, `whisper`, `deepgram`, `maps`, `weather`, `coingecko`, `browserAgent`. [Integrations recipe](https://www.agentskit.io/docs/reference/recipes/integrations) + [More integrations](https://www.agentskit.io/docs/reference/recipes/more-integrations). |
 
 ## Ecosystem
 

@@ -16,11 +16,40 @@ import {
 
 const appRoot = join(dirname(fileURLToPath(import.meta.url)), '..')
 const repoRoot = join(appRoot, '../..')
-const generatedAt = process.env.DETERMINISTIC_KNOWLEDGE_GENERATED_AT ?? execFileSync(
-  'git',
-  ['log', '-1', '--format=%cI', '--', '.doc-bridge/index.json', 'ecosystem-claims.json', 'ecosystem.json', 'apps/docs-next/scripts/gen-deterministic-knowledge.mjs'],
-  { cwd: repoRoot, encoding: 'utf8' },
-).trim()
+const gitValue = (args) => {
+  try {
+    return execFileSync('git', args, { cwd: repoRoot, encoding: 'utf8' }).trim()
+  } catch {
+    return ''
+  }
+}
+const isValidGeneratedAt = (value) => {
+  if (typeof value !== 'string' || value.trim() === '') return false
+  const timestamp = Date.parse(value)
+  return Number.isFinite(timestamp) && timestamp !== 0
+}
+const existingGeneratedAt = async () => {
+  try {
+    return JSON.parse(await readFile(join(appRoot, 'lib/deterministic-knowledge.generated.json'), 'utf8')).generatedAt
+  } catch {
+    return ''
+  }
+}
+const resolveGeneratedAt = async () => {
+  const generatedAt = [
+    process.env.DETERMINISTIC_KNOWLEDGE_GENERATED_AT,
+    await existingGeneratedAt(),
+    gitValue(['log', '-1', '--format=%cI', '--', '.doc-bridge/index.json', 'ecosystem-claims.json', 'ecosystem.json']),
+    process.env.VERCEL_GIT_COMMIT_COMMITTED_DATE,
+  ].find(isValidGeneratedAt)
+  if (!generatedAt) {
+    throw new Error(
+      'Missing deterministic knowledge generatedAt. Set DETERMINISTIC_KNOWLEDGE_GENERATED_AT or VERCEL_GIT_COMMIT_COMMITTED_DATE, keep a valid generatedAt in the checked-in artifact, or run from a git checkout.',
+    )
+  }
+  return generatedAt
+}
+const generatedAt = await resolveGeneratedAt()
 const budgetBytes = 96 * 1024
 
 const readJson = async path => JSON.parse(await readFile(join(repoRoot, path), 'utf8'))
@@ -177,5 +206,5 @@ await Promise.all([
   writeFile(join(publicDir, `${contentHash.slice('sha256:'.length)}.json`), serializedArtifact),
 ])
 
-const revision = execFileSync('git', ['rev-parse', '--short', 'HEAD'], { cwd: repoRoot, encoding: 'utf8' }).trim()
+const revision = process.env.VERCEL_GIT_COMMIT_SHA?.slice(0, 7) || gitValue(['rev-parse', '--short', 'HEAD']) || 'source-archive'
 console.log(`deterministic knowledge: ${entries.length} entries, ${byteLength}/${budgetBytes} bytes, ${contentHash}, source ${revision}`)

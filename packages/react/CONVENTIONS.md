@@ -45,7 +45,7 @@ React hooks and headless UI components for AgentsKit. Everything here runs in a 
 
 - Use `@testing-library/react` + `happy-dom` (already configured).
 - Test observable behavior: what the user sees, not what the component does internally.
-- Use a mock `AdapterFactory` (see [Recipe: Custom adapter](../../apps/docs-next/content/docs/recipes/custom-adapter.mdx)) for hook tests.
+- Use a mock `AdapterFactory` (see [Recipe: Custom adapter](../../apps/docs-next/content/docs/reference/recipes/custom-adapter.mdx)) for hook tests.
 - Snapshot tests for components are acceptable; snapshot tests for LLM output are not.
 
 ## Common pitfalls

@@ -1,6 +1,6 @@
 ---
 title: RAG reranking + hybrid search
-description: Wrap your vector retriever with BM25 hybrid scoring and pluggable rerankers (Cohere Rerank, BGE, etc.).
+description: Wrap your vector retriever with BM25 hybrid scoring and custom rerank functions.
 ---
 
 Vector search is fast, but often misses exact-keyword matches and
@@ -22,7 +22,7 @@ import { openaiEmbedder } from '@agentskit/adapters'
 
 const base = createRAG({
   embed: openaiEmbedder({ apiKey: process.env.OPENAI_API_KEY! }),
-  store: fileVectorMemory({ path: './kb.vectors.json' }),
+  store: fileVectorMemory({ path: '.agentskit/vectors' }),
   topK: 20,
 })
 

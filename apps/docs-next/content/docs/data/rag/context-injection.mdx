@@ -30,7 +30,7 @@ import { fileVectorMemory } from '@agentskit/memory'
 
 const rag = createRAG({
   embed: openaiEmbedder({ apiKey: process.env.OPENAI_API_KEY! }),
-  store: fileVectorMemory({ path: '.agentskit/vec.json', dim: 1536 }),
+  store: fileVectorMemory({ path: '.agentskit/vectors' }),
 })
 
 function formatContext(hits: Awaited<ReturnType<typeof rag.retrieve>>): string {
@@ -52,7 +52,7 @@ const systemPrompt = [
 ].filter(Boolean).join('\n\n')
 ```
 
-Pass `systemPrompt` as the `system` field to your adapter or `createRuntime` call.
+Pass `systemPrompt` as `context.systemPrompt` when calling `adapter.createSource`, or use it as the `systemPrompt` field in `createRuntime`.
 
 ## Runtime integration — pass `retriever` directly
 
@@ -68,13 +68,13 @@ await rag.ingest(myDocs)
 const runtime = createRuntime({
   adapter,
   retriever: rag,   // implements Retriever contract
-  system: 'You are a helpful assistant.',
+  systemPrompt: 'You are a helpful assistant.',
 })
 
 const result = await runtime.run('How does token budgeting work?')
 ```
 
-The runtime appends the context block after your base `system` string, separated by a blank line.
+The runtime appends the context block after your base `systemPrompt` string, separated by a blank line.
 
 ## Controlling what gets injected
 

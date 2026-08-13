@@ -4,14 +4,28 @@ description: Hot-window + cold retriever. Keep recent messages; retrieve old one
 ---
 
 ```ts
-import { createVirtualizedMemory } from '@agentskit/memory'
+import { createInMemoryMemory, createVirtualizedMemory } from '@agentskit/core'
 
-const memory = createVirtualizedMemory({
-  window: 20,
-  cold: vectorStore,
-  embed: openaiEmbedder({ apiKey }),
+const backing = createInMemoryMemory()
+const memory = createVirtualizedMemory(backing, {
+  maxActive: 50,
+  maxRetrieved: 5,
+  retriever: async ({ hot, cold, maxRetrieved }) => {
+    // return up to maxRetrieved older messages to splice back in
+    return cold.slice(-maxRetrieved)
+  },
 })
 ```
+
+`createVirtualizedMemory` ships in `@agentskit/core`, not `@agentskit/memory`. The first argument is the backing `ChatMemory`.
+
+## Options
+
+| Option | Default | Purpose |
+|--------|---------|---------|
+| `maxActive` | `50` | Recent messages always loaded |
+| `retriever` | — | `( { hot, cold, maxRetrieved } ) => Message[]` — optional cold lookup |
+| `maxRetrieved` | `10` | Cap on retrieved cold messages |
 
 ## When to use
 

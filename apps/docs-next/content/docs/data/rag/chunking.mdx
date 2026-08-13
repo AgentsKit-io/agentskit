@@ -9,7 +9,16 @@ import { chunkText } from '@agentskit/rag'
 const chunks = chunkText(longDoc, {
   chunkSize: 800,
   chunkOverlap: 120,
-  split: 'paragraph',
+})
+```
+
+`chunkText(text, options)` returns `string[]`. Pass a custom `split` when you want your own boundaries instead of the default sliding window:
+
+```ts
+const paragraphs = chunkText(longDoc, {
+  chunkSize: 800,
+  chunkOverlap: 120,
+  split: text => text.split(/\n\n+/),
 })
 ```
 
@@ -17,15 +26,19 @@ const chunks = chunkText(longDoc, {
 
 | Option | Type | Default |
 |---|---|---|
-| `chunkSize` | `number` | `1000` |
-| `chunkOverlap` | `number` | `100` |
-| `split` | `'sentence' \| 'paragraph' \| 'markdown' \| 'code' \| 'char'` | `paragraph` |
+| `chunkSize` | `number` | required (`createRAG` default: `512`) |
+| `chunkOverlap` | `number` | required (`createRAG` default: `50`) |
+| `split` | `(text: string) => string[]` | omitted — sliding window over whitespace |
+
+Standalone `chunkText` has no built-in size defaults. When you go through [createRAG](./create-rag), unspecified `chunkSize` / `chunkOverlap` become 512 / 50.
+
+If `split` is provided, its return value is used as-is (empty strings dropped). `chunkSize` and `chunkOverlap` then apply only to the default splitter.
 
 ## Rules of thumb
 
-- Prose: `paragraph`, 800/120.
-- Markdown: `markdown`, 1200/150.
-- Code: `code`, 1500/0.
+- Prose: 800 / 120.
+- Markdown: 1200 / 150.
+- Code: 1500 / 0.
 
 ## Related
 

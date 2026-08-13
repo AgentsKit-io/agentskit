@@ -18,7 +18,7 @@ Angular 18+ service (Signal + RxJS) + headless chat components. Same `ChatReturn
 ## Verified proof
 
 - Package metadata and tests live under `packages/angular/`.
-- Package guide: https://www.agentskit.io/docs/packages/angular
+- Package guide: https://www.agentskit.io/docs/reference/packages/angular
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -30,7 +30,7 @@ Angular 18+ service (Signal + RxJS) + headless chat components. Same `ChatReturn
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/angular) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/reference/packages/angular) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why
 
@@ -117,7 +117,7 @@ MIT — see [LICENSE](../../LICENSE).
 
 ## Docs
 
-[Full documentation](https://www.agentskit.io/docs/packages/angular) · [GitHub](https://github.com/AgentsKit-io/agentskit)
+[Full documentation](https://www.agentskit.io/docs/reference/packages/angular) · [GitHub](https://github.com/AgentsKit-io/agentskit)
 
 ## Maturity and compatibility
 

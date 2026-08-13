@@ -25,18 +25,22 @@ import { createInMemoryMemory } from '@agentskit/core'
 import { createRuntime } from '@agentskit/runtime'
 import { anthropic } from '@agentskit/adapters'
 
-const summarizerAdapter = anthropic({ apiKey: process.env.ANTHROPIC_API_KEY!, model: 'claude-haiku-4-5' })
+const summaryRuntime = createRuntime({
+  adapter: anthropic({ apiKey: process.env.ANTHROPIC_API_KEY!, model: 'claude-haiku-4-5' }),
+  systemPrompt: 'Summarize the following chat transcript in 3 bullet points.',
+  maxTokens: 512,
+})
 
 const memory = createAutoSummarizingMemory(createInMemoryMemory(), {
   maxTokens: 8_000,
   keepRecent: 6,
   summarizer: async messages => {
     const src = messages.map(m => `${m.role}: ${m.content}`).join('\n')
-    const result = await runOnce(summarizerAdapter, `Summarize the following chat transcript in 3 bullet points:\n\n${src}`)
+    const result = await summaryRuntime.run(src)
     return {
       id: crypto.randomUUID(),
       role: 'system',
-      content: result,
+      content: result.content,
       status: 'complete',
       createdAt: new Date(),
     }

@@ -20,7 +20,7 @@ Chat with any LLM, scaffold projects, and run agents — all from your terminal.
 ## Verified proof
 
 - Package metadata and tests live under `packages/cli/`.
-- Package guide: https://www.agentskit.io/docs/packages/cli
+- Package guide: https://www.agentskit.io/docs/reference/packages/cli
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -32,7 +32,7 @@ Chat with any LLM, scaffold projects, and run agents — all from your terminal.
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/cli) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/reference/packages/cli) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why cli
 
@@ -94,7 +94,7 @@ agentskit run --help
 - Built-in live providers include OpenAI, Anthropic, Gemini, DeepSeek, Grok, Kimi, Groq, and OpenRouter; Ollama remains local and keyless
 - `agentskit init --provider deepseek|grok|kimi|groq|openrouter` — scaffold a starter already wired to the selected provider
 
-Full reference: [docs/infrastructure/cli](https://www.agentskit.io/docs/infrastructure/cli) · [ARCHITECTURE.md](./ARCHITECTURE.md)
+Full reference: [docs/production/cli](https://www.agentskit.io/docs/production/cli) · [ARCHITECTURE.md](./ARCHITECTURE.md)
 
 ### agentskit doctor
 

@@ -27,7 +27,7 @@ Stay with LlamaIndex when:
 | `index.as_retriever()` | The `RAG` instance itself implements `Retriever` | Use it as `retriever:` on the runtime. |
 | `index.as_query_engine()` | `runtime.run(query)` with `retriever` set | Retrieval per-turn is automatic. |
 | `Document(text, metadata)` | `{ content, metadata }` | Same shape, plain object. |
-| `SimpleNodeParser`, `SentenceSplitter` | `chunkText({ chunkSize, chunkOverlap })` | Lower-level helper if you want to chunk yourself. |
+| `SimpleNodeParser`, `SentenceSplitter` | `chunkText(text, { chunkSize, chunkOverlap, split? })` | `split` is `(text: string) => string[]`. `createRAG` defaults 512 / 50. |
 | `OpenAIEmbedding` | `openaiEmbedder({ apiKey, model })` | Embedders are first-class adapters. |
 | `Chroma`, `Pinecone`, `Qdrant`, `Weaviate` | `chroma`, `pinecone`, `qdrant`, `weaviateVectorStore` | All in `@agentskit/memory`. |
 | `OpenAIAgent.from_tools(tools)` | `createRuntime({ adapter, tools })` | Same idea; one runtime for every model. |
@@ -63,7 +63,7 @@ import { join } from 'node:path'
 
 const rag = createRAG({
   embed: openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' }),
-  store: fileVectorMemory({ path: './embeddings.json' }),
+  store: fileVectorMemory({ path: '.agentskit/vectors' }),
 })
 
 const docs = await Promise.all(
@@ -196,7 +196,7 @@ Memory load + save, retrieval per turn, tool resolution — all handled. The run
 | Backend | Import | Notes |
 |---|---|---|
 | In-memory | `createInMemoryMemory` (core) | Tests, demos. |
-| File JSON | `fileVectorMemory({ path })` | Vectra-backed; one process. |
+| File vector index | `fileVectorMemory({ path })` | Vectra-backed index directory; one process. |
 | Postgres | `pgvector(...)` | Bring your own client (`pg` Pool, Neon, Supabase RPC). |
 | Pinecone | `pinecone({ indexUrl, apiKey })` | HTTP only; no SDK dep. |
 | Qdrant | `qdrant({ url, apiKey?, collection })` | HTTP only. |

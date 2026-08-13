@@ -12,7 +12,7 @@ import { fileVectorMemory } from '@agentskit/memory'
 
 const rag = createRAG({
   embed: openaiEmbedder({ apiKey: process.env.OPENAI_API_KEY! }),
-  store: fileVectorMemory({ path: './vectors.json' }),
+  store: fileVectorMemory({ path: './vectors' }),
 })
 
 await rag.ingest([

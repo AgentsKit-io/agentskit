@@ -1,12 +1,12 @@
 ---
 title: '@agentskit/rag'
-description: Plug-and-play RAG. Chunk, embed, retrieve, rerank, hybrid — plus six document loaders.
+description: Plug-and-play RAG. Chunk, embed, retrieve, rerank, hybrid, and document loaders.
 ---
 
 ## When to reach for it
 
 - You want retrieval-augmented generation in a few lines.
-- You need rerankers (BM25 / Cohere / BGE) or hybrid vector+keyword search.
+- You need rerankers (BM25, Voyage, Jina, or a custom function) or hybrid vector+keyword search.
 - You want document loaders for URL / GitHub / Notion / Confluence / Google Drive / PDF.
 
 ## Install
@@ -24,7 +24,7 @@ import { openaiEmbedder } from '@agentskit/adapters'
 
 const rag = createRAG({
   embed: openaiEmbedder({ apiKey: process.env.OPENAI_API_KEY! }),
-  store: fileVectorMemory({ path: './kb.json' }),
+  store: fileVectorMemory({ path: './kb-vectors' }),
 })
 await rag.ingest([{ content: 'AgentsKit is a toolkit for AI agents.', source: 'intro' }])
 const hits = await rag.search('what is agentskit')
@@ -46,8 +46,8 @@ const hits = await rag.search('what is agentskit')
 
 ## Stability
 
-- **Version:** `0.2.1`
-- **Tier:** alpha
+- **Version:** `0.5.2`
+- **Tier:** beta
 - **Contract:** evolving
 - **Roadmap:** see [packages roadmap](./roadmap) for what this package needs to reach v1.0.
 

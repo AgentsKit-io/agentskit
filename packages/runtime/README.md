@@ -18,7 +18,7 @@ Run autonomous agents in 5 lines — no UI, no boilerplate, just results.
 ## Verified proof
 
 - Package metadata and tests live under `packages/runtime/`.
-- Package guide: https://www.agentskit.io/docs/packages/runtime
+- Package guide: https://www.agentskit.io/docs/reference/packages/runtime
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -30,7 +30,7 @@ Run autonomous agents in 5 lines — no UI, no boilerplate, just results.
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
 - **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/runtime) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/reference/packages/runtime) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 ## Why runtime
 
@@ -94,10 +94,10 @@ console.log(result.content)
 
 | Primitive | Purpose | Docs |
 |-----------|---------|------|
-| `createDurableRunner` + `createFileStepLog` | Temporal-style step log; resume on crash | [Durable execution](https://www.agentskit.io/docs/recipes/durable-execution) |
-| `supervisor` / `swarm` / `hierarchical` / `blackboard` | Ready-made multi-agent topologies | [Topologies](https://www.agentskit.io/docs/recipes/multi-agent-topologies) |
-| `speculate` | Fan-out N adapters, race + abort losers | [Speculative execution](https://www.agentskit.io/docs/recipes/speculative-execution) |
-| `createCronScheduler` + `createWebhookHandler` | Background agents, cron + webhooks | [Background agents](https://www.agentskit.io/docs/recipes/background-agents) |
+| `createDurableRunner` + `createFileStepLog` | Temporal-style step log; resume on crash | [Durable execution](https://www.agentskit.io/docs/reference/recipes/durable-execution) |
+| `supervisor` / `swarm` / `hierarchical` / `blackboard` | Ready-made multi-agent topologies | [Topologies](https://www.agentskit.io/docs/reference/recipes/multi-agent-topologies) |
+| `speculate` | Fan-out N adapters, race + abort losers | [Speculative execution](https://www.agentskit.io/docs/reference/recipes/speculative-execution) |
+| `createCronScheduler` + `createWebhookHandler` | Background agents, cron + webhooks | [Background agents](https://www.agentskit.io/docs/reference/recipes/background-agents) |
 
 ## Ecosystem
 

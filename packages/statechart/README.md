@@ -20,7 +20,7 @@ Use Runtime flows for durable execution, DAGs, tools, and effects. Use this pack
 ## Verified proof
 
 - Package metadata and tests live under `packages/statechart/`.
-- Package guide: https://www.agentskit.io/docs/packages/statechart
+- Package guide: https://www.agentskit.io/docs/reference/packages/statechart
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## Install

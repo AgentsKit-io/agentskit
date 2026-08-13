@@ -194,7 +194,7 @@ import { sqliteChatMemory, fileVectorMemory } from '@agentskit/memory'
 import { createRAG } from '@agentskit/rag'
 
 const rag = createRAG({
-  store: fileVectorMemory({ path: './embeddings.json' }),
+  store: fileVectorMemory({ path: '.agentskit/vectors' }),
   embed: openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' }),
   topK: 3,
 })
@@ -232,7 +232,7 @@ import { createRAG } from '@agentskit/rag'
 import { fileVectorMemory } from '@agentskit/memory'
 
 const rag = createRAG({
-  store: fileVectorMemory({ path: './embeddings.json' }),
+  store: fileVectorMemory({ path: '.agentskit/vectors' }),
   embed: openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' }),
 })
 
