@@ -1,8 +1,9 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
+import { REPO_ROOT } from '../../../scripts/compute-stats.mjs'
 
-const publicDir = join(process.cwd(), 'apps/docs-next/public')
+const publicDir = join(REPO_ROOT, 'apps/docs-next/public')
 
 describe('site icon fallbacks', () => {
   it.each([

@@ -29,7 +29,7 @@ import {
 
 const archival = fileChatMemory({ path: './sessions/user-42.json' })
 const working = fileChatMemory({ path: './sessions/user-42.hot.json' })
-const vectorStore = fileVectorMemory({ path: './sessions/user-42.vectors.json' })
+const vectorStore = fileVectorMemory({ path: '.agentskit/vectors' })
 
 const memory = createHierarchicalMemory({
   working,

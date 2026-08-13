@@ -23,9 +23,33 @@ const gitValue = (args) => {
     return ''
   }
 }
-const generatedAt = (process.env.DETERMINISTIC_KNOWLEDGE_GENERATED_AT
-  ?? gitValue(['log', '-1', '--format=%cI', '--', '.doc-bridge/index.json', 'ecosystem-claims.json', 'ecosystem.json', 'apps/docs-next/scripts/gen-deterministic-knowledge.mjs']))
-  || '1970-01-01T00:00:00.000Z'
+const isValidGeneratedAt = (value) => {
+  if (typeof value !== 'string' || value.trim() === '') return false
+  const timestamp = Date.parse(value)
+  return Number.isFinite(timestamp) && timestamp !== 0
+}
+const existingGeneratedAt = async () => {
+  try {
+    return JSON.parse(await readFile(join(appRoot, 'lib/deterministic-knowledge.generated.json'), 'utf8')).generatedAt
+  } catch {
+    return ''
+  }
+}
+const resolveGeneratedAt = async () => {
+  const generatedAt = [
+    process.env.DETERMINISTIC_KNOWLEDGE_GENERATED_AT,
+    await existingGeneratedAt(),
+    gitValue(['log', '-1', '--format=%cI', '--', '.doc-bridge/index.json', 'ecosystem-claims.json', 'ecosystem.json']),
+    process.env.VERCEL_GIT_COMMIT_COMMITTED_DATE,
+  ].find(isValidGeneratedAt)
+  if (!generatedAt) {
+    throw new Error(
+      'Missing deterministic knowledge generatedAt. Set DETERMINISTIC_KNOWLEDGE_GENERATED_AT or VERCEL_GIT_COMMIT_COMMITTED_DATE, keep a valid generatedAt in the checked-in artifact, or run from a git checkout.',
+    )
+  }
+  return generatedAt
+}
+const generatedAt = await resolveGeneratedAt()
 const budgetBytes = 96 * 1024
 
 const readJson = async path => JSON.parse(await readFile(join(repoRoot, path), 'utf8'))

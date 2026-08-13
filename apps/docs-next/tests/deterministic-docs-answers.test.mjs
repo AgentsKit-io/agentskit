@@ -54,9 +54,12 @@ test('the generated artifact is schema-valid, hash-anchored, compact, and conten
 test('generation is byte-identical for unchanged canonical inputs', () => {
   const beforeArtifact = readFileSync(artifactPath, 'utf8')
   const beforeSite = readFileSync(sitePath, 'utf8')
+  const env = { ...process.env, VERCEL_GIT_COMMIT_COMMITTED_DATE: '2099-01-01T00:00:00.000Z' }
+  delete env.DETERMINISTIC_KNOWLEDGE_GENERATED_AT
   const generated = spawnSync('pnpm', ['--filter', '@agentskit/docs-next', 'gen:deterministic-knowledge'], {
     cwd: REPO_ROOT,
     encoding: 'utf8',
+    env,
   })
   assert.equal(generated.status, 0, generated.stderr)
   assert.equal(readFileSync(artifactPath, 'utf8'), beforeArtifact)
@@ -150,7 +153,7 @@ test('the real widget composes published AgentsChat local-first contracts', () =
   assert.match(widget, /choiceSubmission: adapter\.resolveChoiceSubmission/)
   assert.match(widget, /fallbackMode: deterministicSite\.fallback\.mode/)
   assert.match(widget, /data-ak-answer-path/)
-  assert.match(docsPackage, /"@agentskit\/chat": "0\.3\.0"/)
+  assert.match(docsPackage, /"@agentskit\/chat": "0\.4\.0"/)
   assert.doesNotMatch(docsPackage, /"@agentskit\/chat-(?:protocol|react)":/)
   assert.doesNotMatch(rootPackage, /"@agentskit\/chat(?:-protocol)?":/)
   assert.doesNotMatch(widget, /function normalizeDeterministic|new Map<string, DeterministicKnowledgeEntry/)

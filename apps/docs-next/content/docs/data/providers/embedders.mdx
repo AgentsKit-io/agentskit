@@ -22,6 +22,7 @@ type EmbedFn = (text: string) => Promise<number[]>
 ## Usage
 
 ```ts
+import type { EmbedFn } from '@agentskit/core'
 import { openaiEmbedder } from '@agentskit/adapters'
 
 const embed: EmbedFn = openaiEmbedder({

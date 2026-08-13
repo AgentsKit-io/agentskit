@@ -94,7 +94,7 @@ agentskit run --help
 - Built-in live providers include OpenAI, Anthropic, Gemini, DeepSeek, Grok, Kimi, Groq, and OpenRouter; Ollama remains local and keyless
 - `agentskit init --provider deepseek|grok|kimi|groq|openrouter` — scaffold a starter already wired to the selected provider
 
-Full reference: [docs/infrastructure/cli](https://www.agentskit.io/docs/infrastructure/cli) · [ARCHITECTURE.md](./ARCHITECTURE.md)
+Full reference: [docs/production/cli](https://www.agentskit.io/docs/production/cli) · [ARCHITECTURE.md](./ARCHITECTURE.md)
 
 ### agentskit doctor
 

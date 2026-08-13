@@ -17,6 +17,7 @@
     "docs": "next dev --turbo",
     "start": "next start",
     "lint": "node scripts/gen-ask-context.mjs && tsc --noEmit",
+    "test": "vitest run",
     "lint:mdx": "node scripts/lint-mdx.mjs",
     "check:links": "node scripts/check-links.mjs",
     "gen:api": "node scripts/gen-api.mjs",
@@ -68,6 +69,7 @@
     "tsx": "^4.23.5",
     "typedoc": "^0.28.20",
     "typedoc-plugin-markdown": "^4.12.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.10"
   }
 }

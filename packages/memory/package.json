@@ -61,6 +61,14 @@
   "dependencies": {
     "@agentskit/core": "workspace:*"
   },
+  "peerDependencies": {
+    "vectra": "^0.15.0"
+  },
+  "peerDependenciesMeta": {
+    "vectra": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^25.9.5",

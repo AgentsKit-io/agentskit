@@ -49,7 +49,7 @@ const docs = await loadGitHubTree('my-org', 'my-repo', {
 
 const rag = createRAG({
   embed: openaiEmbedder({ apiKey: process.env.OPENAI_API_KEY! }),
-  store: fileVectorMemory({ path: './kb.json' }),
+  store: fileVectorMemory({ path: '.agentskit/vectors' }),
 })
 await rag.ingest(docs)
 ```

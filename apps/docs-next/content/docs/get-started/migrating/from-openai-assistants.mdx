@@ -96,7 +96,7 @@ import { openaiEmbedder } from '@agentskit/adapters'
 
 const rag = createRAG({
   embed: openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' }),
-  store: fileVectorMemory({ path: './kb.json' }),
+  store: fileVectorMemory({ path: '.agentskit/vectors' }),
 })
 
 await rag.ingest([

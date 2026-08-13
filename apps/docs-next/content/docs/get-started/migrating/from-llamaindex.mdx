@@ -63,7 +63,7 @@ import { join } from 'node:path'
 
 const rag = createRAG({
   embed: openaiEmbedder({ apiKey: KEY, model: 'text-embedding-3-small' }),
-  store: fileVectorMemory({ path: './embeddings.json' }),
+  store: fileVectorMemory({ path: '.agentskit/vectors' }),
 })
 
 const docs = await Promise.all(
@@ -196,7 +196,7 @@ Memory load + save, retrieval per turn, tool resolution — all handled. The run
 | Backend | Import | Notes |
 |---|---|---|
 | In-memory | `createInMemoryMemory` (core) | Tests, demos. |
-| File JSON | `fileVectorMemory({ path })` | Vectra-backed; one process. |
+| File vector index | `fileVectorMemory({ path })` | Vectra-backed index directory; one process. |
 | Postgres | `pgvector(...)` | Bring your own client (`pg` Pool, Neon, Supabase RPC). |
 | Pinecone | `pinecone({ indexUrl, apiKey })` | HTTP only; no SDK dep. |
 | Qdrant | `qdrant({ url, apiKey?, collection })` | HTTP only. |

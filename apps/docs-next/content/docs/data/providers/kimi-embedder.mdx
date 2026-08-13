@@ -8,6 +8,7 @@ import { kimiEmbedder } from '@agentskit/adapters'
 
 const embed = kimiEmbedder({
   apiKey: process.env.KIMI_API_KEY!,
+  model: process.env.KIMI_EMBED_MODEL!,
 })
 ```
 
@@ -18,6 +19,13 @@ const embed = kimiEmbedder({
 | `apiKey` | `string` | required |
 | `model` | `string` | required |
 | `baseUrl` | `string` | `https://api.moonshot.ai` |
+
+## Env
+
+| Var | Purpose |
+|---|---|
+| `KIMI_API_KEY` | API key |
+| `KIMI_EMBED_MODEL` | Embedding model |
 
 ## Related
 
