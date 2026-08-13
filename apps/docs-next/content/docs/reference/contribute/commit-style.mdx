@@ -14,7 +14,8 @@ Format:
 [optional footer: closes #nnn]
 ```
 
-**Types:** `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `perf`, `ci`, `style`.
+**Types:** `feat`, `fix`, `docs`, `refactor`, `test`, `chore`, `perf`, `ci`, `style`,
+`arch`, `build`, `merge`, `quality`, `release`, `reliability`, and `security`.
 **Scope:** package or area — `core`, `react`, `adapters`, `docs`, `ci`, etc.
 
 **Examples:**
@@ -29,52 +30,51 @@ test(ink): cover keyboard navigation across message list
 
 Subject ≤ 72 chars, imperative mood ("add", not "added"). Body wraps at 100.
 
-## Enforcement (planned — good-first-issue available)
+## Enforcement
 
-Today, commit-message discipline is review-time: maintainers will flag a non-conventional commit and ask you to amend. We want this **automated** — and wiring it up is a perfect first PR.
+Commit-message discipline is enforced locally and in pull-request CI. Invalid messages fail before a push, and the same range is checked again on GitHub.
 
-### Target setup
+### Repository setup
 
 - **`@commitlint/cli` + `@commitlint/config-conventional`** — validates the message
-- **`commit-msg` git hook** (via husky or lefthook) — blocks invalid commits locally
-- **CI check** — `commitlint` step in `.github/workflows/ci.yml` so bad commits fail the PR
+- **`.husky/commit-msg`** — blocks invalid commits locally
+- **`Commitlint` CI job** — checks every commit in the pull request range
 
 ### What a complete PR looks like
 
-1. Add `commitlint.config.cjs`:
+1. The repository ships `commitlint.config.cjs`:
 
    ```js
    module.exports = { extends: ['@commitlint/config-conventional'] }
    ```
 
-2. Add devDeps at the **workspace root** `package.json`:
+2. The dependencies are pinned in the **workspace root** `package.json`:
 
    ```json
-   "@commitlint/cli": "^19.0.0",
-   "@commitlint/config-conventional": "^19.0.0",
+   "@commitlint/cli": "21.2.1",
+   "@commitlint/config-conventional": "21.2.0",
    "husky": "^9.0.0"
    ```
 
-3. Add `prepare` script + `commit-msg` hook:
+3. Husky runs this `commit-msg` hook automatically after `pnpm install`:
 
    ```bash
-   pnpm exec husky init
    echo 'pnpm exec commitlint --edit "$1"' > .husky/commit-msg
    ```
 
-4. Add CI step:
+4. CI runs the commit range check:
 
    ```yaml
-   - run: pnpm exec commitlint --from=${{ github.event.pull_request.base.sha }} --to=${{ github.sha }}
+   - run: pnpm exec commitlint --from="${{ github.event.pull_request.base.sha }}" --to="${{ github.event.pull_request.head.sha }}" --verbose
    ```
 
-5. Update this page to reflect reality.
+To validate the contract locally without creating a commit, run:
 
-If you want to claim it, comment on issue [`docs(contribute): wire commitlint + husky`](https://github.com/AgentsKit-io/agentskit/issues?q=commitlint) (or open one).
+```bash
+pnpm test:commitlint
+```
 
-### Until then
-
-Eyeball your commit message against the types + examples above. `git commit --amend` is your friend.
+If a hook blocks a message, fix the subject or amend the commit before pushing.
 
 ## Changesets (for publishable packages)
 
@@ -95,7 +95,7 @@ Before marking a PR ready for review:
 - [ ] New/changed behavior has a test
 - [ ] Public API changes have a docstring + doc example
 - [ ] Changeset added (if a published package changed)
-- [ ] Commit messages follow conventional commits
+- [ ] Commit messages pass `pnpm exec commitlint`
 - [ ] PR description explains **why**, not just what
 
 ## Review cadence
