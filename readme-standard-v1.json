@@ -896,7 +896,7 @@
       "commands": [
         {
           "id": "install",
-          "command": "npx -y @agentskit/mcp@0.3.4 --tools fetch,search",
+          "command": "npx -y @agentskit/mcp@0.3.5 --tools fetch,search",
           "test": "packages/mcp/tests/server.test.ts",
           "testCommand": "pnpm --filter @agentskit/mcp test"
         }
@@ -919,7 +919,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:60dd3eaef1138dfd77da94d75435ee93c562ae9203bea014d733805a94f64a00"
+        "sourceHash": "sha256:2d97834a2fbb3c87c87465d8d4486e9f296958d446df1745a9965b2f7f359f12"
       },
       "exceptions": []
     },
