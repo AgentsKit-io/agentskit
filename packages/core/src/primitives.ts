@@ -172,11 +172,12 @@ export async function consumeStream(
     }
     handlers.onDone(accumulatedText)
   } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error)
     const err = error instanceof AgentsKitError
       ? error
       : new AdapterError({
           code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,
-          message: `Stream failed: ${error instanceof Error ? error.message : String(error)}`,
+          message: `Stream failed: ${detail}`,
           hint: 'Adapter/provider',
           cause: error,
         })
