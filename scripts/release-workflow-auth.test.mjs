@@ -29,4 +29,11 @@ describe('release workflow authentication', () => {
   test('does not leave checkout credentials active', () => {
     assert.match(workflow, /persist-credentials: false/)
   })
+
+  test('verifies the npm release client tarball before installing it', () => {
+    assert.match(workflow, /NPM_TARBALL_URL: https:\/\/registry\.npmjs\.org\/npm\/-\/npm-11\.18\.0\.tgz/)
+    assert.match(workflow, /NPM_TARBALL_SHA512: [A-Za-z0-9+/]+=*/)
+    assert.match(workflow, /openssl dgst -sha512 -binary npm-11\.18\.0\.tgz/)
+    assert.match(workflow, /npm install --global \.\/npm-11\.18\.0\.tgz/)
+  })
 })
