@@ -26,6 +26,7 @@
     "gen:integration": "node scripts/gen-integration.mjs",
     "check:quality-gates": "node scripts/check-quality-gates.mjs",
     "check:product-chat-adoption": "node scripts/check-product-chat-adoption.mjs",
+    "check:doc-package-versions": "node scripts/check-doc-package-versions.mjs",
     "test:product-chat-adoption": "vitest run scripts/product-chat-adoption.test.mjs",
     "check:all": "pnpm check:quality-gates && pnpm lint && pnpm build && pnpm test",
     "prepare": "husky",
