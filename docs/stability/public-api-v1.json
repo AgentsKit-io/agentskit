@@ -861,6 +861,12 @@
               ]
             },
             {
+              "name": "CatalogProviderSupport",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "CatalogReasoningOption",
               "kinds": [
                 "type"
@@ -888,6 +894,12 @@
               "name": "CatalogSource",
               "kinds": [
                 "type"
+              ]
+            },
+            {
+              "name": "classifyCatalogProvider",
+              "kinds": [
+                "value"
               ]
             },
             {
