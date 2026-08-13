@@ -13,7 +13,11 @@ top-N candidates.
 
 Ships with `@agentskit/rag`.
 
-## Reranked retrieval (Cohere / BGE / BM25)
+## Custom reranking (Cohere / BGE) + built-in BM25
+
+`@agentskit/rag` exports Voyage, Jina, and BM25 rerankers. Cohere, BGE,
+and other providers are custom `RerankFn` implementations, as shown below;
+there are no `cohereReranker` or `bgeReranker` package exports.
 
 ```ts
 import { createRerankedRetriever, createRAG } from '@agentskit/rag'

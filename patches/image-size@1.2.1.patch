@@ -1,0 +1,14 @@
+diff --git a/dist/types/jxl.js b/dist/types/jxl.js
+index f557b0aea7e679d2cb84d9915e957dd2254eba97..7311f573b633945ecf8ab0b3d79b39df5f2d255a 100644
+--- a/dist/types/jxl.js
++++ b/dist/types/jxl.js
+@@ -24,7 +24,8 @@ function extractPartialStreams(input) {
+         if (!jxlpBox)
+             break;
+         partialStreams.push(input.slice(jxlpBox.offset + 12, jxlpBox.offset + jxlpBox.size));
+-        offset = jxlpBox.offset + jxlpBox.size;
++        // Malformed zero-sized boxes must still advance the parser.
++        offset = jxlpBox.offset + (jxlpBox.size > 0 ? jxlpBox.size : 8);
+     }
+     return partialStreams;
+ }
