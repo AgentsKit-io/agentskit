@@ -35,7 +35,6 @@ jobs:
         with:
           node-version: 22
           package-manager-cache: false
-          registry-url: https://registry.npmjs.org
       - name: Pin npm release client
         env:
           NPM_TARBALL_URL: https://registry.npmjs.org/npm/-/npm-11.18.0.tgz
