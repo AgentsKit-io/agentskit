@@ -101,8 +101,8 @@ Data-driven provider/model metadata adapted from `models.dev`, cached
 as a committed snapshot. Large, so it ships only via the `./catalog`
 subpath — never bundled into the main entry. The runtime never fetches
 `models.dev`; regenerate with `pnpm sync:models` and commit the diff. The
-snapshot carries a normalized content hash and ETag, while scheduled CI checks
-freshness and upstream drift.
+snapshot carries a normalized content hash and ETag, while scheduled CI
+opens a draft refresh PR when the source changes and checks freshness.
 
 - `getProvider`, `getModel`, `listProviders`,
   `listOpenAICompatibleProviders` — query the catalog.
