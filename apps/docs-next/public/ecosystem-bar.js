@@ -337,7 +337,7 @@
       "native-adapters": 25,
       "integrations": 50,
       "catalog-providers": 184,
-      "catalog-models": 6293,
+      "catalog-models": 6297,
       "skills": 22,
       "memory-backends": 17,
       "recipes": 71,
