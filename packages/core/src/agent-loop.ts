@@ -167,11 +167,12 @@ export async function executeSafeTool(
     })
     return { status: 'complete', result, durationMs: Date.now() - began }
   } catch (error) {
+    const detail = error instanceof Error ? error.message : String(error)
     const err = error instanceof ToolError
       ? error
       : new ToolError({
           code: ErrorCodes.AK_TOOL_EXEC_FAILED,
-          message: `Tool "${toolCall.name}" threw during execution: ${error instanceof Error ? error.message : String(error)}`,
+          message: `Tool "${toolCall.name}" threw during execution: ${detail}`,
           hint: 'Check the tool execute() implementation.',
           cause: error,
         })
