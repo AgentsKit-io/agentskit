@@ -3,14 +3,14 @@ import { createInMemoryTransportPair, createMcpClient } from '@agentskit/tools/m
 import { createAgentsKitMcpServer } from '../src/index'
 
 const command = 'npx'
-const args = ['-y', '@agentskit/mcp@0.3.5', '--tools', 'fetch,search'] as const
+const args = ['-y', '@agentskit/mcp@0.3.6', '--tools', 'fetch,search'] as const
 
 const stdioServer = { type: 'stdio', command, args } as const
 const desktopStdioServer = { command, args } as const
 
 export const codingAgentHostConfigs = {
   claude: {
-    cli: 'claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.5 --tools fetch,search',
+    cli: 'claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.6 --tools fetch,search',
     config: {
       mcpServers: {
         agentskit: stdioServer,
@@ -30,7 +30,7 @@ export const codingAgentHostConfigs = {
     },
   },
   codex: {
-    cli: 'codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.5 --tools fetch,search',
+    cli: 'codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.6 --tools fetch,search',
     config: [
       '[mcp_servers.agentskit]',
       `command = "${command}"`,
@@ -63,7 +63,7 @@ export const codingAgentHostConfigs = {
   continue: {
     config: [
       'name: AgentsKit MCP',
-      'version: 0.3.5',
+      'version: 0.3.6',
       'schema: v1',
       'mcpServers:',
       '  - name: agentskit',
@@ -83,9 +83,9 @@ export const codingAgentHostConfigs = {
   },
 } as const
 
-const expectedHostArgs = ['-y', '@agentskit/mcp@0.3.5', '--tools', 'fetch,search']
-const expectedClaudeCli = 'claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.5 --tools fetch,search'
-const expectedCodexCli = 'codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.5 --tools fetch,search'
+const expectedHostArgs = ['-y', '@agentskit/mcp@0.3.6', '--tools', 'fetch,search']
+const expectedClaudeCli = 'claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.6 --tools fetch,search'
+const expectedCodexCli = 'codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.6 --tools fetch,search'
 
 const isRecord = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -137,7 +137,7 @@ const validateStdioServer = (
   requireValue(
     Array.isArray(server.args) && server.args.every((arg): arg is string => typeof arg === 'string')
       && JSON.stringify(server.args) === JSON.stringify(expectedHostArgs),
-    `${host}.args must pin @agentskit/mcp@0.3.5 with fetch,search`,
+    `${host}.args must pin @agentskit/mcp@0.3.6 with fetch,search`,
   )
 }
 
@@ -195,7 +195,7 @@ const validateContinueYaml = (source: string): void => {
   const lines = source.split('\n')
   const metadata = [
     'name: AgentsKit MCP',
-    'version: 0.3.5',
+    'version: 0.3.6',
     'schema: v1',
     'mcpServers:',
     '  - name: agentskit',
