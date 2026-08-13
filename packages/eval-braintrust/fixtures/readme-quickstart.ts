@@ -2,7 +2,7 @@ import {
   runBraintrustEval,
   qualityFamily,
   robustnessFamily,
-} from '@agentskit/eval/braintrust'
+} from '@agentskit/eval-braintrust'
 
 const myAgent = {
   async run(input: string) {

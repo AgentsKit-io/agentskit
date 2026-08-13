@@ -2,7 +2,7 @@
 
 ## Status
 
-Accepted — 2026-07-14
+Superseded — 2026-08-13
 
 ## Context
 
@@ -11,13 +11,13 @@ Small vendor adapters consequently maintained independent package names,
 versions, changelogs, provenance records, and documentation even though their
 contracts and compatibility were owned by a parent capability.
 
-`@agentskit/observability/langfuse` is an observability backend and
-`@agentskit/eval/braintrust` is an evaluation backend. Neither is a standalone
-platform contract.
+The original consolidation proposal treated vendor adapters as subpaths. The
+published contract now gives the Braintrust and Langfuse adapters standalone
+package names so they can be installed, versioned, and documented directly.
 
 ## Decision
 
-Publish vendor adapters as subpath exports of their owning packages:
+The original decision was to publish vendor adapters as subpath exports:
 
 - `@agentskit/observability/langfuse`
 - `@agentskit/eval/braintrust`
@@ -29,9 +29,11 @@ The existing workspace packages remain `private: true` for ownership and test
 isolation. Their sources are built into the parent artifacts. Previously
 published package names receive deprecation releases and are not unpublished.
 
-A workspace package is public only when consumers can reasonably install and
-version it independently. Internal organization alone does not justify an npm
-package.
+A follow-up release decision made `@agentskit/eval-braintrust` and
+`@agentskit/observability-langfuse` public standalone packages. The private
+workspace implementations remain their source of truth. `@agentskit/tools/validation`
+continues to be a public subpath because it is intentionally owned by
+`@agentskit/tools`.
 
 ## Consequences
 

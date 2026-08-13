@@ -68,8 +68,8 @@ the badges can never drift apart.
 | `@agentskit/templates` | `beta` | Scaffold/validation hardening complete; promotion still awaits publish, soak, two released minor lines, Accepted RFC 0014/evidence, and 1.0.0 |
 | `@agentskit/validation` | `beta` | Private implementation hardened behind `@agentskit/tools/validation`; it does not graduate independently from the public tools surface (ADR-0008, RFC 0015) |
 | `@agentskit/statechart` | `beta` | Deterministic transitions, total unknown-snapshot restore, hostile JSON/key handling, synchronous observer isolation, packaging, and adversarial coverage hardened (ADR-0020, ADR-0027) |
-| `@agentskit/eval-braintrust` | `beta` | Private implementation exposed through `@agentskit/eval/braintrust`; awaited SDK lifecycle and score validation complete, but it graduates with the public eval surface |
-| `@agentskit/observability-langfuse` | `beta` | Private workspace implementation exposed through `@agentskit/observability/langfuse`; Langfuse SDK peer-resolved at runtime |
+| `@agentskit/eval-braintrust` | `beta` | Public package backed by the private workspace implementation; awaited SDK lifecycle and score validation complete, but it graduates with the public eval surface |
+| `@agentskit/observability-langfuse` | `beta` | Public package backed by the private workspace implementation; Langfuse SDK is loaded lazily at runtime |
 | `@agentskit/integrations` | `beta` | Descriptor/registry/projection contract shipped; 50-service fetch-only catalog; auth/actions/triggers/testing; packed API gates; execution boundaries explicit (ADR-0026). Not yet stable |
 | `@agentskit/mcp` | `beta` | Tool bridge, fail-closed CLI, agent delegation, bounded registry IO, stdio isolation, publication, and adversarial coverage hardened (ADR-0028) |
 | `@agentskit/vue` | `beta` | First binding at full headless component parity with React; `useChat` + 7 primitives, 100% component coverage |

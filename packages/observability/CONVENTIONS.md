@@ -9,7 +9,7 @@ Observer shape is stable; provider integrations and production lifecycle APIs ar
 ## Scope
 
 - **Console observer** — local-dev logger
-- **Provider integrations** — LangSmith, OpenTelemetry (OTLP), Datadog / Axiom / New Relic HTTP sinks; Langfuse via `@agentskit/observability/langfuse`
+- **Provider integrations** — LangSmith, OpenTelemetry (OTLP), Datadog / Axiom / New Relic HTTP sinks; Langfuse via `@agentskit/observability-langfuse`
 - **Lifecycle** — `LifecycleObserver` (`flush` / idempotent `shutdown`) on production sinks and SDK bridges
 - **Cost guards** — per-run, multi-tenant, and advanced modes
 - **Tracing helpers** — span tracker, trace viewer, replay, SLO, audit log, prod control
