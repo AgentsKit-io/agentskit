@@ -38,7 +38,7 @@
     "docs:bridge:index": "ak-docs index",
     "docs:bridge:gate": "ak-docs gate run",
     "docs:bridge:doctor": "ak-docs doctor --text",
-    "release:version": "pnpm changeset version && pnpm metadata:generate && pnpm readme:standard:refresh -- --preserve-review-dates",
+    "release:version": "pnpm changeset version && node scripts/check-doc-package-versions.mjs --fix && pnpm metadata:generate && pnpm readme:standard:refresh -- --preserve-review-dates",
     "release:preflight": "pnpm check:publication-surface && pnpm check:release-registry && pnpm check:packed-consumers && pnpm check:public-api-snapshot",
     "check:release-registry": "node scripts/check-release-registry.mjs",
     "test:release-registry": "node --test scripts/release-registry.test.mjs",
