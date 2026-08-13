@@ -896,7 +896,7 @@
       "commands": [
         {
           "id": "install",
-          "command": "npx -y @agentskit/mcp@0.3.7 --tools fetch,search",
+          "command": "npx -y @agentskit/mcp@0.3.8 --tools fetch,search",
           "test": "packages/mcp/tests/server.test.ts",
           "testCommand": "pnpm --filter @agentskit/mcp test"
         }
