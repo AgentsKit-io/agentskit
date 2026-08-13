@@ -20,7 +20,7 @@ describe('communication transport contract probes', () => {
     const seen: Array<{ url: string; headers: Headers }> = []
     const fetch = fakeFetch((url, init) => {
       seen.push({ url, headers: new Headers(init.headers) })
-      if (url.includes('slack.com')) return new Response(JSON.stringify({ ok: true, ts: '1.2' }), { headers: { 'content-type': 'application/json' } })
+      if (new URL(url).hostname === 'slack.com') return new Response(JSON.stringify({ ok: true, ts: '1.2' }), { headers: { 'content-type': 'application/json' } })
       return new Response(JSON.stringify({ id: 'd1', channel_id: 'c1' }), { headers: { 'content-type': 'application/json' } })
     })
     const slack = toToolDefinitions(slackIntegration, { credential: 'slack-token', fetch }).find((tool) => tool.name === 'slack_post_message')!
