@@ -6,7 +6,7 @@ Profile: <code>major-package</code>
 
 **Tags:** `agentskit` · `typescript` · `ai-agents`
 
-[![stability](https://img.shields.io/badge/stability-alpha-orange)](../../docs/STABILITY.md)
+[![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 
 Expose AgentsKit tools as an [MCP](https://modelcontextprotocol.io) server — use
 them from Claude Desktop, Cursor, Windsurf, or any MCP host.
@@ -123,7 +123,7 @@ console.log('@agentskit/mcp loaded')
 
 ## Maturity and compatibility
 
-- Stability: **alpha** — see [docs/STABILITY.md](../../docs/STABILITY.md)
+- Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
 - **Node.js 20+** and **TypeScript** strict mode
 - Published as `@agentskit/mcp`
 

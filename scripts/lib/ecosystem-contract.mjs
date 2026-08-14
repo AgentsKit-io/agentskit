@@ -258,6 +258,37 @@ function conservativeFloor(value) {
   return undefined
 }
 
+function claimSource(product) {
+  if (product.surfaces.stats) return { type: 'endpoint', url: product.surfaces.stats }
+  if (product.repo) return { type: 'repository', repo: product.repo }
+  return { type: 'declaration', summary: product.distributionPolicy }
+}
+
+function claimsForProduct(product, agentskit, stats) {
+  if (product.id !== 'agentskit') return []
+
+  return CLAIM_DEFINITIONS.map(([id, noun, statsPath, summary]) => {
+    const value = valueAt(stats, statsPath)
+    if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) {
+      fail(`$.stats.${statsPath}`, 'must be a finite non-negative number')
+    }
+    const floor = conservativeFloor(value)
+    const claim = {
+      id,
+      value,
+      noun,
+      evidence: {
+        type: 'repository-derivation',
+        repo: agentskit.repo,
+        path: 'scripts/compute-stats.mjs',
+        summary,
+      },
+    }
+    if (floor !== undefined) claim.conservativeFloor = floor
+    return claim
+  })
+}
+
 export function buildEcosystemClaims(manifestInput, stats) {
   const manifest = parseEcosystemManifest(manifestInput)
   const agentskit = manifest.products.find((product) => product.id === 'agentskit')
@@ -265,33 +296,9 @@ export function buildEcosystemClaims(manifestInput, stats) {
 
   const products = manifest.products.map((product) => ({
     productId: product.id,
-    source: product.surfaces.stats
-      ? { type: 'endpoint', url: product.surfaces.stats }
-      : product.repo
-        ? { type: 'repository', repo: product.repo }
-        : { type: 'declaration', summary: product.distributionPolicy },
+    source: claimSource(product),
     verification: product.id === 'agentskit' ? 'verified' : 'declared',
-    claims: product.id === 'agentskit'
-      ? CLAIM_DEFINITIONS.map(([id, noun, statsPath, summary]) => {
-          const value = valueAt(stats, statsPath)
-          if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) {
-            fail(`$.stats.${statsPath}`, 'must be a finite non-negative number')
-          }
-          const floor = conservativeFloor(value)
-          return {
-            id,
-            value,
-            noun,
-            ...(floor === undefined ? {} : { conservativeFloor: floor }),
-            evidence: {
-              type: 'repository-derivation',
-              repo: agentskit.repo,
-              path: 'scripts/compute-stats.mjs',
-              summary,
-            },
-          }
-        })
-      : [],
+    claims: claimsForProduct(product, agentskit, stats),
   }))
 
   return parseEcosystemClaims({

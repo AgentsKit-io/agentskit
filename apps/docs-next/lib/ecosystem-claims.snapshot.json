@@ -59,9 +59,9 @@
         },
         {
           "id": "catalog-providers",
-          "value": 140,
+          "value": 184,
           "noun": "providers",
-          "conservativeFloor": 140,
+          "conservativeFloor": 180,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",
@@ -71,9 +71,9 @@
         },
         {
           "id": "catalog-models",
-          "value": 5162,
+          "value": 6297,
           "noun": "models",
-          "conservativeFloor": 5000,
+          "conservativeFloor": 6000,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",
@@ -83,9 +83,9 @@
         },
         {
           "id": "skills",
-          "value": 21,
+          "value": 22,
           "noun": "ready-made skills",
-          "conservativeFloor": 21,
+          "conservativeFloor": 22,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",
@@ -106,9 +106,9 @@
         },
         {
           "id": "recipes",
-          "value": 69,
+          "value": 71,
           "noun": "recipes",
-          "conservativeFloor": 69,
+          "conservativeFloor": 71,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",
