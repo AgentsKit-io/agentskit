@@ -12,6 +12,7 @@ import { BrandIcon } from '@/components/home/brand-icon'
 import { ReferenceJourney } from '@/components/home/reference-journey'
 import { counts, approx } from '@/lib/ecosystem-stats'
 import { agentsKitIdentity } from '@/lib/reference-journey'
+import softwareIdentity from '@/lib/software-identity.generated.json'
 
 export const metadata = {
   title: `${agentsKitIdentity.name}.js — ${agentsKitIdentity.promise}`,
@@ -39,31 +40,9 @@ const GITHUB = 'https://github.com/AgentsKit-io/agentskit'
 const JSON_LD = {
   '@context': 'https://schema.org',
   '@graph': [
-    {
-      '@type': 'Organization',
-      '@id': 'https://www.agentskit.io/#org',
-      name: 'AgentsKit.js',
-      url: 'https://www.agentskit.io',
-      logo: 'https://www.agentskit.io/favicon.svg',
-      sameAs: [
-        'https://github.com/AgentsKit-io/agentskit',
-        'https://www.npmjs.com/org/agentskit',
-      ],
-    },
-    {
-      '@type': 'SoftwareApplication',
-      '@id': 'https://www.agentskit.io/#software',
-      name: 'AgentsKit.js',
-      description: agentsKitIdentity.promise,
-      applicationCategory: 'DeveloperApplication',
-      operatingSystem: 'Cross-platform',
-      offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
-      url: 'https://www.agentskit.io',
-      license: 'https://github.com/AgentsKit-io/agentskit/blob/main/LICENSE',
-      author: { '@id': 'https://www.agentskit.io/#org' },
-      programmingLanguage: 'TypeScript',
-      keywords: 'AI agents, autonomous agent, multi-agent, JavaScript, TypeScript, LLM, streaming chat, RAG, tools, memory, observability, React, Vue, Svelte, Next.js, OpenAI, Anthropic Claude, Gemini, Ollama, LangChain',
-    },
+    softwareIdentity.organization,
+    softwareIdentity.sourceCode,
+    softwareIdentity.application,
     {
       '@type': 'WebSite',
       '@id': 'https://www.agentskit.io/#website',
