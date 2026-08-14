@@ -27,6 +27,7 @@ const PRODUCT_MESH = ecosystem.products
   .map((product) => ({
     id: product.id,
     name: product.name,
+    kind: product.kind,
     role: product.id === 'akos' ? 'optional · managed' : product.role,
     href: product.surfaces.home ?? product.surfaces.docs ?? '#',
     blurb: PRODUCT_BLURBS[product.id] ?? product.promise,
