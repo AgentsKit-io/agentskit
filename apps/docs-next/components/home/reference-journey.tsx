@@ -20,7 +20,7 @@ export function ReferenceJourney() {
           Build the agent. Then take it all the way.
         </h2>
         <p className="mt-5 max-w-2xl text-ak-graphite">
-          One connected toolkit from ready-made source to governed production.
+          One connected toolkit from ready-made source to optional managed operations.
         </p>
         <ul className="mt-10 grid gap-px border border-ak-border bg-ak-border sm:grid-cols-2 lg:grid-cols-3">
           {ecosystemShowcase.map((product) => (

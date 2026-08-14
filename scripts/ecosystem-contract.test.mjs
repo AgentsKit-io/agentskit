@@ -27,32 +27,24 @@ test('the canonical manifest describes every ecosystem product', () => {
   assert.equal(parsed.products.find((product) => product.id === 'code-review').surfaces.chat, 'none')
 })
 
-test('the canonical manifest makes the commercial boundary explicit', () => {
+test('distribution classes make the open-source family and managed AKOS layer explicit', () => {
   const parsed = parseEcosystemManifest(manifest)
-
-  assert.deepEqual(parsed.positioning.openSourceProductIds, [
-    'agentskit',
-    'registry',
-    'agentskit-chat',
-    'playbook',
-    'doc-bridge',
-    'code-review',
-  ])
-  assert.deepEqual(parsed.positioning.managedProductIds, ['akos'])
-  assert.match(parsed.positioning.canonicalDescription, /open-source TypeScript ecosystem/)
-  assert.ok(parsed.positioning.metaDescription.length <= 160)
-  assert.match(parsed.positioning.commercialBoundary, /AKOS is the optional paid managed control plane/)
+  assert.ok(parsed.products.filter((product) => product.id !== 'akos').every((product) => {
+    return product.public === true && product.distributionClass === 'open-source'
+  }))
+  const akos = parsed.products.find((product) => product.id === 'akos')
+  assert.equal(akos.public, false)
+  assert.equal(akos.distributionClass, 'managed-service')
+  assert.equal(akos.repo, null)
+  assert.deepEqual(akos.aliases, ['AgentsKit OS'])
 })
 
-test('commercial positioning must match each product access model', () => {
-  assert.throws(
-    () => parseEcosystemManifest(changed((copy) => { copy.positioning.openSourceProductIds.pop() })),
-    /must match products with accessModel open-source/,
-  )
-  assert.throws(
-    () => parseEcosystemManifest(changed((copy) => { copy.products[6].accessModel = 'open-source' })),
-    /openSourceProductIds.*must match/,
-  )
+test('the repository llms index uses absolute URLs and explicit product labels', () => {
+  const index = readFileSync(join(REPO_ROOT, 'llms.txt'), 'utf8')
+  assert.doesNotMatch(index, /\]\((?:apps|docs|packages)\//)
+  assert.doesNotMatch(index, /\[(?:peer|peers|or):\]/)
+  assert.match(index, /\[AKOS\]\(https:\/\/akos\.agentskit\.io\/?/)
+  assert.match(index, /not required to use the open-source products/)
 })
 
 test('repository-native products do not need a Fumadocs or chat deployment', () => {
@@ -63,19 +55,38 @@ test('repository-native products do not need a Fumadocs or chat deployment', () 
   assert.equal(codeReview.navigation.showInBar, false)
 })
 
-test('AKOS exposes only declared repository evidence', () => {
-  const parsed = parseEcosystemManifest(manifest)
-  const akos = parsed.products.find((product) => product.id === 'akos')
-  assert.equal(akos.surfaces.stats, undefined)
+test('primary surfaces expose server-rendered ecosystem links', () => {
+  const docsLayout = readFileSync(join(REPO_ROOT, 'apps/docs-next/app/layout.tsx'), 'utf8')
+  const registryShowcase = readFileSync(join(REPO_ROOT, 'apps/registry/app/(home)/_components/ecosystem-showcase.tsx'), 'utf8')
+  assert.match(docsLayout, /<footer[\s\S]*aria-label="AgentsKit ecosystem"/)
+  assert.match(docsLayout, /FOOTER_PRODUCTS/)
+  assert.match(registryShowcase, /<nav aria-label="AgentsKit ecosystem"/)
+  assert.match(registryShowcase, /ecosystemPeers\.map/)
+  const registryMesh = readFileSync(join(REPO_ROOT, 'apps/registry/app/(home)/_components/ecosystem-mesh.tsx'), 'utf8')
+  assert.match(registryMesh, /ecosystem\.json/)
+  assert.doesNotMatch(registryMesh, /href:\s*['"]https:\/\//)
+  const landingEcosystem = readFileSync(join(REPO_ROOT, 'apps/landing/app/_components/ecosystem.tsx'), 'utf8')
+  assert.match(landingEcosystem, /ecosystem\.json/)
+  assert.match(landingEcosystem, /distributionClass === 'managed-service'/)
+})
 
-  const claims = buildEcosystemClaims(manifest, computeStats())
-  const akosClaims = claims.products.find((product) => product.productId === 'akos')
-  assert.deepEqual(akosClaims.source, {
-    type: 'repository',
-    repo: 'AgentsKit-io/agentskit-os',
-  })
-  assert.equal(akosClaims.verification, 'declared')
-  assert.deepEqual(akosClaims.claims, [])
+test('registry home exposes the real agent collection in JSON-LD', () => {
+  const registryHome = readFileSync(join(REPO_ROOT, 'apps/registry/app/(home)/page.tsx'), 'utf8')
+  assert.match(registryHome, /'@type': 'CollectionPage'/)
+  assert.match(registryHome, /'@type': 'ItemList'/)
+  assert.match(registryHome, /agents\.map\(\(agent, index\)/)
+  assert.match(registryHome, /encodeURIComponent\(agent\.id\)/)
+})
+
+test('docs home labels AKOS as an optional managed layer', () => {
+  const docsHome = readFileSync(join(REPO_ROOT, 'apps/docs-next/app/(home)/page.tsx'), 'utf8')
+  assert.match(docsHome, /AKOS · optional managed/)
+  assert.doesNotMatch(docsHome, /AKOS · production OS/)
+})
+
+test('the canonical ecosystem hub is included in the docs sitemap', () => {
+  const sitemap = readFileSync(join(REPO_ROOT, 'apps/docs-next/app/sitemap.ts'), 'utf8')
+  assert.match(sitemap, /\$\{SITE\}\/ecosystem/)
 })
 
 test('global navigation keeps seven-product order; bar can hide early-stage tools', () => {
@@ -91,7 +102,7 @@ test('global navigation keeps seven-product order; bar can hide early-stage tool
 
 test('the v1 compatibility projection remains aligned with v2 products', () => {
   const parsed = parseEcosystemManifest(manifest)
-  assert.deepEqual(parsed.properties.map((property) => property.id), ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge', 'code-review', 'akos'])
+  assert.deepEqual(parsed.properties.map((property) => property.id), ['agentskit', 'akos', 'playbook', 'registry'])
   assert.equal(parsed.properties[0].url, parsed.products[0].surfaces.home)
 })
 
@@ -106,21 +117,6 @@ test('duplicate product identities are rejected', () => {
   assert.throws(
     () => parseEcosystemManifest(changed((copy) => { copy.products[1].id = 'agentskit' })),
     /duplicates product id agentskit/,
-  )
-})
-
-test('software identity metadata rejects invalid dates, licenses, and duplicate keywords', () => {
-  assert.throws(
-    () => parseEcosystemManifest(changed((copy) => { copy.products[0].metadata.dateCreated = 'April 2, 2026' })),
-    /must use YYYY-MM-DD/,
-  )
-  assert.throws(
-    () => parseEcosystemManifest(changed((copy) => { copy.products[0].metadata.license = 'MIT License' })),
-    /must be an SPDX identifier/,
-  )
-  assert.throws(
-    () => parseEcosystemManifest(changed((copy) => { copy.products[0].metadata.keywords.push('ai AGENTS') })),
-    /duplicates another keyword/,
   )
 })
 
@@ -142,58 +138,6 @@ test('Fumadocs products require a documentation URL', () => {
   assert.throws(
     () => parseEcosystemManifest(changed((copy) => { delete copy.products[0].surfaces.docs })),
     /is required when documentation is fumadocs/,
-  )
-})
-
-test('showcase numbers reference canonical claim sources instead of literals', () => {
-  const parsed = parseEcosystemManifest(manifest)
-  const agentskit = parsed.products.find((product) => product.id === 'agentskit')
-  const registry = parsed.products.find((product) => product.id === 'registry')
-
-  assert.equal(agentskit.showcase.claimSource.url, agentskit.surfaces.stats)
-  assert.match(agentskit.showcase.proof, /\{\{packages\}\}/)
-  assert.deepEqual(agentskit.showcase.sales.metrics.map((metric) => metric.value), [
-    '{{catalog-providers}}',
-    '{{native-adapters}}',
-    '{{integrations}}',
-  ])
-  assert.equal(registry.showcase.claimSource.url, registry.surfaces.stats)
-  assert.equal(registry.showcase.sales.metric, '{{agents}}')
-  assert.match(registry.showcase.sales.capabilities.at(-1), /\{\{remaining-categories\}\}/)
-})
-
-test('showcase CTAs declare whether they open the product or its documentation', () => {
-  const parsed = parseEcosystemManifest(manifest)
-  const agentskit = parsed.products.find((product) => product.id === 'agentskit')
-  const registry = parsed.products.find((product) => product.id === 'registry')
-
-  assert.equal(agentskit.showcase.ctaSurface, 'docs')
-  assert.equal(registry.showcase.ctaSurface, 'home')
-  assert.throws(
-    () => parseEcosystemManifest(changed((copy) => { copy.products[1].showcase.ctaSurface = 'pricing' })),
-    /must be one of: home, docs/,
-  )
-})
-
-test('the generated showcase gives every visible product a recognizable mark', () => {
-  const bar = readFileSync(join(REPO_ROOT, 'apps/docs-next/public/ecosystem-bar.js'), 'utf8')
-
-  assert.match(bar, /var PRODUCT_ICONS =/)
-  assert.match(bar, /akx-product-mark/)
-  assert.match(bar, /PRODUCT_ICONS\[product\.id\]/)
-  assert.ok(manifest.products.filter((product) => product.navigation.showInBar).every((product) => {
-    return new RegExp(`['"]?${product.id}['"]?:`).test(bar)
-  }))
-})
-
-test('showcase templates reject unknown claims and mismatched origins', () => {
-  assert.throws(
-    () => parseEcosystemManifest(changed((copy) => { copy.products[0].showcase.proof = '{{missing}} packages' })),
-    /references unknown showcase claim missing/,
-  )
-  assert.throws(
-    () => parseEcosystemManifest(changed((copy) => { copy.products[0].showcase.claimSource.url = 'https://example.com/stats.json' })),
-    /must match the product stats surface/,
   )
 })
 
@@ -221,6 +165,15 @@ test('declared products cannot publish claims before verification', () => {
   const claims = buildEcosystemClaims(manifest, computeStats())
   claims.products[1].claims.push(structuredClone(claims.products[0].claims[0]))
   assert.throws(() => parseEcosystemClaims(claims, manifest), /must be empty until the product is verified/)
+})
+
+test('managed products use declaration sources without exposing a repository', () => {
+  const claims = buildEcosystemClaims(manifest, computeStats())
+  const akos = claims.products.find((product) => product.productId === 'akos')
+  assert.deepEqual(akos.source, {
+    type: 'declaration',
+    summary: 'Public commercial references only; never use private implementation as contribution evidence.',
+  })
 })
 
 test('claim evidence must belong to the product repository', () => {

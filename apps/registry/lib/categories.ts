@@ -89,6 +89,13 @@ export function categoryJsonLd(category: string, agents: RegistryAgentSummary[])
     name: `${label} AI agents`,
     description: blurb,
     url,
+    breadcrumb: {
+      '@type': 'BreadcrumbList',
+      itemListElement: [
+        { '@type': 'ListItem', position: 1, name: 'Agents', item: `${SITE}/agents` },
+        { '@type': 'ListItem', position: 2, name: label, item: url },
+      ],
+    },
     mainEntity: {
       '@type': 'ItemList',
       numberOfItems: agents.length,

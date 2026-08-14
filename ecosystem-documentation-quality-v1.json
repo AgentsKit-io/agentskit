@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "id": "agentskit.ecosystem.documentation-quality",
   "version": 1,
+  "revision": "1.1",
   "status": "stable",
   "productIds": [
     "agentskit",
@@ -69,6 +70,27 @@
       "documentation": "doc-bridge",
       "chat": "agentskit-chat",
       "enterprise": "akos"
+    }
+  },
+  "productOverrides": {
+    "registry": {
+      "machineSurfaces": ["llmsTxt", "llmsFullTxt", "rawSources", "forAgents"],
+      "narrative": {
+        "readmeWordBudget": { "minimum": 150, "maximum": 1800 }
+      },
+      "discovery": {
+        "requireGlobalProductMesh": false,
+        "requireSiblingDestinations": false,
+        "contextualHooks": {}
+      }
+    },
+    "code-review": {
+      "machineSurfaces": ["rawSources", "forAgents"],
+      "discovery": {
+        "requireGlobalProductMesh": false,
+        "requireSiblingDestinations": false,
+        "contextualHooks": {}
+      }
     }
   }
 }

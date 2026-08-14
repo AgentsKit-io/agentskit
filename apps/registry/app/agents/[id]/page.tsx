@@ -106,6 +106,7 @@ export default async function AgentPage({ params }: { params: Promise<{ id: stri
   const related = relatedAgents(agent, index, 4)
   const summary = index.find((item) => item.id === agent.id)
   const install = `npx agentskit add ${agent.id}`
+  const category = categoryMeta(agent.category)
   const quickStart = `import { openai } from '@agentskit/adapters'
 import { ${fn} } from './agents/${agent.id}/agent'
 
@@ -120,21 +121,31 @@ const result = await agent.run('Describe your task here')
 console.log(result.content)`
   const jsonLd = {
     '@context': 'https://schema.org',
-    '@type': 'SoftwareApplication',
-    name: agent.title,
-    description: agent.description,
-    applicationCategory: 'DeveloperApplication',
-    operatingSystem: 'Cross-platform',
-    softwareVersion: agent.version ?? '1.0.0',
-    license: agent.license ?? 'MIT',
-    url: `https://registry.agentskit.io/agents/${agent.id}`,
+    '@graph': [
+      {
+        '@type': 'SoftwareApplication',
+        name: agent.title,
+        description: agent.description,
+        applicationCategory: 'DeveloperApplication',
+        operatingSystem: 'Cross-platform',
+        softwareVersion: agent.version ?? '1.0.0',
+        license: agent.license ?? 'MIT',
+        url: `https://registry.agentskit.io/agents/${agent.id}`,
+      },
+      {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Agents', item: 'https://registry.agentskit.io/agents' },
+          { '@type': 'ListItem', position: 2, name: category.label, item: `https://registry.agentskit.io/categories/${agent.category}` },
+          { '@type': 'ListItem', position: 3, name: agent.title, item: `https://registry.agentskit.io/agents/${agent.id}` },
+        ],
+      },
+    ],
   }
-  const category = categoryMeta(agent.category)
-
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-10 sm:px-6 sm:py-14">
       <AgentAnalytics agentId={agent.id} category={agent.category} reviewed={Boolean(agent.validation)} runnable={Boolean(summary?.runnable)} />
-      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />
       <nav aria-label="Breadcrumb" className="flex items-center gap-2 text-sm text-ak-graphite">
         <Link href="/agents" className="hover:text-ak-blue">Agents</Link><span>/</span>
         <Link href={`/categories/${agent.category}`} className="hover:text-ak-blue">{category.label}</Link><span>/</span>

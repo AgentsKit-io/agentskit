@@ -59,9 +59,9 @@
         },
         {
           "id": "catalog-providers",
-          "value": 184,
+          "value": 140,
           "noun": "providers",
-          "conservativeFloor": 180,
+          "conservativeFloor": 140,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",
@@ -71,9 +71,9 @@
         },
         {
           "id": "catalog-models",
-          "value": 6297,
+          "value": 5162,
           "noun": "models",
-          "conservativeFloor": 6000,
+          "conservativeFloor": 5000,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",
@@ -83,9 +83,9 @@
         },
         {
           "id": "skills",
-          "value": 22,
+          "value": 21,
           "noun": "ready-made skills",
-          "conservativeFloor": 22,
+          "conservativeFloor": 21,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",
@@ -106,9 +106,9 @@
         },
         {
           "id": "recipes",
-          "value": 71,
+          "value": 69,
           "noun": "recipes",
-          "conservativeFloor": 71,
+          "conservativeFloor": 69,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",
@@ -177,8 +177,8 @@
     {
       "productId": "akos",
       "source": {
-        "type": "repository",
-        "repo": "AgentsKit-io/agentskit-os"
+        "type": "declaration",
+        "summary": "Public commercial references only; never use private implementation as contribution evidence."
       },
       "verification": "declared",
       "claims": []

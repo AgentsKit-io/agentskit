@@ -1,10 +1,9 @@
 import evals from '@/data/evals.json'
-import { canonicalUrl } from '@/lib/canonical-url'
 
 export const metadata = {
   title: 'Adapter evals — AgentsKit.js',
   description: 'Side-by-side accuracy and latency scores per adapter. Seed data today; regenerated from @agentskit/eval in CI tomorrow.',
-  alternates: { canonical: canonicalUrl('/evals') },
+  alternates: { canonical: 'https://www.agentskit.io/evals' },
 }
 
 type Suite = {

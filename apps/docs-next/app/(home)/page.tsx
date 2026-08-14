@@ -16,11 +16,13 @@ import { agentsKitIdentity } from '@/lib/reference-journey'
 export const metadata = {
   title: `${agentsKitIdentity.name}.js — ${agentsKitIdentity.promise}`,
   description: `${agentsKitIdentity.promise} A composable TypeScript foundation for runtime, tools, memory, RAG, and chat interfaces.`,
+  alternates: { canonical: 'https://www.agentskit.io' },
   openGraph: {
     title: 'AgentsKit.js — Ship AI agents in JavaScript',
     description:
       'Composable TypeScript foundation: runtime, tools, memory, RAG, adapters, and headless UI bindings. Zero lock-in. Under 10KB core.',
     type: 'website',
+    url: 'https://www.agentskit.io',
   },
   twitter: {
     card: 'summary_large_image',
@@ -365,7 +367,7 @@ function SiteFooter() {
         { text: 'Libs', href: '/' },
         { text: 'Registry · agents', href: 'https://registry.agentskit.io' },
         { text: 'Playbook · standards', href: 'https://playbook.agentskit.io' },
-        { text: 'AKOS · production OS', href: 'https://akos.agentskit.io' },
+        { text: 'AKOS · optional managed', href: 'https://akos.agentskit.io' },
       ],
     },
     {

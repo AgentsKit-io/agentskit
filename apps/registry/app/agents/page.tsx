@@ -16,10 +16,28 @@ export const metadata: Metadata = {
 
 export default async function AgentsPage() {
   const agents = await getRegistryIndex()
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'CollectionPage',
+    name: 'Browse AI agents',
+    description: 'Search, qualify, compare, and copy ready-to-use AgentsKit agents into your project.',
+    url: 'https://registry.agentskit.io/agents',
+    mainEntity: {
+      '@type': 'ItemList',
+      numberOfItems: agents.length,
+      itemListElement: agents.map((agent, index) => ({
+        '@type': 'ListItem',
+        position: index + 1,
+        url: `https://registry.agentskit.io/agents/${agent.id}`,
+        name: agent.title,
+      })),
+    },
+  }
 
   return (
     <HomeLayout {...baseOptions}>
       <main className="w-full">
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />
         <header className="border-b border-ak-border px-4 py-12 sm:px-6 sm:py-16">
           <div className="mx-auto max-w-5xl">
             <p className="font-mono text-xs uppercase tracking-wider text-ak-blue">AgentsKit Registry</p>

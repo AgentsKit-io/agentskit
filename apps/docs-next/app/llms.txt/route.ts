@@ -1,25 +1,38 @@
 import { source } from '@/lib/source'
 import { counts } from '@/lib/ecosystem-stats'
 import ecosystem from '@/lib/ecosystem.json'
-import { formatEcosystemLlmsBlock } from '@agentskit/doc-bridge'
 
 export const dynamic = 'force-static'
 
 const SITE = 'https://www.agentskit.io'
 
-/** Shared seven-product mesh from ecosystem.json (canonical template). */
+/** Sibling-property discovery block — generated from the canonical ecosystem.json. */
 function ecosystemLines(): string[] {
-  return formatEcosystemLlmsBlock({
-    products: ecosystem.products as Array<{
-      id: string
-      name: string
-      role?: string
-      promise: string
-      maturity?: string
-      surfaces: { home?: string; docs?: string; llms?: string }
-    }>,
-    currentProductId: 'agentskit',
-  })
+  const out = ['## The AgentsKit ecosystem', '']
+  const products = ecosystem.products as Array<{
+    id: string
+    name: string
+    promise: string
+    public: boolean
+    distributionClass: string
+    surfaces: { home?: string; llms?: string }
+  }>
+  for (const product of products.filter((item) => item.public)) {
+    if (product.id === 'agentskit' || !product.surfaces.home) continue
+    const llms = product.surfaces.llms ? ` llms.txt: ${product.surfaces.llms}` : ''
+    out.push(`- [${product.name}](${product.surfaces.home}): ${product.promise}${llms}`)
+  }
+  out.push('')
+  const managed = products.filter((product) => product.distributionClass === 'managed-service' && product.surfaces.home)
+  if (managed.length > 0) {
+    out.push('## Optional managed layer', '')
+    for (const product of managed) {
+      const llms = product.surfaces.llms ? ` llms.txt: ${product.surfaces.llms}` : ''
+      out.push(`- [${product.name}](${product.surfaces.home}): ${product.promise} This layer is optional and is not part of the open-source package catalog.${llms}`)
+    }
+    out.push('')
+  }
+  return out
 }
 
 export function GET() {
@@ -60,11 +73,7 @@ export function GET() {
     '',
     `> Foundation library for JavaScript agents. Small packages, one contract, everything composes — UI bindings (${counts.frameworkBindings} frameworks), autonomous runtimes, tools, skills, memory, RAG, observability, evaluation, sandboxing. Product chat UI is AgentsKit Chat (sibling), not this monorepo alone.`,
     '',
-    `Six stable contracts (Adapter, Tool, Skill, Memory, Retriever, Runtime). ${counts.packages} packages under \`@agentskit/*\`, UI bindings for ${counts.frameworkBindings} frameworks, and a zero-dependency foundation under the 10 KB gzip budget. Install only what you need and swap providers, models, tools, memory, RAG, and interfaces without rewriting the agent.`,
-    '',
-    '## Access and commercial model',
-    '',
-    ecosystem.positioning.commercialBoundary,
+    `Six stable contracts (Adapter, Tool, Skill, Memory, Retriever, Runtime). ${counts.packages} packages under \`@agentskit/*\`. Install what you need. Zero-dep foundation under the 10 KB gzip budget.`,
     '',
     '## For agents',
     '',
@@ -85,12 +94,6 @@ export function GET() {
 
   lines.push('## Optional')
   lines.push('')
-  lines.push(`- [Ecosystem hub](${SITE}/ecosystem): canonical product mesh and package matrix`)
-  lines.push(`- [Integrations hub](${SITE}/integrations): verified connectors for TypeScript AI agents`)
-  lines.push(`- [Recipes hub](${SITE}/recipes): copy-paste implementation patterns for production agents`)
-  lines.push(`- [Publications hub](${SITE}/publications): first-party releases and engineering deep dives`)
-  lines.push(`- [Ecosystem resources](${SITE}/resources): verified tools, MCP registries, publications, directories, trust signals, and contributor surfaces`)
-  lines.push(`- [Public resources JSON](${SITE}/resources.json): machine-readable projection of the curated resource catalog`)
   lines.push(`- [Full markdown index](${SITE}/llms-full.txt): complete text of every docs page in one file`)
   lines.push(`- [Sitemap](${SITE}/sitemap.xml): machine-readable URL list`)
   lines.push(`- [GitHub](https://github.com/AgentsKit-io/agentskit): source + issues`)

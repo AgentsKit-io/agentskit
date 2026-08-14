@@ -2,6 +2,7 @@ const MATURITY = new Set(['planning', 'alpha', 'beta', 'stable', 'deprecated'])
 const DOCUMENTATION_MODES = new Set(['fumadocs', 'repository'])
 const CHAT_MODES = new Set(['agentschat', 'custom', 'none'])
 const SALES_KINDS = new Set(['integration-stack', 'registry-install', 'human-agent', 'standards-flow', 'knowledge-bridge', 'enterprise-control'])
+const DISTRIBUTION_CLASSES = new Set(['open-source', 'managed-service'])
 const SURFACE_KEYS = ['home', 'docs', 'llms', 'stats']
 /** v1 properties array tracks the full seven-product set (expanded from original four). */
 /** Deprecated v1 four-product shim — products[] is the seven-product catalog. */
@@ -67,14 +68,36 @@ export function parseEcosystemManifest(input) {
     if (ids.has(id)) fail(`${path}.id`, `duplicates product id ${id}`)
     ids.add(id)
 
+    if (typeof product.public !== 'boolean') fail(`${path}.public`, 'must be a boolean')
+    enumValue(product.distributionClass, DISTRIBUTION_CLASSES, `${path}.distributionClass`)
+    const expectedPublic = product.distributionClass === 'open-source'
+    if (product.public !== expectedPublic) {
+      fail(`${path}.public`, `must be ${expectedPublic} for ${product.distributionClass}`)
+    }
+    if (product.aliases !== undefined) {
+      if (!Array.isArray(product.aliases)) fail(`${path}.aliases`, 'must be an array')
+      const aliases = new Set()
+      for (const [aliasIndex, alias] of product.aliases.entries()) {
+        string(alias, `${path}.aliases[${aliasIndex}]`)
+        if (alias === id) fail(`${path}.aliases[${aliasIndex}]`, 'cannot equal the canonical product id')
+        if (aliases.has(alias)) fail(`${path}.aliases[${aliasIndex}]`, `duplicates alias ${alias}`)
+        aliases.add(alias)
+      }
+    }
+
     string(product.name, `${path}.name`)
     string(product.shortName, `${path}.shortName`)
     string(product.kind, `${path}.kind`)
     string(product.role, `${path}.role`)
     string(product.promise, `${path}.promise`)
     enumValue(product.maturity, MATURITY, `${path}.maturity`)
-    const repo = string(product.repo, `${path}.repo`)
-    if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo)) fail(`${path}.repo`, 'must use owner/name')
+    if (product.public) {
+      const repo = string(product.repo, `${path}.repo`)
+      if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo)) fail(`${path}.repo`, 'must use owner/name')
+    } else if (product.repo !== null) {
+      fail(`${path}.repo`, 'must be null for a managed product without public source')
+    }
+    if (!product.public) string(product.distributionPolicy, `${path}.distributionPolicy`)
     const accent = string(product.accent, `${path}.accent`)
     if (!/^#[0-9A-Fa-f]{6}$/.test(accent)) fail(`${path}.accent`, 'must be a six-digit hex color')
 
@@ -244,7 +267,9 @@ export function buildEcosystemClaims(manifestInput, stats) {
     productId: product.id,
     source: product.surfaces.stats
       ? { type: 'endpoint', url: product.surfaces.stats }
-      : { type: 'repository', repo: product.repo },
+      : product.repo
+        ? { type: 'repository', repo: product.repo }
+        : { type: 'declaration', summary: product.distributionPolicy },
     verification: product.id === 'agentskit' ? 'verified' : 'declared',
     claims: product.id === 'agentskit'
       ? CLAIM_DEFINITIONS.map(([id, noun, statsPath, summary]) => {
@@ -297,15 +322,18 @@ export function parseEcosystemClaims(input, manifestInput) {
     const manifestProduct = manifest.products.find((candidate) => candidate.id === productId)
 
     const source = object(product.source, `${path}.source`)
-    enumValue(source.type, new Set(['endpoint', 'repository']), `${path}.source.type`)
+    enumValue(source.type, new Set(['endpoint', 'repository', 'declaration']), `${path}.source.type`)
     if (source.type === 'endpoint') {
       url(source.url, `${path}.source.url`)
       if (source.url !== manifestProduct.surfaces.stats) {
         fail(`${path}.source.url`, 'must match the product stats surface')
       }
-    } else {
+    } else if (source.type === 'repository') {
       string(source.repo, `${path}.source.repo`)
       if (source.repo !== manifestProduct.repo) fail(`${path}.source.repo`, 'must match the product repository')
+    } else {
+      string(source.summary, `${path}.source.summary`)
+      if (manifestProduct.public) fail(`${path}.source.type`, 'public products must use an endpoint or repository source')
     }
 
     if (!Array.isArray(product.claims)) fail(`${path}.claims`, 'must be an array')

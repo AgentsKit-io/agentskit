@@ -41,13 +41,13 @@ test('three-command demos reference generated claims only where declared', () =>
 })
 
 test('launch timing remains blocked while readiness is not ready', () => {
+  const dir = mkdtempSync(join(tmpdir(), 'ak-readiness-missing-'))
   const overall = readReadinessOverall(
-    REPO_ROOT,
+    dir,
     'artifacts/ecosystem-readiness/latest.json',
     'blocked',
   )
-  // Artifact may be missing on a clean branch — treat missing as blocked.
-  assert.notEqual(overall, 'ready')
+  assert.equal(overall, 'blocked')
 
   const pkg = JSON.parse(
     readFileSync(join(REPO_ROOT, 'docs/ecosystem/launch/launch-package.json'), 'utf8'),

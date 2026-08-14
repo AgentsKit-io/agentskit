@@ -60,6 +60,13 @@ describe('category helpers', () => {
     expect(categoryJsonLd('coding', matching)).toMatchObject({
       '@type': 'CollectionPage',
       url: categoryUrl('coding'),
+      breadcrumb: {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { position: 1, name: 'Agents', item: 'https://registry.agentskit.io/agents' },
+          { position: 2, name: 'Coding', item: 'https://registry.agentskit.io/categories/coding' },
+        ],
+      },
       mainEntity: {
         '@type': 'ItemList',
         numberOfItems: 2,

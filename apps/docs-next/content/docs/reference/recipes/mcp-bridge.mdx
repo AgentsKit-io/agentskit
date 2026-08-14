@@ -4,8 +4,8 @@ description: Consume any MCP server as AgentsKit tools, or expose your AgentsKit
 ---
 
 Model Context Protocol (MCP) is the emerging open standard for
-connecting LLM hosts (Claude Desktop, Cursor, Zed, IDEs) to external
-tool servers. `@agentskit/tools/mcp` ships a minimal bidirectional
+connecting LLM hosts (Claude Desktop, Cursor, Codex, OpenClaw, Zed, IDEs)
+to external tool servers. `@agentskit/tools/mcp` ships a minimal bidirectional
 bridge — consume MCP servers *as* AgentsKit tools, and expose your
 AgentsKit tools *to* any MCP host.
 
@@ -49,6 +49,62 @@ await client.close()
 `ToolDefinition` — schemas pass through, errors propagate, results
 are flattened from the MCP `content[]` array into a single string.
 
+## Run the published AgentsKit MCP server
+
+For a ready-made stdio server, install `@agentskit/mcp` instead of writing a
+transport wrapper:
+
+```bash
+npx -y @agentskit/mcp --tools fetch,search
+```
+
+Use the smallest tool set that fits the task. `filesystem`, `sqlite`, and
+especially `shell` are opt-in capabilities and should not be enabled by a
+copy-paste recipe without a scoped root or explicit permission.
+
+### Claude Desktop and Cursor
+
+Use this JSON in Claude Desktop or `.cursor/mcp.json` in a project:
+
+```json
+{
+  "mcpServers": {
+    "agentskit": {
+      "command": "npx",
+      "args": ["-y", "@agentskit/mcp", "--tools", "fetch,search"]
+    }
+  }
+}
+```
+
+### Codex
+
+Codex uses TOML configuration, not the JSON wrapper above:
+
+```toml
+[mcp_servers.agentskit]
+command = "npx"
+args = ["-y", "@agentskit/mcp", "--tools", "fetch,search"]
+```
+
+### OpenClaw
+
+OpenClaw can save and probe the stdio server directly:
+
+```bash
+openclaw mcp add agentskit \
+  --command npx \
+  --arg -y \
+  --arg @agentskit/mcp \
+  --arg --tools \
+  --arg fetch,search
+openclaw mcp doctor agentskit --probe
+```
+
+These recipes prove host configuration, not marketplace inclusion or product
+adoption. Pi is intentionally not listed as a native MCP host here; its
+integration path requires a separate extension or package.
+
 ## Publish AgentsKit tools as an MCP server
 
 ```ts
@@ -70,7 +126,7 @@ createMcpServer({
 ```
 
 Your process now speaks MCP on stdin/stdout. Point Claude Desktop,
-Cursor, or any MCP host at the binary and your AgentsKit tools show
+Cursor, Codex, OpenClaw, or any MCP host at the binary and your AgentsKit tools show
 up as first-class.
 
 ## Transports

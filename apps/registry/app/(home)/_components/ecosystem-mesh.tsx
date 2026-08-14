@@ -1,44 +1,25 @@
 import Link from 'next/link'
+import ecosystem from '../../../../../ecosystem.json'
 
-/** Canonical peer products (Registry is the current surface — not listed). */
-export const ecosystemPeers = [
-  {
-    name: 'AgentsKit',
-    role: 'foundation',
-    href: 'https://www.agentskit.io',
-    action: 'Build and extend agents with core, tools, memory, and RAG.',
-  },
-  {
-    name: 'AgentsKit Chat',
-    role: 'experience',
-    href: 'https://chat.agentskit.io',
-    action: 'Deliver a native chat experience over the same runtime.',
-  },
-  {
-    name: 'Agents Playbook',
-    role: 'discipline',
-    href: 'https://playbook.agentskit.io',
-    action: 'Apply engineering and delivery standards for agent work.',
-  },
-  {
-    name: 'Doc Bridge',
-    role: 'understanding',
-    href: 'https://doc-bridge.agentskit.io/',
-    action: 'Keep documentation handoffs agent-ready and deterministic.',
-  },
-  {
-    name: 'Code Review',
-    role: 'verification',
-    href: 'https://github.com/AgentsKit-io/code-review-cli',
-    action: 'Review agent-generated diffs before merge.',
-  },
-  {
-    name: 'AKOS',
-    role: 'operation',
-    href: 'https://akos.agentskit.io',
-    action: 'Operate with enterprise controls and governance.',
-  },
-] as const
+const PEER_ACTIONS: Record<string, string> = {
+  agentskit: 'Build and extend agents with core, tools, memory, and RAG.',
+  'agentskit-chat': 'Deliver a native chat experience over the same runtime.',
+  playbook: 'Apply engineering and delivery standards for agent work.',
+  'doc-bridge': 'Keep documentation handoffs agent-ready and deterministic.',
+  'code-review': 'Review agent-generated diffs before merge.',
+  akos: 'Evaluate managed operations when production governance calls for it. The open-source stack works without AKOS.',
+}
+
+/** Canonical peer products derived from the root ecosystem manifest. */
+export const ecosystemPeers = ecosystem.products
+  .filter((product) => product.id !== 'registry' && (product.public || product.distributionClass === 'managed-service'))
+  .sort((a, b) => a.navigation.order - b.navigation.order)
+  .map((product) => ({
+    name: product.name,
+    role: product.distributionClass === 'managed-service' ? 'optional · managed' : product.role,
+    href: product.surfaces.docs ?? product.surfaces.home,
+    action: PEER_ACTIONS[product.id] ?? product.promise,
+  }))
 
 export function EcosystemMesh({
   headingId = 'continue-ecosystem',

@@ -74,9 +74,64 @@ function evidence(overrides = {}) {
 test('the committed profile preserves the strict seven-product contract', () => {
   const parsed = parseDocumentationQualityProfile(profile)
   assert.equal(parsed.productIds.length, 7)
+  assert.equal(parsed.revision, '1.1')
   assert.equal(parsed.docBridge.requireExactCoverage, true)
   assert.equal(parsed.docBridge.allowExceptions, false)
   assert.deepEqual(parsed.discovery.ecosystemComponentExcludedProducts, ['akos'])
+})
+
+test('product overrides can define a CLI surface without relaxing the global default', () => {
+  const cliProfile = structuredClone(profile)
+  cliProfile.productOverrides = {
+    registry: {
+      narrative: { readmeWordBudget: { minimum: 150, maximum: 1800 } },
+      discovery: { requireGlobalProductMesh: false, requireSiblingDestinations: false, contextualHooks: {} },
+    },
+    'code-review': {
+      machineSurfaces: ['rawSources', 'forAgents'],
+      discovery: { requireGlobalProductMesh: false, contextualHooks: {} },
+    },
+  }
+  const parsed = parseDocumentationQualityProfile(cliProfile)
+  assert.deepEqual(parsed.productOverrides['code-review'].machineSurfaces, ['rawSources', 'forAgents'])
+
+  const input = evidence({
+    productId: 'code-review',
+    repo: 'AgentsKit-io/code-review-cli',
+    machineSurfaces: {
+      rawSources: ['README.md'],
+      forAgents: 'agents/code-review/agent.ts',
+    },
+    narrative: {
+      readme: 'README.md',
+      readmeWordCount: 900,
+      humanDocs: 'README.md',
+      forAgents: 'agents/code-review/agent.ts',
+      keyJourneys: [
+        { id: 'one', path: 'README.md', wordCount: 500, visualDecision: 'runnable-example', evidence: ['README.md'] },
+        { id: 'two', path: 'README.md', wordCount: 500, visualDecision: 'runnable-example', evidence: ['README.md'] },
+        { id: 'three', path: 'README.md', wordCount: 500, visualDecision: 'runnable-example', evidence: ['README.md'] },
+      ],
+    },
+    discovery: {
+      globalProductIds: [],
+      siblingProductIds: [],
+      contextualHooks: [],
+    },
+  })
+  const result = evaluateDocumentationQuality(cliProfile, input)
+  assert.equal(result.findings.some((finding) => finding.id === 'missing-machine-surface:llmsTxt'), false)
+  assert.equal(result.findings.some((finding) => finding.id === 'global-products'), false)
+  assert.equal(result.findings.some((finding) => finding.id.startsWith('contextual-hook:')), false)
+
+  const registryInput = evidence({
+    productId: 'registry',
+    repo: 'AgentsKit-io/agentskit-registry',
+    narrative: { ...evidence().narrative, readmeWordCount: 166 },
+    discovery: { globalProductIds: [], siblingProductIds: [], contextualHooks: [] },
+  })
+  const registryResult = evaluateDocumentationQuality(cliProfile, registryInput)
+  assert.equal(registryResult.findings.some((finding) => finding.id === 'readme-budget'), false)
 })
 
 test('canonical identities reject product and repository drift', () => {

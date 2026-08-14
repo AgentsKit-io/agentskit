@@ -46,6 +46,7 @@ const GATES = [
   ['ecosystem count drift', 'check-count-drift.mjs'],
   ['ecosystem claims freshness', 'gen-ecosystem-claims.mjs', ['--check']],
   ['ecosystem registry sync', 'sync-ecosystem.mjs', ['--check']],
+  ['semantic authority', 'check-semantic-authority.mjs'],
   ['product-chat Chat 0.4 adoption', 'check-product-chat-adoption.mjs'],
   ['canonical package doc versions', 'check-doc-package-versions.mjs'],
   ['product-chat adoption tests', 'product-chat-adoption.test.mjs', [], 'vitest'],

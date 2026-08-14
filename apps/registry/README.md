@@ -35,7 +35,7 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) and [LICENSE](../../LICENSE).
 - [AgentsKit](https://www.agentskit.io)
 - [Registry](https://registry.agentskit.io)
 - [Playbook](https://playbook.agentskit.io)
-- [AKOS](https://akos.agentskit.io)
+- [AKOS · optional managed](https://akos.agentskit.io)
 
 **Tags:** `agentskit` · `typescript`
 
