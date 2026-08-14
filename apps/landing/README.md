@@ -45,7 +45,7 @@ Profile: <code>public-app</code>
 
 Standalone Next.js 16 landing page for AgentsKit — issue [#230](https://github.com/AgentsKit-io/agentskit/issues/230) (P0.19).
 
-Independent from `apps/docs-next`. Eventual target: apex `agentskit.io` for landing, `docs.agentskit.io` (or `agentskit.io/docs`) for the Fumadocs site. Until that DNS migration ships, all `LINKS.docs` URLs point at the current `www.agentskit.io/docs` paths.
+Independent from `apps/docs-next`. Current deployment evidence shows that the existing Vercel project `agentskit-doc`, rooted at `apps/docs-next`, serves the public apex and `/docs`; this standalone app is not currently mapped to `www.agentskit.io`. Treat `apps/docs-next` as the production owner until routing is deliberately changed. All `LINKS.docs` URLs use the `/docs` path.
 
 ## Stack
 

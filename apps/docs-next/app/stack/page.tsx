@@ -4,6 +4,7 @@ export const metadata = {
   title: 'Stack builder — pick your AgentsKit',
   description:
     'Choose framework, provider, memory, and capabilities. Get install command + starter code. Your choices sync with every framework tab across the docs.',
+  alternates: { canonical: 'https://www.agentskit.io/stack' },
 }
 
 export default function StackPage() {

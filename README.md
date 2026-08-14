@@ -6,7 +6,7 @@
 
 **The agent toolkit JavaScript actually deserves.**
 
-A 10 KB core budget. Twenty-five focused packages. Zero lock-in. Six formal contracts that make every adapter, tool, skill, memory, retriever, and runtime substitutable.
+A 10 KB core budget. 22 focused packages. Zero lock-in. Six formal contracts that make every adapter, tool, skill, memory, retriever, and runtime substitutable.
 
 [![npm](https://img.shields.io/npm/v/@agentskit/react?label=npm)](https://www.npmjs.com/package/@agentskit/react)
 [![bundle](https://img.shields.io/bundlephobia/minzip/@agentskit/react?label=react%20bundle)](https://bundlephobia.com/package/@agentskit/react)
@@ -22,7 +22,7 @@ A 10 KB core budget. Twenty-five focused packages. Zero lock-in. Six formal cont
 
 **Tags:** `agentskit` · `ai-agents` · `typescript` · `javascript` · `llm` · `agent-runtime` · `tools` · `rag`
 
-[**Documentation**](https://www.agentskit.io) · [**Discord**](https://discord.gg/zx6z2p4jVb) · [**Roadmap**](https://github.com/orgs/AgentsKit-io/projects/1) · [**Manifesto**](./MANIFESTO.md) · [**Origin**](./ORIGIN.md) · [**Architecture**](./docs/architecture/adrs)
+[**Documentation**](https://www.agentskit.io/docs) · [**Discord**](https://discord.gg/zx6z2p4jVb) · [**Roadmap**](https://github.com/orgs/AgentsKit-io/projects/1) · [**Manifesto**](./MANIFESTO.md) · [**Origin**](./ORIGIN.md) · [**Architecture**](./docs/architecture/adrs)
 
 <a href="https://www.producthunt.com/products/agentskit?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-agentskit" target="_blank" rel="noopener noreferrer"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1125539&theme=light" alt="AgentsKit — The most complete ecosystem to create AI agents | Product Hunt" width="250" height="54" /></a>
 
@@ -40,7 +40,7 @@ A 10 KB core budget. Twenty-five focused packages. Zero lock-in. Six formal cont
 
 ## Verified proof
 
-The current [evidence ledger](./ecosystem-claims.json), generated from repository sources by [`scripts/compute-stats.mjs`](./scripts/compute-stats.mjs), verifies **25 published packages**, **7 framework bindings**, **25 native adapters**, **50 integrations**, **140 catalog providers**, **5,000+ catalog models**, **21 ready-made skills**, **17 memory backends**, and **69 recipes**.
+The current [evidence ledger](./ecosystem-claims.json), generated from repository sources by [`scripts/compute-stats.mjs`](./scripts/compute-stats.mjs), verifies **22 published packages**, **7 framework bindings**, **25 native adapters**, **50 integrations**, **140 catalog providers**, **5,000+ catalog models**, **21 ready-made skills**, **17 memory backends**, and **69 recipes**.
 
 - The core has zero runtime dependencies and a CI-enforced **10 KB gzipped budget**.
 - Every public package has an explicit stability tier, test floor, README, human guide, and agent handoff.
@@ -70,16 +70,16 @@ build from composable parts, start faster with ready agents, follow production p
 | **AgentsKit** | **This repo** | The agent building blocks: adapters, runtime, tools, memory, RAG, UI, evals, observability, and MCP |
 | **Registry** | [registry.agentskit.io →](https://registry.agentskit.io) | Ready-to-use agents, tools, and templates you can install instead of starting from blank |
 | **Playbook** | [playbook.agentskit.io →](https://playbook.agentskit.io) | Field-tested patterns for designing, evaluating, securing, and operating agents |
-| **AKOS** | [akos.agentskit.io →](https://akos.agentskit.io) | The enterprise operating system for deploying, governing, observing, and scaling agents |
+| **AKOS · optional managed** | [akos.agentskit.io →](https://akos.agentskit.io) | Optional managed operations for teams that need additional production controls; not required for the open-source stack |
 
-The path is simple: compose with **AgentsKit**, learn the patterns in the **Playbook**, reuse agents from the **Registry**, and graduate to **AKOS** when you need enterprise operations.
+The path is simple: compose with **AgentsKit**, learn the patterns in the **Playbook**, reuse agents from the **Registry**, and evaluate **AKOS** only when you need optional managed operations.
 
 ```mermaid
 flowchart LR
   Playbook["Playbook<br/>best practices"]
   Registry["Registry<br/>ready agents"]
   AK["AgentsKit<br/>composable JS packages"]
-  AKOS["AKOS<br/>enterprise agent OS"]
+  AKOS["AKOS<br/>optional managed operations"]
 
   Playbook --> AK
   Registry --> AK
@@ -230,7 +230,7 @@ Pick what you need. Every package works alone. Combinations work without glue co
 | [`@agentskit/angular`](packages/angular) | Angular binding with Signals + RxJS | alpha |
 | [`@agentskit/cli`](packages/cli) | CLI: chat, init, run, ai, dev, doctor | beta |
 | [`@agentskit/templates`](packages/templates) | Authoring toolkit for scaffolding skills, tools, adapters | alpha |
-| [`@agentskit/mcp`](packages/mcp) | Expose AgentsKit tools as an MCP server (Claude Desktop, Cursor, Windsurf) | beta |
+| [`@agentskit/mcp`](packages/mcp) | Expose AgentsKit tools as an MCP server (Claude Desktop, Cursor, Windsurf) | alpha |
 | [`@agentskit/integrations`](packages/integrations) | Plug-and-play service integrations (one descriptor → tools, connectors, triggers, auth) | beta |
 | [`@agentskit/tools/validation`](packages/validation) | Runtime JSON-Schema validation of tool-call arguments (Ajv) | beta |
 | [`@agentskit/eval/braintrust`](packages/eval-braintrust) | Braintrust scoring pipeline + CI regression alerts | beta |
@@ -299,7 +299,7 @@ The full public API fits in **under 2,000 tokens**. Paste the [agent-friendly re
 
 ```mermaid
 graph TD
-    core["@agentskit/core\n(zero deps · 5 KB)"]
+    core["@agentskit/core\n(zero deps · under 10 KB gzip budget)"]
 
     adapters["@agentskit/adapters\nOpenAI · Anthropic · Gemini\nOllama · DeepSeek · Grok"]
     react["@agentskit/react\nReact hooks + headless UI"]

@@ -1,52 +1,38 @@
-import { LINKS } from './links'
-
-/** Append ecosystem UTM params to a cross-property URL. Pure; no analytics dep. */
-function withUtm(url: string, medium: string): string {
-  try {
-    const u = new URL(url)
-    u.searchParams.set('utm_source', 'agentskit')
-    u.searchParams.set('utm_medium', medium)
-    u.searchParams.set('utm_campaign', 'ecosystem')
-    return u.toString()
-  } catch {
-    return url
-  }
-}
+import { EcoLink } from './tracked-link'
+import ecosystem from '../../lib/ecosystem.json'
 
 type Property = {
+  id: string
   name: string
   goal: string
   body: string
-  href?: string
-  here?: boolean
+  href: string
+  here: boolean
+  managed: boolean
 }
 
-const PROPERTIES: Property[] = [
-  {
-    name: 'AgentsKit',
-    goal: 'Build an agent from scratch',
-    body: 'The toolkit: core, adapters, runtime, tools, memory, RAG, and UI for every framework.',
-    here: true,
-  },
-  {
-    name: 'Registry',
-    goal: 'Drop in a ready-made agent',
-    body: 'The shadcn for agents — copy-paste, installable agents.',
-    href: LINKS.registry,
-  },
-  {
-    name: 'AKOS',
-    goal: 'Run agents in production',
-    body: 'AgentsKit OS — the operating system for AI agents in production. Managed cloud or self-hosted.',
-    href: LINKS.akos,
-  },
-  {
-    name: 'Playbook',
-    goal: 'Learn enterprise best practices',
-    body: 'Methodology and patterns for building production agents.',
-    href: LINKS.playbook,
-  },
-]
+const GOALS: Record<string, string> = {
+  agentskit: 'Build an agent from scratch',
+  registry: 'Drop in a ready-made agent',
+  'agentskit-chat': 'Deliver an agent experience',
+  playbook: 'Apply production practices',
+  'doc-bridge': 'Make documentation executable',
+  'code-review': 'Verify a change before merge',
+  akos: 'Optional managed operations',
+}
+
+const PROPERTIES: Property[] = ecosystem.products
+  .filter((product) => product.public || product.distributionClass === 'managed-service')
+  .sort((a, b) => a.navigation.order - b.navigation.order)
+  .map((product) => ({
+    id: product.id,
+    name: product.name,
+    goal: GOALS[product.id] ?? product.role,
+    body: product.promise,
+    href: product.surfaces.docs ?? product.surfaces.home ?? '#',
+    here: product.id === 'agentskit',
+    managed: product.distributionClass === 'managed-service',
+  }))
 
 const cardCls =
   'flex flex-col rounded-xl border border-[var(--color-border)] bg-[var(--color-bg-soft)] p-6 transition hover:border-[var(--color-accent)]'
@@ -56,8 +42,8 @@ export function Ecosystem() {
     <section className="mx-auto max-w-6xl px-6 py-20">
       <h2 className="mb-3 text-center text-3xl font-semibold tracking-tight">One ecosystem, one job each</h2>
       <p className="mx-auto mb-12 max-w-2xl text-center text-[var(--color-fg-soft)]">
-        Grab what you want from AgentsKit, follow best practices in the Playbook, drop in ready-made
-        agents from the Registry, and run them in production on AKOS.
+        Pick the open-source product by the job you need next. AKOS is a separate optional managed layer, not a
+        requirement for using the family.
       </p>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         {PROPERTIES.map(p => {
@@ -68,6 +54,11 @@ export function Ecosystem() {
               </p>
               <h3 className="mb-2 text-lg font-semibold">
                 {p.name}
+                {p.managed && (
+                  <span className="ml-2 align-middle text-xs font-normal text-[var(--color-success)]">
+                    optional managed
+                  </span>
+                )}
                 {p.here && (
                   <span className="ml-2 align-middle text-xs font-normal text-[var(--color-success)]">
                     you&apos;re here
@@ -75,19 +66,23 @@ export function Ecosystem() {
                 )}
               </h3>
               <p className="text-sm leading-relaxed text-[var(--color-fg-soft)]">{p.body}</p>
-              {p.href && (
+              {!p.here && p.href && (
                 <span className="mt-4 text-sm font-medium text-[var(--color-accent)]">Visit {p.name} →</span>
               )}
             </>
           )
-          return p.href ? (
-            <a key={p.name} href={withUtm(p.href, 'ecosystem-section')} className={cardCls}>
-              {inner}
-            </a>
+          return p.here ? (
+            <div key={p.id} className={cardCls}>{inner}</div>
           ) : (
-            <div key={p.name} className={cardCls}>
+            <EcoLink
+              key={p.id}
+              href={p.href}
+              target={p.id}
+              placement="ecosystem-section"
+              className={cardCls}
+            >
               {inner}
-            </div>
+            </EcoLink>
           )
         })}
       </div>

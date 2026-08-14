@@ -31,18 +31,45 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/mcp) · [agent hand
 
 <!-- readme-command:install -->
 ```bash
-npx @agentskit/mcp --tools fetch,search
+npx -y @agentskit/mcp --tools fetch,search
 ```
 
-Then point your MCP host at the command. Example (Claude Desktop config):
+Then point your MCP host at the command. Claude Desktop, Cursor, Codex, and
+OpenClaw all launch the same stdio server with host-specific configuration.
+
+Claude Desktop or Cursor (`mcpServers` / `.cursor/mcp.json`):
 
 ```json
 {
   "mcpServers": {
-    "agentskit": { "command": "npx", "args": ["@agentskit/mcp", "--tools", "fetch,search"] }
+    "agentskit": { "command": "npx", "args": ["-y", "@agentskit/mcp", "--tools", "fetch,search"] }
   }
 }
 ```
+
+Codex (`~/.codex/config.toml`):
+
+```toml
+[mcp_servers.agentskit]
+command = "npx"
+args = ["-y", "@agentskit/mcp", "--tools", "fetch,search"]
+```
+
+OpenClaw:
+
+```bash
+openclaw mcp add agentskit \
+  --command npx \
+  --arg -y \
+  --arg @agentskit/mcp \
+  --arg --tools \
+  --arg fetch,search
+openclaw mcp doctor agentskit --probe
+```
+
+Verify the server in each host with its MCP tool-list command before enabling
+additional tools. Pi does not have a native MCP host path in this recipe; use
+a Pi extension or package when a dedicated integration is available.
 
 ## Flags
 

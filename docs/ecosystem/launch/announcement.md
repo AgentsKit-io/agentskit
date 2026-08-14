@@ -15,7 +15,7 @@ AgentsKit is one ecosystem for building, starting, shipping, guiding, reviewing,
 - Guide work with **Doc Bridge**
 - Apply discipline with the **Playbook**
 - Verify with **Code Review**
-- Operate on **AgentsKit OS**
+- Consider **AKOS** for optional managed operations
 
 Numbers in public posts must come from `ecosystem-claims.json` (generated), not from memory.
 

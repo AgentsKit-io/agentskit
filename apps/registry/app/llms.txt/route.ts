@@ -9,6 +9,8 @@ interface EcosystemProduct {
   readonly id: string
   readonly name: string
   readonly promise: string
+  readonly public: boolean
+  readonly distributionClass: string
   readonly surfaces: {
     readonly docs: string
     readonly llms?: string
@@ -29,6 +31,8 @@ function ecosystemLine(product: EcosystemProduct): string {
 
 export async function GET() {
   const agents = await getRegistryIndex()
+  const publicProducts = ecosystemProducts.filter((product) => product.public)
+  const managedProducts = ecosystemProducts.filter((product) => product.distributionClass === 'managed-service')
   const lines = [
     '# AgentsKit Registry',
     '',
@@ -36,8 +40,14 @@ export async function GET() {
     '',
     '## AgentsKit ecosystem',
     '',
-    ...ecosystemProducts.map(ecosystemLine),
+    ...publicProducts.map(ecosystemLine),
     '',
+    ...(managedProducts.length > 0 ? [
+      '## Optional managed layer',
+      '',
+      ...managedProducts.map((product) => `${ecosystemLine(product)} This layer is optional and is not part of the open-source package catalog.`),
+      '',
+    ] : []),
     '## Documentation',
     '',
     ...source.getPages().map((page) => `- [${page.data.title}](${SITE}${page.url}): ${page.data.description ?? ''}`),

@@ -6,6 +6,7 @@ export const metadata = {
   title: 'Learn AgentsKit — interactive tutorial',
   description:
     'Ship a streaming chat, swap providers, register tools, and persist memory. Runs in your browser. Progress saved locally.',
+  alternates: { canonical: 'https://www.agentskit.io/learn' },
 }
 
 export default function LearnIndex() {

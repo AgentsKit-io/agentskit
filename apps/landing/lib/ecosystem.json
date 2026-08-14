@@ -8,6 +8,8 @@
   "products": [
     {
       "id": "agentskit",
+      "public": true,
+      "distributionClass": "open-source",
       "name": "AgentsKit",
       "shortName": "AgentsKit",
       "kind": "library",
@@ -57,6 +59,8 @@
     },
     {
       "id": "registry",
+      "public": true,
+      "distributionClass": "open-source",
       "name": "AgentsKit Registry",
       "shortName": "Registry",
       "kind": "registry",
@@ -104,6 +108,8 @@
     },
     {
       "id": "agentskit-chat",
+      "public": true,
+      "distributionClass": "open-source",
       "name": "AgentsKit Chat",
       "shortName": "Chat",
       "kind": "framework",
@@ -155,6 +161,8 @@
     },
     {
       "id": "playbook",
+      "public": true,
+      "distributionClass": "open-source",
       "name": "Agents Playbook",
       "shortName": "Playbook",
       "kind": "methodology",
@@ -207,6 +215,8 @@
     },
     {
       "id": "doc-bridge",
+      "public": true,
+      "distributionClass": "open-source",
       "name": "Doc Bridge",
       "shortName": "Doc Bridge",
       "kind": "developer-tool",
@@ -258,6 +268,8 @@
     },
     {
       "id": "code-review",
+      "public": true,
+      "distributionClass": "open-source",
       "name": "AgentsKit Code Review",
       "shortName": "Code Review",
       "kind": "developer-tool",
@@ -288,24 +300,28 @@
     },
     {
       "id": "akos",
-      "name": "AgentsKit OS",
+      "public": false,
+      "distributionClass": "managed-service",
+      "aliases": ["AgentsKit OS"],
+      "name": "AKOS",
       "shortName": "AKOS",
-      "kind": "product",
+      "kind": "managed-service",
       "role": "operation",
-      "promise": "Run and govern agents in production.",
+      "promise": "Add optional managed operations when production governance calls for it.",
       "maturity": "stable",
-      "repo": "AgentsKit-io/agentskit-os",
+      "repo": null,
+      "distributionPolicy": "Public commercial references only; never use private implementation as contribution evidence.",
       "accent": "#34D399",
       "showcase": {
         "stage": "Operate",
-        "headline": "Run and govern agents in production.",
-        "detail": "Add orchestration, governance, and operational control when your system needs it.",
-        "proof": "Orchestration · governance · control",
+        "headline": "Optional managed operations for agents.",
+        "detail": "A managed layer for teams that need additional operational controls. AgentsKit can be used without it.",
+        "proof": "Optional · managed operations",
         "sales": {
           "kind": "enterprise-control",
-          "headline": "The enterprise control plane for agents.",
-          "metric": "Enterprise",
-          "metricLabel": "operations and governance",
+          "headline": "Managed operations for production agents.",
+          "metric": "Optional",
+          "metricLabel": "managed layer",
           "logos": [
             { "id": "logs", "label": "Logs" },
             { "id": "approvals", "label": "Approvals" },
@@ -315,13 +331,12 @@
           "capabilities": ["Logs", "Approvals", "RBAC", "Policies", "Tracing", "Costs"],
           "steps": ["Agent requests a protected action", "RBAC and policy gates evaluate", "Human approves; logs and trace persist"]
         },
-        "cta": "Explore AgentsKit OS"
+        "cta": "Evaluate managed operations"
       },
       "surfaces": {
         "home": "https://akos.agentskit.io",
         "docs": "https://akos.agentskit.io/docs",
         "llms": "https://akos.agentskit.io/llms.txt",
-        "stats": "https://akos.agentskit.io/api/stats.json",
         "documentation": "fumadocs",
         "chat": "none"
       },
@@ -348,16 +363,15 @@
     },
     {
       "id": "akos",
-      "name": "AgentsKit OS",
+      "name": "AKOS",
       "barLabel": "AKOS",
       "domain": "akos.agentskit.io",
       "url": "https://akos.agentskit.io",
-      "repo": "AgentsKit-io/agentskit-os",
-      "tagline": "Run and govern agents in production.",
-      "kind": "product",
+      "repo": null,
+      "tagline": "Add optional managed operations when production governance calls for it.",
+      "kind": "managed-service",
       "accent": "#34D399",
-      "llms": "https://akos.agentskit.io/llms.txt",
-      "stats": "https://akos.agentskit.io/api/stats.json"
+      "llms": "https://akos.agentskit.io/llms.txt"
     },
     {
       "id": "playbook",

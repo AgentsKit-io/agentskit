@@ -1,73 +1,80 @@
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { lists, counts } from '@/lib/ecosystem-stats'
+import ecosystem from '@/lib/ecosystem.json'
+import { JsonLd } from '@/components/seo/json-ld'
 
 export const metadata: Metadata = {
   title: 'Ecosystem — products and packages',
   description:
-    'AgentsKit product mesh (seven properties) plus the monorepo package matrix — stability, integrations, providers, models, adapters, and skills.',
+    'AgentsKit open-source product family plus an optional managed operations layer and the monorepo package matrix.',
+  alternates: { canonical: 'https://www.agentskit.io/ecosystem' },
 }
 
-/** Canonical seven-product mesh (roles from ecosystem.json). */
-const PRODUCT_MESH: ReadonlyArray<{
-  id: string
-  name: string
-  role: string
-  href: string
-  blurb: string
-  youAreHere?: boolean
-}> = [
-  {
-    id: 'agentskit',
-    name: 'AgentsKit',
-    role: 'foundation',
-    href: 'https://www.agentskit.io',
-    blurb: 'Foundation library — runtime, tools, memory, RAG, and UI bindings.',
-    youAreHere: true,
-  },
-  {
-    id: 'registry',
-    name: 'Registry',
-    role: 'starting-point',
-    href: 'https://registry.agentskit.io',
-    blurb: 'Copy ready-to-use agent source into your repo.',
-  },
-  {
-    id: 'agentskit-chat',
-    name: 'AgentsKit Chat',
-    role: 'experience',
-    href: 'https://chat.agentskit.io',
-    blurb: 'Opinionated product chat layer over AgentsKit primitives.',
-  },
-  {
-    id: 'playbook',
-    name: 'Playbook',
-    role: 'discipline',
-    href: 'https://playbook.agentskit.io',
-    blurb: 'Engineering standards for agent-built software.',
-  },
-  {
-    id: 'doc-bridge',
-    name: 'Doc Bridge',
-    role: 'understanding',
-    href: 'https://agentskit-io.github.io/doc-bridge/',
-    blurb: 'Human↔agent documentation handoffs.',
-  },
-  {
-    id: 'code-review',
-    name: 'Code Review',
-    role: 'verification',
-    href: 'https://github.com/AgentsKit-io/code-review-cli',
-    blurb: 'Focused model review before merge.',
-  },
-  {
-    id: 'akos',
-    name: 'AKOS',
-    role: 'operation',
-    href: 'https://akos.agentskit.io',
-    blurb: 'Enterprise operation and governance.',
-  },
-]
+const PRODUCT_BLURBS: Record<string, string> = {
+  agentskit: 'Foundation library — runtime, tools, memory, RAG, and UI bindings.',
+  registry: 'Copy ready-to-use agent source into your repo.',
+  'agentskit-chat': 'Opinionated product chat layer over AgentsKit primitives.',
+  playbook: 'Engineering standards for agent-built software.',
+  'doc-bridge': 'Human↔agent documentation handoffs.',
+  'code-review': 'Focused model review before merge.',
+  akos: 'Optional managed operations for teams that need additional production controls. AgentsKit can be used without it.',
+}
+
+/** Product mesh derived from the canonical ecosystem manifest. */
+const PRODUCT_MESH = ecosystem.products
+  .filter((product) => product.surfaces.home)
+  .map((product) => ({
+    id: product.id,
+    name: product.name,
+    role: product.id === 'akos' ? 'optional · managed' : product.role,
+    href: product.surfaces.home ?? product.surfaces.docs ?? '#',
+    blurb: PRODUCT_BLURBS[product.id] ?? product.promise,
+    managed: product.distributionClass === 'managed-service',
+    youAreHere: product.id === 'agentskit',
+  }))
+
+const ECOSYSTEM_JSON_LD = {
+  '@context': 'https://schema.org',
+  '@graph': [
+    {
+      '@type': 'CollectionPage',
+      '@id': 'https://www.agentskit.io/ecosystem#page',
+      name: 'AgentsKit ecosystem — products and packages',
+      description: 'The AgentsKit open-source product family plus an optional managed operations layer.',
+      url: 'https://www.agentskit.io/ecosystem',
+    },
+    {
+      '@type': 'ItemList',
+      '@id': 'https://www.agentskit.io/ecosystem#products',
+      name: 'AgentsKit ecosystem products',
+      numberOfItems: PRODUCT_MESH.length,
+      itemListElement: PRODUCT_MESH.map((product, index) => {
+        const manifestProduct = ecosystem.products.find((candidate) => candidate.id === product.id)
+        const managed = manifestProduct?.distributionClass === 'managed-service'
+        return {
+          '@type': 'ListItem',
+          position: index + 1,
+          item: managed
+            ? {
+                '@type': 'Service',
+                name: product.name,
+                description: product.blurb,
+                serviceType: 'Managed operations',
+                url: product.href,
+              }
+            : {
+                '@type': 'SoftwareSourceCode',
+                name: product.name,
+                description: product.blurb,
+                codeRepository: manifestProduct?.repo ? `https://github.com/${manifestProduct.repo}` : undefined,
+                url: product.href,
+              },
+        }
+      }),
+    },
+  ],
+}
 
 const STABILITY_RANK: Record<string, number> = {
   stable: 0,
@@ -110,15 +117,17 @@ export default function EcosystemPage() {
 
   return (
     <main className="mx-auto w-full max-w-5xl px-6 py-16 sm:py-24">
+      <JsonLd data={ECOSYSTEM_JSON_LD} />
       <header className="max-w-2xl">
         <p className="font-mono text-sm text-ak-blue">/ecosystem</p>
         <h1 className="mt-3 font-display text-4xl font-semibold tracking-tight text-ak-foam sm:text-5xl">
           Products and packages
         </h1>
         <p className="mt-5 text-lg leading-relaxed text-ak-graphite">
-          Two layers, one ecosystem: the <strong className="font-medium text-ak-foam">seven products</strong> you
-          pick by job, and the <strong className="font-medium text-ak-foam">monorepo packages</strong> that power
-          the foundation toolkit on this site.
+          Two layers, one ecosystem: the <strong className="font-medium text-ak-foam">open-source product family</strong>
+          you pick by job, plus <strong className="font-medium text-ak-foam">optional managed operations</strong> when
+          production governance calls for it. The <strong className="font-medium text-ak-foam">monorepo packages</strong>
+          power the AgentsKit foundation.
         </p>
       </header>
 
@@ -135,7 +144,7 @@ export default function EcosystemPage() {
               <Link
                 href={p.href}
                 className={`flex h-full flex-col rounded-lg border p-5 transition hover:border-ak-blue ${
-                  p.youAreHere ? 'border-ak-blue/50 bg-ak-surface' : 'border-ak-border bg-ak-surface'
+                  p.managed ? 'border-ak-green/40 bg-ak-surface' : p.youAreHere ? 'border-ak-blue/50 bg-ak-surface' : 'border-ak-border bg-ak-surface'
                 }`}
               >
                 <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ak-graphite">

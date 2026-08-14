@@ -26,6 +26,9 @@ jobs:
         with:
           node-version: 22
 
+      - name: Verify semantic SEO surfaces
+        run: node scripts/check-live-semantic-authority.mjs
+
       - name: IndexNow
         env:
           INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}

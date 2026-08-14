@@ -1,5 +1,5 @@
 /**
- * AgentsKit ecosystem bar — one shared top nav across the seven products.
+ * AgentsKit ecosystem bar — shared discovery for the public family and optional managed layer.
  * Embed on any site with: <script src="https://www.agentskit.io/ecosystem-bar.js" defer></script>
  *
  * Self-contained, zero deps. Detects the current property by hostname and
@@ -238,19 +238,19 @@
     },
     {
       "id": "akos",
-      "name": "AgentsKit OS",
+      "name": "AKOS",
       "shortName": "AKOS",
       "accent": "#34D399",
       "href": "https://akos.agentskit.io/docs",
       "stage": "Operate",
-      "headline": "Run and govern agents in production.",
-      "detail": "Add orchestration, governance, and operational control when your system needs it.",
-      "proof": "Orchestration · governance · control",
+      "headline": "Optional managed operations for agents.",
+      "detail": "A managed layer for teams that need additional operational controls. AgentsKit can be used without it.",
+      "proof": "Optional · managed operations",
       "sales": {
         "kind": "enterprise-control",
-        "headline": "The enterprise control plane for agents.",
-        "metric": "Enterprise",
-        "metricLabel": "operations and governance",
+        "headline": "Managed operations for production agents.",
+        "metric": "Optional",
+        "metricLabel": "managed layer",
         "logos": [
           {
             "id": "logs",
@@ -283,7 +283,7 @@
           "Human approves; logs and trace persist"
         ]
       },
-      "cta": "Explore AgentsKit OS"
+      "cta": "Evaluate managed operations"
     }
   ]
   // ecobar:showcase-end

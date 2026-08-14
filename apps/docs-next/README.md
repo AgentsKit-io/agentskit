@@ -43,7 +43,7 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) and [LICENSE](../../LICENSE).
 
 Profile: <code>public-app</code>
 
-**Spike**: Fumadocs-based documentation site, evaluated as the replacement for the existing Docusaurus app at `apps/docs`.
+Canonical Fumadocs site for AgentsKit. The existing Vercel project `agentskit-doc` is rooted at `apps/docs-next` and currently serves `www.agentskit.io`, including the apex homepage, `/docs`, learning, blog, ecosystem, and machine-readable documentation surfaces. The standalone `apps/landing` app is not currently mapped to the public domain.
 
 Tracked by [#238](https://github.com/AgentsKit-io/agentskit/issues/238) in the Phase 0 roadmap.
 
@@ -62,7 +62,7 @@ Tailwind v4 + `fumadocs-ui/css/preset.css` + neutral theme.
 
 ## Why parallel to `apps/docs`
 
-Spike, not migration. The existing Docusaurus site keeps serving traffic at the current URL. Once this Fumadocs spike is approved, a follow-up PR migrates remaining content and the `apps/docs` directory is replaced.
+The legacy Docusaurus app at `apps/docs` is not the canonical documentation surface. The current deployment has one public owner for `/` and `/docs` in this app; `apps/landing` remains a standalone alternate surface until routing is deliberately changed.
 
 ## Run locally
 

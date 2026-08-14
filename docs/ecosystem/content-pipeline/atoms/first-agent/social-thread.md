@@ -8,7 +8,7 @@ Why it exists: New developers need a zero-key path to feel the AgentsKit runtime
 3. `npx tsx agent.ts`
 
 3/ Claims (generated, not hand-typed):
-- 25 packages
+- 22 packages
 - 7 framework bindings
 
 4/ Next products:
