@@ -15,7 +15,7 @@ them from Claude Desktop, Cursor, Windsurf, or any MCP host.
 ## Verified proof
 
 - Package metadata and tests live under `packages/mcp/`.
-- Package guide: https://www.agentskit.io/docs/packages/mcp
+- Package guide: https://www.agentskit.io/docs/agents/tools/mcp
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -27,7 +27,7 @@ them from Claude Desktop, Cursor, Windsurf, or any MCP host.
 - **Playbook**: use [playbook.agentskit.io](https://playbook.agentskit.io) for safe tool design, approvals, and agent handoff patterns.
 - **AKOS**: run the same model with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/packages/mcp) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [package guide](https://www.agentskit.io/docs/agents/tools/mcp) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 <!-- readme-command:install -->
 ```bash
