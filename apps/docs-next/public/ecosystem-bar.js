@@ -28,6 +28,26 @@
       "shortName": "AgentsKit",
       "accent": "#2EA043",
       "href": "https://www.agentskit.io/docs",
+      "claimSource": {
+        "url": "https://www.agentskit.io/api/stats.json",
+        "claims": {
+          "packages": {
+            "path": "counts.packages"
+          },
+          "core-size-kb-gzip": {
+            "path": "coreSizeKbGzip"
+          },
+          "catalog-providers": {
+            "path": "counts.catalogProviders"
+          },
+          "native-adapters": {
+            "path": "counts.nativeAdapters"
+          },
+          "integrations": {
+            "path": "counts.integrations"
+          }
+        }
+      },
       "stage": "Build",
       "headline": "One foundation. Every layer stays yours.",
       "detail": "Compose runtime, adapters, tools, memory, RAG, and UI without glue code or lock-in.",
@@ -69,6 +89,21 @@
       "shortName": "Registry",
       "accent": "#58A6FF",
       "href": "https://registry.agentskit.io/docs",
+      "claimSource": {
+        "url": "https://registry.agentskit.io/r/index.json",
+        "claims": {
+          "agents": {
+            "path": "agents",
+            "aggregate": "length"
+          },
+          "remaining-categories": {
+            "path": "agents",
+            "aggregate": "distinct",
+            "field": "category",
+            "subtract": 5
+          }
+        }
+      },
       "stage": "Discover",
       "headline": "Shadcn-like agents. Installed as source.",
       "detail": "Find a working agent, copy its source into your project, and change every line.",
