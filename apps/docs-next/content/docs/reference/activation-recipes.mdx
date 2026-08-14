@@ -1,0 +1,101 @@
+---
+title: Activation recipes
+description: Problem-led quickstarts that move from a first AgentsKit result to a second ecosystem component.
+---
+
+Activation recipes are short, executable paths for discovering AgentsKit through a result. Each path names at least two components, shows an observable output, and ends with one next action.
+
+These recipes are local and advisory. They do not publish, merge, comment on pull requests, or change the Registry or distribution ledger.
+
+## Start here: first result without a provider key
+
+Install the runtime packages and run the existing first-agent fixture:
+
+```bash
+npm install @agentskit/core @agentskit/runtime tsx
+cat > agent.ts <<'EOF'
+import type { AdapterFactory } from '@agentskit/core'
+import { createRuntime } from '@agentskit/runtime'
+
+const localAdapter: AdapterFactory = {
+  createSource(request) {
+    const task = request.messages.at(-1)?.content ?? 'your task'
+    return {
+      async *stream() {
+        yield { type: 'text' as const, content: `Agent ready. I received: ${task}` }
+        yield { type: 'done' as const }
+      },
+      abort() {},
+    }
+  },
+}
+
+const runtime = createRuntime({ adapter: localAdapter })
+const result = await runtime.run('Plan my first production agent')
+console.log(result.content)
+EOF
+npx tsx agent.ts
+```
+
+Expected output includes:
+
+```text
+Agent ready. I received: Plan my first production agent
+```
+
+Continue with Chat so the same task becomes interactive:
+
+```bash
+npx @agentskit/chat-cli init ./chat-app --renderer react --yes
+```
+
+The first success metric is `time_to_first_result`. The next-component metric is `second_component_completion`.
+
+## Prioritized catalog
+
+| Priority | Recipe | Components | Observable result | Next action | Metric |
+|---|---|---|---|---|---|
+| R0 | First result without a key | AgentsKit + Chat | runtime output and Chat task | open Chat starter | `time_to_first_result` |
+| R0 | Registry agent in Chat | Registry + AgentsKit + Chat | copied `research` agent runs in the same renderer | ask the docs-first question | `second_component_completion` |
+| R0 | Docs-first local Chat | Playbook + Chat + Doc Bridge | verified answer with a source path | resolve the handoff | `deterministic_answer_rate` |
+| R0 | Handoff before editing | Doc Bridge + Playbook | `startHere`, edit roots, and checks | run advisory review | `handoff_resolution_rate` |
+| R0 | Review before merge | Code Review + Playbook + Doc Bridge | advisory findings and a separate gate | add cited retrieval | `review_completion_rate` |
+| R1 | Cited document answer | AgentsKit + Chat + Doc Bridge | answer with a valid source ID | compare adapters | `citation_coverage` |
+| R1 | Provider swap evaluation | AgentsKit + Playbook + Code Review | fixture invariants preserved across adapters | run bounded agent | `provider_swap_pass_rate` |
+| R1 | Sandboxed code agent | AgentsKit + Registry + Code Review | bounded run, cleanup, and review result | return to zero-key start | `sandboxed_run_success` |
+
+## Component handoffs
+
+### Registry to Chat
+
+```bash
+npx agentskit add research
+```
+
+Run the copied source-owned agent with a local adapter or cassette, then keep the Chat renderer unchanged. A provider key is optional for the fixture path.
+
+### Docs-first handoff
+
+```bash
+npx ak-docs demo --text
+npx agents-playbook list
+npx agents-playbook run no-any named-exports --cwd "$PWD"
+```
+
+The result should expose a source path, edit root, checks, and an explicit unresolved path for questions outside the deterministic fixture.
+
+### Review before merge
+
+```bash
+npx @agentskit/code-review --help
+```
+
+For a real local review, use an already configured provider, keep the review advisory, limit files, and preserve the report. Do not grant the recipe permission to comment, merge, release, or publish.
+
+## Quality contract
+
+- Every recipe has two or more named components.
+- Every recipe has a copy/paste command, expected output, CTA, and metric.
+- The zero-key path remains available without Ollama or another provider.
+- Analytics may record only recipe identity, component, CTA, duration, and safe error codes.
+- Model suggestions remain advisory; deterministic checks and human review retain authority.
