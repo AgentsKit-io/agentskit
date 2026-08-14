@@ -31,7 +31,7 @@ Docs: [package guide](https://www.agentskit.io/docs/packages/mcp) · [agent hand
 
 <!-- readme-command:install -->
 ```bash
-npx -y @agentskit/mcp --tools fetch,search
+npx -y @agentskit/mcp@0.3.9 --tools fetch,search
 ```
 
 Then point your MCP host at the command. Claude Desktop, Cursor, Codex, and
@@ -42,7 +42,7 @@ Claude Desktop or Cursor (`mcpServers` / `.cursor/mcp.json`):
 ```json
 {
   "mcpServers": {
-    "agentskit": { "command": "npx", "args": ["-y", "@agentskit/mcp", "--tools", "fetch,search"] }
+    "agentskit": { "command": "npx", "args": ["-y", "@agentskit/mcp@0.3.9", "--tools", "fetch,search"] }
   }
 }
 ```
@@ -52,7 +52,7 @@ Codex (`~/.codex/config.toml`):
 ```toml
 [mcp_servers.agentskit]
 command = "npx"
-args = ["-y", "@agentskit/mcp", "--tools", "fetch,search"]
+args = ["-y", "@agentskit/mcp@0.3.9", "--tools", "fetch,search"]
 ```
 
 OpenClaw:
@@ -61,7 +61,7 @@ OpenClaw:
 openclaw mcp add agentskit \
   --command npx \
   --arg -y \
-  --arg @agentskit/mcp \
+  --arg @agentskit/mcp@0.3.9 \
   --arg --tools \
   --arg fetch,search
 openclaw mcp doctor agentskit --probe
@@ -99,7 +99,7 @@ Run a registry agent server-side and expose it as a single MCP tool — the host
 delegates a specialized job instead of orchestrating primitives:
 
 ```bash
-npx @agentskit/mcp --agents legal-contract-reviewer,fintech-kyc-screener --provider openai
+npx @agentskit/mcp@0.3.9 --agents legal-contract-reviewer,fintech-kyc-screener --provider openai
 ```
 
 `--provider` covers the first-class adapters (openai, anthropic, gemini, ollama)
