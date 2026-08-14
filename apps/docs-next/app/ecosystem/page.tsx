@@ -3,12 +3,12 @@ import Link from 'next/link'
 import { lists, counts } from '@/lib/ecosystem-stats'
 import ecosystem from '@/lib/ecosystem.json'
 import { JsonLd } from '@/components/seo/json-ld'
+import { canonicalUrl } from '@/lib/canonical-url'
 
 export const metadata: Metadata = {
   title: 'Ecosystem — products and packages',
-  description:
-    'AgentsKit open-source product family plus an optional managed operations layer and the monorepo package matrix.',
-  alternates: { canonical: 'https://www.agentskit.io/ecosystem' },
+  description: ecosystem.positioning.metaDescription,
+  alternates: { canonical: canonicalUrl('/ecosystem') },
 }
 
 const PRODUCT_BLURBS: Record<string, string> = {
@@ -41,35 +41,38 @@ const ECOSYSTEM_JSON_LD = {
       '@type': 'CollectionPage',
       '@id': 'https://www.agentskit.io/ecosystem#page',
       name: 'AgentsKit ecosystem — products and packages',
-      description: 'The AgentsKit open-source product family plus an optional managed operations layer.',
+      description: `${ecosystem.positioning.canonicalDescription} ${ecosystem.positioning.commercialBoundary}`,
       url: 'https://www.agentskit.io/ecosystem',
     },
     {
       '@type': 'ItemList',
       '@id': 'https://www.agentskit.io/ecosystem#products',
       name: 'AgentsKit ecosystem products',
+      breadcrumb: {
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', url: canonicalUrl('/') },
+          { '@type': 'ListItem', position: 2, name: 'Ecosystem', url: canonicalUrl('/ecosystem') },
+        ],
+      },
       numberOfItems: PRODUCT_MESH.length,
       itemListElement: PRODUCT_MESH.map((product, index) => {
         const manifestProduct = ecosystem.products.find((candidate) => candidate.id === product.id)
         const managed = manifestProduct?.distributionClass === 'managed-service'
+        const structuredType = product.kind === 'methodology' ? 'CreativeWork' : 'SoftwareApplication'
         return {
           '@type': 'ListItem',
           position: index + 1,
-          item: managed
-            ? {
-                '@type': 'Service',
-                name: product.name,
-                description: product.blurb,
-                serviceType: 'Managed operations',
-                url: product.href,
-              }
-            : {
-                '@type': 'SoftwareSourceCode',
-                name: product.name,
-                description: product.blurb,
-                codeRepository: manifestProduct?.repo ? `https://github.com/${manifestProduct.repo}` : undefined,
-                url: product.href,
-              },
+          item: {
+            ...(managed ? { '@type': 'Service' } : { '@type': structuredType }),
+            name: product.name,
+            description: product.blurb,
+            isAccessibleForFree: !managed,
+            url: product.href,
+            ...(managed
+              ? { serviceType: 'Managed operations' }
+              : { codeRepository: manifestProduct?.repo ? `https://github.com/${manifestProduct.repo}` : undefined }),
+          },
         }
       }),
     },

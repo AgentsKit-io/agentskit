@@ -73,7 +73,11 @@ export function GET() {
     '',
     `> Foundation library for JavaScript agents. Small packages, one contract, everything composes — UI bindings (${counts.frameworkBindings} frameworks), autonomous runtimes, tools, skills, memory, RAG, observability, evaluation, sandboxing. Product chat UI is AgentsKit Chat (sibling), not this monorepo alone.`,
     '',
-    `Six stable contracts (Adapter, Tool, Skill, Memory, Retriever, Runtime). ${counts.packages} packages under \`@agentskit/*\`. Install what you need. Zero-dep foundation under the 10 KB gzip budget.`,
+    `Six stable contracts (Adapter, Tool, Skill, Memory, Retriever, Runtime). ${counts.packages} packages under \`@agentskit/*\`, UI bindings for ${counts.frameworkBindings} frameworks, and a zero-dependency foundation under the 10 KB gzip budget. Install only what you need and swap providers, models, tools, memory, RAG, and interfaces without rewriting the agent.`,
+    '',
+    '## Access and commercial model',
+    '',
+    ecosystem.positioning.commercialBoundary,
     '',
     '## For agents',
     '',
@@ -94,6 +98,12 @@ export function GET() {
 
   lines.push('## Optional')
   lines.push('')
+  lines.push(`- [Ecosystem hub](${SITE}/ecosystem): canonical product mesh and package matrix`)
+  lines.push(`- [Integrations hub](${SITE}/integrations): verified connectors for TypeScript AI agents`)
+  lines.push(`- [Recipes hub](${SITE}/recipes): copy-paste implementation patterns for production agents`)
+  lines.push(`- [Publications hub](${SITE}/publications): first-party releases and engineering deep dives`)
+  lines.push(`- [Ecosystem resources](${SITE}/resources): verified tools, MCP registries, publications, directories, trust signals, and contributor surfaces`)
+  lines.push(`- [Public resources JSON](${SITE}/resources.json): machine-readable projection of the curated resource catalog`)
   lines.push(`- [Full markdown index](${SITE}/llms-full.txt): complete text of every docs page in one file`)
   lines.push(`- [Sitemap](${SITE}/sitemap.xml): machine-readable URL list`)
   lines.push(`- [GitHub](https://github.com/AgentsKit-io/agentskit): source + issues`)
