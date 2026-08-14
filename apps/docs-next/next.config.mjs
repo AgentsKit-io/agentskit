@@ -67,6 +67,37 @@ const DOC_REDIRECTS = [
   { source: '/docs/contribute', destination: '/docs/reference/contribute', permanent: true },
 ]
 
+// Search Console URL-level 404 fixes captured on 2026-08-13. These are
+// explicit destinations verified on the live site; crawler garbage and sample
+// file paths are intentionally not redirected.
+const GSC_404_REDIRECTS = [
+  { source: '/docs/durable', destination: '/docs/agents/durable', permanent: true },
+  { source: '/docs/reference/packages/catalog', destination: '/docs/reference/packages/adapters', permanent: true },
+  { source: '/docs/agents/pr-reviewer', destination: '/docs/agents/skills/pr-reviewer', permanent: true },
+  { source: '/docs/agents/sql-analyst', destination: '/docs/agents/skills/sql-analyst', permanent: true },
+  { source: '/docs/api/rag/classes', destination: '/docs/api/rag', permanent: true },
+  { source: '/docs/api/runtime/interfaces/ChatSurfaceChannel.md', destination: '/docs/api/runtime/interfaces/ChatSurfaceChannel', permanent: true },
+  { source: '/docs/api/memory/type-aliases/SqliteOpener.md', destination: '/docs/api/memory/type-aliases/SqliteOpener', permanent: true },
+  { source: '/docs/api/rag/type-aliases/RagErrorCode.md', destination: '/docs/api/rag/type-aliases/RagErrorCode', permanent: true },
+  { source: '/docs/api/memory/interfaces/MemoryVectorStoreLike.md', destination: '/docs/api/memory/interfaces/MemoryVectorStoreLike', permanent: true },
+  { source: '/docs/api/observability/type-aliases/TimelineRow.md', destination: '/docs/api/observability/type-aliases/TimelineRow', permanent: true },
+  { source: '/docs/api/memory/interfaces/LocalStorageLike.md', destination: '/docs/api/memory/interfaces/LocalStorageLike', permanent: true },
+  { source: '/docs/api/runtime/type-aliases/VoteBallot.md', destination: '/docs/api/runtime/type-aliases/VoteBallot', permanent: true },
+  { source: '/docs/api/memory/interfaces/RedisLike.md', destination: '/docs/api/memory/interfaces/RedisLike', permanent: true },
+  { source: '/docs/api/memory/interfaces/CreateVectorStoreOpts.md', destination: '/docs/api/memory/interfaces/CreateVectorStoreOpts', permanent: true },
+  { source: '/docs/api/runtime/type-aliases/TopologyRunAgent.md', destination: '/docs/api/runtime/type-aliases/TopologyRunAgent', permanent: true },
+  { source: '/docs/api/observability/type-aliases/ReplayHandler.md', destination: '/docs/api/observability/type-aliases/ReplayHandler', permanent: true },
+  { source: '/docs/api/memory/interfaces/CreateKvMemoryFromConfigOpts.md', destination: '/docs/api/memory/interfaces/CreateKvMemoryFromConfigOpts', permanent: true },
+  { source: '/docs/api/memory/interfaces/SqliteLike.md', destination: '/docs/api/memory/interfaces/SqliteLike', permanent: true },
+  { source: '/docs/api/observability/type-aliases/BisectVerdict.md', destination: '/docs/api/observability/type-aliases/BisectVerdict', permanent: true },
+  { source: '/docs/api/memory/interfaces/MemoryEmbedderLike.md', destination: '/docs/api/memory/interfaces/MemoryEmbedderLike', permanent: true },
+  { source: '/docs/api/memory/interfaces/SqliteStmt.md', destination: '/docs/api/memory/interfaces/SqliteStmt', permanent: true },
+  { source: '/docs/api/observability/type-aliases/StateDiffEntry.md', destination: '/docs/api/observability/type-aliases/StateDiffEntry', permanent: true },
+  { source: '/docs/api/runtime/type-aliases/CompareSelection.md', destination: '/docs/api/runtime/type-aliases/CompareSelection', permanent: true },
+  { source: '/docs/api/memory/type-aliases/KvMemoryConfig.md', destination: '/docs/api/memory/type-aliases/KvMemoryConfig', permanent: true },
+  { source: '/docs/api/observability/type-aliases/ReplayOracle.md', destination: '/docs/api/observability/type-aliases/ReplayOracle', permanent: true },
+]
+
 /** @type {import('next').NextConfig} */
 const config = {
   reactStrictMode: true,
@@ -95,7 +126,7 @@ const config = {
   async redirects() {
     // Legacy 404 fixes first — first match wins, so explicit per-URL rules
     // override the broad wildcard rules that used to chain into dead targets.
-    return [...LEGACY_404_REDIRECTS, ...DOC_REDIRECTS].filter(
+    return [...LEGACY_404_REDIRECTS, ...GSC_404_REDIRECTS, ...DOC_REDIRECTS].filter(
       (r) => r.source !== r.destination,
     )
   },
