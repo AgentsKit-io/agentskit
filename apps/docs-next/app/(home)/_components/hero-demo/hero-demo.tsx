@@ -132,8 +132,8 @@ const STEPS: readonly DemoStep[] = [
     label: 'Surfaces',
     eyebrow: '07 · Deliver the experience',
     title: 'Build the agent once. Meet users anywhere.',
-    description: 'The same foundation powers product experiences across browser, desktop, terminal, and mobile.',
-    proof: 'Web · Desktop · CLI · Mobile',
+    description: 'The same foundation powers the conversation surface that fits the product.',
+    proof: 'Human ↔ agent · shared experience',
   },
 ] as const
 

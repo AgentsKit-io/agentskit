@@ -31,7 +31,7 @@
       "stage": "Build",
       "headline": "One foundation. Every layer stays yours.",
       "detail": "Compose runtime, adapters, tools, memory, RAG, and UI without glue code or lock-in.",
-      "proof": "22 packages · <10 KB core",
+      "proof": "22 packages · 10 KB core budget",
       "sales": {
         "kind": "integration-stack",
         "headline": "Swap the stack. Keep the agent.",
@@ -75,16 +75,13 @@
       "proof": "Ready-made · source-owned",
       "sales": {
         "kind": "registry-install",
-        "headline": "300+ ready-to-use agents.",
-        "metric": "300+",
-        "metricLabel": "shadcn-like agents",
+        "headline": "Source-owned agents for your project.",
+        "metric": "Source-owned",
+        "metricLabel": "agent code",
         "capabilities": [
-          "Research",
-          "Support",
-          "Coding",
-          "Data",
-          "Marketing",
-          "18+ more categories"
+          "Ready-made agents",
+          "Source ownership",
+          "CLI installation"
         ],
         "steps": [
           "Find the right agent",
@@ -103,41 +100,36 @@
       "href": "https://chat.agentskit.io/docs",
       "stage": "Deliver",
       "headline": "One agent. Every conversation surface.",
-      "detail": "Define the experience once and deliver it across web, desktop, CLI, and mobile.",
-      "proof": "Web · Desktop · CLI · Mobile",
+      "detail": "Define the experience once and connect the conversation surface that fits the product.",
+      "proof": "Human ↔ agent · shared experience",
       "sales": {
         "kind": "human-agent",
         "headline": "Human ↔ agent. Without losing control.",
-        "metric": "4",
-        "metricLabel": "surfaces · one conversation",
+        "metric": "One",
+        "metricLabel": "agent experience",
         "logos": [
           {
-            "id": "web",
-            "label": "Web"
+            "id": "human",
+            "label": "Human"
           },
           {
-            "id": "desktop",
-            "label": "Desktop"
+            "id": "agent",
+            "label": "Agent"
           },
           {
-            "id": "cli",
-            "label": "CLI"
-          },
-          {
-            "id": "mobile",
-            "label": "Mobile"
+            "id": "tools",
+            "label": "Tools"
           }
         ],
         "capabilities": [
-          "Streaming",
-          "Approvals",
-          "Tool results",
-          "Shared state"
+          "Conversation",
+          "Human control",
+          "Tool results"
         ],
         "steps": [
-          "Agent requests a protected action",
-          "Human approves",
-          "The conversation continues everywhere"
+          "Define the agent experience",
+          "Connect the conversation surface",
+          "Keep the human in control"
         ]
       },
       "cta": "Explore AgentsKit Chat"
@@ -253,34 +245,27 @@
         "metricLabel": "managed layer",
         "logos": [
           {
-            "id": "logs",
-            "label": "Logs"
+            "id": "managed",
+            "label": "Managed"
           },
           {
-            "id": "approvals",
-            "label": "Approvals"
+            "id": "optional",
+            "label": "Optional"
           },
           {
-            "id": "rbac",
-            "label": "RBAC"
-          },
-          {
-            "id": "policies",
-            "label": "Policies"
+            "id": "operations",
+            "label": "Operations"
           }
         ],
         "capabilities": [
-          "Logs",
-          "Approvals",
-          "RBAC",
-          "Policies",
-          "Tracing",
-          "Costs"
+          "Managed operations",
+          "Production support",
+          "Optional adoption"
         ],
         "steps": [
-          "Agent requests a protected action",
-          "RBAC and policy gates evaluate",
-          "Human approves; logs and trace persist"
+          "Assess the operational need",
+          "Evaluate the managed layer",
+          "Adopt it only when it fits"
         ]
       },
       "cta": "Evaluate managed operations"

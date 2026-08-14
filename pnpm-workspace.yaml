@@ -2,6 +2,7 @@ packages:
   - packages/*
   - apps/*
 allowBuilds:
+  '@agentskit/doc-bridge@https://codeload.github.com/AgentsKit-io/doc-bridge/tar.gz/12b28cfb0ec4e491e0582d737993353193bea5e3': true
   better-sqlite3: true
   core-js: false
   core-js-pure: false
