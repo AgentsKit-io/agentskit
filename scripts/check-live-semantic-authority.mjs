@@ -22,14 +22,13 @@ async function fetchSurface(origin, path) {
   }
 }
 
-const [home, docs, ecosystem, robots, sitemap, llms, registryHome, registryLlms] = await Promise.all([
+const [home, docs, ecosystem, robots, sitemap, llms, registryLlms] = await Promise.all([
   fetchSurface(site, '/'),
   fetchSurface(site, '/docs'),
   fetchSurface(site, '/ecosystem'),
   fetchSurface(site, '/robots.txt'),
   fetchSurface(site, '/sitemap.xml'),
   fetchSurface(site, '/llms.txt'),
-  fetchSurface(registry, '/'),
   fetchSurface(registry, '/llms.txt'),
 ])
 
