@@ -40,8 +40,8 @@ importers:
         specifier: workspace:*
         version: link:packages/core
       '@agentskit/doc-bridge':
-        specifier: git+https://github.com/AgentsKit-io/doc-bridge.git#12b28cfb0ec4e491e0582d737993353193bea5e3
-        version: https://codeload.github.com/AgentsKit-io/doc-bridge/tar.gz/12b28cfb0ec4e491e0582d737993353193bea5e3(@agentskit/core@packages+core)(@agentskit/ink@0.10.9(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(@agentskit/memory@0.11.8(vectra@0.15.0(@huggingface/transformers@4.2.0)(ws@8.21.0)(zod@4.4.3)))(react@19.2.8)
+        specifier: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.4.3/agentskit-doc-bridge-1.4.3.tgz
+        version: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.4.3/agentskit-doc-bridge-1.4.3.tgz(@agentskit/core@packages+core)(@agentskit/ink@0.10.9(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(@agentskit/memory@0.11.8(vectra@0.15.0(@huggingface/transformers@4.2.0)(ws@8.21.0)(zod@4.4.3)))(react@19.2.8)
       '@agentskit/eval':
         specifier: workspace:*
         version: link:packages/eval
@@ -1601,9 +1601,9 @@ packages:
   '@agentskit/core@1.12.8':
     resolution: {integrity: sha512-Jn9DDPgutWceffIssd5ru8H1p3TGAseLgLCsgnY7zQbTkgTyQ3pYY0kQJxFzRQ8vYlty7gEWUK4xHXq8YGsj6w==}
 
-  '@agentskit/doc-bridge@https://codeload.github.com/AgentsKit-io/doc-bridge/tar.gz/12b28cfb0ec4e491e0582d737993353193bea5e3':
-    resolution: {gitHosted: true, tarball: https://codeload.github.com/AgentsKit-io/doc-bridge/tar.gz/12b28cfb0ec4e491e0582d737993353193bea5e3}
-    version: 1.4.2
+  '@agentskit/doc-bridge@https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.4.3/agentskit-doc-bridge-1.4.3.tgz':
+    resolution: {integrity: sha512-sT3A72faF2VoAa/Wbht7ipjMVXEtjzIyHHXJ5IW/eSrGd8Lb68p8NRvQ+E5jT0AFw5eMdkWIPFbvdI3bq/TePA==, tarball: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.4.3/agentskit-doc-bridge-1.4.3.tgz}
+    version: 1.4.3
     engines: {node: '>=22'}
     hasBin: true
     peerDependencies:
@@ -9223,7 +9223,7 @@ snapshots:
   '@agentskit/core@1.12.8':
     optional: true
 
-  '@agentskit/doc-bridge@https://codeload.github.com/AgentsKit-io/doc-bridge/tar.gz/12b28cfb0ec4e491e0582d737993353193bea5e3(@agentskit/core@packages+core)(@agentskit/ink@0.10.9(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(@agentskit/memory@0.11.8(vectra@0.15.0(@huggingface/transformers@4.2.0)(ws@8.21.0)(zod@4.4.3)))(react@19.2.8)':
+  '@agentskit/doc-bridge@https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.4.3/agentskit-doc-bridge-1.4.3.tgz(@agentskit/core@packages+core)(@agentskit/ink@0.10.9(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(@agentskit/memory@0.11.8(vectra@0.15.0(@huggingface/transformers@4.2.0)(ws@8.21.0)(zod@4.4.3)))(react@19.2.8)':
     dependencies:
       github-slugger: 2.0.0
       mermaid: 11.16.1

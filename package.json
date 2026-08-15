@@ -70,8 +70,6 @@
   },
   "pnpm": {
     "onlyBuiltDependencies": [
-      "@agentskit/doc-bridge",
-      "@agentskit/doc-bridge@https://codeload.github.com/AgentsKit-io/doc-bridge/tar.gz/12b28cfb0ec4e491e0582d737993353193bea5e3",
       "better-sqlite3",
       "esbuild"
     ],
@@ -104,7 +102,7 @@
   },
   "devDependencies": {
     "@agentskit/core": "workspace:*",
-    "@agentskit/doc-bridge": "git+https://github.com/AgentsKit-io/doc-bridge.git#12b28cfb0ec4e491e0582d737993353193bea5e3",
+    "@agentskit/doc-bridge": "https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.4.3/agentskit-doc-bridge-1.4.3.tgz",
     "@agentskit/eval": "workspace:*",
     "@agentskit/observability": "workspace:*",
     "@agentskit/runtime": "workspace:*",

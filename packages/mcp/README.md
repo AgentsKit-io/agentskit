@@ -71,6 +71,30 @@ Verify the server in each host with its MCP tool-list command before enabling
 additional tools. Pi does not have a native MCP host path in this recipe; use
 a Pi extension or package when a dedicated integration is available.
 
+Codex (`~/.codex/config.toml`):
+
+```toml
+[mcp_servers.agentskit]
+command = "npx"
+args = ["-y", "@agentskit/mcp@0.3.9", "--tools", "fetch,search"]
+```
+
+OpenClaw:
+
+```bash
+openclaw mcp add agentskit \
+  --command npx \
+  --arg -y \
+  --arg @agentskit/mcp@0.3.9 \
+  --arg --tools \
+  --arg fetch,search
+openclaw mcp doctor agentskit --probe
+```
+
+Verify the server in each host with its MCP tool-list command before enabling
+additional tools. Pi does not have a native MCP host path in this recipe; use
+a Pi extension or package when a dedicated integration is available.
+
 ## Flags
 
 | Flag | Effect |
