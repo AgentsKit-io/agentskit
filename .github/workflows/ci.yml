@@ -100,7 +100,7 @@ jobs:
       - name: Doc bridge gate
         run: pnpm docs:bridge:gate
 
-      - run: pnpm test
+      - run: pnpm exec turbo run test --concurrency=1
 
   compatibility:
     name: Compatibility (Node ${{ matrix.node }})
