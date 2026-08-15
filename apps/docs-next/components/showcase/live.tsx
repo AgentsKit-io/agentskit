@@ -27,6 +27,7 @@ const LOADERS: Record<string, () => Promise<{ default: ComponentType }>> = {
   RuntimeReAct: () => import('@/components/examples/RuntimeReAct').then((m) => ({ default: m.RuntimeReAct })),
   ProviderFanout: () => import('@/components/examples/ProviderFanout').then((m) => ({ default: m.ProviderFanout })),
   RAGCiteExample: () => import('@/components/examples/RAGCiteExample').then((m) => ({ default: m.RAGCiteExample })),
+  PatternLab: () => import('@/components/examples/PatternLab').then((m) => ({ default: m.PatternLab })),
 }
 
 export function LiveExample({ meta }: { meta: ShowcaseMeta }) {
