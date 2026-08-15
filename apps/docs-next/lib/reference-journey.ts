@@ -33,6 +33,8 @@ function productById(id: string): ManifestProduct {
 
 const agentskit = productById('agentskit')
 
+export const agentsKitNextSteps = agentskit.navigation.next.map(productById)
+
 export const agentsKitIdentity = {
   name: agentskit.name,
   role: agentskit.role,

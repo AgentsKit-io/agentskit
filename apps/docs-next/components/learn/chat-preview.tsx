@@ -1,8 +1,9 @@
 'use client'
 
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import { useChat, ChatContainer, Message, InputBar } from '@agentskit/react'
 import type { AdapterFactory, StreamChunk } from '@agentskit/core'
+import { track } from '@/lib/analytics-client'
 import '@/styles/agentskit-theme.css'
 
 const FAKE_REPLIES = [
@@ -31,6 +32,7 @@ function createMockAdapter(replies: string[] = FAKE_REPLIES): AdapterFactory {
 
 export function ChatPreview() {
   const adapter = useMemo(() => createMockAdapter(), [])
+  const exampleReported = useRef(false)
   const chat = useChat({
     adapter,
     initialMessages: [
@@ -43,6 +45,22 @@ export function ChatPreview() {
       },
     ],
   })
+
+  useEffect(() => {
+    if (exampleReported.current) return
+    const hasUserMessage = chat.messages.some((message) => message.role === 'user')
+    const hasCompletedReply = chat.messages.some(
+      (message) => message.role === 'assistant' && message.id !== 'init' && message.status === 'complete',
+    )
+    if (!hasUserMessage || !hasCompletedReply) return
+
+    track('example_completed', {
+      example_id: 'learn-chat-preview',
+      completion_type: 'streaming_chat',
+      surface: 'learn',
+    })
+    exampleReported.current = true
+  }, [chat.messages])
 
   return (
     <div

@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { DynamicCodeBlock } from 'fumadocs-ui/components/dynamic-codeblock'
 import { STEPS } from '@/lib/learn-steps'
 import { Stepper, MarkStepDone } from '@/components/learn/stepper'
+import { LearnStepAnalytics } from '@/components/analytics/learn-step-analytics'
 import { ChatPreview } from '@/components/learn/chat-preview'
 import { ToolsPreview, TOOLS_SOURCE } from '@/components/learn/tools-preview'
 import {
@@ -69,6 +70,7 @@ export default async function StepPage({ params }: { params: Promise<{ step: str
 
   return (
     <main className="mx-auto w-full max-w-6xl px-4 py-12">
+      <LearnStepAnalytics stepId={s.slug} stepIndex={idx} />
       <div className="flex flex-col gap-10 md:flex-row">
         <Stepper activeSlug={s.slug} />
         <article className="flex-1">
@@ -140,7 +142,7 @@ export default async function StepPage({ params }: { params: Promise<{ step: str
             ) : (
               <span />
             )}
-            <MarkStepDone stepKey={s.key} />
+            <MarkStepDone stepKey={s.key} stepId={s.slug} stepIndex={idx} />
             {next ? (
               <Link
                 href={`/learn/${next.slug}`}
