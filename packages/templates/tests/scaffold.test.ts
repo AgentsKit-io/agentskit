@@ -23,8 +23,10 @@ import { createRequire } from 'node:module'
 import ts from 'typescript'
 
 const workspaceRoot = resolve(import.meta.dirname, '../../..')
-const coreTypes = join(workspaceRoot, 'packages/core/dist/index.d.ts')
-const runtimeTypes = join(workspaceRoot, 'packages/runtime/dist/index.d.ts')
+const coreTypes = join(workspaceRoot, 'packages/core/src/index.ts')
+const runtimeTypes = join(workspaceRoot, 'packages/runtime/src/index.ts')
+const packageRequire = createRequire(import.meta.url)
+const nodeTypeRoots = resolve(packageRequire.resolve('@types/node/package.json'), '../..')
 
 describe('scaffold', () => {
   let dir: string
@@ -361,6 +363,8 @@ describe('scaffold', () => {
               skipLibCheck: true,
               noEmit: true,
               esModuleInterop: true,
+              types: ['node'],
+              typeRoots: [nodeTypeRoots],
               paths: {
                 '@agentskit/core': [coreTypes],
                 '@agentskit/runtime': [runtimeTypes],
