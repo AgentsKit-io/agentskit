@@ -85,6 +85,7 @@ export const SHOWCASE: ShowcaseMeta[] = [
   { slug: 'runtime-react', name: 'Runtime ReAct', description: 'Standalone agent runtime — no UI required. ReAct loop with tools + memory.', tags: ['runtime', 'multi-agent'], module: 'RuntimeReAct', sources: { node: { stackblitz: STACKBLITZ_TEMPLATES.node } } },
   { slug: 'provider-fanout', name: 'Provider fanout', description: 'Same prompt across openai, anthropic, gemini, ollama. Compare quality + cost.', tags: ['adapters', 'multi-model'], module: 'ProviderFanout', sources: { node: { stackblitz: STACKBLITZ_TEMPLATES.node } } },
   { slug: 'rag-cite', name: 'RAG with citations', description: 'Retrieve top-k chunks with scores and inline cite refs.', tags: ['rag', 'citations'], module: 'RAGCiteExample', sources: { node: { stackblitz: STACKBLITZ_TEMPLATES.node } } },
+  { slug: 'pattern-lab', name: 'Pattern lab', description: 'Three deterministic, evidence-first workflows with explicit human boundaries.', tags: ['patterns', 'eval', 'human-review'], module: 'PatternLab' },
 ]
 
 export const ALL_TAGS: string[] = Array.from(new Set(SHOWCASE.flatMap((s) => s.tags))).sort()

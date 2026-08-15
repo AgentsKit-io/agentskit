@@ -17,7 +17,7 @@ describe('canonical metadata', () => {
       ...SHOWCASE.map((entry) => `/showcase/${entry.slug}`),
     ]
 
-    expect(routes).toHaveLength(33)
+    expect(routes).toHaveLength(34)
     expect(new Set(routes).size).toBe(routes.length)
 
     for (const route of routes) {
