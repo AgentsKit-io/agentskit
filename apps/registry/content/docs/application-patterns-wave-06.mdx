@@ -1,0 +1,59 @@
+---
+title: Application patterns — Wave 06
+description: Twenty synthetic, evidence-first starting points for agency, clinical, privacy, content, data, infrastructure, commerce, regulated review, and security workflows.
+---
+
+Wave 06 is a set of **application molds**, not a claim of customer impact or production readiness. Each entry is an existing Registry agent that you can copy, inspect, test, and adapt:
+
+```bash
+npx agentskit add <agent-id>
+npm test -- --run registry/<agent-id>/agent.test.ts
+```
+
+Use synthetic inputs while exploring the pattern. Inspect typed output, evidence, missing context, and review requirements. A human remains responsible for every consequential decision, external communication, policy interpretation, and production action.
+
+The [canonical guide](https://github.com/AgentsKit-io/agentskit-registry/blob/main/docs/agents/application-patterns-wave-06.md) contains the full try/inspect/contribution notes.
+
+## Agency, clinical, and privacy
+
+| Agent | Starting point | Human boundary |
+| --- | --- | --- |
+| [agency-scope-creep-detector](/agents/agency-scope-creep-detector) | Compare requested work with an SOW and surface possible additions or ambiguities. | Delivery and client owners decide scope, change control, and pricing. |
+| [clinical-patient-summary](/agents/clinical-patient-summary) | Draft a cited pre-visit summary from chart excerpts, preserving gaps as unknown. | A clinician validates the summary and clinical-record use. |
+| [clinical-adverse-event-reporter](/agents/clinical-adverse-event-reporter) | Turn an event narrative into a typed report draft with missing fields. | Qualified safety staff review classification and submission. |
+| [clinical-medication-reconciliation](/agents/clinical-medication-reconciliation) | Compare medication lists and surface differences for confirmation. | A clinician or pharmacist confirms the list and changes. |
+| [compliance-lgpd-assessor](/agents/compliance-lgpd-assessor) | Map supplied processing evidence to LGPD controls and open questions. | Privacy and legal owners interpret obligations and approve remediation. |
+
+## Content, data, and infrastructure
+
+| Agent | Starting point | Human boundary |
+| --- | --- | --- |
+| [content-newsletter-author](/agents/content-newsletter-author) | Draft a source-bounded newsletter with attribution and editorial gaps. | An editor owns claims, rights, accessibility, tone, and publication. |
+| [data-governance-classifier](/agents/data-governance-classifier) | Classify synthetic fields against supplied sensitivity and purpose rules. | Governance owners approve labels, access, and retention. |
+| [data-quality-rule-author](/agents/data-quality-rule-author) | Draft independently verifiable quality rules from a data contract. | Data owners approve thresholds and rollout policy. |
+| [devops-secrets-leak-scanner](/agents/devops-secrets-leak-scanner) | Review repository snippets for credential-like material without mutation. | Security owners validate findings and perform remediation. |
+
+## Education, commerce, finance, and people
+
+| Agent | Starting point | Human boundary |
+| --- | --- | --- |
+| [education-iep-drafter](/agents/education-iep-drafter) | Draft a structured plan from supplied goals, observations, and accommodations. | Qualified educators and support professionals approve the plan. |
+| [ecommerce-inventory-reorder](/agents/ecommerce-inventory-reorder) | Draft reorder options from stock, demand, lead time, and supplier constraints. | Inventory owners choose quantities and any purchase action. |
+| [fintech-transaction-investigator](/agents/fintech-transaction-investigator) | Build a cited synthetic fraud or AML case file with evidence gaps. | Compliance investigators decide escalation and filings. |
+| [hr-resume-screener](/agents/hr-resume-screener) | Compare resumes with explicit role requirements without inventing experience. | Hiring teams own fair-process review and employment decisions. |
+| [insurance-policy-summarizer](/agents/insurance-policy-summarizer) | Summarize policy terms, exclusions, conditions, and questions with citations. | An authorized professional interprets coverage. |
+
+## Legal, operations, product, research, and security
+
+| Agent | Starting point | Human boundary |
+| --- | --- | --- |
+| [legal-case-summariser](/agents/legal-case-summariser) | Produce a cited matter draft while preserving conflicting positions. | Attorneys decide legal significance, strategy, and filings. |
+| [ops-incident-commander-aide](/agents/ops-incident-commander-aide) | Turn incident notes into impact, timeline, owners, checks, and unknowns. | The incident commander validates status and recovery actions. |
+| [product-beta-feedback-triage](/agents/product-beta-feedback-triage) | Cluster feedback with representative evidence and sample-size uncertainty. | Product owners decide priority, outreach, and roadmap changes. |
+| [research-vendor-evaluation](/agents/research-vendor-evaluation) | Compare vendor responses against criteria, weights, evidence, and risks. | Procurement, security, legal, and business owners choose vendors. |
+| [sales-proposal-drafter](/agents/sales-proposal-drafter) | Draft a proposal from supplied goals, scope, timeline, and assumptions. | Account and delivery owners approve commitments and communication. |
+| [security-phishing-triage](/agents/security-phishing-triage) | Review synthetic messages for indicators and analyst follow-up without clicking. | Security analysts validate and decide containment or notification. |
+
+## Contribution loop
+
+Every pattern has a small next contribution: add a fixture for a conflict, missing field, false positive, or unsafe assumption; keep the result draft-only; and preserve the human review boundary. Open a pull request against the Registry with the focused test and explain what decision the new fixture protects.
