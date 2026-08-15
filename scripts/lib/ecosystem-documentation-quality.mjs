@@ -18,6 +18,7 @@ export const CANONICAL_PRODUCTS = Object.freeze([
 
 const CANONICAL_PRODUCT_IDS = CANONICAL_PRODUCTS.map(({ id }) => id)
 const CANONICAL_PRODUCT_BY_ID = new Map(CANONICAL_PRODUCTS.map((product) => [product.id, product]))
+const MACHINE_SURFACE_KEYS = Object.freeze(['llmsTxt', 'llmsFullTxt', 'rawSources', 'forAgents'])
 
 const PROFILE_STATUSES = new Set(['migration', 'stable', 'deprecated'])
 const VISUAL_DECISIONS = new Set(['diagram', 'interactive', 'animation', 'runnable-example', 'not-applicable'])
@@ -68,11 +69,25 @@ function budget(value, path) {
   return parsed
 }
 
+function productPolicy(profile, productId) {
+  const override = profile.productOverrides?.[productId] ?? {}
+  return {
+    machineSurfaces: override.machineSurfaces ?? MACHINE_SURFACE_KEYS,
+    narrative: { ...profile.narrative, ...(override.narrative ?? {}) },
+    discovery: {
+      requireGlobalProductMesh: override.discovery?.requireGlobalProductMesh ?? true,
+      requireSiblingDestinations: override.discovery?.requireSiblingDestinations ?? true,
+      contextualHooks: override.discovery?.contextualHooks ?? profile.discovery.contextualHooks,
+    },
+  }
+}
+
 export function parseDocumentationQualityProfile(input) {
   const profile = object(input, '$')
   if (profile.schemaVersion !== 1) fail('$.schemaVersion', 'must equal 1')
   if (profile.id !== DOCUMENTATION_QUALITY_PROTOCOL) fail('$.id', `must equal ${DOCUMENTATION_QUALITY_PROTOCOL}`)
   if (profile.version !== 1) fail('$.version', 'must equal 1')
+  if (profile.revision !== undefined && profile.revision !== '1.1') fail('$.revision', 'must equal 1.1 when provided')
   if (!PROFILE_STATUSES.has(profile.status)) fail('$.status', 'must be migration, stable, or deprecated')
 
   stringArray(profile.productIds, '$.productIds')
@@ -121,6 +136,28 @@ export function parseDocumentationQualityProfile(input) {
     fail('$.discovery.contextualHooks', 'must route documentation to doc-bridge, chat to agentskit-chat, and enterprise to akos')
   }
 
+  if (profile.productOverrides !== undefined) {
+    const overrides = object(profile.productOverrides, '$.productOverrides')
+    for (const [productId, overrideInput] of Object.entries(overrides)) {
+      if (!profile.productIds.includes(productId)) fail(`$.productOverrides.${productId}`, 'must reference a canonical product')
+      const override = object(overrideInput, `$.productOverrides.${productId}`)
+      if (override.machineSurfaces !== undefined) {
+        const surfaces = stringArray(override.machineSurfaces, `$.productOverrides.${productId}.machineSurfaces`)
+        for (const surface of surfaces) {
+          if (!MACHINE_SURFACE_KEYS.includes(surface)) fail(`$.productOverrides.${productId}.machineSurfaces`, `contains unknown surface ${surface}`)
+        }
+      }
+      if (override.discovery !== undefined) {
+        const overrideDiscovery = object(override.discovery, `$.productOverrides.${productId}.discovery`)
+        for (const key of ['requireGlobalProductMesh', 'requireSiblingDestinations']) {
+          if (overrideDiscovery[key] !== undefined && typeof overrideDiscovery[key] !== 'boolean') {
+            fail(`$.productOverrides.${productId}.discovery.${key}`, 'must be a boolean')
+          }
+        }
+      }
+    }
+  }
+
   return profile
 }
 
@@ -136,6 +173,7 @@ export function parseDocumentationQualityEvidence(input, profileInput) {
   string(evidence.repo, '$.repo')
   const canonicalProduct = CANONICAL_PRODUCT_BY_ID.get(evidence.productId)
   if (evidence.repo !== canonicalProduct.repo) fail('$.repo', `must equal ${canonicalProduct.repo} for ${evidence.productId}`)
+  const policy = productPolicy(profile, evidence.productId)
   string(evidence.commit, '$.commit')
   if (!/^[0-9a-f]{7,40}$/.test(evidence.commit)) fail('$.commit', 'must be a lowercase Git commit SHA')
   string(evidence.auditedOn, '$.auditedOn')
@@ -157,10 +195,15 @@ export function parseDocumentationQualityEvidence(input, profileInput) {
   }
 
   const surfaces = object(evidence.machineSurfaces, '$.machineSurfaces')
-  string(surfaces.llmsTxt, '$.machineSurfaces.llmsTxt')
-  string(surfaces.llmsFullTxt, '$.machineSurfaces.llmsFullTxt')
-  stringArray(surfaces.rawSources, '$.machineSurfaces.rawSources')
-  string(surfaces.forAgents, '$.machineSurfaces.forAgents')
+  for (const key of MACHINE_SURFACE_KEYS) {
+    if (policy.machineSurfaces.includes(key)) {
+      if (key === 'rawSources') stringArray(surfaces[key], `$.machineSurfaces.${key}`)
+      else string(surfaces[key], `$.machineSurfaces.${key}`)
+    } else if (surfaces[key] !== undefined) {
+      if (key === 'rawSources') stringArray(surfaces[key], `$.machineSurfaces.${key}`)
+      else string(surfaces[key], `$.machineSurfaces.${key}`)
+    }
+  }
 
   const attestation = object(evidence.attestation, '$.attestation')
   if (!['commit', 'working-tree'].includes(attestation.sourceMode)) fail('$.attestation.sourceMode', 'must be commit or working-tree')
@@ -188,7 +231,7 @@ export function parseDocumentationQualityEvidence(input, profileInput) {
   }
 
   const discovery = object(evidence.discovery, '$.discovery')
-  stringArray(discovery.globalProductIds, '$.discovery.globalProductIds')
+  stringArray(discovery.globalProductIds, '$.discovery.globalProductIds', { minimum: policy.discovery.requireGlobalProductMesh ? 1 : 0 })
   stringArray(discovery.siblingProductIds, '$.discovery.siblingProductIds', { minimum: 0 })
   if (!Array.isArray(discovery.contextualHooks)) fail('$.discovery.contextualHooks', 'must be an array')
   const hookIds = new Set()
@@ -232,7 +275,7 @@ export function documentationEvidencePaths(evidence) {
     evidence.narrative.forAgents,
     ...evidence.narrative.keyJourneys.flatMap((journey) => [journey.path, ...journey.evidence]),
     ...evidence.discovery.contextualHooks.flatMap((hook) => hook.evidence),
-  ].filter((value) => !/^https?:\/\//.test(value)).map((value) => value.split('#')[0]))].sort()
+  ].filter((value) => nonEmpty(value) && !/^https?:\/\//.test(value)).map((value) => value.split('#')[0]))].sort()
 }
 
 function filesUnder(path, relativePath) {
@@ -362,6 +405,7 @@ function verifyLiveDocBridge(evidence, root, artifact, findings) {
 export function evaluateDocumentationQuality(profileInput, evidenceInput, { root, attestationRoot, verifyAttestation = false } = {}) {
   const profile = parseDocumentationQualityProfile(profileInput)
   const evidence = parseDocumentationQualityEvidence(evidenceInput, profile)
+  const policy = productPolicy(profile, evidence.productId)
   const findings = []
   const add = (id, message) => findings.push({ id, message })
 
@@ -390,14 +434,14 @@ export function evaluateDocumentationQuality(profileInput, evidenceInput, { root
     readmeWordCount = countDocumentationWords(readFileSync(readmePath, 'utf8'))
     if (readmeWordCount !== evidence.narrative.readmeWordCount) add('readme-word-count-drift', `declared ${evidence.narrative.readmeWordCount}, measured ${readmeWordCount}`)
   }
-  const readmeBudget = profile.narrative.readmeWordBudget
+  const readmeBudget = policy.narrative.readmeWordBudget
   if (readmeWordCount < readmeBudget.minimum || readmeWordCount > readmeBudget.maximum) {
     add('readme-budget', `README has ${readmeWordCount} words; expected ${readmeBudget.minimum}-${readmeBudget.maximum}`)
   }
-  if (evidence.narrative.keyJourneys.length < profile.narrative.minimumKeyJourneys) {
-    add('key-journey-count', `found ${evidence.narrative.keyJourneys.length} key journeys; expected at least ${profile.narrative.minimumKeyJourneys}`)
+  if (evidence.narrative.keyJourneys.length < policy.narrative.minimumKeyJourneys) {
+    add('key-journey-count', `found ${evidence.narrative.keyJourneys.length} key journeys; expected at least ${policy.narrative.minimumKeyJourneys}`)
   }
-  const journeyBudget = profile.narrative.keyJourneyWordBudget
+  const journeyBudget = policy.narrative.keyJourneyWordBudget
   for (const journey of evidence.narrative.keyJourneys) {
     let wordCount = journey.wordCount
     const path = localPath(root, journey.path)
@@ -413,21 +457,21 @@ export function evaluateDocumentationQuality(profileInput, evidenceInput, { root
     }
   }
 
-  if (JSON.stringify(evidence.discovery.globalProductIds) !== JSON.stringify(profile.productIds)) {
+  if (policy.discovery.requireGlobalProductMesh && JSON.stringify(evidence.discovery.globalProductIds) !== JSON.stringify(profile.productIds)) {
     add('global-products', 'global navigation does not list the canonical seven products in order')
   }
   const expectedSiblings = profile.productIds.filter((id) => id !== evidence.productId)
   const actualSiblings = [...evidence.discovery.siblingProductIds].sort()
   const shouldRenderComponent = profile.discovery.ecosystemComponentProducts.includes(evidence.productId)
-  if (shouldRenderComponent && JSON.stringify(actualSiblings) !== JSON.stringify([...expectedSiblings].sort())) {
+  if (policy.discovery.requireSiblingDestinations && shouldRenderComponent && JSON.stringify(actualSiblings) !== JSON.stringify([...expectedSiblings].sort())) {
     add('sibling-destinations', 'ecosystem continuation does not expose the other six products')
   }
-  if (!shouldRenderComponent && evidence.discovery.siblingProductIds.length > 0) {
+  if (policy.discovery.requireSiblingDestinations && !shouldRenderComponent && evidence.discovery.siblingProductIds.length > 0) {
     add('excluded-component', `${evidence.productId} must not render the ecosystem continuation component`)
   }
 
   const hooks = new Map(evidence.discovery.contextualHooks.map((hook) => [hook.id, hook]))
-  for (const [id, targetProductId] of Object.entries(profile.discovery.contextualHooks)) {
+  for (const [id, targetProductId] of Object.entries(policy.discovery.contextualHooks)) {
     const hook = hooks.get(id)
     if (!hook) add(`contextual-hook:${id}`, `missing contextual hook review for ${id}`)
     else if (hook.targetProductId !== targetProductId) add(`contextual-hook:${id}`, `${id} points to ${hook.targetProductId}, expected ${targetProductId}`)

@@ -1,13 +1,12 @@
 import Link from 'next/link'
 import community from '@/data/community.json'
 import { PartnerStrip } from '@/components/brand/partner-strip'
-import { canonicalUrl } from '@/lib/canonical-url'
 
 export const metadata = {
   title: 'Community — AgentsKit ecosystem',
   description:
     'Campaign landing for the AgentsKit ecosystem: understand the products, run a verified demo, contribute, and showcase what you built.',
-  alternates: { canonical: canonicalUrl('/community') },
+  alternates: { canonical: 'https://www.agentskit.io/community' },
 }
 
 type Project = { name: string; description: string; url: string; tags: string[]; by: string }
@@ -15,7 +14,7 @@ type Project = { name: string; description: string; url: string; tags: string[];
 const FUNNEL = [
   {
     title: 'Understand',
-    body: 'See how AgentsKit, Registry, Chat, Doc Bridge, Playbook, Code Review, and AgentsKit OS fit together.',
+    body: 'See how AgentsKit, Registry, Chat, Doc Bridge, Playbook, and Code Review fit together, with AKOS as an optional managed layer.',
     href: '/docs/reference/contribute/newcomer-journey',
     cta: 'Newcomer journey',
   },

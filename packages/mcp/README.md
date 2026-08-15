@@ -9,13 +9,13 @@ Profile: <code>major-package</code>
 [![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 
 Expose AgentsKit tools as an [MCP](https://modelcontextprotocol.io) server — use
-them from Codex, Claude Code/Desktop, Cursor, Cline, Continue, or any MCP host.
+them from Claude Desktop, Cursor, Windsurf, or any MCP host.
 
 
 ## Verified proof
 
 - Package metadata and tests live under `packages/mcp/`.
-- Package guide: https://www.agentskit.io/docs/agents/tools/mcp
+- MCP package guide: https://www.agentskit.io/docs/agents/tools/mcp
 - Stability map: [docs/STABILITY.md](../../docs/STABILITY.md)
 
 ## How this fits the ecosystem
@@ -27,7 +27,7 @@ them from Codex, Claude Code/Desktop, Cursor, Cline, Continue, or any MCP host.
 - **Playbook**: use [playbook.agentskit.io](https://playbook.agentskit.io) for safe tool design, approvals, and agent handoff patterns.
 - **AKOS**: run the same model with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
-Docs: [package guide](https://www.agentskit.io/docs/agents/tools/mcp) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
+Docs: [MCP package guide](https://www.agentskit.io/docs/agents/tools/mcp) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
 <!-- readme-command:install -->
 ```bash
@@ -47,24 +47,29 @@ Claude Desktop or Cursor (`mcpServers` / `.cursor/mcp.json`):
 }
 ```
 
-## Coding-agent hosts
+Codex (`~/.codex/config.toml`):
 
-Every host launches the same safe STDIO command. Only its configuration wrapper
-changes:
-
-```bash
-# Codex
-codex mcp add agentskit -- npx -y @agentskit/mcp@0.3.9 --tools fetch,search
-
-# Claude Code (shared project configuration)
-claude mcp add --scope project --transport stdio agentskit -- npx -y @agentskit/mcp@0.3.9 --tools fetch,search
+```toml
+[mcp_servers.agentskit]
+command = "npx"
+args = ["-y", "@agentskit/mcp@0.3.9", "--tools", "fetch,search"]
 ```
 
-Cursor, Cline, Claude Desktop, and Continue use the same pinned command with
-host-specific wrappers. See the
-[verified coding-agent recipe](../../apps/docs-next/content/docs/reference/recipes/coding-agent-mcp.mdx)
-for the support matrix, exact configurations, local protocol proof, and npm
-published-package smoke test.
+OpenClaw:
+
+```bash
+openclaw mcp add agentskit \
+  --command npx \
+  --arg -y \
+  --arg @agentskit/mcp@0.3.9 \
+  --arg --tools \
+  --arg fetch,search
+openclaw mcp doctor agentskit --probe
+```
+
+Verify the server in each host with its MCP tool-list command before enabling
+additional tools. Pi does not have a native MCP host path in this recipe; use
+a Pi extension or package when a dedicated integration is available.
 
 Codex (`~/.codex/config.toml`):
 
@@ -98,13 +103,6 @@ a Pi extension or package when a dedicated integration is available.
 | `--fs-root <dir>` | enable the filesystem tool, rooted at `<dir>` |
 | `--sqlite <file>` | enable the sqlite query tool against `<file>` |
 | `--allow-shell` | enable the shell tool (off by default — it runs commands) |
-| `--agents <a,b>` | expose bounded, runnable registry agents as MCP tools |
-| `--provider <id>` | provider for registry agents (default `openai`) |
-| `--model <id>` | explicit provider model; required when no maintained default exists |
-| `--max-steps <1-100>` | bound each delegated agent run (default `8`) |
-| `--api-key <value>` | provider key; prefer `<PROVIDER>_API_KEY` to avoid process-list exposure |
-| `--base-url <url>` | override a compatible provider endpoint |
-| `--help` | print help to `stderr` without contaminating the protocol channel |
 
 `stdout` is the MCP JSON-RPC channel; human output goes to `stderr`.
 
@@ -118,11 +116,6 @@ createAgentsKitMcpServer({ tools: [fetchUrl()] }) // stdio by default
 ```
 
 Pass `transport` to use a custom MCP transport (e.g. in-memory for tests).
-Server construction rejects malformed metadata, invalid or duplicate tool names,
-and invalid transports with `AK_CONFIG_INVALID`. The published tool list and
-top-level definition fields are snapshotted, and observer exceptions or rejected
-promises cannot alter protocol behavior. Nested schemas remain trusted tool-owned
-configuration.
 
 ## Expose whole agents (agents as MCP tools)
 
@@ -130,7 +123,7 @@ Run a registry agent server-side and expose it as a single MCP tool — the host
 delegates a specialized job instead of orchestrating primitives:
 
 ```bash
-npx -y @agentskit/mcp@0.3.9 --agents legal-contract-reviewer,fintech-kyc-screener --provider openai
+npx @agentskit/mcp@0.3.9 --agents legal-contract-reviewer,fintech-kyc-screener --provider openai
 ```
 
 `--provider` covers the first-class adapters (openai, anthropic, gemini, ollama)
@@ -138,10 +131,6 @@ plus the OpenAI-compatible set (deepseek, grok, groq, mistral, cohere, together,
 fireworks, openrouter, cerebras, kimi, huggingface, qwen, lmstudio, vllm, llamacpp)
 and any other OpenAI-compatible provider in the models.dev catalog. Key from
 `--api-key` or `<PROVIDER>_API_KEY`; `--model` / `--base-url` optional.
-
-Registry IDs are validated before URL construction. Each remote request is
-abortable, defaults to a 10-second timeout, and is capped at 128 KiB. Registry
-source is parsed as bounded text and is never executed.
 
 ```ts
 import { createAgentTool } from '@agentskit/mcp'
@@ -165,10 +154,6 @@ await server.close()
 - Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
 - **Node.js 20+** and **TypeScript** strict mode
 - Published as `@agentskit/mcp`
-
-This package intentionally implements the MCP tools subset over stdio or an
-injected transport. HTTP/WebSocket transports, resources, prompts, sampling,
-authentication, rate limiting, and persistence are not built in.
 
 ## Contributing
 

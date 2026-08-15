@@ -26,13 +26,13 @@ export type PublicResource = Readonly<{
 }>
 
 function ecosystemUrl(productId: string, path = ''): string {
-  const product = ecosystem.properties.find((candidate) => candidate.id === productId)
+  const product = ecosystem.products.find((candidate) => candidate.id === productId)
 
   if (!product) {
     throw new Error(`Unknown ecosystem product: ${productId}`)
   }
 
-  return new URL(path, product.url).toString()
+  return new URL(path, product.surfaces.home).toString()
 }
 
 export const publicResources: readonly PublicResource[] = [

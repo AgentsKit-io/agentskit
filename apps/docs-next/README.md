@@ -43,22 +43,26 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) and [LICENSE](../../LICENSE).
 
 Profile: <code>public-app</code>
 
-Canonical Fumadocs-based documentation site for the AgentsKit package contracts,
-usage guides, recipes, integrations, and ecosystem hubs. The legacy Docusaurus
-app at `apps/docs` is being retired; keep new public documentation here.
+Canonical Fumadocs site for AgentsKit. The existing Vercel project `agentskit-doc` is rooted at `apps/docs-next` and currently serves `www.agentskit.io`, including the apex homepage, `/docs`, learning, blog, ecosystem, and machine-readable documentation surfaces. The standalone `apps/landing` app is not currently mapped to the public domain.
+
+Tracked by [#238](https://github.com/AgentsKit-io/agentskit/issues/238) in the Phase 0 roadmap.
 
 ## What's here
 
-The app provides:
+A minimal but real Fumadocs site demonstrating:
 
 - Next.js 16 app router with Fumadocs UI 16.x and Fumadocs MDX 14.x
-- Home, ecosystem, integrations, recipes, publications, and resources hubs
+- Home page (`app/(home)/page.tsx`) with hero + 3-feature grid
 - Docs shell (`app/docs/layout.tsx`) with Fumadocs sidebar and search
 - Catch-all docs page renderer (`app/docs/[[...slug]]/page.tsx`)
-- Search API (`app/api/search/route.ts`) plus `llms.txt`, sitemap, canonical metadata, and JSON-LD
-- 400+ maintained MDX pages, including package guides, for-agents handoffs, recipes, and provider/integration references
+- Search API (`app/api/search/route.ts`)
+- Real content: `index`, `getting-started/quickstart`, `getting-started/installation`, `concepts/mental-model`, plus 6 concept stub pages
 
 Tailwind v4 + `fumadocs-ui/css/preset.css` + neutral theme.
+
+## Why parallel to `apps/docs`
+
+The legacy Docusaurus app at `apps/docs` is not the canonical documentation surface. The current deployment has one public owner for `/` and `/docs` in this app; `apps/landing` remains a standalone alternate surface until routing is deliberately changed.
 
 ## Run locally
 
@@ -75,15 +79,30 @@ pnpm --filter @agentskit/docs-next build
 pnpm --filter @agentskit/docs-next start
 ```
 
-## Maintainer checks
+## Decision criteria for migration
 
-- `pnpm --filter @agentskit/docs-next lint:mdx` validates the MDX surface.
-- `pnpm --filter @agentskit/docs-next check:links` validates internal references.
-- `pnpm docs:build` runs the production build from the repository root.
-- Keep package READMEs, `/docs/reference/packages`, and `/docs/for-agents` aligned when an API changes.
+Compare against `apps/docs` (Docusaurus):
+
+| Criteria | Docusaurus | Fumadocs (this) |
+| --- | --- | --- |
+| Tech stack | React + custom build | Next.js 16 + Tailwind v4 |
+| MDX rendering | OK | Excellent (server components, streaming) |
+| Visual polish out-of-box | Generic | Modern, opinionated |
+| Search | Algolia (paid for OSS via partner) | Built-in (Fumadocs `createFromSource`) |
+| Customization | CSS hacks | Tailwind + React, native |
+| Deploy target | Static (anywhere) | Vercel/Cloudflare Pages (Next.js-native) |
+| i18n | Mature plugin | DIY (acceptable trade) |
+| Build speed | Slow on big sites | Fast (Next.js + Turbopack) |
+| Node 25 compat | Currently broken on `main` | Works |
+
+## Next steps if approved
+
+1. Port remaining sections from `apps/docs` (adapters, agents, chat-uis, components, data-layer, examples, hooks, infrastructure, packages, theming, contributing)
+2. Decide i18n strategy (Crowdin? freeze pt-BR/es/zh-Hans until EN stabilizes?)
+3. Set up `docs.agentskit.io` deployment on Vercel
+4. Archive `apps/docs`
+5. Add chat-with-docs (RAG over the docs themselves) — dogfooding moment
 
 ## Status
 
-The app is maintained as the canonical docs surface and is available through the
-root `pnpm docs` / `pnpm docs:build` scripts. Deployment remains an explicit
-release action; local documentation changes do not publish automatically.
+Not wired into root `pnpm dev` / `pnpm build` yet — install + run manually until the approach is approved. See PR description.

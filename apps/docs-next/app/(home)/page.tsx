@@ -12,37 +12,24 @@ import { BrandIcon } from '@/components/home/brand-icon'
 import { ReferenceJourney } from '@/components/home/reference-journey'
 import { counts, approx } from '@/lib/ecosystem-stats'
 import { agentsKitIdentity } from '@/lib/reference-journey'
-import { canonicalUrl } from '@/lib/canonical-url'
-import { alternatesFor } from '@/lib/locales'
 import softwareIdentity from '@/lib/software-identity.generated.json'
 
 export const metadata = {
-  title: 'TypeScript AI agent framework',
+  title: `${agentsKitIdentity.name}.js — ${agentsKitIdentity.promise}`,
   description: `${agentsKitIdentity.promise} A composable TypeScript foundation for runtime, tools, memory, RAG, and chat interfaces.`,
-  alternates: {
-    canonical: canonicalUrl('/'),
-    languages: alternatesFor('/'),
-  },
+  alternates: { canonical: 'https://www.agentskit.io' },
   openGraph: {
     title: 'AgentsKit.js — Ship AI agents in JavaScript',
     description:
       'Composable TypeScript foundation: runtime, tools, memory, RAG, adapters, and headless UI bindings. Zero lock-in. Under 10KB core.',
     type: 'website',
-    images: [
-      {
-        url: '/api/og',
-        width: 1200,
-        height: 630,
-        alt: 'AgentsKit.js — Ship AI agents in JavaScript',
-      },
-    ],
+    url: 'https://www.agentskit.io',
   },
   twitter: {
     card: 'summary_large_image',
     title: 'AgentsKit.js — Ship AI agents in JavaScript',
     description:
       'Composable TypeScript foundation: runtime, tools, memory, RAG, adapters, and headless UI bindings. Zero lock-in.',
-    images: ['/api/og'],
   },
 }
 
@@ -61,7 +48,7 @@ const JSON_LD = {
       '@id': 'https://www.agentskit.io/#website',
       url: 'https://www.agentskit.io',
       name: 'AgentsKit.js',
-      publisher: { '@id': softwareIdentity.organization['@id'] },
+      publisher: { '@id': 'https://www.agentskit.io/#org' },
       potentialAction: {
         '@type': 'SearchAction',
         target: 'https://www.agentskit.io/docs?q={search_term_string}',
@@ -73,7 +60,7 @@ const JSON_LD = {
 
 export default function HomePage() {
   return (
-    <div className="flex w-full max-w-full flex-1 flex-col overflow-x-clip">
+    <main className="flex w-full max-w-full flex-1 flex-col overflow-x-clip">
       <JsonLd data={JSON_LD} />
       <Hero />
       <WorksWithSection />
@@ -82,7 +69,7 @@ export default function HomePage() {
       <ReferenceJourney />
       <FinalCta />
       <SiteFooter />
-    </div>
+    </main>
   )
 }
 
@@ -111,36 +98,11 @@ function Hero() {
             terminal, in-memory for vector DB — without a rewrite.
           </p>
 
-          <div className="mb-7 flex flex-wrap items-center gap-2.5 lg:hidden">
-            <Link
-              href="/docs/get-started/getting-started/build-your-first-agent"
-              className="inline-flex min-h-11 items-center gap-2 rounded-md bg-ak-foam px-4 py-2.5 text-sm font-semibold text-ak-midnight transition hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
-            >
-              Build your first agent →
-            </Link>
-            <Link
-              href="/docs/reference/examples"
-              className="inline-flex min-h-11 items-center gap-2 px-2 py-2.5 text-sm font-medium text-ak-graphite transition hover:text-ak-foam focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
-            >
-              See live examples →
-            </Link>
-          </div>
-
           <InstallCommand />
           <HeroFrameworks />
           <p className="mt-6 max-w-xl border-l-2 border-ak-green pl-4 text-sm leading-relaxed text-ak-graphite">
             Built for {agentsKitIdentity.audience}
           </p>
-          <div className="mt-5 flex flex-wrap items-center gap-x-3 gap-y-2 font-mono text-[11px] uppercase tracking-[0.14em] text-ak-graphite/80">
-            <span>{agentsKitIdentity.role}</span>
-            <span aria-hidden="true">·</span>
-            <span>{agentsKitIdentity.maturity}</span>
-            {agentsKitIdentity.proof.length > 0 && (
-              <span className="w-full normal-case tracking-normal text-ak-graphite">
-                {agentsKitIdentity.proof.map((claim) => `${claim.value} ${claim.noun}`).join(' · ')}
-              </span>
-            )}
-          </div>
         </div>
 
         <div className="min-w-0">
@@ -153,16 +115,16 @@ function Hero() {
             </a>
           </p>
 
-          <div className="mt-5 hidden flex-wrap items-center justify-center gap-2.5 sm:gap-3 lg:flex">
+          <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
             <Link
               href="/docs/get-started/getting-started/build-your-first-agent"
-              className="inline-flex min-h-11 items-center gap-2 rounded-md bg-ak-foam px-4 py-2.5 text-sm font-semibold text-ak-midnight transition hover:bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue sm:px-5"
+              className="inline-flex items-center gap-2 rounded-md bg-ak-foam px-4 py-2.5 text-sm font-semibold text-ak-midnight transition hover:bg-white sm:px-5"
             >
               Build your first agent →
             </Link>
             <Link
               href="/docs/reference/examples"
-              className="inline-flex min-h-11 items-center gap-2 px-2 py-2.5 text-sm font-medium text-ak-graphite transition hover:text-ak-foam focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue sm:px-3"
+              className="inline-flex items-center gap-2 px-2 py-2.5 text-sm font-medium text-ak-graphite transition hover:text-ak-foam sm:px-3"
             >
               See live examples →
             </Link>
@@ -383,10 +345,8 @@ function SiteFooter() {
       links: [
         { text: 'Libs', href: '/' },
         { text: 'Registry · agents', href: 'https://registry.agentskit.io' },
-        { text: 'Chat · interfaces', href: 'https://chat.agentskit.io' },
         { text: 'Playbook · standards', href: 'https://playbook.agentskit.io' },
-        { text: 'Doc Bridge · knowledge', href: 'https://doc-bridge.agentskit.io' },
-        { text: 'AKOS · production OS', href: 'https://akos.agentskit.io' },
+        { text: 'AKOS · optional managed', href: 'https://akos.agentskit.io' },
       ],
     },
     {

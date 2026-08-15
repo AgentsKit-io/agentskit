@@ -11,7 +11,7 @@ npx tsx agent.ts
 ```
 
 ### Claims
-25 packages, 7 framework bindings
+22 packages, 7 framework bindings
 
 Source fixture: `apps/docs-next/fixtures/first-agent/agent.ts`
 

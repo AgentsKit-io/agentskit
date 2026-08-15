@@ -4,14 +4,20 @@ import { Inter, JetBrains_Mono, Space_Grotesk } from 'next/font/google'
 import type { ReactNode } from 'react'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
-import { SITE_URL } from '@/lib/canonical-url'
+import { alternatesFor } from '@/lib/locales'
+import ecosystem from '@/lib/ecosystem.json'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' })
 
+const SITE_URL = 'https://www.agentskit.io'
 const DESCRIPTION =
   'AgentsKit is the foundation library for JavaScript agents — runtime, tools, memory, RAG, and UI bindings. Product chat lives in AgentsKit Chat.'
+
+const FOOTER_PRODUCTS = ecosystem.products
+  .filter((product) => product.public || product.distributionClass === 'managed-service')
+  .sort((a, b) => a.navigation.order - b.navigation.order)
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
@@ -24,9 +30,6 @@ export const metadata = {
     'AI agents',
     'JavaScript agent toolkit',
     'TypeScript agent library',
-    'open-source AI agent framework',
-    'provider-agnostic AI agents',
-    'AI agent orchestration',
     'foundation agent library',
     'AgentsKit',
     'LLM adapters',
@@ -38,6 +41,10 @@ export const metadata = {
   authors: [{ name: 'Emerson Braun', url: 'https://github.com/EmersonBraun' }],
   creator: 'Emerson Braun',
   category: 'technology',
+  alternates: {
+    canonical: SITE_URL,
+    languages: alternatesFor('/'),
+  },
   verification: {
     // Fill after verifying site in Google Search Console + Bing Webmaster:
     // google: 'YOUR_GSC_META_CONTENT',
@@ -56,13 +63,9 @@ export const metadata = {
   },
   icons: {
     icon: [
-      { url: '/favicon.ico', sizes: 'any' },
       { url: '/favicon.svg', type: 'image/svg+xml' },
-      { url: '/favicon-32x32.png', type: 'image/png', sizes: '32x32' },
-      { url: '/favicon-16x16.png', type: 'image/png', sizes: '16x16' },
     ],
-    shortcut: ['/favicon.ico'],
-    apple: [{ url: '/apple-touch-icon.png', type: 'image/png', sizes: '180x180' }],
+    apple: [{ url: '/apple-touch-icon.svg' }],
   },
   openGraph: {
     type: 'website',
@@ -109,6 +112,29 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         >
           {children}
         </RootProvider>
+        <footer className="border-t border-ak-border bg-ak-midnight px-6 py-10 text-sm text-ak-graphite">
+          <div className="mx-auto flex max-w-6xl flex-col gap-5">
+            <div>
+              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ak-blue">Continue by problem</p>
+              <p className="mt-2 max-w-2xl leading-6">
+                AgentsKit is the open-source foundation. Choose a sibling by the next job; AKOS is optional managed
+                operations and is not required to use the open-source products.
+              </p>
+            </div>
+            <nav aria-label="AgentsKit ecosystem" className="flex flex-wrap gap-x-5 gap-y-2">
+              {FOOTER_PRODUCTS.map((product) => (
+                <a
+                  key={product.id}
+                  href={product.surfaces.home ?? product.surfaces.docs ?? '#'}
+                  className="text-ak-foam underline decoration-ak-border underline-offset-4 hover:text-ak-blue"
+                >
+                  {product.name}
+                  {product.distributionClass === 'managed-service' ? ' · optional managed' : ''}
+                </a>
+              ))}
+            </nav>
+          </div>
+        </footer>
         <Analytics />
         <SpeedInsights />
         <script src="/ecosystem-bar.js" defer data-current="agentskit" />

@@ -14,13 +14,13 @@
           "id": "packages",
           "value": 22,
           "noun": "packages",
-          "conservativeFloor": 22,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",
             "path": "scripts/compute-stats.mjs",
             "summary": "Published non-private @agentskit/* package directories."
-          }
+          },
+          "conservativeFloor": 22
         },
         {
           "id": "framework-bindings",
@@ -37,61 +37,61 @@
           "id": "native-adapters",
           "value": 25,
           "noun": "native adapters",
-          "conservativeFloor": 25,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",
             "path": "scripts/compute-stats.mjs",
             "summary": "Provider exports in the adapters package excluding composition helpers."
-          }
+          },
+          "conservativeFloor": 25
         },
         {
           "id": "integrations",
           "value": 50,
           "noun": "integrations",
-          "conservativeFloor": 50,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",
             "path": "scripts/compute-stats.mjs",
             "summary": "Service directories in the integrations catalog."
-          }
+          },
+          "conservativeFloor": 50
         },
         {
           "id": "catalog-providers",
           "value": 184,
           "noun": "providers",
-          "conservativeFloor": 180,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",
             "path": "scripts/compute-stats.mjs",
             "summary": "Providers in the committed model catalog snapshot."
-          }
+          },
+          "conservativeFloor": 180
         },
         {
           "id": "catalog-models",
           "value": 6297,
           "noun": "models",
-          "conservativeFloor": 6000,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",
             "path": "scripts/compute-stats.mjs",
             "summary": "Models in the committed provider catalog snapshot."
-          }
+          },
+          "conservativeFloor": 6000
         },
         {
           "id": "skills",
           "value": 22,
           "noun": "ready-made skills",
-          "conservativeFloor": 22,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",
             "path": "scripts/compute-stats.mjs",
             "summary": "Concrete skill modules excluding registry and composition helpers."
-          }
+          },
+          "conservativeFloor": 22
         },
         {
           "id": "memory-backends",
@@ -108,13 +108,13 @@
           "id": "recipes",
           "value": 71,
           "noun": "recipes",
-          "conservativeFloor": 71,
           "evidence": {
             "type": "repository-derivation",
             "repo": "AgentsKit-io/agentskit",
             "path": "scripts/compute-stats.mjs",
             "summary": "Published recipe MDX pages excluding indexes and metadata."
-          }
+          },
+          "conservativeFloor": 71
         },
         {
           "id": "core-size-kb-gzip",
@@ -177,8 +177,8 @@
     {
       "productId": "akos",
       "source": {
-        "type": "repository",
-        "repo": "AgentsKit-io/agentskit-os"
+        "type": "declaration",
+        "summary": "Public commercial references only; never use private implementation as contribution evidence."
       },
       "verification": "declared",
       "claims": []

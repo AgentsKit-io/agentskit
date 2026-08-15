@@ -13,7 +13,7 @@ const STEPS: { label: string; command: string; subtext: string; recommended?: bo
   {
     label: 'Add to a project',
     command: 'npm install @agentskit/core @agentskit/adapters',
-    subtext: 'The 5 KB substrate. Works in browser, Node, Deno, Bun — anywhere JS runs.',
+    subtext: 'The foundation stays under the 10 KB gzip budget. Works in browser, Node, Deno, Bun — anywhere JS runs.',
   },
   {
     label: 'Run a built agent',

@@ -4,7 +4,7 @@
   "profileVersion": 1,
   "productId": "agentskit",
   "repo": "AgentsKit-io/agentskit",
-  "commit": "8f3ed16f6faafaf91656257071355b68207fb37a",
+  "commit": "1de518fccb476c1d2647ea4e26dbda5bc9c9101f",
   "auditedOn": "2026-08-14",
   "docBridge": {
     "artifact": "docs/evidence/ecosystem-documentation-quality/doc-bridge/agentskit.json",
@@ -30,7 +30,7 @@
   },
   "attestation": {
     "sourceMode": "commit",
-    "contentDigest": "sha256:a992df46d9e5e4267abcb99edc6059d62b9c887a88c905c21e3fbda2bdb6b5d9"
+    "contentDigest": "sha256:8e45a027ef0e8ce5e29306f8af50ad0140114cec8d18568e2c498500c6b337e0"
   },
   "machineSurfaces": {
     "llmsTxt": "llms.txt",
@@ -44,14 +44,14 @@
   },
   "narrative": {
     "readme": "README.md",
-    "readmeWordCount": 1667,
+    "readmeWordCount": 1678,
     "humanDocs": "apps/docs-next/content/docs/index.mdx",
     "forAgents": "apps/docs-next/content/docs/for-agents/index.mdx",
     "keyJourneys": [
       {
         "id": "build-first-agent",
         "path": "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx",
-        "wordCount": 353,
+        "wordCount": 356,
         "visualDecision": "diagram",
         "evidence": [
           "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx#execution-flow"

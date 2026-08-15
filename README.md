@@ -6,13 +6,11 @@
 
 **The agent toolkit JavaScript actually deserves.**
 
-A 10 KB core budget. Twenty-two published packages. Zero lock-in. Six formal contracts that make every adapter, tool, skill, memory, retriever, and runtime substitutable.
+A 10 KB core budget. 22 focused packages. Zero lock-in. Six formal contracts that make every adapter, tool, skill, memory, retriever, and runtime substitutable.
 
 [![npm](https://img.shields.io/npm/v/@agentskit/react?label=npm)](https://www.npmjs.com/package/@agentskit/react)
 [![bundle](https://img.shields.io/bundlephobia/minzip/@agentskit/react?label=react%20bundle)](https://bundlephobia.com/package/@agentskit/react)
 [![license](https://img.shields.io/npm/l/@agentskit/react?label=license)](./LICENSE)
-[![OpenSSF Best Practices](https://www.bestpractices.dev/projects/13861/badge)](https://www.bestpractices.dev/projects/13861)
-[![Open Source Helpers](https://www.codetriage.com/agentskit-io/agentskit/badges/users.svg)](https://www.codetriage.com/agentskit-io/agentskit)
 [![Discord](https://img.shields.io/badge/Discord-join-5865F2?logo=discord&logoColor=white)](https://discord.gg/zx6z2p4jVb)
 [![GitHub stars](https://img.shields.io/github/stars/AgentsKit-io/agentskit?style=social)](https://github.com/AgentsKit-io/agentskit)
 [![GitHub issues](https://img.shields.io/github/issues/AgentsKit-io/agentskit)](https://github.com/AgentsKit-io/agentskit/issues)
@@ -24,7 +22,7 @@ A 10 KB core budget. Twenty-two published packages. Zero lock-in. Six formal con
 
 **Tags:** `agentskit` · `ai-agents` · `typescript` · `javascript` · `llm` · `agent-runtime` · `tools` · `rag`
 
-[**Documentation**](https://www.agentskit.io) · [**Discord**](https://discord.gg/zx6z2p4jVb) · [**Roadmap**](https://github.com/orgs/AgentsKit-io/projects/1) · [**Manifesto**](./MANIFESTO.md) · [**Origin**](./ORIGIN.md) · [**Architecture**](./docs/architecture/adrs)
+[**Documentation**](https://www.agentskit.io/docs) · [**Discord**](https://discord.gg/zx6z2p4jVb) · [**Roadmap**](https://github.com/orgs/AgentsKit-io/projects/1) · [**Manifesto**](./MANIFESTO.md) · [**Origin**](./ORIGIN.md) · [**Architecture**](./docs/architecture/adrs)
 
 <a href="https://www.producthunt.com/products/agentskit?embed=true&utm_source=badge-featured&utm_medium=badge&utm_campaign=badge-agentskit" target="_blank" rel="noopener noreferrer"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=1125539&theme=light" alt="AgentsKit — The most complete ecosystem to create AI agents | Product Hunt" width="250" height="54" /></a>
 
@@ -42,7 +40,7 @@ A 10 KB core budget. Twenty-two published packages. Zero lock-in. Six formal con
 
 ## Verified proof
 
-The current [evidence ledger](./ecosystem-claims.json), generated from repository sources by [`scripts/compute-stats.mjs`](./scripts/compute-stats.mjs), publishes the canonical package, framework, adapter, integration, provider, model, skill, memory, and recipe counts used by every AgentsKit surface.
+The current [evidence ledger](./ecosystem-claims.json), generated from repository sources by [`scripts/compute-stats.mjs`](./scripts/compute-stats.mjs), verifies **22 published packages**, **7 framework bindings**, **25 native adapters**, **50 integrations**, **140 catalog providers**, **5,000+ catalog models**, **21 ready-made skills**, **17 memory backends**, and **69 recipes**.
 
 - The core has zero runtime dependencies and a CI-enforced **10 KB gzipped budget**.
 - Every public package has an explicit stability tier, test floor, README, human guide, and agent handoff.
@@ -72,16 +70,16 @@ build from composable parts, start faster with ready agents, follow production p
 | **AgentsKit** | **This repo** | The agent building blocks: adapters, runtime, tools, memory, RAG, UI, evals, observability, and MCP |
 | **Registry** | [registry.agentskit.io →](https://registry.agentskit.io) | Ready-to-use agents, tools, and templates you can install instead of starting from blank |
 | **Playbook** | [playbook.agentskit.io →](https://playbook.agentskit.io) | Field-tested patterns for designing, evaluating, securing, and operating agents |
-| **AKOS** | [akos.agentskit.io →](https://akos.agentskit.io) | The enterprise operating system for deploying, governing, observing, and scaling agents |
+| **AKOS · optional managed** | [akos.agentskit.io →](https://akos.agentskit.io) | Optional managed operations for teams that need additional production controls; not required for the open-source stack |
 
-The path is simple: compose with **AgentsKit**, learn the patterns in the **Playbook**, reuse agents from the **Registry**, and graduate to **AKOS** when you need enterprise operations.
+The path is simple: compose with **AgentsKit**, learn the patterns in the **Playbook**, reuse agents from the **Registry**, and evaluate **AKOS** only when you need optional managed operations.
 
 ```mermaid
 flowchart LR
   Playbook["Playbook<br/>best practices"]
   Registry["Registry<br/>ready agents"]
   AK["AgentsKit<br/>composable JS packages"]
-  AKOS["AKOS<br/>enterprise agent OS"]
+  AKOS["AKOS<br/>optional managed operations"]
 
   Playbook --> AK
   Registry --> AK
@@ -301,7 +299,7 @@ The full public API fits in **under 2,000 tokens**. Paste the [agent-friendly re
 
 ```mermaid
 graph TD
-    core["@agentskit/core\n(zero deps · 5 KB)"]
+    core["@agentskit/core\n(zero deps · under 10 KB gzip budget)"]
 
     adapters["@agentskit/adapters\nOpenAI · Anthropic · Gemini\nOllama · DeepSeek · Grok"]
     react["@agentskit/react\nReact hooks + headless UI"]
@@ -394,7 +392,7 @@ See the [stability policy](./docs/STABILITY.md), [core v1 release notes](./docs/
 
 AgentsKit is built in the open and ships because contributors show up. Every package, every doc, every example is fair game.
 
-- **[How to contribute →](https://www.agentskit.io/docs/reference/contribute)** — start here
+- **[How to contribute →](https://www.agentskit.io/docs/contribute)** — start here
 - **[Public roadmap board](https://github.com/orgs/AgentsKit-io/projects/1)** — what's planned, in flight, and shipped
 - **[Good-first-issues](https://github.com/AgentsKit-io/agentskit/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)** — curated, tractable tickets
 - **[Help-wanted](https://github.com/AgentsKit-io/agentskit/issues?q=is%3Aissue+is%3Aopen+label%3A%22help+wanted%22)** — larger scoped work

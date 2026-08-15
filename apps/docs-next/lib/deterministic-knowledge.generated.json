@@ -3,7 +3,7 @@
   "version": 1,
   "artifactId": "agentskit-docs-v1",
   "siteId": "agentskit-docs",
-  "generatedAt": "2026-08-12T22:55:06-03:00",
+  "generatedAt": "2026-07-16T18:58:26-03:00",
   "entries": [
     {
       "id": "claim.catalog-models",
@@ -951,7 +951,7 @@
     {
       "id": "ecosystem.akos",
       "kind": "ecosystem",
-      "label": "AgentsKit OS",
+      "label": "AKOS",
       "match": {
         "type": "exact",
         "values": [
@@ -961,11 +961,11 @@
         ]
       },
       "answer": {
-        "markdown": "**AgentsKit OS** is the ecosystem's operation: Run and govern agents in production. Maturity: **stable**.",
+        "markdown": "**AKOS** is the ecosystem's operation: Add optional managed operations when production governance calls for it. Maturity: **stable**.",
         "citations": [
           {
             "id": "ecosystem-akos",
-            "title": "AgentsKit OS",
+            "title": "AKOS",
             "href": "https://akos.agentskit.io/docs"
           }
         ]
@@ -1030,7 +1030,7 @@
         ]
       },
       "answer": {
-        "markdown": "**Agents Playbook** is the ecosystem's discipline: Train coding agents to ship code your team would merge. Maturity: **stable**.",
+        "markdown": "**Agents Playbook** is the ecosystem's discipline: Make agents ship code a human would actually merge. Maturity: **stable**.",
         "citations": [
           {
             "id": "ecosystem-playbook",
@@ -2260,5 +2260,5 @@
       }
     }
   ],
-  "contentHash": "sha256:9e9eab3eb9092363ef2c1a8848ffd54a2eaecaa432b6fd2acf55eb84f5542792"
+  "contentHash": "sha256:48bc9c934c97b75381e447a5135ae985fe202cdd6862b181cb0b48e774125c99"
 }

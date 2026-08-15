@@ -4,7 +4,7 @@ Profile: <code>major-package</code>
 
 <p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
-The zero-dependency foundation that every AgentsKit package builds on — 5 KB gzipped, edge-ready, works everywhere JavaScript runs.
+The zero-dependency foundation that every AgentsKit package builds on — under the 10 KB gzip budget, edge-ready, works everywhere JavaScript runs.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/core?color=blue)](https://www.npmjs.com/package/@agentskit/core)
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/core)](https://www.npmjs.com/package/@agentskit/core)

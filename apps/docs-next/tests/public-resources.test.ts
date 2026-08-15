@@ -63,7 +63,7 @@ describe('public ecosystem resources', () => {
 
   it('uses canonical ecosystem URLs for official product surfaces', () => {
     const canonicalUrls = new Map(
-      ecosystem.properties.map((product) => [product.id, new URL(product.url).toString()]),
+      ecosystem.products.map((product) => [product.id, new URL(product.surfaces.home).toString()]),
     )
 
     expect(publicResources.find((resource) => resource.id === 'agentskit-registry')?.url).toBe(

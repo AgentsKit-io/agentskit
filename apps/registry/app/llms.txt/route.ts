@@ -1,35 +1,53 @@
 import { source } from '@/lib/source'
 import { getRegistryIndex } from '@/lib/registry'
 import ecosystemManifest from '../../../../ecosystem.json'
-import { formatEcosystemLlmsBlock } from '@agentskit/doc-bridge'
 
 export const revalidate = 3600
 const SITE = 'https://registry.agentskit.io'
 
+interface EcosystemProduct {
+  readonly id: string
+  readonly name: string
+  readonly promise: string
+  readonly public: boolean
+  readonly distributionClass: string
+  readonly surfaces: {
+    readonly docs: string
+    readonly llms?: string
+  }
+  readonly navigation: {
+    readonly order: number
+  }
+}
+
+const ecosystemProducts = (ecosystemManifest.products as readonly EcosystemProduct[])
+  .toSorted((left, right) => left.navigation.order - right.navigation.order)
+
+function ecosystemLine(product: EcosystemProduct): string {
+  const current = product.id === 'registry' ? ' **(current)**' : ''
+  const machineIndex = product.surfaces.llms ? ` Machine index: ${product.surfaces.llms}` : ''
+  return `- [${product.name}](${product.surfaces.docs})${current} — ${product.promise}${machineIndex}`
+}
+
 export async function GET() {
   const agents = await getRegistryIndex()
-  const products = (
-    ecosystemManifest.products as Array<{
-      id: string
-      name: string
-      role?: string
-      promise: string
-      maturity?: string
-      surfaces: { home?: string; docs?: string; llms?: string }
-      navigation: { order: number }
-    }>
-  ).toSorted((left, right) => left.navigation.order - right.navigation.order)
-
+  const publicProducts = ecosystemProducts.filter((product) => product.public)
+  const managedProducts = ecosystemProducts.filter((product) => product.distributionClass === 'managed-service')
   const lines = [
     '# AgentsKit Registry',
     '',
     '> Ready-to-use, provider-agnostic AI agents. Copy the source into your project and own the code.',
     '',
-    ...formatEcosystemLlmsBlock({
-      products,
-      currentProductId: 'registry',
-      prefer: 'docs',
-    }),
+    '## AgentsKit ecosystem',
+    '',
+    ...publicProducts.map(ecosystemLine),
+    '',
+    ...(managedProducts.length > 0 ? [
+      '## Optional managed layer',
+      '',
+      ...managedProducts.map((product) => `${ecosystemLine(product)} This layer is optional and is not part of the open-source package catalog.`),
+      '',
+    ] : []),
     '## Documentation',
     '',
     ...source.getPages().map((page) => `- [${page.data.title}](${SITE}${page.url}): ${page.data.description ?? ''}`),

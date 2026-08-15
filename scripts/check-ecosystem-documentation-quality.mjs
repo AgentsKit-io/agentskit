@@ -26,6 +26,7 @@ if (profileOnly) {
     ok: true,
     profile: profile.id,
     version: profile.version,
+    revision: profile.revision ?? '1.0',
     status: profile.status,
     products: profile.productIds.length,
   }, null, 2))

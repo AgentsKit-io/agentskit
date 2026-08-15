@@ -2,14 +2,12 @@ const MATURITY = new Set(['planning', 'alpha', 'beta', 'stable', 'deprecated'])
 const DOCUMENTATION_MODES = new Set(['fumadocs', 'repository'])
 const CHAT_MODES = new Set(['agentschat', 'custom', 'none'])
 const SALES_KINDS = new Set(['integration-stack', 'registry-install', 'human-agent', 'standards-flow', 'knowledge-bridge', 'enterprise-control'])
-const CLAIM_AGGREGATES = new Set(['length', 'distinct'])
-const CTA_SURFACES = new Set(['home', 'docs'])
-const ACCESS_MODELS = new Set(['open-source', 'paid-managed-service'])
+const DISTRIBUTION_CLASSES = new Set(['open-source', 'managed-service'])
 const SURFACE_KEYS = ['home', 'docs', 'llms', 'stats']
-/** properties[] is the seven-product v1 projection of products[] (same order). */
-const LEGACY_PRODUCT_IDS = ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge', 'code-review', 'akos']
+/** v1 properties array tracks the full seven-product set (expanded from original four). */
+/** Deprecated v1 four-product shim — products[] is the seven-product catalog. */
+const LEGACY_PRODUCT_IDS = ['agentskit', 'akos', 'playbook', 'registry']
 const CANONICAL_PRODUCT_IDS = ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge', 'code-review', 'akos']
-const SPDX_LICENSE = /^[A-Za-z0-9][A-Za-z0-9.+-]*$/
 
 function fail(path, message) {
   throw new TypeError(`ecosystem contract: ${path} ${message}`)
@@ -44,13 +42,6 @@ function integer(value, path) {
   return value
 }
 
-function template(value, path, claimIds) {
-  string(value, path)
-  for (const match of value.matchAll(/\{\{([a-z][a-z0-9-]*)\}\}/g)) {
-    if (!claimIds.has(match[1])) fail(path, `references unknown showcase claim ${match[1]}`)
-  }
-}
-
 function optionalUrl(container, key, path) {
   if (container[key] !== undefined) url(container[key], `${path}.${key}`)
 }
@@ -62,14 +53,6 @@ export function parseEcosystemManifest(input) {
   const parentBrand = object(manifest.parentBrand, '$.parentBrand')
   string(parentBrand.id, '$.parentBrand.id')
   string(parentBrand.name, '$.parentBrand.name')
-
-  const positioning = object(manifest.positioning, '$.positioning')
-  string(positioning.canonicalDescription, '$.positioning.canonicalDescription')
-  string(positioning.metaDescription, '$.positioning.metaDescription')
-  if (positioning.metaDescription.length > 160) fail('$.positioning.metaDescription', 'must be 160 characters or fewer')
-  string(positioning.commercialBoundary, '$.positioning.commercialBoundary')
-  if (!Array.isArray(positioning.openSourceProductIds)) fail('$.positioning.openSourceProductIds', 'must be an array')
-  if (!Array.isArray(positioning.managedProductIds)) fail('$.positioning.managedProductIds', 'must be an array')
 
   if (!Array.isArray(manifest.products) || manifest.products.length === 0) {
     fail('$.products', 'must be a non-empty array')
@@ -85,72 +68,46 @@ export function parseEcosystemManifest(input) {
     if (ids.has(id)) fail(`${path}.id`, `duplicates product id ${id}`)
     ids.add(id)
 
+    if (typeof product.public !== 'boolean') fail(`${path}.public`, 'must be a boolean')
+    enumValue(product.distributionClass, DISTRIBUTION_CLASSES, `${path}.distributionClass`)
+    const expectedPublic = product.distributionClass === 'open-source'
+    if (product.public !== expectedPublic) {
+      fail(`${path}.public`, `must be ${expectedPublic} for ${product.distributionClass}`)
+    }
+    if (product.aliases !== undefined) {
+      if (!Array.isArray(product.aliases)) fail(`${path}.aliases`, 'must be an array')
+      const aliases = new Set()
+      for (const [aliasIndex, alias] of product.aliases.entries()) {
+        string(alias, `${path}.aliases[${aliasIndex}]`)
+        if (alias === id) fail(`${path}.aliases[${aliasIndex}]`, 'cannot equal the canonical product id')
+        if (aliases.has(alias)) fail(`${path}.aliases[${aliasIndex}]`, `duplicates alias ${alias}`)
+        aliases.add(alias)
+      }
+    }
+
     string(product.name, `${path}.name`)
     string(product.shortName, `${path}.shortName`)
     string(product.kind, `${path}.kind`)
     string(product.role, `${path}.role`)
-    enumValue(product.accessModel, ACCESS_MODELS, `${path}.accessModel`)
     string(product.promise, `${path}.promise`)
     enumValue(product.maturity, MATURITY, `${path}.maturity`)
-    const repo = string(product.repo, `${path}.repo`)
-    if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo)) fail(`${path}.repo`, 'must use owner/name')
+    if (product.public) {
+      const repo = string(product.repo, `${path}.repo`)
+      if (!/^[A-Za-z0-9_.-]+\/[A-Za-z0-9_.-]+$/.test(repo)) fail(`${path}.repo`, 'must use owner/name')
+    } else if (product.repo !== null) {
+      fail(`${path}.repo`, 'must be null for a managed product without public source')
+    }
+    if (!product.public) string(product.distributionPolicy, `${path}.distributionPolicy`)
     const accent = string(product.accent, `${path}.accent`)
     if (!/^#[0-9A-Fa-f]{6}$/.test(accent)) fail(`${path}.accent`, 'must be a six-digit hex color')
 
-    if (product.metadata !== undefined) {
-      if (id !== 'agentskit') fail(`${path}.metadata`, 'is currently supported only for the canonical AgentsKit product')
-      const metadata = object(product.metadata, `${path}.metadata`)
-      string(metadata.alternateName, `${path}.metadata.alternateName`)
-      string(metadata.description, `${path}.metadata.description`)
-      if (!/^\d{4}-\d{2}-\d{2}$/.test(string(metadata.dateCreated, `${path}.metadata.dateCreated`))) {
-        fail(`${path}.metadata.dateCreated`, 'must use YYYY-MM-DD')
-      }
-      string(metadata.applicationCategory, `${path}.metadata.applicationCategory`)
-      string(metadata.runtimePlatform, `${path}.metadata.runtimePlatform`)
-      if (!SPDX_LICENSE.test(string(metadata.license, `${path}.metadata.license`))) {
-        fail(`${path}.metadata.license`, 'must be an SPDX identifier')
-      }
-      const author = object(metadata.author, `${path}.metadata.author`)
-      string(author.givenName, `${path}.metadata.author.givenName`)
-      string(author.familyName, `${path}.metadata.author.familyName`)
-      url(author.url, `${path}.metadata.author.url`)
-      if (!Array.isArray(metadata.keywords) || metadata.keywords.length < 3) {
-        fail(`${path}.metadata.keywords`, 'must contain at least three terms')
-      }
-      const keywords = new Set()
-      for (const [keywordIndex, keyword] of metadata.keywords.entries()) {
-        const normalized = string(keyword, `${path}.metadata.keywords[${keywordIndex}]`).toLowerCase()
-        if (keywords.has(normalized)) fail(`${path}.metadata.keywords[${keywordIndex}]`, 'duplicates another keyword')
-        keywords.add(normalized)
-      }
-    }
-
     if (product.navigation?.showInBar) {
       const showcase = object(product.showcase, `${path}.showcase`)
-      const claimIds = new Set()
-      if (showcase.claimSource !== undefined) {
-        const claimSource = object(showcase.claimSource, `${path}.showcase.claimSource`)
-        url(claimSource.url, `${path}.showcase.claimSource.url`)
-        const claimSpecs = object(claimSource.claims, `${path}.showcase.claimSource.claims`)
-        for (const [claimId, rawClaim] of Object.entries(claimSpecs)) {
-          if (!/^[a-z][a-z0-9-]*$/.test(claimId)) fail(`${path}.showcase.claimSource.claims.${claimId}`, 'must use a lowercase slug key')
-          claimIds.add(claimId)
-          const claim = object(rawClaim, `${path}.showcase.claimSource.claims.${claimId}`)
-          string(claim.path, `${path}.showcase.claimSource.claims.${claimId}.path`)
-          if (claim.aggregate !== undefined) enumValue(claim.aggregate, CLAIM_AGGREGATES, `${path}.showcase.claimSource.claims.${claimId}.aggregate`)
-          if (claim.aggregate === 'distinct') string(claim.field, `${path}.showcase.claimSource.claims.${claimId}.field`)
-          if (claim.subtract !== undefined) {
-            integer(claim.subtract, `${path}.showcase.claimSource.claims.${claimId}.subtract`)
-            if (claim.subtract < 0) fail(`${path}.showcase.claimSource.claims.${claimId}.subtract`, 'must be zero or greater')
-          }
-        }
-      }
       string(showcase.stage, `${path}.showcase.stage`)
       string(showcase.headline, `${path}.showcase.headline`)
       string(showcase.detail, `${path}.showcase.detail`)
-      template(showcase.proof, `${path}.showcase.proof`, claimIds)
+      string(showcase.proof, `${path}.showcase.proof`)
       string(showcase.cta, `${path}.showcase.cta`)
-      enumValue(showcase.ctaSurface, CTA_SURFACES, `${path}.showcase.ctaSurface`)
 
       const sales = object(showcase.sales, `${path}.showcase.sales`)
       enumValue(sales.kind, SALES_KINDS, `${path}.showcase.sales.kind`)
@@ -161,11 +118,11 @@ export function parseEcosystemManifest(input) {
         }
         for (const [metricIndex, rawMetric] of sales.metrics.entries()) {
           const metric = object(rawMetric, `${path}.showcase.sales.metrics[${metricIndex}]`)
-          template(metric.value, `${path}.showcase.sales.metrics[${metricIndex}].value`, claimIds)
+          string(metric.value, `${path}.showcase.sales.metrics[${metricIndex}].value`)
           string(metric.label, `${path}.showcase.sales.metrics[${metricIndex}].label`)
         }
       } else {
-        template(sales.metric, `${path}.showcase.sales.metric`, claimIds)
+        string(sales.metric, `${path}.showcase.sales.metric`)
         string(sales.metricLabel, `${path}.showcase.sales.metricLabel`)
       }
       if (sales.command !== undefined) string(sales.command, `${path}.showcase.sales.command`)
@@ -183,7 +140,7 @@ export function parseEcosystemManifest(input) {
           fail(`${path}.showcase.sales.${key}`, 'must contain at least three items')
         }
         for (const [itemIndex, item] of sales[key].entries()) {
-          template(item, `${path}.showcase.sales.${key}[${itemIndex}]`, claimIds)
+          string(item, `${path}.showcase.sales.${key}[${itemIndex}]`)
         }
       }
     }
@@ -192,9 +149,6 @@ export function parseEcosystemManifest(input) {
     enumValue(surfaces.documentation, DOCUMENTATION_MODES, `${path}.surfaces.documentation`)
     enumValue(surfaces.chat, CHAT_MODES, `${path}.surfaces.chat`)
     for (const key of SURFACE_KEYS) optionalUrl(surfaces, key, `${path}.surfaces`)
-    if (product.showcase?.claimSource?.url !== undefined && product.showcase.claimSource.url !== surfaces.stats) {
-      fail(`${path}.showcase.claimSource.url`, 'must match the product stats surface')
-    }
     if (surfaces.documentation === 'fumadocs' && surfaces.docs === undefined) {
       fail(`${path}.surfaces.docs`, 'is required when documentation is fumadocs')
     }
@@ -226,19 +180,6 @@ export function parseEcosystemManifest(input) {
 
   if (JSON.stringify([...ids]) !== JSON.stringify(CANONICAL_PRODUCT_IDS)) {
     fail('$.products', `must contain the canonical products in order: ${CANONICAL_PRODUCT_IDS.join(', ')}`)
-  }
-  if (manifest.products[0].metadata === undefined) fail('$.products[0].metadata', 'is required for generated software identity surfaces')
-  const openSourceProductIds = manifest.products
-    .filter((product) => product.accessModel === 'open-source')
-    .map((product) => product.id)
-  const managedProductIds = manifest.products
-    .filter((product) => product.accessModel === 'paid-managed-service')
-    .map((product) => product.id)
-  if (JSON.stringify(positioning.openSourceProductIds) !== JSON.stringify(openSourceProductIds)) {
-    fail('$.positioning.openSourceProductIds', 'must match products with accessModel open-source')
-  }
-  if (JSON.stringify(positioning.managedProductIds) !== JSON.stringify(managedProductIds)) {
-    fail('$.positioning.managedProductIds', 'must match products with accessModel paid-managed-service')
   }
   for (const [index, product] of manifest.products.entries()) {
     // Products may set showInBar:false to leave the shared header (e.g. early-stage tools).
@@ -317,6 +258,37 @@ function conservativeFloor(value) {
   return undefined
 }
 
+function claimSource(product) {
+  if (product.surfaces.stats) return { type: 'endpoint', url: product.surfaces.stats }
+  if (product.repo) return { type: 'repository', repo: product.repo }
+  return { type: 'declaration', summary: product.distributionPolicy }
+}
+
+function claimsForProduct(product, agentskit, stats) {
+  if (product.id !== 'agentskit') return []
+
+  return CLAIM_DEFINITIONS.map(([id, noun, statsPath, summary]) => {
+    const value = valueAt(stats, statsPath)
+    if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) {
+      fail(`$.stats.${statsPath}`, 'must be a finite non-negative number')
+    }
+    const floor = conservativeFloor(value)
+    const claim = {
+      id,
+      value,
+      noun,
+      evidence: {
+        type: 'repository-derivation',
+        repo: agentskit.repo,
+        path: 'scripts/compute-stats.mjs',
+        summary,
+      },
+    }
+    if (floor !== undefined) claim.conservativeFloor = floor
+    return claim
+  })
+}
+
 export function buildEcosystemClaims(manifestInput, stats) {
   const manifest = parseEcosystemManifest(manifestInput)
   const agentskit = manifest.products.find((product) => product.id === 'agentskit')
@@ -324,31 +296,9 @@ export function buildEcosystemClaims(manifestInput, stats) {
 
   const products = manifest.products.map((product) => ({
     productId: product.id,
-    source: product.surfaces.stats
-      ? { type: 'endpoint', url: product.surfaces.stats }
-      : { type: 'repository', repo: product.repo },
+    source: claimSource(product),
     verification: product.id === 'agentskit' ? 'verified' : 'declared',
-    claims: product.id === 'agentskit'
-      ? CLAIM_DEFINITIONS.map(([id, noun, statsPath, summary]) => {
-          const value = valueAt(stats, statsPath)
-          if (typeof value !== 'number' || !Number.isFinite(value) || value < 0) {
-            fail(`$.stats.${statsPath}`, 'must be a finite non-negative number')
-          }
-          const floor = conservativeFloor(value)
-          return {
-            id,
-            value,
-            noun,
-            ...(floor === undefined ? {} : { conservativeFloor: floor }),
-            evidence: {
-              type: 'repository-derivation',
-              repo: agentskit.repo,
-              path: 'scripts/compute-stats.mjs',
-              summary,
-            },
-          }
-        })
-      : [],
+    claims: claimsForProduct(product, agentskit, stats),
   }))
 
   return parseEcosystemClaims({
@@ -379,15 +329,18 @@ export function parseEcosystemClaims(input, manifestInput) {
     const manifestProduct = manifest.products.find((candidate) => candidate.id === productId)
 
     const source = object(product.source, `${path}.source`)
-    enumValue(source.type, new Set(['endpoint', 'repository']), `${path}.source.type`)
+    enumValue(source.type, new Set(['endpoint', 'repository', 'declaration']), `${path}.source.type`)
     if (source.type === 'endpoint') {
       url(source.url, `${path}.source.url`)
       if (source.url !== manifestProduct.surfaces.stats) {
         fail(`${path}.source.url`, 'must match the product stats surface')
       }
-    } else {
+    } else if (source.type === 'repository') {
       string(source.repo, `${path}.source.repo`)
       if (source.repo !== manifestProduct.repo) fail(`${path}.source.repo`, 'must match the product repository')
+    } else {
+      string(source.summary, `${path}.source.summary`)
+      if (manifestProduct.public) fail(`${path}.source.type`, 'public products must use an endpoint or repository source')
     }
 
     if (!Array.isArray(product.claims)) fail(`${path}.claims`, 'must be an array')

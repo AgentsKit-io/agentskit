@@ -1,15 +1,24 @@
 import Link from 'next/link'
-import ecosystemManifest from '../../../../../ecosystem.json'
+import ecosystem from '../../../../../ecosystem.json'
 
-/** Canonical peer products (Registry is the current surface — not listed). */
-export const ecosystemPeers = ecosystemManifest.products
-  .filter((product) => product.id !== 'registry' && product.navigation.showInBar)
-  .sort((left, right) => (left.navigation.order ?? 0) - (right.navigation.order ?? 0))
+const PEER_ACTIONS: Record<string, string> = {
+  agentskit: 'Build and extend agents with core, tools, memory, and RAG.',
+  'agentskit-chat': 'Deliver a native chat experience over the same runtime.',
+  playbook: 'Apply engineering and delivery standards for agent work.',
+  'doc-bridge': 'Keep documentation handoffs agent-ready and deterministic.',
+  'code-review': 'Review agent-generated diffs before merge.',
+  akos: 'Evaluate managed operations when production governance calls for it. The open-source stack works without AKOS.',
+}
+
+/** Canonical peer products derived from the root ecosystem manifest. */
+export const ecosystemPeers = ecosystem.products
+  .filter((product) => product.id !== 'registry' && (product.public || product.distributionClass === 'managed-service'))
+  .sort((a, b) => a.navigation.order - b.navigation.order)
   .map((product) => ({
     name: product.name,
-    role: product.role,
-    href: product.surfaces.home,
-    action: product.showcase?.detail ?? product.promise,
+    role: product.distributionClass === 'managed-service' ? 'optional · managed' : product.role,
+    href: product.surfaces.docs ?? product.surfaces.home,
+    action: PEER_ACTIONS[product.id] ?? product.promise,
   }))
 
 export function EcosystemMesh({
