@@ -230,7 +230,7 @@ Pick what you need. Every package works alone. Combinations work without glue co
 | [`@agentskit/angular`](packages/angular) | Angular binding with Signals + RxJS | alpha |
 | [`@agentskit/cli`](packages/cli) | CLI: chat, init, run, ai, dev, doctor | beta |
 | [`@agentskit/templates`](packages/templates) | Authoring toolkit for scaffolding skills, tools, adapters | alpha |
-| [`@agentskit/mcp`](packages/mcp) | Expose AgentsKit tools as an MCP server (Claude Desktop, Cursor, Windsurf) | beta |
+| [`@agentskit/mcp`](packages/mcp) | Expose AgentsKit tools as an MCP server (Claude Desktop, Cursor, Windsurf) | alpha |
 | [`@agentskit/integrations`](packages/integrations) | Plug-and-play service integrations (one descriptor → tools, connectors, triggers, auth) | beta |
 | [`@agentskit/tools/validation`](packages/validation) | Runtime JSON-Schema validation of tool-call arguments (Ajv) | beta |
 | [`@agentskit/eval/braintrust`](packages/eval-braintrust) | Braintrust scoring pipeline + CI regression alerts | beta |

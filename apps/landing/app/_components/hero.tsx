@@ -1,5 +1,5 @@
 import { LINKS } from './links'
-import { CommunityLink } from './tracked-link'
+import { CommunityLink, CtaLink } from './tracked-link'
 import { counts } from '../../lib/ecosystem-stats'
 
 export function Hero() {
@@ -17,12 +17,15 @@ export function Hero() {
         Every adapter, tool, skill, memory, retriever, and runtime is substitutable.
       </p>
       <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
-        <a
+        <CtaLink
           href={LINKS.docs}
+          ctaId="hero_get_started"
+          destination="docs"
+          placement="hero"
           className="rounded-md bg-[var(--color-accent)] px-5 py-3 text-sm font-medium text-white shadow-lg shadow-[var(--color-accent)]/20 transition hover:bg-[var(--color-accent-soft)]"
         >
           Get started
-        </a>
+        </CtaLink>
         <CommunityLink
           href={LINKS.github}
           target="github"

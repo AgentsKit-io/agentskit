@@ -15,28 +15,22 @@
 
 /**
  * Raycast Script Command. Reads the user's argument, runs an
- * AgentsKit runtime against `OPENAI_API_KEY` (or a demo fallback),
- * and prints the answer. Identical core to apps/example-embedded/
- * src/index.ts — different host wrapper.
- *
- * Install: copy this file (and its sibling `package.json`) into
- *   ~/.config/raycast/scripts/agentskit/
- * then run `pnpm install` in that folder. Raycast picks it up
- * automatically.
+ * AgentsKit runtime against OPENAI_API_KEY (or a demo fallback),
+ * and prints the answer. The sibling package.json uses published
+ * dependencies so this folder can be copied outside the monorepo.
  */
 
 import { createRuntime } from '@agentskit/runtime'
 import { openai } from '@agentskit/adapters'
-import type { AdapterFactory } from '@agentskit/core'
 
-function pickAdapter(): AdapterFactory {
+function pickAdapter() {
   const apiKey = process.env.OPENAI_API_KEY
   if (!apiKey) {
     return {
       createSource: () => ({
         stream: async function* () {
-          yield { type: 'text' as const, content: '[demo] set OPENAI_API_KEY in Raycast → Extensions → AgentsKit to get real replies.' }
-          yield { type: 'done' as const }
+          yield { type: 'text', content: '[demo] set OPENAI_API_KEY in Raycast → Extensions → AgentsKit to get real replies.' }
+          yield { type: 'done' }
         },
         abort: () => {},
       }),
