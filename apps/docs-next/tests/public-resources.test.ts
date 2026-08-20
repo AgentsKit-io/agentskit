@@ -91,6 +91,21 @@ describe('public ecosystem resources', () => {
     expect(publicResources.some((resource) => resource.type === 'article' && resource.publisher === 'Hashnode')).toBe(true)
   })
 
+  it('keeps the consolidated publication and recognition cross-references accurate', () => {
+    const byId = new Map(publicResources.map((resource) => [resource.id, resource]))
+
+    expect(byId.get('article-safe-vector-memory-dev')?.url).toBe(
+      'https://dev.to/agentskit/i-removed-an-arbitrary-sql-rpc-from-an-agent-memory-adapter-2hfd',
+    )
+    expect(byId.get('agentskit-infrabase')?.url).toBe('https://infrabase.ai/agents/agentskit')
+    expect(byId.get('agentskit-bootstraparena')?.url).toBe('https://bootstraparena.com/startups/agentskit')
+    expect(byId.get('code-review-openssf')?.product).toBe('Code Review')
+    expect(byId.get('code-review-openssf')?.url).toContain('/projects/13866')
+    expect(byId.get('doc-bridge-openssf')?.url).toContain('/projects/13872')
+    expect(byId.get('chat-openssf')?.url).toContain('/projects/13874')
+    expect(byId.get('registry-openssf')?.url).toContain('/projects/13876')
+  })
+
   it('does not expose private ledger vocabulary', () => {
     const serialized = JSON.stringify(publicResources)
 
