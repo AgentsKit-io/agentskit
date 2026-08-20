@@ -351,13 +351,13 @@ export const publicResources: readonly PublicResource[] = [
   {
     id: 'agentskit-launch-llama',
     title: 'AgentsKit on Launch Llama',
-    summary: 'Founder-oriented product profile describing the toolkit, its audience, and its core capabilities.',
+    summary: 'Public founder-oriented review and listing describing the MIT-licensed toolkit, its audience, and its core capabilities.',
     product: 'AgentsKit',
     publisher: 'Launch Llama',
     type: 'directory',
     status: 'published',
     url: 'https://tools.launchllama.co/products/agentskit',
-    verifiedAt: '2026-08-10',
+    verifiedAt: '2026-08-20',
     topics: ['developer tools', 'AI agents', 'directory'],
   },
   {

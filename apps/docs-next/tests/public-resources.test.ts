@@ -80,6 +80,17 @@ describe('public ecosystem resources', () => {
     )
   })
 
+  it('keeps the Launch Llama listing and independent publications in the public graph', () => {
+    expect(publicResources.find((resource) => resource.id === 'agentskit-launch-llama')).toMatchObject({
+      publisher: 'Launch Llama',
+      url: 'https://tools.launchllama.co/products/agentskit',
+      status: 'published',
+      verifiedAt: '2026-08-20',
+    })
+    expect(publicResources.some((resource) => resource.type === 'article' && resource.publisher === 'DEV Community')).toBe(true)
+    expect(publicResources.some((resource) => resource.type === 'article' && resource.publisher === 'Hashnode')).toBe(true)
+  })
+
   it('does not expose private ledger vocabulary', () => {
     const serialized = JSON.stringify(publicResources)
 
