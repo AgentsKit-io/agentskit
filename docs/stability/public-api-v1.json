@@ -5066,6 +5066,18 @@
               ]
             },
             {
+              "name": "createTypedAgentTool",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "fetchAgent",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "fetchAgentSkill",
               "kinds": [
                 "value"
@@ -5078,7 +5090,19 @@
               ]
             },
             {
+              "name": "FetchedAgent",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "FetchedAgentSkill",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "FetchedTypedAgent",
               "kinds": [
                 "type"
               ]
@@ -5099,6 +5123,12 @@
               "name": "processStdio",
               "kinds": [
                 "value"
+              ]
+            },
+            {
+              "name": "TypedAgentToolConfig",
+              "kinds": [
+                "type"
               ]
             }
           ]

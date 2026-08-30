@@ -19,7 +19,7 @@
       {
         "id": "release-artifact",
         "statement": "The changed source has no patch-format errors and the release package is ready for the GitHub workflow.",
-        "checks": ["diff-check", "mcp-pack", "docs-gate"]
+        "checks": ["diff-check", "mcp-pack", "docs-gate", "public-api-snapshot"]
       }
     ]
   },
@@ -43,7 +43,8 @@
     { "id": "release-preflight-recovery", "evidence": "structured", "category": "logic", "command": "pnpm check:release-registry -- --allow-unpublished-with-changesets", "timeoutMs": 120000 },
     { "id": "diff-check", "evidence": "structured", "category": "custom", "command": "git diff --check", "timeoutMs": 30000 },
     { "id": "mcp-pack", "evidence": "structured", "category": "custom", "command": "pnpm --filter @agentskit/mcp pack --pack-destination /tmp", "timeoutMs": 120000 },
-    { "id": "docs-gate", "evidence": "structured", "category": "docs", "command": "pnpm docs:bridge:gate", "timeoutMs": 180000 }
+    { "id": "docs-gate", "evidence": "structured", "category": "docs", "command": "pnpm docs:bridge:gate", "timeoutMs": 180000 },
+    { "id": "public-api-snapshot", "evidence": "structured", "category": "api", "command": "pnpm check:public-api-snapshot", "timeoutMs": 120000 }
   ],
   "tracking": {
     "required": false,
