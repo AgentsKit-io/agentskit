@@ -3,29 +3,29 @@ AgentsKit is a plug-and-play TypeScript toolkit for building production agents: 
 ## Knowledge
 
 - [adapters](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/adapters): Every LLM provider, one contract. Stream, tool calls, retry, abort all normalized. Plus higher-order adapters that compose candidates (router, ensemble, fallback) and a `createAdapter` factory for custom providers.
-- [peers:](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/angular): Angular binding for the `ChatReturn` contract from `@agentskit/core`. Exposes chat state as a `WritableSignal<ChatState | null>` for template binding and as an `Observable<ChatState | null>` for RxJS pipelines, with automatic teardown via `ngOnDestroy`.
-- [or:](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/cli)
+- [@agentskit/angular](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/angular): Angular binding for the `ChatReturn` contract from `@agentskit/core`. Exposes chat state as a `WritableSignal<ChatState | null>` for template binding and as an `Observable<ChatState | null>` for RxJS pipelines, with automatic teardown via `ngOnDestroy`.
+- [@agentskit/cli](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/cli)
 - [core](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/core): Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + `createChatController` + primitives. Target: &lt;10 KB gzipped, zero runtime deps.
 - [doc-bridge](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/doc-bridge): Use Doc Bridge before editing to locate the owning package, its agent handoff, human documentation, allowed edit roots, and required checks. Use the workflow artifacts to compare observed repository structure with documented intent.
 - [eval-braintrust](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/eval-braintrust)
 - [eval](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/eval)
 - [index](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/index): If you're an AI agent reading this: every page in this section is a condensed reference for one AgentsKit package. Each page follows the same structure so you can skim quickly and quote accurately:
-- [peers:](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/ink): Ink binding for the `ChatReturn` contract from `@agentskit/core`. Renders a full chat interface in the terminal using React + Ink, with keyboard navigation, ANSI theming, and human-in-the-loop tool confirmation — no browser required.
+- [@agentskit/ink](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/ink): Ink binding for the `ChatReturn` contract from `@agentskit/core`. Renders a full chat interface in the terminal using React + Ink, with keyboard navigation, ANSI theming, and human-in-the-loop tool confirmation — no browser required.
 - [integrations](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/integrations)
 - [mcp](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/mcp): Serve AgentsKit tools to any MCP host. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` + `createStdioTransport`).
 - [memory](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/memory)
 - [observability-langfuse](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/observability-langfuse)
 - [observability](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/observability)
 - [rag](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/rag)
-- [peers:](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/react-native): React Native binding for the `ChatReturn` contract from `@agentskit/core`. Shares the same hook API as `@agentskit/react` but ships without any DOM dependency, making it safe for Metro bundler and the Hermes JS engine used in React Native and Expo.
+- [@agentskit/react-native](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/react-native): React Native binding for the `ChatReturn` contract from `@agentskit/core`. Shares the same hook API as `@agentskit/react` but ships without any DOM dependency, making it safe for Metro bundler and the Hermes JS engine used in React Native and Expo.
 - [react](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/react): `useChat` hook returning `ChatReturn` (state + actions) + headless components with `data-ak-*` attributes for theming.
 - [runtime](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/runtime): Run an agent without a UI. Supports reflection, planning, multi-agent orchestration, durable step logs, cron + webhooks, speculative execution.
 - [optional peer for the default E2B cloud backend:](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/sandbox)
 - [skills](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/skills)
-- [peer:](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/solid): SolidJS binding for the `ChatReturn` contract from `@agentskit/core`. Same shape as React/Vue/Svelte hooks — store-backed, cleanup wired via `onCleanup`.
+- [@agentskit/solid](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/solid): SolidJS binding for the `ChatReturn` contract from `@agentskit/core`. Same shape as React/Vue/Svelte hooks — store-backed, cleanup wired via `onCleanup`.
 - [statechart](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/statechart): Represent deterministic interaction state independently from UI frameworks, providers, agent execution, and persistence.
-- [peer:](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/svelte): Svelte binding for the `ChatReturn` contract from `@agentskit/core`. Returns a `Readable<ChatState>` plus action methods (send / stop / clear) and `destroy()` for cleanup.
+- [@agentskit/svelte](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/svelte): Svelte binding for the `ChatReturn` contract from `@agentskit/core`. Returns a `Readable<ChatState>` plus action methods (send / stop / clear) and `destroy()` for cleanup.
 - [templates](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/templates): Generate AgentsKit extensions as standalone packages with consistent blueprints (tsup, vitest, TypeScript) and runtime validation. Depends only on `@agentskit/core`. This is a **programmatic** authoring toolkit — it is **not** what `agentskit init` uses under the hood (the CLI has separate app templates).
 - [tools](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/tools)
 - [validation](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/validation)
-- [peer:](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/vue): Vue 3 binding for the `ChatReturn` contract from `@agentskit/core`. Returns a reactive object via `reactive()` that tracks messages, input, and streaming state, and tears down automatically when the component scope is disposed.
+- [@agentskit/vue](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/vue): Vue 3 binding for the `ChatReturn` contract from `@agentskit/core`. Returns a reactive object via `reactive()` that tracks messages, input, and streaming state, and tears down automatically when the component scope is disposed.

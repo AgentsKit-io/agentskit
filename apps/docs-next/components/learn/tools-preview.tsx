@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useRef, useState } from 'react'
+import { track } from '@/lib/analytics-client'
 import {
   WeatherCard,
   PriceCard,
@@ -72,8 +73,11 @@ const EMPTY: Frame = { userMsg: null, tool: null, widget: null, assistant: '' }
 
 export function ToolsPreview() {
   const [sceneIdx, setSceneIdx] = useState(0)
+  const [runId, setRunId] = useState(0)
   const [frame, setFrame] = useState<Frame>(EMPTY)
   const scrollRef = useRef<HTMLDivElement | null>(null)
+  const userInteracted = useRef(false)
+  const exampleReported = useRef(false)
 
   useEffect(() => {
     let cancelled = false
@@ -104,12 +108,21 @@ export function ToolsPreview() {
         setFrame((f) => ({ ...f, assistant: text.slice(0, i) }))
         await sleep(18)
       }
+
+      if (!cancelled && userInteracted.current && !exampleReported.current) {
+        track('example_completed', {
+          example_id: 'learn-tools-preview',
+          completion_type: 'tool_call_and_result',
+          surface: 'learn',
+        })
+        exampleReported.current = true
+      }
     }
     run()
     return () => {
       cancelled = true
     }
-  }, [sceneIdx])
+  }, [runId, sceneIdx])
 
   useEffect(() => {
     const el = scrollRef.current
@@ -205,8 +218,10 @@ export function ToolsPreview() {
               key={s.name}
               type="button"
               onClick={() => {
+                userInteracted.current = true
                 setFrame(EMPTY)
                 setSceneIdx(i)
+                setRunId((current) => current + 1)
               }}
               className={`rounded-full px-2.5 py-1 font-mono text-[11px] transition ${
                 i === sceneIdx ? 'bg-ak-blue/20 text-ak-blue' : 'text-ak-graphite hover:text-ak-foam'

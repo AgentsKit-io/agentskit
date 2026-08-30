@@ -6,7 +6,7 @@ Universal guidance for AI coding agents (Claude Code, Cursor, Copilot, Kiro, Win
 
 ## What AgentsKit is
 
-AgentsKit is the most complete agent toolkit for the JavaScript ecosystem — 14 plug-and-play packages built on one 5 KB core. It covers chat UIs, autonomous runtimes, tools, skills, memory, RAG, observability, sandboxing, and evaluation.
+AgentsKit is the most complete agent toolkit for the JavaScript ecosystem — 22 published plug-and-play packages built on one core under the 10 KB gzip budget. It covers chat UIs, autonomous runtimes, tools, skills, memory, RAG, observability, sandboxing, and evaluation.
 
 **Status:** `@agentskit/core` is at v1.0.0 (API frozen at the minor level). All other packages are on 0.x tracks and graduate individually per [`docs/STABILITY.md`](./docs/STABILITY.md).
 

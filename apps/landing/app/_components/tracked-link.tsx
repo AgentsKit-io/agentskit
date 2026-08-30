@@ -1,28 +1,14 @@
 'use client'
 
 import type { AnchorHTMLAttributes, ReactNode } from 'react'
+import { withInternalReference } from '@/lib/analytics-contract'
 import { track } from '@/lib/posthog-client'
-
-const SOURCE = 'agentskit'
-
-/** Append ecosystem UTM params to a cross-property URL (idempotent-ish: only for our domains). */
-export function withUtm(url: string, medium: string): string {
-  try {
-    const u = new URL(url)
-    u.searchParams.set('utm_source', SOURCE)
-    u.searchParams.set('utm_medium', medium)
-    u.searchParams.set('utm_campaign', 'ecosystem')
-    return u.toString()
-  } catch {
-    return url
-  }
-}
 
 type BaseProps = AnchorHTMLAttributes<HTMLAnchorElement> & { children: ReactNode }
 
 /**
  * Cross-property ecosystem link: tags the URL with UTM params and fires
- * `ecosystem_clicked` on click. `placement` becomes utm_medium + event context.
+ * `ecosystem_clicked` on click and preserves acquisition UTMs on the destination.
  */
 export function EcoLink({
   href,
@@ -33,8 +19,16 @@ export function EcoLink({
 }: BaseProps & { href: string; target: string; placement: string }) {
   return (
     <a
-      href={withUtm(href, placement)}
-      onClick={() => track('ecosystem_clicked', { target, placement })}
+      href={withInternalReference(href, placement, target)}
+      onClick={() => {
+        track('cta_clicked', {
+          cta_id: `ecosystem_${target}`,
+          destination: target,
+          placement,
+          surface: 'landing',
+        })
+        track('ecosystem_clicked', { target, placement })
+      }}
       {...rest}
     >
       {children}
@@ -53,7 +47,45 @@ export function CommunityLink({
   ...rest
 }: BaseProps & { href: string; target: string }) {
   return (
-    <a href={href} onClick={() => track('community_clicked', { target })} {...rest}>
+    <a
+      href={href}
+      onClick={() => {
+        track('cta_clicked', {
+          cta_id: `community_${target}`,
+          destination: target,
+          placement: 'community-link',
+          surface: 'landing',
+        })
+        track('community_clicked', { target })
+      }}
+      {...rest}
+    >
+      {children}
+    </a>
+  )
+}
+
+export function CtaLink({
+  href,
+  ctaId,
+  destination,
+  placement,
+  children,
+  ...rest
+}: BaseProps & { href: string; ctaId: string; destination: string; placement: string }) {
+  return (
+    <a
+      href={href}
+      onClick={() =>
+        track('cta_clicked', {
+          cta_id: ctaId,
+          destination,
+          placement,
+          surface: 'landing',
+        })
+      }
+      {...rest}
+    >
       {children}
     </a>
   )

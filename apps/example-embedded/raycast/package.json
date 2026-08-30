@@ -1,0 +1,13 @@
+{
+  "name": "agentskit-raycast-script",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@agentskit/adapters": "0.13.16",
+    "@agentskit/core": "1.12.4",
+    "@agentskit/runtime": "0.10.11"
+  }
+}

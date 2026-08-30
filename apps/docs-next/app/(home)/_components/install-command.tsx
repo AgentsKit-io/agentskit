@@ -1,9 +1,11 @@
 'use client'
 
 import { useState } from 'react'
+import { track } from '@/lib/analytics-client'
 
-const STEPS: { label: string; command: string; subtext: string; recommended?: boolean }[] = [
+const STEPS: { id: string; label: string; command: string; subtext: string; recommended?: boolean }[] = [
   {
+    id: 'start-fresh',
     label: 'Start fresh',
     command: 'npx @agentskit/cli init',
     recommended: true,
@@ -11,11 +13,13 @@ const STEPS: { label: string; command: string; subtext: string; recommended?: bo
       'Scaffold a UI binding, terminal, or runtime starter via @agentskit/cli — not product Chat. For versioned multi-surface chat apps use AgentsKit Chat (@agentskit/chat-cli) at chat.agentskit.io.',
   },
   {
+    id: 'add-to-project',
     label: 'Add to a project',
     command: 'npm install @agentskit/core @agentskit/adapters',
     subtext: 'The foundation stays under the 10 KB gzip budget. Works in browser, Node, Deno, Bun — anywhere JS runs.',
   },
   {
+    id: 'run-agent',
     label: 'Run a built agent',
     command: 'npx @agentskit/cli add research --run',
     subtext: 'Copy a ready-made agent from the registry and run it on any provider.',
@@ -58,7 +62,7 @@ export function InstallCommand({ withSubtext = false }: { withSubtext?: boolean 
         ))}
       </div>
 
-      <CommandLine command={step.command} />
+      <CommandLine command={step.command} commandId={step.id} />
 
       {withSubtext && (
         <p className="mt-2 text-xs leading-snug text-ak-graphite">{step.subtext}</p>
@@ -67,12 +71,20 @@ export function InstallCommand({ withSubtext = false }: { withSubtext?: boolean 
   )
 }
 
-function CommandLine({ command }: { command: string }) {
+function CommandLine({ command, commandId }: { command: string; commandId: string }) {
   const [copied, setCopied] = useState(false)
   const copy = () => {
-    navigator.clipboard?.writeText(command)
-    setCopied(true)
-    setTimeout(() => setCopied(false), 2000)
+    const write = navigator.clipboard?.writeText(command)
+    if (!write) return
+    void write.then(() => {
+      track('install_command_copied', {
+        command_id: commandId,
+        package_family: 'agentskit',
+        surface: 'docs-home',
+      })
+      setCopied(true)
+      setTimeout(() => setCopied(false), 2000)
+    })
   }
 
   return (

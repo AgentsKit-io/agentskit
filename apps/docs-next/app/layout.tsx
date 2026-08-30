@@ -5,6 +5,7 @@ import type { ReactNode } from 'react'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { alternatesFor } from '@/lib/locales'
+import { AttributionCapture } from '@/components/analytics/attribution-capture'
 import ecosystem from '@/lib/ecosystem.json'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
@@ -135,6 +136,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             </nav>
           </div>
         </footer>
+        <AttributionCapture />
         <Analytics />
         <SpeedInsights />
         <script src="/ecosystem-bar.js" defer data-current="agentskit" />

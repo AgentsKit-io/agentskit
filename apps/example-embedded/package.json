@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx src/index.ts",
-    "raycast": "tsx raycast/agentskit-ask.ts",
+    "raycast": "node raycast/agentskit-ask.js",
     "build": "tsc --noEmit",
     "lint": "tsc --noEmit"
   },

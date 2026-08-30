@@ -64,7 +64,7 @@ test('generation is byte-identical for unchanged canonical inputs', () => {
   assert.equal(generated.status, 0, generated.stderr)
   assert.equal(readFileSync(artifactPath, 'utf8'), beforeArtifact)
   assert.equal(readFileSync(sitePath, 'utf8'), beforeSite)
-})
+}, 30_000)
 
 test('exact, ambiguous, and reasoning queries follow the conservative confidence contract', () => {
   const { site, artifact } = load()

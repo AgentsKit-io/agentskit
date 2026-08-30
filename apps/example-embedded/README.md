@@ -6,7 +6,7 @@ Same agent runs from anywhere. Three host integrations of the
 | Host | Wrapper | Try it |
 |---|---|---|
 | Node CLI | `src/index.ts` | `pnpm --filter @agentskit/example-embedded dev "Why is the sky blue?"` |
-| Raycast Script Command | `raycast/agentskit-ask.ts` | Copy into `~/.config/raycast/scripts/agentskit/`, install, type "Ask AgentsKit" in Raycast. |
+| Raycast Script Command | `raycast/agentskit-ask.js` | Copy the script and its standalone `raycast/package.json` into `~/.config/raycast/scripts/agentskit/`, install, type "Ask AgentsKit" in Raycast. |
 | VS Code Task | `vscode/tasks.json` | Copy into `.vscode/tasks.json` (or merge), then `Cmd+Shift+P → Tasks: Run Task → AgentsKit · Ask`. |
 
 All three wrap the same `createRuntime({ adapter: openai({...}) })`
@@ -29,15 +29,20 @@ echo "Summarise this commit message" | pnpm --filter @agentskit/example-embedded
 
 ```bash
 mkdir -p ~/.config/raycast/scripts/agentskit
-cp raycast/agentskit-ask.ts ~/.config/raycast/scripts/agentskit/
-cp package.json ~/.config/raycast/scripts/agentskit/
+cp raycast/agentskit-ask.js ~/.config/raycast/scripts/agentskit/
+cp raycast/package.json ~/.config/raycast/scripts/agentskit/
 cd ~/.config/raycast/scripts/agentskit
-pnpm install
+npm install --omit=dev
 ```
 
 Open Raycast preferences → Extensions → Script Commands → Add the
 folder. Set `OPENAI_API_KEY` in the script's environment variables
 panel. Trigger from Raycast with the prompt argument.
+
+The copied package is standalone and uses published `@agentskit/*` versions;
+it does not depend on the monorepo's `workspace:*` ranges. This is a Raycast
+Script Command wrapping the AgentsKit runtime, not an MCP server or a Raycast
+Store extension.
 
 ## Wire as a VS Code Task
 

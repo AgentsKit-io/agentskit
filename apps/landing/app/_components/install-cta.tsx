@@ -1,5 +1,5 @@
 import { LINKS } from './links'
-import { CommunityLink } from './tracked-link'
+import { CommunityLink, CtaLink } from './tracked-link'
 
 export function InstallCta() {
   return (
@@ -10,12 +10,15 @@ export function InstallCta() {
         <span>pnpm add @agentskit/react @agentskit/adapters</span>
       </div>
       <div className="mt-8 flex flex-wrap items-center justify-center gap-3">
-        <a
+        <CtaLink
           href={LINKS.docs}
+          ctaId="install_read_docs"
+          destination="docs"
+          placement="install-cta"
           className="rounded-md bg-[var(--color-accent)] px-5 py-3 text-sm font-medium text-white transition hover:bg-[var(--color-accent-soft)]"
         >
           Read the docs
-        </a>
+        </CtaLink>
         <CommunityLink
           href={LINKS.discord}
           target="discord"

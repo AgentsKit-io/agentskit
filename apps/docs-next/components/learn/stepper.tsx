@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { useCallback, useEffect, useState } from 'react'
 import { PROGRESS_KEY, STEPS, type Progress } from '@/lib/learn-steps'
+import { track } from '@/lib/analytics-client'
 
 function readProgress(): Progress {
   if (typeof window === 'undefined') return {}
@@ -92,13 +93,34 @@ export function Stepper({ activeSlug }: { activeSlug?: string }) {
   )
 }
 
-export function MarkStepDone({ stepKey }: { stepKey: string }) {
+export function MarkStepDone({ stepKey, stepId, stepIndex }: { stepKey: string; stepId: string; stepIndex: number }) {
   const { progress, toggle } = useProgress()
   const done = !!progress[stepKey]
+  const markDone = () => {
+    if (!done) {
+      track('learn_step_completed', {
+        step_id: stepId,
+        step_index: stepIndex,
+        surface: 'learn',
+      })
+
+      const quickstartCompleted = STEPS.every((step) => step.key === stepKey || progress[step.key])
+      if (quickstartCompleted) {
+        track('quickstart_completed', {
+          doc_slug: 'learn-agentskit',
+          path_variant: 'interactive',
+          step_count: STEPS.length,
+          surface: 'learn',
+        })
+      }
+    }
+    toggle(stepKey, !done)
+  }
+
   return (
     <button
       type="button"
-      onClick={() => toggle(stepKey)}
+      onClick={markDone}
       className={`rounded-md px-4 py-2 text-sm font-semibold transition ${
         done
           ? 'border border-ak-border bg-ak-surface text-ak-graphite'

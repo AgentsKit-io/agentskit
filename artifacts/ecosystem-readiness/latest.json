@@ -1,23 +1,23 @@
 {
   "protocol": "agentskit.ecosystem.readiness",
   "schemaVersion": 1,
-  "auditDate": "2026-07-14",
-  "overall": "ready",
-  "promotionAllowed": true,
+  "auditDate": "2026-08-14",
+  "overall": "blocked",
+  "promotionAllowed": false,
   "summary": {
     "products": 7,
-    "ready": 7,
-    "blocked": 0,
+    "ready": 0,
+    "blocked": 7,
     "incomplete": 0,
-    "findings": 0,
-    "p0": 0,
+    "findings": 7,
+    "p0": 7,
     "p1": 0
   },
   "products": [
     {
       "id": "agentskit",
       "repo": "AgentsKit-io/agentskit",
-      "status": "ready",
+      "status": "blocked",
       "maturity": {
         "declared": "beta",
         "source": "ecosystem.json#products[agentskit].maturity"
@@ -220,7 +220,7 @@
     {
       "id": "registry",
       "repo": "AgentsKit-io/agentskit-registry",
-      "status": "ready",
+      "status": "blocked",
       "maturity": {
         "declared": "beta",
         "source": "ecosystem.json"
@@ -415,7 +415,7 @@
     {
       "id": "agentskit-chat",
       "repo": "AgentsKit-io/agentskit-chat",
-      "status": "ready",
+      "status": "blocked",
       "maturity": {
         "declared": "alpha",
         "source": "ecosystem.json"
@@ -610,7 +610,7 @@
     {
       "id": "playbook",
       "repo": "AgentsKit-io/agents-playbook",
-      "status": "ready",
+      "status": "blocked",
       "maturity": {
         "declared": "stable",
         "source": "ecosystem.json"
@@ -804,7 +804,7 @@
     {
       "id": "doc-bridge",
       "repo": "AgentsKit-io/doc-bridge",
-      "status": "ready",
+      "status": "blocked",
       "maturity": {
         "declared": "stable",
         "source": "ecosystem.json"
@@ -998,7 +998,7 @@
     {
       "id": "code-review",
       "repo": "AgentsKit-io/code-review-cli",
-      "status": "ready",
+      "status": "blocked",
       "maturity": {
         "declared": "alpha",
         "source": "ecosystem.json"
@@ -1192,7 +1192,7 @@
     {
       "id": "akos",
       "repo": "AgentsKit-io/agentskit-os",
-      "status": "ready",
+      "status": "blocked",
       "maturity": {
         "declared": "stable",
         "source": "ecosystem.json"
@@ -1392,5 +1392,104 @@
       ]
     }
   ],
-  "findings": []
+  "findings": [
+    {
+      "productId": "agentskit",
+      "repo": "AgentsKit-io/agentskit",
+      "gateId": "evidence-freshness",
+      "category": "process",
+      "status": "fail",
+      "severity": "p0",
+      "summary": "Evidence is 31 days old (maximum 30)",
+      "owner": "AgentsKit-io/agentskit",
+      "remediation": "Re-run the product audit and commit current evidence.",
+      "evidence": [
+        "ecosystem-readiness/evidence/agentskit.json"
+      ]
+    },
+    {
+      "productId": "agentskit-chat",
+      "repo": "AgentsKit-io/agentskit-chat",
+      "gateId": "evidence-freshness",
+      "category": "process",
+      "status": "fail",
+      "severity": "p0",
+      "summary": "Evidence is 31 days old (maximum 30)",
+      "owner": "AgentsKit-io/agentskit-chat",
+      "remediation": "Re-run the product audit and commit current evidence.",
+      "evidence": [
+        "ecosystem-readiness/evidence/agentskit-chat.json"
+      ]
+    },
+    {
+      "productId": "akos",
+      "repo": "AgentsKit-io/agentskit-os",
+      "gateId": "evidence-freshness",
+      "category": "process",
+      "status": "fail",
+      "severity": "p0",
+      "summary": "Evidence is 31 days old (maximum 30)",
+      "owner": "AgentsKit-io/agentskit-os",
+      "remediation": "Re-run the product audit and commit current evidence.",
+      "evidence": [
+        "ecosystem-readiness/evidence/akos.json"
+      ]
+    },
+    {
+      "productId": "code-review",
+      "repo": "AgentsKit-io/code-review-cli",
+      "gateId": "evidence-freshness",
+      "category": "process",
+      "status": "fail",
+      "severity": "p0",
+      "summary": "Evidence is 31 days old (maximum 30)",
+      "owner": "AgentsKit-io/code-review-cli",
+      "remediation": "Re-run the product audit and commit current evidence.",
+      "evidence": [
+        "ecosystem-readiness/evidence/code-review.json"
+      ]
+    },
+    {
+      "productId": "doc-bridge",
+      "repo": "AgentsKit-io/doc-bridge",
+      "gateId": "evidence-freshness",
+      "category": "process",
+      "status": "fail",
+      "severity": "p0",
+      "summary": "Evidence is 31 days old (maximum 30)",
+      "owner": "AgentsKit-io/doc-bridge",
+      "remediation": "Re-run the product audit and commit current evidence.",
+      "evidence": [
+        "ecosystem-readiness/evidence/doc-bridge.json"
+      ]
+    },
+    {
+      "productId": "playbook",
+      "repo": "AgentsKit-io/agents-playbook",
+      "gateId": "evidence-freshness",
+      "category": "process",
+      "status": "fail",
+      "severity": "p0",
+      "summary": "Evidence is 31 days old (maximum 30)",
+      "owner": "AgentsKit-io/agents-playbook",
+      "remediation": "Re-run the product audit and commit current evidence.",
+      "evidence": [
+        "ecosystem-readiness/evidence/playbook.json"
+      ]
+    },
+    {
+      "productId": "registry",
+      "repo": "AgentsKit-io/agentskit-registry",
+      "gateId": "evidence-freshness",
+      "category": "process",
+      "status": "fail",
+      "severity": "p0",
+      "summary": "Evidence is 31 days old (maximum 30)",
+      "owner": "AgentsKit-io/agentskit-registry",
+      "remediation": "Re-run the product audit and commit current evidence.",
+      "evidence": [
+        "ecosystem-readiness/evidence/registry.json"
+      ]
+    }
+  ]
 }

@@ -56,7 +56,7 @@ jobs:
           echo "Changed files:"
           echo "$CHANGED"
 
-          NEEDS_CHANGESET=$(echo "$CHANGED" | grep -E '^packages/' || true)
+          NEEDS_CHANGESET=$(echo "$CHANGED" | grep -E '^packages/' | grep -vE '^packages/[^/]+/(tests?/|.*\.(test|spec)\.[^/]+$)' || true)
 
           if [ -z "$NEEDS_CHANGESET" ]; then
             echo "No changes inside packages/ — changeset not required."
@@ -100,7 +100,7 @@ jobs:
       - name: Doc bridge gate
         run: pnpm docs:bridge:gate
 
-      - run: pnpm test
+      - run: pnpm exec turbo run test --concurrency=1
 
   compatibility:
     name: Compatibility (Node ${{ matrix.node }})

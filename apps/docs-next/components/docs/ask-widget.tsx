@@ -5,6 +5,7 @@ import {
   Children,
   createContext,
   useContext,
+  useEffect,
   useMemo,
   useRef,
   useState,
@@ -37,6 +38,7 @@ import {
   verifyLocalKnowledgeArtifactSync,
 } from '@agentskit/chat/protocol'
 import { z } from 'zod'
+import { track } from '@/lib/analytics-client'
 import { AnimatedLogo } from '@/components/brand/animated-logo'
 import deterministicKnowledge from '@/lib/deterministic-knowledge.generated.json'
 import deterministicSiteConfig from '@/lib/deterministic-site.generated.json'
@@ -142,11 +144,44 @@ function AskThinking({ visible }: { visible: boolean }) {
 
 function AskInput({ chat, placeholder, disabled }: ComponentProps<NonNullable<AgentChatSlots['Input']>>) {
   const runtime = useAskRuntime()
+  const submittedCount = useRef(0)
+  const completedRepliesAtSubmit = useRef(0)
+  const lastReportedReplyCount = useRef(0)
+  const errorReported = useRef(false)
   runtime.chat.current = chat
+  const sendQuestion = () => {
+    const question = chat.input.trim()
+    if (disabled || !question) return
+    completedRepliesAtSubmit.current = chat.messages.filter(
+      message => message.role === 'assistant' && message.status === 'complete',
+    ).length
+    submittedCount.current += 1
+    track('ask_docs_submitted', { entrypoint: 'composer', surface: 'docs' })
+    void chat.send(question)
+  }
   const submit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    if (!disabled && chat.input.trim()) void chat.send(chat.input)
+    sendQuestion()
   }
+
+  useEffect(() => {
+    if (submittedCount.current === 0) return
+    const completedReplyCount = chat.messages.filter(
+      message => message.role === 'assistant' && message.status === 'complete',
+    ).length
+    if (
+      completedReplyCount > completedRepliesAtSubmit.current &&
+      completedReplyCount > lastReportedReplyCount.current
+    ) {
+      track('ask_docs_completed', { surface: 'docs' })
+      lastReportedReplyCount.current = completedReplyCount
+    }
+    if (chat.status === 'error' && !errorReported.current) {
+      track('ask_docs_error', { surface: 'docs' })
+      errorReported.current = true
+    }
+  }, [chat.messages, chat.status])
+
   return (
     <form data-ak-composer="" className="flex gap-2" onSubmit={submit}>
       <textarea
@@ -155,7 +190,7 @@ function AskInput({ chat, placeholder, disabled }: ComponentProps<NonNullable<Ag
         onKeyDown={event => {
           if (event.key === 'Enter' && !event.shiftKey) {
             event.preventDefault()
-            if (!disabled && chat.input.trim()) void chat.send(chat.input)
+            sendQuestion()
           }
         }}
         rows={2}
@@ -297,7 +332,16 @@ export function AskDocsWidget({
   }), [effectiveEmptyState, loadingState, registry])
 
   if (!open) return (
-    <button type="button" onClick={() => setOpen(true)} aria-label={askLabel} data-ak-ask-fab="" className="group fixed bottom-4 right-4 z-50 flex items-center gap-2 rounded-full border border-ak-border bg-ak-midnight px-4 py-2.5 font-mono text-xs font-semibold text-ak-foam shadow-lg">
+    <button
+      type="button"
+      onClick={() => {
+        track('cta_clicked', { cta_id: 'ask_docs_open', destination: 'ask_docs', placement: 'floating-button', surface: 'docs' })
+        setOpen(true)
+      }}
+      aria-label={askLabel}
+      data-ak-ask-fab=""
+      className="group fixed bottom-4 right-4 z-50 flex items-center gap-2 rounded-full border border-ak-border bg-ak-midnight px-4 py-2.5 font-mono text-xs font-semibold text-ak-foam shadow-lg"
+    >
       <span aria-hidden>{effectiveLogo ?? <AnimatedLogo variant="nav" size={16} />}</span>{effectiveFabLabel}
     </button>
   )
@@ -325,10 +369,10 @@ export function AskDocsWidget({
           <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-1">
             {effectiveDocsHref ? (
               effectiveDocsHref.startsWith('http')
-                ? <a href={effectiveDocsHref} data-ak-ask-docs-link="" className="flex items-center gap-1.5 font-mono text-[10px] text-ak-graphite"><AnimatedLogo variant="nav" size={12} />{effectiveDocsLabel}</a>
-                : <Link href={effectiveDocsHref} data-ak-ask-docs-link="" className="flex items-center gap-1.5 font-mono text-[10px] text-ak-graphite"><AnimatedLogo variant="nav" size={12} />{effectiveDocsLabel}</Link>
+                ? <a href={effectiveDocsHref} onClick={() => track('cta_clicked', { cta_id: 'ask_docs_build_chat', destination: 'chat', placement: 'ask-footer', surface: 'docs' })} data-ak-ask-docs-link="" className="flex items-center gap-1.5 font-mono text-[10px] text-ak-graphite"><AnimatedLogo variant="nav" size={12} />{effectiveDocsLabel}</a>
+                : <Link href={effectiveDocsHref} onClick={() => track('cta_clicked', { cta_id: 'ask_docs_docs_link', destination: 'docs', placement: 'ask-footer', surface: 'docs' })} data-ak-ask-docs-link="" className="flex items-center gap-1.5 font-mono text-[10px] text-ak-graphite"><AnimatedLogo variant="nav" size={12} />{effectiveDocsLabel}</Link>
             ) : null}
-            {cta ? <a href={cta.href} target={cta.target} rel={cta.target === '_blank' ? 'noreferrer' : undefined} data-ak-ask-cta="" className="font-mono text-[10px] font-semibold uppercase tracking-widest text-ak-blue">{cta.label}</a> : null}
+            {cta ? <a href={cta.href} onClick={() => track('cta_clicked', { cta_id: 'ask_docs_custom_cta', destination: 'custom', placement: 'ask-footer', surface: 'docs' })} target={cta.target} rel={cta.target === '_blank' ? 'noreferrer' : undefined} data-ak-ask-cta="" className="font-mono text-[10px] font-semibold uppercase tracking-widest text-ak-blue">{cta.label}</a> : null}
           </div>
         </div>
       </div>
