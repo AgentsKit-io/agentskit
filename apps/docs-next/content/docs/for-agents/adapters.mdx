@@ -67,6 +67,12 @@ before the first semantic response. The adapter reports typed diagnostics and
 metadata-only checkpoints by default; GitHub, PR, merge, and approval policy
 remain outside the adapter.
 
+For CLIs that require a prompt in argv, `buildArgs(request)` creates the
+request-specific arguments while preserving direct shell-free spawning. Use
+`serializeRequest: () => ''` when stdin is not part of the provider protocol.
+`createJsonCliAdapter` also accepts `parseOutput(stdout)` for JSONL or
+event-wrapped output before its normal JSON parser.
+
 See [ADR 0031 — Shared CLI adapter execution boundary](../../../../../docs/architecture/adrs/0031-cli-adapter-execution-boundary.md)
 for the complete security, protocol, compatibility, rollout, and evidence
 contract. The subpath is Node-only and is available from the current source;

@@ -99,7 +99,7 @@ async function* runText(
   options: CliAdapterOptions,
 ): AsyncIterableIterator<StreamChunk> {
   preflightCli(options, 'exec-text')
-  const handle = spawnCliProcess({ ...options, protocol: 'exec-text' }, signal)
+  const handle = spawnCliProcess({ ...options, args: options.buildArgs?.(request) ?? options.args, protocol: 'exec-text' }, signal)
   const decoder = new TextDecoder()
   let emitted = false
   try {
@@ -185,7 +185,7 @@ async function* runJson(
   options: CliJsonAdapterOptions,
 ): AsyncIterableIterator<StreamChunk> {
   preflightCli(options, 'exec-json')
-  const handle = spawnCliProcess({ ...options, protocol: 'exec-json' }, signal)
+  const handle = spawnCliProcess({ ...options, args: options.buildArgs?.(request) ?? options.args, protocol: 'exec-json' }, signal)
   const decoder = new TextDecoder()
   let output = ''
   try {
@@ -194,7 +194,7 @@ async function* runJson(
     output += decoder.decode()
     let value: unknown
     try {
-      value = JSON.parse(output)
+      value = (options.parseOutput ?? JSON.parse)(output)
     } catch (error) {
       throw cliError(`CLI returned malformed JSON: ${error instanceof Error ? error.message : String(error)}`, error)
     }
@@ -313,7 +313,7 @@ async function* runAcp(
 ): AsyncIterableIterator<StreamChunk> {
   if ((options.protocolVersion ?? 1) !== 1) throw cliError('Only ACP protocol version 1 is supported')
   preflightCli(options, 'acp')
-  const handle = spawnCliProcess({ ...options, protocol: 'acp' }, signal)
+  const handle = spawnCliProcess({ ...options, args: options.buildArgs?.(request) ?? options.args, protocol: 'acp' }, signal)
   const iterator = readAcpMessages(handle, signal, options.maxOutputBytes ?? 8 * 1024 * 1024)[Symbol.asyncIterator]()
   let sequence = 0
   const nextId = (): string => `agentskit-${++sequence}`

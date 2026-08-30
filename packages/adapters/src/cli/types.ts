@@ -40,6 +40,8 @@ export interface CliProcessOptions {
   command: string
   /** Arguments passed directly to the executable; never interpreted by a shell. */
   args?: readonly string[]
+  /** Optional request-aware argv builder for CLIs whose prompt is an argument. */
+  buildArgs?: (request: AdapterRequest) => readonly string[]
   /** Working directory exposed to the child process. */
   cwd?: string
   /** Safe by default; trusted-local may inherit the developer environment. */
@@ -88,6 +90,8 @@ export type CliJsonParser = (value: unknown) => readonly StreamChunk[]
 export interface CliJsonAdapterOptions extends CliAdapterOptions {
   /** Maps one schema-validated JSON response to normalized stream chunks. */
   parse?: CliJsonParser
+  /** Decodes raw stdout before `parse`; useful for JSONL/event-wrapped CLIs. */
+  parseOutput?: (stdout: string) => unknown
 }
 
 export interface AcpClientInfo {

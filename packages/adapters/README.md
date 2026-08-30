@@ -118,6 +118,12 @@ output-limit data. Structured output fails closed; timeouts, aborts, output
 limits, and non-zero exits produce terminal adapter errors. Process termination
 is awaited before the adapter finishes, including when input or output fails.
 
+Use `buildArgs(request)` only for CLIs that require the prompt in argv; it is
+request-aware and still uses direct, shell-free spawning. Set
+`serializeRequest: () => ''` when the provider does not consume stdin. For
+JSONL or event-wrapped output, `parseOutput(stdout)` can decode raw stdout
+before the normal `parse(value)` callback runs.
+
 ## Stream guarantees
 
 - A stream terminates exactly once with `done` or `error`; terminal errors carry an `Error` in `metadata.error`.

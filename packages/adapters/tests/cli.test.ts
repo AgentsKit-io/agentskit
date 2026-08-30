@@ -42,6 +42,18 @@ describe('CLI adapters', () => {
     ])
   })
 
+  it('builds request-aware argv and can close stdin without serializing the request', async () => {
+    const adapter = createCliAdapter({
+      command: process.execPath,
+      buildArgs: requestValue => ['-e', "process.stdout.write(process.argv[1])", requestValue.messages[0]!.content],
+      serializeRequest: () => '',
+    })
+    await expect(collect(adapter)).resolves.toEqual([
+      { type: 'text', content: 'review this' },
+      { type: 'done' },
+    ])
+  })
+
   it('returns a typed error for a non-zero CLI exit', async () => {
     const chunks = await collect(createCliAdapter({
       command: process.execPath,
@@ -67,6 +79,19 @@ describe('CLI adapters', () => {
     }))
     expect(invalid).toHaveLength(1)
     expect(invalid[0]).toMatchObject({ type: 'error', content: expect.stringContaining('malformed JSON') })
+  })
+
+  it('decodes raw output before applying the structured parser', async () => {
+    const adapter = createJsonCliAdapter({
+      command: process.execPath,
+      args: ['-e', "process.stdout.write(JSON.stringify({event: JSON.stringify({text:'ok'})}))"],
+      parseOutput: stdout => JSON.parse(stdout).event,
+      parse: value => [{ type: 'text', content: value as string }],
+    })
+    await expect(collect(adapter)).resolves.toEqual([
+      { type: 'text', content: '{"text":"ok"}' },
+      { type: 'done' },
+    ])
   })
 
   it('terminates a CLI that exceeds its deadline', async () => {
