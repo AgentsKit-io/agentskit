@@ -4,7 +4,7 @@
   "profileVersion": 1,
   "productId": "agentskit",
   "repo": "AgentsKit-io/agentskit",
-  "commit": "8fd6a4f8d95e72ef7edaafd921b4768155334a8d",
+  "commit": "8c101daab7fef11ca614a4946b2fb67516aa5662",
   "auditedOn": "2026-08-28",
   "docBridge": {
     "artifact": "docs/evidence/ecosystem-documentation-quality/doc-bridge/agentskit.json",
@@ -29,7 +29,7 @@
     }
   },
   "attestation": {
-    "sourceMode": "working-tree",
+    "sourceMode": "commit",
     "contentDigest": "sha256:862c82e3b7d1a87ab78ef234a8c88a50cde6749ee91ba48fbcaf21c4a1972317"
   },
   "machineSurfaces": {
