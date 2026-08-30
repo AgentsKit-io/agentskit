@@ -80,6 +80,32 @@ describe('public ecosystem resources', () => {
     )
   })
 
+  it('keeps the Launch Llama listing and independent publications in the public graph', () => {
+    expect(publicResources.find((resource) => resource.id === 'agentskit-launch-llama')).toMatchObject({
+      publisher: 'Launch Llama',
+      url: 'https://tools.launchllama.co/products/agentskit',
+      status: 'published',
+      verifiedAt: '2026-08-20',
+    })
+    expect(publicResources.some((resource) => resource.type === 'article' && resource.publisher === 'DEV Community')).toBe(true)
+    expect(publicResources.some((resource) => resource.type === 'article' && resource.publisher === 'Hashnode')).toBe(true)
+  })
+
+  it('keeps the consolidated publication and recognition cross-references accurate', () => {
+    const byId = new Map(publicResources.map((resource) => [resource.id, resource]))
+
+    expect(byId.get('article-safe-vector-memory-dev')?.url).toBe(
+      'https://dev.to/agentskit/i-removed-an-arbitrary-sql-rpc-from-an-agent-memory-adapter-2hfd',
+    )
+    expect(byId.get('agentskit-infrabase')?.url).toBe('https://infrabase.ai/agents/agentskit')
+    expect(byId.get('agentskit-bootstraparena')?.url).toBe('https://bootstraparena.com/startups/agentskit')
+    expect(byId.get('code-review-openssf')?.product).toBe('Code Review')
+    expect(byId.get('code-review-openssf')?.url).toContain('/projects/13866')
+    expect(byId.get('doc-bridge-openssf')?.url).toContain('/projects/13872')
+    expect(byId.get('chat-openssf')?.url).toContain('/projects/13874')
+    expect(byId.get('registry-openssf')?.url).toContain('/projects/13876')
+  })
+
   it('does not expose private ledger vocabulary', () => {
     const serialized = JSON.stringify(publicResources)
 

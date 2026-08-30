@@ -1,6 +1,30 @@
 ---
 title: '@agentskit/eval'
 description: Eval suites + deterministic replay + snapshot testing + prompt diff + CI reporters.
+docbridge:
+  covers:
+    - package:@agentskit/eval
+  relations:
+    - from: package:@agentskit/eval
+      to: package:@agentskit/adapters
+      kind: imports
+      detection: static
+    - from: package:@agentskit/eval
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/eval
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/eval
+      to: package:@agentskit/runtime
+      kind: imports
+      detection: static
+    - from: package:@agentskit/eval
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 
 `@agentskit/eval` is how you stop shipping changes to prompts, tools, and providers on vibes alone. It gives you repeatable ways to measure quality, compare behavior, and catch regressions before they reach users.

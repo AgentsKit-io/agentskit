@@ -1,0 +1,79 @@
+{
+  "schemaVersion": 2,
+  "benchmark": "doc-bridge-retrieval-v1",
+  "runId": "1788047532833-30129",
+  "metrics": {
+    "artifact": {
+      "knowledgeEntries": 27,
+      "indexBytes": 113340,
+      "llmsBytes": 5496,
+      "agentDocFiles": 27,
+      "reportBytes": 3969961
+    },
+    "retrieval": {
+      "taskCount": 4,
+      "measurementsPerTask": 3,
+      "hits": 4,
+      "failedTaskCount": 0,
+      "hitRate": 1,
+      "latencyP50Ms": 294.97,
+      "latencyP95Ms": 296.67,
+      "responseBytesP50": 613,
+      "responseBytesP95": 768,
+      "estimatedTokensP50": 154,
+      "estimatedTokensP95": 192,
+      "corpusBytes": 118836,
+      "contextReduction": 0.9935373119256791
+    },
+    "quality": {
+      "entityCount": 3384,
+      "comparedRelationCount": 867,
+      "diagnosticCount": 152,
+      "confirmedCount": 152,
+      "staleCount": 0,
+      "undocumentedCount": 0,
+      "unresolvedCount": 0,
+      "notAnalyzedCount": 0,
+      "evidenceBackedDiagnosticCount": 152,
+      "evidenceCoverage": 1,
+      "documentationCoverage": 1,
+      "documentCount": 1535,
+      "documentedDocumentCount": 48,
+      "documentCoverage": 0.031270358306188926,
+      "agentDocumentCount": 27,
+      "documentedAgentDocumentCount": 25,
+      "agentDocumentCoverage": 0.9259259259259259,
+      "coverageScopeCount": 97,
+      "completeCoverageScopeCount": 85,
+      "partialCoverageScopeCount": 1,
+      "notAnalyzedCoverageScopeCount": 11,
+      "packageFreshCount": 26,
+      "packageStaleCount": 0,
+      "packageMissingCount": 0,
+      "packageUnverifiedCount": 0
+    }
+  },
+  "thresholds": {
+    "maxRegression": 0.1,
+    "minHitRate": 1,
+    "tokenEstimate": "responseBytes / 4"
+  },
+  "comparison": {
+    "passed": true,
+    "regressions": [],
+    "deltas": {
+      "retrieval.hitRate": 0,
+      "retrieval.latencyP95Ms": -8.22,
+      "retrieval.responseBytesP95": 0,
+      "retrieval.estimatedTokensP95": 0,
+      "quality.evidenceCoverage": 0,
+      "quality.documentationCoverage": 0,
+      "quality.documentCoverage": 0.0143,
+      "quality.agentDocumentCoverage": 0.8148,
+      "quality.staleCount": 0,
+      "quality.undocumentedCount": 0,
+      "quality.unresolvedCount": 0,
+      "quality.notAnalyzedCount": 0
+    }
+  }
+}

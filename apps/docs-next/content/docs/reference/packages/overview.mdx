@@ -1,6 +1,93 @@
 ---
 title: Packages overview
 description: Every AgentsKit package at a glance — what it does, when to reach for it, where to read the deep dive.
+docbridge:
+  covers:
+    - package:agentskit
+    - package:@agentskit/integrations
+    - package:@agentskit/mcp
+    - package:@agentskit/validation
+  relations:
+    - from: package:agentskit
+      to: package:@agentskit/adapters
+      kind: imports
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/eval
+      kind: depends-on
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/eval
+      kind: imports
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/ink
+      kind: imports
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/memory
+      kind: imports
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/observability
+      kind: depends-on
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/observability
+      kind: imports
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/rag
+      kind: imports
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/react
+      kind: imports
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/runtime
+      kind: depends-on
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/runtime
+      kind: imports
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/sandbox
+      kind: imports
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/skills
+      kind: depends-on
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/skills
+      kind: imports
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/templates
+      kind: depends-on
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/templates
+      kind: imports
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/tools
+      kind: depends-on
+      detection: static
+    - from: package:agentskit
+      to: package:@agentskit/tools
+      kind: imports
+      detection: static
 ---
 
 import { ContributeCallout } from '@/components/contribute/contribute-callout'

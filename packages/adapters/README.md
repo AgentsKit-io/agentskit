@@ -38,6 +38,7 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/adapters)
 - **25 native adapters in the catalog** — Anthropic, OpenAI, Gemini, Ollama, DeepSeek, Grok, Kimi, Mistral, Cohere, Together, Groq, Fireworks, OpenRouter, Hugging Face, LM Studio, vLLM, llama.cpp, LangChain, Vercel AI SDK, and additional compatible providers
 - **Embedder functions built in** — the same adapter pattern covers text embeddings, so you can reuse provider config for both chat and RAG
 - **One-line local AI** — `ollama({ model: 'llama3.1' })` for fully offline agents with no API key required
+- **CLI-backed agents** — `@agentskit/adapters/cli` normalizes text, JSON, and ACP-based local LLM CLIs
 
 ## Install
 
@@ -89,6 +90,41 @@ const rag = createRAG({
 - Fetch-backed adapters run against the shared `Adapter` contract v1 suite (ADR 0001); SDK-backed adapters have provider-specific contract and resilience coverage
 - Custom adapter authoring via `createAdapter()`
 - Higher-order adapters: `createRouter` (cost/latency/classifier), `createEnsembleAdapter` (fan-out + merge), `createFallbackAdapter` (ordered try-next)
+
+## CLI-backed adapters
+
+The Node-only `@agentskit/adapters/cli` subpath runs an explicitly selected
+local LLM executable without a shell:
+
+```ts
+import { createCliAdapter, getCliProviderManifest, resolveCliManifest } from '@agentskit/adapters/cli'
+
+const manifest = getCliProviderManifest('codex')
+if (!manifest) throw new Error('provider manifest is unavailable')
+const adapter = createCliAdapter(resolveCliManifest(manifest, { mode: 'review-safe' }))
+```
+
+The generic factories are `createCliAdapter` (`exec-text`),
+`createJsonCliAdapter` (`exec-json`), and `createAcpCliAdapter` (ACP v1 over
+JSON lines). The built-in manifests cover Codex, Claude Code, Grok CLI, and
+OpenCode. `resolveCliManifest` keeps command, argv, protocol, provider id, and
+mode explicit; `diagnoseCliProviderManifest` verifies availability and an
+optional version pattern. `review-safe` is the default: no shell, automatic
+installation, native login, MCP, plugins, or terminal tools. Use
+`trusted-local` explicitly when a developer intentionally wants the CLI's local
+authentication and environment. `requiredCapabilities` is checked before
+spawning, and `onDiagnostic` receives redacted exit, timeout, abort, and
+output-limit data. Structured output fails closed; timeouts, aborts, output
+limits, and non-zero exits produce terminal adapter errors. Process termination
+is awaited before the adapter finishes, including when input or output fails.
+
+Use `buildArgs(request)` only for CLIs that require the prompt in argv; it is
+request-aware and still uses direct, shell-free spawning. Set
+`serializeRequest: () => ''` when the provider does not consume stdin. For
+JSONL or event-wrapped output, `parseOutput(stdout)` can decode raw stdout
+before the normal `parse(value)` callback runs.
+For CLIs that write the final response to a file, `outputFile` reads that file
+after process completion with the same byte limit and abort handling.
 
 ## Stream guarantees
 

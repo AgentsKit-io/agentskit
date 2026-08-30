@@ -3,15 +3,21 @@
   "protocol": "agentskit.doc-bridge.attestation",
   "productId": "agentskit",
   "repo": "AgentsKit-io/agentskit",
-  "commit": "9b0b5cf332c5abe689186b46327f737e1a994a0f",
+  "commit": "e6eefe0eea7edccc54a7b1a9c1d11736a6b029ba",
   "sourceMode": "commit",
-  "contentDigest": "sha256:a64b2ff2fe0002064b43ee44dff43f858987deef8d09920517dee0676157bb90",
+  "contentDigest": "sha256:bf66923af81a3e91404e3e0971bc08f770a15923687602b94ddf427f3e460f6a",
   "command": "pnpm docs:bridge:doctor && pnpm docs:bridge:gate",
   "metrics": {
     "doctorScore": 100,
     "coverage": {
-      "agent": { "ready": 25, "total": 25 },
-      "human": { "ready": 25, "total": 25 }
+      "agent": {
+        "ready": 25,
+        "total": 25
+      },
+      "human": {
+        "ready": 25,
+        "total": 25
+      }
     },
     "conformance": {
       "requiredPassed": 7,

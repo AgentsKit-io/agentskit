@@ -355,8 +355,10 @@ function verifyDocBridgeArtifact(evidence, attestationRoot, findings) {
 }
 
 function runDocBridgeJson(root, args) {
+  const siblingSource = resolve(root, '..', 'doc-bridge', 'bin/ak-docs.js')
   const installed = resolve(root, 'node_modules/.bin/ak-docs')
   const selfHosted = resolve(root, 'bin/ak-docs.js')
+  if (existsSync(siblingSource)) return JSON.parse(execFileSync(process.execPath, [siblingSource, ...args, '--config', 'doc-bridge.config.json'], { cwd: root, encoding: 'utf8', maxBuffer: 20 * 1024 * 1024 }))
   if (existsSync(installed)) return JSON.parse(execFileSync(installed, args, { cwd: root, encoding: 'utf8', maxBuffer: 20 * 1024 * 1024 }))
   if (existsSync(selfHosted)) return JSON.parse(execFileSync(process.execPath, [selfHosted, ...args], { cwd: root, encoding: 'utf8', maxBuffer: 20 * 1024 * 1024 }))
   throw new Error('ak-docs executable was not found in node_modules/.bin or bin/ak-docs.js')

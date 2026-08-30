@@ -11,16 +11,17 @@ const read = (path) => readFileSync(join(REPO_ROOT, path), 'utf8')
 test('the reference journey is derived from the canonical manifest', () => {
   const source = read('apps/docs-next/lib/reference-journey.ts')
   assert.match(source, /import manifest from '\.\/ecosystem\.json'/)
-  assert.match(source, /agentskit\.navigation\.next\.map/)
+  assert.match(source, /manifest\.products\s*\.filter\(hasShowcase\)/)
+  assert.match(source, /\.sort\(\(a, b\) => a\.navigation\.order - b\.navigation\.order\)/)
+  assert.match(source, /\.map\(\(product\) =>/)
   assert.doesNotMatch(source, /https:\/\//)
 })
 
-test('the homepage exposes role, audience, maturity, proof, and contextual next steps', () => {
+test('the homepage uses canonical identity metadata and contextual next steps', () => {
   const source = read('apps/docs-next/app/(home)/page.tsx')
-  assert.match(source, /agentsKitIdentity\.role/)
+  assert.match(source, /agentsKitIdentity\.name/)
+  assert.match(source, /agentsKitIdentity\.promise/)
   assert.match(source, /agentsKitIdentity\.audience/)
-  assert.match(source, /agentsKitIdentity\.maturity/)
-  assert.match(source, /agentsKitIdentity\.proof/)
   assert.match(source, /<ReferenceJourney \/>/)
 })
 
@@ -50,37 +51,28 @@ test('the primary guide starts locally and keeps the provider step as progressiv
 test('the shared ecosystem bar contains its own mobile overflow', () => {
   const bar = read('apps/docs-next/public/ecosystem-bar.js')
   assert.match(bar, /@media\(max-width:767px\)/)
-  assert.match(bar, /max-width:100vw;flex-wrap:nowrap;overflow-x:auto/)
+  assert.match(bar, /max-width:100vw;overflow-x:auto/)
   assert.match(bar, /scrollbar-width:none/)
-  assert.match(bar, /flex:0 0 auto;min-height:44px;white-space:nowrap/)
-  assert.match(bar, /currentLink\.offsetLeft/)
-  assert.match(bar, /bar\.scrollTo/)
-  assert.doesNotMatch(bar, /requestAnimationFrame\(function \(\) \{\s*var maxScroll/)
-  assert.match(bar, /selectedTab\.offsetLeft/)
-  assert.match(bar, /this\.tabsRoot\.scrollTo/)
-  assert.doesNotMatch(bar, /role="tabpanel" aria-live="polite"/)
+  assert.match(bar, /a\.ak-eco-link\{[^}]*min-height:44px/)
+  assert.match(bar, /\.ak-eco-brand\{[^}]*min-height:44px/)
+  assert.match(bar, /\.ak-eco-brand\{position:sticky;left:0/)
+  assert.match(bar, /\.ak-eco-spacer,#ak-eco a\.ak-eco-cta\{display:none\}/)
 })
 
-test('the shared ecosystem bar resolves public numbers from canonical sources', () => {
+test('the shared ecosystem showcase uses its generated local snapshot', () => {
   const bar = read('apps/docs-next/public/ecosystem-bar.js')
-  assert.match(bar, /var INITIAL_CLAIMS =/)
-  assert.match(bar, /loadCanonicalClaims/)
-  assert.match(bar, /ecosystem-claims\.js/)
-  assert.match(bar, /__akApplyEcosystemClaims/)
-  assert.match(bar, /document\.currentScript/)
+  assert.match(bar, /ecobar:showcase-start[^\n]*\n\s*var SHOWCASE_PRODUCTS =/)
+  assert.match(bar, /"proof":/)
+  assert.match(bar, /SHOWCASE_PRODUCTS\.forEach|SHOWCASE_PRODUCTS\.find/)
   assert.doesNotMatch(bar, /fetch\(product\.claimSource\.url/)
 })
 
-test('the shared ecosystem footer derives the six public products from PROPS', () => {
+test('the shared ecosystem bar derives the six public products from PROPS', () => {
   const bar = read('apps/docs-next/public/ecosystem-bar.js')
   const props = bar.match(/ecobar:props-start[^\n]*\n([\s\S]*?)\n\s*\/\/ ecobar:props-end/)?.[1] ?? ''
 
-  assert.match(bar, /customElements\.define\('agentskit-ecosystem-footer'/)
-  assert.match(bar, /footer\.setAttribute\('aria-label', 'AgentsKit ecosystem footer'\)/)
-  assert.match(bar, /ecosystemNav\.setAttribute\('aria-label', 'AgentsKit products'\)/)
-  assert.match(bar, /PROPS\.forEach\(function \(product\)/)
-  assert.match(bar, /slot\.name = name/)
-  assert.match(bar, /slot\.assignedElements\(\)\.length === 0/)
+  assert.match(bar, /customElements\.define\('agentskit-ecosystem'/)
+  assert.match(bar, /PROPS\.forEach\(function \(p\)/)
   assert.equal((props.match(/\{ id:/g) || []).length, 6)
   assert.doesNotMatch(props, /code-review|Code Review/)
 })

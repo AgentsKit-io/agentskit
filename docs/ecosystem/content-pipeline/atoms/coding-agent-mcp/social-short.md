@@ -1,4 +1,4 @@
-Connect AgentsKit to your coding agent.
+# Connect AgentsKit to your coding agent
 
 4 commands. No provider key.
 

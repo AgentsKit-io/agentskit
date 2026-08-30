@@ -163,6 +163,31 @@ export default function EcosystemPage() {
         </ul>
       </section>
 
+      <section aria-labelledby="public-proof" className="mt-14 rounded-lg border border-ak-border bg-ak-surface p-6 sm:p-8">
+        <p className="font-mono text-xs uppercase tracking-[0.18em] text-ak-blue">Public proof</p>
+        <h2 id="public-proof" className="mt-2 font-display text-2xl font-semibold text-ak-foam">
+          Follow the ecosystem beyond this site
+        </h2>
+        <p className="mt-3 max-w-2xl text-sm leading-relaxed text-ak-graphite">
+          Verified listings, registries, publications, and trust evidence are cross-referenced in one public catalog.
+          Launch Llama, Dev.to, Hashnode, MCP registries, and other independent surfaces link back to the same canonical products.
+        </p>
+        <div className="mt-5 flex flex-wrap gap-3">
+          <Link
+            href="/resources#directory"
+            className="inline-flex min-h-11 items-center rounded-md bg-ak-blue px-4 font-medium text-ak-ink transition hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
+          >
+            View verified listings
+          </Link>
+          <Link
+            href="/resources#article"
+            className="inline-flex min-h-11 items-center rounded-md border border-ak-border px-4 font-medium text-ak-foam transition hover:border-ak-blue focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
+          >
+            Read independent publications
+          </Link>
+        </div>
+      </section>
+
       <section
         aria-label="By the numbers"
         className="mt-12 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-sm text-ak-graphite"

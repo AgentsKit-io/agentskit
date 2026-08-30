@@ -1,9 +1,9 @@
 #!/usr/bin/env node
 /**
  * Quality-gate orchestrator. Runs every structural gate in sequence and
- * reports a single pass/fail summary. These are the fast, build-free checks
- * that protect the codebase's non-negotiables; `pnpm check:all` layers
- * typecheck + build + test on top.
+ * reports a single pass/fail summary. These checks protect the codebase's
+ * non-negotiables; the content-pipeline fixture has one explicit local build
+ * precondition because it exercises the published adapter entrypoint.
  *
  * Run locally before opening a PR: `pnpm check:quality-gates`.
  */
@@ -57,6 +57,13 @@ const GATES = [
 ]
 
 const failed = []
+
+for (const packageName of ['@agentskit/adapters', '@agentskit/mcp']) {
+  const label = `${packageName} build precondition`
+  process.stdout.write(`\n▶ ${label}\n`)
+  const build = spawnSync('pnpm', ['--filter', packageName, 'build'], { stdio: 'inherit', cwd: root })
+  if (build.status !== 0) failed.push(label)
+}
 
 for (const [label, script, args = [], runner = 'node'] of GATES) {
   process.stdout.write(`\n▶ ${label}\n`)

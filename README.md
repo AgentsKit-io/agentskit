@@ -88,7 +88,7 @@ flowchart LR
   Playbook --> AKOS
 ```
 
-Humans get the docs site. Agents get [`llms.txt`](./llms.txt) and [`doc-bridge.config.json`](./doc-bridge.config.json): 24/24 package handoffs, 24/24 human-doc bridges.
+Humans get the docs site. Agents get [`llms.txt`](./llms.txt) and [`doc-bridge.config.json`](./doc-bridge.config.json): 25/25 package handoffs, 25/25 human-doc bridges. The [Doc Bridge verification guide](./apps/docs-next/content/docs/for-agents/doc-bridge.mdx) explains the evidence-first workflow.
 
 ---
 

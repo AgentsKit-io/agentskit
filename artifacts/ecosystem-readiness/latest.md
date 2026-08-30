@@ -1,5 +1,7 @@
 # AgentsKit ecosystem readiness
 
+This mutable `latest` alias points to the immutable snapshot [`readiness-2026-08-14.md`](./readiness-2026-08-14.md). Keep the dated artifact as the audit record and update this alias when a newer readiness run is published.
+
 - Audit date: 2026-08-14
 - Overall: **blocked**
 - Promotion allowed: **no**
@@ -61,4 +63,3 @@
   - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit-registry)
 
 Broad promotion remains gated until overall status is `ready`.
-

@@ -1,6 +1,38 @@
 ---
 title: '@agentskit/adapters'
 description: 20+ LLM chat + embedder adapters, plus router / ensemble / fallback. Swap providers with one import line.
+docbridge:
+  covers:
+    - package:@agentskit/adapters
+  relations:
+    - from: package:@agentskit/adapters
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/adapters
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/adapters
+      to: package:@agentskit/core
+      kind: re-exports
+      detection: static
+    - from: package:@agentskit/adapters
+      to: package:@agentskit/runtime
+      kind: imports
+      detection: static
+    - from: package:@agentskit/adapters
+      to: package:@agentskit/tools
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/adapters
+      to: package:@agentskit/tools
+      kind: imports
+      detection: static
+    - from: package:@agentskit/adapters
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 
 `@agentskit/adapters` is usually the first package you touch after `core`. It is the provider seam for the entire ecosystem: UI, runtime, memory, evals, and recipes all plug into this layer.

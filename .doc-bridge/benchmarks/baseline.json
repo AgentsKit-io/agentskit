@@ -1,0 +1,60 @@
+{
+  "schemaVersion": 2,
+  "benchmark": "doc-bridge-retrieval-v1",
+  "metrics": {
+    "artifact": {
+      "knowledgeEntries": 27,
+      "indexBytes": 111831,
+      "llmsBytes": 5496,
+      "agentDocFiles": 27,
+      "reportBytes": 3957930
+    },
+    "retrieval": {
+      "taskCount": 4,
+      "measurementsPerTask": 3,
+      "hits": 4,
+      "failedTaskCount": 0,
+      "hitRate": 1,
+      "latencyP50Ms": 294.62,
+      "latencyP95Ms": 304.89,
+      "responseBytesP50": 613,
+      "responseBytesP95": 768,
+      "estimatedTokensP50": 154,
+      "estimatedTokensP95": 192,
+      "corpusBytes": 117327,
+      "contextReduction": 0.9934541921296888
+    },
+    "quality": {
+      "entityCount": 3378,
+      "comparedRelationCount": 864,
+      "diagnosticCount": 152,
+      "confirmedCount": 152,
+      "staleCount": 0,
+      "undocumentedCount": 0,
+      "unresolvedCount": 0,
+      "notAnalyzedCount": 0,
+      "evidenceBackedDiagnosticCount": 152,
+      "evidenceCoverage": 1,
+      "documentationCoverage": 1,
+      "documentCount": 1534,
+      "documentedDocumentCount": 26,
+      "documentCoverage": 0.01694915254237288,
+      "agentDocumentCount": 27,
+      "documentedAgentDocumentCount": 3,
+      "agentDocumentCoverage": 0.1111111111111111,
+      "coverageScopeCount": 97,
+      "completeCoverageScopeCount": 85,
+      "partialCoverageScopeCount": 1,
+      "notAnalyzedCoverageScopeCount": 11,
+      "packageFreshCount": 26,
+      "packageStaleCount": 0,
+      "packageMissingCount": 0,
+      "packageUnverifiedCount": 0
+    }
+  },
+  "thresholds": {
+    "maxRegression": 0.1,
+    "minHitRate": 1,
+    "tokenEstimate": "responseBytes / 4"
+  }
+}

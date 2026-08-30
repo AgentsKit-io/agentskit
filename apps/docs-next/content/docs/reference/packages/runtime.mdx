@@ -1,6 +1,30 @@
 ---
 title: '@agentskit/runtime'
 description: Standalone agent runtime. ReAct loop, durable execution, multi-agent topologies, speculative execution, background agents.
+docbridge:
+  covers:
+    - package:@agentskit/runtime
+  relations:
+    - from: package:@agentskit/runtime
+      to: package:@agentskit/adapters
+      kind: imports
+      detection: static
+    - from: package:@agentskit/runtime
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/runtime
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/runtime
+      to: package:@agentskit/tools
+      kind: imports
+      detection: static
+    - from: package:@agentskit/runtime
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 
 `@agentskit/runtime` is where AgentsKit stops being “a chat integration” and becomes an agent system. This package owns the multi-step loop that lets a model inspect, act, reflect, and continue.

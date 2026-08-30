@@ -1,4 +1,5 @@
 ---
+title: Project v1 readiness
 name: project_v1-readiness
 description: ecosystem-wide v1.0 readiness audit + the honest-tier reconciliation done 2026-06-15
 metadata:

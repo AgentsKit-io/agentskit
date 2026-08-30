@@ -1,4 +1,5 @@
 ---
+title: Zero-dependency core feedback
 name: feedback_zero-dep-core
 description: core takes zero runtime deps; heavy deps live in opt-in packages behind injection points
 metadata:

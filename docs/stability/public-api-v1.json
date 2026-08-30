@@ -970,6 +970,171 @@
             }
           ]
         },
+        "./cli": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "AcpCliAdapterOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "AcpClientInfo",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliAdapterOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliCapabilityRequirements",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliDiagnostic",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliJsonAdapterOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliJsonParser",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliJsonResponse",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliManifestOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliProcessOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliProtocol",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliProviderManifest",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliSecurityMode",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliTerminationReason",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliToolCall",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "createAcpCliAdapter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createCliAdapter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createJsonCliAdapter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "diagnoseCliProvider",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "diagnoseCliProviderManifest",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "getCliProviderManifest",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "listCliProviderManifests",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "manifestCapabilities",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "parseCliJsonResponse",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "resolveCliManifest",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "validateCliProviderManifest",
+              "kinds": [
+                "value"
+              ]
+            }
+          ]
+        },
         "./createAdapter": {
           "conditions": [
             "import",

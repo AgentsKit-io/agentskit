@@ -1,6 +1,30 @@
 ---
 title: '@agentskit/memory'
 description: Chat memory + vector stores + hierarchical / encrypted / graph / personalization wrappers.
+docbridge:
+  covers:
+    - package:@agentskit/memory
+  relations:
+    - from: package:@agentskit/memory
+      to: package:@agentskit/adapters
+      kind: imports
+      detection: static
+    - from: package:@agentskit/memory
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/memory
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/memory
+      to: package:@agentskit/runtime
+      kind: imports
+      detection: static
+    - from: package:@agentskit/memory
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 
 `@agentskit/memory` is the layer you add when your agent needs continuity. Without it, every run starts cold. With it, the system can remember conversations, preferences, retrieved context, and higher-order abstractions over time.

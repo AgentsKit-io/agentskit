@@ -1,6 +1,30 @@
 ---
 title: '@agentskit/sandbox'
 description: Secure code execution (E2B / WebContainer) + mandatory-sandbox policy wrapper.
+docbridge:
+  covers:
+    - package:@agentskit/sandbox
+  relations:
+    - from: package:@agentskit/sandbox
+      to: package:@agentskit/adapters
+      kind: imports
+      detection: static
+    - from: package:@agentskit/sandbox
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/sandbox
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/sandbox
+      to: package:@agentskit/runtime
+      kind: imports
+      detection: static
+    - from: package:@agentskit/sandbox
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 
 `@agentskit/sandbox` is the package for the moment when your agent needs to execute code or touch risky tools and “please be careful” is no longer enough. It adds a policy layer between the model and dangerous capabilities.

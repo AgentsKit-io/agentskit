@@ -2,12 +2,12 @@
   "schemaVersion": 1,
   "type": "doc-bridge-capabilities",
   "package": "@agentskit/doc-bridge",
-  "version": "1.4.3",
+  "version": "1.7.45",
   "project": {
     "name": "AgentsKit",
     "root": "."
   },
-  "contentHash": "6f506db9d49aa9ebaa153b0117054166db2b9e02412e384341013c6650c6ceb2",
+  "contentHash": "4f401fb09696a81460ca5594621557c4ae86e660a696a668910b506721956c04",
   "artifacts": {
     "index": ".doc-bridge/index.json",
     "llmsTxt": ".doc-bridge/llms.txt"
@@ -24,10 +24,22 @@
   "surfaces": {
     "cli": {
       "bin": "ak-docs",
-      "defaultFormat": "text"
+      "defaultFormat": "json"
     },
     "mcp": {
       "enabled": true,
+      "tools": [
+        "handoff.resolve",
+        "doc.search",
+        "doc.get",
+        "gate.status",
+        "docbridge.snapshot",
+        "docbridge.report",
+        "docbridge.diagnostics",
+        "docbridge.relations",
+        "docbridge.run",
+        "docbridge.proposals"
+      ],
       "transport": "stdio"
     }
   }

@@ -1,4 +1,5 @@
 ---
+title: JSON Schema canonical feedback
 name: feedback_json-schema-canonical
 description: JSON Schema is the single source of truth for contracts; do not add Zod as a parallel canonical
 metadata:

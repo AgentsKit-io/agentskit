@@ -1,6 +1,30 @@
 ---
 title: '@agentskit/observability'
 description: Trace viewer, signed audit log, cost guard, devtools, token counters.
+docbridge:
+  covers:
+    - package:@agentskit/observability
+  relations:
+    - from: package:@agentskit/observability
+      to: package:@agentskit/adapters
+      kind: imports
+      detection: static
+    - from: package:@agentskit/observability
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/observability
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/observability
+      to: package:@agentskit/runtime
+      kind: imports
+      detection: static
+    - from: package:@agentskit/observability
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 
 `@agentskit/observability` is the package you add when you no longer want to guess what your agent did. It turns opaque runs into inspectable traces, costs, audit events, and live debugging streams.

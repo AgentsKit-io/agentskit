@@ -6,6 +6,7 @@ AgentsKit is a plug-and-play TypeScript toolkit for building production agents: 
 - [@agentskit/angular](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/angular): Angular binding for the `ChatReturn` contract from `@agentskit/core`. Exposes chat state as a `WritableSignal<ChatState | null>` for template binding and as an `Observable<ChatState | null>` for RxJS pipelines, with automatic teardown via `ngOnDestroy`.
 - [@agentskit/cli](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/cli)
 - [core](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/core): Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + `createChatController` + primitives. Target: &lt;10 KB gzipped, zero runtime deps.
+- [doc-bridge](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/doc-bridge): Use Doc Bridge before editing to locate the owning package, its agent handoff, human documentation, allowed edit roots, and required checks. Use the workflow artifacts to compare observed repository structure with documented intent.
 - [eval-braintrust](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/eval-braintrust)
 - [eval](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/eval)
 - [index](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/index): If you're an AI agent reading this: every page in this section is a condensed reference for one AgentsKit package. Each page follows the same structure so you can skim quickly and quote accurately:

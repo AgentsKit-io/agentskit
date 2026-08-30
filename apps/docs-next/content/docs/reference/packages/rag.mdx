@@ -1,6 +1,30 @@
 ---
 title: '@agentskit/rag'
 description: Plug-and-play RAG. Chunk, embed, retrieve, rerank, hybrid, and document loaders.
+docbridge:
+  covers:
+    - package:@agentskit/rag
+  relations:
+    - from: package:@agentskit/rag
+      to: package:@agentskit/adapters
+      kind: imports
+      detection: static
+    - from: package:@agentskit/rag
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/rag
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/rag
+      to: package:@agentskit/memory
+      kind: imports
+      detection: static
+    - from: package:@agentskit/rag
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 
 ## When to reach for it

@@ -25,7 +25,8 @@
     "options": {
       "packages": [
         "packages/*"
-      ]
+      ],
+      "ownershipFromCorpus": false
     }
   },
   "index": {
@@ -142,11 +143,61 @@
   "surfaces": {
     "cli": {
       "bin": "ak-docs",
-      "defaultFormat": "text"
+      "defaultFormat": "json"
     },
     "mcp": {
       "enabled": true,
-      "transport": "stdio"
+      "transport": "stdio",
+      "tools": [
+        "handoff.resolve",
+        "doc.search",
+        "doc.get",
+        "gate.status",
+        "docbridge.snapshot",
+        "docbridge.report",
+        "docbridge.diagnostics",
+        "docbridge.relations",
+        "docbridge.run",
+        "docbridge.proposals"
+      ]
     }
+  },
+  "reconciliation": {
+    "scope": "package",
+    "requiredRelationKinds": ["depends-on"],
+    "requiredRelationTargets": "internal"
+  },
+  "intelligence": {
+    "registry": {
+      "enabled": true,
+      "agentId": "ecosystem-doc-bridge-corpus-scanner",
+      "runnerModule": "agents/ecosystem-doc-bridge-corpus-scanner/doc-bridge-adapter.js",
+      "deterministic": true,
+      "maxTokens": 4096,
+      "maxResponseBytes": 16384
+    }
+  },
+  "safety": {
+    "exclude": [
+      "**/.git/**",
+      "**/node_modules/**",
+      "**/.doc-bridge/**",
+      "**/dist/**",
+      "**/build/**",
+      "**/coverage/**",
+      "**/.next/**",
+      "**/out/**",
+      "**/.changeset/**",
+    "**/.impeccable.md",
+    "**/.github/PULL_REQUEST_TEMPLATE.md",
+    "**/CHANGELOG.md"
+    ],
+    "maxFiles": 20000,
+    "maxBytes": 2000000000,
+    "maxTimeMs": 120000,
+    "redactSecrets": true
+  },
+  "report": {
+    "privacy": "private"
   }
 }
