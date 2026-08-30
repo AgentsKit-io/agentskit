@@ -76,6 +76,22 @@ describe('CLI adapters', () => {
     }
   })
 
+  it('fails closed when the provider output file is missing', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'agentskit-cli-output-missing-'))
+    try {
+      const chunks = await collect(createCliAdapter({
+        command: process.execPath,
+        args: ['-e', ''],
+        serializeRequest: () => '',
+        outputFile: join(dir, 'missing.txt'),
+      }))
+      expect(chunks).toHaveLength(1)
+      expect(chunks[0]).toMatchObject({ type: 'error', content: expect.stringContaining('CLI output file could not be read') })
+    } finally {
+      rmSync(dir, { recursive: true, force: true })
+    }
+  })
+
   it('returns a typed error for a non-zero CLI exit', async () => {
     const chunks = await collect(createCliAdapter({
       command: process.execPath,
