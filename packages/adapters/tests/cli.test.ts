@@ -1,5 +1,17 @@
 import { describe, expect, it } from 'vitest'
-import { createAcpCliAdapter, createCliAdapter, createJsonCliAdapter, diagnoseCliProvider } from '../src/cli'
+import {
+  createAcpCliAdapter,
+  createCliAdapter,
+  createJsonCliAdapter,
+  diagnoseCliProvider,
+  diagnoseCliProviderManifest,
+  getCliProviderManifest,
+  listCliProviderManifests,
+  manifestCapabilities,
+  resolveCliManifest,
+  validateCliProviderManifest,
+} from '../src/cli'
+import type { CliProviderManifest } from '../src/cli'
 import type { AdapterRequest, StreamChunk } from '@agentskit/core'
 
 const request: AdapterRequest = {
@@ -113,6 +125,50 @@ describe('CLI adapters', () => {
     })
     expect(diagnostic).toMatchObject({ available: true, providerId: 'fixture', protocol: 'exec-text', version: 'cli-v1' })
     expect(diagnostic.elapsedMs).toEqual(expect.any(Number))
+  })
+
+  it('exposes validated first-party manifests without auto-discovery', () => {
+    const manifests = listCliProviderManifests()
+    expect(manifests.map(manifest => manifest.id)).toEqual(['codex', 'claude-code', 'grok', 'opencode'])
+    expect(manifests.every(manifest => manifest.supportedModes.includes('review-safe'))).toBe(true)
+    expect(getCliProviderManifest('does-not-exist')).toBeUndefined()
+    expect(manifestCapabilities(manifests[0]!)).toMatchObject({ streaming: true })
+    const mutableArgs = manifests[0]!.args as string[]
+    mutableArgs.push('mutated')
+    expect(listCliProviderManifests()[0]!.args).not.toContain('mutated')
+  })
+
+  it('resolves a manifest into explicit argv and provider diagnostics', async () => {
+    const manifest: CliProviderManifest = {
+      id: 'fixture',
+      name: 'Fixture CLI',
+      command: process.execPath,
+      args: ['-e', "process.stdout.write('ok')"],
+      diagnosticArgs: ['-e', "process.stdout.write('fixture-v1')"],
+      protocol: 'exec-text',
+      capabilities: { streaming: true },
+      supportedModes: ['review-safe'],
+      versionPattern: '^fixture-v1$',
+    }
+    const resolved = resolveCliManifest(manifest)
+    expect(resolved).toMatchObject({ command: process.execPath, args: manifest.args, providerId: 'fixture', protocol: 'exec-text' })
+    await expect(collect(createCliAdapter(resolved))).resolves.toEqual([{ type: 'text', content: 'ok' }, { type: 'done' }])
+    await expect(diagnoseCliProviderManifest(manifest)).resolves.toMatchObject({ available: true, version: 'fixture-v1', providerId: 'fixture' })
+  })
+
+  it('rejects a manifest that overclaims protocol capabilities', () => {
+    const invalid: CliProviderManifest = {
+      id: 'invalid',
+      name: 'Invalid CLI',
+      command: 'invalid',
+      args: [],
+      diagnosticArgs: ['--version'],
+      protocol: 'exec-text',
+      capabilities: { streaming: true, structuredOutput: true },
+      supportedModes: ['review-safe'],
+    }
+    expect(() => validateCliProviderManifest(invalid)).toThrow(/unsupported structuredOutput/)
+    expect(() => validateCliProviderManifest(null)).toThrow(/must be an object/)
   })
 
   it('normalizes ACP v1 session output over JSON lines', async () => {

@@ -97,25 +97,26 @@ The Node-only `@agentskit/adapters/cli` subpath runs an explicitly selected
 local LLM executable without a shell:
 
 ```ts
-import { createJsonCliAdapter } from '@agentskit/adapters/cli'
+import { createCliAdapter, getCliProviderManifest, resolveCliManifest } from '@agentskit/adapters/cli'
 
-const adapter = createJsonCliAdapter({
-  command: 'codex',
-  args: ['exec', '--json'],
-  mode: 'review-safe',
-})
+const manifest = getCliProviderManifest('codex')
+if (!manifest) throw new Error('provider manifest is unavailable')
+const adapter = createCliAdapter(resolveCliManifest(manifest, { mode: 'review-safe' }))
 ```
 
 The generic factories are `createCliAdapter` (`exec-text`),
 `createJsonCliAdapter` (`exec-json`), and `createAcpCliAdapter` (ACP v1 over
-JSON lines). `review-safe` is the default: no shell, automatic installation,
-native login, MCP, plugins, or terminal tools. Use `trusted-local` explicitly
-when a developer intentionally wants the CLI's local authentication and
-environment. `requiredCapabilities` is checked before spawning, and
-`onDiagnostic` receives redacted exit, timeout, abort, and output-limit data.
-Structured output fails closed; timeouts, aborts, output limits, and non-zero
-exits produce terminal adapter errors. Process termination is awaited before
-the adapter finishes, including when input or output fails.
+JSON lines). The built-in manifests cover Codex, Claude Code, Grok CLI, and
+OpenCode. `resolveCliManifest` keeps command, argv, protocol, provider id, and
+mode explicit; `diagnoseCliProviderManifest` verifies availability and an
+optional version pattern. `review-safe` is the default: no shell, automatic
+installation, native login, MCP, plugins, or terminal tools. Use
+`trusted-local` explicitly when a developer intentionally wants the CLI's local
+authentication and environment. `requiredCapabilities` is checked before
+spawning, and `onDiagnostic` receives redacted exit, timeout, abort, and
+output-limit data. Structured output fails closed; timeouts, aborts, output
+limits, and non-zero exits produce terminal adapter errors. Process termination
+is awaited before the adapter finishes, including when input or output fails.
 
 ## Stream guarantees
 

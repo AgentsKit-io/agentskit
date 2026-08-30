@@ -4,7 +4,13 @@ export {
   createJsonCliAdapter,
   createAcpCliAdapter,
   diagnoseCliProvider,
+  diagnoseCliProviderManifest,
+  getCliProviderManifest,
+  listCliProviderManifests,
+  manifestCapabilities,
   parseCliJsonResponse,
+  resolveCliManifest,
+  validateCliProviderManifest,
 } from './cli'
 export type {
   AcpCliAdapterOptions,
@@ -15,7 +21,9 @@ export type {
   CliJsonAdapterOptions,
   CliJsonParser,
   CliJsonResponse,
+  CliManifestOptions,
   CliProtocol,
+  CliProviderManifest,
   CliProcessOptions,
   CliSecurityMode,
   CliTerminationReason,
