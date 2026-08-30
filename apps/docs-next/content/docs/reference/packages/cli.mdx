@@ -1,6 +1,86 @@
 ---
 title: AgentsKit CLI for TypeScript agents
 description: 'AgentsKit CLI for TypeScript agents: scaffold, run, chat, dev, doctor, RAG, and MCP from the terminal.'
+docbridge:
+  covers:
+    - package:@agentskit/cli
+  relations:
+    - from: package:@agentskit/cli
+      to: package:@agentskit/adapters
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/cli
+      to: package:@agentskit/adapters
+      kind: imports
+      detection: static
+    - from: package:@agentskit/cli
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/cli
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/cli
+      to: package:@agentskit/ink
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/cli
+      to: package:@agentskit/ink
+      kind: imports
+      detection: static
+    - from: package:@agentskit/cli
+      to: package:@agentskit/integrations
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/cli
+      to: package:@agentskit/integrations
+      kind: imports
+      detection: static
+    - from: package:@agentskit/cli
+      to: package:@agentskit/memory
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/cli
+      to: package:@agentskit/memory
+      kind: imports
+      detection: static
+    - from: package:@agentskit/cli
+      to: package:@agentskit/rag
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/cli
+      to: package:@agentskit/rag
+      kind: imports
+      detection: static
+    - from: package:@agentskit/cli
+      to: package:@agentskit/runtime
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/cli
+      to: package:@agentskit/runtime
+      kind: imports
+      detection: static
+    - from: package:@agentskit/cli
+      to: package:@agentskit/skills
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/cli
+      to: package:@agentskit/skills
+      kind: imports
+      detection: static
+    - from: package:@agentskit/cli
+      to: package:@agentskit/tools
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/cli
+      to: package:@agentskit/tools
+      kind: imports
+      detection: static
+    - from: package:@agentskit/cli
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 
 `@agentskit/cli` is the operational front door to the ecosystem. It is how you bootstrap a project, run an agent, inspect your setup, and keep moving without writing scaffolding code first.

@@ -1,6 +1,18 @@
 ---
 title: "@agentskit/core"
 description: "Shared contract layer — TypeScript types, headless chat controller, stream helpers. Zero-dep, under 10 KB gzipped."
+docbridge:
+  covers:
+    - package:@agentskit/core
+  relations:
+    - from: package:@agentskit/core
+      to: package:@agentskit/adapters
+      kind: imports
+      detection: static
+    - from: package:@agentskit/core
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 import { ContributeCallout } from '@/components/contribute/contribute-callout'
 

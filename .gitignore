@@ -34,3 +34,8 @@ test-results/
 # Generated ecosystem readiness reports (latest regenerated locally/CI)
 artifacts/ecosystem-readiness/readiness-*.json
 artifacts/ecosystem-readiness/readiness-*.md
+
+# Local Doc Bridge and verification outputs (the contract and benchmark snapshots are tracked).
+.doc-bridge/report.html
+.doc-bridge/workflow/
+.codex/verification/

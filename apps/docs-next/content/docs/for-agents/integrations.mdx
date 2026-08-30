@@ -1,6 +1,22 @@
 ---
 title: '@agentskit/integrations — for agents'
 description: Unified single-descriptor service-integration catalog projected into tools, connectors, triggers, and OAuth.
+docbridge:
+  covers:
+    - package:@agentskit/integrations
+  relations:
+    - from: package:@agentskit/integrations
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/integrations
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/integrations
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 
 ## Install

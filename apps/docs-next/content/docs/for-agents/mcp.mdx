@@ -1,6 +1,50 @@
 ---
 title: '@agentskit/mcp — for agents'
 description: Expose AgentsKit tools as an MCP server over stdio for Codex, Claude Code/Desktop, Cursor, Cline, Continue, and other MCP hosts.
+docbridge:
+  covers:
+    - package:@agentskit/mcp
+  relations:
+    - from: package:@agentskit/mcp
+      to: package:@agentskit/adapters
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/mcp
+      to: package:@agentskit/adapters
+      kind: imports
+      detection: static
+    - from: package:@agentskit/mcp
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/mcp
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/mcp
+      to: package:@agentskit/runtime
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/mcp
+      to: package:@agentskit/runtime
+      kind: imports
+      detection: static
+    - from: package:@agentskit/mcp
+      to: package:@agentskit/tools
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/mcp
+      to: package:@agentskit/tools
+      kind: imports
+      detection: static
+    - from: package:@agentskit/mcp
+      to: package:@agentskit/tools
+      kind: re-exports
+      detection: static
+    - from: package:@agentskit/mcp
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 
 ## Purpose
@@ -11,7 +55,7 @@ Serve AgentsKit tools to any MCP host. A thin bridge over `@agentskit/tools/mcp`
 ## Install
 
 ```bash
-npm install @agentskit/mcp@0.3.9
+npm install @agentskit/mcp@0.4.2
 ```
 
 ## Primary exports
@@ -24,13 +68,17 @@ npm install @agentskit/mcp@0.3.9
 - `createAgentTool({ id, description, systemPrompt, adapter, maxSteps? })` —
   wrap a whole agent as one MCP tool. The host calls it with a `task`; the agent
   runs server-side on the given adapter and returns the result ("agents as MCP tools").
+- `createTypedAgentTool(config)` — typed variant of `createAgentTool` for an
+  agent input/output contract.
+- `fetchAgent(id, fetchImpl?)` — fetch a registry agent definition without
+  executing its source.
 - `fetchAgentSkill(id, fetchImpl?)` — fetch a registry agent's runnable skill
   (hosted index, raw-GitHub fallback); `null` for tool-composing agents. An
   optional third argument controls abort, timeout, and response-byte limits.
 
 ## Bin
 
-`agentskit-mcp` — `npx -y @agentskit/mcp@0.3.9 --tools fetch,search`. Expose whole agents
+`agentskit-mcp` — `npx -y @agentskit/mcp@0.4.2 --tools fetch,search`. Expose whole agents
 with `--agents <ids> --provider <p>` (any of ~20 providers + catalog OpenAI-compatible). Flags: `--tools`,
 `--fs-root`, `--sqlite`, `--allow-shell`, `--model`, `--max-steps`, `--api-key`,
 `--base-url`. Unknown, duplicate, or valueless flags fail closed. stdout is the

@@ -1,6 +1,30 @@
 ---
 title: '@agentskit/ink'
 description: Terminal chat UI on Ink. Same useChat contract as the React binding.
+docbridge:
+  covers:
+    - package:@agentskit/ink
+  relations:
+    - from: package:@agentskit/ink
+      to: package:@agentskit/adapters
+      kind: imports
+      detection: static
+    - from: package:@agentskit/ink
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/ink
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/ink
+      to: package:@agentskit/core
+      kind: re-exports
+      detection: static
+    - from: package:@agentskit/ink
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 
 ## When to reach for it

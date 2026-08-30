@@ -1,6 +1,26 @@
 ---
 title: '@agentskit/react-native'
 description: React Native / Expo hook. Metro + Hermes safe. Same contract as @agentskit/react.
+docbridge:
+  covers:
+    - package:@agentskit/react-native
+  relations:
+    - from: package:@agentskit/react-native
+      to: package:@agentskit/adapters
+      kind: imports
+      detection: static
+    - from: package:@agentskit/react-native
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/react-native
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/react-native
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 
 ## Install

@@ -208,7 +208,7 @@
           "ecosystem.json",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:57d24167af32bcc99f84a3456c5ba6dfca67036fbf2239a7bfecde91d56678d8"
+        "sourceHash": "sha256:7f52944702007dba4039c18a9cb600109f8939291d3921f1f817415f7727e49a"
       },
       "exceptions": []
     },
@@ -896,7 +896,7 @@
       "commands": [
         {
           "id": "install",
-          "command": "npx -y @agentskit/mcp@0.3.9 --tools fetch,search",
+          "command": "npx -y @agentskit/mcp@0.4.2 --tools fetch,search",
           "test": "packages/mcp/tests/server.test.ts",
           "testCommand": "pnpm --filter @agentskit/mcp test"
         }
@@ -919,7 +919,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:b558f711f69d2612cadede5340fdb8ef2725ac2a2e7c6a73b1b52c10feef9829"
+        "sourceHash": "sha256:3d39c92b06e3fb22ab5031491783269afb96f8525257234431dab5f8b2b702de"
       },
       "exceptions": []
     },

@@ -23,9 +23,9 @@ import {
 import { dispatchFromCatalog } from '@agentskit/adapters/catalog'
 import { fetchUrl, filesystem, shell, sqliteQueryTool, webSearch } from '@agentskit/tools'
 import type { McpServer } from '@agentskit/tools/mcp'
-import { createAgentTool } from './agent-tool'
+import { createAgentTool, createTypedAgentTool } from './agent-tool'
 import { createAgentsKitMcpServer } from './index'
-import { fetchAgentSkill, type FetchedAgentSkill } from './registry-fetch'
+import { fetchAgent, type FetchedAgent } from './registry-fetch'
 
 const VALUE_FLAGS = new Set([
   '--agents', '--api-key', '--base-url', '--fs-root', '--max-steps', '--model',
@@ -127,7 +127,9 @@ const DEFAULT_MODEL: Record<string, string> = {
 export interface McpCliDependencies {
   createServer?: typeof createAgentsKitMcpServer
   env?: Readonly<Record<string, string | undefined>>
-  fetchSkill?: (id: string) => Promise<FetchedAgentSkill | null>
+  fetchAgent?: (id: string) => Promise<FetchedAgent | null>
+  /** @deprecated Use fetchAgent; retained for dependency injection compatibility. */
+  fetchSkill?: (id: string) => Promise<FetchedAgent | null>
   warn?: (message: string) => void
 }
 
@@ -210,14 +212,20 @@ export const runMcpCli = async (
   if (parsed.options.agents.length > 0) {
     const adapter = resolveAdapter(parsed.options, dependencies.env ?? process.env, warn)
     if (adapter) {
-      const fetchSkill = dependencies.fetchSkill ?? fetchAgentSkill
+      const fetch = dependencies.fetchAgent ?? dependencies.fetchSkill ?? fetchAgent
       for (const id of parsed.options.agents) {
-        const skill = await fetchSkill(id).catch(() => null)
-        if (!skill) {
+        const agent = await fetch(id).catch(() => null)
+        if (!agent) {
           warn(`skipping agent "${id}": not found or not runnable`)
           continue
         }
-        tools.push(createAgentTool({ ...skill, adapter, maxSteps: parsed.options.maxSteps }))
+        try {
+          tools.push('mode' in agent && agent.mode === 'typed'
+            ? createTypedAgentTool({ ...agent, adapter, maxSteps: parsed.options.maxSteps })
+            : createAgentTool({ ...agent, adapter, maxSteps: parsed.options.maxSteps }))
+        } catch {
+          warn(`skipping agent "${id}": invalid projection`)
+        }
       }
     }
   }

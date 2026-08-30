@@ -2,7 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { mockAdapter } from '@agentskit/adapters'
 import { ErrorCodes, type ToolDefinition } from '@agentskit/core'
 import { createInMemoryTransportPair, type JsonRpcMessage } from '@agentskit/tools/mcp'
-import { createAgentTool } from '../src/agent-tool'
+import { createAgentTool, createTypedAgentTool } from '../src/agent-tool'
 import { createAgentsKitMcpServer } from '../src/index'
 
 const echo: ToolDefinition = {
@@ -139,6 +139,40 @@ describe('createAgentTool', () => {
     await expect(tool.execute?.({ task: '12345' }, {} as never)).rejects.toMatchObject({
       code: ErrorCodes.AK_TOOL_INVALID_INPUT,
     })
+  })
+})
+
+describe('createTypedAgentTool', () => {
+  const inputSchema = {
+    type: 'object' as const,
+    properties: { input: { type: 'string' as const, minLength: 1 } },
+    required: ['input'],
+    additionalProperties: false,
+  }
+  const outputSchema = {
+    type: 'object' as const,
+    properties: { title: { type: 'string' as const }, requiresReview: { const: true } },
+    required: ['title', 'requiresReview'],
+    additionalProperties: false,
+  }
+
+  it('preserves a structured result and validates the outer input', async () => {
+    const tool = createTypedAgentTool({
+      id: 'typed-agent',
+      description: 'Returns structured output.',
+      systemPrompt: 'Call submit_typed_agent exactly once.',
+      resultToolName: 'submit_typed_agent',
+      inputSchema,
+      outputSchema,
+      adapter: mockAdapter({
+        response: [{
+          type: 'tool_call',
+          toolCall: { id: '1', name: 'submit_typed_agent', args: JSON.stringify({ title: 'Done', requiresReview: true }) },
+        }, { type: 'done' }],
+      }),
+    })
+    await expect(tool.execute?.({ input: 'source' }, {} as never)).resolves.toEqual({ title: 'Done', requiresReview: true })
+    await expect(tool.execute?.({}, {} as never)).rejects.toMatchObject({ code: ErrorCodes.AK_TOOL_INVALID_INPUT })
   })
 })
 

@@ -1,6 +1,30 @@
 ---
 title: '@agentskit/eval/braintrust'
 description: Braintrust scoring pipeline for @agentskit/eval — quality + robustness scorers, CI regression alerts, dataset sync.
+docbridge:
+  covers:
+    - package:@agentskit/eval-braintrust
+  relations:
+    - from: package:@agentskit/eval-braintrust
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/eval-braintrust
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/eval-braintrust
+      to: package:@agentskit/eval
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/eval-braintrust
+      to: package:@agentskit/eval
+      kind: imports
+      detection: static
+    - from: package:@agentskit/eval-braintrust
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 
 `@agentskit/eval/braintrust` connects AgentsKit eval suites to [Braintrust](https://www.braintrust.dev). It runs your test cases through a set of deterministic scorers, ships results to a Braintrust experiment, and surfaces regressions as CI annotations — all without requiring Braintrust to be installed at build time (peer-resolved at runtime).

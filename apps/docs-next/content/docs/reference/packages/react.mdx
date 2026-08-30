@@ -1,6 +1,30 @@
 ---
 title: '@agentskit/react'
 description: React hooks + headless chat components driving the shared ChatController.
+docbridge:
+  covers:
+    - package:@agentskit/react
+  relations:
+    - from: package:@agentskit/react
+      to: package:@agentskit/adapters
+      kind: imports
+      detection: static
+    - from: package:@agentskit/react
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/react
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/react
+      to: package:@agentskit/core
+      kind: re-exports
+      detection: static
+    - from: package:@agentskit/react
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 
 `@agentskit/react` is the fastest path from the AgentsKit contracts to a browser product. It gives you the same core chat model as the rest of the ecosystem, but with React ergonomics and headless UI primitives.

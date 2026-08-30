@@ -40,6 +40,7 @@
     "docs:bridge:index": "ak-docs index && node scripts/sync-repo-llms.mjs",
     "docs:bridge:gate": "ak-docs gate run",
     "docs:bridge:doctor": "ak-docs doctor --text",
+    "docs:bridge:benchmark": "node scripts/doc-bridge-benchmark.mjs",
     "release:version": "pnpm changeset version && node scripts/check-doc-package-versions.mjs --fix && pnpm metadata:generate && pnpm readme:standard:refresh -- --preserve-review-dates",
     "release:preflight": "pnpm check:publication-surface && pnpm check:release-registry && pnpm check:packed-consumers && pnpm check:public-api-snapshot",
     "check:release-registry": "node scripts/check-release-registry.mjs",
@@ -102,16 +103,16 @@
   },
   "devDependencies": {
     "@agentskit/core": "workspace:*",
-    "@agentskit/doc-bridge": "https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.4.3/agentskit-doc-bridge-1.4.3.tgz",
+    "@agentskit/doc-bridge": "1.7.45",
     "@agentskit/eval": "workspace:*",
     "@agentskit/observability": "workspace:*",
     "@agentskit/runtime": "workspace:*",
     "@agentskit/skills": "workspace:*",
     "@agentskit/templates": "workspace:*",
     "@agentskit/tools": "workspace:*",
+    "@changesets/cli": "2.31.1",
     "@commitlint/cli": "21.2.1",
     "@commitlint/config-conventional": "21.2.0",
-    "@changesets/cli": "2.31.1",
     "@playwright/test": "^1.61.1",
     "@size-limit/file": "^12.1.0",
     "@vitest/coverage-v8": "^4.1.10",
@@ -120,6 +121,8 @@
     "turbo": "2.10.4",
     "typescript": "^6.0.3",
     "typescript-5-9": "npm:typescript@5.9.3",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.10",
+    "zod": "^3.25.76",
+    "zod-to-json-schema": "^3.25.2"
   }
 }

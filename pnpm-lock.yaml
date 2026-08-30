@@ -40,8 +40,8 @@ importers:
         specifier: workspace:*
         version: link:packages/core
       '@agentskit/doc-bridge':
-        specifier: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.4.3/agentskit-doc-bridge-1.4.3.tgz
-        version: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.4.3/agentskit-doc-bridge-1.4.3.tgz(@agentskit/core@packages+core)(@agentskit/ink@0.10.9(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(@agentskit/memory@0.11.8(vectra@0.15.0(@huggingface/transformers@4.2.0)(ws@8.21.0)(zod@4.4.3)))(react@19.2.8)
+        specifier: 1.7.45
+        version: 1.7.45(@agentskit/core@packages+core)(@agentskit/ink@0.10.9(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(@agentskit/memory@0.11.8(vectra@0.15.0(@huggingface/transformers@4.2.0)(ws@8.21.0)(zod@3.25.76)))(react@19.2.8)
       '@agentskit/eval':
         specifier: workspace:*
         version: link:packages/eval
@@ -96,6 +96,12 @@ importers:
       vitest:
         specifier: ^4.1.10
         version: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@26.2.0)(@vitest/coverage-v8@4.1.10)(happy-dom@20.10.6)(jsdom@30.0.1(@noble/hashes@2.2.0))(msw@2.15.0(@types/node@26.2.0)(typescript@6.0.3))(vite@8.1.4(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.48.0)(tsx@4.23.5)(yaml@2.9.0))
+      zod:
+        specifier: ^3.25.76
+        version: 3.25.76
+      zod-to-json-schema:
+        specifier: ^3.25.2
+        version: 3.25.2(zod@3.25.76)
 
   apps/ask-backend:
     dependencies:
@@ -1601,9 +1607,8 @@ packages:
   '@agentskit/core@1.12.8':
     resolution: {integrity: sha512-Jn9DDPgutWceffIssd5ru8H1p3TGAseLgLCsgnY7zQbTkgTyQ3pYY0kQJxFzRQ8vYlty7gEWUK4xHXq8YGsj6w==}
 
-  '@agentskit/doc-bridge@https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.4.3/agentskit-doc-bridge-1.4.3.tgz':
-    resolution: {integrity: sha512-sT3A72faF2VoAa/Wbht7ipjMVXEtjzIyHHXJ5IW/eSrGd8Lb68p8NRvQ+E5jT0AFw5eMdkWIPFbvdI3bq/TePA==, tarball: https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.4.3/agentskit-doc-bridge-1.4.3.tgz}
-    version: 1.4.3
+  '@agentskit/doc-bridge@1.7.45':
+    resolution: {integrity: sha512-phEDm6rCDGri2ctA3EjetPgLvmxmEWBehKLIDz+STTwZ4xHy+EttiqfxxD8vRJT8yDzKz3Gt9eT080kIEaatYA==}
     engines: {node: '>=22'}
     hasBin: true
     peerDependencies:
@@ -2883,6 +2888,9 @@ packages:
 
   '@mermaid-js/parser@1.2.0':
     resolution: {integrity: sha512-oYPyv8A4As1yH5Bx+04iQEQxXuIQDe0GKCNSRgao6z8AM9jixXIfP0vsppRLvGf+nKIOb9/LdpWA4YuJiVvESA==}
+
+  '@mermaid-js/parser@1.2.1':
+    resolution: {integrity: sha512-n12NohV3mrUyUL2o93IgG/ifeW9FTyeJn3zDxkhwa8MJ9Fxg3HQMlA3RiGmD/3UnJvheztkjjQAjA2T4LmUcpw==}
 
   '@mixmark-io/domino@2.2.0':
     resolution: {integrity: sha512-Y28PR25bHXUg88kCV7nivXrP2Nj2RueZ3/l/jdx6J9f8J4nsEGcgX0Qe6lt7Pa+J79+kPiJU3LguR6O/6zrLOw==}
@@ -6051,6 +6059,9 @@ packages:
     resolution: {integrity: sha512-C0AaNuC+mscy6vrAQKAc/rMq+zAPHodfHGZu4sGVehvAQt/JLG1O5zEcYcXSY5zSqr4YVgxsB+pHXTq0i7eDlg==}
     hasBin: true
 
+  fastdom@1.0.12:
+    resolution: {integrity: sha512-LB+xjSTEbjHE1cWsxu+tN2Xqr1kpi+V9aADI7sVM5ZMaXyYGPHULQMzpJMYqOTULK/73pUkWVzzObFRBkPr+hg==}
+
   fastq@1.20.1:
     resolution: {integrity: sha512-GGToxJ/w1x32s/D2EKND7kTil4n8OVk/9mycTc4VDza13lOvpUZTGX3mFSCtV9ksdGBVzvsyAVLM6mHFThxXxw==}
 
@@ -7128,6 +7139,9 @@ packages:
 
   mermaid@11.16.1:
     resolution: {integrity: sha512-TQsq6u22fAn3rek5VOubrhKPo1g5hwC3FXUN9hiyupTckcYiGuuKGkNQrKYwGJkXUxZdojwRG46gsSCFZMDp4g==}
+
+  mermaid@11.17.2:
+    resolution: {integrity: sha512-V6K3C8EBdEsPFZXSKMJe6ppQOENxuHARr9GvHX4hh47lAbhMRD9qf4oEK7LoaRQxULMa80/qt5gHO73aCleBBg==}
 
   metro-babel-transformer@0.84.4:
     resolution: {integrity: sha512-rvCfz8snl9h20VcvpOHxZuHP1SlAkv4HXbzw7nyyVwu6Eqo5PRerbakQ9XmUCOsRy70spJ37O+G1TK8oMzo48g==}
@@ -8412,6 +8426,9 @@ packages:
   strict-event-emitter@0.5.1:
     resolution: {integrity: sha512-vMgjE/GGEPEFnhFub6pa4FmJBRBVOLpIII2hvCZ8Kzb7K0hlHo7mQv6xYrBvCL2LtAIBwFUK8wvuJgTVSQ5MFQ==}
 
+  strictdom@1.0.1:
+    resolution: {integrity: sha512-cEmp9QeXXRmjj/rVp9oyiqcvyocWab/HaoN4+bwFeZ7QzykJD6L3yD4v12K1x0tHpqRqVpJevN3gW7kyM39Bqg==}
+
   string-width@4.2.3:
     resolution: {integrity: sha512-wKyQRQpjJ0sIp62ErSZdGsjMJWsap5oRNihHhu6G7JVO/9jIB6UyevL+tXuOqrng8j/cxKTWyWUwvSTriiZz/g==}
     engines: {node: '>=8'}
@@ -9223,16 +9240,17 @@ snapshots:
   '@agentskit/core@1.12.8':
     optional: true
 
-  '@agentskit/doc-bridge@https://github.com/AgentsKit-io/doc-bridge/releases/download/v1.4.3/agentskit-doc-bridge-1.4.3.tgz(@agentskit/core@packages+core)(@agentskit/ink@0.10.9(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(@agentskit/memory@0.11.8(vectra@0.15.0(@huggingface/transformers@4.2.0)(ws@8.21.0)(zod@4.4.3)))(react@19.2.8)':
+  '@agentskit/doc-bridge@1.7.45(@agentskit/core@packages+core)(@agentskit/ink@0.10.9(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(@agentskit/memory@0.11.8(vectra@0.15.0(@huggingface/transformers@4.2.0)(ws@8.21.0)(zod@3.25.76)))(react@19.2.8)':
     dependencies:
       github-slugger: 2.0.0
-      mermaid: 11.16.1
+      mermaid: 11.17.2
       minimatch: 10.2.6
-      zod: 3.25.76
+      typescript: 6.0.3
+      zod: 4.4.3
     optionalDependencies:
       '@agentskit/core': link:packages/core
       '@agentskit/ink': 0.10.9(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8)
-      '@agentskit/memory': 0.11.8(vectra@0.15.0(@huggingface/transformers@4.2.0)(ws@8.21.0)(zod@4.4.3))
+      '@agentskit/memory': 0.11.8(vectra@0.15.0(@huggingface/transformers@4.2.0)(ws@8.21.0)(zod@3.25.76))
       react: 19.2.8
 
   '@agentskit/eval@0.4.19':
@@ -9271,11 +9289,11 @@ snapshots:
     dependencies:
       '@agentskit/core': 1.12.7
 
-  '@agentskit/memory@0.11.8(vectra@0.15.0(@huggingface/transformers@4.2.0)(ws@8.21.0)(zod@4.4.3))':
+  '@agentskit/memory@0.11.8(vectra@0.15.0(@huggingface/transformers@4.2.0)(ws@8.21.0)(zod@3.25.76))':
     dependencies:
       '@agentskit/core': 1.12.8
     optionalDependencies:
-      vectra: 0.15.0(@huggingface/transformers@4.2.0)(ws@8.21.0)(zod@4.4.3)
+      vectra: 0.15.0(@huggingface/transformers@4.2.0)(ws@8.21.0)(zod@3.25.76)
     optional: true
 
   '@agentskit/statechart@0.2.0': {}
@@ -10797,6 +10815,10 @@ snapshots:
       - supports-color
 
   '@mermaid-js/parser@1.2.0':
+    dependencies:
+      '@chevrotain/types': 11.1.2
+
+  '@mermaid-js/parser@1.2.1':
     dependencies:
       '@chevrotain/types': 11.1.2
 
@@ -12821,7 +12843,7 @@ snapshots:
       obug: 2.1.3
       std-env: 4.1.0
       tinyrainbow: 3.1.0
-      vitest: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@25.9.5)(@vitest/coverage-v8@4.1.10)(happy-dom@20.10.6)(jsdom@30.0.1(@noble/hashes@2.2.0))(msw@2.15.0(@types/node@25.9.5)(typescript@6.0.3))(vite@8.1.4(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.48.0)(tsx@4.23.0)(yaml@2.9.0))
+      vitest: 4.1.10(@opentelemetry/api@1.9.1)(@types/node@26.2.0)(@vitest/coverage-v8@4.1.10)(happy-dom@20.10.6)(jsdom@30.0.1(@noble/hashes@2.2.0))(msw@2.15.0(@types/node@26.2.0)(typescript@6.0.3))(vite@8.1.4(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.48.0)(tsx@4.23.5)(yaml@2.9.0))
 
   '@vitest/expect@4.1.10':
     dependencies:
@@ -14177,6 +14199,10 @@ snapshots:
       fast-xml-builder: 1.2.0
       path-expression-matcher: 1.5.0
       strnum: 2.4.0
+
+  fastdom@1.0.12:
+    dependencies:
+      strictdom: 1.0.1
 
   fastq@1.20.1:
     dependencies:
@@ -15545,6 +15571,31 @@ snapshots:
       ts-dedent: 2.3.0
       uuid: 14.0.0
 
+  mermaid@11.17.2:
+    dependencies:
+      '@braintree/sanitize-url': 7.1.2
+      '@iconify/utils': 3.1.3
+      '@mermaid-js/parser': 1.2.1
+      '@types/d3': 7.4.3
+      '@upsetjs/venn.js': 2.0.0
+      cytoscape: 3.34.0
+      cytoscape-cose-bilkent: 4.1.0(cytoscape@3.34.0)
+      cytoscape-fcose: 2.2.0(cytoscape@3.34.0)
+      d3: 7.9.0
+      d3-sankey: 0.12.3
+      dagre-d3-es: 7.0.14
+      dayjs: 1.11.21
+      dompurify: 3.4.13
+      es-toolkit: 1.47.1
+      fastdom: 1.0.12
+      katex: 0.16.47
+      khroma: 2.1.0
+      marked: 16.4.2
+      roughjs: 4.6.6
+      stylis: 4.4.0
+      ts-dedent: 2.3.0
+      uuid: 14.0.0
+
   metro-babel-transformer@0.84.4:
     dependencies:
       '@babel/core': 7.29.7
@@ -16537,6 +16588,12 @@ snapshots:
     dependencies:
       is-docker: 2.2.1
       is-wsl: 2.2.0
+
+  openai@6.42.0(ws@8.21.0)(zod@3.25.76):
+    optionalDependencies:
+      ws: 8.21.0
+      zod: 3.25.76
+    optional: true
 
   openai@6.42.0(ws@8.21.0)(zod@4.4.3):
     optionalDependencies:
@@ -17585,6 +17642,8 @@ snapshots:
 
   strict-event-emitter@0.5.1: {}
 
+  strictdom@1.0.1: {}
+
   string-width@4.2.3:
     dependencies:
       emoji-regex: 8.0.0
@@ -18001,6 +18060,29 @@ snapshots:
   uuid@14.0.0: {}
 
   vary@1.1.2: {}
+
+  vectra@0.15.0(@huggingface/transformers@4.2.0)(ws@8.21.0)(zod@3.25.76):
+    dependencies:
+      '@grpc/grpc-js': 1.14.4
+      '@grpc/proto-loader': 0.8.1
+      buffer: 6.0.3
+      cheerio: 1.2.0
+      dotenv: 17.4.2
+      gpt-tokenizer: 3.4.0
+      json-colorizer: 3.0.1
+      openai: 6.42.0(ws@8.21.0)(zod@3.25.76)
+      turndown: 7.2.4
+      uuid: 13.0.2
+      wink-bm25-text-search: 3.1.2
+      wink-nlp: 2.4.0
+      yargs: 18.0.0
+    optionalDependencies:
+      '@huggingface/transformers': 4.2.0
+      protobufjs: 8.6.6
+    transitivePeerDependencies:
+      - ws
+      - zod
+    optional: true
 
   vectra@0.15.0(@huggingface/transformers@4.2.0)(ws@8.21.0)(zod@4.4.3):
     dependencies:
@@ -18429,6 +18511,10 @@ snapshots:
   zbsearch@3.3.4: {}
 
   zimmerframe@1.1.4: {}
+
+  zod-to-json-schema@3.25.2(zod@3.25.76):
+    dependencies:
+      zod: 3.25.76
 
   zod-to-json-schema@3.25.2(zod@4.4.3):
     dependencies:

@@ -1,12 +1,26 @@
+import type { ToolDefinition } from '@agentskit/core'
+
 const HOSTED = 'https://registry.agentskit.io/r'
 const RAW = 'https://raw.githubusercontent.com/AgentsKit-io/agentskit-registry/main'
 const REGISTRY_ID = /^[a-z0-9](?:[a-z0-9-]{0,62}[a-z0-9])?$/
+const TOOL_NAME = /^[A-Za-z0-9_.-]{1,128}$/
+
+type JsonSchema = NonNullable<ToolDefinition['schema']>
 
 export interface FetchedAgentSkill {
   id: string
   description: string
   systemPrompt: string
 }
+
+export interface FetchedTypedAgent extends FetchedAgentSkill {
+  mode: 'typed'
+  inputSchema: JsonSchema
+  outputSchema: JsonSchema
+  resultToolName: string
+}
+
+export type FetchedAgent = FetchedAgentSkill | FetchedTypedAgent
 
 export interface FetchAgentSkillOptions {
   /** Per-request timeout. Default 10000 ms. */
@@ -18,6 +32,22 @@ export interface FetchAgentSkillOptions {
 
 const isRecord = (input: unknown): input is Record<string, unknown> =>
   input !== null && typeof input === 'object' && !Array.isArray(input)
+
+const readTypedMcpProjection = (input: Record<string, unknown>): Omit<FetchedTypedAgent, 'id' | 'description' | 'systemPrompt'> | null | undefined => {
+  const projections = input.projections
+  if (!isRecord(projections)) return undefined
+  const mcp = projections.mcp
+  if (!isRecord(mcp) || mcp.mode === undefined) return undefined
+  if (mcp.mode !== 'typed') return undefined
+  if (!isRecord(mcp.inputSchema) || !isRecord(mcp.outputSchema)) return null
+  if (typeof mcp.resultToolName !== 'string' || !TOOL_NAME.test(mcp.resultToolName)) return null
+  return {
+    inputSchema: mcp.inputSchema as JsonSchema,
+    mode: 'typed',
+    outputSchema: mcp.outputSchema as JsonSchema,
+    resultToolName: mcp.resultToolName,
+  }
+}
 
 const boundedString = (input: unknown, maximum: number): string | null => {
   if (typeof input !== 'string' || input.trim().length === 0) return null
@@ -98,11 +128,11 @@ const requestJson = async (
   }
 }
 
-export async function fetchAgentSkill(
+export async function fetchAgent(
   id: string,
   fetchImpl: typeof fetch = globalThis.fetch,
   options: FetchAgentSkillOptions = {},
-): Promise<FetchedAgentSkill | null> {
+): Promise<FetchedAgent | null> {
   if (!REGISTRY_ID.test(id) || typeof fetchImpl !== 'function') return null
   const timeoutMs = options.timeoutMs ?? 10_000
   const maxResponseBytes = options.maxResponseBytes ?? 131_072
@@ -114,11 +144,14 @@ export async function fetchAgentSkill(
 
   const hosted = await requestJson(`${HOSTED}/${id}.json`, fetchImpl, bounds)
   if (isRecord(hosted)) {
+    const typed = readTypedMcpProjection(hosted)
+    if (typed === null) return null
     if (hosted.skill === null) return null
     if (isRecord(hosted.skill)) {
       const systemPrompt = boundedString(hosted.skill.systemPrompt, 65_536)
       if (systemPrompt) {
         const description = boundedString(hosted.description, 4096) ?? id
+        if (typed) return Object.freeze({ description, id, systemPrompt, ...typed })
         return Object.freeze({ description, id, systemPrompt })
       }
     }
@@ -126,6 +159,8 @@ export async function fetchAgentSkill(
 
   const meta = await requestJson(`${RAW}/registry/${id}/meta.json`, fetchImpl, bounds)
   if (!isRecord(meta)) return null
+  const typed = readTypedMcpProjection(meta)
+  if (typed === null) return null
   const source = await requestText(`${RAW}/registry/${id}/agent.ts`, fetchImpl, bounds)
   if (!source) return null
   const match = source.match(/systemPrompt:\s*`((?:\\.|[^`\\])*)`/)
@@ -135,9 +170,19 @@ export async function fetchAgentSkill(
     65_536,
   )
   if (!systemPrompt) return null
-  return Object.freeze({
+  const skill = {
     id,
     description: boundedString(meta.description, 4096) ?? id,
     systemPrompt,
-  })
+  }
+  return Object.freeze(typed ? { ...skill, ...typed } : skill)
+}
+
+export async function fetchAgentSkill(
+  id: string,
+  fetchImpl: typeof fetch = globalThis.fetch,
+  options: FetchAgentSkillOptions = {},
+): Promise<FetchedAgentSkill | null> {
+  const agent = await fetchAgent(id, fetchImpl, options)
+  return agent && 'mode' in agent && agent.mode === 'typed' ? null : agent
 }

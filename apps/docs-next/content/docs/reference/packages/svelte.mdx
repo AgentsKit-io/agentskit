@@ -1,6 +1,22 @@
 ---
 title: '@agentskit/svelte'
 description: Svelte 5 chat store. Same contract as @agentskit/react.
+docbridge:
+  covers:
+    - package:@agentskit/svelte
+  relations:
+    - from: package:@agentskit/svelte
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/svelte
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/svelte
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 
 ## Install
