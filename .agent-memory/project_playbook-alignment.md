@@ -1,4 +1,5 @@
 ---
+title: Project Playbook alignment
 name: project_playbook-alignment
 description: repo is audited against playbook.agentskit.io; what conforms and what is intentionally adapted
 metadata:

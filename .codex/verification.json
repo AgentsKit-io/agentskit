@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "project": "agentskit",
+  "root": "..",
+  "profile": "strict",
+  "contract": {
+    "intent": "Fix and verify the AgentsKit knowledge surfaces and documentation against the current repository structure using Doc Bridge.",
+    "outcomes": [
+      {
+        "id": "repository-artifact",
+        "statement": "The current repository artifact passes its existing quality, lint, build, and test gates.",
+        "checks": ["quality-gates", "lint", "build", "tests"]
+      },
+      {
+        "id": "documentation",
+        "statement": "Documentation quality, reference flows, deterministic answers, and documentation typing are verified for the current revision.",
+        "checks": ["docs-quality", "docs-reference", "docs-typecheck", "diff-check"]
+      },
+      {
+        "id": "knowledge-bridge",
+        "statement": "Doc Bridge discovers the current repository and regenerates the architecture and evidence report from the current source.",
+        "checks": ["bridge-discovery", "bridge-report"]
+      },
+      {
+        "id": "documentation-audit",
+        "statement": "Documentation quality and documentation-to-structure gaps are measured with current evidence.",
+        "checks": ["documentation-audit"]
+      },
+      {
+        "id": "agent-retrieval",
+        "statement": "An agent can resolve a package handoff through the configured knowledge surfaces.",
+        "checks": ["agent-retrieval"]
+      },
+      {
+        "id": "registry-agent-quality",
+        "statement": "The configured AgentsKit Registry agent produces a deterministic, evidence-bound proposal over the current snapshot and report.",
+        "checks": ["registry-agent-dogfood"]
+      },
+      {
+        "id": "round-metrics",
+        "statement": "This round records reproducible knowledge-surface and report metrics for comparison with later rounds.",
+        "checks": ["round-metrics"]
+      },
+      {
+        "id": "semantic-quality",
+        "statement": "Doc Bridge classifies known confirmed, undocumented, stale, not-analyzed, conflict, and unresolved cases with exact findings, full precision, full recall, and evidence.",
+        "checks": ["semantic-benchmark"]
+      },
+      {
+        "id": "report-ui",
+        "statement": "The generated report is exercised in a real browser and awaits human visual approval.",
+        "checks": ["report-ui"]
+      }
+    ]
+  },
+  "surfaces": {
+    "logic": true,
+    "endpoint": { "required": false, "reason": "No endpoint behavior is in scope for this documentation and knowledge-surface round." },
+    "database": { "required": false, "reason": "No database-backed behavior is in scope for this documentation and knowledge-surface round." },
+    "cli": true,
+    "mcp": { "required": false, "reason": "The MCP runtime is not changed or claimed as validated in this round." },
+    "ui": true,
+    "docs": true
+  },
+  "checks": [
+    { "id": "quality-gates", "evidence": "structured", "category": "logic", "command": "pnpm check:quality-gates", "timeoutMs": 240000 },
+    { "id": "lint", "evidence": "structured", "category": "lint", "command": "pnpm lint", "timeoutMs": 240000 },
+    { "id": "build", "evidence": "structured", "category": "build", "command": "pnpm build", "timeoutMs": 300000 },
+    { "id": "tests", "evidence": "structured", "category": "test", "command": "pnpm test", "timeoutMs": 600000 },
+    { "id": "docs-quality", "evidence": "structured", "category": "docs", "command": "pnpm test:ecosystem-doc-quality && pnpm check:ecosystem-doc-quality", "timeoutMs": 240000 },
+    { "id": "docs-reference", "evidence": "structured", "category": "docs", "command": "pnpm test:reference-docs && pnpm test:deterministic-docs && pnpm test:readme-standard", "timeoutMs": 240000 },
+    { "id": "docs-typecheck", "evidence": "structured", "category": "docs", "command": "pnpm --filter @agentskit/docs-next exec tsc --noEmit", "timeoutMs": 300000 },
+    { "id": "diff-check", "evidence": "structured", "category": "custom", "command": "git diff --check", "timeoutMs": 30000 },
+    { "id": "bridge-discovery", "evidence": "structured", "category": "cli", "execution": "real", "command": "node /Users/rebecabraun/workspace/EmersonBraun/doc-bridge/bin/ak-docs.js discover --json --config doc-bridge.config.json", "timeoutMs": 180000 },
+    { "id": "documentation-audit", "evidence": "structured", "category": "docs", "command": "node /Users/rebecabraun/workspace/EmersonBraun/doc-bridge/bin/ak-docs.js audit documentation --json --config doc-bridge.config.json", "timeoutMs": 240000 },
+    { "id": "bridge-report", "evidence": "structured", "category": "cli", "execution": "real", "command": "node /Users/rebecabraun/workspace/EmersonBraun/doc-bridge/bin/ak-docs.js map --json --html --output .doc-bridge/report.html --config doc-bridge.config.json", "timeoutMs": 300000 },
+    { "id": "agent-retrieval", "evidence": "structured", "category": "cli", "execution": "real", "command": "node /Users/rebecabraun/workspace/EmersonBraun/doc-bridge/bin/ak-docs.js query package core --agent --json --config doc-bridge.config.json", "timeoutMs": 60000 },
+    { "id": "registry-agent-dogfood", "evidence": "structured", "category": "custom", "execution": "real", "command": "node --test scripts/registry-agent-dogfood.test.mjs", "timeoutMs": 120000 },
+    { "id": "round-metrics", "evidence": "structured", "category": "custom", "command": "node scripts/doc-bridge-benchmark.mjs --check --json", "timeoutMs": 180000 },
+    { "id": "semantic-benchmark", "evidence": "structured", "category": "test", "execution": "real", "command": "pnpm --dir /Users/rebecabraun/workspace/EmersonBraun/doc-bridge exec vitest run tests/semantic-benchmark.test.ts", "timeoutMs": 120000 },
+    { "id": "report-ui", "evidence": "structured", "category": "ui", "execution": "real", "capabilities": ["real-browser", "screenshot"], "command": "node /Users/rebecabraun/workspace/EmersonBraun/doc-bridge/scripts/report-visual-check.mjs .doc-bridge/report.html --output .codex/verification/ui", "timeoutMs": 240000 }
+  ],
+  "tracking": {
+    "required": false,
+    "reason": "This round records local evidence only; no external issue, pull request, merge, or release action was authorized."
+  },
+  "cleanup": { "roots": [".codex/verification/tmp"] }
+}

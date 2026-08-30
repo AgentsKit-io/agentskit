@@ -23,13 +23,14 @@
 ## Agent reference pages
 
 - [adapters](https://www.agentskit.io/docs/for-agents/adapters): Every LLM provider, one contract. Stream, tool calls, retry, abort all normalized. Plus higher-order adapters that compose candidates (router, ensemble, fallback) and a `createAdapter` factory for custom providers.
-- [Angular](https://www.agentskit.io/docs/for-agents/angular): Angular binding for the `ChatReturn` contract from `@agentskit/core`. Exposes chat state as a `WritableSignal<ChatState | null>` for template binding and as an `Observable<ChatState | null>` for RxJS pipelines, with automatic teardown via `ngOnDestroy`.
-- [Cli](https://www.agentskit.io/docs/for-agents/cli): Agent-facing reference page.
+- [@agentskit/angular](https://www.agentskit.io/docs/for-agents/angular): Angular binding for the `ChatReturn` contract from `@agentskit/core`. Exposes chat state as a `WritableSignal<ChatState | null>` for template binding and as an `Observable<ChatState | null>` for RxJS pipelines, with automatic teardown via `ngOnDestroy`.
+- [@agentskit/cli](https://www.agentskit.io/docs/for-agents/cli): Agent-facing reference page.
 - [core](https://www.agentskit.io/docs/for-agents/core): Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + `createChatController` + primitives. Target: &lt;10 KB gzipped, zero runtime deps.
+- [doc-bridge](https://www.agentskit.io/docs/for-agents/doc-bridge): Use Doc Bridge before editing to locate the owning package, its agent handoff, human documentation, allowed edit roots, and required checks. Use the workflow artifacts to compare observed repository structure with documented intent.
 - [eval](https://www.agentskit.io/docs/for-agents/eval): Agent-facing reference page.
 - [eval-braintrust](https://www.agentskit.io/docs/for-agents/eval-braintrust): Agent-facing reference page.
 - [index](https://www.agentskit.io/docs/for-agents/index): If you're an AI agent reading this: every page in this section is a condensed reference for one AgentsKit package. Each page follows the same structure so you can skim quickly and quote accurately:
-- [Ink](https://www.agentskit.io/docs/for-agents/ink): Ink binding for the `ChatReturn` contract from `@agentskit/core`. Renders a full chat interface in the terminal using React + Ink, with keyboard navigation, ANSI theming, and human-in-the-loop tool confirmation — no browser required.
+- [@agentskit/ink](https://www.agentskit.io/docs/for-agents/ink): Ink binding for the `ChatReturn` contract from `@agentskit/core`. Renders a full chat interface in the terminal using React + Ink, with keyboard navigation, ANSI theming, and human-in-the-loop tool confirmation — no browser required.
 - [integrations](https://www.agentskit.io/docs/for-agents/integrations): Agent-facing reference page.
 - [mcp](https://www.agentskit.io/docs/for-agents/mcp): Serve AgentsKit tools to any MCP host. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` + `createStdioTransport`).
 - [memory](https://www.agentskit.io/docs/for-agents/memory): Agent-facing reference page.
@@ -37,17 +38,17 @@
 - [observability-langfuse](https://www.agentskit.io/docs/for-agents/observability-langfuse): Agent-facing reference page.
 - [rag](https://www.agentskit.io/docs/for-agents/rag): Agent-facing reference page.
 - [react](https://www.agentskit.io/docs/for-agents/react): `useChat` hook returning `ChatReturn` (state + actions) + headless components with `data-ak-*` attributes for theming.
-- [React Native](https://www.agentskit.io/docs/for-agents/react-native): React Native binding for the `ChatReturn` contract from `@agentskit/core`. Shares the same hook API as `@agentskit/react` but ships without any DOM dependency, making it safe for Metro bundler and the Hermes JS engine used in React Native and Expo.
+- [@agentskit/react-native](https://www.agentskit.io/docs/for-agents/react-native): React Native binding for the `ChatReturn` contract from `@agentskit/core`. Shares the same hook API as `@agentskit/react` but ships without any DOM dependency, making it safe for Metro bundler and the Hermes JS engine used in React Native and Expo.
 - [runtime](https://www.agentskit.io/docs/for-agents/runtime): Run an agent without a UI. Supports reflection, planning, multi-agent orchestration, durable step logs, cron + webhooks, speculative execution.
 - [optional peer for the default E2B cloud backend:](https://www.agentskit.io/docs/for-agents/sandbox): Agent-facing reference page.
 - [skills](https://www.agentskit.io/docs/for-agents/skills): Agent-facing reference page.
-- [Solid](https://www.agentskit.io/docs/for-agents/solid): SolidJS binding for the `ChatReturn` contract from `@agentskit/core`. Same shape as React/Vue/Svelte hooks — store-backed, cleanup wired via `onCleanup`.
+- [@agentskit/solid](https://www.agentskit.io/docs/for-agents/solid): SolidJS binding for the `ChatReturn` contract from `@agentskit/core`. Same shape as React/Vue/Svelte hooks — store-backed, cleanup wired via `onCleanup`.
 - [statechart](https://www.agentskit.io/docs/for-agents/statechart): Represent deterministic interaction state independently from UI frameworks, providers, agent execution, and persistence.
-- [Svelte](https://www.agentskit.io/docs/for-agents/svelte): Svelte binding for the `ChatReturn` contract from `@agentskit/core`. Returns a `Readable<ChatState>` plus action methods (send / stop / clear) and `destroy()` for cleanup.
+- [@agentskit/svelte](https://www.agentskit.io/docs/for-agents/svelte): Svelte binding for the `ChatReturn` contract from `@agentskit/core`. Returns a `Readable<ChatState>` plus action methods (send / stop / clear) and `destroy()` for cleanup.
 - [templates](https://www.agentskit.io/docs/for-agents/templates): Generate AgentsKit extensions as standalone packages with consistent blueprints (tsup, vitest, TypeScript) and runtime validation. Depends only on `@agentskit/core`. This is a **programmatic** authoring toolkit — it is **not** what `agentskit init` uses under the hood (the CLI has separate app templates).
 - [tools](https://www.agentskit.io/docs/for-agents/tools): Agent-facing reference page.
 - [validation](https://www.agentskit.io/docs/for-agents/validation): Agent-facing reference page.
-- [Vue](https://www.agentskit.io/docs/for-agents/vue): Vue 3 binding for the `ChatReturn` contract from `@agentskit/core`. Returns a reactive object via `reactive()` that tracks messages, input, and streaming state, and tears down automatically when the component scope is disposed.
+- [@agentskit/vue](https://www.agentskit.io/docs/for-agents/vue): Vue 3 binding for the `ChatReturn` contract from `@agentskit/core`. Returns a reactive object via `reactive()` that tracks messages, input, and streaming state, and tears down automatically when the component scope is disposed.
 
 ## Source and discovery
 

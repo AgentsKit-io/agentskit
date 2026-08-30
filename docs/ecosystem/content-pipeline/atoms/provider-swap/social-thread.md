@@ -1,4 +1,4 @@
-1/ Swap the model provider without rewriting the agent
+# Swap the model provider without rewriting the agent
 
 Why it exists: Agent applications should be able to change between OpenAI, Anthropic, Gemini, OpenRouter, Groq, and Ollama without moving provider-specific logic into the task, runtime, tools, or result handling.
 

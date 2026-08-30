@@ -44,6 +44,11 @@
       "types": "./dist/catalog/index.d.ts",
       "import": "./dist/catalog/index.js",
       "require": "./dist/catalog/index.cjs"
+    },
+    "./cli": {
+      "types": "./dist/cli/index.d.ts",
+      "import": "./dist/cli/index.js",
+      "require": "./dist/cli/index.cjs"
     }
   },
   "files": [

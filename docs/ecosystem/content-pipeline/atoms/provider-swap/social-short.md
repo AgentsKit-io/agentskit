@@ -1,4 +1,4 @@
-Swap the model provider without rewriting the agent.
+# Swap the model provider without rewriting the agent
 
 Three commands. No provider key.
 

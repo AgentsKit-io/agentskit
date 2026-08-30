@@ -1,6 +1,42 @@
 ---
 title: '@agentskit/tools'
 description: Built-in tools + 20 third-party integrations + bidirectional MCP bridge.
+docbridge:
+  covers:
+    - package:@agentskit/tools
+  relations:
+    - from: package:@agentskit/tools
+      to: package:@agentskit/adapters
+      kind: imports
+      detection: static
+    - from: package:@agentskit/tools
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/tools
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/tools
+      to: package:@agentskit/integrations
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/tools
+      to: package:@agentskit/integrations
+      kind: imports
+      detection: static
+    - from: package:@agentskit/tools
+      to: package:@agentskit/integrations
+      kind: re-exports
+      detection: static
+    - from: package:@agentskit/tools
+      to: package:@agentskit/runtime
+      kind: imports
+      detection: static
+    - from: package:@agentskit/tools
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 
 `@agentskit/tools` is what turns a model from “something that answers” into “something that can actually do work”. It is the action layer of the ecosystem.

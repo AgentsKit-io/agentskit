@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { fetchAgentSkill } from '../src/registry-fetch'
+import { fetchAgent, fetchAgentSkill } from '../src/registry-fetch'
 
 const response = (body: string, init: ResponseInit = {}): Response => new Response(body, init)
 
@@ -26,6 +26,34 @@ describe('fetchAgentSkill', () => {
     const toolComposing = vi.fn(async () => response(JSON.stringify({ skill: null })))
     await expect(fetchAgentSkill('research', toolComposing as never)).resolves.toBeNull()
     expect(toolComposing).toHaveBeenCalledTimes(1)
+  })
+
+  it('does not flatten typed projections into the generic task tool', async () => {
+    const hosted = vi.fn(async () => response(JSON.stringify({
+      description: 'Typed agent',
+      projections: {
+        mcp: {
+          inputSchema: { type: 'object' },
+          mode: 'typed',
+          outputSchema: { type: 'object' },
+          resultToolName: 'submit_typed_agent',
+          status: 'planned',
+        },
+      },
+      skill: { systemPrompt: 'Do not flatten me.' },
+    })))
+    await expect(fetchAgent('typed-agent', hosted as never)).resolves.toMatchObject({
+      mode: 'typed', resultToolName: 'submit_typed_agent',
+    })
+    await expect(fetchAgentSkill('typed-agent', hosted as never)).resolves.toBeNull()
+
+    const raw = vi.fn(async (url: string) => {
+      if (new URL(url).origin === 'https://registry.agentskit.io') return response('malformed-json')
+      if (url.endsWith('meta.json')) return response(JSON.stringify({ projections: { mcp: { mode: 'typed' } } }))
+      return response('export const skill = { systemPrompt: `Do not flatten me.` }')
+    })
+    await expect(fetchAgentSkill('typed-agent', raw as never)).resolves.toBeNull()
+    expect(raw).toHaveBeenCalledTimes(2)
   })
 
   it('falls back to bounded raw metadata and source', async () => {

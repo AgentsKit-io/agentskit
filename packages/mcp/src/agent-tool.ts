@@ -4,10 +4,14 @@ import {
   ToolError,
   type AdapterFactory,
   type SkillDefinition,
+  type ToolCall,
   type ToolDefinition,
 } from '@agentskit/core'
-import { createRuntime } from '@agentskit/runtime'
+import { createRuntime, invokeStructured } from '@agentskit/runtime'
+import { createAjvValidator } from '@agentskit/tools/validation'
 import { assertNonEmptyString, assertPositiveInteger, assertToolName, isRecord } from './validation'
+
+type JsonSchema = NonNullable<ToolDefinition['schema']>
 
 export interface AgentToolConfig {
   /** Tool name exposed to the MCP host (the agent id). */
@@ -20,6 +24,13 @@ export interface AgentToolConfig {
   maxSteps?: number
   /** Maximum UTF-8 bytes accepted in one task. Default 65536. */
   maxTaskBytes?: number
+}
+
+export interface TypedAgentToolConfig extends AgentToolConfig {
+  inputSchema: JsonSchema
+  outputSchema: JsonSchema
+  resultToolName: string
+  onConfirm?: (toolCall: ToolCall) => boolean | Promise<boolean>
 }
 
 /**
@@ -70,6 +81,90 @@ export function createAgentTool(config: AgentToolConfig): ToolDefinition {
       const runtime = createRuntime({ adapter: config.adapter, maxSteps })
       const result = await runtime.run(args.task, { skill })
       return { content: result.content, steps: result.steps }
+    },
+  }
+  return Object.freeze(tool)
+}
+
+/**
+ * Expose a Registry agent without discarding its structured output contract.
+ * The result tool stays internal to the runtime; only the typed outer tool is
+ * visible to the MCP host.
+ */
+export function createTypedAgentTool(config: TypedAgentToolConfig): ToolDefinition {
+  const id = assertToolName(config?.id, 'typed agent tool id')
+  const description = assertNonEmptyString(config?.description, 'typed agent tool description', 4096)
+  const systemPrompt = assertNonEmptyString(config?.systemPrompt, 'typed agent tool systemPrompt', 65_536)
+  const resultToolName = assertToolName(config?.resultToolName, 'typed agent result tool name')
+  const maxTaskBytes = assertPositiveInteger(config.maxTaskBytes ?? 65_536, 'typed agent input', 1_048_576)
+  if (!isRecord(config?.adapter) || typeof config.adapter.createSource !== 'function') {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'typed agent tool adapter must implement createSource',
+    })
+  }
+  if (!isRecord(config.inputSchema) || !isRecord(config.outputSchema)) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'typed agent tool schemas must be JSON Schema objects',
+    })
+  }
+
+  const validate = createAjvValidator({ rejectAdditionalProperties: true })
+  try {
+    validate(config.inputSchema, {})
+    validate(config.outputSchema, {})
+  } catch {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'typed agent tool schemas must be valid JSON Schema',
+    })
+  }
+
+  const submit: ToolDefinition = {
+    name: resultToolName,
+    description: 'Return the structured agent result.',
+    schema: config.outputSchema,
+    execute: async () => 'recorded',
+  }
+  const skill: SkillDefinition = { name: id, description, systemPrompt }
+  const tool: ToolDefinition = {
+    name: id,
+    description,
+    schema: config.inputSchema,
+    execute: async (args: Record<string, unknown>) => {
+      const task = JSON.stringify(args)
+      if (new TextEncoder().encode(task).byteLength > maxTaskBytes) {
+        throw new ToolError({
+          code: ErrorCodes.AK_TOOL_INVALID_INPUT,
+          message: `typed agent input must not exceed ${maxTaskBytes} bytes`,
+        })
+      }
+      const input = validate(config.inputSchema, args)
+      if (!input.valid) {
+        throw new ToolError({
+          code: ErrorCodes.AK_TOOL_INVALID_INPUT,
+          message: input.message ?? 'typed agent input does not match its schema',
+        })
+      }
+      return invokeStructured({
+        adapter: config.adapter,
+        tool: submit,
+        task: `INPUT:\n${task}`,
+        parse: (value) => {
+          const output = validate(config.outputSchema, value)
+          if (!output.valid) {
+            throw new ToolError({
+              code: ErrorCodes.AK_TOOL_INVALID_INPUT,
+              message: output.message ?? 'typed agent output does not match its schema',
+            })
+          }
+          return value
+        },
+        skill,
+        onConfirm: config.onConfirm,
+        maxSteps: config.maxSteps ?? 4,
+      })
     },
   }
   return Object.freeze(tool)

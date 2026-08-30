@@ -397,6 +397,29 @@
       }
     },
     {
+      "id": "document.doc-bridge",
+      "kind": "document",
+      "label": "doc-bridge documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "doc-bridge documentation",
+          "docs for doc-bridge",
+          "doc-bridge"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the doc-bridge documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-doc-bridge",
+            "title": "doc-bridge agent handoff",
+            "href": "/docs/for-agents/doc-bridge"
+          }
+        ]
+      }
+    },
+    {
       "id": "document.eval",
       "kind": "document",
       "label": "eval documentation",
@@ -1754,6 +1777,29 @@
       }
     },
     {
+      "id": "package.doc-bridge",
+      "kind": "package",
+      "label": "@agentskit/doc-bridge package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/doc-bridge",
+          "doc-bridge package",
+          "doc-bridge"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/doc-bridge** — Use Doc Bridge before editing to locate the owning package, its agent handoff, human documentation, allowed edit roots, and required checks. Use the workflow artifacts to compare observed repository structure with documented intent.\n\nInstall it with `pnpm add @agentskit/doc-bridge`.",
+        "citations": [
+          {
+            "id": "package-doc-bridge",
+            "title": "@agentskit/doc-bridge documentation",
+            "href": "/docs/reference/packages/doc-bridge"
+          }
+        ]
+      }
+    },
+    {
       "id": "package.eval",
       "kind": "package",
       "label": "@agentskit/eval package",
@@ -2260,5 +2306,5 @@
       }
     }
   ],
-  "contentHash": "sha256:48bc9c934c97b75381e447a5135ae985fe202cdd6862b181cb0b48e774125c99"
+  "contentHash": "sha256:91fefe614b1665340414f2ad8b2f9b44b92e7ad23c614905eb598a999db7d7e8"
 }

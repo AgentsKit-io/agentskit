@@ -1,6 +1,26 @@
 ---
 title: '@agentskit/tools/validation — for agents'
 description: Opt-in runtime validation of tool-call arguments against their JSON Schema. Wraps Ajv; plugs into the core ArgsValidator contract (ADR-0008).
+docbridge:
+  covers:
+    - package:@agentskit/validation
+  relations:
+    - from: package:@agentskit/validation
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/validation
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/validation
+      to: package:@agentskit/tools
+      kind: imports
+      detection: static
+    - from: package:@agentskit/validation
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 
 ## Install

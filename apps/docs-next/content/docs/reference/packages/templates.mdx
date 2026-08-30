@@ -1,6 +1,22 @@
 ---
 title: "@agentskit/templates"
 description: "Authoring toolkit for AgentsKit extensions — validated Tool, Skill, Adapter factories + secure on-disk scaffolds."
+docbridge:
+  covers:
+    - package:@agentskit/templates
+  relations:
+    - from: package:@agentskit/templates
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/templates
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/templates
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 import { ContributeCallout } from '@/components/contribute/contribute-callout'
 

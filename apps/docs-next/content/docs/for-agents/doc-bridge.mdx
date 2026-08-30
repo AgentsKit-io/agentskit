@@ -1,0 +1,130 @@
+---
+title: Doc Bridge — repository verification
+description: The deterministic handoff and evidence workflow for AgentsKit contributors and coding agents.
+---
+
+## Purpose
+
+Use Doc Bridge before editing to locate the owning package, its agent handoff,
+human documentation, allowed edit roots, and required checks. Use the workflow
+artifacts to compare observed repository structure with documented intent.
+
+## First commands
+
+```bash
+pnpm docs:bridge:doctor
+pnpm docs:bridge:query package <package-id> --agent
+pnpm exec ak-docs search "<term>" --agent
+```
+
+For a repository-wide evidence run:
+
+```bash
+pnpm exec ak-docs discover --json
+pnpm exec ak-docs scan --json
+pnpm exec ak-docs reconcile --json
+pnpm exec ak-docs check --json
+pnpm exec ak-docs map --html --text
+```
+
+The run persists its source revision, configuration hash, analyzer versions,
+content hashes, stage transitions, and last-known-good artifacts under
+`.doc-bridge/workflow/`. The HTML report is read-only and should be opened only
+after the machine-readable stages have completed.
+
+## How to interpret findings
+
+- `confirmed` means code evidence and documentation agree.
+- `undocumented` means observed structure has no matching documented claim.
+- `stale-or-unverified` means a documented claim cannot be confirmed by the current scan.
+- `conflict` means code and documentation make incompatible claims.
+- `not-analyzed` or `unresolved` is a coverage boundary, not proof of a defect.
+
+Do not report a run as complete from compilation or unit tests alone. Check the
+workflow state, evidence references, report, and the package-specific commands
+returned by the handoff. Suggestions remain advisory and require human approval
+before any change is applied.
+
+## Measuring retrieval efficiency
+
+AgentsKit keeps an anonymized local benchmark for the knowledge handoff. It
+executes a fixed set of real package queries three times per task and records
+only aggregate metrics: hit rate, p50/p95 latency, response size, estimated
+context tokens, corpus size, generated artifact sizes, package documentation
+coverage, total document coverage, agent-corpus document coverage, diagnostic
+classifications, and evidence coverage. Latency is reduced
+to one median per task before aggregation to avoid false regressions caused by
+process-startup jitter. The token value is a conservative estimate (`response
+bytes / 4`), not a provider billing measurement.
+
+Package coverage, total document coverage, and agent-corpus coverage are
+reported separately: a package can have a fresh handoff while unrelated
+Markdown files remain unlinked or outside the declared comparison scope. The
+agent-corpus metric is `documentedAgentDocumentCount / agentDocumentCount`; it
+currently measures package-specific `docs/for-agents` pages, while cross-cutting
+pages remain intentionally outside package ownership.
+
+Run the benchmark after the bridge report has been generated:
+
+```bash
+pnpm docs:bridge:benchmark -- --json
+```
+
+Create the first baseline explicitly, after reviewing the result:
+
+```bash
+pnpm docs:bridge:benchmark -- --write-baseline --json
+```
+
+Later runs compare the current revision with
+`.doc-bridge/benchmarks/baseline.json` and fail on an agent-corpus coverage
+drop, a retrieval hit-rate drop, or a p95 latency/response/token regression
+greater than 10%:
+
+```bash
+pnpm docs:bridge:benchmark -- --check --json
+```
+
+The baseline and current snapshot contain numeric aggregate data only. They do
+not contain repository paths, prompts, query text, documentation content, or
+credentials. A baseline replacement requires the explicit
+`--write-baseline --replace-baseline` command and an auditable review.
+
+The AKOS verification contract also runs Doc Bridge's semantic benchmark. It
+feeds labeled confirmed, undocumented, stale, not-analyzed, conflict, and
+unresolved cases through the real reconciler and requires exact diagnostic
+classification, complete evidence, and `1.000` precision and recall. This is
+separate from the repository report totals: a large report can still pass
+retrieval while the semantic classifier regresses.
+
+Run that focused gate directly from AKOS when iterating on Doc Bridge:
+
+```bash
+pnpm --dir /Users/rebecabraun/workspace/EmersonBraun/doc-bridge exec vitest run tests/semantic-benchmark.test.ts
+```
+
+## Optional Registry assistance
+
+The repository can run the source-owned `ecosystem-doc-bridge-corpus-scanner`
+agent from the AgentsKit Registry as a deterministic, read-only proposal step:
+
+```bash
+npx agentskit add ecosystem-doc-bridge-corpus-scanner
+node /Users/rebecabraun/workspace/EmersonBraun/doc-bridge/bin/ak-docs.js suggest --json --config doc-bridge.config.json
+```
+
+The configured runner records the Registry agent ID, exact version, provider,
+base snapshot hash, base report hash, evidence references, and proposal hash.
+It cannot mutate files or approve its own proposal. The AKOS gate replays it
+twice, verifies hash stability, checks that every linked diagnostic exists in
+the current report, and rejects paths absent from the supplied corpus. A
+provider-backed/LLM run is a separate opt-in operation and is not implied by
+this deterministic gate.
+
+## Documentation change loop
+
+1. Resolve the handoff and read `AGENTS.md`.
+2. Inspect the relevant code and human documentation together.
+3. Run `reconcile` and classify each finding as stale, missing, conflicting, or unsupported.
+4. Update the smallest authoritative source, then regenerate derived artifacts.
+5. Re-run the affected package checks and `pnpm docs:bridge:gate`.

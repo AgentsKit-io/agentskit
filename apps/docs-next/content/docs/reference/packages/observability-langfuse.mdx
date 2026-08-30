@@ -1,6 +1,30 @@
 ---
 title: '@agentskit/observability/langfuse'
 description: Langfuse tracing backend for @agentskit/observability — spans for plan, tool, model, and HITL gates with token/cost/latency capture.
+docbridge:
+  covers:
+    - package:@agentskit/observability-langfuse
+  relations:
+    - from: package:@agentskit/observability-langfuse
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/observability-langfuse
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+    - from: package:@agentskit/observability-langfuse
+      to: package:@agentskit/observability
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/observability-langfuse
+      to: package:@agentskit/observability
+      kind: imports
+      detection: static
+    - from: package:@agentskit/observability-langfuse
+      to: package:agentskit
+      kind: imports
+      detection: static
 ---
 
 `@agentskit/observability/langfuse` is a drop-in observer that ships AgentsKit trace spans to [Langfuse](https://langfuse.com). LLM generations become `generation` nodes; tool calls, planning steps, and HITL gates become `span` nodes. Token usage and error state are captured on each node end.
