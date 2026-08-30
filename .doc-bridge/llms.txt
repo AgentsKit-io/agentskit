@@ -2,7 +2,7 @@ AgentsKit is a plug-and-play TypeScript toolkit for building production agents: 
 
 ## Knowledge
 
-- [adapters](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/adapters): import { counts } from '@/lib/ecosystem-stats'
+- [adapters](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/adapters): Every LLM provider, one contract. Stream, tool calls, retry, abort all normalized. Plus higher-order adapters that compose candidates (router, ensemble, fallback) and a `createAdapter` factory for custom providers.
 - [@agentskit/angular](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/angular): Angular binding for the `ChatReturn` contract from `@agentskit/core`. Exposes chat state as a `WritableSignal<ChatState | null>` for template binding and as an `Observable<ChatState | null>` for RxJS pipelines, with automatic teardown via `ngOnDestroy`.
 - [@agentskit/cli](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/cli)
 - [core](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/core): Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + `createChatController` + primitives. Target: &lt;10 KB gzipped, zero runtime deps.

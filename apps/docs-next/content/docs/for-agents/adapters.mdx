@@ -6,8 +6,6 @@ docbridge:
     - package:@agentskit/adapters
 ---
 
-import { counts } from '@/lib/ecosystem-stats'
-
 ## Purpose
 
 Every LLM provider, one contract. Stream, tool calls, retry, abort
@@ -49,6 +47,13 @@ generic factories already support any explicitly configured executable.
 shell or automatic installation is used, credentials and environment are
 explicit, and MCP/plugins/terminal tools are disabled. `trusted-local` is an
 explicit opt-in for native CLI login and is not an isolation boundary.
+
+Use `requiredCapabilities` to fail before spawning when a provider cannot
+satisfy a requested feature. Use `onDiagnostic` for lifecycle telemetry: it
+reports provider, protocol, mode, duration, exit classification, and redacted
+errors without persisting prompts, source content, output, or credentials.
+Termination is awaited after aborts and failures so a rejected operation does
+not leave an orphan child process behind.
 
 Structured output fails closed on malformed or incomplete responses. Retries
 are limited to idempotent pre-response failures, and fallback is allowed only

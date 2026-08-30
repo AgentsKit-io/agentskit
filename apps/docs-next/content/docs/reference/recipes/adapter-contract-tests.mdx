@@ -3,8 +3,6 @@ title: Adapter contract tests
 description: Verify any adapter against the ADR 0001 invariants A1–A10 with the shared test harness.
 ---
 
-import { counts } from '@/lib/ecosystem-stats'
-
 Every adapter ships in `@agentskit/adapters` runs the same contract test suite before merge — `runAdapterContract` exercises the ADR 0001 invariants (A1–A10) against the adapter's actual streaming code. New adapter authors should run the same suite from day one.
 
 ```ts
@@ -46,9 +44,9 @@ For adapters with a different protocol (Bedrock SDK, Replicate two-step, Vertex 
 
 ## Coverage today
 
-The shared suite runs against {counts.nativeAdapters} native adapters. The
-current provider list is maintained by the adapter package and its generated
-ecosystem statistics rather than duplicated in this guide.
+The shared suite runs against every native adapter in the package. The current
+provider list is maintained by the adapter package rather than duplicated in
+this guide.
 
 Adapters with their own dedicated tests (different protocols):
 

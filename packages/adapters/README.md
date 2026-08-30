@@ -111,8 +111,11 @@ The generic factories are `createCliAdapter` (`exec-text`),
 JSON lines). `review-safe` is the default: no shell, automatic installation,
 native login, MCP, plugins, or terminal tools. Use `trusted-local` explicitly
 when a developer intentionally wants the CLI's local authentication and
-environment. Structured output fails closed; timeouts, aborts, output limits,
-and non-zero exits produce terminal adapter errors.
+environment. `requiredCapabilities` is checked before spawning, and
+`onDiagnostic` receives redacted exit, timeout, abort, and output-limit data.
+Structured output fails closed; timeouts, aborts, output limits, and non-zero
+exits produce terminal adapter errors. Process termination is awaited before
+the adapter finishes, including when input or output fails.
 
 ## Stream guarantees
 
