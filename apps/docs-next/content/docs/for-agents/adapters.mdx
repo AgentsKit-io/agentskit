@@ -45,7 +45,9 @@ responses. Built-in manifests cover Codex, Claude Code, Grok CLI, and OpenCode;
 validated definitions, while `resolveCliManifest` produces explicit process
 options and `diagnoseCliProviderManifest` checks availability and version
 compatibility. Custom providers still use the generic factories with an
-explicit manifest.
+explicit manifest. `manifestCapabilities` exposes the normalized capability
+hint, and `validateCliProviderManifest` rejects malformed or over-claiming
+definitions before they can be resolved.
 
 `review-safe` is the default: manifests declare the executable and `argv`, no
 shell or automatic installation is used, credentials and environment are

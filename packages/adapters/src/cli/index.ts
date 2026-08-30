@@ -1,14 +1,7 @@
 import { AdapterError, ErrorCodes, type AdapterFactory, type AdapterRequest, type AdapterCapabilities, type StreamChunk, type StreamSource } from '@agentskit/core'
 import { adapterErrorChunk, isAbortError } from '../stream-errors'
 import { abortableWrite, readCliStdout, spawnCliProcess, writeCliInput } from './process'
-export {
-  diagnoseCliProviderManifest,
-  getCliProviderManifest,
-  listCliProviderManifests,
-  manifestCapabilities,
-  resolveCliManifest,
-  validateCliProviderManifest,
-} from './manifests'
+export { diagnoseCliProviderManifest, getCliProviderManifest, listCliProviderManifests, manifestCapabilities, resolveCliManifest, validateCliProviderManifest } from './manifests'
 import type {
   AcpCliAdapterOptions,
   CliCapabilityRequirements,
