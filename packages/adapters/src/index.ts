@@ -1,34 +1,4 @@
 export { createAdapter } from './createAdapter'
-export {
-  createCliAdapter,
-  createJsonCliAdapter,
-  createAcpCliAdapter,
-  diagnoseCliProvider,
-  diagnoseCliProviderManifest,
-  getCliProviderManifest,
-  listCliProviderManifests,
-  manifestCapabilities,
-  parseCliJsonResponse,
-  resolveCliManifest,
-  validateCliProviderManifest,
-} from './cli'
-export type {
-  AcpCliAdapterOptions,
-  AcpClientInfo,
-  CliCapabilityRequirements,
-  CliAdapterOptions,
-  CliDiagnostic,
-  CliJsonAdapterOptions,
-  CliJsonParser,
-  CliJsonResponse,
-  CliManifestOptions,
-  CliProtocol,
-  CliProviderManifest,
-  CliProcessOptions,
-  CliSecurityMode,
-  CliTerminationReason,
-  CliToolCall,
-} from './cli'
 export { generic } from './generic'
 export { anthropic } from './anthropic'
 export { openai } from './openai'

@@ -171,6 +171,26 @@ describe('CLI adapters', () => {
     expect(() => validateCliProviderManifest(null)).toThrow(/must be an object/)
   })
 
+  it('rejects malformed manifests and reports version drift', async () => {
+    const base = {
+      id: 'fixture', name: 'Fixture CLI', command: process.execPath,
+      args: [], diagnosticArgs: ['-e', "process.stdout.write('fixture-v1')"],
+      protocol: 'exec-text', capabilities: { streaming: true }, supportedModes: ['review-safe'],
+    } satisfies CliProviderManifest
+    expect(() => validateCliProviderManifest({ ...base, args: [1] })).toThrow(/args and diagnosticArgs/)
+    expect(() => validateCliProviderManifest({ ...base, id: 7 })).toThrow(/id, name, and command must be strings/)
+    expect(() => validateCliProviderManifest({ ...base, protocol: 'unknown' })).toThrow(/protocol is unsupported/)
+    expect(() => validateCliProviderManifest({ ...base, supportedModes: ['trusted-local'] })).toThrow(/must support review-safe/)
+    expect(() => validateCliProviderManifest({ ...base, credentialEnv: ['BAD-NAME'] })).toThrow(/invalid credential environment/)
+    await expect(diagnoseCliProviderManifest({ ...base, versionPattern: '^other-v1$' })).resolves.toMatchObject({
+      available: false,
+      error: 'CLI version does not match manifest fixture',
+    })
+    await expect(collect(createCliAdapter({ command: process.execPath, maxOutputBytes: 0 }))).resolves.toMatchObject([
+      { type: 'error', content: expect.stringContaining('maxOutputBytes') },
+    ])
+  })
+
   it('normalizes ACP v1 session output over JSON lines', async () => {
     const script = `
       const rl = require('node:readline').createInterface({ input: process.stdin });

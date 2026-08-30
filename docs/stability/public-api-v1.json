@@ -11,18 +11,6 @@
           ],
           "symbols": [
             {
-              "name": "AcpCliAdapterOptions",
-              "kinds": [
-                "type"
-              ]
-            },
-            {
-              "name": "AcpClientInfo",
-              "kinds": [
-                "type"
-              ]
-            },
-            {
               "name": "anthropic",
               "kinds": [
                 "value"
@@ -137,84 +125,6 @@
               ]
             },
             {
-              "name": "CliAdapterOptions",
-              "kinds": [
-                "type"
-              ]
-            },
-            {
-              "name": "CliCapabilityRequirements",
-              "kinds": [
-                "type"
-              ]
-            },
-            {
-              "name": "CliDiagnostic",
-              "kinds": [
-                "type"
-              ]
-            },
-            {
-              "name": "CliJsonAdapterOptions",
-              "kinds": [
-                "type"
-              ]
-            },
-            {
-              "name": "CliJsonParser",
-              "kinds": [
-                "type"
-              ]
-            },
-            {
-              "name": "CliJsonResponse",
-              "kinds": [
-                "type"
-              ]
-            },
-            {
-              "name": "CliManifestOptions",
-              "kinds": [
-                "type"
-              ]
-            },
-            {
-              "name": "CliProcessOptions",
-              "kinds": [
-                "type"
-              ]
-            },
-            {
-              "name": "CliProtocol",
-              "kinds": [
-                "type"
-              ]
-            },
-            {
-              "name": "CliProviderManifest",
-              "kinds": [
-                "type"
-              ]
-            },
-            {
-              "name": "CliSecurityMode",
-              "kinds": [
-                "type"
-              ]
-            },
-            {
-              "name": "CliTerminationReason",
-              "kinds": [
-                "type"
-              ]
-            },
-            {
-              "name": "CliToolCall",
-              "kinds": [
-                "type"
-              ]
-            },
-            {
               "name": "cohere",
               "kinds": [
                 "value"
@@ -233,12 +143,6 @@
               ]
             },
             {
-              "name": "createAcpCliAdapter",
-              "kinds": [
-                "value"
-              ]
-            },
-            {
               "name": "createAdapter",
               "kinds": [
                 "value"
@@ -251,12 +155,6 @@
               ]
             },
             {
-              "name": "createCliAdapter",
-              "kinds": [
-                "value"
-              ]
-            },
-            {
               "name": "createEnsembleAdapter",
               "kinds": [
                 "value"
@@ -264,12 +162,6 @@
             },
             {
               "name": "createFallbackAdapter",
-              "kinds": [
-                "value"
-              ]
-            },
-            {
-              "name": "createJsonCliAdapter",
               "kinds": [
                 "value"
               ]
@@ -350,18 +242,6 @@
               "name": "DeprecationPolicy",
               "kinds": [
                 "type"
-              ]
-            },
-            {
-              "name": "diagnoseCliProvider",
-              "kinds": [
-                "value"
-              ]
-            },
-            {
-              "name": "diagnoseCliProviderManifest",
-              "kinds": [
-                "value"
               ]
             },
             {
@@ -458,12 +338,6 @@
               "name": "GenericAdapterConfig",
               "kinds": [
                 "type"
-              ]
-            },
-            {
-              "name": "getCliProviderManifest",
-              "kinds": [
-                "value"
               ]
             },
             {
@@ -575,12 +449,6 @@
               ]
             },
             {
-              "name": "listCliProviderManifests",
-              "kinds": [
-                "value"
-              ]
-            },
-            {
               "name": "llamacpp",
               "kinds": [
                 "value"
@@ -602,12 +470,6 @@
               "name": "LMStudioConfig",
               "kinds": [
                 "type"
-              ]
-            },
-            {
-              "name": "manifestCapabilities",
-              "kinds": [
-                "value"
               ]
             },
             {
@@ -713,12 +575,6 @@
               ]
             },
             {
-              "name": "parseCliJsonResponse",
-              "kinds": [
-                "value"
-              ]
-            },
-            {
               "name": "ProviderRegionKey",
               "kinds": [
                 "type"
@@ -785,12 +641,6 @@
               ]
             },
             {
-              "name": "resolveCliManifest",
-              "kinds": [
-                "value"
-              ]
-            },
-            {
               "name": "resolveModel",
               "kinds": [
                 "value"
@@ -854,12 +704,6 @@
               "name": "TogetherConfig",
               "kinds": [
                 "type"
-              ]
-            },
-            {
-              "name": "validateCliProviderManifest",
-              "kinds": [
-                "value"
               ]
             },
             {
