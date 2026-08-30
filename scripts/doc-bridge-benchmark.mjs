@@ -24,7 +24,9 @@ const queryTasks = [
   ['task-04', 'cli'],
 ]
 const measurementsPerTask = 3
-const retrievalBatches = 3
+// ponytail: median of five independent batches dampens host scheduling spikes;
+// increase only if the benchmark still produces false regressions.
+const retrievalBatches = 5
 
 const metricRules = [
   ['retrieval.hitRate', 'minimum'],
