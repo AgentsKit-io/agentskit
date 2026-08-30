@@ -351,7 +351,7 @@
     '#ak-eco .ak-eco-brand{display:inline-flex;align-items:center;justify-content:center;' +
     'margin-right:8px;color:#fff;text-decoration:none;line-height:0}' +
     '#ak-eco .ak-eco-brand svg{width:18px;height:16px;display:block}' +
-    '#ak-eco a.ak-eco-link{color:#a9a9b3;text-decoration:none;padding:5px 10px;border-radius:7px}' +
+    '#ak-eco a.ak-eco-link{box-sizing:border-box;display:inline-flex;align-items:center;min-height:44px;color:#a9a9b3;text-decoration:none;padding:5px 10px;border-radius:7px}' +
     '#ak-eco a.ak-eco-link:hover{color:#fff;background:#1c1c24}' +
     '#ak-eco a.ak-eco-link[aria-current="page"]{color:#fff;background:#2a2a35}' +
     '#ak-eco .ak-eco-spacer{flex:1}' +

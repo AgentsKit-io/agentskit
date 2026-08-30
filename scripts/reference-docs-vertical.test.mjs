@@ -53,6 +53,7 @@ test('the shared ecosystem bar contains its own mobile overflow', () => {
   assert.match(bar, /@media\(max-width:767px\)/)
   assert.match(bar, /max-width:100vw;overflow-x:auto/)
   assert.match(bar, /scrollbar-width:none/)
+  assert.match(bar, /a\.ak-eco-link\{[^}]*min-height:44px/)
   assert.match(bar, /\.ak-eco-brand\{position:sticky;left:0/)
   assert.match(bar, /\.ak-eco-spacer,#ak-eco a\.ak-eco-cta\{display:none\}/)
 })
