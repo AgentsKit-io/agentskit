@@ -246,7 +246,7 @@ function main(argv) {
   const baseline = existsSync(baselinePath) ? readJson(baselinePath) : null
   const comparison = baseline ? compareMetrics(metrics, baseline.metrics, baseline.thresholds?.maxRegression ?? DEFAULT_MAX_REGRESSION) : null
   const snapshot = makeSnapshot(metrics, comparison)
-  atomicWrite(currentPath, snapshot)
+  if (!check) atomicWrite(currentPath, snapshot)
   if (writeBaseline) atomicWrite(baselinePath, sanitizeBaseline(snapshot))
 
   let status = 'passed'
