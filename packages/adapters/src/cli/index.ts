@@ -1,6 +1,6 @@
 import { AdapterError, ErrorCodes, type AdapterFactory, type AdapterRequest, type AdapterCapabilities, type StreamChunk, type StreamSource } from '@agentskit/core'
 import { adapterErrorChunk, isAbortError } from '../stream-errors'
-import { abortableWrite, readCliStdout, spawnCliProcess, writeCliInput } from './process'
+import { abortableWrite, readCliOutputFile, readCliStdout, spawnCliProcess, writeCliInput } from './process'
 export { diagnoseCliProviderManifest, getCliProviderManifest, listCliProviderManifests, manifestCapabilities, resolveCliManifest, validateCliProviderManifest } from './manifests'
 import type {
   AcpCliAdapterOptions,
@@ -30,7 +30,6 @@ export type {
 
 const defaultSerialize = (request: AdapterRequest): string => `${JSON.stringify(request)}\n`
 const cliError = (message: string, cause?: unknown): AdapterError => new AdapterError({ code: ErrorCodes.AK_ADAPTER_STREAM_FAILED, message, cause })
-
 function createFactory(
   capabilities: AdapterCapabilities,
   run: (request: AdapterRequest, signal: AbortSignal) => AsyncIterableIterator<StreamChunk>,
@@ -54,7 +53,6 @@ function createFactory(
     },
   }
 }
-
 function mergeCapabilities(base: AdapterCapabilities, override?: AdapterCapabilities): AdapterCapabilities {
   return {
     ...base,
@@ -62,7 +60,6 @@ function mergeCapabilities(base: AdapterCapabilities, override?: AdapterCapabili
     extensions: { ...base.extensions, ...override?.extensions },
   }
 }
-
 function capabilityError(capability: string, protocol: CliProtocol): AdapterError {
   return new AdapterError({
     code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,
@@ -116,7 +113,11 @@ async function* runText(
       emitted = true
       yield { type: 'text', content: trailing }
     }
-    if (!emitted) throw cliError('CLI returned an empty text response')
+    if (options.outputFile) {
+      const output = await readCliOutputFile(options.outputFile, signal, options.maxOutputBytes ?? 8 * 1024 * 1024)
+      if (!output) throw cliError('CLI output file was empty')
+      yield { type: 'text', content: output }
+    } else if (!emitted) throw cliError('CLI returned an empty text response')
     yield { type: 'done' }
   } finally {
     await closeProcess(handle)

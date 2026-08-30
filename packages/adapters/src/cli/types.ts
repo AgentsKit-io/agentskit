@@ -67,6 +67,8 @@ export interface CliProcessOptions {
 export interface CliAdapterOptions extends CliProcessOptions {
   /** Defaults to a newline-terminated JSON representation of AdapterRequest. */
   serializeRequest?: (request: AdapterRequest) => string | Uint8Array
+  /** Reads the bounded final response from a provider-managed output file. */
+  outputFile?: string
   /** Optional capability extensions merged into the transport defaults. */
   capabilities?: AdapterCapabilities
 }

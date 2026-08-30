@@ -2,4 +2,4 @@
 '@agentskit/adapters': minor
 ---
 
-Add request-aware CLI argv builders and raw-output decoding for JSON-backed CLI transports.
+Add request-aware CLI argv builders, raw-output decoding for JSON-backed CLI transports, and bounded provider output-file support.

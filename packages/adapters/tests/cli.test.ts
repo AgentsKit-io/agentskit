@@ -1,4 +1,7 @@
 import { describe, expect, it } from 'vitest'
+import { mkdtempSync, rmSync } from 'node:fs'
+import { tmpdir } from 'node:os'
+import { join } from 'node:path'
 import {
   createAcpCliAdapter,
   createCliAdapter,
@@ -52,6 +55,25 @@ describe('CLI adapters', () => {
       { type: 'text', content: 'review this' },
       { type: 'done' },
     ])
+  })
+
+  it('reads a bounded provider output file after the process exits', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'agentskit-cli-output-'))
+    const outputFile = join(dir, 'result.txt')
+    try {
+      const adapter = createCliAdapter({
+        command: process.execPath,
+        args: ['-e', "require('node:fs').writeFileSync(process.argv[1], 'file-result')", outputFile],
+        serializeRequest: () => '',
+        outputFile,
+      })
+      await expect(collect(adapter)).resolves.toEqual([
+        { type: 'text', content: 'file-result' },
+        { type: 'done' },
+      ])
+    } finally {
+      rmSync(dir, { recursive: true, force: true })
+    }
   })
 
   it('returns a typed error for a non-zero CLI exit', async () => {

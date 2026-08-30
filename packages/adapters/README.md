@@ -123,6 +123,8 @@ request-aware and still uses direct, shell-free spawning. Set
 `serializeRequest: () => ''` when the provider does not consume stdin. For
 JSONL or event-wrapped output, `parseOutput(stdout)` can decode raw stdout
 before the normal `parse(value)` callback runs.
+For CLIs that write the final response to a file, `outputFile` reads that file
+after process completion with the same byte limit and abort handling.
 
 ## Stream guarantees
 

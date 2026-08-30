@@ -1,4 +1,5 @@
 import { spawn, type ChildProcessWithoutNullStreams } from 'node:child_process'
+import { readFile, stat } from 'node:fs/promises'
 import { AdapterError, ErrorCodes } from '@agentskit/core'
 import { raceAbort } from '../stream-errors'
 import type { CliDiagnostic, CliProcessOptions, CliTerminationReason } from './types'
@@ -229,6 +230,27 @@ export function writeCliInput(handle: CliProcessHandle, input?: string | Uint8Ar
     return
   }
   handle.child.stdin.end(typeof input === 'string' ? input : Buffer.from(input))
+}
+
+export async function readCliOutputFile(
+  file: string,
+  signal: AbortSignal,
+  maxOutputBytes: number,
+): Promise<string> {
+  try {
+    const metadata = await stat(file)
+    if (signal.aborted) throw new DOMException('Aborted', 'AbortError')
+    if (!metadata.isFile()) throw processError('CLI output path is not a file', '')
+    if (metadata.size > maxOutputBytes) throw processError('CLI output file exceeded the configured limit', '')
+    const timeout = AbortSignal.timeout(5_000)
+    const readSignal = AbortSignal.any([signal, timeout])
+    const output = await readFile(file, { signal: readSignal })
+    if (output.byteLength > maxOutputBytes) throw processError('CLI output file exceeded the configured limit', '')
+    return output.toString('utf8')
+  } catch (error) {
+    if (error instanceof AdapterError) throw error
+    throw processError('CLI output file could not be read', '', error)
+  }
 }
 
 function processError(message: string, stderr: string, cause?: unknown): AdapterError {
