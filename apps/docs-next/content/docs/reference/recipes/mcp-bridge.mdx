@@ -55,7 +55,7 @@ For a ready-made stdio server, install `@agentskit/mcp` instead of writing a
 transport wrapper:
 
 ```bash
-npx -y @agentskit/mcp@0.3.9 --tools fetch,search
+npx -y @agentskit/mcp@0.4.2 --tools fetch,search
 ```
 
 Use the smallest tool set that fits the task. `filesystem`, `sqlite`, and
@@ -71,7 +71,7 @@ Use this JSON in Claude Desktop or `.cursor/mcp.json` in a project:
   "mcpServers": {
     "agentskit": {
       "command": "npx",
-      "args": ["-y", "@agentskit/mcp@0.3.9", "--tools", "fetch,search"]
+      "args": ["-y", "@agentskit/mcp@0.4.2", "--tools", "fetch,search"]
     }
   }
 }
@@ -84,7 +84,7 @@ Codex uses TOML configuration, not the JSON wrapper above:
 ```toml
 [mcp_servers.agentskit]
 command = "npx"
-args = ["-y", "@agentskit/mcp@0.3.9", "--tools", "fetch,search"]
+args = ["-y", "@agentskit/mcp@0.4.2", "--tools", "fetch,search"]
 ```
 
 ### OpenClaw
@@ -95,7 +95,7 @@ OpenClaw can save and probe the stdio server directly:
 openclaw mcp add agentskit \
   --command npx \
   --arg -y \
-  --arg @agentskit/mcp@0.3.9 \
+  --arg @agentskit/mcp@0.4.2 \
   --arg --tools \
   --arg fetch,search
 openclaw mcp doctor agentskit --probe

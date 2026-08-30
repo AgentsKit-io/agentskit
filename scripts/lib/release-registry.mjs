@@ -65,11 +65,14 @@ export function classifyRegistryVersion({ name, localVersion, metadata }) {
     return { name, localVersion, publishedVersion, state: 'unpublished-ahead' }
   }
 
-  const reason = comparison < 0
-    ? 'local manifest is behind the registry latest version'
-    : versions.has(localVersion)
-      ? 'local version exists but is not the latest dist-tag'
-      : 'local version does not advance the registry latest version'
+  let reason
+  if (comparison < 0) {
+    reason = 'local manifest is behind the registry latest version'
+  } else if (versions.has(localVersion)) {
+    reason = 'local version exists but is not the latest dist-tag'
+  } else {
+    reason = 'local version does not advance the registry latest version'
+  }
   return {
     name,
     localVersion,
