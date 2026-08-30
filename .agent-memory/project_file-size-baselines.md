@@ -1,4 +1,5 @@
 ---
+title: Project file size baselines
 name: project_file-size-baselines
 description: oversized source files are pinned in check-file-size; entries shrink only, never raise
 metadata:

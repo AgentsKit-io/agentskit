@@ -35,7 +35,7 @@
         },
         {
           "id": "native-adapters",
-          "value": 25,
+          "value": 26,
           "noun": "native adapters",
           "evidence": {
             "type": "repository-derivation",
@@ -43,7 +43,7 @@
             "path": "scripts/compute-stats.mjs",
             "summary": "Provider exports in the adapters package excluding composition helpers."
           },
-          "conservativeFloor": 25
+          "conservativeFloor": 26
         },
         {
           "id": "integrations",

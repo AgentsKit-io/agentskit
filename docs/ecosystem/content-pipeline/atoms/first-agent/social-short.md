@@ -1,4 +1,4 @@
-First agent without a provider key.
+# First agent without a provider key
 
 Three commands. No provider key.
 

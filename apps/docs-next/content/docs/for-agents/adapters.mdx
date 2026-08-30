@@ -6,6 +6,8 @@ docbridge:
     - package:@agentskit/adapters
 ---
 
+import { counts } from '@/lib/ecosystem-stats'
+
 ## Purpose
 
 Every LLM provider, one contract. Stream, tool calls, retry, abort
@@ -32,6 +34,32 @@ custom providers.
 The package remains **beta**. Its implementation is being prepared for an API
 freeze, but ADR 0024 still requires the elapsed beta window, qualifying release
 lines, an accepted package RFC, and complete repository evidence before 1.0.
+
+## CLI adapters
+
+The `@agentskit/adapters/cli` subpath provides shared CLI-backed transports for
+consumers that need a local LLM executable. It preserves the core v1
+`AdapterFactory` contract and exposes `createCliAdapter` (`exec-text`),
+`createJsonCliAdapter` (`exec-json`), `createAcpCliAdapter` (ACP v1), and
+`diagnoseCliProvider`, plus `parseCliJsonResponse` for validating provider
+responses. Provider manifests will be added in a later phase; the
+generic factories already support any explicitly configured executable.
+
+`review-safe` is the default: manifests declare the executable and `argv`, no
+shell or automatic installation is used, credentials and environment are
+explicit, and MCP/plugins/terminal tools are disabled. `trusted-local` is an
+explicit opt-in for native CLI login and is not an isolation boundary.
+
+Structured output fails closed on malformed or incomplete responses. Retries
+are limited to idempotent pre-response failures, and fallback is allowed only
+before the first semantic response. The adapter reports typed diagnostics and
+metadata-only checkpoints by default; GitHub, PR, merge, and approval policy
+remain outside the adapter.
+
+See [ADR 0031 — Shared CLI adapter execution boundary](/docs/architecture/adrs/0031-cli-adapter-execution-boundary)
+for the complete security, protocol, compatibility, rollout, and evidence
+contract. The subpath is Node-only and is available from the current source;
+use a released package version before depending on it in an external project.
 
 ## Install
 

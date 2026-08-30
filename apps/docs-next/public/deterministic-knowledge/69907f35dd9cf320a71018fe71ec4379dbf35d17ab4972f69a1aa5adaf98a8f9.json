@@ -146,7 +146,7 @@
     {
       "id": "claim.native-adapters",
       "kind": "restricted-faq",
-      "label": "25 native adapters",
+      "label": "26 native adapters",
       "match": {
         "type": "exact",
         "values": [
@@ -156,7 +156,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **25 native adapters**. The public conservative floor is 25.",
+        "markdown": "The verified AgentsKit ledger currently reports **26 native adapters**. The public conservative floor is 26.",
         "citations": [
           {
             "id": "claim-native-adapters",
@@ -1697,7 +1697,7 @@
         ]
       },
       "answer": {
-        "markdown": "**@agentskit/adapters** — Every LLM provider, one contract. Stream, tool calls, retry, abort all normalized. Plus higher-order adapters that compose candidates (router, ensemble, fallback) and a `createAdapter` factory for custom providers.\n\nInstall it with `pnpm add @agentskit/adapters`.",
+        "markdown": "**@agentskit/adapters** — import { counts } from '@/lib/ecosystem-stats'\n\nInstall it with `pnpm add @agentskit/adapters`.",
         "citations": [
           {
             "id": "package-adapters",
@@ -2306,5 +2306,5 @@
       }
     }
   ],
-  "contentHash": "sha256:91fefe614b1665340414f2ad8b2f9b44b92e7ad23c614905eb598a999db7d7e8"
+  "contentHash": "sha256:69907f35dd9cf320a71018fe71ec4379dbf35d17ab4972f69a1aa5adaf98a8f9"
 }

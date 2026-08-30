@@ -45,6 +45,7 @@ sandboxed code; memory/vector stores; the npm publish path.
 | 8 | Inbound webhook event accepts malformed payloads | `verify` (sig/replay) + opt-in `eventSchema`/`validateEvent` on `createChatTrigger` rejects off-schema events with 400 before the agent runs (ADR-0011) | shipped (opt-in) |
 | 9 | Compromised dependency | `dependency-review`, CodeQL, pinned actions, `pnpm` overrides for advisories; changeset-gated releases | shipped |
 | 10 | Auth/tenancy confusion (multi-tenant consumers) | SSO/SAML helpers (`security/sso.ts`); tenancy is the consuming app's responsibility | partial |
+| 11 | CLI provider execution boundary (shell injection, credential leakage, runaway or partial processes, accidental tools) | Shared `@agentskit/adapters/cli` contract: shell-free argv, explicit safety modes, allowlisted environment, deadlines/abort, bounded output, capability preflight, fail-closed parsing, metadata-only checkpoints (ADR-0031) | planned |
 
 ## Known gaps (operate-phase, deferred)
 
@@ -53,4 +54,4 @@ runbooks, and centralized default-deny egress belong to a hosted/app surface and
 are intentionally out of scope for the library today. Revisit when a managed
 runtime ships. See [[project_playbook-alignment]] in `.agent-memory/`.
 
-_Last reviewed: 2026-06-03._
+_Last reviewed: 2026-08-30._

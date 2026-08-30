@@ -1,4 +1,23 @@
 export { createAdapter } from './createAdapter'
+export {
+  createCliAdapter,
+  createJsonCliAdapter,
+  createAcpCliAdapter,
+  diagnoseCliProvider,
+  parseCliJsonResponse,
+} from './cli'
+export type {
+  AcpCliAdapterOptions,
+  AcpClientInfo,
+  CliAdapterOptions,
+  CliDiagnostic,
+  CliJsonAdapterOptions,
+  CliJsonParser,
+  CliJsonResponse,
+  CliProcessOptions,
+  CliSecurityMode,
+  CliToolCall,
+} from './cli'
 export { generic } from './generic'
 export { anthropic } from './anthropic'
 export { openai } from './openai'

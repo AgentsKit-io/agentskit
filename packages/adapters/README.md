@@ -38,6 +38,7 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/adapters)
 - **25 native adapters in the catalog** — Anthropic, OpenAI, Gemini, Ollama, DeepSeek, Grok, Kimi, Mistral, Cohere, Together, Groq, Fireworks, OpenRouter, Hugging Face, LM Studio, vLLM, llama.cpp, LangChain, Vercel AI SDK, and additional compatible providers
 - **Embedder functions built in** — the same adapter pattern covers text embeddings, so you can reuse provider config for both chat and RAG
 - **One-line local AI** — `ollama({ model: 'llama3.1' })` for fully offline agents with no API key required
+- **CLI-backed agents** — `@agentskit/adapters/cli` normalizes text, JSON, and ACP-based local LLM CLIs
 
 ## Install
 
@@ -89,6 +90,29 @@ const rag = createRAG({
 - Fetch-backed adapters run against the shared `Adapter` contract v1 suite (ADR 0001); SDK-backed adapters have provider-specific contract and resilience coverage
 - Custom adapter authoring via `createAdapter()`
 - Higher-order adapters: `createRouter` (cost/latency/classifier), `createEnsembleAdapter` (fan-out + merge), `createFallbackAdapter` (ordered try-next)
+
+## CLI-backed adapters
+
+The Node-only `@agentskit/adapters/cli` subpath runs an explicitly selected
+local LLM executable without a shell:
+
+```ts
+import { createJsonCliAdapter } from '@agentskit/adapters/cli'
+
+const adapter = createJsonCliAdapter({
+  command: 'codex',
+  args: ['exec', '--json'],
+  mode: 'review-safe',
+})
+```
+
+The generic factories are `createCliAdapter` (`exec-text`),
+`createJsonCliAdapter` (`exec-json`), and `createAcpCliAdapter` (ACP v1 over
+JSON lines). `review-safe` is the default: no shell, automatic installation,
+native login, MCP, plugins, or terminal tools. Use `trusted-local` explicitly
+when a developer intentionally wants the CLI's local authentication and
+environment. Structured output fails closed; timeouts, aborts, output limits,
+and non-zero exits produce terminal adapter errors.
 
 ## Stream guarantees
 

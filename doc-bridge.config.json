@@ -164,7 +164,7 @@
   },
   "reconciliation": {
     "scope": "package",
-    "requiredRelationKinds": ["imports", "re-exports", "depends-on"],
+    "requiredRelationKinds": ["depends-on"],
     "requiredRelationTargets": "internal"
   },
   "intelligence": {
@@ -186,7 +186,11 @@
       "**/build/**",
       "**/coverage/**",
       "**/.next/**",
-      "**/out/**"
+      "**/out/**",
+      "**/.changeset/**",
+    "**/.impeccable.md",
+    "**/.github/PULL_REQUEST_TEMPLATE.md",
+    "**/CHANGELOG.md"
     ],
     "maxFiles": 20000,
     "maxBytes": 2000000000,

@@ -66,5 +66,6 @@ Do NOT write an ADR for: routine features, bug fixes, internal refactors, or any
 | [0027](./0027-statechart-beta-boundaries.md) | Statechart beta safety boundaries | Accepted |
 | [0028](./0028-mcp-beta-boundaries.md) | MCP bridge beta boundaries | Accepted |
 | [0029](./0029-shared-ecosystem-web-shell.md) | Shared ecosystem web shell | Proposed |
+| [0031](./0031-cli-adapter-execution-boundary.md) | Shared CLI adapter execution boundary | Accepted |
 
 The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.

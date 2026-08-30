@@ -1,4 +1,5 @@
 ---
+title: Reference quality gates
 name: reference_quality-gates
 description: the structural quality gates, what they enforce, and how to run them
 metadata:

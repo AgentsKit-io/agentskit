@@ -1,4 +1,4 @@
-1/ First agent without a provider key
+# First agent without a provider key
 
 Why it exists: New developers need a zero-key path to feel the AgentsKit runtime contract.
 

@@ -1,4 +1,4 @@
-## Connect AgentsKit to your coding agent
+# Connect AgentsKit to your coding agent
 
 Developers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host.
 

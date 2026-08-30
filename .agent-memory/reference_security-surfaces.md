@@ -1,4 +1,5 @@
 ---
+title: Reference security surfaces
 name: reference_security-surfaces
 description: where egress and inbound validation live, and the shared validation contract they reuse
 metadata:

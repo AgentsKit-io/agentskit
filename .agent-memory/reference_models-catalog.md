@@ -1,4 +1,5 @@
 ---
+title: Reference models catalog
 name: reference_models-catalog
 description: models.dev-driven provider/model catalog in adapters — subpath isolation, no-runtime-fetch default, opt-in live pricing, openaiCompatible signal caveat
 metadata:
