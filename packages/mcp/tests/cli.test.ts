@@ -74,6 +74,27 @@ describe('runMcpCli', () => {
     expect(fetchSkill).toHaveBeenCalledWith('agent-one')
   })
 
+  it('routes typed Registry projections through the structured adapter', async () => {
+    const createServer = vi.fn(() => server())
+    const result = await runMcpCli([
+      '--tools', '', '--agents', 'typed-agent', '--provider', 'ollama', '--model', 'local', '--max-steps', '3',
+    ], {
+      createServer,
+      fetchAgent: async () => ({
+        id: 'typed-agent',
+        description: 'Typed agent',
+        systemPrompt: 'Call submit_typed_agent exactly once.',
+        mode: 'typed' as const,
+        resultToolName: 'submit_typed_agent',
+        inputSchema: { type: 'object' },
+        outputSchema: { type: 'object' },
+      }),
+      warn: vi.fn(),
+    })
+    expect(result).toMatchObject({ exitCode: 0, status: 'started', toolNames: ['typed-agent'] })
+    expect(createServer.mock.calls[0]?.[0].tools[0]?.schema).toEqual({ type: 'object' })
+  })
+
   it('rejects when agents cannot resolve and no primitive remains', async () => {
     const warn = vi.fn()
     await expect(runMcpCli([

@@ -58,4 +58,16 @@ describe('release registry classification', () => {
     })
     assert.equal(evaluateRegistryState([conflict], { hasPendingChangesets: false }).ok, false)
   })
+
+  test('allows an already-published older local version during recovery', () => {
+    const behind = classifyRegistryVersion({
+      name: '@agentskit/mcp', localVersion: '0.3.9', metadata: { latest: '0.4.2', versions: ['0.3.9', '0.4.2'] },
+    })
+    assert.equal(behind.recoverySafe, true)
+    assert.equal(evaluateRegistryState([behind], { hasPendingChangesets: true }).ok, false)
+    assert.equal(evaluateRegistryState([behind], {
+      hasPendingChangesets: true,
+      allowRecovery: true,
+    }).ok, true)
+  })
 })

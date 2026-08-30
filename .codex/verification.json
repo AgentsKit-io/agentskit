@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "project": "agentskit-release-recovery",
+  "root": "..",
+  "profile": "strict",
+  "contract": {
+    "intent": "Reconcile the published MCP 0.4.2 artifact with main and safely recover the pending npm release train.",
+    "outcomes": [
+      {
+        "id": "mcp-reconciliation",
+        "statement": "The MCP package, host pins, and agent-facing documentation are aligned to the published 0.4.2 contract.",
+        "checks": ["mcp-build", "mcp-lint", "mcp-tests", "mcp-runtime", "mcp-cli-contract", "mcp-version"]
+      },
+      {
+        "id": "recovery-guard",
+        "statement": "Recovery accepts an older local version only when that exact version already exists in the registry, while normal release mode remains strict.",
+        "checks": ["release-registry-tests", "release-preflight-recovery"]
+      },
+      {
+        "id": "release-artifact",
+        "statement": "The changed source has no patch-format errors and the release package is ready for the GitHub workflow.",
+        "checks": ["diff-check", "mcp-pack", "docs-gate"]
+      }
+    ]
+  },
+  "surfaces": {
+    "logic": true,
+    "endpoint": { "required": false, "reason": "No HTTP endpoint is changed." },
+    "database": { "required": false, "reason": "No database behavior is changed." },
+    "cli": true,
+    "mcp": true,
+    "ui": { "required": false, "reason": "No UI is changed." },
+    "docs": true
+  },
+  "checks": [
+    { "id": "mcp-build", "evidence": "structured", "category": "build", "command": "pnpm --filter @agentskit/mcp... build", "timeoutMs": 300000 },
+    { "id": "mcp-lint", "evidence": "structured", "category": "lint", "command": "pnpm --filter @agentskit/mcp lint", "timeoutMs": 120000 },
+    { "id": "mcp-tests", "evidence": "structured", "category": "test", "command": "pnpm --filter @agentskit/mcp test", "timeoutMs": 180000 },
+    { "id": "mcp-runtime", "evidence": "structured", "category": "mcp", "execution": "real", "command": "pnpm --filter @agentskit/mcp test", "timeoutMs": 180000 },
+    { "id": "mcp-cli-contract", "evidence": "structured", "category": "cli", "execution": "real", "command": "pnpm --filter @agentskit/mcp test -- --run tests/cli.test.ts", "timeoutMs": 120000 },
+    { "id": "mcp-version", "evidence": "structured", "category": "custom", "command": "node -e \"const p=require('./packages/mcp/package.json'); if(p.version!=='0.4.2') process.exit(1); console.log(p.version)\"", "timeoutMs": 30000 },
+    { "id": "release-registry-tests", "evidence": "structured", "category": "test", "command": "node --test scripts/release-registry.test.mjs", "timeoutMs": 60000 },
+    { "id": "release-preflight-recovery", "evidence": "structured", "category": "logic", "command": "pnpm check:release-registry -- --allow-unpublished-with-changesets", "timeoutMs": 120000 },
+    { "id": "diff-check", "evidence": "structured", "category": "custom", "command": "git diff --check", "timeoutMs": 30000 },
+    { "id": "mcp-pack", "evidence": "structured", "category": "custom", "command": "pnpm --filter @agentskit/mcp pack --pack-destination /tmp", "timeoutMs": 120000 },
+    { "id": "docs-gate", "evidence": "structured", "category": "docs", "command": "pnpm docs:bridge:gate", "timeoutMs": 180000 }
+  ],
+  "tracking": {
+    "required": false,
+    "reason": "The human authorized the GitHub PR and npm recovery; those external actions are verified separately after the code contract passes."
+  },
+  "cleanup": { "roots": [".codex/verification/tmp"] }
+}

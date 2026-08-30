@@ -70,7 +70,14 @@ export function classifyRegistryVersion({ name, localVersion, metadata }) {
     : versions.has(localVersion)
       ? 'local version exists but is not the latest dist-tag'
       : 'local version does not advance the registry latest version'
-  return { name, localVersion, publishedVersion, state: 'conflict', reason }
+  return {
+    name,
+    localVersion,
+    publishedVersion,
+    state: 'conflict',
+    reason,
+    recoverySafe: comparison < 0 && versions.has(localVersion),
+  }
 }
 
 export function evaluateRegistryState(entries, { hasPendingChangesets, allowRecovery = false }) {
@@ -80,9 +87,11 @@ export function evaluateRegistryState(entries, { hasPendingChangesets, allowReco
     newPackages: entries.filter(entry => entry.state === 'new-package'),
     conflicts: entries.filter(entry => entry.state === 'conflict'),
   }
-  const diagnostics = groups.conflicts.map(entry =>
+  const diagnostics = groups.conflicts
+    .filter(entry => !(allowRecovery && entry.recoverySafe))
+    .map(entry =>
     `${entry.name}: ${entry.reason} (local ${entry.localVersion}, registry ${entry.publishedVersion ?? 'missing'})`,
-  )
+    )
   if (hasPendingChangesets && groups.unpublishedAhead.length > 0 && !allowRecovery) {
     diagnostics.push(
       `pending changesets cannot be stacked on ${groups.unpublishedAhead.length} unpublished local version(s); recover the previous release train first`,
