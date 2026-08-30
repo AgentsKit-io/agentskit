@@ -58,9 +58,12 @@ const GATES = [
 
 const failed = []
 
-process.stdout.write('\n▶ adapters package build precondition\n')
-const adapterBuild = spawnSync('pnpm', ['--filter', '@agentskit/adapters', 'build'], { stdio: 'inherit', cwd: root })
-if (adapterBuild.status !== 0) failed.push('adapters package build precondition')
+for (const packageName of ['@agentskit/adapters', '@agentskit/mcp']) {
+  const label = `${packageName} build precondition`
+  process.stdout.write(`\n▶ ${label}\n`)
+  const build = spawnSync('pnpm', ['--filter', packageName, 'build'], { stdio: 'inherit', cwd: root })
+  if (build.status !== 0) failed.push(label)
+}
 
 for (const [label, script, args = [], runner = 'node'] of GATES) {
   process.stdout.write(`\n▶ ${label}\n`)
