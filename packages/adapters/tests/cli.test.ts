@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { createAcpCliAdapter, createCliAdapter, createJsonCliAdapter } from '../src/cli'
+import { createAcpCliAdapter, createCliAdapter, createJsonCliAdapter, diagnoseCliProvider } from '../src/cli'
 import type { AdapterRequest, StreamChunk } from '@agentskit/core'
 
 const request: AdapterRequest = {
@@ -67,6 +67,54 @@ describe('CLI adapters', () => {
     expect(chunks[0]).toMatchObject({ type: 'error', content: expect.stringContaining('timed out') })
   })
 
+  it('runs review-safe with an allowlisted environment and trusted-local with inheritance', async () => {
+    const inheritedKey = 'AGENTSKIT_CLI_TEST_INHERITED'
+    const previous = process.env[inheritedKey]
+    process.env[inheritedKey] = 'inherited'
+    try {
+      const script = `process.stdout.write(JSON.stringify({inherited:process.env.${inheritedKey} ?? null, home:process.env.HOME ?? null}))`
+      const safe = await collect(createCliAdapter({ command: process.execPath, args: ['-e', script] }))
+      expect(safe[0]).toMatchObject({ type: 'text', content: JSON.stringify({ inherited: null, home: null }) })
+
+      const trusted = await collect(createCliAdapter({ command: process.execPath, args: ['-e', script], mode: 'trusted-local' }))
+      expect(trusted[0]).toMatchObject({ type: 'text', content: JSON.stringify({ inherited: 'inherited', home: process.env.HOME ?? null }) })
+    } finally {
+      if (previous === undefined) delete process.env[inheritedKey]
+      else process.env[inheritedKey] = previous
+    }
+  })
+
+  it('rejects unsupported capabilities before spawning and redacts diagnostics', async () => {
+    const blocked = await collect(createCliAdapter({
+      command: 'this-command-must-not-start',
+      requiredCapabilities: { mcp: true },
+    }))
+    expect(blocked[0]).toMatchObject({ type: 'error', content: expect.stringContaining('required capability: mcp') })
+
+    const diagnostics: Array<{ error?: string; success?: boolean }> = []
+    const secret = 'super-secret-cli-value'
+    const failed = await collect(createCliAdapter({
+      command: process.execPath,
+      args: ['-e', "process.stderr.write(process.env.CLI_SECRET); process.exit(4)"],
+      env: { CLI_SECRET: secret },
+      onDiagnostic: diagnostic => diagnostics.push(diagnostic),
+    }))
+    expect(failed[0]).toMatchObject({ type: 'error' })
+    expect(failed[0]?.content).not.toContain(secret)
+    expect(diagnostics.at(-1)?.error).not.toContain(secret)
+    expect(diagnostics.at(-1)?.success).toBe(false)
+  })
+
+  it('returns structured diagnostics from provider discovery', async () => {
+    const diagnostic = await diagnoseCliProvider({
+      command: process.execPath,
+      diagnosticArgs: ['-e', "process.stdout.write('cli-v1')"],
+      providerId: 'fixture',
+    })
+    expect(diagnostic).toMatchObject({ available: true, providerId: 'fixture', protocol: 'exec-text', version: 'cli-v1' })
+    expect(diagnostic.elapsedMs).toEqual(expect.any(Number))
+  })
+
   it('normalizes ACP v1 session output over JSON lines', async () => {
     const script = `
       const rl = require('node:readline').createInterface({ input: process.stdin });
@@ -86,4 +134,3 @@ describe('CLI adapters', () => {
     ])
   })
 })
-
