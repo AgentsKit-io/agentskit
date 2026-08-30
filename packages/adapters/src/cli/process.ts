@@ -63,12 +63,17 @@ function validateOptions(options: CliProcessOptions): void {
 
 function buildEnvironment(options: CliProcessOptions): NodeJS.ProcessEnv {
   const mode = options.mode ?? 'review-safe'
-  const inherited = mode === 'trusted-local'
-    ? { ...process.env }
-    : Object.fromEntries(
-        ['PATH', 'Path', 'PATHEXT', 'SystemRoot', 'WINDIR', 'TMP', 'TEMP', 'TMPDIR']
-          .flatMap(name => process.env[name] === undefined ? [] : [[name, process.env[name]]]),
-      )
+  let inherited: NodeJS.ProcessEnv
+  if (mode === 'trusted-local') {
+    inherited = { ...process.env }
+  } else {
+    const entries: Array<[string, string]> = []
+    for (const name of ['PATH', 'Path', 'PATHEXT', 'SystemRoot', 'WINDIR', 'TMP', 'TEMP', 'TMPDIR']) {
+      const value = process.env[name]
+      if (value !== undefined) entries.push([name, value])
+    }
+    inherited = Object.fromEntries(entries)
+  }
   return { ...inherited, ...options.env }
 }
 
