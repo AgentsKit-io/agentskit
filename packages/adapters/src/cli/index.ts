@@ -3,21 +3,26 @@ import { adapterErrorChunk, isAbortError } from '../stream-errors'
 import { abortableWrite, readCliStdout, spawnCliProcess, writeCliInput } from './process'
 import type {
   AcpCliAdapterOptions,
+  CliCapabilityRequirements,
   CliAdapterOptions,
   CliJsonAdapterOptions,
+  CliProtocol,
   CliProcessOptions,
 } from './types'
 export { diagnoseCliProvider } from './process'
 export type {
   AcpCliAdapterOptions,
   AcpClientInfo,
+  CliCapabilityRequirements,
   CliAdapterOptions,
   CliDiagnostic,
   CliJsonAdapterOptions,
   CliJsonParser,
   CliJsonResponse,
+  CliProtocol,
   CliProcessOptions,
   CliSecurityMode,
+  CliTerminationReason,
   CliToolCall,
 } from './types'
 
@@ -56,29 +61,64 @@ function mergeCapabilities(base: AdapterCapabilities, override?: AdapterCapabili
   }
 }
 
+function capabilityError(capability: string, protocol: CliProtocol): AdapterError {
+  return new AdapterError({
+    code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,
+    message: `CLI protocol ${protocol} does not support required capability: ${capability}`,
+    hint: 'Use a provider manifest with a compatible protocol or remove the unsupported requirement.',
+  })
+}
+
+function preflightCli(options: CliProcessOptions, protocol: CliProtocol): void {
+  const required: CliCapabilityRequirements = options.requiredCapabilities ?? {}
+  const supported: Record<string, boolean> = {
+    streaming: protocol !== 'exec-json',
+    structuredOutput: protocol !== 'exec-text',
+    reasoning: protocol !== 'exec-text',
+    tools: false,
+    mcp: false,
+    plugins: false,
+    terminal: false,
+    nativeAuth: (options.mode ?? 'review-safe') === 'trusted-local',
+  }
+  for (const [capability, requested] of Object.entries(required)) {
+    if (requested === true && supported[capability] !== true) throw capabilityError(capability, protocol)
+  }
+}
+
+async function closeProcess(handle: ReturnType<typeof spawnCliProcess>): Promise<void> {
+  handle.terminate()
+  await handle.completion.catch(() => undefined)
+}
+
 async function* runText(
   request: AdapterRequest,
   signal: AbortSignal,
   options: CliAdapterOptions,
 ): AsyncIterableIterator<StreamChunk> {
-  const handle = spawnCliProcess(options, signal)
+  preflightCli(options, 'exec-text')
+  const handle = spawnCliProcess({ ...options, protocol: 'exec-text' }, signal)
   const decoder = new TextDecoder()
   let emitted = false
-  writeCliInput(handle, (options.serializeRequest ?? defaultSerialize)(request))
-  for await (const bytes of readCliStdout(handle, signal, options.maxOutputBytes)) {
-    const text = decoder.decode(bytes, { stream: true })
-    if (text) {
-      emitted = true
-      yield { type: 'text', content: text }
+  try {
+    writeCliInput(handle, (options.serializeRequest ?? defaultSerialize)(request))
+    for await (const bytes of readCliStdout(handle, signal, options.maxOutputBytes)) {
+      const text = decoder.decode(bytes, { stream: true })
+      if (text) {
+        emitted = true
+        yield { type: 'text', content: text }
+      }
     }
+    const trailing = decoder.decode()
+    if (trailing) {
+      emitted = true
+      yield { type: 'text', content: trailing }
+    }
+    if (!emitted) throw cliError('CLI returned an empty text response')
+    yield { type: 'done' }
+  } finally {
+    await closeProcess(handle)
   }
-  const trailing = decoder.decode()
-  if (trailing) {
-    emitted = true
-    yield { type: 'text', content: trailing }
-  }
-  if (!emitted) throw cliError('CLI returned an empty text response')
-  yield { type: 'done' }
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
@@ -142,20 +182,25 @@ async function* runJson(
   signal: AbortSignal,
   options: CliJsonAdapterOptions,
 ): AsyncIterableIterator<StreamChunk> {
-  const handle = spawnCliProcess(options, signal)
+  preflightCli(options, 'exec-json')
+  const handle = spawnCliProcess({ ...options, protocol: 'exec-json' }, signal)
   const decoder = new TextDecoder()
   let output = ''
-  writeCliInput(handle, (options.serializeRequest ?? defaultSerialize)(request))
-  for await (const bytes of readCliStdout(handle, signal, options.maxOutputBytes)) output += decoder.decode(bytes, { stream: true })
-  output += decoder.decode()
-  let value: unknown
   try {
-    value = JSON.parse(output)
-  } catch (error) {
-    throw cliError(`CLI returned malformed JSON: ${error instanceof Error ? error.message : String(error)}`, error)
+    writeCliInput(handle, (options.serializeRequest ?? defaultSerialize)(request))
+    for await (const bytes of readCliStdout(handle, signal, options.maxOutputBytes)) output += decoder.decode(bytes, { stream: true })
+    output += decoder.decode()
+    let value: unknown
+    try {
+      value = JSON.parse(output)
+    } catch (error) {
+      throw cliError(`CLI returned malformed JSON: ${error instanceof Error ? error.message : String(error)}`, error)
+    }
+    const chunks = normalizeJsonChunks((options.parse ?? standardJsonParser)(value))
+    for (const chunk of chunks) yield chunk
+  } finally {
+    await closeProcess(handle)
   }
-  const chunks = normalizeJsonChunks((options.parse ?? standardJsonParser)(value))
-  for (const chunk of chunks) yield chunk
 }
 
 interface AcpResponse {
@@ -265,7 +310,8 @@ async function* runAcp(
   options: AcpCliAdapterOptions,
 ): AsyncIterableIterator<StreamChunk> {
   if ((options.protocolVersion ?? 1) !== 1) throw cliError('Only ACP protocol version 1 is supported')
-  const handle = spawnCliProcess(options, signal)
+  preflightCli(options, 'acp')
+  const handle = spawnCliProcess({ ...options, protocol: 'acp' }, signal)
   const iterator = readAcpMessages(handle, signal, options.maxOutputBytes ?? 8 * 1024 * 1024)[Symbol.asyncIterator]()
   let sequence = 0
   const nextId = (): string => `agentskit-${++sequence}`

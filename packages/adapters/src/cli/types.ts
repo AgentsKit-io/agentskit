@@ -6,6 +6,34 @@ import type {
 } from '@agentskit/core'
 
 export type CliSecurityMode = 'review-safe' | 'trusted-local' | 'isolated'
+export type CliProtocol = 'exec-text' | 'exec-json' | 'acp'
+export type CliTerminationReason = 'aborted' | 'timeout' | 'output-limit'
+
+export interface CliCapabilityRequirements {
+  streaming?: boolean
+  structuredOutput?: boolean
+  reasoning?: boolean
+  tools?: boolean
+  mcp?: boolean
+  plugins?: boolean
+  terminal?: boolean
+  nativeAuth?: boolean
+}
+
+export interface CliDiagnostic {
+  available?: boolean
+  success?: boolean
+  providerId?: string
+  command: string
+  mode: CliSecurityMode
+  protocol?: CliProtocol
+  elapsedMs?: number
+  exitCode?: number | null
+  signal?: NodeJS.Signals | null
+  termination?: CliTerminationReason
+  version?: string
+  error?: string
+}
 
 export interface CliProcessOptions {
   /** Executable path or an explicit executable name resolved by the OS. */
@@ -24,6 +52,14 @@ export interface CliProcessOptions {
   maxOutputBytes?: number
   /** Grace period before forcefully terminating an aborted child. */
   killGraceMs?: number
+  /** Stable consumer/provider label included in diagnostics only. */
+  providerId?: string
+  /** Protocol label included in diagnostics; set by a transport factory. */
+  protocol?: CliProtocol
+  /** Receives redacted lifecycle diagnostics; callback failures are ignored. */
+  onDiagnostic?: (diagnostic: CliDiagnostic) => void
+  /** Capabilities that must be available before spawning the executable. */
+  requiredCapabilities?: CliCapabilityRequirements
 }
 
 export interface CliAdapterOptions extends CliProcessOptions {
@@ -65,12 +101,3 @@ export interface AcpCliAdapterOptions extends CliProcessOptions {
   /** Maps the full AgentsKit request to the ACP user text block. */
   toPrompt?: (request: AdapterRequest) => string
 }
-
-export interface CliDiagnostic {
-  available: boolean
-  command: string
-  mode: CliSecurityMode
-  version?: string
-  error?: string
-}
-

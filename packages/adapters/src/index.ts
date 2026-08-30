@@ -9,13 +9,16 @@ export {
 export type {
   AcpCliAdapterOptions,
   AcpClientInfo,
+  CliCapabilityRequirements,
   CliAdapterOptions,
   CliDiagnostic,
   CliJsonAdapterOptions,
   CliJsonParser,
   CliJsonResponse,
+  CliProtocol,
   CliProcessOptions,
   CliSecurityMode,
+  CliTerminationReason,
   CliToolCall,
 } from './cli'
 export { generic } from './generic'
