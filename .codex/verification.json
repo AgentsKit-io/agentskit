@@ -44,7 +44,7 @@
     { "id": "diff-check", "evidence": "structured", "category": "custom", "command": "git diff --check", "timeoutMs": 30000 },
     { "id": "mcp-pack", "evidence": "structured", "category": "custom", "command": "pnpm --filter @agentskit/mcp pack --pack-destination /tmp", "timeoutMs": 120000 },
     { "id": "docs-gate", "evidence": "structured", "category": "docs", "command": "pnpm docs:bridge:gate", "timeoutMs": 180000 },
-    { "id": "public-api-snapshot", "evidence": "structured", "category": "api", "command": "pnpm check:public-api-snapshot", "timeoutMs": 120000 }
+    { "id": "public-api-snapshot", "evidence": "structured", "category": "custom", "command": "pnpm check:public-api-snapshot", "timeoutMs": 120000 }
   ],
   "tracking": {
     "required": false,
