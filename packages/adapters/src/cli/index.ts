@@ -267,10 +267,6 @@ function acpRequest(id: string, method: string, params: Record<string, unknown>)
   return `${JSON.stringify({ jsonrpc: '2.0', id, method, params })}\n`
 }
 
-function acpNotification(method: string, params: Record<string, unknown>): string {
-  return `${JSON.stringify({ jsonrpc: '2.0', method, params })}\n`
-}
-
 async function nextAcpResponse(
   iterator: AsyncIterator<AcpMessage>,
   id: string,
