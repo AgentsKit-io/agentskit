@@ -57,11 +57,14 @@ Peers: `react`, `react-native`.
 <!-- readme-example:quickstart -->
 ```tsx
 import { useChat, ChatContainer, Message, InputBar } from '@agentskit/react-native'
-import { anthropic } from '@agentskit/adapters'
+import type { ChatConfig } from '@agentskit/core'
+
+declare const adapter: ChatConfig['adapter']
 
 export function Chat() {
   const chat = useChat({
-    adapter: anthropic({ apiKey: process.env.EXPO_PUBLIC_ANTHROPIC_API_KEY!, model: 'claude-sonnet-4-6' }),
+    // Inject an adapter backed by your server/edge endpoint. Never ship provider secrets here.
+    adapter,
   })
 
   return (

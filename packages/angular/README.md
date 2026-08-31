@@ -54,7 +54,9 @@ Peers: `@angular/core ^18 || ^19 || ^20 || ^21`, `rxjs ^7`.
 ```ts
 import { Component, inject } from '@angular/core'
 import { AgentskitChat, ChatContainerComponent, MessageComponent } from '@agentskit/angular'
-import { anthropic } from '@agentskit/adapters'
+import type { ChatConfig } from '@agentskit/core'
+
+declare const adapter: ChatConfig['adapter']
 
 @Component({
   standalone: true,
@@ -75,7 +77,8 @@ export class ChatWidget {
 
   constructor() {
     this.chat.init({
-      adapter: anthropic({ apiKey: process.env['NG_APP_ANTHROPIC_API_KEY']!, model: 'claude-sonnet-4-6' }),
+      // Inject an adapter backed by your server/edge endpoint. Never ship provider secrets here.
+      adapter,
     })
   }
 }

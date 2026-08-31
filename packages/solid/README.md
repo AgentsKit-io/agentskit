@@ -55,11 +55,14 @@ Peers: `solid-js ^1.8`.
 ```tsx
 import { useChat, ChatContainer, Message, InputBar } from '@agentskit/solid'
 import { For } from 'solid-js'
-import { anthropic } from '@agentskit/adapters'
+import type { ChatConfig } from '@agentskit/core'
+
+declare const adapter: ChatConfig['adapter']
 
 export function App() {
   const chat = useChat({
-    adapter: anthropic({ apiKey: import.meta.env.VITE_ANTHROPIC_API_KEY, model: 'claude-sonnet-4-6' }),
+    // Inject an adapter backed by your server/edge endpoint. Never ship provider secrets here.
+    adapter,
   })
 
   return (
