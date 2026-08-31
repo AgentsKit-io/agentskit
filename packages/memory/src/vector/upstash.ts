@@ -1,11 +1,10 @@
-import { ErrorCodes, MemoryError } from '@agentskit/core'
 import type { RetrievedDocument, VectorDocument, VectorMemory } from '@agentskit/core'
+import { remoteJson, type RemoteHttpConfig } from './http'
 
-export interface UpstashVectorConfig {
+export interface UpstashVectorConfig extends RemoteHttpConfig {
   url: string
   token: string
   topK?: number
-  fetch?: typeof globalThis.fetch
 }
 
 async function call<T>(
@@ -13,8 +12,7 @@ async function call<T>(
   path: string,
   body: unknown,
 ): Promise<T> {
-  const fetchImpl = config.fetch ?? globalThis.fetch
-  const response = await fetchImpl(`${config.url}${path}`, {
+  return remoteJson<T>(config, 'upstash-vector', `${config.url}${path}`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
@@ -22,15 +20,6 @@ async function call<T>(
     },
     body: JSON.stringify(body),
   })
-  const text = await response.text()
-  if (!response.ok) {
-    throw new MemoryError({
-      code: ErrorCodes.AK_MEMORY_REMOTE_HTTP,
-      message: `upstash-vector ${response.status}: ${text.slice(0, 200)}`,
-      hint: `URL ${config.url}${path}. Check token + index URL.`,
-    })
-  }
-  return (text.length > 0 ? JSON.parse(text) : {}) as T
 }
 
 /**

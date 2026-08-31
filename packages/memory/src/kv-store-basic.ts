@@ -1,7 +1,8 @@
 // in-memory / file / localstorage KV backends.
 
-import { mkdir, readFile, writeFile } from 'node:fs/promises'
-import { dirname } from 'node:path'
+import { mkdir, readFile, rename, unlink, writeFile } from 'node:fs/promises'
+import { dirname, basename, join } from 'node:path'
+import { randomBytes } from 'node:crypto'
 import {
   enforceMaxMessages,
   isExpired,
@@ -37,6 +38,7 @@ export const createInMemoryStore = (config: InMemoryKvConfig): AgentskitMemorySt
 export const createFileStore = (config: FileKvConfig): AgentskitMemoryStore => {
   const path = config.path
   let cache: Map<string, KvEntry> | undefined
+  let writeQueue = Promise.resolve()
 
   const load = async (): Promise<Map<string, KvEntry>> => {
     if (cache) return cache
@@ -52,7 +54,13 @@ export const createFileStore = (config: FileKvConfig): AgentskitMemoryStore => {
 
   const persist = async (map: Map<string, KvEntry>): Promise<void> => {
     await mkdir(dirname(path), { recursive: true })
-    await writeFile(path, JSON.stringify(Object.fromEntries(map), null, 2), { encoding: 'utf8', mode: 0o600 })
+    const tempPath = join(dirname(path), `.${basename(path)}.${randomBytes(8).toString('hex')}.tmp`)
+    try {
+      await writeFile(tempPath, JSON.stringify(Object.fromEntries(map), null, 2), { encoding: 'utf8', mode: 0o600 })
+      await rename(tempPath, path)
+    } finally {
+      try { await unlink(tempPath) } catch { /* rename already published it */ }
+    }
   }
 
   return {
@@ -69,10 +77,13 @@ export const createFileStore = (config: FileKvConfig): AgentskitMemoryStore => {
       return entry.value
     },
     async set(key, value) {
-      const map = await load()
-      map.set(key, { value, insertedAt: Date.now() })
-      enforceMaxMessages(map, config.maxMessages)
-      await persist(map)
+      writeQueue = writeQueue.then(async () => {
+        const map = await load()
+        map.set(key, { value, insertedAt: Date.now() })
+        enforceMaxMessages(map, config.maxMessages)
+        await persist(map)
+      })
+      await writeQueue
     },
   }
 }

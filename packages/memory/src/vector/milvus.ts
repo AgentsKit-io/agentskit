@@ -1,7 +1,8 @@
-import { ErrorCodes, MemoryError } from '@agentskit/core'
 import type { RetrievedDocument, VectorDocument, VectorMemory } from '@agentskit/core'
+import { remoteJson, type RemoteHttpConfig } from './http'
+import { validateIdentifier } from './validation'
 
-export interface MilvusConfig {
+export interface MilvusConfig extends RemoteHttpConfig {
   /** Milvus REST endpoint, e.g. `https://in03-xxx.api.gcp-us-west1.zillizcloud.com`. */
   url: string
   /** API key / Zilliz Cloud token (Bearer). */
@@ -10,7 +11,6 @@ export interface MilvusConfig {
   /** Vector field name in the schema. Default `vector`. */
   vectorField?: string
   topK?: number
-  fetch?: typeof globalThis.fetch
 }
 
 async function call<T>(
@@ -18,8 +18,7 @@ async function call<T>(
   path: string,
   body: unknown,
 ): Promise<T> {
-  const fetchImpl = config.fetch ?? globalThis.fetch
-  const response = await fetchImpl(`${config.url}${path}`, {
+  return remoteJson<T>(config, 'milvus', `${config.url}${path}`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
@@ -27,18 +26,10 @@ async function call<T>(
     },
     body: JSON.stringify(body),
   })
-  const text = await response.text()
-  if (!response.ok) {
-    throw new MemoryError({
-      code: ErrorCodes.AK_MEMORY_REMOTE_HTTP,
-      message: `milvus ${response.status}: ${text.slice(0, 200)}`,
-      hint: `URL ${config.url}${path}. Check token + collection "${config.collection}".`,
-    })
-  }
-  return (text.length > 0 ? JSON.parse(text) : {}) as T
 }
 
 export function milvusVectorStore(config: MilvusConfig): VectorMemory {
+  const collection = validateIdentifier(config.collection, 'collection')
   const defaultTopK = Math.max(1, config.topK ?? 10)
   const vectorField = config.vectorField ?? 'vector'
 
@@ -46,7 +37,7 @@ export function milvusVectorStore(config: MilvusConfig): VectorMemory {
     async store(docs: VectorDocument[]) {
       if (docs.length === 0) return
       await call(config, '/v2/vectordb/entities/upsert', {
-        collectionName: config.collection,
+        collectionName: collection,
         data: docs.map(d => ({
           id: d.id,
           [vectorField]: d.embedding,
@@ -62,7 +53,7 @@ export function milvusVectorStore(config: MilvusConfig): VectorMemory {
       const result = await call<{
         data?: Array<{ id: string; distance: number; content?: string; metadata?: Record<string, unknown> }>
       }>(config, '/v2/vectordb/entities/search', {
-        collectionName: config.collection,
+        collectionName: collection,
         data: [embedding],
         annsField: vectorField,
         limit: topK,
@@ -81,7 +72,7 @@ export function milvusVectorStore(config: MilvusConfig): VectorMemory {
     async delete(ids: string[]) {
       if (ids.length === 0) return
       await call(config, '/v2/vectordb/entities/delete', {
-        collectionName: config.collection,
+        collectionName: collection,
         filter: `id in [${ids.map(id => `"${id}"`).join(',')}]`,
       })
     },
