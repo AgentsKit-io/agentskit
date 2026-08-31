@@ -74,6 +74,9 @@ The controller merges system prompts, runs retrieval, dispatches tool calls, sav
 | `createInMemoryMemory`, `createLocalStorageMemory` | Simple bundled memories for tests or demos; malformed local-storage data raises `MemoryError` |
 | `serializeMessages` / `deserializeMessages` | Persistence helpers |
 | `validateMemoryRecord` from `@agentskit/core/memory-validation` | Bounded runtime validation for untrusted serialized messages |
+| `@agentskit/core/fuzzy-match` | Deterministic Jaro-Winkler matching for KYC, sanctions, deduplication, and entity resolution |
+| `@agentskit/core/finding` | Canonical `Finding` / `Severity` shape for review and compliance results |
+| `@agentskit/core/tool-proposal` | Route a validated proposal through controller authorization |
 | `createStaticRetriever`, `formatRetrievedDocuments` | Retriever helpers for static/demo context; matching is token substring overlap, not semantic production search |
 
 Heavy backends live in [`@agentskit/memory`](/docs/reference/packages/memory); vector stores and chunking in [`@agentskit/rag`](/docs/reference/packages/rag).
@@ -85,7 +88,7 @@ Heavy backends live in [`@agentskit/memory`](/docs/reference/packages/memory); v
 | `AgentsKitError` | Base error class with `code`, `hint`, and `docsUrl` fields |
 | `AdapterError` | Thrown on adapter/stream failures; links to adapter docs |
 | `ToolError` | Thrown on tool lookup or execution failures; links to tool docs |
-| `MemoryError` | Thrown on memory load/save/deserialize failures; links to memory docs |
+| `MemoryError` | Thrown on memory load/save/clear/deserialize failures; links to memory docs |
 | `ConfigError` | Thrown on invalid configuration; links to [error handling](/docs/get-started/concepts/errors) |
 | `ErrorCodes` | `as const` map of all `AK_*` error code strings |
 
