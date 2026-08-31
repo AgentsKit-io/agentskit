@@ -138,6 +138,24 @@
     "gzip": true
   },
   {
+    "name": "@agentskit/mcp (CJS)",
+    "path": "packages/mcp/dist/index.cjs",
+    "limit": "10 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/mcp (CLI ESM)",
+    "path": "packages/mcp/dist/bin.js",
+    "limit": "12 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/mcp (CLI CJS)",
+    "path": "packages/mcp/dist/bin.cjs",
+    "limit": "12 KB",
+    "gzip": true
+  },
+  {
     "name": "@agentskit/integrations (ESM)",
     "path": "packages/integrations/dist/index.js",
     "limit": "32 KB",

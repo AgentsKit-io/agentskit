@@ -1,4 +1,4 @@
-import { ErrorCodes, ToolError } from '@agentskit/core'
+import { ConfigError, ErrorCodes, ToolError } from '@agentskit/core'
 import type { ToolDefinition } from '@agentskit/core'
 import type {
   JsonRpcMessage,
@@ -8,6 +8,7 @@ import type {
   McpToolsListResult,
   McpTransport,
 } from './types'
+import { MCP_PROTOCOL_VERSION } from './types'
 
 export interface McpClient {
   initialize: () => Promise<{ serverInfo: { name: string; version?: string } }>
@@ -94,21 +95,25 @@ export function createMcpClient(options: {
         reject,
         timer,
       })
-      Promise.resolve(
-        options.transport.send({ jsonrpc: '2.0', id, method, params }),
-      ).catch(err => {
+      try {
+        Promise.resolve(options.transport.send({ jsonrpc: '2.0', id, method, params })).catch(err => {
+          settle(id, false, err instanceof Error ? err : new Error(String(err)))
+        })
+      } catch (err) {
         settle(id, false, err instanceof Error ? err : new Error(String(err)))
-      })
+      }
     })
   }
 
   return {
     async initialize() {
-      return call<{ serverInfo: { name: string; version?: string } }>('initialize', {
-        protocolVersion: '2024-11-05',
+      const result = await call<{ protocolVersion?: unknown; serverInfo: { name: string; version?: string } }>('initialize', {
+        protocolVersion: MCP_PROTOCOL_VERSION,
         capabilities: { tools: {} },
         clientInfo: options.clientInfo ?? { name: 'agentskit-mcp-client', version: '0.1.0' },
       })
+      if (result.protocolVersion !== MCP_PROTOCOL_VERSION) throw new Error('unsupported MCP protocol version')
+      return result
     },
     async listTools() {
       return call<McpToolsListResult>('tools/list')
@@ -151,6 +156,8 @@ export interface ToolsFromMcpOptions {
    * Default true — opt out only for first-party MCP servers you operate.
    */
   quarantine?: boolean
+  /** Receives a safe reason when a remote descriptor is rejected. */
+  onInvalidTool?: (reason: string) => void
 }
 
 const DEFAULT_MAX_DESCRIPTION_BYTES = 4096
@@ -192,13 +199,31 @@ export async function toolsFromMcpClient(
   client: McpClient,
   options: ToolsFromMcpOptions = {},
 ): Promise<ToolDefinition[]> {
-  const maxDescription = options.maxDescriptionBytes ?? DEFAULT_MAX_DESCRIPTION_BYTES
-  const maxSchema = options.maxSchemaBytes ?? DEFAULT_MAX_SCHEMA_BYTES
+  const maxDescription = limit(options.maxDescriptionBytes, DEFAULT_MAX_DESCRIPTION_BYTES, 'maxDescriptionBytes')
+  const maxSchema = limit(options.maxSchemaBytes, DEFAULT_MAX_SCHEMA_BYTES, 'maxSchemaBytes')
   const quarantine = options.quarantine ?? true
+  const onInvalidTool = options.onInvalidTool
   const { tools } = await client.listTools()
   const out: ToolDefinition[] = []
+  const names = new Set<string>()
   for (const t of tools) {
-    const schemaJson = JSON.stringify(t.inputSchema ?? {})
+    if (!isValidToolName(t?.name)) {
+      const reason = 'remote MCP tool has an invalid name'
+      onInvalidTool?.(reason)
+      throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: reason })
+    }
+    const name = quarantine ? `mcp.${t.name}` : t.name
+    if (new TextEncoder().encode(name).byteLength > 128 || names.has(name)) {
+      const reason = 'remote MCP tool names must be unique and fit the AgentsKit limit'
+      onInvalidTool?.(reason)
+      throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: reason })
+    }
+    if (!isRecord(t.inputSchema)) {
+      const reason = 'remote MCP tool schema must be an object'
+      onInvalidTool?.(reason)
+      throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: reason })
+    }
+    const schemaJson = JSON.stringify(t.inputSchema)
     if (new TextEncoder().encode(schemaJson).byteLength > maxSchema) {
       // Drop oversized schema; safer than passing a truncated copy.
       continue
@@ -207,7 +232,7 @@ export async function toolsFromMcpClient(
     const description = quarantine
       ? `[mcp] ${truncateBytes(rawDescription, maxDescription)}`
       : truncateBytes(rawDescription, maxDescription)
-    const name = quarantine ? `mcp:${t.name}` : t.name
+    names.add(name)
     out.push({
       name,
       description,
@@ -229,4 +254,20 @@ export async function toolsFromMcpClient(
     })
   }
   return out
+}
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return value !== null && typeof value === 'object' && !Array.isArray(value)
+}
+
+function isValidToolName(value: unknown): value is string {
+  return typeof value === 'string' && /^[A-Za-z_][A-Za-z0-9_.-]{0,127}$/.test(value)
+}
+
+function limit(value: number | undefined, fallback: number, field: string): number {
+  const result = value ?? fallback
+  if (!Number.isSafeInteger(result) || result < 1) {
+    throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: `${field} must be a positive safe integer` })
+  }
+  return result
 }

@@ -1,5 +1,7 @@
 import type { JSONSchema7 } from 'json-schema'
 
+export const MCP_PROTOCOL_VERSION = '2024-11-05' as const
+
 /**
  * Subset of the Model Context Protocol (MCP) used by the bridge.
  * Full MCP spec covers resources, prompts, sampling, and more —

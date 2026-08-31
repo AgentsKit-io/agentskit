@@ -42,6 +42,13 @@ const server = createAgentsKitMcpServer({
 The package does not ship HTTP or WebSocket listeners. Authentication and
 authorization belong to the custom transport or host boundary.
 
+The bridge currently supports MCP protocol revision `2024-11-05`. `tools/call`
+arguments are checked against the advertised JSON Schema before execution;
+tools without a schema accept only `{}`. Malformed JSON-RPC envelopes and
+parameters are rejected at the transport boundary, and tool error text is
+sanitized by default. Supply a custom `validateArgs` function only when the
+application owns an equivalent boundary.
+
 ## Devtools over MCP
 
 `@agentskit/tools/mcp-devtools` exposes a running runtime as MCP tools — any MCP-aware client (Claude Code, Cursor, Codex) can list sessions, inspect messages, pause / step, replay, and run evals.

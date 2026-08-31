@@ -81,7 +81,7 @@ export function createStdioTransport(
   const maxFrameBytes = options.maxFrameBytes ?? DEFAULT_MAX_FRAME_BYTES
   const messageListeners = new Set<(m: JsonRpcMessage) => void>()
   const closeListeners = new Set<() => void>()
-  let buffer = ''
+  let buffer = new Uint8Array(0)
   let closed = false
 
   const fireClose = (): void => {
@@ -92,10 +92,14 @@ export function createStdioTransport(
 
   const onData = (chunk: Buffer | string): void => {
     if (closed) return
-    buffer += typeof chunk === 'string' ? chunk : chunk.toString('utf8')
-    let newlineIdx = buffer.indexOf('\n')
+    const bytes = typeof chunk === 'string' ? new TextEncoder().encode(chunk) : new Uint8Array(chunk)
+    const next = new Uint8Array(buffer.byteLength + bytes.byteLength)
+    next.set(buffer)
+    next.set(bytes, buffer.byteLength)
+    buffer = next
+    let newlineIdx = buffer.indexOf(10)
     while (newlineIdx >= 0) {
-      const line = buffer.slice(0, newlineIdx).trim()
+      const line = new TextDecoder().decode(buffer.subarray(0, newlineIdx)).trim()
       buffer = buffer.slice(newlineIdx + 1)
       if (line) {
         try {
@@ -105,12 +109,12 @@ export function createStdioTransport(
           // ignore malformed frames
         }
       }
-      newlineIdx = buffer.indexOf('\n')
+      newlineIdx = buffer.indexOf(10)
     }
-    if (buffer.length > maxFrameBytes) {
+    if (buffer.byteLength > maxFrameBytes) {
       // Oversized frame with no newline — drop buffer, signal close,
       // and kill the child so the leak cannot continue.
-      buffer = ''
+      buffer = new Uint8Array(0)
       try {
         child.kill?.()
       } catch {

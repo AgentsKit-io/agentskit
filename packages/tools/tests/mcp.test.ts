@@ -52,6 +52,48 @@ describe('MCP bridge (client ↔ server over in-memory transport)', () => {
     await client.close()
   })
 
+  it('validates tool arguments by default before execute', async () => {
+    const execute = vi.fn(async () => 'ok')
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({
+      transport: b,
+      tools: [{
+        name: 'typed',
+        schema: { type: 'object', properties: { q: { type: 'string' } }, required: ['q'], additionalProperties: false },
+        execute,
+      }],
+    })
+    const client = createMcpClient({ transport: a })
+    const result = await client.callTool('typed', { q: 1 })
+    expect(result.isError).toBe(true)
+    expect(execute).not.toHaveBeenCalled()
+    await client.close()
+  })
+
+  it('rejects malformed JSON-RPC envelopes and params before dispatch', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({ transport: b, tools: [] })
+    const received: JsonRpcMessage[] = []
+    a.onMessage(message => received.push(message))
+    await a.send({ jsonrpc: '1.0', id: 1, method: 'tools/list' } as never)
+    await a.send({ jsonrpc: '2.0', id: 2, method: 'tools/call', params: [] } as never)
+    await new Promise(resolve => setTimeout(resolve, 0))
+    expect(received).toEqual(expect.arrayContaining([
+      expect.objectContaining({ id: null, error: expect.objectContaining({ code: -32600 }) }),
+      expect.objectContaining({ id: 2, error: expect.objectContaining({ code: -32602 }) }),
+    ]))
+  })
+
+  it('requires the supported protocol revision during initialize', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({ transport: b, tools: [] })
+    const received: JsonRpcMessage[] = []
+    a.onMessage(message => received.push(message))
+    await a.send({ jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: 'future' } })
+    await new Promise(resolve => setTimeout(resolve, 0))
+    expect(received[0]).toMatchObject({ id: 1, error: { code: -32602 } })
+  })
+
   it('returns isError: true when the tool throws', async () => {
     const [a, b] = createInMemoryTransportPair()
     createMcpServer({
@@ -184,7 +226,7 @@ describe('toolsFromMcpClient', () => {
     createMcpServer({ transport: b, tools: [makeTool('echo', async ({ q }) => `you said ${q}`)] })
     const client = createMcpClient({ transport: a })
     const tools = await toolsFromMcpClient(client)
-    expect(tools[0]!.name).toBe('mcp:echo')
+    expect(tools[0]!.name).toBe('mcp.echo')
     expect(tools[0]!.description).toMatch(/^\[mcp\]/)
     await client.close()
   })
@@ -201,6 +243,24 @@ describe('toolsFromMcpClient', () => {
     expect(tools[0]!.description!.length).toBeLessThanOrEqual(100)
     expect(tools[0]!.description).toContain('[truncated]')
     await client.close()
+  })
+
+  it('rejects invalid and duplicate remote tool descriptors', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    const client = createMcpClient({ transport: a })
+    const reasons: string[] = []
+    const listTools = client.listTools
+    client.listTools = async () => ({
+      tools: [
+        { name: 'ok', inputSchema: { type: 'object' } },
+        { name: 'ok', inputSchema: { type: 'object' } },
+      ],
+    })
+    await expect(toolsFromMcpClient(client, { onInvalidTool: reason => reasons.push(reason) })).rejects.toThrow(/unique/)
+    expect(reasons).toEqual(['remote MCP tool names must be unique and fit the AgentsKit limit'])
+    client.listTools = listTools
+    await client.close()
+    void b
   })
 
   it('drops tools whose inputSchema exceeds maxSchemaBytes', async () => {
@@ -420,5 +480,32 @@ describe('MCP client request bounds', () => {
     expect(new TextEncoder().encode(description).byteLength).toBeLessThanOrEqual(20)
     expect(() => JSON.parse(JSON.stringify(description))).not.toThrow()
     await client.close()
+  })
+
+  it('cleans up a synchronous transport.send failure', async () => {
+    const transport: McpTransport = {
+      send: () => { throw new Error('send failed') },
+      onMessage: () => () => undefined,
+    }
+    const client = createMcpClient({ transport, maxPending: 1 })
+    await expect(client.listTools()).rejects.toThrow('send failed')
+    await expect(client.listTools()).rejects.toThrow('send failed')
+    await client.close()
+  })
+
+  it('keeps split UTF-8 code points intact in stdio frames', () => {
+    let dataCb: ((chunk: Buffer | string) => void) | undefined
+    const child = {
+      stdin: { write: () => true },
+      stdout: { on: (_event: 'data', cb: (chunk: Buffer | string) => void) => { dataCb = cb } },
+    }
+    const transport = createStdioTransport(child)
+    const received: JsonRpcMessage[] = []
+    transport.onMessage(message => received.push(message))
+    const bytes = new TextEncoder().encode('{"jsonrpc":"2.0","id":1,"result":{"text":"😀"}}\n')
+    const split = bytes.indexOf(0xF0) + 1
+    dataCb!(Buffer.from(bytes.subarray(0, split)))
+    dataCb!(Buffer.from(bytes.subarray(split)))
+    expect(received[0]).toMatchObject({ result: { text: '😀' } })
   })
 })
