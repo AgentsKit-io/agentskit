@@ -74,6 +74,11 @@ export function createMcpClient(options: {
       settle(id, true, message.result)
     }
   })
+  const detachClose = options.transport.onClose?.(() => {
+    for (const [id, entry] of pending) {
+      settle(id, false, new Error('MCP transport closed'))
+    }
+  })
 
   const call = <T>(method: string, params?: Record<string, unknown>): Promise<T> => {
     if (pending.size >= maxPending) {
@@ -113,6 +118,7 @@ export function createMcpClient(options: {
     },
     async close() {
       detach()
+      detachClose?.()
       for (const [id, entry] of pending) {
         clearTimeout(entry.timer)
         entry.reject(new Error('MCP client closed'))
@@ -151,8 +157,20 @@ const DEFAULT_MAX_DESCRIPTION_BYTES = 4096
 const DEFAULT_MAX_SCHEMA_BYTES = 65_536
 
 function truncateBytes(input: string, max: number): string {
-  if (input.length <= max) return input
-  return `${input.slice(0, max - 14)}…[truncated]`
+  const bytes = (value: string) => new TextEncoder().encode(value).byteLength
+  const take = (value: string, limit: number): string => {
+    let out = ''
+    for (const char of value) {
+      const next = out + char
+      if (bytes(next) > limit) break
+      out = next
+    }
+    return out
+  }
+  if (bytes(input) <= max) return input
+  const suffix = '…[truncated]'
+  if (max <= bytes(suffix)) return take(suffix, max)
+  return `${take(input, max - bytes(suffix))}${suffix}`
 }
 
 /**
@@ -181,7 +199,7 @@ export async function toolsFromMcpClient(
   const out: ToolDefinition[] = []
   for (const t of tools) {
     const schemaJson = JSON.stringify(t.inputSchema ?? {})
-    if (schemaJson.length > maxSchema) {
+    if (new TextEncoder().encode(schemaJson).byteLength > maxSchema) {
       // Drop oversized schema; safer than passing a truncated copy.
       continue
     }

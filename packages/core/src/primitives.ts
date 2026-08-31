@@ -98,7 +98,9 @@ export async function executeToolCall(
 export function safeParseArgs(args: string): Record<string, unknown> {
   try {
     const parsed = JSON.parse(args)
-    return parsed && typeof parsed === 'object' ? (parsed as Record<string, unknown>) : {}
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed)
+      ? (parsed as Record<string, unknown>)
+      : {}
   } catch {
     return {}
   }

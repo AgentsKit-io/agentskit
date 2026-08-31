@@ -1,6 +1,15 @@
 import { describe, it, expect, vi } from 'vitest'
-import { generateId, createEventEmitter, buildMessage, executeToolCall, consumeStream } from '../src/primitives'
+import { generateId, createEventEmitter, buildMessage, executeToolCall, consumeStream, safeParseArgs } from '../src/primitives'
 import type { Observer, AgentEvent, ToolDefinition, ToolCall, StreamSource, StreamChunk } from '../src/types'
+
+describe('safeParseArgs', () => {
+  it('accepts only JSON object roots', () => {
+    expect(safeParseArgs('{"q":"hello"}')).toEqual({ q: 'hello' })
+    expect(safeParseArgs('[1,2]')).toEqual({})
+    expect(safeParseArgs('null')).toEqual({})
+    expect(safeParseArgs('"text"')).toEqual({})
+  })
+})
 
 describe('generateId', () => {
   it('generates unique IDs with the given prefix', () => {

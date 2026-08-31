@@ -63,6 +63,34 @@ describe('webSearch', () => {
     expect(result).toContain('No results')
   })
 
+  it('bounds a custom provider by the overall timeout', async () => {
+    vi.useFakeTimers()
+    try {
+      const tool = webSearch({ timeoutMs: 5, search: async () => await new Promise(() => {}) })
+      const pending = tool.execute!(
+        { query: 'slow' },
+        { messages: [], call: { id: '1', name: 'web_search', args: { query: 'slow' }, status: 'running' } },
+      )
+      const result = expect(pending).rejects.toThrow(/timed out/)
+      await vi.advanceTimersByTimeAsync(5)
+      await result
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('caps built-in provider response bodies', async () => {
+    const fetchMock = vi.fn().mockResolvedValue(new Response('x'.repeat(100), { status: 200 }))
+    vi.stubGlobal('fetch', fetchMock)
+    const tool = webSearch({ provider: 'serper', apiKey: 'k', maxResponseBytes: 10 })
+    const result = await tool.execute!(
+      { query: 'large' },
+      { messages: [], call: { id: '1', name: 'web_search', args: { query: 'large' }, status: 'running' } },
+    )
+    expect(result).toContain('maxResponseBytes')
+    vi.unstubAllGlobals()
+  })
+
   it('returns error when serper provider has no apiKey', async () => {
     const tool = webSearch({ provider: 'serper' })
     const result = await tool.execute!(

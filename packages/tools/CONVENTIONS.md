@@ -5,14 +5,16 @@ Ready-made tools that satisfy the Tool contract ([ADR 0002](../../docs/architect
 ## Scope
 
 - General-purpose tools: web search, filesystem, shell, discovery helpers
+- Provider integrations plus MCP and validation subpaths, exposed behind this package's facade
 - Factory functions (`webSearch()`, `filesystem({ basePath })`, `shell({ allowedCommands })`) that return `ToolDefinition` or arrays of them
 - Small surface helpers used by multiple tools — only if truly shared
 
-## What does NOT belong here
+## Ownership boundaries
 
-- Provider-specific tools → a separate package (e.g., `@agentskit/tools-github`, `@agentskit/tools-slack` — future)
-- Tool execution sandboxes → `@agentskit/sandbox`
-- MCP bridge → future `@agentskit/mcp` (Phase 3)
+- Provider integrations are owned by `@agentskit/tools/integrations` and keep their provider-neutral contracts here.
+- Tool execution sandboxes remain in `@agentskit/sandbox`.
+- MCP client/server/devtools live under `@agentskit/tools/mcp*`; host transports and authentication remain host-owned.
+- Runtime argument validation is implemented in `@agentskit/tools/validation` and injected into core or MCP.
 
 ## Adding a new tool
 
@@ -23,7 +25,7 @@ Ready-made tools that satisfy the Tool contract ([ADR 0002](../../docs/architect
 5. Include a concise `description` — this is what the model reads.
 6. Set `requiresConfirmation: true` for any destructive operation. Non-negotiable.
 7. Return **JSON-serializable** data from `execute` — Dates become ISO strings, Buffers become base64.
-8. Handle errors by returning `{ error: '...' }`. Only throw for programmer bugs.
+8. Throw `ToolError` for rejected input, provider failures, and missing optional peers; keep messages safe at remote boundaries.
 9. Re-export from `src/index.ts`.
 
 ## Naming

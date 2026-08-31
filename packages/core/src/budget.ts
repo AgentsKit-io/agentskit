@@ -76,7 +76,7 @@ async function toNumber(v: number | Promise<number>): Promise<number> {
  * return a trimmed request guaranteed to fit under `budget`. Three
  * strategies:
  *  - 'drop-oldest': remove oldest messages until it fits
- *  - 'sliding-window': keep only the most recent N messages
+ *  - 'sliding-window': backwards-compatible alias of 'drop-oldest'
  *  - 'summarize': fold dropped messages into a single summary message
  */
 export async function compileBudget(input: CompileBudgetInput): Promise<CompileBudgetResult> {

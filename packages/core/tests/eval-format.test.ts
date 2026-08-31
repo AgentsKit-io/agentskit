@@ -35,9 +35,23 @@ describe('validateEvalRunResult', () => {
       startedAt: 'a',
       completedAt: 'b',
       agent: {},
-      totals: { cases: 0, passed: 0, failed: 0, accuracy: 0 },
-      cases: [],
+      totals: { cases: 1, passed: 1, failed: 0, accuracy: 1 },
+      cases: [{ id: 'c1', input: 'hi', output: 'hello', passed: true, latencyMs: 1 }],
     })
+  })
+
+  it('rejects empty runs and malformed case records', () => {
+    expect(() => validateEvalRunResult({
+      evalFormatVersion: EVAL_FORMAT_VERSION,
+      suite: 'smoke', startedAt: 'a', completedAt: 'b', agent: {},
+      totals: { cases: 0, passed: 0, failed: 0, accuracy: 0 }, cases: [],
+    })).toThrow(/greater than zero/)
+    expect(() => validateEvalRunResult({
+      evalFormatVersion: EVAL_FORMAT_VERSION,
+      suite: 'smoke', startedAt: 'a', completedAt: 'b', agent: {},
+      totals: { cases: 1, passed: 1, failed: 0, accuracy: 1 },
+      cases: [{ id: '', input: 'hi', output: 'hello', passed: true, latencyMs: 1 }],
+    })).toThrow(/id required/)
   })
 })
 
@@ -55,5 +69,9 @@ describe('matchesExpectation', () => {
     expect(matchesExpectation('foo bar', { contains: 'bar' })).toBe(true)
     expect(matchesExpectation('FOO   bar', { equalsNormalized: 'foo bar' })).toBe(true)
     expect(matchesExpectation('the answer is 42', { regex: { body: '\\d+' } })).toBe(true)
+  })
+
+  it('does not silently pass semantic expectations without an evaluator', () => {
+    expect(matchesExpectation('anything', { semanticSimilarity: 0.8 })).toBe(false)
   })
 })

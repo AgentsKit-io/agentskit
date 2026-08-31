@@ -61,7 +61,7 @@ describe('MCP bridge (client ↔ server over in-memory transport)', () => {
     const client = createMcpClient({ transport: a })
     const result = await client.callTool('boom', {})
     expect(result.isError).toBe(true)
-    expect(result.content[0]!.text).toBe('bang')
+    expect(result.content[0]!.text).toBe('tool execution failed')
     await client.close()
   })
 
@@ -115,6 +115,50 @@ describe('MCP bridge (client ↔ server over in-memory transport)', () => {
     const client = createMcpClient({ transport: a })
     const result = await client.callTool('obj', {})
     expect(result.content[0]!.text).toBe(JSON.stringify({ k: 1, arr: [1, 2] }))
+    await client.close()
+  })
+
+  it('requires explicit authorization before executing destructive tools', async () => {
+    const execute = vi.fn(async () => 'written')
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({
+      transport: b,
+      tools: [{ name: 'write', requiresConfirmation: true, execute }],
+    })
+    const client = createMcpClient({ transport: a })
+    const denied = await client.callTool('write', {})
+    expect(denied.isError).toBe(true)
+    expect(execute).not.toHaveBeenCalled()
+    await client.close()
+  })
+
+  it('executes confirmation-gated tools after explicit authorization', async () => {
+    const execute = vi.fn(async () => 'written')
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({
+      transport: b,
+      authorizeToolCall: () => true,
+      tools: [{ name: 'write', requiresConfirmation: true, execute }],
+    })
+    const client = createMcpClient({ transport: a })
+    const result = await client.callTool('write', {})
+    expect(result.content[0]!.text).toBe('written')
+    expect(execute).toHaveBeenCalledOnce()
+    await client.close()
+  })
+
+  it('validates arguments before executing tools when configured', async () => {
+    const execute = vi.fn(async () => 'ok')
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({
+      transport: b,
+      validateArgs: () => ({ valid: false, message: 'invalid tool arguments' }),
+      tools: [makeTool('echo', async args => { execute(args); return 'ok' })],
+    })
+    const client = createMcpClient({ transport: a })
+    const result = await client.callTool('echo', { q: 1 })
+    expect(result.isError).toBe(true)
+    expect(execute).not.toHaveBeenCalled()
     await client.close()
   })
 })
@@ -188,7 +232,7 @@ describe('toolsFromMcpClient', () => {
     const tools = await toolsFromMcpClient(client, { quarantine: false })
     await expect(
       tools[0]!.execute!({}, { messages: [], call: { id: 'c', name: 'boom', args: {}, status: 'running' } }),
-    ).rejects.toThrow(/bang/)
+    ).rejects.toThrow(/tool execution failed/)
     await client.close()
   })
 })
@@ -352,5 +396,29 @@ describe('MCP client request bounds', () => {
     const p = client.listTools()
     await client.close()
     await expect(p).rejects.toThrow(/closed/)
+  })
+
+  it('rejects in-flight calls when the transport closes', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    b.onMessage(() => {})
+    const client = createMcpClient({ transport: a, requestTimeoutMs: 60_000 })
+    const pending = client.listTools()
+    b.close?.()
+    await expect(pending).rejects.toThrow(/transport closed/)
+    await client.close()
+  })
+
+  it('caps descriptions by UTF-8 bytes without splitting a code point', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({
+      transport: b,
+      tools: [{ name: 'emoji', description: '😀'.repeat(100), execute: async () => 'ok' }],
+    })
+    const client = createMcpClient({ transport: a })
+    const tools = await toolsFromMcpClient(client, { maxDescriptionBytes: 20, quarantine: false })
+    const description = tools[0]!.description!
+    expect(new TextEncoder().encode(description).byteLength).toBeLessThanOrEqual(20)
+    expect(() => JSON.parse(JSON.stringify(description))).not.toThrow()
+    await client.close()
   })
 })

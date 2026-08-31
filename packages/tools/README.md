@@ -79,7 +79,9 @@ If you use [Zod](https://zod.dev), `@agentskit/tools` ships `defineZodTool` — 
 - Validates args at runtime via `schema.parse` before calling your function
 - Converts the Zod schema to JSON Schema for the adapter via a user-supplied `toJsonSchema` callback
 
-Zod and `zod-to-json-schema` are **not bundled** — install them as peer dependencies.
+Zod and `zod-to-json-schema` are **consumer-owned optional dependencies**. They are
+not package peers because `defineZodTool` accepts a structural schema and a
+consumer-supplied JSON-Schema converter.
 
 ```bash
 npm install zod zod-to-json-schema
@@ -113,9 +115,9 @@ For tools without Zod, use `defineTool` from `@agentskit/core` with a JSON Schem
 
 ### Built-ins (6)
 
-- `webSearch()` — live web search with pluggable providers (Tavily, Brave, SerpAPI, custom).
+- `webSearch()` — live web search with Serper, Tavily, DuckDuckGo, or a custom provider.
 - `fetchUrl()` — safe HTTP GET with JSON / text handling, size cap, boilerplate stripping.
-- `filesystem({ basePath })` — sandboxed read, write, list, delete, stat, exists.
+- `filesystem({ basePath })` — sandboxed read, write, and list operations.
 - `shell({ allowed })` — shell execution with command allow-list + timeout.
 - `sqliteQueryTool({ path })` — read-only SQL against a local SQLite file. Optional peer dep on `better-sqlite3`. **Note:** never feed unvalidated user prompts straight into the `sql` field — wrap with input filtering or use parameterized helpers if exposing it to untrusted input.
 - `slackTool({ webhookUrl })` — post to a Slack Incoming Webhook. For Bearer-token features (search, channel listing), use the `slack()` integration.
@@ -133,15 +135,18 @@ set.
 ### Authoring + composition
 
 - `defineZodTool` — Zod-based factory with runtime validation + type inference.
-- `composeTool` — chain N tools into one macro tool (each step receives previous output).
-- `wrapToolWithSelfDebug` — LLM-corrected retries on schema-mismatch or execution failure.
-- `createMandatorySandbox` — policy wrapper: `allow` / `deny` / `requireSandbox` / `validators`.
+- For composition, use `composeTool` and `wrapToolWithSelfDebug` from `@agentskit/core`.
+- For execution policy, use `createMandatorySandbox` from `@agentskit/sandbox`.
 
 ### MCP bridge
 
 - `createMcpClient` + `toolsFromMcpClient` — consume any MCP server's tools.
-- `createMcpServer` — publish AgentsKit tools to any MCP host.
-- Stdio + HTTP/SSE + in-memory transports.
+- `createMcpServer` — publish AgentsKit tools to any MCP host. Tools marked
+  `requiresConfirmation` fail closed unless `authorizeToolCall` returns an
+  explicit approval. Pass `validateArgs` (for example, `createAjvValidator()`)
+  to enforce advertised schemas before execution; remote errors are sanitized
+  unless `exposeErrors: true` is explicitly enabled for trusted development.
+- Stdio + in-memory transports. HTTP/SSE adapters are host-owned.
 
 All tools honor the `ToolDefinition` contract (ADR 0002) — parallel
 tool calling works with any adapter, `@agentskit/runtime`, `useChat`,
@@ -153,6 +158,8 @@ or a custom loop.
 |---------|----------|
 | `@agentskit/tools/mcp` | `createMcpClient`, `createMcpServer`, `toolsFromMcpClient`, stdio + in-memory transports. [MCP bridge recipe](https://www.agentskit.io/docs/reference/recipes/mcp-bridge). |
 | `@agentskit/tools/integrations` | `github`, `linear`, `slack`, `notion`, `discord`, `gmail`, `googleCalendar`, `stripe`, `postgres`, `s3`, `firecrawl`, `reader`, `documentParsers`, `openaiImages`, `elevenlabs`, `whisper`, `deepgram`, `maps`, `weather`, `coingecko`, `browserAgent`. [Integrations recipe](https://www.agentskit.io/docs/reference/recipes/integrations) + [More integrations](https://www.agentskit.io/docs/reference/recipes/more-integrations). |
+| `@agentskit/tools/mcp-devtools` | Runtime inspection tools for an injected `RuntimeInspector`; expose through `@agentskit/tools/mcp`. |
+| `@agentskit/tools/validation` | Optional Ajv-backed `ArgsValidator` for core and MCP argument enforcement. |
 
 ## Ecosystem
 

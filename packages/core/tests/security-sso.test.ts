@@ -85,6 +85,22 @@ describe('createOidcVerifier', () => {
     await expect(verifier.verify(token)).rejects.toThrow(/expired/)
   })
 
+  it('rejects a token without a finite exp claim', async () => {
+    const { keys, jwk } = await generateRsaSigningKey()
+    const verifier = createOidcVerifier({
+      issuer: 'https://idp.test',
+      audience: 'agentskit',
+      jwksUrl: 'https://idp.test/.well-known/jwks.json',
+      fetch: (async () =>
+        ({ ok: true, status: 200, statusText: 'OK', json: async () => ({ keys: [{ ...jwk, kid: 'k1' }] }) }) as unknown as Response) as unknown as typeof fetch,
+    })
+    const now = Math.floor(Date.now() / 1000)
+    const token = await makeJwt(keys.privateKey, {
+      iss: 'https://idp.test', aud: 'agentskit', sub: 'user-1', iat: now,
+    })
+    await expect(verifier.verify(token)).rejects.toThrow(/exp claim is required/)
+  })
+
   it('rejects audience mismatch', async () => {
     const { keys, jwk } = await generateRsaSigningKey()
     const verifier = createOidcVerifier({

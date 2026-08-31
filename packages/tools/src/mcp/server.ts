@@ -1,4 +1,4 @@
-import type { ToolDefinition } from '@agentskit/core'
+import type { ArgsValidator, ToolDefinition } from '@agentskit/core'
 import type {
   JsonRpcMessage,
   JsonRpcRequest,
@@ -11,6 +11,12 @@ export interface McpServerOptions {
   serverInfo?: { name: string; version: string }
   /** Observability hook. */
   onEvent?: (event: { type: 'call' | 'error' | 'list'; tool?: string; error?: string }) => void
+  /** Required for tools marked `requiresConfirmation`. Deny by default. */
+  authorizeToolCall?: (tool: ToolDefinition, args: Record<string, unknown>) => boolean | Promise<boolean>
+  /** Optional argument validation. Use `createAjvValidator()` from `@agentskit/tools/validation`. */
+  validateArgs?: ArgsValidator
+  /** Include raw tool errors in MCP responses. Defaults to false. */
+  exposeErrors?: boolean
 }
 
 export interface McpServer {
@@ -86,9 +92,21 @@ export function createMcpServer(options: McpServerOptions): McpServer {
         }
         options.onEvent?.({ type: 'call', tool: tool.name })
         try {
-          const result = await tool.execute(params?.arguments ?? {}, {
+          const args = params?.arguments ?? {}
+          if (options.validateArgs && tool.schema) {
+            const validation = options.validateArgs(tool.schema, args)
+            if (!validation.valid) {
+              throw new Error(validation.message ?? 'invalid tool arguments')
+            }
+          }
+          if (tool.requiresConfirmation) {
+            if (!options.authorizeToolCall || !(await options.authorizeToolCall(tool, args))) {
+              throw new Error('confirmation required')
+            }
+          }
+          const result = await tool.execute(args, {
             messages: [],
-            call: { id: String(request.id), name: tool.name, args: params?.arguments ?? {}, status: 'running' },
+            call: { id: String(request.id), name: tool.name, args, status: 'running' },
           })
           const text = typeof result === 'string' ? result : JSON.stringify(result)
           await respond({
@@ -102,7 +120,10 @@ export function createMcpServer(options: McpServerOptions): McpServer {
           await respond({
             jsonrpc: '2.0',
             id: request.id,
-            result: { content: [{ type: 'text', text: message }], isError: true },
+            result: {
+              content: [{ type: 'text', text: options.exposeErrors ? message : 'tool execution failed' }],
+              isError: true,
+            },
           })
         }
         return

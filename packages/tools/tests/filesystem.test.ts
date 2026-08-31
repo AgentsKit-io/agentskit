@@ -90,6 +90,16 @@ describe('filesystem', () => {
         writeFileTool.execute!({ path: '../escape.txt', content: 'bad' }, ctx)
       ).rejects.toThrow('Access denied')
     })
+
+    it('rejects an existing symlink instead of writing through it', async () => {
+      await writeFile(join(basePath, 'target.txt'), 'original')
+      await symlink(join(basePath, 'target.txt'), join(basePath, 'link.txt'))
+      const [, writeFileTool] = filesystem({ basePath })
+      await expect(
+        writeFileTool.execute!({ path: 'link.txt', content: 'changed' }, ctx),
+      ).rejects.toThrow(/symbolic link/)
+      expect(await (await import('node:fs/promises')).readFile(join(basePath, 'target.txt'), 'utf8')).toBe('original')
+    })
   })
 
   describe('list_directory', () => {

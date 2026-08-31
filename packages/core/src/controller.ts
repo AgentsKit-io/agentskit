@@ -1,4 +1,5 @@
 import { buildMessage as message, consumeStream, createEventEmitter, safeParseArgs, createToolLifecycle } from './primitives'
+import { MemoryError, ErrorCodes } from './errors'
 import { buildToolMap, activateSkills, auth, executeSafeTool as execute } from './agent-loop'
 import {
   accumulateUsage,
@@ -39,8 +40,6 @@ export function createChatController(initial: ChatConfig): ChatController {
   let skillTools: ToolDefinition[] = []
   let hydrated = false
   let active = false
-  let saving = false
-  let queued: [Message[], ChatConfig['memory']] | undefined
   const authorize: NonNullable<ChatConfig['authorizeToolCall']> = async (call, context) => {
     const fn = config.authorizeToolCall
     const decision = fn ? await fn(call, context) : { allowed: true }
@@ -77,23 +76,27 @@ export function createChatController(initial: ChatConfig): ChatController {
 
   const set = (updater: ChatState | ((current: ChatState) => ChatState)) => {
     state = typeof updater === 'function' ? updater(state) : updater
-    void persist(state.messages)
     emit()
   }
 
   const persist = async (messages: Message[]) => {
-    queued = [messages, config.memory]
-    if (saving) return
-    saving = true
-    while (queued) {
-      const [next, memory] = queued
-      queued = undefined
-      try {
-        await memory?.save(next)
-        if (memory) emitter.emit({ type: 'memory:save', messageCount: next.length })
-      } catch {}
+    const memory = config.memory
+    if (!memory) return
+    try {
+      await memory.save(messages)
+      emitter.emit({ type: 'memory:save', messageCount: messages.length })
+    } catch (cause) {
+      const error = new MemoryError({
+        code: ErrorCodes.AK_MEMORY_SAVE_FAILED,
+        message: 'Chat memory save failed',
+        hint: 'The completed response remains in memory, but durable persistence was not confirmed.',
+        cause,
+      })
+      state = { ...state, status: 'error', error }
+      emit()
+      emitter.emit({ type: 'error', error })
+      config.onError?.(error)
     }
-    saving = false
   }
 
   const hydrate = async () => {
@@ -264,7 +267,7 @@ export function createChatController(initial: ChatConfig): ChatController {
     return g === gen
   }
 
-  const finalize = (aid: string) => {
+  const finalize = async (aid: string, shouldPersist = true) => {
     let done: Message | undefined
     set(current => ({
       ...current,
@@ -277,6 +280,7 @@ export function createChatController(initial: ChatConfig): ChatController {
       error: null,
     }))
     if (done) config.onMessage?.(done)
+    if (done && shouldPersist) await persist(state.messages)
   }
 
   const continueTools = (aid: string, calls: ToolCall[]): string => {
@@ -316,7 +320,7 @@ export function createChatController(initial: ChatConfig): ChatController {
       // Nothing to feed back, or something still awaiting confirmation —
       // stop here; the caller drives the next step.
       if (!calls.length || waits) {
-        finalize(id)
+        await finalize(id, !waits)
         return
       }
 
@@ -325,7 +329,7 @@ export function createChatController(initial: ChatConfig): ChatController {
       if (!ok) return
     }
 
-    finalize(id)
+    await finalize(id)
   }
 
   /**
@@ -368,6 +372,7 @@ export function createChatController(initial: ChatConfig): ChatController {
       const stopped = state.messages.filter(message => message.status === 'streaming')
       set(current => ({ ...current, messages: current.messages.map(message => message.status === 'streaming' ? { ...message, status: 'complete' as const } : message), status: 'idle' }))
       stopped.forEach(message => config.onMessage?.({ ...message, status: 'complete' }))
+      if (stopped.length) void persist(state.messages)
     },
     async retry() {
       const messages = [...state.messages]

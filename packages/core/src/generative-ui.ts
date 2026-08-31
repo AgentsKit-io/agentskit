@@ -87,6 +87,8 @@ export interface ArtifactMarkdown {
 export interface ArtifactHtml {
   type: 'html'
   source: string
+  /** Explicitly untrusted; renderers must sanitize or isolate before mounting. */
+  trust: 'untrusted'
   /** Sandbox policy hint for the renderer (iframe sandbox attrs). */
   sandbox?: string
 }
@@ -129,6 +131,7 @@ export function validateArtifact(raw: unknown): Artifact {
   }
   if (type === 'markdown' || type === 'html') {
     assert(typeof raw.source === 'string', 'artifact.source must be string')
+    if (type === 'html') assert(raw.trust === 'untrusted', 'html artifacts must be marked trust:"untrusted"')
     return raw as unknown as ArtifactMarkdown | ArtifactHtml
   }
   if (type === 'chart') {

@@ -38,12 +38,16 @@ describe('validateArtifact', () => {
   it('accepts code, markdown, html, chart', () => {
     expect(validateArtifact({ type: 'code', language: 'ts', source: 'x' }).type).toBe('code')
     expect(validateArtifact({ type: 'markdown', source: '# hi' }).type).toBe('markdown')
-    expect(validateArtifact({ type: 'html', source: '<p/>' }).type).toBe('html')
+    expect(validateArtifact({ type: 'html', source: '<p/>', trust: 'untrusted' }).type).toBe('html')
     expect(validateArtifact({ type: 'chart', chartType: 'bar', data: [] }).type).toBe('chart')
   })
 
   it('rejects unknown artifact types', () => {
     expect(() => validateArtifact({ type: 'video' })).toThrow(/unknown artifact.type/)
+  })
+
+  it('requires an explicit untrusted marker for HTML', () => {
+    expect(() => validateArtifact({ type: 'html', source: '<script>bad()</script>' })).toThrow(/trust/)
   })
 })
 

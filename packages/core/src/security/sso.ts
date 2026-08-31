@@ -279,6 +279,13 @@ export function createOidcVerifier(options: OidcVerifierOptions): OidcVerifier {
           message: `aud mismatch: expected one of ${expectedAuds.join(',')}, got ${tokenAuds.join(',')}`,
         })
       }
+      if (!Number.isFinite(claims.exp)) {
+        throw new ConfigError({
+          code: ErrorCodes.AK_CONFIG_INVALID,
+          message: 'JWT exp claim is required and must be a finite number',
+          hint: 'The identity provider must issue an ID token with a valid expiration timestamp.',
+        })
+      }
       if (claims.exp + clockSkew < now) {
         throw new ConfigError({
           code: ErrorCodes.AK_CONFIG_INVALID,

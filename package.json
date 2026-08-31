@@ -69,38 +69,6 @@
     "metadata:check": "node scripts/generate-software-metadata.mjs --check",
     "test:commitlint": "node --test scripts/commitlint.test.mjs"
   },
-  "pnpm": {
-    "onlyBuiltDependencies": [
-      "better-sqlite3",
-      "esbuild"
-    ],
-    "overrides": {
-      "serialize-javascript": ">=7.0.5 <8",
-      "axios": ">=0.31.1 <2",
-      "fast-xml-builder": ">=1.1.7 <2",
-      "next": ">=16.2.11 <17",
-      "postcss": ">=8.5.22 <9",
-      "shell-quote": ">=1.9.0 <2",
-      "esbuild": ">=0.28.1 <1",
-      "form-data": ">=4.0.6 <5",
-      "dompurify": "3.4.13",
-      "brace-expansion": "5.0.9",
-      "fast-uri": "3.1.5",
-      "undici": "7.29.0",
-      "nanoid": "3.3.18",
-      "js-yaml@>=4.0.0 <5": "4.3.1",
-      "js-yaml@>=5.0.0 <6": "5.2.2",
-      "protobufjs@>=7.5.0 <8": "7.6.5",
-      "protobufjs@>=8.0.0 <9": "8.6.6",
-      "sharp": "0.35.0",
-      "tar": "7.5.21",
-      "read-yaml-file": "2.1.0",
-      "adm-zip": "0.6.0"
-    },
-    "patchedDependencies": {
-      "image-size@1.2.1": "patches/image-size@1.2.1.patch"
-    }
-  },
   "devDependencies": {
     "@agentskit/core": "workspace:*",
     "@agentskit/doc-bridge": "1.7.45",
