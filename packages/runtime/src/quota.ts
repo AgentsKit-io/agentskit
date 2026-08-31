@@ -185,7 +185,7 @@ export function createQuotaTracker(options: QuotaTrackerOptions): QuotaTracker {
 export function withQuotas(
   tools: ToolDefinition[],
   tracker: QuotaTracker,
-  runIdFor: (context: ToolExecutionContext) => string = ctx => ctx.call.id,
+  runIdFor: (context: ToolExecutionContext) => string = ctx => ctx.runId ?? ctx.call.id,
 ): ToolDefinition[] {
   return tools.map(tool => {
     if (!tool.execute) return tool

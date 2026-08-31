@@ -248,6 +248,31 @@ describe('createRuntime', () => {
       const result = await runtime.run('loop', { maxSteps: 2 })
       expect(result.steps).toBe(2)
     })
+
+    it('never lets a per-run value raise the configured cap', async () => {
+      const adapter: ReturnType<typeof createMockAdapter> = {
+        createSource: () => ({
+          stream: async function* () {
+            yield { type: 'tool_call' as const, toolCall: { id: `tc-${Date.now()}`, name: 'loop', args: '{}' } }
+            yield { type: 'done' as const }
+          },
+          abort: () => {},
+        }),
+      }
+      const runtime = createRuntime({
+        adapter,
+        tools: [{ name: 'loop', execute: async () => 'again' }],
+        maxSteps: 2,
+      })
+      await expect(runtime.run('loop', { maxSteps: 20 })).resolves.toMatchObject({ steps: 2 })
+    })
+
+    it('rejects invalid maxSteps before the adapter runs', async () => {
+      const createSource = vi.fn(() => createMockAdapter([{ type: 'done' }]).createSource({ messages: [], context: {} }))
+      const runtime = createRuntime({ adapter: { createSource } })
+      await expect(runtime.run('bad', { maxSteps: 0 })).rejects.toMatchObject({ code: 'AK_CONFIG_INVALID' })
+      expect(createSource).not.toHaveBeenCalled()
+    })
   })
 
   describe('tool error injection', () => {

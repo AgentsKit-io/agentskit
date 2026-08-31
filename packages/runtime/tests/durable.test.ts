@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { mkdtempSync, rmSync } from 'node:fs'
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import {
@@ -49,6 +49,19 @@ describe('createDurableRunner', () => {
     const replayed = await r2.step('x', fn)
     expect(replayed).toBe(42)
     expect(fn).not.toHaveBeenCalled()
+  })
+
+  it('single-flights concurrent calls for one step id', async () => {
+    const runner = createDurableRunner({ store: createInMemoryStepLog(), runId: 'r1' })
+    let calls = 0
+    const fn = async () => {
+      calls++
+      await new Promise(resolve => setTimeout(resolve, 5))
+      return 42
+    }
+    const results = await Promise.all([runner.step('x', fn), runner.step('x', fn)])
+    expect(results).toEqual([42, 42])
+    expect(calls).toBe(1)
   })
 
   it('emits step:replay events on cache hits', async () => {
@@ -150,6 +163,20 @@ describe('createFileStepLog', () => {
       await store.clear?.('a')
       expect(await store.list('a')).toHaveLength(0)
       expect(await store.list('b')).toHaveLength(1)
+    } finally {
+      rmSync(dir, { recursive: true, force: true })
+    }
+  })
+
+  it('does not treat a corrupt log as an empty history', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ak-dur-'))
+    const path = join(dir, 'log.jsonl')
+    try {
+      writeFileSync(path, '{not-json}\n')
+      const store = await createFileStepLog(path)
+      await expect(store.list('r')).rejects.toMatchObject({
+        code: 'AK_RUNTIME_INVALID_INPUT',
+      })
     } finally {
       rmSync(dir, { recursive: true, force: true })
     }

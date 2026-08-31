@@ -6,36 +6,40 @@ description: Trigger runs on a schedule or HTTP webhook.
 ## Cron scheduler
 
 ```ts
-import { createRuntime, createCronScheduler } from '@agentskit/runtime'
+import { createCronScheduler } from '@agentskit/runtime'
 
-const runtime = createRuntime({ adapter, tools })
-const scheduler = createCronScheduler({ runtime })
-
-scheduler.add({
-  id: 'daily-digest',
-  schedule: '0 9 * * *',
-  task: 'Summarize yesterday\'s PRs',
+const scheduler = createCronScheduler({
+  jobs: [{
+    agent: { name: 'daily-digest', run: async task => runAgent(task) },
+    task: 'Summarize yesterday\'s PRs',
+    schedule: '0 9 * * *',
+  }],
 })
 
 scheduler.start()
 ```
 
-Zero-dep cron: `parseSchedule` + `cronMatches` are exported for custom
-triggers.
+`parseSchedule` also accepts `every:<milliseconds>`. The cron parser uses
+five fields (`minute hour day-of-month month day-of-week`) and requires every
+field to match.
 
 ## Webhooks
 
 ```ts
-import { createRuntime, createWebhookHandler } from '@agentskit/runtime'
+import { createWebhookHandler } from '@agentskit/runtime'
 
 const handler = createWebhookHandler({
-  runtime,
-  map: (req) => ({ task: `Handle ${req.body.event}` }),
+  agent: { name: 'support', run: task => runAgent(task) },
+  verify: req => req.headers?.authorization === `Bearer ${process.env.WEBHOOK_TOKEN}`,
+  extractTask: req => typeof req.body === 'string' ? req.body : String(req.body?.task ?? ''),
 })
 
-// Wire into Next.js / Express / Hono / Bun / Deno
-export const POST = (req) => handler(req)
+// Wire into Next.js / Express / Hono / Bun / Deno.
+export const POST = (req: WebhookRequest) => handler(req)
 ```
+
+Verification is required by default. For a route protected by an external
+authentication proxy, use `strict: false` explicitly.
 
 ## Related
 

@@ -70,14 +70,16 @@ const freezeDefinition = <
     Record<TState, StatechartState<TContext, TEvent, TState>>
   >
 
-  for (const stateName of Object.keys(input.states) as TState[]) {
-    const state = input.states[stateName]
+  for (const [stateName, state] of dataEntries(input.states, 'states') as Array<[
+    TState,
+    StatechartState<TContext, TEvent, TState>
+  ]>) {
     const on = Object.create(null) as Record<
       string,
       StatechartTransition<TContext, TEvent, TState>
     >
 
-    const transitions = Object.entries(state.on ?? {}) as Array<
+    const transitions = dataEntries((state.on ?? {}) as Record<string, unknown>, `state "${stateName}" transitions`) as Array<
       [string, StatechartTransition<TContext, TEvent, TState> | undefined]
     >
     for (const [eventType, transition] of transitions) {

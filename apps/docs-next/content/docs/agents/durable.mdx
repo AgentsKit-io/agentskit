@@ -1,47 +1,39 @@
 ---
 title: Durable execution
-description: Persist every step. Resume after crash. Replay deterministically.
+description: Persist side-effectful steps and replay completed work after a restart.
 ---
 
-```ts
-import {
-  createRuntime,
-  createDurableRunner,
-  createFileStepLog,
-} from '@agentskit/runtime'
+Durable execution is a small step-log wrapper. It is not a separate workflow
+engine: keep the business workflow in JavaScript and mark side effects with a
+stable `stepId`.
 
-const runtime = createRuntime({ adapter, tools })
-const durable = createDurableRunner({
-  runtime,
-  store: createFileStepLog({ path: '.agentskit/steps.jsonl' }),
-})
-
-await durable.run({ runId: 'r-42', input: 'refactor auth middleware' })
-// Crash → restart → resume from last completed step
-await durable.resume('r-42')
-```
-
-## Step log contract
+## File-backed example
 
 ```ts
-type StepRecord = {
-  runId: string
-  seq: number
-  kind: 'llm' | 'tool' | 'event'
-  at: number
-  input: unknown
-  output?: unknown
-  error?: string
-}
+import { createDurableRunner, createFileStepLog } from '@agentskit/runtime'
+
+const store = await createFileStepLog('.agentskit/steps.jsonl')
+const durable = createDurableRunner({ store, runId: 'order-42' })
+
+const draft = await durable.step('draft', () => createDraft())
+const sent = await durable.step('send', () => sendEmail(draft))
+console.log(sent)
 ```
 
-## Stores
+On restart, the same `runId` and `stepId` replay recorded successes without
+executing the function again. Use `createInMemoryStepLog()` for tests and
+single-process experiments.
 
-- `createInMemoryStepLog()` — tests.
-- `createFileStepLog({ path })` — JSONL on disk.
-- BYO: implement `StepLogStore` (Redis, Postgres, S3, etc.).
+## Contract
 
-## Related
+- Step functions may perform side effects; their returned value is persisted.
+- Stable step IDs are required for deterministic replay.
+- Failed steps are recorded and fail future calls for the same run until the
+  run is reset or a new run ID is chosen.
+- Calls for the same step ID on one runner are single-flight. Distributed
+  stores still need an atomic claim/append primitive before sharing a run
+  across processes.
+- `durable.history()` reads the current run and `durable.reset()` removes it.
 
-- [Recipe: durable execution](/docs/reference/recipes/durable-execution)
-- [Topologies](./topologies) · [Self-debug](./self-debug)
+The file log is JSONL. A missing file is initialized; malformed records fail
+closed with a durability error instead of being treated as an empty history.

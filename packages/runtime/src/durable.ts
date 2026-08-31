@@ -69,7 +69,7 @@ export function createDurableRunner(options: DurableRunnerOptions): DurableRunne
   const retryDelayMs = Math.max(0, options.retryDelayMs ?? 0)
   const { store, runId } = options
 
-  const step = async <TResult>(
+  const executeStep = async <TResult>(
     stepId: string,
     fn: () => Promise<TResult> | TResult,
     stepOpts: { name?: string } = {},
@@ -138,6 +138,30 @@ export function createDurableRunner(options: DurableRunnerOptions): DurableRunne
     throw lastError ?? new Error(`step "${stepId}" failed`)
   }
 
+  const inFlight = new Map<string, Promise<unknown>>()
+  const inFlightTokens = new Map<string, number>()
+  let nextToken = 0
+  const step = async <TResult>(
+    stepId: string,
+    fn: () => Promise<TResult> | TResult,
+    stepOpts: { name?: string } = {},
+  ): Promise<TResult> => {
+    const running = inFlight.get(stepId)
+    if (running) return running as Promise<TResult>
+    const execution = executeStep(stepId, fn, stepOpts)
+    const token = ++nextToken
+    inFlight.set(stepId, execution)
+    inFlightTokens.set(stepId, token)
+    try {
+      return await execution
+    } finally {
+      if (inFlightTokens.get(stepId) === token) {
+        inFlight.delete(stepId)
+        inFlightTokens.delete(stepId)
+      }
+    }
+  }
+
   return {
     step,
     async history() {
@@ -186,15 +210,31 @@ export async function createFileStepLog(path: string): Promise<StepLogStore> {
   }
 
   const load = async (): Promise<StepRecord<unknown>[]> => {
+    let raw: string
     try {
-      const raw = await readFile(path, 'utf8')
-      return raw
-        .split('\n')
-        .filter(Boolean)
-        .map(line => JSON.parse(line) as StepRecord<unknown>)
-    } catch {
-      return []
+      raw = await readFile(path, 'utf8')
+    } catch (cause) {
+      if ((cause as NodeJS.ErrnoException).code === 'ENOENT') return []
+      throw new RuntimeError({
+        code: ErrorCodes.AK_RUNTIME_INVALID_INPUT,
+        message: 'durable step log could not be read',
+        cause,
+      })
     }
+    if (!raw.trim()) return []
+    const records: StepRecord<unknown>[] = []
+    for (const [index, line] of raw.split('\n').filter(Boolean).entries()) {
+      try {
+        records.push(JSON.parse(line) as StepRecord<unknown>)
+      } catch (cause) {
+        throw new RuntimeError({
+          code: ErrorCodes.AK_RUNTIME_INVALID_INPUT,
+          message: `durable step log is corrupt at line ${index + 1}`,
+          cause,
+        })
+      }
+    }
+    return records
   }
 
   return {

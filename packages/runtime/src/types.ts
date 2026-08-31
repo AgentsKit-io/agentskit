@@ -46,6 +46,8 @@ export interface RunOptions {
   systemPrompt?: string
   skill?: SkillDefinition
   maxSteps?: number
+  /** Stable identifier shared by all tool calls in this run. */
+  runId?: string
   signal?: AbortSignal
   delegates?: Record<string, DelegateConfig>
   sharedContext?: SharedContext
