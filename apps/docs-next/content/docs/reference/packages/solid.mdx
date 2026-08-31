@@ -42,6 +42,7 @@ const chat = useChat({ adapter })
 ## Surface
 
 - `useChat(config): ChatReturn` — Solid hook backed by `createStore` + `onCleanup`.
+- SSR module boundary: import the hook from `@agentskit/solid/use-chat`; the root entry also includes browser UI components.
 
 ## Siblings
 
@@ -50,7 +51,7 @@ const chat = useChat({ adapter })
 ## Stability
 
 - **Version:** `0.5.3`
-- **Tier:** alpha
+- **Tier:** beta
 - **Contract:** evolving
 - **Roadmap:** see [packages roadmap](./roadmap) for what this package needs to reach v1.0.
 
