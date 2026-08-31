@@ -51,6 +51,7 @@ describe('parseSchedule', () => {
   it('rejects malformed cron', () => {
     expect(() => parseSchedule('0 9')).toThrow(/5 fields/)
     expect(() => parseSchedule('every:-1')).toThrow(/invalid every:/)
+    expect(() => parseSchedule('99 * * * *')).toThrow(/out of range/)
   })
 })
 
@@ -60,6 +61,13 @@ describe('cronMatches', () => {
     if (p.type !== 'cron') throw new Error()
     expect(cronMatches(p, new Date(2026, 0, 1, 9, 30))).toBe(true)
     expect(cronMatches(p, new Date(2026, 0, 1, 9, 31))).toBe(false)
+  })
+
+  it('uses standard OR semantics for restricted day-of-month/day-of-week', () => {
+    const p = parseSchedule('0 0 1 * 1')
+    if (p.type !== 'cron') throw new Error()
+    expect(cronMatches(p, new Date(2026, 8, 1, 0, 0))).toBe(true)
+    expect(cronMatches(p, new Date(2026, 8, 7, 0, 0))).toBe(true)
   })
 })
 

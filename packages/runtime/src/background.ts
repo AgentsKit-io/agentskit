@@ -45,6 +45,8 @@ interface ParsedCron {
   dom: Set<number>
   month: Set<number>
   dow: Set<number>
+  domAny: boolean
+  dowAny: boolean
 }
 
 interface ParsedEvery {
@@ -61,7 +63,8 @@ function expandField(field: string, min: number, max: number): Set<number> {
     let range = segment
     const stepIdx = segment.indexOf('/')
     if (stepIdx >= 0) {
-      step = Math.max(1, Number(segment.slice(stepIdx + 1)))
+      step = Number(segment.slice(stepIdx + 1))
+      if (!Number.isInteger(step) || step <= 0) throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: `invalid cron step: "${segment}"` })
       range = segment.slice(0, stepIdx)
     }
     let from = min
@@ -76,9 +79,17 @@ function expandField(field: string, min: number, max: number): Set<number> {
         to = from
       }
     }
+    if (!Number.isInteger(from) || !Number.isInteger(to) || from < min || to > max || from > to) {
+      throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: `cron value out of range: "${segment}"` })
+    }
     for (let i = from; i <= to; i += step) out.add(i)
   }
+  if (out.size === 0) throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: `empty cron field: "${field}"` })
   return out
+}
+
+function isAnyField(field: string): boolean {
+  return field.split(',').some(segment => segment === '*' || segment.startsWith('*/'))
 }
 
 export function parseSchedule(schedule: string): ParsedSchedule {
@@ -109,17 +120,23 @@ export function parseSchedule(schedule: string): ParsedSchedule {
     dom: expandField(parts[2]!, 1, 31),
     month: expandField(parts[3]!, 1, 12),
     dow: expandField(parts[4]!, 0, 6),
+    domAny: isAnyField(parts[2]!),
+    dowAny: isAnyField(parts[4]!),
   }
 }
 
 export function cronMatches(schedule: ParsedCron, now: Date): boolean {
-  return (
-    schedule.minute.has(now.getMinutes()) &&
-    schedule.hour.has(now.getHours()) &&
-    schedule.dom.has(now.getDate()) &&
-    schedule.month.has(now.getMonth() + 1) &&
-    schedule.dow.has(now.getDay())
-  )
+  if (!schedule.minute.has(now.getMinutes()) || !schedule.hour.has(now.getHours()) || !schedule.month.has(now.getMonth() + 1)) return false
+  const domMatch = schedule.dom.has(now.getDate())
+  const dowMatch = schedule.dow.has(now.getDay())
+  const dayMatch = schedule.domAny && schedule.dowAny
+    ? true
+    : schedule.domAny
+      ? dowMatch
+      : schedule.dowAny
+        ? domMatch
+        : domMatch || dowMatch
+  return dayMatch
 }
 
 export interface CronScheduler {

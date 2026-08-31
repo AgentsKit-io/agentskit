@@ -69,7 +69,7 @@ export function createDurableRunner(options: DurableRunnerOptions): DurableRunne
   const retryDelayMs = Math.max(0, options.retryDelayMs ?? 0)
   const { store, runId } = options
 
-  const step = async <TResult>(
+  const executeStep = async <TResult>(
     stepId: string,
     fn: () => Promise<TResult> | TResult,
     stepOpts: { name?: string } = {},
@@ -136,6 +136,23 @@ export function createDurableRunner(options: DurableRunnerOptions): DurableRunne
       attempt,
     })
     throw lastError ?? new Error(`step "${stepId}" failed`)
+  }
+
+  const inFlight = new Map<string, Promise<unknown>>()
+  const step = async <TResult>(
+    stepId: string,
+    fn: () => Promise<TResult> | TResult,
+    stepOpts: { name?: string } = {},
+  ): Promise<TResult> => {
+    const running = inFlight.get(stepId)
+    if (running) return running as Promise<TResult>
+    const execution = executeStep(stepId, fn, stepOpts)
+    inFlight.set(stepId, execution)
+    try {
+      return await execution
+    } finally {
+      if (inFlight.get(stepId) === execution) inFlight.delete(stepId)
+    }
   }
 
   return {

@@ -51,6 +51,19 @@ describe('createDurableRunner', () => {
     expect(fn).not.toHaveBeenCalled()
   })
 
+  it('single-flights concurrent calls for one step id', async () => {
+    const runner = createDurableRunner({ store: createInMemoryStepLog(), runId: 'r1' })
+    let calls = 0
+    const fn = async () => {
+      calls++
+      await new Promise(resolve => setTimeout(resolve, 5))
+      return 42
+    }
+    const results = await Promise.all([runner.step('x', fn), runner.step('x', fn)])
+    expect(results).toEqual([42, 42])
+    expect(calls).toBe(1)
+  })
+
   it('emits step:replay events on cache hits', async () => {
     const store = createInMemoryStepLog()
     await createDurableRunner({ store, runId: 'r' }).step('x', async () => 1)

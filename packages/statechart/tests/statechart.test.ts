@@ -189,6 +189,19 @@ describe('definitions and instances', () => {
     expect(({} as { target?: string }).target).toBeUndefined()
   })
 
+  it('preserves non-enumerable data entries in the frozen definition', () => {
+    const states = { idle: {} } as Record<string, unknown>
+    Object.defineProperty(states, 'done', { value: {}, enumerable: false })
+    const definition = defineStatechart<JsonObject, StatechartEvent<'go'>, 'idle' | 'done'>({
+      id: 'hidden-state',
+      initial: 'idle',
+      parseContext: input => input as JsonObject,
+      states: states as never,
+      version: '1',
+    })
+    expect(Object.prototype.hasOwnProperty.call(definition.states, 'done')).toBe(true)
+  })
+
   it.each([
     [null, 'definition'],
     [{ id: 1, initial: 'idle', parseContext: (input: unknown) => input, states: { idle: {} }, version: '1' }, 'id'],
