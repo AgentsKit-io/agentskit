@@ -1,6 +1,6 @@
 ---
 title: '@agentskit/observability/langfuse'
-description: Langfuse tracing backend for @agentskit/observability — spans for plan, tool, model, and HITL gates with token/cost/latency capture.
+description: Langfuse tracing backend for @agentskit/observability — spans for plan, tool, and model events with token/latency metadata.
 docbridge:
   covers:
     - package:@agentskit/observability-langfuse
@@ -21,19 +21,15 @@ docbridge:
       to: package:@agentskit/observability
       kind: imports
       detection: static
-    - from: package:@agentskit/observability-langfuse
-      to: package:agentskit
-      kind: imports
-      detection: static
 ---
 
-`@agentskit/observability/langfuse` is a drop-in observer that ships AgentsKit trace spans to [Langfuse](https://langfuse.com). LLM generations become `generation` nodes; tool calls, planning steps, and HITL gates become `span` nodes. Token usage and error state are captured on each node end.
+`@agentskit/observability/langfuse` is a drop-in observer that ships AgentsKit trace spans to [Langfuse](https://langfuse.com). LLM generations become `generation` nodes; tool calls and planning steps become `span` nodes. Token usage and error state are captured on each node end. Cost is not normalized by this adapter, and HITL is not represented until the canonical event contract includes it.
 
 The `langfuse` npm package is an optional peer — loaded dynamically at runtime. If it is absent or no API keys are provided, the observer is a no-op and does not throw.
 
 ## When to reach for it
 
-- You already use Langfuse for prompt management, user feedback, or cost analytics.
+- You already use Langfuse for prompt management, user feedback, or trace analytics.
 - You want per-session or per-user trace grouping without manual instrumentation.
 - You want token + cost tracking in the Langfuse UI alongside your AgentsKit runs.
 
@@ -125,9 +121,16 @@ langfuse({
 
 Explicit config fields always take precedence over env vars.
 
+## Concurrency boundary
+
+Use one observer instance per serialized run. The current canonical event
+contract has no run/correlation ID, so shared observers do not claim correctness
+for concurrent or interleaved runs. Delegated work is represented as flat
+independent spans until an explicit parent correlation contract is available.
+
 ## Stability
 
-- **Version:** `0.2.20`
+- **Version:** inherited from `@agentskit/observability`; this is a private workspace implementation exposed through its `/langfuse` subpath.
 - **Tier:** beta
 - **Contract:** `Observer` interface stable; Langfuse SDK peer-resolved at runtime.
 
