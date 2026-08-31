@@ -5,7 +5,7 @@ import type {
   TokenUsage,
 } from '@agentskit/core'
 
-export type CliSecurityMode = 'review-safe' | 'trusted-local' | 'isolated'
+export type CliSecurityMode = 'review-safe' | 'trusted-local' | 'restricted-environment'
 export type CliProtocol = 'exec-text' | 'exec-json' | 'acp'
 export type CliTerminationReason = 'aborted' | 'timeout' | 'output-limit'
 
@@ -44,7 +44,7 @@ export interface CliProcessOptions {
   buildArgs?: (request: AdapterRequest) => readonly string[]
   /** Working directory exposed to the child process. */
   cwd?: string
-  /** Safe by default; trusted-local may inherit the developer environment. */
+  /** Safe by default; trusted-local may inherit the developer environment. The restricted mode is not an OS sandbox. */
   mode?: CliSecurityMode
   /** Explicit environment overlay. Values are redacted from diagnostics. */
   env?: Readonly<Record<string, string | undefined>>

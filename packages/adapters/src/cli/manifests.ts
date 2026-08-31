@@ -36,7 +36,7 @@ export interface CliManifestOptions {
   requiredCapabilities?: CliCapabilityRequirements
 }
 
-const MODES: readonly CliSecurityMode[] = ['review-safe', 'trusted-local', 'isolated']
+const MODES: readonly CliSecurityMode[] = ['review-safe', 'trusted-local', 'restricted-environment']
 const CAPABILITIES = new Set<keyof CliCapabilityRequirements>([
   'streaming', 'structuredOutput', 'reasoning', 'tools', 'mcp', 'plugins', 'terminal', 'nativeAuth',
 ])

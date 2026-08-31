@@ -71,6 +71,18 @@ describe('fetchWithRetry', () => {
     expect(res.status).toBe(200)
   })
 
+  it('does not turn invalid Retry-After values into unbounded delays', async () => {
+    const fn = vi
+      .fn()
+      .mockResolvedValueOnce(fakeResponse(429, '', { 'retry-after': 'Infinity' }))
+      .mockResolvedValueOnce(fakeResponse(200, 'ok'))
+    const sleep = vi.fn().mockResolvedValue(undefined)
+
+    await fetchWithRetry(fn, new AbortController().signal, { sleep, jitter: false })
+
+    expect(sleep).toHaveBeenCalledWith(500)
+  })
+
   it('uses exponential backoff when jitter is off', async () => {
     const fn = vi
       .fn()
