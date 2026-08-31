@@ -47,8 +47,18 @@ export function sqliteQueryTool(config: SqliteQueryConfig): ToolDefinition {
     })
   }
   const maxRows = config.maxRows ?? 100
+  if (!Number.isInteger(maxRows) || maxRows < 0) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'sqliteQueryTool: maxRows must be a finite non-negative integer',
+    })
+  }
   let dbPromise: Promise<SqliteDb> | null = null
+  let disposed = false
   const getDb = (): Promise<SqliteDb> => {
+    if (disposed) {
+      return Promise.reject(new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: 'sqliteQueryTool: tool is disposed' }))
+    }
     if (!dbPromise) dbPromise = openDatabase(config.path)
     return dbPromise
   }
@@ -88,6 +98,12 @@ export function sqliteQueryTool(config: SqliteQueryConfig): ToolDefinition {
         rowCount: rows.length,
         truncated,
       }
+    },
+    dispose: async () => {
+      disposed = true
+      const db = await dbPromise
+      db?.close()
+      dbPromise = null
     },
   }
 }

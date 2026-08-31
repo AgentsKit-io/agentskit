@@ -71,13 +71,13 @@
   },
   "dependencies": {
     "@agentskit/core": "workspace:*",
-    "@agentskit/integrations": "workspace:*"
+    "@agentskit/integrations": "workspace:*",
+    "ajv": "^8.20.0"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
     "@types/json-schema": "^7.0.15",
     "@types/node": "^25.9.5",
-    "ajv": "^8.20.0",
     "better-sqlite3": "^13.0.1",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",

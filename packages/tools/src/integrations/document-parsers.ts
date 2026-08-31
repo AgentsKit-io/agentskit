@@ -1,4 +1,6 @@
 import { ConfigError, ErrorCodes, ToolError, defineTool } from '@agentskit/core'
+import { checkEgress, safeFetch } from '../safe-fetch'
+import type { EgressPolicy } from '../safe-fetch'
 
 /**
  * Document parsing tools. The underlying parsers (`pdf-parse`,
@@ -16,18 +18,94 @@ export interface DocumentParserFns {
 export interface DocumentParsersConfig extends DocumentParserFns {
   /** Custom fetch (tests). */
   fetch?: typeof globalThis.fetch
+  /** Egress policy for model-provided document URLs. */
+  allowPrivateHosts?: EgressPolicy['allowPrivateHosts']
+  allowedHosts?: EgressPolicy['allowedHosts']
+  maxRedirects?: EgressPolicy['maxRedirects']
+  /** Maximum downloaded document size. Defaults to 10 MiB. */
+  maxBytes?: number
+  /** Download timeout. Defaults to 15 seconds. */
+  timeoutMs?: number
 }
 
-async function download(url: string, fetchImpl: typeof globalThis.fetch): Promise<Uint8Array> {
-  const response = await fetchImpl(url)
-  if (!response.ok) {
-    throw new ToolError({
-      code: ErrorCodes.AK_TOOL_EXEC_FAILED,
-      message: `fetch ${response.status}: ${url}`,
+const DEFAULT_MAX_BYTES = 10 * 1024 * 1024
+const DEFAULT_TIMEOUT_MS = 15_000
+
+async function download(url: string, config: DocumentParsersConfig): Promise<Uint8Array> {
+  let parsed: URL
+  try {
+    parsed = new URL(url)
+  } catch {
+    throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: 'invalid document URL' })
+  }
+  const policy: EgressPolicy = {
+    allowPrivateHosts: config.allowPrivateHosts,
+    allowedHosts: config.allowedHosts,
+    maxRedirects: config.maxRedirects,
+  }
+  const blocked = await checkEgress(parsed, policy)
+  if (blocked) throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: blocked })
+
+  const maxBytes = config.maxBytes ?? DEFAULT_MAX_BYTES
+  const timeoutMs = config.timeoutMs ?? DEFAULT_TIMEOUT_MS
+  if (!Number.isInteger(maxBytes) || maxBytes <= 0 || !Number.isInteger(timeoutMs) || timeoutMs <= 0) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'document parser limits must be positive integers',
     })
   }
-  const buf = await response.arrayBuffer()
-  return new Uint8Array(buf)
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), timeoutMs)
+  const fetchImpl = config.fetch ?? globalThis.fetch
+  try {
+    const response = fetchImpl === globalThis.fetch
+      ? await safeFetch(url, { signal: controller.signal }, policy)
+      : await fetchImpl(url, { signal: controller.signal, redirect: 'error' })
+    if (!response.ok) {
+      throw new ToolError({
+        code: ErrorCodes.AK_TOOL_EXEC_FAILED,
+        message: `document download failed with status ${response.status}`,
+      })
+    }
+    const contentLength = response.headers.get('content-length')
+    if (contentLength && Number(contentLength) > maxBytes) {
+      throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: `document exceeds maxBytes (${maxBytes})` })
+    }
+    if (!response.body) {
+      const buf = await response.arrayBuffer()
+      if (buf.byteLength > maxBytes) {
+        throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: `document exceeds maxBytes (${maxBytes})` })
+      }
+      return new Uint8Array(buf)
+    }
+    const reader = response.body.getReader()
+    const chunks: Uint8Array[] = []
+    let total = 0
+    while (true) {
+      const next = await reader.read()
+      if (next.done) break
+      total += next.value.byteLength
+      if (total > maxBytes) {
+        await reader.cancel()
+        throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: `document exceeds maxBytes (${maxBytes})` })
+      }
+      chunks.push(next.value)
+    }
+    const bytes = new Uint8Array(total)
+    let offset = 0
+    for (const chunk of chunks) {
+      bytes.set(chunk, offset)
+      offset += chunk.byteLength
+    }
+    return bytes
+  } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `document download timed out after ${timeoutMs}ms` })
+    }
+    throw error
+  } finally {
+    clearTimeout(timer)
+  }
 }
 
 export function parsePdf(config: DocumentParsersConfig) {
@@ -47,7 +125,7 @@ export function parsePdf(config: DocumentParsersConfig) {
           hint: 'Pass parsePdf in DocumentParsersConfig (e.g. wrap pdf-parse).',
         })
       }
-      const bytes = await download(String(url), config.fetch ?? globalThis.fetch)
+      const bytes = await download(String(url), config)
       const { text, pages } = await config.parsePdf(bytes)
       return { text, pages }
     },
@@ -71,7 +149,7 @@ export function parseDocx(config: DocumentParsersConfig) {
           hint: 'Pass parseDocx in DocumentParsersConfig (e.g. wrap mammoth).',
         })
       }
-      const bytes = await download(String(url), config.fetch ?? globalThis.fetch)
+      const bytes = await download(String(url), config)
       const { text } = await config.parseDocx(bytes)
       return { text }
     },
@@ -98,7 +176,7 @@ export function parseXlsx(config: DocumentParsersConfig) {
           hint: 'Pass parseXlsx in DocumentParsersConfig (e.g. wrap xlsx).',
         })
       }
-      const bytes = await download(String(url), config.fetch ?? globalThis.fetch)
+      const bytes = await download(String(url), config)
       const parsed = await config.parseXlsx(bytes)
       if (sheet) return parsed.sheets.filter(s => s.name === sheet)
       return parsed.sheets
