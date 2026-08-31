@@ -1,9 +1,9 @@
 import type {
   ChatMemory,
   Message,
-  MemoryRecord,
 } from '@agentskit/core'
-import { serializeMessages, deserializeMessages } from '@agentskit/core'
+import { serializeMessages } from '@agentskit/core'
+import { decodeStoredMessages } from './decode'
 import type { RedisClientAdapter, RedisConnectionConfig } from './redis-client'
 import { createRedisClientAdapter } from './redis-client'
 
@@ -20,11 +20,7 @@ function encodeMessages(messages: Message[]): string {
 
 function decodeMessages(json: string | null): Message[] {
   if (!json) return []
-  try {
-    return deserializeMessages(JSON.parse(json) as MemoryRecord)
-  } catch {
-    return []
-  }
+  return decodeStoredMessages(json, 'redisChatMemory')
 }
 
 export function redisChatMemory(config: RedisChatMemoryConfig): ChatMemory {

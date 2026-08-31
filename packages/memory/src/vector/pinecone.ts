@@ -1,7 +1,7 @@
-import { ErrorCodes, MemoryError } from '@agentskit/core'
 import type { RetrievedDocument, VectorDocument, VectorMemory } from '@agentskit/core'
+import { remoteJson, type RemoteHttpConfig } from './http'
 
-export interface PineconeConfig {
+export interface PineconeConfig extends RemoteHttpConfig {
   /** Full index URL, e.g. `https://<idx>-<project>.svc.<region>.pinecone.io`. */
   indexUrl: string
   apiKey: string
@@ -9,12 +9,10 @@ export interface PineconeConfig {
   namespace?: string
   /** Default topK for search. Default 10. */
   topK?: number
-  fetch?: typeof globalThis.fetch
 }
 
 async function call<T>(config: PineconeConfig, path: string, body: unknown): Promise<T> {
-  const fetchImpl = config.fetch ?? globalThis.fetch
-  const response = await fetchImpl(`${config.indexUrl}${path}`, {
+  return remoteJson<T>(config, 'pinecone', `${config.indexUrl}${path}`, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
@@ -22,15 +20,6 @@ async function call<T>(config: PineconeConfig, path: string, body: unknown): Pro
     },
     body: JSON.stringify(body),
   })
-  const text = await response.text()
-  if (!response.ok) {
-    throw new MemoryError({
-      code: ErrorCodes.AK_MEMORY_REMOTE_HTTP,
-      message: `pinecone ${response.status}: ${text.slice(0, 200)}`,
-      hint: `URL ${config.indexUrl}${path}. Check api-key + index URL/namespace.`,
-    })
-  }
-  return (text.length > 0 ? JSON.parse(text) : {}) as T
 }
 
 export function pinecone(config: PineconeConfig): VectorMemory {

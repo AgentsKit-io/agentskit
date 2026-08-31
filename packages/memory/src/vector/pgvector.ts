@@ -1,4 +1,5 @@
 import type { RetrievedDocument, VectorDocument, VectorMemory } from '@agentskit/core'
+import { validateIdentifier } from './validation'
 
 /**
  * pgvector-backed VectorMemory. We accept a minimal async SQL runner
@@ -28,7 +29,7 @@ function formatVector(embedding: number[]): string {
 }
 
 export function pgvector(config: PgVectorConfig): VectorMemory {
-  const table = config.table ?? 'agentskit_vectors'
+  const table = validateIdentifier(config.table ?? 'agentskit_vectors', 'table')
   const defaultTopK = Math.max(1, config.topK ?? 10)
 
   return {

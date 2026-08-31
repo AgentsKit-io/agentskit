@@ -137,6 +137,28 @@ describe('createHierarchicalMemory', () => {
     expect(index).not.toHaveBeenCalled()
   })
 
+  it('updates an existing archival message without dropping other history', async () => {
+    const archivalStore = memory([msg('old', 0), msg('edited', 1, 'user', 'before')])
+    const hub = createHierarchicalMemory({ working: memory(), archival: archivalStore, workingLimit: 1 })
+    await hub.save([msg('edited', 1, 'user', 'after')])
+    expect((await archivalStore.load()).map(m => [m.id, m.content])).toEqual([
+      ['old', 'old'],
+      ['edited', 'after'],
+    ])
+  })
+
+  it('refuses to clear when recall cannot clear its index', async () => {
+    const workingStore = memory(history(1))
+    const archivalStore = memory(history(1))
+    const hub = createHierarchicalMemory({
+      working: workingStore,
+      archival: archivalStore,
+      recall: { index: async () => {}, query: async () => [] },
+    })
+    await expect(hub.clear?.()).rejects.toMatchObject({ code: 'AK_MEMORY_CLEAR_FAILED' })
+    expect(await archivalStore.load()).toHaveLength(1)
+  })
+
   it('without recall behaves as a working + archival pair', async () => {
     const workingStore = memory()
     const archivalStore = memory()

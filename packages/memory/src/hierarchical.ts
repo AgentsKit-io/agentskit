@@ -1,3 +1,4 @@
+import { ErrorCodes, MemoryError } from '@agentskit/core'
 import type { ChatMemory, Message } from '@agentskit/core'
 
 type MemoryOperationOptions = Parameters<ChatMemory['load']>[0]
@@ -15,6 +16,8 @@ export interface HierarchicalRecall {
    * splices results chronologically alongside the working window.
    */
   query: (input: { working: Message[]; topK: number }) => Message[] | Promise<Message[]>
+  /** Remove all indexed messages when the parent memory is cleared. */
+  clear?: () => void | Promise<void>
 }
 
 export interface HierarchicalMemoryOptions {
@@ -104,9 +107,13 @@ export function createHierarchicalMemory(
       const fresh = messages.filter(m => !archivalIds.has(m.id))
 
       // Archival: append everything, preserving full history.
-      if (fresh.length > 0) {
+      if (fresh.length > 0 || messages.some(m => archivalIds.has(m.id))) {
+        const incoming = new Map(messages.map(message => [message.id, message]))
         await options.archival.save(
-          mergeChronological(knownArchival, fresh),
+          mergeChronological(
+            knownArchival.map(message => incoming.get(message.id) ?? message),
+            messages.filter(message => !archivalIds.has(message.id)),
+          ),
           memoryOptions,
         )
       }
@@ -119,15 +126,11 @@ export function createHierarchicalMemory(
 
       if (options.recall) {
         memoryOptions?.signal?.throwIfAborted()
-        const knownOverflow = overflow.filter(m => fresh.some(f => f.id === m.id))
+        const knownOverflow = overflow.filter(m => {
+          const stored = knownArchival.find(existing => existing.id === m.id)
+          return !stored || JSON.stringify(stored) !== JSON.stringify(m)
+        })
         for (const m of knownOverflow) {
-          memoryOptions?.signal?.throwIfAborted()
-          await options.recall.index(m)
-        }
-        // Also index freshly saved messages that never hit working
-        // (e.g. system/tool transcripts).
-        const appended = fresh.filter(m => !tail.some(t => t.id === m.id))
-        for (const m of appended) {
           memoryOptions?.signal?.throwIfAborted()
           await options.recall.index(m)
         }
@@ -136,9 +139,18 @@ export function createHierarchicalMemory(
 
     async clear(memoryOptions?: MemoryOperationOptions) {
       memoryOptions?.signal?.throwIfAborted()
+      if (options.recall && !options.recall.clear) {
+        throw new MemoryError({
+          code: ErrorCodes.AK_MEMORY_CLEAR_FAILED,
+          message: 'Hierarchical recall cannot be cleared by this backend.',
+          hint: 'Configure recall.clear() before clearing a hierarchical memory.',
+        })
+      }
       await options.working.clear?.(memoryOptions)
       memoryOptions?.signal?.throwIfAborted()
       await options.archival.clear?.(memoryOptions)
+      memoryOptions?.signal?.throwIfAborted()
+      await options.recall?.clear?.()
     },
 
     async archival() {

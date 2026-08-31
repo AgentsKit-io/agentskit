@@ -1,5 +1,6 @@
-import type { ChatMemory, MemoryRecord } from '@agentskit/core'
-import { deserializeMessages, serializeMessages } from '@agentskit/core'
+import type { ChatMemory } from '@agentskit/core'
+import { serializeMessages } from '@agentskit/core'
+import { decodeStoredMessages } from './decode'
 
 type MemoryOperationOptions = Parameters<ChatMemory['load']>[0]
 
@@ -31,11 +32,12 @@ export function fileChatMemory(path: string): ChatMemory {
           encoding: 'utf8',
           signal: options?.signal,
         })
-        return deserializeMessages(JSON.parse(raw) as MemoryRecord)
+        return decodeStoredMessages(raw, 'fileChatMemory')
       } catch (err) {
         throwIfAborted(options)
         if (isAbortError(err)) throw err
-        return []
+        if ((err as NodeJS.ErrnoException).code === 'ENOENT') return []
+        throw err
       }
     },
     async save(messages, options?: MemoryOperationOptions) {

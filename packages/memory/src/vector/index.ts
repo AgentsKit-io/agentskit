@@ -23,6 +23,7 @@ export { milvusVectorStore } from './milvus'
 export type { MilvusConfig } from './milvus'
 
 export { mongoAtlasVectorStore } from './mongo-atlas'
+export type { RemoteHttpConfig } from './http'
 export type { MongoAtlasVectorConfig, MongoCollectionLike } from './mongo-atlas'
 
 export { matchesFilter } from './filter'

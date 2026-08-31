@@ -55,6 +55,7 @@ export type {
   MilvusConfig,
   MongoAtlasVectorConfig,
   MongoCollectionLike,
+  RemoteHttpConfig,
 } from './vector'
 
 export { createEncryptedMemory } from './encrypted'
