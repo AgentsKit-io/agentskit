@@ -62,6 +62,14 @@ describe('createProgressiveArgParser', () => {
     p.end()
     expect(p.events[0]!.raw).toBe('42')
   })
+
+  it('buffers incomplete primitive and exposes the full buffer', () => {
+    const p = createProgressiveArgParser()
+    expect(p.push('{"count": 1')).toEqual([])
+    expect(p.buffer).toBe('{"count": 1')
+    expect(p.push('}')[0]!.value).toBe(1)
+    expect(p.end()).toEqual([])
+  })
 })
 
 describe('executeToolProgressively', () => {
@@ -140,5 +148,16 @@ describe('executeToolProgressively', () => {
     )
     await r.execution
     expect(called).toBe(true)
+  })
+
+  it('exposes field snapshots and waits for all trigger fields', async () => {
+    const r = executeToolProgressively(
+      { name: 't', execute: async args => ({ ...args }) },
+      asChunks(['{"a":1,', '"b":2}']),
+      { messages: [], callId: 'c6' },
+      { triggerFields: ['a', 'b'] },
+    )
+    expect(await r.execution).toEqual({ a: 1, b: 2 })
+    expect(r.fields.map(field => field.field)).toEqual(['a', 'b'])
   })
 })

@@ -265,4 +265,12 @@ describe('config errors', () => {
       reveal('x', { vault, actor: undefined as never }),
     ).rejects.toThrow(/actor with roles/)
   })
+
+  it('reveal: throws when vault is missing and deletes stored entries', async () => {
+    await expect(reveal('plain', { vault: undefined as never, actor: { id: 'a', roles: [] } })).rejects.toThrow(/vault is required/)
+    const vault = createInMemoryRedactionVault()
+    await vault.put('token', { storedAt: new Date(0).toISOString(), plaintext: 'secret', allowedRoles: ['admin'] })
+    await vault.delete?.('token')
+    await expect(vault.get('token')).resolves.toBeNull()
+  })
 })

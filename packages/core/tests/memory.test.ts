@@ -215,4 +215,52 @@ describe('validateMemoryRecord', () => {
     const proxy = new Proxy({}, {})
     expect(() => validateMemoryRecord(proxy)).toThrow(ConfigError)
   })
+
+  it('accepts and projects every supported content part', () => {
+    const record = serializeMessages([{
+      ...sampleMessage,
+      parts: [
+        { type: 'text', text: 'text' },
+        { type: 'image', source: 'image', mimeType: 'image/png', detail: 'auto' },
+        { type: 'audio', source: 'audio', mimeType: 'audio/wav', durationSec: 1 },
+        { type: 'video', source: 'video', durationSec: 2 },
+        { type: 'file', source: 'file', filename: 'file.txt' },
+      ],
+      toolCalls: [{ id: 'call-1', name: 'lookup', args: {}, status: 'error', error: 'failed' }],
+      toolCallId: 'call-1',
+    }])
+
+    const validated = validateMemoryRecord(record)
+    expect(validated.messages[0]?.parts).toHaveLength(5)
+    expect(validated.messages[0]?.toolCalls?.[0]?.error).toBe('failed')
+    expect(validated.messages[0]?.toolCallId).toBe('call-1')
+  })
+
+  it.each([
+    { parts: {} },
+    { parts: [{ type: 'unknown', source: 'x' }] },
+    { parts: [{ type: 'text' }] },
+    { parts: [{ type: 'image' }] },
+    { parts: [{ type: 'image', source: 'x', mimeType: 1 }] },
+    { parts: [{ type: 'image', source: 'x', detail: 'full' }] },
+    { parts: [{ type: 'audio', source: 'x', durationSec: '1' }] },
+    { parts: [{ type: 'audio', source: 'x', durationSec: -1 }] },
+    { parts: [{ type: 'file', source: 'x', filename: 1 }] },
+    { toolCalls: {} },
+    { toolCalls: [{ id: 'x', name: 'tool', args: [], status: 'complete' }] },
+    { toolCalls: [{ id: 'x', name: 'tool', args: {}, status: 'unknown' }] },
+    { toolCalls: [{ id: 'x', name: 'tool', args: {}, status: 'complete', result: 1 }] },
+    { toolCalls: [{ id: 'x', name: 'tool', args: {}, status: 'complete', error: 1 }] },
+    { toolCallId: 1 },
+    { metadata: [] },
+    { content: 1 },
+    { role: 'unknown' },
+    { status: 'unknown' },
+    { createdAt: '2026-01-01' },
+  ])('rejects malformed message fields %j', (extra) => {
+    expect(() => validateMemoryRecord({
+      version: 1,
+      messages: [{ ...serializeMessages([sampleMessage]).messages[0], ...extra }],
+    })).toThrow(ConfigError)
+  })
 })

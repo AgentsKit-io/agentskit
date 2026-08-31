@@ -16,6 +16,20 @@ describe('validateEvalSuite', () => {
     expect(suite.cases).toHaveLength(1)
   })
 
+  it('preserves valid optional metadata and rejects duplicate ids', () => {
+    expect(validateEvalSuite({
+      evalFormatVersion: EVAL_FORMAT_VERSION,
+      name: 'full', description: 'desc', tags: ['smoke'],
+      cases: [{ id: 'c1', input: 'hi', metadata: { owner: 'qa' } }],
+    })).toMatchObject({ description: 'desc', tags: ['smoke'] })
+    expect(validateEvalSuite({
+      evalFormatVersion: EVAL_FORMAT_VERSION, name: 'x', tags: [1], cases: [{ id: 'c1', input: 'x' }],
+    }).tags).toBeUndefined()
+    expect(() => validateEvalSuite({
+      evalFormatVersion: EVAL_FORMAT_VERSION, name: 'x', cases: [{ id: 'c1', input: 'x' }, { id: 'c1', input: 'y' }],
+    })).toThrow(/unique/)
+  })
+
   it('rejects missing + malformed fields', () => {
     expect(() => validateEvalSuite({})).toThrow(/evalFormatVersion/)
     expect(() =>
@@ -52,6 +66,16 @@ describe('validateEvalRunResult', () => {
       totals: { cases: 1, passed: 1, failed: 0, accuracy: 1 },
       cases: [{ id: '', input: 'hi', output: 'hello', passed: true, latencyMs: 1 }],
     })).toThrow(/id required/)
+  })
+
+  it('accepts case errors and rejects non-string errors', () => {
+    const base = {
+      evalFormatVersion: EVAL_FORMAT_VERSION, suite: 'smoke', startedAt: 'a', completedAt: 'b', agent: {},
+      totals: { cases: 1, passed: 0, failed: 1, accuracy: 0 },
+      cases: [{ id: 'c1', input: 'hi', output: '', passed: false, latencyMs: 0, error: 'failed' }],
+    }
+    expect(validateEvalRunResult(base).cases[0]!.error).toBe('failed')
+    expect(() => validateEvalRunResult({ ...base, cases: [{ ...base.cases[0], error: 42 }] })).toThrow(/error must be string/)
   })
 })
 

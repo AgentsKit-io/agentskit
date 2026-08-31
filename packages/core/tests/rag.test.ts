@@ -53,6 +53,16 @@ describe('createStaticRetriever', () => {
     const hits = await retriever.retrieve({ query: 'agentskit' })
     expect(hits).toHaveLength(1)
   })
+
+  it('keeps a zero precomputed score out and supports an empty source', async () => {
+    const retriever = createStaticRetriever({
+      documents: [{ content: 'agentskit', source: '', score: 0 }, { content: 'agentskit', score: 2 }],
+      limit: 0,
+    })
+    expect(await retriever.retrieve({ query: 'agentskit' })).toEqual([])
+    const unlimited = createStaticRetriever({ documents: [{ content: 'agentskit', score: 2 }] })
+    expect((await unlimited.retrieve({ query: 'agentskit' }))[0]!.source).toBeUndefined()
+  })
 })
 
 describe('formatRetrievedDocuments', () => {

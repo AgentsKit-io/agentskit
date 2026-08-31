@@ -407,4 +407,20 @@ describe('executeSafeTool', () => {
     expect(result.status).toBe('skipped')
     expect(init).not.toHaveBeenCalled()
   })
+
+  it('releases the lifecycle when tool initialization fails', async () => {
+    const initError = new Error('init failed')
+    const dispose = vi.fn()
+    const tool: ToolDefinition = { name: 'broken', init: async () => { throw initError }, execute: async () => 'nope', dispose }
+    const lifecycle = createToolLifecycle(buildToolMap([tool]))
+    await expect(executeSafeTool({
+      tool,
+      toolCall: makeToolCall('broken'),
+      context: { messages: [], call: makeToolCall('broken') },
+      emitter: createEventEmitter(),
+      lifecycle,
+    })).rejects.toBe(initError)
+    await lifecycle.disposeAll()
+    expect(dispose).not.toHaveBeenCalled()
+  })
 })

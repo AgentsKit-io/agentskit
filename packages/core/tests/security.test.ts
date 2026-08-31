@@ -43,6 +43,12 @@ describe('createPIIRedactor', () => {
     expect(hits.find(h => h.rule === 'email')?.count).toBe(1)
   })
 
+  it('aggregates repeated rule hits across messages', () => {
+    const r = createPIIRedactor()
+    const { hits } = r.redactMessages([msg('user', 'a@b.co'), msg('assistant', 'c@d.io')])
+    expect(hits.find(h => h.rule === 'email')).toMatchObject({ rule: 'email', count: 2 })
+  })
+
   it('accepts custom rules', () => {
     const r = createPIIRedactor({
       rules: [{ name: 'secret', pattern: /sk-[A-Za-z0-9]+/g, replacer: '***' }],
