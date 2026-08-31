@@ -18,6 +18,7 @@ export {
   executeToolCall,
   consumeStream,
   createEventEmitter,
+  parseToolArgs,
   safeParseArgs,
   createToolLifecycle,
 } from './primitives'
@@ -120,3 +121,4 @@ export type {
 } from './types'
 
 export type { TokenUsage } from './types/stream'
+export type { ParsedToolArgs } from './primitives'

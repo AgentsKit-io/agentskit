@@ -43,6 +43,8 @@ export interface OidcVerifierOptions {
   clockSkewSeconds?: number
   /** Custom fetch (testing / runtime injection). */
   fetch?: typeof fetch
+  /** Abort a JWKS request after this many milliseconds. Default: 10s. */
+  jwksTimeoutMs?: number
 }
 
 export interface OidcClaims {
@@ -77,6 +79,61 @@ interface JwksKey {
 
 interface JwksResponse {
   keys: JwksKey[]
+}
+
+const MAX_JWKS_KEYS = 100
+const MAX_JWKS_BYTES = 1_048_576
+const DEFAULT_JWKS_TIMEOUT_MS = 10_000
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+function validateJwksResponse(body: unknown): JwksResponse {
+  if (!isRecord(body) || !Array.isArray(body.keys)) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'JWKS response must contain a keys array',
+    })
+  }
+  let serialized: string
+  try {
+    serialized = JSON.stringify(body)
+  } catch (cause) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'JWKS response is not serializable',
+      cause,
+    })
+  }
+  if (serialized.length > MAX_JWKS_BYTES) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `JWKS response exceeds the ${MAX_JWKS_BYTES}-byte limit`,
+    })
+  }
+  if (body.keys.length > MAX_JWKS_KEYS) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `JWKS response exceeds the ${MAX_JWKS_KEYS}-key limit`,
+    })
+  }
+  const keys = body.keys.map((key, index) => {
+    if (!isRecord(key) || typeof key.kid !== 'string' || key.kid.length === 0 || key.kid.length > 256) {
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: `JWKS key at index ${index} must have a bounded kid`,
+      })
+    }
+    if (key.kty !== 'RSA' && key.kty !== 'EC') {
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: `JWKS key ${key.kid} has unsupported kty=${String(key.kty)}`,
+      })
+    }
+    return key as unknown as JwksKey
+  })
+  return { keys }
 }
 
 function base64UrlDecode(input: string): Uint8Array {
@@ -206,22 +263,52 @@ export function createOidcVerifier(options: OidcVerifierOptions): OidcVerifier {
   const jwksTtlMs = options.jwksTtlMs ?? 60 * 60 * 1000
   const clockSkew = options.clockSkewSeconds ?? 30
   const fetchImpl = options.fetch ?? fetch
+  const jwksTimeoutMs = options.jwksTimeoutMs ?? DEFAULT_JWKS_TIMEOUT_MS
 
   let jwksCache: { fetchedAt: number; keys: JwksKey[] } | undefined
+  let jwksRequest: Promise<JwksKey[]> | undefined
+  let jwksRequestToken = 0
 
   async function loadJwks(): Promise<JwksKey[]> {
     if (jwksCache && Date.now() - jwksCache.fetchedAt < jwksTtlMs) return jwksCache.keys
-    const res = await fetchImpl(jwksUrl)
-    if (!res.ok) {
-      throw new ConfigError({
-        code: ErrorCodes.AK_CONFIG_INVALID,
-        message: `JWKS fetch failed: ${res.status} ${res.statusText}`,
-        hint: 'Verify the issuer URL and that the IdP exposes a JWKS endpoint.',
-      })
+    if (jwksRequest) return jwksRequest
+
+    const request = (async () => {
+      const abortController = new AbortController()
+      const timeout = setTimeout(() => abortController.abort(), jwksTimeoutMs)
+      try {
+        const res = await fetchImpl(jwksUrl, { signal: abortController.signal })
+        if (!res.ok) {
+          throw new ConfigError({
+            code: ErrorCodes.AK_CONFIG_INVALID,
+            message: `JWKS fetch failed: ${res.status} ${res.statusText}`,
+            hint: 'Verify the issuer URL and that the IdP exposes a JWKS endpoint.',
+          })
+        }
+        const body = validateJwksResponse(await res.json())
+        jwksCache = { fetchedAt: Date.now(), keys: body.keys }
+        return body.keys
+      } catch (cause) {
+        if (abortController.signal.aborted) {
+          throw new ConfigError({
+            code: ErrorCodes.AK_CONFIG_INVALID,
+            message: `JWKS fetch timed out after ${jwksTimeoutMs}ms`,
+            hint: 'Increase jwksTimeoutMs only when the identity provider is known to be slow.',
+            cause,
+          })
+        }
+        throw cause
+      } finally {
+        clearTimeout(timeout)
+      }
+    })()
+    const requestToken = ++jwksRequestToken
+    jwksRequest = request
+    try {
+      return await request
+    } finally {
+      if (jwksRequestToken === requestToken) jwksRequest = undefined
     }
-    const body = (await res.json()) as JwksResponse
-    jwksCache = { fetchedAt: Date.now(), keys: body.keys }
-    return body.keys
   }
 
   return {
@@ -277,6 +364,13 @@ export function createOidcVerifier(options: OidcVerifierOptions): OidcVerifier {
         throw new ConfigError({
           code: ErrorCodes.AK_CONFIG_INVALID,
           message: `aud mismatch: expected one of ${expectedAuds.join(',')}, got ${tokenAuds.join(',')}`,
+        })
+      }
+      if (!Number.isFinite(claims.exp)) {
+        throw new ConfigError({
+          code: ErrorCodes.AK_CONFIG_INVALID,
+          message: 'JWT exp claim is required and must be a finite number',
+          hint: 'The identity provider must issue an ID token with a valid expiration timestamp.',
         })
       }
       if (claims.exp + clockSkew < now) {

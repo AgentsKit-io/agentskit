@@ -44,7 +44,7 @@ Most feature packages already depend on `core`; you add it explicitly when autho
 | `createChatController` | Headless state machine: send, stream, tools, memory, skills, retriever |
 | Types: `ChatConfig`, `ChatController`, `ChatState`, `ChatReturn` | Configuration and controller shape |
 
-The controller merges system prompts, runs retrieval, dispatches tool calls, persists via `ChatMemory`, and exposes subscribe/update patterns consumed by UI packages.
+The controller merges system prompts, runs retrieval, dispatches tool calls, saves via `ChatMemory` after successful turns, skips persistence for failed or aborted turns, surfaces background memory and skill activation failures through `onError`, and exposes subscribe/update patterns consumed by UI packages.
 
 ### Primitives and streams
 
@@ -54,7 +54,8 @@ The controller merges system prompts, runs retrieval, dispatches tool calls, per
 | `consumeStream` | Drive `StreamSource` → chunks + completion |
 | `createEventEmitter` | Internal event bus for observers |
 | `executeToolCall` | Run a tool from a `ToolCall` payload |
-| `safeParseArgs` | Parse JSON tool arguments safely |
+| `parseToolArgs` | Parse JSON tool arguments with `{ args, valid }` for fail-closed adapters |
+| `safeParseArgs` | Backwards-compatible safe value-only parser |
 | `createToolLifecycle` | `init` / `dispose` for tools |
 | `generateId` | Stable IDs for messages and calls |
 
@@ -70,10 +71,13 @@ The controller merges system prompts, runs retrieval, dispatches tool calls, per
 
 | Export | Role |
 |--------|------|
-| `createInMemoryMemory`, `createLocalStorageMemory` | Simple bundled memories for tests or demos |
+| `createInMemoryMemory`, `createLocalStorageMemory` | Simple bundled memories for tests or demos; malformed local-storage data raises `MemoryError` |
 | `serializeMessages` / `deserializeMessages` | Persistence helpers |
 | `validateMemoryRecord` from `@agentskit/core/memory-validation` | Bounded runtime validation for untrusted serialized messages |
-| `createStaticRetriever`, `formatRetrievedDocuments` | Retriever helpers for static context |
+| `@agentskit/core/fuzzy-match` | Deterministic Jaro-Winkler matching for KYC, sanctions, deduplication, and entity resolution |
+| `@agentskit/core/finding` | Canonical `Finding` / `Severity` shape for review and compliance results |
+| `@agentskit/core/tool-proposal` | Route a validated proposal through controller authorization |
+| `createStaticRetriever`, `formatRetrievedDocuments` | Retriever helpers for static/demo context; matching is token substring overlap, not semantic production search |
 
 Heavy backends live in [`@agentskit/memory`](/docs/reference/packages/memory); vector stores and chunking in [`@agentskit/rag`](/docs/reference/packages/rag).
 
@@ -84,7 +88,7 @@ Heavy backends live in [`@agentskit/memory`](/docs/reference/packages/memory); v
 | `AgentsKitError` | Base error class with `code`, `hint`, and `docsUrl` fields |
 | `AdapterError` | Thrown on adapter/stream failures; links to adapter docs |
 | `ToolError` | Thrown on tool lookup or execution failures; links to tool docs |
-| `MemoryError` | Thrown on memory load/save/deserialize failures; links to memory docs |
+| `MemoryError` | Thrown on memory load/save/clear/deserialize failures; links to memory docs |
 | `ConfigError` | Thrown on invalid configuration; links to [error handling](/docs/get-started/concepts/errors) |
 | `ErrorCodes` | `as const` map of all `AK_*` error code strings |
 
@@ -209,6 +213,7 @@ ErrorCodes.AK_TOOL_QUOTA_EXCEEDED     // tool execution exceeds its quota
 ErrorCodes.AK_TOOL_FORBIDDEN          // tool execution is denied by policy
 ErrorCodes.AK_MEMORY_LOAD_FAILED      // memory.load() failed
 ErrorCodes.AK_MEMORY_SAVE_FAILED      // memory.save() failed
+ErrorCodes.AK_MEMORY_CLEAR_FAILED     // memory.clear() failed
 ErrorCodes.AK_MEMORY_DESERIALIZE_FAILED // corrupt persisted state
 ErrorCodes.AK_MEMORY_PEER_MISSING     // optional memory backend is not installed
 ErrorCodes.AK_MEMORY_REMOTE_HTTP      // remote memory request failed

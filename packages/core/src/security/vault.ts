@@ -1,4 +1,3 @@
-import { randomBytes } from 'node:crypto'
 import { ConfigError, ErrorCodes } from '../errors'
 import type { PIIRule } from './pii'
 
@@ -91,7 +90,15 @@ export interface RevealOptions {
 const TOKEN_PATTERN = /<<piitoken:([a-f0-9]{32})>>/g
 
 function newToken(): string {
-  return `<<piitoken:${randomBytes(16).toString('hex')}>>`
+  const bytes = new Uint8Array(16)
+  if (!globalThis.crypto?.getRandomValues) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'tokenize: Web Crypto getRandomValues is required',
+    })
+  }
+  globalThis.crypto.getRandomValues(bytes)
+  return `<<piitoken:${Array.from(bytes, (byte) => byte.toString(16).padStart(2, '0')).join('')}>>`
 }
 
 interface SortedMatch {

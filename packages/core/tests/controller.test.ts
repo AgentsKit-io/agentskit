@@ -14,6 +14,25 @@ function createTestController(overrides: Partial<ChatConfig> = {}) {
 }
 
 describe('createChatController', () => {
+  it('fails closed and emits a typed error for malformed model tool arguments', async () => {
+    const execute = vi.fn()
+    const observer: Observer = { name: 'errors', on: vi.fn() }
+    const ctrl = createChatController({
+      adapter: createMockAdapter([
+        { type: 'tool_call', toolCall: { id: 'bad-args', name: 'search', args: '[1,2]' } },
+        { type: 'done' },
+      ]),
+      tools: [{ name: 'search', execute }],
+      observers: [observer],
+    })
+
+    await ctrl.send('search')
+    const call = ctrl.getState().messages.flatMap(message => message.toolCalls ?? [])[0]
+    expect(call).toMatchObject({ status: 'error', error: expect.stringContaining('JSON object') })
+    expect(execute).not.toHaveBeenCalled()
+    expect((observer.on as ReturnType<typeof vi.fn>).mock.calls.some(([event]) => event.type === 'error')).toBe(true)
+  })
+
   it('authorizes application proposals and reauthorizes before execution', async () => {
     let allowed = true
     const execute = vi.fn()
@@ -297,7 +316,7 @@ describe('createChatController', () => {
     expect(abortFn).toHaveBeenCalled()
     expect(ctrl.getState().status).toBe('idle')
     expect(ctrl.getState().messages.at(-1)?.status).toBe('complete')
-    await vi.waitFor(async () => expect((await memory.load()).at(-1)?.status).toBe('complete'))
+    expect(await memory.load()).toEqual([])
     ctrl.stop()
     expect(ctrl.getState().messages.at(-1)?.status).toBe('complete')
   })
@@ -330,20 +349,16 @@ describe('createChatController', () => {
     expect(onError).not.toHaveBeenCalled()
   })
 
-  it('orders memory saves and reports a stopped completion', async () => {
-    const stored: Message[][] = []
+  it('does not persist an aborted turn', async () => {
     let releaseStream: (() => void) | undefined
-    let releaseSave: (() => void) | undefined
     let saves = 0
     const onMessage = vi.fn()
     const ctrl = createChatController({
       onMessage,
       memory: {
-        load: async () => stored.at(-1) ?? [],
-        save: async messages => {
+        load: async () => [],
+        save: async () => {
           saves++
-          if (saves === 1) await new Promise<void>(resolve => { releaseSave = resolve })
-          stored.push(messages)
         },
         clear: async () => {},
       },
@@ -362,10 +377,8 @@ describe('createChatController', () => {
     await vi.waitFor(() => expect(ctrl.getState().messages.at(-1)?.content).toBe('partial'))
     ctrl.stop()
     await sending
-    releaseSave?.()
-    await vi.waitFor(() => expect(stored.at(-1)?.at(-1)?.status).toBe('complete'))
 
-    expect(stored).toHaveLength(2)
+    expect(saves).toBe(0)
     expect(onMessage).toHaveBeenCalledWith(expect.objectContaining({ content: 'partial', status: 'complete' }))
   })
 
@@ -756,6 +769,21 @@ describe('ChatController event emission', () => {
     expect(memLoad?.type === 'memory:load' && memLoad.messageCount).toBe(1)
   })
 
+  it('reports background memory and skill activation failures', async () => {
+    const onError = vi.fn()
+    const memory = { load: async () => { throw new Error('storage unavailable') }, save: async () => {} }
+    createChatController({ adapter: createMockAdapter([]), memory, onError })
+    await vi.waitFor(() => expect(onError).toHaveBeenCalledWith(expect.objectContaining({ code: 'AK_MEMORY_LOAD_FAILED', cause: expect.objectContaining({ message: 'storage unavailable' }) })))
+
+    const skillError = vi.fn()
+    createChatController({
+      adapter: createMockAdapter([]),
+      skills: [{ name: 'broken', description: 'broken', systemPrompt: 'x', onActivate: async () => { throw new Error('skill unavailable') } }],
+      onError: skillError,
+    })
+    await vi.waitFor(() => expect(skillError).toHaveBeenCalledWith(expect.objectContaining({ message: 'skill unavailable' })))
+  })
+
   it('emits memory:save event after messages change', async () => {
     const events: AgentEvent[] = []
     const obs: Observer = { name: 'test', on: (e) => { events.push(e) } }
@@ -770,6 +798,37 @@ describe('ChatController event emission', () => {
 
     const memSave = events.filter(e => e.type === 'memory:save')
     expect(memSave.length).toBeGreaterThan(0)
+  })
+
+  it('surfaces a durable save failure after a successful turn', async () => {
+    const onError = vi.fn()
+    const memory = {
+      load: async () => [],
+      save: vi.fn(async () => { throw new Error('disk full') }),
+    }
+    const ctrl = createChatController({
+      adapter: createMockAdapter([{ type: 'text', content: 'hi' }, { type: 'done' }]),
+      memory,
+      onError,
+    })
+
+    await ctrl.send('Hello')
+
+    expect(memory.save).toHaveBeenCalledOnce()
+    expect(ctrl.getState().error).toMatchObject({ code: 'AK_MEMORY_SAVE_FAILED' })
+    expect(onError).toHaveBeenCalledWith(expect.objectContaining({ code: 'AK_MEMORY_SAVE_FAILED' }))
+  })
+
+  it('does not persist a failed turn', async () => {
+    const memory = { load: async () => [], save: vi.fn(async () => {}) }
+    const ctrl = createChatController({
+      adapter: createMockAdapter([{ type: 'error', content: 'boom' }]),
+      memory,
+    })
+
+    await ctrl.send('Hello')
+
+    expect(memory.save).not.toHaveBeenCalled()
   })
 
   it('emits error event on stream error', async () => {

@@ -70,6 +70,15 @@ describe('createApprovalGate', () => {
     expect(c.status).toBe('cancelled')
   })
 
+  it('does not overwrite a terminal decision', async () => {
+    const gate = createApprovalGate(createInMemoryApprovalStore())
+    await gate.request({ id: 'x', name: 'n', payload: 1 })
+    await gate.decide('x', 'approved')
+    await expect(gate.decide('x', 'rejected')).rejects.toThrow(/not found/)
+    await expect(gate.cancel('x')).rejects.toThrow(/not found/)
+    await expect(gate.await('x')).resolves.toMatchObject({ status: 'approved' })
+  })
+
   it('await resolves once decision is made', async () => {
     const gate = createApprovalGate(createInMemoryApprovalStore())
     await gate.request({ id: 'x', name: 'n', payload: 1 })

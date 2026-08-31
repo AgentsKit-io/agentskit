@@ -135,4 +135,14 @@ describe('flagResolver', () => {
     expect(['a', 'b', 'c']).toContain(d.variantId)
     expect(d.fallback).toBe(true)
   })
+
+  it('uses the final weighted variant when a random roll reaches the boundary', async () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0.99999)
+    const exp = createPromptExperiment({
+      name: 'random', variants, resolve: () => undefined as never,
+    })
+    const decision = await exp.pick()
+    expect(decision.variantId).toBe('c')
+    vi.restoreAllMocks()
+  })
 })

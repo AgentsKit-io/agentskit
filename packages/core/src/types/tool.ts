@@ -16,6 +16,8 @@ export interface ToolCall {
 export interface ToolExecutionContext {
   messages: Message[]
   call: ToolCall
+  /** Stable parent run identifier when the caller can provide one. */
+  runId?: string
 }
 
 // ---------------------------------------------------------------------------

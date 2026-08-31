@@ -21,6 +21,10 @@ import type { ViteUserConfig } from 'vitest/config'
 export interface PackageTestConfig {
   /** Lines coverage threshold (percentage 0-100). Default: 60. */
   linesThreshold?: number
+  /** Optional package-level thresholds for the other V8 metrics. */
+  statementsThreshold?: number
+  branchesThreshold?: number
+  functionsThreshold?: number
   /** Test environment. Default: 'node'. React packages should use 'happy-dom'. */
   environment?: 'node' | 'jsdom' | 'happy-dom'
   /** Setup files to run before tests (relative to package root). */
@@ -41,6 +45,9 @@ export function createTestConfig(opts: PackageTestConfig = {}): ViteUserConfig {
   const baseThresholds: Record<string, unknown> = {
     lines: opts.linesThreshold ?? 90,
   }
+  if (opts.statementsThreshold !== undefined) baseThresholds.statements = opts.statementsThreshold
+  if (opts.branchesThreshold !== undefined) baseThresholds.branches = opts.branchesThreshold
+  if (opts.functionsThreshold !== undefined) baseThresholds.functions = opts.functionsThreshold
   if (opts.criticalFiles) {
     for (const [pattern, lines] of Object.entries(opts.criticalFiles)) {
       baseThresholds[pattern] = { lines }

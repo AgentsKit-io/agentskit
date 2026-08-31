@@ -1,5 +1,7 @@
-import { buildMessage as message, consumeStream, createEventEmitter, safeParseArgs, createToolLifecycle } from './primitives'
+import { buildMessage as message, consumeStream, createEventEmitter, parseToolArgs, createToolLifecycle } from './primitives'
+import { ErrorCodes, ToolError } from './errors'
 import { buildToolMap, activateSkills, auth, executeSafeTool as execute } from './agent-loop'
+import { createControllerPersistence } from './controller-persistence'
 import {
   accumulateUsage,
   buildAdapterRequest,
@@ -39,8 +41,6 @@ export function createChatController(initial: ChatConfig): ChatController {
   let skillTools: ToolDefinition[] = []
   let hydrated = false
   let active = false
-  let saving = false
-  let queued: [Message[], ChatConfig['memory']] | undefined
   const authorize: NonNullable<ChatConfig['authorizeToolCall']> = async (call, context) => {
     const fn = config.authorizeToolCall
     const decision = fn ? await fn(call, context) : { allowed: true }
@@ -65,7 +65,6 @@ export function createChatController(initial: ChatConfig): ChatController {
     skillTools = result.skillTools
     rebuild()
   }
-  void activate()
 
   for (const observer of config.observers ?? []) {
     emitter.addObserver(observer)
@@ -77,41 +76,51 @@ export function createChatController(initial: ChatConfig): ChatController {
 
   const set = (updater: ChatState | ((current: ChatState) => ChatState)) => {
     state = typeof updater === 'function' ? updater(state) : updater
-    void persist(state.messages)
     emit()
   }
 
-  const persist = async (messages: Message[]) => {
-    queued = [messages, config.memory]
-    if (saving) return
-    saving = true
-    while (queued) {
-      const [next, memory] = queued
-      queued = undefined
-      try {
-        await memory?.save(next)
-        if (memory) emitter.emit({ type: 'memory:save', messageCount: next.length })
-      } catch {}
-    }
-    saving = false
+  const reportBackgroundError = (cause: unknown) => {
+    const error = cause instanceof Error ? cause : new Error(String(cause))
+    state = { ...state, status: 'error', error }
+    emit()
+    emitter.emit({ type: 'error', error })
+    config.onError?.(error)
   }
 
+  void activate().catch(error => {
+    active = false
+    reportBackgroundError(error)
+  })
+
+  const persistence = createControllerPersistence(
+    () => config.memory,
+    {
+      onSave: messageCount => emitter.emit({ type: 'memory:save', messageCount }),
+      onError: error => {
+        state = { ...state, status: 'error', error }
+        emit()
+        emitter.emit({ type: 'error', error })
+        config.onError?.(error)
+      },
+    },
+  )
+
+  const persist = persistence.save
   const hydrate = async () => {
     if (hydrated || !config.memory) return
     hydrated = true
-
     try {
-      const loaded = await config.memory.load()
+      const loaded = await persistence.load()
       if (loaded.length > 0 && state.messages.length === 0) {
         state = { ...state, messages: loaded }
         emitter.emit({ type: 'memory:load', messageCount: loaded.length })
         emit()
       }
-    } catch {
-      // Ignore hydration failures and continue with in-memory state.
+    } catch (cause) {
+      hydrated = false
+      reportBackgroundError(cause)
     }
   }
-
   void hydrate()
 
   const setMsg = (aid: string, updater: (message: Message) => Message) => {
@@ -148,12 +157,25 @@ export function createChatController(initial: ChatConfig): ChatController {
     if (!call) return
 
     const tool = toolMap.get(call.name)
+    const parsedArgs = parseToolArgs(call.args)
     const toolCall: ToolCall = {
       id: call.id,
       name: call.name,
-      args: safeParseArgs(call.args),
+      args: parsedArgs.args,
       result: call.result,
-      status: tool?.requiresConfirmation ? 'requires_confirmation' : 'pending',
+      status: !parsedArgs.valid ? 'error' : tool?.requiresConfirmation ? 'requires_confirmation' : 'pending',
+      ...(!parsedArgs.valid ? { error: 'Invalid tool arguments: expected a JSON object' } : {}),
+    }
+
+    if (!parsedArgs.valid) {
+      setMsg(aid, message => ({ ...message, toolCalls: [...(message.toolCalls ?? []), toolCall] }))
+      const error = new ToolError({
+        code: ErrorCodes.AK_TOOL_INVALID_INPUT,
+        message: toolCall.error!,
+        hint: 'The adapter must emit tool arguments as a JSON object.',
+      })
+      emitter.emit({ type: 'error', error })
+      return
     }
 
     await auth(authorize, toolCall, { messages: state.messages, tool, phase: 'propose' })
@@ -264,7 +286,7 @@ export function createChatController(initial: ChatConfig): ChatController {
     return g === gen
   }
 
-  const finalize = (aid: string) => {
+  const finalize = async (aid: string, shouldPersist = true) => {
     let done: Message | undefined
     set(current => ({
       ...current,
@@ -277,6 +299,7 @@ export function createChatController(initial: ChatConfig): ChatController {
       error: null,
     }))
     if (done) config.onMessage?.(done)
+    if (done && shouldPersist) await persist(state.messages)
   }
 
   const continueTools = (aid: string, calls: ToolCall[]): string => {
@@ -316,7 +339,7 @@ export function createChatController(initial: ChatConfig): ChatController {
       // Nothing to feed back, or something still awaiting confirmation —
       // stop here; the caller drives the next step.
       if (!calls.length || waits) {
-        finalize(id)
+        await finalize(id, !waits)
         return
       }
 
@@ -325,7 +348,7 @@ export function createChatController(initial: ChatConfig): ChatController {
       if (!ok) return
     }
 
-    finalize(id)
+    await finalize(id)
   }
 
   /**
@@ -489,7 +512,7 @@ export function createChatController(initial: ChatConfig): ChatController {
         error: null,
         usage: { promptTokens: 0, completionTokens: 0, totalTokens: 0 },
       }))
-      await config.memory?.clear?.()
+      await persistence.clear()
     },
     proposeToolCall: p => import('./tool-proposal-internal.js').then(m => m.withAuthority(
       controller,
