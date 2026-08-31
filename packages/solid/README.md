@@ -38,7 +38,7 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/solid) ·
 - **SSR import boundary** — import `useChat` from `@agentskit/solid/use-chat` in SolidStart server code; the root entry also exports browser UI components and should remain client-only.
 - **Fine-grained reactivity** — values surface as Solid accessors; no diff, no rerender overhead.
 - **Headless by default** — components emit `data-ak-*` attributes; style however you want.
-- **Streaming, tools, HITL** — all core features work identically to `@agentskit/react`.
+- **Streaming, tools, HITL** — the shared state/action contract follows `@agentskit/react`; component props and exports are Solid-specific, not full parity.
 
 ## Install
 

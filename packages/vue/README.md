@@ -37,7 +37,7 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/vue) · [
 - **One controller contract, framework-specific views** — `useChat` returns shared chat state/actions; component props remain binding-specific.
 - **Composition API native** — values surface as `ref`s; drops into `<script setup>` with zero glue.
 - **Headless by default** — components emit `data-ak-*` attributes; bring your own styling.
-- **Streaming, tools, HITL** — all core features work identically to `@agentskit/react`.
+- **Streaming, tools, HITL** — the shared state/action contract follows `@agentskit/react`; component props and exports are Vue-specific, not full parity.
 
 ## Install
 

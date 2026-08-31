@@ -37,7 +37,7 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/react-nat
 - **One controller contract, framework-specific views** — `useChat` returns shared chat state/actions; component props remain native-binding-specific.
 - **Metro-safe** — no DOM APIs; works on iOS, Android, and Expo out of the box.
 - **Native components** — `<ChatContainer>` wraps `ScrollView`, `<InputBar>` wraps `TextInput`; the native surface uses React Native primitives and stable `testID`s.
-- **Streaming, tools, HITL** — all core features work identically to `@agentskit/react`.
+- **Streaming, tools, HITL** — the shared state/action contract follows `@agentskit/react`; component props and exports are React Native-specific, not full parity.
 
 ### Headless on React Native
 

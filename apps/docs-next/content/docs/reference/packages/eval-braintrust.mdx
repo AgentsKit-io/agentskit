@@ -1,37 +1,25 @@
 ---
 title: '@agentskit/eval/braintrust'
-description: Braintrust scoring pipeline for @agentskit/eval — quality + robustness scorers, CI regression alerts, dataset sync.
+description: Braintrust scoring pipeline for @agentskit/eval — quality + robustness scorers and CI regression alerts.
 docbridge:
   covers:
-    - package:@agentskit/eval-braintrust
+    - package:@agentskit/eval
   relations:
-    - from: package:@agentskit/eval-braintrust
+    - from: package:@agentskit/eval
       to: package:@agentskit/core
       kind: depends-on
       detection: static
-    - from: package:@agentskit/eval-braintrust
+    - from: package:@agentskit/eval
       to: package:@agentskit/core
-      kind: imports
-      detection: static
-    - from: package:@agentskit/eval-braintrust
-      to: package:@agentskit/eval
-      kind: depends-on
-      detection: static
-    - from: package:@agentskit/eval-braintrust
-      to: package:@agentskit/eval
-      kind: imports
-      detection: static
-    - from: package:@agentskit/eval-braintrust
-      to: package:agentskit
       kind: imports
       detection: static
 ---
 
-`@agentskit/eval/braintrust` connects AgentsKit eval suites to [Braintrust](https://www.braintrust.dev). It runs your test cases through a set of deterministic scorers, ships results to a Braintrust experiment, and surfaces regressions as CI annotations — all without requiring Braintrust to be installed at build time (peer-resolved at runtime).
+`@agentskit/eval/braintrust` connects AgentsKit eval suites to [Braintrust](https://www.braintrust.dev). It runs your test cases through deterministic scorers, optionally ships explicitly selected results to a Braintrust experiment, and surfaces regressions as CI annotations — all without requiring Braintrust to be installed at build time (peer-resolved at runtime). The implementation is a private workspace source package; consumers install the public `@agentskit/eval` package and its `/braintrust` subpath.
 
 ## When to reach for it
 
-- You already use Braintrust for dataset management and want AgentsKit runs to show up in its experiment UI.
+- You already use Braintrust for experiment tracking and want AgentsKit runs to show up in its experiment UI.
 - You want multi-dimensional scoring (task success, factual grounding, citation correctness, schema survival, HITL gate, crash resilience) with a single import.
 - You want regression alerts between two experiment snapshots in CI.
 
@@ -51,7 +39,7 @@ npm install @agentskit/eval braintrust
 
 | Export | Kind | Purpose |
 |---|---|---|
-| `runBraintrustEval(args, internals?)` | `async fn` | Run cases, score, sync to Braintrust, return `ExperimentResult` |
+| `runBraintrustEval(args, internals?)` | `async fn` | Run cases, score, optionally sync to Braintrust, return `ExperimentResult` |
 | `scoreCase(scorers, input)` | `async fn` | Score a single `ScorerInput` against an array of scorers |
 | `summarize(cases)` | `fn` | Aggregate `ScoredCase[]` into per-scorer `{ mean, n }` map |
 | `BraintrustRunOptions` | `type` | Options passed to `runBraintrustEval` |
@@ -131,14 +119,14 @@ if (alerts.length) {
 
 | Env var | Purpose |
 |---|---|
-| `BRAINTRUST_API_KEY` | Authenticates with the Braintrust API. Without it, scoring runs locally and no data is uploaded. |
+| `BRAINTRUST_API_KEY` | Explicitly enables Braintrust upload. Without it, scoring runs locally and no data is uploaded. |
 | `BRAINTRUST_BASE_URL` | Override the Braintrust API base URL (default: Braintrust cloud). |
 
 You can also pass `apiKey` / `baseUrl` directly in `BraintrustRunOptions` — explicit values take precedence over env vars.
 
 ## Stability
 
-- **Version:** `0.2.19`
+- **Version:** inherited from `@agentskit/eval`; the workspace adapter source is not published independently.
 - **Tier:** beta
 - **Contract:** scorer shapes stable; Braintrust SDK peer-resolved at runtime.
 

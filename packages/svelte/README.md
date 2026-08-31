@@ -37,7 +37,7 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/svelte) �
 - **One controller contract, framework-specific views** — `createChatStore` exposes shared chat state/actions; component props remain binding-specific.
 - **Svelte 5 runes** — reactive state without subscriptions; drops into `.svelte` files natively.
 - **Headless by default** — components emit `data-ak-*` attributes; style however you want.
-- **Streaming, tools, HITL** — all core features work identically to `@agentskit/react`.
+- **Streaming, tools, HITL** — the shared state/action contract follows `@agentskit/react`; component props and exports are Svelte-specific, not full parity.
 
 ## Install
 

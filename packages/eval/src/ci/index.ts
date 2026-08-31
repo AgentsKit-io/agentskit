@@ -54,11 +54,39 @@ export async function reportToCi(options: CiReportOptions): Promise<CiReportOutp
   const junit = renderJUnit(options.suiteName, options.result)
   const markdown = renderMarkdown(options.suiteName, options.result)
 
-  const { writeFile, mkdir, appendFile } = await import('node:fs/promises')
+  if (!/^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/.test(prefix) || prefix.includes('..')) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'prefix must be a simple filename without path traversal',
+    })
+  }
+
+  const { mkdir, appendFile, lstat, open, realpath } = await import('node:fs/promises')
   const { join } = await import('node:path')
+  const { O_CREAT, O_NOFOLLOW, O_TRUNC, O_WRONLY } = await import('node:constants')
   await mkdir(outDir, { recursive: true })
-  await writeFile(join(outDir, `${prefix}.xml`), junit, 'utf8')
-  await writeFile(join(outDir, `${prefix}.md`), markdown, 'utf8')
+  const outputRoot = await realpath(outDir)
+  const writeArtifact = async (extension: 'xml' | 'md', content: string): Promise<void> => {
+    const path = join(outputRoot, `${prefix}.${extension}`)
+    try {
+      if ((await lstat(path)).isSymbolicLink()) {
+        throw new ConfigError({
+          code: ErrorCodes.AK_CONFIG_INVALID,
+          message: `Refusing to overwrite symlinked CI artifact: ${prefix}.${extension}`,
+        })
+      }
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
+    }
+    const handle = await open(path, O_WRONLY | O_CREAT | O_TRUNC | (O_NOFOLLOW ?? 0), 0o600)
+    try {
+      await handle.writeFile(content, 'utf8')
+    } finally {
+      await handle.close()
+    }
+  }
+  await writeArtifact('xml', junit)
+  await writeArtifact('md', markdown)
 
   if (stepSummary && process.env?.GITHUB_STEP_SUMMARY) {
     await appendFile(process.env.GITHUB_STEP_SUMMARY, markdown, 'utf8')

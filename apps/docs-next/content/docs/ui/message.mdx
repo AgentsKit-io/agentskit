@@ -7,24 +7,29 @@ Headless single-message renderer. Role in `data-ak-role`. Streaming
 state in `data-ak-streaming`. Content chunks (text, tool-call,
 tool-result, image, file) each emit a `data-ak-part` wrapper.
 
-## Props
+## React props
 
 | Prop | Type | Default |
 |---|---|---|
 | `message` | `Message` | — |
 | `avatar` | `ReactNode` | — |
 | `actions` | `ReactNode` | — |
-| `renderPart` | `(part) => ReactNode` | built-in |
+`avatar` and `actions` are React slots. Message parts are exposed by the core
+message shape but this component currently renders the message text; it does
+not expose a `renderPart` prop.
 
 ## Message shape
 
 ```ts
+import type { ContentPart } from '@agentskit/core'
+
 type Message = {
   id: string
   role: 'user' | 'assistant' | 'tool' | 'system'
-  parts: MessagePart[]
-  createdAt: number
-  streaming?: boolean
+  content: string
+  status: 'pending' | 'streaming' | 'complete' | 'error'
+  createdAt: Date
+  parts?: ContentPart[]
 }
 ```
 
@@ -34,7 +39,7 @@ type Message = {
 |---|---|
 | React | `import { Message } from '@agentskit/react'` |
 | Vue | `import { Message } from '@agentskit/vue'` |
-| Svelte | `import Message from '@agentskit/svelte/Message.svelte'` |
+| Svelte | `import { Message } from '@agentskit/svelte'` |
 | Solid | `import { Message } from '@agentskit/solid'` |
 | React Native | `import { Message } from '@agentskit/react-native'` |
 | Angular | `<ak-message [message]="msg">` |

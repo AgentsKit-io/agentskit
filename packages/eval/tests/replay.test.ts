@@ -152,6 +152,55 @@ describe('replay engine', () => {
     expect(fingerprintRequest(withCtx)).not.toBe(fingerprintRequest(withoutCtx))
   })
 
+  it('fingerprintRequest includes tool schemas and metadata', () => {
+    const first = {
+      ...req('same'),
+      context: {
+        tools: [{ name: 'search', schema: { type: 'object', properties: { q: { type: 'string' } } } }],
+        metadata: { tenant: 'a' },
+      },
+    } as AdapterRequest
+    const differentSchema = {
+      ...first,
+      context: {
+        ...first.context,
+        tools: [{ name: 'search', schema: { type: 'object', properties: { id: { type: 'integer' } } } }],
+      },
+    }
+    const differentMetadata = {
+      ...first,
+      context: { ...first.context, metadata: { tenant: 'b' } },
+    }
+    expect(fingerprintRequest(first)).not.toBe(fingerprintRequest(differentSchema))
+    expect(fingerprintRequest(first)).not.toBe(fingerprintRequest(differentMetadata))
+  })
+
+  it('fails closed for non-fingerprintable request values', () => {
+    const cyclic: Record<string, unknown> = {}
+    cyclic.self = cyclic
+    expect(() => fingerprintRequest({ ...req('cycle'), context: { metadata: cyclic } })).toThrow(
+      /cyclic value/,
+    )
+  })
+
+  it('binds and deduplicates recording abort', () => {
+    const source = {
+      calls: 0,
+      abort() {
+        this.calls++
+      },
+      stream: async function* () {
+        yield { type: 'done' as const }
+      },
+    }
+    const base: AdapterFactory = { createSource: () => source }
+    const { factory } = createRecordingAdapter(base)
+    const recorded = factory.createSource(req('abort'))
+    recorded.abort()
+    recorded.abort()
+    expect(source.calls).toBe(1)
+  })
+
   it('lastUserContent returns empty string when no user message', () => {
     expect(
       lastUserContent({

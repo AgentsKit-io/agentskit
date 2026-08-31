@@ -1,6 +1,6 @@
 ---
 title: '@agentskit/react-native'
-description: React Native / Expo hook. Metro + Hermes safe. Same contract as @agentskit/react.
+description: React Native / Expo hook. Metro + Hermes safe, sharing the core chat state/action contract.
 docbridge:
   covers:
     - package:@agentskit/react-native
@@ -54,7 +54,7 @@ Provider credentials must stay behind a server/edge endpoint; Expo and other mob
 
 ## Surface
 
-- `useChat(config): ChatReturn` — mirrors `@agentskit/react`, no DOM imports.
+- `useChat(config): ChatReturn` — shares the core state/action contract; component props use React Native primitives and do not promise full web parity.
 
 ## Siblings
 
@@ -63,7 +63,7 @@ Provider credentials must stay behind a server/edge endpoint; Expo and other mob
 ## Stability
 
 - **Version:** `0.5.3`
-- **Tier:** alpha
+- **Tier:** beta
 - **Contract:** evolving
 - **Roadmap:** see [packages roadmap](./roadmap) for what this package needs to reach v1.0.
 

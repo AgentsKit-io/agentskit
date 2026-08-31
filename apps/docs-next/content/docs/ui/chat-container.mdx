@@ -7,13 +7,15 @@ Top-level wrapper for a chat transcript. Renders `data-ak-chat-container`
 with auto-scroll anchor. No hardcoded styles — theme via
 [data attributes](./data-attributes) and [CSS variables](./theming).
 
-## Props
+## React props
 
 | Prop | Type | Default |
 |---|---|---|
 | `children` | `ReactNode` | — |
-| `autoScroll` | `boolean` | `true` |
 | `className` | `string` | — |
+
+The React component observes transcript mutations and scrolls to the bottom;
+it currently has no `autoScroll` prop or near-bottom opt-out policy.
 
 ## Per-framework
 
@@ -21,7 +23,7 @@ with auto-scroll anchor. No hardcoded styles — theme via
 |---|---|
 | React | `import { ChatContainer } from '@agentskit/react'` |
 | Vue | `import { ChatContainer } from '@agentskit/vue'` |
-| Svelte | `import ChatContainer from '@agentskit/svelte/ChatContainer.svelte'` |
+| Svelte | `import { ChatContainer } from '@agentskit/svelte'` |
 | Solid | `import { ChatContainer } from '@agentskit/solid'` |
 | React Native | `import { ChatContainer } from '@agentskit/react-native'` — `ScrollView`-backed |
 | Angular | `<ak-chat-container>` — from `AgentskitUiModule` |

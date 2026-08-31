@@ -31,7 +31,7 @@ Peers: `@angular/core ^18 || ^19 || ^20 || ^21`, `rxjs ^7`.
   - Full `ChatReturn` actions: `send`, `stop`, `retry`, `setInput`, `clear`, `approve`, `deny(id, reason?)`, `edit`, `regenerate`, `proposeToolCall`.
   - Async actions return the underlying controller Promises.
   - `destroy()` / `ngOnDestroy` unsubscribe + stop idempotently and null `state` / `stream$`.
-- Headless standalone components mirroring `@agentskit/react` (`data-ak-*` only, **partial-Ivy AOT** via ng-packagr APF): `ChatContainerComponent`, `MessageComponent`, `InputBarComponent`, `MarkdownComponent`, `CodeBlockComponent`, `ToolCallViewComponent`, `ThinkingIndicatorComponent`, `ToolConfirmationComponent`.
+- Headless standalone components with Angular-specific inputs (`data-ak-*` only, **partial-Ivy AOT** via ng-packagr APF; not full React parity): `ChatContainerComponent`, `MessageComponent`, `InputBarComponent`, `MarkdownComponent`, `CodeBlockComponent`, `ToolCallViewComponent`, `ThinkingIndicatorComponent`, `ToolConfirmationComponent`.
 
 ## Packaging truth (AOT / APF)
 

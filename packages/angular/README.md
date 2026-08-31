@@ -37,7 +37,7 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/angular) 
 - **One controller contract, framework-specific views** — `AgentskitChat` exposes shared chat state/actions; component props remain Angular-specific.
 - **Angular-native reactivity** — state exposed as `Signal`; events as RxJS `Observable`.
 - **Headless by default** — components emit `data-ak-*` attributes; style with your design system.
-- **Streaming, tools, HITL** — all core features work identically to `@agentskit/react`.
+- **Streaming, tools, HITL** — the shared state/action contract follows `@agentskit/react`; component props and exports are Angular-specific, not full parity.
 
 ## Install
 

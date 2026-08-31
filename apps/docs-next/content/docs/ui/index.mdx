@@ -1,11 +1,11 @@
 ---
 title: UI + hooks
-description: Every AgentsKit UI binding exposes the same contract. Pick the framework; the API stays the same.
+description: AgentsKit UI bindings share the chat state/action contract; component props remain framework-specific.
 ---
 
-One hook, seven bindings. Every framework package mirrors
-`@agentskit/react`'s contract — same `useChat` return shape, same
-headless components, same `data-ak-*` hooks.
+Seven bindings share the `ChatReturn` state/action contract. Component
+exports, props, slots and accessibility primitives remain framework-specific;
+the tables below are a navigation map, not a promise of full API parity.
 
 ## Bindings
 
@@ -24,6 +24,9 @@ headless components, same `data-ak-*` hooks.
 - [useChat](./use-chat) — contract, events, per-framework shape.
 
 ## Components
+
+The component pages document the React surface unless they explicitly name a
+framework. Check the package-specific guide before copying a prop or import.
 
 - [ChatContainer](./chat-container)
 - [Message](./message)
