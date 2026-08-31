@@ -190,6 +190,17 @@ describe('CLI adapters', () => {
     expect(diagnostic.elapsedMs).toEqual(expect.any(Number))
   })
 
+  it('bounds diagnostic stdout', async () => {
+    const diagnostic = await diagnoseCliProvider({
+      command: process.execPath,
+      diagnosticArgs: ['-e', "process.stdout.write('x'.repeat(1000))"],
+      maxOutputBytes: 32,
+      providerId: 'fixture',
+    })
+    expect(diagnostic.available).toBe(false)
+    expect(diagnostic.error).toMatch(/output exceeded|output-limit|failed/)
+  })
+
   it('exposes validated first-party manifests without auto-discovery', () => {
     const manifests = listCliProviderManifests()
     expect(manifests.map(manifest => manifest.id)).toEqual(['codex', 'claude-code', 'grok', 'opencode'])

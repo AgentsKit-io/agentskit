@@ -8,6 +8,8 @@ import {
   buildToolMap,
   activateSkills,
   executeSafeTool,
+  ConfigError,
+  ErrorCodes,
 } from '@agentskit/core'
 import type {
   AdapterRequest,
@@ -42,6 +44,18 @@ function normalizeLlmUsage(
 
 function isAborted(signal?: AbortSignal): boolean {
   return signal?.aborted === true
+}
+
+let runIdCounter = 0
+
+function validateMaxSteps(value: number, label: string): number {
+  if (!Number.isSafeInteger(value) || value <= 0) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `${label} must be a finite positive integer`,
+    })
+  }
+  return value
 }
 
 async function consumeStreamWithAbort(
@@ -94,7 +108,10 @@ export function createRuntime(config: RuntimeConfig) {
   ): Promise<RunResult> {
     const startTime = Date.now()
 
-    const maxSteps = options?.maxSteps ?? config.maxSteps ?? 10
+    const configuredMaxSteps = validateMaxSteps(config.maxSteps ?? 10, 'maxSteps')
+    const requestedMaxSteps = options?.maxSteps
+    if (requestedMaxSteps !== undefined) validateMaxSteps(requestedMaxSteps, 'run maxSteps')
+    const maxSteps = Math.min(configuredMaxSteps, requestedMaxSteps ?? configuredMaxSteps)
     const signal = options?.signal
 
     // Activate skill: use skill's systemPrompt directly, activate tools via shared helper
@@ -134,6 +151,7 @@ export function createRuntime(config: RuntimeConfig) {
             maxSteps: delegateConfig.maxSteps ?? 5,
             signal,
             sharedContext: options?.sharedContext,
+            runId: options?.runId,
           }
 
           const result = await childRuntime.run(delegateTask, childOptions)
@@ -300,7 +318,7 @@ export function createRuntime(config: RuntimeConfig) {
           const execResult = await executeSafeTool({
             tool,
             toolCall,
-            context: { messages, call: toolCall },
+            context: { messages, call: toolCall, runId: options?.runId },
             emitter,
             lifecycle,
             validate: config.validateArgs,
@@ -373,7 +391,8 @@ export function createRuntime(config: RuntimeConfig) {
 
   return {
     run(task: string, options?: RunOptions): Promise<RunResult> {
-      return runInternal(task, options, 0)
+      const runId = options?.runId ?? `run-${Date.now()}-${++runIdCounter}`
+      return runInternal(task, { ...options, runId }, 0)
     },
   }
 }

@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { mkdtempSync, rmSync } from 'node:fs'
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import {
@@ -150,6 +150,20 @@ describe('createFileStepLog', () => {
       await store.clear?.('a')
       expect(await store.list('a')).toHaveLength(0)
       expect(await store.list('b')).toHaveLength(1)
+    } finally {
+      rmSync(dir, { recursive: true, force: true })
+    }
+  })
+
+  it('does not treat a corrupt log as an empty history', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ak-dur-'))
+    const path = join(dir, 'log.jsonl')
+    try {
+      writeFileSync(path, '{not-json}\n')
+      const store = await createFileStepLog(path)
+      await expect(store.list('r')).rejects.toMatchObject({
+        code: 'AK_RUNTIME_INVALID_INPUT',
+      })
     } finally {
       rmSync(dir, { recursive: true, force: true })
     }

@@ -186,15 +186,31 @@ export async function createFileStepLog(path: string): Promise<StepLogStore> {
   }
 
   const load = async (): Promise<StepRecord<unknown>[]> => {
+    let raw: string
     try {
-      const raw = await readFile(path, 'utf8')
-      return raw
-        .split('\n')
-        .filter(Boolean)
-        .map(line => JSON.parse(line) as StepRecord<unknown>)
-    } catch {
-      return []
+      raw = await readFile(path, 'utf8')
+    } catch (cause) {
+      if ((cause as NodeJS.ErrnoException).code === 'ENOENT') return []
+      throw new RuntimeError({
+        code: ErrorCodes.AK_RUNTIME_INVALID_INPUT,
+        message: 'durable step log could not be read',
+        cause,
+      })
     }
+    if (!raw.trim()) return []
+    const records: StepRecord<unknown>[] = []
+    for (const [index, line] of raw.split('\n').filter(Boolean).entries()) {
+      try {
+        records.push(JSON.parse(line) as StepRecord<unknown>)
+      } catch (cause) {
+        throw new RuntimeError({
+          code: ErrorCodes.AK_RUNTIME_INVALID_INPUT,
+          message: `durable step log is corrupt at line ${index + 1}`,
+          cause,
+        })
+      }
+    }
+    return records
   }
 
   return {

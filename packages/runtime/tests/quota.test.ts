@@ -106,4 +106,13 @@ describe('withQuotas', () => {
     expect(calls).toBe(1)
     await expect(wrapped.execute!({}, ctx)).rejects.toThrow(/per-run quota/)
   })
+
+  it('uses the parent runtime run id by default', async () => {
+    const tracker = createQuotaTracker({ quotas: { send: { perRun: 1 } } })
+    const tool = defineTool({ name: 'send', execute: async () => 'ok' })
+    const [wrapped] = withQuotas([tool], tracker)
+    const context = { messages: [], runId: 'run-1', call: { id: 'call-1', name: 'send', args: {}, status: 'running' as const } }
+    await wrapped.execute!({}, context)
+    await expect(wrapped.execute!({}, { ...context, call: { ...context.call, id: 'call-2' } })).rejects.toThrow(/per-run quota/)
+  })
 })

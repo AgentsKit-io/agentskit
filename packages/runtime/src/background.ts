@@ -217,6 +217,8 @@ export interface WebhookOptions<TContext = unknown> {
   context?: TContext | ((req: WebhookRequest) => TContext)
   /** Verify the incoming request (signature, token, etc.). */
   verify?: (req: WebhookRequest) => boolean | Promise<boolean>
+  /** Refuse construction without verification. Defaults to true. */
+  strict?: boolean
   onEvent?: (event: { type: 'received' | 'rejected' | 'handled'; error?: string }) => void
 }
 
@@ -236,22 +238,35 @@ export type WebhookHandler = (req: WebhookRequest) => Promise<WebhookResponse>
 export function createWebhookHandler<TContext = unknown>(
   options: WebhookOptions<TContext>,
 ): WebhookHandler {
+  if ((options.strict ?? true) && !options.verify) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'createWebhookHandler: verify is missing — refusing to construct an unverified webhook',
+      hint: 'Implement request verification or pass `{ strict: false }` when an external auth proxy is responsible.',
+    })
+  }
   return async req => {
     options.onEvent?.({ type: 'received' })
     if (options.verify) {
-      const ok = await options.verify(req)
+      let ok: boolean
+      try {
+        ok = await options.verify(req)
+      } catch {
+        options.onEvent?.({ type: 'rejected', error: 'verification failed' })
+        return { status: 500, body: 'internal error' }
+      }
       if (!ok) {
         options.onEvent?.({ type: 'rejected', error: 'verify returned false' })
         return { status: 401, body: 'unauthorized' }
       }
     }
-    const extract = options.extractTask ?? defaultExtract
-    const task = extract(req)
-    const context =
-      typeof options.context === 'function'
-        ? (options.context as (req: WebhookRequest) => TContext)(req)
-        : options.context
     try {
+      const extract = options.extractTask ?? defaultExtract
+      const task = extract(req)
+      const context =
+        typeof options.context === 'function'
+          ? (options.context as (req: WebhookRequest) => TContext)(req)
+          : options.context
       const result = await options.agent.run(task, context)
       options.onEvent?.({ type: 'handled' })
       return {
@@ -262,7 +277,7 @@ export function createWebhookHandler<TContext = unknown>(
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err)
       options.onEvent?.({ type: 'rejected', error: message })
-      return { status: 500, body: message }
+      return { status: 500, body: 'internal error' }
     }
   }
 }
