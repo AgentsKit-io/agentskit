@@ -25,16 +25,17 @@ npm install vue
 - `useChat(config): ChatReturn` — Vue 3 composable, reactive via `reactive()` + auto-cleanup on scope dispose.
 - `<ChatRoot>` — controller-free `data-ak-chat` root that renders its default slot; use it when composing an application shell around an existing `useChat` result.
 - `<ChatContainer :config="...">` — batteries-included headless container using `data-ak-*` attributes.
-- Headless primitives mirroring `@agentskit/react` (compose them yourself): `Message`, `InputBar`, `Markdown`, `CodeBlock`, `ToolCallView`, `ThinkingIndicator`, `ToolConfirmation`. Each renders `data-ak-*` attributes only.
+- Headless primitives with Vue-specific props (not full React parity): `Message`, `InputBar`, `Markdown`, `CodeBlock`, `ToolCallView`, `ThinkingIndicator`, `ToolConfirmation`. Each renders `data-ak-*` attributes only.
 
 ## Minimal example
 
 ```vue
 <script setup lang="ts">
 import { useChat } from '@agentskit/vue'
-import { anthropic } from '@agentskit/adapters'
+import type { ChatConfig } from '@agentskit/core'
 
-const adapter = anthropic({ apiKey: import.meta.env.VITE_ANTHROPIC_KEY, model: 'claude-sonnet-4-6' })
+// Inject an adapter backed by your server/edge endpoint. VITE_* values are public.
+declare const adapter: ChatConfig['adapter']
 const chat = useChat({ adapter })
 </script>
 

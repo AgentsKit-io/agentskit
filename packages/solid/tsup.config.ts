@@ -2,7 +2,7 @@ import { defineConfig } from 'tsup'
 import { solidPlugin } from 'esbuild-plugin-solid'
 
 export default defineConfig({
-  entry: { index: 'src/index.ts' },
+  entry: { index: 'src/index.ts', 'use-chat': 'src/useChat.ts' },
   format: ['esm', 'cjs'],
   external: ['solid-js', 'solid-js/store', 'solid-js/web'],
   esbuildPlugins: [solidPlugin()],

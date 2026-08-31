@@ -34,7 +34,7 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/react) ·
 
 ## Why react
 
-- **Ship faster** — streaming chat with tool calls, memory, and markdown rendering works out of the box, no wiring required
+- **Ship faster** — streaming chat with tool calls and memory works out of the box; `Markdown` is a raw content slot for your chosen renderer
 - **Works with your design system** — completely headless; style it with Tailwind, MUI, shadcn, or plain CSS via `data-ak-*` attributes
 - **Agent-ready by default** — built-in support for tool calls, thinking indicators, and multi-turn memory so you never hit a wall as your product grows
 - **Swap providers in one line** — pass any adapter from `@agentskit/adapters`; your component code never changes
@@ -51,12 +51,15 @@ npm install @agentskit/react @agentskit/adapters
 <!-- readme-example:quickstart -->
 ```tsx
 import { useChat, ChatContainer, Message, InputBar } from '@agentskit/react'
-import { anthropic } from '@agentskit/adapters'
+import type { ChatConfig } from '@agentskit/core'
 import '@agentskit/react/theme'
+
+declare const adapter: ChatConfig['adapter']
 
 export function Chat() {
   const chat = useChat({
-    adapter: anthropic({ apiKey: process.env.ANTHROPIC_API_KEY, model: 'claude-sonnet-4-6' }),
+    // Inject an adapter backed by your server/edge endpoint. Never ship provider secrets here.
+    adapter,
   })
   return (
     <ChatContainer>

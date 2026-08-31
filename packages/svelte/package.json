@@ -67,7 +67,7 @@
   },
   "agentskit": {
     "stability": "beta",
-    "stabilityNote": "createChatStore (ChatReturn contract) + full headless component parity with @agentskit/react (Svelte 5 runes)."
+    "stabilityNote": "createChatStore (shared ChatReturn controller contract) plus Svelte 5-specific headless components."
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/reference/packages/svelte",

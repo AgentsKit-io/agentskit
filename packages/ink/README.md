@@ -6,7 +6,7 @@ Profile: <code>concise-package</code>
 
 <p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
-Build terminal AI chat interfaces with the exact same API as `@agentskit/react`.
+Build terminal AI chat interfaces on the shared AgentsKit controller contract.
 
 [![npm version](https://img.shields.io/npm/v/@agentskit/ink?color=blue)](https://www.npmjs.com/package/@agentskit/ink)
 [![npm downloads](https://img.shields.io/npm/dm/@agentskit/ink)](https://www.npmjs.com/package/@agentskit/ink)
@@ -39,7 +39,7 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/ink) · [
 - **No context switching** — if you know `@agentskit/react`, you already know this; same hooks, same component names, different renderer
 - **Real terminal UX** — keyboard navigation, ANSI colors, and proper TTY streaming so your CLI feels native, not like a web app in a box
 - **Any local or cloud model** — pair with Ollama for fully offline CLI tools, or any other provider via `@agentskit/adapters`
-- **Full parity with the React package** — tools, memory, and skills all work the same way; one codebase, two surfaces
+- **Shared controller contract** — tools, memory, and skills work across bindings; terminal components remain Ink-specific.
 
 ## Install
 
@@ -72,11 +72,11 @@ render(<App />)
 
 ## Features
 
-- `useChat` hook — identical API to `@agentskit/react`
+- `useChat` hook — shared `ChatReturn` state/actions with terminal-specific components
 - Terminal components: `ChatContainer`, `Message`, `InputBar`, `ToolCallView`
 - Keyboard navigation and auto-scroll
 - ANSI theming
-- Default file-based memory out of the box
+- Memory is explicit — pass a `ChatMemory` when persistence is required
 
 ## Ecosystem
 

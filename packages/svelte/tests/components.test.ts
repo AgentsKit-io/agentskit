@@ -1,6 +1,8 @@
 import { describe, expect, it } from 'vitest'
 import { render } from '@testing-library/svelte'
-import type { Message as MessageType, ChatReturn, ToolCall } from '@agentskit/core'
+import { writable } from 'svelte/store'
+import type { Message as MessageType, ToolCall, ChatState } from '@agentskit/core'
+import type { SvelteChatStore } from '../src/useChat'
 import Message from '../src/components/Message.svelte'
 import InputBar from '../src/components/InputBar.svelte'
 import Markdown from '../src/components/Markdown.svelte'
@@ -15,6 +17,28 @@ const msg = (over: Partial<MessageType> = {}): MessageType =>
 const toolCall = (over: Partial<ToolCall> = {}): ToolCall =>
   ({ id: 't1', name: 'search', args: { q: 'x' }, status: 'pending', result: '', ...over }) as ToolCall
 
+function fakeChat(over: Partial<ChatState> = {}): SvelteChatStore & { sent: string[] } {
+  const state = writable<ChatState>({
+    messages: [], status: 'idle', input: 'hi', error: null, ...over,
+  })
+  const sent: string[] = []
+  return {
+    subscribe: state.subscribe,
+    sent,
+    send: async (text: string) => { sent.push(text) },
+    setInput: () => {},
+    stop: () => {},
+    retry: async () => {},
+    clear: async () => {},
+    approve: async () => {},
+    deny: async () => {},
+    edit: async () => {},
+    regenerate: async () => {},
+    proposeToolCall: async () => {},
+    destroy: () => {},
+  }
+}
+
 describe('@agentskit/svelte components', () => {
   it('Message renders role, status, content', () => {
     const { container } = render(Message, { props: { message: msg() } })
@@ -25,29 +49,22 @@ describe('@agentskit/svelte components', () => {
   })
 
   it('InputBar submits input, disables on empty', async () => {
-    const sent: string[] = []
-    const chat = { input: 'hi', send: (t: string) => sent.push(t), setInput: () => {} } as unknown as ChatReturn
+    const chat = fakeChat()
     const { container } = render(InputBar, { props: { chat } })
     ;(container.querySelector('[data-ak-input-bar]') as HTMLFormElement).requestSubmit?.()
     container.querySelector('[data-ak-input-bar]')!.dispatchEvent(new Event('submit', { cancelable: true }))
-    expect(sent).toContain('hi')
+    expect(chat.sent).toContain('hi')
     expect((container.querySelector('[data-ak-send]') as HTMLButtonElement).disabled).toBe(false)
   })
 
   it('InputBar disables send when input is blank', () => {
-    const chat = { input: '   ', send: () => {}, setInput: () => {} } as unknown as ChatReturn
+    const chat = fakeChat({ input: '   ' })
     const { container } = render(InputBar, { props: { chat, disabled: true } })
     expect((container.querySelector('[data-ak-send]') as HTMLButtonElement).disabled).toBe(true)
   })
 
   it('InputBar blocks submit and Enter while streaming and omits redundant textbox role', () => {
-    const sent: string[] = []
-    const chat = {
-      input: 'hi',
-      status: 'streaming',
-      send: (t: string) => sent.push(t),
-      setInput: () => {},
-    } as unknown as ChatReturn
+    const chat = fakeChat({ status: 'streaming' })
     const { container } = render(InputBar, { props: { chat } })
     const ta = container.querySelector('[data-ak-input]') as HTMLTextAreaElement
     const form = container.querySelector('[data-ak-input-bar]') as HTMLFormElement
@@ -56,7 +73,7 @@ describe('@agentskit/svelte components', () => {
     expect((container.querySelector('[data-ak-send]') as HTMLButtonElement).disabled).toBe(true)
     form.dispatchEvent(new Event('submit', { cancelable: true }))
     ta.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true }))
-    expect(sent).toEqual([])
+    expect(chat.sent).toEqual([])
   })
 
   it('Markdown reflects streaming flag', () => {

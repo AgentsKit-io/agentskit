@@ -1,6 +1,6 @@
 ---
 title: '@agentskit/ink — for agents'
-description: Terminal chat UI via Ink — same `useChat` contract as `@agentskit/react`, running in Node with ANSI theming and keyboard navigation.
+description: Terminal chat UI via Ink — shared `ChatReturn` state/actions with Ink-specific components, running in Node with ANSI theming and keyboard navigation.
 docbridge:
   covers:
     - package:@agentskit/ink
@@ -93,7 +93,7 @@ const agent = createMyAgent({ adapter, observers: [createProgressObserver()] })
 - **Node only / TTY required**: `@agentskit/ink` uses Ink which writes directly to `process.stdout`. It does not run in the browser or in non-TTY environments (e.g. piped CI output). Use `@agentskit/react` for browser targets.
 - **Peer deps on `react` and `ink`**: both must be installed alongside `@agentskit/ink` — Ink requires React 18+ and does not bundle it.
 - **Cleanup via `useEffect` return**: if you call `useChat` outside of `<ChatContainer>`, return `chat.stop` from a `useEffect` to abort in-flight streams when the component unmounts or the process exits.
-- **ANSI theming**: pass a `theme` prop to `<ChatContainer>` or set CSS-variable-equivalent tokens via the `theme` config key to customise colours without forking components.
+- **ANSI theming**: wrap the tree in `<InkThemeProvider theme={...}>`; `ChatContainer` and `ChatConfig` do not accept a theme prop.
 
 ## Related
 

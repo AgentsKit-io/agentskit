@@ -34,10 +34,10 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/svelte) �
 
 ## Why
 
-- **One contract, every framework** — `createChatStore` returns the exact same shape as the React / Vue / Solid / Angular / RN / Ink bindings.
+- **One controller contract, framework-specific views** — `createChatStore` exposes shared chat state/actions; component props remain binding-specific.
 - **Svelte 5 runes** — reactive state without subscriptions; drops into `.svelte` files natively.
 - **Headless by default** — components emit `data-ak-*` attributes; style however you want.
-- **Streaming, tools, HITL** — all core features work identically to `@agentskit/react`.
+- **Streaming, tools, HITL** — the shared state/action contract follows `@agentskit/react`; component props and exports are Svelte-specific, not full parity.
 
 ## Install
 
@@ -53,10 +53,13 @@ Peers: `svelte ^5`.
 ```svelte
 <script lang="ts">
   import { createChatStore } from '@agentskit/svelte'
-  import { anthropic } from '@agentskit/adapters'
+  import type { ChatConfig } from '@agentskit/core'
+
+  declare const adapter: ChatConfig['adapter']
 
   const chat = createChatStore({
-    adapter: anthropic({ apiKey: import.meta.env.VITE_ANTHROPIC_API_KEY, model: 'claude-sonnet-4-6' }),
+    // Inject an adapter backed by your server/edge endpoint. Never ship provider secrets here.
+    adapter,
   })
 </script>
 
@@ -76,7 +79,7 @@ state; call actions (`chat.send(...)`) directly on the store object.
 ## API
 
 - `createChatStore(config)` — returns a `Readable<ChatState>` (`$chat.messages`, `$chat.status`, `$chat.input`) plus actions `send(text)`, `setInput(v)`, `stop`, `retry`, `clear`, `approve`, `deny`, `edit`, `regenerate`, `destroy`. Call `destroy()` from `onDestroy` (or equivalent); it unsubscribes and stops in-flight work, and is safe to call repeatedly.
-- Headless components at parity with `@agentskit/react` (Svelte 5, `data-ak-*` only): `ChatContainer`, `Message`, `InputBar` (blocks submit/Enter while streaming), `Markdown`, `CodeBlock`, `ToolCallView` (`aria-expanded` on the toggle), `ThinkingIndicator`, `ToolConfirmation`.
+- Headless components (Svelte 5, `data-ak-*` only): `ChatContainer`, `Message`, `InputBar` (blocks submit/Enter while streaming), `Markdown`, `CodeBlock`, `ToolCallView` (`aria-expanded` on the toggle), `ThinkingIndicator`, `ToolConfirmation`.
 
 ## Ecosystem
 

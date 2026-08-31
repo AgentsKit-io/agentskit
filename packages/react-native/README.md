@@ -34,10 +34,10 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/react-nat
 
 ## Why
 
-- **One contract, every framework** — `useChat` returns the exact same shape as the web React / Vue / Svelte / Solid / Angular / Ink bindings.
+- **One controller contract, framework-specific views** — `useChat` returns shared chat state/actions; component props remain native-binding-specific.
 - **Metro-safe** — no DOM APIs; works on iOS, Android, and Expo out of the box.
-- **Native components** — `<ChatContainer>` wraps `ScrollView`, `<InputBar>` wraps `TextInput`; 8 headless components at full parity with `@agentskit/react`.
-- **Streaming, tools, HITL** — all core features work identically to `@agentskit/react`.
+- **Native components** — `<ChatContainer>` wraps `ScrollView`, `<InputBar>` wraps `TextInput`; the native surface uses React Native primitives and stable `testID`s.
+- **Streaming, tools, HITL** — the shared state/action contract follows `@agentskit/react`; component props and exports are React Native-specific, not full parity.
 
 ### Headless on React Native
 
@@ -57,11 +57,14 @@ Peers: `react`, `react-native`.
 <!-- readme-example:quickstart -->
 ```tsx
 import { useChat, ChatContainer, Message, InputBar } from '@agentskit/react-native'
-import { anthropic } from '@agentskit/adapters'
+import type { ChatConfig } from '@agentskit/core'
+
+declare const adapter: ChatConfig['adapter']
 
 export function Chat() {
   const chat = useChat({
-    adapter: anthropic({ apiKey: process.env.EXPO_PUBLIC_ANTHROPIC_API_KEY!, model: 'claude-sonnet-4-6' }),
+    // Inject an adapter backed by your server/edge endpoint. Never ship provider secrets here.
+    adapter,
   })
 
   return (
