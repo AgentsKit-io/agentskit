@@ -76,7 +76,7 @@ export function createMcpClient(options: {
     }
   })
   const detachClose = options.transport.onClose?.(() => {
-    for (const [id, entry] of pending) {
+    for (const id of pending.keys()) {
       settle(id, false, new Error('MCP transport closed'))
     }
   })

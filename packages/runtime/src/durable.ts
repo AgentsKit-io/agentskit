@@ -139,6 +139,8 @@ export function createDurableRunner(options: DurableRunnerOptions): DurableRunne
   }
 
   const inFlight = new Map<string, Promise<unknown>>()
+  const inFlightTokens = new Map<string, number>()
+  let nextToken = 0
   const step = async <TResult>(
     stepId: string,
     fn: () => Promise<TResult> | TResult,
@@ -147,11 +149,16 @@ export function createDurableRunner(options: DurableRunnerOptions): DurableRunne
     const running = inFlight.get(stepId)
     if (running) return running as Promise<TResult>
     const execution = executeStep(stepId, fn, stepOpts)
+    const token = ++nextToken
     inFlight.set(stepId, execution)
+    inFlightTokens.set(stepId, token)
     try {
       return await execution
     } finally {
-      if (inFlight.get(stepId) === execution) inFlight.delete(stepId)
+      if (inFlightTokens.get(stepId) === token) {
+        inFlight.delete(stepId)
+        inFlightTokens.delete(stepId)
+      }
     }
   }
 

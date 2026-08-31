@@ -61,24 +61,20 @@ export async function reportToCi(options: CiReportOptions): Promise<CiReportOutp
     })
   }
 
-  const { mkdir, appendFile, lstat, open, realpath } = await import('node:fs/promises')
+  const { mkdir, appendFile, open, realpath } = await import('node:fs/promises')
   const { join } = await import('node:path')
   const { O_CREAT, O_NOFOLLOW, O_TRUNC, O_WRONLY } = await import('node:constants')
+  if (typeof O_NOFOLLOW !== 'number') {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'This platform cannot safely protect CI artifacts from symlink replacement',
+    })
+  }
   await mkdir(outDir, { recursive: true })
   const outputRoot = await realpath(outDir)
   const writeArtifact = async (extension: 'xml' | 'md', content: string): Promise<void> => {
     const path = join(outputRoot, `${prefix}.${extension}`)
-    try {
-      if ((await lstat(path)).isSymbolicLink()) {
-        throw new ConfigError({
-          code: ErrorCodes.AK_CONFIG_INVALID,
-          message: `Refusing to overwrite symlinked CI artifact: ${prefix}.${extension}`,
-        })
-      }
-    } catch (error) {
-      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
-    }
-    const handle = await open(path, O_WRONLY | O_CREAT | O_TRUNC | (O_NOFOLLOW ?? 0), 0o600)
+    const handle = await open(path, O_WRONLY | O_CREAT | O_TRUNC | O_NOFOLLOW, 0o600)
     try {
       await handle.writeFile(content, 'utf8')
     } finally {

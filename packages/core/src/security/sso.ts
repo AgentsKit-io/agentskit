@@ -267,6 +267,7 @@ export function createOidcVerifier(options: OidcVerifierOptions): OidcVerifier {
 
   let jwksCache: { fetchedAt: number; keys: JwksKey[] } | undefined
   let jwksRequest: Promise<JwksKey[]> | undefined
+  let jwksRequestToken = 0
 
   async function loadJwks(): Promise<JwksKey[]> {
     if (jwksCache && Date.now() - jwksCache.fetchedAt < jwksTtlMs) return jwksCache.keys
@@ -301,11 +302,12 @@ export function createOidcVerifier(options: OidcVerifierOptions): OidcVerifier {
         clearTimeout(timeout)
       }
     })()
+    const requestToken = ++jwksRequestToken
     jwksRequest = request
     try {
       return await request
     } finally {
-      if (jwksRequest === request) jwksRequest = undefined
+      if (jwksRequestToken === requestToken) jwksRequest = undefined
     }
   }
 
