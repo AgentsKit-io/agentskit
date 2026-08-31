@@ -124,4 +124,20 @@ describe('validateManifest', () => {
       tools: [{ name: 'tool', inputSchema: schema }],
     })).toThrow(/must not be cyclic/)
   })
+
+  it('rejects schemas that exceed depth and node budgets', () => {
+    let deep: Record<string, unknown> = { type: 'string' }
+    for (let i = 0; i < 65; i++) deep = { type: 'array', items: deep }
+    expect(() => validateManifest({
+      ...valid,
+      tools: [{ name: 'tool', inputSchema: deep }],
+    })).toThrow(/depth limit/)
+
+    const properties: Record<string, unknown> = {}
+    for (let i = 0; i < 10_001; i++) properties[`field${i}`] = { type: 'string' }
+    expect(() => validateManifest({
+      ...valid,
+      tools: [{ name: 'tool', inputSchema: { type: 'object', properties } }],
+    })).toThrow(/node schema limit/)
+  })
 })

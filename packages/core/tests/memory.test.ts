@@ -117,6 +117,43 @@ describe('createLocalStorageMemory', () => {
       if (original) Object.defineProperty(globalThis, 'localStorage', original)
     }
   })
+
+  it('surfaces corrupt stored data as a typed memory error', async () => {
+    const original = Object.getOwnPropertyDescriptor(globalThis, 'localStorage')
+    Object.defineProperty(globalThis, 'localStorage', {
+      configurable: true,
+      value: { getItem: () => '{not-json', setItem: () => {}, removeItem: () => {} },
+    })
+    try {
+      await expect(createLocalStorageMemory('chat').load()).rejects.toMatchObject({
+        name: 'MemoryError', code: 'AK_MEMORY_LOAD_FAILED',
+      })
+    } finally {
+      if (original) Object.defineProperty(globalThis, 'localStorage', original)
+      else delete (globalThis as { localStorage?: unknown }).localStorage
+    }
+  })
+
+  it('surfaces browser storage permission failures as typed errors', async () => {
+    const original = Object.getOwnPropertyDescriptor(globalThis, 'localStorage')
+    Object.defineProperty(globalThis, 'localStorage', {
+      configurable: true,
+      value: {
+        getItem: () => { throw new Error('denied') },
+        setItem: () => { throw new Error('quota') },
+        removeItem: () => { throw new Error('denied') },
+      },
+    })
+    try {
+      const memory = createLocalStorageMemory('chat')
+      await expect(memory.load()).rejects.toMatchObject({ code: 'AK_MEMORY_LOAD_FAILED' })
+      await expect(memory.save([sampleMessage])).rejects.toMatchObject({ code: 'AK_MEMORY_SAVE_FAILED' })
+      await expect(memory.clear!()).rejects.toMatchObject({ code: 'AK_MEMORY_CLEAR_FAILED' })
+    } finally {
+      if (original) Object.defineProperty(globalThis, 'localStorage', original)
+      else delete (globalThis as { localStorage?: unknown }).localStorage
+    }
+  })
 })
 
 describe('validateMemoryRecord', () => {

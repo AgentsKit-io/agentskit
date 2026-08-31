@@ -54,9 +54,14 @@ function assert(cond: unknown, msg: string): asserts cond {
 
 const IDENT = /^[a-zA-Z_][a-zA-Z0-9_-]{0,63}$/
 const SCHEMA_TYPES = new Set(['object', 'array', 'string', 'number', 'integer', 'boolean', 'null'])
+const MAX_SCHEMA_DEPTH = 64
+const MAX_SCHEMA_NODES = 10_000
 
-function assertSchema(raw: unknown, path: string, active = new Set<object>()): void {
+function assertSchema(raw: unknown, path: string, active = new Set<object>(), depth = 0, budget = { nodes: 0 }): void {
   assert(isRecord(raw), `${path} must be an object`)
+  budget.nodes++
+  assert(budget.nodes <= MAX_SCHEMA_NODES, `${path} exceeds the ${MAX_SCHEMA_NODES}-node schema limit`)
+  assert(depth <= MAX_SCHEMA_DEPTH, `${path} exceeds the ${MAX_SCHEMA_DEPTH}-level schema depth limit`)
   if (active.has(raw)) throw new Error(`Invalid manifest: ${path} must not be cyclic`)
   active.add(raw)
   if (raw.type !== undefined) assert(typeof raw.type === 'string' && SCHEMA_TYPES.has(raw.type), `${path}.type is invalid`)
@@ -65,17 +70,17 @@ function assertSchema(raw: unknown, path: string, active = new Set<object>()): v
   }
   if (raw.properties !== undefined) {
     assert(isRecord(raw.properties), `${path}.properties must be an object`)
-    for (const [name, schema] of Object.entries(raw.properties)) assertSchema(schema, `${path}.properties.${name}`, active)
+    for (const [name, schema] of Object.entries(raw.properties)) assertSchema(schema, `${path}.properties.${name}`, active, depth + 1, budget)
   }
   if (raw.items !== undefined) {
     if (Array.isArray(raw.items)) {
-      raw.items.forEach((schema, i) => assertSchema(schema, `${path}.items[${i}]`, active))
+      raw.items.forEach((schema, i) => assertSchema(schema, `${path}.items[${i}]`, active, depth + 1, budget))
     } else {
-      assertSchema(raw.items, `${path}.items`, active)
+      assertSchema(raw.items, `${path}.items`, active, depth + 1, budget)
     }
   }
   if (raw.additionalProperties !== undefined && typeof raw.additionalProperties !== 'boolean') {
-    assertSchema(raw.additionalProperties, `${path}.additionalProperties`, active)
+    assertSchema(raw.additionalProperties, `${path}.additionalProperties`, active, depth + 1, budget)
   }
   active.delete(raw)
 }

@@ -44,7 +44,7 @@ Most feature packages already depend on `core`; you add it explicitly when autho
 | `createChatController` | Headless state machine: send, stream, tools, memory, skills, retriever |
 | Types: `ChatConfig`, `ChatController`, `ChatState`, `ChatReturn` | Configuration and controller shape |
 
-The controller merges system prompts, runs retrieval, dispatches tool calls, saves via `ChatMemory` after successful turns, skips persistence for failed or aborted turns, and exposes subscribe/update patterns consumed by UI packages.
+The controller merges system prompts, runs retrieval, dispatches tool calls, saves via `ChatMemory` after successful turns, skips persistence for failed or aborted turns, surfaces background memory and skill activation failures through `onError`, and exposes subscribe/update patterns consumed by UI packages.
 
 ### Primitives and streams
 
@@ -54,7 +54,8 @@ The controller merges system prompts, runs retrieval, dispatches tool calls, sav
 | `consumeStream` | Drive `StreamSource` → chunks + completion |
 | `createEventEmitter` | Internal event bus for observers |
 | `executeToolCall` | Run a tool from a `ToolCall` payload |
-| `safeParseArgs` | Parse JSON tool arguments safely |
+| `parseToolArgs` | Parse JSON tool arguments with `{ args, valid }` for fail-closed adapters |
+| `safeParseArgs` | Backwards-compatible safe value-only parser |
 | `createToolLifecycle` | `init` / `dispose` for tools |
 | `generateId` | Stable IDs for messages and calls |
 
@@ -70,10 +71,10 @@ The controller merges system prompts, runs retrieval, dispatches tool calls, sav
 
 | Export | Role |
 |--------|------|
-| `createInMemoryMemory`, `createLocalStorageMemory` | Simple bundled memories for tests or demos |
+| `createInMemoryMemory`, `createLocalStorageMemory` | Simple bundled memories for tests or demos; malformed local-storage data raises `MemoryError` |
 | `serializeMessages` / `deserializeMessages` | Persistence helpers |
 | `validateMemoryRecord` from `@agentskit/core/memory-validation` | Bounded runtime validation for untrusted serialized messages |
-| `createStaticRetriever`, `formatRetrievedDocuments` | Retriever helpers for static context |
+| `createStaticRetriever`, `formatRetrievedDocuments` | Retriever helpers for static/demo context; matching is token substring overlap, not semantic production search |
 
 Heavy backends live in [`@agentskit/memory`](/docs/reference/packages/memory); vector stores and chunking in [`@agentskit/rag`](/docs/reference/packages/rag).
 

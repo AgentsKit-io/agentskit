@@ -14,6 +14,25 @@ function createTestController(overrides: Partial<ChatConfig> = {}) {
 }
 
 describe('createChatController', () => {
+  it('fails closed and emits a typed error for malformed model tool arguments', async () => {
+    const execute = vi.fn()
+    const observer: Observer = { name: 'errors', on: vi.fn() }
+    const ctrl = createChatController({
+      adapter: createMockAdapter([
+        { type: 'tool_call', toolCall: { id: 'bad-args', name: 'search', args: '[1,2]' } },
+        { type: 'done' },
+      ]),
+      tools: [{ name: 'search', execute }],
+      observers: [observer],
+    })
+
+    await ctrl.send('search')
+    const call = ctrl.getState().messages.flatMap(message => message.toolCalls ?? [])[0]
+    expect(call).toMatchObject({ status: 'error', error: expect.stringContaining('JSON object') })
+    expect(execute).not.toHaveBeenCalled()
+    expect((observer.on as ReturnType<typeof vi.fn>).mock.calls.some(([event]) => event.type === 'error')).toBe(true)
+  })
+
   it('authorizes application proposals and reauthorizes before execution', async () => {
     let allowed = true
     const execute = vi.fn()
@@ -748,6 +767,21 @@ describe('ChatController event emission', () => {
     await new Promise(r => setTimeout(r, 10))
     const memLoad = events.find(e => e.type === 'memory:load')
     expect(memLoad?.type === 'memory:load' && memLoad.messageCount).toBe(1)
+  })
+
+  it('reports background memory and skill activation failures', async () => {
+    const onError = vi.fn()
+    const memory = { load: async () => { throw new Error('storage unavailable') }, save: async () => {} }
+    createChatController({ adapter: createMockAdapter([]), memory, onError })
+    await vi.waitFor(() => expect(onError).toHaveBeenCalledWith(expect.objectContaining({ code: 'AK_MEMORY_LOAD_FAILED', cause: expect.objectContaining({ message: 'storage unavailable' }) })))
+
+    const skillError = vi.fn()
+    createChatController({
+      adapter: createMockAdapter([]),
+      skills: [{ name: 'broken', description: 'broken', systemPrompt: 'x', onActivate: async () => { throw new Error('skill unavailable') } }],
+      onError: skillError,
+    })
+    await vi.waitFor(() => expect(skillError).toHaveBeenCalledWith(expect.objectContaining({ message: 'skill unavailable' })))
   })
 
   it('emits memory:save event after messages change', async () => {

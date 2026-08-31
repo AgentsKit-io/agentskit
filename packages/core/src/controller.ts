@@ -1,6 +1,7 @@
-import { buildMessage as message, consumeStream, createEventEmitter, safeParseArgs, createToolLifecycle } from './primitives'
-import { MemoryError, ErrorCodes } from './errors'
+import { buildMessage as message, consumeStream, createEventEmitter, parseToolArgs, createToolLifecycle } from './primitives'
+import { ErrorCodes, ToolError } from './errors'
 import { buildToolMap, activateSkills, auth, executeSafeTool as execute } from './agent-loop'
+import { createControllerPersistence } from './controller-persistence'
 import {
   accumulateUsage,
   buildAdapterRequest,
@@ -64,7 +65,6 @@ export function createChatController(initial: ChatConfig): ChatController {
     skillTools = result.skillTools
     rebuild()
   }
-  void activate()
 
   for (const observer of config.observers ?? []) {
     emitter.addObserver(observer)
@@ -79,42 +79,48 @@ export function createChatController(initial: ChatConfig): ChatController {
     emit()
   }
 
-  const persist = async (messages: Message[]) => {
-    const memory = config.memory
-    if (!memory) return
-    try {
-      await memory.save(messages)
-      emitter.emit({ type: 'memory:save', messageCount: messages.length })
-    } catch (cause) {
-      const error = new MemoryError({
-        code: ErrorCodes.AK_MEMORY_SAVE_FAILED,
-        message: 'Chat memory save failed',
-        hint: 'The completed response remains in memory, but durable persistence was not confirmed.',
-        cause,
-      })
-      state = { ...state, status: 'error', error }
-      emit()
-      emitter.emit({ type: 'error', error })
-      config.onError?.(error)
-    }
+  const reportBackgroundError = (cause: unknown) => {
+    const error = cause instanceof Error ? cause : new Error(String(cause))
+    state = { ...state, status: 'error', error }
+    emit()
+    emitter.emit({ type: 'error', error })
+    config.onError?.(error)
   }
 
+  void activate().catch(error => {
+    active = false
+    reportBackgroundError(error)
+  })
+
+  const persistence = createControllerPersistence(
+    () => config.memory,
+    {
+      onSave: messageCount => emitter.emit({ type: 'memory:save', messageCount }),
+      onError: error => {
+        state = { ...state, status: 'error', error }
+        emit()
+        emitter.emit({ type: 'error', error })
+        config.onError?.(error)
+      },
+    },
+  )
+
+  const persist = persistence.save
   const hydrate = async () => {
     if (hydrated || !config.memory) return
     hydrated = true
-
     try {
-      const loaded = await config.memory.load()
+      const loaded = await persistence.load()
       if (loaded.length > 0 && state.messages.length === 0) {
         state = { ...state, messages: loaded }
         emitter.emit({ type: 'memory:load', messageCount: loaded.length })
         emit()
       }
-    } catch {
-      // Ignore hydration failures and continue with in-memory state.
+    } catch (cause) {
+      hydrated = false
+      reportBackgroundError(cause)
     }
   }
-
   void hydrate()
 
   const setMsg = (aid: string, updater: (message: Message) => Message) => {
@@ -151,12 +157,25 @@ export function createChatController(initial: ChatConfig): ChatController {
     if (!call) return
 
     const tool = toolMap.get(call.name)
+    const parsedArgs = parseToolArgs(call.args)
     const toolCall: ToolCall = {
       id: call.id,
       name: call.name,
-      args: safeParseArgs(call.args),
+      args: parsedArgs.args,
       result: call.result,
-      status: tool?.requiresConfirmation ? 'requires_confirmation' : 'pending',
+      status: !parsedArgs.valid ? 'error' : tool?.requiresConfirmation ? 'requires_confirmation' : 'pending',
+      ...(!parsedArgs.valid ? { error: 'Invalid tool arguments: expected a JSON object' } : {}),
+    }
+
+    if (!parsedArgs.valid) {
+      setMsg(aid, message => ({ ...message, toolCalls: [...(message.toolCalls ?? []), toolCall] }))
+      const error = new ToolError({
+        code: ErrorCodes.AK_TOOL_INVALID_INPUT,
+        message: toolCall.error!,
+        hint: 'The adapter must emit tool arguments as a JSON object.',
+      })
+      emitter.emit({ type: 'error', error })
+      return
     }
 
     await auth(authorize, toolCall, { messages: state.messages, tool, phase: 'propose' })
@@ -493,7 +512,7 @@ export function createChatController(initial: ChatConfig): ChatController {
         error: null,
         usage: { promptTokens: 0, completionTokens: 0, totalTokens: 0 },
       }))
-      await config.memory?.clear?.()
+      await persistence.clear()
     },
     proposeToolCall: p => import('./tool-proposal-internal.js').then(m => m.withAuthority(
       controller,

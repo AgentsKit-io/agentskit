@@ -95,15 +95,26 @@ export async function executeToolCall(
   return serializeToolResult(result)
 }
 
-export function safeParseArgs(args: string): Record<string, unknown> {
+export interface ParsedToolArgs {
+  args: Record<string, unknown>
+  valid: boolean
+}
+
+export function parseToolArgs(args: string): ParsedToolArgs {
   try {
     const parsed = JSON.parse(args)
-    return parsed && typeof parsed === 'object' && !Array.isArray(parsed)
-      ? (parsed as Record<string, unknown>)
-      : {}
+    if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+      return { args: parsed as Record<string, unknown>, valid: true }
+    }
   } catch {
-    return {}
+    // Typed failure lets trust-boundary callers fail closed.
   }
+  return { args: {}, valid: false }
+}
+
+/** Backwards-compatible parser for callers that only need the safe value. */
+export function safeParseArgs(args: string): Record<string, unknown> {
+  return parseToolArgs(args).args
 }
 
 interface ToolLifecycleState {

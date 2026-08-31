@@ -299,6 +299,47 @@ describe('createOidcVerifier', () => {
     })
     await expect(failed.verify(token)).rejects.toThrow(/JWKS fetch failed/)
   })
+
+  it('rejects malformed and oversized JWKS responses', async () => {
+    const { keys, jwk } = await generateRsaSigningKey()
+    const now = Math.floor(Date.now() / 1000)
+    const token = await makeJwt(keys.privateKey, { iss: 'https://idp.test', aud: 'agentskit', sub: 'u', exp: now + 60, iat: now })
+    const bodies: unknown[] = [
+      {},
+      { keys: [{ kid: 'k1', kty: 'OK' }] },
+      { keys: Array.from({ length: 101 }, () => ({ ...jwk, kid: 'k1' })) },
+    ]
+    for (const body of bodies) {
+      const verifier = createOidcVerifier({
+        issuer: 'https://idp.test', audience: 'agentskit',
+        fetch: (async () => ({ ok: true, status: 200, statusText: 'OK', json: async () => body })) as unknown as typeof fetch,
+      })
+      await expect(verifier.verify(token)).rejects.toThrow(/JWKS|kty/)
+    }
+  })
+
+  it('coalesces concurrent JWKS loads and aborts a stalled request', async () => {
+    const { jwk } = await generateRsaSigningKey()
+    let release: ((value: Response) => void) | undefined
+    const response = new Promise<Response>(resolve => { release = resolve })
+    const fetch = vi.fn(() => response)
+    const verifier = createOidcVerifier({
+      issuer: 'https://idp.test', audience: 'agentskit', fetch: fetch as unknown as typeof globalThis.fetch,
+    })
+    const first = verifier.refreshJwks()
+    const second = verifier.refreshJwks()
+    release!({ ok: true, status: 200, statusText: 'OK', json: async () => ({ keys: [{ ...jwk, kid: 'k1' }] }) } as unknown as Response)
+    await Promise.all([first, second])
+    expect(fetch).toHaveBeenCalledOnce()
+
+    const stalled = createOidcVerifier({
+      issuer: 'https://idp.test', audience: 'agentskit', jwksTimeoutMs: 1,
+      fetch: (async (_url, init) => new Promise((_resolve, reject) => {
+        init?.signal?.addEventListener('abort', () => reject(new Error('aborted')))
+      })) as unknown as typeof fetch,
+    })
+    await expect(stalled.refreshJwks()).rejects.toThrow(/timed out/)
+  })
 })
 
 // ---------------------------------------------------------------------------

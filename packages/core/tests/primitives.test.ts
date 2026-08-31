@@ -1,5 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
-import { acquireToolLifecycle, generateId, createEventEmitter, buildMessage, executeToolCall, consumeStream, safeParseArgs, createToolLifecycle } from '../src/primitives'
+import { acquireToolLifecycle, generateId, createEventEmitter, buildMessage, executeToolCall, consumeStream, parseToolArgs, safeParseArgs, createToolLifecycle } from '../src/primitives'
 import type { Observer, AgentEvent, ToolDefinition, ToolCall, StreamSource, StreamChunk } from '../src/types'
 
 describe('safeParseArgs', () => {
@@ -12,6 +12,9 @@ describe('safeParseArgs', () => {
 
   it('returns an empty object for invalid JSON', () => {
     expect(safeParseArgs('{invalid')).toEqual({})
+    expect(parseToolArgs('{invalid')).toEqual({ args: {}, valid: false })
+    expect(parseToolArgs('{"q":"hello"}')).toEqual({ args: { q: 'hello' }, valid: true })
+    expect(parseToolArgs('[]')).toEqual({ args: {}, valid: false })
   })
 })
 
