@@ -1463,6 +1463,9 @@ importers:
       '@agentskit/integrations':
         specifier: workspace:*
         version: link:../integrations
+      ajv:
+        specifier: ^8.20.0
+        version: 8.20.0
     devDependencies:
       '@types/better-sqlite3':
         specifier: ^7.6.13
@@ -1473,9 +1476,6 @@ importers:
       '@types/node':
         specifier: ^25.9.5
         version: 25.9.5
-      ajv:
-        specifier: ^8.20.0
-        version: 8.20.0
       better-sqlite3:
         specifier: ^13.0.1
         version: 13.0.1
