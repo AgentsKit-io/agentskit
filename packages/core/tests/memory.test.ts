@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { ConfigError } from '../src/errors'
-import { createInMemoryMemory, serializeMessages } from '../src/memory'
+import { createInMemoryMemory, createLocalStorageMemory, deserializeMessages, serializeMessages } from '../src/memory'
 import { validateMemoryRecord } from '../src/memory-validation'
 import { buildMessage } from '../src/primitives'
 import type { Message } from '../src/types'
@@ -57,6 +57,65 @@ describe('createInMemoryMemory', () => {
     const loaded1 = await mem.load()
     const loaded2 = await mem.load()
     expect(loaded1).not.toBe(loaded2)
+  })
+})
+
+describe('serialization helpers', () => {
+  it('round-trips message dates and nested message data', () => {
+    const record = serializeMessages([{ ...sampleMessage, metadata: { source: 'test' } }])
+    const messages = deserializeMessages(record)
+
+    expect(messages[0]?.createdAt).toBeInstanceOf(Date)
+    expect(messages[0]?.createdAt.toISOString()).toBe(sampleMessage.createdAt.toISOString())
+    expect(messages[0]?.metadata).toEqual({ source: 'test' })
+  })
+
+  it('returns an empty history for an absent record', () => {
+    expect(deserializeMessages(undefined)).toEqual([])
+    expect(deserializeMessages(null)).toEqual([])
+  })
+})
+
+describe('createLocalStorageMemory', () => {
+  it('persists, hydrates, and clears serialized messages', async () => {
+    const original = Object.getOwnPropertyDescriptor(globalThis, 'localStorage')
+    const values = new Map<string, string>()
+    Object.defineProperty(globalThis, 'localStorage', {
+      configurable: true,
+      value: {
+        getItem: (key: string) => values.get(key) ?? null,
+        setItem: (key: string, value: string) => { values.set(key, value) },
+        removeItem: (key: string) => { values.delete(key) },
+      },
+    })
+
+    try {
+      const memory = createLocalStorageMemory('chat')
+      await memory.save([sampleMessage])
+      const loaded = await memory.load()
+
+      expect(loaded[0]?.createdAt).toBeInstanceOf(Date)
+      expect(loaded[0]?.id).toBe(sampleMessage.id)
+      await memory.clear!()
+      expect(await memory.load()).toEqual([])
+    } finally {
+      if (original) Object.defineProperty(globalThis, 'localStorage', original)
+      else delete (globalThis as { localStorage?: unknown }).localStorage
+    }
+  })
+
+  it('does not require browser storage in a non-browser runtime', async () => {
+    const original = Object.getOwnPropertyDescriptor(globalThis, 'localStorage')
+    if (original) delete (globalThis as { localStorage?: unknown }).localStorage
+
+    try {
+      const memory = createLocalStorageMemory('chat')
+      expect(await memory.load()).toEqual([])
+      await expect(memory.save([sampleMessage])).resolves.toBeUndefined()
+      await expect(memory.clear!()).resolves.toBeUndefined()
+    } finally {
+      if (original) Object.defineProperty(globalThis, 'localStorage', original)
+    }
   })
 })
 

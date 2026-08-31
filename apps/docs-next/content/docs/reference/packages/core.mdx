@@ -44,7 +44,7 @@ Most feature packages already depend on `core`; you add it explicitly when autho
 | `createChatController` | Headless state machine: send, stream, tools, memory, skills, retriever |
 | Types: `ChatConfig`, `ChatController`, `ChatState`, `ChatReturn` | Configuration and controller shape |
 
-The controller merges system prompts, runs retrieval, dispatches tool calls, persists via `ChatMemory`, and exposes subscribe/update patterns consumed by UI packages.
+The controller merges system prompts, runs retrieval, dispatches tool calls, saves via `ChatMemory` after successful turns, skips persistence for failed or aborted turns, and exposes subscribe/update patterns consumed by UI packages.
 
 ### Primitives and streams
 

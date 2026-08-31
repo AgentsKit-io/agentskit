@@ -297,7 +297,7 @@ describe('createChatController', () => {
     expect(abortFn).toHaveBeenCalled()
     expect(ctrl.getState().status).toBe('idle')
     expect(ctrl.getState().messages.at(-1)?.status).toBe('complete')
-    await vi.waitFor(async () => expect((await memory.load()).at(-1)?.status).toBe('complete'))
+    expect(await memory.load()).toEqual([])
     ctrl.stop()
     expect(ctrl.getState().messages.at(-1)?.status).toBe('complete')
   })
@@ -330,18 +330,16 @@ describe('createChatController', () => {
     expect(onError).not.toHaveBeenCalled()
   })
 
-  it('persists an aborted turn once it is settled', async () => {
-    const stored: Message[][] = []
+  it('does not persist an aborted turn', async () => {
     let releaseStream: (() => void) | undefined
     let saves = 0
     const onMessage = vi.fn()
     const ctrl = createChatController({
       onMessage,
       memory: {
-        load: async () => stored.at(-1) ?? [],
-        save: async messages => {
+        load: async () => [],
+        save: async () => {
           saves++
-          stored.push(messages)
         },
         clear: async () => {},
       },
@@ -361,8 +359,7 @@ describe('createChatController', () => {
     ctrl.stop()
     await sending
 
-    await vi.waitFor(() => expect(saves).toBe(1))
-    expect(stored.at(-1)?.at(-1)?.status).toBe('complete')
+    expect(saves).toBe(0)
     expect(onMessage).toHaveBeenCalledWith(expect.objectContaining({ content: 'partial', status: 'complete' }))
   })
 

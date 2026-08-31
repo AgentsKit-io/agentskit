@@ -117,12 +117,7 @@ export async function compileBudget(input: CompileBudgetInput): Promise<CompileB
 
   let total = floor + (await messageTokens(working))
 
-  if (strategy === 'sliding-window') {
-    while (working.length > keepRecent && total > effectiveBudget) {
-      dropped.push(working.shift()!)
-      total = floor + (await messageTokens(working))
-    }
-  } else if (strategy === 'drop-oldest') {
+  if (strategy === 'sliding-window' || strategy === 'drop-oldest') {
     while (working.length > keepRecent && total > effectiveBudget) {
       dropped.push(working.shift()!)
       total = floor + (await messageTokens(working))

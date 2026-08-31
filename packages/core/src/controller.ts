@@ -372,7 +372,6 @@ export function createChatController(initial: ChatConfig): ChatController {
       const stopped = state.messages.filter(message => message.status === 'streaming')
       set(current => ({ ...current, messages: current.messages.map(message => message.status === 'streaming' ? { ...message, status: 'complete' as const } : message), status: 'idle' }))
       stopped.forEach(message => config.onMessage?.({ ...message, status: 'complete' }))
-      if (stopped.length) void persist(state.messages)
     },
     async retry() {
       const messages = [...state.messages]

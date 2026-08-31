@@ -64,7 +64,7 @@ console.log(controller.getState().messages)
 
 ## Features
 
-- `createChatController` — streaming-capable chat state machine with abort support
+- `createChatController` — streaming-capable chat state machine with abort support; memory is saved after successful turns, never after failed or aborted turns
 - `createInMemoryMemory` — zero-config in-process memory for prototyping
 - TypeScript types for every contract: `ToolDefinition`, `SkillDefinition`, `AgentEvent`, `Adapter`, `Memory`, `Retriever`, `RuntimeResult`
 - Event emitter for `AgentEvent` streams — observability hooks attach here
