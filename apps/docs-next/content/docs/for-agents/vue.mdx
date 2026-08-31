@@ -32,9 +32,10 @@ npm install vue
 ```vue
 <script setup lang="ts">
 import { useChat } from '@agentskit/vue'
-import { anthropic } from '@agentskit/adapters'
+import type { ChatConfig } from '@agentskit/core'
 
-const adapter = anthropic({ apiKey: import.meta.env.VITE_ANTHROPIC_KEY, model: 'claude-sonnet-4-6' })
+// Inject an adapter backed by your server/edge endpoint. VITE_* values are public.
+declare const adapter: ChatConfig['adapter']
 const chat = useChat({ adapter })
 </script>
 

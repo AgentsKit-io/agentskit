@@ -29,9 +29,10 @@ npm install @agentskit/vue vue @agentskit/adapters
 
 ```ts
 import { useChat } from '@agentskit/vue'
-import { anthropic } from '@agentskit/adapters'
+import type { ChatConfig } from '@agentskit/core'
 
-const chat = useChat({ adapter: anthropic({ apiKey, model: 'claude-sonnet-4-6' }) })
+declare const adapter: ChatConfig['adapter']
+const chat = useChat({ adapter })
 // chat.messages + chat.input are reactive
 // chat.send / chat.setInput / chat.stop / chat.retry / chat.clear
 ```

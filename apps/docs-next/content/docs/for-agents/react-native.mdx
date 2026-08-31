@@ -32,16 +32,17 @@ npm install react react-native
 - `ThinkingIndicator` — `visible` + `label`; `null` when not visible.
 - `ToolConfirmation` — `toolCall`, `onApprove`, `onDeny`; `null` unless `status === 'requires_confirmation'`.
 
-Headless components render React Native primitives and expose stable `testID`s (`ak-message`, `ak-input`, `ak-send`, …) in place of the web binding's `data-ak-*` attributes — the same parity contract, surfaced through RN's native `testID`.
+Headless components render React Native primitives and expose stable `testID`s (`ak-message`, `ak-input`, `ak-send`, …) in place of the web binding's `data-ak-*` attributes. The controller contract is shared; component props and topology surfaces are binding-specific.
 
 ## Minimal example
 
 ```tsx
 import { useChat } from '@agentskit/react-native'
-import { anthropic } from '@agentskit/adapters'
+import type { ChatConfig } from '@agentskit/core'
 import { View, TextInput, FlatList, Pressable, Text } from 'react-native'
 
-const adapter = anthropic({ apiKey: process.env.ANTHROPIC_KEY, model: 'claude-sonnet-4-6' })
+// Inject an adapter backed by your server/edge endpoint. Mobile env values are public.
+declare const adapter: ChatConfig['adapter']
 
 export function Chat() {
   const chat = useChat({ adapter })

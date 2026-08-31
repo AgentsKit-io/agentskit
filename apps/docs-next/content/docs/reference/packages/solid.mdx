@@ -33,9 +33,10 @@ npm install @agentskit/solid solid-js @agentskit/adapters
 
 ```tsx
 import { useChat } from '@agentskit/solid'
-import { anthropic } from '@agentskit/adapters'
+import type { ChatConfig } from '@agentskit/core'
 
-const chat = useChat({ adapter: anthropic({ apiKey, model: 'claude-sonnet-4-6' }) })
+declare const adapter: ChatConfig['adapter']
+const chat = useChat({ adapter })
 ```
 
 ## Surface

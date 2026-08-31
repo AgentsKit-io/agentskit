@@ -1,17 +1,17 @@
 <script lang="ts">
-  import type { ChatReturn } from '@agentskit/core'
+  import type { SvelteChatStore } from '../useChat'
 
   let {
     chat,
     placeholder = 'Type a message...',
     disabled = false,
-  }: { chat: ChatReturn; placeholder?: string; disabled?: boolean } = $props()
+  }: { chat: SvelteChatStore; placeholder?: string; disabled?: boolean } = $props()
 
-  const blocked = $derived(disabled || chat.status === 'streaming')
+  const blocked = $derived(disabled || $chat.status === 'streaming')
 
   function submit() {
-    if (blocked || !chat.input.trim()) return
-    void chat.send(chat.input)
+    if (blocked || !$chat.input.trim()) return
+    void chat.send($chat.input)
   }
 </script>
 
@@ -27,7 +27,7 @@
     rows="1"
     {placeholder}
     disabled={blocked}
-    value={chat.input}
+    value={$chat.input}
     oninput={(e) => chat.setInput(e.currentTarget.value)}
     onkeydown={(e) => {
       if (e.key === 'Enter' && !e.shiftKey) {
@@ -36,5 +36,5 @@
       }
     }}
   ></textarea>
-  <button data-ak-send type="submit" disabled={blocked || !chat.input.trim()}>Send</button>
+  <button data-ak-send type="submit" disabled={blocked || !$chat.input.trim()}>Send</button>
 </form>

@@ -25,7 +25,7 @@ function boundSnapshot(value: string): string {
  * JSON-ish snapshot that never throws on circular refs or BigInt.
  * Result is always a string, bounded to SNAPSHOT_LIMIT.
  */
-function safeSnapshot(value: unknown): string {
+export function safeSnapshot(value: unknown): string {
   try {
     if (typeof value === 'string') return boundSnapshot(value)
     const seen = new WeakSet<object>()

@@ -45,9 +45,10 @@ Peers: `@angular/core ^18 || ^19 || ^20 || ^21`, `rxjs ^7`.
 ```ts
 import { Component, inject } from '@angular/core'
 import { AgentskitChat } from '@agentskit/angular'
-import { anthropic } from '@agentskit/adapters'
+import type { ChatConfig } from '@agentskit/core'
 
-const adapter = anthropic({ apiKey: import.meta.env['NG_APP_ANTHROPIC_KEY'], model: 'claude-sonnet-4-6' })
+// Inject an adapter backed by your server/edge endpoint. Browser env values are public.
+declare const adapter: ChatConfig['adapter']
 
 @Component({
   selector: 'ak-chat',
@@ -75,6 +76,9 @@ export class ChatComponent {
 - **Angular 18+ required**: peers start at `@angular/core ^18`. Signals + standalone components are the supported surface.
 - **Call `init()` in the constructor**: Angular initialises signals during construction. Calling `init()` in `ngOnInit` causes a one-tick delay that can produce `ExpressionChangedAfterItHasBeenCheckedError` in dev mode.
 - **Standalone components recommended**: `AgentskitChat` is provided in root and works with both module-based and standalone architectures, but standalone avoids the need to add the service to a module's `providers` array manually.
+- **Multiple chats**: the root service is a single-session boundary. For
+  independent chats, provide `AgentskitChat` in each component's `providers`
+  array so Angular creates one service/controller per subtree.
 - **RxJS interop**: use `stream$` when you need to pipe chat state through RxJS operators (e.g. `debounceTime`, `distinctUntilKeyChanged`) — `ngOnDestroy` handles unsubscription automatically so no `takeUntilDestroyed` boilerplate is needed for the service subscription itself.
 - **HITL deny reason**: `chat.deny(toolCallId, reason?)` forwards the optional reason to the controller.
 - **InputBar streaming**: the headless `InputBarComponent` disables the textarea/send button and blocks Enter submit while `status === 'streaming'`.

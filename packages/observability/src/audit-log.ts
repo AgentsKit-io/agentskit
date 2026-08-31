@@ -99,27 +99,32 @@ function sign(body: string, secret: string): string {
  */
 export function createSignedAuditLog(options: AuditLogOptions): SignedAuditLog {
   const now = options.now ?? ((): Date => new Date())
+  let appendTail = Promise.resolve()
 
   return {
     async append(input) {
-      const last = await options.store.last()
-      const seq = (last?.seq ?? 0) + 1
-      const prevHash = last ? hashCanonical(canonical(last)) : ''
-      const body = canonical({
-        seq,
-        timestamp: now().toISOString(),
-        actor: input.actor,
-        action: input.action,
-        payload: input.payload,
-        prevHash,
+      const operation = appendTail.then(async () => {
+        const last = await options.store.last()
+        const seq = (last?.seq ?? 0) + 1
+        const prevHash = last ? hashCanonical(canonical(last)) : ''
+        const body = canonical({
+          seq,
+          timestamp: now().toISOString(),
+          actor: input.actor,
+          action: input.action,
+          payload: input.payload,
+          prevHash,
+        })
+        const parsed = JSON.parse(body) as Omit<AuditEntry<typeof input.payload>, 'signature'>
+        const entry: AuditEntry<typeof input.payload> = {
+          ...parsed,
+          signature: sign(body, options.secret),
+        }
+        await options.store.append(entry as AuditEntry<unknown>)
+        return entry
       })
-      const parsed = JSON.parse(body) as Omit<AuditEntry<typeof input.payload>, 'signature'>
-      const entry: AuditEntry<typeof input.payload> = {
-        ...parsed,
-        signature: sign(body, options.secret),
-      }
-      await options.store.append(entry as AuditEntry<unknown>)
-      return entry
+      appendTail = operation.then(() => undefined, () => undefined)
+      return operation
     },
 
     async verify() {

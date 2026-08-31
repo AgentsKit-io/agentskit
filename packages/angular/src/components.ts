@@ -18,7 +18,7 @@ import type { Message as MessageType, ChatReturn, ToolCall } from '@agentskit/co
 @Component({
   selector: 'ak-chat-container',
   standalone: true,
-  template: `<div #scroll data-ak-chat-container data-testid="ak-chat-container"><ng-content /></div>`,
+  template: `<div #scroll data-ak-chat-container data-testid="ak-chat-container" role="log" aria-live="polite" aria-label="Chat transcript"><ng-content /></div>`,
 })
 export class ChatContainerComponent implements AfterViewInit, OnDestroy {
   @ViewChild('scroll', { static: true }) scrollRef!: ElementRef<HTMLDivElement>
@@ -46,6 +46,8 @@ export class ChatContainerComponent implements AfterViewInit, OnDestroy {
   standalone: true,
   template: `<div
     data-ak-message
+    role="article"
+    aria-label="Chat message"
     [attr.data-ak-role]="message.role"
     [attr.data-ak-status]="message.status"
   >
@@ -60,8 +62,10 @@ export class MessageComponent {
   selector: 'ak-input-bar',
   standalone: true,
   template: `<form data-ak-input-bar (submit)="onSubmit($event)">
+    <label data-ak-input-label [attr.for]="inputId">Message</label>
     <textarea
       data-ak-input
+      [id]="inputId"
       rows="1"
       [value]="chat.input"
       [attr.placeholder]="placeholder"
@@ -76,6 +80,7 @@ export class InputBarComponent {
   @Input({ required: true }) chat!: ChatReturn
   @Input() placeholder = 'Type a message...'
   @Input() disabled = false
+  @Input() inputId = 'ak-input'
 
   get isBlocked(): boolean {
     return this.disabled || this.chat.status === 'streaming'
@@ -164,7 +169,7 @@ export class ToolCallViewComponent {
   selector: 'ak-thinking-indicator',
   standalone: true,
   template: `@if (visible) {
-    <div data-ak-thinking>
+    <div data-ak-thinking role="status" aria-live="polite" aria-atomic="true">
       <span data-ak-thinking-dots><span>•</span><span>•</span><span>•</span></span>
       <span data-ak-thinking-label>{{ label }}</span>
     </div>
@@ -182,14 +187,14 @@ export class ThinkingIndicatorComponent {
     <div data-ak-tool-confirmation [attr.data-ak-tool-name]="toolCall.name">
       <div data-ak-tool-confirmation-header>
         <span data-ak-tool-confirmation-name>{{ toolCall.name }}</span>
-        <span data-ak-tool-confirmation-status>requires confirmation</span>
+        <span [id]="'ak-tool-confirmation-status-' + toolCall.id" data-ak-tool-confirmation-status role="status">requires confirmation</span>
       </div>
       <div data-ak-tool-confirmation-args>{{ argsJson }}</div>
       <div data-ak-tool-confirmation-actions>
-        <button data-ak-tool-confirmation-approve type="button" (click)="onApprove(toolCall.id)">
+        <button data-ak-tool-confirmation-approve type="button" [attr.aria-describedby]="'ak-tool-confirmation-status-' + toolCall.id" (click)="onApprove(toolCall.id)">
           Approve
         </button>
-        <button data-ak-tool-confirmation-deny type="button" (click)="onDeny(toolCall.id)">
+        <button data-ak-tool-confirmation-deny type="button" [attr.aria-describedby]="'ak-tool-confirmation-status-' + toolCall.id" (click)="onDeny(toolCall.id)">
           Deny
         </button>
       </div>

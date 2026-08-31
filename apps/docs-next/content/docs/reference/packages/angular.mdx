@@ -34,12 +34,15 @@ npm install @agentskit/angular @angular/core rxjs @agentskit/adapters
 ```ts
 import { Component, inject } from '@angular/core'
 import { AgentskitChat } from '@agentskit/angular'
+import type { ChatConfig } from '@agentskit/core'
+
+declare const adapter: ChatConfig['adapter']
 
 @Component({
   selector: 'ak-chat',
   standalone: true,
   template: `
-    <div *ngFor="let m of chat.state()?.messages ?? []">{{ m.content }}</div>
+    @for (m of chat.state()?.messages ?? []; track m.id) { <div>{{ m.content }}</div> }
     <input [value]="chat.state()?.input ?? ''" (input)="chat.setInput($any($event.target).value)">
     <button (click)="chat.send(chat.state()?.input ?? '')">Send</button>
   `,

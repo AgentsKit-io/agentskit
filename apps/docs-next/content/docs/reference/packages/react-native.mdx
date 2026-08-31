@@ -26,16 +26,19 @@ docbridge:
 ## Install
 
 ```bash
-npm install @agentskit/react-native react react-native @agentskit/adapters
+npm install @agentskit/react-native react react-native @agentskit/adapters react-native-polyfill-globals
 ```
 
 ## Hello world
 
 ```tsx
+// In Expo/Hermes, install and run the streaming polyfill before any AgentsKit import.
+import 'react-native-polyfill-globals'
 import { useChat } from '@agentskit/react-native'
+import type { ChatConfig } from '@agentskit/core'
 import { View, TextInput, FlatList, Pressable, Text } from 'react-native'
 
-export function ChatScreen({ adapter }) {
+export function ChatScreen({ adapter }: { adapter: ChatConfig['adapter'] }) {
   const chat = useChat({ adapter })
   return (
     <View style={{ flex: 1 }}>
@@ -46,6 +49,8 @@ export function ChatScreen({ adapter }) {
   )
 }
 ```
+
+Provider credentials must stay behind a server/edge endpoint; Expo and other mobile environment variables are public and must not contain long-lived API keys.
 
 ## Surface
 

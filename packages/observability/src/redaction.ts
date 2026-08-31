@@ -69,15 +69,30 @@ async function redactString(
 async function redactStringValuesDeep(
   value: unknown,
   opts: ObserverRedactionOptions,
+  seen: WeakSet<object>,
+  depth = 0,
 ): Promise<unknown> {
   if (typeof value === 'string') return redactString(value, opts)
+  if (depth > 32) return '[MaxDepth]'
   if (Array.isArray(value)) {
-    return Promise.all(value.map(v => redactStringValuesDeep(v, opts)))
+    if (seen.has(value)) return '[Circular]'
+    seen.add(value)
+    try {
+      return Promise.all(value.slice(0, 1000).map(v => redactStringValuesDeep(v, opts, seen, depth + 1)))
+    } finally {
+      seen.delete(value)
+    }
   }
   if (value && typeof value === 'object') {
+    if (seen.has(value)) return '[Circular]'
+    seen.add(value)
     const out: Record<string, unknown> = {}
-    for (const [k, v] of Object.entries(value as Record<string, unknown>)) {
-      out[k] = await redactStringValuesDeep(v, opts)
+    try {
+      for (const [k, v] of Object.entries(value as Record<string, unknown>).slice(0, 1000)) {
+        out[k] = await redactStringValuesDeep(v, opts, seen, depth + 1)
+      }
+    } finally {
+      seen.delete(value)
     }
     return out
   }
@@ -92,7 +107,7 @@ async function redactEvent(
     case 'llm:end':
       return { ...event, content: await redactString(event.content, opts) }
     case 'tool:start': {
-      const args = (await redactStringValuesDeep(event.args, opts)) as Record<string, unknown>
+      const args = (await redactStringValuesDeep(event.args, opts, new WeakSet<object>())) as Record<string, unknown>
       return { ...event, args }
     }
     case 'tool:end':

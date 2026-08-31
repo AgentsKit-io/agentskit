@@ -34,7 +34,7 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/vue) · [
 
 ## Why
 
-- **One contract, every framework** — `useChat` returns the exact same shape as the React / Svelte / Solid / Angular / RN / Ink bindings.
+- **One controller contract, framework-specific views** — `useChat` returns shared chat state/actions; component props remain binding-specific.
 - **Composition API native** — values surface as `ref`s; drops into `<script setup>` with zero glue.
 - **Headless by default** — components emit `data-ak-*` attributes; bring your own styling.
 - **Streaming, tools, HITL** — all core features work identically to `@agentskit/react`.
@@ -53,10 +53,13 @@ Peers: `vue ^3.4`.
 ```vue
 <script setup lang="ts">
 import { useChat } from '@agentskit/vue'
-import { anthropic } from '@agentskit/adapters'
+import type { ChatConfig } from '@agentskit/core'
+
+declare const adapter: ChatConfig['adapter']
 
 const chat = useChat({
-  adapter: anthropic({ apiKey: import.meta.env.VITE_ANTHROPIC_API_KEY, model: 'claude-sonnet-4-6' }),
+  // Inject an adapter backed by your server/edge endpoint. Never ship provider secrets here.
+  adapter,
 })
 </script>
 
@@ -81,7 +84,7 @@ State is `reactive` — read `chat.messages` / `chat.input` directly (no `.value
 - `useChat(config)` — composable returning `ChatReturn`: reactive `messages`, `status`, `input`, `error`, `usage` + actions `send(text)`, `setInput(v)`, `stop`, `retry`, `clear`, `approve`, `deny`, `edit`, `regenerate`. Call inside `setup()` / `<script setup>`; scope dispose unsubscribes and stops in-flight work (idempotent).
 - `<ChatRoot>` — controller-free `data-ak-chat` root with a default slot for application shells that already use `useChat`.
 - `<ChatContainer :config>` — batteries-included headless container.
-- Headless primitives at parity with `@agentskit/react`: `Message`, `InputBar` (blocks submit/Enter while streaming), `Markdown`, `CodeBlock`, `ToolCallView` (`aria-expanded` on the toggle), `ThinkingIndicator`, `ToolConfirmation` — each emits `data-ak-*` only.
+- Headless primitives: `Message`, `InputBar` (blocks submit/Enter while streaming), `Markdown`, `CodeBlock`, `ToolCallView` (`aria-expanded` on the toggle), `ThinkingIndicator`, `ToolConfirmation` — each emits `data-ak-*` only.
 
 ## Ecosystem
 

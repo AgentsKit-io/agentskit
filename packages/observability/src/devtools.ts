@@ -1,4 +1,5 @@
 import type { AgentEvent, Observer } from '@agentskit/core'
+import { ConfigError, ErrorCodes } from '@agentskit/core'
 
 export interface DevtoolsClient {
   id: string
@@ -42,6 +43,14 @@ export interface DevtoolsServer {
  * recent history), then `replay-end`, then the live feed.
  */
 export function createDevtoolsServer(options: DevtoolsServerOptions = {}): DevtoolsServer {
+  if (options.bufferSize !== undefined &&
+      (!Number.isFinite(options.bufferSize) || !Number.isInteger(options.bufferSize) || options.bufferSize <= 0)) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `createDevtoolsServer: bufferSize must be a finite positive integer (received ${String(options.bufferSize)})`,
+      hint: 'Pass a positive whole number for the event buffer.',
+    })
+  }
   const bufferSize = Math.max(10, options.bufferSize ?? 500)
   const serverId = options.serverId ?? `ak-${Math.random().toString(36).slice(2, 10)}`
   const buffer: Array<{ seq: number; at: number; event: AgentEvent }> = []

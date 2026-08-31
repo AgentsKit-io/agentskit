@@ -31,10 +31,13 @@ npm install @agentskit/react
 
 ```tsx
 import { useChat } from '@agentskit/react'
-import { anthropic } from '@agentskit/adapters'
+import type { ChatConfig } from '@agentskit/core'
+
+declare const adapter: ChatConfig['adapter']
 
 export function Chat() {
-  const chat = useChat({ adapter: anthropic({ apiKey: key, model: 'claude-sonnet-4-6' }) })
+  // `adapter` must target your server/edge endpoint; never put provider keys in this bundle.
+  const chat = useChat({ adapter })
   return (
     <form onSubmit={e => { e.preventDefault(); chat.send(chat.input) }}>
       {chat.messages.map(m => <div key={m.id}>{m.content}</div>)}

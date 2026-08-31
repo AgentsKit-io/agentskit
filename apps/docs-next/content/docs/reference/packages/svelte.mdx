@@ -30,9 +30,10 @@ npm install @agentskit/svelte svelte @agentskit/adapters
 ```svelte
 <script lang="ts">
 import { createChatStore } from '@agentskit/svelte'
-import { anthropic } from '@agentskit/adapters'
+import type { ChatConfig } from '@agentskit/core'
 
-const chat = createChatStore({ adapter: anthropic({ apiKey, model: 'claude-sonnet-4-6' }) })
+declare const adapter: ChatConfig['adapter']
+const chat = createChatStore({ adapter })
 </script>
 
 {#each $chat.messages as m (m.id)}

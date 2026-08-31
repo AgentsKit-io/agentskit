@@ -31,7 +31,11 @@ function assertAllowedUrl(url: string, options: UrlLoaderOptions): void {
 export async function loadUrl(url: string, options: UrlLoaderOptions = {}): Promise<InputDocument[]> {
   assertAllowedUrl(url, options)
   const fetchImpl = options.fetch ?? globalThis.fetch
-  const response = await doFetch(fetchImpl, url, { headers: options.headers, signal: options.signal }, 'loadUrl', options)
+  const response = await doFetch(fetchImpl, url, {
+    headers: options.headers,
+    signal: options.signal,
+    redirect: 'error',
+  }, 'loadUrl', options)
   if (!response.ok) throw loadFailed(`loadUrl ${response.status}: ${url}`)
   const content = await readResponseText(response, 'loadUrl', options.maxResponseBytes)
   return [{ content, source: url, metadata: { url } }]

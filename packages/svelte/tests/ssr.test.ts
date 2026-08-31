@@ -4,6 +4,8 @@ import { join } from 'node:path'
 import { compile } from 'svelte/compiler'
 import { render } from 'svelte/server'
 import { describe, expect, it } from 'vitest'
+import { writable } from 'svelte/store'
+import type { ChatState } from '@agentskit/core'
 import { InputBar, Message, ToolCallView } from '../dist/index.js'
 
 describe('@agentskit/svelte SSR / a11y', () => {
@@ -16,11 +18,11 @@ describe('@agentskit/svelte SSR / a11y', () => {
   })
 
   it('server-renders InputBar without redundant textbox role and ToolCallView aria-expanded', () => {
+    const chatState = writable<ChatState>({
+      messages: [], status: 'idle', input: 'draft', error: null,
+    })
     const chat = {
-      messages: [],
-      status: 'idle',
-      input: 'draft',
-      error: null,
+      subscribe: chatState.subscribe,
       send: async () => {},
       setInput: () => {},
       stop: () => {},

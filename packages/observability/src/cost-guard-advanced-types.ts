@@ -1,4 +1,4 @@
-import type { TokenPrice, CostGuardErrorHandler } from './cost-guard'
+import type { TokenPrice, CostGuardErrorHandler, UnknownModelPolicy } from './cost-guard'
 
 export type CostGuardMode = 'warn' | 'reject' | 'kill'
 
@@ -79,6 +79,7 @@ export interface AdvancedCostGuardOptions {
   /** Isolated sink for internal / callback / sink failures. */
   onError?: CostGuardErrorHandler
   modelOverride?: string
+  unknownModelPolicy?: UnknownModelPolicy
   /** Clock override for tests. Throws / non-finite values are isolated. */
   now?: () => number
   name?: string

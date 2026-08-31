@@ -3,18 +3,22 @@ title: Trace viewer
 description: Generate a self-contained HTML trace file from any run — inspect spans offline without a tracing backend.
 ---
 
-When you need to debug a specific run without shipping to LangSmith or standing up a Jaeger instance, `createFileTraceSink` records spans to a local JSONL file and `renderTraceViewerHtml` turns that file into a standalone HTML page you can open in any browser.
+When you need to debug a specific run without shipping to LangSmith or standing up a Jaeger instance, `createFileTraceSink` records spans to a local JSON report and `flush()` writes a standalone HTML page.
 
 ```ts
-import { createFileTraceSink, renderTraceViewerHtml } from '@agentskit/observability'
+import { createFileTraceSink, createTraceTracker } from '@agentskit/observability'
 
-const sink = createFileTraceSink({ path: '.agentskit/traces.jsonl' })
+const sink = createFileTraceSink('.agentskit/traces')
+const tracker = createTraceTracker({
+  onSpanStart: sink.onSpanStart,
+  onSpanEnd: sink.onSpanEnd,
+})
 
-const runtime = createRuntime({ adapter, observers: [sink.observer] })
+const runtime = createRuntime({ adapter, observers: [{ name: 'trace-tracker', on: event => tracker.handle(event) }] })
 await runtime.run(task)
 
-const html = await renderTraceViewerHtml({ source: '.agentskit/traces.jsonl' })
-await Bun.write('.agentskit/trace.html', html)
+const out = await sink.flush({ traceId: 'run-1' })
+console.log(out.json, out.html)
 ```
 
 Open the generated file in any browser. Zero server. Zero tracking.

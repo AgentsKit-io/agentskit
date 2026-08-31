@@ -8,6 +8,8 @@ export interface TokenPrice {
   output: number
 }
 
+export type UnknownModelPolicy = 'error' | 'allow-zero'
+
 /** Isolated error reporter shared by all cost guards. */
 export type CostGuardErrorHandler = (error: unknown) => void | Promise<void>
 
@@ -76,6 +78,8 @@ export interface CostGuardOptions {
   onError?: CostGuardErrorHandler
   /** Force a specific model id if the runtime doesn't emit one. */
   modelOverride?: string
+  /** Unknown models fail closed by default; use allow-zero only for explicitly free/local models. */
+  unknownModelPolicy?: UnknownModelPolicy
   /** Observer name for tracing. */
   name?: string
 }
@@ -102,6 +106,28 @@ export function priceFor(
     if (model.toLowerCase().startsWith(key.toLowerCase())) return prices[key]!
   }
   return { input: 0, output: 0 }
+}
+
+export function hasPriceFor(
+  model: string | undefined,
+  prices: Record<string, TokenPrice> = DEFAULT_PRICES,
+): boolean {
+  if (!model) return false
+  return Object.keys(prices).some(key => model.toLowerCase().startsWith(key.toLowerCase()))
+}
+
+export function resolvePrice(
+  model: string | undefined,
+  prices: Record<string, TokenPrice>,
+  policy: UnknownModelPolicy = 'error',
+): TokenPrice {
+  if (hasPriceFor(model, prices)) return priceFor(model, prices)
+  if (policy === 'allow-zero') return { input: 0, output: 0 }
+  throw new ConfigError({
+    code: ErrorCodes.AK_CONFIG_INVALID,
+    message: `cost guard: no price configured for model ${model ? JSON.stringify(model) : '<missing>'}`,
+    hint: 'Add a prices entry/modelOverride or explicitly set unknownModelPolicy:"allow-zero" for a known free model.',
+  })
 }
 
 /**
@@ -227,6 +253,7 @@ export function costGuard(options: CostGuardOptions): Observer & {
 
   const { budgetUsd, controller, prices, onCost, onExceeded, onError, modelOverride } = options
   const mergedPrices = prices ? { ...DEFAULT_PRICES, ...prices } : DEFAULT_PRICES
+  const unknownModelPolicy = options.unknownModelPolicy ?? 'error'
 
   let currentModel: string | undefined = modelOverride
   let prompt = 0
@@ -237,7 +264,7 @@ export function costGuard(options: CostGuardOptions): Observer & {
   const update = (deltaPrompt: number, deltaCompletion: number) => {
     prompt += deltaPrompt
     completion += deltaCompletion
-    const price = priceFor(currentModel, mergedPrices)
+    const price = resolvePrice(currentModel, mergedPrices, unknownModelPolicy)
     // Incremental: price only the tokens from this event with the active model.
     cost += computeCost(
       { promptTokens: deltaPrompt, completionTokens: deltaCompletion },

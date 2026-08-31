@@ -53,6 +53,18 @@ describe('wrapObserverWithRedaction — redact mode', () => {
     expect(args.subject).toBe('hi')
   })
 
+  it('bounds circular and deeply nested tool arguments', async () => {
+    const { obs, events } = spyObserver()
+    const wrapped = wrapObserverWithRedaction(obs, { rules: DEFAULT_PII_RULES })
+    const args: Record<string, unknown> = {}
+    args.self = args
+    let deep: Record<string, unknown> = args
+    for (let i = 0; i < 40; i++) deep = deep.next = {}
+    await wrapped.on({ type: 'tool:start', name: 'inspect', args })
+    const safe = (events[0] as { args: Record<string, unknown> }).args
+    expect(safe.self).toBe('[Circular]')
+  })
+
   it('redacts agent:delegate:end result', async () => {
     const { obs, events } = spyObserver()
     const wrapped = wrapObserverWithRedaction(obs, { rules: DEFAULT_PII_RULES })

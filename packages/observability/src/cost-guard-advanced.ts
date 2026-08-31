@@ -2,7 +2,7 @@ import { ConfigError, ErrorCodes, type AgentEvent, type Observer } from '@agents
 import {
   DEFAULT_PRICES,
   computeCost,
-  priceFor,
+  resolvePrice,
   normalizeTokenCount,
   finiteUtilization,
   reportCostGuardError,
@@ -253,7 +253,7 @@ export function createAdvancedCostGuard(
         const deltaCompletion = normalizeTokenCount(event.usage.completionTokens)
         state.prompt += deltaPrompt
         state.completion += deltaCompletion
-        const price = priceFor(state.model, mergedPrices)
+        const price = resolvePrice(state.model, mergedPrices, options.unknownModelPolicy ?? 'error')
         const delta = computeCost(
           { promptTokens: deltaPrompt, completionTokens: deltaCompletion },
           price,
