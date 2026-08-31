@@ -9,13 +9,16 @@ The props below describe the React-style DOM bindings; host bindings may
 use framework-specific props or event conventions. Emits
 `data-ak-input-bar` where the host supports DOM attributes.
 
-## Props
+## React props
 
 | Prop | Type | Default |
 |---|---|---|
 | `chat` | `ChatReturn` | — |
 | `placeholder` | `string` | `'Type a message...'` |
 | `disabled` | `boolean` | `false` |
+
+React currently submits on Enter and uses Shift+Enter for a newline. There is
+no `submitOn` prop in the published component.
 
 ## Per-framework
 

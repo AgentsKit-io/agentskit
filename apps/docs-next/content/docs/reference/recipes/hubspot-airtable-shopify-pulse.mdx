@@ -51,10 +51,11 @@ Daily runs add up. The runtime supports a per-run cost ceiling:
 ```ts
 import { costGuard } from '@agentskit/observability'
 
+const controller = new AbortController()
 createRuntime({
   adapter,
   tools,
-  observers: [costGuard({ maxUsd: 0.20 })],
+  observers: [costGuard({ budgetUsd: 0.20, controller })],
 })
 ```
 

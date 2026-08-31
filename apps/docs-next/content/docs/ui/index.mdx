@@ -6,7 +6,8 @@ description: Every AgentsKit UI binding shares the core state and action contrac
 One controller contract, seven host bindings. Every framework package
 adapts the shared state and action surface from `@agentskit/core`; hooks,
 stores, services, component props, and styling primitives remain
-framework-specific.
+framework-specific. This navigation map does not promise full component API
+parity across bindings; use each package guide for its supported surface.
 
 ## Bindings
 
@@ -25,6 +26,9 @@ framework-specific.
 - [useChat](./use-chat) — contract, events, per-framework shape.
 
 ## Components
+
+The component pages document the React surface unless they explicitly name a
+framework. Check the package-specific guide before copying a prop or import.
 
 - [ChatContainer](./chat-container)
 - [Message](./message)
