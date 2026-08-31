@@ -67,6 +67,7 @@ console.log(controller.getState().messages)
 - `createChatController` — streaming-capable chat state machine with abort support; memory is saved after successful turns, never after failed or aborted turns. Background memory and skill activation failures are surfaced through `onError`.
 - `createInMemoryMemory` — zero-config in-process memory for prototyping
 - `createLocalStorageMemory` — browser/demo persistence; malformed stored data raises `MemoryError` instead of silently becoming an empty history
+- `parseToolArgs` — typed JSON argument parsing for adapters that need fail-closed validation; `safeParseArgs` remains the compatibility helper
 - TypeScript types for every contract: `ToolDefinition`, `SkillDefinition`, `AgentEvent`, `Adapter`, `Memory`, `Retriever`, `RuntimeResult`
 - Event emitter for `AgentEvent` streams — observability hooks attach here
 - Dual CJS/ESM output, strict TypeScript, no `any`
