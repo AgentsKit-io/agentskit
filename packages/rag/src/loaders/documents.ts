@@ -15,13 +15,29 @@ import {
 
 export interface UrlLoaderOptions extends LoaderOptions {
   headers?: Record<string, string>
+  /** Explicit egress allowlist for arbitrary URLs. Required for loadUrl. */
+  allowedOrigins?: readonly string[]
+}
+
+function assertAllowedUrl(url: string, options: UrlLoaderOptions): void {
+  let origin: string
+  try { origin = new URL(url).origin } catch { throw loadFailed('loadUrl: invalid URL') }
+  if (new URL(url).protocol !== 'https:') throw loadFailed('loadUrl: only HTTPS URLs are allowed')
+  if (!options.allowedOrigins?.includes(origin)) {
+    throw loadFailed(`loadUrl: origin ${origin} is not in allowedOrigins`)
+  }
 }
 
 export async function loadUrl(url: string, options: UrlLoaderOptions = {}): Promise<InputDocument[]> {
+  assertAllowedUrl(url, options)
   const fetchImpl = options.fetch ?? globalThis.fetch
-  const response = await doFetch(fetchImpl, url, { headers: options.headers, signal: options.signal }, 'loadUrl')
+  const response = await doFetch(fetchImpl, url, {
+    headers: options.headers,
+    signal: options.signal,
+    redirect: 'error',
+  }, 'loadUrl', options)
   if (!response.ok) throw loadFailed(`loadUrl ${response.status}: ${url}`)
-  const content = await readResponseText(response, 'loadUrl')
+  const content = await readResponseText(response, 'loadUrl', options.maxResponseBytes)
   return [{ content, source: url, metadata: { url } }]
 }
 
@@ -43,11 +59,11 @@ export async function loadGitHubFile(
   const url = `https://raw.githubusercontent.com/${owner}/${repo}/${ref}/${encodedPath}`
   const headers: Record<string, string> = {}
   if (options.token) headers.authorization = `Bearer ${options.token}`
-  const response = await doFetch(fetchImpl, url, { headers, signal: options.signal }, 'loadGitHubFile')
+  const response = await doFetch(fetchImpl, url, { headers, signal: options.signal }, 'loadGitHubFile', options)
   if (!response.ok) throw loadFailed(`loadGitHubFile ${response.status}: ${url}`)
   return [
     {
-      content: await readResponseText(response, 'loadGitHubFile'),
+      content: await readResponseText(response, 'loadGitHubFile', options.maxResponseBytes),
       source: url,
       metadata: { owner, repo, path, ref },
     },
@@ -74,11 +90,12 @@ export async function loadGitHubTree(
   const url = `https://api.github.com/repos/${owner}/${repo}/git/trees/${encodeURIComponent(ref)}?recursive=1`
   const headers: Record<string, string> = { accept: 'application/vnd.github+json' }
   if (options.token) headers.authorization = `Bearer ${options.token}`
-  const response = await doFetch(fetchImpl, url, { headers, signal: options.signal }, 'loadGitHubTree')
+  const response = await doFetch(fetchImpl, url, { headers, signal: options.signal }, 'loadGitHubTree', options)
   if (!response.ok) throw loadFailed(`loadGitHubTree ${response.status}: ${url}`)
   const tree = await readResponseJson<{ tree?: Array<{ path: string; type: string }> }>(
     response,
     'loadGitHubTree',
+    options.maxResponseBytes,
   )
   const files = (tree.tree ?? [])
     .filter(t => t.type === 'blob')
@@ -141,9 +158,9 @@ export async function loadNotionPage(
         'notion-version': options.version ?? '2022-06-28',
       },
       signal: options.signal,
-    }, 'loadNotionPage')
+    }, 'loadNotionPage', options)
     if (!response.ok) throw loadFailed(`loadNotionPage ${response.status}: ${url}`)
-    const data = await readResponseJson<NotionChildrenResponse>(response, 'loadNotionPage')
+    const data = await readResponseJson<NotionChildrenResponse>(response, 'loadNotionPage', options.maxResponseBytes)
     for (const block of data.results ?? []) {
       blocks.push(block)
     }
@@ -189,11 +206,12 @@ export async function loadConfluencePage(
   const response = await doFetch(fetchImpl, url, {
     headers: authHeader ? { authorization: authHeader } : {},
     signal: options.signal,
-  }, 'loadConfluencePage')
+  }, 'loadConfluencePage', options)
   if (!response.ok) throw loadFailed(`loadConfluencePage ${response.status}: ${url}`)
   const data = await readResponseJson<{ body?: { storage?: { value?: string } }; title?: string }>(
     response,
     'loadConfluencePage',
+    options.maxResponseBytes,
   )
   const content = data.body?.storage?.value ?? ''
   return [{ content, source: `${options.baseUrl}/pages/${pageId}`, metadata: { pageId, title: data.title } }]
@@ -212,9 +230,9 @@ export async function loadGoogleDriveFile(
   const response = await doFetch(fetchImpl, url, {
     headers: { authorization: `Bearer ${options.accessToken}` },
     signal: options.signal,
-  }, 'loadGoogleDriveFile')
+  }, 'loadGoogleDriveFile', options)
   if (!response.ok) throw loadFailed(`loadGoogleDriveFile ${response.status}: ${url}`)
-  const content = await readResponseText(response, 'loadGoogleDriveFile')
+  const content = await readResponseText(response, 'loadGoogleDriveFile', options.maxResponseBytes)
   return [{ content, source: `gdrive://${fileId}`, metadata: { fileId } }]
 }
 
@@ -228,9 +246,9 @@ export interface PdfLoaderOptions extends LoaderOptions {
  */
 export async function loadPdf(url: string, options: PdfLoaderOptions): Promise<InputDocument[]> {
   const fetchImpl = options.fetch ?? globalThis.fetch
-  const response = await doFetch(fetchImpl, url, { signal: options.signal }, 'loadPdf')
+  const response = await doFetch(fetchImpl, url, { signal: options.signal }, 'loadPdf', options)
   if (!response.ok) throw loadFailed(`loadPdf ${response.status}: ${url}`)
-  const buf = new Uint8Array(await readResponseArrayBuffer(response, 'loadPdf'))
+  const buf = new Uint8Array(await readResponseArrayBuffer(response, 'loadPdf', options.maxResponseBytes))
   const { text, pages } = await options.parsePdf(buf)
   return [{ content: text, source: url, metadata: { url, pages } }]
 }

@@ -166,7 +166,8 @@ describe('voyageReranker', () => {
   it('forwards optional signal and maps abort to AK_RAG_RERANK_FAILED', async () => {
     const controller = new AbortController()
     const fetchMock = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
-      expect(init?.signal).toBe(controller.signal)
+      expect(init?.signal).toBeInstanceOf(AbortSignal)
+      expect(init?.signal).not.toBe(controller.signal)
       throw new DOMException('Aborted', 'AbortError')
     }) as unknown as typeof globalThis.fetch
     const fn = voyageReranker({ apiKey: 'k', fetch: fetchMock, signal: controller.signal })
@@ -175,7 +176,7 @@ describe('voyageReranker', () => {
     })
     expect(fetchMock).toHaveBeenCalledWith(
       'https://api.voyageai.com/v1/rerank',
-      expect.objectContaining({ signal: controller.signal }),
+      expect.objectContaining({ signal: expect.any(AbortSignal) }),
     )
   })
 })
@@ -203,7 +204,8 @@ describe('jinaReranker', () => {
   it('forwards optional signal and maps abort to AK_RAG_RERANK_FAILED', async () => {
     const controller = new AbortController()
     const fetchMock = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => {
-      expect(init?.signal).toBe(controller.signal)
+      expect(init?.signal).toBeInstanceOf(AbortSignal)
+      expect(init?.signal).not.toBe(controller.signal)
       throw new DOMException('Aborted', 'AbortError')
     }) as unknown as typeof globalThis.fetch
     const fn = jinaReranker({ apiKey: 'k', fetch: fetchMock, signal: controller.signal })
@@ -212,7 +214,7 @@ describe('jinaReranker', () => {
     })
     expect(fetchMock).toHaveBeenCalledWith(
       'https://api.jina.ai/v1/rerank',
-      expect.objectContaining({ signal: controller.signal }),
+      expect.objectContaining({ signal: expect.any(AbortSignal) }),
     )
   })
 })

@@ -577,7 +577,7 @@ describe('rerank / hybrid hardening', () => {
 describe('loader hardening', () => {
   it('wraps network failures as AK_RAG_LOAD_FAILED', async () => {
     const { fetch } = makeFetch([new Error('ECONNRESET')])
-    await expect(loadUrl('https://x', { fetch })).rejects.toMatchObject({
+    await expect(loadUrl('https://x', { fetch, allowedOrigins: ['https://x'] })).rejects.toMatchObject({
       code: 'AK_RAG_LOAD_FAILED',
       message: expect.stringMatching(/network error/),
     })
@@ -891,7 +891,7 @@ describe('loader hardening', () => {
       }
       return new Response('ok', { status: 200 })
     }) as unknown as typeof globalThis.fetch
-    await expect(loadUrl('https://x', { fetch, signal: controller.signal })).rejects.toMatchObject({
+    await expect(loadUrl('https://x', { fetch, signal: controller.signal, allowedOrigins: ['https://x'] })).rejects.toMatchObject({
       code: 'AK_RAG_LOAD_FAILED',
       message: expect.stringMatching(/aborted/),
     })
@@ -1139,7 +1139,7 @@ describe('loader hardening', () => {
       arrayBuffer: async () => { throw new DOMException('Aborted', 'AbortError') },
     })) as unknown as typeof globalThis.fetch
 
-    await expect(loadUrl('https://x', { fetch: bodyAbort })).rejects.toMatchObject({
+    await expect(loadUrl('https://x', { fetch: bodyAbort, allowedOrigins: ['https://x'] })).rejects.toMatchObject({
       code: 'AK_RAG_LOAD_FAILED',
       message: expect.stringMatching(/aborted/),
     })
@@ -1151,7 +1151,7 @@ describe('loader hardening', () => {
       json: async () => { throw new SyntaxError('Unexpected token') },
     })) as unknown as typeof globalThis.fetch
 
-    await expect(loadUrl('https://x', { fetch: bodyBoom })).rejects.toMatchObject({
+    await expect(loadUrl('https://x', { fetch: bodyBoom, allowedOrigins: ['https://x'] })).rejects.toMatchObject({
       code: 'AK_RAG_LOAD_FAILED',
       message: expect.stringMatching(/response body|failed to read|failed to parse/i),
     })
