@@ -24,13 +24,22 @@ export function createRecordingAdapter(
       const recordedRequest = defensiveSnapshot(request)
       const source = base.createSource(request)
       const recorded: StreamChunk[] = []
+      let aborted = false
       cassette.entries.push({
         request: recordedRequest,
         chunks: recorded,
       })
 
       return {
-        abort: source.abort,
+        abort: () => {
+          if (aborted) return
+          aborted = true
+          try {
+            source.abort()
+          } catch {
+            // Adapter abort is a safe boundary; recording must preserve it.
+          }
+        },
         stream: async function* () {
           for await (const chunk of source.stream()) {
             recorded.push(defensiveSnapshot(chunk))

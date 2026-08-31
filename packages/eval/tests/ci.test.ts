@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { mkdtempSync, rmSync, readFileSync, existsSync } from 'node:fs'
+import { mkdtempSync, rmSync, readFileSync, existsSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import type { EvalResult } from '@agentskit/core'
@@ -217,6 +217,26 @@ describe('reportToCi', () => {
       expect(typeof reportToCi).toBe('function')
     } finally {
       rmSync(dir, { recursive: true, force: true })
+    }
+  })
+
+  it('rejects path prefixes and symlinked output artifacts', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ak-ci-'))
+    const outside = join(dir, '..', `ak-ci-outside-${Date.now()}`)
+    try {
+      await expect(
+        reportToCi({ suiteName: 'smoke', result: passing, outDir: dir, prefix: '../escape' }),
+      ).rejects.toThrow(/simple filename/)
+
+      writeFileSync(outside, 'untouched')
+      symlinkSync(outside, join(dir, 'report.xml'))
+      await expect(
+        reportToCi({ suiteName: 'smoke', result: passing, outDir: dir }),
+      ).rejects.toThrow(/symlinked CI artifact|ELOOP/)
+      expect(readFileSync(outside, 'utf8')).toBe('untouched')
+    } finally {
+      rmSync(dir, { recursive: true, force: true })
+      rmSync(outside, { force: true })
     }
   })
 })

@@ -111,17 +111,65 @@ export function parseCassette(input: string): Cassette {
 }
 
 export function fingerprintRequest(request: AdapterRequest): string {
-  const messages = request.messages.map(m => `${m.role}:${m.content ?? ''}`).join('|')
-  const c = request.context
-  const ctxStr = c
-    ? JSON.stringify({
-        s: c.systemPrompt ?? null,
-        t: c.temperature ?? null,
-        m: c.maxTokens ?? null,
-        tn: c.tools?.map(t => t.name).sort() ?? null,
-      })
-    : ''
-  return `${messages}::${ctxStr}`
+  const seen = new WeakSet<object>()
+
+  const canonicalize = (value: unknown, path: string): unknown => {
+    if (value === null || typeof value === 'string' || typeof value === 'boolean') return value
+    if (typeof value === 'number') {
+      if (!Number.isFinite(value)) throw invalidCassette(`Cannot fingerprint ${path}: number is not finite`)
+      return value
+    }
+    if (value instanceof Date) {
+      if (!Number.isFinite(value.getTime())) throw invalidCassette(`Cannot fingerprint ${path}: invalid date`)
+      return { $date: value.toISOString() }
+    }
+    if (typeof value !== 'object') {
+      throw invalidCassette(`Cannot fingerprint ${path}: unsupported value`)
+    }
+
+    if (seen.has(value)) throw invalidCassette(`Cannot fingerprint ${path}: cyclic value`)
+    seen.add(value)
+    try {
+      if (Array.isArray(value)) return value.map((item, index) => canonicalize(item, `${path}[${index}]`))
+      const prototype = Object.getPrototypeOf(value)
+      if (prototype !== Object.prototype && prototype !== null) {
+        throw invalidCassette(`Cannot fingerprint ${path}: unsupported object`)
+      }
+      const out: Record<string, unknown> = {}
+      for (const key of Object.keys(value as Record<string, unknown>).sort()) {
+        const child = (value as Record<string, unknown>)[key]
+        if (child === undefined) continue
+        out[key] = canonicalize(child, `${path}.${key}`)
+      }
+      return out
+    } finally {
+      seen.delete(value)
+    }
+  }
+
+  // Tool callbacks are executable values, not provider request data. The
+  // serializable tool contract remains in the fingerprint so schema changes
+  // cannot reuse a cassette accidentally.
+  const tools = request.context?.tools?.map(tool => ({
+    name: tool.name,
+    description: tool.description,
+    schema: tool.schema,
+    requiresConfirmation: tool.requiresConfirmation,
+    tags: tool.tags,
+    category: tool.category,
+  }))
+  return JSON.stringify(canonicalize({
+    messages: request.messages,
+    context: request.context
+      ? {
+          systemPrompt: request.context.systemPrompt,
+          temperature: request.context.temperature,
+          maxTokens: request.context.maxTokens,
+          metadata: request.context.metadata,
+          tools,
+        }
+      : undefined,
+  }, 'request'))
 }
 
 export function lastUserContent(request: AdapterRequest): string {
