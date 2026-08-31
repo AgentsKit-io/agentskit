@@ -35,7 +35,7 @@ All three return `LifecycleObserver` (`flush(): Promise<void>`, idempotent `shut
 
 ### Guards + counters
 
-- `costGuard({ budgetUsd, controller, prices?, onCost?, onExceeded?, onError? })` — per-run dollar ceiling; aborts via `AbortController` when exceeded.
+- `costGuard({ budgetUsd, controller, prices?, unknownModelPolicy?, onCost?, onExceeded?, onError? })` — per-run dollar ceiling; aborts via `AbortController` when exceeded and fails closed on unknown pricing by default.
 - `multiTenantCostGuard({ budgets, defaultBudgetUsd?, tenantOf?, … })` — per-tenant bookkeeping; host enforces (no automatic abort).
 - `createAdvancedCostGuard({ budgets, caps?, mode?, disableRuntime?, alertSinks?, onError?, now? })` — production guard with rolling window caps, 50/80/100 % threshold + forecast alerts, and modes:
   - **`warn`** — observe only.

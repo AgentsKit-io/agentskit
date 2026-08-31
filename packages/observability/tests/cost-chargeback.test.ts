@@ -169,4 +169,9 @@ describe('chargebackReportToCsv', () => {
     const csv = chargebackReportToCsv(chargebackReport(weirdSamples))
     expect(csv).toContain('"acme, ""the company"""')
   })
+
+  it('rejects hostile token and cost numbers', () => {
+    expect(() => chargebackReport([{ ...samples[0]!, promptTokens: Number.NaN }])).toThrow(/invalid numeric/)
+    expect(() => chargebackReport([{ ...samples[0]!, costUsd: Number.POSITIVE_INFINITY }])).toThrow(/invalid numeric/)
+  })
 })

@@ -69,6 +69,8 @@ export interface ControlSurfaceOptions {
    * `runId`/`id` fields are present on the event.
    */
   defaultRunId?: string
+  /** Maximum number of run states retained in memory. Default 1000. */
+  maxRuns?: number
 }
 
 export interface ControlAuditEntry {
@@ -96,6 +98,8 @@ export interface ControlSurface {
   snapshot: (runId: string, metadata?: Record<string, unknown>) => RunSnapshot
   /** Restore a snapshot's pending overrides + paused state. Replay events are NOT reused — replay against your own runtime. */
   replay: (snapshot: RunSnapshot, actor?: string) => void
+  /** Release retained events, overrides, and waiters for a run. */
+  forget: (runId: string) => void
   /**
    * Hook the runtime calls between iterations. Resolves immediately
    * when the run is not paused; otherwise waits for `resume` /
@@ -178,16 +182,36 @@ function assertPositiveInteger(name: string, value: number): void {
   }
 }
 
+function assertRunId(runId: string): void {
+  if (typeof runId !== 'string' || runId.length === 0 || runId.length > 256) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'createControlSurface: runId must be a non-empty string of at most 256 characters',
+      hint: 'Use a stable bounded identifier for the runtime run.',
+    })
+  }
+}
+
 export function createControlSurface(options: ControlSurfaceOptions = {}): ControlSurface {
   if (options.snapshotBufferSize !== undefined) {
     assertPositiveInteger('snapshotBufferSize', options.snapshotBufferSize)
   }
+  if (options.maxRuns !== undefined) assertPositiveInteger('maxRuns', options.maxRuns)
   const bufferSize = options.snapshotBufferSize ?? 200
+  const maxRuns = options.maxRuns ?? 1000
   const runs = new Map<string, RunState>()
 
   function ensureRun(runId: string): RunState {
+    assertRunId(runId)
     let state = runs.get(runId)
     if (!state) {
+      while (runs.size >= maxRuns) {
+        const oldest = runs.keys().next().value as string | undefined
+        if (oldest === undefined) break
+        const evicted = runs.get(oldest)
+        runs.delete(oldest)
+        for (const resolve of evicted?.resolvers ?? []) resolve()
+      }
       state = { paused: false, pendingSteps: 0, resolvers: [], overrides: [], events: [], seq: 0 }
       runs.set(runId, state)
     }
@@ -266,6 +290,14 @@ export function createControlSurface(options: ControlSurfaceOptions = {}): Contr
       audit({ action: 'replay', runId: snap.runId, actor, payload: { capturedAt: snap.capturedAt } })
     },
 
+    forget(runId) {
+      assertRunId(runId)
+      const state = runs.get(runId)
+      if (!state) return
+      runs.delete(runId)
+      for (const resolve of state.resolvers) resolve()
+    },
+
     async awaitResume(runId) {
       const state = ensureRun(runId)
       if (!state.paused) return
@@ -288,6 +320,9 @@ export function createControlSurface(options: ControlSurfaceOptions = {}): Contr
 
     httpHandler() {
       return async req => {
+        if (req.method !== 'POST') {
+          return { status: 405, body: { error: 'method_not_allowed' } }
+        }
         if (!options.bearerToken) {
           throw new ConfigError({
             code: ErrorCodes.AK_CONFIG_INVALID,

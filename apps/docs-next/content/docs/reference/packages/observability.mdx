@@ -58,7 +58,7 @@ import { createRuntime } from '@agentskit/runtime'
 
 const runtime = createRuntime({
   adapter,
-  observers: [consoleLogger(), costGuard({ maxUsd: 0.5 })],
+  observers: [consoleLogger(), costGuard({ budgetUsd: 0.5, controller: new AbortController() })],
 })
 ```
 

@@ -187,7 +187,7 @@ Semantics (current hardening line):
 - **Zero budgets** — first positive spend exceeds; utilization and callbacks stay finite (sentinel `1` when budget is `0` and spend is positive).
 - **Isolation** — `onCost` / `onExceeded` / alert sinks / `disableRuntime` / `tenantOf` / `now` failures are isolated; optional `onError` reports them without unhandled rejections.
 - **Modes** — `warn` observes only; `reject` is enforced by the **host consulting `isRejected(tenant)`** (window rejections clear when the window rolls; overall rejections until `reset`); `kill` calls persistent `disableRuntime` and exposes `isDisabled` (fail-closed if disable fails).
-- **`DEFAULT_PRICES`** is a baseline snapshot for convenience. **Override `prices` for current provider rates** — table numbers are not a stability contract.
+- **`DEFAULT_PRICES`** is a baseline snapshot for convenience. **Override `prices` for current provider rates** — table numbers are not a stability contract. Guards fail closed on unknown models by default; set `unknownModelPolicy: 'allow-zero'` only for an explicitly free/local model.
 
 Simple `costGuard` aborts via the supplied `AbortController` when the run budget is exceeded (mark + abort before potentially hostile `onExceeded`). Multi-tenant and advanced guards do not abort the runtime by default.
 

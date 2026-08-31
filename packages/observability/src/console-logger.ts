@@ -1,4 +1,5 @@
 import type { AgentEvent, Observer } from '@agentskit/core'
+import { safeSnapshot } from './trace-tracker'
 
 export interface ConsoleLoggerConfig {
   format?: 'human' | 'json'
@@ -22,7 +23,7 @@ function formatHuman(event: AgentEvent): string {
       return `[${timestamp()}] <- llm:end (${event.durationMs}ms${usage}) "${preview}"`
     }
     case 'tool:start':
-      return `[${timestamp()}] -> tool:start ${event.name} ${JSON.stringify(event.args)}`
+      return `[${timestamp()}] -> tool:start ${event.name} ${safeSnapshot(event.args)}`
     case 'tool:end': {
       const result = event.result.length > 80 ? event.result.slice(0, 80) + '...' : event.result
       return `[${timestamp()}] <- tool:end ${event.name} (${event.durationMs}ms) "${result}"`
