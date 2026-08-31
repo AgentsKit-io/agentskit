@@ -9,7 +9,10 @@ describe('@agentskit/solid package manifest', () => {
       main: string
       module: string
       types: string
-      exports: { '.': { types: string; import: string; require: string } }
+      exports: {
+        '.': { types: string; import: string; require: string }
+        './use-chat': { types: string; import: string; require: string }
+      }
       agentskit: { stability: string }
     }
 
@@ -21,6 +24,9 @@ describe('@agentskit/solid package manifest', () => {
     await expect(access(join(process.cwd(), manifest.types))).resolves.toBeUndefined()
     await expect(access(join(process.cwd(), manifest.module))).resolves.toBeUndefined()
     await expect(access(join(process.cwd(), manifest.main))).resolves.toBeUndefined()
+    await expect(access(join(process.cwd(), manifest.exports['./use-chat'].types))).resolves.toBeUndefined()
+    await expect(access(join(process.cwd(), manifest.exports['./use-chat'].import))).resolves.toBeUndefined()
+    await expect(access(join(process.cwd(), manifest.exports['./use-chat'].require))).resolves.toBeUndefined()
   })
 
   it('loads the published ESM entry without creating a chat session', async () => {
@@ -32,5 +38,10 @@ describe('@agentskit/solid package manifest', () => {
     expect(typeof mod.useChat).toBe('function')
     expect(mod.InputBar).toBeDefined()
     expect(mod.ToolCallView).toBeDefined()
+  })
+
+  it('loads the SSR-safe useChat subpath in Node', async () => {
+    const mod = await import('@agentskit/solid/use-chat') as { useChat: unknown }
+    expect(typeof mod.useChat).toBe('function')
   })
 })

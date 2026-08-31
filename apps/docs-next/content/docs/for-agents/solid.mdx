@@ -58,7 +58,7 @@ export function Chat() {
 ## Common patterns
 
 - **Reactivity**: Solid stores are fine-grained — access `chat.messages` directly inside JSX, not destructured.
-- **SSR**: `useChat` is client-only. Wrap in `<ClientOnly>` for SolidStart SSR.
+- **SSR**: the root entry includes browser UI components. For server-safe module resolution, import `useChat` from `@agentskit/solid/use-chat`; call it only inside a client component. Wrap root UI consumers in `<ClientOnly>` for SolidStart SSR.
 - **Cleanup**: subscriptions tear down via `onCleanup`; no manual unsubscribe needed.
 
 ## Related
