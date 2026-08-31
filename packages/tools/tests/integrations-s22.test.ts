@@ -94,7 +94,7 @@ describe('firecrawl', () => {
 describe('reader', () => {
   it('returns plain text from the reader endpoint', async () => {
     const { fetch, capture } = mockText('page text')
-    const tool = readerFetch({ fetch })
+    const tool = readerFetch({ fetch, fetchUntrusted: fetch })
     const out = await tool.execute!({ url: 'https://example.com' }, ctx)
     expect(out).toBe('page text')
     expect(capture.url).toContain('r.jina.ai')
@@ -102,7 +102,7 @@ describe('reader', () => {
 
   it('attaches bearer token when provided', async () => {
     const { fetch, capture } = mockText('ok')
-    const tool = readerFetch({ fetch, apiKey: 'tok' })
+    const tool = readerFetch({ fetch, fetchUntrusted: fetch, apiKey: 'tok' })
     await tool.execute!({ url: 'x' }, ctx)
     const headers = (capture.init?.headers ?? {}) as Record<string, string>
     expect(headers.authorization).toBe('Bearer tok')
@@ -110,7 +110,7 @@ describe('reader', () => {
 
   it('throws on non-2xx', async () => {
     const { fetch } = mockText('boom', { status: 500 })
-    const tool = readerFetch({ fetch })
+    const tool = readerFetch({ fetch, fetchUntrusted: fetch })
     await expect(tool.execute!({ url: 'x' }, ctx)).rejects.toThrow(/reader 500/)
   })
 
