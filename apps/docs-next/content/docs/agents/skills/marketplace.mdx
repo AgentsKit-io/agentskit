@@ -6,14 +6,16 @@ description: Publish, install, version skills. Semver range resolution.
 `createSkillRegistry` is the local primitive for publish/install/version. For a hosted, shadcn-style catalog of ready-made agents you can pull with one command, see the [Registry](https://registry.agentskit.io).
 
 ```ts
-import { createSkillRegistry } from '@agentskit/skills'
+import { createSkillRegistry, customerSupport } from '@agentskit/skills'
 
-const registry = createSkillRegistry({
-  storage: fileStorage({ path: '.agentskit/skills' }),
+const registry = createSkillRegistry()
+
+await registry.publish({
+  version: '1.0.0',
+  publisher: 'example-org',
+  skill: customerSupport,
 })
-
-await registry.publish(triageSkill)
-const resolved = await registry.install('triage', '^1.0.0')
+const resolved = await registry.install('customer-support', '^1.0.0')
 ```
 
 ## API
