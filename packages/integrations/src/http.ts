@@ -14,6 +14,8 @@ export interface HttpToolOptions {
   sleep?: (delayMs: number) => Promise<void>
   /** Injectable clock used when interpreting HTTP-date Retry-After values. */
   now?: () => number
+  /** Maximum response body size in bytes. Defaults to 2 MiB. */
+  maxResponseBytes?: number
   /** Optional retry policy. Retries are limited to idempotent methods. */
   retry?: RetryPolicy
 }
@@ -178,6 +180,40 @@ function waitForRetry(delayMs: number, signal: AbortSignal): Promise<void> {
   })
 }
 
+export async function readResponseText(response: Response, maxBytes = 2 * 1024 * 1024): Promise<string> {
+  const contentLength = response.headers.get('content-length')
+  if (contentLength && Number(contentLength) > maxBytes) {
+    throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `HTTP response exceeds maxResponseBytes (${maxBytes})` })
+  }
+  if (!response.body) {
+    const text = await response.text()
+    if (new TextEncoder().encode(text).byteLength > maxBytes) {
+      throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `HTTP response exceeds maxResponseBytes (${maxBytes})` })
+    }
+    return text
+  }
+  const reader = response.body.getReader()
+  const chunks: Uint8Array[] = []
+  let total = 0
+  while (true) {
+    const next = await reader.read()
+    if (next.done) break
+    total += next.value.byteLength
+    if (total > maxBytes) {
+      await reader.cancel()
+      throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `HTTP response exceeds maxResponseBytes (${maxBytes})` })
+    }
+    chunks.push(next.value)
+  }
+  const bytes = new Uint8Array(total)
+  let offset = 0
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset)
+    offset += chunk.byteLength
+  }
+  return new TextDecoder().decode(bytes)
+}
+
 /**
  * Shared HTTP helper used by the service integrations. Handles query string
  * encoding, JSON body + response parsing, timeouts, and turns non-2xx into
@@ -214,6 +250,10 @@ export async function httpJson<TResult = unknown>(
   )
 
   const timeoutMs = options.timeoutMs ?? 20_000
+  const maxResponseBytes = options.maxResponseBytes ?? 2 * 1024 * 1024
+  if (!Number.isInteger(timeoutMs) || timeoutMs <= 0 || !Number.isInteger(maxResponseBytes) || maxResponseBytes <= 0) {
+    throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: 'timeoutMs and maxResponseBytes must be positive integers' })
+  }
   const { signal, cleanup } = composeTimeoutSignal(timeoutMs, options.signal)
 
   try {
@@ -248,7 +288,7 @@ export async function httpJson<TResult = unknown>(
 
       let text: string
       try {
-        text = await response.text()
+        text = await readResponseText(response, maxResponseBytes)
       } catch (err) {
         if (err instanceof ToolError || signal.aborted || isAbortError(err)) {
           throw signal.aborted ? signal.reason ?? err : err

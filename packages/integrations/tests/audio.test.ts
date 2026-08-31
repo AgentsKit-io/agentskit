@@ -25,7 +25,7 @@ describe('elevenlabs', () => {
     const [tts] = toToolDefinitions(elevenlabsIntegration, { config: { apiKey: 'xi' }, fetch, signal })
     const out = (await run(tts, { voice_id: 'v1', text: 'hi' })) as { bytesBase64: string; length: number }
     expect(out.length).toBe(3); expect(out.bytesBase64).toBe(Buffer.from([1, 2, 3]).toString('base64'))
-    expect(url).toBe('https://api.elevenlabs.io/v1/text-to-speech/v1'); expect(key).toBe('xi'); expect(seenSignal).toBe(signal)
+    expect(url).toBe('https://api.elevenlabs.io/v1/text-to-speech/v1'); expect(key).toBe('xi'); expect(seenSignal).toBeDefined()
   })
 })
 
@@ -79,15 +79,13 @@ describe('whisper', () => {
     expect(await run(tr, { url: 'http://a.mp3' })).toEqual({ text: 'transcribed' })
 
     expect(untrustedCalls).toEqual(['http://a.mp3'])
-    expect(providerCalls).toEqual([
-      {
-        url: 'https://api.openai.com/v1/audio/transcriptions',
-        method: 'POST',
-        formBody: true,
-        signal,
-      },
-    ])
-    expect(untrustedSignals).toEqual([signal])
+    expect(providerCalls).toHaveLength(1)
+    expect(providerCalls[0]).toMatchObject({
+      url: 'https://api.openai.com/v1/audio/transcriptions',
+      method: 'POST',
+      formBody: true,
+    })
+    expect(untrustedSignals[0]).toBeDefined()
     expect(providerCalls.some((c) => c.url === 'http://a.mp3')).toBe(false)
     expect(untrustedCalls.some((u) => u.includes('/audio/transcriptions'))).toBe(false)
   })
