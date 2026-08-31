@@ -99,6 +99,15 @@ describe('httpJson', () => {
     expect(result).toBe('plain')
   })
 
+  it('rejects oversized response bodies before parsing', async () => {
+    const fetch = fakeFetch(() => new Response('12345', {
+      status: 200,
+      headers: { 'content-length': '5' },
+    }))
+    await expect(httpJson({ baseUrl: 'https://api.example.com', fetch, maxResponseBytes: 4 }, { path: '/large' }))
+      .rejects.toMatchObject({ code: ErrorCodes.AK_TOOL_EXEC_FAILED })
+  })
+
   it('throws on non-2xx with the server body attached', async () => {
     const fetch = fakeFetch(() => new Response('nope', { status: 404, statusText: 'Not Found' }))
     await expect(
