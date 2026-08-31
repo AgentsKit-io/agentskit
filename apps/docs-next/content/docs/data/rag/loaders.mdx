@@ -9,7 +9,10 @@ All loaders return `InputDocument[]` ready for `rag.ingest`. `loadUrl` puts the 
 
 ```ts
 import { loadUrl } from '@agentskit/rag'
-const docs = await loadUrl('https://example.com/post')
+const docs = await loadUrl('https://example.com/post', {
+  // Arbitrary URL loading is an explicit egress boundary.
+  allowedOrigins: ['https://example.com'],
+})
 ```
 
 `docs[0].content` is the raw response text (HTML or otherwise). Pipe it into `rag.ingest` as-is, or clean it first.

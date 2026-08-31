@@ -94,6 +94,9 @@ export function InputBar({
             return
           }
           void chat.send(value)
+        }).catch(() => {
+          // Do not send a command when its interception hook failed.
+          chat.setInput(value)
         })
         return
       }

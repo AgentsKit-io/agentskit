@@ -29,13 +29,19 @@ function makeFetch(sequence: Array<[number, unknown, 'json' | 'text' | 'binary']
 describe('loadUrl', () => {
   it('returns single document with URL source', async () => {
     const { fetch } = makeFetch([[200, 'hello', 'text']])
-    const docs = await loadUrl('https://x', { fetch })
+    const docs = await loadUrl('https://x', { fetch, allowedOrigins: ['https://x'] })
     expect(docs).toEqual([{ content: 'hello', source: 'https://x', metadata: { url: 'https://x' } }])
   })
 
   it('throws on non-ok response', async () => {
     const { fetch } = makeFetch([[500, 'boom', 'text']])
-    await expect(loadUrl('https://x', { fetch })).rejects.toThrow(/loadUrl 500/)
+    await expect(loadUrl('https://x', { fetch, allowedOrigins: ['https://x'] })).rejects.toThrow(/loadUrl 500/)
+  })
+
+  it('requires an explicit HTTPS origin allowlist', async () => {
+    const { fetch } = makeFetch([[200, 'hello', 'text']])
+    await expect(loadUrl('http://x', { fetch, allowedOrigins: ['http://x'] })).rejects.toThrow(/HTTPS/)
+    await expect(loadUrl('https://x', { fetch })).rejects.toThrow(/allowedOrigins/)
   })
 })
 

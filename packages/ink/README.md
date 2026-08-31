@@ -76,7 +76,7 @@ render(<App />)
 - Terminal components: `ChatContainer`, `Message`, `InputBar`, `ToolCallView`
 - Keyboard navigation and auto-scroll
 - ANSI theming
-- Default file-based memory out of the box
+- Memory is explicit — pass a `ChatMemory` when persistence is required
 
 ## Ecosystem
 

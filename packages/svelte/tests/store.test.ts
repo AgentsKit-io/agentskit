@@ -93,6 +93,14 @@ describe('@agentskit/svelte', () => {
     unsub()
   })
 
+  it('rejects async actions after destroy and ignores sync mutations', async () => {
+    const store = createChatStore({ adapter: mockAdapter([]) })
+    store.destroy()
+    store.setInput('ignored')
+    await expect(store.send('after destroy')).rejects.toThrow(/destroyed/)
+    await expect(store.clear()).rejects.toThrow(/destroyed/)
+  })
+
   it('destroy stops an in-flight stream and is safe to call repeatedly', async () => {
     const abort = vi.fn()
     let sourceReady: (() => void) | undefined

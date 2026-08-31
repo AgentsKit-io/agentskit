@@ -9,6 +9,7 @@ import {
   readS3Body,
   resolveMaxFiles,
   rethrowIfAbort,
+  withDeadline,
 } from './shared'
 
 export interface S3LikeClient {
@@ -64,11 +65,11 @@ export async function loadS3(options: S3LoaderOptions): Promise<InputDocument[]>
       IsTruncated?: boolean
     }
     try {
-      list = await options.client.send(new ListObjectsV2Command({
+      list = await withDeadline(options.client.send(new ListObjectsV2Command({
         Bucket: options.bucket,
         Prefix: options.prefix,
         ContinuationToken: continuationToken,
-      })) as typeof list
+      })) as Promise<typeof list>, options.timeoutMs, 'loadS3')
     } catch (cause) {
       if (cause instanceof RagError) throw cause
       if (isAbortLike(cause)) throw loadFailed('loadS3: aborted', cause)
@@ -81,10 +82,10 @@ export async function loadS3(options: S3LoaderOptions): Promise<InputDocument[]>
       if (options.filter && !options.filter(key)) continue
       attempted++
       try {
-        const get = await options.client.send(new GetObjectCommand({
+        const get = await withDeadline(options.client.send(new GetObjectCommand({
           Bucket: options.bucket,
           Key: key,
-        })) as { Body?: { transformToString?: () => Promise<string> } }
+        })) as Promise<{ Body?: { transformToString?: () => Promise<string>; transformToByteArray?: () => Promise<Uint8Array> } }>, options.timeoutMs, 'loadS3')
         const content = await readS3Body(get.Body, 'loadS3')
         docs.push({
           content,

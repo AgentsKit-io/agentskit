@@ -337,6 +337,26 @@ describe('transitionStatechart', () => {
     expect(JSON.stringify(result)).not.toContain('not public')
   })
 
+  it('rejects thenable and non-boolean guard results', () => {
+    const makeMachine = (guard: () => unknown) => defineStatechart<JsonObject, StatechartEvent<'go'>, 'idle'>({
+      id: `guard-${Math.random()}`,
+      initial: 'idle',
+      parseContext: input => input as JsonObject,
+      states: { idle: { on: { go: { guard: guard as () => boolean, target: 'idle' } } } },
+      version: '1',
+    })
+    for (const guard of [() => Promise.resolve(false), () => 1]) {
+      const definition = makeMachine(guard)
+      const result = transitionStatechart(
+        definition,
+        createStatechartInstance(definition, {}, { instanceId: '1', now: '0' }),
+        { type: 'go' },
+        { now: '1' },
+      )
+      expect(result).toMatchObject({ status: 'rejected', diagnostic: { code: StatechartDiagnosticCodes.GUARD_FAILED } })
+    }
+  })
+
   it('distinguishes reducer exceptions from invalid reducer output', () => {
     const makeMachine = (reduce: () => JsonObject) =>
       defineStatechart<JsonObject, StatechartEvent<'go'>, 'idle'>({

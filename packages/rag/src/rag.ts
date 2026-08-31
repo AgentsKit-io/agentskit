@@ -55,20 +55,26 @@ export function createRAG(config: RAGConfig): RAG {
   const chunkOverlap = resolveChunkOverlap(config.chunkOverlap, 50, chunkSize)
   const defaultTopK = resolvePositiveInt(config.topK, 5)
   const defaultThreshold = resolveThreshold(config.threshold, 0)
+  const knownChunkIds = new Map<string, string[]>()
 
   async function ingest(documents: InputDocument[]): Promise<void> {
     const vectorDocs: VectorDocument[] = []
+    const replacements = new Map<string, { previous: string[]; current: string[] }>()
 
     for (const doc of documents) {
       // Snapshot at ingest boundary so later mutation of the caller's object
       // cannot affect already-embedded chunks.
       const content = doc.content
-      if (!content) continue
-
       const docId = doc.id ?? generateId('doc')
+      if (!content) {
+        replacements.set(docId, { previous: knownChunkIds.get(docId) ?? [], current: [] })
+        continue
+      }
       const source = doc.source
       const metadata = doc.metadata ? { ...doc.metadata } : undefined
       const chunks = chunkText(content, { chunkSize, chunkOverlap, split })
+      const currentIds = chunks.map((_, i) => `${docId}_chunk_${i}`)
+      replacements.set(docId, { previous: knownChunkIds.get(docId) ?? [], current: currentIds })
 
       for (let i = 0; i < chunks.length; i++) {
         const chunkId = `${docId}_chunk_${i}`
@@ -91,6 +97,11 @@ export function createRAG(config: RAGConfig): RAG {
     if (vectorDocs.length > 0) {
       await store.store(vectorDocs)
     }
+    if (store.delete) {
+      const stale = [...replacements.values()].flatMap(({ previous, current }) => previous.filter(id => !current.includes(id)))
+      if (stale.length > 0) await store.delete(stale)
+    }
+    for (const [docId, replacement] of replacements) knownChunkIds.set(docId, replacement.current)
   }
 
   async function search(

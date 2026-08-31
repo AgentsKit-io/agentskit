@@ -175,7 +175,9 @@ export const transitionStatechart = <
 
   if (candidate.guard !== undefined) {
     try {
-      if (!candidate.guard(instance.context, frozenEvent)) {
+      const allowed = candidate.guard(instance.context, frozenEvent)
+      if (typeof allowed !== 'boolean') throw new TypeError('guard must return a boolean synchronously')
+      if (!allowed) {
         return rejectTransition(
           instance,
           frozenEvent,
