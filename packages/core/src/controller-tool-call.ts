@@ -45,12 +45,15 @@ export async function handleControllerToolCall({
 
   const tool = toolMap.get(call.name)
   const parsedArgs = parseToolArgs(call.args)
+  let status: ToolCall['status'] = 'pending'
+  if (!parsedArgs.valid) status = 'error'
+  else if (tool?.requiresConfirmation) status = 'requires_confirmation'
   const toolCall: ToolCall = {
     id: call.id,
     name: call.name,
     args: parsedArgs.args,
     result: call.result,
-    status: parsedArgs.valid ? (tool?.requiresConfirmation ? 'requires_confirmation' : 'pending') : 'error',
+    status,
     ...(!parsedArgs.valid ? { error: 'Invalid tool arguments: expected a JSON object' } : {}),
   }
 
