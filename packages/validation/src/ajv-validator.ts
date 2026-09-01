@@ -29,6 +29,36 @@ type CompiledValidate = ((data: unknown) => boolean) & {
   errors?: ErrorObject[] | null
 }
 
+const MAX_ARGS_BYTES = 1_048_576
+const MAX_ARGS_DEPTH = 64
+const MAX_ARGS_NODES = 10_000
+
+function preflightArgs(args: Record<string, unknown>): string | undefined {
+  const pending: Array<{ value: unknown; depth: number }> = [{ value: args, depth: 0 }]
+  const seen = new Set<object>()
+  let nodes = 0
+  let bytes = 0
+
+  while (pending.length > 0) {
+    const current = pending.pop()!
+    nodes++
+    if (nodes > MAX_ARGS_NODES) return `argument node limit exceeded (${MAX_ARGS_NODES})`
+    if (current.depth > MAX_ARGS_DEPTH) return `argument depth limit exceeded (${MAX_ARGS_DEPTH})`
+
+    if (typeof current.value === 'string') {
+      bytes += new TextEncoder().encode(current.value).byteLength
+      if (bytes > MAX_ARGS_BYTES) return `argument size limit exceeded (${MAX_ARGS_BYTES} bytes)`
+      continue
+    }
+    if (current.value === null || typeof current.value !== 'object') continue
+    if (seen.has(current.value)) return 'cyclic arguments are not supported'
+    seen.add(current.value)
+    for (const value of Object.values(current.value as Record<string, unknown>)) {
+      pending.push({ value, depth: current.depth + 1 })
+    }
+  }
+}
+
 /**
  * Create an {@link ArgsValidator} backed by Ajv that checks tool-call args
  * against the tool's existing `JSONSchema7` (ADR-0008).
@@ -92,11 +122,19 @@ export function createAjvValidator(options: AjvValidatorOptions = {}): ArgsValid
   }
 
   return (schema: JSONSchema7, args: Record<string, unknown>): ArgsValidationResult => {
+    const preflightError = preflightArgs(args)
+    if (preflightError) {
+      return {
+        valid: false,
+        errors: [{ path: '', message: preflightError }],
+        message: `invalid tool arguments: ${preflightError}`,
+      }
+    }
     const validate = compile(schema)
     const ok = validate(args)
     if (ok) return { valid: true }
     const errors: ArgsValidationError[] = (validate.errors ?? []).map(e => ({
-      path: errorPath(e),
+      path: errorPath(e, args),
       message: e.message ?? 'is invalid',
     }))
     const safe = errors.length > 0 ? errors : [{ path: '', message: 'is invalid' }]
@@ -198,7 +236,7 @@ function isObjectBoundary(schema: JSONSchema7): boolean {
   return types.includes('object') || schema.properties !== undefined || schema.patternProperties !== undefined
 }
 
-function errorPath(error: ErrorObject): string {
+function errorPath(error: ErrorObject, args: Record<string, unknown>): string {
   const segments = decodePointer(error.instancePath)
   if (error.keyword === 'required' && hasStringProperty(error.params, 'missingProperty')) {
     segments.push(error.params.missingProperty)
@@ -206,7 +244,7 @@ function errorPath(error: ErrorObject): string {
   if (error.keyword === 'additionalProperties' && hasStringProperty(error.params, 'additionalProperty')) {
     segments.push(error.params.additionalProperty)
   }
-  return formatPath(segments)
+  return formatPath(segments, args)
 }
 
 function decodePointer(pointer: string): string[] {
@@ -217,9 +255,16 @@ function decodePointer(pointer: string): string[] {
     .map(segment => segment.replace(/~1/g, '/').replace(/~0/g, '~'))
 }
 
-function formatPath(segments: string[]): string {
+function formatPath(segments: string[], root: unknown): string {
+  let current = root
   return segments.reduce((path, segment) => {
-    if (/^(0|[1-9]\d*)$/.test(segment)) return `${path}[${segment}]`
+    if (Array.isArray(current) && /^(0|[1-9]\d*)$/.test(segment)) {
+      current = (current as unknown[])[Number(segment)]
+      return `${path}[${segment}]`
+    }
+    if (current !== null && typeof current === 'object') {
+      current = (current as Record<string, unknown>)[segment]
+    }
     if (/^[A-Za-z_$][\w$]*$/.test(segment)) return path ? `${path}.${segment}` : segment
     return `${path}[${JSON.stringify(segment)}]`
   }, '')

@@ -38,7 +38,7 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/sandbox) 
 - **Code generation that actually executes** — agents can write, run, and iterate without unrestricted host access
 - **E2B cloud VMs** — optional peer `@e2b/code-interpreter`; defaults to no internet (`allowInternetAccess: false`); per-execute timeout; combined stdout/stderr byte cap
 - **Bring your own backend** — `SandboxBackend` is two methods; plug in Docker, Firecracker, or any custom isolation layer
-- **Policy wrapper** — `createMandatorySandbox` allow/deny/requireSandbox (requireSandbox **routes args to the sandbox tool** and does **not** run the original body)
+- **Policy wrapper** — `createMandatorySandbox` allow/deny/requireSandbox (requireSandbox routes only `{ code, language? }` args to the sandbox tool; incompatible schemas fail closed and the original body is never run)
 - **Works alongside any other tools** — add `sandboxTool` to the same `tools` array as `webSearch` or `filesystem`
 
 ## Install

@@ -29,9 +29,20 @@ describe('createMandatorySandbox', () => {
       policy: { requireSandbox: ['shell'] },
     })
     const wrapped = m.wrap(makeTool('shell', original))
-    const result = await wrapped.execute!({ cmd: 'ls' }, stubCtx)
+    await expect(wrapped.execute!({ cmd: 'ls' }, stubCtx)).rejects.toThrow(/args.code/)
+    expect(original).not.toHaveBeenCalled()
+  })
+
+  it('routes code-shaped args through the sandbox and skips the original body', async () => {
+    const original = vi.fn(() => 'raw')
+    const m = createMandatorySandbox({
+      sandbox,
+      policy: { requireSandbox: ['code'] },
+    })
+    const wrapped = m.wrap(makeTool('code', original))
+    const result = await wrapped.execute!({ code: 'console.log(1)' }, stubCtx)
     expect(result).toContain('sandboxed:')
-    expect(result).toContain('cmd')
+    expect(result).toContain('code')
     expect(original).not.toHaveBeenCalled()
   })
 
@@ -63,7 +74,7 @@ describe('createMandatorySandbox', () => {
   it('requireSandbox "*" forces all tools into sandbox', async () => {
     const m = createMandatorySandbox({ sandbox, policy: { requireSandbox: '*' } })
     const wrapped = m.wrap(makeTool('any'))
-    const result = await wrapped.execute!({}, stubCtx)
+    const result = await wrapped.execute!({ code: '1' }, stubCtx)
     expect(result).toContain('sandboxed:')
   })
 
