@@ -15,6 +15,8 @@ describe('safeParseArgs', () => {
     expect(parseToolArgs('{invalid')).toEqual({ args: {}, valid: false })
     expect(parseToolArgs('{"q":"hello"}')).toEqual({ args: { q: 'hello' }, valid: true })
     expect(parseToolArgs('[]')).toEqual({ args: {}, valid: false })
+    expect(parseToolArgs(`{"nested":${JSON.stringify({ value: 'x' })}}`).valid).toBe(true)
+    expect(parseToolArgs(`{"value":"${'x'.repeat(1_048_577)}"}`).valid).toBe(false)
   })
 })
 

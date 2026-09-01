@@ -100,10 +100,31 @@ export interface ParsedToolArgs {
   valid: boolean
 }
 
+const MAX_TOOL_ARGS_BYTES = 1_048_576
+const MAX_TOOL_ARGS_DEPTH = 64
+const MAX_TOOL_ARGS_NODES = 10_000
+
+function isBoundedJsonObject(value: Record<string, unknown>): boolean {
+  const pending: Array<{ value: unknown; depth: number }> = [{ value, depth: 0 }]
+  let nodes = 0
+  while (pending.length > 0) {
+    const current = pending.pop()!
+    nodes++
+    if (nodes > MAX_TOOL_ARGS_NODES || current.depth > MAX_TOOL_ARGS_DEPTH) return false
+    if (current.value === null || typeof current.value !== 'object') continue
+    for (const child of Object.values(current.value as Record<string, unknown>)) {
+      pending.push({ value: child, depth: current.depth + 1 })
+    }
+  }
+  return true
+}
+
 export function parseToolArgs(args: string): ParsedToolArgs {
+  if (new TextEncoder().encode(args).byteLength > MAX_TOOL_ARGS_BYTES) return { args: {}, valid: false }
   try {
     const parsed = JSON.parse(args)
     if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+      if (!isBoundedJsonObject(parsed as Record<string, unknown>)) return { args: {}, valid: false }
       return { args: parsed as Record<string, unknown>, valid: true }
     }
   } catch {
