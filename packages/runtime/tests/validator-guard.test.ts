@@ -83,4 +83,12 @@ describe('createValidatorGuard', () => {
     expect(result.output).toBe('seeded')
     expect(regen).not.toHaveBeenCalled()
   })
+
+  it('resets global and sticky deny patterns between checks', async () => {
+    const guard = createValidatorGuard({ validators: [denyPattern(/secret/gy)] })
+    const first = await guard.run({ regenerate: async () => 'secret' })
+    const second = await guard.run({ regenerate: async () => 'secret' })
+    expect(first.accepted).toBe(false)
+    expect(second.accepted).toBe(false)
+  })
 })

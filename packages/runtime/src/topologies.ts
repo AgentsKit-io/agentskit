@@ -14,6 +14,8 @@ import { ConfigError, ErrorCodes, RuntimeError } from '@agentskit/core'
 export interface AgentHandle<TContext = unknown> {
   name: string
   run: (task: string, context?: TContext) => Promise<string>
+  /** Best-effort cancellation hook used when a topology deadline expires. */
+  abort?: () => void
 }
 
 export interface TopologyLogEvent {
@@ -95,10 +97,18 @@ export interface SwarmConfig<TContext = unknown> {
   onEvent?: TopologyObserver
 }
 
-function withTimeout<T>(p: Promise<T>, timeoutMs: number | undefined, label: string): Promise<T> {
+function withTimeout<T>(
+  p: Promise<T>,
+  timeoutMs: number | undefined,
+  label: string,
+  onTimeout?: () => void,
+): Promise<T> {
   if (timeoutMs === undefined) return p
   return new Promise<T>((resolve, reject) => {
-    const timer = setTimeout(() => reject(new Error(`${label} timed out after ${timeoutMs}ms`)), timeoutMs)
+    const timer = setTimeout(() => {
+      onTimeout?.()
+      reject(new Error(`${label} timed out after ${timeoutMs}ms`))
+    }, timeoutMs)
     p.then(
       v => {
         clearTimeout(timer)
@@ -131,7 +141,7 @@ export function swarm<TContext = unknown>(config: SwarmConfig<TContext>): AgentH
       const settled = await Promise.allSettled(
         config.members.map(async m => {
           config.onEvent?.({ topology: 'swarm', phase: 'agent:start', agent: m.name })
-          const output = await withTimeout(m.run(task, context), config.timeoutMs, `swarm(${m.name})`)
+          const output = await withTimeout(m.run(task, context), config.timeoutMs, `swarm(${m.name})`, m.abort)
           config.onEvent?.({ topology: 'swarm', phase: 'agent:end', agent: m.name, result: output })
           return { agent: m.name, output }
         }),
