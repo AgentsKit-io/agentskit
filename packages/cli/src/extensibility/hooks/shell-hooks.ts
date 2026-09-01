@@ -85,10 +85,14 @@ function runShellHook(entry: ConfigHookEntry, payload: HookPayload): Promise<Hoo
       }
       try {
         const parsed = JSON.parse(trimmed) as HookResult
-        settle(parsed)
+        if (!parsed || typeof parsed !== 'object' || !('decision' in parsed) ||
+            !['continue', 'block', 'modify'].includes(String(parsed.decision))) {
+          settle({ decision: 'block', reason: 'shell hook returned an invalid decision' })
+        } else {
+          settle(parsed)
+        }
       } catch {
-        // Hook printed non-JSON output; treat as continue.
-        settle({ decision: 'continue' })
+        settle({ decision: 'block', reason: 'shell hook returned invalid JSON' })
       }
     })
 

@@ -98,12 +98,12 @@ describe('shell hook execution (runShellHook via handler)', () => {
     }
   })
 
-  it('treats non-JSON stdout as continue', async () => {
+  it('blocks on non-JSON stdout', async () => {
     const [handler] = configHooksToHandlers({
       SessionStart: [{ run: 'printf "not json at all"', timeout: 3000 }],
     })!
     const result = await handler!.run(PAYLOAD)
-    expect(result.decision).toBe('continue')
+    expect(result.decision).toBe('block')
   })
 
   it('blocks when timeout exceeded', async () => {

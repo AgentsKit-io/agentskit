@@ -15,7 +15,7 @@ export interface HookDispatchResult {
  *   - `modify`:   replace the payload for subsequent handlers
  *   - `block`:    stop dispatch and surface a reason to the caller
  *
- * Handlers that throw are reported via `onError` and treated as `continue`.
+ * Handler failures block by default so enforcement hooks cannot fail open.
  */
 export class HookDispatcher {
   private readonly handlers = new Map<HookEvent, HookHandler[]>()
@@ -48,7 +48,7 @@ export class HookDispatcher {
         result = await handler.run(current)
       } catch (err) {
         this.onError(handler, err)
-        continue
+        return { payload: current, blocked: true, reason: 'hook failed' }
       }
 
       if (result.decision === 'block') {

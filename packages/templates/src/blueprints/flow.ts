@@ -11,6 +11,27 @@ import { camelCase, pascalCase } from './utils'
 export function generateFlowSource(name: string): string {
   return `import type { FlowRegistry } from '@agentskit/runtime'
 
+const ALLOWED_ORIGINS = new Set(['https://example.com'])
+const MAX_RESPONSE_BYTES = 1_048_576
+
+async function safeFetchText(rawUrl: string): Promise<string> {
+  const url = new URL(rawUrl)
+  if (url.protocol !== 'https:' || !ALLOWED_ORIGINS.has(url.origin)) {
+    throw new Error(\`http.get blocked URL origin: \${url.origin}\`)
+  }
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), 15_000)
+  try {
+    const response = await fetch(url, { signal: controller.signal })
+    if (!response.ok) throw new Error(\`http.get \${response.status}: \${url}\`)
+    const body = await response.arrayBuffer()
+    if (body.byteLength > MAX_RESPONSE_BYTES) throw new Error('http.get response too large')
+    return new TextDecoder().decode(body)
+  } finally {
+    clearTimeout(timer)
+  }
+}
+
 /**
  * Handler registry for the \`${name}\` flow. Each key matches the
  * \`run:\` field on a node in the flow's YAML / object definition.
@@ -24,10 +45,7 @@ export function generateFlowSource(name: string): string {
 export const ${camelCase(name)}Registry: FlowRegistry = {
   // TODO: replace these stubs with real handlers.
   'http.get': async ({ with: w }) => {
-    const url = String(w.url ?? '')
-    const response = await fetch(url)
-    if (!response.ok) throw new Error(\`http.get \${response.status}: \${url}\`)
-    return await response.text()
+    return safeFetchText(String(w.url ?? ''))
   },
 
   'json.parse': ({ deps }) => {

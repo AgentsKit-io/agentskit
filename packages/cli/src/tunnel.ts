@@ -64,6 +64,7 @@ export async function startTunnel(options: TunnelOptions): Promise<TunnelControl
 
   let requests = 0
   let stopped = false
+  let signalHandler: (() => void) | undefined
   let resolveDone: () => void
   const done = new Promise<void>(r => { resolveDone = r })
 
@@ -73,6 +74,7 @@ export async function startTunnel(options: TunnelOptions): Promise<TunnelControl
 
   tunnel.on('close', () => {
     if (stopped) return
+    if (signalHandler) process.off('SIGINT', signalHandler)
     banner(`tunnel closed by remote`, 'yellow')
     resolveDone()
   })
@@ -80,6 +82,7 @@ export async function startTunnel(options: TunnelOptions): Promise<TunnelControl
   tunnel.on('error', (...args: unknown[]) => {
     const err = args[0] as Error | undefined
     banner(`error: ${err?.message ?? 'unknown'}`, 'red')
+    resolveDone()
   })
 
   banner(`✓ ready`, 'green')
@@ -94,6 +97,7 @@ export async function startTunnel(options: TunnelOptions): Promise<TunnelControl
   const stop = async () => {
     if (stopped) return
     stopped = true
+    if (signalHandler) process.off('SIGINT', signalHandler)
     tunnel.close()
     banner(`stopped — proxied ${requests} request${requests === 1 ? '' : 's'}`, 'cyan')
     resolveDone()
@@ -101,9 +105,10 @@ export async function startTunnel(options: TunnelOptions): Promise<TunnelControl
 
   // Hook Ctrl+C — but only if we're attached to a TTY (don't break tests)
   if (process.stdin.isTTY) {
-    process.on('SIGINT', () => {
+    signalHandler = () => {
       void stop()
-    })
+    }
+    process.on('SIGINT', signalHandler)
   }
 
   return {

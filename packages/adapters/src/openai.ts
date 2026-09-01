@@ -1,4 +1,4 @@
-import type { AdapterFactory, AdapterRequest, StreamSource } from '@agentskit/core'
+import type { AdapterCapabilities, AdapterFactory, AdapterRequest, StreamSource } from '@agentskit/core'
 import { parseOpenAIStream, toProviderMessages, type RetryOptions } from './utils'
 import { createStreamSource } from './stream-source'
 
@@ -15,6 +15,8 @@ export interface OpenAIConfig {
    * Turn this on for vanilla `api.openai.com`.
    */
   includeUsage?: boolean
+  /** Explicit capability facts for OpenAI-compatible providers with custom models. */
+  capabilities?: Partial<AdapterCapabilities>
 }
 
 export function openai(config: OpenAIConfig): AdapterFactory {
@@ -40,12 +42,13 @@ export function openai(config: OpenAIConfig): AdapterFactory {
   return {
     capabilities: {
       streaming: true,
-      tools: true,
+      tools: config.capabilities?.tools ?? true,
       // o1 / o3 models emit reasoning; older models don't. Accurate per-model
       // detection would need a model registry; 'true' is the safer default here.
-      reasoning: model.startsWith('o1') || model.startsWith('o3'),
-      multiModal: model.startsWith('gpt-4') || model.startsWith('o'),
+      reasoning: config.capabilities?.reasoning ?? (model.startsWith('o1') || model.startsWith('o3')),
+      multiModal: config.capabilities?.multiModal ?? (model.startsWith('gpt-4') || model.startsWith('o')),
       usage: true,
+      ...config.capabilities,
     },
     createSource: (request: AdapterRequest): StreamSource => {
       const body: Record<string, unknown> = {

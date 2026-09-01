@@ -2,7 +2,7 @@ import { mkdirSync, writeFileSync } from 'node:fs'
 import { homedir } from 'node:os'
 import path from 'node:path'
 import type { Command } from 'commander'
-import { loadConfig } from '../config'
+import { loadConfig, redactConfig } from '../config'
 
 export function registerConfigCommand(program: Command): void {
   program
@@ -24,7 +24,7 @@ export function registerConfigCommand(program: Command): void {
 
       if (action === 'show') {
         const config = await loadConfig()
-        process.stdout.write(JSON.stringify(config ?? {}, null, 2) + '\n')
+        process.stdout.write(JSON.stringify(redactConfig(config ?? {}), null, 2) + '\n')
         return
       }
 

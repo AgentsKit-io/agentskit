@@ -36,6 +36,15 @@ export interface ScaffoldConfig {
 export const SAFE_PACKAGE_NAME =
   /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/
 
+const RESERVED_IDENTIFIERS = new Set([
+  'await', 'break', 'case', 'catch', 'class', 'const', 'continue', 'debugger',
+  'default', 'delete', 'do', 'else', 'enum', 'export', 'extends', 'false',
+  'finally', 'for', 'function', 'if', 'implements', 'import', 'in', 'instanceof',
+  'interface', 'let', 'new', 'null', 'package', 'private', 'protected', 'public',
+  'return', 'static', 'super', 'switch', 'this', 'throw', 'true', 'try', 'typeof',
+  'var', 'void', 'while', 'with', 'yield',
+])
+
 const MAX_DESCRIPTION_LENGTH = 1000
 
 export function invalidConfig(
@@ -84,6 +93,12 @@ export function validateScaffoldConfig(config: ScaffoldConfig): void {
     throw invalidConfig(
       `Scaffold name "${config.name}" is not a safe unscoped npm package id`,
       'Must start with a lowercase letter; only lowercase alphanumerics and single hyphens between segments. No scopes (@), slashes, dots, spaces, or uppercase.',
+    )
+  }
+  if (RESERVED_IDENTIFIERS.has(config.name)) {
+    throw invalidConfig(
+      `Scaffold name "${config.name}" is a reserved TypeScript identifier`,
+      'Choose a name such as "my-tool" that is valid in both npm and TypeScript.',
     )
   }
 

@@ -23,6 +23,11 @@ const META = {
 }
 
 describe('fetchAgent', () => {
+  it('rejects traversal-shaped agent ids before making a request', async () => {
+    const fetchImpl = vi.fn() as unknown as typeof fetch
+    await expect(fetchAgent('../secrets', { fetchImpl })).rejects.toThrow(/Invalid registry agent id/)
+    expect(fetchImpl).not.toHaveBeenCalled()
+  })
   it('uses the hosted index when it has inlined sources', async () => {
     const hosted = { ...META, sources: [{ path: 'agent.ts', content: 'export const x = 1' }] }
     const fetchImpl = vi.fn(async (url: string) => {
@@ -116,6 +121,21 @@ describe('addAgent', () => {
       },
     })
     expect(writes).toEqual(['agents/research/agent.ts'])
+  })
+
+  it('checks all conflicts before writing any source', async () => {
+    const hosted = { ...META, sources: [
+      { path: 'agent.ts', content: 'CODE' },
+      { path: 'README.md', content: 'README' },
+    ] }
+    const fetchImpl = vi.fn(async () => jsonResponse(hosted)) as unknown as typeof fetch
+    const writes: string[] = []
+    await expect(addAgent('research', {
+      fetchImpl,
+      existsImpl: async path => path.endsWith('README.md'),
+      writeFileImpl: async path => { writes.push(path) },
+    })).rejects.toThrow(/already exists/)
+    expect(writes).toEqual([])
   })
 })
 

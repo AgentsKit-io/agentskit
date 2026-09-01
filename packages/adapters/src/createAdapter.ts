@@ -91,6 +91,10 @@ export function createAdapter(config: CreateAdapterConfig): AdapterFactory {
             activeStream = null
           } catch (err) {
             if (isAbortError(err) || controller.signal.aborted) return
+            // Parser failures must release the response and iterator before the
+            // terminal error is exposed; otherwise a failed stream can retain
+            // a socket/body until the provider times out.
+            cleanup()
             const message = err instanceof Error ? err.message : String(err)
             yield adapterErrorChunk(message, { cause: err })
           } finally {

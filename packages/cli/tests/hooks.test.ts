@@ -110,6 +110,6 @@ describe('HookDispatcher', () => {
     )
     const result = await dispatcher.dispatch('SessionStart', { event: 'SessionStart' })
     expect(errors).toHaveLength(1)
-    expect(result.blocked).toBe(false)
+    expect(result.blocked).toBe(true)
   })
 })
