@@ -26,11 +26,7 @@ overrides:
   tar: 7.5.21
   read-yaml-file: 2.1.0
   adm-zip: 0.6.0
-
-patchedDependencies:
-  image-size@1.2.1:
-    hash: 18c6dab260abcab19e336d75e51b53cab1c709e9971e44ab3a91cfc2d766690f
-    path: patches/image-size@1.2.1.patch
+  image-size: npm:image-size-next@1.2.2
 
 importers:
 
@@ -6521,13 +6517,8 @@ packages:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
 
-  image-size@0.5.5:
-    resolution: {integrity: sha512-6TDAlDPZxUFCv+fuOkIoXT/V/f3Qbq8e37p+YOiYrUv3v9cc3/6x78VdfPgFVaB9dZYeLUfKgHRebpkm/oP2VQ==}
-    engines: {node: '>=0.10.0'}
-    hasBin: true
-
-  image-size@1.2.1:
-    resolution: {integrity: sha512-rH+46sQJ2dlwfjfhCyNx5thzrv+dtmBIhPHk0zgRUukHzZ/kRueTJXoYYsclBaKcSMBWuGbOFXtioLpzTb5euw==}
+  image-size-next@1.2.2:
+    resolution: {integrity: sha512-Pd3CJ2+Ifk2H2jWikkoz2BSZgnuF3Qsea4gQmj2gtiOtYpGWBl7elj8EXnFMiY5PaYNruTTLD0hQ0UWK7pz9xA==}
     engines: {node: '>=16.x'}
     hasBin: true
 
@@ -14850,10 +14841,7 @@ snapshots:
 
   ignore@5.3.2: {}
 
-  image-size@0.5.5:
-    optional: true
-
-  image-size@1.2.1(patch_hash=18c6dab260abcab19e336d75e51b53cab1c709e9971e44ab3a91cfc2d766690f):
+  image-size-next@1.2.2:
     dependencies:
       queue: 6.0.2
 
@@ -15169,7 +15157,7 @@ snapshots:
     optionalDependencies:
       errno: 0.1.8
       graceful-fs: 4.2.11
-      image-size: 0.5.5
+      image-size: image-size-next@1.2.2
       make-dir: 5.1.0
       mime: 1.6.0
       needle: 3.5.0
@@ -15868,7 +15856,7 @@ snapshots:
       flow-enums-runtime: 0.0.6
       graceful-fs: 4.2.11
       hermes-parser: 0.35.0
-      image-size: 1.2.1(patch_hash=18c6dab260abcab19e336d75e51b53cab1c709e9971e44ab3a91cfc2d766690f)
+      image-size: image-size-next@1.2.2
       invariant: 2.2.4
       jest-worker: 29.7.0
       jsc-safe-url: 0.2.4
@@ -15914,7 +15902,7 @@ snapshots:
       flow-enums-runtime: 0.0.6
       graceful-fs: 4.2.11
       hermes-parser: 0.36.1
-      image-size: 1.2.1(patch_hash=18c6dab260abcab19e336d75e51b53cab1c709e9971e44ab3a91cfc2d766690f)
+      image-size: image-size-next@1.2.2
       invariant: 2.2.4
       jest-worker: 29.7.0
       jsc-safe-url: 0.2.4
