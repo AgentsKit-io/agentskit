@@ -216,21 +216,21 @@ Pick what you need. Every package works alone. Combinations work without glue co
 | [`@agentskit/runtime`](packages/runtime) | Autonomous agent runtime (ReAct loop, delegation) | beta |
 | [`@agentskit/tools`](packages/tools) | Web search, filesystem, shell, integrations, MCP bridge | beta |
 | [`@agentskit/memory`](packages/memory) | Chat + vector + graph + encrypted memory | beta |
-| [`@agentskit/rag`](packages/rag) | Plug-and-play retrieval and reranking | alpha |
+| [`@agentskit/rag`](packages/rag) | Plug-and-play retrieval and reranking | beta |
 | [`@agentskit/skills`](packages/skills) | Pre-built behavioral prompts and personas | beta |
 | [`@agentskit/observability`](packages/observability) | Console, LangSmith, OpenTelemetry, audit log | beta |
-| [`@agentskit/eval`](packages/eval) | Agent evaluation, replay, snapshots | alpha |
-| [`@agentskit/sandbox`](packages/sandbox) | Secure code execution | alpha |
+| [`@agentskit/eval`](packages/eval) | Agent evaluation, replay, snapshots | beta |
+| [`@agentskit/sandbox`](packages/sandbox) | Secure code execution | beta |
 | [`@agentskit/react`](packages/react) | React hooks + headless UI | beta |
 | [`@agentskit/ink`](packages/ink) | Terminal UI (Ink) components | beta |
-| [`@agentskit/vue`](packages/vue) | Vue binding for the shared chat contract | alpha |
-| [`@agentskit/svelte`](packages/svelte) | Svelte binding for the shared chat contract | alpha |
-| [`@agentskit/solid`](packages/solid) | Solid binding for the shared chat contract | alpha |
-| [`@agentskit/react-native`](packages/react-native) | React Native / Expo binding | alpha |
-| [`@agentskit/angular`](packages/angular) | Angular binding with Signals + RxJS | alpha |
+| [`@agentskit/vue`](packages/vue) | Vue binding for the shared chat contract | beta |
+| [`@agentskit/svelte`](packages/svelte) | Svelte binding for the shared chat contract | beta |
+| [`@agentskit/solid`](packages/solid) | Solid binding for the shared chat contract | beta |
+| [`@agentskit/react-native`](packages/react-native) | React Native / Expo binding | beta |
+| [`@agentskit/angular`](packages/angular) | Angular binding with Signals + RxJS | beta |
 | [`@agentskit/cli`](packages/cli) | CLI: chat, init, run, ai, dev, doctor | beta |
-| [`@agentskit/templates`](packages/templates) | Authoring toolkit for scaffolding skills, tools, adapters | alpha |
-| [`@agentskit/mcp`](packages/mcp) | Expose AgentsKit tools as an MCP server (Claude Desktop, Cursor, Windsurf) | alpha |
+| [`@agentskit/templates`](packages/templates) | Authoring toolkit for scaffolding skills, tools, adapters | beta |
+| [`@agentskit/mcp`](packages/mcp) | Expose AgentsKit tools as an MCP server (Claude Desktop, Cursor, Windsurf) | beta |
 | [`@agentskit/integrations`](packages/integrations) | Plug-and-play service integrations (one descriptor → tools, connectors, triggers, auth) | beta |
 | [`@agentskit/tools/validation`](packages/validation) | Runtime JSON-Schema validation of tool-call arguments (Ajv) | beta |
 | [`@agentskit/eval/braintrust`](packages/eval-braintrust) | Braintrust scoring pipeline + CI regression alerts | beta |
@@ -374,14 +374,14 @@ Read these once and you can predict how every package behaves.
 
 ## Maturity and compatibility
 
-`@agentskit/core` is at **v1.0.0** — API frozen at the minor level, deprecations carry a cycle, contracts pinned to ADRs. The rest of the ecosystem ships on independent beta/alpha tracks with explicit [stability tiers](./docs/STABILITY.md).
+`@agentskit/core` is at **v1.12.8** — API frozen at the minor level, deprecations carry a cycle, contracts pinned to ADRs. The rest of the ecosystem ships on independent beta tracks with explicit [stability tiers](./docs/STABILITY.md).
 
 AgentsKit targets **Node.js 20+** and modern JavaScript runtimes. Packages ship strict **TypeScript** declarations and dual ESM/CJS output unless their platform binding documents a narrower target. Browser, edge, React Native, Angular, Vue, Svelte, Solid, React, and terminal compatibility is package-specific and declared in each package README and guide.
 
 The current verified release surface is:
 
 - **Stable:** `@agentskit/core`, with six formal contracts pinned to ADRs 0001–0006.
-- **Beta/alpha:** every other package graduates independently under the published stability policy.
+- **Beta:** every other package graduates independently under the published stability policy.
 - **Evidence:** current package, adapter, integration, provider, skill, memory, and recipe counts come from the [generated claims ledger](./ecosystem-claims.json), not this prose.
 
 See the [stability policy](./docs/STABILITY.md), [core v1 release notes](./docs/RELEASE-CORE-V1.md), and [public roadmap](https://github.com/orgs/AgentsKit-io/projects/1) before depending on a pre-1.0 package contract.

@@ -27,6 +27,8 @@ docbridge:
 
 `@agentskit/observability/langfuse` is a drop-in observer that ships AgentsKit trace spans to [Langfuse](https://langfuse.com). LLM generations become `generation` nodes; tool calls and planning steps become `span` nodes. Token usage and error state are captured on each node end. Cost is not normalized by this adapter, and HITL is not represented until the canonical event contract includes it.
 
+**Version:** `0.2.20`
+
 The `langfuse` npm package is an optional peer — loaded dynamically at runtime. If it is absent or no API keys are provided, the observer is a no-op and does not throw.
 
 ## When to reach for it
