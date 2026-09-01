@@ -60,7 +60,33 @@ function checkExpected(output: string, expected: EvalTestCase['expected']): bool
   return output.includes(expected)
 }
 
+function validateConfig(config: unknown): asserts config is RunEvalConfig {
+  const fail = (message: string): never => {
+    throw new RuntimeError({ code: ErrorCodes.AK_RUNTIME_INVALID_INPUT, message })
+  }
+  if (!config || typeof config !== 'object' || Array.isArray(config)) fail('runEval config must be an object')
+  const value = config as Record<string, unknown>
+  if (typeof value.agent !== 'function') fail('runEval config.agent must be a function')
+  const suite = value.suite
+  if (!suite || typeof suite !== 'object' || Array.isArray(suite)) fail('runEval config.suite must be an object')
+  const suiteValue = suite as Record<string, unknown>
+  if (typeof suiteValue.name !== 'string' || suiteValue.name.trim() === '') fail('runEval suite.name must be a non-empty string')
+  const cases = suiteValue.cases
+  if (!Array.isArray(cases)) fail('runEval suite.cases must be an array')
+  const caseList = cases as unknown[]
+  for (let index = 0; index < caseList.length; index++) {
+    const testCase = caseList[index]
+    if (!testCase || typeof testCase !== 'object' || Array.isArray(testCase)) fail(`runEval suite.cases[${index}] must be an object`)
+    const item = testCase as Record<string, unknown>
+    if (typeof item.input !== 'string') fail(`runEval suite.cases[${index}].input must be a string`)
+    if (typeof item.expected !== 'string' && typeof item.expected !== 'function') {
+      fail(`runEval suite.cases[${index}].expected must be a string or function`)
+    }
+  }
+}
+
 export async function runEval(config: RunEvalConfig): Promise<EvalResult> {
+  validateConfig(config)
   const { agent, suite } = config
   const results: EvalResult['results'] = []
 
