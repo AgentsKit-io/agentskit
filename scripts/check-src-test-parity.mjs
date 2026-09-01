@@ -64,6 +64,9 @@ const ALLOW_FILES = new Set([
   //   via apps/visual-react Playwright suite; no unit test yet.
   'packages/ink/src/components/TopologyGraphView.tsx',
   'packages/react/src/components/TopologyGraphView.tsx',
+  // - controller-tool-call.ts is exercised by controller.test.ts through
+  //   createChatController's streamed tool-call path.
+  'packages/core/src/controller-tool-call.ts',
 ])
 
 const ALLOW_PREFIXES = [

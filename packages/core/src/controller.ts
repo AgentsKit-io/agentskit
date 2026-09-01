@@ -1,7 +1,7 @@
-import { buildMessage as message, consumeStream, createEventEmitter, parseToolArgs, createToolLifecycle } from './primitives'
-import { ErrorCodes, ToolError } from './errors'
-import { buildToolMap, activateSkills, auth, executeSafeTool as execute } from './agent-loop'
+import { buildMessage as message, consumeStream, createEventEmitter, createToolLifecycle } from './primitives'
+import { buildToolMap, activateSkills, executeSafeTool as execute } from './agent-loop'
 import { createControllerPersistence } from './controller-persistence'
+import { handleControllerToolCall } from './controller-tool-call'
 import {
   accumulateUsage,
   buildAdapterRequest,
@@ -152,70 +152,6 @@ export function createChatController(initial: ChatConfig): ChatController {
     onPartial,
   })
 
-  const handleCall = async (aid: string, chunk: StreamChunk, g: number) => {
-    const call = chunk.toolCall
-    if (!call) return
-
-    const tool = toolMap.get(call.name)
-    const parsedArgs = parseToolArgs(call.args)
-    const toolCall: ToolCall = {
-      id: call.id,
-      name: call.name,
-      args: parsedArgs.args,
-      result: call.result,
-      status: !parsedArgs.valid ? 'error' : tool?.requiresConfirmation ? 'requires_confirmation' : 'pending',
-      ...(!parsedArgs.valid ? { error: 'Invalid tool arguments: expected a JSON object' } : {}),
-    }
-
-    if (!parsedArgs.valid) {
-      setMsg(aid, message => ({ ...message, toolCalls: [...(message.toolCalls ?? []), toolCall] }))
-      const error = new ToolError({
-        code: ErrorCodes.AK_TOOL_INVALID_INPUT,
-        message: toolCall.error!,
-        hint: 'The adapter must emit tool arguments as a JSON object.',
-      })
-      emitter.emit({ type: 'error', error })
-      return
-    }
-
-    await auth(authorize, toolCall, { messages: state.messages, tool, phase: 'propose' })
-    if (g !== gen) return
-
-    setMsg(aid, message => ({
-      ...message,
-      toolCalls: [...(message.toolCalls ?? []), toolCall],
-    }))
-
-    await config.onToolCall?.(toolCall, { messages: state.messages, tool })
-    if (g !== gen) return
-
-    // Handle requiresConfirmation: controller keeps existing behavior —
-    // sets status to 'requires_confirmation' and waits for external confirmation
-    if (tool?.requiresConfirmation) {
-      if (call.result) {
-        patchCall(aid, toolCall.id, {
-          result: call.result,
-          status: 'complete',
-        })
-      }
-      return
-    }
-
-    if (tool?.execute) patchCall(aid, toolCall.id, { status: 'running' })
-
-    const outcome = await runTool(tool, toolCall, partial => {
-        if (g !== gen) return
-        patchCall(aid, toolCall.id, { result: partial })
-    })
-    if (g !== gen) return
-
-    patchCall(aid, toolCall.id, {
-      status: outcome.status === 'complete' ? 'complete' : 'error',
-      result: outcome.result,
-      error: outcome.error,
-    })
-  }
-
   const run = async (aid: string, q: string, g: number): Promise<boolean> => {
     await activate()
     const request = await buildAdapterRequest(config, state.messages, q, system, [...toolMap.values()])
@@ -242,7 +178,20 @@ export function createChatController(initial: ChatConfig): ChatController {
         }))
       },
       async onToolCall(chunk) {
-        if (g !== gen) return; await handleCall(aid, chunk, g)
+        if (g !== gen) return
+        await handleControllerToolCall({
+          assistantId: aid,
+          chunk,
+          isCurrentGeneration: () => g === gen,
+          toolMap,
+          messages: state.messages,
+          onToolCall: config.onToolCall,
+          authorize,
+          emitter,
+          setMessage: setMsg,
+          patchCall,
+          runTool,
+        })
       },
       onToolResult(content) {
         if (g !== gen) return; setMsg(aid, message => ({

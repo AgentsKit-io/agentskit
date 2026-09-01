@@ -1,5 +1,7 @@
 import { ConfigError, ErrorCodes } from '../errors'
 
+export { createSamlVerifier } from './saml'
+export type { SamlVerifier, SamlVerifierOptions, SamlAssertion, SamlAttribute } from './saml'
 /**
  * SSO helpers for production AgentsKit deployments. Audit log and
  * multi-tenant cost-guard already shipped; this fills in the
@@ -392,100 +394,6 @@ export function createOidcVerifier(options: OidcVerifierOptions): OidcVerifier {
     async refreshJwks() {
       jwksCache = undefined
       await loadJwks()
-    },
-  }
-}
-
-// ---------------------------------------------------------------------------
-// SAML assertion shape (BYO validator)
-// ---------------------------------------------------------------------------
-
-export interface SamlAttribute {
-  name: string
-  values: string[]
-}
-
-export interface SamlAssertion {
-  /** SAML NameID — usually the user's stable identifier. */
-  subject: string
-  /** IdP entity id (`Issuer` element). */
-  issuer: string
-  /** Audience restriction — your SP entity id. */
-  audience: string
-  /** ISO timestamps. */
-  notBefore?: string
-  notOnOrAfter: string
-  attributes: SamlAttribute[]
-}
-
-export interface SamlVerifierOptions {
-  /** Expected `Issuer` (IdP entity id). */
-  issuer: string
-  /** Expected audience (SP entity id). */
-  audience: string
-  /**
-   * X.509 cert (PEM) that signs the IdP's assertions. Required —
-   * AgentsKit does not parse SAML metadata XML.
-   */
-  signingCertPem: string
-  /** Allowed clock skew in seconds. Default 30. */
-  clockSkewSeconds?: number
-}
-
-export interface SamlVerifier {
-  /**
-   * Verify a parsed SAML assertion. Signature verification is
-   * delegated to your SAML library (`samlify`, `node-saml`, etc.) —
-   * pass the parsed shape here for the AgentsKit-side claim checks.
-   */
-  verifyClaims: (assertion: SamlAssertion) => void
-  /** Reusable claim extraction. */
-  extractTenant: (assertion: SamlAssertion, attributeName: string) => string | undefined
-}
-
-export function createSamlVerifier(options: SamlVerifierOptions): SamlVerifier {
-  const skew = (options.clockSkewSeconds ?? 30) * 1000
-  return {
-    verifyClaims(assertion) {
-      if (assertion.issuer !== options.issuer) {
-        throw new ConfigError({
-          code: ErrorCodes.AK_CONFIG_INVALID,
-          message: `SAML issuer mismatch: expected ${options.issuer}, got ${assertion.issuer}`,
-        })
-      }
-      if (assertion.audience !== options.audience) {
-        throw new ConfigError({
-          code: ErrorCodes.AK_CONFIG_INVALID,
-          message: `SAML audience mismatch: expected ${options.audience}, got ${assertion.audience}`,
-        })
-      }
-      const now = Date.now()
-      const notOnOrAfter = Date.parse(assertion.notOnOrAfter)
-      if (Number.isNaN(notOnOrAfter)) {
-        throw new ConfigError({
-          code: ErrorCodes.AK_CONFIG_INVALID,
-          message: `invalid SAML NotOnOrAfter: ${assertion.notOnOrAfter}`,
-        })
-      }
-      if (notOnOrAfter + skew < now) {
-        throw new ConfigError({
-          code: ErrorCodes.AK_CONFIG_INVALID,
-          message: `SAML assertion expired at ${assertion.notOnOrAfter}`,
-        })
-      }
-      if (assertion.notBefore) {
-        const nb = Date.parse(assertion.notBefore)
-        if (!Number.isNaN(nb) && nb > now + skew) {
-          throw new ConfigError({
-            code: ErrorCodes.AK_CONFIG_INVALID,
-            message: `SAML assertion not yet valid: ${assertion.notBefore}`,
-          })
-        }
-      }
-    },
-    extractTenant(assertion, attributeName) {
-      const attr = assertion.attributes.find(a => a.name === attributeName)
-      return attr?.values[0]
     },
   }
 }
