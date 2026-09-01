@@ -26,6 +26,7 @@ import { useToolPermissions } from '../runtime/use-tool-permissions'
 import { useSessionMeta } from '../runtime/use-session-meta'
 import { HookDispatcher } from '../extensibility/hooks'
 import type { HookHandler } from '../extensibility/plugins'
+import { applyPolicyToTools } from '../extensibility/permissions'
 import { useEffect } from 'react'
 
 export interface ChatCommandOptions {
@@ -92,8 +93,11 @@ export function ChatApp(options: ChatCommandOptions) {
 
   const mergedTools = useMemo(() => {
     const extra = options.extraTools ?? []
-    return [...tools, ...extra]
-  }, [tools, options.extraTools])
+    const combined = [...tools, ...extra]
+    return options.permissionPolicy
+      ? applyPolicyToTools(options.permissionPolicy, combined)
+      : combined
+  }, [tools, options.extraTools, options.permissionPolicy])
 
   const mergedSkills = useMemo(() => {
     const extra = options.extraSkills ?? []
