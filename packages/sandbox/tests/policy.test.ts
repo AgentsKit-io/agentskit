@@ -55,6 +55,11 @@ describe('createMandatorySandbox', () => {
     await expect(bad.execute!({}, stubCtx)).rejects.toThrow(/not-in-allow-list/)
   })
 
+  it('deny wins when allow and deny contain the same tool', async () => {
+    const m = createMandatorySandbox({ sandbox, policy: { allow: ['delete'], deny: ['delete'] } })
+    await expect(m.wrap(makeTool('delete')).execute!({}, stubCtx)).rejects.toThrow(/denied/)
+  })
+
   it('requireSandbox "*" forces all tools into sandbox', async () => {
     const m = createMandatorySandbox({ sandbox, policy: { requireSandbox: '*' } })
     const wrapped = m.wrap(makeTool('any'))

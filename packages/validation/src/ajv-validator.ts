@@ -54,10 +54,29 @@ export function createAjvValidator(options: AjvValidatorOptions = {}): ArgsValid
     options.ajv ??
     new Ajv({
       allErrors: true,
-      strict: false,
+      strict: true,
+      strictTypes: false,
+      strictRequired: false,
+      strictTuples: false,
       coerceTypes: options.coerceTypes ?? false,
       removeAdditional: false,
     })
+
+  if (!options.ajv) {
+    ajv.addFormat('uri', {
+      type: 'string',
+      validate: (value: string) => {
+        try { return Boolean(new URL(value).protocol) } catch { return false }
+      },
+    })
+    ajv.addFormat('uri-reference', { type: 'string', validate: (value: string) => {
+      try { new URL(value, 'https://agentskit.invalid'); return true } catch { return false }
+    } })
+    ajv.addFormat('hostname', { type: 'string', validate: (value: string) => value.length <= 253 && /^[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?$/.test(value) })
+    ajv.addFormat('ipv4', { type: 'string', validate: (value: string) => /^(?:\d{1,3}\.){3}\d{1,3}$/.test(value) && value.split('.').every(part => Number(part) <= 255) })
+    ajv.addFormat('ipv6', { type: 'string', validate: (value: string) => value.includes(':') })
+    ajv.addFormat('email', { type: 'string', validate: (value: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value) })
+  }
 
   // Compiled validators are cached by schema identity so repeated tool calls
   // do not recompile. Schemas are stable object references on ToolDefinition.

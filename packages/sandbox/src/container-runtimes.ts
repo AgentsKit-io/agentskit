@@ -182,6 +182,11 @@ export const assertSafeDockerExtraArgs = (extraArgs: readonly string[]): void =>
     const arg = raw.trim()
     const lower = arg.toLowerCase()
 
+    if (['--cap-drop', '--read-only', '--user', '--init', '--security-opt'].includes(lower) ||
+      lower.startsWith('--cap-drop=') || lower.startsWith('--user=') || lower.startsWith('--security-opt=')) {
+      rejectDockerEscape(arg, 'this security-sensitive option must be configured through the typed policy')
+    }
+
     if (lower === '--privileged' || lower.startsWith('--privileged=')) {
       rejectDockerEscape(arg, '--privileged is not allowed')
     }
@@ -214,19 +219,6 @@ export const assertSafeDockerExtraArgs = (extraArgs: readonly string[]): void =>
     }
     if (lower === '--device' || lower.startsWith('--device=')) {
       rejectDockerEscape(arg, 'host device passthrough is not allowed')
-    }
-    if (lower === '--security-opt' || lower.startsWith('--security-opt=')) {
-      const val = lower.startsWith('--security-opt=')
-        ? lower.slice('--security-opt='.length)
-        : (extraArgs[i + 1] ?? '').toLowerCase()
-      if (
-        val.includes('no-new-privileges=false') ||
-        val === 'seccomp=unconfined' ||
-        val === 'apparmor=unconfined' ||
-        val === 'label=disable'
-      ) {
-        rejectDockerEscape(arg, 'security-opt weakens container isolation')
-      }
     }
     if (lower === '--cap-add' || lower.startsWith('--cap-add=')) {
       rejectDockerEscape(arg, 'capabilities must be configured through policy.capabilities')

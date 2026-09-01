@@ -6,7 +6,7 @@ export interface SandboxPolicy {
   requireSandbox?: string[] | '*'
   /** Tool names that are completely banned. */
   deny?: string[]
-  /** Explicit allow-list. Anything not listed is denied. Overrides `deny`. */
+  /** Explicit allow-list. Anything not listed is denied. `deny` wins on conflict. */
   allow?: string[]
   /** Per-tool argument validators — fired before execution. */
   validators?: Record<string, (args: Record<string, unknown>) => void>
@@ -79,6 +79,8 @@ export function createMandatorySandbox(options: {
   const decide = (
     tool: ToolDefinition,
   ): { allowed: boolean; mustSandbox: boolean; reason?: string } => {
+    // Deny is the safety ceiling: an accidental allow-list entry must not
+    // re-enable a tool explicitly blocked by policy.
     if (inList(policy.deny, tool.name)) {
       return { allowed: false, mustSandbox: false, reason: 'denied' }
     }

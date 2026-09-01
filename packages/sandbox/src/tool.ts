@@ -56,8 +56,8 @@ export function sandboxTool(config: SandboxConfig = {}): ToolDefinition {
       await sandbox.dispose()
     },
     execute: async (args) => {
-      const code = String(args.code ?? '')
-      if (!code) return 'Error: code is required'
+      if (typeof args.code !== 'string' || args.code.length === 0) return 'Error: code is required and must be a string'
+      const code = args.code
 
       const rawLanguage = args.language ?? config.language ?? 'javascript'
       if (typeof rawLanguage !== 'string' || !SUPPORTED_LANGUAGES.has(rawLanguage)) {

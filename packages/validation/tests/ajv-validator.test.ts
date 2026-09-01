@@ -18,6 +18,15 @@ describe('createAjvValidator', () => {
     expect(validate(schema, { city: 'Lisbon', units: 'C' })).toEqual({ valid: true })
   })
 
+  it('enforces supported security-relevant formats and rejects unknown formats', () => {
+    const validate = createAjvValidator()
+    const uri = { type: 'object', properties: { callback: { type: 'string', format: 'uri' } }, required: ['callback'] } as const
+    expect(validate(uri, { callback: 'https://example.test/callback' }).valid).toBe(true)
+    expect(validate(uri, { callback: 'not a uri' }).valid).toBe(false)
+    const unknown = { type: 'string', format: 'future-format' } as const
+    expect(() => validate(unknown, 'value' as unknown as Record<string, unknown>)).toThrow(/unknown format/)
+  })
+
   it('rejects a missing required field with a path', () => {
     const validate = createAjvValidator()
     const result = validate(schema, { units: 'C' })
