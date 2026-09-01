@@ -1,8 +1,19 @@
 import { spawn, type ChildProcess } from 'node:child_process'
+import { createRequire } from 'node:module'
 import { resolve as pathResolve, basename } from 'node:path'
 import { existsSync } from 'node:fs'
 import chokidar from 'chokidar'
 import kleur from 'kleur'
+
+const require = createRequire(import.meta.url)
+
+function resolveTsxCli(): string {
+  try {
+    return require.resolve('tsx/cli')
+  } catch {
+    throw new Error('TypeScript execution requires the packaged tsx dependency')
+  }
+}
 
 export interface DevOptions {
   /** Entry file to run (relative or absolute). */
@@ -80,8 +91,10 @@ export function startDev(options: DevOptions): DevController {
   const debounceMs = options.debounceMs ?? 200
 
   const isTs = entry.endsWith('.ts') || entry.endsWith('.tsx')
-  const cmd = isTs ? 'tsx' : 'node'
-  const baseArgs = [entry, ...(options.scriptArgs ?? [])]
+  const cmd = isTs ? process.execPath : 'node'
+  const baseArgs = isTs
+    ? [resolveTsxCli(), entry, ...(options.scriptArgs ?? [])]
+    : [entry, ...(options.scriptArgs ?? [])]
 
   const spawnFn =
     options.spawn ??
