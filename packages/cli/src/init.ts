@@ -1533,19 +1533,30 @@ const AGENTSKIT_PACKAGE_RANGES: Record<string, string> = {
 
 function alignGeneratedPackageVersions(files: Record<string, string>): Record<string, string> {
   const packageJson = files['package.json']
-  if (!packageJson) return files
-  const parsed = JSON.parse(packageJson) as Record<string, unknown>
-  for (const sectionName of ['dependencies', 'devDependencies', 'peerDependencies', 'imports']) {
-    const section = parsed[sectionName]
-    if (!section || typeof section !== 'object' || Array.isArray(section)) continue
-    for (const [name, range] of Object.entries(AGENTSKIT_PACKAGE_RANGES)) {
-      if (!(name in section)) continue
-      ;(section as Record<string, unknown>)[name] = sectionName === 'imports'
-        ? `npm:${name}@${range}`
-        : range
+  const denoJson = files['deno.json']
+  const aligned = { ...files }
+  if (packageJson) {
+    const parsed = JSON.parse(packageJson) as Record<string, unknown>
+    for (const sectionName of ['dependencies', 'devDependencies', 'peerDependencies']) {
+      const section = parsed[sectionName]
+      if (!section || typeof section !== 'object' || Array.isArray(section)) continue
+      for (const [name, range] of Object.entries(AGENTSKIT_PACKAGE_RANGES)) {
+        if (name in section) (section as Record<string, unknown>)[name] = range
+      }
     }
+    aligned['package.json'] = `${JSON.stringify(parsed, null, 2)}\n`
   }
-  return { ...files, 'package.json': `${JSON.stringify(parsed, null, 2)}\n` }
+  if (denoJson) {
+    const parsed = JSON.parse(denoJson) as Record<string, unknown>
+    const imports = parsed.imports
+    if (imports && typeof imports === 'object' && !Array.isArray(imports)) {
+      for (const [name, range] of Object.entries(AGENTSKIT_PACKAGE_RANGES)) {
+        if (name in imports) (imports as Record<string, unknown>)[name] = `npm:${name}@${range}`
+      }
+    }
+    aligned['deno.json'] = `${JSON.stringify(parsed, null, 2)}\n`
+  }
+  return aligned
 }
 
 async function lstatOrMissing(filePath: string) {

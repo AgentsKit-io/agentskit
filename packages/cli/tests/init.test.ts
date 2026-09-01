@@ -285,6 +285,7 @@ describe('@agentskit/cli', () => {
 
     const denoConfig = JSON.parse(await readFile(path.join(tempDir, 'deno.json'), 'utf8'))
     expect(denoConfig.tasks.deploy).toContain('deployctl')
+    expect(denoConfig.imports['@agentskit/adapters']).toBe('npm:@agentskit/adapters@^0.15.2')
 
     const main = await readFile(path.join(tempDir, 'main.ts'), 'utf8')
     expect(main).toContain('Deno.serve')
