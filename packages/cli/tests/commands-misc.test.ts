@@ -68,6 +68,7 @@ describe('registerInitCommand — interactive not cancelled', () => {
       tools: [] as never[],
       memory: 'none' as const,
       packageManager: 'pnpm' as const,
+      force: false,
     }
 
     const printNextStepsMock = vi.fn()

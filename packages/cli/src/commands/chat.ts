@@ -34,6 +34,7 @@ export function registerChatCommand(program: Command): void {
       (value: string, prev: string[] = []) => [...prev, value],
       [],
     )
+    .option('--discover-plugins', 'Also auto-discover plugins from ~/.agentskit/plugins')
     .option(
       '--mode <mode>',
       'Permission mode: default | plan | acceptEdits | bypassPermissions',
@@ -74,6 +75,7 @@ export function registerChatCommand(program: Command): void {
       const pluginBundle = await loadPlugins({
         specs: config?.plugins ?? [],
         pluginDirs: (options.pluginDir as string[]) ?? [],
+        autoDiscoverUserDir: Boolean(options.discoverPlugins),
       })
 
       const configHooks = configHooksToHandlers(config?.hooks as ConfigHooksMap | undefined)

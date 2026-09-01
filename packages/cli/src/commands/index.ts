@@ -1,4 +1,5 @@
 import { Command } from 'commander'
+import packageJson from '../../package.json'
 import { registerChatCommand } from './chat'
 import { registerRunCommand } from './run'
 import { registerInitCommand } from './init'
@@ -19,6 +20,7 @@ export function createCli(): Command {
   program
     .name('agentskit')
     .description('AgentsKit CLI for chat demos and project bootstrapping.')
+    .version(packageJson.version)
 
   registerChatCommand(program)
   registerRunCommand(program)

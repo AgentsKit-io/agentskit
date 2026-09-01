@@ -14,6 +14,7 @@ export function registerInitCommand(program: Command): void {
     .option('--tools <tools>', 'Comma-separated tools (web_search,filesystem,shell)')
     .option('--memory <backend>', 'Memory backend (none|file|sqlite)')
     .option('--pm <packageManager>', 'Package manager (pnpm|npm|yarn|bun)')
+    .option('--force', 'Overwrite generated files in a non-empty target directory')
     .option('-y, --yes', 'Skip interactive prompts; use flag values + defaults')
     .action(async (rawOptions) => {
       const isCi = !process.stdout.isTTY || rawOptions.yes || rawOptions.template
@@ -30,6 +31,7 @@ export function registerInitCommand(program: Command): void {
             : [],
           memory: (rawOptions.memory ?? 'none') as MemoryKind,
           packageManager: (rawOptions.pm ?? 'pnpm') as PackageManager,
+          force: Boolean(rawOptions.force),
         }
       } else {
         const result = await runInteractiveInit({
@@ -39,18 +41,22 @@ export function registerInitCommand(program: Command): void {
         if (result.cancelled) {
           process.exit(0)
         }
-        resolved = result.options
+        resolved = { ...result.options, force: Boolean(rawOptions.force) }
       }
 
-      await writeStarterProject(resolved)
+      const overwritten = (await writeStarterProject(resolved)) ?? []
 
       if (isCi) {
         process.stdout.write(
           `Created ${resolved.template} starter in ${path.relative(process.cwd(), resolved.targetDir) || '.'}\n` +
+            (overwritten.length > 0 ? `Overwritten: ${overwritten.join(', ')}\n` : '') +
             `★ Star AgentsKit (solo-built — it helps a lot): https://github.com/AgentsKit-io/agentskit\n`,
         )
       } else {
         printNextSteps(resolved)
+        if (overwritten.length > 0) {
+          process.stdout.write(`Overwritten: ${overwritten.join(', ')}\n`)
+        }
       }
     })
 }

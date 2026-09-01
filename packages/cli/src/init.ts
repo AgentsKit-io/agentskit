@@ -1,5 +1,6 @@
-import { mkdir, writeFile } from 'node:fs/promises'
+import { lstat, mkdir, mkdtemp, readdir, rename, rm, writeFile } from 'node:fs/promises'
 import path from 'node:path'
+import { randomUUID } from 'node:crypto'
 import {
   PROVIDER_DEFAULT_MODEL,
   PROVIDER_ENV_KEY,
@@ -34,6 +35,8 @@ export interface InitCommandOptions {
   tools?: ToolKind[]
   memory?: MemoryKind
   packageManager?: PackageManager
+  /** Refuse non-empty destinations unless explicitly enabled. */
+  force?: boolean
 }
 
 interface RenderContext {
@@ -1512,7 +1515,49 @@ const TEMPLATE_FN: Record<StarterKind, (ctx: RenderContext) => Record<string, st
   angular: angularStarter,
 }
 
-export async function writeStarterProject(options: InitCommandOptions): Promise<void> {
+// Keep generated projects on the package lines shipped by this release.
+// Update this map as part of the release bump; templates must never silently
+// install the historical 0.4 line.
+const AGENTSKIT_PACKAGE_RANGES: Record<string, string> = {
+  '@agentskit/adapters': '^0.15.2',
+  '@agentskit/angular': '^0.5.3',
+  '@agentskit/ink': '^0.10.9',
+  '@agentskit/memory': '^0.11.8',
+  '@agentskit/react': '^0.8.3',
+  '@agentskit/runtime': '^0.10.15',
+  '@agentskit/skills': '^0.9.3',
+  '@agentskit/svelte': '^0.5.3',
+  '@agentskit/tools': '^0.13.6',
+  '@agentskit/vue': '^0.5.3',
+}
+
+function alignGeneratedPackageVersions(files: Record<string, string>): Record<string, string> {
+  const packageJson = files['package.json']
+  if (!packageJson) return files
+  const parsed = JSON.parse(packageJson) as Record<string, unknown>
+  for (const sectionName of ['dependencies', 'devDependencies', 'peerDependencies', 'imports']) {
+    const section = parsed[sectionName]
+    if (!section || typeof section !== 'object' || Array.isArray(section)) continue
+    for (const [name, range] of Object.entries(AGENTSKIT_PACKAGE_RANGES)) {
+      if (!(name in section)) continue
+      ;(section as Record<string, unknown>)[name] = sectionName === 'imports'
+        ? `npm:${name}@${range}`
+        : range
+    }
+  }
+  return { ...files, 'package.json': `${JSON.stringify(parsed, null, 2)}\n` }
+}
+
+async function lstatOrMissing(filePath: string) {
+  try {
+    return await lstat(filePath)
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code === 'ENOENT') return undefined
+    throw error
+  }
+}
+
+export async function writeStarterProject(options: InitCommandOptions): Promise<string[]> {
   const ctx: RenderContext = {
     template: options.template,
     provider: options.provider ?? 'demo',
@@ -1521,14 +1566,42 @@ export async function writeStarterProject(options: InitCommandOptions): Promise<
     pm: options.packageManager ?? 'pnpm',
   }
 
-  const files = TEMPLATE_FN[ctx.template](ctx)
+  const files = alignGeneratedPackageVersions(TEMPLATE_FN[ctx.template](ctx))
   await mkdir(options.targetDir, { recursive: true })
 
-  await Promise.all(
-    Object.entries(files).map(async ([relativePath, content]) => {
-      const absolutePath = path.join(options.targetDir, relativePath)
-      await mkdir(path.dirname(absolutePath), { recursive: true })
-      await writeFile(absolutePath, content, 'utf8')
-    }),
-  )
+  const targetStat = await lstat(options.targetDir)
+  if (targetStat.isSymbolicLink() || !targetStat.isDirectory()) {
+    throw new Error(`Refusing to write starter into non-directory target: ${options.targetDir}`)
+  }
+  const existingEntries = await readdir(options.targetDir)
+  if (existingEntries.length > 0 && !options.force) {
+    throw new Error(
+      `Target directory is not empty: ${options.targetDir} (re-run with --force to overwrite generated files)`,
+    )
+  }
+
+  const overwritten: string[] = []
+
+  for (const [relativePath, content] of Object.entries(files)) {
+    const absolutePath = path.join(options.targetDir, relativePath)
+    await mkdir(path.dirname(absolutePath), { recursive: true })
+    const destinationStat = await lstatOrMissing(absolutePath)
+    if (destinationStat?.isSymbolicLink()) {
+      throw new Error(`Refusing to overwrite symlink: ${absolutePath}`)
+    }
+    if (destinationStat) overwritten.push(relativePath)
+
+    // Same-directory temp + rename gives atomic replacement for each generated
+    // file while preserving unrelated files in an existing project.
+    const tempDir = await mkdtemp(path.join(path.dirname(absolutePath), `.agentskit-init-${randomUUID()}-`))
+    const tempPath = path.join(tempDir, path.basename(absolutePath))
+    try {
+      await writeFile(tempPath, content, 'utf8')
+      await rename(tempPath, absolutePath)
+    } finally {
+      await rm(tempDir, { recursive: true, force: true }).catch(() => {})
+    }
+  }
+
+  return overwritten
 }
