@@ -123,6 +123,10 @@ describe('matchesRange', () => {
     expect(matchesRange('1.2.3', '1.2.4')).toBe(false)
   })
 
+  it('validates the version before wildcard matching', () => {
+    expect(() => matchesRange('not-a-version', '*')).toThrow(/invalid semver/)
+  })
+
   it('exact match ignores build metadata and compares prerelease', () => {
     expect(matchesRange('1.0.0+build.1', '1.0.0')).toBe(true)
     expect(matchesRange('1.0.0', '1.0.0+build.9')).toBe(true)

@@ -5,6 +5,11 @@ description: Publish, install, version skills. Semver range resolution.
 
 `createSkillRegistry` is the local primitive for publish/install/version. For a hosted, shadcn-style catalog of ready-made agents you can pull with one command, see the [Registry](https://registry.agentskit.io).
 
+The built-in registry is intentionally in-memory and process-local. It does not
+persist packages, authenticate publishers, or provide a security/compliance
+boundary. For persistence or a hosted catalog, implement the `SkillRegistry`
+contract in your application or use the hosted Registry service.
+
 ```ts
 import { createSkillRegistry, customerSupport } from '@agentskit/skills'
 
@@ -29,7 +34,11 @@ const resolved = await registry.install('customer-support', '^1.0.0')
 
 ## Ranges
 
-`1.2.3` · `^1.2.3` · `~1.2.3` · `>=1.2.0 <2.0.0` · `*`.
+`1.2.3` · `^1.2.3` · `~1.2.3` · `>=1.2.3` · `*`.
+
+Compound npm ranges are intentionally not supported. Invalid versions throw a
+`SkillError`; use the documented single-comparator forms or a full semver
+implementation in a host-owned registry.
 
 ## Related
 

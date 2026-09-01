@@ -163,9 +163,12 @@ function prereleaseAllowed(version: ParsedSemver, rangeTarget: ParsedSemver): bo
  * comparator itself includes a prerelease on the same major.minor.patch.
  */
 export function matchesRange(version: string, range: string): boolean {
+  // Validate versions even for the wildcard path; callers should not be able
+  // to bypass the strict SemVer contract with `*`.
+  const parsedVersion = parseSemverFull(version)
   if (!range || range === '*') return true
   if (/^\d/.test(range)) {
-    const v = parseSemverFull(version)
+    const v = parsedVersion
     const t = parseSemverFull(range)
     return sameCore(v, t) && comparePrerelease(v.prerelease, t.prerelease) === 0
   }
