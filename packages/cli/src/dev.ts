@@ -1,8 +1,19 @@
 import { spawn, type ChildProcess } from 'node:child_process'
+import { createRequire } from 'node:module'
 import { resolve as pathResolve, basename } from 'node:path'
 import { existsSync } from 'node:fs'
 import chokidar from 'chokidar'
 import kleur from 'kleur'
+
+const require = createRequire(import.meta.url)
+
+function resolveTsxCli(): string {
+  try {
+    return require.resolve('tsx/cli')
+  } catch {
+    throw new Error('TypeScript execution requires the packaged tsx dependency')
+  }
+}
 
 export interface DevOptions {
   /** Entry file to run (relative or absolute). */
@@ -80,8 +91,10 @@ export function startDev(options: DevOptions): DevController {
   const debounceMs = options.debounceMs ?? 200
 
   const isTs = entry.endsWith('.ts') || entry.endsWith('.tsx')
-  const cmd = isTs ? 'tsx' : 'node'
-  const baseArgs = [entry, ...(options.scriptArgs ?? [])]
+  const cmd = isTs ? process.execPath : 'node'
+  const baseArgs = isTs
+    ? [resolveTsxCli(), entry, ...(options.scriptArgs ?? [])]
+    : [entry, ...(options.scriptArgs ?? [])]
 
   const spawnFn =
     options.spawn ??
@@ -102,7 +115,9 @@ export function startDev(options: DevOptions): DevController {
   let child: ChildProcess | undefined
   let restartCount = 0
   let restartTimer: NodeJS.Timeout | undefined
+  let delayedStartTimer: NodeJS.Timeout | undefined
   let stopped = false
+  let stdinListener: ((data: Buffer) => void) | undefined
   let resolveDone: () => void
   const done = new Promise<void>(r => { resolveDone = r })
 
@@ -139,7 +154,10 @@ export function startDev(options: DevOptions): DevController {
         child.kill('SIGTERM')
       }
       // Brief pause so the SIGTERM is delivered before we spawn again.
-      setTimeout(startChild, 80)
+      delayedStartTimer = setTimeout(() => {
+        delayedStartTimer = undefined
+        if (!stopped) startChild()
+      }, 80)
     }, debounceMs)
   }
 
@@ -153,6 +171,9 @@ export function startDev(options: DevOptions): DevController {
     if (stopped) return
     stopped = true
     if (restartTimer) clearTimeout(restartTimer)
+    if (delayedStartTimer) clearTimeout(delayedStartTimer)
+    if (stdinListener) process.stdin.off('data', stdinListener)
+    if (process.stdin.isTTY && process.stdin.setRawMode) process.stdin.setRawMode(false)
     if (child && !child.killed && child.exitCode === null) {
       child.kill('SIGTERM')
     }
@@ -165,11 +186,12 @@ export function startDev(options: DevOptions): DevController {
   if (process.stdin.isTTY && process.stdin.setRawMode) {
     process.stdin.setRawMode(true)
     process.stdin.resume()
-    process.stdin.on('data', (data: Buffer) => {
+    stdinListener = (data: Buffer) => {
       const key = data.toString()
       if (key === 'r') restart('manual')
       if (key === 'q' || key === '\u0003') void stop()
-    })
+    }
+    process.stdin.on('data', stdinListener)
   }
 
   return {

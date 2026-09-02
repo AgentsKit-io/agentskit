@@ -5,13 +5,84 @@
  *   1. Hosted index   — https://registry.agentskit.io/r/<id>.json (meta + inlined sources)
  *   2. Raw GitHub      — the registry repo's registry/<id>/ files (works before hosting is live)
  */
-import { mkdir, writeFile } from 'node:fs/promises'
-import { dirname, join } from 'node:path'
+import { lstat, mkdir, writeFile } from 'node:fs/promises'
+import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 
 const RAW_BASE = 'https://raw.githubusercontent.com/AgentsKit-io/agentskit-registry/main'
 // The committed, prebuilt index (fast path) — served straight from the repo, no
 // separate deploy. Falls back to walking the agent source below.
 const HOSTED_BASE = `${RAW_BASE}/public/r`
+const FETCH_TIMEOUT_MS = 15_000
+const MAX_RESPONSE_BYTES = 2 * 1024 * 1024
+const MAX_AGENT_FILES = 100
+const SAFE_ID = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
+
+function assertSafeId(id: string): void {
+  if (!SAFE_ID.test(id)) throw new Error(`Invalid registry agent id: ${JSON.stringify(id)}`)
+}
+
+function assertSafeRelativePath(filePath: string): void {
+  if (!filePath || isAbsolute(filePath) || filePath.includes('\0')) {
+    throw new Error(`Invalid registry file path: ${JSON.stringify(filePath)}`)
+  }
+  const normalized = filePath.replace(/\\/g, '/')
+  if (normalized.split('/').some(part => part === '..' || part === '')) {
+    throw new Error(`Registry file path must stay relative: ${JSON.stringify(filePath)}`)
+  }
+}
+
+function assertInside(parent: string, child: string): void {
+  const rel = relative(resolve(parent), resolve(child))
+  if (rel === '..' || rel.startsWith(`..${sep}`) || isAbsolute(rel)) {
+    throw new Error(`Registry destination escapes target directory: ${child}`)
+  }
+}
+
+async function assertNoSymlinkAncestors(targetDir: string, baseDir: string): Promise<void> {
+  for (const path of [targetDir, baseDir]) {
+    try {
+      if ((await lstat(resolve(path))).isSymbolicLink()) {
+        throw new Error(`Registry destination contains a symlink ancestor: ${resolve(path)}`)
+      }
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
+    }
+  }
+
+  // If the selected base does not exist yet, inspect only its missing-path
+  // ancestors until the first existing directory. Do not walk system parents
+  // of an already-existing user-selected base (for example /var on macOS).
+  let current = resolve(baseDir)
+  while (true) {
+    try {
+      if ((await lstat(current)).isSymbolicLink()) {
+        throw new Error(`Registry destination contains a symlink ancestor: ${current}`)
+      }
+      return
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
+    }
+    const parent = dirname(current)
+    if (parent === current) return
+    current = parent
+  }
+}
+
+async function fetchWithLimits(url: string, fetchImpl: typeof fetch): Promise<Response> {
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), FETCH_TIMEOUT_MS)
+  try {
+    const response = await fetchImpl(url, { signal: controller.signal })
+    if (!response.ok) throw new Error(`${response.status} ${response.statusText}`)
+    const body = await response.arrayBuffer()
+    if (body.byteLength > MAX_RESPONSE_BYTES) {
+      throw new Error(`Registry response exceeded ${MAX_RESPONSE_BYTES} bytes`)
+    }
+    return new Response(body, { status: response.status, headers: response.headers })
+  } finally {
+    clearTimeout(timer)
+  }
+}
 
 export interface RegistryEnvVar {
   name: string
@@ -52,19 +123,18 @@ export interface FetchOptions {
 }
 
 async function getJson(url: string, fetchImpl: typeof fetch): Promise<unknown> {
-  const res = await fetchImpl(url)
-  if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
-  return res.json()
+  const res = await fetchWithLimits(url, fetchImpl)
+  return JSON.parse(await res.text())
 }
 
 async function getText(url: string, fetchImpl: typeof fetch): Promise<string> {
-  const res = await fetchImpl(url)
-  if (!res.ok) throw new Error(`${res.status} ${res.statusText}`)
+  const res = await fetchWithLimits(url, fetchImpl)
   return res.text()
 }
 
 /** Fetch an agent descriptor with inlined file sources, hosted first then raw GitHub. */
 export async function fetchAgent(id: string, options: FetchOptions = {}): Promise<RegistryAgent> {
+  assertSafeId(id)
   const fetchImpl = options.fetchImpl ?? globalThis.fetch
   try {
     const hosted = (await getJson(`${HOSTED_BASE}/${id}.json`, fetchImpl)) as RegistryAgent
@@ -76,6 +146,10 @@ export async function fetchAgent(id: string, options: FetchOptions = {}): Promis
       RegistryAgent,
       'sources'
     >
+    if (!Array.isArray(meta.files) || meta.files.length > MAX_AGENT_FILES) {
+      throw new Error(`Registry agent contains too many files (maximum ${MAX_AGENT_FILES})`)
+    }
+    for (const rel of meta.files) assertSafeRelativePath(rel)
     const sources = await Promise.all(
       meta.files.map(async (rel) => ({
         path: rel,
@@ -147,6 +221,8 @@ export async function addAgent(id: string, options: AddOptions = {}): Promise<Ad
   assertInstallable(agent)
   const baseDir = options.outDir ?? 'agents'
   const targetDir = join(baseDir, id)
+  assertInside(baseDir, targetDir)
+  await assertNoSymlinkAncestors(targetDir, baseDir)
   const exists = options.existsImpl ?? defaultExists
   const write =
     options.writeFileImpl ??
@@ -156,11 +232,18 @@ export async function addAgent(id: string, options: AddOptions = {}): Promise<Ad
     })
 
   const written: string[] = []
+  // Validate and check every destination before writing any file, so a later
+  // conflict cannot leave a partially installed agent behind.
   for (const file of agent.sources) {
+    assertSafeRelativePath(file.path)
     const dest = join(targetDir, file.path)
+    assertInside(targetDir, dest)
     if (!options.force && (await exists(dest))) {
       throw new Error(`${dest} already exists (re-run with --force to overwrite)`)
     }
+  }
+  for (const file of agent.sources) {
+    const dest = join(targetDir, file.path)
     await write(dest, file.content)
     written.push(dest)
   }

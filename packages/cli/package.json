@@ -2,6 +2,9 @@
   "name": "@agentskit/cli",
   "version": "0.13.38",
   "description": "CLI for AgentsKit chat and project scaffolding.",
+  "engines": {
+    "node": ">=22"
+  },
   "keywords": [
     "agentskit",
     "ai",
@@ -62,6 +65,7 @@
     "kleur": "^4.1.5",
     "localtunnel": "^2.0.2",
     "react": "^19.2.8",
+    "tsx": "^4.23.5",
     "yaml": "^2.9.0"
   },
   "devDependencies": {

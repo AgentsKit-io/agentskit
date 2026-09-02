@@ -83,6 +83,11 @@ describe('resolveAuthHeader', () => {
     })
     expect(resolveAuthHeader('https://acme.internal/ak', config, {})).toEqual({})
     expect(resolveAuthHeader('https://registry.agentskit.io', config, { ACME_TOKEN: 'sek' })).toEqual({})
+    expect(resolveAuthHeader('https://acme.internal/ak-evasion', config, { ACME_TOKEN: 'sek' })).toEqual({})
+    expect(resolveAuthHeader('https://acme.internal.evil/ak', config, { ACME_TOKEN: 'sek' })).toEqual({})
+    expect(resolveAuthHeader('https://acme.internal/ak/r/chat', config, { ACME_TOKEN: 'sek' })).toEqual({
+      authorization: 'Bearer sek',
+    })
   })
 })
 

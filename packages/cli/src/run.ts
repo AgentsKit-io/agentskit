@@ -43,8 +43,7 @@ function formatEvent(event: AgentEvent): string {
 
 export async function runAgent(task: string, options: RunCommandOptions): Promise<void> {
   if (options.skill && options.skills) {
-    process.stderr.write('Error: --skill and --skills are mutually exclusive. Use one or the other.\n')
-    process.exit(1)
+    throw new Error('--skill and --skills are mutually exclusive. Use one or the other.')
   }
 
   const { adapter } = resolveChatProvider({

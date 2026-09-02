@@ -1,4 +1,3 @@
-import { mkdir, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import {
   PROVIDER_DEFAULT_MODEL,
@@ -6,6 +5,7 @@ import {
   PROVIDER_IMPORT,
 } from './init-providers'
 import type { Provider } from './init-providers'
+import { writeStarterProject as writeProject } from './init-writer'
 
 export type { Provider } from './init-providers'
 
@@ -34,6 +34,8 @@ export interface InitCommandOptions {
   tools?: ToolKind[]
   memory?: MemoryKind
   packageManager?: PackageManager
+  /** Refuse non-empty destinations unless explicitly enabled. */
+  force?: boolean
 }
 
 interface RenderContext {
@@ -1512,23 +1514,6 @@ const TEMPLATE_FN: Record<StarterKind, (ctx: RenderContext) => Record<string, st
   angular: angularStarter,
 }
 
-export async function writeStarterProject(options: InitCommandOptions): Promise<void> {
-  const ctx: RenderContext = {
-    template: options.template,
-    provider: options.provider ?? 'demo',
-    tools: options.tools ?? [],
-    memory: options.memory ?? 'none',
-    pm: options.packageManager ?? 'pnpm',
-  }
-
-  const files = TEMPLATE_FN[ctx.template](ctx)
-  await mkdir(options.targetDir, { recursive: true })
-
-  await Promise.all(
-    Object.entries(files).map(async ([relativePath, content]) => {
-      const absolutePath = path.join(options.targetDir, relativePath)
-      await mkdir(path.dirname(absolutePath), { recursive: true })
-      await writeFile(absolutePath, content, 'utf8')
-    }),
-  )
+export async function writeStarterProject(options: InitCommandOptions): Promise<string[]> {
+  return writeProject(options, TEMPLATE_FN)
 }

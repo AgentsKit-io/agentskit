@@ -12,29 +12,46 @@ export interface ${pascalCase(name)}EmbedderConfig {
   apiKey: string
   model?: string
   baseUrl?: string
+  timeoutMs?: number
+  maxResponseBytes?: number
 }
 
 export function ${camelCase(name)}Embedder(config: ${pascalCase(name)}EmbedderConfig): EmbedFn {
   const model = config.model ?? 'text-embedding-3-small'
   const baseUrl = (config.baseUrl ?? 'https://api.example.com').replace(/\\/$/, '')
+  const timeoutMs = config.timeoutMs ?? 15_000
+  const maxResponseBytes = config.maxResponseBytes ?? 1_048_576
 
   return async (text: string): Promise<number[]> => {
     const url = \`\${baseUrl}/v1/embeddings\`
-    const response = await fetch(url, {
-      method: 'POST',
-      headers: {
-        'content-type': 'application/json',
-        authorization: \`Bearer \${config.apiKey}\`,
-      },
-      body: JSON.stringify({ model, input: text }),
-    })
-    if (!response.ok) {
-      const body = await response.text().catch(() => '')
-      throw new Error(\`embedder \${model} HTTP \${response.status}: \${body.slice(0, 200)}\`)
+    const controller = new AbortController()
+    const timer = setTimeout(() => controller.abort(), timeoutMs)
+    let response: Response
+    let body: ArrayBuffer
+    try {
+      response = await fetch(url, {
+        method: 'POST',
+        signal: controller.signal,
+        headers: {
+          'content-type': 'application/json',
+          authorization: \`Bearer \${config.apiKey}\`,
+        },
+        body: JSON.stringify({ model, input: text }),
+      })
+      body = await response.arrayBuffer()
+    } finally {
+      clearTimeout(timer)
     }
-    const json = (await response.json()) as { data?: Array<{ embedding: number[] }> }
+    if (body!.byteLength > maxResponseBytes) throw new Error(\`embedder \${model}: response too large\`)
+    if (!response.ok) {
+      const text = new TextDecoder().decode(body!)
+      throw new Error(\`embedder \${model} HTTP \${response.status}: \${text.slice(0, 200)}\`)
+    }
+    const json = JSON.parse(new TextDecoder().decode(body!)) as { data?: Array<{ embedding: unknown }> }
     const first = json.data?.[0]?.embedding
-    if (!first) throw new Error(\`embedder \${model}: response missing data[0].embedding\`)
+    if (!Array.isArray(first) || first.length === 0 || first.some(value => typeof value !== 'number' || !Number.isFinite(value))) {
+      throw new Error(\`embedder \${model}: response has an invalid embedding vector\`)
+    }
     return first
   }
 }
@@ -96,45 +113,51 @@ export interface ${pascalCase(name)}Config {
   onProgress?: (info: { progress: number; text: string }) => void
 }
 
-let cached: Promise<${pascalCase(name)}EngineLike> | null = null
-
 async function loadEngine(config: ${pascalCase(name)}Config): Promise<${pascalCase(name)}EngineLike> {
   if (config.engine) return config.engine
-  if (cached) return cached
-  cached = (async () => {
+  return (async () => {
     // TODO: replace this dynamic import with the real engine loader,
     // e.g. \`await import('@mlc-ai/web-llm')\` for MLC.
     throw new Error('${name} engine loader not implemented')
   })()
-  return cached
 }
 
 export function ${camelCase(name)}(config: ${pascalCase(name)}Config): AdapterFactory {
+  let cached: Promise<${pascalCase(name)}EngineLike> | null = null
   return {
     capabilities: { tools: false },
     createSource: (request) => {
       let aborted = false
+      let active: AsyncIterator<unknown> | undefined
       return {
         stream: async function* (): AsyncIterableIterator<StreamChunk> {
           try {
-            const engine = await loadEngine(config)
+            if (!cached) cached = loadEngine(config).catch(err => { cached = null; throw err })
+            const engine = await cached
+            await engine.reload(config.model)
             const messages = request.messages.map(m => ({
               role: String(m.role),
               content: typeof m.content === 'string' ? m.content : '',
             }))
-            const iter = engine.chat.completions.create({ messages, stream: true })
-            for await (const chunk of iter) {
+            const iterator = engine.chat.completions.create({ messages, stream: true })[Symbol.asyncIterator]()
+            active = iterator
+            while (true) {
+              const next = await iterator.next()
+              if (next.done) break
+              const chunk = next.value as { choices?: Array<{ delta?: { content?: string } }> }
               if (aborted) return
               const delta = chunk.choices?.[0]?.delta?.content
               if (delta) yield { type: 'text', content: delta }
             }
             yield { type: 'done' }
           } catch (err) {
-            yield { type: 'error', content: err instanceof Error ? err.message : String(err) }
+            const error = err instanceof Error ? err : new Error(String(err))
+            yield { type: 'error', content: error.message, metadata: { error } }
           }
         },
         abort: () => {
           aborted = true
+          void active?.return?.()
         },
       }
     },

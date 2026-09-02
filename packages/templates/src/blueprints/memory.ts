@@ -19,19 +19,34 @@ export interface ${pascalCase(name)}Config {
   topK?: number
   /** Override fetch (mainly for tests). */
   fetch?: typeof globalThis.fetch
+  timeoutMs?: number
+  maxResponseBytes?: number
 }
 
 async function call<T>(config: ${pascalCase(name)}Config, path: string, body: unknown): Promise<T> {
   const fetchImpl = config.fetch ?? globalThis.fetch
-  const response = await fetchImpl(\`\${config.url}\${path}\`, {
-    method: 'POST',
-    headers: {
-      'content-type': 'application/json',
-      ...(config.apiKey ? { authorization: \`Bearer \${config.apiKey}\` } : {}),
-    },
-    body: JSON.stringify(body),
-  })
-  const text = await response.text()
+  const controller = new AbortController()
+  const timer = setTimeout(() => controller.abort(), config.timeoutMs ?? 15_000)
+  let response: Response
+  let responseBody: ArrayBuffer
+  try {
+    response = await fetchImpl(\`\${config.url}\${path}\`, {
+      method: 'POST',
+      signal: controller.signal,
+      headers: {
+        'content-type': 'application/json',
+        ...(config.apiKey ? { authorization: \`Bearer \${config.apiKey}\` } : {}),
+      },
+      body: JSON.stringify(body),
+    })
+    responseBody = await response.arrayBuffer()
+  } finally {
+    clearTimeout(timer)
+  }
+  if (responseBody!.byteLength > (config.maxResponseBytes ?? 1_048_576)) {
+    throw new MemoryError({ code: ErrorCodes.AK_MEMORY_REMOTE_HTTP, message: \`${name}: response too large\` })
+  }
+  const text = new TextDecoder().decode(responseBody!)
   if (!response.ok) {
     throw new MemoryError({
       code: ErrorCodes.AK_MEMORY_REMOTE_HTTP,
@@ -119,7 +134,7 @@ export function generateChatMemorySource(name: string): string {
 import type { ChatMemory, Message, MemoryRecord } from '@agentskit/core'
 
 export interface ${pascalCase(name)}Config {
-  /** Connection URL or driver-specific config. */
+  /** Connection URL or driver-specific config; persistence must be wired below. */
   url: string
   /** Logical conversation id. Defaults to 'default'. */
   conversationId?: string
@@ -130,8 +145,8 @@ const EMPTY_RECORD: MemoryRecord = { version: 1, messages: [] }
 export function ${camelCase(name)}(config: ${pascalCase(name)}Config): ChatMemory {
   const conversationId = config.conversationId ?? 'default'
 
-  // TODO: wire your backend client here (open connection, prepare statements, etc.)
-  // In-memory stand-in so the skeleton typechecks and the contract test can run.
+  // This generated implementation is an in-memory stand-in until the backend
+  // client is wired below; it is not persistent across process restarts.
   let store: MemoryRecord = EMPTY_RECORD
 
   return {

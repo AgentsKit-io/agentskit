@@ -12,8 +12,8 @@ export interface LoadPluginsOptions {
   /** Working directory; defaults to process.cwd(). */
   cwd?: string
   /**
-   * Auto-discover from `~/.agentskit/plugins`. Defaults to true. Tests pass
-   * false so the user's real home dir can't contaminate runs.
+   * Auto-discover from `~/.agentskit/plugins`. Defaults to false because
+   * discovery executes arbitrary third-party code.
    */
   autoDiscoverUserDir?: boolean
   /** Error logger. Defaults to stderr. */
@@ -33,7 +33,7 @@ export async function loadPlugins(options: LoadPluginsOptions = {}): Promise<Plu
     specs = [],
     pluginDirs = [],
     cwd = process.cwd(),
-    autoDiscoverUserDir = true,
+    autoDiscoverUserDir = false,
     onError = (spec, err) =>
       process.stderr.write(
         `[agentskit] plugin "${spec}" failed to load: ${err instanceof Error ? err.message : String(err)}\n`,

@@ -7,10 +7,10 @@ import { packageName } from './utils'
  * Only packages actually imported by the generated source are listed.
  * Versions are pinned with caret ranges — never wildcards.
  * - Everyone depends on `@agentskit/core` ^1.0.0
- * - `flow` also depends on `@agentskit/runtime` ^0.10.0
+ * - `flow` also depends on `@agentskit/runtime` ^0.10.15
  */
 const EXTRA_DEPS: Partial<Record<ScaffoldType, Record<string, string>>> = {
-  flow: { '@agentskit/runtime': '^0.10.0' },
+  flow: { '@agentskit/runtime': '^0.10.15' },
 }
 
 export function generatePackageJson(config: ScaffoldConfig): string {

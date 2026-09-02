@@ -396,12 +396,12 @@ function computeDelay(attempt: number, opts: Required<Pick<RetryOptions, 'baseDe
   return Math.floor(Math.random() * exp)
 }
 
-function parseRetryAfter(value: string | null): number | undefined {
+function parseRetryAfter(value: string | null, maxDelayMs: number): number | undefined {
   if (!value) return undefined
   const n = Number(value)
-  if (!Number.isNaN(n)) return n * 1000
+  if (Number.isFinite(n) && n >= 0) return Math.min(n * 1000, maxDelayMs)
   const date = Date.parse(value)
-  if (!Number.isNaN(date)) return Math.max(0, date - Date.now())
+  if (!Number.isNaN(date)) return Math.min(maxDelayMs, Math.max(0, date - Date.now()))
   return undefined
 }
 
@@ -434,7 +434,7 @@ export async function fetchWithRetry(
         return response
       }
 
-      const retryAfterMs = parseRetryAfter(response.headers.get('retry-after'))
+      const retryAfterMs = parseRetryAfter(response.headers.get('retry-after'), opts.maxDelayMs)
       const delay = retryAfterMs ?? computeDelay(attempt, opts)
       retryOpt.onRetry?.({ attempt, delayMs: delay, reason: `HTTP ${response.status}` })
       // Drain the body so the connection can be reused / does not leak.

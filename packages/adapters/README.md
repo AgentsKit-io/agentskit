@@ -117,6 +117,9 @@ spawning, and `onDiagnostic` receives redacted exit, timeout, abort, and
 output-limit data. Structured output fails closed; timeouts, aborts, output
 limits, and non-zero exits produce terminal adapter errors. Process termination
 is awaited before the adapter finishes, including when input or output fails.
+`restricted-environment` is an explicit environment allowlist mode; it is not
+an OS, filesystem, process, or network sandbox. Use `@agentskit/sandbox` when a
+real isolation boundary is required.
 
 Use `buildArgs(request)` only for CLIs that require the prompt in argv; it is
 request-aware and still uses direct, shell-free spawning. Set

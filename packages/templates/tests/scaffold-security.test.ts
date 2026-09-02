@@ -67,6 +67,11 @@ describe('validateScaffoldConfig edge cases', () => {
       }),
     ).not.toThrow()
   })
+
+  it('rejects names that become reserved TypeScript identifiers', () => {
+    expect(() => validateScaffoldConfig({ type: 'tool', name: 'class', dir: '/tmp/out' })).toThrow(/reserved TypeScript/)
+    expect(() => validateScaffoldConfig({ type: 'tool', name: 'return', dir: '/tmp/out' })).toThrow(/reserved TypeScript/)
+  })
 })
 
 describe('scaffold-fs helpers', () => {
@@ -143,6 +148,7 @@ describe('scaffold-fs helpers', () => {
       }),
     ).rejects.toThrow(/escapes parent/)
   })
+
 
   it('writePackageAtomically overwrites with backup and leaves no staging', async () => {
     const finalRoot = join(dir, 'ow')

@@ -25,10 +25,10 @@ export interface CliProcessHandle {
 }
 
 function validateOptions(options: CliProcessOptions): void {
-  if (options.mode !== undefined && !['review-safe', 'trusted-local', 'isolated'].includes(options.mode)) {
+  if (options.mode !== undefined && !['review-safe', 'trusted-local', 'restricted-environment'].includes(options.mode)) {
     throw new AdapterError({
       code: ErrorCodes.AK_ADAPTER_STREAM_FAILED,
-      message: 'CLI mode must be review-safe, trusted-local, or isolated',
+    message: 'CLI mode must be review-safe, trusted-local, or restricted-environment',
     })
   }
   if (!options.command.trim()) throw new AdapterError({
@@ -302,7 +302,9 @@ export async function diagnoseCliProvider(
     const decoder = new TextDecoder()
     let output = ''
     writeCliInput(handle)
-    for await (const chunk of handle.child.stdout as AsyncIterable<Buffer>) output += decoder.decode(chunk, { stream: true })
+    for await (const chunk of readCliStdout(handle, new AbortController().signal, options.maxOutputBytes ?? 64 * 1024)) {
+      output += decoder.decode(chunk, { stream: true })
+    }
     output += decoder.decode()
     const result = await handle.completion
     if (result.code !== 0 || result.termination) return {

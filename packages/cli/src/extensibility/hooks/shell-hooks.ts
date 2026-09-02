@@ -1,6 +1,8 @@
 import { spawn } from 'node:child_process'
 import type { HookEvent, HookHandler, HookPayload, HookResult } from '../plugins/types'
 
+const MAX_HOOK_STDOUT_BYTES = 64 * 1024
+
 export interface ConfigHookEntry {
   /** Command to run. Executed through `sh -c`, so shell syntax is allowed. */
   run: string
@@ -54,8 +56,20 @@ function runShellHook(entry: ConfigHookEntry, payload: HookPayload): Promise<Hoo
     })
 
     let stdout = ''
+    let stdoutBytes = 0
     child.stdout.on('data', (chunk) => {
-      stdout += chunk.toString()
+      const text = chunk.toString()
+      const bytes = Buffer.byteLength(text)
+      if (stdoutBytes + bytes > MAX_HOOK_STDOUT_BYTES) {
+        if (child.pid !== undefined) {
+          try { process.kill(-child.pid, 'SIGKILL') } catch { /* group may already be gone */ }
+        }
+        try { child.kill('SIGKILL') } catch { /* ignore */ }
+        settle({ decision: 'block', reason: `shell hook output exceeded ${MAX_HOOK_STDOUT_BYTES} bytes` })
+        return
+      }
+      stdoutBytes += bytes
+      stdout += text
     })
 
     const timer = setTimeout(() => {
@@ -85,10 +99,14 @@ function runShellHook(entry: ConfigHookEntry, payload: HookPayload): Promise<Hoo
       }
       try {
         const parsed = JSON.parse(trimmed) as HookResult
-        settle(parsed)
+        if (!parsed || typeof parsed !== 'object' || !('decision' in parsed) ||
+            !['continue', 'block', 'modify'].includes(String(parsed.decision))) {
+          settle({ decision: 'block', reason: 'shell hook returned an invalid decision' })
+        } else {
+          settle(parsed)
+        }
       } catch {
-        // Hook printed non-JSON output; treat as continue.
-        settle({ decision: 'continue' })
+        settle({ decision: 'block', reason: 'shell hook returned invalid JSON' })
       }
     })
 

@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises'
+import { access, readFile } from 'node:fs/promises'
 import { homedir } from 'node:os'
 import { resolve, join } from 'node:path'
 
@@ -75,17 +75,24 @@ async function loadJsonConfig(path: string): Promise<AgentsKitConfig | undefined
   try {
     const raw = await readFile(path, 'utf8')
     return JSON.parse(raw) as AgentsKitConfig
-  } catch {
-    return undefined
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code === 'ENOENT') return undefined
+    throw new Error(`Failed to load JSON config ${path}: ${err instanceof Error ? err.message : String(err)}`)
   }
 }
 
 async function loadTsConfig(path: string): Promise<AgentsKitConfig | undefined> {
   try {
-    const mod = await import(path)
+    await access(path)
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code === 'ENOENT') return undefined
+    throw err
+  }
+  try {
+    const mod = await import(`${path}?agentskit_config=${Date.now()}`)
     return (mod.default ?? mod) as AgentsKitConfig
-  } catch {
-    return undefined
+  } catch (err) {
+    throw new Error(`Failed to load TypeScript config ${path}: ${err instanceof Error ? err.message : String(err)}`)
   }
 }
 
@@ -97,8 +104,9 @@ async function loadPackageJsonConfig(dir: string): Promise<AgentsKitConfig | und
       return pkg.agentskit as AgentsKitConfig
     }
     return undefined
-  } catch {
-    return undefined
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code === 'ENOENT') return undefined
+    throw new Error(`Failed to load package.json config ${dir}: ${err instanceof Error ? err.message : String(err)}`)
   }
 }
 
@@ -119,24 +127,23 @@ function mergeConfigs(
   if (!base && !override) return undefined
   if (!base) return override
   if (!override) return base
-  return {
-    ...base,
-    ...override,
-    tools: { ...base.tools, ...override.tools },
-    defaults: { ...base.defaults, ...override.defaults },
-    runtime: { ...base.runtime, ...override.runtime },
-    observability: { ...base.observability, ...override.observability },
+  const merge = (left: unknown, right: unknown): unknown => {
+    if (!left || typeof left !== 'object' || Array.isArray(left)) return right
+    if (!right || typeof right !== 'object' || Array.isArray(right)) return right
+    const out: Record<string, unknown> = { ...(left as Record<string, unknown>) }
+    for (const [key, value] of Object.entries(right as Record<string, unknown>)) {
+      out[key] = key in out ? merge(out[key], value) : value
+    }
+    return out
   }
+  return merge(base, override) as AgentsKitConfig
 }
 
 async function loadLocalConfig(cwd: string): Promise<AgentsKitConfig | undefined> {
   const tsConfig = await loadTsConfig(join(cwd, '.agentskit.config.ts'))
-  if (tsConfig) return tsConfig
-
   const jsonConfig = await loadJsonConfig(join(cwd, '.agentskit.config.json'))
-  if (jsonConfig) return jsonConfig
-
-  return await loadPackageJsonConfig(cwd)
+  const packageConfig = await loadPackageJsonConfig(cwd)
+  return mergeConfigs(mergeConfigs(packageConfig, jsonConfig), tsConfig)
 }
 
 async function loadGlobalConfig(home: string | null | undefined): Promise<AgentsKitConfig | undefined> {
@@ -163,4 +170,23 @@ export async function loadConfig(options?: LoadConfigOptions): Promise<AgentsKit
   const global = await loadGlobalConfig(options?.home)
   const local = await loadLocalConfig(cwd)
   return mergeConfigs(global, local)
+}
+
+const SECRET_KEY = /^(api[-_]?key|token|secret|password|authorization|private[-_]?key)$/i
+const SECRET_ENV_KEY = /(?:^|_)(?:api_?key|token|secret|password|authorization|private_?key)$/i
+
+function isSecretKey(key: string): boolean {
+  return SECRET_KEY.test(key) || SECRET_ENV_KEY.test(key)
+}
+
+/** Return a display-safe copy; secrets are never printed by default. */
+export function redactConfig(value: unknown): unknown {
+  if (Array.isArray(value)) return value.map(redactConfig)
+  if (!value || typeof value !== 'object') return value
+  return Object.fromEntries(
+    Object.entries(value as Record<string, unknown>).map(([key, child]) => [
+      key,
+      isSecretKey(key) ? '[REDACTED]' : redactConfig(child),
+    ]),
+  )
 }

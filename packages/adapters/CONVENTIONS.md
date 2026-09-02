@@ -6,8 +6,12 @@ The provider layer. Every file in this package maps one LLM or one embedding pro
 
 - **Chat adapters** — implement `AdapterFactory` per [ADR 0001](../../docs/architecture/adrs/0001-adapter-contract.md)
 - **Embedders** — implement `EmbedFn` per [ADR 0003](../../docs/architecture/adrs/0003-memory-contract.md)
-- **No UI.** No React, no Ink, no CLI here.
-- **No runtime logic.** No loops, no tool execution. Just transport.
+- **No UI.** No React or Ink here.
+- **CLI boundary:** `src/cli` contains process/transport adapters for external
+  developer CLIs; it must remain shell-free, bounded, and explicit about the
+  fact that `restricted-environment` is not OS or filesystem isolation.
+- **No agent runtime orchestration.** Provider adapters may own transport
+  retries, parsing, and cancellation, but not agent loops or tool policy.
 
 ## Adding a new chat adapter
 

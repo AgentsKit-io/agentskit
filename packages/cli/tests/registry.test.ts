@@ -23,6 +23,11 @@ const META = {
 }
 
 describe('fetchAgent', () => {
+  it('rejects traversal-shaped agent ids before making a request', async () => {
+    const fetchImpl = vi.fn() as unknown as typeof fetch
+    await expect(fetchAgent('../secrets', { fetchImpl })).rejects.toThrow(/Invalid registry agent id/)
+    expect(fetchImpl).not.toHaveBeenCalled()
+  })
   it('uses the hosted index when it has inlined sources', async () => {
     const hosted = { ...META, sources: [{ path: 'agent.ts', content: 'export const x = 1' }] }
     const fetchImpl = vi.fn(async (url: string) => {
@@ -116,6 +121,42 @@ describe('addAgent', () => {
       },
     })
     expect(writes).toEqual(['agents/research/agent.ts'])
+  })
+
+  it('checks all conflicts before writing any source', async () => {
+    const hosted = { ...META, sources: [
+      { path: 'agent.ts', content: 'CODE' },
+      { path: 'README.md', content: 'README' },
+    ] }
+    const fetchImpl = vi.fn(async () => jsonResponse(hosted)) as unknown as typeof fetch
+    const writes: string[] = []
+    await expect(addAgent('research', {
+      fetchImpl,
+      existsImpl: async path => path.endsWith('README.md'),
+      writeFileImpl: async path => { writes.push(path) },
+    })).rejects.toThrow(/already exists/)
+    expect(writes).toEqual([])
+  })
+
+  it('rejects a symlinked destination ancestor before writing', async () => {
+    const { mkdtemp, symlink, rm } = await import('node:fs/promises')
+    const { join } = await import('node:path')
+    const { tmpdir } = await import('node:os')
+    const root = await mkdtemp(join(tmpdir(), 'agentskit-registry-link-'))
+    const outside = await mkdtemp(join(tmpdir(), 'agentskit-registry-outside-'))
+    try {
+      await symlink(outside, join(root, 'agents'), 'dir')
+      const hosted = { ...META, sources: [{ path: 'agent.ts', content: 'CODE' }] }
+      const fetchImpl = vi.fn(async () => jsonResponse(hosted)) as unknown as typeof fetch
+      await expect(addAgent('research', {
+        fetchImpl,
+        outDir: join(root, 'agents'),
+        writeFileImpl: async () => {},
+      })).rejects.toThrow(/symlink ancestor/)
+    } finally {
+      await rm(root, { recursive: true, force: true })
+      await rm(outside, { recursive: true, force: true })
+    }
   })
 })
 

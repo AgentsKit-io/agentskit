@@ -181,7 +181,10 @@ describe('registerRagCommand', () => {
     registerRagCommand(program)
 
     // loadConfig returns nothing useful
-    vi.doMock('../src/config', () => ({ loadConfig: vi.fn().mockResolvedValue({}) }))
+    vi.doMock('../src/config', () => ({
+      loadConfig: vi.fn().mockResolvedValue({}),
+      redactConfig: (value: unknown) => value,
+    }))
 
     const stderrSpy = vi.spyOn(process.stderr, 'write').mockImplementation(() => true)
     const exitSpy = vi.spyOn(process, 'exit').mockImplementation(() => { throw new Error('exit') })

@@ -48,10 +48,10 @@ describe('runAgent', () => {
 
     await expect(
       runAgent('task', { provider: 'demo', skill: 'researcher', skills: 'coder,planner' }),
-    ).rejects.toThrow('exit')
+    ).rejects.toThrow('mutually exclusive')
 
-    expect(stderrSpy).toHaveBeenCalledWith(expect.stringContaining('mutually exclusive'))
-    expect(exitSpy).toHaveBeenCalledWith(1)
+    expect(stderrSpy).not.toHaveBeenCalled()
+    expect(exitSpy).not.toHaveBeenCalled()
   })
 
   it('uses skills flag when provided', async () => {

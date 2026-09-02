@@ -68,7 +68,7 @@ describe('startDev', () => {
     })
 
     expect(spawnSpy).toHaveBeenCalledTimes(1)
-    expect(spawnSpy).toHaveBeenCalledWith('tsx', [entry])
+    expect(spawnSpy).toHaveBeenCalledWith(process.execPath, [expect.stringContaining('tsx'), entry])
     expect(controller.restarts()).toBe(1)
     void controller.stop()
   })
@@ -139,7 +139,10 @@ describe('startDev', () => {
       stderr: { write: () => true } as NodeJS.WritableStream,
     })
 
-    expect(spawnSpy).toHaveBeenCalledWith('tsx', [entry, '--task', 'hello world'])
+    expect(spawnSpy).toHaveBeenCalledWith(
+      process.execPath,
+      [expect.stringContaining('tsx'), entry, '--task', 'hello world'],
+    )
     void controller.stop()
   })
 

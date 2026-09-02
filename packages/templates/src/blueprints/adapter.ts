@@ -29,7 +29,8 @@ export function ${camelCase(name)}(config: ${pascalCase(name)}Config): AdapterFa
             yield { type: 'done' }
           } catch (err) {
             if (err instanceof DOMException && err.name === 'AbortError') return
-            yield { type: 'error', content: err instanceof Error ? err.message : String(err) }
+            const error = err instanceof Error ? err : new Error(String(err))
+            yield { type: 'error', content: error.message, metadata: { error } }
           }
         },
         abort: () => {

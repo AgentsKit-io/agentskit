@@ -5,6 +5,7 @@ import {
   readFileSync,
   readdirSync,
   statSync,
+  chmodSync,
   writeFileSync,
 } from 'node:fs'
 import { homedir } from 'node:os'
@@ -42,7 +43,8 @@ function dirFor(cwd: string = process.cwd()): string {
 }
 
 function ensureDir(dir: string): void {
-  if (!existsSync(dir)) mkdirSync(dir, { recursive: true })
+  if (!existsSync(dir)) mkdirSync(dir, { recursive: true, mode: 0o700 })
+  chmodSync(dir, 0o700)
 }
 
 /** Generate a new session id — ISO-ish timestamp + 6 random hex chars. */
@@ -73,7 +75,9 @@ function readMeta(id: string, cwd: string = process.cwd()): SessionMetadata | nu
 
 export function writeSessionMeta(meta: SessionMetadata, cwd: string = process.cwd()): void {
   ensureDir(dirFor(cwd))
-  writeFileSync(metaPath(meta.id, cwd), JSON.stringify(meta, null, 2))
+  const path = metaPath(meta.id, cwd)
+  writeFileSync(path, JSON.stringify(meta, null, 2), { mode: 0o600 })
+  chmodSync(path, 0o600)
 }
 
 /** Derive a short preview (first user message, one line, max 80 chars). */

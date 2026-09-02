@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach } from 'vitest'
-import { loadConfig } from '../src/config'
+import { loadConfig, redactConfig } from '../src/config'
 import { writeFile, mkdtemp, rm } from 'node:fs/promises'
 import { join } from 'node:path'
 import { tmpdir } from 'node:os'
@@ -61,11 +61,10 @@ describe('loadConfig', () => {
     expect(config!.defaults?.provider).toBe('openai')
   })
 
-  it('handles malformed JSON gracefully', async () => {
+  it('reports malformed JSON with its source path', async () => {
     await writeFile(join(dir, '.agentskit.config.json'), 'not json {{{')
 
-    const config = await loadConfig({ cwd: dir, home: null })
-    expect(config).toBeUndefined()
+    await expect(loadConfig({ cwd: dir, home: null })).rejects.toThrow(/Failed to load JSON config/)
   })
 
   it('loads full config with all fields', async () => {
@@ -106,5 +105,18 @@ describe('loadConfig', () => {
 
     const config = await loadConfig({ cwd: dir, home: null })
     expect(config).toBeUndefined()
+  })
+
+  it('redacts secret-shaped fields for display', () => {
+    expect(redactConfig({ defaults: { apiKey: 'secret', apiKeyEnv: 'OPENAI_API_KEY' }, nested: { token: 'x' } })).toEqual({
+      defaults: { apiKey: '[REDACTED]', apiKeyEnv: 'OPENAI_API_KEY' },
+      nested: { token: '[REDACTED]' },
+    })
+  })
+
+  it('redacts secret values in environment maps without hiding the variable name', () => {
+    expect(redactConfig({ mcp: { servers: { local: { env: { OPENAI_API_KEY: 'secret' } } } } })).toEqual({
+      mcp: { servers: { local: { env: { OPENAI_API_KEY: '[REDACTED]' } } } },
+    })
   })
 })

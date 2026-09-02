@@ -1,4 +1,4 @@
-import { mkdtemp, readFile } from 'node:fs/promises'
+import { mkdtemp, readFile, writeFile } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
@@ -28,6 +28,21 @@ describe('@agentskit/cli', () => {
     expect(packageJson).toContain('@agentskit/react')
     expect(appFile).toContain('useChat')
     expect(mainFile).toContain('createRoot')
+  })
+
+  it('refuses non-empty targets by default and atomically replaces generated files with force', async () => {
+    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+    await writeFile(path.join(tempDir, 'keep.txt'), 'keep me', 'utf8')
+
+    await expect(writeStarterProject({ targetDir: tempDir, template: 'react' })).rejects.toThrow(
+      /not empty/,
+    )
+
+    await writeStarterProject({ targetDir: tempDir, template: 'react', force: true })
+    expect(await readFile(path.join(tempDir, 'keep.txt'), 'utf8')).toBe('keep me')
+    expect(await readFile(path.join(tempDir, 'package.json'), 'utf8')).toContain(
+      '"@agentskit/react": "^0.8.3"',
+    )
   })
 
   it('uses environment variables for openai', () => {
@@ -270,6 +285,7 @@ describe('@agentskit/cli', () => {
 
     const denoConfig = JSON.parse(await readFile(path.join(tempDir, 'deno.json'), 'utf8'))
     expect(denoConfig.tasks.deploy).toContain('deployctl')
+    expect(denoConfig.imports['@agentskit/adapters']).toBe('npm:@agentskit/adapters@^0.15.2')
 
     const main = await readFile(path.join(tempDir, 'main.ts'), 'utf8')
     expect(main).toContain('Deno.serve')
