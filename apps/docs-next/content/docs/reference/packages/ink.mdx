@@ -6,24 +6,8 @@ docbridge:
     - package:@agentskit/ink
   relations:
     - from: package:@agentskit/ink
-      to: package:@agentskit/adapters
-      kind: imports
-      detection: static
-    - from: package:@agentskit/ink
       to: package:@agentskit/core
       kind: depends-on
-      detection: static
-    - from: package:@agentskit/ink
-      to: package:@agentskit/core
-      kind: imports
-      detection: static
-    - from: package:@agentskit/ink
-      to: package:@agentskit/core
-      kind: re-exports
-      detection: static
-    - from: package:@agentskit/ink
-      to: package:agentskit
-      kind: imports
       detection: static
 ---
 
@@ -50,7 +34,7 @@ render(<ChatContainer config={{ adapter: anthropic({ apiKey, model: 'claude-sonn
 
 ## Surface
 
-- `useChat(config): ChatReturn` — mirrors `@agentskit/react`.
+- `useChat(config): ChatReturn` — shares the core state/action contract; Ink components and terminal input semantics are host-specific.
 - `<ChatContainer>`, `<Message>`, `<InputBar>`, `<ToolCallView>`, `<ThinkingIndicator>`.
 
 ## Siblings

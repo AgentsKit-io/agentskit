@@ -3,9 +3,9 @@ title: Theming
 description: CSS variables + optional preset themes. One source of truth across every framework binding.
 ---
 
-AgentsKit ships headless components — theming is your call. Defaults
-come from a lightweight stylesheet at
-`@agentskit/react/theme` (equivalent for Vue / Svelte / Solid / RN).
+AgentsKit ships headless components — theming is your call. The CSS preset
+at `@agentskit/react/theme` is for DOM bindings that consume the shared
+`data-ak-*` attributes; it is not a universal runtime theme provider.
 
 ## Import a preset
 
@@ -53,8 +53,10 @@ theme: {
 
 ## Native + terminal
 
-- **React Native:** theme via `ThemeProvider` prop (JS object, same keys).
-- **Ink:** ANSI palette from the same keys (`ak.accent` → chalk hex).
+- **React Native:** use the `style` and `contentStyle` props exposed by its
+  components; no `ThemeProvider` is exported.
+- **Ink:** use `InkThemeProvider` and its ANSI palette; it is not a CSS
+  variable provider.
 
 ## Related
 

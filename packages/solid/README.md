@@ -34,10 +34,11 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/solid) ·
 
 ## Why
 
-- **One contract, every framework** — `useChat` returns the exact same shape as the React / Vue / Svelte / Angular / RN / Ink bindings.
+- **One controller contract, framework-specific views** — `useChat` returns shared chat state/actions; component props remain binding-specific.
+- **SSR import boundary** — import `useChat` from `@agentskit/solid/use-chat` in SolidStart server code; the root entry also exports browser UI components and should remain client-only.
 - **Fine-grained reactivity** — values surface as Solid accessors; no diff, no rerender overhead.
 - **Headless by default** — components emit `data-ak-*` attributes; style however you want.
-- **Streaming, tools, HITL** — all core features work identically to `@agentskit/react`.
+- **Streaming, tools, HITL** — the shared state/action contract follows `@agentskit/react`; component props and exports are Solid-specific, not full parity.
 
 ## Install
 
@@ -75,7 +76,7 @@ State surfaces through a reactive proxy — read `chat.messages` / `chat.input` 
 ## API
 
 - `useChat(config)` — hook returning `ChatReturn` via a reactive proxy: `messages`, `status`, `input` + actions `send(text)`, `setInput(v)`, `stop`, `retry`, `clear`, `approve`, `deny`, `edit`, `regenerate`. Owner dispose unsubscribes and stops in-flight work.
-- Headless components — emit `data-ak-*` attributes only, no styling. Full parity with `@agentskit/react`:
+- Headless components — emit `data-ak-*` attributes only, no styling. The supported Solid surface is:
   - `ChatContainer` — scroll wrapper, auto-scrolls on new content.
   - `Message` — renders a message; optional `avatar` / `actions` slots.
   - `InputBar` — textarea + Send; Enter submits, Shift+Enter newlines; blocks submit/Enter while empty/streaming.

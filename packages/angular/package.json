@@ -29,9 +29,7 @@
   "types": "./dist/types/agentskit-angular.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/types/agentskit-angular.d.ts",
-      "import": "./dist/fesm2022/agentskit-angular.mjs",
-      "default": "./dist/fesm2022/agentskit-angular.mjs"
+      "import": "./dist/fesm2022/agentskit-angular.mjs"
     }
   },
   "files": [
@@ -74,7 +72,7 @@
   },
   "agentskit": {
     "stability": "beta",
-    "stabilityNote": "AgentskitChat service (ChatReturn contract) + full headless component parity with @agentskit/react (standalone, partial-Ivy AOT/APF)."
+    "stabilityNote": "AgentskitChat service with the shared ChatReturn controller contract and standalone Angular-specific components (partial-Ivy AOT/APF)."
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/reference/packages/angular",

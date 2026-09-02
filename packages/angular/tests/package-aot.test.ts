@@ -11,19 +11,19 @@ describe('@agentskit/angular package output', () => {
   })
 
   it('exports the generated declaration entry for monorepo + packed consumers', async () => {
-    const manifest = JSON.parse(await readFile(join(process.cwd(), 'package.json'), 'utf8')) as {
+    const manifest = JSON.parse(await readFile(join(process.cwd(), 'dist/package.json'), 'utf8')) as {
       types: string
       main: string
       module: string
       exports: { '.': { types: string, import: string, default: string } }
     }
-    expect(manifest.exports['.'].types).toBe(manifest.types)
-    expect(manifest.exports['.'].import).toBe(manifest.main)
-    expect(manifest.exports['.'].default).toBe(manifest.module)
-    expect(manifest.types).toBe('./dist/types/agentskit-angular.d.ts')
-    expect(manifest.main).toBe('./dist/fesm2022/agentskit-angular.mjs')
-    await expect(access(join(process.cwd(), manifest.types))).resolves.toBeUndefined()
-    await expect(access(join(process.cwd(), manifest.main))).resolves.toBeUndefined()
+    const packageRoot = join(process.cwd(), 'dist')
+    const artifactPath = (target: string) => target.startsWith('./dist/')
+      ? join(process.cwd(), target)
+      : join(packageRoot, target)
+    await expect(access(artifactPath(manifest.exports['.'].types))).resolves.toBeUndefined()
+    await expect(access(artifactPath(manifest.exports['.'].import))).resolves.toBeUndefined()
+    await expect(access(artifactPath(manifest.exports['.'].default))).resolves.toBeUndefined()
   })
 
 })

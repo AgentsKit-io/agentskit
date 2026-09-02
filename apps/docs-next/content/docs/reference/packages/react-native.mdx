@@ -1,41 +1,32 @@
 ---
 title: '@agentskit/react-native'
-description: React Native / Expo hook. Metro + Hermes safe. Same contract as @agentskit/react.
+description: React Native / Expo hook. Metro + Hermes safe, sharing the core chat state/action contract.
 docbridge:
   covers:
     - package:@agentskit/react-native
   relations:
     - from: package:@agentskit/react-native
-      to: package:@agentskit/adapters
-      kind: imports
-      detection: static
-    - from: package:@agentskit/react-native
       to: package:@agentskit/core
       kind: depends-on
-      detection: static
-    - from: package:@agentskit/react-native
-      to: package:@agentskit/core
-      kind: imports
-      detection: static
-    - from: package:@agentskit/react-native
-      to: package:agentskit
-      kind: imports
       detection: static
 ---
 
 ## Install
 
 ```bash
-npm install @agentskit/react-native react react-native @agentskit/adapters
+npm install @agentskit/react-native react react-native @agentskit/adapters react-native-polyfill-globals
 ```
 
 ## Hello world
 
 ```tsx
+// In Expo/Hermes, install and run the streaming polyfill before any AgentsKit import.
+import 'react-native-polyfill-globals'
 import { useChat } from '@agentskit/react-native'
+import type { ChatConfig } from '@agentskit/core'
 import { View, TextInput, FlatList, Pressable, Text } from 'react-native'
 
-export function ChatScreen({ adapter }) {
+export function ChatScreen({ adapter }: { adapter: ChatConfig['adapter'] }) {
   const chat = useChat({ adapter })
   return (
     <View style={{ flex: 1 }}>
@@ -47,9 +38,11 @@ export function ChatScreen({ adapter }) {
 }
 ```
 
+Provider credentials must stay behind a server/edge endpoint; Expo and other mobile environment variables are public and must not contain long-lived API keys.
+
 ## Surface
 
-- `useChat(config): ChatReturn` — mirrors `@agentskit/react`, no DOM imports.
+- `useChat(config): ChatReturn` — shares the core state/action contract; component props use React Native primitives and do not promise full web parity.
 
 ## Siblings
 
@@ -58,7 +51,7 @@ export function ChatScreen({ adapter }) {
 ## Stability
 
 - **Version:** `0.5.3`
-- **Tier:** alpha
+- **Tier:** beta
 - **Contract:** evolving
 - **Roadmap:** see [packages roadmap](./roadmap) for what this package needs to reach v1.0.
 

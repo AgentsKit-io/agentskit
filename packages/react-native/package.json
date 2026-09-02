@@ -41,8 +41,8 @@
   ],
   "scripts": {
     "build": "tsup",
-    "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
+    "test": "pnpm build && vitest run",
+    "test:coverage": "pnpm build && vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"
   },
@@ -70,7 +70,7 @@
   },
   "agentskit": {
     "stability": "beta",
-    "stabilityNote": "React Native / Expo binding — full headless component parity with @agentskit/react (8 components), rendered with RN primitives and a testID-based headless convention."
+    "stabilityNote": "React Native / Expo binding with the shared ChatReturn controller contract, RN-specific primitives, and testID-based accessibility/test hooks."
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/reference/packages/react-native",

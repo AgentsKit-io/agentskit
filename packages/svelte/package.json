@@ -41,7 +41,7 @@
   "scripts": {
     "build": "svelte-package -i src -o dist",
     "test": "pnpm build && vitest run && vitest run --config vitest.ssr.config.ts",
-    "test:coverage": "vitest run --coverage",
+    "test:coverage": "pnpm build && vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "svelte-package -i src -o dist --watch"
   },
@@ -67,7 +67,7 @@
   },
   "agentskit": {
     "stability": "beta",
-    "stabilityNote": "createChatStore (ChatReturn contract) + full headless component parity with @agentskit/react (Svelte 5 runes)."
+    "stabilityNote": "createChatStore (shared ChatReturn controller contract) plus Svelte 5-specific headless components."
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/reference/packages/svelte",

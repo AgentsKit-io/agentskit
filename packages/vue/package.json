@@ -41,8 +41,8 @@
   ],
   "scripts": {
     "build": "tsup",
-    "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
+    "test": "pnpm build && vitest run",
+    "test:coverage": "pnpm build && vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"
   },
@@ -66,7 +66,7 @@
   },
   "agentskit": {
     "stability": "beta",
-    "stabilityNote": "useChat (ChatReturn contract) + full headless component parity with @agentskit/react; 100% component coverage."
+    "stabilityNote": "useChat with the shared ChatReturn controller contract and Vue-specific headless components."
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/reference/packages/vue",

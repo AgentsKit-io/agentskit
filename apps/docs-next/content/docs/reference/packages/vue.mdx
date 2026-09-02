@@ -1,6 +1,6 @@
 ---
 title: '@agentskit/vue'
-description: Vue 3 composable + ChatContainer component. Same contract as @agentskit/react.
+description: Vue 3 composable + ChatContainer component sharing the core chat state/action contract.
 docbridge:
   covers:
     - package:@agentskit/vue
@@ -8,14 +8,6 @@ docbridge:
     - from: package:@agentskit/vue
       to: package:@agentskit/core
       kind: depends-on
-      detection: static
-    - from: package:@agentskit/vue
-      to: package:@agentskit/core
-      kind: imports
-      detection: static
-    - from: package:@agentskit/vue
-      to: package:agentskit
-      kind: imports
       detection: static
 ---
 
@@ -29,9 +21,10 @@ npm install @agentskit/vue vue @agentskit/adapters
 
 ```ts
 import { useChat } from '@agentskit/vue'
-import { anthropic } from '@agentskit/adapters'
+import type { ChatConfig } from '@agentskit/core'
 
-const chat = useChat({ adapter: anthropic({ apiKey, model: 'claude-sonnet-4-6' }) })
+declare const adapter: ChatConfig['adapter']
+const chat = useChat({ adapter })
 // chat.messages + chat.input are reactive
 // chat.send / chat.setInput / chat.stop / chat.retry / chat.clear
 ```
@@ -41,6 +34,9 @@ const chat = useChat({ adapter: anthropic({ apiKey, model: 'claude-sonnet-4-6' }
 - `useChat(config): ChatReturn` — reactive via Vue's `reactive()` + auto-cleanup on scope dispose.
 - `<ChatContainer :config="...">` — headless container using `data-ak-*` attributes.
 
+The shared state/action contract is portable; Vue component props and exports
+are binding-specific. This package does not promise full React component parity.
+
 ## Siblings
 
 [React](/docs/reference/packages/react) · [Svelte](/docs/reference/packages/svelte) · [Solid](/docs/reference/packages/solid) · [React Native](/docs/reference/packages/react-native) · [Angular](/docs/reference/packages/angular) · [Ink](/docs/reference/packages/ink)
@@ -48,7 +44,7 @@ const chat = useChat({ adapter: anthropic({ apiKey, model: 'claude-sonnet-4-6' }
 ## Stability
 
 - **Version:** `0.5.3`
-- **Tier:** alpha
+- **Tier:** beta
 - **Contract:** evolving
 - **Roadmap:** see [packages roadmap](./roadmap) for what this package needs to reach v1.0.
 

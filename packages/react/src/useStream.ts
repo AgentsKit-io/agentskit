@@ -18,6 +18,7 @@ export function useStream(
 
   useEffect(() => {
     let cancelled = false
+    const activeSource = source
     abortedRef.current = false
     setStatus('streaming')
     setText('')
@@ -28,7 +29,7 @@ export function useStream(
 
     const consume = async () => {
       try {
-        const iterator = sourceRef.current.stream()
+        const iterator = activeSource.stream()
         for await (const chunk of iterator) {
           if (cancelled || abortedRef.current) return
 
@@ -69,6 +70,7 @@ export function useStream(
 
     return () => {
       cancelled = true
+      activeSource.abort()
     }
   }, [source])
 

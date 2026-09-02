@@ -34,10 +34,10 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/angular) 
 
 ## Why
 
-- **One contract, every framework** — `AgentskitChat` service surfaces the exact same shape as the React / Vue / Svelte / Solid / RN / Ink bindings.
+- **One controller contract, framework-specific views** — `AgentskitChat` exposes shared chat state/actions; component props remain Angular-specific.
 - **Angular-native reactivity** — state exposed as `Signal`; events as RxJS `Observable`.
 - **Headless by default** — components emit `data-ak-*` attributes; style with your design system.
-- **Streaming, tools, HITL** — all core features work identically to `@agentskit/react`.
+- **Streaming, tools, HITL** — the shared state/action contract follows `@agentskit/react`; component props and exports are Angular-specific, not full parity.
 
 ## Install
 
@@ -93,7 +93,10 @@ on `ngOnDestroy`) to unsubscribe + stop; both are idempotent and safe to re-init
 ## API
 
 - `AgentskitChat` service — DI-friendly. `init(config)` returns a `ChatReturn` snapshot and starts the session; `state: Signal<ChatState | null>` and `stream$: Observable<ChatState | null>` expose live state. Full action surface: `send(text)`, `setInput(v)`, `stop`, `retry`, `clear`, `approve`, `deny(id, reason?)`, `edit`, `regenerate`, `proposeToolCall`, `destroy`.
-- Headless standalone components at parity with `@agentskit/react` (`data-ak-*` only): `ChatContainerComponent` (`<ak-chat-container>`), `MessageComponent`, `InputBarComponent`, `MarkdownComponent`, `CodeBlockComponent`, `ToolCallViewComponent`, `ThinkingIndicatorComponent`, `ToolConfirmationComponent`.
+- The default service instance is single-session. For independent chats, add
+  `AgentskitChat` to each component's `providers` array to scope a controller
+  per component subtree.
+- Headless standalone components (`data-ak-*` only): `ChatContainerComponent` (`<ak-chat-container>`), `MessageComponent`, `InputBarComponent`, `MarkdownComponent`, `CodeBlockComponent`, `ToolCallViewComponent`, `ThinkingIndicatorComponent`, `ToolConfirmationComponent`.
 
 ## Ecosystem
 

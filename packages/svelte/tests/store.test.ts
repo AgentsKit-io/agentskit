@@ -67,6 +67,22 @@ describe('@agentskit/svelte', () => {
     store.destroy()
   })
 
+  it('forwards controller actions while the store is alive', async () => {
+    const store = createChatStore({ adapter: mockAdapter([]) })
+
+    store.stop()
+    store.setInput('draft')
+    await store.retry()
+    await store.edit('missing', 'updated')
+    await store.regenerate()
+    await store.clear()
+    await expect(store.proposeToolCall({ id: 'proposal', name: 'missing', args: {} })).rejects.toThrow()
+    await store.approve('missing')
+    await store.deny('missing')
+
+    store.destroy()
+  })
+
   it('streams assistant content and notifies subscribers', async () => {
     const store = createChatStore({
       adapter: mockAdapter([
@@ -91,6 +107,14 @@ describe('@agentskit/svelte', () => {
     store.setInput('after-destroy')
     expect(count).toBeGreaterThanOrEqual(before)
     unsub()
+  })
+
+  it('rejects async actions after destroy and ignores sync mutations', async () => {
+    const store = createChatStore({ adapter: mockAdapter([]) })
+    store.destroy()
+    store.setInput('ignored')
+    await expect(store.send('after destroy')).rejects.toThrow(/destroyed/)
+    await expect(store.clear()).rejects.toThrow(/destroyed/)
   })
 
   it('destroy stops an in-flight stream and is safe to call repeatedly', async () => {

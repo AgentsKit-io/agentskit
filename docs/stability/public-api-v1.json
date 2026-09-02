@@ -1156,9 +1156,7 @@
       "subpaths": {
         ".": {
           "conditions": [
-            "default",
-            "import",
-            "types"
+            "import"
           ],
           "symbols": [
             {
@@ -9233,6 +9231,21 @@
                 "type"
               ]
             },
+            {
+              "name": "useChat",
+              "kinds": [
+                "value"
+              ]
+            }
+          ]
+        },
+        "./use-chat": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
             {
               "name": "useChat",
               "kinds": [

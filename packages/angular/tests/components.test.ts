@@ -43,6 +43,16 @@ describe('@agentskit/angular components', () => {
     expect(sent).toEqual(['hey'])
   })
 
+  it('InputBar supports a custom label target for multiple instances', () => {
+    const chat = { input: '', status: 'idle', send: () => {}, setInput: () => {} } as unknown as ChatReturn
+    const f = TestBed.createComponent(InputBarComponent)
+    f.componentInstance.chat = chat
+    f.componentInstance.inputId = 'secondary-input'
+    f.detectChanges()
+    expect(f.nativeElement.querySelector('[data-ak-input]').id).toBe('secondary-input')
+    expect(f.nativeElement.querySelector('[data-ak-input-label]').htmlFor).toBe('secondary-input')
+  })
+
   it('InputBar blocks submit and Enter while streaming', () => {
     const sent: string[] = []
     const chat = {

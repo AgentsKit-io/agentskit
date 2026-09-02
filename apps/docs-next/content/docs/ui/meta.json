@@ -1,6 +1,6 @@
 {
   "title": "UI",
-  "description": "Framework bindings (React, Vue, Svelte, Solid, RN, Angular, Ink) share the same contract — useChat + headless components.",
+  "description": "Framework bindings (React, Vue, Svelte, Solid, RN, Angular, Ink) share the core state/action contract; components remain host-specific.",
   "root": true,
   "pages": [
     "index",

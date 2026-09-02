@@ -3,9 +3,11 @@ title: InputBar
 description: Text input + submit. Disabled while streaming. Keyboard shortcuts built in.
 ---
 
-Controlled input tied to a `ChatReturn`. Submit on Enter, Shift+Enter
-for newline. Disabled whenever `chat.status === 'streaming'`. Emits
-`data-ak-input-bar`.
+Controlled input tied to a framework binding's chat state/actions. Submit on
+Enter, Shift+Enter for newline. Disabled whenever the chat is streaming.
+The props below describe the React-style DOM bindings; host bindings may
+use framework-specific props or event conventions. Emits
+`data-ak-input-bar` where the host supports DOM attributes.
 
 ## Props
 
@@ -14,7 +16,6 @@ for newline. Disabled whenever `chat.status === 'streaming'`. Emits
 | `chat` | `ChatReturn` | — |
 | `placeholder` | `string` | `'Type a message...'` |
 | `disabled` | `boolean` | `false` |
-| `submitOn` | `'enter' \| 'mod+enter'` | `'enter'` |
 
 ## Per-framework
 
@@ -22,7 +23,7 @@ for newline. Disabled whenever `chat.status === 'streaming'`. Emits
 |---|---|
 | React | `import { InputBar } from '@agentskit/react'` |
 | Vue | `import { InputBar } from '@agentskit/vue'` |
-| Svelte | `import InputBar from '@agentskit/svelte/InputBar.svelte'` |
+| Svelte | `import { InputBar } from '@agentskit/svelte'` |
 | Solid | `import { InputBar } from '@agentskit/solid'` |
 | React Native | `import { InputBar } from '@agentskit/react-native'` — `TextInput`-backed |
 | Angular | `<ak-input-bar [chat]="chat">` |

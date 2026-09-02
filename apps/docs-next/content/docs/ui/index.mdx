@@ -1,11 +1,12 @@
 ---
 title: UI + hooks
-description: Every AgentsKit UI binding exposes the same contract. Pick the framework; the API stays the same.
+description: Every AgentsKit UI binding shares the core state and action contract; host component APIs remain framework-specific.
 ---
 
-One hook, seven bindings. Every framework package mirrors
-`@agentskit/react`'s contract — same `useChat` return shape, same
-headless components, same `data-ak-*` hooks.
+One controller contract, seven host bindings. Every framework package
+adapts the shared state and action surface from `@agentskit/core`; hooks,
+stores, services, component props, and styling primitives remain
+framework-specific.
 
 ## Bindings
 

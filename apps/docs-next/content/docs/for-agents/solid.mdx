@@ -24,7 +24,7 @@ npm install solid-js
 
 - `useChat(config): ChatReturn` — Solid hook backed by `createStore` + `onCleanup`.
 
-Headless components (full parity with `@agentskit/react`, `data-ak-*` attributes only):
+Headless Solid components (`data-ak-*` attributes only; component props are binding-specific):
 
 - `ChatContainer` — scroll wrapper, auto-scrolls on new content via a `MutationObserver`.
 - `Message` — renders a message; optional `avatar` / `actions` slots.
@@ -39,9 +39,10 @@ Headless components (full parity with `@agentskit/react`, `data-ak-*` attributes
 
 ```tsx
 import { useChat } from '@agentskit/solid'
-import { anthropic } from '@agentskit/adapters'
+import type { ChatConfig } from '@agentskit/core'
 
-const adapter = anthropic({ apiKey: import.meta.env.VITE_ANTHROPIC_KEY, model: 'claude-sonnet-4-6' })
+// Inject an adapter backed by your server/edge endpoint. VITE_* values are public.
+declare const adapter: ChatConfig['adapter']
 
 export function Chat() {
   const chat = useChat({ adapter })
@@ -57,7 +58,7 @@ export function Chat() {
 ## Common patterns
 
 - **Reactivity**: Solid stores are fine-grained — access `chat.messages` directly inside JSX, not destructured.
-- **SSR**: `useChat` is client-only. Wrap in `<ClientOnly>` for SolidStart SSR.
+- **SSR**: the root entry includes browser UI components. For server-safe module resolution, import `useChat` from `@agentskit/solid/use-chat`; call it only inside a client component. Wrap root UI consumers in `<ClientOnly>` for SolidStart SSR.
 - **Cleanup**: subscriptions tear down via `onCleanup`; no manual unsubscribe needed.
 
 ## Related

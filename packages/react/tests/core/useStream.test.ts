@@ -3,7 +3,7 @@ import { renderHook, act, waitFor } from '@testing-library/react'
 import { useStream } from '../../src/useStream'
 import type { StreamSource, StreamChunk } from '@agentskit/core'
 
-function createMockSource(chunks: StreamChunk[]): StreamSource {
+function createMockSource(chunks: StreamChunk[], abort = vi.fn()): StreamSource {
   let aborted = false
   return {
     stream: async function* () {
@@ -12,7 +12,7 @@ function createMockSource(chunks: StreamChunk[]): StreamSource {
         yield chunk
       }
     },
-    abort: () => { aborted = true },
+    abort: () => { aborted = true; abort() },
   }
 }
 
@@ -181,5 +181,15 @@ describe('useStream', () => {
     })
 
     expect(source.abort).toHaveBeenCalled()
+  })
+
+  it('aborts the source captured by an effect when the source changes', () => {
+    const firstAbort = vi.fn()
+    const first = createMockSource([], firstAbort)
+    const second = createMockSource([])
+    const { rerender, unmount } = renderHook(({ source }) => useStream(source), { initialProps: { source: first } })
+    rerender({ source: second })
+    expect(firstAbort).toHaveBeenCalledOnce()
+    unmount()
   })
 })

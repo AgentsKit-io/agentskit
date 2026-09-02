@@ -32,6 +32,11 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js",
       "require": "./dist/index.cjs"
+    },
+    "./use-chat": {
+      "types": "./dist/use-chat.d.ts",
+      "import": "./dist/use-chat.js",
+      "require": "./dist/use-chat.cjs"
     }
   },
   "files": [
@@ -39,8 +44,8 @@
   ],
   "scripts": {
     "build": "tsup",
-    "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
+    "test": "pnpm build && vitest run",
+    "test:coverage": "pnpm build && vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"
   },
@@ -69,7 +74,7 @@
   },
   "agentskit": {
     "stability": "beta",
-    "stabilityNote": "Solid binding with full headless component parity with @agentskit/react — same ChatReturn contract and data-ak-* attributes."
+    "stabilityNote": "Solid binding with the shared ChatReturn controller contract and Solid-specific data-ak-* components."
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/reference/packages/solid",

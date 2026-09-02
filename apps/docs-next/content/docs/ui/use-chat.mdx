@@ -1,12 +1,15 @@
 ---
 title: useChat
-description: The one hook every framework binding exposes. Same input, same return, same events.
+description: The shared chat state and action contract adapted by each framework binding.
 ---
 
-`useChat` is the contract every AgentsKit UI binding mirrors. It wraps
-`createChatController` from `@agentskit/core` with the idioms of your
-host framework (React hook, Vue composable, Svelte store, Solid
-signal, Angular service, React Native hook, Ink hook).
+The `ChatReturn` type below is the canonical state/action contract every
+AgentsKit UI binding adapts. It wraps `createChatController` from
+`@agentskit/core` with the idioms of your host framework (React hook, Vue
+composable, Svelte store, Solid signal, Angular service, React Native hook,
+Ink hook). The returned object is not structurally identical in every host:
+for example, Svelte exposes a `Readable<ChatState>` plus methods and Vue
+returns a reactive object.
 
 ## Contract
 

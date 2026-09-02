@@ -6,24 +6,8 @@ docbridge:
     - package:@agentskit/react
   relations:
     - from: package:@agentskit/react
-      to: package:@agentskit/adapters
-      kind: imports
-      detection: static
-    - from: package:@agentskit/react
       to: package:@agentskit/core
       kind: depends-on
-      detection: static
-    - from: package:@agentskit/react
-      to: package:@agentskit/core
-      kind: imports
-      detection: static
-    - from: package:@agentskit/react
-      to: package:@agentskit/core
-      kind: re-exports
-      detection: static
-    - from: package:@agentskit/react
-      to: package:agentskit
-      kind: imports
       detection: static
 ---
 
@@ -52,10 +36,12 @@ npm install @agentskit/react @agentskit/core @agentskit/adapters
 
 ```tsx
 import { useChat } from '@agentskit/react'
-import { anthropic } from '@agentskit/adapters'
+import type { ChatConfig } from '@agentskit/core'
+
+declare const adapter: ChatConfig['adapter']
 
 export function Chat() {
-  const chat = useChat({ adapter: anthropic({ apiKey, model: 'claude-sonnet-4-6' }) })
+  const chat = useChat({ adapter })
   return (
     <form onSubmit={e => { e.preventDefault(); chat.send(chat.input) }}>
       {chat.messages.map(m => <div key={m.id}>{m.content}</div>)}
@@ -73,7 +59,7 @@ This is the UI entry point for the ecosystem, not a separate product. The same c
 - `<ChatContainer>`, `<Message>`, `<InputBar>`, `<ToolCallView>`, `<ToolConfirmation>`, `<ThinkingIndicator>`, `<CodeBlock>`, `<Markdown>`.
 - Theme: `@agentskit/react/theme`.
 
-## Siblings (same contract)
+## Siblings (shared state/action contract)
 
 [Vue](/docs/reference/packages/vue) · [Svelte](/docs/reference/packages/svelte) · [Solid](/docs/reference/packages/solid) · [React Native](/docs/reference/packages/react-native) · [Angular](/docs/reference/packages/angular) · [Ink](/docs/reference/packages/ink)
 

@@ -34,7 +34,7 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/react) ·
 
 ## Why react
 
-- **Ship faster** — streaming chat with tool calls, memory, and markdown rendering works out of the box, no wiring required
+- **Ship faster** — streaming chat with tool calls and memory works out of the box; `Markdown` is a raw content slot for your chosen renderer
 - **Works with your design system** — completely headless; style it with Tailwind, MUI, shadcn, or plain CSS via `data-ak-*` attributes
 - **Agent-ready by default** — built-in support for tool calls, thinking indicators, and multi-turn memory so you never hit a wall as your product grows
 - **Swap providers in one line** — pass any adapter from `@agentskit/adapters`; your component code never changes
@@ -77,9 +77,10 @@ export function Chat() {
 - Theme via `@agentskit/react/theme` — opt-in CSS variables, override per component
 - Works with React 18 and 19
 
-## Other framework bindings (same contract)
+## Other framework bindings (shared state/action contract)
 
-Every binding exposes the same `ChatReturn` surface. Pick the one for your stack:
+Every binding adapts the shared `ChatReturn` state/action contract. Pick the
+one for your stack; component props and host state shapes remain framework-specific:
 
 | Package | API |
 |---------|-----|

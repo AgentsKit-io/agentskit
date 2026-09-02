@@ -1,5 +1,5 @@
 import { writable, type Readable } from 'svelte/store'
-import { createChatController } from '@agentskit/core'
+import { ConfigError, ErrorCodes, createChatController } from '@agentskit/core'
 import type { ChatConfig, ChatController, ChatReturn, ChatState } from '@agentskit/core'
 
 export interface SvelteChatStore extends Readable<ChatState> {
@@ -33,18 +33,29 @@ export function createChatStore(config: ChatConfig): SvelteChatStore {
     controller.stop()
   }
 
+  const ensureAlive = (): void => {
+    if (destroyed) {
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: 'Svelte chat store has been destroyed.',
+      })
+    }
+  }
+  const rejected = <A extends unknown[], T>(action: (...args: A) => Promise<T>): ((...args: A) => Promise<T>) =>
+    (...args: A) => { try { ensureAlive() } catch (error) { return Promise.reject(error) }; return action(...args) }
+
   return {
     subscribe: store.subscribe,
-    send: controller.send,
-    stop: controller.stop,
-    retry: controller.retry,
-    edit: controller.edit,
-    regenerate: controller.regenerate,
-    setInput: controller.setInput,
-    clear: controller.clear,
-    proposeToolCall: controller.proposeToolCall,
-    approve: controller.approve,
-    deny: controller.deny,
+    send: rejected((text: string) => controller.send(text)),
+    stop: () => { if (!destroyed) controller.stop() },
+    retry: rejected(() => controller.retry()),
+    edit: rejected((messageId: string, newContent: string, opts?: Parameters<ChatController['edit']>[2]) => controller.edit(messageId, newContent, opts)),
+    regenerate: rejected((messageId?: string) => controller.regenerate(messageId)),
+    setInput: (value: string) => { if (!destroyed) controller.setInput(value) },
+    clear: rejected(() => controller.clear()),
+    proposeToolCall: rejected((proposal: Parameters<ChatController['proposeToolCall']>[0]) => controller.proposeToolCall(proposal)),
+    approve: rejected((toolCallId: string) => controller.approve(toolCallId)),
+    deny: rejected((toolCallId: string, reason?: string) => controller.deny(toolCallId, reason)),
     destroy,
   }
 }
