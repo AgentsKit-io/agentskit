@@ -6,6 +6,8 @@ import type { Metadata } from 'next'
 import { PostHogProvider } from './posthog-provider'
 import { RegistryAskWidget } from '@/components/ask-widget'
 import { serializedRegistryStructuredData } from '@/lib/structured-data'
+import { AccessibleSearch } from '@/components/accessible-search'
+import type { Viewport } from 'next'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
@@ -23,6 +25,8 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true },
 }
 
+export const viewport: Viewport = { colorScheme: 'dark light', themeColor: '#0b0f14' }
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
@@ -39,9 +43,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         />
       </head>
       <body className="flex min-h-screen flex-col overflow-x-clip font-sans">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-ak-blue focus:px-3 focus:py-2 focus:text-ak-midnight">
+          Skip to content
+        </a>
         <PostHogProvider>
           <RootProvider search={{ options: { allowClear: true } }}>
-            {children}
+            <AccessibleSearch />
+            <div id="main-content">{children}</div>
             <RegistryAskWidget />
           </RootProvider>
         </PostHogProvider>
