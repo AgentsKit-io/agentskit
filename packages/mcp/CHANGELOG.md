@@ -1,6 +1,8 @@
 # Changelog
 
-## Unreleased
+## 0.4.3
+
+### Patch Changes
 
 - Harden MCP request, argument, descriptor, UTF-8 framing, protocol-version,
   error-sanitization, and typed-agent step boundaries.

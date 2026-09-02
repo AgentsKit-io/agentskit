@@ -1,5 +1,11 @@
 # @agentskit/statechart
 
+## 0.3.1
+
+### Patch Changes
+
+- Harden statechart definition validation and transition integrity.
+
 ## 0.3.0
 
 ### Patch Changes

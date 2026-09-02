@@ -4,7 +4,7 @@ Use Node.js 20+ and launch the published server over stdio with the smallest
 default tool set:
 
 ```bash
-npx -y @agentskit/mcp@0.4.2 --tools fetch,search
+npx -y @agentskit/mcp@0.4.3 --tools fetch,search
 ```
 
 The process is an MCP JSON-RPC server. Keep stdout connected to the MCP host;
