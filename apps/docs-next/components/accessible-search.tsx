@@ -12,8 +12,12 @@ export function AccessibleSearch() {
 
     labelInputs()
     const observer = new MutationObserver(labelInputs)
-    observer.observe(document.body, { childList: true, subtree: true })
-    return () => observer.disconnect()
+    observer.observe(document.documentElement, { childList: true, subtree: true })
+    document.addEventListener('focusin', labelInputs, true)
+    return () => {
+      observer.disconnect()
+      document.removeEventListener('focusin', labelInputs, true)
+    }
   }, [])
 
   return null
