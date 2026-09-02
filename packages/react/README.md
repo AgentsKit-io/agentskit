@@ -51,15 +51,12 @@ npm install @agentskit/react @agentskit/adapters
 <!-- readme-example:quickstart -->
 ```tsx
 import { useChat, ChatContainer, Message, InputBar } from '@agentskit/react'
-import type { ChatConfig } from '@agentskit/core'
+import { anthropic } from '@agentskit/adapters'
 import '@agentskit/react/theme'
-
-declare const adapter: ChatConfig['adapter']
 
 export function Chat() {
   const chat = useChat({
-    // Inject an adapter backed by your server/edge endpoint. Never ship provider secrets here.
-    adapter,
+    adapter: anthropic({ apiKey: process.env.ANTHROPIC_API_KEY, model: 'claude-sonnet-4-6' }),
   })
   return (
     <ChatContainer>

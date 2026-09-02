@@ -1,6 +1,6 @@
 import { ErrorCodes, SkillError } from '@agentskit/core'
 import type { SkillDefinition } from '@agentskit/core'
-import { cloneSkillDefinition, validateSkillDefinition } from './utils'
+import { cloneSkillDefinition, skillInvalid, validateSkillDefinition } from './utils'
 
 /**
  * Skill marketplace primitives. `SkillPackage` wraps a
@@ -9,7 +9,7 @@ import { cloneSkillDefinition, validateSkillDefinition } from './utils'
  */
 
 export interface SkillPackage {
-  /** Semver string — validated by `installSkill`. */
+  /** Semver string — validated when published to a registry. */
   version: string
   /** Publisher identifier (org, user, npm scope). */
   publisher?: string
@@ -50,10 +50,11 @@ const CORE_NUM = /^(0|[1-9]\d*)$/
 const IDENT = /^[0-9A-Za-z-]+$/
 const NUMERIC_IDENT = /^\d+$/
 
-function invalidSemver(version: string): never {
+function invalidSemver(version: unknown): never {
+  const display = typeof version === 'string' ? version : String(version)
   throw new SkillError({
     code: ErrorCodes.AK_SKILL_INVALID,
-    message: `invalid semver: "${version}"`,
+    message: `invalid semver: "${display}"`,
     hint: 'Use X.Y.Z with optional -<prerelease> and/or +<build>; no leading zeroes or empty idents.',
   })
 }
@@ -70,6 +71,7 @@ function validPreIdent(id: string): boolean {
 }
 
 function parseSemverFull(version: string): ParsedSemver {
+  if (typeof version !== 'string') invalidSemver(version)
   const plus = version.indexOf('+')
   const coreAndPre = plus === -1 ? version : version.slice(0, plus)
   const build = plus === -1 ? null : version.slice(plus + 1)
@@ -111,10 +113,14 @@ function compareIdent(ai: string, bi: string): number {
   const bNum = NUMERIC_IDENT.test(bi)
   if (aNum && bNum) {
     if (ai.length !== bi.length) return ai.length < bi.length ? -1 : 1
-    return ai < bi ? -1 : ai > bi ? 1 : 0
+    if (ai < bi) return -1
+    if (ai > bi) return 1
+    return 0
   }
   if (aNum !== bNum) return aNum ? -1 : 1
-  return ai < bi ? -1 : ai > bi ? 1 : 0
+  if (ai < bi) return -1
+  if (ai > bi) return 1
+  return 0
 }
 
 function comparePrerelease(a: string[] | null, b: string[] | null): number {
@@ -163,6 +169,9 @@ function prereleaseAllowed(version: ParsedSemver, rangeTarget: ParsedSemver): bo
  * comparator itself includes a prerelease on the same major.minor.patch.
  */
 export function matchesRange(version: string, range: string): boolean {
+  if (typeof range !== 'string') {
+    throw skillInvalid('semver range must be a string')
+  }
   // Validate versions even for the wildcard path; callers should not be able
   // to bypass the strict SemVer contract with `*`.
   const parsedVersion = parseSemverFull(version)
@@ -203,16 +212,49 @@ function clonePackage(pkg: SkillPackage): SkillPackage {
   }
 }
 
+function validateSkillPackage(pkg: unknown): asserts pkg is SkillPackage {
+  if (pkg === null || typeof pkg !== 'object' || Array.isArray(pkg)) {
+    throw skillInvalid('skill package must be a non-null object')
+  }
+
+  const p = pkg as Record<string, unknown>
+  if (typeof p.version !== 'string') {
+    throw skillInvalid('skill package version must be a string')
+  }
+  if (p.publisher !== undefined && (typeof p.publisher !== 'string' || p.publisher.trim() === '')) {
+    throw skillInvalid('skill package publisher must be a non-empty string')
+  }
+  if (
+    p.publishedAt !== undefined &&
+    (typeof p.publishedAt !== 'string' ||
+      !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,9})?(?:Z|[+-]\d{2}:\d{2})$/.test(p.publishedAt) ||
+      Number.isNaN(Date.parse(p.publishedAt)))
+  ) {
+    throw skillInvalid('skill package publishedAt must be an ISO timestamp')
+  }
+  if (p.tags !== undefined) {
+    if (
+      !Array.isArray(p.tags) ||
+      p.tags.some(tag => typeof tag !== 'string' || tag.trim() === '') ||
+      new Set(p.tags).size !== p.tags.length
+    ) {
+      throw skillInvalid('skill package tags must be unique non-empty strings')
+    }
+  }
+  validateSkillDefinition(p.skill)
+}
+
 /**
  * In-memory skill registry — tests, demos, private marketplaces.
  * Map-based storage is prototype-safe and allows names like "__proto__".
  */
 export function createSkillRegistry(initial: SkillPackage[] = []): SkillRegistry {
+  if (!Array.isArray(initial)) throw skillInvalid('initial skill packages must be an array')
   const packages = new Map<string, SkillPackage[]>()
 
   function addPackage(pkg: SkillPackage): SkillPackage {
+    validateSkillPackage(pkg)
     parseSemver(pkg.version)
-    validateSkillDefinition(pkg.skill)
     const entry = clonePackage({
       version: pkg.version,
       publisher: pkg.publisher,
