@@ -32,7 +32,7 @@ interface CapabilityMatrixRow {
   deprecated?: boolean
 }
 
-const validate = createAjvValidator({ rejectAdditionalProperties: true })
+const validate = createAjvValidator({ rejectAdditionalProperties: true, preflight: false })
 
 function buildCapabilityMatrix(snapshot: CatalogSnapshot): CapabilityMatrixRow[] {
   const result = validate(catalogSnapshotSchema, snapshot as unknown as Record<string, unknown>)

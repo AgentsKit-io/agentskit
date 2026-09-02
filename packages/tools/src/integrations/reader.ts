@@ -1,15 +1,32 @@
 import type { ToolDefinition } from '@agentskit/core'
 import { readerIntegration, toToolDefinitions, type ProjectionConfig } from '@agentskit/integrations'
 import type { HttpToolOptions } from './http'
+import { safeFetch } from '../safe-fetch'
 
 /** @deprecated Moved to `@agentskit/integrations` (services/reader). */
 export interface ReaderConfig extends HttpToolOptions {
   /** Jina Reader token (optional — public endpoint works anonymously, but rate-limited). */
   apiKey?: string
+  /** Explicit policy-enforcing transport for the model-controlled URL. */
+  fetchUntrusted?: typeof globalThis.fetch
+}
+
+const gatedReaderFetch: typeof globalThis.fetch = (input, init) => {
+  let url: string
+  if (typeof input === 'string') url = input
+  else if (input instanceof URL) url = input.href
+  else url = input.url
+  return safeFetch(url, init ?? {})
 }
 
 function cfg(config: ReaderConfig): ProjectionConfig {
-  return { config: { apiKey: config.apiKey, baseUrl: config.baseUrl, headers: config.headers }, retry: config.retry, signal: config.signal, fetch: config.fetch }
+  return {
+    config: { apiKey: config.apiKey, baseUrl: config.baseUrl, headers: config.headers },
+    retry: config.retry,
+    signal: config.signal,
+    fetch: config.fetch,
+    fetchUntrusted: config.fetchUntrusted ?? gatedReaderFetch,
+  }
 }
 
 /** @deprecated import from `@agentskit/integrations`. */

@@ -96,6 +96,7 @@ export function createTypedAgentTool(config: TypedAgentToolConfig): ToolDefiniti
   const description = assertNonEmptyString(config?.description, 'typed agent tool description', 4096)
   const systemPrompt = assertNonEmptyString(config?.systemPrompt, 'typed agent tool systemPrompt', 65_536)
   const resultToolName = assertToolName(config?.resultToolName, 'typed agent result tool name')
+  const maxSteps = assertPositiveInteger(config.maxSteps ?? 4, 'typed agent maxSteps', 100)
   const maxTaskBytes = assertPositiveInteger(config.maxTaskBytes ?? 65_536, 'typed agent input', 1_048_576)
   if (!isRecord(config?.adapter) || typeof config.adapter.createSource !== 'function') {
     throw new ConfigError({
@@ -163,7 +164,7 @@ export function createTypedAgentTool(config: TypedAgentToolConfig): ToolDefiniti
         },
         skill,
         onConfirm: config.onConfirm,
-        maxSteps: config.maxSteps ?? 4,
+        maxSteps,
       })
     },
   }

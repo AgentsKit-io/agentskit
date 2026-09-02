@@ -9,7 +9,8 @@ Profile: <code>major-package</code>
 [![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 
 Expose AgentsKit tools as an [MCP](https://modelcontextprotocol.io) server — use
-them from Claude Desktop, Cursor, Windsurf, or any MCP host.
+them from Claude Desktop, Cursor, Windsurf, or another host that supports the
+documented `2024-11-05` tools bridge.
 
 
 ## Verified proof
@@ -71,30 +72,6 @@ Verify the server in each host with its MCP tool-list command before enabling
 additional tools. Pi does not have a native MCP host path in this recipe; use
 a Pi extension or package when a dedicated integration is available.
 
-Codex (`~/.codex/config.toml`):
-
-```toml
-[mcp_servers.agentskit]
-command = "npx"
-args = ["-y", "@agentskit/mcp@0.4.2", "--tools", "fetch,search"]
-```
-
-OpenClaw:
-
-```bash
-openclaw mcp add agentskit \
-  --command npx \
-  --arg -y \
-  --arg @agentskit/mcp@0.4.2 \
-  --arg --tools \
-  --arg fetch,search
-openclaw mcp doctor agentskit --probe
-```
-
-Verify the server in each host with its MCP tool-list command before enabling
-additional tools. Pi does not have a native MCP host path in this recipe; use
-a Pi extension or package when a dedicated integration is available.
-
 ## Flags
 
 | Flag | Effect |
@@ -105,6 +82,14 @@ a Pi extension or package when a dedicated integration is available.
 | `--allow-shell` | enable the shell tool (off by default — it runs commands) |
 
 `stdout` is the MCP JSON-RPC channel; human output goes to `stderr`.
+
+The bridge supports MCP protocol revision `2024-11-05` and the
+`initialize`/`tools/list`/`tools/call` lifecycle over stdio, in-memory, or an
+injected transport. Hosts own resources, prompts, sampling, tasks,
+HTTP/WebSocket, authentication, rate limiting, and persistence. Tool arguments are
+validated against their JSON Schema before execution; tools without a schema
+accept only an empty object. Invalid protocol envelopes and params are
+rejected, and tool failures are sanitized by default.
 
 ## Programmatic
 

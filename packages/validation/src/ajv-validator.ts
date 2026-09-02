@@ -17,6 +17,8 @@ export interface AjvValidatorOptions {
    * silently fixing them. Coercion can mutate the supplied args object.
    */
   coerceTypes?: boolean
+  /** Skip argument resource limits for trusted, non-tool payloads. */
+  preflight?: boolean
   /**
    * Provide a pre-configured Ajv instance to control formats, keywords, or
    * strict mode. A supplied instance owns its Ajv behavior; `coerceTypes` only
@@ -27,6 +29,38 @@ export interface AjvValidatorOptions {
 
 type CompiledValidate = ((data: unknown) => boolean) & {
   errors?: ErrorObject[] | null
+}
+
+const MAX_ARGS_BYTES = 1_048_576
+const MAX_ARGS_DEPTH = 64
+const MAX_ARGS_NODES = 10_000
+
+function preflightArgs(args: Record<string, unknown>): string | undefined {
+  const pending: Array<{ value: unknown; depth: number }> = [{ value: args, depth: 0 }]
+  const seen = new Set<object>()
+  let nodes = 0
+  let bytes = 0
+
+  while (pending.length > 0) {
+    const current = pending.pop()!
+    nodes++
+    if (nodes > MAX_ARGS_NODES) return `argument node limit exceeded (${MAX_ARGS_NODES})`
+    if (current.depth > MAX_ARGS_DEPTH) return `argument depth limit exceeded (${MAX_ARGS_DEPTH})`
+
+    if (typeof current.value === 'string') {
+      bytes += new TextEncoder().encode(current.value).byteLength
+      if (bytes > MAX_ARGS_BYTES) return `argument size limit exceeded (${MAX_ARGS_BYTES} bytes)`
+      continue
+    }
+    if (current.value === null || typeof current.value !== 'object') continue
+    if (seen.has(current.value)) return 'cyclic arguments are not supported'
+    seen.add(current.value)
+    for (const [key, value] of Object.entries(current.value as Record<string, unknown>)) {
+      bytes += new TextEncoder().encode(key).byteLength
+      if (bytes > MAX_ARGS_BYTES) return `argument size limit exceeded (${MAX_ARGS_BYTES} bytes)`
+      pending.push({ value, depth: current.depth + 1 })
+    }
+  }
 }
 
 /**
@@ -54,10 +88,30 @@ export function createAjvValidator(options: AjvValidatorOptions = {}): ArgsValid
     options.ajv ??
     new Ajv({
       allErrors: true,
-      strict: false,
+      strict: true,
+      strictTypes: false,
+      strictRequired: false,
+      strictTuples: false,
       coerceTypes: options.coerceTypes ?? false,
       removeAdditional: false,
     })
+
+  if (!options.ajv) {
+    ajv.addFormat('uri', {
+      type: 'string',
+      validate: (value: string) => {
+        try { return Boolean(new URL(value).protocol) } catch { return false }
+      },
+    })
+    ajv.addFormat('uri-reference', { type: 'string', validate: (value: string) => {
+      try { new URL(value, 'https://agentskit.invalid'); return true } catch { return false }
+    } })
+    ajv.addFormat('hostname', { type: 'string', validate: (value: string) => value.length <= 253 && /^[A-Za-z0-9](?:[A-Za-z0-9.-]*[A-Za-z0-9])?$/.test(value) })
+    ajv.addFormat('ipv4', { type: 'string', validate: (value: string) => /^(?:\d{1,3}\.){3}\d{1,3}$/.test(value) && value.split('.').every(part => Number(part) <= 255) })
+    ajv.addFormat('ipv6', { type: 'string', validate: (value: string) => value.includes(':') })
+    ajv.addFormat('email', { type: 'string', validate: (value: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value) })
+    ajv.addFormat('date-time', { type: 'string', validate: (value: string) => !Number.isNaN(Date.parse(value)) })
+  }
 
   // Compiled validators are cached by schema identity so repeated tool calls
   // do not recompile. Schemas are stable object references on ToolDefinition.
@@ -67,17 +121,32 @@ export function createAjvValidator(options: AjvValidatorOptions = {}): ArgsValid
     const cached = cache.get(schema as object)
     if (cached) return cached
     const effective = options.rejectAdditionalProperties ? hardenObjectBoundaries(schema) : schema
+    const registered = effective.$id ? ajv.getSchema(effective.$id) : undefined
+    if (registered) {
+      cache.set(schema as object, registered as CompiledValidate)
+      return registered as CompiledValidate
+    }
     const validate = ajv.compile(effective) as CompiledValidate
     cache.set(schema as object, validate)
     return validate
   }
 
   return (schema: JSONSchema7, args: Record<string, unknown>): ArgsValidationResult => {
+    if (options.preflight !== false) {
+      const preflightError = preflightArgs(args)
+      if (preflightError) {
+        return {
+          valid: false,
+          errors: [{ path: '', message: preflightError }],
+          message: `invalid tool arguments: ${preflightError}`,
+        }
+      }
+    }
     const validate = compile(schema)
     const ok = validate(args)
     if (ok) return { valid: true }
     const errors: ArgsValidationError[] = (validate.errors ?? []).map(e => ({
-      path: errorPath(e),
+      path: errorPath(e, args),
       message: e.message ?? 'is invalid',
     }))
     const safe = errors.length > 0 ? errors : [{ path: '', message: 'is invalid' }]
@@ -106,23 +175,20 @@ function hardenObjectBoundaries(schema: JSONSchema7): JSONSchema7 {
     clone.patternProperties = mapDefinitions(current.patternProperties)
     clone.definitions = mapDefinitions(current.definitions)
     clone.$defs = mapDefinitions(current.$defs)
-    clone.items = Array.isArray(current.items)
-      ? current.items.map(item => visitDefinition(item))
-      : current.items === undefined
-        ? undefined
-        : visitDefinition(current.items)
+    if (Array.isArray(current.items)) clone.items = current.items.map(item => visitDefinition(item))
+    else if (current.items !== undefined) clone.items = visitDefinition(current.items)
     clone.additionalItems = visitOptional(current.additionalItems)
     clone.contains = visitOptional(current.contains)
     clone.propertyNames = visitOptional(current.propertyNames)
     clone.additionalProperties = visitOptional(current.additionalProperties)
-    clone.dependencies = current.dependencies
-      ? Object.fromEntries(
-          Object.entries(current.dependencies).map(([key, dependency]) => [
-            key,
-            Array.isArray(dependency) ? [...dependency] : visitDefinition(dependency, true),
-          ]),
-        )
-      : undefined
+    if (current.dependencies !== undefined) {
+      clone.dependencies = Object.fromEntries(
+        Object.entries(current.dependencies).map(([key, dependency]) => {
+          const value = Array.isArray(dependency) ? [...dependency] : visitDefinition(dependency, true)
+          return [key, value]
+        }),
+      )
+    }
 
     const hasComposition = Boolean(
       current.allOf || current.anyOf || current.oneOf || current.not || current.if || current.then || current.else,
@@ -179,7 +245,7 @@ function isObjectBoundary(schema: JSONSchema7): boolean {
   return types.includes('object') || schema.properties !== undefined || schema.patternProperties !== undefined
 }
 
-function errorPath(error: ErrorObject): string {
+function errorPath(error: ErrorObject, args: Record<string, unknown>): string {
   const segments = decodePointer(error.instancePath)
   if (error.keyword === 'required' && hasStringProperty(error.params, 'missingProperty')) {
     segments.push(error.params.missingProperty)
@@ -187,7 +253,7 @@ function errorPath(error: ErrorObject): string {
   if (error.keyword === 'additionalProperties' && hasStringProperty(error.params, 'additionalProperty')) {
     segments.push(error.params.additionalProperty)
   }
-  return formatPath(segments)
+  return formatPath(segments, args)
 }
 
 function decodePointer(pointer: string): string[] {
@@ -198,9 +264,16 @@ function decodePointer(pointer: string): string[] {
     .map(segment => segment.replace(/~1/g, '/').replace(/~0/g, '~'))
 }
 
-function formatPath(segments: string[]): string {
+function formatPath(segments: string[], root: unknown): string {
+  let current = root
   return segments.reduce((path, segment) => {
-    if (/^(0|[1-9]\d*)$/.test(segment)) return `${path}[${segment}]`
+    if (Array.isArray(current) && /^(0|[1-9]\d*)$/.test(segment)) {
+      current = (current as unknown[])[Number(segment)]
+      return `${path}[${segment}]`
+    }
+    if (current !== null && typeof current === 'object') {
+      current = (current as Record<string, unknown>)[segment]
+    }
     if (/^[A-Za-z_$][\w$]*$/.test(segment)) return path ? `${path}.${segment}` : segment
     return `${path}[${JSON.stringify(segment)}]`
   }, '')

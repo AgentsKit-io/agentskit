@@ -49,8 +49,9 @@ docbridge:
 
 ## Purpose
 
-Serve AgentsKit tools to any MCP host. A thin bridge over `@agentskit/tools/mcp`
-(`createMcpServer` + `createStdioTransport`).
+Serve AgentsKit tools to an MCP host that supports the documented `2024-11-05`
+tools bridge. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` +
+`createStdioTransport`).
 
 ## Install
 
@@ -98,6 +99,16 @@ path and require the tool list to equal `fetch_url,web_search`.
 - Agent tasks, step counts, prompts, descriptions, registry IDs, request time, and response bytes are bounded.
 - Registry source is treated as data and never executed.
 - The built-in surface is the MCP tools subset over stdio or an injected transport. HTTP/WebSocket, resources, prompts, sampling, auth, rate limiting, and persistence are host responsibilities.
+
+### Supported protocol matrix
+
+| Protocol revision | Lifecycle | Transports | Methods | Not included |
+|---|---|---|---|---|
+| `2024-11-05` | Exact-version `initialize`; `tools/list`; `tools/call`; close settles pending calls | stdio, in-memory, or injected | `initialize`, `tools/list`, `tools/call` | resources, prompts, sampling, tasks, HTTP/WebSocket, authentication, rate limiting, persistence |
+
+AgentsKit fails closed when a peer requests a different protocol revision.
+The bridge is a composable tools subset: hosts own any omitted MCP capability,
+transport authentication, egress policy, and production isolation.
 
 ## Minimal example
 

@@ -6,7 +6,7 @@ export interface SandboxPolicy {
   requireSandbox?: string[] | '*'
   /** Tool names that are completely banned. */
   deny?: string[]
-  /** Explicit allow-list. Anything not listed is denied. Overrides `deny`. */
+  /** Explicit allow-list. Anything not listed is denied. `deny` wins on conflict. */
   allow?: string[]
   /** Per-tool argument validators — fired before execution. */
   validators?: Record<string, (args: Record<string, unknown>) => void>
@@ -33,13 +33,12 @@ function inList(list: string[] | '*' | undefined, name: string): boolean {
 }
 
 function snapshotPolicy(policy: SandboxPolicy): SandboxPolicy {
+  let requireSandbox: SandboxPolicy['requireSandbox']
+  if (policy.requireSandbox === '*') requireSandbox = '*'
+  else if (policy.requireSandbox !== undefined) requireSandbox = [...policy.requireSandbox]
+
   return {
-    requireSandbox:
-      policy.requireSandbox === '*'
-        ? '*'
-        : policy.requireSandbox
-          ? [...policy.requireSandbox]
-          : undefined,
+    requireSandbox,
     deny: policy.deny ? [...policy.deny] : undefined,
     allow: policy.allow ? [...policy.allow] : undefined,
     validators: policy.validators ? { ...policy.validators } : undefined,
@@ -60,9 +59,9 @@ function snapshotPolicy(policy: SandboxPolicy): SandboxPolicy {
  *   - denied / not-in-allow: `execute` throws — runtime returns an error
  *     to the model instead of actually running.
  *   - **requireSandbox:** the tool's original `execute` body is **not** run.
- *     Args are delegated to `sandbox.execute` (the shared sandbox tool). The
- *     original tool implementation is skipped entirely — this is a routing
- *     shim, not a transparent wrapper around the original body.
+ *     Code-execution-shaped args (`{ code, language? }`) are delegated to
+ *     `sandbox.execute` (the shared sandbox tool). Other tool schemas fail
+ *     closed because a command/object cannot safely be treated as code.
  *   - validators: run synchronously before execute; throw aborts the call.
  *
  * Policy arrays/records are snapshotted at create time so later caller
@@ -79,6 +78,8 @@ export function createMandatorySandbox(options: {
   const decide = (
     tool: ToolDefinition,
   ): { allowed: boolean; mustSandbox: boolean; reason?: string } => {
+    // Deny is the safety ceiling: an accidental allow-list entry must not
+    // re-enable a tool explicitly blocked by policy.
     if (inList(policy.deny, tool.name)) {
       return { allowed: false, mustSandbox: false, reason: 'denied' }
     }
@@ -137,6 +138,13 @@ export function createMandatorySandbox(options: {
               code: ErrorCodes.AK_SANDBOX_INVALID_TOOL,
               message: `Tool "${tool.name}" has no execute function`,
               hint: 'Tool definitions wired through the sandbox must export an execute function.',
+            })
+          }
+          if (decision.mustSandbox && (typeof args.code !== 'string' || args.code.length === 0)) {
+            throw new SandboxError({
+              code: ErrorCodes.AK_SANDBOX_INVALID_TOOL,
+              message: `Tool "${tool.name}" cannot be routed through code_execution: args.code must be a non-empty string`,
+              hint: 'Provide a code-execution adapter for this tool or remove it from requireSandbox.',
             })
           }
           return baseExecute(args, context)

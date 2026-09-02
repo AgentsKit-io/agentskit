@@ -64,6 +64,9 @@ describe('checkEgress', () => {
     expect(await checkEgress(new URL('https://evil.test/'), { allowedHosts: ['good.test'] })).toMatch(/not in allowedHosts/)
     expect(await checkEgress(new URL('https://good.test/'), { allowedHosts: ['good.test'] })).toBeNull()
   })
+  it('treats an explicitly empty allowlist as deny-all', async () => {
+    expect(await checkEgress(new URL('https://good.test/'), { allowedHosts: [] })).toMatch(/not in allowedHosts/)
+  })
   it('honours allowPrivateHosts', async () => {
     expect(await checkEgress(new URL('http://127.0.0.1/'), { allowPrivateHosts: true })).toBeNull()
   })
@@ -118,5 +121,39 @@ describe('safeFetch', () => {
   it('rejects an invalid URL', async () => {
     vi.stubGlobal('fetch', vi.fn())
     await expect(safeFetch('not a url')).rejects.toMatchObject({ code: 'AK_TOOL_INVALID_INPUT' })
+  })
+
+  it('rejects invalid redirect limits before fetching', async () => {
+    const fetchSpy = vi.fn()
+    vi.stubGlobal('fetch', fetchSpy)
+    await expect(safeFetch('https://93.184.216.34/', {}, { maxRedirects: -1 })).rejects.toMatchObject({
+      code: 'AK_CONFIG_INVALID',
+    })
+    expect(fetchSpy).not.toHaveBeenCalled()
+  })
+
+  it('does not forward sensitive headers across origins', async () => {
+    const redirect = new Response(null, {
+      status: 302,
+      headers: { location: 'https://93.184.216.35/next' },
+    })
+    const fetchMock = vi.fn()
+      .mockResolvedValueOnce(redirect)
+      .mockResolvedValueOnce(new Response('ok', { status: 200 }))
+    vi.stubGlobal('fetch', fetchMock)
+
+    await safeFetch('https://93.184.216.34/', {
+      headers: {
+        Authorization: 'Bearer secret',
+        Cookie: 'session=secret',
+        'X-Trace': 'keep',
+      },
+      credentials: 'include',
+    })
+    const second = fetchMock.mock.calls[1]![1] as RequestInit
+    expect(new Headers(second.headers).has('authorization')).toBe(false)
+    expect(new Headers(second.headers).has('cookie')).toBe(false)
+    expect(new Headers(second.headers).get('x-trace')).toBe('keep')
+    expect(second.credentials).toBe('omit')
   })
 })

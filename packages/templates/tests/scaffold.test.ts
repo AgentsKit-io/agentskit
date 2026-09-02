@@ -338,10 +338,12 @@ describe('scaffold', () => {
   })
 
   it('typechecks generated source for each scaffold type against workspace packages', async () => {
-    // Typechecking 8 generated packages with the full program is intentionally thorough.
+    // Typecheck every generated entry in one program so shared workspace types are parsed once.
     const require = createRequire(import.meta.url)
     // Ensure typescript resolves from this package's node_modules (no network).
     expect(require.resolve('typescript')).toContain('node_modules')
+    const entries: string[] = []
+    let compilerOptions: ts.CompilerOptions | undefined
 
     for (const type of SCAFFOLD_TYPES) {
       const pkgDir = join(dir, `typecheck-${type}`)
@@ -382,18 +384,18 @@ describe('scaffold', () => {
       const read = ts.readConfigFile(configPath, ts.sys.readFile)
       expect(read.error).toBeUndefined()
       const parsed = ts.parseJsonConfigFileContent(read.config, ts.sys, pkgDir)
-      const program = ts.createProgram({
-        rootNames: parsed.fileNames,
-        options: parsed.options,
-      })
-      const diags = ts
-        .getPreEmitDiagnostics(program)
-        .filter(d => d.category === ts.DiagnosticCategory.Error)
-      const text = diags
-        .map(d => `${ts.flattenDiagnosticMessageText(d.messageText, '\n')} (${d.file?.fileName}:${d.start})`)
-        .join('\n')
-      expect(diags, `type errors for ${type}:\n${text}`).toEqual([])
+      compilerOptions ??= parsed.options
+      entries.push(entry)
     }
+
+    const program = ts.createProgram({ rootNames: entries, options: compilerOptions })
+    const diags = ts
+      .getPreEmitDiagnostics(program)
+      .filter(d => d.category === ts.DiagnosticCategory.Error)
+    const text = diags
+      .map(d => `${ts.flattenDiagnosticMessageText(d.messageText, '\n')} (${d.file?.fileName}:${d.start})`)
+      .join('\n')
+    expect(diags, `type errors for generated scaffolds:\n${text}`).toEqual([])
   }, 180_000)
 
   it('parses generated TypeScript with the workspace typescript package', () => {

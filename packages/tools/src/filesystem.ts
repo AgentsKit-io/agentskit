@@ -92,18 +92,24 @@ async function realJailPath(
     })
   }
   if (opts.denySymlinks) {
-    try {
-      const stat = await fs.lstat(initial)
-      if (stat.isSymbolicLink()) {
-        throw new ToolError({
-          code: ErrorCodes.AK_TOOL_INVALID_INPUT,
-          message: `Access denied: "${inputPath}" is a symbolic link`,
-          hint: 'Symlinks are disabled for this filesystem tool. Set denySymlinks:false to allow them.',
-        })
+    const relativePath = relative(canonical, initial)
+    let cursor = canonical
+    for (const segment of relativePath.split(sep)) {
+      if (!segment || segment === '.') continue
+      cursor = resolve(cursor, segment)
+      try {
+        if ((await fs.lstat(cursor)).isSymbolicLink()) {
+          throw new ToolError({
+            code: ErrorCodes.AK_TOOL_INVALID_INPUT,
+            message: `Access denied: "${inputPath}" is a symbolic link`,
+            hint: 'Symlinks are disabled for this filesystem tool. Set denySymlinks:false to allow them.',
+          })
+        }
+      } catch (err) {
+        if (err instanceof ToolError || opts.mustExist) throw err as Error
+        // New leaf or directory — there is no symlink to follow yet.
+        break
       }
-    } catch (err) {
-      if (opts.mustExist) throw err as Error
-      // leaf doesn't exist yet — fine
     }
   }
   return real
@@ -157,7 +163,22 @@ export function filesystem(config: FilesystemConfig): ToolDefinition[] {
         mustExist: false,
       })
       await fs.mkdir(dirname(filePath), { recursive: true })
-      await fs.writeFile(filePath, String(args.content ?? ''), 'utf8')
+      const noFollow = (fs.constants as typeof fs.constants & { O_NOFOLLOW?: number }).O_NOFOLLOW
+      if (denySymlinks && noFollow !== undefined) {
+        // O_NOFOLLOW closes the leaf replacement race on POSIX platforms.
+        const handle = await fs.open(
+          filePath,
+          fs.constants.O_WRONLY | fs.constants.O_CREAT | fs.constants.O_TRUNC | noFollow,
+          0o666,
+        )
+        try {
+          await handle.writeFile(String(args.content ?? ''), 'utf8')
+        } finally {
+          await handle.close()
+        }
+      } else {
+        await fs.writeFile(filePath, String(args.content ?? ''), 'utf8')
+      }
       return `Written to ${args.path}`
     },
   }

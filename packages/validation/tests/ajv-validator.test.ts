@@ -18,6 +18,15 @@ describe('createAjvValidator', () => {
     expect(validate(schema, { city: 'Lisbon', units: 'C' })).toEqual({ valid: true })
   })
 
+  it('enforces supported security-relevant formats and rejects unknown formats', () => {
+    const validate = createAjvValidator()
+    const uri = { type: 'object', properties: { callback: { type: 'string', format: 'uri' } }, required: ['callback'] } as const
+    expect(validate(uri, { callback: 'https://example.test/callback' }).valid).toBe(true)
+    expect(validate(uri, { callback: 'not a uri' }).valid).toBe(false)
+    const unknown = { type: 'string', format: 'future-format' } as const
+    expect(() => validate(unknown, 'value' as unknown as Record<string, unknown>)).toThrow(/unknown format/)
+  })
+
   it('rejects a missing required field with a path', () => {
     const validate = createAjvValidator()
     const result = validate(schema, { units: 'C' })
@@ -160,6 +169,41 @@ describe('createAjvValidator', () => {
     }
     const result = createAjvValidator()(escaped, { 'a/b': [{ '~key': 3 }] })
     expect(result.errors).toContainEqual(expect.objectContaining({ path: '["a/b"][0]["~key"]' }))
+  })
+
+  it('rejects hostile depth, size, node count, and cycles before Ajv recursion', () => {
+    const validate = createAjvValidator()
+    const deep: Record<string, unknown> = {}
+    let cursor = deep
+    for (let i = 0; i < 5_000; i++) {
+      cursor.next = {}
+      cursor = cursor.next as Record<string, unknown>
+    }
+    expect(validate({ type: 'object' }, deep).valid).toBe(false)
+    expect(validate({ type: 'object' }, { value: 'x'.repeat(1_048_577) }).valid).toBe(false)
+    const cyclic: Record<string, unknown> = {}
+    cyclic.self = cyclic
+    expect(validate({ type: 'object' }, cyclic).valid).toBe(false)
+  })
+
+  it('can validate trusted large payloads without applying tool-argument limits', () => {
+    const validate = createAjvValidator({ preflight: false })
+    const values = Array.from({ length: 10_001 }, (_, index) => index)
+    expect(validate({ type: 'object', properties: { values: { type: 'array', items: { type: 'integer' } } } }, { values }).valid).toBe(true)
+  })
+
+  it('counts object keys in the argument size limit', () => {
+    const args: Record<string, unknown> = {}
+    args['x'.repeat(1_048_577)] = true
+    expect(createAjvValidator()({ type: 'object' }, args).valid).toBe(false)
+  })
+
+  it('keeps numeric object keys distinct from array indices', () => {
+    const result = createAjvValidator()(
+      { type: 'object', properties: { '0': { type: 'string' } }, required: ['0'] },
+      { '0': 1 },
+    )
+    expect(result.errors).toContainEqual(expect.objectContaining({ path: '["0"]' }))
   })
 
   it('returns independent copies of multiple Ajv errors', () => {

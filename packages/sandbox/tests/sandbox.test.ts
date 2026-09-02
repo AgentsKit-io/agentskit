@@ -202,6 +202,16 @@ describe('sandboxTool', () => {
     ).rejects.toThrow(ConfigError)
   })
 
+  it('rejects non-string code instead of coercing tool arguments', async () => {
+    const tool = sandboxTool({ backend: createMockBackend() })
+    await expect(
+      tool.execute!(
+        { code: 42 },
+        { messages: [], call: { id: '1', name: 'code_execution', args: {}, status: 'running' } },
+      ),
+    ).resolves.toMatch(/must be a string/)
+  })
+
   it('dispose cleans up sandbox and is idempotent', async () => {
     const backend = createMockBackend()
     const tool = sandboxTool({ backend })

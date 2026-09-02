@@ -52,6 +52,66 @@ describe('MCP bridge (client ↔ server over in-memory transport)', () => {
     await client.close()
   })
 
+  it('validates tool arguments by default before execute', async () => {
+    const execute = vi.fn(async () => 'ok')
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({
+      transport: b,
+      tools: [{
+        name: 'typed',
+        schema: { type: 'object', properties: { q: { type: 'string' } }, required: ['q'], additionalProperties: false },
+        execute,
+      }],
+    })
+    const client = createMcpClient({ transport: a })
+    const result = await client.callTool('typed', { q: 1 })
+    expect(result.isError).toBe(true)
+    expect(execute).not.toHaveBeenCalled()
+    await client.close()
+  })
+
+  it('applies argument resource limits through the default validator', async () => {
+    const execute = vi.fn(async () => 'ok')
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({
+      transport: b,
+      tools: [{
+        name: 'bounded',
+        schema: { type: 'object', properties: { value: { type: 'string' } } },
+        execute,
+      }],
+    })
+    const client = createMcpClient({ transport: a })
+    const result = await client.callTool('bounded', { value: 'x'.repeat(1_048_577) })
+    expect(result.isError).toBe(true)
+    expect(execute).not.toHaveBeenCalled()
+    await client.close()
+  })
+
+  it('rejects malformed JSON-RPC envelopes and params before dispatch', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({ transport: b, tools: [] })
+    const received: JsonRpcMessage[] = []
+    a.onMessage(message => received.push(message))
+    await a.send({ jsonrpc: '1.0', id: 1, method: 'tools/list' } as never)
+    await a.send({ jsonrpc: '2.0', id: 2, method: 'tools/call', params: [] } as never)
+    await new Promise(resolve => setTimeout(resolve, 0))
+    expect(received).toEqual(expect.arrayContaining([
+      expect.objectContaining({ id: null, error: expect.objectContaining({ code: -32600 }) }),
+      expect.objectContaining({ id: 2, error: expect.objectContaining({ code: -32602 }) }),
+    ]))
+  })
+
+  it('requires the supported protocol revision during initialize', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({ transport: b, tools: [] })
+    const received: JsonRpcMessage[] = []
+    a.onMessage(message => received.push(message))
+    await a.send({ jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: 'future' } })
+    await new Promise(resolve => setTimeout(resolve, 0))
+    expect(received[0]).toMatchObject({ id: 1, error: { code: -32602 } })
+  })
+
   it('returns isError: true when the tool throws', async () => {
     const [a, b] = createInMemoryTransportPair()
     createMcpServer({
@@ -61,7 +121,7 @@ describe('MCP bridge (client ↔ server over in-memory transport)', () => {
     const client = createMcpClient({ transport: a })
     const result = await client.callTool('boom', {})
     expect(result.isError).toBe(true)
-    expect(result.content[0]!.text).toBe('bang')
+    expect(result.content[0]!.text).toBe('tool execution failed')
     await client.close()
   })
 
@@ -117,6 +177,62 @@ describe('MCP bridge (client ↔ server over in-memory transport)', () => {
     expect(result.content[0]!.text).toBe(JSON.stringify({ k: 1, arr: [1, 2] }))
     await client.close()
   })
+
+  it('serializes undefined tool results as valid empty text', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({
+      transport: b,
+      tools: [makeTool('empty', async () => undefined)],
+    })
+    const client = createMcpClient({ transport: a })
+    const result = await client.callTool('empty', {})
+    expect(result.content).toEqual([{ type: 'text', text: '' }])
+    await client.close()
+  })
+
+  it('requires explicit authorization before executing destructive tools', async () => {
+    const execute = vi.fn(async () => 'written')
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({
+      transport: b,
+      tools: [{ name: 'write', requiresConfirmation: true, execute }],
+    })
+    const client = createMcpClient({ transport: a })
+    const denied = await client.callTool('write', {})
+    expect(denied.isError).toBe(true)
+    expect(execute).not.toHaveBeenCalled()
+    await client.close()
+  })
+
+  it('executes confirmation-gated tools after explicit authorization', async () => {
+    const execute = vi.fn(async () => 'written')
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({
+      transport: b,
+      authorizeToolCall: () => true,
+      tools: [{ name: 'write', requiresConfirmation: true, execute }],
+    })
+    const client = createMcpClient({ transport: a })
+    const result = await client.callTool('write', {})
+    expect(result.content[0]!.text).toBe('written')
+    expect(execute).toHaveBeenCalledOnce()
+    await client.close()
+  })
+
+  it('validates arguments before executing tools when configured', async () => {
+    const execute = vi.fn(async () => 'ok')
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({
+      transport: b,
+      validateArgs: () => ({ valid: false, message: 'invalid tool arguments' }),
+      tools: [makeTool('echo', async args => { execute(args); return 'ok' })],
+    })
+    const client = createMcpClient({ transport: a })
+    const result = await client.callTool('echo', { q: 1 })
+    expect(result.isError).toBe(true)
+    expect(execute).not.toHaveBeenCalled()
+    await client.close()
+  })
 })
 
 describe('toolsFromMcpClient', () => {
@@ -140,7 +256,7 @@ describe('toolsFromMcpClient', () => {
     createMcpServer({ transport: b, tools: [makeTool('echo', async ({ q }) => `you said ${q}`)] })
     const client = createMcpClient({ transport: a })
     const tools = await toolsFromMcpClient(client)
-    expect(tools[0]!.name).toBe('mcp:echo')
+    expect(tools[0]!.name).toBe('mcp.echo')
     expect(tools[0]!.description).toMatch(/^\[mcp\]/)
     await client.close()
   })
@@ -157,6 +273,24 @@ describe('toolsFromMcpClient', () => {
     expect(tools[0]!.description!.length).toBeLessThanOrEqual(100)
     expect(tools[0]!.description).toContain('[truncated]')
     await client.close()
+  })
+
+  it('rejects invalid and duplicate remote tool descriptors', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    const client = createMcpClient({ transport: a })
+    const reasons: string[] = []
+    const listTools = client.listTools
+    client.listTools = async () => ({
+      tools: [
+        { name: 'ok', inputSchema: { type: 'object' } },
+        { name: 'ok', inputSchema: { type: 'object' } },
+      ],
+    })
+    await expect(toolsFromMcpClient(client, { onInvalidTool: reason => reasons.push(reason) })).rejects.toThrow(/unique/)
+    expect(reasons).toEqual(['remote MCP tool names must be unique and fit the AgentsKit limit'])
+    client.listTools = listTools
+    await client.close()
+    void b
   })
 
   it('drops tools whose inputSchema exceeds maxSchemaBytes', async () => {
@@ -188,7 +322,36 @@ describe('toolsFromMcpClient', () => {
     const tools = await toolsFromMcpClient(client, { quarantine: false })
     await expect(
       tools[0]!.execute!({}, { messages: [], call: { id: 'c', name: 'boom', args: {}, status: 'running' } }),
-    ).rejects.toThrow(/bang/)
+    ).rejects.toThrow(/tool execution failed/)
+    await client.close()
+  })
+
+  it('rejects malformed remote tool results at the hydration boundary', async () => {
+    const client = createMcpClient({
+      transport: {
+        send: () => undefined,
+        onMessage: () => () => undefined,
+      },
+    })
+    client.listTools = async () => ({ tools: [{ name: 'bad', inputSchema: { type: 'object' } }] })
+    await expect(toolsFromMcpClient(client, { quarantine: false })).resolves.toHaveLength(1)
+    const tools = await toolsFromMcpClient(client, { quarantine: false })
+    client.callTool = async () => ({ content: [{ type: 'image', text: 1 }] } as never)
+    await expect(tools[0]!.execute!({}, { messages: [], call: { id: 'c', name: 'bad', args: {}, status: 'running' } }))
+      .rejects.toThrow(/invalid content/)
+    await client.close()
+  })
+
+  it('keeps quarantined descriptions within the configured byte limit', async () => {
+    const client = createMcpClient({
+      transport: {
+        send: () => undefined,
+        onMessage: () => () => undefined,
+      },
+    })
+    client.listTools = async () => ({ tools: [{ name: 'tool', description: 'x'.repeat(100), inputSchema: { type: 'object' } }] })
+    const tools = await toolsFromMcpClient(client, { maxDescriptionBytes: 10 })
+    expect(new TextEncoder().encode(tools[0]!.description).byteLength).toBeLessThanOrEqual(10)
     await client.close()
   })
 })
@@ -318,6 +481,15 @@ describe('createStdioTransport', () => {
 })
 
 describe('MCP client request bounds', () => {
+  it('rejects invalid request bounds at construction', () => {
+    const transport: McpTransport = {
+      send: () => undefined,
+      onMessage: () => () => undefined,
+    }
+    expect(() => createMcpClient({ transport, requestTimeoutMs: 0 })).toThrow(/requestTimeoutMs/)
+    expect(() => createMcpClient({ transport, maxPending: 0 })).toThrow(/maxPending/)
+  })
+
   it('rejects per-request after requestTimeoutMs', async () => {
     vi.useFakeTimers()
     try {
@@ -352,5 +524,79 @@ describe('MCP client request bounds', () => {
     const p = client.listTools()
     await client.close()
     await expect(p).rejects.toThrow(/closed/)
+  })
+
+  it('rejects new calls after close()', async () => {
+    const [a] = createInMemoryTransportPair()
+    const client = createMcpClient({ transport: a })
+    await client.close()
+    await expect(client.listTools()).rejects.toThrow(/closed/)
+  })
+
+  it('rejects in-flight calls when the transport closes', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    b.onMessage(() => {})
+    const client = createMcpClient({ transport: a, requestTimeoutMs: 60_000 })
+    const pending = client.listTools()
+    b.close?.()
+    await expect(pending).rejects.toThrow(/transport closed/)
+    await client.close()
+  })
+
+  it('caps descriptions by UTF-8 bytes without splitting a code point', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({
+      transport: b,
+      tools: [{ name: 'emoji', description: '😀'.repeat(100), execute: async () => 'ok' }],
+    })
+    const client = createMcpClient({ transport: a })
+    const tools = await toolsFromMcpClient(client, { maxDescriptionBytes: 20, quarantine: false })
+    const description = tools[0]!.description!
+    expect(new TextEncoder().encode(description).byteLength).toBeLessThanOrEqual(20)
+    expect(() => JSON.parse(JSON.stringify(description))).not.toThrow()
+    await client.close()
+  })
+
+  it('cleans up a synchronous transport.send failure', async () => {
+    const transport: McpTransport = {
+      send: () => { throw new Error('send failed') },
+      onMessage: () => () => undefined,
+    }
+    const client = createMcpClient({ transport, maxPending: 1 })
+    await expect(client.listTools()).rejects.toThrow('send failed')
+    await expect(client.listTools()).rejects.toThrow('send failed')
+    await client.close()
+  })
+
+  it('keeps split UTF-8 code points intact in stdio frames', () => {
+    let dataCb: ((chunk: Buffer | string) => void) | undefined
+    const child = {
+      stdin: { write: () => true },
+      stdout: { on: (_event: 'data', cb: (chunk: Buffer | string) => void) => { dataCb = cb } },
+    }
+    const transport = createStdioTransport(child)
+    const received: JsonRpcMessage[] = []
+    transport.onMessage(message => received.push(message))
+    const bytes = new TextEncoder().encode('{"jsonrpc":"2.0","id":1,"result":{"text":"😀"}}\n')
+    const split = bytes.indexOf(0xF0) + 1
+    dataCb!(Buffer.from(bytes.subarray(0, split)))
+    dataCb!(Buffer.from(bytes.subarray(split)))
+    expect(received[0]).toMatchObject({ result: { text: '😀' } })
+  })
+})
+
+describe('MCP descriptor validation', () => {
+  it('rejects non-string descriptions and invalid schema limits', async () => {
+    const transport: McpTransport = {
+      send: () => undefined,
+      onMessage: () => () => undefined,
+    }
+    const client = createMcpClient({ transport })
+    client.listTools = async () => ({
+      tools: [{ name: 'tool', description: 42, inputSchema: { type: 'object' } }],
+    })
+    await expect(toolsFromMcpClient(client, { quarantine: false })).rejects.toThrow(/description must be a string/)
+    await expect(toolsFromMcpClient(client, { maxSchemaBytes: 0 })).rejects.toThrow(/maxSchemaBytes/)
+    await client.close()
   })
 })

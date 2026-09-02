@@ -42,7 +42,7 @@ afterEach(() => {
 function mockJson(payload: unknown, opts: { status?: number } = {}) {
   const capture: { url?: string; init?: RequestInit } = {}
   const fake = vi.fn(async (url: string | URL | Request, init?: RequestInit) => {
-    capture.url = typeof url === 'string' ? url : url instanceof URL ? url.href : url.url
+    capture.url = requestUrl(url)
     capture.init = init
     return new Response(JSON.stringify(payload), { status: opts.status ?? 200 })
   })
@@ -52,7 +52,7 @@ function mockJson(payload: unknown, opts: { status?: number } = {}) {
 function mockText(text: string, opts: { status?: number } = {}) {
   const capture: { url?: string; init?: RequestInit } = {}
   const fake = vi.fn(async (url: string | URL | Request, init?: RequestInit) => {
-    capture.url = typeof url === 'string' ? url : url instanceof URL ? url.href : url.url
+    capture.url = requestUrl(url)
     capture.init = init
     return new Response(text, { status: opts.status ?? 200 })
   })
@@ -62,11 +62,17 @@ function mockText(text: string, opts: { status?: number } = {}) {
 function mockBinary(bytes: Uint8Array, opts: { status?: number } = {}) {
   const capture: { url?: string } = {}
   const fake = vi.fn(async (url: string | URL | Request) => {
-    capture.url = typeof url === 'string' ? url : url instanceof URL ? url.href : url.url
+    capture.url = requestUrl(url)
     const view = new Uint8Array(bytes)
     return new Response(view, { status: opts.status ?? 200 })
   })
   return { fetch: fake as unknown as typeof globalThis.fetch, capture }
+}
+
+function requestUrl(input: string | URL | Request): string {
+  if (typeof input === 'string') return input
+  if (input instanceof URL) return input.href
+  return input.url
 }
 
 const ctx = { messages: [], call: { id: 'c', name: 'x', args: {}, status: 'running' as const } }
@@ -94,7 +100,7 @@ describe('firecrawl', () => {
 describe('reader', () => {
   it('returns plain text from the reader endpoint', async () => {
     const { fetch, capture } = mockText('page text')
-    const tool = readerFetch({ fetch })
+    const tool = readerFetch({ fetch, fetchUntrusted: fetch })
     const out = await tool.execute!({ url: 'https://example.com' }, ctx)
     expect(out).toBe('page text')
     expect(capture.url).toContain('r.jina.ai')
@@ -102,7 +108,7 @@ describe('reader', () => {
 
   it('attaches bearer token when provided', async () => {
     const { fetch, capture } = mockText('ok')
-    const tool = readerFetch({ fetch, apiKey: 'tok' })
+    const tool = readerFetch({ fetch, fetchUntrusted: fetch, apiKey: 'tok' })
     await tool.execute!({ url: 'x' }, ctx)
     const headers = (capture.init?.headers ?? {}) as Record<string, string>
     expect(headers.authorization).toBe('Bearer tok')
@@ -110,7 +116,7 @@ describe('reader', () => {
 
   it('throws on non-2xx', async () => {
     const { fetch } = mockText('boom', { status: 500 })
-    const tool = readerFetch({ fetch })
+    const tool = readerFetch({ fetch, fetchUntrusted: fetch })
     await expect(tool.execute!({ url: 'x' }, ctx)).rejects.toThrow(/reader 500/)
   })
 
@@ -129,7 +135,7 @@ describe('document parsers', () => {
     const bytes = new Uint8Array([0x25, 0x50, 0x44, 0x46])
     const { fetch } = mockBinary(bytes)
     const parser = vi.fn(async () => ({ text: 'hello', pages: 1 }))
-    const tool = parsePdf({ parsePdf: parser, fetch })
+    const tool = parsePdf({ parsePdf: parser, fetch, allowPrivateHosts: true })
     const out = await tool.execute!({ url: 'https://x/doc.pdf' }, ctx)
     expect(parser).toHaveBeenCalled()
     expect(out).toEqual({ text: 'hello', pages: 1 })
@@ -137,7 +143,7 @@ describe('document parsers', () => {
 
   it('parseDocx delegates to the BYO parser', async () => {
     const { fetch } = mockBinary(new Uint8Array([1]))
-    const tool = parseDocx({ parseDocx: async () => ({ text: 'doc' }), fetch })
+    const tool = parseDocx({ parseDocx: async () => ({ text: 'doc' }), fetch, allowPrivateHosts: true })
     const out = await tool.execute!({ url: 'https://x/doc.docx' }, ctx)
     expect(out).toEqual({ text: 'doc' })
   })
@@ -147,10 +153,40 @@ describe('document parsers', () => {
     const tool = parseXlsx({
       parseXlsx: async () => ({ sheets: [{ name: 'A', rows: [] }, { name: 'B', rows: [] }] }),
       fetch,
+      allowPrivateHosts: true,
     })
     const out = (await tool.execute!({ url: 'https://x.xlsx', sheet: 'B' }, ctx)) as Array<Record<string, unknown>>
     expect(out).toHaveLength(1)
     expect(out[0]!.name).toBe('B')
+  })
+
+  it('blocks private document URLs before invoking fetch', async () => {
+    const { fetch } = mockBinary(new Uint8Array([1]))
+    const tool = parsePdf({ parsePdf: async () => ({ text: '' }), fetch })
+    await expect(tool.execute!({ url: 'http://127.0.0.1/document.pdf' }, ctx)).rejects.toThrow(/SSRF blocked/)
+    expect(fetch).not.toHaveBeenCalled()
+  })
+
+  it('enforces a maximum download size', async () => {
+    const { fetch } = mockBinary(new Uint8Array([1, 2, 3]), { status: 200 })
+    const tool = parsePdf({ parsePdf: async () => ({ text: '' }), fetch, allowPrivateHosts: true, maxBytes: 2 })
+    await expect(tool.execute!({ url: 'https://x/doc.pdf' }, ctx)).rejects.toThrow(/maxBytes/)
+  })
+
+  it('aborts a stalled download after timeoutMs', async () => {
+    vi.useFakeTimers()
+    try {
+      const fetch = vi.fn(async (_url: string | URL | Request, init?: RequestInit) => await new Promise<Response>((_, reject) => {
+        init?.signal?.addEventListener('abort', () => reject(new DOMException('aborted', 'AbortError')))
+      })) as unknown as typeof globalThis.fetch
+      const tool = parsePdf({ parsePdf: async () => ({ text: '' }), fetch, allowPrivateHosts: true, timeoutMs: 5 })
+      const pending = tool.execute!({ url: 'https://x/doc.pdf' }, ctx)
+      const result = expect(pending).rejects.toThrow(/timed out/)
+      await vi.advanceTimersByTimeAsync(5)
+      await result
+    } finally {
+      vi.useRealTimers()
+    }
   })
 
   it('documentParsers() only bundles configured parsers', () => {

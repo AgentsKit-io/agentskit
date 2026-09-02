@@ -25,12 +25,20 @@ function assertPositiveFinite(name: string, value: number): void {
  */
 export const nodeSpawner = async (): Promise<Spawner> => {
   const { spawn } = await import('node:child_process')
+  const killTree = (pid: number, signal: NodeJS.Signals): void => {
+    try {
+      if (process.platform === 'win32') process.kill(pid, signal)
+      else process.kill(-pid, signal)
+    } catch {
+      try { process.kill(pid, signal) } catch { /* already exited */ }
+    }
+  }
   return {
     spawn: async (opts) => {
       const spawnArgs: import('node:child_process').SpawnOptions = { stdio: opts.stdio ?? 'pipe' }
       if (opts.cwd !== undefined) spawnArgs.cwd = opts.cwd
       if (opts.env !== undefined) spawnArgs.env = opts.env
-      const child = spawn(opts.command, [...opts.args], spawnArgs)
+      const child = spawn(opts.command, [...opts.args], { ...spawnArgs, detached: process.platform !== 'win32' })
       const pid = child.pid
       if (typeof pid !== 'number') {
         child.kill()
@@ -44,7 +52,7 @@ export const nodeSpawner = async (): Promise<Spawner> => {
       return {
         pid,
         kill: async () => {
-          if (!child.killed) child.kill()
+          if (!child.killed) killTree(pid, 'SIGTERM')
         },
       }
     },
@@ -60,7 +68,7 @@ export const nodeSpawner = async (): Promise<Spawner> => {
         const execArgs: import('node:child_process').SpawnOptionsWithoutStdio = { stdio: 'pipe' }
         if (opts.cwd !== undefined) execArgs.cwd = opts.cwd
         if (opts.env !== undefined) execArgs.env = opts.env
-        const child = spawn(opts.command, [...opts.args], execArgs)
+        const child = spawn(opts.command, [...opts.args], { ...execArgs, detached: process.platform !== 'win32' })
         const stdoutChunks: Buffer[] = []
         const stderrChunks: Buffer[] = []
         let totalBytes = 0
@@ -91,7 +99,7 @@ export const nodeSpawner = async (): Promise<Spawner> => {
           opts.timeoutMs !== undefined
             ? setTimeout(() => {
                 timedOut = true
-                child.kill('SIGKILL')
+                if (typeof child.pid === 'number') killTree(child.pid, 'SIGKILL')
               }, opts.timeoutMs)
             : undefined
         child.on('error', (err) => {

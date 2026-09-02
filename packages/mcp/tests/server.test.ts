@@ -22,7 +22,7 @@ describe('createAgentsKitMcpServer', () => {
     const got: JsonRpcMessage[] = []
     client.onMessage((m) => got.push(m))
 
-    await client.send({ jsonrpc: '2.0', id: 1, method: 'initialize', params: {} })
+    await client.send({ jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2024-11-05' } })
     await client.send({ jsonrpc: '2.0', id: 2, method: 'tools/list', params: {} })
     await client.send({
       jsonrpc: '2.0',
@@ -62,6 +62,23 @@ describe('createAgentsKitMcpServer', () => {
     await client.send({ jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'boom', arguments: {} } })
     await flush()
     expect(events).toContain('error')
+    await srv.close()
+  })
+
+  it('keeps tool secrets out of the default MCP diagnostics', async () => {
+    const [client, server] = createInMemoryTransportPair()
+    const events: Array<{ type: string; error?: string }> = []
+    const srv = createAgentsKitMcpServer({
+      tools: [{ name: 'secret', schema: { type: 'object' }, execute: () => { throw new Error('token=sentinel-secret') } }],
+      transport: server,
+      onEvent: event => events.push(event),
+    })
+    const received: JsonRpcMessage[] = []
+    client.onMessage(message => received.push(message))
+    await client.send({ jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'secret', arguments: {} } })
+    await flush()
+    expect(JSON.stringify(received)).not.toContain('sentinel-secret')
+    expect(JSON.stringify(events)).not.toContain('sentinel-secret')
     await srv.close()
   })
 
@@ -173,6 +190,13 @@ describe('createTypedAgentTool', () => {
     })
     await expect(tool.execute?.({ input: 'source' }, {} as never)).resolves.toEqual({ title: 'Done', requiresReview: true })
     await expect(tool.execute?.({}, {} as never)).rejects.toMatchObject({ code: ErrorCodes.AK_TOOL_INVALID_INPUT })
+  })
+
+  it('enforces the same maxSteps ceiling as generic agent tools', () => {
+    expect(() => createTypedAgentTool({
+      id: 'typed-agent', description: 'd', systemPrompt: 'p', resultToolName: 'submit',
+      inputSchema, outputSchema, adapter: mockAdapter({ response: [] }), maxSteps: 101,
+    })).toThrow(/maxSteps/)
   })
 })
 

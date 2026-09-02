@@ -12,7 +12,7 @@ AgentsKit is a plug-and-play TypeScript toolkit for building production agents: 
 - [index](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/index): If you're an AI agent reading this: every page in this section is a condensed reference for one AgentsKit package. Each page follows the same structure so you can skim quickly and quote accurately:
 - [@agentskit/ink](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/ink): Ink binding for the `ChatReturn` contract from `@agentskit/core`. Renders a full chat interface in the terminal using React + Ink, with keyboard navigation, ANSI theming, and human-in-the-loop tool confirmation — no browser required.
 - [integrations](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/integrations)
-- [mcp](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/mcp): Serve AgentsKit tools to any MCP host. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` + `createStdioTransport`).
+- [mcp](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/mcp): Serve AgentsKit tools to an MCP host that supports the documented `2024-11-05` tools bridge. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` + `createStdioTransport`).
 - [memory](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/memory)
 - [observability-langfuse](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/observability-langfuse)
 - [observability](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/observability)

@@ -15,7 +15,7 @@ describe('@agentskit/tools/validation packaging contract', () => {
       await readFile(resolve(root, '../tools/package.json'), 'utf8'),
     ) as {
       exports: Record<string, { types: string; import: string; require: string }>
-      devDependencies: Record<string, string>
+      dependencies: Record<string, string>
     }
 
     expect(implementation.private).toBe(true)
@@ -26,7 +26,7 @@ describe('@agentskit/tools/validation packaging contract', () => {
       import: './dist/validation.js',
       require: './dist/validation.cjs',
     })
-    expect(tools.devDependencies.ajv).toMatch(/^\^8\./)
+    expect(tools.dependencies.ajv).toMatch(/^\^8\./)
   })
 
   it('exposes only named runtime exports', async () => {

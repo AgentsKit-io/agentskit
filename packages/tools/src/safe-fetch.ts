@@ -1,4 +1,4 @@
-import { ToolError, ErrorCodes } from '@agentskit/core'
+import { ConfigError, ToolError, ErrorCodes } from '@agentskit/core'
 
 /**
  * Default-deny egress policy (ADR-0010). All outbound HTTP from tools should
@@ -146,6 +146,17 @@ export function isPrivateIPv6(ip: string): boolean {
   return false
 }
 
+function normalizeMaxRedirects(value: number | undefined): number {
+  const result = value ?? DEFAULT_MAX_REDIRECTS
+  if (!Number.isSafeInteger(result) || result < 0) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'maxRedirects must be a non-negative safe integer',
+    })
+  }
+  return result
+}
+
 /**
  * Decide whether `host` resolves to a private/loopback/link-local address.
  * Host literals are checked exactly; hostnames are resolved via
@@ -184,8 +195,10 @@ export async function checkEgress(parsed: URL, policy: EgressPolicy = {}): Promi
     return `Error: unsupported protocol "${parsed.protocol}" — only http/https allowed`
   }
   const host = parsed.hostname
-  if (policy.allowedHosts && policy.allowedHosts.length > 0) {
-    return policy.allowedHosts.includes(host) ? null : `Error: host "${host}" is not in allowedHosts`
+  if (policy.allowedHosts !== undefined) {
+    const allowed = policy.allowedHosts.some(candidate =>
+      typeof candidate === 'string' && candidate.toLowerCase() === host.toLowerCase())
+    return allowed ? null : `Error: host "${host}" is not in allowedHosts`
   }
   if (policy.allowPrivateHosts) return null
   if (await isPrivateHost(host)) {
@@ -206,7 +219,7 @@ export async function safeFetch(
   init: RequestInit = {},
   policy: EgressPolicy = {},
 ): Promise<Response> {
-  const maxRedirects = policy.maxRedirects ?? DEFAULT_MAX_REDIRECTS
+  const maxRedirects = normalizeMaxRedirects(policy.maxRedirects)
   let currentUrl = input
   let hops = 0
   while (hops <= maxRedirects) {
@@ -231,7 +244,13 @@ export async function safeFetch(
         // ignore
       }
       try {
-        currentUrl = new URL(loc, currentUrl).toString()
+        const nextUrl = new URL(loc, currentUrl)
+        if (nextUrl.origin !== parsed.origin) {
+          const headers = new Headers(init.headers)
+          for (const name of ['authorization', 'cookie', 'proxy-authorization']) headers.delete(name)
+          init = { ...init, headers, credentials: 'omit', referrer: 'no-referrer' }
+        }
+        currentUrl = nextUrl.toString()
       } catch {
         throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: `invalid redirect target "${loc}"` })
       }

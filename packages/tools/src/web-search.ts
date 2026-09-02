@@ -1,4 +1,4 @@
-import { ErrorCodes, ToolError } from '@agentskit/core'
+import { ConfigError, ErrorCodes, ToolError } from '@agentskit/core'
 import type { ToolDefinition } from '@agentskit/core'
 import { safeFetch } from './safe-fetch'
 
@@ -19,22 +19,115 @@ export interface WebSearchConfig {
   provider?: WebSearchProvider
   apiKey?: string
   maxResults?: number
+  /** Overall deadline for provider and custom-search work. Defaults to 15s. */
+  timeoutMs?: number
+  /** Maximum provider response body size. Defaults to 2 MiB. */
+  maxResponseBytes?: number
+  /** Caller cancellation signal. */
+  signal?: AbortSignal
   /** Custom search function — overrides every other path. */
   search?: (query: string) => Promise<WebSearchResult[]>
 }
 
 const URL_RE = /^https?:\/\//i
 const SNIPPET_MAX = 600
+const DEFAULT_TIMEOUT_MS = 15_000
+const DEFAULT_MAX_RESPONSE_BYTES = 2 * 1024 * 1024
+const MAX_RESULTS = 100
 
-async function serperSearch(query: string, apiKey: string, maxResults: number): Promise<WebSearchResult[]> {
-  const response = await fetch('https://google.serper.dev/search', {
+interface SearchRuntimeConfig {
+  timeoutMs: number
+  maxResponseBytes: number
+  signal?: AbortSignal
+}
+
+async function readResponseText(response: Response, maxBytes: number): Promise<string> {
+  const headers = (response as Response & { headers?: Headers }).headers
+  const contentLength = headers?.get?.('content-length')
+  if (contentLength && Number(contentLength) > maxBytes) {
+    throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `search response exceeds maxResponseBytes (${maxBytes})` })
+  }
+  const body = (response as Response & { body?: ReadableStream<Uint8Array> | null }).body
+  if (!body) {
+    const text = 'text' in response && typeof response.text === 'function'
+      ? await response.text()
+      : JSON.stringify(await (response as Response & { json: () => Promise<unknown> }).json())
+    if (new TextEncoder().encode(text).byteLength > maxBytes) {
+      throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `search response exceeds maxResponseBytes (${maxBytes})` })
+    }
+    return text
+  }
+  const reader = body.getReader()
+  const chunks: Uint8Array[] = []
+  let total = 0
+  while (true) {
+    const next = await reader.read()
+    if (next.done) break
+    total += next.value.byteLength
+    if (total > maxBytes) {
+      await reader.cancel()
+      throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `search response exceeds maxResponseBytes (${maxBytes})` })
+    }
+    chunks.push(next.value)
+  }
+  const bytes = new Uint8Array(total)
+  let offset = 0
+  for (const chunk of chunks) {
+    bytes.set(chunk, offset)
+    offset += chunk.byteLength
+  }
+  return new TextDecoder().decode(bytes)
+}
+
+async function requestText(
+  url: string,
+  init: RequestInit,
+  config: SearchRuntimeConfig,
+  safe = false,
+): Promise<{ response: Response; text: string }> {
+  const controller = new AbortController()
+  const abort = () => controller.abort(config.signal?.reason)
+  if (config.signal?.aborted) abort()
+  config.signal?.addEventListener('abort', abort, { once: true })
+  const timer = setTimeout(() => controller.abort(), config.timeoutMs)
+  try {
+    const response = safe
+      ? await safeFetch(url, { ...init, signal: controller.signal })
+      : await fetch(url, { ...init, signal: controller.signal })
+    return { response, text: await readResponseText(response, config.maxResponseBytes) }
+  } catch (error) {
+    if (error instanceof Error && error.name === 'AbortError') {
+      throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `web search timed out after ${config.timeoutMs}ms` })
+    }
+    throw error
+  } finally {
+    clearTimeout(timer)
+    config.signal?.removeEventListener('abort', abort)
+  }
+}
+
+async function withDeadline<T>(work: Promise<T>, config: SearchRuntimeConfig): Promise<T> {
+  if (config.signal?.aborted) throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: 'web search aborted' })
+  return await new Promise<T>((resolve, reject) => {
+    const timer = setTimeout(() => reject(new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `web search timed out after ${config.timeoutMs}ms` })), config.timeoutMs)
+    const abort = () => reject(new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: 'web search aborted' }))
+    config.signal?.addEventListener('abort', abort, { once: true })
+    work.then(resolve, reject).finally(() => {
+      clearTimeout(timer)
+      config.signal?.removeEventListener('abort', abort)
+    })
+  })
+}
+
+async function serperSearch(query: string, apiKey: string, maxResults: number, config: SearchRuntimeConfig): Promise<WebSearchResult[]> {
+  const { response, text } = await requestText('https://google.serper.dev/search', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
       'X-API-KEY': apiKey,
     },
     body: JSON.stringify({ q: query, num: maxResults }),
-  })
+  }, config)
   if (!response.ok) {
     throw new ToolError({
       code: ErrorCodes.AK_TOOL_EXEC_FAILED,
@@ -42,7 +135,7 @@ async function serperSearch(query: string, apiKey: string, maxResults: number): 
     })
   }
 
-  const data = await response.json() as {
+  const data = JSON.parse(text) as {
     organic?: Array<{ title?: string; link?: string; snippet?: string }>
   }
 
@@ -53,12 +146,12 @@ async function serperSearch(query: string, apiKey: string, maxResults: number): 
   }))
 }
 
-async function tavilySearch(query: string, apiKey: string, maxResults: number): Promise<WebSearchResult[]> {
-  const response = await fetch('https://api.tavily.com/search', {
+async function tavilySearch(query: string, apiKey: string, maxResults: number, config: SearchRuntimeConfig): Promise<WebSearchResult[]> {
+  const { response, text } = await requestText('https://api.tavily.com/search', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({ api_key: apiKey, query, max_results: maxResults, include_answer: false }),
-  })
+  }, config)
   if (!response.ok) {
     throw new ToolError({
       code: ErrorCodes.AK_TOOL_EXEC_FAILED,
@@ -66,7 +159,7 @@ async function tavilySearch(query: string, apiKey: string, maxResults: number): 
     })
   }
 
-  const data = await response.json() as {
+  const data = JSON.parse(text) as {
     results?: Array<{ title?: string; url?: string; content?: string }>
   }
 
@@ -81,17 +174,16 @@ async function tavilySearch(query: string, apiKey: string, maxResults: number): 
  * Unauthenticated DuckDuckGo HTML scrape. Best-effort; HTML format may
  * change at any time. Returns an empty array if parsing fails.
  */
-async function duckDuckGoHtmlSearch(query: string, maxResults: number): Promise<WebSearchResult[]> {
+async function duckDuckGoHtmlSearch(query: string, maxResults: number, config: SearchRuntimeConfig): Promise<WebSearchResult[]> {
   const url = `https://html.duckduckgo.com/html/?q=${encodeURIComponent(query)}`
-  const response = await fetch(url, {
+  const { response, text: html } = await requestText(url, {
     headers: {
       'User-Agent': 'Mozilla/5.0 (compatible; AgentsKit/1.0)',
       'Accept-Language': 'en-US,en;q=0.9',
     },
-  })
+  }, config)
   if (!response.ok) return []
 
-  const html = await response.text()
   const results: WebSearchResult[] = []
 
   const itemRe = /<a[^>]*class="[^"]*result__a[^"]*"[^>]*href="([^"]+)"[^>]*>([\s\S]*?)<\/a>[\s\S]*?<a[^>]*class="[^"]*result__snippet[^"]*"[^>]*>([\s\S]*?)<\/a>/g
@@ -145,13 +237,12 @@ function stripTags(html: string): string {
  * Model-controlled URLs go through {@link safeFetch} so the initial host
  * and every redirect hop are egress-gated (ADR-0010).
  */
-async function fetchUrlAsResult(url: string): Promise<WebSearchResult[]> {
+async function fetchUrlAsResult(url: string, config: SearchRuntimeConfig): Promise<WebSearchResult[]> {
   try {
-    const response = await safeFetch(url, {
+    const { response, text: html } = await requestText(url, {
       headers: { 'User-Agent': 'Mozilla/5.0 (compatible; AgentsKit/1.0)' },
-    })
+    }, config, true)
     if (!response.ok) return []
-    const html = await response.text()
     const titleMatch = html.match(/<title[^>]*>([\s\S]*?)<\/title>/i)
     const title = titleMatch ? stripTags(titleMatch[1]).trim() : url
     const text = stripTags(html).slice(0, SNIPPET_MAX * 2)
@@ -180,6 +271,18 @@ function resolveBackend(
 
 export function webSearch(config: WebSearchConfig = {}): ToolDefinition {
   const { provider = 'auto', apiKey, maxResults = 5, search } = config
+  const timeoutMs = config.timeoutMs ?? DEFAULT_TIMEOUT_MS
+  const maxResponseBytes = config.maxResponseBytes ?? DEFAULT_MAX_RESPONSE_BYTES
+  if (!['auto', 'serper', 'tavily', 'duckduckgo'].includes(provider)) {
+    throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: `webSearch: unsupported provider ${String(provider)}` })
+  }
+  if (!Number.isSafeInteger(maxResults) || maxResults < 1 || maxResults > MAX_RESULTS) {
+    throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: `webSearch: maxResults must be an integer from 1 to ${MAX_RESULTS}` })
+  }
+  if (!Number.isSafeInteger(timeoutMs) || timeoutMs <= 0 || !Number.isSafeInteger(maxResponseBytes) || maxResponseBytes <= 0) {
+    throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: 'webSearch: timeoutMs and maxResponseBytes must be positive safe integers' })
+  }
+  const runtime = { timeoutMs, maxResponseBytes, signal: config.signal }
 
   return {
     name: 'web_search',
@@ -199,14 +302,14 @@ export function webSearch(config: WebSearchConfig = {}): ToolDefinition {
       if (!query) return 'Error: query is required'
 
       if (search) {
-        const results = await search(query)
-        return formatResults(results, query)
+        const results = await withDeadline(search(query), runtime)
+        return formatResults(results, query, maxResults)
       }
 
       if (URL_RE.test(query)) {
         try {
-          const direct = await fetchUrlAsResult(query)
-          if (direct.length > 0) return formatResults(direct, query)
+          const direct = await fetchUrlAsResult(query, runtime)
+          if (direct.length > 0) return formatResults(direct, query, maxResults)
         } catch (err) {
           if (err instanceof ToolError) {
             return err.message.startsWith('Error:') ? err.message : `Error: ${err.message}`
@@ -229,16 +332,19 @@ export function webSearch(config: WebSearchConfig = {}): ToolDefinition {
       try {
         let results: WebSearchResult[] = []
         if (backend === 'serper' && resolvedKey) {
-          results = await serperSearch(query, resolvedKey, maxResults)
+          results = await serperSearch(query, resolvedKey, maxResults, runtime)
         } else if (backend === 'tavily' && resolvedKey) {
-          results = await tavilySearch(query, resolvedKey, maxResults)
+          results = await tavilySearch(query, resolvedKey, maxResults, runtime)
         } else {
-          results = await duckDuckGoHtmlSearch(query, maxResults)
+          results = await duckDuckGoHtmlSearch(query, maxResults, runtime)
         }
 
-        if (results.length > 0) return formatResults(results, query)
-      } catch {
-        // fall through
+        if (results.length > 0) return formatResults(results, query, maxResults)
+      } catch (error) {
+        if (error instanceof ToolError && /timed out|aborted|exceeds maxResponseBytes/.test(error.message)) {
+          return `Error: ${error.message}`
+        }
+        // fall through for ordinary provider outages
       }
 
       return `No results found for "${query}"`
@@ -246,9 +352,10 @@ export function webSearch(config: WebSearchConfig = {}): ToolDefinition {
   }
 }
 
-function formatResults(results: WebSearchResult[], query: string): string {
+function formatResults(results: WebSearchResult[], query: string, maxResults: number): string {
   if (results.length === 0) return `No results found for "${query}"`
   return results
-    .map((r, i) => `[${i + 1}] ${r.title}\n${r.url}\n${r.snippet}`)
+    .slice(0, maxResults)
+    .map((r, i) => `[${i + 1}] ${String(r.title ?? '').slice(0, 512)}\n${String(r.url ?? '').slice(0, 2048)}\n${String(r.snippet ?? '').slice(0, SNIPPET_MAX)}`)
     .join('\n\n')
 }

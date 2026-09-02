@@ -5,7 +5,7 @@
   "packageManager": "pnpm@10.34.4",
   "scripts": {
     "build": "turbo run build",
-    "test": "turbo run test",
+    "test": "turbo run test --concurrency=1",
     "test:coverage": "turbo run test:coverage",
     "test:interop": "vitest run --config tests/vitest.config.ts",
     "test:e2e": "pnpm build && playwright test",

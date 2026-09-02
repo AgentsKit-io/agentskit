@@ -74,6 +74,7 @@ describe('sqliteQueryTool', () => {
 
   it('respects custom maxRows', async () => {
     const tool = sqliteQueryTool({ path: dbPath, maxRows: 2 })
+    expect(tool.description).toContain('up to 2 rows')
     const result = await tool.execute({ sql: 'SELECT * FROM items' }) as {
       rows: unknown[]
       truncated: boolean
@@ -98,5 +99,18 @@ describe('sqliteQueryTool', () => {
   it('rejects readOnly: false in config', () => {
     expect(() => sqliteQueryTool({ path: dbPath, readOnly: false as unknown as true }))
       .toThrow(/v1/)
+  })
+
+  it('rejects invalid maxRows at configuration time', () => {
+    expect(() => sqliteQueryTool({ path: dbPath, maxRows: -1 })).toThrow(/maxRows/)
+    expect(() => sqliteQueryTool({ path: dbPath, maxRows: Number.NaN })).toThrow(/maxRows/)
+    expect(() => sqliteQueryTool({ path: dbPath, maxRows: Number.POSITIVE_INFINITY })).toThrow(/maxRows/)
+  })
+
+  it('closes the native database handle deterministically', async () => {
+    const tool = sqliteQueryTool({ path: dbPath })
+    await tool.execute!({ sql: 'SELECT 1' }, {} as never)
+    await tool.dispose!()
+    await expect(tool.execute!({ sql: 'SELECT 1' }, {} as never)).rejects.toThrow(/disposed/)
   })
 })
