@@ -23,7 +23,6 @@ import type {
   AgentEvent,
   AgentEventContext,
 } from './types'
-
 export function createChatController(initial: ChatConfig): ChatController {
   let config = initial
   const controllerCorrelation: AgentEventContext = initial.correlation ?? { operationId: generateId('operation') }
@@ -56,7 +55,6 @@ export function createChatController(initial: ChatConfig): ChatController {
     const decision = fn ? await fn(call, context) : { allowed: true }
     return fn === config.authorizeToolCall && toolMap.get(call.name)?.execute === context.tool?.execute ? decision : { allowed: false }
   }
-
   const rebuild = () => {
     const nextToolMap = buildToolMap(config.tools, skillTools)
     if (!sameToolLifecycle(toolMap, nextToolMap)) {
@@ -66,7 +64,6 @@ export function createChatController(initial: ChatConfig): ChatController {
     }
     toolMap = nextToolMap
   }
-
   const activate = async () => {
     if (active) return
     active = true
@@ -75,20 +72,16 @@ export function createChatController(initial: ChatConfig): ChatController {
     skillTools = result.skillTools
     rebuild()
   }
-
   for (const observer of config.observers ?? []) {
     emitter.addObserver(observer)
   }
-
   const emit = () => {
     for (const listener of listeners) listener()
   }
-
   const set = (updater: ChatState | ((current: ChatState) => ChatState)) => {
     state = typeof updater === 'function' ? updater(state) : updater
     emit()
   }
-
   const reportBackgroundError = (cause: unknown) => {
     const error = cause instanceof Error ? cause : new Error(String(cause))
     state = { ...state, status: 'error', error }
@@ -96,12 +89,10 @@ export function createChatController(initial: ChatConfig): ChatController {
     emitEvent({ type: 'error', error })
     config.onError?.(error)
   }
-
   void activate().catch(error => {
     active = false
     reportBackgroundError(error)
   })
-
   const persistence = createControllerPersistence(
     () => config.memory,
     {
@@ -114,7 +105,6 @@ export function createChatController(initial: ChatConfig): ChatController {
       },
     },
   )
-
   const persist = persistence.save
   const hydrate = async () => {
     if (hydrated || !config.memory) return
@@ -132,21 +122,18 @@ export function createChatController(initial: ChatConfig): ChatController {
     }
   }
   void hydrate()
-
   const setMsg = (aid: string, updater: (message: Message) => Message) => {
     set(current => ({
       ...current,
       messages: mapMessageById(current.messages, aid, updater),
     }))
   }
-
   const patchCall = (aid: string, tid: string, patch: Partial<ToolCall>) => {
     set(current => ({
       ...current,
       messages: mapToolCallById(current.messages, aid, tid, patch),
     }))
   }
-
   const runTool = (
     tool: ToolDefinition | undefined,
     call: ToolCall,
@@ -170,18 +157,15 @@ export function createChatController(initial: ChatConfig): ChatController {
     onPartial,
     correlation,
   })
-
   const run = async (aid: string, q: string, g: number, correlation: AgentEventContext): Promise<boolean> => {
     await activate()
     const request = await buildAdapterRequest(config, state.messages, q, system, [...toolMap.values()], correlation)
     if (g !== gen) return false
     source = config.adapter.createSource(request)
-
     const began = Date.now()
     let first = false
     let turnUsage: { promptTokens: number; completionTokens: number } | undefined
     emitEvent({ type: 'llm:start', messageCount: request.messages.length }, correlation)
-
     await consumeStream(source, {
       onText(text) {
         if (g !== gen) return; if (!first) {
@@ -252,7 +236,6 @@ export function createChatController(initial: ChatConfig): ChatController {
         }, correlation)
       },
     })
-
     return g === gen
   }
 
