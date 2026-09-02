@@ -141,7 +141,8 @@ set.
 ### MCP bridge
 
 - `createMcpClient` + `toolsFromMcpClient` — consume any MCP server's tools.
-- `createMcpServer` — publish AgentsKit tools to any MCP host. Tools marked
+- `createMcpServer` — publish AgentsKit tools to an MCP host that supports the
+  documented `2024-11-05` tools bridge. Tools marked
   `requiresConfirmation` fail closed unless `authorizeToolCall` returns an
   explicit approval. Pass `validateArgs` (for example, `createAjvValidator()`)
   to enforce advertised schemas before execution; remote errors are sanitized
