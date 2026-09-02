@@ -21,4 +21,12 @@ describe('memory trust boundaries', () => {
     const store = qdrant({ url: 'https://qdrant', collection: 'docs', fetch, timeoutMs: 5 })
     await expect(store.search([1])).rejects.toThrow(/timed out after 5ms/)
   })
+
+  it('applies the documented exclusive threshold', async () => {
+    const fetch = vi.fn(async () => new Response(JSON.stringify({
+      result: [{ id: 'equal', score: 0.5, payload: { content: 'equal' } }],
+    }))) as unknown as typeof globalThis.fetch
+    const store = qdrant({ url: 'https://qdrant', collection: 'docs', fetch })
+    await expect(store.search([1], { threshold: 0.5 })).resolves.toEqual([])
+  })
 })

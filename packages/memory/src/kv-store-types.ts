@@ -4,6 +4,8 @@
 // persistence keyed by string. Backends: in-memory / file / sqlite / localstorage
 // / redis / vector.
 
+import { ConfigError, ErrorCodes } from '@agentskit/core'
+
 /** Minimal KV store contract. */
 export interface AgentskitMemoryStore {
   readonly id: string | undefined
@@ -27,6 +29,19 @@ export const enforceMaxMessages = (map: Map<string, KvEntry>, maxMessages: numbe
     const oldest = map.keys().next().value
     if (oldest === undefined) break
     map.delete(oldest)
+  }
+}
+
+export const validateKvRetention = (config: { readonly maxMessages?: number; readonly ttlSeconds?: number }): void => {
+  for (const [name, value] of [['maxMessages', config.maxMessages], ['ttlSeconds', config.ttlSeconds]] as const) {
+    if (value === undefined) continue
+    if (!Number.isSafeInteger(value) || value < 1) {
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: `${name} must be a positive safe integer.`,
+        hint: 'Use an integer greater than zero for retention and eviction limits.',
+      })
+    }
   }
 }
 

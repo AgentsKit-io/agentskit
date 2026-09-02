@@ -6,6 +6,7 @@ import {
   type SqliteKvConfig,
   type SqliteLike,
   type SqliteOpener,
+  validateKvRetention,
 } from './kv-store-types'
 
 export interface CreateSqliteStoreOpts {
@@ -14,6 +15,7 @@ export interface CreateSqliteStoreOpts {
 }
 
 export const createSqliteStore = ({ config, open }: CreateSqliteStoreOpts): AgentskitMemoryStore => {
+  validateKvRetention(config)
   const db = open(config.path)
   db.exec(
     `CREATE TABLE IF NOT EXISTS memory (

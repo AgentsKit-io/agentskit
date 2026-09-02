@@ -78,7 +78,7 @@ export function qdrant(config: QdrantConfig): VectorMemory {
         with_payload: true,
       })
       return (result.result ?? [])
-        .filter(m => m.score >= threshold)
+        .filter(m => m.score > threshold)
         .map(m => {
           const payload = { ...(m.payload ?? {}) }
           const sourceId = payload[qdrantSourceId]

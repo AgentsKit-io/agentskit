@@ -50,7 +50,7 @@ export function upstashVector(config: UpstashVectorConfig): VectorMemory {
         result?: Array<{ id: string; score: number; metadata?: Record<string, unknown> }>
       }>(config, '/query', { vector: embedding, topK, includeMetadata: true })
       return (result.result ?? [])
-        .filter(m => m.score >= threshold)
+        .filter(m => m.score > threshold)
         .map(m => ({
           id: m.id,
           content: String((m.metadata ?? {}).content ?? ''),

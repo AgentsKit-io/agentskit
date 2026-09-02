@@ -104,7 +104,7 @@ export function chroma(config: ChromaConfig): VectorMemory {
           metadata: metadatas[i],
           score: distances[i] !== undefined ? 1 - distances[i]! : 0,
         }))
-        .filter(r => (r.score ?? 0) >= threshold)
+        .filter(r => (r.score ?? 0) > threshold)
     },
 
     async delete(ids: string[]) {

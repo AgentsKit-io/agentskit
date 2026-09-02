@@ -1,7 +1,7 @@
 // redis KV backend (injected client; lazy default via node-redis).
 
 import { MemoryError } from '@agentskit/core'
-import { isExpired, type AgentskitMemoryStore, type RedisKvConfig, type RedisLike } from './kv-store-types'
+import { isExpired, type AgentskitMemoryStore, type RedisKvConfig, type RedisLike, validateKvRetention } from './kv-store-types'
 
 interface RedisEnvelope {
   readonly value: unknown
@@ -14,6 +14,7 @@ export interface CreateRedisStoreOpts {
 }
 
 export const createRedisStore = ({ config, client }: CreateRedisStoreOpts): AgentskitMemoryStore => {
+  validateKvRetention(config)
   const prefix = config.prefix
   const namespaced = (key: string): string => `${prefix}${key}`
 

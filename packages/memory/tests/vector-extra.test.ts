@@ -13,7 +13,10 @@ import { upstashVector } from '../src/vector/upstash'
 function mockFetch(response: unknown, opts: { status?: number } = {}) {
   const calls: Array<{ url: string; init?: RequestInit }> = []
   const fake = vi.fn(async (url: string | URL | Request, init?: RequestInit) => {
-    const urlStr = typeof url === 'string' ? url : url instanceof URL ? url.href : (url as Request).url
+    let urlStr: string
+    if (typeof url === 'string') urlStr = url
+    else if (url instanceof URL) urlStr = url.href
+    else urlStr = (url as Request).url
     calls.push({ url: urlStr, init })
     return new Response(JSON.stringify(response), { status: opts.status ?? 200 })
   })
@@ -23,7 +26,10 @@ function mockFetch(response: unknown, opts: { status?: number } = {}) {
 function mockChromaFetch(response: unknown) {
   const calls: Array<{ url: string; init?: RequestInit }> = []
   const fake = vi.fn(async (url: string | URL | Request, init?: RequestInit) => {
-    const urlStr = typeof url === 'string' ? url : url instanceof URL ? url.href : (url as Request).url
+    let urlStr: string
+    if (typeof url === 'string') urlStr = url
+    else if (url instanceof URL) urlStr = url.href
+    else urlStr = (url as Request).url
     calls.push({ url: urlStr, init })
     const body = init?.method === 'GET' ? { id: 'collection-id' } : response
     return new Response(JSON.stringify(body))
@@ -114,6 +120,14 @@ describe('milvusVectorStore — extra', () => {
     const body = JSON.parse(calls[0]!.init!.body as string) as { filter: string }
     expect(body.filter).toContain('"id1"')
     expect(body.filter).toContain('"id2"')
+  })
+
+  it('escapes ids in the provider filter expression', async () => {
+    const { fetch, calls } = mockFetch({})
+    const store = milvusVectorStore({ url: 'https://milvus', collection: 'c', fetch })
+    await store.delete!(['a", id != "admin'])
+    const body = JSON.parse(calls[0]!.init!.body as string) as { filter: string }
+    expect(body.filter).toBe('id in ["a\\\", id != \\\"admin"]')
   })
 
   it('delete is no-op when ids array is empty', async () => {

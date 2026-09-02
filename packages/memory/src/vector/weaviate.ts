@@ -67,7 +67,7 @@ export function weaviateVectorStore(config: WeaviateConfig): VectorMemory {
           score: row._additional?.certainty ?? 0,
           metadata: row,
         }))
-        .filter(r => (r.score ?? 0) >= threshold)
+        .filter(r => (r.score ?? 0) > threshold)
     },
 
     async delete(ids: string[]) {

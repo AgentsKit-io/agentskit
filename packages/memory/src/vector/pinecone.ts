@@ -51,7 +51,7 @@ export function pinecone(config: PineconeConfig): VectorMemory {
         includeMetadata: true,
       })
       return (result.matches ?? [])
-        .filter(m => m.score >= threshold)
+        .filter(m => m.score > threshold)
         .map(m => ({
           id: m.id,
           content: String((m.metadata ?? {}).content ?? ''),

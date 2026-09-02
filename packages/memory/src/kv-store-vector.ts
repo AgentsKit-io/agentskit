@@ -8,6 +8,7 @@ import {
   type MemoryEmbedderLike,
   type MemoryVectorStoreLike,
   type VectorKvConfig,
+  validateKvRetention,
 } from './kv-store-types'
 
 export interface CreateVectorStoreOpts {
@@ -21,6 +22,7 @@ export const createVectorStore = ({
   vectorStore,
   embedder,
 }: CreateVectorStoreOpts): AgentskitMemoryStore & { recall(query: string, k?: number): Promise<readonly unknown[]> } => {
+  validateKvRetention(config)
   const collection = config.collection
 
   const embedOne = async (text: string): Promise<number[]> => {

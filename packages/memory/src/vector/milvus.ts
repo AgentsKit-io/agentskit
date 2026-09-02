@@ -31,7 +31,7 @@ async function call<T>(
 export function milvusVectorStore(config: MilvusConfig): VectorMemory {
   const collection = validateIdentifier(config.collection, 'collection')
   const defaultTopK = Math.max(1, config.topK ?? 10)
-  const vectorField = config.vectorField ?? 'vector'
+  const vectorField = validateIdentifier(config.vectorField ?? 'vector', 'vectorField')
 
   return {
     async store(docs: VectorDocument[]) {
@@ -66,14 +66,14 @@ export function milvusVectorStore(config: MilvusConfig): VectorMemory {
           score: 1 - m.distance,
           metadata: m.metadata,
         }))
-        .filter(r => (r.score ?? 0) >= threshold)
+        .filter(r => (r.score ?? 0) > threshold)
     },
 
     async delete(ids: string[]) {
       if (ids.length === 0) return
       await call(config, '/v2/vectordb/entities/delete', {
         collectionName: collection,
-        filter: `id in [${ids.map(id => `"${id}"`).join(',')}]`,
+        filter: `id in [${ids.map(id => JSON.stringify(id)).join(',')}]`,
       })
     },
   }

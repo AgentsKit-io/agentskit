@@ -12,9 +12,23 @@ import {
   type KvEntry,
   type LocalStorageKvConfig,
   type LocalStorageLike,
+  validateKvRetention,
 } from './kv-store-types'
 
+const fileWriteQueues = new Map<string, Promise<void>>()
+
+const enqueueFileWrite = (path: string, task: () => Promise<void>): Promise<void> => {
+  const previous = fileWriteQueues.get(path) ?? Promise.resolve()
+  const next = previous.catch(() => {}).then(task)
+  fileWriteQueues.set(path, next)
+  void next.finally(() => {
+    if (fileWriteQueues.get(path) === next) fileWriteQueues.delete(path)
+  }).catch(() => {})
+  return next
+}
+
 export const createInMemoryStore = (config: InMemoryKvConfig): AgentskitMemoryStore => {
+  validateKvRetention(config)
   const store = new Map<string, KvEntry>()
   const now = () => Date.now()
   return {
@@ -37,19 +51,15 @@ export const createInMemoryStore = (config: InMemoryKvConfig): AgentskitMemorySt
 
 export const createFileStore = (config: FileKvConfig): AgentskitMemoryStore => {
   const path = config.path
-  let cache: Map<string, KvEntry> | undefined
-  let writeQueue = Promise.resolve()
 
   const load = async (): Promise<Map<string, KvEntry>> => {
-    if (cache) return cache
     try {
       const parsed = JSON.parse(await readFile(path, 'utf8')) as Record<string, KvEntry>
-      cache = new Map(Object.entries(parsed))
+      return new Map(Object.entries(parsed))
     } catch (err) {
-      if ((err as NodeJS.ErrnoException).code === 'ENOENT') cache = new Map()
-      else throw err
+      if ((err as NodeJS.ErrnoException).code === 'ENOENT') return new Map()
+      throw err
     }
-    return cache
   }
 
   const persist = async (map: Map<string, KvEntry>): Promise<void> => {
@@ -70,20 +80,25 @@ export const createFileStore = (config: FileKvConfig): AgentskitMemoryStore => {
       const entry = map.get(key)
       if (!entry) return undefined
       if (isExpired(entry, config.ttlSeconds, Date.now())) {
-        map.delete(key)
-        await persist(map)
+        await enqueueFileWrite(path, async () => {
+          const latest = await load()
+          const current = latest.get(key)
+          if (current && isExpired(current, config.ttlSeconds, Date.now())) {
+            latest.delete(key)
+            await persist(latest)
+          }
+        })
         return undefined
       }
       return entry.value
     },
     async set(key, value) {
-      writeQueue = writeQueue.then(async () => {
+      await enqueueFileWrite(path, async () => {
         const map = await load()
         map.set(key, { value, insertedAt: Date.now() })
         enforceMaxMessages(map, config.maxMessages)
         await persist(map)
       })
-      await writeQueue
     },
   }
 }
@@ -106,21 +121,19 @@ export const createLocalStorageStore = ({
   storage = resolveLocalStorage(),
   filePath = defaultLocalStoragePath(),
 }: CreateLocalStorageStoreOpts): AgentskitMemoryStore => {
+  validateKvRetention(config)
   const key = config.key
-  let cache: Map<string, KvEntry> | undefined
 
   const mapFromJson = (raw: string | null): Map<string, KvEntry> =>
     raw ? new Map(Object.entries(JSON.parse(raw) as Record<string, KvEntry>)) : new Map()
 
   const loadFromFile = async (): Promise<Map<string, KvEntry>> => {
-    if (cache) return cache
     try {
-      cache = mapFromJson(await readFile(filePath, 'utf8'))
+      return mapFromJson(await readFile(filePath, 'utf8'))
     } catch (err) {
-      if ((err as NodeJS.ErrnoException).code === 'ENOENT') cache = new Map()
-      else throw err
+      if ((err as NodeJS.ErrnoException).code === 'ENOENT') return new Map()
+      throw err
     }
-    return cache
   }
 
   const load = async (): Promise<Map<string, KvEntry>> =>
@@ -143,17 +156,37 @@ export const createLocalStorageStore = ({
       const entry = map.get(itemKey)
       if (!entry) return undefined
       if (isExpired(entry, config.ttlSeconds, Date.now())) {
-        map.delete(itemKey)
-        await persist(map)
+        if (storage) {
+          map.delete(itemKey)
+          await persist(map)
+        } else {
+          await enqueueFileWrite(filePath, async () => {
+            const latest = await loadFromFile()
+            const current = latest.get(itemKey)
+            if (current && isExpired(current, config.ttlSeconds, Date.now())) {
+              latest.delete(itemKey)
+              await persist(latest)
+            }
+          })
+        }
         return undefined
       }
       return entry.value
     },
     async set(itemKey, value) {
-      const map = await load()
-      map.set(itemKey, { value, insertedAt: Date.now() })
-      enforceMaxMessages(map, config.maxMessages)
-      await persist(map)
+      if (storage) {
+        const map = await load()
+        map.set(itemKey, { value, insertedAt: Date.now() })
+        enforceMaxMessages(map, config.maxMessages)
+        await persist(map)
+        return
+      }
+      await enqueueFileWrite(filePath, async () => {
+        const map = await loadFromFile()
+        map.set(itemKey, { value, insertedAt: Date.now() })
+        enforceMaxMessages(map, config.maxMessages)
+        await persist(map)
+      })
     },
   }
 }

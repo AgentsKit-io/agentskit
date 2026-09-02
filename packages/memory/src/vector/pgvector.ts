@@ -72,7 +72,7 @@ export function pgvector(config: PgVectorConfig): VectorMemory {
           metadata: r.metadata ?? undefined,
           score: 1 - r.distance,
         }))
-        .filter(r => (r.score ?? 0) >= threshold)
+        .filter(r => (r.score ?? 0) > threshold)
     },
 
     async delete(ids: string[]) {

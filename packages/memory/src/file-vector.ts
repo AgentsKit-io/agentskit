@@ -113,7 +113,7 @@ export function fileVectorMemory(config: FileVectorMemoryConfig): VectorMemory {
       const results = await store.query(embedding, fetchK)
 
       return results
-        .filter(r => r.score >= threshold)
+        .filter(r => r.score > threshold)
         .filter(r => matchesFilter(r.metadata, options?.filter))
         .slice(0, topK)
         .map((r): RetrievedDocument => ({
