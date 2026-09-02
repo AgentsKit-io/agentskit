@@ -45,6 +45,8 @@ interface ParsedCron {
   dom: Set<number>
   month: Set<number>
   dow: Set<number>
+  domAny: boolean
+  dowAny: boolean
 }
 
 interface ParsedEvery {
@@ -57,18 +59,26 @@ type ParsedSchedule = ParsedCron | ParsedEvery
 function expandField(field: string, min: number, max: number): Set<number> {
   const out = new Set<number>()
   for (const segment of field.split(',')) {
+    if (segment.length === 0) {
+      throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: `invalid empty cron segment: "${field}"` })
+    }
     let step = 1
     let range = segment
     const stepIdx = segment.indexOf('/')
     if (stepIdx >= 0) {
-      step = Math.max(1, Number(segment.slice(stepIdx + 1)))
+      step = Number(segment.slice(stepIdx + 1))
+      if (!Number.isInteger(step) || step <= 0) throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: `invalid cron step: "${segment}"` })
       range = segment.slice(0, stepIdx)
     }
     let from = min
     let to = max
     if (range !== '*') {
       if (range.includes('-')) {
-        const [a, b] = range.split('-').map(Number)
+        const parts = range.split('-')
+        if (parts.length !== 2) {
+          throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: `invalid cron range: "${segment}"` })
+        }
+        const [a, b] = parts.map(Number)
         from = a ?? min
         to = b ?? max
       } else {
@@ -76,9 +86,17 @@ function expandField(field: string, min: number, max: number): Set<number> {
         to = from
       }
     }
+    if (!Number.isInteger(from) || !Number.isInteger(to) || from < min || to > max || from > to) {
+      throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: `cron value out of range: "${segment}"` })
+    }
     for (let i = from; i <= to; i += step) out.add(i)
   }
+  if (out.size === 0) throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: `empty cron field: "${field}"` })
   return out
+}
+
+function isAnyField(field: string): boolean {
+  return field.split(',').some(segment => segment === '*' || segment.startsWith('*/'))
 }
 
 export function parseSchedule(schedule: string): ParsedSchedule {
@@ -109,17 +127,21 @@ export function parseSchedule(schedule: string): ParsedSchedule {
     dom: expandField(parts[2]!, 1, 31),
     month: expandField(parts[3]!, 1, 12),
     dow: expandField(parts[4]!, 0, 6),
+    domAny: isAnyField(parts[2]!),
+    dowAny: isAnyField(parts[4]!),
   }
 }
 
 export function cronMatches(schedule: ParsedCron, now: Date): boolean {
-  return (
-    schedule.minute.has(now.getMinutes()) &&
-    schedule.hour.has(now.getHours()) &&
-    schedule.dom.has(now.getDate()) &&
-    schedule.month.has(now.getMonth() + 1) &&
-    schedule.dow.has(now.getDay())
-  )
+  if (!schedule.minute.has(now.getMinutes()) || !schedule.hour.has(now.getHours()) || !schedule.month.has(now.getMonth() + 1)) return false
+  const domMatch = schedule.dom.has(now.getDate())
+  const dowMatch = schedule.dow.has(now.getDay())
+  let dayMatch: boolean
+  if (schedule.domAny && schedule.dowAny) dayMatch = true
+  else if (schedule.domAny) dayMatch = dowMatch
+  else if (schedule.dowAny) dayMatch = domMatch
+  else dayMatch = domMatch || dowMatch
+  return dayMatch
 }
 
 export interface CronScheduler {
@@ -139,7 +161,9 @@ export function createCronScheduler<TContext = unknown>(
     const jobName = entry.job.agent.name
     options.onEvent?.({ type: 'run:start', job: jobName, now })
     try {
-      const task = typeof entry.job.task === 'function' ? entry.job.task(now) : entry.job.task ?? `scheduled: ${jobName}`
+      let task: string
+      if (typeof entry.job.task === 'function') task = entry.job.task(now)
+      else task = entry.job.task ?? `scheduled: ${jobName}`
       const result = await entry.job.agent.run(task, entry.job.context)
       options.onEvent?.({ type: 'run:end', job: jobName, now, result })
     } catch (err) {
@@ -217,6 +241,8 @@ export interface WebhookOptions<TContext = unknown> {
   context?: TContext | ((req: WebhookRequest) => TContext)
   /** Verify the incoming request (signature, token, etc.). */
   verify?: (req: WebhookRequest) => boolean | Promise<boolean>
+  /** Refuse construction without verification. Defaults to true. */
+  strict?: boolean
   onEvent?: (event: { type: 'received' | 'rejected' | 'handled'; error?: string }) => void
 }
 
@@ -236,22 +262,35 @@ export type WebhookHandler = (req: WebhookRequest) => Promise<WebhookResponse>
 export function createWebhookHandler<TContext = unknown>(
   options: WebhookOptions<TContext>,
 ): WebhookHandler {
+  if ((options.strict ?? true) && !options.verify) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'createWebhookHandler: verify is missing — refusing to construct an unverified webhook',
+      hint: 'Implement request verification or pass `{ strict: false }` when an external auth proxy is responsible.',
+    })
+  }
   return async req => {
     options.onEvent?.({ type: 'received' })
     if (options.verify) {
-      const ok = await options.verify(req)
+      let ok: boolean
+      try {
+        ok = await options.verify(req)
+      } catch {
+        options.onEvent?.({ type: 'rejected', error: 'verification failed' })
+        return { status: 500, body: 'internal error' }
+      }
       if (!ok) {
         options.onEvent?.({ type: 'rejected', error: 'verify returned false' })
         return { status: 401, body: 'unauthorized' }
       }
     }
-    const extract = options.extractTask ?? defaultExtract
-    const task = extract(req)
-    const context =
-      typeof options.context === 'function'
-        ? (options.context as (req: WebhookRequest) => TContext)(req)
-        : options.context
     try {
+      const extract = options.extractTask ?? defaultExtract
+      const task = extract(req)
+      const context =
+        typeof options.context === 'function'
+          ? (options.context as (req: WebhookRequest) => TContext)(req)
+          : options.context
       const result = await options.agent.run(task, context)
       options.onEvent?.({ type: 'handled' })
       return {
@@ -262,7 +301,7 @@ export function createWebhookHandler<TContext = unknown>(
     } catch (err) {
       const message = err instanceof Error ? err.message : String(err)
       options.onEvent?.({ type: 'rejected', error: message })
-      return { status: 500, body: message }
+      return { status: 500, body: 'internal error' }
     }
   }
 }

@@ -202,8 +202,13 @@ export function denyPattern(pattern: RegExp, name = 'deny-pattern'): Validator {
   return {
     name,
     check: ({ output }) => {
-      if (pattern.test(output)) return { ok: false, reason: `output matched deny pattern ${pattern}` }
-      return true
+      pattern.lastIndex = 0
+      try {
+        if (pattern.test(output)) return { ok: false, reason: `output matched deny pattern ${pattern}` }
+        return true
+      } finally {
+        pattern.lastIndex = 0
+      }
     },
     onFail: 'block',
   }

@@ -118,6 +118,24 @@ describe('swarm', () => {
     expect(await s.run('t')).toBe('quick')
   })
 
+  it('calls a member abort hook when its deadline expires', async () => {
+    const abort = vi.fn()
+    const s = swarm({
+      members: [{ name: 'slow', run: () => new Promise<string>(() => undefined), abort }],
+      timeoutMs: 10,
+    })
+    await expect(s.run('t')).rejects.toThrow(/every swarm member failed/)
+    expect(abort).toHaveBeenCalledOnce()
+  })
+
+  it('still rejects on timeout when a member abort hook throws', async () => {
+    const s = swarm({
+      members: [{ name: 'slow', run: () => new Promise<string>(() => undefined), abort: () => { throw new Error('abort failed') } }],
+      timeoutMs: 10,
+    })
+    await expect(s.run('t')).rejects.toThrow(/every swarm member failed/)
+  })
+
   it('rejects empty members', () => {
     expect(() => swarm({ members: [] })).toThrow(/≥ 1 member/)
   })

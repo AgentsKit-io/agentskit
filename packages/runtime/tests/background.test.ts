@@ -51,6 +51,9 @@ describe('parseSchedule', () => {
   it('rejects malformed cron', () => {
     expect(() => parseSchedule('0 9')).toThrow(/5 fields/)
     expect(() => parseSchedule('every:-1')).toThrow(/invalid every:/)
+    expect(() => parseSchedule('99 * * * *')).toThrow(/out of range/)
+    expect(() => parseSchedule('0,,5 * * * *')).toThrow(/empty cron segment/)
+    expect(() => parseSchedule('0 0 1-2-3 * *')).toThrow(/invalid cron range/)
   })
 })
 
@@ -60,6 +63,13 @@ describe('cronMatches', () => {
     if (p.type !== 'cron') throw new Error()
     expect(cronMatches(p, new Date(2026, 0, 1, 9, 30))).toBe(true)
     expect(cronMatches(p, new Date(2026, 0, 1, 9, 31))).toBe(false)
+  })
+
+  it('uses standard OR semantics for restricted day-of-month/day-of-week', () => {
+    const p = parseSchedule('0 0 1 * 1')
+    if (p.type !== 'cron') throw new Error()
+    expect(cronMatches(p, new Date(2026, 8, 1, 0, 0))).toBe(true)
+    expect(cronMatches(p, new Date(2026, 8, 7, 0, 0))).toBe(true)
   })
 })
 
@@ -155,14 +165,14 @@ describe('createCronScheduler', () => {
 
 describe('createWebhookHandler', () => {
   it('passes extracted task to the agent and returns 200 + body', async () => {
-    const handler = createWebhookHandler({ agent: agent('a', async t => `ran: ${t}`) })
+    const handler = createWebhookHandler({ agent: agent('a', async t => `ran: ${t}`), strict: false })
     const res = await handler({ body: 'hello' })
     expect(res.status).toBe(200)
     expect(res.body).toBe('ran: hello')
   })
 
   it('extracts .task from JSON body by default', async () => {
-    const handler = createWebhookHandler({ agent: agent('a', async t => t) })
+    const handler = createWebhookHandler({ agent: agent('a', async t => t), strict: false })
     const res = await handler({ body: { task: 'from-json' } as Record<string, unknown> })
     expect(res.body).toBe('from-json')
   })
@@ -171,6 +181,7 @@ describe('createWebhookHandler', () => {
     const handler = createWebhookHandler({
       agent: agent('a', async t => t),
       extractTask: (req: WebhookRequest) => (req.headers?.['x-task'] as string) ?? '',
+      strict: false,
     })
     const res = await handler({ headers: { 'x-task': 'header-task' } })
     expect(res.body).toBe('header-task')
@@ -185,19 +196,38 @@ describe('createWebhookHandler', () => {
     expect(res.status).toBe(401)
   })
 
+  it('contains verifier failures and emits a sanitized rejection', async () => {
+    const events: string[] = []
+    const handler = createWebhookHandler({
+      agent: agent('a'),
+      verify: async () => { throw new Error('secret verifier detail') },
+      onEvent: e => events.push(`${e.type}:${e.error ?? ''}`),
+    })
+    const res = await handler({ body: 'x' })
+    expect(res).toEqual({ status: 500, body: 'internal error' })
+    expect(events).toEqual(['received:', 'rejected:verification failed'])
+  })
+
+  it('refuses construction without verification unless strict:false is explicit', () => {
+    expect(() => createWebhookHandler({ agent: agent('a') })).toThrow(/verify is missing/)
+    expect(() => createWebhookHandler({ agent: agent('a'), strict: false })).not.toThrow()
+  })
+
   it('returns 500 + message on agent failure', async () => {
     const handler = createWebhookHandler({
       agent: { name: 'bad', run: async () => { throw new Error('kaboom') } },
+      strict: false,
     })
     const res = await handler({ body: 'x' })
     expect(res.status).toBe(500)
-    expect(res.body).toBe('kaboom')
+    expect(res.body).toBe('internal error')
   })
 
   it('fires received + handled events on success', async () => {
     const events: string[] = []
     const handler = createWebhookHandler({
       agent: agent('a'),
+      strict: false,
       onEvent: e => events.push(e.type),
     })
     await handler({ body: 'x' })

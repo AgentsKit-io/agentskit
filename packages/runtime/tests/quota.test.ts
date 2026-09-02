@@ -106,4 +106,39 @@ describe('withQuotas', () => {
     expect(calls).toBe(1)
     await expect(wrapped.execute!({}, ctx)).rejects.toThrow(/per-run quota/)
   })
+
+  it('uses the parent runtime run id by default', async () => {
+    const tracker = createQuotaTracker({ quotas: { send: { perRun: 1 } } })
+    const tool = defineTool({ name: 'send', execute: async () => 'ok' })
+    const [wrapped] = withQuotas([tool], tracker)
+    const context = { messages: [], runId: 'run-1', call: { id: 'call-1', name: 'send', args: {}, status: 'running' as const } }
+    await wrapped.execute!({}, context)
+    await expect(wrapped.execute!({}, { ...context, call: { ...context.call, id: 'call-2' } })).rejects.toThrow(/per-run quota/)
+  })
+
+  it('does not admit concurrent calls beyond the per-run cap', async () => {
+    const tracker = createQuotaTracker({ quotas: { send: { perRun: 1 } } })
+    let finish!: () => void
+    const tool = defineTool({
+      name: 'send',
+      execute: () => new Promise(resolve => { finish = () => resolve('ok') }),
+    })
+    const [wrapped] = withQuotas([tool], tracker, () => 'r1')
+
+    const first = wrapped.execute!({}, { messages: [], call: { id: '1', name: 'send', args: {}, status: 'running' as const } })
+    await expect(wrapped.execute!({}, { messages: [], call: { id: '2', name: 'send', args: {}, status: 'running' as const } })).rejects.toThrow(/per-run quota/)
+    finish()
+    await first
+  })
+
+  it('releases a reservation when execution fails', async () => {
+    const tracker = createQuotaTracker({ quotas: { send: { perRun: 1 } } })
+    const tool = defineTool({ name: 'send', execute: async () => { throw new Error('failed') } })
+    const [wrapped] = withQuotas([tool], tracker, () => 'r1')
+    const context = { messages: [], call: { id: '1', name: 'send', args: {}, status: 'running' as const } }
+
+    await expect(wrapped.execute!({}, context)).rejects.toThrow('failed')
+    expect(tracker.snapshot().perRun).toEqual({})
+    tracker.check('send', 'r1')
+  })
 })
