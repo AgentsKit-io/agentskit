@@ -2,8 +2,6 @@ import { ConfigError, ErrorCodes } from '../errors'
 export { createSamlVerifier } from './saml'
 export type { SamlAssertion, SamlAttribute, SamlVerifier, SamlVerifierOptions } from './saml'
 
-export { createSamlVerifier } from './saml'
-export type { SamlVerifier, SamlVerifierOptions, SamlAssertion, SamlAttribute } from './saml'
 /**
  * SSO helpers for production AgentsKit deployments. Audit log and
  * multi-tenant cost-guard already shipped; this fills in the
