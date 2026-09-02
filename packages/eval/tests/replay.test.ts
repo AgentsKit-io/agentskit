@@ -175,6 +175,14 @@ describe('replay engine', () => {
     expect(fingerprintRequest(first)).not.toBe(fingerprintRequest(differentMetadata))
   })
 
+  it('ignores volatile message identity fields in strict fingerprints', () => {
+    const first = req('same')
+    const second = {
+      messages: [{ ...first.messages[0]!, id: 'new-id', status: 'pending', createdAt: new Date() }],
+    }
+    expect(fingerprintRequest(first)).toBe(fingerprintRequest(second))
+  })
+
   it('fails closed for non-fingerprintable request values', () => {
     const cyclic: Record<string, unknown> = {}
     cyclic.self = cyclic
@@ -335,5 +343,12 @@ describe('replay engine', () => {
         JSON.stringify({ version: 1, entries: [{ request: { messages: 'nope' }, chunks: [] }] }),
       ),
     ).toThrow(/messages must be an array/)
+  })
+
+  it('rejects invalid chunk discriminators and payloads at the storage boundary', () => {
+    const request = req('invalid-chunk')
+    expect(() => parseCassette(JSON.stringify({ version: 1, entries: [{ request, chunks: [{ type: 'unknown' }] }] }))).toThrow(/invalid type/)
+    expect(() => parseCassette(JSON.stringify({ version: 1, entries: [{ request, chunks: [{ type: 'tool_call' }] }] }))).toThrow(/toolCall has an invalid shape/)
+    expect(() => parseCassette(JSON.stringify({ version: 1, entries: [{ request, chunks: [{ type: 'usage', usage: { promptTokens: -1, completionTokens: 0, totalTokens: 0 } }] }] }))).toThrow(/usage has an invalid shape/)
   })
 })

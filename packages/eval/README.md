@@ -34,7 +34,7 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/eval) · 
 
 ## Why eval
 
-- **Replace "it seemed to work" with real metrics** — accuracy, per-case latency, token cost, and pass/fail for every test case in a single result object
+- **Replace "it seemed to work" with real metrics** — accuracy, per-case latency, optional token usage, and pass/fail for every test case in a single result object
 - **CI/CD ready** — exit codes reflect suite results; gate deployments on accuracy thresholds so regressions never reach production
 - **Flexible assertions** — substring matching or full control with a custom `(result) => boolean` predicate per case
 - **Provider-agnostic** — the `agent` closure can wrap any async boundary: `createRuntime`, a custom controller, or an HTTP endpoint
@@ -109,6 +109,8 @@ Replay boundaries snapshot cassettes, requests, chunks, dates, and plain metadat
 ## Braintrust lifecycle
 
 `@agentskit/eval/braintrust` computes every score locally. When `BRAINTRUST_API_KEY` or `options.apiKey` is present, it lazily initializes Braintrust, awaits each experiment log, flushes the experiment, and then summarizes it. Non-fatal SDK failures are returned as bounded `result.warnings`; local cases and summaries remain available.
+
+Remote case fields are excluded by default. Use `options.upload` to explicitly allow selected input, output, expected, or metadata fields; selected values are capped by `maxFieldBytes` (default 4096), and run-level metadata follows the same allowlist.
 
 Custom scorer results are validated at runtime. A malformed name or score outside `[0, 1]` becomes an isolated `scorer_error` rather than corrupting the aggregate.
 

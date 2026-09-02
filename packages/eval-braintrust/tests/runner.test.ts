@@ -192,6 +192,23 @@ describe('runBraintrustEval', () => {
     expect(log).toHaveBeenCalledWith(expect.not.objectContaining({ input: expect.anything(), output: expect.anything(), expected: expect.anything() }))
   })
 
+  it('applies the metadata allowlist to experiment initialization too', async () => {
+    const init = vi.fn(async () => ({ log: vi.fn() }))
+    await runBraintrustEval({
+      cases: [{ input: 'q', output: '', expected: 'q' }],
+      agent: async input => ({ output: input }),
+      scorers: [taskSuccess],
+      options: {
+        projectName: 'p',
+        apiKey: 'k',
+        metadata: { tenant: 'acme', secret: 'do-not-send' },
+        upload: { metadataKeys: ['tenant'] },
+      },
+    }, { bt: { init } })
+    expect(init).toHaveBeenCalledWith(expect.objectContaining({ metadata: { tenant: '"acme"' } }))
+    expect(JSON.stringify(init.mock.calls[0]?.[0])).not.toContain('do-not-send')
+  })
+
   it('awaits async log and optional flush before summarize', async () => {
     const order: string[] = []
     const fakeExperiment = {

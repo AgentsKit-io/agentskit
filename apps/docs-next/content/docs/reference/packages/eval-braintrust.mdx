@@ -13,7 +13,17 @@ docbridge:
       to: package:@agentskit/core
       kind: imports
       detection: static
+    - from: package:@agentskit/eval-braintrust
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/eval-braintrust
+      to: package:@agentskit/eval
+      kind: depends-on
+      detection: static
 ---
+
+- **Version:** `0.2.19`
 
 `@agentskit/eval/braintrust` connects AgentsKit eval suites to [Braintrust](https://www.braintrust.dev). It runs your test cases through deterministic scorers, optionally ships explicitly selected results to a Braintrust experiment, and surfaces regressions as CI annotations — all without requiring Braintrust to be installed at build time (peer-resolved at runtime). The implementation is a private workspace source package; consumers install the public `@agentskit/eval` package and its `/braintrust` subpath.
 
@@ -123,6 +133,8 @@ if (alerts.length) {
 | `BRAINTRUST_BASE_URL` | Override the Braintrust API base URL (default: Braintrust cloud). |
 
 You can also pass `apiKey` / `baseUrl` directly in `BraintrustRunOptions` — explicit values take precedence over env vars.
+
+Remote case fields are excluded by default. To upload selected fields, set `options.upload` explicitly with `includeInput`, `includeOutput`, `includeExpected`, or an allowlist of `metadataKeys`; every selected value is capped by `maxFieldBytes` (default 4096). Run-level `options.metadata` follows the same allowlist and is never sent by default.
 
 ## Stability
 

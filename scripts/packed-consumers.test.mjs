@@ -239,7 +239,7 @@ describe('exception handling and mode derivation', () => {
     assert.ok(!modes.some((m) => m.mode === 'esm' || m.mode === 'cjs'))
   })
 
-  test('svelte is structural in Node (no CJS); optional peer subpaths are structural', () => {
+  test('svelte is structural in Node; optional peer eval subpaths remain import-checked', () => {
     const svelteModes = deriveModesForExport(
       { types: './dist/index.d.ts', import: './dist/index.js', svelte: './dist/index.js' },
       { packageName: '@agentskit/svelte', subpath: '.' },
@@ -256,6 +256,16 @@ describe('exception handling and mode derivation', () => {
       { packageName: '@agentskit/observability', subpath: './langfuse' },
     )
     assert.ok(modes.every((m) => m.mode === 'structural' || m.mode === 'types'))
+
+    const evalException = findException('@agentskit/eval', './braintrust')
+    assert.equal(evalException?.optionalPeer, true)
+    const evalModes = deriveModesForExport(
+      { types: './dist/braintrust.d.ts', import: './dist/braintrust.js', require: './dist/braintrust.cjs' },
+      { packageName: '@agentskit/eval', subpath: './braintrust' },
+    )
+    assert.ok(evalModes.some((m) => m.mode === 'esm'))
+    assert.ok(evalModes.some((m) => m.mode === 'cjs'))
+    assert.ok(evalModes.some((m) => m.mode === 'types'))
   })
 
   test('Solid is structural at runtime but remains typechecked', () => {

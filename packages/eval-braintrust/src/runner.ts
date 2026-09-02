@@ -232,7 +232,7 @@ export async function runBraintrustEval<TCase extends ScorerInput = ScorerInput>
           experiment: options.experimentName,
           apiKey,
           appUrl: baseUrl,
-          metadata: options.metadata,
+          metadata: remoteMetadata(options.metadata, upload.metadataKeys, maxFieldBytes),
         })
       } catch {
         warnings.add(WARN.init)

@@ -21,7 +21,7 @@ Core `runEval(dataset)` is stable. Reporters, metrics, dataset shape may gain fi
 - **Malformed agent output becomes a failed case.** One bad case does not abort the suite.
 - **Every metric is optional.** Latency and token usage are reported when available.
 - **Host boundaries are explicit.** `replay` is universal; `replay/io`, `snapshot`, and `ci` use Node filesystem/process APIs.
-- **Replay-first** (future): when deterministic replay lands, eval runs should be reproducible from a recorded trace.
+- **Replay-first**: eval runs should be reproducible from a recorded trace whenever the agent boundary supports deterministic replay.
 
 ## Adding a public surface
 
@@ -48,6 +48,6 @@ Core `runEval(dataset)` is stable. Reporters, metrics, dataset shape may gain fi
 
 - [ ] Bundle size under 10KB gzipped
 - [ ] Coverage threshold holds (95% lines)
-- [ ] Root plus all eight subpaths pass packed ESM/CJS/TypeScript consumers
+- [ ] Root plus all public subpaths pass packed ESM/CJS/TypeScript consumers
 - [ ] Browser and React Native replay entries contain no eager Node built-ins
 - [ ] No hard dependency on an adapter, model provider, or optional Braintrust SDK
