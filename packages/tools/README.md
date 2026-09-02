@@ -148,6 +148,17 @@ set.
   unless `exposeErrors: true` is explicitly enabled for trusted development.
 - Stdio + in-memory transports. HTTP/SSE adapters are host-owned.
 
+#### Supported MCP protocol matrix
+
+| Protocol revision | Lifecycle | Supported transports | Supported methods | Explicitly outside this bridge |
+|-------------------|-----------|----------------------|-------------------|--------------------------------|
+| `2024-11-05` | `initialize` with exact-version negotiation; `tools/list` and `tools/call`; close settles pending calls | stdio, in-memory, or an injected transport | `initialize`, `tools/list`, `tools/call` | resources, prompts, sampling, tasks, HTTP/WebSocket, authentication, rate limiting, and persistence |
+
+The client and server fail closed when `initialize.params.protocolVersion` is
+not `2024-11-05`. Hosts that need an omitted capability must provide it around
+the injected transport; the bridge does not imply support or isolation that it
+does not implement.
+
 All tools honor the `ToolDefinition` contract (ADR 0002) — parallel
 tool calling works with any adapter, `@agentskit/runtime`, `useChat`,
 or a custom loop.
