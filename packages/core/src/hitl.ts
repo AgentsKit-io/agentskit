@@ -31,8 +31,11 @@ export interface ApprovalStore {
   put: <T>(approval: Approval<T>) => Promise<void>
   /** Read the current state of an approval. */
   get: <T>(id: string) => Promise<Approval<T> | null>
-  /** Update status + metadata. */
-  patch: <T>(id: string, update: Partial<Approval<T>>) => Promise<Approval<T> | null>
+  /**
+   * Update status + metadata. Implementations must apply expectedStatus as a
+   * compare-and-set guard so terminal decisions are immutable under races.
+   */
+  patch: <T>(id: string, update: Partial<Approval<T>>, options?: { expectedStatus?: Approval<T>['status'] }) => Promise<Approval<T> | null>
 }
 
 export interface RequestApprovalInput<TPayload> {
@@ -132,7 +135,7 @@ export function createApprovalGate<TPayload = unknown>(
         status: decision,
         decidedAt: new Date().toISOString(),
         decisionMetadata: metadata,
-      })
+      }, { expectedStatus: 'pending' })
       if (!updated) {
         throw new ConfigError({
           code: ErrorCodes.AK_CONFIG_INVALID,
@@ -147,7 +150,7 @@ export function createApprovalGate<TPayload = unknown>(
       const updated = await store.patch<TPayload>(id, {
         status: 'cancelled',
         decidedAt: new Date().toISOString(),
-      })
+      }, { expectedStatus: 'pending' })
       if (!updated) throw new Error(`approval "${id}" not found`)
       return updated
     },
@@ -165,9 +168,10 @@ export function createInMemoryApprovalStore(): ApprovalStore {
       const hit = map.get(id)
       return hit ? ({ ...(hit as Approval<T>) }) : null
     },
-    async patch<T>(id: string, update: Partial<Approval<T>>): Promise<Approval<T> | null> {
+    async patch<T>(id: string, update: Partial<Approval<T>>, options?: { expectedStatus?: Approval<T>['status'] }): Promise<Approval<T> | null> {
       const hit = map.get(id)
       if (!hit) return null
+      if (options?.expectedStatus !== undefined && hit.status !== options.expectedStatus) return null
       const next = { ...(hit as Approval<T>), ...update }
       map.set(id, next as Approval<unknown>)
       return next

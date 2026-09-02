@@ -138,3 +138,21 @@ test('the stack builder labels controls and uses a lightweight code output', () 
   assert.match(builder, /htmlFor="stack-memory"/)
   assert.match(builder, /function CodeOutput/)
 })
+
+test('core documentation covers the public subpath contract', () => {
+  const packageJson = JSON.parse(read('packages/core/package.json'))
+  const readme = read('packages/core/README.md')
+  const agentDoc = read('apps/docs-next/content/docs/for-agents/core.mdx')
+  const referenceDoc = read('apps/docs-next/content/docs/reference/packages/core.mdx')
+
+  for (const exportPath of Object.keys(packageJson.exports).filter(path => path !== '.')) {
+    const publicPath = `@agentskit/core/${exportPath.slice(2)}`
+    assert.ok(readme.includes(publicPath), `${publicPath} is missing from README`)
+    assert.ok(agentDoc.includes(publicPath), `${publicPath} is missing from the agent handoff`)
+  }
+  assert.ok([readme, agentDoc, referenceDoc].every(doc => doc.includes('parseToolArgs')))
+  assert.match(readme, /ChatController/)
+  assert.doesNotMatch(readme, /RuntimeResult/)
+  assert.match(agentDoc, /never executes\s+directly/)
+  assert.match(referenceDoc, /AK_MEMORY_CLEAR_FAILED/)
+})

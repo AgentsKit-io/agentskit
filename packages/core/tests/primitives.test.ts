@@ -1,6 +1,24 @@
 import { describe, it, expect, vi } from 'vitest'
-import { generateId, createEventEmitter, buildMessage, executeToolCall, consumeStream } from '../src/primitives'
+import { acquireToolLifecycle, generateId, createEventEmitter, buildMessage, executeToolCall, consumeStream, parseToolArgs, safeParseArgs, createToolLifecycle } from '../src/primitives'
 import type { Observer, AgentEvent, ToolDefinition, ToolCall, StreamSource, StreamChunk } from '../src/types'
+
+describe('safeParseArgs', () => {
+  it('accepts only JSON object roots', () => {
+    expect(safeParseArgs('{"q":"hello"}')).toEqual({ q: 'hello' })
+    expect(safeParseArgs('[1,2]')).toEqual({})
+    expect(safeParseArgs('null')).toEqual({})
+    expect(safeParseArgs('"text"')).toEqual({})
+  })
+
+  it('returns an empty object for invalid JSON', () => {
+    expect(safeParseArgs('{invalid')).toEqual({})
+    expect(parseToolArgs('{invalid')).toEqual({ args: {}, valid: false })
+    expect(parseToolArgs('{"q":"hello"}')).toEqual({ args: { q: 'hello' }, valid: true })
+    expect(parseToolArgs('[]')).toEqual({ args: {}, valid: false })
+    expect(parseToolArgs(`{"nested":${JSON.stringify({ value: 'x' })}}`).valid).toBe(true)
+    expect(parseToolArgs(`{"value":"${'x'.repeat(1_048_577)}"}`).valid).toBe(false)
+  })
+})
 
 describe('generateId', () => {
   it('generates unique IDs with the given prefix', () => {
@@ -313,5 +331,57 @@ describe('consumeStream', () => {
     })
 
     expect(results).toEqual(['result data'])
+  })
+
+  it('ignores empty optional chunks and converts thrown source errors', async () => {
+    const onText = vi.fn()
+    const onError = vi.fn()
+    const source: StreamSource = {
+      stream: async function* () {
+        yield { type: 'text' }
+        yield { type: 'reasoning' }
+        yield { type: 'tool_result' }
+        throw new Error('network down')
+      },
+      abort: () => {},
+    }
+    await consumeStream(source, { onText, onError, onDone: vi.fn() })
+    expect(onText).not.toHaveBeenCalled()
+    expect(onError.mock.calls[0]![0]).toMatchObject({ message: 'Stream failed: network down' })
+  })
+
+  it('preserves AgentsKit errors from a failing source', async () => {
+    const onError = vi.fn()
+    const original = new Error('adapter')
+    const source: StreamSource = {
+      stream: async function* () { throw original },
+      abort: () => {},
+    }
+    await consumeStream(source, { onError, onDone: vi.fn() })
+    expect(onError).toHaveBeenCalledOnce()
+  })
+})
+
+describe('executeToolCall and tool lifecycle', () => {
+  it('serializes null, errors, cyclic values, and missing execute functions', async () => {
+    const context = { messages: [], call: { id: 'c', name: 't', args: {}, status: 'running' as const } }
+    expect(await executeToolCall({ name: 'none' }, {}, context)).toBe('')
+    expect(await executeToolCall({ name: 'error', execute: async () => new Error('bad') }, {}, context)).toBe('Error: bad')
+    const cyclic: Record<string, unknown> = {}
+    cyclic.self = cyclic
+    expect(await executeToolCall({ name: 'cyclic', execute: async () => cyclic }, {}, context)).toBe('[object Object]')
+  })
+
+  it('releases an acquired lifecycle only once and waits for retirement', async () => {
+    const dispose = vi.fn()
+    const lifecycle = createToolLifecycle(new Map([['t', { name: 't', dispose }]]))
+    const release = acquireToolLifecycle(lifecycle)
+    expect(release).toBeTypeOf('function')
+    const retirement = lifecycle.disposeAll()
+    await release!()
+    await release!()
+    await retirement
+    expect(dispose).not.toHaveBeenCalled()
+    expect(acquireToolLifecycle(lifecycle)).toBeUndefined()
   })
 })

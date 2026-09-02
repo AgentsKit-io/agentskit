@@ -32,5 +32,5 @@ overrides:
   tar: "7.5.21"
   read-yaml-file: "2.1.0"
   adm-zip: "0.6.0"
-patchedDependencies:
-  'image-size@1.2.1': patches/image-size@1.2.1.patch
+  browserslist: ">=4.28.7 <5"
+  image-size: "npm:image-size-next@1.2.2"

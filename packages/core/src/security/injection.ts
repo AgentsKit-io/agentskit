@@ -99,7 +99,10 @@ export function createInjectionDetector(
     const hits: InjectionVerdict['hits'] = []
     let score = 0
     for (const rule of heuristics) {
-      if (rule.pattern.test(input)) {
+      rule.pattern.lastIndex = 0
+      const matched = rule.pattern.test(input)
+      rule.pattern.lastIndex = 0
+      if (matched) {
         hits.push({ name: rule.name, weight: rule.weight })
         if (rule.weight > score) score = rule.weight
       }

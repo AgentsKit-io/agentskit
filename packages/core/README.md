@@ -64,10 +64,14 @@ console.log(controller.getState().messages)
 
 ## Features
 
-- `createChatController` — streaming-capable chat state machine with abort support
+- `createChatController` — streaming-capable chat state machine with abort support; memory is saved after successful turns, never after failed or aborted turns. Background memory and skill activation failures are surfaced through `onError`.
 - `createInMemoryMemory` — zero-config in-process memory for prototyping
-- TypeScript types for every contract: `ToolDefinition`, `SkillDefinition`, `AgentEvent`, `Adapter`, `Memory`, `Retriever`, `RuntimeResult`
+- `createLocalStorageMemory` — browser/demo persistence; malformed stored data raises `MemoryError` instead of silently becoming an empty history
+- `createStaticRetriever` — deterministic token-overlap retrieval for demos and fallbacks; use `@agentskit/rag` for semantic production retrieval
+- `parseToolArgs` — typed JSON argument parsing for adapters that need fail-closed validation; `safeParseArgs` remains the compatibility helper
+- TypeScript types for every contract: `ToolDefinition`, `SkillDefinition`, `AgentEvent`, `Adapter`, `ChatMemory`, `Retriever`, `ChatController`
 - Event emitter for `AgentEvent` streams — observability hooks attach here
+- `AgentEvent.correlation` is an optional, provider-neutral identity envelope: `operationId` is stable across boundaries while `runId`, `sessionId`, `turnId`, `actionId`, and `traceId` retain local meaning
 - Dual CJS/ESM output, strict TypeScript, no `any`
 
 ## Error handling
@@ -113,6 +117,7 @@ Available error codes (via `ErrorCodes`):
 | `AK_TOOL_FORBIDDEN` | tool execution is denied by policy |
 | `AK_MEMORY_LOAD_FAILED` | memory.load() fails |
 | `AK_MEMORY_SAVE_FAILED` | memory.save() fails |
+| `AK_MEMORY_CLEAR_FAILED` | memory.clear() fails |
 | `AK_MEMORY_DESERIALIZE_FAILED` | persisted state is corrupt |
 | `AK_MEMORY_PEER_MISSING` | optional memory backend is not installed |
 | `AK_MEMORY_REMOTE_HTTP` | remote memory request fails |
@@ -159,12 +164,16 @@ Use `InferSchemaType<typeof schema>` to reference the inferred type elsewhere in
 | `@agentskit/core/auto-summarize` | `ChatMemory` wrapper that folds old turns into a summary |
 | `@agentskit/core/hitl` | Approval gates + `ApprovalStore` |
 | `@agentskit/core/security` | PII redactor + injection detector + rate limiter |
+| `@agentskit/core/fuzzy-match` | Deterministic Jaro-Winkler matching for KYC, sanctions, deduplication, and entity resolution |
+| `@agentskit/core/finding` | Canonical `Finding` / `Severity` shape for review and compliance results |
 | `@agentskit/core/compose-tool` | Chain N tools into one macro tool |
 | `@agentskit/core/self-debug` | Retry failing tools with LLM-corrected arguments |
 | `@agentskit/core/generative-ui` | Typed UI element tree + code / markdown / html / chart artifacts |
 | `@agentskit/core/a2a` | Agent-to-Agent protocol spec (JSON-RPC over any transport) |
 | `@agentskit/core/manifest` | Skill + tool manifest format (MCP-compatible) |
 | `@agentskit/core/eval-format` | Portable eval dataset + run-result JSON |
+| `@agentskit/core/memory-validation` | Bounded validation for untrusted serialized memory records |
+| `@agentskit/core/tool-proposal` | Public helper for routing a validated proposal through controller authorization |
 
 See the [core guide for agents](https://www.agentskit.io/docs/for-agents/core) for the full contract.
 

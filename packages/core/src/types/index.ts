@@ -19,7 +19,7 @@ export type {
 export type { RetrievedDocument, RetrieverRequest, Retriever } from './retrieval'
 export type { ChatConfig, ChatState, ChatController, ChatReturn, EditOptions } from './chat'
 export type { SkillDefinition } from './skill'
-export type { AgentEvent, Observer } from './agent'
+export type { AgentEvent, AgentEventContext, Observer } from './agent'
 export type { EvalTestCase, EvalResult, EvalSuite } from './eval'
 export type { TokenCounter, TokenCounterOptions, TokenCountResult } from './token-counter'
 export type {

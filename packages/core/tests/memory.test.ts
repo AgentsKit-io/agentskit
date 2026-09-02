@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { ConfigError } from '../src/errors'
-import { createInMemoryMemory, serializeMessages } from '../src/memory'
+import { createInMemoryMemory, createLocalStorageMemory, deserializeMessages, serializeMessages } from '../src/memory'
 import { validateMemoryRecord } from '../src/memory-validation'
 import { buildMessage } from '../src/primitives'
 import type { Message } from '../src/types'
@@ -57,6 +57,123 @@ describe('createInMemoryMemory', () => {
     const loaded1 = await mem.load()
     const loaded2 = await mem.load()
     expect(loaded1).not.toBe(loaded2)
+  })
+})
+
+describe('serialization helpers', () => {
+  it('round-trips message dates and nested message data', () => {
+    const record = serializeMessages([{ ...sampleMessage, metadata: { source: 'test' } }])
+    const messages = deserializeMessages(record)
+
+    expect(messages[0]?.createdAt).toBeInstanceOf(Date)
+    expect(messages[0]?.createdAt.toISOString()).toBe(sampleMessage.createdAt.toISOString())
+    expect(messages[0]?.metadata).toEqual({ source: 'test' })
+  })
+
+  it('returns an empty history for an absent record', () => {
+    expect(deserializeMessages(undefined)).toEqual([])
+    expect(deserializeMessages(null)).toEqual([])
+  })
+})
+
+describe('createLocalStorageMemory', () => {
+  it('persists, hydrates, and clears serialized messages', async () => {
+    const original = Object.getOwnPropertyDescriptor(globalThis, 'localStorage')
+    const values = new Map<string, string>()
+    Object.defineProperty(globalThis, 'localStorage', {
+      configurable: true,
+      value: {
+        getItem: (key: string) => values.get(key) ?? null,
+        setItem: (key: string, value: string) => { values.set(key, value) },
+        removeItem: (key: string) => { values.delete(key) },
+      },
+    })
+
+    try {
+      const memory = createLocalStorageMemory('chat')
+      await memory.save([sampleMessage])
+      const loaded = await memory.load()
+
+      expect(loaded[0]?.createdAt).toBeInstanceOf(Date)
+      expect(loaded[0]?.id).toBe(sampleMessage.id)
+      await memory.clear!()
+      expect(await memory.load()).toEqual([])
+    } finally {
+      if (original) Object.defineProperty(globalThis, 'localStorage', original)
+      else delete (globalThis as { localStorage?: unknown }).localStorage
+    }
+  })
+
+  it('does not require browser storage in a non-browser runtime', async () => {
+    const original = Object.getOwnPropertyDescriptor(globalThis, 'localStorage')
+    if (original) delete (globalThis as { localStorage?: unknown }).localStorage
+
+    try {
+      const memory = createLocalStorageMemory('chat')
+      expect(await memory.load()).toEqual([])
+      await expect(memory.save([sampleMessage])).resolves.toBeUndefined()
+      await expect(memory.clear!()).resolves.toBeUndefined()
+    } finally {
+      if (original) Object.defineProperty(globalThis, 'localStorage', original)
+    }
+  })
+
+  it('surfaces corrupt stored data as a typed memory error', async () => {
+    const original = Object.getOwnPropertyDescriptor(globalThis, 'localStorage')
+    Object.defineProperty(globalThis, 'localStorage', {
+      configurable: true,
+      value: { getItem: () => '{not-json', setItem: () => {}, removeItem: () => {} },
+    })
+    try {
+      await expect(createLocalStorageMemory('chat').load()).rejects.toMatchObject({
+        name: 'MemoryError', code: 'AK_MEMORY_LOAD_FAILED',
+      })
+    } finally {
+      if (original) Object.defineProperty(globalThis, 'localStorage', original)
+      else delete (globalThis as { localStorage?: unknown }).localStorage
+    }
+  })
+
+  it('rejects structurally invalid stored messages before deserialization', async () => {
+    const original = Object.getOwnPropertyDescriptor(globalThis, 'localStorage')
+    Object.defineProperty(globalThis, 'localStorage', {
+      configurable: true,
+      value: {
+        getItem: () => JSON.stringify({
+          version: 1,
+          messages: [{ ...sampleMessage, role: 'unknown', createdAt: sampleMessage.createdAt.toISOString() }],
+        }),
+      },
+    })
+    try {
+      await expect(createLocalStorageMemory('chat').load()).rejects.toMatchObject({
+        name: 'MemoryError', code: 'AK_MEMORY_LOAD_FAILED',
+      })
+    } finally {
+      if (original) Object.defineProperty(globalThis, 'localStorage', original)
+      else delete (globalThis as { localStorage?: unknown }).localStorage
+    }
+  })
+
+  it('surfaces browser storage permission failures as typed errors', async () => {
+    const original = Object.getOwnPropertyDescriptor(globalThis, 'localStorage')
+    Object.defineProperty(globalThis, 'localStorage', {
+      configurable: true,
+      value: {
+        getItem: () => { throw new Error('denied') },
+        setItem: () => { throw new Error('quota') },
+        removeItem: () => { throw new Error('denied') },
+      },
+    })
+    try {
+      const memory = createLocalStorageMemory('chat')
+      await expect(memory.load()).rejects.toMatchObject({ code: 'AK_MEMORY_LOAD_FAILED' })
+      await expect(memory.save([sampleMessage])).rejects.toMatchObject({ code: 'AK_MEMORY_SAVE_FAILED' })
+      await expect(memory.clear!()).rejects.toMatchObject({ code: 'AK_MEMORY_CLEAR_FAILED' })
+    } finally {
+      if (original) Object.defineProperty(globalThis, 'localStorage', original)
+      else delete (globalThis as { localStorage?: unknown }).localStorage
+    }
   })
 })
 
@@ -155,5 +272,53 @@ describe('validateMemoryRecord', () => {
   it('rejects proxy-backed records with a typed error', () => {
     const proxy = new Proxy({}, {})
     expect(() => validateMemoryRecord(proxy)).toThrow(ConfigError)
+  })
+
+  it('accepts and projects every supported content part', () => {
+    const record = serializeMessages([{
+      ...sampleMessage,
+      parts: [
+        { type: 'text', text: 'text' },
+        { type: 'image', source: 'image', mimeType: 'image/png', detail: 'auto' },
+        { type: 'audio', source: 'audio', mimeType: 'audio/wav', durationSec: 1 },
+        { type: 'video', source: 'video', durationSec: 2 },
+        { type: 'file', source: 'file', filename: 'file.txt' },
+      ],
+      toolCalls: [{ id: 'call-1', name: 'lookup', args: {}, status: 'error', error: 'failed' }],
+      toolCallId: 'call-1',
+    }])
+
+    const validated = validateMemoryRecord(record)
+    expect(validated.messages[0]?.parts).toHaveLength(5)
+    expect(validated.messages[0]?.toolCalls?.[0]?.error).toBe('failed')
+    expect(validated.messages[0]?.toolCallId).toBe('call-1')
+  })
+
+  it.each([
+    { parts: {} },
+    { parts: [{ type: 'unknown', source: 'x' }] },
+    { parts: [{ type: 'text' }] },
+    { parts: [{ type: 'image' }] },
+    { parts: [{ type: 'image', source: 'x', mimeType: 1 }] },
+    { parts: [{ type: 'image', source: 'x', detail: 'full' }] },
+    { parts: [{ type: 'audio', source: 'x', durationSec: '1' }] },
+    { parts: [{ type: 'audio', source: 'x', durationSec: -1 }] },
+    { parts: [{ type: 'file', source: 'x', filename: 1 }] },
+    { toolCalls: {} },
+    { toolCalls: [{ id: 'x', name: 'tool', args: [], status: 'complete' }] },
+    { toolCalls: [{ id: 'x', name: 'tool', args: {}, status: 'unknown' }] },
+    { toolCalls: [{ id: 'x', name: 'tool', args: {}, status: 'complete', result: 1 }] },
+    { toolCalls: [{ id: 'x', name: 'tool', args: {}, status: 'complete', error: 1 }] },
+    { toolCallId: 1 },
+    { metadata: [] },
+    { content: 1 },
+    { role: 'unknown' },
+    { status: 'unknown' },
+    { createdAt: '2026-01-01' },
+  ])('rejects malformed message fields %j', (extra) => {
+    expect(() => validateMemoryRecord({
+      version: 1,
+      messages: [{ ...serializeMessages([sampleMessage]).messages[0], ...extra }],
+    })).toThrow(ConfigError)
   })
 })

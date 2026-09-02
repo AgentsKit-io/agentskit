@@ -59,13 +59,11 @@ export type {
   RateLimitDecision,
 } from './rate-limit'
 
-export { createOidcVerifier, createSamlVerifier } from './sso'
+export { createOidcVerifier } from './sso'
+export { createSamlVerifier } from './saml'
 export type {
   OidcVerifier,
   OidcVerifierOptions,
   OidcClaims,
-  SamlVerifier,
-  SamlVerifierOptions,
-  SamlAssertion,
-  SamlAttribute,
 } from './sso'
+export type { SamlVerifier, SamlVerifierOptions, SamlAssertion, SamlAttribute } from './saml'

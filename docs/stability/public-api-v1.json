@@ -1823,6 +1823,12 @@
               ]
             },
             {
+              "name": "AgentEventContext",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "AgentsKitError",
               "kinds": [
                 "type",
@@ -2183,6 +2189,18 @@
               "name": "Observer",
               "kinds": [
                 "type"
+              ]
+            },
+            {
+              "name": "ParsedToolArgs",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "parseToolArgs",
+              "kinds": [
+                "value"
               ]
             },
             {

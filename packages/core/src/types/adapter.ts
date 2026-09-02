@@ -1,6 +1,7 @@
 import type { Message } from './message'
 import type { StreamSource } from './stream'
 import type { ToolDefinition } from './tool'
+import type { AgentEventContext } from './agent'
 
 export interface AdapterContext {
   systemPrompt?: string
@@ -13,6 +14,8 @@ export interface AdapterContext {
 export interface AdapterRequest {
   messages: Message[]
   context?: AdapterContext
+  /** Optional identity propagated to adapters without coupling them to a runtime. */
+  correlation?: AgentEventContext
 }
 
 /**
