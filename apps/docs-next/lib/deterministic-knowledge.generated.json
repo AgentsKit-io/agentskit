@@ -123,7 +123,7 @@
     {
       "id": "claim.memory-backends",
       "kind": "restricted-faq",
-      "label": "17 memory backends",
+      "label": "18 memory backends",
       "match": {
         "type": "exact",
         "values": [
@@ -133,7 +133,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **17 memory backends**.",
+        "markdown": "The verified AgentsKit ledger currently reports **18 memory backends**.",
         "citations": [
           {
             "id": "claim-memory-backends",
@@ -1012,7 +1012,7 @@
           {
             "id": "ecosystem-code-review",
             "title": "AgentsKit Code Review",
-            "href": "https://github.com/AgentsKit-io/code-review-cli#readme"
+            "href": "https://github.com/AgentsKit-io/code-review#readme"
           }
         ]
       }
@@ -2306,5 +2306,5 @@
       }
     }
   ],
-  "contentHash": "sha256:b1ca7f33122ef047f26435e223927a58c7d2a6e7a0a67187e30971698bcff54c"
+  "contentHash": "sha256:e81d5a529a321ff106c9cc4d2442fc2f3f0c5bfe54fba8747427a010404d5e76"
 }

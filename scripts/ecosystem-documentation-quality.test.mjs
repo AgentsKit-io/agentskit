@@ -97,7 +97,7 @@ test('product overrides can define a CLI surface without relaxing the global def
 
   const input = evidence({
     productId: 'code-review',
-    repo: 'AgentsKit-io/code-review-cli',
+    repo: 'AgentsKit-io/code-review',
     machineSurfaces: {
       rawSources: ['README.md'],
       forAgents: 'agents/code-review/agent.ts',

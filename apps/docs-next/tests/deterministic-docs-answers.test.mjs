@@ -153,7 +153,7 @@ test('the real widget composes published AgentsChat local-first contracts', () =
   assert.match(widget, /choiceSubmission: adapter\.resolveChoiceSubmission/)
   assert.match(widget, /fallbackMode: deterministicSite\.fallback\.mode/)
   assert.match(widget, /data-ak-answer-path/)
-  assert.match(docsPackage, /"@agentskit\/chat": "0\.4\.0"/)
+  assert.match(docsPackage, /"@agentskit\/chat": "0\.4\.1"/)
   assert.doesNotMatch(docsPackage, /"@agentskit\/chat-(?:protocol|react)":/)
   assert.doesNotMatch(rootPackage, /"@agentskit\/chat(?:-protocol)?":/)
   assert.doesNotMatch(widget, /function normalizeDeterministic|new Map<string, DeterministicKnowledgeEntry/)

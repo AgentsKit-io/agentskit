@@ -2,10 +2,12 @@ import './global.css'
 import { RootProvider } from 'fumadocs-ui/provider/next'
 import { Inter, JetBrains_Mono, Space_Grotesk } from 'next/font/google'
 import type { ReactNode } from 'react'
+import type { Viewport } from 'next'
 import { Analytics } from '@vercel/analytics/next'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import { alternatesFor } from '@/lib/locales'
 import { AttributionCapture } from '@/components/analytics/attribution-capture'
+import { AccessibleSearch } from '@/components/accessible-search'
 import ecosystem from '@/lib/ecosystem.json'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
@@ -92,6 +94,8 @@ export const metadata = {
   },
 }
 
+export const viewport: Viewport = { colorScheme: 'dark light', themeColor: '#0b0f14' }
+
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
@@ -104,6 +108,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Full docs for LLM ingestion" />
       </head>
       <body className="flex min-h-screen flex-col overflow-x-clip font-sans">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-ak-blue focus:px-3 focus:py-2 focus:text-ak-midnight">
+          Skip to content
+        </a>
         <RootProvider
           search={{
             options: {
@@ -111,7 +118,8 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             },
           }}
         >
-          {children}
+          <AccessibleSearch />
+          <div id="main-content">{children}</div>
         </RootProvider>
         <footer className="border-t border-ak-border bg-ak-midnight px-6 py-10 text-sm text-ak-graphite">
           <div className="mx-auto flex max-w-6xl flex-col gap-5">
