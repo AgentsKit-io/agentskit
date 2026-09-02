@@ -42,6 +42,9 @@
     "access": "public",
     "provenance": true
   },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "build": "tsup",
     "test": "vitest run",

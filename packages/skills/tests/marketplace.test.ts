@@ -123,6 +123,12 @@ describe('matchesRange', () => {
     expect(matchesRange('1.2.3', '1.2.4')).toBe(false)
   })
 
+  it('validates the version before wildcard matching', () => {
+    expect(() => matchesRange('not-a-version', '*')).toThrow(/invalid semver/)
+    expect(() => matchesRange(null as never, '*')).toThrow(/invalid semver/)
+    expect(() => matchesRange('1.2.3', null as never)).toThrow(/semver range must be a string/)
+  })
+
   it('exact match ignores build metadata and compares prerelease', () => {
     expect(matchesRange('1.0.0+build.1', '1.0.0')).toBe(true)
     expect(matchesRange('1.0.0', '1.0.0+build.9')).toBe(true)
@@ -178,6 +184,37 @@ describe('matchesRange', () => {
 })
 
 describe('createSkillRegistry — publish validation', () => {
+  it('rejects malformed package envelopes with typed errors', async () => {
+    expect(() => createSkillRegistry(null as never)).toThrow(SkillError)
+    const registry = createSkillRegistry()
+    for (const pkg of [
+      null,
+      {},
+      { version: null, skill: skill('ok_name') },
+      { version: '1.0.0', skill: skill('ok_name'), publisher: 42 },
+      { version: '1.0.0', skill: skill('ok_name'), publishedAt: 'tomorrow' },
+      { version: '1.0.0', skill: skill('ok_name'), tags: ['x', 'x'] },
+      { version: '1.0.0', skill: skill('ok_name'), tags: [1] },
+    ]) {
+      await expectSkillInvalid(() => registry.publish(pkg as never))
+    }
+  })
+
+  it('accepts valid package metadata and defensively copies tags', async () => {
+    const registry = createSkillRegistry()
+    const tags = ['regulated', 'example']
+    const published = await registry.publish({
+      version: '1.0.0',
+      publisher: 'example-org',
+      publishedAt: '2026-09-02T00:00:00.000Z',
+      tags,
+      skill: skill('ok_name'),
+    })
+    tags.push('mutated')
+    expect(published.tags).toEqual(['regulated', 'example'])
+    expect((await registry.list())[0]?.tags).toEqual(['regulated', 'example'])
+  })
+
   it('rejects invalid S1 skill name with AK_SKILL_INVALID', async () => {
     const registry = createSkillRegistry()
     await expectSkillInvalid(() =>

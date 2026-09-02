@@ -49,7 +49,7 @@ ${M}`,
       input: "I think I'm having a heart attack. What do I do?",
       output: `Call emergency services now — 911 (US), 999 (UK), 112 (EU). Don't drive yourself.
 
-While waiting: sit or lie down, loosen tight clothing, and chew (do not swallow whole) one regular-strength aspirin **if** you're not allergic and aren't on a blood thinner.
+While waiting: sit or lie down, unlock the door for responders if safe, and follow the emergency dispatcher's instructions.
 
 ${M}`,
     },
@@ -87,14 +87,14 @@ Quote the source line and ask the clinician what to do. Do not infer.`,
   [
     {
       input:
-        'Summarize: "Pt John Doe, 54M, DOB 1971-03-12, presents with 3-day h/o substernal chest pain on exertion, relieved by rest. BP 142/88, HR 76, afebrile. ECG sinus rhythm, no ST changes. Troponin pending. Plan: stress test next week, start aspirin 81mg daily, f/u in 2 weeks."',
+        'Summarize: "Pt John Doe, 54M, DOB 1971-03-12, presents with 3-day h/o substernal chest pain on exertion, relieved by rest. BP 142/88, HR 76, afebrile. ECG sinus rhythm, no ST changes. Troponin pending. Plan: stress test next week, follow up in 2 weeks."',
       output: `**Subjective:** [patient], 54M. 3-day history of substernal chest pain on exertion, relieved by rest.
 
 **Objective:** BP 142/88, HR 76, afebrile. ECG sinus rhythm, no ST changes. Troponin pending.
 
 **Assessment:** (not documented)
 
-**Plan:** Stress test next week. Start aspirin 81mg daily. Follow up in 2 weeks.`,
+**Plan:** Stress test next week. Follow up in 2 weeks.`,
     },
   ],
 )

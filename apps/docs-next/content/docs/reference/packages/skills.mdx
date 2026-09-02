@@ -6,27 +6,11 @@ docbridge:
     - package:@agentskit/skills
   relations:
     - from: package:@agentskit/skills
-      to: package:@agentskit/adapters
-      kind: imports
-      detection: static
-    - from: package:@agentskit/skills
       to: package:@agentskit/core
       kind: depends-on
       detection: static
     - from: package:@agentskit/skills
       to: package:@agentskit/core
-      kind: imports
-      detection: static
-    - from: package:@agentskit/skills
-      to: package:@agentskit/runtime
-      kind: imports
-      detection: static
-    - from: package:@agentskit/skills
-      to: package:@agentskit/tools
-      kind: imports
-      detection: static
-    - from: package:@agentskit/skills
-      to: package:agentskit
       kind: imports
       detection: static
 ---
