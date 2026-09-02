@@ -123,7 +123,7 @@
     {
       "id": "claim.memory-backends",
       "kind": "restricted-faq",
-      "label": "18 memory backends",
+      "label": "17 memory backends",
       "match": {
         "type": "exact",
         "values": [
@@ -133,7 +133,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **18 memory backends**.",
+        "markdown": "The verified AgentsKit ledger currently reports **17 memory backends**.",
         "citations": [
           {
             "id": "claim-memory-backends",
@@ -1927,7 +1927,7 @@
         ]
       },
       "answer": {
-        "markdown": "**@agentskit/mcp** — Serve AgentsKit tools to an MCP host that supports the documented `2024-11-05` tools bridge. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` + `createStdioTransport`).\n\nInstall it with `pnpm add @agentskit/mcp`.",
+        "markdown": "**@agentskit/mcp** — Serve AgentsKit tools to any MCP host. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` + `createStdioTransport`).\n\nInstall it with `pnpm add @agentskit/mcp`.",
         "citations": [
           {
             "id": "package-mcp",
@@ -2306,9 +2306,9 @@
       }
     }
   ],
-<<<<<<<< HEAD:apps/docs-next/public/deterministic-knowledge/b1ca7f33122ef047f26435e223927a58c7d2a6e7a0a67187e30971698bcff54c.json
-  "contentHash": "sha256:b1ca7f33122ef047f26435e223927a58c7d2a6e7a0a67187e30971698bcff54c"
+<<<<<<<< HEAD:apps/docs-next/public/deterministic-knowledge/91fefe614b1665340414f2ad8b2f9b44b92e7ad23c614905eb598a999db7d7e8.json
+  "contentHash": "sha256:91fefe614b1665340414f2ad8b2f9b44b92e7ad23c614905eb598a999db7d7e8"
 ========
-  "contentHash": "sha256:2b164a1fa4470272aa3fc9e4647c00378251d0a8161103a9c7a75b9d9bfec9ca"
->>>>>>>> cc1beb54 (chore: consolidate memory remediation evidence):apps/docs-next/public/deterministic-knowledge/2b164a1fa4470272aa3fc9e4647c00378251d0a8161103a9c7a75b9d9bfec9ca.json
+  "contentHash": "sha256:0ca0d5353fbf12ee4c243050b242cc1ce55a358287c3010f303d5eff552fb86e"
+>>>>>>>> 3aab72f9 (chore: regenerate deterministic documentation artifacts):apps/docs-next/public/deterministic-knowledge/0ca0d5353fbf12ee4c243050b242cc1ce55a358287c3010f303d5eff552fb86e.json
 }
