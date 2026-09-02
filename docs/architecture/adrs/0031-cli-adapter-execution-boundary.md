@@ -93,14 +93,15 @@ terminal commands in safe mode.
 It may use a provider's native login and local configuration, but it is not an
 isolation boundary and must be visible in diagnostics and audit metadata.
 
-`isolated` is available when a provider accepts explicit credentials and a
-minimal environment. It is not advertised as a sandbox: the adapter cannot
-claim filesystem or kernel isolation it does not provide.
+`restricted-environment` is available when a provider accepts explicit
+credentials and a minimal environment. It is an environment allowlist, not a
+sandbox: the adapter cannot claim filesystem, process, network, or kernel
+isolation it does not provide.
 
 Authentication is therefore explicit per mode: AgentsKit credentials for API
-adapters, a declared credential for `isolated`, and native provider login only
-for `trusted-local`. Secrets are redacted from diagnostics, errors, and
-persisted metadata.
+adapters, a declared credential for `restricted-environment`, and native
+provider login only for `trusted-local`. Secrets are redacted from diagnostics,
+errors, and persisted metadata.
 
 ### Capabilities and options
 

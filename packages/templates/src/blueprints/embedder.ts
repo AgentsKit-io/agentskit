@@ -42,11 +42,11 @@ export function ${camelCase(name)}Embedder(config: ${pascalCase(name)}EmbedderCo
     } finally {
       clearTimeout(timer)
     }
-    if (!response.ok) {
-      const body = await response.text().catch(() => '')
-      throw new Error(\`embedder \${model} HTTP \${response.status}: \${body.slice(0, 200)}\`)
-    }
     if (body!.byteLength > maxResponseBytes) throw new Error(\`embedder \${model}: response too large\`)
+    if (!response.ok) {
+      const text = new TextDecoder().decode(body!)
+      throw new Error(\`embedder \${model} HTTP \${response.status}: \${text.slice(0, 200)}\`)
+    }
     const json = JSON.parse(new TextDecoder().decode(body!)) as { data?: Array<{ embedding: unknown }> }
     const first = json.data?.[0]?.embedding
     if (!Array.isArray(first) || first.length === 0 || first.some(value => typeof value !== 'number' || !Number.isFinite(value))) {
@@ -151,7 +151,8 @@ export function ${camelCase(name)}(config: ${pascalCase(name)}Config): AdapterFa
             }
             yield { type: 'done' }
           } catch (err) {
-            yield { type: 'error', content: err instanceof Error ? err.message : String(err) }
+            const error = err instanceof Error ? err : new Error(String(err))
+            yield { type: 'error', content: error.message, metadata: { error } }
           }
         },
         abort: () => {

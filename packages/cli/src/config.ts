@@ -173,6 +173,11 @@ export async function loadConfig(options?: LoadConfigOptions): Promise<AgentsKit
 }
 
 const SECRET_KEY = /^(api[-_]?key|token|secret|password|authorization|private[-_]?key)$/i
+const SECRET_ENV_KEY = /(?:^|_)(?:api_?key|token|secret|password|authorization|private_?key)$/i
+
+function isSecretKey(key: string): boolean {
+  return SECRET_KEY.test(key) || SECRET_ENV_KEY.test(key)
+}
 
 /** Return a display-safe copy; secrets are never printed by default. */
 export function redactConfig(value: unknown): unknown {
@@ -181,7 +186,7 @@ export function redactConfig(value: unknown): unknown {
   return Object.fromEntries(
     Object.entries(value as Record<string, unknown>).map(([key, child]) => [
       key,
-      SECRET_KEY.test(key) ? '[REDACTED]' : redactConfig(child),
+      isSecretKey(key) ? '[REDACTED]' : redactConfig(child),
     ]),
   )
 }

@@ -88,6 +88,12 @@ A visual flow + handler registry for AgentsKit.
 
 ## Run
 
+Install the CLI once in this package before running the commands below:
+
+\`\`\`bash
+npm install --save-dev @agentskit/cli
+\`\`\`
+
 \`\`\`bash
 agentskit flow validate flow.yaml --registry ./dist/index.js
 agentskit flow render   flow.yaml > flow.mmd

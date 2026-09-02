@@ -51,6 +51,16 @@ rl.on('line', (line) => {
 })
 `
 
+const OVERSIZED_SERVER_SRC = `
+const rl = require('readline').createInterface({ input: process.stdin })
+function send(obj) { process.stdout.write(JSON.stringify(obj) + '\\n') }
+rl.on('line', (line) => {
+  const msg = JSON.parse(line)
+  if (msg.method === 'initialize') send({ jsonrpc: '2.0', id: msg.id, result: {} })
+  if (msg.method === 'tools/list') send({ jsonrpc: '2.0', id: msg.id, result: { tools: [{ name: 'x'.repeat(1024 * 1024) }] } })
+})
+`
+
 describe('McpClient — request on non-started client', () => {
   it('rejects immediately when client not started', async () => {
     const client = new McpClient({
@@ -126,6 +136,24 @@ describe('McpClient — onStdout parse error', () => {
       await client.start()
       // The malformed line should have triggered onError
       expect(errors.length).toBeGreaterThanOrEqual(1)
+    } finally {
+      client.dispose()
+    }
+  }, 10_000)
+})
+
+describe('McpClient — frame limits', () => {
+  it('rejects an oversized response and disposes the server', async () => {
+    const errors: unknown[] = []
+    const client = new McpClient(
+      { name: 'oversized-srv', command: process.execPath, args: ['-e', OVERSIZED_SERVER_SRC], timeout: 5000 },
+      err => errors.push(err),
+    )
+    try {
+      await client.start()
+      await expect(client.listTools()).rejects.toThrow(/client disposed/)
+      expect(errors).toHaveLength(1)
+      expect(String(errors[0])).toContain('frame exceeded')
     } finally {
       client.dispose()
     }

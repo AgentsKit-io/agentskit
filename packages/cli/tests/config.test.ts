@@ -113,4 +113,10 @@ describe('loadConfig', () => {
       nested: { token: '[REDACTED]' },
     })
   })
+
+  it('redacts secret values in environment maps without hiding the variable name', () => {
+    expect(redactConfig({ mcp: { servers: { local: { env: { OPENAI_API_KEY: 'secret' } } } } })).toEqual({
+      mcp: { servers: { local: { env: { OPENAI_API_KEY: '[REDACTED]' } } } },
+    })
+  })
 })

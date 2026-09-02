@@ -5,7 +5,7 @@
  *   1. Hosted index   — https://registry.agentskit.io/r/<id>.json (meta + inlined sources)
  *   2. Raw GitHub      — the registry repo's registry/<id>/ files (works before hosting is live)
  */
-import { mkdir, writeFile } from 'node:fs/promises'
+import { lstat, mkdir, writeFile } from 'node:fs/promises'
 import { dirname, isAbsolute, join, relative, resolve, sep } from 'node:path'
 
 const RAW_BASE = 'https://raw.githubusercontent.com/AgentsKit-io/agentskit-registry/main'
@@ -35,6 +35,36 @@ function assertInside(parent: string, child: string): void {
   const rel = relative(resolve(parent), resolve(child))
   if (rel === '..' || rel.startsWith(`..${sep}`) || isAbsolute(rel)) {
     throw new Error(`Registry destination escapes target directory: ${child}`)
+  }
+}
+
+async function assertNoSymlinkAncestors(targetDir: string, baseDir: string): Promise<void> {
+  for (const path of [targetDir, baseDir]) {
+    try {
+      if ((await lstat(resolve(path))).isSymbolicLink()) {
+        throw new Error(`Registry destination contains a symlink ancestor: ${resolve(path)}`)
+      }
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
+    }
+  }
+
+  // If the selected base does not exist yet, inspect only its missing-path
+  // ancestors until the first existing directory. Do not walk system parents
+  // of an already-existing user-selected base (for example /var on macOS).
+  let current = resolve(baseDir)
+  while (true) {
+    try {
+      if ((await lstat(current)).isSymbolicLink()) {
+        throw new Error(`Registry destination contains a symlink ancestor: ${current}`)
+      }
+      return
+    } catch (error) {
+      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error
+    }
+    const parent = dirname(current)
+    if (parent === current) return
+    current = parent
   }
 }
 
@@ -192,6 +222,7 @@ export async function addAgent(id: string, options: AddOptions = {}): Promise<Ad
   const baseDir = options.outDir ?? 'agents'
   const targetDir = join(baseDir, id)
   assertInside(baseDir, targetDir)
+  await assertNoSymlinkAncestors(targetDir, baseDir)
   const exists = options.existsImpl ?? defaultExists
   const write =
     options.writeFileImpl ??

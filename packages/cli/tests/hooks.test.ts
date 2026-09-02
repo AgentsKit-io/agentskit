@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { HookDispatcher } from '../src/extensibility/hooks'
+import { configHooksToHandlers } from '../src/extensibility/hooks'
 import type { HookHandler } from '../src/extensibility/plugins'
 
 describe('HookDispatcher', () => {
@@ -112,4 +113,15 @@ describe('HookDispatcher', () => {
     expect(errors).toHaveLength(1)
     expect(result.blocked).toBe(true)
   })
+})
+
+describe('shell hooks', () => {
+  it('blocks unbounded stdout instead of retaining it', async () => {
+    const [handler] = configHooksToHandlers({
+      SessionStart: [{ run: `node -e "process.stdout.write('x'.repeat(100000))"` }],
+    })
+    const result = await handler!.run({ event: 'SessionStart' })
+    expect(result).toMatchObject({ decision: 'block' })
+    expect((result as { reason?: string }).reason).toContain('output exceeded')
+  }, 10_000)
 })

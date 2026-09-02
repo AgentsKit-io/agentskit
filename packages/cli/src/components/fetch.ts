@@ -91,7 +91,19 @@ export function resolveAuthHeader(
   const map = config?.registryAuth
   if (!map) return {}
   for (const [registryBase, envVar] of Object.entries(map)) {
-    if (base.startsWith(registryBase)) {
+    let configured: URL
+    let target: URL
+    try {
+      configured = new URL(registryBase)
+      target = new URL(base)
+    } catch {
+      continue
+    }
+    const configuredPath = configured.pathname.replace(/\/+$/, '') || '/'
+    const targetPath = target.pathname.replace(/\/+$/, '') || '/'
+    const samePathBoundary =
+      configuredPath === '/' || targetPath === configuredPath || targetPath.startsWith(`${configuredPath}/`)
+    if (target.origin === configured.origin && samePathBoundary) {
       const token = env[envVar]
       if (token) return { authorization: `Bearer ${token}` }
     }

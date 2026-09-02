@@ -179,6 +179,7 @@ describe('scaffold', () => {
     const readme = await readFile(join(dir, 'nightly-refresh', 'README.md'), 'utf8')
     expect(readme).toContain('nightlyRefreshRegistry')
     expect(readme).toContain('compileFlow')
+    expect(readme).toContain('npm install --save-dev @agentskit/cli')
 
     const test = await readFile(join(dir, 'nightly-refresh', 'tests', 'index.test.ts'), 'utf8')
     expect(test).toContain('compileFlow')
@@ -188,7 +189,7 @@ describe('scaffold', () => {
     const pkg = JSON.parse(
       await readFile(join(dir, 'nightly-refresh', 'package.json'), 'utf8'),
     ) as { dependencies: Record<string, string> }
-    expect(pkg.dependencies['@agentskit/runtime']).toBe('^0.10.0')
+    expect(pkg.dependencies['@agentskit/runtime']).toBe('^0.10.15')
     expect(pkg.dependencies['@agentskit/core']).toBe('^1.0.0')
   })
 

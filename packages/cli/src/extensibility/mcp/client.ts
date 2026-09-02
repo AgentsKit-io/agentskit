@@ -1,6 +1,9 @@
 import { spawn, type ChildProcessWithoutNullStreams } from 'node:child_process'
 import type { McpServerSpec } from '../plugins/types'
 
+const MAX_FRAME_BYTES = 1024 * 1024
+const DISPOSE_GRACE_MS = 1000
+
 export interface McpTool {
   name: string
   description?: string
@@ -42,6 +45,7 @@ export class McpClient {
     const child = spawn(this.spec.command, this.spec.args ?? [], {
       env: { ...process.env, ...(this.spec.env ?? {}) },
       stdio: ['pipe', 'pipe', 'pipe'],
+      detached: process.platform !== 'win32',
     }) as ChildProcessWithoutNullStreams
     this.child = child
 
@@ -78,7 +82,23 @@ export class McpClient {
   dispose(): void {
     if (this.disposed) return
     this.disposed = true
-    this.child?.kill('SIGTERM')
+    for (const pending of this.pending.values()) {
+      pending({ jsonrpc: '2.0', id: 0, error: { code: -32800, message: 'client disposed' } })
+    }
+    this.pending.clear()
+    const child = this.child
+    if (!child || child.killed) return
+    const kill = (signal: NodeJS.Signals): void => {
+      try {
+        if (process.platform !== 'win32' && child.pid) process.kill(-child.pid, signal)
+        else child.kill(signal)
+      } catch {
+        // The process may have exited between the graceful and forced kill.
+      }
+    }
+    kill('SIGTERM')
+    const timer = setTimeout(() => kill('SIGKILL'), DISPOSE_GRACE_MS)
+    timer.unref()
   }
 
   private request(method: string, params: unknown): Promise<unknown> {
@@ -110,10 +130,20 @@ export class McpClient {
 
   private onStdout(chunk: string): void {
     this.buffer += chunk
+    if (Buffer.byteLength(this.buffer, 'utf8') > MAX_FRAME_BYTES && !this.buffer.includes('\n')) {
+      this.onError(new Error(`mcp ${this.spec.name} frame exceeded ${MAX_FRAME_BYTES} bytes`))
+      this.dispose()
+      return
+    }
     let newlineIndex = this.buffer.indexOf('\n')
     while (newlineIndex !== -1) {
       const line = this.buffer.slice(0, newlineIndex).trim()
       this.buffer = this.buffer.slice(newlineIndex + 1)
+      if (Buffer.byteLength(line, 'utf8') > MAX_FRAME_BYTES) {
+        this.onError(new Error(`mcp ${this.spec.name} frame exceeded ${MAX_FRAME_BYTES} bytes`))
+        this.dispose()
+        return
+      }
       if (line) {
         try {
           const parsed = JSON.parse(line) as JsonRpcResponse

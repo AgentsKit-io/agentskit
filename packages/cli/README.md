@@ -134,7 +134,7 @@ console.log('@agentskit/cli loaded')
 ## Maturity and compatibility
 
 - Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md)
-- **Node.js 22+** and **TypeScript** strict mode
+- **Node.js 20+** and **TypeScript** strict mode
 - Published as `@agentskit/cli`
 
 ## Contributing

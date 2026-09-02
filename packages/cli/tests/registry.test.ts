@@ -137,6 +137,27 @@ describe('addAgent', () => {
     })).rejects.toThrow(/already exists/)
     expect(writes).toEqual([])
   })
+
+  it('rejects a symlinked destination ancestor before writing', async () => {
+    const { mkdtemp, symlink, rm } = await import('node:fs/promises')
+    const { join } = await import('node:path')
+    const { tmpdir } = await import('node:os')
+    const root = await mkdtemp(join(tmpdir(), 'agentskit-registry-link-'))
+    const outside = await mkdtemp(join(tmpdir(), 'agentskit-registry-outside-'))
+    try {
+      await symlink(outside, join(root, 'agents'), 'dir')
+      const hosted = { ...META, sources: [{ path: 'agent.ts', content: 'CODE' }] }
+      const fetchImpl = vi.fn(async () => jsonResponse(hosted)) as unknown as typeof fetch
+      await expect(addAgent('research', {
+        fetchImpl,
+        outDir: join(root, 'agents'),
+        writeFileImpl: async () => {},
+      })).rejects.toThrow(/symlink ancestor/)
+    } finally {
+      await rm(root, { recursive: true, force: true })
+      await rm(outside, { recursive: true, force: true })
+    }
+  })
 })
 
 describe('lineDiff', () => {
