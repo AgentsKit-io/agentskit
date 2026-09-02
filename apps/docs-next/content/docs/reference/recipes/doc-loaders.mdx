@@ -18,7 +18,7 @@ npm install @agentskit/rag
 
 | Loader | Source |
 |---|---|
-| `loadUrl(url)` | Any HTTP URL (raw text / html) |
+| `loadUrl(url, { allowedOrigins })` | HTTPS URL from an explicit origin allowlist (raw text / html) |
 | `loadGitHubFile(owner, repo, path, { ref?, token? })` | Single file via `raw.githubusercontent.com` |
 | `loadGitHubTree(owner, repo, { filter?, maxFiles? })` | Recursive repo tree, filtered |
 | `loadNotionPage(pageId, { token })` | Flattens paragraphs + headings |
@@ -30,9 +30,11 @@ npm install @agentskit/rag
 | `loadDropbox({ accessToken, path? })` | Recursive Dropbox folder |
 | `loadOneDrive({ accessToken, folderItemId? })` | Recursive, paginated OneDrive folder |
 
-All loader options accept `signal?: AbortSignal`. Paginated loaders reject
-missing or repeated continuation tokens. Tree loaders may return partial
-success, but throw `AK_RAG_LOAD_FAILED` when every eligible download fails.
+All loader options accept `signal?: AbortSignal`, `timeoutMs`, and
+`maxResponseBytes`. Paginated loaders reject missing or repeated continuation
+tokens. Tree loaders may return partial success, but throw `AK_RAG_LOAD_FAILED`
+when every eligible download fails. `loadUrl` rejects non-HTTPS origins and
+redirects. `@aws-sdk/client-s3` is an optional peer dependency for `loadS3`.
 
 ## Example — RAG over a GitHub repo
 

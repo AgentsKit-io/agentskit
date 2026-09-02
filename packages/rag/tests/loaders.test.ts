@@ -17,7 +17,11 @@ function makeFetch(sequence: Array<[number, unknown, 'json' | 'text' | 'binary']
   const calls: string[] = []
   let i = 0
   const fake = vi.fn(async (url: string | URL | Request) => {
-    calls.push(typeof url === 'string' ? url : url instanceof URL ? url.href : url.url)
+    let requestUrl: string
+    if (typeof url === 'string') requestUrl = url
+    else if (url instanceof URL) requestUrl = url.href
+    else requestUrl = url.url
+    calls.push(requestUrl)
     const [status, payload, kind] = sequence[Math.min(i++, sequence.length - 1)]!
     if (kind === 'binary') return new Response(payload as Uint8Array, { status })
     if (kind === 'json') return new Response(JSON.stringify(payload), { status })
@@ -29,13 +33,28 @@ function makeFetch(sequence: Array<[number, unknown, 'json' | 'text' | 'binary']
 describe('loadUrl', () => {
   it('returns single document with URL source', async () => {
     const { fetch } = makeFetch([[200, 'hello', 'text']])
-    const docs = await loadUrl('https://x', { fetch })
+    const docs = await loadUrl('https://x', { fetch, allowedOrigins: ['https://x'] })
     expect(docs).toEqual([{ content: 'hello', source: 'https://x', metadata: { url: 'https://x' } }])
   })
 
   it('throws on non-ok response', async () => {
     const { fetch } = makeFetch([[500, 'boom', 'text']])
-    await expect(loadUrl('https://x', { fetch })).rejects.toThrow(/loadUrl 500/)
+    await expect(loadUrl('https://x', { fetch, allowedOrigins: ['https://x'] })).rejects.toThrow(/loadUrl 500/)
+  })
+
+  it('requires an explicit HTTPS origin allowlist', async () => {
+    const { fetch } = makeFetch([[200, 'hello', 'text']])
+    await expect(loadUrl('http://x', { fetch, allowedOrigins: ['http://x'] })).rejects.toThrow(/HTTPS/)
+    await expect(loadUrl('https://x', { fetch })).rejects.toThrow(/allowedOrigins/)
+  })
+
+  it('enforces the response byte limit', async () => {
+    const { fetch } = makeFetch([[200, '12345', 'text']])
+    await expect(loadUrl('https://x', {
+      fetch,
+      allowedOrigins: ['https://x'],
+      maxResponseBytes: 3,
+    })).rejects.toMatchObject({ code: 'AK_RAG_LOAD_FAILED' })
   })
 })
 
@@ -232,6 +251,17 @@ describe('loadPdf', () => {
     expect(parser).toHaveBeenCalled()
     expect(docs[0]!.content).toBe('parsed')
     expect(docs[0]!.metadata?.pages).toBe(2)
+  })
+
+  it('maps parser failures to the typed loader error', async () => {
+    const { fetch } = makeFetch([[200, new Uint8Array([1, 2, 3]), 'binary']])
+    await expect(loadPdf('https://x/doc.pdf', {
+      parsePdf: () => { throw new Error('invalid PDF') },
+      fetch,
+    })).rejects.toMatchObject({
+      code: 'AK_RAG_LOAD_FAILED',
+      message: expect.stringMatching(/parser failed/),
+    })
   })
 })
 

@@ -1,6 +1,7 @@
 import { RagError, RagErrorCodes } from '../errors'
 import type { RetrievedDocument } from '@agentskit/core'
 import type { RerankFn } from '../rerank'
+import { doFetch, readResponseJson, readResponseText } from '../loaders/shared'
 
 export interface VoyageRerankerOptions {
   apiKey: string
@@ -10,6 +11,8 @@ export interface VoyageRerankerOptions {
   fetch?: typeof globalThis.fetch
   /** Optional abort signal forwarded to the underlying HTTP request. */
   signal?: AbortSignal
+  timeoutMs?: number
+  maxResponseBytes?: number
 }
 
 interface VoyageRerankResponse {
@@ -36,7 +39,7 @@ export function voyageReranker(options: VoyageRerankerOptions): RerankFn {
     if (documents.length === 0) return documents
     let response: Response
     try {
-      response = await fetchImpl('https://api.voyageai.com/v1/rerank', {
+      response = await doFetch(fetchImpl, 'https://api.voyageai.com/v1/rerank', {
         method: 'POST',
         headers: {
           'content-type': 'application/json',
@@ -48,14 +51,14 @@ export function voyageReranker(options: VoyageRerankerOptions): RerankFn {
           model,
         }),
         signal: options.signal,
-      })
+      }, 'voyage rerank', options)
     } catch (cause) {
       throw rerankFailed('voyage rerank: network error', cause)
     }
     if (!response.ok) {
       let text = ''
       try {
-        text = await response.text()
+        text = await readResponseText(response, 'voyage rerank', options.maxResponseBytes, options.timeoutMs)
       } catch (cause) {
         throw rerankFailed(`voyage rerank: ${response.status} (failed to read error body)`, cause)
       }
@@ -64,7 +67,7 @@ export function voyageReranker(options: VoyageRerankerOptions): RerankFn {
 
     let data: VoyageRerankResponse
     try {
-      data = await response.json() as VoyageRerankResponse
+      data = await readResponseJson<VoyageRerankResponse>(response, 'voyage rerank', options.maxResponseBytes, options.timeoutMs)
     } catch (cause) {
       throw rerankFailed('voyage rerank: invalid JSON response', cause)
     }

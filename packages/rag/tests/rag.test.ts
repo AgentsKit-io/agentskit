@@ -39,6 +39,20 @@ function createMockVectorMemory(): VectorMemory & { stored: VectorDocument[] } {
 
 describe('createRAG', () => {
   describe('ingest', () => {
+    it('removes stale chunks when a document is re-ingested', async () => {
+      const stored = new Map<string, VectorDocument>()
+      const store: VectorMemory = {
+        store: async docs => docs.forEach(doc => stored.set(doc.id, doc)),
+        search: async () => [],
+        delete: async ids => ids.forEach(id => stored.delete(id)),
+      }
+      const rag = createRAG({ embed: createMockEmbedder(), store, chunkSize: 5, chunkOverlap: 0 })
+      await rag.ingest([{ id: 'doc', content: 'one two three four' }])
+      await rag.ingest([{ id: 'doc', content: 'new' }])
+      expect([...stored.keys()]).toEqual(['doc_chunk_0'])
+      expect(stored.get('doc_chunk_0')?.content).toBe('new')
+    })
+
     it('chunks documents and stores embeddings', async () => {
       const embed = createMockEmbedder()
       const store = createMockVectorMemory()
@@ -79,6 +93,24 @@ describe('createRAG', () => {
       await rag.ingest([{ content: 'text', source: 'docs/readme.md' }])
 
       expect(store.stored[0].metadata?.source).toBe('docs/readme.md')
+    })
+
+    it('projects metadata source when a vector store omits the top-level field', async () => {
+      const rag = createRAG({
+        embed: createMockEmbedder(),
+        store: {
+          store: async () => undefined,
+          search: async () => [{
+            id: 'doc_chunk_0',
+            content: 'text',
+            metadata: { source: 'docs/readme.md' },
+            score: 0.9,
+          }],
+        },
+      })
+
+      const results = await rag.search('text')
+      expect(results[0]!.source).toBe('docs/readme.md')
     })
 
     it('preserves custom metadata', async () => {

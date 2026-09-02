@@ -44,12 +44,12 @@ export async function loadGcs(options: GcsLoaderOptions): Promise<InputDocument[
     const response = await doFetch(fetchImpl, url, {
       headers: { authorization: `Bearer ${await getToken()}` },
       signal: options.signal,
-    }, 'loadGcs')
+    }, 'loadGcs', options)
     if (!response.ok) throw loadFailed(`loadGcs ${response.status}: ${url}`)
     const data = await readResponseJson<{
       items?: Array<{ name: string }>
       nextPageToken?: string
-    }>(response, 'loadGcs')
+    }>(response, 'loadGcs', options.maxResponseBytes, options.timeoutMs)
     for (const item of data.items ?? []) {
       ensureNotAborted(options.signal, 'loadGcs')
       if (options.filter && !options.filter(item.name)) continue
@@ -59,10 +59,10 @@ export async function loadGcs(options: GcsLoaderOptions): Promise<InputDocument[
         const objResponse = await doFetch(fetchImpl, objUrl, {
           headers: { authorization: `Bearer ${await getToken()}` },
           signal: options.signal,
-        }, 'loadGcs')
+        }, 'loadGcs', options)
         if (!objResponse.ok) continue
         docs.push({
-          content: await readResponseText(objResponse, 'loadGcs'),
+          content: await readResponseText(objResponse, 'loadGcs', options.maxResponseBytes, options.timeoutMs),
           source: `gs://${options.bucket}/${item.name}`,
           metadata: { bucket: options.bucket, name: item.name },
         })
@@ -116,13 +116,13 @@ export async function loadDropbox(options: DropboxLoaderOptions): Promise<InputD
       headers,
       body: JSON.stringify(body),
       signal: options.signal,
-    }, 'loadDropbox')
+    }, 'loadDropbox', options)
     if (!response.ok) throw loadFailed(`loadDropbox ${response.status}: ${url}`)
     const data = await readResponseJson<{
       entries?: Array<{ '.tag': string; path_lower?: string; path_display?: string }>
       cursor?: string
       has_more?: boolean
-    }>(response, 'loadDropbox')
+    }>(response, 'loadDropbox', options.maxResponseBytes, options.timeoutMs)
     for (const entry of data.entries ?? []) {
       ensureNotAborted(options.signal, 'loadDropbox')
       if (entry['.tag'] !== 'file') continue
@@ -138,10 +138,10 @@ export async function loadDropbox(options: DropboxLoaderOptions): Promise<InputD
             'Dropbox-API-Arg': JSON.stringify({ path }),
           },
           signal: options.signal,
-        }, 'loadDropbox')
+        }, 'loadDropbox', options)
         if (!downloadResponse.ok) continue
         docs.push({
-          content: await readResponseText(downloadResponse, 'loadDropbox'),
+          content: await readResponseText(downloadResponse, 'loadDropbox', options.maxResponseBytes, options.timeoutMs),
           source: `dropbox:${path}`,
           metadata: { path },
         })
@@ -212,7 +212,7 @@ export async function loadOneDrive(options: OneDriveLoaderOptions): Promise<Inpu
       const response = await doFetch(fetchImpl, url, {
         headers: { authorization: `Bearer ${await getToken()}` },
         signal: options.signal,
-      }, 'loadOneDrive')
+      }, 'loadOneDrive', options)
       if (!response.ok) throw loadFailed(`loadOneDrive ${response.status}: ${url}`)
       const data = await readResponseJson<{
         value?: Array<{
@@ -223,7 +223,7 @@ export async function loadOneDrive(options: OneDriveLoaderOptions): Promise<Inpu
           '@microsoft.graph.downloadUrl'?: string
         }>
         '@odata.nextLink'?: string
-      }>(response, 'loadOneDrive')
+      }>(response, 'loadOneDrive', options.maxResponseBytes, options.timeoutMs)
 
       for (const item of data.value ?? []) {
         ensureNotAborted(options.signal, 'loadOneDrive')
@@ -239,10 +239,10 @@ export async function loadOneDrive(options: OneDriveLoaderOptions): Promise<Inpu
 
         attempted++
         try {
-          const fileResponse = await doFetch(fetchImpl, downloadUrl, { signal: options.signal }, 'loadOneDrive')
+          const fileResponse = await doFetch(fetchImpl, downloadUrl, { signal: options.signal }, 'loadOneDrive', options)
           if (!fileResponse.ok) continue
           docs.push({
-            content: await readResponseText(fileResponse, 'loadOneDrive'),
+            content: await readResponseText(fileResponse, 'loadOneDrive', options.maxResponseBytes, options.timeoutMs),
             source: `onedrive:${item.id}`,
             metadata: { id: item.id, name: item.name, mimeType: item.file.mimeType },
           })

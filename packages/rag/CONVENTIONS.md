@@ -7,12 +7,18 @@ Plug-and-play RAG. One factory (`createRAG`) returning a `RAG` that satisfies th
 - `createRAG({ store, embed, chunkSize, topK, threshold })`
 - Simple chunker (`chunker.ts`) — paragraph-based splits with configurable size
 - Types linking `RAG` to `Retriever`
+- Composition helpers and provider-neutral document loaders exported from the
+  package root. This is the current intentional package boundary, not a promise
+  that every future provider belongs here.
 
 ## What does NOT belong here
 
 - Vector store implementations → `@agentskit/memory`
 - Embedders → `@agentskit/adapters`
-- Document loaders (URL, PDF, Notion, etc.) → a future `@agentskit/loaders` package
+- Vector stores and provider SDK implementations → `@agentskit/memory` or the
+  injected host/provider package. Loaders remain here while they are thin,
+  provider-neutral `InputDocument` adapters with bounded I/O; a future split
+  requires an ADR/RFC and a compatibility plan.
 
 ## Adding a capability
 
@@ -20,7 +26,10 @@ Before adding:
 
 1. Can this be done by **composition**? Wrapping `createRAG`'s output in another `Retriever` is almost always the answer.
 2. Is this actually about chunking? Put it next to the existing chunker and add a `split` option to `createRAG` if it's reusable.
-3. Is this re-ranking? That's a composite `Retriever` — probably belongs in a separate package, not here.
+3. Is this re-ranking? Keep it as a composite `Retriever`; the current
+   `RerankFn` helpers are intentionally shipped here so consumers can compose
+   them without a second package. A split requires measured bundle or release
+   pressure, not speculation.
 
 The core `createRAG` is intentionally small. Keep it that way.
 
