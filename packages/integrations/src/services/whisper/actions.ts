@@ -1,5 +1,6 @@
 import { ErrorCodes, ToolError } from '@agentskit/core'
 import { defineAction } from '../../contract'
+import { readResponseBytes } from '../../http'
 
 interface WhisperRuntimeConfig {
   apiKey: string
@@ -17,8 +18,9 @@ export const whisperTranscribe = defineAction({
     properties: { url: { type: 'string' }, language: { type: 'string' } },
     required: ['url'],
   },
-  async execute(args, { fetch, fetchUntrusted, signal, config }) {
+  async execute(args, { fetch, fetchUntrusted, signal, maxResponseBytes, config }) {
     const cfg = config as WhisperRuntimeConfig
+    const responseLimit = maxResponseBytes ?? 2 * 1024 * 1024
     const baseUrl = cfg.baseUrl ?? 'https://api.openai.com/v1'
     if (!fetchUntrusted) {
       throw new ToolError({
@@ -31,9 +33,11 @@ export const whisperTranscribe = defineAction({
     if (!audio.ok) {
       throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `whisper: audio fetch ${audio.status}`, hint: `URL ${String(args.url)}.` })
     }
-    const bytes = await audio.arrayBuffer()
+    const bytes = await readResponseBytes(audio, responseLimit)
     const form = new FormData()
-    form.append('file', new Blob([bytes], { type: 'audio/mpeg' }), 'audio')
+    const audioBuffer = new ArrayBuffer(bytes.byteLength)
+    new Uint8Array(audioBuffer).set(bytes)
+    form.append('file', new Blob([audioBuffer], { type: 'audio/mpeg' }), 'audio')
     form.append('model', cfg.model ?? 'whisper-1')
     if (args.language) form.append('language', String(args.language))
     const response = await fetch(`${baseUrl}/audio/transcriptions`, {

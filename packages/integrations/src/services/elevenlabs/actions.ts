@@ -1,5 +1,6 @@
 import { ErrorCodes, ToolError } from '@agentskit/core'
 import { defineAction } from '../../contract'
+import { readResponseBytes } from '../../http'
 
 interface ElevenLabsRuntimeConfig {
   apiKey: string
@@ -27,7 +28,7 @@ export const elevenlabsTts = defineAction({
     },
     required: ['voice_id', 'text'],
   },
-  async execute(args, { fetch, signal, config }) {
+  async execute(args, { fetch, signal, maxResponseBytes, config }) {
     const cfg = config as ElevenLabsRuntimeConfig
     const baseUrl = cfg.baseUrl ?? 'https://api.elevenlabs.io/v1'
     const response = await fetch(`${baseUrl}/text-to-speech/${String(args.voice_id)}`, {
@@ -41,7 +42,7 @@ export const elevenlabsTts = defineAction({
       const detail = await response.text()
       throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `elevenlabs ${response.status}: ${detail.slice(0, 200)}` })
     }
-    const buf = new Uint8Array(await response.arrayBuffer())
+    const buf = await readResponseBytes(response, maxResponseBytes ?? 2 * 1024 * 1024)
     return { contentType: 'audio/mpeg', bytesBase64: bytesToBase64(buf), length: buf.byteLength }
   },
 })

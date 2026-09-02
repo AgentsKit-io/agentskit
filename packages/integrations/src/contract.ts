@@ -80,6 +80,8 @@ export interface IntegrationActionContext {
   fetchUntrusted?: typeof globalThis.fetch
   /** Caller cancellation propagated to non-JSON provider transports. */
   signal?: AbortSignal
+  /** Maximum response body size for non-JSON provider transports. */
+  maxResponseBytes?: number
   /** Service-specific config: extra credentials, injected adapters, options. */
   config: unknown
 }

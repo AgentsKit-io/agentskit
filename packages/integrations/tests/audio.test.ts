@@ -118,4 +118,13 @@ describe('whisper', () => {
     })
     expect(providerCalls).toBe(0)
   })
+
+  it('rejects oversized model-controlled audio before provider upload', async () => {
+    let providerCalls = 0
+    const fetchUntrusted = fakeFetch(() => new Response(new Uint8Array([1, 2, 3]), { status: 200 }))
+    const fetch = fakeFetch(() => { providerCalls += 1; return new Response('{}') })
+    const [tr] = toToolDefinitions(whisperIntegration, { config: { apiKey: 'sk' }, fetch, fetchUntrusted, maxResponseBytes: 2 })
+    await expect(run(tr, { url: 'http://a.mp3' })).rejects.toMatchObject({ code: ErrorCodes.AK_TOOL_EXEC_FAILED })
+    expect(providerCalls).toBe(0)
+  })
 })

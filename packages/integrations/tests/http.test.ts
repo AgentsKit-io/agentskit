@@ -1,6 +1,7 @@
 import { describe, it, expect } from 'vitest'
 import { ErrorCodes, ToolError } from '@agentskit/core'
-import { httpJson, bindHttp, type HttpToolOptions } from '../src/http'
+import { composeTimeoutSignal, httpJson, bindHttp, type HttpToolOptions } from '../src/http'
+import { readResponseBytes } from '../src/http-body'
 
 function fakeFetch(handler: (url: string, init: RequestInit) => Response): typeof globalThis.fetch {
   return (async (input: RequestInfo | URL, init?: RequestInit) =>
@@ -37,6 +38,10 @@ function headerBag(init: RequestInit): Record<string, string> {
 }
 
 describe('httpJson', () => {
+  it('reads binary responses within the configured byte budget', async () => {
+    await expect(readResponseBytes(new Response(new Uint8Array([1, 2, 3])), 2)).rejects.toMatchObject({ code: ErrorCodes.AK_TOOL_EXEC_FAILED })
+  })
+
   it('GETs against baseUrl and parses JSON', async () => {
     let seenUrl = ''
     let seenMethod = ''
@@ -106,6 +111,16 @@ describe('httpJson', () => {
     }))
     await expect(httpJson({ baseUrl: 'https://api.example.com', fetch, maxResponseBytes: 4 }, { path: '/large' }))
       .rejects.toMatchObject({ code: ErrorCodes.AK_TOOL_EXEC_FAILED })
+  })
+
+  it('rejects invalid timeout and retry budgets', async () => {
+    expect(() => composeTimeoutSignal(Number.POSITIVE_INFINITY)).toThrow(ToolError)
+    await expect(
+      httpJson(
+        { baseUrl: 'https://api.example.com', retry: { maxAttempts: Number.POSITIVE_INFINITY } },
+        { path: '/retry' },
+      ),
+    ).rejects.toMatchObject({ code: ErrorCodes.AK_TOOL_INVALID_INPUT })
   })
 
   it('throws on non-2xx with the server body attached', async () => {

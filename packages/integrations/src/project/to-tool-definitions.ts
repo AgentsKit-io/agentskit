@@ -101,6 +101,7 @@ export function toToolDefinitions(integration: Integration, config: ProjectionCo
     fetch,
     fetchUntrusted,
     signal: config.signal,
+    maxResponseBytes: config.maxResponseBytes,
     config: config.config,
   }
   return integration.actions.map((a) => actionToToolDefinition(a, ctx))
