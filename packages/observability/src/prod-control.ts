@@ -60,8 +60,7 @@ export interface ControlSurfaceOptions {
   audit?: (entry: ControlAuditEntry) => void
   /**
    * Optional resolver for correlating events to a run. Checked first.
-   * Canonical AgentEvent has no runId; use this or `defaultRunId` when
-   * feeding runtime events into the control surface.
+   * Canonical `event.correlation.runId` is used next, then `defaultRunId`.
    */
   runIdOf?: (event: AgentEvent) => string | undefined
   /**
@@ -152,21 +151,27 @@ function resolveRunId(
   event: AgentEvent,
   options: ControlSurfaceOptions,
 ): string | undefined {
+  const valid = (value: unknown): value is string =>
+    typeof value === 'string' && value.length > 0 && value.length <= 256
+
   if (options.runIdOf) {
     try {
       const fromCallback = options.runIdOf(event)
-      if (typeof fromCallback === 'string' && fromCallback.length > 0) return fromCallback
+      if (valid(fromCallback)) return fromCallback
     } catch {
       // Fall through to enriched / default resolvers.
     }
   }
 
+  const correlated = event as AgentEvent & { correlation?: { runId?: unknown } }
+  if (valid(correlated.correlation?.runId)) return correlated.correlation.runId
+
   // Enriched streams may attach runId/id without changing the AgentEvent contract.
   const enriched = event as AgentEvent & { runId?: unknown; id?: unknown }
-  if (typeof enriched.runId === 'string' && enriched.runId.length > 0) return enriched.runId
-  if (typeof enriched.id === 'string' && enriched.id.length > 0) return enriched.id
+  if (valid(enriched.runId)) return enriched.runId
+  if (valid(enriched.id)) return enriched.id
 
-  if (typeof options.defaultRunId === 'string' && options.defaultRunId.length > 0) {
+  if (valid(options.defaultRunId)) {
     return options.defaultRunId
   }
   return undefined
@@ -348,7 +353,9 @@ export function createControlSurface(options: ControlSurfaceOptions = {}): Contr
         const action = parts[1]
         const runId = parts[2] ?? ''
         const body = (req.body ?? {}) as Record<string, unknown>
-        const actor = typeof body.actor === 'string' ? body.actor : undefined
+        // The bearer token authenticates the request; a body field cannot
+        // safely identify its actor and must not enter the audit trail.
+        const actor = undefined
 
         switch (action) {
           case 'pause':

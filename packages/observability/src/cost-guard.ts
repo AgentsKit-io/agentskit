@@ -93,7 +93,8 @@ export function normalizeTokenCount(value: unknown): number {
 /**
  * Look up the best price match for a model id. Prefix match — 'gpt-4o-mini'
  * matches its own entry before 'gpt-4o'. Returns { input: 0, output: 0 }
- * (free) for unknown models plus a console warning once.
+ * (free) for unknown models. Use `hasPriceFor` or `resolvePrice` when
+ * unknown-model handling must be explicit.
  */
 export function priceFor(
   model: string | undefined,
@@ -128,6 +129,20 @@ export function resolvePrice(
     message: `cost guard: no price configured for model ${model ? JSON.stringify(model) : '<missing>'}`,
     hint: 'Add a prices entry/modelOverride or explicitly set unknownModelPolicy:"allow-zero" for a known free model.',
   })
+}
+
+export function resolvePriceSafely(
+  model: string | undefined,
+  prices: Record<string, TokenPrice>,
+  policy: UnknownModelPolicy,
+  onError: CostGuardErrorHandler | undefined,
+): TokenPrice | undefined {
+  try {
+    return resolvePrice(model, prices, policy)
+  } catch (error) {
+    reportCostGuardError(onError, error)
+    return undefined
+  }
 }
 
 /**
@@ -264,7 +279,16 @@ export function costGuard(options: CostGuardOptions): Observer & {
   const update = (deltaPrompt: number, deltaCompletion: number) => {
     prompt += deltaPrompt
     completion += deltaCompletion
-    const price = resolvePrice(currentModel, mergedPrices, unknownModelPolicy)
+    const price = resolvePriceSafely(currentModel, mergedPrices, unknownModelPolicy, onError)
+    if (!price) {
+      // Fail closed without violating the observer error-isolation contract.
+      try {
+        controller.abort()
+      } catch (abortError) {
+        reportCostGuardError(onError, abortError)
+      }
+      return
+    }
     // Incremental: price only the tokens from this event with the active model.
     cost += computeCost(
       { promptTokens: deltaPrompt, completionTokens: deltaCompletion },

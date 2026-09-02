@@ -1,7 +1,7 @@
 import type { AgentEvent, Observer } from '@agentskit/core'
 import {
   DEFAULT_PRICES,
-  resolvePrice,
+  resolvePriceSafely,
   computeCost,
   assertFiniteNonNegative,
   validateTokenPrices,
@@ -141,7 +141,13 @@ export function multiTenantCostGuard(options: MultiTenantCostGuardOptions): Obse
   ) => {
     s.prompt += deltaPrompt
     s.completion += deltaCompletion
-    const price = resolvePrice(s.model, mergedPrices, unknownModelPolicy)
+    const price = resolvePriceSafely(s.model, mergedPrices, unknownModelPolicy, onError)
+    if (!price) {
+      // A host enforces this guard by checking exceeded(); unknown pricing is
+      // therefore a blocked tenant rather than an exception from observer.on.
+      s.exceeded = true
+      return
+    }
     // Incremental cost for this event only — never reprice historical tokens.
     s.cost += computeCost(
       { promptTokens: deltaPrompt, completionTokens: deltaCompletion },

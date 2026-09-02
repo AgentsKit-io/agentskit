@@ -23,6 +23,8 @@ docbridge:
       detection: static
 ---
 
+- **Version:** `0.2.20`
+
 `@agentskit/observability/langfuse` is a drop-in observer that ships AgentsKit trace spans to [Langfuse](https://langfuse.com). LLM generations become `generation` nodes; tool calls and planning steps become `span` nodes. Token usage and error state are captured on each node end. Cost is not normalized by this adapter, and HITL is not represented until the canonical event contract includes it.
 
 The `langfuse` npm package is an optional peer — loaded dynamically at runtime. If it is absent or no API keys are provided, the observer is a no-op and does not throw.
@@ -31,7 +33,7 @@ The `langfuse` npm package is an optional peer — loaded dynamically at runtime
 
 - You already use Langfuse for prompt management, user feedback, or trace analytics.
 - You want per-session or per-user trace grouping without manual instrumentation.
-- You want token + cost tracking in the Langfuse UI alongside your AgentsKit runs.
+- You want token and latency metadata in the Langfuse UI alongside your AgentsKit runs.
 
 ## Best fit
 
@@ -77,6 +79,7 @@ Keys are read from `LANGFUSE_PUBLIC_KEY` and `LANGFUSE_SECRET_KEY` env vars. No 
 | `tags` | `string[]?` | — | Arbitrary trace tags |
 | `flushAt` | `number?` | `15` | Batch size before auto-flush |
 | `flushInterval` | `number?` | `1000` | Auto-flush interval in ms |
+| `onError` | `(error: unknown) => void \| Promise<void>` | — | Isolated sink for SDK/configuration failures; callback failures are swallowed |
 
 Returns an `Observer` that can be passed directly to `observers` in `createRuntime`, `useChat`, or any other AgentsKit entry point that accepts observers.
 

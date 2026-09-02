@@ -36,8 +36,8 @@ All three return `LifecycleObserver` (`flush(): Promise<void>`, idempotent `shut
 ### Guards + counters
 
 - `costGuard({ budgetUsd, controller, prices?, unknownModelPolicy?, onCost?, onExceeded?, onError? })` — per-run dollar ceiling; aborts via `AbortController` when exceeded and fails closed on unknown pricing by default.
-- `multiTenantCostGuard({ budgets, defaultBudgetUsd?, tenantOf?, … })` — per-tenant bookkeeping; host enforces (no automatic abort).
-- `createAdvancedCostGuard({ budgets, caps?, mode?, disableRuntime?, alertSinks?, onError?, now? })` — production guard with rolling window caps, 50/80/100 % threshold + forecast alerts, and modes:
+- `multiTenantCostGuard({ budgets, defaultBudgetUsd?, tenantOf?, unknownModelPolicy?, … })` — per-tenant bookkeeping; host enforces (no automatic abort), and unknown pricing marks the tenant blocked by default.
+- `createAdvancedCostGuard({ budgets, caps?, mode?, unknownModelPolicy?, disableRuntime?, alertSinks?, onError?, now? })` — production guard with rolling window caps, 50/80/100 % threshold + forecast alerts, and modes:
   - **`warn`** — observe only.
   - **`reject`** — host must consult **`isRejected(tenant)`** (window rejections clear on roll; overall until `reset`). Package does not abort the runtime.
   - **`kill`** — requires `disableRuntime`; use **`isDisabled(tenant)`**; fail-closed if disable fails.

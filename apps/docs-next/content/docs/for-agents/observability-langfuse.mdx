@@ -28,6 +28,7 @@ npm install @agentskit/observability langfuse
 | `release` / `environment` | `LANGFUSE_RELEASE` / `LANGFUSE_ENVIRONMENT` | Free-form metadata. |
 | `sessionId` / `userId` / `tags` | — | Attached to the trace. |
 | `flushAt` / `flushInterval` | `15` / `1000` | Forwarded to the Langfuse SDK. |
+| `onError` | — | Isolated sink for SDK/configuration failures; callback failures are swallowed. |
 
 ### Span model
 

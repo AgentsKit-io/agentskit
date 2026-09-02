@@ -10,9 +10,9 @@ import type { CostAlertEvent, CostAlertSink } from './cost-guard-advanced'
  *   - tool-error rate
  *   - streaming-stall rate (first-token latency above threshold)
  *
- * Operates on canonical AgentEvent only (no correlation id). In-flight
- * operations are tracked as a single active op under the sequential
- * event-stream assumption.
+ * Operates on canonical AgentEvent. Correlation is optional; when it is not
+ * available, in-flight operations are tracked as a single active op under
+ * the sequential event-stream assumption.
  *
  * Exposes Prometheus + OpenTelemetry-shaped snapshots and burn-rate
  * alerts (1h + 6h windows) that fire into the same alert sink contract

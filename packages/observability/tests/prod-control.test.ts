@@ -185,4 +185,10 @@ describe('createControlSurface', () => {
     ctl.forget('r3')
     expect(() => ctl.snapshot('')).toThrow(/runId must be/)
   })
+
+  it('ignores overlong run ids from enriched events without throwing', () => {
+    const ctl = createControlSurface()
+    expect(() => ctl.observer.on({ type: 'llm:start', runId: 'x'.repeat(257), messageCount: 1 } as never)).not.toThrow()
+    expect(ctl.snapshot('x'.repeat(256)).seq).toBe(0)
+  })
 })

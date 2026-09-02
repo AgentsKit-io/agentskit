@@ -8,9 +8,10 @@ Adapter contract is stable. Breaking changes upstream in the `langfuse` SDK may 
 
 ## Scope
 
-- One Langfuse `trace` per agent run.
+- One Langfuse `trace` per serialized agent run.
 - Nested `span` / `generation` objects per AgentsKit event.
-- Token, cost, and latency capture wired into Langfuse `usage`.
+- Token and latency metadata are forwarded; cost is not normalized by this adapter.
+- HITL is not emitted until it exists in the canonical `AgentEvent` contract.
 - Env-driven config (`LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, `LANGFUSE_HOST`).
 
 ## Observer is read-only
@@ -26,4 +27,5 @@ Per runtime RT9: the observer cannot mutate messages, tool calls, or results. Lo
 ## Testing
 
 - Unit tests mock the `langfuse` SDK; do not hit the network.
-- Errors from the SDK are swallowed and asserted via `expect(...).not.toThrow()`.
+- Errors from the SDK are swallowed and asserted via `expect(...).not.toThrow()`; `onError` is the optional isolated error sink.
+- Await the observer's `flush()` or `shutdown()` during graceful termination; process exit alone is not a delivery guarantee.

@@ -58,6 +58,7 @@ await runAgent({
 ```
 
 If `publicKey` / `secretKey` / `baseUrl` are omitted, the adapter falls back to `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, and `LANGFUSE_HOST`.
+Use `onError` to observe isolated SDK/configuration failures; callback throws and rejections are swallowed.
 
 ## Span model
 
@@ -77,7 +78,7 @@ links are not claimed by this adapter yet.
 
 - Read-only: this observer never mutates messages, tool calls, or results.
 - Errors from the Langfuse SDK are swallowed so they cannot break the run loop.
-- Flushing is handled by the SDK on `flushAsync()` / process exit.
+- Await the observer's `flush()` or `shutdown()` during graceful termination; process exit alone is not a delivery guarantee.
 
 ## License
 

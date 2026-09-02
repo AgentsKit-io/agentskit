@@ -172,6 +172,16 @@ describe('multiTenantCostGuard', () => {
     expect(JSON.parse(JSON.stringify(payload))).toEqual(payload)
   })
 
+  it('blocks unknown pricing without throwing from observer.on', () => {
+    const errors: unknown[] = []
+    const guard = make({ onError: error => errors.push(error) })
+    guard.setTenant('tenant-a')
+    guard.on(start('unknown-model'))
+    expect(() => guard.on(end(1000, 0))).not.toThrow()
+    expect(guard.exceeded('tenant-a')).toBe(true)
+    expect(errors).toHaveLength(1)
+  })
+
   it('rejects invalid budgets / defaultBudgetUsd / prices with ConfigError AK_CONFIG_INVALID', () => {
     for (const budgets of [
       { a: Number.NaN },
