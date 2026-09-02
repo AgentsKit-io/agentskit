@@ -19,7 +19,7 @@ npm install @agentskit/react
 
 ## Primary exports
 
-- `useChat(config): ChatReturn` — same contract as every other framework binding.
+- `useChat(config): ChatReturn` — shared state/action contract with the other framework bindings.
 - `useStream(source)` — low-level streaming hook for any `AsyncIterable<StreamChunk>`.
 - `useReactive(controller)` — reactive state adapter when you already hold a controller.
 - `<ChatContainer>`, `<Message>`, `<InputBar>`, `<ToolCallView>`, `<ToolConfirmation>`, `<ThinkingIndicator>`, `<CodeBlock>`, `<Markdown>`.
@@ -47,7 +47,7 @@ export function Chat() {
 }
 ```
 
-## Related frameworks (same contract)
+## Related frameworks (shared state/action contract)
 
 - [@agentskit/vue](/docs/for-agents/vue)
 - [@agentskit/svelte](/docs/for-agents/svelte)

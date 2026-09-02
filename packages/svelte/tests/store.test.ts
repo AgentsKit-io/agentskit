@@ -67,6 +67,22 @@ describe('@agentskit/svelte', () => {
     store.destroy()
   })
 
+  it('forwards controller actions while the store is alive', async () => {
+    const store = createChatStore({ adapter: mockAdapter([]) })
+
+    store.stop()
+    store.setInput('draft')
+    await store.retry()
+    await store.edit('missing', 'updated')
+    await store.regenerate()
+    await store.clear()
+    await expect(store.proposeToolCall({ id: 'proposal', name: 'missing', args: {} })).rejects.toThrow()
+    await store.approve('missing')
+    await store.deny('missing')
+
+    store.destroy()
+  })
+
   it('streams assistant content and notifies subscribers', async () => {
     const store = createChatStore({
       adapter: mockAdapter([

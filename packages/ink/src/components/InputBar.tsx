@@ -118,13 +118,9 @@ export function InputBar({
     }
   })
 
-  const hint = isBusy
-    ? chat.status === 'streaming'
-      ? 'streaming response... press Esc to stop'
-      : 'input disabled'
-    : effectiveHistory.length > 0
-      ? `${placeholder}  ·  ↑/↓ to recall previous messages`
-      : placeholder
+  let hint = placeholder
+  if (isBusy) hint = chat.status === 'streaming' ? 'streaming response... press Esc to stop' : 'input disabled'
+  else if (effectiveHistory.length > 0) hint = `${placeholder}  ·  ↑/↓ to recall previous messages`
 
   return (
     <Box flexDirection="column">

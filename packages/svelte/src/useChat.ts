@@ -1,5 +1,5 @@
 import { writable, type Readable } from 'svelte/store'
-import { createChatController } from '@agentskit/core'
+import { ConfigError, ErrorCodes, createChatController } from '@agentskit/core'
 import type { ChatConfig, ChatController, ChatReturn, ChatState } from '@agentskit/core'
 
 export interface SvelteChatStore extends Readable<ChatState> {
@@ -34,7 +34,12 @@ export function createChatStore(config: ChatConfig): SvelteChatStore {
   }
 
   const ensureAlive = (): void => {
-    if (destroyed) throw new Error('Svelte chat store has been destroyed.')
+    if (destroyed) {
+      throw new ConfigError({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: 'Svelte chat store has been destroyed.',
+      })
+    }
   }
   const rejected = <A extends unknown[], T>(action: (...args: A) => Promise<T>): ((...args: A) => Promise<T>) =>
     (...args: A) => { try { ensureAlive() } catch (error) { return Promise.reject(error) }; return action(...args) }

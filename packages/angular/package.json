@@ -29,9 +29,7 @@
   "types": "./dist/types/agentskit-angular.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/types/agentskit-angular.d.ts",
-      "import": "./dist/fesm2022/agentskit-angular.mjs",
-      "default": "./dist/fesm2022/agentskit-angular.mjs"
+      "import": "./dist/fesm2022/agentskit-angular.mjs"
     }
   },
   "files": [

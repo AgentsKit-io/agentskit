@@ -41,7 +41,7 @@
   "scripts": {
     "build": "svelte-package -i src -o dist",
     "test": "pnpm build && vitest run && vitest run --config vitest.ssr.config.ts",
-    "test:coverage": "vitest run --coverage",
+    "test:coverage": "pnpm build && vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "svelte-package -i src -o dist --watch"
   },

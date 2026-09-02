@@ -3,11 +3,12 @@ title: ChatContainer
 description: Headless scrollable transcript container. Auto-scroll on new messages, virtualized-ready.
 ---
 
-Top-level wrapper for a chat transcript. Renders `data-ak-chat-container`
-with auto-scroll anchor. No hardcoded styles — theme via
+Top-level wrapper for a chat transcript. DOM bindings render
+`data-ak-chat-container`; host behavior and scroll policy are
+framework-specific. No hardcoded styles — theme via
 [data attributes](./data-attributes) and [CSS variables](./theming).
 
-## React props
+## React DOM props
 
 | Prop | Type | Default |
 |---|---|---|
@@ -15,7 +16,8 @@ with auto-scroll anchor. No hardcoded styles — theme via
 | `className` | `string` | — |
 
 The React component observes transcript mutations and scrolls to the bottom;
-it currently has no `autoScroll` prop or near-bottom opt-out policy.
+it currently has no `autoScroll` prop or near-bottom opt-out policy. Other
+bindings do not promise identical scroll behavior.
 
 ## Per-framework
 

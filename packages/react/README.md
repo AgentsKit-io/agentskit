@@ -51,15 +51,12 @@ npm install @agentskit/react @agentskit/adapters
 <!-- readme-example:quickstart -->
 ```tsx
 import { useChat, ChatContainer, Message, InputBar } from '@agentskit/react'
-import type { ChatConfig } from '@agentskit/core'
+import { anthropic } from '@agentskit/adapters'
 import '@agentskit/react/theme'
-
-declare const adapter: ChatConfig['adapter']
 
 export function Chat() {
   const chat = useChat({
-    // Inject an adapter backed by your server/edge endpoint. Never ship provider secrets here.
-    adapter,
+    adapter: anthropic({ apiKey: process.env.ANTHROPIC_API_KEY, model: 'claude-sonnet-4-6' }),
   })
   return (
     <ChatContainer>
@@ -80,9 +77,10 @@ export function Chat() {
 - Theme via `@agentskit/react/theme` — opt-in CSS variables, override per component
 - Works with React 18 and 19
 
-## Other framework bindings (same contract)
+## Other framework bindings (shared state/action contract)
 
-Every binding exposes the same `ChatReturn` surface. Pick the one for your stack:
+Every binding adapts the shared `ChatReturn` state/action contract. Pick the
+one for your stack; component props and host state shapes remain framework-specific:
 
 | Package | API |
 |---------|-----|
