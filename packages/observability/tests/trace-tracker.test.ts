@@ -18,6 +18,19 @@ describe('createTraceTracker', () => {
     expect(started[0].attributes['agentskit.step']).toBe(1)
   })
 
+  it('preserves the optional cross-repository correlation envelope on spans', () => {
+    const started: TraceSpan[] = []
+    const tracker = createTraceTracker({ onSpanStart: s => started.push(s), onSpanEnd: () => {} })
+
+    tracker.handle({ type: 'agent:step', step: 1, action: 'initial', correlation: { operationId: 'op-1', runId: 'run-1', traceId: 'trace-1' } })
+    tracker.handle({ type: 'llm:start', messageCount: 1, correlation: { operationId: 'op-1', runId: 'run-1', traceId: 'trace-1' } })
+
+    expect(started[0].attributes['agentskit.operation_id']).toBe('op-1')
+    expect(started[1].attributes['agentskit.operation_id']).toBe('op-1')
+    expect(started[1].attributes['agentskit.run_id']).toBe('run-1')
+    expect(started[1].attributes['agentskit.trace_id']).toBe('trace-1')
+  })
+
   it('nests llm span under agent step', () => {
     const started: TraceSpan[] = []
     const tracker = createTraceTracker({

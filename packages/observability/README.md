@@ -1,6 +1,6 @@
 # @agentskit/observability
 
-Profile: <code>major-package</code>
+Profile: <code>beta-package</code>
 
 <p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
@@ -57,7 +57,7 @@ import { consoleLogger, langsmith } from '@agentskit/observability'
 const runtime = createRuntime({
   adapter: anthropic({ apiKey: process.env.ANTHROPIC_API_KEY, model: 'claude-sonnet-4-6' }),
   observers: [
-    consoleLogger({ format: 'pretty' }),
+    consoleLogger({ format: 'human' }),
     langsmith({ apiKey: process.env.LANGSMITH_API_KEY }),
   ],
 })
@@ -187,7 +187,7 @@ Semantics (current hardening line):
 - **Zero budgets** — first positive spend exceeds; utilization and callbacks stay finite (sentinel `1` when budget is `0` and spend is positive).
 - **Isolation** — `onCost` / `onExceeded` / alert sinks / `disableRuntime` / `tenantOf` / `now` failures are isolated; optional `onError` reports them without unhandled rejections.
 - **Modes** — `warn` observes only; `reject` is enforced by the **host consulting `isRejected(tenant)`** (window rejections clear when the window rolls; overall rejections until `reset`); `kill` calls persistent `disableRuntime` and exposes `isDisabled` (fail-closed if disable fails).
-- **`DEFAULT_PRICES`** is a baseline snapshot for convenience. **Override `prices` for current provider rates** — table numbers are not a stability contract.
+- **`DEFAULT_PRICES`** is a baseline snapshot for convenience. **Override `prices` for current provider rates** — table numbers are not a stability contract. Guards fail closed on unknown models by default; the simple guard aborts its controller, while multi-tenant/advanced guards report or block according to their mode. Set `unknownModelPolicy: 'allow-zero'` only for an explicitly free/local model.
 
 Simple `costGuard` aborts via the supplied `AbortController` when the run budget is exceeded (mark + abort before potentially hostile `onExceeded`). Multi-tenant and advanced guards do not abort the runtime by default.
 

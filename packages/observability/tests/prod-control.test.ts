@@ -170,4 +170,25 @@ describe('createControlSurface', () => {
     })
     expect(res.status).toBe(200)
   })
+
+  it('rejects non-POST control mutations', async () => {
+    const ctl = createControlSurface({ bearerToken: 'shhh' })
+    const res = await ctl.httpHandler()({ method: 'GET', url: '/control/pause/r1', headers: { authorization: 'Bearer shhh' } })
+    expect(res.status).toBe(405)
+  })
+
+  it('forgets run state and bounds retained runs', async () => {
+    const ctl = createControlSurface({ maxRuns: 2 })
+    ctl.snapshot('r1')
+    ctl.snapshot('r2')
+    ctl.snapshot('r3')
+    ctl.forget('r3')
+    expect(() => ctl.snapshot('')).toThrow(/runId must be/)
+  })
+
+  it('ignores overlong run ids from enriched events without throwing', () => {
+    const ctl = createControlSurface()
+    expect(() => ctl.observer.on({ type: 'llm:start', runId: 'x'.repeat(257), messageCount: 1 } as never)).not.toThrow()
+    expect(ctl.snapshot('x'.repeat(256)).seq).toBe(0)
+  })
 })

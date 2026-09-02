@@ -6710,6 +6710,12 @@
               ]
             },
             {
+              "name": "UnknownModelPolicy",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "webhookAlertSink",
               "kinds": [
                 "value"
@@ -6785,6 +6791,12 @@
               ]
             },
             {
+              "name": "hasPriceFor",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "invokeCostGuardCallback",
               "kinds": [
                 "value"
@@ -6809,7 +6821,25 @@
               ]
             },
             {
+              "name": "resolvePrice",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "resolvePriceSafely",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "TokenPrice",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "UnknownModelPolicy",
               "kinds": [
                 "type"
               ]
@@ -6858,6 +6888,12 @@
           "symbols": [
             {
               "name": "createTraceTracker",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "safeSnapshot",
               "kinds": [
                 "value"
               ]

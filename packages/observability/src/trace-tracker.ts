@@ -1,5 +1,16 @@
 import type { AgentEvent } from '@agentskit/core'
 
+type CorrelationContext = {
+  readonly operationId: string
+  readonly runId?: string
+  readonly sessionId?: string
+  readonly turnId?: string
+  readonly actionId?: string
+  readonly traceId?: string
+}
+
+type CorrelatedAgentEvent = AgentEvent & { readonly correlation?: CorrelationContext }
+
 export interface TraceSpan {
   id: string
   name: string
@@ -25,7 +36,7 @@ function boundSnapshot(value: string): string {
  * JSON-ish snapshot that never throws on circular refs or BigInt.
  * Result is always a string, bounded to SNAPSHOT_LIMIT.
  */
-function safeSnapshot(value: unknown): string {
+export function safeSnapshot(value: unknown): string {
   try {
     if (typeof value === 'string') return boundSnapshot(value)
     const seen = new WeakSet<object>()
@@ -43,6 +54,18 @@ function safeSnapshot(value: unknown): string {
   }
 }
 
+function contextAttributes(context?: CorrelationContext): Record<string, unknown> {
+  if (!context) return {}
+  return {
+    'agentskit.operation_id': context.operationId,
+    ...(context.runId ? { 'agentskit.run_id': context.runId } : {}),
+    ...(context.sessionId ? { 'agentskit.session_id': context.sessionId } : {}),
+    ...(context.turnId ? { 'agentskit.turn_id': context.turnId } : {}),
+    ...(context.actionId ? { 'agentskit.action_id': context.actionId } : {}),
+    ...(context.traceId ? { 'agentskit.trace_id': context.traceId } : {}),
+  }
+}
+
 let nextSpanId = 0
 function generateSpanId(): string {
   return `span-${Date.now()}-${nextSpanId++}`
@@ -52,8 +75,8 @@ function generateSpanId(): string {
  * Builds nested spans from a sequential AgentEvent stream.
  *
  * Assumption: events for the same kind (llm/tool/delegate) are sequential
- * and non-interleaved. AgentEvent has no correlation id, so this tracker
- * uses a LIFO stack and does **not** support parallel same-kind operations.
+ * and non-interleaved. When present, the optional correlation envelope is
+ * copied to span attributes; it does not change the ordering contract.
  */
 export function createTraceTracker(callbacks: TraceTrackerCallbacks) {
   const spanStack: TraceSpan[] = []
@@ -121,7 +144,10 @@ export function createTraceTracker(callbacks: TraceTrackerCallbacks) {
   }
 
   return {
-    handle(event: AgentEvent): void {
+    handle(event: CorrelatedAgentEvent): void {
+      const eventContext = contextAttributes(event.correlation)
+      const activeSpan = spanStack[spanStack.length - 1] ?? currentStepSpan
+      if (activeSpan && Object.keys(eventContext).length > 0) Object.assign(activeSpan.attributes, eventContext)
       switch (event.type) {
         case 'agent:step': {
           // Orphans first so the new step/children never parent to stale spans.
@@ -139,7 +165,7 @@ export function createTraceTracker(callbacks: TraceTrackerCallbacks) {
             name: `agentskit.agent.step`,
             parentId: null,
             startTime: Date.now(),
-            attributes: { 'agentskit.step': event.step, 'agentskit.action': event.action },
+            attributes: { 'agentskit.step': event.step, 'agentskit.action': event.action, ...eventContext },
             status: 'ok',
           }
           callbacks.onSpanStart(currentStepSpan)
@@ -147,6 +173,7 @@ export function createTraceTracker(callbacks: TraceTrackerCallbacks) {
         }
         case 'llm:start':
           startSpan('gen_ai.chat', {
+            ...eventContext,
             'gen_ai.system': 'agentskit',
             'gen_ai.request.model': event.model ?? 'unknown',
             'agentskit.message_count': event.messageCount,
@@ -168,6 +195,7 @@ export function createTraceTracker(callbacks: TraceTrackerCallbacks) {
           break
         case 'tool:start':
           startSpan(`agentskit.tool.${event.name}`, {
+            ...eventContext,
             'agentskit.tool.name': event.name,
             'agentskit.tool.args': safeSnapshot(event.args),
           })
@@ -180,6 +208,7 @@ export function createTraceTracker(callbacks: TraceTrackerCallbacks) {
           break
         case 'agent:delegate:start':
           startSpan(`agentskit.agent.delegate.${event.name}`, {
+            ...eventContext,
             'agentskit.delegate.name': event.name,
             'agentskit.delegate.depth': event.depth,
             'agentskit.delegate.task': boundSnapshot(event.task),
@@ -194,11 +223,11 @@ export function createTraceTracker(callbacks: TraceTrackerCallbacks) {
           })
           break
         case 'memory:load':
-          startSpan('agentskit.memory.load', { 'agentskit.message_count': event.messageCount })
+          startSpan('agentskit.memory.load', { ...eventContext, 'agentskit.message_count': event.messageCount })
           endSpan()
           break
         case 'memory:save':
-          startSpan('agentskit.memory.save', { 'agentskit.message_count': event.messageCount })
+          startSpan('agentskit.memory.save', { ...eventContext, 'agentskit.message_count': event.messageCount })
           endSpan()
           break
         case 'error': {

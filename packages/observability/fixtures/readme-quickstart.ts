@@ -5,7 +5,7 @@ import { consoleLogger, langsmith } from '@agentskit/observability'
 const runtime = createRuntime({
   adapter: anthropic({ apiKey: process.env.ANTHROPIC_API_KEY, model: 'claude-sonnet-4-6' }),
   observers: [
-    consoleLogger({ format: 'pretty' }),
+    consoleLogger({ format: 'human' }),
     langsmith({ apiKey: process.env.LANGSMITH_API_KEY }),
   ],
 })

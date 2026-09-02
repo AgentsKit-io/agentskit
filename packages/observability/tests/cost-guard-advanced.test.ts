@@ -62,6 +62,20 @@ describe('createAdvancedCostGuard — concurrency', () => {
 })
 
 describe('createAdvancedCostGuard — modes', () => {
+  it('reject mode blocks unknown pricing without throwing from observer.on', () => {
+    const errors: unknown[] = []
+    const g = createAdvancedCostGuard({
+      budgets: { t1: 1 },
+      mode: 'reject',
+      onError: error => errors.push(error),
+    })
+    g.setTenant('t1')
+    g.on({ type: 'llm:start', model: 'unknown-model', messageCount: 1 })
+    expect(() => g.on(llmEnd(1000, 0))).not.toThrow()
+    expect(g.isRejected('t1')).toBe(true)
+    expect(errors).toHaveLength(1)
+  })
+
   it('mode=warn: tracks spend but never disables', async () => {
     const events: CostAlertEvent[] = []
     const g = createAdvancedCostGuard({

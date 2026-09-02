@@ -1,4 +1,5 @@
 import type { TraceSpan } from './trace-tracker'
+import { ConfigError, ErrorCodes } from '@agentskit/core'
 
 export interface TraceReport {
   traceId: string
@@ -125,6 +126,13 @@ export function createFileTraceSink(dir: string): FileTraceSink {
       const { writeFile, mkdir } = await import('node:fs/promises')
       const { join } = await import('node:path')
       const traceId = options.traceId ?? `trace-${Date.now()}`
+      if (!/^[A-Za-z0-9][A-Za-z0-9._-]{0,127}$/.test(traceId)) {
+        throw new ConfigError({
+          code: ErrorCodes.AK_CONFIG_INVALID,
+          message: 'createFileTraceSink.flush: traceId must be a safe file basename',
+          hint: 'Use letters, numbers, dots, underscores, or hyphens only.',
+        })
+      }
       const report = buildTraceReport(traceId, spans)
       await mkdir(dir, { recursive: true })
       const jsonPath = join(dir, `${traceId}.json`)

@@ -58,6 +58,14 @@ describe('consoleLogger', () => {
       expect(output[1]).toContain('200ms')
     })
 
+    it('does not throw for circular or BigInt tool arguments', () => {
+      const logger = consoleLogger()
+      const args: Record<string, unknown> = { count: BigInt(1) }
+      args.self = args
+      expect(() => logger.on({ type: 'tool:start', name: 'inspect', args })).not.toThrow()
+      expect(output[0]).toContain('[Circular]')
+    })
+
     it('logs error', () => {
       const logger = consoleLogger()
       logger.on({ type: 'error', error: new Error('boom') })

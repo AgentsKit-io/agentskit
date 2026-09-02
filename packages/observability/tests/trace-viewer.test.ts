@@ -134,4 +134,11 @@ describe('createFileTraceSink', () => {
     expect(sink.spans()).toHaveLength(1)
     expect(sink.spans()[0]!.endTime).toBe(5)
   })
+
+  it('rejects path traversal trace ids', async () => {
+    const sink = createFileTraceSink('/tmp/unused')
+    await expect(sink.flush({ traceId: '../outside' })).rejects.toMatchObject({
+      code: 'AK_CONFIG_INVALID',
+    })
+  })
 })

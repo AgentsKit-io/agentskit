@@ -2,7 +2,7 @@ import { ConfigError, ErrorCodes, type AgentEvent, type Observer } from '@agents
 import {
   DEFAULT_PRICES,
   computeCost,
-  priceFor,
+  resolvePriceSafely,
   normalizeTokenCount,
   finiteUtilization,
   reportCostGuardError,
@@ -253,7 +253,23 @@ export function createAdvancedCostGuard(
         const deltaCompletion = normalizeTokenCount(event.usage.completionTokens)
         state.prompt += deltaPrompt
         state.completion += deltaCompletion
-        const price = priceFor(state.model, mergedPrices)
+        const price = resolvePriceSafely(
+          state.model,
+          mergedPrices,
+          options.unknownModelPolicy ?? 'error',
+          onError,
+        )
+        if (!price) {
+          if (mode === 'reject') state.exceededOverall = true
+          if (mode === 'kill' && !state.disabled) {
+            state.disabled = true
+            if (options.disableRuntime) {
+              void Promise.resolve(options.disableRuntime(tenant, 'unknown model pricing'))
+                .catch((disableError: unknown) => reportCostGuardError(onError, disableError))
+            }
+          }
+          return
+        }
         const delta = computeCost(
           { promptTokens: deltaPrompt, completionTokens: deltaCompletion },
           price,

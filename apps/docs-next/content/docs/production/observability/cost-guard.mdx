@@ -12,11 +12,12 @@ import { costGuard } from '@agentskit/observability'
 
 const runtime = createRuntime({
   adapter,
-  observers: [costGuard({ maxUsd: 0.50, onExceed: 'throw' })],
+  observers: [costGuard({ budgetUsd: 0.50, controller: new AbortController() })],
 })
 ```
 
-`onExceed`: `'throw' | 'stop' | 'warn'`.
+When the budget is exceeded, the guard aborts the supplied controller. Pass the
+same signal to the runtime so the run stops promptly.
 
 ## multiTenantCostGuard
 

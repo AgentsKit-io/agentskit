@@ -1,9 +1,9 @@
 ---
 title: '@agentskit/observability/langfuse — for agents'
-description: Langfuse tracing adapter — plan / tool / model / HITL spans with token, cost, latency capture and parent linking across multi-agent topologies.
+description: Langfuse tracing adapter — plan / tool / model spans with token and latency metadata for serialized agent runs.
 docbridge:
   covers:
-    - package:@agentskit/observability
+    - package:@agentskit/observability-langfuse
 ---
 
 ## Install
@@ -16,7 +16,7 @@ npm install @agentskit/observability langfuse
 
 ## Primary exports
 
-- `langfuse(config?)` — returns an `Observer` that emits one Langfuse trace per agent run with nested `span` / `generation` objects per AgentsKit event.
+- `langfuse(config?)` — returns an `Observer` that emits one Langfuse trace per serialized agent run with nested `span` / `generation` objects per AgentsKit event.
 
 ### Config
 
@@ -28,16 +28,22 @@ npm install @agentskit/observability langfuse
 | `release` / `environment` | `LANGFUSE_RELEASE` / `LANGFUSE_ENVIRONMENT` | Free-form metadata. |
 | `sessionId` / `userId` / `tags` | — | Attached to the trace. |
 | `flushAt` / `flushInterval` | `15` / `1000` | Forwarded to the Langfuse SDK. |
+| `onError` | — | Isolated sink for SDK/configuration failures; callback failures are swallowed. |
 
 ### Span model
 
 | AgentsKit event | Langfuse object | Notes |
 |---|---|---|
 | `agent:step` | `span` | Top-level loop step (plan / act / observe). |
-| `llm:start` / `llm:end` | `generation` | Model, input message count, output content (truncated), token usage. |
+| `llm:start` / `llm:end` | `generation` | Model, input message count, output content (truncated), token usage. Cost is not normalized by this adapter. |
 | `tool:start` / `tool:end` | `span` | Tool name, args, result snapshot, duration. |
 | `memory:load` / `memory:save` | `span` | Message count. |
 | `error` | annotates current span | Sets `level: 'ERROR'` and `statusMessage`. |
+
+HITL approval/rejection is not a canonical `AgentEvent` today and is not
+emitted as a dedicated Langfuse observation. Use one observer instance per
+serialized run; concurrent/interleaved runs require an external correlation
+boundary until the event contract grows a run ID.
 
 ## Minimal example
 

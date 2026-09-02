@@ -26,6 +26,12 @@ function sink(id: string): DevtoolsClient & { envelopes: DevtoolsEnvelope[]; clo
 const sampleEvent: AgentEvent = { type: 'llm:start', model: 'x', messageCount: 1 }
 
 describe('createDevtoolsServer', () => {
+  it('rejects invalid buffer sizes', () => {
+    for (const bufferSize of [0, -1, Number.NaN, Number.POSITIVE_INFINITY, 1.5]) {
+      expect(() => createDevtoolsServer({ bufferSize })).toThrow(/bufferSize must be a finite positive integer/)
+    }
+  })
+
   it('publish appends to buffer and fans out to clients', () => {
     const server = createDevtoolsServer()
     const s = sink('a')

@@ -8,7 +8,7 @@ Profile: <code>concise-package</code>
 
 [![stability](https://img.shields.io/badge/stability-beta-yellow)](../../docs/STABILITY.md)
 
-Langfuse tracing adapter for AgentsKit. Emits one trace per agent run with nested spans for plan, tool calls, model generations, memory IO, and HITL gates. Token, cost, and latency metadata flow into the standard Langfuse `usage` and metadata fields.
+Langfuse tracing adapter for AgentsKit. Emits one trace per serialized agent run with nested spans for plan, tool calls, model generations, and memory IO. Token and latency metadata are forwarded; cost is not normalized by this adapter, and HITL is not emitted until the canonical event contract includes it.
 
 
 ## Verified proof
@@ -19,7 +19,7 @@ Langfuse tracing adapter for AgentsKit. Emits one trace per agent run with neste
 
 ## How this fits the ecosystem
 
-@agentskit/observability/langfuse sends AgentsKit traces to Langfuse with spans for planning, model calls, tools, HITL, latency, tokens, and cost.
+@agentskit/observability/langfuse sends AgentsKit traces to Langfuse with spans for planning, model calls, tools, latency, and tokens.
 
 - **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
 - **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
@@ -58,6 +58,7 @@ await runAgent({
 ```
 
 If `publicKey` / `secretKey` / `baseUrl` are omitted, the adapter falls back to `LANGFUSE_PUBLIC_KEY`, `LANGFUSE_SECRET_KEY`, and `LANGFUSE_HOST`.
+Use `onError` to observe isolated SDK/configuration failures; callback throws and rejections are swallowed.
 
 ## Span model
 
@@ -69,13 +70,15 @@ If `publicKey` / `secretKey` / `baseUrl` are omitted, the adapter falls back to 
 | `memory:load` / `memory:save` | `span` | Captures message count. |
 | `error` | annotates current span | Sets `level: 'ERROR'` and `statusMessage`. |
 
-Multi-agent topologies (planner → worker → reviewer) link automatically: each delegated agent run is a child trace under the parent step, mirroring `@agentskit/observability`'s span tracker.
+Use one observer instance per serialized run. The canonical event contract has
+no correlation ID, so concurrent/interleaved runs and delegated parent-child
+links are not claimed by this adapter yet.
 
 ## Conventions
 
 - Read-only: this observer never mutates messages, tool calls, or results.
 - Errors from the Langfuse SDK are swallowed so they cannot break the run loop.
-- Flushing is handled by the SDK on `flushAsync()` / process exit.
+- Await the observer's `flush()` or `shutdown()` during graceful termination; process exit alone is not a delivery guarantee.
 
 ## License
 

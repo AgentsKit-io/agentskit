@@ -1,4 +1,5 @@
 import { DEFAULT_PRICES, computeCost, priceFor, type TokenPrice } from './cost-guard'
+import { ConfigError, ErrorCodes } from '@agentskit/core'
 
 /**
  * Chargeback / cost-attribution exporter. Group LLM call samples by
@@ -115,6 +116,20 @@ function inWindow(sample: CostSample, from?: string, to?: string): boolean {
   return true
 }
 
+function validateSample(sample: CostSample, index: number): void {
+  const validTokens = (value: number): boolean => Number.isFinite(value) && Number.isInteger(value) && value >= 0
+  if (!sample || typeof sample.tenant !== 'string' || sample.tenant.length === 0 ||
+      typeof sample.model !== 'string' || sample.model.length === 0 ||
+      !validTokens(sample.promptTokens) || !validTokens(sample.completionTokens) ||
+      (sample.costUsd !== undefined && (!Number.isFinite(sample.costUsd) || sample.costUsd < 0))) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: `chargebackReport: invalid numeric or identity fields at samples[${index}]`,
+      hint: 'Use non-negative finite integer token counts and finite non-negative costs.',
+    })
+  }
+}
+
 export function chargebackReport(
   samples: CostSample[],
   options: ChargebackReportOptions = {},
@@ -126,7 +141,8 @@ export function chargebackReport(
   let totalCallCount = 0
   let totalCost = 0
 
-  for (const sample of samples) {
+  for (const [index, sample] of samples.entries()) {
+    validateSample(sample, index)
     if (!inWindow(sample, options.from, options.to)) continue
     const cost = sample.costUsd ?? computeCost(
       { promptTokens: sample.promptTokens, completionTokens: sample.completionTokens },

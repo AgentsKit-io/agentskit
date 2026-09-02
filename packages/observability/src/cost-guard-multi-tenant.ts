@@ -1,7 +1,7 @@
 import type { AgentEvent, Observer } from '@agentskit/core'
 import {
   DEFAULT_PRICES,
-  priceFor,
+  resolvePriceSafely,
   computeCost,
   assertFiniteNonNegative,
   validateTokenPrices,
@@ -60,6 +60,7 @@ export interface MultiTenantCostGuardOptions {
   /** Isolated sink for internal / callback failures. */
   onError?: CostGuardErrorHandler
   modelOverride?: string
+  unknownModelPolicy?: 'error' | 'allow-zero'
   name?: string
 }
 
@@ -104,6 +105,7 @@ export function multiTenantCostGuard(options: MultiTenantCostGuardOptions): Obse
   validateOptions(options)
 
   const mergedPrices = options.prices ? { ...DEFAULT_PRICES, ...options.prices } : DEFAULT_PRICES
+  const unknownModelPolicy = options.unknownModelPolicy ?? 'error'
   const onError = options.onError
   const tenants = new Map<string, TenantState>()
   let activeTenant: string | undefined
@@ -139,7 +141,13 @@ export function multiTenantCostGuard(options: MultiTenantCostGuardOptions): Obse
   ) => {
     s.prompt += deltaPrompt
     s.completion += deltaCompletion
-    const price = priceFor(s.model, mergedPrices)
+    const price = resolvePriceSafely(s.model, mergedPrices, unknownModelPolicy, onError)
+    if (!price) {
+      // A host enforces this guard by checking exceeded(); unknown pricing is
+      // therefore a blocked tenant rather than an exception from observer.on.
+      s.exceeded = true
+      return
+    }
     // Incremental cost for this event only — never reprice historical tokens.
     s.cost += computeCost(
       { promptTokens: deltaPrompt, completionTokens: deltaCompletion },

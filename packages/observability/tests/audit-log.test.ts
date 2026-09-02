@@ -91,6 +91,14 @@ describe('createSignedAuditLog', () => {
     expect(await log.list()).toHaveLength(2)
   })
 
+  it('serializes concurrent appends into one hash chain', async () => {
+    const log = createSignedAuditLog({ secret: 'k', store: createInMemoryAuditStore(), now: () => new Date(0) })
+    await Promise.all(Array.from({ length: 20 }, (_, i) => log.append({ actor: 'a', action: `x${i}`, payload: i })))
+    const entries = await log.list()
+    expect(entries.map(entry => entry.seq)).toEqual(Array.from({ length: 20 }, (_, i) => i + 1))
+    expect((await log.verify()).ok).toBe(true)
+  })
+
   it('appends PII audit events into the signed hash chain', async () => {
     const log = createSignedAuditLog({
       secret: 'k',

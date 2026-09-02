@@ -28,7 +28,7 @@ export { createTraceTracker } from './trace-tracker'
 export type { TraceSpan, TraceTrackerCallbacks } from './trace-tracker'
 
 export { costGuard, priceFor, computeCost, DEFAULT_PRICES } from './cost-guard'
-export type { CostGuardOptions, TokenPrice, CostGuardErrorHandler } from './cost-guard'
+export type { CostGuardOptions, TokenPrice, CostGuardErrorHandler, UnknownModelPolicy } from './cost-guard'
 
 export { multiTenantCostGuard } from './cost-guard-multi-tenant'
 export type { MultiTenantCostGuardOptions } from './cost-guard-multi-tenant'

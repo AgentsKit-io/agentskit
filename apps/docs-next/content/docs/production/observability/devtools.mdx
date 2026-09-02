@@ -8,22 +8,17 @@ description: Expose a live SSE stream of agent events so any browser-based dashb
 ```ts
 import { createDevtoolsServer, toSseFrame } from '@agentskit/observability'
 
-const devtools = createDevtoolsServer()
+const devtools = createDevtoolsServer({ bufferSize: 500 })
 
 const runtime = createRuntime({ adapter, observers: [devtools.observer] })
 
-// Next.js / Hono / Bun SSE route
-export const GET = () =>
-  new Response(
-    new ReadableStream({
-      start(controller) {
-        devtools.subscribe((event) =>
-          controller.enqueue(new TextEncoder().encode(toSseFrame(event))),
-        )
-      },
-    }),
-    { headers: { 'content-type': 'text/event-stream' } },
-  )
+// Adapt this client to your framework. `attach` replays the bounded buffer
+// and then sends live envelopes; detach it when the client disconnects.
+const detach = devtools.attach({
+  id: 'browser-1',
+  send: envelope => console.log(toSseFrame(envelope)),
+  close: () => {},
+})
 ```
 
 Connect any web UI with `EventSource('/devtools')`.
@@ -36,7 +31,7 @@ Connect any web UI with `EventSource('/devtools')`.
 import { createControlSurface } from '@agentskit/observability'
 
 const control = createControlSurface({
-  authorize: (req) => verifyOpsToken(req.headers.get('authorization')),
+  bearerToken: process.env.AGENT_OPS_TOKEN!,
   audit: (entry) => auditSink.write(entry),
 })
 
@@ -44,25 +39,25 @@ const runtime = createRuntime({ adapter, observers: [control.observer] })
 
 control.pause(runId)            // freeze loop at next checkpoint
 control.step(runId)             // advance one iteration
-control.overrideTool(runId, { name: 'send_email', result: { stubbed: true } })
-control.snapshot(runId)         // structured RunSnapshot
-control.replay(runId)           // re-execute from the recorded transcript
+control.inject(runId, { tool: 'send_email', result: JSON.stringify({ stubbed: true }) })
+control.snapshot(runId)          // structured RunSnapshot
+control.replay(snapshot)         // restore paused state + pending overrides
 ```
 
-Every action passes through `authorize` and emits a `ControlAuditEntry` — pair with [audit log](/docs/production/observability/audit-log).
+Every HTTP action requires the configured bearer token and emits a `ControlAuditEntry` — pair with [audit log](/docs/production/observability/audit-log).
 
 ## Live multi-agent topology graph
 
-`createTopologyGraph` consumes the same observer stream and renders a live DAG of agents, delegates, and tool edges. Pre-built views in `@agentskit/react` and `@agentskit/ink`:
+`createTopologyGraph` consumes typed topology events and renders a live DAG of agents, delegates, and tool edges. Pre-built views in `@agentskit/react` and `@agentskit/ink`:
 
 ```tsx
 import { createTopologyGraph } from '@agentskit/observability'
 import { TopologyGraphView } from '@agentskit/react'
 
 const graph = createTopologyGraph()
-const runtime = createRuntime({ adapter, observers: [graph.observer] })
+graph.ingest({ topology: 'supervisor', phase: 'dispatch', agent: 'researcher', task: 'find sources' })
 
-<TopologyGraphView snapshot={graph.snapshot()} />
+<TopologyGraphView snapshot={graph.toJSON()} />
 ```
 
 Snapshot shape is JSON-serialisable — pipe through SSE for a remote dashboard, or render in Ink for terminal observability.

@@ -151,6 +151,18 @@ describe('costGuard observer', () => {
     expect(guard.costUsd()).toBeCloseTo(expected, 6)
   })
 
+  it('fails closed without throwing for an unknown model unless zero pricing is explicit', () => {
+    const controller = new AbortController()
+    const guard = costGuard({ budgetUsd: 1, controller })
+    guard.on({ type: 'llm:start', model: 'unknown-model', messageCount: 1 })
+    expect(() => guard.on(llmEnd(1000, 0))).not.toThrow()
+    expect(controller.signal.aborted).toBe(true)
+    const permissive = costGuard({ budgetUsd: 1, controller, unknownModelPolicy: 'allow-zero' })
+    permissive.on({ type: 'llm:start', model: 'unknown-model', messageCount: 1 })
+    expect(() => permissive.on(llmEnd(1000, 0))).not.toThrow()
+    expect(permissive.costUsd()).toBe(0)
+  })
+
   it('only fires onExceeded once even if called again over budget', () => {
     const controller = new AbortController()
     const onExceeded = vi.fn()

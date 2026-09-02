@@ -10,9 +10,9 @@ import type { CostAlertEvent, CostAlertSink } from './cost-guard-advanced'
  *   - tool-error rate
  *   - streaming-stall rate (first-token latency above threshold)
  *
- * Operates on canonical AgentEvent only (no correlation id). In-flight
- * operations are tracked as a single active op under the sequential
- * event-stream assumption.
+ * Operates on canonical AgentEvent. Correlation is optional; when it is not
+ * available, in-flight operations are tracked as a single active op under
+ * the sequential event-stream assumption.
  *
  * Exposes Prometheus + OpenTelemetry-shaped snapshots and burn-rate
  * alerts (1h + 6h windows) that fire into the same alert sink contract
@@ -214,12 +214,12 @@ export function sloObserver(options: SloOptions = {}): SloObserver {
     // we're on track to exhaust it within the window. A perfect success
     // target (errorBudget 0) treats any observed failure as fully burned.
     // Utilization stays finite so alert payloads remain JSON-serializable.
-    const burnRate =
-      errorBudget === 0
-        ? observedFailure > 0
-          ? 1
-          : 0
-        : observedFailure / errorBudget
+    let burnRate = 0
+    if (errorBudget === 0) {
+      if (observedFailure > 0) burnRate = 1
+    } else {
+      burnRate = observedFailure / errorBudget
+    }
     if (burnRate >= 1) {
       fireAlert({
         type: 'cost:threshold',
