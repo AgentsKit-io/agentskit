@@ -1,7 +1,5 @@
 # @agentskit/rag
 
-Profile: <code>major-package</code>
-
 <p align="center"><img alt="AgentsKit" src="https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg" width="180" /></p>
 
 Plug-and-play retrieval-augmented generation: chunk documents, embed them, and retrieve the right context at query time.
@@ -99,10 +97,11 @@ You can also call `rag.retrieve({ query, messages })` to satisfy the core `Retri
 - Configurable chunking: `chunkSize`, `chunkOverlap`, custom `split`.
 - Works with any `EmbedFn` and any `VectorMemory`.
 - **Rerankers:** `createRerankedRetriever` (Voyage, Jina, custom `RerankFn`, BM25 default), `createHybridRetriever` (vector + BM25 blend), standalone `bm25Score`. [Recipe](https://www.agentskit.io/docs/reference/recipes/rag-reranking).
-- **Document loaders:** `loadUrl`, `loadGitHubFile`, `loadGitHubTree`, `loadNotionPage`, `loadConfluencePage`, `loadGoogleDriveFile`, `loadPdf` (BYO parser). [Recipe](https://www.agentskit.io/docs/reference/recipes/doc-loaders).
-- **Loader resilience:** HTTP/network and response-body read/parse failures surface as `RagError` (`AK_RAG_LOAD_FAILED`). Optional `signal` aborts (including mid-body reads) are never swallowed as a per-object skip. Tree/list loaders may return partial success when at least one eligible download succeeded; if every attempted eligible download failed, they throw. Missing/invalid S3 object bodies count as failed downloads. Pagination that reports more data without a new cursor/token throws (no silent truncation). `loadNotionPage` follows Notion `has_more` / `next_cursor` with `start_cursor` until complete (preserving block order; incomplete or repeated cursors throw). Non-positive / non-finite `maxFiles` yields `[]`.
+- **Document loaders:** `loadUrl`, `loadGitHubFile`, `loadGitHubTree`, `loadNotionPage`, `loadConfluencePage`, `loadGoogleDriveFile`, `loadPdf`, `loadS3`, `loadGcs`, `loadDropbox`, and `loadOneDrive`. [Recipe](https://www.agentskit.io/docs/reference/recipes/doc-loaders).
+- **Loader resilience:** HTTP/network and response-body read/parse failures surface as `RagError` (`AK_RAG_LOAD_FAILED`). Every remote request and body read has a finite timeout and byte limit by default; both are configurable through `timeoutMs` and `maxResponseBytes`. Optional `signal` aborts are never swallowed as a per-object skip. Tree/list loaders may return partial success when at least one eligible download succeeded; if every attempted eligible download failed, they throw. Missing/invalid S3 object bodies count as failed downloads. Pagination that reports more data without a new cursor/token throws (no silent truncation). `loadNotionPage` follows Notion `has_more` / `next_cursor` with `start_cursor` until complete (preserving block order; incomplete or repeated cursors throw). `loadUrl` requires an HTTPS origin in `allowedOrigins`; it does not follow redirects. Non-positive / non-finite `maxFiles` yields `[]`.
 - **Score contracts:** scoreless search/rerank results keep order. When any score is present, every result must have a finite numeric score and is sorted descending — mixed or non-finite scores throw (never fabricate `-Infinity`). Malformed Voyage/Jina/custom reranker output throws `AK_RAG_RERANK_FAILED`. Optional `signal` on `voyageReranker` / `jinaReranker` is forwarded to `fetch`; request/body aborts remain `AK_RAG_RERANK_FAILED`. `bm25Score` sanitizes invalid `k1`/`b` to documented defaults and always emits finite scores. Hybrid relative weights are normalized to a finite pair that sums to 1 (both zero → 0.5/0.5).
 - **Chunk/config safety:** invalid `chunkSize` / `chunkOverlap` / `topK` values are sanitized so chunking always terminates and search never sends non-finite limits to the store.
+- **Ingestion behavior:** `rag.ingest` embeds chunks serially and sends one vector-store batch per call. For large corpora, batch documents in the caller and persist progress between calls; the package does not silently add concurrency or an unbounded background queue.
 
 ### S3 in Expo and React Native runtimes
 

@@ -58,7 +58,7 @@ export function voyageReranker(options: VoyageRerankerOptions): RerankFn {
     if (!response.ok) {
       let text = ''
       try {
-        text = await readResponseText(response, 'voyage rerank', options.maxResponseBytes)
+        text = await readResponseText(response, 'voyage rerank', options.maxResponseBytes, options.timeoutMs)
       } catch (cause) {
         throw rerankFailed(`voyage rerank: ${response.status} (failed to read error body)`, cause)
       }
@@ -67,7 +67,7 @@ export function voyageReranker(options: VoyageRerankerOptions): RerankFn {
 
     let data: VoyageRerankResponse
     try {
-      data = await readResponseJson<VoyageRerankResponse>(response, 'voyage rerank', options.maxResponseBytes)
+      data = await readResponseJson<VoyageRerankResponse>(response, 'voyage rerank', options.maxResponseBytes, options.timeoutMs)
     } catch (cause) {
       throw rerankFailed('voyage rerank: invalid JSON response', cause)
     }

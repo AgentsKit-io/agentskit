@@ -59,6 +59,14 @@
   "dependencies": {
     "@agentskit/core": "workspace:*"
   },
+  "peerDependencies": {
+    "@aws-sdk/client-s3": "^3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "@aws-sdk/client-s3": {
+      "optional": true
+    }
+  },
   "devDependencies": {
     "@types/node": "^25.9.5",
     "metro": "0.87.0",

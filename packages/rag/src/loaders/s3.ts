@@ -16,6 +16,12 @@ export interface S3LikeClient {
   send(command: { input: Record<string, unknown> }): Promise<unknown>
 }
 
+type S3ObjectBody = {
+  transformToString?: () => Promise<string>
+  transformToByteArray?: () => Promise<Uint8Array>
+  [Symbol.asyncIterator]?: () => AsyncIterator<Uint8Array | string>
+}
+
 export interface S3LoaderOptions extends LoaderOptions {
   /**
    * AWS SDK v3 \`S3Client\`-shaped client. Bring your own to keep the bundle
@@ -85,8 +91,8 @@ export async function loadS3(options: S3LoaderOptions): Promise<InputDocument[]>
         const get = await withDeadline(options.client.send(new GetObjectCommand({
           Bucket: options.bucket,
           Key: key,
-        })) as Promise<{ Body?: { transformToString?: () => Promise<string>; transformToByteArray?: () => Promise<Uint8Array> } }>, options.timeoutMs, 'loadS3')
-        const content = await readS3Body(get.Body, 'loadS3')
+        })) as Promise<{ Body?: S3ObjectBody }>, options.timeoutMs, 'loadS3')
+        const content = await readS3Body(get.Body, 'loadS3', options.maxResponseBytes, options.timeoutMs)
         docs.push({
           content,
           source: `s3://${options.bucket}/${key}`,

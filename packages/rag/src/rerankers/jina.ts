@@ -57,7 +57,7 @@ export function jinaReranker(options: JinaRerankerOptions): RerankFn {
     if (!response.ok) {
       let text = ''
       try {
-        text = await readResponseText(response, 'jina rerank', options.maxResponseBytes)
+        text = await readResponseText(response, 'jina rerank', options.maxResponseBytes, options.timeoutMs)
       } catch (cause) {
         throw rerankFailed(`jina rerank: ${response.status} (failed to read error body)`, cause)
       }
@@ -66,7 +66,7 @@ export function jinaReranker(options: JinaRerankerOptions): RerankFn {
 
     let data: JinaRerankResponse
     try {
-      data = await readResponseJson<JinaRerankResponse>(response, 'jina rerank', options.maxResponseBytes)
+      data = await readResponseJson<JinaRerankResponse>(response, 'jina rerank', options.maxResponseBytes, options.timeoutMs)
     } catch (cause) {
       throw rerankFailed('jina rerank: invalid JSON response', cause)
     }

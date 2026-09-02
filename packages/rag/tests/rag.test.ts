@@ -95,6 +95,24 @@ describe('createRAG', () => {
       expect(store.stored[0].metadata?.source).toBe('docs/readme.md')
     })
 
+    it('projects metadata source when a vector store omits the top-level field', async () => {
+      const rag = createRAG({
+        embed: createMockEmbedder(),
+        store: {
+          store: async () => undefined,
+          search: async () => [{
+            id: 'doc_chunk_0',
+            content: 'text',
+            metadata: { source: 'docs/readme.md' },
+            score: 0.9,
+          }],
+        },
+      })
+
+      const results = await rag.search('text')
+      expect(results[0]!.source).toBe('docs/readme.md')
+    })
+
     it('preserves custom metadata', async () => {
       const embed = createMockEmbedder()
       const store = createMockVectorMemory()

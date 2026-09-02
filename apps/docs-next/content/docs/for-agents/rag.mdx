@@ -25,8 +25,8 @@ npm install @agentskit/rag
 
 ### Document loaders
 
-- `loadUrl(url)` — raw response text as `InputDocument.content`. `loadGitHubFile(owner, repo, path, opts)`, `loadGitHubTree(owner, repo, { filter?, ... })`, `loadNotionPage(pageId, { token })`, `loadConfluencePage(pageId, { baseUrl, token?, authorization? })`, `loadGoogleDriveFile(fileId, { accessToken })`, `loadPdf(url, { parsePdf })`. All return `InputDocument[]`. See [Doc loaders](/docs/reference/recipes/doc-loaders).
-- Cloud storage: `loadS3`, `loadGcs`, `loadDropbox`, `loadOneDrive`.
+- `loadUrl(url, { allowedOrigins })` — raw response text as `InputDocument.content`; only HTTPS origins explicitly listed in `allowedOrigins` are accepted and redirects are rejected. `loadGitHubFile(owner, repo, path, opts)`, `loadGitHubTree(owner, repo, { filter?, ... })`, `loadNotionPage(pageId, { token })`, `loadConfluencePage(pageId, { baseUrl, token?, authorization? })`, `loadGoogleDriveFile(fileId, { accessToken })`, and `loadPdf(url, { parsePdf })` return `InputDocument[]`.
+- Cloud storage: `loadS3`, `loadGcs`, `loadDropbox`, `loadOneDrive`. All remote loader options support `timeoutMs`, `maxResponseBytes`, and `signal`; S3 also supports an optional `@aws-sdk/client-s3` peer or explicit command constructors. See [Doc loaders](/docs/reference/recipes/doc-loaders).
 
 ## Failure and cancellation contract
 

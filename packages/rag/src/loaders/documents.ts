@@ -37,7 +37,7 @@ export async function loadUrl(url: string, options: UrlLoaderOptions = {}): Prom
     redirect: 'error',
   }, 'loadUrl', options)
   if (!response.ok) throw loadFailed(`loadUrl ${response.status}: ${url}`)
-  const content = await readResponseText(response, 'loadUrl', options.maxResponseBytes)
+  const content = await readResponseText(response, 'loadUrl', options.maxResponseBytes, options.timeoutMs)
   return [{ content, source: url, metadata: { url } }]
 }
 
@@ -63,7 +63,7 @@ export async function loadGitHubFile(
   if (!response.ok) throw loadFailed(`loadGitHubFile ${response.status}: ${url}`)
   return [
     {
-      content: await readResponseText(response, 'loadGitHubFile', options.maxResponseBytes),
+      content: await readResponseText(response, 'loadGitHubFile', options.maxResponseBytes, options.timeoutMs),
       source: url,
       metadata: { owner, repo, path, ref },
     },
@@ -96,6 +96,7 @@ export async function loadGitHubTree(
     response,
     'loadGitHubTree',
     options.maxResponseBytes,
+    options.timeoutMs,
   )
   const files = (tree.tree ?? [])
     .filter(t => t.type === 'blob')
@@ -160,7 +161,7 @@ export async function loadNotionPage(
       signal: options.signal,
     }, 'loadNotionPage', options)
     if (!response.ok) throw loadFailed(`loadNotionPage ${response.status}: ${url}`)
-    const data = await readResponseJson<NotionChildrenResponse>(response, 'loadNotionPage', options.maxResponseBytes)
+    const data = await readResponseJson<NotionChildrenResponse>(response, 'loadNotionPage', options.maxResponseBytes, options.timeoutMs)
     for (const block of data.results ?? []) {
       blocks.push(block)
     }
@@ -212,6 +213,7 @@ export async function loadConfluencePage(
     response,
     'loadConfluencePage',
     options.maxResponseBytes,
+    options.timeoutMs,
   )
   const content = data.body?.storage?.value ?? ''
   return [{ content, source: `${options.baseUrl}/pages/${pageId}`, metadata: { pageId, title: data.title } }]
@@ -232,7 +234,7 @@ export async function loadGoogleDriveFile(
     signal: options.signal,
   }, 'loadGoogleDriveFile', options)
   if (!response.ok) throw loadFailed(`loadGoogleDriveFile ${response.status}: ${url}`)
-  const content = await readResponseText(response, 'loadGoogleDriveFile', options.maxResponseBytes)
+  const content = await readResponseText(response, 'loadGoogleDriveFile', options.maxResponseBytes, options.timeoutMs)
   return [{ content, source: `gdrive://${fileId}`, metadata: { fileId } }]
 }
 
@@ -248,7 +250,11 @@ export async function loadPdf(url: string, options: PdfLoaderOptions): Promise<I
   const fetchImpl = options.fetch ?? globalThis.fetch
   const response = await doFetch(fetchImpl, url, { signal: options.signal }, 'loadPdf', options)
   if (!response.ok) throw loadFailed(`loadPdf ${response.status}: ${url}`)
-  const buf = new Uint8Array(await readResponseArrayBuffer(response, 'loadPdf', options.maxResponseBytes))
-  const { text, pages } = await options.parsePdf(buf)
-  return [{ content: text, source: url, metadata: { url, pages } }]
+  const buf = new Uint8Array(await readResponseArrayBuffer(response, 'loadPdf', options.maxResponseBytes, options.timeoutMs))
+  try {
+    const { text, pages } = await options.parsePdf(buf)
+    return [{ content: text, source: url, metadata: { url, pages } }]
+  } catch (cause) {
+    throw loadFailed('loadPdf: parser failed', cause)
+  }
 }

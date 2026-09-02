@@ -1,6 +1,12 @@
 import { RagError, RagErrorCodes } from '../errors'
 import type { InputDocument } from '../types'
 
+type S3Body = {
+  transformToString?: () => Promise<string>
+  transformToByteArray?: () => Promise<Uint8Array>
+  [Symbol.asyncIterator]?: () => AsyncIterator<Uint8Array | string>
+}
+
 export interface LoaderOptions {
   fetch?: typeof globalThis.fetch
   /** Optional abort signal forwarded to underlying HTTP calls when supported. */
@@ -146,9 +152,14 @@ async function readBytes(response: Response, label: string, maxBytes: number): P
   return bytes
 }
 
-export async function readResponseText(response: Response, label: string, maxBytes = 10 * 1024 * 1024): Promise<string> {
+export async function readResponseText(
+  response: Response,
+  label: string,
+  maxBytes = 10 * 1024 * 1024,
+  timeoutMs?: number,
+): Promise<string> {
   try {
-    return new TextDecoder().decode(await readBytes(response, label, maxBytes))
+    return new TextDecoder().decode(await withDeadline(readBytes(response, label, maxBytes), timeoutMs, label))
   } catch (cause) {
     if (cause instanceof RagError) throw cause
     if (isAbortLike(cause)) throw loadFailed(`${label}: aborted`, cause)
@@ -156,9 +167,14 @@ export async function readResponseText(response: Response, label: string, maxByt
   }
 }
 
-export async function readResponseJson<T>(response: Response, label: string, maxBytes = 10 * 1024 * 1024): Promise<T> {
+export async function readResponseJson<T>(
+  response: Response,
+  label: string,
+  maxBytes = 10 * 1024 * 1024,
+  timeoutMs?: number,
+): Promise<T> {
   try {
-    return JSON.parse(await readResponseText(response, label, maxBytes)) as T
+    return JSON.parse(await readResponseText(response, label, maxBytes, timeoutMs)) as T
   } catch (cause) {
     if (cause instanceof RagError) throw cause
     if (isAbortLike(cause)) throw loadFailed(`${label}: aborted`, cause)
@@ -166,9 +182,14 @@ export async function readResponseJson<T>(response: Response, label: string, max
   }
 }
 
-export async function readResponseArrayBuffer(response: Response, label: string, maxBytes = 10 * 1024 * 1024): Promise<ArrayBuffer> {
+export async function readResponseArrayBuffer(
+  response: Response,
+  label: string,
+  maxBytes = 10 * 1024 * 1024,
+  timeoutMs?: number,
+): Promise<ArrayBuffer> {
   try {
-    const bytes = await readBytes(response, label, maxBytes)
+    const bytes = await withDeadline(readBytes(response, label, maxBytes), timeoutMs, label)
     return Uint8Array.from(bytes).buffer
   } catch (cause) {
     if (cause instanceof RagError) throw cause
@@ -178,22 +199,39 @@ export async function readResponseArrayBuffer(response: Response, label: string,
 }
 
 export async function readS3Body(
-  body: { transformToString?: () => Promise<string>; transformToByteArray?: () => Promise<Uint8Array> } | null | undefined,
+  body: S3Body | null | undefined,
   label: string,
   maxBytes = 10 * 1024 * 1024,
+  timeoutMs?: number,
 ): Promise<string> {
   if (body == null || (typeof body.transformToString !== 'function' && typeof body.transformToByteArray !== 'function')) {
     throw loadFailed(`${label}: missing or invalid object body`)
   }
   try {
-    if (body.transformToByteArray) {
-      const bytes = await body.transformToByteArray()
-      if (bytes.byteLength > maxBytes) throw loadFailed(`${label}: response exceeds ${maxBytes} bytes`)
-      return new TextDecoder().decode(bytes)
-    }
-    const text = await body.transformToString!()
-    if (new TextEncoder().encode(text).byteLength > maxBytes) throw loadFailed(`${label}: response exceeds ${maxBytes} bytes`)
-    return text
+    return await withDeadline((async () => {
+      if (body[Symbol.asyncIterator]) {
+        const chunks: Uint8Array[] = []
+        let total = 0
+        for await (const chunk of body as AsyncIterable<Uint8Array | string>) {
+          const bytes = typeof chunk === 'string' ? new TextEncoder().encode(chunk) : chunk
+          total += bytes.byteLength
+          if (total > maxBytes) throw loadFailed(`${label}: response exceeds ${maxBytes} bytes`)
+          chunks.push(bytes)
+        }
+        const result = new Uint8Array(total)
+        let offset = 0
+        for (const chunk of chunks) { result.set(chunk, offset); offset += chunk.byteLength }
+        return new TextDecoder().decode(result)
+      }
+      if (body.transformToByteArray) {
+        const bytes = await body.transformToByteArray()
+        if (bytes.byteLength > maxBytes) throw loadFailed(`${label}: response exceeds ${maxBytes} bytes`)
+        return new TextDecoder().decode(bytes)
+      }
+      const text = await body.transformToString!()
+      if (new TextEncoder().encode(text).byteLength > maxBytes) throw loadFailed(`${label}: response exceeds ${maxBytes} bytes`)
+      return text
+    })(), timeoutMs, label)
   } catch (cause) {
     if (cause instanceof RagError) throw cause
     if (isAbortLike(cause)) throw loadFailed(`${label}: aborted`, cause)

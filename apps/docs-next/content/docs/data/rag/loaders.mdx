@@ -3,7 +3,10 @@ title: Document loaders
 description: Fetch + normalize documents from URLs, GitHub, Notion, Confluence, Google Drive, S3, GCS, Dropbox, OneDrive, PDFs.
 ---
 
-All loaders return `InputDocument[]` ready for `rag.ingest`. `loadUrl` puts the raw response body in `content` — no boilerplate stripping.
+All loaders return `InputDocument[]` ready for `rag.ingest`. Remote requests and
+body reads use a finite timeout and response-size limit by default; configure
+`timeoutMs`, `maxResponseBytes`, and `signal` in loader options. `loadUrl` puts
+the raw response body in `content` — no boilerplate stripping.
 
 ## URL
 
@@ -15,7 +18,7 @@ const docs = await loadUrl('https://example.com/post', {
 })
 ```
 
-`docs[0].content` is the raw response text (HTML or otherwise). Pipe it into `rag.ingest` as-is, or clean it first.
+`docs[0].content` is the raw response text (HTML or otherwise). Pipe it into `rag.ingest` as-is, or clean it first. Only HTTPS origins explicitly listed in `allowedOrigins` are accepted, and redirects are rejected.
 
 ## GitHub
 
@@ -72,7 +75,10 @@ const docs = await loadS3({
 })
 ```
 
-`@aws-sdk/client-s3` is an optional peer dep. For Cloudflare R2 / MinIO, configure the client's `endpoint` to the compatible host.
+`@aws-sdk/client-s3` is an optional peer dependency. Node consumers can let the
+Node entry resolve it lazily; browser, Expo/Metro, and React Native consumers
+must pass command constructors explicitly. For Cloudflare R2 / MinIO, configure
+the client's `endpoint` to the compatible host.
 
 ## Google Cloud Storage
 
@@ -131,7 +137,8 @@ const docs = await loadPdf('https://example.com/report.pdf', {
 })
 ```
 
-BYO parser (e.g. `pdf-parse`, `unpdf`) to keep core deps zero.
+BYO parser (e.g. `pdf-parse`, `unpdf`) to keep core deps zero. Parser failures
+are reported as `RagError` with `AK_RAG_LOAD_FAILED`.
 
 ## Related
 

@@ -49,7 +49,7 @@ export async function loadGcs(options: GcsLoaderOptions): Promise<InputDocument[
     const data = await readResponseJson<{
       items?: Array<{ name: string }>
       nextPageToken?: string
-    }>(response, 'loadGcs', options.maxResponseBytes)
+    }>(response, 'loadGcs', options.maxResponseBytes, options.timeoutMs)
     for (const item of data.items ?? []) {
       ensureNotAborted(options.signal, 'loadGcs')
       if (options.filter && !options.filter(item.name)) continue
@@ -62,7 +62,7 @@ export async function loadGcs(options: GcsLoaderOptions): Promise<InputDocument[
         }, 'loadGcs', options)
         if (!objResponse.ok) continue
         docs.push({
-          content: await readResponseText(objResponse, 'loadGcs', options.maxResponseBytes),
+          content: await readResponseText(objResponse, 'loadGcs', options.maxResponseBytes, options.timeoutMs),
           source: `gs://${options.bucket}/${item.name}`,
           metadata: { bucket: options.bucket, name: item.name },
         })
@@ -122,7 +122,7 @@ export async function loadDropbox(options: DropboxLoaderOptions): Promise<InputD
       entries?: Array<{ '.tag': string; path_lower?: string; path_display?: string }>
       cursor?: string
       has_more?: boolean
-    }>(response, 'loadDropbox', options.maxResponseBytes)
+    }>(response, 'loadDropbox', options.maxResponseBytes, options.timeoutMs)
     for (const entry of data.entries ?? []) {
       ensureNotAborted(options.signal, 'loadDropbox')
       if (entry['.tag'] !== 'file') continue
@@ -141,7 +141,7 @@ export async function loadDropbox(options: DropboxLoaderOptions): Promise<InputD
         }, 'loadDropbox', options)
         if (!downloadResponse.ok) continue
         docs.push({
-          content: await readResponseText(downloadResponse, 'loadDropbox', options.maxResponseBytes),
+          content: await readResponseText(downloadResponse, 'loadDropbox', options.maxResponseBytes, options.timeoutMs),
           source: `dropbox:${path}`,
           metadata: { path },
         })
@@ -223,7 +223,7 @@ export async function loadOneDrive(options: OneDriveLoaderOptions): Promise<Inpu
           '@microsoft.graph.downloadUrl'?: string
         }>
         '@odata.nextLink'?: string
-      }>(response, 'loadOneDrive', options.maxResponseBytes)
+      }>(response, 'loadOneDrive', options.maxResponseBytes, options.timeoutMs)
 
       for (const item of data.value ?? []) {
         ensureNotAborted(options.signal, 'loadOneDrive')
@@ -242,7 +242,7 @@ export async function loadOneDrive(options: OneDriveLoaderOptions): Promise<Inpu
           const fileResponse = await doFetch(fetchImpl, downloadUrl, { signal: options.signal }, 'loadOneDrive', options)
           if (!fileResponse.ok) continue
           docs.push({
-            content: await readResponseText(fileResponse, 'loadOneDrive', options.maxResponseBytes),
+            content: await readResponseText(fileResponse, 'loadOneDrive', options.maxResponseBytes, options.timeoutMs),
             source: `onedrive:${item.id}`,
             metadata: { id: item.id, name: item.name, mimeType: item.file.mimeType },
           })

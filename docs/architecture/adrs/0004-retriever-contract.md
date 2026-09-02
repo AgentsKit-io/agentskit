@@ -2,6 +2,7 @@
 
 - **Status**: Accepted
 - **Date**: 2026-04-14
+- **Amended**: 2026-09-01
 - **Supersedes**: —
 - **Related issues**: #214
 - **Related ADRs**: [0001 — Adapter](./0001-adapter-contract.md), [0002 — Tool](./0002-tool-contract.md), [0003 — Memory](./0003-memory-contract.md)
@@ -21,7 +22,11 @@ Retrievers are not just RAG. The same interface serves:
 
 If every variant has its own type, RAG/agents/UI all have to know which they're talking to. We collapse them under a single contract and let composition handle the variety.
 
-Today the contract lives in `packages/core/src/types/retrieval.ts` and the only implementation is `@agentskit/rag`. Fase 2 (#155 hybrid search, #154 RAG reranking) and Fase 3 (#178 vector backends, web search tools) will multiply implementations. Time to formalize.
+The contract lives in `packages/core/src/types/retrieval.ts`. `@agentskit/rag`
+currently provides the reference implementation plus chunking, hybrid/reranking
+composition, and thin document-loader adapters. Vector stores remain owned by
+`@agentskit/memory`, and embedders remain injectable. This keeps the public
+composition seam independent of provider choice.
 
 ## Decision
 
@@ -78,6 +83,15 @@ export interface Retriever {
 - **Version**: v1, semver'd independently of packages
 - Breaking changes follow ADR 0001's policy
 
+### Current implementation boundary
+
+The RAG package owns `createRAG`, chunking, `RerankFn` composites, and bounded
+document loaders because these capabilities produce or compose the retriever
+contract without selecting a storage or embedding provider. `@agentskit/memory`
+owns vector stores and `@agentskit/adapters` owns embedders. A future extraction
+of loaders or rerankers requires a new ADR/RFC, an export-compatibility plan,
+and evidence that the split improves the package's size or release boundary.
+
 ## Rationale
 
 - **Single method (`retrieve`)** keeps the contract testable and the surface area minimal. Indexing, invalidation, and lifecycle are NOT in the contract — they belong to the implementation (e.g., `RAG.ingest` is on the RAG type, not the Retriever type).
@@ -90,7 +104,7 @@ export interface Retriever {
 
 ### Positive
 - Any retriever (RAG, BM25, web search, hybrid) is interchangeable in the runtime, hooks, and skills.
-- Composite retrievers (#154 reranking, #155 hybrid) fall out as natural patterns: implement `Retriever`, internally hold N child retrievers, merge in `retrieve`.
+- Composite retrievers (reranking and hybrid) fall out as natural patterns: implement `Retriever`, internally hold N child retrievers, merge in `retrieve`.
 - Web search tools (#172) get a clean home: the tool's `execute` calls a `Retriever` internally and shapes the result.
 - Reasoning about retrieval is local — you read one method.
 - Memory recall (long-term context) becomes a `Retriever` over chat memory, not a separate concept.
@@ -117,7 +131,7 @@ export interface Retriever {
 - **Indexing contract**: should there be an `Indexer` companion contract? Currently each retriever owns its own indexing API (RAG.ingest, web search has none). Postponed until a second indexable retriever ships.
 - **Citation**: `source` is informational. A future ADR may formalize structured citations (page numbers, character ranges) for legal/research domains.
 - **Caching**: per-instance caching is fine; cross-instance shared caches would need contract attention.
-- **Reranking as a first-class concept**: a `Reranker` type taking `(query, documents) → documents` may emerge. Today reranking is a composite Retriever.
+- **Reranking as a first-class concept**: a dedicated `Reranker` type may emerge if a second package needs the same contract. Today the RAG package's `RerankFn` is a local composition helper and remains outside core.
 
 ## References
 

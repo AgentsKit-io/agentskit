@@ -45,6 +45,7 @@ at runtime. Ships the canonical descriptor + registry + projection contract, a
 - `readResponseText` / `readResponseBytes` — bounded response readers for text and binary payloads; set `maxResponseBytes` at the integration boundary.
 - `bindHttp` — bind options into a reusable `IntegrationHttp` client.
 - `composeTimeoutSignal` — compose a timeout with a caller-owned `AbortSignal` for custom transports.
+- `readResponseText` — read a bounded response body as text for integration adapters.
 - `HttpToolOptions` — shared HTTP options including `signal` for caller cancellation, bounded retries, and injectable `sleep`/`now` seams for deterministic hosts.
 - `createRegistry` — build an isolated catalog instance.
 - `registerIntegration` — register a descriptor into the default catalog.

@@ -29,6 +29,8 @@ describe('@agentskit/rag package manifest + export purity', () => {
         }
       }
       dependencies: Record<string, string>
+      peerDependencies: Record<string, string>
+      peerDependenciesMeta: Record<string, { optional?: boolean }>
     }
 
     expect(pkg.type).toBe('module')
@@ -50,6 +52,8 @@ describe('@agentskit/rag package manifest + export purity', () => {
     expect(pkg.exports['./chunker'].require).toBe('./dist/chunker.cjs')
 
     expect(pkg.dependencies).toEqual({ '@agentskit/core': 'workspace:*' })
+    expect(pkg.peerDependencies['@aws-sdk/client-s3']).toBe('^3.0.0')
+    expect(pkg.peerDependenciesMeta['@aws-sdk/client-s3']?.optional).toBe(true)
 
     for (const rel of [
       pkg.main,

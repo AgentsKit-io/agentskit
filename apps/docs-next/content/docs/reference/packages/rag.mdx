@@ -31,7 +31,7 @@ docbridge:
 
 - You want retrieval-augmented generation in a few lines.
 - You need rerankers (BM25, Voyage, Jina, or a custom function) or hybrid vector+keyword search.
-- You want document loaders for URL / GitHub / Notion / Confluence / Google Drive / PDF.
+- You want document loaders for URL / GitHub / Notion / Confluence / Google Drive / PDF / S3 / GCS / Dropbox / OneDrive.
 
 ## Install
 
@@ -59,7 +59,11 @@ const hits = await rag.search('what is agentskit')
 - `createRAG({ embed, store, chunkSize, chunkOverlap, topK, threshold })`.
 - `chunkText` — standalone splitter.
 - `createRerankedRetriever` · `createHybridRetriever` · `bm25Score` · `bm25Rerank`.
-- Loaders: `loadUrl` · `loadGitHubFile` · `loadGitHubTree` · `loadNotionPage` · `loadConfluencePage` · `loadGoogleDriveFile` · `loadPdf`.
+- Loaders: `loadUrl` · `loadGitHubFile` · `loadGitHubTree` · `loadNotionPage` · `loadConfluencePage` · `loadGoogleDriveFile` · `loadPdf` · `loadS3` · `loadGcs` · `loadDropbox` · `loadOneDrive`.
+
+Remote loaders use a finite timeout and response-size limit by default. Configure
+`timeoutMs`, `maxResponseBytes`, and `signal` when needed. `loadUrl` requires an
+HTTPS origin in `allowedOrigins` and rejects redirects.
 
 ## Recipes
 

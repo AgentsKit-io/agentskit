@@ -677,6 +677,45 @@ describe('loader hardening', () => {
     expect(lists).toBe(1)
   })
 
+  it('times out an S3 object body read', async () => {
+    const client = {
+      send: vi.fn(async (cmd: { input: Record<string, unknown> }) => {
+        if (!('Key' in cmd.input)) return { Contents: [{ Key: 'a' }, { Key: 'b' }], IsTruncated: false }
+        if (cmd.input.Key === 'b') return { Body: { transformToString: async () => 'ok' } }
+        return { Body: { transformToString: () => new Promise<string>(() => undefined) } }
+      }),
+    }
+    await expect(loadS3({
+      client,
+      bucket: 'bk',
+      commands: { ListObjectsV2Command: ListCmd, GetObjectCommand: GetCmd },
+      timeoutMs: 10,
+    })).resolves.toEqual([expect.objectContaining({ source: 's3://bk/b' })])
+  })
+
+  it('bounds an async-iterable S3 body before materializing it', async () => {
+    const client = {
+      send: vi.fn(async (cmd: { input: Record<string, unknown> }) => {
+        if (!('Key' in cmd.input)) return { Contents: [{ Key: 'large' }, { Key: 'ok' }], IsTruncated: false }
+        if (cmd.input.Key === 'ok') return { Body: { transformToString: async () => 'ok' } }
+        return {
+          Body: {
+            async *[Symbol.asyncIterator]() {
+              yield new Uint8Array([1, 2])
+              yield new Uint8Array([3, 4])
+            },
+          },
+        }
+      }),
+    }
+    await expect(loadS3({
+      client,
+      bucket: 'bk',
+      commands: { ListObjectsV2Command: ListCmd, GetObjectCommand: GetCmd },
+      maxResponseBytes: 3,
+    })).resolves.toEqual([expect.objectContaining({ source: 's3://bk/ok' })])
+  })
+
   it('skips individual S3 object failures when at least one succeeds', async () => {
     const client = {
       send: vi.fn(async (cmd: { input: Record<string, unknown> }) => {

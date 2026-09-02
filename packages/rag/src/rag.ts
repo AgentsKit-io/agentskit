@@ -44,6 +44,11 @@ function enforceScoreOrder(docs: RetrievedDocument[]): RetrievedDocument[] {
   return [...docs].sort((a, b) => (b.score as number) - (a.score as number))
 }
 
+function projectSource(doc: RetrievedDocument): RetrievedDocument {
+  if (doc.source !== undefined || typeof doc.metadata?.source !== 'string') return doc
+  return { ...doc, source: doc.metadata.source }
+}
+
 export function createRAG(config: RAGConfig): RAG {
   const {
     embed,
@@ -117,7 +122,7 @@ export function createRAG(config: RAGConfig): RAG {
 
     const queryEmbedding = await embed(query)
     const results = await store.search(queryEmbedding, { topK, threshold })
-    return enforceScoreOrder(results)
+    return enforceScoreOrder(results.map(projectSource))
   }
 
   async function retrieve(request: RetrieverRequest): Promise<RetrievedDocument[]> {
