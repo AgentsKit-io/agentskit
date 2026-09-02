@@ -186,6 +186,18 @@ describe('createAjvValidator', () => {
     expect(validate({ type: 'object' }, cyclic).valid).toBe(false)
   })
 
+  it('can validate trusted large payloads without applying tool-argument limits', () => {
+    const validate = createAjvValidator({ preflight: false })
+    const values = Array.from({ length: 10_001 }, (_, index) => index)
+    expect(validate({ type: 'object', properties: { values: { type: 'array', items: { type: 'integer' } } } }, { values }).valid).toBe(true)
+  })
+
+  it('counts object keys in the argument size limit', () => {
+    const args: Record<string, unknown> = {}
+    args['x'.repeat(1_048_577)] = true
+    expect(createAjvValidator()({ type: 'object' }, args).valid).toBe(false)
+  })
+
   it('keeps numeric object keys distinct from array indices', () => {
     const result = createAjvValidator()(
       { type: 'object', properties: { '0': { type: 'string' } }, required: ['0'] },

@@ -70,6 +70,24 @@ describe('MCP bridge (client ↔ server over in-memory transport)', () => {
     await client.close()
   })
 
+  it('applies argument resource limits through the default validator', async () => {
+    const execute = vi.fn(async () => 'ok')
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({
+      transport: b,
+      tools: [{
+        name: 'bounded',
+        schema: { type: 'object', properties: { value: { type: 'string' } } },
+        execute,
+      }],
+    })
+    const client = createMcpClient({ transport: a })
+    const result = await client.callTool('bounded', { value: 'x'.repeat(1_048_577) })
+    expect(result.isError).toBe(true)
+    expect(execute).not.toHaveBeenCalled()
+    await client.close()
+  })
+
   it('rejects malformed JSON-RPC envelopes and params before dispatch', async () => {
     const [a, b] = createInMemoryTransportPair()
     createMcpServer({ transport: b, tools: [] })
@@ -157,6 +175,18 @@ describe('MCP bridge (client ↔ server over in-memory transport)', () => {
     const client = createMcpClient({ transport: a })
     const result = await client.callTool('obj', {})
     expect(result.content[0]!.text).toBe(JSON.stringify({ k: 1, arr: [1, 2] }))
+    await client.close()
+  })
+
+  it('serializes undefined tool results as valid empty text', async () => {
+    const [a, b] = createInMemoryTransportPair()
+    createMcpServer({
+      transport: b,
+      tools: [makeTool('empty', async () => undefined)],
+    })
+    const client = createMcpClient({ transport: a })
+    const result = await client.callTool('empty', {})
+    expect(result.content).toEqual([{ type: 'text', text: '' }])
     await client.close()
   })
 
@@ -295,6 +325,35 @@ describe('toolsFromMcpClient', () => {
     ).rejects.toThrow(/tool execution failed/)
     await client.close()
   })
+
+  it('rejects malformed remote tool results at the hydration boundary', async () => {
+    const client = createMcpClient({
+      transport: {
+        send: () => undefined,
+        onMessage: () => () => undefined,
+      },
+    })
+    client.listTools = async () => ({ tools: [{ name: 'bad', inputSchema: { type: 'object' } }] })
+    await expect(toolsFromMcpClient(client, { quarantine: false })).resolves.toHaveLength(1)
+    const tools = await toolsFromMcpClient(client, { quarantine: false })
+    client.callTool = async () => ({ content: [{ type: 'image', text: 1 }] } as never)
+    await expect(tools[0]!.execute!({}, { messages: [], call: { id: 'c', name: 'bad', args: {}, status: 'running' } }))
+      .rejects.toThrow(/invalid content/)
+    await client.close()
+  })
+
+  it('keeps quarantined descriptions within the configured byte limit', async () => {
+    const client = createMcpClient({
+      transport: {
+        send: () => undefined,
+        onMessage: () => () => undefined,
+      },
+    })
+    client.listTools = async () => ({ tools: [{ name: 'tool', description: 'x'.repeat(100), inputSchema: { type: 'object' } }] })
+    const tools = await toolsFromMcpClient(client, { maxDescriptionBytes: 10 })
+    expect(new TextEncoder().encode(tools[0]!.description).byteLength).toBeLessThanOrEqual(10)
+    await client.close()
+  })
 })
 
 describe('createStdioTransport', () => {
@@ -422,6 +481,15 @@ describe('createStdioTransport', () => {
 })
 
 describe('MCP client request bounds', () => {
+  it('rejects invalid request bounds at construction', () => {
+    const transport: McpTransport = {
+      send: () => undefined,
+      onMessage: () => () => undefined,
+    }
+    expect(() => createMcpClient({ transport, requestTimeoutMs: 0 })).toThrow(/requestTimeoutMs/)
+    expect(() => createMcpClient({ transport, maxPending: 0 })).toThrow(/maxPending/)
+  })
+
   it('rejects per-request after requestTimeoutMs', async () => {
     vi.useFakeTimers()
     try {
@@ -456,6 +524,13 @@ describe('MCP client request bounds', () => {
     const p = client.listTools()
     await client.close()
     await expect(p).rejects.toThrow(/closed/)
+  })
+
+  it('rejects new calls after close()', async () => {
+    const [a] = createInMemoryTransportPair()
+    const client = createMcpClient({ transport: a })
+    await client.close()
+    await expect(client.listTools()).rejects.toThrow(/closed/)
   })
 
   it('rejects in-flight calls when the transport closes', async () => {

@@ -1,4 +1,4 @@
-import Ajv from 'ajv'
+import { ErrorCodes, ToolError } from '@agentskit/core'
 import type { ArgsValidator, ToolDefinition } from '@agentskit/core'
 import type { JSONSchema7 } from 'json-schema'
 import type {
@@ -7,6 +7,7 @@ import type {
   McpTransport,
 } from './types'
 import { MCP_PROTOCOL_VERSION } from './types'
+import { createAjvValidator } from '../../../validation/src/ajv-validator'
 
 export interface McpServerOptions {
   transport: McpTransport
@@ -43,7 +44,7 @@ export function createMcpServer(options: McpServerOptions): McpServer {
     }
   }
 
-  const validateArgs = options.validateArgs ?? createDefaultValidator()
+  const validateArgs = options.validateArgs ?? createAjvValidator()
   const detach = transport.onMessage(async raw => {
     if (!isRecord(raw) || raw.jsonrpc !== '2.0' || typeof raw.method !== 'string') {
       await respond({ jsonrpc: '2.0', id: null, error: { code: -32600, message: 'invalid request' } })
@@ -123,18 +124,22 @@ export function createMcpServer(options: McpServerOptions): McpServer {
           const args = (params.arguments ?? {}) as Record<string, unknown>
           const validation = validateArgs(tool.schema ?? EMPTY_ARGS_SCHEMA, args)
           if (!validation.valid) {
-            throw new Error(validation.message ?? 'invalid tool arguments')
+            throw new ToolError({
+              code: ErrorCodes.AK_TOOL_INVALID_INPUT,
+              message: validation.message ?? 'invalid tool arguments',
+            })
           }
           if (tool.requiresConfirmation) {
             if (!options.authorizeToolCall || !(await options.authorizeToolCall(tool, args))) {
-              throw new Error('confirmation required')
+              throw new ToolError({ code: ErrorCodes.AK_TOOL_FORBIDDEN, message: 'confirmation required' })
             }
           }
           const result = await tool.execute(args, {
             messages: [],
             call: { id: String(request.id), name: tool.name, args, status: 'running' },
           })
-          const text = typeof result === 'string' ? result : JSON.stringify(result)
+          const serialized = typeof result === 'string' ? result : JSON.stringify(result)
+          const text = serialized === undefined ? '' : serialized
           await respond({
             jsonrpc: '2.0',
             id: request.id,
@@ -197,21 +202,4 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 function isValidId(value: unknown): value is string | number {
   return (typeof value === 'string' && value.length > 0) ||
     (typeof value === 'number' && Number.isFinite(value))
-}
-
-function createDefaultValidator(): ArgsValidator {
-  const ajv = new Ajv({ allErrors: true, strict: false })
-  const cache = new WeakMap<object, (args: unknown) => boolean>()
-  return (schema, args) => {
-    try {
-      let validate = cache.get(schema as object)
-      if (!validate) {
-        validate = ajv.compile(schema) as (args: unknown) => boolean
-        cache.set(schema as object, validate)
-      }
-      return validate(args) ? { valid: true } : { valid: false, message: 'invalid tool arguments' }
-    } catch {
-      return { valid: false, message: 'invalid tool schema' }
-    }
-  }
 }

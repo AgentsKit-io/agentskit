@@ -17,6 +17,8 @@ export interface AjvValidatorOptions {
    * silently fixing them. Coercion can mutate the supplied args object.
    */
   coerceTypes?: boolean
+  /** Skip argument resource limits for trusted, non-tool payloads. */
+  preflight?: boolean
   /**
    * Provide a pre-configured Ajv instance to control formats, keywords, or
    * strict mode. A supplied instance owns its Ajv behavior; `coerceTypes` only
@@ -53,7 +55,9 @@ function preflightArgs(args: Record<string, unknown>): string | undefined {
     if (current.value === null || typeof current.value !== 'object') continue
     if (seen.has(current.value)) return 'cyclic arguments are not supported'
     seen.add(current.value)
-    for (const value of Object.values(current.value as Record<string, unknown>)) {
+    for (const [key, value] of Object.entries(current.value as Record<string, unknown>)) {
+      bytes += new TextEncoder().encode(key).byteLength
+      if (bytes > MAX_ARGS_BYTES) return `argument size limit exceeded (${MAX_ARGS_BYTES} bytes)`
       pending.push({ value, depth: current.depth + 1 })
     }
   }
@@ -106,6 +110,7 @@ export function createAjvValidator(options: AjvValidatorOptions = {}): ArgsValid
     ajv.addFormat('ipv4', { type: 'string', validate: (value: string) => /^(?:\d{1,3}\.){3}\d{1,3}$/.test(value) && value.split('.').every(part => Number(part) <= 255) })
     ajv.addFormat('ipv6', { type: 'string', validate: (value: string) => value.includes(':') })
     ajv.addFormat('email', { type: 'string', validate: (value: string) => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(value) })
+    ajv.addFormat('date-time', { type: 'string', validate: (value: string) => !Number.isNaN(Date.parse(value)) })
   }
 
   // Compiled validators are cached by schema identity so repeated tool calls
@@ -116,18 +121,25 @@ export function createAjvValidator(options: AjvValidatorOptions = {}): ArgsValid
     const cached = cache.get(schema as object)
     if (cached) return cached
     const effective = options.rejectAdditionalProperties ? hardenObjectBoundaries(schema) : schema
+    const registered = effective.$id ? ajv.getSchema(effective.$id) : undefined
+    if (registered) {
+      cache.set(schema as object, registered as CompiledValidate)
+      return registered as CompiledValidate
+    }
     const validate = ajv.compile(effective) as CompiledValidate
     cache.set(schema as object, validate)
     return validate
   }
 
   return (schema: JSONSchema7, args: Record<string, unknown>): ArgsValidationResult => {
-    const preflightError = preflightArgs(args)
-    if (preflightError) {
-      return {
-        valid: false,
-        errors: [{ path: '', message: preflightError }],
-        message: `invalid tool arguments: ${preflightError}`,
+    if (options.preflight !== false) {
+      const preflightError = preflightArgs(args)
+      if (preflightError) {
+        return {
+          valid: false,
+          errors: [{ path: '', message: preflightError }],
+          message: `invalid tool arguments: ${preflightError}`,
+        }
       }
     }
     const validate = compile(schema)
@@ -163,23 +175,20 @@ function hardenObjectBoundaries(schema: JSONSchema7): JSONSchema7 {
     clone.patternProperties = mapDefinitions(current.patternProperties)
     clone.definitions = mapDefinitions(current.definitions)
     clone.$defs = mapDefinitions(current.$defs)
-    clone.items = Array.isArray(current.items)
-      ? current.items.map(item => visitDefinition(item))
-      : current.items === undefined
-        ? undefined
-        : visitDefinition(current.items)
+    if (Array.isArray(current.items)) clone.items = current.items.map(item => visitDefinition(item))
+    else if (current.items !== undefined) clone.items = visitDefinition(current.items)
     clone.additionalItems = visitOptional(current.additionalItems)
     clone.contains = visitOptional(current.contains)
     clone.propertyNames = visitOptional(current.propertyNames)
     clone.additionalProperties = visitOptional(current.additionalProperties)
-    clone.dependencies = current.dependencies
-      ? Object.fromEntries(
-          Object.entries(current.dependencies).map(([key, dependency]) => [
-            key,
-            Array.isArray(dependency) ? [...dependency] : visitDefinition(dependency, true),
-          ]),
-        )
-      : undefined
+    if (current.dependencies !== undefined) {
+      clone.dependencies = Object.fromEntries(
+        Object.entries(current.dependencies).map(([key, dependency]) => {
+          const value = Array.isArray(dependency) ? [...dependency] : visitDefinition(dependency, true)
+          return [key, value]
+        }),
+      )
+    }
 
     const hasComposition = Boolean(
       current.allOf || current.anyOf || current.oneOf || current.not || current.if || current.then || current.else,

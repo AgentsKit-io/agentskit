@@ -42,7 +42,7 @@ afterEach(() => {
 function mockJson(payload: unknown, opts: { status?: number } = {}) {
   const capture: { url?: string; init?: RequestInit } = {}
   const fake = vi.fn(async (url: string | URL | Request, init?: RequestInit) => {
-    capture.url = typeof url === 'string' ? url : url instanceof URL ? url.href : url.url
+    capture.url = requestUrl(url)
     capture.init = init
     return new Response(JSON.stringify(payload), { status: opts.status ?? 200 })
   })
@@ -52,7 +52,7 @@ function mockJson(payload: unknown, opts: { status?: number } = {}) {
 function mockText(text: string, opts: { status?: number } = {}) {
   const capture: { url?: string; init?: RequestInit } = {}
   const fake = vi.fn(async (url: string | URL | Request, init?: RequestInit) => {
-    capture.url = typeof url === 'string' ? url : url instanceof URL ? url.href : url.url
+    capture.url = requestUrl(url)
     capture.init = init
     return new Response(text, { status: opts.status ?? 200 })
   })
@@ -62,11 +62,17 @@ function mockText(text: string, opts: { status?: number } = {}) {
 function mockBinary(bytes: Uint8Array, opts: { status?: number } = {}) {
   const capture: { url?: string } = {}
   const fake = vi.fn(async (url: string | URL | Request) => {
-    capture.url = typeof url === 'string' ? url : url instanceof URL ? url.href : url.url
+    capture.url = requestUrl(url)
     const view = new Uint8Array(bytes)
     return new Response(view, { status: opts.status ?? 200 })
   })
   return { fetch: fake as unknown as typeof globalThis.fetch, capture }
+}
+
+function requestUrl(input: string | URL | Request): string {
+  if (typeof input === 'string') return input
+  if (input instanceof URL) return input.href
+  return input.url
 }
 
 const ctx = { messages: [], call: { id: 'c', name: 'x', args: {}, status: 'running' as const } }

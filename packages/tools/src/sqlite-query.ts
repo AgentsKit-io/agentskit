@@ -65,7 +65,7 @@ export function sqliteQueryTool(config: SqliteQueryConfig): ToolDefinition {
 
   return {
     name: 'sqlite_query',
-    description: 'Run a read-only SQL query against a local SQLite database. Returns up to 100 rows.',
+    description: `Run a read-only SQL query against a local SQLite database. Returns up to ${maxRows} rows.`,
     tags: ['sqlite', 'sql', 'database', 'read'],
     category: 'database',
     schema: {

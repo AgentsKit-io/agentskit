@@ -12,7 +12,10 @@ export interface ReaderConfig extends HttpToolOptions {
 }
 
 const gatedReaderFetch: typeof globalThis.fetch = (input, init) => {
-  const url = typeof input === 'string' ? input : input instanceof URL ? input.href : input.url
+  let url: string
+  if (typeof input === 'string') url = input
+  else if (input instanceof URL) url = input.href
+  else url = input.url
   return safeFetch(url, init ?? {})
 }
 

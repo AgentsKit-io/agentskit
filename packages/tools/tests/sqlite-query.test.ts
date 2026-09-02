@@ -74,6 +74,7 @@ describe('sqliteQueryTool', () => {
 
   it('respects custom maxRows', async () => {
     const tool = sqliteQueryTool({ path: dbPath, maxRows: 2 })
+    expect(tool.description).toContain('up to 2 rows')
     const result = await tool.execute({ sql: 'SELECT * FROM items' }) as {
       rows: unknown[]
       truncated: boolean

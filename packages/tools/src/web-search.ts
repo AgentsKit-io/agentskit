@@ -1,4 +1,4 @@
-import { ErrorCodes, ToolError } from '@agentskit/core'
+import { ConfigError, ErrorCodes, ToolError } from '@agentskit/core'
 import type { ToolDefinition } from '@agentskit/core'
 import { safeFetch } from './safe-fetch'
 
@@ -33,6 +33,7 @@ const URL_RE = /^https?:\/\//i
 const SNIPPET_MAX = 600
 const DEFAULT_TIMEOUT_MS = 15_000
 const DEFAULT_MAX_RESPONSE_BYTES = 2 * 1024 * 1024
+const MAX_RESULTS = 100
 
 interface SearchRuntimeConfig {
   timeoutMs: number
@@ -272,8 +273,14 @@ export function webSearch(config: WebSearchConfig = {}): ToolDefinition {
   const { provider = 'auto', apiKey, maxResults = 5, search } = config
   const timeoutMs = config.timeoutMs ?? DEFAULT_TIMEOUT_MS
   const maxResponseBytes = config.maxResponseBytes ?? DEFAULT_MAX_RESPONSE_BYTES
-  if (!Number.isInteger(timeoutMs) || timeoutMs <= 0 || !Number.isInteger(maxResponseBytes) || maxResponseBytes <= 0) {
-    throw new Error('webSearch: timeoutMs and maxResponseBytes must be positive integers')
+  if (!['auto', 'serper', 'tavily', 'duckduckgo'].includes(provider)) {
+    throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: `webSearch: unsupported provider ${String(provider)}` })
+  }
+  if (!Number.isSafeInteger(maxResults) || maxResults < 1 || maxResults > MAX_RESULTS) {
+    throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: `webSearch: maxResults must be an integer from 1 to ${MAX_RESULTS}` })
+  }
+  if (!Number.isSafeInteger(timeoutMs) || timeoutMs <= 0 || !Number.isSafeInteger(maxResponseBytes) || maxResponseBytes <= 0) {
+    throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: 'webSearch: timeoutMs and maxResponseBytes must be positive safe integers' })
   }
   const runtime = { timeoutMs, maxResponseBytes, signal: config.signal }
 
@@ -296,13 +303,13 @@ export function webSearch(config: WebSearchConfig = {}): ToolDefinition {
 
       if (search) {
         const results = await withDeadline(search(query), runtime)
-        return formatResults(results, query)
+        return formatResults(results, query, maxResults)
       }
 
       if (URL_RE.test(query)) {
         try {
           const direct = await fetchUrlAsResult(query, runtime)
-          if (direct.length > 0) return formatResults(direct, query)
+          if (direct.length > 0) return formatResults(direct, query, maxResults)
         } catch (err) {
           if (err instanceof ToolError) {
             return err.message.startsWith('Error:') ? err.message : `Error: ${err.message}`
@@ -332,7 +339,7 @@ export function webSearch(config: WebSearchConfig = {}): ToolDefinition {
           results = await duckDuckGoHtmlSearch(query, maxResults, runtime)
         }
 
-        if (results.length > 0) return formatResults(results, query)
+        if (results.length > 0) return formatResults(results, query, maxResults)
       } catch (error) {
         if (error instanceof ToolError && /timed out|aborted|exceeds maxResponseBytes/.test(error.message)) {
           return `Error: ${error.message}`
@@ -345,9 +352,10 @@ export function webSearch(config: WebSearchConfig = {}): ToolDefinition {
   }
 }
 
-function formatResults(results: WebSearchResult[], query: string): string {
+function formatResults(results: WebSearchResult[], query: string, maxResults: number): string {
   if (results.length === 0) return `No results found for "${query}"`
   return results
-    .map((r, i) => `[${i + 1}] ${r.title}\n${r.url}\n${r.snippet}`)
+    .slice(0, maxResults)
+    .map((r, i) => `[${i + 1}] ${String(r.title ?? '').slice(0, 512)}\n${String(r.url ?? '').slice(0, 2048)}\n${String(r.snippet ?? '').slice(0, SNIPPET_MAX)}`)
     .join('\n\n')
 }

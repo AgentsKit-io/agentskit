@@ -2,7 +2,7 @@ import { describe, expect, it } from 'vitest'
 import { createAjvValidator } from '@agentskit/tools/validation'
 import { catalog, catalogSnapshotSchema, catalogSource } from '../../src/catalog'
 
-const validate = createAjvValidator({ rejectAdditionalProperties: true })
+const validate = createAjvValidator({ rejectAdditionalProperties: true, preflight: false })
 
 describe('catalog snapshot', () => {
   it('validates against the published JSON Schema', () => {

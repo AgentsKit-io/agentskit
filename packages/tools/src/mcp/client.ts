@@ -28,6 +28,15 @@ function isError(msg: JsonRpcSuccess | JsonRpcError): msg is JsonRpcError {
 const DEFAULT_REQUEST_TIMEOUT_MS = 30_000
 const DEFAULT_MAX_PENDING = 256
 
+function asToolError(error: unknown): ToolError {
+  if (error instanceof ToolError) return error
+  return new ToolError({
+    code: ErrorCodes.AK_TOOL_EXEC_FAILED,
+    message: error instanceof Error ? error.message : String(error),
+    cause: error,
+  })
+}
+
 /**
  * Build an MCP client over any `McpTransport`. Supports
  * `initialize`, `tools/list`, and `tools/call` — the minimum needed
@@ -49,6 +58,12 @@ export function createMcpClient(options: {
 }): McpClient {
   const requestTimeoutMs = options.requestTimeoutMs ?? DEFAULT_REQUEST_TIMEOUT_MS
   const maxPending = options.maxPending ?? DEFAULT_MAX_PENDING
+  if (!Number.isSafeInteger(requestTimeoutMs) || requestTimeoutMs < 1) {
+    throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: 'requestTimeoutMs must be a positive safe integer' })
+  }
+  if (!Number.isSafeInteger(maxPending) || maxPending < 1) {
+    throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: 'maxPending must be a positive safe integer' })
+  }
   interface PendingEntry {
     resolve: (value: unknown) => void
     reject: (error: Error) => void
@@ -56,6 +71,7 @@ export function createMcpClient(options: {
   }
   const pending = new Map<number, PendingEntry>()
   let nextId = 1
+  let closed = false
 
   const settle = (id: number, ok: boolean, value: unknown): void => {
     const entry = pending.get(id)
@@ -70,25 +86,35 @@ export function createMcpClient(options: {
     if (!isResponse(message)) return
     const id = Number(message.id)
     if (isError(message)) {
-      settle(id, false, new Error(`MCP error ${message.error.code}: ${message.error.message}`))
+      settle(id, false, new ToolError({
+        code: ErrorCodes.AK_TOOL_EXEC_FAILED,
+        message: `MCP error ${message.error.code}: ${message.error.message}`,
+      }))
     } else {
       settle(id, true, message.result)
     }
   })
   const detachClose = options.transport.onClose?.(() => {
     for (const id of pending.keys()) {
-      settle(id, false, new Error('MCP transport closed'))
+      settle(id, false, new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: 'MCP transport closed' }))
     }
   })
 
   const call = <T>(method: string, params?: Record<string, unknown>): Promise<T> => {
+    if (closed) return Promise.reject(new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: 'MCP client closed' }))
     if (pending.size >= maxPending) {
-      return Promise.reject(new Error(`MCP client: maxPending (${maxPending}) exceeded`))
+      return Promise.reject(new ToolError({
+        code: ErrorCodes.AK_TOOL_QUOTA_EXCEEDED,
+        message: `MCP client: maxPending (${maxPending}) exceeded`,
+      }))
     }
     const id = nextId++
     return new Promise<T>((resolve, reject) => {
       const timer = setTimeout(() => {
-        settle(id, false, new Error(`MCP request timeout after ${requestTimeoutMs}ms: ${method}`))
+        settle(id, false, new ToolError({
+          code: ErrorCodes.AK_TOOL_EXEC_FAILED,
+          message: `MCP request timeout after ${requestTimeoutMs}ms: ${method}`,
+        }))
       }, requestTimeoutMs)
       pending.set(id, {
         resolve: v => resolve(v as T),
@@ -97,10 +123,10 @@ export function createMcpClient(options: {
       })
       try {
         Promise.resolve(options.transport.send({ jsonrpc: '2.0', id, method, params })).catch(err => {
-          settle(id, false, err instanceof Error ? err : new Error(String(err)))
+          settle(id, false, asToolError(err))
         })
       } catch (err) {
-        settle(id, false, err instanceof Error ? err : new Error(String(err)))
+        settle(id, false, asToolError(err))
       }
     })
   }
@@ -112,7 +138,12 @@ export function createMcpClient(options: {
         capabilities: { tools: {} },
         clientInfo: options.clientInfo ?? { name: 'agentskit-mcp-client', version: '0.1.0' },
       })
-      if (result.protocolVersion !== MCP_PROTOCOL_VERSION) throw new Error('unsupported MCP protocol version')
+      if (result.protocolVersion !== MCP_PROTOCOL_VERSION) {
+        throw new ConfigError({
+          code: ErrorCodes.AK_CONFIG_INVALID,
+          message: 'unsupported MCP protocol version',
+        })
+      }
       return result
     },
     async listTools() {
@@ -122,11 +153,13 @@ export function createMcpClient(options: {
       return call<McpCallToolResult>('tools/call', { name, arguments: args })
     },
     async close() {
+      if (closed) return
+      closed = true
       detach()
       detachClose?.()
       for (const [id, entry] of pending) {
         clearTimeout(entry.timer)
-        entry.reject(new Error('MCP client closed'))
+        entry.reject(new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: 'MCP client closed' }))
         pending.delete(id)
       }
       await options.transport.close?.()
@@ -203,10 +236,19 @@ export async function toolsFromMcpClient(
   const maxSchema = limit(options.maxSchemaBytes, DEFAULT_MAX_SCHEMA_BYTES, 'maxSchemaBytes')
   const quarantine = options.quarantine ?? true
   const onInvalidTool = options.onInvalidTool
-  const { tools } = await client.listTools()
+  const listed = await client.listTools()
+  if (!isRecord(listed) || !Array.isArray(listed.tools)) {
+    throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: 'MCP tools/list returned an invalid tool list' })
+  }
+  const { tools } = listed
   const out: ToolDefinition[] = []
   const names = new Set<string>()
   for (const t of tools) {
+    if (!isRecord(t)) {
+      const reason = 'remote MCP tool descriptor must be an object'
+      onInvalidTool?.(reason)
+      throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: reason })
+    }
     if (!isValidToolName(t?.name)) {
       const reason = 'remote MCP tool has an invalid name'
       onInvalidTool?.(reason)
@@ -228,10 +270,13 @@ export async function toolsFromMcpClient(
       // Drop oversized schema; safer than passing a truncated copy.
       continue
     }
-    const rawDescription = t.description ?? ''
-    const description = quarantine
-      ? `[mcp] ${truncateBytes(rawDescription, maxDescription)}`
-      : truncateBytes(rawDescription, maxDescription)
+    if (t.description !== undefined && typeof t.description !== 'string') {
+      const reason = 'remote MCP tool description must be a string'
+      onInvalidTool?.(reason)
+      throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: reason })
+    }
+    const prefix = quarantine ? '[mcp] ' : ''
+    const description = truncateBytes(`${prefix}${t.description ?? ''}`, maxDescription)
     names.add(name)
     out.push({
       name,
@@ -239,8 +284,12 @@ export async function toolsFromMcpClient(
       schema: t.inputSchema,
       async execute(args) {
         const result = await client.callTool(t.name, args)
+        if (!isRecord(result) || !Array.isArray(result.content) ||
+          !result.content.every(c => isRecord(c) && c.type === 'text' && typeof c.text === 'string')) {
+          throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `MCP tool ${t.name} returned invalid content` })
+        }
         const text = result.content
-          .map(c => (c.type === 'text' ? c.text : ''))
+          .map(c => (c as { type: 'text'; text: string }).text)
           .filter(Boolean)
           .join('\n')
         if (result.isError) {

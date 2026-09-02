@@ -33,13 +33,12 @@ function inList(list: string[] | '*' | undefined, name: string): boolean {
 }
 
 function snapshotPolicy(policy: SandboxPolicy): SandboxPolicy {
+  let requireSandbox: SandboxPolicy['requireSandbox']
+  if (policy.requireSandbox === '*') requireSandbox = '*'
+  else if (policy.requireSandbox !== undefined) requireSandbox = [...policy.requireSandbox]
+
   return {
-    requireSandbox:
-      policy.requireSandbox === '*'
-        ? '*'
-        : policy.requireSandbox
-          ? [...policy.requireSandbox]
-          : undefined,
+    requireSandbox,
     deny: policy.deny ? [...policy.deny] : undefined,
     allow: policy.allow ? [...policy.allow] : undefined,
     validators: policy.validators ? { ...policy.validators } : undefined,
