@@ -21,6 +21,14 @@ npm install @agentskit/observability
 - `opentelemetry(config)` — OpenTelemetry **lifecycle** observer (optional OTel peers, lazy).
 - `createTraceTracker({ onSpanStart, onSpanEnd })` — low-level span lifecycle.
 
+### Cross-repository correlation
+
+Every `AgentEvent` may carry an optional `correlation` envelope. Set the stable
+`operationId` at the host boundary and preserve local `runId`, `sessionId`,
+`turnId`, `actionId`, and `traceId` values when they exist. Observability
+propagates these values as span attributes without requiring a vendor SDK or a
+shared runtime.
+
 ### Sinks (batch HTTP exporters)
 
 All three return `LifecycleObserver` (`flush(): Promise<void>`, idempotent `shutdown(): Promise<void>`). Shared `HttpBatchOptions` defaults: `batchSize` 25, `maxQueueSize` 1000 (drop-oldest), `flushIntervalMs` 2000, `maxRetries` 3, `retryBaseDelayMs` 100, `requestTimeoutMs` 10000, plus isolated `onError`. Single-flight batching, timeout, and retries are best-effort — not an at-least-once guarantee. **Await `shutdown()`** on graceful termination.
