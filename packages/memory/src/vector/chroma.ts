@@ -1,7 +1,8 @@
 import { ErrorCodes, MemoryError } from '@agentskit/core'
 import type { RetrievedDocument, VectorDocument, VectorMemory } from '@agentskit/core'
+import { remoteJson, type RemoteHttpConfig } from './http'
 
-export interface ChromaConfig {
+export interface ChromaConfig extends RemoteHttpConfig {
   /** Base URL of a running Chroma HTTP server. */
   url: string
   collection: string
@@ -14,7 +15,6 @@ export interface ChromaConfig {
   /** Additional headers for hosted or proxied Chroma deployments. */
   headers?: Record<string, string>
   topK?: number
-  fetch?: typeof globalThis.fetch
 }
 
 async function call<T>(
@@ -23,24 +23,14 @@ async function call<T>(
   path: string,
   body?: unknown,
 ): Promise<T> {
-  const fetchImpl = config.fetch ?? globalThis.fetch
   const headers = new Headers(config.headers)
   if (config.apiKey !== undefined) headers.set('x-chroma-token', config.apiKey)
   headers.set('content-type', 'application/json')
-  const response = await fetchImpl(`${config.url}${path}`, {
+  return remoteJson<T>(config, 'chroma', `${config.url}${path}`, {
     method,
     headers,
     body: body === undefined ? undefined : JSON.stringify(body),
   })
-  const text = await response.text()
-  if (!response.ok) {
-    throw new MemoryError({
-      code: ErrorCodes.AK_MEMORY_REMOTE_HTTP,
-      message: `chroma ${response.status}: ${text.slice(0, 200)}`,
-      hint: `URL ${config.url}${path}. Check Chroma server health + collection name.`,
-    })
-  }
-  return (text.length > 0 ? JSON.parse(text) : {}) as T
 }
 
 export function chroma(config: ChromaConfig): VectorMemory {
@@ -114,7 +104,7 @@ export function chroma(config: ChromaConfig): VectorMemory {
           metadata: metadatas[i],
           score: distances[i] !== undefined ? 1 - distances[i]! : 0,
         }))
-        .filter(r => (r.score ?? 0) >= threshold)
+        .filter(r => (r.score ?? 0) > threshold)
     },
 
     async delete(ids: string[]) {

@@ -1,14 +1,13 @@
 import type {
   ChatMemory,
   Message,
-  MemoryRecord,
 } from '@agentskit/core'
 import {
   ErrorCodes,
   MemoryError,
-  deserializeMessages,
   serializeMessages,
 } from '@agentskit/core'
+import { decodeStoredMessages } from './decode'
 
 type MemoryOperationOptions = Parameters<ChatMemory['load']>[0]
 
@@ -53,11 +52,7 @@ function encodeMessages(messages: Message[]): string {
 
 function decodeMessages(json: string | undefined): Message[] {
   if (!json) return []
-  try {
-    return deserializeMessages(JSON.parse(json) as MemoryRecord)
-  } catch {
-    return []
-  }
+  return decodeStoredMessages(json, 'tursoChatMemory')
 }
 
 /**

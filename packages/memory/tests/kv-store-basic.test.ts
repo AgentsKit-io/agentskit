@@ -59,6 +59,21 @@ describe('createFileStore', () => {
     expect(await b.get('x')).toEqual({ n: 1 })
   })
 
+  it('serializes concurrent writes from multiple instances without stale snapshots', async () => {
+    const path = tmpPath()
+    paths.push(path)
+    const a = createFileStore({ backend: 'file', path })
+    const b = createFileStore({ backend: 'file', path })
+    await Promise.all([a.set('a', 1), b.set('b', 2)])
+    expect(await a.get('a')).toBe(1)
+    expect(await b.get('b')).toBe(2)
+  })
+
+  it('rejects invalid retention settings', () => {
+    expect(() => createInMemoryStore({ backend: 'in-memory', maxMessages: 0 })).toThrow(/maxMessages/)
+    expect(() => createInMemoryStore({ backend: 'in-memory', ttlSeconds: Number.NaN })).toThrow(/ttlSeconds/)
+  })
+
   it('returns undefined for a missing file (ENOENT) and missing key', async () => {
     const path = tmpPath()
     paths.push(path)

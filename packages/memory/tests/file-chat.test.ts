@@ -39,6 +39,12 @@ describe('fileChatMemory', () => {
     expect(await mem.load()).toEqual([])
   })
 
+  it('rejects a corrupted record instead of treating it as empty', async () => {
+    writeFileSync(filepath, '{broken', 'utf8')
+    const { fileChatMemory } = await import('../src/file-chat')
+    await expect(fileChatMemory(filepath).load()).rejects.toMatchObject({ code: 'AK_MEMORY_DESERIALIZE_FAILED' })
+  })
+
   it('save then load round-trips with date serialization', async () => {
     const { fileChatMemory } = await import('../src/file-chat')
     const mem = fileChatMemory(filepath)

@@ -68,7 +68,7 @@ export function mongoAtlasVectorStore(config: MongoAtlasVectorConfig): VectorMem
           score: row.score,
           metadata: row.metadata,
         }))
-        .filter(r => (r.score ?? 0) >= threshold)
+        .filter(r => (r.score ?? 0) > threshold)
     },
 
     async delete(ids: string[]) {

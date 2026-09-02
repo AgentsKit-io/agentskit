@@ -1,13 +1,13 @@
-import { ErrorCodes, MemoryError } from '@agentskit/core'
 import type { RetrievedDocument, VectorDocument, VectorMemory } from '@agentskit/core'
+import { remoteJson, type RemoteHttpConfig } from './http'
+import { validateIdentifier } from './validation'
 
-export interface QdrantConfig {
+export interface QdrantConfig extends RemoteHttpConfig {
   /** Base URL, e.g. `https://xxx.cluster-qdrant.io`. */
   url: string
   apiKey?: string
   collection: string
   topK?: number
-  fetch?: typeof globalThis.fetch
 }
 
 const qdrantSourceId = '__agentskitSourceId'
@@ -36,8 +36,7 @@ async function call<T>(
   path: string,
   body?: unknown,
 ): Promise<T> {
-  const fetchImpl = config.fetch ?? globalThis.fetch
-  const response = await fetchImpl(`${config.url}${path}`, {
+  return remoteJson<T>(config, 'qdrant', `${config.url}${path}`, {
     method,
     headers: {
       'content-type': 'application/json',
@@ -45,18 +44,10 @@ async function call<T>(
     },
     body: body === undefined ? undefined : JSON.stringify(body),
   })
-  const text = await response.text()
-  if (!response.ok) {
-    throw new MemoryError({
-      code: ErrorCodes.AK_MEMORY_REMOTE_HTTP,
-      message: `qdrant ${response.status}: ${text.slice(0, 200)}`,
-      hint: `URL ${config.url}${path}. Check api-key + collection "${config.collection}".`,
-    })
-  }
-  return (text.length > 0 ? JSON.parse(text) : {}) as T
 }
 
 export function qdrant(config: QdrantConfig): VectorMemory {
+  const collection = encodeURIComponent(validateIdentifier(config.collection, 'collection'))
   const defaultTopK = Math.max(1, config.topK ?? 10)
 
   return {
@@ -67,7 +58,7 @@ export function qdrant(config: QdrantConfig): VectorMemory {
         vector: d.embedding,
         payload: { content: d.content, ...(d.metadata ?? {}), [qdrantSourceId]: d.id },
       })))
-      await call(config, 'PUT', `/collections/${config.collection}/points`, {
+      await call(config, 'PUT', `/collections/${collection}/points`, {
         points,
       })
     },
@@ -81,13 +72,13 @@ export function qdrant(config: QdrantConfig): VectorMemory {
           score: number
           payload?: Record<string, unknown>
         }>
-      }>(config, 'POST', `/collections/${config.collection}/points/search`, {
+      }>(config, 'POST', `/collections/${collection}/points/search`, {
         vector: embedding,
         limit: topK,
         with_payload: true,
       })
       return (result.result ?? [])
-        .filter(m => m.score >= threshold)
+        .filter(m => m.score > threshold)
         .map(m => {
           const payload = { ...(m.payload ?? {}) }
           const sourceId = payload[qdrantSourceId]
@@ -104,7 +95,7 @@ export function qdrant(config: QdrantConfig): VectorMemory {
     async delete(ids: string[]) {
       if (ids.length === 0) return
       const points = await Promise.all(ids.map(qdrantPointId))
-      await call(config, 'POST', `/collections/${config.collection}/points/delete`, {
+      await call(config, 'POST', `/collections/${collection}/points/delete`, {
         points,
       })
     },

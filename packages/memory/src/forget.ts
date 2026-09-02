@@ -38,6 +38,9 @@ export interface ForgetReport {
 export interface ForgetSubjectResult {
   subjectId: string
   reports: ForgetReport[]
+  /** Inputs without the capability, which require an explicit out-of-band deletion. */
+  skippedBackends: string[]
+  incomplete: boolean
   totalDeleted: number
   /** Hash you can sign into the audit log to prove the deletion ran. */
   evidenceHash: string
@@ -62,24 +65,36 @@ async function hash(input: string): Promise<string> {
 
 /**
  * Walk every memory passed in and run `forgetSubject(subjectId)` on
- * any that implement it. Memories that don't implement it are
- * silently skipped — they hold no subject-scoped data, or you must
- * delete out-of-band (e.g. log retention).
+ * any that implement it. Missing capabilities are reported so callers
+ * cannot mistake a partial deletion for a complete one.
  */
 export async function forgetSubject(
   memories: Array<ChatMemory | VectorMemory | unknown>,
   subjectId: string,
 ): Promise<ForgetSubjectResult> {
   const reports: ForgetReport[] = []
+  const skippedBackends: string[] = []
   for (const memory of memories) {
-    if (!isForgettable(memory)) continue
+    if (!isForgettable(memory)) {
+      skippedBackends.push(typeof memory === 'object' && memory !== null && '__agentskitBackend' in memory
+        ? String((memory as { __agentskitBackend?: unknown }).__agentskitBackend ?? 'unknown')
+        : 'unknown')
+      continue
+    }
     reports.push(await memory.forgetSubject(subjectId))
   }
   const totalDeleted = reports.reduce((sum, r) => sum + r.deletedCount, 0)
   const evidenceHash = await hash(
     JSON.stringify({ subjectId, reports: reports.map(r => ({ b: r.backend, n: r.deletedCount, at: r.at })) }),
   )
-  return { subjectId, reports, totalDeleted, evidenceHash }
+  return {
+    subjectId,
+    reports,
+    skippedBackends,
+    incomplete: skippedBackends.length > 0 || reports.some(r => (r.failures?.length ?? 0) > 0),
+    totalDeleted,
+    evidenceHash,
+  }
 }
 
 /**

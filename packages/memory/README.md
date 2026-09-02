@@ -72,11 +72,12 @@ Use a **vector** backend with [`@agentskit/rag`](https://www.npmjs.com/package/@
 
 ## Features
 
-### Chat memory (3)
+### Chat memory (4)
 
 - `fileChatMemory({ path })` — JSON on disk; zero infra.
 - `sqliteChatMemory({ path })` — WAL-mode SQLite; indexed by session.
 - `redisChatMemory({ client, keyPrefix })` — distributed, serverless-friendly.
+- `tursoChatMemory({ url, authToken? })` — hosted or local libSQL/Turso.
 
 All on top of `createInMemoryMemory` / `createLocalStorageMemory` from
 `@agentskit/core`.
@@ -102,7 +103,7 @@ Canonical records are runtime validated. Oversized saves reject with
 keys and a host-owned parser; a legacy key is removed only after canonical
 persistence succeeds.
 
-### Vector memory (7)
+### Vector memory (11)
 
 - `fileVectorMemory` — pure-JS, file-persisted (good to ~10k vectors).
 - `redisVectorMemory` — Redis Stack / Redis 8+ HNSW.
@@ -111,6 +112,17 @@ persistence succeeds.
 - `qdrant` — self-hosted or cloud via HTTP.
 - `chroma` — Chroma v2 HTTP client with tenant, database, and token support.
 - `upstashVector` — serverless HTTP.
+- `supabaseVectorStore` — Supabase-hosted pgvector RPC.
+- `weaviateVectorStore` — Weaviate Cloud or self-hosted HTTP.
+- `milvusVectorStore` — Milvus/Zilliz REST API.
+- `mongoAtlasVectorStore` — MongoDB Atlas Vector Search with an injected collection.
+
+Vector adapters follow ADR 0003: a result is included only when its score is
+strictly greater than `threshold`. Remote HTTP adapters accept `timeoutMs` and
+`maxResponseBytes`; configure both for production workloads. File KV writes
+are atomic and serialized across instances in one process. They are not a
+multi-process coordination primitive; use SQLite, Redis, or another external
+store when several processes write the same file.
 
 Same 3-method `VectorStore` contract — swap without touching agent code.
 

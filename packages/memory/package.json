@@ -53,8 +53,8 @@
   },
   "scripts": {
     "build": "tsup",
-    "test": "vitest run",
-    "test:coverage": "vitest run --coverage",
+    "test": "pnpm --filter @agentskit/core build && vitest run",
+    "test:coverage": "pnpm --filter @agentskit/core build && vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"
   },

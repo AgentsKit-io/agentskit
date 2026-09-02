@@ -1,6 +1,6 @@
 /**
  * Extra redis-chat tests to cover branches not hit by the main redis.test.ts:
- * - decodeMessages catch branch (invalid JSON → return [])
+ * - decodeMessages invalid-record branch
  * - lazy createRedisClientAdapter path (no client provided)
  */
 import { describe, it, expect, vi, afterEach } from 'vitest'
@@ -23,11 +23,10 @@ function makeBrokenJsonClient(): RedisClientAdapter {
 }
 
 describe('redisChatMemory — extra branches', () => {
-  it('decodeMessages returns [] on invalid JSON', async () => {
+  it('decodeMessages rejects invalid JSON', async () => {
     const { redisChatMemory } = await import('../src/redis-chat')
     const mem = redisChatMemory({ url: '', client: makeBrokenJsonClient() })
-    const result = await mem.load()
-    expect(result).toEqual([])
+    await expect(mem.load()).rejects.toMatchObject({ code: 'AK_MEMORY_DESERIALIZE_FAILED' })
   })
 
   it('lazy client creation path (no client option)', async () => {

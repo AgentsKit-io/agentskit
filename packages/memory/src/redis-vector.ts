@@ -96,7 +96,7 @@ export function redisVectorMemory(config: RedisVectorMemoryConfig): VectorMemory
         }
 
         const score = 1 - parseFloat(fieldMap.score ?? '1') // COSINE distance → similarity
-        if (score < threshold) continue
+        if (score <= threshold) continue
 
         docs.push({
           id: key.replace(`${prefix}:`, ''),

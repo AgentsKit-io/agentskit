@@ -23,6 +23,8 @@ describe('forgetSubject', () => {
     expect(result.subjectId).toBe('subj-42')
     expect(result.totalDeleted).toBe(3)
     expect(result.reports.map(r => r.backend)).toEqual(['pgvector', 'pinecone'])
+    expect(result.incomplete).toBe(true)
+    expect(result.skippedBackends).toEqual(['unknown'])
     expect(result.evidenceHash).toMatch(/^[a-f0-9]{64}$/)
   })
 
@@ -43,9 +45,11 @@ describe('forgetSubject', () => {
     expect(result.reports[0]!.failures![0]!.reason).toBe('cluster offline')
   })
 
-  it('skips memories that do not implement forgetSubject', async () => {
+  it('reports memories that do not implement forgetSubject', async () => {
     const result = await forgetSubject([{ load: () => [] }], 's1')
     expect(result.totalDeleted).toBe(0)
     expect(result.reports).toEqual([])
+    expect(result.incomplete).toBe(true)
+    expect(result.skippedBackends).toEqual(['unknown'])
   })
 })

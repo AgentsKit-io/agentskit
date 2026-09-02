@@ -8,10 +8,10 @@ export interface FileVectorMemoryConfig {
   store?: VectorStore
 }
 
-function requireVectra(): { LocalIndex: new (path: string) => VectraIndex } {
+async function requireVectra(): Promise<{ LocalIndex: new (path: string) => VectraIndex }> {
   try {
-    // eslint-disable-next-line @typescript-eslint/no-require-imports
-    return require('vectra')
+    const moduleId = 'vectra'
+    return (await import(/* @vite-ignore */ moduleId)) as { LocalIndex: new (path: string) => VectraIndex }
   } catch {
     throw new MemoryError({
       code: ErrorCodes.AK_MEMORY_PEER_MISSING,
@@ -39,7 +39,7 @@ function createVectraStore(dirPath: string): VectorStore {
 
   const getIndex = async (): Promise<VectraIndex> => {
     if (index) return index
-    const { LocalIndex } = requireVectra()
+    const { LocalIndex } = await requireVectra()
     index = new LocalIndex(dirPath)
     if (!(await index.isIndexCreated())) {
       await index.createIndex()
@@ -113,7 +113,7 @@ export function fileVectorMemory(config: FileVectorMemoryConfig): VectorMemory {
       const results = await store.query(embedding, fetchK)
 
       return results
-        .filter(r => r.score >= threshold)
+        .filter(r => r.score > threshold)
         .filter(r => matchesFilter(r.metadata, options?.filter))
         .slice(0, topK)
         .map((r): RetrievedDocument => ({

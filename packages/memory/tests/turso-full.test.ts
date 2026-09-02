@@ -113,7 +113,7 @@ describe('tursoChatMemory (injected fake client)', () => {
     )
   })
 
-  it('decodeMessages handles invalid JSON gracefully', async () => {
+  it('decodeMessages rejects invalid JSON', async () => {
     const fakeClient = {
       execute: vi.fn(async ({ sql }: { sql: string }) => {
         const norm = sql.replace(/\s+/g, ' ').trim().toUpperCase()
@@ -127,7 +127,6 @@ describe('tursoChatMemory (injected fake client)', () => {
 
     const { tursoChatMemory } = await import('../src/turso')
     const mem = tursoChatMemory({ url: 'file::memory:' })
-    const result = await mem.load()
-    expect(result).toEqual([])
+    await expect(mem.load()).rejects.toMatchObject({ code: 'AK_MEMORY_DESERIALIZE_FAILED' })
   })
 })
