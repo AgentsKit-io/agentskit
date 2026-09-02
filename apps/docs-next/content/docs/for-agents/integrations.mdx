@@ -53,6 +53,7 @@ at runtime. Ships the canonical descriptor + registry + projection contract, a
 - `toToolDefinitions` — project a descriptor's actions into legacy `ToolDefinition[]` (auth-bound), preserving the `fn(config) => Tool[]` API consumers expect.
 - `actionToToolDefinition` — project a single action into a `ToolDefinition`.
 - `httpOptionsFor` — build the auth-bound HTTP options for a descriptor + caller config.
+- `readResponseText` and `readResponseBytes` — bounded response readers for custom transports.
 - `ProjectionConfig` — projection knobs: `credential`, `config`, `signal`, `fetch`, **`fetchUntrusted`** (egress-policy fetch for model-controlled URLs).
 - `integrationTools` — resolve a catalog integration (by slug or descriptor) and project it to `ToolDefinition[]` in one call.
 - `integrationToolsFromEnv` — project an integration reading its credential from the environment (via the apiKey `envHint`).

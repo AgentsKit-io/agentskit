@@ -1,4 +1,6 @@
 import { ErrorCodes, ToolError } from '@agentskit/core'
+import { readResponseBytes, readResponseText } from './http-body'
+export { readResponseBytes, readResponseText } from './http-body'
 
 export interface HttpToolOptions {
   baseUrl?: string
@@ -14,6 +16,8 @@ export interface HttpToolOptions {
   sleep?: (delayMs: number) => Promise<void>
   /** Injectable clock used when interpreting HTTP-date Retry-After values. */
   now?: () => number
+  /** Maximum response body size in bytes. Defaults to 2 MiB. */
+  maxResponseBytes?: number
   /** Optional retry policy. Retries are limited to idempotent methods. */
   retry?: RetryPolicy
 }
@@ -30,6 +34,9 @@ export interface RetryPolicy {
 }
 
 export type RetryableHttpMethod = NonNullable<HttpJsonRequest['method']>
+
+const MAX_TIMEOUT_MS = 2_147_483_647
+const MAX_RETRY_ATTEMPTS = 100
 
 export interface HttpJsonRequest {
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
@@ -98,6 +105,12 @@ export function composeTimeoutSignal(
   timeoutMs: number,
   outer?: AbortSignal,
 ): { signal: AbortSignal; cleanup: () => void } {
+  if (!Number.isInteger(timeoutMs) || timeoutMs <= 0 || timeoutMs > MAX_TIMEOUT_MS) {
+    throw new ToolError({
+      code: ErrorCodes.AK_TOOL_INVALID_INPUT,
+      message: 'timeoutMs must be a positive integer within the supported timer range',
+    })
+  }
   const controller = new AbortController()
   let timer: ReturnType<typeof setTimeout> | undefined
 
@@ -131,6 +144,36 @@ function isRetryableMethod(method: HttpJsonRequest['method'], allowed: Retryable
 
 function isRetryableStatus(status: number): boolean {
   return status === 408 || status === 425 || status === 429 || status === 500 || status === 502 || status === 503 || status === 504
+}
+
+function retryOptions(policy: RetryPolicy | undefined): {
+  maxAttempts: number
+  baseDelayMs: number
+  maxDelayMs: number
+} {
+  const maxAttempts = policy?.maxAttempts ?? 1
+  const baseDelayMs = policy?.baseDelayMs ?? 100
+  const maxDelayMs = policy?.maxDelayMs ?? 2_000
+  const methods = policy?.methods
+  const validMethods = new Set<RetryableHttpMethod>(['GET', 'PUT', 'DELETE', 'POST', 'PATCH'])
+  if (
+    !Number.isInteger(maxAttempts) ||
+    maxAttempts < 1 ||
+    maxAttempts > MAX_RETRY_ATTEMPTS ||
+    !Number.isInteger(baseDelayMs) ||
+    baseDelayMs < 0 ||
+    baseDelayMs > MAX_TIMEOUT_MS ||
+    !Number.isInteger(maxDelayMs) ||
+    maxDelayMs < baseDelayMs ||
+    maxDelayMs > MAX_TIMEOUT_MS ||
+    methods?.some((method) => !validMethods.has(method))
+  ) {
+    throw new ToolError({
+      code: ErrorCodes.AK_TOOL_INVALID_INPUT,
+      message: `retry configuration must use finite integer delays and 1-${MAX_RETRY_ATTEMPTS} attempts`,
+    })
+  }
+  return { maxAttempts, baseDelayMs, maxDelayMs }
 }
 
 function retryAfterMs(value: string | null, now: number): number | undefined {
@@ -214,13 +257,15 @@ export async function httpJson<TResult = unknown>(
   )
 
   const timeoutMs = options.timeoutMs ?? 20_000
+  const maxResponseBytes = options.maxResponseBytes ?? 2 * 1024 * 1024
+  if (!Number.isInteger(maxResponseBytes) || maxResponseBytes <= 0) {
+    throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: 'timeoutMs and maxResponseBytes must be positive integers' })
+  }
   const { signal, cleanup } = composeTimeoutSignal(timeoutMs, options.signal)
 
   try {
     const retryPolicy = options.retry
-    const maxAttempts = Math.max(1, Math.floor(retryPolicy?.maxAttempts ?? 1))
-    const baseDelayMs = Math.max(0, retryPolicy?.baseDelayMs ?? 100)
-    const maxDelayMs = Math.max(baseDelayMs, retryPolicy?.maxDelayMs ?? 2_000)
+    const { maxAttempts, baseDelayMs, maxDelayMs } = retryOptions(retryPolicy)
     let attempt = 0
 
     while (true) {
@@ -248,7 +293,7 @@ export async function httpJson<TResult = unknown>(
 
       let text: string
       try {
-        text = await response.text()
+        text = await readResponseText(response, maxResponseBytes)
       } catch (err) {
         if (err instanceof ToolError || signal.aborted || isAbortError(err)) {
           throw signal.aborted ? signal.reason ?? err : err

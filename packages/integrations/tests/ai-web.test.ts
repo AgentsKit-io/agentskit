@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest'
+import { ErrorCodes } from '@agentskit/core'
 import { openaiImagesIntegration } from '../src/services/openai-images/index'
 import { firecrawlIntegration } from '../src/services/firecrawl/index'
 import { mapsIntegration } from '../src/services/maps/index'
@@ -86,8 +87,16 @@ describe('reader', () => {
     let url = ''; let auth = ''; let seenSignal: AbortSignal | undefined
     const signal = new AbortController().signal
     const fetch = fakeFetch((u, init) => { url = u; auth = String((init.headers as Record<string, string>).authorization ?? ''); seenSignal = init.signal; return new Response('extracted text', { status: 200 }) })
-    const [rf] = toToolDefinitions(readerIntegration, { config: { apiKey: 'jk' }, fetch, signal })
+    const [rf] = toToolDefinitions(readerIntegration, { config: { apiKey: 'jk' }, fetch, fetchUntrusted: fetch, signal })
     expect(await run(rf, { url: 'https://example.com' })).toBe('extracted text')
-    expect(url).toBe('https://r.jina.ai/https://example.com'); expect(auth).toBe('Bearer jk'); expect(seenSignal).toBe(signal)
+    expect(url).toBe('https://r.jina.ai/https://example.com'); expect(auth).toBe('Bearer jk'); expect(seenSignal).toBeDefined()
+  })
+
+  it('rejects model-controlled URLs without the host egress transport', async () => {
+    const fetch = fakeFetch(() => new Response('should-not-run', { status: 200 }))
+    const [rf] = toToolDefinitions(readerIntegration, { fetch })
+    await expect(run(rf, { url: 'https://example.com' })).rejects.toMatchObject({
+      code: ErrorCodes.AK_TOOL_INVALID_INPUT,
+    })
   })
 })

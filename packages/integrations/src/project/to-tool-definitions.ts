@@ -1,6 +1,6 @@
 import type { ToolDefinition } from '@agentskit/core'
 import type { Integration, IntegrationAction, AuthSpec } from '../contract'
-import { bindHttp, type HttpToolOptions } from '../http'
+import { bindHttp, composeTimeoutSignal, type HttpToolOptions } from '../http'
 import type { IntegrationActionContext } from '../contract'
 import type { RetryPolicy } from '../http'
 
@@ -16,6 +16,7 @@ export interface ProjectionConfig {
   retry?: RetryPolicy
   sleep?: (delayMs: number) => Promise<void>
   now?: () => number
+  maxResponseBytes?: number
   signal?: AbortSignal
   fetch?: typeof globalThis.fetch
   /** Policy-enforcing fetch for model-controlled URLs; propagated to action context. */
@@ -47,6 +48,26 @@ export function httpOptionsFor(integration: Integration, config: ProjectionConfi
     now: config.now,
     signal: config.signal,
     fetch: config.fetch,
+    maxResponseBytes: config.maxResponseBytes,
+  }
+}
+
+function boundedFetch(
+  fetchImpl: typeof globalThis.fetch,
+  timeoutMs: number,
+): typeof globalThis.fetch {
+  return async (input, init = {}) => {
+    const { signal, cleanup } = composeTimeoutSignal(timeoutMs, init.signal ?? undefined)
+    try {
+      const request = fetchImpl(input, { ...init, signal })
+      const timeout = new Promise<never>((_, reject) => {
+        if (signal.aborted) reject(signal.reason)
+        else signal.addEventListener('abort', () => reject(signal.reason), { once: true })
+      })
+      return await Promise.race([request, timeout])
+    } finally {
+      cleanup()
+    }
   }
 }
 
@@ -71,12 +92,16 @@ export function actionToToolDefinition(action: IntegrationAction, ctx: Integrati
 
 /** Project every action of a descriptor into ToolDefinitions (legacy tool API). */
 export function toToolDefinitions(integration: Integration, config: ProjectionConfig = {}): ToolDefinition[] {
+  const timeoutMs = config.timeoutMs ?? 20_000
+  const fetch = boundedFetch(config.fetch ?? globalThis.fetch, timeoutMs)
+  const fetchUntrusted = config.fetchUntrusted ? boundedFetch(config.fetchUntrusted, timeoutMs) : undefined
   const http = bindHttp(httpOptionsFor(integration, config))
   const ctx: IntegrationActionContext = {
     http,
-    fetch: config.fetch ?? globalThis.fetch,
-    fetchUntrusted: config.fetchUntrusted,
+    fetch,
+    fetchUntrusted,
     signal: config.signal,
+    maxResponseBytes: config.maxResponseBytes,
     config: config.config,
   }
   return integration.actions.map((a) => actionToToolDefinition(a, ctx))

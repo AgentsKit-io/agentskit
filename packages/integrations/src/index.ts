@@ -26,7 +26,7 @@ export { defineIntegration, defineAction, defineTrigger } from './contract'
 export { CONFIG_FIELDS } from './config-fields'
 
 export type { HttpToolOptions, HttpJsonRequest, IntegrationHttp, RetryPolicy, RetryableHttpMethod } from './http'
-export { httpJson, bindHttp, composeTimeoutSignal } from './http'
+export { httpJson, bindHttp, composeTimeoutSignal, readResponseText } from './http'
 
 export type { IntegrationRegistry } from './registry'
 export {
