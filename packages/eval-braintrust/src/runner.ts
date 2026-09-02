@@ -7,6 +7,14 @@ export interface BraintrustRunOptions {
   experimentName?: string
   baseUrl?: string
   metadata?: Record<string, unknown>
+  /** Remote upload is opt-in through an API key; raw case data is opt-in per field. */
+  upload?: {
+    includeInput?: boolean
+    includeOutput?: boolean
+    includeExpected?: boolean
+    metadataKeys?: string[]
+    maxFieldBytes?: number
+  }
 }
 
 export interface ScoredCase {
@@ -104,6 +112,31 @@ function scorerError(
   }
 }
 
+function uploadField(value: string, maxBytes: number): string {
+  const bytes = new TextEncoder().encode(value)
+  if (bytes.byteLength <= maxBytes) return value
+  return new TextDecoder().decode(bytes.slice(0, maxBytes))
+}
+
+function remoteMetadata(
+  metadata: Record<string, unknown> | undefined,
+  keys: string[] | undefined,
+  maxBytes: number,
+): Record<string, string> {
+  if (!metadata || !keys) return {}
+  const out: Record<string, string> = {}
+  for (const key of keys) {
+    const value = metadata[key]
+    if (value === undefined) continue
+    try {
+      out[key] = uploadField(JSON.stringify(value), maxBytes)
+    } catch {
+      out[key] = '[unserializable]'
+    }
+  }
+  return out
+}
+
 export async function scoreCase(
   scorers: Scorer[],
   args: ScorerInput,
@@ -177,6 +210,14 @@ export async function runBraintrustEval<TCase extends ScorerInput = ScorerInput>
   const baseUrl = options.baseUrl ?? envOr('BRAINTRUST_BASE_URL')
   const shouldUpload = Boolean(apiKey)
   const warnings = new Set<string>()
+  const upload = options.upload ?? {}
+  const maxFieldBytes = upload.maxFieldBytes ?? 4096
+  if (!Number.isInteger(maxFieldBytes) || maxFieldBytes < 1 || maxFieldBytes > 1_048_576) {
+    throw new RuntimeError({
+      code: ErrorCodes.AK_RUNTIME_INVALID_INPUT,
+      message: 'upload.maxFieldBytes must be an integer in [1, 1048576]',
+    })
+  }
 
   let experiment: BraintrustExperiment | null = null
 
@@ -191,7 +232,7 @@ export async function runBraintrustEval<TCase extends ScorerInput = ScorerInput>
           experiment: options.experimentName,
           apiKey,
           appUrl: baseUrl,
-          metadata: options.metadata,
+          metadata: remoteMetadata(options.metadata, upload.metadataKeys, maxFieldBytes),
         })
       } catch {
         warnings.add(WARN.init)
@@ -238,13 +279,20 @@ export async function runBraintrustEval<TCase extends ScorerInput = ScorerInput>
 
     if (experiment) {
       try {
+        const uploadMetadata = remoteMetadata(
+          { ...(c.metadata ?? {}), ...(runMeta ?? {}) },
+          upload.metadataKeys,
+          maxFieldBytes,
+        )
         await Promise.resolve(
           experiment.log({
-            input: c.input,
-            output,
-            expected: c.expected,
             scores: Object.fromEntries(scores.map(s => [s.name, s.score])),
-            metadata: { ...(c.metadata ?? {}), ...(runMeta ?? {}), durationMs },
+            metadata: { ...uploadMetadata, durationMs: String(durationMs) },
+            ...(upload.includeInput ? { input: uploadField(c.input, maxFieldBytes) } : {}),
+            ...(upload.includeOutput ? { output: uploadField(output, maxFieldBytes) } : {}),
+            ...(upload.includeExpected
+              ? { expected: uploadField(JSON.stringify(c.expected) ?? 'undefined', maxFieldBytes) }
+              : {}),
           }),
         )
       } catch {

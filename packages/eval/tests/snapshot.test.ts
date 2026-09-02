@@ -134,4 +134,13 @@ describe('matchPromptSnapshot', () => {
       rmSync(dir, { recursive: true, force: true })
     }
   })
+
+  it('does not treat filesystem errors as missing snapshots', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ak-snap-'))
+    try {
+      await expect(matchPromptSnapshot('hello', dir)).rejects.toThrow()
+    } finally {
+      rmSync(dir, { recursive: true, force: true })
+    }
+  })
 })

@@ -14,6 +14,8 @@ npm install @agentskit/eval braintrust
 
 `braintrust` is loaded lazily; runs without it still produce scored output (no upload).
 
+Remote case fields are excluded by default. Use `options.upload` to opt in to selected input, output, expected, and metadata fields; selected values are bounded by `maxFieldBytes` (default 4096).
+
 ## Primary exports
 
 ### Runner

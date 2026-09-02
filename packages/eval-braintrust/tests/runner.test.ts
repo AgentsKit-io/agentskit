@@ -163,6 +163,52 @@ describe('runBraintrustEval', () => {
     expect(result.url).toBe('https://braintrust.dev/x')
   })
 
+  it('uploads bounded score data by default and raw fields only by explicit opt-in', async () => {
+    const logs: Record<string, unknown>[] = []
+    const result = await runBraintrustEval({
+      cases: [{ input: 'private prompt', output: '', expected: 'private expected', metadata: { tenant: 'acme', secret: 'nope' } }],
+      agent: async () => ({ output: 'private answer', metadata: { trace: 't-1' } }),
+      scorers: [taskSuccess],
+      options: {
+        projectName: 'p',
+        apiKey: 'k',
+        upload: { includeInput: true, includeOutput: true, includeExpected: true, metadataKeys: ['tenant'], maxFieldBytes: 8 },
+      },
+    }, { bt: { init: async () => ({ log: p => { logs.push(p) } }) } })
+    expect(result.warnings).toBeUndefined()
+    expect(logs[0]).toMatchObject({ input: 'private ', output: 'private ', expected: '"private' })
+    expect(logs[0]?.metadata).toEqual({ tenant: '"acme"', durationMs: expect.any(String) })
+    expect(JSON.stringify(logs[0])).not.toContain('secret')
+  })
+
+  it('does not include raw case data in remote payloads by default', async () => {
+    const log = vi.fn()
+    await runBraintrustEval({
+      cases: [{ input: 'secret input', output: '', expected: 'secret expected' }],
+      agent: async () => ({ output: 'secret output' }),
+      scorers: [taskSuccess],
+      options: { projectName: 'p', apiKey: 'k' },
+    }, { bt: { init: async () => ({ log }) } })
+    expect(log).toHaveBeenCalledWith(expect.not.objectContaining({ input: expect.anything(), output: expect.anything(), expected: expect.anything() }))
+  })
+
+  it('applies the metadata allowlist to experiment initialization too', async () => {
+    const init = vi.fn(async () => ({ log: vi.fn() }))
+    await runBraintrustEval({
+      cases: [{ input: 'q', output: '', expected: 'q' }],
+      agent: async input => ({ output: input }),
+      scorers: [taskSuccess],
+      options: {
+        projectName: 'p',
+        apiKey: 'k',
+        metadata: { tenant: 'acme', secret: 'do-not-send' },
+        upload: { metadataKeys: ['tenant'] },
+      },
+    }, { bt: { init } })
+    expect(init).toHaveBeenCalledWith(expect.objectContaining({ metadata: { tenant: '"acme"' } }))
+    expect(JSON.stringify(init.mock.calls[0]?.[0])).not.toContain('do-not-send')
+  })
+
   it('awaits async log and optional flush before summarize', async () => {
     const order: string[] = []
     const fakeExperiment = {

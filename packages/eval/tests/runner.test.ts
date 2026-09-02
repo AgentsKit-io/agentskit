@@ -11,6 +11,11 @@ describe('runEval', () => {
     ],
   }
 
+  it('rejects malformed boundary inputs with a typed error', async () => {
+    await expect(runEval({ agent: null as never, suite: simpleSuite })).rejects.toThrow(/agent must be a function/)
+    await expect(runEval({ agent: vi.fn(), suite: { name: 'bad', cases: [{ input: 1, expected: 'x' }] } as never })).rejects.toThrow(/input must be a string/)
+  })
+
   it('runs all test cases and returns EvalResult', async () => {
     const agent = vi.fn()
       .mockResolvedValueOnce('The answer is 4.')

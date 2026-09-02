@@ -19,6 +19,10 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
   return value !== null && typeof value === 'object' && !Array.isArray(value)
 }
 
+const MESSAGE_ROLES = new Set(['user', 'assistant', 'system', 'tool'])
+const MESSAGE_STATUSES = new Set(['pending', 'streaming', 'complete', 'error'])
+const CHUNK_TYPES = new Set(['text', 'tool_call', 'tool_result', 'reasoning', 'usage', 'error', 'done'])
+
 function invalidCassette(message: string, cause?: unknown): ConfigError {
   return new ConfigError({
     code: ErrorCodes.AK_CONFIG_INVALID,
@@ -40,9 +44,17 @@ function assertCassetteEntry(entry: unknown, index: number): asserts entry is Ca
   }
   for (let messageIndex = 0; messageIndex < messages.length; messageIndex++) {
     const message = messages[messageIndex]
-    if (!isPlainObject(message) || typeof message.content !== 'string') {
+    if (
+      !isPlainObject(message) ||
+      typeof message.id !== 'string' ||
+      typeof message.role !== 'string' ||
+      !MESSAGE_ROLES.has(message.role) ||
+      typeof message.content !== 'string' ||
+      typeof message.status !== 'string' ||
+      !MESSAGE_STATUSES.has(message.status)
+    ) {
       throw invalidCassette(
-        `Invalid cassette: entries[${index}].request.messages[${messageIndex}] must contain string content`,
+        `Invalid cassette: entries[${index}].request.messages[${messageIndex}] has an invalid message shape`,
       )
     }
     if (
@@ -59,10 +71,51 @@ function assertCassetteEntry(entry: unknown, index: number): asserts entry is Ca
   }
   for (let chunkIndex = 0; chunkIndex < entry.chunks.length; chunkIndex++) {
     const chunk = entry.chunks[chunkIndex]
-    if (!isPlainObject(chunk) || typeof chunk.type !== 'string') {
+    if (!isPlainObject(chunk) || typeof chunk.type !== 'string' || !CHUNK_TYPES.has(chunk.type)) {
       throw invalidCassette(
-        `Invalid cassette: entries[${index}].chunks[${chunkIndex}] must contain a string type`,
+        `Invalid cassette: entries[${index}].chunks[${chunkIndex}] has an invalid type`,
       )
+    }
+    if (chunk.metadata !== undefined && !isPlainObject(chunk.metadata)) {
+      throw invalidCassette(
+        `Invalid cassette: entries[${index}].chunks[${chunkIndex}].metadata must be an object`,
+      )
+    }
+    if (
+      (chunk.type === 'text' || chunk.type === 'reasoning' || chunk.type === 'error') &&
+      chunk.content !== undefined &&
+      typeof chunk.content !== 'string'
+    ) {
+      throw invalidCassette(
+        `Invalid cassette: entries[${index}].chunks[${chunkIndex}].content must be a string`,
+      )
+    }
+    if (chunk.type === 'tool_call' || chunk.type === 'tool_result') {
+      const toolCall = chunk.toolCall
+      if (
+        !isPlainObject(toolCall) ||
+        typeof toolCall.id !== 'string' ||
+        typeof toolCall.name !== 'string' ||
+        typeof toolCall.args !== 'string' ||
+        (toolCall.result !== undefined && typeof toolCall.result !== 'string')
+      ) {
+        throw invalidCassette(
+          `Invalid cassette: entries[${index}].chunks[${chunkIndex}].toolCall has an invalid shape`,
+        )
+      }
+    }
+    if (chunk.type === 'usage') {
+      const usage = chunk.usage
+      if (
+        !isPlainObject(usage) ||
+        !['promptTokens', 'completionTokens', 'totalTokens'].every(
+          key => typeof usage[key] === 'number' && Number.isFinite(usage[key]) && usage[key] >= 0,
+        )
+      ) {
+        throw invalidCassette(
+          `Invalid cassette: entries[${index}].chunks[${chunkIndex}].usage has an invalid shape`,
+        )
+      }
     }
   }
 }
@@ -111,17 +164,73 @@ export function parseCassette(input: string): Cassette {
 }
 
 export function fingerprintRequest(request: AdapterRequest): string {
-  const messages = request.messages.map(m => `${m.role}:${m.content ?? ''}`).join('|')
-  const c = request.context
-  const ctxStr = c
-    ? JSON.stringify({
-        s: c.systemPrompt ?? null,
-        t: c.temperature ?? null,
-        m: c.maxTokens ?? null,
-        tn: c.tools?.map(t => t.name).sort() ?? null,
-      })
-    : ''
-  return `${messages}::${ctxStr}`
+  const seen = new WeakSet<object>()
+
+  const canonicalize = (value: unknown, path: string): unknown => {
+    if (value === null || typeof value === 'string' || typeof value === 'boolean') return value
+    if (typeof value === 'number') {
+      if (!Number.isFinite(value)) throw invalidCassette(`Cannot fingerprint ${path}: number is not finite`)
+      return value
+    }
+    if (value instanceof Date) {
+      if (!Number.isFinite(value.getTime())) throw invalidCassette(`Cannot fingerprint ${path}: invalid date`)
+      return { $date: value.toISOString() }
+    }
+    if (typeof value !== 'object') {
+      throw invalidCassette(`Cannot fingerprint ${path}: unsupported value`)
+    }
+
+    if (seen.has(value)) throw invalidCassette(`Cannot fingerprint ${path}: cyclic value`)
+    seen.add(value)
+    try {
+      if (Array.isArray(value)) return value.map((item, index) => canonicalize(item, `${path}[${index}]`))
+      const prototype = Object.getPrototypeOf(value)
+      if (prototype !== Object.prototype && prototype !== null) {
+        throw invalidCassette(`Cannot fingerprint ${path}: unsupported object`)
+      }
+      const out: Record<string, unknown> = {}
+      for (const key of Object.keys(value as Record<string, unknown>).sort()) {
+        const child = (value as Record<string, unknown>)[key]
+        if (child === undefined) continue
+        out[key] = canonicalize(child, `${path}.${key}`)
+      }
+      return out
+    } finally {
+      seen.delete(value)
+    }
+  }
+
+  // Tool callbacks are executable values, not provider request data. The
+  // serializable tool contract remains in the fingerprint so schema changes
+  // cannot reuse a cassette accidentally.
+  const messages = request.messages.map(message => ({
+    role: message.role,
+    content: message.content,
+    parts: message.parts,
+    toolCalls: message.toolCalls,
+    toolCallId: message.toolCallId,
+    metadata: message.metadata,
+  }))
+  const tools = request.context?.tools?.map(tool => ({
+    name: tool.name,
+    description: tool.description,
+    schema: tool.schema,
+    requiresConfirmation: tool.requiresConfirmation,
+    tags: tool.tags,
+    category: tool.category,
+  }))
+  return JSON.stringify(canonicalize({
+    messages,
+    context: request.context
+      ? {
+          systemPrompt: request.context.systemPrompt,
+          temperature: request.context.temperature,
+          maxTokens: request.context.maxTokens,
+          metadata: request.context.metadata,
+          tools,
+        }
+      : undefined,
+  }, 'request'))
 }
 
 export function lastUserContent(request: AdapterRequest): string {
