@@ -358,7 +358,7 @@ describe('createSamlVerifier', () => {
   const verifier = createSamlVerifier({
     issuer: 'https://idp.acme.com',
     audience: 'urn:agentskit:sp',
-    signingCertPem: '-----BEGIN CERTIFICATE-----\nFAKE\n-----END CERTIFICATE-----',
+    signatureValidation: 'external',
   })
 
   it('passes a valid assertion', () => {

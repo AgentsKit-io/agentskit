@@ -108,6 +108,7 @@ export async function buildAdapterRequest(
   text: string,
   systemPrompt: string | undefined,
   tools: ToolDefinition[],
+  correlation?: AdapterRequest['correlation'],
 ): Promise<AdapterRequest> {
   const withSystem = mergeSystemMessages(messages, systemPrompt)
   const retrievedDocuments = config.retriever && text
@@ -117,6 +118,7 @@ export async function buildAdapterRequest(
 
   return {
     messages: retrievalMessage ? [retrievalMessage, ...withSystem] : withSystem,
+    ...(correlation ? { correlation } : {}),
     context: {
       systemPrompt,
       temperature: config.temperature,

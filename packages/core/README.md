@@ -71,6 +71,7 @@ console.log(controller.getState().messages)
 - `parseToolArgs` — typed JSON argument parsing for adapters that need fail-closed validation; `safeParseArgs` remains the compatibility helper
 - TypeScript types for every contract: `ToolDefinition`, `SkillDefinition`, `AgentEvent`, `Adapter`, `ChatMemory`, `Retriever`, `ChatController`
 - Event emitter for `AgentEvent` streams — observability hooks attach here
+- `AgentEvent.correlation` is an optional, provider-neutral identity envelope: `operationId` is stable across boundaries while `runId`, `sessionId`, `turnId`, `actionId`, and `traceId` retain local meaning
 - Dual CJS/ESM output, strict TypeScript, no `any`
 
 ## Error handling

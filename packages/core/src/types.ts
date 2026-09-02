@@ -13,7 +13,7 @@ export type {
   RetrievedDocument, RetrieverRequest, Retriever,
   ChatConfig, ChatState, ChatController, ChatReturn, EditOptions,
   SkillDefinition,
-  AgentEvent, Observer,
+  AgentEvent, AgentEventContext, Observer,
   EvalTestCase, EvalResult, EvalSuite,
   TokenCounter, TokenCounterOptions, TokenCountResult,
 } from './types/index'

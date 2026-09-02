@@ -1,8 +1,8 @@
 import { ErrorCodes, MemoryError } from './errors'
-import type { ChatMemory, Message } from './types'
+import type { AgentEventContext, ChatMemory, Message } from './types'
 
 export interface ControllerPersistenceCallbacks {
-  onSave: (messageCount: number) => void
+  onSave: (messageCount: number, correlation?: AgentEventContext) => void
   onError: (error: MemoryError) => void
 }
 
@@ -12,12 +12,13 @@ export function createControllerPersistence(
   callbacks: ControllerPersistenceCallbacks,
 ) {
   return {
-    async save(messages: Message[]): Promise<void> {
+    async save(messages: Message[], correlation?: AgentEventContext): Promise<void> {
       const memory = getMemory()
       if (!memory) return
       try {
         await memory.save(messages)
-        callbacks.onSave(messages.length)
+        if (correlation) callbacks.onSave(messages.length, correlation)
+        else callbacks.onSave(messages.length)
       } catch (cause) {
         callbacks.onError(new MemoryError({
           code: ErrorCodes.AK_MEMORY_SAVE_FAILED,

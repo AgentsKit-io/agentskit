@@ -6,10 +6,12 @@ import type { AdapterFactory } from './adapter'
 import type { ChatMemory } from './memory'
 import type { Retriever } from './retrieval'
 import type { SkillDefinition } from './skill'
-import type { Observer } from './agent'
+import type { AgentEventContext, Observer } from './agent'
 
 export interface ChatConfig {
   adapter: AdapterFactory
+  /** Optional identity propagated to adapter requests and runtime events. */
+  correlation?: AgentEventContext
   systemPrompt?: string
   temperature?: number
   maxTokens?: number

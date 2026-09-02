@@ -58,19 +58,37 @@ const MAX_SCHEMA_DEPTH = 64
 const MAX_SCHEMA_NODES = 10_000
 
 function assertSchema(raw: unknown, path: string, active = new Set<object>(), depth = 0, budget = { nodes: 0 }): void {
+  if (typeof raw === 'boolean') return
   assert(isRecord(raw), `${path} must be an object`)
   budget.nodes++
   assert(budget.nodes <= MAX_SCHEMA_NODES, `${path} exceeds the ${MAX_SCHEMA_NODES}-node schema limit`)
   assert(depth <= MAX_SCHEMA_DEPTH, `${path} exceeds the ${MAX_SCHEMA_DEPTH}-level schema depth limit`)
   if (active.has(raw)) throw new Error(`Invalid manifest: ${path} must not be cyclic`)
   active.add(raw)
-  if (raw.type !== undefined) assert(typeof raw.type === 'string' && SCHEMA_TYPES.has(raw.type), `${path}.type is invalid`)
-  if (raw.required !== undefined) {
-    assert(Array.isArray(raw.required) && raw.required.every(v => typeof v === 'string'), `${path}.required must be string[]`)
+  if (raw.type !== undefined) {
+    assert(
+      (typeof raw.type === 'string' && SCHEMA_TYPES.has(raw.type)) ||
+      (Array.isArray(raw.type) && raw.type.length > 0 && new Set(raw.type).size === raw.type.length && raw.type.every(v => typeof v === 'string' && SCHEMA_TYPES.has(v))),
+      `${path}.type is invalid`,
+    )
   }
-  if (raw.properties !== undefined) {
-    assert(isRecord(raw.properties), `${path}.properties must be an object`)
-    for (const [name, schema] of Object.entries(raw.properties)) assertSchema(schema, `${path}.properties.${name}`, active, depth + 1, budget)
+  if (raw.required !== undefined) {
+    assert(Array.isArray(raw.required) && new Set(raw.required).size === raw.required.length && raw.required.every(v => typeof v === 'string'), `${path}.required must be unique string[]`)
+  }
+  const assertSchemaMap = (value: unknown, keyword: string) => {
+    assert(isRecord(value), `${path}.${keyword} must be an object`)
+    for (const [name, schema] of Object.entries(value)) assertSchema(schema, `${path}.${keyword}.${name}`, active, depth + 1, budget)
+  }
+  if (raw.properties !== undefined) assertSchemaMap(raw.properties, 'properties')
+  if (raw.patternProperties !== undefined) assertSchemaMap(raw.patternProperties, 'patternProperties')
+  if (raw.definitions !== undefined) assertSchemaMap(raw.definitions, 'definitions')
+  if (raw.$defs !== undefined) assertSchemaMap(raw.$defs, '$defs')
+  if (raw.dependencies !== undefined) {
+    assert(isRecord(raw.dependencies), `${path}.dependencies must be an object`)
+    for (const [name, dependency] of Object.entries(raw.dependencies)) {
+      if (Array.isArray(dependency)) assert(dependency.every(v => typeof v === 'string'), `${path}.dependencies.${name} must be string[]`)
+      else assertSchema(dependency, `${path}.dependencies.${name}`, active, depth + 1, budget)
+    }
   }
   if (raw.items !== undefined) {
     if (Array.isArray(raw.items)) {
@@ -81,6 +99,15 @@ function assertSchema(raw: unknown, path: string, active = new Set<object>(), de
   }
   if (raw.additionalProperties !== undefined && typeof raw.additionalProperties !== 'boolean') {
     assertSchema(raw.additionalProperties, `${path}.additionalProperties`, active, depth + 1, budget)
+  }
+  for (const keyword of ['additionalItems', 'contains', 'propertyNames', 'not', 'if', 'then', 'else'] as const) {
+    if (raw[keyword] !== undefined) assertSchema(raw[keyword], `${path}.${keyword}`, active, depth + 1, budget)
+  }
+  for (const keyword of ['allOf', 'anyOf', 'oneOf'] as const) {
+    if (raw[keyword] !== undefined) {
+      assert(Array.isArray(raw[keyword]), `${path}.${keyword} must be an array`)
+      raw[keyword].forEach((schema, i) => assertSchema(schema, `${path}.${keyword}[${i}]`, active, depth + 1, budget))
+    }
   }
   active.delete(raw)
 }

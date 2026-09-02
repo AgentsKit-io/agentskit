@@ -1,4 +1,5 @@
 import { ErrorCodes, MemoryError } from './errors'
+import { validateMemoryRecord } from './memory-validation'
 import type { ChatMemory, MemoryRecord, Message } from './types'
 
 export function serializeMessages(messages: Message[]): MemoryRecord {
@@ -39,7 +40,7 @@ export function createLocalStorageMemory(key: string): ChatMemory {
       try {
         const raw = localStorage.getItem(key)
         if (!raw) return []
-        return deserializeMessages(JSON.parse(raw) as MemoryRecord)
+        return deserializeMessages(validateMemoryRecord(JSON.parse(raw)))
       } catch (cause) {
         throw new MemoryError({
           code: ErrorCodes.AK_MEMORY_LOAD_FAILED,

@@ -9,6 +9,7 @@ import type {
   ToolAuthorizer,
   ToolDefinition,
   ToolExecutionContext,
+  AgentEvent,
 } from './types'
 
 // --- buildToolMap ---
@@ -74,6 +75,7 @@ export interface ExecuteSafeToolOptions {
   /** Opt-in arg validation against `tool.schema` (ADR-0008). */
   validate?: ArgsValidator
   authorize?: ToolAuthorizer
+  correlation?: AgentEvent['correlation']
 }
 
 export async function auth(fn: ToolAuthorizer | undefined, call: ToolCall, context: ToolAuthorizationContext): Promise<void> {
@@ -85,7 +87,8 @@ export async function auth(fn: ToolAuthorizer | undefined, call: ToolCall, conte
 export async function executeSafeTool(
   options: ExecuteSafeToolOptions,
 ): Promise<ToolExecResult> {
-  const { tool, toolCall, context, emitter, lifecycle, onPartial, onConfirm, validate, authorize } = options
+  const { tool, toolCall, context, emitter, lifecycle, onPartial, onConfirm, validate, authorize, correlation } = options
+  const emit = (event: AgentEvent) => emitter.emit(correlation ? { ...event, correlation } : event)
   const began = Date.now()
 
   // Missing tool
@@ -95,7 +98,7 @@ export async function executeSafeTool(
       message: `Tool "${toolCall.name}" not found or has no execute function`,
       hint: 'Register an executable tool in ChatConfig, e.g. { tools: [myTool] }.',
     })
-    emitter.emit({ type: 'error', error: err })
+    emit({ type: 'error', error: err })
     return { status: 'error', error: err.toString(), durationMs: Date.now() - began }
   }
 
@@ -106,7 +109,7 @@ export async function executeSafeTool(
         code: ErrorCodes.AK_TOOL_INVALID_INPUT,
         message: v.message ?? `Tool "${toolCall.name}" received invalid arguments`,
       })
-      emitter.emit({ type: 'error', error: err })
+      emit({ type: 'error', error: err })
       return { status: 'error', error: err.toString(), durationMs: Date.now() - began }
     }
   }
@@ -130,7 +133,7 @@ export async function executeSafeTool(
     await auth(authorize, toolCall, { ...context, tool, phase: 'execute' })
   } catch (error) {
     const err = error as ToolError
-    emitter.emit({ type: 'error', error: err })
+    emit({ type: 'error', error: err })
     return { status: 'error', error: err.toString(), durationMs: Date.now() - began }
   }
 
@@ -150,7 +153,7 @@ export async function executeSafeTool(
     throw error
   }
 
-  emitter.emit({ type: 'tool:start', name: toolCall.name, args: toolCall.args })
+  emit({ type: 'tool:start', name: toolCall.name, args: toolCall.args })
 
   try {
     const result = await executeToolCall(
@@ -159,7 +162,7 @@ export async function executeSafeTool(
       context,
       onPartial,
     )
-    emitter.emit({
+    emit({
       type: 'tool:end',
       name: toolCall.name,
       result,
@@ -177,8 +180,8 @@ export async function executeSafeTool(
           cause: error,
         })
     // Emit error before tool:end so trackers can mark the active tool span.
-    emitter.emit({ type: 'error', error: err })
-    emitter.emit({
+    emit({ type: 'error', error: err })
+    emit({
       type: 'tool:end',
       name: toolCall.name,
       result: `Error: ${err.message}`,

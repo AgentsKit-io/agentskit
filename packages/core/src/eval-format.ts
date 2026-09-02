@@ -69,6 +69,10 @@ function assert(cond: unknown, msg: string): asserts cond {
   if (!cond) throw new Error(`Invalid eval format: ${msg}`)
 }
 
+function assertIsoTimestamp(value: unknown, field: string): asserts value is string {
+  assert(typeof value === 'string' && !Number.isNaN(Date.parse(value)), `${field} must be a valid timestamp`)
+}
+
 export function validateEvalSuite(raw: unknown): EvalSuiteDoc {
   assert(isRecord(raw), 'root must be an object')
   assert(raw.evalFormatVersion === EVAL_FORMAT_VERSION, `evalFormatVersion must be "${EVAL_FORMAT_VERSION}"`)
@@ -98,9 +102,12 @@ export function validateEvalRunResult(raw: unknown): EvalRunResult {
   assert(isRecord(raw), 'root must be an object')
   assert(raw.evalFormatVersion === EVAL_FORMAT_VERSION, `evalFormatVersion must be "${EVAL_FORMAT_VERSION}"`)
   assert(typeof raw.suite === 'string', 'suite required')
-  assert(typeof raw.startedAt === 'string', 'startedAt required')
-  assert(typeof raw.completedAt === 'string', 'completedAt required')
+  assertIsoTimestamp(raw.startedAt, 'startedAt')
+  assertIsoTimestamp(raw.completedAt, 'completedAt')
+  assert(Date.parse(raw.completedAt) >= Date.parse(raw.startedAt), 'completedAt must not precede startedAt')
   assert(isRecord(raw.agent), 'agent required')
+  if (raw.agent.name !== undefined) assert(typeof raw.agent.name === 'string', 'agent.name must be string')
+  if (raw.agent.version !== undefined) assert(typeof raw.agent.version === 'string', 'agent.version must be string')
   assert(Array.isArray(raw.cases), 'cases must be array')
   assert(isRecord(raw.totals), 'totals required')
   const totals = raw.totals
@@ -114,15 +121,23 @@ export function validateEvalRunResult(raw: unknown): EvalRunResult {
   assert(totalCases > 0, 'totals.cases must be greater than zero')
   assert(totalCases === raw.cases.length, 'totals.cases must match cases.length')
   assert(totalPassed + totalFailed === totalCases, 'totals passed + failed must equal cases')
+  const seenIds = new Set<string>()
+  let actualPassed = 0
   raw.cases.forEach((item: unknown, index: number) => {
     assert(isRecord(item), `cases[${index}] must be an object`)
     assert(typeof item.id === 'string' && item.id.length > 0, `cases[${index}].id required`)
+    assert(!seenIds.has(item.id), `cases[${index}].id must be unique`)
+    seenIds.add(item.id)
     assert(typeof item.input === 'string', `cases[${index}].input required`)
     assert(typeof item.output === 'string', `cases[${index}].output required`)
     assert(typeof item.passed === 'boolean', `cases[${index}].passed must be boolean`)
     assert(Number.isFinite(item.latencyMs) && (item.latencyMs as number) >= 0, `cases[${index}].latencyMs must be non-negative`)
     if (item.error !== undefined) assert(typeof item.error === 'string', `cases[${index}].error must be string`)
+    if (item.passed) actualPassed++
   })
+  assert(actualPassed === totalPassed, 'totals.passed must match case results')
+  assert(totalCases - actualPassed === totalFailed, 'totals.failed must match case results')
+  assert(Math.abs(totals.accuracy - actualPassed / totalCases) < Number.EPSILON, 'totals.accuracy must match passed/cases')
   return raw as unknown as EvalRunResult
 }
 

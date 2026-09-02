@@ -23,8 +23,8 @@ export interface SamlVerifierOptions {
   issuer: string
   /** Expected audience (SP entity id). */
   audience: string
-  /** X.509 cert (PEM) that signs the IdP's assertions. */
-  signingCertPem: string
+  /** XML signature must be validated externally before verifyClaims(). */
+  signatureValidation: 'external'
   /** Allowed clock skew in seconds. Default 30. */
   clockSkewSeconds?: number
 }
@@ -37,6 +37,12 @@ export interface SamlVerifier {
 }
 
 export function createSamlVerifier(options: SamlVerifierOptions): SamlVerifier {
+  if (options.signatureValidation !== 'external') {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'SAML signatureValidation must be "external"; verify the XML signature before verifyClaims()',
+    })
+  }
   const skew = (options.clockSkewSeconds ?? 30) * 1000
   return {
     verifyClaims(assertion) {

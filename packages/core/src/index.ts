@@ -111,6 +111,7 @@ export type {
   VectorFilterPredicate,
   VectorFilterPrimitive,
   AgentEvent,
+  AgentEventContext,
   Observer,
   EvalTestCase,
   EvalResult,

@@ -1,7 +1,7 @@
 import { parseToolArgs, createEventEmitter } from './primitives'
 import { ErrorCodes, ToolError } from './errors'
 import { auth, type ToolExecResult } from './agent-loop'
-import type { ChatConfig, Message, StreamChunk, ToolCall, ToolDefinition } from './types'
+import type { AgentEventContext, ChatConfig, Message, StreamChunk, ToolCall, ToolDefinition } from './types'
 
 type EventEmitter = ReturnType<typeof createEventEmitter>
 type Authorize = NonNullable<ChatConfig['authorizeToolCall']>
@@ -11,6 +11,8 @@ type RunTool = (
   tool: ToolDefinition | undefined,
   call: ToolCall,
   onPartial: (result: string) => void,
+  expectedGeneration?: number,
+  correlation?: AgentEventContext,
 ) => Promise<ToolExecResult>
 
 interface ToolCallContext {
@@ -25,6 +27,8 @@ interface ToolCallContext {
   setMessage: SetMessage
   patchCall: PatchCall
   runTool: RunTool
+  correlation: AgentEventContext
+  registerToolCall: (id: string) => void
 }
 
 export async function handleControllerToolCall({
@@ -39,6 +43,8 @@ export async function handleControllerToolCall({
   setMessage,
   patchCall,
   runTool,
+  correlation,
+  registerToolCall,
 }: ToolCallContext): Promise<void> {
   const call = chunk.toolCall
   if (!call) return
@@ -64,12 +70,13 @@ export async function handleControllerToolCall({
       message: toolCall.error!,
       hint: 'The adapter must emit tool arguments as a JSON object.',
     })
-    emitter.emit({ type: 'error', error })
+    emitter.emit({ type: 'error', error, correlation })
     return
   }
 
   await auth(authorize, toolCall, { messages, tool, phase: 'propose' })
   if (!isCurrentGeneration()) return
+  if (tool?.requiresConfirmation) registerToolCall(toolCall.id)
 
   setMessage(assistantId, current => ({ ...current, toolCalls: [...(current.toolCalls ?? []), toolCall] }))
   await onToolCall?.(toolCall, { messages, tool })
@@ -83,7 +90,7 @@ export async function handleControllerToolCall({
   if (tool?.execute) patchCall(assistantId, toolCall.id, { status: 'running' })
   const outcome = await runTool(tool, toolCall, partial => {
     if (isCurrentGeneration()) patchCall(assistantId, toolCall.id, { result: partial })
-  })
+  }, undefined, correlation)
   if (!isCurrentGeneration()) return
 
   patchCall(assistantId, toolCall.id, {

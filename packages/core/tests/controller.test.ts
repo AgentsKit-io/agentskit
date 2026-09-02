@@ -3,7 +3,7 @@ import { createChatController } from '../src/controller'
 import { proposeToolCall } from '../src/tool-proposal'
 import { createInMemoryMemory } from '../src/memory'
 import { createMockAdapter } from './helpers'
-import type { Observer, AgentEvent, ChatConfig, Message, SkillDefinition } from '../src/types'
+import type { Observer, AgentEvent, AdapterRequest, ChatConfig, Message, SkillDefinition } from '../src/types'
 
 function createTestController(overrides: Partial<ChatConfig> = {}) {
   const adapter = createMockAdapter([
@@ -665,6 +665,34 @@ describe('ChatController event emission', () => {
     expect(end?.type === 'llm:end' && end.durationMs).toBeGreaterThanOrEqual(0)
   })
 
+  it('propagates one correlation context to the adapter and runtime events', async () => {
+    const events: AgentEvent[] = []
+    const requests: AdapterRequest[] = []
+    const correlation = { operationId: 'op-chat-1', sessionId: 'session-1' }
+    const adapter = {
+      createSource: vi.fn((request: AdapterRequest) => {
+        requests.push(request)
+        return createMockAdapter([
+          { type: 'text', content: 'hi' },
+          { type: 'done' },
+        ]).createSource(request)
+      }),
+    }
+    const ctrl = createChatController({
+      adapter,
+      correlation,
+      observers: [{ name: 'test', on: event => { events.push(event) } }],
+    })
+
+    await ctrl.send('Hello')
+
+    expect(requests[0].correlation).toEqual(expect.objectContaining(correlation))
+    const runIds = new Set(events.map(event => event.correlation?.runId))
+    expect(runIds.size).toBe(1)
+    expect([...runIds][0]).toEqual(expect.any(String))
+    expect(events.every(event => event.correlation?.operationId === correlation.operationId)).toBe(true)
+  })
+
   it('includes per-turn normalized usage on llm:end without double-counting session usage', async () => {
     const events: AgentEvent[] = []
     const obs: Observer = { name: 'test', on: (e) => { events.push(e) } }
@@ -784,6 +812,17 @@ describe('ChatController event emission', () => {
     await vi.waitFor(() => expect(skillError).toHaveBeenCalledWith(expect.objectContaining({ message: 'skill unavailable' })))
   })
 
+  it('reports skill activation failures after updateConfig', async () => {
+    const onError = vi.fn()
+    const ctrl = createChatController({ adapter: createMockAdapter([]), onError })
+
+    ctrl.updateConfig({
+      skills: [{ name: 'broken', systemPrompt: 'broken', onActivate: async () => { throw new Error('updated skill unavailable') } }],
+    })
+
+    await vi.waitFor(() => expect(onError).toHaveBeenCalledWith(expect.objectContaining({ message: 'updated skill unavailable' })))
+  })
+
   it('emits memory:save event after messages change', async () => {
     const events: AgentEvent[] = []
     const obs: Observer = { name: 'test', on: (e) => { events.push(e) } }
@@ -829,6 +868,68 @@ describe('ChatController event emission', () => {
     await ctrl.send('Hello')
 
     expect(memory.save).not.toHaveBeenCalled()
+  })
+
+  it('clear() invalidates an active stream and ignores late chunks', async () => {
+    let release: (() => void) | undefined
+    const ctrl = createChatController({
+      adapter: {
+        createSource: () => ({
+          async *stream() {
+            yield { type: 'text' as const, content: 'before' }
+            await new Promise<void>(resolve => { release = resolve })
+            yield { type: 'text' as const, content: 'after' }
+            yield { type: 'done' as const }
+          },
+          abort: vi.fn(),
+        }),
+      },
+    })
+
+    const sending = ctrl.send('Go')
+    await vi.waitFor(() => expect(ctrl.getState().messages.at(-1)?.content).toBe('before'))
+    const clearing = ctrl.clear()
+    expect(ctrl.getState().messages).toEqual([])
+    release?.()
+    await Promise.all([sending, clearing])
+    expect(ctrl.getState().messages).toEqual([])
+  })
+
+  it('does not execute an approval that becomes stale while authorizing', async () => {
+    let release: (() => void) | undefined
+    const execute = vi.fn()
+    const ctrl = createChatController({
+      adapter: createMockAdapter([]),
+      tools: [{ name: 'write', requiresConfirmation: true, execute }],
+      authorizeToolCall: async (_call, context) => {
+        if (context.phase === 'propose') return { allowed: true }
+        await new Promise<void>(resolve => { release = resolve })
+        return { allowed: true }
+      },
+    })
+
+    await proposeToolCall(ctrl, { id: 'stale-approval', name: 'write', args: {} })
+    const approval = ctrl.approve('stale-approval')
+    await vi.waitFor(() => expect(release).toBeTypeOf('function'))
+    ctrl.stop()
+    release?.()
+    await approval
+
+    expect(execute).not.toHaveBeenCalled()
+  })
+
+  it('does not execute an approval created before stop()', async () => {
+    const execute = vi.fn()
+    const ctrl = createChatController({
+      adapter: createMockAdapter([]),
+      tools: [{ name: 'write', requiresConfirmation: true, execute }],
+    })
+
+    await proposeToolCall(ctrl, { id: 'stopped-approval', name: 'write', args: {} })
+    ctrl.stop()
+    await ctrl.approve('stopped-approval')
+
+    expect(execute).not.toHaveBeenCalled()
   })
 
   it('emits error event on stream error', async () => {

@@ -1,4 +1,18 @@
-export type AgentEvent =
+/**
+ * Optional identity envelope for correlating an event across AgentsKit
+ * boundaries. `operationId` is the stable cross-system identity; the other
+ * fields preserve local lifecycle identities without collapsing their meaning.
+ */
+export interface AgentEventContext {
+  readonly operationId: string
+  readonly runId?: string
+  readonly sessionId?: string
+  readonly turnId?: string
+  readonly actionId?: string
+  readonly traceId?: string
+}
+
+type AgentEventPayload =
   | { type: 'llm:start'; model?: string; messageCount: number }
   | { type: 'llm:first-token'; latencyMs: number }
   | { type: 'llm:end'; content: string; usage?: { promptTokens: number; completionTokens: number }; durationMs: number }
@@ -18,6 +32,8 @@ export type AgentEvent =
   | { type: 'progress'; label: string; status: 'start' | 'ok' | 'skip' | 'error'; detail?: string; durationMs?: number }
   | { type: 'run-aborted' }
   | { type: 'error'; error: Error }
+
+export type AgentEvent = AgentEventPayload & { readonly correlation?: AgentEventContext }
 
 export interface Observer {
   name: string

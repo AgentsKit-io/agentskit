@@ -46,8 +46,8 @@ describe('validateEvalRunResult', () => {
     validateEvalRunResult({
       evalFormatVersion: EVAL_FORMAT_VERSION,
       suite: 'smoke',
-      startedAt: 'a',
-      completedAt: 'b',
+      startedAt: '2026-01-01T00:00:00.000Z',
+      completedAt: '2026-01-01T00:00:01.000Z',
       agent: {},
       totals: { cases: 1, passed: 1, failed: 0, accuracy: 1 },
       cases: [{ id: 'c1', input: 'hi', output: 'hello', passed: true, latencyMs: 1 }],
@@ -57,12 +57,12 @@ describe('validateEvalRunResult', () => {
   it('rejects empty runs and malformed case records', () => {
     expect(() => validateEvalRunResult({
       evalFormatVersion: EVAL_FORMAT_VERSION,
-      suite: 'smoke', startedAt: 'a', completedAt: 'b', agent: {},
+      suite: 'smoke', startedAt: '2026-01-01T00:00:00.000Z', completedAt: '2026-01-01T00:00:01.000Z', agent: {},
       totals: { cases: 0, passed: 0, failed: 0, accuracy: 0 }, cases: [],
     })).toThrow(/greater than zero/)
     expect(() => validateEvalRunResult({
       evalFormatVersion: EVAL_FORMAT_VERSION,
-      suite: 'smoke', startedAt: 'a', completedAt: 'b', agent: {},
+      suite: 'smoke', startedAt: '2026-01-01T00:00:00.000Z', completedAt: '2026-01-01T00:00:01.000Z', agent: {},
       totals: { cases: 1, passed: 1, failed: 0, accuracy: 1 },
       cases: [{ id: '', input: 'hi', output: 'hello', passed: true, latencyMs: 1 }],
     })).toThrow(/id required/)
@@ -70,12 +70,35 @@ describe('validateEvalRunResult', () => {
 
   it('accepts case errors and rejects non-string errors', () => {
     const base = {
-      evalFormatVersion: EVAL_FORMAT_VERSION, suite: 'smoke', startedAt: 'a', completedAt: 'b', agent: {},
+      evalFormatVersion: EVAL_FORMAT_VERSION, suite: 'smoke', startedAt: '2026-01-01T00:00:00.000Z', completedAt: '2026-01-01T00:00:01.000Z', agent: {},
       totals: { cases: 1, passed: 0, failed: 1, accuracy: 0 },
       cases: [{ id: 'c1', input: 'hi', output: '', passed: false, latencyMs: 0, error: 'failed' }],
     }
     expect(validateEvalRunResult(base).cases[0]!.error).toBe('failed')
     expect(() => validateEvalRunResult({ ...base, cases: [{ ...base.cases[0], error: 42 }] })).toThrow(/error must be string/)
+  })
+
+  it('rejects invalid timestamps, duplicate ids, and inconsistent totals', () => {
+    const base = {
+      evalFormatVersion: EVAL_FORMAT_VERSION, suite: 'smoke',
+      startedAt: '2026-01-01T00:00:01.000Z', completedAt: '2026-01-01T00:00:00.000Z', agent: {},
+      totals: { cases: 1, passed: 1, failed: 0, accuracy: 1 },
+      cases: [{ id: 'c1', input: 'hi', output: 'hello', passed: true, latencyMs: 0 }],
+    }
+    expect(() => validateEvalRunResult(base)).toThrow(/completedAt must not precede/)
+    expect(() => validateEvalRunResult({
+      ...base,
+      startedAt: '2026-01-01T00:00:00.000Z',
+      completedAt: '2026-01-01T00:00:01.000Z',
+      totals: { cases: 2, passed: 2, failed: 0, accuracy: 1 },
+      cases: [{ ...base.cases[0], id: 'c1' }, { ...base.cases[0], id: 'c1' }],
+    })).toThrow(/must be unique/)
+    expect(() => validateEvalRunResult({
+      ...base,
+      startedAt: '2026-01-01T00:00:00.000Z',
+      completedAt: '2026-01-01T00:00:01.000Z',
+      totals: { cases: 1, passed: 0, failed: 1, accuracy: 0 },
+    })).toThrow(/totals.passed/)
   })
 })
 

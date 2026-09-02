@@ -78,6 +78,20 @@ describe('validateManifest', () => {
     expect(m.skills?.[0]?.examples).toHaveLength(1)
   })
 
+  it('accepts JSON Schema boolean, union type, and composition keywords', () => {
+    expect(() => validateManifest({
+      ...valid,
+      tools: [{ name: 'tool', inputSchema: {
+        type: ['object', 'null'],
+        properties: { query: { type: ['string', 'null'] } },
+        additionalProperties: false,
+        $defs: { nullable: { anyOf: [true, { type: 'null' }] } },
+        allOf: [{ required: ['query'] }],
+        anyOf: [true, { not: false }],
+      } }],
+    })).not.toThrow()
+  })
+
   it.each([
     { tools: 'not-an-array' },
     { skills: 'not-an-array' },

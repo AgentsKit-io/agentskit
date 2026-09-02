@@ -35,10 +35,14 @@ SAML requires an XML / XML-DSig validator — bring your own. The helper provide
 import { createSamlVerifier } from '@agentskit/core/security'
 
 const verifier = createSamlVerifier({
-  validator: async (xml) => myXmlDsigValidator(xml),
+  issuer: 'https://example.okta.com',
+  audience: 'urn:agentskit:sp',
+  signatureValidation: 'external',
 })
 
-const assertion = await verifier.verify(samlResponseXml)
+// Validate the XML signature with the XML-DSig library selected by your app.
+const assertion = await myXmlDsigValidator(samlResponseXml)
+verifier.verifyClaims(assertion)
 // assertion.subject, assertion.attributes (typed bag)
 ```
 

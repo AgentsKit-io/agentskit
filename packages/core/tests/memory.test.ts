@@ -134,6 +134,27 @@ describe('createLocalStorageMemory', () => {
     }
   })
 
+  it('rejects structurally invalid stored messages before deserialization', async () => {
+    const original = Object.getOwnPropertyDescriptor(globalThis, 'localStorage')
+    Object.defineProperty(globalThis, 'localStorage', {
+      configurable: true,
+      value: {
+        getItem: () => JSON.stringify({
+          version: 1,
+          messages: [{ ...sampleMessage, role: 'unknown', createdAt: sampleMessage.createdAt.toISOString() }],
+        }),
+      },
+    })
+    try {
+      await expect(createLocalStorageMemory('chat').load()).rejects.toMatchObject({
+        name: 'MemoryError', code: 'AK_MEMORY_LOAD_FAILED',
+      })
+    } finally {
+      if (original) Object.defineProperty(globalThis, 'localStorage', original)
+      else delete (globalThis as { localStorage?: unknown }).localStorage
+    }
+  })
+
   it('surfaces browser storage permission failures as typed errors', async () => {
     const original = Object.getOwnPropertyDescriptor(globalThis, 'localStorage')
     Object.defineProperty(globalThis, 'localStorage', {
