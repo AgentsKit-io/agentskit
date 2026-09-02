@@ -214,6 +214,7 @@ Pick what you need. Every package works alone. Combinations work without glue co
 | [`@agentskit/core`](packages/core) | Types, contracts, primitives | stable |
 | [`@agentskit/adapters`](packages/adapters) | Provider adapters (OpenAI, Anthropic, Gemini, Ollama, DeepSeek, Grok, …) | beta |
 | [`@agentskit/runtime`](packages/runtime) | Autonomous agent runtime (ReAct loop, delegation) | beta |
+| [`@agentskit/statechart`](packages/statechart) | Framework-neutral interaction state and resumable snapshots | beta |
 | [`@agentskit/tools`](packages/tools) | Web search, filesystem, shell, integrations, MCP bridge | beta |
 | [`@agentskit/memory`](packages/memory) | Chat + vector + graph + encrypted memory | beta |
 | [`@agentskit/rag`](packages/rag) | Plug-and-play retrieval and reranking | beta |
