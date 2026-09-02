@@ -12,6 +12,11 @@ Entries are versioned by semver and dated by release. Future monthly entries sho
 
 ## Unreleased
 
+### 2026-09-02 — coordinated ecosystem hardening release train
+
+- Versioned 22 public packages through Changesets, with package-level changelog entries and synchronized documentation metadata.
+- Publication remains gated until the previously committed unpublished versions are recovered through the trusted OIDC release workflow.
+
 ### Added
 
 - **Human-approved content atom pipeline** (`docs/ecosystem/content-pipeline/`, `pnpm content-pipeline:run`) with deterministic local roles mapped honestly to Registry contracts and offline claim verification for issue #1206. Publishing stays content-digest-bound, evidence-gated, and human-approved.

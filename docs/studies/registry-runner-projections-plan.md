@@ -128,7 +128,7 @@ The generated configuration must pin an exact package version and integrity
 hash. It must never install `latest` or auto-run newly published code after a
 consumer has approved a configuration.
 
-The published smoke test uses `@agentskit/mcp@0.4.2` with the Registry
+The published smoke test uses `@agentskit/mcp@0.4.3` with the Registry
 `research` agent and exposes `fetch_url` and `web_search` over stdio. The
 typed `research-academic-synthesizer` projection is `partial` until
 host-specific approval and invocation behavior is verified.
@@ -142,7 +142,7 @@ Generate the smallest host-native artifact each host needs:
 - all projections retain a link to the Registry source and the exact version.
 
 The first Registry README now contains copyable MCP previews for all three
-hosts, pinned to the verified `@agentskit/mcp@0.4.2` tarball. These remain
+hosts, pinned to the verified `@agentskit/mcp@0.4.3` tarball. These remain
 `planned` until each host's approval and invocation path is tested in a clean
 project. Codex accepted the command through a read-only config override and
 Claude Code wrote the expected project `.mcp.json` in an isolated temporary
