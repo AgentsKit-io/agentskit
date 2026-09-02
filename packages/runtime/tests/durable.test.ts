@@ -181,4 +181,18 @@ describe('createFileStepLog', () => {
       rmSync(dir, { recursive: true, force: true })
     }
   })
+
+  it('rejects valid JSON that is not a step record', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ak-dur-'))
+    const path = join(dir, 'log.jsonl')
+    try {
+      writeFileSync(path, '{"runId":"r","stepId":"s","status":"success"}\n')
+      const store = await createFileStepLog(path)
+      await expect(store.list('r')).rejects.toMatchObject({
+        code: 'AK_RUNTIME_INVALID_INPUT',
+      })
+    } finally {
+      rmSync(dir, { recursive: true, force: true })
+    }
+  })
 })

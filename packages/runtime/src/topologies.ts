@@ -106,7 +106,11 @@ function withTimeout<T>(
   if (timeoutMs === undefined) return p
   return new Promise<T>((resolve, reject) => {
     const timer = setTimeout(() => {
-      onTimeout?.()
+      try {
+        onTimeout?.()
+      } catch {
+        // Cancellation is best-effort; the timeout must still settle the wrapper.
+      }
       reject(new Error(`${label} timed out after ${timeoutMs}ms`))
     }, timeoutMs)
     p.then(

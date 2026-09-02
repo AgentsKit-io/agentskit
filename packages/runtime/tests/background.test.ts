@@ -52,6 +52,8 @@ describe('parseSchedule', () => {
     expect(() => parseSchedule('0 9')).toThrow(/5 fields/)
     expect(() => parseSchedule('every:-1')).toThrow(/invalid every:/)
     expect(() => parseSchedule('99 * * * *')).toThrow(/out of range/)
+    expect(() => parseSchedule('0,,5 * * * *')).toThrow(/empty cron segment/)
+    expect(() => parseSchedule('0 0 1-2-3 * *')).toThrow(/invalid cron range/)
   })
 })
 

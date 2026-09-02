@@ -41,6 +41,11 @@ export const POST = (req: WebhookRequest) => handler(req)
 Verification is required by default. For a route protected by an external
 authentication proxy, use `strict: false` explicitly.
 
+The cron parser uses standard day-of-month/day-of-week OR semantics when both
+fields are restricted. `timeoutMs` on a swarm is a deadline for the wrapper;
+it invokes an optional member `abort()` hook, but cancellation remains
+best-effort unless the member implements it.
+
 ## Related
 
 - [Recipe: background agents](/docs/reference/recipes/background-agents)

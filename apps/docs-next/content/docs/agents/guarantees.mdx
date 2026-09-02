@@ -64,7 +64,9 @@ const runtime = createRuntime({
 
 Two limits per tool:
 
-- `perRun` — counter resets on every `runtime.run()`.
+- `perRun` — counter is keyed by the runtime `runId`; automatically generated
+  run IDs isolate ordinary `runtime.run()` calls, while reusing a `runId` means
+  continuing the same logical run.
 - `perWindow` — sliding window shared across runs.
 
 Plus `dryRunRequiredIn: [...envTags]` — destructive tools throw before `execute` runs in matching environments.

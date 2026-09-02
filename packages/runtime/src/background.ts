@@ -59,6 +59,9 @@ type ParsedSchedule = ParsedCron | ParsedEvery
 function expandField(field: string, min: number, max: number): Set<number> {
   const out = new Set<number>()
   for (const segment of field.split(',')) {
+    if (segment.length === 0) {
+      throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: `invalid empty cron segment: "${field}"` })
+    }
     let step = 1
     let range = segment
     const stepIdx = segment.indexOf('/')
@@ -71,7 +74,11 @@ function expandField(field: string, min: number, max: number): Set<number> {
     let to = max
     if (range !== '*') {
       if (range.includes('-')) {
-        const [a, b] = range.split('-').map(Number)
+        const parts = range.split('-')
+        if (parts.length !== 2) {
+          throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: `invalid cron range: "${segment}"` })
+        }
+        const [a, b] = parts.map(Number)
         from = a ?? min
         to = b ?? max
       } else {
@@ -129,13 +136,11 @@ export function cronMatches(schedule: ParsedCron, now: Date): boolean {
   if (!schedule.minute.has(now.getMinutes()) || !schedule.hour.has(now.getHours()) || !schedule.month.has(now.getMonth() + 1)) return false
   const domMatch = schedule.dom.has(now.getDate())
   const dowMatch = schedule.dow.has(now.getDay())
-  const dayMatch = schedule.domAny && schedule.dowAny
-    ? true
-    : schedule.domAny
-      ? dowMatch
-      : schedule.dowAny
-        ? domMatch
-        : domMatch || dowMatch
+  let dayMatch: boolean
+  if (schedule.domAny && schedule.dowAny) dayMatch = true
+  else if (schedule.domAny) dayMatch = dowMatch
+  else if (schedule.dowAny) dayMatch = domMatch
+  else dayMatch = domMatch || dowMatch
   return dayMatch
 }
 
@@ -156,7 +161,9 @@ export function createCronScheduler<TContext = unknown>(
     const jobName = entry.job.agent.name
     options.onEvent?.({ type: 'run:start', job: jobName, now })
     try {
-      const task = typeof entry.job.task === 'function' ? entry.job.task(now) : entry.job.task ?? `scheduled: ${jobName}`
+      let task: string
+      if (typeof entry.job.task === 'function') task = entry.job.task(now)
+      else task = entry.job.task ?? `scheduled: ${jobName}`
       const result = await entry.job.agent.run(task, entry.job.context)
       options.onEvent?.({ type: 'run:end', job: jobName, now, result })
     } catch (err) {

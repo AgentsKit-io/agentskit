@@ -64,6 +64,21 @@ export interface DurableRunner {
   reset: () => Promise<void>
 }
 
+function isStepRecord(input: unknown): input is StepRecord<unknown> {
+  if (input === null || typeof input !== 'object') return false
+  const record = input as Partial<StepRecord<unknown>>
+  return (
+    typeof record.runId === 'string' && record.runId.length > 0 &&
+    typeof record.stepId === 'string' && record.stepId.length > 0 &&
+    typeof record.name === 'string' && record.name.length > 0 &&
+    (record.status === 'success' || record.status === 'failure') &&
+    (record.error === undefined || typeof record.error === 'string') &&
+    typeof record.startedAt === 'string' && record.startedAt.length > 0 &&
+    typeof record.endedAt === 'string' && record.endedAt.length > 0 &&
+    typeof record.attempt === 'number' && Number.isSafeInteger(record.attempt) && record.attempt >= 1
+  )
+}
+
 export function createDurableRunner(options: DurableRunnerOptions): DurableRunner {
   const maxAttempts = Math.max(1, options.maxAttempts ?? 1)
   const retryDelayMs = Math.max(0, options.retryDelayMs ?? 0)
@@ -225,7 +240,14 @@ export async function createFileStepLog(path: string): Promise<StepLogStore> {
     const records: StepRecord<unknown>[] = []
     for (const [index, line] of raw.split('\n').filter(Boolean).entries()) {
       try {
-        records.push(JSON.parse(line) as StepRecord<unknown>)
+        const record: unknown = JSON.parse(line)
+        if (!isStepRecord(record)) {
+          throw new RuntimeError({
+            code: ErrorCodes.AK_RUNTIME_INVALID_INPUT,
+            message: 'invalid step record',
+          })
+        }
+        records.push(record)
       } catch (cause) {
         throw new RuntimeError({
           code: ErrorCodes.AK_RUNTIME_INVALID_INPUT,
