@@ -584,3 +584,19 @@ describe('MCP client request bounds', () => {
     expect(received[0]).toMatchObject({ result: { text: '😀' } })
   })
 })
+
+describe('MCP descriptor validation', () => {
+  it('rejects non-string descriptions and invalid schema limits', async () => {
+    const transport: McpTransport = {
+      send: () => undefined,
+      onMessage: () => () => undefined,
+    }
+    const client = createMcpClient({ transport })
+    client.listTools = async () => ({
+      tools: [{ name: 'tool', description: 42, inputSchema: { type: 'object' } }],
+    })
+    await expect(toolsFromMcpClient(client, { quarantine: false })).rejects.toThrow(/description must be a string/)
+    await expect(toolsFromMcpClient(client, { maxSchemaBytes: 0 })).rejects.toThrow(/maxSchemaBytes/)
+    await client.close()
+  })
+})
