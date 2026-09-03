@@ -44,6 +44,15 @@ describe('release workflow authentication', () => {
     assert.match(workflow, /exec node "\%s\/bin\/npm-cli\.js" "\$@".*npm_client_dir/)
     assert.match(workflow, /chmod \+x "\$npm_client_dir\/bin\/npm"/)
     assert.match(workflow, /echo "\$npm_client_dir\/bin" >> "\$GITHUB_PATH"/)
+    assert.match(workflow, /echo "NPM_CLIENT_DIR=\$npm_client_dir" >> "\$GITHUB_ENV"/)
     assert.match(workflow, /node "\$npm_client_dir\/bin\/npm-cli\.js" --version/)
+  })
+
+  test('uses the pinned npm client for SBOM generation', () => {
+    assert.match(
+      workflow,
+      /node "\$NPM_CLIENT_DIR\/bin\/npm-cli\.js" exec --yes --package="@cyclonedx\/cyclonedx-npm@2\.0\.0" -- cyclonedx-npm/,
+    )
+    assert.doesNotMatch(workflow, /npx --yes @cyclonedx\/cyclonedx-npm/)
   })
 })
