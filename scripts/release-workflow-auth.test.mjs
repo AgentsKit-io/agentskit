@@ -33,6 +33,7 @@ describe('release workflow authentication', () => {
   test('configures npm trusted publishing without token-auth config', () => {
     assert.match(workflow, /registry-url: https:\/\/registry\.npmjs\.org/)
     assert.doesNotMatch(workflow, /NPM_TOKEN|NODE_AUTH_TOKEN/)
+    assert.match(workflow, /node scripts\/publish-with-npm\.mjs/)
   })
 
   test('verifies the npm release client tarball before activating it', () => {
