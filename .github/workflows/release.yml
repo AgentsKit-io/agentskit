@@ -35,6 +35,7 @@ jobs:
         with:
           node-version: 22
           package-manager-cache: false
+          registry-url: https://registry.npmjs.org
       - name: Pin npm release client
         env:
           NPM_TARBALL_URL: https://registry.npmjs.org/npm/-/npm-11.18.0.tgz
@@ -116,6 +117,7 @@ jobs:
           github-token: ${{ steps.release_app_token.outputs.token }}
         env:
           GITHUB_TOKEN: ${{ steps.release_app_token.outputs.token }}
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
 
       - name: Recover committed unpublished versions
@@ -125,6 +127,7 @@ jobs:
           pnpm changeset publish
           echo "published=true" >> "$GITHUB_OUTPUT"
         env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
           NPM_CONFIG_PROVENANCE: true
 
       - name: Generate SBOM (CycloneDX)
