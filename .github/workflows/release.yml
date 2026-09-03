@@ -47,6 +47,8 @@ jobs:
           npm_client_dir="$RUNNER_TEMP/npm-11.18.0"
           mkdir -p "$npm_client_dir"
           tar -xzf npm-11.18.0.tgz -C "$npm_client_dir" --strip-components=1
+          printf '#!/usr/bin/env bash\nexec node "%s/bin/npm-cli.js" "$@"\n' "$npm_client_dir" > "$npm_client_dir/bin/npm"
+          chmod +x "$npm_client_dir/bin/npm"
           echo "$npm_client_dir/bin" >> "$GITHUB_PATH"
           node "$npm_client_dir/bin/npm-cli.js" --version
           rm -f npm-11.18.0.tgz
