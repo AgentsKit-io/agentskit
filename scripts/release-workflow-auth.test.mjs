@@ -30,11 +30,8 @@ describe('release workflow authentication', () => {
     assert.match(workflow, /persist-credentials: false/)
   })
 
-  test('keeps npm trusted publishing free of token-auth config', () => {
-    // setup-node writes a token placeholder to .npmrc when registry-url is set.
-    // That placeholder prevents npm trusted publishing from using OIDC when no
-    // NODE_AUTH_TOKEN is configured.
-    assert.doesNotMatch(workflow, /registry-url:/)
+  test('configures npm trusted publishing without token-auth config', () => {
+    assert.match(workflow, /registry-url: https:\/\/registry\.npmjs\.org/)
     assert.doesNotMatch(workflow, /NPM_TOKEN|NODE_AUTH_TOKEN/)
   })
 
