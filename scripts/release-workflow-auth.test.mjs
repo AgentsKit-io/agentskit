@@ -41,6 +41,8 @@ describe('release workflow authentication', () => {
     assert.match(workflow, /NPM_TARBALL_SHA512: [A-Za-z0-9+/]+=*/)
     assert.match(workflow, /openssl dgst -sha512 -binary npm-11\.18\.0\.tgz/)
     assert.match(workflow, /tar -xzf npm-11\.18\.0\.tgz -C "\$npm_client_dir" --strip-components=1/)
+    assert.match(workflow, /exec node "\%s\/bin\/npm-cli\.js" "\$@".*npm_client_dir/)
+    assert.match(workflow, /chmod \+x "\$npm_client_dir\/bin\/npm"/)
     assert.match(workflow, /echo "\$npm_client_dir\/bin" >> "\$GITHUB_PATH"/)
     assert.match(workflow, /node "\$npm_client_dir\/bin\/npm-cli\.js" --version/)
   })
