@@ -51,12 +51,12 @@ jobs:
 
       - name: Check for changeset
         run: |
-          # Skip if PR only touches docs/examples (no package source changes)
+          # Skip if PR only touches docs/examples or package metadata.
           CHANGED=$(git diff --name-only origin/main...HEAD)
           echo "Changed files:"
           echo "$CHANGED"
 
-          NEEDS_CHANGESET=$(echo "$CHANGED" | grep -E '^packages/' | grep -vE '^packages/[^/]+/(tests?/|.*\.(test|spec)\.[^/]+$)' || true)
+          NEEDS_CHANGESET=$(echo "$CHANGED" | grep -E '^packages/' | grep -vE '^packages/[^/]+/(tests?/|.*\.(test|spec)\.[^/]+$|package\.json$)' || true)
 
           if [ -z "$NEEDS_CHANGESET" ]; then
             echo "No changes inside packages/ — changeset not required."
