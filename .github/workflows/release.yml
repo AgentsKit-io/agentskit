@@ -110,7 +110,7 @@ jobs:
         if: steps.release_intent.outputs.run == 'true' && inputs.recover_unpublished != true
         uses: changesets/action@a45c4d594aa4e2c509dc14a9f2b3b67ba3780d0d # v1
         with:
-          publish: pnpm changeset publish
+          publish: node scripts/publish-with-npm.mjs
           version: pnpm release:version
           title: "chore: version packages"
           commit: "chore: version packages"
@@ -123,7 +123,7 @@ jobs:
         id: recovery_publish
         if: github.event_name == 'workflow_dispatch' && inputs.recover_unpublished
         run: |
-          pnpm changeset publish
+          node scripts/publish-with-npm.mjs
           echo "published=true" >> "$GITHUB_OUTPUT"
         env:
           NPM_CONFIG_PROVENANCE: true
