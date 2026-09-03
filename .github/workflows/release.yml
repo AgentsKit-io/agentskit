@@ -50,6 +50,7 @@ jobs:
           printf '#!/usr/bin/env bash\nexec node "%s/bin/npm-cli.js" "$@"\n' "$npm_client_dir" > "$npm_client_dir/bin/npm"
           chmod +x "$npm_client_dir/bin/npm"
           echo "$npm_client_dir/bin" >> "$GITHUB_PATH"
+          echo "NPM_CLIENT_DIR=$npm_client_dir" >> "$GITHUB_ENV"
           node "$npm_client_dir/bin/npm-cli.js" --version
           rm -f npm-11.18.0.tgz
       - name: Create release app token
@@ -133,7 +134,7 @@ jobs:
       - name: Generate SBOM (CycloneDX)
         if: steps.changesets.outputs.published == 'true' || steps.recovery_publish.outputs.published == 'true'
         run: |
-          npx --yes @cyclonedx/cyclonedx-npm@2.0.0 \
+          node "$NPM_CLIENT_DIR/bin/npm-cli.js" exec --yes --package="@cyclonedx/cyclonedx-npm@2.0.0" -- cyclonedx-npm \
             --output-format JSON \
             --output-file sbom.cdx.json \
             --short-PURLs \
