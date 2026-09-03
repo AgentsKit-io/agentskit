@@ -2,6 +2,7 @@ import { readFile, readdir } from 'node:fs/promises'
 const packagesRoot = new URL('../packages/', import.meta.url)
 const releaseWorkflow = await readFile(new URL('../.github/workflows/release.yml', import.meta.url), 'utf8')
 const rootManifest = JSON.parse(await readFile(new URL('../package.json', import.meta.url), 'utf8'))
+const canonicalRepository = 'https://github.com/AgentsKit-io/agentskit'
 const manifests = []
 
 for (const directory of await readdir(packagesRoot)) {
@@ -35,6 +36,7 @@ for (const { directory, manifest } of manifests) {
     diagnostics.push(`${manifest.name}: private package cannot declare public access`)
   }
   if (!isPrivate) {
+    if (manifest.repository?.url !== canonicalRepository) diagnostics.push(`${manifest.name}: repository.url must exactly match ${canonicalRepository}`)
     if (manifest.publishConfig?.access !== 'public') diagnostics.push(`${manifest.name}: public package must declare publishConfig.access=public`)
     if (manifest.publishConfig?.provenance !== true) diagnostics.push(`${manifest.name}: public package must declare publishConfig.provenance=true`)
     const runtimeDependencies = {
