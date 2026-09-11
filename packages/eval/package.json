@@ -105,7 +105,7 @@
     "@agentskit/core": "workspace:*"
   },
   "peerDependencies": {
-    "braintrust": "^3.21.0"
+    "braintrust": "^3.30.0"
   },
   "peerDependenciesMeta": {
     "braintrust": {
@@ -114,12 +114,12 @@
   },
   "devDependencies": {
     "@types/node": "^25.9.5",
-    "braintrust": "^3.21.0",
+    "braintrust": "^3.30.0",
     "metro": "0.87.0",
     "metro-runtime": "0.87.0",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vite": "^8.1.4",
+    "vite": "^8.2.2",
     "vitest": "^4.1.10"
   },
   "agentskit": {
