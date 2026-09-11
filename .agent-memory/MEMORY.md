@@ -11,3 +11,4 @@ the body of each fact lives in its own file. Agents read this index first.
 - `project_file-size-baselines` — oversized files pinned in check-file-size; shrink-only, never raise
 - `reference_security-surfaces` — egress (safeFetch, ADR-0010) + inbound chat-trigger validation (ADR-0011); both opt-in, reuse ArgsValidator
 - `reference_models-catalog` — models.dev-driven catalog (#911): `/catalog` subpath isolation, no-runtime-fetch default, opt-in live pricing fallback, openaiCompatible signal caveat
+- `project_npm-publish-workspace-protocol` — release publishes via npm OIDC which does not rewrite `workspace:*`; publish-with-npm.mjs resolves ranges + packs-and-checks; `pnpm check:publish-manifests` guards it

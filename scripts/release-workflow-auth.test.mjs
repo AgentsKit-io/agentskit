@@ -36,6 +36,13 @@ describe('release workflow authentication', () => {
     assert.match(workflow, /node scripts\/publish-with-npm\.mjs/)
   })
 
+  test('guards published manifests against the workspace: protocol before publishing', () => {
+    const guard = workflow.indexOf('run: pnpm check:publish-manifests')
+    const publish = workflow.indexOf('publish: node scripts/publish-with-npm.mjs')
+    assert.notEqual(guard, -1, 'release must run the publish-manifests guard')
+    assert.ok(guard < publish, 'guard must run before changesets publish')
+  })
+
   test('verifies the npm release client tarball before activating it', () => {
     assert.match(workflow, /NPM_TARBALL_URL: https:\/\/registry\.npmjs\.org\/npm\/-\/npm-11\.18\.0\.tgz/)
     assert.match(workflow, /NPM_TARBALL_SHA512: [A-Za-z0-9+/]+=*/)

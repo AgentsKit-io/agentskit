@@ -47,6 +47,8 @@
     "test:release-registry": "node --test scripts/release-registry.test.mjs",
     "check:publication-surface": "node scripts/check-publication-surface.mjs",
     "check:packed-consumers": "node --test scripts/packed-consumers.test.mjs && node scripts/check-packed-consumers.mjs",
+    "check:publish-manifests": "node --test scripts/publish-manifests.test.mjs && node scripts/publish-with-npm.mjs --verify-only",
+    "test:publish-manifests": "node --test scripts/publish-manifests.test.mjs",
     "test:packed-consumers": "node --test scripts/packed-consumers.test.mjs",
     "check:public-api-snapshot": "node --test scripts/public-api-snapshot.test.mjs && node scripts/check-public-api-snapshot.mjs",
     "check:public-api-snapshot:update": "node scripts/check-public-api-snapshot.mjs --update",
