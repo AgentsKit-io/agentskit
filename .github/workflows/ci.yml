@@ -89,6 +89,9 @@ jobs:
       - name: Packed consumer publication contract
         run: pnpm check:packed-consumers
 
+      - name: Published manifest workspace-protocol guard
+        run: pnpm check:publish-manifests
+
       - name: Public API snapshot contract
         run: pnpm check:public-api-snapshot
 
