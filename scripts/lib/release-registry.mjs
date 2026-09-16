@@ -83,6 +83,41 @@ export function classifyRegistryVersion({ name, localVersion, metadata }) {
   }
 }
 
+/**
+ * Packages named in a changeset's YAML frontmatter, e.g. `'@agentskit/core': patch`.
+ * @param {string} content
+ * @returns {string[]}
+ */
+export function parseChangesetPackages(content) {
+  const match = /^---\r?\n([\s\S]*?)\r?\n---/.exec(content.trimStart())
+  if (!match) return []
+  const packages = []
+  for (const line of match[1].split(/\r?\n/)) {
+    const entry = /^\s*(?:'([^']+)'|"([^"]+)"|([^\s:'"]+))\s*:/.exec(line)
+    if (entry) packages.push(entry[1] ?? entry[2] ?? entry[3])
+  }
+  return packages
+}
+
+/**
+ * Changesets that `changeset version` will actually consume. A changeset that
+ * only names packages listed under `ignore` in .changeset/config.json is never
+ * consumed and must not count as a pending release train (see #1573: a
+ * docs-next-only changeset blocked the publish of 20 versioned packages).
+ * @param {Array<{ name: string, content: string }>} changesets
+ * @param {Iterable<string>} ignoredPackages
+ * @returns {Array<{ name: string, packages: string[] }>}
+ */
+export function listReleasableChangesets(changesets, ignoredPackages = []) {
+  const ignored = new Set(ignoredPackages)
+  const releasable = []
+  for (const changeset of changesets) {
+    const packages = parseChangesetPackages(changeset.content).filter(name => !ignored.has(name))
+    if (packages.length > 0) releasable.push({ name: changeset.name, packages })
+  }
+  return releasable
+}
+
 export function evaluateRegistryState(entries, { hasPendingChangesets, allowRecovery = false }) {
   const groups = {
     published: entries.filter(entry => entry.state === 'published'),

@@ -4,8 +4,29 @@ import {
   classifyRegistryVersion,
   compareSemver,
   evaluateRegistryState,
+  listReleasableChangesets,
+  parseChangesetPackages,
   parseSemver,
 } from './lib/release-registry.mjs'
+
+describe('release registry changesets', () => {
+  test('parses the packages named in a changeset frontmatter', () => {
+    assert.deepEqual(
+      parseChangesetPackages(`---\n'@agentskit/core': patch\n"@agentskit/react": minor\n---\n\nSummary: not a package\n`),
+      ['@agentskit/core', '@agentskit/react'],
+    )
+    assert.deepEqual(parseChangesetPackages('no frontmatter'), [])
+  })
+
+  test('does not count changesets that only name ignored packages', () => {
+    const docsOnly = { name: 'docs.md', content: `---\n'@agentskit/docs-next': patch\n---\n\nDocs.\n` }
+    const mixed = { name: 'mixed.md', content: `---\n'@agentskit/docs-next': patch\n'@agentskit/core': patch\n---\n\nCore.\n` }
+    const ignored = ['@agentskit/docs-next']
+    assert.deepEqual(listReleasableChangesets([docsOnly], ignored), [])
+    assert.deepEqual(listReleasableChangesets([docsOnly, mixed], ignored), [{ name: 'mixed.md', packages: ['@agentskit/core'] }])
+    assert.equal(listReleasableChangesets([docsOnly]).length, 1, 'without an ignore list every changeset counts')
+  })
+})
 
 describe('release registry semver', () => {
   test('parses stable and prerelease versions', () => {

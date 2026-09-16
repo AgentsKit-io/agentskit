@@ -87,8 +87,10 @@ jobs:
         id: release_intent
         shell: bash
         run: |
+          # Only changesets that `changeset version` consumes count; a changeset
+          # naming only ignored packages (e.g. docs-next) never goes away.
           has_changesets=false
-          if find .changeset -maxdepth 1 -type f -name '*.md' -print -quit | grep -q .; then
+          if [[ -n "$(node scripts/list-releasable-changesets.mjs)" ]]; then
             has_changesets=true
           fi
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import { readFile, readdir } from 'node:fs/promises'
-import { classifyRegistryVersion, evaluateRegistryState, formatRegistryReport } from './lib/release-registry.mjs'
+import { classifyRegistryVersion, evaluateRegistryState, formatRegistryReport, listReleasableChangesets } from './lib/release-registry.mjs'
 
 const knownArguments = new Set(['--', '--json', '--allow-unpublished-with-changesets'])
 const unknownArguments = process.argv.slice(2).filter(argument => !knownArguments.has(argument))
@@ -38,14 +38,26 @@ async function loadRegistryMetadata(name) {
 }
 
 const packages = await loadPublicPackages()
+const changesetConfig = JSON.parse(await readFile(new URL('./config.json', changesetsRoot), 'utf8'))
 const changesetFiles = (await readdir(changesetsRoot)).filter(name => name.endsWith('.md'))
+const changesets = await Promise.all(changesetFiles.map(async name => ({
+  name,
+  content: await readFile(new URL(`./${name}`, changesetsRoot), 'utf8'),
+})))
+const releasableChangesets = listReleasableChangesets(changesets, changesetConfig.ignore ?? [])
 const entries = await Promise.all(packages.map(async item =>
   classifyRegistryVersion({ ...item, metadata: await loadRegistryMetadata(item.name) }),
 ))
-const hasPendingChangesets = changesetFiles.length > 0
+// Only changesets that `changeset version` consumes count; ignored-package
+// changesets stay in .changeset/ forever and must not block a release train.
+const hasPendingChangesets = releasableChangesets.length > 0
 const allowRecovery = process.argv.includes('--allow-unpublished-with-changesets')
 const report = evaluateRegistryState(entries, { hasPendingChangesets, allowRecovery })
 
 if (process.argv.includes('--json')) process.stdout.write(`${JSON.stringify({ ...report, hasPendingChangesets, allowRecovery }, null, 2)}\n`)
-else process.stdout.write(formatRegistryReport(report, { hasPendingChangesets, allowRecovery }))
+else {
+  process.stdout.write(formatRegistryReport(report, { hasPendingChangesets, allowRecovery }))
+  const ignoredOnly = changesetFiles.length - releasableChangesets.length
+  if (ignoredOnly > 0) process.stdout.write(`- ignored-package changesets (not counted): ${ignoredOnly}\n`)
+}
 if (!report.ok) process.exitCode = 1
