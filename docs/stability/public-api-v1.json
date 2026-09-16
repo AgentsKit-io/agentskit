@@ -990,6 +990,12 @@
               ]
             },
             {
+              "name": "buildCliSystemPrompt",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "BuiltInCliManifestId",
               "kinds": [
                 "type"
@@ -999,6 +1005,12 @@
               "name": "BuiltInCliManifestProtocols",
               "kinds": [
                 "type"
+              ]
+            },
+            {
+              "name": "claudeCodeRequestArgs",
+              "kinds": [
+                "value"
               ]
             },
             {
@@ -1170,9 +1182,21 @@
               ]
             },
             {
+              "name": "serializeCliMessages",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "serializeCliPrompt",
               "kinds": [
                 "value"
+              ]
+            },
+            {
+              "name": "SerializeCliPromptOptions",
+              "kinds": [
+                "type"
               ]
             },
             {

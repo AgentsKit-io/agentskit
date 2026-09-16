@@ -84,15 +84,17 @@ returns `CliProviderManifestFor<'exec-text'>`, so requesting `tools` or
 result envelope (including `is_error`, `usage`, `session_id`, and
 `total_cost_usd`) without custom `buildArgs`/`parseOutput`/`parse` code; use
 it whenever tool calls or usage are needed from Claude Code. When the request
-carries tools, the prompt asks for a `{ text?, toolCalls }` JSON answer and
-the parser turns it into `tool_call` chunks.
+carries tools, the system prompt asks for a `{ text?, toolCalls }` JSON
+answer and the parser turns it into `tool_call` chunks.
 
-Agentic CLI manifests (`codex`, `claude-code`, `claude-code-json`) serialize
-the request with `serializeCliPrompt` as labelled `[system]`/`[user]` blocks.
-The generic factories still default to raw `AdapterRequest` JSON on stdin,
-which Claude Code refuses as an apparent prompt injection; custom manifests
-for agentic CLIs should set `serializeRequest: serializeCliPrompt`. Manifests
-may also declare `parseOutput` and `parse` for `exec-json` transports.
+Agentic CLI manifests never write raw `AdapterRequest` JSON to stdin, which
+Claude Code refuses as an apparent prompt injection. `codex` uses
+`serializeCliPrompt` (labelled `[system]`/`[user]` blocks). `claude-code` and
+`claude-code-json` use `serializeCliMessages` for the conversation and
+`claudeCodeRequestArgs` to pass the system prompt and tool contract through
+`--append-system-prompt`, which is what makes tool calls work live (labelled
+blocks inside the user prompt are also flagged by Claude Code). Manifests may
+declare `serializeRequest`, `requestArgs`, `parseOutput`, and `parse`.
 
 For CLIs that require a prompt in argv, `buildArgs(request)` creates the
 request-specific arguments while preserving direct shell-free spawning. Use

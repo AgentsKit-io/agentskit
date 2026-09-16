@@ -168,10 +168,10 @@ if (!manifest) throw new Error('provider manifest is unavailable')
 const adapter = createJsonCliAdapter(resolveCliManifest(manifest, { mode: 'trusted-local' }))
 ```
 
-When the request carries `context.tools`, the prompt includes a `[tools]`
-block asking Claude Code to answer with a `{ text?, toolCalls }` JSON object;
-`claude-code-json` recognizes that object (fenced or bare) in the `result`
-string and emits `tool_call` chunks. Plain prose results stay `text`.
+When the request carries `context.tools`, the tool list and a
+`{ text?, toolCalls }` reply contract are appended to Claude Code's system
+prompt via `--append-system-prompt`; `claude-code-json` recognizes that object
+(fenced or bare) in the `result` string and emits `tool_call` chunks. Plain prose results stay `text`.
 `structured_output` from `--json-schema` is honored the same way. Tool
 execution itself remains the consumer's responsibility: the adapter never
 enables Claude Code's own tools, MCP, or plugins.
@@ -182,21 +182,31 @@ enables Claude Code's own tools, MCP, or plugins.
 `AdapterRequest` as one JSON line on stdin. That is the right contract for a
 purpose-built CLI, but agentic CLIs read stdin as a user prompt, and Claude
 Code refuses a raw JSON request containing `systemPrompt` as an apparent
-prompt-injection attempt. The `codex`, `claude-code`, and `claude-code-json`
-manifests therefore ship with `serializeCliPrompt`, which writes labelled
-blocks:
+prompt-injection attempt. The first-party manifests therefore use two
+exported serializers:
 
-```text
-[system]
-You are a reviewer.
+- `serializeCliPrompt` (used by `codex`) writes labelled blocks:
 
-[user]
-review this
-```
+  ```text
+  [system]
+  You are a reviewer.
 
-`serializeCliPrompt` is exported for custom manifests; a manifest may also
-declare its own `serializeRequest`, `parseOutput`, and `parse`, which
-`resolveCliManifest` forwards to the factory.
+  [user]
+  review this
+  ```
+
+- `serializeCliMessages` plus `claudeCodeRequestArgs` (used by `claude-code`
+  and `claude-code-json`) writes only the conversation to stdin (a single user
+  message is written bare) and passes the system prompt and the tool contract
+  through `--append-system-prompt`. Verified live against Claude Code 2.1:
+  the same instructions inside the user prompt, even as labelled `[system]`
+  blocks, are flagged as an injection attempt, whereas through the system
+  flag a request with `context.tools` comes back as a `tool_call` chunk.
+
+A manifest may declare `serializeRequest`, `requestArgs` (extra per-request
+argv, appended after `args`), `parseOutput`, and `parse`; `resolveCliManifest`
+forwards them to the factory. `buildCliSystemPrompt(request)` returns the
+system prompt plus tool contract for other CLIs with a system-prompt flag.
 
 Use `buildArgs(request)` only for CLIs that require the prompt in argv; it is
 request-aware and still uses direct, shell-free spawning. Set

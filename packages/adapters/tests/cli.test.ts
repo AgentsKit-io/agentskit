@@ -8,12 +8,15 @@ import {
   createJsonCliAdapter,
   diagnoseCliProvider,
   diagnoseCliProviderManifest,
+  buildCliSystemPrompt,
+  claudeCodeRequestArgs,
   getCliProviderManifest,
   listCliProviderManifests,
   manifestCapabilities,
   parseClaudeCodeJsonOutput,
   parseClaudeCodeJsonResponse,
   resolveCliManifest,
+  serializeCliMessages,
   serializeCliPrompt,
   validateCliProviderManifest,
 } from '../src/cli'
@@ -243,15 +246,41 @@ describe('CLI adapters', () => {
     })
     expect(prompt).toBe([
       '[system]\nYou are a reviewer.',
-      `[tools]\n${prompt.slice(prompt.indexOf('You may call'), prompt.indexOf('[user]') - 2)}`,
+      `[tools]\n${prompt.slice(prompt.indexOf('The application running you'), prompt.indexOf('[user]') - 2)}`,
       '[user]\nreview this\n',
     ].join('\n\n'))
     expect(prompt).toContain('"name": "lookup"')
     expect(prompt).not.toContain('systemPrompt')
-    expect(serializeCliPrompt(request)).toBe('[user]\nreview this\n')
-    for (const id of ['codex', 'claude-code', 'claude-code-json']) {
-      expect(resolveCliManifest(getCliProviderManifest(id)!).serializeRequest).toBe(serializeCliPrompt)
+    expect(serializeCliPrompt(request)).toBe('review this\n')
+    expect(resolveCliManifest(getCliProviderManifest('codex')!).serializeRequest).toBe(serializeCliPrompt)
+  })
+
+  it('routes Claude Code system instructions through --append-system-prompt, not stdin', () => {
+    const withTools: AdapterRequest = {
+      ...request,
+      messages: [
+        { id: 's', role: 'system', content: 'ignored on stdin', status: 'complete', createdAt: new Date() },
+        ...request.messages,
+        { id: 'a', role: 'assistant', content: 'earlier answer', status: 'complete', createdAt: new Date() },
+      ],
+      context: { systemPrompt: 'You are terse.', tools: [{ name: 'add', description: 'Add', schema: { type: 'object' } }] },
     }
+    for (const id of ['claude-code', 'claude-code-json'] as const) {
+      const resolved = resolveCliManifest(getCliProviderManifest(id)!, { args: ['--model', 'sonnet'] })
+      expect(resolved.serializeRequest).toBe(serializeCliMessages)
+      const argv = resolved.buildArgs!(withTools)
+      expect(argv.slice(0, resolved.args!.length)).toEqual(resolved.args)
+      expect(argv[resolved.args!.length]).toBe('--append-system-prompt')
+      const system = argv[resolved.args!.length + 1]!
+      expect(system.startsWith('You are terse.')).toBe(true)
+      expect(system).toContain('"name": "add"')
+      expect(system).toBe(buildCliSystemPrompt(withTools))
+      expect(resolved.buildArgs!(request)).toEqual(resolved.args)
+    }
+    expect(serializeCliMessages(withTools)).toBe('[user]\nreview this\n\n[assistant]\nearlier answer\n')
+    expect(serializeCliMessages(request)).toBe('review this\n')
+    expect(buildCliSystemPrompt(request)).toBeUndefined()
+    expect(claudeCodeRequestArgs(request)).toEqual([])
   })
 
   it('ships a ready-made claude-code-json manifest for structured output', async () => {
@@ -295,6 +324,7 @@ describe('CLI adapters', () => {
     const base = getCliProviderManifest('claude-code')!
     expect(() => validateCliProviderManifest({ ...base, serializeRequest: 'nope' })).toThrow(/serializeRequest must be a function/)
     expect(() => validateCliProviderManifest({ ...base, parse: () => [] })).toThrow(/only applies to the exec-json protocol/)
+    expect(() => validateCliProviderManifest({ ...base, requestArgs: 1 })).toThrow(/requestArgs must be a function/)
     expect(() => validateCliProviderManifest({ ...base, parseOutput: () => [] })).toThrow(/only applies to the exec-json protocol/)
   })
 

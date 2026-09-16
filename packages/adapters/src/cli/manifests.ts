@@ -1,7 +1,7 @@
-import { AdapterError, ErrorCodes, type AdapterCapabilities } from '@agentskit/core'
+import { AdapterError, ErrorCodes, type AdapterCapabilities, type AdapterRequest } from '@agentskit/core'
 import { parseClaudeCodeJsonOutput, parseClaudeCodeJsonResponse } from './claude-code'
 import { diagnoseCliProvider } from './process'
-import { serializeCliPrompt } from './prompt'
+import { claudeCodeRequestArgs, serializeCliMessages, serializeCliPrompt } from './prompt'
 import type {
   CliAdapterOptions,
   CliCapabilitiesFor,
@@ -38,6 +38,11 @@ export interface CliProviderManifestFor<P extends CliProtocol = CliProtocol> {
    * raw `AdapterRequest` JSON.
    */
   serializeRequest?: CliAdapterOptions['serializeRequest']
+  /**
+   * Extra per-request argv appended after `args` and `CliManifestOptions.args`,
+   * e.g. `--append-system-prompt` for Claude Code. Still spawned without a shell.
+   */
+  requestArgs?: (request: AdapterRequest) => readonly string[]
   /** `exec-json` only: decodes raw stdout before `parse`. */
   parseOutput?: CliJsonAdapterOptions['parseOutput']
   /** `exec-json` only: maps the decoded JSON value to stream chunks. */
@@ -106,7 +111,8 @@ const manifests: readonly CliProviderManifest[] = [
     supportedModes: MODES,
     credentialEnv: ['ANTHROPIC_API_KEY'],
     docsUrl: 'https://docs.anthropic.com/en/docs/claude-code/cli-usage',
-    serializeRequest: serializeCliPrompt,
+    serializeRequest: serializeCliMessages,
+    requestArgs: claudeCodeRequestArgs,
   },
   {
     // Structured transport: one `claude -p --output-format json` envelope per
@@ -121,7 +127,8 @@ const manifests: readonly CliProviderManifest[] = [
     supportedModes: MODES,
     credentialEnv: ['ANTHROPIC_API_KEY'],
     docsUrl: 'https://docs.anthropic.com/en/docs/claude-code/cli-usage',
-    serializeRequest: serializeCliPrompt,
+    serializeRequest: serializeCliMessages,
+    requestArgs: claudeCodeRequestArgs,
     parseOutput: parseClaudeCodeJsonOutput,
     parse: parseClaudeCodeJsonResponse,
   },
@@ -224,9 +231,9 @@ export function validateCliProviderManifest(manifest: unknown): asserts manifest
     try { new RegExp(candidate.versionPattern) } catch (error) { throw manifestError(`CLI manifest ${candidate.id} has an invalid version pattern: ${String(error)}`) }
   }
   if (candidate.docsUrl !== undefined && typeof candidate.docsUrl !== 'string') throw manifestError(`CLI manifest ${candidate.id} docsUrl must be a string`)
-  for (const key of ['serializeRequest', 'parseOutput', 'parse'] as const) {
+  for (const key of ['serializeRequest', 'requestArgs', 'parseOutput', 'parse'] as const) {
     if (candidate[key] !== undefined && typeof candidate[key] !== 'function') throw manifestError(`CLI manifest ${candidate.id} ${key} must be a function`)
-    if (key !== 'serializeRequest' && candidate[key] !== undefined && candidate.protocol !== 'exec-json') {
+    if ((key === 'parseOutput' || key === 'parse') && candidate[key] !== undefined && candidate.protocol !== 'exec-json') {
       throw manifestError(`CLI manifest ${candidate.id} declares ${key}, which only applies to the exec-json protocol`)
     }
   }
@@ -255,9 +262,12 @@ export function resolveCliManifest<M extends CliProviderManifest>(manifest: M, o
   validateCliProviderManifest(manifest)
   const mode = options.mode ?? 'review-safe'
   if (!manifest.supportedModes.includes(mode)) throw manifestError(`CLI manifest ${manifest.id} does not support mode: ${mode}`)
+  const args = [...manifest.args, ...(options.args ?? [])]
+  const requestArgs = manifest.requestArgs
   return {
     command: manifest.command,
-    args: [...manifest.args, ...(options.args ?? [])],
+    args,
+    buildArgs: requestArgs ? (request: AdapterRequest) => [...args, ...requestArgs(request)] : undefined,
     mode,
     cwd: options.cwd,
     env: options.env,
