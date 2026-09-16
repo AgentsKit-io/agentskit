@@ -1,0 +1,1029 @@
+{
+  "evalFormatVersion": "2026-04",
+  "name": "agentskit-retrieval-v1",
+  "description": "Golden retrieval cases for the AgentsKit monorepo: exported symbols declared by exactly one module, real repository paths, and questions whose answer is a maintained documentation page. A case lists every page that genuinely answers it, so a correct answer is never scored as a miss. Portuguese cases use the code-switched phrasing a Brazilian developer types; three stay in pure Portuguese on purpose, to keep measuring the cross-lingual gap a lexical ranker cannot close. No ownership cases: this repository declares no ownership records, so an ownership query has no correct answer here.",
+  "tags": [
+    "retrieval",
+    "agentskit",
+    "deterministic"
+  ],
+  "cases": [
+    {
+      "id": "symbol-create-approval-gate",
+      "input": "createApprovalGate",
+      "expected": {
+        "regex": {
+          "body": "packages/core/src/hitl\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/core/src/hitl.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-compose-tool",
+      "input": "composeTool",
+      "expected": {
+        "regex": {
+          "body": "packages/core/src/compose\\-tool\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/core/src/compose-tool.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-auto-summarizing-memory",
+      "input": "createAutoSummarizingMemory",
+      "expected": {
+        "regex": {
+          "body": "packages/core/src/auto\\-summarize\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/core/src/auto-summarize.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-validate-agent-card",
+      "input": "validateAgentCard",
+      "expected": {
+        "regex": {
+          "body": "packages/core/src/a2a\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/core/src/a2a.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-parse-agent-schema",
+      "input": "parseAgentSchema",
+      "expected": {
+        "regex": {
+          "body": "packages/core/src/agent\\-schema\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/core/src/agent-schema.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-controller-persistence",
+      "input": "createControllerPersistence",
+      "expected": {
+        "regex": {
+          "body": "packages/core/src/controller\\-persistence\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/core/src/controller-persistence.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-build-retrieval-message",
+      "input": "buildRetrievalMessage",
+      "expected": {
+        "regex": {
+          "body": "packages/core/src/controller\\-helpers\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/core/src/controller-helpers.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-build-delegate-tools",
+      "input": "buildDelegateTools",
+      "expected": {
+        "regex": {
+          "body": "packages/runtime/src/delegates\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/runtime/src/delegates.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-mcp-server",
+      "input": "createAgentsKitMcpServer",
+      "expected": {
+        "regex": {
+          "body": "packages/mcp/src/index\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/mcp/src/index.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-run-mcp-cli",
+      "input": "runMcpCli",
+      "expected": {
+        "regex": {
+          "body": "packages/mcp/src/cli\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/mcp/src/cli.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-openai-compatible-adapter",
+      "input": "createOpenAICompatibleAdapter",
+      "expected": {
+        "regex": {
+          "body": "packages/adapters/src/openai\\-compatible\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/adapters/src/openai-compatible.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-stream-source",
+      "input": "createStreamSource",
+      "expected": {
+        "regex": {
+          "body": "packages/adapters/src/stream\\-source\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/adapters/src/stream-source.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-rotating-credentials",
+      "input": "createRotatingCredentials",
+      "expected": {
+        "regex": {
+          "body": "packages/adapters/src/index\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/adapters/src/index.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-acp-cli-adapter",
+      "input": "createAcpCliAdapter",
+      "expected": {
+        "regex": {
+          "body": "packages/adapters/src/cli/index\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/adapters/src/cli/index.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-redis-client-adapter",
+      "input": "createRedisClientAdapter",
+      "expected": {
+        "regex": {
+          "body": "packages/memory/src/redis\\-client\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/memory/src/redis-client.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-decode-stored-messages",
+      "input": "decodeStoredMessages",
+      "expected": {
+        "regex": {
+          "body": "packages/memory/src/decode\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/memory/src/decode.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-prompt-diff",
+      "input": "promptDiff",
+      "expected": {
+        "regex": {
+          "body": "packages/eval/src/diff/diff\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/eval/src/diff/diff.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-report-to-ci",
+      "input": "reportToCi",
+      "expected": {
+        "regex": {
+          "body": "packages/eval/src/ci/index\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/eval/src/ci/index.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-e2b-peer-missing",
+      "input": "isE2BPeerMissingError",
+      "expected": {
+        "regex": {
+          "body": "packages/sandbox/src/e2b\\-backend\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/sandbox/src/e2b-backend.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "symbol-slash-registry",
+      "input": "createSlashRegistry",
+      "expected": {
+        "regex": {
+          "body": "packages/cli/src/slash\\-commands\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/cli/src/slash-commands.ts"
+        ],
+        "lang": "en",
+        "kind": "symbol"
+      }
+    },
+    {
+      "id": "path-core-package",
+      "input": "packages/core",
+      "expected": {
+        "regex": {
+          "body": "packages/core"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/core",
+          "package:@agentskit/core",
+          "apps/docs-next/content/docs/for-agents/core.mdx"
+        ],
+        "lang": "en",
+        "kind": "path",
+        "note": "The agent-facing page for the package answers a query naming the package directory."
+      }
+    },
+    {
+      "id": "path-runtime-package",
+      "input": "packages/runtime",
+      "expected": {
+        "regex": {
+          "body": "packages/runtime"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/runtime",
+          "package:@agentskit/runtime",
+          "apps/docs-next/content/docs/for-agents/runtime.mdx"
+        ],
+        "lang": "en",
+        "kind": "path",
+        "note": "The agent-facing page for the package answers a query naming the package directory."
+      }
+    },
+    {
+      "id": "path-mcp-src",
+      "input": "packages/mcp/src/index.ts",
+      "expected": {
+        "regex": {
+          "body": "packages/mcp/src/index\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/mcp/src/index.ts"
+        ],
+        "lang": "en",
+        "kind": "path"
+      }
+    },
+    {
+      "id": "path-cli-doctor-command",
+      "input": "packages/cli/src/commands/doctor.ts",
+      "expected": {
+        "regex": {
+          "body": "packages/cli/src/commands/doctor\\.ts"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "packages/cli/src/commands/doctor.ts"
+        ],
+        "lang": "en",
+        "kind": "path"
+      }
+    },
+    {
+      "id": "path-agents-hitl-doc",
+      "input": "agents/hitl.mdx",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/agents/hitl\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/agents/hitl.mdx"
+        ],
+        "lang": "en",
+        "kind": "path"
+      }
+    },
+    {
+      "id": "path-security-section",
+      "input": "production/security",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/production/security/index\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/production/security/index.mdx"
+        ],
+        "lang": "en",
+        "kind": "path"
+      }
+    },
+    {
+      "id": "path-agent-corpus-core",
+      "input": "for-agents/core.mdx",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/for\\-agents/core\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/for-agents/core.mdx"
+        ],
+        "lang": "en",
+        "kind": "path"
+      }
+    },
+    {
+      "id": "path-architecture",
+      "input": "ARCHITECTURE.md",
+      "expected": {
+        "regex": {
+          "body": "ARCHITECTURE\\.md"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "ARCHITECTURE.md"
+        ],
+        "lang": "en",
+        "kind": "path"
+      }
+    },
+    {
+      "id": "q-hitl-approvals",
+      "input": "how do I require human approval before a tool runs",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/agents/hitl\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/agents/hitl.mdx",
+          "apps/docs-next/content/docs/reference/recipes/hitl-approvals.mdx",
+          "apps/docs-next/content/docs/reference/recipes/confirmation-gated-tool.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-durable-execution",
+      "input": "how do I replay completed steps after a restart",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/agents/durable\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/agents/durable.mdx",
+          "apps/docs-next/content/docs/reference/recipes/durable-execution.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-delegation",
+      "input": "how does a parent agent delegate to specialist agents",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/agents/delegation\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/agents/delegation.mdx",
+          "apps/docs-next/content/docs/reference/recipes/multi-agent-topologies.mdx",
+          "apps/docs-next/content/docs/agents/topologies.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-background-agents",
+      "input": "how do I run an agent on a cron schedule or a webhook",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/agents/background\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/agents/background.mdx",
+          "apps/docs-next/content/docs/reference/recipes/background-agents.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-self-debug",
+      "input": "how does an agent debug its own failing tool call",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/agents/self\\-debug\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/agents/self-debug.mdx",
+          "apps/docs-next/content/docs/reference/recipes/self-debug.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-speculative",
+      "input": "how do I speculatively execute steps before they are needed",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/agents/speculate\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/agents/speculate.mdx",
+          "apps/docs-next/content/docs/reference/recipes/speculative-execution.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-validator-quota",
+      "input": "how do I enforce a validator and a quota on an agent",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/agents/guarantees\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/agents/guarantees.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-visual-flow",
+      "input": "how do I build an agent as a visual flow",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/agents/flow\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/agents/flow.mdx",
+          "apps/docs-next/content/docs/reference/examples/flow.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-authoring-tools",
+      "input": "how do I write a custom tool",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/agents/tools/authoring\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/agents/tools/authoring.mdx",
+          "apps/docs-next/content/docs/get-started/concepts/tool.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-mcp-bridge",
+      "input": "how do I expose my agent over MCP",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/agents/tools/mcp\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/agents/tools/mcp.mdx",
+          "apps/docs-next/content/docs/reference/recipes/mcp-bridge.mdx",
+          "apps/docs-next/content/docs/for-agents/mcp.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-cost-guard",
+      "input": "how do I cap token spend per tenant",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/production/observability/cost\\-guard\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/production/observability/cost-guard.mdx",
+          "apps/docs-next/content/docs/reference/recipes/cost-guard.mdx",
+          "apps/docs-next/content/docs/reference/recipes/cost-guarded-chat.mdx"
+        ],
+        "lang": "en",
+        "kind": "question",
+        "note": "cost-guarded-chat is a recipe for capping spend, so it answers the question too."
+      }
+    },
+    {
+      "id": "q-audit-log",
+      "input": "how do I get a signed audit log of agent activity",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/production/observability/audit\\-log\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/production/observability/audit-log.mdx",
+          "apps/docs-next/content/docs/reference/recipes/audit-log.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-trace-viewer",
+      "input": "how do I inspect traces locally",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/production/observability/trace\\-viewer\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/production/observability/trace-viewer.mdx",
+          "apps/docs-next/content/docs/reference/recipes/trace-viewer.mdx",
+          "apps/docs-next/content/docs/production/observability/devtools.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-pii-redaction",
+      "input": "how do I redact personal data before it reaches the model",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/production/security/pii\\-redaction\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/production/security/pii-redaction.mdx",
+          "apps/docs-next/content/docs/reference/recipes/pii-redaction.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-prompt-injection",
+      "input": "how do I detect prompt injection",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/production/security/prompt\\-injection\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/production/security/prompt-injection.mdx",
+          "apps/docs-next/content/docs/reference/recipes/prompt-injection.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-mandatory-sandbox",
+      "input": "how do I force every tool call through a sandbox",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/production/security/mandatory\\-sandbox\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/production/security/mandatory-sandbox.mdx",
+          "apps/docs-next/content/docs/reference/recipes/mandatory-sandbox.mdx",
+          "apps/docs-next/content/docs/production/security/sandbox.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-secrets",
+      "input": "where do I put provider API keys",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/production/security/secrets\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/production/security/secrets.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-rate-limiting",
+      "input": "how do I rate limit an agent endpoint",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/production/security/rate\\-limiting\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/production/security/rate-limiting.mdx",
+          "apps/docs-next/content/docs/reference/recipes/rate-limiting.mdx",
+          "apps/docs-next/content/docs/cookbook/rate-limit.mdx"
+        ],
+        "lang": "en",
+        "kind": "question",
+        "note": "The cookbook page is a second maintained answer to the same question."
+      }
+    },
+    {
+      "id": "q-rag-rerank",
+      "input": "how do I rerank retrieved chunks",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/data/rag/rerank\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/data/rag/rerank.mdx",
+          "apps/docs-next/content/docs/reference/recipes/rag-reranking.mdx",
+          "apps/docs-next/content/docs/data/rag/hybrid.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-chunking",
+      "input": "how should I chunk documents for retrieval",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/data/rag/chunking\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/data/rag/chunking.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-vector-filters",
+      "input": "how do I filter vector search by metadata",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/data/memory/vector\\-filters\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/data/memory/vector-filters.mdx",
+          "apps/docs-next/content/docs/reference/recipes/vector-filter-helpers.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "q-which-package",
+      "input": "which package do I need",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/get\\-started/decision\\-tree\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/get-started/decision-tree.mdx",
+          "apps/docs-next/content/docs/get-started/architecture-at-a-glance.mdx"
+        ],
+        "lang": "en",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "pt-primeiro-agente",
+      "input": "como crio meu primeiro agente com o agentskit",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/get\\-started/getting\\-started/build\\-your\\-first\\-agent\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx",
+          "apps/docs-next/content/docs/get-started/getting-started/quickstart.mdx",
+          "apps/docs-next/content/docs/get-started/index.mdx"
+        ],
+        "lang": "pt",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "pt-instalacao",
+      "input": "instala\u00e7\u00e3o do agentskit e setup inicial",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/get\\-started/getting\\-started/installation\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/get-started/getting-started/installation.mdx",
+          "apps/docs-next/content/docs/production/cli/init.mdx"
+        ],
+        "lang": "pt",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "pt-aprovacao-humana",
+      "input": "como configuro human-in-the-loop para aprovar tool calls",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/agents/hitl\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/agents/hitl.mdx",
+          "apps/docs-next/content/docs/reference/recipes/hitl-approvals.mdx",
+          "apps/docs-next/content/docs/reference/recipes/confirmation-gated-tool.mdx"
+        ],
+        "lang": "pt",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "pt-delegacao",
+      "input": "como fa\u00e7o delegation entre multi agentes",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/agents/delegation\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/agents/delegation.mdx",
+          "apps/docs-next/content/docs/agents/topologies.mdx",
+          "apps/docs-next/content/docs/reference/recipes/multi-agent-topologies.mdx"
+        ],
+        "lang": "pt",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "pt-memoria-persistente",
+      "input": "como mantenho a mem\u00f3ria do agente entre sess\u00f5es",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/reference/recipes/persistent\\-memory\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/reference/recipes/persistent-memory.mdx",
+          "apps/docs-next/content/docs/data/memory/index.mdx",
+          "apps/docs-next/content/docs/get-started/concepts/memory.mdx"
+        ],
+        "lang": "pt",
+        "kind": "question",
+        "note": "Deliberately all-Portuguese: no English document shares a content token with this query, so it measures the cross-lingual gap a lexical ranker cannot close."
+      }
+    },
+    {
+      "id": "pt-rag",
+      "input": "como uso rag para buscar nos meus documentos",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/data/rag/index\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/data/rag/index.mdx",
+          "apps/docs-next/content/docs/data/rag/create-rag.mdx",
+          "apps/docs-next/content/docs/reference/recipes/rag-chat.mdx"
+        ],
+        "lang": "pt",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "pt-trocar-provedor",
+      "input": "como troco o provider do adapter sem reescrever o agente",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/reference/recipes/provider\\-swap\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/reference/recipes/provider-swap.mdx",
+          "apps/docs-next/content/docs/data/providers/choosing.mdx",
+          "apps/docs-next/content/docs/get-started/concepts/adapter.mdx"
+        ],
+        "lang": "pt",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "pt-custo",
+      "input": "como uso o cost guard para limitar tokens por tenant",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/production/observability/cost\\-guard\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/production/observability/cost-guard.mdx",
+          "apps/docs-next/content/docs/reference/recipes/cost-guard.mdx",
+          "apps/docs-next/content/docs/reference/recipes/cost-guarded-chat.mdx"
+        ],
+        "lang": "pt",
+        "kind": "question"
+      }
+    },
+    {
+      "id": "pt-sandbox",
+      "input": "como rodo as ferramentas dentro de um sandbox",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/production/security/sandbox\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/production/security/sandbox.mdx",
+          "apps/docs-next/content/docs/production/security/mandatory-sandbox.mdx",
+          "apps/docs-next/content/docs/reference/recipes/mandatory-sandbox.mdx"
+        ],
+        "lang": "pt",
+        "kind": "question",
+        "note": "Deliberately all-Portuguese apart from 'sandbox', which is the only shared token."
+      }
+    },
+    {
+      "id": "pt-avaliacao-ci",
+      "input": "como rodo as avalia\u00e7\u00f5es do agente no CI",
+      "expected": {
+        "regex": {
+          "body": "apps/docs\\-next/content/docs/production/evals/ci\\.mdx"
+        }
+      },
+      "metadata": {
+        "expectedTargets": [
+          "apps/docs-next/content/docs/production/evals/ci.mdx",
+          "apps/docs-next/content/docs/reference/recipes/evals-ci.mdx",
+          "apps/docs-next/content/docs/production/evals/index.mdx"
+        ],
+        "lang": "pt",
+        "kind": "question",
+        "note": "Deliberately all-Portuguese apart from 'CI'."
+      }
+    }
+  ]
+}
