@@ -23,8 +23,14 @@ on:
 permissions:
   contents: read
 
+concurrency:
+  # Supersede in-flight runs for the same PR; pushes to main always finish.
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
 jobs:
   visual:
+    if: github.actor != 'dependabot[bot]'
     name: Visual regression
     runs-on: ubuntu-22.04
     timeout-minutes: 20
