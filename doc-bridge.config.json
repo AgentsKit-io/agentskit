@@ -177,6 +177,11 @@
       "maxResponseBytes": 16384
     }
   },
+  "analysis": {
+    "areas": {
+      "exclude": ["**/tests", "**/fixtures", "**/__tests__", "**/__fixtures__"]
+    }
+  },
   "safety": {
     "exclude": [
       "**/.git/**",
