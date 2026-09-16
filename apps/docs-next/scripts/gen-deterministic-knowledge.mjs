@@ -65,6 +65,15 @@ const entry = ({ id, kind, label, values, markdown, citations }) => ({
 })
 
 const bridge = await readJson('.doc-bridge/index.json')
+/*
+ * The per-package handoffs live under `for-agents`, and the loop below reads every entry as a
+ * package: it derives `@agentskit/<id>` and a `/docs/reference/packages/<id>` citation from the
+ * entry id. Doc Bridge used to index only those pages; since it started indexing every document
+ * an unfiltered loop would publish entries asserting that ordinary guides are packages, and the
+ * artifact budget below would reject the result. Naming the root keeps the claim true.
+ */
+const agentDocsRoot = 'apps/docs-next/content/docs/for-agents/'
+const agentDocs = bridge.knowledge.filter((doc) => String(doc.path ?? '').startsWith(agentDocsRoot))
 const claimsLedger = await readJson('ecosystem-claims.json')
 const ecosystem = await readJson('ecosystem.json')
 const entries = []
@@ -104,7 +113,7 @@ entries.push(
   }),
 )
 
-for (const doc of [...bridge.knowledge].sort((a, b) => a.id.localeCompare(b.id))) {
+for (const doc of [...agentDocs].sort((a, b) => a.id.localeCompare(b.id))) {
   const handoff = bridge.handoffs[doc.id]
   const humanHref = handoff?.humanDoc?.startsWith('/') ? handoff.humanDoc : `/docs/reference/packages/${doc.id}`
   const agentHref = `/${doc.path.replace(/^apps\/docs-next\/content\//, '').replace(/\.mdx$/, '')}`

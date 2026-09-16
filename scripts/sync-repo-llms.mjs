@@ -10,6 +10,16 @@ import { fileURLToPath } from 'node:url'
 
 const root = join(fileURLToPath(new URL('.', import.meta.url)), '..')
 const site = 'https://www.agentskit.io'
+
+/*
+ * The section below lists the condensed per-package handoffs under `for-agents`, and nothing else.
+ * Doc Bridge used to index only those pages, so iterating the whole knowledge set was the same
+ * list; since it started indexing every document the two diverged, and an unfiltered loop emitted
+ * one entry per document — blog and archive paths that `docsUrl` cannot map, filenames in place of
+ * titles, and stray MDX import lines as descriptions. Naming the root keeps the published file the
+ * curated index it claims to be.
+ */
+const agentDocsRoot = 'apps/docs-next/content/docs/for-agents/'
 const bridge = JSON.parse(readFileSync(join(root, '.doc-bridge/index.json'), 'utf8'))
 const ecosystem = JSON.parse(readFileSync(join(root, 'ecosystem.json'), 'utf8'))
 
@@ -51,7 +61,8 @@ for (const product of ecosystem.products.filter((item) => item.distributionClass
 }
 
 lines.push('', '## Agent reference pages', '')
-for (const item of [...bridge.knowledge].sort((a, b) => a.id.localeCompare(b.id))) {
+const agentDocs = bridge.knowledge.filter((item) => String(item.path ?? '').startsWith(agentDocsRoot))
+for (const item of [...agentDocs].sort((a, b) => a.id.localeCompare(b.id))) {
   lines.push(`- [${titleFor(item)}](${docsUrl(item.path)}): ${item.description ?? 'Agent-facing reference page.'}`)
 }
 
