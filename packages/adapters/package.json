@@ -79,12 +79,12 @@
     "msw": "^2.15.0",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
-    "vitest": "^4.1.10"
+    "vitest": "^4.1.11"
   },
   "peerDependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.0.0",
-    "@mlc-ai/web-llm": "^0.2.0",
-    "@langchain/core": "^1.0.0"
+    "@langchain/core": "^1.0.0",
+    "@mlc-ai/web-llm": "^0.2.0"
   },
   "peerDependenciesMeta": {
     "@aws-sdk/client-bedrock-runtime": {
