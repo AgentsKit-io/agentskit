@@ -990,7 +990,37 @@
               ]
             },
             {
+              "name": "buildCliSystemPrompt",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "BuiltInCliManifestId",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "BuiltInCliManifestProtocols",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "claudeCodeRequestArgs",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "CliAdapterOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliCapabilitiesFor",
               "kinds": [
                 "type"
               ]
@@ -1044,7 +1074,19 @@
               ]
             },
             {
+              "name": "CliProtocolCapabilityKeys",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "CliProviderManifest",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliProviderManifestFor",
               "kinds": [
                 "type"
               ]
@@ -1116,6 +1158,18 @@
               ]
             },
             {
+              "name": "parseClaudeCodeJsonOutput",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "parseClaudeCodeJsonResponse",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "parseCliJsonResponse",
               "kinds": [
                 "value"
@@ -1125,6 +1179,24 @@
               "name": "resolveCliManifest",
               "kinds": [
                 "value"
+              ]
+            },
+            {
+              "name": "serializeCliMessages",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "serializeCliPrompt",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "SerializeCliPromptOptions",
+              "kinds": [
+                "type"
               ]
             },
             {
@@ -1146,6 +1218,40 @@
               "name": "createAdapter",
               "kinds": [
                 "value"
+              ]
+            }
+          ]
+        },
+        "./langchain-bridge": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "adapterToLangChainModel",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "AdapterToLangChainModelOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "AgentsKitChatModel",
+              "kinds": [
+                "type",
+                "value"
+              ]
+            },
+            {
+              "name": "AgentsKitChatModelCallOptions",
+              "kinds": [
+                "type"
               ]
             }
           ]

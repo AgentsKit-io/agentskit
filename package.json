@@ -41,7 +41,7 @@
     "docs:bridge:gate": "ak-docs gate run",
     "docs:bridge:doctor": "ak-docs doctor --text",
     "docs:bridge:benchmark": "node scripts/doc-bridge-benchmark.mjs",
-    "release:version": "pnpm changeset version && node scripts/check-doc-package-versions.mjs --fix && pnpm metadata:generate && pnpm readme:standard:refresh -- --preserve-review-dates",
+    "release:version": "pnpm changeset version && node scripts/check-doc-package-versions.mjs --fix && node scripts/sync-mcp-pins.mjs && pnpm docs:bridge:index && pnpm metadata:generate && pnpm readme:standard:refresh -- --preserve-review-dates",
     "release:preflight": "pnpm check:publication-surface && pnpm check:release-registry && pnpm check:packed-consumers && pnpm check:public-api-snapshot",
     "check:release-registry": "node scripts/check-release-registry.mjs",
     "test:release-registry": "node --test scripts/release-registry.test.mjs",
@@ -69,7 +69,9 @@
     "test:external-contributions": "vitest run scripts/external-contributions.test.mjs",
     "metadata:generate": "node scripts/generate-software-metadata.mjs",
     "metadata:check": "node scripts/generate-software-metadata.mjs --check",
-    "test:commitlint": "node --test scripts/commitlint.test.mjs"
+    "test:commitlint": "node --test scripts/commitlint.test.mjs",
+    "check:mcp-pins": "node scripts/sync-mcp-pins.mjs --check",
+    "sync:mcp-pins": "node scripts/sync-mcp-pins.mjs"
   },
   "devDependencies": {
     "@agentskit/core": "workspace:*",

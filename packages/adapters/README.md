@@ -39,6 +39,7 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/adapters)
 - **Embedder functions built in** — the same adapter pattern covers text embeddings, so you can reuse provider config for both chat and RAG
 - **One-line local AI** — `ollama({ model: 'llama3.1' })` for fully offline agents with no API key required
 - **CLI-backed agents** — `@agentskit/adapters/cli` normalizes text, JSON, and ACP-based local LLM CLIs
+- **LangChain bridge** — `@agentskit/adapters/langchain-bridge` turns any adapter into a LangChain `BaseChatModel` for `createAgent`
 
 ## Install
 
@@ -106,8 +107,8 @@ const adapter = createCliAdapter(resolveCliManifest(manifest, { mode: 'review-sa
 
 The generic factories are `createCliAdapter` (`exec-text`),
 `createJsonCliAdapter` (`exec-json`), and `createAcpCliAdapter` (ACP v1 over
-JSON lines). The built-in manifests cover Codex, Claude Code, Grok CLI, and
-OpenCode. `resolveCliManifest` keeps command, argv, protocol, provider id, and
+JSON lines). The built-in manifests cover Codex, Claude Code (text and JSON
+output), Grok CLI, and OpenCode. `resolveCliManifest` keeps command, argv, protocol, provider id, and
 mode explicit; `diagnoseCliProviderManifest` verifies availability and an
 optional version pattern. `review-safe` is the default: no shell, automatic
 installation, native login, MCP, plugins, or terminal tools. Use
@@ -121,6 +122,92 @@ is awaited before the adapter finishes, including when input or output fails.
 an OS, filesystem, process, or network sandbox. Use `@agentskit/sandbox` when a
 real isolation boundary is required.
 
+### `exec-text` vs `exec-json`: what each protocol can return
+
+The protocol decides which stream chunks a manifest can produce. Pick the
+manifest by what you need back, not by the CLI name:
+
+| Protocol    | Factory                | Chunks emitted                          | Not available                                  |
+| ----------- | ---------------------- | --------------------------------------- | ---------------------------------------------- |
+| `exec-text` | `createCliAdapter`     | `text` (streamed), `done`               | `structuredOutput`, `reasoning`, `tool_call`, usage |
+| `exec-json` | `createJsonCliAdapter` | `text`, `reasoning`, `tool_call`, `usage`, `done` | streaming (one response per process)   |
+| `acp`       | `createAcpCliAdapter`  | `text`, `reasoning` (streamed), `done`  | tool calls (rejected), MCP, plugins, terminal  |
+
+`validateCliProviderManifest` rejects a manifest that claims a capability its
+protocol cannot deliver, and `requiredCapabilities` fails before spawning for
+the same reason. In practice: the `claude-code` and `codex` manifests are
+`exec-text` and only ever yield plain text. For tool calls, usage, or
+structured output from Claude Code use `claude-code-json` instead.
+
+The same table is enforced at compile time. `CliProviderManifest` is a union
+discriminated by `protocol`, `capabilities` is typed as
+`CliCapabilitiesFor<protocol>`, and `getCliProviderManifest('claude-code')`
+returns `CliProviderManifestFor<'exec-text'>`, so this does not type-check:
+
+```ts
+const manifest = getCliProviderManifest('claude-code')!
+resolveCliManifest(manifest, { requiredCapabilities: { tools: true } })
+//                                                    ^^^^^ not assignable: exec-text has no tools/structuredOutput
+```
+
+### Claude Code
+
+Two first-party manifests wrap the `claude` executable:
+
+- `claude-code` — `claude -p`, `exec-text`. Streams the final answer as text.
+- `claude-code-json` — `claude -p --output-format json`, `exec-json`. Parses
+  the result envelope into `text`, `tool_call`, and `usage` chunks with
+  `session_id`, `total_cost_usd`, `duration_ms`, and `num_turns` as metadata.
+  `is_error` or a non-`success` subtype fails closed.
+
+```ts
+import { createJsonCliAdapter, getCliProviderManifest, resolveCliManifest } from '@agentskit/adapters/cli'
+
+const manifest = getCliProviderManifest('claude-code-json')
+if (!manifest) throw new Error('provider manifest is unavailable')
+const adapter = createJsonCliAdapter(resolveCliManifest(manifest, { mode: 'trusted-local' }))
+```
+
+When the request carries `context.tools`, the tool list and a
+`{ text?, toolCalls }` reply contract are appended to Claude Code's system
+prompt via `--append-system-prompt`; `claude-code-json` recognizes that object
+(fenced or bare) in the `result` string and emits `tool_call` chunks. Plain prose results stay `text`.
+`structured_output` from `--json-schema` is honored the same way. Tool
+execution itself remains the consumer's responsibility: the adapter never
+enables Claude Code's own tools, MCP, or plugins.
+
+### Prompt serialization
+
+`createCliAdapter` and `createJsonCliAdapter` default to writing the raw
+`AdapterRequest` as one JSON line on stdin. That is the right contract for a
+purpose-built CLI, but agentic CLIs read stdin as a user prompt, and Claude
+Code refuses a raw JSON request containing `systemPrompt` as an apparent
+prompt-injection attempt. The first-party manifests therefore use two
+exported serializers:
+
+- `serializeCliPrompt` (used by `codex`) writes labelled blocks:
+
+  ```text
+  [system]
+  You are a reviewer.
+
+  [user]
+  review this
+  ```
+
+- `serializeCliMessages` plus `claudeCodeRequestArgs` (used by `claude-code`
+  and `claude-code-json`) writes only the conversation to stdin (a single user
+  message is written bare) and passes the system prompt and the tool contract
+  through `--append-system-prompt`. Verified live against Claude Code 2.1:
+  the same instructions inside the user prompt, even as labelled `[system]`
+  blocks, are flagged as an injection attempt, whereas through the system
+  flag a request with `context.tools` comes back as a `tool_call` chunk.
+
+A manifest may declare `serializeRequest`, `requestArgs` (extra per-request
+argv, appended after `args`), `parseOutput`, and `parse`; `resolveCliManifest`
+forwards them to the factory. `buildCliSystemPrompt(request)` returns the
+system prompt plus tool contract for other CLIs with a system-prompt flag.
+
 Use `buildArgs(request)` only for CLIs that require the prompt in argv; it is
 request-aware and still uses direct, shell-free spawning. Set
 `serializeRequest: () => ''` when the provider does not consume stdin. For
@@ -128,6 +215,46 @@ JSONL or event-wrapped output, `parseOutput(stdout)` can decode raw stdout
 before the normal `parse(value)` callback runs.
 For CLIs that write the final response to a file, `outputFile` reads that file
 after process completion with the same byte limit and abort handling.
+
+## LangChain bridge: use any adapter as a LangChain chat model
+
+`langchain()` and `langgraph()` expose a LangChain runnable as an
+`AdapterFactory`. The `@agentskit/adapters/langchain-bridge` subpath goes the
+other way: `adapterToLangChainModel(adapter)` wraps any `AdapterFactory`
+(mock, Ollama, a CLI-backed adapter, ...) as a real `BaseChatModel`, so it can
+replace `ChatAnthropic`/`ChatOpenAI` in `createAgent`, `AgentNode`, or a plain
+chain. It needs `@langchain/core` (optional peer dependency).
+
+```ts
+import { createAgent } from 'langchain'
+import { tool } from '@langchain/core/tools'
+import { mockAdapter } from '@agentskit/adapters'
+import { adapterToLangChainModel } from '@agentskit/adapters/langchain-bridge'
+
+const add = tool(async ({ a, b }) => String(a + b), {
+  name: 'add',
+  description: 'Add two numbers',
+  schema: { type: 'object', properties: { a: { type: 'number' }, b: { type: 'number' } }, required: ['a', 'b'] },
+})
+const model = adapterToLangChainModel(mockAdapter({ response: [/* ... */] }), { modelName: 'mock' })
+const agent = createAgent({ model, tools: [add] })
+```
+
+- `bindTools()` forwards LangChain tools (structured tools, OpenAI-format
+  definitions, runnable tools) as AgentsKit `ToolDefinition`s on
+  `context.tools`; `tool_choice` lands in `context.metadata.toolChoice`.
+- System messages become both a `system` message and `context.systemPrompt`;
+  AI messages keep `tool_calls`; tool messages keep `tool_call_id`.
+- `tool_call` chunks become `AIMessage.tool_calls` (args parsed from JSON),
+  `usage` chunks become `usage_metadata`, `reasoning` chunks land in
+  `additional_kwargs.reasoning`, `error` chunks throw, and `.stream()` yields
+  `AIMessageChunk`s with `tool_call_chunks`.
+- Every response is a real `AIMessage`/`AIMessageChunk` instance, so
+  `wrapModelCall` middleware and `responseFormat` work together. The default
+  `profile` reports `toolCalling` and no native `structuredOutput`, so
+  `createAgent` uses its tool strategy, which any tool-calling adapter can
+  satisfy. Pass `profile: { structuredOutput: true }` only for adapters that
+  honour a provider-side JSON schema.
 
 ## Stream guarantees
 

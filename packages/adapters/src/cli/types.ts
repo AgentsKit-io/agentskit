@@ -6,7 +6,31 @@ import type {
 } from '@agentskit/core'
 
 export type CliSecurityMode = 'review-safe' | 'trusted-local' | 'restricted-environment'
+/**
+ * Transport protocol of a CLI manifest. The protocol bounds what the adapter
+ * can return:
+ *
+ * | Protocol    | Emits                                          | Never emits                                  |
+ * | ----------- | ---------------------------------------------- | -------------------------------------------- |
+ * | `exec-text` | streamed `text`                                | `tool_call`, `reasoning`, structured output, usage |
+ * | `exec-json` | one parsed `text`/`reasoning`/`tool_call`/`usage` | streaming                                  |
+ * | `acp`       | streamed `text`/`reasoning`                    | tool calls (rejected), MCP, plugins, terminal |
+ *
+ * `CliCapabilitiesFor<P>` encodes the same table at the type level so that a
+ * manifest, or a `requiredCapabilities` request against it, cannot claim a
+ * capability its protocol cannot deliver.
+ */
 export type CliProtocol = 'exec-text' | 'exec-json' | 'acp'
+
+/** Capability keys each protocol can legitimately declare or be asked for. */
+export interface CliProtocolCapabilityKeys {
+  'exec-text': 'streaming' | 'nativeAuth'
+  'exec-json': 'structuredOutput' | 'reasoning' | 'nativeAuth'
+  acp: 'streaming' | 'structuredOutput' | 'reasoning' | 'nativeAuth'
+}
+
+/** The subset of `CliCapabilityRequirements` that protocol `P` supports. */
+export type CliCapabilitiesFor<P extends CliProtocol> = Pick<CliCapabilityRequirements, CliProtocolCapabilityKeys[P]>
 export type CliTerminationReason = 'aborted' | 'timeout' | 'output-limit'
 
 export interface CliCapabilityRequirements {

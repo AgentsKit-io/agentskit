@@ -40,7 +40,8 @@ consumers that need a local LLM executable. It preserves the core v1
 `AdapterFactory` contract and exposes `createCliAdapter` (`exec-text`),
 `createJsonCliAdapter` (`exec-json`), `createAcpCliAdapter` (ACP v1), and
 `diagnoseCliProvider`, plus `parseCliJsonResponse` for validating provider
-responses. Built-in manifests cover Codex, Claude Code, Grok CLI, and OpenCode;
+responses. Built-in manifests cover Codex, Claude Code (`claude-code` for text,
+`claude-code-json` for structured output), Grok CLI, and OpenCode;
 `getCliProviderManifest` and `listCliProviderManifests` expose copies of the
 validated definitions, while `resolveCliManifest` produces explicit process
 options and `diagnoseCliProviderManifest` checks availability and version
@@ -67,6 +68,34 @@ before the first semantic response. The adapter reports typed diagnostics and
 metadata-only checkpoints by default; GitHub, PR, merge, and approval policy
 remain outside the adapter.
 
+The protocol bounds what a manifest can return. `exec-text` (`codex`,
+`claude-code`) yields streamed `text` only: no structured output, reasoning,
+tool calls, or usage. `exec-json` (`claude-code-json`) yields one parsed
+response per process with `text`, `reasoning`, `tool_call`, and `usage`
+chunks but no streaming. `acp` streams text and reasoning and rejects tool
+calls. `validateCliProviderManifest` and `requiredCapabilities` enforce that
+boundary before anything is spawned, and the types enforce it before that:
+`CliProviderManifest` is discriminated by `protocol`, `capabilities` is
+`CliCapabilitiesFor<protocol>`, and `getCliProviderManifest('claude-code')`
+returns `CliProviderManifestFor<'exec-text'>`, so requesting `tools` or
+`structuredOutput` from it is a compile-time error.
+
+`claude-code-json` wraps `claude -p --output-format json` and parses the
+result envelope (including `is_error`, `usage`, `session_id`, and
+`total_cost_usd`) without custom `buildArgs`/`parseOutput`/`parse` code; use
+it whenever tool calls or usage are needed from Claude Code. When the request
+carries tools, the system prompt asks for a `{ text?, toolCalls }` JSON
+answer and the parser turns it into `tool_call` chunks.
+
+Agentic CLI manifests never write raw `AdapterRequest` JSON to stdin, which
+Claude Code refuses as an apparent prompt injection. `codex` uses
+`serializeCliPrompt` (labelled `[system]`/`[user]` blocks). `claude-code` and
+`claude-code-json` use `serializeCliMessages` for the conversation and
+`claudeCodeRequestArgs` to pass the system prompt and tool contract through
+`--append-system-prompt`, which is what makes tool calls work live (labelled
+blocks inside the user prompt are also flagged by Claude Code). Manifests may
+declare `serializeRequest`, `requestArgs`, `parseOutput`, and `parse`.
+
 For CLIs that require a prompt in argv, `buildArgs(request)` creates the
 request-specific arguments while preserving direct shell-free spawning. Use
 `serializeRequest: () => ''` when stdin is not part of the provider protocol.
@@ -74,6 +103,19 @@ request-specific arguments while preserving direct shell-free spawning. Use
 event-wrapped output before its normal JSON parser. `outputFile` reads a
 provider-written final response with the configured byte limit after process
 completion.
+
+## LangChain bridge
+
+`@agentskit/adapters/langchain-bridge` exports `adapterToLangChainModel` and
+the `AgentsKitChatModel` class: a real `BaseChatModel` over any
+`AdapterFactory`, usable in any LangChain `model:` slot (`createAgent`,
+`AgentNode`, chains). It implements `_generate`, `_streamResponseChunks`,
+`bindTools`, `invocationParams`, `getLsParams`, and `profile`; tool bindings
+become `context.tools`, `tool_call` chunks become `AIMessage.tool_calls`, and
+every response is an `AIMessage`/`AIMessageChunk` instance so
+`wrapModelCall` middleware and `responseFormat` (tool strategy) compose. This
+is the inverse of `langchain()`/`langgraph()`, which expose a LangChain
+runnable as an adapter. `@langchain/core` is an optional peer dependency.
 
 See [ADR 0031 — Shared CLI adapter execution boundary](../../../../../docs/architecture/adrs/0031-cli-adapter-execution-boundary.md)
 for the complete security, protocol, compatibility, rollout, and evidence

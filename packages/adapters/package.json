@@ -22,7 +22,8 @@
     "grok",
     "langchain",
     "vercel-ai-sdk",
-    "provider-adapter"
+    "provider-adapter",
+    "langchain"
   ],
   "type": "module",
   "sideEffects": false,
@@ -49,6 +50,11 @@
       "types": "./dist/cli/index.d.ts",
       "import": "./dist/cli/index.js",
       "require": "./dist/cli/index.cjs"
+    },
+    "./langchain-bridge": {
+      "types": "./dist/langchain-bridge.d.ts",
+      "import": "./dist/langchain-bridge.js",
+      "require": "./dist/langchain-bridge.cjs"
     }
   },
   "files": [
@@ -58,7 +64,7 @@
     "build": "tsup",
     "test": "pnpm --filter @agentskit/core build && pnpm --filter @agentskit/integrations build && pnpm --filter @agentskit/tools build && pnpm run build && vitest run",
     "test:coverage": "vitest run --coverage",
-    "lint": "tsc --noEmit",
+    "lint": "tsc --noEmit && tsc --noEmit -p tsconfig.tests.json",
     "dev": "tsup --watch"
   },
   "dependencies": {
@@ -66,8 +72,10 @@
   },
   "devDependencies": {
     "@agentskit/tools": "workspace:*",
+    "@langchain/core": "^1.2.11",
     "@types/json-schema": "^7.0.15",
     "@types/node": "^25.9.5",
+    "langchain": "^1.5.11",
     "msw": "^2.15.0",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
@@ -75,13 +83,17 @@
   },
   "peerDependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.0.0",
-    "@mlc-ai/web-llm": "^0.2.0"
+    "@mlc-ai/web-llm": "^0.2.0",
+    "@langchain/core": "^1.0.0"
   },
   "peerDependenciesMeta": {
     "@aws-sdk/client-bedrock-runtime": {
       "optional": true
     },
     "@mlc-ai/web-llm": {
+      "optional": true
+    },
+    "@langchain/core": {
       "optional": true
     }
   },

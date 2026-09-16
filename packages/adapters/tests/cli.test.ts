@@ -8,10 +8,16 @@ import {
   createJsonCliAdapter,
   diagnoseCliProvider,
   diagnoseCliProviderManifest,
+  buildCliSystemPrompt,
+  claudeCodeRequestArgs,
   getCliProviderManifest,
   listCliProviderManifests,
   manifestCapabilities,
+  parseClaudeCodeJsonOutput,
+  parseClaudeCodeJsonResponse,
   resolveCliManifest,
+  serializeCliMessages,
+  serializeCliPrompt,
   validateCliProviderManifest,
 } from '../src/cli'
 import type { CliProviderManifest } from '../src/cli'
@@ -203,7 +209,7 @@ describe('CLI adapters', () => {
 
   it('exposes validated first-party manifests without auto-discovery', () => {
     const manifests = listCliProviderManifests()
-    expect(manifests.map(manifest => manifest.id)).toEqual(['codex', 'claude-code', 'grok', 'opencode'])
+    expect(manifests.map(manifest => manifest.id)).toEqual(['codex', 'claude-code', 'claude-code-json', 'grok', 'opencode'])
     expect(manifests.every(manifest => manifest.supportedModes.includes('review-safe'))).toBe(true)
     expect(getCliProviderManifest('does-not-exist')).toBeUndefined()
     expect(manifestCapabilities(manifests[0]!)).toMatchObject({ streaming: true })
@@ -230,8 +236,102 @@ describe('CLI adapters', () => {
     await expect(diagnoseCliProviderManifest(manifest)).resolves.toMatchObject({ available: true, version: 'fixture-v1', providerId: 'fixture' })
   })
 
+  it('serializes agentic prompts as labelled blocks instead of raw request JSON', () => {
+    const prompt = serializeCliPrompt({
+      ...request,
+      context: {
+        systemPrompt: 'You are a reviewer.',
+        tools: [{ name: 'lookup', description: 'Find a file', schema: { type: 'object', properties: { path: { type: 'string' } } } }],
+      },
+    })
+    expect(prompt).toBe([
+      '[system]\nYou are a reviewer.',
+      `[tools]\n${prompt.slice(prompt.indexOf('The application running you'), prompt.indexOf('[user]') - 2)}`,
+      '[user]\nreview this\n',
+    ].join('\n\n'))
+    expect(prompt).toContain('"name": "lookup"')
+    expect(prompt).not.toContain('systemPrompt')
+    expect(serializeCliPrompt(request)).toBe('review this\n')
+    expect(resolveCliManifest(getCliProviderManifest('codex')!).serializeRequest).toBe(serializeCliPrompt)
+  })
+
+  it('routes Claude Code system instructions through --append-system-prompt, not stdin', () => {
+    const withTools: AdapterRequest = {
+      ...request,
+      messages: [
+        { id: 's', role: 'system', content: 'ignored on stdin', status: 'complete', createdAt: new Date() },
+        ...request.messages,
+        { id: 'a', role: 'assistant', content: 'earlier answer', status: 'complete', createdAt: new Date() },
+      ],
+      context: { systemPrompt: 'You are terse.', tools: [{ name: 'add', description: 'Add', schema: { type: 'object' } }] },
+    }
+    for (const id of ['claude-code', 'claude-code-json'] as const) {
+      const resolved = resolveCliManifest(getCliProviderManifest(id)!, { args: ['--model', 'sonnet'] })
+      expect(resolved.serializeRequest).toBe(serializeCliMessages)
+      const argv = resolved.buildArgs!(withTools)
+      expect(argv.slice(0, resolved.args!.length)).toEqual(resolved.args)
+      expect(argv[resolved.args!.length]).toBe('--append-system-prompt')
+      const system = argv[resolved.args!.length + 1]!
+      expect(system.startsWith('You are terse.')).toBe(true)
+      expect(system).toContain('"name": "add"')
+      expect(system).toBe(buildCliSystemPrompt(withTools))
+      expect(resolved.buildArgs!(request)).toEqual(resolved.args)
+    }
+    expect(serializeCliMessages(withTools)).toBe('[user]\nreview this\n\n[assistant]\nearlier answer\n')
+    expect(serializeCliMessages(request)).toBe('review this\n')
+    expect(buildCliSystemPrompt(request)).toBeUndefined()
+    expect(claudeCodeRequestArgs(request)).toEqual([])
+  })
+
+  it('ships a ready-made claude-code-json manifest for structured output', async () => {
+    const manifest = getCliProviderManifest('claude-code-json')!
+    expect(manifest).toMatchObject({ command: 'claude', args: ['-p', '--output-format', 'json'], protocol: 'exec-json' })
+    expect(manifestCapabilities(manifest)).toMatchObject({ structuredOutput: true, streaming: undefined })
+    const envelope = {
+      type: 'result', subtype: 'success', is_error: false, duration_ms: 5000, num_turns: 1, session_id: 'sess-1', total_cost_usd: 0.01,
+      result: '```json\n{"text":"calling","toolCalls":[{"id":"t1","name":"lookup","args":"{\\"path\\":\\"a.ts\\"}"}]}\n```',
+      usage: { input_tokens: 10, cache_creation_input_tokens: 2, cache_read_input_tokens: 3, output_tokens: 4 },
+    }
+    // The envelope travels as an argv value, never interpolated into the script source.
+    const script = "process.stdin.on('data',()=>{}); process.stdin.on('end',()=>{ process.stdout.write('warning: noise\\n' + process.argv[1]) })"
+    const resolved = resolveCliManifest({ ...manifest, command: process.execPath, args: ['-e', script, JSON.stringify(envelope)] })
+    expect(resolved.parse).toBe(parseClaudeCodeJsonResponse)
+    expect(resolved.parseOutput).toBe(parseClaudeCodeJsonOutput)
+    await expect(collect(createJsonCliAdapter(resolved))).resolves.toEqual([
+      { type: 'text', content: 'calling' },
+      { type: 'tool_call', toolCall: { id: 't1', name: 'lookup', args: '{"path":"a.ts"}' } },
+      { type: 'usage', usage: { promptTokens: 15, completionTokens: 4, totalTokens: 19 }, metadata: { session_id: 'sess-1', total_cost_usd: 0.01, duration_ms: 5000, num_turns: 1, subtype: 'success' } },
+      { type: 'done' },
+    ])
+  })
+
+  it('parses plain, structured, and failed Claude Code envelopes', () => {
+    expect(parseClaudeCodeJsonResponse({ type: 'result', subtype: 'success', result: 'hello' })).toEqual([
+      { type: 'text', content: 'hello', metadata: { subtype: 'success' } },
+    ])
+    expect(parseClaudeCodeJsonResponse({ type: 'result', result: '{"unrelated":1}' })).toEqual([{ type: 'text', content: '{"unrelated":1}', metadata: {} }])
+    expect(parseClaudeCodeJsonResponse({ type: 'result', structured_output: { score: 2 } })).toEqual([{ type: 'text', content: '{"score":2}', metadata: {} }])
+    expect(parseClaudeCodeJsonResponse({ type: 'result', structured_output: { text: 'ok', reasoning: 'why' } })).toEqual([
+      { type: 'text', content: 'ok' }, { type: 'reasoning', content: 'why', metadata: {} },
+    ])
+    expect(() => parseClaudeCodeJsonResponse({ type: 'result', subtype: 'error_max_turns', is_error: true, result: 'boom' })).toThrow(/error_max_turns: boom/)
+    expect(() => parseClaudeCodeJsonResponse({ type: 'assistant' })).toThrow(/result.*envelope/)
+    expect(() => parseClaudeCodeJsonResponse({ type: 'result', result: '' })).toThrow(/no semantic output/)
+    expect(parseClaudeCodeJsonOutput('  {"type":"result"}\n')).toEqual({ type: 'result' })
+    expect(() => parseClaudeCodeJsonOutput('not json')).toThrow(/not a JSON envelope/)
+  })
+
+  it('validates manifest serializer and parser hooks', () => {
+    const base = getCliProviderManifest('claude-code')!
+    expect(() => validateCliProviderManifest({ ...base, serializeRequest: 'nope' })).toThrow(/serializeRequest must be a function/)
+    expect(() => validateCliProviderManifest({ ...base, parse: () => [] })).toThrow(/only applies to the exec-json protocol/)
+    expect(() => validateCliProviderManifest({ ...base, requestArgs: 1 })).toThrow(/requestArgs must be a function/)
+    expect(() => validateCliProviderManifest({ ...base, parseOutput: () => [] })).toThrow(/only applies to the exec-json protocol/)
+  })
+
   it('rejects a manifest that overclaims protocol capabilities', () => {
-    const invalid: CliProviderManifest = {
+    // Over-claiming is a compile-time error for a typed manifest; the runtime validator backs it up.
+    const invalid: unknown = {
       id: 'invalid',
       name: 'Invalid CLI',
       command: 'invalid',

@@ -1,30 +1,71 @@
-import { AdapterError, ErrorCodes, type AdapterCapabilities } from '@agentskit/core'
+import { AdapterError, ErrorCodes, type AdapterCapabilities, type AdapterRequest } from '@agentskit/core'
+import { parseClaudeCodeJsonOutput, parseClaudeCodeJsonResponse } from './claude-code'
 import { diagnoseCliProvider } from './process'
+import { claudeCodeRequestArgs, serializeCliMessages, serializeCliPrompt } from './prompt'
 import type {
   CliAdapterOptions,
+  CliCapabilitiesFor,
   CliCapabilityRequirements,
   CliDiagnostic,
+  CliJsonAdapterOptions,
   CliProcessOptions,
   CliProtocol,
   CliSecurityMode,
 } from './types'
 
-export interface CliProviderManifest {
+/**
+ * A CLI provider manifest for protocol `P`. `capabilities` is restricted to
+ * `CliCapabilitiesFor<P>`, so an `exec-text` manifest cannot declare
+ * `structuredOutput` and a consumer cannot request `tools` from it: both are
+ * compile-time errors, mirroring the runtime `validateCliProviderManifest`.
+ */
+export interface CliProviderManifestFor<P extends CliProtocol = CliProtocol> {
   id: string
   name: string
   command: string
   args: readonly string[]
   diagnosticArgs: readonly string[]
-  protocol: CliProtocol
+  protocol: P
   protocolVersion?: 1
-  capabilities: CliCapabilityRequirements
+  capabilities: CliCapabilitiesFor<P>
   supportedModes: readonly CliSecurityMode[]
   credentialEnv?: readonly string[]
   docsUrl?: string
   versionPattern?: string
+  /**
+   * Serializes the request written to the CLI's stdin. Agentic CLIs that read
+   * a natural-language prompt use `serializeCliPrompt`; omit it to write the
+   * raw `AdapterRequest` JSON.
+   */
+  serializeRequest?: CliAdapterOptions['serializeRequest']
+  /**
+   * Extra per-request argv appended after `args` and `CliManifestOptions.args`,
+   * e.g. `--append-system-prompt` for Claude Code. Still spawned without a shell.
+   */
+  requestArgs?: (request: AdapterRequest) => readonly string[]
+  /** `exec-json` only: decodes raw stdout before `parse`. */
+  parseOutput?: CliJsonAdapterOptions['parseOutput']
+  /** `exec-json` only: maps the decoded JSON value to stream chunks. */
+  parse?: CliJsonAdapterOptions['parse']
 }
 
-export interface CliManifestOptions {
+/** Discriminated by `protocol`; see `CliProviderManifestFor`. */
+export type CliProviderManifest =
+  | CliProviderManifestFor<'exec-text'>
+  | CliProviderManifestFor<'exec-json'>
+  | CliProviderManifestFor<'acp'>
+
+/** Protocol of each built-in manifest id, used to type `getCliProviderManifest`. */
+export interface BuiltInCliManifestProtocols {
+  codex: 'exec-text'
+  'claude-code': 'exec-text'
+  'claude-code-json': 'exec-json'
+  grok: 'acp'
+  opencode: 'acp'
+}
+export type BuiltInCliManifestId = keyof BuiltInCliManifestProtocols
+
+export interface CliManifestOptions<P extends CliProtocol = CliProtocol> {
   args?: readonly string[]
   mode?: CliSecurityMode
   cwd?: string
@@ -33,7 +74,8 @@ export interface CliManifestOptions {
   maxOutputBytes?: number
   killGraceMs?: number
   onDiagnostic?: CliProcessOptions['onDiagnostic']
-  requiredCapabilities?: CliCapabilityRequirements
+  /** Only capabilities the manifest's protocol can deliver are accepted. */
+  requiredCapabilities?: CliCapabilitiesFor<P>
 }
 
 const MODES: readonly CliSecurityMode[] = ['review-safe', 'trusted-local', 'restricted-environment']
@@ -53,8 +95,12 @@ const manifests: readonly CliProviderManifest[] = [
     supportedModes: MODES,
     credentialEnv: ['OPENAI_API_KEY', 'CODEX_API_KEY'],
     docsUrl: 'https://github.com/openai/codex',
+    serializeRequest: serializeCliPrompt,
   },
   {
+    // Plain-text transport: streams Claude Code's final answer as text.
+    // No structured output, reasoning, or tool calls; use `claude-code-json`
+    // for those.
     id: 'claude-code',
     name: 'Claude Code',
     command: 'claude',
@@ -65,6 +111,26 @@ const manifests: readonly CliProviderManifest[] = [
     supportedModes: MODES,
     credentialEnv: ['ANTHROPIC_API_KEY'],
     docsUrl: 'https://docs.anthropic.com/en/docs/claude-code/cli-usage',
+    serializeRequest: serializeCliMessages,
+    requestArgs: claudeCodeRequestArgs,
+  },
+  {
+    // Structured transport: one `claude -p --output-format json` envelope per
+    // request, parsed into text, tool_call, and usage chunks. Not streaming.
+    id: 'claude-code-json',
+    name: 'Claude Code (JSON output)',
+    command: 'claude',
+    args: ['-p', '--output-format', 'json'],
+    diagnosticArgs: ['--version'],
+    protocol: 'exec-json',
+    capabilities: { structuredOutput: true, nativeAuth: true },
+    supportedModes: MODES,
+    credentialEnv: ['ANTHROPIC_API_KEY'],
+    docsUrl: 'https://docs.anthropic.com/en/docs/claude-code/cli-usage',
+    serializeRequest: serializeCliMessages,
+    requestArgs: claudeCodeRequestArgs,
+    parseOutput: parseClaudeCodeJsonOutput,
+    parse: parseClaudeCodeJsonResponse,
   },
   {
     id: 'grok',
@@ -116,9 +182,10 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function validateCapabilities(manifest: CliProviderManifest): void {
-  for (const capability of Object.keys(manifest.capabilities) as Array<keyof CliCapabilityRequirements>) {
+  const declared: CliCapabilityRequirements = manifest.capabilities
+  for (const capability of Object.keys(declared) as Array<keyof CliCapabilityRequirements>) {
     if (!CAPABILITIES.has(capability)) throw manifestError(`CLI manifest declares unknown capability: ${capability}`)
-    if (manifest.capabilities[capability] !== true) throw manifestError(`CLI manifest capability ${capability} must be true or omitted`)
+    if (declared[capability] !== true) throw manifestError(`CLI manifest capability ${capability} must be true or omitted`)
   }
   const unsupportedByProtocol: Record<CliProtocol, readonly (keyof CliCapabilityRequirements)[]> = {
     'exec-text': ['structuredOutput', 'reasoning', 'tools', 'mcp', 'plugins', 'terminal'],
@@ -126,7 +193,7 @@ function validateCapabilities(manifest: CliProviderManifest): void {
     acp: ['tools', 'mcp', 'plugins', 'terminal'],
   }
   for (const capability of unsupportedByProtocol[manifest.protocol]) {
-    if (manifest.capabilities[capability] === true) throw manifestError(`CLI manifest ${manifest.id} declares unsupported ${capability} for ${manifest.protocol}`)
+    if (declared[capability] === true) throw manifestError(`CLI manifest ${manifest.id} declares unsupported ${capability} for ${manifest.protocol}`)
   }
 }
 
@@ -164,11 +231,17 @@ export function validateCliProviderManifest(manifest: unknown): asserts manifest
     try { new RegExp(candidate.versionPattern) } catch (error) { throw manifestError(`CLI manifest ${candidate.id} has an invalid version pattern: ${String(error)}`) }
   }
   if (candidate.docsUrl !== undefined && typeof candidate.docsUrl !== 'string') throw manifestError(`CLI manifest ${candidate.id} docsUrl must be a string`)
+  for (const key of ['serializeRequest', 'requestArgs', 'parseOutput', 'parse'] as const) {
+    if (candidate[key] !== undefined && typeof candidate[key] !== 'function') throw manifestError(`CLI manifest ${candidate.id} ${key} must be a function`)
+    if ((key === 'parseOutput' || key === 'parse') && candidate[key] !== undefined && candidate.protocol !== 'exec-json') {
+      throw manifestError(`CLI manifest ${candidate.id} declares ${key}, which only applies to the exec-json protocol`)
+    }
+  }
   validateCapabilities(candidate)
 }
 
 export function listCliProviderManifests(): CliProviderManifest[] {
-  return manifests.map(manifest => ({
+  return manifests.map((manifest): CliProviderManifest => ({
     ...manifest,
     args: [...manifest.args],
     diagnosticArgs: [...manifest.diagnosticArgs],
@@ -178,17 +251,23 @@ export function listCliProviderManifests(): CliProviderManifest[] {
   }))
 }
 
-export function getCliProviderManifest(id: string): CliProviderManifest | undefined {
-  return listCliProviderManifests().find(manifest => manifest.id === id)
+/** Built-in ids resolve to their protocol-specific manifest type; unknown ids to the union. */
+export function getCliProviderManifest<Id extends string>(
+  id: Id,
+): (Id extends BuiltInCliManifestId ? CliProviderManifestFor<BuiltInCliManifestProtocols[Id]> : CliProviderManifest) | undefined {
+  return listCliProviderManifests().find(manifest => manifest.id === id) as ReturnType<typeof getCliProviderManifest<Id>>
 }
 
-export function resolveCliManifest(manifest: CliProviderManifest, options: CliManifestOptions = {}): CliAdapterOptions {
+export function resolveCliManifest<M extends CliProviderManifest>(manifest: M, options: CliManifestOptions<M['protocol']> = {}): CliJsonAdapterOptions {
   validateCliProviderManifest(manifest)
   const mode = options.mode ?? 'review-safe'
   if (!manifest.supportedModes.includes(mode)) throw manifestError(`CLI manifest ${manifest.id} does not support mode: ${mode}`)
+  const args = [...manifest.args, ...(options.args ?? [])]
+  const requestArgs = manifest.requestArgs
   return {
     command: manifest.command,
-    args: [...manifest.args, ...(options.args ?? [])],
+    args,
+    buildArgs: requestArgs ? (request: AdapterRequest) => [...args, ...requestArgs(request)] : undefined,
     mode,
     cwd: options.cwd,
     env: options.env,
@@ -199,17 +278,20 @@ export function resolveCliManifest(manifest: CliProviderManifest, options: CliMa
     protocol: manifest.protocol,
     onDiagnostic: options.onDiagnostic,
     requiredCapabilities: options.requiredCapabilities,
+    serializeRequest: manifest.serializeRequest,
+    parseOutput: manifest.parseOutput,
+    parse: manifest.parse,
   }
 }
 
 function adapterCapabilities(manifest: CliProviderManifest): AdapterCapabilities {
-  const { streaming, structuredOutput, reasoning, tools } = manifest.capabilities
+  const { streaming, structuredOutput, reasoning, tools }: CliCapabilityRequirements = manifest.capabilities
   return { streaming, structuredOutput, reasoning, tools, extensions: { cli: { provider: manifest.id, protocol: manifest.protocol } } }
 }
 
-export async function diagnoseCliProviderManifest(
-  manifest: CliProviderManifest,
-  options: Omit<CliManifestOptions, 'args'> = {},
+export async function diagnoseCliProviderManifest<M extends CliProviderManifest>(
+  manifest: M,
+  options: Omit<CliManifestOptions<M['protocol']>, 'args'> = {},
 ): Promise<CliDiagnostic> {
   validateCliProviderManifest(manifest)
   const diagnostic = await diagnoseCliProvider({
