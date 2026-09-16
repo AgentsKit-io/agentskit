@@ -87,7 +87,7 @@ export function parseDocumentationQualityProfile(input) {
   if (profile.schemaVersion !== 1) fail('$.schemaVersion', 'must equal 1')
   if (profile.id !== DOCUMENTATION_QUALITY_PROTOCOL) fail('$.id', `must equal ${DOCUMENTATION_QUALITY_PROTOCOL}`)
   if (profile.version !== 1) fail('$.version', 'must equal 1')
-  if (profile.revision !== undefined && profile.revision !== '1.1') fail('$.revision', 'must equal 1.1 when provided')
+  if (profile.revision !== undefined && profile.revision !== '1.2') fail('$.revision', 'must equal 1.2 when provided')
   if (!PROFILE_STATUSES.has(profile.status)) fail('$.status', 'must be migration, stable, or deprecated')
 
   stringArray(profile.productIds, '$.productIds')
@@ -96,7 +96,7 @@ export function parseDocumentationQualityProfile(input) {
   }
 
   const bridge = object(profile.docBridge, '$.docBridge')
-  if (bridge.doctorScore !== 100) fail('$.docBridge.doctorScore', 'must equal 100')
+  if (bridge.minimumDoctorScore !== 90) fail('$.docBridge.minimumDoctorScore', 'must equal 90')
   if (bridge.requireExactCoverage !== true) fail('$.docBridge.requireExactCoverage', 'must be true')
   if (bridge.requiredRules !== 7) fail('$.docBridge.requiredRules', 'must equal 7')
   if (bridge.recommendedRules !== 2) fail('$.docBridge.recommendedRules', 'must equal 2')
@@ -411,7 +411,18 @@ export function evaluateDocumentationQuality(profileInput, evidenceInput, { root
   const findings = []
   const add = (id, message) => findings.push({ id, message })
 
-  if (evidence.docBridge.doctorScore !== profile.docBridge.doctorScore) add('doc-bridge-score', `doctor score is ${evidence.docBridge.doctorScore}, expected exactly ${profile.docBridge.doctorScore}`)
+  /*
+   * A floor, not an equality. The score used to have to be exactly 100, which was a meaningful bar
+   * only while Doc Bridge scored the index, the handoff corpus and the gates — sixty points that a
+   * well-kept repository takes completely. From 1.10.0 forty of the hundred come from reachability,
+   * connectivity and a retrieval benchmark, so a perfect score now means every area documented,
+   * every document linked into code and a near-perfect ranker. Demanding it would decertify every
+   * product in this ledger for having started to measure retrieval at all. Ninety is Doc Bridge's
+   * own A boundary, and the attestation still has to record the score that was actually measured.
+   */
+  if (evidence.docBridge.doctorScore < profile.docBridge.minimumDoctorScore) {
+    add('doc-bridge-score', `doctor score is ${evidence.docBridge.doctorScore}, below the required minimum of ${profile.docBridge.minimumDoctorScore}`)
+  }
   for (const audience of ['agent', 'human']) {
     const row = evidence.docBridge.coverage[audience]
     if (row.ready !== row.total) add(`${audience}-coverage`, `${row.ready}/${row.total} is not exact full coverage`)

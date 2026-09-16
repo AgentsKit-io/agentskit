@@ -74,7 +74,8 @@ function evidence(overrides = {}) {
 test('the committed profile preserves the strict seven-product contract', () => {
   const parsed = parseDocumentationQualityProfile(profile)
   assert.equal(parsed.productIds.length, 7)
-  assert.equal(parsed.revision, '1.1')
+  assert.equal(parsed.revision, '1.2')
+  assert.equal(parsed.docBridge.minimumDoctorScore, 90)
   assert.equal(parsed.docBridge.requireExactCoverage, true)
   assert.equal(parsed.docBridge.allowExceptions, false)
   assert.deepEqual(parsed.discovery.ecosystemComponentExcludedProducts, ['akos'])
@@ -157,6 +158,23 @@ test('a rounded doctor 100 cannot hide incomplete exact coverage', () => {
   const result = evaluateDocumentationQuality(profile, input)
   assert.equal(result.eligible, false)
   assert.ok(result.findings.some((finding) => finding.id === 'agent-coverage'))
+})
+
+test('the doctor score is a floor, not an equality', () => {
+  const atTheBoundary = evidence()
+  atTheBoundary.docBridge.doctorScore = 90
+  assert.equal(evaluateDocumentationQuality(profile, atTheBoundary).findings.some((finding) => finding.id === 'doc-bridge-score'), false)
+
+  // What the retrieval dimensions actually cost a well-documented repository.
+  const measured = evidence()
+  measured.docBridge.doctorScore = 95
+  assert.equal(evaluateDocumentationQuality(profile, measured).findings.some((finding) => finding.id === 'doc-bridge-score'), false)
+
+  const below = evidence()
+  below.docBridge.doctorScore = 89
+  const result = evaluateDocumentationQuality(profile, below)
+  assert.equal(result.eligible, false)
+  assert.ok(result.findings.some((finding) => finding.id === 'doc-bridge-score'))
 })
 
 test('required and recommended conformance must pass without exceptions', () => {
@@ -288,7 +306,14 @@ test('local semantics reject visual labels and linked hooks unsupported by conte
   assert.ok(result.findings.some((finding) => finding.id === 'contextual-hook-evidence:documentation'))
 })
 
-test('verified local content digest and Doc Bridge artifact are required for certification', { timeout: 60_000 }, () => {
+/*
+ * The budget is for two live Doc Bridge runs over this whole repository — `doctor` and
+ * Documentation Standard v1 conformance — not for an assertion. Sixty seconds fitted while the
+ * analyzer indexed only the `for-agents` pages; from 1.10.0 it indexes every document, and the two
+ * runs together take a little over two minutes here. The test's job is to verify the contract, so
+ * the budget follows the corpus rather than capping it.
+ */
+test('verified local content digest and Doc Bridge artifact are required for certification', { timeout: 360_000 }, () => {
   const committed = JSON.parse(readFileSync(join(REPO_ROOT, 'docs/evidence/ecosystem-documentation-quality/agentskit.json'), 'utf8'))
   const certified = evaluateDocumentationQuality(profile, committed, {
     root: REPO_ROOT,

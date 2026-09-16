@@ -1,6 +1,10 @@
 ---
 title: Prompt snapshots + diff
 description: Assert that rendered prompts haven't changed unexpectedly, and trace exactly which edit caused a drift.
+docbridge:
+  covers:
+    - area:packages/eval/src/snapshot
+    - area:packages/eval/src/diff
 ---
 
 Prompts are code — they can regress. `matchPromptSnapshot` works like Jest snapshots: the first run writes the reference, subsequent runs compare against it. When something drifts, `promptDiff` and `attributePromptChange` tell you which change caused it.

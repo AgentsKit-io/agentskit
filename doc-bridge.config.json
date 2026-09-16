@@ -177,6 +177,11 @@
       "maxResponseBytes": 16384
     }
   },
+  "analysis": {
+    "areas": {
+      "exclude": ["**/tests", "**/fixtures", "**/__tests__", "**/__fixtures__"]
+    }
+  },
   "safety": {
     "exclude": [
       "**/.git/**",
@@ -186,11 +191,18 @@
       "**/build/**",
       "**/coverage/**",
       "**/.next/**",
+      "**/.source/**",
+      "**/.svelte-kit/**",
+      "apps/docs-next/lib/ask-context.ts",
+      "apps/docs-next/content/docs/api/**",
+      "apps/docs-next/content/docs/reference/changelog.mdx",
+      "apps/docs-next/content/docs/production/performance.mdx",
       "**/out/**",
       "**/.changeset/**",
     "**/.impeccable.md",
     "**/.github/PULL_REQUEST_TEMPLATE.md",
-    "**/CHANGELOG.md"
+    "**/CHANGELOG.md",
+    "**/docs-archive/**"
     ],
     "maxFiles": 20000,
     "maxBytes": 2000000000,

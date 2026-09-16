@@ -26,6 +26,14 @@ node scripts/check-ecosystem-documentation-quality.mjs \
   --repo-root akos=../agentskit-os
 ```
 
+The Doc Bridge score is a floor of 90, not an equality. It was exactly 100 while Doc Bridge scored
+the index, the handoff corpus and the gates — sixty points a well-kept repository takes completely.
+From 1.10.0 forty of the hundred come from reachability, connectivity and a retrieval benchmark, so
+a perfect score means every code area documented, every document linked into code and a
+near-perfect ranker. Ninety is Doc Bridge's own A boundary; coverage and the 7+2 conformance
+summaries stay exact, and an attestation still has to record the score that was measured, not the
+floor.
+
 The local mode is the only certification mode. It binds every payload to repository HEAD,
 recomputes its content digest, validates the separate Doc Bridge artifact, executes live
 `ak-docs doctor --json` and Documentation Standard v1 conformance in every root, and inspects
