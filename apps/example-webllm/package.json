@@ -13,15 +13,15 @@
     "@agentskit/adapters": "workspace:*",
     "@agentskit/core": "workspace:*",
     "@agentskit/react": "workspace:*",
-    "@mlc-ai/web-llm": "^0.2.84",
+    "@mlc-ai/web-llm": "^0.2.85",
     "react": "^19.2.7",
     "react-dom": "^19.2.7"
   },
   "devDependencies": {
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
-    "@vitejs/plugin-react": "^6.0.3",
+    "@vitejs/plugin-react": "^6.1.1",
     "typescript": "^6.0.3",
-    "vite": "^8.1.4"
+    "vite": "^8.3.0"
   }
 }
