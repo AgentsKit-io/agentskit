@@ -17,6 +17,7 @@ concurrency:
 
 jobs:
   lighthouse:
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
