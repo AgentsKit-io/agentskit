@@ -13,3 +13,4 @@ the body of each fact lives in its own file. Agents read this index first.
 - `reference_models-catalog` — models.dev-driven catalog (#911): `/catalog` subpath isolation, no-runtime-fetch default, opt-in live pricing fallback, openaiCompatible signal caveat
 - `project_npm-publish-workspace-protocol` — release publishes via npm OIDC which does not rewrite `workspace:*`; publish-with-npm.mjs resolves ranges + packs-and-checks; `pnpm check:publish-manifests` guards it
 - `reference_cli-adapter-protocol-boundary` — exec-text vs exec-json output boundary in adapters/cli; agentic manifests use `serializeCliPrompt`, never raw AdapterRequest JSON on stdin; `claude-code-json` is the structured Claude Code path
+- `reference_langchain-bridge` — AdapterFactory→BaseChatModel bridge is the `@agentskit/adapters/langchain-bridge` subpath (optional `@langchain/core` peer), never a new package; must return real AIMessage instances

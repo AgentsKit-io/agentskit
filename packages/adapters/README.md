@@ -39,6 +39,7 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/adapters)
 - **Embedder functions built in** — the same adapter pattern covers text embeddings, so you can reuse provider config for both chat and RAG
 - **One-line local AI** — `ollama({ model: 'llama3.1' })` for fully offline agents with no API key required
 - **CLI-backed agents** — `@agentskit/adapters/cli` normalizes text, JSON, and ACP-based local LLM CLIs
+- **LangChain bridge** — `@agentskit/adapters/langchain-bridge` turns any adapter into a LangChain `BaseChatModel` for `createAgent`
 
 ## Install
 
@@ -138,6 +139,17 @@ the same reason. In practice: the `claude-code` and `codex` manifests are
 `exec-text` and only ever yield plain text. For tool calls, usage, or
 structured output from Claude Code use `claude-code-json` instead.
 
+The same table is enforced at compile time. `CliProviderManifest` is a union
+discriminated by `protocol`, `capabilities` is typed as
+`CliCapabilitiesFor<protocol>`, and `getCliProviderManifest('claude-code')`
+returns `CliProviderManifestFor<'exec-text'>`, so this does not type-check:
+
+```ts
+const manifest = getCliProviderManifest('claude-code')!
+resolveCliManifest(manifest, { requiredCapabilities: { tools: true } })
+//                                                    ^^^^^ not assignable: exec-text has no tools/structuredOutput
+```
+
 ### Claude Code
 
 Two first-party manifests wrap the `claude` executable:
@@ -193,6 +205,46 @@ JSONL or event-wrapped output, `parseOutput(stdout)` can decode raw stdout
 before the normal `parse(value)` callback runs.
 For CLIs that write the final response to a file, `outputFile` reads that file
 after process completion with the same byte limit and abort handling.
+
+## LangChain bridge: use any adapter as a LangChain chat model
+
+`langchain()` and `langgraph()` expose a LangChain runnable as an
+`AdapterFactory`. The `@agentskit/adapters/langchain-bridge` subpath goes the
+other way: `adapterToLangChainModel(adapter)` wraps any `AdapterFactory`
+(mock, Ollama, a CLI-backed adapter, ...) as a real `BaseChatModel`, so it can
+replace `ChatAnthropic`/`ChatOpenAI` in `createAgent`, `AgentNode`, or a plain
+chain. It needs `@langchain/core` (optional peer dependency).
+
+```ts
+import { createAgent } from 'langchain'
+import { tool } from '@langchain/core/tools'
+import { mockAdapter } from '@agentskit/adapters'
+import { adapterToLangChainModel } from '@agentskit/adapters/langchain-bridge'
+
+const add = tool(async ({ a, b }) => String(a + b), {
+  name: 'add',
+  description: 'Add two numbers',
+  schema: { type: 'object', properties: { a: { type: 'number' }, b: { type: 'number' } }, required: ['a', 'b'] },
+})
+const model = adapterToLangChainModel(mockAdapter({ response: [/* ... */] }), { modelName: 'mock' })
+const agent = createAgent({ model, tools: [add] })
+```
+
+- `bindTools()` forwards LangChain tools (structured tools, OpenAI-format
+  definitions, runnable tools) as AgentsKit `ToolDefinition`s on
+  `context.tools`; `tool_choice` lands in `context.metadata.toolChoice`.
+- System messages become both a `system` message and `context.systemPrompt`;
+  AI messages keep `tool_calls`; tool messages keep `tool_call_id`.
+- `tool_call` chunks become `AIMessage.tool_calls` (args parsed from JSON),
+  `usage` chunks become `usage_metadata`, `reasoning` chunks land in
+  `additional_kwargs.reasoning`, `error` chunks throw, and `.stream()` yields
+  `AIMessageChunk`s with `tool_call_chunks`.
+- Every response is a real `AIMessage`/`AIMessageChunk` instance, so
+  `wrapModelCall` middleware and `responseFormat` work together. The default
+  `profile` reports `toolCalling` and no native `structuredOutput`, so
+  `createAgent` uses its tool strategy, which any tool-calling adapter can
+  satisfy. Pass `profile: { structuredOutput: true }` only for adapters that
+  honour a provider-side JSON schema.
 
 ## Stream guarantees
 

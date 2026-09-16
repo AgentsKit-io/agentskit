@@ -299,7 +299,8 @@ describe('CLI adapters', () => {
   })
 
   it('rejects a manifest that overclaims protocol capabilities', () => {
-    const invalid: CliProviderManifest = {
+    // Over-claiming is a compile-time error for a typed manifest; the runtime validator backs it up.
+    const invalid: unknown = {
       id: 'invalid',
       name: 'Invalid CLI',
       command: 'invalid',

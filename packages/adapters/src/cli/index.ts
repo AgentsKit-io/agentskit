@@ -14,11 +14,12 @@ import type {
   CliProtocol,
   CliProcessOptions,
 } from './types'
-export type { CliManifestOptions, CliProviderManifest } from './manifests'
+export type { BuiltInCliManifestId, BuiltInCliManifestProtocols, CliManifestOptions, CliProviderManifest, CliProviderManifestFor } from './manifests'
 export { diagnoseCliProvider } from './process'
 export type {
   AcpCliAdapterOptions,
   AcpClientInfo,
+  CliCapabilitiesFor,
   CliCapabilityRequirements,
   CliAdapterOptions,
   CliDiagnostic,
@@ -26,6 +27,7 @@ export type {
   CliJsonParser,
   CliJsonResponse,
   CliProtocol,
+  CliProtocolCapabilityKeys,
   CliProcessOptions,
   CliSecurityMode,
   CliTerminationReason,

@@ -4,6 +4,7 @@ import { diagnoseCliProvider } from './process'
 import { serializeCliPrompt } from './prompt'
 import type {
   CliAdapterOptions,
+  CliCapabilitiesFor,
   CliCapabilityRequirements,
   CliDiagnostic,
   CliJsonAdapterOptions,
@@ -12,15 +13,21 @@ import type {
   CliSecurityMode,
 } from './types'
 
-export interface CliProviderManifest {
+/**
+ * A CLI provider manifest for protocol `P`. `capabilities` is restricted to
+ * `CliCapabilitiesFor<P>`, so an `exec-text` manifest cannot declare
+ * `structuredOutput` and a consumer cannot request `tools` from it: both are
+ * compile-time errors, mirroring the runtime `validateCliProviderManifest`.
+ */
+export interface CliProviderManifestFor<P extends CliProtocol = CliProtocol> {
   id: string
   name: string
   command: string
   args: readonly string[]
   diagnosticArgs: readonly string[]
-  protocol: CliProtocol
+  protocol: P
   protocolVersion?: 1
-  capabilities: CliCapabilityRequirements
+  capabilities: CliCapabilitiesFor<P>
   supportedModes: readonly CliSecurityMode[]
   credentialEnv?: readonly string[]
   docsUrl?: string
@@ -37,7 +44,23 @@ export interface CliProviderManifest {
   parse?: CliJsonAdapterOptions['parse']
 }
 
-export interface CliManifestOptions {
+/** Discriminated by `protocol`; see `CliProviderManifestFor`. */
+export type CliProviderManifest =
+  | CliProviderManifestFor<'exec-text'>
+  | CliProviderManifestFor<'exec-json'>
+  | CliProviderManifestFor<'acp'>
+
+/** Protocol of each built-in manifest id, used to type `getCliProviderManifest`. */
+export interface BuiltInCliManifestProtocols {
+  codex: 'exec-text'
+  'claude-code': 'exec-text'
+  'claude-code-json': 'exec-json'
+  grok: 'acp'
+  opencode: 'acp'
+}
+export type BuiltInCliManifestId = keyof BuiltInCliManifestProtocols
+
+export interface CliManifestOptions<P extends CliProtocol = CliProtocol> {
   args?: readonly string[]
   mode?: CliSecurityMode
   cwd?: string
@@ -46,7 +69,8 @@ export interface CliManifestOptions {
   maxOutputBytes?: number
   killGraceMs?: number
   onDiagnostic?: CliProcessOptions['onDiagnostic']
-  requiredCapabilities?: CliCapabilityRequirements
+  /** Only capabilities the manifest's protocol can deliver are accepted. */
+  requiredCapabilities?: CliCapabilitiesFor<P>
 }
 
 const MODES: readonly CliSecurityMode[] = ['review-safe', 'trusted-local', 'restricted-environment']
@@ -151,9 +175,10 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 function validateCapabilities(manifest: CliProviderManifest): void {
-  for (const capability of Object.keys(manifest.capabilities) as Array<keyof CliCapabilityRequirements>) {
+  const declared: CliCapabilityRequirements = manifest.capabilities
+  for (const capability of Object.keys(declared) as Array<keyof CliCapabilityRequirements>) {
     if (!CAPABILITIES.has(capability)) throw manifestError(`CLI manifest declares unknown capability: ${capability}`)
-    if (manifest.capabilities[capability] !== true) throw manifestError(`CLI manifest capability ${capability} must be true or omitted`)
+    if (declared[capability] !== true) throw manifestError(`CLI manifest capability ${capability} must be true or omitted`)
   }
   const unsupportedByProtocol: Record<CliProtocol, readonly (keyof CliCapabilityRequirements)[]> = {
     'exec-text': ['structuredOutput', 'reasoning', 'tools', 'mcp', 'plugins', 'terminal'],
@@ -161,7 +186,7 @@ function validateCapabilities(manifest: CliProviderManifest): void {
     acp: ['tools', 'mcp', 'plugins', 'terminal'],
   }
   for (const capability of unsupportedByProtocol[manifest.protocol]) {
-    if (manifest.capabilities[capability] === true) throw manifestError(`CLI manifest ${manifest.id} declares unsupported ${capability} for ${manifest.protocol}`)
+    if (declared[capability] === true) throw manifestError(`CLI manifest ${manifest.id} declares unsupported ${capability} for ${manifest.protocol}`)
   }
 }
 
@@ -209,7 +234,7 @@ export function validateCliProviderManifest(manifest: unknown): asserts manifest
 }
 
 export function listCliProviderManifests(): CliProviderManifest[] {
-  return manifests.map(manifest => ({
+  return manifests.map((manifest): CliProviderManifest => ({
     ...manifest,
     args: [...manifest.args],
     diagnosticArgs: [...manifest.diagnosticArgs],
@@ -219,11 +244,14 @@ export function listCliProviderManifests(): CliProviderManifest[] {
   }))
 }
 
-export function getCliProviderManifest(id: string): CliProviderManifest | undefined {
-  return listCliProviderManifests().find(manifest => manifest.id === id)
+/** Built-in ids resolve to their protocol-specific manifest type; unknown ids to the union. */
+export function getCliProviderManifest<Id extends string>(
+  id: Id,
+): (Id extends BuiltInCliManifestId ? CliProviderManifestFor<BuiltInCliManifestProtocols[Id]> : CliProviderManifest) | undefined {
+  return listCliProviderManifests().find(manifest => manifest.id === id) as ReturnType<typeof getCliProviderManifest<Id>>
 }
 
-export function resolveCliManifest(manifest: CliProviderManifest, options: CliManifestOptions = {}): CliJsonAdapterOptions {
+export function resolveCliManifest<M extends CliProviderManifest>(manifest: M, options: CliManifestOptions<M['protocol']> = {}): CliJsonAdapterOptions {
   validateCliProviderManifest(manifest)
   const mode = options.mode ?? 'review-safe'
   if (!manifest.supportedModes.includes(mode)) throw manifestError(`CLI manifest ${manifest.id} does not support mode: ${mode}`)
@@ -247,13 +275,13 @@ export function resolveCliManifest(manifest: CliProviderManifest, options: CliMa
 }
 
 function adapterCapabilities(manifest: CliProviderManifest): AdapterCapabilities {
-  const { streaming, structuredOutput, reasoning, tools } = manifest.capabilities
+  const { streaming, structuredOutput, reasoning, tools }: CliCapabilityRequirements = manifest.capabilities
   return { streaming, structuredOutput, reasoning, tools, extensions: { cli: { provider: manifest.id, protocol: manifest.protocol } } }
 }
 
-export async function diagnoseCliProviderManifest(
-  manifest: CliProviderManifest,
-  options: Omit<CliManifestOptions, 'args'> = {},
+export async function diagnoseCliProviderManifest<M extends CliProviderManifest>(
+  manifest: M,
+  options: Omit<CliManifestOptions<M['protocol']>, 'args'> = {},
 ): Promise<CliDiagnostic> {
   validateCliProviderManifest(manifest)
   const diagnostic = await diagnoseCliProvider({

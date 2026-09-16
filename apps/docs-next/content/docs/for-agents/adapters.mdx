@@ -74,7 +74,11 @@ tool calls, or usage. `exec-json` (`claude-code-json`) yields one parsed
 response per process with `text`, `reasoning`, `tool_call`, and `usage`
 chunks but no streaming. `acp` streams text and reasoning and rejects tool
 calls. `validateCliProviderManifest` and `requiredCapabilities` enforce that
-boundary before anything is spawned.
+boundary before anything is spawned, and the types enforce it before that:
+`CliProviderManifest` is discriminated by `protocol`, `capabilities` is
+`CliCapabilitiesFor<protocol>`, and `getCliProviderManifest('claude-code')`
+returns `CliProviderManifestFor<'exec-text'>`, so requesting `tools` or
+`structuredOutput` from it is a compile-time error.
 
 `claude-code-json` wraps `claude -p --output-format json` and parses the
 result envelope (including `is_error`, `usage`, `session_id`, and
@@ -97,6 +101,19 @@ request-specific arguments while preserving direct shell-free spawning. Use
 event-wrapped output before its normal JSON parser. `outputFile` reads a
 provider-written final response with the configured byte limit after process
 completion.
+
+## LangChain bridge
+
+`@agentskit/adapters/langchain-bridge` exports `adapterToLangChainModel` and
+the `AgentsKitChatModel` class: a real `BaseChatModel` over any
+`AdapterFactory`, usable in any LangChain `model:` slot (`createAgent`,
+`AgentNode`, chains). It implements `_generate`, `_streamResponseChunks`,
+`bindTools`, `invocationParams`, `getLsParams`, and `profile`; tool bindings
+become `context.tools`, `tool_call` chunks become `AIMessage.tool_calls`, and
+every response is an `AIMessage`/`AIMessageChunk` instance so
+`wrapModelCall` middleware and `responseFormat` (tool strategy) compose. This
+is the inverse of `langchain()`/`langgraph()`, which expose a LangChain
+runnable as an adapter. `@langchain/core` is an optional peer dependency.
 
 See [ADR 0031 — Shared CLI adapter execution boundary](../../../../../docs/architecture/adrs/0031-cli-adapter-execution-boundary.md)
 for the complete security, protocol, compatibility, rollout, and evidence
