@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "aa36462a0c50efe4b0a108fcc3517e6658be5bea5b6e3b81b9ce06ff52a6965f",
+  "contentHash": "9e402af7c858de547c78704e2ea5a292e449a4aa5570b95659683a734968e996",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-16T17:22:49.201Z",
+  "generatedAt": "2026-09-16T19:48:39.832Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -6446,7 +6446,7 @@
         "document",
         "human"
       ],
-      "contentHash": "5a6e9db33f42ef5b2eb0a1c3f5bba21596c5d9a9b73a9c842b8ac47f39817698"
+      "contentHash": "88a2804eb73eda6fe1772a9e030ee5c36d6d304d01f9c20f7ae13a7048d5e4a4"
     },
     {
       "id": "document:docs/MASTER-EXECUTION-PLAN.md",
@@ -10452,6 +10452,23 @@
         "lib"
       ],
       "contentHash": "461544c9a827ea3eb4376ce6d7e4319c4abcde6d0b0ded657504b9c130fd4671"
+    },
+    {
+      "id": "module:apps/docs-next/lib/ask-context.ts",
+      "type": "module",
+      "title": "ask-context.ts",
+      "path": "apps/docs-next/lib/ask-context.ts",
+      "symbols": [
+        "DOCS_CORPUS",
+        "DOCS_CORPUS_BYTES",
+        "DOCS_CORPUS_PAGES"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "lib"
+      ],
+      "contentHash": "086f79cba3b9e0dd36b7ffe8586352a38e9946a9dfc92bda5a113b0f61f1bcef"
     },
     {
       "id": "module:apps/docs-next/lib/ask/eval/dataset.ts",
@@ -33457,7 +33474,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "a2c21bf59e1713e7b6df4f00ee8cf3eb52e083f9ad597d015ae1878e68cf4419"
+      "contentHash": "312dba9d1b2d38ca142f59bd781d7b2cd42442a4504e0a7aa3254f5b8e82fa21"
     },
     {
       "id": "module:scripts/ecosystem-llms-block.test.mjs",
@@ -33642,7 +33659,7 @@
         "mjs",
         "lib"
       ],
-      "contentHash": "a7776e3a51f9d6a9266138b9dedff0fc797e167d107cf0424dd0ee8492048621"
+      "contentHash": "229a8a98569b385f5038addc8d65fddb5e810ec8784dfd93e4e8d81b44c10642"
     },
     {
       "id": "module:scripts/lib/ecosystem-readiness.mjs",
@@ -35558,8 +35575,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "7763ebd54cf606e2f7228a6be4c6de93d731f27798a916afca2a4bafd2c60202",
-    "fileCount": 2372,
+    "hash": "4ea754d1a61553c66087b11fd80c26abd1a465c803aec385e3322e0a0056a212",
+    "fileCount": 2373,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -35581,9 +35598,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "e1e94ffeeb3103d072517e0a53ba0a271e0624d41c78160a1f638711dcc2bee2",
+    "contentHash": "d639007a6d362ee82203f1f0f59b9a084f0309ecb530429aab4488001ea9ff31",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "13c0f994ecaf4d69c6dd4ac5367f22fc2e48b5d762cfada3f411ddd42daead8e",
+    "snapshotHash": "7db85c52f86e54d125e503ec2eb360d8e35593d142ef868a6befeb3104df2be1",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "763fd59a048676d4d2f2bf469fe87f63074f97f5c44a48811e0f847bc77615fb",
     "lexiconVersion": 1,
@@ -35603,7 +35620,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2325,
+      "documentCount": 2326,
       "fieldNames": [
         "aliases",
         "body",
@@ -35614,13 +35631,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 2.986236559139785,
-        "body": 62.76129032258064,
-        "headings": 4.34236559139785,
-        "path": 7.643010752688172,
-        "summary": 4.851612903225806,
-        "symbols": 7.451182795698925,
-        "title": 3.341505376344086
+        "aliases": 2.9862424763542563,
+        "body": 62.76053310404127,
+        "headings": 4.340498710232159,
+        "path": 7.643164230438521,
+        "summary": 4.849527085124677,
+        "symbols": 7.452708512467756,
+        "title": 3.341788478073947
       }
     },
     "entries": [
@@ -35965,7 +35982,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "f5cf4857ae2e4463c62300938cddc65de81f87c384e6fe9013340a0bbf892a39",
+        "contentHash": "c8efa66e194eafadaa68dc3b311b6208c07df73d015dc7972e016897932d6235",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -70081,7 +70098,7 @@
           "path": "docs/evidence/ecosystem-documentation-quality/README.md",
           "symbols": "",
           "summary": "The seven JSON payloads are the stable v1 attestation ledger. Each records canonical product identity, a base commit, an explicit commit or working-tree source mode, a deterministic digest of every declared local evidence path, and a separate Doc Bridge result artifact. A working-tree attestation never claims that dirty content belongs to its base commit.",
-          "body": "Ecosystem documentation attestation evidence The seven JSON payloads are the stable v1 attestation ledger. Each records canonical product identity, a base commit, an explicit commit or working-tree source mode, a deterministic digest of every declared local evidence path, and a separate Doc Bridge result artifact. A working-tree attestation never claims that dirty content belongs to its base commit. Run the portable attestation gate. Without repository roots it may be eligible, but it is intentionally never certified: For a full local recertification, check out all repositories and pass their roots: The local mode is the only certification mode. It binds every payload to repository HEAD, recomputes its content digest, validates the separate Doc Bridge artifact, executes live ak-docs doctor --json and Documentation Standard v1 conformance in every root, and inspects visual and contextual-link content. The artifact is a ledger, never the authority: live score, coverage, and 7+2 summaries must match it and the payload. Updating an attestation requires rerunning those checks, then refreshing its payload digest and artifact.",
+          "body": "Ecosystem documentation attestation evidence The seven JSON payloads are the stable v1 attestation ledger. Each records canonical product identity, a base commit, an explicit commit or working-tree source mode, a deterministic digest of every declared local evidence path, and a separate Doc Bridge result artifact. A working-tree attestation never claims that dirty content belongs to its base commit. Run the portable attestation gate. Without repository roots it may be eligible, but it is intentionally never certified: For a full local recertification, check out all repositories and pass their roots: The Doc Bridge score is a floor of 90, not an equality. It was exactly 100 while Doc Bridge scored the index, the handoff corpus and the gates — sixty points a well-kept repository takes completely. From 1.10.0 forty of the hundred come from reachability, connectivity and a retrieval benchmark, so a perfect score means every code area documented, every document linked into code and a near-perfect ranker. Ninety is Doc Bridge's own A boundary; coverage and the 7+2 conformance summaries stay exact, and an attestation still has to record the score that was measured, not the floor. The local mode is the only certification mode. It binds every payload to repository HEAD, recomputes its content digest, validates the separate Doc Bridge artifact, executes live ak-docs doctor --json and Documentation Standard v1 conformance in every root, and inspects visual and contextual-link content. The artifact is a ledger, never the authority: live score, coverage, and 7+2 summaries must match it and the payload. Updating an attestation requires rerunning those checks, then refreshing its payload digest and artifact.",
           "aliases": "document human"
         },
         "graph": {
@@ -70100,7 +70117,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5a6e9db33f42ef5b2eb0a1c3f5bba21596c5d9a9b73a9c842b8ac47f39817698",
+        "contentHash": "88a2804eb73eda6fe1772a9e030ee5c36d6d304d01f9c20f7ae13a7048d5e4a4",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -88703,6 +88720,45 @@
           "outbound": []
         },
         "contentHash": "461544c9a827ea3eb4376ce6d7e4319c4abcde6d0b0ded657504b9c130fd4671",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/docs-next/lib/ask-context.ts",
+        "kind": "module",
+        "path": "apps/docs-next/lib/ask-context.ts",
+        "title": "ask-context.ts",
+        "aliases": [],
+        "symbols": [
+          "DOCS_CORPUS",
+          "DOCS_CORPUS_BYTES",
+          "DOCS_CORPUS_PAGES"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "lib"
+        ],
+        "fields": {
+          "title": "ask-context.ts",
+          "headings": "",
+          "path": "apps/docs-next/lib/ask-context.ts",
+          "symbols": "DOCS_CORPUS DOCS_CORPUS_BYTES DOCS_CORPUS_PAGES",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts lib"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "086f79cba3b9e0dd36b7ffe8586352a38e9946a9dfc92bda5a113b0f61f1bcef",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174742,7 +174798,7 @@
             }
           ]
         },
-        "contentHash": "a2c21bf59e1713e7b6df4f00ee8cf3eb52e083f9ad597d015ae1878e68cf4419",
+        "contentHash": "312dba9d1b2d38ca142f59bd781d7b2cd42442a4504e0a7aa3254f5b8e82fa21",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -175332,7 +175388,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "a7776e3a51f9d6a9266138b9dedff0fc797e167d107cf0424dd0ee8492048621",
+        "contentHash": "229a8a98569b385f5038addc8d65fddb5e810ec8784dfd93e4e8d81b44c10642",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -185351,7 +185407,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "9f68acc6aa7df92b4f202365b6870897940987c21da69f01347c0d5429749a4e",
+        "contentHash": "326fc59760a1219a1bf9e399c12bd40ed93652f9b3acf52ce0d2a766018d858b",
         "provenance": "observed",
         "confidence": "observed"
       }
