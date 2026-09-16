@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "f22fc43a12ccc02250720e97a7c084ac015159d818d8c439a4104bca39ba8bba",
+  "contentHash": "07bfa838dcf2c05bfd6753487d669675dc314803bf3a0227907f87fcb94c4b55",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-16T20:03:04.448Z",
+  "generatedAt": "2026-09-16T20:33:45.976Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -10452,23 +10452,6 @@
         "lib"
       ],
       "contentHash": "461544c9a827ea3eb4376ce6d7e4319c4abcde6d0b0ded657504b9c130fd4671"
-    },
-    {
-      "id": "module:apps/docs-next/lib/ask-context.ts",
-      "type": "module",
-      "title": "ask-context.ts",
-      "path": "apps/docs-next/lib/ask-context.ts",
-      "symbols": [
-        "DOCS_CORPUS",
-        "DOCS_CORPUS_BYTES",
-        "DOCS_CORPUS_PAGES"
-      ],
-      "tags": [
-        "module",
-        "ts",
-        "lib"
-      ],
-      "contentHash": "086f79cba3b9e0dd36b7ffe8586352a38e9946a9dfc92bda5a113b0f61f1bcef"
     },
     {
       "id": "module:apps/docs-next/lib/ask/eval/dataset.ts",
@@ -35575,8 +35558,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "710f0fd7c7287d643af3d32c901c541a61a9cfccab1e9bed2e46645a16654753",
-    "fileCount": 2373,
+    "hash": "5c890b1645c228805519cde137850c129b73a1cfdaf791ec2c5f25cc087d24d7",
+    "fileCount": 2372,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -35598,11 +35581,11 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "55c605ef3e7ad291b012944f9edaf76ea3c4ded52b8fa5269d4e7efa3102aeee",
+    "contentHash": "4f2c90615fa336f8a9a1dc6796346b19f92c3a1940552806f05866391b9d9fae",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "46d41ea403b715e72b08211c72a3ab639a42f6ef6d51d229bd0d27c713770d4d",
+    "snapshotHash": "54cb94cf0784188c5ff4fce393160ae823d184740fee7b2c20af3f343641c793",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
-    "configurationHash": "763fd59a048676d4d2f2bf469fe87f63074f97f5c44a48811e0f847bc77615fb",
+    "configurationHash": "038c0536e2d6cf779e18fa3c024c9837eead6fe9f97166ae81eedfcdc4eca936",
     "lexiconVersion": 1,
     "graphMetricsVersion": "1.0.0",
     "weights": {
@@ -35620,7 +35603,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2326,
+      "documentCount": 2325,
       "fieldNames": [
         "aliases",
         "body",
@@ -35631,13 +35614,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 2.9862424763542563,
-        "body": 62.76053310404127,
-        "headings": 4.340498710232159,
-        "path": 7.643164230438521,
-        "summary": 4.849527085124677,
-        "symbols": 7.452708512467756,
-        "title": 3.341788478073947
+        "aliases": 2.986236559139785,
+        "body": 62.78752688172043,
+        "headings": 4.34236559139785,
+        "path": 7.643010752688172,
+        "summary": 4.851612903225806,
+        "symbols": 7.451182795698925,
+        "title": 3.341505376344086
       }
     },
     "entries": [
@@ -35982,7 +35965,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "c8efa66e194eafadaa68dc3b311b6208c07df73d015dc7972e016897932d6235",
+        "contentHash": "f5cf4857ae2e4463c62300938cddc65de81f87c384e6fe9013340a0bbf892a39",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -88720,45 +88703,6 @@
           "outbound": []
         },
         "contentHash": "461544c9a827ea3eb4376ce6d7e4319c4abcde6d0b0ded657504b9c130fd4671",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
-        "id": "module:apps/docs-next/lib/ask-context.ts",
-        "kind": "module",
-        "path": "apps/docs-next/lib/ask-context.ts",
-        "title": "ask-context.ts",
-        "aliases": [],
-        "symbols": [
-          "DOCS_CORPUS",
-          "DOCS_CORPUS_BYTES",
-          "DOCS_CORPUS_PAGES"
-        ],
-        "tags": [
-          "module",
-          "ts",
-          "lib"
-        ],
-        "fields": {
-          "title": "ask-context.ts",
-          "headings": "",
-          "path": "apps/docs-next/lib/ask-context.ts",
-          "symbols": "DOCS_CORPUS DOCS_CORPUS_BYTES DOCS_CORPUS_PAGES",
-          "summary": "",
-          "body": "",
-          "aliases": "module ts lib"
-        },
-        "graph": {
-          "pagerank": 0,
-          "inboundLinks": 0,
-          "coveredBy": [],
-          "mentionedBy": [],
-          "areaId": "area:apps/docs-next",
-          "packageId": "package:agentskit",
-          "inbound": [],
-          "outbound": []
-        },
-        "contentHash": "086f79cba3b9e0dd36b7ffe8586352a38e9946a9dfc92bda5a113b0f61f1bcef",
         "provenance": "observed",
         "confidence": "observed"
       },
