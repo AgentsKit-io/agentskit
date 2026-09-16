@@ -1,6 +1,9 @@
 ---
 title: Security
 description: 'Six primitives for production agents: PII redaction, injection detection, rate limiting, audit log, sandbox enforcement, and HITL approvals.'
+docbridge:
+  covers:
+    - area:packages/core/src/security
 ---
 
 Agents that reach production face threats unit tests don't cover — sensitive data leaking into logs, user inputs that hijack the system prompt, runaway API costs, and tool calls that modify infrastructure. These primitives address each class of risk at the boundary closest to where it appears.

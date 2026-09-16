@@ -1,6 +1,9 @@
 ---
 title: Devtools server
 description: Expose a live SSE stream of agent events so any browser-based dashboard can display them in real time.
+docbridge:
+  covers:
+    - area:packages/tools/src/mcp-devtools
 ---
 
 `createDevtoolsServer` taps into the same observer event stream as loggers and tracers, then makes those events available over SSE. Connect a browser UI with a standard `EventSource` — no WebSocket server, no custom protocol.

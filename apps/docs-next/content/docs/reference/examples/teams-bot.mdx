@@ -1,6 +1,9 @@
 ---
 title: Teams Bot
 description: Reference Microsoft Teams bot wrapping createChatTrigger from @agentskit/runtime. Consumes Bot Framework activities at /api/messages with injectable JWT verifier.
+docbridge:
+  covers:
+    - area:apps/example-teams-bot
 ---
 
 Driver-light Microsoft Teams bot. Consumes Bot Framework activity payloads at `/api/messages` and verifies the inbound JWT via an injected `verifyToken` callback.
