@@ -107,11 +107,22 @@ jobs:
             recover_unpublished=true
           fi
 
-          if [[ "$has_changesets" == true || "$has_version_changes" == true || "$recover_unpublished" == true ]]; then
+          # Versions already committed to main but missing from npm (a publish
+          # run that failed after versioning) are release intent on their own:
+          # with no changesets left, changesets publish just publishes them.
+          has_unpublished_versions=false
+          unpublished_count="$(node scripts/check-release-registry.mjs --json --allow-unpublished-with-changesets \
+            | node -e 'let d="";process.stdin.on("data",c=>d+=c).on("end",()=>process.stdout.write(String(JSON.parse(d).unpublishedAhead.length)))')"
+          if [[ "$unpublished_count" != "0" ]]; then
+            has_unpublished_versions=true
+            echo "Detected $unpublished_count committed package version(s) missing from npm." >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+          if [[ "$has_changesets" == true || "$has_version_changes" == true || "$has_unpublished_versions" == true || "$recover_unpublished" == true ]]; then
             echo "run=true" >> "$GITHUB_OUTPUT"
           else
             echo "run=false" >> "$GITHUB_OUTPUT"
-            echo "No pending changesets or package version changes; release is a no-op." >> "$GITHUB_STEP_SUMMARY"
+            echo "No pending changesets, package version changes, or unpublished versions; release is a no-op." >> "$GITHUB_STEP_SUMMARY"
           fi
 
       - id: changesets

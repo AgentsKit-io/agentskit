@@ -21,6 +21,9 @@ counted every `.changeset/*.md`. Recovery needs a manual
 **How to apply:** `listReleasableChangesets` in
 `scripts/lib/release-registry.mjs` filters by the ignore list; the preflight
 and `scripts/list-releasable-changesets.mjs` (used by release.yml) rely on
-it. Do not add changesets for ignored packages; if one lands, delete it. If
-a publish run fails on this preflight, use the `recover_unpublished`
-dispatch rather than re-versioning.
+it. Do not add changesets for ignored packages; if one lands, delete it.
+release.yml also treats committed-but-unpublished versions as release
+intent, so any push to `main` retries the publish once the blocker is gone;
+the `recover_unpublished` dispatch remains the manual override. A GitHub
+"Re-run jobs" of a failed publish reuses the old commit and fails the same
+way.
