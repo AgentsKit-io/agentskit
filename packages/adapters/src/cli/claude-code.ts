@@ -21,14 +21,22 @@ function number(value: unknown): number {
 
 const RESPONSE_KEYS = ['text', 'reasoning', 'toolCalls'] as const
 
+const FENCE = '```'
+
+/** Strips a surrounding Markdown code fence (optionally tagged `json`) without regular expressions. */
+function unfence(text: string): string {
+  if (!text.startsWith(FENCE) || !text.endsWith(FENCE) || text.length < FENCE.length * 2) return text
+  let inner = text.slice(FENCE.length, text.length - FENCE.length)
+  if (inner.startsWith('json')) inner = inner.slice('json'.length)
+  return inner.trim()
+}
+
 /**
  * Returns the AgentsKit CLI JSON response object embedded in a Claude Code
  * `result` string, or `undefined` when the result is plain prose.
  */
 function embeddedResponse(result: string): Record<string, unknown> | undefined {
-  const trimmed = result.trim()
-  const fenced = /^```(?:json)?\s*([\s\S]*?)\s*```$/.exec(trimmed)
-  const candidate = fenced ? fenced[1]! : trimmed
+  const candidate = unfence(result.trim())
   if (!candidate.startsWith('{') || !candidate.endsWith('}')) return undefined
   let value: unknown
   try {

@@ -292,8 +292,9 @@ describe('CLI adapters', () => {
       result: '```json\n{"text":"calling","toolCalls":[{"id":"t1","name":"lookup","args":"{\\"path\\":\\"a.ts\\"}"}]}\n```',
       usage: { input_tokens: 10, cache_creation_input_tokens: 2, cache_read_input_tokens: 3, output_tokens: 4 },
     }
-    const script = `process.stdin.on('data',()=>{}); process.stdin.on('end',()=>{ process.stdout.write('warning: noise\\n' + ${JSON.stringify(JSON.stringify(envelope))}) })`
-    const resolved = resolveCliManifest({ ...manifest, command: process.execPath, args: ['-e', script] })
+    // The envelope travels as an argv value, never interpolated into the script source.
+    const script = "process.stdin.on('data',()=>{}); process.stdin.on('end',()=>{ process.stdout.write('warning: noise\\n' + process.argv[1]) })"
+    const resolved = resolveCliManifest({ ...manifest, command: process.execPath, args: ['-e', script, JSON.stringify(envelope)] })
     expect(resolved.parse).toBe(parseClaudeCodeJsonResponse)
     expect(resolved.parseOutput).toBe(parseClaudeCodeJsonOutput)
     await expect(collect(createJsonCliAdapter(resolved))).resolves.toEqual([
