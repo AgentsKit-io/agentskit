@@ -1,9 +1,12 @@
 import { AdapterError, ErrorCodes, type AdapterCapabilities } from '@agentskit/core'
+import { parseClaudeCodeJsonOutput, parseClaudeCodeJsonResponse } from './claude-code'
 import { diagnoseCliProvider } from './process'
+import { serializeCliPrompt } from './prompt'
 import type {
   CliAdapterOptions,
   CliCapabilityRequirements,
   CliDiagnostic,
+  CliJsonAdapterOptions,
   CliProcessOptions,
   CliProtocol,
   CliSecurityMode,
@@ -22,6 +25,16 @@ export interface CliProviderManifest {
   credentialEnv?: readonly string[]
   docsUrl?: string
   versionPattern?: string
+  /**
+   * Serializes the request written to the CLI's stdin. Agentic CLIs that read
+   * a natural-language prompt use `serializeCliPrompt`; omit it to write the
+   * raw `AdapterRequest` JSON.
+   */
+  serializeRequest?: CliAdapterOptions['serializeRequest']
+  /** `exec-json` only: decodes raw stdout before `parse`. */
+  parseOutput?: CliJsonAdapterOptions['parseOutput']
+  /** `exec-json` only: maps the decoded JSON value to stream chunks. */
+  parse?: CliJsonAdapterOptions['parse']
 }
 
 export interface CliManifestOptions {
@@ -53,8 +66,12 @@ const manifests: readonly CliProviderManifest[] = [
     supportedModes: MODES,
     credentialEnv: ['OPENAI_API_KEY', 'CODEX_API_KEY'],
     docsUrl: 'https://github.com/openai/codex',
+    serializeRequest: serializeCliPrompt,
   },
   {
+    // Plain-text transport: streams Claude Code's final answer as text.
+    // No structured output, reasoning, or tool calls; use `claude-code-json`
+    // for those.
     id: 'claude-code',
     name: 'Claude Code',
     command: 'claude',
@@ -65,6 +82,24 @@ const manifests: readonly CliProviderManifest[] = [
     supportedModes: MODES,
     credentialEnv: ['ANTHROPIC_API_KEY'],
     docsUrl: 'https://docs.anthropic.com/en/docs/claude-code/cli-usage',
+    serializeRequest: serializeCliPrompt,
+  },
+  {
+    // Structured transport: one `claude -p --output-format json` envelope per
+    // request, parsed into text, tool_call, and usage chunks. Not streaming.
+    id: 'claude-code-json',
+    name: 'Claude Code (JSON output)',
+    command: 'claude',
+    args: ['-p', '--output-format', 'json'],
+    diagnosticArgs: ['--version'],
+    protocol: 'exec-json',
+    capabilities: { structuredOutput: true, nativeAuth: true },
+    supportedModes: MODES,
+    credentialEnv: ['ANTHROPIC_API_KEY'],
+    docsUrl: 'https://docs.anthropic.com/en/docs/claude-code/cli-usage',
+    serializeRequest: serializeCliPrompt,
+    parseOutput: parseClaudeCodeJsonOutput,
+    parse: parseClaudeCodeJsonResponse,
   },
   {
     id: 'grok',
@@ -164,6 +199,12 @@ export function validateCliProviderManifest(manifest: unknown): asserts manifest
     try { new RegExp(candidate.versionPattern) } catch (error) { throw manifestError(`CLI manifest ${candidate.id} has an invalid version pattern: ${String(error)}`) }
   }
   if (candidate.docsUrl !== undefined && typeof candidate.docsUrl !== 'string') throw manifestError(`CLI manifest ${candidate.id} docsUrl must be a string`)
+  for (const key of ['serializeRequest', 'parseOutput', 'parse'] as const) {
+    if (candidate[key] !== undefined && typeof candidate[key] !== 'function') throw manifestError(`CLI manifest ${candidate.id} ${key} must be a function`)
+    if (key !== 'serializeRequest' && candidate[key] !== undefined && candidate.protocol !== 'exec-json') {
+      throw manifestError(`CLI manifest ${candidate.id} declares ${key}, which only applies to the exec-json protocol`)
+    }
+  }
   validateCapabilities(candidate)
 }
 
@@ -182,7 +223,7 @@ export function getCliProviderManifest(id: string): CliProviderManifest | undefi
   return listCliProviderManifests().find(manifest => manifest.id === id)
 }
 
-export function resolveCliManifest(manifest: CliProviderManifest, options: CliManifestOptions = {}): CliAdapterOptions {
+export function resolveCliManifest(manifest: CliProviderManifest, options: CliManifestOptions = {}): CliJsonAdapterOptions {
   validateCliProviderManifest(manifest)
   const mode = options.mode ?? 'review-safe'
   if (!manifest.supportedModes.includes(mode)) throw manifestError(`CLI manifest ${manifest.id} does not support mode: ${mode}`)
@@ -199,6 +240,9 @@ export function resolveCliManifest(manifest: CliProviderManifest, options: CliMa
     protocol: manifest.protocol,
     onDiagnostic: options.onDiagnostic,
     requiredCapabilities: options.requiredCapabilities,
+    serializeRequest: manifest.serializeRequest,
+    parseOutput: manifest.parseOutput,
+    parse: manifest.parse,
   }
 }
 

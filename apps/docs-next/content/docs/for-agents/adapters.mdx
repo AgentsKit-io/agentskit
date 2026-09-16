@@ -40,7 +40,8 @@ consumers that need a local LLM executable. It preserves the core v1
 `AdapterFactory` contract and exposes `createCliAdapter` (`exec-text`),
 `createJsonCliAdapter` (`exec-json`), `createAcpCliAdapter` (ACP v1), and
 `diagnoseCliProvider`, plus `parseCliJsonResponse` for validating provider
-responses. Built-in manifests cover Codex, Claude Code, Grok CLI, and OpenCode;
+responses. Built-in manifests cover Codex, Claude Code (`claude-code` for text,
+`claude-code-json` for structured output), Grok CLI, and OpenCode;
 `getCliProviderManifest` and `listCliProviderManifests` expose copies of the
 validated definitions, while `resolveCliManifest` produces explicit process
 options and `diagnoseCliProviderManifest` checks availability and version
@@ -66,6 +67,28 @@ are limited to idempotent pre-response failures, and fallback is allowed only
 before the first semantic response. The adapter reports typed diagnostics and
 metadata-only checkpoints by default; GitHub, PR, merge, and approval policy
 remain outside the adapter.
+
+The protocol bounds what a manifest can return. `exec-text` (`codex`,
+`claude-code`) yields streamed `text` only: no structured output, reasoning,
+tool calls, or usage. `exec-json` (`claude-code-json`) yields one parsed
+response per process with `text`, `reasoning`, `tool_call`, and `usage`
+chunks but no streaming. `acp` streams text and reasoning and rejects tool
+calls. `validateCliProviderManifest` and `requiredCapabilities` enforce that
+boundary before anything is spawned.
+
+`claude-code-json` wraps `claude -p --output-format json` and parses the
+result envelope (including `is_error`, `usage`, `session_id`, and
+`total_cost_usd`) without custom `buildArgs`/`parseOutput`/`parse` code; use
+it whenever tool calls or usage are needed from Claude Code. When the request
+carries tools, the prompt asks for a `{ text?, toolCalls }` JSON answer and
+the parser turns it into `tool_call` chunks.
+
+Agentic CLI manifests (`codex`, `claude-code`, `claude-code-json`) serialize
+the request with `serializeCliPrompt` as labelled `[system]`/`[user]` blocks.
+The generic factories still default to raw `AdapterRequest` JSON on stdin,
+which Claude Code refuses as an apparent prompt injection; custom manifests
+for agentic CLIs should set `serializeRequest: serializeCliPrompt`. Manifests
+may also declare `parseOutput` and `parse` for `exec-json` transports.
 
 For CLIs that require a prompt in argv, `buildArgs(request)` creates the
 request-specific arguments while preserving direct shell-free spawning. Use

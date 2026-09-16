@@ -106,8 +106,8 @@ const adapter = createCliAdapter(resolveCliManifest(manifest, { mode: 'review-sa
 
 The generic factories are `createCliAdapter` (`exec-text`),
 `createJsonCliAdapter` (`exec-json`), and `createAcpCliAdapter` (ACP v1 over
-JSON lines). The built-in manifests cover Codex, Claude Code, Grok CLI, and
-OpenCode. `resolveCliManifest` keeps command, argv, protocol, provider id, and
+JSON lines). The built-in manifests cover Codex, Claude Code (text and JSON
+output), Grok CLI, and OpenCode. `resolveCliManifest` keeps command, argv, protocol, provider id, and
 mode explicit; `diagnoseCliProviderManifest` verifies availability and an
 optional version pattern. `review-safe` is the default: no shell, automatic
 installation, native login, MCP, plugins, or terminal tools. Use
@@ -120,6 +120,71 @@ is awaited before the adapter finishes, including when input or output fails.
 `restricted-environment` is an explicit environment allowlist mode; it is not
 an OS, filesystem, process, or network sandbox. Use `@agentskit/sandbox` when a
 real isolation boundary is required.
+
+### `exec-text` vs `exec-json`: what each protocol can return
+
+The protocol decides which stream chunks a manifest can produce. Pick the
+manifest by what you need back, not by the CLI name:
+
+| Protocol    | Factory                | Chunks emitted                          | Not available                                  |
+| ----------- | ---------------------- | --------------------------------------- | ---------------------------------------------- |
+| `exec-text` | `createCliAdapter`     | `text` (streamed), `done`               | `structuredOutput`, `reasoning`, `tool_call`, usage |
+| `exec-json` | `createJsonCliAdapter` | `text`, `reasoning`, `tool_call`, `usage`, `done` | streaming (one response per process)   |
+| `acp`       | `createAcpCliAdapter`  | `text`, `reasoning` (streamed), `done`  | tool calls (rejected), MCP, plugins, terminal  |
+
+`validateCliProviderManifest` rejects a manifest that claims a capability its
+protocol cannot deliver, and `requiredCapabilities` fails before spawning for
+the same reason. In practice: the `claude-code` and `codex` manifests are
+`exec-text` and only ever yield plain text. For tool calls, usage, or
+structured output from Claude Code use `claude-code-json` instead.
+
+### Claude Code
+
+Two first-party manifests wrap the `claude` executable:
+
+- `claude-code` — `claude -p`, `exec-text`. Streams the final answer as text.
+- `claude-code-json` — `claude -p --output-format json`, `exec-json`. Parses
+  the result envelope into `text`, `tool_call`, and `usage` chunks with
+  `session_id`, `total_cost_usd`, `duration_ms`, and `num_turns` as metadata.
+  `is_error` or a non-`success` subtype fails closed.
+
+```ts
+import { createJsonCliAdapter, getCliProviderManifest, resolveCliManifest } from '@agentskit/adapters/cli'
+
+const manifest = getCliProviderManifest('claude-code-json')
+if (!manifest) throw new Error('provider manifest is unavailable')
+const adapter = createJsonCliAdapter(resolveCliManifest(manifest, { mode: 'trusted-local' }))
+```
+
+When the request carries `context.tools`, the prompt includes a `[tools]`
+block asking Claude Code to answer with a `{ text?, toolCalls }` JSON object;
+`claude-code-json` recognizes that object (fenced or bare) in the `result`
+string and emits `tool_call` chunks. Plain prose results stay `text`.
+`structured_output` from `--json-schema` is honored the same way. Tool
+execution itself remains the consumer's responsibility: the adapter never
+enables Claude Code's own tools, MCP, or plugins.
+
+### Prompt serialization
+
+`createCliAdapter` and `createJsonCliAdapter` default to writing the raw
+`AdapterRequest` as one JSON line on stdin. That is the right contract for a
+purpose-built CLI, but agentic CLIs read stdin as a user prompt, and Claude
+Code refuses a raw JSON request containing `systemPrompt` as an apparent
+prompt-injection attempt. The `codex`, `claude-code`, and `claude-code-json`
+manifests therefore ship with `serializeCliPrompt`, which writes labelled
+blocks:
+
+```text
+[system]
+You are a reviewer.
+
+[user]
+review this
+```
+
+`serializeCliPrompt` is exported for custom manifests; a manifest may also
+declare its own `serializeRequest`, `parseOutput`, and `parse`, which
+`resolveCliManifest` forwards to the factory.
 
 Use `buildArgs(request)` only for CLIs that require the prompt in argv; it is
 request-aware and still uses direct, shell-free spawning. Set
