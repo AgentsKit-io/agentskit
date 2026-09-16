@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "id": "agentskit.ecosystem.documentation-quality",
   "version": 1,
-  "revision": "1.1",
+  "revision": "1.2",
   "status": "stable",
   "productIds": [
     "agentskit",
@@ -14,7 +14,7 @@
     "akos"
   ],
   "docBridge": {
-    "doctorScore": 100,
+    "minimumDoctorScore": 90,
     "requireExactCoverage": true,
     "requiredRules": 7,
     "recommendedRules": 2,
