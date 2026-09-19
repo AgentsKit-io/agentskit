@@ -13,7 +13,6 @@ export const CANONICAL_PRODUCTS = Object.freeze([
   { id: 'playbook', repo: 'AgentsKit-io/agents-playbook', docsUrl: 'https://playbook.agentskit.io/docs' },
   { id: 'doc-bridge', repo: 'AgentsKit-io/doc-bridge', docsUrl: 'https://doc-bridge.agentskit.io/' },
   { id: 'code-review', repo: 'AgentsKit-io/code-review', docsUrl: 'https://github.com/AgentsKit-io/code-review#readme' },
-  { id: 'akos', repo: 'AgentsKit-io/agentskit-os', docsUrl: 'https://akos.agentskit.io/docs' },
 ])
 
 const CANONICAL_PRODUCT_IDS = CANONICAL_PRODUCTS.map(({ id }) => id)

@@ -156,3 +156,6 @@ console.log(instance.state)
 See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).
 
 ## How this fits the ecosystem
+
+Use [AgentsKit Registry](https://registry.agentskit.io) for ready-made agents and the
+[Agents Playbook](https://playbook.agentskit.io) for production practices.

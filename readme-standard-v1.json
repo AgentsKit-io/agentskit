@@ -159,8 +159,7 @@
         "ecosystem": [
           "## The AgentsKit ecosystem",
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -198,8 +197,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2026-12-01",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2026-12-18",
         "sources": [
           "README.md",
           "apps/docs-next/fixtures/first-agent/agent.ts",
@@ -208,7 +207,7 @@
           "ecosystem.json",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:25756a2265d983107cf1b0fe7af1033539f69ed3a99d4852cf19b7fa72830603"
+        "sourceHash": "sha256:9028d699ae60e355e56e81670a825bc6cbe9fd03d39947b9b25ef7c500ab56a7"
       },
       "exceptions": []
     },
@@ -250,8 +249,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -278,8 +276,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2026-12-31",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-01-17",
         "sources": [
           "packages/adapters/README.md",
           "packages/adapters/package.json",
@@ -287,7 +285,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:ac77c5b8df5a48656db134da25abf8bbdedd950c33842d2d62c97f3879784426"
+        "sourceHash": "sha256:2b07c02f6c521a89394811fe5ca3a4f14f16be201e40738064e1699d7393fc60"
       },
       "exceptions": []
     },
@@ -329,8 +327,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -357,8 +354,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2027-03-01",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-03-18",
         "sources": [
           "packages/angular/README.md",
           "packages/angular/package.json",
@@ -366,7 +363,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:69b49d0cde27d74991ba19623e82d0726b5864f889a60e3e65c11d8f8852382b"
+        "sourceHash": "sha256:a4c6a2efe3c4ec7a32c26d9793cf40efa428edbb869f3124344d1a53218664a8"
       },
       "exceptions": []
     },
@@ -408,8 +405,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -436,8 +432,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2026-12-31",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-01-17",
         "sources": [
           "packages/cli/README.md",
           "packages/cli/package.json",
@@ -445,7 +441,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:38d74157b26a5d60a969c75354f6028cf07d9882679aa4baf7059c92847fb88a"
+        "sourceHash": "sha256:a5364ba16d67d259e647973263a8fd54797564b42b232717183c55795e383d8c"
       },
       "exceptions": []
     },
@@ -487,8 +483,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -515,8 +510,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2026-12-31",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-01-17",
         "sources": [
           "packages/core/README.md",
           "packages/core/package.json",
@@ -524,7 +519,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:496259e4687680a2a5c31b362b2c3000473564e8716bbd0a36b1fe2855909a5d"
+        "sourceHash": "sha256:4c6e6c38352e4e4a0da6cbb84b914f738b1af59120dbdd62e9a2355bd6945642"
       },
       "exceptions": []
     },
@@ -566,8 +561,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -594,8 +588,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2027-03-01",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-03-18",
         "sources": [
           "packages/eval/README.md",
           "packages/eval/package.json",
@@ -603,7 +597,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:e960877a48b8e2d9e74fe6cdc4c2d11b22b1eaee05601391e63990a31da0afc9"
+        "sourceHash": "sha256:b833413c0f95c4817069a1ab0185e03271bf7a0375c6edd62f5a4a6afe373ebf"
       },
       "exceptions": []
     },
@@ -645,8 +639,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -673,8 +666,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2027-03-01",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-03-18",
         "sources": [
           "packages/eval-braintrust/README.md",
           "packages/eval-braintrust/package.json",
@@ -682,7 +675,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:3a04909e88e026e6cb92ed312635af3d5291dc28b6e36404c0925ff96708174f"
+        "sourceHash": "sha256:430d2a91027bb8cb7ed7354c50b984b4ad2f9c8f81d3884df19f22f5b9190458"
       },
       "exceptions": []
     },
@@ -724,8 +717,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -752,8 +744,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2027-03-01",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-03-18",
         "sources": [
           "packages/ink/README.md",
           "packages/ink/package.json",
@@ -761,7 +753,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:e762a1035afc23cd8d4b3de12f394c552833c36c5463091175c1945de87f281b"
+        "sourceHash": "sha256:cc30c9b11da81d21453f93baac47c98887ebe8f7cb8e9278768111eea23f648d"
       },
       "exceptions": []
     },
@@ -803,8 +795,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -831,8 +822,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2026-12-31",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-01-17",
         "sources": [
           "packages/integrations/README.md",
           "packages/integrations/package.json",
@@ -840,7 +831,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:55f4638c5011ecbc204d366d185e0bd982828a6b387dfae54088f96e3e8d7417"
+        "sourceHash": "sha256:992970659092393e8ebb051aa5feb0aa65746b0f11f76aa0c39516647ffd62d1"
       },
       "exceptions": []
     },
@@ -882,8 +873,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -910,8 +900,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2026-12-31",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-01-17",
         "sources": [
           "packages/mcp/README.md",
           "packages/mcp/package.json",
@@ -919,7 +909,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:4db2ff1ff5f056fd54fb7a836ea8e20c1f3c38a7e337e644e987d63033d1fb17"
+        "sourceHash": "sha256:df9f6df1e7f75c26b7949d445d95e7939784cd691b8842282fb45a7b94e58bfb"
       },
       "exceptions": []
     },
@@ -961,8 +951,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -989,8 +978,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2026-12-31",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-01-17",
         "sources": [
           "packages/memory/README.md",
           "packages/memory/package.json",
@@ -998,7 +987,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:67d91b4aed538250b897ee1f88a91cb922cf93b2d5bc10359fef0e79e93e8c0b"
+        "sourceHash": "sha256:cd4e5b497ddb7c9cac8c7cdf1bb76c15e94f2e6f0208f32c9196f1f16512b321"
       },
       "exceptions": []
     },
@@ -1040,8 +1029,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -1068,8 +1056,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2026-12-31",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-01-17",
         "sources": [
           "packages/observability/README.md",
           "packages/observability/package.json",
@@ -1077,7 +1065,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:7d4c3b60c0d7b500c69bac232dd467ccf3de9e7dd4c32d678e83301d20ef3a35"
+        "sourceHash": "sha256:de2a583bbfbae417bfa1d155e4f47403dd9b39d2e349828476c7c8b055ae7d1d"
       },
       "exceptions": []
     },
@@ -1119,8 +1107,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -1147,8 +1134,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2027-03-01",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-03-18",
         "sources": [
           "packages/observability-langfuse/README.md",
           "packages/observability-langfuse/package.json",
@@ -1156,7 +1143,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:b6721ce93b1812481c870ea92c1dba027b069d214a11b58fb65cd02f1a34e357"
+        "sourceHash": "sha256:e33d2e1563948ff9464244ceb65f7cd7eb6b3d3b35cd4b9a7b86d210b2b97bb5"
       },
       "exceptions": []
     },
@@ -1198,8 +1185,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -1226,8 +1212,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2026-12-31",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-01-17",
         "sources": [
           "packages/rag/README.md",
           "packages/rag/package.json",
@@ -1235,7 +1221,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:5da99cfe63f3669fb0524ba29011bf25997eb93d0f73b52c209a77dc193586e5"
+        "sourceHash": "sha256:4a0aad0f728a8fd3e69dc54b40a5f573b44a096a548b788214b416e6b0baa245"
       },
       "exceptions": []
     },
@@ -1277,8 +1263,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -1305,8 +1290,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2026-12-31",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-01-17",
         "sources": [
           "packages/react/README.md",
           "packages/react/package.json",
@@ -1314,7 +1299,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:674fe431c582c388024b246d23a741e0296f122f8630ba2c78b7d15e13456e58"
+        "sourceHash": "sha256:ef9ec0f7bb2d97528b59f5e4db9e63444f92fa7a3e45b3e2bc625a2bd03d6b6d"
       },
       "exceptions": []
     },
@@ -1356,8 +1341,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -1384,8 +1368,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2027-03-01",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-03-18",
         "sources": [
           "packages/react-native/README.md",
           "packages/react-native/package.json",
@@ -1393,7 +1377,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:6aef99fb084fbeb95ee63082bfa69d336408ab7acedd38526ff7ab9b5d764a16"
+        "sourceHash": "sha256:e11772c73529dc7cd1277ae156cd990746f1a1f72904dc4a111cf6853dab3114"
       },
       "exceptions": []
     },
@@ -1435,8 +1419,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -1463,8 +1446,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2026-12-31",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-01-17",
         "sources": [
           "packages/runtime/README.md",
           "packages/runtime/package.json",
@@ -1472,7 +1455,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:afe75b7b773196995ba58a48d52d90257295e51bcb9fd22b041d28942c0fb1aa"
+        "sourceHash": "sha256:21603b7d9475926305162b9e3b99efe21e4e1d20d58a21a712b213ac5a6a2550"
       },
       "exceptions": []
     },
@@ -1514,8 +1497,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -1542,8 +1524,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2027-03-01",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-03-18",
         "sources": [
           "packages/sandbox/README.md",
           "packages/sandbox/package.json",
@@ -1551,7 +1533,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:e509c922d39df7bf1406e9f4444dfcd3b20833603f315bfae02c04a54be99814"
+        "sourceHash": "sha256:b8a4594fc0c66e064a7d7eea98f31c3d6de1e8feb320dc3cb63e554b157acd84"
       },
       "exceptions": []
     },
@@ -1593,8 +1575,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -1621,8 +1602,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2026-12-31",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-01-17",
         "sources": [
           "packages/skills/README.md",
           "packages/skills/package.json",
@@ -1630,7 +1611,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:c5955e63669b582555491c70064b6f6866e6cc7d36da1d02b4b53ff7dcb7c708"
+        "sourceHash": "sha256:521b54cb826c2d333e425a1158678680c3ed420826f79dfd91dcc27dcea21ded"
       },
       "exceptions": []
     },
@@ -1672,8 +1653,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -1700,8 +1680,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2027-03-01",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-03-18",
         "sources": [
           "packages/solid/README.md",
           "packages/solid/package.json",
@@ -1709,7 +1689,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:a24da26148f5c486d111a2c8e2c24788162ed512345bb163aae66f35eea9c0c4"
+        "sourceHash": "sha256:defeae8e3b2fb2df0dcb37f418806208f47a76cf359938a517dcde4213c8a304"
       },
       "exceptions": []
     },
@@ -1751,8 +1731,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -1779,8 +1758,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2027-03-01",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-03-18",
         "sources": [
           "packages/statechart/README.md",
           "packages/statechart/package.json",
@@ -1788,7 +1767,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:3bf4040720f42b44d4ee7b7d6fb1375a832c902aa52f0fdcc8a18b2eb31047a6"
+        "sourceHash": "sha256:4789894f2dbecd7efe79c954055c4ead7c7a4eb74a6a057732dd4fd83676c739"
       },
       "exceptions": []
     },
@@ -1830,8 +1809,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -1858,8 +1836,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2027-03-01",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-03-18",
         "sources": [
           "packages/svelte/README.md",
           "packages/svelte/package.json",
@@ -1867,7 +1845,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:400dc98c793388f5ba7953cebda51e77ccd87060e9ac8f0fd5c5ab4bd97b5e4c"
+        "sourceHash": "sha256:1e24a2c1d93a21daa591eb4c4088165ed40eac96a382a591b3c0e80d03fcc1b2"
       },
       "exceptions": []
     },
@@ -1909,8 +1887,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -1937,8 +1914,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2027-03-01",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-03-18",
         "sources": [
           "packages/templates/README.md",
           "packages/templates/package.json",
@@ -1946,7 +1923,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:89b5808e2a16f643826e81a4f1463caaf37eddd06153afb90eeb78297b2d6586"
+        "sourceHash": "sha256:1bc229735428b958902b9b85855edba46a8bcfb7fef84a9a8c78f50ee2152e50"
       },
       "exceptions": []
     },
@@ -1988,8 +1965,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -2016,8 +1992,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2026-12-31",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-01-17",
         "sources": [
           "packages/tools/README.md",
           "packages/tools/package.json",
@@ -2025,7 +2001,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:1a87e4e943ae0faa7d1b3cab540fa341ecf806a99d18b3d1e3cd2436f894efaf"
+        "sourceHash": "sha256:6fde6d0d550ba95cfe9b5d58599a2cb747912b453afb5dc22bb09ff0f55ef051"
       },
       "exceptions": []
     },
@@ -2067,8 +2043,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -2095,8 +2070,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2027-03-01",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-03-18",
         "sources": [
           "packages/validation/README.md",
           "packages/validation/package.json",
@@ -2104,7 +2079,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:671c57bcc10cc275bf1e5e3c18e06fdf73f0e2cf98e22d42e439c6d7ce37112c"
+        "sourceHash": "sha256:a49ca83f5bd113733ac9a24f8b4594ef7772768c8a42bf797a932a5793dbf932"
       },
       "exceptions": []
     },
@@ -2146,8 +2121,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [
@@ -2174,8 +2148,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2027-03-01",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2027-03-18",
         "sources": [
           "packages/vue/README.md",
           "packages/vue/package.json",
@@ -2183,7 +2157,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:4e04fb6cad86baec3b58c86b1ed28209420c68cd3ca28b4d47d73addc21cc43d"
+        "sourceHash": "sha256:8056ddf23b903c57a9b67ab4a93011a22d45224687a87e35da89e9cf5f5ee161"
       },
       "exceptions": []
     },
@@ -2222,8 +2196,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [],
@@ -2244,8 +2217,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2026-12-01",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2026-12-18",
         "sources": [
           "apps/docs-next/README.md",
           "apps/docs-next/package.json",
@@ -2253,7 +2226,7 @@
           "ecosystem-claims.json",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:1b149a63fc1f9f7f6c90748afdbcf5f330ef32cb0e836bee06dc22ecb03a46ad"
+        "sourceHash": "sha256:f9cfa5b708d2f8bb4a8497cefb868417b8987653c3da4a21d9cc26b7ba04e4c4"
       },
       "exceptions": [
         {
@@ -2307,8 +2280,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [],
@@ -2329,8 +2301,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2026-12-01",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2026-12-18",
         "sources": [
           "apps/landing/README.md",
           "apps/landing/package.json",
@@ -2338,7 +2310,7 @@
           "ecosystem-claims.json",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:6f8c3f05a2f3709d4b08c800dea3eba1680330d3cc894d27ada80c1716e5a6fb"
+        "sourceHash": "sha256:f1ca72593c31e6a607ce4a13c6c0546b9c55efe5fd7d406c302762ade5a601da"
       },
       "exceptions": [
         {
@@ -2392,8 +2364,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [],
@@ -2414,8 +2385,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2026-12-01",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2026-12-18",
         "sources": [
           "apps/registry/README.md",
           "apps/registry/package.json",
@@ -2423,7 +2394,7 @@
           "ecosystem-claims.json",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:aa83f57b4b2133d6d4dfa2343d292819f67234c7b45bbab128deedda4afb2227"
+        "sourceHash": "sha256:c02ca4263fcb638b3f54a0777ad5c7daa981c57c1fc10f4810bb3b38c5097ffa"
       },
       "exceptions": [
         {
@@ -2477,8 +2448,7 @@
         ],
         "ecosystem": [
           "registry.agentskit.io",
-          "playbook.agentskit.io",
-          "akos.agentskit.io"
+          "playbook.agentskit.io"
         ]
       },
       "visuals": [],
@@ -2499,8 +2469,8 @@
         }
       ],
       "freshness": {
-        "reviewedOn": "2026-09-02",
-        "reviewDueOn": "2026-12-01",
+        "reviewedOn": "2026-09-19",
+        "reviewDueOn": "2026-12-18",
         "sources": [
           "apps/ask-backend/README.md",
           "apps/ask-backend/package.json",
@@ -2508,7 +2478,7 @@
           "ecosystem-claims.json",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:df13d18bde28c0b3d9ec9cc766d97e13e3b39e132ff9a46e4a2d9c3b3442970b"
+        "sourceHash": "sha256:8ace0a5fcc0ae7c50a901a3161fad266bd6e64bfcf472a8db680e7b82d6cc1f2"
       },
       "exceptions": [
         {
