@@ -4,10 +4,8 @@ const CHAT_MODES = new Set(['agentschat', 'custom', 'none'])
 const SALES_KINDS = new Set(['integration-stack', 'registry-install', 'human-agent', 'standards-flow', 'knowledge-bridge', 'enterprise-control'])
 const DISTRIBUTION_CLASSES = new Set(['open-source', 'managed-service'])
 const SURFACE_KEYS = ['home', 'docs', 'llms', 'stats']
-/** v1 properties array tracks the full seven-product set (expanded from original four). */
-/** Deprecated v1 four-product shim — products[] is the seven-product catalog. */
-const LEGACY_PRODUCT_IDS = ['agentskit', 'akos', 'playbook', 'registry']
-const CANONICAL_PRODUCT_IDS = ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge', 'code-review', 'akos']
+const LEGACY_PRODUCT_IDS = ['agentskit', 'playbook', 'registry']
+const CANONICAL_PRODUCT_IDS = ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge', 'code-review']
 
 function fail(path, message) {
   throw new TypeError(`ecosystem contract: ${path} ${message}`)
@@ -185,14 +183,10 @@ export function parseEcosystemManifest(input) {
     // Products may set showInBar:false to leave the shared header (e.g. early-stage tools).
     // Order stays stable so re-enabling a product does not reshuffle peers.
     if (product.navigation.order !== index) fail(`$.products[${index}].navigation.order`, `must equal ${index}`)
-    const expectedPeers = product.id === 'akos'
-      ? []
-      : CANONICAL_PRODUCT_IDS.filter((id) => id !== product.id).sort()
+    const expectedPeers = CANONICAL_PRODUCT_IDS.filter((id) => id !== product.id).sort()
     const actualPeers = [...product.navigation.next].sort()
     if (JSON.stringify(actualPeers) !== JSON.stringify(expectedPeers)) {
-      fail(`$.products[${index}].navigation.next`, product.id === 'akos'
-        ? 'must be empty because AKOS is excluded from the continuation component'
-        : 'must contain every other canonical product exactly once')
+      fail(`$.products[${index}].navigation.next`, 'must contain every other canonical product exactly once')
     }
   }
 

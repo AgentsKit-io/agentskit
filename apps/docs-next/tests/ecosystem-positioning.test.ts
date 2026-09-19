@@ -6,7 +6,7 @@ import ecosystem from '../lib/ecosystem.json'
 const appRoot = join(import.meta.dirname, '..')
 
 describe('canonical ecosystem positioning', () => {
-  it('keeps non-public products out of public navigation', () => {
+  it('keeps the public product list in navigation', () => {
     expect(ecosystem.positioning.openSourceProductIds).toEqual([
       'agentskit',
       'registry',
@@ -21,7 +21,7 @@ describe('canonical ecosystem positioning', () => {
         expect.objectContaining({ id: 'registry' }),
       ]),
     )
-    expect(ecosystem.products.find((product) => product.id === 'akos')?.navigation.showInBar).toBe(false)
+    expect(ecosystem.products.find((product) => product.id === 'akos')).toBeUndefined()
   })
 
   it('publishes the canonical positioning to human and machine-readable surfaces', () => {
