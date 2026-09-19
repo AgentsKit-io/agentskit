@@ -59,7 +59,7 @@
         },
         {
           "id": "catalog-providers",
-          "value": 184,
+          "value": 222,
           "noun": "providers",
           "evidence": {
             "type": "repository-derivation",
@@ -67,11 +67,11 @@
             "path": "scripts/compute-stats.mjs",
             "summary": "Providers in the committed model catalog snapshot."
           },
-          "conservativeFloor": 180
+          "conservativeFloor": 220
         },
         {
           "id": "catalog-models",
-          "value": 6297,
+          "value": 7870,
           "noun": "models",
           "evidence": {
             "type": "repository-derivation",
@@ -79,7 +79,7 @@
             "path": "scripts/compute-stats.mjs",
             "summary": "Models in the committed provider catalog snapshot."
           },
-          "conservativeFloor": 6000
+          "conservativeFloor": 7000
         },
         {
           "id": "skills",
