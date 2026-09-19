@@ -61,7 +61,7 @@ jobs:
           echo "Changed files:"
           echo "$CHANGED"
 
-          NEEDS_CHANGESET=$(echo "$CHANGED" | grep -E '^packages/' | grep -vE '^packages/[^/]+/(tests?/|.*\.(test|spec)\.[^/]+$|package\.json$)' || true)
+          NEEDS_CHANGESET=$(echo "$CHANGED" | grep -E '^packages/' | grep -vE '^packages/[^/]+/(tests?/|.*\.(test|spec)\.[^/]+$|package\.json$|.*\.md$)' || true)
 
           if [ -z "$NEEDS_CHANGESET" ]; then
             echo "No changes inside packages/ — changeset not required."

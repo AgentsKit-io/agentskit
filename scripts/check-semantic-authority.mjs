@@ -2,7 +2,7 @@
 /**
  * Fast semantic-authority gate for public product surfaces.
  * It checks identity/distribution boundaries and catches stale claims without
- * rewriting content or treating private AKOS implementation as public proof.
+ * rewriting content or treating retired product references as public proof.
  */
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
@@ -15,13 +15,10 @@ const diagnostics = []
 
 const publicProducts = manifest.products.filter((product) => product.public)
 const openSourceProducts = publicProducts.filter((product) => product.distributionClass === 'open-source')
-const managedProducts = manifest.products.filter((product) => product.distributionClass === 'managed-service')
 const agentskitClaims = claims.products.find((product) => product.productId === 'agentskit')
 const packageClaim = agentskitClaims?.claims?.find((claim) => claim.id === 'packages')
 
 if (openSourceProducts.length !== 6) diagnostics.push(`expected six public open-source products, found ${openSourceProducts.length}`)
-if (managedProducts.length !== 1 || managedProducts[0]?.id !== 'akos') diagnostics.push('expected exactly one managed product: akos')
-if (managedProducts[0]?.public !== false || managedProducts[0]?.repo !== null) diagnostics.push('AKOS must remain private and repository-less in the public manifest')
 if (!packageClaim || typeof packageClaim.value !== 'number') diagnostics.push('agentskit package claim is missing or not numeric')
 
 const publicFiles = [
@@ -51,20 +48,19 @@ if (packageClaim && !readme.includes(`**${packageClaim.value} published packages
 const llms = read('llms.txt')
 if (/\]\((?:apps|docs|packages)\//.test(llms)) diagnostics.push('llms.txt contains repository-relative links')
 if (/\[(?:peer|peers|or):\]/.test(llms)) diagnostics.push('llms.txt contains an unlabeled relationship marker')
-if (!/\[AKOS\]\(https:\/\/akos\.agentskit\.io\/?\)/.test(llms)) diagnostics.push('llms.txt does not expose AKOS as a labeled canonical URL')
-if (!/not required to use the open-source products/.test(llms)) diagnostics.push('llms.txt does not state that AKOS is optional')
+if (/AKOS|akos\.agentskit\.io/i.test(llms)) diagnostics.push('llms.txt exposes a retired product reference')
 
 const docsEcosystem = read('apps/docs-next/app/ecosystem/page.tsx')
 if (docsEcosystem.includes('agentskit-io.github.io/doc-bridge')) diagnostics.push('docs ecosystem page uses the retired Doc Bridge host')
 
 const landingLayout = read('apps/landing/app/layout.tsx')
-if (!landingLayout.includes("'@type': 'ItemList'") || !landingLayout.includes("'@type': 'SoftwareSourceCode'") || !landingLayout.includes("'@type': 'Service'")) {
-  diagnostics.push('landing JSON-LD must distinguish the OSS product list from the managed AKOS service')
+if (!landingLayout.includes("'@type': 'ItemList'") || !landingLayout.includes("'@type': 'SoftwareSourceCode'")) {
+  diagnostics.push('landing JSON-LD must expose the public product list')
 }
 
 const ecosystemPage = read('apps/docs-next/app/ecosystem/page.tsx')
-if (!ecosystemPage.includes('ECOSYSTEM_JSON_LD') || !ecosystemPage.includes("'@type': 'ItemList'") || !ecosystemPage.includes("'@type': 'Service'")) {
-  diagnostics.push('ecosystem hub JSON-LD must expose the product list and managed-service distinction')
+if (!ecosystemPage.includes('ECOSYSTEM_JSON_LD') || !ecosystemPage.includes("'@type': 'ItemList'")) {
+  diagnostics.push('ecosystem hub JSON-LD must expose the public product list')
 }
 
 const registryHome = read("apps/registry/app/(home)/page.tsx")
@@ -77,4 +73,4 @@ if (diagnostics.length > 0) {
   process.exit(1)
 }
 
-console.log(`semantic authority check passed: ${openSourceProducts.length} public OSS products, ${managedProducts.length} optional managed layer, package claim ${packageClaim.value}`)
+console.log(`semantic authority check passed: ${openSourceProducts.length} public OSS products, package claim ${packageClaim.value}`)

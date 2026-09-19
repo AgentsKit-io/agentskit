@@ -38,7 +38,7 @@ function docsUrl(path) {
 const lines = [
   '# AgentsKit.js',
   '',
-  '> Machine-readable index for the AgentsKit JavaScript foundation, its public open-source siblings, and the optional managed AKOS layer.',
+  '> Machine-readable index for the AgentsKit JavaScript foundation and its public open-source siblings.',
   '',
   '## Foundation',
   '',
@@ -53,11 +53,6 @@ const lines = [
 for (const product of ecosystem.products.filter((item) => item.public)) {
   if (product.id === 'agentskit') continue
   lines.push(`- [${product.name}](${product.surfaces.home}): ${product.promise}`)
-}
-
-lines.push('', '## Optional managed layer', '')
-for (const product of ecosystem.products.filter((item) => item.distributionClass === 'managed-service')) {
-  lines.push(`- [${product.name}](${product.surfaces.home}): ${product.promise} Optional; not required to use the open-source products and not part of the open-source package catalog.`)
 }
 
 lines.push('', '## Agent reference pages', '')

@@ -31,12 +31,11 @@
     ]
   },
   "discovery": {
-    "globalProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"],
-    "siblingProductIds": ["agentskit", "registry", "agentskit-chat", "doc-bridge", "code-review", "akos"],
+    "globalProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "code-review"],
+    "siblingProductIds": ["agentskit", "registry", "agentskit-chat", "doc-bridge", "code-review"],
     "contextualHooks": [
       { "id": "documentation", "status": "linked", "targetProductId": "doc-bridge", "evidence": ["components/docs-ecosystem-handoff.tsx", "content/docs/for-agents.mdx#ecosystem-routing"] },
-      { "id": "chat", "status": "linked", "targetProductId": "agentskit-chat", "evidence": ["components/docs-ecosystem-handoff.tsx", "content/docs/for-agents.mdx#ecosystem-routing"] },
-      { "id": "enterprise", "status": "linked", "targetProductId": "akos", "evidence": ["components/docs-ecosystem-handoff.tsx", "content/docs/for-agents.mdx#ecosystem-routing"] }
+      { "id": "chat", "status": "linked", "targetProductId": "agentskit-chat", "evidence": ["components/docs-ecosystem-handoff.tsx", "content/docs/for-agents.mdx#ecosystem-routing"] }
     ]
   }
 }

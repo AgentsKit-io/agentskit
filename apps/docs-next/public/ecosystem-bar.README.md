@@ -1,7 +1,6 @@
 # Ecosystem bar
 
 `ecosystem-bar.js` is the shared top nav linking the six public AgentsKit sites
-(AgentsKit · Registry · Chat · Playbook · Doc Bridge · AKOS). Code Review remains
 part of the seven-product manifest but is intentionally repository-native. The bar is hosted here on the main site and
 embedded by every property. Editing this one file updates the bar everywhere.
 
@@ -28,11 +27,9 @@ are defined inline in the `build()` function.
 Add to each product surface. Repository-native Code Review links to its GitHub home:
 
 ```html
-<script src="https://www.agentskit.io/ecosystem-bar.js" defer data-current="akos"></script>
 ```
 
 Set `data-current` to one of: `agentskit` · `registry` · `agentskit-chat` ·
-`playbook` · `doc-bridge` · `code-review` · `akos`
 (or omit it — the bar auto-detects by hostname). The current property is highlighted.
 On mobile, the bar remains a single horizontal navigation row with its own
 overflow and hidden scrollbar.

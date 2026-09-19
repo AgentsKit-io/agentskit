@@ -19,7 +19,6 @@ every number** so counts never drift again.
 | # | Property | Domain | Repo | Path | Stack | Role |
 |---|----------|--------|------|------|-------|------|
 | 1 | Main docs + landing | `agentskit.io` / `www.agentskit.io` | `agentskit` (local `lib`) | `apps/docs-next`, `apps/landing` | Next 16 + fumadocs 16 + Tailwind 4 | Hub. Library docs. |
-| 2 | AgentsKit OS (AKOS) | `akos.agentskit.io` | `agentskit-os` | `apps/web` | Next 15 + fumadocs 14 + Tailwind 3 + next-intl | The operating system for AI agents in production (managed cloud / self-hosted desktop / terminal). |
 | 3 | Agents Playbook | `playbook.agentskit.io` | `agents-playbook` | root app | Next 15 + fumadocs 15 + Tailwind 4 | Best-practices / methodology. |
 | 4 | Registry | `registry.agentskit.io` | `agentskit-registry` | static `public/` | Static HTML + Node build script | shadcn-style installable agents. |
 | 5 | Personal | `emersonbraun.dev` | `eb-dev` (`NoxCode/eb-dev`) | `apps/website` | Next + Nx + Bun + Tailwind 4 + shadcn | Builder hub. References all. |
@@ -28,7 +27,6 @@ every number** so counts never drift again.
 > Grab what you want from **AgentsKit** (`agentskit.io`), follow best practices
 > in the **Playbook** (`playbook.agentskit.io`), drop in ready-made agents from
 > the **Registry** (`registry.agentskit.io`), and run them in production on
-> **AKOS** (`akos.agentskit.io`) — the operating system for AI agents in production.
 
 *(Attribution to the builder lives on `emersonbraun.dev`, which links out to all
 four; the four product sites carry no personal-attribution links back.)*
@@ -44,7 +42,6 @@ Counts are hardcoded in copy and already **mutually contradictory**:
 | Property | Hardcoded claims found | Reality |
 |----------|------------------------|---------|
 | `agentskit.io` | "19 packages" / "13+ packages" / "8 libraries"; "20+ native adapters" / "17 adapters" / "100+ more"; "5,000+ models"; "20+ / 20 integrations"; "9 skills"; "60+ recipes"; "7 frameworks"; "six contracts" | 25 pkg dirs, 36 adapter modules, 3 integration dirs — none derived |
-| `akos` | "30+ models", "30+ providers", "20+ integrations", "6+ industries" (in `messages/en.json`, duplicated across two sections); `verbs: 441` (generated artifact) | 441 verbs is generated; the rest hand-typed |
 | `playbook` | "6 pillars", "70+ patterns", "13 gate scripts", "6 phases" (in `page.tsx` **and** baked into OG image) | ~85 pattern files, 13 scripts — loosely accurate, not derived |
 | `registry` | **none** — count derived live from `r/index.json` (45 agents) | ✅ correct model |
 | `eb-dev` | "14 npm packages" (x2), "21 skills" (x4); package list itself fetched live from npm | npm fetch is correct; the 14/21 strings drift |
@@ -61,19 +58,16 @@ have **internal** divergence:
 |----------|--------|-------|
 | `agentskit.io` docs | GitHub green `#1a7f37` / `#2EA043` | `--ak-*` tokens in `global.css` |
 | `agentskit.io` landing | Purple `#7c5cff` | **different palette from its own docs** |
-| `akos` | Emerald `#34d399` | tokens in `@agentskit/os-ui`; **OG image uses `#2997ff`** (divergent) |
 | `playbook` | Violet `oklch(0.72 0.18 295)` | inline in `globals.css`, dark-only |
 | `registry` | Blue `#6ea8fe` | inline `<style>` |
 | `eb-dev` | Blue `hsl(217 91% 60%)` | shadcn vars |
 
 Fonts are *roughly* aligned (Inter body + JetBrains Mono code almost
 everywhere; lib adds Space Grotesk display). Logos are inconsistent: lib has
-proper SVG mark + wordmark; akos inlines an SVG; playbook uses a Lucide
 `Sparkles` icon and has **no favicon**; registry has no logo/favicon.
 
 ### 2.3 SEO maturity
 
-| Capability | agentskit.io | akos | playbook | registry | eb-dev |
 |------------|:---:|:---:|:---:|:---:|:---:|
 | Root metadata + title template | ✅ | ✅ | ✅ | partial | ✅ (no template) |
 | Per-page canonical | ✅ | ❌ | ✅ | ❌ (1 page) | ❌ |
@@ -81,10 +75,8 @@ proper SVG mark + wordmark; akos inlines an SVG; playbook uses a Lucide
 | Sitemap | ✅ | ✅ | ✅ | ❌ | ⚠️ 3 URLs, `lastModified` frozen `2025-04-08` |
 | robots + AI crawlers | ✅ explicit allowlist | ✅ basic | ✅ basic | ❌ | ✅ basic |
 | JSON-LD | ✅ (Org/WebSite/Article/Breadcrumb) | ❌ | ✅ | ❌ | ⚠️ Person only |
-| `metadataBase` correct | ✅ | ❌ defaults to `agentskit-os.dev` not `akos.agentskit.io` | ✅ | hardcoded root | ✅ |
 
 `agentskit.io` is the reference implementation. Everything else has gaps.
-Notable bug: **akos `SITE.url` defaults to `https://agentskit-os.dev`**, so
 canonicals/OG/sitemap point at the wrong domain unless the env var is set.
 
 ### 2.4 `for-agents` + `llms.txt`
@@ -92,7 +84,6 @@ canonicals/OG/sitemap point at the wrong domain unless the env var is set.
 | Property | `llms.txt` | `llms-full.txt` | `for-agents` |
 |----------|:---:|:---:|:---:|
 | agentskit.io | ✅ dynamic route | ✅ dynamic route | ✅ 24 MDX under `/docs/for-agents` |
-| akos | ⚠️ generated at repo root, **not served by the site** | ❌ | ✅ `docs/for-agents/` + coverage gate (`check-for-agents-coverage.mjs`) |
 | playbook | ✅ dynamic route + bundle.zip | ✅ dynamic route | ❌ (only referenced as a pattern in content) |
 | registry | ❌ | ❌ | ⚠️ A2A AgentCard embedded per agent (closest thing) |
 | eb-dev | ❌ | ❌ | ❌ |
@@ -103,11 +94,7 @@ canonicals/OG/sitemap point at the wrong domain unless the env var is set.
 
 Almost none, and non-reciprocal:
 
-- `agentskit.io`: **zero** links to playbook/registry/akos/eb-dev (nav + footer fully internal).
-- `akos`: zero rendered links to siblings (one text mention in an OG image).
 - `playbook`: links `www.agentskit.io` (hero/nav/footer); nothing else.
-- `registry`: README links agentskit.io + playbook + akos; the **gallery page** only links agentskit.io. **Already references `ecosystem-bar.js`.**
-- `eb-dev`: links `agentskit.io` root (2 CTAs); features AgentsKit as a homepage section; no akos/playbook/registry.
 
 ### 2.6 The ecosystem bar already exists — as a 404
 
@@ -152,7 +139,6 @@ other surface reads it. Nothing is hand-typed.
 | Number | Owner | Derived from |
 |--------|-------|--------------|
 | packages, framework bindings, native adapters, catalog providers/models, integrations, tools, skills, memory backends, recipes, core gzip size | `agentskit.io` (lib) | glob `packages/`, catalog data, `content/docs/**`, `size-limit` output |
-| OS verbs, OS packages, screens, flows | `akos` | `@agentskit/os-contracts` registry (already → 441 verbs), glob `os-*` packages, `docs/for-agents/screens` |
 | pillars, patterns, gate scripts, phases, templates | `playbook` | walk `content/docs/**` |
 | registered agents | `registry` | `readdirSync(registry/)` → already in `r/index.json` |
 | (none — pure consumer) | `eb-dev` | fetches the four above + npm |
@@ -183,7 +169,6 @@ other surface reads it. Nothing is hand-typed.
 
 - registry's existing `r/index.json` already *is* this endpoint (just add a
   thin `/api/stats.json` alias mapping `agents: index.agents.length`).
-- akos already generates verb counts in `gen-self-describe.mjs` — emit a
   `stats.json` from the same data and serve it from `apps/web/public`.
 
 **Consumption (build-time, zero runtime fetch, no stale):**
@@ -222,7 +207,6 @@ hand-copied**:
 - **Generator:** `scripts/sync-brand.mjs` reads `tokens.json` and **writes** the
   per-repo artifact in the right format for each stack:
   - lib/landing/playbook/eb-dev → CSS custom properties block (Tailwind 4 `@theme`).
-  - akos → already token-driven via `@agentskit/os-ui`; sync feeds *that*.
   - registry → inline `<style>` vars in `index.html`.
 - **Distribution (locked §6):** **copy via script, no npm publish.** Each repo
   runs `sync-brand` in prebuild to (re)generate its committed copy from `lib`'s
@@ -237,10 +221,8 @@ hand-copied**:
   - core `agentskit.io` → green (the established `--ak-green`)
   - playbook → violet (its current identity)
   - registry → blue
-  - akos → emerald
   - eb-dev → personal blue (kept intentionally — it's *his* site, lightly tied)
   This unifies the system without flattening the recognisable sub-brands, and
-  fixes the **landing-vs-docs** and **akos-OG-vs-tokens** internal mismatches.
 - Standardise type: Inter (body) + JetBrains Mono (code) everywhere; Space
   Grotesk (display) optional per property.
 - Give playbook a real logo + favicon.
@@ -256,23 +238,17 @@ a property doesn't actually claim about itself.
 | Property | Canonical one-liner (verbatim/verified) | What it IS — and is NOT |
 |----------|------------------------------------------|--------------------------|
 | `agentskit.io` | "The most complete agent toolkit for JavaScript." | Open-source library/SDK to build agents in code. |
-| `akos` | **"The operating system for AI agents in production."** | A complete product — governed flows, sandbox, egress allow-list, signed audit, cost-metering; runs as managed cloud, self-hosted desktop, or terminal. **NOT** a "deploy button" or a hosting add-on for the library. |
 | `playbook` | "Best practices for building production AI agents." | Methodology — 6 pillars, patterns, gate scripts. Guidance, not code. |
 | `registry` | "Ready-to-use AI agents." | shadcn-style installable agents (`npx agentskit add`). |
 | `emersonbraun.dev` | (personal/builder site) | Link-**source** only; not a cross-link target. |
 
-**Rule:** an anchor toward AKOS positions it as *the production OS for AI
-agents* (general, accurate) — it does **not** claim AKOS-specific sub-features
 (scheduler, trace viewer, SSO, edge, "deploy your agent here") unless that exact
-capability is verified in AKOS's own docs. Same discipline for every property:
 concise, accurate, no fabrication. The relationship is "AgentsKit = the library
-you build with; AKOS = the production OS, built on it" — stated plainly, not
 embellished.
 
 **C1 — Build & host `ecosystem-bar.js`** (step zero — it's already referenced):
 - Self-contained vanilla JS, no deps, < 4 KB, served from `www.agentskit.io`
   (locked §6: `docs-next` `public/`).
-- Reads `data-current="akos|playbook|registry|agentskit|emersonbraun"` to
   highlight the active property.
 - Renders a slim top strip: the five properties + GitHub + npm. Styled from the
   shared brand tokens (CSS injected, respects `prefers-color-scheme`).
@@ -296,15 +272,11 @@ embellished.
 |-----------|-------|---------|
 | agentskit.io → playbook | docs footer + relevant guide pages | "Building production agents? See the Playbook's security pillar." |
 | agentskit.io → registry | get-started + tools/skills docs | "Don't build from scratch — install a ready-made agent." |
-| agentskit.io → akos | production docs + footer | "Running agents in production? AKOS — the operating system for AI agents in production." |
 | playbook → agentskit.io | pattern pages | "Reference implementation of this pattern: `@agentskit/runtime`." |
 | playbook → registry | templates/examples | "Install a conforming agent." |
 | registry → agentskit.io / playbook | gallery page (not just README) | "How to use" → docs; "Best practices" → playbook. |
-| akos → all | footer + docs nav | docs / playbook / registry. |
-| eb-dev → all four | projects section | add akos + playbook + registry cards (today only agentskit.io root). |
 
 **Direction rule:** the mesh is **reciprocal among the 4 AgentsKit product
-properties** (agentskit.io ↔ akos ↔ playbook ↔ registry). `emersonbraun.dev` is
 **link-source only** — it links out to the four (its projects section already
 does), but the four do **not** carry "built by Emerson" attribution links back.
 No personal-attribution rows anywhere in the product sites.
@@ -320,7 +292,6 @@ Bring every property to the `agentskit.io` reference bar.
 
 **Per-property work:**
 
-- **akos:** fix `SITE.url` → `https://akos.agentskit.io`; add per-doc canonical;
   add JSON-LD (Org/WebSite/SoftwareApplication + per-doc TechArticle/Breadcrumb);
   add dynamic OG route (reconcile the `#2997ff`/`#34d399` palette split);
   **serve `llms.txt` from `apps/web`** (currently repo-root only) + add
@@ -374,12 +345,10 @@ Plan-only for now; phases are the build order once approved.
 - `ecosystem-stats.ts` consumer module + snapshot fallback.
 
 **Phase 1 — Counts everywhere**
-- `/api/stats.json` in akos, playbook (+ registry alias from `index.json`).
 - Replace every hardcoded count with stats reads across all five.
 - `check-count-drift.mjs` gate per repo.
 
 **Phase 2 — Identity rollout**
-- Run `sync-brand` into all five; fix landing/docs + akos-OG internal splits;
   playbook logo/favicon; `check-brand-drift` gate.
 
 **Phase 3 — Cross-reference mesh**
@@ -395,7 +364,6 @@ Plan-only for now; phases are the build order once approved.
 **Phase 4.5 — Landing-page design uplift**
 - Critique + raise each landing/marketing surface to a high bar (hero,
   conversion, hierarchy, polish) using the design skills — not just cross-linked
-  but genuinely strong. Targets: agentskit.io `landing` + docs home, akos
   homepage, playbook homepage, registry gallery. (eb-dev keeps its own look.)
 - Driven by the shared brand tokens (Phase 2) so uplift stays on-system.
 
@@ -410,7 +378,6 @@ Plan-only for now; phases are the build order once approved.
 
 1. **Brand palette** — ✅ **One family, per-property accent.** Structure, type,
    logo, OG frame identical everywhere; each property keeps its accent hue
-   (core=green, playbook=violet, registry=blue, akos=emerald, eb=personal blue).
 2. **`www.agentskit.io` host** — ✅ **`docs-next`.** The ecosystem bar and the
    global `/api/stats.json` live in `apps/docs-next/public` / its API, co-located
    with the real source of the package/adapter/model numbers. (Confirm Vercel
@@ -446,43 +413,34 @@ links out to the products (table A.5), the products do not link back to eb-dev.
 |---|---|---|---|
 | Home / landing | registry | "Browse ready-to-install agents" | Fastest way to see working agents without code. |
 | Home / landing | playbook | "See the 6-pillar methodology" | Six contracts map to the six pillars. |
-| Home / landing | akos | "Self-host with AgentsKit OS" | Control plane wrapping production builds. |
 | Get started: quickstart / build-first-agent | registry | "Start from a pre-built agent" | Scaffold instantly vs build from scratch. |
 | Get started: architecture-at-a-glance | playbook | "Playbook: architecture pillar" | Methodology + gate scripts for structuring layers. |
 | Get started: decision-tree | registry | "Or start from a registry agent" | When the answer is "just give me a working agent." |
 | Get started: comparison | none | — | Pure competitor matrix. |
 | Get started: migrating/* | none | — | Self-contained per-framework how-tos. |
 | Get started: concepts (contracts) | playbook | "Playbook: ai-collaboration pillar" | How to reason about each contract's owner. |
-| Agents: runtime | none | — | Runtime is a library package; AKOS is a separate product, don't conflate. |
 | Agents: skills/marketplace + individual skills | registry | "Install the `[skill]` from the registry" | Registry is the hosted impl of `createSkillRegistry`. |
 | Agents: tools/integrations | playbook | "Governance pillar: tool authorization" | Each connector → approval/quota/least-privilege. |
-| Agents: tools/mcp | none | — | Don't claim AKOS MCP feature unverified. |
 | Agents: delegation + topologies | playbook | "Architecture pillar: topology patterns" | Supervisor/swarm/hierarchical/blackboard. |
-| Agents: background / durable | none | — | Don't invent AKOS scheduler/persistence claims. |
 | Agents: hitl / guarantees | playbook | "Governance pillar: approval/quota gates" | Core governance primitives. |
 | Agents: self-debug / speculate | playbook | "Quality pillar: self-healing/eval patterns" | Test/eval/retry loops. |
 | Data: providers/choosing | playbook | "Playbook: choosing a provider" | Decision framework → team-repeatable rules. |
 | Data: providers/local, bridges, memory/* | none | — | Infra-specific; no sibling maps on. |
 | Data: rag/* | registry | "Install a RAG-ready agent" | Pre-wired RAG starters. |
-| Production: index / shipping-checklist | akos | "Taking agents to production? AKOS — the OS for AI agents in production." | General, accurate positioning at the prototype→production boundary. No per-feature claim. |
 | Production: security/* | playbook | "Security pillar: production guardrails" | PII/injection/rate-limit/sandbox sections. |
-| Production: observability / sso / cli / edge / performance | none | — | Library docs; do NOT assert AKOS console/SSO/edge/deploy features (was invented). |
 | Production: evals/* | playbook | "Quality pillar: eval-driven development" | Methodology governing eval suites in CI. |
 | Production: runbooks | playbook | "Playbook: on-call patterns" | Outage/cost/injection/flapping patterns. |
 | Production: embedded | registry | "Install an embedded-ready agent" | Concrete agent to embed. |
 | UI: bindings + theming + tool-call-view | playbook | "UI-UX pillar: chat/theming/confirmation UX" | Binding choice, tokens, confirmation trust. |
 | Reference: packages/overview | registry | "Or install a pre-wired agent" | Evaluator entry point. |
-| Reference: specs/manifest | registry | "Registry implements Manifest" | Packaging format. (a2a→akos dropped — unverified.) |
 | Reference: recipes/* (marketplace, hitl, research-team, topologies, evals-ci) | registry / playbook | per-recipe | Each recipe → its registry counterpart or playbook pattern. |
 | Reference: contribute / changelog / for-agents/* | none | — | Community/version/LLM-machine surfaces. |
 | Compare | registry | "Try without the comparison — install an agent" | Lowest-friction trial. |
 | Use cases: support / research / code / rag-app | registry | "Install the `[type]` agent" | Each maps to a registry agent. |
-| Use cases: internal-copilot | akos | "In production? AKOS — the OS for AI agents in production." | Production-grade internal agents = AKOS's domain. General positioning, no feature claim. |
 | Showcase / Stack builder / Learn | registry | "Install as a registry agent / skip the builder" | Install path for what they see. |
 | Evals | playbook | "Quality pillar: interpreting eval results" | Use scores to gate promotions. |
 | Blog: launch post | playbook | "The methodology behind AgentsKit" | Six contracts → team practice. |
 
-### A.2 akos.agentskit.io
 
 The single highest-value link across the whole site: **Docs → Concepts/Architecture → agentskit.io** ("AgentsKit repository" — the page names `@agentskit/*` packages explicitly).
 
@@ -500,7 +458,6 @@ The single highest-value link across the whole site: **Docs → Concepts/Archite
 | Docs — Concepts/Flows (`os-flow`, `os-core`) | agentskit.io | "os-flow / os-core packages" | Cited package names → upstream repo. |
 | Docs — Concepts/Triggers (`os-triggers`) | agentskit.io | "os-triggers package" | Schema/type details. |
 | Docs — Concepts/Processes | playbook | "multi-phase process patterns" | Real-world sequencing. |
-| Docs — Concepts/Philosophy | agentskit.io | "the open-source runtime" | AKOS sits on AgentsKit. |
 | Docs — CLI/Migrating | playbook | "migration planning guide" | Before/after the import. |
 | Docs — CLI/Command Reference | agentskit.io | "AgentsKit CLI npm package" | Verify package name/version. |
 | Docs — Using app/Connections, Tools(MCP), Knowledge, Observability | agentskit.io | per-feature package | Provider list/MCP bridge/RAG/observability all `@agentskit/*`. |
@@ -515,16 +472,10 @@ Richest source of "reference implementation on agentskit.io" links — nearly ev
 
 | Page group | Link → | Anchor idea | Rationale |
 |---|---|---|---|
-| index / getting-started / matrix / glossary | agentskit.io (+ registry, akos on getting-started) | "the library that implements these patterns" | Theory → shipped embodiment. |
-| phases/01–06 (discover→operate) | agentskit.io (+ akos on operate) | per-phase package (`core` schema, `runtime` topologies, `tools`, `eval`, `observability`); operate → "AKOS — the OS for AI agents in production" | Each phase maps to a library package; operate/production phase positions AKOS generally (no per-feature claim). |
 | pillars/architecture/error-hierarchy | agentskit.io | "`AgentsKitError` in `@agentskit/core`" | Pattern implemented verbatim in `core/src/errors.ts`. |
 | pillars/architecture/contracts-zod, ts-concrete, anti-overengineering, event-streaming, feature-flags | agentskit.io | `defineTool` / monorepo topology / core / event bus / `createPromptExperiment` | Each is a living example in the agentskit repo. |
 | pillars/architecture/adr + rfc + tombstone + pr-intent + merge-rules | agentskit.io/rfcs | "AgentsKit's RFC log / CONTRIBUTING / GOVERNANCE" | Real governance artifacts. |
-| pillars/architecture/api-gateway, offline-first-sync | none | — | Dropped — was asserting AKOS-internal packages as the pattern's impl (unverified inference). |
 | pillars/ai-collaboration/* (memory, hitl, sub-agent, concurrent, tool-design, prompt-versioning, context-mgmt, hallucination, self-describe, slash-commands, bootstrap-doc) | agentskit.io (+ registry on hitl, tool-design) | `@agentskit/memory`, `createApprovalGate`, runtime topologies, `createPromptExperiment`, `@agentskit/rag`, `AgentSchema`/`a2a`, `CLAUDE.md`/`AGENTS.md` | Each pattern → exact core/runtime/memory/rag export. |
-| pillars/quality/* (eval-framework, observability, cost-opt, test-pyramid, mutation, sanity, ci-cd, analytics, alerting) | agentskit.io | `@agentskit/eval`, `@agentskit/observability` (cost-guard, audit-log, redaction), Turbo/CI topology | Three-tier eval + signals implemented in those library packages. (akos refs dropped — unverified.) |
-| pillars/security/* (ai-llm-safety, audit-ledger, multi-tenant, rbac, secrets, data-classification, egress-firewall, compliance, vault, k8s) | agentskit.io | `@agentskit/sandbox` (policy/egress), `createAuditLog`, `redaction.ts`, `compileBudget` | Library primitives. (AKOS platform claims dropped — would assert unverified product internals.) |
-| pillars/ui-ux/* (whitelabel, design-tokens, primitives, i18n, accessibility) | none | — | Dropped — was asserting AKOS-internal UI packages as the pattern impl (unverified inference). |
 | templates/* (CLAUDE.md, AGENTS.md, ADR, MEMORY.md) | agentskit.io (+ /rfcs, /docs/memory) | "AgentsKit's own filled-in example" | Repo ships real filled versions. |
 | prompts/* (subagents, architect) | agentskit.io/docs/runtime | "orchestrate with runtime topologies / AgentSchema" | Prompts describe what runtime implements. |
 
@@ -534,16 +485,13 @@ Richest source of "reference implementation on agentskit.io" links — nearly ev
 |---|---|---|---|
 | Gallery — subtitle / install strip | agentskit.io | "Learn how AgentsKit works → / New to AgentsKit? Start here" | Context before adding an agent; prevents drop-off. |
 | Gallery — install strip | playbook | "Best practices for agent pipelines →" | "Now what?" destination. |
-| Gallery — footer | akos | "AKOS — the operating system for AI agents in production" | Positioning link (the agents' `akosDeployable:true` flag is a real meta.json field, but anchor stays product-level, not "deploy here"). |
 | Per-agent card — packages list (JS render loop) | agentskit.io/docs/packages/{pkg} | "@agentskit/{pkg} docs" | `core`+`runtime` on all 45 → each card a teaching moment; scales automatically. |
-| Per-agent card — `akosDeployable` field | akos | "Runs on AKOS →" | Accurate to the real `akosDeployable` flag — these agents run on AKOS; phrase as fact, not a deploy CTA. |
 | Per-agent card — by category | playbook | "See patterns for this agent type →" | `playbook/.../patterns/{category}` if per-category anchors exist. |
 
 ### A.5 emersonbraun.dev (link-source only — links OUT to the 4)
 
 | Page/section | Link → | Anchor idea | Rationale |
 |---|---|---|---|
-| Projects "Flagship" block (today only links agentskit.io root) | registry / playbook / akos | "Browse 45 agents →" / "Read best practices →" / "AKOS — the OS for AI agents in production →" | Completes the surface: the library, the playbook, the registry, and the production OS. |
 | Projects `SUPPORTING_PROJECTS` array | registry + playbook | add "AgentsKit Registry" + "AgentsKit Playbook" cards | Distinct enough to deserve their own cards. |
 | Package ecosystem grid (cards → npm today) | agentskit.io/docs/packages/{pkg} | secondary "Docs →" link | npm = install, docs = architecture; different intents. |
 | Hero second CTA ("playbook" label → `/newsletter` today) | playbook | "Read the agent playbook" | Label says playbook but links newsletter — fix destination or split. |

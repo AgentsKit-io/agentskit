@@ -72,7 +72,6 @@ describe('Registry machine documentation contracts', () => {
       ['Agents Playbook', 'https://playbook.agentskit.io/docs', 'https://playbook.agentskit.io/llms.txt'],
       ['Doc Bridge', 'https://doc-bridge.agentskit.io/', 'https://doc-bridge.agentskit.io/llms.txt'],
       ['AgentsKit Code Review', 'https://github.com/AgentsKit-io/code-review#readme', 'https://raw.githubusercontent.com/AgentsKit-io/code-review/main/llms.txt'],
-      ['AKOS', 'https://akos.agentskit.io/docs', 'https://akos.agentskit.io/llms.txt'],
     ] as const
 
     let previous = -1

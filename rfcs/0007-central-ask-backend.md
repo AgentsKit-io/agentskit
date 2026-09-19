@@ -9,7 +9,6 @@
 ## Summary
 
 Move the AgentsKit AI/RAG workload off Vercel serverless into **one persistent
-backend** (Railway) that serves **every property** — docs, AKOS, playbook, registry
 — from a single warm process, plus a public **MCP** endpoint. One embedding model
 + one LLM pool + the existing guards are loaded **once at boot** and shared across
 **N per-property corpora**, routed by a `corpus` parameter. The sites stay on
@@ -29,7 +28,6 @@ function. That was the wrong substrate, and a production outage proved it:
 - **Native binaries** (`libonnxruntime.so.1`) aren't traced into the function by
   default — a real prod failure that needed bespoke `outputFileTracingIncludes`.
 - **No persistent memory** — the model/index can't stay resident.
-- **Duplication looms**: AKOS, playbook, and registry will each want the same chat
   + retrieval. Four serverless copies of a heavy embedder is wasteful and fragile.
 - **MCP demand**: agents want to query AgentsKit knowledge programmatically; the
   registry already ships an `/api/mcp`. A central knowledge MCP is the natural home.
@@ -53,7 +51,6 @@ The backend loads **one** shared embedder (`bge-small-en-v1.5`, 384-d, ONNX nati
 serves **per-property corpora**, each a committed index + retriever:
 
 ```
-corpora = { docs, akos, playbook, registry }   // extensible
 ```
 
 Requests carry a `corpus`; the backend picks that corpus's retriever and runs the
@@ -63,7 +60,6 @@ is shared (same embedding space) — adding corpora is cheap.
 **v1 corpus = `docs` only** — the one genuine knowledge base in this monorepo. The
 **`registry` knowledge is the agents**, which live in the separate
 `agentskit-registry` repo (not the `apps/registry` site's few pages), so registry is
-**cross-repo like akos/playbook** → all three are **F2**. The backend is built
 multi-corpus from day one (corpus registry + `?corpus=` routing), but only `docs`
 has content at v1.
 
@@ -140,7 +136,6 @@ retriever; everything else (guards, adapter, citations) is shared config.
 
 ## Protection contract
 
-- `security.corsOrigins` = `['https://www.agentskit.io', 'https://agentskit.io', 'https://akos.agentskit.io', 'https://playbook.agentskit.io', 'https://registry.agentskit.io', 'http://localhost:*']`.
 - `rateLimiter` = Upstash sliding window per IP (durable across the single instance;
   trivially correct on one process, unlike serverless).
 - Guards (triage/scope/injection/sanitize) run before any model/LLM call — cheap
@@ -158,7 +153,6 @@ retriever; everything else (guards, adapter, citations) is shared config.
   `/v1/corpora`, warm-load the model at boot. Deploy to Railway, attach
   `ask.agentskit.io`. Point the **www** widget at it (`NEXT_PUBLIC_ASK_ENDPOINT`);
   verify warm + fast + cited. (The backend is already multi-corpus-ready.)
-- **F2 — cross-repo corpora (`registry`, `akos`, `playbook`)**: design the
   content-sourcing — each separate repo's CI builds its `index.json` and publishes it
   where the backend pulls it (committed artifact or fetch-on-boot); register those
   corpora; their widgets point at `ask.agentskit.io/v1/ask?corpus=<their>`. (registry

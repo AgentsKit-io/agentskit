@@ -7,16 +7,15 @@ const PEER_ACTIONS: Record<string, string> = {
   playbook: 'Apply engineering and delivery standards for agent work.',
   'doc-bridge': 'Keep documentation handoffs agent-ready and deterministic.',
   'code-review': 'Review agent-generated diffs before merge.',
-  akos: 'Evaluate managed operations when production governance calls for it. The open-source stack works without AKOS.',
 }
 
 /** Canonical peer products derived from the root ecosystem manifest. */
 export const ecosystemPeers = ecosystem.products
-  .filter((product) => product.id !== 'registry' && (product.public || product.distributionClass === 'managed-service'))
+  .filter((product) => product.id !== 'registry' && product.public)
   .sort((a, b) => a.navigation.order - b.navigation.order)
   .map((product) => ({
     name: product.name,
-    role: product.distributionClass === 'managed-service' ? 'optional · managed' : product.role,
+    role: product.role,
     href: product.surfaces.docs ?? product.surfaces.home,
     action: PEER_ACTIONS[product.id] ?? product.promise,
   }))

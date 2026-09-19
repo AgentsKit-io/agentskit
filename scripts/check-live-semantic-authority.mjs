@@ -52,11 +52,10 @@ if (!sitemap.body.includes(`${site}/docs`) || !sitemap.body.includes(`${site}/ec
   diagnostics.push('root sitemap does not include the canonical docs and ecosystem hubs')
 }
 
-const staleTerms = /AgentsKit OS|production OS/
+const staleTerms = /AgentsKit OS|production OS|AKOS|akos\.agentskit\.io/i
 for (const surface of [home, ecosystem, llms, registryLlms]) {
   if (staleTerms.test(surface.body)) diagnostics.push(`${surface.url} still exposes a retired AKOS label`)
 }
-if (!llms.body.includes('optional')) diagnostics.push(`${llms.url} does not state the optional managed boundary`)
 
 if (diagnostics.length > 0) {
   console.error(`live semantic authority check failed:\n${diagnostics.map((item) => `- ${item}`).join('\n')}`)

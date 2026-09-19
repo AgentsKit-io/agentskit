@@ -157,4 +157,5 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LI
 
 ## How this fits the ecosystem
 
-AgentsKit package — compose with the monorepo; see registry.agentskit.io, playbook.agentskit.io, akos.agentskit.io.
+Use [AgentsKit Registry](https://registry.agentskit.io) for ready-made agents and the
+[Agents Playbook](https://playbook.agentskit.io) for production practices.

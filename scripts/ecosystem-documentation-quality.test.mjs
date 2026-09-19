@@ -71,14 +71,14 @@ function evidence(overrides = {}) {
   }
 }
 
-test('the committed profile preserves the strict seven-product contract', () => {
+test('the committed profile preserves the strict six-product contract', () => {
   const parsed = parseDocumentationQualityProfile(profile)
-  assert.equal(parsed.productIds.length, 7)
+  assert.equal(parsed.productIds.length, 6)
   assert.equal(parsed.revision, '1.2')
   assert.equal(parsed.docBridge.minimumDoctorScore, 90)
   assert.equal(parsed.docBridge.requireExactCoverage, true)
   assert.equal(parsed.docBridge.allowExceptions, false)
-  assert.deepEqual(parsed.discovery.ecosystemComponentExcludedProducts, ['akos'])
+  assert.deepEqual(parsed.discovery.ecosystemComponentExcludedProducts, [])
 })
 
 test('product overrides can define a CLI surface without relaxing the global default', () => {
@@ -203,20 +203,9 @@ test('visual and contextual exceptions must be explicit', () => {
   assert.throws(() => evaluateDocumentationQuality(profile, input), /rationale must be a non-empty string/)
 
   const missingHook = evidence()
-  missingHook.discovery.contextualHooks = missingHook.discovery.contextualHooks.filter((hook) => hook.id !== 'enterprise')
+  missingHook.discovery.contextualHooks = missingHook.discovery.contextualHooks.filter((hook) => hook.id !== 'documentation')
   const result = evaluateDocumentationQuality(profile, missingHook)
-  assert.ok(result.findings.some((finding) => finding.id === 'contextual-hook:enterprise'))
-})
-
-test('AKOS is the only product excluded from the continuation component', () => {
-  const input = evidence({ productId: 'akos', repo: 'AgentsKit-io/agentskit-os' })
-  input.discovery.siblingProductIds = []
-  const eligible = evaluateDocumentationQuality(profile, input)
-  assert.equal(eligible.findings.some((finding) => finding.id === 'excluded-component'), false)
-
-  input.discovery.siblingProductIds = ['agentskit']
-  const blocked = evaluateDocumentationQuality(profile, input)
-  assert.ok(blocked.findings.some((finding) => finding.id === 'excluded-component'))
+  assert.ok(result.findings.some((finding) => finding.id === 'contextual-hook:documentation'))
 })
 
 test('local certification detects missing paths and stale measured word counts', () => {
@@ -263,13 +252,11 @@ test('the stable matrix remains uncertified without verified repository attestat
   const stableProfile = { ...profile, status: 'stable' }
   const payloads = CANONICAL_PRODUCTS.map(({ id: productId, repo }) => {
     const payload = evidence({ productId, repo })
-    payload.discovery.siblingProductIds = productId === 'akos'
-      ? []
-      : profile.productIds.filter((id) => id !== productId)
+    payload.discovery.siblingProductIds = profile.productIds.filter((id) => id !== productId)
     return payload
   })
   const result = evaluateDocumentationQualityMatrix(stableProfile, payloads)
-  assert.equal(result.productCount, 7)
+  assert.equal(result.productCount, 6)
   assert.equal(result.eligible, true)
   assert.equal(result.certified, false)
   assert.equal(result.findings.length, 0)
@@ -283,7 +270,7 @@ test('the matrix fails closed when a product payload or local root is missing', 
   })
   const result = evaluateDocumentationQualityMatrix(profile, payloads, { requireRoots: true })
   assert.equal(result.eligible, false)
-  assert.ok(result.findings.some((finding) => finding.id === 'missing-product:akos'))
+  assert.ok(result.findings.some((finding) => finding.id === 'missing-product:code-review'))
   assert.ok(result.findings.some((finding) => finding.id === 'missing-root:agentskit'))
 })
 

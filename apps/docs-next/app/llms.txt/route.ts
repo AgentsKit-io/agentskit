@@ -23,15 +23,6 @@ function ecosystemLines(): string[] {
     out.push(`- [${product.name}](${product.surfaces.home}): ${product.promise}${llms}`)
   }
   out.push('')
-  const managed = products.filter((product) => product.distributionClass === 'managed-service' && product.surfaces.home)
-  if (managed.length > 0) {
-    out.push('## Optional managed layer', '')
-    for (const product of managed) {
-      const llms = product.surfaces.llms ? ` llms.txt: ${product.surfaces.llms}` : ''
-      out.push(`- [${product.name}](${product.surfaces.home}): ${product.promise} This layer is optional and is not part of the open-source package catalog.${llms}`)
-    }
-    out.push('')
-  }
   return out
 }
 

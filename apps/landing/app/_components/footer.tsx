@@ -22,7 +22,6 @@ export function Footer() {
           <span aria-hidden className="text-[var(--color-border)]">·</span>
           <EcoLink href={LINKS.playbook} target="playbook" placement="footer" className={linkCls}>Playbook</EcoLink>
           <EcoLink href={LINKS.registry} target="registry" placement="footer" className={linkCls}>Registry</EcoLink>
-          <EcoLink href={LINKS.akos} target="akos" placement="footer" className={linkCls}>AKOS</EcoLink>
         </nav>
       </div>
     </footer>

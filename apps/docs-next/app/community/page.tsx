@@ -14,7 +14,7 @@ type Project = { name: string; description: string; url: string; tags: string[];
 const FUNNEL = [
   {
     title: 'Understand',
-    body: 'See how AgentsKit, Registry, Chat, Doc Bridge, Playbook, and Code Review fit together, with AKOS as an optional managed layer.',
+    body: 'See how AgentsKit, Registry, Chat, Doc Bridge, Playbook, and Code Review fit together.',
     href: '/docs/reference/contribute/newcomer-journey',
     cta: 'Newcomer journey',
   },

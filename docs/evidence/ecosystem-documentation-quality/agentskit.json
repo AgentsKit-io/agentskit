@@ -84,16 +84,14 @@
       "agentskit-chat",
       "playbook",
       "doc-bridge",
-      "code-review",
-      "akos"
+      "code-review"
     ],
     "siblingProductIds": [
       "registry",
       "agentskit-chat",
       "playbook",
       "doc-bridge",
-      "code-review",
-      "akos"
+      "code-review"
     ],
     "contextualHooks": [
       {
@@ -108,14 +106,6 @@
         "id": "chat",
         "status": "linked",
         "targetProductId": "agentskit-chat",
-        "evidence": [
-          "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx"
-        ]
-      },
-      {
-        "id": "enterprise",
-        "status": "linked",
-        "targetProductId": "akos",
         "evidence": [
           "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx"
         ]

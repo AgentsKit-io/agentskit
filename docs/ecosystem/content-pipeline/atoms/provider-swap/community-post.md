@@ -1,4 +1,4 @@
-# Swap the model provider without rewriting the agent
+## Swap the model provider without rewriting the agent
 
 Agent applications should be able to change between OpenAI, Anthropic, Gemini, OpenRouter, Groq, and Ollama without moving provider-specific logic into the task, runtime, tools, or result handling.
 
@@ -11,7 +11,7 @@ npx tsx agent.ts
 ```
 
 ### Claims
-25 native adapters, 140 providers
+25 native adapters, 184 providers
 
 Source fixture: `apps/docs-next/fixtures/provider-swap/agent.ts`
 

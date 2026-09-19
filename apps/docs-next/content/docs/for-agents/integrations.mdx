@@ -33,7 +33,6 @@ Eliminates the per-service duplication that otherwise spreads across `@agentskit
 and host runtimes. Dependency-light: only `@agentskit/core`, with `fetch` + `node:crypto`
 at runtime. Ships the canonical descriptor + registry + projection contract, a
 **bundled ~50-service fetch-only catalog** (ADR-0012), auth/actions/triggers, and a
-`/testing` subpath. OSS owns this package; AKOS consumes it (RFC 0003). Stability:
 **beta** — not yet stable.
 
 ## Primary exports (main entry)
@@ -126,4 +125,3 @@ pnpm gen:integration <name>   # copies services/_template → services/<name>
 - [Tools](/docs/for-agents/tools) — `@agentskit/tools` (legacy integration home; facades project from this package).
 - [ADR-0012](https://github.com/AgentsKit-io/agentskit/blob/main/docs/architecture/adrs/0012-vendor-adapter-scope.md) — bundled fetch-only catalog.
 - [ADR-0026](../../../../../docs/architecture/adrs/0026-integration-execution-boundaries.md) — execution safety boundaries.
-- [RFC 0003](https://github.com/AgentsKit-io/agentskit/blob/main/rfcs/0003-oss-akos-boundary.md) — OSS / AKOS product boundary.

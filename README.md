@@ -70,22 +70,17 @@ build from composable parts, start faster with ready agents, follow production p
 | **AgentsKit** | **This repo** | The agent building blocks: adapters, runtime, tools, memory, RAG, UI, evals, observability, and MCP |
 | **Registry** | [registry.agentskit.io →](https://registry.agentskit.io) | Ready-to-use agents, tools, and templates you can install instead of starting from blank |
 | **Playbook** | [playbook.agentskit.io →](https://playbook.agentskit.io) | Field-tested patterns for designing, evaluating, securing, and operating agents |
-| **AKOS · optional managed** | [akos.agentskit.io →](https://akos.agentskit.io) | Optional managed operations for teams that need additional production controls; not required for the open-source stack |
 
-The path is simple: compose with **AgentsKit**, learn the patterns in the **Playbook**, reuse agents from the **Registry**, and evaluate **AKOS** only when you need optional managed operations.
 
 ```mermaid
 flowchart LR
   Playbook["Playbook<br/>best practices"]
   Registry["Registry<br/>ready agents"]
   AK["AgentsKit<br/>composable JS packages"]
-  AKOS["AKOS<br/>optional managed operations"]
 
   Playbook --> AK
   Registry --> AK
   AK --> Registry
-  AK --> AKOS
-  Playbook --> AKOS
 ```
 
 Humans get the docs site. Agents get [`llms.txt`](./llms.txt) and [`doc-bridge.config.json`](./doc-bridge.config.json): 25/25 package handoffs, 25/25 human-doc bridges. The [Doc Bridge verification guide](./apps/docs-next/content/docs/for-agents/doc-bridge.mdx) explains the evidence-first workflow.

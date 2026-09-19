@@ -27,7 +27,6 @@ integration is HTTP/`fetch`-only: no vendor SDKs are bundled or required
 - **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
 - **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
-- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
 Docs: [package guide](https://www.agentskit.io/docs/for-agents/integrations) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 
@@ -57,8 +56,6 @@ turn one descriptor into the surface each consumer needs (a `ToolDefinition`
 for the runtime, a connect-form for an app, a webhook trigger, etc.).
 
 The catalog is a **bundled, fetch-only** set of ~50 services (ADR-0012). The
-OSS/AKOS product boundary is settled in [RFC 0003](../../rfcs/0003-oss-akos-boundary.md):
-reusable connectors ship here in OSS; AKOS owns the commercial control plane
 and consumes this package rather than re-shipping integrations.
 
 ## Authoring a new integration

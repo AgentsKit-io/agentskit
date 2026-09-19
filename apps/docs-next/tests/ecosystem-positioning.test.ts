@@ -6,7 +6,7 @@ import ecosystem from '../lib/ecosystem.json'
 const appRoot = join(import.meta.dirname, '..')
 
 describe('canonical ecosystem positioning', () => {
-  it('separates the open-source ecosystem from the optional managed control plane', () => {
+  it('keeps the public product list in navigation', () => {
     expect(ecosystem.positioning.openSourceProductIds).toEqual([
       'agentskit',
       'registry',
@@ -15,10 +15,13 @@ describe('canonical ecosystem positioning', () => {
       'doc-bridge',
       'code-review',
     ])
-    expect(ecosystem.positioning.managedProductIds).toEqual(['akos'])
-    expect(ecosystem.products.find((product) => product.id === 'akos')?.accessModel).toBe(
-      'paid-managed-service',
+    expect(ecosystem.products.filter((product) => product.navigation.showInBar)).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ id: 'agentskit' }),
+        expect.objectContaining({ id: 'registry' }),
+      ]),
     )
+    expect(ecosystem.products.find((product) => product.id === 'akos')).toBeUndefined()
   })
 
   it('publishes the canonical positioning to human and machine-readable surfaces', () => {

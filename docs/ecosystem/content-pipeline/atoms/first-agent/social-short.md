@@ -1,6 +1,6 @@
-# First agent without a provider key
+First agent without a provider key.
 
-Three commands. No provider key.
+3 commands. No provider key.
 
 ```bash
 npx tsx agent.ts

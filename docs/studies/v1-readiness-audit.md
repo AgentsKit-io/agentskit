@@ -30,7 +30,6 @@ a set of doc/guardrail gaps round it out.
 2. **10 packages declare `stable` at 0.x with no promotion RFC.** Policy (`STABILITY.md`)
    requires beta→stable to have an RFC freezing the public API + ≥1 minor at beta without
    breaking. Only RFCs 0001-0003 exist; none are promotion RFCs. (`check:rfc-0007` from
-   prior memory belongs to the **AKOS** repo, not this one.)
 3. **Semver contradicts the `stable` claim** for the 10 packages: 0.x signals pre-stable by
    npm convention.
 4. **`mcp` declares no tier** (no `agentskit` field) — violates "every package declares a tier".

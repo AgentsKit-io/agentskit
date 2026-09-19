@@ -10,9 +10,8 @@
     "agentskit-chat",
     "playbook",
     "doc-bridge",
-    "code-review",
-    "akos"
-  ],
+    "code-review"
+    ],
   "docBridge": {
     "minimumDoctorScore": 90,
     "requireExactCoverage": true,
@@ -53,8 +52,8 @@
     "notApplicableRequiresRationale": true
   },
   "discovery": {
-    "globalProductCount": 7,
-    "siblingDestinationCount": 6,
+    "globalProductCount": 6,
+    "siblingDestinationCount": 5,
     "ecosystemComponentProducts": [
       "agentskit",
       "registry",
@@ -63,13 +62,10 @@
       "doc-bridge",
       "code-review"
     ],
-    "ecosystemComponentExcludedProducts": [
-      "akos"
-    ],
+    "ecosystemComponentExcludedProducts": [],
     "contextualHooks": {
       "documentation": "doc-bridge",
-      "chat": "agentskit-chat",
-      "enterprise": "akos"
+      "chat": "agentskit-chat"
     }
   },
   "productOverrides": {

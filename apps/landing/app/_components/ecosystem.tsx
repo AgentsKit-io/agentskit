@@ -8,7 +8,6 @@ type Property = {
   body: string
   href: string
   here: boolean
-  managed: boolean
 }
 
 const GOALS: Record<string, string> = {
@@ -18,11 +17,10 @@ const GOALS: Record<string, string> = {
   playbook: 'Apply production practices',
   'doc-bridge': 'Make documentation executable',
   'code-review': 'Verify a change before merge',
-  akos: 'Optional managed operations',
 }
 
 const PROPERTIES: Property[] = ecosystem.products
-  .filter((product) => product.public || product.distributionClass === 'managed-service')
+  .filter((product) => product.public)
   .sort((a, b) => a.navigation.order - b.navigation.order)
   .map((product) => ({
     id: product.id,
@@ -31,7 +29,6 @@ const PROPERTIES: Property[] = ecosystem.products
     body: product.promise,
     href: product.surfaces.docs ?? product.surfaces.home ?? '#',
     here: product.id === 'agentskit',
-    managed: product.distributionClass === 'managed-service',
   }))
 
 const cardCls =
@@ -42,8 +39,7 @@ export function Ecosystem() {
     <section className="mx-auto max-w-6xl px-6 py-20">
       <h2 className="mb-3 text-center text-3xl font-semibold tracking-tight">One ecosystem, one job each</h2>
       <p className="mx-auto mb-12 max-w-2xl text-center text-[var(--color-fg-soft)]">
-        Pick the open-source product by the job you need next. AKOS is a separate optional managed layer, not a
-        requirement for using the family.
+        Pick the open-source product by the job you need next.
       </p>
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-4">
         {PROPERTIES.map(p => {
@@ -54,11 +50,6 @@ export function Ecosystem() {
               </p>
               <h3 className="mb-2 text-lg font-semibold">
                 {p.name}
-                {p.managed && (
-                  <span className="ml-2 align-middle text-xs font-normal text-[var(--color-success)]">
-                    optional managed
-                  </span>
-                )}
                 {p.here && (
                   <span className="ml-2 align-middle text-xs font-normal text-[var(--color-success)]">
                     you&apos;re here

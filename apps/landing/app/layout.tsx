@@ -36,20 +36,12 @@ export const metadata: Metadata = {
 }
 
 const PRODUCT_LIST = ecosystem.products
-  .filter((product) => product.public || product.distributionClass === 'managed-service')
+  .filter((product) => product.public)
   .sort((a, b) => a.navigation.order - b.navigation.order)
   .map((product, index) => ({
     '@type': 'ListItem',
     position: index + 1,
-    item: product.distributionClass === 'managed-service'
-      ? {
-          '@type': 'Service',
-          name: product.name,
-          description: `${product.promise} Optional; not required to use the open-source products.`,
-          serviceType: 'Managed operations',
-          url: product.surfaces.home,
-        }
-      : {
+    item: {
           '@type': 'SoftwareSourceCode',
           name: product.name,
           description: product.promise,

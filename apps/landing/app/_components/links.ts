@@ -8,5 +8,4 @@ export const LINKS = {
   // Sibling properties — the ecosystem funnel.
   playbook: 'https://playbook.agentskit.io',
   registry: 'https://registry.agentskit.io',
-  akos: 'https://akos.agentskit.io',
 } as const

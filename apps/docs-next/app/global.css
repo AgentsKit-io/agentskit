@@ -223,7 +223,7 @@ button[aria-label="Toggle Menu"],
 }
 
 /* Animated convergence arcs for the ecosystem diagram — a short dash ("packet")
-   travels along each bezier from the core out to a layer. Mirrors the AKOS
+   travels along each bezier from the core out to a layer.
    homepage flow. Decorative; frozen for reduced-motion. */
 /* paths carry pathLength="100". The dash pattern is 4× the path length, so one
    "packet" rides the static line and is on-path only the first 1/4 of the cycle
