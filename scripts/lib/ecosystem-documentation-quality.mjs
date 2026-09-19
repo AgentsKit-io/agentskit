@@ -118,21 +118,21 @@ export function parseDocumentationQualityProfile(input) {
   if (visuals.notApplicableRequiresRationale !== true) fail('$.visuals.notApplicableRequiresRationale', 'must be true')
 
   const discovery = object(profile.discovery, '$.discovery')
-  if (discovery.globalProductCount !== 7) fail('$.discovery.globalProductCount', 'must equal 7')
-  if (discovery.siblingDestinationCount !== 6) fail('$.discovery.siblingDestinationCount', 'must equal 6')
+  if (discovery.globalProductCount !== 6) fail('$.discovery.globalProductCount', 'must equal 6')
+  if (discovery.siblingDestinationCount !== 5) fail('$.discovery.siblingDestinationCount', 'must equal 5')
   const componentProducts = stringArray(discovery.ecosystemComponentProducts, '$.discovery.ecosystemComponentProducts')
-  const excludedProducts = stringArray(discovery.ecosystemComponentExcludedProducts, '$.discovery.ecosystemComponentExcludedProducts')
-  if (excludedProducts.length !== 1 || excludedProducts[0] !== 'akos') {
-    fail('$.discovery.ecosystemComponentExcludedProducts', 'must contain only akos')
+  const excludedProducts = stringArray(discovery.ecosystemComponentExcludedProducts, '$.discovery.ecosystemComponentExcludedProducts', { minimum: 0 })
+  if (excludedProducts.length !== 0) {
+    fail('$.discovery.ecosystemComponentExcludedProducts', 'must be empty')
   }
   const combined = new Set([...componentProducts, ...excludedProducts])
   if (combined.size !== profile.productIds.length || profile.productIds.some((id) => !combined.has(id))) {
-    fail('$.discovery.ecosystemComponentProducts', 'must partition the seven canonical products with the exclusions')
+    fail('$.discovery.ecosystemComponentProducts', 'must partition the canonical products with the exclusions')
   }
   const hooks = object(discovery.contextualHooks, '$.discovery.contextualHooks')
-  exactKeys(hooks, ['documentation', 'chat', 'enterprise'], '$.discovery.contextualHooks')
-  if (hooks.documentation !== 'doc-bridge' || hooks.chat !== 'agentskit-chat' || hooks.enterprise !== 'akos') {
-    fail('$.discovery.contextualHooks', 'must route documentation to doc-bridge, chat to agentskit-chat, and enterprise to akos')
+  exactKeys(hooks, ['documentation', 'chat'], '$.discovery.contextualHooks')
+  if (hooks.documentation !== 'doc-bridge' || hooks.chat !== 'agentskit-chat') {
+    fail('$.discovery.contextualHooks', 'must route documentation to doc-bridge and chat to agentskit-chat')
   }
 
   if (profile.productOverrides !== undefined) {

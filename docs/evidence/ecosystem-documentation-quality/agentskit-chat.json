@@ -31,12 +31,11 @@
     ]
   },
   "discovery": {
-    "globalProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"],
-    "siblingProductIds": ["agentskit", "registry", "playbook", "doc-bridge", "code-review", "akos"],
+    "globalProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "code-review"],
+    "siblingProductIds": ["agentskit", "registry", "playbook", "doc-bridge", "code-review"],
     "contextualHooks": [
       { "id": "documentation", "status": "linked", "targetProductId": "doc-bridge", "evidence": ["docs/index.mdx#continue-through-the-ecosystem"] },
-      { "id": "chat", "status": "linked", "targetProductId": "agentskit-chat", "evidence": ["docs/product/positioning.md"] },
-      { "id": "enterprise", "status": "linked", "targetProductId": "akos", "evidence": ["docs/index.mdx#continue-through-the-ecosystem"] }
+      { "id": "chat", "status": "linked", "targetProductId": "agentskit-chat", "evidence": ["docs/product/positioning.md"] }
     ]
   }
 }

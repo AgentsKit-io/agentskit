@@ -31,12 +31,11 @@
     ]
   },
   "discovery": {
-    "globalProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"],
-    "siblingProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "akos"],
+    "globalProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "code-review"],
+    "siblingProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge"],
     "contextualHooks": [
       { "id": "documentation", "status": "linked", "targetProductId": "doc-bridge", "evidence": ["README.md", "docs/for-agents/code-review-cli.md"] },
-      { "id": "chat", "status": "linked", "targetProductId": "agentskit-chat", "evidence": ["README.md", "docs/OPERATIONS.md"] },
-      { "id": "enterprise", "status": "linked", "targetProductId": "akos", "evidence": ["README.md", "docs/OPERATIONS.md"] }
+      { "id": "chat", "status": "linked", "targetProductId": "agentskit-chat", "evidence": ["README.md", "docs/OPERATIONS.md"] }
     ]
   }
 }

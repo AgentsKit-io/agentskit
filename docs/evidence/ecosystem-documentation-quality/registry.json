@@ -31,12 +31,11 @@
     ]
   },
   "discovery": {
-    "globalProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"],
-    "siblingProductIds": ["agentskit", "agentskit-chat", "playbook", "doc-bridge", "code-review", "akos"],
+    "globalProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "code-review"],
+    "siblingProductIds": ["agentskit", "agentskit-chat", "playbook", "doc-bridge", "code-review"],
     "contextualHooks": [
       { "id": "documentation", "status": "linked", "targetProductId": "doc-bridge", "evidence": ["apps/registry/content/docs/for-agents.mdx"] },
-      { "id": "chat", "status": "linked", "targetProductId": "agentskit-chat", "evidence": ["apps/registry/content/docs/for-agents.mdx"] },
-      { "id": "enterprise", "status": "linked", "targetProductId": "akos", "evidence": ["apps/registry/content/docs/for-agents.mdx"] }
+      { "id": "chat", "status": "linked", "targetProductId": "agentskit-chat", "evidence": ["apps/registry/content/docs/for-agents.mdx"] }
     ]
   }
 }
