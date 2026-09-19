@@ -148,7 +148,7 @@ for (const doc of [...agentDocs].sort((a, b) => a.id.localeCompare(b.id))) {
   }
 }
 
-for (const product of [...ecosystem.products].sort((a, b) => a.navigation.order - b.navigation.order)) {
+for (const product of ecosystem.products.filter(product => product.public).sort((a, b) => a.navigation.order - b.navigation.order)) {
   const href = product.surfaces.docs ?? product.surfaces.home ?? `https://github.com/${product.repo}`
   entries.push(entry({
     id: `ecosystem.${product.id}`,

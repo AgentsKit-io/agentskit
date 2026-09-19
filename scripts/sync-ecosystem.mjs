@@ -4,8 +4,8 @@
  * AgentsKit web properties) into each app that consumes it. Copies, never
  * hand-edited; --check fails if a copy is stale (the drift gate).
  *
- * The same ecosystem.json is also copied verbatim into sibling repos (akos,
- * playbook, registry) in their own Phase-1 PRs, so every property renders the
+ * The same ecosystem.json is also copied verbatim into sibling repos, so every
+ * property renders the
  * ecosystem bar + llms.txt block from one source.
  *
  *   node scripts/sync-ecosystem.mjs

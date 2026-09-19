@@ -19,7 +19,6 @@ scores never count as green.
 | Agents Playbook | 131/131 | 7 + 2 | 6 peers |
 | Doc Bridge | 10/10 | 7 + 2 | 6 peers |
 | Code Review | 1/1 | 7 + 2 | 6 Markdown peers |
-| AKOS | 163/163 | 7 + 2 | excluded by contract |
 
 All payloads are in `docs/evidence/ecosystem-documentation-quality/`. The default gate
 validates portable eligibility but cannot certify without repository roots. `--verify-local`
@@ -49,7 +48,6 @@ flowchart TD
 
 - Own the profile, validator, tests, canonical seven-product graph, and release gate.
 - Review every Grok draft against source and product truth before it enters a branch.
-- Implement technical blockers: Chat `/docs`, AKOS Doc Bridge onboarding, Registry route,
   machine surfaces, generated ecosystem component, and deterministic evidence.
 - Run Doc Bridge exact coverage, conformance, tests, builds, and live endpoint checks.
 
@@ -59,7 +57,6 @@ flowchart TD
 - Map Playbook pages to Mermaid, runnable example, animation, or interactive treatment.
 - Consolidate Doc Bridge editorial duplication and curate its indexed corpus.
 - Draft Code Review lens explanations and advisory-to-blocking flow.
-- Reconcile AKOS naming and quickstart claims against source.
 
 Grok does not publish, merge, change canonical contracts, or certify its own output.
 
@@ -97,7 +94,6 @@ Grok does not publish, merge, change canonical contracts, or certify its own out
 - README, docs, `for-agents`, `llms.txt`, `llms-full.txt`, and raw sources agree.
 - Three representative journeys meet the word budget and record a useful visual decision.
 - Global navigation lists seven products and the local continuation surface lists six peers,
-  except that AKOS does not render the continuation component.
 - Contextual hooks are linked or explicitly justified as not applicable.
 - Tests, build, link checks, and live endpoint verification pass.
 - Codex reviews and certifies the result before merge or publication.
@@ -106,7 +102,6 @@ Grok does not publish, merge, change canonical contracts, or certify its own out
 
 ### Acceptance criteria
 
-- The committed profile names the canonical seven products and preserves the AKOS component
   exclusion.
 - A product with doctor `100` but coverage `346/350` is rejected.
 - The validator recomputes local prose counts, checks evidence paths, and rejects missing

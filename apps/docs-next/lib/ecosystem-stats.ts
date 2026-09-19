@@ -5,7 +5,7 @@
  * compute-stats.ts via scripts/gen-stats-snapshot.mjs at prebuild). The snapshot
  * is plain JSON so it works in both server and client components.
  *
- * Sibling properties (akos / playbook / registry) expose the same shape at their
+ * Sibling properties expose the same shape at their
  * own /api/stats.json; fetchSiblingStats() pulls them at build with a graceful
  * fallback. Consumers must use these values — never hand-type a count in copy.
  */

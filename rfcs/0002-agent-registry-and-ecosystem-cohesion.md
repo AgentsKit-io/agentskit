@@ -11,7 +11,6 @@
 1. **Ecosystem bar distribution**: a hosted `ecosystem-bar.js` script embedded via
    `<script>` on all four sites (central update), served from the live main site
    (`agentskit.io/ecosystem-bar.js`) — not a published package or per-site copy.
-2. **AKOS CTA**: "Deploy on AKOS — coming soon" → waitlist. AKOS does not yet
    import registry agents; the CTA stays honest.
 3. **Registry CLI**: extend the existing `agentskit` CLI with `add <agent>` (not a
    new `@agentskit/registry` CLI package). Agents live in the separate registry
@@ -25,8 +24,6 @@ Ship ready-to-use, opinionated agents as a **separate registry** (shadcn-style
 `registry.agentskit.io`, rather than as a package inside the framework monorepo.
 At the same time, define how the four public properties —
 `www.agentskit.io`, `playbook.agentskit.io`, `registry.agentskit.io`, and
-`akos.agentskit.io` — cross-reference each other so the OSS framework, the
-playbook, the agent registry, and AKOS form one coherent funnel instead of four
 disconnected sites.
 
 ## Motivation
@@ -52,7 +49,6 @@ feature", "prefer deleting code to adding code").
 
 Separately, the ecosystem has grown to four properties with **no cross-linking
 strategy**. A visitor on the marketing site does not discover the registry; a
-registry user is not routed to AKOS for managed deployment; the playbook's
 authority does not feed either. Four sites, one brand, zero funnel.
 
 ## Current state
@@ -60,7 +56,6 @@ authority does not feed either. Four sites, one brand, zero funnel.
 - **`www.agentskit.io`** — marketing + OSS framework docs (Fumadocs, ADR-0007).
 - **`playbook.agentskit.io`** — engineering playbook / standards the repo is
   audited against (see `project_playbook-alignment`).
-- **`akos.agentskit.io`** — AgentsKitOS, the platform built on top of the OSS core.
 - Ready agents: do not exist. `agentskit init` has 13 project templates; the
   `planner` skill names delegates but nothing is wired end-to-end.
 - No shared navigation, footer, or contextual cross-links across the four sites.
@@ -160,7 +155,6 @@ the monorepo.
   - `agent.ts` — wires a published skill + tools + runtime; named export
     `create<Name>Agent()`.
   - `meta.json` — id, title, description, category, the `@agentskit/*` packages
-    and env keys it needs, tags, AKOS-deployable flag. Drives the site gallery.
   - `README.md` — concept + usage + troubleshooting (Manifesto #6).
   - `*.test.ts` — at least "constructs and runs against a mock adapter".
 - **Consumes only published packages.** No path into framework internals.
@@ -175,15 +169,12 @@ the monorepo.
   category, with per-agent pages (what it does, the `add` command, required env,
   packages used, live "copy" snippet).
 - Same design system / tokens as `www` (shared UI, not a fork).
-- Per-agent "Deploy managed on AKOS" CTA when `meta.akosDeployable`.
 
 ### Part 3 — Ecosystem cohesion (the cross-reference layer)
 
 The four properties form one funnel: **OSS (www + registry) drives adoption →
-playbook supplies authority → AKOS captures managed/monetized usage.**
 
 **Shared "ecosystem bar"** — one top-nav component (shared package or copied
-contract) on all four sites linking `Framework · Playbook · Registry · AKOS`,
 with the current property highlighted. Consistent footer listing all four.
 
 **Contextual cross-links (one thing leads to the next):**
@@ -192,14 +183,10 @@ with the current property highlighted. Consistent footer listing all four.
 |------|----------|--------|
 | www (framework) | registry | "Don't wire it yourself — start from a ready agent" |
 | www | playbook | "Build it right — engineering standards" |
-| www | akos | "Run it in production — managed platform" |
 | registry (agent page) | www | the packages this agent uses (deep links to API docs) |
-| registry | akos | "Deploy this agent managed" (per-agent CTA) |
 | registry | playbook | patterns/topologies this agent applies |
 | playbook | registry | reference implementations of the pattern |
 | playbook | www | the APIs that implement the standard |
-| akos | registry | import a registry agent into a workspace |
-| akos | www / playbook | "Built on the OSS core" / "Follows the playbook" |
 
 **Shared infrastructure:**
 - One design-token set + nav/footer contract across properties.
@@ -211,14 +198,12 @@ with the current property highlighted. Consistent footer listing all four.
 
 1. **This RFC** approved (Manifesto #10 — open by default, RFC before big moves).
 2. **Cohesion contract first** (small, high-leverage): define the shared
-   ecosystem-bar + footer + token contract; add it to `www` and `akos`. This is
    valuable even before the registry exists.
 3. **Registry repo scaffold**: CLI (`add`/`list`/`info`), `meta.json` schema,
    agent folder convention, light CI.
 4. **Seed agents**: `research` + `pr-review` first (dogfood), then `sql`,
    `docs-chat`, `support`, `cron-digest`. Each lands with README + test (#6).
 5. **`registry.agentskit.io`**: gallery reading `meta.json`, shared design
-   system, AKOS CTAs.
 6. **Wire cross-links** across all four properties per the table above.
 7. **Announce**: each seed agent = a demo post; registry = its own launch.
 
@@ -229,7 +214,6 @@ with the current property highlighted. Consistent footer listing all four.
 - Closes the "last mile" gap; ready agents become the adoption on-ramp.
 - Real downloads driven by genuine use; honest growth (no vanity inflation).
 - Framework monorepo stays pure and contract-stable.
-- Four properties become one funnel; OSS feeds AKOS; playbook lends authority.
 - Maximal zero-lock-in: users own copied agent code.
 
 ### Negative

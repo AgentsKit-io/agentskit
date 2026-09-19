@@ -23,7 +23,6 @@ node scripts/check-ecosystem-documentation-quality.mjs \
   --repo-root playbook=../agents-playbook \
   --repo-root doc-bridge=../doc-bridge \
   --repo-root code-review=../code-review-cli \
-  --repo-root akos=../agentskit-os
 ```
 
 The Doc Bridge score is a floor of 90, not an equality. It was exactly 100 while Doc Bridge scored

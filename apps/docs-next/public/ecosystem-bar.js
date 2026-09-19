@@ -1,5 +1,5 @@
 /**
- * AgentsKit ecosystem bar — shared discovery for the public family and optional managed layer.
+ * AgentsKit ecosystem bar — shared discovery for the public family.
  * Embed on any site with: <script src="https://www.agentskit.io/ecosystem-bar.js" defer></script>
  *
  * Self-contained, zero deps. Detects the current property by hostname and
@@ -16,7 +16,6 @@
     { id: "agentskit-chat", label: "Chat", host: "chat.agentskit.io", url: "https://chat.agentskit.io" },
     { id: "playbook", label: "Playbook", host: "playbook.agentskit.io", url: "https://playbook.agentskit.io" },
     { id: "doc-bridge", label: "Doc Bridge", host: "doc-bridge.agentskit.io", url: "https://doc-bridge.agentskit.io/" },
-    { id: "akos", label: "AKOS", host: "akos.agentskit.io", url: "https://akos.agentskit.io" },
   ]
   // ecobar:props-end
 
@@ -262,48 +261,6 @@
         ]
       },
       "cta": "Explore Doc Bridge"
-    },
-    {
-      "id": "akos",
-      "name": "AKOS",
-      "shortName": "AKOS",
-      "accent": "#34D399",
-      "href": "https://akos.agentskit.io/docs",
-      "stage": "Operate",
-      "headline": "Optional managed operations for agents.",
-      "detail": "A managed layer for teams that need additional operational controls. AgentsKit can be used without it.",
-      "proof": "Optional · managed operations",
-      "sales": {
-        "kind": "enterprise-control",
-        "headline": "Managed operations for production agents.",
-        "metric": "Optional",
-        "metricLabel": "managed layer",
-        "logos": [
-          {
-            "id": "managed",
-            "label": "Managed"
-          },
-          {
-            "id": "optional",
-            "label": "Optional"
-          },
-          {
-            "id": "operations",
-            "label": "Operations"
-          }
-        ],
-        "capabilities": [
-          "Managed operations",
-          "Production support",
-          "Optional adoption"
-        ],
-        "steps": [
-          "Assess the operational need",
-          "Evaluate the managed layer",
-          "Adopt it only when it fits"
-        ]
-      },
-      "cta": "Evaluate managed operations"
     }
   ]
   // ecobar:showcase-end

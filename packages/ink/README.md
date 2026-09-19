@@ -30,7 +30,6 @@ Build terminal AI chat interfaces on the shared AgentsKit controller contract.
 - **AgentsKit**: compose it with the other packages in this repo to build agents from small, swappable parts.
 - **Registry**: look for ready agents and templates that already use this layer at [registry.agentskit.io](https://registry.agentskit.io).
 - **Playbook**: learn the production patterns behind this layer at [playbook.agentskit.io](https://playbook.agentskit.io).
-- **AKOS**: run the same concepts with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
 Docs: [package guide](https://www.agentskit.io/docs/reference/packages/ink) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 

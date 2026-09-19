@@ -26,7 +26,6 @@ documented `2024-11-05` tools bridge.
 - **AgentsKit**: expose tools, integrations, and registry agents through a standard MCP server.
 - **Registry**: serve ready agents from [registry.agentskit.io](https://registry.agentskit.io) as callable MCP tools.
 - **Playbook**: use [playbook.agentskit.io](https://playbook.agentskit.io) for safe tool design, approvals, and agent handoff patterns.
-- **AKOS**: run the same model with enterprise deployment, governance, and observability at [akos.agentskit.io](https://akos.agentskit.io).
 
 Docs: [MCP package guide](https://www.agentskit.io/docs/agents/tools/mcp) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 

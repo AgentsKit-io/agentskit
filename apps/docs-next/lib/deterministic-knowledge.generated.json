@@ -972,29 +972,6 @@
       }
     },
     {
-      "id": "ecosystem.akos",
-      "kind": "ecosystem",
-      "label": "AKOS",
-      "match": {
-        "type": "exact",
-        "values": [
-          "what is AKOS",
-          "open AKOS",
-          "akos ecosystem"
-        ]
-      },
-      "answer": {
-        "markdown": "**AKOS** is the ecosystem's operation: Add optional managed operations when production governance calls for it. Maturity: **stable**.",
-        "citations": [
-          {
-            "id": "ecosystem-akos",
-            "title": "AKOS",
-            "href": "https://akos.agentskit.io/docs"
-          }
-        ]
-      }
-    },
-    {
       "id": "ecosystem.code-review",
       "kind": "ecosystem",
       "label": "AgentsKit Code Review",
@@ -2306,5 +2283,5 @@
       }
     }
   ],
-  "contentHash": "sha256:e81d5a529a321ff106c9cc4d2442fc2f3f0c5bfe54fba8747427a010404d5e76"
+  "contentHash": "sha256:5414ab562bbfcdf959a2eaf055e7814008b2ee677156de0a023d86260332271a"
 }

@@ -40,7 +40,6 @@ This mutable `latest` alias points to the immutable snapshot [`readiness-2026-08
 - Maturity: alpha (source: ecosystem.json)
 - Audited on: 2026-07-14
 
-### akos — blocked
 - Repo: `AgentsKit-io/agentskit-os`
 - Maturity: stable (source: ecosystem.json)
 - Audited on: 2026-07-14
@@ -51,7 +50,6 @@ This mutable `latest` alias points to the immutable snapshot [`readiness-2026-08
   - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit)
 - **P0** `agentskit-chat` / `evidence-freshness` (fail): Evidence is 31 days old (maximum 30)
   - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit-chat)
-- **P0** `akos` / `evidence-freshness` (fail): Evidence is 31 days old (maximum 30)
   - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit-os)
 - **P0** `code-review` / `evidence-freshness` (fail): Evidence is 31 days old (maximum 30)
   - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/code-review-cli)

@@ -196,7 +196,7 @@ function EcosystemStats() {
         </p>
 
         <div className="relative mt-10">
-          {/* animated convergence arcs (md+), AKOS-style flowing packets */}
+          {/* animated convergence arcs (md+), flowing packets */}
           <svg
             aria-hidden="true"
             viewBox="0 0 100 100"
@@ -346,7 +346,6 @@ function SiteFooter() {
         { text: 'Libs', href: '/' },
         { text: 'Registry · agents', href: 'https://registry.agentskit.io' },
         { text: 'Playbook · standards', href: 'https://playbook.agentskit.io' },
-        { text: 'AKOS · optional managed', href: 'https://akos.agentskit.io' },
       ],
     },
     {

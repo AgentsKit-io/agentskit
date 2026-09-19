@@ -156,5 +156,3 @@ console.log(instance.state)
 See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).
 
 ## How this fits the ecosystem
-
-AgentsKit package — compose with the monorepo; see registry.agentskit.io, playbook.agentskit.io, akos.agentskit.io.

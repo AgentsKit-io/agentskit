@@ -30,7 +30,6 @@ Validation is not automatic. You must pass the validator as `validateArgs`; tool
 - **AgentsKit**: compose it with controllers or runtimes as an opt-in `ArgsValidator`.
 - **Registry**: look for ready agents and templates at [registry.agentskit.io](https://registry.agentskit.io).
 - **Playbook**: learn production validation patterns at [playbook.agentskit.io](https://playbook.agentskit.io).
-- **AKOS**: apply the same boundary with enterprise governance at [akos.agentskit.io](https://akos.agentskit.io).
 
 Docs: [package guide](https://www.agentskit.io/docs/for-agents/validation) · [agent handoff](https://github.com/AgentsKit-io/agentskit/blob/main/llms.txt)
 

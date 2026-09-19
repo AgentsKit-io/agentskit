@@ -18,17 +18,16 @@ const PRODUCT_BLURBS: Record<string, string> = {
   playbook: 'Engineering standards for agent-built software.',
   'doc-bridge': 'Human↔agent documentation handoffs.',
   'code-review': 'Focused model review before merge.',
-  akos: 'Optional managed operations for teams that need additional production controls. AgentsKit can be used without it.',
 }
 
 /** Product mesh derived from the canonical ecosystem manifest. */
 const PRODUCT_MESH = ecosystem.products
-  .filter((product) => product.surfaces.home)
+  .filter((product) => product.public && product.surfaces.home)
   .map((product) => ({
     id: product.id,
     name: product.name,
     kind: product.kind,
-    role: product.id === 'akos' ? 'optional · managed' : product.role,
+    role: product.role,
     href: product.surfaces.home ?? product.surfaces.docs ?? '#',
     blurb: PRODUCT_BLURBS[product.id] ?? product.promise,
     managed: product.distributionClass === 'managed-service',

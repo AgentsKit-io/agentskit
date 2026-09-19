@@ -47,9 +47,7 @@ repository before editing.
 - `llms-full.txt` and a lenses handoff can be curated from verified README, operations,
   action metadata, and agent source.
 
-### AKOS
 
-- Reconcile the product name AgentsKitOS/AKOS, CLI `agentskit-os`, package namespace, TS/Zod
   contracts, YAML pack/whitelabel files, pnpm lockfile, and demo/seed versus production
   terminology.
 - Package, app, and vertical counts must be derived from workspace/source directories, not
@@ -60,13 +58,10 @@ repository before editing.
 ## Rejected or corrected conclusions
 
 - Fumadocs is a documentation technology, not an ecosystem product. The Code Review peers
-  are AgentsKit, Registry, Chat, Playbook, Doc Bridge, and AKOS.
-- AKOS “six peers” means those six products, not six internal documentation entry points.
 - Registry route and favicon ownership must be revalidated against the deployed build
   pipeline before choosing which repository receives the fix.
 - The canonical source is `ecosystem.json` v2 `products[]`. The deprecated `properties[]`
   projection must not be expanded into a second source of truth.
-- AKOS is excluded only from rendering the large continuation component. It remains in the
   seven-item global navigation and contextual cross-link graph.
 
 ## Delegation boundary for implementation

@@ -32,10 +32,8 @@ all seven products. A product is certified only when all of these conditions are
    animations, and interactives are preferred; `not-applicable` is allowed only with an
    explicit rationale and evidence.
 5. Global navigation lists all seven products. The ecosystem continuation component
-   exposes the other six destinations on every product except AKOS. Repository-native Code
    Review may use a Markdown equivalent.
 6. Documentation, chat, and enterprise hooks point respectively to Doc Bridge, AgentsKit
-   Chat, and AKOS whenever applicable. A non-applicable hook must be explicit, justified,
    and reviewable.
 
 The profile is versioned independently from Documentation Standard v1. The executable

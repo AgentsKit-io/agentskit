@@ -19,7 +19,7 @@ const DESCRIPTION =
   'AgentsKit is the foundation library for JavaScript agents — runtime, tools, memory, RAG, and UI bindings. Product chat lives in AgentsKit Chat.'
 
 const FOOTER_PRODUCTS = ecosystem.products
-  .filter((product) => product.public || product.distributionClass === 'managed-service')
+  .filter((product) => product.public)
   .sort((a, b) => a.navigation.order - b.navigation.order)
 
 export const metadata = {
@@ -126,8 +126,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <div>
               <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ak-blue">Continue by problem</p>
               <p className="mt-2 max-w-2xl leading-6">
-                AgentsKit is the open-source foundation. Choose a sibling by the next job; AKOS is optional managed
-                operations and is not required to use the open-source products.
+                AgentsKit is the open-source foundation. Choose a sibling by the next job.
               </p>
             </div>
             <nav aria-label="AgentsKit ecosystem" className="flex flex-wrap gap-x-5 gap-y-2">

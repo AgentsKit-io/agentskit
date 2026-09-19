@@ -8,7 +8,7 @@
   "positioning": {
     "canonicalDescription": "AgentsKit is the open-source TypeScript ecosystem for building production AI agents without locking application architecture to a model provider, framework, database, or hosted platform.",
     "metaDescription": "Open-source TypeScript ecosystem for production AI agents. Swap models, providers, tools, memory, RAG, and interfaces without architectural lock-in.",
-    "commercialBoundary": "AgentsKit, Chat, Registry, Playbook, Doc Bridge, and Code Review are free and open source. AKOS is the optional paid managed control plane for teams that need enterprise operations, governance, and infrastructure.",
+    "commercialBoundary": "The listed products are free and open source.",
     "openSourceProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "code-review"],
     "managedProductIds": ["akos"]
   },
@@ -392,7 +392,7 @@
         "chat": "none"
       },
       "navigation": {
-        "showInBar": true,
+        "showInBar": false,
         "order": 6,
         "next": []
       }

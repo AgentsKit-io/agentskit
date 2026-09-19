@@ -18,7 +18,6 @@ plus runtime `fetch` / `node:crypto`. No vendor SDKs (ADR-0012). Stability:
   `credentialEnvVar`; `ProjectionConfig.signal` and `ProjectionConfig.fetchUntrusted`
 - **Catalog services** under `src/services/<slug>/` (~50 fetch-only descriptors;
   side-effect registration into the default registry). Bundled per ADR-0012;
-  OSS owns this surface per RFC 0003 (AKOS consumes, does not re-ship)
 - **Testing subpath** — `@agentskit/integrations/testing` validators
   (`validateIntegration`, `validateAction`, `validateTrigger`, …)
 - **Execution boundaries** — ADR-0026: origin-confined auth-bound HTTP; derived
@@ -33,7 +32,6 @@ plus runtime `fetch` / `node:crypto`. No vendor SDKs (ADR-0012). Stability:
 - Browser UI / framework bindings
 - MCP protocol transport → `@agentskit/tools` / `@agentskit/mcp`
 - Host OAuth flow runners, token vaults, or product business logic
-- AKOS control-plane concerns (egress edge, RBAC, multi-tenant) — see RFC 0003;
   hosts inject policy via `fetchUntrusted` / confirmation rather than embedding
   platform logic here
 

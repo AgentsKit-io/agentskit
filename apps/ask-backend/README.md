@@ -35,7 +35,6 @@ See [CONTRIBUTING.md](../../CONTRIBUTING.md) and [LICENSE](../../LICENSE).
 - [AgentsKit](https://www.agentskit.io)
 - [Registry](https://registry.agentskit.io)
 - [Playbook](https://playbook.agentskit.io)
-- [AKOS](https://akos.agentskit.io)
 
 **Tags:** `agentskit` · `typescript`
 
@@ -49,13 +48,11 @@ serverless cold-start, no native-binary tracing hacks — serving grounded, cite
 for every AgentsKit property over HTTP.
 
 One embedder + one $0 LLM pool + the shared guards serve **N corpora**, routed by a
-`corpus` query param. Current corpora: `docs`, `registry`, `playbook`, `doc-bridge`, `akos`.
 
 ## API
 
 ```
 POST /v1/ask?corpus=docs     { messages }       → NDJSON UiEvent stream (grounded, cited)
-POST /v1/ask?corpus=akos     { messages }       → same protocol, AKOS sales persona
 POST /v1/search?corpus=docs  { query, k? }      → { results: [...] }   (raw retrieval, no LLM)
 GET  /v1/corpora                               → { corpora: [...] }
 GET  /health                                   → ok
@@ -101,7 +98,6 @@ curl -s -XPOST 'http://localhost:8080/v1/ask?corpus=docs' \
   event and no error; incomplete persisted entries are bypassed and replaced after
   successful regeneration. Semantic answer cache is in-process and uses the shared embedder.
   Disable with `ASK_CACHE_ENABLED=0`.
-- `docs` uses the committed vector index. `registry`, `playbook`, and `akos` load
   configurable remote `llms-full.txt` / `llms.txt` sources and rank them with BM25;
   this is intentionally fast and cache-friendly until those repos publish dedicated
   vector indexes.
@@ -172,7 +168,5 @@ Remote corpus sources:
 - `ASK_DOC_BRIDGE_LLMS_FULL_URL`, `ASK_DOC_BRIDGE_LLMS_URL`
 - `ASK_AKOS_LLMS_FULL_URL`, `ASK_AKOS_LLMS_URL` (`AKOS_*` aliases are also accepted)
 
-AKOS funnel:
 
 - `AKOS_WAITLIST_URL` defaults to `https://www.agentskit.io/#waitlist`.
-- `AKOS_CTA_LABEL` defaults to `Join the AKOS waitlist`.
