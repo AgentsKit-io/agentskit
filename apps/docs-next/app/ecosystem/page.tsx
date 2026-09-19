@@ -30,7 +30,6 @@ const PRODUCT_MESH = ecosystem.products
     role: product.role,
     href: product.surfaces.home ?? product.surfaces.docs ?? '#',
     blurb: PRODUCT_BLURBS[product.id] ?? product.promise,
-    managed: product.distributionClass === 'managed-service',
     youAreHere: product.id === 'agentskit',
   }))
 
@@ -58,20 +57,17 @@ const ECOSYSTEM_JSON_LD = {
       numberOfItems: PRODUCT_MESH.length,
       itemListElement: PRODUCT_MESH.map((product, index) => {
         const manifestProduct = ecosystem.products.find((candidate) => candidate.id === product.id)
-        const managed = manifestProduct?.distributionClass === 'managed-service'
         const structuredType = product.kind === 'methodology' ? 'CreativeWork' : 'SoftwareApplication'
         return {
           '@type': 'ListItem',
           position: index + 1,
           item: {
-            ...(managed ? { '@type': 'Service' } : { '@type': structuredType }),
+            '@type': structuredType,
             name: product.name,
             description: product.blurb,
-            isAccessibleForFree: !managed,
+            isAccessibleForFree: true,
             url: product.href,
-            ...(managed
-              ? { serviceType: 'Managed operations' }
-              : { codeRepository: manifestProduct?.repo ? `https://github.com/${manifestProduct.repo}` : undefined }),
+            codeRepository: manifestProduct?.repo ? `https://github.com/${manifestProduct.repo}` : undefined,
           },
         }
       }),
@@ -127,10 +123,8 @@ export default function EcosystemPage() {
           Products and packages
         </h1>
         <p className="mt-5 text-lg leading-relaxed text-ak-graphite">
-          Two layers, one ecosystem: the <strong className="font-medium text-ak-foam">open-source product family</strong>
-          you pick by job, plus <strong className="font-medium text-ak-foam">optional managed operations</strong> when
-          production governance calls for it. The <strong className="font-medium text-ak-foam">monorepo packages</strong>
-          power the AgentsKit foundation.
+          One open-source product family, organized by the job you need next. The
+          <strong className="font-medium text-ak-foam"> monorepo packages</strong> power the AgentsKit foundation.
         </p>
       </header>
 
@@ -147,7 +141,7 @@ export default function EcosystemPage() {
               <Link
                 href={p.href}
                 className={`flex h-full flex-col rounded-lg border p-5 transition hover:border-ak-blue ${
-                  p.managed ? 'border-ak-green/40 bg-ak-surface' : p.youAreHere ? 'border-ak-blue/50 bg-ak-surface' : 'border-ak-border bg-ak-surface'
+                  p.youAreHere ? 'border-ak-blue/50 bg-ak-surface' : 'border-ak-border bg-ak-surface'
                 }`}
               >
                 <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ak-graphite">

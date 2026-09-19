@@ -137,7 +137,6 @@ export default function RootLayout({ children }: { children: ReactNode }) {
                   className="text-ak-foam underline decoration-ak-border underline-offset-4 hover:text-ak-blue"
                 >
                   {product.name}
-                  {product.distributionClass === 'managed-service' ? ' · optional managed' : ''}
                 </a>
               ))}
             </nav>

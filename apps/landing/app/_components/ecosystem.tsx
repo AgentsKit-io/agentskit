@@ -8,7 +8,6 @@ type Property = {
   body: string
   href: string
   here: boolean
-  managed: boolean
 }
 
 const GOALS: Record<string, string> = {
@@ -30,7 +29,6 @@ const PROPERTIES: Property[] = ecosystem.products
     body: product.promise,
     href: product.surfaces.docs ?? product.surfaces.home ?? '#',
     here: product.id === 'agentskit',
-    managed: false,
   }))
 
 const cardCls =
@@ -52,11 +50,6 @@ export function Ecosystem() {
               </p>
               <h3 className="mb-2 text-lg font-semibold">
                 {p.name}
-                {p.managed && (
-                  <span className="ml-2 align-middle text-xs font-normal text-[var(--color-success)]">
-                    optional managed
-                  </span>
-                )}
                 {p.here && (
                   <span className="ml-2 align-middle text-xs font-normal text-[var(--color-success)]">
                     you&apos;re here

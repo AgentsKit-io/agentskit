@@ -12,7 +12,7 @@ export function EcosystemShowcase() {
           Build the agent. Then take it all the way.
         </h2>
         <p className="mt-4 max-w-2xl text-ak-graphite">
-          One connected toolkit from ready-made source to optional managed operations.
+          One connected toolkit from ready-made source to production-ready delivery.
         </p>
         <nav aria-label="AgentsKit ecosystem" className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
           {ecosystemPeers.map((peer) => (
