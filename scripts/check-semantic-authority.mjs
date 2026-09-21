@@ -18,7 +18,7 @@ const openSourceProducts = publicProducts.filter((product) => product.distributi
 const agentskitClaims = claims.products.find((product) => product.productId === 'agentskit')
 const packageClaim = agentskitClaims?.claims?.find((claim) => claim.id === 'packages')
 
-if (openSourceProducts.length !== 6) diagnostics.push(`expected six public open-source products, found ${openSourceProducts.length}`)
+if (openSourceProducts.length !== 7) diagnostics.push(`expected seven public open-source products, found ${openSourceProducts.length}`)
 if (!packageClaim || typeof packageClaim.value !== 'number') diagnostics.push('agentskit package claim is missing or not numeric')
 
 const publicFiles = [

@@ -5,7 +5,7 @@ const SALES_KINDS = new Set(['integration-stack', 'registry-install', 'human-age
 const DISTRIBUTION_CLASSES = new Set(['open-source', 'managed-service'])
 const SURFACE_KEYS = ['home', 'docs', 'llms', 'stats']
 const LEGACY_PRODUCT_IDS = ['agentskit', 'playbook', 'registry']
-const CANONICAL_PRODUCT_IDS = ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge', 'code-review']
+const CANONICAL_PRODUCT_IDS = ['agentskit', 'registry', 'agentskit-chat', 'doc-bridge', 'harness', 'playbook', 'code-review']
 
 function fail(path, message) {
   throw new TypeError(`ecosystem contract: ${path} ${message}`)

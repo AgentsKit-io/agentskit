@@ -9,7 +9,7 @@
     "canonicalDescription": "AgentsKit is the open-source TypeScript ecosystem for building production AI agents without locking application architecture to a model provider, framework, database, or hosted platform.",
     "metaDescription": "Open-source TypeScript ecosystem for production AI agents. Swap models, providers, tools, memory, RAG, and interfaces without architectural lock-in.",
     "commercialBoundary": "The listed products are free and open source.",
-    "openSourceProductIds": ["agentskit", "registry", "agentskit-chat", "playbook", "doc-bridge", "code-review"],
+    "openSourceProductIds": ["agentskit", "registry", "agentskit-chat", "doc-bridge", "harness", "playbook", "code-review"],
     "managedProductIds": []
   },
   "products": [
@@ -95,8 +95,9 @@
         "next": [
           "registry",
           "agentskit-chat",
-          "playbook",
           "doc-bridge",
+          "harness",
+          "playbook",
           "code-review"
         ]
       }
@@ -150,8 +151,9 @@
         "next": [
           "agentskit",
           "agentskit-chat",
-          "playbook",
           "doc-bridge",
+          "harness",
+          "playbook",
           "code-review"
         ]
       }
@@ -201,8 +203,137 @@
         "next": [
           "agentskit",
           "registry",
-          "playbook",
           "doc-bridge",
+          "harness",
+          "playbook",
+          "code-review"
+        ]
+      }
+    },
+    {
+      "id": "doc-bridge",
+      "public": true,
+      "distributionClass": "open-source",
+      "name": "Doc Bridge",
+      "shortName": "Doc Bridge",
+      "kind": "developer-tool",
+      "role": "understanding",
+      "promise": "Turn repository documentation into executable agent handoffs.",
+      "maturity": "stable",
+      "repo": "AgentsKit-io/doc-bridge",
+      "accent": "#06B6D4",
+      "showcase": {
+        "stage": "Understand",
+        "headline": "Documentation that hands work off precisely.",
+        "detail": "Connect repository knowledge to agents with structured, executable context.",
+        "proof": "Code → precise handoff",
+        "sales": {
+          "kind": "knowledge-bridge",
+          "headline": "Knowledge flows both ways.",
+          "metric": "↔",
+          "metricLabel": "humans and agents",
+          "logos": [
+            { "id": "human", "label": "Humans" },
+            { "id": "markdown", "label": "Docs" },
+            { "id": "code", "label": "Code" },
+            { "id": "agent", "label": "Agents" }
+          ],
+          "capabilities": ["ADRs", "Handoffs", "Agent findings", "Human-readable docs"],
+          "steps": ["Humans document decisions", "Agents receive precise context", "Agent findings return to humans"]
+        },
+        "cta": "Explore Doc Bridge"
+      },
+      "surfaces": {
+        "home": "https://doc-bridge.agentskit.io/",
+        "docs": "https://doc-bridge.agentskit.io/",
+        "llms": "https://doc-bridge.agentskit.io/llms.txt",
+        "documentation": "fumadocs",
+        "chat": "none"
+      },
+      "navigation": {
+        "showInBar": true,
+        "order": 3,
+        "next": [
+          "agentskit",
+          "registry",
+          "agentskit-chat",
+          "harness",
+          "playbook",
+          "code-review"
+        ]
+      }
+    },
+    {
+      "id": "harness",
+      "public": true,
+      "distributionClass": "open-source",
+      "name": "AgentsKit Harness",
+      "shortName": "Harness",
+      "kind": "tool",
+      "role": "delivery",
+      "promise": "The keep-pushing loop for your SDLC.",
+      "maturity": "beta",
+      "repo": "AgentsKit-io/harness",
+      "accent": "#F778BA",
+      "showcase": {
+        "stage": "Ship",
+        "headline": "From a vague objective to production, unattended.",
+        "detail": "Interview, plan, vote, build, review, prove, merge, release — one state machine per stage, with humans only where the loop acts on the world.",
+        "proof": "Objective → released change",
+        "sales": {
+          "kind": "standards-flow",
+          "headline": "The loop keeps pushing while you sleep.",
+          "metric": "24/7",
+          "metricLabel": "unattended delivery",
+          "logos": [
+            {
+              "id": "issue",
+              "label": "Issues"
+            },
+            {
+              "id": "worktree",
+              "label": "Worktrees"
+            },
+            {
+              "id": "review",
+              "label": "Review"
+            },
+            {
+              "id": "release",
+              "label": "Release"
+            }
+          ],
+          "capabilities": [
+            "Frozen contracts",
+            "Plan with votes",
+            "Definition of done",
+            "Human gates"
+          ],
+          "steps": [
+            "An issue becomes a contract nobody can widen",
+            "A worker proves it in its own worktree",
+            "A human approves what reaches production"
+          ]
+        },
+        "cta": "Explore Harness"
+      },
+      "surfaces": {
+        "home": "https://harness.agentskit.io/",
+        "docs": "https://harness.agentskit.io/docs",
+        "llms": "https://harness.agentskit.io/llms.txt",
+        "stats": "https://harness.agentskit.io/api/stats.json",
+        "documentation": "fumadocs",
+        "chat": "none"
+      },
+      "navigation": {
+        "showInBar": true,
+        "order": 4,
+        "next": [
+          "agentskit",
+          "registry",
+          "agentskit-chat",
+          "doc-bridge",
+          "playbook",
           "code-review"
         ]
       }
@@ -250,64 +381,13 @@
       },
       "navigation": {
         "showInBar": true,
-        "order": 3,
+        "order": 5,
         "next": [
           "agentskit",
           "registry",
           "agentskit-chat",
           "doc-bridge",
-          "code-review"
-        ]
-      }
-    },
-    {
-      "id": "doc-bridge",
-      "public": true,
-      "distributionClass": "open-source",
-      "name": "Doc Bridge",
-      "shortName": "Doc Bridge",
-      "kind": "developer-tool",
-      "role": "understanding",
-      "promise": "Turn repository documentation into executable agent handoffs.",
-      "maturity": "stable",
-      "repo": "AgentsKit-io/doc-bridge",
-      "accent": "#06B6D4",
-      "showcase": {
-        "stage": "Understand",
-        "headline": "Documentation that hands work off precisely.",
-        "detail": "Connect repository knowledge to agents with structured, executable context.",
-        "proof": "Code → precise handoff",
-        "sales": {
-          "kind": "knowledge-bridge",
-          "headline": "Knowledge flows both ways.",
-          "metric": "↔",
-          "metricLabel": "humans and agents",
-          "logos": [
-            { "id": "human", "label": "Humans" },
-            { "id": "markdown", "label": "Docs" },
-            { "id": "code", "label": "Code" },
-            { "id": "agent", "label": "Agents" }
-          ],
-          "capabilities": ["ADRs", "Handoffs", "Agent findings", "Human-readable docs"],
-          "steps": ["Humans document decisions", "Agents receive precise context", "Agent findings return to humans"]
-        },
-        "cta": "Explore Doc Bridge"
-      },
-      "surfaces": {
-        "home": "https://doc-bridge.agentskit.io/",
-        "docs": "https://doc-bridge.agentskit.io/",
-        "llms": "https://doc-bridge.agentskit.io/llms.txt",
-        "documentation": "fumadocs",
-        "chat": "none"
-      },
-      "navigation": {
-        "showInBar": true,
-        "order": 4,
-        "next": [
-          "agentskit",
-          "registry",
-          "agentskit-chat",
-          "playbook",
+          "harness",
           "code-review"
         ]
       }
@@ -333,13 +413,14 @@
       },
       "navigation": {
         "showInBar": false,
-        "order": 5,
+        "order": 6,
         "next": [
           "agentskit",
           "registry",
           "agentskit-chat",
-          "playbook",
-          "doc-bridge"
+          "doc-bridge",
+          "harness",
+          "playbook"
         ]
       }
     }

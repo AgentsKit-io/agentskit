@@ -22,7 +22,7 @@ test('the canonical manifest describes every ecosystem product', () => {
   assert.equal(parsed.schemaVersion, 2)
   assert.deepEqual(
     parsed.products.map((product) => product.id),
-    ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge', 'code-review'],
+    ['agentskit', 'registry', 'agentskit-chat', 'doc-bridge', 'harness', 'playbook', 'code-review'],
   )
   assert.equal(parsed.products.find((product) => product.id === 'code-review').surfaces.chat, 'none')
 })
@@ -84,12 +84,12 @@ test('the canonical ecosystem hub is included in the docs sitemap', () => {
 
 test('global navigation keeps the public product order', () => {
   const parsed = parseEcosystemManifest(manifest)
-  assert.deepEqual(parsed.products.map((product) => product.navigation.order), [0, 1, 2, 3, 4, 5])
+  assert.deepEqual(parsed.products.map((product) => product.navigation.order), [0, 1, 2, 3, 4, 5, 6])
   assert.deepEqual(
     parsed.products.filter((product) => product.navigation.showInBar).map((product) => product.id),
-    ['agentskit', 'registry', 'agentskit-chat', 'playbook', 'doc-bridge'],
+    ['agentskit', 'registry', 'agentskit-chat', 'doc-bridge', 'harness', 'playbook'],
   )
-  assert.ok(parsed.products.every((product) => product.navigation.next.length === 5))
+  assert.ok(parsed.products.every((product) => product.navigation.next.length === 6))
 })
 
 test('the v1 compatibility projection remains aligned with v2 products', () => {

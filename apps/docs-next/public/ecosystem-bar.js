@@ -11,11 +11,12 @@
 
   // ecobar:props-start — GENERATED from ecosystem.json by scripts/sync-ecosystem.mjs. Do not edit by hand.
   var PROPS = [
-    { id: "agentskit", label: "AgentsKit", host: "www.agentskit.io", url: "https://www.agentskit.io" },
-    { id: "registry", label: "Registry", host: "registry.agentskit.io", url: "https://registry.agentskit.io" },
-    { id: "agentskit-chat", label: "Chat", host: "chat.agentskit.io", url: "https://chat.agentskit.io" },
-    { id: "playbook", label: "Playbook", host: "playbook.agentskit.io", url: "https://playbook.agentskit.io" },
-    { id: "doc-bridge", label: "Doc Bridge", host: "doc-bridge.agentskit.io", url: "https://doc-bridge.agentskit.io/" },
+    { id: "agentskit", label: "AgentsKit", host: "www.agentskit.io", url: "https://www.agentskit.io", repo: "AgentsKit-io/agentskit" },
+    { id: "registry", label: "Registry", host: "registry.agentskit.io", url: "https://registry.agentskit.io", repo: "AgentsKit-io/agentskit-registry" },
+    { id: "agentskit-chat", label: "Chat", host: "chat.agentskit.io", url: "https://chat.agentskit.io", repo: "AgentsKit-io/agentskit-chat" },
+    { id: "doc-bridge", label: "Doc Bridge", host: "doc-bridge.agentskit.io", url: "https://doc-bridge.agentskit.io/", repo: "AgentsKit-io/doc-bridge" },
+    { id: "harness", label: "Harness", host: "harness.agentskit.io", url: "https://harness.agentskit.io/", repo: "AgentsKit-io/harness" },
+    { id: "playbook", label: "Playbook", host: "playbook.agentskit.io", url: "https://playbook.agentskit.io", repo: "AgentsKit-io/agents-playbook" },
   ]
   // ecobar:props-end
 
@@ -169,53 +170,6 @@
       "cta": "Explore AgentsKit Chat"
     },
     {
-      "id": "playbook",
-      "name": "Agents Playbook",
-      "shortName": "Playbook",
-      "accent": "#8B5CF6",
-      "href": "https://playbook.agentskit.io/docs",
-      "stage": "Standardize",
-      "headline": "Engineering standards agents can execute.",
-      "detail": "Turn repeatable practices into guidance that coding agents can follow in every repository.",
-      "proof": "Convention → executable guidance",
-      "sales": {
-        "kind": "standards-flow",
-        "headline": "Your standards. Every agent. Every repository.",
-        "metric": "1×",
-        "metricLabel": "define · reuse everywhere",
-        "logos": [
-          {
-            "id": "architecture",
-            "label": "Architecture"
-          },
-          {
-            "id": "tests",
-            "label": "Tests"
-          },
-          {
-            "id": "security",
-            "label": "Security"
-          },
-          {
-            "id": "style",
-            "label": "Style"
-          }
-        ],
-        "capabilities": [
-          "Repository rules",
-          "Review criteria",
-          "Agent guidance",
-          "Team conventions"
-        ],
-        "steps": [
-          "Define the standard once",
-          "Agents receive executable guidance",
-          "Review consistent output"
-        ]
-      },
-      "cta": "Explore the Playbook"
-    },
-    {
       "id": "doc-bridge",
       "name": "Doc Bridge",
       "shortName": "Doc Bridge",
@@ -261,6 +215,100 @@
         ]
       },
       "cta": "Explore Doc Bridge"
+    },
+    {
+      "id": "harness",
+      "name": "AgentsKit Harness",
+      "shortName": "Harness",
+      "accent": "#F778BA",
+      "href": "https://harness.agentskit.io/docs",
+      "stage": "Ship",
+      "headline": "From a vague objective to production, unattended.",
+      "detail": "Interview, plan, vote, build, review, prove, merge, release — one state machine per stage, with humans only where the loop acts on the world.",
+      "proof": "Objective → released change",
+      "sales": {
+        "kind": "standards-flow",
+        "headline": "The loop keeps pushing while you sleep.",
+        "metric": "24/7",
+        "metricLabel": "unattended delivery",
+        "logos": [
+          {
+            "id": "issue",
+            "label": "Issues"
+          },
+          {
+            "id": "worktree",
+            "label": "Worktrees"
+          },
+          {
+            "id": "review",
+            "label": "Review"
+          },
+          {
+            "id": "release",
+            "label": "Release"
+          }
+        ],
+        "capabilities": [
+          "Frozen contracts",
+          "Plan with votes",
+          "Definition of done",
+          "Human gates"
+        ],
+        "steps": [
+          "An issue becomes a contract nobody can widen",
+          "A worker proves it in its own worktree",
+          "A human approves what reaches production"
+        ]
+      },
+      "cta": "Explore Harness"
+    },
+    {
+      "id": "playbook",
+      "name": "Agents Playbook",
+      "shortName": "Playbook",
+      "accent": "#8B5CF6",
+      "href": "https://playbook.agentskit.io/docs",
+      "stage": "Standardize",
+      "headline": "Engineering standards agents can execute.",
+      "detail": "Turn repeatable practices into guidance that coding agents can follow in every repository.",
+      "proof": "Convention → executable guidance",
+      "sales": {
+        "kind": "standards-flow",
+        "headline": "Your standards. Every agent. Every repository.",
+        "metric": "1×",
+        "metricLabel": "define · reuse everywhere",
+        "logos": [
+          {
+            "id": "architecture",
+            "label": "Architecture"
+          },
+          {
+            "id": "tests",
+            "label": "Tests"
+          },
+          {
+            "id": "security",
+            "label": "Security"
+          },
+          {
+            "id": "style",
+            "label": "Style"
+          }
+        ],
+        "capabilities": [
+          "Repository rules",
+          "Review criteria",
+          "Agent guidance",
+          "Team conventions"
+        ],
+        "steps": [
+          "Define the standard once",
+          "Agents receive executable guidance",
+          "Review consistent output"
+        ]
+      },
+      "cta": "Explore the Playbook"
     }
   ]
   // ecobar:showcase-end
@@ -758,8 +806,15 @@
     spacer.className = 'ak-eco-spacer'
     bar.appendChild(spacer)
 
+    // The star belongs to the product the visitor is on: starring AgentsKit from the Harness site is a vote
+    // nobody meant to cast. Without a public repository for the current product, the organisation stands in.
+    var currentProp = PROPS.filter(function (p) { return p.id === current })[0]
+    var starUrl = currentProp && currentProp.repo
+      ? 'https://github.com/' + currentProp.repo
+      : 'https://github.com/AgentsKit-io'
+
     var community = [
-      { label: 'Star on GitHub', icon: GH_ICON, url: 'https://github.com/AgentsKit-io/agentskit' },
+      { label: 'Star on GitHub', icon: GH_ICON, url: starUrl },
       // Discord kept for restore — hidden via CSS (data-ak-eco-discord).
       { label: 'Discord', icon: DISCORD_ICON, url: 'https://discord.gg/zx6z2p4jVb', discord: true },
     ]
