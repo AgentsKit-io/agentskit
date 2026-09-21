@@ -11,8 +11,9 @@ describe('canonical ecosystem positioning', () => {
       'agentskit',
       'registry',
       'agentskit-chat',
-      'playbook',
       'doc-bridge',
+      'harness',
+      'playbook',
       'code-review',
     ])
     expect(ecosystem.products.filter((product) => product.navigation.showInBar)).toEqual(
