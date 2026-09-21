@@ -62,7 +62,7 @@ const providers: Record<string, ProviderEntry> = {
   deepseek: {
     label: 'DeepSeek',
     envKeys: ['DEEPSEEK_API_KEY'],
-    defaultModel: 'deepseek-chat',
+    defaultModel: 'deepseek-flash',
     factory: (c) => deepseek(c),
   },
   grok: {
@@ -74,7 +74,7 @@ const providers: Record<string, ProviderEntry> = {
   kimi: {
     label: 'Kimi',
     envKeys: ['KIMI_API_KEY', 'MOONSHOT_API_KEY'],
-    defaultModel: 'kimi-k2-0711-preview',
+    defaultModel: 'kimi-k2.6',
     factory: (c) => kimi(c),
   },
   groq: {

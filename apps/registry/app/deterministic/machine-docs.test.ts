@@ -69,8 +69,9 @@ describe('Registry machine documentation contracts', () => {
       ['AgentsKit', 'https://www.agentskit.io/docs', 'https://www.agentskit.io/llms.txt'],
       ['AgentsKit Registry', `${SITE}/docs`, `${SITE}/llms.txt`],
       ['AgentsKit Chat', 'https://chat.agentskit.io/docs', 'https://chat.agentskit.io/llms.txt'],
-      ['Agents Playbook', 'https://playbook.agentskit.io/docs', 'https://playbook.agentskit.io/llms.txt'],
       ['Doc Bridge', 'https://doc-bridge.agentskit.io/', 'https://doc-bridge.agentskit.io/llms.txt'],
+      ['AgentsKit Harness', 'https://harness.agentskit.io/docs', 'https://harness.agentskit.io/llms.txt'],
+      ['Agents Playbook', 'https://playbook.agentskit.io/docs', 'https://playbook.agentskit.io/llms.txt'],
       ['AgentsKit Code Review', 'https://github.com/AgentsKit-io/code-review#readme', 'https://raw.githubusercontent.com/AgentsKit-io/code-review/main/llms.txt'],
     ] as const
 

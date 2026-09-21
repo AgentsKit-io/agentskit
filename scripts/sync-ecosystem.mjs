@@ -48,7 +48,9 @@ const barProducts = ecosystem.products
   .sort((a, b) => a.navigation.order - b.navigation.order)
 const propLines = barProducts.map((product) => {
   const host = new URL(product.surfaces.home).host
-  return `    { id: ${JSON.stringify(product.id)}, label: ${JSON.stringify(product.shortName)}, host: ${JSON.stringify(host)}, url: ${JSON.stringify(product.surfaces.home)} },`
+  // `repo` travels with the entry so the bar's "Star on GitHub" can follow the product a visitor is actually on.
+  // A product without a public repository carries null and the bar falls back to the organisation.
+  return `    { id: ${JSON.stringify(product.id)}, label: ${JSON.stringify(product.shortName)}, host: ${JSON.stringify(host)}, url: ${JSON.stringify(product.surfaces.home)}, repo: ${JSON.stringify(product.repo ?? null)} },`
 }).join('\n')
 const showcaseProducts = barProducts.map((product) => ({
   id: product.id,
