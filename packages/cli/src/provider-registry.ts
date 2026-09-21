@@ -85,7 +85,7 @@ export const PROVIDER_REGISTRY = [
     catalogId: 'deepseek',
     env: { status: 'required', keys: ['DEEPSEEK_API_KEY'] },
     reachability: { status: 'supported', url: 'https://api.deepseek.com/models' },
-    defaultModel: { status: 'known', id: 'deepseek-chat' },
+    defaultModel: { status: 'known', id: 'deepseek-flash' },
   },
   {
     id: 'grok',
@@ -103,7 +103,7 @@ export const PROVIDER_REGISTRY = [
     catalogId: 'moonshotai',
     env: { status: 'required', keys: ['KIMI_API_KEY', 'MOONSHOT_API_KEY'] },
     reachability: { status: 'supported', url: 'https://api.moonshot.ai/v1/models' },
-    defaultModel: { status: 'known', id: 'kimi-k2-0711-preview' },
+    defaultModel: { status: 'known', id: 'kimi-k2.6' },
   },
   {
     id: 'groq',
@@ -157,7 +157,7 @@ export const PROVIDER_REGISTRY = [
     catalogId: 'fireworks-ai',
     env: { status: 'required', keys: ['FIREWORKS_API_KEY'] },
     reachability: { status: 'supported', url: 'https://api.fireworks.ai/inference/v1/models' },
-    defaultModel: { status: 'known', id: 'accounts/fireworks/models/deepseek-v4-flash' },
+    defaultModel: { status: 'known', id: 'accounts/fireworks/models/deepseek-v4-flash-0731' },
   },
   {
     id: 'huggingface',
