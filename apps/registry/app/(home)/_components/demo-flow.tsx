@@ -96,11 +96,11 @@ export function DemoFlow({ agents, agentCount, categoryCount }: { agents: DemoAg
             </div>
             <div className="mt-4 flex items-center gap-2 rounded-lg border border-ak-border bg-ak-midnight px-3 py-2 font-mono text-[13px]">
               <code className="flex-1 truncate text-ak-foam">
-                <span className="text-ak-blue">$</span> npx agentskit add <span className="text-ak-blue">{current?.id}</span>
+                <span className="text-ak-blue">$</span> npx @agentskit/cli add <span className="text-ak-blue">{current?.id}</span>
               </code>
               <button
                 type="button"
-                data-copy={`npx agentskit add ${current?.id}`}
+                data-copy={`npx @agentskit/cli add ${current?.id}`}
                 aria-label="Copy"
                 className="rg-copy inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-ak-border bg-ak-surface text-ak-graphite transition hover:border-ak-blue hover:text-ak-foam focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
               >

@@ -8,9 +8,38 @@ Tokens live in `apps/docs-next/app/global.css` as CSS variables and are exposed 
 
 ## Brand direction
 
-Terminal-inspired, developer-native, GitHub-adjacent. **Dark mode is the canonical palette** (how the brand renders in OG images, the logo, social posts). Light mode is the inverted-neutral companion for long-form reading.
+Developer-native and editorial, with a quiet reading surface across documentation and a more expressive product experience on the homepage. **Dark mode is the canonical palette** (how the brand renders in OG images, the logo, social posts). Light mode is the inverted-neutral companion for long-form reading.
 
-**Feel:** clean, opinionated, monospace-forward, no corporate gradients, no decorative illustrations. Geometry and typography do the work.
+**Feel:** clean, opinionated, and product-led. Monospace supports technical detail; system sans carries interface and marketing copy. Geometry and typography do the work, with restrained liquid light only on the homepage.
+
+## Surface rules
+
+The homepage and documentation have different jobs and should share tokens without sharing every effect.
+
+### Homepage
+
+- Use a dark, nearly black base with low-opacity blue and green radial light. The light is ambient across the full homepage and responds softly to a mouse pointer; it must never reduce text contrast.
+- Keep the pointer layer in the homepage route only. Disable its movement for reduced motion and ignore touch pointers.
+- Use system sans for large headlines, moderate negative tracking, generous whitespace, and a clear action hierarchy. Keep monospace for code, commands, metrics, and small technical labels.
+- Keep the hero headline immediately visible without entrance motion. Reserve motion for the framework reel and product proof where it explains the system.
+- The ecosystem map keeps animated connection lines on tablet and desktop; hide those lines on phone widths and let the core and layer list stack cleanly.
+- Keep the interactive ecosystem tour neutral on the AgentsKit homepage: one restrained accent, quiet borders, and no competing product colors. Apply this home-only treatment through the `data-visual="agentskit-home"` host attribute so sibling product tours retain their own accents.
+- Reserve glass for floating or focal surfaces: the global ecosystem header, product demo/chat, Ask docs controls, and footer. Use a subtle token border, translucent surface, blur, and restrained shadow.
+- Use rounded 24 px corners for large demo surfaces and full pills for primary actions. Small controls and code surfaces retain the existing compact radius.
+- Keep sections open against the shared page background. Avoid enclosing every section in a card or layering multiple competing gradients.
+
+### Documentation and interior pages
+
+- Keep Fumadocs reading surfaces calm, solid, and high contrast. Do not load the liquid cursor layer, ambient homepage gradients, or homepage glass treatments on documentation routes.
+- The ecosystem navigation remains readable with a solid background on interior pages. Body copy, code blocks, tables, and navigation should not sit over moving light.
+- Preserve the existing Fumadocs typography, code presentation, theme toggle, and content behavior.
+
+### Reuse across the ecosystem
+
+- Reuse the palette and logo rules below; do not copy the homepage cursor effect into sibling product docs by default.
+- For a sibling homepage, use its existing product accent with the same low-opacity, pointer-reactive treatment and the same calm documentation boundary.
+- Keep the wordmark “AgentsKit” in public brand copy and metadata. Preserve package and repository identifiers where they are technical names.
+- Glass must remain legible in dark and light themes. Prefer opaque surfaces when contrast cannot be maintained over the background.
 
 ---
 
@@ -67,7 +96,8 @@ Terminal-inspired, developer-native, GitHub-adjacent. **Dark mode is the canonic
 - ❌ Hardcode `#0D1117` anywhere. Always `var(--ak-midnight)` or `bg-ak-midnight`.
 - ❌ Invent new roles (e.g. "ak-purple", "ak-warning"). If you think you need one, open an issue.
 - ❌ Use Tailwind's built-in palette (`text-slate-400`, `bg-zinc-900`). Stick to `ak-*`.
-- ❌ Apply gradients larger than a faint radial accent. No candy colors, no hero gradients.
+- ❌ Add decorative or saturated gradients to documentation, code, or reading surfaces.
+- ❌ Use multiple competing liquid layers or glass every content section.
 
 ---
 

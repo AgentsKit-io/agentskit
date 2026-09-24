@@ -4,7 +4,7 @@ import { ecosystemPeers } from './ecosystem-mesh'
 export function EcosystemShowcase() {
   return createElement(
     'agentskit-ecosystem',
-    { current: 'registry' },
+    { current: 'registry', 'data-visual': 'agentskit-home' },
     <section className="border-t border-ak-border bg-ak-midnight px-4 py-16 text-ak-foam sm:px-6 sm:py-24">
       <div className="mx-auto max-w-5xl">
         <p className="font-mono text-xs uppercase tracking-wider text-ak-blue">The AgentsKit ecosystem</p>

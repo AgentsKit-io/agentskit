@@ -63,9 +63,9 @@ if (!ecosystemPage.includes('ECOSYSTEM_JSON_LD') || !ecosystemPage.includes("'@t
   diagnostics.push('ecosystem hub JSON-LD must expose the public product list')
 }
 
-const registryHome = read("apps/registry/app/(home)/page.tsx")
-if (!registryHome.includes("'@type': 'CollectionPage'") || !registryHome.includes("'@type': 'ItemList'") || !registryHome.includes('agents.map')) {
-  diagnostics.push('registry home JSON-LD must expose its real agent collection as an ItemList')
+const registryCatalog = read('apps/registry/app/agents/page.tsx')
+if (!registryCatalog.includes("'@type': 'CollectionPage'") || !registryCatalog.includes("'@type': 'ItemList'") || !registryCatalog.includes('agents.map')) {
+  diagnostics.push('registry catalog JSON-LD must expose its real agent collection as an ItemList')
 }
 
 if (diagnostics.length > 0) {

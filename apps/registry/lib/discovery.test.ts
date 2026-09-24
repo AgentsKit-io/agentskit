@@ -31,7 +31,7 @@ const fixture = async () => {
       id: 'agent:research',
       kind: 'package',
       label: 'Research Agent',
-      match: { type: 'exact', values: ['research', 'npx agentskit add research'] },
+      match: { type: 'exact', values: ['research', 'npx @agentskit/cli add research'] },
       answer: {
         markdown: 'Install `research` locally.',
         citations: [{ id: 'agent:research', title: 'Research Agent', href: '/agents/research' }],
@@ -83,7 +83,7 @@ describe('Registry discovery', () => {
       onDecision: (decision) => { decisions.push(`${decision.outcome}:${decision.confidence.basis}`) },
     })
 
-    const local = await read(result.adapter, 'npx agentskit add research')
+    const local = await read(result.adapter, 'npx @agentskit/cli add research')
     expect(backend).not.toHaveBeenCalled()
     expect(local.some((chunk) => chunk.type === 'text' && chunk.content?.includes('Install'))).toBe(true)
 

@@ -2,23 +2,23 @@ import { Icon } from './ui'
 
 export function ClosingCta({ agentCount }: { agentCount: number }) {
   return (
-    <section aria-labelledby="registry-closing-cta" className="border-t border-ak-border px-4 py-16 sm:px-6 sm:py-24">
-      <div className="mx-auto grid max-w-5xl gap-8 border-y border-ak-border py-10 md:grid-cols-[1fr_auto] md:items-end">
+    <section data-home-surface="closing-cta" aria-labelledby="registry-closing-cta" className="px-4 py-16 sm:px-6 sm:py-24">
+      <div className="mx-auto grid max-w-5xl gap-8 py-10 md:grid-cols-[1fr_auto] md:items-end">
         <div>
-          <p className="font-mono text-xs uppercase tracking-[0.18em] text-ak-blue">Your next agent starts as owned source</p>
+          <p className="font-mono text-xs uppercase tracking-[0.18em] text-ak-blue">Start with working source</p>
           <h2 id="registry-closing-cta" className="mt-3 max-w-2xl font-display text-3xl font-semibold text-ak-foam sm:text-4xl">
-            Find your starting point. Own what happens next.
+            Start with a working agent. Own every line.
           </h2>
           <p className="mt-4 max-w-2xl text-ak-graphite">
-            Choose from {agentCount} validated agents, install one command, and adapt every line to your stack and policy.
+            Explore {agentCount} ready-to-use agents, copy one into your codebase, and shape it to your stack.
           </p>
         </div>
         <div className="flex flex-wrap gap-3 md:justify-end">
           <a
-            href="#agents"
+            href="/agents"
             className="inline-flex items-center gap-2 rounded-lg bg-ak-blue px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
           >
-            Browse {agentCount} agents <Icon name="arrow-right" size={17} />
+            Explore all agents <Icon name="arrow-right" size={17} />
           </a>
           <a
             href="/docs/quick-start"

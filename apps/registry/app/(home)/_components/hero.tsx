@@ -2,10 +2,10 @@ import { Icon } from './ui'
 
 export function Hero({ agentCount, categoryCount, sampleIds }: { agentCount: number; categoryCount: number; sampleIds: string[] }) {
   const id = sampleIds[0] ?? 'research'
-  const cmd = `npx agentskit add ${id}`
+  const cmd = `npx @agentskit/cli add ${id}`
 
   return (
-    <section className="border-b border-ak-border px-4 py-14 sm:px-6 sm:py-20">
+    <section data-home-surface="hero" className="border-b border-ak-border px-4 py-14 sm:px-6 sm:py-20">
       <div className="mx-auto grid max-w-5xl items-end gap-10 lg:grid-cols-[1fr_26rem]">
         <div>
           <p className="font-mono text-xs uppercase tracking-[0.18em] text-ak-blue">Shadcn-like agents for JavaScript</p>
@@ -18,7 +18,7 @@ export function Hero({ agentCount, categoryCount, sampleIds }: { agentCount: num
           </p>
           <div className="mt-7 flex flex-wrap items-center gap-3">
             <a
-              href="#agents"
+              href="/agents"
               className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-ak-blue px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
             >
               Browse {agentCount} agents <Icon name="arrow-right" size={17} />
@@ -36,7 +36,7 @@ export function Hero({ agentCount, categoryCount, sampleIds }: { agentCount: num
             <span><b className="text-ak-green">Source-owned</b></span>
           </div>
         </div>
-        <div className="overflow-hidden rounded-lg border border-ak-border bg-ak-surface">
+        <div data-glass-panel="" className="overflow-hidden rounded-lg border border-ak-border bg-ak-surface">
           <div className="flex items-center gap-2 border-b border-ak-border px-4 py-3 text-xs text-ak-graphite">
             <Icon name="terminal" size={14} /> Install any agent
           </div>

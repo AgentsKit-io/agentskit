@@ -164,6 +164,97 @@ button[data-theme-toggle] > svg {
   animation: ak-fade-in 320ms ease-out both;
 }
 
+/* Registry homepage: same restrained liquid and glass language as AgentsKit. */
+.rg-home-layout {
+  position: relative;
+  isolation: isolate;
+  color-scheme: dark;
+  background: var(--ak-midnight);
+  background-image:
+    radial-gradient(ellipse 58vw 72vh at 12% 8%, color-mix(in srgb, var(--ak-blue) 10%, transparent), transparent 72%),
+    radial-gradient(ellipse 52vw 76vh at 92% 54%, color-mix(in srgb, var(--ak-green) 7%, transparent), transparent 76%),
+    radial-gradient(ellipse 48vw 62vh at 36% 100%, color-mix(in srgb, var(--ak-blue) 6%, transparent), transparent 76%);
+}
+.ak-liquid-cursor-gradient {
+  position: fixed;
+  z-index: -1;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: .38;
+  transition: opacity 500ms ease;
+  background:
+    radial-gradient(ellipse 58% 92% at 78% 22%, color-mix(in srgb, var(--ak-blue) 13%, transparent), transparent 74%),
+    radial-gradient(ellipse 48% 72% at 18% 86%, color-mix(in srgb, var(--ak-green) 8%, transparent), transparent 76%);
+}
+.ak-liquid-cursor-gradient[data-active='true'] { opacity: .56; }
+.ak-liquid-cursor-gradient__orb {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: min(48rem, 92vw);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  transform: translate3d(var(--cursor-x, 50vw), var(--cursor-y, 15rem), 0) translate(-50%, -50%);
+  transition: transform 760ms cubic-bezier(.16, 1, .3, 1);
+  will-change: transform;
+}
+.ak-liquid-cursor-gradient__orb--blue { background: radial-gradient(ellipse, color-mix(in srgb, var(--ak-blue) 16%, transparent), transparent 68%); }
+.ak-liquid-cursor-gradient__orb--green {
+  width: min(36rem, 74vw);
+  transform: translate3d(calc(var(--cursor-x, 50vw) - 5rem), calc(var(--cursor-y, 15rem) + 3rem), 0) translate(-50%, -50%);
+  background: radial-gradient(ellipse, color-mix(in srgb, var(--ak-green) 12%, transparent), transparent 68%);
+  transition-duration: 1100ms;
+}
+body:has(.rg-home-layout) #nd-nav > div,
+body:has(.rg-home-layout) #ak-eco {
+  background: color-mix(in srgb, var(--ak-midnight) 62%, transparent) !important;
+  border-color: color-mix(in srgb, var(--ak-border) 78%, transparent);
+  -webkit-backdrop-filter: blur(20px) saturate(125%);
+  backdrop-filter: blur(20px) saturate(125%);
+}
+.rg-home-layout :is(h1, h2, h3, .font-display) {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -.035em;
+}
+.rg-home-layout > section { background-color: transparent !important; }
+.rg-home-layout [data-glass-panel],
+.rg-home-layout #agents input[type='search'],
+.rg-home-layout #agents select,
+.rg-home-layout #how-it-works li,
+.rg-home-layout agentskit-ecosystem nav a {
+  border-color: color-mix(in srgb, var(--ak-border) 72%, transparent);
+  background-color: color-mix(in srgb, var(--ak-surface) 58%, transparent);
+  box-shadow: 0 20px 60px color-mix(in srgb, var(--ak-midnight) 32%, transparent);
+  -webkit-backdrop-filter: blur(22px) saturate(125%);
+  backdrop-filter: blur(22px) saturate(125%);
+}
+.rg-home-layout [data-glass-panel] { border-radius: 1.5rem; }
+.rg-home-layout #agents input[type='search'],
+.rg-home-layout #agents select { border-radius: 999px; }
+.rg-home-layout #how-it-works li { border-radius: 1.5rem; }
+.rg-home-layout > footer {
+  border-top: 1px solid color-mix(in srgb, var(--ak-border) 76%, transparent);
+  background: color-mix(in srgb, var(--ak-surface) 48%, transparent);
+  -webkit-backdrop-filter: blur(22px) saturate(125%);
+  backdrop-filter: blur(22px) saturate(125%);
+}
+body:has(.rg-home-layout) :is(.rg-ask-fab, .rg-ask-panel) {
+  border-radius: 1.5rem;
+  border-color: color-mix(in srgb, var(--ak-border) 76%, transparent);
+  background: color-mix(in srgb, var(--ak-midnight) 62%, transparent);
+  box-shadow: 0 24px 70px rgb(0 0 0 / .28);
+  -webkit-backdrop-filter: blur(24px) saturate(130%);
+  backdrop-filter: blur(24px) saturate(130%);
+}
+body:has(.rg-home-layout) .rg-ask-fab { border-radius: 999px; }
+body:has(.rg-home-layout) .rg-ask-header { background: color-mix(in srgb, var(--ak-surface) 55%, transparent); }
+body:not(:has(.rg-home-layout)) :is(.rg-ask-fab, .rg-ask-panel) { -webkit-backdrop-filter: none; backdrop-filter: none; }
+@media (prefers-reduced-motion: reduce) {
+  .ak-liquid-cursor-gradient, .ak-liquid-cursor-gradient__orb { transition: none; }
+}
+
 /* Skeleton placeholder — shimmering bar used while dynamic showcase examples load. */
 @keyframes ak-skel-shimmer {
   0% { background-position: -150% 0; }

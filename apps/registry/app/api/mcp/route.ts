@@ -65,7 +65,7 @@ async function callTool(name: string, args: Record<string, any>) {
       const a = await getAgent(args.id)
       if (!a) return err(`Unknown agent: ${args.id}`)
       return text({
-        install: `npx agentskit add ${args.id}`,
+        install: `npx @agentskit/cli add ${args.id}`,
         bundle: `${SITE}/r/${args.id}.json`,
         usage: `import { openai } from '@agentskit/adapters'\nimport { create...Agent } from './agents/${args.id}/agent'`,
       })
