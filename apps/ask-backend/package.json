@@ -18,14 +18,14 @@
     "@hono/node-server": "^2.1.1",
     "@huggingface/transformers": "^4.3.0",
     "@upstash/ratelimit": "^2.1.0",
-    "@upstash/redis": "^1.38.4",
+    "@upstash/redis": "^1.39.0",
     "hono": "^4.13.8",
     "redis": "^6.2.1"
   },
   "devDependencies": {
     "@types/json-schema": "^7.0.15",
     "@types/node": "^25.9.5",
-    "tsx": "^4.23.13",
+    "tsx": "^4.23.15",
     "typescript": "^6.0.3",
     "vitest": "^4.1.11"
   }
