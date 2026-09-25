@@ -16,7 +16,7 @@
   "installCommand": "pnpm install --frozen-lockfile",
   "buildCommand": "pnpm --filter \"@agentskit/core\" --filter \"@agentskit/integrations\" --filter \"@agentskit/react\" --filter \"@agentskit/tools\" build && pnpm --filter @agentskit/docs-next build",
   "outputDirectory": ".next",
-  "ignoreCommand": "git diff --quiet HEAD^ HEAD -- . apps/docs-next/packages",
+  "ignoreCommand": "if git diff --quiet HEAD^ HEAD -- . apps/docs-next/packages; then exit 0; else exit 1; fi",
   "github": {
     "silent": true
   }
