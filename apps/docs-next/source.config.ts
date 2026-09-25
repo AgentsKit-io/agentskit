@@ -1,4 +1,5 @@
 import { defineDocs, defineCollections, defineConfig, frontmatterSchema } from 'fumadocs-mdx/config'
+import { remarkMdxMermaid } from 'fumadocs-core/mdx-plugins/remark-mdx-mermaid'
 import { z } from 'zod'
 
 export const docs = defineDocs({
@@ -17,6 +18,7 @@ export const blog = defineCollections({
 
 export default defineConfig({
   mdxOptions: {
+    remarkPlugins: [remarkMdxMermaid],
     rehypeCodeOptions: {
       // Shiki dual themes; CSS in global.css swaps via `.dark` scope.
       themes: {

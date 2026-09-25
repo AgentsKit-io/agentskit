@@ -1,10 +1,11 @@
 import { describe, expect, it } from 'vitest'
 import { mkdtempSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
+import { fileURLToPath } from 'node:url'
 import { tmpdir } from 'node:os'
 import { dirname, join } from 'node:path'
 import { MCP_PIN_FILES, runSyncMcpPins, syncMcpPins } from './sync-mcp-pins.mjs'
 
-const REPO_ROOT = join(dirname(new URL(import.meta.url).pathname), '..')
+const REPO_ROOT = join(dirname(fileURLToPath(import.meta.url)), '..')
 
 describe('sync-mcp-pins', () => {
   it('rewrites package pins and matching YAML version lines only', () => {
