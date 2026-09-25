@@ -15,7 +15,7 @@
     { id: "registry", label: "Registry", host: "registry.agentskit.io", url: "https://registry.agentskit.io", repo: "AgentsKit-io/agentskit-registry" },
     { id: "agentskit-chat", label: "Chat", host: "chat.agentskit.io", url: "https://chat.agentskit.io", repo: "AgentsKit-io/agentskit-chat" },
     { id: "doc-bridge", label: "Doc Bridge", host: "doc-bridge.agentskit.io", url: "https://doc-bridge.agentskit.io/", repo: "AgentsKit-io/doc-bridge" },
-    { id: "code-review", label: "Code Review", host: "code-review.agentskit.io", url: "https://code-review.agentskit.io", repo: "AgentsKit-io/code-review" },
+    { id: "code-review", label: "Code Review", host: "github.com", url: "https://github.com/AgentsKit-io/code-review", repo: "AgentsKit-io/code-review" },
     { id: "harness", label: "Harness", host: "harness.agentskit.io", url: "https://harness.agentskit.io/", repo: "AgentsKit-io/harness" },
   ]
   // ecobar:props-end
@@ -221,7 +221,7 @@
       "name": "AgentsKit Code Review",
       "shortName": "Code Review",
       "accent": "#F97316",
-      "href": "https://code-review.agentskit.io/docs",
+      "href": "https://github.com/AgentsKit-io/code-review#readme",
       "stage": "Review",
       "headline": "A review you can tune. Findings you can act on.",
       "detail": "Choose the concerns that matter and see the review comments adapt to the change.",
