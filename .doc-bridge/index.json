@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "7ad7a475a62893e768bc8c122ff12fd9f3c8c5f547ece3cd1d410099e35ec316",
+  "contentHash": "e8348fca73ff9c2927b29365a237da81436624a4dd3fa1fbb33ff4a06a60f37c",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-25T00:25:49.141Z",
+  "generatedAt": "2026-09-25T03:00:08.231Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -6026,7 +6026,7 @@
         "document",
         "human"
       ],
-      "contentHash": "0b2098b0de1dfbc1bbab1ea259571a58266ca914a64820d49ade24ea7886cd2f"
+      "contentHash": "a215a62050e13a4a41af6ad82146146316f75b2c884fe0753653c830cebf4894"
     },
     {
       "id": "document:docs/ecosystem/activation/README.md",
@@ -8077,7 +8077,7 @@
         "tsx",
         "hero-demo"
       ],
-      "contentHash": "c66504850574e5ac28a1363746c22b4d1bd39c86bb1fcbba7159a7ae3da1f826"
+      "contentHash": "4de6db514c26a6107c2f354561cef7cfc8955b957c9b9ad4b78e10c089c2be7a"
     },
     {
       "id": "module:apps/docs-next/app/(home)/_components/hero-demo/scenes.ts",
@@ -8126,6 +8126,22 @@
       "contentHash": "5b4af139544325bc329a82cbfe1c19a069da8c94f86c03270f7e63b8258fb173"
     },
     {
+      "id": "module:apps/docs-next/app/(home)/_components/hero-motion.tsx",
+      "type": "module",
+      "title": "hero-motion.tsx",
+      "path": "apps/docs-next/app/(home)/_components/hero-motion.tsx",
+      "symbols": [
+        "HeroHeadline",
+        "KineticFrameworkReel"
+      ],
+      "tags": [
+        "module",
+        "tsx",
+        "_components"
+      ],
+      "contentHash": "8e5ee5dd61797bcc327d96d45b8b3878c4b53634249ae73636d95eff627bf089"
+    },
+    {
       "id": "module:apps/docs-next/app/(home)/_components/install-command.tsx",
       "type": "module",
       "title": "install-command.tsx",
@@ -8141,6 +8157,21 @@
       "contentHash": "758a01c8a3fdf7fee5f9baac8826d8b8140caf77c83ff5a766191d69b3bbd8a4"
     },
     {
+      "id": "module:apps/docs-next/app/(home)/_components/liquid-cursor-gradient.tsx",
+      "type": "module",
+      "title": "liquid-cursor-gradient.tsx",
+      "path": "apps/docs-next/app/(home)/_components/liquid-cursor-gradient.tsx",
+      "symbols": [
+        "LiquidCursorGradient"
+      ],
+      "tags": [
+        "module",
+        "tsx",
+        "_components"
+      ],
+      "contentHash": "3a7810092172046f492ad41c868d2dee69a8b7a8a1bacfd25294d948fce5bfd8"
+    },
+    {
       "id": "module:apps/docs-next/app/(home)/layout.tsx",
       "type": "module",
       "title": "layout.tsx",
@@ -8153,7 +8184,7 @@
         "tsx",
         "(home)"
       ],
-      "contentHash": "340073d19f90d83f99e440d1b7d09136978f010ae6750db17862ec49a619599e"
+      "contentHash": "449625aa14823227d1758bef10a5ad057e8639defed741c8282800c11a32dd45"
     },
     {
       "id": "module:apps/docs-next/app/(home)/page.tsx",
@@ -8169,7 +8200,7 @@
         "tsx",
         "(home)"
       ],
-      "contentHash": "1f884a1f8a15aa5d7941c7a080df733304d6513a9daac317e52063c6ebf3a009"
+      "contentHash": "d9b934ab7137fe57d6b265b6935f2361d08f6f9bb94c8964c3b111f1d3fb3409"
     },
     {
       "id": "module:apps/docs-next/app/api/ask-docs/route.ts",
@@ -8526,7 +8557,7 @@
         "tsx",
         "app"
       ],
-      "contentHash": "b207e9ac118910b021419b6155ab994e7c4ab6851f24c5f8be80c0ff546881ee"
+      "contentHash": "086f2e13f7dcb8a12a79e4a74f084bf61106f56a829f9f1f9af641c679ab0870"
     },
     {
       "id": "module:apps/docs-next/app/layout.tsx",
@@ -8543,7 +8574,7 @@
         "tsx",
         "app"
       ],
-      "contentHash": "520ed011d660862129d1bd018997ec480be7813576f43ce5748dd78c1a18101d"
+      "contentHash": "ce6c4252b61a51353ca3393728744defc03bdc3257b32460c3d5e4bb3bea1800"
     },
     {
       "id": "module:apps/docs-next/app/learn/[step]/page.tsx",
@@ -9103,7 +9134,7 @@
         "tsx",
         "docs"
       ],
-      "contentHash": "93de972f37ecb05751b6cab8f14cd4f09fb9a015a67edd45bcae11d49075639c"
+      "contentHash": "88b8ee068c6f8d3a698a7f3eb39f38803bac5e127273941c8fa48e8a1766e2bc"
     },
     {
       "id": "module:apps/docs-next/components/docs/ask/CodeBlock.tsx",
@@ -9789,7 +9820,7 @@
         "tsx",
         "home"
       ],
-      "contentHash": "fb3d84c331fc5a6eb02d4e7765a710ec2b44f4288754efee72e862ebba771790"
+      "contentHash": "4aab25dc40fe7d073a37b547ff07b5d6d18b8822bd7fd35932144176e437a848"
     },
     {
       "id": "module:apps/docs-next/components/home/icons.tsx",
@@ -9820,7 +9851,7 @@
         "tsx",
         "home"
       ],
-      "contentHash": "c11fc617d13bf0e86ed60bcaef631ca7ce0644e59b7493f72f1f97063c3f1da5"
+      "contentHash": "26395f4dc7de275b5900b5a6be8a7cc4248f093c7854923065322c0687eed28e"
     },
     {
       "id": "module:apps/docs-next/components/home/reference-journey.tsx",
@@ -9835,7 +9866,7 @@
         "tsx",
         "home"
       ],
-      "contentHash": "dc2896f69972b03b808182f765400cf27c812b46579ad06f6eb44a099703f0e1"
+      "contentHash": "0ea25c50442eb019d18c4775a0eedaa46560d0420bea8425d06b61dda663b4d6"
     },
     {
       "id": "module:apps/docs-next/components/home/showcases.tsx",
@@ -9851,7 +9882,7 @@
         "tsx",
         "home"
       ],
-      "contentHash": "b95b0b55f8a52e16bc991886479d900bb086c0e782311744b2937172da9334a6"
+      "contentHash": "f04d905bf39f7982fad03c6244b0c1b6a3b6f47ba178a5c4c98758b9c96dbb7e"
     },
     {
       "id": "module:apps/docs-next/components/learn/chat-preview.tsx",
@@ -11004,7 +11035,7 @@
         "js",
         "public"
       ],
-      "contentHash": "5df37f20307d0d14d5fdb3caefd8e3cc891a5b8b94070193cbd0593269e12715"
+      "contentHash": "8caeef4416117a03fffed5d2f3700b1e454bb2945274654521fe6a38a894717b"
     },
     {
       "id": "module:apps/docs-next/scripts/build-dependencies.mjs",
@@ -33444,7 +33475,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "8956f32c15c7ab30a85fe953d7550f9d5800915b04e11f18fe249c20d968222d"
+      "contentHash": "31f21888552151fbb8bbff48c8ea22478b51dcd8d08f3422ea54c9db8191c5a9"
     },
     {
       "id": "module:scripts/ecosystem-documentation-quality.test.mjs",
@@ -33618,7 +33649,7 @@
         "mjs",
         "lib"
       ],
-      "contentHash": "9a115cfa929fd370ffad29f071e8f7572ed9f62d86ccd9153b9209fae96d05b7"
+      "contentHash": "9a8a0ad1bfd06fa1353d70570d9102406cf769ee2849d29e0b625b3323b6d77a"
     },
     {
       "id": "module:scripts/lib/ecosystem-documentation-quality.mjs",
@@ -35558,8 +35589,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "f28a60035ed9d1d8d02c2c4c4010a4a140bdf1c9e43162b128f3cc076d76c1ad",
-    "fileCount": 2372,
+    "hash": "c983258a8e37c520450909c0f65793dd69c1598dfee7c183663986ce27f5e040",
+    "fileCount": 2374,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -35581,9 +35612,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "1a21302833ddb8e5a94882dfe57f52a22009ba873decbb97f437d3e3f43b5827",
+    "contentHash": "f308b951da8c70bdc35633034cc07cbb009e516082eb161ca68aba1f7574a29a",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "86cbc6618fbf2ae4029fb93e1991e82935cd483800df2ad4c5c8f6d5497f2c19",
+    "snapshotHash": "f8d536781bc0b150dba299894519013976a6ca5f8a2c095626b4194ff2f12f78",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -35603,7 +35634,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2325,
+      "documentCount": 2327,
       "fieldNames": [
         "aliases",
         "body",
@@ -35614,13 +35645,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 2.986666666666667,
-        "body": 62.42365591397849,
-        "headings": 4.291612903225807,
-        "path": 7.643440860215054,
-        "summary": 4.819354838709677,
-        "symbols": 7.451182795698925,
-        "title": 3.3316129032258064
+        "aliases": 2.9875376020627415,
+        "body": 62.282337773957885,
+        "headings": 4.291792006875806,
+        "path": 7.646755479157714,
+        "summary": 4.815212720240654,
+        "symbols": 7.449505801461108,
+        "title": 3.3326171035668244
       }
     },
     "entries": [
@@ -35965,7 +35996,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "c8efa66e194eafadaa68dc3b311b6208c07df73d015dc7972e016897932d6235",
+        "contentHash": "6dfee9aa9f09d9b1e6b8e76af302f8b7ecd4be4674ab1bd68ea716963d799613",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -68845,11 +68876,11 @@
         ],
         "fields": {
           "title": "AgentsKit Design System",
-          "headings": "AgentsKit Design System Brand direction Color palette Dark mode (canonical) Light mode (inverted neutral) Usage in Tailwind Usage in CSS Don't Typography Families Scale (Tailwind classes) Eyebrow pattern Spacing and layout Components Install command card Stat pill (social proof, issue counts) Code block Buttons Logo Don't Animation and motion Imagery and iconography OG images and social Accessibility Checklist for new UI",
+          "headings": "AgentsKit Design System Brand direction Surface rules Homepage Documentation and interior pages Reuse across the ecosystem Color palette Dark mode (canonical) Light mode (inverted neutral) Usage in Tailwind Usage in CSS Don't Typography Families Scale (Tailwind classes) Eyebrow pattern Spacing and layout Components Install command card Stat pill (social proof, issue counts) Code block Buttons Logo Don't Animation and motion Imagery and iconography OG images and social Accessibility Checklist for new UI",
           "path": "docs/DESIGN.md",
           "symbols": "",
           "summary": "Single source of truth for visual design. All docs, marketing, OG images, demos, and components reference these tokens. Before adding a new color or font variant, check this file — the odds are it already exists.",
-          "body": "AgentsKit Design System Single source of truth for visual design. All docs, marketing, OG images, demos, and components reference these tokens. Before adding a new color or font variant, check this file — the odds are it already exists. Tokens live in apps/docs-next/app/global.css as CSS variables and are exposed to Tailwind via @theme (Tailwind v4). Use the token; never hardcode the hex. --- Brand direction Terminal-inspired, developer-native, GitHub-adjacent. Dark mode is the canonical palette (how the brand renders in OG images, the logo, social posts). Light mode is the inverted-neutral companion for long-form reading. Feel: clean, opinionated, monospace-forward, no corporate gradients, no decorative illustrations. Geometry and typography do the work. --- Color palette Dark mode (canonical) Token Hex Role --- --- --- --ak-midnight 0D1117 Page background --ak-surface 161B22 Panels, cards, code blocks --ak-border 30363D Dividers, outlines, pill borders --ak-foam E6EDF3 Primary text, logo fill --ak-graphite 8B949E Secondary text, dim labels --ak-blue 58A6FF Interactive accent, links, focus rings --ak-green 2EA043 Success, positive numbers, prompt glyph --ak-red F85149 Errors, destructive actions Light mode (inverted neutral) Token Hex Role --- --- --- --ak-midnight FFFFFF Page background --ak-surface F6F8FA Panels, cards --ak-border D0D7DE Dividers --ak-foam 0D1117 Primary text --ak-graphite 57606A Secondary text --ak-blue 0969DA Accent, links --ak-green 1A7F37 Success --ak-red CF222E Errors Usage in Tailwind Usage in CSS Don't - ❌ Hardcode 0D1117 anywhere. Always var(--ak-midnight) or bg-ak-midnight . - ❌ Invent new roles (e.g. \"ak-purple\", \"ak-warning\"). If you think you need one, open an issue. - ❌ Use Tailwind's built-in palette ( text-slate-400 , bg-zinc-900 ). Stick to ak- . - ❌ Apply gradients larger than a faint radial accent. No candy colors, no hero gradients. --- Typography Families Token Stack Use for --- --- --- font-mono 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace Commands, code, technical labels, numbers in stats, logo-adjacent metadata system sans (default) system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif Long-form prose, UI copy, headings No decorative display font. Headings scale with weight + size, not a second family. Scale (Tailwind classes) Purpose Class Weight --- --- --- Hero (desktop) text-5xl sm:text-6xl lg:text-7xl font-bold / font-extrabold H2 section text-3xl sm:text-4xl font-bold H3 subsection text-xl sm:text-2xl font-semibold Body text-base font-normal Meta / caption text-sm or text-xs font-normal Eyebrow / label text-xs uppercase tracking-wider font-mono Eyebrow pattern Small monospace labels above headings — signature AgentsKit look: --- Spacing and layout - Radius: rounded-md (6 px) for inputs/cards, rounded-2xl for large containers, rounded-full for pills and dots. - Borders: border-ak-border as the default; border-ak-blue on hover/focus. - Max content width: max-w-6xl for marketing, max-w-4xl for docs bodies. - Vertical rhythm: sections separated by py-20 (desktop) / py-12 (mobile). Between cards inside a section: gap-4 or gap-6 . --- Components Install command card - Two-card layout ( grid sm:grid-cols-2 ) — scaffold command primary, install command secondary. - Primary card gets border-ak-blue/40 + a \"recommended\" pill. - Terminal glyph $ in text-ak-green , command text in font-mono text-ak-foam . - Copy pill: idle = text-ak-graphite , copied = text-ak-green border-ak-green . Stat pill (social proof, issue counts) - Monospace, uppercase label with wider tracking. - Tone variants: default (graphite), green (open/good), blue (help-wanted). Code block Fumadocs default. Don't override. Background already pulls --color-fd-muted . Buttons - Primary: bg-ak-foam text-ak-midnight (solid), hover:bg-white . - Secondary: border-ak-border text-ak-foam hover:border-ak-blue . - Tertiary/ghost: text-ak-foam hover:text-ak-blue . No filled-blue pri",
+          "body": "AgentsKit Design System Single source of truth for visual design. All docs, marketing, OG images, demos, and components reference these tokens. Before adding a new color or font variant, check this file — the odds are it already exists. Tokens live in apps/docs-next/app/global.css as CSS variables and are exposed to Tailwind via @theme (Tailwind v4). Use the token; never hardcode the hex. --- Brand direction Developer-native and editorial, with a quiet reading surface across documentation and a more expressive product experience on the homepage. Dark mode is the canonical palette (how the brand renders in OG images, the logo, social posts). Light mode is the inverted-neutral companion for long-form reading. Feel: clean, opinionated, and product-led. Monospace supports technical detail; system sans carries interface and marketing copy. Geometry and typography do the work, with restrained liquid light only on the homepage. Surface rules The homepage and documentation have different jobs and should share tokens without sharing every effect. Homepage - Use a dark, nearly black base with low-opacity blue and green radial light. The light is ambient across the full homepage and responds softly to a mouse pointer; it must never reduce text contrast. - Keep the pointer layer in the homepage route only. Disable its movement for reduced motion and ignore touch pointers. - Use system sans for large headlines, moderate negative tracking, generous whitespace, and a clear action hierarchy. Keep monospace for code, commands, metrics, and small technical labels. - Keep the hero headline immediately visible without entrance motion. Reserve motion for the framework reel and product proof where it explains the system. - The ecosystem map keeps animated connection lines on tablet and desktop; hide those lines on phone widths and let the core and layer list stack cleanly. - Keep the interactive ecosystem tour neutral on the AgentsKit homepage: one restrained accent, quiet borders, and no competing product colors. Apply this home-only treatment through the data-visual=\"agentskit-home\" host attribute so sibling product tours retain their own accents. - Reserve glass for floating or focal surfaces: the global ecosystem header, product demo/chat, Ask docs controls, and footer. Use a subtle token border, translucent surface, blur, and restrained shadow. - Use rounded 24 px corners for large demo surfaces and full pills for primary actions. Small controls and code surfaces retain the existing compact radius. - Keep sections open against the shared page background. Avoid enclosing every section in a card or layering multiple competing gradients. Documentation and interior pages - Keep Fumadocs reading surfaces calm, solid, and high contrast. Do not load the liquid cursor layer, ambient homepage gradients, or homepage glass treatments on documentation routes. - The ecosystem navigation remains readable with a solid background on interior pages. Body copy, code blocks, tables, and navigation should not sit over moving light. - Preserve the existing Fumadocs typography, code presentation, theme toggle, and content behavior. Reuse across the ecosystem - Reuse the palette and logo rules below; do not copy the homepage cursor effect into sibling product docs by default. - For a sibling homepage, use its existing product accent with the same low-opacity, pointer-reactive treatment and the same calm documentation boundary. - Keep the wordmark “AgentsKit” in public brand copy and metadata. Preserve package and repository identifiers where they are technical names. - Glass must remain legible in dark and light themes. Prefer opaque surfaces when contrast cannot be maintained over the background. --- Color palette Dark mode (canonical) Token Hex Role --- --- --- --ak-midnight 0D1117 Page background --ak-surface 161B22 Panels, cards, code blocks --ak-border 30363D Dividers, outlines, pill borders --ak-foam E6EDF3 Primary text, logo fill --ak-graphite 8B949E Secondar",
           "aliases": "document human"
         },
         "graph": {
@@ -68871,7 +68902,7 @@
             }
           ]
         },
-        "contentHash": "0b2098b0de1dfbc1bbab1ea259571a58266ca914a64820d49ade24ea7886cd2f",
+        "contentHash": "a215a62050e13a4a41af6ad82146146316f75b2c884fe0753653c830cebf4894",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -81989,7 +82020,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "c66504850574e5ac28a1363746c22b4d1bd39c86bb1fcbba7159a7ae3da1f826",
+        "contentHash": "4de6db514c26a6107c2f354561cef7cfc8955b957c9b9ad4b78e10c089c2be7a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -82084,6 +82115,50 @@
         "confidence": "observed"
       },
       {
+        "id": "module:apps/docs-next/app/(home)/_components/hero-motion.tsx",
+        "kind": "module",
+        "path": "apps/docs-next/app/(home)/_components/hero-motion.tsx",
+        "title": "hero-motion.tsx",
+        "aliases": [],
+        "symbols": [
+          "HeroHeadline",
+          "KineticFrameworkReel"
+        ],
+        "tags": [
+          "module",
+          "tsx",
+          "_components"
+        ],
+        "fields": {
+          "title": "hero-motion.tsx",
+          "headings": "",
+          "path": "apps/docs-next/app/(home)/_components/hero-motion.tsx",
+          "symbols": "HeroHeadline KineticFrameworkReel",
+          "summary": "",
+          "body": "",
+          "aliases": "module tsx _components"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/docs-next/app/(home)/page.tsx",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "8e5ee5dd61797bcc327d96d45b8b3878c4b53634249ae73636d95eff627bf089",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:apps/docs-next/app/(home)/_components/install-command.tsx",
         "kind": "module",
         "path": "apps/docs-next/app/(home)/_components/install-command.tsx",
@@ -82127,6 +82202,49 @@
         "confidence": "observed"
       },
       {
+        "id": "module:apps/docs-next/app/(home)/_components/liquid-cursor-gradient.tsx",
+        "kind": "module",
+        "path": "apps/docs-next/app/(home)/_components/liquid-cursor-gradient.tsx",
+        "title": "liquid-cursor-gradient.tsx",
+        "aliases": [],
+        "symbols": [
+          "LiquidCursorGradient"
+        ],
+        "tags": [
+          "module",
+          "tsx",
+          "_components"
+        ],
+        "fields": {
+          "title": "liquid-cursor-gradient.tsx",
+          "headings": "",
+          "path": "apps/docs-next/app/(home)/_components/liquid-cursor-gradient.tsx",
+          "symbols": "LiquidCursorGradient",
+          "summary": "",
+          "body": "",
+          "aliases": "module tsx _components"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/docs-next/app/(home)/page.tsx",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "3a7810092172046f492ad41c868d2dee69a8b7a8a1bacfd25294d948fce5bfd8",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:apps/docs-next/app/(home)/layout.tsx",
         "kind": "module",
         "path": "apps/docs-next/app/(home)/layout.tsx",
@@ -82165,7 +82283,7 @@
             }
           ]
         },
-        "contentHash": "340073d19f90d83f99e440d1b7d09136978f010ae6750db17862ec49a619599e",
+        "contentHash": "449625aa14823227d1758bef10a5ad057e8639defed741c8282800c11a32dd45",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -82209,12 +82327,22 @@
             },
             {
               "kind": "imports",
+              "id": "module:apps/docs-next/app/(home)/_components/hero-motion.tsx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:apps/docs-next/app/(home)/_components/install-command.tsx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:apps/docs-next/app/(home)/_components/liquid-cursor-gradient.tsx",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "1f884a1f8a15aa5d7941c7a080df733304d6513a9daac317e52063c6ebf3a009",
+        "contentHash": "d9b934ab7137fe57d6b265b6935f2361d08f6f9bb94c8964c3b111f1d3fb3409",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -83184,7 +83312,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "b207e9ac118910b021419b6155ab994e7c4ab6851f24c5f8be80c0ff546881ee",
+        "contentHash": "086f2e13f7dcb8a12a79e4a74f084bf61106f56a829f9f1f9af641c679ab0870",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -83223,7 +83351,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "520ed011d660862129d1bd018997ec480be7813576f43ce5748dd78c1a18101d",
+        "contentHash": "ce6c4252b61a51353ca3393728744defc03bdc3257b32460c3d5e4bb3bea1800",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -84679,7 +84807,7 @@
             }
           ]
         },
-        "contentHash": "93de972f37ecb05751b6cab8f14cd4f09fb9a015a67edd45bcae11d49075639c",
+        "contentHash": "88b8ee068c6f8d3a698a7f3eb39f38803bac5e127273941c8fa48e8a1766e2bc",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -86820,7 +86948,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "fb3d84c331fc5a6eb02d4e7765a710ec2b44f4288754efee72e862ebba771790",
+        "contentHash": "4aab25dc40fe7d073a37b547ff07b5d6d18b8822bd7fd35932144176e437a848",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -86907,7 +87035,7 @@
             }
           ]
         },
-        "contentHash": "c11fc617d13bf0e86ed60bcaef631ca7ce0644e59b7493f72f1f97063c3f1da5",
+        "contentHash": "26395f4dc7de275b5900b5a6be8a7cc4248f093c7854923065322c0687eed28e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -86944,7 +87072,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "dc2896f69972b03b808182f765400cf27c812b46579ad06f6eb44a099703f0e1",
+        "contentHash": "0ea25c50442eb019d18c4775a0eedaa46560d0420bea8425d06b61dda663b4d6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -86993,7 +87121,7 @@
             }
           ]
         },
-        "contentHash": "b95b0b55f8a52e16bc991886479d900bb086c0e782311744b2937172da9334a6",
+        "contentHash": "f04d905bf39f7982fad03c6244b0c1b6a3b6f47ba178a5c4c98758b9c96dbb7e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -90129,7 +90257,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5df37f20307d0d14d5fdb3caefd8e3cc891a5b8b94070193cbd0593269e12715",
+        "contentHash": "8caeef4416117a03fffed5d2f3700b1e454bb2945274654521fe6a38a894717b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174582,7 +174710,7 @@
             }
           ]
         },
-        "contentHash": "8956f32c15c7ab30a85fe953d7550f9d5800915b04e11f18fe249c20d968222d",
+        "contentHash": "31f21888552151fbb8bbff48c8ea22478b51dcd8d08f3422ea54c9db8191c5a9",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -175161,7 +175289,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "9a115cfa929fd370ffad29f071e8f7572ed9f62d86ccd9153b9209fae96d05b7",
+        "contentHash": "9a8a0ad1bfd06fa1353d70570d9102406cf769ee2849d29e0b625b3323b6d77a",
         "provenance": "observed",
         "confidence": "observed"
       },

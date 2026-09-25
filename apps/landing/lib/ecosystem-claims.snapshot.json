@@ -157,6 +157,15 @@
       "claims": []
     },
     {
+      "productId": "code-review",
+      "source": {
+        "type": "repository",
+        "repo": "AgentsKit-io/code-review"
+      },
+      "verification": "declared",
+      "claims": []
+    },
+    {
       "productId": "harness",
       "source": {
         "type": "endpoint",
@@ -170,15 +179,6 @@
       "source": {
         "type": "endpoint",
         "url": "https://playbook.agentskit.io/api/stats.json"
-      },
-      "verification": "declared",
-      "claims": []
-    },
-    {
-      "productId": "code-review",
-      "source": {
-        "type": "repository",
-        "repo": "AgentsKit-io/code-review"
       },
       "verification": "declared",
       "claims": []

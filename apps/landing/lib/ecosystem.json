@@ -13,7 +13,7 @@
     "managedProductIds": []
   },
   "products": [
-    {
+{
       "id": "agentskit",
       "public": true,
       "distributionClass": "open-source",
@@ -92,17 +92,10 @@
       "navigation": {
         "showInBar": true,
         "order": 0,
-        "next": [
-          "registry",
-          "agentskit-chat",
-          "doc-bridge",
-          "harness",
-          "playbook",
-          "code-review"
-        ]
+        "next": ["registry", "agentskit-chat", "doc-bridge", "code-review", "harness", "playbook"]
       }
     },
-    {
+{
       "id": "registry",
       "public": true,
       "distributionClass": "open-source",
@@ -158,7 +151,7 @@
         ]
       }
     },
-    {
+{
       "id": "agentskit-chat",
       "public": true,
       "distributionClass": "open-source",
@@ -210,7 +203,7 @@
         ]
       }
     },
-    {
+{
       "id": "doc-bridge",
       "public": true,
       "distributionClass": "open-source",
@@ -263,7 +256,63 @@
         ]
       }
     },
-    {
+{
+      "id": "code-review",
+      "public": true,
+      "distributionClass": "open-source",
+      "name": "AgentsKit Code Review",
+      "shortName": "Code Review",
+      "kind": "developer-tool",
+      "role": "verification",
+      "promise": "Run deep, low-noise review with the model already in use.",
+      "maturity": "alpha",
+      "repo": "AgentsKit-io/code-review",
+      "accent": "#F97316",
+      "surfaces": {
+        "home": "https://code-review.agentskit.io",
+        "docs": "https://code-review.agentskit.io/docs",
+        "llms": "https://code-review.agentskit.io/llms.txt",
+        "documentation": "fumadocs",
+        "chat": "none"
+      },
+      "navigation": {
+        "showInBar": true,
+        "order": 4,
+        "next": [
+          "agentskit",
+          "registry",
+          "agentskit-chat",
+          "doc-bridge",
+          "harness",
+          "playbook"
+        ]
+      },
+      "showcase": {
+        "stage": "Review",
+        "headline": "A review you can tune. Findings you can act on.",
+        "detail": "Choose the concerns that matter and see the review comments adapt to the change.",
+        "proof": "Configurable · provider-neutral · open source",
+        "sales": {
+          "kind": "review-config",
+          "headline": "Set the standard for every review.",
+          "metric": "2",
+          "metricLabel": "review profiles",
+          "capabilities": [
+            "Security",
+            "Performance",
+            "Correctness",
+            "Actionable comments"
+          ],
+          "steps": [
+            "Choose security or performance",
+            "Apply your review configuration",
+            "Get focused, actionable comments"
+          ]
+        },
+        "cta": "Explore Code Review"
+      }
+    },
+{
       "id": "harness",
       "public": true,
       "distributionClass": "open-source",
@@ -327,18 +376,11 @@
       },
       "navigation": {
         "showInBar": true,
-        "order": 4,
-        "next": [
-          "agentskit",
-          "registry",
-          "agentskit-chat",
-          "doc-bridge",
-          "playbook",
-          "code-review"
-        ]
+        "order": 5,
+        "next": ["agentskit", "registry", "agentskit-chat", "doc-bridge", "code-review", "playbook"]
       }
     },
-    {
+{
       "id": "playbook",
       "public": true,
       "distributionClass": "open-source",
@@ -380,38 +422,6 @@
         "chat": "custom"
       },
       "navigation": {
-        "showInBar": true,
-        "order": 5,
-        "next": [
-          "agentskit",
-          "registry",
-          "agentskit-chat",
-          "doc-bridge",
-          "harness",
-          "code-review"
-        ]
-      }
-    },
-    {
-      "id": "code-review",
-      "public": true,
-      "distributionClass": "open-source",
-      "name": "AgentsKit Code Review",
-      "shortName": "Code Review",
-      "kind": "developer-tool",
-      "role": "verification",
-      "promise": "Run deep, low-noise review with the model already in use.",
-      "maturity": "alpha",
-      "repo": "AgentsKit-io/code-review",
-      "accent": "#F97316",
-      "surfaces": {
-        "home": "https://github.com/AgentsKit-io/code-review",
-        "docs": "https://github.com/AgentsKit-io/code-review#readme",
-        "llms": "https://raw.githubusercontent.com/AgentsKit-io/code-review/main/llms.txt",
-        "documentation": "repository",
-        "chat": "none"
-      },
-      "navigation": {
         "showInBar": false,
         "order": 6,
         "next": [
@@ -420,7 +430,7 @@
           "agentskit-chat",
           "doc-bridge",
           "harness",
-          "playbook"
+          "code-review"
         ]
       }
     }
