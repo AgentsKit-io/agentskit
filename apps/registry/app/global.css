@@ -17,6 +17,10 @@
   --ak-green: #1a7f37;
   --ak-blue: #0969da;
   --ak-red: #cf222e;
+  --ak-bg: var(--ak-midnight);
+  --ak-fg: var(--ak-foam);
+  --ak-muted: var(--ak-graphite);
+  --ak-accent: #0969da;
 }
 
 html {
@@ -32,6 +36,7 @@ html {
   --ak-green: #2EA043;
   --ak-blue: #58A6FF;
   --ak-red: #F85149;
+  --ak-accent: #58a6ff;
 }
 
 /* Shiki dual-theme resolver: tokens carry `--shiki-light` / `--shiki-dark` as inline vars.
@@ -168,50 +173,59 @@ button[data-theme-toggle] > svg {
 .rg-home-layout {
   position: relative;
   isolation: isolate;
-  color-scheme: dark;
-  background: var(--ak-midnight);
-  background-image:
-    radial-gradient(ellipse 58vw 72vh at 12% 8%, color-mix(in srgb, var(--ak-blue) 10%, transparent), transparent 72%),
-    radial-gradient(ellipse 52vw 76vh at 92% 54%, color-mix(in srgb, var(--ak-green) 7%, transparent), transparent 76%),
-    radial-gradient(ellipse 48vw 62vh at 36% 100%, color-mix(in srgb, var(--ak-blue) 6%, transparent), transparent 76%);
+  color-scheme: light;
+  background: var(--ak-bg);
 }
-.ak-liquid-cursor-gradient {
+.dark .rg-home-layout { color-scheme: dark; }
+.ak-aurora-background {
   position: fixed;
   z-index: -1;
   inset: 0;
   overflow: hidden;
   pointer-events: none;
-  opacity: .38;
-  transition: opacity 500ms ease;
-  background:
-    radial-gradient(ellipse 58% 92% at 78% 22%, color-mix(in srgb, var(--ak-blue) 13%, transparent), transparent 74%),
-    radial-gradient(ellipse 48% 72% at 18% 86%, color-mix(in srgb, var(--ak-green) 8%, transparent), transparent 76%);
+  background: var(--ak-bg);
 }
-.ak-liquid-cursor-gradient[data-active='true'] { opacity: .56; }
-.ak-liquid-cursor-gradient__orb {
+.ak-aurora-background::before,
+.ak-aurora-background::after {
+  content: '';
   position: absolute;
-  left: 0;
-  top: 0;
-  width: min(48rem, 92vw);
-  aspect-ratio: 1;
+  inset: -22%;
   border-radius: 50%;
-  transform: translate3d(var(--cursor-x, 50vw), var(--cursor-y, 15rem), 0) translate(-50%, -50%);
-  transition: transform 760ms cubic-bezier(.16, 1, .3, 1);
+  filter: blur(clamp(42px, 7vw, 96px));
+  opacity: .68;
   will-change: transform;
 }
-.ak-liquid-cursor-gradient__orb--blue { background: radial-gradient(ellipse, color-mix(in srgb, var(--ak-blue) 16%, transparent), transparent 68%); }
-.ak-liquid-cursor-gradient__orb--green {
-  width: min(36rem, 74vw);
-  transform: translate3d(calc(var(--cursor-x, 50vw) - 5rem), calc(var(--cursor-y, 15rem) + 3rem), 0) translate(-50%, -50%);
-  background: radial-gradient(ellipse, color-mix(in srgb, var(--ak-green) 12%, transparent), transparent 68%);
-  transition-duration: 1100ms;
+.ak-aurora-background::before {
+  background: radial-gradient(ellipse 42% 34% at 24% 42%, color-mix(in srgb, var(--ak-accent) 34%, transparent), transparent 100%);
+  animation: rg-soft-aurora-first 16s ease-in-out infinite alternate;
+}
+.ak-aurora-background::after {
+  background: radial-gradient(ellipse 36% 28% at 68% 60%, color-mix(in srgb, var(--ak-blue) 24%, transparent), transparent 100%);
+  animation: rg-soft-aurora-second 22s ease-in-out infinite alternate;
+}
+.ak-aurora-background[data-shader='ready']::before,
+.ak-aurora-background[data-shader='ready']::after { opacity: 0; animation: none; }
+.ak-aurora-background__canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: .85;
+}
+@keyframes rg-soft-aurora-first {
+  from { transform: translate3d(-3%, -2%, 0) rotate(-8deg) scale(.98); }
+  to { transform: translate3d(4%, 3%, 0) rotate(8deg) scale(1.06); }
+}
+@keyframes rg-soft-aurora-second {
+  from { transform: translate3d(3%, 2%, 0) rotate(7deg) scale(1.04); }
+  to { transform: translate3d(-4%, -3%, 0) rotate(-7deg) scale(.96); }
 }
 body:has(.rg-home-layout) #nd-nav > div,
 body:has(.rg-home-layout) #ak-eco {
-  background: color-mix(in srgb, var(--ak-midnight) 62%, transparent) !important;
+  background: color-mix(in srgb, var(--ak-bg) 64%, transparent) !important;
   border-color: color-mix(in srgb, var(--ak-border) 78%, transparent);
-  -webkit-backdrop-filter: blur(20px) saturate(125%);
-  backdrop-filter: blur(20px) saturate(125%);
+  -webkit-backdrop-filter: blur(24px) saturate(140%);
+  backdrop-filter: blur(24px) saturate(140%);
 }
 .rg-home-layout :is(h1, h2, h3, .font-display) {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
@@ -236,9 +250,9 @@ body:has(.rg-home-layout) #ak-eco {
 .rg-home-layout #how-it-works li { border-radius: 1.5rem; }
 .rg-home-layout > footer {
   border-top: 1px solid color-mix(in srgb, var(--ak-border) 76%, transparent);
-  background: color-mix(in srgb, var(--ak-surface) 48%, transparent);
-  -webkit-backdrop-filter: blur(22px) saturate(125%);
-  backdrop-filter: blur(22px) saturate(125%);
+  background: color-mix(in srgb, var(--ak-bg) 62%, transparent);
+  -webkit-backdrop-filter: blur(28px) saturate(140%);
+  backdrop-filter: blur(28px) saturate(140%);
 }
 body:has(.rg-home-layout) :is(.rg-ask-fab, .rg-ask-panel) {
   border-radius: 1.5rem;
@@ -252,7 +266,7 @@ body:has(.rg-home-layout) .rg-ask-fab { border-radius: 999px; }
 body:has(.rg-home-layout) .rg-ask-header { background: color-mix(in srgb, var(--ak-surface) 55%, transparent); }
 body:not(:has(.rg-home-layout)) :is(.rg-ask-fab, .rg-ask-panel) { -webkit-backdrop-filter: none; backdrop-filter: none; }
 @media (prefers-reduced-motion: reduce) {
-  .ak-liquid-cursor-gradient, .ak-liquid-cursor-gradient__orb { transition: none; }
+  .ak-aurora-background::before, .ak-aurora-background::after { animation: none; }
 }
 
 /* Skeleton placeholder — shimmering bar used while dynamic showcase examples load. */

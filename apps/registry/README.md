@@ -45,6 +45,10 @@ Profile: <code>public-app</code>
 The fumadocs site for the AgentsKit agent registry — deployed to
 **registry.agentskit.io**.
 
+The home uses the shared ecosystem header and tour, a Registry-blue aurora,
+and a glass footer. Fumadocs provides the local navigation and search;
+documentation routes keep a solid, calm background.
+
 - `/` — agent gallery with search, filters, ordering, and comparison selection, SSG.
 - `/agents/[id]` — per-agent page, generated at build from the committed index in
   the [`agentskit-registry`](https://github.com/AgentsKit-io/agentskit-registry)
