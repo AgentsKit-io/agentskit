@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "026623bf8ae57d1506cf60eedb663bce588b2ff3e3830e8f62b3b255c6c3bb45",
+  "contentHash": "90762b6486d9fc5aa0153629432c36abc9b7e8e25f28478658be33656857f02c",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-25T02:52:48.152Z",
+  "generatedAt": "2026-09-25T03:00:57.208Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -2691,7 +2691,7 @@
         "document",
         "human"
       ],
-      "contentHash": "9e694abcbc7300963748597ca002806ad854ce99940a6fe53abee0b80ad56e68"
+      "contentHash": "5766b4903e1dfafb3570d481c4b22ae758507d7377f8cd78e98a83568e61d41d"
     },
     {
       "id": "document:apps/docs-next/content/docs/get-started/getting-started/for-ai-agents.mdx",
@@ -11028,7 +11028,7 @@
         "js",
         "public"
       ],
-      "contentHash": "734f936cd349e19af7ceac9e6104149ea0d430a282c0f3c5753d92de01f6ec09"
+      "contentHash": "a7921d11bd53b8db6b187f084c198cbc57ac82f3aa45b2d0ef615810e5c1de0d"
     },
     {
       "id": "module:apps/docs-next/scripts/build-dependencies.mjs",
@@ -13416,7 +13416,7 @@
         "js",
         "public"
       ],
-      "contentHash": "734f936cd349e19af7ceac9e6104149ea0d430a282c0f3c5753d92de01f6ec09"
+      "contentHash": "a7921d11bd53b8db6b187f084c198cbc57ac82f3aa45b2d0ef615810e5c1de0d"
     },
     {
       "id": "module:apps/registry/source.config.ts",
@@ -35621,7 +35621,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "a58e8c2f0b56c0bcb0c26e401a3c99b5b0d4e62d7265fb82c42bd2c273cb6205",
+    "hash": "e359d24d227946579515b0dd2449d5a65cd2c30ec42e3a2bd2e4a8a631fa4c0d",
     "fileCount": 2377,
     "projectionVersion": 2
   },
@@ -35644,9 +35644,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "30c647dab727615a2fbc42ceda45dd6b4939fdd0f1046864320469a99cee6a4e",
+    "contentHash": "9413a1db0be9065a90dcfe5d4be41d2a3ec559cd5c25db8aa18e5ac01a4d88ef",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "ad36d4f73db755494730d8975b5a3db0e12af56f3a79342d413d36ddad6ce716",
+    "snapshotHash": "33a6b6880c3c4664fb816b2ea28f55d85c2bd9fc99d97a9fa60c4658edcf7a06",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -35678,7 +35678,7 @@
       ],
       "averageFieldLength": {
         "aliases": 2.9858369098712445,
-        "body": 62.24463519313305,
+        "body": 62.25236051502146,
         "headings": 4.28755364806867,
         "path": 7.640772532188842,
         "summary": 4.825751072961373,
@@ -52304,7 +52304,7 @@
           "path": "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx",
           "symbols": "",
           "summary": "AgentsKit is the composable JavaScript and TypeScript foundation for agent runtimes, tools, memory, RAG, and interfaces. This guide starts with a real runtime that succeeds without an account, then shows the one seam you replace to use a model.",
-          "body": "AgentsKit is the composable JavaScript and TypeScript foundation for agent runtimes, tools, memory, RAG, and interfaces. This guide starts with a real runtime that succeeds without an account, then shows the one seam you replace to use a model. - For: JavaScript and TypeScript developers evaluating AgentsKit. - Maturity: Beta. The core contracts are stable; the wider runtime continues to evolve. - First proof: a complete local run in one file, with no hidden service. Run your first agent locally Create an empty project with Node.js 20 or newer: Create agent.ts : Run it: You should see: No account, API key, or network call is required. The example uses the same AdapterFactory and createRuntime contracts as a provider-backed agent, so this first result is executable documentation rather than pseudocode. Understand the two moving parts - The runtime owns the agent loop, messages, tools, memory, and events. - The adapter turns a provider or local implementation into one streaming contract. That boundary is why you can validate behavior locally and connect a model without rewriting orchestration. Connect a model provider When the local run works, install the provider adapters: Replace localAdapter with the provider you want: Set OPENAI API KEY and run the same command. You can use Anthropic, Gemini, Ollama, or another through the same seam. Grow only when the task needs it 1. Add a when the agent must act. 2. Add when it must retain useful context. 3. Add when answers need your own sources. 4. Add before production traffic. 5. Add before changing prompts or models confidently. Continue in the ecosystem - Need working source to adapt? Browse the . - Need the same agent across chat surfaces? Use . - Need repeatable engineering standards? Follow the . - Need agent-readable repository handoffs? Add . - Need low-noise verification? Explore . Every step is optional. AgentsKit remains the foundation; the link appears where that adjacent product solves the next concrete problem.",
+          "body": "AgentsKit is the composable JavaScript and TypeScript foundation for agent runtimes, tools, memory, RAG, and interfaces. This guide starts with a real runtime that succeeds without an account, then shows the one seam you replace to use a model. - For: JavaScript and TypeScript developers evaluating AgentsKit. - Maturity: Beta. The core contracts are stable; the wider runtime continues to evolve. - First proof: a complete local run in one file, with no hidden service. Run your first agent locally Create an empty project with Node.js 20 or newer: Create agent.ts : Run it: You should see: No account, API key, or network call is required. The example uses the same AdapterFactory and createRuntime contracts as a provider-backed agent, so this first result is executable documentation rather than pseudocode. Understand the two moving parts - The runtime owns the agent loop, messages, tools, memory, and events. - The adapter turns a provider or local implementation into one streaming contract. That boundary is why you can validate behavior locally and connect a model without rewriting orchestration. Connect a model provider When the local run works, install the provider adapters: Replace localAdapter with the provider you want: Set OPENAI API KEY and run the same command. You can use Anthropic, Gemini, Ollama, or another through the same seam. Grow only when the task needs it 1. Add a when the agent must act. 2. Add when it must retain useful context. 3. Add when answers need your own sources. 4. Add before production traffic. 5. Add before changing prompts or models confidently. Continue in the ecosystem - Need working source to adapt? Browse the . - Need the same agent across chat surfaces? Use . - Need repeatable engineering standards? Follow the . - Need agent-readable repository handoffs? Add . - Need low-noise verification? Explore . {/ Keep the canonical ecosystem docs URL discoverable until the Code Review site is deployed: https://code-review.agentskit.io/docs /} Every step is optional. AgentsKit remains the foundation; the link appears where that adjacent product solves the next concrete problem.",
           "aliases": "document human"
         },
         "graph": {
@@ -52346,7 +52346,7 @@
             }
           ]
         },
-        "contentHash": "9e694abcbc7300963748597ca002806ad854ce99940a6fe53abee0b80ad56e68",
+        "contentHash": "5766b4903e1dfafb3570d481c4b22ae758507d7377f8cd78e98a83568e61d41d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -90256,7 +90256,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "734f936cd349e19af7ceac9e6104149ea0d430a282c0f3c5753d92de01f6ec09",
+        "contentHash": "a7921d11bd53b8db6b187f084c198cbc57ac82f3aa45b2d0ef615810e5c1de0d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -97351,7 +97351,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "734f936cd349e19af7ceac9e6104149ea0d430a282c0f3c5753d92de01f6ec09",
+        "contentHash": "a7921d11bd53b8db6b187f084c198cbc57ac82f3aa45b2d0ef615810e5c1de0d",
         "provenance": "observed",
         "confidence": "observed"
       },
