@@ -1,11 +1,11 @@
 const MATURITY = new Set(['planning', 'alpha', 'beta', 'stable', 'deprecated'])
 const DOCUMENTATION_MODES = new Set(['fumadocs', 'repository'])
 const CHAT_MODES = new Set(['agentschat', 'custom', 'none'])
-const SALES_KINDS = new Set(['integration-stack', 'registry-install', 'human-agent', 'standards-flow', 'knowledge-bridge', 'enterprise-control'])
+const SALES_KINDS = new Set(['integration-stack', 'registry-install', 'human-agent', 'standards-flow', 'knowledge-bridge', 'enterprise-control', 'review-config'])
 const DISTRIBUTION_CLASSES = new Set(['open-source', 'managed-service'])
 const SURFACE_KEYS = ['home', 'docs', 'llms', 'stats']
 const LEGACY_PRODUCT_IDS = ['agentskit', 'playbook', 'registry']
-const CANONICAL_PRODUCT_IDS = ['agentskit', 'registry', 'agentskit-chat', 'doc-bridge', 'harness', 'playbook', 'code-review']
+const CANONICAL_PRODUCT_IDS = ['agentskit', 'registry', 'agentskit-chat', 'doc-bridge', 'code-review', 'harness', 'playbook']
 
 function fail(path, message) {
   throw new TypeError(`ecosystem contract: ${path} ${message}`)

@@ -4,10 +4,10 @@ import { ecosystemShowcase } from '@/lib/reference-journey'
 export function ReferenceJourney() {
   return createElement(
     'agentskit-ecosystem',
-    { current: 'agentskit' },
+    { current: 'agentskit', 'data-visual': 'agentskit-home' },
     <section
       aria-labelledby="ecosystem-fallback-title"
-      className="border-y border-ak-border bg-ak-midnight px-4 py-16 sm:px-6 sm:py-24"
+      className="border-y border-ak-border px-4 py-16 sm:px-6 sm:py-24"
     >
       <div className="mx-auto max-w-6xl">
         <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-ak-graphite">
@@ -24,7 +24,7 @@ export function ReferenceJourney() {
         </p>
         <ul className="mt-10 grid gap-px border border-ak-border bg-ak-border sm:grid-cols-2 lg:grid-cols-3">
           {ecosystemShowcase.map((product) => (
-            <li key={product.id} className="bg-ak-midnight">
+            <li key={product.id}>
               <a
                 href={product.href}
                 className="block h-full p-6 text-ak-foam transition hover:bg-ak-surface"

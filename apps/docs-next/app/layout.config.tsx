@@ -21,8 +21,7 @@ export const baseOptions: BaseLayoutProps = {
       <span className="flex items-center gap-2">
         <AnimatedLogo variant="nav" loop />
         <span className="font-display text-base font-bold tracking-tight">
-          <span className="ak-wordmark">agentskit</span>
-          <span className="text-ak-graphite">.js</span>
+          <span className="ak-wordmark">AgentsKit</span>
         </span>
       </span>
     ),

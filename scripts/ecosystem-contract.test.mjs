@@ -22,7 +22,7 @@ test('the canonical manifest describes every ecosystem product', () => {
   assert.equal(parsed.schemaVersion, 2)
   assert.deepEqual(
     parsed.products.map((product) => product.id),
-    ['agentskit', 'registry', 'agentskit-chat', 'doc-bridge', 'harness', 'playbook', 'code-review'],
+    ['agentskit', 'registry', 'agentskit-chat', 'doc-bridge', 'code-review', 'harness', 'playbook'],
   )
   assert.equal(parsed.products.find((product) => product.id === 'code-review').surfaces.chat, 'none')
 })
@@ -44,9 +44,9 @@ test('the repository llms index uses absolute URLs and explicit product labels',
 test('repository-native products do not need a Fumadocs or chat deployment', () => {
   const parsed = parseEcosystemManifest(manifest)
   const codeReview = parsed.products.find((product) => product.id === 'code-review')
-  assert.equal(codeReview.surfaces.documentation, 'repository')
-  // Code Review stays in the ecosystem catalog but is hidden from the shared header for now.
-  assert.equal(codeReview.navigation.showInBar, false)
+  assert.equal(codeReview.surfaces.documentation, 'fumadocs')
+  assert.equal(codeReview.navigation.showInBar, true)
+  assert.equal(codeReview.surfaces.home, 'https://code-review.agentskit.io')
 })
 
 test('primary surfaces expose server-rendered ecosystem links', () => {
@@ -87,7 +87,7 @@ test('global navigation keeps the public product order', () => {
   assert.deepEqual(parsed.products.map((product) => product.navigation.order), [0, 1, 2, 3, 4, 5, 6])
   assert.deepEqual(
     parsed.products.filter((product) => product.navigation.showInBar).map((product) => product.id),
-    ['agentskit', 'registry', 'agentskit-chat', 'doc-bridge', 'harness', 'playbook'],
+    ['agentskit', 'registry', 'agentskit-chat', 'doc-bridge', 'code-review', 'harness'],
   )
   assert.ok(parsed.products.every((product) => product.navigation.next.length === 6))
 })

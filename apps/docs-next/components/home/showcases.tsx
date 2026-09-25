@@ -24,7 +24,6 @@ function Section({
   cta,
   children,
   footer,
-  alt,
 }: {
   eyebrow: string
   title: string
@@ -32,16 +31,13 @@ function Section({
   cta: Cta
   children: React.ReactNode
   footer?: React.ReactNode
-  alt?: boolean
 }) {
   return (
-    <section
-      className={`px-4 py-16 sm:px-6 sm:py-20 ${alt ? 'bg-ak-surface/40' : 'bg-ak-midnight'}`}
-    >
+    <section className="px-4 py-16 sm:px-6 sm:py-20">
       <div className="mx-auto max-w-6xl">
         <div className="grid items-center gap-8 md:gap-12 lg:grid-cols-2">
           <div className="min-w-0">
-            <div className="font-mono text-xs uppercase tracking-[0.2em] text-ak-graphite/60">{eyebrow}</div>
+            <div className="font-mono text-xs uppercase tracking-[0.2em] text-ak-graphite">{eyebrow}</div>
             <h2 className="mt-2 text-[1.6rem] font-bold leading-tight tracking-tight text-ak-foam sm:text-3xl md:text-4xl">
               {title}
             </h2>
@@ -148,9 +144,9 @@ export function CliSection() {
  */
 export function WorksWithSection() {
   return (
-    <section className="overflow-hidden bg-ak-midnight py-16 sm:py-20">
+    <section className="overflow-hidden py-16 sm:py-20">
       <div className="mx-auto mb-10 flex max-w-3xl flex-col items-center px-4 text-center sm:px-6">
-        <div className="font-mono text-xs uppercase tracking-[0.2em] text-ak-graphite/60">
+        <div className="font-mono text-xs uppercase tracking-[0.2em] text-ak-graphite">
           Works with everything
         </div>
         <h2 className="mt-2 text-[1.6rem] font-bold leading-tight tracking-tight text-ak-foam sm:text-3xl md:text-4xl">
