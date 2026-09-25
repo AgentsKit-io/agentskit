@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import assert from 'node:assert/strict'
 import { spawnSync } from 'node:child_process'
-import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync, statSync } from 'node:fs'
+import { existsSync, mkdtempSync, readFileSync, readdirSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -26,10 +26,12 @@ try {
   const publicRoots = [join(root, 'apps/registry/app'), join(root, 'apps/registry/content'), join(root, 'apps/registry/public')]
   const staleCommands = []
   const inspect = (path) => {
-    if (statSync(path).isDirectory()) {
-      for (const name of readdirSync(path)) inspect(join(path, name))
-    } else if (!path.endsWith('.map') && /\.(?:[cm]?[jt]sx?|mdx?)$/.test(path)) {
-      if (/npx\s+agentskit\b/.test(readFileSync(path, 'utf8'))) staleCommands.push(path)
+    for (const entry of readdirSync(path, { withFileTypes: true })) {
+      const entryPath = join(path, entry.name)
+      if (entry.isDirectory()) inspect(entryPath)
+      else if (entry.isFile() && !entry.name.endsWith('.map') && /\.(?:[cm]?[jt]sx?|mdx?)$/.test(entry.name)) {
+        if (/npx\s+agentskit\b/.test(readFileSync(entryPath, 'utf8'))) staleCommands.push(entryPath)
+      }
     }
   }
   publicRoots.forEach(inspect)

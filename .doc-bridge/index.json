@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "5f975bccd27b3657ddc71246cf6629ac9a6a9ba42c23e421e85a7409158522e9",
+  "contentHash": "4308e934d6da342ab9361e88feeac0f1515dc439925e6a11054dda604d2c1f43",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-21T14:53:45.674Z",
+  "generatedAt": "2026-09-25T00:46:41.699Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -2691,7 +2691,7 @@
         "document",
         "human"
       ],
-      "contentHash": "dcbc2284b6261bcdf31cd2227306d7f6690b20a81caf018e1b0e6c6cae30b060"
+      "contentHash": "d1fd6b3485a9e5792ecdbe33457ca24613647d27e25326bfe0fff30d72a58071"
     },
     {
       "id": "document:apps/docs-next/content/docs/get-started/getting-started/for-ai-agents.mdx",
@@ -5429,6 +5429,30 @@
       "contentHash": "bff85b5de2f6fd76479024149e525ae74f4f7c6ec5fe57d83d0bab1a7136f352"
     },
     {
+      "id": "document:apps/registry/AGENTS.md",
+      "type": "document",
+      "title": "This is NOT the Next.js you know",
+      "path": "apps/registry/AGENTS.md",
+      "description": "This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in node_modules/next/dist/docs/ (resolved from this file's directory; in monorepos the next package may not be visible from the repo root) before writing any code. Heed deprecation notices.",
+      "tags": [
+        "document",
+        "unclassified"
+      ],
+      "contentHash": "495f609dcae69007a0eeb247d5e6f0cb36566b152af061abcd575477b8d1859d"
+    },
+    {
+      "id": "document:apps/registry/CLAUDE.md",
+      "type": "document",
+      "title": "CLAUDE.md",
+      "path": "apps/registry/CLAUDE.md",
+      "description": "@AGENTS.md",
+      "tags": [
+        "document",
+        "unclassified"
+      ],
+      "contentHash": "7c8dfd6a66ffe34e39388343ff3e5eb20d74ed59a6455ee7c8b062ed7b1ce404"
+    },
+    {
       "id": "document:apps/registry/content/docs/application-patterns.mdx",
       "type": "document",
       "title": "application-patterns.mdx",
@@ -5438,7 +5462,7 @@
         "document",
         "human"
       ],
-      "contentHash": "db393712cd2c22c4c8a5938ff3e977bbfa3bf50aa9be5382e9032e851081b942"
+      "contentHash": "93a734f5b771a970f41f15d8b41e9c50ad65add654378c9a3841d5c11ed24cb6"
     },
     {
       "id": "document:apps/registry/content/docs/authoring.mdx",
@@ -5486,7 +5510,7 @@
         "document",
         "human"
       ],
-      "contentHash": "76e563a7f9efafd36b574fe8b9244ea6aa1c77e73e3ab14711b70c0aa6d1d7e0"
+      "contentHash": "7a9c6da54b660b37101b7a7e31f3b59eb5c1125e05f980ca6b2d2e6fa6086a1d"
     },
     {
       "id": "document:apps/registry/content/docs/for-agents.mdx",
@@ -5498,7 +5522,7 @@
         "document",
         "human"
       ],
-      "contentHash": "d9322ae8a41869e0b2375b70b2a7ef17d5d2c48e394901ff107960e4b3f1f18c"
+      "contentHash": "d1ef28a6ccbd780306b8787183543be9b2ec481619ba6e1f3df65ec1d54f563e"
     },
     {
       "id": "document:apps/registry/content/docs/index.mdx",
@@ -5510,7 +5534,7 @@
         "document",
         "human"
       ],
-      "contentHash": "66184edeb6c6c6f3cd412f26690d1cb23f4134f9c0ee322ae893f3374a7b049b"
+      "contentHash": "bcd4225c51b38cabdd2ebee576978abf7250742ac5e5ac1be4714c5be8beafb5"
     },
     {
       "id": "document:apps/registry/content/docs/providers.mdx",
@@ -5522,7 +5546,7 @@
         "document",
         "human"
       ],
-      "contentHash": "10b809dabeac2e87174816b1cd5a6460440fee1ed4d2174730cc2a242ef65705"
+      "contentHash": "1cbd465b38a714628ade0d02e0e51c9789b45c2c705ae77eade5793ea166b9f4"
     },
     {
       "id": "document:apps/registry/content/docs/quick-start.mdx",
@@ -5534,7 +5558,7 @@
         "document",
         "human"
       ],
-      "contentHash": "18bb54bae11f687484a061761136cfe97574e998b6df7248d5c05071a2195d65"
+      "contentHash": "64e1a20352501cb5c81efdd57177858800f0b3ee5129f8b73b486e2001c03081"
     },
     {
       "id": "document:apps/registry/content/docs/troubleshooting.mdx",
@@ -5546,7 +5570,7 @@
         "document",
         "human"
       ],
-      "contentHash": "5eafd1fe8b72c02b05a8881c95fa715c64538523c1992c6aae6f81bffbe66b76"
+      "contentHash": "e0f3875f4029e9380ffaf63b5655fd5baae8be7fa33ea24c56b6beb1ae6d43f3"
     },
     {
       "id": "document:apps/registry/content/docs/using.mdx",
@@ -5558,7 +5582,7 @@
         "document",
         "human"
       ],
-      "contentHash": "b0dedece0087f03c9aa062fd8ac896aa6317edfc59e11629d09399c0a9c100e6"
+      "contentHash": "f05907c4a9d0ec2745d4c460de708c7cfd49b8cc6655e2c36325e270b1ad05e6"
     },
     {
       "id": "document:apps/registry/content/docs/validation.mdx",
@@ -5570,7 +5594,7 @@
         "document",
         "human"
       ],
-      "contentHash": "8dd9eec309f7b1cfbbf7d654ff9eb912e90ee2d01efc397e144e59ced04368a7"
+      "contentHash": "ff212928816876baa4dbbcfee83490125deed84d0419aa693214fef03b12875e"
     },
     {
       "id": "document:apps/registry/README.md",
@@ -6026,7 +6050,7 @@
         "document",
         "human"
       ],
-      "contentHash": "0b2098b0de1dfbc1bbab1ea259571a58266ca914a64820d49ade24ea7886cd2f"
+      "contentHash": "a215a62050e13a4a41af6ad82146146316f75b2c884fe0753653c830cebf4894"
     },
     {
       "id": "document:docs/ecosystem/activation/README.md",
@@ -11004,7 +11028,7 @@
         "js",
         "public"
       ],
-      "contentHash": "5df37f20307d0d14d5fdb3caefd8e3cc891a5b8b94070193cbd0593269e12715"
+      "contentHash": "a7921d11bd53b8db6b187f084c198cbc57ac82f3aa45b2d0ef615810e5c1de0d"
     },
     {
       "id": "module:apps/docs-next/scripts/build-dependencies.mjs",
@@ -12191,7 +12215,7 @@
         "tsx",
         "_components"
       ],
-      "contentHash": "5dbed4e2aab84c0024baccc79841344b5ffafa4ebf1c61b3ca4b0fd0ef1adbaf"
+      "contentHash": "4d27eb8b5fe5805ccfcc691edc3d68ce82e6ca28f40cf2fb1c785ae6a6436d42"
     },
     {
       "id": "module:apps/registry/app/(home)/_components/categories.ts",
@@ -12209,7 +12233,7 @@
         "ts",
         "_components"
       ],
-      "contentHash": "3a62ad18799ad57efa6e68c1af42b573d50f2ec05dc843e74c3cdbfbcd23a41d"
+      "contentHash": "5f54991770bf729a0bdeed95c82706887b92878dcc1deff0735f969a66d841f9"
     },
     {
       "id": "module:apps/registry/app/(home)/_components/closing-cta.tsx",
@@ -12224,7 +12248,7 @@
         "tsx",
         "_components"
       ],
-      "contentHash": "1b2133f0acabd4370fbb1b6287b6c708a72f975eca5262a8074baa600f93940c"
+      "contentHash": "55bd33e241257fba28b9065025e86343af3bf226293b47c1394a5bba19478620"
     },
     {
       "id": "module:apps/registry/app/(home)/_components/demo-flow.tsx",
@@ -12240,7 +12264,7 @@
         "tsx",
         "_components"
       ],
-      "contentHash": "33dd3e078e23ee6c39dc737369393d3f3ba04728f6ded49347f4ee83900d5015"
+      "contentHash": "602438e5c680d548d09ab42950165fe9ee4b36915350ff60bb4aafd87e75c51b"
     },
     {
       "id": "module:apps/registry/app/(home)/_components/ecosystem-mesh.tsx",
@@ -12271,7 +12295,7 @@
         "tsx",
         "_components"
       ],
-      "contentHash": "015ed92ac7849176fef46edb7a4afa03a324605db6ead048fc291c94ff640969"
+      "contentHash": "a6cc5ad1c2990506f84c27c321fb66dc58b8bf37197b8fe78f33c903d7d605cf"
     },
     {
       "id": "module:apps/registry/app/(home)/_components/extras.tsx",
@@ -12303,7 +12327,7 @@
         "tsx",
         "_components"
       ],
-      "contentHash": "6aacd9a48dbd64044c9278f5686d0dca26a23e5e281fecab33181c9d8a51e927"
+      "contentHash": "c1f340b2d4589ba87eab1366431f46d66e2bad3edb4ef107ac236c55d6485b1b"
     },
     {
       "id": "module:apps/registry/app/(home)/_components/install-steps.tsx",
@@ -12318,7 +12342,7 @@
         "tsx",
         "_components"
       ],
-      "contentHash": "83c693d3012ae2ca540d3b278286f720acef227ba5276321576b3463ee54baa7"
+      "contentHash": "f43089269f08517a514025ebaf32be184ee37f8081afde35388176432a767085"
     },
     {
       "id": "module:apps/registry/app/(home)/_components/landing-fx.tsx",
@@ -12411,7 +12435,7 @@
         "tsx",
         "(home)"
       ],
-      "contentHash": "c0c29de21500dc7471342201f3e744026619158bc2a8b228a8b05c2e10c2b57e"
+      "contentHash": "5bfeac730aa82a3a9edc76fe8a00f50074f3a9abf1bed6882e850d75838b39de"
     },
     {
       "id": "module:apps/registry/app/agents/[id]/agent-analytics.tsx",
@@ -12489,7 +12513,7 @@
         "tsx",
         "[id]"
       ],
-      "contentHash": "26d47b870234e4e0cd70dd4981084a8a432527d7086c54e3939fb0ece8b991a9"
+      "contentHash": "57fb2d8686e4b3b87ea309f5477090dcc8d31a5b75f3c5390cd1e13616b8a24a"
     },
     {
       "id": "module:apps/registry/app/agents/[id]/page.tsx",
@@ -12508,7 +12532,7 @@
         "tsx",
         "[id]"
       ],
-      "contentHash": "8f8d89ee1008938adf6ca633f0863cfefa06873b925454b0d1b0606a25ad2268"
+      "contentHash": "4dcce0dcc73c520fbfc79edb5605e0bb3948f7c672d081578c1382f219726356"
     },
     {
       "id": "module:apps/registry/app/agents/page.tsx",
@@ -12543,7 +12567,7 @@
         "ts",
         "mcp"
       ],
-      "contentHash": "d5910ff86dba3dd87d2b3a958c0ce42f67463879a7c45fba00d5766069f4f1f5"
+      "contentHash": "d361d72f42222cc59300100d228aecbd234a171e7f3f5665c6f03af234a78e60"
     },
     {
       "id": "module:apps/registry/app/api/search/route.ts",
@@ -12636,7 +12660,7 @@
         "tsx",
         "compare"
       ],
-      "contentHash": "5bcbb77ffa0bf0a1946560b755a97069960c059c35537d23a8189334d73cf8e0"
+      "contentHash": "9fbcc02fbe2e2886551538fc4b89ec402a57d951fa2d5b7880bd05f6127d5b01"
     },
     {
       "id": "module:apps/registry/app/deterministic/[file]/route.ts",
@@ -12664,7 +12688,7 @@
         "test",
         "deterministic"
       ],
-      "contentHash": "5d826189017a17d30bb281698f891ad9ec24e49b99687463949ee08da7a674f1"
+      "contentHash": "7f6097a184ae5fcc121a3ae33779621a7af75f375cda36f5d7bac7e72f8c85dd"
     },
     {
       "id": "module:apps/registry/app/deterministic/route.test.ts",
@@ -12786,7 +12810,7 @@
         "tsx",
         "app"
       ],
-      "contentHash": "e9c0bf5ad0557e8499ccd77cc95526445d720c99510f3119f29ac6be3835efb7"
+      "contentHash": "9a9fbaa5623375a83b154e0c4833e267e2f109f85a005e459554d7a0e30d86d9"
     },
     {
       "id": "module:apps/registry/app/llms-full.txt/route.ts",
@@ -12818,7 +12842,7 @@
         "ts",
         "llms.txt"
       ],
-      "contentHash": "0f2af3888fe8482056f3f00878377cbb0f7e955b6c2a428aad873cec6aa90c47"
+      "contentHash": "d1c47e59eb89a792f2bb8531d2b2586f82038223490053bf10b74095d89a4fbc"
     },
     {
       "id": "module:apps/registry/app/opengraph-image.tsx",
@@ -12836,7 +12860,7 @@
         "tsx",
         "app"
       ],
-      "contentHash": "e5c61beb6789901ac3ad2cf44c0b342f05c4bfb85d6a79858d0f7f26c618f2ce"
+      "contentHash": "bd26fd4fee09d2fb5701a57fc5527f9fa96d7ee1070d4be8e249fa0493e60f48"
     },
     {
       "id": "module:apps/registry/app/posthog-provider.tsx",
@@ -12927,6 +12951,21 @@
         "components"
       ],
       "contentHash": "f39aa3aa6a6a91b9374cc10ddc0c180e5f0b792875ea36f6cb8609f42f45ba43"
+    },
+    {
+      "id": "module:apps/registry/components/liquid-cursor-gradient.tsx",
+      "type": "module",
+      "title": "liquid-cursor-gradient.tsx",
+      "path": "apps/registry/components/liquid-cursor-gradient.tsx",
+      "symbols": [
+        "LiquidCursorGradient"
+      ],
+      "tags": [
+        "module",
+        "tsx",
+        "components"
+      ],
+      "contentHash": "c047a09abb35f7e50fa7b89801ab947463c667c102ed640fb27cd485312cf994"
     },
     {
       "id": "module:apps/registry/lib/agent-feedback.test.ts",
@@ -13103,7 +13142,7 @@
         "test",
         "lib"
       ],
-      "contentHash": "144c3469269bde8cfd12ebce87f717a714576ac84a9ffe86c2ff07809a1aa796"
+      "contentHash": "9ad7784614c512c829a2635766f98c8ce251bf2b489e860f32288254384a4828"
     },
     {
       "id": "module:apps/registry/lib/discovery.ts",
@@ -13323,7 +13362,7 @@
         "ts",
         "registry"
       ],
-      "contentHash": "38ec70bf248aaf9ee163286abfd4a0929a05e10ca1f2b08165c44a6f5edd62d4"
+      "contentHash": "f9ed026ba8a9c875d0b5baad64f0e18d68fdf32c3cd25d049ebfe26236fddf7e"
     },
     {
       "id": "module:apps/registry/next.config.mjs",
@@ -13354,6 +13393,18 @@
         "registry"
       ],
       "contentHash": "776757def00b90c1e5527c09012a13fc2a98e66a5244c9ad0d7d69aa7de8e257"
+    },
+    {
+      "id": "module:apps/registry/public/ecosystem-bar.js",
+      "type": "module",
+      "title": "ecosystem-bar.js",
+      "path": "apps/registry/public/ecosystem-bar.js",
+      "tags": [
+        "module",
+        "js",
+        "public"
+      ],
+      "contentHash": "a7921d11bd53b8db6b187f084c198cbc57ac82f3aa45b2d0ef615810e5c1de0d"
     },
     {
       "id": "module:apps/registry/source.config.ts",
@@ -33296,7 +33347,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "6892f1df39735ff5bf7b952a3f9019490f40db3d621896292fbafca55509d310"
+      "contentHash": "3585c6d6550b4414b1f5efca7ee0255239d5a3fb9cd4d301eb65a98ceb4d2e1e"
     },
     {
       "id": "module:scripts/check-src-test-parity.mjs",
@@ -33432,7 +33483,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "8956f32c15c7ab30a85fe953d7550f9d5800915b04e11f18fe249c20d968222d"
+      "contentHash": "865f4ff71640e2981f6ee901c092aba51801aaab866bc68f74483f0450158610"
     },
     {
       "id": "module:scripts/ecosystem-documentation-quality.test.mjs",
@@ -33606,7 +33657,7 @@
         "mjs",
         "lib"
       ],
-      "contentHash": "9a115cfa929fd370ffad29f071e8f7572ed9f62d86ccd9153b9209fae96d05b7"
+      "contentHash": "9a8a0ad1bfd06fa1353d70570d9102406cf769ee2849d29e0b625b3323b6d77a"
     },
     {
       "id": "module:scripts/lib/ecosystem-documentation-quality.mjs",
@@ -34289,7 +34340,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "089a7e91fb87113753f29fdf088cb4b3903c56b6aecd2143420b6938c12ea983"
+      "contentHash": "e3f6a0c18dd72a329515c4ca1015e4280bc058e6192b3d7b67d190770767bbf5"
     },
     {
       "id": "module:scripts/sync-ecosystem.mjs",
@@ -34301,7 +34352,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "9b5b0a14464069213ea622318555b964eccffa371d46bba6f234dc13542223b4"
+      "contentHash": "4c6afe25845c17ea47fefa8e464267b815e22824a6b5cc6329f49bdc9b9b44fa"
     },
     {
       "id": "module:scripts/sync-mcp-pins.mjs",
@@ -34380,6 +34431,18 @@
         "scripts"
       ],
       "contentHash": "cb96444335df331db862399ac0a5413d1d9ede5d844ac8adda1bc6cb1f72d81d"
+    },
+    {
+      "id": "module:scripts/verify-registry-install-command.mjs",
+      "type": "module",
+      "title": "verify-registry-install-command.mjs",
+      "path": "scripts/verify-registry-install-command.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "scripts"
+      ],
+      "contentHash": "436aa246e3ee3709c42c1b1d6a64809fc85c20d9ebefc93df420837922095b2c"
     },
     {
       "id": "module:tests/e2e/docs-deterministic-chat.spec.ts",
@@ -35546,8 +35609,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "480b43607178d77fd684ef6fcc182d0d071570388eb3fb358bdcccb569dbf8ea",
-    "fileCount": 2371,
+    "hash": "9a4fe55b814b39a50d5770578f71ba97950e417b3502cf5b2b765bec59a56ab7",
+    "fileCount": 2376,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -35569,9 +35632,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "55e2e32cb6db8afb3961211d90d79944a2621bd9022dcde82ac26f1ac2bd3e5b",
+    "contentHash": "092d089ebf1e7d3609b4e3d1f7e2b9922dcc5af54e3e3389d7b43716d19402a0",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "f5f98d00eb6767ed6f8d206af6d89f388b6d2e924a129e33b325fd9818674c10",
+    "snapshotHash": "2939d23a9ad06ec3ccc767aa2d44390dcdcf6a2c7a1fdf9a0b5a05450101c2ba",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "038c0536e2d6cf779e18fa3c024c9837eead6fe9f97166ae81eedfcdc4eca936",
     "lexiconVersion": 1,
@@ -35591,7 +35654,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2324,
+      "documentCount": 2329,
       "fieldNames": [
         "aliases",
         "body",
@@ -35602,13 +35665,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 2.9866609294320137,
-        "body": 62.45051635111876,
-        "headings": 4.293459552495697,
-        "path": 7.64328743545611,
-        "summary": 4.821428571428571,
-        "symbols": 7.454388984509467,
-        "title": 3.3313253012048194
+        "aliases": 2.985830828681838,
+        "body": 62.2713610991842,
+        "headings": 4.289394589952769,
+        "path": 7.640618291112065,
+        "summary": 4.827823100042937,
+        "symbols": 7.440103048518678,
+        "title": 3.3327608415629024
       }
     },
     "entries": [
@@ -36616,7 +36679,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "8ad960bf2668ef93d72174e3860a80a3a3aa32dadda35976a87c6c6aaaa0e36c",
+        "contentHash": "b131b4443ea8ed3b22f16370bceb6bf9812ea710a6d8727cd6d190b4eca232b0",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -37947,7 +38010,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "318bb380fa0a03d0408d747866baa3aad29777b9a369f26c0555433b529d2083",
+        "contentHash": "feecf7747692a695b00a7b6ca8f60b48a2b2587620b2c2d482a8031cdb8a586c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -52271,7 +52334,7 @@
             }
           ]
         },
-        "contentHash": "dcbc2284b6261bcdf31cd2227306d7f6690b20a81caf018e1b0e6c6cae30b060",
+        "contentHash": "d1fd6b3485a9e5792ecdbe33457ca24613647d27e25326bfe0fff30d72a58071",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -64756,6 +64819,70 @@
         "confidence": "observed"
       },
       {
+        "id": "document:apps/registry/AGENTS.md",
+        "kind": "document",
+        "path": "apps/registry/AGENTS.md",
+        "title": "This is NOT the Next.js you know",
+        "summary": "This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in node_modules/next/dist/docs/ (resolved from this file's directory; in monorepos the next package may not be visible from the repo root) before writing any code. Heed deprecation notices.",
+        "aliases": [],
+        "tags": [
+          "document",
+          "unclassified"
+        ],
+        "fields": {
+          "title": "This is NOT the Next.js you know",
+          "headings": "This is NOT the Next.js you know",
+          "path": "apps/registry/AGENTS.md",
+          "symbols": "",
+          "summary": "This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in node_modules/next/dist/docs/ (resolved from this file's directory; in monorepos the next package may not be visible from the repo root) before writing any code. Heed deprecation notices.",
+          "body": "<!-- BEGIN:nextjs-agent-rules -- This is NOT the Next.js you know This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in node modules/next/dist/docs/ (resolved from this file's directory; in monorepos the next package may not be visible from the repo root) before writing any code. Heed deprecation notices. This block is written and re-added by next dev — verify at node modules/next/dist/server/lib/generate-agent-files.js . Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean. <!-- END:nextjs-agent-rules --",
+          "aliases": "document unclassified"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "495f609dcae69007a0eeb247d5e6f0cb36566b152af061abcd575477b8d1859d",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "document:apps/registry/CLAUDE.md",
+        "kind": "document",
+        "path": "apps/registry/CLAUDE.md",
+        "title": "CLAUDE.md",
+        "summary": "@AGENTS.md",
+        "aliases": [],
+        "tags": [
+          "document",
+          "unclassified"
+        ],
+        "fields": {
+          "title": "CLAUDE.md",
+          "headings": "",
+          "path": "apps/registry/CLAUDE.md",
+          "symbols": "",
+          "summary": "@AGENTS.md",
+          "body": "@AGENTS.md",
+          "aliases": "document unclassified"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "7c8dfd6a66ffe34e39388343ff3e5eb20d74ed59a6455ee7c8b062ed7b1ce404",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "document:apps/registry/content/docs/application-patterns.mdx",
         "kind": "document",
         "path": "apps/registry/content/docs/application-patterns.mdx",
@@ -64784,7 +64911,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "db393712cd2c22c4c8a5938ff3e977bbfa3bf50aa9be5382e9032e851081b942",
+        "contentHash": "93a734f5b771a970f41f15d8b41e9c50ad65add654378c9a3841d5c11ed24cb6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -64937,7 +65064,7 @@
           "path": "apps/registry/content/docs/discovery.mdx",
           "symbols": "",
           "summary": "Ask Registry checks a verified local artifact before making a backend request. Exact catalog facts feel immediate, work without model reasoning, and avoid unnecessary tokens. Semantic recommendations still use the shared trusted AgentsKit Chat backend and return canonical citations.",
-          "body": "Ask Registry checks a verified local artifact before making a backend request. Exact catalog facts feel immediate, work without model reasoning, and avoid unnecessary tokens. Semantic recommendations still use the shared trusted AgentsKit Chat backend and return canonical citations. What stays local - exact agent IDs and unambiguous titles; - npx agentskit add <id commands; - exact category and declared capability names; - canonical agent pages and source links; - contribution and AgentsKit ecosystem navigation. Try research , npx agentskit add research , category security , or capability prompt injection defense in Ask Registry. These queries make zero Ask backend calls. What escalates Questions that require interpretation, comparison, ranking, or problem-to-agent recommendation are not guessed locally. For example: “Which agent should help triage a noisy incident and draft a handoff?” The browser sends a validated low-confidence miss with bounded conversation context. Authentication and server configuration select the Registry corpus and persona; query parameters cannot switch authority. The response must cite the catalog or documentation used to ground it. Machine contract - pins the site ID, artifact path, content hash, and fallback mode. - is bounded, schema-validated, canonically serialized, and SHA-256 verified. - remains the installable catalog authority. If the local artifact is unavailable or corrupt, Ask Registry fails safely to the configured backend. It never treats an unverified local payload as fact.",
+          "body": "Ask Registry checks a verified local artifact before making a backend request. Exact catalog facts feel immediate, work without model reasoning, and avoid unnecessary tokens. Semantic recommendations still use the shared trusted AgentsKit Chat backend and return canonical citations. What stays local - exact agent IDs and unambiguous titles; - npx @agentskit/cli add <id commands; - exact category and declared capability names; - canonical agent pages and source links; - contribution and AgentsKit ecosystem navigation. Try research , npx @agentskit/cli add research , category security , or capability prompt injection defense in Ask Registry. These queries make zero Ask backend calls. What escalates Questions that require interpretation, comparison, ranking, or problem-to-agent recommendation are not guessed locally. For example: “Which agent should help triage a noisy incident and draft a handoff?” The browser sends a validated low-confidence miss with bounded conversation context. Authentication and server configuration select the Registry corpus and persona; query parameters cannot switch authority. The response must cite the catalog or documentation used to ground it. Machine contract - pins the site ID, artifact path, content hash, and fallback mode. - is bounded, schema-validated, canonically serialized, and SHA-256 verified. - remains the installable catalog authority. If the local artifact is unavailable or corrupt, Ask Registry fails safely to the configured backend. It never treats an unverified local payload as fact.",
           "aliases": "document human"
         },
         "graph": {
@@ -64948,7 +65075,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "76e563a7f9efafd36b574fe8b9244ea6aa1c77e73e3ab14711b70c0aa6d1d7e0",
+        "contentHash": "7a9c6da54b660b37101b7a7e31f3b59eb5c1125e05f980ca6b2d2e6fa6086a1d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -64981,7 +65108,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "d9322ae8a41869e0b2375b70b2a7ef17d5d2c48e394901ff107960e4b3f1f18c",
+        "contentHash": "d1ef28a6ccbd780306b8787183543be9b2ec481619ba6e1f3df65ec1d54f563e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -65003,7 +65130,7 @@
           "path": "apps/registry/content/docs/index.mdx",
           "symbols": "",
           "summary": "The Registry is the fastest path from a task to an agent you can own. Each entry is a provider-agnostic TypeScript factory with a typed contract, tests, evaluation coverage, and source code. The CLI copies that source into your repository (you own every line) — there is no registry runtime and no lock-in.",
-          "body": "The Registry is the fastest path from a task to an agent you can own. Each entry is a provider-agnostic TypeScript factory with a typed contract, tests, evaluation coverage, and source code. The CLI copies that source into your repository (you own every line) — there is no registry runtime and no lock-in. Choose a path - I want to install one: start with the , then . - I need another model: see . - I need tools, RAG, memory, or approvals: read . - I need to understand quality: see . - I want to understand Ask Registry: see . - Something failed: use . - I want to publish an agent: follow and . - I want an application mold: browse and copy the agent you want to adapt. What gets installed npx agentskit add <id downloads the manifest at /r/<id .json , verifies the files listed by the agent, and writes the source to ./agents/<id / . Your application imports that local source. Updating is explicit, so Registry releases never silently change a running agent. Discovery for tools and LLMs - — machine-readable catalog. - — concise documentation and agent index. - — full agent context. - — MCP discovery endpoint. - — trusted local-answer configuration. - — verified exact-fact artifact.",
+          "body": "The Registry is the fastest path from a task to an agent you can own. Each entry is a provider-agnostic TypeScript factory with a typed contract, tests, evaluation coverage, and source code. The CLI copies that source into your repository (you own every line) — there is no registry runtime and no lock-in. Choose a path - I want to install one: start with the , then . - I need another model: see . - I need tools, RAG, memory, or approvals: read . - I need to understand quality: see . - I want to understand Ask Registry: see . - Something failed: use . - I want to publish an agent: follow and . - I want an application mold: browse and copy the agent you want to adapt. What gets installed npx @agentskit/cli add <id downloads the manifest at /r/<id .json , verifies the files listed by the agent, and writes the source to ./agents/<id / . Your application imports that local source. Updating is explicit, so Registry releases never silently change a running agent. Discovery for tools and LLMs - — machine-readable catalog. - — concise documentation and agent index. - — full agent context. - — MCP discovery endpoint. - — trusted local-answer configuration. - — verified exact-fact artifact.",
           "aliases": "document human"
         },
         "graph": {
@@ -65020,7 +65147,7 @@
             }
           ]
         },
-        "contentHash": "66184edeb6c6c6f3cd412f26690d1cb23f4134f9c0ee322ae893f3374a7b049b",
+        "contentHash": "bcd4225c51b38cabdd2ebee576978abf7250742ac5e5ac1be4714c5be8beafb5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -65059,7 +65186,7 @@
             }
           ]
         },
-        "contentHash": "10b809dabeac2e87174816b1cd5a6460440fee1ed4d2174730cc2a242ef65705",
+        "contentHash": "1cbd465b38a714628ade0d02e0e51c9789b45c2c705ae77eade5793ea166b9f4",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -65103,7 +65230,7 @@
             }
           ]
         },
-        "contentHash": "18bb54bae11f687484a061761136cfe97574e998b6df7248d5c05071a2195d65",
+        "contentHash": "64e1a20352501cb5c81efdd57177858800f0b3ee5129f8b73b486e2001c03081",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -65125,7 +65252,7 @@
           "path": "apps/registry/content/docs/troubleshooting.mdx",
           "symbols": "",
           "summary": "Confirm the id on the agent page or in /r/index.json. Agent ids are lowercase and hyphenated. Update the CLI before retrying an agent added recently.",
-          "body": "Agent not found Confirm the id on the agent page or in . Agent ids are lowercase and hyphenated. Update the CLI before retrying an agent added recently. Missing package or import Install every package listed on the agent page. The Registry copies source, but your package manager still owns dependencies. Keep the import path pointed at your configured output directory. Provider authentication failed Verify the provider-specific environment variable in the same process that runs the agent. Avoid loading server credentials into client-side environment variables. Structured output failed Choose a model with reliable tool calling or structured output, reduce conflicting custom prompt instructions, and retry with the exact input in the agent's evaluation suite. Tool call is blocked Check onConfirm , tool allow-lists, MCP transport permissions, and sandbox policy. A blocked write is normally safer than silently broadening permissions. Local copy differs from Registry Review the diff before npx agentskit update <agent . Preserve application-specific changes and run tests after resolving conflicts.",
+          "body": "Agent not found Confirm the id on the agent page or in . Agent ids are lowercase and hyphenated. Update the CLI before retrying an agent added recently. Missing package or import Install every package listed on the agent page. The Registry copies source, but your package manager still owns dependencies. Keep the import path pointed at your configured output directory. Provider authentication failed Verify the provider-specific environment variable in the same process that runs the agent. Avoid loading server credentials into client-side environment variables. Structured output failed Choose a model with reliable tool calling or structured output, reduce conflicting custom prompt instructions, and retry with the exact input in the agent's evaluation suite. Tool call is blocked Check onConfirm , tool allow-lists, MCP transport permissions, and sandbox policy. A blocked write is normally safer than silently broadening permissions. Local copy differs from Registry Review the diff before npx @agentskit/cli update <agent . Preserve application-specific changes and run tests after resolving conflicts.",
           "aliases": "document human"
         },
         "graph": {
@@ -65136,7 +65263,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "5eafd1fe8b72c02b05a8881c95fa715c64538523c1992c6aae6f81bffbe66b76",
+        "contentHash": "e0f3875f4029e9380ffaf63b5655fd5baae8be7fa33ea24c56b6beb1ae6d43f3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -65195,7 +65322,7 @@
             }
           ]
         },
-        "contentHash": "b0dedece0087f03c9aa062fd8ac896aa6317edfc59e11629d09399c0a9c100e6",
+        "contentHash": "f05907c4a9d0ec2745d4c460de708c7cfd49b8cc6655e2c36325e270b1ad05e6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -65217,7 +65344,7 @@
           "path": "apps/registry/content/docs/validation.mdx",
           "symbols": "",
           "summary": "Every installable agent has a typed factory, unit tests, and a manifest that passes the Registry schema and catalog policies. Most also publish an eval.ts contract with reproducible cases. These deterministic checks are separate from the independent behavioral review shown on some agent pages. Neither signal is a guarantee for every model, prompt, dataset, or production environment.",
-          "body": "Every installable agent has a typed factory, unit tests, and a manifest that passes the Registry schema and catalog policies. Most also publish an eval.ts contract with reproducible cases. These deterministic checks are separate from the independent behavioral review shown on some agent pages. Neither signal is a guarantee for every model, prompt, dataset, or production environment. Registry checks - TypeScript type checking - Manifest and catalog schema validation - Unit tests with deterministic adapters - Agent-specific evaluation cases - Build freshness for installable manifests - Safety conventions for untrusted content and sensitive domains Independent review Agents with a Validation evidence section were exercised by one Codex agent and assessed by a separate reviewer. The public score appears only when the reviewer approved the result with both a score and confidence of at least 95%, with no critical failures. The page lists the number of cases and iterations, the review summary, strengths, and remaining notes. No badge means that independent evidence is unavailable or did not clear that threshold. It does not change whether the source is installable. When an evaluation contract is included, replay it with your exact provider, model, configuration, and data. Otherwise, add representative cases before deployment. Before deployment 1. Run the included tests after modifying the copied source. 2. Replay evaluation cases with your provider and model. 3. Add cases from your own traffic, including ambiguous and adversarial inputs. 4. Require human approval for consequential tool calls. 5. Monitor errors, latency, cost, and sampled output quality. Version ownership Your installed copy does not change automatically. Use npx agentskit diff <agent to inspect upstream changes and npx agentskit update <agent when you decide to adopt them. Re-run your own tests and evaluations after every update.",
+          "body": "Every installable agent has a typed factory, unit tests, and a manifest that passes the Registry schema and catalog policies. Most also publish an eval.ts contract with reproducible cases. These deterministic checks are separate from the independent behavioral review shown on some agent pages. Neither signal is a guarantee for every model, prompt, dataset, or production environment. Registry checks - TypeScript type checking - Manifest and catalog schema validation - Unit tests with deterministic adapters - Agent-specific evaluation cases - Build freshness for installable manifests - Safety conventions for untrusted content and sensitive domains Independent review Agents with a Validation evidence section were exercised by one Codex agent and assessed by a separate reviewer. The public score appears only when the reviewer approved the result with both a score and confidence of at least 95%, with no critical failures. The page lists the number of cases and iterations, the review summary, strengths, and remaining notes. No badge means that independent evidence is unavailable or did not clear that threshold. It does not change whether the source is installable. When an evaluation contract is included, replay it with your exact provider, model, configuration, and data. Otherwise, add representative cases before deployment. Before deployment 1. Run the included tests after modifying the copied source. 2. Replay evaluation cases with your provider and model. 3. Add cases from your own traffic, including ambiguous and adversarial inputs. 4. Require human approval for consequential tool calls. 5. Monitor errors, latency, cost, and sampled output quality. Version ownership Your installed copy does not change automatically. Use npx @agentskit/cli diff <agent to inspect upstream changes and npx @agentskit/cli update <agent when you decide to adopt them. Re-run your own tests and evaluations after every update.",
           "aliases": "document human"
         },
         "graph": {
@@ -65228,7 +65355,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "8dd9eec309f7b1cfbbf7d654ff9eb912e90ee2d01efc397e144e59ced04368a7",
+        "contentHash": "ff212928816876baa4dbbcfee83490125deed84d0419aa693214fef03b12875e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -68833,11 +68960,11 @@
         ],
         "fields": {
           "title": "AgentsKit Design System",
-          "headings": "AgentsKit Design System Brand direction Color palette Dark mode (canonical) Light mode (inverted neutral) Usage in Tailwind Usage in CSS Don't Typography Families Scale (Tailwind classes) Eyebrow pattern Spacing and layout Components Install command card Stat pill (social proof, issue counts) Code block Buttons Logo Don't Animation and motion Imagery and iconography OG images and social Accessibility Checklist for new UI",
+          "headings": "AgentsKit Design System Brand direction Surface rules Homepage Documentation and interior pages Reuse across the ecosystem Color palette Dark mode (canonical) Light mode (inverted neutral) Usage in Tailwind Usage in CSS Don't Typography Families Scale (Tailwind classes) Eyebrow pattern Spacing and layout Components Install command card Stat pill (social proof, issue counts) Code block Buttons Logo Don't Animation and motion Imagery and iconography OG images and social Accessibility Checklist for new UI",
           "path": "docs/DESIGN.md",
           "symbols": "",
           "summary": "Single source of truth for visual design. All docs, marketing, OG images, demos, and components reference these tokens. Before adding a new color or font variant, check this file — the odds are it already exists.",
-          "body": "AgentsKit Design System Single source of truth for visual design. All docs, marketing, OG images, demos, and components reference these tokens. Before adding a new color or font variant, check this file — the odds are it already exists. Tokens live in apps/docs-next/app/global.css as CSS variables and are exposed to Tailwind via @theme (Tailwind v4). Use the token; never hardcode the hex. --- Brand direction Terminal-inspired, developer-native, GitHub-adjacent. Dark mode is the canonical palette (how the brand renders in OG images, the logo, social posts). Light mode is the inverted-neutral companion for long-form reading. Feel: clean, opinionated, monospace-forward, no corporate gradients, no decorative illustrations. Geometry and typography do the work. --- Color palette Dark mode (canonical) Token Hex Role --- --- --- --ak-midnight 0D1117 Page background --ak-surface 161B22 Panels, cards, code blocks --ak-border 30363D Dividers, outlines, pill borders --ak-foam E6EDF3 Primary text, logo fill --ak-graphite 8B949E Secondary text, dim labels --ak-blue 58A6FF Interactive accent, links, focus rings --ak-green 2EA043 Success, positive numbers, prompt glyph --ak-red F85149 Errors, destructive actions Light mode (inverted neutral) Token Hex Role --- --- --- --ak-midnight FFFFFF Page background --ak-surface F6F8FA Panels, cards --ak-border D0D7DE Dividers --ak-foam 0D1117 Primary text --ak-graphite 57606A Secondary text --ak-blue 0969DA Accent, links --ak-green 1A7F37 Success --ak-red CF222E Errors Usage in Tailwind Usage in CSS Don't - ❌ Hardcode 0D1117 anywhere. Always var(--ak-midnight) or bg-ak-midnight . - ❌ Invent new roles (e.g. \"ak-purple\", \"ak-warning\"). If you think you need one, open an issue. - ❌ Use Tailwind's built-in palette ( text-slate-400 , bg-zinc-900 ). Stick to ak- . - ❌ Apply gradients larger than a faint radial accent. No candy colors, no hero gradients. --- Typography Families Token Stack Use for --- --- --- font-mono 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace Commands, code, technical labels, numbers in stats, logo-adjacent metadata system sans (default) system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif Long-form prose, UI copy, headings No decorative display font. Headings scale with weight + size, not a second family. Scale (Tailwind classes) Purpose Class Weight --- --- --- Hero (desktop) text-5xl sm:text-6xl lg:text-7xl font-bold / font-extrabold H2 section text-3xl sm:text-4xl font-bold H3 subsection text-xl sm:text-2xl font-semibold Body text-base font-normal Meta / caption text-sm or text-xs font-normal Eyebrow / label text-xs uppercase tracking-wider font-mono Eyebrow pattern Small monospace labels above headings — signature AgentsKit look: --- Spacing and layout - Radius: rounded-md (6 px) for inputs/cards, rounded-2xl for large containers, rounded-full for pills and dots. - Borders: border-ak-border as the default; border-ak-blue on hover/focus. - Max content width: max-w-6xl for marketing, max-w-4xl for docs bodies. - Vertical rhythm: sections separated by py-20 (desktop) / py-12 (mobile). Between cards inside a section: gap-4 or gap-6 . --- Components Install command card - Two-card layout ( grid sm:grid-cols-2 ) — scaffold command primary, install command secondary. - Primary card gets border-ak-blue/40 + a \"recommended\" pill. - Terminal glyph $ in text-ak-green , command text in font-mono text-ak-foam . - Copy pill: idle = text-ak-graphite , copied = text-ak-green border-ak-green . Stat pill (social proof, issue counts) - Monospace, uppercase label with wider tracking. - Tone variants: default (graphite), green (open/good), blue (help-wanted). Code block Fumadocs default. Don't override. Background already pulls --color-fd-muted . Buttons - Primary: bg-ak-foam text-ak-midnight (solid), hover:bg-white . - Secondary: border-ak-border text-ak-foam hover:border-ak-blue . - Tertiary/ghost: text-ak-foam hover:text-ak-blue . No filled-blue pri",
+          "body": "AgentsKit Design System Single source of truth for visual design. All docs, marketing, OG images, demos, and components reference these tokens. Before adding a new color or font variant, check this file — the odds are it already exists. Tokens live in apps/docs-next/app/global.css as CSS variables and are exposed to Tailwind via @theme (Tailwind v4). Use the token; never hardcode the hex. --- Brand direction Developer-native and editorial, with a quiet reading surface across documentation and a more expressive product experience on the homepage. Dark mode is the canonical palette (how the brand renders in OG images, the logo, social posts). Light mode is the inverted-neutral companion for long-form reading. Feel: clean, opinionated, and product-led. Monospace supports technical detail; system sans carries interface and marketing copy. Geometry and typography do the work, with restrained liquid light only on the homepage. Surface rules The homepage and documentation have different jobs and should share tokens without sharing every effect. Homepage - Use a dark, nearly black base with low-opacity blue and green radial light. The light is ambient across the full homepage and responds softly to a mouse pointer; it must never reduce text contrast. - Keep the pointer layer in the homepage route only. Disable its movement for reduced motion and ignore touch pointers. - Use system sans for large headlines, moderate negative tracking, generous whitespace, and a clear action hierarchy. Keep monospace for code, commands, metrics, and small technical labels. - Keep the hero headline immediately visible without entrance motion. Reserve motion for the framework reel and product proof where it explains the system. - The ecosystem map keeps animated connection lines on tablet and desktop; hide those lines on phone widths and let the core and layer list stack cleanly. - Keep the interactive ecosystem tour neutral on the AgentsKit homepage: one restrained accent, quiet borders, and no competing product colors. Apply this home-only treatment through the data-visual=\"agentskit-home\" host attribute so sibling product tours retain their own accents. - Reserve glass for floating or focal surfaces: the global ecosystem header, product demo/chat, Ask docs controls, and footer. Use a subtle token border, translucent surface, blur, and restrained shadow. - Use rounded 24 px corners for large demo surfaces and full pills for primary actions. Small controls and code surfaces retain the existing compact radius. - Keep sections open against the shared page background. Avoid enclosing every section in a card or layering multiple competing gradients. Documentation and interior pages - Keep Fumadocs reading surfaces calm, solid, and high contrast. Do not load the liquid cursor layer, ambient homepage gradients, or homepage glass treatments on documentation routes. - The ecosystem navigation remains readable with a solid background on interior pages. Body copy, code blocks, tables, and navigation should not sit over moving light. - Preserve the existing Fumadocs typography, code presentation, theme toggle, and content behavior. Reuse across the ecosystem - Reuse the palette and logo rules below; do not copy the homepage cursor effect into sibling product docs by default. - For a sibling homepage, use its existing product accent with the same low-opacity, pointer-reactive treatment and the same calm documentation boundary. - Keep the wordmark “AgentsKit” in public brand copy and metadata. Preserve package and repository identifiers where they are technical names. - Glass must remain legible in dark and light themes. Prefer opaque surfaces when contrast cannot be maintained over the background. --- Color palette Dark mode (canonical) Token Hex Role --- --- --- --ak-midnight 0D1117 Page background --ak-surface 161B22 Panels, cards, code blocks --ak-border 30363D Dividers, outlines, pill borders --ak-foam E6EDF3 Primary text, logo fill --ak-graphite 8B949E Secondar",
           "aliases": "document human"
         },
         "graph": {
@@ -68859,7 +68986,7 @@
             }
           ]
         },
-        "contentHash": "0b2098b0de1dfbc1bbab1ea259571a58266ca914a64820d49ade24ea7886cd2f",
+        "contentHash": "a215a62050e13a4a41af6ad82146146316f75b2c884fe0753653c830cebf4894",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -90117,7 +90244,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5df37f20307d0d14d5fdb3caefd8e3cc891a5b8b94070193cbd0593269e12715",
+        "contentHash": "a7921d11bd53b8db6b187f084c198cbc57ac82f3aa45b2d0ef615810e5c1de0d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -93684,11 +93811,6 @@
           "inbound": [
             {
               "kind": "imports",
-              "id": "module:apps/registry/app/(home)/page.tsx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
               "id": "module:apps/registry/app/agents/page.tsx",
               "confidence": "observed"
             },
@@ -93711,7 +93833,7 @@
             }
           ]
         },
-        "contentHash": "5dbed4e2aab84c0024baccc79841344b5ffafa4ebf1c61b3ca4b0fd0ef1adbaf",
+        "contentHash": "4d27eb8b5fe5805ccfcc691edc3d68ce82e6ca28f40cf2fb1c785ae6a6436d42",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -93767,7 +93889,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "3a62ad18799ad57efa6e68c1af42b573d50f2ec05dc843e74c3cdbfbcd23a41d",
+        "contentHash": "5f54991770bf729a0bdeed95c82706887b92878dcc1deff0735f969a66d841f9",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -93801,7 +93923,13 @@
           "mentionedBy": [],
           "areaId": "area:apps/registry",
           "packageId": "package:agentskit",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/registry/app/(home)/page.tsx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -93810,7 +93938,7 @@
             }
           ]
         },
-        "contentHash": "1b2133f0acabd4370fbb1b6287b6c708a72f975eca5262a8074baa600f93940c",
+        "contentHash": "55bd33e241257fba28b9065025e86343af3bf226293b47c1394a5bba19478620",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -93859,7 +93987,7 @@
             }
           ]
         },
-        "contentHash": "33dd3e078e23ee6c39dc737369393d3f3ba04728f6ded49347f4ee83900d5015",
+        "contentHash": "602438e5c680d548d09ab42950165fe9ee4b36915350ff60bb4aafd87e75c51b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -93957,7 +94085,7 @@
             }
           ]
         },
-        "contentHash": "015ed92ac7849176fef46edb7a4afa03a324605db6ead048fc291c94ff640969",
+        "contentHash": "a6cc5ad1c2990506f84c27c321fb66dc58b8bf37197b8fe78f33c903d7d605cf",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -94051,7 +94179,7 @@
             }
           ]
         },
-        "contentHash": "6aacd9a48dbd64044c9278f5686d0dca26a23e5e281fecab33181c9d8a51e927",
+        "contentHash": "c1f340b2d4589ba87eab1366431f46d66e2bad3edb4ef107ac236c55d6485b1b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -94100,7 +94228,7 @@
             }
           ]
         },
-        "contentHash": "83c693d3012ae2ca540d3b278286f720acef227ba5276321576b3463ee54baa7",
+        "contentHash": "f43089269f08517a514025ebaf32be184ee37f8081afde35388176432a767085",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -94177,7 +94305,13 @@
           "mentionedBy": [],
           "areaId": "area:apps/registry",
           "packageId": "package:agentskit",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/registry/app/(home)/page.tsx",
+              "confidence": "observed"
+            }
+          ],
           "outbound": []
         },
         "contentHash": "b8a90a95d1e5a2661f48f81883459f27a593a1b2eabcb4802b793b40b050183a",
@@ -94390,12 +94524,12 @@
           "outbound": [
             {
               "kind": "imports",
-              "id": "module:apps/registry/app/(home)/_components/browse.tsx",
+              "id": "module:apps/registry/app/(home)/_components/categories.ts",
               "confidence": "observed"
             },
             {
               "kind": "imports",
-              "id": "module:apps/registry/app/(home)/_components/categories.ts",
+              "id": "module:apps/registry/app/(home)/_components/closing-cta.tsx",
               "confidence": "observed"
             },
             {
@@ -94417,10 +94551,15 @@
               "kind": "imports",
               "id": "module:apps/registry/app/(home)/_components/landing-fx.tsx",
               "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:apps/registry/app/(home)/_components/site-footer.tsx",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "c0c29de21500dc7471342201f3e744026619158bc2a8b228a8b05c2e10c2b57e",
+        "contentHash": "5bfeac730aa82a3a9edc76fe8a00f50074f3a9abf1bed6882e850d75838b39de",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -94638,7 +94777,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "26d47b870234e4e0cd70dd4981084a8a432527d7086c54e3939fb0ece8b991a9",
+        "contentHash": "57fb2d8686e4b3b87ea309f5477090dcc8d31a5b75f3c5390cd1e13616b8a24a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -94695,7 +94834,7 @@
             }
           ]
         },
-        "contentHash": "8f8d89ee1008938adf6ca633f0863cfefa06873b925454b0d1b0606a25ad2268",
+        "contentHash": "4dcce0dcc73c520fbfc79edb5605e0bb3948f7c672d081578c1382f219726356",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -94798,7 +94937,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "d5910ff86dba3dd87d2b3a958c0ce42f67463879a7c45fba00d5766069f4f1f5",
+        "contentHash": "d361d72f42222cc59300100d228aecbd234a171e7f3f5665c6f03af234a78e60",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -95047,7 +95186,7 @@
             }
           ]
         },
-        "contentHash": "5bcbb77ffa0bf0a1946560b755a97069960c059c35537d23a8189334d73cf8e0",
+        "contentHash": "9fbcc02fbe2e2886551538fc4b89ec402a57d951fa2d5b7880bd05f6127d5b01",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -95151,7 +95290,7 @@
             }
           ]
         },
-        "contentHash": "5d826189017a17d30bb281698f891ad9ec24e49b99687463949ee08da7a674f1",
+        "contentHash": "7f6097a184ae5fcc121a3ae33779621a7af75f375cda36f5d7bac7e72f8c85dd",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -95510,7 +95649,7 @@
             }
           ]
         },
-        "contentHash": "e9c0bf5ad0557e8499ccd77cc95526445d720c99510f3119f29ac6be3835efb7",
+        "contentHash": "9a9fbaa5623375a83b154e0c4833e267e2f109f85a005e459554d7a0e30d86d9",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -95598,7 +95737,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "0f2af3888fe8482056f3f00878377cbb0f7e955b6c2a428aad873cec6aa90c47",
+        "contentHash": "d1c47e59eb89a792f2bb8531d2b2586f82038223490053bf10b74095d89a4fbc",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -95638,7 +95777,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "e5c61beb6789901ac3ad2cf44c0b342f05c4bfb85d6a79858d0f7f26c618f2ce",
+        "contentHash": "bd26fd4fee09d2fb5701a57fc5527f9fa96d7ee1070d4be8e249fa0493e60f48",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -95873,6 +96012,43 @@
           "outbound": []
         },
         "contentHash": "f39aa3aa6a6a91b9374cc10ddc0c180e5f0b792875ea36f6cb8609f42f45ba43",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/registry/components/liquid-cursor-gradient.tsx",
+        "kind": "module",
+        "path": "apps/registry/components/liquid-cursor-gradient.tsx",
+        "title": "liquid-cursor-gradient.tsx",
+        "aliases": [],
+        "symbols": [
+          "LiquidCursorGradient"
+        ],
+        "tags": [
+          "module",
+          "tsx",
+          "components"
+        ],
+        "fields": {
+          "title": "liquid-cursor-gradient.tsx",
+          "headings": "",
+          "path": "apps/registry/components/liquid-cursor-gradient.tsx",
+          "symbols": "LiquidCursorGradient",
+          "summary": "",
+          "body": "",
+          "aliases": "module tsx components"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/registry",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "c047a09abb35f7e50fa7b89801ab947463c667c102ed640fb27cd485312cf994",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -96384,7 +96560,7 @@
             }
           ]
         },
-        "contentHash": "144c3469269bde8cfd12ebce87f717a714576ac84a9ffe86c2ff07809a1aa796",
+        "contentHash": "9ad7784614c512c829a2635766f98c8ce251bf2b489e860f32288254384a4828",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -97021,7 +97197,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "38ec70bf248aaf9ee163286abfd4a0929a05e10ca1f2b08165c44a6f5edd62d4",
+        "contentHash": "f9ed026ba8a9c875d0b5baad64f0e18d68fdf32c3cd25d049ebfe26236fddf7e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -97096,6 +97272,40 @@
           "outbound": []
         },
         "contentHash": "776757def00b90c1e5527c09012a13fc2a98e66a5244c9ad0d7d69aa7de8e257",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/registry/public/ecosystem-bar.js",
+        "kind": "module",
+        "path": "apps/registry/public/ecosystem-bar.js",
+        "title": "ecosystem-bar.js",
+        "aliases": [],
+        "tags": [
+          "module",
+          "js",
+          "public"
+        ],
+        "fields": {
+          "title": "ecosystem-bar.js",
+          "headings": "",
+          "path": "apps/registry/public/ecosystem-bar.js",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module js public"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/registry",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "a7921d11bd53b8db6b187f084c198cbc57ac82f3aa45b2d0ef615810e5c1de0d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -173989,7 +174199,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "6892f1df39735ff5bf7b952a3f9019490f40db3d621896292fbafca55509d310",
+        "contentHash": "3585c6d6550b4414b1f5efca7ee0255239d5a3fb9cd4d301eb65a98ceb4d2e1e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174536,7 +174746,7 @@
             }
           ]
         },
-        "contentHash": "8956f32c15c7ab30a85fe953d7550f9d5800915b04e11f18fe249c20d968222d",
+        "contentHash": "865f4ff71640e2981f6ee901c092aba51801aaab866bc68f74483f0450158610",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -175115,7 +175325,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "9a115cfa929fd370ffad29f071e8f7572ed9f62d86ccd9153b9209fae96d05b7",
+        "contentHash": "9a8a0ad1bfd06fa1353d70570d9102406cf769ee2849d29e0b625b3323b6d77a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -177130,7 +177340,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "089a7e91fb87113753f29fdf088cb4b3903c56b6aecd2143420b6938c12ea983",
+        "contentHash": "e3f6a0c18dd72a329515c4ca1015e4280bc058e6192b3d7b67d190770767bbf5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -177184,7 +177394,7 @@
             }
           ]
         },
-        "contentHash": "9b5b0a14464069213ea622318555b964eccffa371d46bba6f234dc13542223b4",
+        "contentHash": "4c6afe25845c17ea47fefa8e464267b815e22824a6b5cc6329f49bdc9b9b44fa",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -177433,6 +177643,40 @@
           ]
         },
         "contentHash": "cb96444335df331db862399ac0a5413d1d9ede5d844ac8adda1bc6cb1f72d81d",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:scripts/verify-registry-install-command.mjs",
+        "kind": "module",
+        "path": "scripts/verify-registry-install-command.mjs",
+        "title": "verify-registry-install-command.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "scripts"
+        ],
+        "fields": {
+          "title": "verify-registry-install-command.mjs",
+          "headings": "",
+          "path": "scripts/verify-registry-install-command.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "436aa246e3ee3709c42c1b1d6a64809fc85c20d9ebefc93df420837922095b2c",
         "provenance": "observed",
         "confidence": "observed"
       },
