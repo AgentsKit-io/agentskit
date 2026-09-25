@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "5f975bccd27b3657ddc71246cf6629ac9a6a9ba42c23e421e85a7409158522e9",
+  "contentHash": "efdffd965a9b9e3977ef83436d382f7821bd9faa29157dfc629e3562f8755119",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-21T14:53:45.674Z",
+  "generatedAt": "2026-09-25T02:18:59.735Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -411,7 +411,7 @@
         "document",
         "project"
       ],
-      "contentHash": "8e21cc72a90ae7c0c10ae587f2b701f8398cd3641a94196cf8bb72600d08bd6d"
+      "contentHash": "13a5b8c2a23d497ac70a65b60c5e96c6a2d6b5e302b7d88d6479b30d00815b20"
     },
     {
       "id": "document:apps/docs-next/content/blog/hello-agentskit.mdx",
@@ -1083,7 +1083,7 @@
         "document",
         "human"
       ],
-      "contentHash": "e3fac3f0841c27a76c545b583d0f6f35523ef5b90c1d1d95e7aca47d53da9ae9"
+      "contentHash": "c2c34bf7f8e36ff159a9265262a69637b1449f57697a3bde3387ac1de0aff746"
     },
     {
       "id": "document:apps/docs-next/content/docs/agents/tools/integrations/figma.mdx",
@@ -1275,7 +1275,7 @@
         "document",
         "human"
       ],
-      "contentHash": "dc6e3dc956bc858e8e57992047ddacafe38b645bc178fe01fa1230c5692a7dd4"
+      "contentHash": "f3c615ef95abafc802a38bb61edddb31150cd56d700a4fd9ebcb62df36caa7b3"
     },
     {
       "id": "document:apps/docs-next/content/docs/agents/tools/integrations/postgres-roles.mdx",
@@ -4833,12 +4833,12 @@
       "type": "document",
       "title": "triggers-adapters.mdx",
       "path": "apps/docs-next/content/docs/reference/recipes/triggers-adapters.mdx",
-      "description": "The @agentskit/tools integrations stay driver-free by accepting small client adapters. Here are reference wrappers for the three integrations AgentsKitOS triggers most commonly consume.",
+      "description": "The @agentskit/tools integrations stay driver-free by accepting small client adapters. Here are reference wrappers for the three integrations that event triggers most commonly consume.",
       "tags": [
         "document",
         "human"
       ],
-      "contentHash": "48a743dc9449b453dcb0098e7da906017ce4abf3a9a6a6cc8fe0821c2cdeb4fd"
+      "contentHash": "01336c468825591ec8cf48168ade17302593d63abf028619ecdac8fbd8de116b"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/recipes/vector-adapters.mdx",
@@ -5613,12 +5613,12 @@
       "type": "document",
       "title": "AgentsKit ecosystem readiness",
       "path": "artifacts/ecosystem-readiness/latest.md",
-      "description": "This mutable latest alias points to the immutable snapshot readiness-2026-08-14.md. Keep the dated artifact as the audit record and update this alias when a newer readiness run is published.",
+      "description": "Audit date: 2026-08-14",
       "tags": [
         "document",
         "unclassified"
       ],
-      "contentHash": "553a5c3e1b035d8b233e71fcdd400461c462f29e79c75105c23b31c57d88a43a"
+      "contentHash": "c4737c1627d6defe2afc6712bc813a12ba8fa4bfb0d33a4daa6b6c7923b24e47"
     },
     {
       "id": "document:brand/voice.md",
@@ -5882,7 +5882,7 @@
         "document",
         "human"
       ],
-      "contentHash": "ff4fb961cbf8461c9eefd784d052de3c27da50a4393d770b90f8e359a6a69d09"
+      "contentHash": "b8dcdcf9c1a6840e01aaa2d74f074012238d6e98583ea85821cbb9e3354bbc56"
     },
     {
       "id": "document:docs/architecture/adrs/0022-public-package-consolidation.md",
@@ -6650,7 +6650,7 @@
         "document",
         "human"
       ],
-      "contentHash": "cf497d6cb1789bfe7be5222930f0d4652128a76b5f6e22234caca261ab74fecd"
+      "contentHash": "cafbb2ae93c5621553cf06a49a22f70e590bac922737224d2c1b213b2f069f18"
     },
     {
       "id": "document:docs/studies/ecosystem-documentation-quality-rollout.md",
@@ -6675,54 +6675,6 @@
         "human"
       ],
       "contentHash": "deb4bf28ba51f3e4cf936d5f838cfeb2ecc4eccef1998b097fcabecf3c7c2490"
-    },
-    {
-      "id": "document:docs/studies/integrations-refactor-plan.md",
-      "type": "document",
-      "title": "Entrega 2 — Plano completo de refatoração (lib + agentskit-os)",
-      "path": "docs/studies/integrations-refactor-plan.md",
-      "description": "Status: APROVADO (arquitetura §3 de integrations-unification.md). Data: 2026-06-09. Decisões travadas: descritor único + projeções finas · apagar duplicatas os-runtime/tools/* · schema JSON Schema + ZodLike · boundary open-core confirmado · MCP split em fase própria. Execução faseada, não-breaking, gates sempre verdes. Sem big-bang.",
-      "tags": [
-        "document",
-        "human"
-      ],
-      "contentHash": "ea04ce3a8caeba8c4946817d6737769486769543822da3af647f37f9a4fee581"
-    },
-    {
-      "id": "document:docs/studies/integrations-split-study.md",
-      "type": "document",
-      "title": "integrations-split-study.md",
-      "path": "docs/studies/integrations-split-study.md",
-      "description": "Status: DRAFT para decisão. Autor: sessão Claude + EmersonBraun. Data: 2026-06-09. de forma simples de adicionar, manter e evoluir. Este estudo (1) diagnostica que a (3) entrega plano de migração + catálogo priorizado (~30, mapeado do Activepieces).",
-      "tags": [
-        "document",
-        "human"
-      ],
-      "contentHash": "a0a894074d0dc3a6b63ed88b9a5c043b0cff4d0c2391fb875f835b28baea6102"
-    },
-    {
-      "id": "document:docs/studies/integrations-unification.md",
-      "type": "document",
-      "title": "Unificação de integrações — análise profunda + arquitetura alvo",
-      "path": "docs/studies/integrations-unification.md",
-      "description": "Status: DRAFT para decisão. Data: 2026-06-09. Companheiro de integrations-split-study.md. Entrega 1 de 2: análise profunda + plano de unificação (o \"como deve ser\"). A Entrega 2 (plano completo de refatoração nos dois repos) vem após alinhamento desta. Base: leitura de conteúdo real de lib (local) e AgentsKit-io/agentskit-os (privado).",
-      "tags": [
-        "document",
-        "human"
-      ],
-      "contentHash": "e1c1af1cf7ad42d2d82530c63023aeb1ddd83429ce809281c2bd53a8ae80591e"
-    },
-    {
-      "id": "document:docs/studies/p4-os-integrations-binding.md",
-      "type": "document",
-      "title": "P4 — @agentskit/os-integrations binding (ready-to-apply)",
-      "path": "docs/studies/p4-os-integrations-binding.md",
-      "description": "Status: validated, not yet landed. Built green (lint + DTS), 5/5 tests pass, and check:layers (ADR-0064) passes — verified in a local clone of AgentsKit-io/agentskit-os. It is not committed because this session's sandbox could not hold the large os-repo working tree stable long enough to commit + push (the checkout repeatedly dropped 2000+ tracked files + node_modules mid-run).",
-      "tags": [
-        "document",
-        "human"
-      ],
-      "contentHash": "ea59a4eaf3de70a566dd45b1142273dd99d1b08d198b24b97fc8cf9d66138bc1"
     },
     {
       "id": "document:docs/studies/registry-runner-projections-plan.md",
@@ -7250,7 +7202,7 @@
         "document",
         "project"
       ],
-      "contentHash": "b2e2ea3cb0b4d6ce91eccd9011b5eb3911cd32916f1ecb1c3d3bf4630334e26d"
+      "contentHash": "ae2d3b69b4b2d6cf90678f158c446d47f06d28ebbdf03e0f4a72a8e084a092fc"
     },
     {
       "id": "document:packages/skills/CONVENTIONS.md",
@@ -7857,7 +7809,7 @@
         "ts",
         "ask"
       ],
-      "contentHash": "4c8dd161bd0852c98f1a4e36c8bc1b00fbb3dfcdc1e785f7ffbb224f6b6dec1c"
+      "contentHash": "f504303e91b6367dfa15eaa4880667c86dec472d2b0d78ed0ce332a2cfca93dd"
     },
     {
       "id": "module:apps/ask-backend/src/ask/protocol.ts",
@@ -7914,7 +7866,7 @@
         "test",
         "ask"
       ],
-      "contentHash": "028d24f42a87ed48950b48df219ec6841f03a1caf25a70a51752369be21aff4c"
+      "contentHash": "28946eec47d089727514ce1c3f38e9c8dcc41a8144683b3ea75162c06853fe03"
     },
     {
       "id": "module:apps/ask-backend/src/ask/remote-corpus.ts",
@@ -7958,7 +7910,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "df2e3617627ca0146b84274d630e82f660e672f5cd615f2b43571044a47a8b6f"
+      "contentHash": "3a64a1d795edcaec32616eeababc22906e013fa3df1511c87762e4d6afa499d4"
     },
     {
       "id": "module:apps/ask-backend/src/mcp.ts",
@@ -8047,7 +7999,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "5497ea000f484ad0cbb4852ccc394f15a0f98e6d95fd9084427fb5f0e3ac4dcf"
+      "contentHash": "49e47c87e7f9d1bcff7eea8fb651c9355f53c0407ac569e7365cf74a86247d9f"
     },
     {
       "id": "module:apps/ask-backend/vitest.config.ts",
@@ -11151,6 +11103,18 @@
       "contentHash": "27923f62a33d5070420bdf3ab51ef80f8a53a21c8568624eec2478461d15724b"
     },
     {
+      "id": "module:apps/docs-next/scripts/verify-mermaid.mjs",
+      "type": "module",
+      "title": "verify-mermaid.mjs",
+      "path": "apps/docs-next/scripts/verify-mermaid.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "scripts"
+      ],
+      "contentHash": "f7e6bede390ecf94fe08144928fe9e555fc4535f33400bf7c87d5d5c4de1f7f0"
+    },
+    {
       "id": "module:apps/docs-next/source.config.ts",
       "type": "module",
       "title": "source.config.ts",
@@ -11165,7 +11129,7 @@
         "ts",
         "docs-next"
       ],
-      "contentHash": "c4e75cec7f66161b9f1339d9d7e8401bd9de92cc06581bf19a129b1b7ffb8022"
+      "contentHash": "d773278295619c19dd0b7446b05847c679f4ccaedd862561fb795c768f43795a"
     },
     {
       "id": "module:apps/docs-next/tests/canonical-metadata.test.ts",
@@ -11230,7 +11194,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "0ce77e48b5009d97869a7a6804b4bd6a1e13efc6ba928314fb5e90aee6e97653"
+      "contentHash": "ef4764e930a6ad66b95463dbb384de8c3d4698730e804411d977a2b3c6aaa680"
     },
     {
       "id": "module:apps/docs-next/tests/legacy-redirects.test.ts",
@@ -19187,7 +19151,7 @@
         "ts",
         "types"
       ],
-      "contentHash": "1fa8ba9624bb35e72d81489e144d432c8e8eebb28abecae3b32ccf313f50f0d0"
+      "contentHash": "a759898a0a199fbc89d164980c43c76c8aefd48093b43acecd9cf57e62d14727"
     },
     {
       "id": "module:packages/core/src/types/index.ts",
@@ -21316,7 +21280,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "886a8e37da6e17d2b9d97f4198de59421263a03787fcdd4e722e972236e1631f"
+      "contentHash": "365a1a7c5659854cdbb38e86be5a73be1f9f7f693bed66aa48ec8793e72a3dc0"
     },
     {
       "id": "module:packages/integrations/src/http-body.ts",
@@ -21545,7 +21509,7 @@
         "ts",
         "_template"
       ],
-      "contentHash": "3a20db6d30a72004ffe4fa54519a7ae1aa5edbbb7a4fd9b6a4e26740e8e53e4e"
+      "contentHash": "fec9bfa54fa9371062804061666f5f5efb6bd005b32f7fc6e1d98cb099db642b"
     },
     {
       "id": "module:packages/integrations/src/services/_template/triggers.ts",
@@ -27852,7 +27816,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "4fb1578d07ecec9b2e9e7ae4735cb92d89362aadd9f4a18bfcf707a51dddd000"
+      "contentHash": "1973d0154663b014c0e47b6cc736c214960d37826c90a76b4e384dd6fa3b8816"
     },
     {
       "id": "module:packages/runtime/src/delegates.ts",
@@ -28778,7 +28742,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "57b3b84b0d094db6b5d3ff42a6335520da16771fd9a6a9a496b31082b51e0601"
+      "contentHash": "ef47a37f7c6bf4f705ae5a1fc09a3712c3b1ac1e2f4184e6adbc82bd74be6020"
     },
     {
       "id": "module:packages/sandbox/src/local-sandbox-types.ts",
@@ -29003,7 +28967,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "4fc653c6d346dd85363b443f32aad6c0ecb3633e239e8076e7720dc1a73c346e"
+      "contentHash": "41ed3fa0222ae902cc8afc5fd727768827816e7b11e0fb12d2572db0ca8e3339"
     },
     {
       "id": "module:packages/sandbox/tests/local-runtimes.test.ts",
@@ -31863,7 +31827,7 @@
         "ts",
         "integrations"
       ],
-      "contentHash": "9dfcd7ed129c17c114744210882ec732fc21894d526e4b00a6d147ba52ee42ed"
+      "contentHash": "9076ece7585f2136bfd453b86124520e89d91cb98419c129ecaa0c0c8a2fd89f"
     },
     {
       "id": "module:packages/tools/src/integrations/postgres-roles.ts",
@@ -33100,7 +33064,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "1e4652f42f37e97404f1ac38a72424b8065ac1b4eaa2f896c8fab0c9de17e284"
+      "contentHash": "fadaf0c7e9843dca577281307e33ae64004f1d8f162026a3d31bf787871f6c4c"
     },
     {
       "id": "module:scripts/check-models-dev-freshness.mjs",
@@ -33296,7 +33260,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "6892f1df39735ff5bf7b952a3f9019490f40db3d621896292fbafca55509d310"
+      "contentHash": "455b52839b138e85f4111c967466f462c421d79f653fce412b56bb068835fed2"
     },
     {
       "id": "module:scripts/check-src-test-parity.mjs",
@@ -33432,7 +33396,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "8956f32c15c7ab30a85fe953d7550f9d5800915b04e11f18fe249c20d968222d"
+      "contentHash": "7af46695ffc27b6757fa719e7824410542914b53bd5cc2e6b6420c89f448403d"
     },
     {
       "id": "module:scripts/ecosystem-documentation-quality.test.mjs",
@@ -33471,7 +33435,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "12dbf8fc2265eda22f1d568a30eb1e9e91a5767018c81632b850a76bddbb3dde"
+      "contentHash": "e2485c39341eeac805f6a4573611a8b609abb45ed47df5524074fcdc22468459"
     },
     {
       "id": "module:scripts/external-contributions.test.mjs",
@@ -33520,7 +33484,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "6bc99ac9d9dc5e3c09a1be271467e7899a53dc67c616f6a95c2f728a2f262433"
+      "contentHash": "7aef48d1093d57ef277a301803008a95b0645a7adab57d0d93b4dc2aa944de35"
     },
     {
       "id": "module:scripts/generate-software-metadata.mjs",
@@ -34189,7 +34153,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "4b40bf8147e4f322114f389f0fb029ba1b5d83099ef88b4a6ded2807ccbb2dfe"
+      "contentHash": "55beec1c79ed3459d19358c01574fb7a9bd29f424e4bbcea9c84b703f7615a3e"
     },
     {
       "id": "module:scripts/release-registry.test.mjs",
@@ -34289,7 +34253,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "089a7e91fb87113753f29fdf088cb4b3903c56b6aecd2143420b6938c12ea983"
+      "contentHash": "d7ce4e9563440d377bd3a8392a9e0317af5693a02db4b549ee1024da7a97f4d2"
     },
     {
       "id": "module:scripts/sync-ecosystem.mjs",
@@ -34331,7 +34295,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "f2cd410366ca3462a609c407ae5d3e140d7f7e4f97fea457e3c09af2cf27646a"
+      "contentHash": "101e920cf0e018af8e6ec07ee9de2a4d278e378c1762b2c33084272fe3d53f97"
     },
     {
       "id": "module:scripts/sync-models-dev.mjs",
@@ -35546,8 +35510,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "480b43607178d77fd684ef6fcc182d0d071570388eb3fb358bdcccb569dbf8ea",
-    "fileCount": 2371,
+    "hash": "704681e00ea3a3428fa43e90f02b1699a0bc4bd28c0d8b39403c088cc1401b7f",
+    "fileCount": 2368,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -35569,11 +35533,11 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "55e2e32cb6db8afb3961211d90d79944a2621bd9022dcde82ac26f1ac2bd3e5b",
+    "contentHash": "c0292dec69354fa590711be384e4d49b24ee084f7a327f359f23bd867b646192",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "f5f98d00eb6767ed6f8d206af6d89f388b6d2e924a129e33b325fd9818674c10",
+    "snapshotHash": "a9b71bf698a4bff38f029afbd4e11c6ebef8d2dd724ee56251b7179b7a901f2a",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
-    "configurationHash": "038c0536e2d6cf779e18fa3c024c9837eead6fe9f97166ae81eedfcdc4eca936",
+    "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
     "graphMetricsVersion": "1.0.0",
     "weights": {
@@ -35591,7 +35555,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2324,
+      "documentCount": 2321,
       "fieldNames": [
         "aliases",
         "body",
@@ -35602,13 +35566,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 2.9866609294320137,
-        "body": 62.45051635111876,
-        "headings": 4.293459552495697,
-        "path": 7.64328743545611,
-        "summary": 4.821428571428571,
-        "symbols": 7.454388984509467,
-        "title": 3.3313253012048194
+        "aliases": 2.988367083153813,
+        "body": 61.660060318828094,
+        "headings": 4.165015079707023,
+        "path": 7.644980611805257,
+        "summary": 4.7457992244722105,
+        "symbols": 7.4640241275312365,
+        "title": 3.3261525204653166
       }
     },
     "entries": [
@@ -35953,7 +35917,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "f5cf4857ae2e4463c62300938cddc65de81f87c384e6fe9013340a0bbf892a39",
+        "contentHash": "c8efa66e194eafadaa68dc3b311b6208c07df73d015dc7972e016897932d6235",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -39089,7 +39053,7 @@
             }
           ]
         },
-        "contentHash": "8e21cc72a90ae7c0c10ae587f2b701f8398cd3641a94196cf8bb72600d08bd6d",
+        "contentHash": "13a5b8c2a23d497ac70a65b60c5e96c6a2d6b5e302b7d88d6479b30d00815b20",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -41946,7 +41910,7 @@
           "path": "apps/docs-next/content/docs/agents/tools/integrations/email.mdx",
           "symbols": "",
           "summary": "Bundled: email(config).",
-          "body": "Sub-tools Name Purpose --- --- emailSend Send a message via your EmailTransport emailFetch List messages from a mailbox via your ImapClient Bundled: email(config) . Config Heavy drivers (nodemailer, imapflow, mailparser) are not bundled. Wrap whatever you already use — a reference nodemailer/imapflow adapter lives in the AgentsKitOS triggers package. Example — outbound transactional Example — inbound triage Safety - Default transport to a sandbox / dry-run mode in dev. - Hold a HITL gate before any outbound send to a user-supplied address. - Inbound HTML can carry prompt injection — strip/quote before passing to the model. Related - · (Google-specific path) · . - Issue .",
+          "body": "Sub-tools Name Purpose --- --- emailSend Send a message via your EmailTransport emailFetch List messages from a mailbox via your ImapClient Bundled: email(config) . Config Heavy drivers (nodemailer, imapflow, mailparser) are not bundled. Wrap whatever you already use — see the for reference nodemailer/imapflow wrappers. Example — outbound transactional Example — inbound triage Safety - Default transport to a sandbox / dry-run mode in dev. - Hold a HITL gate before any outbound send to a user-supplied address. - Inbound HTML can carry prompt injection — strip/quote before passing to the model. Related - · (Google-specific path) · . - Issue .",
           "aliases": "document human"
         },
         "graph": {
@@ -41973,7 +41937,7 @@
             }
           ]
         },
-        "contentHash": "e3fac3f0841c27a76c545b583d0f6f35523ef5b90c1d1d95e7aca47d53da9ae9",
+        "contentHash": "c2c34bf7f8e36ff159a9265262a69637b1449f57697a3bde3387ac1de0aff746",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -42723,7 +42687,7 @@
           "path": "apps/docs-next/content/docs/agents/tools/integrations/postgres-cdc.mdx",
           "symbols": "",
           "summary": "Bundled: postgresCdc(config).",
-          "body": "Sub-tools Name Purpose --- --- postgresCdcStatus Slot state, WAL lag, restart/confirmed LSN postgresCdcCreateSlot Create logical replication slot postgresCdcDropSlot Drop slot (frees WAL retention) postgresCdcAdvance Advance confirmed flush lsn past a checkpoint postgresCdcPeek Peek N pending changes without consuming Bundled: postgresCdc(config) . For the long-running stream of normalised CdcChangeEvent s, use createCdcStream(config) — it yields an AsyncIterable and is consumed by AgentsKitOS triggers ( trigger.cdc. events, ADR-0005), not by the agent loop. Config pg-logical-replication , wal2json , and @supabase/realtime-js are not bundled — pass an adapter so this package stays driver-free. Example — slot bootstrap + stream Operational notes - WAL retention : an unconsumed slot grows pg wal indefinitely. Drop slots you no longer use. - Reconnect / backoff : handle in your adapter — emit op: 'schema' events on column add/drop so the agent can react. - Initial snapshot : use a COPY snapshot before streaming if the agent must see existing rows. - Supabase : use realtime-js and skip slot management; auth is RLS-scoped. Safety - CDC payloads can include sensitive columns. Filter with a column allowlist before feeding to the model. - Consider for any sink that persists events. Related - — query mode. - AgentsKitOS triggers — trigger.cdc. event bus. - Issue , .",
+          "body": "Sub-tools Name Purpose --- --- postgresCdcStatus Slot state, WAL lag, restart/confirmed LSN postgresCdcCreateSlot Create logical replication slot postgresCdcDropSlot Drop slot (frees WAL retention) postgresCdcAdvance Advance confirmed flush lsn past a checkpoint postgresCdcPeek Peek N pending changes without consuming Bundled: postgresCdc(config) . For the long-running stream of normalised CdcChangeEvent s, use createCdcStream(config) — it yields an AsyncIterable meant for a long-running trigger or worker, not for the agent loop. Config pg-logical-replication , wal2json , and @supabase/realtime-js are not bundled — pass an adapter so this package stays driver-free. Example — slot bootstrap + stream Operational notes - WAL retention : an unconsumed slot grows pg wal indefinitely. Drop slots you no longer use. - Reconnect / backoff : handle in your adapter — emit op: 'schema' events on column add/drop so the agent can react. - Initial snapshot : use a COPY snapshot before streaming if the agent must see existing rows. - Supabase : use realtime-js and skip slot management; auth is RLS-scoped. Safety - CDC payloads can include sensitive columns. Filter with a column allowlist before feeding to the model. - Consider for any sink that persists events. Related - — query mode. - Issue , .",
           "aliases": "document human"
         },
         "graph": {
@@ -42745,7 +42709,7 @@
             }
           ]
         },
-        "contentHash": "dc6e3dc956bc858e8e57992047ddacafe38b645bc178fe01fa1230c5692a7dd4",
+        "contentHash": "f3c615ef95abafc802a38bb61edddb31150cd56d700a4fd9ebcb62df36caa7b3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -48470,7 +48434,7 @@
           "path": "apps/docs-next/content/docs/for-agents/doc-bridge.mdx",
           "symbols": "",
           "summary": "Use Doc Bridge before editing to locate the owning package, its agent handoff, human documentation, allowed edit roots, and required checks. Use the workflow artifacts to compare observed repository structure with documented intent.",
-          "body": "Purpose Use Doc Bridge before editing to locate the owning package, its agent handoff, human documentation, allowed edit roots, and required checks. Use the workflow artifacts to compare observed repository structure with documented intent. First commands For a repository-wide evidence run: The run persists its source revision, configuration hash, analyzer versions, content hashes, stage transitions, and last-known-good artifacts under .doc-bridge/workflow/ . The HTML report is read-only and should be opened only after the machine-readable stages have completed. How to interpret findings - confirmed means code evidence and documentation agree. - undocumented means observed structure has no matching documented claim. - stale-or-unverified means a documented claim cannot be confirmed by the current scan. - conflict means code and documentation make incompatible claims. - not-analyzed or unresolved is a coverage boundary, not proof of a defect. Do not report a run as complete from compilation or unit tests alone. Check the workflow state, evidence references, report, and the package-specific commands returned by the handoff. Suggestions remain advisory and require human approval before any change is applied. Measuring retrieval efficiency AgentsKit keeps an anonymized local benchmark for the knowledge handoff. It executes a fixed set of real package queries three times per task and records only aggregate metrics: hit rate, p50/p95 latency, response size, estimated context tokens, corpus size, generated artifact sizes, package documentation coverage, total document coverage, agent-corpus document coverage, diagnostic classifications, and evidence coverage. Latency is reduced to one median per task before aggregation to avoid false regressions caused by process-startup jitter. The token value is a conservative estimate ( response bytes / 4 ), not a provider billing measurement. Package coverage, total document coverage, and agent-corpus coverage are reported separately: a package can have a fresh handoff while unrelated Markdown files remain unlinked or outside the declared comparison scope. The agent-corpus metric is documentedAgentDocumentCount / agentDocumentCount ; it currently measures package-specific docs/for-agents pages, while cross-cutting pages remain intentionally outside package ownership. Run the benchmark after the bridge report has been generated: Create the first baseline explicitly, after reviewing the result: Later runs compare the current revision with .doc-bridge/benchmarks/baseline.json and fail on an agent-corpus coverage drop, a retrieval hit-rate drop, or a p95 latency/response/token regression greater than 10%: The baseline and current snapshot contain numeric aggregate data only. They do not contain repository paths, prompts, query text, documentation content, or credentials. A baseline replacement requires the explicit --write-baseline --replace-baseline command and an auditable review. feeds labeled confirmed, undocumented, stale, not-analyzed, conflict, and unresolved cases through the real reconciler and requires exact diagnostic classification, complete evidence, and 1.000 precision and recall. This is separate from the repository report totals: a large report can still pass retrieval while the semantic classifier regresses. Optional Registry assistance The repository can run the source-owned ecosystem-doc-bridge-corpus-scanner agent from the AgentsKit Registry as a deterministic, read-only proposal step: The configured runner records the Registry agent ID, exact version, provider, base snapshot hash, base report hash, evidence references, and proposal hash. twice, verifies hash stability, checks that every linked diagnostic exists in the current report, and rejects paths absent from the supplied corpus. A provider-backed/LLM run is a separate opt-in operation and is not implied by this deterministic gate. Documentation change loop 1. Resolve the handoff and read AGENTS.md . 2. Inspect the relevant c",
+          "body": "Purpose Use Doc Bridge before editing to locate the owning package, its agent handoff, human documentation, allowed edit roots, and required checks. Use the workflow artifacts to compare observed repository structure with documented intent. First commands For a repository-wide evidence run: The run persists its source revision, configuration hash, analyzer versions, content hashes, stage transitions, and last-known-good artifacts under .doc-bridge/workflow/ . The HTML report is read-only and should be opened only after the machine-readable stages have completed. How to interpret findings - confirmed means code evidence and documentation agree. - undocumented means observed structure has no matching documented claim. - stale-or-unverified means a documented claim cannot be confirmed by the current scan. - conflict means code and documentation make incompatible claims. - not-analyzed or unresolved is a coverage boundary, not proof of a defect. Do not report a run as complete from compilation or unit tests alone. Check the workflow state, evidence references, report, and the package-specific commands returned by the handoff. Suggestions remain advisory and require human approval before any change is applied. Measuring retrieval efficiency AgentsKit keeps an anonymized local benchmark for the knowledge handoff. It executes a fixed set of real package queries three times per task and records only aggregate metrics: hit rate, p50/p95 latency, response size, estimated context tokens, corpus size, generated artifact sizes, package documentation coverage, total document coverage, agent-corpus document coverage, diagnostic classifications, and evidence coverage. Latency is reduced to one median per task before aggregation to avoid false regressions caused by process-startup jitter. The token value is a conservative estimate ( response bytes / 4 ), not a provider billing measurement. Package coverage, total document coverage, and agent-corpus coverage are reported separately: a package can have a fresh handoff while unrelated Markdown files remain unlinked or outside the declared comparison scope. The agent-corpus metric is documentedAgentDocumentCount / agentDocumentCount ; it currently measures package-specific docs/for-agents pages, while cross-cutting pages remain intentionally outside package ownership. Run the benchmark after the bridge report has been generated: Create the first baseline explicitly, after reviewing the result: Later runs compare the current revision with .doc-bridge/benchmarks/baseline.json and fail on an agent-corpus coverage drop, a retrieval hit-rate drop, or a p95 latency/response/token regression greater than 10%: The baseline and current snapshot contain numeric aggregate data only. They do not contain repository paths, prompts, query text, documentation content, or credentials. A baseline replacement requires the explicit --write-baseline --replace-baseline command and an auditable review. feeds labeled confirmed, undocumented, stale, not-analyzed, conflict, and unresolved cases through the real reconciler and requires exact diagnostic classification, complete evidence, and 1.000 precision and recall. This is separate from the repository report totals: a large report can still pass retrieval while the semantic classifier regresses. Run it from a Doc Bridge checkout: Optional Registry assistance The repository can run the source-owned ecosystem-doc-bridge-corpus-scanner agent from the AgentsKit Registry as a deterministic, read-only proposal step: The configured runner records the Registry agent ID, exact version, provider, base snapshot hash, base report hash, evidence references, and proposal hash. twice, verifies hash stability, checks that every linked diagnostic exists in the current report, and rejects paths absent from the supplied corpus. A provider-backed/LLM run is a separate opt-in operation and is not implied by this deterministic gate. Documentation change loop 1. Resolve the handoff and read AG",
           "aliases": "doc-bridge document agent"
         },
         "graph": {
@@ -48493,7 +48457,7 @@
             }
           ]
         },
-        "contentHash": "d31708a23b0590d47e4e9b90a08b031763c4bc1950dc2a0bb218c6ec4469ae73",
+        "contentHash": "8475051ce7b7409bddd80f5fecd66ecb02546ad4fd5585058d2d8d48633faf1d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -62237,7 +62201,7 @@
         "kind": "document",
         "path": "apps/docs-next/content/docs/reference/recipes/triggers-adapters.mdx",
         "title": "triggers-adapters.mdx",
-        "summary": "The @agentskit/tools integrations stay driver-free by accepting small client adapters. Here are reference wrappers for the three integrations AgentsKitOS triggers most commonly consume.",
+        "summary": "The @agentskit/tools integrations stay driver-free by accepting small client adapters. Here are reference wrappers for the three integrations that event triggers most commonly consume.",
         "audience": "human",
         "aliases": [],
         "tags": [
@@ -62246,11 +62210,11 @@
         ],
         "fields": {
           "title": "triggers-adapters.mdx",
-          "headings": "Email — nodemailer + imapflow Microsoft Teams — botbuilder Postgres CDC — pg-logical-replication Wiring into AgentsKitOS triggers Related",
+          "headings": "Email — nodemailer + imapflow Microsoft Teams — botbuilder Postgres CDC — pg-logical-replication Wiring into a trigger Related",
           "path": "apps/docs-next/content/docs/reference/recipes/triggers-adapters.mdx",
           "symbols": "",
-          "summary": "The @agentskit/tools integrations stay driver-free by accepting small client adapters. Here are reference wrappers for the three integrations AgentsKitOS triggers most commonly consume.",
-          "body": "The @agentskit/tools integrations stay driver-free by accepting small client adapters. Here are reference wrappers for the three integrations AgentsKitOS triggers most commonly consume. Email — nodemailer + imapflow Microsoft Teams — botbuilder Postgres CDC — pg-logical-replication Wiring into AgentsKitOS triggers Related - · · - Issue .",
+          "summary": "The @agentskit/tools integrations stay driver-free by accepting small client adapters. Here are reference wrappers for the three integrations that event triggers most commonly consume.",
+          "body": "The @agentskit/tools integrations stay driver-free by accepting small client adapters. Here are reference wrappers for the three integrations that event triggers most commonly consume. Email — nodemailer + imapflow Microsoft Teams — botbuilder Postgres CDC — pg-logical-replication Wiring into a trigger Your trigger or poller owns the inbound loop (IMAP polling, Teams webhooks, a CDC stream). Hand it the adapters above and give the agent the outbound tools: Related - · · - Issue .",
           "aliases": "document human"
         },
         "graph": {
@@ -62277,7 +62241,7 @@
             }
           ]
         },
-        "contentHash": "48a743dc9449b453dcb0098e7da906017ce4abf3a9a6a6cc8fe0821c2cdeb4fd",
+        "contentHash": "01336c468825591ec8cf48168ade17302593d63abf028619ecdac8fbd8de116b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -65548,7 +65512,7 @@
         "kind": "document",
         "path": "artifacts/ecosystem-readiness/latest.md",
         "title": "AgentsKit ecosystem readiness",
-        "summary": "This mutable latest alias points to the immutable snapshot readiness-2026-08-14.md. Keep the dated artifact as the audit record and update this alias when a newer readiness run is published.",
+        "summary": "Audit date: 2026-08-14",
         "aliases": [],
         "tags": [
           "document",
@@ -65559,8 +65523,8 @@
           "headings": "AgentsKit ecosystem readiness Products agentskit — blocked registry — blocked agentskit-chat — blocked playbook — blocked doc-bridge — blocked code-review — blocked Findings",
           "path": "artifacts/ecosystem-readiness/latest.md",
           "symbols": "",
-          "summary": "This mutable latest alias points to the immutable snapshot readiness-2026-08-14.md. Keep the dated artifact as the audit record and update this alias when a newer readiness run is published.",
-          "body": "AgentsKit ecosystem readiness This mutable latest alias points to the immutable snapshot . Keep the dated artifact as the audit record and update this alias when a newer readiness run is published. - Audit date: 2026-08-14 - Overall: blocked - Promotion allowed: no - Products: 0 ready / 7 blocked / 0 incomplete (of 7) - Findings: 7 (P0=7, P1=0) Products agentskit — blocked - Repo: AgentsKit-io/agentskit - Maturity: beta (source: ecosystem.json products[agentskit].maturity) - Audited on: 2026-07-14 registry — blocked - Repo: AgentsKit-io/agentskit-registry - Maturity: beta (source: ecosystem.json) - Audited on: 2026-07-14 agentskit-chat — blocked - Repo: AgentsKit-io/agentskit-chat - Maturity: alpha (source: ecosystem.json) - Audited on: 2026-07-14 playbook — blocked - Repo: AgentsKit-io/agents-playbook - Maturity: stable (source: ecosystem.json) - Audited on: 2026-07-14 doc-bridge — blocked - Repo: AgentsKit-io/doc-bridge - Maturity: stable (source: ecosystem.json) - Audited on: 2026-07-14 code-review — blocked - Repo: AgentsKit-io/code-review-cli - Maturity: alpha (source: ecosystem.json) - Audited on: 2026-07-14 - Repo: AgentsKit-io/agentskit-os - Maturity: stable (source: ecosystem.json) - Audited on: 2026-07-14 Findings - P0 agentskit / evidence-freshness (fail): Evidence is 31 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit) - P0 agentskit-chat / evidence-freshness (fail): Evidence is 31 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit-chat) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit-os) - P0 code-review / evidence-freshness (fail): Evidence is 31 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/code-review-cli) - P0 doc-bridge / evidence-freshness (fail): Evidence is 31 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/doc-bridge) - P0 playbook / evidence-freshness (fail): Evidence is 31 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agents-playbook) - P0 registry / evidence-freshness (fail): Evidence is 31 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit-registry) Broad promotion remains gated until overall status is ready .",
+          "summary": "Audit date: 2026-08-14",
+          "body": "AgentsKit ecosystem readiness - Audit date: 2026-08-14 - Overall: blocked - Promotion allowed: no - Products: 0 ready / 6 blocked / 0 incomplete (of 6) - Findings: 6 (P0=6, P1=0) Products agentskit — blocked - Repo: AgentsKit-io/agentskit - Maturity: beta (source: ecosystem.json products[agentskit].maturity) - Audited on: 2026-07-14 registry — blocked - Repo: AgentsKit-io/agentskit-registry - Maturity: beta (source: ecosystem.json) - Audited on: 2026-07-14 agentskit-chat — blocked - Repo: AgentsKit-io/agentskit-chat - Maturity: alpha (source: ecosystem.json) - Audited on: 2026-07-14 playbook — blocked - Repo: AgentsKit-io/agents-playbook - Maturity: stable (source: ecosystem.json) - Audited on: 2026-07-14 doc-bridge — blocked - Repo: AgentsKit-io/doc-bridge - Maturity: stable (source: ecosystem.json) - Audited on: 2026-07-14 code-review — blocked - Repo: AgentsKit-io/code-review-cli - Maturity: alpha (source: ecosystem.json) - Audited on: 2026-07-14 Findings - P0 agentskit / evidence-freshness (fail): Evidence is 31 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit) - P0 agentskit-chat / evidence-freshness (fail): Evidence is 31 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit-chat) - P0 code-review / evidence-freshness (fail): Evidence is 31 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/code-review-cli) - P0 doc-bridge / evidence-freshness (fail): Evidence is 31 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/doc-bridge) - P0 playbook / evidence-freshness (fail): Evidence is 31 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agents-playbook) - P0 registry / evidence-freshness (fail): Evidence is 31 days old (maximum 30) - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit-registry) Broad promotion remains gated until overall status is ready .",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -65585,7 +65549,7 @@
             }
           ]
         },
-        "contentHash": "553a5c3e1b035d8b233e71fcdd400461c462f29e79c75105c23b31c57d88a43a",
+        "contentHash": "c4737c1627d6defe2afc6712bc813a12ba8fa4bfb0d33a4daa6b6c7923b24e47",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -67754,7 +67718,7 @@
           "path": "docs/architecture/adrs/0021-ecosystem-manifest-and-claims.md",
           "symbols": "",
           "summary": "Status: Proposed",
-          "body": "ADR 0021 — Versioned ecosystem manifest and evidence-backed claims - Status : Proposed - Date : 2026-07-13 - Supersedes : — - Related issues : 1198, 1200 Context AgentsKit already owns ecosystem.json , copies it into the documentation and landing applications, generates an ecosystem bar from it, derives AgentsKit counts through scripts/compute-stats.mjs , and blocks new hard-coded count drift. These pieces are useful and should be deepened rather than replaced. The current manifest models four web properties. The product ecosystem now has seven members: AgentsKit, Registry, Playbook, AgentsChat, Doc Bridge, Code Review, and AgentsKit OS. Not every product has the same surfaces: Code Review intentionally remains repository-native and has no Fumadocs site or embedded chat. The existing shape requires a domain and treats every member as a web property, so it cannot represent that distinction without misleading consumers. The current stats snapshot is also a property-specific count payload, not a public-claim ledger. It exposes values but not the derivation, owner, or evidence needed to decide whether marketing copy such as “300+ agents” is reproducible. Decision AgentsKit owns two small, versioned, deterministic contracts. 1. ecosystem.json v2 — stable product identity The manifest models products rather than assuming every entry is a web property. Each product declares: - stable id , public name , short navigation label, kind, role, and promise; - repository and maturity; - brand accent; - optional home, docs, llms.txt , and stats surfaces; - documentation mode ( fumadocs or repository ); - chat mode ( agentschat , transitional custom , or none ); - whether and where it appears in shared navigation; - contextual next-product IDs. Consumers derive the ecosystem bar from products that opt into shared navigation. A product without a website remains representable without inventing a domain. The parent brand is explicit in the manifest. Builder attribution remains link-source-only and is not presented as a peer product. 2. ecosystem-claims.json v1 — generated values and evidence The claims ledger is generated, never hand-edited. A claim contains: - stable claim ID and owning product ID; - exact numeric value; - display noun and optional conservative floor used by “N+” copy; - evidence type, repository/path or public endpoint, and derivation summary; - verification state. The first slice emits claims that AgentsKit can derive locally through the existing computeStats() module. Other products declare their authoritative stats surface in the manifest and publish their owned claims in their repository-specific migration slices. The canonical manifest does not fetch sibling repositories at runtime or make their build availability a prerequisite for AgentsKit builds. Validation and distribution A standard-library module parses and validates the manifest and claims at the script boundary. It returns normalized data or throws diagnostics containing the invalid field path. The parser is the executable contract; committed JSON remains portable to every language and repository. Generation is deterministic: no wall-clock timestamp is committed. Content freshness is proven by regenerating and comparing the expected artifact. Existing application copies and ecosystem-bar generation continue through sync-ecosystem.mjs , updated to consume the v2 parser and navigation projection. The existing /api/stats.json contract remains property-specific and backward compatible. The claims ledger complements it; it does not rename or remove current count fields. During the cross-repository migration, v2 also retains the deprecated v1 properties products ; removal requires a coordinated v3 after all sibling consumers migrate. Rationale 1. Extend what already works. The repository already has derivation, snapshots, copies, and drift gates. A second platform or package would duplicate them. 2. Products are not identical surfaces. Optional, explicit surfaces repres",
+          "body": "ADR 0021 — Versioned ecosystem manifest and evidence-backed claims - Status : Proposed - Date : 2026-07-13 - Supersedes : — - Related issues : 1198, 1200 Context AgentsKit already owns ecosystem.json , copies it into the documentation and landing applications, generates an ecosystem bar from it, derives AgentsKit counts through scripts/compute-stats.mjs , and blocks new hard-coded count drift. These pieces are useful and should be deepened rather than replaced. The current manifest models four web properties. The product ecosystem now has more members, including AgentsKit, Registry, Playbook, AgentsChat, Doc Bridge, and Code Review. Not every product has the same surfaces: Code Review intentionally remains repository-native and has no Fumadocs site or embedded chat. The existing shape requires a domain and treats every member as a web property, so it cannot represent that distinction without misleading consumers. The current stats snapshot is also a property-specific count payload, not a public-claim ledger. It exposes values but not the derivation, owner, or evidence needed to decide whether marketing copy such as “300+ agents” is reproducible. Decision AgentsKit owns two small, versioned, deterministic contracts. 1. ecosystem.json v2 — stable product identity The manifest models products rather than assuming every entry is a web property. Each product declares: - stable id , public name , short navigation label, kind, role, and promise; - repository and maturity; - brand accent; - optional home, docs, llms.txt , and stats surfaces; - documentation mode ( fumadocs or repository ); - chat mode ( agentschat , transitional custom , or none ); - whether and where it appears in shared navigation; - contextual next-product IDs. Consumers derive the ecosystem bar from products that opt into shared navigation. A product without a website remains representable without inventing a domain. The parent brand is explicit in the manifest. Builder attribution remains link-source-only and is not presented as a peer product. 2. ecosystem-claims.json v1 — generated values and evidence The claims ledger is generated, never hand-edited. A claim contains: - stable claim ID and owning product ID; - exact numeric value; - display noun and optional conservative floor used by “N+” copy; - evidence type, repository/path or public endpoint, and derivation summary; - verification state. The first slice emits claims that AgentsKit can derive locally through the existing computeStats() module. Other products declare their authoritative stats surface in the manifest and publish their owned claims in their repository-specific migration slices. The canonical manifest does not fetch sibling repositories at runtime or make their build availability a prerequisite for AgentsKit builds. Validation and distribution A standard-library module parses and validates the manifest and claims at the script boundary. It returns normalized data or throws diagnostics containing the invalid field path. The parser is the executable contract; committed JSON remains portable to every language and repository. Generation is deterministic: no wall-clock timestamp is committed. Content freshness is proven by regenerating and comparing the expected artifact. Existing application copies and ecosystem-bar generation continue through sync-ecosystem.mjs , updated to consume the v2 parser and navigation projection. The existing /api/stats.json contract remains property-specific and backward compatible. The claims ledger complements it; it does not rename or remove current count fields. During the cross-repository migration, v2 also retains the deprecated v1 properties products ; removal requires a coordinated v3 after all sibling consumers migrate. Rationale 1. Extend what already works. The repository already has derivation, snapshots, copies, and drift gates. A second platform or package would duplicate them. 2. Products are not identical surfaces. Optional, explicit surfaces represent C",
           "aliases": "document human"
         },
         "graph": {
@@ -67807,7 +67771,7 @@
             }
           ]
         },
-        "contentHash": "ff4fb961cbf8461c9eefd784d052de3c27da50a4393d770b90f8e359a6a69d09",
+        "contentHash": "b8dcdcf9c1a6840e01aaa2d74f074012238d6e98583ea85821cbb9e3354bbc56",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -71963,7 +71927,7 @@
           "path": "docs/studies/ecosystem-cohesion-plan.md",
           "symbols": "",
           "summary": "Status: Superseded baseline · Date: 2026-06-10 · Owner: Emerson Braun",
-          "body": "AgentsKit Ecosystem Cohesion Plan Status: Superseded baseline · Date: 2026-06-10 · Owner: Emerson Braun Historical five-property study. The current seven-product identity contract is ADR 0021 and ecosystem.json ; the active documentation certification rollout is ADR 0023 and docs/studies/ecosystem-documentation-quality-rollout.md . Do not use the counts, URLs, or property list below as current product truth. Unify the five AgentsKit-ecosystem web properties into one coherent surface: shared identity, reciprocal cross-references, perfect SEO, machine-readable for-agents docs + llms.txt everywhere, and a single canonical source for every number so counts never drift again. --- 1. The five properties Property Domain Repo Path Stack Role --- ---------- -------- ------ ------ ------- ------ 1 Main docs + landing agentskit.io / www.agentskit.io agentskit (local lib ) apps/docs-next , apps/landing Next 16 + fumadocs 16 + Tailwind 4 Hub. Library docs. 3 Agents Playbook playbook.agentskit.io agents-playbook root app Next 15 + fumadocs 15 + Tailwind 4 Best-practices / methodology. 4 Registry registry.agentskit.io agentskit-registry static public/ Static HTML + Node build script shadcn-style installable agents. 5 Personal emersonbraun.dev eb-dev ( NoxCode/eb-dev ) apps/website Next + Nx + Bun + Tailwind 4 + shadcn Builder hub. References all. Positioning sentence (shared everywhere): Grab what you want from AgentsKit ( agentskit.io ), follow best practices in the Playbook ( playbook.agentskit.io ), drop in ready-made agents from the Registry ( registry.agentskit.io ), and run them in production on (Attribution to the builder lives on emersonbraun.dev , which links out to all four; the four product sites carry no personal-attribution links back.) --- 2. Audit — current state 2.1 The drift problem (this is why we're here) Counts are hardcoded in copy and already mutually contradictory : Property Hardcoded claims found Reality ---------- ------------------------ --------- agentskit.io \"19 packages\" / \"13+ packages\" / \"8 libraries\"; \"20+ native adapters\" / \"17 adapters\" / \"100+ more\"; \"5,000+ models\"; \"20+ / 20 integrations\"; \"9 skills\"; \"60+ recipes\"; \"7 frameworks\"; \"six contracts\" 25 pkg dirs, 36 adapter modules, 3 integration dirs — none derived playbook \"6 pillars\", \"70+ patterns\", \"13 gate scripts\", \"6 phases\" (in page.tsx and baked into OG image) ~85 pattern files, 13 scripts — loosely accurate, not derived registry none — count derived live from r/index.json (45 agents) ✅ correct model eb-dev \"14 npm packages\" (x2), \"21 skills\" (x4); package list itself fetched live from npm npm fetch is correct; the 14/21 strings drift Two properties already do it right (registry derives from index.json ; eb-dev fetches npm live). The fix is to make all numbers derive from a manifest. 2.2 Identity — fully divergent No shared brand package anywhere. Every property has its own accent, and two have internal divergence: Property Accent Notes ---------- -------- ------- agentskit.io docs GitHub green 1a7f37 / 2EA043 --ak- tokens in global.css agentskit.io landing Purple 7c5cff different palette from its own docs playbook Violet oklch(0.72 0.18 295) inline in globals.css , dark-only registry Blue 6ea8fe inline <style eb-dev Blue hsl(217 91% 60%) shadcn vars Fonts are roughly aligned (Inter body + JetBrains Mono code almost everywhere; lib adds Space Grotesk display). Logos are inconsistent: lib has Sparkles icon and has no favicon ; registry has no logo/favicon. 2.3 SEO maturity ------------ :---: :---: :---: :---: :---: Root metadata + title template ✅ ✅ ✅ partial ✅ (no template) Per-page canonical ✅ ❌ ✅ ❌ (1 page) ❌ Dynamic OG image ✅ static only static only ❌ static logo.png Sitemap ✅ ✅ ✅ ❌ ⚠️ 3 URLs, lastModified frozen 2025-04-08 robots + AI crawlers ✅ explicit allowlist ✅ basic ✅ basic ❌ ✅ basic JSON-LD ✅ (Org/WebSite/Article/Breadcrumb) ❌ ✅ ❌ ⚠️ Person only agentskit.io is the reference implementation. Everything else has gaps. canonicals/OG/sitema",
+          "body": "AgentsKit Ecosystem Cohesion Plan Status: Superseded baseline · Date: 2026-06-10 · Owner: Emerson Braun Historical five-property study. The current seven-product identity contract is ADR 0021 and ecosystem.json ; the active documentation certification rollout is ADR 0023 and docs/studies/ecosystem-documentation-quality-rollout.md . Do not use the counts, URLs, or property list below as current product truth. Unify the five AgentsKit-ecosystem web properties into one coherent surface: shared identity, reciprocal cross-references, perfect SEO, machine-readable for-agents docs + llms.txt everywhere, and a single canonical source for every number so counts never drift again. --- 1. The five properties Property Domain Repo Path Stack Role --- ---------- -------- ------ ------ ------- ------ 1 Main docs + landing agentskit.io / www.agentskit.io agentskit (local lib ) apps/docs-next , apps/landing Next 16 + fumadocs 16 + Tailwind 4 Hub. Library docs. 3 Agents Playbook playbook.agentskit.io agents-playbook root app Next 15 + fumadocs 15 + Tailwind 4 Best-practices / methodology. 4 Registry registry.agentskit.io agentskit-registry static public/ Static HTML + Node build script shadcn-style installable agents. 5 Personal emersonbraun.dev eb-dev ( NoxCode/eb-dev ) apps/website Next + Nx + Bun + Tailwind 4 + shadcn Builder hub. References all. Positioning sentence (shared everywhere): Grab what you want from AgentsKit ( agentskit.io ), follow best practices in the Playbook ( playbook.agentskit.io ), drop in ready-made agents from the Registry ( registry.agentskit.io ). (Attribution to the builder lives on emersonbraun.dev , which links out to all four; the four product sites carry no personal-attribution links back.) --- 2. Audit — current state 2.1 The drift problem (this is why we're here) Counts are hardcoded in copy and already mutually contradictory : Property Hardcoded claims found Reality ---------- ------------------------ --------- agentskit.io \"19 packages\" / \"13+ packages\" / \"8 libraries\"; \"20+ native adapters\" / \"17 adapters\" / \"100+ more\"; \"5,000+ models\"; \"20+ / 20 integrations\"; \"9 skills\"; \"60+ recipes\"; \"7 frameworks\"; \"six contracts\" 25 pkg dirs, 36 adapter modules, 3 integration dirs — none derived playbook \"6 pillars\", \"70+ patterns\", \"13 gate scripts\", \"6 phases\" (in page.tsx and baked into OG image) ~85 pattern files, 13 scripts — loosely accurate, not derived registry none — count derived live from r/index.json (45 agents) ✅ correct model eb-dev \"14 npm packages\" (x2), \"21 skills\" (x4); package list itself fetched live from npm npm fetch is correct; the 14/21 strings drift Two properties already do it right (registry derives from index.json ; eb-dev fetches npm live). The fix is to make all numbers derive from a manifest. 2.2 Identity — fully divergent No shared brand package anywhere. Every property has its own accent, and two have internal divergence: Property Accent Notes ---------- -------- ------- agentskit.io docs GitHub green 1a7f37 / 2EA043 --ak- tokens in global.css agentskit.io landing Purple 7c5cff different palette from its own docs playbook Violet oklch(0.72 0.18 295) inline in globals.css , dark-only registry Blue 6ea8fe inline <style eb-dev Blue hsl(217 91% 60%) shadcn vars Fonts are roughly aligned (Inter body + JetBrains Mono code almost everywhere; lib adds Space Grotesk display). Logos are inconsistent: lib has Sparkles icon and has no favicon ; registry has no logo/favicon. 2.3 SEO maturity ------------ :---: :---: :---: :---: :---: Root metadata + title template ✅ ✅ ✅ partial ✅ (no template) Per-page canonical ✅ ❌ ✅ ❌ (1 page) ❌ Dynamic OG image ✅ static only static only ❌ static logo.png Sitemap ✅ ✅ ✅ ❌ ⚠️ 3 URLs, lastModified frozen 2025-04-08 robots + AI crawlers ✅ explicit allowlist ✅ basic ✅ basic ❌ ✅ basic JSON-LD ✅ (Org/WebSite/Article/Breadcrumb) ❌ ✅ ❌ ⚠️ Person only agentskit.io is the reference implementation. Everything else has gaps. canonicals/OG/sitemap point at the wrong domain un",
           "aliases": "document human"
         },
         "graph": {
@@ -72078,7 +72042,7 @@
             }
           ]
         },
-        "contentHash": "cf497d6cb1789bfe7be5222930f0d4652128a76b5f6e22234caca261ab74fecd",
+        "contentHash": "cafbb2ae93c5621553cf06a49a22f70e590bac922737224d2c1b213b2f069f18",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -72216,297 +72180,6 @@
           ]
         },
         "contentHash": "deb4bf28ba51f3e4cf936d5f838cfeb2ecc4eccef1998b097fcabecf3c7c2490",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
-        "id": "document:docs/studies/integrations-refactor-plan.md",
-        "kind": "document",
-        "path": "docs/studies/integrations-refactor-plan.md",
-        "title": "Entrega 2 — Plano completo de refatoração (lib + agentskit-os)",
-        "summary": "Status: APROVADO (arquitetura §3 de integrations-unification.md). Data: 2026-06-09. Decisões travadas: descritor único + projeções finas · apagar duplicatas os-runtime/tools/* · schema JSON Schema + ZodLike · boundary open-core confirmado · MCP split em fase própria. Execução faseada, não-breaking, gates sempre verdes. Sem big-bang.",
-        "audience": "human",
-        "aliases": [],
-        "tags": [
-          "document",
-          "human"
-        ],
-        "fields": {
-          "title": "Entrega 2 — Plano completo de refatoração (lib + agentskit-os)",
-          "headings": "Entrega 2 — Plano completo de refatoração (lib + agentskit-os) 0. Visão das fases e ordem de PR 1. P1 — Fundação @agentskit/integrations [lib] 2. P2 — Mover as 40 + alias deprecado [lib] 3. P3 — Projeção lib + consumo runtime/cli [lib] 4. P4 — Binding package no OS [os] 5. P5 — Parar duplicação: os-runtime-agentskit consome catálogo [os] 6. P6 — Connectors projetam o catálogo [os] 7. P7 — Triggers projetam + canonização Slack [os] 8. P8 — OAuth lê o catálogo [os] 9. P9 — Notifications projetam [os] 10. P10 — Marketplace gera listings do catálogo [os] 11. P11 — Ondas de catálogo (+30) [lib] 12. P12 — MCP split + catálogo via MCP [lib] (opcional, paralelo) 13. Changesets & versionamento (resumo) 14. Contract tests & gates (rede de segurança) 15. Rollback & ordem segura 16. Resumo executável (caminho crítico)",
-          "path": "docs/studies/integrations-refactor-plan.md",
-          "symbols": "",
-          "summary": "Status: APROVADO (arquitetura §3 de integrations-unification.md). Data: 2026-06-09. Decisões travadas: descritor único + projeções finas · apagar duplicatas os-runtime/tools/* · schema JSON Schema + ZodLike · boundary open-core confirmado · MCP split em fase própria. Execução faseada, não-breaking, gates sempre verdes. Sem big-bang.",
-          "body": "Entrega 2 — Plano completo de refatoração (lib + agentskit-os) Status: APROVADO (arquitetura §3 de integrations-unification.md ). Data: 2026-06-09. Decisões travadas: descritor único + projeções finas · apagar duplicatas os-runtime/tools/ · schema JSON Schema + ZodLike · boundary open-core confirmado · MCP split em fase própria. Execução faseada, não-breaking, gates sempre verdes . Sem big-bang. Convenção: [lib] = repo EmersonBraun/lib · [os] = AgentsKit-io/agentskit-os . + =criar ~ =editar - =deletar. Changeset semver por pacote em cada PR. --- 0. Visão das fases e ordem de PR PR Fase Repo Entrega Quebra? --- --- --- --- --- P1 Fundação lib @agentskit/integrations (contrato+http+registry+gen+CI) não (pacote novo) P2 Mover 40 lib 40 → services/ + re-export deprecado em tools não (alias) P3 Projeção lib lib toToolDefinitions + runtime/cli consomem catálogo não P4 Binding OS os @agentskit/os-integrations (adapters de projeção) não (pacote novo) P5 Parar duplicação os os-runtime-agentskit consome catálogo, deleta tools/ interno (paridade testada) P6 Connectors os os-connectors projeta actions[sendCapability] não P7 Triggers os os-triggers projeta verify/normalize + canoniza Slack corrige bug P8 OAuth os os-oauth lê auth(oauth2) do catálogo não P9 Notifications os os-notifications projeta capabilities.notify não P10 Marketplace os toListing gera listings do catálogo aditivo P11 Ondas catálogo lib +30 serviços (Ondas 1→3) aditivo P12 MCP lib @agentskit/mcp split + catálogo via MCP major tools Regra de verde: cada PR passa pnpm check:all (lib) / pnpm check:rfc-0007 +build+test (os) isoladamente. OS só consome versão publicada do catálogo (não workspace cross-repo). --- 1. P1 — Fundação @agentskit/integrations [lib] Objetivo: pacote novo, vazio de serviços, com contrato congelável. Nada quebra (ninguém usa ainda). Arquivos: Contrato ( contract.ts ) = §3.1 do doc de unificação. Pontos finos: - IntegrationAction.execute(args, http) recebe http (cliente httpJson já com auth aplicada pela camada de auth ) → action não conhece token, só chama endpoints. Absorve quirks (Slack ok:false , Stripe form-encoded) dentro do execute . - schema: JSONSchema7 (canônico). IntegrationAction.sideEffect p/ o gate de autonomia do OS. - sendCapability?: string (id da SendCapability do connector, ex 'chat.postMessage' ). Tooling à prova de futuro: Freeze: adicionar check:rfc-integrations (espelha check:rfc-0007 ) sobre a superfície pública de contract.ts + registry.ts . pnpm api:update após mudança intencional. Nota Zod bridge: ZodLike vive em tools/src/zod.ts . Opção limpa: mover ZodLike / defineZodTool para @agentskit/core (é contrato puro, zero-dep — respeita [[feedback zero-dep-core]] ) e re-exportar de tools (deprecado) + usar em integrations. Decidir em P1; barato. Gate: pnpm --filter @agentskit/integrations build test verde. Resto do monorepo intocado. --- 2. P2 — Mover as 40 + alias deprecado [lib] Objetivo: catálogo real, sem quebrar quem importa @agentskit/tools/integrations/ . Por serviço (×40), exemplo slack : - http.ts já movido em P1; ajustar imports das 40. - stripe-webhook.ts / postgres-cdc.ts → viram triggers reais (deixam de ser \"tool de verify\"): verify + normalize . Primeira materialização do conceito de trigger. Compat em tools (não quebra consumidores): discovery.ts não muda (nunca tocou integrations). Verificação: Gate: pnpm --filter @agentskit/tools test , --filter @agentskit/integrations test verdes. Migração doc: docs/migration/tools-integrations-to-integrations.md (mapa import antigo→novo). --- 3. P3 — Projeção lib + consumo runtime/cli [lib] Objetivo: agente da lib usa catálogo direto. actions já são ToolDefinition -compatíveis. Consumo (exemplos, opcional — runtime já aceita ToolDefinition[] ): Sem mudança no buildToolMap / RuntimeConfig (já é ToolDefinition[] ). Zero breaking. Gate: pnpm check:all (lib). → Marco: lib unificada. Publicar @agentskit/integrations no npm (P1–P3) p/ o OS consumir versão real. --- 4. P4 — Binding pac",
-          "aliases": "document human"
-        },
-        "graph": {
-          "pagerank": 0,
-          "inboundLinks": 0,
-          "coveredBy": [],
-          "mentionedBy": [],
-          "inbound": [],
-          "outbound": [
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/core",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/integrations",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/mcp",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/tools",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/core/src/agent-loop.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/core/src/types/tool.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/eval/src/snapshot/snapshot.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/integrations/src/http.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/integrations/src/project/to-tool-definitions.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/runtime/src/types.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/tools/src/integrations/slack.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/tools/src/zod.ts",
-              "confidence": "observed"
-            }
-          ]
-        },
-        "contentHash": "ea04ce3a8caeba8c4946817d6737769486769543822da3af647f37f9a4fee581",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
-        "id": "document:docs/studies/integrations-split-study.md",
-        "kind": "document",
-        "path": "docs/studies/integrations-split-study.md",
-        "title": "integrations-split-study.md",
-        "summary": "Status: DRAFT para decisão. Autor: sessão Claude + EmersonBraun. Data: 2026-06-09. de forma simples de adicionar, manter e evoluir. Este estudo (1) diagnostica que a (3) entrega plano de migração + catálogo priorizado (~30, mapeado do Activepieces).",
-        "audience": "human",
-        "aliases": [],
-        "tags": [
-          "document",
-          "human"
-        ],
-        "fields": {
-          "title": "integrations-split-study.md",
-          "headings": "0. TL;DR 1.2 Duplicação confirmada: os-runtime-agentskit/src/tools/ 1.3 Veredito de arquitetura 4.1 Princípio 4.2 Contrato (@agentskit/integrations) 4.3 \"Adicionar 1 integração\": antes × depois 4.4 Schema: Zod vs JSON Schema Onda 1 — preencher ausências de alto uso (6) Onda 2 — novos pedidos de alto valor (10) Onda 3 — CRM/automação/AI/cloud (14) 7. Manutenção e à prova de futuro (garantias) 8. Tradeoffs e riscos 9. Boundary free vs proprietário (open-core) 10. Dúvidas abertas (preciso de você)",
-          "path": "docs/studies/integrations-split-study.md",
-          "symbols": "",
-          "summary": "Status: DRAFT para decisão. Autor: sessão Claude + EmersonBraun. Data: 2026-06-09. de forma simples de adicionar, manter e evoluir. Este estudo (1) diagnostica que a (3) entrega plano de migração + catálogo priorizado (~30, mapeado do Activepieces).",
-          "body": "Status: DRAFT para decisão. Autor: sessão Claude + EmersonBraun. Data: 2026-06-09. de forma simples de adicionar, manter e evoluir . Este estudo (1) diagnostica que a (3) entrega plano de migração + catálogo priorizado (~30, mapeado do Activepieces). --- 0. TL;DR linear/notion/stripe/twilio/etc — sem depender de @agentskit/tools . Mesma integração reescrita 2×. - A camada está ESPALHADA. Uma integração (ex: slack) vive em 5 pacotes / ~8 arquivos sem fonte única. Adicionar uma nova = tocar 5 lugares. Não é à prova de futuro. - Activepieces vale — como mapa, não código. É exatamente a largura de catálogo que falta. connector, trigger, notification, oauth) vira adapter fino que lê dessa definição única. Adicionar integração passa de \"tocar 5 pacotes\" para \"1 arquivo + registrar\". --- Arquivo Pacote Papel --- --- --- --- 1 src/tools/slack.ts os-runtime-agentskit action de agente ( duplica a lib ) 2 src/slack-sender.ts os-connectors sender outbound ( ConnectionSender ) 3 src/adapters/slack-incoming.ts os-triggers normaliza evento inbound 4 src/kinds/slack.ts os-triggers config Zod do trigger 5 src/webhooks/webhook-slack.ts os-triggers handler webhook 6 src/webhooks/webhook-slack-autoregister.ts os-triggers auto-registro webhook 7 src/channels/slack-channel.ts os-notifications canal de notificação 8 (oauth provider config) os-oauth flow auth → 5 pacotes, ~8 arquivos, zero fonte única. github = padrão igual (sender + tool + trigger adapter/kind/webhook). Não há registry central que cruze connector+trigger+tool+oauth por serviço — os-triggers/registry cobre só triggers . 1.2 Duplicação confirmada: os-runtime-agentskit/src/tools/ Reimplementa, sem depender de @agentskit/tools (deps reais: node-sql-parser , pdfkit ): São os mesmos serviços que a lib já tem em @agentskit/tools/integrations . Trabalho feito 2×, divergem com o tempo, bug corrigido num lado não no outro. Débito clássico. 1.3 Veredito de arquitetura Critério Estado atual Nota --- --- --- Fonte única por integração ❌ espalhado em 5 pacotes ruim Reuso da lib ❌ reimplementa ruim Fácil adicionar ❌ tocar 5 lugares, sem template ruim Manutenção ❌ correção em N lugares ruim À prova de futuro ⚠️ infra boa (triggers/oauth/egress), mas sem coesão de catálogo médio falta é coesão : um lugar canônico onde \"uma integração\" é descrita inteira, e adapters finos que projetam essa descrição em cada camada. --- --- --- Ausente total (21) github-actions, gmail, teams (MS Teams), hubspot, shopify, jira, airtable, figma, google-calendar, cloudflare-r2, openai-images, elevenlabs, deepgram, whisper, firecrawl, browser-agent, reader, maps, weather, coingecko, document-parsers Parcial — só trigger/sender/tool (9) github, slack, discord, linear, email, twilio, stripe, sentry, pagerduty Parcial — só storage/rag (8) postgres, s3, sqlite, notion, confluence (+ rag: drive/dropbox/gcs/onedrive) genérico (2) http, sqlite-query --- (400 serviços × actions + auth shapes + triggers). Activepieces resolve isso — como mapa : - ✅ Usar como referência: quais serviços, qual auth, quais actions/triggers principais. - ❌ Não copiar código — pieces têm licenças/deps variadas (core MIT, mas peças não garantidas). Reimplementar limpo via httpJson . Sem atribuição herdada, sem risco copyleft. --- 4.1 Princípio Uma integração = uma definição. Vive em @agentskit/integrations (livre). Cada camada do 4.2 Contrato ( @agentskit/integrations ) Princípios: - actions = Tool → os-runtime-agentskit para de reimplementar; só mapeia. - triggers carregam normalize / verify → os-triggers injeta egress/audit/auto-registro. - capabilities = ponteiros pra notification/sender saberem qual action usar — sem duplicar lógica. 4.3 \"Adicionar 1 integração\": antes × depois --- --- --- Arquivos a tocar ~8, em 5 pacotes 1 pasta services/X/ no pacote livre Action de agente reescrever em os-runtime/tools grátis (adapter lê actions ) Trigger adapter+kind+webhook+autoregister triggers.ts (normalize/verify); infra é genérica Notificação os-notification",
-          "aliases": "document human"
-        },
-        "graph": {
-          "pagerank": 0,
-          "inboundLinks": 0,
-          "coveredBy": [],
-          "mentionedBy": [],
-          "inbound": [],
-          "outbound": [
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/integrations",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/mcp",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/tools",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/eval/src/snapshot/snapshot.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/integrations/src/contract.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/integrations/src/http.ts",
-              "confidence": "observed"
-            }
-          ]
-        },
-        "contentHash": "a0a894074d0dc3a6b63ed88b9a5c043b0cff4d0c2391fb875f835b28baea6102",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
-        "id": "document:docs/studies/integrations-unification.md",
-        "kind": "document",
-        "path": "docs/studies/integrations-unification.md",
-        "title": "Unificação de integrações — análise profunda + arquitetura alvo",
-        "summary": "Status: DRAFT para decisão. Data: 2026-06-09. Companheiro de integrations-split-study.md. Entrega 1 de 2: análise profunda + plano de unificação (o \"como deve ser\"). A Entrega 2 (plano completo de refatoração nos dois repos) vem após alinhamento desta. Base: leitura de conteúdo real de lib (local) e AgentsKit-io/agentskit-os (privado).",
-        "audience": "human",
-        "aliases": [],
-        "tags": [
-          "document",
-          "human"
-        ],
-        "fields": {
-          "title": "Unificação de integrações — análise profunda + arquitetura alvo",
-          "headings": "Unificação de integrações — análise profunda + arquitetura alvo 0. TL;DR 1. Análise profunda — superfícies reais hoje 1.1 Quatro contratos de \"ação\" para o MESMO serviço 1.2 Trigger inbound — bom design, 1 ponto de co-edição 1.3 Auth — já declarativo (mover é trivial) 1.4 Canônico + frozen + dispatch (o que NÃO pode mover) 2. Diagnóstico (resposta direta: espalhado ou no lugar certo?) 3. Arquitetura alvo — descritor único + projeções finas 3.1 O descritor canônico (@agentskit/integrations) 3.2 Projeções finas (adapters por camada) 3.3 Fluxo \"adicionar Slack\" — antes × depois 3.4 Por que isso é \"fácil pro agente\" 4. Garantias de \"à prova de futuro\" 5. Pontos de risco da unificação (a tratar na Entrega 2) 6. Boundary free vs OS (open-core) — recap 7. Decisões pendentes (destravam a Entrega 2)",
-          "path": "docs/studies/integrations-unification.md",
-          "symbols": "",
-          "summary": "Status: DRAFT para decisão. Data: 2026-06-09. Companheiro de integrations-split-study.md. Entrega 1 de 2: análise profunda + plano de unificação (o \"como deve ser\"). A Entrega 2 (plano completo de refatoração nos dois repos) vem após alinhamento desta. Base: leitura de conteúdo real de lib (local) e AgentsKit-io/agentskit-os (privado).",
-          "body": "Unificação de integrações — análise profunda + arquitetura alvo Status: DRAFT para decisão. Data: 2026-06-09. Companheiro de integrations-split-study.md . Entrega 1 de 2: análise profunda + plano de unificação (o \"como deve ser\"). A Entrega 2 (plano completo de refatoração nos dois repos) vem após alinhamento desta. Base: leitura de conteúdo real de lib (local) e AgentsKit-io/agentskit-os (privado). --- 0. TL;DR Hoje uma integração (ex: slack) vive em 6+ lugares com 3–4 implementações HTTP separadas , contratos diferentes e shapes divergentes. Não há descritor único de serviço. Alvo: um descritor canônico por serviço em @agentskit/integrations (OSS livre). Cada camada (agent-tool, connector outbound, trigger inbound, oauth, notification, marketplace) vira projeção fina desse descritor. Adicionar integração: de \"tocar 6 pacotes\" → \"1 pasta + registrar\". Manutenção: de \"corrigir em N\" → \"1 fonte\". Agente: \"import + usar\". Viável sem big-bang : peer dep já existe, oauth já é declarativo, dispatch opera em runtime, só 1 superfície frozen ( ConnectionKind enum) muda — e de forma aditiva. --- 1. Análise profunda — superfícies reais hoje 1.1 Quatro contratos de \"ação\" para o MESMO serviço Camada Repo/pacote Contrato Schema Auth HTTP --- --- --- --- --- --- Agent tool (lib) tools/integrations/slack.ts defineTool → ToolDefinition JSON Schema config.token httpJson Agent tool (OS) os-runtime-agentskit/tools/slack.ts AgentskitTool (local) JSON Schema ( parameters ) getBotToken: () = string (lazy) os-core/http ( fetchWithTimeout , retryWithBackoff ) Connector outbound os-connectors/slack-sender.ts ConnectionSender Zod ( target / payload ) resolveSecret(ref) (vault) egress-fetch injetado Notification os-notifications/slack-channel.ts ad-hoc dispatchSlackMessage — env/override fetch próprio (10s) → 4 implementações HTTP do chat.postMessage . Divergem em silêncio. Detalhes que importam pra unificar: - ToolDefinition (core): { name, description?, schema?: JSONSchema7, execute(args,ctx)= unknown AsyncIterable, init?, dispose?, tags?, category?, requiresConfirmation? } . Sem conceito de trigger — stripe-webhook é modelado como tool comum de \"verify\". - AgentskitTool (OS): { name, description?, parameters?: JSONSchema, sideEffect?: 'none' 'read' 'write' 'destructive' 'external', execute(args,ctx)= AgentskitToolReturn } . Diferenças vs core: (1) parameters vs schema (mesmo JSON Schema, nome diferente), (2) retorno AgentskitToolReturn discriminado ( {kind:'ok' 'error'} ) vs unknown , (3) sideEffect alimenta o gate de autonomia, (4) credencial lazy () = string , (5) isE2eTestMode short-circuit. - @agentskit/tools JÁ é optional peer dep do os-runtime-agentskit (deps diretas: só node-sql-parser , pdfkit ). O binding foi antecipado; só não consome o catálogo. 1.2 Trigger inbound — bom design, 1 ponto de co-edição - WebhookProvider<TCtx,TEvent = { kind, verify(input)= Result<TCtx , parse(input,ctx)= TEvent } , registrado via registerWebhookProvider(provider) (open/close — sem switch ). - Adapter raw → IncomingEvent via buildIncoming(common, source, payload, raw, opts) . - IncomingEvent = envelope CloudEvents (Zod), data discriminado por source (slack/github/.../s3/mcp), ExternalThreadRef p/ session stitch. - 1 ponto de co-edição restante: triggerContractFor(kind) switch em os-triggers/registry/contracts.ts + o union Zod de 15 kinds. - Bug latente: 2 NormalizedSlackEvent divergentes ( kinds/slack.ts tem threadTs , webhooks/webhook-slack.ts não). 1.3 Auth — já declarativo (mover é trivial) os-oauth/oauth-hub.ts : OAUTH PROVIDERS: OAuthProviderSpec[] (14 providers): Zero código por-provider. Flow startOAuthFlow / completeOAuthFlow é genérico. Connection store guarda só metadata (state/scopes); tokens ficam no vault ( os-storage ). Credenciais de app via env AKOS OAUTH <PROVIDER CLIENT ID/SECRET . 1.4 Canônico + frozen + dispatch (o que NÃO pode mover) - os-core/integrations (Zod): IncomingEvent , OutgoingMessage ( correlationId obrigatório, idempotencyKey ",
-          "aliases": "document human"
-        },
-        "graph": {
-          "pagerank": 0,
-          "inboundLinks": 0,
-          "coveredBy": [],
-          "mentionedBy": [],
-          "inbound": [],
-          "outbound": [
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/cli",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/integrations",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/mcp",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/runtime",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/tools",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/core/src/agent-loop.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/core/src/types/tool.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/eval/src/snapshot/snapshot.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/integrations/src/contract.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/integrations/src/http.ts",
-              "confidence": "observed"
-            }
-          ]
-        },
-        "contentHash": "e1c1af1cf7ad42d2d82530c63023aeb1ddd83429ce809281c2bd53a8ae80591e",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
-        "id": "document:docs/studies/p4-os-integrations-binding.md",
-        "kind": "document",
-        "path": "docs/studies/p4-os-integrations-binding.md",
-        "title": "P4 — @agentskit/os-integrations binding (ready-to-apply)",
-        "summary": "Status: validated, not yet landed. Built green (lint + DTS), 5/5 tests pass, and check:layers (ADR-0064) passes — verified in a local clone of AgentsKit-io/agentskit-os. It is not committed because this session's sandbox could not hold the large os-repo working tree stable long enough to commit + push (the checkout repeatedly dropped 2000+ tracked files + node_modules mid-run).",
-        "audience": "human",
-        "aliases": [],
-        "tags": [
-          "document",
-          "human"
-        ],
-        "fields": {
-          "title": "P4 — @agentskit/os-integrations binding (ready-to-apply)",
-          "headings": "P4 — @agentskit/os-integrations binding (ready-to-apply) What it is Apply steps (in agentskit-os) Gotchas discovered (already accounted for in the files) packages/os-integrations/package.json packages/os-integrations/tsup.config.ts packages/os-integrations/tsconfig.json packages/os-integrations/vitest.config.ts packages/os-integrations/src/to-agentskit-tools.ts packages/os-integrations/src/index.ts packages/os-integrations/tests/to-agentskit-tools.test.ts .changeset/os-integrations-binding.md Next (P5+, after this lands)",
-          "path": "docs/studies/p4-os-integrations-binding.md",
-          "symbols": "",
-          "summary": "Status: validated, not yet landed. Built green (lint + DTS), 5/5 tests pass, and check:layers (ADR-0064) passes — verified in a local clone of AgentsKit-io/agentskit-os. It is not committed because this session's sandbox could not hold the large os-repo working tree stable long enough to commit + push (the checkout repeatedly dropped 2000+ tracked files + node_modules mid-run).",
-          "body": "P4 — @agentskit/os-integrations binding (ready-to-apply) Status: validated, not yet landed. Built green (lint + DTS), 5/5 tests pass, and check:layers (ADR-0064) passes — verified in a local clone of AgentsKit-io/agentskit-os . It is not committed because this session's sandbox could not hold the large os-repo working tree stable long enough to commit + push (the checkout repeatedly dropped 2000+ tracked files + node modules mid-run). Apply the files below in a stable checkout. What it is P4 of the integrations unification: a new os package @agentskit/os-integrations that binds the published @agentskit/integrations catalog (now on npm @ 0.1.0) into AgentsKit-OS contracts . First adapter: toAgentskitTools — projects a catalog descriptor into OS AgentskitTool s so os-runtime-agentskit can consume the unified 50-service catalog instead of reimplementing each provider (the basis for P5: deleting the duplicated os-runtime-agentskit/src/tools/ ). Apply steps (in agentskit-os ) Gotchas discovered (already accounted for in the files) 1. ADR-0064 layers ( check:layers ) — do NOT import AgentskitTool from @agentskit/os-runtime-agentskit (that's a binding layer; importing it from a domain package is a domain-not-to-binding violation). The contract is mirrored structurally in to-agentskit-tools.ts instead. The projected objects are structurally assignable to the runtime's AgentskitTool[] at the call site. 2. ADR-0002 ( depend-on-agentskit ) — upstream @agentskit/ packages must be peerDependencies , not regular dependencies (mirrors how os-runtime-agentskit peer-depends on @agentskit/core ). @agentskit/integrations is therefore a peer + dev dep. 3. exactOptionalPropertyTypes: true (os tsconfig is stricter than lib) — never assign explicit undefined to an optional property. sideEffect and the ProjectionConfig fields are set conditionally. 4. @types/json-schema must be a devDep (the published @agentskit/integrations .d.ts references the json-schema module for JSONSchema7 ). --- packages/os-integrations/package.json packages/os-integrations/tsup.config.ts packages/os-integrations/tsconfig.json packages/os-integrations/vitest.config.ts packages/os-integrations/src/to-agentskit-tools.ts packages/os-integrations/src/index.ts packages/os-integrations/tests/to-agentskit-tools.test.ts .changeset/os-integrations-binding.md --- Next (P5+, after this lands) - P5 — delete os-runtime-agentskit/src/tools/{slack,github,linear,notion,stripe,twilio,discord,sentry,pagerduty,http,sql} and wire its tool list through toAgentskitTools(getIntegration(name), { getToken }) . Add parity tests vs the deleted impls before removing. - P6–P10 — toConnectionSenders (os-connectors), toWebhookProviders + toIncomingAdapters (os-triggers), toOAuthProviderSpecs (os-oauth), toListings (os-marketplace). Each is a thin projection added to this package; keep egress/vault/audit/idempotency in the OS seams.",
-          "aliases": "document human"
-        },
-        "graph": {
-          "pagerank": 0,
-          "inboundLinks": 0,
-          "coveredBy": [],
-          "mentionedBy": [],
-          "inbound": [],
-          "outbound": [
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/core",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:@agentskit/integrations",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/integrations/src/project/to-tool-definitions.ts",
-              "confidence": "observed"
-            }
-          ]
-        },
-        "contentHash": "ea59a4eaf3de70a566dd45b1142273dd99d1b08d198b24b97fc8cf9d66138bc1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -76973,7 +76646,7 @@
           "path": "packages/sandbox/README.md",
           "symbols": "",
           "summary": "Profile: <code>concise-package</code>",
-          "body": "@agentskit/sandbox Profile: <code concise-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Let agents write and run code safely — in isolated cloud VMs (E2B), constrained local runtimes, or a browser Web Worker. Tags: ai · agents · llm · agentskit · ai-agents · sandbox · code-execution · e2b · secure-execution · code-interpreter Verified proof - Package metadata and tests live under packages/sandbox/ . - Package guide: https://www.agentskit.io/docs/reference/packages/sandbox - Stability map: - Graduation track: (Proposed — not stable) How this fits the ecosystem @agentskit/sandbox gives agents a safer place to execute code and commands instead of trusting arbitrary tool calls in your app process. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why sandbox - Code generation that actually executes — agents can write, run, and iterate without unrestricted host access - E2B cloud VMs — optional peer @e2b/code-interpreter ; defaults to no internet ( allowInternetAccess: false ); per-execute timeout; combined stdout/stderr byte cap - Bring your own backend — SandboxBackend is two methods; plug in Docker, Firecracker, or any custom isolation layer - Policy wrapper — createMandatorySandbox allow/deny/requireSandbox (requireSandbox routes only { code, language? } args to the sandbox tool; incompatible schemas fail closed and the original body is never run) - Works alongside any other tools — add sandboxTool to the same tools array as webSearch or filesystem Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- Features - sandboxTool({ apiKey }) — drop-in tool for code execution via E2B (optional peer) - createSandbox({ backend apiKey, network?, timeout?, language? }) — facade with security defaults - Defaults: network: false , timeout: 30 000 ms per execute, language javascript - memoryLimit : accepted for compatibility; not enforced by E2B or Web Worker (custom backends may honor it) - SandboxBackend interface — execute + optional dispose - Local runtimes: process, macOS seatbelt, Linux bwrap (beta), Docker - Browser: @agentskit/sandbox/web — Web Worker (thread + DOM isolation only; not WebContainer) - Follows ToolDefinition contract — works in runtime , useChat , or any custom loop Honest isolation claims Backend What you get What you do not get --- --- --- E2B Remote VM isolation, optional network deny Per-instance memoryLimit via AgentsKit Web Worker Off-main-thread + no DOM Network/FS security boundary; WebContainer processSandbox Child process + env allowlist OS-level fs/net isolation seatbelt / bwrap / docker Platform jails (beta) A stable multi-tenant guarantee yet Ecosystem Package Role --------- ------ createRuntime({ tools }) tools that pair with mandatory sandbox policy LLM for codegen tasks Tool contract Contributors <a href=\"https://github.com/AgentsKit-io/agentskit/graphs/contributors\" <img src=\"https://contrib.rocks/image?repo=AgentsKit-io/agentskit\" alt=\"AgentsKit contributors\" / </a License MIT — see . Docs · Maturity and compatibility - Stability: beta — see . Not 1.0. - Node.js 20+ and TypeScript strict mode - Published as @agentskit/sandbox Contributing See and the monorepo .",
+          "body": "@agentskit/sandbox Profile: <code concise-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Let agents write and run code safely — in isolated cloud VMs (E2B), constrained local runtimes, or a browser Web Worker. Tags: ai · agents · llm · agentskit · ai-agents · sandbox · code-execution · e2b · secure-execution · code-interpreter Verified proof - Package metadata and tests live under packages/sandbox/ . - Package guide: https://www.agentskit.io/docs/reference/packages/sandbox - Stability map: - Graduation track: (Proposed — not stable) How this fits the ecosystem @agentskit/sandbox gives agents a safer place to execute code and commands instead of trusting arbitrary tool calls in your app process. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why sandbox - Code generation that actually executes — agents can write, run, and iterate without unrestricted host access - E2B cloud VMs — optional peer @e2b/code-interpreter ; defaults to no internet ( allowInternetAccess: false ); per-execute timeout; combined stdout/stderr byte cap - Bring your own backend — SandboxBackend is two methods; plug in Docker, Firecracker, or any custom isolation layer - Policy wrapper — createMandatorySandbox allow/deny/requireSandbox (requireSandbox routes only { code, language? } args to the sandbox tool; incompatible schemas fail closed and the original body is never run) - Works alongside any other tools — add sandboxTool to the same tools array as webSearch or filesystem Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- Features - sandboxTool({ apiKey }) — drop-in tool for code execution via E2B (optional peer) - createSandbox({ backend apiKey, network?, timeout?, language? }) — facade with security defaults - Defaults: network: false , timeout: 30 000 ms per execute, language javascript - memoryLimit : accepted for compatibility; not enforced by E2B or Web Worker (custom backends may honor it) - SandboxBackend interface — execute + optional dispose - Local runtimes: process, macOS seatbelt, Linux bwrap (beta), Docker - Browser: @agentskit/sandbox/web — Web Worker (thread + DOM isolation only; not WebContainer) - Follows ToolDefinition contract — works in runtime , useChat , or any custom loop Honest isolation claims Backend What you get What you do not get --- --- --- E2B Remote VM isolation, optional network deny Per-instance memoryLimit via AgentsKit Web Worker Off-main-thread + no DOM Network/FS security boundary; WebContainer processSandbox Child process + env allowlist ( PATH , HOME , TZ , LANG , LC ALL , NODE ENV , AGENTSKIT ) OS-level fs/net isolation seatbelt / bwrap / docker Platform jails (beta) A stable multi-tenant guarantee yet Ecosystem Package Role --------- ------ createRuntime({ tools }) tools that pair with mandatory sandbox policy LLM for codegen tasks Tool contract Contributors <a href=\"https://github.com/AgentsKit-io/agentskit/graphs/contributors\" <img src=\"https://contrib.rocks/image?repo=AgentsKit-io/agentskit\" alt=\"AgentsKit contributors\" / </a License MIT — see . Docs · Maturity and compatibility - Stability: beta — see . Not 1.0. - Node.js 20+ and TypeScript strict mode - Published as @agentskit/sandbox Contributing See and the monorepo .",
           "aliases": "document project"
         },
         "graph": {
@@ -77080,7 +76753,7 @@
             }
           ]
         },
-        "contentHash": "b2e2ea3cb0b4d6ce91eccd9011b5eb3911cd32916f1ecb1c3d3bf4630334e26d",
+        "contentHash": "ae2d3b69b4b2d6cf90678f158c446d47f06d28ebbdf03e0f4a72a8e084a092fc",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -81242,7 +80915,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "4c8dd161bd0852c98f1a4e36c8bc1b00fbb3dfcdc1e785f7ffbb224f6b6dec1c",
+        "contentHash": "f504303e91b6367dfa15eaa4880667c86dec472d2b0d78ed0ce332a2cfca93dd",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -81426,7 +81099,7 @@
             }
           ]
         },
-        "contentHash": "028d24f42a87ed48950b48df219ec6841f03a1caf25a70a51752369be21aff4c",
+        "contentHash": "28946eec47d089727514ce1c3f38e9c8dcc41a8144683b3ea75162c06853fe03",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -81564,7 +81237,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "df2e3617627ca0146b84274d630e82f660e672f5cd615f2b43571044a47a8b6f",
+        "contentHash": "3a64a1d795edcaec32616eeababc22906e013fa3df1511c87762e4d6afa499d4",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -81891,7 +81564,7 @@
             }
           ]
         },
-        "contentHash": "5497ea000f484ad0cbb4852ccc394f15a0f98e6d95fd9084427fb5f0e3ac4dcf",
+        "contentHash": "49e47c87e7f9d1bcff7eea8fb651c9355f53c0407ac569e7365cf74a86247d9f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -90530,6 +90203,40 @@
         "confidence": "observed"
       },
       {
+        "id": "module:apps/docs-next/scripts/verify-mermaid.mjs",
+        "kind": "module",
+        "path": "apps/docs-next/scripts/verify-mermaid.mjs",
+        "title": "verify-mermaid.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "scripts"
+        ],
+        "fields": {
+          "title": "verify-mermaid.mjs",
+          "headings": "",
+          "path": "apps/docs-next/scripts/verify-mermaid.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "f7e6bede390ecf94fe08144928fe9e555fc4535f33400bf7c87d5d5c4de1f7f0",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:apps/docs-next/source.config.ts",
         "kind": "module",
         "path": "apps/docs-next/source.config.ts",
@@ -90564,7 +90271,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "c4e75cec7f66161b9f1339d9d7e8401bd9de92cc06581bf19a129b1b7ffb8022",
+        "contentHash": "d773278295619c19dd0b7446b05847c679f4ccaedd862561fb795c768f43795a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -90772,7 +90479,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "0ce77e48b5009d97869a7a6804b4bd6a1e13efc6ba928314fb5e90aee6e97653",
+        "contentHash": "ef4764e930a6ad66b95463dbb384de8c3d4698730e804411d977a2b3c6aaa680",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -115886,15 +115593,13 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 6,
+          "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0006-runtime-contract.md",
             "document:apps/docs-next/content/docs/for-agents/core.mdx",
             "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
-            "document:apps/docs-next/content/docs/reference/packages/core.mdx",
-            "document:docs/studies/integrations-refactor-plan.md",
-            "document:docs/studies/integrations-unification.md"
+            "document:apps/docs-next/content/docs/reference/packages/core.mdx"
           ],
           "packageId": "package:@agentskit/core",
           "inbound": [
@@ -115936,16 +115641,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/reference/packages/core.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/integrations-refactor-plan.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/integrations-unification.md",
               "confidence": "observed"
             },
             {
@@ -120508,7 +120203,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "1fa8ba9624bb35e72d81489e144d432c8e8eebb28abecae3b32ccf313f50f0d0",
+        "contentHash": "a759898a0a199fbc89d164980c43c76c8aefd48093b43acecd9cf57e62d14727",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -121805,13 +121500,13 @@
             "document:docs/architecture/adrs/0015-tool-authorization-hook.md",
             "document:docs/product/surfaces.md",
             "document:docs/studies/ecosystem-cohesion-plan.md",
-            "document:docs/studies/integrations-refactor-plan.md",
-            "document:docs/studies/integrations-unification.md",
             "document:packages/adapters/README.md",
             "document:packages/cli/ARCHITECTURE.md",
             "document:packages/core/README.md",
             "document:packages/integrations/CONVENTIONS.md",
-            "document:packages/integrations/README.md"
+            "document:packages/integrations/README.md",
+            "document:packages/sandbox/CONVENTIONS.md",
+            "document:packages/sandbox/README.md"
           ],
           "areaId": "area:packages/core/src/types",
           "packageId": "package:@agentskit/core",
@@ -122103,16 +121798,6 @@
             },
             {
               "kind": "mentions-symbol",
-              "id": "document:docs/studies/integrations-refactor-plan.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/integrations-unification.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
               "id": "document:packages/adapters/README.md",
               "confidence": "observed"
             },
@@ -122134,6 +121819,16 @@
             {
               "kind": "mentions-symbol",
               "id": "document:packages/integrations/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/sandbox/CONVENTIONS.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/sandbox/README.md",
               "confidence": "observed"
             }
           ],
@@ -126110,7 +125805,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 10,
+          "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/data/memory/pgvector.mdx",
@@ -126119,10 +125814,7 @@
             "document:apps/docs-next/content/docs/production/evals/index.mdx",
             "document:apps/docs-next/content/docs/production/evals/snapshots.mdx",
             "document:apps/docs-next/content/docs/reference/packages/eval.mdx",
-            "document:apps/docs-next/content/docs/reference/recipes/prompt-diff.mdx",
-            "document:docs/studies/integrations-refactor-plan.md",
-            "document:docs/studies/integrations-split-study.md",
-            "document:docs/studies/integrations-unification.md"
+            "document:apps/docs-next/content/docs/reference/recipes/prompt-diff.mdx"
           ],
           "areaId": "area:packages/eval/src/snapshot",
           "packageId": "package:@agentskit/eval",
@@ -126160,21 +125852,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/reference/recipes/prompt-diff.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/integrations-refactor-plan.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/integrations-split-study.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/integrations-unification.md",
               "confidence": "observed"
             },
             {
@@ -129028,7 +128705,7 @@
             }
           ]
         },
-        "contentHash": "886a8e37da6e17d2b9d97f4198de59421263a03787fcdd4e722e972236e1631f",
+        "contentHash": "365a1a7c5659854cdbb38e86be5a73be1f9f7f693bed66aa48ec8793e72a3dc0",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -129126,7 +128803,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 11,
+          "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
@@ -129135,9 +128812,6 @@
             "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
             "document:docs/architecture/adrs/0012-vendor-adapter-scope.md",
             "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
-            "document:docs/studies/integrations-refactor-plan.md",
-            "document:docs/studies/integrations-split-study.md",
-            "document:docs/studies/integrations-unification.md",
             "document:packages/integrations/CONVENTIONS.md",
             "document:packages/integrations/README.md"
           ],
@@ -129226,21 +128900,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/integrations-refactor-plan.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/integrations-split-study.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/integrations-unification.md",
               "confidence": "observed"
             },
             {
@@ -129710,14 +129369,12 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 6,
+          "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
             "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
             "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
-            "document:docs/studies/integrations-refactor-plan.md",
-            "document:docs/studies/p4-os-integrations-binding.md",
             "document:packages/integrations/CONVENTIONS.md"
           ],
           "areaId": "area:packages/integrations/src/project",
@@ -129821,16 +129478,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/integrations-refactor-plan.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/p4-os-integrations-binding.md",
               "confidence": "observed"
             },
             {
@@ -130360,7 +130007,7 @@
             }
           ]
         },
-        "contentHash": "3a20db6d30a72004ffe4fa54519a7ae1aa5edbbb7a4fd9b6a4e26740e8e53e4e",
+        "contentHash": "fec9bfa54fa9371062804061666f5f5efb6bd005b32f7fc6e1d98cb099db642b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -153916,7 +153563,7 @@
             }
           ]
         },
-        "contentHash": "4fb1578d07ecec9b2e9e7ae4735cb92d89362aadd9f4a18bfcf707a51dddd000",
+        "contentHash": "1973d0154663b014c0e47b6cc736c214960d37826c90a76b4e384dd6fa3b8816",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -155550,14 +155197,13 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 5,
+          "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0006-runtime-contract.md",
             "document:apps/docs-next/content/docs/agents/runtime.mdx",
             "document:ARCHITECTURE.md",
-            "document:docs/architecture/adrs/0006-runtime-contract.md",
-            "document:docs/studies/integrations-refactor-plan.md"
+            "document:docs/architecture/adrs/0006-runtime-contract.md"
           ],
           "packageId": "package:@agentskit/runtime",
           "inbound": [
@@ -155594,11 +155240,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:docs/architecture/adrs/0006-runtime-contract.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/integrations-refactor-plan.md",
               "confidence": "observed"
             },
             {
@@ -157128,7 +156769,7 @@
             }
           ]
         },
-        "contentHash": "57b3b84b0d094db6b5d3ff42a6335520da16771fd9a6a9a496b31082b51e0601",
+        "contentHash": "ef47a37f7c6bf4f705ae5a1fc09a3712c3b1ac1e2f4184e6adbc82bd74be6020",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -157982,7 +157623,7 @@
             }
           ]
         },
-        "contentHash": "4fc653c6d346dd85363b443f32aad6c0ecb3633e239e8076e7720dc1a73c346e",
+        "contentHash": "41ed3fa0222ae902cc8afc5fd727768827816e7b11e0fb12d2572db0ca8e3339",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -168685,7 +168326,7 @@
             }
           ]
         },
-        "contentHash": "9dfcd7ed129c17c114744210882ec732fc21894d526e4b00a6d147ba52ee42ed",
+        "contentHash": "9076ece7585f2136bfd453b86124520e89d91cb98419c129ecaa0c0c8a2fd89f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -169253,7 +168894,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 12,
+          "inboundLinks": 11,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/agents/tools/index.mdx",
@@ -169266,7 +168907,6 @@
             "document:apps/docs-next/content/docs/reference/packages/tools.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/integrations.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/jira-triage.mdx",
-            "document:docs/studies/integrations-refactor-plan.md",
             "document:packages/tools/README.md"
           ],
           "areaId": "area:packages/tools/src/integrations",
@@ -169320,11 +168960,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/reference/recipes/jira-triage.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/integrations-refactor-plan.md",
               "confidence": "observed"
             },
             {
@@ -171039,7 +170674,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 13,
+          "inboundLinks": 12,
           "coveredBy": [],
           "mentionedBy": [
             "document:.agent-memory/feedback_json-schema-canonical.md",
@@ -171053,7 +170688,6 @@
             "document:apps/docs-next/content/docs/reference/packages/tools.mdx",
             "document:docs/architecture/adrs/0008-runtime-validation.md",
             "document:docs/product/surfaces.md",
-            "document:docs/studies/integrations-refactor-plan.md",
             "document:packages/tools/README.md"
           ],
           "packageId": "package:@agentskit/tools",
@@ -171116,11 +170750,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:docs/product/surfaces.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:docs/studies/integrations-refactor-plan.md",
               "confidence": "observed"
             },
             {
@@ -173339,7 +172968,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "1e4652f42f37e97404f1ac38a72424b8065ac1b4eaa2f896c8fab0c9de17e284",
+        "contentHash": "fadaf0c7e9843dca577281307e33ae64004f1d8f162026a3d31bf787871f6c4c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -173989,7 +173618,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "6892f1df39735ff5bf7b952a3f9019490f40db3d621896292fbafca55509d310",
+        "contentHash": "455b52839b138e85f4111c967466f462c421d79f653fce412b56bb068835fed2",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174536,7 +174165,7 @@
             }
           ]
         },
-        "contentHash": "8956f32c15c7ab30a85fe953d7550f9d5800915b04e11f18fe249c20d968222d",
+        "contentHash": "7af46695ffc27b6757fa719e7824410542914b53bd5cc2e6b6420c89f448403d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174663,7 +174292,7 @@
             }
           ]
         },
-        "contentHash": "12dbf8fc2265eda22f1d568a30eb1e9e91a5767018c81632b850a76bddbb3dde",
+        "contentHash": "e2485c39341eeac805f6a4573611a8b609abb45ed47df5524074fcdc22468459",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174836,7 +174465,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "6bc99ac9d9dc5e3c09a1be271467e7899a53dc67c616f6a95c2f728a2f262433",
+        "contentHash": "7aef48d1093d57ef277a301803008a95b0645a7adab57d0d93b4dc2aa944de35",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -176787,7 +176416,7 @@
             }
           ]
         },
-        "contentHash": "4b40bf8147e4f322114f389f0fb029ba1b5d83099ef88b4a6ded2807ccbb2dfe",
+        "contentHash": "55beec1c79ed3459d19358c01574fb7a9bd29f424e4bbcea9c84b703f7615a3e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -177130,7 +176759,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "089a7e91fb87113753f29fdf088cb4b3903c56b6aecd2143420b6938c12ea983",
+        "contentHash": "d7ce4e9563440d377bd3a8392a9e0317af5693a02db4b549ee1024da7a97f4d2",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -177270,7 +176899,7 @@
             }
           ]
         },
-        "contentHash": "f2cd410366ca3462a609c407ae5d3e140d7f7e4f97fea457e3c09af2cf27646a",
+        "contentHash": "101e920cf0e018af8e6ec07ee9de2a4d278e378c1762b2c33084272fe3d53f97",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -178699,7 +178328,7 @@
         },
         "graph": {
           "pagerank": 0.005547,
-          "inboundLinks": 27,
+          "inboundLinks": 26,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cli.mdx",
             "document:apps/docs-next/content/docs/reference/packages/cli.mdx"
@@ -178722,7 +178351,6 @@
             "document:docs/PHASE-1-REVIEW.md",
             "document:docs/RELEASE-CORE-V1.md",
             "document:docs/STABILITY.md",
-            "document:docs/studies/integrations-unification.md",
             "document:GOVERNANCE.md",
             "document:packages/cli/ARCHITECTURE.md",
             "document:packages/cli/CONVENTIONS.md",
@@ -178826,11 +178454,6 @@
             {
               "kind": "mentions",
               "id": "document:docs/STABILITY.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/studies/integrations-unification.md",
               "confidence": "observed"
             },
             {
@@ -180091,7 +179714,7 @@
         },
         "graph": {
           "pagerank": 0.003364,
-          "inboundLinks": 23,
+          "inboundLinks": 19,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx"
@@ -180109,10 +179732,6 @@
             "document:docs/architecture/adrs/0012-vendor-adapter-scope.md",
             "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
             "document:docs/STABILITY.md",
-            "document:docs/studies/integrations-refactor-plan.md",
-            "document:docs/studies/integrations-split-study.md",
-            "document:docs/studies/integrations-unification.md",
-            "document:docs/studies/p4-os-integrations-binding.md",
             "document:docs/studies/v1-readiness-audit.md",
             "document:packages/integrations/CONVENTIONS.md",
             "document:packages/integrations/README.md",
@@ -180193,26 +179812,6 @@
             },
             {
               "kind": "mentions",
-              "id": "document:docs/studies/integrations-refactor-plan.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/studies/integrations-split-study.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/studies/integrations-unification.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/studies/p4-os-integrations-binding.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
               "id": "document:docs/studies/v1-readiness-audit.md",
               "confidence": "observed"
             },
@@ -180270,7 +179869,7 @@
         },
         "graph": {
           "pagerank": 0.003364,
-          "inboundLinks": 22,
+          "inboundLinks": 19,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/mcp.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx"
@@ -180284,9 +179883,6 @@
             "document:apps/docs-next/content/docs/reference/stability.mdx",
             "document:docs/architecture/adrs/0028-mcp-beta-boundaries.md",
             "document:docs/STABILITY.md",
-            "document:docs/studies/integrations-refactor-plan.md",
-            "document:docs/studies/integrations-split-study.md",
-            "document:docs/studies/integrations-unification.md",
             "document:docs/studies/registry-runner-projections-plan.md",
             "document:docs/studies/v1-readiness-audit.md",
             "document:docs/V1-READINESS-TRACKER.md",
@@ -180347,21 +179943,6 @@
             {
               "kind": "mentions",
               "id": "document:docs/STABILITY.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/studies/integrations-refactor-plan.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/studies/integrations-split-study.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/studies/integrations-unification.md",
               "confidence": "observed"
             },
             {
@@ -184114,9 +183695,6 @@
             "document:docs/PHASE-1-REVIEW.md",
             "document:docs/product/surfaces.md",
             "document:docs/STABILITY.md",
-            "document:docs/studies/integrations-refactor-plan.md",
-            "document:docs/studies/integrations-split-study.md",
-            "document:docs/studies/integrations-unification.md",
             "document:docs/V1-READINESS-TRACKER.md",
             "document:GOVERNANCE.md",
             "document:packages/angular/README.md",
@@ -184133,7 +183711,10 @@
             "document:packages/skills/CONVENTIONS.md",
             "document:packages/skills/README.md",
             "document:packages/solid/README.md",
-            "document:packages/svelte/README.md"
+            "document:packages/svelte/README.md",
+            "document:packages/templates/README.md",
+            "document:packages/tools/CONVENTIONS.md",
+            "document:packages/tools/README.md"
           ],
           "packageId": "package:@agentskit/tools",
           "inbound": [
@@ -184359,21 +183940,6 @@
             },
             {
               "kind": "mentions",
-              "id": "document:docs/studies/integrations-refactor-plan.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/studies/integrations-split-study.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:docs/studies/integrations-unification.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
               "id": "document:docs/V1-READINESS-TRACKER.md",
               "confidence": "observed"
             },
@@ -184455,6 +184021,21 @@
             {
               "kind": "mentions",
               "id": "document:packages/svelte/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/templates/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/tools/CONVENTIONS.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/tools/README.md",
               "confidence": "observed"
             }
           ],

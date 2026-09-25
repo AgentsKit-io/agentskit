@@ -10,7 +10,7 @@
  *   node scripts/sync-brand.mjs --property agentskit --out apps/docs-next/app/brand-tokens.css
  *   node scripts/sync-brand.mjs --property playbook  --out path/in/sibling/repo.css
  *
- * Property ∈ agentskit | akos | harness | playbook | registry. Structure/type/radii/motion
+ * Property ∈ agentskit | harness | playbook | registry. Structure/type/radii/motion
  * are identical across all; only the accent differs (one family, per-property accent).
  */
 import { readFileSync, writeFileSync, mkdirSync } from 'node:fs'

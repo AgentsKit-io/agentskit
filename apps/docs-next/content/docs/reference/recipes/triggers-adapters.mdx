@@ -1,9 +1,9 @@
 ---
 title: Trigger adapters (email / teams / postgres-cdc)
-description: Reference adapter snippets that wrap heavy drivers (nodemailer, imapflow, botbuilder, pg-logical-replication) into the driver-free contracts the AgentsKitOS triggers package consumes.
+description: Reference adapter snippets that wrap heavy drivers (nodemailer, imapflow, botbuilder, pg-logical-replication) into the driver-free contracts that trigger and polling layers consume.
 ---
 
-The `@agentskit/tools` integrations stay driver-free by accepting small client adapters. Here are reference wrappers for the three integrations AgentsKitOS triggers most commonly consume.
+The `@agentskit/tools` integrations stay driver-free by accepting small client adapters. Here are reference wrappers for the three integrations that event triggers most commonly consume.
 
 ## Email — nodemailer + imapflow
 
@@ -158,20 +158,16 @@ export function cdcStream(slot: string, publication: string): CdcStreamClient {
 }
 ```
 
-## Wiring into AgentsKitOS triggers
+## Wiring into a trigger
+
+Your trigger or poller owns the inbound loop (IMAP polling, Teams webhooks, a CDC
+stream). Hand it the adapters above and give the agent the outbound tools:
 
 ```ts
-import { createChatTrigger } from '@agentskit/triggers'
 import { email } from '@agentskit/tools'
-import { emailTransport, imapClient } from './email-adapter'
+import { emailTransport } from './email-adapter'
 
-createChatTrigger({
-  source: 'imap',
-  client: imapClient,
-  poll: { intervalMs: 60_000, mailbox: 'INBOX', unseenOnly: true },
-  runtime,
-  outboundTools: [...email({ transport: emailTransport, defaultFrom: 'bot@example.com' })],
-})
+const outboundTools = [...email({ transport: emailTransport, defaultFrom: 'bot@example.com' })]
 ```
 
 ## Related

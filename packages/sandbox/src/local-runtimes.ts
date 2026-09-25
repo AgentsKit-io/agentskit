@@ -33,7 +33,7 @@ const ALLOWED_ENV_KEYS = new Set(['PATH', 'HOME', 'TZ', 'LANG', 'LC_ALL', 'NODE_
 const filterEnv = (env: Readonly<Record<string, string>>): Record<string, string> => {
   const out: Record<string, string> = {}
   for (const [k, v] of Object.entries(env)) {
-    if (ALLOWED_ENV_KEYS.has(k) || k.startsWith('AGENTSKITOS_')) out[k] = v
+    if (ALLOWED_ENV_KEYS.has(k) || k.startsWith('AGENTSKIT_')) out[k] = v
   }
   return out
 }
@@ -135,7 +135,7 @@ function assertAbsolutePath(path: string, label: string): void {
     throw new SandboxError({
       code: 'AK_CONFIG_INVALID',
       message: `${label} must be an absolute path (received ${JSON.stringify(path)})`,
-      hint: 'Pass an absolute filesystem path (e.g. "/Users/me/project").',
+      hint: 'Pass an absolute filesystem path (e.g. "/home/me/project").',
     })
   }
 }

@@ -5,12 +5,12 @@
   "overall": "blocked",
   "promotionAllowed": false,
   "summary": {
-    "products": 7,
+    "products": 6,
     "ready": 0,
-    "blocked": 7,
+    "blocked": 6,
     "incomplete": 0,
-    "findings": 7,
-    "p0": 7,
+    "findings": 6,
+    "p0": 6,
     "p1": 0
   },
   "products": [
@@ -1188,208 +1188,6 @@
           ]
         }
       ]
-    },
-    {
-      "id": "akos",
-      "repo": "AgentsKit-io/agentskit-os",
-      "status": "blocked",
-      "maturity": {
-        "declared": "stable",
-        "source": "ecosystem.json"
-      },
-      "auditedOn": "2026-07-14",
-      "categories": [
-        {
-          "category": "quickstart",
-          "covered": true
-        },
-        {
-          "category": "documentation",
-          "covered": true
-        },
-        {
-          "category": "seo",
-          "covered": true
-        },
-        {
-          "category": "accessibility",
-          "covered": true
-        },
-        {
-          "category": "performance",
-          "covered": true
-        },
-        {
-          "category": "links",
-          "covered": true
-        },
-        {
-          "category": "llms",
-          "covered": true
-        },
-        {
-          "category": "doc-bridge",
-          "covered": true
-        },
-        {
-          "category": "chat",
-          "covered": true
-        },
-        {
-          "category": "readme",
-          "covered": true
-        },
-        {
-          "category": "security",
-          "covered": true
-        },
-        {
-          "category": "maturity",
-          "covered": true
-        }
-      ],
-      "gates": [
-        {
-          "id": "quickstart",
-          "category": "quickstart",
-          "status": "pass",
-          "severity": "info",
-          "summary": "Public quickstart and build-to-operate journey pass in production on desktop and mobile.",
-          "owner": "AgentsKit-io/agentskit-os",
-          "evidence": [
-            "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
-          ]
-        },
-        {
-          "id": "documentation",
-          "category": "documentation",
-          "status": "pass",
-          "severity": "info",
-          "summary": "Ecosystem 11 Fumadocs, local-first AgentsChat, and build-to-operate journey are deployed.",
-          "owner": "AgentsKit-io/agentskit-os",
-          "evidence": [
-            "https://github.com/AgentsKit-io/agentskit-os/pull/5317",
-            "https://github.com/AgentsKit-io/agentskit-os/pull/5319"
-          ]
-        },
-        {
-          "id": "seo",
-          "category": "seo",
-          "status": "pass",
-          "severity": "info",
-          "summary": "Production canonicals, sitemap, robots, head metadata, and Lighthouse SEO reach 100.",
-          "owner": "AgentsKit-io/agentskit-os",
-          "evidence": [
-            "https://github.com/AgentsKit-io/agentskit-os/pull/5320",
-            "https://akos.agentskit.io/sitemap.xml",
-            "https://akos.agentskit.io/robots.txt"
-          ]
-        },
-        {
-          "id": "accessibility",
-          "category": "accessibility",
-          "status": "pass",
-          "severity": "info",
-          "summary": "Production Lighthouse accessibility reaches 100; chat E2E covers desktop and mobile.",
-          "owner": "AgentsKit-io/agentskit-os",
-          "evidence": [
-            "https://github.com/AgentsKit-io/agentskit-os/pull/5319"
-          ]
-        },
-        {
-          "id": "performance",
-          "category": "performance",
-          "status": "pass",
-          "severity": "info",
-          "summary": "Three consecutive production Lighthouse runs meet the approved 90 floor (95, 91, and 93 measured; CLS 0 in every run).",
-          "owner": "AgentsKit-io/agentskit-os",
-          "evidence": [
-            "https://github.com/AgentsKit-io/agentskit-os/pull/5324",
-            "https://akos.agentskit.io/docs"
-          ]
-        },
-        {
-          "id": "links",
-          "category": "links",
-          "status": "pass",
-          "severity": "info",
-          "summary": "Cross-ecosystem footer links are part of #5317.",
-          "owner": "AgentsKit-io/agentskit-os",
-          "evidence": [
-            "https://github.com/AgentsKit-io/agentskit-os/pull/5317"
-          ]
-        },
-        {
-          "id": "llms",
-          "category": "llms",
-          "status": "pass",
-          "severity": "info",
-          "summary": "llms.txt, llms-full.txt, and raw documentation routes return HTTP 200 in production.",
-          "owner": "AgentsKit-io/agentskit-os",
-          "evidence": [
-            "https://akos.agentskit.io/llms.txt",
-            "https://akos.agentskit.io/llms-full.txt"
-          ]
-        },
-        {
-          "id": "doc-bridge",
-          "category": "doc-bridge",
-          "status": "pass",
-          "severity": "info",
-          "summary": "Doc Bridge config exists in the monorepo; freshness gates must stay green on main.",
-          "owner": "AgentsKit-io/agentskit-os",
-          "evidence": [
-            "https://github.com/AgentsKit-io/agentskit-os"
-          ]
-        },
-        {
-          "id": "chat",
-          "category": "chat",
-          "status": "pass",
-          "severity": "info",
-          "summary": "Published AgentsChat packages answer deterministic questions locally and clear failed backend fallback state truthfully.",
-          "owner": "AgentsKit-io/agentskit-os",
-          "evidence": [
-            "https://github.com/AgentsKit-io/agentskit-os/issues/5314",
-            "https://github.com/AgentsKit-io/agentskit-os/pull/5319"
-          ]
-        },
-        {
-          "id": "readme",
-          "category": "readme",
-          "status": "pass",
-          "severity": "info",
-          "summary": "AgentsKit OS README Standard v1 certification and release changeset are on main.",
-          "owner": "AgentsKit-io/agentskit-os",
-          "evidence": [
-            "https://github.com/AgentsKit-io/agentskit-os/pull/5318",
-            "https://github.com/AgentsKit-io/agentskit-os/pull/5319"
-          ]
-        },
-        {
-          "id": "security",
-          "category": "security",
-          "status": "pass",
-          "severity": "info",
-          "summary": "Public corpus only for docs chat; tenant isolation remains a product runtime concern outside docs chat.",
-          "owner": "AgentsKit-io/agentskit-os",
-          "evidence": [
-            "https://github.com/AgentsKit-io/agentskit-os"
-          ]
-        },
-        {
-          "id": "maturity",
-          "category": "maturity",
-          "status": "pass",
-          "severity": "info",
-          "summary": "Maturity labeled stable in ecosystem.json while customer path docs emphasize beta/assisted pilots — keep claims aligned with public-promise-matrix.",
-          "owner": "AgentsKit-io/agentskit-os",
-          "evidence": [
-            "ecosystem.json",
-            "https://github.com/AgentsKit-io/agentskit-os"
-          ]
-        }
-      ]
     }
   ],
   "findings": [
@@ -1419,20 +1217,6 @@
       "remediation": "Re-run the product audit and commit current evidence.",
       "evidence": [
         "ecosystem-readiness/evidence/agentskit-chat.json"
-      ]
-    },
-    {
-      "productId": "akos",
-      "repo": "AgentsKit-io/agentskit-os",
-      "gateId": "evidence-freshness",
-      "category": "process",
-      "status": "fail",
-      "severity": "p0",
-      "summary": "Evidence is 31 days old (maximum 30)",
-      "owner": "AgentsKit-io/agentskit-os",
-      "remediation": "Re-run the product audit and commit current evidence.",
-      "evidence": [
-        "ecosystem-readiness/evidence/akos.json"
       ]
     },
     {
