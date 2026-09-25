@@ -47,7 +47,7 @@ export async function GET() {
     '',
     '## Agents',
     '',
-    ...agents.map((agent) => `- [${agent.title}](${SITE}/agents/${agent.id}): ${agent.description} Install: \`npx agentskit add ${agent.id}\`.`),
+    ...agents.map((agent) => `- [${agent.title}](${SITE}/agents/${agent.id}): ${agent.description} Install: \`npx @agentskit/cli add ${agent.id}\`.`),
     '',
     '## Machine-readable resources',
     '',

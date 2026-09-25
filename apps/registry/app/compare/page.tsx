@@ -114,7 +114,7 @@ export default async function ComparePage({ searchParams }: { searchParams: Prom
             </tr>
             <tr className="align-top">
               <th scope="row" className="px-4 py-5 font-medium text-ak-foam">Install</th>
-              {details.map((agent) => <td key={agent.id} className="border-l border-ak-border px-5 py-5"><code className="block break-all text-xs text-ak-foam">npx agentskit add {agent.id}</code></td>)}
+              {details.map((agent) => <td key={agent.id} className="border-l border-ak-border px-5 py-5"><code className="block break-all text-xs text-ak-foam">npx @agentskit/cli add {agent.id}</code></td>)}
             </tr>
           </tbody>
         </table>

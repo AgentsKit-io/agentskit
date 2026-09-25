@@ -26,7 +26,7 @@ export default function OG() {
         <div style={{ fontSize: '30px', color: '#8b949e', marginTop: '20px', maxWidth: '900px' }}>
           Ready-to-use AI agents. Copy the source into your project — you own the code.
         </div>
-        <div style={{ fontSize: '22px', color: '#58a6ff', marginTop: '40px' }}>npx agentskit add &lt;agent&gt;</div>
+        <div style={{ fontSize: '22px', color: '#58a6ff', marginTop: '40px' }}>npx @agentskit/cli add &lt;agent&gt;</div>
       </div>
     ),
     size,

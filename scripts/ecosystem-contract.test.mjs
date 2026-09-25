@@ -64,12 +64,12 @@ test('primary surfaces expose server-rendered ecosystem links', () => {
   assert.match(landingEcosystem, /product\.public/)
 })
 
-test('registry home exposes the real agent collection in JSON-LD', () => {
-  const registryHome = readFileSync(join(REPO_ROOT, 'apps/registry/app/(home)/page.tsx'), 'utf8')
-  assert.match(registryHome, /'@type': 'CollectionPage'/)
-  assert.match(registryHome, /'@type': 'ItemList'/)
-  assert.match(registryHome, /agents\.map\(\(agent, index\)/)
-  assert.match(registryHome, /encodeURIComponent\(agent\.id\)/)
+test('registry catalog exposes the real agent collection in JSON-LD', () => {
+  const registryCatalog = readFileSync(join(REPO_ROOT, 'apps/registry/app/agents/page.tsx'), 'utf8')
+  assert.match(registryCatalog, /'@type': 'CollectionPage'/)
+  assert.match(registryCatalog, /'@type': 'ItemList'/)
+  assert.match(registryCatalog, /agents\.map\(\(agent, index\)/)
+  assert.match(registryCatalog, /\/agents\/\$\{agent\.id\}/)
 })
 
 test('docs home has no retired product label', () => {
