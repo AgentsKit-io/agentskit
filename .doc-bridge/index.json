@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "1ec3e06e6d25983eb65adaacf1d9d2c14973b3d860f74776a67c54d37eea1258",
+  "contentHash": "d2938bedf24e9e9791ae768efd18381d64ff352b522a303b4abdfc4c5bbf55c3",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-25T03:27:18.812Z",
+  "generatedAt": "2026-09-25T03:57:43.429Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -11218,7 +11218,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "ef4764e930a6ad66b95463dbb384de8c3d4698730e804411d977a2b3c6aaa680"
+      "contentHash": "0680891bb52a0f82d6b8e2e3ec29ba7cabab8ca753eef2414502d2cc04e1612e"
     },
     {
       "id": "module:apps/docs-next/tests/legacy-redirects.test.ts",
@@ -35573,7 +35573,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "3f0e430524a690fd3df7bedaf284cb03428c2eb9d50cd801712aa79575927bb7",
+    "hash": "11960dc4c8a6790641d8336658c9ad9e69930a3c5418fc01f7164bb7bb96f052",
     "fileCount": 2373,
     "projectionVersion": 2
   },
@@ -35596,9 +35596,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "0641c61b5ce205dd6a5e38596eedba655ce2a40d6b99bc41925bd4d9de10f084",
+    "contentHash": "3c8c74f8db14a1a56c1246e882676a8794dcbb5566a40d1cec8c56259d9c12bc",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "9eb3668286c3e83bffa7041e853f3c640d71c58bb64c03c727c5c56bde4fe971",
+    "snapshotHash": "b942413d88e79daf94d18132b3935da992afe48cc6a9069f0c0d17687ca2a6f0",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -90606,7 +90606,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "ef4764e930a6ad66b95463dbb384de8c3d4698730e804411d977a2b3c6aaa680",
+        "contentHash": "0680891bb52a0f82d6b8e2e3ec29ba7cabab8ca753eef2414502d2cc04e1612e",
         "provenance": "observed",
         "confidence": "observed"
       },
