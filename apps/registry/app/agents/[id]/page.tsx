@@ -105,7 +105,7 @@ export default async function AgentPage({ params }: { params: Promise<{ id: stri
   const examples = examplesFromReadme(readme)
   const related = relatedAgents(agent, index, 4)
   const summary = index.find((item) => item.id === agent.id)
-  const install = `npx agentskit add ${agent.id}`
+  const install = `npx @agentskit/cli add ${agent.id}`
   const category = categoryMeta(agent.category)
   const quickStart = `import { openai } from '@agentskit/adapters'
 import { ${fn} } from './agents/${agent.id}/agent'

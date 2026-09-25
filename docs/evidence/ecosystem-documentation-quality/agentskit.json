@@ -4,8 +4,8 @@
   "profileVersion": 1,
   "productId": "agentskit",
   "repo": "AgentsKit-io/agentskit",
-  "commit": "88b7bbf32bb7583a6dbbbc3812d656fba83f4024",
-  "auditedOn": "2026-09-21",
+  "commit": "0b2d6b72bcd779cf5889cd54dc8894f5b9c04940",
+  "auditedOn": "2026-09-25",
   "docBridge": {
     "artifact": "docs/evidence/ecosystem-documentation-quality/doc-bridge/agentskit.json",
     "doctorScore": 95,
@@ -30,7 +30,7 @@
   },
   "attestation": {
     "sourceMode": "commit",
-    "contentDigest": "sha256:c9f6ec947aa178f249a13f01c4d9948c3131fbe4060c4d75f4645bc80b7949ec"
+    "contentDigest": "sha256:5edb0374958772ac96c8b71189ed2ce8b3f4e189691ac805d4e88accf9f862ef"
   },
   "machineSurfaces": {
     "llmsTxt": "llms.txt",
@@ -51,7 +51,7 @@
       {
         "id": "build-first-agent",
         "path": "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx",
-        "wordCount": 345,
+        "wordCount": 359,
         "visualDecision": "diagram",
         "evidence": [
           "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx#execution-flow"

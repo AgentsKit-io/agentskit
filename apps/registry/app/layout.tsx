@@ -12,6 +12,7 @@ import type { Viewport } from 'next'
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' })
+const ecosystemBarSrc = process.env.NODE_ENV === 'development' ? '/ecosystem-bar.js' : 'https://www.agentskit.io/ecosystem-bar.js'
 
 const SITE_URL = 'https://registry.agentskit.io'
 const DESCRIPTION = 'Shadcn-like AI agents for AgentsKit. Copy validated TypeScript source into your project — you own the code.'
@@ -31,7 +32,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html
       lang="en"
-      className={`${inter.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable}`}
+      className={`dark ${inter.variable} ${jetbrainsMono.variable} ${spaceGrotesk.variable}`}
       suppressHydrationWarning
     >
       <head>
@@ -47,13 +48,13 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           Skip to content
         </a>
         <PostHogProvider>
-          <RootProvider search={{ options: { allowClear: true } }}>
+          <RootProvider theme={{ defaultTheme: 'dark', enableSystem: false }} search={{ options: { allowClear: true } }}>
             <AccessibleSearch />
             <div id="main-content">{children}</div>
             <RegistryAskWidget />
           </RootProvider>
         </PostHogProvider>
-        <script src="https://www.agentskit.io/ecosystem-bar.js" defer data-current="registry" />
+        <script src={ecosystemBarSrc} defer data-current="registry" />
       </body>
     </html>
   )

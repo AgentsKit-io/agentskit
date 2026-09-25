@@ -1,5 +1,6 @@
 import { readFile } from 'node:fs/promises'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import ecosystemManifest from '../../../../ecosystem.json'
 
 const { redirectMock } = vi.hoisted(() => ({
   redirectMock: vi.fn(),
@@ -65,15 +66,10 @@ describe('Registry machine documentation contracts', () => {
     expect(body).toContain(`[Registry index](${SITE}/r/index.json)`)
     expect(body.match(/^## AgentsKit ecosystem$/gm)).toHaveLength(1)
 
-    const expectedProducts = [
-      ['AgentsKit', 'https://www.agentskit.io/docs', 'https://www.agentskit.io/llms.txt'],
-      ['AgentsKit Registry', `${SITE}/docs`, `${SITE}/llms.txt`],
-      ['AgentsKit Chat', 'https://chat.agentskit.io/docs', 'https://chat.agentskit.io/llms.txt'],
-      ['Doc Bridge', 'https://doc-bridge.agentskit.io/', 'https://doc-bridge.agentskit.io/llms.txt'],
-      ['AgentsKit Harness', 'https://harness.agentskit.io/docs', 'https://harness.agentskit.io/llms.txt'],
-      ['Agents Playbook', 'https://playbook.agentskit.io/docs', 'https://playbook.agentskit.io/llms.txt'],
-      ['AgentsKit Code Review', 'https://github.com/AgentsKit-io/code-review#readme', 'https://raw.githubusercontent.com/AgentsKit-io/code-review/main/llms.txt'],
-    ] as const
+    const expectedProducts = ecosystemManifest.products
+      .filter((product) => product.public)
+      .toSorted((left, right) => left.navigation.order - right.navigation.order)
+      .map((product) => [product.name, product.surfaces.docs, product.surfaces.llms] as const)
 
     let previous = -1
     for (const [name, docs, llms] of expectedProducts) {

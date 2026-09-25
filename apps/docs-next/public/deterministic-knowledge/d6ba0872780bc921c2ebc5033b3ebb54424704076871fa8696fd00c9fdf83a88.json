@@ -8,7 +8,7 @@
     {
       "id": "claim.catalog-models",
       "kind": "restricted-faq",
-      "label": "6297 models",
+      "label": "7870 models",
       "match": {
         "type": "exact",
         "values": [
@@ -18,7 +18,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **6297 models**. The public conservative floor is 6000.",
+        "markdown": "The verified AgentsKit ledger currently reports **7870 models**. The public conservative floor is 7000.",
         "citations": [
           {
             "id": "claim-catalog-models",
@@ -31,7 +31,7 @@
     {
       "id": "claim.catalog-providers",
       "kind": "restricted-faq",
-      "label": "184 providers",
+      "label": "222 providers",
       "match": {
         "type": "exact",
         "values": [
@@ -41,7 +41,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **184 providers**. The public conservative floor is 180.",
+        "markdown": "The verified AgentsKit ledger currently reports **222 providers**. The public conservative floor is 220.",
         "citations": [
           {
             "id": "claim-catalog-providers",
@@ -989,7 +989,7 @@
           {
             "id": "ecosystem-code-review",
             "title": "AgentsKit Code Review",
-            "href": "https://github.com/AgentsKit-io/code-review#readme"
+            "href": "https://code-review.agentskit.io/docs"
           }
         ]
       }
@@ -1013,6 +1013,29 @@
             "id": "ecosystem-doc-bridge",
             "title": "Doc Bridge",
             "href": "https://doc-bridge.agentskit.io/"
+          }
+        ]
+      }
+    },
+    {
+      "id": "ecosystem.harness",
+      "kind": "ecosystem",
+      "label": "AgentsKit Harness",
+      "match": {
+        "type": "exact",
+        "values": [
+          "what is Harness",
+          "open Harness",
+          "harness ecosystem"
+        ]
+      },
+      "answer": {
+        "markdown": "**AgentsKit Harness** is the ecosystem's delivery: The keep-pushing loop for your SDLC. Maturity: **beta**.",
+        "citations": [
+          {
+            "id": "ecosystem-harness",
+            "title": "AgentsKit Harness",
+            "href": "https://harness.agentskit.io/docs"
           }
         ]
       }
@@ -2283,5 +2306,5 @@
       }
     }
   ],
-  "contentHash": "sha256:5414ab562bbfcdf959a2eaf055e7814008b2ee677156de0a023d86260332271a"
+  "contentHash": "sha256:d6ba0872780bc921c2ebc5033b3ebb54424704076871fa8696fd00c9fdf83a88"
 }

@@ -35,7 +35,7 @@ export default async function OG({ params }: { params: Promise<{ id: string }> }
         <div style={{ fontSize: '28px', color: '#8b949e', marginTop: '20px', maxWidth: '960px' }}>
           {description.length > 140 ? description.slice(0, 137) + '…' : description}
         </div>
-        <div style={{ fontSize: '22px', color: '#58a6ff', marginTop: '40px' }}>npx agentskit add {id}</div>
+        <div style={{ fontSize: '22px', color: '#58a6ff', marginTop: '40px' }}>npx @agentskit/cli add {id}</div>
       </div>
     ),
     size,

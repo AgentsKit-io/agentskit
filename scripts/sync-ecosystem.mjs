@@ -11,7 +11,7 @@
  *   node scripts/sync-ecosystem.mjs
  *   node scripts/sync-ecosystem.mjs --check
  */
-import { readFileSync, writeFileSync, existsSync } from 'node:fs'
+import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { join, dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { parseEcosystemManifest } from './lib/ecosystem-contract.mjs'
@@ -28,6 +28,7 @@ function step(rel, current, next) {
     if (current !== next) { console.error(`ecosystem drift: ${rel} stale — run sync-ecosystem.`); drift = true }
     else console.log(`ecosystem ok: ${rel}`)
   } else {
+    mkdirSync(dirname(join(root, rel)), { recursive: true })
     writeFileSync(join(root, rel), next)
     console.log('wrote', rel)
   }
@@ -63,6 +64,7 @@ const showcaseProducts = barProducts.map((product) => ({
 const showcaseJson = JSON.stringify(showcaseProducts, null, 2).replace(/\n/g, '\n  ')
 const barRel = 'apps/docs-next/public/ecosystem-bar.js'
 const barPath = join(root, barRel)
+let syncedBar = null
 if (existsSync(barPath)) {
   const bar = readFileSync(barPath, 'utf8')
   const propsPattern = /(\/\/ ecobar:props-start[^\n]*\n)[\s\S]*?(\n\s*\/\/ ecobar:props-end)/
@@ -72,10 +74,17 @@ if (existsSync(barPath)) {
       .replace(propsPattern, `$1  var PROPS = [\n${propLines}\n  ]$2`)
       .replace(showcasePattern, `$1  var SHOWCASE_PRODUCTS = ${showcaseJson}$2`)
     step(barRel, bar, next)
+    syncedBar = next
   } else {
     console.error(`ecosystem: ${barRel} missing generated markers — cannot sync bar.`)
     drift = true
   }
+}
+
+if (syncedBar !== null) {
+  const registryBarRel = 'apps/registry/public/ecosystem-bar.js'
+  const registryBarPath = join(root, registryBarRel)
+  step(registryBarRel, existsSync(registryBarPath) ? readFileSync(registryBarPath, 'utf8') : '', syncedBar)
 }
 
 if (check && drift) process.exit(1)
