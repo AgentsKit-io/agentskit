@@ -8,18 +8,19 @@ import {
   WorksWithSection,
 } from '@/components/home/showcases'
 import { Icon } from '@/components/home/icons'
-import { BrandIcon } from '@/components/home/brand-icon'
 import { ReferenceJourney } from '@/components/home/reference-journey'
+import { HeroHeadline, KineticFrameworkReel } from './_components/hero-motion'
+import { LiquidCursorGradient } from './_components/liquid-cursor-gradient'
 import { counts, approx } from '@/lib/ecosystem-stats'
-import { agentsKitIdentity } from '@/lib/reference-journey'
+import { agentsKitIdentity, ecosystemShowcase } from '@/lib/reference-journey'
 import softwareIdentity from '@/lib/software-identity.generated.json'
 
 export const metadata = {
-  title: `${agentsKitIdentity.name}.js — ${agentsKitIdentity.promise}`,
+  title: `${agentsKitIdentity.name} — ${agentsKitIdentity.promise}`,
   description: `${agentsKitIdentity.promise} A composable TypeScript foundation for runtime, tools, memory, RAG, and chat interfaces.`,
   alternates: { canonical: 'https://www.agentskit.io' },
   openGraph: {
-    title: 'AgentsKit.js — Ship AI agents in JavaScript',
+    title: 'AgentsKit — Ship AI agents in JavaScript',
     description:
       'Composable TypeScript foundation: runtime, tools, memory, RAG, adapters, and headless UI bindings. Zero lock-in. Under 10KB core.',
     type: 'website',
@@ -27,7 +28,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AgentsKit.js — Ship AI agents in JavaScript',
+    title: 'AgentsKit — Ship AI agents in JavaScript',
     description:
       'Composable TypeScript foundation: runtime, tools, memory, RAG, adapters, and headless UI bindings. Zero lock-in.',
   },
@@ -47,7 +48,7 @@ const JSON_LD = {
       '@type': 'WebSite',
       '@id': 'https://www.agentskit.io/#website',
       url: 'https://www.agentskit.io',
-      name: 'AgentsKit.js',
+      name: 'AgentsKit',
       publisher: { '@id': 'https://www.agentskit.io/#org' },
       potentialAction: {
         '@type': 'SearchAction',
@@ -60,7 +61,8 @@ const JSON_LD = {
 
 export default function HomePage() {
   return (
-    <main className="flex w-full max-w-full flex-1 flex-col overflow-x-clip">
+    <div className="ak-home-layout flex w-full max-w-full flex-1 flex-col overflow-x-clip">
+      <LiquidCursorGradient />
       <JsonLd data={JSON_LD} />
       <Hero />
       <WorksWithSection />
@@ -69,28 +71,23 @@ export default function HomePage() {
       <ReferenceJourney />
       <FinalCta />
       <SiteFooter />
-    </main>
+    </div>
   )
 }
 
 function Hero() {
   return (
-    <section className="relative overflow-hidden bg-ak-midnight px-4 pt-14 pb-16 sm:px-6 sm:pt-20 sm:pb-24 md:pt-28 md:pb-32">
-      <div className="mx-auto grid max-w-6xl gap-8 sm:gap-10 md:gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-end">
+    <section data-liquid-hero="" className="relative overflow-hidden px-4 pt-14 pb-16 sm:px-6 sm:pt-20 sm:pb-24 md:pt-28 md:pb-32">
+      <div className="relative z-10 mx-auto grid max-w-6xl gap-8 sm:gap-10 md:gap-12 lg:grid-cols-[1.1fr_1fr] lg:items-end">
         <div className="min-w-0">
           <div className="mb-5 flex items-center gap-3 sm:mb-6">
             <AnimatedLogo variant="hero" size={44} loop />
             <span className="font-mono text-lg font-bold tracking-tight text-ak-foam sm:text-xl">
-              agentskit<span className="text-ak-graphite">.js</span>
+              AgentsKit
             </span>
           </div>
 
-          <h1 className="mb-5 max-w-2xl text-[2rem] font-bold leading-[1.08] tracking-tight text-ak-foam sm:mb-6 sm:text-4xl md:text-5xl lg:text-6xl">
-            Ship AI agents in JavaScript.
-            <span className="block text-ak-graphite">
-              Without gluing 8 libraries together.
-            </span>
-          </h1>
+          <HeroHeadline />
 
           <p className="mb-7 max-w-xl text-base leading-relaxed text-ak-graphite sm:mb-8 sm:text-lg">
             Runtime, tools, memory, RAG, adapters, and headless UI bindings in one foundation.
@@ -100,34 +97,24 @@ function Hero() {
 
           <InstallCommand />
           <HeroFrameworks />
-          <p className="mt-6 max-w-xl border-l-2 border-ak-green pl-4 text-sm leading-relaxed text-ak-graphite">
-            Built for {agentsKitIdentity.audience}
-          </p>
         </div>
 
         <div className="min-w-0">
           <HeroDemo />
-          <p className="mt-3 text-center font-mono text-[11px] leading-relaxed text-ak-graphite sm:text-xs">
-            Compose the agent here. Use <span className="text-ak-foam">AgentsKit Chat</span>{' '}
-            when you need its product interface across every surface.{' '}
-            <a href="https://chat.agentskit.io/" className="text-ak-blue hover:underline">
-              Explore Chat →
-            </a>
-          </p>
 
-          <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
+          <div data-hero-actions="" className="mt-5 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
             <Link
               href="/docs/get-started/getting-started/build-your-first-agent"
               className="inline-flex items-center gap-2 rounded-md bg-ak-foam px-4 py-2.5 text-sm font-semibold text-ak-midnight transition hover:bg-white sm:px-5"
             >
               Build your first agent →
             </Link>
-            <Link
-              href="/docs/reference/examples"
-              className="inline-flex items-center gap-2 px-2 py-2.5 text-sm font-medium text-ak-graphite transition hover:text-ak-foam sm:px-3"
+            <a
+              href="https://chat.agentskit.io/"
+              className="inline-flex min-h-11 items-center px-2 text-sm font-medium text-ak-graphite transition hover:text-ak-foam sm:px-3"
             >
-              See live examples →
-            </Link>
+              Explore Chat →
+            </a>
           </div>
         </div>
       </div>
@@ -136,31 +123,8 @@ function Hero() {
   )
 }
 
-// Theme-aware fills (Angular near-black, Deno/Bun invisible at one theme end)
-// are handled centrally in <BrandIcon> so these stay declarative.
-const FRAMEWORKS: { slug: string; label: string }[] = [
-  { slug: 'react', label: 'React' },
-  { slug: 'vuedotjs', label: 'Vue' },
-  { slug: 'svelte', label: 'Svelte' },
-  { slug: 'solid', label: 'Solid' },
-  { slug: 'angular', label: 'Angular' },
-  { slug: 'nodedotjs', label: 'Node' },
-  { slug: 'deno', label: 'Deno' },
-  { slug: 'bun', label: 'Bun' },
-]
-
-/** Quiet static proof that the UI layer spans every framework. No animation. */
 function HeroFrameworks() {
-  return (
-    <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
-      <span className="font-mono text-[11px] uppercase tracking-[0.15em] text-ak-graphite/60">
-        Works with
-      </span>
-      {FRAMEWORKS.map((f) => (
-        <BrandIcon key={f.label} slug={f.slug} label={f.label} size={22} imgClass="h-[22px] w-[22px]" />
-      ))}
-    </div>
-  )
+  return <KineticFrameworkReel />
 }
 
 const LAYERS = [
@@ -180,11 +144,48 @@ const LAYERS = [
 const ARC_DESTS = [6.25, 18.75, 31.25, 43.75, 56.25, 68.75, 81.25, 93.75]
 const arcPath = (y: number) => `M 21 50 C 42 50, 42 ${y}, 63 ${y}`
 
+function EcosystemFlow() {
+  return (
+    <svg
+      data-ecosystem-flow="desktop"
+      aria-hidden="true"
+      viewBox="0 0 100 100"
+      preserveAspectRatio="none"
+      className="pointer-events-none absolute inset-0 z-0 hidden h-full w-full md:block"
+    >
+      {ARC_DESTS.map((y, i) => (
+        <g key={y}>
+          <path
+            d={arcPath(y)}
+            pathLength={100}
+            fill="none"
+            stroke="var(--ak-accent)"
+            strokeWidth={1}
+            strokeOpacity={0.22}
+            vectorEffect="non-scaling-stroke"
+          />
+          <path
+            d={arcPath(y)}
+            pathLength={100}
+            fill="none"
+            stroke="var(--ak-accent)"
+            strokeWidth={2.5}
+            strokeLinecap="round"
+            vectorEffect="non-scaling-stroke"
+            className="ak-flow-out"
+            style={{ animationDelay: `${-Math.floor(i / 2)}s` }}
+          />
+        </g>
+      ))}
+    </svg>
+  )
+}
+
 function EcosystemStats() {
   return (
-    <section className="bg-ak-midnight px-4 py-14 sm:px-6 sm:py-20">
+    <section data-home-surface="ecosystem-map" className="px-4 py-14 sm:px-6 sm:py-20">
       <div className="mx-auto max-w-6xl">
-        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-graphite/60 sm:mb-4 sm:text-xs">
+        <p className="mb-3 font-mono text-[11px] uppercase tracking-[0.2em] text-ak-graphite sm:mb-4 sm:text-xs">
           The ecosystem
         </p>
         <h2 className="mb-3 max-w-3xl text-[1.75rem] font-bold leading-[1.15] text-ak-foam sm:text-3xl md:text-4xl">
@@ -196,46 +197,13 @@ function EcosystemStats() {
         </p>
 
         <div className="relative mt-10">
-          {/* animated convergence arcs (md+), flowing packets */}
-          <svg
-            aria-hidden="true"
-            viewBox="0 0 100 100"
-            preserveAspectRatio="none"
-            className="pointer-events-none absolute inset-0 hidden h-full w-full md:block"
-          >
-            {ARC_DESTS.map((y, i) => (
-              <g key={y}>
-                {/* static line */}
-                <path
-                  d={arcPath(y)}
-                  pathLength={100}
-                  fill="none"
-                  stroke="var(--ak-accent)"
-                  strokeWidth={1}
-                  strokeOpacity={0.22}
-                  vectorEffect="non-scaling-stroke"
-                />
-                {/* traveling dot */}
-                <path
-                  d={arcPath(y)}
-                  pathLength={100}
-                  fill="none"
-                  stroke="var(--ak-accent)"
-                  strokeWidth={2.5}
-                  strokeLinecap="round"
-                  vectorEffect="non-scaling-stroke"
-                  className="ak-flow-out"
-                  style={{ animationDelay: `${-Math.floor(i / 2)}s` }}
-                />
-              </g>
-            ))}
-          </svg>
+          <EcosystemFlow />
 
-          <div className="relative grid gap-8 md:grid-cols-[minmax(0,15rem)_1fr] md:items-stretch md:gap-10">
-            <div className="self-center rounded-2xl bg-ak-surface/60 p-6">
+          <div className="relative z-10 grid gap-8 md:grid-cols-[minmax(0,15rem)_1fr] md:items-stretch md:gap-10">
+            <div data-ecosystem-core="" className="self-center rounded-2xl p-6">
               <div className="font-mono text-sm text-ak-graphite">@agentskit/core</div>
               <div className="mt-2 font-mono text-4xl font-bold text-ak-foam">&lt; 10 KB</div>
-              <div className="mt-1 font-mono text-[11px] uppercase tracking-[0.15em] text-ak-graphite/70">
+              <div className="mt-1 font-mono text-[11px] uppercase tracking-[0.15em] text-ak-graphite">
                 zero dependencies
               </div>
               <p className="mt-4 text-sm leading-relaxed text-ak-graphite">
@@ -274,28 +242,12 @@ function EcosystemStats() {
 
 function FinalCta() {
   return (
-    <section className="relative overflow-hidden bg-ak-midnight px-4 py-24 sm:px-6 sm:py-28 md:py-32">
+    <section data-home-final-cta="" className="relative overflow-hidden px-4 py-16 sm:px-6 sm:py-20 md:py-24">
       <div className="relative mx-auto max-w-3xl text-center">
-        <div className="mb-6 flex justify-center">
-          <AnimatedLogo variant="hero" size={60} loop />
-        </div>
-        <div className="mb-5 inline-flex items-center gap-2 font-mono text-[11px] text-ak-graphite/70 sm:text-xs">
-          <span className="inline-block h-1.5 w-1.5 rounded-full bg-ak-green" />
-          {counts.packages} packages · {approx(counts.catalogProviders)} providers · MIT
-        </div>
         <h2 className="mb-5 text-[2.25rem] font-bold leading-[1.05] tracking-tight text-ak-foam sm:text-5xl md:text-6xl lg:text-7xl">
           Build the agent.
           <span className="block text-ak-graphite">Skip the plumbing.</span>
         </h2>
-        <p className="mx-auto mb-9 max-w-xl text-base text-ak-graphite sm:mb-10 sm:text-lg">
-          One install. First streaming agent in under 10 lines. Swap providers,
-          UI, and memory without a rewrite. No signup, no lock-in — MIT all the way down.
-        </p>
-
-        <div className="mx-auto mb-7 inline-block w-full max-w-xl text-left">
-          <InstallCommand withSubtext />
-        </div>
-
         <div className="flex flex-wrap justify-center gap-2.5 sm:gap-3">
           <Link
             href="/docs/get-started/getting-started/build-your-first-agent"
@@ -342,11 +294,7 @@ function SiteFooter() {
     },
     {
       title: 'Ecosystem',
-      links: [
-        { text: 'Libs', href: '/' },
-        { text: 'Registry · agents', href: 'https://registry.agentskit.io' },
-        { text: 'Playbook · standards', href: 'https://playbook.agentskit.io' },
-      ],
+      links: ecosystemShowcase.map((product) => ({ text: product.shortName, href: product.href })),
     },
     {
       title: 'Community',
@@ -361,14 +309,14 @@ function SiteFooter() {
   ] as const
 
   return (
-    <footer className="bg-ak-midnight px-4 pt-16 pb-10 sm:px-6">
+    <footer className="px-4 pt-16 pb-10 sm:px-6">
       <div className="mx-auto max-w-6xl">
         <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
           <div className="min-w-0">
             <div className="mb-4 flex items-center gap-2">
               <AnimatedLogo variant="nav" loop />
               <span className="font-mono text-base font-bold tracking-tight text-ak-foam">
-                agentskit<span className="text-ak-graphite">.js</span>
+                AgentsKit
               </span>
             </div>
             <p className="max-w-xs text-sm leading-relaxed text-ak-graphite">
@@ -396,8 +344,8 @@ function SiteFooter() {
           </div>
 
           {columns.map((col) => (
-            <div key={col.title} className="min-w-0">
-              <h3 className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-ak-graphite/70">
+            <div key={col.title} data-footer-column={col.title} className="min-w-0">
+              <h3 className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-ak-graphite">
                 {col.title}
               </h3>
               <ul className="space-y-2.5">
@@ -427,14 +375,6 @@ function SiteFooter() {
           ))}
         </div>
 
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-ak-border pt-6 sm:flex-row">
-          <p className="font-mono text-[11px] text-ak-graphite sm:text-xs">
-            © AgentsKit.js · MIT · {counts.packages} packages on npm · built in the open
-          </p>
-          <p className="font-mono text-[11px] text-ak-graphite/70 sm:text-xs">
-            {counts.integrations} integrations · {approx(counts.catalogProviders)} providers · {approx(counts.catalogModels)} models
-          </p>
-        </div>
       </div>
     </footer>
   )

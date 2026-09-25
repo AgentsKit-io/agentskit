@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "d2938bedf24e9e9791ae768efd18381d64ff352b522a303b4abdfc4c5bbf55c3",
+  "contentHash": "388a764c9b4f5175eeafb90e24a60526d5a345db78b00866cb427f157fadae30",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-25T03:57:43.429Z",
+  "generatedAt": "2026-09-25T13:34:46.110Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -6098,7 +6098,7 @@
         "document",
         "human"
       ],
-      "contentHash": "e729ef7c9a55b851950a3f9222af8446ed6a5b9b3d652f01e9657f97981fb989"
+      "contentHash": "37810c47238288a40fa82336c0f29a953f46a73bc0de979ba3ac2644ef0cd8dd"
     },
     {
       "id": "document:docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/review.md",
@@ -6110,7 +6110,7 @@
         "document",
         "human"
       ],
-      "contentHash": "cbdf796e3c10841ad034a8465622e5de69d220408e65f37d556b34044a8dca9f"
+      "contentHash": "ee34514d3a5ea9d55f470391ea54a1000548af29fd62511c87534a82f3cd339c"
     },
     {
       "id": "document:docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/social-short.md",
@@ -8053,7 +8053,7 @@
         "tsx",
         "hero-demo"
       ],
-      "contentHash": "c66504850574e5ac28a1363746c22b4d1bd39c86bb1fcbba7159a7ae3da1f826"
+      "contentHash": "4de6db514c26a6107c2f354561cef7cfc8955b957c9b9ad4b78e10c089c2be7a"
     },
     {
       "id": "module:apps/docs-next/app/(home)/_components/hero-demo/scenes.ts",
@@ -8102,6 +8102,22 @@
       "contentHash": "5b4af139544325bc329a82cbfe1c19a069da8c94f86c03270f7e63b8258fb173"
     },
     {
+      "id": "module:apps/docs-next/app/(home)/_components/hero-motion.tsx",
+      "type": "module",
+      "title": "hero-motion.tsx",
+      "path": "apps/docs-next/app/(home)/_components/hero-motion.tsx",
+      "symbols": [
+        "HeroHeadline",
+        "KineticFrameworkReel"
+      ],
+      "tags": [
+        "module",
+        "tsx",
+        "_components"
+      ],
+      "contentHash": "8e5ee5dd61797bcc327d96d45b8b3878c4b53634249ae73636d95eff627bf089"
+    },
+    {
       "id": "module:apps/docs-next/app/(home)/_components/install-command.tsx",
       "type": "module",
       "title": "install-command.tsx",
@@ -8117,6 +8133,21 @@
       "contentHash": "758a01c8a3fdf7fee5f9baac8826d8b8140caf77c83ff5a766191d69b3bbd8a4"
     },
     {
+      "id": "module:apps/docs-next/app/(home)/_components/liquid-cursor-gradient.tsx",
+      "type": "module",
+      "title": "liquid-cursor-gradient.tsx",
+      "path": "apps/docs-next/app/(home)/_components/liquid-cursor-gradient.tsx",
+      "symbols": [
+        "LiquidCursorGradient"
+      ],
+      "tags": [
+        "module",
+        "tsx",
+        "_components"
+      ],
+      "contentHash": "3a7810092172046f492ad41c868d2dee69a8b7a8a1bacfd25294d948fce5bfd8"
+    },
+    {
       "id": "module:apps/docs-next/app/(home)/layout.tsx",
       "type": "module",
       "title": "layout.tsx",
@@ -8129,7 +8160,7 @@
         "tsx",
         "(home)"
       ],
-      "contentHash": "340073d19f90d83f99e440d1b7d09136978f010ae6750db17862ec49a619599e"
+      "contentHash": "449625aa14823227d1758bef10a5ad057e8639defed741c8282800c11a32dd45"
     },
     {
       "id": "module:apps/docs-next/app/(home)/page.tsx",
@@ -8145,7 +8176,7 @@
         "tsx",
         "(home)"
       ],
-      "contentHash": "1f884a1f8a15aa5d7941c7a080df733304d6513a9daac317e52063c6ebf3a009"
+      "contentHash": "d9b934ab7137fe57d6b265b6935f2361d08f6f9bb94c8964c3b111f1d3fb3409"
     },
     {
       "id": "module:apps/docs-next/app/api/ask-docs/route.ts",
@@ -8502,7 +8533,7 @@
         "tsx",
         "app"
       ],
-      "contentHash": "b207e9ac118910b021419b6155ab994e7c4ab6851f24c5f8be80c0ff546881ee"
+      "contentHash": "086f2e13f7dcb8a12a79e4a74f084bf61106f56a829f9f1f9af641c679ab0870"
     },
     {
       "id": "module:apps/docs-next/app/layout.tsx",
@@ -8519,7 +8550,7 @@
         "tsx",
         "app"
       ],
-      "contentHash": "520ed011d660862129d1bd018997ec480be7813576f43ce5748dd78c1a18101d"
+      "contentHash": "ce6c4252b61a51353ca3393728744defc03bdc3257b32460c3d5e4bb3bea1800"
     },
     {
       "id": "module:apps/docs-next/app/learn/[step]/page.tsx",
@@ -9079,7 +9110,7 @@
         "tsx",
         "docs"
       ],
-      "contentHash": "93de972f37ecb05751b6cab8f14cd4f09fb9a015a67edd45bcae11d49075639c"
+      "contentHash": "88b8ee068c6f8d3a698a7f3eb39f38803bac5e127273941c8fa48e8a1766e2bc"
     },
     {
       "id": "module:apps/docs-next/components/docs/ask/CodeBlock.tsx",
@@ -9765,7 +9796,7 @@
         "tsx",
         "home"
       ],
-      "contentHash": "fb3d84c331fc5a6eb02d4e7765a710ec2b44f4288754efee72e862ebba771790"
+      "contentHash": "4aab25dc40fe7d073a37b547ff07b5d6d18b8822bd7fd35932144176e437a848"
     },
     {
       "id": "module:apps/docs-next/components/home/icons.tsx",
@@ -9796,7 +9827,7 @@
         "tsx",
         "home"
       ],
-      "contentHash": "c11fc617d13bf0e86ed60bcaef631ca7ce0644e59b7493f72f1f97063c3f1da5"
+      "contentHash": "26395f4dc7de275b5900b5a6be8a7cc4248f093c7854923065322c0687eed28e"
     },
     {
       "id": "module:apps/docs-next/components/home/reference-journey.tsx",
@@ -9811,7 +9842,7 @@
         "tsx",
         "home"
       ],
-      "contentHash": "dc2896f69972b03b808182f765400cf27c812b46579ad06f6eb44a099703f0e1"
+      "contentHash": "0ea25c50442eb019d18c4775a0eedaa46560d0420bea8425d06b61dda663b4d6"
     },
     {
       "id": "module:apps/docs-next/components/home/showcases.tsx",
@@ -9827,7 +9858,7 @@
         "tsx",
         "home"
       ],
-      "contentHash": "b95b0b55f8a52e16bc991886479d900bb086c0e782311744b2937172da9334a6"
+      "contentHash": "f04d905bf39f7982fad03c6244b0c1b6a3b6f47ba178a5c4c98758b9c96dbb7e"
     },
     {
       "id": "module:apps/docs-next/components/learn/chat-preview.tsx",
@@ -10980,7 +11011,7 @@
         "js",
         "public"
       ],
-      "contentHash": "a7921d11bd53b8db6b187f084c198cbc57ac82f3aa45b2d0ef615810e5c1de0d"
+      "contentHash": "1c2d0f10286adf2523d97738815330dc7f142cc30c9323d5bc57d24ab83074de"
     },
     {
       "id": "module:apps/docs-next/scripts/build-dependencies.mjs",
@@ -13368,7 +13399,7 @@
         "js",
         "public"
       ],
-      "contentHash": "a7921d11bd53b8db6b187f084c198cbc57ac82f3aa45b2d0ef615810e5c1de0d"
+      "contentHash": "1c2d0f10286adf2523d97738815330dc7f142cc30c9323d5bc57d24ab83074de"
     },
     {
       "id": "module:apps/registry/source.config.ts",
@@ -33401,7 +33432,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "43b7197e6c879f0a67acd5b739b2048194bb89075fa8f6f3ddb0ba2248616a41"
+      "contentHash": "bf273305477e62cf6dea29851557704938bddd788cbaadb6d0d0fccd49f60f43"
     },
     {
       "id": "module:scripts/doc-bridge-benchmark.mjs",
@@ -34419,7 +34450,7 @@
         "test",
         "e2e"
       ],
-      "contentHash": "d4fb8d4f5c95ffe09b8aa6b42c880abb0675319c4567a127d41bed309ad35edf"
+      "contentHash": "36474c69b15a886d463777dc328aca1e1f2cef1f2d3ae77d447f8cd4f6f8bba9"
     },
     {
       "id": "module:tests/e2e/example-ink.spec.ts",
@@ -35573,8 +35604,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "11960dc4c8a6790641d8336658c9ad9e69930a3c5418fc01f7164bb7bb96f052",
-    "fileCount": 2373,
+    "hash": "f3c5c106b183e37928da445712aad8e6294381ef88d6a489020616799b541358",
+    "fileCount": 2375,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -35596,9 +35627,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "3c8c74f8db14a1a56c1246e882676a8794dcbb5566a40d1cec8c56259d9c12bc",
+    "contentHash": "2f53615f5b1b0bc3d1f09ba8aad783869e8e100f4f47822ca78300c71804cbb2",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "b942413d88e79daf94d18132b3935da992afe48cc6a9069f0c0d17687ca2a6f0",
+    "snapshotHash": "99afb4be043e4ad000b07524dd7cd0084dda69f792678151d01007b30102cf7b",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -35618,7 +35649,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2326,
+      "documentCount": 2328,
       "fieldNames": [
         "aliases",
         "body",
@@ -35629,13 +35660,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 2.9875322441960446,
-        "body": 61.484952708512466,
-        "headings": 4.161220980223559,
-        "path": 7.642304385210662,
-        "summary": 4.752364574376612,
-        "symbols": 7.4496990541702495,
-        "title": 3.3276010318142735
+        "aliases": 2.98840206185567,
+        "body": 61.43427835051546,
+        "headings": 4.1576460481099655,
+        "path": 7.645618556701031,
+        "summary": 4.748281786941581,
+        "symbols": 7.448024054982818,
+        "title": 3.3286082474226806
       }
     },
     "entries": [
@@ -35980,7 +36011,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "c8efa66e194eafadaa68dc3b311b6208c07df73d015dc7972e016897932d6235",
+        "contentHash": "6dfee9aa9f09d9b1e6b8e76af302f8b7ecd4be4674ab1bd68ea716963d799613",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -69077,7 +69108,7 @@
           "path": "docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/docs.mdx",
           "symbols": "",
           "summary": "Developers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host.",
-          "body": "Connect AgentsKit to your coding agent Developers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host. Audience JavaScript and TypeScript developers using Codex, Claude Code or Desktop, Cursor, Cline, Continue, or another MCP-compatible host Commands Verified claims - agentskit/packages : 22 packages (from ecosystem-claims.json) - agentskit/integrations : 50 integrations (from ecosystem-claims.json) Citations - - - - - - - Ecosystem next steps - — Build agents without gluing many libraries together. - — Copy ready-made agents and own the source. - — Define one agent experience and deliver it across interfaces. - — Make agents ship code a human would actually merge. - — Turn repository documentation into executable agent handoffs. - — Run deep, low-noise review with the model already in use. Draft generated by the content pipeline. Human approval required before publishing.",
+          "body": "Connect AgentsKit to your coding agent Developers should be able to use the same AgentsKit tools and agents inside their existing coding agent without building or maintaining a separate integration for every host. Audience JavaScript and TypeScript developers using Codex, Claude Code or Desktop, Cursor, Cline, Continue, or another MCP-compatible host Commands Verified claims - agentskit/packages : 22 packages (from ecosystem-claims.json) - agentskit/integrations : 50 integrations (from ecosystem-claims.json) Citations - - - - - - - Ecosystem next steps - — Build agents without gluing many libraries together. - — Copy ready-made agents and own the source. - — Define one agent experience and deliver it across interfaces. - — Turn repository documentation into executable agent handoffs. - — Run deep, low-noise review with the model already in use. - — The keep-pushing loop for your SDLC. - — Make agents ship code a human would actually merge. Draft generated by the content pipeline. Human approval required before publishing.",
           "aliases": "document human"
         },
         "graph": {
@@ -69088,7 +69119,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "e729ef7c9a55b851950a3f9222af8446ed6a5b9b3d652f01e9657f97981fb989",
+        "contentHash": "37810c47238288a40fa82336c0f29a953f46a73bc0de979ba3ac2644ef0cd8dd",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -69110,7 +69141,7 @@
           "path": "docs/ecosystem/content-pipeline/atoms/coding-agent-mcp/review.md",
           "symbols": "",
           "summary": "Status: needs-human-review",
-          "body": "Review — coding-agent-mcp Status: needs-human-review - [x] claims: Claims verified against ecosystem-claims.json - [x] executable: Source recipe executable passed - [x] citations: Citations present - [x] no-autonomous-publish: Publisher only prepares drafts; no channel action is auto-post - [ ] doc-bridge: doc-bridge command was not run - [ ] playbook: playbook requires human attestation with evidence - [ ] code-review: code-review requires human attestation with evidence Publish package: blocked Reason: Human approval required before publish packaging",
+          "body": "Review — coding-agent-mcp Status: needs-human-review - [x] claims: Claims verified against ecosystem-claims.json - [x] executable: Source recipe executable passed - [x] citations: Citations present - [x] no-autonomous-publish: Publisher only prepares drafts; no channel action is auto-post - [x] doc-bridge: doc-bridge command passed - [ ] playbook: playbook requires human attestation with evidence - [ ] code-review: code-review requires human attestation with evidence Publish package: blocked Reason: Human approval required before publish packaging",
           "aliases": "document human"
         },
         "graph": {
@@ -69121,7 +69152,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "cbdf796e3c10841ad034a8465622e5de69d220408e65f37d556b34044a8dca9f",
+        "contentHash": "ee34514d3a5ea9d55f470391ea54a1000548af29fd62511c87534a82f3cd339c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -81777,7 +81808,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "c66504850574e5ac28a1363746c22b4d1bd39c86bb1fcbba7159a7ae3da1f826",
+        "contentHash": "4de6db514c26a6107c2f354561cef7cfc8955b957c9b9ad4b78e10c089c2be7a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -81872,6 +81903,50 @@
         "confidence": "observed"
       },
       {
+        "id": "module:apps/docs-next/app/(home)/_components/hero-motion.tsx",
+        "kind": "module",
+        "path": "apps/docs-next/app/(home)/_components/hero-motion.tsx",
+        "title": "hero-motion.tsx",
+        "aliases": [],
+        "symbols": [
+          "HeroHeadline",
+          "KineticFrameworkReel"
+        ],
+        "tags": [
+          "module",
+          "tsx",
+          "_components"
+        ],
+        "fields": {
+          "title": "hero-motion.tsx",
+          "headings": "",
+          "path": "apps/docs-next/app/(home)/_components/hero-motion.tsx",
+          "symbols": "HeroHeadline KineticFrameworkReel",
+          "summary": "",
+          "body": "",
+          "aliases": "module tsx _components"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/docs-next/app/(home)/page.tsx",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "8e5ee5dd61797bcc327d96d45b8b3878c4b53634249ae73636d95eff627bf089",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:apps/docs-next/app/(home)/_components/install-command.tsx",
         "kind": "module",
         "path": "apps/docs-next/app/(home)/_components/install-command.tsx",
@@ -81915,6 +81990,49 @@
         "confidence": "observed"
       },
       {
+        "id": "module:apps/docs-next/app/(home)/_components/liquid-cursor-gradient.tsx",
+        "kind": "module",
+        "path": "apps/docs-next/app/(home)/_components/liquid-cursor-gradient.tsx",
+        "title": "liquid-cursor-gradient.tsx",
+        "aliases": [],
+        "symbols": [
+          "LiquidCursorGradient"
+        ],
+        "tags": [
+          "module",
+          "tsx",
+          "_components"
+        ],
+        "fields": {
+          "title": "liquid-cursor-gradient.tsx",
+          "headings": "",
+          "path": "apps/docs-next/app/(home)/_components/liquid-cursor-gradient.tsx",
+          "symbols": "LiquidCursorGradient",
+          "summary": "",
+          "body": "",
+          "aliases": "module tsx _components"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/docs-next/app/(home)/page.tsx",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "3a7810092172046f492ad41c868d2dee69a8b7a8a1bacfd25294d948fce5bfd8",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:apps/docs-next/app/(home)/layout.tsx",
         "kind": "module",
         "path": "apps/docs-next/app/(home)/layout.tsx",
@@ -81953,7 +82071,7 @@
             }
           ]
         },
-        "contentHash": "340073d19f90d83f99e440d1b7d09136978f010ae6750db17862ec49a619599e",
+        "contentHash": "449625aa14823227d1758bef10a5ad057e8639defed741c8282800c11a32dd45",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -81997,12 +82115,22 @@
             },
             {
               "kind": "imports",
+              "id": "module:apps/docs-next/app/(home)/_components/hero-motion.tsx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:apps/docs-next/app/(home)/_components/install-command.tsx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:apps/docs-next/app/(home)/_components/liquid-cursor-gradient.tsx",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "1f884a1f8a15aa5d7941c7a080df733304d6513a9daac317e52063c6ebf3a009",
+        "contentHash": "d9b934ab7137fe57d6b265b6935f2361d08f6f9bb94c8964c3b111f1d3fb3409",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -82972,7 +83100,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "b207e9ac118910b021419b6155ab994e7c4ab6851f24c5f8be80c0ff546881ee",
+        "contentHash": "086f2e13f7dcb8a12a79e4a74f084bf61106f56a829f9f1f9af641c679ab0870",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -83011,7 +83139,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "520ed011d660862129d1bd018997ec480be7813576f43ce5748dd78c1a18101d",
+        "contentHash": "ce6c4252b61a51353ca3393728744defc03bdc3257b32460c3d5e4bb3bea1800",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -84467,7 +84595,7 @@
             }
           ]
         },
-        "contentHash": "93de972f37ecb05751b6cab8f14cd4f09fb9a015a67edd45bcae11d49075639c",
+        "contentHash": "88b8ee068c6f8d3a698a7f3eb39f38803bac5e127273941c8fa48e8a1766e2bc",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -86608,7 +86736,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "fb3d84c331fc5a6eb02d4e7765a710ec2b44f4288754efee72e862ebba771790",
+        "contentHash": "4aab25dc40fe7d073a37b547ff07b5d6d18b8822bd7fd35932144176e437a848",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -86695,7 +86823,7 @@
             }
           ]
         },
-        "contentHash": "c11fc617d13bf0e86ed60bcaef631ca7ce0644e59b7493f72f1f97063c3f1da5",
+        "contentHash": "26395f4dc7de275b5900b5a6be8a7cc4248f093c7854923065322c0687eed28e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -86732,7 +86860,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "dc2896f69972b03b808182f765400cf27c812b46579ad06f6eb44a099703f0e1",
+        "contentHash": "0ea25c50442eb019d18c4775a0eedaa46560d0420bea8425d06b61dda663b4d6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -86781,7 +86909,7 @@
             }
           ]
         },
-        "contentHash": "b95b0b55f8a52e16bc991886479d900bb086c0e782311744b2937172da9334a6",
+        "contentHash": "f04d905bf39f7982fad03c6244b0c1b6a3b6f47ba178a5c4c98758b9c96dbb7e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -89917,7 +90045,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "a7921d11bd53b8db6b187f084c198cbc57ac82f3aa45b2d0ef615810e5c1de0d",
+        "contentHash": "1c2d0f10286adf2523d97738815330dc7f142cc30c9323d5bc57d24ab83074de",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -97012,7 +97140,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "a7921d11bd53b8db6b187f084c198cbc57ac82f3aa45b2d0ef615810e5c1de0d",
+        "contentHash": "1c2d0f10286adf2523d97738815330dc7f142cc30c9323d5bc57d24ab83074de",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174240,7 +174368,7 @@
             }
           ]
         },
-        "contentHash": "43b7197e6c879f0a67acd5b739b2048194bb89075fa8f6f3ddb0ba2248616a41",
+        "contentHash": "bf273305477e62cf6dea29851557704938bddd788cbaadb6d0d0fccd49f60f43",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -177345,7 +177473,7 @@
             }
           ]
         },
-        "contentHash": "d4fb8d4f5c95ffe09b8aa6b42c880abb0675319c4567a127d41bed309ad35edf",
+        "contentHash": "36474c69b15a886d463777dc328aca1e1f2cef1f2d3ae77d447f8cd4f6f8bba9",
         "provenance": "observed",
         "confidence": "observed"
       },

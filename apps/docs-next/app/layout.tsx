@@ -19,14 +19,14 @@ const DESCRIPTION =
   'AgentsKit is the foundation library for JavaScript agents — runtime, tools, memory, RAG, and UI bindings. Product chat lives in AgentsKit Chat.'
 
 const FOOTER_PRODUCTS = ecosystem.products
-  .filter((product) => product.public)
+  .filter((product) => product.public && product.navigation.showInBar)
   .sort((a, b) => a.navigation.order - b.navigation.order)
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'AgentsKit.js — foundation library for JavaScript agents',
-    template: '%s | AgentsKit.js',
+    default: 'AgentsKit — foundation library for JavaScript agents',
+    template: '%s | AgentsKit',
   },
   description: DESCRIPTION,
   keywords: [
@@ -74,21 +74,21 @@ export const metadata = {
     type: 'website',
     locale: 'en_US',
     url: SITE_URL,
-    siteName: 'AgentsKit.js',
-    title: 'AgentsKit.js — foundation library for JavaScript agents',
+    siteName: 'AgentsKit',
+    title: 'AgentsKit — foundation library for JavaScript agents',
     description: DESCRIPTION,
     images: [
       {
         url: '/api/og',
         width: 1200,
         height: 630,
-        alt: 'AgentsKit.js — foundation library for JavaScript agents',
+        alt: 'AgentsKit — foundation library for JavaScript agents',
       },
     ],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AgentsKit.js — foundation library for JavaScript agents',
+    title: 'AgentsKit — foundation library for JavaScript agents',
     description: DESCRIPTION,
     images: ['/api/og'],
   },
@@ -112,6 +112,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           Skip to content
         </a>
         <RootProvider
+          theme={{ defaultTheme: 'dark', enableSystem: false }}
           search={{
             options: {
               allowClear: true,

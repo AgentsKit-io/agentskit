@@ -346,10 +346,10 @@
     .akx-frame{overflow:hidden;border:1px solid color-mix(in srgb,var(--akx-line) 82%,transparent);border-radius:24px;background:color-mix(in srgb,var(--akx-surface) 28%,transparent)}
     .akx-tabs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));overflow-x:auto;border-bottom:1px solid color-mix(in srgb,var(--akx-line) 72%,transparent);scrollbar-width:none}
     .akx-tabs::-webkit-scrollbar{display:none}
-    .akx-tab{position:relative;min-height:68px;border:0;background:transparent;color:var(--akx-muted);--akx-accent:var(--akx-muted)!important;cursor:pointer;padding:12px;text-align:left;transition:color 180ms cubic-bezier(.25,1,.5,1),background 180ms cubic-bezier(.25,1,.5,1)}
+    .akx-tab{position:relative;min-height:68px;border:0;background:transparent;color:var(--akx-muted);cursor:pointer;padding:12px;text-align:left;transition:color 180ms cubic-bezier(.25,1,.5,1),background 180ms cubic-bezier(.25,1,.5,1)}
     .akx-tab:hover{color:var(--akx-fg);background:rgba(255,255,255,.025)}
     .akx-tab:focus-visible{outline:2px solid var(--akx-accent);outline-offset:-3px}
-    .akx-tab[aria-selected="true"]{--akx-accent:inherit!important;color:var(--akx-fg);background:rgba(255,255,255,.035);box-shadow:inset 0 -2px 0 var(--akx-accent)}
+    .akx-tab[aria-selected="true"]{color:var(--akx-fg);background:rgba(255,255,255,.035);box-shadow:inset 0 -2px 0 var(--akx-accent)}
     .akx-tab-stage{display:block;margin-bottom:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--akx-accent)}
     .akx-tab-name{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:650;white-space:nowrap}
     .akx-current-dot{width:5px;height:5px;border-radius:50%;background:var(--akx-accent)}
@@ -391,6 +391,7 @@
     :host([data-visual="agentskit-home"]) .akx-story{border-color:color-mix(in srgb,var(--ak-border,#30363d) 65%,transparent)}
     :host([data-visual="agentskit-home"]) .akx-demo{border-color:color-mix(in srgb,var(--ak-border,#30363d) 65%,transparent)}
     :host([data-visual="agentskit-home"]) .akx-demo-step{background:rgba(255,255,255,.025)}
+    :host([data-visual="registry-home"]) .akx-shell,:host([data-visual="registry-home"]) .akx-tab{--akx-accent:var(--ak-blue,#58a6ff)!important}
   `
 
   // Brand mark only (no "AgentsKit" wordmark) — product list still includes AgentsKit.
@@ -475,6 +476,8 @@
           tab.id = 'akx-tab-' + product.id
           tab.setAttribute('role', 'tab')
           tab.setAttribute('aria-controls', 'akx-panel')
+          tab.style.setProperty('--akx-accent', product.accent)
+
           var stage = document.createElement('span')
           stage.className = 'akx-tab-stage'
           stage.textContent = String(index + 1).padStart(2, '0') + ' / ' + product.stage

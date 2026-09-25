@@ -18,6 +18,7 @@ test('docs chat answers locally, then escalates an unknown query with context in
     await route.fulfill({ status: 200, contentType: 'text/plain', body: 'Backend grounded answer.' })
   })
   await page.goto(`${server.url}/docs`)
+  await page.locator('[data-ak-ask-fab]').click()
 
   const input = page.locator('[data-ak-composer] textarea')
   await input.fill('How do I install AgentsKit?')

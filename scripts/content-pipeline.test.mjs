@@ -109,7 +109,7 @@ test('coding-agent MCP recipe proves one safe command across supported hosts', (
   assert.doesNotMatch(recipeDoc, /Claude Code asks for approval before using a project-scoped server\./)
 
   const recipe = mineRecipes(REPO_ROOT).find((entry) => entry.id === 'coding-agent-mcp')
-  assert.deepEqual(recipe.executable.setupCommands[1], [
+  assert.deepEqual(recipe.executable.setupCommands[2], [
     'pnpm', '--filter', '@agentskit/mcp', 'exec', 'vitest', 'run', 'tests/coding-agent-hosts.test.ts',
   ])
 

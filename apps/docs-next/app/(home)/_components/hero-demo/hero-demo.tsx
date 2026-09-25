@@ -141,13 +141,15 @@ const VALUE_STEP_MS = 900
 const SLIDE_HOLD_MS = 2500
 
 export function HeroDemo() {
-  const reduceMotion = useReducedMotion()
+  const motionPreference = useReducedMotion()
+  const [motionPreferenceReady, setMotionPreferenceReady] = useState(false)
   const [activeStep, setActiveStep] = useState(0)
   const [variantIndex, setVariantIndex] = useState(0)
   const [manualPaused, setManualPaused] = useState(false)
   const [hovered, setHovered] = useState(false)
   const [focusWithin, setFocusWithin] = useState(false)
-  const paused = Boolean(reduceMotion) || manualPaused || hovered || focusWithin
+  const reduceMotion = motionPreferenceReady && Boolean(motionPreference)
+  const paused = reduceMotion || manualPaused || hovered || focusWithin
   const step = STEPS[activeStep]
 
   const activeRow = useMemo(
@@ -158,6 +160,10 @@ export function HeroDemo() {
   useEffect(() => {
     setVariantIndex(0)
   }, [activeStep])
+
+  useEffect(() => {
+    setMotionPreferenceReady(true)
+  }, [])
 
   useEffect(() => {
     if (paused) return
@@ -189,13 +195,14 @@ export function HeroDemo() {
 
   return (
     <div
-      className="min-w-0 overflow-hidden rounded-xl border border-ak-border bg-ak-surface shadow-2xl shadow-black/30"
+      data-agent-chat-demo=""
+      className="min-w-0 overflow-hidden rounded-xl border border-ak-border/80 bg-ak-surface/65 shadow-2xl shadow-black/30 backdrop-blur-2xl"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       onFocusCapture={() => setFocusWithin(true)}
       onBlurCapture={() => setFocusWithin(false)}
     >
-      <div className="flex items-center justify-between border-b border-ak-border bg-ak-midnight/70 px-4 py-3">
+      <div className="flex items-center justify-between border-b border-ak-border/80 bg-ak-midnight/45 px-4 py-3 backdrop-blur-lg">
         <div className="flex items-center gap-2">
           <span className="h-2.5 w-2.5 rounded-full bg-ak-red/80" />
           <span className="h-2.5 w-2.5 rounded-full bg-[#f0b429]/80" />
@@ -219,7 +226,7 @@ export function HeroDemo() {
         )}
       </div>
 
-      <div className="h-[250px] overflow-hidden bg-ak-midnight px-4 py-5 sm:px-5">
+      <div className="h-[250px] overflow-hidden bg-ak-midnight/55 px-4 py-5 backdrop-blur-lg sm:px-5">
         <div className="min-w-0 font-mono text-[11px] leading-6 sm:text-xs">
           <div>
             <span className="text-ak-blue">const</span>{' '}
@@ -259,7 +266,7 @@ export function HeroDemo() {
                   </span>
                 </div>
                 {isActive ? (
-                  <div className="pl-[6.75rem] text-[10px] leading-4 text-ak-graphite/55">
+                  <div className="pl-[6.75rem] text-[10px] leading-4 text-ak-graphite">
                     {'// '}{row.comment}
                   </div>
                 ) : null}
@@ -270,7 +277,7 @@ export function HeroDemo() {
           <div className={activeStep === STEPS.length - 1 ? 'text-ak-blue' : 'text-ak-graphite'}>
             {'})'}
             {activeStep === STEPS.length - 1 ? (
-              <span className="ml-4 text-ak-graphite/60">
+              <span className="ml-4 text-ak-graphite">
                 {'// one runtime → every surface'}
               </span>
             ) : null}

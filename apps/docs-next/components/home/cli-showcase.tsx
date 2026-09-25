@@ -16,7 +16,7 @@ const FLOWS: CliFlow[] = [
   {
     id: 'add',
     label: 'Add',
-    command: '$ npx agentskit add research --run "Summarize today’s AI news"',
+    command: '$ npx @agentskit/cli add research --run "Summarize today’s AI news"',
     output: [
       { text: '✓ copied source to ./agents/research', tone: 'success' },
       { text: '✓ installed dependencies · running…', tone: 'success' },
@@ -26,7 +26,7 @@ const FLOWS: CliFlow[] = [
   {
     id: 'ai',
     label: 'Create',
-    command: '$ npx agentskit ai "a support agent with RAG and approvals"',
+    command: '$ npx @agentskit/cli ai "a support agent with RAG and approvals"',
     output: [
       { text: '✓ generated a typed AgentSchema', tone: 'success' },
       { text: '✓ added tools · retriever · memory · onConfirm', tone: 'success' },
@@ -36,7 +36,7 @@ const FLOWS: CliFlow[] = [
   {
     id: 'run',
     label: 'Run',
-    command: '$ npx agentskit run "Summarize today’s PRs" --provider anthropic',
+    command: '$ npx @agentskit/cli run "Summarize today’s PRs" --provider anthropic',
     output: [
       { text: '✓ provider anthropic · streaming', tone: 'success' },
       { text: '> 4 pull requests need review; 2 are ready to merge…', tone: 'stream' },
@@ -46,7 +46,7 @@ const FLOWS: CliFlow[] = [
   {
     id: 'doctor',
     label: 'Diagnose',
-    command: '$ npx agentskit doctor',
+    command: '$ npx @agentskit/cli doctor',
     output: [
       { text: '✓ runtime packages', tone: 'success' },
       { text: '✓ provider configuration', tone: 'success' },
@@ -60,7 +60,9 @@ const OUTPUT_STAGGER_MS = 420
 const HOLD_MS = 3000
 
 export function CliShowcase() {
-  const reduced = useReducedMotion()
+  const motionPreference = useReducedMotion()
+  const [motionPreferenceReady, setMotionPreferenceReady] = useState(false)
+  const reduced = motionPreferenceReady && Boolean(motionPreference)
   const [activeIndex, setActiveIndex] = useState(0)
   const [playing, setPlaying] = useState(true)
   const [typed, setTyped] = useState('')
@@ -69,7 +71,11 @@ export function CliShowcase() {
   const activeFlow = FLOWS[activeIndex]
 
   useEffect(() => {
-    if (reduced || !playing) return
+    setMotionPreferenceReady(true)
+  }, [])
+
+  useEffect(() => {
+    if (!motionPreferenceReady || reduced || !playing) return
 
     const schedule = (fn: () => void, ms: number) => {
       timers.current.push(setTimeout(fn, ms))
@@ -110,7 +116,7 @@ export function CliShowcase() {
       timers.current.forEach(clearTimeout)
       timers.current = []
     }
-  }, [activeFlow, playing, reduced])
+  }, [activeFlow, motionPreferenceReady, playing, reduced])
 
   const showStatic = Boolean(reduced) || !playing
   const displayCommand = showStatic ? activeFlow.command : typed
@@ -167,7 +173,7 @@ export function CliShowcase() {
             </button>
           )
         })}
-        <span className="ml-auto hidden items-center pr-3 text-[10px] text-ak-graphite/60 sm:flex">
+        <span className="ml-auto hidden items-center pr-3 text-[10px] text-ak-graphite sm:flex">
           also: init · chat · dev
         </span>
       </div>
@@ -175,7 +181,7 @@ export function CliShowcase() {
       <div className="min-h-[13.5rem] space-y-2 px-4 py-5 leading-relaxed sm:min-h-[14.5rem]">
         <p className="break-words text-ak-foam">
           <span>{displayCommand}</span>
-          {!commandComplete && <Cursor />}
+          {!commandComplete && <Cursor reducedMotion={reduced} />}
         </p>
 
         <div className="space-y-1.5 pt-2">
@@ -205,19 +211,14 @@ export function CliShowcase() {
   )
 }
 
-function Cursor() {
-  const reduced = useReducedMotion()
-  if (reduced) {
-    return (
-      <span className="ml-0.5 inline-block h-[1.1em] w-[0.55em] translate-y-[0.15em] bg-ak-blue/80" />
-    )
-  }
+function Cursor({ reducedMotion }: { reducedMotion: boolean }) {
   return (
     <motion.span
       aria-hidden
-      className="ml-0.5 inline-block h-[1.1em] w-[0.55em] translate-y-[0.15em] bg-ak-blue"
-      animate={{ opacity: [1, 1, 0, 0] }}
-      transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
+      className={`ml-0.5 inline-block h-[1.1em] w-[0.55em] ${reducedMotion ? 'bg-ak-blue/80' : 'bg-ak-blue'}`}
+      initial={false}
+      animate={reducedMotion ? { opacity: 1 } : { opacity: [1, 1, 0, 0] }}
+      transition={{ duration: reducedMotion ? 0 : 1, repeat: reducedMotion ? 0 : Infinity, ease: 'linear' }}
     />
   )
 }

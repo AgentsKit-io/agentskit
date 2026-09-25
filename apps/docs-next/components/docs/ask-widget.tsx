@@ -271,7 +271,7 @@ export function AskDocsWidget({
   loadingState,
   docsHref,
   docsLabel,
-  defaultOpen = true,
+  defaultOpen = false,
 }: AskDocsWidgetProps = {}) {
   const [open, setOpen] = useState(defaultOpen)
   const [answerPath, setAnswerPath] = useState<'local' | 'choices' | 'backend' | null>(null)
@@ -340,7 +340,7 @@ export function AskDocsWidget({
       }}
       aria-label={askLabel}
       data-ak-ask-fab=""
-      className="group fixed bottom-4 right-4 z-50 flex items-center gap-2 rounded-full border border-ak-border bg-ak-midnight px-4 py-2.5 font-mono text-xs font-semibold text-ak-foam shadow-lg"
+      className="group fixed bottom-4 right-4 z-50 flex items-center gap-2 rounded-full border border-ak-border/80 bg-ak-midnight/70 px-4 py-2.5 font-mono text-xs font-semibold text-ak-foam shadow-lg backdrop-blur-xl"
     >
       <span aria-hidden>{effectiveLogo ?? <AnimatedLogo variant="nav" size={16} />}</span>{effectiveFabLabel}
     </button>
@@ -348,8 +348,8 @@ export function AskDocsWidget({
 
   return (
     <AskRuntimeContext.Provider value={runtime}>
-      <div data-ak-ask-panel="" className="fixed bottom-4 right-4 z-50 flex h-[min(620px,82vh)] w-[min(440px,94vw)] flex-col overflow-hidden rounded-xl border border-ak-border bg-ak-midnight shadow-2xl">
-        <header className="flex items-center justify-between border-b border-ak-border bg-gradient-to-br from-ak-surface to-ak-midnight px-4 py-2.5">
+      <div data-ak-ask-panel="" className="fixed bottom-4 right-4 z-50 flex h-[min(620px,82vh)] w-[min(440px,94vw)] flex-col overflow-hidden rounded-xl border border-ak-border/80 bg-ak-midnight/78 shadow-2xl backdrop-blur-2xl">
+        <header className="flex items-center justify-between border-b border-ak-border/80 bg-gradient-to-br from-ak-surface/75 to-ak-midnight/50 px-4 py-2.5 backdrop-blur-xl">
           <div className="flex items-center gap-2"><span aria-hidden>{effectiveLogo ?? <AnimatedLogo variant="nav" size={18} />}</span><span className="font-mono text-xs uppercase tracking-[0.2em] text-ak-graphite">{effectiveTitle}</span></div>
           <div className="flex items-center gap-3">
             {answerPath ? <span aria-live="polite" data-ak-answer-path={answerPath} className="rounded-full border border-ak-border px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-ak-blue">{answerPath === 'local' ? 'instant · local' : answerPath === 'choices' ? 'local · choose' : 'grounded · backend'}</span> : null}
