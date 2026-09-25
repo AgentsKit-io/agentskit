@@ -16,7 +16,7 @@
   },
   "utilityWithoutPromo": {
     "required": true,
-    "promoMarkers": ["AgentsKit", "agentskit.io", "@agentskit", "AgentsKit OS", "Registry"],
+    "promoMarkers": ["AgentsKit", "agentskit.io", "@agentskit", "Registry"],
     "statement": "The script depends only on Node.js fetch and Groq's documented OpenAI-compatible endpoint."
   },
   "files": [

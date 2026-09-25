@@ -11,8 +11,8 @@ import type { PostgresExecuteResult } from './postgres'
  * Heavy drivers are not bundled — pass a `CdcAdminClient` (any
  * parameterised SQL runner: `pg`, Neon `sql`, Supabase
  * `postgres.query`) for the slot-management tools, and a
- * `CdcStreamClient` adapter for long-running streams (used by
- * `@agentskit/triggers` in AgentsKitOS T-9).
+ * `CdcStreamClient` adapter for long-running streams (used by CDC
+ * triggers and other long-running consumers).
  *
  * Tool primitives are one-shot and fit `execute` semantics: status,
  * create/drop slot, advance, peek-N. The continuous AsyncIterable
@@ -276,7 +276,7 @@ export function postgresCdc(config: PostgresCdcConfig) {
 }
 
 /**
- * Helper for AgentsKitOS T-9 CDC trigger and other long-running
+ * Helper for CDC triggers and other long-running
  * consumers. Returns an AsyncIterable from the injected stream
  * client; aborts cleanly when the supplied AbortSignal fires.
  */

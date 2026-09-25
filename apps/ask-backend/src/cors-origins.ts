@@ -3,7 +3,6 @@ const DEFAULT_CORS_ORIGINS = [
   'https://agentskit.io',
   'https://registry.agentskit.io',
   'https://playbook.agentskit.io',
-  'https://akos.agentskit.io',
   'http://localhost:3000',
 ] as const
 

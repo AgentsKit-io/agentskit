@@ -16,7 +16,7 @@
   },
   "utilityWithoutPromo": {
     "required": true,
-    "promoMarkers": ["AgentsKit", "agentskit.io", "@agentskit", "AgentsKit OS", "Registry"],
+    "promoMarkers": ["AgentsKit", "agentskit.io", "@agentskit", "Registry"],
     "statement": "scripts/openai-compat-smoke.mjs only needs fetch + a local OpenAI-compatible server."
   },
   "files": [

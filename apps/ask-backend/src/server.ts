@@ -142,33 +142,6 @@ const corpora: Record<string, Corpus> = {
     persona: 'docs-helper',
     title: 'AgentsKit Doc Bridge',
   },
-  akos: {
-    retriever: createRemoteCorpusRetriever({
-      id: 'akos',
-      title: 'AKOS',
-      sources: [
-        {
-          title: 'AKOS full docs',
-          url:
-            process.env.ASK_AKOS_LLMS_FULL_URL ??
-            process.env.AKOS_LLMS_FULL_URL ??
-            'https://akos.agentskit.io/llms-full.txt',
-        },
-        {
-          title: 'AKOS llms',
-          url:
-            process.env.ASK_AKOS_LLMS_URL ??
-            process.env.AKOS_LLMS_URL ??
-            'https://akos.agentskit.io/llms.txt',
-        },
-      ],
-    }),
-    systemPrompt: docsAssistant.systemPrompt,
-    temperature: docsAssistant.temperature,
-    formatContext: (docs) => formatCitedContext(docs).context,
-    persona: 'akos-sales',
-    title: 'AKOS',
-  },
 }
 
 /**

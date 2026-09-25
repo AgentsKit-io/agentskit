@@ -94,11 +94,11 @@ feeds labeled confirmed, undocumented, stale, not-analyzed, conflict, and
 unresolved cases through the real reconciler and requires exact diagnostic
 classification, complete evidence, and `1.000` precision and recall. This is
 separate from the repository report totals: a large report can still pass
-retrieval while the semantic classifier regresses.
-
+retrieval while the semantic classifier regresses. Run it from a Doc Bridge
+checkout:
 
 ```bash
-pnpm --dir /Users/rebecabraun/workspace/EmersonBraun/doc-bridge exec vitest run tests/semantic-benchmark.test.ts
+pnpm exec vitest run tests/semantic-benchmark.test.ts
 ```
 
 ## Optional Registry assistance
@@ -108,7 +108,7 @@ agent from the AgentsKit Registry as a deterministic, read-only proposal step:
 
 ```bash
 npx agentskit add ecosystem-doc-bridge-corpus-scanner
-node /Users/rebecabraun/workspace/EmersonBraun/doc-bridge/bin/ak-docs.js suggest --json --config doc-bridge.config.json
+pnpm exec ak-docs suggest --json --config doc-bridge.config.json
 ```
 
 The configured runner records the Registry agent ID, exact version, provider,
