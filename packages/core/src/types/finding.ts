@@ -2,7 +2,7 @@
  * The canonical finding shape for agents that surface issues — code review,
  * security audit, compliance/screening, contract review. A shared type so
  * findings from different agents are interoperable: dashboards, eval scorers,
- * and AKOS workflow steps can consume them without parsing free text.
+ * and workflow steps can consume them without parsing free text.
  */
 
 /** Ordered most→least severe; use for sorting / gate thresholds. */

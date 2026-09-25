@@ -166,7 +166,4 @@ Remote corpus sources:
 - `ASK_REGISTRY_LLMS_FULL_URL`, `ASK_REGISTRY_LLMS_URL`, `ASK_REGISTRY_INDEX_URL`
 - `ASK_PLAYBOOK_LLMS_FULL_URL`, `ASK_PLAYBOOK_LLMS_URL`
 - `ASK_DOC_BRIDGE_LLMS_FULL_URL`, `ASK_DOC_BRIDGE_LLMS_URL`
-- `ASK_AKOS_LLMS_FULL_URL`, `ASK_AKOS_LLMS_URL` (`AKOS_*` aliases are also accepted)
 
-
-- `AKOS_WAITLIST_URL` defaults to `https://www.agentskit.io/#waitlist`.

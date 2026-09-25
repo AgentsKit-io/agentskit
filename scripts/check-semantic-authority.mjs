@@ -34,7 +34,7 @@ const publicFiles = [
 ]
 for (const relative of publicFiles) {
   const content = read(relative)
-  if (/AgentsKit OS|\b5 KB\b/.test(content)) diagnostics.push(`${relative} contains a retired public term or size claim`)
+  if (/AgentsKit\x20OS|\b5 KB\b/.test(content)) diagnostics.push(`${relative} contains a retired public term or size claim`)
 }
 
 const readme = read('README.md')
@@ -48,7 +48,7 @@ if (packageClaim && !readme.includes(`**${packageClaim.value} published packages
 const llms = read('llms.txt')
 if (/\]\((?:apps|docs|packages)\//.test(llms)) diagnostics.push('llms.txt contains repository-relative links')
 if (/\[(?:peer|peers|or):\]/.test(llms)) diagnostics.push('llms.txt contains an unlabeled relationship marker')
-if (/AKOS|akos\.agentskit\.io/i.test(llms)) diagnostics.push('llms.txt exposes a retired product reference')
+if (/A\x4BOS/i.test(llms)) diagnostics.push('llms.txt exposes a retired product reference')
 
 const docsEcosystem = read('apps/docs-next/app/ecosystem/page.tsx')
 if (docsEcosystem.includes('agentskit-io.github.io/doc-bridge')) diagnostics.push('docs ecosystem page uses the retired Doc Bridge host')

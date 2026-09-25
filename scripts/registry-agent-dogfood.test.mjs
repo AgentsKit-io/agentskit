@@ -7,7 +7,7 @@ import { contentHashForArtifactV1 } from '@agentskit/doc-bridge'
 import { createEcosystemDocBridgeCorpusScannerAgent } from '../agents/ecosystem-doc-bridge-corpus-scanner/agent.ts'
 
 const root = new URL('..', import.meta.url).pathname.replace(/\/$/, '')
-const cli = '/Users/rebecabraun/workspace/EmersonBraun/doc-bridge/bin/ak-docs.js'
+const cli = process.env.AK_DOCS_CLI ?? join(root, 'node_modules/@agentskit/doc-bridge/bin/ak-docs.js')
 const config = 'doc-bridge.config.json'
 
 function latestWorkflowValue(stage) {

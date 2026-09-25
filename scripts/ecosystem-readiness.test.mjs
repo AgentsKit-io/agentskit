@@ -213,7 +213,7 @@ test('missing evidence fails closed as incomplete', () => {
     protocol: 'agentskit.ecosystem.readiness',
     maxEvidenceAgeDays: 30,
     requiredGateCategories: required,
-    products: [{ id: 'akos', repo: 'AgentsKit-io/agentskit-os', evidenceFile: 'missing.json' }],
+    products: [{ id: 'example', repo: 'example-org/example', evidenceFile: 'missing.json' }],
   }
   const report = evaluateReadiness({ inventory, evidenceByProductId: {}, auditDate: '2026-07-14' })
   assert.equal(report.overall, 'incomplete')
@@ -278,8 +278,8 @@ test('artifact writer creates latest and stamped reports', () => {
 
 test('repository inventory and evidence load and evaluate without network', () => {
   const { inventory, evidenceByProductId } = loadReadinessBundle(REPO_ROOT)
-  assert.equal(inventory.products.length, 7)
-  assert.equal(Object.keys(evidenceByProductId).length, 7)
+  assert.equal(inventory.products.length, 6)
+  assert.equal(Object.keys(evidenceByProductId).length, 6)
   const report = evaluateReadiness({
     inventory,
     evidenceByProductId,

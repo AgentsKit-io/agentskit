@@ -13,9 +13,9 @@ describe('createRemoteCorpusRetriever', () => {
         if (url.endsWith('/missing.txt')) return new Response('nope', { status: 404 })
         return new Response(
           [
-            '# AKOS',
+            '# Acme',
             '',
-            'AKOS helps production teams govern agent runs, approvals, audit logs, and cost controls.',
+            'Acme helps production teams govern agent runs, approvals, audit logs, and cost controls.',
             '',
             '## Unrelated',
             '',
@@ -26,17 +26,17 @@ describe('createRemoteCorpusRetriever', () => {
     )
 
     const retriever = createRemoteCorpusRetriever({
-      id: 'akos',
-      title: 'AKOS',
+      id: 'acme',
+      title: 'Acme',
       sources: [
-        { title: 'Missing', url: 'https://akos.test/missing.txt' },
-        { title: 'Docs', url: 'https://akos.test/llms.txt' },
+        { title: 'Missing', url: 'https://acme.test/missing.txt' },
+        { title: 'Docs', url: 'https://acme.test/llms.txt' },
       ],
     })
 
     const docs = await retriever.retrieve({ query: 'audit approvals cost controls', messages: [] })
 
-    expect(docs[0]?.source).toBe('https://akos.test/llms.txt')
+    expect(docs[0]?.source).toBe('https://acme.test/llms.txt')
     expect(docs[0]?.content).toContain('govern agent runs')
   })
 

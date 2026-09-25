@@ -26,7 +26,7 @@ every number** so counts never drift again.
 **Positioning sentence (shared everywhere):**
 > Grab what you want from **AgentsKit** (`agentskit.io`), follow best practices
 > in the **Playbook** (`playbook.agentskit.io`), drop in ready-made agents from
-> the **Registry** (`registry.agentskit.io`), and run them in production on
+> the **Registry** (`registry.agentskit.io`).
 
 *(Attribution to the builder lives on `emersonbraun.dev`, which links out to all
 four; the four product sites carry no personal-attribution links back.)*
@@ -441,30 +441,6 @@ links out to the products (table A.5), the products do not link back to eb-dev.
 | Evals | playbook | "Quality pillar: interpreting eval results" | Use scores to gate promotions. |
 | Blog: launch post | playbook | "The methodology behind AgentsKit" | Six contracts → team practice. |
 
-
-The single highest-value link across the whole site: **Docs → Concepts/Architecture → agentskit.io** ("AgentsKit repository" — the page names `@agentskit/*` packages explicitly).
-
-| Page/section | Link → | Anchor idea | Rationale |
-|---|---|---|---|
-| Home — hero | agentskit.io | "built on AgentsKit" | Credits the OSS runtime; keeps claim credible. |
-| Home — architecture (CLI/Desktop/Web) | agentskit.io | "agentskit-os CLI" | CLI surface = the `agentskit-os` npm package. |
-| Home — migration section | playbook | "migration playbook" | The *how to migrate well* next step. |
-| Home — features: agents / knowledge tiles | agentskit.io | "AgentsKit LLM adapters / RAG primitives" | Adapters + RAG come from OSS upstream; proof, no lock-in. |
-| Home — stack section ("30+ providers") | agentskit.io | "see all adapters" | Avoids maintaining a duplicate provider list (drift!). |
-| Home — personas/industries | playbook | "industry playbooks" | Where genuinely available. |
-| Home — footer Resources | agentskit.io + registry | "Open-source library" / "Agent registry" | Obvious dev resources currently missing. |
-| Docs — Concepts/Architecture | agentskit.io | "AgentsKit repository" | Names `@agentskit/*` directly — highest-value link. |
-| Docs — Concepts/Agents (30+ adapters) | agentskit.io | "AgentsKit adapters" | Which providers supported. |
-| Docs — Concepts/Flows (`os-flow`, `os-core`) | agentskit.io | "os-flow / os-core packages" | Cited package names → upstream repo. |
-| Docs — Concepts/Triggers (`os-triggers`) | agentskit.io | "os-triggers package" | Schema/type details. |
-| Docs — Concepts/Processes | playbook | "multi-phase process patterns" | Real-world sequencing. |
-| Docs — CLI/Migrating | playbook | "migration planning guide" | Before/after the import. |
-| Docs — CLI/Command Reference | agentskit.io | "AgentsKit CLI npm package" | Verify package name/version. |
-| Docs — Using app/Connections, Tools(MCP), Knowledge, Observability | agentskit.io | per-feature package | Provider list/MCP bridge/RAG/observability all `@agentskit/*`. |
-| Docs — Using app/Templates & Marketplace, Agents preset gallery | registry | "Browse the agent registry" | Public catalogue vs in-app selection. |
-| Docs — Using app/Evals, Governance | playbook | "eval strategy / governance posture guide" | Mechanics → when/how methodology. |
-| Docs — How it works/Run Lifecycle | agentskit.io | "os-runtime" | Sidecar = OSS package. |
-| In-app — Marketplace + Agents empty state | registry | "Public agent registry →" | Highest-intent moment → path to value. |
 
 ### A.3 playbook.agentskit.io
 

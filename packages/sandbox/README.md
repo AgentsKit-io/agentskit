@@ -81,7 +81,7 @@ console.log(result.content)
 |---|---|---|
 | E2B | Remote VM isolation, optional network deny | Per-instance `memoryLimit` via AgentsKit |
 | Web Worker | Off-main-thread + no DOM | Network/FS security boundary; WebContainer |
-| `processSandbox` | Child process + env allowlist | OS-level fs/net isolation |
+| `processSandbox` | Child process + env allowlist (`PATH`, `HOME`, `TZ`, `LANG`, `LC_ALL`, `NODE_ENV`, `AGENTSKIT_*`) | OS-level fs/net isolation |
 | seatbelt / bwrap / docker | Platform jails (beta) | A stable multi-tenant guarantee yet |
 
 ## Ecosystem

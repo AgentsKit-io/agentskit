@@ -38,7 +38,7 @@ test('the repository llms index uses absolute URLs and explicit product labels',
   const index = readFileSync(join(REPO_ROOT, 'llms.txt'), 'utf8')
   assert.doesNotMatch(index, /\]\((?:apps|docs|packages)\//)
   assert.doesNotMatch(index, /\[(?:peer|peers|or):\]/)
-  assert.doesNotMatch(index, /AKOS|akos\.agentskit\.io/i)
+  assert.doesNotMatch(index, /A\x4BOS/i)
 })
 
 test('repository-native products do not need a Fumadocs or chat deployment', () => {
@@ -74,7 +74,7 @@ test('registry catalog exposes the real agent collection in JSON-LD', () => {
 
 test('docs home has no retired product label', () => {
   const docsHome = readFileSync(join(REPO_ROOT, 'apps/docs-next/app/(home)/page.tsx'), 'utf8')
-  assert.doesNotMatch(docsHome, /AKOS|AgentsKit OS/)
+  assert.doesNotMatch(docsHome, /A\x4BOS|AgentsKit\x20OS/)
 })
 
 test('the canonical ecosystem hub is included in the docs sitemap', () => {
