@@ -72,6 +72,7 @@ The handoff tells you `startHere`, allowed `editRoots`, package checks, and the 
 ## Workflow expectations for agents
 
 - **Plan first for non-trivial changes.** If the task spans multiple packages or touches contracts, produce a plan and get approval before editing.
+- **Reuse first.** Before adding a new package or dependency, check the existing `@agentskit/*` packages, then established libraries or services. Build new code only when neither fits, and justify it in the PR's *Reuse* section.
 - **Scope discipline.** A bug fix doesn't need a refactor. A one-shot operation doesn't need a helper. Don't add features the task didn't ask for.
 - **Don't touch contracts casually.** Changes in `packages/core/src/` affect every downstream package. If in doubt, don't.
 - **Size budgets are enforced.** Before adding to `core`, run `pnpm size` and confirm you're still under budget.

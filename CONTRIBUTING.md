@@ -97,6 +97,8 @@ git checkout -b your-name/short-description
 
 Branch naming is informal but `area/short-slug` (e.g. `adapters/add-mistral`, `docs/typos-in-recipes`) helps scanning.
 
+**Reuse first.** Before adding a new package or dependency, check the existing `@agentskit/*` packages, then established libraries or services. Write new code only when neither fits, and say why in the PR's *Reuse* section.
+
 ### 3. Write tests first when possible
 
 Each package has a `vitest.config.ts` with a per-package coverage threshold. CI blocks merges that drop below the threshold (see [`docs/STABILITY.md`](./docs/STABILITY.md) and the `coverage` workflow). A new feature without a test will not pass review.
@@ -136,6 +138,7 @@ A change is **user-facing** if it adds or modifies a public export, changes runt
 
 Use the PR template — it auto-fills with the checklist we expect:
 
+- [ ] Reuse: existing packages/libraries checked; new code or dependency justified
 - [ ] Tests added or updated
 - [ ] Types check
 - [ ] Bundle size within budget
