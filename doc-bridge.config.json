@@ -16,6 +16,7 @@
       "plugin": "fumadocs",
       "options": {
         "contentDir": "apps/docs-next/content/docs",
+        "excludePrefixes": ["api"],
         "urlPrefix": "/docs"
       }
     }
@@ -188,6 +189,7 @@
       "**/.source/**",
       "**/.svelte-kit/**",
       "apps/docs-next/lib/ask-context.ts",
+      "apps/docs-next/next-env.d.ts",
       "apps/docs-next/content/docs/api/**",
       "apps/docs-next/content/docs/reference/changelog.mdx",
       "apps/docs-next/content/docs/production/performance.mdx",

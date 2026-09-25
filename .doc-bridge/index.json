@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "5f975bccd27b3657ddc71246cf6629ac9a6a9ba42c23e421e85a7409158522e9",
+  "contentHash": "7ad7a475a62893e768bc8c122ff12fd9f3c8c5f547ece3cd1d410099e35ec316",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-21T14:53:45.674Z",
+  "generatedAt": "2026-09-25T00:25:49.141Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -11151,6 +11151,18 @@
       "contentHash": "27923f62a33d5070420bdf3ab51ef80f8a53a21c8568624eec2478461d15724b"
     },
     {
+      "id": "module:apps/docs-next/scripts/verify-mermaid.mjs",
+      "type": "module",
+      "title": "verify-mermaid.mjs",
+      "path": "apps/docs-next/scripts/verify-mermaid.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "scripts"
+      ],
+      "contentHash": "f7e6bede390ecf94fe08144928fe9e555fc4535f33400bf7c87d5d5c4de1f7f0"
+    },
+    {
       "id": "module:apps/docs-next/source.config.ts",
       "type": "module",
       "title": "source.config.ts",
@@ -11165,7 +11177,7 @@
         "ts",
         "docs-next"
       ],
-      "contentHash": "c4e75cec7f66161b9f1339d9d7e8401bd9de92cc06581bf19a129b1b7ffb8022"
+      "contentHash": "d773278295619c19dd0b7446b05847c679f4ccaedd862561fb795c768f43795a"
     },
     {
       "id": "module:apps/docs-next/tests/canonical-metadata.test.ts",
@@ -34331,7 +34343,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "f2cd410366ca3462a609c407ae5d3e140d7f7e4f97fea457e3c09af2cf27646a"
+      "contentHash": "101e920cf0e018af8e6ec07ee9de2a4d278e378c1762b2c33084272fe3d53f97"
     },
     {
       "id": "module:scripts/sync-models-dev.mjs",
@@ -35546,8 +35558,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "480b43607178d77fd684ef6fcc182d0d071570388eb3fb358bdcccb569dbf8ea",
-    "fileCount": 2371,
+    "hash": "f28a60035ed9d1d8d02c2c4c4010a4a140bdf1c9e43162b128f3cc076d76c1ad",
+    "fileCount": 2372,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -35569,11 +35581,11 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "55e2e32cb6db8afb3961211d90d79944a2621bd9022dcde82ac26f1ac2bd3e5b",
+    "contentHash": "1a21302833ddb8e5a94882dfe57f52a22009ba873decbb97f437d3e3f43b5827",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "f5f98d00eb6767ed6f8d206af6d89f388b6d2e924a129e33b325fd9818674c10",
+    "snapshotHash": "86cbc6618fbf2ae4029fb93e1991e82935cd483800df2ad4c5c8f6d5497f2c19",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
-    "configurationHash": "038c0536e2d6cf779e18fa3c024c9837eead6fe9f97166ae81eedfcdc4eca936",
+    "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
     "graphMetricsVersion": "1.0.0",
     "weights": {
@@ -35591,7 +35603,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2324,
+      "documentCount": 2325,
       "fieldNames": [
         "aliases",
         "body",
@@ -35602,13 +35614,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 2.9866609294320137,
-        "body": 62.45051635111876,
-        "headings": 4.293459552495697,
-        "path": 7.64328743545611,
-        "summary": 4.821428571428571,
-        "symbols": 7.454388984509467,
-        "title": 3.3313253012048194
+        "aliases": 2.986666666666667,
+        "body": 62.42365591397849,
+        "headings": 4.291612903225807,
+        "path": 7.643440860215054,
+        "summary": 4.819354838709677,
+        "symbols": 7.451182795698925,
+        "title": 3.3316129032258064
       }
     },
     "entries": [
@@ -35953,7 +35965,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "f5cf4857ae2e4463c62300938cddc65de81f87c384e6fe9013340a0bbf892a39",
+        "contentHash": "c8efa66e194eafadaa68dc3b311b6208c07df73d015dc7972e016897932d6235",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -90530,6 +90542,40 @@
         "confidence": "observed"
       },
       {
+        "id": "module:apps/docs-next/scripts/verify-mermaid.mjs",
+        "kind": "module",
+        "path": "apps/docs-next/scripts/verify-mermaid.mjs",
+        "title": "verify-mermaid.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "scripts"
+        ],
+        "fields": {
+          "title": "verify-mermaid.mjs",
+          "headings": "",
+          "path": "apps/docs-next/scripts/verify-mermaid.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "f7e6bede390ecf94fe08144928fe9e555fc4535f33400bf7c87d5d5c4de1f7f0",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:apps/docs-next/source.config.ts",
         "kind": "module",
         "path": "apps/docs-next/source.config.ts",
@@ -90564,7 +90610,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "c4e75cec7f66161b9f1339d9d7e8401bd9de92cc06581bf19a129b1b7ffb8022",
+        "contentHash": "d773278295619c19dd0b7446b05847c679f4ccaedd862561fb795c768f43795a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -177270,7 +177316,7 @@
             }
           ]
         },
-        "contentHash": "f2cd410366ca3462a609c407ae5d3e140d7f7e4f97fea457e3c09af2cf27646a",
+        "contentHash": "101e920cf0e018af8e6ec07ee9de2a4d278e378c1762b2c33084272fe3d53f97",
         "provenance": "observed",
         "confidence": "observed"
       },
