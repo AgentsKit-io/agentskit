@@ -8,7 +8,7 @@ import { templateTriggers } from './triggers'
  * Service descriptor scaffold. Copy this directory to `services/<name>` (or run
  * `pnpm gen:integration <name>`), then replace every `template` token.
  *
- * `name` MUST match the service slug used as the OS ConnectionKind.
+ * `name` MUST be the kebab-case service slug.
  */
 export const template = defineIntegration({
   name: 'template',

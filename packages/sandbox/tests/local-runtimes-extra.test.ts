@@ -33,14 +33,14 @@ describe('exposeAllowedEnvKeys', () => {
 })
 
 describe('processSandbox', () => {
-  it('spawns with a filtered env (allowlist + AGENTSKITOS_ prefix only)', async () => {
+  it('spawns with a filtered env (allowlist + AGENTSKIT_ prefix only)', async () => {
     const { spawner, calls } = mockSpawner()
-    const rt = processSandbox({ spawner, defaultEnv: { PATH: '/bin', SECRET: 'x', AGENTSKITOS_FLAG: '1' }, defaultCwd: '/ws' })
+    const rt = processSandbox({ spawner, defaultEnv: { PATH: '/bin', SECRET: 'x', AGENTSKIT_FLAG: '1' }, defaultCwd: '/ws' })
     const handle = await rt.spawn({ command: 'node', args: ['-v'] })
     expect(handle.pid).toBe(7)
     const [, opts] = calls.find(([k]) => k === 'spawn')!
     const env = (opts as { env: Record<string, string> }).env
-    expect(env).toEqual({ PATH: '/bin', AGENTSKITOS_FLAG: '1' })
+    expect(env).toEqual({ PATH: '/bin', AGENTSKIT_FLAG: '1' })
     expect(env.SECRET).toBeUndefined()
   })
 

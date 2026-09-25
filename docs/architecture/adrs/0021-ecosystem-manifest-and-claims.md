@@ -12,9 +12,8 @@ applications, generates an ecosystem bar from it, derives AgentsKit counts throu
 `scripts/compute-stats.mjs`, and blocks new hard-coded count drift. These pieces are useful
 and should be deepened rather than replaced.
 
-The current manifest models four web properties. The product ecosystem now has seven
-members: AgentsKit, Registry, Playbook, AgentsChat, Doc Bridge, Code Review, and AgentsKit
-OS. Not every product has the same surfaces: Code Review intentionally remains
+The current manifest models four web properties. The product ecosystem now has more
+members, including AgentsKit, Registry, Playbook, AgentsChat, Doc Bridge, and Code Review. Not every product has the same surfaces: Code Review intentionally remains
 repository-native and has no Fumadocs site or embedded chat. The existing shape requires a
 domain and treats every member as a web property, so it cannot represent that distinction
 without misleading consumers.
@@ -100,7 +99,7 @@ During the cross-repository migration, v2 also retains the deprecated v1 `proper
 
 ### Positive
 
-- All seven products are represented by one parent-brand contract.
+- All products are represented by one parent-brand contract.
 - Repository-native products no longer need fake web fields.
 - Shared navigation becomes an explicit projection rather than a hard-coded order.
 - Numeric claims carry evidence and ownership.

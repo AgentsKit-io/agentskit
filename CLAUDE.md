@@ -11,6 +11,7 @@ AgentsKit is the most complete agent toolkit for the JavaScript ecosystem. It pr
 1. **`@agentskit/core` must remain extremely lightweight**: only types, events, contracts, and minimal base logic. Zero external dependencies. Must stay under 10 KB gzipped.
 2. **Every package must be Plug and Play**: simple imports, minimal configuration, clear contracts. Every package is independently installable.
 3. **Interoperability is mandatory**: any combination of packages must work together seamlessly.
+4. **Reuse first**: before adding a new package or dependency, check the existing `@agentskit/*` packages, then established libraries or services. Build new code only when neither fits, and justify it in the PR.
 
 ## Commands
 

@@ -11,8 +11,8 @@
  * one HITL surface across every chat surface.
  *
  * Closes #782. Reference adapters wrapping Bolt (Slack), discord.js,
- * and Bot Framework (Teams) ship in `@agentskit/triggers` (AgentsKitOS)
- * and the per-surface bot templates (#779, #780, #781).
+ * and Bot Framework (Teams) live in the trigger layer that consumes this
+ * contract, and in the per-surface bot templates (#779, #780, #781).
  */
 
 import { ConfigError, ErrorCodes } from '@agentskit/core'

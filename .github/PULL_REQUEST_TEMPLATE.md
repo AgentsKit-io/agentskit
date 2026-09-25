@@ -12,6 +12,10 @@
 
 <!-- Implementation notes. Non-trivial design decisions, trade-offs, alternatives considered. -->
 
+## Reuse
+
+<!-- What existing @agentskit/* package, library, or service did you check or reuse? If this adds a new package, dependency, or hand-rolled code, say why nothing existing fit. -->
+
 ## Type of change
 
 - [ ] Bug fix (non-breaking)

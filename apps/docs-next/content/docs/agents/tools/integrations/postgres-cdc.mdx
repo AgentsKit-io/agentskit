@@ -31,7 +31,7 @@ const runtime = createRuntime({
 
 Bundled: `postgresCdc(config)`.
 
-For the long-running stream of normalised `CdcChangeEvent`s, use `createCdcStream(config)` — it yields an `AsyncIterable` and is consumed by AgentsKitOS triggers (`trigger.cdc.*` events, ADR-0005), not by the agent loop.
+For the long-running stream of normalised `CdcChangeEvent`s, use `createCdcStream(config)` — it yields an `AsyncIterable` meant for a long-running trigger or worker, not for the agent loop.
 
 ## Config
 
@@ -90,5 +90,4 @@ for await (const change of stream) {
 ## Related
 
 - [postgres](./postgres) — query mode.
-- AgentsKitOS triggers — `trigger.cdc.*` event bus.
 - Issue [#728](https://github.com/AgentsKit-io/agentskit/issues/728), [#812](https://github.com/AgentsKit-io/agentskit/issues/812).

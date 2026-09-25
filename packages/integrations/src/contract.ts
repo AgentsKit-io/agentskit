@@ -3,14 +3,14 @@ import type { MaybePromise } from '@agentskit/core'
 import type { IntegrationHttp } from './http'
 
 // ---------------------------------------------------------------------------
-// Side effects — drives the OS autonomy gate when projected into AgentskitTool.
+// Side effects — lets a host enforce an autonomy/approval gate per action.
 // ---------------------------------------------------------------------------
 
 export type SideEffect = 'none' | 'read' | 'write' | 'destructive' | 'external'
 
 // ---------------------------------------------------------------------------
-// Auth — one declarative spec per service. `oauth2` mirrors the OS
-// OAuthProviderSpec verbatim so it projects with zero translation.
+// Auth — one declarative spec per service. `oauth2` is plain data a host
+// OAuth runner can consume without translation.
 // ---------------------------------------------------------------------------
 
 /**
@@ -104,7 +104,7 @@ export interface IntegrationAction {
 
 // ---------------------------------------------------------------------------
 // Triggers — the single source for inbound webhook verification + the
-// canonical normalized event (projected into the OS IncomingEvent).
+// canonical normalized event a host trigger layer can consume.
 // ---------------------------------------------------------------------------
 
 export interface WebhookInput {
@@ -139,7 +139,7 @@ export interface NormalizedEvent {
 export interface IntegrationTrigger {
   /** Stable id, e.g. `slack.message`. */
   name: string
-  /** Canonical source slug — matches the OS IncomingEvent `source`. */
+  /** Canonical source slug for the normalized inbound event. */
   source: string
   /** Verify inbound signature. Omit only for unauthenticated sources. */
   verify?: (input: WebhookInput) => VerifyResult
@@ -175,7 +175,7 @@ export interface ConfigField {
 }
 
 export interface Integration {
-  /** Service slug — matches the OS ConnectionKind, e.g. `slack`. */
+  /** Service slug, e.g. `slack`. */
   name: string
   displayName: string
   categories: string[]
