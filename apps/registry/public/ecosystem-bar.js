@@ -311,8 +311,11 @@
     '#ak-eco{position:relative;z-index:30;display:flex;gap:4px;align-items:center;' +
     'font:500 13px/1 ui-sans-serif,system-ui,-apple-system,sans-serif;padding:8px 16px;' +
     'background:rgba(11,15,20,.96);color:#e7e7ea;border-bottom:1px solid rgba(48,63,78,.72)}' +
-    'body:has(.ak-home-layout) #ak-eco{background:rgba(11,15,20,.66);' +
-    '-webkit-backdrop-filter:blur(20px) saturate(125%);backdrop-filter:blur(20px) saturate(125%)}' +
+    'body:has(.ak-home-layout) #ak-eco{background:var(--ak-bg,#0b0f14);color:var(--ak-fg,#e7e7ea);border-bottom-color:var(--ak-border,rgba(48,63,78,.72))}' +
+    'body:has(.ak-home-layout) #ak-eco .ak-eco-brand{color:var(--ak-fg,#fff)}' +
+    'body:has(.ak-home-layout) #ak-eco a.ak-eco-link{color:var(--ak-muted,#a9a9b3)}' +
+    'body:has(.ak-home-layout) #ak-eco a.ak-eco-link:hover,' +
+    'body:has(.ak-home-layout) #ak-eco a.ak-eco-link[aria-current="page"]{color:var(--ak-fg,#fff);background:var(--ak-surface,#1c1c24)}' +
     '#ak-eco .ak-eco-brand{display:inline-flex;flex:0 0 auto;align-items:center;justify-content:center;' +
     'min-height:44px;margin-right:8px;color:#fff;text-decoration:none;line-height:0}' +
     '#ak-eco .ak-eco-brand svg{width:18px;height:16px;display:block}' +
@@ -346,10 +349,10 @@
     .akx-frame{overflow:hidden;border:1px solid color-mix(in srgb,var(--akx-line) 82%,transparent);border-radius:24px;background:color-mix(in srgb,var(--akx-surface) 28%,transparent)}
     .akx-tabs{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));overflow-x:auto;border-bottom:1px solid color-mix(in srgb,var(--akx-line) 72%,transparent);scrollbar-width:none}
     .akx-tabs::-webkit-scrollbar{display:none}
-    .akx-tab{position:relative;min-height:68px;border:0;background:transparent;color:var(--akx-muted);cursor:pointer;padding:12px;text-align:left;transition:color 180ms cubic-bezier(.25,1,.5,1),background 180ms cubic-bezier(.25,1,.5,1)}
+    .akx-tab{position:relative;min-height:68px;border:0;background:transparent;color:var(--akx-muted);--akx-accent:var(--akx-muted)!important;cursor:pointer;padding:12px;text-align:left;transition:color 180ms cubic-bezier(.25,1,.5,1),background 180ms cubic-bezier(.25,1,.5,1)}
     .akx-tab:hover{color:var(--akx-fg);background:rgba(255,255,255,.025)}
     .akx-tab:focus-visible{outline:2px solid var(--akx-accent);outline-offset:-3px}
-    .akx-tab[aria-selected="true"]{color:var(--akx-fg);background:rgba(255,255,255,.035);box-shadow:inset 0 -2px 0 var(--akx-accent)}
+    .akx-tab[aria-selected="true"]{--akx-accent:inherit!important;color:var(--akx-fg);background:rgba(255,255,255,.035);box-shadow:inset 0 -2px 0 var(--akx-accent)}
     .akx-tab-stage{display:block;margin-bottom:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--akx-accent)}
     .akx-tab-name{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:650;white-space:nowrap}
     .akx-current-dot{width:5px;height:5px;border-radius:50%;background:var(--akx-accent)}
@@ -384,14 +387,14 @@
     @media(max-width:820px){.akx-inner{padding:56px 20px}.akx-intro{grid-template-columns:1fr;gap:16px}.akx-tabs{grid-template-columns:repeat(6,minmax(128px,1fr))}.akx-content{grid-template-columns:1fr}.akx-story{padding:28px 32px 32px;border-bottom:1px solid color-mix(in srgb,var(--akx-line) 72%,transparent)}.akx-sales{min-height:300px;padding:28px 32px 32px}.akx-headline{margin-top:28px}}
     @media(max-width:540px){.akx-inner{padding:44px 16px}.akx-intro{padding-bottom:24px}.akx-frame{border-radius:20px}.akx-tab{min-height:62px;padding:10px}.akx-story{padding:24px 20px 28px}.akx-story-bottom{align-items:flex-start;flex-direction:column;gap:12px;padding-top:28px}.akx-sales{min-height:0;padding:24px 20px 28px}.akx-sales-headline{font-size:1.3rem}.akx-demo{margin-top:20px}.akx-demo-step{grid-template-columns:26px minmax(0,1fr);min-height:52px}.akx-controls{padding-inline:12px}.akx-controls span{max-width:72%;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
     @media(prefers-reduced-motion:reduce){.akx-demo-step{opacity:1;transform:none;animation:none}.akx-cta,.akx-tab{transition:none}}
-    :host([data-visual="agentskit-home"]) .akx-shell{--akx-accent:var(--ak-graphite,#8b949e)!important;border:0}
-    :host([data-visual="agentskit-home"]) .akx-frame{background:color-mix(in srgb,var(--ak-bg,#0d1117) 62%,transparent);backdrop-filter:blur(22px);box-shadow:0 18px 60px rgba(0,0,0,.12)}
+    :host([data-visual="agentskit-home"]){color-scheme:light dark;--akx-bg:var(--ak-bg,#fff);--akx-surface:var(--ak-surface,#f6f8fa);--akx-line:var(--ak-border,#d0d7de);--akx-fg:var(--ak-fg,#0d1117);--akx-muted:var(--ak-muted,#57606a)}
+    :host([data-visual="agentskit-home"]) .akx-shell{--akx-accent:var(--ak-graphite,#57606a)!important;border:0}
+    :host([data-visual="agentskit-home"]) .akx-frame{background:color-mix(in srgb,var(--akx-bg) 72%,transparent);backdrop-filter:blur(22px);box-shadow:0 18px 60px rgba(0,0,0,.12)}
     :host([data-visual="agentskit-home"]) .akx-tab{--akx-accent:var(--ak-graphite,#8b949e)!important;border-right:0}
-    :host([data-visual="agentskit-home"]) .akx-tab:hover,:host([data-visual="agentskit-home"]) .akx-tab[aria-selected="true"]{background:rgba(255,255,255,.035)}
+    :host([data-visual="agentskit-home"]) .akx-tab:hover,:host([data-visual="agentskit-home"]) .akx-tab[aria-selected="true"]{background:color-mix(in srgb,var(--akx-surface) 72%,transparent)}
     :host([data-visual="agentskit-home"]) .akx-story{border-color:color-mix(in srgb,var(--ak-border,#30363d) 65%,transparent)}
     :host([data-visual="agentskit-home"]) .akx-demo{border-color:color-mix(in srgb,var(--ak-border,#30363d) 65%,transparent)}
-    :host([data-visual="agentskit-home"]) .akx-demo-step{background:rgba(255,255,255,.025)}
-    :host([data-visual="registry-home"]) .akx-shell,:host([data-visual="registry-home"]) .akx-tab{--akx-accent:var(--ak-blue,#58a6ff)!important}
+    :host([data-visual="agentskit-home"]) .akx-demo-step{background:color-mix(in srgb,var(--akx-surface) 56%,transparent)}
   `
 
   // Brand mark only (no "AgentsKit" wordmark) — product list still includes AgentsKit.
@@ -476,8 +479,6 @@
           tab.id = 'akx-tab-' + product.id
           tab.setAttribute('role', 'tab')
           tab.setAttribute('aria-controls', 'akx-panel')
-          tab.style.setProperty('--akx-accent', product.accent)
-
           var stage = document.createElement('span')
           stage.className = 'akx-tab-stage'
           stage.textContent = String(index + 1).padStart(2, '0') + ' / ' + product.stage

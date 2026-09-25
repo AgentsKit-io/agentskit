@@ -4,65 +4,57 @@ const publicProducts = ecosystemManifest.products
   .filter((product) => product.navigation.showInBar)
   .sort((left, right) => (left.navigation.order ?? 0) - (right.navigation.order ?? 0))
 
-const productLinks = [
-  { label: 'Browse agents', href: '/agents' },
-  { label: 'Quick start', href: '/docs/quick-start' },
-  { label: 'Documentation', href: '/docs' },
-  { label: 'Contribute an agent', href: 'https://github.com/AgentsKit-io/agentskit-registry/blob/main/CONTRIBUTING.md' },
-]
-
-const resourceLinks = [
-  { label: 'llms.txt', href: '/llms.txt' },
-  { label: 'Registry JSON', href: '/r/index.json' },
-  { label: 'MCP endpoint', href: '/api/mcp' },
-  { label: 'GitHub', href: 'https://github.com/AgentsKit-io/agentskit-registry' },
+const columns = [
+  { title: 'Start', links: [
+    { text: 'Browse agents', href: '/agents' },
+    { text: 'Quick start', href: '/docs/quick-start' },
+    { text: 'Documentation', href: '/docs' },
+  ] },
+  { title: 'Build', links: [
+    { text: 'Contribute an agent', href: 'https://github.com/AgentsKit-io/agentskit-registry/blob/main/CONTRIBUTING.md' },
+    { text: 'Registry JSON', href: '/r/index.json' },
+    { text: 'MCP endpoint', href: '/api/mcp' },
+  ] },
+  { title: 'Ecosystem', links: publicProducts.map((product) => ({
+    text: product.shortName,
+    href: product.surfaces.home,
+    current: product.id === 'registry',
+  })) },
+  { title: 'Community', links: [
+    { text: 'GitHub', href: 'https://github.com/AgentsKit-io/agentskit-registry' },
+    { text: 'For agents · llms.txt', href: '/llms.txt' },
+  ] },
 ]
 
 export function SiteFooter() {
   return (
-    <footer className="border-t border-ak-border bg-ak-surface px-4 py-12 sm:px-6">
-      <div className="mx-auto grid max-w-5xl gap-10 md:grid-cols-[1.35fr_1fr_1fr_1fr]">
-        <div>
-          <p className="font-display text-lg font-semibold text-ak-foam">AgentsKit Registry</p>
-          <p className="mt-3 max-w-xs text-sm leading-6 text-ak-graphite">
-            Shadcn-like agents installed as readable TypeScript. Start from working source and keep ownership of every line.
-          </p>
-          <p className="mt-5 font-mono text-[11px] uppercase tracking-[0.14em] text-ak-graphite">
-            MIT · source-owned · no registry runtime
-          </p>
+    <footer className="ak-site-footer px-4 pt-16 pb-10 sm:px-6">
+      <div className="mx-auto max-w-6xl">
+        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
+          <div className="min-w-0">
+            <span className="font-mono text-base font-bold tracking-tight text-ak-foam">AgentsKit Registry</span>
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-ak-graphite">
+              Ready-to-use TypeScript agents. Copy working source into your project and own every line.
+            </p>
+            <a href="https://github.com/AgentsKit-io/agentskit-registry" target="_blank" rel="noopener noreferrer" className="mt-5 inline-flex rounded-md bg-ak-surface/60 px-3 py-1.5 font-mono text-xs text-ak-graphite transition hover:text-ak-foam">GitHub</a>
+          </div>
+
+          {columns.map((column) => (
+            <div key={column.title} data-footer-column={column.title} className="min-w-0">
+              <h3 className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-ak-graphite">{column.title}</h3>
+              <ul className="space-y-2.5">
+                {column.links.map((link) => (
+                  <li key={link.href}>
+                    <a href={link.href} aria-current={'current' in link && link.current ? 'page' : undefined} className={`text-sm transition hover:text-ak-blue ${'current' in link && link.current ? 'font-semibold text-ak-foam' : 'text-ak-graphite'}`}>
+                      {link.text}
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
         </div>
-        <FooterColumn title="Registry" links={productLinks} />
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ak-foam">Ecosystem</p>
-          <ul className="mt-4 space-y-2.5 text-sm text-ak-graphite">
-            {publicProducts.map((product) => (
-              <li key={product.id}>
-                {product.id === 'registry' ? (
-                  <span className="font-medium text-ak-blue" aria-current="page">{product.shortName}</span>
-                ) : (
-                  <a className="transition hover:text-ak-foam" href={product.surfaces.home}>{product.shortName}</a>
-                )}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <FooterColumn title="Resources" links={resourceLinks} />
       </div>
     </footer>
-  )
-}
-
-function FooterColumn({ title, links }: { title: string; links: { label: string; href: string }[] }) {
-  return (
-    <div>
-      <p className="text-xs font-semibold uppercase tracking-[0.14em] text-ak-foam">{title}</p>
-      <ul className="mt-4 space-y-2.5 text-sm text-ak-graphite">
-        {links.map((link) => (
-          <li key={link.href}>
-            <a className="transition hover:text-ak-foam" href={link.href}>{link.label}</a>
-          </li>
-        ))}
-      </ul>
-    </div>
   )
 }

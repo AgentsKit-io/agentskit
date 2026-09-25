@@ -5,9 +5,9 @@ export function EcosystemShowcase() {
   return createElement(
     'agentskit-ecosystem',
     { current: 'registry', 'data-visual': 'agentskit-home' },
-    <section className="border-t border-ak-border bg-ak-midnight px-4 py-16 text-ak-foam sm:px-6 sm:py-24">
-      <div className="mx-auto max-w-5xl">
-        <p className="font-mono text-xs uppercase tracking-wider text-ak-blue">The AgentsKit ecosystem</p>
+    <section className="px-4 py-16 text-ak-foam sm:px-6 sm:py-24">
+      <div className="mx-auto max-w-6xl">
+        <p className="font-mono text-xs uppercase tracking-wider text-ak-graphite">The AgentsKit ecosystem</p>
         <h2 className="mt-3 max-w-3xl font-display text-3xl font-semibold sm:text-4xl">
           Build the agent. Then take it all the way.
         </h2>
@@ -19,7 +19,7 @@ export function EcosystemShowcase() {
             <a
               key={peer.name}
               href={peer.href}
-              className="border-t-2 border-ak-border bg-ak-surface p-5 transition hover:border-ak-blue"
+              className="rounded-2xl border border-ak-border bg-ak-surface/60 p-5 transition hover:border-ak-blue"
             >
               <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ak-graphite">{peer.role}</span>
               <span className="mt-1 block font-semibold text-ak-foam">{peer.name}</span>
