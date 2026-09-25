@@ -18,8 +18,6 @@ export interface AskPersonaConfig {
   cta?: AskCtaConfig
 }
 
-const waitlistHref = process.env.AKOS_WAITLIST_URL ?? 'https://www.agentskit.io/#waitlist'
-
 export const ASK_PERSONAS: Record<string, AskPersonaConfig> = {
   'docs-helper': {
     id: 'docs-helper',
@@ -49,21 +47,6 @@ export const ASK_PERSONAS: Record<string, AskPersonaConfig> = {
     brand: {
       productName: 'Agents Playbook',
       placeholder: 'Ask how to ship with AI agents...',
-    },
-  },
-  'akos-sales': {
-    id: 'akos-sales',
-    label: 'AKOS sales assistant',
-    promptPrefix:
-      'You are a consultative AKOS sales assistant. Diagnose the user problem, map it to AKOS capabilities, explain where AKOS fits in their workflow, and guide them toward the configured CTA. Be persuasive but truthful; never invent capabilities beyond the corpus.',
-    brand: {
-      productName: 'AKOS',
-      placeholder: 'Tell me what you want to automate or govern...',
-    },
-    cta: {
-      type: 'waitlist',
-      label: process.env.AKOS_CTA_LABEL ?? 'Join the AKOS waitlist',
-      href: waitlistHref,
     },
   },
 }

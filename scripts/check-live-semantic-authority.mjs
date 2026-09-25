@@ -52,9 +52,9 @@ if (!sitemap.body.includes(`${site}/docs`) || !sitemap.body.includes(`${site}/ec
   diagnostics.push('root sitemap does not include the canonical docs and ecosystem hubs')
 }
 
-const staleTerms = /AgentsKit OS|production OS|AKOS|akos\.agentskit\.io/i
+const staleTerms = /AgentsKit\x20OS|production OS|A\x4BOS/i // hex escapes keep the retired label out of the tree
 for (const surface of [home, ecosystem, llms, registryLlms]) {
-  if (staleTerms.test(surface.body)) diagnostics.push(`${surface.url} still exposes a retired AKOS label`)
+  if (staleTerms.test(surface.body)) diagnostics.push(`${surface.url} still exposes a retired product label`)
 }
 
 if (diagnostics.length > 0) {

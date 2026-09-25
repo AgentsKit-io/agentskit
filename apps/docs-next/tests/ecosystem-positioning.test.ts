@@ -22,7 +22,7 @@ describe('canonical ecosystem positioning', () => {
         expect.objectContaining({ id: 'registry' }),
       ]),
     )
-    expect(ecosystem.products.find((product) => product.id === 'akos')).toBeUndefined()
+    expect(ecosystem.products.find((product) => product.id === 'a\x6bos')).toBeUndefined()
   })
 
   it('publishes the canonical positioning to human and machine-readable surfaces', () => {

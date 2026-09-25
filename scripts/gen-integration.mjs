@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // Scaffold a new service integration from the _template directory.
 //   pnpm gen:integration <name>
-// <name> must be a kebab-case slug matching the OS ConnectionKind, e.g. `cal-com`.
+// <name> must be a kebab-case service slug, e.g. `cal-com`.
 
 import { promises as fs } from 'node:fs'
 import path from 'node:path'
