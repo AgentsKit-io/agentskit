@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "a0d67cd30b2ca6538090f0ac86c3146bdd3e9748f0a0100fde35adfe5c90149a",
+  "contentHash": "e8ab53664d776306907da903f38a19ee69ec2f3883e94d98f098fb0e1dfae26e",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-25T01:22:19.354Z",
+  "generatedAt": "2026-09-25T02:46:31.015Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -2691,7 +2691,7 @@
         "document",
         "human"
       ],
-      "contentHash": "d1fd6b3485a9e5792ecdbe33457ca24613647d27e25326bfe0fff30d72a58071"
+      "contentHash": "9e694abcbc7300963748597ca002806ad854ce99940a6fe53abee0b80ad56e68"
     },
     {
       "id": "document:apps/docs-next/content/docs/get-started/getting-started/for-ai-agents.mdx",
@@ -35621,7 +35621,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "146c0b68b60b52dfafdda2a890eb5f3d7f6ad36acf26a3c071ff52a75f3bed4e",
+    "hash": "76d62f14a7b62245b93fe1bd4e5481b41f5647560812f713f1a17e6a3d25536c",
     "fileCount": 2377,
     "projectionVersion": 2
   },
@@ -35644,9 +35644,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "e47fe92319044c6a4531b4fc28e169061d54b5f47d73c9348779b357b6b37a5d",
+    "contentHash": "9cbea9daf9c7c2614adb8f708bd63d582e297426345f37dda85818fab522a5f9",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "5ba92ed9b1e280b0d5c08edb1022091bade27c8805566d035306472142eb81e1",
+    "snapshotHash": "e818839f85919cbd3bd12e7fcb5fe6aaa704b6a6b1526a3557b49f3927bce853",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -52304,7 +52304,7 @@
           "path": "apps/docs-next/content/docs/get-started/getting-started/build-your-first-agent.mdx",
           "symbols": "",
           "summary": "AgentsKit is the composable JavaScript and TypeScript foundation for agent runtimes, tools, memory, RAG, and interfaces. This guide starts with a real runtime that succeeds without an account, then shows the one seam you replace to use a model.",
-          "body": "AgentsKit is the composable JavaScript and TypeScript foundation for agent runtimes, tools, memory, RAG, and interfaces. This guide starts with a real runtime that succeeds without an account, then shows the one seam you replace to use a model. - For: JavaScript and TypeScript developers evaluating AgentsKit. - Maturity: Beta. The core contracts are stable; the wider runtime continues to evolve. - First proof: a complete local run in one file, with no hidden service. Run your first agent locally Create an empty project with Node.js 20 or newer: Create agent.ts : Run it: You should see: No account, API key, or network call is required. The example uses the same AdapterFactory and createRuntime contracts as a provider-backed agent, so this first result is executable documentation rather than pseudocode. Understand the two moving parts - The runtime owns the agent loop, messages, tools, memory, and events. - The adapter turns a provider or local implementation into one streaming contract. That boundary is why you can validate behavior locally and connect a model without rewriting orchestration. Connect a model provider When the local run works, install the provider adapters: Replace localAdapter with the provider you want: Set OPENAI API KEY and run the same command. You can use Anthropic, Gemini, Ollama, or another through the same seam. Grow only when the task needs it 1. Add a when the agent must act. 2. Add when it must retain useful context. 3. Add when answers need your own sources. 4. Add before production traffic. 5. Add before changing prompts or models confidently. Continue in the ecosystem - Need working source to adapt? Browse the . - Need the same agent across chat surfaces? Use . - Need repeatable engineering standards? Follow the . - Need agent-readable repository handoffs? Add . - Need low-noise verification? Run . Every step is optional. AgentsKit remains the foundation; the link appears where that adjacent product solves the next concrete problem.",
+          "body": "AgentsKit is the composable JavaScript and TypeScript foundation for agent runtimes, tools, memory, RAG, and interfaces. This guide starts with a real runtime that succeeds without an account, then shows the one seam you replace to use a model. - For: JavaScript and TypeScript developers evaluating AgentsKit. - Maturity: Beta. The core contracts are stable; the wider runtime continues to evolve. - First proof: a complete local run in one file, with no hidden service. Run your first agent locally Create an empty project with Node.js 20 or newer: Create agent.ts : Run it: You should see: No account, API key, or network call is required. The example uses the same AdapterFactory and createRuntime contracts as a provider-backed agent, so this first result is executable documentation rather than pseudocode. Understand the two moving parts - The runtime owns the agent loop, messages, tools, memory, and events. - The adapter turns a provider or local implementation into one streaming contract. That boundary is why you can validate behavior locally and connect a model without rewriting orchestration. Connect a model provider When the local run works, install the provider adapters: Replace localAdapter with the provider you want: Set OPENAI API KEY and run the same command. You can use Anthropic, Gemini, Ollama, or another through the same seam. Grow only when the task needs it 1. Add a when the agent must act. 2. Add when it must retain useful context. 3. Add when answers need your own sources. 4. Add before production traffic. 5. Add before changing prompts or models confidently. Continue in the ecosystem - Need working source to adapt? Browse the . - Need the same agent across chat surfaces? Use . - Need repeatable engineering standards? Follow the . - Need agent-readable repository handoffs? Add . - Need low-noise verification? Explore . Every step is optional. AgentsKit remains the foundation; the link appears where that adjacent product solves the next concrete problem.",
           "aliases": "document human"
         },
         "graph": {
@@ -52346,7 +52346,7 @@
             }
           ]
         },
-        "contentHash": "d1fd6b3485a9e5792ecdbe33457ca24613647d27e25326bfe0fff30d72a58071",
+        "contentHash": "9e694abcbc7300963748597ca002806ad854ce99940a6fe53abee0b80ad56e68",
         "provenance": "observed",
         "confidence": "observed"
       },
