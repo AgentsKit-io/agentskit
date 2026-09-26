@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "d35bfc38f383430841b03d0486e399308a5bc6caec34eb16a38b36dac8efb7e0",
+  "contentHash": "d49036ac59dc4583211f8074413047f9fd63685b3564d8fe4c6f0bb7888f98b6",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-26T19:08:13.890Z",
+  "generatedAt": "2026-09-26T19:37:37.992Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -5102,7 +5102,7 @@
         "document",
         "project"
       ],
-      "contentHash": "ce8c9ec8197706d8331a8d83e03148b86417e62f76dfe58bf249d5aaced34714"
+      "contentHash": "11829454a20b17670de98c57c3953c9b6923f3a803decf66b8ec99022921fa03"
     },
     {
       "id": "document:apps/example-discord-bot/README.md",
@@ -5906,7 +5906,7 @@
         "document",
         "human"
       ],
-      "contentHash": "64347b1e497465bd013ea0335d5060f2233e91a1e6696422bd3bc085899eb48a"
+      "contentHash": "aae6c7517f50fdf7770a67b4db35fb4c18e7caf38e44764ef8da44cc51d1f8e4"
     },
     {
       "id": "document:docs/architecture/adrs/0035-docs-pruning-and-api-route-consolidation.md",
@@ -10947,7 +10947,7 @@
         "js",
         "public"
       ],
-      "contentHash": "5055c544897af8e062cfa252b4b5cd6d4a4b4a4dbc553c1818f67a615bf98d6f"
+      "contentHash": "fab7b03903f0f95c0ad0520c7347d15119de030fcbd8ba42aaac461bd9411752"
     },
     {
       "id": "module:apps/docs-next/public/shell/v1.js",
@@ -10959,7 +10959,7 @@
         "js",
         "shell"
       ],
-      "contentHash": "5055c544897af8e062cfa252b4b5cd6d4a4b4a4dbc553c1818f67a615bf98d6f"
+      "contentHash": "fab7b03903f0f95c0ad0520c7347d15119de030fcbd8ba42aaac461bd9411752"
     },
     {
       "id": "module:apps/docs-next/scripts/build-dependencies.mjs",
@@ -11151,7 +11151,7 @@
         "js",
         "shell"
       ],
-      "contentHash": "74db58d648d29c80e8999493a48330ed028a61a86181aaa58d29a1bde2d71c81"
+      "contentHash": "ea7c339d8740fe40176563b5f9d8c16f7661c6f83fe35d205495a532c0d0871f"
     },
     {
       "id": "module:apps/docs-next/source.config.ts",
@@ -33467,7 +33467,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "1718f93774ecbfa0bca917a5aec5222ef53a17e0afa018215e831e4fa7d8b227"
+      "contentHash": "1840225e2aba3550248d9bf6854be65d48761d94a7301e8ed361ab2e0467a184"
     },
     {
       "id": "module:scripts/ecosystem-documentation-quality.test.mjs",
@@ -35594,7 +35594,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "8acc21e88ab461e7e0b23c9ce5fd9bf7f824a1ff1e39ba2b4c3bc40ed71a543a",
+    "hash": "e90934b6902c187e025c340e9416d46eb6b8f8a8117426e2c43b7e2031721e25",
     "fileCount": 2373,
     "projectionVersion": 2
   },
@@ -35617,9 +35617,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "4be32df9cd0f0619f034ac3b7a356e34a10577b9335a073c976daa645d17a6a8",
+    "contentHash": "a65d57b9c2c041973c4c4c07668fa77ed030d848e92e71316f179ffa796c92e1",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "fb7fdca21343ab9367597ccafa465a3ddb4b8d030cfc05c6f05f72fc24fe5409",
+    "snapshotHash": "f9cde070ed96ab3cb35dd792827eba51cffeb69e25be586b7547a84ffa2713cd",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -35651,7 +35651,7 @@
       ],
       "averageFieldLength": {
         "aliases": 2.9926913155631985,
-        "body": 61.64015477214102,
+        "body": 61.63714531384351,
         "headings": 4.145743766122098,
         "path": 7.63585554600172,
         "summary": 4.646603611349957,
@@ -63373,7 +63373,7 @@
           "path": "apps/docs-next/shell/README.md",
           "symbols": "",
           "summary": "The shared chrome for every AgentsKit site is hosted by docs-next and loaded cross-origin by each product (ADR 0034). This directory holds the readable source (v1.js, v1.css); public/ serves only their minified build:",
-          "body": "AgentsKit shell v1 The shared chrome for every AgentsKit site is hosted by docs-next and loaded cross-origin by each product (ADR 0034). This directory holds the readable source ( v1.js , v1.css ); public/ serves only their minified build: URL Content --- --- /shell/v1.js Ecosystem bar (auto-injected at the top of <body ), <agentskit-ecosystem tour, <agentskit-footer , <agentskit-aurora . Zero dependencies. /shell/v1.css Shared --ak- tokens (zero specificity, so a site's own tokens win), font stacks, .ak-product-wordmark , footer fallback and local-column styles, aurora layer. /ecosystem-bar.js Legacy alias. Byte-identical copy of the minified /shell/v1.js for consumers that have not migrated. /shell/ and /ecosystem-bar.js are served with Cache-Control: public, max-age=3600, stale-while-revalidate=86400 and Access-Control-Allow-Origin: . Compatible changes ship inside v1; breaking changes go to /shell/v2. . Generated data scripts/sync-ecosystem.mjs regenerates three blocks in the source apps/docs-next/shell/v1.js from ecosystem.json : PROPS (the six bar products, in manifest order), the tour's SHOWCASE PRODUCTS , and CATALOG (every product, including ones hidden from the bar, so names and Star targets resolve for them). It then minifies the source with esbuild into public/shell/v1.js , public/ecosystem-bar.js , and public/shell/v1.css . Edit only the source, and only outside the generated markers; never edit the files in public/ . --check fails when the source or the minified build is stale. docs-next's prebuild runs the sync, so deployments always serve the current build. No other app keeps a copy: Registry and the sibling sites load the shell from NEXT PUBLIC AGENTSKIT SHELL ORIGIN (default https://www.agentskit.io ). Consumer integration Product ids: agentskit , registry , agentskit-chat , doc-bridge , code-review , harness , playbook . Without data-current the bar detects the product from the hostname. playbook is not listed in the bar or tour, so nothing is highlighted and the Star action targets AgentsKit-io/agents-playbook . The Star action lives only in the bar and targets data-current-repo . - Tour: <agentskit-ecosystem current=\"registry\" data-visual=\"agentskit-home\" …fallback…</agentskit-ecosystem . - Footer: <agentskit-footer current=\"registry\" repo=\"AgentsKit-io/agentskit-registry\" description=\"…\" license=\"MIT License\" . license defaults to MIT License (Playbook uses MIT (code) · CC-BY-4.0 (docs) ). Children are the server-rendered fallback. An element with slot=\"local\" (class ak-footer-local , columns ak-footer-col with an ak-footer-col title heading) is projected into the upgraded footer as the product's own columns; everything else stays in the DOM for crawlers and no-JS readers but is not displayed once the footer upgrades (shadow DOM, so hydration is untouched). - Aurora: <agentskit-aurora aria-hidden=\"true\" </agentskit-aurora once per page. Fixed, aria-hidden , pointer-events: none , behind content; reads --ak-accent (or an accent=\" rrggbb\" attribute; grid=\"off\" disables the mesh), and paints over the page's own --ak-bg . Its light or dark mode follows that background's luminance, falling back to a dark / light class or data-theme on <html , then prefers-color-scheme ; it re-syncs on theme and system changes. It renders a single still frame under prefers-reduced-motion . It also draws the Playbook grid mesh (64px squares, 1px lines in --ak-fg at 4% alpha, layer opacity 0.4) on by default; grid=\"off\" removes it. The grid scrolls with the page and fades out over the last 480px of the document, and follows the theme and data-ak-surface through --ak-fg . Place it inside an isolation: isolate wrapper so it paints above that wrapper's background. - Fumadocs nav title: <span class=\"ak-product-wordmark\" <span class=\"ak-product-wordmark brand\" AgentsKit</span <span class=\"ak-product-wordmark product\" Registry</span </span . Fonts and performance v1.css has no @import , so it never blocks rendering on Google Fonts. The",
+          "body": "AgentsKit shell v1 The shared chrome for every AgentsKit site is hosted by docs-next and loaded cross-origin by each product (ADR 0034). This directory holds the readable source ( v1.js , v1.css ); public/ serves only their minified build: URL Content --- --- /shell/v1.js Ecosystem bar (auto-injected at the top of <body ), <agentskit-ecosystem tour, <agentskit-footer , <agentskit-aurora . Zero dependencies. /shell/v1.css Shared --ak- tokens (zero specificity, so a site's own tokens win), font stacks, .ak-product-wordmark , footer fallback and local-column styles, aurora layer. /ecosystem-bar.js Legacy alias. Byte-identical copy of the minified /shell/v1.js for consumers that have not migrated. /shell/ and /ecosystem-bar.js are served with Cache-Control: public, max-age=3600, stale-while-revalidate=86400 and Access-Control-Allow-Origin: . Compatible changes ship inside v1; breaking changes go to /shell/v2. . Generated data scripts/sync-ecosystem.mjs regenerates three blocks in the source apps/docs-next/shell/v1.js from ecosystem.json : PROPS (the six bar products, in manifest order), the tour's SHOWCASE PRODUCTS , and CATALOG (every product, including ones hidden from the bar, so names and Star targets resolve for them). It then minifies the source with esbuild into public/shell/v1.js , public/ecosystem-bar.js , and public/shell/v1.css . Edit only the source, and only outside the generated markers; never edit the files in public/ . --check fails when the source or the minified build is stale. docs-next's prebuild runs the sync, so deployments always serve the current build. No other app keeps a copy: Registry and the sibling sites load the shell from NEXT PUBLIC AGENTSKIT SHELL ORIGIN (default https://www.agentskit.io ). Consumer integration Product ids: agentskit , registry , agentskit-chat , doc-bridge , code-review , harness , playbook . Without data-current the bar detects the product from the hostname. playbook is not listed in the bar or tour, so nothing is highlighted and the Star action targets AgentsKit-io/agents-playbook . The Star action lives only in the bar and targets data-current-repo . - Tour: <agentskit-ecosystem current=\"registry\" data-visual=\"agentskit-home\" …fallback…</agentskit-ecosystem . Both the default visual and data-visual=\"agentskit-home\" follow the page theme and data-ak-surface through the --ak- tokens; without v1.css the default visual falls back to its dark palette. Product accents colour tour text through --ak-accent-ink (55% accent mixed toward --ak-fg on light surfaces, 100% on dark), which keeps every accent at WCAG AA. - Footer: <agentskit-footer current=\"registry\" repo=\"AgentsKit-io/agentskit-registry\" description=\"…\" license=\"MIT License\" . license defaults to MIT License (Playbook uses MIT (code) · CC-BY-4.0 (docs) ). Children are the server-rendered fallback. An element with slot=\"local\" (class ak-footer-local , columns ak-footer-col with an ak-footer-col title heading) is projected into the upgraded footer as the product's own columns; everything else stays in the DOM for crawlers and no-JS readers but is not displayed once the footer upgrades (shadow DOM, so hydration is untouched). - Aurora: <agentskit-aurora aria-hidden=\"true\" </agentskit-aurora once per page. Fixed, aria-hidden , pointer-events: none , behind content; reads --ak-accent (or an accent=\" rrggbb\" attribute; grid=\"off\" disables the mesh), and paints over the page's own --ak-bg . Its light or dark mode follows that background's luminance, falling back to a dark / light class or data-theme on <html , then prefers-color-scheme ; it re-syncs on theme and system changes. It renders a single still frame under prefers-reduced-motion . It also draws the Playbook grid mesh (64px squares, 1px lines in --ak-fg at 4% alpha, layer opacity 0.4) on by default; grid=\"off\" removes it. The grid scrolls with the page and fades out over the last 480px of the document, and follows the theme and data-ak-surface through --ak-fg . Place it insi",
           "aliases": "document project"
         },
         "graph": {
@@ -63400,7 +63400,7 @@
             }
           ]
         },
-        "contentHash": "ce8c9ec8197706d8331a8d83e03148b86417e62f76dfe58bf249d5aaced34714",
+        "contentHash": "11829454a20b17670de98c57c3953c9b6923f3a803decf66b8ec99022921fa03",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -68106,7 +68106,7 @@
           "path": "docs/architecture/adrs/0034-ecosystem-shell-v1.md",
           "symbols": "",
           "summary": "Status: Accepted",
-          "body": "ADR 0034 — Ecosystem shell v1 - Status : Accepted - Date : 2026-09-25 - Related ADRs : ADR 0021, ADR 0029, ADR 0033 Context ADR 0029 chose a hosted, zero-dependency web shell over a framework package. Until now only the ecosystem bar and the interactive tour were shared, through /ecosystem-bar.js . Each site still carried its own footer, cursor or aurora background, wordmark, and heading font, so the seven sites drifted. ADR 0033 aligned Registry with AgentsKit by copying components between the two apps, which does not reach the sibling repositories. Fumadocs owns search, the mobile menu, the theme toggle, and the sidebar on most of the sites. Injecting a replacement product header would fight those behaviours. Decision The AgentsKit site ( apps/docs-next ) hosts a versioned shell: Asset Content --- --- /shell/v1.js Auto-injected ecosystem bar, <agentskit-ecosystem tour, <agentskit-footer , <agentskit-aurora . /shell/v1.css Zero-specificity --ak- tokens (including --ak-graphite ), font stacks, .ak-product-wordmark , footer fallback and local-column styles, aurora layer. /ecosystem-bar.js Legacy alias, byte-identical to /shell/v1.js . 1. Order and membership. The bar and tour list six products in manifest order: AgentsKit, Registry, Chat, Doc Bridge, Code Review, Harness. Playbook is not listed. A site loaded with data-current=\"playbook\" highlights nothing and its Star action targets AgentsKit-io/agents-playbook , resolved from a generated catalog of every manifest product. 2. Star. The GitHub Star action exists only in the bar and targets data-current-repo , falling back to the current product's repository. Product headers do not carry GitHub or Star links. 3. Footer. <agentskit-footer current repo description license renders its upgraded content in a shadow root, so server-rendered children are never mutated and framework hydration is unaffected. license defaults to MIT License . Children are the fallback: an ak-footer-fallback element with plain ecosystem, repository, and license links that crawlers and no-JS readers see (kept in the DOM, not displayed after upgrade), plus an optional slot=\"local\" element ( ak-footer-local , with ak-footer-col columns) that is projected into the upgraded footer as product-owned navigation. The footer fades in over the page instead of drawing a hard top edge. 4. Aurora. <agentskit-aurora is a fixed, aria-hidden , non-interactive WebGL layer behind content, with an animated CSS fallback. It reads the product's --ak-accent , paints over the page's --ak-bg , and chooses light or dark from that background, then from a dark / light class or data-theme on <html , then from prefers-color-scheme . It renders one still frame when prefers-reduced-motion is set. A grid mesh taken from the Playbook home (64px, 1px --ak-fg lines at 4% alpha, layer opacity 0.4) is on by default and opted out with grid=\"off\" ; it scrolls with the page and fades out 480px before the document ends. 5. Surface override. A region that is dark or light by design declares data-ak-surface=\"dark light\" on <body or a descendant (first match wins). The bar, tour, footer, and aurora then use that palette instead of the page theme, and revert when the attribute disappears (observed for client navigation). The shell applies it through one style element in <head , not by editing page markup. 6. Product header. Each site keeps its Fumadocs layout and renders the .ak-product-wordmark markup as nav.title ; styling comes from the shell stylesheet. Heroes stay product-owned. 7. Distribution. The readable source lives in apps/docs-next/shell/ . scripts/sync-ecosystem.mjs generates the bar, tour, and catalog blocks from ecosystem.json into it and serves an esbuild-minified build as /shell/v1.js , /shell/v1.css , and the /ecosystem-bar.js alias. No fallback copies are kept: Registry, like every sibling, loads the shell from the AgentsKit origin in every environment. /shell/ is served with Cache-Control: public, max-age=3600, stale-while-revalida",
+          "body": "ADR 0034 — Ecosystem shell v1 - Status : Accepted - Date : 2026-09-25 - Related ADRs : ADR 0021, ADR 0029, ADR 0033 Context ADR 0029 chose a hosted, zero-dependency web shell over a framework package. Until now only the ecosystem bar and the interactive tour were shared, through /ecosystem-bar.js . Each site still carried its own footer, cursor or aurora background, wordmark, and heading font, so the seven sites drifted. ADR 0033 aligned Registry with AgentsKit by copying components between the two apps, which does not reach the sibling repositories. Fumadocs owns search, the mobile menu, the theme toggle, and the sidebar on most of the sites. Injecting a replacement product header would fight those behaviours. Decision The AgentsKit site ( apps/docs-next ) hosts a versioned shell: Asset Content --- --- /shell/v1.js Auto-injected ecosystem bar, <agentskit-ecosystem tour, <agentskit-footer , <agentskit-aurora . /shell/v1.css Zero-specificity --ak- tokens (including --ak-graphite ), font stacks, .ak-product-wordmark , footer fallback and local-column styles, aurora layer. /ecosystem-bar.js Legacy alias, byte-identical to /shell/v1.js . 1. Order and membership. The bar and tour list six products in manifest order: AgentsKit, Registry, Chat, Doc Bridge, Code Review, Harness. Playbook is not listed. A site loaded with data-current=\"playbook\" highlights nothing and its Star action targets AgentsKit-io/agents-playbook , resolved from a generated catalog of every manifest product. 2. Star. The GitHub Star action exists only in the bar and targets data-current-repo , falling back to the current product's repository. Product headers do not carry GitHub or Star links. 3. Footer. <agentskit-footer current repo description license renders its upgraded content in a shadow root, so server-rendered children are never mutated and framework hydration is unaffected. license defaults to MIT License . Children are the fallback: an ak-footer-fallback element with plain ecosystem, repository, and license links that crawlers and no-JS readers see (kept in the DOM, not displayed after upgrade), plus an optional slot=\"local\" element ( ak-footer-local , with ak-footer-col columns) that is projected into the upgraded footer as product-owned navigation. The footer fades in over the page instead of drawing a hard top edge. 4. Aurora. <agentskit-aurora is a fixed, aria-hidden , non-interactive WebGL layer behind content, with an animated CSS fallback. It reads the product's --ak-accent , paints over the page's --ak-bg , and chooses light or dark from that background, then from a dark / light class or data-theme on <html , then from prefers-color-scheme . It renders one still frame when prefers-reduced-motion is set. A grid mesh taken from the Playbook home (64px, 1px --ak-fg lines at 4% alpha, layer opacity 0.4) is on by default and opted out with grid=\"off\" ; it scrolls with the page and fades out 480px before the document ends. 5. Surface override. A region that is dark or light by design declares data-ak-surface=\"dark light\" on <body or a descendant (first match wins). The bar, tour, footer, and aurora then use that palette instead of the page theme, and revert when the attribute disappears (observed for client navigation). The shell applies it through one style element in <head , not by editing page markup. The tour follows the same palette in both of its visuals. The default visual reads the page's --ak- tokens (dark values are only the fallback for pages without v1.css ), and product accents colour text through --ak-accent-ink : 55% accent mixed toward the foreground on light surfaces, the pure accent on dark ones, so every accent clears WCAG AA. 6. Product header. Each site keeps its Fumadocs layout and renders the .ak-product-wordmark markup as nav.title ; styling comes from the shell stylesheet. Heroes stay product-owned. 7. Distribution. The readable source lives in apps/docs-next/shell/ . scripts/sync-ecosystem.mjs generates the bar, tour, and ca",
           "aliases": "document human"
         },
         "graph": {
@@ -68134,7 +68134,7 @@
             }
           ]
         },
-        "contentHash": "64347b1e497465bd013ea0335d5060f2233e91a1e6696422bd3bc085899eb48a",
+        "contentHash": "aae6c7517f50fdf7770a67b4db35fb4c18e7caf38e44764ef8da44cc51d1f8e4",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -89678,7 +89678,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5055c544897af8e062cfa252b4b5cd6d4a4b4a4dbc553c1818f67a615bf98d6f",
+        "contentHash": "fab7b03903f0f95c0ad0520c7347d15119de030fcbd8ba42aaac461bd9411752",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -89712,7 +89712,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "5055c544897af8e062cfa252b4b5cd6d4a4b4a4dbc553c1818f67a615bf98d6f",
+        "contentHash": "fab7b03903f0f95c0ad0520c7347d15119de030fcbd8ba42aaac461bd9411752",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -90272,7 +90272,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "74db58d648d29c80e8999493a48330ed028a61a86181aaa58d29a1bde2d71c81",
+        "contentHash": "ea7c339d8740fe40176563b5f9d8c16f7661c6f83fe35d205495a532c0d0871f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174102,7 +174102,7 @@
             }
           ]
         },
-        "contentHash": "1718f93774ecbfa0bca917a5aec5222ef53a17e0afa018215e831e4fa7d8b227",
+        "contentHash": "1840225e2aba3550248d9bf6854be65d48761d94a7301e8ed361ab2e0467a184",
         "provenance": "observed",
         "confidence": "observed"
       },
