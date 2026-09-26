@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "2d63ecb7b0387e62f1286b2ed88c556da5cd1438594ce343c0d9e78b213e1ada",
+  "contentHash": "5b74c59172489b08c6dc20d3cb41e2b3eba02f9ff0cd85b74a3a8100327847a1",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-26T11:35:17.870Z",
+  "generatedAt": "2026-09-26T13:42:57.297Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -5090,7 +5090,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "90f224622dce3f31a851f272de54e5639d1bfababb355190a48d708716f331ad"
+      "contentHash": "e6c95ce1655eb654491c72d53dfc374a235ea8fc002c0d3a68fe00a86568b1b1"
     },
     {
       "id": "document:apps/docs-next/README.md",
@@ -5906,7 +5906,7 @@
         "document",
         "human"
       ],
-      "contentHash": "1434719887a3e2f825da06dec4e473f64d488c911e586b435eaa11356c811fb2"
+      "contentHash": "a89f45e79119af28641a697db7cd4c05374e2ea882b058e596322e3a0e38f2fb"
     },
     {
       "id": "document:docs/architecture/adrs/0035-docs-pruning-and-api-route-consolidation.md",
@@ -10947,7 +10947,7 @@
         "js",
         "public"
       ],
-      "contentHash": "623b8746e61fcfa29cc78703e32091e71a79a79076fa308e773fe6129ae9d716"
+      "contentHash": "ed2482b5b77c2977e520ca89261ca06f3d884578deb5588a3f80ee40c5f628f5"
     },
     {
       "id": "module:apps/docs-next/public/shell/v1.js",
@@ -10959,7 +10959,7 @@
         "js",
         "shell"
       ],
-      "contentHash": "623b8746e61fcfa29cc78703e32091e71a79a79076fa308e773fe6129ae9d716"
+      "contentHash": "ed2482b5b77c2977e520ca89261ca06f3d884578deb5588a3f80ee40c5f628f5"
     },
     {
       "id": "module:apps/docs-next/scripts/build-dependencies.mjs",
@@ -13388,7 +13388,7 @@
         "js",
         "public"
       ],
-      "contentHash": "623b8746e61fcfa29cc78703e32091e71a79a79076fa308e773fe6129ae9d716"
+      "contentHash": "ed2482b5b77c2977e520ca89261ca06f3d884578deb5588a3f80ee40c5f628f5"
     },
     {
       "id": "module:apps/registry/public/shell/v1.js",
@@ -13400,7 +13400,7 @@
         "js",
         "shell"
       ],
-      "contentHash": "623b8746e61fcfa29cc78703e32091e71a79a79076fa308e773fe6129ae9d716"
+      "contentHash": "ed2482b5b77c2977e520ca89261ca06f3d884578deb5588a3f80ee40c5f628f5"
     },
     {
       "id": "module:apps/registry/source.config.ts",
@@ -33479,7 +33479,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "7888aa8a40f5c1744e9f60d52ff3e25ae4a0de947efa5cddfc18a5a6a0710165"
+      "contentHash": "6706e78c6e1b40ab7f2ecd230257f6468d084a74d787d96994d069c562ea9e93"
     },
     {
       "id": "module:scripts/ecosystem-documentation-quality.test.mjs",
@@ -35605,7 +35605,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "7facafe834245f4452d76da4c0d3a0404c52fb638890d1c3726a5040c4dd841b",
+    "hash": "8af4812878c30d764343272f39808aa816ce99e7381b927563f36af9638f4c9f",
     "fileCount": 2374,
     "projectionVersion": 2
   },
@@ -35628,9 +35628,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "606cef95705faef10b73fb0df0ae1ea933c808ebc37a308dbda7e72ac459674a",
+    "contentHash": "8b3bd40eabe8ffb7ef587c3b21a1a3a65c58bf677e02df07ac1d5c0c7cc73454",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "340614aec0133fb0c292ec6150b55c2be70c98a6bcbe05b27fb67d4046090e30",
+    "snapshotHash": "cbd9d5c2921650804fb8bfffa1ff227a549d148f76a0d07709dc6a033e033290",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -35662,7 +35662,7 @@
       ],
       "averageFieldLength": {
         "aliases": 2.9926944563816074,
-        "body": 61.59003008165019,
+        "body": 61.589170605930384,
         "headings": 4.143962183068329,
         "path": 7.6364417705199825,
         "summary": 4.639020197679415,
@@ -63319,7 +63319,7 @@
           "path": "apps/docs-next/public/ecosystem-bar.README.md",
           "symbols": "",
           "summary": "The shared chrome for every AgentsKit site is hosted here and loaded cross-origin by each product (ADR 0034):",
-          "body": "AgentsKit shell v1 The shared chrome for every AgentsKit site is hosted here and loaded cross-origin by each product (ADR 0034): URL Content --- --- /shell/v1.js Ecosystem bar (auto-injected at the top of <body ), <agentskit-ecosystem tour, <agentskit-footer , <agentskit-aurora . Zero dependencies. /shell/v1.css Shared --ak- tokens (zero specificity, so a site's own tokens win), font stacks, .ak-product-wordmark , footer fallback and local-column styles, aurora layer. /ecosystem-bar.js Legacy alias. Byte-identical copy of /shell/v1.js for consumers that have not migrated. /shell/ and /ecosystem-bar.js are served with Cache-Control: public, max-age=3600, stale-while-revalidate=86400 and Access-Control-Allow-Origin: . Compatible changes ship inside v1; breaking changes go to /shell/v2. . Generated data scripts/sync-ecosystem.mjs regenerates three blocks in shell/v1.js from ecosystem.json : PROPS (the six bar products, in manifest order), the tour's SHOWCASE PRODUCTS , and CATALOG (every product, including ones hidden from the bar, so names and Star targets resolve for them). It then writes the alias and Registry's fallback copies ( apps/registry/public/shell/v1. , apps/registry/public/ecosystem-bar.js ). Edit shell/v1.js by hand only outside the generated markers; --check fails on drift. Consumer integration Product ids: agentskit , registry , agentskit-chat , doc-bridge , code-review , harness , playbook . Without data-current the bar detects the product from the hostname. playbook is not listed in the bar or tour, so nothing is highlighted and the Star action targets AgentsKit-io/agents-playbook . The Star action lives only in the bar and targets data-current-repo . - Tour: <agentskit-ecosystem current=\"registry\" data-visual=\"agentskit-home\" …fallback…</agentskit-ecosystem . - Footer: <agentskit-footer current=\"registry\" repo=\"AgentsKit-io/agentskit-registry\" description=\"…\" license=\"MIT License\" . license defaults to MIT License (Playbook uses MIT (code) · CC-BY-4.0 (docs) ). Children are the server-rendered fallback. An element with slot=\"local\" (class ak-footer-local , columns ak-footer-col with an ak-footer-col title heading) is projected into the upgraded footer as the product's own columns; everything else stays in the DOM for crawlers and no-JS readers but is not displayed once the footer upgrades (shadow DOM, so hydration is untouched). - Aurora: <agentskit-aurora aria-hidden=\"true\" </agentskit-aurora once per page. Fixed, aria-hidden , pointer-events: none , behind content; reads --ak-accent (or an accent=\" rrggbb\" attribute; grid=\"off\" disables the mesh), and paints over the page's own --ak-bg . Its light or dark mode follows that background's luminance, falling back to a dark / light class or data-theme on <html , then prefers-color-scheme ; it re-syncs on theme and system changes. It renders a single still frame under prefers-reduced-motion . It also draws the Playbook grid mesh (64px squares, 1px lines in --ak-fg at 4% alpha, layer opacity 0.4) on by default; grid=\"off\" removes it. The grid scrolls with the page and fades out over the last 480px of the document, and follows the theme and data-ak-surface through --ak-fg . Place it inside an isolation: isolate wrapper so it paints above that wrapper's background. - Fumadocs nav title: <span class=\"ak-product-wordmark\" <span class=\"ak-product-wordmark brand\" AgentsKit</span <span class=\"ak-product-wordmark product\" Registry</span </span . Fonts and performance v1.css has no @import , so it never blocks rendering on Google Fonts. The script loads Inter and Space Grotesk asynchronously (preconnect, media=\"print\" swapped to all on load, display=swap ) and only for families the page does not already provide. Sites that self-host the fonts (for example with next/font ) add data-ak-fonts=\"self\" to the script tag to skip the check: Until a font arrives, the --ak-font- stacks fall back to system UI fonts. The aurora shows its CSS layer immediately and compiles the WebGL shad",
+          "body": "AgentsKit shell v1 The shared chrome for every AgentsKit site is hosted here and loaded cross-origin by each product (ADR 0034): URL Content --- --- /shell/v1.js Ecosystem bar (auto-injected at the top of <body ), <agentskit-ecosystem tour, <agentskit-footer , <agentskit-aurora . Zero dependencies. /shell/v1.css Shared --ak- tokens (zero specificity, so a site's own tokens win), font stacks, .ak-product-wordmark , footer fallback and local-column styles, aurora layer. /ecosystem-bar.js Legacy alias. Byte-identical copy of /shell/v1.js for consumers that have not migrated. /shell/ and /ecosystem-bar.js are served with Cache-Control: public, max-age=3600, stale-while-revalidate=86400 and Access-Control-Allow-Origin: . Compatible changes ship inside v1; breaking changes go to /shell/v2. . Generated data scripts/sync-ecosystem.mjs regenerates three blocks in shell/v1.js from ecosystem.json : PROPS (the six bar products, in manifest order), the tour's SHOWCASE PRODUCTS , and CATALOG (every product, including ones hidden from the bar, so names and Star targets resolve for them). It then writes the alias and Registry's fallback copies ( apps/registry/public/shell/v1. , apps/registry/public/ecosystem-bar.js ). Edit shell/v1.js by hand only outside the generated markers; --check fails on drift. Consumer integration Product ids: agentskit , registry , agentskit-chat , doc-bridge , code-review , harness , playbook . Without data-current the bar detects the product from the hostname. playbook is not listed in the bar or tour, so nothing is highlighted and the Star action targets AgentsKit-io/agents-playbook . The Star action lives only in the bar and targets data-current-repo . - Tour: <agentskit-ecosystem current=\"registry\" data-visual=\"agentskit-home\" …fallback…</agentskit-ecosystem . - Footer: <agentskit-footer current=\"registry\" repo=\"AgentsKit-io/agentskit-registry\" description=\"…\" license=\"MIT License\" . license defaults to MIT License (Playbook uses MIT (code) · CC-BY-4.0 (docs) ). Children are the server-rendered fallback. An element with slot=\"local\" (class ak-footer-local , columns ak-footer-col with an ak-footer-col title heading) is projected into the upgraded footer as the product's own columns; everything else stays in the DOM for crawlers and no-JS readers but is not displayed once the footer upgrades (shadow DOM, so hydration is untouched). - Aurora: <agentskit-aurora aria-hidden=\"true\" </agentskit-aurora once per page. Fixed, aria-hidden , pointer-events: none , behind content; reads --ak-accent (or an accent=\" rrggbb\" attribute; grid=\"off\" disables the mesh), and paints over the page's own --ak-bg . Its light or dark mode follows that background's luminance, falling back to a dark / light class or data-theme on <html , then prefers-color-scheme ; it re-syncs on theme and system changes. It renders a single still frame under prefers-reduced-motion . It also draws the Playbook grid mesh (64px squares, 1px lines in --ak-fg at 4% alpha, layer opacity 0.4) on by default; grid=\"off\" removes it. The grid scrolls with the page and fades out over the last 480px of the document, and follows the theme and data-ak-surface through --ak-fg . Place it inside an isolation: isolate wrapper so it paints above that wrapper's background. - Fumadocs nav title: <span class=\"ak-product-wordmark\" <span class=\"ak-product-wordmark brand\" AgentsKit</span <span class=\"ak-product-wordmark product\" Registry</span </span . Fonts and performance v1.css has no @import , so it never blocks rendering on Google Fonts. The script loads Inter and Space Grotesk asynchronously (preconnect, media=\"print\" swapped to all on load, display=swap ) and only for families the page does not already provide. Sites that self-host the fonts (for example with next/font ) add data-ak-fonts=\"self\" to the script tag to skip the check: Until a font arrives, the --ak-font- stacks fall back to system UI fonts. Only the bar is mounted on the critical path. v1.css reserves its heig",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -63346,7 +63346,7 @@
             }
           ]
         },
-        "contentHash": "90f224622dce3f31a851f272de54e5639d1bfababb355190a48d708716f331ad",
+        "contentHash": "e6c95ce1655eb654491c72d53dfc374a235ea8fc002c0d3a68fe00a86568b1b1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -68149,7 +68149,7 @@
             }
           ]
         },
-        "contentHash": "1434719887a3e2f825da06dec4e473f64d488c911e586b435eaa11356c811fb2",
+        "contentHash": "a89f45e79119af28641a697db7cd4c05374e2ea882b058e596322e3a0e38f2fb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -89693,7 +89693,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "623b8746e61fcfa29cc78703e32091e71a79a79076fa308e773fe6129ae9d716",
+        "contentHash": "ed2482b5b77c2977e520ca89261ca06f3d884578deb5588a3f80ee40c5f628f5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -89727,7 +89727,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "623b8746e61fcfa29cc78703e32091e71a79a79076fa308e773fe6129ae9d716",
+        "contentHash": "ed2482b5b77c2977e520ca89261ca06f3d884578deb5588a3f80ee40c5f628f5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -96934,7 +96934,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "623b8746e61fcfa29cc78703e32091e71a79a79076fa308e773fe6129ae9d716",
+        "contentHash": "ed2482b5b77c2977e520ca89261ca06f3d884578deb5588a3f80ee40c5f628f5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -96968,7 +96968,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "623b8746e61fcfa29cc78703e32091e71a79a79076fa308e773fe6129ae9d716",
+        "contentHash": "ed2482b5b77c2977e520ca89261ca06f3d884578deb5588a3f80ee40c5f628f5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174151,7 +174151,7 @@
             }
           ]
         },
-        "contentHash": "7888aa8a40f5c1744e9f60d52ff3e25ae4a0de947efa5cddfc18a5a6a0710165",
+        "contentHash": "6706e78c6e1b40ab7f2ecd230257f6468d084a74d787d96994d069c562ea9e93",
         "provenance": "observed",
         "confidence": "observed"
       },
