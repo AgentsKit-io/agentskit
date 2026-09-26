@@ -231,6 +231,13 @@ test('shell v1 defines the bar, tour, footer, and aurora', () => {
   assert.doesNotMatch(SHELL, /var syncGrid = function \(\) \{[^}]*scrollHeight/)
   assert.doesNotMatch(SHELL, /var\(--ak-graphite,#/)
   assert.match(SHELL, /'Pause tour of the ecosystem'/)
+  assert.match(SHELL, /failIfMajorPerformanceCaveat: true/)
+  assert.match(SHELL, /SwiftShader\|llvmpipe\|softpipe\|Software\|Basic Render/)
+  assert.match(SHELL, /\(window\.devicePixelRatio \|\| 1\) \* 0\.5/)
+  assert.match(SHELL, /document\.addEventListener\('visibilitychange', syncMotion\)/)
+  assert.match(SHELL, /whenIdle\(function \(\) \{\n\s*registerFooter\(\)\n\s*registerEcosystemShowcase\(\)\n\s*registerAurora\(\)/)
+  assert.match(css, /body::before \{[^}]*height: 57px/)
+  assert.match(css, /body:has\(> #ak-eco\)::before \{\n\s*display: none;/)
   assert.match(SHELL, /'Play tour of the ecosystem'/)
 })
 

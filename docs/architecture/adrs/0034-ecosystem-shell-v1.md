@@ -78,9 +78,17 @@ The AgentsKit site (`apps/docs-next`) hosts a versioned shell:
    asynchronously (preconnect, `media="print"` swapped on load,
    `display=swap`) only for families the page does not already provide;
    `data-ak-fonts="self"` on the script tag opts out for self-hosted fonts.
-   The aurora paints its CSS layer at once and compiles the WebGL shader in
-   `requestIdleCallback` after `load`; the grid reads the document height
-   only on resize. Shell text colours come from theme-aware tokens
+   Only the bar runs on the critical path; the tour, footer, and aurora
+   upgrade in `requestIdleCallback` (2 s timeout) behind their fallbacks, and
+   v1.css reserves the bar's height (57px, 53px under 768px) with a
+   `body::before` placeholder so mounting it causes no layout shift. The
+   aurora paints its CSS layer at once and compiles the WebGL shader when
+   idle after `load`, but only on a hardware GPU: contexts that report
+   `failIfMajorPerformanceCaveat` or a software renderer (SwiftShader,
+   llvmpipe, softpipe, Microsoft Basic Render) keep a still CSS layer. The shader
+   renders at half the device pixel ratio, at most 30 fps, and pauses in
+   hidden tabs, off screen, and under reduced motion. The grid reads the
+   document height only on resize. Shell text colours come from theme-aware tokens
    (`--ak-graphite`, `--ak-muted`) so they meet WCAG AA on light, dark, and
    `data-ak-surface` pages.
 10. **Versioning.** Compatible changes ship inside v1 and reach every site within
