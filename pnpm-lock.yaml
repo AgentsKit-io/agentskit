@@ -37,8 +37,8 @@ importers:
         specifier: workspace:*
         version: link:packages/core
       '@agentskit/doc-bridge':
-        specifier: 1.11.2
-        version: 1.11.2(@agentskit/adapters@0.17.0(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.2.11(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@3.25.76))(ws@8.21.0))(@mlc-ai/web-llm@0.2.85))(@agentskit/core@packages+core)(@agentskit/ink@0.10.11(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0))(@agentskit/memory@0.11.10(vectra@0.15.0(@huggingface/transformers@4.3.0)(ws@8.21.0)(zod@3.25.76)))(@agentskit/rag@0.5.7(@aws-sdk/client-s3@3.1124.0))(@types/react@19.2.17)(graphology-types@0.24.8)(react-devtools-core@6.1.5)(react@19.3.0)
+        specifier: 1.12.0
+        version: 1.12.0(@agentskit/adapters@0.17.1(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.2.11(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@3.25.76))(ws@8.21.0))(@mlc-ai/web-llm@0.2.85))(@agentskit/core@packages+core)(@agentskit/ink@0.10.12(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0))(@agentskit/memory@0.11.11(vectra@0.15.0(@huggingface/transformers@4.3.0)(ws@8.21.0)(zod@3.25.76)))(@agentskit/rag@0.5.8(@aws-sdk/client-s3@3.1124.0))(@types/react@19.2.17)(graphology-types@0.24.8)(react-devtools-core@6.1.5)(react@19.3.0)
       '@agentskit/eval':
         specifier: workspace:*
         version: link:packages/eval
@@ -156,7 +156,7 @@ importers:
         version: link:../../packages/adapters
       '@agentskit/chat':
         specifier: 0.4.1
-        version: 0.4.1(@agentskit/core@packages+core)(@agentskit/ink@0.10.11(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(@agentskit/react@packages+react)(@angular/common@21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(ink@7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.8))(react@19.2.8)(rxjs@7.8.2)(solid-js@1.9.15)(svelte@5.57.0)(vectra@0.15.0(@huggingface/transformers@4.3.0)(ws@8.21.0)(zod@4.6.5))(vue@3.5.42(typescript@6.0.3))
+        version: 0.4.1(@agentskit/core@packages+core)(@agentskit/ink@0.10.12(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(@agentskit/react@packages+react)(@angular/common@21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(ink@7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.8))(react@19.2.8)(rxjs@7.8.2)(solid-js@1.9.15)(svelte@5.57.0)(vectra@0.15.0(@huggingface/transformers@4.3.0)(ws@8.21.0)(zod@4.6.5))(vue@3.5.42(typescript@6.0.3))
       '@agentskit/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -669,7 +669,7 @@ importers:
     dependencies:
       '@agentskit/chat':
         specifier: 0.4.1
-        version: 0.4.1(@agentskit/core@packages+core)(@agentskit/ink@0.10.11(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/react@packages+react)(@angular/common@21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(ink@7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.7))(react@19.2.7)(rxjs@7.8.2)(solid-js@1.9.15)(svelte@5.57.0)(vectra@0.15.0(@huggingface/transformers@4.3.0)(ws@8.21.0)(zod@4.6.5))(vue@3.5.42(typescript@6.0.3))
+        version: 0.4.1(@agentskit/core@packages+core)(@agentskit/ink@0.10.12(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/react@packages+react)(@angular/common@21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(ink@7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.7))(react@19.2.7)(rxjs@7.8.2)(solid-js@1.9.15)(svelte@5.57.0)(vectra@0.15.0(@huggingface/transformers@4.3.0)(ws@8.21.0)(zod@4.6.5))(vue@3.5.42(typescript@6.0.3))
       '@agentskit/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -1553,8 +1553,8 @@ packages:
   '@adobe/css-tools@4.5.0':
     resolution: {integrity: sha512-6OzddxPio9UiWTCemp4N8cYLV2ZN1ncRnV1cVGtve7dhPOtRkleRyx32GQCYSwDYgaHU3USMm84tNsvKzRCa1Q==}
 
-  '@agentskit/adapters@0.17.0':
-    resolution: {integrity: sha512-AibyobwrwHor8yrIwqfh2N1VxNPcSDD1yE9HzgUn6V7E7t3/T13oVeT9pPB36iPvKv+6Pp2v+FKL7QADMMPekw==}
+  '@agentskit/adapters@0.17.1':
+    resolution: {integrity: sha512-nAYVhxlID6sopsTESUfYGd9ANDp/I97kZQS99yc6j7mM8dVl0UdkB2DE+bj/9+UeOe83mXkD868EcTognAXSHQ==}
     peerDependencies:
       '@aws-sdk/client-bedrock-runtime': ^3.0.0
       '@langchain/core': ^1.0.0
@@ -1621,17 +1621,17 @@ packages:
       vue:
         optional: true
 
+  '@agentskit/core@1.12.10':
+    resolution: {integrity: sha512-dKffCjASPBPvV2xq810dS7X1+/bNfxAJYdI3mPaK1Sj/Scbh8xR37lxo2AWBK+JNL40ffDe/pIJf72S+MUA+bw==}
+
   '@agentskit/core@1.12.3':
     resolution: {integrity: sha512-fNHrzpEoCaWHDK2fwk/BIhcPseN6zCdy3N0WjzdelnmRuh7zy9/Ki0zcukesK5ZAAmXdz2+Dj8FI7AM32JyOKw==}
 
   '@agentskit/core@1.12.8':
     resolution: {integrity: sha512-Jn9DDPgutWceffIssd5ru8H1p3TGAseLgLCsgnY7zQbTkgTyQ3pYY0kQJxFzRQ8vYlty7gEWUK4xHXq8YGsj6w==}
 
-  '@agentskit/core@1.12.9':
-    resolution: {integrity: sha512-Ou6WB9cDB9o85XpUZKWGfC699OuPzgnP8oXekVRktYBHj+Ww7FX5o10nHVPiG/2a7mJ9paQdyvUbNe5n+RZSlg==}
-
-  '@agentskit/doc-bridge@1.11.2':
-    resolution: {integrity: sha512-izYQmC+wW6DjraTjNrrRQJW6noRUGm5wwbl+MAOiThN6WKb/79UQoxofva/PgTjoONnoqv24Z+CrLkBS0qKPew==}
+  '@agentskit/doc-bridge@1.12.0':
+    resolution: {integrity: sha512-Hft7ekdi1cCjn0HDWjYkD1FPLugQXrS+rgxarNAAIGU8sp32I+Q6Dp9dRIQRYkvvckjJI43ckCPy/NdjkbGuTg==}
     engines: {node: '>=22'}
     hasBin: true
     peerDependencies:
@@ -1663,13 +1663,13 @@ packages:
     engines: {node: '>=22'}
     hasBin: true
 
-  '@agentskit/ink@0.10.11':
-    resolution: {integrity: sha512-bHA305qqWfkmBU/D7Eqc3djUvcFpLl8wxS3AOQwbu7JZsQn0NcbwVHJiJpfoCQ3Hl6omocYoaGVLJSirPHIKiA==}
+  '@agentskit/ink@0.10.12':
+    resolution: {integrity: sha512-rAyZjDocS0gfuwPpB0ouTPRd+S/VfWgIuoLdQBCjGzLxkocbIyNHXgiAmxiTMSMFBSPMpuET2SmaDRn9KXK3TQ==}
     peerDependencies:
       react: '>=18.0.0'
 
-  '@agentskit/memory@0.11.10':
-    resolution: {integrity: sha512-G84wJRCG2cTW70XPjP0c7FIJh898Q/bVCSIL/IFzMShxID5219Jt5tqXlyTCoh9YHkTsWe3a0Lf/ITtO6mXm7g==}
+  '@agentskit/memory@0.11.11':
+    resolution: {integrity: sha512-Nl8OAcwsEotymuQiR27igFkdTlKxajp/SItyro4jKsnbq7w5Fl8bjdZlRgHgML/YOIHXeWsfzfB5ozho7aFE2g==}
     peerDependencies:
       vectra: ^0.15.0
     peerDependenciesMeta:
@@ -1684,8 +1684,8 @@ packages:
       vectra:
         optional: true
 
-  '@agentskit/rag@0.5.7':
-    resolution: {integrity: sha512-UQarz2nXzNM+tIflrWbK3bZYKlGdPGwEO1IfkBgrAq+mYMvcNrgObP3hhWLFV4vV1NE+SoMoDuesSwkv+hXQ8A==}
+  '@agentskit/rag@0.5.8':
+    resolution: {integrity: sha512-ojeGiPU3cavTXwkuJMCu1DoMQ4JBDRiz00I/Bjb4s8bbW8SOimXglUM+u4oDjTh9BJ7qke7zn0BmUDyo01ZoAA==}
     peerDependencies:
       '@aws-sdk/client-s3': ^3.0.0
     peerDependenciesMeta:
@@ -6545,6 +6545,10 @@ packages:
     resolution: {integrity: sha512-hsBTNUqQTDwkWtcdYI2i06Y/nUBEsNEDJKjWdigLvegy8kDuJAS8uRlpkkcQpyEXL0Z/pjDy5HBmMjRCJ2gq+g==}
     engines: {node: '>= 4'}
 
+  ignore@7.0.10:
+    resolution: {integrity: sha512-HpbUakT7xp5miBUywCHf36ZEuAJNklBJDDsGpUIjMzOSmM8ELSfA9Sa/QDPeNeqeoN31u+UTCkL4klCOVvRm4Q==}
+    engines: {node: '>= 4'}
+
   image-size-next@1.2.2:
     resolution: {integrity: sha512-Pd3CJ2+Ifk2H2jWikkoz2BSZgnuF3Qsea4gQmj2gtiOtYpGWBl7elj8EXnFMiY5PaYNruTTLD0hQ0UWK7pz9xA==}
     engines: {node: '>=16.x'}
@@ -9355,16 +9359,16 @@ snapshots:
 
   '@adobe/css-tools@4.5.0': {}
 
-  '@agentskit/adapters@0.17.0(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.2.11(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@3.25.76))(ws@8.21.0))(@mlc-ai/web-llm@0.2.85)':
+  '@agentskit/adapters@0.17.1(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.2.11(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@3.25.76))(ws@8.21.0))(@mlc-ai/web-llm@0.2.85)':
     dependencies:
-      '@agentskit/core': 1.12.9
+      '@agentskit/core': 1.12.10
     optionalDependencies:
       '@aws-sdk/client-bedrock-runtime': 3.1068.0
       '@langchain/core': 1.2.11(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@3.25.76))(ws@8.21.0)
       '@mlc-ai/web-llm': 0.2.85
     optional: true
 
-  '@agentskit/chat@0.4.1(@agentskit/core@packages+core)(@agentskit/ink@0.10.11(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/react@packages+react)(@angular/common@21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(ink@7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.7))(react@19.2.7)(rxjs@7.8.2)(solid-js@1.9.15)(svelte@5.57.0)(vectra@0.15.0(@huggingface/transformers@4.3.0)(ws@8.21.0)(zod@4.6.5))(vue@3.5.42(typescript@6.0.3))':
+  '@agentskit/chat@0.4.1(@agentskit/core@packages+core)(@agentskit/ink@0.10.12(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(@agentskit/react@packages+react)(@angular/common@21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(ink@7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.7))(react@19.2.7)(rxjs@7.8.2)(solid-js@1.9.15)(svelte@5.57.0)(vectra@0.15.0(@huggingface/transformers@4.3.0)(ws@8.21.0)(zod@4.6.5))(vue@3.5.42(typescript@6.0.3))':
     dependencies:
       '@agentskit/core': link:packages/core
       '@agentskit/eval': 0.4.19
@@ -9373,7 +9377,7 @@ snapshots:
       tslib: 2.8.1
       zod: 4.6.5
     optionalDependencies:
-      '@agentskit/ink': 0.10.11(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)
+      '@agentskit/ink': 0.10.12(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)
       '@agentskit/react': link:packages/react
       '@angular/common': 21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
       '@angular/core': 21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3)
@@ -9387,7 +9391,7 @@ snapshots:
     transitivePeerDependencies:
       - vectra
 
-  '@agentskit/chat@0.4.1(@agentskit/core@packages+core)(@agentskit/ink@0.10.11(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(@agentskit/react@packages+react)(@angular/common@21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(ink@7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.8))(react@19.2.8)(rxjs@7.8.2)(solid-js@1.9.15)(svelte@5.57.0)(vectra@0.15.0(@huggingface/transformers@4.3.0)(ws@8.21.0)(zod@4.6.5))(vue@3.5.42(typescript@6.0.3))':
+  '@agentskit/chat@0.4.1(@agentskit/core@packages+core)(@agentskit/ink@0.10.12(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(@agentskit/react@packages+react)(@angular/common@21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2))(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(ink@7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8))(react-native@0.86.0(@babel/core@7.29.7)(@types/react@19.2.17)(react@19.2.8))(react@19.2.8)(rxjs@7.8.2)(solid-js@1.9.15)(svelte@5.57.0)(vectra@0.15.0(@huggingface/transformers@4.3.0)(ws@8.21.0)(zod@4.6.5))(vue@3.5.42(typescript@6.0.3))':
     dependencies:
       '@agentskit/core': link:packages/core
       '@agentskit/eval': 0.4.19
@@ -9396,7 +9400,7 @@ snapshots:
       tslib: 2.8.1
       zod: 4.6.5
     optionalDependencies:
-      '@agentskit/ink': 0.10.11(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8)
+      '@agentskit/ink': 0.10.12(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8)
       '@agentskit/react': link:packages/react
       '@angular/common': 21.2.23(@angular/core@21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3))(rxjs@7.8.2)
       '@angular/core': 21.2.23(@angular/compiler@21.2.23)(rxjs@7.8.2)(zone.js@0.16.3)
@@ -9410,14 +9414,14 @@ snapshots:
     transitivePeerDependencies:
       - vectra
 
+  '@agentskit/core@1.12.10':
+    optional: true
+
   '@agentskit/core@1.12.3': {}
 
   '@agentskit/core@1.12.8': {}
 
-  '@agentskit/core@1.12.9':
-    optional: true
-
-  '@agentskit/doc-bridge@1.11.2(@agentskit/adapters@0.17.0(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.2.11(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@3.25.76))(ws@8.21.0))(@mlc-ai/web-llm@0.2.85))(@agentskit/core@packages+core)(@agentskit/ink@0.10.11(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0))(@agentskit/memory@0.11.10(vectra@0.15.0(@huggingface/transformers@4.3.0)(ws@8.21.0)(zod@3.25.76)))(@agentskit/rag@0.5.7(@aws-sdk/client-s3@3.1124.0))(@types/react@19.2.17)(graphology-types@0.24.8)(react-devtools-core@6.1.5)(react@19.3.0)':
+  '@agentskit/doc-bridge@1.12.0(@agentskit/adapters@0.17.1(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.2.11(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@3.25.76))(ws@8.21.0))(@mlc-ai/web-llm@0.2.85))(@agentskit/core@packages+core)(@agentskit/ink@0.10.12(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0))(@agentskit/memory@0.11.11(vectra@0.15.0(@huggingface/transformers@4.3.0)(ws@8.21.0)(zod@3.25.76)))(@agentskit/rag@0.5.8(@aws-sdk/client-s3@3.1124.0))(@types/react@19.2.17)(graphology-types@0.24.8)(react-devtools-core@6.1.5)(react@19.3.0)':
     dependencies:
       '@agentskit/harness': 0.11.0(@types/react@19.2.17)(react-devtools-core@6.1.5)
       github-slugger: 2.0.0
@@ -9426,6 +9430,7 @@ snapshots:
       graphology-dag: 0.4.1(graphology-types@0.24.8)
       graphology-metrics: 2.4.2(graphology-types@0.24.8)
       graphology-shortest-path: 2.1.0(graphology-types@0.24.8)
+      ignore: 7.0.10
       knap: 0.5.1
       mdast-util-to-string: 4.0.0
       mermaid: 11.17.2
@@ -9439,11 +9444,11 @@ snapshots:
       yaml: 2.9.1
       zod: 4.6.5
     optionalDependencies:
-      '@agentskit/adapters': 0.17.0(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.2.11(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@3.25.76))(ws@8.21.0))(@mlc-ai/web-llm@0.2.85)
+      '@agentskit/adapters': 0.17.1(@aws-sdk/client-bedrock-runtime@3.1068.0)(@langchain/core@1.2.11(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@3.25.76))(ws@8.21.0))(@mlc-ai/web-llm@0.2.85)
       '@agentskit/core': link:packages/core
-      '@agentskit/ink': 0.10.11(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0)
-      '@agentskit/memory': 0.11.10(vectra@0.15.0(@huggingface/transformers@4.3.0)(ws@8.21.0)(zod@3.25.76))
-      '@agentskit/rag': 0.5.7(@aws-sdk/client-s3@3.1124.0)
+      '@agentskit/ink': 0.10.12(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0)
+      '@agentskit/memory': 0.11.11(vectra@0.15.0(@huggingface/transformers@4.3.0)(ws@8.21.0)(zod@3.25.76))
+      '@agentskit/rag': 0.5.8(@aws-sdk/client-s3@3.1124.0)
       react: 19.3.0
     transitivePeerDependencies:
       - '@types/react'
@@ -9470,9 +9475,9 @@ snapshots:
       - react-devtools-core
       - utf-8-validate
 
-  '@agentskit/ink@0.10.11(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)':
+  '@agentskit/ink@0.10.12(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)':
     dependencies:
-      '@agentskit/core': 1.12.9
+      '@agentskit/core': 1.12.10
       ink: 7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.7)
       marked: 15.0.12
       marked-terminal: 7.3.0(marked@15.0.12)
@@ -9484,9 +9489,9 @@ snapshots:
       - utf-8-validate
     optional: true
 
-  '@agentskit/ink@0.10.11(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8)':
+  '@agentskit/ink@0.10.12(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8)':
     dependencies:
-      '@agentskit/core': 1.12.9
+      '@agentskit/core': 1.12.10
       ink: 7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.2.8)
       marked: 15.0.12
       marked-terminal: 7.3.0(marked@15.0.12)
@@ -9498,9 +9503,9 @@ snapshots:
       - utf-8-validate
     optional: true
 
-  '@agentskit/ink@0.10.11(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0)':
+  '@agentskit/ink@0.10.12(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0)':
     dependencies:
-      '@agentskit/core': 1.12.9
+      '@agentskit/core': 1.12.10
       ink: 7.1.1(@types/react@19.2.17)(react-devtools-core@6.1.5)(react@19.3.0)
       marked: 15.0.12
       marked-terminal: 7.3.0(marked@15.0.12)
@@ -9512,9 +9517,9 @@ snapshots:
       - utf-8-validate
     optional: true
 
-  '@agentskit/memory@0.11.10(vectra@0.15.0(@huggingface/transformers@4.3.0)(ws@8.21.0)(zod@3.25.76))':
+  '@agentskit/memory@0.11.11(vectra@0.15.0(@huggingface/transformers@4.3.0)(ws@8.21.0)(zod@3.25.76))':
     dependencies:
-      '@agentskit/core': 1.12.9
+      '@agentskit/core': 1.12.10
     optionalDependencies:
       vectra: 0.15.0(@huggingface/transformers@4.3.0)(ws@8.21.0)(zod@3.25.76)
     optional: true
@@ -9525,9 +9530,9 @@ snapshots:
     optionalDependencies:
       vectra: 0.15.0(@huggingface/transformers@4.3.0)(ws@8.21.0)(zod@4.6.5)
 
-  '@agentskit/rag@0.5.7(@aws-sdk/client-s3@3.1124.0)':
+  '@agentskit/rag@0.5.8(@aws-sdk/client-s3@3.1124.0)':
     dependencies:
-      '@agentskit/core': 1.12.9
+      '@agentskit/core': 1.12.10
     optionalDependencies:
       '@aws-sdk/client-s3': 3.1124.0
     optional: true
@@ -13100,7 +13105,7 @@ snapshots:
       obug: 2.1.3
       std-env: 4.1.0
       tinyrainbow: 3.1.0
-      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@26.6.1)(@vitest/coverage-v8@4.1.11)(happy-dom@20.14.5)(jsdom@30.0.1(@noble/hashes@2.2.0))(msw@2.15.0(@types/node@26.6.1)(typescript@6.0.3))(vite@8.3.0(@types/node@26.6.1)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.48.0)(tsx@4.23.13)(yaml@2.9.1))
+      vitest: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@25.9.5)(@vitest/coverage-v8@4.1.11)(happy-dom@20.14.5)(jsdom@30.0.1(@noble/hashes@2.2.0))(msw@2.15.0(@types/node@25.9.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.48.0)(tsx@4.23.13)(yaml@2.9.1))
 
   '@vitest/expect@4.1.11':
     dependencies:
@@ -15134,6 +15139,8 @@ snapshots:
   ieee754@1.2.1: {}
 
   ignore@5.3.2: {}
+
+  ignore@7.0.10: {}
 
   image-size-next@1.2.2:
     dependencies:
