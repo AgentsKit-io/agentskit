@@ -48,7 +48,7 @@ test('the primary guide starts locally and keeps the provider step as progressiv
 })
 
 test('the shared ecosystem bar contains its own mobile overflow', () => {
-  const bar = read('apps/docs-next/public/shell/v1.js')
+  const bar = read('apps/docs-next/shell/v1.js')
   assert.match(bar, /@media\(max-width:767px\)\{#ak-eco\{max-width:100vw;overflow:hidden/)
   assert.match(bar, /\.ak-eco-products\{flex:1;overflow-x:auto/)
   assert.match(bar, /scrollbar-width:none/)
@@ -59,7 +59,7 @@ test('the shared ecosystem bar contains its own mobile overflow', () => {
 })
 
 test('the shared ecosystem showcase uses its generated local snapshot', () => {
-  const bar = read('apps/docs-next/public/shell/v1.js')
+  const bar = read('apps/docs-next/shell/v1.js')
   assert.match(bar, /ecobar:showcase-start[^\n]*\n\s*var SHOWCASE_PRODUCTS =/)
   assert.match(bar, /"proof":/)
   assert.match(bar, /SHOWCASE_PRODUCTS\.forEach|SHOWCASE_PRODUCTS\.find/)
@@ -67,7 +67,7 @@ test('the shared ecosystem showcase uses its generated local snapshot', () => {
 })
 
 test('the shared ecosystem bar derives the six public products from PROPS', () => {
-  const bar = read('apps/docs-next/public/shell/v1.js')
+  const bar = read('apps/docs-next/shell/v1.js')
   const props = bar.match(/ecobar:props-start[^\n]*\n([\s\S]*?)\n\s*\/\/ ecobar:props-end/)?.[1] ?? ''
 
   assert.match(bar, /customElements\.define\('agentskit-ecosystem'/)

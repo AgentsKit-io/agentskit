@@ -48,8 +48,9 @@ The fumadocs site for the AgentsKit agent registry — deployed to
 The app loads the shared AgentsKit shell (`/shell/v1.js` and `/shell/v1.css`
 from `NEXT_PUBLIC_AGENTSKIT_SHELL_ORIGIN`, default `https://www.agentskit.io`):
 the ecosystem bar and tour, a Registry-blue `<agentskit-aurora>` on the home,
-and `<agentskit-footer>` on every page. Development without the variable uses
-the fallback copy in `public/shell/`, synced by `scripts/sync-ecosystem.mjs`.
+and `<agentskit-footer>` on every page. Registry keeps no copy of the shell;
+to review local shell changes, run docs-next on port 3000 and start Registry
+with `NEXT_PUBLIC_AGENTSKIT_SHELL_ORIGIN=http://localhost:3000`.
 Fumadocs provides the local navigation and search; documentation routes keep a
 solid, calm background.
 

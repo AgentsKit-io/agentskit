@@ -14,6 +14,7 @@
 import { readFileSync, writeFileSync, existsSync, mkdirSync } from 'node:fs'
 import { join, dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { transformSync } from 'esbuild'
 import { parseEcosystemManifest } from './lib/ecosystem-contract.mjs'
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
@@ -75,7 +76,9 @@ const catalogJson = JSON.stringify(
   2,
 ).replace(/\n/g, '\n  ')
 
-const shellRel = 'apps/docs-next/public/shell/v1.js'
+// The readable shell source lives outside public/; only its minified build is served.
+const shellRel = 'apps/docs-next/shell/v1.js'
+const shellCssRel = 'apps/docs-next/shell/v1.css'
 const shellPath = join(root, shellRel)
 let syncedShell = null
 if (existsSync(shellPath)) {
@@ -98,17 +101,18 @@ if (existsSync(shellPath)) {
   drift = true
 }
 
-// 3. The legacy /ecosystem-bar.js URL serves the same shell, and Registry keeps a fallback copy
-//    of the hosted assets for local development and outages of the canonical origin.
+// 3. Serve a minified build of the shell. /ecosystem-bar.js is the legacy alias of /shell/v1.js.
+//    esbuild output is deterministic, so --check compares it byte for byte.
 if (syncedShell !== null) {
-  const shellCss = readFileSync(join(root, 'apps/docs-next/public/shell/v1.css'), 'utf8')
-  const copies = [
-    ['apps/docs-next/public/ecosystem-bar.js', syncedShell],
-    ['apps/registry/public/ecosystem-bar.js', syncedShell],
-    ['apps/registry/public/shell/v1.js', syncedShell],
-    ['apps/registry/public/shell/v1.css', shellCss],
+  const banner = (rel) => `/*! AgentsKit shell v1 — generated from https://github.com/AgentsKit-io/agentskit/blob/main/${rel} */`
+  const minifiedJs = transformSync(syncedShell, { loader: 'js', minify: true, target: 'es2018', legalComments: 'none', banner: banner(shellRel) }).code
+  const minifiedCss = transformSync(readFileSync(join(root, shellCssRel), 'utf8'), { loader: 'css', minify: true, legalComments: 'none', banner: banner(shellCssRel) }).code
+  const outputs = [
+    ['apps/docs-next/public/shell/v1.js', minifiedJs],
+    ['apps/docs-next/public/ecosystem-bar.js', minifiedJs],
+    ['apps/docs-next/public/shell/v1.css', minifiedCss],
   ]
-  for (const [rel, next] of copies) {
+  for (const [rel, next] of outputs) {
     const target = join(root, rel)
     step(rel, existsSync(target) ? readFileSync(target, 'utf8') : '', next)
   }

@@ -62,10 +62,12 @@ The AgentsKit site (`apps/docs-next`) hosts a versioned shell:
 6. **Product header.** Each site keeps its Fumadocs layout and renders the
    `.ak-product-wordmark` markup as `nav.title`; styling comes from the shell
    stylesheet. Heroes stay product-owned.
-7. **Distribution.** `scripts/sync-ecosystem.mjs` generates the bar, tour, and
-   catalog blocks from `ecosystem.json`, writes the alias, and copies the
-   shell into `apps/registry/public/shell/` as a fallback for development and
-   origin outages. `/shell/*` is served with
+7. **Distribution.** The readable source lives in `apps/docs-next/shell/`.
+   `scripts/sync-ecosystem.mjs` generates the bar, tour, and catalog blocks
+   from `ecosystem.json` into it and serves an esbuild-minified build as
+   `/shell/v1.js`, `/shell/v1.css`, and the `/ecosystem-bar.js` alias. No
+   fallback copies are kept: Registry, like every sibling, loads the shell
+   from the AgentsKit origin in every environment. `/shell/*` is served with
    `Cache-Control: public, max-age=3600, stale-while-revalidate=86400` and
    `Access-Control-Allow-Origin: *`.
 8. **Loading.** Because the shell only writes into shadow roots and inserts
