@@ -125,6 +125,9 @@ function RegistryComponent(props: StandardComponentProps) {
 export function RegistryAskWidget() {
   const [open, setOpen] = useState(false)
   const [discovery, setDiscovery] = useState<RegistryDiscoveryInputs | null | undefined>(undefined)
+  // True while local knowledge is being (re)loaded. The chat stays unmounted meanwhile: a question
+  // sent during a retry would otherwise reach the backend-only adapter built from the failed load.
+  const [discoveryPending, setDiscoveryPending] = useState(false)
   const [answerPath, setAnswerPath] = useState<'local' | 'backend' | 'pending' | null>(null)
   const chatRef = useRef<ChatReturn | null>(null)
   const discoveryPromiseRef = useRef<Promise<void> | null>(null)
@@ -136,13 +139,17 @@ export function RegistryAskWidget() {
   const ensureDiscovery = useCallback(() => {
     if (discovery || discoveryPromiseRef.current) return discoveryPromiseRef.current
     if (discovery === null && Date.now() - discoveryFailureAtRef.current < DISCOVERY_RETRY_DELAY_MS) return null
+    setDiscoveryPending(true)
     const pending = loadRegistryDiscovery(fetch, '/deterministic')
       .then((inputs) => {
         if (inputs) discoveryFailureAtRef.current = 0
         else discoveryFailureAtRef.current = Date.now()
         setDiscovery(inputs)
       })
-      .finally(() => { discoveryPromiseRef.current = null })
+      .finally(() => {
+        discoveryPromiseRef.current = null
+        setDiscoveryPending(false)
+      })
     discoveryPromiseRef.current = pending
     return pending
   }, [discovery])
@@ -180,7 +187,7 @@ export function RegistryAskWidget() {
       }
     })
     return () => cancelAnimationFrame(frame)
-  }, [discovery, open])
+  }, [discovery, discoveryPending, open])
 
   if (!open) return <><button ref={fabRef} type="button" className="rg-ask-fab" aria-label="Ask Registry" onFocus={() => { void ensureDiscovery() }} onPointerEnter={() => { void ensureDiscovery() }} onClick={() => { void ensureDiscovery(); setOpen(true) }}><Mark/><span>Ask Registry</span></button><Styles/></>
 
@@ -192,7 +199,7 @@ export function RegistryAskWidget() {
       }
     }}>
       <header className="rg-ask-header"><strong><Mark size={18}/><span>Ask Registry</span></strong><div><button type="button" onClick={() => { setAnswerPath(null); void chatRef.current?.clear() }}>clear</button><button type="button" aria-label="Close" onClick={() => setOpen(false)}>×</button></div></header>
-      <div className="rg-ask-runtime">{discovery === undefined
+      <div className="rg-ask-runtime">{discovery === undefined || discoveryPending
         ? <p className="rg-ask-loading" role="status"><Mark size={15}/> Preparing local Registry knowledge…</p>
         : <AgentChat key={STORAGE_KEY} definition={definition} placeholder="Ask about an agent…" slots={{ Container: RegistryContainer, Message: RegistryMessage, Input: RegistryInput, Thinking: RegistryThinking, StandardComponent: RegistryComponent }}/>}</div>
       <footer className="rg-ask-footer"><a href="/#agents"><Mark size={12}/> Browse registry agents →</a>{answerPath ? <span data-rg-answer-path={answerPath}>{answerPath === 'local' ? 'instant · local' : answerPath === 'backend' ? 'grounded · backend' : 'consulting backend'}</span> : null}</footer>
