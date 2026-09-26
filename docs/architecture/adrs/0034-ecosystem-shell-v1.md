@@ -1,6 +1,6 @@
 # ADR 0034 — Ecosystem shell v1
 
-- **Status**: Proposed, pending visual review
+- **Status**: Accepted
 - **Date**: 2026-09-25
 - **Related ADRs**: ADR 0021, ADR 0029, ADR 0033
 
