@@ -1131,7 +1131,11 @@
           draw((performance.now() - startTime) / 1000)
         }
 
-        var fallback = function () { layer.setAttribute('data-shader', 'fallback') }
+        // Losing a context we released on purpose (software renderer) must not restart the
+        // animated CSS layer: only a live shader that dies falls back to the animated layer.
+        var fallback = function () {
+          if (layer.getAttribute('data-shader') !== 'static') layer.setAttribute('data-shader', 'fallback')
+        }
 
         // The grid mesh scrolls with the page and fades out 480px before the document ends, like
         // the Playbook home, while the layer itself stays fixed behind content.
