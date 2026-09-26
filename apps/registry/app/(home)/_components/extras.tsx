@@ -71,7 +71,7 @@ export function StarCta() {
             The registry is open-source and MIT-licensed. A star helps more builders find it.
           </p>
           <div className="relative mt-6 flex flex-wrap justify-center gap-3">
-            <a href={GH} target="_blank" rel="noopener" className="inline-flex items-center gap-2 rounded-lg bg-ak-blue px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90">
+            <a href={GH} target="_blank" rel="noopener" className="inline-flex items-center gap-2 rounded-lg bg-ak-blue px-4 py-2.5 text-sm font-semibold text-ak-on-blue transition hover:opacity-90">
               <Icon name="github" size={17} /> Star the registry
             </a>
             <a href="https://www.agentskit.io" rel="noopener" className="inline-flex items-center gap-2 rounded-lg border border-ak-border bg-ak-midnight px-4 py-2.5 text-sm font-semibold text-ak-foam transition hover:border-ak-blue">

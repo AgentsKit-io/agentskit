@@ -20,6 +20,21 @@ import { LivePlayground } from '@/components/mdx/live-playground'
 import { G } from '@/components/mdx/glossary'
 import { VoiceMode } from '@/components/mdx/voice-mode'
 
+type ImageProps = React.ComponentProps<'img'>
+
+/**
+ * Remote Markdown images (status badges) render as plain <img>: they are small SVGs served
+ * `no-store`, which the Next image optimizer rejects with a 400 on every page view. Local
+ * images keep Fumadocs' optimized image.
+ */
+function DocsImage(props: ImageProps) {
+  if (typeof props.src === 'string' && /^https?:\/\//.test(props.src)) {
+    return <img {...props} alt={props.alt ?? ''} loading="lazy" decoding="async" />
+  }
+  const FumadocsImage = defaultMdxComponents.img as React.ComponentType<ImageProps>
+  return <FumadocsImage {...props} />
+}
+
 type HeadingProps = React.DetailedHTMLProps<
   React.HTMLAttributes<HTMLHeadingElement>,
   HTMLHeadingElement
@@ -40,6 +55,7 @@ function withAnchor(tag: 'h2' | 'h3' | 'h4') {
 export function getMDXComponents(components?: MDXComponents): MDXComponents {
   return {
     ...defaultMdxComponents,
+    img: DocsImage,
     h2: withAnchor('h2'),
     h3: withAnchor('h3'),
     h4: withAnchor('h4'),
