@@ -225,6 +225,17 @@ test('shell v1 defines the bar, tour, footer, and aurora', () => {
   assert.doesNotMatch(css, /^@import/m)
   assert.match(css, /--ak-graphite: #57606a/)
   assert.match(css, /--ak-graphite: #8b949e/)
+  // The tour follows the page theme: default visual reads --ak-* tokens (dark only as fallback),
+  // accent text goes through --ak-accent-ink (55% on light, 100% on dark), and no hard-coded
+  // dark surface remains behind theme-coloured text.
+  assert.match(SHELL, /:host\{display:block;color-scheme:light dark;[^}]*--akx-bg:var\(--ak-bg,#0b0f14\);[^}]*--akx-fg:var\(--ak-fg,#e7edf4\)/)
+  assert.match(SHELL, /--akx-ink:color-mix\(in srgb,var\(--akx-accent\) var\(--ak-accent-ink,100%\),var\(--akx-fg\)\)/)
+  assert.doesNotMatch(SHELL, /color:var\(--akx-accent\)/)
+  assert.doesNotMatch(SHELL, /#090d11/)
+  assert.match(SHELL, /--ak-accent-ink:55%;color-scheme:light'/)
+  assert.match(SHELL, /--ak-accent-ink:100%;color-scheme:dark'/)
+  assert.match(css, /--ak-accent-ink: 55%/)
+  assert.match(css, /--ak-accent-ink: 100%/)
   assert.match(SHELL, /data-ak-fonts'\) === 'self'/)
   assert.match(SHELL, /sheet\.media = 'print'/)
   assert.match(SHELL, /display=swap/)

@@ -19,6 +19,9 @@
   --ak-green: #1a7f37;
   --ak-red: #cf222e;
   --ak-accent: #1a7f37;
+  /* Share of a product accent kept when it colours tour text: the bright accents only clear
+     WCAG AA on dark surfaces, so light pages mix them toward the foreground. */
+  --ak-accent-ink: 55%;
 }
 
 :where(.dark, [data-theme='dark']) {
@@ -32,6 +35,7 @@
   --ak-green: #2ea043;
   --ak-red: #f85149;
   --ak-accent: #2ea043;
+  --ak-accent-ink: 100%;
 }
 
 /* Pages without an explicit theme class follow the operating system preference. */
@@ -47,6 +51,7 @@
     --ak-green: #2ea043;
     --ak-red: #f85149;
     --ak-accent: #2ea043;
+    --ak-accent-ink: 100%;
   }
 }
 

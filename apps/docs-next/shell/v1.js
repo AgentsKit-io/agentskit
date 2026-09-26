@@ -380,8 +380,8 @@
   // tour, footer, and aurora then use that surface's palette. The shell only writes a style tag in
   // <head>, never attributes on server-rendered markup, so hydration is unaffected.
   var SURFACE_TOKENS = {
-    dark: '--ak-bg:#0d1117;--ak-surface:#161b22;--ak-border:#30363d;--ak-fg:#e6edf3;--ak-muted:#8b949e;--ak-graphite:#8b949e;--ak-blue:#58a6ff;--ak-green:#2ea043;--ak-red:#f85149;color-scheme:dark',
-    light: '--ak-bg:#ffffff;--ak-surface:#f6f8fa;--ak-border:#d0d7de;--ak-fg:#0d1117;--ak-muted:#57606a;--ak-graphite:#57606a;--ak-blue:#0969da;--ak-green:#1a7f37;--ak-red:#cf222e;color-scheme:light',
+    dark: '--ak-bg:#0d1117;--ak-surface:#161b22;--ak-border:#30363d;--ak-fg:#e6edf3;--ak-muted:#8b949e;--ak-graphite:#8b949e;--ak-blue:#58a6ff;--ak-green:#2ea043;--ak-red:#f85149;--ak-accent-ink:100%;color-scheme:dark',
+    light: '--ak-bg:#ffffff;--ak-surface:#f6f8fa;--ak-border:#d0d7de;--ak-fg:#0d1117;--ak-muted:#57606a;--ak-graphite:#57606a;--ak-blue:#0969da;--ak-green:#1a7f37;--ak-red:#cf222e;--ak-accent-ink:55%;color-scheme:light',
   }
   var activeSurface = null
 
@@ -493,8 +493,8 @@
     '@media(prefers-reduced-motion:reduce){#ak-eco a.ak-eco-link{transition:none}}'
 
   var SHOWCASE_CSS = `
-    :host{display:block;color-scheme:dark;--akx-accent:#2ea043;--akx-bg:#0b0f14;--akx-surface:#11171e;--akx-line:#27313a;--akx-fg:#e7edf4;--akx-muted:#8b98a6;font-family:var(--ak-font-body,Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif)}
-    *{box-sizing:border-box}
+    :host{display:block;color-scheme:light dark;--akx-accent:#2ea043;--akx-bg:var(--ak-bg,#0b0f14);--akx-surface:var(--ak-surface,#11171e);--akx-line:var(--ak-border,#27313a);--akx-fg:var(--ak-fg,#e7edf4);--akx-muted:var(--ak-muted,#8b98a6);font-family:var(--ak-font-body,Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif)}
+    *{box-sizing:border-box;--akx-ink:color-mix(in srgb,var(--akx-accent) var(--ak-accent-ink,100%),var(--akx-fg))}
     button,a{font:inherit}
     .akx-shell{overflow:hidden;background:transparent;color:var(--akx-fg);border-block:1px solid var(--akx-line)}
     .akx-inner{max-width:1152px;margin:0 auto;padding:80px 24px}
@@ -510,19 +510,19 @@
     .akx-tab:hover{color:var(--akx-fg);background:rgba(255,255,255,.025)}
     .akx-tab:focus-visible{outline:2px solid var(--akx-accent);outline-offset:-3px}
     .akx-tab[aria-selected="true"]{--akx-accent:inherit!important;color:var(--akx-fg);background:rgba(255,255,255,.035);box-shadow:inset 0 -2px 0 var(--akx-accent)}
-    .akx-tab-stage{display:block;margin-bottom:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--akx-accent)}
+    .akx-tab-stage{display:block;margin-bottom:6px;font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:9px;text-transform:uppercase;letter-spacing:.13em;color:var(--akx-ink)}
     .akx-tab-name{display:flex;align-items:center;gap:7px;font-size:13px;font-weight:650;white-space:nowrap}
     .akx-current-dot{width:5px;height:5px;border-radius:50%;background:var(--akx-accent)}
     .akx-content{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);min-height:360px}
     .akx-story{display:flex;flex-direction:column;padding:36px}
     .akx-story-top{display:flex;align-items:center;justify-content:space-between;gap:20px}
     .akx-stage-label,.akx-index{margin:0;font-size:10px;color:var(--akx-muted)}
-    .akx-stage-label{color:var(--akx-accent)}
+    .akx-stage-label{color:var(--akx-ink)}
     .akx-headline{max-width:610px;margin:38px 0 0;font-size:clamp(2rem,4vw,3.25rem);line-height:1.03;letter-spacing:-.04em}
     .akx-detail{max-width:560px;margin:20px 0 0;color:var(--akx-muted);font-size:16px;line-height:1.65}
     .akx-story-bottom{display:flex;align-items:end;justify-content:space-between;gap:24px;margin-top:auto;padding-top:48px}
     .akx-proof{margin:0;color:var(--akx-fg);font-size:10px;line-height:1.6}
-    .akx-cta{display:inline-flex;min-height:44px;align-items:center;color:var(--akx-accent);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:13px;text-decoration:none;white-space:nowrap;transition:color 180ms cubic-bezier(.25,1,.5,1),transform 180ms cubic-bezier(.25,1,.5,1)}
+    .akx-cta{display:inline-flex;min-height:44px;align-items:center;color:var(--akx-ink);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:13px;text-decoration:none;white-space:nowrap;transition:color 180ms cubic-bezier(.25,1,.5,1),transform 180ms cubic-bezier(.25,1,.5,1)}
     .akx-cta:hover{color:var(--akx-fg);transform:translateX(3px)}
     .akx-cta:focus-visible{outline:2px solid var(--akx-accent);outline-offset:4px}
     .akx-sales{display:flex;min-width:0;flex-direction:column;padding:36px;background:transparent}
@@ -531,11 +531,11 @@
     .akx-demo{position:relative;display:flex;flex:1;flex-direction:column;justify-content:center;gap:0;margin-top:28px;border-top:1px solid color-mix(in srgb,var(--akx-line) 72%,transparent);padding:12px 0 0}
     .akx-demo-step{position:relative;display:grid;grid-template-columns:32px minmax(0,1fr);align-items:center;gap:12px;min-height:58px;padding:8px 0;background:transparent;border-bottom:1px solid color-mix(in srgb,var(--akx-line) 50%,transparent);opacity:0;transform:translateY(5px);animation:akx-step-in 340ms cubic-bezier(.25,1,.5,1) forwards;animation-delay:calc(var(--akx-step) * 70ms)}
     .akx-demo-step:last-child{border-bottom:0}
-    .akx-demo-index{display:inline-flex;width:24px;height:24px;align-items:center;justify-content:center;color:var(--akx-accent);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:9px;letter-spacing:.06em}
+    .akx-demo-index{display:inline-flex;width:24px;height:24px;align-items:center;justify-content:center;color:var(--akx-ink);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:9px;letter-spacing:.06em}
     .akx-demo-text{font-size:12px;font-weight:600;line-height:1.4}
     .akx-demo-step::before{display:none}
-    .akx-command{display:flex;align-items:center;gap:10px;border:1px solid var(--akx-line);background:#090d11;padding:11px 13px;color:var(--akx-fg);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:11px;overflow-wrap:anywhere}
-    .akx-command::before{content:"$";color:var(--akx-accent)}
+    .akx-command{display:flex;align-items:center;gap:10px;border:1px solid var(--akx-line);background:var(--akx-bg);padding:11px 13px;color:var(--akx-fg);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:11px;overflow-wrap:anywhere}
+    .akx-command::before{content:"$";color:var(--akx-ink)}
     @keyframes akx-step-in{to{opacity:1;transform:translateY(0)}}
     .akx-controls{display:flex;align-items:center;justify-content:space-between;gap:20px;border-top:1px solid color-mix(in srgb,var(--akx-line) 72%,transparent);padding:8px 16px;color:var(--akx-muted);font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:10px;letter-spacing:.08em}
     .akx-play{min-height:44px;border:0;background:transparent;color:var(--akx-muted);cursor:pointer;padding:0 8px;text-transform:uppercase;letter-spacing:.12em}
