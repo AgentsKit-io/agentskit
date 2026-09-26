@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "d49036ac59dc4583211f8074413047f9fd63685b3564d8fe4c6f0bb7888f98b6",
+  "contentHash": "4076ece284690d4791b976a46a56f516d4b3ea7959501d97c1be5ca137f93d7c",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-26T19:37:37.992Z",
+  "generatedAt": "2026-09-26T20:03:45.715Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -8984,6 +8984,25 @@
       "contentHash": "10941c3c23b3fcd91797f784767b1aedb3caa1801d66e2d371d8634a91375463"
     },
     {
+      "id": "module:apps/docs-next/components/docs/ask-panel.tsx",
+      "type": "module",
+      "title": "ask-panel.tsx",
+      "path": "apps/docs-next/components/docs/ask-panel.tsx",
+      "symbols": [
+        "AskDocsPanel",
+        "AskDocsPanelProps",
+        "AskDocsWidgetProps",
+        "AskWidgetBrand",
+        "AskWidgetCta"
+      ],
+      "tags": [
+        "module",
+        "tsx",
+        "docs"
+      ],
+      "contentHash": "6f6290b30e377969dab45fea9c301799f06246e6e435704dd5c26839c8c69147"
+    },
+    {
       "id": "module:apps/docs-next/components/docs/ask-widget.tsx",
       "type": "module",
       "title": "ask-widget.tsx",
@@ -8999,7 +9018,7 @@
         "tsx",
         "docs"
       ],
-      "contentHash": "88b8ee068c6f8d3a698a7f3eb39f38803bac5e127273941c8fa48e8a1766e2bc"
+      "contentHash": "97d7239f0cdce28173353ed4013cf21bd0819ad0ba62ab5b1649686b037f7975"
     },
     {
       "id": "module:apps/docs-next/components/docs/ask/CodeBlock.tsx",
@@ -11194,7 +11213,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "347c8e5b66fbee2fb77689cd2c477e7f17862a8fb20025e2d63198a39acb4d99"
+      "contentHash": "6f66ed15de5e2a65d4b1a8a3d47c7e5dcb48689036b5a2db4a42182909db0d0e"
     },
     {
       "id": "module:apps/docs-next/tests/documentation-contracts.test.ts",
@@ -35594,8 +35613,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "e90934b6902c187e025c340e9416d46eb6b8f8a8117426e2c43b7e2031721e25",
-    "fileCount": 2373,
+    "hash": "4f9b0794ae5032e647e18d5defdf3e8095c0a2ce2ab506e5ad471536a5b186eb",
+    "fileCount": 2374,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -35617,9 +35636,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "a65d57b9c2c041973c4c4c07668fa77ed030d848e92e71316f179ffa796c92e1",
+    "contentHash": "068ce0b5cf0ac634007fe17ee18d49f33e043f512a28a1cf57ffdc0f54b340ce",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "f9cde070ed96ab3cb35dd792827eba51cffeb69e25be586b7547a84ffa2713cd",
+    "snapshotHash": "2bf4b05dce8ff5dc6681f7399506975e708826c24195516b65c01bff7a572bf7",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -35639,7 +35658,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2326,
+      "documentCount": 2327,
       "fieldNames": [
         "aliases",
         "body",
@@ -35650,13 +35669,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 2.9926913155631985,
-        "body": 61.63714531384351,
-        "headings": 4.145743766122098,
-        "path": 7.63585554600172,
-        "summary": 4.646603611349957,
-        "symbols": 7.46603611349957,
-        "title": 3.3276010318142735
+        "aliases": 2.9926944563816074,
+        "body": 61.610657498925654,
+        "headings": 4.143962183068329,
+        "path": 7.636012032660077,
+        "summary": 4.644606789858186,
+        "symbols": 7.472281908036098,
+        "title": 3.327889987107864
       }
     },
     "entries": [
@@ -36007,7 +36026,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "0297bda2d3b3e29cb1335e92a314a3527b69c10be4594ae50f037312865a45ce",
+        "contentHash": "925b4e1c6966a30d173ebef6e510b5558d083eeb4afea790aa24ef42ecec8b3b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -84061,6 +84080,69 @@
         "confidence": "observed"
       },
       {
+        "id": "module:apps/docs-next/components/docs/ask-panel.tsx",
+        "kind": "module",
+        "path": "apps/docs-next/components/docs/ask-panel.tsx",
+        "title": "ask-panel.tsx",
+        "aliases": [],
+        "symbols": [
+          "AskDocsPanel",
+          "AskDocsPanelProps",
+          "AskDocsWidgetProps",
+          "AskWidgetBrand",
+          "AskWidgetCta"
+        ],
+        "tags": [
+          "module",
+          "tsx",
+          "docs"
+        ],
+        "fields": {
+          "title": "ask-panel.tsx",
+          "headings": "",
+          "path": "apps/docs-next/components/docs/ask-panel.tsx",
+          "symbols": "AskDocsPanel AskDocsPanelProps AskDocsWidgetProps AskWidgetBrand AskWidgetCta",
+          "summary": "",
+          "body": "",
+          "aliases": "module tsx docs"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/docs-next/components/docs/ask-widget.tsx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:apps/docs-next/components/docs/ask-widget.tsx",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/docs-next/components/docs/ask/Markdown.tsx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:apps/docs-next/components/docs/ask/registry/index.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "6f6290b30e377969dab45fea9c301799f06246e6e435704dd5c26839c8c69147",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:apps/docs-next/components/docs/ask-widget.tsx",
         "kind": "module",
         "path": "apps/docs-next/components/docs/ask-widget.tsx",
@@ -84097,17 +84179,17 @@
           "outbound": [
             {
               "kind": "imports",
-              "id": "module:apps/docs-next/components/docs/ask/Markdown.tsx",
+              "id": "module:apps/docs-next/components/docs/ask-panel.tsx",
               "confidence": "observed"
             },
             {
-              "kind": "imports",
-              "id": "module:apps/docs-next/components/docs/ask/registry/index.ts",
+              "kind": "re-exports",
+              "id": "module:apps/docs-next/components/docs/ask-panel.tsx",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "88b8ee068c6f8d3a698a7f3eb39f38803bac5e127273941c8fa48e8a1766e2bc",
+        "contentHash": "97d7239f0cdce28173353ed4013cf21bd0819ad0ba62ab5b1649686b037f7975",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -84329,7 +84411,7 @@
           "inbound": [
             {
               "kind": "imports",
-              "id": "module:apps/docs-next/components/docs/ask-widget.tsx",
+              "id": "module:apps/docs-next/components/docs/ask-panel.tsx",
               "confidence": "observed"
             },
             {
@@ -84801,7 +84883,7 @@
           "inbound": [
             {
               "kind": "imports",
-              "id": "module:apps/docs-next/components/docs/ask-widget.tsx",
+              "id": "module:apps/docs-next/components/docs/ask-panel.tsx",
               "confidence": "observed"
             },
             {
@@ -90403,7 +90485,7 @@
             }
           ]
         },
-        "contentHash": "347c8e5b66fbee2fb77689cd2c477e7f17862a8fb20025e2d63198a39acb4d99",
+        "contentHash": "6f66ed15de5e2a65d4b1a8a3d47c7e5dcb48689036b5a2db4a42182909db0d0e",
         "provenance": "observed",
         "confidence": "observed"
       },
