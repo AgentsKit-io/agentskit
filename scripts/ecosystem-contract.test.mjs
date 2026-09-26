@@ -233,6 +233,7 @@ test('shell v1 defines the bar, tour, footer, and aurora', () => {
   assert.doesNotMatch(SHELL, /var\(--ak-graphite,#/)
   assert.match(SHELL, /'Pause tour of the ecosystem'/)
   assert.match(SHELL, /failIfMajorPerformanceCaveat: true/)
+  assert.match(SHELL, /if \(layer\.getAttribute\('data-shader'\) !== 'static'\) layer\.setAttribute\('data-shader', 'fallback'\)/)
   assert.match(SHELL, /SwiftShader\|llvmpipe\|softpipe\|Software\|Basic Render/)
   assert.match(SHELL, /\(window\.devicePixelRatio \|\| 1\) \* 0\.5/)
   assert.match(SHELL, /document\.addEventListener\('visibilitychange', syncMotion\)/)
