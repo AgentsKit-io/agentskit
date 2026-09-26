@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "3dcd6dadc33b1b1763a2293bd8e6ec88e89bd41e4a6cd07c185e56bc3d1ce136",
+  "contentHash": "5c852d86912bcaa756e2273d8d2367d96c0a978f7917d76b7bb4cfc8b2aea6c8",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-26T15:38:40.035Z",
+  "generatedAt": "2026-09-26T15:49:12.439Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -2799,7 +2799,7 @@
         "document",
         "human"
       ],
-      "contentHash": "1aa95a2643b62728d7e37ed47c642991dc296f2fdcc9a192e51b8ec8ca3b9e14"
+      "contentHash": "78094c7d6a1ab66e601ac59431222bb21149d6ca1c8c5d1d5d4b20f9a09de4d1"
     },
     {
       "id": "document:apps/docs-next/content/docs/production/cli/ai.mdx",
@@ -10905,7 +10905,7 @@
         "tsx",
         "docs-next"
       ],
-      "contentHash": "5a6fec40a112bedcebc6a51eb3848f2ea178291ab17cda7ac674b49b1e45b0dc"
+      "contentHash": "ed69bbc297bea82bd30b6a6d967c9c7b9ee6d036bda66322b35315a1eb08fdea"
     },
     {
       "id": "module:apps/docs-next/next.config.mjs",
@@ -35605,7 +35605,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "2ed01829993dcbb06480a0a45a45dc367d038936b26bdf72c69e81068ceb19ff",
+    "hash": "0764251ded6a79ed9fe6e6d020f5e15aad0c3afa17940dd8b8d15ab5f4fab306",
     "fileCount": 2374,
     "projectionVersion": 2
   },
@@ -35628,9 +35628,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "3296d5db152861c4b4a4b45562dec455f871ff1f03ed492b5ffe7fecad21199d",
+    "contentHash": "99015b7464e9f912faca0746d8b161be762efd0bd8f5e34a72248b12a727a457",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "a3a1ded022f6f509d60fc14b4db500212f2963f32528d06f4ded31b4734d286f",
+    "snapshotHash": "928b5c0b4dca3fd3d134f5ce1d175b61038b661984adbf2ae356872d5b1a1d90",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -35662,7 +35662,7 @@
       ],
       "averageFieldLength": {
         "aliases": 2.9926944563816074,
-        "body": 61.60163300386764,
+        "body": 61.589170605930384,
         "headings": 4.143962183068329,
         "path": 7.6364417705199825,
         "summary": 4.639020197679415,
@@ -52993,7 +52993,7 @@
           "path": "apps/docs-next/content/docs/index.mdx",
           "symbols": "",
           "summary": "import { counts } from '@/lib/ecosystem-stats'",
-          "body": "import { counts } from '@/lib/ecosystem-stats' Agents shouldn't be a monolith. AgentsKit is a family of small, plug-and-play packages covering the whole agent lifecycle in JavaScript: autonomous runtimes, tools, skills, memory, RAG, headless UI bindings, observability, evaluation, and sandboxing. Install what you need. Everything else stays out of your bundle. <a href=\"https://www.bestpractices.dev/projects/13861\" <img src=\"https://www.bestpractices.dev/projects/13861/baseline\" alt=\"OpenSSF Best Practices\" height=\"20\" / </a Start here Pick a path by what you're shipping. - Want the real ecosystem in one guide? → - Want to start from an outcome? → - Building a versioned multi-surface chat app? → (application layer on this foundation) - Just need a headless useChat binding? → · · · · · · · - Building an autonomous agent? → · · · - Need RAG? → · · - Shipping to production? → · · · Build path If you are evaluating AgentsKit, this is the shortest path to understanding the product: 1. — see provider + runtime + tools + memory + observability working together. 2. — understand which layer owns what. 3. — add observability, security, evals, and CLI workflows. Popular builds - — customer support with memory, tools, and escalation. - — web research, structured summaries, and background jobs. - — repository-aware automation with safe tool use. - — company knowledge with RAG and production controls. The substrate Six stable contracts. Every package is an implementation of one. Contract Role Deep dive --- --- --- Adapter LLM provider seam · Tool Function the model calls · Skill Declarative persona · Memory Chat history + vector state · Retriever Context fetching · Runtime The loop that composes them all · Learn the six once; swap implementations forever. The walks through how they compose. What's inside - {counts.packages} packages under @agentskit/ — foundation, providers, UI bindings, runtime, capabilities, observability, infrastructure. . - {counts.frameworkBindings} framework bindings sharing one useChat contract. . - {counts.nativeAdapters} native adapters plus a catalog of {counts.catalogProviders} providers. . - {counts.integrations} integrations for tools agents call. . - 60+ recipes grouped by theme. . - Open specs — A2A, Manifest, Eval Format, AgentSchema — portable JSON. . Keep reading - — AgentsKit vs LangChain, Vercel AI, Mastra, LlamaIndex. - — port from Vercel AI SDK, LangChain.js, Mastra. - — dense LLM-friendly reference per contract. - — live interactive demos. - — built in the open. Discord is optional; product chrome does not promote it. - — versioned chat applications on this foundation.",
+          "body": "import { counts } from '@/lib/ecosystem-stats' Agents shouldn't be a monolith. AgentsKit is a family of small, plug-and-play packages covering the whole agent lifecycle in JavaScript: autonomous runtimes, tools, skills, memory, RAG, headless UI bindings, observability, evaluation, and sandboxing. Install what you need. Everything else stays out of your bundle. Start here Pick a path by what you're shipping. - Want the real ecosystem in one guide? → - Want to start from an outcome? → - Building a versioned multi-surface chat app? → (application layer on this foundation) - Just need a headless useChat binding? → · · · · · · · - Building an autonomous agent? → · · · - Need RAG? → · · - Shipping to production? → · · · Build path If you are evaluating AgentsKit, this is the shortest path to understanding the product: 1. — see provider + runtime + tools + memory + observability working together. 2. — understand which layer owns what. 3. — add observability, security, evals, and CLI workflows. Popular builds - — customer support with memory, tools, and escalation. - — web research, structured summaries, and background jobs. - — repository-aware automation with safe tool use. - — company knowledge with RAG and production controls. The substrate Six stable contracts. Every package is an implementation of one. Contract Role Deep dive --- --- --- Adapter LLM provider seam · Tool Function the model calls · Skill Declarative persona · Memory Chat history + vector state · Retriever Context fetching · Runtime The loop that composes them all · Learn the six once; swap implementations forever. The walks through how they compose. What's inside - {counts.packages} packages under @agentskit/ — foundation, providers, UI bindings, runtime, capabilities, observability, infrastructure. . - {counts.frameworkBindings} framework bindings sharing one useChat contract. . - {counts.nativeAdapters} native adapters plus a catalog of {counts.catalogProviders} providers. . - {counts.integrations} integrations for tools agents call. . - 60+ recipes grouped by theme. . - Open specs — A2A, Manifest, Eval Format, AgentSchema — portable JSON. . Keep reading - — AgentsKit vs LangChain, Vercel AI, Mastra, LlamaIndex. - — port from Vercel AI SDK, LangChain.js, Mastra. - — dense LLM-friendly reference per contract. - — live interactive demos. - — built in the open. Discord is optional; product chrome does not promote it. - — versioned chat applications on this foundation.",
           "aliases": "document human"
         },
         "graph": {
@@ -53015,7 +53015,7 @@
             }
           ]
         },
-        "contentHash": "1aa95a2643b62728d7e37ed47c642991dc296f2fdcc9a192e51b8ec8ca3b9e14",
+        "contentHash": "78094c7d6a1ab66e601ac59431222bb21149d6ca1c8c5d1d5d4b20f9a09de4d1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -89557,7 +89557,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "5a6fec40a112bedcebc6a51eb3848f2ea178291ab17cda7ac674b49b1e45b0dc",
+        "contentHash": "ed69bbc297bea82bd30b6a6d967c9c7b9ee6d036bda66322b35315a1eb08fdea",
         "provenance": "observed",
         "confidence": "observed"
       },
