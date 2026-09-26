@@ -403,9 +403,19 @@ function verifyLiveDocBridge(evidence, root, artifact, findings) {
   return true
 }
 
+// `root` is authoritative: repository-location variables exported by git hooks (GIT_DIR,
+// GIT_WORK_TREE, GIT_INDEX_FILE, ...) must not redirect these read-only queries elsewhere.
+const GIT_LOCATION_VARIABLES = ['GIT_DIR', 'GIT_WORK_TREE', 'GIT_INDEX_FILE', 'GIT_COMMON_DIR', 'GIT_OBJECT_DIRECTORY', 'GIT_ALTERNATE_OBJECT_DIRECTORIES', 'GIT_PREFIX']
+
+function gitEnv() {
+  const env = { ...process.env }
+  for (const key of GIT_LOCATION_VARIABLES) delete env[key]
+  return env
+}
+
 function gitSucceeds(root, args) {
   try {
-    execFileSync('git', args, { cwd: root, stdio: 'ignore' })
+    execFileSync('git', args, { cwd: root, env: gitEnv(), stdio: 'ignore' })
     return true
   } catch {
     return false
@@ -536,12 +546,12 @@ export function evaluateDocumentationQuality(profileInput, evidenceInput, { root
     if (!attestationRoot) add('attestation-artifact-root', 'an attestation artifact root is required')
     if (root) {
       let head = ''
-      try { head = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim() } catch {}
+      try { head = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, env: gitEnv(), encoding: 'utf8' }).trim() } catch {}
       const measuredDigest = computeDocumentationEvidenceDigest(root, evidence)
       if (evidence.attestation.sourceMode === 'commit') {
         let status = ''
         try {
-          status = execFileSync('git', ['status', '--porcelain', '--', ...documentationEvidencePaths(evidence)], { cwd: root, encoding: 'utf8' }).trim()
+          status = execFileSync('git', ['status', '--porcelain', '--', ...documentationEvidencePaths(evidence)], { cwd: root, env: gitEnv(), encoding: 'utf8' }).trim()
         } catch { status = 'unavailable' }
         if (status) add('attestation-dirty', 'sourceMode commit requires clean certified documentation paths')
         for (const finding of verifyAttestedCommit(root, evidence.commit, documentationEvidencePaths(evidence), {

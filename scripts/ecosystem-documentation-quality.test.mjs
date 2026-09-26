@@ -1,8 +1,8 @@
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 import { test } from 'vitest'
 import { REPO_ROOT } from './compute-stats.mjs'
 import {
@@ -326,10 +326,32 @@ test('verified local content digest and Doc Bridge artifact are required for cer
   assert.ok(blocked.findings.some((finding) => finding.id === 'doc-bridge-artifact'))
 })
 
+// Git fixtures must never touch the repository under test. Hooks (pre-push, pre-commit) export
+// GIT_DIR, GIT_WORK_TREE, GIT_INDEX_FILE and friends, which would redirect every command below to
+// the real repository, so the fixture runs git with all GIT_* variables removed, no system or
+// global config, a temporary HOME, and the temp directory as its working directory.
+function isolatedGitEnv(home) {
+  const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith('GIT_')))
+  return { ...env, HOME: home, GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: join(home, '.gitconfig') }
+}
+
 function gitRepo() {
-  const root = mkdtempSync(join(tmpdir(), 'agentskit-attestation-'))
-  const git = (...args) => execFileSync('git', args, { cwd: root, encoding: 'utf8' }).trim()
-  git('init', '-q', '-b', 'main')
+  const root = realpathSync(mkdtempSync(join(tmpdir(), 'agentskit-attestation-')))
+  const home = mkdtempSync(join(tmpdir(), 'agentskit-attestation-home-'))
+  writeFileSync(join(home, '.gitconfig'), '')
+  const env = isolatedGitEnv(home)
+  const run = (args) => execFileSync('git', args, { cwd: root, env, encoding: 'utf8' }).trim()
+  run(['init', '-q', '-b', 'main'])
+  const gitDir = realpathSync(resolve(root, run(['rev-parse', '--git-dir'])))
+  if (gitDir !== join(root, '.git')) {
+    throw new Error(`git fixture escaped its temp directory: ${gitDir} is not inside ${root}`)
+  }
+  const git = (...args) => {
+    if (realpathSync(resolve(root, run(['rev-parse', '--git-dir']))) !== gitDir) {
+      throw new Error('git fixture repository changed underneath the test')
+    }
+    return run(args)
+  }
   git('config', 'user.email', 'test@example.com')
   git('config', 'user.name', 'Test')
   git('config', 'commit.gpgsign', 'false')
