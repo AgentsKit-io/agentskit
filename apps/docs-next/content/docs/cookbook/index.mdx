@@ -3,17 +3,20 @@ title: Cookbook
 description: Copy-paste recipes for the things every agent app needs. Each recipe stands on its own.
 ---
 
-Short. Self-contained. Production-ready. Drop a recipe into a real app, wire it to your stack, ship.
+Short, focused guides for the parts of an agent app you will build around the first conversation.
 
 | Recipe | What it shows |
 |---|---|
-| [Streaming chat](/docs/cookbook/streaming) | `useChat` + abort + back-pressure |
 | [Tools + memory together](/docs/cookbook/tools-memory) | The common "chat with state and actions" loop |
 | [Auth in tool calls](/docs/cookbook/auth) | Scoping tool execution to the current user |
-| [Rate limiting](/docs/cookbook/rate-limit) | Token bucket per user, per tool |
+| [Rate limiting](/docs/production/security/rate-limiting) | Bound request volume by user, IP, or API key |
 | [Error boundary](/docs/cookbook/error-boundary) | Graceful failure for LLM + tool errors |
 | [Structured output](/docs/cookbook/structured-output) | Validated JSON responses with zod |
 | [Multi-agent delegation](/docs/cookbook/multi-agent) | Planner → worker → reviewer |
 | [RAG in 15 lines](/docs/cookbook/rag) | `createRAG` with a file loader |
+| [Ask the docs](/docs/cookbook/ask-the-docs) | Ground answers in a documentation corpus |
+| [Deterministic docs answers](/docs/cookbook/deterministic-docs-answers) | Resolve exact documentation facts before generation |
+| [Observability](/docs/cookbook/observability) | Trace runs and tool calls |
+| [Edge deployment](/docs/production/edge) | Choose packages that fit an edge runtime |
 
-<Tip>Every recipe is designed to paste into a real file. No bespoke imports, no "imagine that…" setup.</Tip>
+<Tip>For package APIs, follow the linked guides and API reference as the source of truth.</Tip>

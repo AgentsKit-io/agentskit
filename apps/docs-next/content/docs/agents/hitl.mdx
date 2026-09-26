@@ -9,12 +9,15 @@ For a copy-paste recipe and UI wiring, see [HITL approvals](/docs/reference/reci
 ## Gate a tool
 
 ```ts
-import { makeTool } from '@agentskit/tools'
+import { z } from 'zod'
+import { zodToJsonSchema } from 'zod-to-json-schema'
+import { defineZodTool } from '@agentskit/tools'
 
-const deployTool = makeTool({
+const deployTool = defineZodTool({
   name: 'deploy',
   description: 'Deploy to production',
   schema: z.object({ service: z.string() }),
+  toJsonSchema: (schema) => zodToJsonSchema(schema),
   requiresConfirmation: true,
   execute: async ({ service }) => deploy(service),
 })
@@ -23,6 +26,8 @@ const deployTool = makeTool({
 Runtime pauses on invocation and emits
 `tool.awaiting-approval`. Resume with `chat.approve(toolCallId)` or
 `chat.deny(toolCallId, reason)`.
+
+For a ready-made confirmation surface, use [ToolConfirmation](/docs/ui/tool-confirmation). It renders calls with the `requires_confirmation` status and forwards approval or denial to the chat controller.
 
 ## UI
 

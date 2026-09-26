@@ -23,6 +23,22 @@ const DOC_REDIRECTS = [
   { source: '/docs/contributing/:slug*', destination: '/docs/reference/contribute/:slug*', permanent: true },
   { source: '/docs/theming', destination: '/docs/ui/theming', permanent: true },
 
+  // Cookbook consolidation — retain old URLs and point to maintained guides.
+  { source: '/docs/cookbook/streaming', destination: '/docs/get-started/getting-started/quickstart', permanent: true },
+  { source: '/docs/cookbook/rate-limit', destination: '/docs/production/security/rate-limiting', permanent: true },
+  { source: '/docs/cookbook/tool-confirmation', destination: '/docs/agents/hitl', permanent: true },
+  { source: '/docs/cookbook/edge-deployment', destination: '/docs/production/edge', permanent: true },
+  // The package guide is the canonical home for templates API and setup.
+  { source: '/docs/reference/recipes/templates-cookbook', destination: '/docs/reference/packages/templates', permanent: true },
+  // Retire orphaned integration-specific recipes; their canonical guides remain.
+  { source: '/docs/reference/recipes/figma-design-extraction', destination: '/docs/agents/tools/integrations/figma', permanent: true },
+  { source: '/docs/reference/recipes/hubspot-airtable-shopify-pulse', destination: '/docs/agents/tools/integrations/hubspot', permanent: true },
+  { source: '/docs/reference/recipes/jira-triage', destination: '/docs/agents/tools/integrations/jira', permanent: true },
+  { source: '/docs/reference/recipes/sentry-incident-bot', destination: '/docs/agents/tools/integrations/sentry', permanent: true },
+  // Replace duplicate recipe overviews with canonical integration and provider references.
+  { source: '/docs/reference/recipes/integrations', destination: '/docs/agents/tools/integrations', permanent: true },
+  { source: '/docs/reference/recipes/more-providers', destination: '/docs/data/providers/hosted', permanent: true },
+
   // Tab restructure — Get started
   { source: '/docs/concepts/:slug*', destination: '/docs/get-started/concepts/:slug*', permanent: true },
   { source: '/docs/getting-started/:slug*', destination: '/docs/get-started/getting-started/:slug*', permanent: true },

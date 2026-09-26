@@ -27,7 +27,7 @@
 {"question": "How do I auto-summarize long conversation memory?", "expected_paths": ["/docs/data/memory/auto-summarize"], "must_mention": ["summarize"], "must_not_say": []}
 {"question": "How do I configure the Ollama provider?", "expected_paths": ["/docs/data/providers/ollama"], "must_mention": ["ollama", "model"], "must_not_say": []}
 {"question": "How do I use the Anthropic provider adapter?", "expected_paths": ["/docs/data/providers/anthropic"], "must_mention": ["anthropic"], "must_not_say": []}
-{"question": "How do I use the OpenAI provider?", "expected_paths": ["/docs/data/providers/openai", "/docs/reference/recipes/more-providers"], "must_mention": ["openai"], "must_not_say": []}
+{"question": "How do I use the OpenAI provider?", "expected_paths": ["/docs/data/providers/openai", "/docs/data/providers/hosted"], "must_mention": ["openai"], "must_not_say": []}
 {"question": "How do I use the OpenRouter provider?", "expected_paths": ["/docs/data/providers/openrouter"], "must_mention": ["openrouter"], "must_not_say": []}
 {"question": "How do I use the Gemini provider?", "expected_paths": ["/docs/data/providers/gemini"], "must_mention": ["gemini"], "must_not_say": []}
 {"question": "How do I pick which provider to use?", "expected_paths": ["/docs/data/providers/choosing", "/docs/data/providers"], "must_mention": ["provider"], "must_not_say": []}
@@ -35,7 +35,7 @@
 {"question": "How do I use the ChatContainer component?", "expected_paths": ["/docs/ui/chat-container"], "must_mention": ["ChatContainer"], "must_not_say": []}
 {"question": "How do I theme the chat UI?", "expected_paths": ["/docs/ui/theming", "/docs/ui/chat-container", "/docs/ui"], "must_mention": ["theme"], "must_not_say": []}
 {"question": "How does the InputBar component work?", "expected_paths": ["/docs/ui/input-bar"], "must_mention": ["InputBar"], "must_not_say": []}
-{"question": "How do I show a tool confirmation in the UI?", "expected_paths": ["/docs/ui/tool-confirmation", "/docs/cookbook/tool-confirmation", "/docs/ui/tool-call-view"], "must_mention": ["confirmation"], "must_not_say": []}
+{"question": "How do I show a tool confirmation in the UI?", "expected_paths": ["/docs/ui/tool-confirmation", "/docs/agents/hitl", "/docs/ui/tool-call-view"], "must_mention": ["confirmation"], "must_not_say": []}
 {"question": "What are the data-ak attributes used for?", "expected_paths": ["/docs/ui/data-attributes"], "must_mention": ["data-ak"], "must_not_say": []}
 {"question": "How do I install AgentsKit and add tools, skills, memory and RAG?", "expected_paths": ["/docs/get-started/getting-started/installation"], "must_mention": ["install", "@agentskit"], "must_not_say": []}
 {"question": "How do I build my first agent?", "expected_paths": ["/docs/get-started/getting-started/build-your-first-agent"], "must_mention": ["agent"], "must_not_say": []}
