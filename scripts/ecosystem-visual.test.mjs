@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import {
-  applyScope, contrastRatio, ecosystemSites, formatSummary, isOccluded, measureTextContrast, rebaseSite, requiredContrast,
+  applyScope, contrastRatio, ecosystemSites, formatSummary, isOccluded, measureTextContrast, parseSiteOrigins, rebaseSite, requiredContrast,
 } from './lib/ecosystem-visual.mjs'
 
 const ecosystem = JSON.parse(readFileSync(join(import.meta.dirname, '..', 'ecosystem.json'), 'utf8'))
@@ -34,6 +34,15 @@ describe('ecosystem sites', () => {
 
   it('always resolves a docs page distinct from the home page', () => {
     for (const site of sites) expect(site.pages.docs).not.toBe(site.pages.home)
+  })
+
+  it('parses repeatable --site-origin overrides for any site', () => {
+    const ids = sites.map((site) => site.id)
+    const origins = parseSiteOrigins(['agentskit-chat=http://localhost:3002/', 'registry=http://127.0.0.1:3001'], ids)
+    expect([...origins]).toEqual([['agentskit-chat', 'http://localhost:3002'], ['registry', 'http://127.0.0.1:3001']])
+    expect(parseSiteOrigins(undefined, ids).size).toBe(0)
+    expect(() => parseSiteOrigins(['chat=http://localhost:3002'], ids)).toThrow(/unknown site "chat"/)
+    expect(() => parseSiteOrigins(['harness=localhost:3005'], ids)).toThrow(/not an http\(s\) URL/)
   })
 
   it('rebases a site onto a local origin', () => {
@@ -116,6 +125,15 @@ describe('reporting', () => {
     { id: 'bar-star', ok: false, detail: 'Star → x' },
     { id: 'contrast-hero', ok: false, detail: '1 of 3', items: [{ region: 'hero', path: 'h1', text: 'Hi', ratio: 1.03, required: 3, fg: '#e6edf3', bg: '#f9e9cf', fontSize: 60, fontWeight: '700' }] },
   ]
+
+  it('escapes backslashes before pipes in table cells', () => {
+    const run = { site: 's', page: 'home', theme: 'light', viewport: 'desktop', contrast: { measured: 1, failing: [] }, checks: [{ id: 'console-errors', ok: false, detail: 'C:\\path\\| a|b\nnext' }] }
+    expect(formatSummary([run], { scope: 'all', mode: 'production' })).toContain('C:\\\\path\\\\\\| a\\|b next')
+  })
+
+  it('treats the ecosystem tour as shell-owned in shell scope', () => {
+    expect(applyScope([{ id: 'contrast-tour', ok: false, detail: '' }], 'shell')[0].ok).toBe(false)
+  })
 
   it('keeps shell failures and demotes product-owned ones in shell scope', () => {
     const scoped = applyScope(checks, 'shell')

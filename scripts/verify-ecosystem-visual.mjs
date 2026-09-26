@@ -14,7 +14,8 @@
  *
  *   node scripts/verify-ecosystem-visual.mjs                       # production
  *   node scripts/verify-ecosystem-visual.mjs --sites chat,harness --themes light
- *   node scripts/verify-ecosystem-visual.mjs --agentskit-origin http://localhost:3000 \
+ *   node scripts/verify-ecosystem-visual.mjs --site-origin agentskit-chat=http://localhost:3002
+ *   node scripts/verify-ecosystem-visual.mjs --site-origin agentskit=http://localhost:3000 \
  *     --shell-origin http://localhost:3000 --scope shell          # shell PR: local shell everywhere
  *
  * Writes <out>/results.json, <out>/summary.md, <out>/screenshots/*.jpg and
@@ -26,7 +27,7 @@ import { join, resolve } from 'node:path'
 import { parseArgs } from 'node:util'
 import { chromium } from '@playwright/test'
 import {
-  PAGES, THEMES, VIEWPORTS, applyScope, ecosystemSites, formatSummary, isOccluded, measureTextContrast, rebaseSite, requiredContrast,
+  CONTRAST_REGIONS, PAGES, THEMES, VIEWPORTS, applyScope, ecosystemSites, formatSummary, isOccluded, measureTextContrast, parseSiteOrigins, rebaseSite, requiredContrast,
 } from './lib/ecosystem-visual.mjs'
 
 const root = resolve(import.meta.dirname, '..')
@@ -38,6 +39,7 @@ const { values: args } = parseArgs({
     viewports: { type: 'string' },
     out: { type: 'string', default: join(root, 'test-results/ecosystem-visual') },
     'shell-origin': { type: 'string' },
+    'site-origin': { type: 'string', multiple: true },
     'agentskit-origin': { type: 'string' },
     scope: { type: 'string', default: 'all' },
     concurrency: { type: 'string', default: '3' },
@@ -47,7 +49,12 @@ const pick = (list, value, key = (entry) => entry) => (value ? list.filter((entr
 
 const ecosystem = JSON.parse(readFileSync(join(root, 'ecosystem.json'), 'utf8'))
 let sites = pick(ecosystemSites(ecosystem), args.sites, (site) => site.id)
-if (args['agentskit-origin']) sites = sites.map((site) => (site.id === 'agentskit' ? rebaseSite(site, args['agentskit-origin']) : site))
+// --agentskit-origin is kept as shorthand for --site-origin agentskit=<url>.
+const siteOrigins = parseSiteOrigins([
+  ...(args['agentskit-origin'] ? [`agentskit=${args['agentskit-origin']}`] : []),
+  ...(args['site-origin'] ?? []),
+], sites.map((site) => site.id))
+sites = sites.map((site) => (siteOrigins.has(site.id) ? rebaseSite(site, siteOrigins.get(site.id)) : site))
 const jobs = sites.flatMap((site) => pick(PAGES, args.pages).flatMap((page) =>
   pick(THEMES, args.themes).flatMap((theme) => pick(VIEWPORTS, args.viewports, (v) => v.id).map((viewport) => ({ site, page, theme, viewport })))))
 const shotsDir = join(args.out, 'screenshots')
@@ -98,6 +105,7 @@ function collectTextRuns(requested) {
   const up = (node) => node.parentNode ?? node.host ?? null
   const within = (node, el) => { for (let n = node; n; n = up(n)) if (n === el) return true; return false }
   const bar = document.getElementById('ak-eco')
+  const tours = [...document.querySelectorAll('agentskit-ecosystem')]
   const footers = [...document.querySelectorAll('agentskit-footer, footer')].filter((f) => !f.parentElement?.closest('agentskit-footer'))
   const headers = [...document.querySelectorAll('header, #nd-nav, #nd-subnav')].filter((h) => h.getBoundingClientRect().top < 240 && !h.closest('article, footer'))
   const excluded = [...document.querySelectorAll('aside, #nd-sidebar, [data-sidebar], #nd-toc, [role="dialog"]')]
@@ -106,6 +114,7 @@ function collectTextRuns(requested) {
     if (bar && within(node, bar)) return 'bar'
     if (footers.some((f) => within(node, f))) return 'footer'
     if (headers.some((h) => within(node, h))) return 'header'
+    if (tours.some((t) => within(node, t))) return 'tour'
     if (excluded.some((e) => within(node, e))) return null
     return within(node, heroRoot) ? 'hero' : null
   }
@@ -223,6 +232,29 @@ async function measurePosition(page, helper, regions) {
   })
 }
 
+async function measureScrolled(page, helper, region, selector, viewportHeight) {
+  const box = await page.evaluate((sel) => {
+    const el = [...document.querySelectorAll(sel)].at(-1)
+    if (!el) return null
+    const r = el.getBoundingClientRect()
+    return { top: r.top + scrollY, bottom: r.bottom + scrollY }
+  }, selector)
+  if (!box) return []
+  const seen = new Set()
+  const items = []
+  for (let y = box.top - 80; y < box.bottom; y += Math.floor(viewportHeight * 0.6)) {
+    await page.evaluate((top) => scrollTo(0, top), y)
+    await page.waitForTimeout(300)
+    for (const item of await measurePosition(page, helper, [region])) {
+      const key = `${item.path}|${item.text}`
+      if (item.status !== 'measured' || seen.has(key)) continue
+      seen.add(key)
+      items.push(item)
+    }
+  }
+  return items
+}
+
 async function scrollThrough(page) {
   await page.evaluate(async () => {
     for (let y = 0; y < document.documentElement.scrollHeight; y += innerHeight) {
@@ -291,24 +323,10 @@ async function runJob(browser, helper, { site, page: pageKind, theme, viewport }
     await page.evaluate(() => scrollTo(0, 0))
     await page.waitForTimeout(300)
     const results = await measurePosition(page, helper, ['bar', 'header', 'hero'])
-    const footerBox = await page.evaluate(() => {
-      const f = document.querySelector('agentskit-footer') ?? [...document.querySelectorAll('footer')].at(-1)
-      if (!f) return null
-      const r = f.getBoundingClientRect()
-      return { top: r.top + scrollY, bottom: r.bottom + scrollY }
-    })
-    if (footerBox) {
-      const seen = new Set()
-      for (let y = footerBox.top - 80; y < footerBox.bottom; y += Math.floor(viewport.height * 0.6)) {
-        await page.evaluate((top) => scrollTo(0, top), y)
-        await page.waitForTimeout(300)
-        for (const item of await measurePosition(page, helper, ['footer'])) {
-          const key = `${item.path}|${item.text}`
-          if (item.status !== 'measured' || seen.has(key)) continue
-          seen.add(key)
-          results.push(item)
-        }
-      }
+    // The ecosystem tour and the footer sit below the fold (the tour's text lives in shadow DOM):
+    // scroll through each and measure what is on screen at every step.
+    for (const [region, selector] of [['tour', 'agentskit-ecosystem'], ['footer', 'agentskit-footer, footer']]) {
+      results.push(...await measureScrolled(page, helper, region, selector, viewport.height))
     }
     const measured = results.filter((item) => item.status === 'measured')
     run.contrast.measured = measured.length
@@ -316,7 +334,7 @@ async function runJob(browser, helper, { site, page: pageKind, theme, viewport }
     run.contrast.unmeasured = results.filter((item) => item.status !== 'measured').map(({ region, text, path, status }) => ({ region, text, path, status }))
     run.contrast.items = measured.map(({ rects, ...item }) => item)
     run.contrast.failing = measured.filter((item) => item.ratio < item.required)
-    for (const region of ['bar', 'header', 'hero', 'footer']) {
+    for (const region of CONTRAST_REGIONS) {
       const inRegion = measured.filter((item) => item.region === region)
       const failing = inRegion.filter((item) => item.ratio < item.required)
       check(`contrast-${region}`, failing.length === 0, `${failing.length} of ${inRegion.length} measured text runs below WCAG AA`, failing.length ? failing : undefined)
@@ -364,7 +382,10 @@ await browser.close()
 
 const order = (run) => jobs.findIndex((j) => j.site.id === run.site && j.page === run.page && j.theme === run.theme && j.viewport.id === run.viewport)
 runs.sort((a, b) => order(a) - order(b))
-const mode = args['shell-origin'] ? `shell override from ${args['shell-origin']}` : 'production'
+const mode = [
+  ...[...siteOrigins].map(([id, origin]) => `${id} from ${origin}`),
+  ...(args['shell-origin'] ? [`shell from ${args['shell-origin']}`] : []),
+].join(', ') || 'production'
 const summary = formatSummary(runs, { scope: args.scope, mode })
 writeFileSync(join(args.out, 'results.json'), JSON.stringify({ mode, scope: args.scope, runs }, null, 2))
 writeFileSync(join(args.out, 'summary.md'), summary)

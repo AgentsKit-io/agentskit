@@ -83,7 +83,7 @@ jobs:
         if: github.event_name == 'pull_request'
         run: >-
           node scripts/verify-ecosystem-visual.mjs
-          --agentskit-origin http://localhost:3000
+          --site-origin agentskit=http://localhost:3000
           --shell-origin http://localhost:3000
           --scope shell
 

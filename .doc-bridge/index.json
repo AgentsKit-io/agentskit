@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "96282b7276d67726800d589bd8895f28a43e74d3112be23d93217471ab9db423",
+  "contentHash": "5b980432f0cd03736c6486e79748f695032703034f94d2c9d8036af283aea5c3",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-26T15:15:09.308Z",
+  "generatedAt": "2026-09-26T16:04:17.776Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7526,7 +7526,7 @@
         "document",
         "project"
       ],
-      "contentHash": "920145e04710e53b6bfdc0a7b91baa7e9d9ae265b1d50a3a05ba93dcf242746f"
+      "contentHash": "3ca9435820ac295eec4075065ddc5a24be0a8338ff8baaebe15ca8196351b833"
     },
     {
       "id": "document:SECURITY.md",
@@ -33531,7 +33531,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "7f747040b7d0f9a2d19880b0616eebf1e5b84743dfc3face1b06ba5c91c51391"
+      "contentHash": "577c179d297fc9e62185079235a2077a814b3b0cef38ca899c45196f0df2980c"
     },
     {
       "id": "module:scripts/external-contributions.test.mjs",
@@ -33731,6 +33731,7 @@
         "formatSummary",
         "isOccluded",
         "measureTextContrast",
+        "parseSiteOrigins",
         "rebaseSite",
         "relativeLuminance",
         "requiredContrast"
@@ -33740,7 +33741,7 @@
         "mjs",
         "lib"
       ],
-      "contentHash": "10d6b2638d061ed4e4bc0ab98683e9e86d7504fe28d1cbc2d8fb185d1e4526f0"
+      "contentHash": "cf1d57a62e97b10807eb6b4ab895b273f194c2d54aab24e3355b79895d051f80"
     },
     {
       "id": "module:scripts/lib/external-contributions.mjs",
@@ -34467,7 +34468,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "3254ab8e56daafb2ce9ec2c59d4591c6e489f875214aa79b7ad10694f41111e6"
+      "contentHash": "f64a574723b518979e3012f668741146fcf45a32fd8bdefe8d05c39bde4ddc37"
     },
     {
       "id": "module:scripts/verify-launch-demo.mjs",
@@ -35658,7 +35659,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "4feb66b40b9f95581b833b5387884bab6543b1bca81737e715bf0a026c1ed483",
+    "hash": "25858da6390640b52088f1973dc2b01f8ad4a33eeb56d813389fa608671309d5",
     "fileCount": 2377,
     "projectionVersion": 2
   },
@@ -35681,9 +35682,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "a269e053cb88c28c66c833949fe172a14f582cc8e4c9d9a8da064d8450e161e0",
+    "contentHash": "829333f7eb45043c9e85c1fcdc90542198f2c5bafbfe2ee9d82bf0c7c1bdf577",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "20fdaba4a227b5d48bcdd6273ebafd291daaa426677aef6b7193f1b9b7e13c06",
+    "snapshotHash": "b9214ca57bc2004e55c7b3867d4ccbcd84670622e904dcc9381a44703e34e361",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -35719,7 +35720,7 @@
         "headings": 4.140772532188842,
         "path": 7.634334763948498,
         "summary": 4.633047210300429,
-        "symbols": 7.466952789699571,
+        "symbols": 7.468669527896996,
         "title": 3.3296137339055796
       }
     },
@@ -79859,7 +79860,7 @@
             }
           ]
         },
-        "contentHash": "920145e04710e53b6bfdc0a7b91baa7e9d9ae265b1d50a3a05ba93dcf242746f",
+        "contentHash": "3ca9435820ac295eec4075065ddc5a24be0a8338ff8baaebe15ca8196351b833",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174372,7 +174373,7 @@
             }
           ]
         },
-        "contentHash": "7f747040b7d0f9a2d19880b0616eebf1e5b84743dfc3face1b06ba5c91c51391",
+        "contentHash": "577c179d297fc9e62185079235a2077a814b3b0cef38ca899c45196f0df2980c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174976,6 +174977,7 @@
           "formatSummary",
           "isOccluded",
           "measureTextContrast",
+          "parseSiteOrigins",
           "rebaseSite",
           "relativeLuminance",
           "requiredContrast"
@@ -174989,7 +174991,7 @@
           "title": "ecosystem-visual.mjs",
           "headings": "",
           "path": "scripts/lib/ecosystem-visual.mjs",
-          "symbols": "CONTRAST_REGIONS PAGES SHELL_CHECKS THEMES VIEWPORTS applyScope contrastRatio ecosystemSites formatSummary isOccluded measureTextContrast rebaseSite relativeLuminance requiredContrast",
+          "symbols": "CONTRAST_REGIONS PAGES SHELL_CHECKS THEMES VIEWPORTS applyScope contrastRatio ecosystemSites formatSummary isOccluded measureTextContrast parseSiteOrigins rebaseSite relativeLuminance requiredContrast",
           "summary": "",
           "body": "",
           "aliases": "module mjs lib"
@@ -175015,7 +175017,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "10d6b2638d061ed4e4bc0ab98683e9e86d7504fe28d1cbc2d8fb185d1e4526f0",
+        "contentHash": "cf1d57a62e97b10807eb6b4ab895b273f194c2d54aab24e3355b79895d051f80",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -177220,7 +177222,7 @@
             }
           ]
         },
-        "contentHash": "3254ab8e56daafb2ce9ec2c59d4591c6e489f875214aa79b7ad10694f41111e6",
+        "contentHash": "f64a574723b518979e3012f668741146fcf45a32fd8bdefe8d05c39bde4ddc37",
         "provenance": "observed",
         "confidence": "observed"
       },

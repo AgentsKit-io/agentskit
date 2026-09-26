@@ -330,8 +330,8 @@ touch `apps/docs-next/public/shell/**`). For each site × home/docs × light/dar
 × 1440×960/390×844 it asserts the bar (six products in order, current product,
 Star target), the upgraded `<agentskit-footer>`, no horizontal overflow, no
 console errors, that the requested theme rendered, and WCAG AA contrast for
-every visible text run in the bar, product header, above-the-fold hero, and
-footer. Contrast is measured on rendered pixels: each text run is compared
+every visible text run in the bar, product header, above-the-fold hero, the
+`<agentskit-ecosystem>` tour (shadow DOM included), and footer. Contrast is measured on rendered pixels: each text run is compared
 against the same frame with glyphs made transparent, and a failure must repeat
 1.5 s later so animations cannot fail a run. There is no pixel-diff baseline.
 Results, `summary.md`, and full-page screenshots land in
@@ -340,7 +340,9 @@ Results, `summary.md`, and full-page screenshots land in
 ```bash
 pnpm check:ecosystem-visual                                   # production
 pnpm check:ecosystem-visual --sites agentskit-chat --themes light
-node scripts/verify-ecosystem-visual.mjs --agentskit-origin http://localhost:3000 \
+pnpm check:ecosystem-visual --sites agentskit-chat \
+  --site-origin agentskit-chat=http://localhost:3002           # a product's local build
+node scripts/verify-ecosystem-visual.mjs --site-origin agentskit=http://localhost:3000 \
   --shell-origin http://localhost:3000 --scope shell          # local shell on every site
 pnpm test:ecosystem-visual                                    # helper unit tests
 ```
