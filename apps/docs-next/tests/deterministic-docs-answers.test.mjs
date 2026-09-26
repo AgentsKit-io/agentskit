@@ -146,7 +146,7 @@ test('local resolution stays below 50 ms p95 in the supported test environment',
 })
 
 test('the real widget composes published AgentsChat local-first contracts', () => {
-  const widget = read('apps/docs-next/components/docs/ask-widget.tsx')
+  const widget = read('apps/docs-next/components/docs/ask-panel.tsx')
   const rootPackage = read('package.json')
   const docsPackage = read('apps/docs-next/package.json')
   assert.match(widget, /createDeterministicAnswerAdapter/)
@@ -157,4 +157,12 @@ test('the real widget composes published AgentsChat local-first contracts', () =
   assert.doesNotMatch(docsPackage, /"@agentskit\/chat-(?:protocol|react)":/)
   assert.doesNotMatch(rootPackage, /"@agentskit\/chat(?:-protocol)?":/)
   assert.doesNotMatch(widget, /function normalizeDeterministic|new Map<string, DeterministicKnowledgeEntry/)
+})
+
+test('the floating Ask button keeps the chat runtime out of the initial bundle', () => {
+  const launcher = read('apps/docs-next/components/docs/ask-widget.tsx')
+  assert.match(launcher, /dynamic\(\(\) => loadPanel\(\)\.then/)
+  assert.match(launcher, /ssr: false/)
+  assert.doesNotMatch(launcher, /^import (?!type)[^\n]*from '(?:\.\/ask-panel|@agentskit\/chat[^']*|@agentskit\/react|zod)'/m)
+  assert.doesNotMatch(launcher, /deterministic-knowledge\.generated\.json/)
 })
