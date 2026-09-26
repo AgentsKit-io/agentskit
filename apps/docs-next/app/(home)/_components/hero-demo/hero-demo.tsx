@@ -213,11 +213,11 @@ export function HeroDemo() {
           <button
             type="button"
             onClick={() => setManualPaused((current) => !current)}
-            aria-label={manualPaused ? 'Play demo' : 'Pause demo'}
             className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.12em] text-ak-graphite transition hover:text-ak-foam"
           >
             <span className={`h-1.5 w-1.5 rounded-full ${paused ? 'bg-ak-graphite' : 'bg-ak-green'}`} />
             {manualPaused ? 'play' : hovered || focusWithin ? 'paused' : 'playing'}
+            <span className="sr-only">{manualPaused ? ' demo' : ' — pause demo'}</span>
           </button>
         ) : (
           <span className="font-mono text-[10px] uppercase tracking-[0.12em] text-ak-graphite">
@@ -290,9 +290,9 @@ export function HeroDemo() {
             <div className="font-mono text-[9px] uppercase tracking-[0.18em] text-ak-blue">
               {step.eyebrow}
             </div>
-            <h3 className="mt-2 text-base font-semibold leading-tight text-ak-foam sm:text-lg">
+            <h2 className="mt-2 text-base font-semibold leading-tight text-ak-foam sm:text-lg">
               {step.title}
-            </h3>
+            </h2>
             <p className="mt-2 text-xs leading-relaxed text-ak-graphite sm:text-sm">
               {step.description}
             </p>
