@@ -14,7 +14,7 @@ test.afterAll(async () => {
 
 // Serve the shell from this checkout instead of production (the app's default origin), so a
 // shell deploy cannot change what a pull request is tested against.
-const SHELL_DIR = join(__dirname, '../../apps/registry/public/shell')
+const SHELL_DIR = join(__dirname, '../../apps/docs-next/public/shell')
 test.beforeEach(async ({ page }) => {
   await page.route('https://www.agentskit.io/shell/v1.*', async (route) => {
     const file = new URL(route.request().url()).pathname.endsWith('.css') ? 'v1.css' : 'v1.js'
