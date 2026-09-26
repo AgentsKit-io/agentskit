@@ -39,6 +39,7 @@ const GATES = [
   ['models.dev snapshot freshness', 'check-models-dev-freshness.mjs'],
   ['verified recipe factory', 'check-content-pipeline.mjs'],
   ['ecosystem contract tests', 'ecosystem-contract.test.mjs', [], 'vitest'],
+  ['ecosystem visual check helpers', 'ecosystem-visual.test.mjs', [], 'vitest'],
   ['software metadata tests', 'software-metadata.test.mjs', [], 'vitest'],
   ['software metadata freshness', 'generate-software-metadata.mjs', ['--check']],
   ['ecosystem documentation quality contract', 'ecosystem-documentation-quality.test.mjs', [], 'vitest'],
