@@ -46,6 +46,11 @@ nothing is highlighted and the Star action targets `AgentsKit-io/agents-playbook
 The Star action lives only in the bar and targets `data-current-repo`.
 
 - **Tour:** `<agentskit-ecosystem current="registry" data-visual="agentskit-home">…fallback…</agentskit-ecosystem>`.
+  Both the default visual and `data-visual="agentskit-home"` follow the page
+  theme and `data-ak-surface` through the `--ak-*` tokens; without `v1.css`
+  the default visual falls back to its dark palette. Product accents colour
+  tour text through `--ak-accent-ink` (55% accent mixed toward `--ak-fg` on
+  light surfaces, 100% on dark), which keeps every accent at WCAG AA.
 - **Footer:** `<agentskit-footer current="registry" repo="AgentsKit-io/agentskit-registry" description="…" license="MIT License">`.
   `license` defaults to `MIT License` (Playbook uses `MIT (code) · CC-BY-4.0 (docs)`).
   Children are the server-rendered fallback. An element with `slot="local"`

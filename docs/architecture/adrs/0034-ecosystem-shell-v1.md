@@ -59,6 +59,12 @@ The AgentsKit site (`apps/docs-next`) hosts a versioned shell:
    the page theme, and revert when the attribute disappears (observed for
    client navigation). The shell applies it through one style element in
    `<head>`, not by editing page markup.
+
+   The tour follows the same palette in both of its visuals. The default
+   visual reads the page's `--ak-*` tokens (dark values are only the fallback
+   for pages without `v1.css`), and product accents colour text through
+   `--ak-accent-ink`: 55% accent mixed toward the foreground on light
+   surfaces, the pure accent on dark ones, so every accent clears WCAG AA.
 6. **Product header.** Each site keeps its Fumadocs layout and renders the
    `.ak-product-wordmark` markup as `nav.title`; styling comes from the shell
    stylesheet. Heroes stay product-owned.
