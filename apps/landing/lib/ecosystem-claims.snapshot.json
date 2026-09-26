@@ -106,7 +106,7 @@
         },
         {
           "id": "recipes",
-          "value": 71,
+          "value": 64,
           "noun": "recipes",
           "evidence": {
             "type": "repository-derivation",
@@ -114,7 +114,7 @@
             "path": "scripts/compute-stats.mjs",
             "summary": "Published recipe MDX pages excluding indexes and metadata."
           },
-          "conservativeFloor": 71
+          "conservativeFloor": 64
         },
         {
           "id": "core-size-kb-gzip",
