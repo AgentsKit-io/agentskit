@@ -6,11 +6,11 @@ cross-origin by each product (ADR 0034):
 | URL | Content |
 |---|---|
 | `/shell/v1.js` | Ecosystem bar (auto-injected at the top of `<body>`), `<agentskit-ecosystem>` tour, `<agentskit-footer>`, `<agentskit-aurora>`. Zero dependencies. |
-| `/shell/v1.css` | Shared `--ak-*` tokens (zero specificity, so a site's own tokens win), Inter + Space Grotesk, `.ak-product-wordmark`, footer fallback and local-column styles, aurora layer. |
+| `/shell/v1.css` | Shared `--ak-*` tokens (zero specificity, so a site's own tokens win), font stacks, `.ak-product-wordmark`, footer fallback and local-column styles, aurora layer. |
 | `/ecosystem-bar.js` | Legacy alias. Byte-identical copy of `/shell/v1.js` for consumers that have not migrated. |
 
 `/shell/*` and `/ecosystem-bar.js` are served with
-`Cache-Control: public, max-age=300, stale-while-revalidate=86400` and
+`Cache-Control: public, max-age=3600, stale-while-revalidate=86400` and
 `Access-Control-Allow-Origin: *`. Compatible changes ship inside v1; breaking
 changes go to `/shell/v2.*`.
 
@@ -60,6 +60,23 @@ The Star action lives only in the bar and targets `data-current-repo`.
   and `data-ak-surface` through `--ak-fg`. Place it inside an
   `isolation: isolate` wrapper so it paints above that wrapper's background.
 - **Fumadocs nav title:** `<span class="ak-product-wordmark"><span class="ak-product-wordmark__brand">AgentsKit</span> <span class="ak-product-wordmark__product">Registry</span></span>`.
+
+## Fonts and performance
+
+`v1.css` has no `@import`, so it never blocks rendering on Google Fonts. The
+script loads Inter and Space Grotesk asynchronously (preconnect,
+`media="print"` swapped to `all` on load, `display=swap`) and only for families
+the page does not already provide. Sites that self-host the fonts (for example
+with `next/font`) add `data-ak-fonts="self"` to the script tag to skip the check:
+
+```html
+<script src="https://www.agentskit.io/shell/v1.js" data-current="doc-bridge"
+        data-current-repo="AgentsKit-io/doc-bridge" data-ak-fonts="self" defer></script>
+```
+
+Until a font arrives, the `--ak-font-*` stacks fall back to system UI fonts.
+The aurora shows its CSS layer immediately and compiles the WebGL shader when
+the page is idle after `load`.
 
 ## Surface override (`data-ak-surface`)
 

@@ -57,7 +57,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             <RegistryAskWidget />
           </RootProvider>
         </PostHogProvider>
-        <script src={SHELL_SCRIPT_SRC} defer data-current="registry" data-current-repo="AgentsKit-io/agentskit-registry" />
+        <script src={SHELL_SCRIPT_SRC} defer data-current="registry" data-current-repo="AgentsKit-io/agentskit-registry" data-ak-fonts="self" />
       </body>
     </html>
   )
