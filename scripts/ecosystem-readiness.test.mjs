@@ -117,7 +117,7 @@ test('a skipped gate counts only with a matching justified, unexpired allowlist 
     requiredGateCategories: required,
     products: [{
       id: 'code-review',
-      repo: 'AgentsKit-io/code-review-cli',
+      repo: 'AgentsKit-io/code-review',
       evidenceFile: 'x',
       gateExceptions: [{
         category: 'chat',
@@ -131,7 +131,7 @@ test('a skipped gate counts only with a matching justified, unexpired allowlist 
     schemaVersion: 1,
     protocol: 'agentskit.ecosystem.readiness',
     productId: 'code-review',
-    repo: 'AgentsKit-io/code-review-cli',
+    repo: 'AgentsKit-io/code-review',
     auditedOn: '2026-07-14',
     maturity: { declared: 'stable', source: 'ecosystem.json' },
     gates: fullGates('pass').map((gate) => gate.category === 'chat' ? { ...gate, status: 'skipped' } : gate),

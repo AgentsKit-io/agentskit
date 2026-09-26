@@ -31,7 +31,7 @@ export default function PublicationsPage() {
     url: URL,
     name: 'AgentsKit technical publications',
     description: DESCRIPTION,
-    isPartOf: { '@type': 'WebSite', name: 'AgentsKit.js', url: canonicalUrl('/') },
+    isPartOf: { '@type': 'WebSite', name: 'AgentsKit', url: canonicalUrl('/') },
     breadcrumb: {
       '@type': 'BreadcrumbList',
       itemListElement: [

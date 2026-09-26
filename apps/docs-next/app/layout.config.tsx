@@ -1,5 +1,5 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared'
-import { AnimatedLogo } from '@/components/brand/animated-logo'
+import { ProductWordmark } from '@/components/site-shell/product-wordmark'
 import { LanguageToggle } from '@/components/brand/language-toggle'
 
 // Discord hidden until the community is large enough to warrant it. Restore when ready.
@@ -17,14 +17,7 @@ import { LanguageToggle } from '@/components/brand/language-toggle'
 
 export const baseOptions: BaseLayoutProps = {
   nav: {
-    title: (
-      <span className="flex items-center gap-2">
-        <AnimatedLogo variant="nav" loop />
-        <span className="font-display text-base font-bold tracking-tight">
-          <span className="ak-wordmark">AgentsKit</span>
-        </span>
-      </span>
-    ),
+    title: <ProductWordmark />,
   },
   links: [
     { text: 'Docs', url: '/docs' },
@@ -63,5 +56,4 @@ export const baseOptions: BaseLayoutProps = {
     //   url: 'https://discord.gg/zx6z2p4jVb',
     // },
   ],
-  githubUrl: 'https://github.com/AgentsKit-io/agentskit',
 }

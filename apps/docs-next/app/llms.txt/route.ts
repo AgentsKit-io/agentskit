@@ -60,7 +60,7 @@ export function GET() {
   }
 
   const lines: string[] = [
-    '# AgentsKit.js',
+    '# AgentsKit',
     '',
     `> Foundation library for JavaScript agents. Small packages, one contract, everything composes — UI bindings (${counts.frameworkBindings} frameworks), autonomous runtimes, tools, skills, memory, RAG, observability, evaluation, sandboxing. Product chat UI is AgentsKit Chat (sibling), not this monorepo alone.`,
     '',

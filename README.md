@@ -2,7 +2,7 @@
 
 <img src="./apps/docs-next/public/brand/logo-wordmark.svg" alt="AgentsKit" width="260" />
 
-# AgentsKit.js
+# AgentsKit
 
 **The agent toolkit JavaScript actually deserves.**
 

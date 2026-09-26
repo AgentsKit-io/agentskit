@@ -12,7 +12,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = findBlogPost(slug)
   if (!post) return { title: 'Blog' }
   return {
-    title: `${post.title} — AgentsKit.js blog`,
+    title: `${post.title} — AgentsKit blog`,
     description: post.description,
     alternates: { canonical: `https://www.agentskit.io/blog/${slug}` },
     openGraph: { type: 'article', title: post.title, description: post.description },
@@ -76,7 +76,7 @@ export default async function BlogPost({ params }: { params: Promise<{ slug: str
             rel="noopener"
             className="rounded-md border border-ak-border px-3 py-1.5 text-ak-foam hover:border-ak-blue hover:text-ak-blue"
           >
-            Star on GitHub
+            Source on GitHub
           </a>
           <a
             href="https://discord.gg/zx6z2p4jVb"

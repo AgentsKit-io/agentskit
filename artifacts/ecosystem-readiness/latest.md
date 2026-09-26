@@ -34,7 +34,7 @@
 - Audited on: 2026-07-14
 
 ### code-review — blocked
-- Repo: `AgentsKit-io/code-review-cli`
+- Repo: `AgentsKit-io/code-review`
 - Maturity: alpha (source: ecosystem.json)
 - Audited on: 2026-07-14
 
@@ -45,7 +45,7 @@
 - **P0** `agentskit-chat` / `evidence-freshness` (fail): Evidence is 31 days old (maximum 30)
   - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/agentskit-chat)
 - **P0** `code-review` / `evidence-freshness` (fail): Evidence is 31 days old (maximum 30)
-  - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/code-review-cli)
+  - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/code-review)
 - **P0** `doc-bridge` / `evidence-freshness` (fail): Evidence is 31 days old (maximum 30)
   - Remediation: Re-run the product audit and commit current evidence. (owner: AgentsKit-io/doc-bridge)
 - **P0** `playbook` / `evidence-freshness` (fail): Evidence is 31 days old (maximum 30)

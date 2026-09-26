@@ -8,11 +8,12 @@ import { RegistryAskWidget } from '@/components/ask-widget'
 import { serializedRegistryStructuredData } from '@/lib/structured-data'
 import { AccessibleSearch } from '@/components/accessible-search'
 import type { Viewport } from 'next'
+import { EcosystemFooter } from '@/components/ecosystem-footer'
+import { SHELL_SCRIPT_SRC, SHELL_STYLESHEET_HREF } from '@/lib/shell'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-display', display: 'swap' })
-const ecosystemBarSrc = process.env.NODE_ENV === 'development' ? '/ecosystem-bar.js' : 'https://www.agentskit.io/ecosystem-bar.js'
 
 const SITE_URL = 'https://registry.agentskit.io'
 const DESCRIPTION = 'Shadcn-like AI agents for AgentsKit. Copy validated TypeScript source into your project — you own the code.'
@@ -38,6 +39,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <link rel="alternate" type="text/plain" href="/llms.txt" title="Agent and docs index for LLMs" />
         <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Full agent context for LLMs" />
+        <link rel="stylesheet" href={SHELL_STYLESHEET_HREF} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: serializedRegistryStructuredData }}
@@ -51,10 +53,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <RootProvider theme={{ defaultTheme: 'dark', enableSystem: false }} search={{ options: { allowClear: true } }}>
             <AccessibleSearch />
             <div id="main-content">{children}</div>
+            <EcosystemFooter />
             <RegistryAskWidget />
           </RootProvider>
         </PostHogProvider>
-        <script src={ecosystemBarSrc} defer data-current="registry" />
+        <script src={SHELL_SCRIPT_SRC} defer data-current="registry" data-current-repo="AgentsKit-io/agentskit-registry" />
       </body>
     </html>
   )

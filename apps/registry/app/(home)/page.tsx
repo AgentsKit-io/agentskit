@@ -1,3 +1,4 @@
+import { createElement } from 'react'
 import { redirect } from 'next/navigation'
 import { getRegistryIndex } from '@/lib/registry'
 import { sortedCategories } from './_components/categories'
@@ -6,8 +7,6 @@ import { Hero } from './_components/hero'
 import { InstallSteps } from './_components/install-steps'
 import { EcosystemShowcase } from './_components/ecosystem-showcase'
 import { ClosingCta } from './_components/closing-cta'
-import { SiteFooter } from './_components/site-footer'
-import { AuroraBackground } from '@/components/aurora-background'
 
 export const revalidate = 3600
 
@@ -57,14 +56,13 @@ export default async function HomePage({ searchParams }: { searchParams: Promise
 
   return (
     <div className="rg-home-layout ak-home-layout w-full">
-      <AuroraBackground />
+      {createElement('agentskit-aurora', { 'aria-hidden': 'true' })}
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />
       <LandingFx />
       <Hero agentCount={agents.length} categoryCount={categoryCount} sampleIds={sampleIds} />
       <InstallSteps />
       <EcosystemShowcase />
       <ClosingCta agentCount={agents.length} />
-      <SiteFooter />
     </div>
   )
 }

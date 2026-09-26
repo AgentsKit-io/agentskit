@@ -15,9 +15,9 @@ export function EcosystemShowcase() {
           One connected toolkit from ready-made source to production-ready delivery.
         </p>
         <nav aria-label="AgentsKit ecosystem" className="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {ecosystemPeers.map((peer) => (
+          {ecosystemPeers.filter((peer) => peer.showInBar).map((peer) => (
             <a
-              key={peer.name}
+              key={peer.id}
               href={peer.href}
               className="rounded-2xl border border-ak-border bg-ak-surface/60 p-5 transition hover:border-ak-blue"
             >

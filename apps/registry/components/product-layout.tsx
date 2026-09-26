@@ -1,13 +1,20 @@
 import type { BaseLayoutProps } from 'fumadocs-ui/layouts/shared'
 
-export function productLayout({ name, links, githubUrl }: {
-  name: string
+/** Fumadocs header config; the wordmark is styled by the shared shell (`.ak-product-wordmark`). */
+export function productLayout({ product, links }: {
+  product: string
   links: BaseLayoutProps['links']
-  githubUrl: string
 }): BaseLayoutProps {
   return {
-    nav: { title: <span className="ak-wordmark font-display text-base font-bold tracking-tight">{name}</span>, url: '/' },
+    nav: {
+      title: (
+        <span className="ak-product-wordmark">
+          <span className="ak-product-wordmark__brand">AgentsKit</span>{' '}
+          <span className="ak-product-wordmark__product">{product}</span>
+        </span>
+      ),
+      url: '/',
+    },
     links,
-    githubUrl,
   }
 }

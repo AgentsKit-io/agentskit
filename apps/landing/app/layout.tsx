@@ -4,14 +4,14 @@ import { PostHogProvider } from './_components/posthog-provider'
 import ecosystem from '../lib/ecosystem.json'
 
 export const metadata: Metadata = {
-  title: 'AgentsKit.js — Ship AI agents in JavaScript without gluing 8 libraries',
+  title: 'AgentsKit — Ship AI agents in JavaScript without gluing 8 libraries',
   description:
     'One ecosystem for chat UI, runtime, tools, memory, RAG, and observability. Start with one package, grow into the full stack. MIT, 10 KB core.',
   metadataBase: new URL('https://www.agentskit.io'),
   alternates: { canonical: '/' },
   robots: { index: true, follow: true },
   openGraph: {
-    title: 'AgentsKit.js',
+    title: 'AgentsKit',
     description:
       'Chat UI, runtime, tools, memory, RAG, observability. One ecosystem. Zero lock-in. 10 KB core.',
     type: 'website',
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AgentsKit.js',
+    title: 'AgentsKit',
     description: 'Chat UI, runtime, tools, memory, RAG, observability. One ecosystem.',
     creator: '@agentskit',
   },
@@ -73,7 +73,7 @@ const LANDING_JSON_LD = JSON.stringify({
     {
       '@type': 'WebPage',
       '@id': 'https://www.agentskit.io/#webpage',
-      name: 'AgentsKit.js',
+      name: 'AgentsKit',
       url: 'https://www.agentskit.io/',
       isPartOf: { '@id': 'https://www.agentskit.io/#website' },
     },

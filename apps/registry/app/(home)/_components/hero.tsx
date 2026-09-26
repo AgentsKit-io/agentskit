@@ -5,7 +5,7 @@ export function Hero({ agentCount, categoryCount, sampleIds }: { agentCount: num
   const cmd = `npx @agentskit/cli add ${id}`
 
   return (
-    <section data-home-surface="hero" className="border-b border-ak-border px-4 py-14 sm:px-6 sm:py-20">
+    <section data-home-surface="hero" className="px-4 py-14 sm:px-6 sm:py-20">
       <div className="mx-auto grid max-w-5xl items-end gap-10 lg:grid-cols-[1fr_26rem]">
         <div>
           <p className="font-mono text-xs uppercase tracking-[0.18em] text-ak-blue">Shadcn-like agents for JavaScript</p>
@@ -41,7 +41,12 @@ export function Hero({ agentCount, categoryCount, sampleIds }: { agentCount: num
             <Icon name="terminal" size={14} /> Install any agent
           </div>
           <div className="flex items-center justify-between gap-3 px-4 py-5 font-mono text-sm">
-            <code className="min-w-0 truncate text-ak-foam"><span className="text-ak-blue">$</span> {cmd}</code>
+            <code className="min-w-0 truncate text-xs text-ak-foam sm:text-sm">
+              <span className="text-ak-blue">$</span>{' '}
+              <span className="text-[#79c0ff]">npx</span>{' '}
+              <span className="text-[#a5d6ff]">@agentskit/cli</span>{' '}
+              add <span className="text-[#7ee787]">{id}</span>
+            </code>
             <button
               type="button"
               data-copy={cmd}

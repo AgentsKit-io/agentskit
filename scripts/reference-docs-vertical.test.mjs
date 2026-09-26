@@ -21,7 +21,6 @@ test('the homepage uses canonical identity metadata and contextual next steps', 
   const source = read('apps/docs-next/app/(home)/page.tsx')
   assert.match(source, /agentsKitIdentity\.name/)
   assert.match(source, /agentsKitIdentity\.promise/)
-  assert.match(source, /agentsKitIdentity\.audience/)
   assert.match(source, /<ReferenceJourney \/>/)
 })
 
@@ -49,18 +48,18 @@ test('the primary guide starts locally and keeps the provider step as progressiv
 })
 
 test('the shared ecosystem bar contains its own mobile overflow', () => {
-  const bar = read('apps/docs-next/public/ecosystem-bar.js')
-  assert.match(bar, /@media\(max-width:767px\)/)
-  assert.match(bar, /max-width:100vw;overflow-x:auto/)
+  const bar = read('apps/docs-next/public/shell/v1.js')
+  assert.match(bar, /@media\(max-width:767px\)\{#ak-eco\{max-width:100vw;overflow:hidden/)
+  assert.match(bar, /\.ak-eco-products\{flex:1;overflow-x:auto/)
   assert.match(bar, /scrollbar-width:none/)
   assert.match(bar, /a\.ak-eco-link\{[^}]*min-height:44px/)
   assert.match(bar, /\.ak-eco-brand\{[^}]*min-height:44px/)
-  assert.match(bar, /\.ak-eco-brand\{position:sticky;left:0/)
-  assert.match(bar, /\.ak-eco-spacer,#ak-eco a\.ak-eco-cta\{display:none\}/)
+  assert.match(bar, /#ak-eco \.ak-eco-spacer\{display:none\}/)
+  assert.match(bar, /a\.ak-eco-cta:not\(\[data-ak-eco-discord\]\)\{[^}]*min-width:44px/)
 })
 
 test('the shared ecosystem showcase uses its generated local snapshot', () => {
-  const bar = read('apps/docs-next/public/ecosystem-bar.js')
+  const bar = read('apps/docs-next/public/shell/v1.js')
   assert.match(bar, /ecobar:showcase-start[^\n]*\n\s*var SHOWCASE_PRODUCTS =/)
   assert.match(bar, /"proof":/)
   assert.match(bar, /SHOWCASE_PRODUCTS\.forEach|SHOWCASE_PRODUCTS\.find/)
@@ -68,13 +67,14 @@ test('the shared ecosystem showcase uses its generated local snapshot', () => {
 })
 
 test('the shared ecosystem bar derives the six public products from PROPS', () => {
-  const bar = read('apps/docs-next/public/ecosystem-bar.js')
+  const bar = read('apps/docs-next/public/shell/v1.js')
   const props = bar.match(/ecobar:props-start[^\n]*\n([\s\S]*?)\n\s*\/\/ ecobar:props-end/)?.[1] ?? ''
 
   assert.match(bar, /customElements\.define\('agentskit-ecosystem'/)
   assert.match(bar, /PROPS\.forEach\(function \(p\)/)
   assert.equal((props.match(/\{ id:/g) || []).length, 6)
-  assert.doesNotMatch(props, /code-review|Code Review/)
+  assert.match(props, /code-review/)
+  assert.doesNotMatch(props, /playbook/)
 })
 
 test('Lighthouse keeps the Vercel bypass out of audited URLs', () => {

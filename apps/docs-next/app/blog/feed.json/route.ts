@@ -6,10 +6,10 @@ export function GET() {
   const posts = allBlogPosts()
   const feed = {
     version: 'https://jsonfeed.org/version/1.1',
-    title: 'AgentsKit.js blog',
+    title: 'AgentsKit blog',
     home_page_url: `${SITE}/blog`,
     feed_url: `${SITE}/blog/feed.json`,
-    description: 'Releases, design notes, and deep dives from the AgentsKit.js team.',
+    description: 'Releases, design notes, and deep dives from the AgentsKit team.',
     language: 'en',
     items: posts.map((p) => {
       const slug = slugOf(p)

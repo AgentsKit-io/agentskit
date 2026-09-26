@@ -51,11 +51,19 @@ test('repository-native products do not need a Fumadocs or chat deployment', () 
 
 test('primary surfaces expose server-rendered ecosystem links', () => {
   const docsLayout = readFileSync(join(REPO_ROOT, 'apps/docs-next/app/layout.tsx'), 'utf8')
+  const registryLayout = readFileSync(join(REPO_ROOT, 'apps/registry/app/layout.tsx'), 'utf8')
   const registryShowcase = readFileSync(join(REPO_ROOT, 'apps/registry/app/(home)/_components/ecosystem-showcase.tsx'), 'utf8')
-  assert.match(docsLayout, /<footer[\s\S]*aria-label="AgentsKit ecosystem"/)
-  assert.match(docsLayout, /FOOTER_PRODUCTS/)
+  assert.match(docsLayout, /<EcosystemFooter \/>/)
+  assert.match(registryLayout, /<EcosystemFooter \/>/)
+  for (const rel of ['apps/docs-next/components/site-shell/ecosystem-footer.tsx', 'apps/registry/components/ecosystem-footer.tsx']) {
+    const footer = readFileSync(join(REPO_ROOT, rel), 'utf8')
+    assert.match(footer, /'agentskit-footer'/)
+    assert.match(footer, /<nav aria-label="AgentsKit ecosystem"/)
+    assert.match(footer, /navigation\.showInBar/)
+    assert.match(footer, /slot="local"/)
+  }
   assert.match(registryShowcase, /<nav aria-label="AgentsKit ecosystem"/)
-  assert.match(registryShowcase, /ecosystemPeers\.map/)
+  assert.match(registryShowcase, /ecosystemPeers\.filter\(\(peer\) => peer\.showInBar\)\.map/)
   const registryMesh = readFileSync(join(REPO_ROOT, 'apps/registry/app/(home)/_components/ecosystem-mesh.tsx'), 'utf8')
   assert.match(registryMesh, /ecosystem\.json/)
   assert.doesNotMatch(registryMesh, /href:\s*['"]https:\/\//)
@@ -170,4 +178,65 @@ test('conservative floors cannot exceed exact values', () => {
   const claim = claims.products[0].claims[0]
   claim.conservativeFloor = claim.value + 1
   assert.throws(() => parseEcosystemClaims(claims, manifest), /must be between zero and the exact value/)
+})
+
+const SHELL = readFileSync(join(REPO_ROOT, 'apps/docs-next/public/shell/v1.js'), 'utf8')
+
+function shellBlock(name) {
+  const match = SHELL.match(new RegExp(`ecobar:${name}-start[^\\n]*\\n([\\s\\S]*?)\\n\\s*// ecobar:${name}-end`))
+  assert.ok(match, `shell block ${name} is missing`)
+  return match[1]
+}
+
+test('shell v1 lists exactly the six bar products in the fixed order', () => {
+  const ids = [...shellBlock('props').matchAll(/\{ id: "([^"]+)"/g)].map((match) => match[1])
+  assert.deepEqual(ids, ['agentskit', 'registry', 'agentskit-chat', 'doc-bridge', 'code-review', 'harness'])
+  const tour = JSON.parse(shellBlock('showcase').replace(/^\s*var SHOWCASE_PRODUCTS = /, ''))
+  assert.deepEqual(tour.map((product) => product.id), ids)
+  assert.doesNotMatch(shellBlock('props') + shellBlock('showcase'), /playbook|Playbook/)
+})
+
+test('shell v1 resolves Playbook only through the catalog for its Star target', () => {
+  const catalog = JSON.parse(shellBlock('catalog').replace(/^\s*var CATALOG = /, ''))
+  assert.equal(catalog.playbook.repo, 'AgentsKit-io/agents-playbook')
+  assert.equal(Object.keys(catalog).length, manifest.products.length)
+  assert.match(SHELL, /var currentRepo = safeRepo\(currentRepoOverride\) \|\| safeRepo\(repoFor\(current\)\)/)
+  // Attribute-supplied repos and links are validated before reaching href (CodeQL js/xss-through-dom).
+  assert.match(SHELL, /function safeRepo\(value\)/)
+  assert.match(SHELL, /function safeHref\(value\)/)
+})
+
+test('shell v1 defines the bar, tour, footer, and aurora', () => {
+  for (const name of ['agentskit-ecosystem', 'agentskit-footer', 'agentskit-aurora']) {
+    assert.match(SHELL, new RegExp(`customElements\\.define\\('${name}'`))
+  }
+  assert.match(SHELL, /bar\.id = 'ak-eco'/)
+  assert.match(SHELL, /this\.getAttribute\('license'\) \|\| 'MIT License'/)
+  assert.match(SHELL, /prefers-color-scheme: dark/)
+  assert.doesNotMatch(SHELL, /setAttribute\('data-upgraded'/)
+  assert.match(SHELL, /querySelector\('\[data-ak-surface\]'\)/)
+  assert.match(SHELL, /attributeFilter: \['data-ak-surface'\]/)
+  assert.match(SHELL, /background-size:64px 64px/)
+  assert.match(SHELL, /:host\(\[grid="off"\]\) \.aka-grid\{display:none\}/)
+  assert.match(SHELL, /prefers-reduced-motion: reduce/)
+  const css = readFileSync(join(REPO_ROOT, 'apps/docs-next/public/shell/v1.css'), 'utf8')
+  assert.match(css, /\.ak-product-wordmark__product/)
+  assert.match(css, /Space\+Grotesk/)
+})
+
+test('the legacy alias and Registry fallback copies match the hosted shell', () => {
+  for (const rel of ['apps/docs-next/public/ecosystem-bar.js', 'apps/registry/public/ecosystem-bar.js', 'apps/registry/public/shell/v1.js']) {
+    assert.equal(readFileSync(join(REPO_ROOT, rel), 'utf8'), SHELL, rel)
+  }
+  assert.equal(
+    readFileSync(join(REPO_ROOT, 'apps/registry/public/shell/v1.css'), 'utf8'),
+    readFileSync(join(REPO_ROOT, 'apps/docs-next/public/shell/v1.css'), 'utf8'),
+  )
+})
+
+test('the shell is served cross-origin with a short cache', () => {
+  const config = readFileSync(join(REPO_ROOT, 'apps/docs-next/next.config.mjs'), 'utf8')
+  assert.match(config, /source: '\/shell\/:path\*'/)
+  assert.match(config, /public, max-age=300, stale-while-revalidate=86400/)
+  assert.match(config, /'Access-Control-Allow-Origin', value: '\*'/)
 })

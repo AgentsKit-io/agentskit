@@ -36,7 +36,7 @@ function docsUrl(path) {
 }
 
 const lines = [
-  '# AgentsKit.js',
+  '# AgentsKit',
   '',
   '> Machine-readable index for the AgentsKit JavaScript foundation and its public open-source siblings.',
   '',

@@ -35,7 +35,7 @@ export function GET() {
   const ordered = [...pages].sort((a, b) => a.slugs.join('/').localeCompare(b.slugs.join('/')))
 
   const lines: string[] = [
-    '# AgentsKit.js — full docs',
+    '# AgentsKit — full docs',
     '',
     `> Every page of ${SITE}/docs flattened into one file. Designed for LLM ingestion. See also ${SITE}/llms.txt for the index.`,
     '',
