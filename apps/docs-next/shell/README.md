@@ -1,13 +1,14 @@
 # AgentsKit shell v1
 
-The shared chrome for every AgentsKit site is hosted here and loaded
-cross-origin by each product (ADR 0034):
+The shared chrome for every AgentsKit site is hosted by docs-next and loaded
+cross-origin by each product (ADR 0034). This directory holds the readable
+source (`v1.js`, `v1.css`); `public/` serves only their minified build:
 
 | URL | Content |
 |---|---|
 | `/shell/v1.js` | Ecosystem bar (auto-injected at the top of `<body>`), `<agentskit-ecosystem>` tour, `<agentskit-footer>`, `<agentskit-aurora>`. Zero dependencies. |
 | `/shell/v1.css` | Shared `--ak-*` tokens (zero specificity, so a site's own tokens win), font stacks, `.ak-product-wordmark`, footer fallback and local-column styles, aurora layer. |
-| `/ecosystem-bar.js` | Legacy alias. Byte-identical copy of `/shell/v1.js` for consumers that have not migrated. |
+| `/ecosystem-bar.js` | Legacy alias. Byte-identical copy of the minified `/shell/v1.js` for consumers that have not migrated. |
 
 `/shell/*` and `/ecosystem-bar.js` are served with
 `Cache-Control: public, max-age=3600, stale-while-revalidate=86400` and
@@ -16,13 +17,18 @@ changes go to `/shell/v2.*`.
 
 ## Generated data
 
-`scripts/sync-ecosystem.mjs` regenerates three blocks in `shell/v1.js` from
-`ecosystem.json`: `PROPS` (the six bar products, in manifest order), the tour's
-`SHOWCASE_PRODUCTS`, and `CATALOG` (every product, including ones hidden from
-the bar, so names and Star targets resolve for them). It then writes the
-alias and Registry's fallback copies (`apps/registry/public/shell/v1.*`,
-`apps/registry/public/ecosystem-bar.js`). Edit `shell/v1.js` by hand only
-outside the generated markers; `--check` fails on drift.
+`scripts/sync-ecosystem.mjs` regenerates three blocks in the source
+`apps/docs-next/shell/v1.js` from `ecosystem.json`: `PROPS` (the six bar
+products, in manifest order), the tour's `SHOWCASE_PRODUCTS`, and `CATALOG`
+(every product, including ones hidden from the bar, so names and Star targets
+resolve for them). It then minifies the source with esbuild into
+`public/shell/v1.js`, `public/ecosystem-bar.js`, and `public/shell/v1.css`.
+Edit only the source, and only outside the generated markers; never edit the
+files in `public/`. `--check` fails when the source or the minified build is
+stale. docs-next's `prebuild` runs the sync, so deployments always serve the
+current build. No other app keeps a copy: Registry and the sibling sites load
+the shell from `NEXT_PUBLIC_AGENTSKIT_SHELL_ORIGIN` (default
+`https://www.agentskit.io`).
 
 ## Consumer integration
 
