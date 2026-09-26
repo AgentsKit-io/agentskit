@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "918523d9b97d51be61ce0f5e25df57ab02367b9abf280653c04a6485f9920505",
+  "contentHash": "8773e37fccc6d5064146193fce7bfde228951e61d5ef020e61c1c00d9cd2ebd6",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-26T20:48:45.090Z",
+  "generatedAt": "2026-09-26T21:14:50.929Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7526,7 +7526,7 @@
         "document",
         "project"
       ],
-      "contentHash": "70dc93b9edcd8dba0c32f1be2df3b4939b2b96abcc956547f0fa184a7b1cf78d"
+      "contentHash": "3ca9435820ac295eec4075065ddc5a24be0a8338ff8baaebe15ca8196351b833"
     },
     {
       "id": "document:SECURITY.md",
@@ -33302,7 +33302,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "438087ef0a9df0fe1eace988ebd8e4ec071071996d914d4e42b5a82658a8dfde"
+      "contentHash": "cb59244748c4dd400f86c62ced3dd1f0e4f0de0238b8cf6f06e4f3db081a039a"
     },
     {
       "id": "module:scripts/check-readme-badge.mjs",
@@ -33528,6 +33528,19 @@
       "contentHash": "087a32b65b0a8e44a98f36b17c07e61088e58580164062b3de7a8cfe33e3eae5"
     },
     {
+      "id": "module:scripts/ecosystem-visual.test.mjs",
+      "type": "module",
+      "title": "ecosystem-visual.test.mjs",
+      "path": "scripts/ecosystem-visual.test.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "test",
+        "scripts"
+      ],
+      "contentHash": "577c179d297fc9e62185079235a2077a814b3b0cef38ca899c45196f0df2980c"
+    },
+    {
       "id": "module:scripts/external-contributions.test.mjs",
       "type": "module",
       "title": "external-contributions.test.mjs",
@@ -33708,6 +33721,35 @@
         "lib"
       ],
       "contentHash": "59f7a442bca27f41f2374a0d9c9b8ccf24c73caea44a6f151eb4f6f6276ae706"
+    },
+    {
+      "id": "module:scripts/lib/ecosystem-visual.mjs",
+      "type": "module",
+      "title": "ecosystem-visual.mjs",
+      "path": "scripts/lib/ecosystem-visual.mjs",
+      "symbols": [
+        "CONTRAST_REGIONS",
+        "PAGES",
+        "SHELL_CHECKS",
+        "THEMES",
+        "VIEWPORTS",
+        "applyScope",
+        "contrastRatio",
+        "ecosystemSites",
+        "formatSummary",
+        "isOccluded",
+        "measureTextContrast",
+        "parseSiteOrigins",
+        "rebaseSite",
+        "relativeLuminance",
+        "requiredContrast"
+      ],
+      "tags": [
+        "module",
+        "mjs",
+        "lib"
+      ],
+      "contentHash": "cf1d57a62e97b10807eb6b4ab895b273f194c2d54aab24e3355b79895d051f80"
     },
     {
       "id": "module:scripts/lib/external-contributions.mjs",
@@ -34456,6 +34498,18 @@
         "scripts"
       ],
       "contentHash": "95e3bb51d798677fc3de4ee83ec4a565db0736dc15d36d10ede1c673e6359ada"
+    },
+    {
+      "id": "module:scripts/verify-ecosystem-visual.mjs",
+      "type": "module",
+      "title": "verify-ecosystem-visual.mjs",
+      "path": "scripts/verify-ecosystem-visual.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "scripts"
+      ],
+      "contentHash": "f64a574723b518979e3012f668741146fcf45a32fd8bdefe8d05c39bde4ddc37"
     },
     {
       "id": "module:scripts/verify-launch-demo.mjs",
@@ -35646,8 +35700,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "c8ab61b55ac645aeb3c3fda3c2ded7bf2ee9499b7343e16bf24fe60034328ba2",
-    "fileCount": 2376,
+    "hash": "4619d4729f13c88fd47277fd1505aacd58ff8e88095ede492d8397063e0579eb",
+    "fileCount": 2379,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -35669,9 +35723,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "0d9ff53deb5ac5a54397f1ad9264ef04755962fbb2bcb3222dac01a12f73710e",
+    "contentHash": "cd9431d024abbfd7a328ecd4286359b704fd54b29761524f49e7f06db2745ec5",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "89aef09682fbe4ad818f65b1dd9891421572304680f18aced73734e8ebcf92dc",
+    "snapshotHash": "806ccdcd7159c520ccced3ebc0edfdd71ef4f4cb0ad477c61a5bc5fb0e20cc33",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -35691,7 +35745,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2329,
+      "documentCount": 2332,
       "fieldNames": [
         "aliases",
         "body",
@@ -35702,13 +35756,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 2.9931300987548304,
-        "body": 61.62215543151567,
-        "headings": 4.1412623443538,
-        "path": 7.635036496350365,
-        "summary": 4.640618291112065,
-        "symbols": 7.4723057106054105,
-        "title": 3.329755259768141
+        "aliases": 2.9935677530017153,
+        "body": 61.54288164665523,
+        "headings": 4.138078902229846,
+        "path": 7.632933104631218,
+        "summary": 4.634648370497427,
+        "symbols": 7.479845626072041,
+        "title": 3.3314751286449398
       }
     },
     "entries": [
@@ -38039,7 +38093,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "f35cb193ad36b2b937d0fb60d16ada454cf3ae0ea842866bcabd5f16adb095d0",
+        "contentHash": "67d0bb477699a1797c18e27d4e4640d6c340b6ffb5005ef2381d224ffc3512d3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -79744,7 +79798,7 @@
         ],
         "fields": {
           "title": "scripts/",
-          "headings": "scripts/ check-quality-gates.mjs (orchestrator) check-for-agents-coverage.mjs check-src-test-parity.mjs check-no-bare-throw.mjs check-core-no-deps.mjs check-stability-tier.mjs check-readme-badge.mjs check-coverage-floor.mjs check-promotion-rfc.mjs check-stable-dependencies.mjs check-stability-evidence.mjs report-stability-readiness.mjs check-no-any.mjs check-named-exports.mjs check-file-size.mjs check-doc-index.mjs check-intl-parity.mjs check-packed-consumers.mjs check-public-api-snapshot.mjs Release registry preflight",
+          "headings": "scripts/ check-quality-gates.mjs (orchestrator) check-for-agents-coverage.mjs check-src-test-parity.mjs check-no-bare-throw.mjs check-core-no-deps.mjs check-stability-tier.mjs check-readme-badge.mjs check-coverage-floor.mjs check-promotion-rfc.mjs check-stable-dependencies.mjs check-stability-evidence.mjs report-stability-readiness.mjs check-no-any.mjs check-named-exports.mjs check-file-size.mjs check-doc-index.mjs check-intl-parity.mjs check-packed-consumers.mjs check-public-api-snapshot.mjs Release registry preflight verify-ecosystem-visual.mjs",
           "path": "scripts/README.md",
           "symbols": "",
           "summary": "Repo-level CI helpers. Each script is dependency-free Node ESM, runnable from the repo root. They run on every PR + push to main via .github/workflows/ci.yml and a husky pre-push hook.",
@@ -79853,7 +79907,7 @@
             }
           ]
         },
-        "contentHash": "70dc93b9edcd8dba0c32f1be2df3b4939b2b96abcc956547f0fa184a7b1cf78d",
+        "contentHash": "3ca9435820ac295eec4075065ddc5a24be0a8338ff8baaebe15ca8196351b833",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -173513,7 +173567,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "438087ef0a9df0fe1eace988ebd8e4ec071071996d914d4e42b5a82658a8dfde",
+        "contentHash": "cb59244748c4dd400f86c62ced3dd1f0e4f0de0238b8cf6f06e4f3db081a039a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174364,6 +174418,47 @@
         "confidence": "observed"
       },
       {
+        "id": "module:scripts/ecosystem-visual.test.mjs",
+        "kind": "module",
+        "path": "scripts/ecosystem-visual.test.mjs",
+        "title": "ecosystem-visual.test.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "test",
+          "scripts"
+        ],
+        "fields": {
+          "title": "ecosystem-visual.test.mjs",
+          "headings": "",
+          "path": "scripts/ecosystem-visual.test.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs test scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:scripts/lib/ecosystem-visual.mjs",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "577c179d297fc9e62185079235a2077a814b3b0cef38ca899c45196f0df2980c",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:scripts/external-contributions.test.mjs",
         "kind": "module",
         "path": "scripts/external-contributions.test.mjs",
@@ -174943,6 +175038,68 @@
           "outbound": []
         },
         "contentHash": "59f7a442bca27f41f2374a0d9c9b8ccf24c73caea44a6f151eb4f6f6276ae706",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:scripts/lib/ecosystem-visual.mjs",
+        "kind": "module",
+        "path": "scripts/lib/ecosystem-visual.mjs",
+        "title": "ecosystem-visual.mjs",
+        "aliases": [],
+        "symbols": [
+          "CONTRAST_REGIONS",
+          "PAGES",
+          "SHELL_CHECKS",
+          "THEMES",
+          "VIEWPORTS",
+          "applyScope",
+          "contrastRatio",
+          "ecosystemSites",
+          "formatSummary",
+          "isOccluded",
+          "measureTextContrast",
+          "parseSiteOrigins",
+          "rebaseSite",
+          "relativeLuminance",
+          "requiredContrast"
+        ],
+        "tags": [
+          "module",
+          "mjs",
+          "lib"
+        ],
+        "fields": {
+          "title": "ecosystem-visual.mjs",
+          "headings": "",
+          "path": "scripts/lib/ecosystem-visual.mjs",
+          "symbols": "CONTRAST_REGIONS PAGES SHELL_CHECKS THEMES VIEWPORTS applyScope contrastRatio ecosystemSites formatSummary isOccluded measureTextContrast parseSiteOrigins rebaseSite relativeLuminance requiredContrast",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs lib"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:scripts/ecosystem-visual.test.mjs",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:scripts/verify-ecosystem-visual.mjs",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "cf1d57a62e97b10807eb6b4ab895b273f194c2d54aab24e3355b79895d051f80",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -177209,6 +177366,46 @@
           ]
         },
         "contentHash": "95e3bb51d798677fc3de4ee83ec4a565db0736dc15d36d10ede1c673e6359ada",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:scripts/verify-ecosystem-visual.mjs",
+        "kind": "module",
+        "path": "scripts/verify-ecosystem-visual.mjs",
+        "title": "verify-ecosystem-visual.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "scripts"
+        ],
+        "fields": {
+          "title": "verify-ecosystem-visual.mjs",
+          "headings": "",
+          "path": "scripts/verify-ecosystem-visual.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:scripts/lib/ecosystem-visual.mjs",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "f64a574723b518979e3012f668741146fcf45a32fd8bdefe8d05c39bde4ddc37",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -184945,7 +185142,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "4afcc4ffb480e9f8721e27c8f5ef761a263a5af685c9e21151387821bcebd000",
+        "contentHash": "020d4dea85f09906c66a115f3882c01071b85f4f3e0caf16143fe030db0c21b8",
         "provenance": "observed",
         "confidence": "observed"
       }
