@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import { counts, lists } from '@/lib/ecosystem-stats'
-import { brandSlug } from '@/lib/brand-slugs'
+import { MARQUEE_SLUGS, brandSlug } from '@/lib/brand-slugs'
 import { CliShowcase } from './cli-showcase'
 import { LogoMarquee, type MarqueeItem } from './logo-marquee'
 
@@ -56,27 +56,6 @@ function pretty(id: string): string {
   return id.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
 }
 
-/**
- * Simple Icons slugs verified (curl, 2026-06) to resolve to a real logo on the
- * CDN. The marquee shows logos only (no text), so an id without a live logo
- * would render broken — we filter to this set and dedupe by slug. Brands whose
- * logos Simple Icons dropped for trademark reasons (Slack, OpenAI, Twilio,
- * Salesforce, AWS, Azure…) are intentionally absent; the full catalog lives
- * behind the "All N …" links. Re-run scripts/check-brand-logos if logos break.
- */
-const VERIFIED_SLUGS = new Set<string>([
-  // integrations
-  'github', 'notion', 'stripe', 'linear', 'jira', 'discord', 'gmail',
-  'googlecalendar', 'googledrive', 'dropbox', 'box', 'figma', 'airtable',
-  'asana', 'hubspot', 'intercom', 'sentry', 'shopify', 'telegram', 'whatsapp',
-  'mailchimp', 'caldotcom', 'confluence', 'pagerduty', 'elevenlabs',
-  'googlemaps', 'bigcommerce', 'calendly',
-  // providers
-  'anthropic', 'google', 'googlegemini', 'mistralai', 'deepseek', 'huggingface',
-  'perplexity', 'vercel', 'openrouter', 'x', 'googlecloud', 'alibabacloud',
-  'cloudflare', 'ollama', 'replicate',
-])
-
 /** Proper display names where title-casing the id reads wrong. */
 const LABEL_OVERRIDES: Record<string, string> = {
   github: 'GitHub',
@@ -101,7 +80,7 @@ function logoItems(ids: string[]): MarqueeItem[] {
   const out: MarqueeItem[] = []
   for (const id of ids) {
     const slug = brandSlug(id)
-    if (!VERIFIED_SLUGS.has(slug) || seen.has(slug)) continue
+    if (!MARQUEE_SLUGS.has(slug) || seen.has(slug)) continue
     seen.add(slug)
     out.push({ id, label: LABEL_OVERRIDES[id] ?? pretty(id) })
   }

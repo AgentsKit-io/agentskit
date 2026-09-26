@@ -3,7 +3,8 @@
  * Ecosystem visual/UX regression check for every public AgentsKit site.
  *
  * For each site × {home, docs} × {light, dark} × {1440×960, 390×844} it loads the
- * page in Chromium and asserts that the shared shell (v1) bar is present with
+ * page in Chromium (themes a site does not ship, per SITE_THEMES, are reported as not
+ * applicable) and asserts that the shared shell (v1) bar is present with
  * the six products in order, the current product and the Star target are
  * right, the <agentskit-footer> upgraded, nothing overflows horizontally, no
  * console errors fired, and every visible text run in the bar, product
@@ -27,7 +28,7 @@ import { join, resolve } from 'node:path'
 import { parseArgs } from 'node:util'
 import { chromium } from '@playwright/test'
 import {
-  CONTRAST_REGIONS, PAGES, THEMES, VIEWPORTS, applyScope, ecosystemSites, formatSummary, isOccluded, measureTextContrast, parseSiteOrigins, rebaseSite, requiredContrast,
+  CONTRAST_REGIONS, PAGES, THEMES, VIEWPORTS, applyScope, ecosystemSites, formatSummary, isOccluded, measureTextContrast, parseSiteOrigins, planJobs, rebaseSite, requiredContrast,
 } from './lib/ecosystem-visual.mjs'
 
 const root = resolve(import.meta.dirname, '..')
@@ -55,8 +56,8 @@ const siteOrigins = parseSiteOrigins([
   ...(args['site-origin'] ?? []),
 ], sites.map((site) => site.id))
 sites = sites.map((site) => (siteOrigins.has(site.id) ? rebaseSite(site, siteOrigins.get(site.id)) : site))
-const jobs = sites.flatMap((site) => pick(PAGES, args.pages).flatMap((page) =>
-  pick(THEMES, args.themes).flatMap((theme) => pick(VIEWPORTS, args.viewports, (v) => v.id).map((viewport) => ({ site, page, theme, viewport })))))
+// Themes a site does not ship (SITE_THEMES) are reported as not applicable, never run.
+const { jobs, notApplicable } = planJobs(sites, pick(PAGES, args.pages), pick(THEMES, args.themes), pick(VIEWPORTS, args.viewports, (v) => v.id))
 const shotsDir = join(args.out, 'screenshots')
 mkdirSync(shotsDir, { recursive: true })
 
@@ -278,6 +279,12 @@ async function runJob(browser, helper, { site, page: pageKind, theme, viewport }
       await route.fulfill({ response, headers: { ...response.headers(), 'access-control-allow-origin': '*' } })
     })
   }
+  if (siteOrigins.has(site.id)) {
+    // Vercel injects /_vercel/(speed-)insights/script.js only on its own deployments; a local
+    // `next start` answers 404, which is not a page defect. Serve them empty for local builds.
+    const origin = siteOrigins.get(site.id)
+    await context.route((url) => url.origin === origin && url.pathname.startsWith('/_vercel/'), (route) => route.fulfill({ status: 200, contentType: 'text/javascript', body: '' }))
+  }
   const page = await context.newPage()
   const errors = []
   page.on('console', (message) => { if (message.type() === 'error') errors.push({ text: message.text(), url: message.location().url ?? '' }) })
@@ -386,10 +393,10 @@ const mode = [
   ...[...siteOrigins].map(([id, origin]) => `${id} from ${origin}`),
   ...(args['shell-origin'] ? [`shell from ${args['shell-origin']}`] : []),
 ].join(', ') || 'production'
-const summary = formatSummary(runs, { scope: args.scope, mode })
-writeFileSync(join(args.out, 'results.json'), JSON.stringify({ mode, scope: args.scope, runs }, null, 2))
+const summary = formatSummary(runs, { scope: args.scope, mode, notApplicable })
+writeFileSync(join(args.out, 'results.json'), JSON.stringify({ mode, scope: args.scope, runs, notApplicable }, null, 2))
 writeFileSync(join(args.out, 'summary.md'), summary)
 if (process.env.GITHUB_STEP_SUMMARY) appendFileSync(process.env.GITHUB_STEP_SUMMARY, summary)
 const failing = runs.filter((run) => run.checks.some((c) => !c.ok))
-console.log(`\n${runs.length - failing.length}/${runs.length} runs passed · summary: ${join(args.out, 'summary.md')}`)
+console.log(`\n${runs.length - failing.length}/${runs.length} runs passed${notApplicable.length ? ` · ${notApplicable.length} not applicable` : ''} · summary: ${join(args.out, 'summary.md')}`)
 process.exit(failing.length ? 1 : 0)

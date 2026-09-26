@@ -2,7 +2,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { describe, expect, it } from 'vitest'
 import {
-  applyScope, contrastRatio, ecosystemSites, formatSummary, isOccluded, measureTextContrast, parseSiteOrigins, rebaseSite, requiredContrast,
+  THEMES, VIEWPORTS, applyScope, contrastRatio, ecosystemSites, formatSummary, isOccluded, measureTextContrast, parseSiteOrigins, planJobs, rebaseSite, requiredContrast,
 } from './lib/ecosystem-visual.mjs'
 
 const ecosystem = JSON.parse(readFileSync(join(import.meta.dirname, '..', 'ecosystem.json'), 'utf8'))
@@ -30,6 +30,29 @@ describe('ecosystem sites', () => {
     const playbook = sites.find((site) => site.id === 'playbook')
     expect(playbook.expectedCurrent).toBeNull()
     expect(playbook.expectedStar).toBe('https://github.com/AgentsKit-io/agents-playbook')
+  })
+
+  it('runs Playbook in dark only and every other site in both themes', () => {
+    for (const site of sites) expect(site.themes).toEqual(site.id === 'playbook' ? ['dark'] : ['light', 'dark'])
+  })
+
+  it('plans no light runs for Playbook and reports them as not applicable', () => {
+    const { jobs, notApplicable } = planJobs(sites, ['home', 'docs'], THEMES, VIEWPORTS)
+    expect(jobs).toHaveLength(sites.length * 8 - 4)
+    expect(jobs.some((job) => job.site.id === 'playbook' && job.theme === 'light')).toBe(false)
+    expect(jobs.filter((job) => job.site.id === 'playbook').map((job) => job.theme)).toEqual(['dark', 'dark', 'dark', 'dark'])
+    expect(notApplicable).toEqual([
+      { site: 'playbook', page: 'home', theme: 'light', viewport: 'desktop', reason: 'Playbook ships dark only' },
+      { site: 'playbook', page: 'home', theme: 'light', viewport: 'mobile', reason: 'Playbook ships dark only' },
+      { site: 'playbook', page: 'docs', theme: 'light', viewport: 'desktop', reason: 'Playbook ships dark only' },
+      { site: 'playbook', page: 'docs', theme: 'light', viewport: 'mobile', reason: 'Playbook ships dark only' },
+    ])
+    expect(planJobs(sites, ['home'], ['dark'], VIEWPORTS).notApplicable).toEqual([])
+  })
+
+  it('keeps the allowed themes when a site is rebased onto a local origin', () => {
+    const playbook = sites.find((site) => site.id === 'playbook')
+    expect(rebaseSite(playbook, 'http://localhost:3004').themes).toEqual(['dark'])
   })
 
   it('always resolves a docs page distinct from the home page', () => {
@@ -140,6 +163,15 @@ describe('reporting', () => {
     expect(scoped[0].ok).toBe(false)
     expect(scoped[1]).toMatchObject({ ok: true, warning: true })
     expect(applyScope(checks, 'all')).toBe(checks)
+  })
+
+  it('lists not-applicable runs without counting them as failures', () => {
+    const run = { site: 'agentskit', page: 'home', theme: 'light', viewport: 'desktop', resolvedTheme: 'light', contrast: { measured: 1, failing: [] }, checks: [{ id: 'theme-applied', ok: true, detail: '' }] }
+    const skipped = { site: 'playbook', page: 'home', theme: 'light', viewport: 'desktop', reason: 'Playbook ships dark only' }
+    const summary = formatSummary([run], { scope: 'all', mode: 'production', notApplicable: [skipped] })
+    expect(summary).toContain('1 runs · 0 failing · 1 not applicable')
+    expect(summary).toContain('| playbook | home | light | desktop | — | — | n/a (Playbook ships dark only) |')
+    expect(summary).not.toContain('## Failures')
   })
 
   it('prints every failing text run with site, theme, viewport, element, and measured contrast', () => {
