@@ -21,6 +21,14 @@
   --ak-fg: var(--ak-foam);
   --ak-muted: var(--ak-graphite);
   --ak-accent: #0969da;
+  /* Accent "ink" for small accent-coloured text on tinted or glass surfaces, where the brand
+     accents fall under WCAG AA; text on a solid accent fill; install-command syntax colours. */
+  --ak-blue-ink: #0550ae;
+  --ak-green-ink: #116329;
+  --ak-on-blue: #ffffff;
+  --rg-code-command: #0550ae;
+  --rg-code-package: #0a3069;
+  --rg-code-argument: #116329;
 }
 
 html {
@@ -37,6 +45,12 @@ html {
   --ak-blue: #58A6FF;
   --ak-red: #F85149;
   --ak-accent: #58a6ff;
+  --ak-blue-ink: var(--ak-blue);
+  --ak-green-ink: var(--ak-green);
+  --ak-on-blue: #0d1117;
+  --rg-code-command: #79c0ff;
+  --rg-code-package: #a5d6ff;
+  --rg-code-argument: #7ee787;
 }
 
 /* Shiki dual-theme resolver: tokens carry `--shiki-light` / `--shiki-dark` as inline vars.
@@ -64,6 +78,12 @@ pre[data-language] span,
   --color-ak-green: var(--ak-green);
   --color-ak-blue: var(--ak-blue);
   --color-ak-red: var(--ak-red);
+  --color-ak-blue-ink: var(--ak-blue-ink);
+  --color-ak-green-ink: var(--ak-green-ink);
+  --color-ak-on-blue: var(--ak-on-blue);
+  --color-rg-code-command: var(--rg-code-command);
+  --color-rg-code-package: var(--rg-code-package);
+  --color-rg-code-argument: var(--rg-code-argument);
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
   --font-display: 'Space Grotesk', var(--font-sans, Inter), system-ui, sans-serif;
 }

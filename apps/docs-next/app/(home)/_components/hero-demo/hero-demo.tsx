@@ -253,12 +253,12 @@ export function HeroDemo() {
                 }`}
               >
                 <div className="grid min-w-0 grid-cols-[6.5rem_minmax(0,1fr)] items-baseline gap-1">
-                  <span className={isActive ? 'text-ak-blue' : 'text-ak-foam'}>
+                  <span className={isActive ? 'text-ak-blue-ink' : 'text-ak-foam'}>
                     {row.property}:
                   </span>
                   <span
                     key={value}
-                    className={`${isActive ? 'text-ak-green' : 'text-ak-graphite'} ${
+                    className={`${isActive ? 'text-ak-green-ink' : 'text-ak-graphite'} ${
                       !reduceMotion && isActive ? 'animate-fade-in' : ''
                     } truncate`}
                   >
