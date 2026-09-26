@@ -75,6 +75,9 @@ importers:
       '@vitest/coverage-v8':
         specifier: ^4.1.11
         version: 4.1.11(vitest@4.1.11)
+      esbuild:
+        specifier: '>=0.28.1 <1'
+        version: 0.28.1
       husky:
         specifier: ^9.1.7
         version: 9.1.7

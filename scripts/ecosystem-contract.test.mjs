@@ -1,6 +1,7 @@
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
+import { existsSync, readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { transformSync } from 'esbuild'
 import { test } from 'vitest'
 import { computeStats, REPO_ROOT } from './compute-stats.mjs'
 import {
@@ -180,7 +181,7 @@ test('conservative floors cannot exceed exact values', () => {
   assert.throws(() => parseEcosystemClaims(claims, manifest), /must be between zero and the exact value/)
 })
 
-const SHELL = readFileSync(join(REPO_ROOT, 'apps/docs-next/public/shell/v1.js'), 'utf8')
+const SHELL = readFileSync(join(REPO_ROOT, 'apps/docs-next/shell/v1.js'), 'utf8')
 
 function shellBlock(name) {
   const match = SHELL.match(new RegExp(`ecobar:${name}-start[^\\n]*\\n([\\s\\S]*?)\\n\\s*// ecobar:${name}-end`))
@@ -219,7 +220,7 @@ test('shell v1 defines the bar, tour, footer, and aurora', () => {
   assert.match(SHELL, /background-size:64px 64px/)
   assert.match(SHELL, /:host\(\[grid="off"\]\) \.aka-grid\{display:none\}/)
   assert.match(SHELL, /prefers-reduced-motion: reduce/)
-  const css = readFileSync(join(REPO_ROOT, 'apps/docs-next/public/shell/v1.css'), 'utf8')
+  const css = readFileSync(join(REPO_ROOT, 'apps/docs-next/shell/v1.css'), 'utf8')
   assert.match(css, /\.ak-product-wordmark__product/)
   assert.doesNotMatch(css, /^@import/m)
   assert.match(css, /--ak-graphite: #57606a/)
@@ -241,14 +242,19 @@ test('shell v1 defines the bar, tour, footer, and aurora', () => {
   assert.match(SHELL, /'Play tour of the ecosystem'/)
 })
 
-test('the legacy alias and Registry fallback copies match the hosted shell', () => {
-  for (const rel of ['apps/docs-next/public/ecosystem-bar.js', 'apps/registry/public/ecosystem-bar.js', 'apps/registry/public/shell/v1.js']) {
-    assert.equal(readFileSync(join(REPO_ROOT, rel), 'utf8'), SHELL, rel)
+test('the served shell is the minified build of the source, and no app keeps a copy', () => {
+  const served = readFileSync(join(REPO_ROOT, 'apps/docs-next/public/shell/v1.js'), 'utf8')
+  const expected = transformSync(SHELL, { loader: 'js', minify: true, target: 'es2018', legalComments: 'none', banner: '/*! AgentsKit shell v1 — generated from https://github.com/AgentsKit-io/agentskit/blob/main/apps/docs-next/shell/v1.js */' }).code
+  assert.equal(served, expected)
+  assert.ok(served.length < SHELL.length * 0.8)
+  assert.equal(readFileSync(join(REPO_ROOT, 'apps/docs-next/public/ecosystem-bar.js'), 'utf8'), served)
+  const cssSource = readFileSync(join(REPO_ROOT, 'apps/docs-next/shell/v1.css'), 'utf8')
+  const servedCss = readFileSync(join(REPO_ROOT, 'apps/docs-next/public/shell/v1.css'), 'utf8')
+  assert.equal(servedCss, transformSync(cssSource, { loader: 'css', minify: true, legalComments: 'none', banner: '/*! AgentsKit shell v1 — generated from https://github.com/AgentsKit-io/agentskit/blob/main/apps/docs-next/shell/v1.css */' }).code)
+  for (const rel of ['apps/registry/public/shell', 'apps/registry/public/ecosystem-bar.js']) {
+    assert.equal(existsSync(join(REPO_ROOT, rel)), false, rel)
   }
-  assert.equal(
-    readFileSync(join(REPO_ROOT, 'apps/registry/public/shell/v1.css'), 'utf8'),
-    readFileSync(join(REPO_ROOT, 'apps/docs-next/public/shell/v1.css'), 'utf8'),
-  )
+  assert.match(readFileSync(join(REPO_ROOT, 'apps/registry/lib/shell.ts'), 'utf8'), /NEXT_PUBLIC_AGENTSKIT_SHELL_ORIGIN \?\? DEFAULT_SHELL_ORIGIN/)
 })
 
 test('the shell is served cross-origin with a one-hour cache', () => {
