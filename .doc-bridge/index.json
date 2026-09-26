@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "5b74c59172489b08c6dc20d3cb41e2b3eba02f9ff0cd85b74a3a8100327847a1",
+  "contentHash": "0135748c830825972917a663fc8c9a1078fb2c08208f5e0c5d10f0be3de2153c",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-26T13:42:57.297Z",
+  "generatedAt": "2026-09-26T14:49:05.245Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -5901,24 +5901,24 @@
       "type": "document",
       "title": "ADR 0034 — Ecosystem shell v1",
       "path": "docs/architecture/adrs/0034-ecosystem-shell-v1.md",
-      "description": "Status: Proposed, pending visual review",
+      "description": "Status: Accepted",
       "tags": [
         "document",
         "human"
       ],
-      "contentHash": "a89f45e79119af28641a697db7cd4c05374e2ea882b058e596322e3a0e38f2fb"
+      "contentHash": "7ba15f3922395758b9493d50f1174dec4ed1b9c0339d71d94dc5a952c0189be8"
     },
     {
       "id": "document:docs/architecture/adrs/0035-docs-pruning-and-api-route-consolidation.md",
       "type": "document",
       "title": "ADR 0035 — Documentation pruning and API reference route consolidation",
       "path": "docs/architecture/adrs/0035-docs-pruning-and-api-route-consolidation.md",
-      "description": "Status: Proposed",
+      "description": "Status: Accepted",
       "tags": [
         "document",
         "human"
       ],
-      "contentHash": "69f96d9b23d9201e78b1c89e377388833eb269771edc46e595c1976e0cc90c42"
+      "contentHash": "d736b90aba22645c16a90bd2a9300058529c08722a97da727ea9f385edc9c51e"
     },
     {
       "id": "document:docs/architecture/adrs/README.md",
@@ -5930,7 +5930,7 @@
         "document",
         "human"
       ],
-      "contentHash": "a4fa09ceae012c0bdd6e2a68a76df8c75d505a93a25a8d63ba10e6edba183cf4"
+      "contentHash": "2e7b617c138b74a04655e03a9f064a7eba26b34902fc0ca1cb7456daa7406589"
     },
     {
       "id": "document:docs/architecture/ecosystem-manifest.md",
@@ -35605,7 +35605,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "8af4812878c30d764343272f39808aa816ce99e7381b927563f36af9638f4c9f",
+    "hash": "3a9cdc5071545be378b8d023d55bb449d0db7219cc078a7d4e295ded3c0a6f36",
     "fileCount": 2374,
     "projectionVersion": 2
   },
@@ -35628,9 +35628,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "8b3bd40eabe8ffb7ef587c3b21a1a3a65c58bf677e02df07ac1d5c0c7cc73454",
+    "contentHash": "512c9ae5bdda3090ed95bcd306637ac536049c4991e71ba264a9bdc1c8aa6bf3",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "cbd9d5c2921650804fb8bfffa1ff227a549d148f76a0d07709dc6a033e033290",
+    "snapshotHash": "a6bce36a23fd9dce6e6fbdeefafd4d91333237ffb4aac09c990e69574b969574",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -35662,10 +35662,10 @@
       ],
       "averageFieldLength": {
         "aliases": 2.9926944563816074,
-        "body": 61.589170605930384,
+        "body": 61.58831113021057,
         "headings": 4.143962183068329,
         "path": 7.6364417705199825,
-        "summary": 4.639020197679415,
+        "summary": 4.637730984099699,
         "symbols": 7.4611087236785565,
         "title": 3.327889987107864
       }
@@ -68108,7 +68108,7 @@
         "kind": "document",
         "path": "docs/architecture/adrs/0034-ecosystem-shell-v1.md",
         "title": "ADR 0034 — Ecosystem shell v1",
-        "summary": "Status: Proposed, pending visual review",
+        "summary": "Status: Accepted",
         "audience": "human",
         "aliases": [],
         "tags": [
@@ -68120,8 +68120,8 @@
           "headings": "ADR 0034 — Ecosystem shell v1 Context Decision Consequences Positive Negative Alternatives considered",
           "path": "docs/architecture/adrs/0034-ecosystem-shell-v1.md",
           "symbols": "",
-          "summary": "Status: Proposed, pending visual review",
-          "body": "ADR 0034 — Ecosystem shell v1 - Status : Proposed, pending visual review - Date : 2026-09-25 - Related ADRs : ADR 0021, ADR 0029, ADR 0033 Context ADR 0029 chose a hosted, zero-dependency web shell over a framework package. Until now only the ecosystem bar and the interactive tour were shared, through /ecosystem-bar.js . Each site still carried its own footer, cursor or aurora background, wordmark, and heading font, so the seven sites drifted. ADR 0033 aligned Registry with AgentsKit by copying components between the two apps, which does not reach the sibling repositories. Fumadocs owns search, the mobile menu, the theme toggle, and the sidebar on most of the sites. Injecting a replacement product header would fight those behaviours. Decision The AgentsKit site ( apps/docs-next ) hosts a versioned shell: Asset Content --- --- /shell/v1.js Auto-injected ecosystem bar, <agentskit-ecosystem tour, <agentskit-footer , <agentskit-aurora . /shell/v1.css Zero-specificity --ak- tokens (including --ak-graphite ), font stacks, .ak-product-wordmark , footer fallback and local-column styles, aurora layer. /ecosystem-bar.js Legacy alias, byte-identical to /shell/v1.js . 1. Order and membership. The bar and tour list six products in manifest order: AgentsKit, Registry, Chat, Doc Bridge, Code Review, Harness. Playbook is not listed. A site loaded with data-current=\"playbook\" highlights nothing and its Star action targets AgentsKit-io/agents-playbook , resolved from a generated catalog of every manifest product. 2. Star. The GitHub Star action exists only in the bar and targets data-current-repo , falling back to the current product's repository. Product headers do not carry GitHub or Star links. 3. Footer. <agentskit-footer current repo description license renders its upgraded content in a shadow root, so server-rendered children are never mutated and framework hydration is unaffected. license defaults to MIT License . Children are the fallback: an ak-footer-fallback element with plain ecosystem, repository, and license links that crawlers and no-JS readers see (kept in the DOM, not displayed after upgrade), plus an optional slot=\"local\" element ( ak-footer-local , with ak-footer-col columns) that is projected into the upgraded footer as product-owned navigation. The footer fades in over the page instead of drawing a hard top edge. 4. Aurora. <agentskit-aurora is a fixed, aria-hidden , non-interactive WebGL layer behind content, with an animated CSS fallback. It reads the product's --ak-accent , paints over the page's --ak-bg , and chooses light or dark from that background, then from a dark / light class or data-theme on <html , then from prefers-color-scheme . It renders one still frame when prefers-reduced-motion is set. A grid mesh taken from the Playbook home (64px, 1px --ak-fg lines at 4% alpha, layer opacity 0.4) is on by default and opted out with grid=\"off\" ; it scrolls with the page and fades out 480px before the document ends. 5. Surface override. A region that is dark or light by design declares data-ak-surface=\"dark light\" on <body or a descendant (first match wins). The bar, tour, footer, and aurora then use that palette instead of the page theme, and revert when the attribute disappears (observed for client navigation). The shell applies it through one style element in <head , not by editing page markup. 6. Product header. Each site keeps its Fumadocs layout and renders the .ak-product-wordmark markup as nav.title ; styling comes from the shell stylesheet. Heroes stay product-owned. 7. Distribution. scripts/sync-ecosystem.mjs generates the bar, tour, and catalog blocks from ecosystem.json , writes the alias, and copies the shell into apps/registry/public/shell/ as a fallback for development and origin outages. /shell/ is served with Cache-Control: public, max-age=3600, stale-while-revalidate=86400 and Access-Control-Allow-Origin: . 8. Loading. Because the shell only writes into shadow roots and inserts the bar as a new first ch",
+          "summary": "Status: Accepted",
+          "body": "ADR 0034 — Ecosystem shell v1 - Status : Accepted - Date : 2026-09-25 - Related ADRs : ADR 0021, ADR 0029, ADR 0033 Context ADR 0029 chose a hosted, zero-dependency web shell over a framework package. Until now only the ecosystem bar and the interactive tour were shared, through /ecosystem-bar.js . Each site still carried its own footer, cursor or aurora background, wordmark, and heading font, so the seven sites drifted. ADR 0033 aligned Registry with AgentsKit by copying components between the two apps, which does not reach the sibling repositories. Fumadocs owns search, the mobile menu, the theme toggle, and the sidebar on most of the sites. Injecting a replacement product header would fight those behaviours. Decision The AgentsKit site ( apps/docs-next ) hosts a versioned shell: Asset Content --- --- /shell/v1.js Auto-injected ecosystem bar, <agentskit-ecosystem tour, <agentskit-footer , <agentskit-aurora . /shell/v1.css Zero-specificity --ak- tokens (including --ak-graphite ), font stacks, .ak-product-wordmark , footer fallback and local-column styles, aurora layer. /ecosystem-bar.js Legacy alias, byte-identical to /shell/v1.js . 1. Order and membership. The bar and tour list six products in manifest order: AgentsKit, Registry, Chat, Doc Bridge, Code Review, Harness. Playbook is not listed. A site loaded with data-current=\"playbook\" highlights nothing and its Star action targets AgentsKit-io/agents-playbook , resolved from a generated catalog of every manifest product. 2. Star. The GitHub Star action exists only in the bar and targets data-current-repo , falling back to the current product's repository. Product headers do not carry GitHub or Star links. 3. Footer. <agentskit-footer current repo description license renders its upgraded content in a shadow root, so server-rendered children are never mutated and framework hydration is unaffected. license defaults to MIT License . Children are the fallback: an ak-footer-fallback element with plain ecosystem, repository, and license links that crawlers and no-JS readers see (kept in the DOM, not displayed after upgrade), plus an optional slot=\"local\" element ( ak-footer-local , with ak-footer-col columns) that is projected into the upgraded footer as product-owned navigation. The footer fades in over the page instead of drawing a hard top edge. 4. Aurora. <agentskit-aurora is a fixed, aria-hidden , non-interactive WebGL layer behind content, with an animated CSS fallback. It reads the product's --ak-accent , paints over the page's --ak-bg , and chooses light or dark from that background, then from a dark / light class or data-theme on <html , then from prefers-color-scheme . It renders one still frame when prefers-reduced-motion is set. A grid mesh taken from the Playbook home (64px, 1px --ak-fg lines at 4% alpha, layer opacity 0.4) is on by default and opted out with grid=\"off\" ; it scrolls with the page and fades out 480px before the document ends. 5. Surface override. A region that is dark or light by design declares data-ak-surface=\"dark light\" on <body or a descendant (first match wins). The bar, tour, footer, and aurora then use that palette instead of the page theme, and revert when the attribute disappears (observed for client navigation). The shell applies it through one style element in <head , not by editing page markup. 6. Product header. Each site keeps its Fumadocs layout and renders the .ak-product-wordmark markup as nav.title ; styling comes from the shell stylesheet. Heroes stay product-owned. 7. Distribution. scripts/sync-ecosystem.mjs generates the bar, tour, and catalog blocks from ecosystem.json , writes the alias, and copies the shell into apps/registry/public/shell/ as a fallback for development and origin outages. /shell/ is served with Cache-Control: public, max-age=3600, stale-while-revalidate=86400 and Access-Control-Allow-Origin: . 8. Loading. Because the shell only writes into shadow roots and inserts the bar as a new first child of <body , it can l",
           "aliases": "document human"
         },
         "graph": {
@@ -68149,7 +68149,7 @@
             }
           ]
         },
-        "contentHash": "a89f45e79119af28641a697db7cd4c05374e2ea882b058e596322e3a0e38f2fb",
+        "contentHash": "7ba15f3922395758b9493d50f1174dec4ed1b9c0339d71d94dc5a952c0189be8",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -68158,7 +68158,7 @@
         "kind": "document",
         "path": "docs/architecture/adrs/0035-docs-pruning-and-api-route-consolidation.md",
         "title": "ADR 0035 — Documentation pruning and API reference route consolidation",
-        "summary": "Status: Proposed",
+        "summary": "Status: Accepted",
         "audience": "human",
         "aliases": [],
         "tags": [
@@ -68170,8 +68170,8 @@
           "headings": "ADR 0035 — Documentation pruning and API reference route consolidation Context Decision Rationale Consequences Alternatives considered Open questions References",
           "path": "docs/architecture/adrs/0035-docs-pruning-and-api-route-consolidation.md",
           "symbols": "",
-          "summary": "Status: Proposed",
-          "body": "ADR 0035 — Documentation pruning and API reference route consolidation - Status : Proposed - Date : 2026-09-25 - Related ADRs : ADR 0007 Context The generated API reference created one route for every public TypeScript symbol (718 routes across eight packages). The route volume inflated the sitemap and llms-full.txt and buried the hand-written guides, while TypeDoc already groups symbols by package and category. Several cookbook pages and recipes had also drifted from the packages or duplicated a maintained guide: Removed page Reason Permanent redirect --- --- --- /docs/cookbook/streaming Imported an @agentskit/adapters/openai subpath that the package does not export; streaming and chat.stop() are covered by the quickstart. /docs/get-started/getting-started/quickstart /docs/cookbook/rate-limit Used a tokenBucket helper that no package exports. /docs/production/security/rate-limiting /docs/cookbook/tool-confirmation Duplicated the HITL guide and the ToolConfirmation UI page. /docs/agents/hitl /docs/cookbook/edge-deployment Duplicated the edge production guide. /docs/production/edge /docs/reference/recipes/templates-cookbook Duplicated the templates package guide. /docs/reference/packages/templates /docs/reference/recipes/figma-design-extraction Integration-specific walkthrough; the integration guide is canonical. /docs/agents/tools/integrations/figma /docs/reference/recipes/hubspot-airtable-shopify-pulse Integration-specific walkthrough; the integration guide is canonical. /docs/agents/tools/integrations/hubspot /docs/reference/recipes/jira-triage Integration-specific walkthrough; the integration guide is canonical. /docs/agents/tools/integrations/jira /docs/reference/recipes/sentry-incident-bot Integration-specific walkthrough; the integration guide is canonical. /docs/agents/tools/integrations/sentry /docs/reference/recipes/integrations Duplicated the integrations catalog with legacy projections. /docs/agents/tools/integrations /docs/reference/recipes/more-providers Duplicated the hosted providers reference. /docs/data/providers/hosted Decision Generate one API page per package and TypeDoc category. Each category page keeps every symbol's description, signature, members, and cross-references under a stable heading anchor. gen-api.mjs writes the symbol-to-anchor map to apps/docs-next/lib/api-symbol-routes.json ; the docs route issues a permanent redirect from each former symbol URL (with or without .md ) to its category anchor. Remove the pages listed above and keep a permanent redirect for each. Fold the still-valid content into the destination guides: the quickstart shows chat.stop() , the rate-limiting guide uses the real createRateLimiter API, and the HITL guide uses defineZodTool and links the confirmation UI. Rationale The reference stays complete and searchable while its route count tracks API categories rather than individual exports. Readers following old links reach the same content in one maintained place instead of a stale copy. Consequences - The API reference has eight package pages and one page per non-empty category (42 routes instead of 718 symbol routes plus package pages). - Individual symbols no longer have their own page title or description in search results. - Old symbol URLs depend on the committed route map. gen-api.mjs refreshes it only when every package generates, so a partial TypeDoc run cannot drop redirects. - scripts/verify-api-consolidation.mjs and scripts/verify-cookbook-pruning.mjs check the map, anchors, removed files, and redirects. Alternatives considered - Keep every symbol as its own page: rejected because the route volume obscures the guide structure. - Delete generated symbol detail: rejected because it removes useful reference content. - Fix the stale cookbook pages in place: rejected because each duplicated a maintained guide. Open questions None. References - apps/docs-next/scripts/gen-api.mjs - apps/docs-next/lib/api-symbol-routes.json - apps/docs-next/next.config.mjs",
+          "summary": "Status: Accepted",
+          "body": "ADR 0035 — Documentation pruning and API reference route consolidation - Status : Accepted - Date : 2026-09-25 - Related ADRs : ADR 0007 Context The generated API reference created one route for every public TypeScript symbol (718 routes across eight packages). The route volume inflated the sitemap and llms-full.txt and buried the hand-written guides, while TypeDoc already groups symbols by package and category. Several cookbook pages and recipes had also drifted from the packages or duplicated a maintained guide: Removed page Reason Permanent redirect --- --- --- /docs/cookbook/streaming Imported an @agentskit/adapters/openai subpath that the package does not export; streaming and chat.stop() are covered by the quickstart. /docs/get-started/getting-started/quickstart /docs/cookbook/rate-limit Used a tokenBucket helper that no package exports. /docs/production/security/rate-limiting /docs/cookbook/tool-confirmation Duplicated the HITL guide and the ToolConfirmation UI page. /docs/agents/hitl /docs/cookbook/edge-deployment Duplicated the edge production guide. /docs/production/edge /docs/reference/recipes/templates-cookbook Duplicated the templates package guide. /docs/reference/packages/templates /docs/reference/recipes/figma-design-extraction Integration-specific walkthrough; the integration guide is canonical. /docs/agents/tools/integrations/figma /docs/reference/recipes/hubspot-airtable-shopify-pulse Integration-specific walkthrough; the integration guide is canonical. /docs/agents/tools/integrations/hubspot /docs/reference/recipes/jira-triage Integration-specific walkthrough; the integration guide is canonical. /docs/agents/tools/integrations/jira /docs/reference/recipes/sentry-incident-bot Integration-specific walkthrough; the integration guide is canonical. /docs/agents/tools/integrations/sentry /docs/reference/recipes/integrations Duplicated the integrations catalog with legacy projections. /docs/agents/tools/integrations /docs/reference/recipes/more-providers Duplicated the hosted providers reference. /docs/data/providers/hosted Decision Generate one API page per package and TypeDoc category. Each category page keeps every symbol's description, signature, members, and cross-references under a stable heading anchor. gen-api.mjs writes the symbol-to-anchor map to apps/docs-next/lib/api-symbol-routes.json ; the docs route issues a permanent redirect from each former symbol URL (with or without .md ) to its category anchor. Remove the pages listed above and keep a permanent redirect for each. Fold the still-valid content into the destination guides: the quickstart shows chat.stop() , the rate-limiting guide uses the real createRateLimiter API, and the HITL guide uses defineZodTool and links the confirmation UI. Rationale The reference stays complete and searchable while its route count tracks API categories rather than individual exports. Readers following old links reach the same content in one maintained place instead of a stale copy. Consequences - The API reference has eight package pages and one page per non-empty category (42 routes instead of 718 symbol routes plus package pages). - Individual symbols no longer have their own page title or description in search results. - Old symbol URLs depend on the committed route map. gen-api.mjs refreshes it only when every package generates, so a partial TypeDoc run cannot drop redirects. - scripts/verify-api-consolidation.mjs and scripts/verify-cookbook-pruning.mjs check the map, anchors, removed files, and redirects. Alternatives considered - Keep every symbol as its own page: rejected because the route volume obscures the guide structure. - Delete generated symbol detail: rejected because it removes useful reference content. - Fix the stale cookbook pages in place: rejected because each duplicated a maintained guide. Open questions None. References - apps/docs-next/scripts/gen-api.mjs - apps/docs-next/lib/api-symbol-routes.json - apps/docs-next/next.config.mjs",
           "aliases": "document human"
         },
         "graph": {
@@ -68209,7 +68209,7 @@
             }
           ]
         },
-        "contentHash": "69f96d9b23d9201e78b1c89e377388833eb269771edc46e595c1976e0cc90c42",
+        "contentHash": "d736b90aba22645c16a90bd2a9300058529c08722a97da727ea9f385edc9c51e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -68231,7 +68231,7 @@
           "path": "docs/architecture/adrs/README.md",
           "symbols": "",
           "summary": "This directory contains the formal, versioned contracts and architectural decisions for AgentsKit.",
-          "body": "Architecture Decision Records (ADRs) This directory contains the formal, versioned contracts and architectural decisions for AgentsKit. What is an ADR? An ADR captures a single, significant decision — a contract, a framework choice, a deliberate trade-off — along with the context that produced it and the consequences we accept. Once accepted, an ADR is immutable: changes happen by writing a new ADR that supersedes the old one. ADRs are stricter than RFCs. An RFC is a proposal open for discussion; an ADR is the conclusion we have committed to ship. When to write an ADR - A new cross-package contract (Adapter, Tool, Memory, Retriever, Skill, Runtime) - A breaking change to an existing contract - A framework or tooling choice with long-term consequences (e.g., Fumadocs over Docusaurus) - A deliberate trade-off that future contributors would otherwise re-litigate Do NOT write an ADR for: routine features, bug fixes, internal refactors, or anything already covered by the Manifesto. Format Index ADR Title Status --- --- --- Adapter contract (v1) Accepted Tool contract (v1) Accepted Memory contract (v1) Accepted Retriever contract (v1) Accepted Skill contract (v1) Accepted Runtime contract (v1) Accepted Documentation platform: Fumadocs Accepted Runtime argument validation Accepted Composition & dependency rules Accepted Network egress policy (safeFetch) Accepted Inbound request validation (chat triggers) Accepted Vendor adapter scope & granularity Accepted Runtime validation for serialized message records Accepted Trusted application tool-call proposal Accepted Tool authorization before proposal and execution Accepted Cancellable ChatMemory operations Accepted Serializable interaction state Accepted Versioned ecosystem manifest and evidence-backed claims Proposed Public package consolidation Accepted Strict ecosystem documentation quality profile Proposed Evidence-backed package graduation Accepted Public API snapshots and compatibility matrix Accepted Integration execution safety boundaries Accepted Statechart beta safety boundaries Accepted MCP bridge beta boundaries Accepted Shared ecosystem web shell Proposed Shared CLI adapter execution boundary Accepted Registry adopts the ecosystem shell Proposed Ecosystem shell v1 Proposed Documentation pruning and API reference route consolidation Proposed The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.",
+          "body": "Architecture Decision Records (ADRs) This directory contains the formal, versioned contracts and architectural decisions for AgentsKit. What is an ADR? An ADR captures a single, significant decision — a contract, a framework choice, a deliberate trade-off — along with the context that produced it and the consequences we accept. Once accepted, an ADR is immutable: changes happen by writing a new ADR that supersedes the old one. ADRs are stricter than RFCs. An RFC is a proposal open for discussion; an ADR is the conclusion we have committed to ship. When to write an ADR - A new cross-package contract (Adapter, Tool, Memory, Retriever, Skill, Runtime) - A breaking change to an existing contract - A framework or tooling choice with long-term consequences (e.g., Fumadocs over Docusaurus) - A deliberate trade-off that future contributors would otherwise re-litigate Do NOT write an ADR for: routine features, bug fixes, internal refactors, or anything already covered by the Manifesto. Format Index ADR Title Status --- --- --- Adapter contract (v1) Accepted Tool contract (v1) Accepted Memory contract (v1) Accepted Retriever contract (v1) Accepted Skill contract (v1) Accepted Runtime contract (v1) Accepted Documentation platform: Fumadocs Accepted Runtime argument validation Accepted Composition & dependency rules Accepted Network egress policy (safeFetch) Accepted Inbound request validation (chat triggers) Accepted Vendor adapter scope & granularity Accepted Runtime validation for serialized message records Accepted Trusted application tool-call proposal Accepted Tool authorization before proposal and execution Accepted Cancellable ChatMemory operations Accepted Serializable interaction state Accepted Versioned ecosystem manifest and evidence-backed claims Proposed Public package consolidation Accepted Strict ecosystem documentation quality profile Proposed Evidence-backed package graduation Accepted Public API snapshots and compatibility matrix Accepted Integration execution safety boundaries Accepted Statechart beta safety boundaries Accepted MCP bridge beta boundaries Accepted Shared ecosystem web shell Proposed Shared CLI adapter execution boundary Accepted Registry adopts the ecosystem shell Proposed Ecosystem shell v1 Accepted Documentation pruning and API reference route consolidation Accepted The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.",
           "aliases": "document human"
         },
         "graph": {
@@ -68469,7 +68469,7 @@
             }
           ]
         },
-        "contentHash": "a4fa09ceae012c0bdd6e2a68a76df8c75d505a93a25a8d63ba10e6edba183cf4",
+        "contentHash": "2e7b617c138b74a04655e03a9f064a7eba26b34902fc0ca1cb7456daa7406589",
         "provenance": "observed",
         "confidence": "observed"
       },
