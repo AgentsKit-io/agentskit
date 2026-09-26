@@ -403,6 +403,40 @@ function verifyLiveDocBridge(evidence, root, artifact, findings) {
   return true
 }
 
+function gitSucceeds(root, args) {
+  try {
+    execFileSync('git', args, { cwd: root, stdio: 'ignore' })
+    return true
+  } catch {
+    return false
+  }
+}
+
+/**
+ * Binds a commit-mode attestation to the checked-out history without depending on the attested
+ * commit surviving a merge. Squash and rebase merges rewrite the SHA, so ancestry is not required:
+ * the certified paths must be byte-identical between the attested commit and HEAD, or, when that
+ * commit is no longer reachable, their content digest must still match the attested digest. The
+ * digest itself is always verified separately, so neither path weakens content integrity.
+ */
+export function verifyAttestedCommit(root, commit, paths, { head = '', digestMatches }) {
+  const findings = []
+  if (!gitSucceeds(root, ['cat-file', '-e', `${commit}^{commit}`])) {
+    if (!digestMatches) {
+      findings.push({ id: 'attestation-commit', message: `declared content commit ${commit} is unavailable and the certified content no longer matches its digest` })
+    }
+    return findings
+  }
+  const isAncestor = gitSucceeds(root, ['merge-base', '--is-ancestor', commit, 'HEAD'])
+  const unchanged = gitSucceeds(root, ['diff', '--quiet', commit, 'HEAD', '--', ...paths])
+  if (!unchanged) {
+    findings.push(isAncestor
+      ? { id: 'attestation-commit-drift', message: `certified documentation paths changed after ${commit}` }
+      : { id: 'attestation-commit', message: `declared content commit ${commit} is not an ancestor of repository HEAD ${head || 'unavailable'} and its certified documentation paths differ` })
+  }
+  return findings
+}
+
 export function evaluateDocumentationQuality(profileInput, evidenceInput, { root, attestationRoot, verifyAttestation = false } = {}) {
   const profile = parseDocumentationQualityProfile(profileInput)
   const evidence = parseDocumentationQualityEvidence(evidenceInput, profile)
@@ -503,38 +537,20 @@ export function evaluateDocumentationQuality(profileInput, evidenceInput, { root
     if (root) {
       let head = ''
       try { head = execFileSync('git', ['rev-parse', 'HEAD'], { cwd: root, encoding: 'utf8' }).trim() } catch {}
+      const measuredDigest = computeDocumentationEvidenceDigest(root, evidence)
       if (evidence.attestation.sourceMode === 'commit') {
         let status = ''
         try {
           status = execFileSync('git', ['status', '--porcelain', '--', ...documentationEvidencePaths(evidence)], { cwd: root, encoding: 'utf8' }).trim()
         } catch { status = 'unavailable' }
         if (status) add('attestation-dirty', 'sourceMode commit requires clean certified documentation paths')
-        let commitExists = false
-        try {
-          execFileSync('git', ['cat-file', '-e', `${evidence.commit}^{commit}`], { cwd: root, stdio: 'ignore' })
-          commitExists = true
-        } catch {}
-        if (!commitExists) {
-          add('attestation-commit', `declared content commit ${evidence.commit} is unavailable`)
-        } else {
-          let isAncestor = false
-          try {
-            execFileSync('git', ['merge-base', '--is-ancestor', evidence.commit, 'HEAD'], { cwd: root, stdio: 'ignore' })
-            isAncestor = true
-          } catch {}
-          if (!isAncestor) add('attestation-commit', `declared content commit ${evidence.commit} is not an ancestor of repository HEAD ${head || 'unavailable'}`)
-
-          let evidenceChanged = true
-          try {
-            execFileSync('git', ['diff', '--quiet', evidence.commit, 'HEAD', '--', ...documentationEvidencePaths(evidence)], { cwd: root, stdio: 'ignore' })
-            evidenceChanged = false
-          } catch {}
-          if (evidenceChanged) add('attestation-commit-drift', `certified documentation paths changed after ${evidence.commit}`)
-        }
+        for (const finding of verifyAttestedCommit(root, evidence.commit, documentationEvidencePaths(evidence), {
+          head,
+          digestMatches: measuredDigest === evidence.attestation.contentDigest,
+        })) add(finding.id, finding.message)
       } else if (head !== evidence.commit) {
         add('attestation-commit', `repository HEAD is ${head || 'unavailable'}, expected working-tree base commit ${evidence.commit}`)
       }
-      const measuredDigest = computeDocumentationEvidenceDigest(root, evidence)
       if (measuredDigest !== evidence.attestation.contentDigest) add('attestation-digest', `content digest is ${measuredDigest}, expected ${evidence.attestation.contentDigest}`)
     }
     const artifact = attestationRoot ? verifyDocBridgeArtifact(evidence, attestationRoot, findings) : null
