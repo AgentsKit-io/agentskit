@@ -1,0 +1,370 @@
+'use client'
+
+import Link from 'next/link'
+import {
+  Children,
+  createContext,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type ComponentProps,
+  type FormEvent,
+  type ReactNode,
+} from 'react'
+import type { ChatReturn, Message as AgentsKitMessage } from '@agentskit/core'
+import { ChatContainer } from '@agentskit/react'
+import {
+  SourceListPropsSchema,
+  StandardComponentCatalog,
+  createAskAdapter,
+  createAskSessionMemory,
+  createDeterministicAnswerAdapter,
+  defineChat,
+  defineComponentManifest,
+  type AskAdapterOptions,
+  type AskToolProjector,
+  type ComponentDefinition,
+} from '@agentskit/chat'
+import {
+  AgentChat,
+  StandardComponent as FrameworkStandardComponent,
+  type AgentChatSlots,
+  type StandardComponentProps,
+} from '@agentskit/chat/react'
+import {
+  decodeDeterministicSiteConfig,
+  verifyLocalKnowledgeArtifactSync,
+} from '@agentskit/chat/protocol'
+import { z } from 'zod'
+import { track } from '@/lib/analytics-client'
+import { AnimatedLogo } from '@/components/brand/animated-logo'
+import deterministicKnowledge from '@/lib/deterministic-knowledge.generated.json'
+import deterministicSiteConfig from '@/lib/deterministic-site.generated.json'
+import { Markdown } from './ask/Markdown'
+import { defaultRegistry, type UiToolContext, type UiToolRegistry } from './ask/registry'
+
+const AskToolPropsSchema = z.object({
+  name: z.enum(['answer', 'showOptions', 'renderForm', 'codeBlock', 'runExample', 'openPage']),
+  args: z.record(z.string(), z.json()),
+}).strict()
+
+const AskToolComponent: ComponentDefinition<z.infer<typeof AskToolPropsSchema>> = {
+  key: 'ask-tool',
+  propsSchema: AskToolPropsSchema,
+  accessibility: { role: 'group', keyboard: true, live: 'polite' },
+  capabilities: ['display', 'selection', 'input', 'navigation'],
+  fallback: props => `Interactive documentation content: ${props.name}.`,
+}
+
+const ASK_COMPONENTS = defineComponentManifest([...StandardComponentCatalog, AskToolComponent])
+
+const INVALID_CONTENT_HASH = `sha256:${'0'.repeat(64)}`
+const decodedDeterministicSite = decodeDeterministicSiteConfig(deterministicSiteConfig)
+const deterministicSite = decodedDeterministicSite.ok
+  ? decodedDeterministicSite.value
+  : {
+      siteId: 'agentskit-docs',
+      artifact: { href: '/deterministic-knowledge/unavailable.json', contentHash: INVALID_CONTENT_HASH },
+      fallback: { mode: 'backend' as const },
+    }
+const decodedDeterministicKnowledge = verifyLocalKnowledgeArtifactSync(deterministicKnowledge, {
+  expectedContentHash: deterministicSite.artifact.contentHash,
+  expectedSiteId: deterministicSite.siteId,
+})
+const verifiedDeterministicKnowledge = decodedDeterministicKnowledge.ok ? decodedDeterministicKnowledge.value : null
+
+const projectDocsAskTool: AskToolProjector = event => {
+  const props = AskToolPropsSchema.safeParse({ name: event.name, args: event.args })
+  if (!props.success) return undefined
+  const safeId = event.id.replace(/[^A-Za-z0-9._:-]/g, '-')
+  const instanceId = (/^[A-Za-z0-9]/.test(safeId) ? safeId : `ask-${safeId}`).slice(0, 128)
+  return {
+    protocol: 'agentskit.chat.component',
+    version: 1,
+    type: 'render',
+    componentKey: 'ask-tool',
+    instanceId,
+    props: props.data,
+    fallback: { kind: 'ask-tool', summary: `Interactive documentation content: ${props.data.name}.` },
+  }
+}
+
+interface AskRuntime {
+  readonly chat: { current: ChatReturn | null }
+  readonly registry: UiToolRegistry
+  readonly context: UiToolContext
+  readonly emptyState: ReactNode
+  readonly loadingState?: ReactNode
+}
+
+const AskRuntimeContext = createContext<AskRuntime | undefined>(undefined)
+
+function useAskRuntime(): AskRuntime {
+  const runtime = useContext(AskRuntimeContext)
+  if (!runtime) throw new Error('Ask runtime is unavailable.')
+  return runtime
+}
+
+function AskMessage({ message }: { message: AgentsKitMessage }) {
+  return message.role === 'assistant' ? (
+    <div data-ak-message="assistant" className="flex max-w-[92%] flex-col gap-1.5 self-start">
+      <Markdown content={message.content} streaming={message.status === 'streaming'} />
+    </div>
+  ) : (
+    <div data-ak-message="user" className="max-w-[85%] self-end rounded-lg rounded-br-sm bg-ak-blue/10 px-3 py-2 text-sm text-ak-foam">
+      {message.content}
+    </div>
+  )
+}
+
+function AskContainer({ children, className }: ComponentProps<typeof ChatContainer>) {
+  const runtime = useAskRuntime()
+  const hasMessages = Children.count(children) > 1
+  return (
+    <ChatContainer className={`${className ?? ''} flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto`}>
+      {hasMessages ? null : <div data-ak-empty="" className="mb-3 text-sm text-ak-graphite">{runtime.emptyState}</div>}
+      {children}
+    </ChatContainer>
+  )
+}
+
+function AskThinking({ visible }: { visible: boolean }) {
+  const runtime = useAskRuntime()
+  if (!visible) return null
+  if (runtime.loadingState) return <>{runtime.loadingState}</>
+  return (
+    <div data-ak-ask-loading className="flex items-center gap-2.5 px-1 py-2 text-ak-blue" aria-label="Searching the docs">
+      <AnimatedLogo variant="nav" size={24} />
+      <span className="ak-ai-shimmer font-mono text-[11px] uppercase tracking-wide">Searching the docs…</span>
+    </div>
+  )
+}
+
+function AskInput({ chat, placeholder, disabled }: ComponentProps<NonNullable<AgentChatSlots['Input']>>) {
+  const runtime = useAskRuntime()
+  const submittedCount = useRef(0)
+  const completedRepliesAtSubmit = useRef(0)
+  const lastReportedReplyCount = useRef(0)
+  const errorReported = useRef(false)
+  runtime.chat.current = chat
+  const sendQuestion = () => {
+    const question = chat.input.trim()
+    if (disabled || !question) return
+    completedRepliesAtSubmit.current = chat.messages.filter(
+      message => message.role === 'assistant' && message.status === 'complete',
+    ).length
+    submittedCount.current += 1
+    track('ask_docs_submitted', { entrypoint: 'composer', surface: 'docs' })
+    void chat.send(question)
+  }
+  const submit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    sendQuestion()
+  }
+
+  useEffect(() => {
+    if (submittedCount.current === 0) return
+    const completedReplyCount = chat.messages.filter(
+      message => message.role === 'assistant' && message.status === 'complete',
+    ).length
+    if (
+      completedReplyCount > completedRepliesAtSubmit.current &&
+      completedReplyCount > lastReportedReplyCount.current
+    ) {
+      track('ask_docs_completed', { surface: 'docs' })
+      lastReportedReplyCount.current = completedReplyCount
+    }
+    if (chat.status === 'error' && !errorReported.current) {
+      track('ask_docs_error', { surface: 'docs' })
+      errorReported.current = true
+    }
+  }, [chat.messages, chat.status])
+
+  return (
+    <form data-ak-composer="" className="flex gap-2" onSubmit={submit}>
+      <textarea
+        value={chat.input}
+        onChange={event => chat.setInput(event.target.value)}
+        onKeyDown={event => {
+          if (event.key === 'Enter' && !event.shiftKey) {
+            event.preventDefault()
+            sendQuestion()
+          }
+        }}
+        rows={2}
+        placeholder={placeholder}
+        disabled={disabled}
+        className="flex-1 resize-none rounded-md border border-ak-border bg-ak-surface p-2 font-mono text-xs text-ak-foam outline-none transition-colors focus:border-ak-blue"
+      />
+      <button type="submit" disabled={disabled || !chat.input.trim()} data-ak-send="" className="rounded-md bg-ak-foam px-3 font-mono text-xs font-semibold text-ak-midnight disabled:opacity-40">send</button>
+    </form>
+  )
+}
+
+function AskStandardComponent(props: StandardComponentProps) {
+  const runtime = useAskRuntime()
+  if (props.frame.componentKey === 'source-list') {
+    const parsed = SourceListPropsSchema.safeParse(props.frame.props)
+    if (!parsed.success) return null
+    return (
+      <div data-ak-tool="cite" className="my-1">
+        <div className="mb-1.5 font-mono text-[10px] uppercase tracking-[0.2em] text-ak-graphite">{parsed.data.label}</div>
+        <ul className="flex flex-col gap-1.5">
+          {parsed.data.sources.map((source, index) => <li key={source.id}><a href={source.url} data-ak-citation="" className="group flex items-center gap-2 rounded-md border border-ak-border bg-ak-surface px-2.5 py-1.5 text-xs hover:border-ak-blue"><span className="flex h-5 w-5 items-center justify-center rounded-full border border-ak-border font-mono text-[10px] text-ak-blue">{index + 1}</span><span className="truncate font-medium text-ak-foam">{source.title}</span></a></li>)}
+        </ul>
+      </div>
+    )
+  }
+  if (props.frame.componentKey !== 'ask-tool') return <FrameworkStandardComponent {...props} />
+  const parsed = AskToolPropsSchema.safeParse(props.frame.props)
+  if (!parsed.success) return null
+  return <div>{runtime.registry.render(parsed.data.name, parsed.data.args, { ...runtime.context, id: props.frame.instanceId })}</div>
+}
+
+export interface AskWidgetBrand {
+  fabLabel?: ReactNode
+  title?: ReactNode
+  emptyState?: ReactNode
+  placeholder?: string
+  logo?: ReactNode
+  docsHref?: string | null
+  docsLabel?: ReactNode
+}
+
+export interface AskWidgetCta {
+  label: ReactNode
+  href: string
+  target?: string
+}
+
+export interface AskDocsWidgetProps extends AskAdapterOptions {
+  storageKey?: string
+  brand?: AskWidgetBrand
+  cta?: AskWidgetCta | null
+  fabLabel?: ReactNode
+  title?: ReactNode
+  emptyState?: ReactNode
+  placeholder?: string
+  registry?: UiToolRegistry
+  logo?: ReactNode
+  loadingState?: ReactNode
+  docsHref?: string | null
+  docsLabel?: ReactNode
+  defaultOpen?: boolean
+}
+
+export type AskDocsPanelProps = Omit<AskDocsWidgetProps, 'defaultOpen' | 'fabLabel'> & {
+  onClose: () => void
+}
+
+/**
+ * The Ask-the-docs chat panel. Loaded on demand by `AskDocsWidget` (ask-widget.tsx) so the
+ * chat runtime, markdown renderer, and deterministic knowledge stay out of the initial bundle.
+ */
+export function AskDocsPanel({
+  endpoint,
+  corpus,
+  persona,
+  storageKey,
+  brand,
+  cta,
+  title,
+  emptyState,
+  placeholder,
+  registry = defaultRegistry,
+  logo,
+  loadingState,
+  docsHref,
+  docsLabel,
+  onClose,
+}: AskDocsPanelProps) {
+  const [answerPath, setAnswerPath] = useState<'local' | 'choices' | 'backend' | null>(null)
+  const chatRef = useRef<ChatReturn | null>(null)
+  const effectiveTitle = title ?? brand?.title ?? 'Ask the docs'
+  const effectiveEmptyState = emptyState ?? brand?.emptyState
+  const effectiveLogo = logo ?? brand?.logo
+  const effectivePlaceholder = placeholder ?? brand?.placeholder ?? 'Ask a question...'
+  const effectiveDocsHref = docsHref === undefined ? (brand?.docsHref ?? 'https://chat.agentskit.io/') : docsHref
+  const effectiveDocsLabel = docsLabel ?? brand?.docsLabel ?? 'Build a chat like this - step by step ->'
+  const storageIdentity = [corpus, persona].filter(Boolean).join(':')
+  const legacyStorageKey = storageIdentity ? `ak:ask-thread-v2:${storageIdentity}` : 'ak:ask-thread-v2'
+  const effectiveStorageKey = storageKey ?? (storageIdentity ? `ak:ask-thread-v3:${storageIdentity}` : 'ak:ask-thread-v3')
+  const definition = useMemo(() => {
+    const fallback = createAskAdapter({ endpoint, corpus, persona, projectTool: projectDocsAskTool })
+    const adapter = createDeterministicAnswerAdapter({
+      artifact: verifiedDeterministicKnowledge,
+      expectedContentHash: deterministicSite.artifact.contentHash,
+      expectedSiteId: deterministicSite.siteId,
+      fallbackMode: deterministicSite.fallback.mode,
+      fallback,
+      backend: { provider: 'agentskit-ask-docs' },
+      onDecision: decision => {
+        if (decision.outcome === 'choices') setAnswerPath('choices')
+        else if (decision.outcome === 'answer') setAnswerPath(decision.provenance.source)
+      },
+    })
+    return defineChat({
+      id: `docs-ask-${corpus ?? 'docs'}-${persona ?? 'default'}`,
+      components: ASK_COMPONENTS,
+      choiceSubmission: adapter.resolveChoiceSubmission,
+      chat: {
+        adapter,
+        memory: createAskSessionMemory({
+          key: effectiveStorageKey,
+          legacyKeys: storageKey === undefined ? [legacyStorageKey] : [],
+          projectTool: projectDocsAskTool,
+        }),
+      },
+    })
+  }, [endpoint, corpus, persona, effectiveStorageKey, legacyStorageKey, storageKey])
+  const runtime = useMemo<AskRuntime>(() => ({
+    chat: chatRef,
+    registry,
+    emptyState: effectiveEmptyState ?? <>Ask anything about AgentsKit. Answers come from the docs corpus and cite their sources.</>,
+    ...(loadingState === undefined ? {} : { loadingState }),
+    context: {
+      onSelect: value => {
+        if (chatRef.current?.status !== 'streaming') void chatRef.current?.send(value)
+      },
+      onSubmit: (action, values) => {
+        const summary = Object.entries(values).filter(([, value]) => value !== '').map(([key, value]) => `${key}=${value}`).join(', ')
+        if (chatRef.current?.status !== 'streaming') void chatRef.current?.send(`${action}(${summary})`)
+      },
+    },
+  }), [effectiveEmptyState, loadingState, registry])
+
+  return (
+    <AskRuntimeContext.Provider value={runtime}>
+      <div data-ak-ask-panel="" className="fixed bottom-4 right-4 z-50 flex h-[min(620px,82vh)] w-[min(440px,94vw)] flex-col overflow-hidden rounded-xl border border-ak-border/80 bg-ak-midnight/78 shadow-2xl backdrop-blur-2xl">
+        <header className="flex items-center justify-between border-b border-ak-border/80 bg-gradient-to-br from-ak-surface/75 to-ak-midnight/50 px-4 py-2.5 backdrop-blur-xl">
+          <div className="flex items-center gap-2"><span aria-hidden>{effectiveLogo ?? <AnimatedLogo variant="nav" size={18} />}</span><span className="font-mono text-xs uppercase tracking-[0.2em] text-ak-graphite">{effectiveTitle}</span></div>
+          <div className="flex items-center gap-3">
+            {answerPath ? <span aria-live="polite" data-ak-answer-path={answerPath} className="rounded-full border border-ak-border px-2 py-0.5 font-mono text-[9px] uppercase tracking-widest text-ak-blue">{answerPath === 'local' ? 'instant · local' : answerPath === 'choices' ? 'local · choose' : 'grounded · backend'}</span> : null}
+            <button type="button" onClick={() => { setAnswerPath(null); void chatRef.current?.clear() }} className="font-mono text-[10px] uppercase tracking-widest text-ak-graphite">clear</button>
+            <button type="button" onClick={onClose} aria-label="Close" className="text-ak-graphite">✕</button>
+          </div>
+        </header>
+        <div className="min-h-0 flex-1 overflow-hidden p-3 [&>[data-ak-app-chat]]:flex [&>[data-ak-app-chat]]:h-full [&>[data-ak-app-chat]]:min-h-0 [&>[data-ak-app-chat]]:flex-col [&>[data-ak-app-chat]>[role=log]]:flex [&>[data-ak-app-chat]>[role=log]]:min-h-0 [&>[data-ak-app-chat]>[role=log]]:flex-1 [&>[data-ak-app-chat]>[role=log]]:overflow-hidden">
+          <AgentChat
+            key={effectiveStorageKey}
+            definition={definition}
+            placeholder={effectivePlaceholder}
+            slots={{ Container: AskContainer, Message: AskMessage, Input: AskInput, Thinking: AskThinking, StandardComponent: AskStandardComponent }}
+          />
+        </div>
+        <div className="border-t border-ak-border p-2">
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 px-1">
+            {effectiveDocsHref ? (
+              effectiveDocsHref.startsWith('http')
+                ? <a href={effectiveDocsHref} onClick={() => track('cta_clicked', { cta_id: 'ask_docs_build_chat', destination: 'chat', placement: 'ask-footer', surface: 'docs' })} data-ak-ask-docs-link="" className="flex items-center gap-1.5 font-mono text-[10px] text-ak-graphite"><AnimatedLogo variant="nav" size={12} />{effectiveDocsLabel}</a>
+                : <Link href={effectiveDocsHref} onClick={() => track('cta_clicked', { cta_id: 'ask_docs_docs_link', destination: 'docs', placement: 'ask-footer', surface: 'docs' })} data-ak-ask-docs-link="" className="flex items-center gap-1.5 font-mono text-[10px] text-ak-graphite"><AnimatedLogo variant="nav" size={12} />{effectiveDocsLabel}</Link>
+            ) : null}
+            {cta ? <a href={cta.href} onClick={() => track('cta_clicked', { cta_id: 'ask_docs_custom_cta', destination: 'custom', placement: 'ask-footer', surface: 'docs' })} target={cta.target} rel={cta.target === '_blank' ? 'noreferrer' : undefined} data-ak-ask-cta="" className="font-mono text-[10px] font-semibold uppercase tracking-widest text-ak-blue">{cta.label}</a> : null}
+          </div>
+        </div>
+      </div>
+    </AskRuntimeContext.Provider>
+  )
+}
