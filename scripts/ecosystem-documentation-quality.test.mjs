@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict'
-import { mkdirSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
+import { execFileSync } from 'node:child_process'
+import { mkdirSync, mkdtempSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
-import { join } from 'node:path'
+import { join, resolve } from 'node:path'
 import { test } from 'vitest'
 import { REPO_ROOT } from './compute-stats.mjs'
 import {
@@ -10,6 +11,7 @@ import {
   evaluateDocumentationQualityMatrix,
   countDocumentationWords,
   parseDocumentationQualityProfile,
+  verifyAttestedCommit,
 } from './lib/ecosystem-documentation-quality.mjs'
 
 const profile = JSON.parse(readFileSync(join(REPO_ROOT, 'ecosystem-documentation-quality-v1.json'), 'utf8'))
@@ -323,3 +325,83 @@ test('verified local content digest and Doc Bridge artifact are required for cer
   assert.ok(blocked.findings.some((finding) => finding.id === 'attestation-digest'))
   assert.ok(blocked.findings.some((finding) => finding.id === 'doc-bridge-artifact'))
 })
+
+// Git fixtures must never touch the repository under test. Hooks (pre-push, pre-commit) export
+// GIT_DIR, GIT_WORK_TREE, GIT_INDEX_FILE and friends, which would redirect every command below to
+// the real repository, so the fixture runs git with all GIT_* variables removed, no system or
+// global config, a temporary HOME, and the temp directory as its working directory.
+function isolatedGitEnv(home) {
+  const env = Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith('GIT_')))
+  return { ...env, HOME: home, GIT_CONFIG_NOSYSTEM: '1', GIT_CONFIG_GLOBAL: join(home, '.gitconfig') }
+}
+
+function gitRepo() {
+  const root = realpathSync(mkdtempSync(join(tmpdir(), 'agentskit-attestation-')))
+  const home = mkdtempSync(join(tmpdir(), 'agentskit-attestation-home-'))
+  writeFileSync(join(home, '.gitconfig'), '')
+  const env = isolatedGitEnv(home)
+  const run = (args) => execFileSync('git', args, { cwd: root, env, encoding: 'utf8' }).trim()
+  run(['init', '-q', '-b', 'main'])
+  const gitDir = realpathSync(resolve(root, run(['rev-parse', '--git-dir'])))
+  if (gitDir !== join(root, '.git')) {
+    throw new Error(`git fixture escaped its temp directory: ${gitDir} is not inside ${root}`)
+  }
+  const git = (...args) => {
+    if (realpathSync(resolve(root, run(['rev-parse', '--git-dir']))) !== gitDir) {
+      throw new Error('git fixture repository changed underneath the test')
+    }
+    return run(args)
+  }
+  git('config', 'user.email', 'test@example.com')
+  git('config', 'user.name', 'Test')
+  git('config', 'commit.gpgsign', 'false')
+  writeFileSync(join(root, 'README.md'), 'base\n')
+  git('add', '.')
+  git('commit', '-q', '-m', 'base')
+  return { root, git }
+}
+
+function squashMergedFixture() {
+  const { root, git } = gitRepo()
+  git('switch', '-q', '-c', 'feature')
+  writeFileSync(join(root, 'README.md'), 'certified\n')
+  git('commit', '-q', '-am', 'certify')
+  const attested = git('rev-parse', 'HEAD')
+  git('switch', '-q', 'main')
+  git('merge', '-q', '--squash', 'feature')
+  git('commit', '-q', '-m', 'squash')
+  let ancestor = true
+  try { git('merge-base', '--is-ancestor', attested, 'HEAD') } catch { ancestor = false }
+  assert.equal(ancestor, false)
+  return { root, git, attested }
+}
+
+test('a squash-merged attestation commit is accepted while the certified paths are unchanged', () => {
+  const { root, attested } = squashMergedFixture()
+  assert.deepEqual(verifyAttestedCommit(root, attested, ['README.md'], { digestMatches: true }), [])
+}, 30_000)
+
+test('a squash-merged attestation commit fails once certified content diverges', () => {
+  const { root, git, attested } = squashMergedFixture()
+  writeFileSync(join(root, 'README.md'), 'edited after certification\n')
+  git('commit', '-q', '-am', 'edit')
+  const findings = verifyAttestedCommit(root, attested, ['README.md'], { digestMatches: false })
+  assert.deepEqual(findings.map((finding) => finding.id), ['attestation-commit'])
+}, 30_000)
+
+test('an ancestor attestation commit still reports drift on certified paths', () => {
+  const { root, git } = gitRepo()
+  const attested = git('rev-parse', 'HEAD')
+  writeFileSync(join(root, 'README.md'), 'changed\n')
+  git('commit', '-q', '-am', 'change')
+  const findings = verifyAttestedCommit(root, attested, ['README.md'], { digestMatches: false })
+  assert.deepEqual(findings.map((finding) => finding.id), ['attestation-commit-drift'])
+  assert.deepEqual(verifyAttestedCommit(root, attested, ['other.md'], { digestMatches: true }), [])
+}, 30_000)
+
+test('an unreachable attestation commit is accepted only while the content digest matches', () => {
+  const { root } = gitRepo()
+  const missing = 'f'.repeat(40)
+  assert.deepEqual(verifyAttestedCommit(root, missing, ['README.md'], { digestMatches: true }), [])
+  assert.deepEqual(verifyAttestedCommit(root, missing, ['README.md'], { digestMatches: false }).map((finding) => finding.id), ['attestation-commit'])
+}, 30_000)
