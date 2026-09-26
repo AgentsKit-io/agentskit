@@ -50,7 +50,7 @@ describe('legacy 404 redirects', () => {
   it('keeps every queued destination backed by a current docs route', () => {
     const routes = docRoutes()
     const missing = redirects
-      .map((redirect) => redirect.destination)
+      .map((redirect) => redirect.destination.split('#')[0])
       .filter((destination) => !routes.has(destination))
 
     expect(missing).toEqual([])

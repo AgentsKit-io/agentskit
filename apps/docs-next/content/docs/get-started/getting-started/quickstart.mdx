@@ -25,6 +25,7 @@ function App() {
         <Message key={msg.id} message={msg} />
       ))}
       <InputBar chat={chat} />
+      {chat.status === 'streaming' && <button onClick={chat.stop}>Stop</button>}
     </ChatContainer>
   )
 }
@@ -39,7 +40,7 @@ function App() {
 | `Message` | Renders one message with streaming support |
 | `InputBar` | Text input that sends on Enter |
 
-Out of the box: streaming, message history, default styling. No extra setup.
+Out of the box: streaming, message history, default styling, and `chat.stop()` to cancel an active response. No extra setup.
 
 ## What this page is not
 

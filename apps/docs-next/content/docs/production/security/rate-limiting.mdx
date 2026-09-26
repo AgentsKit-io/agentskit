@@ -1,29 +1,35 @@
 ---
 title: Rate limiting
-description: Token-bucket rate limiter keyed by user, IP, or API key — with Redis/Upstash support for multi-host deployments.
+description: Bound request volume with a token-bucket limiter keyed by user, IP, or API key.
 ---
 
-Without a rate limiter, a single user can exhaust your API budget or trigger abuse at scale. `createRateLimiter` enforces a token-bucket policy per request key and returns a `retryAfterMs` value you can forward directly in the `retry-after` header.
+Without a rate limiter, a single user can exhaust your API budget or trigger abuse at scale. `createRateLimiter` enforces a token-bucket policy per request key. Its built-in state is in-memory and intended for a single process.
 
 ```ts
 import { createRateLimiter } from '@agentskit/core/security'
 
 const limiter = createRateLimiter({
-  capacity: 10,
-  refillPerSecond: 1,
-  keyBy: (req) => req.userId,
+  keyOf: (request) => request.userId,
+  buckets: {
+    default: { capacity: 10, refill: 1, windowMs: 1_000 },
+  },
 })
 
-app.post('/chat', async (req) => {
-  const { allowed, retryAfterMs } = await limiter.take(req)
-  if (!allowed) return new Response('Too Many Requests', { status: 429, headers: { 'retry-after': `${Math.ceil(retryAfterMs / 1000)}` } })
+app.post('/chat', async (request) => {
+  const { allowed, retryAfterMs } = limiter.check(request)
+  if (!allowed) {
+    return new Response('Too Many Requests', {
+      status: 429,
+      headers: { 'retry-after': String(Math.ceil(retryAfterMs / 1_000)) },
+    })
+  }
   // ... run agent
 })
 ```
 
 ## Storage
 
-In-memory storage works for a single host. For multi-host deployments, pass a `{ get, set }` adapter backed by Redis, Upstash, or any key/value store.
+The built-in limiter keeps state in memory, so limits reset on process restart and are not shared between hosts. For a multi-host deployment, use a Redis-backed limiter or another shared store; `createRateLimiter` does not accept a storage adapter.
 
 ## Related
 

@@ -192,7 +192,7 @@
     {
       "id": "claim.recipes",
       "kind": "restricted-faq",
-      "label": "71 recipes",
+      "label": "64 recipes",
       "match": {
         "type": "exact",
         "values": [
@@ -202,7 +202,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **71 recipes**. The public conservative floor is 71.",
+        "markdown": "The verified AgentsKit ledger currently reports **64 recipes**. The public conservative floor is 64.",
         "citations": [
           {
             "id": "claim-recipes",
@@ -1909,7 +1909,7 @@
           {
             "id": "package-integrations",
             "title": "@agentskit/integrations documentation",
-            "href": "/docs/reference/recipes/integrations"
+            "href": "/docs/agents/tools/integrations-catalog"
           }
         ]
       }
@@ -2306,5 +2306,5 @@
       }
     }
   ],
-  "contentHash": "sha256:d6ba0872780bc921c2ebc5033b3ebb54424704076871fa8696fd00c9fdf83a88"
+  "contentHash": "sha256:fc8497c41f4207ffc589d35eb80514200d987b7cdfd3d98b875d99ac364fceb9"
 }

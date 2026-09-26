@@ -1,11 +1,12 @@
 import { source } from '@/lib/source'
+import apiSymbolRoutes from '@/lib/api-symbol-routes.json'
 import {
   DocsPage,
   DocsBody,
   DocsDescription,
   DocsTitle,
 } from 'fumadocs-ui/page'
-import { notFound } from 'next/navigation'
+import { notFound, permanentRedirect } from 'next/navigation'
 import { getMDXComponents } from '@/mdx-components'
 import { JsonLd } from '@/components/seo/json-ld'
 import { NextSteps } from '@/components/docs/next-steps'
@@ -13,13 +14,23 @@ import { TypedocEnhancer } from '@/components/docs/typedoc-enhancer'
 
 const REPO = 'AgentsKit-io/agentskit'
 const SITE = 'https://www.agentskit.io'
+const apiRedirectFor = (slug?: string[]) => {
+  const path = [...(slug ?? [])]
+  if (path.length === 0) return undefined
+  path[path.length - 1] = path.at(-1)?.replace(/\.md$/, '') ?? ''
+  return apiSymbolRoutes[path.join('/') as keyof typeof apiSymbolRoutes]
+}
 
 export default async function Page(props: {
   params: Promise<{ slug?: string[] }>
 }) {
   const params = await props.params
   const page = source.getPage(params.slug)
-  if (!page) notFound()
+  if (!page) {
+    const destination = apiRedirectFor(params.slug)
+    if (destination) permanentRedirect(destination)
+    notFound()
+  }
 
   const MDX = page.data.body
   const slugPath = params.slug?.join('/') ?? 'index'
@@ -106,7 +117,11 @@ export async function generateMetadata(props: {
 }) {
   const params = await props.params
   const page = source.getPage(params.slug)
-  if (!page) notFound()
+  if (!page) {
+    const destination = apiRedirectFor(params.slug)
+    if (destination) permanentRedirect(destination)
+    notFound()
+  }
 
   const slugPath = params.slug?.join('/') ?? ''
   const canonical = slugPath ? `${SITE}/docs/${slugPath}` : `${SITE}/docs`

@@ -168,7 +168,7 @@ or a custom loop.
 | Subpath | Contents |
 |---------|----------|
 | `@agentskit/tools/mcp` | `createMcpClient`, `createMcpServer`, `toolsFromMcpClient`, stdio + in-memory transports. [MCP bridge recipe](https://www.agentskit.io/docs/reference/recipes/mcp-bridge). |
-| `@agentskit/tools/integrations` | `github`, `linear`, `slack`, `notion`, `discord`, `gmail`, `googleCalendar`, `stripe`, `postgres`, `s3`, `firecrawl`, `reader`, `documentParsers`, `openaiImages`, `elevenlabs`, `whisper`, `deepgram`, `maps`, `weather`, `coingecko`, `browserAgent`. [Integrations recipe](https://www.agentskit.io/docs/reference/recipes/integrations) + [More integrations](https://www.agentskit.io/docs/reference/recipes/more-integrations). |
+| `@agentskit/tools/integrations` | `github`, `linear`, `slack`, `notion`, `discord`, `gmail`, `googleCalendar`, `stripe`, `postgres`, `s3`, `firecrawl`, `reader`, `documentParsers`, `openaiImages`, `elevenlabs`, `whisper`, `deepgram`, `maps`, `weather`, `coingecko`, `browserAgent`. [Integrations recipe](https://www.agentskit.io/docs/agents/tools/integrations) + [More integrations](https://www.agentskit.io/docs/reference/recipes/more-integrations). |
 | `@agentskit/tools/mcp-devtools` | Runtime inspection tools for an injected `RuntimeInspector`; expose through `@agentskit/tools/mcp`. |
 | `@agentskit/tools/validation` | Optional Ajv-backed `ArgsValidator` for core and MCP argument enforcement. |
 
