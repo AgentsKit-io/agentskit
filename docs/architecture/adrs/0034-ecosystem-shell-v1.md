@@ -24,7 +24,7 @@ The AgentsKit site (`apps/docs-next`) hosts a versioned shell:
 | Asset | Content |
 |---|---|
 | `/shell/v1.js` | Auto-injected ecosystem bar, `<agentskit-ecosystem>` tour, `<agentskit-footer>`, `<agentskit-aurora>`. |
-| `/shell/v1.css` | Zero-specificity `--ak-*` tokens, Inter and Space Grotesk, `.ak-product-wordmark`, footer fallback and local-column styles, aurora layer. |
+| `/shell/v1.css` | Zero-specificity `--ak-*` tokens (including `--ak-graphite`), font stacks, `.ak-product-wordmark`, footer fallback and local-column styles, aurora layer. |
 | `/ecosystem-bar.js` | Legacy alias, byte-identical to `/shell/v1.js`. |
 
 1. **Order and membership.** The bar and tour list six products in manifest
@@ -66,16 +66,26 @@ The AgentsKit site (`apps/docs-next`) hosts a versioned shell:
    catalog blocks from `ecosystem.json`, writes the alias, and copies the
    shell into `apps/registry/public/shell/` as a fallback for development and
    origin outages. `/shell/*` is served with
-   `Cache-Control: public, max-age=300, stale-while-revalidate=86400` and
+   `Cache-Control: public, max-age=3600, stale-while-revalidate=86400` and
    `Access-Control-Allow-Origin: *`.
 8. **Loading.** Because the shell only writes into shadow roots and inserts
    the bar as a new first child of `<body>`, it can load with `defer` at the
    end of `<body>` (recommended) or after hydration (`next/script`
    `afterInteractive`). Consumers render `aria-hidden="true"` on the aurora
    themselves.
-9. **Versioning.** Compatible changes ship inside v1 and reach every site within
-   the cache window. Breaking changes ship as `/shell/v2.*`; consumers migrate
-   on their own schedule.
+9. **Performance.** v1.css has no `@import` and never blocks rendering on a
+   third party. v1.js adds Inter and Space Grotesk from Google Fonts
+   asynchronously (preconnect, `media="print"` swapped on load,
+   `display=swap`) only for families the page does not already provide;
+   `data-ak-fonts="self"` on the script tag opts out for self-hosted fonts.
+   The aurora paints its CSS layer at once and compiles the WebGL shader in
+   `requestIdleCallback` after `load`; the grid reads the document height
+   only on resize. Shell text colours come from theme-aware tokens
+   (`--ak-graphite`, `--ak-muted`) so they meet WCAG AA on light, dark, and
+   `data-ak-surface` pages.
+10. **Versioning.** Compatible changes ship inside v1 and reach every site within
+    the one-hour cache window. Breaking changes ship as `/shell/v2.*`; consumers migrate
+    on their own schedule.
 
 Consumers read `NEXT_PUBLIC_AGENTSKIT_SHELL_ORIGIN`, defaulting to
 `https://www.agentskit.io`. The AgentsKit site loads its own copy.

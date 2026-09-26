@@ -151,10 +151,11 @@ const config = {
     )
   },
   async headers() {
-    // The shared shell is embedded cross-origin by every AgentsKit site: short cache so
-    // compatible v1 changes propagate quickly, CORS so consumers may fetch the stylesheet.
+    // The shared shell is embedded cross-origin by every AgentsKit site: a one-hour cache keeps
+    // repeat visits fast while compatible v1 changes still propagate within the hour; CORS lets
+    // consumers fetch the stylesheet.
     const shellHeaders = [
-      { key: 'Cache-Control', value: 'public, max-age=300, stale-while-revalidate=86400' },
+      { key: 'Cache-Control', value: 'public, max-age=3600, stale-while-revalidate=86400' },
       { key: 'Access-Control-Allow-Origin', value: '*' },
     ]
     return [

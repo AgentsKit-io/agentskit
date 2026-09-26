@@ -221,7 +221,17 @@ test('shell v1 defines the bar, tour, footer, and aurora', () => {
   assert.match(SHELL, /prefers-reduced-motion: reduce/)
   const css = readFileSync(join(REPO_ROOT, 'apps/docs-next/public/shell/v1.css'), 'utf8')
   assert.match(css, /\.ak-product-wordmark__product/)
-  assert.match(css, /Space\+Grotesk/)
+  assert.doesNotMatch(css, /^@import/m)
+  assert.match(css, /--ak-graphite: #57606a/)
+  assert.match(css, /--ak-graphite: #8b949e/)
+  assert.match(SHELL, /data-ak-fonts'\) === 'self'/)
+  assert.match(SHELL, /sheet\.media = 'print'/)
+  assert.match(SHELL, /display=swap/)
+  assert.match(SHELL, /requestIdleCallback\(initShader/)
+  assert.doesNotMatch(SHELL, /var syncGrid = function \(\) \{[^}]*scrollHeight/)
+  assert.doesNotMatch(SHELL, /var\(--ak-graphite,#/)
+  assert.match(SHELL, /'Pause tour of the ecosystem'/)
+  assert.match(SHELL, /'Play tour of the ecosystem'/)
 })
 
 test('the legacy alias and Registry fallback copies match the hosted shell', () => {
@@ -234,9 +244,9 @@ test('the legacy alias and Registry fallback copies match the hosted shell', () 
   )
 })
 
-test('the shell is served cross-origin with a short cache', () => {
+test('the shell is served cross-origin with a one-hour cache', () => {
   const config = readFileSync(join(REPO_ROOT, 'apps/docs-next/next.config.mjs'), 'utf8')
   assert.match(config, /source: '\/shell\/:path\*'/)
-  assert.match(config, /public, max-age=300, stale-while-revalidate=86400/)
+  assert.match(config, /public, max-age=3600, stale-while-revalidate=86400/)
   assert.match(config, /'Access-Control-Allow-Origin', value: '\*'/)
 })

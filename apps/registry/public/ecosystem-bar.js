@@ -380,8 +380,8 @@
   // tour, footer, and aurora then use that surface's palette. The shell only writes a style tag in
   // <head>, never attributes on server-rendered markup, so hydration is unaffected.
   var SURFACE_TOKENS = {
-    dark: '--ak-bg:#0d1117;--ak-surface:#161b22;--ak-border:#30363d;--ak-fg:#e6edf3;--ak-muted:#8b949e;--ak-blue:#58a6ff;--ak-green:#2ea043;--ak-red:#f85149;color-scheme:dark',
-    light: '--ak-bg:#ffffff;--ak-surface:#f6f8fa;--ak-border:#d0d7de;--ak-fg:#0d1117;--ak-muted:#57606a;--ak-blue:#0969da;--ak-green:#1a7f37;--ak-red:#cf222e;color-scheme:light',
+    dark: '--ak-bg:#0d1117;--ak-surface:#161b22;--ak-border:#30363d;--ak-fg:#e6edf3;--ak-muted:#8b949e;--ak-graphite:#8b949e;--ak-blue:#58a6ff;--ak-green:#2ea043;--ak-red:#f85149;color-scheme:dark',
+    light: '--ak-bg:#ffffff;--ak-surface:#f6f8fa;--ak-border:#d0d7de;--ak-fg:#0d1117;--ak-muted:#57606a;--ak-graphite:#57606a;--ak-blue:#0969da;--ak-green:#1a7f37;--ak-red:#cf222e;color-scheme:light',
   }
   var activeSurface = null
 
@@ -422,6 +422,41 @@
         applySurface()
       })
     }).observe(document.body, { subtree: true, childList: true, attributes: true, attributeFilter: ['data-ak-surface'] })
+  }
+
+  // Fonts: v1.css stays render-non-blocking, so the shell adds Inter and Space Grotesk itself,
+  // asynchronously, and only for families the page does not already provide (next/font and other
+  // self-hosted faces keep their real family names). data-ak-fonts="self" on the script opts out.
+  function loadFonts() {
+    if ((script && script.getAttribute('data-ak-fonts') === 'self') || document.getElementById('ak-shell-fonts')) return
+    var present = function (family) {
+      if (document.fonts && typeof document.fonts.forEach === 'function') {
+        var found = false
+        document.fonts.forEach(function (face) {
+          if (String(face.family).replace(/["']/g, '').trim().toLowerCase() === family.toLowerCase()) found = true
+        })
+        if (found) return true
+      }
+      return Boolean(document.querySelector('link[href*="fonts.googleapis.com"][href*="' + family.replace(/ /g, '+') + '"]'))
+    }
+    var families = []
+    if (!present('Inter')) families.push('family=Inter:wght@400;500;600;700')
+    if (!present('Space Grotesk')) families.push('family=Space+Grotesk:wght@500;600;700')
+    if (!families.length) return
+    ;['https://fonts.googleapis.com', 'https://fonts.gstatic.com'].forEach(function (origin) {
+      var hint = document.createElement('link')
+      hint.rel = 'preconnect'
+      hint.href = origin
+      if (origin.indexOf('gstatic') !== -1) hint.crossOrigin = 'anonymous'
+      document.head.appendChild(hint)
+    })
+    var sheet = document.createElement('link')
+    sheet.id = 'ak-shell-fonts'
+    sheet.rel = 'stylesheet'
+    sheet.href = 'https://fonts.googleapis.com/css2?' + families.join('&') + '&display=swap'
+    sheet.media = 'print'
+    sheet.onload = function () { sheet.media = 'all' }
+    document.head.appendChild(sheet)
   }
 
   function repoFor(productId) {
@@ -511,9 +546,9 @@
     .akx-title,.akx-headline,.akx-sales-headline{font-family:var(--ak-font-display,"Space Grotesk",Inter,ui-sans-serif,system-ui,sans-serif)}
     @media(prefers-reduced-motion:reduce){.akx-demo-step{opacity:1;transform:none;animation:none}.akx-cta,.akx-tab{transition:none}}
     :host([data-visual="agentskit-home"]){color-scheme:light dark;--akx-bg:var(--ak-bg,#fff);--akx-surface:var(--ak-surface,#f6f8fa);--akx-line:var(--ak-border,#d0d7de);--akx-fg:var(--ak-fg,#0d1117);--akx-muted:var(--ak-muted,#57606a)}
-    :host([data-visual="agentskit-home"]) .akx-shell{--akx-accent:var(--ak-graphite,#57606a)!important;border:0}
+    :host([data-visual="agentskit-home"]) .akx-shell{--akx-accent:var(--ak-graphite,var(--ak-muted,#8b949e))!important;border:0}
     :host([data-visual="agentskit-home"]) .akx-frame{background:color-mix(in srgb,var(--akx-bg) 72%,transparent);backdrop-filter:blur(22px);box-shadow:0 18px 60px rgba(0,0,0,.12)}
-    :host([data-visual="agentskit-home"]) .akx-tab{--akx-accent:var(--ak-graphite,#8b949e)!important;border-right:0}
+    :host([data-visual="agentskit-home"]) .akx-tab{--akx-accent:var(--ak-graphite,var(--ak-muted,#8b949e))!important;border-right:0}
     :host([data-visual="agentskit-home"]) .akx-tab:hover,:host([data-visual="agentskit-home"]) .akx-tab[aria-selected="true"]{background:color-mix(in srgb,var(--akx-surface) 72%,transparent)}
     :host([data-visual="agentskit-home"]) .akx-story{border-color:color-mix(in srgb,var(--ak-border,#30363d) 65%,transparent)}
     :host([data-visual="agentskit-home"]) .akx-demo{border-color:color-mix(in srgb,var(--ak-border,#30363d) 65%,transparent)}
@@ -764,7 +799,7 @@
         }
 
         this.playButton.textContent = this.manualPaused ? 'Play tour' : 'Pause tour'
-        this.playButton.setAttribute('aria-label', this.manualPaused ? 'Play ecosystem tour' : 'Pause ecosystem tour')
+        this.playButton.setAttribute('aria-label', this.manualPaused ? 'Play tour of the ecosystem' : 'Pause tour of the ecosystem')
         if (this.manualPaused || this.transientPaused) return
 
         this.timer = window.setInterval(function () {
@@ -1090,11 +1125,11 @@
         // the Playbook home, while the layer itself stays fixed behind content.
         var grid = this.shadowRoot.querySelector('.aka-grid')
         var gridQueued = false
+        var docHeight = document.documentElement.scrollHeight
         var syncGrid = function () {
           gridQueued = false
           if (self.getAttribute('grid') === 'off') return
           var scrollY = window.scrollY || 0
-          var docHeight = document.documentElement.scrollHeight
           grid.style.setProperty('--aka-grid-y', (-(scrollY % 64)) + 'px')
           grid.style.setProperty('--aka-grid-end', Math.max(480, docHeight - scrollY) + 'px')
         }
@@ -1103,46 +1138,65 @@
           gridQueued = true
           window.requestAnimationFrame(syncGrid)
         }
-        var gridResize = window.ResizeObserver ? new ResizeObserver(queueGrid) : null
+        // Layout is read only when the document resizes, never on scroll frames.
+        var gridResize = window.ResizeObserver ? new ResizeObserver(function () {
+          docHeight = document.documentElement.scrollHeight
+          queueGrid()
+        }) : null
         if (gridResize) gridResize.observe(document.documentElement)
         window.addEventListener('scroll', queueGrid, { passive: true })
         syncGrid()
 
-        try {
-          gl = canvas.getContext('webgl', { alpha: false, antialias: false, depth: false, powerPreference: 'low-power' })
-          if (!gl) throw new Error('aurora: WebGL unavailable')
-          var vertex = compileShader(gl, gl.VERTEX_SHADER, AURORA_VERTEX)
-          var fragment = compileShader(gl, gl.FRAGMENT_SHADER, AURORA_FRAGMENT)
-          program = gl.createProgram()
-          gl.attachShader(program, vertex)
-          gl.attachShader(program, fragment)
-          gl.linkProgram(program)
-          gl.deleteShader(vertex)
-          gl.deleteShader(fragment)
-          if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program) || 'aurora: link error')
-          gl.useProgram(program)
-          uniforms = {
-            time: gl.getUniformLocation(program, 'u_time'),
-            light: gl.getUniformLocation(program, 'u_light'),
-            accent: gl.getUniformLocation(program, 'u_accent'),
-            bg: gl.getUniformLocation(program, 'u_bg'),
-            resolution: gl.getUniformLocation(program, 'u_resolution'),
+        var initShader = function () {
+          if (!self.isConnected || !self.cleanup) return
+          try {
+            gl = canvas.getContext('webgl', { alpha: false, antialias: false, depth: false, powerPreference: 'low-power' })
+            if (!gl) throw new Error('aurora: WebGL unavailable')
+            var vertex = compileShader(gl, gl.VERTEX_SHADER, AURORA_VERTEX)
+            var fragment = compileShader(gl, gl.FRAGMENT_SHADER, AURORA_FRAGMENT)
+            program = gl.createProgram()
+            gl.attachShader(program, vertex)
+            gl.attachShader(program, fragment)
+            gl.linkProgram(program)
+            gl.deleteShader(vertex)
+            gl.deleteShader(fragment)
+            if (!gl.getProgramParameter(program, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(program) || 'aurora: link error')
+            gl.useProgram(program)
+            uniforms = {
+              time: gl.getUniformLocation(program, 'u_time'),
+              light: gl.getUniformLocation(program, 'u_light'),
+              accent: gl.getUniformLocation(program, 'u_accent'),
+              bg: gl.getUniformLocation(program, 'u_bg'),
+              resolution: gl.getUniformLocation(program, 'u_resolution'),
+            }
+            buffer = gl.createBuffer()
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), gl.STATIC_DRAW)
+            var position = gl.getAttribLocation(program, 'position')
+            gl.enableVertexAttribArray(position)
+            gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0)
+            resize()
+            layer.setAttribute('data-shader', 'ready')
+          } catch (error) {
+            gl = null
+            fallback()
           }
-          buffer = gl.createBuffer()
-          gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
-          gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 1, -1, -1, 1, -1, 1, 1, -1, 1, 1]), gl.STATIC_DRAW)
-          var position = gl.getAttribLocation(program, 'position')
-          gl.enableVertexAttribArray(position)
-          gl.vertexAttribPointer(position, 2, gl.FLOAT, false, 0, 0)
-          resize()
-          layer.setAttribute('data-shader', 'ready')
-        } catch (error) {
-          gl = null
-          fallback()
+          syncTheme()
+          syncMotion()
         }
 
+        // Shader compilation and the first frames stay off the critical path: the CSS aurora
+        // renders immediately and the WebGL layer takes over once the page is idle after load.
+        var idleHandle = 0
+        var scheduleShader = function () {
+          idleHandle = window.requestIdleCallback
+            ? window.requestIdleCallback(initShader, { timeout: 3000 })
+            : window.setTimeout(initShader, 1200)
+        }
+        if (document.readyState === 'complete') scheduleShader()
+        else window.addEventListener('load', scheduleShader, { once: true })
+
         syncTheme()
-        syncMotion()
         var themeObserver = new MutationObserver(syncTheme)
         themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-theme', 'style'] })
         window.addEventListener('resize', resize, { passive: true })
@@ -1152,6 +1206,9 @@
         if (darkQuery && darkQuery.addEventListener) darkQuery.addEventListener('change', syncTheme)
 
         this.cleanup = function () {
+          window.removeEventListener('load', scheduleShader)
+          if (window.cancelIdleCallback) window.cancelIdleCallback(idleHandle)
+          window.clearTimeout(idleHandle)
           themeObserver.disconnect()
           window.removeEventListener('ak:surface-change', syncTheme)
           window.removeEventListener('scroll', queueGrid)
@@ -1237,6 +1294,8 @@
 
     document.body.insertBefore(bar, document.body.firstChild)
   }
+
+  loadFonts()
 
   if (!window.__akShellSurface) {
     window.__akShellSurface = true

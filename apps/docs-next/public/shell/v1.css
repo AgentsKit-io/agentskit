@@ -2,9 +2,9 @@
  * AgentsKit shell v1 — shared tokens, typography, and styles for the product
  * wordmark, footer fallback, and aurora layer. Pair with /shell/v1.js.
  * Tokens are declared with zero specificity so a site's own brand tokens win.
+ * No @import: fonts are loaded asynchronously by v1.js (opt out with
+ * data-ak-fonts="self"), so this stylesheet never blocks on a third party.
  */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
-
 :where(:root) {
   --ak-font-body: Inter, ui-sans-serif, system-ui, sans-serif;
   --ak-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
@@ -14,6 +14,7 @@
   --ak-border: #d0d7de;
   --ak-fg: #0d1117;
   --ak-muted: #57606a;
+  --ak-graphite: #57606a;
   --ak-blue: #0969da;
   --ak-green: #1a7f37;
   --ak-red: #cf222e;
@@ -26,6 +27,7 @@
   --ak-border: #30363d;
   --ak-fg: #e6edf3;
   --ak-muted: #8b949e;
+  --ak-graphite: #8b949e;
   --ak-blue: #58a6ff;
   --ak-green: #2ea043;
   --ak-red: #f85149;
@@ -40,6 +42,7 @@
     --ak-border: #30363d;
     --ak-fg: #e6edf3;
     --ak-muted: #8b949e;
+  --ak-graphite: #8b949e;
     --ak-blue: #58a6ff;
     --ak-green: #2ea043;
     --ak-red: #f85149;

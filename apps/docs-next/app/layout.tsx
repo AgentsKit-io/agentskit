@@ -124,7 +124,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <AttributionCapture />
         <Analytics />
         <SpeedInsights />
-        <script src={SHELL_SCRIPT_SRC} defer data-current="agentskit" data-current-repo="AgentsKit-io/agentskit" />
+        <script src={SHELL_SCRIPT_SRC} defer data-current="agentskit" data-current-repo="AgentsKit-io/agentskit" data-ak-fonts="self" />
       </body>
     </html>
   )
