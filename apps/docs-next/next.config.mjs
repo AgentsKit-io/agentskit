@@ -151,10 +151,20 @@ const config = {
     )
   },
   async headers() {
-    return [{
-      source: '/deterministic-knowledge/:hash.json',
-      headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
-    }]
+    // The shared shell is embedded cross-origin by every AgentsKit site: short cache so
+    // compatible v1 changes propagate quickly, CORS so consumers may fetch the stylesheet.
+    const shellHeaders = [
+      { key: 'Cache-Control', value: 'public, max-age=300, stale-while-revalidate=86400' },
+      { key: 'Access-Control-Allow-Origin', value: '*' },
+    ]
+    return [
+      {
+        source: '/deterministic-knowledge/:hash.json',
+        headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+      },
+      { source: '/shell/:path*', headers: shellHeaders },
+      { source: '/ecosystem-bar.js', headers: shellHeaders },
+    ]
   },
 }
 

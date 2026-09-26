@@ -4,7 +4,7 @@ import { ImageResponse } from 'next/og'
 // this to both og:image and twitter:image automatically. On-brand: GitHub-dark
 // surface + AgentsKit green accent.
 export const runtime = 'edge'
-export const alt = 'AgentsKit.js — the agent toolkit for JavaScript'
+export const alt = 'AgentsKit — the agent toolkit for JavaScript'
 export const size = { width: 1200, height: 630 }
 export const contentType = 'image/png'
 

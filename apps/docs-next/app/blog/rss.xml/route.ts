@@ -30,9 +30,9 @@ export function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <rss version="2.0">
 <channel>
-  <title>AgentsKit.js blog</title>
+  <title>AgentsKit blog</title>
   <link>${SITE}/blog</link>
-  <description>Releases, design notes, and deep dives from the AgentsKit.js team.</description>
+  <description>Releases, design notes, and deep dives from the AgentsKit team.</description>
   <language>en</language>
 ${items}
 </channel>

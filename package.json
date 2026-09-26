@@ -39,6 +39,8 @@
     "docs:deploy:preview": "pnpm --filter @agentskit/docs-next exec vercel deploy --yes",
     "docs:bridge:index": "ak-docs index && node scripts/sync-repo-llms.mjs",
     "docs:bridge:gate": "ak-docs gate run",
+    "docs:bridge:freshness": "ak-docs gate run index-freshness",
+    "docs:bridge:conformance": "ak-docs conformance run documentation-standard-v1 --text",
     "docs:bridge:doctor": "ak-docs doctor --text",
     "docs:bridge:benchmark": "node scripts/doc-bridge-benchmark.mjs",
     "release:version": "pnpm changeset version && node scripts/check-doc-package-versions.mjs --fix && node scripts/sync-mcp-pins.mjs && pnpm docs:bridge:index && pnpm metadata:generate && pnpm readme:standard:refresh -- --preserve-review-dates",

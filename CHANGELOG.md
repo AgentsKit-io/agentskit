@@ -1,6 +1,6 @@
 # Changelog
 
-This changelog tells the story of AgentsKit.js — what changed, why it matters, and where the project is headed. Each entry follows a consistent structure:
+This changelog tells the story of AgentsKit — what changed, why it matters, and where the project is headed. Each entry follows a consistent structure:
 
 - **Narrative summary** — the theme of the release in plain language
 - **Changes grouped by category** — Added, Changed, Fixed, Breaking
@@ -28,7 +28,7 @@ Entries are versioned by semver and dated by release. Future monthly entries sho
 
 ## v1.0.0 — April 2026 · "Public Launch"
 
-April 2026 was the moment AgentsKit.js stepped out of early access and into the open. The v1.0.0 release consolidated the entire ecosystem under a single stable foundation — hardened contracts, a rebuilt documentation site, a full contribution pathway, and production-ready CI. The name was also officially registered: **AgentsKit.js**, clearly distinct from Inngest AgentKit.
+April 2026 was the moment AgentsKit stepped out of early access and into the open. The v1.0.0 release consolidated the entire ecosystem under a single stable foundation — hardened contracts, a rebuilt documentation site, a full contribution pathway, and production-ready CI. The name was also officially registered: **AgentsKit**, clearly distinct from Inngest AgentKit.
 
 ### Added
 

@@ -1,0 +1,195 @@
+/*
+ * AgentsKit shell v1 — shared tokens, typography, and styles for the product
+ * wordmark, footer fallback, and aurora layer. Pair with /shell/v1.js.
+ * Tokens are declared with zero specificity so a site's own brand tokens win.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap');
+
+:where(:root) {
+  --ak-font-body: Inter, ui-sans-serif, system-ui, sans-serif;
+  --ak-font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --ak-font-display: 'Space Grotesk', Inter, ui-sans-serif, system-ui, sans-serif;
+  --ak-bg: #ffffff;
+  --ak-surface: #f6f8fa;
+  --ak-border: #d0d7de;
+  --ak-fg: #0d1117;
+  --ak-muted: #57606a;
+  --ak-blue: #0969da;
+  --ak-green: #1a7f37;
+  --ak-red: #cf222e;
+  --ak-accent: #1a7f37;
+}
+
+:where(.dark, [data-theme='dark']) {
+  --ak-bg: #0d1117;
+  --ak-surface: #161b22;
+  --ak-border: #30363d;
+  --ak-fg: #e6edf3;
+  --ak-muted: #8b949e;
+  --ak-blue: #58a6ff;
+  --ak-green: #2ea043;
+  --ak-red: #f85149;
+  --ak-accent: #2ea043;
+}
+
+/* Pages without an explicit theme class follow the operating system preference. */
+@media (prefers-color-scheme: dark) {
+  :where(:root:not(.light):not([data-theme='light'])) {
+    --ak-bg: #0d1117;
+    --ak-surface: #161b22;
+    --ak-border: #30363d;
+    --ak-fg: #e6edf3;
+    --ak-muted: #8b949e;
+    --ak-blue: #58a6ff;
+    --ak-green: #2ea043;
+    --ak-red: #f85149;
+    --ak-accent: #2ea043;
+  }
+}
+
+/* Baseline page surface for consumers without their own reset (zero specificity). */
+:where(body) {
+  margin: 0;
+  background: var(--ak-bg);
+  color: var(--ak-fg);
+  font-family: var(--ak-font-body);
+}
+
+/* Headings use Space Grotesk on every AgentsKit site. */
+:where(h1, h2, h3, h4) {
+  font-family: var(--ak-font-display);
+  letter-spacing: -0.02em;
+}
+
+/* Fumadocs product header wordmark: "AgentsKit <Product>". */
+.ak-product-wordmark {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0.35em;
+  color: var(--ak-fg);
+  font-family: var(--ak-font-display);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.ak-product-wordmark__brand {
+  color: var(--ak-fg);
+}
+
+.ak-product-wordmark__product {
+  color: var(--ak-muted);
+  font-weight: 500;
+}
+
+/* Footer: light-DOM fallback (no JS) and product-owned local columns. */
+agentskit-footer {
+  position: relative;
+  z-index: 1;
+  display: block;
+}
+
+agentskit-footer:not(:defined) {
+  border-top: 1px solid var(--ak-border);
+  padding: 48px 16px 32px;
+  color: var(--ak-muted);
+  font-family: var(--ak-font-body);
+  font-size: 14px;
+}
+
+agentskit-footer:not(:defined) > * {
+  max-width: 72rem;
+  margin-inline: auto;
+}
+
+agentskit-footer .ak-footer-local {
+  display: contents;
+}
+
+agentskit-footer:not(:defined) .ak-footer-local {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: 32px;
+  margin-bottom: 32px;
+}
+
+agentskit-footer .ak-footer-col {
+  min-width: 0;
+}
+
+agentskit-footer .ak-footer-col__title {
+  margin: 0 0 12px;
+  color: var(--ak-muted);
+  font-family: var(--ak-font-mono);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+agentskit-footer .ak-footer-col ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+agentskit-footer .ak-footer-col li + li {
+  margin-top: 10px;
+}
+
+agentskit-footer .ak-footer-col a {
+  color: var(--ak-muted);
+  font-family: var(--ak-font-body);
+  font-size: 14px;
+  line-height: 1.5;
+  text-decoration: none;
+  transition: color 160ms ease;
+}
+
+agentskit-footer .ak-footer-col a:hover {
+  color: var(--ak-accent);
+}
+
+agentskit-footer .ak-footer-col a:focus-visible {
+  outline: 2px solid var(--ak-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+agentskit-footer .ak-footer-fallback {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+
+agentskit-footer .ak-footer-fallback a {
+  color: var(--ak-fg);
+  text-decoration: underline;
+  text-decoration-color: var(--ak-border);
+  text-underline-offset: 4px;
+}
+
+/* Aurora: fixed, behind content, never intercepts input or shifts layout. */
+agentskit-aurora {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  display: block;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+agentskit-aurora:not(:defined) {
+  background:
+    radial-gradient(ellipse 42% 34% at 24% 42%, color-mix(in srgb, var(--ak-accent) 18%, transparent), transparent 100%),
+    radial-gradient(ellipse 36% 28% at 68% 60%, color-mix(in srgb, var(--ak-blue) 14%, transparent), transparent 100%),
+    var(--ak-bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  agentskit-footer .ak-footer-col a {
+    transition: none;
+  }
+}

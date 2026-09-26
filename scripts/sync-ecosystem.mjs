@@ -5,8 +5,8 @@
  * hand-edited; --check fails if a copy is stale (the drift gate).
  *
  * The same ecosystem.json is also copied verbatim into sibling repos, so every
- * property renders the
- * ecosystem bar + llms.txt block from one source.
+ * property renders the shared shell (bar, tour, footer, aurora) and llms.txt
+ * block from one source.
  *
  *   node scripts/sync-ecosystem.mjs
  *   node scripts/sync-ecosystem.mjs --check
@@ -40,8 +40,8 @@ for (const rel of ['apps/docs-next/lib/ecosystem.json', 'apps/landing/lib/ecosys
   step(rel, existsSync(t) ? readFileSync(t, 'utf8') : '', canonical)
 }
 
-// 2. Regenerate the ecosystem-bar PROPS block from the same registry (single
-//    source — the bar's labels/hosts/urls never drift from ecosystem.json).
+// 2. Regenerate the shell's generated blocks (bar PROPS, tour SHOWCASE_PRODUCTS, CATALOG) from the
+//    same registry (single source — labels/hosts/urls never drift from ecosystem.json).
 //    Product order is explicit in the manifest. Repository-only products may
 //    opt out until they have a suitable shared-navigation surface.
 const barProducts = ecosystem.products
@@ -62,29 +62,56 @@ const showcaseProducts = barProducts.map((product) => ({
   ...product.showcase,
 }))
 const showcaseJson = JSON.stringify(showcaseProducts, null, 2).replace(/\n/g, '\n  ')
-const barRel = 'apps/docs-next/public/ecosystem-bar.js'
-const barPath = join(root, barRel)
-let syncedBar = null
-if (existsSync(barPath)) {
-  const bar = readFileSync(barPath, 'utf8')
-  const propsPattern = /(\/\/ ecobar:props-start[^\n]*\n)[\s\S]*?(\n\s*\/\/ ecobar:props-end)/
-  const showcasePattern = /(\/\/ ecobar:showcase-start[^\n]*\n)[\s\S]*?(\n\s*\/\/ ecobar:showcase-end)/
-  if (propsPattern.test(bar) && showcasePattern.test(bar)) {
-    const next = bar
-      .replace(propsPattern, `$1  var PROPS = [\n${propLines}\n  ]$2`)
-      .replace(showcasePattern, `$1  var SHOWCASE_PRODUCTS = ${showcaseJson}$2`)
-    step(barRel, bar, next)
-    syncedBar = next
+// Every catalog product (including ones hidden from the bar, such as Playbook) so the shell can
+// resolve names and Star targets for `data-current` values outside the six-product navigation.
+const catalogJson = JSON.stringify(
+  Object.fromEntries(ecosystem.products.map((product) => [product.id, {
+    name: product.name,
+    shortName: product.shortName,
+    repo: product.repo ?? null,
+    url: product.surfaces.home,
+  }])),
+  null,
+  2,
+).replace(/\n/g, '\n  ')
+
+const shellRel = 'apps/docs-next/public/shell/v1.js'
+const shellPath = join(root, shellRel)
+let syncedShell = null
+if (existsSync(shellPath)) {
+  const shell = readFileSync(shellPath, 'utf8')
+  const blocks = [
+    [/(\/\/ ecobar:props-start[^\n]*\n)[\s\S]*?(\n\s*\/\/ ecobar:props-end)/, `$1  var PROPS = [\n${propLines}\n  ]$2`],
+    [/(\/\/ ecobar:showcase-start[^\n]*\n)[\s\S]*?(\n\s*\/\/ ecobar:showcase-end)/, `$1  var SHOWCASE_PRODUCTS = ${showcaseJson}$2`],
+    [/(\/\/ ecobar:catalog-start[^\n]*\n)[\s\S]*?(\n\s*\/\/ ecobar:catalog-end)/, `$1  var CATALOG = ${catalogJson}$2`],
+  ]
+  if (blocks.every(([pattern]) => pattern.test(shell))) {
+    const next = blocks.reduce((text, [pattern, replacement]) => text.replace(pattern, replacement), shell)
+    step(shellRel, shell, next)
+    syncedShell = next
   } else {
-    console.error(`ecosystem: ${barRel} missing generated markers — cannot sync bar.`)
+    console.error(`ecosystem: ${shellRel} missing generated markers — cannot sync the shell.`)
     drift = true
   }
+} else {
+  console.error(`ecosystem: ${shellRel} is missing.`)
+  drift = true
 }
 
-if (syncedBar !== null) {
-  const registryBarRel = 'apps/registry/public/ecosystem-bar.js'
-  const registryBarPath = join(root, registryBarRel)
-  step(registryBarRel, existsSync(registryBarPath) ? readFileSync(registryBarPath, 'utf8') : '', syncedBar)
+// 3. The legacy /ecosystem-bar.js URL serves the same shell, and Registry keeps a fallback copy
+//    of the hosted assets for local development and outages of the canonical origin.
+if (syncedShell !== null) {
+  const shellCss = readFileSync(join(root, 'apps/docs-next/public/shell/v1.css'), 'utf8')
+  const copies = [
+    ['apps/docs-next/public/ecosystem-bar.js', syncedShell],
+    ['apps/registry/public/ecosystem-bar.js', syncedShell],
+    ['apps/registry/public/shell/v1.js', syncedShell],
+    ['apps/registry/public/shell/v1.css', shellCss],
+  ]
+  for (const [rel, next] of copies) {
+    const target = join(root, rel)
+    step(rel, existsSync(target) ? readFileSync(target, 'utf8') : '', next)
+  }
 }
 
 if (check && drift) process.exit(1)

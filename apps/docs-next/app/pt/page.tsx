@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { alternatesFor } from '@/lib/locales'
 
 export const metadata = {
-  title: 'AgentsKit.js — o toolkit de agentes que o JavaScript merece',
+  title: 'AgentsKit — o toolkit de agentes que o JavaScript merece',
   description:
     'Família de pacotes pequenos e plug-and-play que cobrem todo o ciclo de vida de agentes IA em JavaScript: chat UI, runtime autônomo, ferramentas, skills, memória, RAG, observabilidade, avaliação.',
   alternates: {
@@ -47,7 +47,7 @@ export default function HomePt() {
   return (
     <main className="mx-auto w-full max-w-5xl px-4 py-16">
       <div className="mb-4 font-mono text-xs uppercase tracking-[0.2em] text-ak-foam">
-        AgentsKit.js · pt-BR
+        AgentsKit · pt-BR
       </div>
       <h1 className="text-4xl font-semibold tracking-tight text-ak-foam sm:text-6xl">
         O toolkit de agentes que o{' '}

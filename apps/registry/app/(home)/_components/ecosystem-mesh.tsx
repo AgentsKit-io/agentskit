@@ -14,6 +14,8 @@ export const ecosystemPeers = ecosystem.products
   .filter((product) => product.id !== 'registry' && product.public)
   .sort((a, b) => a.navigation.order - b.navigation.order)
   .map((product) => ({
+    id: product.id,
+    showInBar: product.navigation.showInBar,
     name: product.name,
     role: product.role,
     href: product.surfaces.docs ?? product.surfaces.home,

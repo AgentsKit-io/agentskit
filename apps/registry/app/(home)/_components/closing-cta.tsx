@@ -3,7 +3,7 @@ import { Icon } from './ui'
 export function ClosingCta({ agentCount }: { agentCount: number }) {
   return (
     <section data-home-surface="closing-cta" aria-labelledby="registry-closing-cta" className="px-4 py-16 sm:px-6 sm:py-24">
-      <div className="mx-auto grid max-w-5xl gap-8 py-10 md:grid-cols-[1fr_auto] md:items-end">
+      <div className="mx-auto grid max-w-5xl gap-8 py-10">
         <div>
           <p className="font-mono text-xs uppercase tracking-[0.18em] text-ak-blue">Start with working source</p>
           <h2 id="registry-closing-cta" className="mt-3 max-w-2xl font-display text-3xl font-semibold text-ak-foam sm:text-4xl">
@@ -13,7 +13,7 @@ export function ClosingCta({ agentCount }: { agentCount: number }) {
             Explore {agentCount} ready-to-use agents, copy one into your codebase, and shape it to your stack.
           </p>
         </div>
-        <div className="flex flex-wrap gap-3 md:justify-end">
+        <div className="flex flex-col items-start gap-3">
           <a
             href="/agents"
             className="inline-flex items-center gap-2 rounded-lg bg-ak-blue px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"

@@ -59,7 +59,7 @@ describe('SEO discovery surfaces', () => {
     const page = readFileSync(resolve(__dirname, '../app/resources/page.tsx'), 'utf8')
 
     expect(page).toContain("title: 'Resources: proofs, registries, publications'")
-    expect('Resources: proofs, registries, publications | AgentsKit.js'.length).toBeLessThanOrEqual(60)
+    expect('Resources: proofs, registries, publications | AgentsKit'.length).toBeLessThanOrEqual(60)
   })
 
   it('embeds a two-item BreadcrumbList on the canonical hubs', () => {

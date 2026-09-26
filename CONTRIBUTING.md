@@ -1,4 +1,4 @@
-# Contributing to AgentsKit.js
+# Contributing to AgentsKit
 
 Thanks for being here. This guide gets you from `git clone` to merged PR with the least friction we know how to provide.
 

@@ -58,8 +58,8 @@ export default async function Page(props: {
     headline: page.data.title,
     description: page.data.description,
     url: slugPath === 'index' ? `${SITE}/docs` : `${SITE}/docs/${slugPath}`,
-    author: { '@type': 'Organization', name: 'AgentsKit.js', url: SITE },
-    publisher: { '@type': 'Organization', name: 'AgentsKit.js', url: SITE },
+    author: { '@type': 'Organization', name: 'AgentsKit', url: SITE },
+    publisher: { '@type': 'Organization', name: 'AgentsKit', url: SITE },
   }
 
   return (

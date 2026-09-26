@@ -11,7 +11,7 @@ export const blog = defineCollections({
   dir: 'content/blog',
   schema: frontmatterSchema.extend({
     date: z.string(),
-    author: z.string().default('AgentsKit.js'),
+    author: z.string().default('AgentsKit'),
     tags: z.array(z.string()).default([]),
   }),
 })

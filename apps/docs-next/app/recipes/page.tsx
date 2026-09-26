@@ -36,7 +36,7 @@ export default function RecipesPage() {
     url: URL,
     name: 'AgentsKit recipes',
     description: DESCRIPTION,
-    isPartOf: { '@type': 'WebSite', name: 'AgentsKit.js', url: canonicalUrl('/') },
+    isPartOf: { '@type': 'WebSite', name: 'AgentsKit', url: canonicalUrl('/') },
     breadcrumb: {
       '@type': 'BreadcrumbList',
       itemListElement: [

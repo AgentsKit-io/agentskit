@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     url: canonicalUrl('/resources'),
-    siteName: 'AgentsKit.js',
+    siteName: 'AgentsKit',
     title: 'AgentsKit ecosystem resources',
     description:
       'Verified tools, MCP registries, technical publications, independent listings, trust signals, and contributor resources.',
@@ -70,7 +70,7 @@ const structuredData = {
   description: metadata.description,
   isPartOf: {
     '@type': 'WebSite',
-    name: 'AgentsKit.js',
+    name: 'AgentsKit',
     url: canonicalUrl('/'),
   },
   breadcrumb: {

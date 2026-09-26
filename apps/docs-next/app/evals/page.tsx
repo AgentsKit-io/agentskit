@@ -1,7 +1,7 @@
 import evals from '@/data/evals.json'
 
 export const metadata = {
-  title: 'Adapter evals — AgentsKit.js',
+  title: 'Adapter evals — AgentsKit',
   description: 'Side-by-side accuracy and latency scores per adapter. Seed data today; regenerated from @agentskit/eval in CI tomorrow.',
   alternates: { canonical: 'https://www.agentskit.io/evals' },
 }

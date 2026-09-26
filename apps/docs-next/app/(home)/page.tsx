@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { createElement } from 'react'
 import { InstallCommand } from './_components/install-command'
 import { HeroDemo } from './_components/hero-demo/hero-demo'
 import { AnimatedLogo } from '@/components/brand/animated-logo'
@@ -10,9 +11,8 @@ import {
 import { Icon } from '@/components/home/icons'
 import { ReferenceJourney } from '@/components/home/reference-journey'
 import { HeroHeadline, KineticFrameworkReel } from './_components/hero-motion'
-import { LiquidCursorGradient } from './_components/liquid-cursor-gradient'
 import { counts, approx } from '@/lib/ecosystem-stats'
-import { agentsKitIdentity, ecosystemShowcase } from '@/lib/reference-journey'
+import { agentsKitIdentity } from '@/lib/reference-journey'
 import softwareIdentity from '@/lib/software-identity.generated.json'
 
 export const metadata = {
@@ -33,10 +33,6 @@ export const metadata = {
       'Composable TypeScript foundation: runtime, tools, memory, RAG, adapters, and headless UI bindings. Zero lock-in.',
   },
 }
-
-const GITHUB = 'https://github.com/AgentsKit-io/agentskit'
-// Discord hidden until the community is large enough to warrant it. Restore when ready.
-// const DISCORD = 'https://discord.gg/zx6z2p4jVb'
 
 const JSON_LD = {
   '@context': 'https://schema.org',
@@ -62,7 +58,7 @@ const JSON_LD = {
 export default function HomePage() {
   return (
     <div className="ak-home-layout flex w-full max-w-full flex-1 flex-col overflow-x-clip">
-      <LiquidCursorGradient />
+      {createElement('agentskit-aurora', { 'aria-hidden': 'true' })}
       <JsonLd data={JSON_LD} />
       <Hero />
       <WorksWithSection />
@@ -70,7 +66,6 @@ export default function HomePage() {
       <CliSection />
       <ReferenceJourney />
       <FinalCta />
-      <SiteFooter />
     </div>
   )
 }
@@ -255,127 +250,14 @@ function FinalCta() {
           >
             Build your first agent →
           </Link>
-          <a
-            href={GITHUB}
-            target="_blank"
-            rel="noopener noreferrer"
+          <Link
+            href="/docs/reference/contribute"
             className="inline-flex items-center gap-2 px-4 py-3 text-sm font-medium text-ak-graphite transition hover:text-ak-foam sm:px-5"
           >
-            Star on GitHub
-          </a>
+            Contribute to AgentsKit
+          </Link>
         </div>
       </div>
     </section>
-  )
-}
-
-function SiteFooter() {
-  const columns = [
-    {
-      title: 'Start',
-      links: [
-        { text: 'Get started', href: '/docs/get-started/getting-started/build-your-first-agent' },
-        { text: 'Live examples', href: '/docs/reference/examples' },
-        { text: 'Recipes', href: '/docs/reference/recipes' },
-        { text: 'Stack builder', href: '/stack' },
-        { text: 'Learn', href: '/learn' },
-      ],
-    },
-    {
-      title: 'Build',
-      links: [
-        { text: 'Chat UI', href: '/docs/ui' },
-        { text: 'CLI', href: '/docs/reference/packages/cli' },
-        { text: 'Runtime', href: '/docs/reference/packages/runtime' },
-        { text: 'Tools & MCP', href: '/docs/agents/tools' },
-        { text: 'RAG & Memory', href: '/docs/data/memory' },
-        { text: 'All packages', href: '/ecosystem' },
-      ],
-    },
-    {
-      title: 'Ecosystem',
-      links: ecosystemShowcase.map((product) => ({ text: product.shortName, href: product.href })),
-    },
-    {
-      title: 'Community',
-      links: [
-        { text: 'GitHub', href: GITHUB },
-        { text: 'Contribute', href: '/docs/reference/contribute' },
-        { text: 'Showcase', href: '/showcase' },
-        { text: 'Blog', href: '/blog' },
-        { text: 'For agents · llms.txt', href: '/llms.txt' },
-      ],
-    },
-  ] as const
-
-  return (
-    <footer className="px-4 pt-16 pb-10 sm:px-6">
-      <div className="mx-auto max-w-6xl">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr_1fr]">
-          <div className="min-w-0">
-            <div className="mb-4 flex items-center gap-2">
-              <AnimatedLogo variant="nav" loop />
-              <span className="font-mono text-base font-bold tracking-tight text-ak-foam">
-                AgentsKit
-              </span>
-            </div>
-            <p className="max-w-xs text-sm leading-relaxed text-ak-graphite">
-              The complete agent toolkit for JavaScript — chat UI, runtime,
-              tools, memory, RAG, and production guardrails in one ecosystem.
-            </p>
-            <div className="mt-5 flex gap-3">
-              <a
-                href={GITHUB}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-md bg-ak-surface/60 px-3 py-1.5 font-mono text-xs text-ak-graphite transition hover:text-ak-foam"
-              >
-                GitHub
-              </a>
-              <a
-                href="https://www.npmjs.com/org/agentskit"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="rounded-md bg-ak-surface/60 px-3 py-1.5 font-mono text-xs text-ak-graphite transition hover:text-ak-foam"
-              >
-                npm
-              </a>
-            </div>
-          </div>
-
-          {columns.map((col) => (
-            <div key={col.title} data-footer-column={col.title} className="min-w-0">
-              <h3 className="mb-3 font-mono text-[11px] uppercase tracking-[0.18em] text-ak-graphite">
-                {col.title}
-              </h3>
-              <ul className="space-y-2.5">
-                {col.links.map((l) => (
-                  <li key={l.text}>
-                    {l.href.startsWith('http') ? (
-                      <a
-                        href={l.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="text-sm text-ak-graphite transition hover:text-ak-blue"
-                      >
-                        {l.text}
-                      </a>
-                    ) : (
-                      <Link
-                        href={l.href}
-                        className="text-sm text-ak-graphite transition hover:text-ak-blue"
-                      >
-                        {l.text}
-                      </Link>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-
-      </div>
-    </footer>
   )
 }

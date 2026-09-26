@@ -2,8 +2,8 @@ import Link from 'next/link'
 import { allBlogPosts, slugOf } from '@/lib/blog'
 
 export const metadata = {
-  title: 'Blog — AgentsKit.js',
-  description: 'Releases, design notes, and deep dives from the AgentsKit.js team.',
+  title: 'Blog — AgentsKit',
+  description: 'Releases, design notes, and deep dives from the AgentsKit team.',
   alternates: {
     canonical: 'https://www.agentskit.io/blog',
     types: {
@@ -29,7 +29,7 @@ export default function BlogIndex() {
         <div className="font-mono text-xs uppercase tracking-[0.2em] text-ak-foam">Blog</div>
         <h1 className="mt-2 text-4xl font-semibold tracking-tight text-ak-foam">Releases, decisions, and deep dives</h1>
         <p className="mt-3 text-ak-graphite">
-          Long-form posts from the AgentsKit.js team. Subscribe via{' '}
+          Long-form posts from the AgentsKit team. Subscribe via{' '}
           <a href="/blog/rss.xml" className="text-ak-foam underline">
             RSS
           </a>{' '}

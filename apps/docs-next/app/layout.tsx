@@ -8,7 +8,8 @@ import { SpeedInsights } from '@vercel/speed-insights/next'
 import { alternatesFor } from '@/lib/locales'
 import { AttributionCapture } from '@/components/analytics/attribution-capture'
 import { AccessibleSearch } from '@/components/accessible-search'
-import ecosystem from '@/lib/ecosystem.json'
+import { EcosystemFooter } from '@/components/site-shell/ecosystem-footer'
+import { SHELL_SCRIPT_SRC, SHELL_STYLESHEET_HREF } from '@/lib/shell'
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' })
 const jetbrainsMono = JetBrains_Mono({ subsets: ['latin'], variable: '--font-mono' })
@@ -17,10 +18,6 @@ const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-displ
 const SITE_URL = 'https://www.agentskit.io'
 const DESCRIPTION =
   'AgentsKit is the foundation library for JavaScript agents — runtime, tools, memory, RAG, and UI bindings. Product chat lives in AgentsKit Chat.'
-
-const FOOTER_PRODUCTS = ecosystem.products
-  .filter((product) => product.public && product.navigation.showInBar)
-  .sort((a, b) => a.navigation.order - b.navigation.order)
 
 export const metadata = {
   metadataBase: new URL(SITE_URL),
@@ -106,6 +103,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       <head>
         <link rel="alternate" type="text/plain" href="/llms.txt" title="llms.txt — AI-ingestion index" />
         <link rel="alternate" type="text/plain" href="/llms-full.txt" title="Full docs for LLM ingestion" />
+        <link rel="stylesheet" href={SHELL_STYLESHEET_HREF} />
       </head>
       <body className="flex min-h-screen flex-col overflow-x-clip font-sans">
         <a href="#main-content" className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:rounded focus:bg-ak-blue focus:px-3 focus:py-2 focus:text-ak-midnight">
@@ -122,31 +120,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           <AccessibleSearch />
           <div id="main-content">{children}</div>
         </RootProvider>
-        <footer className="border-t border-ak-border bg-ak-midnight px-6 py-10 text-sm text-ak-graphite">
-          <div className="mx-auto flex max-w-6xl flex-col gap-5">
-            <div>
-              <p className="font-mono text-[10px] uppercase tracking-[0.16em] text-ak-blue">Continue by problem</p>
-              <p className="mt-2 max-w-2xl leading-6">
-                AgentsKit is the open-source foundation. Choose a sibling by the next job.
-              </p>
-            </div>
-            <nav aria-label="AgentsKit ecosystem" className="flex flex-wrap gap-x-5 gap-y-2">
-              {FOOTER_PRODUCTS.map((product) => (
-                <a
-                  key={product.id}
-                  href={product.surfaces.home ?? product.surfaces.docs ?? '#'}
-                  className="text-ak-foam underline decoration-ak-border underline-offset-4 hover:text-ak-blue"
-                >
-                  {product.name}
-                </a>
-              ))}
-            </nav>
-          </div>
-        </footer>
+        <EcosystemFooter />
         <AttributionCapture />
         <Analytics />
         <SpeedInsights />
-        <script src="/ecosystem-bar.js" defer data-current="agentskit" />
+        <script src={SHELL_SCRIPT_SRC} defer data-current="agentskit" data-current-repo="AgentsKit-io/agentskit" />
       </body>
     </html>
   )

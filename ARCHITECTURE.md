@@ -1,12 +1,12 @@
 # ARCHITECTURE.md
 
-Technical reference for contributors to AgentsKit.js. Covers founding decisions, package structure, data flow, and extension points. For the _why_ behind individual contracts, see the [ADRs](./docs/architecture/adrs/).
+Technical reference for contributors to AgentsKit. Covers founding decisions, package structure, data flow, and extension points. For the _why_ behind individual contracts, see the [ADRs](./docs/architecture/adrs/).
 
 ---
 
-## 1. What AgentsKit.js Is (and Is Not)
+## 1. What AgentsKit Is (and Is Not)
 
-AgentsKit.js is a **modular agent toolkit**, not a monolith. There is no "AgentsKit app framework" — there are independently installable packages that compose through shared contracts defined in `@agentskit/core`.
+AgentsKit is a **modular agent toolkit**, not a monolith. There is no "AgentsKit app framework" — there are independently installable packages that compose through shared contracts defined in `@agentskit/core`.
 
 Design principles that shape everything here:
 
