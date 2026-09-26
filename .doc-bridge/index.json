@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "5b74c59172489b08c6dc20d3cb41e2b3eba02f9ff0cd85b74a3a8100327847a1",
+  "contentHash": "77f1d93881ca47c29af4bd4ea808aa136f6176dbe309348789cefac6f148694c",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-26T13:42:57.297Z",
+  "generatedAt": "2026-09-26T15:02:19.020Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -6374,7 +6374,7 @@
         "document",
         "human"
       ],
-      "contentHash": "04120b901a31c6b1458505bbe30478ae4eb3355ef7af7cee2044cc6c9f4a0383"
+      "contentHash": "ae834b1ffbb27f5ea59567eea85ee16dd60ef6f7785f3db970aa1d226b2b4f78"
     },
     {
       "id": "document:docs/MASTER-EXECUTION-PLAN.md",
@@ -33492,7 +33492,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "c0ffb1f8c0fe6a1b45fe3f41e7c1edc74642ae103fd19cb0333ed06747704258"
+      "contentHash": "4161c28f2fcefb882ce89c8e5abdf507e38203d177cd40b709a85977a8ea917e"
     },
     {
       "id": "module:scripts/ecosystem-llms-block.test.mjs",
@@ -33670,14 +33670,15 @@
         "evaluateDocumentationQuality",
         "evaluateDocumentationQualityMatrix",
         "parseDocumentationQualityEvidence",
-        "parseDocumentationQualityProfile"
+        "parseDocumentationQualityProfile",
+        "verifyAttestedCommit"
       ],
       "tags": [
         "module",
         "mjs",
         "lib"
       ],
-      "contentHash": "73c26e91f5c5445277c9277ac13f775aaef5ced03f08fcabf730ac0fc78c214d"
+      "contentHash": "2a9eb84ed74fcd0361cc8323e4a428f4ecf296f87adc5875bf6966ba12e1fb59"
     },
     {
       "id": "module:scripts/lib/ecosystem-readiness.mjs",
@@ -35605,7 +35606,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "8af4812878c30d764343272f39808aa816ce99e7381b927563f36af9638f4c9f",
+    "hash": "033b458f08535878480c26a8e7a9e10ab0d0a26bada4330478aa04a7157ab464",
     "fileCount": 2374,
     "projectionVersion": 2
   },
@@ -35628,9 +35629,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "8b3bd40eabe8ffb7ef587c3b21a1a3a65c58bf677e02df07ac1d5c0c7cc73454",
+    "contentHash": "5e7531b4400422f6f8ed9d6a655edafbf1691b4fc5f650832c5afecbc2928311",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "cbd9d5c2921650804fb8bfffa1ff227a549d148f76a0d07709dc6a033e033290",
+    "snapshotHash": "f50930d8b66bea8efcec5fdccb956fb21eeef2387c81c68ce4854e3d25eab782",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -35662,11 +35663,11 @@
       ],
       "averageFieldLength": {
         "aliases": 2.9926944563816074,
-        "body": 61.589170605930384,
+        "body": 61.61022776106575,
         "headings": 4.143962183068329,
         "path": 7.6364417705199825,
         "summary": 4.639020197679415,
-        "symbols": 7.4611087236785565,
+        "symbols": 7.462827675118178,
         "title": 3.327889987107864
       }
     },
@@ -69761,7 +69762,7 @@
           "path": "docs/evidence/ecosystem-documentation-quality/README.md",
           "symbols": "",
           "summary": "The seven JSON payloads are the stable v1 attestation ledger. Each records canonical product identity, a base commit, an explicit commit or working-tree source mode, a deterministic digest of every declared local evidence path, and a separate Doc Bridge result artifact. A working-tree attestation never claims that dirty content belongs to its base commit.",
-          "body": "Ecosystem documentation attestation evidence The seven JSON payloads are the stable v1 attestation ledger. Each records canonical product identity, a base commit, an explicit commit or working-tree source mode, a deterministic digest of every declared local evidence path, and a separate Doc Bridge result artifact. A working-tree attestation never claims that dirty content belongs to its base commit. Run the portable attestation gate. Without repository roots it may be eligible, but it is intentionally never certified: For a full local recertification, check out all repositories and pass their roots: The Doc Bridge score is a floor of 90, not an equality. It was exactly 100 while Doc Bridge scored the index, the handoff corpus and the gates — sixty points a well-kept repository takes completely. From 1.10.0 forty of the hundred come from reachability, connectivity and a retrieval benchmark, so a perfect score means every code area documented, every document linked into code and a near-perfect ranker. Ninety is Doc Bridge's own A boundary; coverage and the 7+2 conformance summaries stay exact, and an attestation still has to record the score that was measured, not the floor. The local mode is the only certification mode. It binds every payload to repository HEAD, recomputes its content digest, validates the separate Doc Bridge artifact, executes live ak-docs doctor --json and Documentation Standard v1 conformance in every root, and inspects visual and contextual-link content. The artifact is a ledger, never the authority: live score, coverage, and 7+2 summaries must match it and the payload. Updating an attestation requires rerunning those checks, then refreshing its payload digest and artifact.",
+          "body": "Ecosystem documentation attestation evidence The seven JSON payloads are the stable v1 attestation ledger. Each records canonical product identity, a base commit, an explicit commit or working-tree source mode, a deterministic digest of every declared local evidence path, and a separate Doc Bridge result artifact. A working-tree attestation never claims that dirty content belongs to its base commit. Run the portable attestation gate. Without repository roots it may be eligible, but it is intentionally never certified: For a full local recertification, check out all repositories and pass their roots: The Doc Bridge score is a floor of 90, not an equality. It was exactly 100 while Doc Bridge scored the index, the handoff corpus and the gates — sixty points a well-kept repository takes completely. From 1.10.0 forty of the hundred come from reachability, connectivity and a retrieval benchmark, so a perfect score means every code area documented, every document linked into code and a near-perfect ranker. Ninety is Doc Bridge's own A boundary; coverage and the 7+2 conformance summaries stay exact, and an attestation still has to record the score that was measured, not the floor. Commit-mode attestations are squash-safe. The attested commit does not have to be an ancestor of HEAD, because squash and rebase merges rewrite it. When that commit is still reachable, the certified paths must be byte-identical between it and HEAD (an ancestor that differs is reported as drift). When it is no longer reachable, for example after the feature branch is deleted, the certified paths must still hash to the attested content digest. The digest is verified in every case, so rebinding after a merge is not required. The local mode is the only certification mode. It binds every payload to repository HEAD, recomputes its content digest, validates the separate Doc Bridge artifact, executes live ak-docs doctor --json and Documentation Standard v1 conformance in every root, and inspects visual and contextual-link content. The artifact is a ledger, never the authority: live score, coverage, and 7+2 summaries must match it and the payload. Updating an attestation requires rerunning those checks, then refreshing its payload digest and artifact.",
           "aliases": "document human"
         },
         "graph": {
@@ -69780,7 +69781,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "04120b901a31c6b1458505bbe30478ae4eb3355ef7af7cee2044cc6c9f4a0383",
+        "contentHash": "ae834b1ffbb27f5ea59567eea85ee16dd60ef6f7785f3db970aa1d226b2b4f78",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174197,7 +174198,7 @@
             }
           ]
         },
-        "contentHash": "c0ffb1f8c0fe6a1b45fe3f41e7c1edc74642ae103fd19cb0333ed06747704258",
+        "contentHash": "4161c28f2fcefb882ce89c8e5abdf507e38203d177cd40b709a85977a8ea917e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174750,7 +174751,8 @@
           "evaluateDocumentationQuality",
           "evaluateDocumentationQualityMatrix",
           "parseDocumentationQualityEvidence",
-          "parseDocumentationQualityProfile"
+          "parseDocumentationQualityProfile",
+          "verifyAttestedCommit"
         ],
         "tags": [
           "module",
@@ -174761,7 +174763,7 @@
           "title": "ecosystem-documentation-quality.mjs",
           "headings": "",
           "path": "scripts/lib/ecosystem-documentation-quality.mjs",
-          "symbols": "CANONICAL_PRODUCTS DOCUMENTATION_QUALITY_PROTOCOL DOC_BRIDGE_ATTESTATION_PROTOCOL computeDocumentationEvidenceDigest countDocumentationWords documentationEvidencePaths evaluateDocumentationQuality evaluateDocumentationQualityMatrix parseDocumentationQualityEvidence parseDocumentationQualityProfile",
+          "symbols": "CANONICAL_PRODUCTS DOCUMENTATION_QUALITY_PROTOCOL DOC_BRIDGE_ATTESTATION_PROTOCOL computeDocumentationEvidenceDigest countDocumentationWords documentationEvidencePaths evaluateDocumentationQuality evaluateDocumentationQualityMatrix parseDocumentationQualityEvidence parseDocumentationQualityProfile verifyAttestedCommit",
           "summary": "",
           "body": "",
           "aliases": "module mjs lib"
@@ -174787,7 +174789,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "73c26e91f5c5445277c9277ac13f775aaef5ced03f08fcabf730ac0fc78c214d",
+        "contentHash": "2a9eb84ed74fcd0361cc8323e4a428f4ecf296f87adc5875bf6966ba12e1fb59",
         "provenance": "observed",
         "confidence": "observed"
       },
