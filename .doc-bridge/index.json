@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "5b74c59172489b08c6dc20d3cb41e2b3eba02f9ff0cd85b74a3a8100327847a1",
+  "contentHash": "24b99a59d18ca67ae08d7abd78f5efb675cbfdf948038e4786028dc99404d839",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-26T13:42:57.297Z",
+  "generatedAt": "2026-09-26T15:46:24.839Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -5081,18 +5081,6 @@
       "contentHash": "397e819f68a341ab2a2c255fdf8cdd1c181e8cdf3cc9c6341ecc596f126487ad"
     },
     {
-      "id": "document:apps/docs-next/public/ecosystem-bar.README.md",
-      "type": "document",
-      "title": "AgentsKit shell v1",
-      "path": "apps/docs-next/public/ecosystem-bar.README.md",
-      "description": "The shared chrome for every AgentsKit site is hosted here and loaded cross-origin by each product (ADR 0034):",
-      "tags": [
-        "document",
-        "unclassified"
-      ],
-      "contentHash": "e6c95ce1655eb654491c72d53dfc374a235ea8fc002c0d3a68fe00a86568b1b1"
-    },
-    {
       "id": "document:apps/docs-next/README.md",
       "type": "document",
       "title": "docs-next",
@@ -5103,6 +5091,18 @@
         "project"
       ],
       "contentHash": "09cad6996fecff6542b5cfd1bd6eacc42829e7545c699ed775c24e6e14f8668f"
+    },
+    {
+      "id": "document:apps/docs-next/shell/README.md",
+      "type": "document",
+      "title": "AgentsKit shell v1",
+      "path": "apps/docs-next/shell/README.md",
+      "description": "The shared chrome for every AgentsKit site is hosted by docs-next and loaded cross-origin by each product (ADR 0034). This directory holds the readable source (v1.js, v1.css); public/ serves only their minified build:",
+      "tags": [
+        "document",
+        "project"
+      ],
+      "contentHash": "ce8c9ec8197706d8331a8d83e03148b86417e62f76dfe58bf249d5aaced34714"
     },
     {
       "id": "document:apps/example-discord-bot/README.md",
@@ -5474,7 +5474,7 @@
         "document",
         "project"
       ],
-      "contentHash": "0231b29360cebf39137a1cd7c0b5a0d66f94bc02775f3d71877b5101bc6e9b21"
+      "contentHash": "8e06bb4bd3317631a6301f111f9deb1543bd999999abcbe2d1b0f53b94d0b158"
     },
     {
       "id": "document:apps/visual-react/README.md",
@@ -5906,7 +5906,7 @@
         "document",
         "human"
       ],
-      "contentHash": "a89f45e79119af28641a697db7cd4c05374e2ea882b058e596322e3a0e38f2fb"
+      "contentHash": "d91a76050f31ca94f67c939a6dfffcf2f836c14b8f5155e2484d8e0e416abeaa"
     },
     {
       "id": "document:docs/architecture/adrs/0035-docs-pruning-and-api-route-consolidation.md",
@@ -10947,7 +10947,7 @@
         "js",
         "public"
       ],
-      "contentHash": "ed2482b5b77c2977e520ca89261ca06f3d884578deb5588a3f80ee40c5f628f5"
+      "contentHash": "5055c544897af8e062cfa252b4b5cd6d4a4b4a4dbc553c1818f67a615bf98d6f"
     },
     {
       "id": "module:apps/docs-next/public/shell/v1.js",
@@ -10959,7 +10959,7 @@
         "js",
         "shell"
       ],
-      "contentHash": "ed2482b5b77c2977e520ca89261ca06f3d884578deb5588a3f80ee40c5f628f5"
+      "contentHash": "5055c544897af8e062cfa252b4b5cd6d4a4b4a4dbc553c1818f67a615bf98d6f"
     },
     {
       "id": "module:apps/docs-next/scripts/build-dependencies.mjs",
@@ -11140,6 +11140,18 @@
         "scripts"
       ],
       "contentHash": "f7e6bede390ecf94fe08144928fe9e555fc4535f33400bf7c87d5d5c4de1f7f0"
+    },
+    {
+      "id": "module:apps/docs-next/shell/v1.js",
+      "type": "module",
+      "title": "v1.js",
+      "path": "apps/docs-next/shell/v1.js",
+      "tags": [
+        "module",
+        "js",
+        "shell"
+      ],
+      "contentHash": "74db58d648d29c80e8999493a48330ed028a61a86181aaa58d29a1bde2d71c81"
     },
     {
       "id": "module:apps/docs-next/source.config.ts",
@@ -13244,7 +13256,7 @@
         "ts",
         "lib"
       ],
-      "contentHash": "4657c644b610e36658c1dc2a76831441cff33d64467fb27a942393fb65322d28"
+      "contentHash": "0940eecedfa95f73ee612ae0ccc8cf621e53bd0ffdba5550b16a8f94bb261a73"
     },
     {
       "id": "module:apps/registry/lib/source.ts",
@@ -13377,30 +13389,6 @@
         "registry"
       ],
       "contentHash": "776757def00b90c1e5527c09012a13fc2a98e66a5244c9ad0d7d69aa7de8e257"
-    },
-    {
-      "id": "module:apps/registry/public/ecosystem-bar.js",
-      "type": "module",
-      "title": "ecosystem-bar.js",
-      "path": "apps/registry/public/ecosystem-bar.js",
-      "tags": [
-        "module",
-        "js",
-        "public"
-      ],
-      "contentHash": "ed2482b5b77c2977e520ca89261ca06f3d884578deb5588a3f80ee40c5f628f5"
-    },
-    {
-      "id": "module:apps/registry/public/shell/v1.js",
-      "type": "module",
-      "title": "v1.js",
-      "path": "apps/registry/public/shell/v1.js",
-      "tags": [
-        "module",
-        "js",
-        "shell"
-      ],
-      "contentHash": "ed2482b5b77c2977e520ca89261ca06f3d884578deb5588a3f80ee40c5f628f5"
     },
     {
       "id": "module:apps/registry/source.config.ts",
@@ -33479,7 +33467,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "6706e78c6e1b40ab7f2ecd230257f6468d084a74d787d96994d069c562ea9e93"
+      "contentHash": "1718f93774ecbfa0bca917a5aec5222ef53a17e0afa018215e831e4fa7d8b227"
     },
     {
       "id": "module:scripts/ecosystem-documentation-quality.test.mjs",
@@ -34211,7 +34199,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "e1ef5853e6e9c3256aa8e0c97ab318f378548dfc56e05f4acd15ae724bc1c718"
+      "contentHash": "bafb72fd9c6baad700b7cda9b6f0ca8e1ac276a266f3cc2a86fa6b61981f011b"
     },
     {
       "id": "module:scripts/refresh-readme-standard.mjs",
@@ -34348,7 +34336,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "22fab58077559edcc9a4cc74199905f19e1b62e78f07048711eaa43d802091b4"
+      "contentHash": "b66fee6bbc549c619875d44d781209f4752a36218cd9a4f4654cb71433531baf"
     },
     {
       "id": "module:scripts/sync-mcp-pins.mjs",
@@ -35605,8 +35593,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "8af4812878c30d764343272f39808aa816ce99e7381b927563f36af9638f4c9f",
-    "fileCount": 2374,
+    "hash": "5c1f086b8c37c16d7c7628c056da06761d705177d97f7aafc0d29ed3c2b992a2",
+    "fileCount": 2373,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -35628,9 +35616,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "8b3bd40eabe8ffb7ef587c3b21a1a3a65c58bf677e02df07ac1d5c0c7cc73454",
+    "contentHash": "e7d3c93e01a68f5e4b8272ac22df0555332ad4b05f76204d67deb7bde7ced431",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "cbd9d5c2921650804fb8bfffa1ff227a549d148f76a0d07709dc6a033e033290",
+    "snapshotHash": "77124e54cc9b1589c41162e762b0936f81df72ef86ba43276bb90e7ad9041cb4",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -35650,7 +35638,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2327,
+      "documentCount": 2326,
       "fieldNames": [
         "aliases",
         "body",
@@ -35661,13 +35649,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 2.9926944563816074,
-        "body": 61.589170605930384,
-        "headings": 4.143962183068329,
-        "path": 7.6364417705199825,
-        "summary": 4.639020197679415,
-        "symbols": 7.4611087236785565,
-        "title": 3.327889987107864
+        "aliases": 2.9926913155631985,
+        "body": 61.61908856405847,
+        "headings": 4.145743766122098,
+        "path": 7.63585554600172,
+        "summary": 4.647893379191745,
+        "symbols": 7.464316423043852,
+        "title": 3.3276010318142735
       }
     },
     "entries": [
@@ -36018,7 +36006,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "251cdde02570a5c98204628ce61c084304f3dfd7da777fa0fe6dee364e56b300",
+        "contentHash": "0297bda2d3b3e29cb1335e92a314a3527b69c10be4594ae50f037312865a45ce",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -36675,7 +36663,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "d4ec0f980d3f81cb26ddab9c4dd47f07259f444bedc0cae75391043f1fe79397",
+        "contentHash": "b131b4443ea8ed3b22f16370bceb6bf9812ea710a6d8727cd6d190b4eca232b0",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -63303,54 +63291,6 @@
         "confidence": "observed"
       },
       {
-        "id": "document:apps/docs-next/public/ecosystem-bar.README.md",
-        "kind": "document",
-        "path": "apps/docs-next/public/ecosystem-bar.README.md",
-        "title": "AgentsKit shell v1",
-        "summary": "The shared chrome for every AgentsKit site is hosted here and loaded cross-origin by each product (ADR 0034):",
-        "aliases": [],
-        "tags": [
-          "document",
-          "unclassified"
-        ],
-        "fields": {
-          "title": "AgentsKit shell v1",
-          "headings": "AgentsKit shell v1 Generated data Consumer integration Fonts and performance Surface override (data-ak-surface) Loading and hydration Why no Subresource Integrity (SRI)",
-          "path": "apps/docs-next/public/ecosystem-bar.README.md",
-          "symbols": "",
-          "summary": "The shared chrome for every AgentsKit site is hosted here and loaded cross-origin by each product (ADR 0034):",
-          "body": "AgentsKit shell v1 The shared chrome for every AgentsKit site is hosted here and loaded cross-origin by each product (ADR 0034): URL Content --- --- /shell/v1.js Ecosystem bar (auto-injected at the top of <body ), <agentskit-ecosystem tour, <agentskit-footer , <agentskit-aurora . Zero dependencies. /shell/v1.css Shared --ak- tokens (zero specificity, so a site's own tokens win), font stacks, .ak-product-wordmark , footer fallback and local-column styles, aurora layer. /ecosystem-bar.js Legacy alias. Byte-identical copy of /shell/v1.js for consumers that have not migrated. /shell/ and /ecosystem-bar.js are served with Cache-Control: public, max-age=3600, stale-while-revalidate=86400 and Access-Control-Allow-Origin: . Compatible changes ship inside v1; breaking changes go to /shell/v2. . Generated data scripts/sync-ecosystem.mjs regenerates three blocks in shell/v1.js from ecosystem.json : PROPS (the six bar products, in manifest order), the tour's SHOWCASE PRODUCTS , and CATALOG (every product, including ones hidden from the bar, so names and Star targets resolve for them). It then writes the alias and Registry's fallback copies ( apps/registry/public/shell/v1. , apps/registry/public/ecosystem-bar.js ). Edit shell/v1.js by hand only outside the generated markers; --check fails on drift. Consumer integration Product ids: agentskit , registry , agentskit-chat , doc-bridge , code-review , harness , playbook . Without data-current the bar detects the product from the hostname. playbook is not listed in the bar or tour, so nothing is highlighted and the Star action targets AgentsKit-io/agents-playbook . The Star action lives only in the bar and targets data-current-repo . - Tour: <agentskit-ecosystem current=\"registry\" data-visual=\"agentskit-home\" …fallback…</agentskit-ecosystem . - Footer: <agentskit-footer current=\"registry\" repo=\"AgentsKit-io/agentskit-registry\" description=\"…\" license=\"MIT License\" . license defaults to MIT License (Playbook uses MIT (code) · CC-BY-4.0 (docs) ). Children are the server-rendered fallback. An element with slot=\"local\" (class ak-footer-local , columns ak-footer-col with an ak-footer-col title heading) is projected into the upgraded footer as the product's own columns; everything else stays in the DOM for crawlers and no-JS readers but is not displayed once the footer upgrades (shadow DOM, so hydration is untouched). - Aurora: <agentskit-aurora aria-hidden=\"true\" </agentskit-aurora once per page. Fixed, aria-hidden , pointer-events: none , behind content; reads --ak-accent (or an accent=\" rrggbb\" attribute; grid=\"off\" disables the mesh), and paints over the page's own --ak-bg . Its light or dark mode follows that background's luminance, falling back to a dark / light class or data-theme on <html , then prefers-color-scheme ; it re-syncs on theme and system changes. It renders a single still frame under prefers-reduced-motion . It also draws the Playbook grid mesh (64px squares, 1px lines in --ak-fg at 4% alpha, layer opacity 0.4) on by default; grid=\"off\" removes it. The grid scrolls with the page and fades out over the last 480px of the document, and follows the theme and data-ak-surface through --ak-fg . Place it inside an isolation: isolate wrapper so it paints above that wrapper's background. - Fumadocs nav title: <span class=\"ak-product-wordmark\" <span class=\"ak-product-wordmark brand\" AgentsKit</span <span class=\"ak-product-wordmark product\" Registry</span </span . Fonts and performance v1.css has no @import , so it never blocks rendering on Google Fonts. The script loads Inter and Space Grotesk asynchronously (preconnect, media=\"print\" swapped to all on load, display=swap ) and only for families the page does not already provide. Sites that self-host the fonts (for example with next/font ) add data-ak-fonts=\"self\" to the script tag to skip the check: Until a font arrives, the --ak-font- stacks fall back to system UI fonts. Only the bar is mounted on the critical path. v1.css reserves its heig",
-          "aliases": "document unclassified"
-        },
-        "graph": {
-          "pagerank": 0,
-          "inboundLinks": 0,
-          "coveredBy": [],
-          "mentionedBy": [],
-          "inbound": [],
-          "outbound": [
-            {
-              "kind": "mentions",
-              "id": "module:apps/registry/public/ecosystem-bar.js",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "module:scripts/sync-ecosystem.mjs",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "package:agentskit",
-              "confidence": "observed"
-            }
-          ]
-        },
-        "contentHash": "e6c95ce1655eb654491c72d53dfc374a235ea8fc002c0d3a68fe00a86568b1b1",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
         "id": "document:apps/docs-next/README.md",
         "kind": "document",
         "path": "apps/docs-next/README.md",
@@ -63411,6 +63351,55 @@
           ]
         },
         "contentHash": "09cad6996fecff6542b5cfd1bd6eacc42829e7545c699ed775c24e6e14f8668f",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "document:apps/docs-next/shell/README.md",
+        "kind": "document",
+        "path": "apps/docs-next/shell/README.md",
+        "title": "AgentsKit shell v1",
+        "summary": "The shared chrome for every AgentsKit site is hosted by docs-next and loaded cross-origin by each product (ADR 0034). This directory holds the readable source (v1.js, v1.css); public/ serves only their minified build:",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "project"
+        ],
+        "fields": {
+          "title": "AgentsKit shell v1",
+          "headings": "AgentsKit shell v1 Generated data Consumer integration Fonts and performance Surface override (data-ak-surface) Loading and hydration Why no Subresource Integrity (SRI)",
+          "path": "apps/docs-next/shell/README.md",
+          "symbols": "",
+          "summary": "The shared chrome for every AgentsKit site is hosted by docs-next and loaded cross-origin by each product (ADR 0034). This directory holds the readable source (v1.js, v1.css); public/ serves only their minified build:",
+          "body": "AgentsKit shell v1 The shared chrome for every AgentsKit site is hosted by docs-next and loaded cross-origin by each product (ADR 0034). This directory holds the readable source ( v1.js , v1.css ); public/ serves only their minified build: URL Content --- --- /shell/v1.js Ecosystem bar (auto-injected at the top of <body ), <agentskit-ecosystem tour, <agentskit-footer , <agentskit-aurora . Zero dependencies. /shell/v1.css Shared --ak- tokens (zero specificity, so a site's own tokens win), font stacks, .ak-product-wordmark , footer fallback and local-column styles, aurora layer. /ecosystem-bar.js Legacy alias. Byte-identical copy of the minified /shell/v1.js for consumers that have not migrated. /shell/ and /ecosystem-bar.js are served with Cache-Control: public, max-age=3600, stale-while-revalidate=86400 and Access-Control-Allow-Origin: . Compatible changes ship inside v1; breaking changes go to /shell/v2. . Generated data scripts/sync-ecosystem.mjs regenerates three blocks in the source apps/docs-next/shell/v1.js from ecosystem.json : PROPS (the six bar products, in manifest order), the tour's SHOWCASE PRODUCTS , and CATALOG (every product, including ones hidden from the bar, so names and Star targets resolve for them). It then minifies the source with esbuild into public/shell/v1.js , public/ecosystem-bar.js , and public/shell/v1.css . Edit only the source, and only outside the generated markers; never edit the files in public/ . --check fails when the source or the minified build is stale. docs-next's prebuild runs the sync, so deployments always serve the current build. No other app keeps a copy: Registry and the sibling sites load the shell from NEXT PUBLIC AGENTSKIT SHELL ORIGIN (default https://www.agentskit.io ). Consumer integration Product ids: agentskit , registry , agentskit-chat , doc-bridge , code-review , harness , playbook . Without data-current the bar detects the product from the hostname. playbook is not listed in the bar or tour, so nothing is highlighted and the Star action targets AgentsKit-io/agents-playbook . The Star action lives only in the bar and targets data-current-repo . - Tour: <agentskit-ecosystem current=\"registry\" data-visual=\"agentskit-home\" …fallback…</agentskit-ecosystem . - Footer: <agentskit-footer current=\"registry\" repo=\"AgentsKit-io/agentskit-registry\" description=\"…\" license=\"MIT License\" . license defaults to MIT License (Playbook uses MIT (code) · CC-BY-4.0 (docs) ). Children are the server-rendered fallback. An element with slot=\"local\" (class ak-footer-local , columns ak-footer-col with an ak-footer-col title heading) is projected into the upgraded footer as the product's own columns; everything else stays in the DOM for crawlers and no-JS readers but is not displayed once the footer upgrades (shadow DOM, so hydration is untouched). - Aurora: <agentskit-aurora aria-hidden=\"true\" </agentskit-aurora once per page. Fixed, aria-hidden , pointer-events: none , behind content; reads --ak-accent (or an accent=\" rrggbb\" attribute; grid=\"off\" disables the mesh), and paints over the page's own --ak-bg . Its light or dark mode follows that background's luminance, falling back to a dark / light class or data-theme on <html , then prefers-color-scheme ; it re-syncs on theme and system changes. It renders a single still frame under prefers-reduced-motion . It also draws the Playbook grid mesh (64px squares, 1px lines in --ak-fg at 4% alpha, layer opacity 0.4) on by default; grid=\"off\" removes it. The grid scrolls with the page and fades out over the last 480px of the document, and follows the theme and data-ak-surface through --ak-fg . Place it inside an isolation: isolate wrapper so it paints above that wrapper's background. - Fumadocs nav title: <span class=\"ak-product-wordmark\" <span class=\"ak-product-wordmark brand\" AgentsKit</span <span class=\"ak-product-wordmark product\" Registry</span </span . Fonts and performance v1.css has no @import , so it never blocks rendering on Google Fonts. The",
+          "aliases": "document project"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "mentions",
+              "id": "module:apps/docs-next/shell/v1.js",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:scripts/sync-ecosystem.mjs",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:agentskit",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "ce8c9ec8197706d8331a8d83e03148b86417e62f76dfe58bf249d5aaced34714",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -64784,7 +64773,7 @@
           "path": "apps/registry/README.md",
           "symbols": "",
           "summary": "Profile: <code>public-app</code>",
-          "body": "registry Profile: <code public-app</code Verified proof - App package lives at apps/registry . - Root claims: Install / run <!-- readme-command:install -- Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Private monorepo app surface; ships with AgentsKit docs/product properties. - Node.js 20+ and TypeScript Contributing See and . Ecosystem - - - Tags: agentskit · typescript @agentskit/registry-app Profile: <code public-app</code The fumadocs site for the AgentsKit agent registry — deployed to registry.agentskit.io . The app loads the shared AgentsKit shell ( /shell/v1.js and /shell/v1.css from NEXT PUBLIC AGENTSKIT SHELL ORIGIN , default https://www.agentskit.io ): the ecosystem bar and tour, a Registry-blue <agentskit-aurora on the home, and <agentskit-footer on every page. Development without the variable uses the fallback copy in public/shell/ , synced by scripts/sync-ecosystem.mjs . Fumadocs provides the local navigation and search; documentation routes keep a solid, calm background. - / — agent gallery with search, filters, ordering, and comparison selection, SSG. - /agents/[id] — per-agent page, generated at build from the committed index in the repo (raw GitHub). The agent source stays decoupled (RFC 0002). - /compare?agents=<id ,<id — temporary, shareable comparison workspace ( noindex ). - /docs/using , /docs/authoring , /docs/contributing — guides. Product analytics North star: weekly visitors who copy at least one agent install command. The Registry uses the shared PostHog project, but sends only explicit product events. Autocapture, session recording, exception capture, and person profiles are disabled. Captured URLs are reduced to their pathname before sending, so free-form search text never leaves the browser. Agent IDs and other structured catalog choices are sent only through the explicit events below. Event Trigger Decision it supports --- --- --- registry agent opened An agent detail page renders Which agents move discovery forward? registry catalog search used Search settles for 700 ms Does search return useful coverage? registry catalog filter changed A structured filter changes Which qualification paths matter? registry compare selection changed Comparison selection changes Where does comparison become difficult? registry comparison opened A valid comparison renders Which agents are evaluated together? registry install command copied An install command is copied Did the visit reach activation? registry agent feedback submitted A visitor rates an agent as helpful or not helpful Which opened agents need quality review? Search events contain only a coarse query-length bucket and result count, never the query. Suggested PostHog funnel: registry agent opened or registry comparison opened → registry install command copied , segmented by copy surface. Review this funnel weekly; use search zero-result counts and comparison drop-off to prioritize catalog improvements. Agent feedback contains only the agent ID and the structured response. Comments, issue bodies, and page query strings are never captured. Review the helpful rate alongside agent opens and install copies to prioritize investigation without treating low-volume agents as low-quality by default. Deploy (Vercel) Import the agentskit monorepo, set Root Directory = apps/registry , Framework = Next.js. Point registry.agentskit.io at the project. Local AgentsKit Chat dogfood The floating Ask Registry surface consumes the stable npm package @agentskit/chat at exact version 0.4.1 , using its /protocol and /react subpaths. This app owns only the registry corpus, NEXT PUBLIC ASK ENDPOINT , Registry branding, CTA, and React slots. AgentsKit Chat owns the Ask wire contract, streaming adapter, ordered content, standard source-list , memory migration, and application shell. AgentsKit owns controller lifecycle, messages, cancellation, retry, edit, and regenerate. Implementation: - components/ask-widget.tsx — native Registry shell, renderer slo",
+          "body": "registry Profile: <code public-app</code Verified proof - App package lives at apps/registry . - Root claims: Install / run <!-- readme-command:install -- Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Private monorepo app surface; ships with AgentsKit docs/product properties. - Node.js 20+ and TypeScript Contributing See and . Ecosystem - - - Tags: agentskit · typescript @agentskit/registry-app Profile: <code public-app</code The fumadocs site for the AgentsKit agent registry — deployed to registry.agentskit.io . The app loads the shared AgentsKit shell ( /shell/v1.js and /shell/v1.css from NEXT PUBLIC AGENTSKIT SHELL ORIGIN , default https://www.agentskit.io ): the ecosystem bar and tour, a Registry-blue <agentskit-aurora on the home, and <agentskit-footer on every page. Registry keeps no copy of the shell; to review local shell changes, run docs-next on port 3000 and start Registry with NEXT PUBLIC AGENTSKIT SHELL ORIGIN=http://localhost:3000 . Fumadocs provides the local navigation and search; documentation routes keep a solid, calm background. - / — agent gallery with search, filters, ordering, and comparison selection, SSG. - /agents/[id] — per-agent page, generated at build from the committed index in the repo (raw GitHub). The agent source stays decoupled (RFC 0002). - /compare?agents=<id ,<id — temporary, shareable comparison workspace ( noindex ). - /docs/using , /docs/authoring , /docs/contributing — guides. Product analytics North star: weekly visitors who copy at least one agent install command. The Registry uses the shared PostHog project, but sends only explicit product events. Autocapture, session recording, exception capture, and person profiles are disabled. Captured URLs are reduced to their pathname before sending, so free-form search text never leaves the browser. Agent IDs and other structured catalog choices are sent only through the explicit events below. Event Trigger Decision it supports --- --- --- registry agent opened An agent detail page renders Which agents move discovery forward? registry catalog search used Search settles for 700 ms Does search return useful coverage? registry catalog filter changed A structured filter changes Which qualification paths matter? registry compare selection changed Comparison selection changes Where does comparison become difficult? registry comparison opened A valid comparison renders Which agents are evaluated together? registry install command copied An install command is copied Did the visit reach activation? registry agent feedback submitted A visitor rates an agent as helpful or not helpful Which opened agents need quality review? Search events contain only a coarse query-length bucket and result count, never the query. Suggested PostHog funnel: registry agent opened or registry comparison opened → registry install command copied , segmented by copy surface. Review this funnel weekly; use search zero-result counts and comparison drop-off to prioritize catalog improvements. Agent feedback contains only the agent ID and the structured response. Comments, issue bodies, and page query strings are never captured. Review the helpful rate alongside agent opens and install copies to prioritize investigation without treating low-volume agents as low-quality by default. Deploy (Vercel) Import the agentskit monorepo, set Root Directory = apps/registry , Framework = Next.js. Point registry.agentskit.io at the project. Local AgentsKit Chat dogfood The floating Ask Registry surface consumes the stable npm package @agentskit/chat at exact version 0.4.1 , using its /protocol and /react subpaths. This app owns only the registry corpus, NEXT PUBLIC ASK ENDPOINT , Registry branding, CTA, and React slots. AgentsKit Chat owns the Ask wire contract, streaming adapter, ordered content, standard source-list , memory migration, and application shell. AgentsKit owns controller lifecycle, messages, cancellation, retry, edit, and regenerate. Implementation: -",
           "aliases": "document project"
         },
         "graph": {
@@ -64811,17 +64800,12 @@
             },
             {
               "kind": "mentions",
-              "id": "module:scripts/sync-ecosystem.mjs",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
               "id": "package:agentskit",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "0231b29360cebf39137a1cd7c0b5a0d66f94bc02775f3d71877b5101bc6e9b21",
+        "contentHash": "8e06bb4bd3317631a6301f111f9deb1543bd999999abcbe2d1b0f53b94d0b158",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -68121,7 +68105,7 @@
           "path": "docs/architecture/adrs/0034-ecosystem-shell-v1.md",
           "symbols": "",
           "summary": "Status: Proposed, pending visual review",
-          "body": "ADR 0034 — Ecosystem shell v1 - Status : Proposed, pending visual review - Date : 2026-09-25 - Related ADRs : ADR 0021, ADR 0029, ADR 0033 Context ADR 0029 chose a hosted, zero-dependency web shell over a framework package. Until now only the ecosystem bar and the interactive tour were shared, through /ecosystem-bar.js . Each site still carried its own footer, cursor or aurora background, wordmark, and heading font, so the seven sites drifted. ADR 0033 aligned Registry with AgentsKit by copying components between the two apps, which does not reach the sibling repositories. Fumadocs owns search, the mobile menu, the theme toggle, and the sidebar on most of the sites. Injecting a replacement product header would fight those behaviours. Decision The AgentsKit site ( apps/docs-next ) hosts a versioned shell: Asset Content --- --- /shell/v1.js Auto-injected ecosystem bar, <agentskit-ecosystem tour, <agentskit-footer , <agentskit-aurora . /shell/v1.css Zero-specificity --ak- tokens (including --ak-graphite ), font stacks, .ak-product-wordmark , footer fallback and local-column styles, aurora layer. /ecosystem-bar.js Legacy alias, byte-identical to /shell/v1.js . 1. Order and membership. The bar and tour list six products in manifest order: AgentsKit, Registry, Chat, Doc Bridge, Code Review, Harness. Playbook is not listed. A site loaded with data-current=\"playbook\" highlights nothing and its Star action targets AgentsKit-io/agents-playbook , resolved from a generated catalog of every manifest product. 2. Star. The GitHub Star action exists only in the bar and targets data-current-repo , falling back to the current product's repository. Product headers do not carry GitHub or Star links. 3. Footer. <agentskit-footer current repo description license renders its upgraded content in a shadow root, so server-rendered children are never mutated and framework hydration is unaffected. license defaults to MIT License . Children are the fallback: an ak-footer-fallback element with plain ecosystem, repository, and license links that crawlers and no-JS readers see (kept in the DOM, not displayed after upgrade), plus an optional slot=\"local\" element ( ak-footer-local , with ak-footer-col columns) that is projected into the upgraded footer as product-owned navigation. The footer fades in over the page instead of drawing a hard top edge. 4. Aurora. <agentskit-aurora is a fixed, aria-hidden , non-interactive WebGL layer behind content, with an animated CSS fallback. It reads the product's --ak-accent , paints over the page's --ak-bg , and chooses light or dark from that background, then from a dark / light class or data-theme on <html , then from prefers-color-scheme . It renders one still frame when prefers-reduced-motion is set. A grid mesh taken from the Playbook home (64px, 1px --ak-fg lines at 4% alpha, layer opacity 0.4) is on by default and opted out with grid=\"off\" ; it scrolls with the page and fades out 480px before the document ends. 5. Surface override. A region that is dark or light by design declares data-ak-surface=\"dark light\" on <body or a descendant (first match wins). The bar, tour, footer, and aurora then use that palette instead of the page theme, and revert when the attribute disappears (observed for client navigation). The shell applies it through one style element in <head , not by editing page markup. 6. Product header. Each site keeps its Fumadocs layout and renders the .ak-product-wordmark markup as nav.title ; styling comes from the shell stylesheet. Heroes stay product-owned. 7. Distribution. scripts/sync-ecosystem.mjs generates the bar, tour, and catalog blocks from ecosystem.json , writes the alias, and copies the shell into apps/registry/public/shell/ as a fallback for development and origin outages. /shell/ is served with Cache-Control: public, max-age=3600, stale-while-revalidate=86400 and Access-Control-Allow-Origin: . 8. Loading. Because the shell only writes into shadow roots and inserts the bar as a new first ch",
+          "body": "ADR 0034 — Ecosystem shell v1 - Status : Proposed, pending visual review - Date : 2026-09-25 - Related ADRs : ADR 0021, ADR 0029, ADR 0033 Context ADR 0029 chose a hosted, zero-dependency web shell over a framework package. Until now only the ecosystem bar and the interactive tour were shared, through /ecosystem-bar.js . Each site still carried its own footer, cursor or aurora background, wordmark, and heading font, so the seven sites drifted. ADR 0033 aligned Registry with AgentsKit by copying components between the two apps, which does not reach the sibling repositories. Fumadocs owns search, the mobile menu, the theme toggle, and the sidebar on most of the sites. Injecting a replacement product header would fight those behaviours. Decision The AgentsKit site ( apps/docs-next ) hosts a versioned shell: Asset Content --- --- /shell/v1.js Auto-injected ecosystem bar, <agentskit-ecosystem tour, <agentskit-footer , <agentskit-aurora . /shell/v1.css Zero-specificity --ak- tokens (including --ak-graphite ), font stacks, .ak-product-wordmark , footer fallback and local-column styles, aurora layer. /ecosystem-bar.js Legacy alias, byte-identical to /shell/v1.js . 1. Order and membership. The bar and tour list six products in manifest order: AgentsKit, Registry, Chat, Doc Bridge, Code Review, Harness. Playbook is not listed. A site loaded with data-current=\"playbook\" highlights nothing and its Star action targets AgentsKit-io/agents-playbook , resolved from a generated catalog of every manifest product. 2. Star. The GitHub Star action exists only in the bar and targets data-current-repo , falling back to the current product's repository. Product headers do not carry GitHub or Star links. 3. Footer. <agentskit-footer current repo description license renders its upgraded content in a shadow root, so server-rendered children are never mutated and framework hydration is unaffected. license defaults to MIT License . Children are the fallback: an ak-footer-fallback element with plain ecosystem, repository, and license links that crawlers and no-JS readers see (kept in the DOM, not displayed after upgrade), plus an optional slot=\"local\" element ( ak-footer-local , with ak-footer-col columns) that is projected into the upgraded footer as product-owned navigation. The footer fades in over the page instead of drawing a hard top edge. 4. Aurora. <agentskit-aurora is a fixed, aria-hidden , non-interactive WebGL layer behind content, with an animated CSS fallback. It reads the product's --ak-accent , paints over the page's --ak-bg , and chooses light or dark from that background, then from a dark / light class or data-theme on <html , then from prefers-color-scheme . It renders one still frame when prefers-reduced-motion is set. A grid mesh taken from the Playbook home (64px, 1px --ak-fg lines at 4% alpha, layer opacity 0.4) is on by default and opted out with grid=\"off\" ; it scrolls with the page and fades out 480px before the document ends. 5. Surface override. A region that is dark or light by design declares data-ak-surface=\"dark light\" on <body or a descendant (first match wins). The bar, tour, footer, and aurora then use that palette instead of the page theme, and revert when the attribute disappears (observed for client navigation). The shell applies it through one style element in <head , not by editing page markup. 6. Product header. Each site keeps its Fumadocs layout and renders the .ak-product-wordmark markup as nav.title ; styling comes from the shell stylesheet. Heroes stay product-owned. 7. Distribution. The readable source lives in apps/docs-next/shell/ . scripts/sync-ecosystem.mjs generates the bar, tour, and catalog blocks from ecosystem.json into it and serves an esbuild-minified build as /shell/v1.js , /shell/v1.css , and the /ecosystem-bar.js alias. No fallback copies are kept: Registry, like every sibling, loads the shell from the AgentsKit origin in every environment. /shell/ is served with Cache-Control: public, max-age=360",
           "aliases": "document human"
         },
         "graph": {
@@ -68149,7 +68133,7 @@
             }
           ]
         },
-        "contentHash": "a89f45e79119af28641a697db7cd4c05374e2ea882b058e596322e3a0e38f2fb",
+        "contentHash": "d91a76050f31ca94f67c939a6dfffcf2f836c14b8f5155e2484d8e0e416abeaa",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -89693,7 +89677,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "ed2482b5b77c2977e520ca89261ca06f3d884578deb5588a3f80ee40c5f628f5",
+        "contentHash": "5055c544897af8e062cfa252b4b5cd6d4a4b4a4dbc553c1818f67a615bf98d6f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -89727,7 +89711,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "ed2482b5b77c2977e520ca89261ca06f3d884578deb5588a3f80ee40c5f628f5",
+        "contentHash": "5055c544897af8e062cfa252b4b5cd6d4a4b4a4dbc553c1818f67a615bf98d6f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -90246,6 +90230,48 @@
           "outbound": []
         },
         "contentHash": "f7e6bede390ecf94fe08144928fe9e555fc4535f33400bf7c87d5d5c4de1f7f0",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/docs-next/shell/v1.js",
+        "kind": "module",
+        "path": "apps/docs-next/shell/v1.js",
+        "title": "v1.js",
+        "aliases": [],
+        "tags": [
+          "module",
+          "js",
+          "shell"
+        ],
+        "fields": {
+          "title": "v1.js",
+          "headings": "",
+          "path": "apps/docs-next/shell/v1.js",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module js shell"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 1,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/shell/README.md"
+          ],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/shell/README.md",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "74db58d648d29c80e8999493a48330ed028a61a86181aaa58d29a1bde2d71c81",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -96528,7 +96554,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "4657c644b610e36658c1dc2a76831441cff33d64467fb27a942393fb65322d28",
+        "contentHash": "0940eecedfa95f73ee612ae0ccc8cf621e53bd0ffdba5550b16a8f94bb261a73",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -96893,82 +96919,6 @@
           "outbound": []
         },
         "contentHash": "776757def00b90c1e5527c09012a13fc2a98e66a5244c9ad0d7d69aa7de8e257",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
-        "id": "module:apps/registry/public/ecosystem-bar.js",
-        "kind": "module",
-        "path": "apps/registry/public/ecosystem-bar.js",
-        "title": "ecosystem-bar.js",
-        "aliases": [],
-        "tags": [
-          "module",
-          "js",
-          "public"
-        ],
-        "fields": {
-          "title": "ecosystem-bar.js",
-          "headings": "",
-          "path": "apps/registry/public/ecosystem-bar.js",
-          "symbols": "",
-          "summary": "",
-          "body": "",
-          "aliases": "module js public"
-        },
-        "graph": {
-          "pagerank": 0,
-          "inboundLinks": 1,
-          "coveredBy": [],
-          "mentionedBy": [
-            "document:apps/docs-next/public/ecosystem-bar.README.md"
-          ],
-          "areaId": "area:apps/registry",
-          "packageId": "package:agentskit",
-          "inbound": [
-            {
-              "kind": "mentions",
-              "id": "document:apps/docs-next/public/ecosystem-bar.README.md",
-              "confidence": "observed"
-            }
-          ],
-          "outbound": []
-        },
-        "contentHash": "ed2482b5b77c2977e520ca89261ca06f3d884578deb5588a3f80ee40c5f628f5",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
-        "id": "module:apps/registry/public/shell/v1.js",
-        "kind": "module",
-        "path": "apps/registry/public/shell/v1.js",
-        "title": "v1.js",
-        "aliases": [],
-        "tags": [
-          "module",
-          "js",
-          "shell"
-        ],
-        "fields": {
-          "title": "v1.js",
-          "headings": "",
-          "path": "apps/registry/public/shell/v1.js",
-          "symbols": "",
-          "summary": "",
-          "body": "",
-          "aliases": "module js shell"
-        },
-        "graph": {
-          "pagerank": 0,
-          "inboundLinks": 0,
-          "coveredBy": [],
-          "mentionedBy": [],
-          "areaId": "area:apps/registry",
-          "packageId": "package:agentskit",
-          "inbound": [],
-          "outbound": []
-        },
-        "contentHash": "ed2482b5b77c2977e520ca89261ca06f3d884578deb5588a3f80ee40c5f628f5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174151,7 +174101,7 @@
             }
           ]
         },
-        "contentHash": "6706e78c6e1b40ab7f2ecd230257f6468d084a74d787d96994d069c562ea9e93",
+        "contentHash": "1718f93774ecbfa0bca917a5aec5222ef53a17e0afa018215e831e4fa7d8b227",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -176316,7 +176266,7 @@
             }
           ]
         },
-        "contentHash": "e1ef5853e6e9c3256aa8e0c97ab318f378548dfc56e05f4acd15ae724bc1c718",
+        "contentHash": "bafb72fd9c6baad700b7cda9b6f0ca8e1ac276a266f3cc2a86fa6b61981f011b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -176771,11 +176721,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 5,
+          "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
-            "document:apps/docs-next/public/ecosystem-bar.README.md",
-            "document:apps/registry/README.md",
+            "document:apps/docs-next/shell/README.md",
             "document:docs/architecture/adrs/0021-ecosystem-manifest-and-claims.md",
             "document:docs/architecture/adrs/0034-ecosystem-shell-v1.md",
             "document:docs/studies/ecosystem-documentation-quality-rollout.md"
@@ -176785,12 +176734,7 @@
           "inbound": [
             {
               "kind": "mentions",
-              "id": "document:apps/docs-next/public/ecosystem-bar.README.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:apps/registry/README.md",
+              "id": "document:apps/docs-next/shell/README.md",
               "confidence": "observed"
             },
             {
@@ -176817,7 +176761,7 @@
             }
           ]
         },
-        "contentHash": "22fab58077559edcc9a4cc74199905f19e1b62e78f07048711eaa43d802091b4",
+        "contentHash": "b66fee6bbc549c619875d44d781209f4752a36218cd9a4f4654cb71433531baf",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -184497,8 +184441,8 @@
             "document:apps/docs-next/content/docs/for-agents/cli.mdx",
             "document:apps/docs-next/content/docs/production/cli/programmatic-api.mdx",
             "document:apps/docs-next/public/brand/README.md",
-            "document:apps/docs-next/public/ecosystem-bar.README.md",
             "document:apps/docs-next/README.md",
+            "document:apps/docs-next/shell/README.md",
             "document:apps/example-dspy/README.md",
             "document:apps/landing/README.md",
             "document:apps/registry/README.md",
@@ -184566,12 +184510,12 @@
             },
             {
               "kind": "mentions",
-              "id": "document:apps/docs-next/public/ecosystem-bar.README.md",
+              "id": "document:apps/docs-next/README.md",
               "confidence": "observed"
             },
             {
               "kind": "mentions",
-              "id": "document:apps/docs-next/README.md",
+              "id": "document:apps/docs-next/shell/README.md",
               "confidence": "observed"
             },
             {
@@ -184762,7 +184706,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5cc76259b4c69ba2ad9aee0e8f20059a3c227522c06bee7b93986a88312bb23a",
+        "contentHash": "a765fd027beedc47f4abc7b6da95a338cdf3f41ccad1555ea35360e0fb538f49",
         "provenance": "observed",
         "confidence": "observed"
       }
