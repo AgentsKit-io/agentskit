@@ -1,3 +1,4 @@
+import { join } from 'node:path'
 import { expect, test } from '@playwright/test'
 import { startPackageServer, type DevServer } from './helpers/dev-server'
 
@@ -9,6 +10,16 @@ test.beforeAll(async () => {
 
 test.afterAll(async () => {
   await server?.close()
+})
+
+// Serve the shell from this checkout instead of production (the app's default origin), so a
+// shell deploy cannot change what a pull request is tested against.
+const SHELL_DIR = join(__dirname, '../../apps/registry/public/shell')
+test.beforeEach(async ({ page }) => {
+  await page.route('https://www.agentskit.io/shell/v1.*', async (route) => {
+    const file = new URL(route.request().url()).pathname.endsWith('.css') ? 'v1.css' : 'v1.js'
+    await route.fulfill({ path: join(SHELL_DIR, file) })
+  })
 })
 
 test('Registry answers exact facts locally and escalates semantic recommendations with context', async ({ page }) => {
@@ -54,10 +65,16 @@ test('Registry answers exact facts locally and escalates semantic recommendation
 
 test('Registry retries local knowledge and never labels a failed backend response as grounded', async ({ page }) => {
   let siteConfigRequests = 0
+  let releaseRetry!: () => void
+  const retryHeld = new Promise<void>((resolve) => { releaseRetry = resolve })
   await page.route('**/deterministic/site-config.json', async (route) => {
     siteConfigRequests += 1
     if (siteConfigRequests === 1) await route.fulfill({ status: 503, contentType: 'application/json', body: '{}' })
-    else await route.continue()
+    else {
+      // Hold the retry so the question below is typed while local knowledge is still loading.
+      await retryHeld
+      await route.continue()
+    }
   })
   await page.route('https://ask.agentskit.io/v1/ask?corpus=registry', async (route) => {
     await route.fulfill({
@@ -79,6 +96,10 @@ test('Registry retries local knowledge and never labels a failed backend respons
   await page.waitForTimeout(1_050)
   await trigger.click()
   await expect.poll(() => siteConfigRequests).toBeGreaterThanOrEqual(2)
+  // A question sent mid-retry must not reach the backend-only adapter left by the failed load.
+  await expect(page.getByRole('status').filter({ hasText: 'Preparing local Registry knowledge' })).toBeVisible()
+  await expect(input).toHaveCount(0)
+  releaseRetry()
   await input.fill('npx agentskit add research')
   await input.press('Enter')
   await expect(page.locator('[data-rg-answer-path="local"]')).toHaveText(/instant · local/)
