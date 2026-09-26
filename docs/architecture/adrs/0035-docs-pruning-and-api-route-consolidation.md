@@ -1,6 +1,6 @@
 # ADR 0035 — Documentation pruning and API reference route consolidation
 
-- **Status**: Proposed
+- **Status**: Accepted
 - **Date**: 2026-09-25
 - **Related ADRs**: ADR 0007
 
