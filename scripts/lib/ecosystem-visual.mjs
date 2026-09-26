@@ -18,11 +18,11 @@ export const VIEWPORTS = [
 
 export const PAGES = ['home', 'docs']
 
-/** Regions whose visible text must meet WCAG AA. Order is the assignment priority. */
-export const CONTRAST_REGIONS = ['bar', 'footer', 'header', 'hero']
+/** Regions whose visible text must meet WCAG AA. */
+export const CONTRAST_REGIONS = ['bar', 'header', 'hero', 'tour', 'footer']
 
 /** Checks the shared shell owns: a shell PR fails only on these (see `--scope shell`). */
-export const SHELL_CHECKS = new Set(['bar-present', 'bar-products', 'bar-current', 'bar-star', 'footer-upgraded', 'no-horizontal-overflow', 'shell-console-errors', 'contrast-bar', 'contrast-footer'])
+export const SHELL_CHECKS = new Set(['bar-present', 'bar-products', 'bar-current', 'bar-star', 'footer-upgraded', 'no-horizontal-overflow', 'shell-console-errors', 'contrast-bar', 'contrast-tour', 'contrast-footer'])
 
 /**
  * Every public site in the ecosystem (bar products plus Playbook, which loads the
@@ -53,7 +53,24 @@ export function ecosystemSites(ecosystem) {
     })
 }
 
-/** Point every site at another origin for www.agentskit.io (local docs-next in shell PRs). */
+/**
+ * Parses repeatable `--site-origin <product-id>=<url>` values into a Map, so any product repo
+ * can point the check at its local build. Throws on unknown ids or malformed URLs.
+ */
+export function parseSiteOrigins(values, knownIds) {
+  const origins = new Map()
+  for (const value of values ?? []) {
+    const separator = value.indexOf('=')
+    const id = separator > 0 ? value.slice(0, separator).trim() : ''
+    const url = separator > 0 ? value.slice(separator + 1).trim() : ''
+    if (!knownIds.includes(id)) throw new Error(`--site-origin: unknown site "${id || value}" (known: ${knownIds.join(', ')})`)
+    if (!URL.canParse(url) || !/^https?:$/.test(new URL(url).protocol)) throw new Error(`--site-origin: "${url}" is not an http(s) URL for ${id}`)
+    origins.set(id, new URL(url).origin)
+  }
+  return origins
+}
+
+/** Serves a site's home and docs paths from another origin (a local build). */
 export function rebaseSite(site, origin) {
   const rebase = (url) => {
     const parsed = new URL(url)
@@ -165,7 +182,8 @@ export function applyScope(checks, scope) {
   return checks.map((check) => (check.ok || SHELL_CHECKS.has(check.id) ? check : { ...check, ok: true, warning: true }))
 }
 
-const escapeCell = (value) => String(value).replace(/\|/g, '\\|').replace(/\n/g, ' ')
+// Backslashes first, so an escape added for a pipe can never be re-read as an escaped backslash.
+const escapeCell = (value) => String(value).replace(/\\/g, '\\\\').replace(/\|/g, '\\|').replace(/\s*\n\s*/g, ' ')
 
 /** Readable Markdown for the job summary: a run matrix, then every failure with its evidence. */
 export function formatSummary(runs, { scope, mode }) {
