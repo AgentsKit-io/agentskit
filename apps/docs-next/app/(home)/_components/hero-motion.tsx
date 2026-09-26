@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 import { AnimatePresence, motion, useReducedMotion } from 'motion/react'
 import { BrandIcon } from '@/components/home/brand-icon'
 
-const FRAMEWORKS = [
+export const FRAMEWORKS = [
   { slug: 'react', label: 'React' },
   { slug: 'vuedotjs', label: 'Vue' },
   { slug: 'svelte', label: 'Svelte' },

@@ -18,6 +18,13 @@ export const VIEWPORTS = [
 
 export const PAGES = ['home', 'docs']
 
+/**
+ * Sites that ship only some of THEMES. ecosystem.json has no theme field, so this is the one
+ * place to record it. Playbook is dark-only by owner decision (its theme toggle was removed):
+ * its light runs are reported as not applicable instead of failing `theme-applied`.
+ */
+export const SITE_THEMES = { playbook: ['dark'] }
+
 /** Regions whose visible text must meet WCAG AA. */
 export const CONTRAST_REGIONS = ['bar', 'header', 'hero', 'tour', 'footer']
 
@@ -49,6 +56,7 @@ export function ecosystemSites(ecosystem) {
         expectedBar,
         expectedCurrent: product.navigation.showInBar ? product.shortName : null,
         expectedStar: `https://github.com/${product.repo}`,
+        themes: SITE_THEMES[product.id] ?? THEMES,
       }
     })
 }
@@ -68,6 +76,26 @@ export function parseSiteOrigins(values, knownIds) {
     origins.set(id, new URL(url).origin)
   }
   return origins
+}
+
+/**
+ * Expands sites × pages × themes × viewports into runs. Combinations a site does not ship
+ * (a theme outside `site.themes`) become `notApplicable` entries instead of runs.
+ */
+export function planJobs(sites, pages, themes, viewports) {
+  const jobs = []
+  const notApplicable = []
+  for (const site of sites) {
+    for (const page of pages) {
+      for (const theme of themes) {
+        for (const viewport of viewports) {
+          if ((site.themes ?? THEMES).includes(theme)) jobs.push({ site, page, theme, viewport })
+          else notApplicable.push({ site: site.id, page, theme, viewport: viewport.id, reason: `${site.name} ships ${site.themes.join('/')} only` })
+        }
+      }
+    }
+  }
+  return { jobs, notApplicable }
 }
 
 /** Serves a site's home and docs paths from another origin (a local build). */
@@ -186,12 +214,12 @@ export function applyScope(checks, scope) {
 const escapeCell = (value) => String(value).replace(/\\/g, '\\\\').replace(/\|/g, '\\|').replace(/\s*\n\s*/g, ' ')
 
 /** Readable Markdown for the job summary: a run matrix, then every failure with its evidence. */
-export function formatSummary(runs, { scope, mode }) {
+export function formatSummary(runs, { scope, mode, notApplicable = [] }) {
   const failing = runs.filter((run) => run.checks.some((check) => !check.ok))
   const lines = [
     '# Ecosystem visual/UX regression',
     '',
-    `Mode: **${mode}** · scope: **${scope}** · ${runs.length} runs · ${failing.length} failing`,
+    `Mode: **${mode}** · scope: **${scope}** · ${runs.length} runs · ${failing.length} failing${notApplicable.length ? ` · ${notApplicable.length} not applicable` : ''}`,
     '',
     '| Site | Page | Theme | Viewport | Resolved theme | Contrast (measured / failing) | Result |',
     '|---|---|---|---|---|---|---|',
@@ -203,6 +231,9 @@ export function formatSummary(runs, { scope, mode }) {
     if (failed.length) result = `FAIL (${failed.map((check) => check.id).join(', ')})`
     else if (warned.length) result = `pass, ${warned.length} warning(s)`
     lines.push(`| ${run.site} | ${run.page} | ${run.theme} | ${run.viewport} | ${run.resolvedTheme ?? '?'} | ${run.contrast.measured} / ${run.contrast.failing.length} | ${result} |`)
+  }
+  for (const skipped of notApplicable) {
+    lines.push(`| ${skipped.site} | ${skipped.page} | ${skipped.theme} | ${skipped.viewport} | — | — | n/a (${escapeCell(skipped.reason)}) |`)
   }
   const sections = [['Failures', (check) => !check.ok], ['Warnings (outside the shell scope)', (check) => check.warning]]
   for (const [title, pick] of sections) {

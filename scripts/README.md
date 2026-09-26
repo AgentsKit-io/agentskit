@@ -337,6 +337,11 @@ against the same frame with glyphs made transparent, and a failure must repeat
 Results, `summary.md`, and full-page screenshots land in
 `test-results/ecosystem-visual/`.
 
+Sites that ship only one theme are listed in `SITE_THEMES`
+(`scripts/lib/ecosystem-visual.mjs`; `ecosystem.json` has no theme field).
+Playbook is dark-only by owner decision, so its light runs are not run and
+appear as `n/a` in the summary instead of failing `theme-applied`.
+
 ```bash
 pnpm check:ecosystem-visual                                   # production
 pnpm check:ecosystem-visual --sites agentskit-chat --themes light
@@ -346,3 +351,25 @@ node scripts/verify-ecosystem-visual.mjs --site-origin agentskit=http://localhos
   --shell-origin http://localhost:3000 --scope shell          # local shell on every site
 pnpm test:ecosystem-visual                                    # helper unit tests
 ```
+
+## `gen-brand-logos.mjs`
+
+Writes the brand logos the docs-next and registry marquees render to each
+app's `public/logos/` (`<slug>.svg` in the brand colour, `<slug>-<hex>.svg` per
+theme tint) from the `simple-icons` npm package, driven by the app's
+`lib/brand-logos.json` (`slugs` + `tint`). The markup matches what
+cdn.simpleicons.org serves, but the sites never load that CDN at runtime:
+GitHub-hosted runners get non-image responses from it, which Chromium blocks
+(ORB) and logs as console errors. Brands missing from Simple Icons are left
+out of the manifest and render as a monogram. Each app's tests fail when
+`public/logos/` drifts from its manifest.
+
+```bash
+node scripts/gen-brand-logos.mjs           # after editing a brand-logos.json or bumping simple-icons
+node scripts/gen-brand-logos.mjs --check   # exit 1 when public/logos is stale
+```
+
+Simple Icons is released under CC0-1.0, so no attribution is required. The
+logos themselves remain trademarks of their owners: use them only to show
+that AgentsKit works with that product, unaltered apart from the per-theme
+fill colour, and follow each brand's guidelines (Simple Icons' `DISCLAIMER.md`).

@@ -1,0 +1,21 @@
+{
+  "$comment": "Brand logos served from public/logos/ (generated from the simple-icons npm package by `node scripts/gen-brand-logos.mjs`; never hot-linked from a CDN). slugs: every Simple Icons slug the site renders; brands Simple Icons does not ship (Slack, OpenAI) are left out and render as a monogram. tint: per-theme fill for brands whose default colour is invisible on one theme (hex without #); omitted themes keep the brand colour.",
+  "slugs": [
+    "airtable", "alibabacloud", "anthropic", "asana", "caldotcom", "calendly", "cloudflare", "confluence",
+    "deepseek", "discord", "dropbox", "elevenlabs", "figma", "github", "gmail", "google",
+    "googlecalendar", "googlecloud", "googledrive", "googlemaps", "hubspot", "huggingface", "intercom", "jira",
+    "linear", "mailchimp", "mistralai", "notion", "openrouter", "perplexity", "sentry", "shopify",
+    "stripe", "telegram", "vercel", "whatsapp", "x"
+  ],
+  "tint": {
+    "github": { "dark": "ffffff" },
+    "x": { "dark": "ffffff" },
+    "vercel": { "dark": "ffffff" },
+    "notion": { "dark": "ffffff" },
+    "anthropic": { "dark": "ffffff" },
+    "elevenlabs": { "dark": "ffffff" },
+    "caldotcom": { "dark": "ffffff" },
+    "openrouter": { "dark": "ffffff" },
+    "sentry": { "dark": "ffffff" }
+  }
+}

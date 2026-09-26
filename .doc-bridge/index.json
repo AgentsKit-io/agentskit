@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "8773e37fccc6d5064146193fce7bfde228951e61d5ef020e61c1c00d9cd2ebd6",
+  "contentHash": "de8fe51b9ecf27634dca1e297281ab046cb4931a2b005ef526c5a538e682198b",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-26T21:14:50.929Z",
+  "generatedAt": "2026-09-26T22:12:56.477Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7526,7 +7526,7 @@
         "document",
         "project"
       ],
-      "contentHash": "3ca9435820ac295eec4075065ddc5a24be0a8338ff8baaebe15ca8196351b833"
+      "contentHash": "981eee8c309755f5768e81a4f647a856d37173f46de0fc5ce62b52755e318a84"
     },
     {
       "id": "document:SECURITY.md",
@@ -8011,6 +8011,7 @@
       "title": "hero-motion.tsx",
       "path": "apps/docs-next/app/(home)/_components/hero-motion.tsx",
       "symbols": [
+        "FRAMEWORKS",
         "HeroHeadline",
         "KineticFrameworkReel"
       ],
@@ -8019,7 +8020,7 @@
         "tsx",
         "_components"
       ],
-      "contentHash": "8e5ee5dd61797bcc327d96d45b8b3878c4b53634249ae73636d95eff627bf089"
+      "contentHash": "03eb318d242604ab8f0b0099157cae595d0c7e3b6f9a565e9afc93bfab5c8abb"
     },
     {
       "id": "module:apps/docs-next/app/(home)/_components/install-command.tsx",
@@ -9682,14 +9683,15 @@
       "title": "brand-icon.tsx",
       "path": "apps/docs-next/components/home/brand-icon.tsx",
       "symbols": [
-        "BrandIcon"
+        "BrandIcon",
+        "brandLogoUrl"
       ],
       "tags": [
         "module",
         "tsx",
         "home"
       ],
-      "contentHash": "845373eeca3860c0fcd2a7b890dec136567afdcb163534160648714e59407dd8"
+      "contentHash": "d5431f4b7aa07f00eaa9d2d921e3ad5eb518951475821fa69bf2009697291c81"
     },
     {
       "id": "module:apps/docs-next/components/home/cli-showcase.tsx",
@@ -9766,7 +9768,7 @@
         "tsx",
         "home"
       ],
-      "contentHash": "f04d905bf39f7982fad03c6244b0c1b6a3b6f47ba178a5c4c98758b9c96dbb7e"
+      "contentHash": "0812cba4d48d835cef7babeddb03d76e02a70337dfd507081168d234139c4424"
     },
     {
       "id": "module:apps/docs-next/components/learn/chat-preview.tsx",
@@ -10586,6 +10588,7 @@
       "title": "brand-slugs.ts",
       "path": "apps/docs-next/lib/brand-slugs.ts",
       "symbols": [
+        "MARQUEE_SLUGS",
         "brandSlug"
       ],
       "tags": [
@@ -10593,7 +10596,7 @@
         "ts",
         "lib"
       ],
-      "contentHash": "6ad256de882c4530caac21dfabc809a2d6830ef2462e23b4ea904e2dcc627ef2"
+      "contentHash": "7ab85fc2fe659706d2e2332b5c9feca292f4661503a15801093daea0c59224a0"
     },
     {
       "id": "module:apps/docs-next/lib/canonical-url.ts",
@@ -11190,6 +11193,19 @@
       "contentHash": "660b72cb82db113dc4f8632cf11f8197294207fc57e318978b6b46e059aa9753"
     },
     {
+      "id": "module:apps/docs-next/tests/brand-logos.test.tsx",
+      "type": "module",
+      "title": "brand-logos.test.tsx",
+      "path": "apps/docs-next/tests/brand-logos.test.tsx",
+      "tags": [
+        "module",
+        "tsx",
+        "test",
+        "tests"
+      ],
+      "contentHash": "73e894a7b3a526fb97ab0821e84a67c85140677a2fabba3ffca7320bb1ee285b"
+    },
+    {
       "id": "module:apps/docs-next/tests/canonical-metadata.test.ts",
       "type": "module",
       "title": "canonical-metadata.test.ts",
@@ -11344,7 +11360,7 @@
         "ts",
         "docs-next"
       ],
-      "contentHash": "082b72f85eb1dde3ac6597d49efda4544b22e4b6b736d9927aee93fba6d28511"
+      "contentHash": "4e3ab7850a23ef0d072c80a032eed0f65c7bc299a1cff80d117a5aac9c160ceb"
     },
     {
       "id": "module:apps/example-discord-bot/src/adapter.ts",
@@ -12191,14 +12207,15 @@
       "title": "brand-icon.tsx",
       "path": "apps/registry/app/(home)/_components/brand-icon.tsx",
       "symbols": [
-        "BrandIcon"
+        "BrandIcon",
+        "brandLogoUrl"
       ],
       "tags": [
         "module",
         "tsx",
         "_components"
       ],
-      "contentHash": "186e3c36d915042c3c0bbe1caf5daae2023016b93e2dcddc2ace8de2be46b4f8"
+      "contentHash": "3fa92c44eb3161f8a8505768ebd71d18dc7b289baacf4f1fbaf5698a6f318eb7"
     },
     {
       "id": "module:apps/registry/app/(home)/_components/browse.tsx",
@@ -13030,6 +13047,19 @@
       "contentHash": "a7000e02f5a6656d60af7550c427f65910d668693c90a38fbd30f56e7222e3eb"
     },
     {
+      "id": "module:apps/registry/lib/brand-logos.test.tsx",
+      "type": "module",
+      "title": "brand-logos.test.tsx",
+      "path": "apps/registry/lib/brand-logos.test.tsx",
+      "tags": [
+        "module",
+        "tsx",
+        "test",
+        "lib"
+      ],
+      "contentHash": "bd27e0d60f23c835ca953c6234e818ae962d0d78d1c0553e7fa64dd866abae64"
+    },
+    {
       "id": "module:apps/registry/lib/catalog.test.ts",
       "type": "module",
       "title": "catalog.test.ts",
@@ -13424,6 +13454,21 @@
         "registry"
       ],
       "contentHash": "97e47076e8424974c202f233fbc8dfb0184456261742c22679ec2d3b79338e46"
+    },
+    {
+      "id": "module:apps/registry/vitest.config.ts",
+      "type": "module",
+      "title": "vitest.config.ts",
+      "path": "apps/registry/vitest.config.ts",
+      "symbols": [
+        "default"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "registry"
+      ],
+      "contentHash": "a20d04dbc69410a3dc5a43cf049479aac256d8cbc1548d2edfb0829357595392"
     },
     {
       "id": "module:apps/visual-react/playwright.config.ts",
@@ -33538,7 +33583,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "577c179d297fc9e62185079235a2077a814b3b0cef38ca899c45196f0df2980c"
+      "contentHash": "2cc43aa0d5c0a9d07c7d70eafcc9ba00aef0dc62464ba7b15e12416df3e7660a"
     },
     {
       "id": "module:scripts/external-contributions.test.mjs",
@@ -33552,6 +33597,26 @@
         "scripts"
       ],
       "contentHash": "6bf084b6dc1bf854be4b2263bb833af81dff23c15e7fc43750ec59ee414a9069"
+    },
+    {
+      "id": "module:scripts/gen-brand-logos.mjs",
+      "type": "module",
+      "title": "gen-brand-logos.mjs",
+      "path": "scripts/gen-brand-logos.mjs",
+      "symbols": [
+        "BRAND_LOGO_APPS",
+        "diffLogos",
+        "logoFileName",
+        "logoSvg",
+        "planLogos",
+        "simpleIconsBySlug"
+      ],
+      "tags": [
+        "module",
+        "mjs",
+        "scripts"
+      ],
+      "contentHash": "615f37903ab6279c2fca8b21d3acb44426c526bc570ae42cf8d30a64cfb70436"
     },
     {
       "id": "module:scripts/gen-ecosystem-claims.mjs",
@@ -33731,6 +33796,7 @@
         "CONTRAST_REGIONS",
         "PAGES",
         "SHELL_CHECKS",
+        "SITE_THEMES",
         "THEMES",
         "VIEWPORTS",
         "applyScope",
@@ -33740,6 +33806,7 @@
         "isOccluded",
         "measureTextContrast",
         "parseSiteOrigins",
+        "planJobs",
         "rebaseSite",
         "relativeLuminance",
         "requiredContrast"
@@ -33749,7 +33816,7 @@
         "mjs",
         "lib"
       ],
-      "contentHash": "cf1d57a62e97b10807eb6b4ab895b273f194c2d54aab24e3355b79895d051f80"
+      "contentHash": "c65d60b7c96a07ae67f502cd19e1462a6826435c61156a647b90eac358926410"
     },
     {
       "id": "module:scripts/lib/external-contributions.mjs",
@@ -34509,7 +34576,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "f64a574723b518979e3012f668741146fcf45a32fd8bdefe8d05c39bde4ddc37"
+      "contentHash": "14c3b3279dc75ce22ffe75eee60b635dbd6c19802064c77fd198d234a840003d"
     },
     {
       "id": "module:scripts/verify-launch-demo.mjs",
@@ -35700,8 +35767,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "4619d4729f13c88fd47277fd1505aacd58ff8e88095ede492d8397063e0579eb",
-    "fileCount": 2379,
+    "hash": "360053e8cf95f52c80664442ce0df8230bd2b5ed0cdf4c37154f9badfd186d32",
+    "fileCount": 2383,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -35723,9 +35790,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "cd9431d024abbfd7a328ecd4286359b704fd54b29761524f49e7f06db2745ec5",
+    "contentHash": "ee8157e211abaf3a6ea34289ba0112e968f67a10576ccd49e0a9e5eae00fc008",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "806ccdcd7159c520ccced3ebc0edfdd71ef4f4cb0ad477c61a5bc5fb0e20cc33",
+    "snapshotHash": "60a3d8f812005ed728bce7223fb4fb887e73678297b04caf9710e144b9731dd9",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -35745,7 +35812,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2332,
+      "documentCount": 2336,
       "fieldNames": [
         "aliases",
         "body",
@@ -35756,13 +35823,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 2.9935677530017153,
-        "body": 61.54288164665523,
-        "headings": 4.138078902229846,
-        "path": 7.632933104631218,
-        "summary": 4.634648370497427,
-        "symbols": 7.479845626072041,
-        "title": 3.3314751286449398
+        "aliases": 2.9944349315068495,
+        "body": 61.4375,
+        "headings": 4.133133561643835,
+        "path": 7.632277397260274,
+        "summary": 4.626712328767123,
+        "symbols": 7.484160958904109,
+        "title": 3.33347602739726
       }
     },
     "entries": [
@@ -36113,7 +36180,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "925b4e1c6966a30d173ebef6e510b5558d083eeb4afea790aa24ef42ecec8b3b",
+        "contentHash": "9124ffe417473698d266974ffa71fc09e10357614c65a6d6be5773b7c42e447d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -36770,7 +36837,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "b131b4443ea8ed3b22f16370bceb6bf9812ea710a6d8727cd6d190b4eca232b0",
+        "contentHash": "d4ec0f980d3f81cb26ddab9c4dd47f07259f444bedc0cae75391043f1fe79397",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -38093,7 +38160,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "67d0bb477699a1797c18e27d4e4640d6c340b6ffb5005ef2381d224ffc3512d3",
+        "contentHash": "3c9e21a1758c2f5fe1a4725327483ad1e5651d3b98c42a0e0293b82e9e8655c2",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -79798,7 +79865,7 @@
         ],
         "fields": {
           "title": "scripts/",
-          "headings": "scripts/ check-quality-gates.mjs (orchestrator) check-for-agents-coverage.mjs check-src-test-parity.mjs check-no-bare-throw.mjs check-core-no-deps.mjs check-stability-tier.mjs check-readme-badge.mjs check-coverage-floor.mjs check-promotion-rfc.mjs check-stable-dependencies.mjs check-stability-evidence.mjs report-stability-readiness.mjs check-no-any.mjs check-named-exports.mjs check-file-size.mjs check-doc-index.mjs check-intl-parity.mjs check-packed-consumers.mjs check-public-api-snapshot.mjs Release registry preflight verify-ecosystem-visual.mjs",
+          "headings": "scripts/ check-quality-gates.mjs (orchestrator) check-for-agents-coverage.mjs check-src-test-parity.mjs check-no-bare-throw.mjs check-core-no-deps.mjs check-stability-tier.mjs check-readme-badge.mjs check-coverage-floor.mjs check-promotion-rfc.mjs check-stable-dependencies.mjs check-stability-evidence.mjs report-stability-readiness.mjs check-no-any.mjs check-named-exports.mjs check-file-size.mjs check-doc-index.mjs check-intl-parity.mjs check-packed-consumers.mjs check-public-api-snapshot.mjs Release registry preflight verify-ecosystem-visual.mjs gen-brand-logos.mjs",
           "path": "scripts/README.md",
           "symbols": "",
           "summary": "Repo-level CI helpers. Each script is dependency-free Node ESM, runnable from the repo root. They run on every PR + push to main via .github/workflows/ci.yml and a husky pre-push hook.",
@@ -79867,6 +79934,11 @@
             },
             {
               "kind": "mentions",
+              "id": "module:scripts/lib/ecosystem-visual.mjs",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
               "id": "module:scripts/lib/packed-consumers-matrix.mjs",
               "confidence": "observed"
             },
@@ -79904,10 +79976,15 @@
               "kind": "mentions-symbol",
               "id": "module:packages/core/src/errors.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:scripts/lib/ecosystem-visual.mjs",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "3ca9435820ac295eec4075065ddc5a24be0a8338ff8baaebe15ca8196351b833",
+        "contentHash": "981eee8c309755f5768e81a4f647a856d37173f46de0fc5ce62b52755e318a84",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -81585,6 +81662,7 @@
         "title": "hero-motion.tsx",
         "aliases": [],
         "symbols": [
+          "FRAMEWORKS",
           "HeroHeadline",
           "KineticFrameworkReel"
         ],
@@ -81597,7 +81675,7 @@
           "title": "hero-motion.tsx",
           "headings": "",
           "path": "apps/docs-next/app/(home)/_components/hero-motion.tsx",
-          "symbols": "HeroHeadline KineticFrameworkReel",
+          "symbols": "FRAMEWORKS HeroHeadline KineticFrameworkReel",
           "summary": "",
           "body": "",
           "aliases": "module tsx _components"
@@ -81618,7 +81696,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "8e5ee5dd61797bcc327d96d45b8b3878c4b53634249ae73636d95eff627bf089",
+        "contentHash": "03eb318d242604ab8f0b0099157cae595d0c7e3b6f9a565e9afc93bfab5c8abb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -86352,7 +86430,8 @@
         "title": "brand-icon.tsx",
         "aliases": [],
         "symbols": [
-          "BrandIcon"
+          "BrandIcon",
+          "brandLogoUrl"
         ],
         "tags": [
           "module",
@@ -86363,7 +86442,7 @@
           "title": "brand-icon.tsx",
           "headings": "",
           "path": "apps/docs-next/components/home/brand-icon.tsx",
-          "symbols": "BrandIcon",
+          "symbols": "BrandIcon brandLogoUrl",
           "summary": "",
           "body": "",
           "aliases": "module tsx home"
@@ -86384,7 +86463,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "845373eeca3860c0fcd2a7b890dec136567afdcb163534160648714e59407dd8",
+        "contentHash": "d5431f4b7aa07f00eaa9d2d921e3ad5eb518951475821fa69bf2009697291c81",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -86600,7 +86679,7 @@
             }
           ]
         },
-        "contentHash": "f04d905bf39f7982fad03c6244b0c1b6a3b6f47ba178a5c4c98758b9c96dbb7e",
+        "contentHash": "0812cba4d48d835cef7babeddb03d76e02a70337dfd507081168d234139c4424",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -88754,6 +88833,7 @@
         "title": "brand-slugs.ts",
         "aliases": [],
         "symbols": [
+          "MARQUEE_SLUGS",
           "brandSlug"
         ],
         "tags": [
@@ -88765,7 +88845,7 @@
           "title": "brand-slugs.ts",
           "headings": "",
           "path": "apps/docs-next/lib/brand-slugs.ts",
-          "symbols": "brandSlug",
+          "symbols": "MARQUEE_SLUGS brandSlug",
           "summary": "",
           "body": "",
           "aliases": "module ts lib"
@@ -88780,7 +88860,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "6ad256de882c4530caac21dfabc809a2d6830ef2462e23b4ea904e2dcc627ef2",
+        "contentHash": "7ab85fc2fe659706d2e2332b5c9feca292f4661503a15801093daea0c59224a0",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -90495,6 +90575,52 @@
         "confidence": "observed"
       },
       {
+        "id": "module:apps/docs-next/tests/brand-logos.test.tsx",
+        "kind": "module",
+        "path": "apps/docs-next/tests/brand-logos.test.tsx",
+        "title": "brand-logos.test.tsx",
+        "aliases": [],
+        "tags": [
+          "module",
+          "tsx",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "brand-logos.test.tsx",
+          "headings": "",
+          "path": "apps/docs-next/tests/brand-logos.test.tsx",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module tsx test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:scripts/compute-stats.mjs",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:scripts/gen-brand-logos.mjs",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "73e894a7b3a526fb97ab0821e84a67c85140677a2fabba3ffca7320bb1ee285b",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:apps/docs-next/tests/canonical-metadata.test.ts",
         "kind": "module",
         "path": "apps/docs-next/tests/canonical-metadata.test.ts",
@@ -90979,7 +91105,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "082b72f85eb1dde3ac6597d49efda4544b22e4b6b736d9927aee93fba6d28511",
+        "contentHash": "4e3ab7850a23ef0d072c80a032eed0f65c7bc299a1cff80d117a5aac9c160ceb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -93539,7 +93665,8 @@
         "title": "brand-icon.tsx",
         "aliases": [],
         "symbols": [
-          "BrandIcon"
+          "BrandIcon",
+          "brandLogoUrl"
         ],
         "tags": [
           "module",
@@ -93550,7 +93677,7 @@
           "title": "brand-icon.tsx",
           "headings": "",
           "path": "apps/registry/app/(home)/_components/brand-icon.tsx",
-          "symbols": "BrandIcon",
+          "symbols": "BrandIcon brandLogoUrl",
           "summary": "",
           "body": "",
           "aliases": "module tsx _components"
@@ -93571,7 +93698,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "186e3c36d915042c3c0bbe1caf5daae2023016b93e2dcddc2ace8de2be46b4f8",
+        "contentHash": "3fa92c44eb3161f8a8505768ebd71d18dc7b289baacf4f1fbaf5698a6f318eb7",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -96022,6 +96149,47 @@
         "confidence": "observed"
       },
       {
+        "id": "module:apps/registry/lib/brand-logos.test.tsx",
+        "kind": "module",
+        "path": "apps/registry/lib/brand-logos.test.tsx",
+        "title": "brand-logos.test.tsx",
+        "aliases": [],
+        "tags": [
+          "module",
+          "tsx",
+          "test",
+          "lib"
+        ],
+        "fields": {
+          "title": "brand-logos.test.tsx",
+          "headings": "",
+          "path": "apps/registry/lib/brand-logos.test.tsx",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module tsx test lib"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/registry",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:scripts/gen-brand-logos.mjs",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "bd27e0d60f23c835ca953c6234e818ae962d0d78d1c0553e7fa64dd866abae64",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:apps/registry/lib/catalog.test.ts",
         "kind": "module",
         "path": "apps/registry/lib/catalog.test.ts",
@@ -97137,6 +97305,43 @@
           "outbound": []
         },
         "contentHash": "97e47076e8424974c202f233fbc8dfb0184456261742c22679ec2d3b79338e46",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/registry/vitest.config.ts",
+        "kind": "module",
+        "path": "apps/registry/vitest.config.ts",
+        "title": "vitest.config.ts",
+        "aliases": [],
+        "symbols": [
+          "default"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "registry"
+        ],
+        "fields": {
+          "title": "vitest.config.ts",
+          "headings": "",
+          "path": "apps/registry/vitest.config.ts",
+          "symbols": "default",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts registry"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/registry",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "a20d04dbc69410a3dc5a43cf049479aac256d8cbc1548d2edfb0829357595392",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -173959,6 +174164,11 @@
           "inbound": [
             {
               "kind": "imports",
+              "id": "module:apps/docs-next/tests/brand-logos.test.tsx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:apps/docs-next/tests/deterministic-docs-answers.test.mjs",
               "confidence": "observed"
             },
@@ -174454,7 +174664,7 @@
             }
           ]
         },
-        "contentHash": "577c179d297fc9e62185079235a2077a814b3b0cef38ca899c45196f0df2980c",
+        "contentHash": "2cc43aa0d5c0a9d07c7d70eafcc9ba00aef0dc62464ba7b15e12416df3e7660a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174501,6 +174711,59 @@
           ]
         },
         "contentHash": "6bf084b6dc1bf854be4b2263bb833af81dff23c15e7fc43750ec59ee414a9069",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:scripts/gen-brand-logos.mjs",
+        "kind": "module",
+        "path": "scripts/gen-brand-logos.mjs",
+        "title": "gen-brand-logos.mjs",
+        "aliases": [],
+        "symbols": [
+          "BRAND_LOGO_APPS",
+          "diffLogos",
+          "logoFileName",
+          "logoSvg",
+          "planLogos",
+          "simpleIconsBySlug"
+        ],
+        "tags": [
+          "module",
+          "mjs",
+          "scripts"
+        ],
+        "fields": {
+          "title": "gen-brand-logos.mjs",
+          "headings": "",
+          "path": "scripts/gen-brand-logos.mjs",
+          "symbols": "BRAND_LOGO_APPS diffLogos logoFileName logoSvg planLogos simpleIconsBySlug",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:apps/docs-next/tests/brand-logos.test.tsx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:apps/registry/lib/brand-logos.test.tsx",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "615f37903ab6279c2fca8b21d3acb44426c526bc570ae42cf8d30a64cfb70436",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -175051,6 +175314,7 @@
           "CONTRAST_REGIONS",
           "PAGES",
           "SHELL_CHECKS",
+          "SITE_THEMES",
           "THEMES",
           "VIEWPORTS",
           "applyScope",
@@ -175060,6 +175324,7 @@
           "isOccluded",
           "measureTextContrast",
           "parseSiteOrigins",
+          "planJobs",
           "rebaseSite",
           "relativeLuminance",
           "requiredContrast"
@@ -175073,16 +175338,19 @@
           "title": "ecosystem-visual.mjs",
           "headings": "",
           "path": "scripts/lib/ecosystem-visual.mjs",
-          "symbols": "CONTRAST_REGIONS PAGES SHELL_CHECKS THEMES VIEWPORTS applyScope contrastRatio ecosystemSites formatSummary isOccluded measureTextContrast parseSiteOrigins rebaseSite relativeLuminance requiredContrast",
+          "symbols": "CONTRAST_REGIONS PAGES SHELL_CHECKS SITE_THEMES THEMES VIEWPORTS applyScope contrastRatio ecosystemSites formatSummary isOccluded measureTextContrast parseSiteOrigins planJobs rebaseSite relativeLuminance requiredContrast",
           "summary": "",
           "body": "",
           "aliases": "module mjs lib"
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 2,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:scripts/README.md",
+            "document:scripts/README.md"
+          ],
           "areaId": "area:scripts",
           "packageId": "package:agentskit",
           "inbound": [
@@ -175095,11 +175363,21 @@
               "kind": "imports",
               "id": "module:scripts/verify-ecosystem-visual.mjs",
               "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:scripts/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:scripts/README.md",
+              "confidence": "observed"
             }
           ],
           "outbound": []
         },
-        "contentHash": "cf1d57a62e97b10807eb6b4ab895b273f194c2d54aab24e3355b79895d051f80",
+        "contentHash": "c65d60b7c96a07ae67f502cd19e1462a6826435c61156a647b90eac358926410",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -177405,7 +177683,7 @@
             }
           ]
         },
-        "contentHash": "f64a574723b518979e3012f668741146fcf45a32fd8bdefe8d05c39bde4ddc37",
+        "contentHash": "14c3b3279dc75ce22ffe75eee60b635dbd6c19802064c77fd198d234a840003d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -185142,7 +185420,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "020d4dea85f09906c66a115f3882c01071b85f4f3e0caf16143fe030db0c21b8",
+        "contentHash": "4bc49cccc8e0c2d3cd807fbe8e5d01aa0ef5c03f72f75375230d013f48b731f7",
         "provenance": "observed",
         "confidence": "observed"
       }
