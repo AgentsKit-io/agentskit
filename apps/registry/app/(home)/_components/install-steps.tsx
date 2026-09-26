@@ -99,7 +99,7 @@ export function InstallSteps() {
           {STEPS.map((s) => (
             <li key={s.n} className="rg-reveal grid items-start gap-6 rounded-xl border border-ak-border bg-ak-surface p-6 md:grid-cols-[360px_1fr]">
               <div>
-                <div className="grid h-9 w-9 place-items-center rounded-lg bg-ak-blue font-bold text-white">{s.n}</div>
+                <div className="grid h-9 w-9 place-items-center rounded-lg bg-ak-blue font-bold text-ak-on-blue">{s.n}</div>
                 <h3 className="mt-3.5 text-xl font-bold text-ak-foam">{s.t}</h3>
                 <p className="mt-2 text-sm text-ak-graphite">{s.d}</p>
               </div>

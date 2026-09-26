@@ -8,7 +8,7 @@ export function Hero({ agentCount, categoryCount, sampleIds }: { agentCount: num
     <section data-home-surface="hero" className="px-4 py-14 sm:px-6 sm:py-20">
       <div className="mx-auto grid max-w-5xl items-end gap-10 lg:grid-cols-[1fr_26rem]">
         <div>
-          <p className="font-mono text-xs uppercase tracking-[0.18em] text-ak-blue">Shadcn-like agents for JavaScript</p>
+          <p className="font-mono text-xs uppercase tracking-[0.18em] text-ak-blue-ink">Shadcn-like agents for JavaScript</p>
           <h1 className="mt-3 max-w-3xl text-[2.35rem] font-bold leading-[1.08] tracking-tight text-ak-foam sm:text-5xl">
             Find an agent. Copy the source. Own the code.
           </h1>
@@ -19,7 +19,7 @@ export function Hero({ agentCount, categoryCount, sampleIds }: { agentCount: num
           <div className="mt-7 flex flex-wrap items-center gap-3">
             <a
               href="/agents"
-              className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-ak-blue px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
+              className="inline-flex min-h-11 items-center gap-2 rounded-lg bg-ak-blue px-4 py-2.5 text-sm font-semibold text-ak-on-blue transition hover:opacity-90 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ak-blue"
             >
               Browse {agentCount} agents <Icon name="arrow-right" size={17} />
             </a>
@@ -33,7 +33,7 @@ export function Hero({ agentCount, categoryCount, sampleIds }: { agentCount: num
           <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-sm text-ak-graphite">
             <span><b className="text-ak-foam">{agentCount}</b> validated agents</span>
             <span><b className="text-ak-foam">{categoryCount}</b> categories</span>
-            <span><b className="text-ak-green">Source-owned</b></span>
+            <span><b className="text-ak-green-ink">Source-owned</b></span>
           </div>
         </div>
         <div data-glass-panel="" className="overflow-hidden rounded-lg border border-ak-border bg-ak-surface">
@@ -42,10 +42,10 @@ export function Hero({ agentCount, categoryCount, sampleIds }: { agentCount: num
           </div>
           <div className="flex items-center justify-between gap-3 px-4 py-5 font-mono text-sm">
             <code className="min-w-0 truncate text-xs text-ak-foam sm:text-sm">
-              <span className="text-ak-blue">$</span>{' '}
-              <span className="text-[#79c0ff]">npx</span>{' '}
-              <span className="text-[#a5d6ff]">@agentskit/cli</span>{' '}
-              add <span className="text-[#7ee787]">{id}</span>
+              <span className="text-ak-blue-ink">$</span>{' '}
+              <span className="text-rg-code-command">npx</span>{' '}
+              <span className="text-rg-code-package">@agentskit/cli</span>{' '}
+              add <span className="text-rg-code-argument">{id}</span>
             </code>
             <button
               type="button"

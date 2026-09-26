@@ -97,7 +97,7 @@ function Hero() {
         <div className="min-w-0">
           <HeroDemo />
 
-          <div data-hero-actions="" className="mt-5 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
+          <div data-hero-actions="" className="relative z-10 mt-5 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3">
             <Link
               href="/docs/get-started/getting-started/build-your-first-agent"
               className="inline-flex items-center gap-2 rounded-md bg-ak-foam px-4 py-2.5 text-sm font-semibold text-ak-midnight transition hover:bg-white sm:px-5"
