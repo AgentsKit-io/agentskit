@@ -43,6 +43,29 @@ served stale.
 Do not hand-edit generated copies under `apps/*/lib` or the generated product
 block in `apps/docs-next/public/ecosystem-bar.js`.
 
+## Consumer sync
+
+The sibling repositories keep verbatim copies of `ecosystem.json` and
+`ecosystem-claims.json`: Registry, Chat, Playbook, Doc Bridge (`master`),
+Harness, and Code Review. Doc Bridge also records their SHA-256 digests in
+`ecosystem-upstream.json`.
+
+`.github/workflows/ecosystem-sync.yml` runs on every push to `main` that touches
+either file, and on manual dispatch. It runs
+`scripts/sync-ecosystem-consumers.mjs`, which compares each consumer's default
+branch with this repository. For each consumer that differs, it force-updates
+the `chore/sync-agentskit-ecosystem` branch with a single commit and opens (or
+updates) one pull request. The commit contains only the two canonical files
+and, for Doc Bridge, the refreshed digest file. Nothing else is regenerated;
+consumers that derive more outputs run their own checks in that pull request.
+
+The job needs the `ECOSYSTEM_SYNC_TOKEN` repository secret: a fine-grained
+personal access token or GitHub App token with **Contents** and **Pull
+requests** read/write on the six consumer repositories. Without the secret the
+job prints a notice and a drift report (`--dry-run`) and succeeds without
+writing anything. Run the same report locally with
+`node scripts/sync-ecosystem-consumers.mjs --dry-run`.
+
 ## Consumer example
 
 Server and build-time consumers can import the committed snapshot without a

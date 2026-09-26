@@ -1,0 +1,46 @@
+name: Ecosystem sync
+
+# When the canonical ecosystem files change on main, open or update one pull request per
+# consumer repository (Registry, Chat, Playbook, Doc Bridge, Harness, Code Review) that copies
+# ecosystem.json and ecosystem-claims.json verbatim, plus Doc Bridge's ecosystem-upstream.json
+# digests. Nothing else is regenerated in the consumers.
+#
+# Requires the ECOSYSTEM_SYNC_TOKEN secret: a fine-grained token (or GitHub App token) with
+# Contents and Pull requests read/write on the six consumer repositories. Without it the job
+# reports drift only and exits successfully with a notice.
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ecosystem.json
+      - ecosystem-claims.json
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ecosystem-sync
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      ECOSYSTEM_SYNC_TOKEN: ${{ secrets.ECOSYSTEM_SYNC_TOKEN }}
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+
+      - name: Report drift without a token
+        if: env.ECOSYSTEM_SYNC_TOKEN == ''
+        run: |
+          echo "::notice title=Ecosystem sync skipped::ECOSYSTEM_SYNC_TOKEN is not configured, so no consumer pull requests were opened. Drift report follows."
+          node scripts/sync-ecosystem-consumers.mjs --dry-run
+
+      - name: Open or update consumer sync pull requests
+        if: env.ECOSYSTEM_SYNC_TOKEN != ''
+        run: node scripts/sync-ecosystem-consumers.mjs
