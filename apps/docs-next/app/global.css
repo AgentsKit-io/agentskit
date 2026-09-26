@@ -17,6 +17,16 @@
   --ak-midnight: var(--ak-bg);
   --ak-foam: var(--ak-fg);
   --ak-graphite: var(--ak-muted);
+  /* Accent "ink" for small accent-coloured text on tinted surfaces (highlighted rows, glass
+     panels): the brand accents only clear WCAG AA on plain white, so light mode uses the
+     darker Primer shades. Dark mode keeps the brand accents. */
+  --ak-blue-ink: #0550ae;
+  --ak-green-ink: #116329;
+}
+.dark,
+[data-theme='dark'] {
+  --ak-blue-ink: var(--ak-blue);
+  --ak-green-ink: var(--ak-green);
 }
 
 /* Shiki dual-theme resolver: tokens carry `--shiki-light` / `--shiki-dark` as inline vars.
@@ -43,6 +53,8 @@ pre[data-language] span,
   --color-ak-border: var(--ak-border);
   --color-ak-green: var(--ak-green);
   --color-ak-blue: var(--ak-blue);
+  --color-ak-blue-ink: var(--ak-blue-ink);
+  --color-ak-green-ink: var(--ak-green-ink);
   --color-ak-red: var(--ak-red);
   --color-ak-accent: var(--ak-accent);
   --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;

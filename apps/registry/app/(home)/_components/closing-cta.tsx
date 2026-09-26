@@ -16,7 +16,7 @@ export function ClosingCta({ agentCount }: { agentCount: number }) {
         <div className="flex flex-col items-start gap-3">
           <a
             href="/agents"
-            className="inline-flex items-center gap-2 rounded-lg bg-ak-blue px-4 py-2.5 text-sm font-semibold text-white transition hover:opacity-90"
+            className="inline-flex items-center gap-2 rounded-lg bg-ak-blue px-4 py-2.5 text-sm font-semibold text-ak-on-blue transition hover:opacity-90"
           >
             Explore all agents <Icon name="arrow-right" size={17} />
           </a>
