@@ -1,0 +1,97 @@
+name: Ecosystem visual
+
+# Visual/UX regression check for every public AgentsKit site (scripts/verify-ecosystem-visual.mjs):
+# shell v1 bar + footer, horizontal overflow, console errors, and WCAG AA contrast measured on
+# rendered pixels, in light and dark, desktop and mobile, home and docs.
+#
+# - schedule / workflow_dispatch: the production sites, every check.
+# - pull requests touching the shell: a local docs-next built from the PR serves its shell;
+#   www.agentskit.io pages come from that server and every other production site loads the PR's
+#   shell through a request override. Only shell-owned checks fail the job (--scope shell);
+#   product-owned findings are listed as warnings.
+
+on:
+  schedule:
+    - cron: '23 6 * * *'
+  workflow_dispatch:
+    inputs:
+      sites:
+        description: 'Comma-separated site ids (agentskit, registry, agentskit-chat, doc-bridge, code-review, harness, playbook). Empty = all.'
+        required: false
+        default: ''
+  pull_request:
+    branches: [main]
+    paths:
+      - 'apps/docs-next/public/shell/**'
+      - 'apps/docs-next/public/ecosystem-bar.js'
+      - 'scripts/verify-ecosystem-visual.mjs'
+      - 'scripts/lib/ecosystem-visual.mjs'
+      - '.github/workflows/ecosystem-visual.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  visual:
+    if: github.actor != 'dependabot[bot]'
+    name: Ecosystem visual/UX regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm exec playwright install chromium --with-deps
+
+      - name: Build docs-next with this PR's shell
+        if: github.event_name == 'pull_request'
+        run: |
+          pnpm --filter "./packages/*" build
+          pnpm --filter @agentskit/docs-next build
+
+      - name: Serve docs-next on :3000
+        if: github.event_name == 'pull_request'
+        run: |
+          nohup pnpm --filter @agentskit/docs-next exec next start -p 3000 > docs-next.log 2>&1 &
+          for attempt in $(seq 1 60); do
+            curl -sf http://localhost:3000/shell/v1.js > /dev/null && exit 0
+            sleep 2
+          done
+          cat docs-next.log
+          exit 1
+
+      - name: Check production sites
+        if: github.event_name != 'pull_request'
+        env:
+          SITES: ${{ inputs.sites }}
+        run: node scripts/verify-ecosystem-visual.mjs ${SITES:+--sites "$SITES"}
+
+      - name: Check this PR's shell on every site
+        if: github.event_name == 'pull_request'
+        run: >-
+          node scripts/verify-ecosystem-visual.mjs
+          --agentskit-origin http://localhost:3000
+          --shell-origin http://localhost:3000
+          --scope shell
+
+      - name: Upload screenshots and results
+        if: always()
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: ecosystem-visual-${{ github.run_id }}
+          path: test-results/ecosystem-visual/
+          retention-days: 14
+          if-no-files-found: ignore
