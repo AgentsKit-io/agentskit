@@ -239,9 +239,9 @@ test('provider recipe and canonical docs stay aligned with adapter configuration
   assert.match(ollama, /\| `baseUrl` \| `string` \| `http:\/\/localhost:11434` \|/)
   assert.match(choosing, /`ollama`\s+\| ✅\s+\| ❌ current adapter/)
 
-  const moreProviders = readFileSync(join(docsRoot, 'reference/recipes/more-providers.mdx'), 'utf8')
-  assert.match(moreProviders, /groq\(\{ apiKey: process\.env\.GROQ_API_KEY!, model: 'openai\/gpt-oss-120b' \}\)/)
-  assert.doesNotMatch(moreProviders, /llama-3\.3-70b-versatile/)
+  const groq = readFileSync(join(docsRoot, 'data/providers/groq.mdx'), 'utf8')
+  assert.match(groq, /model: 'openai\/gpt-oss-120b'/)
+  assert.doesNotMatch(groq, /llama-3\.3-70b-versatile/)
 
   const mcpCli = readFileSync(join(REPO_ROOT, 'packages/mcp/src/cli.ts'), 'utf8')
   assert.match(mcpCli, /groq: 'openai\/gpt-oss-120b'/)
