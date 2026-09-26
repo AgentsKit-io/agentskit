@@ -100,19 +100,19 @@ describe('SEO discovery surfaces', () => {
     expect(page).not.toContain('land in step 6')
   })
 
-  it('overrides the ArgsValidator API description without changing the generated fallback', () => {
-    const page = readFileSync(
-      resolve(__dirname, '../content/docs/api/core/type-aliases/ArgsValidator.md'),
-      'utf8',
-    )
-    const script = readFileSync(resolve(__dirname, '../scripts/gen-api.mjs'), 'utf8')
-    const description =
-      'ArgsValidator contract for validating TypeScript AI agent tool arguments against JSON Schema before execution.'
+  it('keeps legacy API symbol URLs mapped to their grouped category anchors', () => {
+    const routes = JSON.parse(
+      readFileSync(resolve(__dirname, '../lib/api-symbol-routes.json'), 'utf8'),
+    ) as Record<string, string>
+    const page = readFileSync(resolve(__dirname, '../app/docs/[[...slug]]/page.tsx'), 'utf8')
 
-    expect(page).toContain(`description: ${JSON.stringify(description)}`)
-    expect(script).toContain(`pkgName === 'core' && title === 'ArgsValidator'`)
-    expect(script).toContain(description)
-    expect(script).toContain('Auto-generated API reference for ${title}.')
+    expect(routes['api/core/type-aliases/ArgsValidator']).toBe(
+      '/docs/api/core/type-aliases#type-alias-argsvalidator',
+    )
+    for (const destination of Object.values(routes)) {
+      expect(destination).toMatch(/^\/docs\/api\/[a-z-]+\/[a-z-]+#[a-z0-9-]+$/)
+    }
+    expect(page).toContain('permanentRedirect(destination)')
   })
 
   it('does not declare a self-redirect for /docs/agents/tools and filters source === destination', () => {
