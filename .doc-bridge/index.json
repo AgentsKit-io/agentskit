@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "5b74c59172489b08c6dc20d3cb41e2b3eba02f9ff0cd85b74a3a8100327847a1",
+  "contentHash": "c28a068c69040ffbd30703a09b1d839e4cec533ea185a9d16069ca16c9e22b9d",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-26T13:42:57.297Z",
+  "generatedAt": "2026-09-26T15:27:30.591Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -5942,7 +5942,7 @@
         "document",
         "human"
       ],
-      "contentHash": "e96c9c198c104299b44cc8a0efe06a776c4b919ee7ec1e5160483b2197017434"
+      "contentHash": "ab9175e8a69e03f5bbf1159ddee787c01eed69696b25aae31606b11bf9729985"
     },
     {
       "id": "document:docs/DESIGN.md",
@@ -34339,6 +34339,39 @@
       "contentHash": "e3f6a0c18dd72a329515c4ca1015e4280bc058e6192b3d7b67d190770767bbf5"
     },
     {
+      "id": "module:scripts/sync-ecosystem-consumers.mjs",
+      "type": "module",
+      "title": "sync-ecosystem-consumers.mjs",
+      "path": "scripts/sync-ecosystem-consumers.mjs",
+      "symbols": [
+        "CANONICAL_FILES",
+        "CONSUMERS",
+        "SYNC_BRANCH",
+        "plannedChanges",
+        "sha256",
+        "updatedDigestFile"
+      ],
+      "tags": [
+        "module",
+        "mjs",
+        "scripts"
+      ],
+      "contentHash": "70205e035a09b0d6b83520f75a24e93075109bb12e7258a41130f127c775a299"
+    },
+    {
+      "id": "module:scripts/sync-ecosystem-consumers.test.mjs",
+      "type": "module",
+      "title": "sync-ecosystem-consumers.test.mjs",
+      "path": "scripts/sync-ecosystem-consumers.test.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "test",
+        "scripts"
+      ],
+      "contentHash": "0c7fb63b72ead3bba009bf51ae1d5f95c4b173f29f43e6b775baabb2ef1b895f"
+    },
+    {
       "id": "module:scripts/sync-ecosystem.mjs",
       "type": "module",
       "title": "sync-ecosystem.mjs",
@@ -35605,8 +35638,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "8af4812878c30d764343272f39808aa816ce99e7381b927563f36af9638f4c9f",
-    "fileCount": 2374,
+    "hash": "541441ad97bc10942324f91fbcd282ee9886a588532d36a9384d49d2ca05872e",
+    "fileCount": 2376,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -35628,9 +35661,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "8b3bd40eabe8ffb7ef587c3b21a1a3a65c58bf677e02df07ac1d5c0c7cc73454",
+    "contentHash": "3f2198a07086103bf4029552aeb10856f2d2338f6978293630118fc0eebe3d83",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "cbd9d5c2921650804fb8bfffa1ff227a549d148f76a0d07709dc6a033e033290",
+    "snapshotHash": "8063f52e4bc2feafdb260f87463dcb852ffee2e7ad7e2a09bf761d24adb6fed9",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -35650,7 +35683,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2327,
+      "documentCount": 2329,
       "fieldNames": [
         "aliases",
         "body",
@@ -35661,13 +35694,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 2.9926944563816074,
-        "body": 61.589170605930384,
-        "headings": 4.143962183068329,
-        "path": 7.6364417705199825,
-        "summary": 4.639020197679415,
-        "symbols": 7.4611087236785565,
-        "title": 3.327889987107864
+        "aliases": 2.9931300987548304,
+        "body": 61.600686990124515,
+        "headings": 4.1412623443538,
+        "path": 7.635465865178188,
+        "summary": 4.635036496350365,
+        "symbols": 7.461142121082009,
+        "title": 3.329755259768141
       }
     },
     "entries": [
@@ -37998,7 +38031,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "feecf7747692a695b00a7b6ca8f60b48a2b2587620b2c2d482a8031cdb8a586c",
+        "contentHash": "f35cb193ad36b2b937d0fb60d16ada454cf3ae0ea842866bcabd5f16adb095d0",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -68487,11 +68520,11 @@
         ],
         "fields": {
           "title": "Ecosystem manifest and claim ledger",
-          "headings": "Ecosystem manifest and claim ledger Update workflow Consumer example",
+          "headings": "Ecosystem manifest and claim ledger Update workflow Consumer sync Consumer example",
           "path": "docs/architecture/ecosystem-manifest.md",
           "symbols": "",
           "summary": "AgentsKit is the parent brand for a family of products. The root ecosystem.json is the canonical, versioned inventory of those products and their public surfaces. The generated ecosystem-claims.json is the canonical ledger for numeric product claims and their evidence.",
-          "body": "Ecosystem manifest and claim ledger AgentsKit is the parent brand for a family of products. The root is the canonical, versioned inventory of those products and their public surfaces. The generated is the canonical ledger for numeric product claims and their evidence. The manifest owns stable identity and relationships: product IDs, names, repositories, maturity, documentation and chat modes, public URLs, shared navigation order, useful next-product links, and mappings from showcase claim IDs to their owning product's public stats surface. It does not own numeric marketing values. The root properties array is a deprecated v1 compatibility projection for sibling repositories that have not migrated yet. Do not add new consumers of it. Contract validation prevents it from drifting from the corresponding v2 products. The claim ledger owns exact values, optional conservative display floors, and the evidence used to derive each value. It is deterministic and contains no timestamps. The generator never fetches sibling sites at build time; a sibling starts as declared with an empty claim list until its own repository exposes a verifiable snapshot. The shared showcase receives a deterministic AgentsKit snapshot during the build, then loads /ecosystem-claims.js . That same-origin script resolves each showcase claim from the owning application's canonical data and safely updates all consumers without requiring cross-origin connect-src permissions. If an external origin is unavailable, its unverified numbers are omitted rather than served stale. Update workflow 1. Edit ecosystem.json when a product identity, surface, or relationship changes. 2. Edit the owning repository's derivation script when a numeric definition changes. For AgentsKit, that script is scripts/compute-stats.mjs . 3. Run pnpm test:ecosystem . 4. Run node scripts/gen-ecosystem-claims.mjs and node scripts/sync-ecosystem.mjs . 5. Run both commands with --check before opening a pull request. Do not hand-edit generated copies under apps/ /lib or the generated product block in apps/docs-next/public/ecosystem-bar.js . Consumer example Server and build-time consumers can import the committed snapshot without a network request: External consumers can read the static /api/claims.json route. Existing /api/stats.json consumers remain supported; the claim ledger is additive. See for the decision and trade-offs.",
+          "body": "Ecosystem manifest and claim ledger AgentsKit is the parent brand for a family of products. The root is the canonical, versioned inventory of those products and their public surfaces. The generated is the canonical ledger for numeric product claims and their evidence. The manifest owns stable identity and relationships: product IDs, names, repositories, maturity, documentation and chat modes, public URLs, shared navigation order, useful next-product links, and mappings from showcase claim IDs to their owning product's public stats surface. It does not own numeric marketing values. The root properties array is a deprecated v1 compatibility projection for sibling repositories that have not migrated yet. Do not add new consumers of it. Contract validation prevents it from drifting from the corresponding v2 products. The claim ledger owns exact values, optional conservative display floors, and the evidence used to derive each value. It is deterministic and contains no timestamps. The generator never fetches sibling sites at build time; a sibling starts as declared with an empty claim list until its own repository exposes a verifiable snapshot. The shared showcase receives a deterministic AgentsKit snapshot during the build, then loads /ecosystem-claims.js . That same-origin script resolves each showcase claim from the owning application's canonical data and safely updates all consumers without requiring cross-origin connect-src permissions. If an external origin is unavailable, its unverified numbers are omitted rather than served stale. Update workflow 1. Edit ecosystem.json when a product identity, surface, or relationship changes. 2. Edit the owning repository's derivation script when a numeric definition changes. For AgentsKit, that script is scripts/compute-stats.mjs . 3. Run pnpm test:ecosystem . 4. Run node scripts/gen-ecosystem-claims.mjs and node scripts/sync-ecosystem.mjs . 5. Run both commands with --check before opening a pull request. Do not hand-edit generated copies under apps/ /lib or the generated product block in apps/docs-next/public/ecosystem-bar.js . Consumer sync The sibling repositories keep verbatim copies of ecosystem.json and ecosystem-claims.json : Registry, Chat, Playbook, Doc Bridge ( master ), Harness, and Code Review. Doc Bridge also records their SHA-256 digests in ecosystem-upstream.json . .github/workflows/ecosystem-sync.yml runs on every push to main that touches either file, and on manual dispatch. It runs scripts/sync-ecosystem-consumers.mjs , which compares each consumer's default branch with this repository. For each consumer that differs, it force-updates the chore/sync-agentskit-ecosystem branch with a single commit and opens (or updates) one pull request. The commit contains only the two canonical files and, for Doc Bridge, the refreshed digest file. Nothing else is regenerated; consumers that derive more outputs run their own checks in that pull request. The job needs the ECOSYSTEM SYNC TOKEN repository secret: a fine-grained personal access token or GitHub App token with Contents and Pull requests read/write on the six consumer repositories. Without the secret the job prints a notice and a drift report ( --dry-run ) and succeeds without writing anything. Run the same report locally with node scripts/sync-ecosystem-consumers.mjs --dry-run . Consumer example Server and build-time consumers can import the committed snapshot without a network request: External consumers can read the static /api/claims.json route. Existing /api/stats.json consumers remain supported; the claim ledger is additive. See for the decision and trade-offs.",
           "aliases": "document human"
         },
         "graph": {
@@ -68515,10 +68548,15 @@
               "kind": "mentions",
               "id": "module:scripts/compute-stats.mjs",
               "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "module:scripts/sync-ecosystem-consumers.mjs",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "e96c9c198c104299b44cc8a0efe06a776c4b919ee7ec1e5160483b2197017434",
+        "contentHash": "ab9175e8a69e03f5bbf1159ddee787c01eed69696b25aae31606b11bf9729985",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -78815,6 +78853,11 @@
             {
               "kind": "mentions-symbol",
               "id": "module:packages/sandbox/src/web/web-worker-backend.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:scripts/sync-ecosystem-consumers.mjs",
               "confidence": "observed"
             }
           ]
@@ -173949,6 +173992,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:scripts/sync-ecosystem-consumers.test.mjs",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:scripts/verify-launch-demo.mjs",
               "confidence": "observed"
             },
@@ -176746,6 +176794,113 @@
           "outbound": []
         },
         "contentHash": "e3f6a0c18dd72a329515c4ca1015e4280bc058e6192b3d7b67d190770767bbf5",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:scripts/sync-ecosystem-consumers.mjs",
+        "kind": "module",
+        "path": "scripts/sync-ecosystem-consumers.mjs",
+        "title": "sync-ecosystem-consumers.mjs",
+        "aliases": [],
+        "symbols": [
+          "CANONICAL_FILES",
+          "CONSUMERS",
+          "SYNC_BRANCH",
+          "plannedChanges",
+          "sha256",
+          "updatedDigestFile"
+        ],
+        "tags": [
+          "module",
+          "mjs",
+          "scripts"
+        ],
+        "fields": {
+          "title": "sync-ecosystem-consumers.mjs",
+          "headings": "",
+          "path": "scripts/sync-ecosystem-consumers.mjs",
+          "symbols": "CANONICAL_FILES CONSUMERS SYNC_BRANCH plannedChanges sha256 updatedDigestFile",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 2,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:docs/architecture/ecosystem-manifest.md",
+            "document:rfcs/0006-ui-component-registry.md"
+          ],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:scripts/sync-ecosystem-consumers.test.mjs",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:docs/architecture/ecosystem-manifest.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:rfcs/0006-ui-component-registry.md",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "70205e035a09b0d6b83520f75a24e93075109bb12e7258a41130f127c775a299",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:scripts/sync-ecosystem-consumers.test.mjs",
+        "kind": "module",
+        "path": "scripts/sync-ecosystem-consumers.test.mjs",
+        "title": "sync-ecosystem-consumers.test.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "test",
+          "scripts"
+        ],
+        "fields": {
+          "title": "sync-ecosystem-consumers.test.mjs",
+          "headings": "",
+          "path": "scripts/sync-ecosystem-consumers.test.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs test scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:scripts/compute-stats.mjs",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:scripts/sync-ecosystem-consumers.mjs",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "0c7fb63b72ead3bba009bf51ae1d5f95c4b173f29f43e6b775baabb2ef1b895f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -184762,7 +184917,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5cc76259b4c69ba2ad9aee0e8f20059a3c227522c06bee7b93986a88312bb23a",
+        "contentHash": "8e01f4686a40d86f3ec8c0fb1d168938b998b0c46d103fff294125c20a9d6b93",
         "provenance": "observed",
         "confidence": "observed"
       }
