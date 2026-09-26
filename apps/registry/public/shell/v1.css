@@ -58,6 +58,35 @@
   font-family: var(--ak-font-body);
 }
 
+/* Reserve the ecosystem bar's height before v1.js mounts it, so the page does not shift
+   (57px desktop, 53px under 768px, matching #ak-eco). Hidden as soon as the bar exists,
+   and never shown without scripting. */
+body::before {
+  content: '';
+  display: block;
+  flex: 0 0 auto;
+  box-sizing: border-box;
+  height: 57px;
+  background: var(--ak-bg);
+  border-bottom: 1px solid var(--ak-border);
+}
+
+@media (max-width: 767px) {
+  body::before {
+    height: 53px;
+  }
+}
+
+body:has(> #ak-eco)::before {
+  display: none;
+}
+
+@media (scripting: none) {
+  body::before {
+    display: none;
+  }
+}
+
 /* Headings use Space Grotesk on every AgentsKit site. */
 :where(h1, h2, h3, h4) {
   font-family: var(--ak-font-display);

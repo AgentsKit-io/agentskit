@@ -966,7 +966,8 @@
     .aka::after{background:radial-gradient(ellipse 36% 28% at 68% 60%,color-mix(in srgb,var(--ak-blue,#58a6ff) 24%,transparent),transparent 100%);animation:aka-second 22s ease-in-out infinite alternate}
     .aka[data-shader="ready"]::before,.aka[data-shader="ready"]::after{opacity:0;animation:none}
     canvas{position:absolute;inset:0;width:100%;height:100%;opacity:.85}
-    .aka[data-shader="fallback"] canvas{display:none}
+    .aka[data-shader="fallback"] canvas,.aka[data-shader="static"] canvas{display:none}
+    .aka[data-shader="static"]::before,.aka[data-shader="static"]::after{animation:none;will-change:auto}
     @keyframes aka-first{from{transform:translate3d(-3%,-2%,0) rotate(-8deg) scale(.98)}to{transform:translate3d(4%,3%,0) rotate(8deg) scale(1.06)}}
     @keyframes aka-second{from{transform:translate3d(3%,2%,0) rotate(7deg) scale(1.04)}to{transform:translate3d(-4%,-3%,0) rotate(-7deg) scale(.96)}}
     .aka-grid{position:absolute;inset:0;opacity:.4;background-image:linear-gradient(to right,color-mix(in srgb,var(--ak-fg,#e6edf3) 4%,transparent) 1px,transparent 1px),linear-gradient(to bottom,color-mix(in srgb,var(--ak-fg,#e6edf3) 4%,transparent) 1px,transparent 1px);background-size:64px 64px;background-position:0 var(--aka-grid-y,0px);-webkit-mask-image:linear-gradient(to bottom,#000 0,#000 calc(var(--aka-grid-end,100vh) - 480px),transparent var(--aka-grid-end,100vh));mask-image:linear-gradient(to bottom,#000 0,#000 calc(var(--aka-grid-end,100vh) - 480px),transparent var(--aka-grid-end,100vh))}
@@ -1023,6 +1024,8 @@
     var match = text.match(/^rgba?\(\s*([\d.]+)[,\s]+([\d.]+)[,\s]+([\d.]+)/)
     return match ? [Number(match[1]) / 255, Number(match[2]) / 255, Number(match[3]) / 255] : null
   }
+
+  var SOFTWARE_RENDERER = /SwiftShader|llvmpipe|softpipe|Software|Basic Render/i
 
   function registerAurora() {
     if (!window.customElements || customElements.get('agentskit-aurora')) return
@@ -1095,23 +1098,32 @@
           }
         }
 
+        // The loop runs at most 30 fps and only while it can be seen: it stops for hidden tabs,
+        // when the layer is off screen, and for good under prefers-reduced-motion.
+        var onScreen = true
         var render = function (now) {
-          if (document.visibilityState === 'visible' && now - lastFrame >= 1000 / 30) {
-            draw((now - startTime) / 1000)
-            lastFrame = now
-          }
           frame = window.requestAnimationFrame(render)
+          if (now - lastFrame < 1000 / 30) return
+          lastFrame = now
+          draw((now - startTime) / 1000)
         }
 
         var syncMotion = function () {
           window.cancelAnimationFrame(frame)
           frame = 0
-          if (gl && !reducedMotion.matches) frame = window.requestAnimationFrame(render)
+          if (gl && !reducedMotion.matches && onScreen && document.visibilityState === 'visible') {
+            frame = window.requestAnimationFrame(render)
+          }
         }
+        var visibility = window.IntersectionObserver ? new IntersectionObserver(function (entries) {
+          onScreen = entries[entries.length - 1].isIntersecting
+          syncMotion()
+        }) : null
 
         var resize = function () {
           if (!gl) return
-          var scale = Math.min(window.devicePixelRatio || 1, 1.25)
+          // Half resolution at most: the shader is a soft gradient, so fewer pixels look the same.
+          var scale = Math.min((window.devicePixelRatio || 1) * 0.5, 1)
           canvas.width = Math.max(1, Math.round(window.innerWidth * scale))
           canvas.height = Math.max(1, Math.round(window.innerHeight * scale))
           gl.viewport(0, 0, canvas.width, canvas.height)
@@ -1150,8 +1162,17 @@
         var initShader = function () {
           if (!self.isConnected || !self.cleanup) return
           try {
-            gl = canvas.getContext('webgl', { alpha: false, antialias: false, depth: false, powerPreference: 'low-power' })
-            if (!gl) throw new Error('aurora: WebGL unavailable')
+            // Software rasterisers (CI runners, VMs, GPU blocklists) would spend the main thread on
+            // every frame; they get the CSS aurora instead.
+            gl = canvas.getContext('webgl', { alpha: false, antialias: false, depth: false, powerPreference: 'low-power', failIfMajorPerformanceCaveat: true })
+            if (!gl) throw new Error('aurora: WebGL unavailable or software-rendered')
+            var debugInfo = gl.getExtension('WEBGL_debug_renderer_info')
+            var renderer = String(gl.getParameter(debugInfo ? debugInfo.UNMASKED_RENDERER_WEBGL : gl.RENDERER) || '')
+            if (SOFTWARE_RENDERER.test(renderer)) {
+              var lose = gl.getExtension('WEBGL_lose_context')
+              if (lose) lose.loseContext()
+              throw new Error('aurora: software renderer ' + renderer)
+            }
             var vertex = compileShader(gl, gl.VERTEX_SHADER, AURORA_VERTEX)
             var fragment = compileShader(gl, gl.FRAGMENT_SHADER, AURORA_FRAGMENT)
             program = gl.createProgram()
@@ -1178,8 +1199,10 @@
             resize()
             layer.setAttribute('data-shader', 'ready')
           } catch (error) {
+            // Without a hardware GPU the CSS layer holds still too: animating large blurred
+            // layers costs the same software compositor the shader would have.
             gl = null
-            fallback()
+            layer.setAttribute('data-shader', 'static')
           }
           syncTheme()
           syncMotion()
@@ -1197,6 +1220,8 @@
         else window.addEventListener('load', scheduleShader, { once: true })
 
         syncTheme()
+        if (visibility) visibility.observe(this)
+        document.addEventListener('visibilitychange', syncMotion)
         var themeObserver = new MutationObserver(syncTheme)
         themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class', 'data-theme', 'style'] })
         window.addEventListener('resize', resize, { passive: true })
@@ -1210,6 +1235,8 @@
           if (window.cancelIdleCallback) window.cancelIdleCallback(idleHandle)
           window.clearTimeout(idleHandle)
           themeObserver.disconnect()
+          if (visibility) visibility.disconnect()
+          document.removeEventListener('visibilitychange', syncMotion)
           window.removeEventListener('ak:surface-change', syncTheme)
           window.removeEventListener('scroll', queueGrid)
           if (gridResize) gridResize.disconnect()
@@ -1227,9 +1254,17 @@
     customElements.define('agentskit-aurora', AgentsKitAurora)
   }
 
-  registerEcosystemShowcase()
-  registerFooter()
-  registerAurora()
+  // Only the bar is on the critical path. The tour, footer, and aurora upgrade when the main
+  // thread is idle; until then their server-rendered fallbacks (and v1.css) stand in.
+  function whenIdle(task) {
+    if (window.requestIdleCallback) window.requestIdleCallback(task, { timeout: 2000 })
+    else window.setTimeout(task, 300)
+  }
+  whenIdle(function () {
+    registerFooter()
+    registerEcosystemShowcase()
+    registerAurora()
+  })
 
   function build() {
     if (document.getElementById('ak-eco')) return

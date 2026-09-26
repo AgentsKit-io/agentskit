@@ -75,8 +75,15 @@ with `next/font`) add `data-ak-fonts="self"` to the script tag to skip the check
 ```
 
 Until a font arrives, the `--ak-font-*` stacks fall back to system UI fonts.
-The aurora shows its CSS layer immediately and compiles the WebGL shader when
-the page is idle after `load`.
+
+Only the bar is mounted on the critical path. `v1.css` reserves its height with
+a `body::before` placeholder (57px, 53px under 768px) that disappears once
+`#ak-eco` exists, so the bar causes no layout shift; sites should not use
+`body::before` themselves. The tour, footer, and aurora upgrade when the main
+thread is idle. The aurora shows its CSS layer immediately and switches to
+WebGL only on a hardware GPU (software renderers such as SwiftShader or
+llvmpipe keep a still CSS layer), rendering at half the device pixel ratio, at most
+30 fps, and only while visible.
 
 ## Surface override (`data-ak-surface`)
 
