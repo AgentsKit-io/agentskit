@@ -48,3 +48,11 @@ describe('baseline ratchet', () => {
     expect(tightenBaseline(higher, baseline, true).baseline.entries).toEqual({ 'new.ts': { 'home-env': 1 } })
   })
 })
+
+describe('baseline hardening', () => {
+  it('counts a file named __proto__ without touching Object.prototype', () => {
+    const counts = countFindings([finding('__proto__', 'polluted')])
+    expect(counts['__proto__']).toEqual({ polluted: 1 })
+    expect(({} as Record<string, unknown>).polluted).toBeUndefined()
+  })
+})

@@ -15,10 +15,16 @@ export interface Baseline {
   entries: Record<string, Record<string, number>>
 }
 
+// File paths and rule ids come from scanned input; prototype-less maps keep a
+// file named `__proto__` from reaching Object.prototype.
+function emptyMap<T>(): Record<string, T> {
+  return Object.create(null) as Record<string, T>
+}
+
 export function countFindings(findings: readonly Finding[]): Record<string, Record<string, number>> {
-  const counts: Record<string, Record<string, number>> = {}
+  const counts = emptyMap<Record<string, number>>()
   for (const finding of findings) {
-    const perFile = (counts[finding.file] ??= {})
+    const perFile = (counts[finding.file] ??= emptyMap<number>())
     perFile[finding.rule] = (perFile[finding.rule] ?? 0) + 1
   }
   return counts
@@ -64,7 +70,7 @@ export function tightenBaseline(
     }
   }
   if (increased.length > 0 && !allowIncrease) return { baseline, increased }
-  const entries: Baseline['entries'] = {}
+  const entries = emptyMap<Record<string, number>>()
   for (const file of Object.keys(counts).sort()) entries[file] = counts[file] ?? {}
   return { baseline: { ...baseline, entries }, increased }
 }

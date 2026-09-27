@@ -51,7 +51,9 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      - run: pnpm install --frozen-lockfile
+      # No install scripts: they compile better-sqlite3 (memory/tools), which this
+      # package never loads and which fails on windows-latest (node-gyp vs VS 18).
+      - run: pnpm install --frozen-lockfile --ignore-scripts
 
       - run: pnpm --filter "@agentskit/cross-platform..." build
 
