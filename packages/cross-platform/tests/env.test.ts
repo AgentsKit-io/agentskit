@@ -55,3 +55,10 @@ describe('env under Deno without --allow-env', () => {
     }
   })
 })
+
+describe('env keys', () => {
+  it('ignores inherited object properties', () => {
+    expect(getEnv('constructor', {})).toBeUndefined()
+    expect(safeEnv({ source: {}, inherit: ['toString'] })).toEqual({})
+  })
+})

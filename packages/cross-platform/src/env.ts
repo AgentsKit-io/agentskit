@@ -43,18 +43,21 @@ function readProcessEnv(): Env {
   }
 }
 
+// Windows treats variable names case-insensitively (`Path` is `PATH`).
+function findKey(env: Env, name: string, windows: boolean): string | undefined {
+  if (Object.prototype.hasOwnProperty.call(env, name)) return name
+  if (!windows) return undefined
+  const wanted = name.toLowerCase()
+  return Object.keys(env).find(key => key.toLowerCase() === wanted)
+}
+
 /**
  * Read one variable. Case-insensitive on Windows, where `Path` and `PATH`
  * are the same variable.
  */
 export function getEnv(name: string, env: Env = readProcessEnv()): string | undefined {
-  const direct = env[name]
-  if (direct !== undefined || !isWindows) return direct
-  const wanted = name.toLowerCase()
-  for (const [key, value] of Object.entries(env)) {
-    if (key.toLowerCase() === wanted) return value
-  }
-  return undefined
+  const key = findKey(env, name, isWindows)
+  return key === undefined ? undefined : env[key]
 }
 
 export interface SafeEnvOptions {
@@ -74,12 +77,15 @@ export function safeEnv(options: SafeEnvOptions = {}): Record<string, string> {
   const source = options.source ?? readProcessEnv()
   const result: Record<string, string> = {}
   for (const name of [...SYSTEM_ENV_KEYS, ...(options.inherit ?? [])]) {
-    const value = getEnv(name, source)
-    if (value !== undefined) result[name] = value
+    // Keep the parent's spelling and never add the same Windows variable twice.
+    const key = findKey(source, name, isWindows)
+    const value = key === undefined ? undefined : source[key]
+    if (key !== undefined && value !== undefined && findKey(result, key, isWindows) === undefined) result[key] = value
   }
   for (const [name, value] of Object.entries(options.extra ?? {})) {
-    if (value === undefined) delete result[name]
-    else result[name] = value
+    const existing = findKey(result, name, isWindows)
+    if (existing !== undefined) delete result[existing]
+    if (value !== undefined) result[name] = value
   }
   return result
 }
