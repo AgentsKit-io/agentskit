@@ -138,7 +138,7 @@ body:not(:has(.ak-home-layout)) [data-ak-ask-panel] {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .ak-home-layout [data-logo-marquee] {
+  .ak-home-layout [data-logo-marquee-window] {
     overflow: visible;
     mask-image: none;
   }
@@ -392,4 +392,10 @@ button[aria-label="Toggle Menu"],
   [data-ak-ask-loading] .ak-logo__dot,
   .ak-ai-shimmer { animation: none; }
   .ak-ai-shimmer { -webkit-text-fill-color: var(--ak-graphite); color: var(--ak-graphite); }
+}
+
+@keyframes ak-logo-scroll { to { transform: translateX(-50%); } }
+@media (prefers-reduced-motion: reduce) {
+  [data-logo-marquee-track] { animation: none !important; }
+  [data-logo-marquee] > button { display: none; }
 }

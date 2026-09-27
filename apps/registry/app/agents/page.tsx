@@ -10,7 +10,7 @@ export const revalidate = 3600
 
 export const metadata: Metadata = {
   title: 'Browse AI agents',
-  description: 'Search, qualify, compare, and copy ready-to-use AgentsKit agents into your project.',
+  description: 'Search, browse by category, sort, and copy ready-to-use AgentsKit agents into your project.',
   alternates: { canonical: 'https://registry.agentskit.io/agents' },
 }
 
@@ -20,7 +20,7 @@ export default async function AgentsPage() {
     '@context': 'https://schema.org',
     '@type': 'CollectionPage',
     name: 'Browse AI agents',
-    description: 'Search, qualify, compare, and copy ready-to-use AgentsKit agents into your project.',
+    description: 'Search, browse by category, sort, and copy ready-to-use AgentsKit agents into your project.',
     url: 'https://registry.agentskit.io/agents',
     mainEntity: {
       '@type': 'ItemList',
@@ -36,14 +36,14 @@ export default async function AgentsPage() {
 
   return (
     <HomeLayout {...baseOptions}>
-      <main className="w-full">
+      <div className="w-full">
         <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd).replace(/</g, '\\u003c') }} />
         <header className="border-b border-ak-border px-4 py-12 sm:px-6 sm:py-16">
           <div className="mx-auto max-w-5xl">
             <p className="font-mono text-xs uppercase tracking-wider text-ak-blue">AgentsKit Registry</p>
             <h1 className="mt-3 max-w-3xl font-display text-4xl font-semibold text-ak-foam sm:text-5xl">Find a working agent. Keep ownership of the code.</h1>
             <p className="mt-5 max-w-2xl text-base leading-7 text-ak-graphite sm:text-lg">
-              Search by task or capability, filter by review evidence and CLI support, then compare up to three agents before copying one into your project.
+              Search by task or capability, browse by category, and sort by name or review score before copying an agent into your project.
             </p>
           </div>
         </header>
@@ -53,7 +53,7 @@ export default async function AgentsPage() {
         </Suspense>
 
         <EcosystemMesh />
-      </main>
+      </div>
     </HomeLayout>
   )
 }

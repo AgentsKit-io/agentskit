@@ -1,5 +1,7 @@
 'use client'
 
+import stats from '../../../../docs-next/lib/ecosystem-stats.snapshot.json'
+
 import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import { Icon, CopyButton } from './ui'
@@ -36,7 +38,7 @@ const HIGHLIGHTED = [
 
 const STEPS = [
   { n: 1, t: 'Add it', d: 'Run one command. The CLI copies the full agent source into ./agents/<id>/ in your repo. From here, the code is yours — read it, edit it, commit it.', code: 'npx @agentskit/cli add research', highlighted: HIGHLIGHTED[0] },
-  { n: 2, t: 'Wire it', d: 'Create research.ts with the copied factory and any adapter — OpenAI, Anthropic, or one of 184+ catalog providers. Swap the model whenever you want.', code: WIRE, highlighted: HIGHLIGHTED[1] },
+  { n: 2, t: 'Wire it', d: `Create research.ts with the copied factory and any adapter — OpenAI, Anthropic, or one of ${stats.counts.catalogProviders} catalog providers. Swap the model whenever you want.`, code: WIRE, highlighted: HIGHLIGHTED[1] },
   { n: 3, t: 'Run it anywhere', d: 'Call agent.run() from Node, a serverless function, an edge runtime, or your terminal. It is your code on your infrastructure — nothing phones home to this registry.', code: RUN, highlighted: HIGHLIGHTED[2] },
 ]
 

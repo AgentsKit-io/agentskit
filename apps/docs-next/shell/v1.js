@@ -480,13 +480,16 @@
     '#ak-eco a:focus-visible{outline:2px solid var(--ak-accent,#58a6ff);outline-offset:-2px}' +
     '#ak-eco .ak-eco-products{display:flex;gap:2px;align-items:center;min-width:0}' +
     '#ak-eco .ak-eco-spacer{flex:1}' +
+    '#ak-eco .ak-eco-toggle{display:none;font:inherit;color:inherit;background:none;border:1px solid var(--ak-border,#30363d);border-radius:8px;min-height:44px;padding:5px 12px}' +
+    '#ak-eco .ak-eco-toggle:focus-visible{outline:2px solid var(--ak-accent,#58a6ff)}' +
     '#ak-eco a.ak-eco-cta{display:inline-flex;align-items:center;gap:6px}' +
     '#ak-eco a.ak-eco-cta svg{width:14px;height:14px;fill:currentColor}' +
     // Discord is kept in the DOM for an easy restore; hidden until community is ready.
     '#ak-eco a.ak-eco-cta[data-ak-eco-discord]{display:none}' +
     '@media(max-width:767px){#ak-eco{max-width:100vw;overflow:hidden;padding:4px 8px}' +
-    '#ak-eco .ak-eco-products{flex:1;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:none}' +
-    '#ak-eco .ak-eco-products::-webkit-scrollbar{display:none}' +
+    '#ak-eco{flex-wrap:wrap}#ak-eco .ak-eco-products{display:none}' +
+    '#ak-eco[data-menu-open] .ak-eco-products{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));order:4;flex-basis:100%}' +
+    '#ak-eco .ak-eco-toggle{display:inline-flex;align-items:center;justify-content:space-between;flex:1}' +
     '#ak-eco .ak-eco-spacer{display:none}' +
     '#ak-eco a.ak-eco-cta:not([data-ak-eco-discord]){justify-content:center;width:44px;min-width:44px;padding:5px}' +
     '#ak-eco a.ak-eco-cta:not([data-ak-eco-discord]) span{display:none}}' +
@@ -1291,6 +1294,7 @@
 
     var products = document.createElement('div')
     products.className = 'ak-eco-products'
+    products.id = 'ak-eco-products'
     PROPS.forEach(function (p) {
       var a = document.createElement('a')
       a.className = 'ak-eco-link'
@@ -1300,6 +1304,23 @@
       products.appendChild(a)
     })
     bar.appendChild(products)
+    var toggle = document.createElement('button')
+    toggle.type = 'button'
+    toggle.className = 'ak-eco-toggle'
+    toggle.textContent = 'Ecosystem ▾'
+    toggle.setAttribute('aria-controls', products.id)
+    toggle.setAttribute('aria-expanded', 'false')
+    function setMenu(open) {
+      bar.toggleAttribute('data-menu-open', open)
+      toggle.setAttribute('aria-expanded', String(open))
+      toggle.textContent = open ? 'Ecosystem ▴' : 'Ecosystem ▾'
+    }
+    toggle.addEventListener('click', function () { setMenu(!bar.hasAttribute('data-menu-open')) })
+    bar.addEventListener('keydown', function (event) {
+      if (event.key === 'Escape' && bar.hasAttribute('data-menu-open')) { setMenu(false); toggle.focus() }
+    })
+    products.addEventListener('click', function () { setMenu(false) })
+    bar.appendChild(toggle)
 
     var spacer = document.createElement('span')
     spacer.className = 'ak-eco-spacer'
