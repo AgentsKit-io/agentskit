@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "2a687307113a008a0a9a9d3a62a21db06806a103f89184e6c988902c145dd174",
+  "contentHash": "d53f7b0cb3b3f92b3b4d671cfb2cd326b82c2702923879680eec65c8fb874c1a",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-27T14:45:18.999Z",
+  "generatedAt": "2026-09-27T16:05:09.327Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -20090,7 +20090,19 @@
         "mjs",
         "smoke"
       ],
-      "contentHash": "a9f7731206443f8453359867367b9f0894a2d5eab63605b92214f960a3adebc5"
+      "contentHash": "73f324e0edc5efd90bbc7e3a8ae522e6dba62e75e4014255d4f82ece3195a147"
+    },
+    {
+      "id": "module:packages/cross-platform/smoke/symlink-unprivileged.mjs",
+      "type": "module",
+      "title": "symlink-unprivileged.mjs",
+      "path": "packages/cross-platform/smoke/symlink-unprivileged.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "smoke"
+      ],
+      "contentHash": "9b9f27c1ff72b71894c3a2b8a466b8369c6e689b7306e691ca7db8add1a2cecf"
     },
     {
       "id": "module:packages/cross-platform/src/bin.ts",
@@ -36743,8 +36755,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "a94144791f0eb76cdbbe2446e694dd05dc87ddc9252aa96478870889dce61382",
-    "fileCount": 2442,
+    "hash": "593c36d305ebe78fe5f2be7d6a55b19c93bbca5e7ec20e7884a748d50b876fcd",
+    "fileCount": 2443,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -36766,9 +36778,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "57aef2f8b04e189be94f2e2d4ba1365b095e546c836d322fedbd72e1ecb9892b",
+    "contentHash": "813f2b946c4906cc162130d7cde7e5f13b755a5fd19a6853145ccea4b839dea0",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "5325c62e27beb4aa34d1b1563f820556867636c1bbad7e84d3fdb02e892a7f41",
+    "snapshotHash": "6ee32f05dff712c2bee4000112b69cb732a81fc95f7c1f93416cb9488de0f3ce",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -36788,7 +36800,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2397,
+      "documentCount": 2398,
       "fieldNames": [
         "aliases",
         "body",
@@ -36799,13 +36811,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.005840634125991,
-        "body": 60.974134334584896,
-        "headings": 4.063412599082186,
-        "path": 7.635794743429287,
-        "summary": 4.5652899457655405,
-        "symbols": 7.523988318731748,
-        "title": 3.3283270755110554
+        "aliases": 3.005838198498749,
+        "body": 60.9487072560467,
+        "headings": 4.061718098415346,
+        "path": 7.635946622185155,
+        "summary": 4.563386155129274,
+        "symbols": 7.520850708924104,
+        "title": 3.3286071726438697
       }
     },
     "entries": [
@@ -38368,7 +38380,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "a70d447c0ac584afd3d2872876b8a496a4855c8976fce7a21fc9c91f966f6928",
+        "contentHash": "61b4dd9954fcec1bac9aa3353f9a96695c34161f966d91c1f2c6e85b4f50c26c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -125682,7 +125694,41 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "a9f7731206443f8453359867367b9f0894a2d5eab63605b92214f960a3adebc5",
+        "contentHash": "73f324e0edc5efd90bbc7e3a8ae522e6dba62e75e4014255d4f82ece3195a147",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/cross-platform/smoke/symlink-unprivileged.mjs",
+        "kind": "module",
+        "path": "packages/cross-platform/smoke/symlink-unprivileged.mjs",
+        "title": "symlink-unprivileged.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "smoke"
+        ],
+        "fields": {
+          "title": "symlink-unprivileged.mjs",
+          "headings": "",
+          "path": "packages/cross-platform/smoke/symlink-unprivileged.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs smoke"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/cross-platform/smoke",
+          "packageId": "package:@agentskit/cross-platform",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "9b9f27c1ff72b71894c3a2b8a466b8369c6e689b7306e691ca7db8add1a2cecf",
         "provenance": "observed",
         "confidence": "observed"
       },

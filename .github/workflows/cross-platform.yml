@@ -33,13 +33,23 @@ defaults:
 
 jobs:
   matrix:
-    name: ${{ matrix.os }} · ${{ matrix.runtime }}
+    name: ${{ matrix.os }} · ${{ matrix.runtime }}${{ matrix.version == 'minimum' && ' (minimum)' || '' }}
     runs-on: ${{ matrix.os }}
     strategy:
       fail-fast: false
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         runtime: [node, bun, deno]
+        version: [latest]
+        # The oldest versions the package declares (Node 20.19, Bun 1.1, Deno 2.0),
+        # on Linux and on Windows, so the documented floor is tested, not assumed.
+        include:
+          - { os: ubuntu-latest, runtime: node, version: minimum }
+          - { os: windows-latest, runtime: node, version: minimum }
+          - { os: ubuntu-latest, runtime: bun, version: minimum }
+          - { os: windows-latest, runtime: bun, version: minimum }
+          - { os: ubuntu-latest, runtime: deno, version: minimum }
+          - { os: windows-latest, runtime: deno, version: minimum }
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
 
@@ -48,7 +58,7 @@ jobs:
       # Node is needed in every row: pnpm runs on it and the smoke test spawns it.
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
         with:
-          node-version: 22
+          node-version: ${{ matrix.runtime == 'node' && matrix.version == 'minimum' && '20.19.0' || '22' }}
           cache: pnpm
 
       # No install scripts: they compile better-sqlite3 (memory/tools), which this
@@ -64,12 +74,12 @@ jobs:
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         if: matrix.runtime == 'bun'
         with:
-          bun-version: 1.x
+          bun-version: ${{ matrix.version == 'minimum' && '1.1.0' || '1.x' }}
 
       - uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
         if: matrix.runtime == 'deno'
         with:
-          deno-version: v2.x
+          deno-version: ${{ matrix.version == 'minimum' && 'v2.0.0' || 'v2.x' }}
 
       - name: Runtime smoke test
         working-directory: packages/cross-platform
@@ -81,3 +91,26 @@ jobs:
             bun) bun smoke/smoke.mjs ;;
             deno) deno run -A smoke/smoke.mjs ;;
           esac
+
+      # Windows refuses symlinks to non-admin users without Developer Mode. The
+      # runner is admin, so create a plain user and run the fallback check as it.
+      - name: Symlink fallback as a non-admin Windows user
+        if: runner.os == 'Windows' && matrix.runtime == 'node' && matrix.version == 'latest'
+        shell: pwsh
+        working-directory: packages/cross-platform
+        run: |
+          $secret = ConvertTo-SecureString ("Ak!" + [guid]::NewGuid().ToString('N')) -AsPlainText -Force
+          New-LocalUser -Name akunpriv -Password $secret -AccountNeverExpires | Out-Null
+          $work = Join-Path $env:RUNNER_TEMP 'ak symlink ação'
+          New-Item -ItemType Directory -Force -Path $work | Out-Null
+          icacls $work /grant 'akunpriv:(OI)(CI)F' | Out-Null
+          icacls $env:GITHUB_WORKSPACE /grant 'akunpriv:(OI)(CI)RX' | Out-Null
+          $cred = [pscredential]::new('akunpriv', $secret)
+          $out = Join-Path $env:RUNNER_TEMP 'symlink-out.txt'
+          $err = Join-Path $env:RUNNER_TEMP 'symlink-err.txt'
+          $proc = Start-Process -FilePath (Get-Command node).Source `
+            -ArgumentList @('smoke/symlink-unprivileged.mjs', "`"$work`"") `
+            -WorkingDirectory (Get-Location).Path -Credential $cred -LoadUserProfile `
+            -RedirectStandardOutput $out -RedirectStandardError $err -Wait -PassThru
+          Get-Content $out, $err
+          exit $proc.ExitCode
