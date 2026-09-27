@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "0488090ae12e4f5c4a3e4c595612ca68666dc08bfb48e0cb8ab7de56ff0fd1bc",
+  "contentHash": "2a687307113a008a0a9a9d3a62a21db06806a103f89184e6c988902c145dd174",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-27T13:53:44.546Z",
+  "generatedAt": "2026-09-27T14:45:18.999Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -20123,7 +20123,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "c7dc87a49983edec119e715918c4cae23864668c71c46af9d085e0455f3025de"
+      "contentHash": "4481bf825ecd8bd31aca2b8d47d84bdb5b8444e8a5b28bf6f0363e980d6a089f"
     },
     {
       "id": "module:packages/cross-platform/src/errors.ts",
@@ -20276,7 +20276,7 @@
         "ts",
         "lint"
       ],
-      "contentHash": "9ecaf3b41a1d65afcf5e7f88ba89895b374bc0a2d4d63e678889e713d7a6c349"
+      "contentHash": "953379c9457d89adf2b3842cafb43bc0e9afb92ee9372693622d8dfe6dc73ffb"
     },
     {
       "id": "module:packages/cross-platform/src/lint/cli.ts",
@@ -20595,7 +20595,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "19739025c7746f3f3a19c92b67278cd471cb5b394666cf208a96db10920e0ba7"
+      "contentHash": "a779c93fa3b8995ad755775c52ad31dd140324bc3ca4bcc369bae7f5079766c5"
     },
     {
       "id": "module:packages/cross-platform/tests/bin.test.ts",
@@ -20650,6 +20650,19 @@
       "contentHash": "30d7c22b7ad9445058bfe66b86287ab1bea6c01c182845243b4a8ad2add447c3"
     },
     {
+      "id": "module:packages/cross-platform/tests/env-windows.test.ts",
+      "type": "module",
+      "title": "env-windows.test.ts",
+      "path": "packages/cross-platform/tests/env-windows.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "00b5f70973873360c5c97e95ec516891d966d53cdd211bcbe94efde7763d76ea"
+    },
+    {
       "id": "module:packages/cross-platform/tests/env.test.ts",
       "type": "module",
       "title": "env.test.ts",
@@ -20660,7 +20673,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "5a43915245758e1cdf490df770b0f8a9597127141157446d2504a1be01645ca8"
+      "contentHash": "cc39b8e843a9f0fe9a38490be1b3bda4554430004abd1e5d243f65e0400f14cc"
     },
     {
       "id": "module:packages/cross-platform/tests/errors.test.ts",
@@ -36730,8 +36743,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "cd46a849fc35674287f7b25003c7c41acce7cd742ce96286513bb42111783d69",
-    "fileCount": 2441,
+    "hash": "a94144791f0eb76cdbbe2446e694dd05dc87ddc9252aa96478870889dce61382",
+    "fileCount": 2442,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -36753,9 +36766,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "cdf93ab4442c5dc90f6a8eb91a9a0182a3fc9b51116233bf3e92ad93d0086f4c",
+    "contentHash": "57aef2f8b04e189be94f2e2d4ba1365b095e546c836d322fedbd72e1ecb9892b",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "101ba6a545fa1532b484a249834739c2a8af4d23852561f493fe36577a60235d",
+    "snapshotHash": "5325c62e27beb4aa34d1b1563f820556867636c1bbad7e84d3fdb02e892a7f41",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -36775,7 +36788,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2396,
+      "documentCount": 2397,
       "fieldNames": [
         "aliases",
         "body",
@@ -36786,13 +36799,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0054257095158596,
-        "body": 60.999582637729546,
-        "headings": 4.065108514190317,
-        "path": 7.635225375626043,
-        "summary": 4.567195325542571,
-        "symbols": 7.527128547579299,
-        "title": 3.3276293823038396
+        "aliases": 3.005840634125991,
+        "body": 60.974134334584896,
+        "headings": 4.063412599082186,
+        "path": 7.635794743429287,
+        "summary": 4.5652899457655405,
+        "symbols": 7.523988318731748,
+        "title": 3.3283270755110554
       }
     },
     "entries": [
@@ -125761,6 +125774,11 @@
           "inbound": [
             {
               "kind": "imports",
+              "id": "module:packages/cross-platform/tests/env-windows.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/cross-platform/tests/env.test.ts",
               "confidence": "observed"
             },
@@ -125803,7 +125821,7 @@
             }
           ]
         },
-        "contentHash": "c7dc87a49983edec119e715918c4cae23864668c71c46af9d085e0455f3025de",
+        "contentHash": "4481bf825ecd8bd31aca2b8d47d84bdb5b8444e8a5b28bf6f0363e980d6a089f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -126371,7 +126389,7 @@
             }
           ]
         },
-        "contentHash": "9ecaf3b41a1d65afcf5e7f88ba89895b374bc0a2d4d63e678889e713d7a6c349",
+        "contentHash": "953379c9457d89adf2b3842cafb43bc0e9afb92ee9372693622d8dfe6dc73ffb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -127625,7 +127643,7 @@
             }
           ]
         },
-        "contentHash": "19739025c7746f3f3a19c92b67278cd471cb5b394666cf208a96db10920e0ba7",
+        "contentHash": "a779c93fa3b8995ad755775c52ad31dd140324bc3ca4bcc369bae7f5079766c5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -127795,6 +127813,46 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/cross-platform/tests/env-windows.test.ts",
+        "kind": "module",
+        "path": "packages/cross-platform/tests/env-windows.test.ts",
+        "title": "env-windows.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "env-windows.test.ts",
+          "headings": "",
+          "path": "packages/cross-platform/tests/env-windows.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/cross-platform",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/cross-platform/src/env.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "00b5f70973873360c5c97e95ec516891d966d53cdd211bcbe94efde7763d76ea",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/cross-platform/tests/env.test.ts",
         "kind": "module",
         "path": "packages/cross-platform/tests/env.test.ts",
@@ -127830,7 +127888,7 @@
             }
           ]
         },
-        "contentHash": "5a43915245758e1cdf490df770b0f8a9597127141157446d2504a1be01645ca8",
+        "contentHash": "cc39b8e843a9f0fe9a38490be1b3bda4554430004abd1e5d243f65e0400f14cc",
         "provenance": "observed",
         "confidence": "observed"
       },
