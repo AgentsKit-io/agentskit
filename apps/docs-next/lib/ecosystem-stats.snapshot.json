@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "property": "agentskit",
   "counts": {
-    "packages": 22,
+    "packages": 23,
     "frameworkBindings": 7,
     "nativeAdapters": 25,
     "integrations": 50,
@@ -33,6 +33,11 @@
         "name": "@agentskit/core",
         "description": "Portable AgentsKit runtime for chat orchestration, tools, memory, and retrieval.",
         "stability": "stable"
+      },
+      {
+        "name": "@agentskit/cross-platform",
+        "description": "One place for OS and runtime portability in the AgentsKit ecosystem: spawn, paths, line endings and filesystem that behave the same on Windows, macOS and Linux under Node, Bun and Deno.",
+        "stability": "beta"
       },
       {
         "name": "@agentskit/eval",

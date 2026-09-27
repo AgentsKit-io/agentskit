@@ -169,7 +169,7 @@
     {
       "id": "claim.packages",
       "kind": "restricted-faq",
-      "label": "22 packages",
+      "label": "23 packages",
       "match": {
         "type": "exact",
         "values": [
@@ -179,7 +179,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **22 packages**. The public conservative floor is 22.",
+        "markdown": "The verified AgentsKit ledger currently reports **23 packages**. The public conservative floor is 23.",
         "citations": [
           {
             "id": "claim-packages",
@@ -392,6 +392,29 @@
             "id": "document-core",
             "title": "core agent handoff",
             "href": "/docs/for-agents/core"
+          }
+        ]
+      }
+    },
+    {
+      "id": "document.cross-platform",
+      "kind": "document",
+      "label": "cross-platform documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "cross-platform documentation",
+          "docs for cross-platform",
+          "cross-platform"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the cross-platform documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-cross-platform",
+            "title": "cross-platform agent handoff",
+            "href": "/docs/for-agents/cross-platform"
           }
         ]
       }
@@ -1202,6 +1225,29 @@
       }
     },
     {
+      "id": "handoff.cross-platform",
+      "kind": "contribution",
+      "label": "cross-platform ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns cross-platform",
+          "how do i change cross-platform",
+          "cross-platform handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/cross-platform.mdx`. Edit only `packages/cross-platform` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/cross-platform test`\n- `pnpm --filter @agentskit/cross-platform lint`",
+        "citations": [
+          {
+            "id": "handoff-cross-platform",
+            "title": "cross-platform handoff",
+            "href": "/docs/for-agents/cross-platform"
+          }
+        ]
+      }
+    },
+    {
       "id": "handoff.eval",
       "kind": "contribution",
       "label": "eval ownership and checks",
@@ -1777,6 +1823,29 @@
       }
     },
     {
+      "id": "package.cross-platform",
+      "kind": "package",
+      "label": "@agentskit/cross-platform package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/cross-platform",
+          "cross-platform package",
+          "cross-platform"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/cross-platform** — undefined\n\nInstall it with `pnpm add @agentskit/cross-platform`.",
+        "citations": [
+          {
+            "id": "package-cross-platform",
+            "title": "@agentskit/cross-platform documentation",
+            "href": "/docs/reference/packages/cross-platform"
+          }
+        ]
+      }
+    },
+    {
       "id": "package.doc-bridge",
       "kind": "package",
       "label": "@agentskit/doc-bridge package",
@@ -2306,5 +2375,5 @@
       }
     }
   ],
-  "contentHash": "sha256:fc8497c41f4207ffc589d35eb80514200d987b7cdfd3d98b875d99ac364fceb9"
+  "contentHash": "sha256:c923cac0d5e94816a0a300ec39483773e377989e144d125d4eaa660414485c13"
 }
