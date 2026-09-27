@@ -1,0 +1,77 @@
+---
+title: '@agentskit/cross-platform'
+description: Spawn, paths, line endings and filesystem that behave the same on Windows, macOS and Linux under Node, Bun and Deno.
+docbridge:
+  covers:
+    - package:@agentskit/cross-platform
+  relations:
+    - from: package:@agentskit/cross-platform
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/cross-platform
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+---
+
+`@agentskit/cross-platform` is the package for the moment your agent (or your tooling) has to run a command, compare a path or parse a file and it must work for the teammate on Windows as well as on your Mac and in Linux CI — whether the code runs on Node, Bun or Deno.
+
+## When to reach for it
+
+- You spawn CLIs (`npx`, `pnpm`, `claude`, `codex`, `git`) and need them to start on Windows without `shell: true`.
+- You pass long or multi-line prompts to a child process.
+- You need a timeout that kills the whole process tree, not only the wrapper.
+- You compare, store or hash paths and text produced on different machines.
+
+## Best fit
+
+- Use it instead of `node:child_process` in any AgentsKit package or ecosystem repository.
+- Run `agentskit-cross-platform check` in CI so new Windows hazards fail on Linux, before a Windows user finds them.
+- Use `@agentskit/cross-platform/pure` in browsers and edge workers (paths, text, runtime detection).
+
+## Install
+
+```bash
+npm install @agentskit/cross-platform
+```
+
+## Hello world
+
+```ts
+import { runCommand, samePath, splitLines } from '@agentskit/cross-platform'
+
+const result = await runCommand('npx', ['--yes', 'prettier', '--stdin-filepath', 'notes.md'], {
+  input: '# Notes\n\n*  one\n',
+  timeoutMs: 60_000,
+})
+console.log(result.code, splitLines(result.stdout))
+console.log(samePath('C:\\Repo\\src', 'c:/repo/src/')) // true
+```
+
+## What it replaces
+
+| Hand-rolled pattern | Use |
+|---|---|
+| `spawn(cmd, args, { shell: process.platform === 'win32' })` | `spawnProcess(cmd, args)` |
+| Prompt passed as an argument | `runCommand(cmd, args, { input })` |
+| `child.kill()` / `process.kill(-pid)` | `timeoutMs`, `handle.kill()`, `killProcessTree(pid)` |
+| `p.replace(/\\/g, '/')` | `toPosix(p)` / `relativePosix(a, b)` |
+| `new URL('.', import.meta.url).pathname` | `moduleDir(import.meta.url)` |
+| `text.split('\n')` | `splitLines(text)` |
+| rename/rm retry loops | `renamePath`, `removePath`, `writeFileAtomic` |
+
+## Runtimes
+
+One native adapter per runtime: `node:child_process` on Node, `Bun.spawn` on Bun, `Deno.Command` on Deno. stdout and stderr are web `ReadableStream`s everywhere. On Deno, a missing `--allow-*` flag raises `AK_PLATFORM_PERMISSION_DENIED` naming the flag.
+
+## Stability
+
+- **Version:** `0.0.0`
+- **Tier:** beta
+- **Contract:** evolving
+
+## Deep dives
+
+- [For agents](/docs/for-agents/cross-platform) — full export list.
+- Decision record: ADR-0036 (`docs/architecture/adrs/0036-cross-platform-package.md`).

@@ -57,11 +57,12 @@ const GATES = [
   ['brand token sync (landing)', 'sync-brand.mjs', ['--property', 'agentskit', '--format', 'landing', '--out', 'apps/landing/app/globals.css', '--check']],
   ['README Standard v1', 'check-readme-standard.mjs'],
   ['README Standard v1 tests', 'readme-standard.test.mjs', [], 'vitest'],
+  ['cross-platform guardrail (ratchet)', 'check-cross-platform.mjs'],
 ]
 
 const failed = []
 
-for (const packageName of ['@agentskit/adapters', '@agentskit/mcp']) {
+for (const packageName of ['@agentskit/adapters', '@agentskit/mcp', '@agentskit/cross-platform']) {
   const label = `${packageName} build precondition`
   process.stdout.write(`\n▶ ${label}\n`)
   const build = spawnSync('pnpm', ['--filter', packageName, 'build'], { stdio: 'inherit', cwd: root })

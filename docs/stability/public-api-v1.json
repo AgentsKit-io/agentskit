@@ -3542,6 +3542,720 @@
         }
       }
     },
+    "@agentskit/cross-platform": {
+      "subpaths": {
+        ".": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "Baseline",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "basename",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "ChildHandle",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CliIo",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "commandExists",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "compareToBaseline",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "Comparison",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "copyPath",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "countFindings",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "createSymlink",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "CrossPlatformError",
+              "kinds": [
+                "type",
+                "value"
+              ]
+            },
+            {
+              "name": "CrossPlatformErrorCode",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "CrossPlatformErrorCodes",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "DenoPermission",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "dirname",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "Env",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ExitStatus",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "extname",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "fileUrlToPath",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "findExecutable",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "Finding",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "Frontmatter",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "getEnv",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "getRuntimeInfo",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "hashText",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "homeDir",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isAbsolutePath",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isBun",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isDeno",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isLinux",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isMacOS",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isMainModule",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isNotFoundError",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isPathInside",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isPermissionError",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isWindows",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isWindowsStylePath",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "joinPosix",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "killProcessTree",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "LinkKind",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "mapRuntimeError",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "moduleDir",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "normalizeEol",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "normalizePosix",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "OsName",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "PathCompareOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "pathToFileUrl",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "permissionDenied",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "PORTABILITY_RULES",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "PortabilityRule",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "relativePosix",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "RemoveOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "removePath",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "renamePath",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "resolveCommand",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "ResolvedCommand",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "resolvePosix",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "runCli",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "runCommand",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "RunOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RunResult",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RuntimeInfo",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RuntimeName",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "safeEnv",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "SafeEnvOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "samePath",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "ScanOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "scanRepository",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "scanText",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "selectAdapter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "setFileMode",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "SpawnOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "spawnProcess",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "splitFrontmatter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "splitLines",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "SplitLinesOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "StdioMode",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "stripBom",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "SYSTEM_ENV_KEYS",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "tempDir",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "TerminationReason",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "tightenBaseline",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "toPosix",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "WhichOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "WriteAtomicOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "writeFileAtomic",
+              "kinds": [
+                "value"
+              ]
+            }
+          ]
+        },
+        "./pure": {
+          "conditions": [
+            "browser",
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "basename",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "dirname",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "extname",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "Frontmatter",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "getRuntimeInfo",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "hashText",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isAbsolutePath",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isBun",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isDeno",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isLinux",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isMacOS",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isPathInside",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isWindows",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isWindowsStylePath",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "joinPosix",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "normalizeEol",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "normalizePosix",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "OsName",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "PathCompareOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "relativePosix",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "resolvePosix",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "RuntimeInfo",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RuntimeName",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "samePath",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "splitFrontmatter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "splitLines",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "SplitLinesOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "stripBom",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "toPosix",
+              "kinds": [
+                "value"
+              ]
+            }
+          ]
+        }
+      }
+    },
     "@agentskit/eval": {
       "subpaths": {
         ".": {

@@ -58,7 +58,7 @@
       "stage": "Build",
       "headline": "One foundation. Every layer stays yours.",
       "detail": "Compose runtime, adapters, tools, memory, RAG, and UI without glue code or lock-in.",
-      "proof": "22 packages · 10 KB core budget",
+      "proof": "23 packages · 10 KB core budget",
       "sales": {
         "kind": "integration-stack",
         "headline": "Swap the stack. Keep the agent.",

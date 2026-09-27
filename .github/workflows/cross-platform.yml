@@ -1,0 +1,81 @@
+name: Cross-platform
+
+# Runs @agentskit/cross-platform on every OS × runtime it promises (ADR-0036).
+# Path-filtered: it only runs when the package, its dependency on core, the
+# lockfile, or this workflow changes. Consumers are protected on Linux by the
+# `cross-platform guardrail` quality gate instead.
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - 'packages/cross-platform/**'
+      - 'packages/core/**'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/cross-platform.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'packages/cross-platform/**'
+      - 'packages/core/**'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/cross-platform.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  matrix:
+    name: ${{ matrix.os }} · ${{ matrix.runtime }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        runtime: [node, bun, deno]
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+
+      # Node is needed in every row: pnpm runs on it and the smoke test spawns it.
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm --filter "@agentskit/cross-platform..." build
+
+      - name: Unit tests
+        if: matrix.runtime == 'node'
+        run: pnpm --filter @agentskit/cross-platform test
+
+      - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+        if: matrix.runtime == 'bun'
+        with:
+          bun-version: 1.x
+
+      - uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
+        if: matrix.runtime == 'deno'
+        with:
+          deno-version: v2.x
+
+      - name: Runtime smoke test
+        working-directory: packages/cross-platform
+        env:
+          EXPECT_RUNTIME: ${{ matrix.runtime }}
+        run: |
+          case "${{ matrix.runtime }}" in
+            node) node smoke/smoke.mjs ;;
+            bun) bun smoke/smoke.mjs ;;
+            deno) deno run -A smoke/smoke.mjs ;;
+          esac
