@@ -45,7 +45,7 @@ describe('@agentskit/sandbox package manifest + export purity', () => {
     expect(pkg.exports['./web'].import).toBe('./dist/web/index.js')
     expect(pkg.exports['./web'].browser).toBe('./dist/web/index.js')
 
-    expect(pkg.dependencies).toEqual({ '@agentskit/core': 'workspace:*' })
+    expect(pkg.dependencies).toEqual({ '@agentskit/core': 'workspace:*', '@agentskit/cross-platform': 'workspace:*' })
     expect(pkg.peerDependencies?.['@e2b/code-interpreter']).toBeDefined()
     expect(pkg.peerDependenciesMeta?.['@e2b/code-interpreter']?.optional).toBe(true)
     expect(pkg.devDependencies['@e2b/code-interpreter']).toBeDefined()

@@ -1,4 +1,5 @@
-import { spawn, type ChildProcessWithoutNullStreams } from 'node:child_process'
+import type { ChildProcessWithoutNullStreams } from 'node:child_process'
+import { killProcessTree, spawnNodeChild } from '@agentskit/cross-platform'
 import type { McpServerSpec } from '../plugins/types'
 
 const MAX_FRAME_BYTES = 1024 * 1024
@@ -42,11 +43,11 @@ export class McpClient {
 
   async start(): Promise<void> {
     if (this.child) return
-    const child = spawn(this.spec.command, this.spec.args ?? [], {
+    // `npx`, `uvx` & co. are .cmd shims on Windows; spawnNodeChild resolves them.
+    const child = spawnNodeChild(this.spec.command, this.spec.args ?? [], {
       env: { ...process.env, ...(this.spec.env ?? {}) },
-      stdio: ['pipe', 'pipe', 'pipe'],
-      detached: process.platform !== 'win32',
-    }) as ChildProcessWithoutNullStreams
+      stdio: 'pipe',
+    })
     this.child = child
 
     child.stdout.on('data', (chunk) => this.onStdout(chunk.toString()))
@@ -88,13 +89,10 @@ export class McpClient {
     this.pending.clear()
     const child = this.child
     if (!child || child.killed) return
+    // Kill the whole tree: `npx`/cmd.exe wrappers leave the real server as a grandchild.
     const kill = (signal: NodeJS.Signals): void => {
-      try {
-        if (process.platform !== 'win32' && child.pid) process.kill(-child.pid, signal)
-        else child.kill(signal)
-      } catch {
-        // The process may have exited between the graceful and forced kill.
-      }
+      if (child.pid === undefined || child.exitCode !== null || child.signalCode !== null) return
+      void killProcessTree(child.pid, signal, sig => child.kill(sig))
     }
     kill('SIGTERM')
     const timer = setTimeout(() => kill('SIGKILL'), DISPOSE_GRACE_MS)

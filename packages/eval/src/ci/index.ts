@@ -64,16 +64,17 @@ export async function reportToCi(options: CiReportOptions): Promise<CiReportOutp
   const { mkdir, appendFile, open, realpath } = await import('node:fs/promises')
   const { join } = await import('node:path')
   const { O_CREAT, O_NOFOLLOW, O_TRUNC, O_WRONLY } = await import('node:constants')
-  if (typeof O_NOFOLLOW !== 'number') {
-    throw new ConfigError({
-      code: ErrorCodes.AK_CONFIG_INVALID,
-      message: 'This platform cannot safely protect CI artifacts from symlink replacement',
-    })
-  }
   await mkdir(outDir, { recursive: true })
   const outputRoot = await realpath(outDir)
   const writeArtifact = async (extension: 'xml' | 'md', content: string): Promise<void> => {
     const path = join(outputRoot, `${prefix}.${extension}`)
+    if (typeof O_NOFOLLOW !== 'number') {
+      // Windows has no O_NOFOLLOW. An atomic write renames a fresh temp file over
+      // the path, which replaces a planted symlink instead of writing through it.
+      const { writeFileAtomic } = await import('@agentskit/cross-platform')
+      await writeFileAtomic(path, content, { encoding: 'utf8', mode: 0o600 })
+      return
+    }
     const handle = await open(path, O_WRONLY | O_CREAT | O_TRUNC | O_NOFOLLOW, 0o600)
     try {
       await handle.writeFile(content, 'utf8')

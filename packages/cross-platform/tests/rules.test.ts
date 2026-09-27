@@ -47,6 +47,14 @@ describe('portability rules', () => {
     expect(scanText('f.ts', "// cross-platform-ignore:\nimport 'node:child_process'")).toHaveLength(1)
   })
 
+  it.each([
+    "import type { ChildProcess } from 'node:child_process'",
+    "export type { SpawnOptions } from 'child_process'",
+    "const options: import('node:child_process').SpawnOptions = {}",
+  ])('ignores type-only child_process references: %s', line => {
+    expect(scanText('src/a.ts', line)).toEqual([])
+  })
+
   it('reports file, line and fix', () => {
     const [finding] = scanText('src/a.ts', "\nimport 'node:child_process'\r\n")
     expect(finding).toMatchObject({ file: 'src/a.ts', line: 2, rule: 'child-process-import' })

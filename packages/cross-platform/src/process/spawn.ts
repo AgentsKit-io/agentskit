@@ -11,7 +11,7 @@ import { createBunAdapter, type BunRuntime } from './bun-adapter'
 import { createDenoAdapter, type DenoRuntime } from './deno-adapter'
 import { killProcessTree } from './kill'
 import { nodeAdapter } from './node-adapter'
-import { resolveCommand } from './resolve'
+import { resolveCommand, shellCommand, type ResolvedCommand } from './resolve'
 import type { AdapterChild, ChildHandle, ExitStatus, RuntimeAdapter, SpawnOptions, TerminationReason } from './types'
 
 const DEFAULT_KILL_GRACE_MS = 2_000
@@ -102,6 +102,25 @@ async function writeInput(stdin: WritableStream<Uint8Array> | null, input: strin
  */
 export function spawnProcess(command: string, args: readonly string[] = [], options: SpawnOptions = {}): ChildHandle {
   validate(command, args, options)
+  return startProcess(command, options, env => resolveCommand(command, args, { cwd: options.cwd, env }))
+}
+
+/**
+ * Run a command line through the platform shell: `sh -c` on POSIX,
+ * `cmd.exe /d /s /c` on Windows. Only for command lines a user configured
+ * explicitly (hooks, scripts). Everything else should use `spawnProcess`,
+ * which never involves a shell. Same handle, timeout and tree-kill semantics.
+ */
+export function spawnShell(commandLine: string, options: SpawnOptions = {}): ChildHandle {
+  validate(commandLine, [], options)
+  return startProcess(commandLine, options, env => shellCommand(commandLine, env))
+}
+
+function startProcess(
+  command: string,
+  options: SpawnOptions,
+  resolve: (env: Record<string, string>) => ResolvedCommand,
+): ChildHandle {
   const stdinMode = options.input !== undefined ? 'pipe' : (options.stdin ?? 'pipe')
   let env: Record<string, string>
   try {
@@ -111,7 +130,7 @@ export function spawnProcess(command: string, args: readonly string[] = [], opti
   }
   let child: AdapterChild
   try {
-    const resolved = resolveCommand(command, args, { cwd: options.cwd, env })
+    const resolved = resolve(env)
     if (!resolved.found) return failedHandle(notFound(command))
     child = selectAdapter()({
       command: resolved.command,

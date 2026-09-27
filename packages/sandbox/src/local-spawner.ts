@@ -1,5 +1,5 @@
-// Default `Spawner` over node:child_process. Lazy-imports child_process so
-// the module stays importable in non-node environments.
+// Default `Spawner` over node:child_process (via @agentskit/cross-platform).
+// Lazy-imported so the module stays importable in non-node environments.
 
 import { SandboxError } from '@agentskit/core'
 import type { Spawner, SpawnerExecResult } from './local-sandbox-types'
@@ -24,21 +24,18 @@ function assertPositiveFinite(name: string, value: number): void {
  * (not character length, not per-stream).
  */
 export const nodeSpawner = async (): Promise<Spawner> => {
-  const { spawn } = await import('node:child_process')
+  // Resolves .cmd shims (npx, docker wrappers) on Windows and kills whole trees
+  // on every OS (taskkill /T there, a process walk on POSIX).
+  const { isWindows, killProcessTree, spawnNodeChild } = await import('@agentskit/cross-platform')
   const killTree = (pid: number, signal: NodeJS.Signals): void => {
-    try {
-      if (process.platform === 'win32') process.kill(pid, signal)
-      else process.kill(-pid, signal)
-    } catch {
-      try { process.kill(pid, signal) } catch { /* already exited */ }
-    }
+    void killProcessTree(pid, signal)
   }
   return {
     spawn: async (opts) => {
       const spawnArgs: import('node:child_process').SpawnOptions = { stdio: opts.stdio ?? 'pipe' }
       if (opts.cwd !== undefined) spawnArgs.cwd = opts.cwd
       if (opts.env !== undefined) spawnArgs.env = opts.env
-      const child = spawn(opts.command, [...opts.args], { ...spawnArgs, detached: process.platform !== 'win32' })
+      const child = spawnNodeChild(opts.command, opts.args, { ...spawnArgs, detached: !isWindows })
       const pid = child.pid
       if (typeof pid !== 'number') {
         child.kill()
@@ -68,7 +65,7 @@ export const nodeSpawner = async (): Promise<Spawner> => {
         const execArgs: import('node:child_process').SpawnOptionsWithoutStdio = { stdio: 'pipe' }
         if (opts.cwd !== undefined) execArgs.cwd = opts.cwd
         if (opts.env !== undefined) execArgs.env = opts.env
-        const child = spawn(opts.command, [...opts.args], { ...execArgs, detached: process.platform !== 'win32' })
+        const child = spawnNodeChild(opts.command, opts.args, { ...execArgs, detached: !isWindows })
         const stdoutChunks: Buffer[] = []
         const stderrChunks: Buffer[] = []
         let totalBytes = 0

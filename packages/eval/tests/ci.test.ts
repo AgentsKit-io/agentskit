@@ -1,4 +1,4 @@
-import { describe, expect, it } from 'vitest'
+import { describe, expect, it, vi } from 'vitest'
 import { mkdtempSync, rmSync, readFileSync, existsSync, symlinkSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -235,6 +235,26 @@ describe('reportToCi', () => {
       ).rejects.toThrow(/symlinked CI artifact|ELOOP/)
       expect(readFileSync(outside, 'utf8')).toBe('untouched')
     } finally {
+      rmSync(dir, { recursive: true, force: true })
+      rmSync(outside, { force: true })
+    }
+  })
+
+  it('writes artifacts without O_NOFOLLOW (Windows) by replacing a planted symlink', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ak-ci-'))
+    const outside = join(dir, '..', `ak-ci-outside-win-${Date.now()}`)
+    vi.resetModules()
+    vi.doMock('node:constants', async importOriginal => ({ ...(await importOriginal<object>()), O_NOFOLLOW: undefined }))
+    try {
+      const { reportToCi: reportWithoutNofollow } = await import('../src/ci')
+      writeFileSync(outside, 'untouched')
+      symlinkSync(outside, join(dir, 'report.xml'))
+      await reportWithoutNofollow({ suiteName: 'smoke', result: passing, outDir: dir })
+      expect(readFileSync(join(dir, 'report.xml'), 'utf8')).toContain('<testsuite')
+      expect(readFileSync(join(dir, 'report.md'), 'utf8')).toContain('smoke')
+      expect(readFileSync(outside, 'utf8')).toBe('untouched')
+    } finally {
+      vi.doUnmock('node:constants')
       rmSync(dir, { recursive: true, force: true })
       rmSync(outside, { force: true })
     }

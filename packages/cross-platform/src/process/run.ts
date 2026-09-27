@@ -1,6 +1,6 @@
 import { CrossPlatformError, CrossPlatformErrorCodes } from '../errors'
-import { spawnProcess } from './spawn'
-import type { ExitStatus, SpawnOptions, TerminationReason } from './types'
+import { spawnProcess, spawnShell } from './spawn'
+import type { ChildHandle, ExitStatus, SpawnOptions, TerminationReason } from './types'
 
 const DEFAULT_MAX_OUTPUT_BYTES = 16 * 1024 * 1024
 
@@ -52,6 +52,21 @@ async function collect(
  * exit code is a normal result, not an error.
  */
 export async function runCommand(command: string, args: readonly string[] = [], options: RunOptions = {}): Promise<RunResult> {
+  const maxBytes = maxOutputBytes(options)
+  return collectRun(spawnProcess(command, args, { ...options, stdout: 'pipe', stderr: 'pipe' }), maxBytes)
+}
+
+/**
+ * `runCommand` for a command line run through the platform shell (`sh -c` on
+ * POSIX, `cmd.exe /d /s /c` on Windows). Only for command lines a user wrote
+ * (hooks, scripts); see `spawnShell`.
+ */
+export async function runShell(commandLine: string, options: RunOptions = {}): Promise<RunResult> {
+  const maxBytes = maxOutputBytes(options)
+  return collectRun(spawnShell(commandLine, { ...options, stdout: 'pipe', stderr: 'pipe' }), maxBytes)
+}
+
+function maxOutputBytes(options: RunOptions): number {
   const maxBytes = options.maxOutputBytes ?? DEFAULT_MAX_OUTPUT_BYTES
   if (!Number.isInteger(maxBytes) || maxBytes < 1) {
     throw new CrossPlatformError({
@@ -59,8 +74,11 @@ export async function runCommand(command: string, args: readonly string[] = [], 
       message: 'maxOutputBytes must be a positive integer',
     })
   }
+  return maxBytes
+}
+
+async function collectRun(child: ChildHandle, maxBytes: number): Promise<RunResult> {
   const startedAt = Date.now()
-  const child = spawnProcess(command, args, { ...options, stdout: 'pipe', stderr: 'pipe' })
   const overflow = () => void child.kill()
   const [status, stdout, stderr] = await Promise.all([
     child.exited,

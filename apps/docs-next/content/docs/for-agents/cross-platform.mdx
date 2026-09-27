@@ -31,13 +31,15 @@ Windows contributors kept fixing the same bugs in every repository: `.cmd` shims
 
 - `spawnProcess(command, args?, options?)` — returns a `ChildHandle` with web-stream `stdin`/`stdout`/`stderr`, an `exited` promise and a tree-wide `kill()`. Never throws for a failed start: `exited` rejects with `CrossPlatformError`.
 - `runCommand(command, args?, options?)` — runs to completion; resolves `{ code, signal, stdout, stderr, timedOut, truncated, durationMs }`. A non-zero exit is a result, not an error.
+- `spawnShell(commandLine, options?)` / `runShell(commandLine, options?)` — same handle/result, but through the platform shell (`sh -c` on POSIX, `%ComSpec% /d /s /c` on Windows). Only for command lines a user wrote (hooks, scripts). `shellCommand(line, env)` returns that invocation.
+- `spawnNodeChild(command, args?, options?)` — `child_process.spawn` with the same resolution (`.cmd` shims, cmd.exe escaping, child PATH), for code that needs Node streams and events (JSON-RPC over stdio, long-lived servers). A missing command emits the usual `'error'` (ENOENT); pair it with `killProcessTree`.
 - `selectAdapter(runtime?)` — the native adapter: `node:child_process`, `Bun.spawn` or `Deno.Command`.
 - `resolveCommand(command, args, { cwd, env })` — Windows command resolution and cmd.exe escaping (cross-spawn's parser).
 - `killProcessTree(pid, signal?)` — `taskkill /T /F` on Windows, tree walk on POSIX.
 - `findExecutable(command)` / `commandExists(command)` — PATH lookup honouring `PATHEXT`.
 - `safeEnv({ inherit?, extra?, source? })` — minimal child env with `SYSTEM_ENV_KEYS` (`PATH`, `PATHEXT`, `SystemRoot`, `COMSPEC`…). `getEnv(name)` is case-insensitive on Windows. `homeDir()`, `tempDir()`.
 
-Options: `cwd`, `env`, `input` (written to stdin, then closed), `stdin`/`stdout`/`stderr` (`pipe` | `inherit` | `ignore`), `timeoutMs`, `killGraceMs`, `signal` (AbortSignal), `windowsHide` (default true), and for `runCommand` `maxOutputBytes`.
+Options: `cwd`, `env`, `input` (written to stdin, then closed), `stdin`/`stdout`/`stderr` (`pipe` | `inherit` | `ignore`), `timeoutMs`, `killGraceMs`, `signal` (AbortSignal), `windowsHide` (default true), and for `runCommand`/`runShell` `maxOutputBytes` (per stream).
 
 ### Paths and file URLs
 

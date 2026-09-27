@@ -59,6 +59,21 @@ export function resolveCommand(
   }
 }
 
+/**
+ * The platform shell invocation for a command line: `sh -c <line>` on POSIX,
+ * `%ComSpec% /d /s /c "<line>"` on Windows (arguments passed verbatim so
+ * cmd.exe sees the line exactly as written).
+ */
+export function shellCommand(
+  commandLine: string,
+  env: Record<string, string>,
+  windows: boolean = isWindows,
+): ResolvedCommand {
+  if (!windows) return { command: '/bin/sh', args: ['-c', commandLine], windowsVerbatimArguments: false, found: true }
+  const comspec = Object.entries(env).find(([key]) => key.toLowerCase() === 'comspec')?.[1] ?? 'cmd.exe'
+  return { command: comspec, args: ['/d', '/s', '/c', `"${commandLine}"`], windowsVerbatimArguments: true, found: true }
+}
+
 // Resolve bare POSIX commands against the child's PATH ourselves: runtimes
 // disagree on whose PATH they search (Bun 1.1 searches the parent's) and on how a
 // missing binary is reported. Paths with a separator are used as given.
