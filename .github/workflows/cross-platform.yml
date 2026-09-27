@@ -93,12 +93,18 @@ jobs:
           esac
 
       # Windows refuses symlinks to non-admin users without Developer Mode. The
-      # runner is admin, so create a plain user and run the fallback check as it.
+      # runner is admin with Developer Mode on, so turn it off, create a plain
+      # user and run the fallback check as that user.
       - name: Symlink fallback as a non-admin Windows user
         if: runner.os == 'Windows' && matrix.runtime == 'node' && matrix.version == 'latest'
         shell: pwsh
         working-directory: packages/cross-platform
         run: |
+          # Hosted runners ship with Developer Mode on, which lets anyone create
+          # symlinks. Turn it off so the check sees a typical workstation.
+          $unlock = 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock'
+          if (-not (Test-Path $unlock)) { New-Item -Path $unlock | Out-Null }
+          Set-ItemProperty -Path $unlock -Name AllowDevelopmentWithoutDevLicense -Value 0 -Type DWord
           $secret = ConvertTo-SecureString ("Ak!" + [guid]::NewGuid().ToString('N')) -AsPlainText -Force
           New-LocalUser -Name akunpriv -Password $secret -AccountNeverExpires | Out-Null
           $work = Join-Path $env:RUNNER_TEMP 'ak symlink ação'
