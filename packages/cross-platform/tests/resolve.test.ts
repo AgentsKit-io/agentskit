@@ -5,7 +5,7 @@ import { batchCommandLine, commandExists, findExecutable, resolveCommand } from 
 describe('resolveCommand', () => {
   it('resolves bare POSIX commands against the child PATH', () => {
     const resolved = resolveCommand('node', ['a b'], { env: { PATH: dirname(process.execPath) } }, false)
-    expect(resolved).toEqual({ command: expect.stringMatching(/node(\.exe)?$/), args: ['a b'], windowsVerbatimArguments: false, found: true })
+    expect(resolved).toEqual({ command: expect.stringMatching(/node(\.exe)?$/i), args: ['a b'], windowsVerbatimArguments: false, found: true })
     expect(isAbsolute(resolved.command)).toBe(true)
   })
 
