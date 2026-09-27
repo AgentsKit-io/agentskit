@@ -1,10 +1,13 @@
-import { spawn } from 'node:child_process'
+import { runShell, type RunResult } from '@agentskit/cross-platform'
 import type { HookEvent, HookHandler, HookPayload, HookResult } from '../plugins/types'
 
 const MAX_HOOK_STDOUT_BYTES = 64 * 1024
 
 export interface ConfigHookEntry {
-  /** Command to run. Executed through `sh -c`, so shell syntax is allowed. */
+  /**
+   * Command to run through the platform shell (`sh -c` on POSIX, `cmd.exe /d /s /c`
+   * on Windows), so shell syntax is allowed. The process tree is killed on timeout.
+   */
   run: string
   /** Optional regex string the hook's subject must match to fire. */
   matcher?: string
@@ -39,86 +42,36 @@ export function configHooksToHandlers(config: ConfigHooksMap | undefined): HookH
   return handlers
 }
 
-function runShellHook(entry: ConfigHookEntry, payload: HookPayload): Promise<HookResult> {
-  return new Promise((resolvePromise) => {
-    const timeoutMs = entry.timeout ?? 5000
-    let settled = false
-    const settle = (result: HookResult) => {
-      if (settled) return
-      settled = true
-      clearTimeout(timer)
-      resolvePromise(result)
+async function runShellHook(entry: ConfigHookEntry, payload: HookPayload): Promise<HookResult> {
+  const timeoutMs = entry.timeout ?? 5000
+  let result: RunResult
+  try {
+    result = await runShell(entry.run, {
+      input: JSON.stringify(payload),
+      timeoutMs,
+      // Hooks are fire-and-judge: no grace period once the budget is spent.
+      killGraceMs: 0,
+      maxOutputBytes: MAX_HOOK_STDOUT_BYTES,
+    })
+  } catch (err) {
+    return { decision: 'block', reason: err instanceof Error ? err.message : String(err) }
+  }
+  if (result.stderr) process.stderr.write(result.stderr)
+  if (result.truncated) {
+    return { decision: 'block', reason: `shell hook output exceeded ${MAX_HOOK_STDOUT_BYTES} bytes` }
+  }
+  if (result.timedOut) return { decision: 'block', reason: `shell hook timed out after ${timeoutMs}ms` }
+  if (result.code !== 0) return { decision: 'block', reason: `shell hook exited with code ${result.code}` }
+  const trimmed = result.stdout.trim()
+  if (!trimmed) return { decision: 'continue' }
+  try {
+    const parsed = JSON.parse(trimmed) as HookResult
+    if (!parsed || typeof parsed !== 'object' || !('decision' in parsed) ||
+        !['continue', 'block', 'modify'].includes(String(parsed.decision))) {
+      return { decision: 'block', reason: 'shell hook returned an invalid decision' }
     }
-
-    const child = spawn('sh', ['-c', entry.run], {
-      stdio: ['pipe', 'pipe', 'inherit'],
-      detached: true,
-    })
-
-    let stdout = ''
-    let stdoutBytes = 0
-    child.stdout.on('data', (chunk) => {
-      const text = chunk.toString()
-      const bytes = Buffer.byteLength(text)
-      if (stdoutBytes + bytes > MAX_HOOK_STDOUT_BYTES) {
-        if (child.pid !== undefined) {
-          try { process.kill(-child.pid, 'SIGKILL') } catch { /* group may already be gone */ }
-        }
-        try { child.kill('SIGKILL') } catch { /* ignore */ }
-        settle({ decision: 'block', reason: `shell hook output exceeded ${MAX_HOOK_STDOUT_BYTES} bytes` })
-        return
-      }
-      stdoutBytes += bytes
-      stdout += text
-    })
-
-    const timer = setTimeout(() => {
-      // Kill the whole process group so grandchildren (e.g. `sleep` spawned
-      // by `sh -c`) don't keep stdout open and leave us waiting forever.
-      if (child.pid !== undefined) {
-        try { process.kill(-child.pid, 'SIGKILL') } catch { /* group may already be gone */ }
-      }
-      try { child.kill('SIGKILL') } catch { /* ignore */ }
-      settle({ decision: 'block', reason: `shell hook timed out after ${timeoutMs}ms` })
-    }, timeoutMs)
-
-    child.stdin.on('error', () => { /* ignore EPIPE when child is killed mid-write */ })
-
-    child.on('close', (code) => {
-      if (code !== 0) {
-        settle({
-          decision: 'block',
-          reason: `shell hook exited with code ${code}`,
-        })
-        return
-      }
-      const trimmed = stdout.trim()
-      if (!trimmed) {
-        settle({ decision: 'continue' })
-        return
-      }
-      try {
-        const parsed = JSON.parse(trimmed) as HookResult
-        if (!parsed || typeof parsed !== 'object' || !('decision' in parsed) ||
-            !['continue', 'block', 'modify'].includes(String(parsed.decision))) {
-          settle({ decision: 'block', reason: 'shell hook returned an invalid decision' })
-        } else {
-          settle(parsed)
-        }
-      } catch {
-        settle({ decision: 'block', reason: 'shell hook returned invalid JSON' })
-      }
-    })
-
-    child.on('error', (err) => {
-      settle({ decision: 'block', reason: err.message })
-    })
-
-    try {
-      child.stdin.write(JSON.stringify(payload))
-      child.stdin.end()
-    } catch {
-      /* ignore */
-    }
-  })
+    return parsed
+  } catch {
+    return { decision: 'block', reason: 'shell hook returned invalid JSON' }
+  }
 }

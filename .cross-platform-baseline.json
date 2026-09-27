@@ -72,9 +72,6 @@
     "apps/registry/components/ask-widget.tsx": {
       "split-newline": 1
     },
-    "packages/adapters/src/cli/process.ts": {
-      "child-process-import": 1
-    },
     "packages/adapters/src/replicate.ts": {
       "split-newline": 1
     },
@@ -89,14 +86,6 @@
     },
     "packages/cli/src/dev.ts": {
       "child-process-import": 1
-    },
-    "packages/cli/src/extensibility/hooks/shell-hooks.ts": {
-      "child-process-import": 1,
-      "process-group-kill": 2
-    },
-    "packages/cli/src/extensibility/mcp/client.ts": {
-      "child-process-import": 1,
-      "process-group-kill": 1
     },
     "packages/cli/src/registry.ts": {
       "manual-slash-normalize": 1,
@@ -179,10 +168,6 @@
     "packages/sandbox/src/container-runtimes.ts": {
       "hardcoded-tmp": 1
     },
-    "packages/sandbox/src/local-spawner.ts": {
-      "child-process-import": 3,
-      "process-group-kill": 1
-    },
     "packages/sandbox/tests/local-runtimes-extra.test.ts": {
       "hardcoded-tmp": 2
     },
@@ -191,9 +176,6 @@
     },
     "packages/templates/tests/scaffold.test.ts": {
       "hardcoded-tmp": 5
-    },
-    "packages/tools/src/shell.ts": {
-      "child-process-import": 1
     },
     "scripts/audit-prod-high.mjs": {
       "child-process-import": 1

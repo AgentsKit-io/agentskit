@@ -102,7 +102,8 @@
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "@agentskit/core": "workspace:*"
+    "@agentskit/core": "workspace:*",
+    "@agentskit/cross-platform": "workspace:*"
   },
   "peerDependencies": {
     "braintrust": "^3.21.0"

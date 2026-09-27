@@ -1,6 +1,7 @@
-import { spawn, type ChildProcessWithoutNullStreams } from 'node:child_process'
+import type { ChildProcessWithoutNullStreams } from 'node:child_process'
 import { open } from 'node:fs/promises'
 import { AdapterError, ErrorCodes } from '@agentskit/core'
+import { killProcessTree, spawnNodeChild } from '@agentskit/cross-platform'
 import { raceAbort } from '../stream-errors'
 import type { CliDiagnostic, CliProcessOptions, CliTerminationReason } from './types'
 
@@ -122,12 +123,13 @@ export function spawnCliProcess(options: CliProcessOptions, signal?: AbortSignal
   validateOptions(options)
   const startedAt = Date.now()
   const redactions = redactionValues(options)
-  const child = spawn(options.command, [...(options.args ?? [])], {
+  // Provider CLIs are npm .cmd shims on Windows; spawnNodeChild resolves and
+  // escapes them without a shell.
+  const child = spawnNodeChild(options.command, options.args ?? [], {
     cwd: options.cwd ?? process.cwd(),
     env: buildEnvironment(options),
-    shell: false,
     windowsHide: true,
-    stdio: ['pipe', 'pipe', 'pipe'],
+    stdio: 'pipe',
   })
   const maxOutputBytes = options.maxOutputBytes ?? DEFAULT_MAX_OUTPUT_BYTES
   const killGraceMs = options.killGraceMs ?? DEFAULT_KILL_GRACE_MS
@@ -139,23 +141,22 @@ export function spawnCliProcess(options: CliProcessOptions, signal?: AbortSignal
   let forceTimer: ReturnType<typeof setTimeout> | undefined
   let timeoutTimer: ReturnType<typeof setTimeout> | undefined
 
+  // Kill the whole tree: on Windows the child is cmd.exe running the real CLI.
+  const killTree = (signal: NodeJS.Signals): void => {
+    if (child.exitCode !== null || child.signalCode !== null) return
+    if (child.pid === undefined) {
+      try { child.kill(signal) } catch { /* process may already be gone */ }
+      return
+    }
+    void killProcessTree(child.pid, signal, sig => child.kill(sig))
+  }
+
   const terminate = (reason?: TerminationReason): void => {
     if (reason) termination = reason
     if (terminated || child.exitCode !== null) return
     terminated = true
-    try {
-      child.kill('SIGTERM')
-    } catch {
-      try { child.kill() } catch { /* process may already be gone */ }
-    }
-    forceTimer = setTimeout(() => {
-      if (child.exitCode !== null) return
-      try {
-        child.kill('SIGKILL')
-      } catch {
-        try { child.kill() } catch { /* process may already be gone */ }
-      }
-    }, killGraceMs)
+    killTree('SIGTERM')
+    forceTimer = setTimeout(() => killTree('SIGKILL'), killGraceMs)
   }
 
   child.stderr.on('data', (chunk: Buffer) => {

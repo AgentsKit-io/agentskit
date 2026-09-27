@@ -60,7 +60,7 @@ console.log(toPosix('C:\\repo\\src\\index.ts'))
 
 | Area | API | Replaces |
 |---|---|---|
-| Processes | `spawnProcess`, `runCommand`, `killProcessTree`, `findExecutable`, `commandExists`, `safeEnv` | `child_process` + `shell: process.platform === 'win32'`, prompts in argv, `child.kill()` leaving grandchildren, `process.kill(-pid)` |
+| Processes | `spawnProcess`, `runCommand`, `spawnShell`, `runShell`, `spawnNodeChild`, `killProcessTree`, `findExecutable`, `commandExists`, `safeEnv` | `child_process` + `shell: process.platform === 'win32'`, prompts in argv, `child.kill()` leaving grandchildren, `process.kill(-pid)` |
 | Paths | `toPosix`, `relativePosix`, `joinPosix`, `samePath`, `isPathInside`, `fileUrlToPath`, `moduleDir`, `isMainModule` | `replace(/\\/g, '/')` copies, `new URL(import.meta.url).pathname` |
 | Text | `normalizeEol`, `splitLines`, `splitFrontmatter`, `hashText` | `split('\n')`, `/^---\n/`, hashes that differ under `core.autocrlf` |
 | Filesystem | `removePath`, `renamePath`, `writeFileAtomic`, `createSymlink`, `copyPath`, `setFileMode` | `EBUSY`/`EPERM` retry loops, `EXDEV` temp files, symlink privilege errors |

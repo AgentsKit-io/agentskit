@@ -3805,6 +3805,12 @@
               ]
             },
             {
+              "name": "NodeChildOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "normalizeEol",
               "kinds": [
                 "value"
@@ -3919,6 +3925,12 @@
               ]
             },
             {
+              "name": "runShell",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "RuntimeInfo",
               "kinds": [
                 "type"
@@ -3979,6 +3991,18 @@
               ]
             },
             {
+              "name": "shellCommand",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "spawnNodeChild",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "SpawnOptions",
               "kinds": [
                 "type"
@@ -3986,6 +4010,12 @@
             },
             {
               "name": "spawnProcess",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "spawnShell",
               "kinds": [
                 "value"
               ]

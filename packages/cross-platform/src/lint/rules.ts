@@ -13,9 +13,11 @@ export interface PortabilityRule {
 export const PORTABILITY_RULES: readonly PortabilityRule[] = [
   {
     id: 'child-process-import',
-    pattern: /(?:from\s+|import\s+|require\(\s*|import\(\s*)['"](?:node:)?child_process['"]/,
+    // Type-only imports (`import type …`, `import('node:child_process').ChildProcess`) are fine.
+    pattern:
+      /^(?!\s*(?:import|export)\s+type\b).*(?:from\s+|import\s+|require\(\s*|import\(\s*)['"](?:node:)?child_process['"](?!\s*\)\s*\.[A-Z])/,
     message: 'Direct child_process use breaks .cmd shims, long/multi-line args and process-tree kill on Windows',
-    fix: 'spawnProcess() / runCommand() from @agentskit/cross-platform',
+    fix: 'spawnProcess() / runCommand() / spawnNodeChild() from @agentskit/cross-platform',
   },
   {
     id: 'cross-spawn-import',

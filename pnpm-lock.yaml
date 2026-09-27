@@ -774,6 +774,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
+      '@agentskit/cross-platform':
+        specifier: workspace:*
+        version: link:../cross-platform
       '@aws-sdk/client-bedrock-runtime':
         specifier: ^3.0.0
         version: 3.1068.0
@@ -869,6 +872,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
+      '@agentskit/cross-platform':
+        specifier: workspace:*
+        version: link:../cross-platform
       '@agentskit/ink':
         specifier: workspace:*
         version: link:../ink
@@ -1015,6 +1021,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
+      '@agentskit/cross-platform':
+        specifier: workspace:*
+        version: link:../cross-platform
     devDependencies:
       '@types/node':
         specifier: ^25.9.5
@@ -1378,6 +1387,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
+      '@agentskit/cross-platform':
+        specifier: workspace:*
+        version: link:../cross-platform
     devDependencies:
       '@e2b/code-interpreter':
         specifier: ^2.8.0
@@ -1521,6 +1533,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
+      '@agentskit/cross-platform':
+        specifier: workspace:*
+        version: link:../cross-platform
       '@agentskit/integrations':
         specifier: workspace:*
         version: link:../integrations

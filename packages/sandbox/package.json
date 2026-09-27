@@ -65,7 +65,8 @@
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "@agentskit/core": "workspace:*"
+    "@agentskit/core": "workspace:*",
+    "@agentskit/cross-platform": "workspace:*"
   },
   "peerDependencies": {
     "@e2b/code-interpreter": "^2.6.1"

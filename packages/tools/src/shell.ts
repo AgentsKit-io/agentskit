@@ -1,8 +1,5 @@
-import { execFile } from 'node:child_process'
-import { promisify } from 'node:util'
-import type { ToolDefinition } from '@agentskit/core'
-
-const execFileAsync = promisify(execFile)
+import { ConfigError, ErrorCodes, type ToolDefinition } from '@agentskit/core'
+import { isWindows } from '@agentskit/cross-platform/pure'
 
 export interface ShellConfig {
   /** Per-command timeout in ms. Default 30s. */
@@ -20,14 +17,15 @@ export interface ShellConfig {
    * default so a misconfigured agent cannot run arbitrary binaries.
    */
   allowAny?: boolean
-  /** Cap on combined stdout/stderr per invocation. Default 1 MB. */
+  /** Cap on stdout and on stderr per invocation. Default 1 MB. */
   maxOutput?: number
   /** Working directory passed to the child process. */
   cwd?: string
   /**
-   * Environment for the child. Defaults to an empty object so secrets
-   * in the parent process environment do not leak into the executed
-   * command unless explicitly forwarded.
+   * Environment for the child. Defaults to `safeEnv()` from
+   * `@agentskit/cross-platform`: only the system variables a process needs
+   * to start (`PATH`, `SystemRoot`, `TEMP`…), so secrets in the parent
+   * environment do not leak into the executed command unless forwarded.
    */
   env?: NodeJS.ProcessEnv
 }
@@ -36,13 +34,15 @@ export interface ShellConfig {
 // redirection. Reject any argument containing one — even an allowlisted
 // executable should not be invoked with these tokens because they
 // indicate the caller intended shell expansion, which is unavailable
-// under execFile.
+// without a shell. `\\` is the path separator on Windows, so it is only
+// rejected on POSIX, where it can only mean an escape.
 const SHELL_METACHARS = /[;&|`$<>(){}[\]!*?#~\\'"\n\r]/
+const WINDOWS_SHELL_METACHARS = /[;&|`$<>(){}[\]!*?#~'"\n\r%^]/
 
-function parseCommand(input: string): { argv: string[]; reason?: string } {
+function parseCommand(input: string, windows: boolean): { argv: string[]; reason?: string } {
   const trimmed = input.trim()
   if (!trimmed) return { argv: [], reason: 'command is empty' }
-  if (SHELL_METACHARS.test(trimmed)) {
+  if ((windows ? WINDOWS_SHELL_METACHARS : SHELL_METACHARS).test(trimmed)) {
     return { argv: [], reason: 'command contains shell metacharacters; shell expansion is not supported' }
   }
   // Whitespace-separated tokens. No quoting support by design — if you
@@ -58,13 +58,15 @@ export function shell(config: ShellConfig = {}): ToolDefinition {
     allowAny = false,
     maxOutput = 1_000_000,
     cwd,
-    env = {},
+    env,
   } = config
 
   if (!allowed && !allowAny) {
-    throw new Error(
-      'shell(): refusing to register with no `allowed` allowlist. Pass `allowed: [...]` or, only in trusted/sandboxed contexts, `allowAny: true`.',
-    )
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'shell(): refusing to register with no `allowed` allowlist.',
+      hint: 'Pass `allowed: [...]` or, only in trusted/sandboxed contexts, `allowAny: true`.',
+    })
   }
 
   return {
@@ -82,7 +84,7 @@ export function shell(config: ShellConfig = {}): ToolDefinition {
     },
     execute: async (args) => {
       const raw = String(args.command ?? '')
-      const { argv, reason } = parseCommand(raw)
+      const { argv, reason } = parseCommand(raw, isWindows)
       if (reason) return `Error: ${reason}`
       if (argv.length === 0) return 'Error: command is required'
 
@@ -91,36 +93,24 @@ export function shell(config: ShellConfig = {}): ToolDefinition {
         return `Error: command "${bin}" is not allowed. Allowed: ${allowed.join(', ')}`
       }
 
+      // Loaded on first use so importing @agentskit/tools stays free of process APIs.
+      const { runCommand, safeEnv } = await import('@agentskit/cross-platform')
       try {
-        const { stdout, stderr } = await execFileAsync(bin, rest, {
-          timeout,
-          maxBuffer: maxOutput,
-          encoding: 'utf8',
+        // No shell on any OS; .cmd shims on Windows are resolved and escaped by the library,
+        // and a timeout kills the whole process tree.
+        const result = await runCommand(bin, rest, {
+          timeoutMs: timeout,
+          maxOutputBytes: maxOutput,
           cwd,
-          env,
-          shell: false,
-          windowsHide: true,
+          env: env ?? safeEnv(),
         })
-        return `${stdout}${stderr ? `\n[stderr] ${stderr}` : ''}\n[exit code: 0]`
+        const stderr = result.stderr ? `[stderr] ${result.stderr}` : ''
+        const output = [result.stdout, stderr].filter(Boolean).join('\n')
+        if (result.timedOut) return `${output}\n[killed: command timed out after ${timeout}ms]`
+        if (result.truncated) return `${output}\n[killed: output exceeded ${maxOutput} bytes]`
+        return `${output}\n[exit code: ${result.code ?? -1}]`
       } catch (err: unknown) {
-        const error = err as {
-          code?: number | string
-          status?: number
-          stdout?: string
-          stderr?: string
-          killed?: boolean
-          signal?: string
-        }
-        const stdout = error.stdout ?? ''
-        const stderr = error.stderr ? `[stderr] ${error.stderr}` : ''
-        const output = [stdout, stderr].filter(Boolean).join('\n')
-
-        if (error.killed || error.signal === 'SIGTERM') {
-          return `${output}\n[killed: command timed out after ${timeout}ms]`
-        }
-
-        const exitCode = typeof error.code === 'number' ? error.code : error.status ?? -1
-        return `${output}\n[exit code: ${exitCode}]`
+        return `Error: ${err instanceof Error ? err.message : String(err)}`
       }
     },
   }

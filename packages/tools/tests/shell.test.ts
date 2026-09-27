@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { shell } from '../src/shell'
 import type { ToolCall } from '@agentskit/core'
 
@@ -103,4 +103,43 @@ describe('shell', () => {
     const result = await tool.execute!({ command: 'sleep 30' }, ctx)
     expect(result).toContain('timed out')
   }, 5_000)
+
+  it.skipIf(process.platform === 'win32')('passes only system variables by default (no parent secrets)', async () => {
+    process.env.AK_SHELL_TEST_SECRET = 'leak-me'
+    try {
+      const tool = shell({ allowed: ['printenv'] })
+      const result = String(await tool.execute!({ command: 'printenv' }, ctx))
+      expect(result).toContain('PATH=')
+      expect(result).not.toContain('leak-me')
+    } finally {
+      delete process.env.AK_SHELL_TEST_SECRET
+    }
+  })
+
+  it('reports a missing executable as an error', async () => {
+    const tool = shell({ allowAny: true })
+    const result = await tool.execute!({ command: 'definitely-missing-xyz' }, ctx)
+    expect(result).toMatch(/^Error: Command not found/)
+  })
+
+  it('rejects `\\` on POSIX, where it can only be an escape', async () => {
+    const tool = shell({ allowed: ['ls'] })
+    expect(await tool.execute!({ command: 'ls a\\b' }, ctx)).toMatch(process.platform === 'win32' ? /exit code|Error/ : /shell metacharacters/)
+  })
+})
+
+describe('shell on Windows', () => {
+  it('accepts Windows paths but still rejects cmd.exe metacharacters', async () => {
+    vi.resetModules()
+    vi.doMock('@agentskit/cross-platform/pure', () => ({ isWindows: true }))
+    try {
+      const { shell: windowsShell } = await import('../src/shell')
+      const tool = windowsShell({ allowed: ['definitely-missing-xyz'] })
+      expect(await tool.execute!({ command: 'definitely-missing-xyz C:\\repo\\file.txt' }, ctx)).not.toMatch(/shell metacharacters/)
+      expect(await tool.execute!({ command: 'definitely-missing-xyz %PATH%' }, ctx)).toMatch(/shell metacharacters/)
+      expect(await tool.execute!({ command: 'definitely-missing-xyz a^&b' }, ctx)).toMatch(/shell metacharacters/)
+    } finally {
+      vi.doUnmock('@agentskit/cross-platform/pure')
+    }
+  })
 })

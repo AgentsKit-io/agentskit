@@ -47,6 +47,12 @@ const tool = createMandatorySandbox(shell({ cwd: '/tmp/agent-work' }), {
 })
 ```
 
+Runs the executable directly, never through a shell, on every OS (Windows
+`.cmd` shims such as `npx` resolve without `shell: true`). A timeout kills the
+whole process tree. `env` defaults to `safeEnv()` from
+`@agentskit/cross-platform`: system variables only (`PATH`, `SystemRoot`,
+`TEMP`…), no secrets from the parent process.
+
 ## sqliteQueryTool
 
 ```ts
