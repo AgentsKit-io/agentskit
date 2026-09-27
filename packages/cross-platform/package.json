@@ -1,0 +1,89 @@
+{
+  "name": "@agentskit/cross-platform",
+  "version": "0.0.0",
+  "description": "One place for OS and runtime portability in the AgentsKit ecosystem: spawn, paths, line endings and filesystem that behave the same on Windows, macOS and Linux under Node, Bun and Deno.",
+  "keywords": [
+    "agentskit",
+    "ai-agents",
+    "cross-platform",
+    "windows",
+    "portability",
+    "spawn",
+    "child-process",
+    "bun",
+    "deno",
+    "node"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./pure": {
+      "types": "./dist/pure.d.ts",
+      "browser": "./dist/pure.js",
+      "import": "./dist/pure.js",
+      "require": "./dist/pure.cjs"
+    }
+  },
+  "bin": {
+    "agentskit-cross-platform": "./dist/bin.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20.19"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "test:smoke": "node smoke/smoke.mjs",
+    "lint": "tsc --noEmit",
+    "dev": "tsup --watch"
+  },
+  "dependencies": {
+    "@agentskit/core": "workspace:*",
+    "cross-spawn": "^7.0.6",
+    "graceful-fs": "^4.2.11",
+    "pathe": "^2.0.3",
+    "tree-kill": "^1.2.2",
+    "which": "^2.0.2"
+  },
+  "devDependencies": {
+    "@types/cross-spawn": "^6.0.6",
+    "@types/graceful-fs": "^4.1.9",
+    "@types/node": "^25.9.5",
+    "@types/which": "^2.0.2",
+    "std-env": "^4.1.0",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.11"
+  },
+  "agentskit": {
+    "stability": "beta",
+    "stabilityNote": "New in the beta line (ADR-0036). Node, Bun and Deno adapters verified by the cross-platform CI matrix on Linux, macOS and Windows; stable promotion follows ecosystem-wide adoption."
+  },
+  "license": "MIT",
+  "homepage": "https://www.agentskit.io/docs/reference/packages/cross-platform",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AgentsKit-io/agentskit",
+    "directory": "packages/cross-platform"
+  },
+  "bugs": {
+    "url": "https://github.com/AgentsKit-io/agentskit/issues"
+  },
+  "author": "AgentsKit Contributors"
+}

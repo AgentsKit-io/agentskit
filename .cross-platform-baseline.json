@@ -1,0 +1,309 @@
+{
+  "version": 1,
+  "include": [
+    "packages",
+    "scripts",
+    "apps",
+    "tests",
+    "e2e"
+  ],
+  "exclude": [
+    "packages/cross-platform/"
+  ],
+  "entries": {
+    "apps/ask-backend/src/ask/protocol.ts": {
+      "split-newline": 1
+    },
+    "apps/docs-next/components/examples/ProviderFanout.tsx": {
+      "split-newline": 1
+    },
+    "apps/docs-next/components/mdx/live-adapter.tsx": {
+      "split-newline": 1
+    },
+    "apps/docs-next/lib/ask/eval/dataset.ts": {
+      "split-newline": 1
+    },
+    "apps/docs-next/lib/blog.ts": {
+      "manual-slash-normalize": 1
+    },
+    "apps/docs-next/lib/openrouter.ts": {
+      "split-newline": 1
+    },
+    "apps/docs-next/lib/rag/embed.ts": {
+      "hardcoded-tmp": 2
+    },
+    "apps/docs-next/lib/rag/ingest.ts": {
+      "manual-slash-normalize": 1,
+      "split-newline": 1
+    },
+    "apps/docs-next/scripts/build-dependencies.mjs": {
+      "child-process-import": 1
+    },
+    "apps/docs-next/scripts/check-links.mjs": {
+      "manual-slash-normalize": 1,
+      "split-newline": 2
+    },
+    "apps/docs-next/scripts/gen-api.mjs": {
+      "child-process-import": 1,
+      "manual-slash-normalize": 1,
+      "split-newline": 1
+    },
+    "apps/docs-next/scripts/gen-ask-context.mjs": {
+      "manual-slash-normalize": 1
+    },
+    "apps/docs-next/scripts/gen-changelog.mjs": {
+      "split-newline": 1
+    },
+    "apps/docs-next/scripts/gen-deterministic-knowledge.mjs": {
+      "child-process-import": 1
+    },
+    "apps/docs-next/scripts/lint-mdx.mjs": {
+      "split-newline": 1
+    },
+    "apps/docs-next/scripts/measure-sizes.mjs": {
+      "child-process-import": 1
+    },
+    "apps/docs-next/tests/deterministic-docs-answers.test.mjs": {
+      "child-process-import": 1
+    },
+    "apps/docs-next/tests/legacy-redirects.test.ts": {
+      "manual-slash-normalize": 1
+    },
+    "apps/registry/components/ask-widget.tsx": {
+      "split-newline": 1
+    },
+    "packages/adapters/src/cli/process.ts": {
+      "child-process-import": 1
+    },
+    "packages/adapters/src/replicate.ts": {
+      "split-newline": 1
+    },
+    "packages/adapters/src/stream-lines.ts": {
+      "split-newline": 2
+    },
+    "packages/adapters/tests/cli.test.ts": {
+      "home-env": 2
+    },
+    "packages/cli/src/components/marker.ts": {
+      "split-newline": 1
+    },
+    "packages/cli/src/dev.ts": {
+      "child-process-import": 1
+    },
+    "packages/cli/src/extensibility/hooks/shell-hooks.ts": {
+      "child-process-import": 1,
+      "process-group-kill": 2
+    },
+    "packages/cli/src/extensibility/mcp/client.ts": {
+      "child-process-import": 1,
+      "process-group-kill": 1
+    },
+    "packages/cli/src/registry.ts": {
+      "manual-slash-normalize": 1,
+      "split-newline": 2
+    },
+    "packages/cli/tests/commands-chat-resume.test.ts": {
+      "home-env": 3,
+      "hardcoded-tmp": 1
+    },
+    "packages/cli/tests/commands-chat.test.ts": {
+      "home-env": 3
+    },
+    "packages/cli/tests/commands-misc.test.ts": {
+      "hardcoded-tmp": 4
+    },
+    "packages/cli/tests/components-marker.test.ts": {
+      "split-newline": 1
+    },
+    "packages/cli/tests/flow-extended.test.ts": {
+      "split-newline": 1
+    },
+    "packages/cli/tests/init-interactive.test.ts": {
+      "hardcoded-tmp": 2
+    },
+    "packages/cli/tests/pii.test.ts": {
+      "split-newline": 1
+    },
+    "packages/cli/tests/run-agent.test.ts": {
+      "hardcoded-tmp": 1
+    },
+    "packages/cli/tests/sessions-extended.test.ts": {
+      "home-env": 3
+    },
+    "packages/cli/tests/sessions.test.ts": {
+      "home-env": 3
+    },
+    "packages/cli/tests/slash-commands-extended.test.ts": {
+      "home-env": 3
+    },
+    "packages/core/tests/errors.test.ts": {
+      "split-newline": 1
+    },
+    "packages/eval/tests/bundler-interop.mjs": {
+      "child-process-import": 1,
+      "url-pathname": 1
+    },
+    "packages/ink/tests/useChat-sync.test.ts": {
+      "split-newline": 1
+    },
+    "packages/mcp/fixtures/coding-agent-hosts.ts": {
+      "split-newline": 2
+    },
+    "packages/mcp/fixtures/run-coding-agent-hosts.mjs": {
+      "child-process-import": 1
+    },
+    "packages/mcp/fixtures/run-published-coding-agent-hosts.mjs": {
+      "child-process-import": 1
+    },
+    "packages/mcp/tests/cli.test.ts": {
+      "hardcoded-tmp": 2
+    },
+    "packages/memory/tests/file-vector.test.ts": {
+      "hardcoded-tmp": 3
+    },
+    "packages/memory/tests/kv-store-factory.test.ts": {
+      "hardcoded-tmp": 4
+    },
+    "packages/observability/tests/cost-chargeback.test.ts": {
+      "split-newline": 1
+    },
+    "packages/observability/tests/trace-viewer.test.ts": {
+      "hardcoded-tmp": 2
+    },
+    "packages/react/tests/components/ToolConfirmation.test.tsx": {
+      "hardcoded-tmp": 2
+    },
+    "packages/runtime/src/durable.ts": {
+      "split-newline": 1
+    },
+    "packages/sandbox/src/container-runtimes.ts": {
+      "hardcoded-tmp": 1
+    },
+    "packages/sandbox/src/local-spawner.ts": {
+      "child-process-import": 3,
+      "process-group-kill": 1
+    },
+    "packages/sandbox/tests/local-runtimes-extra.test.ts": {
+      "hardcoded-tmp": 2
+    },
+    "packages/templates/tests/scaffold-security.test.ts": {
+      "hardcoded-tmp": 10
+    },
+    "packages/templates/tests/scaffold.test.ts": {
+      "hardcoded-tmp": 5
+    },
+    "packages/tools/src/shell.ts": {
+      "child-process-import": 1
+    },
+    "scripts/audit-prod-high.mjs": {
+      "child-process-import": 1
+    },
+    "scripts/check-count-drift.mjs": {
+      "split-newline": 1
+    },
+    "scripts/check-file-size.mjs": {
+      "split-newline": 1
+    },
+    "scripts/check-named-exports.mjs": {
+      "split-newline": 1
+    },
+    "scripts/check-no-any.mjs": {
+      "split-newline": 1
+    },
+    "scripts/check-no-bare-throw.mjs": {
+      "split-newline": 1
+    },
+    "scripts/check-no-nested-ternary.mjs": {
+      "child-process-import": 1,
+      "split-newline": 1
+    },
+    "scripts/check-packed-consumers.mjs": {
+      "child-process-import": 1,
+      "manual-slash-normalize": 1
+    },
+    "scripts/check-quality-gates.mjs": {
+      "child-process-import": 1
+    },
+    "scripts/content-pipeline.test.mjs": {
+      "child-process-import": 1
+    },
+    "scripts/doc-bridge-benchmark.mjs": {
+      "child-process-import": 1
+    },
+    "scripts/ecosystem-documentation-quality.test.mjs": {
+      "child-process-import": 1
+    },
+    "scripts/external-contributions.test.mjs": {
+      "child-process-import": 1
+    },
+    "scripts/lib/content-pipeline/index.mjs": {
+      "child-process-import": 1
+    },
+    "scripts/lib/content-pipeline/roles.mjs": {
+      "child-process-import": 1
+    },
+    "scripts/lib/ecosystem-documentation-quality.mjs": {
+      "child-process-import": 1
+    },
+    "scripts/lib/external-contributions.mjs": {
+      "child-process-import": 1
+    },
+    "scripts/lib/launch-package.mjs": {
+      "child-process-import": 1
+    },
+    "scripts/lib/packed-consumers.mjs": {
+      "manual-slash-normalize": 3
+    },
+    "scripts/lib/product-chat-adoption.mjs": {
+      "manual-slash-normalize": 1
+    },
+    "scripts/lib/public-api-snapshot.mjs": {
+      "manual-slash-normalize": 2
+    },
+    "scripts/packed-consumers.test.mjs": {
+      "hardcoded-tmp": 2
+    },
+    "scripts/pattern-lab.test.mjs": {
+      "child-process-import": 1
+    },
+    "scripts/product-chat-adoption.test.mjs": {
+      "manual-slash-normalize": 2
+    },
+    "scripts/publish-with-npm.mjs": {
+      "child-process-import": 1
+    },
+    "scripts/readme-fixtures.test.mjs": {
+      "child-process-import": 1
+    },
+    "scripts/readme-standard.test.mjs": {
+      "child-process-import": 1,
+      "hardcoded-tmp": 1
+    },
+    "scripts/reference-docs-vertical.test.mjs": {
+      "child-process-import": 1,
+      "hardcoded-tmp": 4
+    },
+    "scripts/registry-agent-dogfood.test.mjs": {
+      "child-process-import": 1,
+      "url-pathname": 1
+    },
+    "scripts/verify-ecosystem-visual.mjs": {
+      "split-newline": 2
+    },
+    "scripts/verify-launch-demo.mjs": {
+      "child-process-import": 1
+    },
+    "scripts/verify-registry-install-command.mjs": {
+      "child-process-import": 1
+    },
+    "tests/e2e/example-ink.spec.ts": {
+      "child-process-import": 1
+    },
+    "tests/e2e/helpers/dev-server.ts": {
+      "child-process-import": 1
+    },
+    "tests/interop.test.ts": {
+      "hardcoded-tmp": 1
+    }
+  }
+}

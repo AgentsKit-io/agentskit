@@ -1,0 +1,29 @@
+# Normalise line endings to LF in the repository and working tree on every OS.
+# Without this, core.autocrlf on Windows checks files out as CRLF, which broke
+# hashes, frontmatter parsing, generated-file checks and snapshots (ADR-0036).
+* text=auto eol=lf
+
+# Windows-only scripts must keep CRLF.
+*.cmd text eol=crlf
+*.bat text eol=crlf
+*.ps1 text eol=crlf
+
+# Binary assets.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.webp binary
+*.avif binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
+*.pdf binary
+*.zip binary
+*.tgz binary
+*.gz binary
+*.mp4 binary
+*.webm binary
+*.wasm binary

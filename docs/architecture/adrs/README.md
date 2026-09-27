@@ -70,5 +70,6 @@ Do NOT write an ADR for: routine features, bug fixes, internal refactors, or any
 | [0033](./0033-registry-ecosystem-shell.md) | Registry adopts the ecosystem shell | Proposed |
 | [0034](./0034-ecosystem-shell-v1.md) | Ecosystem shell v1 | Accepted |
 | [0035](./0035-docs-pruning-and-api-route-consolidation.md) | Documentation pruning and API reference route consolidation | Accepted |
+| [0036](./0036-cross-platform-package.md) | One package owns OS and runtime portability | Proposed |
 
 The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.

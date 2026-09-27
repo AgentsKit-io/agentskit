@@ -1,0 +1,84 @@
+---
+title: '@agentskit/cross-platform — for agents'
+description: One place for OS and runtime portability. Spawn, paths, line endings and filesystem that behave the same on Windows, macOS and Linux under Node, Bun and Deno.
+docbridge:
+  covers:
+    - package:@agentskit/cross-platform
+  relations:
+    - from: package:@agentskit/cross-platform
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/cross-platform
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+---
+
+## Install
+
+```bash
+npm install @agentskit/cross-platform
+```
+
+## Why
+
+Windows contributors kept fixing the same bugs in every repository: `.cmd` shims (`npx`, `pnpm`, `claude`) failing without a shell, prompts truncated at the first newline by cmd.exe, `\` vs `/` in path comparisons, CRLF breaking hashes and frontmatter, `EBUSY` on rename, and child processes left running after a timeout. This package owns those fixes and the libraries behind them (`cross-spawn`, `tree-kill`, `pathe`, `std-env`, `graceful-fs`, `which`). See ADR-0036.
+
+## Primary exports
+
+### Processes
+
+- `spawnProcess(command, args?, options?)` — returns a `ChildHandle` with web-stream `stdin`/`stdout`/`stderr`, an `exited` promise and a tree-wide `kill()`. Never throws for a failed start: `exited` rejects with `CrossPlatformError`.
+- `runCommand(command, args?, options?)` — runs to completion; resolves `{ code, signal, stdout, stderr, timedOut, truncated, durationMs }`. A non-zero exit is a result, not an error.
+- `selectAdapter(runtime?)` — the native adapter: `node:child_process`, `Bun.spawn` or `Deno.Command`.
+- `resolveCommand(command, args, { cwd, env })` — Windows command resolution and cmd.exe escaping (cross-spawn's parser).
+- `killProcessTree(pid, signal?)` — `taskkill /T /F` on Windows, tree walk on POSIX.
+- `findExecutable(command)` / `commandExists(command)` — PATH lookup honouring `PATHEXT`.
+- `safeEnv({ inherit?, extra?, source? })` — minimal child env with `SYSTEM_ENV_KEYS` (`PATH`, `PATHEXT`, `SystemRoot`, `COMSPEC`…). `getEnv(name)` is case-insensitive on Windows. `homeDir()`, `tempDir()`.
+
+Options: `cwd`, `env`, `input` (written to stdin, then closed), `stdin`/`stdout`/`stderr` (`pipe` | `inherit` | `ignore`), `timeoutMs`, `killGraceMs`, `signal` (AbortSignal), `windowsHide` (default true), and for `runCommand` `maxOutputBytes`.
+
+### Paths and file URLs
+
+- `toPosix`, `normalizePosix`, `joinPosix`, `resolvePosix`, `relativePosix`, `basename`, `dirname`, `extname` — `/` output on every OS (pathe).
+- `samePath(a, b)`, `isPathInside(parent, child)` — separator-, trailing-slash- and (on Windows) case-insensitive.
+- `isAbsolutePath`, `isWindowsStylePath`.
+- `fileUrlToPath`, `pathToFileUrl`, `moduleDir(import.meta.url)`, `isMainModule(import.meta.url)` — never use `new URL(...).pathname`.
+
+### Text
+
+- `normalizeEol`, `stripBom`, `splitLines`, `splitFrontmatter` (CRLF/BOM tolerant), `hashText` (SHA-256 after EOL normalisation; Web Crypto).
+
+### Filesystem
+
+- `removePath` (rm -rf with retries), `renamePath` (graceful-fs retries on Windows locks), `writeFileAtomic` (temp file on the same volume, then rename), `createSymlink` (junction/copy fallback without Windows symlink privilege), `copyPath`, `setFileMode` (no-op on Windows; returns false).
+
+### Runtime and errors
+
+- `getRuntimeInfo()` → `{ runtime, os, platform, isServer }`; `isWindows`, `isMacOS`, `isLinux`, `isBun`, `isDeno` (std-env).
+- `CrossPlatformError`, `CrossPlatformErrorCodes` (`AK_PLATFORM_PERMISSION_DENIED`, `AK_PLATFORM_COMMAND_NOT_FOUND`, `AK_PLATFORM_SPAWN_FAILED`, `AK_PLATFORM_INVALID_INPUT`, `AK_PLATFORM_UNSUPPORTED_RUNTIME`), `isPermissionError`, `isNotFoundError`, `mapRuntimeError`, `permissionDenied`.
+
+### Guardrail
+
+- `PORTABILITY_RULES`, `scanText`, `scanRepository`, `countFindings`, `compareToBaseline`, `tightenBaseline`, `runCli` — back the `agentskit-cross-platform check` bin (ratchet baseline in `.cross-platform-baseline.json`; `cross-platform-ignore: <reason>` allows an exception).
+
+## Usage
+
+```ts
+import { runCommand, spawnProcess } from '@agentskit/cross-platform'
+
+const result = await runCommand('claude', ['-p', '--output-format', 'json'], {
+  input: longMultiLinePrompt,
+  timeoutMs: 120_000,
+})
+
+const child = spawnProcess('npx', ['-y', '@modelcontextprotocol/server-filesystem', '.'])
+for await (const chunk of child.stdout!) process.stdout.write(chunk)
+```
+
+## Notes
+
+- `@agentskit/cross-platform/pure` exposes paths, text and runtime detection without `node:` imports (browsers, edge workers).
+- Deno: missing `--allow-run`/`--allow-read`/`--allow-write`/`--allow-env` raises `AK_PLATFORM_PERMISSION_DENIED` naming the flag. It never prompts.
+- Supported: Node ≥ 20.19, Bun ≥ 1.2, Deno ≥ 2.0 on Windows, macOS and Linux (CI matrix).

@@ -72,6 +72,18 @@
     "gzip": true
   },
   {
+    "name": "@agentskit/cross-platform (ESM)",
+    "path": "packages/cross-platform/dist/index.js",
+    "limit": "6 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/cross-platform/pure (ESM)",
+    "path": "packages/cross-platform/dist/pure.js",
+    "limit": "1 KB",
+    "gzip": true
+  },
+  {
     "name": "@agentskit/ink (ESM)",
     "path": "packages/ink/dist/index.js",
     "limit": "15 KB",
@@ -164,7 +176,7 @@
   {
     "name": "@agentskit/observability-langfuse (ESM)",
     "path": "packages/observability-langfuse/dist/index.js",
-    "limit": "8 KB",
+    "limit": "6 KB",
     "gzip": true
   },
   {

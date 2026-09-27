@@ -4,19 +4,19 @@
   "profileVersion": 1,
   "productId": "agentskit",
   "repo": "AgentsKit-io/agentskit",
-  "commit": "942ccd4eb70a69383f7dd265c8898efd534d2f37",
-  "auditedOn": "2026-09-25",
+  "commit": "b5dfa18ab6ae6fb6ba9ec3e77f77db0f8a9c7425",
+  "auditedOn": "2026-09-27",
   "docBridge": {
     "artifact": "docs/evidence/ecosystem-documentation-quality/doc-bridge/agentskit.json",
     "doctorScore": 95,
     "coverage": {
       "agent": {
-        "ready": 25,
-        "total": 25
+        "ready": 26,
+        "total": 26
       },
       "human": {
-        "ready": 25,
-        "total": 25
+        "ready": 26,
+        "total": 26
       }
     },
     "conformance": {
@@ -30,7 +30,7 @@
   },
   "attestation": {
     "sourceMode": "commit",
-    "contentDigest": "sha256:0291c1df8895bb462921dcd4f4886908a358bad4d921eab4ef6ac955a8700905"
+    "contentDigest": "sha256:6bf6624526544b2743215ed52b08dcd1754ea6e3afa8a046c776e28786e55620"
   },
   "machineSurfaces": {
     "llmsTxt": "llms.txt",
