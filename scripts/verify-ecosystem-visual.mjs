@@ -301,6 +301,19 @@ async function runJob(browser, helper, { site, page: pageKind, theme, viewport }
     await page.evaluate(() => document.fonts.ready)
     await page.waitForTimeout(600)
 
+    if (mobile) {
+      const toggle = page.locator('#ak-eco .ak-eco-toggle')
+      if (await toggle.isVisible()) {
+        await toggle.click()
+        check('mobile-menu-expands', await toggle.getAttribute('aria-expanded') === 'true' && await page.locator('#ak-eco .ak-eco-products a').evaluateAll(links => links.length === 6 && links.every(link => {
+          const rect = link.getBoundingClientRect()
+          return rect.width > 0 && rect.height >= 44 && rect.left >= 0 && rect.right <= innerWidth
+        })), 'Six product links visible with 44px targets')
+        await toggle.press('Escape')
+        check('mobile-menu-closes', await toggle.getAttribute('aria-expanded') === 'false' && await toggle.evaluate(el => document.activeElement === el), 'Escape closes and restores focus')
+        await toggle.click()
+      } else check('mobile-menu-expands', false, 'Disclosure unavailable')
+    }
     let shell = await page.evaluate(probeShell)
     if (shell.resolvedTheme !== theme) {
       // Sites that ignore the OS preference still expose the Fumadocs theme toggle; use it once.

@@ -1,6 +1,6 @@
 'use client'
 
-import { motion } from 'motion/react'
+import { useState } from 'react'
 import { brandSlug } from '@/lib/brand-slugs'
 import { BrandIcon } from './brand-icon'
 
@@ -35,20 +35,22 @@ export function LogoMarquee({
   duration?: number
   reverse?: boolean
 }) {
+  const [paused, setPaused] = useState(false)
   const track = [...items, ...items]
   return (
-    <div data-logo-marquee="" className="relative overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
-      <motion.div
+    <div data-logo-marquee="" className="relative">
+      <button type="button" onClick={() => setPaused(value => !value)} aria-pressed={paused} className="relative z-10 mb-2 min-h-11 rounded-md border border-ak-border px-4 text-sm text-ak-foam">{paused ? 'Play logos' : 'Pause logos'}</button>
+      <div data-logo-marquee-window className="overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_8%,black_92%,transparent)]">
+      <div
         data-logo-marquee-track=""
-        className="flex w-max gap-2"
-        initial={false}
-        animate={{ x: reverse ? ['-50%', '0%'] : ['0%', '-50%'] }}
-        transition={{ duration, ease: 'linear', repeat: Infinity }}
+        className="flex w-max gap-2 pr-2"
+        style={{ animation: `ak-logo-scroll ${duration}s linear infinite`, animationDirection: reverse ? 'reverse' : 'normal', animationPlayState: paused ? 'paused' : 'running' }}
       >
         {track.map((it, i) => (
           <Logo key={`${it.id}-${i}`} item={it} duplicate={i >= items.length} />
         ))}
-      </motion.div>
+      </div>
+      </div>
     </div>
   )
 }

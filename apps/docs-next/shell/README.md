@@ -142,3 +142,5 @@ Intentional. The shell is first-party, served over HTTPS from our own origin,
 and **mutable by design** — a compatible edit must propagate to every site. An
 SRI hash would break on every update, defeating the single-source model
 (RFC 0002).
+
+On mobile, the Ecosystem disclosure exposes all six product links in a two-column grid. The native button reports aria-expanded; Escape closes it and restores focus. Desktop navigation stays inline.
