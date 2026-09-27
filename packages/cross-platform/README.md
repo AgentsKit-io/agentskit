@@ -107,7 +107,7 @@ MIT — see [LICENSE](../../LICENSE).
 ## Maturity and compatibility
 
 - Stability: **beta** — see [docs/STABILITY.md](../../docs/STABILITY.md). Not 1.0.
-- **Node.js 20+** (20.19+), **Bun 1.1+**, **Deno 2+**, and **TypeScript** strict mode
+- **Node.js 20+** (20.19+), **Bun 1.2+**, **Deno 2+**, and **TypeScript** strict mode
 - Windows, macOS and Linux
 - Published as `@agentskit/cross-platform`
 

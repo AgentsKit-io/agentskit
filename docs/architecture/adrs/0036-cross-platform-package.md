@@ -51,7 +51,9 @@ direct copies and hand-rolled helpers as they migrate.
 
 ## Consequences
 
-- Supported runtimes: Node ≥ 20.19, Bun ≥ 1.1, Deno ≥ 2.0.
+- Supported runtimes: Node ≥ 20.19, Bun ≥ 1.2, Deno ≥ 2.0, each verified by a
+  minimum-version row of the CI matrix on Linux and Windows. Bun 1.1 was the
+  first target but cannot read pnpm's `node_modules` junctions on Windows.
 - Migration is phased: this package and repository wiring first; then the
   AgentsKit packages that spawn processes (`cli`, `adapters`, `tools`,
   `sandbox`, `eval`); then each ecosystem repository after publication.

@@ -1,7 +1,7 @@
 // Runtime smoke test for the built package. Runs unchanged under
 // `node`, `bun` and `deno run -A` on Linux, macOS and Windows (CI matrix).
 // Exercises the real OS behaviour the unit tests can only fake.
-import { chmod, mkdir, mkdtemp, readFile, readdir, writeFile } from 'node:fs/promises'
+import { chmod, mkdir, mkdtemp, readFile, readdir, realpath, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { delimiter, join } from 'node:path'
 import {
@@ -143,7 +143,8 @@ await check('executables and cwd under paths with spaces and accents', async () 
 
     const byPath = parse(await runCommand(shim, args, { cwd: workDir }))
     assert(JSON.stringify(byPath.args) === JSON.stringify(args), `args by path: ${JSON.stringify(byPath.args)}`)
-    assert(samePath(byPath.cwd, workDir), `cwd ${byPath.cwd} != ${workDir}`)
+    // macOS tmp lives behind a symlink (/var → /private/var): compare real paths.
+    assert(samePath(await realpath(byPath.cwd), await realpath(workDir)), `cwd ${byPath.cwd} != ${workDir}`)
 
     const pathKey = Object.keys(process.env).find(key => key.toUpperCase() === 'PATH') ?? 'PATH'
     const env = { ...process.env, [pathKey]: `${binDir}${delimiter}${process.env[pathKey] ?? ''}` }

@@ -1,4 +1,6 @@
+import { normalize } from 'node:path'
 import crossSpawn from 'cross-spawn'
+import escape from 'cross-spawn/lib/util/escape.js'
 import which from 'which'
 import { mapRuntimeError } from '../errors'
 import { isWindows } from '../runtime'
@@ -19,6 +21,15 @@ type CrossSpawnParse = (command: string, args: string[], options: { cwd?: string
 // resolution path instead of re-implementing cmd.exe quoting.
 const parse = (crossSpawn as unknown as { _parse: CrossSpawnParse })._parse
 
+// A .cmd/.bat that forwards `%*` (every npm shim, including global ones in
+// %APPDATA%\npm) makes cmd.exe parse the arguments twice, so `&`, `|`, `^`, `"`
+// must be escaped twice. cross-spawn only does that for node_modules\.bin;
+// apply it to every batch file so `x&y` never runs `y` as a command.
+export function batchCommandLine(command: string, args: readonly string[]): string[] {
+  const line = [escape.command(normalize(command)), ...args.map(arg => escape.argument(arg, true))].join(' ')
+  return ['/d', '/s', '/c', `"${line}"`]
+}
+
 export interface ResolvedCommand {
   command: string
   args: string[]
@@ -27,21 +38,41 @@ export interface ResolvedCommand {
   found: boolean
 }
 
-/** Resolve a command the way Windows needs it; a no-op on POSIX. */
+/**
+ * Resolve a command against the child's PATH: cross-spawn's parser on Windows
+ * (PATHEXT, .cmd shims, cmd.exe escaping), `which` on POSIX.
+ */
 export function resolveCommand(
   command: string,
   args: readonly string[],
   options: { cwd?: string; env: Record<string, string> },
   windows: boolean = isWindows,
 ): ResolvedCommand {
-  if (!windows) return { command, args: [...args], windowsVerbatimArguments: false, found: true }
+  if (!windows) return resolvePosix(command, args, options.env)
   const parsed = parse(command, [...args], { cwd: options.cwd, env: options.env })
+  const isBatch = parsed.options.windowsVerbatimArguments === true && /\.(?:cmd|bat)$/i.test(parsed.file ?? '')
   return {
     command: parsed.command,
-    args: parsed.args,
+    args: isBatch ? batchCommandLine(command, args) : parsed.args,
     windowsVerbatimArguments: parsed.options.windowsVerbatimArguments === true,
     found: parsed.file !== undefined,
   }
+}
+
+// Resolve bare POSIX commands against the child's PATH ourselves: runtimes
+// disagree on whose PATH they search (Bun 1.1 searches the parent's) and on how a
+// missing binary is reported. Paths with a separator are used as given.
+function resolvePosix(command: string, args: readonly string[], env: Record<string, string>): ResolvedCommand {
+  const passthrough = { command, args: [...args], windowsVerbatimArguments: false, found: true }
+  if (command.includes('/') || env.PATH === undefined) return passthrough
+  let file: string | null
+  try {
+    file = which.sync(command, { path: env.PATH, nothrow: true })
+  } catch {
+    // Lookup not permitted (e.g. Deno without --allow-read): let the runtime resolve it.
+    return passthrough
+  }
+  return file === null ? { ...passthrough, found: false } : { ...passthrough, command: file }
 }
 
 export interface WhichOptions {

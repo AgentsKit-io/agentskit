@@ -41,7 +41,7 @@ jobs:
         os: [ubuntu-latest, macos-latest, windows-latest]
         runtime: [node, bun, deno]
         version: [latest]
-        # The oldest versions the package declares (Node 20.19, Bun 1.1, Deno 2.0),
+        # The oldest versions the package declares (Node 20.19, Bun 1.2, Deno 2.0),
         # on Linux and on Windows, so the documented floor is tested, not assumed.
         include:
           - { os: ubuntu-latest, runtime: node, version: minimum }
@@ -74,7 +74,7 @@ jobs:
       - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
         if: matrix.runtime == 'bun'
         with:
-          bun-version: ${{ matrix.version == 'minimum' && '1.1.0' || '1.x' }}
+          bun-version: ${{ matrix.version == 'minimum' && '1.2.0' || '1.x' }}
 
       - uses: denoland/setup-deno@22d081ff2d3a40755e97629de92e3bcbfa7cf2ed # v2.0.5
         if: matrix.runtime == 'deno'

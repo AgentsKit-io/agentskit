@@ -13,4 +13,6 @@ export default defineConfig({
   treeshake: true,
   // std-env ships ESM only; bundling it keeps the CJS build loadable.
   noExternal: ['std-env'],
+  // Keep `node:` specifiers: Deno 2.0 rejects bare built-ins such as 'stream'.
+  removeNodeProtocol: false,
 })
