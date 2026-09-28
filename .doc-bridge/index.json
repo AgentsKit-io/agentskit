@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "994e4bfb64f71c003dccdfa2abdf58cefed109eb44d3a8f78c47830ae32674bb",
+  "contentHash": "d9fb2bce12b415fbd5b762a0bf631aabceecba8d7cf327299b245ab2db90ebc5",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-28T02:24:35.457Z",
+  "generatedAt": "2026-09-28T03:06:31.682Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -208,12 +208,12 @@
       "type": "document",
       "title": "feedback_zero-dep-core.md",
       "path": ".agent-memory/feedback_zero-dep-core.md",
-      "description": "Fact: @agentskit/core has zero runtime dependencies and must stay under ~10 KB gzipped. Enforced by scripts/check-core-no-deps.mjs.",
+      "description": "Fact: @agentskit/core has zero runtime dependencies and must stay under ~10 KB gzipped. Deps: scripts/check-core-no-deps.mjs. Size: .size-limit.json measures the bundled ESM closure (index + static chunk-*.js, built by scripts/size-core-closure.mjs), not dist/index.js alone, which hid ~4 KB of shared chunks.",
       "tags": [
         "document",
         "unclassified"
       ],
-      "contentHash": "c8dbfc0b5bc4a06158342b7f5703b366c906d673bb4c2356d7ada103bc21d3ff"
+      "contentHash": "e6d25db7e4a8f2572f971e65e5a326ef7b6cbde957ec631f6246edfc42ed9ae1"
     },
     {
       "id": "document:.agent-memory/MEMORY.md",
@@ -2230,18 +2230,6 @@
         "human"
       ],
       "contentHash": "951a454ece35a6ca40115e47eb4da8c7793f269e9187403c5a4e13b7796e5f2b"
-    },
-    {
-      "id": "document:apps/docs-next/content/docs/data/providers/minimax.mdx",
-      "type": "document",
-      "title": "minimax.mdx",
-      "path": "apps/docs-next/content/docs/data/providers/minimax.mdx",
-      "description": "MiniMax-M3 · MiniMax-M2 · MiniMax-M1.",
-      "tags": [
-        "document",
-        "human"
-      ],
-      "contentHash": "e5e14b02e898d50d9b65aa2fda86dca66e3e2a93f5a4c3810dfbdcf08c4f0052"
     },
     {
       "id": "document:apps/docs-next/content/docs/data/providers/mistral.mdx",
@@ -6836,7 +6824,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "7ccbeda3ca7962179a90934bd7295bd9f331ddfffe054a8e416c17ff4417ba13"
+      "contentHash": "c2b1469d25126fe93fee7ea33180bb22024139ffdbe9eb34a18c9575970b2005"
     },
     {
       "id": "document:packages/core/README.md",
@@ -14587,7 +14575,6 @@
         "LangChainConfig",
         "LangGraphConfig",
         "LlamaCppConfig",
-        "MiniMaxConfig",
         "MistralConfig",
         "MockAdapterOptions",
         "MockResponse",
@@ -14655,7 +14642,6 @@
         "langgraph",
         "llamacpp",
         "lmstudio",
-        "minimax",
         "mistral",
         "mockAdapter",
         "ollama",
@@ -14685,7 +14671,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "b2124a17c44b4fc448357d755e57cc59d29a9b2648b2931cc50cfc92eba960d2"
+      "contentHash": "219fd72d02c77632ca34d8c9247d0b3427a9b9cdcaf3837d7d400e386aafec1d"
     },
     {
       "id": "module:packages/adapters/src/kimi.ts",
@@ -14770,22 +14756,6 @@
         "src"
       ],
       "contentHash": "205045938e4caf5c858559f89ae39e758471bd1406cfd1bd0b3e1f5abd55badf"
-    },
-    {
-      "id": "module:packages/adapters/src/minimax.ts",
-      "type": "module",
-      "title": "minimax.ts",
-      "path": "packages/adapters/src/minimax.ts",
-      "symbols": [
-        "MiniMaxConfig",
-        "minimax"
-      ],
-      "tags": [
-        "module",
-        "ts",
-        "src"
-      ],
-      "contentHash": "27deeedd15a91f78b20991a52a41813ba27d98919fd7ea07203af53adf881731"
     },
     {
       "id": "module:packages/adapters/src/mistral.ts",
@@ -15374,7 +15344,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "b12aaba3e2df96877bd10d00f69cbbd50a12ead8d364634cd4ad8883b81e7fb2"
+      "contentHash": "60b266424fde992ee349badb1c893c080241822314244d4bd8c794385d9f0c17"
     },
     {
       "id": "module:packages/adapters/tests/contract.ts",
@@ -18791,7 +18761,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "d33b93892807636751b82e616ba3bcb5cb1804e1e504bd49eedc5ccacbd3e37b"
+      "contentHash": "e4a7b36a64321368582653b85a3b0754b83e085b3cac1f9d3f8d1071d6e112c9"
     },
     {
       "id": "module:packages/core/src/primitives.ts",
@@ -20081,7 +20051,7 @@
         "ts",
         "core"
       ],
-      "contentHash": "d507e8c3490d7174e5d77b28e8c4b0eecf3facc62b31eef99103ea517e3676cd"
+      "contentHash": "d8f80c4964208f4338733046d0aef1906bd3052a17d33fde1cb433137fb46f97"
     },
     {
       "id": "module:packages/core/vitest.config.ts",
@@ -20976,7 +20946,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "b273bac2c602fce931a1334bb1c49d73e930a6a4941fec0b008601565050a82e"
+      "contentHash": "699766dbd5ad9d4ec7301537d5f7431f5fa7923cb0c07bf15a52893611a0f425"
     },
     {
       "id": "module:packages/cross-platform/tests/spawn.test.ts",
@@ -35450,6 +35420,18 @@
       "contentHash": "07c84ec9c0619c818d3cb9042679f7304e3269c622cdad6636daabc0e1a61237"
     },
     {
+      "id": "module:scripts/size-core-closure.mjs",
+      "type": "module",
+      "title": "size-core-closure.mjs",
+      "path": "scripts/size-core-closure.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "scripts"
+      ],
+      "contentHash": "c8a6217c9f14394c4609cbe9898c9e226f17fa14623cd3d18304fc98c34a637e"
+    },
+    {
       "id": "module:scripts/software-metadata.test.mjs",
       "type": "module",
       "title": "software-metadata.test.mjs",
@@ -36838,8 +36820,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "c0361eded947986ae0645cdaaccdac438496cad3dc463619e0cf5e8e9c507fde",
-    "fileCount": 2448,
+    "hash": "82a902f8fcf45dffa791a09844969c4abd5eec36d70803930ecad5f4c27e68b4",
+    "fileCount": 2447,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -36861,9 +36843,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "07918a2f5579cad541748437165239bc0a26b6ec20a9afeee50183a5fa4596ed",
+    "contentHash": "e702b1b3803de2997792c5b096640be8f52ed46d1a77fb22e484488c62f0af33",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "d5075d44ceed494804ce0a240d966c2ef94c49896d11660fddeea0288917f2e2",
+    "snapshotHash": "704de1e91ed0d5aadfaa8f572c6ae8f914441c5d387cc3bca6f181e4392855b7",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -36883,7 +36865,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2403,
+      "documentCount": 2402,
       "fieldNames": [
         "aliases",
         "body",
@@ -36894,13 +36876,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.005826050769871,
-        "body": 60.92426133999168,
-        "headings": 4.055763628797337,
-        "path": 7.636287973366625,
-        "summary": 4.566791510611735,
-        "symbols": 7.525593008739076,
-        "title": 3.3270911360799
+        "aliases": 3.0062447960033305,
+        "body": 60.94671107410491,
+        "headings": 4.054954204829309,
+        "path": 7.63572023313905,
+        "summary": 4.576186511240633,
+        "symbols": 7.524562864279767,
+        "title": 3.328892589508743
       }
     },
     "entries": [
@@ -39324,7 +39306,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "f8703aa845e14e1e55c7792eb6a4cd43e4603375259e6e885016ae93550610b8",
+        "contentHash": "b3fbb401ef4953fce59143d9141095cf589f4f70e7b1b4adc04221840f922bb0",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -39391,7 +39373,7 @@
         "kind": "document",
         "path": ".agent-memory/feedback_zero-dep-core.md",
         "title": "feedback_zero-dep-core.md",
-        "summary": "Fact: @agentskit/core has zero runtime dependencies and must stay under ~10 KB gzipped. Enforced by scripts/check-core-no-deps.mjs.",
+        "summary": "Fact: @agentskit/core has zero runtime dependencies and must stay under ~10 KB gzipped. Deps: scripts/check-core-no-deps.mjs. Size: .size-limit.json measures the bundled ESM closure (index + static chunk-*.js, built by scripts/size-core-closure.mjs), not dist/index.js alone, which hid ~4 KB of shared chunks.",
         "aliases": [],
         "tags": [
           "document",
@@ -39402,8 +39384,8 @@
           "headings": "",
           "path": ".agent-memory/feedback_zero-dep-core.md",
           "symbols": "",
-          "summary": "Fact: @agentskit/core has zero runtime dependencies and must stay under ~10 KB gzipped. Enforced by scripts/check-core-no-deps.mjs.",
-          "body": "Fact: @agentskit/core has zero runtime dependencies and must stay under ~10 KB gzipped. Enforced by scripts/check-core-no-deps.mjs . Why: Core is the stable foundation every other package depends on; a dep in core is a dep for the whole ecosystem. Keeping it pure keeps the framework plug-and-play and tree-shakeable. How to apply: When a feature needs a third-party lib (Ajv, Langfuse, an HTTP client, etc.), do NOT add it to core. Define a contract/injection point in core (e.g. the ArgsValidator type + validateArgs option) and ship the implementation in a separate opt-in package ( @agentskit/validation , @agentskit/observability-langfuse , …). Default behaviour with no injection must be a safe passthrough. Related: [[feedback json-schema-canonical]], [[reference quality-gates]]",
+          "summary": "Fact: @agentskit/core has zero runtime dependencies and must stay under ~10 KB gzipped. Deps: scripts/check-core-no-deps.mjs. Size: .size-limit.json measures the bundled ESM closure (index + static chunk-*.js, built by scripts/size-core-closure.mjs), not dist/index.js alone, which hid ~4 KB of shared chunks.",
+          "body": "Fact: @agentskit/core has zero runtime dependencies and must stay under ~10 KB gzipped. Deps: scripts/check-core-no-deps.mjs . Size: .size-limit.json measures the bundled ESM closure (index + static chunk- .js , built by scripts/size-core-closure.mjs ), not dist/index.js alone, which hid ~4 KB of shared chunks. Why: Core is the stable foundation every other package depends on; a dep in core is a dep for the whole ecosystem. Keeping it pure keeps the framework plug-and-play and tree-shakeable. How to apply: When a feature needs a third-party lib (Ajv, Langfuse, an HTTP client, etc.), do NOT add it to core. Define a contract/injection point in core (e.g. the ArgsValidator type + validateArgs option) and ship the implementation in a separate opt-in package ( @agentskit/validation , @agentskit/observability-langfuse , …). Default behaviour with no injection must be a safe passthrough. Related: [[feedback json-schema-canonical]], [[reference quality-gates]]",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -39428,6 +39410,11 @@
             },
             {
               "kind": "mentions",
+              "id": "module:scripts/size-core-closure.mjs",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
               "id": "package:@agentskit/core",
               "confidence": "observed"
             },
@@ -39448,7 +39435,7 @@
             }
           ]
         },
-        "contentHash": "c8dbfc0b5bc4a06158342b7f5703b366c906d673bb4c2356d7ada103bc21d3ff",
+        "contentHash": "e6d25db7e4a8f2572f971e65e5a326ef7b6cbde957ec631f6246edfc42ed9ae1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -48032,39 +48019,6 @@
         "confidence": "observed"
       },
       {
-        "id": "document:apps/docs-next/content/docs/data/providers/minimax.mdx",
-        "kind": "document",
-        "path": "apps/docs-next/content/docs/data/providers/minimax.mdx",
-        "title": "minimax.mdx",
-        "summary": "MiniMax-M3 · MiniMax-M2 · MiniMax-M1.",
-        "audience": "human",
-        "aliases": [],
-        "tags": [
-          "document",
-          "human"
-        ],
-        "fields": {
-          "title": "minimax.mdx",
-          "headings": "Options Model examples Env Notes Related",
-          "path": "apps/docs-next/content/docs/data/providers/minimax.mdx",
-          "symbols": "",
-          "summary": "MiniMax-M3 · MiniMax-M2 · MiniMax-M1.",
-          "body": "Options Option Type Default --- --- --- apiKey string required model string required baseUrl string https://api.minimax.io fetch typeof fetch global Model examples MiniMax-M3 · MiniMax-M2 · MiniMax-M1 . Env Var Purpose --- --- MINIMAX API KEY API key Notes - OpenAI-compatible surface ( /v1/chat/completions ). - Mainland-China accounts use a different host: pass baseUrl: 'https://api.minimaxi.com' . Related -",
-          "aliases": "document human"
-        },
-        "graph": {
-          "pagerank": 0,
-          "inboundLinks": 0,
-          "coveredBy": [],
-          "mentionedBy": [],
-          "inbound": [],
-          "outbound": []
-        },
-        "contentHash": "e5e14b02e898d50d9b65aa2fda86dca66e3e2a93f5a4c3810dfbdcf08c4f0052",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
         "id": "document:apps/docs-next/content/docs/data/providers/mistral.mdx",
         "kind": "document",
         "path": "apps/docs-next/content/docs/data/providers/mistral.mdx",
@@ -49210,11 +49164,6 @@
             },
             {
               "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/minimax.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
               "id": "module:packages/adapters/src/mistral.ts",
               "confidence": "observed"
             },
@@ -49300,7 +49249,7 @@
             }
           ]
         },
-        "contentHash": "ebddb0480e1150446079b2ee95c30ce0e4378a88abb6ac3111930627e13bd877",
+        "contentHash": "659404a68b66fe2cd9fa626d7b9aa7c9a586059a37f6138f4a43320a49254a3b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -75344,7 +75293,7 @@
           "path": "packages/core/CONVENTIONS.md",
           "symbols": "",
           "summary": "The core package. Every rule here is stricter than the rest of the monorepo.",
-          "body": "Conventions — @agentskit/core The core package. Every rule here is stricter than the rest of the monorepo. Non-negotiables - Zero runtime dependencies. dependencies in package.json is empty and stays empty. Never add one, not even \"small\". - Under 10KB gzipped. CI ( size-limit ) enforces. If you're pushing the limit, the change is too big. - Contracts first. Public types and interfaces for every contract live here — Adapter, Tool, Memory, Retriever, Skill, Runtime. Implementations live in other packages. - Named exports only. No default exports, anywhere, ever. - No any . Use unknown and narrow with type guards. What belongs here - Types and interfaces for the six core contracts (ADRs 0001–0006) - Shared primitives reused by multiple packages: createEventEmitter , safeParseArgs , consumeStream , message-building helpers - The chat controller ( controller.ts ) — headless state machine for a chat session - The agent loop core ( agent-loop.ts ) — the substrate the runtime builds on What does NOT belong here - Any provider SDK or API client → @agentskit/adapters - Any React hook or component → @agentskit/react - Any Ink component → @agentskit/ink - Any file I/O → @agentskit/memory or a package that's not zero-dep - Any node: import that's not available on every runtime we target (edge, Deno, browser) Adding a new primitive 1. Is the thing a contract type ? Put it in src/types/ .ts and re-export from src/types/index.ts . Write an ADR if it's cross-package. 2. Is it a reusable helper used by 2+ packages? Put it in src/primitives.ts or a dedicated file, export from src/index.ts . 3. Write unit tests that exercise only the public export. Do not reach into internals. Every addition raises the bundle size. Run pnpm size in the repo root and verify the core budget still holds. Testing - Pure unit tests with vitest . Environment is node . - Avoid mocks — test real functions with real inputs. - Mocked adapters for stream-related tests are acceptable since the Adapter contract is the seam. Files you can edit without an ADR - Bug fixes that don't change exported types - New internal helpers (not exported) - JSDoc improvements - Test additions Files that require an ADR first - Any src/types/ .ts change that alters an exported type - Any new exported function or class - Anything that touches the bundle size beyond ~500 bytes gzipped Review checklist for this package - [ ] No new runtime dependency (check package.json ) - [ ] Bundle size under 10KB gzipped ( pnpm size ) - [ ] Coverage threshold holds (75% lines) - [ ] No any introduced - [ ] Named exports only - [ ] ADR linked if a contract changed",
+          "body": "Conventions — @agentskit/core The core package. Every rule here is stricter than the rest of the monorepo. Non-negotiables - Zero runtime dependencies. dependencies in package.json is empty and stays empty. Never add one, not even \"small\". - Under 10KB gzipped. CI ( size-limit ) enforces it on the real import cost: dist/index.js bundled with every chunk it statically imports ( scripts/size-core-closure.mjs ), plus dist/index.cjs . Subpath-only code must not be statically imported by src/index.ts 's graph; load it lazily ( await import('./x.js') + tsup external ). If you're pushing the limit, the change is too big. - Contracts first. Public types and interfaces for every contract live here — Adapter, Tool, Memory, Retriever, Skill, Runtime. Implementations live in other packages. - Named exports only. No default exports, anywhere, ever. - No any . Use unknown and narrow with type guards. What belongs here - Types and interfaces for the six core contracts (ADRs 0001–0006) - Shared primitives reused by multiple packages: createEventEmitter , safeParseArgs , consumeStream , message-building helpers - The chat controller ( controller.ts ) — headless state machine for a chat session - The agent loop core ( agent-loop.ts ) — the substrate the runtime builds on What does NOT belong here - Any provider SDK or API client → @agentskit/adapters - Any React hook or component → @agentskit/react - Any Ink component → @agentskit/ink - Any file I/O → @agentskit/memory or a package that's not zero-dep - Any node: import that's not available on every runtime we target (edge, Deno, browser) Adding a new primitive 1. Is the thing a contract type ? Put it in src/types/ .ts and re-export from src/types/index.ts . Write an ADR if it's cross-package. 2. Is it a reusable helper used by 2+ packages? Put it in src/primitives.ts or a dedicated file, export from src/index.ts . 3. Write unit tests that exercise only the public export. Do not reach into internals. Every addition raises the bundle size. Run pnpm size in the repo root and verify the core budget still holds. Testing - Pure unit tests with vitest . Environment is node . - Avoid mocks — test real functions with real inputs. - Mocked adapters for stream-related tests are acceptable since the Adapter contract is the seam. Files you can edit without an ADR - Bug fixes that don't change exported types - New internal helpers (not exported) - JSDoc improvements - Test additions Files that require an ADR first - Any src/types/ .ts change that alters an exported type - Any new exported function or class - Anything that touches the bundle size beyond ~500 bytes gzipped Review checklist for this package - [ ] No new runtime dependency (check package.json ) - [ ] Bundle size under 10KB gzipped ( pnpm size ) - [ ] Coverage threshold holds (75% lines) - [ ] No any introduced - [ ] Named exports only - [ ] ADR linked if a contract changed",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -75354,6 +75303,11 @@
           "mentionedBy": [],
           "inbound": [],
           "outbound": [
+            {
+              "kind": "mentions",
+              "id": "module:scripts/size-core-closure.mjs",
+              "confidence": "observed"
+            },
             {
               "kind": "mentions",
               "id": "package:@agentskit/adapters",
@@ -75386,7 +75340,7 @@
             }
           ]
         },
-        "contentHash": "7ccbeda3ca7962179a90934bd7295bd9f331ddfffe054a8e416c17ff4417ba13",
+        "contentHash": "c2b1469d25126fe93fee7ea33180bb22024139ffdbe9eb34a18c9575970b2005",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -103613,7 +103567,6 @@
           "LangChainConfig",
           "LangGraphConfig",
           "LlamaCppConfig",
-          "MiniMaxConfig",
           "MistralConfig",
           "MockAdapterOptions",
           "MockResponse",
@@ -103681,7 +103634,6 @@
           "langgraph",
           "llamacpp",
           "lmstudio",
-          "minimax",
           "mistral",
           "mockAdapter",
           "ollama",
@@ -103715,7 +103667,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/adapters/src/index.ts",
-          "symbols": "AnthropicConfig ApplyCarbonOptions AzureOpenAIConfig BailConfig BedrockConfig BedrockRuntimeClientLike CarbonTable CerebrasConfig CohereConfig CreateAdapterConfig CredentialRefreshable DEFAULT_CARBON_TABLE DEFAULT_DEPRECATION_TABLE DataRegion DeepSeekConfig DeepSeekEmbedderConfig DeprecationAction DeprecationPolicy EnsembleAggregator EnsembleBranchResult EnsembleCandidate EnsembleOptions FallbackCandidate FallbackOptions FireworksConfig GeminiConfig GeminiEmbedderConfig GenericAdapterConfig GrokConfig GrokEmbedderConfig GroqConfig HuggingFaceConfig KimiConfig KimiEmbedderConfig LMStudioConfig LangChainConfig LangGraphConfig LlamaCppConfig MiniMaxConfig MistralConfig MockAdapterOptions MockResponse ModelDeprecation OllamaConfig OllamaEmbedderConfig OpenAICompatibleEmbedderConfig OpenAIConfig OpenAIEmbedderConfig OpenRouterConfig ProviderRegionKey RecordedTurn RecordingFixture RecordingSink ReplicateConfig ResolveModelInput ResolveModelResult RetryOptions RotatingCredentials RouterCandidate RouterOptions RouterPolicy TogetherConfig VLLMConfig VercelAIConfig VertexConfig WebLlmConfig WebLlmEngineLike anthropic applyCarbonTable azureOpenAI azureOpenAIAdapter bail bailAdapter bedrock bedrockAdapter cerebras cerebrasAdapter chunkText cohere cohereAdapter createAdapter createEnsembleAdapter createFallbackAdapter createOpenAICompatibleEmbedder createRotatingCredentials createRouter deepseek deepseekEmbedder estimateCO2Grams fetchWithRetry fireworks gemini geminiEmbedder generic grok grokEmbedder groq groqAdapter huggingface inMemorySink kimi kimiEmbedder langchain langgraph llamacpp lmstudio minimax mistral mockAdapter ollama ollamaEmbedder openai openaiEmbedder openrouter qwen recordingAdapter refreshCredentials replayAdapter replicate replicateAdapter resolveModel simulateStream together vercelAI vertex vertexAdapter vllm webllm webllmAdapter withDeprecationPolicy",
+          "symbols": "AnthropicConfig ApplyCarbonOptions AzureOpenAIConfig BailConfig BedrockConfig BedrockRuntimeClientLike CarbonTable CerebrasConfig CohereConfig CreateAdapterConfig CredentialRefreshable DEFAULT_CARBON_TABLE DEFAULT_DEPRECATION_TABLE DataRegion DeepSeekConfig DeepSeekEmbedderConfig DeprecationAction DeprecationPolicy EnsembleAggregator EnsembleBranchResult EnsembleCandidate EnsembleOptions FallbackCandidate FallbackOptions FireworksConfig GeminiConfig GeminiEmbedderConfig GenericAdapterConfig GrokConfig GrokEmbedderConfig GroqConfig HuggingFaceConfig KimiConfig KimiEmbedderConfig LMStudioConfig LangChainConfig LangGraphConfig LlamaCppConfig MistralConfig MockAdapterOptions MockResponse ModelDeprecation OllamaConfig OllamaEmbedderConfig OpenAICompatibleEmbedderConfig OpenAIConfig OpenAIEmbedderConfig OpenRouterConfig ProviderRegionKey RecordedTurn RecordingFixture RecordingSink ReplicateConfig ResolveModelInput ResolveModelResult RetryOptions RotatingCredentials RouterCandidate RouterOptions RouterPolicy TogetherConfig VLLMConfig VercelAIConfig VertexConfig WebLlmConfig WebLlmEngineLike anthropic applyCarbonTable azureOpenAI azureOpenAIAdapter bail bailAdapter bedrock bedrockAdapter cerebras cerebrasAdapter chunkText cohere cohereAdapter createAdapter createEnsembleAdapter createFallbackAdapter createOpenAICompatibleEmbedder createRotatingCredentials createRouter deepseek deepseekEmbedder estimateCO2Grams fetchWithRetry fireworks gemini geminiEmbedder generic grok grokEmbedder groq groqAdapter huggingface inMemorySink kimi kimiEmbedder langchain langgraph llamacpp lmstudio mistral mockAdapter ollama ollamaEmbedder openai openaiEmbedder openrouter qwen recordingAdapter refreshCredentials replayAdapter replicate replicateAdapter resolveModel simulateStream together vercelAI vertex vertexAdapter vllm webllm webllmAdapter withDeprecationPolicy",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -103874,11 +103826,6 @@
             },
             {
               "kind": "re-exports",
-              "id": "module:packages/adapters/src/minimax.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "re-exports",
               "id": "module:packages/adapters/src/mistral.ts",
               "confidence": "observed"
             },
@@ -103949,7 +103896,7 @@
             }
           ]
         },
-        "contentHash": "b2124a17c44b4fc448357d755e57cc59d29a9b2648b2931cc50cfc92eba960d2",
+        "contentHash": "219fd72d02c77632ca34d8c9247d0b3427a9b9cdcaf3837d7d400e386aafec1d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -104395,62 +104342,6 @@
           ]
         },
         "contentHash": "205045938e4caf5c858559f89ae39e758471bd1406cfd1bd0b3e1f5abd55badf",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
-        "id": "module:packages/adapters/src/minimax.ts",
-        "kind": "module",
-        "path": "packages/adapters/src/minimax.ts",
-        "title": "minimax.ts",
-        "aliases": [],
-        "symbols": [
-          "MiniMaxConfig",
-          "minimax"
-        ],
-        "tags": [
-          "module",
-          "ts",
-          "src"
-        ],
-        "fields": {
-          "title": "minimax.ts",
-          "headings": "",
-          "path": "packages/adapters/src/minimax.ts",
-          "symbols": "MiniMaxConfig minimax",
-          "summary": "",
-          "body": "",
-          "aliases": "module ts src"
-        },
-        "graph": {
-          "pagerank": 0,
-          "inboundLinks": 1,
-          "coveredBy": [],
-          "mentionedBy": [
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx"
-          ],
-          "packageId": "package:@agentskit/adapters",
-          "inbound": [
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "re-exports",
-              "id": "module:packages/adapters/src/index.ts",
-              "confidence": "observed"
-            }
-          ],
-          "outbound": [
-            {
-              "kind": "imports",
-              "id": "module:packages/adapters/src/openai-compatible.ts",
-              "confidence": "observed"
-            }
-          ]
-        },
-        "contentHash": "27deeedd15a91f78b20991a52a41813ba27d98919fd7ea07203af53adf881731",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -104921,11 +104812,6 @@
             {
               "kind": "imports",
               "id": "module:packages/adapters/src/lmstudio.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:packages/adapters/src/minimax.ts",
               "confidence": "observed"
             },
             {
@@ -107504,7 +107390,7 @@
             }
           ]
         },
-        "contentHash": "b12aaba3e2df96877bd10d00f69cbbd50a12ead8d364634cd4ad8883b81e7fb2",
+        "contentHash": "60b266424fde992ee349badb1c893c080241822314244d4bd8c794385d9f0c17",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -119875,7 +119761,7 @@
             }
           ]
         },
-        "contentHash": "d33b93892807636751b82e616ba3bcb5cb1804e1e504bd49eedc5ccacbd3e37b",
+        "contentHash": "e4a7b36a64321368582653b85a3b0754b83e085b3cac1f9d3f8d1071d6e112c9",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -125789,7 +125675,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "d507e8c3490d7174e5d77b28e8c4b0eecf3facc62b31eef99103ea517e3676cd",
+        "contentHash": "d8f80c4964208f4338733046d0aef1906bd3052a17d33fde1cb433137fb46f97",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -128996,7 +128882,7 @@
             }
           ]
         },
-        "contentHash": "b273bac2c602fce931a1334bb1c49d73e930a6a4941fec0b008601565050a82e",
+        "contentHash": "699766dbd5ad9d4ec7301537d5f7431f5fa7923cb0c07bf15a52893611a0f425",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -182325,6 +182211,54 @@
         "confidence": "observed"
       },
       {
+        "id": "module:scripts/size-core-closure.mjs",
+        "kind": "module",
+        "path": "scripts/size-core-closure.mjs",
+        "title": "size-core-closure.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "scripts"
+        ],
+        "fields": {
+          "title": "size-core-closure.mjs",
+          "headings": "",
+          "path": "scripts/size-core-closure.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 2,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:.agent-memory/feedback_zero-dep-core.md",
+            "document:packages/core/CONVENTIONS.md"
+          ],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:.agent-memory/feedback_zero-dep-core.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/core/CONVENTIONS.md",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "c8a6217c9f14394c4609cbe9898c9e226f17fa14623cd3d18304fc98c34a637e",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:scripts/software-metadata.test.mjs",
         "kind": "module",
         "path": "scripts/software-metadata.test.mjs",
@@ -190757,7 +190691,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "4bc49cccc8e0c2d3cd807fbe8e5d01aa0ef5c03f72f75375230d013f48b731f7",
+        "contentHash": "eb4880c312fa73419024d96b190f3b9fe37d4a4ef67f55aa403be7f092554de0",
         "provenance": "observed",
         "confidence": "observed"
       }
