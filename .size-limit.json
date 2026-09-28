@@ -1,14 +1,14 @@
 [
   {
-    "name": "@agentskit/core (ESM)",
-    "path": "packages/core/dist/index.js",
+    "name": "@agentskit/core (ESM, index + static chunks)",
+    "path": "node_modules/.cache/size-limit/core-esm-closure.js",
     "limit": "10 KB",
     "gzip": true
   },
   {
     "name": "@agentskit/core (CJS)",
     "path": "packages/core/dist/index.cjs",
-    "limit": "11 KB",
+    "limit": "10 KB",
     "gzip": true
   },
   {

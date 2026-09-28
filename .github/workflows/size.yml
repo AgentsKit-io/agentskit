@@ -36,4 +36,6 @@ jobs:
 
       - run: pnpm --filter "./packages/*" build
 
+      - run: node scripts/size-core-closure.mjs
+
       - run: pnpm exec size-limit

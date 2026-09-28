@@ -1,5 +1,4 @@
 import { ErrorCodes, MemoryError } from './errors'
-import { validateMemoryRecord } from './memory-validation'
 import type { ChatMemory, MemoryRecord, Message } from './types'
 
 export function serializeMessages(messages: Message[]): MemoryRecord {
@@ -40,6 +39,8 @@ export function createLocalStorageMemory(key: string): ChatMemory {
       try {
         const raw = localStorage.getItem(key)
         if (!raw) return []
+        // Lazy: keeps the validator out of the main entry's static import graph (10 KB budget).
+        const { validateMemoryRecord } = await import('./memory-validation.js')
         return deserializeMessages(validateMemoryRecord(JSON.parse(raw)))
       } catch (cause) {
         throw new MemoryError({

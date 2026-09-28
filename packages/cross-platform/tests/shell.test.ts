@@ -39,7 +39,7 @@ describe.skipIf(process.platform === 'win32')('runShell on POSIX', () => {
 
   it('kills the whole shell tree on timeout', async () => {
     const started = Date.now()
-    const result = await runShell('sleep 10; echo late', { timeoutMs: 100, killGraceMs: 0 })
+    const result = await runShell('sleep 10 && echo late', { timeoutMs: 100, killGraceMs: 0 })
     expect(result.timedOut).toBe(true)
     expect(result.stdout).toBe('')
     expect(Date.now() - started).toBeLessThan(5000)
