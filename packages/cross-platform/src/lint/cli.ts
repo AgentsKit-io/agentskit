@@ -1,5 +1,5 @@
 import { readFile } from 'node:fs/promises'
-import { join } from 'node:path'
+import { resolve } from 'node:path'
 import { CrossPlatformError, CrossPlatformErrorCodes } from '../errors'
 import { writeFileAtomic } from '../fs'
 import { compareToBaseline, tightenBaseline, type Baseline } from './baseline'
@@ -93,7 +93,7 @@ export async function runCli(argv: readonly string[], io: CliIo): Promise<number
     io.log(USAGE)
     return flags.command === undefined || flags.command === '--help' ? 0 : 1
   }
-  const baselinePath = join(io.cwd, flags.baseline)
+  const baselinePath = resolve(io.cwd, flags.baseline)
   const existing = await readBaseline(baselinePath)
 
   if (flags.init) {

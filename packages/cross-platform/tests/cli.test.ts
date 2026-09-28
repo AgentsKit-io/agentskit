@@ -24,6 +24,14 @@ afterEach(async () => {
 })
 
 describe('agentskit-cross-platform check', () => {
+  it('accepts an absolute --baseline path', async () => {
+    await source('a.ts', "import { spawn } from 'node:child_process'\n")
+    const baseline = join(cwd, 'nested-baseline.json')
+    expect(await runCli(['check', '--init', '--include', 'src', '--baseline', baseline], io())).toBe(0)
+    expect(JSON.parse(await readFile(baseline, 'utf8'))).toMatchObject({ version: 1 })
+    expect(await runCli(['check', '--baseline', baseline], io())).toBe(0)
+  })
+
   it('prints usage', async () => {
     expect(await runCli([], io())).toBe(0)
     expect(await runCli(['--help'], io())).toBe(0)
