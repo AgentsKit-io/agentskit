@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "ba18138d7667b9226105f51573bc5bffb47ac8eda20e95fc91978a19d0a4fa80",
+  "contentHash": "dc84fe2916251400e192fbef718d9b50075b69f31e3065d8ca47cdc7cf4e7c64",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-27T19:12:54.044Z",
+  "generatedAt": "2026-09-28T00:37:35.725Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -20310,7 +20310,7 @@
         "ts",
         "lint"
       ],
-      "contentHash": "29fdcfff7cf8bcf1f777dc0f005b2ea80cf242cd7aa3bc56b8922a2d1738d164"
+      "contentHash": "9bdf9da55055cdbd12b9bda3be0cb815b5e0423476b42cbf0ffce4cb92679bcd"
     },
     {
       "id": "module:packages/cross-platform/src/lint/rules.ts",
@@ -20423,7 +20423,7 @@
         "ts",
         "process"
       ],
-      "contentHash": "58c5df8de59b982164ed0d7ff35da5ce8338cb791c37a8edf727f8f5cbbe3884"
+      "contentHash": "41980dcba064e47bfc7e7d63e31a1cbdc2514b2a00e26a450c0379c4017a5404"
     },
     {
       "id": "module:packages/cross-platform/src/process/node-adapter.ts",
@@ -20686,7 +20686,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "afadcb97f6b40339ca425a4eb65a34e928d07b13ab93e222b697279e3ece2355"
+      "contentHash": "7276c08d696979149a991b787c63f64b0060673671aac0222ae6aa3d733028b1"
     },
     {
       "id": "module:packages/cross-platform/tests/deno-adapter.test.ts",
@@ -20790,7 +20790,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "78c163c9db9904692e5432bd93b5a7a724f9d5a6569666d97e2540559cca4f60"
+      "contentHash": "c3c7bbd79a4328db755b7ca08ad27dafdc8889cee0f72192f456e34d92259dc7"
     },
     {
       "id": "module:packages/cross-platform/tests/kill.test.ts",
@@ -20803,7 +20803,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "7c96d5071110b8291cae7c33aedb8c0654ba41e3d3c7adbf6355c89ddf2747b0"
+      "contentHash": "6cc471ba5340c4c3a8209c6e55d2cf14c3b68da5a2858051d0ab59e05a61998b"
     },
     {
       "id": "module:packages/cross-platform/tests/node-adapter.test.ts",
@@ -36808,7 +36808,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "b4919065c45026dda042c6fcd00f34454622c1d1a2bc558514f22e44295a74a4",
+    "hash": "d9ef0932a47b7715db655865ab6edec93e99d6a916a3faf370eea8d6ba934f45",
     "fileCount": 2446,
     "projectionVersion": 2
   },
@@ -36831,9 +36831,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "2d15322acccecfe14cb3f64db0b47beef14d2c24e8001c35b3a494f5339bf498",
+    "contentHash": "61fcde9b4370538bcb187212a05a7b9925e47b3a09b4fd6f03749c3f2b213e4d",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "34a91ebe5bdf9e473208c0bbfec20bfd001d7eea76d113cb075342a508a53baa",
+    "snapshotHash": "43df553b1543d9eb9a35e75d779184a5d8ceb7caa55436263a7ccc49ac138d4b",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -36865,7 +36865,7 @@
       ],
       "averageFieldLength": {
         "aliases": 3.006247396917951,
-        "body": 60.94585589337776,
+        "body": 60.942523948354854,
         "headings": 4.056643065389421,
         "path": 7.6364014993752605,
         "summary": 4.565597667638484,
@@ -49664,7 +49664,7 @@
           "path": "apps/docs-next/content/docs/for-agents/cross-platform.mdx",
           "symbols": "",
           "summary": "Windows contributors kept fixing the same bugs in every repository: .cmd shims (npx, pnpm, claude) failing without a shell, prompts truncated at the first newline by cmd.exe, \\ vs / in path comparisons, CRLF breaking hashes and frontmatter, EBUSY on rename, and child processes left running after a timeout.",
-          "body": "Install Why Windows contributors kept fixing the same bugs in every repository: .cmd shims ( npx , pnpm , claude ) failing without a shell, prompts truncated at the first newline by cmd.exe, \\ vs / in path comparisons, CRLF breaking hashes and frontmatter, EBUSY on rename, and child processes left running after a timeout. This package owns those fixes and the libraries behind them ( cross-spawn , tree-kill , pathe , std-env , graceful-fs , which ). See ADR-0036. Primary exports Processes - spawnProcess(command, args?, options?) — returns a ChildHandle with web-stream stdin / stdout / stderr , an exited promise and a tree-wide kill() . Never throws for a failed start: exited rejects with CrossPlatformError . - runCommand(command, args?, options?) — runs to completion; resolves { code, signal, stdout, stderr, timedOut, truncated, durationMs } . A non-zero exit is a result, not an error. - spawnShell(commandLine, options?) / runShell(commandLine, options?) — same handle/result, but through the platform shell ( sh -c on POSIX, %ComSpec% /d /s /c on Windows). Only for command lines a user wrote (hooks, scripts). shellCommand(line, env) returns that invocation. - spawnNodeChild(command, args?, options?) — child process.spawn with the same resolution ( .cmd shims, cmd.exe escaping, child PATH), for code that needs Node streams and events (JSON-RPC over stdio, long-lived servers). A missing command emits the usual 'error' (ENOENT); pair it with killProcessTree . - selectAdapter(runtime?) — the native adapter: node:child process , Bun.spawn or Deno.Command . - resolveCommand(command, args, { cwd, env }) — Windows command resolution and cmd.exe escaping (cross-spawn's parser). - killProcessTree(pid, signal?) — taskkill /T /F on Windows, tree walk on POSIX. - findExecutable(command) / commandExists(command) — PATH lookup honouring PATHEXT . - safeEnv({ inherit?, extra?, source? }) — minimal child env with SYSTEM ENV KEYS ( PATH , PATHEXT , SystemRoot , COMSPEC …). getEnv(name) is case-insensitive on Windows. homeDir() , tempDir() . Options: cwd , env , input (written to stdin, then closed), stdin / stdout / stderr ( pipe inherit ignore ), timeoutMs , killGraceMs , signal (AbortSignal), windowsHide (default true), and for runCommand / runShell maxOutputBytes (per stream). Paths and file URLs - toPosix , normalizePosix , joinPosix , resolvePosix , relativePosix , basename , dirname , extname — / output on every OS (pathe). - samePath(a, b) , isPathInside(parent, child) — separator-, trailing-slash- and (on Windows) case-insensitive. - isAbsolutePath , isWindowsStylePath . - fileUrlToPath , pathToFileUrl , moduleDir(import.meta.url) , isMainModule(import.meta.url) — never use new URL(...).pathname . Text - normalizeEol , stripBom , splitLines , splitFrontmatter (CRLF/BOM tolerant), hashText (SHA-256 after EOL normalisation; Web Crypto). Filesystem - removePath (rm -rf with retries), renamePath (graceful-fs retries on Windows locks), writeFileAtomic (temp file on the same volume, then rename), createSymlink (junction/copy fallback without Windows symlink privilege), copyPath , setFileMode (no-op on Windows; returns false). Runtime and errors - getRuntimeInfo() → { runtime, os, platform, isServer } ; isWindows , isMacOS , isLinux , isBun , isDeno (std-env). - CrossPlatformError , CrossPlatformErrorCodes ( AK PLATFORM PERMISSION DENIED , AK PLATFORM COMMAND NOT FOUND , AK PLATFORM SPAWN FAILED , AK PLATFORM INVALID INPUT , AK PLATFORM UNSUPPORTED RUNTIME ), isPermissionError , isNotFoundError , mapRuntimeError , permissionDenied . Guardrail - PORTABILITY RULES , scanText , scanRepository , countFindings , compareToBaseline , tightenBaseline , runCli — back the agentskit-cross-platform check bin (ratchet baseline in .cross-platform-baseline.json ; cross-platform-ignore: <reason allows an exception). Usage Notes - @agentskit/cross-platform/pure exposes paths, text and runtime detection without node: imports (browsers, edge workers). - Deno: miss",
+          "body": "Install Why Windows contributors kept fixing the same bugs in every repository: .cmd shims ( npx , pnpm , claude ) failing without a shell, prompts truncated at the first newline by cmd.exe, \\ vs / in path comparisons, CRLF breaking hashes and frontmatter, EBUSY on rename, and child processes left running after a timeout. This package owns those fixes and the libraries behind them ( cross-spawn , tree-kill , pathe , std-env , graceful-fs , which ). See ADR-0036. Primary exports Processes - spawnProcess(command, args?, options?) — returns a ChildHandle with web-stream stdin / stdout / stderr , an exited promise and a tree-wide kill() . Never throws for a failed start: exited rejects with CrossPlatformError . - runCommand(command, args?, options?) — runs to completion; resolves { code, signal, stdout, stderr, timedOut, truncated, durationMs } . A non-zero exit is a result, not an error. - spawnShell(commandLine, options?) / runShell(commandLine, options?) — same handle/result, but through the platform shell ( sh -c on POSIX, %ComSpec% /d /s /c on Windows). Only for command lines a user wrote (hooks, scripts). shellCommand(line, env) returns that invocation. - spawnNodeChild(command, args?, options?) — child process.spawn with the same resolution ( .cmd shims, cmd.exe escaping, child PATH), for code that needs Node streams and events (JSON-RPC over stdio, long-lived servers). A missing command emits the usual 'error' (ENOENT); pair it with killProcessTree . - selectAdapter(runtime?) — the native adapter: node:child process , Bun.spawn or Deno.Command . - resolveCommand(command, args, { cwd, env }) — Windows command resolution and cmd.exe escaping (cross-spawn's parser). - killProcessTree(pid, signal?, fallback?) — taskkill /T /F on Windows; on POSIX a tree walk plus the process group pid leads (children spawned with detached: true ), so descendants whose parent already exited are reached too. - findExecutable(command) / commandExists(command) — PATH lookup honouring PATHEXT . - safeEnv({ inherit?, extra?, source? }) — minimal child env with SYSTEM ENV KEYS ( PATH , PATHEXT , SystemRoot , COMSPEC …). getEnv(name) is case-insensitive on Windows. homeDir() , tempDir() . Options: cwd , env , input (written to stdin, then closed), stdin / stdout / stderr ( pipe inherit ignore ), timeoutMs , killGraceMs , signal (AbortSignal), windowsHide (default true), and for runCommand / runShell maxOutputBytes (per stream). Paths and file URLs - toPosix , normalizePosix , joinPosix , resolvePosix , relativePosix , basename , dirname , extname — / output on every OS (pathe). - samePath(a, b) , isPathInside(parent, child) — separator-, trailing-slash- and (on Windows) case-insensitive. - isAbsolutePath , isWindowsStylePath . - fileUrlToPath , pathToFileUrl , moduleDir(import.meta.url) , isMainModule(import.meta.url) — never use new URL(...).pathname . Text - normalizeEol , stripBom , splitLines , splitFrontmatter (CRLF/BOM tolerant), hashText (SHA-256 after EOL normalisation; Web Crypto). Filesystem - removePath (rm -rf with retries), renamePath (graceful-fs retries on Windows locks), writeFileAtomic (temp file on the same volume, then rename), createSymlink (junction/copy fallback without Windows symlink privilege), copyPath , setFileMode (no-op on Windows; returns false). Runtime and errors - getRuntimeInfo() → { runtime, os, platform, isServer } ; isWindows , isMacOS , isLinux , isBun , isDeno (std-env). - CrossPlatformError , CrossPlatformErrorCodes ( AK PLATFORM PERMISSION DENIED , AK PLATFORM COMMAND NOT FOUND , AK PLATFORM SPAWN FAILED , AK PLATFORM INVALID INPUT , AK PLATFORM UNSUPPORTED RUNTIME ), isPermissionError , isNotFoundError , mapRuntimeError , permissionDenied . Guardrail - PORTABILITY RULES , scanText , scanRepository , countFindings , compareToBaseline , tightenBaseline , runCli — back the agentskit-cross-platform check bin (ratchet baseline in .cross-platform-baseline.json ; cross-platform-ignore: <reason allows an exception). U",
           "aliases": "cross-platform document agent"
         },
         "graph": {
@@ -49746,7 +49746,7 @@
             }
           ]
         },
-        "contentHash": "d1b797edcab0ee1b63aa487a22b9c57ffe5f26ee0fd86c8faa194c360a0b4528",
+        "contentHash": "148733ce5888194a14f340461dad844b1b24e76d07bc51fa2cecf6abb6a62f44",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -126596,7 +126596,7 @@
             }
           ]
         },
-        "contentHash": "29fdcfff7cf8bcf1f777dc0f005b2ea80cf242cd7aa3bc56b8922a2d1738d164",
+        "contentHash": "9bdf9da55055cdbd12b9bda3be0cb815b5e0423476b42cbf0ffce4cb92679bcd",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -127037,7 +127037,7 @@
             }
           ]
         },
-        "contentHash": "58c5df8de59b982164ed0d7ff35da5ce8338cb791c37a8edf727f8f5cbbe3884",
+        "contentHash": "41980dcba064e47bfc7e7d63e31a1cbdc2514b2a00e26a450c0379c4017a5404",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -128030,7 +128030,7 @@
             }
           ]
         },
-        "contentHash": "afadcb97f6b40339ca425a4eb65a34e928d07b13ab93e222b697279e3ece2355",
+        "contentHash": "7276c08d696979149a991b787c63f64b0060673671aac0222ae6aa3d733028b1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -128350,7 +128350,7 @@
             }
           ]
         },
-        "contentHash": "78c163c9db9904692e5432bd93b5a7a724f9d5a6569666d97e2540559cca4f60",
+        "contentHash": "c3c7bbd79a4328db755b7ca08ad27dafdc8889cee0f72192f456e34d92259dc7",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -128390,7 +128390,7 @@
             }
           ]
         },
-        "contentHash": "7c96d5071110b8291cae7c33aedb8c0654ba41e3d3c7adbf6355c89ddf2747b0",
+        "contentHash": "6cc471ba5340c4c3a8209c6e55d2cf14c3b68da5a2858051d0ab59e05a61998b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -184717,7 +184717,7 @@
           "path": "packages/cross-platform",
           "symbols": "",
           "summary": "Windows contributors kept fixing the same bugs in every repository: .cmd shims (npx, pnpm, claude) failing without a shell, prompts truncated at the first newline by cmd.exe, \\ vs / in path comparisons, CRLF breaking hashes and frontmatter, EBUSY on rename, and child processes left running after a timeout.",
-          "body": "Install Why Windows contributors kept fixing the same bugs in every repository: .cmd shims ( npx , pnpm , claude ) failing without a shell, prompts truncated at the first newline by cmd.exe, \\ vs / in path comparisons, CRLF breaking hashes and frontmatter, EBUSY on rename, and child processes left running after a timeout. This package owns those fixes and the libraries behind them ( cross-spawn , tree-kill , pathe , std-env , graceful-fs , which ). See ADR-0036. Primary exports Processes - spawnProcess(command, args?, options?) — returns a ChildHandle with web-stream stdin / stdout / stderr , an exited promise and a tree-wide kill() . Never throws for a failed start: exited rejects with CrossPlatformError . - runCommand(command, args?, options?) — runs to completion; resolves { code, signal, stdout, stderr, timedOut, truncated, durationMs } . A non-zero exit is a result, not an error. - spawnShell(commandLine, options?) / runShell(commandLine, options?) — same handle/result, but through the platform shell ( sh -c on POSIX, %ComSpec% /d /s /c on Windows). Only for command lines a user wrote (hooks, scripts). shellCommand(line, env) returns that invocation. - spawnNodeChild(command, args?, options?) — child process.spawn with the same resolution ( .cmd shims, cmd.exe escaping, child PATH), for code that needs Node streams and events (JSON-RPC over stdio, long-lived servers). A missing command emits the usual 'error' (ENOENT); pair it with killProcessTree . - selectAdapter(runtime?) — the native adapter: node:child process , Bun.spawn or Deno.Command . - resolveCommand(command, args, { cwd, env }) — Windows command resolution and cmd.exe escaping (cross-spawn's parser). - killProcessTree(pid, signal?) — taskkill /T /F on Windows, tree walk on POSIX. - findExecutable(command) / commandExists(command) — PATH lookup honouring PATHEXT . - safeEnv({ inherit?, extra?, source? }) — minimal child env with SYSTEM ENV KEYS ( PATH , PATHEXT , SystemRoot , COMSPEC …). getEnv(name) is case-insensitive on Windows. homeDir() , tempDir() . Options: cwd , env , input (written to stdin, then closed), stdin / stdout / stderr ( pipe inherit ignore ), timeoutMs , killGraceMs , signal (AbortSignal), windowsHide (default true), and for runCommand / runShell maxOutputBytes (per stream). Paths and file URLs - toPosix , normalizePosix , joinPosix , resolvePosix , relativePosix , basename , dirname , extname — / output on every OS (pathe). - samePath(a, b) , isPathInside(parent, child) — separator-, trailing-slash- and (on Windows) case-insensitive. - isAbsolutePath , isWindowsStylePath . - fileUrlToPath , pathToFileUrl , moduleDir(import.meta.url) , isMainModule(import.meta.url) — never use new URL(...).pathname . Text - normalizeEol , stripBom , splitLines , splitFrontmatter (CRLF/BOM tolerant), hashText (SHA-256 after EOL normalisation; Web Crypto). Filesystem - removePath (rm -rf with retries), renamePath (graceful-fs retries on Windows locks), writeFileAtomic (temp file on the same volume, then rename), createSymlink (junction/copy fallback without Windows symlink privilege), copyPath , setFileMode (no-op on Windows; returns false). Runtime and errors - getRuntimeInfo() → { runtime, os, platform, isServer } ; isWindows , isMacOS , isLinux , isBun , isDeno (std-env). - CrossPlatformError , CrossPlatformErrorCodes ( AK PLATFORM PERMISSION DENIED , AK PLATFORM COMMAND NOT FOUND , AK PLATFORM SPAWN FAILED , AK PLATFORM INVALID INPUT , AK PLATFORM UNSUPPORTED RUNTIME ), isPermissionError , isNotFoundError , mapRuntimeError , permissionDenied . Guardrail - PORTABILITY RULES , scanText , scanRepository , countFindings , compareToBaseline , tightenBaseline , runCli — back the agentskit-cross-platform check bin (ratchet baseline in .cross-platform-baseline.json ; cross-platform-ignore: <reason allows an exception). Usage Notes - @agentskit/cross-platform/pure exposes paths, text and runtime detection without node: imports (browsers, edge workers). - Deno: miss",
+          "body": "Install Why Windows contributors kept fixing the same bugs in every repository: .cmd shims ( npx , pnpm , claude ) failing without a shell, prompts truncated at the first newline by cmd.exe, \\ vs / in path comparisons, CRLF breaking hashes and frontmatter, EBUSY on rename, and child processes left running after a timeout. This package owns those fixes and the libraries behind them ( cross-spawn , tree-kill , pathe , std-env , graceful-fs , which ). See ADR-0036. Primary exports Processes - spawnProcess(command, args?, options?) — returns a ChildHandle with web-stream stdin / stdout / stderr , an exited promise and a tree-wide kill() . Never throws for a failed start: exited rejects with CrossPlatformError . - runCommand(command, args?, options?) — runs to completion; resolves { code, signal, stdout, stderr, timedOut, truncated, durationMs } . A non-zero exit is a result, not an error. - spawnShell(commandLine, options?) / runShell(commandLine, options?) — same handle/result, but through the platform shell ( sh -c on POSIX, %ComSpec% /d /s /c on Windows). Only for command lines a user wrote (hooks, scripts). shellCommand(line, env) returns that invocation. - spawnNodeChild(command, args?, options?) — child process.spawn with the same resolution ( .cmd shims, cmd.exe escaping, child PATH), for code that needs Node streams and events (JSON-RPC over stdio, long-lived servers). A missing command emits the usual 'error' (ENOENT); pair it with killProcessTree . - selectAdapter(runtime?) — the native adapter: node:child process , Bun.spawn or Deno.Command . - resolveCommand(command, args, { cwd, env }) — Windows command resolution and cmd.exe escaping (cross-spawn's parser). - killProcessTree(pid, signal?, fallback?) — taskkill /T /F on Windows; on POSIX a tree walk plus the process group pid leads (children spawned with detached: true ), so descendants whose parent already exited are reached too. - findExecutable(command) / commandExists(command) — PATH lookup honouring PATHEXT . - safeEnv({ inherit?, extra?, source? }) — minimal child env with SYSTEM ENV KEYS ( PATH , PATHEXT , SystemRoot , COMSPEC …). getEnv(name) is case-insensitive on Windows. homeDir() , tempDir() . Options: cwd , env , input (written to stdin, then closed), stdin / stdout / stderr ( pipe inherit ignore ), timeoutMs , killGraceMs , signal (AbortSignal), windowsHide (default true), and for runCommand / runShell maxOutputBytes (per stream). Paths and file URLs - toPosix , normalizePosix , joinPosix , resolvePosix , relativePosix , basename , dirname , extname — / output on every OS (pathe). - samePath(a, b) , isPathInside(parent, child) — separator-, trailing-slash- and (on Windows) case-insensitive. - isAbsolutePath , isWindowsStylePath . - fileUrlToPath , pathToFileUrl , moduleDir(import.meta.url) , isMainModule(import.meta.url) — never use new URL(...).pathname . Text - normalizeEol , stripBom , splitLines , splitFrontmatter (CRLF/BOM tolerant), hashText (SHA-256 after EOL normalisation; Web Crypto). Filesystem - removePath (rm -rf with retries), renamePath (graceful-fs retries on Windows locks), writeFileAtomic (temp file on the same volume, then rename), createSymlink (junction/copy fallback without Windows symlink privilege), copyPath , setFileMode (no-op on Windows; returns false). Runtime and errors - getRuntimeInfo() → { runtime, os, platform, isServer } ; isWindows , isMacOS , isLinux , isBun , isDeno (std-env). - CrossPlatformError , CrossPlatformErrorCodes ( AK PLATFORM PERMISSION DENIED , AK PLATFORM COMMAND NOT FOUND , AK PLATFORM SPAWN FAILED , AK PLATFORM INVALID INPUT , AK PLATFORM UNSUPPORTED RUNTIME ), isPermissionError , isNotFoundError , mapRuntimeError , permissionDenied . Guardrail - PORTABILITY RULES , scanText , scanRepository , countFindings , compareToBaseline , tightenBaseline , runCli — back the agentskit-cross-platform check bin (ratchet baseline in .cross-platform-baseline.json ; cross-platform-ignore: <reason allows an exception). U",
           "aliases": "cross-platform @agentskit/cross-platform package ownership"
         },
         "graph": {

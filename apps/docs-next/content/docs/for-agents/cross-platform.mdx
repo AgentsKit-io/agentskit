@@ -35,7 +35,7 @@ Windows contributors kept fixing the same bugs in every repository: `.cmd` shims
 - `spawnNodeChild(command, args?, options?)` — `child_process.spawn` with the same resolution (`.cmd` shims, cmd.exe escaping, child PATH), for code that needs Node streams and events (JSON-RPC over stdio, long-lived servers). A missing command emits the usual `'error'` (ENOENT); pair it with `killProcessTree`.
 - `selectAdapter(runtime?)` — the native adapter: `node:child_process`, `Bun.spawn` or `Deno.Command`.
 - `resolveCommand(command, args, { cwd, env })` — Windows command resolution and cmd.exe escaping (cross-spawn's parser).
-- `killProcessTree(pid, signal?)` — `taskkill /T /F` on Windows, tree walk on POSIX.
+- `killProcessTree(pid, signal?, fallback?)` — `taskkill /T /F` on Windows; on POSIX a tree walk plus the process group `pid` leads (children spawned with `detached: true`), so descendants whose parent already exited are reached too.
 - `findExecutable(command)` / `commandExists(command)` — PATH lookup honouring `PATHEXT`.
 - `safeEnv({ inherit?, extra?, source? })` — minimal child env with `SYSTEM_ENV_KEYS` (`PATH`, `PATHEXT`, `SystemRoot`, `COMSPEC`…). `getEnv(name)` is case-insensitive on Windows. `homeDir()`, `tempDir()`.
 

@@ -32,4 +32,22 @@ describe('killProcessTree', () => {
     })
     await expect(killProcessTree(child.pid!, 'SIGTERM', fallback)).resolves.toBeUndefined()
   })
+
+  it.skipIf(process.platform === 'win32')('reaches group members whose parent already exited', async () => {
+    // leader (detached) -> middle (exits) -> orphan: the tree walk from the leader no longer sees the orphan.
+    const middle =
+      'const o=require("child_process").spawn(process.execPath,["-e","setInterval(()=>{},1000)"],{stdio:"ignore"});' +
+      'o.unref();console.log(o.pid);process.exit(0)'
+    const leader = spawn(
+      process.execPath,
+      ['-e', `const m=require("child_process").spawn(process.execPath,["-e",${JSON.stringify(middle)}]);m.stdout.pipe(process.stdout);setInterval(()=>{},1000)`],
+      { detached: true },
+    )
+    const orphan = await new Promise<number>(resolve => leader.stdout.once('data', chunk => resolve(Number(String(chunk).trim()))))
+    await new Promise(resolve => setTimeout(resolve, 300))
+    const closed = new Promise(resolve => leader.once('close', resolve))
+    await killProcessTree(leader.pid!, 'SIGKILL')
+    await closed
+    await vi.waitFor(() => expect(alive(orphan)).toBe(false), { timeout: 5000 })
+  })
 })
