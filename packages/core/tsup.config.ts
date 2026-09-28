@@ -28,7 +28,7 @@ export default defineConfig({
   clean: false,
   minify: true,
   treeshake: true,
-  external: ['./tool-proposal-internal.js', './tool-authorization-internal.js'],
+  external: ['./tool-proposal-internal.js', './tool-authorization-internal.js', './memory-validation.js'],
   // tsup ships .ts entrypoints only; copy bundled JSON assets manually.
   async onSuccess() {
     await copyFile('src/security/default-taxonomy.json', 'dist/default-taxonomy.json')

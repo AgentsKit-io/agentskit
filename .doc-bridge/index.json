@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "c2ebaa52c5dce775d4a956aedb5bfc1f37685b62c7de1bbf32f964cffa96bb66",
+  "contentHash": "3628b4e6498533afe3c2271aee6aa405cf072ed04ee0cb96f5241dd82c021380",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-28T01:07:51.373Z",
+  "generatedAt": "2026-09-28T02:34:49.388Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -208,12 +208,12 @@
       "type": "document",
       "title": "feedback_zero-dep-core.md",
       "path": ".agent-memory/feedback_zero-dep-core.md",
-      "description": "Fact: @agentskit/core has zero runtime dependencies and must stay under ~10 KB gzipped. Enforced by scripts/check-core-no-deps.mjs.",
+      "description": "Fact: @agentskit/core has zero runtime dependencies and must stay under ~10 KB gzipped. Deps: scripts/check-core-no-deps.mjs. Size: .size-limit.json measures the bundled ESM closure (index + static chunk-*.js, built by scripts/size-core-closure.mjs), not dist/index.js alone, which hid ~4 KB of shared chunks.",
       "tags": [
         "document",
         "unclassified"
       ],
-      "contentHash": "c8dbfc0b5bc4a06158342b7f5703b366c906d673bb4c2356d7ada103bc21d3ff"
+      "contentHash": "e6d25db7e4a8f2572f971e65e5a326ef7b6cbde957ec631f6246edfc42ed9ae1"
     },
     {
       "id": "document:.agent-memory/MEMORY.md",
@@ -6824,7 +6824,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "7ccbeda3ca7962179a90934bd7295bd9f331ddfffe054a8e416c17ff4417ba13"
+      "contentHash": "c2b1469d25126fe93fee7ea33180bb22024139ffdbe9eb34a18c9575970b2005"
     },
     {
       "id": "document:packages/core/README.md",
@@ -18761,7 +18761,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "d33b93892807636751b82e616ba3bcb5cb1804e1e504bd49eedc5ccacbd3e37b"
+      "contentHash": "e4a7b36a64321368582653b85a3b0754b83e085b3cac1f9d3f8d1071d6e112c9"
     },
     {
       "id": "module:packages/core/src/primitives.ts",
@@ -20051,7 +20051,7 @@
         "ts",
         "core"
       ],
-      "contentHash": "d507e8c3490d7174e5d77b28e8c4b0eecf3facc62b31eef99103ea517e3676cd"
+      "contentHash": "d8f80c4964208f4338733046d0aef1906bd3052a17d33fde1cb433137fb46f97"
     },
     {
       "id": "module:packages/core/vitest.config.ts",
@@ -35420,6 +35420,18 @@
       "contentHash": "07c84ec9c0619c818d3cb9042679f7304e3269c622cdad6636daabc0e1a61237"
     },
     {
+      "id": "module:scripts/size-core-closure.mjs",
+      "type": "module",
+      "title": "size-core-closure.mjs",
+      "path": "scripts/size-core-closure.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "scripts"
+      ],
+      "contentHash": "c8a6217c9f14394c4609cbe9898c9e226f17fa14623cd3d18304fc98c34a637e"
+    },
+    {
       "id": "module:scripts/software-metadata.test.mjs",
       "type": "module",
       "title": "software-metadata.test.mjs",
@@ -36808,8 +36820,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "a41771d41d11636a8bbc4d5662a8f9f5ac337b4b37b415895caa196109c52666",
-    "fileCount": 2446,
+    "hash": "2120f611cbc9b83eb314adbffcc4693aa2a4289d9a0828ee1423928b344b6fb8",
+    "fileCount": 2447,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -36831,9 +36843,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "ac9c87479fa7b3028d336bb4d78df3d29332cc399606716dec1854e61f2d4f2f",
+    "contentHash": "059e1bd7a6ea79234ce596ae6caaedf645910e1a5ec055883948d9efb72d0488",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "a80ef1803139e92123cf24ec715c84145957775aefab8c4fd084de078e07b871",
+    "snapshotHash": "1b73b9375ee03d94a582b31fe97089eae18759111d01527e922d39ce0827b91b",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -36853,7 +36865,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2401,
+      "documentCount": 2402,
       "fieldNames": [
         "aliases",
         "body",
@@ -36864,13 +36876,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.006247396917951,
-        "body": 60.942523948354854,
-        "headings": 4.056643065389421,
-        "path": 7.6364014993752605,
-        "summary": 4.565597667638484,
-        "symbols": 7.5276967930029155,
-        "title": 3.3281965847563515
+        "aliases": 3.0062447960033305,
+        "body": 60.94671107410491,
+        "headings": 4.054954204829309,
+        "path": 7.63572023313905,
+        "summary": 4.576186511240633,
+        "symbols": 7.524562864279767,
+        "title": 3.328892589508743
       }
     },
     "entries": [
@@ -39294,7 +39306,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "f8703aa845e14e1e55c7792eb6a4cd43e4603375259e6e885016ae93550610b8",
+        "contentHash": "b3fbb401ef4953fce59143d9141095cf589f4f70e7b1b4adc04221840f922bb0",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -39361,7 +39373,7 @@
         "kind": "document",
         "path": ".agent-memory/feedback_zero-dep-core.md",
         "title": "feedback_zero-dep-core.md",
-        "summary": "Fact: @agentskit/core has zero runtime dependencies and must stay under ~10 KB gzipped. Enforced by scripts/check-core-no-deps.mjs.",
+        "summary": "Fact: @agentskit/core has zero runtime dependencies and must stay under ~10 KB gzipped. Deps: scripts/check-core-no-deps.mjs. Size: .size-limit.json measures the bundled ESM closure (index + static chunk-*.js, built by scripts/size-core-closure.mjs), not dist/index.js alone, which hid ~4 KB of shared chunks.",
         "aliases": [],
         "tags": [
           "document",
@@ -39372,8 +39384,8 @@
           "headings": "",
           "path": ".agent-memory/feedback_zero-dep-core.md",
           "symbols": "",
-          "summary": "Fact: @agentskit/core has zero runtime dependencies and must stay under ~10 KB gzipped. Enforced by scripts/check-core-no-deps.mjs.",
-          "body": "Fact: @agentskit/core has zero runtime dependencies and must stay under ~10 KB gzipped. Enforced by scripts/check-core-no-deps.mjs . Why: Core is the stable foundation every other package depends on; a dep in core is a dep for the whole ecosystem. Keeping it pure keeps the framework plug-and-play and tree-shakeable. How to apply: When a feature needs a third-party lib (Ajv, Langfuse, an HTTP client, etc.), do NOT add it to core. Define a contract/injection point in core (e.g. the ArgsValidator type + validateArgs option) and ship the implementation in a separate opt-in package ( @agentskit/validation , @agentskit/observability-langfuse , …). Default behaviour with no injection must be a safe passthrough. Related: [[feedback json-schema-canonical]], [[reference quality-gates]]",
+          "summary": "Fact: @agentskit/core has zero runtime dependencies and must stay under ~10 KB gzipped. Deps: scripts/check-core-no-deps.mjs. Size: .size-limit.json measures the bundled ESM closure (index + static chunk-*.js, built by scripts/size-core-closure.mjs), not dist/index.js alone, which hid ~4 KB of shared chunks.",
+          "body": "Fact: @agentskit/core has zero runtime dependencies and must stay under ~10 KB gzipped. Deps: scripts/check-core-no-deps.mjs . Size: .size-limit.json measures the bundled ESM closure (index + static chunk- .js , built by scripts/size-core-closure.mjs ), not dist/index.js alone, which hid ~4 KB of shared chunks. Why: Core is the stable foundation every other package depends on; a dep in core is a dep for the whole ecosystem. Keeping it pure keeps the framework plug-and-play and tree-shakeable. How to apply: When a feature needs a third-party lib (Ajv, Langfuse, an HTTP client, etc.), do NOT add it to core. Define a contract/injection point in core (e.g. the ArgsValidator type + validateArgs option) and ship the implementation in a separate opt-in package ( @agentskit/validation , @agentskit/observability-langfuse , …). Default behaviour with no injection must be a safe passthrough. Related: [[feedback json-schema-canonical]], [[reference quality-gates]]",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -39398,6 +39410,11 @@
             },
             {
               "kind": "mentions",
+              "id": "module:scripts/size-core-closure.mjs",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
               "id": "package:@agentskit/core",
               "confidence": "observed"
             },
@@ -39418,7 +39435,7 @@
             }
           ]
         },
-        "contentHash": "c8dbfc0b5bc4a06158342b7f5703b366c906d673bb4c2356d7ada103bc21d3ff",
+        "contentHash": "e6d25db7e4a8f2572f971e65e5a326ef7b6cbde957ec631f6246edfc42ed9ae1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -75276,7 +75293,7 @@
           "path": "packages/core/CONVENTIONS.md",
           "symbols": "",
           "summary": "The core package. Every rule here is stricter than the rest of the monorepo.",
-          "body": "Conventions — @agentskit/core The core package. Every rule here is stricter than the rest of the monorepo. Non-negotiables - Zero runtime dependencies. dependencies in package.json is empty and stays empty. Never add one, not even \"small\". - Under 10KB gzipped. CI ( size-limit ) enforces. If you're pushing the limit, the change is too big. - Contracts first. Public types and interfaces for every contract live here — Adapter, Tool, Memory, Retriever, Skill, Runtime. Implementations live in other packages. - Named exports only. No default exports, anywhere, ever. - No any . Use unknown and narrow with type guards. What belongs here - Types and interfaces for the six core contracts (ADRs 0001–0006) - Shared primitives reused by multiple packages: createEventEmitter , safeParseArgs , consumeStream , message-building helpers - The chat controller ( controller.ts ) — headless state machine for a chat session - The agent loop core ( agent-loop.ts ) — the substrate the runtime builds on What does NOT belong here - Any provider SDK or API client → @agentskit/adapters - Any React hook or component → @agentskit/react - Any Ink component → @agentskit/ink - Any file I/O → @agentskit/memory or a package that's not zero-dep - Any node: import that's not available on every runtime we target (edge, Deno, browser) Adding a new primitive 1. Is the thing a contract type ? Put it in src/types/ .ts and re-export from src/types/index.ts . Write an ADR if it's cross-package. 2. Is it a reusable helper used by 2+ packages? Put it in src/primitives.ts or a dedicated file, export from src/index.ts . 3. Write unit tests that exercise only the public export. Do not reach into internals. Every addition raises the bundle size. Run pnpm size in the repo root and verify the core budget still holds. Testing - Pure unit tests with vitest . Environment is node . - Avoid mocks — test real functions with real inputs. - Mocked adapters for stream-related tests are acceptable since the Adapter contract is the seam. Files you can edit without an ADR - Bug fixes that don't change exported types - New internal helpers (not exported) - JSDoc improvements - Test additions Files that require an ADR first - Any src/types/ .ts change that alters an exported type - Any new exported function or class - Anything that touches the bundle size beyond ~500 bytes gzipped Review checklist for this package - [ ] No new runtime dependency (check package.json ) - [ ] Bundle size under 10KB gzipped ( pnpm size ) - [ ] Coverage threshold holds (75% lines) - [ ] No any introduced - [ ] Named exports only - [ ] ADR linked if a contract changed",
+          "body": "Conventions — @agentskit/core The core package. Every rule here is stricter than the rest of the monorepo. Non-negotiables - Zero runtime dependencies. dependencies in package.json is empty and stays empty. Never add one, not even \"small\". - Under 10KB gzipped. CI ( size-limit ) enforces it on the real import cost: dist/index.js bundled with every chunk it statically imports ( scripts/size-core-closure.mjs ), plus dist/index.cjs . Subpath-only code must not be statically imported by src/index.ts 's graph; load it lazily ( await import('./x.js') + tsup external ). If you're pushing the limit, the change is too big. - Contracts first. Public types and interfaces for every contract live here — Adapter, Tool, Memory, Retriever, Skill, Runtime. Implementations live in other packages. - Named exports only. No default exports, anywhere, ever. - No any . Use unknown and narrow with type guards. What belongs here - Types and interfaces for the six core contracts (ADRs 0001–0006) - Shared primitives reused by multiple packages: createEventEmitter , safeParseArgs , consumeStream , message-building helpers - The chat controller ( controller.ts ) — headless state machine for a chat session - The agent loop core ( agent-loop.ts ) — the substrate the runtime builds on What does NOT belong here - Any provider SDK or API client → @agentskit/adapters - Any React hook or component → @agentskit/react - Any Ink component → @agentskit/ink - Any file I/O → @agentskit/memory or a package that's not zero-dep - Any node: import that's not available on every runtime we target (edge, Deno, browser) Adding a new primitive 1. Is the thing a contract type ? Put it in src/types/ .ts and re-export from src/types/index.ts . Write an ADR if it's cross-package. 2. Is it a reusable helper used by 2+ packages? Put it in src/primitives.ts or a dedicated file, export from src/index.ts . 3. Write unit tests that exercise only the public export. Do not reach into internals. Every addition raises the bundle size. Run pnpm size in the repo root and verify the core budget still holds. Testing - Pure unit tests with vitest . Environment is node . - Avoid mocks — test real functions with real inputs. - Mocked adapters for stream-related tests are acceptable since the Adapter contract is the seam. Files you can edit without an ADR - Bug fixes that don't change exported types - New internal helpers (not exported) - JSDoc improvements - Test additions Files that require an ADR first - Any src/types/ .ts change that alters an exported type - Any new exported function or class - Anything that touches the bundle size beyond ~500 bytes gzipped Review checklist for this package - [ ] No new runtime dependency (check package.json ) - [ ] Bundle size under 10KB gzipped ( pnpm size ) - [ ] Coverage threshold holds (75% lines) - [ ] No any introduced - [ ] Named exports only - [ ] ADR linked if a contract changed",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -75286,6 +75303,11 @@
           "mentionedBy": [],
           "inbound": [],
           "outbound": [
+            {
+              "kind": "mentions",
+              "id": "module:scripts/size-core-closure.mjs",
+              "confidence": "observed"
+            },
             {
               "kind": "mentions",
               "id": "package:@agentskit/adapters",
@@ -75318,7 +75340,7 @@
             }
           ]
         },
-        "contentHash": "7ccbeda3ca7962179a90934bd7295bd9f331ddfffe054a8e416c17ff4417ba13",
+        "contentHash": "c2b1469d25126fe93fee7ea33180bb22024139ffdbe9eb34a18c9575970b2005",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -119739,7 +119761,7 @@
             }
           ]
         },
-        "contentHash": "d33b93892807636751b82e616ba3bcb5cb1804e1e504bd49eedc5ccacbd3e37b",
+        "contentHash": "e4a7b36a64321368582653b85a3b0754b83e085b3cac1f9d3f8d1071d6e112c9",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -125653,7 +125675,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "d507e8c3490d7174e5d77b28e8c4b0eecf3facc62b31eef99103ea517e3676cd",
+        "contentHash": "d8f80c4964208f4338733046d0aef1906bd3052a17d33fde1cb433137fb46f97",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -182189,6 +182211,54 @@
         "confidence": "observed"
       },
       {
+        "id": "module:scripts/size-core-closure.mjs",
+        "kind": "module",
+        "path": "scripts/size-core-closure.mjs",
+        "title": "size-core-closure.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "scripts"
+        ],
+        "fields": {
+          "title": "size-core-closure.mjs",
+          "headings": "",
+          "path": "scripts/size-core-closure.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 2,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:.agent-memory/feedback_zero-dep-core.md",
+            "document:packages/core/CONVENTIONS.md"
+          ],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:.agent-memory/feedback_zero-dep-core.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/core/CONVENTIONS.md",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "c8a6217c9f14394c4609cbe9898c9e226f17fa14623cd3d18304fc98c34a637e",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:scripts/software-metadata.test.mjs",
         "kind": "module",
         "path": "scripts/software-metadata.test.mjs",
@@ -190621,7 +190691,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "4bc49cccc8e0c2d3cd807fbe8e5d01aa0ef5c03f72f75375230d013f48b731f7",
+        "contentHash": "eb4880c312fa73419024d96b190f3b9fe37d4a4ef67f55aa403be7f092554de0",
         "provenance": "observed",
         "confidence": "observed"
       }

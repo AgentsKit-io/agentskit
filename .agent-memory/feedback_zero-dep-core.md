@@ -7,7 +7,10 @@ metadata:
 ---
 
 **Fact:** `@agentskit/core` has zero runtime dependencies and must stay under
-~10 KB gzipped. Enforced by `scripts/check-core-no-deps.mjs`.
+~10 KB gzipped. Deps: `scripts/check-core-no-deps.mjs`. Size: `.size-limit.json`
+measures the bundled ESM closure (index + static `chunk-*.js`, built by
+`scripts/size-core-closure.mjs`), not `dist/index.js` alone, which hid ~4 KB
+of shared chunks.
 
 **Why:** Core is the stable foundation every other package depends on; a dep in
 core is a dep for the whole ecosystem. Keeping it pure keeps the framework

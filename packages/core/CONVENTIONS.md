@@ -5,7 +5,7 @@ The core package. Every rule here is stricter than the rest of the monorepo.
 ## Non-negotiables
 
 - **Zero runtime dependencies.** `dependencies` in `package.json` is empty and stays empty. Never add one, not even "small".
-- **Under 10KB gzipped.** CI (`size-limit`) enforces. If you're pushing the limit, the change is too big.
+- **Under 10KB gzipped.** CI (`size-limit`) enforces it on the real import cost: `dist/index.js` bundled with every chunk it statically imports (`scripts/size-core-closure.mjs`), plus `dist/index.cjs`. Subpath-only code must not be statically imported by `src/index.ts`'s graph; load it lazily (`await import('./x.js')` + tsup `external`). If you're pushing the limit, the change is too big.
 - **Contracts first.** Public types and interfaces for every contract live here — Adapter, Tool, Memory, Retriever, Skill, Runtime. Implementations live in other packages.
 - **Named exports only.** No default exports, anywhere, ever.
 - **No `any`.** Use `unknown` and narrow with type guards.
