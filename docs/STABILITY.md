@@ -66,6 +66,7 @@ the badges can never drift apart.
 | `@agentskit/eval` | `beta` | Suite/replay/snapshot/CI/Braintrust hardening complete; stable promotion still awaits publication, soak, two released minor lines, Accepted RFC/evidence, stable dependencies, and 1.0.0 |
 | `@agentskit/sandbox` | `beta` | Lifecycle/config/runtime hardening complete; promotion still awaits publish, ≥90 beta days, two released minor lines, Accepted RFC 0013/evidence, and 1.0.0 |
 | `@agentskit/cross-platform` | `beta` | New in the beta line (ADR-0036): Node/Bun/Deno adapters verified on Linux, macOS and Windows by the cross-platform CI matrix; promotion follows ecosystem-wide adoption, ≥90 beta days, two released minor lines, and 1.0.0 |
+| `@agentskit/net` | `beta` | New in the beta line (ADR-0037): retries, timeouts, bounded bodies, SSE and address checks over web APIs; promotion follows ecosystem-wide adoption, ≥90 beta days, two released minor lines, and 1.0.0 |
 | `@agentskit/templates` | `beta` | Scaffold/validation hardening complete; promotion still awaits publish, soak, two released minor lines, Accepted RFC 0014/evidence, and 1.0.0 |
 | `@agentskit/validation` | `beta` | Private implementation hardened behind `@agentskit/tools/validation`; it does not graduate independently from the public tools surface (ADR-0008, RFC 0015) |
 | `@agentskit/statechart` | `beta` | Deterministic transitions, total unknown-snapshot restore, hostile JSON/key handling, synchronous observer isolation, packaging, and adversarial coverage hardened (ADR-0020, ADR-0027) |

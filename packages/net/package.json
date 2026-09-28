@@ -1,0 +1,72 @@
+{
+  "name": "@agentskit/net",
+  "version": "0.0.0",
+  "description": "Resilient, bounded and SSRF-safe HTTP for the AgentsKit ecosystem: retry with Retry-After, timeouts, size-limited bodies, SSE parsing and private-address checks. Runs in Node, Bun, Deno, browsers and edge.",
+  "keywords": [
+    "agentskit",
+    "ai-agents",
+    "http",
+    "fetch",
+    "retry",
+    "retry-after",
+    "timeout",
+    "sse",
+    "server-sent-events",
+    "ssrf"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": ">=20.19"
+  },
+  "publishConfig": {
+    "access": "public",
+    "provenance": true
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
+    "lint": "tsc --noEmit",
+    "dev": "tsup --watch"
+  },
+  "dependencies": {
+    "@agentskit/core": "workspace:*",
+    "eventsource-parser": "^4.1.1",
+    "ipaddr.js": "^2.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.9.5",
+    "tsup": "^8.5.1",
+    "typescript": "^6.0.3",
+    "vitest": "^4.1.11"
+  },
+  "agentskit": {
+    "stability": "beta",
+    "stabilityNote": "New in the beta line (ADR-0037). Isomorphic: Node, Bun, Deno, browsers and edge runtimes. Stable promotion follows ecosystem-wide adoption."
+  },
+  "license": "MIT",
+  "homepage": "https://www.agentskit.io/docs/reference/packages/net",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AgentsKit-io/agentskit",
+    "directory": "packages/net"
+  },
+  "bugs": {
+    "url": "https://github.com/AgentsKit-io/agentskit/issues"
+  },
+  "author": "AgentsKit Contributors"
+}

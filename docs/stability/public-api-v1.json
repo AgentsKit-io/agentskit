@@ -6876,6 +6876,200 @@
         }
       }
     },
+    "@agentskit/net": {
+      "subpaths": {
+        ".": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "AddressRange",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "anySignal",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "assertPublicUrl",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "AssertPublicUrlOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "BackoffOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "classifyAddress",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "computeBackoff",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "fetchWithRetry",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "FetchWithRetryOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "isAbortError",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isPublicAddress",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "isRetryableStatus",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "LookupFn",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "NetError",
+              "kinds": [
+                "type",
+                "value"
+              ]
+            },
+            {
+              "name": "NetErrorCode",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "NetErrorCodes",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "parseRetryAfter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "parseSSE",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "ParseSSEOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "parseSSEResponse",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "readBody",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "ReadBodyOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "readJson",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "readText",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "retry",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "RETRYABLE_STATUSES",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "RetryContext",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "RetryOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "SSEEvent",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "timeoutSignal",
+              "kinds": [
+                "value"
+              ]
+            }
+          ]
+        }
+      }
+    },
     "@agentskit/observability": {
       "subpaths": {
         ".": {
