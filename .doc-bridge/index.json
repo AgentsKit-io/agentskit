@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "c2ebaa52c5dce775d4a956aedb5bfc1f37685b62c7de1bbf32f964cffa96bb66",
+  "contentHash": "994e4bfb64f71c003dccdfa2abdf58cefed109eb44d3a8f78c47830ae32674bb",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-28T01:07:51.373Z",
+  "generatedAt": "2026-09-28T02:24:35.457Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -2230,6 +2230,18 @@
         "human"
       ],
       "contentHash": "951a454ece35a6ca40115e47eb4da8c7793f269e9187403c5a4e13b7796e5f2b"
+    },
+    {
+      "id": "document:apps/docs-next/content/docs/data/providers/minimax.mdx",
+      "type": "document",
+      "title": "minimax.mdx",
+      "path": "apps/docs-next/content/docs/data/providers/minimax.mdx",
+      "description": "MiniMax-M3 · MiniMax-M2 · MiniMax-M1.",
+      "tags": [
+        "document",
+        "human"
+      ],
+      "contentHash": "e5e14b02e898d50d9b65aa2fda86dca66e3e2a93f5a4c3810dfbdcf08c4f0052"
     },
     {
       "id": "document:apps/docs-next/content/docs/data/providers/mistral.mdx",
@@ -14575,6 +14587,7 @@
         "LangChainConfig",
         "LangGraphConfig",
         "LlamaCppConfig",
+        "MiniMaxConfig",
         "MistralConfig",
         "MockAdapterOptions",
         "MockResponse",
@@ -14642,6 +14655,7 @@
         "langgraph",
         "llamacpp",
         "lmstudio",
+        "minimax",
         "mistral",
         "mockAdapter",
         "ollama",
@@ -14671,7 +14685,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "219fd72d02c77632ca34d8c9247d0b3427a9b9cdcaf3837d7d400e386aafec1d"
+      "contentHash": "b2124a17c44b4fc448357d755e57cc59d29a9b2648b2931cc50cfc92eba960d2"
     },
     {
       "id": "module:packages/adapters/src/kimi.ts",
@@ -14756,6 +14770,22 @@
         "src"
       ],
       "contentHash": "205045938e4caf5c858559f89ae39e758471bd1406cfd1bd0b3e1f5abd55badf"
+    },
+    {
+      "id": "module:packages/adapters/src/minimax.ts",
+      "type": "module",
+      "title": "minimax.ts",
+      "path": "packages/adapters/src/minimax.ts",
+      "symbols": [
+        "MiniMaxConfig",
+        "minimax"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "27deeedd15a91f78b20991a52a41813ba27d98919fd7ea07203af53adf881731"
     },
     {
       "id": "module:packages/adapters/src/mistral.ts",
@@ -15344,7 +15374,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "60b266424fde992ee349badb1c893c080241822314244d4bd8c794385d9f0c17"
+      "contentHash": "b12aaba3e2df96877bd10d00f69cbbd50a12ead8d364634cd4ad8883b81e7fb2"
     },
     {
       "id": "module:packages/adapters/tests/contract.ts",
@@ -36808,8 +36838,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "a41771d41d11636a8bbc4d5662a8f9f5ac337b4b37b415895caa196109c52666",
-    "fileCount": 2446,
+    "hash": "c0361eded947986ae0645cdaaccdac438496cad3dc463619e0cf5e8e9c507fde",
+    "fileCount": 2448,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -36831,9 +36861,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "ac9c87479fa7b3028d336bb4d78df3d29332cc399606716dec1854e61f2d4f2f",
+    "contentHash": "07918a2f5579cad541748437165239bc0a26b6ec20a9afeee50183a5fa4596ed",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "a80ef1803139e92123cf24ec715c84145957775aefab8c4fd084de078e07b871",
+    "snapshotHash": "d5075d44ceed494804ce0a240d966c2ef94c49896d11660fddeea0288917f2e2",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -36853,7 +36883,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2401,
+      "documentCount": 2403,
       "fieldNames": [
         "aliases",
         "body",
@@ -36864,13 +36894,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.006247396917951,
-        "body": 60.942523948354854,
-        "headings": 4.056643065389421,
-        "path": 7.6364014993752605,
-        "summary": 4.565597667638484,
-        "symbols": 7.5276967930029155,
-        "title": 3.3281965847563515
+        "aliases": 3.005826050769871,
+        "body": 60.92426133999168,
+        "headings": 4.055763628797337,
+        "path": 7.636287973366625,
+        "summary": 4.566791510611735,
+        "symbols": 7.525593008739076,
+        "title": 3.3270911360799
       }
     },
     "entries": [
@@ -48002,6 +48032,39 @@
         "confidence": "observed"
       },
       {
+        "id": "document:apps/docs-next/content/docs/data/providers/minimax.mdx",
+        "kind": "document",
+        "path": "apps/docs-next/content/docs/data/providers/minimax.mdx",
+        "title": "minimax.mdx",
+        "summary": "MiniMax-M3 · MiniMax-M2 · MiniMax-M1.",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "human"
+        ],
+        "fields": {
+          "title": "minimax.mdx",
+          "headings": "Options Model examples Env Notes Related",
+          "path": "apps/docs-next/content/docs/data/providers/minimax.mdx",
+          "symbols": "",
+          "summary": "MiniMax-M3 · MiniMax-M2 · MiniMax-M1.",
+          "body": "Options Option Type Default --- --- --- apiKey string required model string required baseUrl string https://api.minimax.io fetch typeof fetch global Model examples MiniMax-M3 · MiniMax-M2 · MiniMax-M1 . Env Var Purpose --- --- MINIMAX API KEY API key Notes - OpenAI-compatible surface ( /v1/chat/completions ). - Mainland-China accounts use a different host: pass baseUrl: 'https://api.minimaxi.com' . Related -",
+          "aliases": "document human"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "e5e14b02e898d50d9b65aa2fda86dca66e3e2a93f5a4c3810dfbdcf08c4f0052",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "document:apps/docs-next/content/docs/data/providers/mistral.mdx",
         "kind": "document",
         "path": "apps/docs-next/content/docs/data/providers/mistral.mdx",
@@ -49147,6 +49210,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/adapters/src/minimax.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/adapters/src/mistral.ts",
               "confidence": "observed"
             },
@@ -49232,7 +49300,7 @@
             }
           ]
         },
-        "contentHash": "659404a68b66fe2cd9fa626d7b9aa7c9a586059a37f6138f4a43320a49254a3b",
+        "contentHash": "ebddb0480e1150446079b2ee95c30ce0e4378a88abb6ac3111930627e13bd877",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -103545,6 +103613,7 @@
           "LangChainConfig",
           "LangGraphConfig",
           "LlamaCppConfig",
+          "MiniMaxConfig",
           "MistralConfig",
           "MockAdapterOptions",
           "MockResponse",
@@ -103612,6 +103681,7 @@
           "langgraph",
           "llamacpp",
           "lmstudio",
+          "minimax",
           "mistral",
           "mockAdapter",
           "ollama",
@@ -103645,7 +103715,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/adapters/src/index.ts",
-          "symbols": "AnthropicConfig ApplyCarbonOptions AzureOpenAIConfig BailConfig BedrockConfig BedrockRuntimeClientLike CarbonTable CerebrasConfig CohereConfig CreateAdapterConfig CredentialRefreshable DEFAULT_CARBON_TABLE DEFAULT_DEPRECATION_TABLE DataRegion DeepSeekConfig DeepSeekEmbedderConfig DeprecationAction DeprecationPolicy EnsembleAggregator EnsembleBranchResult EnsembleCandidate EnsembleOptions FallbackCandidate FallbackOptions FireworksConfig GeminiConfig GeminiEmbedderConfig GenericAdapterConfig GrokConfig GrokEmbedderConfig GroqConfig HuggingFaceConfig KimiConfig KimiEmbedderConfig LMStudioConfig LangChainConfig LangGraphConfig LlamaCppConfig MistralConfig MockAdapterOptions MockResponse ModelDeprecation OllamaConfig OllamaEmbedderConfig OpenAICompatibleEmbedderConfig OpenAIConfig OpenAIEmbedderConfig OpenRouterConfig ProviderRegionKey RecordedTurn RecordingFixture RecordingSink ReplicateConfig ResolveModelInput ResolveModelResult RetryOptions RotatingCredentials RouterCandidate RouterOptions RouterPolicy TogetherConfig VLLMConfig VercelAIConfig VertexConfig WebLlmConfig WebLlmEngineLike anthropic applyCarbonTable azureOpenAI azureOpenAIAdapter bail bailAdapter bedrock bedrockAdapter cerebras cerebrasAdapter chunkText cohere cohereAdapter createAdapter createEnsembleAdapter createFallbackAdapter createOpenAICompatibleEmbedder createRotatingCredentials createRouter deepseek deepseekEmbedder estimateCO2Grams fetchWithRetry fireworks gemini geminiEmbedder generic grok grokEmbedder groq groqAdapter huggingface inMemorySink kimi kimiEmbedder langchain langgraph llamacpp lmstudio mistral mockAdapter ollama ollamaEmbedder openai openaiEmbedder openrouter qwen recordingAdapter refreshCredentials replayAdapter replicate replicateAdapter resolveModel simulateStream together vercelAI vertex vertexAdapter vllm webllm webllmAdapter withDeprecationPolicy",
+          "symbols": "AnthropicConfig ApplyCarbonOptions AzureOpenAIConfig BailConfig BedrockConfig BedrockRuntimeClientLike CarbonTable CerebrasConfig CohereConfig CreateAdapterConfig CredentialRefreshable DEFAULT_CARBON_TABLE DEFAULT_DEPRECATION_TABLE DataRegion DeepSeekConfig DeepSeekEmbedderConfig DeprecationAction DeprecationPolicy EnsembleAggregator EnsembleBranchResult EnsembleCandidate EnsembleOptions FallbackCandidate FallbackOptions FireworksConfig GeminiConfig GeminiEmbedderConfig GenericAdapterConfig GrokConfig GrokEmbedderConfig GroqConfig HuggingFaceConfig KimiConfig KimiEmbedderConfig LMStudioConfig LangChainConfig LangGraphConfig LlamaCppConfig MiniMaxConfig MistralConfig MockAdapterOptions MockResponse ModelDeprecation OllamaConfig OllamaEmbedderConfig OpenAICompatibleEmbedderConfig OpenAIConfig OpenAIEmbedderConfig OpenRouterConfig ProviderRegionKey RecordedTurn RecordingFixture RecordingSink ReplicateConfig ResolveModelInput ResolveModelResult RetryOptions RotatingCredentials RouterCandidate RouterOptions RouterPolicy TogetherConfig VLLMConfig VercelAIConfig VertexConfig WebLlmConfig WebLlmEngineLike anthropic applyCarbonTable azureOpenAI azureOpenAIAdapter bail bailAdapter bedrock bedrockAdapter cerebras cerebrasAdapter chunkText cohere cohereAdapter createAdapter createEnsembleAdapter createFallbackAdapter createOpenAICompatibleEmbedder createRotatingCredentials createRouter deepseek deepseekEmbedder estimateCO2Grams fetchWithRetry fireworks gemini geminiEmbedder generic grok grokEmbedder groq groqAdapter huggingface inMemorySink kimi kimiEmbedder langchain langgraph llamacpp lmstudio minimax mistral mockAdapter ollama ollamaEmbedder openai openaiEmbedder openrouter qwen recordingAdapter refreshCredentials replayAdapter replicate replicateAdapter resolveModel simulateStream together vercelAI vertex vertexAdapter vllm webllm webllmAdapter withDeprecationPolicy",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -103804,6 +103874,11 @@
             },
             {
               "kind": "re-exports",
+              "id": "module:packages/adapters/src/minimax.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
               "id": "module:packages/adapters/src/mistral.ts",
               "confidence": "observed"
             },
@@ -103874,7 +103949,7 @@
             }
           ]
         },
-        "contentHash": "219fd72d02c77632ca34d8c9247d0b3427a9b9cdcaf3837d7d400e386aafec1d",
+        "contentHash": "b2124a17c44b4fc448357d755e57cc59d29a9b2648b2931cc50cfc92eba960d2",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -104320,6 +104395,62 @@
           ]
         },
         "contentHash": "205045938e4caf5c858559f89ae39e758471bd1406cfd1bd0b3e1f5abd55badf",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/adapters/src/minimax.ts",
+        "kind": "module",
+        "path": "packages/adapters/src/minimax.ts",
+        "title": "minimax.ts",
+        "aliases": [],
+        "symbols": [
+          "MiniMaxConfig",
+          "minimax"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "minimax.ts",
+          "headings": "",
+          "path": "packages/adapters/src/minimax.ts",
+          "symbols": "MiniMaxConfig minimax",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 1,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/for-agents/adapters.mdx"
+          ],
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/adapters/src/index.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/openai-compatible.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "27deeedd15a91f78b20991a52a41813ba27d98919fd7ea07203af53adf881731",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -104790,6 +104921,11 @@
             {
               "kind": "imports",
               "id": "module:packages/adapters/src/lmstudio.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/minimax.ts",
               "confidence": "observed"
             },
             {
@@ -107368,7 +107504,7 @@
             }
           ]
         },
-        "contentHash": "60b266424fde992ee349badb1c893c080241822314244d4bd8c794385d9f0c17",
+        "contentHash": "b12aaba3e2df96877bd10d00f69cbbd50a12ead8d364634cd4ad8883b81e7fb2",
         "provenance": "observed",
         "confidence": "observed"
       },
