@@ -4,6 +4,7 @@ import { CrossPlatformError, CrossPlatformErrorCodes } from '../errors'
 import { writeFileAtomic } from '../fs'
 import { compareToBaseline, tightenBaseline, type Baseline } from './baseline'
 import { scanRepository, type Finding } from './scan'
+import type { PortabilityRule } from './rules'
 
 const DEFAULT_BASELINE = '.cross-platform-baseline.json'
 const DEFAULT_INCLUDE = ['packages', 'scripts', 'src', 'apps']
@@ -12,6 +13,11 @@ export interface CliIo {
   cwd: string
   log: (line: string) => void
   error: (line: string) => void
+}
+
+export interface RunCliOptions {
+  rules?: readonly PortabilityRule[]
+  filter?: (finding: Finding) => boolean
 }
 
 const USAGE = `Usage: agentskit-cross-platform check [options]
@@ -86,8 +92,11 @@ async function saveBaseline(path: string, baseline: Baseline): Promise<void> {
   await writeFileAtomic(path, `${JSON.stringify(baseline, null, 2)}\n`)
 }
 
-/** Run the CLI; returns the process exit code. */
-export async function runCli(argv: readonly string[], io: CliIo): Promise<number> {
+/**
+ * Run the baseline CLI; callers can supply custom rules and filter findings
+ * before comparison or ratchet updates. Returns the process exit code.
+ */
+export async function runCli(argv: readonly string[], io: CliIo, options: RunCliOptions = {}): Promise<number> {
   const flags = parseFlags(argv)
   if (flags.command !== 'check') {
     io.log(USAGE)
@@ -97,10 +106,11 @@ export async function runCli(argv: readonly string[], io: CliIo): Promise<number
   const existing = await readBaseline(baselinePath)
 
   if (flags.init) {
-    const findings = await scanRepository({ root: io.cwd, include: flags.include, exclude: flags.exclude })
+    const findings = await scanRepository({ root: io.cwd, include: flags.include, exclude: flags.exclude, rules: options.rules })
     const empty: Baseline = { version: 1, include: flags.include, exclude: flags.exclude, entries: {} }
-    await saveBaseline(baselinePath, tightenBaseline(findings, empty, true).baseline)
-    io.log(`Baseline written to ${flags.baseline} with ${findings.length} existing finding(s).`)
+    const scoped = options.filter ? findings.filter(options.filter) : findings
+    await saveBaseline(baselinePath, tightenBaseline(scoped, empty, true).baseline)
+    io.log(`Baseline written to ${flags.baseline} with ${scoped.length} existing finding(s).`)
     return 0
   }
   if (!existing) {
@@ -108,7 +118,8 @@ export async function runCli(argv: readonly string[], io: CliIo): Promise<number
     return 1
   }
 
-  const findings = await scanRepository({ root: io.cwd, include: existing.include, exclude: existing.exclude })
+  const scanned = await scanRepository({ root: io.cwd, include: existing.include, exclude: existing.exclude, rules: options.rules })
+  const findings = options.filter ? scanned.filter(options.filter) : scanned
   if (flags.update) {
     const { baseline, increased } = tightenBaseline(findings, existing, flags.allowIncrease)
     if (increased.length > 0 && !flags.allowIncrease) {

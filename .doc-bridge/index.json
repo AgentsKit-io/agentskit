@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "726a0f8f8297253aae484797ba4a73ba5d5662c12230deddb0c8e284c3a6b56e",
+  "contentHash": "50fb502e9033f8f8928d3b25e31bbfba480e9ff4c88668e4a0a5d405ffb9691a",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-29T18:50:10.805Z",
+  "generatedAt": "2026-09-29T19:40:42.093Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -6914,7 +6914,7 @@
         "document",
         "project"
       ],
-      "contentHash": "25c9177b6d38e276c911f70a80b86caca37d8aa8f41519525c5b94fb4e930b2f"
+      "contentHash": "f9fa2088d8d1a2eb8ebb160f219dc2b6680ee8fd93d218f280c9a202089927a3"
     },
     {
       "id": "document:packages/eval-braintrust/CONVENTIONS.md",
@@ -20363,6 +20363,7 @@
         "PortabilityRule",
         "RemoveOptions",
         "ResolvedCommand",
+        "RunCliOptions",
         "RunOptions",
         "RunResult",
         "SYSTEM_ENV_KEYS",
@@ -20414,7 +20415,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "a281ed03f9743958e7eedc87bcd13690aa430d728f14a049a16e9649d9dc76be"
+      "contentHash": "261b959d25d680d7beff563cebebc5af64862530f2837c136ad79b105a0fde28"
     },
     {
       "id": "module:packages/cross-platform/src/lint/baseline.ts",
@@ -20442,6 +20443,7 @@
       "path": "packages/cross-platform/src/lint/cli.ts",
       "symbols": [
         "CliIo",
+        "RunCliOptions",
         "parseFlags",
         "runCli"
       ],
@@ -20450,7 +20452,7 @@
         "ts",
         "lint"
       ],
-      "contentHash": "9bdf9da55055cdbd12b9bda3be0cb815b5e0423476b42cbf0ffce4cb92679bcd"
+      "contentHash": "01b7b6ab4318eecd7fb7adc0334bc555bb139200bfe52b20f1aec5d9572bf955"
     },
     {
       "id": "module:packages/cross-platform/src/lint/rules.ts",
@@ -20826,7 +20828,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "7276c08d696979149a991b787c63f64b0060673671aac0222ae6aa3d733028b1"
+      "contentHash": "fca05337f3c81e7460d297d4ad955f944eea7a05394df5cf94e4c9e1ccc31de0"
     },
     {
       "id": "module:packages/cross-platform/tests/deno-adapter.test.ts",
@@ -34498,20 +34500,12 @@
       "type": "module",
       "title": "check-core-rules.mjs",
       "path": "scripts/check-core-rules.mjs",
-      "symbols": [
-        "emptyBaseline",
-        "judge",
-        "planUpdate",
-        "repoRoot",
-        "run",
-        "scanCoreFindings"
-      ],
       "tags": [
         "module",
         "mjs",
         "scripts"
       ],
-      "contentHash": "637fd9a3c110188d8ea4dc371bd73117f504cbdfca92528a9dde920f147fa0ad"
+      "contentHash": "136b9bbf6f206daf9ec5b9cb34d10e077b6c01e109845809bbda29a504071cf7"
     },
     {
       "id": "module:scripts/check-core-rules.test.mjs",
@@ -34524,7 +34518,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "fe7935a76c0140611b0228859b2e50fe9a7691df49e8e288b5a3863c6b6ca148"
+      "contentHash": "aca087f8056cbdc7399ac20f5b5e722b1f07e1c4c1aff31eeea8cca98ddfefac"
     },
     {
       "id": "module:scripts/check-count-drift.mjs",
@@ -37339,7 +37333,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "0ec65413065b8d3654b4b7fdfd61c6273673177495407fb83b6a0e89f9580555",
+    "hash": "ca13f05a4595eaca37f51387b7b81b0587630e4994616758c1b919cff000afce",
     "fileCount": 2480,
     "projectionVersion": 2
   },
@@ -37362,9 +37356,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "e1211961080149aeaed3c1c6c5d41237c4473058956113844fe2b1b3449613ca",
+    "contentHash": "7cd1fa1132a917db27f9404cc10e7422b087604887ef8ceac24a3aa346f3749e",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "e52209f477729a385cfba875b044780c51be96d39d5d0b5d0319ecc2257c6a59",
+    "snapshotHash": "66b79b1164ed3c36ec770de6e7a959f16174938b3120cac0f0c3a93b23cc724d",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37396,11 +37390,11 @@
       ],
       "averageFieldLength": {
         "aliases": 3.009038619556286,
-        "body": 61.163516844700084,
+        "body": 61.171322925225965,
         "headings": 4.044371405094495,
         "path": 7.622021364009861,
         "summary": 4.5936729663106,
-        "symbols": 7.52506162695152,
+        "symbols": 7.522185702547247,
         "title": 3.327444535743632
       }
     },
@@ -46462,6 +46456,11 @@
           "outbound": [
             {
               "kind": "mentions-symbol",
+              "id": "module:agents/ecosystem-doc-bridge-corpus-scanner/doc-bridge-adapter.js",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/eval/src/snapshot/snapshot.ts",
               "confidence": "observed"
             },
@@ -50205,7 +50204,7 @@
           "path": "apps/docs-next/content/docs/for-agents/cross-platform.mdx",
           "symbols": "",
           "summary": "Windows contributors kept fixing the same bugs in every repository: .cmd shims (npx, pnpm, claude) failing without a shell, prompts truncated at the first newline by cmd.exe, \\ vs / in path comparisons, CRLF breaking hashes and frontmatter, EBUSY on rename, and child processes left running after a timeout.",
-          "body": "Install Why Windows contributors kept fixing the same bugs in every repository: .cmd shims ( npx , pnpm , claude ) failing without a shell, prompts truncated at the first newline by cmd.exe, \\ vs / in path comparisons, CRLF breaking hashes and frontmatter, EBUSY on rename, and child processes left running after a timeout. This package owns those fixes and the libraries behind them ( cross-spawn , tree-kill , pathe , std-env , graceful-fs , which ). See ADR-0036. Primary exports Processes - spawnProcess(command, args?, options?) — returns a ChildHandle with web-stream stdin / stdout / stderr , an exited promise and a tree-wide kill() . Never throws for a failed start: exited rejects with CrossPlatformError . - runCommand(command, args?, options?) — runs to completion; resolves { code, signal, stdout, stderr, timedOut, truncated, durationMs } . A non-zero exit is a result, not an error. - spawnShell(commandLine, options?) / runShell(commandLine, options?) — same handle/result, but through the platform shell ( sh -c on POSIX, %ComSpec% /d /s /c on Windows). Only for command lines a user wrote (hooks, scripts). shellCommand(line, env) returns that invocation. - spawnNodeChild(command, args?, options?) — child process.spawn with the same resolution ( .cmd shims, cmd.exe escaping, child PATH), for code that needs Node streams and events (JSON-RPC over stdio, long-lived servers). A missing command emits the usual 'error' (ENOENT); pair it with killProcessTree . - selectAdapter(runtime?) — the native adapter: node:child process , Bun.spawn or Deno.Command . - resolveCommand(command, args, { cwd, env }) — Windows command resolution and cmd.exe escaping (cross-spawn's parser). - killProcessTree(pid, signal?, fallback?) — taskkill /T /F on Windows; on POSIX a tree walk plus the process group pid leads (children spawned with detached: true ), so descendants whose parent already exited are reached too. - findExecutable(command) / commandExists(command) — PATH lookup honouring PATHEXT . - safeEnv({ inherit?, extra?, source? }) — minimal child env with SYSTEM ENV KEYS ( PATH , PATHEXT , SystemRoot , COMSPEC …). getEnv(name) is case-insensitive on Windows. homeDir() , tempDir() . Options: cwd , env , input (written to stdin, then closed), stdin / stdout / stderr ( pipe inherit ignore ), timeoutMs , killGraceMs , signal (AbortSignal), windowsHide (default true), and for runCommand / runShell maxOutputBytes (per stream). Paths and file URLs - toPosix , normalizePosix , joinPosix , resolvePosix , relativePosix , basename , dirname , extname — / output on every OS (pathe). - samePath(a, b) , isPathInside(parent, child) — separator-, trailing-slash- and (on Windows) case-insensitive. - isAbsolutePath , isWindowsStylePath . - fileUrlToPath , pathToFileUrl , moduleDir(import.meta.url) , isMainModule(import.meta.url) — never use new URL(...).pathname . Text - normalizeEol , stripBom , splitLines , splitFrontmatter (CRLF/BOM tolerant), hashText (SHA-256 after EOL normalisation; Web Crypto). Filesystem - removePath (rm -rf with retries), renamePath (graceful-fs retries on Windows locks), writeFileAtomic (temp file on the same volume, then rename), createSymlink (junction/copy fallback without Windows symlink privilege), copyPath , setFileMode (no-op on Windows; returns false). Runtime and errors - getRuntimeInfo() → { runtime, os, platform, isServer } ; isWindows , isMacOS , isLinux , isBun , isDeno (std-env). - CrossPlatformError , CrossPlatformErrorCodes ( AK PLATFORM PERMISSION DENIED , AK PLATFORM COMMAND NOT FOUND , AK PLATFORM SPAWN FAILED , AK PLATFORM INVALID INPUT , AK PLATFORM UNSUPPORTED RUNTIME ), isPermissionError , isNotFoundError , mapRuntimeError , permissionDenied . Guardrail - PORTABILITY RULES , scanText , scanRepository , countFindings , compareToBaseline , tightenBaseline , runCli — back the agentskit-cross-platform check bin (ratchet baseline in .cross-platform-baseline.json ; cross-platform-ignore: <reason skips every rule on the",
+          "body": "Install Why Windows contributors kept fixing the same bugs in every repository: .cmd shims ( npx , pnpm , claude ) failing without a shell, prompts truncated at the first newline by cmd.exe, \\ vs / in path comparisons, CRLF breaking hashes and frontmatter, EBUSY on rename, and child processes left running after a timeout. This package owns those fixes and the libraries behind them ( cross-spawn , tree-kill , pathe , std-env , graceful-fs , which ). See ADR-0036. Primary exports Processes - spawnProcess(command, args?, options?) — returns a ChildHandle with web-stream stdin / stdout / stderr , an exited promise and a tree-wide kill() . Never throws for a failed start: exited rejects with CrossPlatformError . - runCommand(command, args?, options?) — runs to completion; resolves { code, signal, stdout, stderr, timedOut, truncated, durationMs } . A non-zero exit is a result, not an error. - spawnShell(commandLine, options?) / runShell(commandLine, options?) — same handle/result, but through the platform shell ( sh -c on POSIX, %ComSpec% /d /s /c on Windows). Only for command lines a user wrote (hooks, scripts). shellCommand(line, env) returns that invocation. - spawnNodeChild(command, args?, options?) — child process.spawn with the same resolution ( .cmd shims, cmd.exe escaping, child PATH), for code that needs Node streams and events (JSON-RPC over stdio, long-lived servers). A missing command emits the usual 'error' (ENOENT); pair it with killProcessTree . - selectAdapter(runtime?) — the native adapter: node:child process , Bun.spawn or Deno.Command . - resolveCommand(command, args, { cwd, env }) — Windows command resolution and cmd.exe escaping (cross-spawn's parser). - killProcessTree(pid, signal?, fallback?) — taskkill /T /F on Windows; on POSIX a tree walk plus the process group pid leads (children spawned with detached: true ), so descendants whose parent already exited are reached too. - findExecutable(command) / commandExists(command) — PATH lookup honouring PATHEXT . - safeEnv({ inherit?, extra?, source? }) — minimal child env with SYSTEM ENV KEYS ( PATH , PATHEXT , SystemRoot , COMSPEC …). getEnv(name) is case-insensitive on Windows. homeDir() , tempDir() . Options: cwd , env , input (written to stdin, then closed), stdin / stdout / stderr ( pipe inherit ignore ), timeoutMs , killGraceMs , signal (AbortSignal), windowsHide (default true), and for runCommand / runShell maxOutputBytes (per stream). Paths and file URLs - toPosix , normalizePosix , joinPosix , resolvePosix , relativePosix , basename , dirname , extname — / output on every OS (pathe). - samePath(a, b) , isPathInside(parent, child) — separator-, trailing-slash- and (on Windows) case-insensitive. - isAbsolutePath , isWindowsStylePath . - fileUrlToPath , pathToFileUrl , moduleDir(import.meta.url) , isMainModule(import.meta.url) — never use new URL(...).pathname . Text - normalizeEol , stripBom , splitLines , splitFrontmatter (CRLF/BOM tolerant), hashText (SHA-256 after EOL normalisation; Web Crypto). Filesystem - removePath (rm -rf with retries), renamePath (graceful-fs retries on Windows locks), writeFileAtomic (temp file on the same volume, then rename), createSymlink (junction/copy fallback without Windows symlink privilege), copyPath , setFileMode (no-op on Windows; returns false). Runtime and errors - getRuntimeInfo() → { runtime, os, platform, isServer } ; isWindows , isMacOS , isLinux , isBun , isDeno (std-env). - CrossPlatformError , CrossPlatformErrorCodes ( AK PLATFORM PERMISSION DENIED , AK PLATFORM COMMAND NOT FOUND , AK PLATFORM SPAWN FAILED , AK PLATFORM INVALID INPUT , AK PLATFORM UNSUPPORTED RUNTIME ), isPermissionError , isNotFoundError , mapRuntimeError , permissionDenied . Guardrail - PORTABILITY RULES , scanText , scanRepository , countFindings , compareToBaseline , tightenBaseline , runCli — back the agentskit-cross-platform check bin (ratchet baseline in .cross-platform-baseline.json ; runCli accepts optional { rules, filter } for custom r",
           "aliases": "cross-platform document agent"
         },
         "graph": {
@@ -50287,7 +50286,7 @@
             }
           ]
         },
-        "contentHash": "5f10a01ed369cbacaf5e832ab23089b6e6991f00106db21e980d30535952a9aa",
+        "contentHash": "42b902b47e6fca399641e80432bff291592007631ae155216a5a0e8633d40443",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -51764,11 +51763,6 @@
             {
               "kind": "mentions-symbol",
               "id": "module:packages/runtime/src/validator-guard.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:scripts/check-core-rules.mjs",
               "confidence": "observed"
             }
           ]
@@ -53747,6 +53741,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:agents/ecosystem-doc-bridge-corpus-scanner/doc-bridge-adapter.js",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/runtime/src/runner.ts",
               "confidence": "observed"
             }
@@ -55374,6 +55373,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:agents/ecosystem-doc-bridge-corpus-scanner/doc-bridge-adapter.js",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/cli/src/app/ChatApp.tsx",
               "confidence": "observed"
             },
@@ -55936,7 +55940,13 @@
           "coveredBy": [],
           "mentionedBy": [],
           "inbound": [],
-          "outbound": []
+          "outbound": [
+            {
+              "kind": "mentions-symbol",
+              "id": "module:agents/ecosystem-doc-bridge-corpus-scanner/doc-bridge-adapter.js",
+              "confidence": "observed"
+            }
+          ]
         },
         "contentHash": "79bec8c52d140ca487b6701c93c01d925e0db44e2ed8330ea3a54d560821d604",
         "provenance": "observed",
@@ -58829,6 +58839,11 @@
             {
               "kind": "mentions",
               "id": "package:@agentskit/cli",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:agents/ecosystem-doc-bridge-corpus-scanner/doc-bridge-adapter.js",
               "confidence": "observed"
             },
             {
@@ -68493,6 +68508,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:agents/ecosystem-doc-bridge-corpus-scanner/doc-bridge-adapter.js",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/core/src/types/skill.ts",
               "confidence": "observed"
             }
@@ -68609,6 +68629,11 @@
             {
               "kind": "mentions",
               "id": "package:@agentskit/tools",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:agents/ecosystem-doc-bridge-corpus-scanner/doc-bridge-adapter.js",
               "confidence": "observed"
             },
             {
@@ -76135,6 +76160,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:agents/ecosystem-doc-bridge-corpus-scanner/doc-bridge-adapter.js",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/adapters/src/anthropic.ts",
               "confidence": "observed"
             },
@@ -76567,7 +76597,7 @@
           "path": "packages/cross-platform/README.md",
           "symbols": "",
           "summary": "Profile: <code>concise-package</code>",
-          "body": "@agentskit/cross-platform Profile: <code concise-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p One place for OS and runtime portability in the AgentsKit ecosystem: spawn processes, handle paths, line endings and files the same way on Windows, macOS and Linux, under Node, Bun and Deno. Tags: agentskit · ai-agents · cross-platform · windows · spawn · bun · deno · node Verified proof - Package metadata, unit tests and the runtime smoke test live under packages/cross-platform/ . - CI matrix: Linux, macOS and Windows × Node, Bun and Deno ( .github/workflows/cross-platform.yml ). - Decision record: . - Stability map: How this fits the ecosystem Every AgentsKit repository used to fix the same Windows bugs by hand: .cmd shims failing with ENOENT , prompts cut at the first newline, \\ vs / in paths, CRLF breaking hashes, EBUSY on rename, orphaned child processes. @agentskit/cross-platform owns those fixes, and the libraries behind them, so the rest of the ecosystem imports one package instead of re-implementing them. - AgentsKit : @agentskit/cli , @agentskit/adapters , @agentskit/tools and @agentskit/sandbox spawn through it. - Registry : ready agents and templates at . - Playbook : production patterns at . Docs: · Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- Features Area API Replaces --- --- --- Processes spawnProcess , runCommand , spawnShell , runShell , spawnNodeChild , killProcessTree , findExecutable , commandExists , safeEnv child process + shell: process.platform === 'win32' , prompts in argv, child.kill() leaving grandchildren, process.kill(-pid) Paths toPosix , relativePosix , joinPosix , samePath , isPathInside , fileUrlToPath , moduleDir , isMainModule replace(/\\\\/g, '/') copies, new URL(import.meta.url).pathname Text normalizeEol , splitLines , splitFrontmatter , hashText split('\\n') , /^---\\n/ , hashes that differ under core.autocrlf Filesystem removePath , renamePath , writeFileAtomic , createSymlink , copyPath , setFileMode EBUSY / EPERM retry loops, EXDEV temp files, symlink privilege errors Runtime getRuntimeInfo , isWindows , isBun , isDeno ad-hoc process.platform checks Guardrail agentskit-cross-platform check Windows regressions found only on a Windows laptop - Native adapter per runtime : node:child process on Node, Bun.spawn on Bun, Deno.Command on Deno. stdout/stderr are web ReadableStream s everywhere. - Browser/edge subset : @agentskit/cross-platform/pure (paths, text, runtime detection) has no node: imports. - Deno permissions : a missing --allow- flag raises AK PLATFORM PERMISSION DENIED naming the flag. It never prompts. - Built on : cross-spawn (Windows command resolution and cmd.exe escaping), tree-kill , pathe , std-env , graceful-fs , which . Guardrail The baseline is a ratchet: counts only go down. Allow a justified exception with a cross-platform-ignore: <reason comment on the line or the line above. A <rule-id -ignore: <reason comment suppresses only that rule. Ecosystem Package Role --------- ------ AgentsKitError , the base of CrossPlatformError CLI providers (claude, codex) spawned portably Local process runtimes Contributors <a href=\"https://github.com/AgentsKit-io/agentskit/graphs/contributors\" <img src=\"https://contrib.rocks/image?repo=AgentsKit-io/agentskit\" alt=\"AgentsKit contributors\" / </a License MIT — see . Docs · Maturity and compatibility - Stability: beta — see . Not 1.0. - Node.js 20+ (20.19+), Bun 1.2+ , Deno 2+ , and TypeScript strict mode - Windows, macOS and Linux - Published as @agentskit/cross-platform Contributing See and the monorepo .",
+          "body": "@agentskit/cross-platform Profile: <code concise-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p One place for OS and runtime portability in the AgentsKit ecosystem: spawn processes, handle paths, line endings and files the same way on Windows, macOS and Linux, under Node, Bun and Deno. Tags: agentskit · ai-agents · cross-platform · windows · spawn · bun · deno · node Verified proof - Package metadata, unit tests and the runtime smoke test live under packages/cross-platform/ . - CI matrix: Linux, macOS and Windows × Node, Bun and Deno ( .github/workflows/cross-platform.yml ). - Decision record: . - Stability map: How this fits the ecosystem Every AgentsKit repository used to fix the same Windows bugs by hand: .cmd shims failing with ENOENT , prompts cut at the first newline, \\ vs / in paths, CRLF breaking hashes, EBUSY on rename, orphaned child processes. @agentskit/cross-platform owns those fixes, and the libraries behind them, so the rest of the ecosystem imports one package instead of re-implementing them. - AgentsKit : @agentskit/cli , @agentskit/adapters , @agentskit/tools and @agentskit/sandbox spawn through it. - Registry : ready agents and templates at . - Playbook : production patterns at . Docs: · Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- Features Area API Replaces --- --- --- Processes spawnProcess , runCommand , spawnShell , runShell , spawnNodeChild , killProcessTree , findExecutable , commandExists , safeEnv child process + shell: process.platform === 'win32' , prompts in argv, child.kill() leaving grandchildren, process.kill(-pid) Paths toPosix , relativePosix , joinPosix , samePath , isPathInside , fileUrlToPath , moduleDir , isMainModule replace(/\\\\/g, '/') copies, new URL(import.meta.url).pathname Text normalizeEol , splitLines , splitFrontmatter , hashText split('\\n') , /^---\\n/ , hashes that differ under core.autocrlf Filesystem removePath , renamePath , writeFileAtomic , createSymlink , copyPath , setFileMode EBUSY / EPERM retry loops, EXDEV temp files, symlink privilege errors Runtime getRuntimeInfo , isWindows , isBun , isDeno ad-hoc process.platform checks Guardrail agentskit-cross-platform check Windows regressions found only on a Windows laptop - Native adapter per runtime : node:child process on Node, Bun.spawn on Bun, Deno.Command on Deno. stdout/stderr are web ReadableStream s everywhere. - Browser/edge subset : @agentskit/cross-platform/pure (paths, text, runtime detection) has no node: imports. - Deno permissions : a missing --allow- flag raises AK PLATFORM PERMISSION DENIED naming the flag. It never prompts. - Built on : cross-spawn (Windows command resolution and cmd.exe escaping), tree-kill , pathe , std-env , graceful-fs , which . Guardrail The baseline is a ratchet: counts only go down. Allow a justified exception with a cross-platform-ignore: <reason comment on the line or the line above. A <rule-id -ignore: <reason comment suppresses only that rule. Repository guardrails can reuse the exported runCli with custom rules and an optional filter to apply the shared scan and baseline logic to a narrower source set. Ecosystem Package Role --------- ------ AgentsKitError , the base of CrossPlatformError CLI providers (claude, codex) spawned portably Local process runtimes Contributors <a href=\"https://github.com/AgentsKit-io/agentskit/graphs/contributors\" <img src=\"https://contrib.rocks/image?repo=AgentsKit-io/agentskit\" alt=\"AgentsKit contributors\" / </a License MIT — see . Docs · Maturity and compatibility - Stability: beta — see . Not 1.0. - Node.js 20+ (20.19+), Bun 1.2+ , Deno 2+ , and TypeScript strict mode - Windows, macOS and Linux - Published as @agentskit/cross-platform Contributing See and the monorepo .",
           "aliases": "document project"
         },
         "graph": {
@@ -76664,6 +76694,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/cross-platform/src/lint/cli.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/cross-platform/src/paths.ts",
               "confidence": "observed"
             },
@@ -76704,7 +76739,7 @@
             }
           ]
         },
-        "contentHash": "25c9177b6d38e276c911f70a80b86caca37d8aa8f41519525c5b94fb4e930b2f",
+        "contentHash": "f9fa2088d8d1a2eb8ebb160f219dc2b6680ee8fd93d218f280c9a202089927a3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -79502,6 +79537,11 @@
             {
               "kind": "mentions",
               "id": "package:@agentskit/tools",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:agents/ecosystem-doc-bridge-corpus-scanner/doc-bridge-adapter.js",
               "confidence": "observed"
             },
             {
@@ -83077,12 +83117,68 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 9,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/data/memory/pgvector.mdx",
+            "document:apps/docs-next/content/docs/get-started/concepts/runtime.mdx",
+            "document:apps/docs-next/content/docs/production/cli/programmatic-api.mdx",
+            "document:apps/docs-next/content/docs/production/index.mdx",
+            "document:apps/docs-next/content/docs/reference/packages/cli.mdx",
+            "document:docs/architecture/adrs/0005-skill-contract.md",
+            "document:docs/architecture/adrs/0006-runtime-contract.md",
+            "document:packages/cli/README.md",
+            "document:packages/skills/CONVENTIONS.md"
+          ],
           "areaId": "area:agents",
           "packageId": "package:agentskit",
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/data/memory/pgvector.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/get-started/concepts/runtime.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/production/cli/programmatic-api.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/production/index.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/reference/packages/cli.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:docs/architecture/adrs/0005-skill-contract.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:docs/architecture/adrs/0006-runtime-contract.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/cli/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/skills/CONVENTIONS.md",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "imports",
@@ -127481,6 +127577,7 @@
           "PortabilityRule",
           "RemoveOptions",
           "ResolvedCommand",
+          "RunCliOptions",
           "RunOptions",
           "RunResult",
           "SYSTEM_ENV_KEYS",
@@ -127536,7 +127633,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/cross-platform/src/index.ts",
-          "symbols": "Baseline ChildHandle CliIo Comparison CrossPlatformError CrossPlatformErrorCode CrossPlatformErrorCodes DenoPermission Env ExitStatus Finding LinkKind NodeChildOptions PORTABILITY_RULES PortabilityRule RemoveOptions ResolvedCommand RunOptions RunResult SYSTEM_ENV_KEYS SafeEnvOptions ScanOptions SpawnOptions StdioMode TerminationReason WhichOptions WriteAtomicOptions commandExists compareToBaseline copyPath countFindings createSymlink fileUrlToPath findExecutable getEnv homeDir isMainModule isNotFoundError isPermissionError killProcessTree mapRuntimeError moduleDir pathToFileUrl permissionDenied removePath renamePath resolveCommand runCli runCommand runShell safeEnv scanRepository scanText selectAdapter setFileMode shellCommand spawnNodeChild spawnProcess spawnShell tempDir tightenBaseline writeFileAtomic",
+          "symbols": "Baseline ChildHandle CliIo Comparison CrossPlatformError CrossPlatformErrorCode CrossPlatformErrorCodes DenoPermission Env ExitStatus Finding LinkKind NodeChildOptions PORTABILITY_RULES PortabilityRule RemoveOptions ResolvedCommand RunCliOptions RunOptions RunResult SYSTEM_ENV_KEYS SafeEnvOptions ScanOptions SpawnOptions StdioMode TerminationReason WhichOptions WriteAtomicOptions commandExists compareToBaseline copyPath countFindings createSymlink fileUrlToPath findExecutable getEnv homeDir isMainModule isNotFoundError isPermissionError killProcessTree mapRuntimeError moduleDir pathToFileUrl permissionDenied removePath renamePath resolveCommand runCli runCommand runShell safeEnv scanRepository scanText selectAdapter setFileMode shellCommand spawnNodeChild spawnProcess spawnShell tempDir tightenBaseline writeFileAtomic",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -127632,7 +127729,7 @@
             }
           ]
         },
-        "contentHash": "a281ed03f9743958e7eedc87bcd13690aa430d728f14a049a16e9649d9dc76be",
+        "contentHash": "261b959d25d680d7beff563cebebc5af64862530f2837c136ad79b105a0fde28",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -127686,6 +127783,11 @@
             {
               "kind": "imports",
               "id": "module:packages/cross-platform/tests/baseline.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:scripts/check-core-rules.test.mjs",
               "confidence": "observed"
             },
             {
@@ -127744,6 +127846,7 @@
         "aliases": [],
         "symbols": [
           "CliIo",
+          "RunCliOptions",
           "parseFlags",
           "runCli"
         ],
@@ -127756,17 +127859,18 @@
           "title": "cli.ts",
           "headings": "",
           "path": "packages/cross-platform/src/lint/cli.ts",
-          "symbols": "CliIo parseFlags runCli",
+          "symbols": "CliIo RunCliOptions parseFlags runCli",
           "summary": "",
           "body": "",
           "aliases": "module ts lint"
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 1,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
-            "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx"
+            "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx",
+            "document:packages/cross-platform/README.md"
           ],
           "areaId": "area:packages/cross-platform/src/lint",
           "packageId": "package:@agentskit/cross-platform",
@@ -127782,8 +127886,18 @@
               "confidence": "observed"
             },
             {
+              "kind": "imports",
+              "id": "module:scripts/check-core-rules.test.mjs",
+              "confidence": "observed"
+            },
+            {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/cross-platform/README.md",
               "confidence": "observed"
             },
             {
@@ -127810,12 +127924,17 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/cross-platform/src/lint/rules.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/cross-platform/src/lint/scan.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "9bdf9da55055cdbd12b9bda3be0cb815b5e0423476b42cbf0ffce4cb92679bcd",
+        "contentHash": "01b7b6ab4318eecd7fb7adc0334bc555bb139200bfe52b20f1aec5d9572bf955",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -127854,6 +127973,11 @@
           "areaId": "area:packages/cross-platform/src/lint",
           "packageId": "package:@agentskit/cross-platform",
           "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/cross-platform/src/lint/cli.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "imports",
               "id": "module:packages/cross-platform/src/lint/scan.ts",
@@ -129254,7 +129378,7 @@
             }
           ]
         },
-        "contentHash": "7276c08d696979149a991b787c63f64b0060673671aac0222ae6aa3d733028b1",
+        "contentHash": "fca05337f3c81e7460d297d4ad955f944eea7a05394df5cf94e4c9e1ccc31de0",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -180319,14 +180443,6 @@
         "path": "scripts/check-core-rules.mjs",
         "title": "check-core-rules.mjs",
         "aliases": [],
-        "symbols": [
-          "emptyBaseline",
-          "judge",
-          "planUpdate",
-          "repoRoot",
-          "run",
-          "scanCoreFindings"
-        ],
         "tags": [
           "module",
           "mjs",
@@ -180336,35 +180452,22 @@
           "title": "check-core-rules.mjs",
           "headings": "",
           "path": "scripts/check-core-rules.mjs",
-          "symbols": "emptyBaseline judge planUpdate repoRoot run scanCoreFindings",
+          "symbols": "",
           "summary": "",
           "body": "",
           "aliases": "module mjs scripts"
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 1,
+          "inboundLinks": 0,
           "coveredBy": [],
-          "mentionedBy": [
-            "document:apps/docs-next/content/docs/for-agents/runtime.mdx"
-          ],
+          "mentionedBy": [],
           "areaId": "area:scripts",
           "packageId": "package:agentskit",
-          "inbound": [
-            {
-              "kind": "imports",
-              "id": "module:scripts/check-core-rules.test.mjs",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/runtime.mdx",
-              "confidence": "observed"
-            }
-          ],
+          "inbound": [],
           "outbound": []
         },
-        "contentHash": "637fd9a3c110188d8ea4dc371bd73117f504cbdfca92528a9dde920f147fa0ad",
+        "contentHash": "136b9bbf6f206daf9ec5b9cb34d10e077b6c01e109845809bbda29a504071cf7",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -180405,17 +180508,22 @@
             },
             {
               "kind": "imports",
-              "id": "module:packages/cross-platform/src/lint/scan.ts",
+              "id": "module:packages/cross-platform/src/lint/baseline.ts",
               "confidence": "observed"
             },
             {
               "kind": "imports",
-              "id": "module:scripts/check-core-rules.mjs",
+              "id": "module:packages/cross-platform/src/lint/cli.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/cross-platform/src/lint/scan.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "fe7935a76c0140611b0228859b2e50fe9a7691df49e8e288b5a3863c6b6ca148",
+        "contentHash": "aca087f8056cbdc7399ac20f5b5e722b1f07e1c4c1aff31eeea8cca98ddfefac",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -187347,7 +187455,7 @@
           "path": "packages/cross-platform",
           "symbols": "",
           "summary": "Windows contributors kept fixing the same bugs in every repository: .cmd shims (npx, pnpm, claude) failing without a shell, prompts truncated at the first newline by cmd.exe, \\ vs / in path comparisons, CRLF breaking hashes and frontmatter, EBUSY on rename, and child processes left running after a timeout.",
-          "body": "Install Why Windows contributors kept fixing the same bugs in every repository: .cmd shims ( npx , pnpm , claude ) failing without a shell, prompts truncated at the first newline by cmd.exe, \\ vs / in path comparisons, CRLF breaking hashes and frontmatter, EBUSY on rename, and child processes left running after a timeout. This package owns those fixes and the libraries behind them ( cross-spawn , tree-kill , pathe , std-env , graceful-fs , which ). See ADR-0036. Primary exports Processes - spawnProcess(command, args?, options?) — returns a ChildHandle with web-stream stdin / stdout / stderr , an exited promise and a tree-wide kill() . Never throws for a failed start: exited rejects with CrossPlatformError . - runCommand(command, args?, options?) — runs to completion; resolves { code, signal, stdout, stderr, timedOut, truncated, durationMs } . A non-zero exit is a result, not an error. - spawnShell(commandLine, options?) / runShell(commandLine, options?) — same handle/result, but through the platform shell ( sh -c on POSIX, %ComSpec% /d /s /c on Windows). Only for command lines a user wrote (hooks, scripts). shellCommand(line, env) returns that invocation. - spawnNodeChild(command, args?, options?) — child process.spawn with the same resolution ( .cmd shims, cmd.exe escaping, child PATH), for code that needs Node streams and events (JSON-RPC over stdio, long-lived servers). A missing command emits the usual 'error' (ENOENT); pair it with killProcessTree . - selectAdapter(runtime?) — the native adapter: node:child process , Bun.spawn or Deno.Command . - resolveCommand(command, args, { cwd, env }) — Windows command resolution and cmd.exe escaping (cross-spawn's parser). - killProcessTree(pid, signal?, fallback?) — taskkill /T /F on Windows; on POSIX a tree walk plus the process group pid leads (children spawned with detached: true ), so descendants whose parent already exited are reached too. - findExecutable(command) / commandExists(command) — PATH lookup honouring PATHEXT . - safeEnv({ inherit?, extra?, source? }) — minimal child env with SYSTEM ENV KEYS ( PATH , PATHEXT , SystemRoot , COMSPEC …). getEnv(name) is case-insensitive on Windows. homeDir() , tempDir() . Options: cwd , env , input (written to stdin, then closed), stdin / stdout / stderr ( pipe inherit ignore ), timeoutMs , killGraceMs , signal (AbortSignal), windowsHide (default true), and for runCommand / runShell maxOutputBytes (per stream). Paths and file URLs - toPosix , normalizePosix , joinPosix , resolvePosix , relativePosix , basename , dirname , extname — / output on every OS (pathe). - samePath(a, b) , isPathInside(parent, child) — separator-, trailing-slash- and (on Windows) case-insensitive. - isAbsolutePath , isWindowsStylePath . - fileUrlToPath , pathToFileUrl , moduleDir(import.meta.url) , isMainModule(import.meta.url) — never use new URL(...).pathname . Text - normalizeEol , stripBom , splitLines , splitFrontmatter (CRLF/BOM tolerant), hashText (SHA-256 after EOL normalisation; Web Crypto). Filesystem - removePath (rm -rf with retries), renamePath (graceful-fs retries on Windows locks), writeFileAtomic (temp file on the same volume, then rename), createSymlink (junction/copy fallback without Windows symlink privilege), copyPath , setFileMode (no-op on Windows; returns false). Runtime and errors - getRuntimeInfo() → { runtime, os, platform, isServer } ; isWindows , isMacOS , isLinux , isBun , isDeno (std-env). - CrossPlatformError , CrossPlatformErrorCodes ( AK PLATFORM PERMISSION DENIED , AK PLATFORM COMMAND NOT FOUND , AK PLATFORM SPAWN FAILED , AK PLATFORM INVALID INPUT , AK PLATFORM UNSUPPORTED RUNTIME ), isPermissionError , isNotFoundError , mapRuntimeError , permissionDenied . Guardrail - PORTABILITY RULES , scanText , scanRepository , countFindings , compareToBaseline , tightenBaseline , runCli — back the agentskit-cross-platform check bin (ratchet baseline in .cross-platform-baseline.json ; cross-platform-ignore: <reason skips every rule on the",
+          "body": "Install Why Windows contributors kept fixing the same bugs in every repository: .cmd shims ( npx , pnpm , claude ) failing without a shell, prompts truncated at the first newline by cmd.exe, \\ vs / in path comparisons, CRLF breaking hashes and frontmatter, EBUSY on rename, and child processes left running after a timeout. This package owns those fixes and the libraries behind them ( cross-spawn , tree-kill , pathe , std-env , graceful-fs , which ). See ADR-0036. Primary exports Processes - spawnProcess(command, args?, options?) — returns a ChildHandle with web-stream stdin / stdout / stderr , an exited promise and a tree-wide kill() . Never throws for a failed start: exited rejects with CrossPlatformError . - runCommand(command, args?, options?) — runs to completion; resolves { code, signal, stdout, stderr, timedOut, truncated, durationMs } . A non-zero exit is a result, not an error. - spawnShell(commandLine, options?) / runShell(commandLine, options?) — same handle/result, but through the platform shell ( sh -c on POSIX, %ComSpec% /d /s /c on Windows). Only for command lines a user wrote (hooks, scripts). shellCommand(line, env) returns that invocation. - spawnNodeChild(command, args?, options?) — child process.spawn with the same resolution ( .cmd shims, cmd.exe escaping, child PATH), for code that needs Node streams and events (JSON-RPC over stdio, long-lived servers). A missing command emits the usual 'error' (ENOENT); pair it with killProcessTree . - selectAdapter(runtime?) — the native adapter: node:child process , Bun.spawn or Deno.Command . - resolveCommand(command, args, { cwd, env }) — Windows command resolution and cmd.exe escaping (cross-spawn's parser). - killProcessTree(pid, signal?, fallback?) — taskkill /T /F on Windows; on POSIX a tree walk plus the process group pid leads (children spawned with detached: true ), so descendants whose parent already exited are reached too. - findExecutable(command) / commandExists(command) — PATH lookup honouring PATHEXT . - safeEnv({ inherit?, extra?, source? }) — minimal child env with SYSTEM ENV KEYS ( PATH , PATHEXT , SystemRoot , COMSPEC …). getEnv(name) is case-insensitive on Windows. homeDir() , tempDir() . Options: cwd , env , input (written to stdin, then closed), stdin / stdout / stderr ( pipe inherit ignore ), timeoutMs , killGraceMs , signal (AbortSignal), windowsHide (default true), and for runCommand / runShell maxOutputBytes (per stream). Paths and file URLs - toPosix , normalizePosix , joinPosix , resolvePosix , relativePosix , basename , dirname , extname — / output on every OS (pathe). - samePath(a, b) , isPathInside(parent, child) — separator-, trailing-slash- and (on Windows) case-insensitive. - isAbsolutePath , isWindowsStylePath . - fileUrlToPath , pathToFileUrl , moduleDir(import.meta.url) , isMainModule(import.meta.url) — never use new URL(...).pathname . Text - normalizeEol , stripBom , splitLines , splitFrontmatter (CRLF/BOM tolerant), hashText (SHA-256 after EOL normalisation; Web Crypto). Filesystem - removePath (rm -rf with retries), renamePath (graceful-fs retries on Windows locks), writeFileAtomic (temp file on the same volume, then rename), createSymlink (junction/copy fallback without Windows symlink privilege), copyPath , setFileMode (no-op on Windows; returns false). Runtime and errors - getRuntimeInfo() → { runtime, os, platform, isServer } ; isWindows , isMacOS , isLinux , isBun , isDeno (std-env). - CrossPlatformError , CrossPlatformErrorCodes ( AK PLATFORM PERMISSION DENIED , AK PLATFORM COMMAND NOT FOUND , AK PLATFORM SPAWN FAILED , AK PLATFORM INVALID INPUT , AK PLATFORM UNSUPPORTED RUNTIME ), isPermissionError , isNotFoundError , mapRuntimeError , permissionDenied . Guardrail - PORTABILITY RULES , scanText , scanRepository , countFindings , compareToBaseline , tightenBaseline , runCli — back the agentskit-cross-platform check bin (ratchet baseline in .cross-platform-baseline.json ; runCli accepts optional { rules, filter } for custom r",
           "aliases": "cross-platform @agentskit/cross-platform package ownership"
         },
         "graph": {

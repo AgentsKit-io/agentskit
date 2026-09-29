@@ -82,6 +82,8 @@ npx agentskit-cross-platform check --update # lower the baseline after a fix
 
 The baseline is a ratchet: counts only go down. Allow a justified exception with a `cross-platform-ignore: <reason>` comment on the line or the line above. A `<rule-id>-ignore: <reason>` comment suppresses only that rule.
 
+Repository guardrails can reuse the exported `runCli` with custom `rules` and an optional `filter` to apply the shared scan and baseline logic to a narrower source set.
+
 ## Ecosystem
 
 | Package | Role |
