@@ -76,6 +76,7 @@ for await (const event of parseSSEResponse(stream)) {
 - **Typed errors**: `NetError` with `AK_NET_TIMEOUT`, `AK_NET_BODY_TOO_LARGE`, `AK_NET_BLOCKED_ADDRESS`, `AK_NET_INVALID_INPUT`, `AK_NET_SSE_PARSE_FAILED`.
 - **DNS is injected**: `assertPublicUrl` takes a `lookup` function, so the package has no `node:` imports. Checking before connecting does not stop DNS rebinding; pin the resolved address when that matters.
 - **Built on**: `eventsource-parser`, `ipaddr.js`.
+- **Guardrail**: import `NET_RULES` from `@agentskit/net/rules` and pass them to `scanRepository` / `scanText` from `@agentskit/cross-platform`. `compareToBaseline` ratchets local `Retry-After` parsing, manual SSE prefixes, `Promise` sleeps, `Promise.race` timeouts, private-address regexes and unbounded response reads. The repository check is `node scripts/check-net-rules.mjs`.
 
 ## Ecosystem
 
