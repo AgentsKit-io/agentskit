@@ -12,10 +12,27 @@ import type {
 } from './types'
 import type { TokenUsage } from './types/stream'
 
-let nextId = 0
+/**
+ * Create a unique ID with a caller-provided prefix and a cryptographically random UUID.
+ *
+ * @param prefix - Namespace or kind to include at the start of the ID.
+ * @returns The prefix followed by a UUID.
+ * @example
+ * const messageId = createId('msg')
+ * @since 1.13.0
+ */
+export function createId(prefix: string): string {
+  return `${prefix}-${globalThis.crypto.randomUUID()}`
+}
 
+/**
+ * Create a unique ID for the given kind.
+ *
+ * @param prefix - Namespace or kind to include at the start of the ID.
+ * @returns The prefix followed by a UUID.
+ */
 export function generateId(prefix: string): string {
-  return `${prefix}-${Date.now()}-${nextId++}`
+  return createId(prefix)
 }
 
 export function createEventEmitter() {

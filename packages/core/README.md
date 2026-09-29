@@ -68,10 +68,12 @@ console.log(controller.getState().messages)
 - `createLocalStorageMemory` — browser/demo persistence; malformed stored data raises `MemoryError` instead of silently becoming an empty history
 - `createStaticRetriever` — deterministic token-overlap retrieval for demos and fallbacks; use `@agentskit/rag` for semantic production retrieval
 - `parseToolArgs` — typed JSON argument parsing for adapters that need fail-closed validation; `safeParseArgs` remains the compatibility helper
+- `createId(prefix)` — prefix plus a cryptographically random UUID; `generateId(prefix)` remains the compatibility helper used for messages and calls
 - TypeScript types for every contract: `ToolDefinition`, `SkillDefinition`, `AgentEvent`, `Adapter`, `ChatMemory`, `Retriever`, `ChatController`
 - Event emitter for `AgentEvent` streams — observability hooks attach here
 - `AgentEvent.correlation` is an optional, provider-neutral identity envelope: `operationId` is stable across boundaries while `runId`, `sessionId`, `turnId`, `actionId`, and `traceId` retain local meaning
 - Dual CJS/ESM output, strict TypeScript, no `any`
+- Static source guardrail rules are available from `@agentskit/core/rules` as `CORE_RULES`; they are intended for tooling and are not imported by the core runtime.
 
 ## Error handling
 
@@ -162,7 +164,7 @@ Use `InferSchemaType<typeof schema>` to reference the inferred type elsewhere in
 | `@agentskit/core/prompt-experiments` | A/B prompts with PostHog / GrowthBook / custom flag providers |
 | `@agentskit/core/auto-summarize` | `ChatMemory` wrapper that folds old turns into a summary |
 | `@agentskit/core/hitl` | Approval gates + `ApprovalStore` |
-| `@agentskit/core/security` | PII redactor + injection detector + rate limiter |
+| `@agentskit/core/security` | PII and secret redaction + injection detector + rate limiter |
 | `@agentskit/core/fuzzy-match` | Deterministic Jaro-Winkler matching for KYC, sanctions, deduplication, and entity resolution |
 | `@agentskit/core/finding` | Canonical `Finding` / `Severity` shape for review and compliance results |
 | `@agentskit/core/compose-tool` | Chain N tools into one macro tool |
@@ -173,6 +175,7 @@ Use `InferSchemaType<typeof schema>` to reference the inferred type elsewhere in
 | `@agentskit/core/eval-format` | Portable eval dataset + run-result JSON |
 | `@agentskit/core/memory-validation` | Bounded validation for untrusted serialized memory records |
 | `@agentskit/core/tool-proposal` | Public helper for routing a validated proposal through controller authorization |
+| `@agentskit/core/hash` | RFC 8785 canonical JSON and SHA-256 helpers |
 
 See the [core guide for agents](https://www.agentskit.io/docs/for-agents/core) for the full contract.
 

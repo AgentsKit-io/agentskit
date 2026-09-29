@@ -57,7 +57,8 @@ The controller merges system prompts, runs retrieval, dispatches tool calls, sav
 | `parseToolArgs` | Parse JSON tool arguments with `{ args, valid }` for fail-closed adapters |
 | `safeParseArgs` | Backwards-compatible safe value-only parser |
 | `createToolLifecycle` | `init` / `dispose` for tools |
-| `generateId` | Stable IDs for messages and calls |
+| `createId(prefix)` | Prefix plus cryptographically random UUID |
+| `generateId(prefix)` | Compatibility helper for prefixed message and call IDs |
 
 ### Agent loop helpers
 
@@ -77,6 +78,7 @@ The controller merges system prompts, runs retrieval, dispatches tool calls, sav
 | `@agentskit/core/fuzzy-match` | Deterministic Jaro-Winkler matching for KYC, sanctions, deduplication, and entity resolution |
 | `@agentskit/core/finding` | Canonical `Finding` / `Severity` shape for review and compliance results |
 | `@agentskit/core/tool-proposal` | Route a validated proposal through controller authorization |
+| `@agentskit/core/hash` | RFC 8785 canonical JSON and SHA-256 helpers for fingerprints and audit data |
 | `createStaticRetriever`, `formatRetrievedDocuments` | Retriever helpers for static/demo context; matching is token substring overlap, not semantic production search |
 
 Heavy backends live in [`@agentskit/memory`](/docs/reference/packages/memory); vector stores and chunking in [`@agentskit/rag`](/docs/reference/packages/rag).
