@@ -1,4 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
+import { createId } from '../src'
 import { acquireToolLifecycle, generateId, createEventEmitter, buildMessage, executeToolCall, consumeStream, parseToolArgs, safeParseArgs, createToolLifecycle } from '../src/primitives'
 import type { Observer, AgentEvent, ToolDefinition, ToolCall, StreamSource, StreamChunk } from '../src/types'
 
@@ -24,8 +25,8 @@ describe('generateId', () => {
   it('generates unique IDs with the given prefix', () => {
     const id1 = generateId('msg')
     const id2 = generateId('msg')
-    expect(id1).toMatch(/^msg-\d+-\d+$/)
-    expect(id2).toMatch(/^msg-\d+-\d+$/)
+    expect(id1).toMatch(/^msg-[0-9a-f-]{36}$/)
+    expect(id2).toMatch(/^msg-[0-9a-f-]{36}$/)
     expect(id1).not.toBe(id2)
   })
 
@@ -36,6 +37,15 @@ describe('generateId', () => {
     expect(msgId).toMatch(/^msg-/)
     expect(toolId).toMatch(/^tool-/)
     expect(stepId).toMatch(/^step-/)
+  })
+})
+
+describe('createId', () => {
+  it('is exported from the public entry and creates unique UUID-based IDs', () => {
+    const first = createId('run')
+    const second = createId('run')
+    expect(first).toMatch(/^run-[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/)
+    expect(second).not.toBe(first)
   })
 })
 

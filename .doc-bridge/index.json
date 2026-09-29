@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "e88e3b037b717dacf1a74eaf8b0d6985538b4b3fdc10bd9becfabaa022e4983f",
+  "contentHash": "819f91ae1c2e38972cba145e4374bddb3d789e2486d0244a3325ff54bc25676d",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-28T12:29:14.357Z",
+  "generatedAt": "2026-09-29T11:53:57.647Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -3722,7 +3722,7 @@
         "document",
         "human"
       ],
-      "contentHash": "2e44f8ebda3397dfd9547792dbbae106a2123b8975d7ac0f2863174393829fba"
+      "contentHash": "50f1475924fa1daa0c1dc97c58c74fc7b6507d11930264bc3a8737495aab336a"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/packages/cross-platform.mdx",
@@ -5981,6 +5981,30 @@
       "contentHash": "f53778f5a414c10390103c89060b4dbb8540461782f9c9e110c691dfa7b8ca80"
     },
     {
+      "id": "document:docs/architecture/adrs/0038-canonical-json-hash.md",
+      "type": "document",
+      "title": "ADR 0038 — Canonical JSON and SHA-256 helpers",
+      "path": "docs/architecture/adrs/0038-canonical-json-hash.md",
+      "description": "Status: Accepted",
+      "tags": [
+        "document",
+        "human"
+      ],
+      "contentHash": "f62509ad96cb18641f7183c18a60c03d8ff154432f47403bc2939c3013eb7bb2"
+    },
+    {
+      "id": "document:docs/architecture/adrs/0039-cryptographic-ids.md",
+      "type": "document",
+      "title": "ADR 0039 — Cryptographic IDs for generated identifiers",
+      "path": "docs/architecture/adrs/0039-cryptographic-ids.md",
+      "description": "Status: Accepted",
+      "tags": [
+        "document",
+        "human"
+      ],
+      "contentHash": "57158ffa2b4d8be8475a1bd031310a60e9ae28be838699972ba75e0873708658"
+    },
+    {
       "id": "document:docs/architecture/adrs/README.md",
       "type": "document",
       "title": "Architecture Decision Records (ADRs)",
@@ -5990,7 +6014,7 @@
         "document",
         "human"
       ],
-      "contentHash": "d9a3a8df1d7d8a766dde2350eb831a2767db9b7b739f9e8621cbbc681ce0ebb9"
+      "contentHash": "52b7bb63e483cb0e3a2b2d2a2255ab7a2e59339a05c09b96f4665dd5ace5b0d9"
     },
     {
       "id": "document:docs/architecture/ecosystem-manifest.md",
@@ -6866,7 +6890,7 @@
         "document",
         "project"
       ],
-      "contentHash": "f6afb061918a432fdeddf2d51726ab9abfe7f3227f12b524c347482c1ea80612"
+      "contentHash": "1342660b7f5e3800865d6a42515f28bb57bcaf66f1794b62d2629576f5457323"
     },
     {
       "id": "document:packages/cross-platform/CONVENTIONS.md",
@@ -18596,6 +18620,22 @@
       "contentHash": "095e85e76cf90b905407d67ecdd6ea4eb0d9293d6a4f858f80238d8780d27ddf"
     },
     {
+      "id": "module:packages/core/src/hash.ts",
+      "type": "module",
+      "title": "hash.ts",
+      "path": "packages/core/src/hash.ts",
+      "symbols": [
+        "canonicalJson",
+        "sha256Hex"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "5730f8cf70b6e445f8347838a4a416df04e7144661beb107312a2f9bf95361c0"
+    },
+    {
       "id": "module:packages/core/src/hitl.ts",
       "type": "module",
       "title": "hitl.ts",
@@ -18719,6 +18759,7 @@
         "consumeStream",
         "createChatController",
         "createEventEmitter",
+        "createId",
         "createInMemoryMemory",
         "createLocalStorageMemory",
         "createProgressiveArgParser",
@@ -18748,7 +18789,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "5054c83f18376f35758a8bf9817325f7cd048e1b65bc3a851bd46f852d756c36"
+      "contentHash": "79599d5282cc676ec8db0733896721fc09c205b8f47e54bd1f0044a049e45d0e"
     },
     {
       "id": "module:packages/core/src/json-validation.ts",
@@ -18829,6 +18870,7 @@
         "buildMessage",
         "consumeStream",
         "createEventEmitter",
+        "createId",
         "createToolLifecycle",
         "executeToolCall",
         "generateId",
@@ -18840,7 +18882,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "14872961fa65ac5ecda275168d2e559ace7de2603a9d78591fa088b239a26c67"
+      "contentHash": "ec9de00fcbb56935c894476a58977e2edb56e7a8395d0c0c44c8abb6617be6c9"
     },
     {
       "id": "module:packages/core/src/progressive.ts",
@@ -18900,6 +18942,21 @@
         "src"
       ],
       "contentHash": "b9d56411f70dcd459255a3481479a04183c00fb7c4652647cd931be0bbb20784"
+    },
+    {
+      "id": "module:packages/core/src/rules.ts",
+      "type": "module",
+      "title": "rules.ts",
+      "path": "packages/core/src/rules.ts",
+      "symbols": [
+        "CORE_RULES"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "098cc9ac7b315cd90c3a758c465f1666bacf9e8e73431fe3b0f85bad21a66349"
     },
     {
       "id": "module:packages/core/src/security/fence.ts",
@@ -18968,6 +19025,9 @@
         "createRateLimiter",
         "createSamlVerifier",
         "fenceUntrustedContent",
+        "isSensitiveFieldName",
+        "redactDeep",
+        "redactSecrets",
         "reveal",
         "tokenize",
         "validatePIITaxonomy"
@@ -18977,7 +19037,7 @@
         "ts",
         "security"
       ],
-      "contentHash": "5639a5f56e8dc45ed671e816494e9a536577564c68407fd5d9cc1c58e7f05633"
+      "contentHash": "75094bcf1a248792c0445ec9cc77c8371be7eeb64b42fe0c5566165b9dd5bcc4"
     },
     {
       "id": "module:packages/core/src/security/injection.ts",
@@ -19857,6 +19917,19 @@
       "contentHash": "aeb0e4cce4695d8dad1aa5e008e6e3b885ce618db4c868410d5b97f7d70166f6"
     },
     {
+      "id": "module:packages/core/tests/hash.test.ts",
+      "type": "module",
+      "title": "hash.test.ts",
+      "path": "packages/core/tests/hash.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "cffff1e6e8c031fc71e26f020ff21293a9adb5ca23442d72a2184fe0974d6b21"
+    },
+    {
       "id": "module:packages/core/tests/helpers.ts",
       "type": "module",
       "title": "helpers.ts",
@@ -19934,7 +20007,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "c39eb4c210a4ae810149056159ee53bae31a1adb28edab5bf363e1470d9c444a"
+      "contentHash": "c18cfd5d9141e2496587eef706018fdf8163f0771ff64205260b048f031aed68"
     },
     {
       "id": "module:packages/core/tests/progressive.test.ts",
@@ -19974,6 +20047,19 @@
         "tests"
       ],
       "contentHash": "d9c6d9056b9299d762c45154676c7fe091d8c0aa1c2860d9b4626e90ff3a15c7"
+    },
+    {
+      "id": "module:packages/core/tests/rules.test.ts",
+      "type": "module",
+      "title": "rules.test.ts",
+      "path": "packages/core/tests/rules.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "ae71d0a10c2277bbfc87a8a37c56e4fa826f65595dce9bb0623190ca5d65e24e"
     },
     {
       "id": "module:packages/core/tests/security-sso.test.ts",
@@ -20105,7 +20191,7 @@
         "ts",
         "core"
       ],
-      "contentHash": "d8f80c4964208f4338733046d0aef1906bd3052a17d33fde1cb433137fb46f97"
+      "contentHash": "57517c35e4291f3bf1b9e8b96c30e980acdace443d73d5e7ce4592b6c2171b99"
     },
     {
       "id": "module:packages/core/vitest.config.ts",
@@ -37219,8 +37305,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "1def9821a0a2c2781533f68509115e4f62eb7966535090bccca927cfd5049537",
-    "fileCount": 2472,
+    "hash": "8991630013699edd8b79cb436c31505fb57bb609ef76c08a34f24596b7003873",
+    "fileCount": 2478,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37242,9 +37328,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "1e77e0a7b312ef8f4e5b17f459dd6648e22e552228e996b2ffecafb474e53cb6",
+    "contentHash": "9241a498b738b8c0b86ff722a41d1812529eee73a7c4baa29fd7a2119ac5d1cc",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "2ca55e6afff9d4b5508ca424929b3a36a6401687f4ea7effa0c7959a3cee4aac",
+    "snapshotHash": "c8c07371eafe67925435f0ae9cbe8d387a0255b71766c6466396706c924fc2b6",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37264,7 +37350,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2426,
+      "documentCount": 2432,
       "fieldNames": [
         "aliases",
         "body",
@@ -37275,13 +37361,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.008656224237428,
-        "body": 61.2164056059357,
-        "headings": 4.043281121187139,
-        "path": 7.624072547403133,
-        "summary": 4.60717230008244,
-        "symbols": 7.5313272877164055,
-        "title": 3.3235779060181367
+        "aliases": 3.0086348684210527,
+        "body": 61.20682565789474,
+        "headings": 4.045641447368421,
+        "path": 7.622944078947368,
+        "summary": 4.597450657894737,
+        "symbols": 7.5230263157894735,
+        "title": 3.325657894736842
       }
     },
     "entries": [
@@ -37655,7 +37741,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003671,
+          "pagerank": 0.003656,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/discord-bot.mdx"
@@ -37694,7 +37780,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003671,
+          "pagerank": 0.003656,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/dspy.mdx"
@@ -37772,7 +37858,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003671,
+          "pagerank": 0.003656,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/embedded.mdx"
@@ -38093,7 +38179,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003671,
+          "pagerank": 0.003656,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/slack-bot.mdx"
@@ -38132,7 +38218,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003671,
+          "pagerank": 0.003656,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/teams-bot.mdx"
@@ -38488,7 +38574,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003671,
+          "pagerank": 0.003656,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/providers/embedders.mdx"
@@ -38603,7 +38689,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003671,
+          "pagerank": 0.003656,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/cli/index.mdx"
@@ -38766,7 +38852,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003671,
+          "pagerank": 0.003656,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/security/index.mdx"
@@ -38929,7 +39015,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002827,
+          "pagerank": 0.002816,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/packages/eval-braintrust.mdx"
@@ -39013,7 +39099,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002827,
+          "pagerank": 0.002816,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/snapshots.mdx"
@@ -39052,7 +39138,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003671,
+          "pagerank": 0.003656,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/replay.mdx"
@@ -39091,7 +39177,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002827,
+          "pagerank": 0.002816,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/snapshots.mdx"
@@ -39130,7 +39216,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002406,
+          "pagerank": 0.002396,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -39200,7 +39286,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002827,
+          "pagerank": 0.002816,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/agents/tools/integrations-catalog.mdx"
@@ -39270,7 +39356,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003671,
+          "pagerank": 0.003656,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/memory/index.mdx"
@@ -39309,7 +39395,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003671,
+          "pagerank": 0.003656,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/rag/loaders.mdx"
@@ -39348,7 +39434,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003671,
+          "pagerank": 0.003656,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/rag/rerank.mdx"
@@ -39387,7 +39473,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002406,
+          "pagerank": 0.002396,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -39426,7 +39512,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002827,
+          "pagerank": 0.002816,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/security/sandbox.mdx"
@@ -39465,7 +39551,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002406,
+          "pagerank": 0.002396,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -39504,7 +39590,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002406,
+          "pagerank": 0.002396,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -39574,7 +39660,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002827,
+          "pagerank": 0.002816,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/agents/tools/integrations-catalog.mdx"
@@ -39658,7 +39744,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003671,
+          "pagerank": 0.003656,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/observability/devtools.mdx"
@@ -40479,7 +40565,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -40565,7 +40651,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -40618,7 +40704,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.005919,
+          "pagerank": 0.005896,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [
@@ -40814,7 +40900,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -43170,7 +43256,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -45204,7 +45290,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -45346,7 +45432,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003671,
+          "pagerank": 0.003656,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -46025,7 +46111,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -47417,7 +47503,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -49240,7 +49326,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -49294,7 +49380,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -49340,7 +49426,7 @@
           "aliases": "adapters document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -49681,7 +49767,7 @@
           "aliases": "angular document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -49787,7 +49873,7 @@
           "aliases": "cli document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -49929,11 +50015,11 @@
           "path": "apps/docs-next/content/docs/for-agents/core.mdx",
           "symbols": "",
           "summary": "Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + `createChatController` + primitives. Target: &lt;10 KB gzipped, zero runtime deps.",
-          "body": "Purpose Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + createChatController + primitives. Target: &lt;10 KB gzipped, zero runtime deps. Install Primary exports (main entry) - createChatController(config) — state machine behind every UI - proposeToolCall(proposal) — controller method that places a trusted, validated action into the same confirmation lifecycle; it never executes directly. The standalone helper is available from @agentskit/core/tool-proposal . Returns { getState, subscribe, send, stop, retry, edit, regenerate, setInput, clear, approve, deny, updateConfig } . - defineTool(config) — typed tool factory with JSON-Schema input inference. - ChatConfig.authorizeToolCall — trusted host authorization before tool proposal and again before execution. Callback failures default to deny. - createInMemoryMemory / createLocalStorageMemory — default ChatMemory implementations. - createStaticRetriever / formatRetrievedDocuments — RAG-less retrieval using token substring overlap; use @agentskit/rag for semantic production retrieval. - executeToolCall , consumeStream , createEventEmitter , parseToolArgs , safeParseArgs , generateId , buildMessage — low-level helpers. parseToolArgs returns { args, valid } so adapters can fail closed; safeParseArgs remains the compatibility value-only parser. - AgentsKitError , AdapterError , ToolError , MemoryError , ConfigError , RuntimeError , SandboxError , SkillError , ErrorCodes — error taxonomy. - Token budget: compileBudget , approximateCounter . - Progressive tool args: createProgressiveArgParser , executeToolProgressively . - createVirtualizedMemory — hot-window + cold-retriever wrapper (also re-exported from @agentskit/memory ). - Untrusted-input fencing lives in the @agentskit/core/security entry: fenceUntrustedContent(content, opts?) + UNTRUSTED CONTENT DIRECTIVE wrap attacker-influenced text so the model treats it as data, not instructions (the mitigation companion to createInjectionDetector ). - Multi-modal content parts: textPart , imagePart , audioPart , videoPart , filePart , partsToText , normalizeContent , filterParts . - Agent-loop internals (advanced): buildToolMap , activateSkills , executeSafeTool , createToolLifecycle . - Memory serialization: serializeMessages , deserializeMessages ; validate untrusted records with validateMemoryRecord from @agentskit/core/memory-validation . Subpath exports (zero main-bundle weight) Subpath Purpose Recipe --- --- --- @agentskit/core/agent-schema Declarative agent YAML/JSON + validator @agentskit/core/prompt-experiments A/B prompts with feature flags @agentskit/core/auto-summarize Auto-summarizing ChatMemory wrapper @agentskit/core/hitl Approval gates + ApprovalStore @agentskit/core/security PII redactor + injection detector + fenceUntrustedContent + rate limiter , , @agentskit/core/fuzzy-match jaroWinkler / fuzzyMatchList — zero-dep fuzzy name matching for sanctions/KYC/dedup without an LLM — @agentskit/core/finding Finding / Severity / SEVERITY ORDER — canonical issue shape so review/audit/compliance findings are interoperable — @agentskit/core/compose-tool Chain N tools into one @agentskit/core/self-debug Retry tools with LLM-corrected args @agentskit/core/generative-ui Typed UI element tree + artifacts @agentskit/core/a2a Agent-to-Agent protocol spec @agentskit/core/manifest Skill + tool manifest format (MCP-compat) @agentskit/core/eval-format Portable eval dataset + run-result @agentskit/core/memory-validation Bounded validation for untrusted serialized memory records — @agentskit/core/tool-proposal Route a validated proposal through controller authorization — Minimal example Common patterns - Wire a controller into any framework via getState + subscribe (see the framework bindings under ). - Compose tools with or wrap failing ones with . - Gate risky operations with + HITL + signed . Related packages - - - Source - npm: https://www.npmjs.com/package/@agentskit/core - repo: https://github.com/AgentsKit-i",
+          "body": "Purpose Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + createChatController + primitives. Target: &lt;10 KB gzipped, zero runtime deps. Install Primary exports (main entry) - createChatController(config) — state machine behind every UI - proposeToolCall(proposal) — controller method that places a trusted, validated action into the same confirmation lifecycle; it never executes directly. The standalone helper is available from @agentskit/core/tool-proposal . Returns { getState, subscribe, send, stop, retry, edit, regenerate, setInput, clear, approve, deny, updateConfig } . - defineTool(config) — typed tool factory with JSON-Schema input inference. - ChatConfig.authorizeToolCall — trusted host authorization before tool proposal and again before execution. Callback failures default to deny. - createInMemoryMemory / createLocalStorageMemory — default ChatMemory implementations. - createStaticRetriever / formatRetrievedDocuments — RAG-less retrieval using token substring overlap; use @agentskit/rag for semantic production retrieval. - executeToolCall , consumeStream , createEventEmitter , parseToolArgs , safeParseArgs , createId , generateId , buildMessage — low-level helpers. parseToolArgs returns { args, valid } so adapters can fail closed; safeParseArgs remains the compatibility value-only parser. IDs use crypto.randomUUID() and retain the caller-provided prefix. - AgentsKitError , AdapterError , ToolError , MemoryError , ConfigError , RuntimeError , SandboxError , SkillError , ErrorCodes — error taxonomy. - Token budget: compileBudget , approximateCounter . - Progressive tool args: createProgressiveArgParser , executeToolProgressively . - createVirtualizedMemory — hot-window + cold-retriever wrapper (also re-exported from @agentskit/memory ). - Untrusted-input fencing lives in the @agentskit/core/security entry: fenceUntrustedContent(content, opts?) + UNTRUSTED CONTENT DIRECTIVE wrap attacker-influenced text so the model treats it as data, not instructions (the mitigation companion to createInjectionDetector ). - Multi-modal content parts: textPart , imagePart , audioPart , videoPart , filePart , partsToText , normalizeContent , filterParts . - Agent-loop internals (advanced): buildToolMap , activateSkills , executeSafeTool , createToolLifecycle . - Memory serialization: serializeMessages , deserializeMessages ; validate untrusted records with validateMemoryRecord from @agentskit/core/memory-validation . Subpath exports (zero main-bundle weight) Subpath Purpose Recipe --- --- --- @agentskit/core/agent-schema Declarative agent YAML/JSON + validator @agentskit/core/prompt-experiments A/B prompts with feature flags @agentskit/core/auto-summarize Auto-summarizing ChatMemory wrapper @agentskit/core/hitl Approval gates + ApprovalStore @agentskit/core/security PII redactor + injection detector + fenceUntrustedContent + rate limiter , , @agentskit/core/fuzzy-match jaroWinkler / fuzzyMatchList — zero-dep fuzzy name matching for sanctions/KYC/dedup without an LLM — @agentskit/core/finding Finding / Severity / SEVERITY ORDER — canonical issue shape so review/audit/compliance findings are interoperable — @agentskit/core/compose-tool Chain N tools into one @agentskit/core/self-debug Retry tools with LLM-corrected args @agentskit/core/generative-ui Typed UI element tree + artifacts @agentskit/core/a2a Agent-to-Agent protocol spec @agentskit/core/manifest Skill + tool manifest format (MCP-compat) @agentskit/core/eval-format Portable eval dataset + run-result @agentskit/core/memory-validation Bounded validation for untrusted serialized memory records — @agentskit/core/tool-proposal Route a validated proposal through controller authorization — @agentskit/core/hash RFC 8785 canonical JSON and SHA-256 for stable fingerprints — Minimal example Common patterns - Wire a controller into any framework via getState + subscribe (see the framework bindings under ). - Compose tools with or wrap failing ones with . - Gate ",
           "aliases": "core document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50066,7 +50152,7 @@
             }
           ]
         },
-        "contentHash": "045f90d0f9b988d31667aaaeb114d9bbd78f70c6b7a67e1490f784173aef9adc",
+        "contentHash": "033b4794a5b24b66fc3e9ac75245d2a9eda489765f341ec80202367b45609721",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -50094,7 +50180,7 @@
           "aliases": "cross-platform document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50200,7 +50286,7 @@
           "aliases": "doc-bridge document agent"
         },
         "graph": {
-          "pagerank": 0.002083,
+          "pagerank": 0.002075,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50247,7 +50333,7 @@
           "aliases": "eval-braintrust document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50308,7 +50394,7 @@
           "aliases": "eval document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50535,7 +50621,7 @@
           "aliases": "ink document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50646,7 +50732,7 @@
           "aliases": "integrations document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50777,7 +50863,7 @@
           "aliases": "mcp document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50853,7 +50939,7 @@
           "aliases": "memory document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51024,7 +51110,7 @@
           "aliases": "net document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51085,7 +51171,7 @@
           "aliases": "observability-langfuse document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51151,7 +51237,7 @@
           "aliases": "observability document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51282,7 +51368,7 @@
           "aliases": "rag document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51358,7 +51444,7 @@
           "aliases": "react-native document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51454,7 +51540,7 @@
           "aliases": "react document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51540,7 +51626,7 @@
           "aliases": "runtime document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51681,7 +51767,7 @@
           "aliases": "sandbox document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51762,7 +51848,7 @@
           "aliases": "skills document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51933,7 +52019,7 @@
           "aliases": "solid document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52009,7 +52095,7 @@
           "aliases": "statechart document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52085,7 +52171,7 @@
           "aliases": "svelte document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52171,7 +52257,7 @@
           "aliases": "templates document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52267,7 +52353,7 @@
           "aliases": "tools document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52558,7 +52644,7 @@
           "aliases": "validation document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52624,7 +52710,7 @@
           "aliases": "vue document agent"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52782,7 +52868,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53751,7 +53837,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -54289,7 +54375,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -55108,7 +55194,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -55679,7 +55765,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -55728,7 +55814,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -55938,7 +56024,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -56243,7 +56329,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -56492,7 +56578,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -57364,7 +57450,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -57408,7 +57494,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -57491,7 +57577,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58066,7 +58152,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58143,7 +58229,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58408,7 +58494,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58647,7 +58733,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58706,7 +58792,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58771,11 +58857,11 @@
           "path": "apps/docs-next/content/docs/reference/packages/core.mdx",
           "symbols": "",
           "summary": "import { ContributeCallout } from '@/components/contribute/contribute-callout'",
-          "body": "import { ContributeCallout } from '@/components/contribute/contribute-callout' The shared contract layer for AgentsKit: TypeScript types, the headless chat controller, stream helpers, and building blocks used by @agentskit/react , @agentskit/ink , @agentskit/runtime , and adapters. No third-party runtime dependencies — keep this package small and stable. When to use - You implement a custom adapter , tool, memory, or UI on top of official types. - You need createChatController without React (advanced integrations). - You want to understand messages, tool calls, and stream chunks across the ecosystem. You usually do not import core directly in a typical React app except for types — prefer and . Install Most feature packages already depend on core ; you add it explicitly when authoring libraries or sharing types. Public exports (overview) Chat controller and config Export Role -------- ------ createChatController Headless state machine: send, stream, tools, memory, skills, retriever Types: ChatConfig , ChatController , ChatState , ChatReturn Configuration and controller shape The controller merges system prompts, runs retrieval, dispatches tool calls, saves via ChatMemory after successful turns, skips persistence for failed or aborted turns, surfaces background memory and skill activation failures through onError , and exposes subscribe/update patterns consumed by UI packages. Primitives and streams Export Role -------- ------ buildMessage Construct a typed Message consumeStream Drive StreamSource → chunks + completion createEventEmitter Internal event bus for observers executeToolCall Run a tool from a ToolCall payload parseToolArgs Parse JSON tool arguments with { args, valid } for fail-closed adapters safeParseArgs Backwards-compatible safe value-only parser createToolLifecycle init / dispose for tools generateId Stable IDs for messages and calls Agent loop helpers Export Role -------- ------ buildToolMap Name → ToolDefinition map activateSkills Merge skill system prompts and skill-provided tools executeSafeTool Guarded execution (confirmation hooks, errors) Memory and RAG (lightweight) Export Role -------- ------ createInMemoryMemory , createLocalStorageMemory Simple bundled memories for tests or demos; malformed local-storage data raises MemoryError serializeMessages / deserializeMessages Persistence helpers validateMemoryRecord from @agentskit/core/memory-validation Bounded runtime validation for untrusted serialized messages @agentskit/core/fuzzy-match Deterministic Jaro-Winkler matching for KYC, sanctions, deduplication, and entity resolution @agentskit/core/finding Canonical Finding / Severity shape for review and compliance results @agentskit/core/tool-proposal Route a validated proposal through controller authorization createStaticRetriever , formatRetrievedDocuments Retriever helpers for static/demo context; matching is token substring overlap, not semantic production search Heavy backends live in ; vector stores and chunking in . Error handling Export Role -------- ------ AgentsKitError Base error class with code , hint , and docsUrl fields AdapterError Thrown on adapter/stream failures; links to adapter docs ToolError Thrown on tool lookup or execution failures; links to tool docs MemoryError Thrown on memory load/save/clear/deserialize failures; links to memory docs ConfigError Thrown on invalid configuration; links to ErrorCodes as const map of all AK error code strings See below for usage examples. Tool factory Export Role -------- ------ defineTool Create a ToolDefinition with automatic type inference from a JSON Schema DefineToolConfig Config type for defineTool — schema is narrowed to a const type InferSchemaType Utility type: extract TypeScript args type from a JSON Schema See below. Types (high level) AdapterFactory , StreamSource , StreamChunk , Message , ToolDefinition , ToolCall , SkillDefinition , ChatMemory , Retriever , VectorMemory , Observer , AgentEvent , and related types — full signatures in Type",
+          "body": "import { ContributeCallout } from '@/components/contribute/contribute-callout' The shared contract layer for AgentsKit: TypeScript types, the headless chat controller, stream helpers, and building blocks used by @agentskit/react , @agentskit/ink , @agentskit/runtime , and adapters. No third-party runtime dependencies — keep this package small and stable. When to use - You implement a custom adapter , tool, memory, or UI on top of official types. - You need createChatController without React (advanced integrations). - You want to understand messages, tool calls, and stream chunks across the ecosystem. You usually do not import core directly in a typical React app except for types — prefer and . Install Most feature packages already depend on core ; you add it explicitly when authoring libraries or sharing types. Public exports (overview) Chat controller and config Export Role -------- ------ createChatController Headless state machine: send, stream, tools, memory, skills, retriever Types: ChatConfig , ChatController , ChatState , ChatReturn Configuration and controller shape The controller merges system prompts, runs retrieval, dispatches tool calls, saves via ChatMemory after successful turns, skips persistence for failed or aborted turns, surfaces background memory and skill activation failures through onError , and exposes subscribe/update patterns consumed by UI packages. Primitives and streams Export Role -------- ------ buildMessage Construct a typed Message consumeStream Drive StreamSource → chunks + completion createEventEmitter Internal event bus for observers executeToolCall Run a tool from a ToolCall payload parseToolArgs Parse JSON tool arguments with { args, valid } for fail-closed adapters safeParseArgs Backwards-compatible safe value-only parser createToolLifecycle init / dispose for tools createId(prefix) Prefix plus cryptographically random UUID generateId(prefix) Compatibility helper for prefixed message and call IDs Agent loop helpers Export Role -------- ------ buildToolMap Name → ToolDefinition map activateSkills Merge skill system prompts and skill-provided tools executeSafeTool Guarded execution (confirmation hooks, errors) Memory and RAG (lightweight) Export Role -------- ------ createInMemoryMemory , createLocalStorageMemory Simple bundled memories for tests or demos; malformed local-storage data raises MemoryError serializeMessages / deserializeMessages Persistence helpers validateMemoryRecord from @agentskit/core/memory-validation Bounded runtime validation for untrusted serialized messages @agentskit/core/fuzzy-match Deterministic Jaro-Winkler matching for KYC, sanctions, deduplication, and entity resolution @agentskit/core/finding Canonical Finding / Severity shape for review and compliance results @agentskit/core/tool-proposal Route a validated proposal through controller authorization @agentskit/core/hash RFC 8785 canonical JSON and SHA-256 helpers for fingerprints and audit data createStaticRetriever , formatRetrievedDocuments Retriever helpers for static/demo context; matching is token substring overlap, not semantic production search Heavy backends live in ; vector stores and chunking in . Error handling Export Role -------- ------ AgentsKitError Base error class with code , hint , and docsUrl fields AdapterError Thrown on adapter/stream failures; links to adapter docs ToolError Thrown on tool lookup or execution failures; links to tool docs MemoryError Thrown on memory load/save/clear/deserialize failures; links to memory docs ConfigError Thrown on invalid configuration; links to ErrorCodes as const map of all AK error code strings See below for usage examples. Tool factory Export Role -------- ------ defineTool Create a ToolDefinition with automatic type inference from a JSON Schema DefineToolConfig Config type for defineTool — schema is narrowed to a const type InferSchemaType Utility type: extract TypeScript args type from a JSON Schema See below. Types (high level) AdapterFactory , StreamS",
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58903,7 +58989,7 @@
             }
           ]
         },
-        "contentHash": "2e44f8ebda3397dfd9547792dbbae106a2123b8975d7ac0f2863174393829fba",
+        "contentHash": "50f1475924fa1daa0c1dc97c58c74fc7b6507d11930264bc3a8737495aab336a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -58929,7 +59015,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58983,7 +59069,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59067,7 +59153,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59171,7 +59257,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59215,7 +59301,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59349,7 +59435,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59398,7 +59484,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59482,7 +59568,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59586,7 +59672,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59765,7 +59851,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59824,7 +59910,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59868,7 +59954,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60091,7 +60177,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60180,7 +60266,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60239,7 +60325,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60308,7 +60394,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60352,7 +60438,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60436,7 +60522,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60480,7 +60566,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60584,7 +60670,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60793,7 +60879,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61578,7 +61664,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003671,
+          "pagerank": 0.003656,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -64543,7 +64629,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -65386,7 +65472,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -65548,7 +65634,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003671,
+          "pagerank": 0.003656,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -65593,7 +65679,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -66251,7 +66337,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -66856,7 +66942,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -66968,7 +67054,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -67252,7 +67338,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.007963,
+          "pagerank": 0.007932,
           "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
@@ -67353,7 +67439,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.007806,
+          "pagerank": 0.007776,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -67404,7 +67490,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.030935,
+          "pagerank": 0.030816,
           "inboundLinks": 64,
           "coveredBy": [],
           "mentionedBy": [
@@ -67855,7 +67941,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.023875,
+          "pagerank": 0.023755,
           "inboundLinks": 11,
           "coveredBy": [],
           "mentionedBy": [],
@@ -67965,7 +68051,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.013425,
+          "pagerank": 0.013358,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68080,7 +68166,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00918,
+          "pagerank": 0.009135,
           "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68190,7 +68276,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.006843,
+          "pagerank": 0.00681,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68315,7 +68401,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00627,
+          "pagerank": 0.00624,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68430,7 +68516,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.006146,
+          "pagerank": 0.006115,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68570,7 +68656,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002235,
+          "pagerank": 0.002221,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68625,7 +68711,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00266,
+          "pagerank": 0.002645,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -68738,7 +68824,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.013532,
+          "pagerank": 0.013468,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68823,7 +68909,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002066,
+          "pagerank": 0.002053,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68903,7 +68989,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002066,
+          "pagerank": 0.002053,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68973,7 +69059,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003106,
+          "pagerank": 0.003088,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69068,7 +69154,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002066,
+          "pagerank": 0.002053,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69138,7 +69224,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002066,
+          "pagerank": 0.002053,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69193,7 +69279,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002066,
+          "pagerank": 0.002053,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69238,7 +69324,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002066,
+          "pagerank": 0.002053,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69283,7 +69369,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.005002,
+          "pagerank": 0.004976,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69363,7 +69449,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.004033,
+          "pagerank": 0.004013,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69438,7 +69524,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002066,
+          "pagerank": 0.002053,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69477,7 +69563,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002066,
+          "pagerank": 0.002053,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69522,7 +69608,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.038385,
+          "pagerank": 0.038223,
           "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69667,7 +69753,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.019455,
+          "pagerank": 0.019374,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69767,7 +69853,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00423,
+          "pagerank": 0.004208,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69882,7 +69968,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00351,
+          "pagerank": 0.003492,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69952,7 +70038,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00319,
+          "pagerank": 0.003173,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70027,7 +70113,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002066,
+          "pagerank": 0.002053,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70072,7 +70158,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002909,
+          "pagerank": 0.002893,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70152,7 +70238,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002066,
+          "pagerank": 0.002053,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70191,7 +70277,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002066,
+          "pagerank": 0.002053,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70241,7 +70327,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002066,
+          "pagerank": 0.002053,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70301,7 +70387,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002628,
+          "pagerank": 0.002613,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -70398,7 +70484,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002628,
+          "pagerank": 0.002613,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -70494,6 +70580,101 @@
         "confidence": "observed"
       },
       {
+        "id": "document:docs/architecture/adrs/0038-canonical-json-hash.md",
+        "kind": "document",
+        "path": "docs/architecture/adrs/0038-canonical-json-hash.md",
+        "title": "ADR 0038 — Canonical JSON and SHA-256 helpers",
+        "summary": "Status: Accepted",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "human"
+        ],
+        "fields": {
+          "title": "ADR 0038 — Canonical JSON and SHA-256 helpers",
+          "headings": "ADR 0038 — Canonical JSON and SHA-256 helpers Context Decision Consequences Alternatives considered Open questions References",
+          "path": "docs/architecture/adrs/0038-canonical-json-hash.md",
+          "symbols": "",
+          "summary": "Status: Accepted",
+          "body": "ADR 0038 — Canonical JSON and SHA-256 helpers - Status : Accepted - Date : 2026-09-29 - Related ADRs : ADR 0025 Context Several packages implemented canonical JSON and SHA-256 separately. Their serialization differed for undefined , property ordering, and values that are not JSON data. Persisted audit-chain entries and evaluation cassettes also rely on fingerprints remaining stable across releases. Decision Expose canonicalJson and sha256Hex from the opt-in @agentskit/core/hash subpath. Canonical JSON follows RFC 8785; undefined object properties are omitted and undefined array entries follow JSON round-trip behavior. The helper is not re-exported from the main @agentskit/core entry. Use it in the CLI audit chain and evaluation replay fingerprints, retaining fixtures for hashes already persisted by the previous implementations. Build-time dependencies are bundled into this subpath. The published core package keeps zero runtime dependencies, and its main entry remains under its 10 KB gzip budget. Consequences - New consumers use this subpath instead of local canonicalization and hashing implementations. - Hash compatibility is checked against committed legacy fixtures. - Inputs outside the JSON data model fail instead of receiving an accidental or implementation-specific serialization. Alternatives considered - Reimplement RFC 8785 locally: rejected because it would preserve another custom serializer. - Add the helpers to the main entry: rejected to keep optional hashing out of the core runtime bundle. Open questions - None. References -",
+          "aliases": "document human"
+        },
+        "graph": {
+          "pagerank": 0.002053,
+          "inboundLinks": 1,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [
+            {
+              "kind": "links-to",
+              "id": "document:docs/architecture/adrs/README.md",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/core",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "f62509ad96cb18641f7183c18a60c03d8ff154432f47403bc2939c3013eb7bb2",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "document:docs/architecture/adrs/0039-cryptographic-ids.md",
+        "kind": "document",
+        "path": "docs/architecture/adrs/0039-cryptographic-ids.md",
+        "title": "ADR 0039 — Cryptographic IDs for generated identifiers",
+        "summary": "Status: Accepted",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "human"
+        ],
+        "fields": {
+          "title": "ADR 0039 — Cryptographic IDs for generated identifiers",
+          "headings": "ADR 0039 — Cryptographic IDs for generated identifiers Context Decision Consequences Alternatives considered Open questions",
+          "path": "docs/architecture/adrs/0039-cryptographic-ids.md",
+          "symbols": "",
+          "summary": "Status: Accepted",
+          "body": "ADR 0039 — Cryptographic IDs for generated identifiers - Status : Accepted - Date : 2026-09-29 - Related ADRs : ADR 0025 Context Generated IDs across packages used timestamps, counters, or Math.random() . Those approaches do not provide a single collision-resistant contract and can produce IDs with different formats. Decision @agentskit/core exposes createId(prefix) , which returns the prefix and a UUID from the platform's crypto.randomUUID() . Existing generateId(prefix) keeps its export and prefix contract while delegating to createId . Packages that need generated run, server, or temporary-file IDs use this helper. Consequences - Generated IDs share the UUID v4 format and require a runtime with crypto.randomUUID() . - Existing identifiers remain valid strings with their original prefixes, but the suffix format changes from timestamp/counter to UUID. - IDs are not deterministic. Callers needing stable identifiers must supply them explicitly. Alternatives considered - Keep package-local ID generators: rejected because their formats and collision properties diverge. - Keep timestamps and counters: rejected because they are not random and repeat across processes. Open questions - None.",
+          "aliases": "document human"
+        },
+        "graph": {
+          "pagerank": 0.002053,
+          "inboundLinks": 1,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [
+            {
+              "kind": "links-to",
+              "id": "document:docs/architecture/adrs/README.md",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/core",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/core/src/primitives.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "57158ffa2b4d8be8475a1bd031310a60e9ae28be838699972ba75e0873708658",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "document:docs/architecture/adrs/README.md",
         "kind": "document",
         "path": "docs/architecture/adrs/README.md",
@@ -70511,11 +70692,11 @@
           "path": "docs/architecture/adrs/README.md",
           "symbols": "",
           "summary": "This directory contains the formal, versioned contracts and architectural decisions for AgentsKit.",
-          "body": "Architecture Decision Records (ADRs) This directory contains the formal, versioned contracts and architectural decisions for AgentsKit. What is an ADR? An ADR captures a single, significant decision — a contract, a framework choice, a deliberate trade-off — along with the context that produced it and the consequences we accept. Once accepted, an ADR is immutable: changes happen by writing a new ADR that supersedes the old one. ADRs are stricter than RFCs. An RFC is a proposal open for discussion; an ADR is the conclusion we have committed to ship. When to write an ADR - A new cross-package contract (Adapter, Tool, Memory, Retriever, Skill, Runtime) - A breaking change to an existing contract - A framework or tooling choice with long-term consequences (e.g., Fumadocs over Docusaurus) - A deliberate trade-off that future contributors would otherwise re-litigate Do NOT write an ADR for: routine features, bug fixes, internal refactors, or anything already covered by the Manifesto. Format Index ADR Title Status --- --- --- Adapter contract (v1) Accepted Tool contract (v1) Accepted Memory contract (v1) Accepted Retriever contract (v1) Accepted Skill contract (v1) Accepted Runtime contract (v1) Accepted Documentation platform: Fumadocs Accepted Runtime argument validation Accepted Composition & dependency rules Accepted Network egress policy (safeFetch) Accepted Inbound request validation (chat triggers) Accepted Vendor adapter scope & granularity Accepted Runtime validation for serialized message records Accepted Trusted application tool-call proposal Accepted Tool authorization before proposal and execution Accepted Cancellable ChatMemory operations Accepted Serializable interaction state Accepted Versioned ecosystem manifest and evidence-backed claims Proposed Public package consolidation Accepted Strict ecosystem documentation quality profile Proposed Evidence-backed package graduation Accepted Public API snapshots and compatibility matrix Accepted Integration execution safety boundaries Accepted Statechart beta safety boundaries Accepted MCP bridge beta boundaries Accepted Shared ecosystem web shell Proposed Shared CLI adapter execution boundary Accepted Registry adopts the ecosystem shell Proposed Ecosystem shell v1 Accepted Documentation pruning and API reference route consolidation Accepted One package owns OS and runtime portability Proposed One package owns HTTP plumbing Proposed The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.",
+          "body": "Architecture Decision Records (ADRs) This directory contains the formal, versioned contracts and architectural decisions for AgentsKit. What is an ADR? An ADR captures a single, significant decision — a contract, a framework choice, a deliberate trade-off — along with the context that produced it and the consequences we accept. Once accepted, an ADR is immutable: changes happen by writing a new ADR that supersedes the old one. ADRs are stricter than RFCs. An RFC is a proposal open for discussion; an ADR is the conclusion we have committed to ship. When to write an ADR - A new cross-package contract (Adapter, Tool, Memory, Retriever, Skill, Runtime) - A breaking change to an existing contract - A framework or tooling choice with long-term consequences (e.g., Fumadocs over Docusaurus) - A deliberate trade-off that future contributors would otherwise re-litigate Do NOT write an ADR for: routine features, bug fixes, internal refactors, or anything already covered by the Manifesto. Format Index ADR Title Status --- --- --- Adapter contract (v1) Accepted Tool contract (v1) Accepted Memory contract (v1) Accepted Retriever contract (v1) Accepted Skill contract (v1) Accepted Runtime contract (v1) Accepted Documentation platform: Fumadocs Accepted Runtime argument validation Accepted Composition & dependency rules Accepted Network egress policy (safeFetch) Accepted Inbound request validation (chat triggers) Accepted Vendor adapter scope & granularity Accepted Runtime validation for serialized message records Accepted Trusted application tool-call proposal Accepted Tool authorization before proposal and execution Accepted Cancellable ChatMemory operations Accepted Serializable interaction state Accepted Versioned ecosystem manifest and evidence-backed claims Proposed Public package consolidation Accepted Strict ecosystem documentation quality profile Proposed Evidence-backed package graduation Accepted Public API snapshots and compatibility matrix Accepted Integration execution safety boundaries Accepted Statechart beta safety boundaries Accepted MCP bridge beta boundaries Accepted Shared ecosystem web shell Proposed Shared CLI adapter execution boundary Accepted Registry adopts the ecosystem shell Proposed Ecosystem shell v1 Accepted Documentation pruning and API reference route consolidation Accepted One package owns OS and runtime portability Proposed One package owns HTTP plumbing Proposed Canonical JSON and SHA-256 helpers Accepted Cryptographic IDs for generated identifiers Accepted The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.",
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003083,
+          "pagerank": 0.003071,
           "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [
@@ -70756,10 +70937,20 @@
               "kind": "links-to",
               "id": "document:docs/architecture/adrs/0037-net-package.md",
               "confidence": "observed"
+            },
+            {
+              "kind": "links-to",
+              "id": "document:docs/architecture/adrs/0038-canonical-json-hash.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "links-to",
+              "id": "document:docs/architecture/adrs/0039-cryptographic-ids.md",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "d9a3a8df1d7d8a766dde2350eb831a2767db9b7b739f9e8621cbbc681ce0ebb9",
+        "contentHash": "52b7bb63e483cb0e3a2b2d2a2255ab7a2e59339a05c09b96f4665dd5ace5b0d9",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -70785,7 +70976,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72101,7 +72292,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
@@ -72158,7 +72349,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002546,
+          "pagerank": 0.002536,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72313,7 +72504,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72631,7 +72822,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002703,
+          "pagerank": 0.002692,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -72878,7 +73069,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002083,
+          "pagerank": 0.002075,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72917,7 +73108,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.008761,
+          "pagerank": 0.008727,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -73030,7 +73221,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003671,
+          "pagerank": 0.003656,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -73087,7 +73278,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -73161,7 +73352,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002602,
+          "pagerank": 0.002591,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [
@@ -73278,7 +73469,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.023584,
+          "pagerank": 0.023491,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -73356,7 +73547,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.079429,
+          "pagerank": 0.079116,
           "inboundLinks": 64,
           "coveredBy": [],
           "mentionedBy": [
@@ -73910,7 +74101,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.021389,
+          "pagerank": 0.021303,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -74247,7 +74438,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -74331,7 +74522,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.012334,
+          "pagerank": 0.012285,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -74612,7 +74803,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.03655,
+          "pagerank": 0.036404,
           "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [
@@ -74811,7 +75002,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -75024,7 +75215,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.020043,
+          "pagerank": 0.019964,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [
@@ -75118,7 +75309,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002802,
+          "pagerank": 0.002791,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -75180,7 +75371,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
@@ -75247,7 +75438,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -75569,7 +75760,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002083,
+          "pagerank": 0.002075,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -75725,7 +75916,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002546,
+          "pagerank": 0.002536,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -75868,7 +76059,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -76056,11 +76247,11 @@
           "path": "packages/core/README.md",
           "symbols": "",
           "summary": "Profile: <code>major-package</code>",
-          "body": "@agentskit/core Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p The zero-dependency foundation that every AgentsKit package builds on — under the 10 KB gzip budget, edge-ready, works everywhere JavaScript runs. Tags: ai · agents · llm · agentskit · typescript · orchestration · streaming · chat Verified proof - Package metadata and tests live under packages/core/ . - Package guide: https://www.agentskit.io/docs/reference/packages/core - Stability map: How this fits the ecosystem @agentskit/core is the contract layer: the tiny, stable foundation that makes adapters, tools, skills, memory, retrievers, and runtimes interchangeable. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why core - Zero external dependencies — no npm bloat, no audit surprises; installs in milliseconds and works in Node, Deno, edge runtimes, and the browser - Stable contracts that unlock the whole ecosystem — six ADR-pinned interfaces ( Adapter , Tool , Skill , Memory , Retriever , Runtime ) make every package interchangeable - Chat state machine included — createChatController handles streaming, abort, and message history so you never implement that loop yourself - Under 10 KB gzipped, always — budget enforced in CI; the foundation you can commit to for the long term Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- Features - createChatController — streaming-capable chat state machine with abort support; memory is saved after successful turns, never after failed or aborted turns. Background memory and skill activation failures are surfaced through onError . - createInMemoryMemory — zero-config in-process memory for prototyping - createLocalStorageMemory — browser/demo persistence; malformed stored data raises MemoryError instead of silently becoming an empty history - createStaticRetriever — deterministic token-overlap retrieval for demos and fallbacks; use @agentskit/rag for semantic production retrieval - parseToolArgs — typed JSON argument parsing for adapters that need fail-closed validation; safeParseArgs remains the compatibility helper - TypeScript types for every contract: ToolDefinition , SkillDefinition , AgentEvent , Adapter , ChatMemory , Retriever , ChatController - Event emitter for AgentEvent streams — observability hooks attach here - AgentEvent.correlation is an optional, provider-neutral identity envelope: operationId is stable across boundaries while runId , sessionId , turnId , actionId , and traceId retain local meaning - Dual CJS/ESM output, strict TypeScript, no any Error handling AgentsKit ships a didactic error system inspired by the Rust compiler. Every error includes a code , a hint for the fix, and a docsUrl — no more vague \"Something went wrong\" messages. Available error codes (via ErrorCodes ): Code Thrown by ------ ----------- AK ADAPTER MISSING adapter not provided to the controller AK ADAPTER STREAM FAILED streaming call to the provider fails AK TOOL NOT FOUND requested tool name is not registered AK TOOL EXEC FAILED execute() throws AK TOOL PEER MISSING optional tool peer dependency is not installed AK TOOL INVALID INPUT tool arguments or proposal are invalid AK TOOL QUOTA EXCEEDED tool execution exceeds its configured quota AK TOOL FORBIDDEN tool execution is denied by policy AK MEMORY LOAD FAILED memory.load() fails AK MEMORY SAVE FAILED memory.save() fails AK MEMORY CLEAR FAILED memory.clear() fails AK MEMORY DESERIALIZE FAILED persisted state is corrupt AK MEMORY PEER MISSING optional memory backend is not installed AK MEMORY REMOTE HTTP remote memory request fails AK CONFIG INVALID required config is missing or wro",
+          "body": "@agentskit/core Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p The zero-dependency foundation that every AgentsKit package builds on — under the 10 KB gzip budget, edge-ready, works everywhere JavaScript runs. Tags: ai · agents · llm · agentskit · typescript · orchestration · streaming · chat Verified proof - Package metadata and tests live under packages/core/ . - Package guide: https://www.agentskit.io/docs/reference/packages/core - Stability map: How this fits the ecosystem @agentskit/core is the contract layer: the tiny, stable foundation that makes adapters, tools, skills, memory, retrievers, and runtimes interchangeable. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why core - Zero external dependencies — no npm bloat, no audit surprises; installs in milliseconds and works in Node, Deno, edge runtimes, and the browser - Stable contracts that unlock the whole ecosystem — six ADR-pinned interfaces ( Adapter , Tool , Skill , Memory , Retriever , Runtime ) make every package interchangeable - Chat state machine included — createChatController handles streaming, abort, and message history so you never implement that loop yourself - Under 10 KB gzipped, always — budget enforced in CI; the foundation you can commit to for the long term Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- Features - createChatController — streaming-capable chat state machine with abort support; memory is saved after successful turns, never after failed or aborted turns. Background memory and skill activation failures are surfaced through onError . - createInMemoryMemory — zero-config in-process memory for prototyping - createLocalStorageMemory — browser/demo persistence; malformed stored data raises MemoryError instead of silently becoming an empty history - createStaticRetriever — deterministic token-overlap retrieval for demos and fallbacks; use @agentskit/rag for semantic production retrieval - parseToolArgs — typed JSON argument parsing for adapters that need fail-closed validation; safeParseArgs remains the compatibility helper - createId(prefix) — prefix plus a cryptographically random UUID; generateId(prefix) remains the compatibility helper used for messages and calls - TypeScript types for every contract: ToolDefinition , SkillDefinition , AgentEvent , Adapter , ChatMemory , Retriever , ChatController - Event emitter for AgentEvent streams — observability hooks attach here - AgentEvent.correlation is an optional, provider-neutral identity envelope: operationId is stable across boundaries while runId , sessionId , turnId , actionId , and traceId retain local meaning - Dual CJS/ESM output, strict TypeScript, no any - Static source guardrail rules are available from @agentskit/core/rules as CORE RULES ; they are intended for tooling and are not imported by the core runtime. Error handling AgentsKit ships a didactic error system inspired by the Rust compiler. Every error includes a code , a hint for the fix, and a docsUrl — no more vague \"Something went wrong\" messages. Available error codes (via ErrorCodes ): Code Thrown by ------ ----------- AK ADAPTER MISSING adapter not provided to the controller AK ADAPTER STREAM FAILED streaming call to the provider fails AK TOOL NOT FOUND requested tool name is not registered AK TOOL EXEC FAILED execute() throws AK TOOL PEER MISSING optional tool peer dependency is not installed AK TOOL INVALID INPUT tool arguments or proposal are invalid AK TOOL QUOTA EXCEEDED tool execution exceeds its configured quota AK TOOL FORBIDDEN tool execution is denied by policy AK MEMORY LOAD FAILED memory.load() fails ",
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -76218,6 +76409,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/core/src/rules.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/core/src/types/agent.ts",
               "confidence": "observed"
             },
@@ -76263,7 +76459,7 @@
             }
           ]
         },
-        "contentHash": "f6afb061918a432fdeddf2d51726ab9abfe7f3227f12b524c347482c1ea80612",
+        "contentHash": "1342660b7f5e3800865d6a42515f28bb57bcaf66f1794b62d2629576f5457323",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -76377,7 +76573,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -76589,7 +76785,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -76696,7 +76892,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -76848,7 +77044,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77055,7 +77251,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77260,7 +77456,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77343,7 +77539,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77417,7 +77613,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77689,7 +77885,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77866,7 +78062,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77929,7 +78125,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78003,7 +78199,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78146,7 +78342,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78245,7 +78441,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78472,7 +78668,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78600,7 +78796,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78699,7 +78895,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78852,7 +79048,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78926,7 +79122,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002083,
+          "pagerank": 0.002075,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -79082,7 +79278,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79156,7 +79352,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79284,7 +79480,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79353,7 +79549,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79545,7 +79741,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79706,7 +79902,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002827,
+          "pagerank": 0.002816,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79899,7 +80095,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80121,7 +80317,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002083,
+          "pagerank": 0.002075,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80245,7 +80441,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80304,7 +80500,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80606,7 +80802,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80753,7 +80949,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80882,7 +81078,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 9,
           "coveredBy": [],
           "mentionedBy": [
@@ -81211,7 +81407,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002096,
+          "pagerank": 0.002088,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81260,7 +81456,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.004257,
+          "pagerank": 0.004241,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81339,7 +81535,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.003366,
+          "pagerank": 0.003353,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81468,7 +81664,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002096,
+          "pagerank": 0.002088,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81542,7 +81738,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002987,
+          "pagerank": 0.002976,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81641,7 +81837,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002096,
+          "pagerank": 0.002088,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81720,7 +81916,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002096,
+          "pagerank": 0.002088,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81789,7 +81985,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.004345,
+          "pagerank": 0.004328,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81873,7 +82069,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002096,
+          "pagerank": 0.002088,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81952,7 +82148,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.00294,
+          "pagerank": 0.002928,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82026,7 +82222,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002096,
+          "pagerank": 0.002088,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82100,7 +82296,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.005188,
+          "pagerank": 0.005168,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82189,7 +82385,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.00294,
+          "pagerank": 0.002928,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82283,7 +82479,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002096,
+          "pagerank": 0.002088,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82358,7 +82554,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82502,7 +82698,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
@@ -82639,7 +82835,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.007806,
+          "pagerank": 0.007776,
           "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
@@ -82763,7 +82959,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001984,
+          "pagerank": 0.001976,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -119926,6 +120122,49 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/core/src/hash.ts",
+        "kind": "module",
+        "path": "packages/core/src/hash.ts",
+        "title": "hash.ts",
+        "aliases": [],
+        "symbols": [
+          "canonicalJson",
+          "sha256Hex"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "hash.ts",
+          "headings": "",
+          "path": "packages/core/src/hash.ts",
+          "symbols": "canonicalJson sha256Hex",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/core",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/tests/hash.test.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "5730f8cf70b6e445f8347838a4a416df04e7144661beb107312a2f9bf95361c0",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/core/src/hitl.ts",
         "kind": "module",
         "path": "packages/core/src/hitl.ts",
@@ -120120,6 +120359,7 @@
           "consumeStream",
           "createChatController",
           "createEventEmitter",
+          "createId",
           "createInMemoryMemory",
           "createLocalStorageMemory",
           "createProgressiveArgParser",
@@ -120153,7 +120393,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/core/src/index.ts",
-          "symbols": "ActivateSkillsResult AdapterCapabilities AdapterContext AdapterError AdapterFactory AdapterRequest AgentEvent AgentEventContext AgentsKitError ArgsValidationError ArgsValidationResult ArgsValidator AudioPart BudgetStrategy ChatConfig ChatController ChatMemory ChatReturn ChatState CompileBudgetInput CompileBudgetResult ConfigError ConsumeStreamHandlers ContentPart DataRegion DefineToolConfig EditOptions EmbedFn ErrorCodes EvalResult EvalSuite EvalTestCase ExecuteSafeToolOptions FilePart ImagePart InferSchemaType MaybePromise MemoryError MemoryRecord Message MessageRole MessageStatus Observer ParsedToolArgs PartKind ProgressiveArgParser ProgressiveExecOptions ProgressiveExecResult ProgressiveFieldEvent RetrievedDocument Retriever RetrieverRequest RuntimeError SandboxError SkillDefinition SkillError StreamChunk StreamSource StreamStatus StreamToolCallPayload TextPart TokenCountResult TokenCounter TokenCounterOptions TokenUsage ToolAuthorizationContext ToolAuthorizationDecision ToolAuthorizationPhase ToolAuthorizer ToolCall ToolCallHandlerContext ToolCallStatus ToolDefinition ToolError ToolExecResult ToolExecutionContext UseStreamOptions UseStreamReturn VectorDocument VectorFilter VectorFilterCompound VectorFilterOperator VectorFilterPredicate VectorFilterPrimitive VectorMemory VectorSearchOptions VideoPart VirtualizedMemoryOptions activateSkills approximateCounter audioPart buildMessage buildToolMap compileBudget consumeStream createChatController createEventEmitter createInMemoryMemory createLocalStorageMemory createProgressiveArgParser createStaticRetriever createToolLifecycle createVirtualizedMemory defineTool deserializeMessages executeSafeTool executeToolCall executeToolProgressively filePart filterParts formatRetrievedDocuments generateId imagePart normalizeContent parseToolArgs partsToText safeParseArgs serializeMessages textPart videoPart",
+          "symbols": "ActivateSkillsResult AdapterCapabilities AdapterContext AdapterError AdapterFactory AdapterRequest AgentEvent AgentEventContext AgentsKitError ArgsValidationError ArgsValidationResult ArgsValidator AudioPart BudgetStrategy ChatConfig ChatController ChatMemory ChatReturn ChatState CompileBudgetInput CompileBudgetResult ConfigError ConsumeStreamHandlers ContentPart DataRegion DefineToolConfig EditOptions EmbedFn ErrorCodes EvalResult EvalSuite EvalTestCase ExecuteSafeToolOptions FilePart ImagePart InferSchemaType MaybePromise MemoryError MemoryRecord Message MessageRole MessageStatus Observer ParsedToolArgs PartKind ProgressiveArgParser ProgressiveExecOptions ProgressiveExecResult ProgressiveFieldEvent RetrievedDocument Retriever RetrieverRequest RuntimeError SandboxError SkillDefinition SkillError StreamChunk StreamSource StreamStatus StreamToolCallPayload TextPart TokenCountResult TokenCounter TokenCounterOptions TokenUsage ToolAuthorizationContext ToolAuthorizationDecision ToolAuthorizationPhase ToolAuthorizer ToolCall ToolCallHandlerContext ToolCallStatus ToolDefinition ToolError ToolExecResult ToolExecutionContext UseStreamOptions UseStreamReturn VectorDocument VectorFilter VectorFilterCompound VectorFilterOperator VectorFilterPredicate VectorFilterPrimitive VectorMemory VectorSearchOptions VideoPart VirtualizedMemoryOptions activateSkills approximateCounter audioPart buildMessage buildToolMap compileBudget consumeStream createChatController createEventEmitter createId createInMemoryMemory createLocalStorageMemory createProgressiveArgParser createStaticRetriever createToolLifecycle createVirtualizedMemory defineTool deserializeMessages executeSafeTool executeToolCall executeToolProgressively filePart filterParts formatRetrievedDocuments generateId imagePart normalizeContent parseToolArgs partsToText safeParseArgs serializeMessages textPart videoPart",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -120167,6 +120407,11 @@
           ],
           "packageId": "package:@agentskit/core",
           "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/tests/primitives.test.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "mentions",
               "id": "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
@@ -120241,7 +120486,7 @@
             }
           ]
         },
-        "contentHash": "5054c83f18376f35758a8bf9817325f7cd048e1b65bc3a851bd46f852d756c36",
+        "contentHash": "79599d5282cc676ec8db0733896721fc09c205b8f47e54bd1f0044a049e45d0e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -120633,6 +120878,7 @@
           "buildMessage",
           "consumeStream",
           "createEventEmitter",
+          "createId",
           "createToolLifecycle",
           "executeToolCall",
           "generateId",
@@ -120648,14 +120894,14 @@
           "title": "primitives.ts",
           "headings": "",
           "path": "packages/core/src/primitives.ts",
-          "symbols": "ConsumeStreamHandlers ParsedToolArgs acquireToolLifecycle buildMessage consumeStream createEventEmitter createToolLifecycle executeToolCall generateId parseToolArgs safeParseArgs",
+          "symbols": "ConsumeStreamHandlers ParsedToolArgs acquireToolLifecycle buildMessage consumeStream createEventEmitter createId createToolLifecycle executeToolCall generateId parseToolArgs safeParseArgs",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 9,
+          "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0008-runtime-validation.md",
@@ -120664,6 +120910,7 @@
             "document:apps/docs-next/content/docs/reference/contribute/roadmap.mdx",
             "document:apps/docs-next/content/docs/reference/packages/core.mdx",
             "document:docs/architecture/adrs/0008-runtime-validation.md",
+            "document:docs/architecture/adrs/0039-cryptographic-ids.md",
             "document:docs/security/threat-model.md",
             "document:packages/core/CONVENTIONS.md",
             "document:packages/core/README.md"
@@ -120747,6 +120994,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "document:docs/architecture/adrs/0039-cryptographic-ids.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "document:docs/security/threat-model.md",
               "confidence": "observed"
             },
@@ -120784,7 +121036,7 @@
             }
           ]
         },
-        "contentHash": "14872961fa65ac5ecda275168d2e559ace7de2603a9d78591fa088b239a26c67",
+        "contentHash": "ec9de00fcbb56935c894476a58977e2edb56e7a8395d0c0c44c8abb6617be6c9",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -121006,6 +121258,55 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/core/src/rules.ts",
+        "kind": "module",
+        "path": "packages/core/src/rules.ts",
+        "title": "rules.ts",
+        "aliases": [],
+        "symbols": [
+          "CORE_RULES"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "rules.ts",
+          "headings": "",
+          "path": "packages/core/src/rules.ts",
+          "symbols": "CORE_RULES",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 1,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:packages/core/README.md"
+          ],
+          "packageId": "package:@agentskit/core",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/tests/rules.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/core/README.md",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "098cc9ac7b315cd90c3a758c465f1666bacf9e8e73431fe3b0f85bad21a66349",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/core/src/security/fence.ts",
         "kind": "module",
         "path": "packages/core/src/security/fence.ts",
@@ -121108,6 +121409,9 @@
           "createRateLimiter",
           "createSamlVerifier",
           "fenceUntrustedContent",
+          "isSensitiveFieldName",
+          "redactDeep",
+          "redactSecrets",
           "reveal",
           "tokenize",
           "validatePIITaxonomy"
@@ -121121,7 +121425,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/core/src/security/index.ts",
-          "symbols": "DEFAULT_INJECTION_HEURISTICS DEFAULT_PII_RULES FenceOptions InjectionDetector InjectionDetectorOptions InjectionHeuristic InjectionVerdict OidcClaims OidcVerifier OidcVerifierOptions PIIRedactionHit PIIRedactionMatch PIIRedactionResult PIIRedactor PIIRule PIITaxonomy PIITaxonomyEntry PII_TAXONOMY_JSON_SCHEMA RateLimitBucket RateLimitDecision RateLimiter RateLimiterOptions RedactionAuditEvent RedactionAuditSink RedactionVault RevealActor RevealOptions SamlAssertion SamlAttribute SamlVerifier SamlVerifierOptions TaxonomyValidationIssue TaxonomyValidationResult TokenizeOptions UNTRUSTED_CONTENT_DIRECTIVE VaultEntry compilePIITaxonomy createInMemoryRedactionVault createInjectionDetector createOidcVerifier createPIIRedactor createRateLimiter createSamlVerifier fenceUntrustedContent reveal tokenize validatePIITaxonomy",
+          "symbols": "DEFAULT_INJECTION_HEURISTICS DEFAULT_PII_RULES FenceOptions InjectionDetector InjectionDetectorOptions InjectionHeuristic InjectionVerdict OidcClaims OidcVerifier OidcVerifierOptions PIIRedactionHit PIIRedactionMatch PIIRedactionResult PIIRedactor PIIRule PIITaxonomy PIITaxonomyEntry PII_TAXONOMY_JSON_SCHEMA RateLimitBucket RateLimitDecision RateLimiter RateLimiterOptions RedactionAuditEvent RedactionAuditSink RedactionVault RevealActor RevealOptions SamlAssertion SamlAttribute SamlVerifier SamlVerifierOptions TaxonomyValidationIssue TaxonomyValidationResult TokenizeOptions UNTRUSTED_CONTENT_DIRECTIVE VaultEntry compilePIITaxonomy createInMemoryRedactionVault createInjectionDetector createOidcVerifier createPIIRedactor createRateLimiter createSamlVerifier fenceUntrustedContent isSensitiveFieldName redactDeep redactSecrets reveal tokenize validatePIITaxonomy",
           "summary": "",
           "body": "",
           "aliases": "module ts security"
@@ -121198,7 +121502,7 @@
             }
           ]
         },
-        "contentHash": "5639a5f56e8dc45ed671e816494e9a536577564c68407fd5d9cc1c58e7f05633",
+        "contentHash": "75094bcf1a248792c0445ec9cc77c8371be7eeb64b42fe0c5566165b9dd5bcc4",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -125701,6 +126005,46 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/core/tests/hash.test.ts",
+        "kind": "module",
+        "path": "packages/core/tests/hash.test.ts",
+        "title": "hash.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "hash.test.ts",
+          "headings": "",
+          "path": "packages/core/tests/hash.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/core",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/hash.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "cffff1e6e8c031fc71e26f020ff21293a9adb5ca23442d72a2184fe0974d6b21",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/core/tests/helpers.ts",
         "kind": "module",
         "path": "packages/core/tests/helpers.ts",
@@ -125969,6 +126313,11 @@
           "outbound": [
             {
               "kind": "imports",
+              "id": "module:packages/core/src/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/core/src/primitives.ts",
               "confidence": "observed"
             },
@@ -125979,7 +126328,7 @@
             }
           ]
         },
-        "contentHash": "c39eb4c210a4ae810149056159ee53bae31a1adb28edab5bf363e1470d9c444a",
+        "contentHash": "c18cfd5d9141e2496587eef706018fdf8163f0771ff64205260b048f031aed68",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -126105,6 +126454,46 @@
           ]
         },
         "contentHash": "d9c6d9056b9299d762c45154676c7fe091d8c0aa1c2860d9b4626e90ff3a15c7",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/core/tests/rules.test.ts",
+        "kind": "module",
+        "path": "packages/core/tests/rules.test.ts",
+        "title": "rules.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "rules.test.ts",
+          "headings": "",
+          "path": "packages/core/tests/rules.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/core",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/rules.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "ae71d0a10c2277bbfc87a8a37c56e4fa826f65595dce9bb0623190ca5d65e24e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -126530,7 +126919,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "d8f80c4964208f4338733046d0aef1906bd3052a17d33fde1cb433137fb46f97",
+        "contentHash": "57517c35e4291f3bf1b9e8b96c30e980acdace443d73d5e7ce4592b6c2171b99",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -185575,7 +185964,7 @@
           "aliases": "adapters @agentskit/adapters package ownership"
         },
         "graph": {
-          "pagerank": 0.004514,
+          "pagerank": 0.004496,
           "inboundLinks": 64,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
@@ -186000,7 +186389,7 @@
           "aliases": "angular @agentskit/angular package ownership"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 37,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/angular.mdx",
@@ -186263,7 +186652,7 @@
           "aliases": "cli @agentskit/cli package ownership"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 28,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cli.mdx",
@@ -186468,11 +186857,11 @@
           "path": "packages/core",
           "symbols": "",
           "summary": "Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + `createChatController` + primitives. Target: &lt;10 KB gzipped, zero runtime deps.",
-          "body": "Purpose Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + createChatController + primitives. Target: &lt;10 KB gzipped, zero runtime deps. Install Primary exports (main entry) - createChatController(config) — state machine behind every UI - proposeToolCall(proposal) — controller method that places a trusted, validated action into the same confirmation lifecycle; it never executes directly. The standalone helper is available from @agentskit/core/tool-proposal . Returns { getState, subscribe, send, stop, retry, edit, regenerate, setInput, clear, approve, deny, updateConfig } . - defineTool(config) — typed tool factory with JSON-Schema input inference. - ChatConfig.authorizeToolCall — trusted host authorization before tool proposal and again before execution. Callback failures default to deny. - createInMemoryMemory / createLocalStorageMemory — default ChatMemory implementations. - createStaticRetriever / formatRetrievedDocuments — RAG-less retrieval using token substring overlap; use @agentskit/rag for semantic production retrieval. - executeToolCall , consumeStream , createEventEmitter , parseToolArgs , safeParseArgs , generateId , buildMessage — low-level helpers. parseToolArgs returns { args, valid } so adapters can fail closed; safeParseArgs remains the compatibility value-only parser. - AgentsKitError , AdapterError , ToolError , MemoryError , ConfigError , RuntimeError , SandboxError , SkillError , ErrorCodes — error taxonomy. - Token budget: compileBudget , approximateCounter . - Progressive tool args: createProgressiveArgParser , executeToolProgressively . - createVirtualizedMemory — hot-window + cold-retriever wrapper (also re-exported from @agentskit/memory ). - Untrusted-input fencing lives in the @agentskit/core/security entry: fenceUntrustedContent(content, opts?) + UNTRUSTED CONTENT DIRECTIVE wrap attacker-influenced text so the model treats it as data, not instructions (the mitigation companion to createInjectionDetector ). - Multi-modal content parts: textPart , imagePart , audioPart , videoPart , filePart , partsToText , normalizeContent , filterParts . - Agent-loop internals (advanced): buildToolMap , activateSkills , executeSafeTool , createToolLifecycle . - Memory serialization: serializeMessages , deserializeMessages ; validate untrusted records with validateMemoryRecord from @agentskit/core/memory-validation . Subpath exports (zero main-bundle weight) Subpath Purpose Recipe --- --- --- @agentskit/core/agent-schema Declarative agent YAML/JSON + validator @agentskit/core/prompt-experiments A/B prompts with feature flags @agentskit/core/auto-summarize Auto-summarizing ChatMemory wrapper @agentskit/core/hitl Approval gates + ApprovalStore @agentskit/core/security PII redactor + injection detector + fenceUntrustedContent + rate limiter , , @agentskit/core/fuzzy-match jaroWinkler / fuzzyMatchList — zero-dep fuzzy name matching for sanctions/KYC/dedup without an LLM — @agentskit/core/finding Finding / Severity / SEVERITY ORDER — canonical issue shape so review/audit/compliance findings are interoperable — @agentskit/core/compose-tool Chain N tools into one @agentskit/core/self-debug Retry tools with LLM-corrected args @agentskit/core/generative-ui Typed UI element tree + artifacts @agentskit/core/a2a Agent-to-Agent protocol spec @agentskit/core/manifest Skill + tool manifest format (MCP-compat) @agentskit/core/eval-format Portable eval dataset + run-result @agentskit/core/memory-validation Bounded validation for untrusted serialized memory records — @agentskit/core/tool-proposal Route a validated proposal through controller authorization — Minimal example Common patterns - Wire a controller into any framework via getState + subscribe (see the framework bindings under ). - Compose tools with or wrap failing ones with . - Gate risky operations with + HITL + signed . Related packages - - - Source - npm: https://www.npmjs.com/package/@agentskit/core - repo: https://github.com/AgentsKit-i",
+          "body": "Purpose Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + createChatController + primitives. Target: &lt;10 KB gzipped, zero runtime deps. Install Primary exports (main entry) - createChatController(config) — state machine behind every UI - proposeToolCall(proposal) — controller method that places a trusted, validated action into the same confirmation lifecycle; it never executes directly. The standalone helper is available from @agentskit/core/tool-proposal . Returns { getState, subscribe, send, stop, retry, edit, regenerate, setInput, clear, approve, deny, updateConfig } . - defineTool(config) — typed tool factory with JSON-Schema input inference. - ChatConfig.authorizeToolCall — trusted host authorization before tool proposal and again before execution. Callback failures default to deny. - createInMemoryMemory / createLocalStorageMemory — default ChatMemory implementations. - createStaticRetriever / formatRetrievedDocuments — RAG-less retrieval using token substring overlap; use @agentskit/rag for semantic production retrieval. - executeToolCall , consumeStream , createEventEmitter , parseToolArgs , safeParseArgs , createId , generateId , buildMessage — low-level helpers. parseToolArgs returns { args, valid } so adapters can fail closed; safeParseArgs remains the compatibility value-only parser. IDs use crypto.randomUUID() and retain the caller-provided prefix. - AgentsKitError , AdapterError , ToolError , MemoryError , ConfigError , RuntimeError , SandboxError , SkillError , ErrorCodes — error taxonomy. - Token budget: compileBudget , approximateCounter . - Progressive tool args: createProgressiveArgParser , executeToolProgressively . - createVirtualizedMemory — hot-window + cold-retriever wrapper (also re-exported from @agentskit/memory ). - Untrusted-input fencing lives in the @agentskit/core/security entry: fenceUntrustedContent(content, opts?) + UNTRUSTED CONTENT DIRECTIVE wrap attacker-influenced text so the model treats it as data, not instructions (the mitigation companion to createInjectionDetector ). - Multi-modal content parts: textPart , imagePart , audioPart , videoPart , filePart , partsToText , normalizeContent , filterParts . - Agent-loop internals (advanced): buildToolMap , activateSkills , executeSafeTool , createToolLifecycle . - Memory serialization: serializeMessages , deserializeMessages ; validate untrusted records with validateMemoryRecord from @agentskit/core/memory-validation . Subpath exports (zero main-bundle weight) Subpath Purpose Recipe --- --- --- @agentskit/core/agent-schema Declarative agent YAML/JSON + validator @agentskit/core/prompt-experiments A/B prompts with feature flags @agentskit/core/auto-summarize Auto-summarizing ChatMemory wrapper @agentskit/core/hitl Approval gates + ApprovalStore @agentskit/core/security PII redactor + injection detector + fenceUntrustedContent + rate limiter , , @agentskit/core/fuzzy-match jaroWinkler / fuzzyMatchList — zero-dep fuzzy name matching for sanctions/KYC/dedup without an LLM — @agentskit/core/finding Finding / Severity / SEVERITY ORDER — canonical issue shape so review/audit/compliance findings are interoperable — @agentskit/core/compose-tool Chain N tools into one @agentskit/core/self-debug Retry tools with LLM-corrected args @agentskit/core/generative-ui Typed UI element tree + artifacts @agentskit/core/a2a Agent-to-Agent protocol spec @agentskit/core/manifest Skill + tool manifest format (MCP-compat) @agentskit/core/eval-format Portable eval dataset + run-result @agentskit/core/memory-validation Bounded validation for untrusted serialized memory records — @agentskit/core/tool-proposal Route a validated proposal through controller authorization — @agentskit/core/hash RFC 8785 canonical JSON and SHA-256 for stable fingerprints — Minimal example Common patterns - Wire a controller into any framework via getState + subscribe (see the framework bindings under ). - Compose tools with or wrap failing ones with . - Gate ",
           "aliases": "core @agentskit/core package ownership"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 64,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/core.mdx",
@@ -186867,7 +187256,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "2d3ff577acb7f08dc76f247013c2a8a468a1218144768115fe182fd8f6db2a5e",
+        "contentHash": "26d72b8ea002d1ffa9d81670c86fcf4222be7e26762778f3f1ed364972c8f3e1",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "core"
@@ -186897,7 +187286,7 @@
           "aliases": "cross-platform @agentskit/cross-platform package ownership"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 10,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx",
@@ -186998,7 +187387,7 @@
           "aliases": "eval @agentskit/eval package ownership"
         },
         "graph": {
-          "pagerank": 0.007887,
+          "pagerank": 0.007856,
           "inboundLinks": 45,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/eval-braintrust.mdx",
@@ -187391,7 +187780,7 @@
           "aliases": "ink @agentskit/ink package ownership"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 56,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/ink.mdx",
@@ -187768,7 +188157,7 @@
           "aliases": "integrations @agentskit/integrations package ownership"
         },
         "graph": {
-          "pagerank": 0.003249,
+          "pagerank": 0.003236,
           "inboundLinks": 19,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
@@ -187923,7 +188312,7 @@
           "aliases": "mcp @agentskit/mcp package ownership"
         },
         "graph": {
-          "pagerank": 0.003249,
+          "pagerank": 0.003236,
           "inboundLinks": 20,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/mcp.mdx",
@@ -188084,7 +188473,7 @@
           "aliases": "memory @agentskit/memory package ownership"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 64,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/memory.mdx",
@@ -188509,7 +188898,7 @@
           "aliases": "net @agentskit/net package ownership"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 9,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/net.mdx",
@@ -188604,7 +188993,7 @@
           "aliases": "observability @agentskit/observability package ownership"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 54,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/observability.mdx",
@@ -188969,7 +189358,7 @@
           "aliases": "observability-langfuse @agentskit/observability-langfuse package ownership"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 8,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/observability-langfuse.mdx",
@@ -189058,7 +189447,7 @@
           "aliases": "rag @agentskit/rag package ownership"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 51,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/rag.mdx",
@@ -189405,7 +189794,7 @@
           "aliases": "react @agentskit/react package ownership"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 64,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/react.mdx",
@@ -189830,7 +190219,7 @@
           "aliases": "react-native @agentskit/react-native package ownership"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 36,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/react-native.mdx",
@@ -190087,7 +190476,7 @@
           "aliases": "runtime @agentskit/runtime package ownership"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 64,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/runtime.mdx",
@@ -190512,7 +190901,7 @@
           "aliases": "sandbox @agentskit/sandbox package ownership"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 40,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/sandbox.mdx",
@@ -190793,7 +191182,7 @@
           "aliases": "skills @agentskit/skills package ownership"
         },
         "graph": {
-          "pagerank": 0.003671,
+          "pagerank": 0.003656,
           "inboundLinks": 30,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/skills.mdx",
@@ -191014,7 +191403,7 @@
           "aliases": "solid @agentskit/solid package ownership"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 34,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/solid.mdx",
@@ -191259,7 +191648,7 @@
           "aliases": "statechart @agentskit/statechart package ownership"
         },
         "graph": {
-          "pagerank": 0.002827,
+          "pagerank": 0.002816,
           "inboundLinks": 13,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/statechart.mdx",
@@ -191378,7 +191767,7 @@
           "aliases": "svelte @agentskit/svelte package ownership"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 39,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/svelte.mdx",
@@ -191653,7 +192042,7 @@
           "aliases": "templates @agentskit/templates package ownership"
         },
         "graph": {
-          "pagerank": 0.004514,
+          "pagerank": 0.004496,
           "inboundLinks": 22,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/templates.mdx",
@@ -191826,7 +192215,7 @@
           "aliases": "tools @agentskit/tools package ownership"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 64,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/tools.mdx",
@@ -192251,7 +192640,7 @@
           "aliases": "validation @agentskit/validation package ownership"
         },
         "graph": {
-          "pagerank": 0.004092,
+          "pagerank": 0.004076,
           "inboundLinks": 13,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/validation.mdx",
@@ -192370,7 +192759,7 @@
           "aliases": "vue @agentskit/vue package ownership"
         },
         "graph": {
-          "pagerank": 0.005357,
+          "pagerank": 0.005336,
           "inboundLinks": 39,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/vue.mdx",
@@ -192641,7 +193030,7 @@
           "aliases": "agentskit package"
         },
         "graph": {
-          "pagerank": 0.002406,
+          "pagerank": 0.002396,
           "inboundLinks": 46,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx"

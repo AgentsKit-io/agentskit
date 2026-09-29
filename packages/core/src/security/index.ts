@@ -67,3 +67,5 @@ export type {
   OidcClaims,
 } from './sso'
 export type { SamlVerifier, SamlVerifierOptions, SamlAssertion, SamlAttribute } from './saml'
+
+export { redactSecrets, redactDeep, isSensitiveFieldName } from './secrets'

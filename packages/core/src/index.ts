@@ -13,6 +13,7 @@ export {
 export { createInMemoryMemory, createLocalStorageMemory, serializeMessages, deserializeMessages } from './memory'
 export { createStaticRetriever, formatRetrievedDocuments } from './rag'
 export {
+  createId,
   generateId,
   buildMessage,
   executeToolCall,
