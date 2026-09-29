@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "71ff110e095f467210d307b9ce4c1b83723e111192dda49082dd3ba0a9cff9fe",
+  "contentHash": "1814c3ef8ccdb3fb5138db47ba9e426c2cf10737eaa4b905f6f91f412a704c36",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-29T12:42:50.192Z",
+  "generatedAt": "2026-09-29T15:30:52.489Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -34795,7 +34795,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "808f7ef196a11d6684464f2d31f5b1caa4707df7090f227fb98cd7a54f865e30"
+      "contentHash": "7a6bc980bfe2c3f2135c16023fcf5268f1833de4d23ac78d810e7f392d0ea305"
     },
     {
       "id": "module:scripts/check-readme-badge.mjs",
@@ -34992,7 +34992,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "be7e96d4189da2f0b30d9a14a356eaa74b43bf7865871181f7ad9b995b7a8cbf"
+      "contentHash": "1c759656bae1ce16769cdecea9e8e690665ffa4051b524cbeeb95b0df555b00c"
     },
     {
       "id": "module:scripts/ecosystem-llms-block.test.mjs",
@@ -35204,6 +35204,7 @@
         "evaluateDocumentationQualityMatrix",
         "parseDocumentationQualityEvidence",
         "parseDocumentationQualityProfile",
+        "runDocBridgeJson",
         "verifyAttestedCommit"
       ],
       "tags": [
@@ -35211,7 +35212,7 @@
         "mjs",
         "lib"
       ],
-      "contentHash": "b39ffb9542084bbd50eec9e4c517e8112af10f46319f185a92dcd7f88210d912"
+      "contentHash": "e956be3912657ccfa0423ea6730aa288db13f826afae909dca866cd5e71d58ba"
     },
     {
       "id": "module:scripts/lib/ecosystem-readiness.mjs",
@@ -37305,7 +37306,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "f877bc55d2f1e7552ebc29e4d3de1546a8f28592cd74f81070a3c1c1bbd0f0fc",
+    "hash": "3de160e47175f92123eb6ab2a69769cde02119e3a32b88a282b3a10bffaf6117",
     "fileCount": 2478,
     "projectionVersion": 2
   },
@@ -37328,9 +37329,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "281357c722bcbece998bdf2e6f8c1ced3bec54515ad9d6adb7fdc0836d3b1f08",
+    "contentHash": "235541419e26a2ef456e276637c870e9a3fb5bfa097488544a4f6f15ff56ce76",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "fb1fd9e7ed7c6a9ec600a33d6fac7a36fffbb92f69050a5dee71266a54b6c340",
+    "snapshotHash": "9716a25a05f17527415c91f2e822df7a9c117fa9a21e4163ca1c5fd57b391337",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37366,7 +37367,7 @@
         "headings": 4.045641447368421,
         "path": 7.622944078947368,
         "summary": 4.597450657894737,
-        "symbols": 7.5230263157894735,
+        "symbols": 7.525082236842105,
         "title": 3.325657894736842
       }
     },
@@ -181343,7 +181344,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "808f7ef196a11d6684464f2d31f5b1caa4707df7090f227fb98cd7a54f865e30",
+        "contentHash": "7a6bc980bfe2c3f2135c16023fcf5268f1833de4d23ac78d810e7f392d0ea305",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -182113,7 +182114,7 @@
             }
           ]
         },
-        "contentHash": "be7e96d4189da2f0b30d9a14a356eaa74b43bf7865871181f7ad9b995b7a8cbf",
+        "contentHash": "1c759656bae1ce16769cdecea9e8e690665ffa4051b524cbeeb95b0df555b00c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -182761,6 +182762,7 @@
           "evaluateDocumentationQualityMatrix",
           "parseDocumentationQualityEvidence",
           "parseDocumentationQualityProfile",
+          "runDocBridgeJson",
           "verifyAttestedCommit"
         ],
         "tags": [
@@ -182772,7 +182774,7 @@
           "title": "ecosystem-documentation-quality.mjs",
           "headings": "",
           "path": "scripts/lib/ecosystem-documentation-quality.mjs",
-          "symbols": "CANONICAL_PRODUCTS DOCUMENTATION_QUALITY_PROTOCOL DOC_BRIDGE_ATTESTATION_PROTOCOL computeDocumentationEvidenceDigest countDocumentationWords documentationEvidencePaths evaluateDocumentationQuality evaluateDocumentationQualityMatrix parseDocumentationQualityEvidence parseDocumentationQualityProfile verifyAttestedCommit",
+          "symbols": "CANONICAL_PRODUCTS DOCUMENTATION_QUALITY_PROTOCOL DOC_BRIDGE_ATTESTATION_PROTOCOL computeDocumentationEvidenceDigest countDocumentationWords documentationEvidencePaths evaluateDocumentationQuality evaluateDocumentationQualityMatrix parseDocumentationQualityEvidence parseDocumentationQualityProfile runDocBridgeJson verifyAttestedCommit",
           "summary": "",
           "body": "",
           "aliases": "module mjs lib"
@@ -182798,7 +182800,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "b39ffb9542084bbd50eec9e4c517e8112af10f46319f185a92dcd7f88210d912",
+        "contentHash": "e956be3912657ccfa0423ea6730aa288db13f826afae909dca866cd5e71d58ba",
         "provenance": "observed",
         "confidence": "observed"
       },
