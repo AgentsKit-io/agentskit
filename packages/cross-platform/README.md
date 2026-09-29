@@ -80,7 +80,7 @@ npx agentskit-cross-platform check          # fail on any new finding
 npx agentskit-cross-platform check --update # lower the baseline after a fix
 ```
 
-The baseline is a ratchet: counts only go down. Allow a justified exception with a `cross-platform-ignore: <reason>` comment on the line or the line above.
+The baseline is a ratchet: counts only go down. Allow a justified exception with a `cross-platform-ignore: <reason>` comment on the line or the line above. A `<rule-id>-ignore: <reason>` comment suppresses only that rule.
 
 ## Ecosystem
 

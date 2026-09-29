@@ -58,6 +58,8 @@ const GATES = [
   ['README Standard v1', 'check-readme-standard.mjs'],
   ['README Standard v1 tests', 'readme-standard.test.mjs', [], 'vitest'],
   ['cross-platform guardrail (ratchet)', 'check-cross-platform.mjs'],
+  ['core rules guardrail (ratchet)', 'check-core-rules.mjs'],
+  ['core rules ratchet tests', 'check-core-rules.test.mjs', [], 'vitest'],
 ]
 
 const failed = []

@@ -68,6 +68,18 @@ caught and rewrapped (embedder `fetchAvailableModels`), and CLI/leaf
 modules whose conversions are queued in the enterprise-readiness
 backlog. The list shrinks as those conversions land.
 
+## `check-core-rules.mjs`
+
+Applies `CORE_RULES` from `@agentskit/core/rules` to `packages/*/src` with the
+cross-platform scanner and a shrink-only baseline in `.core-rules-baseline.json`.
+`<rule-id>-ignore: <reason>` on the line or the line above suppresses that rule.
+`--update` lowers counts and refuses to raise them. This gate does not replace
+`check-no-bare-throw.mjs`.
+
+```bash
+node scripts/check-core-rules.mjs
+```
+
 ## `check-core-no-deps.mjs`
 
 Asserts `@agentskit/core` declares zero runtime dependencies (Manifesto

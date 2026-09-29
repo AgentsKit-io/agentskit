@@ -63,7 +63,7 @@ Options: `cwd`, `env`, `input` (written to stdin, then closed), `stdin`/`stdout`
 
 ### Guardrail
 
-- `PORTABILITY_RULES`, `scanText`, `scanRepository`, `countFindings`, `compareToBaseline`, `tightenBaseline`, `runCli` — back the `agentskit-cross-platform check` bin (ratchet baseline in `.cross-platform-baseline.json`; `cross-platform-ignore: <reason>` allows an exception).
+- `PORTABILITY_RULES`, `scanText`, `scanRepository`, `countFindings`, `compareToBaseline`, `tightenBaseline`, `runCli` — back the `agentskit-cross-platform check` bin (ratchet baseline in `.cross-platform-baseline.json`; `cross-platform-ignore: <reason>` skips every rule on the line, and `<rule-id>-ignore: <reason>` skips only that rule).
 
 ## Usage
 
