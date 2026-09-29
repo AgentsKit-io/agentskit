@@ -24,14 +24,16 @@ function assertPositiveFinite(name: string, value: number): void {
  * (not character length, not per-stream).
  */
 export const nodeSpawner = async (): Promise<Spawner> => {
-  // Resolves .cmd shims (npx, docker wrappers) on Windows and kills whole trees
-  // on every OS (taskkill /T there, a process walk on POSIX).
-  const { isWindows, killProcessTree, spawnNodeChild } = await import('@agentskit/cross-platform')
+  let platformPromise: Promise<typeof import('@agentskit/cross-platform')> | undefined
+  const platform = () => (platformPromise ??= import('@agentskit/cross-platform'))
   const killTree = (pid: number, signal: NodeJS.Signals): void => {
-    void killProcessTree(pid, signal)
+    void platform().then(({ killProcessTree }) => killProcessTree(pid, signal))
   }
   return {
     spawn: async (opts) => {
+      // Resolves .cmd shims (npx, docker wrappers) on Windows and kills whole
+      // trees on every OS (taskkill /T there, a process walk on POSIX).
+      const { isWindows, spawnNodeChild } = await platform()
       const spawnArgs: import('node:child_process').SpawnOptions = { stdio: opts.stdio ?? 'pipe' }
       if (opts.cwd !== undefined) spawnArgs.cwd = opts.cwd
       if (opts.env !== undefined) spawnArgs.env = opts.env
@@ -53,8 +55,9 @@ export const nodeSpawner = async (): Promise<Spawner> => {
         },
       }
     },
-    exec: (opts) =>
-      new Promise<SpawnerExecResult>((resolve, reject) => {
+    exec: async (opts) => {
+      const { isWindows, spawnNodeChild } = await platform()
+      return new Promise<SpawnerExecResult>((resolve, reject) => {
         if (opts.timeoutMs !== undefined) {
           assertPositiveFinite('timeoutMs', opts.timeoutMs)
         }
@@ -137,6 +140,7 @@ export const nodeSpawner = async (): Promise<Spawner> => {
             timedOut,
           })
         })
-      }),
+      })
+    },
   }
 }
