@@ -56,7 +56,7 @@ Adapters, tools and ecosystem repositories each carried their own retry loop, `R
 
 - `classifyAddress(address)` — `ipaddr.js` range name (`unicast`, `private`, `loopback`, `linkLocal`, `uniqueLocal`, `carrierGradeNat`…) or `undefined` if not an IP. Accepts `[ipv6]` and unwraps IPv4-mapped IPv6.
 - `isPublicAddress(address)` — range is `unicast`.
-- `assertPublicUrl(input, { protocols?, lookup?, allowHosts? })` → `{ url, addresses }`. Blocks non-public IP literals, `localhost` and `.localhost`/`.local`/`.internal`/`.localdomain`/`.home.arpa`, and any hostname whose resolved addresses (via `lookup`) are not all public. Raises `AK_NET_BLOCKED_ADDRESS`.
+- `assertPublicUrl(input, { protocols?, lookup?, allowHosts? })` → `{ url, addresses }`. Blocks non-public IP literals, `localhost` and `.localhost`, `.local`, `.internal`, `.localdomain`, `.home.arpa`, plus any hostname whose resolved addresses (via `lookup`) are not all public. Raises `AK_NET_BLOCKED_ADDRESS`.
 
 ### Errors
 
