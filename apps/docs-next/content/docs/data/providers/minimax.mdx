@@ -1,0 +1,41 @@
+---
+title: minimax
+description: MiniMax — OpenAI-compatible chat models (M-series).
+---
+
+```ts
+import { minimax } from '@agentskit/adapters'
+
+const adapter = minimax({
+  apiKey: process.env.MINIMAX_API_KEY!,
+  model: 'MiniMax-M3',
+})
+```
+
+## Options
+
+| Option | Type | Default |
+|---|---|---|
+| `apiKey` | `string` | required |
+| `model` | `string` | required |
+| `baseUrl` | `string` | `https://api.minimax.io` |
+| `fetch` | `typeof fetch` | global |
+
+## Model examples
+
+`MiniMax-M3` · `MiniMax-M2` · `MiniMax-M1`.
+
+## Env
+
+| Var | Purpose |
+|---|---|
+| `MINIMAX_API_KEY` | API key |
+
+## Notes
+
+- OpenAI-compatible surface (`/v1/chat/completions`).
+- Mainland-China accounts use a different host: pass `baseUrl: 'https://api.minimaxi.com'`.
+
+## Related
+
+- [Providers overview](./)
