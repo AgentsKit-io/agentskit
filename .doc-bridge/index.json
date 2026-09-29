@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "9f012a4ded6a0e35a78078bc45cbc6e8e0a4f4b892defa92240df30f90dce065",
+  "contentHash": "bc23d517a92774cdcc212d119a6652be4904ce6a199a8c6eacd4db248cb0bba5",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-29T20:38:21.089Z",
+  "generatedAt": "2026-09-29T21:47:19.856Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -30515,6 +30515,19 @@
       "contentHash": "5b672e8c02c8cc2540c188fa14c6ad321a6137678790568dbf744a6134461ac8"
     },
     {
+      "id": "module:packages/sandbox/tests/local-registry-import.test.ts",
+      "type": "module",
+      "title": "local-registry-import.test.ts",
+      "path": "packages/sandbox/tests/local-registry-import.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "7b81a17e4515ca70811305a4a64dacb312950634b0951d659e513af41b91bbc3"
+    },
+    {
       "id": "module:packages/sandbox/tests/local-registry.test.ts",
       "type": "module",
       "title": "local-registry.test.ts",
@@ -37306,8 +37319,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "b438e602a8c5a6cd50a73014eadc37c58d9988079175a72f164c3cf95f026487",
-    "fileCount": 2478,
+    "hash": "de8b821c2c9206830e301b85c85578d6bf2df053a0d1d250699cd2c8cdf973f9",
+    "fileCount": 2479,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37329,9 +37342,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "fc2b59687ece6e9316a4bd31881b6e6b7dd7c49667b2738d37f57a660bee2c84",
+    "contentHash": "b8f1c565c7ef21d9c06b01153861f946aff1fad1059f6014a9ce8749339e72b1",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "a22d250fcb1dd18cd9702310c798ff9b43cd42820d5b9f3d91daf5c6f424be8c",
+    "snapshotHash": "3a43b3e1818e26a27fb521304bf038b5d9e9e4ff6b355eb74b907cfdc35b7253",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37351,7 +37364,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2432,
+      "documentCount": 2433,
       "fieldNames": [
         "aliases",
         "body",
@@ -37362,13 +37375,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0086348684210527,
-        "body": 61.20764802631579,
-        "headings": 4.045641447368421,
-        "path": 7.622944078947368,
-        "summary": 4.597450657894737,
-        "symbols": 7.525082236842105,
-        "title": 3.325657894736842
+        "aliases": 3.009042334566379,
+        "body": 61.18249075215783,
+        "headings": 4.043978627209206,
+        "path": 7.6235100698725855,
+        "summary": 4.595561035758323,
+        "symbols": 7.521989313604603,
+        "title": 3.3267570900123307
       }
     },
     "entries": [
@@ -164588,6 +164601,11 @@
           "packageId": "package:@agentskit/sandbox",
           "inbound": [
             {
+              "kind": "imports",
+              "id": "module:packages/sandbox/tests/local-registry-import.test.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/for-agents/sandbox.mdx",
               "confidence": "observed"
@@ -165476,6 +165494,46 @@
           ]
         },
         "contentHash": "5b672e8c02c8cc2540c188fa14c6ad321a6137678790568dbf744a6134461ac8",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/sandbox/tests/local-registry-import.test.ts",
+        "kind": "module",
+        "path": "packages/sandbox/tests/local-registry-import.test.ts",
+        "title": "local-registry-import.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "local-registry-import.test.ts",
+          "headings": "",
+          "path": "packages/sandbox/tests/local-registry-import.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/sandbox",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/sandbox/src/local-registry.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "7b81a17e4515ca70811305a4a64dacb312950634b0951d659e513af41b91bbc3",
         "provenance": "observed",
         "confidence": "observed"
       },
