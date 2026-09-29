@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "50fb502e9033f8f8928d3b25e31bbfba480e9ff4c88668e4a0a5d405ffb9691a",
+  "contentHash": "9ebc3f3766cd641c131accccdef63d8f09eb0e1859d0babedc086f7949555856",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-29T19:40:42.093Z",
+  "generatedAt": "2026-09-29T22:20:03.532Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -30353,7 +30353,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "13c7a5b78315ed3f29adb2749f61b51380e91e230fe938f6d0b29c791db1a8b8"
+      "contentHash": "f5722af44fffa1ef72f5c020ad48f79425f83f11b708d2e91ae05efb7038eece"
     },
     {
       "id": "module:packages/sandbox/src/policy.ts",
@@ -30517,6 +30517,19 @@
       "contentHash": "5b672e8c02c8cc2540c188fa14c6ad321a6137678790568dbf744a6134461ac8"
     },
     {
+      "id": "module:packages/sandbox/tests/local-registry-import.test.ts",
+      "type": "module",
+      "title": "local-registry-import.test.ts",
+      "path": "packages/sandbox/tests/local-registry-import.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "7b81a17e4515ca70811305a4a64dacb312950634b0951d659e513af41b91bbc3"
+    },
+    {
       "id": "module:packages/sandbox/tests/local-registry.test.ts",
       "type": "module",
       "title": "local-registry.test.ts",
@@ -30579,7 +30592,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "a0fbaf7e644c593e2b968800c1dd4e767b5b2ff2aa3b1c9df1f6289efe37f216"
+      "contentHash": "27efb2fb52f7139dbb0638ce4a5d97b6c5a722f3bcad15c64831e22df264e539"
     },
     {
       "id": "module:packages/sandbox/tests/package-manifest.test.ts",
@@ -37333,8 +37346,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "ca13f05a4595eaca37f51387b7b81b0587630e4994616758c1b919cff000afce",
-    "fileCount": 2480,
+    "hash": "8714b2fd664a2192279bf5207e4a0b02df67c13682ccbb400e89cba0de0317ee",
+    "fileCount": 2481,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37356,9 +37369,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "7cd1fa1132a917db27f9404cc10e7422b087604887ef8ceac24a3aa346f3749e",
+    "contentHash": "e43c5c90cc0ea871db780a58902fa98ba0043cbc2a23741468da9e6854f7b650",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "66b79b1164ed3c36ec770de6e7a959f16174938b3120cac0f0c3a93b23cc724d",
+    "snapshotHash": "d3aa2805d1f5b449838615715199b2fd29976ce0ad8c9f1b773686282c02c4af",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37378,7 +37391,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2434,
+      "documentCount": 2435,
       "fieldNames": [
         "aliases",
         "body",
@@ -37389,13 +37402,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.009038619556286,
-        "body": 61.171322925225965,
-        "headings": 4.044371405094495,
-        "path": 7.622021364009861,
-        "summary": 4.5936729663106,
-        "symbols": 7.522185702547247,
-        "title": 3.327444535743632
+        "aliases": 3.0094455852156057,
+        "body": 61.14620123203285,
+        "headings": 4.042710472279261,
+        "path": 7.62258726899384,
+        "summary": 4.591786447638603,
+        "symbols": 7.519096509240247,
+        "title": 3.328542094455852
       }
     },
     "entries": [
@@ -164669,6 +164682,11 @@
           "packageId": "package:@agentskit/sandbox",
           "inbound": [
             {
+              "kind": "imports",
+              "id": "module:packages/sandbox/tests/local-registry-import.test.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/for-agents/sandbox.mdx",
               "confidence": "observed"
@@ -164932,7 +164950,7 @@
             }
           ]
         },
-        "contentHash": "13c7a5b78315ed3f29adb2749f61b51380e91e230fe938f6d0b29c791db1a8b8",
+        "contentHash": "f5722af44fffa1ef72f5c020ad48f79425f83f11b708d2e91ae05efb7038eece",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -165561,6 +165579,46 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/sandbox/tests/local-registry-import.test.ts",
+        "kind": "module",
+        "path": "packages/sandbox/tests/local-registry-import.test.ts",
+        "title": "local-registry-import.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "local-registry-import.test.ts",
+          "headings": "",
+          "path": "packages/sandbox/tests/local-registry-import.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/sandbox",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/sandbox/src/local-registry.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "7b81a17e4515ca70811305a4a64dacb312950634b0951d659e513af41b91bbc3",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/sandbox/tests/local-registry.test.ts",
         "kind": "module",
         "path": "packages/sandbox/tests/local-registry.test.ts",
@@ -165761,7 +165819,7 @@
             }
           ]
         },
-        "contentHash": "a0fbaf7e644c593e2b968800c1dd4e767b5b2ff2aa3b1c9df1f6289efe37f216",
+        "contentHash": "27efb2fb52f7139dbb0638ce4a5d97b6c5a722f3bcad15c64831e22df264e539",
         "provenance": "observed",
         "confidence": "observed"
       },
