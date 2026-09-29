@@ -90,6 +90,15 @@ describe('NET_RULES', () => {
     })
     expect(finding?.fix).toContain('readText()')
   })
+
+  it('supports rule-specific ignores without hiding other NET findings', () => {
+    const findings = ruleIds([
+      '// net-sse-data-prefix-ignore: legacy fixture',
+      "if (line.startsWith('data: ')) return line.slice(6)",
+      'const body = await response.text()',
+    ].join('\n'))
+    expect(findings).toEqual(['net-unbounded-body'])
+  })
 })
 
 describe('net guardrail ratchet', () => {
