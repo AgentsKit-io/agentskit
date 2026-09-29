@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "0d19ad4d6fd0c569d7f6431c231de8bf9b77bbb221b8084f221b6c7a6fda813e",
+  "contentHash": "e25481fbc4255fc796d0f1d4b39b4a6c1bf7115e0b6805bdcc188121cdd37ce2",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-29T22:40:47.839Z",
+  "generatedAt": "2026-09-29T22:51:15.274Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -3794,7 +3794,7 @@
         "document",
         "human"
       ],
-      "contentHash": "d7f8948d60cf6764a1aef2972bf132d9a128961f72ef66eec4b9b1e6530225d3"
+      "contentHash": "dad61cbb688f76b40698e4ca38378ed5c8a27083a8506dc8da43bb5bba534bcb"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/packages/observability-langfuse.mdx",
@@ -37387,7 +37387,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "220f133e18b7cf288a11eb329579a84a814ce34fd3e0d30c818251f743b5566e",
+    "hash": "3e562db0c88c2ee23e2a6bb709f33c2e0682f53ccaa352e0ec7b01725659c5b9",
     "fileCount": 2484,
     "projectionVersion": 2
   },
@@ -37410,9 +37410,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "73609e5c991c7c412e95972f8433dd98027c2d815962d9d15f34bf31af88f97f",
+    "contentHash": "cdaaa81608065755dcd7df8943d6ddce8dfe149c6b82e502c5e2e40d7644ad24",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "b1f57e846107cce4810b81273db4b62e3b33e479db22d3da39a513a3593cfdde",
+    "snapshotHash": "fa12b1095eb3ca77384b027f7e5f5f1b87141ebfdb0a7a23676282a454fde328",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37444,7 +37444,7 @@
       ],
       "averageFieldLength": {
         "aliases": 3.0098441345365052,
-        "body": 61.10131255127153,
+        "body": 61.10541427399508,
         "headings": 4.037735849056604,
         "path": 7.621000820344545,
         "summary": 4.586136177194422,
@@ -59513,7 +59513,7 @@
           "path": "apps/docs-next/content/docs/reference/packages/net.mdx",
           "symbols": "",
           "summary": "@agentskit/net is the package for the moment your agent talks HTTP: a provider returns 429 with Retry-After, a stream arrives as server-sent events, a tool fetches a URL a user typed, or a response could be larger than you want in memory. It uses web APIs only, so the same code runs on Node, Bun, Deno, browsers and edge runtimes.",
-          "body": "@agentskit/net is the package for the moment your agent talks HTTP: a provider returns 429 with Retry-After , a stream arrives as server-sent events, a tool fetches a URL a user typed, or a response could be larger than you want in memory. It uses web APIs only, so the same code runs on Node, Bun, Deno, browsers and edge runtimes. When to reach for it - You call an API that rate-limits or fails transiently and need retries that respect Retry-After . - You need a timeout per attempt, not one that silently spans every retry. - You consume a server-sent events stream. - You fetch URLs supplied by users or models and must not reach private networks or cloud metadata. Install Hello world What it replaces Hand-rolled pattern Use --- --- for loop with a fixed sleep retry(fn) / fetchWithRetry(url) Ignoring or re-parsing Retry-After parseRetryAfter(header) (built into fetchWithRetry ) Promise.race with setTimeout timeoutSignal(ms) , anySignal([...]) await res.text() on unknown input readText(res, { maxBytes }) line.startsWith('data: ') parseSSE(stream) Regexes over 127. , 10. , 192.168. assertPublicUrl(url, { lookup }) Stability - Version: 0.1.0 - Tier: beta - Contract: evolving Deep dives - — full export list. - Decision record: ADR-0037 ( docs/architecture/adrs/0037-net-package.md ).",
+          "body": "@agentskit/net is the package for the moment your agent talks HTTP: a provider returns 429 with Retry-After , a stream arrives as server-sent events, a tool fetches a URL a user typed, or a response could be larger than you want in memory. It uses web APIs only, so the same code runs on Node, Bun, Deno, browsers and edge runtimes. When to reach for it - You call an API that rate-limits or fails transiently and need retries that respect Retry-After . - You need a timeout per attempt, not one that silently spans every retry. - You consume a server-sent events stream. - You fetch URLs supplied by users or models and must not reach private networks or cloud metadata. Install Hello world What it replaces Hand-rolled pattern Use --- --- for loop with a fixed sleep retry(fn) / fetchWithRetry(url) Ignoring or re-parsing Retry-After <code parseRetryAfter<wbr / (header)</code (built into fetchWithRetry ) Promise.race with setTimeout timeoutSignal(ms) , anySignal([...]) await res.text() on unknown input readText(res, { maxBytes }) line.startsWith('data: ') parseSSE(stream) Regexes over 127. , 10. , 192.168. <code assertPublicUrl<wbr / (url, & 123; lookup & 125;)</code Stability - Version: 0.1.0 - Tier: beta - Contract: evolving Deep dives - — full export list. - Decision record: ADR-0037 ( docs/architecture/adrs/0037-net-package.md ).",
           "aliases": "document human"
         },
         "graph": {
@@ -59540,7 +59540,7 @@
             }
           ]
         },
-        "contentHash": "d7f8948d60cf6764a1aef2972bf132d9a128961f72ef66eec4b9b1e6530225d3",
+        "contentHash": "dad61cbb688f76b40698e4ca38378ed5c8a27083a8506dc8da43bb5bba534bcb",
         "provenance": "observed",
         "confidence": "observed"
       },
