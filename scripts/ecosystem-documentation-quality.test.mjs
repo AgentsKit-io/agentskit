@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict'
 import { execFileSync } from 'node:child_process'
-import { mkdirSync, mkdtempSync, readFileSync, realpathSync, writeFileSync } from 'node:fs'
+import { mkdirSync, mkdtempSync, readFileSync, realpathSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join, resolve } from 'node:path'
 import { test } from 'vitest'
@@ -11,6 +11,7 @@ import {
   evaluateDocumentationQualityMatrix,
   countDocumentationWords,
   parseDocumentationQualityProfile,
+  runDocBridgeJson,
   verifyAttestedCommit,
 } from './lib/ecosystem-documentation-quality.mjs'
 
@@ -81,6 +82,38 @@ test('the committed profile preserves the strict six-product contract', () => {
   assert.equal(parsed.docBridge.requireExactCoverage, true)
   assert.equal(parsed.docBridge.allowExceptions, false)
   assert.deepEqual(parsed.discovery.ecosystemComponentExcludedProducts, [])
+})
+
+test('live Doc Bridge checks prefer the repository-installed package over a sibling checkout', () => {
+  const parent = mkdtempSync(join(tmpdir(), 'agentskit-doc-bridge-selection-'))
+  const root = join(parent, 'agentskit')
+  const installed = join(root, 'node_modules', '@agentskit', 'doc-bridge', 'bin', 'ak-docs.js')
+  const sibling = join(parent, 'doc-bridge', 'bin', 'ak-docs.js')
+  mkdirSync(join(installed, '..'), { recursive: true })
+  mkdirSync(join(sibling, '..'), { recursive: true })
+  writeFileSync(installed, `process.stdout.write(JSON.stringify({ source: 'installed' }))`)
+  writeFileSync(sibling, `process.stdout.write(JSON.stringify({ source: 'sibling' }))`)
+
+  try {
+    assert.deepEqual(runDocBridgeJson(root, ['doctor', '--json']), { source: 'installed' })
+  } finally {
+    rmSync(parent, { recursive: true, force: true })
+  }
+})
+
+test('live Doc Bridge checks use the sibling source only when the declared package is absent', () => {
+  const parent = mkdtempSync(join(tmpdir(), 'agentskit-doc-bridge-fallback-'))
+  const root = join(parent, 'agentskit')
+  const sibling = join(parent, 'doc-bridge', 'bin', 'ak-docs.js')
+  mkdirSync(root, { recursive: true })
+  mkdirSync(join(sibling, '..'), { recursive: true })
+  writeFileSync(sibling, `process.stdout.write(JSON.stringify({ source: 'sibling' }))`)
+
+  try {
+    assert.deepEqual(runDocBridgeJson(root, ['doctor', '--json']), { source: 'sibling' })
+  } finally {
+    rmSync(parent, { recursive: true, force: true })
+  }
 })
 
 test('product overrides can define a CLI surface without relaxing the global default', () => {

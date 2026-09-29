@@ -65,7 +65,7 @@ const failed = []
 for (const packageName of ['@agentskit/adapters', '@agentskit/mcp', '@agentskit/cross-platform']) {
   const label = `${packageName} build precondition`
   process.stdout.write(`\n▶ ${label}\n`)
-  const build = spawnSync('pnpm', ['--filter', packageName, 'build'], { stdio: 'inherit', cwd: root })
+  const build = spawnSync('pnpm', ['--filter', `${packageName}...`, 'build'], { stdio: 'inherit', cwd: root })
   if (build.status !== 0) failed.push(label)
 }
 
