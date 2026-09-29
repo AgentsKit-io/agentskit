@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/core",
-  "version": "1.12.10",
+  "version": "1.13.0",
   "description": "Portable AgentsKit runtime for chat orchestration, tools, memory, and retrieval.",
   "keywords": [
     "agentskit",
@@ -107,6 +107,16 @@
       "types": "./dist/tool-proposal.d.ts",
       "import": "./dist/tool-proposal.js",
       "require": "./dist/tool-proposal.cjs"
+    },
+    "./rules": {
+      "types": "./dist/rules.d.ts",
+      "import": "./dist/rules.js",
+      "require": "./dist/rules.cjs"
+    },
+    "./hash": {
+      "types": "./dist/hash.d.ts",
+      "import": "./dist/hash.js",
+      "require": "./dist/hash.cjs"
     }
   },
   "files": [
@@ -120,8 +130,10 @@
     "dev": "tsup --watch"
   },
   "devDependencies": {
+    "@noble/hashes": "^2.2.0",
     "@types/json-schema": "^7.0.15",
     "@types/node": "^25.9.5",
+    "canonicalize": "^4.0.0",
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
     "vitest": "^4.1.11"

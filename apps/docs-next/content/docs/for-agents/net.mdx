@@ -1,0 +1,82 @@
+---
+title: '@agentskit/net — for agents'
+description: HTTP plumbing over web APIs. Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks on Node, Bun, Deno, browsers and edge.
+docbridge:
+  covers:
+    - package:@agentskit/net
+  relations:
+    - from: package:@agentskit/net
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/net
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+---
+
+## Install
+
+```bash
+npm install @agentskit/net
+```
+
+## Why
+
+Adapters, tools and ecosystem repositories each carried their own retry loop, `Retry-After` parser, bounded body reader, SSE splitter and private-address check, with different retryable statuses, missing jitter, SSE parsers that required `data: ` with a space, and block lists that missed IPv6. This package owns one tested implementation over `eventsource-parser` and `ipaddr.js`. See ADR-0037.
+
+## Primary exports
+
+### Retry
+
+- `retry(fn, options?)` — runs `fn({ attempt, signal })` until it resolves or `retries` (default 3) run out. Options: `shouldRetry(error, attempt)` (default: anything but an abort), `delayFor(error, attempt)` (override one delay, e.g. from `Retry-After`; not capped), `onRetry({ error, attempt, delayMs })`, `signal`, plus backoff options.
+- `computeBackoff(attempt, { minDelayMs = 250, maxDelayMs = 10000, factor = 2, jitter = 'full' | 'none' }, random?)` — delay before retry `attempt`.
+- `parseRetryAfter(value, now?)` — `Retry-After` (delta-seconds or HTTP date) in ms, or `undefined`.
+- `RETRYABLE_STATUSES` (`408, 425, 429, 500, 502, 503, 504`), `isRetryableStatus(status)`.
+
+### Fetch
+
+- `fetchWithRetry(input, init?, options?)` — `fetch` with retries on network errors and retryable statuses. Options: `retries`, `timeoutMs` (per attempt; raises `AK_NET_TIMEOUT`), `retryMethods` (default GET/HEAD/OPTIONS/PUT/DELETE/TRACE, or `'all'`), `retryStatuses`, `maxRetryAfterMs` (default 60000; a longer `Retry-After` returns the response), `onRetry({ attempt, delayMs, status?, error? })`, `fetch` (implementation), plus backoff options. Streaming request bodies are never retried; `Request` inputs are cloned per attempt; discarded responses are cancelled; the last response is returned as-is.
+
+### Timeouts
+
+- `timeoutSignal(ms, parent?)` — aborts after `ms` or when `parent` aborts.
+- `anySignal(signals)` — `AbortSignal.any` with a fallback; `undefined` entries are skipped.
+
+### Bodies
+
+- `readBody(response, { maxBytes })` → `Uint8Array`; `readText`, `readJson`. `Content-Length` is checked first, the stream is counted and cancelled on overflow (`AK_NET_BODY_TOO_LARGE`).
+
+### SSE
+
+- `parseSSE(stream, { signal?, maxEventBytes = 1 MiB })` — async iterable of `{ id?, event?, data }` from a `ReadableStream<Uint8Array>`. Handles `data:` with or without a space, multi-line data, CRLF, comments and chunk boundaries. An event cut off before its blank line is dropped (per spec). Parse errors raise `AK_NET_SSE_PARSE_FAILED`.
+- `parseSSEResponse(response, options?)` — same, from a `Response`.
+
+### Addresses
+
+- `classifyAddress(address)` — `ipaddr.js` range name (`unicast`, `private`, `loopback`, `linkLocal`, `uniqueLocal`, `carrierGradeNat`…) or `undefined` if not an IP. Accepts `[ipv6]` and unwraps IPv4-mapped IPv6.
+- `isPublicAddress(address)` — range is `unicast`.
+- `assertPublicUrl(input, { protocols?, lookup?, allowHosts? })` → `{ url, addresses }`. Blocks non-public IP literals, `localhost` and `.localhost`/`.local`/`.internal`/`.localdomain`/`.home.arpa`, and any hostname whose resolved addresses (via `lookup`) are not all public. Raises `AK_NET_BLOCKED_ADDRESS`.
+
+### Errors
+
+- `NetError` (extends `AgentsKitError`), `NetErrorCodes`: `AK_NET_TIMEOUT`, `AK_NET_BODY_TOO_LARGE`, `AK_NET_BLOCKED_ADDRESS`, `AK_NET_INVALID_INPUT`, `AK_NET_SSE_PARSE_FAILED`. `isAbortError(error)`.
+
+## Usage
+
+```ts
+import { lookup } from 'node:dns/promises'
+import { assertPublicUrl, fetchWithRetry, readText } from '@agentskit/net'
+
+const { url } = await assertPublicUrl(userUrl, {
+  lookup: async host => (await lookup(host, { all: true })).map(entry => entry.address),
+})
+const response = await fetchWithRetry(url, undefined, { timeoutMs: 10_000, retries: 2 })
+const text = await readText(response, { maxBytes: 2_000_000 })
+```
+
+## Notes
+
+- No `node:` imports; runs on Node ≥ 20.19, Bun, Deno, browsers and edge runtimes.
+- Checking an address before connecting does not stop DNS rebinding; pin the resolved address when that matters.
+- `eventsource-parser` is bundled into the build (it ships ESM only); `ipaddr.js` is a regular dependency.

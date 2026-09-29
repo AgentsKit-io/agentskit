@@ -15,6 +15,7 @@ AgentsKit is a plug-and-play TypeScript toolkit for building production agents: 
 - [integrations](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/integrations)
 - [mcp](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/mcp): Serve AgentsKit tools to an MCP host that supports the documented `2024-11-05` tools bridge. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` + `createStdioTransport`).
 - [memory](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/memory)
+- [net](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/net)
 - [observability-langfuse](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/observability-langfuse)
 - [observability](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/observability)
 - [rag](https://www.agentskit.io/apps/docs-next/content/docs/for-agents/rag)

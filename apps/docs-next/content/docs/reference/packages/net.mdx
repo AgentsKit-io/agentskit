@@ -1,0 +1,66 @@
+---
+title: '@agentskit/net'
+description: Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks over web APIs.
+docbridge:
+  covers:
+    - package:@agentskit/net
+  relations:
+    - from: package:@agentskit/net
+      to: package:@agentskit/core
+      kind: depends-on
+      detection: static
+    - from: package:@agentskit/net
+      to: package:@agentskit/core
+      kind: imports
+      detection: static
+---
+
+`@agentskit/net` is the package for the moment your agent talks HTTP: a provider returns 429 with `Retry-After`, a stream arrives as server-sent events, a tool fetches a URL a user typed, or a response could be larger than you want in memory. It uses web APIs only, so the same code runs on Node, Bun, Deno, browsers and edge runtimes.
+
+## When to reach for it
+
+- You call an API that rate-limits or fails transiently and need retries that respect `Retry-After`.
+- You need a timeout per attempt, not one that silently spans every retry.
+- You consume a server-sent events stream.
+- You fetch URLs supplied by users or models and must not reach private networks or cloud metadata.
+
+## Install
+
+```bash
+npm install @agentskit/net
+```
+
+## Hello world
+
+```ts
+import { fetchWithRetry, parseSSEResponse, readJson } from '@agentskit/net'
+
+const response = await fetchWithRetry('https://api.example.com/v1/models', undefined, { timeoutMs: 10_000 })
+console.log(await readJson(response, { maxBytes: 1_000_000 }))
+
+for await (const event of parseSSEResponse(await fetch('https://api.example.com/v1/stream'))) {
+  console.log(event.data)
+}
+```
+
+## What it replaces
+
+| Hand-rolled pattern | Use |
+|---|---|
+| `for` loop with a fixed `sleep` | `retry(fn)` / `fetchWithRetry(url)` |
+| Ignoring or re-parsing `Retry-After` | `parseRetryAfter(header)` (built into `fetchWithRetry`) |
+| `Promise.race` with `setTimeout` | `timeoutSignal(ms)`, `anySignal([...])` |
+| `await res.text()` on unknown input | `readText(res, { maxBytes })` |
+| `line.startsWith('data: ')` | `parseSSE(stream)` |
+| Regexes over `127.`, `10.`, `192.168.` | `assertPublicUrl(url, { lookup })` |
+
+## Stability
+
+- **Version:** `0.1.0`
+- **Tier:** beta
+- **Contract:** evolving
+
+## Deep dives
+
+- [For agents](/docs/for-agents/net) — full export list.
+- Decision record: ADR-0037 (`docs/architecture/adrs/0037-net-package.md`).

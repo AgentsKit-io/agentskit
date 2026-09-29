@@ -35,9 +35,10 @@ npm install @agentskit/core
   retrieval using token substring overlap; use `@agentskit/rag` for semantic
   production retrieval.
 - `executeToolCall`, `consumeStream`, `createEventEmitter`,
-  `parseToolArgs`, `safeParseArgs`, `generateId`, `buildMessage` — low-level
+  `parseToolArgs`, `safeParseArgs`, `createId`, `generateId`, `buildMessage` — low-level
   helpers. `parseToolArgs` returns `{ args, valid }` so adapters can fail
-  closed; `safeParseArgs` remains the compatibility value-only parser.
+  closed; `safeParseArgs` remains the compatibility value-only parser. IDs
+  use `crypto.randomUUID()` and retain the caller-provided prefix.
 - `AgentsKitError`, `AdapterError`, `ToolError`, `MemoryError`,
   `ConfigError`, `RuntimeError`, `SandboxError`, `SkillError`,
   `ErrorCodes` — error taxonomy.
@@ -76,6 +77,13 @@ npm install @agentskit/core
 | `@agentskit/core/eval-format` | Portable eval dataset + run-result | [Open specs](/docs/reference/recipes/open-specs) |
 | `@agentskit/core/memory-validation` | Bounded validation for untrusted serialized memory records | — |
 | `@agentskit/core/tool-proposal` | Route a validated proposal through controller authorization | — |
+| `@agentskit/core/hash` | RFC 8785 canonical JSON and SHA-256 for stable fingerprints | — |
+
+```ts
+import { canonicalJson, sha256Hex } from '@agentskit/core/hash'
+
+const digest = sha256Hex(canonicalJson({ model: 'example', options: { temperature: 0 } }))
+```
 
 ## Minimal example
 

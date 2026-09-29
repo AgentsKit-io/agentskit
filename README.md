@@ -6,7 +6,7 @@
 
 **The agent toolkit JavaScript actually deserves.**
 
-A 10 KB core budget. 23 focused packages. Zero lock-in. Six formal contracts that make every adapter, tool, skill, memory, retriever, and runtime substitutable.
+A 10 KB core budget. 24 focused packages. Zero lock-in. Six formal contracts that make every adapter, tool, skill, memory, retriever, and runtime substitutable.
 
 [![npm](https://img.shields.io/npm/v/@agentskit/react?label=npm)](https://www.npmjs.com/package/@agentskit/react)
 [![bundle](https://img.shields.io/bundlephobia/minzip/@agentskit/react?label=react%20bundle)](https://bundlephobia.com/package/@agentskit/react)
@@ -40,7 +40,7 @@ A 10 KB core budget. 23 focused packages. Zero lock-in. Six formal contracts tha
 
 ## Verified proof
 
-The current [evidence ledger](./ecosystem-claims.json), generated from repository sources by [`scripts/compute-stats.mjs`](./scripts/compute-stats.mjs), verifies **23 published packages**, **7 framework bindings**, **25 native adapters**, **50 integrations**, **140 catalog providers**, **5,000+ catalog models**, **21 ready-made skills**, **17 memory backends**, and **69 recipes**.
+The current [evidence ledger](./ecosystem-claims.json), generated from repository sources by [`scripts/compute-stats.mjs`](./scripts/compute-stats.mjs), verifies **24 published packages**, **7 framework bindings**, **25 native adapters**, **50 integrations**, **140 catalog providers**, **5,000+ catalog models**, **21 ready-made skills**, **17 memory backends**, and **69 recipes**.
 
 - The core has zero runtime dependencies and a CI-enforced **10 KB gzipped budget**.
 - Every public package has an explicit stability tier, test floor, README, human guide, and agent handoff.

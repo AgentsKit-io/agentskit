@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "property": "agentskit",
   "counts": {
-    "packages": 23,
+    "packages": 24,
     "frameworkBindings": 7,
     "nativeAdapters": 25,
     "integrations": 50,
@@ -62,6 +62,11 @@
       {
         "name": "@agentskit/memory",
         "description": "Persistent and vector memory backends for AgentsKit.",
+        "stability": "beta"
+      },
+      {
+        "name": "@agentskit/net",
+        "description": "Resilient, bounded and SSRF-safe HTTP for the AgentsKit ecosystem: retry with Retry-After, timeouts, size-limited bodies, SSE parsing and private-address checks. Runs in Node, Bun, Deno, browsers and edge.",
         "stability": "beta"
       },
       {

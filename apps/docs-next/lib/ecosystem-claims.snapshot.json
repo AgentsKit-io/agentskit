@@ -12,7 +12,7 @@
       "claims": [
         {
           "id": "packages",
-          "value": 23,
+          "value": 24,
           "noun": "packages",
           "evidence": {
             "type": "repository-derivation",
@@ -20,7 +20,7 @@
             "path": "scripts/compute-stats.mjs",
             "summary": "Published non-private @agentskit/* package directories."
           },
-          "conservativeFloor": 23
+          "conservativeFloor": 24
         },
         {
           "id": "framework-bindings",
