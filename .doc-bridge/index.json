@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "4525a2f603022568058f499408d34f0453c47f0ae26ab42be7c0c1eaca8878de",
+  "contentHash": "a11bb263c850ae34a007fe1a02e73edfa33ed3ffe6db4e9690dfeb0f7b350581",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-30T23:25:48.171Z",
+  "generatedAt": "2026-09-30T23:33:38.369Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7670,7 +7670,7 @@
         "document",
         "project"
       ],
-      "contentHash": "c601c9813e70faf6b0a2d35c181367d79873d58e63926c41f14ae8ad5a220ac6"
+      "contentHash": "6fbe46499baefdf4b7c4a0a86c61bb596fe6c0cca382e7c1e8692164ade3c1ac"
     },
     {
       "id": "document:SECURITY.md",
@@ -34916,7 +34916,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "5fb97bff36144689246d4144d392dc86d4f1ff7169802aed33125c70c5c1c412"
+      "contentHash": "5c19927fb7af4792f75cf57f21d05ac76eb911e8c01e3ab2e496d9839bb67329"
     },
     {
       "id": "module:scripts/commitlint.test.mjs",
@@ -35713,18 +35713,6 @@
         "scripts"
       ],
       "contentHash": "18d2bcc80ac420f1c37a696aab5fe2087dc9da3085e7ea5725e857963497cb95"
-    },
-    {
-      "id": "module:scripts/prepare-package-tests.mjs",
-      "type": "module",
-      "title": "prepare-package-tests.mjs",
-      "path": "scripts/prepare-package-tests.mjs",
-      "tags": [
-        "module",
-        "mjs",
-        "scripts"
-      ],
-      "contentHash": "f920b3f6794e7a20b280545567e8799df5f3d4c4cb8c5bebd239ed52ceb991b7"
     },
     {
       "id": "module:scripts/product-chat-adoption.test.mjs",
@@ -37343,8 +37331,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "d3bd97aebfbc1e227b3bba59066e6cab7c20a2e4a12487baa1baf3b7cbd34c0f",
-    "fileCount": 2481,
+    "hash": "2d0889d2c7b574afd20de570486f536566f1717d5776b4fa2ab0068302948e3a",
+    "fileCount": 2480,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37366,9 +37354,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "1b9684d9d8f929ca2fd002d3b7beeb0f7e8f1337daea13a84797f9b63ee2107b",
+    "contentHash": "2c29f826f8b65c678b8191a6b29a95c5b8bee1ef69be0ae654f0eb89e28ff88c",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "b0d76b581031ba220d77736064dd4212381375656fb7791d5c92e68ca7b12226",
+    "snapshotHash": "0479455a26998ba48b8a4b45c59a87c8db3b0f63d7dd3841c60d288131865823",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37388,7 +37376,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2435,
+      "documentCount": 2434,
       "fieldNames": [
         "aliases",
         "body",
@@ -37399,13 +37387,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0086242299794663,
-        "body": 61.213963039014374,
-        "headings": 4.045995893223819,
-        "path": 7.6229979466119095,
-        "summary": 4.592607802874744,
-        "symbols": 7.5158110882956874,
-        "title": 3.328952772073922
+        "aliases": 3.0086277732128184,
+        "body": 61.23870172555464,
+        "headings": 4.047658175842235,
+        "path": 7.623664749383731,
+        "summary": 4.594494658997535,
+        "symbols": 7.518898931799507,
+        "title": 3.328266228430567
       }
     },
     "entries": [
@@ -39829,7 +39817,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "58430210f3e22dffdb654bbfb628461658da018641658ca2b92fc379ef6e100a",
+        "contentHash": "c43ce081b330e7ee72af0900cc9f2c7b61354feaa11dac5e9ad571d6fb066908",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -82792,7 +82780,7 @@
           "path": "scripts/README.md",
           "symbols": "",
           "summary": "Repo-level CI helpers. Each script is dependency-free Node ESM, runnable from the repo root. They run on every PR + push to main via .github/workflows/ci.yml and a husky pre-push hook.",
-          "body": "scripts/ Repo-level CI helpers. Each script is dependency-free Node ESM, runnable from the repo root. They run on every PR + push to main via .github/workflows/ci.yml and a husky pre-push hook. Build prerequisites and timings CI and coverage build packages with pnpm exec turbo run build --filter='./packages/ ' --concurrency=2 . The quality gates use the same Turbo graph for adapters, MCP and cross-platform, so shared prerequisites build once and subsequent commands reuse their outputs. Root TypeScript configuration and shared scripts invalidate the build cache. The orchestrator prints elapsed seconds for each gate; all checks still execute sequentially and test concurrency is unchanged. No cross-run cache is added. prepare-package-tests.mjs preserves standalone package-test builds through Turbo. Inside a Turbo test task, TURBO HASH confirms that the declared build prerequisites already ran, so the helper avoids a second build. Test commands and coverage thresholds are unchanged; this also applies to coverage tasks. Run node --test scripts/ci-build-cache.test.mjs to exercise a real cache miss, hit and invalidation after a shared script changes. It removes its temporary script and isolated cache afterward. check-quality-gates.mjs (orchestrator) Runs every structural gate below in sequence and prints a single pass/fail summary. This is the entry point — pnpm check:quality-gates . pnpm check:all layers typecheck + build + test on top. To add a gate: write the check- .mjs script, then register it in the GATES array at the top of this orchestrator. Gates strip backtick template contents before matching so scaffold/prompt strings don't false-positive. check-for-agents-coverage.mjs Asserts that every value export from packages/<name /src/index.ts appears at least once in apps/docs-next/content/docs/for-agents/<name .mdx . Catches drift between code and the agent-discoverable reference page. Exits non-zero on drift, listing each missing symbol per package. Type-only exports are skipped (the for-agents pages document the runtime surface, not every supporting type). Per-package exclusions live in the IGNORE EXPORTS table at the top of the script. check-src-test-parity.mjs Asserts that every packages/<pkg /src/<file .{ts,tsx} has at least one corresponding test reference: a tests/<basename .test.{ts,tsx} , or any .test file in the package whose body imports the source path or mentions its kebab/camel/Pascal-cased basename. Catches new files landing without test exposure. ALLOW FILES / ALLOW PREFIXES at the top of the script track re-export-only files ( index.ts , types.ts ), aggregate-tested modules, and queued conversions tracked in epic 562. check-no-bare-throw.mjs Asserts that no throw new Error(...) appears in package source code outside the typed-error definitions. Use one of the AgentsKitError subclasses ( AdapterError , ToolError , MemoryError , RuntimeError , SandboxError , SkillError , ConfigError ) so every error carries a stable code , hint , and docsUrl . The allowlist at the top of the script tracks files that legitimately hold bare throws: errors.ts itself, files where the bare Error is caught and rewrapped (embedder fetchAvailableModels ), and CLI/leaf modules whose conversions are queued in the enterprise-readiness backlog. The list shrinks as those conversions land. check-core-no-deps.mjs Asserts @agentskit/core declares zero runtime dependencies (Manifesto principle: core stays pure and under 10KB gzipped). Heavy deps belong in opt-in packages behind a core injection point. check-stability-tier.mjs Asserts every package declares an agentskit.stability tier, the value is one of alpha beta stable , and it matches that package's row in the docs/STABILITY.md \"Current tier map\". Catches a missing tier, an undefined tier value, a package absent from the map, and a stale map row. STABILITY.md is the single source of truth; this gate keeps package metadata in lockstep with it. check-readme-badge.mjs Asserts every package README ",
+          "body": "scripts/ Repo-level CI helpers. Each script is dependency-free Node ESM, runnable from the repo root. They run on every PR + push to main via .github/workflows/ci.yml and a husky pre-push hook. Build prerequisites and timings CI and coverage build packages with pnpm exec turbo run build --filter='./packages/ ' --concurrency=2 . The quality gates use the same Turbo graph for adapters, MCP and cross-platform, so shared prerequisites build once and subsequent commands reuse their outputs. Root TypeScript configuration and shared scripts invalidate the build cache. The orchestrator prints elapsed seconds for each gate; all checks still execute sequentially and test concurrency is unchanged. No cross-run cache is added. Package-test build prefixes also use Turbo, so both standalone and aggregate test commands reuse the same build graph and cache. Test commands and coverage thresholds are unchanged; this also applies to coverage tasks. After building cross-platform, run node --test scripts/ci-build-cache.test.mjs to exercise a real cache miss, hit and invalidation after a shared script changes. It removes its temporary script and isolated cache afterward. check-quality-gates.mjs (orchestrator) Runs every structural gate below in sequence and prints a single pass/fail summary. This is the entry point — pnpm check:quality-gates . pnpm check:all layers typecheck + build + test on top. To add a gate: write the check- .mjs script, then register it in the GATES array at the top of this orchestrator. Gates strip backtick template contents before matching so scaffold/prompt strings don't false-positive. check-for-agents-coverage.mjs Asserts that every value export from packages/<name /src/index.ts appears at least once in apps/docs-next/content/docs/for-agents/<name .mdx . Catches drift between code and the agent-discoverable reference page. Exits non-zero on drift, listing each missing symbol per package. Type-only exports are skipped (the for-agents pages document the runtime surface, not every supporting type). Per-package exclusions live in the IGNORE EXPORTS table at the top of the script. check-src-test-parity.mjs Asserts that every packages/<pkg /src/<file .{ts,tsx} has at least one corresponding test reference: a tests/<basename .test.{ts,tsx} , or any .test file in the package whose body imports the source path or mentions its kebab/camel/Pascal-cased basename. Catches new files landing without test exposure. ALLOW FILES / ALLOW PREFIXES at the top of the script track re-export-only files ( index.ts , types.ts ), aggregate-tested modules, and queued conversions tracked in epic 562. check-no-bare-throw.mjs Asserts that no throw new Error(...) appears in package source code outside the typed-error definitions. Use one of the AgentsKitError subclasses ( AdapterError , ToolError , MemoryError , RuntimeError , SandboxError , SkillError , ConfigError ) so every error carries a stable code , hint , and docsUrl . The allowlist at the top of the script tracks files that legitimately hold bare throws: errors.ts itself, files where the bare Error is caught and rewrapped (embedder fetchAvailableModels ), and CLI/leaf modules whose conversions are queued in the enterprise-readiness backlog. The list shrinks as those conversions land. check-core-no-deps.mjs Asserts @agentskit/core declares zero runtime dependencies (Manifesto principle: core stays pure and under 10KB gzipped). Heavy deps belong in opt-in packages behind a core injection point. check-stability-tier.mjs Asserts every package declares an agentskit.stability tier, the value is one of alpha beta stable , and it matches that package's row in the docs/STABILITY.md \"Current tier map\". Catches a missing tier, an undefined tier value, a package absent from the map, and a stale map row. STABILITY.md is the single source of truth; this gate keeps package metadata in lockstep with it. check-readme-badge.mjs Asserts every package README carries a shields.io stability badge whose tier and colo",
           "aliases": "document project"
         },
         "graph": {
@@ -82907,7 +82895,7 @@
             }
           ]
         },
-        "contentHash": "c601c9813e70faf6b0a2d35c181367d79873d58e63926c41f14ae8ad5a220ac6",
+        "contentHash": "6fbe46499baefdf4b7c4a0a86c61bb596fe6c0cca382e7c1e8692164ade3c1ac",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -181799,7 +181787,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "5fb97bff36144689246d4144d392dc86d4f1ff7169802aed33125c70c5c1c412",
+        "contentHash": "5c19927fb7af4792f75cf57f21d05ac76eb911e8c01e3ab2e496d9839bb67329",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -184247,40 +184235,6 @@
         "confidence": "observed"
       },
       {
-        "id": "module:scripts/prepare-package-tests.mjs",
-        "kind": "module",
-        "path": "scripts/prepare-package-tests.mjs",
-        "title": "prepare-package-tests.mjs",
-        "aliases": [],
-        "tags": [
-          "module",
-          "mjs",
-          "scripts"
-        ],
-        "fields": {
-          "title": "prepare-package-tests.mjs",
-          "headings": "",
-          "path": "scripts/prepare-package-tests.mjs",
-          "symbols": "",
-          "summary": "",
-          "body": "",
-          "aliases": "module mjs scripts"
-        },
-        "graph": {
-          "pagerank": 0,
-          "inboundLinks": 0,
-          "coveredBy": [],
-          "mentionedBy": [],
-          "areaId": "area:scripts",
-          "packageId": "package:agentskit",
-          "inbound": [],
-          "outbound": []
-        },
-        "contentHash": "f920b3f6794e7a20b280545567e8799df5f3d4c4cb8c5bebd239ed52ceb991b7",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
         "id": "module:scripts/product-chat-adoption.test.mjs",
         "kind": "module",
         "path": "scripts/product-chat-adoption.test.mjs",
@@ -186535,7 +186489,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "8c05edbba06db8bdbba06fe78b391eafee7948dc6aaa5ede06d129554bc4085c",
+        "contentHash": "79cbb71b9f96141e482670a77a6c46f652819f4898e4db398af71e710026e3c7",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "adapters"
@@ -186798,7 +186752,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "431b1dcb7c40ba369bfbe711c137cf482c52f7e01215cb4eda65e3eec6602abc",
+        "contentHash": "49a13736e3151a32f53dc02fd7e903f1e8b56686914387f169e5e56812126a2f",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "angular"
@@ -187844,7 +187798,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5703f6911e56b8f7768f9199f432cbb26217c363e6062f7fdf58fcdcaedce796",
+        "contentHash": "a9629dc5b6f928610a0873080bffa927f5659f717c112a4d9cc43b38b6127ab4",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "eval"
@@ -188303,7 +188257,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "7ea1e4a3f8842c4497904dab2098f47ad0f517258ff752a73ef08b9da94fcfae",
+        "contentHash": "3e4ad60ccf86c52dff21ce3ade5200a188047e11f0dd6c1c3e26175d3f3d75ca",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "ink"
@@ -188458,7 +188412,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "a8a23aa200dd52783fbb98f1cf1470b58f8b8668d994553d65942844d9a804db",
+        "contentHash": "266af6195f9615e751fa48b53309d6764ca8f405f58a4f81db1bd97eb5375c46",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "integrations"
@@ -189044,7 +188998,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "a7227bf4cf715b518b57215a71a1846edb92e98def9eef30efbcb3f45d538eb5",
+        "contentHash": "4804ced18fc5c9d9e946dff08514cd5b65beb28121956515eff3f16498e51207",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "memory"
@@ -189940,7 +189894,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "bf137a7cec66882f4455811cd7b69c47c817acdd7e36af0980c2c0d47ab58be3",
+        "contentHash": "ba8dc410a22f39c6e5a1cd69f089235d2191f0517d009d57de47fd9a073b60ea",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "rag"
@@ -190365,7 +190319,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "4b8970ea74f1d1d584ae5183392f57adc1b9e1a2607490551f211189af327b2a",
+        "contentHash": "99ff2400820367a9964e031773250a3fee1a60f63a3b3dd4cf238948a6a42b75",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "react"
@@ -190622,7 +190576,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "4963381b38adcc15674cb6510455dc22c7d523073bc53199ccd02c1a9c863993",
+        "contentHash": "9091b4a5991171153dbcebfbced9ff565774264c64a87b7aab568c90d02e3e26",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "react-native"
@@ -191794,7 +191748,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "40fd6cb0c0f4b0e098557b575ec6e032dd301398047b7a09e3dfaf09e50e851f",
+        "contentHash": "f7ffae080547485ddad6109b86322cc921d2a54e05e90ea32485a62f0058bfeb",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "solid"
@@ -192188,7 +192142,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "c04c27a7cad89abf2719f9391bb5ffc7212c49d1078bc349f1490f7f71d51abe",
+        "contentHash": "1f5c5f94f11b385b2b1f36aae302cff8c78a6296c590bd00c67425a417817f6c",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "svelte"
@@ -192786,7 +192740,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "3de49c679ecea2b1cefab845b9974c57789d087f6640681adf3b97aca894d2c5",
+        "contentHash": "c9ab136d2f199686cb6de6f3a03e962cab6212e6bf7081ab2cfd858f63d41b40",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "tools"
@@ -193180,7 +193134,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "cd0d8638832f18563f77c95869c2a48eba903c860fc8c22b9948083544d86fb4",
+        "contentHash": "95afd24e2557716d8396d8ede7ede61ea7b2b829b71555ffa67a54fcf91e725d",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "vue"

@@ -95,7 +95,7 @@
   "scripts": {
     "build": "tsup",
     "test": "pnpm test:prepare && vitest run",
-    "test:prepare": "node ../../scripts/prepare-package-tests.mjs",
+    "test:prepare": "pnpm exec turbo run build --filter=@agentskit/eval --concurrency=2",
     "test:interop": "pnpm test:prepare && vitest run tests/bundler-interop.test.ts",
     "test:coverage": "pnpm test:prepare && vitest run --coverage",
     "lint": "tsc --noEmit",

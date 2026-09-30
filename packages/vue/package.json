@@ -41,8 +41,8 @@
   ],
   "scripts": {
     "build": "tsup",
-    "test": "node ../../scripts/prepare-package-tests.mjs && vitest run",
-    "test:coverage": "node ../../scripts/prepare-package-tests.mjs && vitest run --coverage",
+    "test": "pnpm exec turbo run build --filter=@agentskit/vue --concurrency=2 && vitest run",
+    "test:coverage": "pnpm exec turbo run build --filter=@agentskit/vue --concurrency=2 && vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"
   },

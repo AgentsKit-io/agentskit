@@ -46,7 +46,7 @@
   },
   "scripts": {
     "build": "tsup",
-    "test": "node ../../scripts/prepare-package-tests.mjs && vitest run",
+    "test": "pnpm exec turbo run build --filter=@agentskit/integrations --concurrency=2 && vitest run",
     "test:coverage": "vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"

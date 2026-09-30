@@ -13,12 +13,11 @@ Root TypeScript configuration and shared scripts invalidate the build cache.
 The orchestrator prints elapsed seconds for each gate; all checks still execute
 sequentially and test concurrency is unchanged. No cross-run cache is added.
 
-`prepare-package-tests.mjs` preserves standalone package-test builds through
-Turbo. Inside a Turbo test task, `TURBO_HASH` confirms that the declared build
-prerequisites already ran, so the helper avoids a second build. Test commands
-and coverage thresholds are unchanged; this also applies to coverage tasks.
+Package-test build prefixes also use Turbo, so both standalone and aggregate
+test commands reuse the same build graph and cache. Test commands and coverage
+thresholds are unchanged; this also applies to coverage tasks.
 
-Run `node --test scripts/ci-build-cache.test.mjs` to exercise a real cache miss,
+After building cross-platform, run `node --test scripts/ci-build-cache.test.mjs` to exercise a real cache miss,
 hit and invalidation after a shared script changes. It removes its temporary
 script and isolated cache afterward.
 

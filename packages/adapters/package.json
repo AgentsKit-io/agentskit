@@ -62,7 +62,7 @@
   ],
   "scripts": {
     "build": "tsup",
-    "test": "node ../../scripts/prepare-package-tests.mjs && vitest run",
+    "test": "pnpm exec turbo run build --filter=@agentskit/adapters --concurrency=2 && vitest run",
     "test:coverage": "vitest run --coverage",
     "lint": "tsc --noEmit && tsc --noEmit -p tsconfig.tests.json",
     "dev": "tsup --watch"
