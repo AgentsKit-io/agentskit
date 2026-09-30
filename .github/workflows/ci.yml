@@ -86,7 +86,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm --filter "./packages/*" build
+      - run: pnpm exec turbo run build --filter='./packages/*' --concurrency=2
 
       - name: Publication metadata contract
         run: pnpm check:publication-surface
@@ -143,7 +143,7 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm --filter "./packages/*" build
+      - run: pnpm exec turbo run build --filter='./packages/*' --concurrency=2
 
       - run: pnpm check:publication-surface
 

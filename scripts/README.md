@@ -4,6 +4,24 @@ Repo-level CI helpers. Each script is dependency-free Node ESM, runnable
 from the repo root. They run on every PR + push to `main` via
 `.github/workflows/ci.yml` and a husky `pre-push` hook.
 
+## Build prerequisites and timings
+
+CI and coverage build packages with `pnpm exec turbo run build --filter='./packages/*' --concurrency=2`.
+The quality gates use the same Turbo graph for adapters, MCP and cross-platform,
+so shared prerequisites build once and subsequent commands reuse their outputs.
+Root TypeScript configuration and shared scripts invalidate the build cache.
+The orchestrator prints elapsed seconds for each gate; all checks still execute
+sequentially and test concurrency is unchanged. No cross-run cache is added.
+
+`prepare-package-tests.mjs` preserves standalone package-test builds through
+Turbo. Inside a Turbo test task, `TURBO_HASH` confirms that the declared build
+prerequisites already ran, so the helper avoids a second build. Test commands
+and coverage thresholds are unchanged; this also applies to coverage tasks.
+
+Run `node --test scripts/ci-build-cache.test.mjs` to exercise a real cache miss,
+hit and invalidation after a shared script changes. It removes its temporary
+script and isolated cache afterward.
+
 ## `check-quality-gates.mjs` (orchestrator)
 
 Runs every structural gate below in sequence and prints a single pass/fail

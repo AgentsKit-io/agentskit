@@ -62,7 +62,7 @@
   ],
   "scripts": {
     "build": "tsup",
-    "test": "pnpm --filter @agentskit/core build && pnpm --filter @agentskit/integrations build && pnpm --filter @agentskit/tools build && pnpm run build && vitest run",
+    "test": "node ../../scripts/prepare-package-tests.mjs && vitest run",
     "test:coverage": "vitest run --coverage",
     "lint": "tsc --noEmit && tsc --noEmit -p tsconfig.tests.json",
     "dev": "tsup --watch"

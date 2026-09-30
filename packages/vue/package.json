@@ -41,8 +41,8 @@
   ],
   "scripts": {
     "build": "tsup",
-    "test": "pnpm build && vitest run",
-    "test:coverage": "pnpm build && vitest run --coverage",
+    "test": "node ../../scripts/prepare-package-tests.mjs && vitest run",
+    "test:coverage": "node ../../scripts/prepare-package-tests.mjs && vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"
   },
