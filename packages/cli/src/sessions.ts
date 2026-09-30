@@ -1,4 +1,5 @@
-import { createHash, randomBytes } from 'node:crypto'
+import { randomBytes } from 'node:crypto'
+import { sha256Hex } from '@agentskit/core/hash'
 import {
   existsSync,
   mkdirSync,
@@ -35,7 +36,7 @@ const ROOT = join(homedir(), '.agentskit', 'sessions')
 const META_SUFFIX = '.meta.json'
 
 function cwdHash(cwd: string = process.cwd()): string {
-  return createHash('sha256').update(cwd).digest('hex').slice(0, 12)
+  return sha256Hex(cwd).slice(0, 12)
 }
 
 function dirFor(cwd: string = process.cwd()): string {

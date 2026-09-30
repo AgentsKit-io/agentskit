@@ -92,6 +92,10 @@ describe('resolveAuthHeader', () => {
 })
 
 describe('checksums', () => {
+  it('hashes UTF-8 text the same as its bytes', () => {
+    expect(sha256Hex('café 🐈')).toBe(sha256Hex(Buffer.from('café 🐈', 'utf8')))
+  })
+
   it('passes matching and aborts on mismatch', () => {
     expect(() =>
       verifyChecksums([{ path: 'a', content: 'hi', sha256: sha256Hex('hi') }]),
