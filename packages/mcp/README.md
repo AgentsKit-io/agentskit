@@ -125,6 +125,23 @@ Typed Registry projections use `fetchAgent` + `createTypedAgentTool`; their
 input/output JSON Schemas are preserved. `fetchAgentSkill` intentionally
 rejects typed projections so they cannot be flattened into a text tool.
 
+`fetchAgent` and `fetchAgentSkill` try the hosted registry first and may fall
+back to raw registry files when hosted data is unavailable or unreadable. Each
+response is limited to 131072 bytes and each request to 10000 ms by default.
+Set `maxResponseBytes` (1–1048576) or `timeoutMs` (1–120000) to adjust those
+bounds, or pass an `AbortSignal`; aborting stops later fallback requests.
+Oversized bodies are cancelled and treated as a failed source. Calls resolve to
+`null` for invalid IDs or options, aborted operations, typed projections passed
+to `fetchAgentSkill`, or when neither source provides a supported result.
+Network error codes are not exposed by these APIs.
+
+```ts
+import { fetchAgent, fetchAgentSkill } from '@agentskit/mcp'
+
+const agent = await fetchAgent('legal-contract-reviewer', fetch, { maxResponseBytes: 131072 })
+const skill = await fetchAgentSkill('legal-contract-reviewer')
+```
+
 ## Quick start
 
 <!-- readme-example:quickstart -->
