@@ -2,8 +2,8 @@
 /**
  * Quality-gate orchestrator. Runs every structural gate in sequence and
  * reports a single pass/fail summary. These checks protect the codebase's
- * non-negotiables; the content-pipeline fixture has one explicit local build
- * precondition because it exercises the published adapter entrypoint.
+ * non-negotiables; fixtures exercise built package entrypoints. Turbo shares
+ * their build preconditions with CI and the local lint/build commands.
  *
  * Run locally before opening a PR: `pnpm check:quality-gates`.
  */
@@ -64,14 +64,16 @@ const GATES = [
 
 const failed = []
 
-for (const packageName of ['@agentskit/adapters', '@agentskit/mcp', '@agentskit/cross-platform']) {
-  const label = `${packageName} build precondition`
-  process.stdout.write(`\n▶ ${label}\n`)
-  const build = spawnSync('pnpm', ['--filter', `${packageName}...`, 'build'], { stdio: 'inherit', cwd: root })
-  if (build.status !== 0) failed.push(label)
-}
+const buildPackages = ['@agentskit/adapters', '@agentskit/mcp', '@agentskit/cross-platform']
+process.stdout.write('\n▶ shared package build preconditions\n')
+const build = spawnSync('pnpm', [
+  'exec', 'turbo', 'run', 'build', '--concurrency=2',
+  ...buildPackages.map((name) => `--filter=${name}`),
+], { stdio: 'inherit', cwd: root })
+if (build.status !== 0) failed.push('shared package build preconditions')
 
 for (const [label, script, args = [], runner = 'node'] of GATES) {
+  const started = performance.now()
   process.stdout.write(`\n▶ ${label}\n`)
   const executable = runner === 'vitest' ? 'pnpm' : process.execPath
   const runnerArgs = runner === 'vitest'
@@ -82,6 +84,7 @@ for (const [label, script, args = [], runner = 'node'] of GATES) {
     cwd: root,
   })
   if (res.status !== 0) failed.push(label)
+  console.log(`  ${label}: ${((performance.now() - started) / 1000).toFixed(1)}s`)
 }
 
 console.log('\n' + '─'.repeat(56))
