@@ -1573,6 +1573,9 @@ importers:
       '@agentskit/integrations':
         specifier: workspace:*
         version: link:../integrations
+      '@agentskit/net':
+        specifier: workspace:*
+        version: link:../net
       ajv:
         specifier: ^8.20.0
         version: 8.20.0

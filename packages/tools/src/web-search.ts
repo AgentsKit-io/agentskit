@@ -1,4 +1,5 @@
 import { ConfigError, ErrorCodes, ToolError } from '@agentskit/core'
+import { NetError, NetErrorCodes, readText } from '@agentskit/net'
 import type { ToolDefinition } from '@agentskit/core'
 import { safeFetch } from './safe-fetch'
 
@@ -42,41 +43,14 @@ interface SearchRuntimeConfig {
 }
 
 async function readResponseText(response: Response, maxBytes: number): Promise<string> {
-  const headers = (response as Response & { headers?: Headers }).headers
-  const contentLength = headers?.get?.('content-length')
-  if (contentLength && Number(contentLength) > maxBytes) {
-    throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `search response exceeds maxResponseBytes (${maxBytes})` })
-  }
-  const body = (response as Response & { body?: ReadableStream<Uint8Array> | null }).body
-  if (!body) {
-    const text = 'text' in response && typeof response.text === 'function'
-      ? await response.text()
-      : JSON.stringify(await (response as Response & { json: () => Promise<unknown> }).json())
-    if (new TextEncoder().encode(text).byteLength > maxBytes) {
+  try {
+    return await readText(response, { maxBytes })
+  } catch (error) {
+    if (error instanceof NetError && error.code === NetErrorCodes.AK_NET_BODY_TOO_LARGE) {
       throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `search response exceeds maxResponseBytes (${maxBytes})` })
     }
-    return text
+    throw error
   }
-  const reader = body.getReader()
-  const chunks: Uint8Array[] = []
-  let total = 0
-  while (true) {
-    const next = await reader.read()
-    if (next.done) break
-    total += next.value.byteLength
-    if (total > maxBytes) {
-      await reader.cancel()
-      throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `search response exceeds maxResponseBytes (${maxBytes})` })
-    }
-    chunks.push(next.value)
-  }
-  const bytes = new Uint8Array(total)
-  let offset = 0
-  for (const chunk of chunks) {
-    bytes.set(chunk, offset)
-    offset += chunk.byteLength
-  }
-  return new TextDecoder().decode(bytes)
 }
 
 async function requestText(
@@ -269,6 +243,18 @@ function resolveBackend(
   return { backend: 'duckduckgo' }
 }
 
+/**
+ * Create a web-search tool; provider responses use the configured byte cap and
+ * are cancelled when the limit is exceeded.
+ * @param config Provider, credentials, result limit, timeout, and body limit.
+ * @returns A `web_search` `ToolDefinition`.
+ * @throws {ConfigError} AK_CONFIG_INVALID for an unsupported provider or invalid limit.
+ * @example
+ * ```ts
+ * import { webSearch } from '@agentskit/tools'
+ * const search = webSearch({ provider: 'duckduckgo', maxResponseBytes: 1_000_000 })
+ * ```
+ */
 export function webSearch(config: WebSearchConfig = {}): ToolDefinition {
   const { provider = 'auto', apiKey, maxResults = 5, search } = config
   const timeoutMs = config.timeoutMs ?? DEFAULT_TIMEOUT_MS

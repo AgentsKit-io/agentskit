@@ -121,6 +121,26 @@ For tools without Zod, use `defineTool` from `@agentskit/core` with a JSON Schem
 - `sqliteQueryTool({ path })` — read-only SQL against a local SQLite file. Optional peer dep on `better-sqlite3`. **Note:** never feed unvalidated user prompts straight into the `sql` field — wrap with input filtering or use parameterized helpers if exposing it to untrusted input.
 - `slackTool({ webhookUrl })` — post to a Slack Incoming Webhook. For Bearer-token features (search, channel listing), use the `slack()` integration.
 
+### Safe outbound requests
+
+`safeFetch(input, init?, policy?)` defaults to denying non-public hosts and
+re-checks every redirect hop. Address classification comes from
+`@agentskit/net`, so reserved, unspecified, multicast, CGNAT, IPv4-mapped
+private, and other non-unicast ranges are blocked as well as private,
+loopback, and link-local addresses. Hostname checks use Node DNS and fail
+closed if any result is non-public or lookup fails.
+
+`isPrivateIPv4` and `isPrivateHost` keep their legacy decimal handling for
+zero-padded dotted quads (`010.0.0.1` means `10.0.0.1`). `safeFetch` first
+applies WHATWG URL canonicalization; avoid ambiguous numeric URL forms.
+
+For a vetted internal target, pass an exact `allowedHosts` entry or set
+`allowPrivateHosts: true`; redirects still pass through the selected policy.
+The DNS preflight does not pin the resolved address to the later connection,
+so it does not prevent DNS rebinding. `webSearch()` also reads provider
+responses through `@agentskit/net` with a 2 MiB default byte limit; set
+`maxResponseBytes` to change it.
+
 ### Integrations (20+)
 
 `github`, `linear`, `slack`, `notion`, `discord`, `gmail`,

@@ -74,11 +74,11 @@ await retry(
 | Hand-rolled pattern | Use |
 |---|---|
 | `for` loop with a fixed `sleep` | `retry(fn)` / `fetchWithRetry(url)` |
-| Ignoring or re-parsing `Retry-After` | `parseRetryAfter(header)` (built into `fetchWithRetry`) |
+| Ignoring or re-parsing `Retry-After` | <code>parseRetryAfter<wbr />(header)</code> (built into `fetchWithRetry`) |
 | `Promise.race` with `setTimeout` | `timeoutSignal(ms)`, `anySignal([...])`, `withTimeout(work, ms)` |
 | `await res.text()` on unknown input | `readText(res, { maxBytes })` |
 | `line.startsWith('data: ')` | `parseSSE(stream)` |
-| Regexes over `127.`, `10.`, `192.168.` | `assertPublicUrl(url, { lookup })` |
+| Regexes over `127.`, `10.`, `192.168.` | <code>assertPublicUrl<wbr />(url, &#123; lookup &#125;)</code> |
 
 ## Stability
 

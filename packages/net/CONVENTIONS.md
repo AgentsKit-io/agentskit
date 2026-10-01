@@ -14,6 +14,7 @@ repositories import from here instead of hand-rolling retry loops and
 - **Bodies** — `readBody` / `readText` / `readJson` with a byte cap.
 - **SSE** — `parseSSE` / `parseSSEResponse` over `eventsource-parser`.
 - **Addresses** — `classifyAddress`, `isPublicAddress`, `assertPublicUrl` over `ipaddr.js`.
+- **Guardrails** — `NET_RULES` from `@agentskit/net/rules`, scanned with `scanRepository` / `scanText` / `compareToBaseline` from `@agentskit/cross-platform`.
 
 ## What does NOT belong here
 

@@ -7,7 +7,12 @@ describe('@agentskit/net packaging contract', () => {
     const manifest = JSON.parse(await readFile(join(process.cwd(), 'package.json'), 'utf8'))
     expect(manifest.sideEffects).toBe(false)
     expect(manifest.agentskit.stability).toBe('beta')
-    expect(Object.keys(manifest.exports)).toEqual(['.'])
+    expect(Object.keys(manifest.exports)).toEqual(['.', './rules'])
+    expect(manifest.exports['./rules']).toEqual({
+      types: './dist/rules.d.ts',
+      import: './dist/rules.js',
+      require: './dist/rules.cjs',
+    })
     expect(Object.keys(manifest.dependencies).sort()).toEqual(['@agentskit/core', 'eventsource-parser', 'ipaddr.js'])
   })
 
