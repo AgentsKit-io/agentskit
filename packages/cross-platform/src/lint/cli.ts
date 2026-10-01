@@ -15,8 +15,13 @@ export interface CliIo {
   error: (line: string) => void
 }
 
+/** Options for customizing the rules and findings used by the baseline CLI.
+ * @since 0.2.0
+ */
 export interface RunCliOptions {
+  /** Rules to scan with; defaults to `PORTABILITY_RULES`. */
   rules?: readonly PortabilityRule[]
+  /** Findings to retain before baseline initialization, comparison, or updates; defaults to all findings. */
   filter?: (finding: Finding) => boolean
 }
 
@@ -93,8 +98,12 @@ async function saveBaseline(path: string, baseline: Baseline): Promise<void> {
 }
 
 /**
- * Run the baseline CLI; callers can supply custom rules and filter findings
- * before comparison or ratchet updates. Returns the process exit code.
+ * Run the baseline CLI with optional custom rules and finding filtering.
+ * @param argv CLI arguments after the executable name.
+ * @param io Working directory and output handlers for the command.
+ * @param options Custom rules and finding filter; defaults to `PORTABILITY_RULES` with no filtering.
+ * @returns The process exit code.
+ * @since 0.2.0
  */
 export async function runCli(argv: readonly string[], io: CliIo, options: RunCliOptions = {}): Promise<number> {
   const flags = parseFlags(argv)
