@@ -29,7 +29,8 @@ Adapters, tools and ecosystem repositories each carried their own retry loop, `R
 
 ### Retry
 
-- `retry(fn, options?)` — runs `fn({ attempt, signal })` until it resolves or `retries` (default 3) run out. Options: `shouldRetry(error, attempt)` (default: anything but an abort), `delayFor(error, attempt)` (override one delay, e.g. from `Retry-After`; not capped), `onRetry({ error, attempt, delayMs })`, `signal`, plus backoff options.
+- `retry(fn, options?)` — runs `fn({ attempt, signal })` until it resolves or `retries` (default 3) run out. Options: `shouldRetry(error, attempt)` (default: anything but an abort), `delayFor(error, attempt)` (override one delay, e.g. from `Retry-After`; not capped), `onRetry({ error, attempt, delayMs })`, `sleep: (ms, signal?) => Promise<void>` (default: exported `sleep`), `signal`, plus backoff options. One-argument sleep callbacks remain assignable; custom waits should honor the optional signal to stop on abort.
+- `sleep(ms, signal?)` — abortable timer for a delay from 0 through 2,147,483,647 ms. Clears its timer on abort and rejects with the exact `signal.reason`; negative, non-finite, or larger delays raise `AK_NET_INVALID_INPUT`.
 - `computeBackoff(attempt, { minDelayMs = 250, maxDelayMs = 10000, factor = 2, jitter = 'full' | 'none' }, random?)` — delay before retry `attempt`.
 - `parseRetryAfter(value, now?)` — `Retry-After` (delta-seconds or HTTP date) in ms, or `undefined`.
 - `RETRYABLE_STATUSES` (`408, 425, 429, 500, 502, 503, 504`), `isRetryableStatus(status)`.
@@ -42,6 +43,7 @@ Adapters, tools and ecosystem repositories each carried their own retry loop, `R
 
 - `timeoutSignal(ms, parent?)` — aborts after `ms` or when `parent` aborts.
 - `anySignal(signals)` — `AbortSignal.any` with a fallback; `undefined` entries are skipped.
+- `withTimeout(work, ms, parent?)` — passes work a signal that aborts at a positive deadline (up to 2,147,483,647 ms) or with the parent's exact reason. Deadline rejection is `AK_NET_TIMEOUT`; invalid deadlines are `AK_NET_INVALID_INPUT`. Work results and original failures pass through unchanged. The wrapper rejects on time when work ignores the signal, but cannot forcibly stop uncooperative work.
 
 ### Bodies
 
@@ -49,14 +51,14 @@ Adapters, tools and ecosystem repositories each carried their own retry loop, `R
 
 ### SSE
 
-- `parseSSE(stream, { signal?, maxEventBytes = 1 MiB })` — async iterable of `{ id?, event?, data }` from a `ReadableStream<Uint8Array>`. Handles `data:` with or without a space, multi-line data, CRLF, comments and chunk boundaries. An event cut off before its blank line is dropped (per spec). Parse errors raise `AK_NET_SSE_PARSE_FAILED`.
+- `parseSSE(stream, { signal?, maxEventBytes = 1 MiB })` — async iterable of `{ id?, event?, data }` from a readable byte stream. Handles `data:` with or without a space, multi-line data, CRLF, comments and chunk boundaries. An event cut off before its blank line is dropped (per spec). Parse errors raise `AK_NET_SSE_PARSE_FAILED`.
 - `parseSSEResponse(response, options?)` — same, from a `Response`.
 
 ### Addresses
 
 - `classifyAddress(address)` — `ipaddr.js` range name (`unicast`, `private`, `loopback`, `linkLocal`, `uniqueLocal`, `carrierGradeNat`…) or `undefined` if not an IP. Accepts `[ipv6]` and unwraps IPv4-mapped IPv6.
 - `isPublicAddress(address)` — range is `unicast`.
-- `assertPublicUrl(input, { protocols?, lookup?, allowHosts? })` → `{ url, addresses }`. Blocks non-public IP literals, `localhost` and `.localhost`/`.local`/`.internal`/`.localdomain`/`.home.arpa`, and any hostname whose resolved addresses (via `lookup`) are not all public. Raises `AK_NET_BLOCKED_ADDRESS`.
+- `assertPublicUrl(input, { protocols?, lookup?, allowHosts? })` → `{ url, addresses }`. Blocks non-public IP literals, `localhost` and `.localhost`, `.local`, `.internal`, `.localdomain`, and `.home.arpa`, plus any hostname whose resolved addresses (via `lookup`) are not all public. Raises `AK_NET_BLOCKED_ADDRESS`.
 
 ### Errors
 
@@ -67,12 +69,26 @@ Adapters, tools and ecosystem repositories each carried their own retry loop, `R
 ```ts
 import { lookup } from 'node:dns/promises'
 import { assertPublicUrl, fetchWithRetry, readText } from '@agentskit/net'
+import { retry, sleep, withTimeout } from '@agentskit/net'
 
 const { url } = await assertPublicUrl(userUrl, {
   lookup: async host => (await lookup(host, { all: true })).map(entry => entry.address),
 })
-const response = await fetchWithRetry(url, undefined, { timeoutMs: 10_000, retries: 2 })
+const response = await fetchWithRetry(url, undefined, {
+  timeoutMs: 10_000,
+  retries: 2,
+})
 const text = await readText(response, { maxBytes: 2_000_000 })
+
+const bounded = await withTimeout(
+  signal => fetch(url, { signal }),
+  5_000,
+)
+console.log(bounded.status)
+await retry(
+  ({ signal }) => fetch(url, { signal }),
+  { sleep: (ms, signal) => sleep(ms, signal) },
+)
 ```
 
 ## Notes

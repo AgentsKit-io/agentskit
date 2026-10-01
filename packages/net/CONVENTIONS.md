@@ -8,9 +8,9 @@ repositories import from here instead of hand-rolling retry loops and
 
 ## Scope
 
-- **Retry** — `retry`, `computeBackoff`, `parseRetryAfter`, `isRetryableStatus`.
+- **Retry** — `retry`, `sleep`, `computeBackoff`, `parseRetryAfter`, `isRetryableStatus`.
 - **Fetch** — `fetchWithRetry` over any `fetch` implementation.
-- **Timeouts** — `timeoutSignal`, `anySignal`.
+- **Timeouts** — `timeoutSignal`, `anySignal`, `withTimeout`.
 - **Bodies** — `readBody` / `readText` / `readJson` with a byte cap.
 - **SSE** — `parseSSE` / `parseSSEResponse` over `eventsource-parser`.
 - **Addresses** — `classifyAddress`, `isPublicAddress`, `assertPublicUrl` over `ipaddr.js`.

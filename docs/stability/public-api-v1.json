@@ -7121,6 +7121,12 @@
               ]
             },
             {
+              "name": "sleep",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "SSEEvent",
               "kinds": [
                 "type"
@@ -7128,6 +7134,12 @@
             },
             {
               "name": "timeoutSignal",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "withTimeout",
               "kinds": [
                 "value"
               ]

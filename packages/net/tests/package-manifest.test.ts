@@ -22,7 +22,18 @@ describe('@agentskit/net packaging contract', () => {
   it('exposes only named runtime exports', async () => {
     const mod = await import('../src/index')
     expect((mod as Record<string, unknown>).default).toBeUndefined()
-    for (const name of ['fetchWithRetry', 'retry', 'parseRetryAfter', 'readBody', 'parseSSE', 'assertPublicUrl', 'isPublicAddress', 'timeoutSignal']) {
+    for (const name of [
+      'fetchWithRetry',
+      'retry',
+      'sleep',
+      'parseRetryAfter',
+      'readBody',
+      'parseSSE',
+      'assertPublicUrl',
+      'isPublicAddress',
+      'timeoutSignal',
+      'withTimeout',
+    ]) {
       expect(mod[name as keyof typeof mod], name).toBeTypeOf('function')
     }
   })

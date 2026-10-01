@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import { computeBackoff, isRetryableStatus, parseRetryAfter, retry } from '../src/retry'
+import { computeBackoff, isRetryableStatus, parseRetryAfter, retry, sleep } from '../src/retry'
 
 describe('parseRetryAfter', () => {
   it('reads delta-seconds and HTTP dates', () => {
@@ -84,6 +84,46 @@ describe('retry', () => {
     setTimeout(() => controller.abort(new Error('stop')), 20)
     await expect(pending).rejects.toThrow('stop')
     expect(Date.now() - started).toBeLessThan(2000)
+  })
+
+  it('exports an abortable sleep that clears its timer and preserves the reason', async () => {
+    vi.useFakeTimers()
+    try {
+      const controller = new AbortController()
+      const reason = new Error('stop')
+      const pending = sleep(10_000, controller.signal)
+      expect(vi.getTimerCount()).toBe(1)
+      controller.abort(reason)
+      await expect(pending).rejects.toBe(reason)
+      expect(vi.getTimerCount()).toBe(0)
+    } finally {
+      vi.useRealTimers()
+    }
+  })
+
+  it('rejects invalid sleep delays', async () => {
+    await expect(sleep(0)).resolves.toBeUndefined()
+    for (const delay of [-1, Number.NaN, Number.POSITIVE_INFINITY, Number.MAX_SAFE_INTEGER]) {
+      await expect(sleep(delay)).rejects.toMatchObject({ code: 'AK_NET_INVALID_INPUT' })
+    }
+  })
+
+  it('uses the injected sleeper with each computed delay and the retry signal', async () => {
+    const signal = new AbortController().signal
+    const wait = vi.fn(async (_ms: number, _signal?: AbortSignal) => {})
+    let calls = 0
+    const result = await retry(
+      async () => {
+        if (++calls < 3) throw new Error('busy')
+        return 'ok'
+      },
+      { retries: 2, minDelayMs: 3, jitter: 'none', sleep: wait, signal },
+    )
+    expect(result).toBe('ok')
+    expect(wait.mock.calls).toEqual([
+      [3, signal],
+      [6, signal],
+    ])
   })
 
   it('rejects an invalid retry budget', async () => {
