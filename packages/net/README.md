@@ -76,6 +76,15 @@ for await (const event of parseSSEResponse(stream)) {
 - **Typed errors**: `NetError` with `AK_NET_TIMEOUT`, `AK_NET_BODY_TOO_LARGE`, `AK_NET_BLOCKED_ADDRESS`, `AK_NET_INVALID_INPUT`, `AK_NET_SSE_PARSE_FAILED`.
 - **DNS is injected**: `assertPublicUrl` takes a `lookup` function, so the package has no `node:` imports. Checking before connecting does not stop DNS rebinding; pin the resolved address when that matters.
 - **Built on**: `eventsource-parser`, `ipaddr.js`.
+- **Guardrail rules**: `NET_RULES` (`readonly NetRule[]`) from `@agentskit/net/rules` detects duplicate HTTP retry, SSE, timeout, address and body handling. Add `@agentskit/cross-platform` as a dev dependency to run its scanner; pass `NET_RULES` to `scanText(file, source, rules)` or `scanRepository(options)`. Both return findings that `compareToBaseline(findings, baseline)` ratchets. Use `<id>-ignore: <reason>` for an approved one-rule suppression, for example `net-retry-after-ignore: legacy retry handler`. The repository check is `node scripts/check-net-rules.mjs`.
+
+  ```ts
+  import { NET_RULES } from '@agentskit/net/rules'
+  import { scanText } from '@agentskit/cross-platform'
+
+  const findings = scanText('src/http.ts', 'const body = await response.text()', NET_RULES)
+  console.log(findings.length)
+  ```
 
 ## Ecosystem
 

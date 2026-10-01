@@ -1,0 +1,339 @@
+{
+  "version": 1,
+  "include": [
+    "packages",
+    "scripts",
+    "apps",
+    "tests",
+    "e2e"
+  ],
+  "exclude": [
+    "packages/net/"
+  ],
+  "entries": {
+    "apps/ask-backend/src/ask/handler.test.ts": {
+      "net-sleep-promise": 1,
+      "net-unbounded-body": 1
+    },
+    "apps/ask-backend/src/ask/remote-corpus.ts": {
+      "net-unbounded-body": 1
+    },
+    "apps/ask-backend/src/mcp/ask-once.ts": {
+      "net-unbounded-body": 1
+    },
+    "apps/docs-next/components/contribute/github-data.ts": {
+      "net-unbounded-body": 2
+    },
+    "apps/docs-next/components/contribute/issues-list.tsx": {
+      "net-unbounded-body": 1
+    },
+    "apps/docs-next/components/examples/AgentActions.tsx": {
+      "net-sleep-promise": 1
+    },
+    "apps/docs-next/components/examples/EvalSuite.tsx": {
+      "net-sleep-promise": 1
+    },
+    "apps/docs-next/components/examples/InkTerminal.tsx": {
+      "net-sleep-promise": 1
+    },
+    "apps/docs-next/components/examples/MultiAgentChat.tsx": {
+      "net-sleep-promise": 1
+    },
+    "apps/docs-next/components/examples/ObservabilityTrace.tsx": {
+      "net-sleep-promise": 1
+    },
+    "apps/docs-next/components/examples/ProviderFanout.tsx": {
+      "net-sleep-promise": 1
+    },
+    "apps/docs-next/components/examples/SandboxRunner.tsx": {
+      "net-sleep-promise": 1
+    },
+    "apps/docs-next/components/examples/SupportBot.tsx": {
+      "net-sleep-promise": 2
+    },
+    "apps/docs-next/components/examples/_shared/mock-adapter.ts": {
+      "net-sleep-promise": 1
+    },
+    "apps/docs-next/components/learn/chat-preview.tsx": {
+      "net-sleep-promise": 1
+    },
+    "apps/docs-next/components/mdx/live-adapter.tsx": {
+      "net-unbounded-body": 1,
+      "net-sse-data-prefix": 1
+    },
+    "apps/docs-next/components/mdx/playground-presets.ts": {
+      "net-sleep-promise": 1
+    },
+    "apps/docs-next/lib/ask/eval/judge.ts": {
+      "net-unbounded-body": 1
+    },
+    "apps/docs-next/lib/ecosystem-live-claims.ts": {
+      "net-unbounded-body": 1
+    },
+    "apps/docs-next/lib/ecosystem-stats.ts": {
+      "net-unbounded-body": 1
+    },
+    "apps/docs-next/lib/learn-steps.ts": {
+      "net-sleep-promise": 1
+    },
+    "apps/docs-next/lib/openrouter.ts": {
+      "net-unbounded-body": 1,
+      "net-sse-data-prefix": 1
+    },
+    "apps/docs-next/scripts/ping-indexnow.mjs": {
+      "net-unbounded-body": 2
+    },
+    "apps/example-flow/src/index.ts": {
+      "net-unbounded-body": 2
+    },
+    "apps/example-ink/src/index.tsx": {
+      "net-sleep-promise": 2
+    },
+    "apps/example-multi-agent/src/App.tsx": {
+      "net-sleep-promise": 2
+    },
+    "apps/example-react/src/App.tsx": {
+      "net-sleep-promise": 3
+    },
+    "apps/example-runtime/src/durable.ts": {
+      "net-sleep-promise": 3
+    },
+    "apps/example-runtime/src/index.ts": {
+      "net-sleep-promise": 1
+    },
+    "apps/example-runtime/src/speculate.ts": {
+      "net-sleep-promise": 1
+    },
+    "apps/example-runtime/src/topology.ts": {
+      "net-sleep-promise": 1
+    },
+    "apps/registry/app/deterministic/[file]/route.ts": {
+      "net-retry-after": 1,
+      "net-unbounded-body": 1
+    },
+    "apps/registry/app/deterministic/machine-docs.test.ts": {
+      "net-unbounded-body": 2
+    },
+    "apps/registry/app/deterministic/route.test.ts": {
+      "net-retry-after": 1
+    },
+    "apps/registry/lib/registry.ts": {
+      "net-unbounded-body": 2
+    },
+    "packages/adapters/src/catalog/pricing.ts": {
+      "net-unbounded-body": 1
+    },
+    "packages/adapters/src/embedders/gemini.ts": {
+      "net-unbounded-body": 2
+    },
+    "packages/adapters/src/embedders/ollama.ts": {
+      "net-unbounded-body": 2
+    },
+    "packages/adapters/src/embedders/openai-compatible.ts": {
+      "net-unbounded-body": 2
+    },
+    "packages/adapters/src/embedders/openai.ts": {
+      "net-unbounded-body": 2
+    },
+    "packages/adapters/src/mock.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/adapters/src/replicate.ts": {
+      "net-sse-data-prefix": 1,
+      "net-unbounded-body": 1
+    },
+    "packages/adapters/src/stream-lines.ts": {
+      "net-sse-data-prefix": 1
+    },
+    "packages/adapters/src/utils.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/adapters/tests/capabilities.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/adapters/tests/ensemble.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/adapters/tests/mock.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/adapters/tests/router.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/angular/tests/service.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/cli/src/extensibility/rag/embedders.ts": {
+      "net-unbounded-body": 2
+    },
+    "packages/cli/src/providers.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/cli/src/registry.ts": {
+      "net-unbounded-body": 2
+    },
+    "packages/cli/tests/commands-actions.test.ts": {
+      "net-sleep-promise": 2
+    },
+    "packages/cli/tests/dev-extended.test.ts": {
+      "net-sleep-promise": 3
+    },
+    "packages/cli/tests/dev.test.ts": {
+      "net-sleep-promise": 2
+    },
+    "packages/core/src/hitl.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/core/src/security/sso.ts": {
+      "net-unbounded-body": 1
+    },
+    "packages/core/tests/controller.test.ts": {
+      "net-sleep-promise": 6
+    },
+    "packages/core/tests/primitives.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/cross-platform/smoke/smoke.mjs": {
+      "net-sleep-promise": 1
+    },
+    "packages/cross-platform/tests/kill.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/eval/tests/runner.test.ts": {
+      "net-sleep-promise": 2
+    },
+    "packages/ink/tests/InputBar.test.tsx": {
+      "net-sleep-promise": 2
+    },
+    "packages/ink/tests/ToolConfirmation.test.tsx": {
+      "net-sleep-promise": 1
+    },
+    "packages/ink/tests/integration.test.tsx": {
+      "net-sleep-promise": 2
+    },
+    "packages/ink/tests/security-boundary.test.tsx": {
+      "net-sleep-promise": 1
+    },
+    "packages/integrations/src/http-body.ts": {
+      "net-unbounded-body": 1
+    },
+    "packages/integrations/src/http.ts": {
+      "net-retry-after": 1
+    },
+    "packages/integrations/src/services/deepgram/actions.ts": {
+      "net-unbounded-body": 1
+    },
+    "packages/integrations/src/services/elevenlabs/actions.ts": {
+      "net-unbounded-body": 1
+    },
+    "packages/integrations/src/services/stripe/actions.ts": {
+      "net-unbounded-body": 1
+    },
+    "packages/integrations/src/services/teams/actions.ts": {
+      "net-unbounded-body": 1
+    },
+    "packages/integrations/src/services/twilio/actions.ts": {
+      "net-unbounded-body": 1
+    },
+    "packages/integrations/src/services/whisper/actions.ts": {
+      "net-unbounded-body": 1
+    },
+    "packages/mcp/fixtures/run-coding-agent-hosts.mjs": {
+      "net-sleep-promise": 1
+    },
+    "packages/mcp/fixtures/run-published-coding-agent-hosts.mjs": {
+      "net-sleep-promise": 1
+    },
+    "packages/mcp/tests/server.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/memory/src/vector/http.ts": {
+      "net-unbounded-body": 1
+    },
+    "packages/memory/tests/graph.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/observability-langfuse/tests/langfuse-missing.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/observability-langfuse/tests/langfuse.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/observability/tests/devtools.test.ts": {
+      "net-sse-data-prefix": 1
+    },
+    "packages/rag/src/loaders/shared.ts": {
+      "net-unbounded-body": 1
+    },
+    "packages/react/tests/core/useChat.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/react/tests/core/useStream.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/runtime/src/durable.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/runtime/tests/durable.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/runtime/tests/speculate.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/runtime/tests/topologies.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/solid/tests/components.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/statechart/tests/statechart.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "packages/templates/src/blueprints/embedder.ts": {
+      "net-unbounded-body": 1
+    },
+    "packages/templates/src/blueprints/flow.ts": {
+      "net-unbounded-body": 1
+    },
+    "packages/templates/src/blueprints/memory.ts": {
+      "net-unbounded-body": 1
+    },
+    "packages/tools/src/integrations/document-parsers.ts": {
+      "net-unbounded-body": 1
+    },
+    "packages/tools/src/slack.ts": {
+      "net-unbounded-body": 1
+    },
+    "packages/tools/src/web-search.ts": {
+      "net-unbounded-body": 1
+    },
+    "packages/tools/tests/mcp.test.ts": {
+      "net-sleep-promise": 2
+    },
+    "packages/vue/tests/useChat.test.ts": {
+      "net-sleep-promise": 1
+    },
+    "scripts/audit-prod-high.mjs": {
+      "net-unbounded-body": 1
+    },
+    "scripts/check-live-semantic-authority.mjs": {
+      "net-unbounded-body": 1
+    },
+    "scripts/check-release-registry.mjs": {
+      "net-unbounded-body": 1
+    },
+    "scripts/lib/models-dev-catalog.mjs": {
+      "net-unbounded-body": 1
+    },
+    "scripts/sync-ecosystem-consumers.mjs": {
+      "net-unbounded-body": 1
+    },
+    "scripts/verify-ecosystem-visual.mjs": {
+      "net-sleep-promise": 2,
+      "net-promise-race-timeout": 1
+    },
+    "tests/interop.test.ts": {
+      "net-sleep-promise": 1
+    }
+  }
+}

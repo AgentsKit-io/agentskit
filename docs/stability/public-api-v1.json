@@ -7133,6 +7133,27 @@
               ]
             }
           ]
+        },
+        "./rules": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "NET_RULES",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "NetRule",
+              "kinds": [
+                "type"
+              ]
+            }
+          ]
         }
       }
     },
