@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "e74ce446c8dba42afd74507a4d3a250c9895fe5d2a1ea5a0c285f22665c4182d",
+  "contentHash": "db6cde87e4ff5449d85e14b055dba4a261a7378a436b87b1ed12e9864ac0ac08",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-01T04:17:34.445Z",
+  "generatedAt": "2026-10-01T14:23:50.403Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -97,7 +97,8 @@
       "id": "net",
       "type": "agent-doc",
       "title": "net",
-      "path": "apps/docs-next/content/docs/for-agents/net.mdx"
+      "path": "apps/docs-next/content/docs/for-agents/net.mdx",
+      "description": "HTTP plumbing over web APIs. Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks on Node, Bun, Deno, browsers and edge."
     },
     {
       "id": "observability-langfuse",
@@ -3794,7 +3795,7 @@
         "document",
         "human"
       ],
-      "contentHash": "d7f8948d60cf6764a1aef2972bf132d9a128961f72ef66eec4b9b1e6530225d3"
+      "contentHash": "dad61cbb688f76b40698e4ca38378ed5c8a27083a8506dc8da43bb5bba534bcb"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/packages/observability-langfuse.mdx",
@@ -7058,7 +7059,7 @@
         "document",
         "project"
       ],
-      "contentHash": "c6a6e552044216ebea0606898748a669fdeb4db5d5e8966a226a3b5017647c24"
+      "contentHash": "33d25a8dfde401272cb5421003df0d4eb4ae9337653e02fca5ef537c6492d47c"
     },
     {
       "id": "document:packages/memory/CONVENTIONS.md",
@@ -7094,7 +7095,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "6f08240f706871b93a69f980ad7c7b2d64682f849cbf5f3d3f0c622d1bb9c8d3"
+      "contentHash": "d9c301000c195c214caf8dbb95087072821144462551c4122ba9a9199642e8f6"
     },
     {
       "id": "document:packages/net/README.md",
@@ -7106,7 +7107,7 @@
         "document",
         "project"
       ],
-      "contentHash": "b2587cac42b43f8b13491610721e484cf214193c3708433b0ce02f0bba4dde34"
+      "contentHash": "6fb41b341a6c23821ff2b152d257947617a2d813a6984e924d5f5214ebd4e42c"
     },
     {
       "id": "document:packages/observability-langfuse/CONVENTIONS.md",
@@ -9145,7 +9146,7 @@
         "tsx",
         "docs"
       ],
-      "contentHash": "6f6290b30e377969dab45fea9c301799f06246e6e435704dd5c26839c8c69147"
+      "contentHash": "23158db72df712810ff58a87b04221d9c62720ec569e60b100932487f6e1240f"
     },
     {
       "id": "module:apps/docs-next/components/docs/ask-widget.tsx",
@@ -11373,7 +11374,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "6f66ed15de5e2a65d4b1a8a3d47c7e5dcb48689036b5a2db4a42182909db0d0e"
+      "contentHash": "cb6b5c64a0516991c1d5097e3fc875fb9767026d977d9b356a40e174bb49c1b1"
     },
     {
       "id": "module:apps/docs-next/tests/documentation-contracts.test.ts",
@@ -25259,7 +25260,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "527df450942853c8c569c39e1951e5380bf9b6c16f91a673bb56d987c9510a50"
+      "contentHash": "d437de1d037b532a275513493aef00acde280f3f6c07fa0a753116fe50bec3ca"
     },
     {
       "id": "module:packages/mcp/src/validation.ts",
@@ -25316,7 +25317,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "b8018e8a9cc9e6b2a9898e7b2b6b797f0bb2bebf41e97859d3b88c448dee0352"
+      "contentHash": "dfb77e8b04c790ee739da60de04297c57290df403d2c68e1e76f414cc24e3245"
     },
     {
       "id": "module:packages/mcp/tests/registry-fetch.test.ts",
@@ -25329,7 +25330,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "b890e62287de63d49c2b2edadaa379daece703d474a2014e8cbc27c271360706"
+      "contentHash": "e878c463f7ecee7e335492d78e7e91a082786ce5e54479e6e77d080d5d6bccb7"
     },
     {
       "id": "module:packages/mcp/tests/server.test.ts",
@@ -25370,7 +25371,7 @@
         "ts",
         "mcp"
       ],
-      "contentHash": "5aa7b0964e20fa38d3bb8efa74595f554bfa3ebda75273409505c77927960bf2"
+      "contentHash": "a678405da7c58605cb2001c54200f2fa6c7ab40153cdbbf2bc08a296532633e5"
     },
     {
       "id": "module:packages/mcp/vitest.config.ts",
@@ -26725,6 +26726,22 @@
       "contentHash": "1139e012d775dd4e104b20c030b4e1155bca85630abc7f4cbd2ee2b0a6e8b3aa"
     },
     {
+      "id": "module:packages/net/src/rules.ts",
+      "type": "module",
+      "title": "rules.ts",
+      "path": "packages/net/src/rules.ts",
+      "symbols": [
+        "NET_RULES",
+        "NetRule"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "d903901418b6ed3d3bbcb876c88794e411c804eab9f9e0ac2b4420b47cec0a27"
+    },
+    {
       "id": "module:packages/net/src/sse.ts",
       "type": "module",
       "title": "sse.ts",
@@ -26808,7 +26825,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "63573d4d3dc733f2309eb7b02b23d03c09936209d92c65cd85e9d588ecd43535"
+      "contentHash": "2846e60c8dc90e1713ffc736adfd67e74885a0a8c88d2e16fa6c403ee27a09a6"
     },
     {
       "id": "module:packages/net/tests/retry.test.ts",
@@ -26822,6 +26839,19 @@
         "tests"
       ],
       "contentHash": "3403f6f473a4c0950ded548c5ead748844fc041b8e6352559c2752d6b4ac23a5"
+    },
+    {
+      "id": "module:packages/net/tests/rules.test.ts",
+      "type": "module",
+      "title": "rules.test.ts",
+      "path": "packages/net/tests/rules.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "6a69d27563bac9f08394f1f6556c26b8b04c76e5b19a8cf6896016af5887f378"
     },
     {
       "id": "module:packages/net/tests/sse.test.ts",
@@ -26862,7 +26892,7 @@
         "ts",
         "net"
       ],
-      "contentHash": "e8b0a5f312712a5cd4e57680c12842f45e3dbac0335a223f04c1f78b68996baa"
+      "contentHash": "2a65155d0166ce4f251a033a0a0247ba73478c79608167c15f5f51195cde7079"
     },
     {
       "id": "module:packages/net/vitest.config.ts",
@@ -34739,6 +34769,31 @@
       "contentHash": "570817069f73f3ed6f1bf139033805ab0b643daf554c0aa725b991cbf749cd47"
     },
     {
+      "id": "module:scripts/check-net-rules.mjs",
+      "type": "module",
+      "title": "check-net-rules.mjs",
+      "path": "scripts/check-net-rules.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "scripts"
+      ],
+      "contentHash": "df65d6a8b1642bc4dda5cc4090e18f68fc1a91b3f4ba06e2a7ff1575518ec349"
+    },
+    {
+      "id": "module:scripts/check-net-rules.test.mjs",
+      "type": "module",
+      "title": "check-net-rules.test.mjs",
+      "path": "scripts/check-net-rules.test.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "test",
+        "scripts"
+      ],
+      "contentHash": "766bade474b889a3d4ecf854ad54d3b4d2443b89e94582eed017010b35397e09"
+    },
+    {
       "id": "module:scripts/check-no-any.mjs",
       "type": "module",
       "title": "check-no-any.mjs",
@@ -34860,7 +34915,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "33740a53d0b20d9868fd41f850e93cb1c7e425675819b6dcb26a82b01ebb27f9"
+      "contentHash": "dc2925e56c5fa52a2f5bd30d1bec73a4a7097050b48eddbeee34aa7231698b7c"
     },
     {
       "id": "module:scripts/check-readme-badge.mjs",
@@ -36614,7 +36669,9 @@
       "bridge": {
         "humanDoc": "linked"
       },
-      "notes": []
+      "notes": [
+        "HTTP plumbing over web APIs. Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks on Node, Bun, Deno, browsers and edge."
+      ]
     },
     "observability": {
       "type": "agent-handoff",
@@ -37203,6 +37260,7 @@
           "pnpm --filter @agentskit/net lint"
         ],
         "checksSource": "default",
+        "purpose": "HTTP plumbing over web APIs. Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks on Node, Bun, Deno, browsers and edge.",
         "humanDoc": "/docs/reference/packages/net",
         "agentDoc": "apps/docs-next/content/docs/for-agents/net.mdx"
       },
@@ -37384,8 +37442,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "f78f47a529add0bb91cdef9ef6cdd2e109ea91bd984268fb64126a1995156ba2",
-    "fileCount": 2484,
+    "hash": "882872f0fff35774c87f79b6027833a5b16d73a65d9b44fa865e19873919b97d",
+    "fileCount": 2488,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37407,9 +37465,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "d25a1eea8d2143be3dc2fa2cfc541e058ef67c8f46323caf7ab63c3eb3f27c90",
+    "contentHash": "9b9db989d785cf092a6916c5e809244f509579f77f6e125d071985d201b8adbf",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "7efce075bbffbee31523058e6eae75c5e78d4963ab55e10abe92097e7bc56547",
+    "snapshotHash": "e2929fbc622262e2a1b33eea6190fe3ea99e1527dbe3c26c54b39b31b4ff34a0",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37429,7 +37487,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2438,
+      "documentCount": 2442,
       "fieldNames": [
         "aliases",
         "body",
@@ -37440,13 +37498,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0098441345365052,
-        "body": 61.207957342083674,
-        "headings": 4.044298605414274,
-        "path": 7.623872026251026,
-        "summary": 4.5992616899097625,
-        "symbols": 7.509844134536506,
-        "title": 3.332239540607055
+        "aliases": 3.0106470106470105,
+        "body": 61.18386568386568,
+        "headings": 4.037674037674038,
+        "path": 7.622031122031122,
+        "summary": 4.572072072072072,
+        "symbols": 7.5,
+        "title": 3.3333333333333335
       }
     },
     "entries": [
@@ -39876,7 +39934,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "d7cc7bc6b0043635daba8e7b94277060eda354d0006e08e73f8583e3ed697393",
+        "contentHash": "7f842c148b03480860cf8ce76c52485b549b3cdc2ec1b07d4f894d6f23d9063f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -51176,7 +51234,7 @@
         "kind": "document",
         "path": "apps/docs-next/content/docs/for-agents/net.mdx",
         "title": "net",
-        "summary": "Adapters, tools and ecosystem repositories each carried their own retry loop, Retry-After parser, bounded body reader, SSE splitter and private-address check, with different retryable statuses, missing jitter, SSE parsers that required data: with a space, and block lists that missed IPv6. This package owns one tested implementation over eventsource-parser and ipaddr.js. See ADR-0037.",
+        "summary": "HTTP plumbing over web APIs. Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks on Node, Bun, Deno, browsers and edge.",
         "audience": "agent",
         "aliases": [
           "net"
@@ -51190,8 +51248,8 @@
           "headings": "Install Why Primary exports Retry Fetch Timeouts Bodies SSE Addresses Errors Usage Notes",
           "path": "apps/docs-next/content/docs/for-agents/net.mdx",
           "symbols": "",
-          "summary": "Adapters, tools and ecosystem repositories each carried their own retry loop, Retry-After parser, bounded body reader, SSE splitter and private-address check, with different retryable statuses, missing jitter, SSE parsers that required data: with a space, and block lists that missed IPv6. This package owns one tested implementation over eventsource-parser and ipaddr.js. See ADR-0037.",
-          "body": "Install Why Adapters, tools and ecosystem repositories each carried their own retry loop, Retry-After parser, bounded body reader, SSE splitter and private-address check, with different retryable statuses, missing jitter, SSE parsers that required data: with a space, and block lists that missed IPv6. This package owns one tested implementation over eventsource-parser and ipaddr.js . See ADR-0037. Primary exports Retry - retry(fn, options?) — runs fn({ attempt, signal }) until it resolves or retries (default 3) run out. Options: shouldRetry(error, attempt) (default: anything but an abort), delayFor(error, attempt) (override one delay, e.g. from Retry-After ; not capped), onRetry({ error, attempt, delayMs }) , signal , plus backoff options. - computeBackoff(attempt, { minDelayMs = 250, maxDelayMs = 10000, factor = 2, jitter = 'full' 'none' }, random?) — delay before retry attempt . - parseRetryAfter(value, now?) — Retry-After (delta-seconds or HTTP date) in ms, or undefined . - RETRYABLE STATUSES ( 408, 425, 429, 500, 502, 503, 504 ), isRetryableStatus(status) . Fetch - fetchWithRetry(input, init?, options?) — fetch with retries on network errors and retryable statuses. Options: retries , timeoutMs (per attempt; raises AK NET TIMEOUT ), retryMethods (default GET/HEAD/OPTIONS/PUT/DELETE/TRACE, or 'all' ), retryStatuses , maxRetryAfterMs (default 60000; a longer Retry-After returns the response), onRetry({ attempt, delayMs, status?, error? }) , fetch (implementation), plus backoff options. Streaming request bodies are never retried; Request inputs are cloned per attempt; discarded responses are cancelled; the last response is returned as-is. Timeouts - timeoutSignal(ms, parent?) — aborts after ms or when parent aborts. - anySignal(signals) — AbortSignal.any with a fallback; undefined entries are skipped. Bodies - readBody(response, { maxBytes }) → Uint8Array ; readText , readJson . Content-Length is checked first, the stream is counted and cancelled on overflow ( AK NET BODY TOO LARGE ). SSE - parseSSE(stream, { signal?, maxEventBytes = 1 MiB }) — async iterable of { id?, event?, data } from a ReadableStream<Uint8Array . Handles data: with or without a space, multi-line data, CRLF, comments and chunk boundaries. An event cut off before its blank line is dropped (per spec). Parse errors raise AK NET SSE PARSE FAILED . - parseSSEResponse(response, options?) — same, from a Response . Addresses - classifyAddress(address) — ipaddr.js range name ( unicast , private , loopback , linkLocal , uniqueLocal , carrierGradeNat …) or undefined if not an IP. Accepts [ipv6] and unwraps IPv4-mapped IPv6. - isPublicAddress(address) — range is unicast . - assertPublicUrl(input, { protocols?, lookup?, allowHosts? }) → { url, addresses } . Blocks non-public IP literals, localhost and .localhost / .local / .internal / .localdomain / .home.arpa , and any hostname whose resolved addresses (via lookup ) are not all public. Raises AK NET BLOCKED ADDRESS . Errors - NetError (extends AgentsKitError ), NetErrorCodes : AK NET TIMEOUT , AK NET BODY TOO LARGE , AK NET BLOCKED ADDRESS , AK NET INVALID INPUT , AK NET SSE PARSE FAILED . isAbortError(error) . Usage Notes - No node: imports; runs on Node ≥ 20.19, Bun, Deno, browsers and edge runtimes. - Checking an address before connecting does not stop DNS rebinding; pin the resolved address when that matters. - eventsource-parser is bundled into the build (it ships ESM only); ipaddr.js is a regular dependency.",
+          "summary": "HTTP plumbing over web APIs. Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks on Node, Bun, Deno, browsers and edge.",
+          "body": "Install Why Adapters, tools and ecosystem repositories each carried their own retry loop, Retry-After parser, bounded body reader, SSE splitter and private-address check, with different retryable statuses, missing jitter, SSE parsers that required data: with a space, and block lists that missed IPv6. This package owns one tested implementation over eventsource-parser and ipaddr.js . See ADR-0037. Primary exports Retry - retry(fn, options?) — runs fn({ attempt, signal }) until it resolves or retries (default 3) run out. Options: shouldRetry(error, attempt) (default: anything but an abort), delayFor(error, attempt) (override one delay, e.g. from Retry-After ; not capped), onRetry({ error, attempt, delayMs }) , signal , plus backoff options. - computeBackoff(attempt, { minDelayMs = 250, maxDelayMs = 10000, factor = 2, jitter = 'full' 'none' }, random?) — delay before retry attempt . - parseRetryAfter(value, now?) — Retry-After (delta-seconds or HTTP date) in ms, or undefined . - RETRYABLE STATUSES ( 408, 425, 429, 500, 502, 503, 504 ), isRetryableStatus(status) . Fetch - fetchWithRetry(input, init?, options?) — fetch with retries on network errors and retryable statuses. Options: retries , timeoutMs (per attempt; raises AK NET TIMEOUT ), retryMethods (default GET/HEAD/OPTIONS/PUT/DELETE/TRACE, or 'all' ), retryStatuses , maxRetryAfterMs (default 60000; a longer Retry-After returns the response), onRetry({ attempt, delayMs, status?, error? }) , fetch (implementation), plus backoff options. Streaming request bodies are never retried; Request inputs are cloned per attempt; discarded responses are cancelled; the last response is returned as-is. Timeouts - timeoutSignal(ms, parent?) — aborts after ms or when parent aborts. - anySignal(signals) — AbortSignal.any with a fallback; undefined entries are skipped. Bodies - readBody(response, { maxBytes }) → Uint8Array ; readText , readJson . Content-Length is checked first, the stream is counted and cancelled on overflow ( AK NET BODY TOO LARGE ). SSE - parseSSE(stream, { signal?, maxEventBytes = 1 MiB }) — async iterable of { id?, event?, data } from a ReadableStream<Uint8Array . Handles data: with or without a space, multi-line data, CRLF, comments and chunk boundaries. An event cut off before its blank line is dropped (per spec). Parse errors raise AK NET SSE PARSE FAILED . - parseSSEResponse(response, options?) — same, from a Response . Addresses - classifyAddress(address) — ipaddr.js range name ( unicast , private , loopback , linkLocal , uniqueLocal , carrierGradeNat …) or undefined if not an IP. Accepts [ipv6] and unwraps IPv4-mapped IPv6. - isPublicAddress(address) — range is unicast . - assertPublicUrl(input, { protocols?, lookup?, allowHosts? }) → { url, addresses } . Blocks non-public IP literals, localhost and .localhost , .local , .internal , .localdomain , .home.arpa , plus any hostname whose resolved addresses (via lookup ) are not all public. Raises AK NET BLOCKED ADDRESS . Errors - NetError (extends AgentsKitError ), NetErrorCodes : AK NET TIMEOUT , AK NET BODY TOO LARGE , AK NET BLOCKED ADDRESS , AK NET INVALID INPUT , AK NET SSE PARSE FAILED . isAbortError(error) . Usage Notes - No node: imports; runs on Node ≥ 20.19, Bun, Deno, browsers and edge runtimes. - Checking an address before connecting does not stop DNS rebinding; pin the resolved address when that matters. - eventsource-parser is bundled into the build (it ships ESM only); ipaddr.js is a regular dependency.",
           "aliases": "net document agent"
         },
         "graph": {
@@ -51228,7 +51286,7 @@
             }
           ]
         },
-        "contentHash": "21e6adc0e6aaafcd8f5d5d028fe1dcd63da3157e3826ee9b9812bd72e98e0a11",
+        "contentHash": "e586f5ac404c5d930f28b05cea9d9295c1bf8edcc1f3d6fe137989716462dba6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -59526,7 +59584,7 @@
           "path": "apps/docs-next/content/docs/reference/packages/net.mdx",
           "symbols": "",
           "summary": "@agentskit/net is the package for the moment your agent talks HTTP: a provider returns 429 with Retry-After, a stream arrives as server-sent events, a tool fetches a URL a user typed, or a response could be larger than you want in memory. It uses web APIs only, so the same code runs on Node, Bun, Deno, browsers and edge runtimes.",
-          "body": "@agentskit/net is the package for the moment your agent talks HTTP: a provider returns 429 with Retry-After , a stream arrives as server-sent events, a tool fetches a URL a user typed, or a response could be larger than you want in memory. It uses web APIs only, so the same code runs on Node, Bun, Deno, browsers and edge runtimes. When to reach for it - You call an API that rate-limits or fails transiently and need retries that respect Retry-After . - You need a timeout per attempt, not one that silently spans every retry. - You consume a server-sent events stream. - You fetch URLs supplied by users or models and must not reach private networks or cloud metadata. Install Hello world What it replaces Hand-rolled pattern Use --- --- for loop with a fixed sleep retry(fn) / fetchWithRetry(url) Ignoring or re-parsing Retry-After parseRetryAfter(header) (built into fetchWithRetry ) Promise.race with setTimeout timeoutSignal(ms) , anySignal([...]) await res.text() on unknown input readText(res, { maxBytes }) line.startsWith('data: ') parseSSE(stream) Regexes over 127. , 10. , 192.168. assertPublicUrl(url, { lookup }) Stability - Version: 0.1.0 - Tier: beta - Contract: evolving Deep dives - — full export list. - Decision record: ADR-0037 ( docs/architecture/adrs/0037-net-package.md ).",
+          "body": "@agentskit/net is the package for the moment your agent talks HTTP: a provider returns 429 with Retry-After , a stream arrives as server-sent events, a tool fetches a URL a user typed, or a response could be larger than you want in memory. It uses web APIs only, so the same code runs on Node, Bun, Deno, browsers and edge runtimes. When to reach for it - You call an API that rate-limits or fails transiently and need retries that respect Retry-After . - You need a timeout per attempt, not one that silently spans every retry. - You consume a server-sent events stream. - You fetch URLs supplied by users or models and must not reach private networks or cloud metadata. Install Hello world What it replaces Hand-rolled pattern Use --- --- for loop with a fixed sleep retry(fn) / fetchWithRetry(url) Ignoring or re-parsing Retry-After <code parseRetryAfter<wbr / (header)</code (built into fetchWithRetry ) Promise.race with setTimeout timeoutSignal(ms) , anySignal([...]) await res.text() on unknown input readText(res, { maxBytes }) line.startsWith('data: ') parseSSE(stream) Regexes over 127. , 10. , 192.168. <code assertPublicUrl<wbr / (url, & 123; lookup & 125;)</code Stability - Version: 0.1.0 - Tier: beta - Contract: evolving Deep dives - — full export list. - Decision record: ADR-0037 ( docs/architecture/adrs/0037-net-package.md ).",
           "aliases": "document human"
         },
         "graph": {
@@ -59553,7 +59611,7 @@
             }
           ]
         },
-        "contentHash": "d7f8948d60cf6764a1aef2972bf132d9a128961f72ef66eec4b9b1e6530225d3",
+        "contentHash": "dad61cbb688f76b40698e4ca38378ed5c8a27083a8506dc8da43bb5bba534bcb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -77622,7 +77680,7 @@
           "path": "packages/mcp/README.md",
           "symbols": "",
           "summary": "Profile: <code>major-package</code>",
-          "body": "@agentskit/mcp Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Tags: agentskit · typescript · ai-agents Expose AgentsKit tools as an server — use them from Claude Desktop, Cursor, Windsurf, or another host that supports the documented 2024-11-05 tools bridge. Verified proof - Package metadata and tests live under packages/mcp/ . - MCP package guide: https://www.agentskit.io/docs/agents/tools/mcp - Stability map: How this fits the ecosystem @agentskit/mcp is the bridge from AgentsKit tools and agents into MCP-compatible coding agents. - AgentsKit : expose tools, integrations, and registry agents through a standard MCP server. - Registry : serve ready agents from as callable MCP tools. - Playbook : use for safe tool design, approvals, and agent handoff patterns. Docs: · <!-- readme-command:install -- Then point your MCP host at the command. Claude Desktop, Cursor, Codex, and OpenClaw all launch the same stdio server with host-specific configuration. Claude Desktop or Cursor ( mcpServers / .cursor/mcp.json ): Codex ( ~/.codex/config.toml ): OpenClaw: Verify the server in each host with its MCP tool-list command before enabling additional tools. Pi does not have a native MCP host path in this recipe; use a Pi extension or package when a dedicated integration is available. Flags Flag Effect ------ -------- --tools <a,b which tools to expose (default fetch,search ). Available: fetch , search , filesystem , shell , sqlite --fs-root <dir enable the filesystem tool, rooted at <dir --sqlite <file enable the sqlite query tool against <file --allow-shell enable the shell tool (off by default — it runs commands) stdout is the MCP JSON-RPC channel; human output goes to stderr . The bridge supports MCP protocol revision 2024-11-05 and the initialize / tools/list / tools/call lifecycle over stdio, in-memory, or an injected transport. Hosts own resources, prompts, sampling, tasks, HTTP/WebSocket, authentication, rate limiting, and persistence. Tool arguments are validated against their JSON Schema before execution; tools without a schema accept only an empty object. Invalid protocol envelopes and params are rejected, and tool failures are sanitized by default. Programmatic Pass transport to use a custom MCP transport (e.g. in-memory for tests). Expose whole agents (agents as MCP tools) Run a registry agent server-side and expose it as a single MCP tool — the host delegates a specialized job instead of orchestrating primitives: --provider covers the first-class adapters (openai, anthropic, gemini, ollama) plus the OpenAI-compatible set (deepseek, grok, groq, mistral, cohere, together, fireworks, openrouter, cerebras, kimi, huggingface, qwen, lmstudio, vllm, llamacpp) and any other OpenAI-compatible provider in the models.dev catalog. Key from --api-key or <PROVIDER API KEY ; --model / --base-url optional. Typed Registry projections use fetchAgent + createTypedAgentTool ; their input/output JSON Schemas are preserved. fetchAgentSkill intentionally rejects typed projections so they cannot be flattened into a text tool. Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Stability: beta — see - Node.js 20+ and TypeScript strict mode - Published as @agentskit/mcp Contributing See and the monorepo .",
+          "body": "@agentskit/mcp Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Tags: agentskit · typescript · ai-agents Expose AgentsKit tools as an server — use them from Claude Desktop, Cursor, Windsurf, or another host that supports the documented 2024-11-05 tools bridge. Verified proof - Package metadata and tests live under packages/mcp/ . - MCP package guide: https://www.agentskit.io/docs/agents/tools/mcp - Stability map: How this fits the ecosystem @agentskit/mcp is the bridge from AgentsKit tools and agents into MCP-compatible coding agents. - AgentsKit : expose tools, integrations, and registry agents through a standard MCP server. - Registry : serve ready agents from as callable MCP tools. - Playbook : use for safe tool design, approvals, and agent handoff patterns. Docs: · <!-- readme-command:install -- Then point your MCP host at the command. Claude Desktop, Cursor, Codex, and OpenClaw all launch the same stdio server with host-specific configuration. Claude Desktop or Cursor ( mcpServers / .cursor/mcp.json ): Codex ( ~/.codex/config.toml ): OpenClaw: Verify the server in each host with its MCP tool-list command before enabling additional tools. Pi does not have a native MCP host path in this recipe; use a Pi extension or package when a dedicated integration is available. Flags Flag Effect ------ -------- --tools <a,b which tools to expose (default fetch,search ). Available: fetch , search , filesystem , shell , sqlite --fs-root <dir enable the filesystem tool, rooted at <dir --sqlite <file enable the sqlite query tool against <file --allow-shell enable the shell tool (off by default — it runs commands) stdout is the MCP JSON-RPC channel; human output goes to stderr . The bridge supports MCP protocol revision 2024-11-05 and the initialize / tools/list / tools/call lifecycle over stdio, in-memory, or an injected transport. Hosts own resources, prompts, sampling, tasks, HTTP/WebSocket, authentication, rate limiting, and persistence. Tool arguments are validated against their JSON Schema before execution; tools without a schema accept only an empty object. Invalid protocol envelopes and params are rejected, and tool failures are sanitized by default. Programmatic Pass transport to use a custom MCP transport (e.g. in-memory for tests). Expose whole agents (agents as MCP tools) Run a registry agent server-side and expose it as a single MCP tool — the host delegates a specialized job instead of orchestrating primitives: --provider covers the first-class adapters (openai, anthropic, gemini, ollama) plus the OpenAI-compatible set (deepseek, grok, groq, mistral, cohere, together, fireworks, openrouter, cerebras, kimi, huggingface, qwen, lmstudio, vllm, llamacpp) and any other OpenAI-compatible provider in the models.dev catalog. Key from --api-key or <PROVIDER API KEY ; --model / --base-url optional. Typed Registry projections use fetchAgent + createTypedAgentTool ; their input/output JSON Schemas are preserved. fetchAgentSkill intentionally rejects typed projections so they cannot be flattened into a text tool. fetchAgent and fetchAgentSkill try the hosted registry first and may fall back to raw registry files when hosted data is unavailable or unreadable. Each response is limited to 131072 bytes and each request to 10000 ms by default. Set maxResponseBytes (1–1048576) or timeoutMs (1–120000) to adjust those bounds, or pass an AbortSignal ; aborting stops later fallback requests. Oversized bodies are cancelled and treated as a failed source. Calls resolve to null for invalid IDs or options, aborted operations, typed projections passed to fetchAgentSkill , or when neither source provides a supported result. Network error codes are not exposed by these APIs. Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Stability: beta — see - Node.js 20+ and TypeScript str",
           "aliases": "document project"
         },
         "graph": {
@@ -77684,7 +77742,7 @@
             }
           ]
         },
-        "contentHash": "c6a6e552044216ebea0606898748a669fdeb4db5d5e8966a226a3b5017647c24",
+        "contentHash": "33d25a8dfde401272cb5421003df0d4eb4ae9337653e02fca5ef537c6492d47c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -77972,7 +78030,7 @@
           "path": "packages/net/CONVENTIONS.md",
           "symbols": "",
           "summary": "The single owner of HTTP plumbing for the AgentsKit ecosystem (ADR-0037): retries with backoff and Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks. Adapters, tools and ecosystem repositories import from here instead of hand-rolling retry loops and data: line splitting.",
-          "body": "Conventions — @agentskit/net The single owner of HTTP plumbing for the AgentsKit ecosystem (ADR-0037): retries with backoff and Retry-After , per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks. Adapters, tools and ecosystem repositories import from here instead of hand-rolling retry loops and data: line splitting. Scope - Retry — retry , computeBackoff , parseRetryAfter , isRetryableStatus . - Fetch — fetchWithRetry over any fetch implementation. - Timeouts — timeoutSignal , anySignal . - Bodies — readBody / readText / readJson with a byte cap. - SSE — parseSSE / parseSSEResponse over eventsource-parser . - Addresses — classifyAddress , isPublicAddress , assertPublicUrl over ipaddr.js . What does NOT belong here - Provider-specific request/response shapes → @agentskit/adapters - Process spawning, paths, filesystem → @agentskit/cross-platform - Auth, credential storage, rate-limit accounting per tenant Implementation constraints - Web platform APIs only ( fetch , Response , ReadableStream , AbortSignal ). No node: imports: the package runs on Node, Bun, Deno, browsers and edge runtimes. DNS resolution is injected ( lookup ). - Named exports only; typed errors ( NetError , AK NET ). - Reuse libraries first: eventsource-parser , ipaddr.js . eventsource-parser is bundled because it ships ESM only. - Never retry a request whose body is a stream, and never retry non-idempotent methods unless the caller opts in. Testing - Unit tests (vitest) inject fetch , random and lookup ; no network. - Coverage floor 90% lines, with src/fetch.ts and src/address.ts critical.",
+          "body": "Conventions — @agentskit/net The single owner of HTTP plumbing for the AgentsKit ecosystem (ADR-0037): retries with backoff and Retry-After , per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks. Adapters, tools and ecosystem repositories import from here instead of hand-rolling retry loops and data: line splitting. Scope - Retry — retry , computeBackoff , parseRetryAfter , isRetryableStatus . - Fetch — fetchWithRetry over any fetch implementation. - Timeouts — timeoutSignal , anySignal . - Bodies — readBody / readText / readJson with a byte cap. - SSE — parseSSE / parseSSEResponse over eventsource-parser . - Addresses — classifyAddress , isPublicAddress , assertPublicUrl over ipaddr.js . - Guardrails — NET RULES from @agentskit/net/rules , scanned with scanRepository / scanText / compareToBaseline from @agentskit/cross-platform . What does NOT belong here - Provider-specific request/response shapes → @agentskit/adapters - Process spawning, paths, filesystem → @agentskit/cross-platform - Auth, credential storage, rate-limit accounting per tenant Implementation constraints - Web platform APIs only ( fetch , Response , ReadableStream , AbortSignal ). No node: imports: the package runs on Node, Bun, Deno, browsers and edge runtimes. DNS resolution is injected ( lookup ). - Named exports only; typed errors ( NetError , AK NET ). - Reuse libraries first: eventsource-parser , ipaddr.js . eventsource-parser is bundled because it ships ESM only. - Never retry a request whose body is a stream, and never retry non-idempotent methods unless the caller opts in. Testing - Unit tests (vitest) inject fetch , random and lookup ; no network. - Coverage floor 90% lines, with src/fetch.ts and src/address.ts critical.",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -77999,6 +78057,16 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/cross-platform/src/lint/baseline.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/cross-platform/src/lint/scan.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/net/src/address.ts",
               "confidence": "observed"
             },
@@ -78019,6 +78087,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/net/src/rules.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/net/src/sse.ts",
               "confidence": "observed"
             },
@@ -78029,7 +78102,7 @@
             }
           ]
         },
-        "contentHash": "6f08240f706871b93a69f980ad7c7b2d64682f849cbf5f3d3f0c622d1bb9c8d3",
+        "contentHash": "d9c301000c195c214caf8dbb95087072821144462551c4122ba9a9199642e8f6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -78051,7 +78124,7 @@
           "path": "packages/net/README.md",
           "symbols": "",
           "summary": "Profile: <code>concise-package</code>",
-          "body": "@agentskit/net Profile: <code concise-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p HTTP plumbing for agents, in one small package: retries with backoff and Retry-After , per-attempt timeouts, bounded body reads, server-sent events, and SSRF address checks. Web APIs only, so it runs on Node, Bun, Deno, browsers and edge runtimes. Tags: agentskit · ai-agents · fetch · retry · sse · ssrf · timeout · edge Verified proof - Package metadata and unit tests live under packages/net/ . - Decision record: . - Stability map: How this fits the ecosystem Adapters, tools and the other AgentsKit repositories each carried their own retry loop, Retry-After parsing, SSE line splitter and private-IP check, with different bugs in each. @agentskit/net owns them, built on eventsource-parser and ipaddr.js , so callers import one tested implementation. - AgentsKit : @agentskit/adapters (streaming, retries) and @agentskit/tools (fetching user-supplied URLs) are the intended consumers. - Registry : ready agents and templates at . - Playbook : production patterns at . Docs: · Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- Features Area API Replaces --- --- --- Retry retry , computeBackoff , parseRetryAfter , isRetryableStatus , RETRYABLE STATUSES hand-written for loops with fixed sleeps, ignored Retry-After Fetch fetchWithRetry retrying POSTs twice, leaking discarded response bodies, timeouts that span all attempts Timeouts timeoutSignal , anySignal setTimeout + AbortController boilerplate Bodies readBody , readText , readJson await res.text() on an unbounded response SSE parseSSE , parseSSEResponse split('\\n') + startsWith('data: ') parsers that break on CRLF, multi-line data and chunk boundaries Addresses assertPublicUrl , isPublicAddress , classifyAddress regexes over 127. / 10. / 192.168. that miss IPv6, IPv4-mapped and metadata addresses - Idempotent by default : fetchWithRetry retries GET/HEAD/OPTIONS/PUT/DELETE/TRACE; pass retryMethods: 'all' to opt in for POST. Streaming bodies are never retried. - Typed errors : NetError with AK NET TIMEOUT , AK NET BODY TOO LARGE , AK NET BLOCKED ADDRESS , AK NET INVALID INPUT , AK NET SSE PARSE FAILED . - DNS is injected : assertPublicUrl takes a lookup function, so the package has no node: imports. Checking before connecting does not stop DNS rebinding; pin the resolved address when that matters. - Built on : eventsource-parser , ipaddr.js . Ecosystem Package Role --------- ------ AgentsKitError , the base of NetError Provider streaming and retries Fetching user-supplied URLs safely Contributors <a href=\"https://github.com/AgentsKit-io/agentskit/graphs/contributors\" <img src=\"https://contrib.rocks/image?repo=AgentsKit-io/agentskit\" alt=\"AgentsKit contributors\" / </a License MIT — see . Docs · Maturity and compatibility - Stability: beta — see . Not 1.0. - Node.js 20+ (20.19+), Bun, Deno, modern browsers and edge runtimes; TypeScript strict mode - Published as @agentskit/net Contributing See and the monorepo .",
+          "body": "@agentskit/net Profile: <code concise-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p HTTP plumbing for agents, in one small package: retries with backoff and Retry-After , per-attempt timeouts, bounded body reads, server-sent events, and SSRF address checks. Web APIs only, so it runs on Node, Bun, Deno, browsers and edge runtimes. Tags: agentskit · ai-agents · fetch · retry · sse · ssrf · timeout · edge Verified proof - Package metadata and unit tests live under packages/net/ . - Decision record: . - Stability map: How this fits the ecosystem Adapters, tools and the other AgentsKit repositories each carried their own retry loop, Retry-After parsing, SSE line splitter and private-IP check, with different bugs in each. @agentskit/net owns them, built on eventsource-parser and ipaddr.js , so callers import one tested implementation. - AgentsKit : @agentskit/adapters (streaming, retries) and @agentskit/tools (fetching user-supplied URLs) are the intended consumers. - Registry : ready agents and templates at . - Playbook : production patterns at . Docs: · Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- Features Area API Replaces --- --- --- Retry retry , computeBackoff , parseRetryAfter , isRetryableStatus , RETRYABLE STATUSES hand-written for loops with fixed sleeps, ignored Retry-After Fetch fetchWithRetry retrying POSTs twice, leaking discarded response bodies, timeouts that span all attempts Timeouts timeoutSignal , anySignal setTimeout + AbortController boilerplate Bodies readBody , readText , readJson await res.text() on an unbounded response SSE parseSSE , parseSSEResponse split('\\n') + startsWith('data: ') parsers that break on CRLF, multi-line data and chunk boundaries Addresses assertPublicUrl , isPublicAddress , classifyAddress regexes over 127. / 10. / 192.168. that miss IPv6, IPv4-mapped and metadata addresses - Idempotent by default : fetchWithRetry retries GET/HEAD/OPTIONS/PUT/DELETE/TRACE; pass retryMethods: 'all' to opt in for POST. Streaming bodies are never retried. - Typed errors : NetError with AK NET TIMEOUT , AK NET BODY TOO LARGE , AK NET BLOCKED ADDRESS , AK NET INVALID INPUT , AK NET SSE PARSE FAILED . - DNS is injected : assertPublicUrl takes a lookup function, so the package has no node: imports. Checking before connecting does not stop DNS rebinding; pin the resolved address when that matters. - Built on : eventsource-parser , ipaddr.js . - Guardrail rules : NET RULES ( readonly NetRule[] ) from @agentskit/net/rules detects duplicate HTTP retry, SSE, timeout, address and body handling. Add @agentskit/cross-platform as a dev dependency to run its scanner; pass NET RULES to scanText(file, source, rules) or scanRepository(options) . Both return findings that compareToBaseline(findings, baseline) ratchets. Use <id -ignore: <reason for an approved one-rule suppression, for example net-retry-after-ignore: legacy retry handler . The repository check is node scripts/check-net-rules.mjs . Ecosystem Package Role --------- ------ AgentsKitError , the base of NetError Provider streaming and retries Fetching user-supplied URLs safely Contributors <a href=\"https://github.com/AgentsKit-io/agentskit/graphs/contributors\" <img src=\"https://contrib.rocks/image?repo=AgentsKit-io/agentskit\" alt=\"AgentsKit contributors\" / </a License MIT — see . Docs · Maturity and compatibility - Stability: beta — see . Not 1.0. - Node.js 20+ (20.19+), Bun, Deno, modern browsers and edge runtimes; TypeScript strict mode - Published as @agentskit/net Contributing See and the monorepo .",
           "aliases": "document project"
         },
         "graph": {
@@ -78098,6 +78171,11 @@
             },
             {
               "kind": "mentions",
+              "id": "package:@agentskit/cross-platform",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
               "id": "package:@agentskit/net",
               "confidence": "observed"
             },
@@ -78138,6 +78216,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/net/src/rules.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/net/src/sse.ts",
               "confidence": "observed"
             },
@@ -78148,7 +78231,7 @@
             }
           ]
         },
-        "contentHash": "b2587cac42b43f8b13491610721e484cf214193c3708433b0ce02f0bba4dde34",
+        "contentHash": "6fb41b341a6c23821ff2b152d257947617a2d813a6984e924d5f5214ebd4e42c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -87323,7 +87406,7 @@
             }
           ]
         },
-        "contentHash": "6f6290b30e377969dab45fea9c301799f06246e6e435704dd5c26839c8c69147",
+        "contentHash": "23158db72df712810ff58a87b04221d9c62720ec569e60b100932487f6e1240f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -93718,7 +93801,7 @@
             }
           ]
         },
-        "contentHash": "6f66ed15de5e2a65d4b1a8a3d47c7e5dcb48689036b5a2db4a42182909db0d0e",
+        "contentHash": "cb6b5c64a0516991c1d5097e3fc875fb9767026d977d9b356a40e174bb49c1b1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -127911,7 +127994,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 6,
+          "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx",
@@ -127919,7 +128002,8 @@
             "document:apps/docs-next/content/docs/get-started/index.mdx",
             "document:apps/docs-next/content/docs/index.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx",
-            "document:apps/docs-next/content/docs/reference/recipes/bail-qwen-routing.mdx"
+            "document:apps/docs-next/content/docs/reference/recipes/bail-qwen-routing.mdx",
+            "document:packages/net/CONVENTIONS.md"
           ],
           "areaId": "area:packages/cross-platform/src/lint",
           "packageId": "package:@agentskit/cross-platform",
@@ -127932,6 +128016,11 @@
             {
               "kind": "imports",
               "id": "module:packages/cross-platform/tests/baseline.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/net/tests/rules.test.ts",
               "confidence": "observed"
             },
             {
@@ -127967,6 +128056,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/reference/recipes/bail-qwen-routing.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/net/CONVENTIONS.md",
               "confidence": "observed"
             },
             {
@@ -128182,10 +128276,11 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 1,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
-            "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx"
+            "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx",
+            "document:packages/net/CONVENTIONS.md"
           ],
           "areaId": "area:packages/cross-platform/src/lint",
           "packageId": "package:@agentskit/cross-platform",
@@ -128217,12 +128312,22 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/net/tests/rules.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:scripts/check-core-rules.test.mjs",
               "confidence": "observed"
             },
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/net/CONVENTIONS.md",
               "confidence": "observed"
             },
             {
@@ -146695,7 +146800,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "527df450942853c8c569c39e1951e5380bf9b6c16f91a673bb56d987c9510a50",
+        "contentHash": "d437de1d037b532a275513493aef00acde280f3f6c07fa0a753116fe50bec3ca",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -146870,7 +146975,7 @@
             }
           ]
         },
-        "contentHash": "b8018e8a9cc9e6b2a9898e7b2b6b797f0bb2bebf41e97859d3b88c448dee0352",
+        "contentHash": "dfb77e8b04c790ee739da60de04297c57290df403d2c68e1e76f414cc24e3245",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -146910,7 +147015,7 @@
             }
           ]
         },
-        "contentHash": "b890e62287de63d49c2b2edadaa379daece703d474a2014e8cbc27c271360706",
+        "contentHash": "e878c463f7ecee7e335492d78e7e91a082786ce5e54479e6e77d080d5d6bccb7",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -147036,7 +147141,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "5aa7b0964e20fa38d3bb8efa74595f554bfa3ebda75273409505c77927960bf2",
+        "contentHash": "a678405da7c58605cb2001c54200f2fa6c7ab40153cdbbf2bc08a296532633e5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -152603,6 +152708,62 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/net/src/rules.ts",
+        "kind": "module",
+        "path": "packages/net/src/rules.ts",
+        "title": "rules.ts",
+        "aliases": [],
+        "symbols": [
+          "NET_RULES",
+          "NetRule"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "rules.ts",
+          "headings": "",
+          "path": "packages/net/src/rules.ts",
+          "symbols": "NET_RULES NetRule",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 2,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:packages/net/CONVENTIONS.md",
+            "document:packages/net/README.md"
+          ],
+          "packageId": "package:@agentskit/net",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/net/tests/rules.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/net/CONVENTIONS.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/net/README.md",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "d903901418b6ed3d3bbcb876c88794e411c804eab9f9e0ac2b4420b47cec0a27",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/net/src/sse.ts",
         "kind": "module",
         "path": "packages/net/src/sse.ts",
@@ -152915,7 +153076,7 @@
             }
           ]
         },
-        "contentHash": "63573d4d3dc733f2309eb7b02b23d03c09936209d92c65cd85e9d588ecd43535",
+        "contentHash": "2846e60c8dc90e1713ffc736adfd67e74885a0a8c88d2e16fa6c403ee27a09a6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -152956,6 +153117,56 @@
           ]
         },
         "contentHash": "3403f6f473a4c0950ded548c5ead748844fc041b8e6352559c2752d6b4ac23a5",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/net/tests/rules.test.ts",
+        "kind": "module",
+        "path": "packages/net/tests/rules.test.ts",
+        "title": "rules.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "rules.test.ts",
+          "headings": "",
+          "path": "packages/net/tests/rules.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/net",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/cross-platform/src/lint/baseline.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/cross-platform/src/lint/scan.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/net/src/rules.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "6a69d27563bac9f08394f1f6556c26b8b04c76e5b19a8cf6896016af5887f378",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -153071,7 +153282,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "e8b0a5f312712a5cd4e57680c12842f45e3dbac0335a223f04c1f78b68996baa",
+        "contentHash": "2a65155d0166ce4f251a033a0a0247ba73478c79608167c15f5f51195cde7079",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -181368,6 +181579,75 @@
         "confidence": "observed"
       },
       {
+        "id": "module:scripts/check-net-rules.mjs",
+        "kind": "module",
+        "path": "scripts/check-net-rules.mjs",
+        "title": "check-net-rules.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "scripts"
+        ],
+        "fields": {
+          "title": "check-net-rules.mjs",
+          "headings": "",
+          "path": "scripts/check-net-rules.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "df65d6a8b1642bc4dda5cc4090e18f68fc1a91b3f4ba06e2a7ff1575518ec349",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:scripts/check-net-rules.test.mjs",
+        "kind": "module",
+        "path": "scripts/check-net-rules.test.mjs",
+        "title": "check-net-rules.test.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "test",
+          "scripts"
+        ],
+        "fields": {
+          "title": "check-net-rules.test.mjs",
+          "headings": "",
+          "path": "scripts/check-net-rules.test.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs test scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "766bade474b889a3d4ecf854ad54d3b4d2443b89e94582eed017010b35397e09",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:scripts/check-no-any.mjs",
         "kind": "module",
         "path": "scripts/check-no-any.mjs",
@@ -181772,7 +182052,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "33740a53d0b20d9868fd41f850e93cb1c7e425675819b6dcb26a82b01ebb27f9",
+        "contentHash": "dc2925e56c5fa52a2f5bd30d1bec73a4a7097050b48eddbeee34aa7231698b7c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -187752,7 +188032,7 @@
         },
         "graph": {
           "pagerank": 0.005326,
-          "inboundLinks": 10,
+          "inboundLinks": 11,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx",
             "document:apps/docs-next/content/docs/reference/packages/cross-platform.mdx"
@@ -187765,7 +188045,8 @@
             "document:docs/STABILITY.md",
             "document:packages/cross-platform/CONVENTIONS.md",
             "document:packages/cross-platform/README.md",
-            "document:packages/net/CONVENTIONS.md"
+            "document:packages/net/CONVENTIONS.md",
+            "document:packages/net/README.md"
           ],
           "packageId": "package:@agentskit/cross-platform",
           "inbound": [
@@ -187817,6 +188098,11 @@
             {
               "kind": "mentions",
               "id": "document:packages/net/CONVENTIONS.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/net/README.md",
               "confidence": "observed"
             }
           ],
@@ -188908,7 +189194,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "06fbedee0c162c144708939ec40472fbc002720c5a4777f1f082f4135f1ecd27",
+        "contentHash": "a8278c76ff31c42c7a93a1f155d9cd3b0c324fd3ad33eeb1308d6905c90a26e5",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "mcp"
@@ -189343,7 +189629,7 @@
         "kind": "package",
         "path": "packages/net",
         "title": "net",
-        "summary": "Adapters, tools and ecosystem repositories each carried their own retry loop, Retry-After parser, bounded body reader, SSE splitter and private-address check, with different retryable statuses, missing jitter, SSE parsers that required data: with a space, and block lists that missed IPv6. This package owns one tested implementation over eventsource-parser and ipaddr.js. See ADR-0037.",
+        "summary": "HTTP plumbing over web APIs. Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks on Node, Bun, Deno, browsers and edge.",
         "audience": "agent",
         "aliases": [
           "net",
@@ -189358,8 +189644,8 @@
           "headings": "Install Why Primary exports Retry Fetch Timeouts Bodies SSE Addresses Errors Usage Notes",
           "path": "packages/net",
           "symbols": "",
-          "summary": "Adapters, tools and ecosystem repositories each carried their own retry loop, Retry-After parser, bounded body reader, SSE splitter and private-address check, with different retryable statuses, missing jitter, SSE parsers that required data: with a space, and block lists that missed IPv6. This package owns one tested implementation over eventsource-parser and ipaddr.js. See ADR-0037.",
-          "body": "Install Why Adapters, tools and ecosystem repositories each carried their own retry loop, Retry-After parser, bounded body reader, SSE splitter and private-address check, with different retryable statuses, missing jitter, SSE parsers that required data: with a space, and block lists that missed IPv6. This package owns one tested implementation over eventsource-parser and ipaddr.js . See ADR-0037. Primary exports Retry - retry(fn, options?) — runs fn({ attempt, signal }) until it resolves or retries (default 3) run out. Options: shouldRetry(error, attempt) (default: anything but an abort), delayFor(error, attempt) (override one delay, e.g. from Retry-After ; not capped), onRetry({ error, attempt, delayMs }) , signal , plus backoff options. - computeBackoff(attempt, { minDelayMs = 250, maxDelayMs = 10000, factor = 2, jitter = 'full' 'none' }, random?) — delay before retry attempt . - parseRetryAfter(value, now?) — Retry-After (delta-seconds or HTTP date) in ms, or undefined . - RETRYABLE STATUSES ( 408, 425, 429, 500, 502, 503, 504 ), isRetryableStatus(status) . Fetch - fetchWithRetry(input, init?, options?) — fetch with retries on network errors and retryable statuses. Options: retries , timeoutMs (per attempt; raises AK NET TIMEOUT ), retryMethods (default GET/HEAD/OPTIONS/PUT/DELETE/TRACE, or 'all' ), retryStatuses , maxRetryAfterMs (default 60000; a longer Retry-After returns the response), onRetry({ attempt, delayMs, status?, error? }) , fetch (implementation), plus backoff options. Streaming request bodies are never retried; Request inputs are cloned per attempt; discarded responses are cancelled; the last response is returned as-is. Timeouts - timeoutSignal(ms, parent?) — aborts after ms or when parent aborts. - anySignal(signals) — AbortSignal.any with a fallback; undefined entries are skipped. Bodies - readBody(response, { maxBytes }) → Uint8Array ; readText , readJson . Content-Length is checked first, the stream is counted and cancelled on overflow ( AK NET BODY TOO LARGE ). SSE - parseSSE(stream, { signal?, maxEventBytes = 1 MiB }) — async iterable of { id?, event?, data } from a ReadableStream<Uint8Array . Handles data: with or without a space, multi-line data, CRLF, comments and chunk boundaries. An event cut off before its blank line is dropped (per spec). Parse errors raise AK NET SSE PARSE FAILED . - parseSSEResponse(response, options?) — same, from a Response . Addresses - classifyAddress(address) — ipaddr.js range name ( unicast , private , loopback , linkLocal , uniqueLocal , carrierGradeNat …) or undefined if not an IP. Accepts [ipv6] and unwraps IPv4-mapped IPv6. - isPublicAddress(address) — range is unicast . - assertPublicUrl(input, { protocols?, lookup?, allowHosts? }) → { url, addresses } . Blocks non-public IP literals, localhost and .localhost / .local / .internal / .localdomain / .home.arpa , and any hostname whose resolved addresses (via lookup ) are not all public. Raises AK NET BLOCKED ADDRESS . Errors - NetError (extends AgentsKitError ), NetErrorCodes : AK NET TIMEOUT , AK NET BODY TOO LARGE , AK NET BLOCKED ADDRESS , AK NET INVALID INPUT , AK NET SSE PARSE FAILED . isAbortError(error) . Usage Notes - No node: imports; runs on Node ≥ 20.19, Bun, Deno, browsers and edge runtimes. - Checking an address before connecting does not stop DNS rebinding; pin the resolved address when that matters. - eventsource-parser is bundled into the build (it ships ESM only); ipaddr.js is a regular dependency.",
+          "summary": "HTTP plumbing over web APIs. Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks on Node, Bun, Deno, browsers and edge.",
+          "body": "Install Why Adapters, tools and ecosystem repositories each carried their own retry loop, Retry-After parser, bounded body reader, SSE splitter and private-address check, with different retryable statuses, missing jitter, SSE parsers that required data: with a space, and block lists that missed IPv6. This package owns one tested implementation over eventsource-parser and ipaddr.js . See ADR-0037. Primary exports Retry - retry(fn, options?) — runs fn({ attempt, signal }) until it resolves or retries (default 3) run out. Options: shouldRetry(error, attempt) (default: anything but an abort), delayFor(error, attempt) (override one delay, e.g. from Retry-After ; not capped), onRetry({ error, attempt, delayMs }) , signal , plus backoff options. - computeBackoff(attempt, { minDelayMs = 250, maxDelayMs = 10000, factor = 2, jitter = 'full' 'none' }, random?) — delay before retry attempt . - parseRetryAfter(value, now?) — Retry-After (delta-seconds or HTTP date) in ms, or undefined . - RETRYABLE STATUSES ( 408, 425, 429, 500, 502, 503, 504 ), isRetryableStatus(status) . Fetch - fetchWithRetry(input, init?, options?) — fetch with retries on network errors and retryable statuses. Options: retries , timeoutMs (per attempt; raises AK NET TIMEOUT ), retryMethods (default GET/HEAD/OPTIONS/PUT/DELETE/TRACE, or 'all' ), retryStatuses , maxRetryAfterMs (default 60000; a longer Retry-After returns the response), onRetry({ attempt, delayMs, status?, error? }) , fetch (implementation), plus backoff options. Streaming request bodies are never retried; Request inputs are cloned per attempt; discarded responses are cancelled; the last response is returned as-is. Timeouts - timeoutSignal(ms, parent?) — aborts after ms or when parent aborts. - anySignal(signals) — AbortSignal.any with a fallback; undefined entries are skipped. Bodies - readBody(response, { maxBytes }) → Uint8Array ; readText , readJson . Content-Length is checked first, the stream is counted and cancelled on overflow ( AK NET BODY TOO LARGE ). SSE - parseSSE(stream, { signal?, maxEventBytes = 1 MiB }) — async iterable of { id?, event?, data } from a ReadableStream<Uint8Array . Handles data: with or without a space, multi-line data, CRLF, comments and chunk boundaries. An event cut off before its blank line is dropped (per spec). Parse errors raise AK NET SSE PARSE FAILED . - parseSSEResponse(response, options?) — same, from a Response . Addresses - classifyAddress(address) — ipaddr.js range name ( unicast , private , loopback , linkLocal , uniqueLocal , carrierGradeNat …) or undefined if not an IP. Accepts [ipv6] and unwraps IPv4-mapped IPv6. - isPublicAddress(address) — range is unicast . - assertPublicUrl(input, { protocols?, lookup?, allowHosts? }) → { url, addresses } . Blocks non-public IP literals, localhost and .localhost , .local , .internal , .localdomain , .home.arpa , plus any hostname whose resolved addresses (via lookup ) are not all public. Raises AK NET BLOCKED ADDRESS . Errors - NetError (extends AgentsKitError ), NetErrorCodes : AK NET TIMEOUT , AK NET BODY TOO LARGE , AK NET BLOCKED ADDRESS , AK NET INVALID INPUT , AK NET SSE PARSE FAILED . isAbortError(error) . Usage Notes - No node: imports; runs on Node ≥ 20.19, Bun, Deno, browsers and edge runtimes. - Checking an address before connecting does not stop DNS rebinding; pin the resolved address when that matters. - eventsource-parser is bundled into the build (it ships ESM only); ipaddr.js is a regular dependency.",
           "aliases": "net @agentskit/net package ownership"
         },
         "graph": {
@@ -189440,7 +189726,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "2eb2a9fd22dde90c2ac5f6730dc97739548270e18e7da864a42774402a5bf3f0",
+        "contentHash": "f19e447a120d1f15d7ba0d2ced21a9bc4e9e622da46caf5f6d9477d5c5ec6ed1",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "net"

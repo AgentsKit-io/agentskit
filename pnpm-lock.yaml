@@ -1151,6 +1151,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
+      '@agentskit/net':
+        specifier: workspace:*
+        version: link:../net
       '@agentskit/runtime':
         specifier: workspace:*
         version: link:../runtime
