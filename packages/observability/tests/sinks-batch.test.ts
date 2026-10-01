@@ -298,6 +298,7 @@ describe.each(providers)('$name HTTP sink', (provider) => {
   it('payload snapshot ignores later span mutation; circular/BigInt never throw', async () => {
     const { fetch, calls } = makeFetch()
     const sink = provider.create({ fetch, batchSize: 50, flushIntervalMs: 60_000 })
+    vi.setSystemTime(new Date(1790744342423))
     const circular: Record<string, unknown> = { a: 1 }
     circular.self = circular
     expect(() => {
@@ -307,6 +308,7 @@ describe.each(providers)('$name HTTP sink', (provider) => {
     // Real mutation after on: first-token mutates open span attributes post-start snapshot.
     sink.on(llmStart(7))
     sink.on({ type: 'llm:first-token', latencyMs: 4242 })
+    sink.on(llmEnd(7))
     await sink.flush()
     expect(calls.length).toBeGreaterThanOrEqual(1)
     const all = calls.flatMap((c) => c.body)
@@ -315,8 +317,19 @@ describe.each(providers)('$name HTTP sink', (provider) => {
       return raw.includes('m-7') && (raw.includes('"phase":"start"') || raw.includes('phase:start'))
     })
     expect(startRows.length).toBeGreaterThanOrEqual(1)
+    const endRows = all.filter((row) => {
+      const raw = JSON.stringify(row)
+      return raw.includes('m-7') && (raw.includes('"phase":"end"') || raw.includes('phase:end'))
+    })
+    const latencyPath = provider.name === 'datadog'
+      ? ['span', 'attributes', 'gen_ai.response.first_token_ms']
+      : ['attributes', 'gen_ai.response.first_token_ms']
     for (const row of startRows) {
-      expect(JSON.stringify(row)).not.toContain('4242')
+      expect(row).not.toHaveProperty(latencyPath)
+    }
+    expect(endRows.length).toBeGreaterThanOrEqual(1)
+    for (const row of endRows) {
+      expect(row).toHaveProperty(latencyPath, 4242)
     }
     const rawAll = JSON.stringify(all)
     expect(rawAll).toContain('[Circular]')
