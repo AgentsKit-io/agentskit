@@ -67,7 +67,7 @@ for await (const event of parseSSEResponse(stream)) {
 |---|---|---|
 | Retry | `retry`, `computeBackoff`, `parseRetryAfter`, `isRetryableStatus`, `RETRYABLE_STATUSES` | hand-written `for` loops with fixed sleeps, ignored `Retry-After` |
 | Fetch | `fetchWithRetry` | retrying POSTs twice, leaking discarded response bodies, timeouts that span all attempts |
-| Timeouts | `timeoutSignal`, `anySignal` | `setTimeout` + `AbortController` boilerplate |
+| Timeouts | `timeoutSignal`, `anySignal`, `withTimeout` | `setTimeout` + `AbortController` boilerplate |
 | Bodies | `readBody`, `readText`, `readJson` | `await res.text()` on an unbounded response |
 | SSE | `parseSSE`, `parseSSEResponse` | `split('\n')` + `startsWith('data: ')` parsers that break on CRLF, multi-line data and chunk boundaries |
 | Addresses | `assertPublicUrl`, `isPublicAddress`, `classifyAddress` | regexes over `127.`/`10.`/`192.168.` that miss IPv6, IPv4-mapped and metadata addresses |
@@ -85,6 +85,27 @@ for await (const event of parseSSEResponse(stream)) {
   const findings = scanText('src/http.ts', 'const body = await response.text()', NET_RULES)
   console.log(findings.length)
   ```
+
+## Cancellable waits and deadlines
+
+`sleep(ms, signal?)` accepts delays from 0 through 2,147,483,647 milliseconds. It uses an abortable timer by default, clears that timer on abort, and rejects with the signal's actual reason. `retry` uses this public helper by default; its optional `sleep` callback has the shape `(ms, signal?) => Promise<void>`. A one-argument callback remains compatible; callbacks that need prompt cancellation should honor the optional signal.
+
+`withTimeout(work, ms, parent?)` accepts positive deadlines through 2,147,483,647 milliseconds and passes work a signal that aborts on the deadline or when the parent signal aborts. An elapsed deadline rejects with `NetError` code `AK_NET_TIMEOUT`; an invalid timeout rejects with `AK_NET_INVALID_INPUT`. A caller abort preserves its exact reason, and success or an original work failure passes through unchanged. The wrapper rejects on time even if work ignores the signal, but only cooperative work such as `fetch` can be stopped; arbitrary JavaScript cannot be forcibly cancelled.
+
+```ts
+import { retry, sleep, withTimeout } from '@agentskit/net'
+
+const parent = new AbortController()
+const response = await withTimeout(
+  signal => fetch('https://api.example.com/data', { signal }),
+  5_000,
+  parent.signal,
+)
+
+await retry(async () => fetch('https://api.example.com/retry'), {
+  sleep: (ms, signal) => sleep(ms, signal),
+})
+```
 
 ## Ecosystem
 
