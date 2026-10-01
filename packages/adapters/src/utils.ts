@@ -1,5 +1,6 @@
-import type { Message, StreamChunk, StreamSource } from '@agentskit/core'
-import { readNDJSONLines, readSSELines } from './stream-lines'
+import { AdapterError, ErrorCodes, type Message, type StreamChunk, type StreamSource } from '@agentskit/core'
+import { parseRetryAfter, parseSSE, retry, sleep as netSleep } from '@agentskit/net'
+import { readNDJSONLines } from './stream-lines'
 import {
   abortableSleep,
   adapterErrorChunk,
@@ -85,7 +86,7 @@ export async function* parseAnthropicStream(stream: ReadableStream): AsyncIterab
     return true
   }
 
-  for await (const data of readSSELines(stream)) {
+  for await (const { data } of parseSSE(stream)) {
     if (data === '[DONE]') continue
 
     try {
@@ -185,7 +186,7 @@ const GEMINI_SUCCESS_FINISH = new Set([
 export async function* parseGeminiStream(stream: ReadableStream): AsyncIterableIterator<StreamChunk> {
   let finishReason: string | undefined
 
-  for await (const data of readSSELines(stream)) {
+  for await (const { data } of parseSSE(stream)) {
     try {
       const event = JSON.parse(data) as {
         usageMetadata?: {
@@ -345,27 +346,36 @@ export async function* parseOllamaStream(stream: ReadableStream): AsyncIterableI
 }
 
 /**
- * Retry knobs for adapter fetches. Tunable per call to createStreamSource.
+ * Retry knobs for adapter fetches. Defaults to 3 total attempts, 500 ms base
+ * delay, an 8000 ms cap, full jitter, and retrying HTTP 408/429/500/502/503/504
+ * or non-abort transport errors. Retries apply only to the initial fetch.
+ * Positive fractional `maxAttempts` values normalize down to a whole number of
+ * attempts; after exhaustion, the final response is returned. Non-finite
+ * values or values whose floored value is below 1 make no request and reject
+ * with `AK_CONFIG_INVALID`.
  *
- * Default behavior:
- *   - 3 attempts total (1 initial + 2 retries)
- *   - exponential backoff: 500ms, 1000ms, 2000ms ... (capped at maxDelayMs)
- *   - full jitter on each delay
- *   - retry on HTTP 408, 429, 500, 502, 503, 504
- *   - retry on network errors (fetch throws)
- *   - DO NOT retry on 4xx other than 408/429 (those are bad requests / auth)
- *   - retries only the initial fetch — never mid-stream
- *   - respects Retry-After header when present
+ * @example
+ * ```ts
+ * const retry: RetryOptions = {
+ *   maxAttempts: 4,
+ *   retryOn: ({ response }) => response?.status === 429,
+ * }
+ * ```
  */
 export interface RetryOptions {
+  /** Total fetch attempts, including the first. Default 3. */
   maxAttempts?: number
+  /** First retry delay before jitter. Default 500 ms. */
   baseDelayMs?: number
+  /** Maximum backoff and Retry-After delay. Default 8000 ms. */
   maxDelayMs?: number
+  /** Enable full jitter. Default true. */
   jitter?: boolean
+  /** Select failed responses or errors to retry. */
   retryOn?: (info: { error?: unknown; response?: Response; attempt: number }) => boolean
-  /** Hook for tests + logging. Called after every failed attempt. */
+  /** Called immediately before a retry wait; thrown errors fail the retry operation. */
   onRetry?: (info: { attempt: number; delayMs: number; reason: string }) => void
-  /** Sleep override for tests. Defaults to setTimeout. */
+  /** One-argument wait override. Default uses `@agentskit/net`'s abortable sleep. */
   sleep?: (ms: number) => Promise<void>
 }
 
@@ -386,29 +396,36 @@ const DEFAULT_RETRY: Required<Omit<RetryOptions, 'onRetry' | 'sleep' | 'retryOn'
   },
 }
 
-function defaultSleep(ms: number): Promise<void> {
-  return new Promise(resolve => setTimeout(resolve, ms))
-}
-
-function computeDelay(attempt: number, opts: Required<Pick<RetryOptions, 'baseDelayMs' | 'maxDelayMs' | 'jitter'>>): number {
-  const exp = Math.min(opts.maxDelayMs, opts.baseDelayMs * Math.pow(2, attempt - 1))
-  if (!opts.jitter) return exp
-  return Math.floor(Math.random() * exp)
-}
-
-function parseRetryAfter(value: string | null, maxDelayMs: number): number | undefined {
-  if (!value) return undefined
-  const n = Number(value)
-  if (Number.isFinite(n) && n >= 0) return Math.min(n * 1000, maxDelayMs)
-  const date = Date.parse(value)
-  if (!Number.isNaN(date)) return Math.min(maxDelayMs, Math.max(0, date - Date.now()))
-  return undefined
+class RetryableResponse extends Error {
+  constructor(
+    readonly response: Response,
+    readonly retryAfterMs?: number,
+  ) {
+    super(`HTTP ${response.status}`)
+  }
 }
 
 /**
- * Run a fetch with retries on transient failures. Returns the final
- * Response (whether successful or not — caller decides), or throws if
- * the AbortSignal fires or all attempts fail with a thrown error.
+ * Run `doFetch` with retries on transient failures. Returns the last Response
+ * even when its status is not ok; transport errors propagate after attempts run
+ * out. Retries apply only to the initial fetch, never to a response stream.
+ * Exceptions from `onRetry` or the custom `sleep` callback stop the operation.
+ *
+ * @deprecated Use `retry` from `@agentskit/net` for new code. This compatibility
+ * wrapper will not be removed before adapters 0.20.0 or 90 days after this
+ * deprecation, whichever is later.
+ *
+ * @param doFetch Callback invoked once per attempt with the caller's abort signal.
+ * @param signal Caller-owned signal. Abort rejects with an `AbortError`.
+ * @param retryOpt Retry policy; defaults to 3 attempts, 500 ms base delay,
+ *   8000 ms cap, full jitter, and statuses 408/429/500/502/503/504.
+ * @returns The successful or final response.
+ * @throws {Error} The final transport error, or an AbortError when aborted.
+ * @throws {AdapterError} With code AK_CONFIG_INVALID when maxAttempts is non-finite or floors below 1.
+ * @example
+ * ```ts
+ * const response = await fetchWithRetry(signal => fetch(url, { signal }), controller.signal)
+ * ```
  */
 export async function fetchWithRetry(
   doFetch: (signal: AbortSignal) => Promise<Response>,
@@ -419,44 +436,63 @@ export async function fetchWithRetry(
     ...DEFAULT_RETRY,
     ...retryOpt,
   }
-  const sleep = retryOpt.sleep ?? defaultSleep
-  let lastError: unknown
+  const maxAttempts = Math.floor(opts.maxAttempts)
+  if (!Number.isFinite(maxAttempts) || maxAttempts < 1) {
+    throw new AdapterError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'Retry maxAttempts must be finite and at least 1 after flooring',
+    })
+  }
+  if (signal.aborted) throw new DOMException('Aborted', 'AbortError')
 
-  for (let attempt = 1; attempt <= opts.maxAttempts; attempt++) {
-    if (signal.aborted) throw new DOMException('Aborted', 'AbortError')
-
-    try {
-      const response = await doFetch(signal)
-
-      // Success or non-retryable failure → return.
-      if (response.ok) return response
-      if (attempt >= opts.maxAttempts || !opts.retryOn({ response, attempt })) {
-        return response
+  try {
+    return await retry(async ({ attempt }) => {
+      let response: Response
+      try {
+        response = await doFetch(signal)
+      } catch (error) {
+        if (signal.aborted) throw new DOMException('Aborted', 'AbortError')
+        throw error
       }
 
-      const retryAfterMs = parseRetryAfter(response.headers.get('retry-after'), opts.maxDelayMs)
-      const delay = retryAfterMs ?? computeDelay(attempt, opts)
-      retryOpt.onRetry?.({ attempt, delayMs: delay, reason: `HTTP ${response.status}` })
-      // Drain the body so the connection can be reused / does not leak.
+      if (response.ok || attempt >= maxAttempts || !opts.retryOn({ response, attempt })) return response
+
+      const retryAfter = parseRetryAfter(response.headers.get('retry-after'))
       await cancelBody(response.body)
-      await abortableSleep(delay, signal, sleep)
-    } catch (err) {
-      lastError = err
-      if (isAbortError(err)) throw err
-      if (attempt >= opts.maxAttempts || !opts.retryOn({ error: err, attempt })) throw err
-
-      const delay = computeDelay(attempt, opts)
-      retryOpt.onRetry?.({
-        attempt,
-        delayMs: delay,
-        reason: err instanceof Error ? err.message : String(err),
-      })
-      await abortableSleep(delay, signal, sleep)
-    }
+      throw new RetryableResponse(
+        response,
+        retryAfter === undefined ? undefined : Math.min(retryAfter, opts.maxDelayMs),
+      )
+    }, {
+      retries: maxAttempts - 1,
+      minDelayMs: opts.baseDelayMs,
+      maxDelayMs: opts.maxDelayMs,
+      jitter: opts.jitter ? 'full' : 'none',
+      shouldRetry: (error, attempt) => {
+        if (error instanceof RetryableResponse) return true
+        if (isAbortError(error)) return false
+        return opts.retryOn({ error, attempt })
+      },
+      delayFor: error => error instanceof RetryableResponse ? error.retryAfterMs : undefined,
+      onRetry: ({ error, attempt, delayMs }) => {
+        retryOpt.onRetry?.({
+          attempt,
+          delayMs,
+          reason: error instanceof RetryableResponse
+            ? `HTTP ${error.response.status}`
+            : error instanceof Error ? error.message : String(error),
+        })
+      },
+      sleep: retryOpt.sleep
+        ? (ms, retrySignal) => abortableSleep(ms, retrySignal ?? signal, retryOpt.sleep!)
+        : netSleep,
+      signal,
+    })
+  } catch (error) {
+    if (signal.aborted) throw new DOMException('Aborted', 'AbortError')
+    if (error instanceof RetryableResponse) return error.response
+    throw error
   }
-
-  // Unreachable, but the TS narrowing needs it.
-  throw lastError ?? new Error('fetchWithRetry: exhausted attempts')
 }
 
 /**
@@ -531,7 +567,7 @@ export function simulateStream(
         for (const chunk of chunks) {
           if (abortController === null || controller.signal.aborted) return
           if (delayMs > 0) {
-            await abortableSleep(delayMs, controller.signal, defaultSleep)
+            await abortableSleep(delayMs, controller.signal, netSleep)
           }
           yield { type: 'text', content: chunk }
         }

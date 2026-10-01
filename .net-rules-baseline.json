@@ -142,12 +142,6 @@
       "net-sse-data-prefix": 1,
       "net-unbounded-body": 1
     },
-    "packages/adapters/src/stream-lines.ts": {
-      "net-sse-data-prefix": 1
-    },
-    "packages/adapters/src/utils.ts": {
-      "net-sleep-promise": 1
-    },
     "packages/adapters/tests/capabilities.test.ts": {
       "net-sleep-promise": 1
     },
@@ -247,9 +241,6 @@
     "packages/mcp/tests/server.test.ts": {
       "net-sleep-promise": 1
     },
-    "packages/memory/src/vector/http.ts": {
-      "net-unbounded-body": 1
-    },
     "packages/memory/tests/graph.test.ts": {
       "net-sleep-promise": 1
     },
@@ -302,9 +293,6 @@
       "net-unbounded-body": 1
     },
     "packages/tools/src/slack.ts": {
-      "net-unbounded-body": 1
-    },
-    "packages/tools/src/web-search.ts": {
       "net-unbounded-body": 1
     },
     "packages/tools/tests/mcp.test.ts": {
