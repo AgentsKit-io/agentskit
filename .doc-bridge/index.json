@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "75f63e299a9115d84af6812ee0ddfad0c4306a8e2bbddce996913f918944f0fa",
+  "contentHash": "6b61de70f664d8723f05240d0833d5634f2d15c5ded0ad161ab117237628e372",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-01T16:23:46.851Z",
+  "generatedAt": "2026-10-01T21:13:00.702Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7071,7 +7071,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "b0361ff9f7d01d7ed1aa63f02685f87ce0eaebcd9a99e4817ef0c9868627c94e"
+      "contentHash": "1c8a5c508b44f18f6231b4daddfaa32f0e1c0c344cdfb0c90e4da4d71c63ab32"
     },
     {
       "id": "document:packages/memory/README.md",
@@ -7083,7 +7083,7 @@
         "document",
         "project"
       ],
-      "contentHash": "907edcc9eb4cd172f5dab682945c3e57f021744000eb52b197ed80f71ae05502"
+      "contentHash": "ddfb926a3bb058a47bc74c00ba52260c894f751597691210caef2374676a6d4a"
     },
     {
       "id": "document:packages/net/CONVENTIONS.md",
@@ -25940,7 +25940,7 @@
         "ts",
         "vector"
       ],
-      "contentHash": "b7098a2fd0a3e25dbefc8fefd5cf2fd521a294584daff89be576416c54379ada"
+      "contentHash": "b569634f62a146a743ffbcbac4e822a0bd4c2b04bef224884fa8e8bc146d279d"
     },
     {
       "id": "module:packages/memory/src/vector/index.ts",
@@ -26373,7 +26373,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "688ccd2a942fce7dbc3e71a48f61be84075779b8e3c10a17af084e2854dc1e0d"
+      "contentHash": "c0a5ab05d96142a3536c1e498f5c613acd9d11fe984e3e450cdde131c8ccb800"
     },
     {
       "id": "module:packages/memory/tests/personalization.test.ts",
@@ -26517,6 +26517,19 @@
         "tests"
       ],
       "contentHash": "fcd9576b05311f92445fe032f4c3bb2e705706422c7fa6683d8132baa462f6da"
+    },
+    {
+      "id": "module:packages/memory/tests/vector-http.integration.test.ts",
+      "type": "module",
+      "title": "vector-http.integration.test.ts",
+      "path": "packages/memory/tests/vector-http.integration.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "a9cb9c413d878ed38562f791207063c1ec18640b59db6312e978424f0f630ca4"
     },
     {
       "id": "module:packages/memory/tests/vector.test.ts",
@@ -37446,8 +37459,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "1879ca1c4d4511e21e4d37565e958198b5b75650e1e287bc35a687ccd60b82ca",
-    "fileCount": 2488,
+    "hash": "afc979fad8b59da8c5e6eb0fda486715f41fc501404eb65f6e50809e1f582b0b",
+    "fileCount": 2489,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37469,9 +37482,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "054030eb576f0441714b626484ce292a271cc7e14d239acc6638ec7e86372e81",
+    "contentHash": "9f7568b0038f5f5467cf618944be1186ec7cd8eeaeb080c96fbebb284f697eda",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "e5bc8912bea1a55c557413482b3885b1543418a1c9eac169ba9f56941a88176a",
+    "snapshotHash": "9b92eee6a3ef2825f7b0a61a6bc5d53964c5b1d1eda2e3ca0ae6af07637a9302",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37491,7 +37504,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2442,
+      "documentCount": 2443,
       "fieldNames": [
         "aliases",
         "body",
@@ -37502,13 +37515,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0106470106470105,
-        "body": 61.31285831285831,
-        "headings": 4.04013104013104,
-        "path": 7.622031122031122,
-        "summary": 4.572072072072072,
-        "symbols": 7.502457002457002,
-        "title": 3.3333333333333335
+        "aliases": 3.01105198526402,
+        "body": 61.28857961522718,
+        "headings": 4.038477282030291,
+        "path": 7.622595169873107,
+        "summary": 4.570200573065903,
+        "symbols": 7.4993860008186655,
+        "title": 3.3344248874334834
       }
     },
     "entries": [
@@ -77782,7 +77795,7 @@
           "path": "packages/memory/CONVENTIONS.md",
           "symbols": "",
           "summary": "Memory backends implementing the two contracts from ADR 0003: ChatMemory and VectorMemory.",
-          "body": "Conventions — @agentskit/memory Memory backends implementing the two contracts from : ChatMemory and VectorMemory . Scope - ChatMemory implementations : fileChatMemory , sqliteChatMemory , redisChatMemory - VectorMemory implementations : fileVectorMemory , redisVectorMemory - Shared client helpers where reuse is genuine ( redis-client.ts , vector-store.ts ) Adding a new ChatMemory backend 1. Create src/<name -chat.ts . 2. Export a factory: export function sqliteChatMemory(opts): ChatMemory . 3. Implement the six invariants CM1–CM6: - load() returns a snapshot - save() is replace-all , not append - Ordering preserved, atomic from consumer view - Empty state returns [] - clear optional 4. Re-export from src/index.ts . Adding a new VectorMemory backend 1. Create src/<name -vector.ts . 2. Export a factory: export function fileVectorMemory(opts): VectorMemory . 3. Implement the eight invariants VM1–VM8: - store is upsert by id - Dimensionality is a constructor concern — reject mismatches - search returns descending-scored - threshold is exclusive from below - topK is an upper bound, not a floor 4. Re-export from src/index.ts . Configuration - Connection details (file path, URL, credentials) taken at construction. - Do not open connections until first use — defer to load() / save() / store() / search() . - Provide a close() escape hatch for long-lived processes; the contracts don't require it but consumers appreciate it. Testing - In-memory fake per contract for fast tests of consumers ( memory/fakes.ts — not yet present, welcome to add). - Integration tests for each backend using real storage (SQLite file, Redis testcontainer). - Invariant tests : a shared test suite that every backend must pass ( MemoryContractSuite — tracked for future). Common pitfalls Pitfall What to do instead --- --- Implementing save as append Replace-all (CM2). Consumers send full state. Returning null from load on empty Return [] Mixing embedding dimensions in one vector store Reject mismatches at store() time Padding search results to reach topK Return fewer documents; topK is an upper bound Opening connections at import time Defer to first method call Review checklist for this package - [ ] Bundle size under 15KB gzipped - [ ] Coverage threshold holds (80% lines) - [ ] New backend tested against all relevant invariants - [ ] Config accepted at construction; no env reads in the factory - [ ] Documentation for the backend's quirks in package README",
+          "body": "Conventions — @agentskit/memory Memory backends implementing the two contracts from : ChatMemory and VectorMemory . Scope - ChatMemory implementations : fileChatMemory , sqliteChatMemory , redisChatMemory - VectorMemory implementations : fileVectorMemory , redisVectorMemory - Shared client helpers where reuse is genuine ( redis-client.ts , vector-store.ts ) Adding a new ChatMemory backend 1. Create src/<name -chat.ts . 2. Export a factory: export function sqliteChatMemory(opts): ChatMemory . 3. Implement the six invariants CM1–CM6: - load() returns a snapshot - save() is replace-all , not append - Ordering preserved, atomic from consumer view - Empty state returns [] - clear optional 4. Re-export from src/index.ts . Adding a new VectorMemory backend 1. Create src/<name -vector.ts . 2. Export a factory: export function fileVectorMemory(opts): VectorMemory . 3. Implement the eight invariants VM1–VM8: - store is upsert by id - Dimensionality is a constructor concern — reject mismatches - search returns descending-scored - threshold is exclusive from below - topK is an upper bound, not a floor 4. Re-export from src/index.ts . Configuration - Connection details (file path, URL, credentials) taken at construction. - Do not open connections until first use — defer to load() / save() / store() / search() . - Provide a close() escape hatch for long-lived processes; the contracts don't require it but consumers appreciate it. Testing - In-memory fake per contract for fast tests of consumers ( memory/fakes.ts — not yet present, welcome to add). - Integration tests for each backend using real storage (SQLite file, Redis testcontainer). - Invariant tests : a shared test suite that every backend must pass ( MemoryContractSuite — tracked for future). Common pitfalls Pitfall What to do instead --- --- Implementing save as append Replace-all (CM2). Consumers send full state. Returning null from load on empty Return [] Mixing embedding dimensions in one vector store Reject mismatches at store() time Padding search results to reach topK Return fewer documents; topK is an upper bound Opening connections at import time Defer to first method call Review checklist for this package - [ ] Bundle size within the 16KB gzipped budget - [ ] Coverage threshold holds (90% lines) - [ ] New backend tested against all relevant invariants - [ ] Config accepted at construction; no env reads in the factory - [ ] Documentation for the backend's quirks in package README",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -77834,7 +77847,7 @@
             }
           ]
         },
-        "contentHash": "b0361ff9f7d01d7ed1aa63f02685f87ce0eaebcd9a99e4817ef0c9868627c94e",
+        "contentHash": "1c8a5c508b44f18f6231b4daddfaa32f0e1c0c344cdfb0c90e4da4d71c63ab32",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -77856,7 +77869,7 @@
           "path": "packages/memory/README.md",
           "symbols": "",
           "summary": "Profile: <code>major-package</code>",
-          "body": "@agentskit/memory Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Persist conversations and add vector search to your agents — swap backends without changing agent code. Tags: ai · agents · llm · agentskit · ai-agents · memory · vector-db · embeddings · rag · sqlite · redis · vector-search Verified proof - Package metadata and tests live under packages/memory/ . - Package guide: https://www.agentskit.io/docs/reference/packages/memory - Stability map: How this fits the ecosystem @agentskit/memory gives agents continuity: chat history, vector memory, graph memory, encrypted stores, and local or hosted backends. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why memory - Conversations that survive restarts — SQLite for local development, Redis for production; your agent remembers context across sessions with zero code changes - RAG-ready vector search — store and retrieve embeddings with fileVectorMemory (pure JS, no native deps) or Redis vector search for scale - Plug any backend — the VectorStore interface is 3 methods; bring LanceDB, Pinecone, or any custom store in minutes - One interface, every deployment target — swap from inMemory to sqlite to redis without touching agent code Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- With RAG Use a vector backend with createRAG({ embed, store }) — fileVectorMemory and redisVectorMemory implement VectorMemory for chunk storage and search. Features Chat memory (4) - fileChatMemory({ path }) — JSON on disk; zero infra. - sqliteChatMemory({ path }) — WAL-mode SQLite; indexed by session. - redisChatMemory({ client, keyPrefix }) — distributed, serverless-friendly. - tursoChatMemory({ url, authToken? }) — hosted or local libSQL/Turso. All on top of createInMemoryMemory / createLocalStorageMemory from @agentskit/core . Browser Web Storage Use the browser-safe subpath when a host needs validated, bounded storage or sessionStorage instead of the legacy Core localStorage helper: Canonical records are runtime validated. Oversized saves reject with AK MEMORY SAVE FAILED before changing storage. migration may supply legacy keys and a host-owned parser; a legacy key is removed only after canonical persistence succeeds. Vector memory (11) - fileVectorMemory — pure-JS, file-persisted (good to ~10k vectors). - redisVectorMemory — Redis Stack / Redis 8+ HNSW. - pgvector — BYO SQL runner ( postgres.js , pg , Drizzle, Prisma, Neon). - pinecone — managed; namespaces + metadata filters. - qdrant — self-hosted or cloud via HTTP. - chroma — Chroma v2 HTTP client with tenant, database, and token support. - upstashVector — serverless HTTP. - supabaseVectorStore — Supabase-hosted pgvector RPC. - weaviateVectorStore — Weaviate Cloud or self-hosted HTTP. - milvusVectorStore — Milvus/Zilliz REST API. - mongoAtlasVectorStore — MongoDB Atlas Vector Search with an injected collection. Vector adapters follow ADR 0003: a result is included only when its score is strictly greater than threshold . Remote HTTP adapters accept timeoutMs and maxResponseBytes ; configure both for production workloads. File KV writes are atomic and serialized across instances in one process. They are not a multi-process coordination primitive; use SQLite, Redis, or another external store when several processes write the same file. Same 3-method VectorStore contract — swap without touching agent code. Higher-order wrappers (6) - createHierarchicalMemory — MemGPT-style tiers: working / recall / archival. . - createVirtualizedMemory — hot window + cold retriever for long sessions. . - createAutoSummarizingMemory (via @agentskit/core/auto-s",
+          "body": "@agentskit/memory Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Persist conversations and add vector search to your agents — swap backends without changing agent code. Tags: ai · agents · llm · agentskit · ai-agents · memory · vector-db · embeddings · rag · sqlite · redis · vector-search Verified proof - Package metadata and tests live under packages/memory/ . - Package guide: https://www.agentskit.io/docs/reference/packages/memory - Stability map: How this fits the ecosystem @agentskit/memory gives agents continuity: chat history, vector memory, graph memory, encrypted stores, and local or hosted backends. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why memory - Conversations that survive restarts — SQLite for local development, Redis for production; your agent remembers context across sessions with zero code changes - RAG-ready vector search — store and retrieve embeddings with fileVectorMemory (pure JS, no native deps) or Redis vector search for scale - Plug any backend — the VectorStore interface is 3 methods; bring LanceDB, Pinecone, or any custom store in minutes - One interface, every deployment target — swap from inMemory to sqlite to redis without touching agent code Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- With RAG Use a vector backend with createRAG({ embed, store }) — fileVectorMemory and redisVectorMemory implement VectorMemory for chunk storage and search. Features Chat memory (4) - fileChatMemory({ path }) — JSON on disk; zero infra. - sqliteChatMemory({ path }) — WAL-mode SQLite; indexed by session. - redisChatMemory({ client, keyPrefix }) — distributed, serverless-friendly. - tursoChatMemory({ url, authToken? }) — hosted or local libSQL/Turso. All on top of createInMemoryMemory / createLocalStorageMemory from @agentskit/core . Browser Web Storage Use the browser-safe subpath when a host needs validated, bounded storage or sessionStorage instead of the legacy Core localStorage helper: Canonical records are runtime validated. Oversized saves reject with AK MEMORY SAVE FAILED before changing storage. migration may supply legacy keys and a host-owned parser; a legacy key is removed only after canonical persistence succeeds. Vector memory (11) - fileVectorMemory — pure-JS, file-persisted (good to ~10k vectors). - redisVectorMemory — Redis Stack / Redis 8+ HNSW. - pgvector — BYO SQL runner ( postgres.js , pg , Drizzle, Prisma, Neon). - pinecone — managed; namespaces + metadata filters. - qdrant — self-hosted or cloud via HTTP. - chroma — Chroma v2 HTTP client with tenant, database, and token support. - upstashVector — serverless HTTP. - supabaseVectorStore — Supabase-hosted pgvector RPC. - weaviateVectorStore — Weaviate Cloud or self-hosted HTTP. - milvusVectorStore — Milvus/Zilliz REST API. - mongoAtlasVectorStore — MongoDB Atlas Vector Search with an injected collection. Vector adapters follow ADR 0003: a result is included only when its score is strictly greater than threshold . Remote HTTP adapters accept timeoutMs and maxResponseBytes , defaulting to 15 seconds and 2 MiB; both require positive safe integers. Injected fetch and caller signal are also supported. Timeout and response-limit failures use AK MEMORY REMOTE HTTP . File KV writes are atomic and serialized across instances in one process. They are not a multi-process coordination primitive; use SQLite, Redis, or another external store when several processes write the same file. Same 3-method VectorStore contract — swap without touching agent code. Higher-order wrappers (6) - createHierarchicalMemory — MemGPT-style tiers: working / recall",
           "aliases": "document project"
         },
         "graph": {
@@ -78028,7 +78041,7 @@
             }
           ]
         },
-        "contentHash": "907edcc9eb4cd172f5dab682945c3e57f021744000eb52b197ed80f71ae05502",
+        "contentHash": "ddfb926a3bb058a47bc74c00ba52260c894f751597691210caef2374676a6d4a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -148019,6 +148032,11 @@
               "kind": "imports",
               "id": "module:packages/memory/tests/kv-store-vector.test.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/tests/vector-http.integration.test.ts",
+              "confidence": "observed"
             }
           ],
           "outbound": [
@@ -149563,7 +149581,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "b7098a2fd0a3e25dbefc8fefd5cf2fd521a294584daff89be576416c54379ada",
+        "contentHash": "b569634f62a146a743ffbcbac4e822a0bd4c2b04bef224884fa8e8bc146d279d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -151358,7 +151376,7 @@
             }
           ]
         },
-        "contentHash": "688ccd2a942fce7dbc3e71a48f61be84075779b8e3c10a17af084e2854dc1e0d",
+        "contentHash": "c0a5ab05d96142a3536c1e498f5c613acd9d11fe984e3e450cdde131c8ccb800",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -151834,6 +151852,46 @@
           ]
         },
         "contentHash": "fcd9576b05311f92445fe032f4c3bb2e705706422c7fa6683d8132baa462f6da",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/memory/tests/vector-http.integration.test.ts",
+        "kind": "module",
+        "path": "packages/memory/tests/vector-http.integration.test.ts",
+        "title": "vector-http.integration.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "vector-http.integration.test.ts",
+          "headings": "",
+          "path": "packages/memory/tests/vector-http.integration.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/memory",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/memory/src/index.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "a9cb9c413d878ed38562f791207063c1ec18640b59db6312e978424f0f630ca4",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -189670,7 +189728,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "4804ced18fc5c9d9e946dff08514cd5b65beb28121956515eff3f16498e51207",
+        "contentHash": "df30a98ac7e3140a08907e4c459971aaac1c60be6eae9442a7757b3775ed0586",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "memory"
