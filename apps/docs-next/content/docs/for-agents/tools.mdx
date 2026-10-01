@@ -14,12 +14,12 @@ npm install @agentskit/tools
 
 ## Primary exports (main entry)
 
-- `webSearch`, `fetchUrl`, `filesystem`, `shell` — core built-ins.
+- `webSearch`, `fetchUrl`, `filesystem`, `shell` — core built-ins. `webSearch` provider bodies default to a 2 MiB cap (`maxResponseBytes`) and are cancelled on overflow.
 - `sqliteQueryTool` — parameterized SQLite query tool.
 - `slackTool` — Slack incoming-webhook tool (lighter than the OAuth `integrations/slack`).
 - `defineZodTool` — define tools with Zod schemas.
 - `listTools` — discovery helper.
-- `safeFetch` — `fetch` with default-deny egress (ADR-0010): blocks private/loopback/link-local hosts (SSRF) and re-gates every redirect hop. Use for any tool fetching a model-influenced URL. Companions: `checkEgress`, `isPrivateHost`, `isPrivateIPv4`, `isPrivateIPv6`; policy type `EgressPolicy`.
+- `safeFetch` — default-deny egress (ADR-0010): blocks non-public IPv4/IPv6 ranges, including CGNAT, mapped IPv4, unique-local, and metadata addresses, and re-gates every redirect hop. Node DNS checks all answers and fails closed; `allowedHosts` and `allowPrivateHosts` are explicit exceptions for vetted targets. DNS preflight does not prevent rebinding. It applies WHATWG URL canonicalization before checking numeric authorities. Use it for model-influenced URLs. Companions: `checkEgress`, `isPrivateHost`, `isPrivateIPv4`, `isPrivateIPv6`; policy type `EgressPolicy`.
 
 ## Subpath exports
 
@@ -48,5 +48,5 @@ const tools = [
 
 ## Source
 
-- npm: https://www.npmjs.com/package/@agentskit/tools
-- repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/tools
+- npm: [@agentskit/tools](https://www.npmjs.com/package/@agentskit/tools)
+- repo: [packages/tools](https://github.com/AgentsKit-io/agentskit/tree/main/packages/tools)

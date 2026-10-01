@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "44fd51d359fd8e64f8771f626606238b704ac7b1b83b6304895278f6c5672971",
+  "contentHash": "030edfeacb25e19da35a6324d1287243c1467b3df9101b012dbcbd8b91f8549d",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-01T13:47:27.860Z",
+  "generatedAt": "2026-10-01T14:42:27.317Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -3975,7 +3975,7 @@
         "document",
         "human"
       ],
-      "contentHash": "3823b35c087bcde5ff723181b57e87d4377224cebbdb848326013d967596fbfa"
+      "contentHash": "2acf6dac8b9f156ec82d54e67bce3e274c6eb19c28e3779c620f4c010f8546f1"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/packages/vue.mdx",
@@ -7419,7 +7419,7 @@
         "document",
         "project"
       ],
-      "contentHash": "283dfd82faf58286490c7d4369e92b12438343636c7e34811363bec187a0ce45"
+      "contentHash": "ceae77c3c3373fb535ee36a8b8573475e07f0ad689443412852bab525a3cf84b"
     },
     {
       "id": "document:packages/validation/CONVENTIONS.md",
@@ -33895,7 +33895,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "85d748afd9210c9ce216116fe2fc8e961955390b6a383b8dd63705c7ce6250ea"
+      "contentHash": "f9d6bbe21588f95b74d14188a2ac5970948d1d3f44c26a8a3333c76d9221b9d9"
     },
     {
       "id": "module:packages/tools/src/shell.ts",
@@ -33961,7 +33961,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "3cb9f5b2be874c649f067f99aa8f8b12a5313537548769e5c1efa550c79f09fa"
+      "contentHash": "d016db5379af630c5139bd63f9dc842bef2e9a0bd8d5d3d8776ef7f4f38629f0"
     },
     {
       "id": "module:packages/tools/src/zod.ts",
@@ -34097,6 +34097,19 @@
       "contentHash": "cba03b9606ecabd8c6543998984aa1bb29e687188d54d144fdc6b29919b234b1"
     },
     {
+      "id": "module:packages/tools/tests/safe-fetch-dns.test.ts",
+      "type": "module",
+      "title": "safe-fetch-dns.test.ts",
+      "path": "packages/tools/tests/safe-fetch-dns.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "758815a02015671e880f39bae54bb6488c06b0fbd978b5746da6767b9b1c61da"
+    },
+    {
       "id": "module:packages/tools/tests/safe-fetch.test.ts",
       "type": "module",
       "title": "safe-fetch.test.ts",
@@ -34107,7 +34120,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "d1ad4481b697bde984c37639bf0382bd41e9e373ce9d55dbb23334b84ed4c47a"
+      "contentHash": "190df1ec8563d6749c4dbf8cc81256240f5c1f1d6700f1f079b7f6963d4f73e8"
     },
     {
       "id": "module:packages/tools/tests/shell.test.ts",
@@ -34198,7 +34211,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "d219e1c2b062ce79f8f99aaa16b24c4753356dbbb3bb86fc5809f1c1ef27f54e"
+      "contentHash": "f79d027b6857b19d3a87983d149eb1222078e77a848e78ca3fe2c87e952a018a"
     },
     {
       "id": "module:packages/tools/tests/zod.test.ts",
@@ -37429,8 +37442,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "624aba33f66c31b3e6c39adfb96336928d0bcb3de0b012155d60bae392476dc9",
-    "fileCount": 2487,
+    "hash": "695e07719a32f4dbf2b7fa490f6b46bfdeca147e5e71260b78138ef762328d85",
+    "fileCount": 2488,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37452,9 +37465,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "e28e877399ace1e0f075c8456487e80c14bb8c6d43cb6622f693a2f0f5444421",
+    "contentHash": "78acd5d9418813fe9a772c92bdcf65ee3c309a66e0722d2090e5c43747e5e337",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "2c8f62712867c795749476da27b7bf18574f3da235f500028ea740a5ff87b334",
+    "snapshotHash": "9507b55b96eb40b64c116fb49d9c65756a3e7bf68c1759176b284924e34a002d",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37474,7 +37487,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2441,
+      "documentCount": 2442,
       "fieldNames": [
         "aliases",
         "body",
@@ -37485,13 +37498,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.010241704219582,
-        "body": 61.14829987709955,
-        "headings": 4.038099139696846,
-        "path": 7.6214666120442445,
-        "summary": 4.561655059401884,
-        "symbols": 7.5030725112658745,
-        "title": 3.3322408848832445
+        "aliases": 3.0106470106470105,
+        "body": 61.18386568386568,
+        "headings": 4.037674037674038,
+        "path": 7.622031122031122,
+        "summary": 4.572072072072072,
+        "symbols": 7.5,
+        "title": 3.3333333333333335
       }
     },
     "entries": [
@@ -39824,14 +39837,20 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 2,
+          "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
+            "document:apps/docs-next/content/docs/for-agents/tools.mdx",
             "document:apps/docs-next/content/docs/reference/packages/tools.mdx",
             "document:README.md"
           ],
           "packageId": "package:@agentskit/tools",
           "inbound": [
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/for-agents/tools.mdx",
+              "confidence": "fuzzy"
+            },
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/reference/packages/tools.mdx",
@@ -52458,7 +52477,7 @@
         "kind": "document",
         "path": "apps/docs-next/content/docs/for-agents/tools.mdx",
         "title": "tools",
-        "summary": "webSearch, fetchUrl, filesystem, shell — core built-ins.",
+        "summary": "webSearch, fetchUrl, filesystem, shell — core built-ins. webSearch provider bodies default to a 2 MiB cap (maxResponseBytes) and are cancelled on overflow.",
         "audience": "agent",
         "aliases": [
           "tools"
@@ -52472,8 +52491,8 @@
           "headings": "Install Primary exports (main entry) Subpath exports Minimal example Related Source",
           "path": "apps/docs-next/content/docs/for-agents/tools.mdx",
           "symbols": "",
-          "summary": "webSearch, fetchUrl, filesystem, shell — core built-ins.",
-          "body": "Install Primary exports (main entry) - webSearch , fetchUrl , filesystem , shell — core built-ins. - sqliteQueryTool — parameterized SQLite query tool. - slackTool — Slack incoming-webhook tool (lighter than the OAuth integrations/slack ). - defineZodTool — define tools with Zod schemas. - listTools — discovery helper. - safeFetch — fetch with default-deny egress (ADR-0010): blocks private/loopback/link-local hosts (SSRF) and re-gates every redirect hop. Use for any tool fetching a model-influenced URL. Companions: checkEgress , isPrivateHost , isPrivateIPv4 , isPrivateIPv6 ; policy type EgressPolicy . Subpath exports Subpath Contents --- --- @agentskit/tools/mcp createMcpClient , createMcpServer , toolsFromMcpClient , createStdioTransport , createInMemoryTransportPair . See . @agentskit/tools/integrations Communication: slack , discord , gmail , twilio . Project tracking: linear , linearTriage , jira , confluence , notion . Source / CI: github , githubActions . Customer / commerce: hubspot , airtable , shopify , stripe , stripeWebhookTool (+ verifyStripeSignature ). Calendars / docs: googleCalendar , figma . Web / scraping: firecrawl , reader , documentParsers , browserAgent . Media: openaiImages , elevenlabs , whisper , deepgram . Data: postgres , postgresWithRoles , s3 , cloudflareR2 , coingecko , maps , weather . Operations: pagerduty , sentry . See + . Minimal example Related - — chain tools. - — enforce a sandbox policy across tools. - . Source - npm: https://www.npmjs.com/package/@agentskit/tools - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/tools",
+          "summary": "webSearch, fetchUrl, filesystem, shell — core built-ins. webSearch provider bodies default to a 2 MiB cap (maxResponseBytes) and are cancelled on overflow.",
+          "body": "Install Primary exports (main entry) - webSearch , fetchUrl , filesystem , shell — core built-ins. webSearch provider bodies default to a 2 MiB cap ( maxResponseBytes ) and are cancelled on overflow. - sqliteQueryTool — parameterized SQLite query tool. - slackTool — Slack incoming-webhook tool (lighter than the OAuth integrations/slack ). - defineZodTool — define tools with Zod schemas. - listTools — discovery helper. - safeFetch — default-deny egress (ADR-0010): blocks non-public IPv4/IPv6 ranges, including CGNAT, mapped IPv4, unique-local, and metadata addresses, and re-gates every redirect hop. Node DNS checks all answers and fails closed; allowedHosts and allowPrivateHosts are explicit exceptions for vetted targets. DNS preflight does not prevent rebinding. It applies WHATWG URL canonicalization before checking numeric authorities. Use it for model-influenced URLs. Companions: checkEgress , isPrivateHost , isPrivateIPv4 , isPrivateIPv6 ; policy type EgressPolicy . Subpath exports Subpath Contents --- --- @agentskit/tools/mcp createMcpClient , createMcpServer , toolsFromMcpClient , createStdioTransport , createInMemoryTransportPair . See . @agentskit/tools/integrations Communication: slack , discord , gmail , twilio . Project tracking: linear , linearTriage , jira , confluence , notion . Source / CI: github , githubActions . Customer / commerce: hubspot , airtable , shopify , stripe , stripeWebhookTool (+ verifyStripeSignature ). Calendars / docs: googleCalendar , figma . Web / scraping: firecrawl , reader , documentParsers , browserAgent . Media: openaiImages , elevenlabs , whisper , deepgram . Data: postgres , postgresWithRoles , s3 , cloudflareR2 , coingecko , maps , weather . Operations: pagerduty , sentry . See + . Minimal example Related - — chain tools. - — enforce a sandbox policy across tools. - . Source - npm: - repo:",
           "aliases": "tools document agent"
         },
         "graph": {
@@ -52490,12 +52509,22 @@
             },
             {
               "kind": "mentions",
+              "id": "area:packages/tools/src/mcp",
+              "confidence": "fuzzy"
+            },
+            {
+              "kind": "mentions",
               "id": "package:@agentskit/runtime",
               "confidence": "observed"
             },
             {
               "kind": "mentions",
               "id": "package:@agentskit/sandbox",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/tools",
               "confidence": "observed"
             },
             {
@@ -52740,7 +52769,7 @@
             }
           ]
         },
-        "contentHash": "2171f2b598e4d9e48f588808d164188e6b98dc556a16d2b2d0f396b504b4f9b4",
+        "contentHash": "5f3aba5a8a8c1b144fe2cc6f921f60b1b2df5788f20e0c66d63c1ef0292891d2",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -60790,7 +60819,7 @@
           "path": "apps/docs-next/content/docs/reference/packages/tools.mdx",
           "symbols": "",
           "summary": "@agentskit/tools is what turns a model from “something that answers” into “something that can actually do work”. It is the action layer of the ecosystem.",
-          "body": "@agentskit/tools is what turns a model from “something that answers” into “something that can actually do work”. It is the action layer of the ecosystem. When to reach for it - You need ready-made tools (web search, file I/O, shell). - You want GitHub / Linear / Slack / Notion / Stripe / Postgres / S3 / … - You want to speak MCP (consume or publish). Best fit - Start here when prompts alone stop being enough. - Pair with for autonomous agents and workflows. - Pair with when you want tool-aware chat surfaces and confirmations. - Pair with and security recipes before enabling risky actions. Install Hello world Most production agents become valuable only once this layer is in place. Surface - Main: webSearch · fetchUrl · filesystem · shell · defineZodTool . - /integrations : github · linear · slack · notion · discord · gmail · googleCalendar · stripe · postgres · s3 · firecrawl · reader · documentParsers · openaiImages · elevenlabs · whisper · deepgram · maps · weather · coingecko · browserAgent . - /mcp : createMcpClient · createMcpServer · toolsFromMcpClient · createStdioTransport · createInMemoryTransportPair . Recipes - - - - - - Stability - Version: 0.13.12 - Tier: beta - Contract: evolving - Roadmap: see for what this package needs to reach v1.0. Related - - - - Source npm: · repo:",
+          "body": "@agentskit/tools is what turns a model from “something that answers” into “something that can actually do work”. It is the action layer of the ecosystem. When to reach for it - You need ready-made tools (web search, file I/O, shell). - You want GitHub / Linear / Slack / Notion / Stripe / Postgres / S3 / … - You want to speak MCP (consume or publish). Best fit - Start here when prompts alone stop being enough. - Pair with for autonomous agents and workflows. - Pair with when you want tool-aware chat surfaces and confirmations. - Pair with and security recipes before enabling risky actions. Install Hello world Most production agents become valuable only once this layer is in place. Surface - Main: webSearch · fetchUrl · filesystem · shell · defineZodTool . - /integrations : github · linear · slack · notion · discord · gmail · googleCalendar · stripe · postgres · s3 · firecrawl · reader · documentParsers · openaiImages · elevenlabs · whisper · deepgram · maps · weather · coingecko · browserAgent . - /mcp : createMcpClient · createMcpServer · toolsFromMcpClient · createStdioTransport · createInMemoryTransportPair . safeFetch(input, init?, policy?) defaults to denying non-public addresses, uses Node DNS to check every hostname answer, and re-gates each manual redirect. Vetted internal targets require an explicit allowedHosts entry or allowPrivateHosts: true ; the DNS preflight does not prevent rebinding. The isPrivateIPv4 and isPrivateHost helpers retain decimal handling for zero-padded dotted quads; safeFetch applies WHATWG URL canonicalization first. webSearch() reads provider responses through @agentskit/net with a 2 MiB default byte cap ( maxResponseBytes ) and cancels the stream on overflow. Recipes - - - - - - Stability - Version: 0.13.12 - Tier: beta - Contract: evolving - Roadmap: see for what this package needs to reach v1.0. Related - - - - Source npm: · repo:",
           "aliases": "document human"
         },
         "graph": {
@@ -60809,6 +60838,11 @@
               "kind": "mentions",
               "id": "area:packages/tools/src/mcp",
               "confidence": "fuzzy"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/net",
+              "confidence": "observed"
             },
             {
               "kind": "mentions",
@@ -60962,6 +60996,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/tools/src/safe-fetch.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/tools/src/shell.ts",
               "confidence": "observed"
             },
@@ -60977,7 +61016,7 @@
             }
           ]
         },
-        "contentHash": "3823b35c087bcde5ff723181b57e87d4377224cebbdb848326013d967596fbfa",
+        "contentHash": "2acf6dac8b9f156ec82d54e67bce3e274c6eb19c28e3779c620f4c010f8546f1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -80706,11 +80745,11 @@
         ],
         "fields": {
           "title": "@agentskit/tools",
-          "headings": "@agentskit/tools Verified proof How this fits the ecosystem Why tools Install Quick example With useChat (browser) Authoring tools with defineZodTool Features Built-ins (6) Integrations (20+) Authoring + composition MCP bridge Subpaths Ecosystem Contributors License Docs Maturity and compatibility Contributing",
+          "headings": "@agentskit/tools Verified proof How this fits the ecosystem Why tools Install Quick example With useChat (browser) Authoring tools with defineZodTool Features Built-ins (6) Safe outbound requests Integrations (20+) Authoring + composition MCP bridge Subpaths Ecosystem Contributors License Docs Maturity and compatibility Contributing",
           "path": "packages/tools/README.md",
           "symbols": "",
           "summary": "Profile: <code>major-package</code>",
-          "body": "@agentskit/tools Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Give your agents real-world capabilities without writing a single integration. Tags: ai · agents · llm · agentskit · ai-agents · function-calling · tool-use · mcp · web-search · filesystem Verified proof - Package metadata and tests live under packages/tools/ . - Package guide: https://www.agentskit.io/docs/reference/packages/tools - Stability map: How this fits the ecosystem @agentskit/tools gives agents useful hands: web fetch, search, filesystem, shell, SQLite, integrations, and MCP-friendly tool definitions. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why tools - Save days of integration work — web search, filesystem read/write, shell execution, and directory listing are ready to drop in; no wiring required - Safe by default — filesystem tools are sandboxed to a basePath , shell commands require an explicit allowlist, so agents can't escape their boundaries - Composable with any runtime — tools are just objects with a schema; they work with @agentskit/runtime , useChat , or any custom ReAct loop - Extend without friction — author custom tools with @agentskit/templates and register them the same way as built-ins Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- With useChat (browser) Tools are plain ToolDefinition values — register them in the same way as in createRuntime . Authoring tools with defineZodTool If you use , @agentskit/tools ships defineZodTool — a factory that: - Types execute args from a Zod schema (full TypeScript inference) - Validates args at runtime via schema.parse before calling your function - Converts the Zod schema to JSON Schema for the adapter via a user-supplied toJsonSchema callback Zod and zod-to-json-schema are consumer-owned optional dependencies . They are not package peers because defineZodTool accepts a structural schema and a consumer-supplied JSON-Schema converter. For tools without Zod, use defineTool from @agentskit/core with a JSON Schema as const . Features Built-ins (6) - webSearch() — live web search with Serper, Tavily, DuckDuckGo, or a custom provider. - fetchUrl() — safe HTTP GET with JSON / text handling, size cap, boilerplate stripping. - filesystem({ basePath }) — sandboxed read, write, and list operations. - shell({ allowed }) — shell execution with command allow-list + timeout. - sqliteQueryTool({ path }) — read-only SQL against a local SQLite file. Optional peer dep on better-sqlite3 . Note: never feed unvalidated user prompts straight into the sql field — wrap with input filtering or use parameterized helpers if exposing it to untrusted input. - slackTool({ webhookUrl }) — post to a Slack Incoming Webhook. For Bearer-token features (search, channel listing), use the slack() integration. Integrations (20+) github , linear , slack , notion , discord , gmail , googleCalendar , stripe , postgres , s3 , firecrawl , reader , documentParsers (PDF / DOCX / XLSX), openaiImages , elevenlabs , whisper , deepgram , maps , weather , coingecko , browserAgent (Puppeteer). Each integration exports granular sub-tools (e.g. githubCreateIssue , stripeCreatePaymentIntent ) alongside the bundled set. Authoring + composition - defineZodTool — Zod-based factory with runtime validation + type inference. - For composition, use composeTool and wrapToolWithSelfDebug from @agentskit/core . - For execution policy, use createMandatorySandbox from @agentskit/sandbox . MCP bridge - createMcpClient + toolsFromMcpClient — consume any MCP server's tools. - createMcpServer — publish AgentsKit tools to an MCP host that supports the documen",
+          "body": "@agentskit/tools Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Give your agents real-world capabilities without writing a single integration. Tags: ai · agents · llm · agentskit · ai-agents · function-calling · tool-use · mcp · web-search · filesystem Verified proof - Package metadata and tests live under packages/tools/ . - Package guide: https://www.agentskit.io/docs/reference/packages/tools - Stability map: How this fits the ecosystem @agentskit/tools gives agents useful hands: web fetch, search, filesystem, shell, SQLite, integrations, and MCP-friendly tool definitions. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why tools - Save days of integration work — web search, filesystem read/write, shell execution, and directory listing are ready to drop in; no wiring required - Safe by default — filesystem tools are sandboxed to a basePath , shell commands require an explicit allowlist, so agents can't escape their boundaries - Composable with any runtime — tools are just objects with a schema; they work with @agentskit/runtime , useChat , or any custom ReAct loop - Extend without friction — author custom tools with @agentskit/templates and register them the same way as built-ins Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- With useChat (browser) Tools are plain ToolDefinition values — register them in the same way as in createRuntime . Authoring tools with defineZodTool If you use , @agentskit/tools ships defineZodTool — a factory that: - Types execute args from a Zod schema (full TypeScript inference) - Validates args at runtime via schema.parse before calling your function - Converts the Zod schema to JSON Schema for the adapter via a user-supplied toJsonSchema callback Zod and zod-to-json-schema are consumer-owned optional dependencies . They are not package peers because defineZodTool accepts a structural schema and a consumer-supplied JSON-Schema converter. For tools without Zod, use defineTool from @agentskit/core with a JSON Schema as const . Features Built-ins (6) - webSearch() — live web search with Serper, Tavily, DuckDuckGo, or a custom provider. - fetchUrl() — safe HTTP GET with JSON / text handling, size cap, boilerplate stripping. - filesystem({ basePath }) — sandboxed read, write, and list operations. - shell({ allowed }) — shell execution with command allow-list + timeout. - sqliteQueryTool({ path }) — read-only SQL against a local SQLite file. Optional peer dep on better-sqlite3 . Note: never feed unvalidated user prompts straight into the sql field — wrap with input filtering or use parameterized helpers if exposing it to untrusted input. - slackTool({ webhookUrl }) — post to a Slack Incoming Webhook. For Bearer-token features (search, channel listing), use the slack() integration. Safe outbound requests safeFetch(input, init?, policy?) defaults to denying non-public hosts and re-checks every redirect hop. Address classification comes from @agentskit/net , so reserved, unspecified, multicast, CGNAT, IPv4-mapped private, and other non-unicast ranges are blocked as well as private, loopback, and link-local addresses. Hostname checks use Node DNS and fail closed if any result is non-public or lookup fails. isPrivateIPv4 and isPrivateHost keep their legacy decimal handling for zero-padded dotted quads ( 010.0.0.1 means 10.0.0.1 ). safeFetch first applies WHATWG URL canonicalization; avoid ambiguous numeric URL forms. For a vetted internal target, pass an exact allowedHosts entry or set allowPrivateHosts: true ; redirects still pass through the selected policy. The DNS preflight does not pin the resolve",
           "aliases": "document project"
         },
         "graph": {
@@ -80753,6 +80792,11 @@
             {
               "kind": "mentions",
               "id": "package:@agentskit/mcp",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/net",
               "confidence": "observed"
             },
             {
@@ -80937,12 +80981,17 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/tools/src/safe-fetch.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/tools/src/zod.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "283dfd82faf58286490c7d4369e92b12438343636c7e34811363bec187a0ce45",
+        "contentHash": "ceae77c3c3373fb535ee36a8b8573475e07f0ad689443412852bab525a3cf84b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -178466,7 +178515,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 11,
+          "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0010-egress-policy.md",
@@ -178475,11 +178524,13 @@
             "document:apps/docs-next/content/docs/agents/tools/integrations/whisper.mdx",
             "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
             "document:apps/docs-next/content/docs/for-agents/tools.mdx",
+            "document:apps/docs-next/content/docs/reference/packages/tools.mdx",
             "document:docs/architecture/adrs/0010-egress-policy.md",
             "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
             "document:docs/security/threat-model.md",
             "document:packages/integrations/CONVENTIONS.md",
-            "document:packages/integrations/README.md"
+            "document:packages/integrations/README.md",
+            "document:packages/tools/README.md"
           ],
           "packageId": "package:@agentskit/tools",
           "inbound": [
@@ -178506,6 +178557,11 @@
             {
               "kind": "imports",
               "id": "module:packages/tools/src/web-search.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/tests/safe-fetch-dns.test.ts",
               "confidence": "observed"
             },
             {
@@ -178545,6 +178601,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/reference/packages/tools.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "document:docs/architecture/adrs/0010-egress-policy.md",
               "confidence": "observed"
             },
@@ -178569,6 +178630,11 @@
               "confidence": "observed"
             },
             {
+              "kind": "mentions-symbol",
+              "id": "document:packages/tools/README.md",
+              "confidence": "observed"
+            },
+            {
               "kind": "re-exports",
               "id": "module:packages/tools/src/index.ts",
               "confidence": "observed"
@@ -178576,7 +178642,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "85d748afd9210c9ce216116fe2fc8e961955390b6a383b8dd63705c7ce6250ea",
+        "contentHash": "f9d6bbe21588f95b74d14188a2ac5970948d1d3f44c26a8a3333c76d9221b9d9",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -178940,7 +179006,7 @@
             }
           ]
         },
-        "contentHash": "3cb9f5b2be874c649f067f99aa8f8b12a5313537548769e5c1efa550c79f09fa",
+        "contentHash": "d016db5379af630c5139bd63f9dc842bef2e9a0bd8d5d3d8776ef7f4f38629f0",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -179432,6 +179498,46 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/tools/tests/safe-fetch-dns.test.ts",
+        "kind": "module",
+        "path": "packages/tools/tests/safe-fetch-dns.test.ts",
+        "title": "safe-fetch-dns.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "safe-fetch-dns.test.ts",
+          "headings": "",
+          "path": "packages/tools/tests/safe-fetch-dns.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/tools",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/safe-fetch.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "758815a02015671e880f39bae54bb6488c06b0fbd978b5746da6767b9b1c61da",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/tools/tests/safe-fetch.test.ts",
         "kind": "module",
         "path": "packages/tools/tests/safe-fetch.test.ts",
@@ -179467,7 +179573,7 @@
             }
           ]
         },
-        "contentHash": "d1ad4481b697bde984c37639bf0382bd41e9e373ce9d55dbb23334b84ed4c47a",
+        "contentHash": "190df1ec8563d6749c4dbf8cc81256240f5c1f1d6700f1f079b7f6963d4f73e8",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -179747,7 +179853,7 @@
             }
           ]
         },
-        "contentHash": "d219e1c2b062ce79f8f99aaa16b24c4753356dbbb3bb86fc5809f1c1ef27f54e",
+        "contentHash": "f79d027b6857b19d3a87983d149eb1222078e77a848e78ca3fe2c87e952a018a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -189544,7 +189650,7 @@
         },
         "graph": {
           "pagerank": 0.005326,
-          "inboundLinks": 9,
+          "inboundLinks": 11,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/net.mdx",
             "document:apps/docs-next/content/docs/reference/packages/net.mdx"
@@ -189552,11 +189658,13 @@
           "mentionedBy": [
             "document:apps/docs-next/content/docs/reference/packages/net.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx",
+            "document:apps/docs-next/content/docs/reference/packages/tools.mdx",
             "document:docs/architecture/adrs/0010-egress-policy.md",
             "document:docs/architecture/adrs/0037-net-package.md",
             "document:docs/STABILITY.md",
             "document:packages/net/CONVENTIONS.md",
-            "document:packages/net/README.md"
+            "document:packages/net/README.md",
+            "document:packages/tools/README.md"
           ],
           "packageId": "package:@agentskit/net",
           "inbound": [
@@ -189582,6 +189690,11 @@
             },
             {
               "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/reference/packages/tools.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
               "id": "document:docs/architecture/adrs/0010-egress-policy.md",
               "confidence": "observed"
             },
@@ -189603,6 +189716,11 @@
             {
               "kind": "mentions",
               "id": "document:packages/net/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/tools/README.md",
               "confidence": "observed"
             }
           ],
@@ -192840,7 +192958,7 @@
         "kind": "package",
         "path": "packages/tools",
         "title": "tools",
-        "summary": "webSearch, fetchUrl, filesystem, shell — core built-ins.",
+        "summary": "webSearch, fetchUrl, filesystem, shell — core built-ins. webSearch provider bodies default to a 2 MiB cap (maxResponseBytes) and are cancelled on overflow.",
         "audience": "agent",
         "aliases": [
           "tools",
@@ -192855,8 +192973,8 @@
           "headings": "Install Primary exports (main entry) Subpath exports Minimal example Related Source",
           "path": "packages/tools",
           "symbols": "",
-          "summary": "webSearch, fetchUrl, filesystem, shell — core built-ins.",
-          "body": "Install Primary exports (main entry) - webSearch , fetchUrl , filesystem , shell — core built-ins. - sqliteQueryTool — parameterized SQLite query tool. - slackTool — Slack incoming-webhook tool (lighter than the OAuth integrations/slack ). - defineZodTool — define tools with Zod schemas. - listTools — discovery helper. - safeFetch — fetch with default-deny egress (ADR-0010): blocks private/loopback/link-local hosts (SSRF) and re-gates every redirect hop. Use for any tool fetching a model-influenced URL. Companions: checkEgress , isPrivateHost , isPrivateIPv4 , isPrivateIPv6 ; policy type EgressPolicy . Subpath exports Subpath Contents --- --- @agentskit/tools/mcp createMcpClient , createMcpServer , toolsFromMcpClient , createStdioTransport , createInMemoryTransportPair . See . @agentskit/tools/integrations Communication: slack , discord , gmail , twilio . Project tracking: linear , linearTriage , jira , confluence , notion . Source / CI: github , githubActions . Customer / commerce: hubspot , airtable , shopify , stripe , stripeWebhookTool (+ verifyStripeSignature ). Calendars / docs: googleCalendar , figma . Web / scraping: firecrawl , reader , documentParsers , browserAgent . Media: openaiImages , elevenlabs , whisper , deepgram . Data: postgres , postgresWithRoles , s3 , cloudflareR2 , coingecko , maps , weather . Operations: pagerduty , sentry . See + . Minimal example Related - — chain tools. - — enforce a sandbox policy across tools. - . Source - npm: https://www.npmjs.com/package/@agentskit/tools - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/tools",
+          "summary": "webSearch, fetchUrl, filesystem, shell — core built-ins. webSearch provider bodies default to a 2 MiB cap (maxResponseBytes) and are cancelled on overflow.",
+          "body": "Install Primary exports (main entry) - webSearch , fetchUrl , filesystem , shell — core built-ins. webSearch provider bodies default to a 2 MiB cap ( maxResponseBytes ) and are cancelled on overflow. - sqliteQueryTool — parameterized SQLite query tool. - slackTool — Slack incoming-webhook tool (lighter than the OAuth integrations/slack ). - defineZodTool — define tools with Zod schemas. - listTools — discovery helper. - safeFetch — default-deny egress (ADR-0010): blocks non-public IPv4/IPv6 ranges, including CGNAT, mapped IPv4, unique-local, and metadata addresses, and re-gates every redirect hop. Node DNS checks all answers and fails closed; allowedHosts and allowPrivateHosts are explicit exceptions for vetted targets. DNS preflight does not prevent rebinding. It applies WHATWG URL canonicalization before checking numeric authorities. Use it for model-influenced URLs. Companions: checkEgress , isPrivateHost , isPrivateIPv4 , isPrivateIPv6 ; policy type EgressPolicy . Subpath exports Subpath Contents --- --- @agentskit/tools/mcp createMcpClient , createMcpServer , toolsFromMcpClient , createStdioTransport , createInMemoryTransportPair . See . @agentskit/tools/integrations Communication: slack , discord , gmail , twilio . Project tracking: linear , linearTriage , jira , confluence , notion . Source / CI: github , githubActions . Customer / commerce: hubspot , airtable , shopify , stripe , stripeWebhookTool (+ verifyStripeSignature ). Calendars / docs: googleCalendar , figma . Web / scraping: firecrawl , reader , documentParsers , browserAgent . Media: openaiImages , elevenlabs , whisper , deepgram . Data: postgres , postgresWithRoles , s3 , cloudflareR2 , coingecko , maps , weather . Operations: pagerduty , sentry . See + . Minimal example Related - — chain tools. - — enforce a sandbox policy across tools. - . Source - npm: - repo:",
           "aliases": "tools @agentskit/tools package ownership"
         },
         "graph": {
@@ -192877,6 +192995,7 @@
             "document:apps/docs-next/content/docs/for-agents/sandbox.mdx",
             "document:apps/docs-next/content/docs/for-agents/skills.mdx",
             "document:apps/docs-next/content/docs/for-agents/templates.mdx",
+            "document:apps/docs-next/content/docs/for-agents/tools.mdx",
             "document:apps/docs-next/content/docs/for-agents/validation.mdx",
             "document:apps/docs-next/content/docs/get-started/announcements/core-v1.mdx",
             "document:apps/docs-next/content/docs/get-started/architecture-at-a-glance.mdx",
@@ -192927,8 +193046,7 @@
             "document:packages/runtime/README.md",
             "document:packages/sandbox/README.md",
             "document:packages/skills/CONVENTIONS.md",
-            "document:packages/skills/README.md",
-            "document:packages/solid/README.md"
+            "document:packages/skills/README.md"
           ],
           "packageId": "package:@agentskit/tools",
           "inbound": [
@@ -192990,6 +193108,11 @@
             {
               "kind": "mentions",
               "id": "document:apps/docs-next/content/docs/for-agents/templates.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/for-agents/tools.mdx",
               "confidence": "observed"
             },
             {
@@ -193246,16 +193369,11 @@
               "kind": "mentions",
               "id": "document:packages/skills/README.md",
               "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:packages/solid/README.md",
-              "confidence": "observed"
             }
           ],
           "outbound": []
         },
-        "contentHash": "c9ab136d2f199686cb6de6f3a03e962cab6212e6bf7081ab2cfd858f63d41b40",
+        "contentHash": "66f1423aa8a11858c795cb726211405d192a57af0f6870c31223686e900b8cae",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "tools"
