@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "29b5ff6ea99bf8ae2d406d33fd4ea294ecf92bf46d0e4b3c1162d28059f9356e",
+  "contentHash": "52ac42456c180fa9c0ed222b0c091b31048ec92c59815452d61b7b4d0dbe58d8",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-01T03:56:14.176Z",
+  "generatedAt": "2026-10-01T04:39:38.721Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -97,7 +97,8 @@
       "id": "net",
       "type": "agent-doc",
       "title": "net",
-      "path": "apps/docs-next/content/docs/for-agents/net.mdx"
+      "path": "apps/docs-next/content/docs/for-agents/net.mdx",
+      "description": "HTTP plumbing over web APIs. Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks on Node, Bun, Deno, browsers and edge."
     },
     {
       "id": "observability-langfuse",
@@ -11373,7 +11374,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "6f66ed15de5e2a65d4b1a8a3d47c7e5dcb48689036b5a2db4a42182909db0d0e"
+      "contentHash": "cb6b5c64a0516991c1d5097e3fc875fb9767026d977d9b356a40e174bb49c1b1"
     },
     {
       "id": "module:apps/docs-next/tests/documentation-contracts.test.ts",
@@ -36655,7 +36656,9 @@
       "bridge": {
         "humanDoc": "linked"
       },
-      "notes": []
+      "notes": [
+        "HTTP plumbing over web APIs. Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks on Node, Bun, Deno, browsers and edge."
+      ]
     },
     "observability": {
       "type": "agent-handoff",
@@ -37244,6 +37247,7 @@
           "pnpm --filter @agentskit/net lint"
         ],
         "checksSource": "default",
+        "purpose": "HTTP plumbing over web APIs. Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks on Node, Bun, Deno, browsers and edge.",
         "humanDoc": "/docs/reference/packages/net",
         "agentDoc": "apps/docs-next/content/docs/for-agents/net.mdx"
       },
@@ -37425,7 +37429,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "d38f266dd0894628aa2e7793d06c99e5a18ee773168a0351d3103ff47af6fec7",
+    "hash": "e1fff93f8e5be01ee3844f656ae318a559d5eab1136311bde361028d281dd3da",
     "fileCount": 2487,
     "projectionVersion": 2
   },
@@ -37448,9 +37452,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "c74a1adc80c54b4fe4076789f3381ba672a9aca313750b17ac0430e54db352aa",
+    "contentHash": "25d3a161be98afcb66df71291016713df0f81afc6921d1679c0234830c50736b",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "6ae0d4176a5cbdc70e0c6291642963b20fe2faa817632c2ef09a0ae10536a0b9",
+    "snapshotHash": "b076524379d86ebc7606f1be16028ec43370b5f234e1e4196c5764251865ea6d",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37485,7 +37489,7 @@
         "body": 61.1175747644408,
         "headings": 4.038099139696846,
         "path": 7.6214666120442445,
-        "summary": 4.5813191315034825,
+        "summary": 4.561655059401884,
         "symbols": 7.5030725112658745,
         "title": 3.3322408848832445
       }
@@ -51211,7 +51215,7 @@
         "kind": "document",
         "path": "apps/docs-next/content/docs/for-agents/net.mdx",
         "title": "net",
-        "summary": "Adapters, tools and ecosystem repositories each carried their own retry loop, Retry-After parser, bounded body reader, SSE splitter and private-address check, with different retryable statuses, missing jitter, SSE parsers that required data: with a space, and block lists that missed IPv6. This package owns one tested implementation over eventsource-parser and ipaddr.js. See ADR-0037.",
+        "summary": "HTTP plumbing over web APIs. Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks on Node, Bun, Deno, browsers and edge.",
         "audience": "agent",
         "aliases": [
           "net"
@@ -51225,7 +51229,7 @@
           "headings": "Install Why Primary exports Retry Fetch Timeouts Bodies SSE Addresses Errors Usage Notes",
           "path": "apps/docs-next/content/docs/for-agents/net.mdx",
           "symbols": "",
-          "summary": "Adapters, tools and ecosystem repositories each carried their own retry loop, Retry-After parser, bounded body reader, SSE splitter and private-address check, with different retryable statuses, missing jitter, SSE parsers that required data: with a space, and block lists that missed IPv6. This package owns one tested implementation over eventsource-parser and ipaddr.js. See ADR-0037.",
+          "summary": "HTTP plumbing over web APIs. Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks on Node, Bun, Deno, browsers and edge.",
           "body": "Install Why Adapters, tools and ecosystem repositories each carried their own retry loop, Retry-After parser, bounded body reader, SSE splitter and private-address check, with different retryable statuses, missing jitter, SSE parsers that required data: with a space, and block lists that missed IPv6. This package owns one tested implementation over eventsource-parser and ipaddr.js . See ADR-0037. Primary exports Retry - retry(fn, options?) — runs fn({ attempt, signal }) until it resolves or retries (default 3) run out. Options: shouldRetry(error, attempt) (default: anything but an abort), delayFor(error, attempt) (override one delay, e.g. from Retry-After ; not capped), onRetry({ error, attempt, delayMs }) , signal , plus backoff options. - computeBackoff(attempt, { minDelayMs = 250, maxDelayMs = 10000, factor = 2, jitter = 'full' 'none' }, random?) — delay before retry attempt . - parseRetryAfter(value, now?) — Retry-After (delta-seconds or HTTP date) in ms, or undefined . - RETRYABLE STATUSES ( 408, 425, 429, 500, 502, 503, 504 ), isRetryableStatus(status) . Fetch - fetchWithRetry(input, init?, options?) — fetch with retries on network errors and retryable statuses. Options: retries , timeoutMs (per attempt; raises AK NET TIMEOUT ), retryMethods (default GET/HEAD/OPTIONS/PUT/DELETE/TRACE, or 'all' ), retryStatuses , maxRetryAfterMs (default 60000; a longer Retry-After returns the response), onRetry({ attempt, delayMs, status?, error? }) , fetch (implementation), plus backoff options. Streaming request bodies are never retried; Request inputs are cloned per attempt; discarded responses are cancelled; the last response is returned as-is. Timeouts - timeoutSignal(ms, parent?) — aborts after ms or when parent aborts. - anySignal(signals) — AbortSignal.any with a fallback; undefined entries are skipped. Bodies - readBody(response, { maxBytes }) → Uint8Array ; readText , readJson . Content-Length is checked first, the stream is counted and cancelled on overflow ( AK NET BODY TOO LARGE ). SSE - parseSSE(stream, { signal?, maxEventBytes = 1 MiB }) — async iterable of { id?, event?, data } from a ReadableStream<Uint8Array . Handles data: with or without a space, multi-line data, CRLF, comments and chunk boundaries. An event cut off before its blank line is dropped (per spec). Parse errors raise AK NET SSE PARSE FAILED . - parseSSEResponse(response, options?) — same, from a Response . Addresses - classifyAddress(address) — ipaddr.js range name ( unicast , private , loopback , linkLocal , uniqueLocal , carrierGradeNat …) or undefined if not an IP. Accepts [ipv6] and unwraps IPv4-mapped IPv6. - isPublicAddress(address) — range is unicast . - assertPublicUrl(input, { protocols?, lookup?, allowHosts? }) → { url, addresses } . Blocks non-public IP literals, localhost and .localhost , .local , .internal , .localdomain , .home.arpa , plus any hostname whose resolved addresses (via lookup ) are not all public. Raises AK NET BLOCKED ADDRESS . Errors - NetError (extends AgentsKitError ), NetErrorCodes : AK NET TIMEOUT , AK NET BODY TOO LARGE , AK NET BLOCKED ADDRESS , AK NET INVALID INPUT , AK NET SSE PARSE FAILED . isAbortError(error) . Usage Notes - No node: imports; runs on Node ≥ 20.19, Bun, Deno, browsers and edge runtimes. - Checking an address before connecting does not stop DNS rebinding; pin the resolved address when that matters. - eventsource-parser is bundled into the build (it ships ESM only); ipaddr.js is a regular dependency.",
           "aliases": "net document agent"
         },
@@ -51263,7 +51267,7 @@
             }
           ]
         },
-        "contentHash": "fa0d68ce656a6d0e53a86738ad482d19a5700a062b8a5c0ee9c67d0e95b8f78d",
+        "contentHash": "e586f5ac404c5d930f28b05cea9d9295c1bf8edcc1f3d6fe137989716462dba6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -93748,7 +93752,7 @@
             }
           ]
         },
-        "contentHash": "6f66ed15de5e2a65d4b1a8a3d47c7e5dcb48689036b5a2db4a42182909db0d0e",
+        "contentHash": "cb6b5c64a0516991c1d5097e3fc875fb9767026d977d9b356a40e174bb49c1b1",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -189519,7 +189523,7 @@
         "kind": "package",
         "path": "packages/net",
         "title": "net",
-        "summary": "Adapters, tools and ecosystem repositories each carried their own retry loop, Retry-After parser, bounded body reader, SSE splitter and private-address check, with different retryable statuses, missing jitter, SSE parsers that required data: with a space, and block lists that missed IPv6. This package owns one tested implementation over eventsource-parser and ipaddr.js. See ADR-0037.",
+        "summary": "HTTP plumbing over web APIs. Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks on Node, Bun, Deno, browsers and edge.",
         "audience": "agent",
         "aliases": [
           "net",
@@ -189534,7 +189538,7 @@
           "headings": "Install Why Primary exports Retry Fetch Timeouts Bodies SSE Addresses Errors Usage Notes",
           "path": "packages/net",
           "symbols": "",
-          "summary": "Adapters, tools and ecosystem repositories each carried their own retry loop, Retry-After parser, bounded body reader, SSE splitter and private-address check, with different retryable statuses, missing jitter, SSE parsers that required data: with a space, and block lists that missed IPv6. This package owns one tested implementation over eventsource-parser and ipaddr.js. See ADR-0037.",
+          "summary": "HTTP plumbing over web APIs. Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks on Node, Bun, Deno, browsers and edge.",
           "body": "Install Why Adapters, tools and ecosystem repositories each carried their own retry loop, Retry-After parser, bounded body reader, SSE splitter and private-address check, with different retryable statuses, missing jitter, SSE parsers that required data: with a space, and block lists that missed IPv6. This package owns one tested implementation over eventsource-parser and ipaddr.js . See ADR-0037. Primary exports Retry - retry(fn, options?) — runs fn({ attempt, signal }) until it resolves or retries (default 3) run out. Options: shouldRetry(error, attempt) (default: anything but an abort), delayFor(error, attempt) (override one delay, e.g. from Retry-After ; not capped), onRetry({ error, attempt, delayMs }) , signal , plus backoff options. - computeBackoff(attempt, { minDelayMs = 250, maxDelayMs = 10000, factor = 2, jitter = 'full' 'none' }, random?) — delay before retry attempt . - parseRetryAfter(value, now?) — Retry-After (delta-seconds or HTTP date) in ms, or undefined . - RETRYABLE STATUSES ( 408, 425, 429, 500, 502, 503, 504 ), isRetryableStatus(status) . Fetch - fetchWithRetry(input, init?, options?) — fetch with retries on network errors and retryable statuses. Options: retries , timeoutMs (per attempt; raises AK NET TIMEOUT ), retryMethods (default GET/HEAD/OPTIONS/PUT/DELETE/TRACE, or 'all' ), retryStatuses , maxRetryAfterMs (default 60000; a longer Retry-After returns the response), onRetry({ attempt, delayMs, status?, error? }) , fetch (implementation), plus backoff options. Streaming request bodies are never retried; Request inputs are cloned per attempt; discarded responses are cancelled; the last response is returned as-is. Timeouts - timeoutSignal(ms, parent?) — aborts after ms or when parent aborts. - anySignal(signals) — AbortSignal.any with a fallback; undefined entries are skipped. Bodies - readBody(response, { maxBytes }) → Uint8Array ; readText , readJson . Content-Length is checked first, the stream is counted and cancelled on overflow ( AK NET BODY TOO LARGE ). SSE - parseSSE(stream, { signal?, maxEventBytes = 1 MiB }) — async iterable of { id?, event?, data } from a ReadableStream<Uint8Array . Handles data: with or without a space, multi-line data, CRLF, comments and chunk boundaries. An event cut off before its blank line is dropped (per spec). Parse errors raise AK NET SSE PARSE FAILED . - parseSSEResponse(response, options?) — same, from a Response . Addresses - classifyAddress(address) — ipaddr.js range name ( unicast , private , loopback , linkLocal , uniqueLocal , carrierGradeNat …) or undefined if not an IP. Accepts [ipv6] and unwraps IPv4-mapped IPv6. - isPublicAddress(address) — range is unicast . - assertPublicUrl(input, { protocols?, lookup?, allowHosts? }) → { url, addresses } . Blocks non-public IP literals, localhost and .localhost , .local , .internal , .localdomain , .home.arpa , plus any hostname whose resolved addresses (via lookup ) are not all public. Raises AK NET BLOCKED ADDRESS . Errors - NetError (extends AgentsKitError ), NetErrorCodes : AK NET TIMEOUT , AK NET BODY TOO LARGE , AK NET BLOCKED ADDRESS , AK NET INVALID INPUT , AK NET SSE PARSE FAILED . isAbortError(error) . Usage Notes - No node: imports; runs on Node ≥ 20.19, Bun, Deno, browsers and edge runtimes. - Checking an address before connecting does not stop DNS rebinding; pin the resolved address when that matters. - eventsource-parser is bundled into the build (it ships ESM only); ipaddr.js is a regular dependency.",
           "aliases": "net @agentskit/net package ownership"
         },
