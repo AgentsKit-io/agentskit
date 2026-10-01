@@ -101,9 +101,9 @@ async function saveBaseline(path: string, baseline: Baseline): Promise<void> {
  * Run the baseline CLI with optional custom rules and finding filtering.
  * @param argv CLI arguments after the executable name.
  * @param io Working directory and output handlers for the command.
- * @param options Custom rules and finding filter; defaults to `PORTABILITY_RULES` with no filtering.
+ * @param options Custom rules and finding filter, available since 0.2.0; defaults to `PORTABILITY_RULES` with no filtering.
  * @returns The process exit code.
- * @since 0.2.0
+ * @since 0.1.1
  */
 export async function runCli(argv: readonly string[], io: CliIo, options: RunCliOptions = {}): Promise<number> {
   const flags = parseFlags(argv)
