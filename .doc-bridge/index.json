@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "3d0c12180c23db5ba79de003505e7cc4fe02bb85b7188bab30fb11d5bac46ea6",
+  "contentHash": "13ebf10775419c7a2217bcfc3109d632f89c2f7b937201a74cd56012814b3635",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-01T02:35:28.933Z",
+  "generatedAt": "2026-10-01T05:56:57.204Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7058,7 +7058,7 @@
         "document",
         "project"
       ],
-      "contentHash": "c6a6e552044216ebea0606898748a669fdeb4db5d5e8966a226a3b5017647c24"
+      "contentHash": "33d25a8dfde401272cb5421003df0d4eb4ae9337653e02fca5ef537c6492d47c"
     },
     {
       "id": "document:packages/memory/CONVENTIONS.md",
@@ -25259,7 +25259,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "527df450942853c8c569c39e1951e5380bf9b6c16f91a673bb56d987c9510a50"
+      "contentHash": "d437de1d037b532a275513493aef00acde280f3f6c07fa0a753116fe50bec3ca"
     },
     {
       "id": "module:packages/mcp/src/validation.ts",
@@ -25316,7 +25316,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "b8018e8a9cc9e6b2a9898e7b2b6b797f0bb2bebf41e97859d3b88c448dee0352"
+      "contentHash": "dfb77e8b04c790ee739da60de04297c57290df403d2c68e1e76f414cc24e3245"
     },
     {
       "id": "module:packages/mcp/tests/registry-fetch.test.ts",
@@ -25329,7 +25329,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "b890e62287de63d49c2b2edadaa379daece703d474a2014e8cbc27c271360706"
+      "contentHash": "97c553b1c1ce7cedcbdf77f16249a457b6e37f925dcbe1f50eb73ea9ff526a12"
     },
     {
       "id": "module:packages/mcp/tests/server.test.ts",
@@ -25370,7 +25370,7 @@
         "ts",
         "mcp"
       ],
-      "contentHash": "5aa7b0964e20fa38d3bb8efa74595f554bfa3ebda75273409505c77927960bf2"
+      "contentHash": "a678405da7c58605cb2001c54200f2fa6c7ab40153cdbbf2bc08a296532633e5"
     },
     {
       "id": "module:packages/mcp/vitest.config.ts",
@@ -37371,7 +37371,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "fbc4ce3c058085227279e1da37fc2e115926ca11d472c4c83d802267cacd8b31",
+    "hash": "a7f152eda6121a946d5b6961468e498ba35f5dce0f82cb3550723f4e24787e13",
     "fileCount": 2483,
     "projectionVersion": 2
   },
@@ -37394,9 +37394,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "1e31c14b22871c52d4065011dd504f3ccab6d426771d12dbedbbda58b12e0e2a",
+    "contentHash": "4c61150698a9c0df45ca1494d2171c648dd2a2faac90ab84e8b2304e05fbaaf5",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "b6f87dce8204e4d787dcbd5670ca1aa10cd971ee35c424203deb47167d30ebd3",
+    "snapshotHash": "8c9260cf1d1c328aecfae267420d750e7ee5308c3fd88abf71ad3ae785696bcd",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37428,7 +37428,7 @@
       ],
       "averageFieldLength": {
         "aliases": 3.0094378334017233,
-        "body": 61.17234304472712,
+        "body": 61.203118588428396,
         "headings": 4.044727123512516,
         "path": 7.62330734509643,
         "summary": 4.588838736151005,
@@ -77583,7 +77583,7 @@
           "path": "packages/mcp/README.md",
           "symbols": "",
           "summary": "Profile: <code>major-package</code>",
-          "body": "@agentskit/mcp Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Tags: agentskit · typescript · ai-agents Expose AgentsKit tools as an server — use them from Claude Desktop, Cursor, Windsurf, or another host that supports the documented 2024-11-05 tools bridge. Verified proof - Package metadata and tests live under packages/mcp/ . - MCP package guide: https://www.agentskit.io/docs/agents/tools/mcp - Stability map: How this fits the ecosystem @agentskit/mcp is the bridge from AgentsKit tools and agents into MCP-compatible coding agents. - AgentsKit : expose tools, integrations, and registry agents through a standard MCP server. - Registry : serve ready agents from as callable MCP tools. - Playbook : use for safe tool design, approvals, and agent handoff patterns. Docs: · <!-- readme-command:install -- Then point your MCP host at the command. Claude Desktop, Cursor, Codex, and OpenClaw all launch the same stdio server with host-specific configuration. Claude Desktop or Cursor ( mcpServers / .cursor/mcp.json ): Codex ( ~/.codex/config.toml ): OpenClaw: Verify the server in each host with its MCP tool-list command before enabling additional tools. Pi does not have a native MCP host path in this recipe; use a Pi extension or package when a dedicated integration is available. Flags Flag Effect ------ -------- --tools <a,b which tools to expose (default fetch,search ). Available: fetch , search , filesystem , shell , sqlite --fs-root <dir enable the filesystem tool, rooted at <dir --sqlite <file enable the sqlite query tool against <file --allow-shell enable the shell tool (off by default — it runs commands) stdout is the MCP JSON-RPC channel; human output goes to stderr . The bridge supports MCP protocol revision 2024-11-05 and the initialize / tools/list / tools/call lifecycle over stdio, in-memory, or an injected transport. Hosts own resources, prompts, sampling, tasks, HTTP/WebSocket, authentication, rate limiting, and persistence. Tool arguments are validated against their JSON Schema before execution; tools without a schema accept only an empty object. Invalid protocol envelopes and params are rejected, and tool failures are sanitized by default. Programmatic Pass transport to use a custom MCP transport (e.g. in-memory for tests). Expose whole agents (agents as MCP tools) Run a registry agent server-side and expose it as a single MCP tool — the host delegates a specialized job instead of orchestrating primitives: --provider covers the first-class adapters (openai, anthropic, gemini, ollama) plus the OpenAI-compatible set (deepseek, grok, groq, mistral, cohere, together, fireworks, openrouter, cerebras, kimi, huggingface, qwen, lmstudio, vllm, llamacpp) and any other OpenAI-compatible provider in the models.dev catalog. Key from --api-key or <PROVIDER API KEY ; --model / --base-url optional. Typed Registry projections use fetchAgent + createTypedAgentTool ; their input/output JSON Schemas are preserved. fetchAgentSkill intentionally rejects typed projections so they cannot be flattened into a text tool. Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Stability: beta — see - Node.js 20+ and TypeScript strict mode - Published as @agentskit/mcp Contributing See and the monorepo .",
+          "body": "@agentskit/mcp Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Tags: agentskit · typescript · ai-agents Expose AgentsKit tools as an server — use them from Claude Desktop, Cursor, Windsurf, or another host that supports the documented 2024-11-05 tools bridge. Verified proof - Package metadata and tests live under packages/mcp/ . - MCP package guide: https://www.agentskit.io/docs/agents/tools/mcp - Stability map: How this fits the ecosystem @agentskit/mcp is the bridge from AgentsKit tools and agents into MCP-compatible coding agents. - AgentsKit : expose tools, integrations, and registry agents through a standard MCP server. - Registry : serve ready agents from as callable MCP tools. - Playbook : use for safe tool design, approvals, and agent handoff patterns. Docs: · <!-- readme-command:install -- Then point your MCP host at the command. Claude Desktop, Cursor, Codex, and OpenClaw all launch the same stdio server with host-specific configuration. Claude Desktop or Cursor ( mcpServers / .cursor/mcp.json ): Codex ( ~/.codex/config.toml ): OpenClaw: Verify the server in each host with its MCP tool-list command before enabling additional tools. Pi does not have a native MCP host path in this recipe; use a Pi extension or package when a dedicated integration is available. Flags Flag Effect ------ -------- --tools <a,b which tools to expose (default fetch,search ). Available: fetch , search , filesystem , shell , sqlite --fs-root <dir enable the filesystem tool, rooted at <dir --sqlite <file enable the sqlite query tool against <file --allow-shell enable the shell tool (off by default — it runs commands) stdout is the MCP JSON-RPC channel; human output goes to stderr . The bridge supports MCP protocol revision 2024-11-05 and the initialize / tools/list / tools/call lifecycle over stdio, in-memory, or an injected transport. Hosts own resources, prompts, sampling, tasks, HTTP/WebSocket, authentication, rate limiting, and persistence. Tool arguments are validated against their JSON Schema before execution; tools without a schema accept only an empty object. Invalid protocol envelopes and params are rejected, and tool failures are sanitized by default. Programmatic Pass transport to use a custom MCP transport (e.g. in-memory for tests). Expose whole agents (agents as MCP tools) Run a registry agent server-side and expose it as a single MCP tool — the host delegates a specialized job instead of orchestrating primitives: --provider covers the first-class adapters (openai, anthropic, gemini, ollama) plus the OpenAI-compatible set (deepseek, grok, groq, mistral, cohere, together, fireworks, openrouter, cerebras, kimi, huggingface, qwen, lmstudio, vllm, llamacpp) and any other OpenAI-compatible provider in the models.dev catalog. Key from --api-key or <PROVIDER API KEY ; --model / --base-url optional. Typed Registry projections use fetchAgent + createTypedAgentTool ; their input/output JSON Schemas are preserved. fetchAgentSkill intentionally rejects typed projections so they cannot be flattened into a text tool. fetchAgent and fetchAgentSkill try the hosted registry first and may fall back to raw registry files when hosted data is unavailable or unreadable. Each response is limited to 131072 bytes and each request to 10000 ms by default. Set maxResponseBytes (1–1048576) or timeoutMs (1–120000) to adjust those bounds, or pass an AbortSignal ; aborting stops later fallback requests. Oversized bodies are cancelled and treated as a failed source. Calls resolve to null for invalid IDs or options, aborted operations, typed projections passed to fetchAgentSkill , or when neither source provides a supported result. Network error codes are not exposed by these APIs. Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Stability: beta — see - Node.js 20+ and TypeScript str",
           "aliases": "document project"
         },
         "graph": {
@@ -77645,7 +77645,7 @@
             }
           ]
         },
-        "contentHash": "c6a6e552044216ebea0606898748a669fdeb4db5d5e8966a226a3b5017647c24",
+        "contentHash": "33d25a8dfde401272cb5421003df0d4eb4ae9337653e02fca5ef537c6492d47c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -146646,7 +146646,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "527df450942853c8c569c39e1951e5380bf9b6c16f91a673bb56d987c9510a50",
+        "contentHash": "d437de1d037b532a275513493aef00acde280f3f6c07fa0a753116fe50bec3ca",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -146821,7 +146821,7 @@
             }
           ]
         },
-        "contentHash": "b8018e8a9cc9e6b2a9898e7b2b6b797f0bb2bebf41e97859d3b88c448dee0352",
+        "contentHash": "dfb77e8b04c790ee739da60de04297c57290df403d2c68e1e76f414cc24e3245",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -146861,7 +146861,7 @@
             }
           ]
         },
-        "contentHash": "b890e62287de63d49c2b2edadaa379daece703d474a2014e8cbc27c271360706",
+        "contentHash": "97c553b1c1ce7cedcbdf77f16249a457b6e37f925dcbe1f50eb73ea9ff526a12",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -146987,7 +146987,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "5aa7b0964e20fa38d3bb8efa74595f554bfa3ebda75273409505c77927960bf2",
+        "contentHash": "a678405da7c58605cb2001c54200f2fa6c7ab40153cdbbf2bc08a296532633e5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -188802,7 +188802,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "06fbedee0c162c144708939ec40472fbc002720c5a4777f1f082f4135f1ecd27",
+        "contentHash": "a8278c76ff31c42c7a93a1f155d9cd3b0c324fd3ad33eeb1308d6905c90a26e5",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "mcp"
