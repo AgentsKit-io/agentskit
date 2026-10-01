@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
 import { createServer } from 'node:http'
 import { lookup } from 'node:dns/promises'
-import { classifyAddress } from '@agentskit/net'
+import { classifyAddress, readText } from '@agentskit/net'
 import {
   safeFetch,
   checkEgress,
@@ -216,7 +216,7 @@ describe('safeFetch', () => {
     expect(fetchMock).not.toHaveBeenCalled()
 
     const response = await safeFetch('http://010.0.0.1/')
-    expect(await response.text()).toBe('http://8.0.0.1/')
+    expect(await readText(response, { maxBytes: 64 })).toBe('http://8.0.0.1/')
     expect(fetchMock).toHaveBeenCalledWith('http://010.0.0.1/', expect.objectContaining({ redirect: 'manual' }))
     expect(fetchMock).toHaveBeenCalledTimes(1)
   })
@@ -283,7 +283,7 @@ describe('safeFetch', () => {
       expect(rootHits).toBe(0)
 
       const response = await safeFetch(url, {}, { allowedHosts: ['127.0.0.1'] })
-      expect(await response.text()).toBe('local ok')
+      expect(await readText(response, { maxBytes: 64 })).toBe('local ok')
       expect(rootHits).toBe(1)
 
       await expect(safeFetch(`${url}/redirect`, {}, { allowedHosts: ['127.0.0.1'] }))
