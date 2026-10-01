@@ -604,6 +604,29 @@
       }
     },
     {
+      "id": "document.net",
+      "kind": "document",
+      "label": "net documentation",
+      "match": {
+        "type": "exact",
+        "values": [
+          "net documentation",
+          "docs for net",
+          "net"
+        ]
+      },
+      "answer": {
+        "markdown": "Open the net documentation for purpose, exports, examples, ownership, and verification commands.",
+        "citations": [
+          {
+            "id": "document-net",
+            "title": "net agent handoff",
+            "href": "/docs/for-agents/net"
+          }
+        ]
+      }
+    },
+    {
       "id": "document.observability",
       "kind": "document",
       "label": "observability documentation",
@@ -1386,6 +1409,29 @@
       }
     },
     {
+      "id": "handoff.net",
+      "kind": "contribution",
+      "label": "net ownership and checks",
+      "match": {
+        "type": "exact",
+        "values": [
+          "who owns net",
+          "how do i change net",
+          "net handoff"
+        ]
+      },
+      "answer": {
+        "markdown": "Start at `apps/docs-next/content/docs/for-agents/net.mdx`. Edit only `packages/net` for this ownership slice. Verify with:\n\n- `pnpm --filter @agentskit/net test`\n- `pnpm --filter @agentskit/net lint`",
+        "citations": [
+          {
+            "id": "handoff-net",
+            "title": "net handoff",
+            "href": "/docs/for-agents/net"
+          }
+        ]
+      }
+    },
+    {
       "id": "handoff.observability",
       "kind": "contribution",
       "label": "observability ownership and checks",
@@ -2030,6 +2076,29 @@
       }
     },
     {
+      "id": "package.net",
+      "kind": "package",
+      "label": "@agentskit/net package",
+      "match": {
+        "type": "exact",
+        "values": [
+          "@agentskit/net",
+          "net package",
+          "net"
+        ]
+      },
+      "answer": {
+        "markdown": "**@agentskit/net** — HTTP plumbing over web APIs. Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks on Node, Bun, Deno, browsers and edge.\n\nInstall it with `pnpm add @agentskit/net`.",
+        "citations": [
+          {
+            "id": "package-net",
+            "title": "@agentskit/net documentation",
+            "href": "/docs/reference/packages/net"
+          }
+        ]
+      }
+    },
+    {
       "id": "package.observability",
       "kind": "package",
       "label": "@agentskit/observability package",
@@ -2375,5 +2444,5 @@
       }
     }
   ],
-  "contentHash": "sha256:e82aa8832ccea5e7253c605f62fb6ff660570dd171a2080b086473c27d63eae9"
+  "contentHash": "sha256:d5ec6c6da96e33909607d43ca11ebd3f4ffe22bbdb09f9ceda7329601b5d51db"
 }

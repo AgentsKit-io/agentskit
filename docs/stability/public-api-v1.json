@@ -7121,6 +7121,12 @@
               ]
             },
             {
+              "name": "sleep",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "SSEEvent",
               "kinds": [
                 "type"
@@ -7130,6 +7136,33 @@
               "name": "timeoutSignal",
               "kinds": [
                 "value"
+              ]
+            },
+            {
+              "name": "withTimeout",
+              "kinds": [
+                "value"
+              ]
+            }
+          ]
+        },
+        "./rules": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "NET_RULES",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "NetRule",
+              "kinds": [
+                "type"
               ]
             }
           ]

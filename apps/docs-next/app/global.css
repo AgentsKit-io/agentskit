@@ -199,6 +199,9 @@ button[data-theme-toggle] > svg {
   font-weight: 600;
   letter-spacing: -0.01em;
 }
+:root:not(.dark) aside a[data-active='true'] {
+  color: var(--ak-blue-ink);
+}
 
 /* Heading anchor button — copy link per heading */
 .prose :where(h2, h3, h4) {

@@ -60,11 +60,13 @@ const GATES = [
   ['cross-platform guardrail (ratchet)', 'check-cross-platform.mjs'],
   ['core rules guardrail (ratchet)', 'check-core-rules.mjs'],
   ['core rules ratchet tests', 'check-core-rules.test.mjs', [], 'vitest'],
+  ['net guardrail (ratchet)', 'check-net-rules.mjs'],
+  ['net ratchet CLI tests', 'check-net-rules.test.mjs', [], 'vitest'],
 ]
 
 const failed = []
 
-const buildPackages = ['@agentskit/adapters', '@agentskit/mcp', '@agentskit/cross-platform']
+const buildPackages = ['@agentskit/adapters', '@agentskit/mcp', '@agentskit/cross-platform', '@agentskit/net']
 process.stdout.write('\n▶ shared package build preconditions\n')
 const build = spawnSync('pnpm', [
   'exec', 'turbo', 'run', 'build', '--concurrency=2',

@@ -83,6 +83,15 @@ Most production agents become valuable only once this layer is in place.
 - `/integrations`: `github` · `linear` · `slack` · `notion` · `discord` · `gmail` · `googleCalendar` · `stripe` · `postgres` · `s3` · `firecrawl` · `reader` · `documentParsers` · `openaiImages` · `elevenlabs` · `whisper` · `deepgram` · `maps` · `weather` · `coingecko` · `browserAgent`.
 - `/mcp`: `createMcpClient` · `createMcpServer` · `toolsFromMcpClient` · `createStdioTransport` · `createInMemoryTransportPair`.
 
+`safeFetch(input, init?, policy?)` defaults to denying non-public addresses,
+uses Node DNS to check every hostname answer, and re-gates each manual redirect.
+Vetted internal targets require an explicit `allowedHosts` entry or
+`allowPrivateHosts: true`; the DNS preflight does not prevent rebinding.
+The `isPrivateIPv4` and `isPrivateHost` helpers retain decimal handling for
+zero-padded dotted quads; `safeFetch` applies WHATWG URL canonicalization first.
+`webSearch()` reads provider responses through `@agentskit/net` with a 2 MiB
+default byte cap (`maxResponseBytes`) and cancels the stream on overflow.
+
 ## Recipes
 
 - [Integrations](/docs/agents/tools/integrations)

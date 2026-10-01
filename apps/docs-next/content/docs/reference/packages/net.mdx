@@ -1,6 +1,6 @@
 ---
 title: '@agentskit/net'
-description: Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks over web APIs.
+description: Retries with Retry-After, cancellable waits and deadlines, bounded body reads, SSE parsing and SSRF address checks over web APIs.
 docbridge:
   covers:
     - package:@agentskit/net
@@ -21,6 +21,7 @@ docbridge:
 
 - You call an API that rate-limits or fails transiently and need retries that respect `Retry-After`.
 - You need a timeout per attempt, not one that silently spans every retry.
+- You need a deadline for async work and a signal that forwards caller cancellation.
 - You consume a server-sent events stream.
 - You fetch URLs supplied by users or models and must not reach private networks or cloud metadata.
 
@@ -43,16 +44,41 @@ for await (const event of parseSSEResponse(await fetch('https://api.example.com/
 }
 ```
 
+## Cancellable waits and deadlines
+
+`retry` uses the exported `sleep(ms, signal?)` by default. Delays must be from 0 through 2,147,483,647 milliseconds. It clears its timer on abort and rejects with the signal's exact reason. To replace the wait, pass `sleep: (ms, signal?) => Promise<void>`; one-argument callbacks still work, and callbacks should honor the optional signal when their own wait must stop on cancellation.
+
+`withTimeout(work, ms, parent?)` accepts a positive deadline up to 2,147,483,647 milliseconds and gives work a signal that aborts at the deadline or with the parent's exact reason. The deadline rejects with `AK_NET_TIMEOUT`; invalid values reject with `AK_NET_INVALID_INPUT`. It bounds the wrapper's rejection even if work ignores the signal, but only cooperative work such as `fetch` can be stopped. A success value or original work failure passes through unchanged.
+
+`retry` retries rejected work, such as fetch network errors; it does not inspect HTTP status codes. Use `fetchWithRetry` when retrying retryable HTTP responses.
+
+```ts
+import { retry, sleep, withTimeout } from '@agentskit/net'
+
+const parent = new AbortController()
+const response = await withTimeout(
+  signal => fetch('https://api.example.com/data', { signal }),
+  5_000,
+  parent.signal,
+)
+console.log(response.status)
+
+await retry(
+  ({ signal }) => fetch('https://api.example.com/models', { signal }),
+  { signal: parent.signal, sleep: (ms, signal) => sleep(ms, signal) },
+)
+```
+
 ## What it replaces
 
 | Hand-rolled pattern | Use |
 |---|---|
 | `for` loop with a fixed `sleep` | `retry(fn)` / `fetchWithRetry(url)` |
-| Ignoring or re-parsing `Retry-After` | `parseRetryAfter(header)` (built into `fetchWithRetry`) |
-| `Promise.race` with `setTimeout` | `timeoutSignal(ms)`, `anySignal([...])` |
+| Ignoring or re-parsing `Retry-After` | <code>parseRetryAfter<wbr />(header)</code> (built into `fetchWithRetry`) |
+| `Promise.race` with `setTimeout` | `timeoutSignal(ms)`, `anySignal([...])`, `withTimeout(work, ms)` |
 | `await res.text()` on unknown input | `readText(res, { maxBytes })` |
 | `line.startsWith('data: ')` | `parseSSE(stream)` |
-| Regexes over `127.`, `10.`, `192.168.` | `assertPublicUrl(url, { lookup })` |
+| Regexes over `127.`, `10.`, `192.168.` | <code>assertPublicUrl<wbr />(url, &#123; lookup &#125;)</code> |
 
 ## Stability
 

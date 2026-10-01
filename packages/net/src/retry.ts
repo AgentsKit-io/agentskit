@@ -55,10 +55,39 @@ export interface RetryOptions extends BackoffOptions {
   delayFor?: (error: unknown, attempt: number) => number | undefined
   /** Called before sleeping. */
   onRetry?: (info: { error: unknown; attempt: number; delayMs: number }) => void
+  /**
+   * Wait before retrying. Defaults to the exported abortable `sleep`.
+   * Receives the delay and retry signal; honor the signal to stop custom waits
+   * on abort. One-argument callbacks remain assignable.
+   */
+  sleep?: (ms: number, signal?: AbortSignal) => Promise<void>
   signal?: AbortSignal
 }
 
-function sleep(ms: number, signal?: AbortSignal): Promise<void> {
+/**
+ * Wait for a delay from zero through 2,147,483,647 ms, or reject when
+ * `signal` aborts.
+ * The default timer is cleared on abort and the promise rejects with the
+ * signal's actual reason.
+ *
+ * @param ms Delay in milliseconds from zero through 2,147,483,647; zero is allowed.
+ * @param signal Optional abort signal. Defaults to no signal.
+ * @returns A promise fulfilled when the delay ends.
+ * @throws {NetError} With code AK_NET_INVALID_INPUT when `ms` is negative, non-finite, or above 2,147,483,647.
+ * @throws {unknown} With the exact `signal.reason` when `signal` aborts.
+ * @since 0.2.0
+ * @example
+ * ```ts
+ * import { sleep } from '@agentskit/net'
+ *
+ * const controller = new AbortController()
+ * await sleep(250, controller.signal)
+ * ```
+ */
+export async function sleep(ms: number, signal?: AbortSignal): Promise<void> {
+  if (!Number.isFinite(ms) || ms < 0 || ms > 2_147_483_647) {
+    throw invalidInput('delay must be between 0 and 2147483647 milliseconds')
+  }
   return new Promise((resolve, reject) => {
     if (signal?.aborted) return reject(signal.reason)
     const timer = setTimeout(() => {
@@ -67,6 +96,7 @@ function sleep(ms: number, signal?: AbortSignal): Promise<void> {
     }, ms)
     const onAbort = () => {
       clearTimeout(timer)
+      signal?.removeEventListener('abort', onAbort)
       reject(signal?.reason)
     }
     signal?.addEventListener('abort', onAbort, { once: true })
@@ -91,7 +121,7 @@ export async function retry<T>(fn: (context: RetryContext) => Promise<T>, option
       // An explicit delay (e.g. Retry-After) is used as given; callers cap it.
       const delayMs = options.delayFor?.(error, attempt) ?? computeBackoff(attempt, options)
       options.onRetry?.({ error, attempt, delayMs })
-      await sleep(delayMs, options.signal)
+      await (options.sleep ?? sleep)(delayMs, options.signal)
     }
   }
 }
