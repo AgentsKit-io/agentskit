@@ -1,17 +1,23 @@
-/** A line-based guardrail that can be passed to `@agentskit/cross-platform`. */
+/**
+ * One line-oriented HTTP guardrail rule.
+ * @since 0.2.0
+ */
 export interface NetRule {
+  /** Identifier used in findings and `<id>-ignore` suppressions. */
   id: string
+  /** Regular expression tested against each source line. */
   pattern: RegExp
+  /** Explanation shown for a matching line. */
   message: string
+  /** Suggested replacement using APIs exported by `@agentskit/net`. */
   fix: string
 }
 
 /**
- * Static checks for duplicated HTTP, timeout, SSE and address-handling code.
- * Pass the array as `rules` to `scanText` / `scanRepository`, then ratchet
- * the counts with `compareToBaseline`. The scanner still honours a
- * `cross-platform-ignore: <reason>` directive on the offending line or the
- * line above.
+ * Static rules that flag duplicated HTTP retry, SSE, timeout, address and response-body handling outside `@agentskit/net`.
+ * Pass them to `scanText` or `scanRepository`, then ratchet counts with `compareToBaseline`.
+ * `<id>-ignore: <reason>` suppresses one rule (for example, `net-retry-after-ignore: <reason>`); `cross-platform-ignore: <reason>` suppresses all rules.
+ * @since 0.2.0
  */
 export const NET_RULES: readonly NetRule[] = [
   {
@@ -36,7 +42,7 @@ export const NET_RULES: readonly NetRule[] = [
     id: 'net-promise-race-timeout',
     pattern: /Promise\.race.*setTimeout|setTimeout.*Promise\.race/,
     message: 'Promise.race abandons work instead of cancelling it on timeout',
-    fix: 'withTimeout(work(signal), ms) when work accepts a signal; otherwise pass timeoutSignal(ms) from @agentskit/net to cancellable work',
+    fix: 'Pass timeoutSignal(ms) from @agentskit/net to cancellable work instead of abandoning it with Promise.race',
   },
   {
     id: 'net-private-ip-regex',

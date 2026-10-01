@@ -23,7 +23,7 @@ const samples: Record<string, { hit: string; miss: string }> = {
   },
   'net-promise-race-timeout': {
     hit: 'return Promise.race([operation, setTimeout(abort, ms)])',
-    miss: 'await withTimeout(work, ms, signal)',
+    miss: 'await request({ signal: timeoutSignal(ms) })',
   },
   'net-private-ip-regex': {
     hit: 'const blocked = /^10\\.|192\\.168\\.|172\\.16/',
@@ -55,8 +55,8 @@ describe('NET_RULES', () => {
   it('gives actionable sleep and cancellation guidance', () => {
     expect(NET_RULES.find(rule => rule.id === 'net-sleep-promise')?.fix).toBe('retry() from @agentskit/net for retry backoff')
     expect(NET_RULES.find(rule => rule.id === 'net-sleep-promise')?.fix).not.toContain('sleep')
-    expect(NET_RULES.find(rule => rule.id === 'net-promise-race-timeout')?.fix).toContain('withTimeout(work(signal), ms)')
     expect(NET_RULES.find(rule => rule.id === 'net-promise-race-timeout')?.fix).toContain('timeoutSignal(ms)')
+    expect(NET_RULES.find(rule => rule.id === 'net-promise-race-timeout')?.fix).not.toContain('withTimeout')
   })
 
   it.each(Object.entries(samples))('flags %s and accepts the shared helper', (id, sample) => {

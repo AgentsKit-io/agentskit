@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "e25481fbc4255fc796d0f1d4b39b4a6c1bf7115e0b6805bdcc188121cdd37ce2",
+  "contentHash": "29b5ff6ea99bf8ae2d406d33fd4ea294ecf92bf46d0e4b3c1162d28059f9356e",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-09-29T22:51:15.274Z",
+  "generatedAt": "2026-10-01T03:56:14.176Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -6005,6 +6005,18 @@
       "contentHash": "57158ffa2b4d8be8475a1bd031310a60e9ae28be838699972ba75e0873708658"
     },
     {
+      "id": "document:docs/architecture/adrs/0040-eval-replay-fingerprint-compatibility.md",
+      "type": "document",
+      "title": "ADR 0040 — Preserve eval replay fingerprint compatibility",
+      "path": "docs/architecture/adrs/0040-eval-replay-fingerprint-compatibility.md",
+      "description": "Status: Proposed",
+      "tags": [
+        "document",
+        "human"
+      ],
+      "contentHash": "697a4c044d5d149a6215b4fcd99733612db5add00ad76c415c7f2b3ff95a918d"
+    },
+    {
       "id": "document:docs/architecture/adrs/README.md",
       "type": "document",
       "title": "Architecture Decision Records (ADRs)",
@@ -6014,7 +6026,7 @@
         "document",
         "human"
       ],
-      "contentHash": "52b7bb63e483cb0e3a2b2d2a2255ab7a2e59339a05c09b96f4665dd5ace5b0d9"
+      "contentHash": "99830638ce4623c4a8e014db13f979133c6ad5f378b552ad3a1746f29bd31cfb"
     },
     {
       "id": "document:docs/architecture/ecosystem-manifest.md",
@@ -7094,7 +7106,7 @@
         "document",
         "project"
       ],
-      "contentHash": "ef296ff60143a33d09b85da71d86595fe889f6def5dcbc604b9ae57340c87dfd"
+      "contentHash": "6fb41b341a6c23821ff2b152d257947617a2d813a6984e924d5f5214ebd4e42c"
     },
     {
       "id": "document:packages/observability-langfuse/CONVENTIONS.md",
@@ -7658,7 +7670,7 @@
         "document",
         "project"
       ],
-      "contentHash": "6cdb882a3185a65217d6ffb223e9277ed81e6c8a16eb5b612c841a632fa5dc7e"
+      "contentHash": "eb18ae071d9c61f0d05ca3d25cf1d1681b38c30753431b0062b9dfc0a2cb0970"
     },
     {
       "id": "document:SECURITY.md",
@@ -16499,7 +16511,7 @@
         "ts",
         "components"
       ],
-      "contentHash": "7065093e524582b22de2d0d246dfbcaf30ebaff1b5ffd105fad847ae3d8b771a"
+      "contentHash": "d4f9a646d6b77e7b6173eacaa129a92911e81c101492f4a32538820daa76e9c5"
     },
     {
       "id": "module:packages/cli/src/components/flow.ts",
@@ -16564,7 +16576,7 @@
         "ts",
         "components"
       ],
-      "contentHash": "13fc70636a4f6ee3c52625852d168989076e18d3207098c18fe6585485631601"
+      "contentHash": "9ca58f91f78fe46eceb61811f51a7e01adcaa1bd877407a69d53b26df800da97"
     },
     {
       "id": "module:packages/cli/src/components/node-fs.ts",
@@ -17499,7 +17511,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "2d2cab99e07df477334078af3a7e7a9e8eb78312df38c0628c45e8cc747821c5"
+      "contentHash": "a085df4057ebf01182b8c51e58bc66a6ed9355c910637b106cd24513b6417b55"
     },
     {
       "id": "module:packages/cli/src/slash-commands.ts",
@@ -17680,7 +17692,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "5b83b5626bf60102651c62c36a9f43abe08d1361f06b1d4e24eadfba81ccf7ab"
+      "contentHash": "d5113c960c14c60f0e2f7c14090820cdb1e8e5e5d683d1d8e85e0b8a6d0fb252"
     },
     {
       "id": "module:packages/cli/tests/components-flow.test.ts",
@@ -17719,7 +17731,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "d2c037362010e7555042f3d5616ed05851fb9d0204a5882712fe80bc432ca4fc"
+      "contentHash": "4d0d61be6eb158f2c3896ef5132b23b51be59ac27718c7b35ab29952fc4ca85f"
     },
     {
       "id": "module:packages/cli/tests/components-node-fs.test.ts",
@@ -18212,7 +18224,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "015fc90296251206b2df355ae63a15818312da845d8c67bb1e99fee103daf120"
+      "contentHash": "2975d8765ab882fab1ba8f1c5f9ada7c3fefe4cb796a6f7dd2c545547653d408"
     },
     {
       "id": "module:packages/cli/tests/shared.test.ts",
@@ -20452,7 +20464,7 @@
         "ts",
         "lint"
       ],
-      "contentHash": "01b7b6ab4318eecd7fb7adc0334bc555bb139200bfe52b20f1aec5d9572bf955"
+      "contentHash": "f7cee6ad8ff14f85d698aa4f0bdd4a9bd3295e373ff8d8021fa09ab659899f20"
     },
     {
       "id": "module:packages/cross-platform/src/lint/rules.ts",
@@ -21864,7 +21876,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "a9b7882b7b5b20d419900542c53cd5865fdca8690cf1b186ef5cc43ceac63dc6"
+      "contentHash": "b46dc6e84281f5cbed66c744a1ace5c93d297785c95803b98a06c0a9a9d07ce3"
     },
     {
       "id": "module:packages/eval/tests/runner.test.ts",
@@ -26726,7 +26738,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "824655caba623faf5c0407d5d6220168cabe48bc85fafb55cdc261758b48b45a"
+      "contentHash": "d903901418b6ed3d3bbcb876c88794e411c804eab9f9e0ac2b4420b47cec0a27"
     },
     {
       "id": "module:packages/net/src/sse.ts",
@@ -26838,7 +26850,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "3489da62f8f5e8cbb43da5528bf5f0393ad6745700e812689142227f3ff49ba4"
+      "contentHash": "6a69d27563bac9f08394f1f6556c26b8b04c76e5b19a8cf6896016af5887f378"
     },
     {
       "id": "module:packages/net/tests/sse.test.ts",
@@ -27993,7 +28005,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "01b934930a207385b72516975327a5c8ec4597cdea947eddc4dd1b532b47bd97"
+      "contentHash": "3a6a24c6b03ff5063575d6584dba36b5ee80665c758d8e99cc0ef22132a280e4"
     },
     {
       "id": "module:packages/observability/tests/slo.test.ts",
@@ -30569,7 +30581,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "fe6290f8762444b41d72b09de247e9adf3f29ef3837ef79024ce97fb5ebbd64d"
+      "contentHash": "d5f0d71347830fa64b3e758072b6e51299e3769c1abaa582079ab64168bf89c8"
     },
     {
       "id": "module:packages/sandbox/tests/local-runtimes-extra.test.ts",
@@ -34560,7 +34572,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "aca087f8056cbdc7399ac20f5b5e722b1f07e1c4c1aff31eeea8cca98ddfefac"
+      "contentHash": "f69f7773b426511a926b1ab7deb9aa27beb4ec02eb700a60e31fd65a019516a8"
     },
     {
       "id": "module:scripts/check-count-drift.mjs",
@@ -34755,6 +34767,19 @@
       "contentHash": "df65d6a8b1642bc4dda5cc4090e18f68fc1a91b3f4ba06e2a7ff1575518ec349"
     },
     {
+      "id": "module:scripts/check-net-rules.test.mjs",
+      "type": "module",
+      "title": "check-net-rules.test.mjs",
+      "path": "scripts/check-net-rules.test.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "test",
+        "scripts"
+      ],
+      "contentHash": "55aee52877f774da9b1d907d48b0ca4d8b2ddc7ad555749b88d19d3718f5d28c"
+    },
+    {
       "id": "module:scripts/check-no-any.mjs",
       "type": "module",
       "title": "check-no-any.mjs",
@@ -34876,7 +34901,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "c6b4855c711ac08a42f258534615e89ef7f8f892713b06746ea1cf509ab0da0a"
+      "contentHash": "dc2925e56c5fa52a2f5bd30d1bec73a4a7097050b48eddbeee34aa7231698b7c"
     },
     {
       "id": "module:scripts/check-readme-badge.mjs",
@@ -34973,6 +34998,19 @@
         "scripts"
       ],
       "contentHash": "bc31fa181ecb567f18d42214f524ee366807af03f2e443f6a929b8f30fb23b51"
+    },
+    {
+      "id": "module:scripts/ci-build-cache.test.mjs",
+      "type": "module",
+      "title": "ci-build-cache.test.mjs",
+      "path": "scripts/ci-build-cache.test.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "test",
+        "scripts"
+      ],
+      "contentHash": "e53d5106220be2dbdcf6fa424363857b0b86ea7e02e9520d02049f2def5bebaa"
     },
     {
       "id": "module:scripts/commitlint.test.mjs",
@@ -37387,8 +37425,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "3e562db0c88c2ee23e2a6bb709f33c2e0682f53ccaa352e0ec7b01725659c5b9",
-    "fileCount": 2484,
+    "hash": "d38f266dd0894628aa2e7793d06c99e5a18ee773168a0351d3103ff47af6fec7",
+    "fileCount": 2487,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37410,9 +37448,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "cdaaa81608065755dcd7df8943d6ddce8dfe149c6b82e502c5e2e40d7644ad24",
+    "contentHash": "c74a1adc80c54b4fe4076789f3381ba672a9aca313750b17ac0430e54db352aa",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "fa12b1095eb3ca77384b027f7e5f5f1b87141ebfdb0a7a23676282a454fde328",
+    "snapshotHash": "6ae0d4176a5cbdc70e0c6291642963b20fe2faa817632c2ef09a0ae10536a0b9",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37432,7 +37470,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2438,
+      "documentCount": 2441,
       "fieldNames": [
         "aliases",
         "body",
@@ -37443,13 +37481,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0098441345365052,
-        "body": 61.10541427399508,
-        "headings": 4.037735849056604,
-        "path": 7.621000820344545,
-        "summary": 4.586136177194422,
-        "symbols": 7.512305168170632,
-        "title": 3.3285479901558657
+        "aliases": 3.010241704219582,
+        "body": 61.1175747644408,
+        "headings": 4.038099139696846,
+        "path": 7.6214666120442445,
+        "summary": 4.5813191315034825,
+        "symbols": 7.5030725112658745,
+        "title": 3.3322408848832445
       }
     },
     "entries": [
@@ -37823,7 +37861,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003656,
+          "pagerank": 0.003649,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/discord-bot.mdx"
@@ -37862,7 +37900,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003656,
+          "pagerank": 0.003649,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/dspy.mdx"
@@ -37940,7 +37978,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003656,
+          "pagerank": 0.003649,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/embedded.mdx"
@@ -38261,7 +38299,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003656,
+          "pagerank": 0.003649,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/slack-bot.mdx"
@@ -38300,7 +38338,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003656,
+          "pagerank": 0.003649,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/teams-bot.mdx"
@@ -38656,7 +38694,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003656,
+          "pagerank": 0.003649,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/providers/embedders.mdx"
@@ -38771,7 +38809,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003656,
+          "pagerank": 0.003649,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/cli/index.mdx"
@@ -38934,7 +38972,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003656,
+          "pagerank": 0.003649,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/security/index.mdx"
@@ -39097,7 +39135,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002816,
+          "pagerank": 0.002811,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/packages/eval-braintrust.mdx"
@@ -39181,7 +39219,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002816,
+          "pagerank": 0.002811,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/snapshots.mdx"
@@ -39220,7 +39258,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003656,
+          "pagerank": 0.003649,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/replay.mdx"
@@ -39259,7 +39297,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002816,
+          "pagerank": 0.002811,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/snapshots.mdx"
@@ -39298,7 +39336,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002396,
+          "pagerank": 0.002392,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -39368,7 +39406,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002816,
+          "pagerank": 0.002811,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/agents/tools/integrations-catalog.mdx"
@@ -39438,7 +39476,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003656,
+          "pagerank": 0.003649,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/memory/index.mdx"
@@ -39477,7 +39515,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003656,
+          "pagerank": 0.003649,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/rag/loaders.mdx"
@@ -39516,7 +39554,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003656,
+          "pagerank": 0.003649,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/rag/rerank.mdx"
@@ -39555,7 +39593,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002396,
+          "pagerank": 0.002392,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -39594,7 +39632,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002816,
+          "pagerank": 0.002811,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/security/sandbox.mdx"
@@ -39633,7 +39671,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002396,
+          "pagerank": 0.002392,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -39672,7 +39710,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002396,
+          "pagerank": 0.002392,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -39742,7 +39780,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002816,
+          "pagerank": 0.002811,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/agents/tools/integrations-catalog.mdx"
@@ -39826,7 +39864,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003656,
+          "pagerank": 0.003649,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/observability/devtools.mdx"
@@ -39873,7 +39911,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "d7cc7bc6b0043635daba8e7b94277060eda354d0006e08e73f8583e3ed697393",
+        "contentHash": "7f842c148b03480860cf8ce76c52485b549b3cdc2ec1b07d4f894d6f23d9063f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -40647,7 +40685,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -40733,7 +40771,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -40786,7 +40824,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.005896,
+          "pagerank": 0.005885,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [
@@ -40982,7 +41020,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -43338,7 +43376,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -45372,7 +45410,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -45514,7 +45552,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003656,
+          "pagerank": 0.003649,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -46193,7 +46231,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -47585,7 +47623,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -49408,7 +49446,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -49462,7 +49500,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -49508,7 +49546,7 @@
           "aliases": "adapters document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -49849,7 +49887,7 @@
           "aliases": "angular document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -49955,7 +49993,7 @@
           "aliases": "cli document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50101,7 +50139,7 @@
           "aliases": "core document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50262,7 +50300,7 @@
           "aliases": "cross-platform document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50368,7 +50406,7 @@
           "aliases": "doc-bridge document agent"
         },
         "graph": {
-          "pagerank": 0.002075,
+          "pagerank": 0.002071,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50415,7 +50453,7 @@
           "aliases": "eval-braintrust document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50476,7 +50514,7 @@
           "aliases": "eval document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50703,7 +50741,7 @@
           "aliases": "ink document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50814,7 +50852,7 @@
           "aliases": "integrations document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50945,7 +50983,7 @@
           "aliases": "mcp document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51021,7 +51059,7 @@
           "aliases": "memory document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51192,7 +51230,7 @@
           "aliases": "net document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51253,7 +51291,7 @@
           "aliases": "observability-langfuse document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51319,7 +51357,7 @@
           "aliases": "observability document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51450,7 +51488,7 @@
           "aliases": "rag document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51526,7 +51564,7 @@
           "aliases": "react-native document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51622,7 +51660,7 @@
           "aliases": "react document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51708,7 +51746,7 @@
           "aliases": "runtime document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51849,7 +51887,7 @@
           "aliases": "sandbox document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51930,7 +51968,7 @@
           "aliases": "skills document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52101,7 +52139,7 @@
           "aliases": "solid document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52177,7 +52215,7 @@
           "aliases": "statechart document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52253,7 +52291,7 @@
           "aliases": "svelte document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52339,7 +52377,7 @@
           "aliases": "templates document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52435,7 +52473,7 @@
           "aliases": "tools document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52726,7 +52764,7 @@
           "aliases": "validation document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52792,7 +52830,7 @@
           "aliases": "vue document agent"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52950,7 +52988,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53919,7 +53957,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -54457,7 +54495,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -55276,7 +55314,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -55847,7 +55885,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -55896,7 +55934,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -56106,7 +56144,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -56411,7 +56449,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -56660,7 +56698,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -57532,7 +57570,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -57576,7 +57614,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -57659,7 +57697,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58234,7 +58272,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58311,7 +58349,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58576,7 +58614,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58815,7 +58853,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58874,7 +58912,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58943,7 +58981,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59097,7 +59135,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59151,7 +59189,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59235,7 +59273,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59339,7 +59377,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59383,7 +59421,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59517,7 +59555,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59566,7 +59604,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59650,7 +59688,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59754,7 +59792,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59933,7 +59971,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59992,7 +60030,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60036,7 +60074,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60259,7 +60297,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60348,7 +60386,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60407,7 +60445,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60476,7 +60514,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60520,7 +60558,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60604,7 +60642,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60648,7 +60686,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60752,7 +60790,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60961,7 +60999,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61746,7 +61784,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003656,
+          "pagerank": 0.003649,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -64711,7 +64749,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -65554,7 +65592,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -65716,7 +65754,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003656,
+          "pagerank": 0.003649,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -65761,7 +65799,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -66419,7 +66457,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -67024,7 +67062,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -67136,7 +67174,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -67420,7 +67458,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.007932,
+          "pagerank": 0.007916,
           "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
@@ -67521,7 +67559,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.007776,
+          "pagerank": 0.007761,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -67572,7 +67610,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.030816,
+          "pagerank": 0.030756,
           "inboundLinks": 64,
           "coveredBy": [],
           "mentionedBy": [
@@ -68023,7 +68061,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.023755,
+          "pagerank": 0.023697,
           "inboundLinks": 11,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68133,7 +68171,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.013358,
+          "pagerank": 0.013325,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68248,7 +68286,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.009135,
+          "pagerank": 0.009113,
           "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68358,7 +68396,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00681,
+          "pagerank": 0.006793,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68483,7 +68521,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00624,
+          "pagerank": 0.006225,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68598,7 +68636,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.006115,
+          "pagerank": 0.0061,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68738,7 +68776,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002221,
+          "pagerank": 0.002215,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68793,7 +68831,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002645,
+          "pagerank": 0.002638,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -68906,7 +68944,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.013468,
+          "pagerank": 0.013437,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68991,7 +69029,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002053,
+          "pagerank": 0.002047,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69071,7 +69109,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002053,
+          "pagerank": 0.002047,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69141,7 +69179,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003088,
+          "pagerank": 0.003079,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69236,7 +69274,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002053,
+          "pagerank": 0.002047,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69306,7 +69344,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002053,
+          "pagerank": 0.002047,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69361,7 +69399,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002053,
+          "pagerank": 0.002047,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69406,7 +69444,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002053,
+          "pagerank": 0.002047,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69451,7 +69489,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.004976,
+          "pagerank": 0.004963,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69531,7 +69569,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.004013,
+          "pagerank": 0.004003,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69606,7 +69644,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002053,
+          "pagerank": 0.002047,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69645,7 +69683,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002053,
+          "pagerank": 0.002047,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69690,7 +69728,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.038223,
+          "pagerank": 0.038142,
           "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69835,7 +69873,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.019374,
+          "pagerank": 0.019334,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69935,7 +69973,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.004208,
+          "pagerank": 0.004197,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70050,7 +70088,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003492,
+          "pagerank": 0.003483,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70120,7 +70158,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003173,
+          "pagerank": 0.003165,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70195,7 +70233,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002053,
+          "pagerank": 0.002047,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70240,7 +70278,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002893,
+          "pagerank": 0.002885,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70320,7 +70358,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002053,
+          "pagerank": 0.002047,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70359,7 +70397,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002053,
+          "pagerank": 0.002047,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70409,7 +70447,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002053,
+          "pagerank": 0.002047,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70469,7 +70507,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002613,
+          "pagerank": 0.002606,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -70566,7 +70604,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002613,
+          "pagerank": 0.002606,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -70683,7 +70721,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002053,
+          "pagerank": 0.002047,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70728,7 +70766,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002053,
+          "pagerank": 0.002047,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70757,6 +70795,61 @@
         "confidence": "observed"
       },
       {
+        "id": "document:docs/architecture/adrs/0040-eval-replay-fingerprint-compatibility.md",
+        "kind": "document",
+        "path": "docs/architecture/adrs/0040-eval-replay-fingerprint-compatibility.md",
+        "title": "ADR 0040 — Preserve eval replay fingerprint compatibility",
+        "summary": "Status: Proposed",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "human"
+        ],
+        "fields": {
+          "title": "ADR 0040 — Preserve eval replay fingerprint compatibility",
+          "headings": "ADR 0040 — Preserve eval replay fingerprint compatibility Context Decision Consequences",
+          "path": "docs/architecture/adrs/0040-eval-replay-fingerprint-compatibility.md",
+          "symbols": "",
+          "summary": "Status: Proposed",
+          "body": "ADR 0040 — Preserve eval replay fingerprint compatibility - Status : Proposed - Date : 2026-09-30 - Related ADRs : ADR 0038 Context fingerprintRequest fingerprints a deliberate projection of AdapterRequest : provider-visible message and context fields, including tool schemas but excluding executable tool callbacks and volatile message identity. Existing cassette fingerprints are persisted and strict replay compares them directly. The projection's serializer is observably different from @agentskit/core/hash 's RFC 8785 canonicalJson : dates use a {\"$date\": ...} tag; undefined array entries, non-finite numbers, cycles, and unsupported objects reject with eval ConfigError ; and integer-like keys are emitted in JavaScript property enumeration order. canonicalJson emits dates as ISO strings, maps undefined array entries to null , orders keys canonically, accepts a Map as {} , and throws generic Error values for non-finite numbers and cycles. Hashing an unprojected request would also include executable callbacks, which are not replay input. Decision Keep the eval projection and serializer unchanged. Do not replace them with canonicalJson until a versioned cassette/fingerprint migration can preserve persisted fingerprints and rejection behavior. Retain literal fingerprint and record/serialize/parse/strict-replay regression coverage for the current contract. Consequences - ADR 0038's migration to core hashing applies to eval only after compatibility is demonstrated or a versioned migration is approved. - New eval fingerprint behavior must account for the persisted v1 cassette contract; core canonical JSON remains the default for new JSON hashing. - Documentation and regression tests are sufficient for this compatibility decision; no runtime behavior or public API changed.",
+          "aliases": "document human"
+        },
+        "graph": {
+          "pagerank": 0.002047,
+          "inboundLinks": 1,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [
+            {
+              "kind": "links-to",
+              "id": "document:docs/architecture/adrs/README.md",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/core/src/errors.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/core/src/types/adapter.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/eval/src/replay/cassette.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "697a4c044d5d149a6215b4fcd99733612db5add00ad76c415c7f2b3ff95a918d",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "document:docs/architecture/adrs/README.md",
         "kind": "document",
         "path": "docs/architecture/adrs/README.md",
@@ -70774,11 +70867,11 @@
           "path": "docs/architecture/adrs/README.md",
           "symbols": "",
           "summary": "This directory contains the formal, versioned contracts and architectural decisions for AgentsKit.",
-          "body": "Architecture Decision Records (ADRs) This directory contains the formal, versioned contracts and architectural decisions for AgentsKit. What is an ADR? An ADR captures a single, significant decision — a contract, a framework choice, a deliberate trade-off — along with the context that produced it and the consequences we accept. Once accepted, an ADR is immutable: changes happen by writing a new ADR that supersedes the old one. ADRs are stricter than RFCs. An RFC is a proposal open for discussion; an ADR is the conclusion we have committed to ship. When to write an ADR - A new cross-package contract (Adapter, Tool, Memory, Retriever, Skill, Runtime) - A breaking change to an existing contract - A framework or tooling choice with long-term consequences (e.g., Fumadocs over Docusaurus) - A deliberate trade-off that future contributors would otherwise re-litigate Do NOT write an ADR for: routine features, bug fixes, internal refactors, or anything already covered by the Manifesto. Format Index ADR Title Status --- --- --- Adapter contract (v1) Accepted Tool contract (v1) Accepted Memory contract (v1) Accepted Retriever contract (v1) Accepted Skill contract (v1) Accepted Runtime contract (v1) Accepted Documentation platform: Fumadocs Accepted Runtime argument validation Accepted Composition & dependency rules Accepted Network egress policy (safeFetch) Accepted Inbound request validation (chat triggers) Accepted Vendor adapter scope & granularity Accepted Runtime validation for serialized message records Accepted Trusted application tool-call proposal Accepted Tool authorization before proposal and execution Accepted Cancellable ChatMemory operations Accepted Serializable interaction state Accepted Versioned ecosystem manifest and evidence-backed claims Proposed Public package consolidation Accepted Strict ecosystem documentation quality profile Proposed Evidence-backed package graduation Accepted Public API snapshots and compatibility matrix Accepted Integration execution safety boundaries Accepted Statechart beta safety boundaries Accepted MCP bridge beta boundaries Accepted Shared ecosystem web shell Proposed Shared CLI adapter execution boundary Accepted Registry adopts the ecosystem shell Proposed Ecosystem shell v1 Accepted Documentation pruning and API reference route consolidation Accepted One package owns OS and runtime portability Proposed One package owns HTTP plumbing Proposed Canonical JSON and SHA-256 helpers Accepted Cryptographic IDs for generated identifiers Accepted The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.",
+          "body": "Architecture Decision Records (ADRs) This directory contains the formal, versioned contracts and architectural decisions for AgentsKit. What is an ADR? An ADR captures a single, significant decision — a contract, a framework choice, a deliberate trade-off — along with the context that produced it and the consequences we accept. Once accepted, an ADR is immutable: changes happen by writing a new ADR that supersedes the old one. ADRs are stricter than RFCs. An RFC is a proposal open for discussion; an ADR is the conclusion we have committed to ship. When to write an ADR - A new cross-package contract (Adapter, Tool, Memory, Retriever, Skill, Runtime) - A breaking change to an existing contract - A framework or tooling choice with long-term consequences (e.g., Fumadocs over Docusaurus) - A deliberate trade-off that future contributors would otherwise re-litigate Do NOT write an ADR for: routine features, bug fixes, internal refactors, or anything already covered by the Manifesto. Format Index ADR Title Status --- --- --- Adapter contract (v1) Accepted Tool contract (v1) Accepted Memory contract (v1) Accepted Retriever contract (v1) Accepted Skill contract (v1) Accepted Runtime contract (v1) Accepted Documentation platform: Fumadocs Accepted Runtime argument validation Accepted Composition & dependency rules Accepted Network egress policy (safeFetch) Accepted Inbound request validation (chat triggers) Accepted Vendor adapter scope & granularity Accepted Runtime validation for serialized message records Accepted Trusted application tool-call proposal Accepted Tool authorization before proposal and execution Accepted Cancellable ChatMemory operations Accepted Serializable interaction state Accepted Versioned ecosystem manifest and evidence-backed claims Proposed Public package consolidation Accepted Strict ecosystem documentation quality profile Proposed Evidence-backed package graduation Accepted Public API snapshots and compatibility matrix Accepted Integration execution safety boundaries Accepted Statechart beta safety boundaries Accepted MCP bridge beta boundaries Accepted Shared ecosystem web shell Proposed Shared CLI adapter execution boundary Accepted Registry adopts the ecosystem shell Proposed Ecosystem shell v1 Accepted Documentation pruning and API reference route consolidation Accepted One package owns OS and runtime portability Proposed One package owns HTTP plumbing Proposed Canonical JSON and SHA-256 helpers Accepted Cryptographic IDs for generated identifiers Accepted Preserve eval replay fingerprint compatibility Proposed The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.",
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003071,
+          "pagerank": 0.003065,
           "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [
@@ -71029,10 +71122,15 @@
               "kind": "links-to",
               "id": "document:docs/architecture/adrs/0039-cryptographic-ids.md",
               "confidence": "observed"
+            },
+            {
+              "kind": "links-to",
+              "id": "document:docs/architecture/adrs/0040-eval-replay-fingerprint-compatibility.md",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "52b7bb63e483cb0e3a2b2d2a2255ab7a2e59339a05c09b96f4665dd5ace5b0d9",
+        "contentHash": "99830638ce4623c4a8e014db13f979133c6ad5f378b552ad3a1746f29bd31cfb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -71058,7 +71156,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72374,7 +72472,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
@@ -72431,7 +72529,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002536,
+          "pagerank": 0.002531,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72586,7 +72684,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -72904,7 +73002,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002692,
+          "pagerank": 0.002687,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -73151,7 +73249,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002075,
+          "pagerank": 0.002071,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -73190,7 +73288,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.008727,
+          "pagerank": 0.00871,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -73303,7 +73401,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003656,
+          "pagerank": 0.003649,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -73360,7 +73458,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -73434,7 +73532,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002591,
+          "pagerank": 0.002586,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [
@@ -73551,7 +73649,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.023491,
+          "pagerank": 0.023445,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -73629,7 +73727,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.079116,
+          "pagerank": 0.078961,
           "inboundLinks": 64,
           "coveredBy": [],
           "mentionedBy": [
@@ -74183,7 +74281,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.021303,
+          "pagerank": 0.02126,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -74520,7 +74618,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -74604,7 +74702,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.012285,
+          "pagerank": 0.012261,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -74885,7 +74983,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.036404,
+          "pagerank": 0.036331,
           "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [
@@ -75084,7 +75182,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -75297,7 +75395,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.019964,
+          "pagerank": 0.019926,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [
@@ -75391,7 +75489,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002791,
+          "pagerank": 0.002786,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -75453,7 +75551,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
@@ -75520,7 +75618,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -75842,7 +75940,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002075,
+          "pagerank": 0.002071,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -75998,7 +76096,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002536,
+          "pagerank": 0.002531,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -76141,7 +76239,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -76333,7 +76431,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -76655,7 +76753,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -76872,7 +76970,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -76979,7 +77077,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77131,7 +77229,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77338,7 +77436,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77543,7 +77641,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77626,7 +77724,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77700,7 +77798,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77983,11 +78081,11 @@
           "path": "packages/net/README.md",
           "symbols": "",
           "summary": "Profile: <code>concise-package</code>",
-          "body": "@agentskit/net Profile: <code concise-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p HTTP plumbing for agents, in one small package: retries with backoff and Retry-After , per-attempt timeouts, bounded body reads, server-sent events, and SSRF address checks. Web APIs only, so it runs on Node, Bun, Deno, browsers and edge runtimes. Tags: agentskit · ai-agents · fetch · retry · sse · ssrf · timeout · edge Verified proof - Package metadata and unit tests live under packages/net/ . - Decision record: . - Stability map: How this fits the ecosystem Adapters, tools and the other AgentsKit repositories each carried their own retry loop, Retry-After parsing, SSE line splitter and private-IP check, with different bugs in each. @agentskit/net owns them, built on eventsource-parser and ipaddr.js , so callers import one tested implementation. - AgentsKit : @agentskit/adapters (streaming, retries) and @agentskit/tools (fetching user-supplied URLs) are the intended consumers. - Registry : ready agents and templates at . - Playbook : production patterns at . Docs: · Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- Features Area API Replaces --- --- --- Retry retry , computeBackoff , parseRetryAfter , isRetryableStatus , RETRYABLE STATUSES hand-written for loops with fixed sleeps, ignored Retry-After Fetch fetchWithRetry retrying POSTs twice, leaking discarded response bodies, timeouts that span all attempts Timeouts timeoutSignal , anySignal setTimeout + AbortController boilerplate Bodies readBody , readText , readJson await res.text() on an unbounded response SSE parseSSE , parseSSEResponse split('\\n') + startsWith('data: ') parsers that break on CRLF, multi-line data and chunk boundaries Addresses assertPublicUrl , isPublicAddress , classifyAddress regexes over 127. / 10. / 192.168. that miss IPv6, IPv4-mapped and metadata addresses - Idempotent by default : fetchWithRetry retries GET/HEAD/OPTIONS/PUT/DELETE/TRACE; pass retryMethods: 'all' to opt in for POST. Streaming bodies are never retried. - Typed errors : NetError with AK NET TIMEOUT , AK NET BODY TOO LARGE , AK NET BLOCKED ADDRESS , AK NET INVALID INPUT , AK NET SSE PARSE FAILED . - DNS is injected : assertPublicUrl takes a lookup function, so the package has no node: imports. Checking before connecting does not stop DNS rebinding; pin the resolved address when that matters. - Built on : eventsource-parser , ipaddr.js . - Guardrail : import NET RULES from @agentskit/net/rules and pass them to scanRepository / scanText from @agentskit/cross-platform . compareToBaseline ratchets local Retry-After parsing, manual SSE prefixes, Promise sleeps, Promise.race timeouts, private-address regexes and unbounded response reads. The repository check is node scripts/check-net-rules.mjs . Ecosystem Package Role --------- ------ AgentsKitError , the base of NetError Provider streaming and retries Fetching user-supplied URLs safely Contributors <a href=\"https://github.com/AgentsKit-io/agentskit/graphs/contributors\" <img src=\"https://contrib.rocks/image?repo=AgentsKit-io/agentskit\" alt=\"AgentsKit contributors\" / </a License MIT — see . Docs · Maturity and compatibility - Stability: beta — see . Not 1.0. - Node.js 20+ (20.19+), Bun, Deno, modern browsers and edge runtimes; TypeScript strict mode - Published as @agentskit/net Contributing See and the monorepo .",
+          "body": "@agentskit/net Profile: <code concise-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p HTTP plumbing for agents, in one small package: retries with backoff and Retry-After , per-attempt timeouts, bounded body reads, server-sent events, and SSRF address checks. Web APIs only, so it runs on Node, Bun, Deno, browsers and edge runtimes. Tags: agentskit · ai-agents · fetch · retry · sse · ssrf · timeout · edge Verified proof - Package metadata and unit tests live under packages/net/ . - Decision record: . - Stability map: How this fits the ecosystem Adapters, tools and the other AgentsKit repositories each carried their own retry loop, Retry-After parsing, SSE line splitter and private-IP check, with different bugs in each. @agentskit/net owns them, built on eventsource-parser and ipaddr.js , so callers import one tested implementation. - AgentsKit : @agentskit/adapters (streaming, retries) and @agentskit/tools (fetching user-supplied URLs) are the intended consumers. - Registry : ready agents and templates at . - Playbook : production patterns at . Docs: · Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- Features Area API Replaces --- --- --- Retry retry , computeBackoff , parseRetryAfter , isRetryableStatus , RETRYABLE STATUSES hand-written for loops with fixed sleeps, ignored Retry-After Fetch fetchWithRetry retrying POSTs twice, leaking discarded response bodies, timeouts that span all attempts Timeouts timeoutSignal , anySignal setTimeout + AbortController boilerplate Bodies readBody , readText , readJson await res.text() on an unbounded response SSE parseSSE , parseSSEResponse split('\\n') + startsWith('data: ') parsers that break on CRLF, multi-line data and chunk boundaries Addresses assertPublicUrl , isPublicAddress , classifyAddress regexes over 127. / 10. / 192.168. that miss IPv6, IPv4-mapped and metadata addresses - Idempotent by default : fetchWithRetry retries GET/HEAD/OPTIONS/PUT/DELETE/TRACE; pass retryMethods: 'all' to opt in for POST. Streaming bodies are never retried. - Typed errors : NetError with AK NET TIMEOUT , AK NET BODY TOO LARGE , AK NET BLOCKED ADDRESS , AK NET INVALID INPUT , AK NET SSE PARSE FAILED . - DNS is injected : assertPublicUrl takes a lookup function, so the package has no node: imports. Checking before connecting does not stop DNS rebinding; pin the resolved address when that matters. - Built on : eventsource-parser , ipaddr.js . - Guardrail rules : NET RULES ( readonly NetRule[] ) from @agentskit/net/rules detects duplicate HTTP retry, SSE, timeout, address and body handling. Add @agentskit/cross-platform as a dev dependency to run its scanner; pass NET RULES to scanText(file, source, rules) or scanRepository(options) . Both return findings that compareToBaseline(findings, baseline) ratchets. Use <id -ignore: <reason for an approved one-rule suppression, for example net-retry-after-ignore: legacy retry handler . The repository check is node scripts/check-net-rules.mjs . Ecosystem Package Role --------- ------ AgentsKitError , the base of NetError Provider streaming and retries Fetching user-supplied URLs safely Contributors <a href=\"https://github.com/AgentsKit-io/agentskit/graphs/contributors\" <img src=\"https://contrib.rocks/image?repo=AgentsKit-io/agentskit\" alt=\"AgentsKit contributors\" / </a License MIT — see . Docs · Maturity and compatibility - Stability: beta — see . Not 1.0. - Node.js 20+ (20.19+), Bun, Deno, modern browsers and edge runtimes; TypeScript strict mode - Published as @agentskit/net Contributing See and the monorepo .",
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78055,16 +78153,6 @@
             },
             {
               "kind": "mentions-symbol",
-              "id": "module:packages/cross-platform/src/lint/baseline.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/cross-platform/src/lint/scan.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
               "id": "module:packages/net/src/address.ts",
               "confidence": "observed"
             },
@@ -78100,7 +78188,7 @@
             }
           ]
         },
-        "contentHash": "ef296ff60143a33d09b85da71d86595fe889f6def5dcbc604b9ae57340c87dfd",
+        "contentHash": "6fb41b341a6c23821ff2b152d257947617a2d813a6984e924d5f5214ebd4e42c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -78184,7 +78272,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78247,7 +78335,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78321,7 +78409,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78464,7 +78552,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78563,7 +78651,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78790,7 +78878,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78918,7 +79006,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79017,7 +79105,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79170,7 +79258,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79244,7 +79332,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002075,
+          "pagerank": 0.002071,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -79400,7 +79488,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79474,7 +79562,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79602,7 +79690,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79671,7 +79759,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79863,7 +79951,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80024,7 +80112,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002816,
+          "pagerank": 0.002811,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80217,7 +80305,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80439,7 +80527,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002075,
+          "pagerank": 0.002071,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80563,7 +80651,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80622,7 +80710,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80924,7 +81012,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81071,7 +81159,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81200,7 +81288,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 9,
           "coveredBy": [],
           "mentionedBy": [
@@ -81529,7 +81617,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002088,
+          "pagerank": 0.002084,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81578,7 +81666,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.004241,
+          "pagerank": 0.004233,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81657,7 +81745,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.003353,
+          "pagerank": 0.003347,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81786,7 +81874,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002088,
+          "pagerank": 0.002084,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81860,7 +81948,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002976,
+          "pagerank": 0.00297,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81959,7 +82047,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002088,
+          "pagerank": 0.002084,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82038,7 +82126,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002088,
+          "pagerank": 0.002084,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82107,7 +82195,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.004328,
+          "pagerank": 0.00432,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82191,7 +82279,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002088,
+          "pagerank": 0.002084,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82270,7 +82358,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002928,
+          "pagerank": 0.002923,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82344,7 +82432,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002088,
+          "pagerank": 0.002084,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82418,7 +82506,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.005168,
+          "pagerank": 0.005158,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82507,7 +82595,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002928,
+          "pagerank": 0.002923,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82601,7 +82689,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002088,
+          "pagerank": 0.002084,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82676,7 +82764,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82812,15 +82900,15 @@
         ],
         "fields": {
           "title": "scripts/",
-          "headings": "scripts/ check-quality-gates.mjs (orchestrator) check-for-agents-coverage.mjs check-src-test-parity.mjs check-no-bare-throw.mjs check-core-rules.mjs check-core-no-deps.mjs check-stability-tier.mjs check-readme-badge.mjs check-coverage-floor.mjs check-promotion-rfc.mjs check-stable-dependencies.mjs check-stability-evidence.mjs report-stability-readiness.mjs check-no-any.mjs check-named-exports.mjs check-file-size.mjs check-doc-index.mjs check-intl-parity.mjs check-packed-consumers.mjs check-public-api-snapshot.mjs Release registry preflight verify-ecosystem-visual.mjs gen-brand-logos.mjs",
+          "headings": "scripts/ Build prerequisites and timings check-quality-gates.mjs (orchestrator) check-for-agents-coverage.mjs check-src-test-parity.mjs check-no-bare-throw.mjs check-core-rules.mjs check-core-no-deps.mjs check-stability-tier.mjs check-readme-badge.mjs check-coverage-floor.mjs check-promotion-rfc.mjs check-stable-dependencies.mjs check-stability-evidence.mjs report-stability-readiness.mjs check-no-any.mjs check-named-exports.mjs check-file-size.mjs check-doc-index.mjs check-intl-parity.mjs check-packed-consumers.mjs check-public-api-snapshot.mjs Release registry preflight verify-ecosystem-visual.mjs gen-brand-logos.mjs",
           "path": "scripts/README.md",
           "symbols": "",
           "summary": "Repo-level CI helpers. Each script is dependency-free Node ESM, runnable from the repo root. They run on every PR + push to main via .github/workflows/ci.yml and a husky pre-push hook.",
-          "body": "scripts/ Repo-level CI helpers. Each script is dependency-free Node ESM, runnable from the repo root. They run on every PR + push to main via .github/workflows/ci.yml and a husky pre-push hook. check-quality-gates.mjs (orchestrator) Runs every structural gate below in sequence and prints a single pass/fail summary. This is the entry point — pnpm check:quality-gates . pnpm check:all layers typecheck + build + test on top. To add a gate: write the check- .mjs script, then register it in the GATES array at the top of this orchestrator. Gates strip backtick template contents before matching so scaffold/prompt strings don't false-positive. check-for-agents-coverage.mjs Asserts that every value export from packages/<name /src/index.ts appears at least once in apps/docs-next/content/docs/for-agents/<name .mdx . Catches drift between code and the agent-discoverable reference page. Exits non-zero on drift, listing each missing symbol per package. Type-only exports are skipped (the for-agents pages document the runtime surface, not every supporting type). Per-package exclusions live in the IGNORE EXPORTS table at the top of the script. check-src-test-parity.mjs Asserts that every packages/<pkg /src/<file .{ts,tsx} has at least one corresponding test reference: a tests/<basename .test.{ts,tsx} , or any .test file in the package whose body imports the source path or mentions its kebab/camel/Pascal-cased basename. Catches new files landing without test exposure. ALLOW FILES / ALLOW PREFIXES at the top of the script track re-export-only files ( index.ts , types.ts ), aggregate-tested modules, and queued conversions tracked in epic 562. check-no-bare-throw.mjs Asserts that no throw new Error(...) appears in package source code outside the typed-error definitions. Use one of the AgentsKitError subclasses ( AdapterError , ToolError , MemoryError , RuntimeError , SandboxError , SkillError , ConfigError ) so every error carries a stable code , hint , and docsUrl . The allowlist at the top of the script tracks files that legitimately hold bare throws: errors.ts itself, files where the bare Error is caught and rewrapped (embedder fetchAvailableModels ), and CLI/leaf modules whose conversions are queued in the enterprise-readiness backlog. The list shrinks as those conversions land. check-core-rules.mjs Applies CORE RULES from @agentskit/core/rules to packages/ /src with the cross-platform scanner and a shrink-only baseline in .core-rules-baseline.json . <rule-id -ignore: <reason on the line or the line above suppresses that rule. --update lowers counts and refuses to raise them. This gate does not replace check-no-bare-throw.mjs . check-core-no-deps.mjs Asserts @agentskit/core declares zero runtime dependencies (Manifesto principle: core stays pure and under 10KB gzipped). Heavy deps belong in opt-in packages behind a core injection point. check-stability-tier.mjs Asserts every package declares an agentskit.stability tier, the value is one of alpha beta stable , and it matches that package's row in the docs/STABILITY.md \"Current tier map\". Catches a missing tier, an undefined tier value, a package absent from the map, and a stale map row. STABILITY.md is the single source of truth; this gate keeps package metadata in lockstep with it. check-readme-badge.mjs Asserts every package README carries a shields.io stability badge whose tier and color match the package's declared agentskit.stability ( stable →brightgreen, beta →yellow, alpha →orange). Pairs with check-stability-tier so the policy doc, package metadata, and README badge can never drift apart. check-coverage-floor.mjs Ties each package's configured vitest linesThreshold to its stability tier ( stable →90, beta →70, alpha →50). Static check on the configured threshold; the test:coverage job enforces actual ≥ configured, so together they guarantee actual coverage ≥ tier floor. Missing linesThreshold falls back to the vitest.shared default (90). check-promotion-rfc.mjs Asserts every package dec",
+          "body": "scripts/ Repo-level CI helpers. Each script is dependency-free Node ESM, runnable from the repo root. They run on every PR + push to main via .github/workflows/ci.yml and a husky pre-push hook. Build prerequisites and timings CI and coverage build packages with pnpm exec turbo run build --filter='./packages/ ' --concurrency=2 . The quality gates use the same Turbo graph for adapters, MCP and cross-platform, so shared prerequisites build once and subsequent commands reuse their outputs. Root TypeScript configuration and shared scripts invalidate the build cache. The orchestrator prints elapsed seconds for each gate; all checks still execute sequentially and test concurrency is unchanged. No cross-run cache is added. CI runs Quality gates and Test, Build on independent runners, each with its own checkout and package build. Generated files cannot race between jobs. The existing required Lint, Test, Build check aggregates both results and fails if either job fails, is cancelled, or is skipped. Coverage remains a separate workflow. This trades an additional package build for overlapping the gate and test durations; compare wall time and runner time separately. Package-test build prefixes also use Turbo, so both standalone and aggregate test commands reuse the same build graph and cache. Test commands and coverage thresholds are unchanged; this also applies to coverage tasks. After building cross-platform, run node --test scripts/ci-build-cache.test.mjs to exercise a real cache miss, hit and invalidation after a shared script changes. It removes its temporary script and isolated cache afterward. check-quality-gates.mjs (orchestrator) Runs every structural gate below in sequence and prints a single pass/fail summary. This is the entry point — pnpm check:quality-gates . pnpm check:all layers typecheck + build + test on top. To add a gate: write the check- .mjs script, then register it in the GATES array at the top of this orchestrator. Gates strip backtick template contents before matching so scaffold/prompt strings don't false-positive. check-for-agents-coverage.mjs Asserts that every value export from packages/<name /src/index.ts appears at least once in apps/docs-next/content/docs/for-agents/<name .mdx . Catches drift between code and the agent-discoverable reference page. Exits non-zero on drift, listing each missing symbol per package. Type-only exports are skipped (the for-agents pages document the runtime surface, not every supporting type). Per-package exclusions live in the IGNORE EXPORTS table at the top of the script. check-src-test-parity.mjs Asserts that every packages/<pkg /src/<file .{ts,tsx} has at least one corresponding test reference: a tests/<basename .test.{ts,tsx} , or any .test file in the package whose body imports the source path or mentions its kebab/camel/Pascal-cased basename. Catches new files landing without test exposure. ALLOW FILES / ALLOW PREFIXES at the top of the script track re-export-only files ( index.ts , types.ts ), aggregate-tested modules, and queued conversions tracked in epic 562. check-no-bare-throw.mjs Asserts that no throw new Error(...) appears in package source code outside the typed-error definitions. Use one of the AgentsKitError subclasses ( AdapterError , ToolError , MemoryError , RuntimeError , SandboxError , SkillError , ConfigError ) so every error carries a stable code , hint , and docsUrl . The allowlist at the top of the script tracks files that legitimately hold bare throws: errors.ts itself, files where the bare Error is caught and rewrapped (embedder fetchAvailableModels ), and CLI/leaf modules whose conversions are queued in the enterprise-readiness backlog. The list shrinks as those conversions land. check-core-rules.mjs Applies CORE RULES from @agentskit/core/rules to packages/ /src with the cross-platform scanner and a shrink-only baseline in .core-rules-baseline.json . <rule-id -ignore: <reason on the line or the line above suppresses that rule. --update lowers counts",
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
@@ -82936,7 +83024,7 @@
             }
           ]
         },
-        "contentHash": "6cdb882a3185a65217d6ffb223e9277ed81e6c8a16eb5b612c841a632fa5dc7e",
+        "contentHash": "eb18ae071d9c61f0d05ca3d25cf1d1681b38c30753431b0062b9dfc0a2cb0970",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -82962,7 +83050,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.007776,
+          "pagerank": 0.007761,
           "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
@@ -83086,7 +83174,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001976,
+          "pagerank": 0.001972,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -112379,11 +112467,6 @@
             },
             {
               "kind": "imports",
-              "id": "module:packages/cli/src/components/marker.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
               "id": "module:packages/cli/src/components/node-fs.ts",
               "confidence": "observed"
             },
@@ -112411,7 +112494,7 @@
             }
           ]
         },
-        "contentHash": "7065093e524582b22de2d0d246dfbcaf30ebaff1b5ffd105fad847ae3d8b771a",
+        "contentHash": "d4f9a646d6b77e7b6173eacaa129a92911e81c101492f4a32538820daa76e9c5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -112675,11 +112758,6 @@
           "outbound": [
             {
               "kind": "imports",
-              "id": "module:packages/cli/src/components/fetch.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
               "id": "module:packages/cli/src/components/install.ts",
               "confidence": "observed"
             },
@@ -112690,7 +112768,7 @@
             }
           ]
         },
-        "contentHash": "13fc70636a4f6ee3c52625852d168989076e18d3207098c18fe6585485631601",
+        "contentHash": "9ca58f91f78fe46eceb61811f51a7e01adcaa1bd877407a69d53b26df800da97",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -115984,7 +116062,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "2d2cab99e07df477334078af3a7e7a9e8eb78312df38c0628c45e8cc747821c5",
+        "contentHash": "a085df4057ebf01182b8c51e58bc66a6ed9355c910637b106cd24513b6417b55",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -116713,7 +116791,7 @@
             }
           ]
         },
-        "contentHash": "5b83b5626bf60102651c62c36a9f43abe08d1361f06b1d4e24eadfba81ccf7ab",
+        "contentHash": "d5113c960c14c60f0e2f7c14090820cdb1e8e5e5d683d1d8e85e0b8a6d0fb252",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -116873,7 +116951,7 @@
             }
           ]
         },
-        "contentHash": "d2c037362010e7555042f3d5616ed05851fb9d0204a5882712fe80bc432ca4fc",
+        "contentHash": "4d0d61be6eb158f2c3896ef5132b23b51be59ac27718c7b35ab29952fc4ca85f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -118456,7 +118534,7 @@
             }
           ]
         },
-        "contentHash": "015fc90296251206b2df355ae63a15818312da845d8c67bb1e99fee103daf120",
+        "contentHash": "2975d8765ab882fab1ba8f1c5f9ada7c3fefe4cb796a6f7dd2c545547653d408",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -119806,7 +119884,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 27,
+          "inboundLinks": 28,
           "coveredBy": [],
           "mentionedBy": [
             "document:.agent-memory/project_playbook-alignment.md",
@@ -119828,6 +119906,7 @@
             "document:docs/architecture/adrs/0010-egress-policy.md",
             "document:docs/architecture/adrs/0013-memory-record-runtime-validation.md",
             "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
+            "document:docs/architecture/adrs/0040-eval-replay-fingerprint-compatibility.md",
             "document:docs/studies/ecosystem-cohesion-plan.md",
             "document:docs/studies/v1-readiness-audit.md",
             "document:packages/core/README.md",
@@ -120012,6 +120091,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:docs/architecture/adrs/0040-eval-replay-fingerprint-compatibility.md",
               "confidence": "observed"
             },
             {
@@ -122662,7 +122746,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 31,
+          "inboundLinks": 32,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0001-adapter-contract.md",
@@ -122689,6 +122773,7 @@
             "document:docs/architecture/adrs/0001-adapter-contract.md",
             "document:docs/architecture/adrs/0002-tool-contract.md",
             "document:docs/architecture/adrs/0031-cli-adapter-execution-boundary.md",
+            "document:docs/architecture/adrs/0040-eval-replay-fingerprint-compatibility.md",
             "document:docs/PHASE-1-REVIEW.md",
             "document:docs/RELEASE-CORE-V1.md",
             "document:packages/adapters/CONVENTIONS.md",
@@ -122823,6 +122908,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:docs/architecture/adrs/0031-cli-adapter-execution-boundary.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:docs/architecture/adrs/0040-eval-replay-fingerprint-compatibility.md",
               "confidence": "observed"
             },
             {
@@ -127851,7 +127941,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 8,
+          "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx",
@@ -127860,8 +127950,7 @@
             "document:apps/docs-next/content/docs/index.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/bail-qwen-routing.mdx",
-            "document:packages/net/CONVENTIONS.md",
-            "document:packages/net/README.md"
+            "document:packages/net/CONVENTIONS.md"
           ],
           "areaId": "area:packages/cross-platform/src/lint",
           "packageId": "package:@agentskit/cross-platform",
@@ -127919,11 +128008,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:packages/net/CONVENTIONS.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:packages/net/README.md",
               "confidence": "observed"
             },
             {
@@ -128040,7 +128124,7 @@
             }
           ]
         },
-        "contentHash": "01b7b6ab4318eecd7fb7adc0334bc555bb139200bfe52b20f1aec5d9572bf955",
+        "contentHash": "f7cee6ad8ff14f85d698aa4f0bdd4a9bd3295e373ff8d8021fa09ab659899f20",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -128139,12 +128223,11 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 3,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx",
-            "document:packages/net/CONVENTIONS.md",
-            "document:packages/net/README.md"
+            "document:packages/net/CONVENTIONS.md"
           ],
           "areaId": "area:packages/cross-platform/src/lint",
           "packageId": "package:@agentskit/cross-platform",
@@ -128192,11 +128275,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:packages/net/CONVENTIONS.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:packages/net/README.md",
               "confidence": "observed"
             },
             {
@@ -131814,10 +131892,11 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 3,
+          "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/reference/recipes/deterministic-replay.mdx",
+            "document:docs/architecture/adrs/0040-eval-replay-fingerprint-compatibility.md",
             "document:packages/eval/CONVENTIONS.md",
             "document:packages/eval/README.md"
           ],
@@ -131847,6 +131926,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/reference/recipes/deterministic-replay.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:docs/architecture/adrs/0040-eval-replay-fingerprint-compatibility.md",
               "confidence": "observed"
             },
             {
@@ -133108,7 +133192,7 @@
             }
           ]
         },
-        "contentHash": "a9b7882b7b5b20d419900542c53cd5865fdca8690cf1b186ef5cc43ceac63dc6",
+        "contentHash": "b46dc6e84281f5cbed66c744a1ace5c93d297785c95803b98a06c0a9a9d07ce3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -152622,7 +152706,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "824655caba623faf5c0407d5d6220168cabe48bc85fafb55cdc261758b48b45a",
+        "contentHash": "d903901418b6ed3d3bbcb876c88794e411c804eab9f9e0ac2b4420b47cec0a27",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -153029,7 +153113,7 @@
             }
           ]
         },
-        "contentHash": "3489da62f8f5e8cbb43da5528bf5f0393ad6745700e812689142227f3ff49ba4",
+        "contentHash": "6a69d27563bac9f08394f1f6556c26b8b04c76e5b19a8cf6896016af5887f378",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -156956,7 +157040,7 @@
             }
           ]
         },
-        "contentHash": "01b934930a207385b72516975327a5c8ec4597cdea947eddc4dd1b532b47bd97",
+        "contentHash": "3a6a24c6b03ff5063575d6584dba36b5ee80665c758d8e99cc0ef22132a280e4",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -165870,7 +165954,7 @@
             }
           ]
         },
-        "contentHash": "fe6290f8762444b41d72b09de247e9adf3f29ef3837ef79024ce97fb5ebbd64d",
+        "contentHash": "d5f0d71347830fa64b3e758072b6e51299e3769c1abaa582079ab64168bf89c8",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -180797,7 +180881,7 @@
             }
           ]
         },
-        "contentHash": "aca087f8056cbdc7399ac20f5b5e722b1f07e1c4c1aff31eeea8cca98ddfefac",
+        "contentHash": "f69f7773b426511a926b1ab7deb9aa27beb4ec02eb700a60e31fd65a019516a8",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -181419,6 +181503,41 @@
         "confidence": "observed"
       },
       {
+        "id": "module:scripts/check-net-rules.test.mjs",
+        "kind": "module",
+        "path": "scripts/check-net-rules.test.mjs",
+        "title": "check-net-rules.test.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "test",
+          "scripts"
+        ],
+        "fields": {
+          "title": "check-net-rules.test.mjs",
+          "headings": "",
+          "path": "scripts/check-net-rules.test.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs test scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "55aee52877f774da9b1d907d48b0ca4d8b2ddc7ad555749b88d19d3718f5d28c",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:scripts/check-no-any.mjs",
         "kind": "module",
         "path": "scripts/check-no-any.mjs",
@@ -181823,7 +181942,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "c6b4855c711ac08a42f258534615e89ef7f8f892713b06746ea1cf509ab0da0a",
+        "contentHash": "dc2925e56c5fa52a2f5bd30d1bec73a4a7097050b48eddbeee34aa7231698b7c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -182139,6 +182258,41 @@
           ]
         },
         "contentHash": "bc31fa181ecb567f18d42214f524ee366807af03f2e443f6a929b8f30fb23b51",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:scripts/ci-build-cache.test.mjs",
+        "kind": "module",
+        "path": "scripts/ci-build-cache.test.mjs",
+        "title": "ci-build-cache.test.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "test",
+          "scripts"
+        ],
+        "fields": {
+          "title": "ci-build-cache.test.mjs",
+          "headings": "",
+          "path": "scripts/ci-build-cache.test.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs test scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:scripts",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "e53d5106220be2dbdcf6fa424363857b0b86ea7e02e9520d02049f2def5bebaa",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -186445,7 +186599,7 @@
           "aliases": "adapters @agentskit/adapters package ownership"
         },
         "graph": {
-          "pagerank": 0.004496,
+          "pagerank": 0.004488,
           "inboundLinks": 64,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
@@ -186840,7 +186994,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "6fcd2afa8eaa90728257b3db9673d69c7402d6ad9c6196ac045666e803039950",
+        "contentHash": "79cbb71b9f96141e482670a77a6c46f652819f4898e4db398af71e710026e3c7",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "adapters"
@@ -186870,7 +187024,7 @@
           "aliases": "angular @agentskit/angular package ownership"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 37,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/angular.mdx",
@@ -187103,7 +187257,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "1a0ad69c35b4b47cba6c2ce485c038f6648113f5d4673f73acdfa0cb57fd9ec9",
+        "contentHash": "49a13736e3151a32f53dc02fd7e903f1e8b56686914387f169e5e56812126a2f",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "angular"
@@ -187133,7 +187287,7 @@
           "aliases": "cli @agentskit/cli package ownership"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 28,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cli.mdx",
@@ -187342,7 +187496,7 @@
           "aliases": "core @agentskit/core package ownership"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 64,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/core.mdx",
@@ -187767,7 +187921,7 @@
           "aliases": "cross-platform @agentskit/cross-platform package ownership"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 11,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx",
@@ -187874,7 +188028,7 @@
           "aliases": "eval @agentskit/eval package ownership"
         },
         "graph": {
-          "pagerank": 0.007856,
+          "pagerank": 0.007841,
           "inboundLinks": 45,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/eval-braintrust.mdx",
@@ -188155,7 +188309,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "8c9ada00795c0b46d3dba3741a42a0223260b633bb2b91462bacea17fc533479",
+        "contentHash": "a9629dc5b6f928610a0873080bffa927f5659f717c112a4d9cc43b38b6127ab4",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "eval"
@@ -188267,7 +188421,7 @@
           "aliases": "ink @agentskit/ink package ownership"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 56,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/ink.mdx",
@@ -188614,7 +188768,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "e9919da857fc5074226a3f918d0ab60e4f705e9a5f3a04dda089d7759c43fda2",
+        "contentHash": "3e4ad60ccf86c52dff21ce3ade5200a188047e11f0dd6c1c3e26175d3f3d75ca",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "ink"
@@ -188644,7 +188798,7 @@
           "aliases": "integrations @agentskit/integrations package ownership"
         },
         "graph": {
-          "pagerank": 0.003236,
+          "pagerank": 0.00323,
           "inboundLinks": 19,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
@@ -188769,7 +188923,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "b35f3f6e012428e22654f2ccbd53ad553cdc6aadb237bc0ea32ebfbc5a499e2f",
+        "contentHash": "266af6195f9615e751fa48b53309d6764ca8f405f58a4f81db1bd97eb5375c46",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "integrations"
@@ -188799,7 +188953,7 @@
           "aliases": "mcp @agentskit/mcp package ownership"
         },
         "graph": {
-          "pagerank": 0.003236,
+          "pagerank": 0.00323,
           "inboundLinks": 20,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/mcp.mdx",
@@ -188960,7 +189114,7 @@
           "aliases": "memory @agentskit/memory package ownership"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 64,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/memory.mdx",
@@ -189355,7 +189509,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "1119f409007a17704534b01810a7c7e41a5d1d0491894f614e9baf4f276718b6",
+        "contentHash": "4804ced18fc5c9d9e946dff08514cd5b65beb28121956515eff3f16498e51207",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "memory"
@@ -189385,7 +189539,7 @@
           "aliases": "net @agentskit/net package ownership"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 9,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/net.mdx",
@@ -189480,7 +189634,7 @@
           "aliases": "observability @agentskit/observability package ownership"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 54,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/observability.mdx",
@@ -189845,7 +189999,7 @@
           "aliases": "observability-langfuse @agentskit/observability-langfuse package ownership"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 8,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/observability-langfuse.mdx",
@@ -189934,7 +190088,7 @@
           "aliases": "rag @agentskit/rag package ownership"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 51,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/rag.mdx",
@@ -190251,7 +190405,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "730acb2bda3ece5d088ac855330a965b5a93dc90c77f0c189ad06002e067140e",
+        "contentHash": "ba8dc410a22f39c6e5a1cd69f089235d2191f0517d009d57de47fd9a073b60ea",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "rag"
@@ -190281,7 +190435,7 @@
           "aliases": "react @agentskit/react package ownership"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 64,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/react.mdx",
@@ -190676,7 +190830,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "d274dffce0be6188591ae98a2c6abb7c28b93e6f8eb3fc8606c082810ae7c725",
+        "contentHash": "99ff2400820367a9964e031773250a3fee1a60f63a3b3dd4cf238948a6a42b75",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "react"
@@ -190706,7 +190860,7 @@
           "aliases": "react-native @agentskit/react-native package ownership"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 36,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/react-native.mdx",
@@ -190933,7 +191087,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "2298e1969a4147a59ade8b51ab8711f551f7d9a1fe89677068f6e2e26d8c8986",
+        "contentHash": "9091b4a5991171153dbcebfbced9ff565774264c64a87b7aab568c90d02e3e26",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "react-native"
@@ -190963,7 +191117,7 @@
           "aliases": "runtime @agentskit/runtime package ownership"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 64,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/runtime.mdx",
@@ -191388,7 +191542,7 @@
           "aliases": "sandbox @agentskit/sandbox package ownership"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 40,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/sandbox.mdx",
@@ -191669,7 +191823,7 @@
           "aliases": "skills @agentskit/skills package ownership"
         },
         "graph": {
-          "pagerank": 0.003656,
+          "pagerank": 0.003649,
           "inboundLinks": 30,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/skills.mdx",
@@ -191890,7 +192044,7 @@
           "aliases": "solid @agentskit/solid package ownership"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 34,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/solid.mdx",
@@ -192105,7 +192259,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "2ead86d3f851884f18f89bcc8b383cec36607bbe3af5686e82d565880cd89525",
+        "contentHash": "f7ffae080547485ddad6109b86322cc921d2a54e05e90ea32485a62f0058bfeb",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "solid"
@@ -192135,7 +192289,7 @@
           "aliases": "statechart @agentskit/statechart package ownership"
         },
         "graph": {
-          "pagerank": 0.002816,
+          "pagerank": 0.002811,
           "inboundLinks": 13,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/statechart.mdx",
@@ -192254,7 +192408,7 @@
           "aliases": "svelte @agentskit/svelte package ownership"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 39,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/svelte.mdx",
@@ -192499,7 +192653,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "58b43288a06129df052bb733792a5a221bf3be460ed1aa9785daaed6551c21d8",
+        "contentHash": "1f5c5f94f11b385b2b1f36aae302cff8c78a6296c590bd00c67425a417817f6c",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "svelte"
@@ -192529,7 +192683,7 @@
           "aliases": "templates @agentskit/templates package ownership"
         },
         "graph": {
-          "pagerank": 0.004496,
+          "pagerank": 0.004488,
           "inboundLinks": 22,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/templates.mdx",
@@ -192702,7 +192856,7 @@
           "aliases": "tools @agentskit/tools package ownership"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 64,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/tools.mdx",
@@ -193097,7 +193251,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "38f9e975ae934c241fb7da5773c72e573f57a244d9a88635794105686425c991",
+        "contentHash": "c9ab136d2f199686cb6de6f3a03e962cab6212e6bf7081ab2cfd858f63d41b40",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "tools"
@@ -193127,7 +193281,7 @@
           "aliases": "validation @agentskit/validation package ownership"
         },
         "graph": {
-          "pagerank": 0.004076,
+          "pagerank": 0.004068,
           "inboundLinks": 13,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/validation.mdx",
@@ -193246,7 +193400,7 @@
           "aliases": "vue @agentskit/vue package ownership"
         },
         "graph": {
-          "pagerank": 0.005336,
+          "pagerank": 0.005326,
           "inboundLinks": 39,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/vue.mdx",
@@ -193491,7 +193645,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "6a755e799dfeefe37db954daea7f8f0747946a4f5e3a133e868b90e75315b7aa",
+        "contentHash": "95afd24e2557716d8396d8ede7ede61ea7b2b829b71555ffa67a54fcf91e725d",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "vue"
@@ -193517,7 +193671,7 @@
           "aliases": "agentskit package"
         },
         "graph": {
-          "pagerank": 0.002396,
+          "pagerank": 0.002392,
           "inboundLinks": 46,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx"

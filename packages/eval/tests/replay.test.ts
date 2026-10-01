@@ -2,7 +2,8 @@ import { describe, expect, it } from 'vitest'
 import { mkdtempSync, rmSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import type { AdapterFactory, AdapterRequest, StreamChunk } from '@agentskit/core'
+import { ConfigError, ErrorCodes, type AdapterFactory, type AdapterRequest, type StreamChunk } from '@agentskit/core'
+import { canonicalJson } from '@agentskit/core/hash'
 import {
   createCassette,
   createRecordingAdapter,
@@ -137,6 +138,69 @@ describe('replay engine', () => {
     expect(fingerprintRequest(req('a'))).not.toBe(fingerprintRequest(req('b')))
   })
 
+  it('preserves persisted fingerprints through recording, serialization, and strict replay', async () => {
+    const recordedFingerprint = '{"messages":[{"content":"persisted prompt","role":"user"}]}'
+    const { factory, cassette } = createRecordingAdapter(fakeAdapter([{ type: 'text', content: 'saved' }]))
+    await collect(factory.createSource(req('persisted prompt')).stream())
+
+    expect(fingerprintRequest(cassette.entries[0]!.request)).toBe(recordedFingerprint)
+    const parsed = parseCassette(serializeCassette(cassette))
+    expect(fingerprintRequest(parsed.entries[0]!.request)).toBe(recordedFingerprint)
+    const replay = createReplayAdapter(parsed)
+    expect(await collect(replay.createSource(req('persisted prompt')).stream())).toEqual([
+      { type: 'text', content: 'saved' },
+    ])
+  })
+
+  it('retains fingerprint value and rejection semantics that differ from core canonical JSON', () => {
+    const dated = { ...req('date'), context: { metadata: { at: new Date(0) } } }
+    expect(fingerprintRequest(dated)).toContain('"$date":"1970-01-01T00:00:00.000Z"')
+    expect(canonicalJson({ at: new Date(0) })).toBe('{"at":"1970-01-01T00:00:00.000Z"}')
+
+    const withUndefinedArrayValue = {
+      ...req('undefined'),
+      context: { metadata: { values: [undefined] } },
+    }
+    expect(fingerprintRequest({
+      ...req('undefined-object'),
+      context: { metadata: { omitted: undefined, kept: true } },
+    })).toContain('"metadata":{"kept":true}')
+    expect(canonicalJson({ omitted: undefined, kept: true })).toBe('{"kept":true}')
+    expect(canonicalJson({ values: [undefined] })).toBe('{"values":[null]}')
+    expect(() => fingerprintRequest(withUndefinedArrayValue)).toThrow(/unsupported value/)
+
+    const nonFinite = { ...req('non-finite'), context: { metadata: { value: Number.NaN } } }
+    expect(() => fingerprintRequest(nonFinite)).toThrow(/number is not finite/)
+    expect(() => canonicalJson({ value: Number.NaN })).toThrow(/NaN is not allowed/)
+
+    expect(() => fingerprintRequest({ ...req('unsupported'), context: { metadata: { value: new Map() } } })).toThrow(
+      /unsupported object/,
+    )
+    expect(canonicalJson({ value: new Map() })).toBe('{"value":{}}')
+
+    const cyclic: Record<string, unknown> = {}
+    cyclic.self = cyclic
+    let cycleError: unknown
+    try {
+      fingerprintRequest({ ...req('cycle'), context: { metadata: cyclic } })
+    } catch (error) {
+      cycleError = error
+    }
+    expect(cycleError).toBeInstanceOf(ConfigError)
+    expect(cycleError).toMatchObject({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: expect.stringContaining('cyclic value'),
+    })
+    expect(() => canonicalJson(cyclic)).toThrow(/Circular reference detected/)
+
+    const numericKeys = {
+      ...req('keys'),
+      context: { metadata: { '10': 'ten', '2': 'two' } },
+    }
+    expect(fingerprintRequest(numericKeys)).toContain('"2":"two","10":"ten"')
+    expect(canonicalJson({ '10': 'ten', '2': 'two' })).toBe('{"10":"ten","2":"two"}')
+  })
+
   it('fingerprintRequest includes context when present', () => {
     const tool: ToolDefinition = {
       name: 'search',
@@ -173,6 +237,16 @@ describe('replay engine', () => {
     }
     expect(fingerprintRequest(first)).not.toBe(fingerprintRequest(differentSchema))
     expect(fingerprintRequest(first)).not.toBe(fingerprintRequest(differentMetadata))
+    expect(fingerprintRequest(first)).toBe(fingerprintRequest({
+      ...first,
+      context: {
+        ...first.context,
+        tools: [{
+          ...first.context!.tools![0]!,
+          execute: async () => ({ content: 'a different callback' }),
+        }],
+      },
+    }))
   })
 
   it('ignores volatile message identity fields in strict fingerprints', () => {

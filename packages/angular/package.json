@@ -37,8 +37,8 @@
   ],
   "scripts": {
     "build": "ng-packagr -p ng-package.json -c tsconfig.lib.json",
-    "test": "pnpm build && vitest run",
-    "test:coverage": "pnpm build && vitest run --coverage",
+    "test": "pnpm exec turbo run build --filter=@agentskit/angular --concurrency=2 && vitest run",
+    "test:coverage": "pnpm exec turbo run build --filter=@agentskit/angular --concurrency=2 && vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"
   },

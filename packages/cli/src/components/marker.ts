@@ -21,8 +21,8 @@
  * real-filesystem append lives in the command layer. All throws reuse
  * {@link IntegrityError} (the repo forbids bare `new Error`).
  */
+import { canonicalJson as coreCanonicalJson, sha256Hex } from '@agentskit/core/hash'
 import type { AuditEntry, ComponentsConfig, FrameworkTarget, InstalledComponent } from './types'
-import { sha256Hex } from './fetch'
 import { IntegrityError } from './install'
 import type { FileToWrite } from './install'
 
@@ -57,9 +57,8 @@ function sameKey(entry: InstalledComponent, id: string, installPath: string): bo
 export function upsertInstalled(config: ComponentsConfig, entry: InstalledComponent): ComponentsConfig {
   const current = config.installed ?? []
   const idx = current.findIndex((e) => sameKey(e, entry.id, entry.installPath))
-  const installed =
-    idx === -1 ? [...current, entry] : current.map((e, i) => (i === idx ? entry : e))
-  return { ...config, installed }
+  if (idx === -1) return { ...config, installed: [...current, entry] }
+  return { ...config, installed: current.map((e, i) => (i === idx ? entry : e)) }
 }
 
 /** Find the recorded install for `{ id, installPath }`, or `undefined`. */
@@ -111,28 +110,11 @@ export function buildInstalledComponent(args: {
   }
 }
 
-// ── Canonical JSON — recursively sorted keys (reproducible hashing) ─────────
-
-/**
- * Recursively sort object keys so two structurally-equal values serialise
- * identically regardless of key insertion order. Arrays keep their order (it is
- * semantic); objects are rebuilt with sorted keys; primitives pass through.
- */
-function canonicalize(value: unknown): unknown {
-  if (Array.isArray(value)) return value.map(canonicalize)
-  if (value !== null && typeof value === 'object') {
-    const sorted: Record<string, unknown> = {}
-    for (const key of Object.keys(value as Record<string, unknown>).sort()) {
-      sorted[key] = canonicalize((value as Record<string, unknown>)[key])
-    }
-    return sorted
-  }
-  return value
-}
-
-/** Canonical JSON string of a value (keys sorted recursively). */
+/** Canonical JSON compatible with the persisted audit-chain format. */
 export function canonicalJson(value: unknown): string {
-  return JSON.stringify(canonicalize(value))
+  // Re-serializing restores JavaScript's numeric-key order without owning a
+  // second canonical JSON implementation.
+  return JSON.stringify(JSON.parse(coreCanonicalJson(value)) as unknown) as string
 }
 
 /** SHA-256 (hex) of the canonical JSON of an audit entry. */

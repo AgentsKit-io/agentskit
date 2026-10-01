@@ -64,7 +64,7 @@
   },
   "scripts": {
     "build": "tsup",
-    "test": "pnpm --filter @agentskit/core build && pnpm --filter @agentskit/integrations build && pnpm run build && vitest run",
+    "test": "pnpm exec turbo run build --filter=@agentskit/tools --concurrency=2 && vitest run",
     "test:coverage": "vitest run --coverage",
     "lint": "tsc --noEmit",
     "dev": "tsup --watch"
