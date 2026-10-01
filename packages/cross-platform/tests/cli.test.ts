@@ -32,6 +32,31 @@ describe('agentskit-cross-platform check', () => {
     expect(await runCli(['check', '--baseline', baseline], io())).toBe(0)
   })
 
+  it('scans with custom rules and filters findings before ratcheting', async () => {
+    const sourceRoot = join(cwd, 'packages', 'demo', 'src')
+    await mkdir(sourceRoot, { recursive: true })
+    await mkdir(join(cwd, 'packages', 'demo', 'tests'), { recursive: true })
+    await writeFile(join(sourceRoot, 'a.ts'), 'unsafe()\n')
+    await writeFile(join(cwd, 'packages', 'demo', 'tests', 'a.ts'), 'unsafe()\n')
+    const rules = [{ id: 'no-unsafe', pattern: /unsafe\(\)/, message: 'unsafe', fix: 'safe()' }]
+    const filter = (finding: { file: string }) => /^packages\/[^/]+\/src\//.test(finding.file)
+    const baseline = join(cwd, 'core-baseline.json')
+    const options = { rules, filter }
+
+    expect(await runCli(['check', '--init', '--include', 'packages', '--baseline', baseline], io(), options)).toBe(0)
+    expect(JSON.parse(await readFile(baseline, 'utf8')).entries).toEqual({ 'packages/demo/src/a.ts': { 'no-unsafe': 1 } })
+    expect(await runCli(['check', '--baseline', baseline], io(), options)).toBe(0)
+
+    await writeFile(join(sourceRoot, 'b.ts'), 'unsafe()\n')
+    expect(await runCli(['check', '--baseline', baseline], io(), options)).toBe(1)
+    expect(await runCli(['check', '--update', '--baseline', baseline], io(), options)).toBe(1)
+
+    await writeFile(join(sourceRoot, 'a.ts'), '')
+    await writeFile(join(sourceRoot, 'b.ts'), '')
+    expect(await runCli(['check', '--update', '--baseline', baseline], io(), options)).toBe(0)
+    expect(JSON.parse(await readFile(baseline, 'utf8')).entries).toEqual({})
+  })
+
   it('prints usage', async () => {
     expect(await runCli([], io())).toBe(0)
     expect(await runCli(['--help'], io())).toBe(0)

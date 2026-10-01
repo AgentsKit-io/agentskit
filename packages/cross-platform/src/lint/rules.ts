@@ -69,5 +69,5 @@ export const PORTABILITY_RULES: readonly PortabilityRule[] = [
   },
 ]
 
-/** Put `cross-platform-ignore: <reason>` on the line, or the line above, to allow an exception. */
+/** Put `cross-platform-ignore: <reason>` on the line, or the line above, to skip every rule. `<rule-id>-ignore: <reason>` skips only that rule. */
 export const IGNORE_DIRECTIVE = /cross-platform-ignore:\s*\S/
