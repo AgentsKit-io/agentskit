@@ -47,6 +47,19 @@ describe('portability rules', () => {
     expect(scanText('f.ts', "// cross-platform-ignore:\nimport 'node:child_process'")).toHaveLength(1)
   })
 
+  it('suppresses only the named rule', () => {
+    const rules = [
+      { id: 'no-math-random-id', pattern: /Math\.random\(\)\.toString\(\s*36\s*\)/, message: 'm', fix: 'createId()' },
+      { id: 'no-raw-error-boundary', pattern: /throw\s+new\s+Error\s*\(/, message: 'm', fix: 'AgentsKitError()' },
+    ]
+    expect(scanText('f.ts', 'const id = Math.random().toString(36) // no-math-random-id-ignore: fixture', rules)).toEqual([])
+    expect(scanText('f.ts', '// no-math-random-id-ignore: fixture\nconst id = Math.random().toString(36)', rules)).toEqual([])
+    expect(scanText('f.ts', '// no-math-random-id-ignore:\nconst id = Math.random().toString(36)', rules)).toHaveLength(1)
+    expect(scanText('f.ts', 'throw new Error("x") // no-math-random-id-ignore: not this rule', rules).map(finding => finding.rule)).toEqual(['no-raw-error-boundary'])
+    expect(scanText('f.ts', "import 'node:child_process' // no-math-random-id-ignore: unrelated")).toHaveLength(1)
+    expect(scanText('f.ts', "import 'node:child_process' // child-process-import-ignore: legacy shim")).toEqual([])
+  })
+
   it.each([
     "import type { ChildProcess } from 'node:child_process'",
     "export type { SpawnOptions } from 'child_process'",
