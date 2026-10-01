@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "75f63e299a9115d84af6812ee0ddfad0c4306a8e2bbddce996913f918944f0fa",
+  "contentHash": "182646ade100b5f35bb0bc006957d1c0a02d8faddade8ba2a676644495727f55",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-01T15:20:55.703Z",
+  "generatedAt": "2026-10-01T16:11:12.241Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -425,6 +425,30 @@
         "project"
       ],
       "contentHash": "13a5b8c2a23d497ac70a65b60c5e96c6a2d6b5e302b7d88d6479b30d00815b20"
+    },
+    {
+      "id": "document:apps/docs-next/AGENTS.md",
+      "type": "document",
+      "title": "This is NOT the Next.js you know",
+      "path": "apps/docs-next/AGENTS.md",
+      "description": "This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in node_modules/next/dist/docs/ (resolved from this file's directory; in monorepos the next package may not be visible from the repo root) before writing any code. Heed deprecation notices.",
+      "tags": [
+        "document",
+        "unclassified"
+      ],
+      "contentHash": "495f609dcae69007a0eeb247d5e6f0cb36566b152af061abcd575477b8d1859d"
+    },
+    {
+      "id": "document:apps/docs-next/CLAUDE.md",
+      "type": "document",
+      "title": "CLAUDE.md",
+      "path": "apps/docs-next/CLAUDE.md",
+      "description": "@AGENTS.md",
+      "tags": [
+        "document",
+        "unclassified"
+      ],
+      "contentHash": "7c8dfd6a66ffe34e39388343ff3e5eb20d74ed59a6455ee7c8b062ed7b1ce404"
     },
     {
       "id": "document:apps/docs-next/content/blog/hello-agentskit.mdx",
@@ -37446,8 +37470,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "1879ca1c4d4511e21e4d37565e958198b5b75650e1e287bc35a687ccd60b82ca",
-    "fileCount": 2488,
+    "hash": "be08a397993ad41b73118a6c4f813e204bfcf0e4830a3c2ad28060dd8faaa1c1",
+    "fileCount": 2490,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37469,9 +37493,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "054030eb576f0441714b626484ce292a271cc7e14d239acc6638ec7e86372e81",
+    "contentHash": "a088a8ad18cb0163ff1a178a21e76086f0bce7b3c611f23c8a1b5f5213142901",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "49880958d04230711d2e42dfc931be121b8adc238ef3a119321abb2fa6983697",
+    "snapshotHash": "3964bd47022df9eca42d88e1bdcd35cc9e5172487279492229db819175b7131a",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37491,7 +37515,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2442,
+      "documentCount": 2444,
       "fieldNames": [
         "aliases",
         "body",
@@ -37502,13 +37526,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0106470106470105,
-        "body": 61.31285831285831,
-        "headings": 4.04013104013104,
-        "path": 7.622031122031122,
-        "summary": 4.572072072072072,
-        "symbols": 7.502457002457002,
-        "title": 3.3333333333333335
+        "aliases": 3.009819967266776,
+        "body": 61.29828150572831,
+        "headings": 4.038052373158756,
+        "path": 7.620703764320786,
+        "summary": 4.584288052373159,
+        "symbols": 7.496317512274959,
+        "title": 3.3326513911620292
       }
     },
     "entries": [
@@ -41086,6 +41110,70 @@
           ]
         },
         "contentHash": "13a5b8c2a23d497ac70a65b60c5e96c6a2d6b5e302b7d88d6479b30d00815b20",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "document:apps/docs-next/AGENTS.md",
+        "kind": "document",
+        "path": "apps/docs-next/AGENTS.md",
+        "title": "This is NOT the Next.js you know",
+        "summary": "This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in node_modules/next/dist/docs/ (resolved from this file's directory; in monorepos the next package may not be visible from the repo root) before writing any code. Heed deprecation notices.",
+        "aliases": [],
+        "tags": [
+          "document",
+          "unclassified"
+        ],
+        "fields": {
+          "title": "This is NOT the Next.js you know",
+          "headings": "This is NOT the Next.js you know",
+          "path": "apps/docs-next/AGENTS.md",
+          "symbols": "",
+          "summary": "This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in node_modules/next/dist/docs/ (resolved from this file's directory; in monorepos the next package may not be visible from the repo root) before writing any code. Heed deprecation notices.",
+          "body": "<!-- BEGIN:nextjs-agent-rules -- This is NOT the Next.js you know This version has breaking changes — APIs, conventions, and file structure may all differ from your training data. Read the relevant guide in node modules/next/dist/docs/ (resolved from this file's directory; in monorepos the next package may not be visible from the repo root) before writing any code. Heed deprecation notices. This block is written and re-added by next dev — verify at node modules/next/dist/server/lib/generate-agent-files.js . Removing it from a diff only re-creates the uncommitted change; committing it with your work keeps the tree clean. <!-- END:nextjs-agent-rules --",
+          "aliases": "document unclassified"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "495f609dcae69007a0eeb247d5e6f0cb36566b152af061abcd575477b8d1859d",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "document:apps/docs-next/CLAUDE.md",
+        "kind": "document",
+        "path": "apps/docs-next/CLAUDE.md",
+        "title": "CLAUDE.md",
+        "summary": "@AGENTS.md",
+        "aliases": [],
+        "tags": [
+          "document",
+          "unclassified"
+        ],
+        "fields": {
+          "title": "CLAUDE.md",
+          "headings": "",
+          "path": "apps/docs-next/CLAUDE.md",
+          "symbols": "",
+          "summary": "@AGENTS.md",
+          "body": "@AGENTS.md",
+          "aliases": "document unclassified"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "7c8dfd6a66ffe34e39388343ff3e5eb20d74ed59a6455ee7c8b062ed7b1ce404",
         "provenance": "observed",
         "confidence": "observed"
       },
