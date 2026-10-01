@@ -114,6 +114,9 @@ describe('fetchAgentSkill', () => {
 describe('registry fetches through a local HTTP endpoint', () => {
   it('preserves projections and fallback while bounding and cancelling real response streams', async () => {
     const rawRegistry = '/AgentsKit-io/agentskit-registry/main/registry'
+    const declaredAgentPath = `${rawRegistry}/declared-agent/agent.ts`
+    const chunkedAgentPath = `${rawRegistry}/chunked-agent/agent.ts`
+    const abortAgentPath = '/r/abort-agent.json'
     const requests: string[] = []
     const cancelled: string[] = []
     const closeWaiters = new Map<string, () => void>()
@@ -128,7 +131,9 @@ describe('registry fetches through a local HTTP endpoint', () => {
       response.on('close', () => {
         if (!response.writableEnded) {
           cancelled.push(path)
-          closeWaiters.get(path)?.()
+          if (path === declaredAgentPath) closeWaiters.get(declaredAgentPath)?.()
+          if (path === chunkedAgentPath) closeWaiters.get(chunkedAgentPath)?.()
+          if (path === abortAgentPath) closeWaiters.get(abortAgentPath)?.()
         }
       })
 
@@ -164,16 +169,16 @@ describe('registry fetches through a local HTTP endpoint', () => {
         response.end()
       } else if (path === `${rawRegistry}/declared-agent/meta.json` || path === `${rawRegistry}/chunked-agent/meta.json`) {
         response.end('{}')
-      } else if (path === `${rawRegistry}/declared-agent/agent.ts`) {
+      } else if (path === declaredAgentPath) {
         response.setHeader('content-length', '2048')
         response.write('partial')
-      } else if (path === `${rawRegistry}/chunked-agent/agent.ts`) {
+      } else if (path === chunkedAgentPath) {
         response.write('1234567890123456')
         const timer = setTimeout(() => {
           if (!response.destroyed) response.write('7890123456789012')
         }, 10)
         response.on('close', () => clearTimeout(timer))
-      } else if (path === '/r/abort-agent.json') {
+      } else if (path === abortAgentPath) {
         response.write('{"skill":{"systemPrompt":"')
         const timer = setTimeout(() => response.end('held"}}'), 5000)
         response.on('close', () => clearTimeout(timer))
@@ -246,7 +251,7 @@ describe('registry fetches through a local HTTP endpoint', () => {
         `${rawRegistry}/malformed-agent/meta.json`,
       ])
 
-      const declaredClosed = waitForCancellation(`${rawRegistry}/declared-agent/agent.ts`)
+      const declaredClosed = waitForCancellation(declaredAgentPath)
       const declaredStart = requests.length
       await expect(fetchAgentSkill('declared-agent', fetchImpl, { maxResponseBytes: 16 })).resolves.toBeNull()
       await declaredClosed
@@ -256,7 +261,7 @@ describe('registry fetches through a local HTTP endpoint', () => {
         `${rawRegistry}/declared-agent/agent.ts`,
       ])
 
-      const chunkedClosed = waitForCancellation(`${rawRegistry}/chunked-agent/agent.ts`)
+      const chunkedClosed = waitForCancellation(chunkedAgentPath)
       const chunkedStart = requests.length
       await expect(fetchAgentSkill('chunked-agent', fetchImpl, { maxResponseBytes: 16 })).resolves.toBeNull()
       await chunkedClosed
@@ -266,7 +271,7 @@ describe('registry fetches through a local HTTP endpoint', () => {
         `${rawRegistry}/chunked-agent/agent.ts`,
       ])
 
-      const abortClosed = waitForCancellation('/r/abort-agent.json')
+      const abortClosed = waitForCancellation(abortAgentPath)
       const abortController = new AbortController()
       const abortStart = requests.length
       const abortedFetch = fetchAgentSkill('abort-agent', fetchImpl, { signal: abortController.signal })
