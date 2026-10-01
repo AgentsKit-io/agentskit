@@ -7,5 +7,5 @@ export default defineConfig({
   sourcemap: true,
   clean: true,
   treeshake: true,
-  external: ['@agentskit/core', '@agentskit/tools', '@agentskit/runtime', '@agentskit/adapters'],
+  external: ['@agentskit/core', '@agentskit/net', '@agentskit/tools', '@agentskit/runtime', '@agentskit/adapters'],
 })
