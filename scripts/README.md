@@ -13,6 +13,13 @@ Root TypeScript configuration and shared scripts invalidate the build cache.
 The orchestrator prints elapsed seconds for each gate; all checks still execute
 sequentially and test concurrency is unchanged. No cross-run cache is added.
 
+CI runs `Quality gates` and `Test, Build` on independent runners, each with
+its own checkout and package build. Generated files cannot race between jobs.
+The existing required `Lint, Test, Build` check aggregates both results and
+fails if either job fails, is cancelled, or is skipped. Coverage remains a
+separate workflow. This trades an additional package build for overlapping
+the gate and test durations; compare wall time and runner time separately.
+
 Package-test build prefixes also use Turbo, so both standalone and aggregate
 test commands reuse the same build graph and cache. Test commands and coverage
 thresholds are unchanged; this also applies to coverage tasks.
