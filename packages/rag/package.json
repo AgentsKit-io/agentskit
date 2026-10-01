@@ -50,7 +50,7 @@
   "scripts": {
     "build": "tsup",
     "test": "pnpm test:prepare && vitest run",
-    "test:prepare": "pnpm --filter @agentskit/core build && pnpm build",
+    "test:prepare": "pnpm exec turbo run build --filter=@agentskit/rag --concurrency=2",
     "test:metro": "pnpm test:prepare && vitest run tests/metro-bundle.test.ts",
     "test:coverage": "pnpm test:prepare && vitest run --coverage",
     "lint": "tsc --noEmit",
