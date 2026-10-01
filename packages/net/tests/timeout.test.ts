@@ -131,7 +131,11 @@ describe('withTimeout', () => {
 
   it('rejects invalid deadlines with AK_NET_INVALID_INPUT', async () => {
     const work = vi.fn(async () => 'unused')
-    for (const ms of [0, -1, Number.NaN, Number.POSITIVE_INFINITY, Number.MAX_SAFE_INTEGER]) {
+    await expect(withTimeout(work, 0)).rejects.toMatchObject({
+      code: NetErrorCodes.AK_NET_INVALID_INPUT,
+      message: expect.stringContaining('greater than 0'),
+    })
+    for (const ms of [-1, Number.NaN, Number.POSITIVE_INFINITY, Number.MAX_SAFE_INTEGER]) {
       await expect(withTimeout(work, ms)).rejects.toMatchObject({ code: NetErrorCodes.AK_NET_INVALID_INPUT })
     }
     expect(work).not.toHaveBeenCalled()

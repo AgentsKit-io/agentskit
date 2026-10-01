@@ -50,6 +50,8 @@ for await (const event of parseSSEResponse(await fetch('https://api.example.com/
 
 `withTimeout(work, ms, parent?)` accepts a positive deadline up to 2,147,483,647 milliseconds and gives work a signal that aborts at the deadline or with the parent's exact reason. The deadline rejects with `AK_NET_TIMEOUT`; invalid values reject with `AK_NET_INVALID_INPUT`. It bounds the wrapper's rejection even if work ignores the signal, but only cooperative work such as `fetch` can be stopped. A success value or original work failure passes through unchanged.
 
+`retry` retries rejected work, such as fetch network errors; it does not inspect HTTP status codes. Use `fetchWithRetry` when retrying retryable HTTP responses.
+
 ```ts
 import { retry, sleep, withTimeout } from '@agentskit/net'
 
@@ -62,11 +64,7 @@ const response = await withTimeout(
 console.log(response.status)
 
 await retry(
-  async ({ signal }) => {
-    const response = await fetch('https://api.example.com/models', { signal })
-    if (!response.ok) throw new Error('Request failed')
-    return response
-  },
+  ({ signal }) => fetch('https://api.example.com/models', { signal }),
   { signal: parent.signal, sleep: (ms, signal) => sleep(ms, signal) },
 )
 ```

@@ -63,7 +63,7 @@ export async function withTimeout<T>(
   parent?: AbortSignal,
 ): Promise<T> {
   if (!Number.isFinite(ms) || ms <= 0 || ms > 2_147_483_647) {
-    throw invalidInput('timeout must be between 0 and 2147483647 milliseconds')
+    throw invalidInput('timeout must be greater than 0 and no greater than 2147483647 milliseconds')
   }
   if (parent?.aborted) throw parent.reason
 

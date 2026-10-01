@@ -80,6 +80,17 @@ test('exact, ambiguous, and reasoning queries follow the conservative confidence
   }
 })
 
+test('the NET package answer uses its handoff purpose', () => {
+  const { site, artifact } = load()
+  const resolver = createDeterministicAnswerResolver(artifact, {
+    expectedContentHash: site.artifact.contentHash,
+    expectedSiteId: site.siteId,
+  })
+  const answer = resolver.resolve('@agentskit/net').answer.markdown
+  assert.match(answer, /HTTP plumbing over web APIs\. Retries with Retry-After/)
+  assert.doesNotMatch(answer, /undefined/)
+})
+
 test('known questions render locally with citations and make zero backend requests', async () => {
   const { site, artifact } = load()
   let backendRequests = 0

@@ -126,6 +126,12 @@ describe('retry', () => {
     ])
   })
 
+  it('rejects an invalid delay from the default retry sleeper', async () => {
+    await expect(
+      retry(async () => { throw new Error('busy') }, { delayFor: () => -1 }),
+    ).rejects.toMatchObject({ code: 'AK_NET_INVALID_INPUT' })
+  })
+
   it('rejects an invalid retry budget', async () => {
     await expect(retry(async () => 1, { retries: -1 })).rejects.toThrow(/retries/)
   })
