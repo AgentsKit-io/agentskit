@@ -1,4 +1,5 @@
 import { describe, it, expect, vi } from 'vitest'
+import { createServer } from 'node:http'
 import { webSearch } from '../src/web-search'
 
 describe('webSearch', () => {
@@ -112,14 +113,11 @@ describe('webSearch', () => {
   })
 
   it('calls Serper endpoint with apiKey and maps organic results', async () => {
-    const fetchMock = vi.fn().mockResolvedValue({
-      ok: true,
-      json: async () => ({
+    const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify({
         organic: [
           { title: 'Serper Result', link: 'https://serper.example', snippet: 'serper snippet' },
         ],
-      }),
-    })
+      })))
     vi.stubGlobal('fetch', fetchMock)
 
     const tool = webSearch({ provider: 'serper', apiKey: 'k', maxResults: 3 })
@@ -141,12 +139,9 @@ describe('webSearch', () => {
   })
 
   it('calls Tavily endpoint with apiKey and maps results', async () => {
-    const fetchMock = vi.fn().mockResolvedValue({
-      ok: true,
-      json: async () => ({
+    const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify({
         results: [{ title: 'T', url: 'https://t.example', content: 'body' }],
-      }),
-    })
+      })))
     vi.stubGlobal('fetch', fetchMock)
 
     const tool = webSearch({ provider: 'tavily', apiKey: 'tk' })
@@ -164,11 +159,9 @@ describe('webSearch', () => {
   })
 
   it('fetches a URL directly when the query is a URL', async () => {
-    const fetchMock = vi.fn().mockResolvedValue({
-      ok: true,
-      text: async () =>
-        '<html><head><title>My Page</title></head><body><p>Hello world</p></body></html>',
-    })
+    const fetchMock = vi.fn().mockResolvedValue(
+      new Response('<html><head><title>My Page</title></head><body><p>Hello world</p></body></html>'),
+    )
     vi.stubGlobal('fetch', fetchMock)
 
     const tool = webSearch()
@@ -208,7 +201,7 @@ describe('webSearch', () => {
         <a class="result__snippet">First snippet body</a>
       </div>
     `
-    const fetchMock = vi.fn().mockResolvedValue({ ok: true, text: async () => html })
+    const fetchMock = vi.fn().mockResolvedValue(new Response(html))
     vi.stubGlobal('fetch', fetchMock)
 
     const tool = webSearch()
@@ -228,12 +221,9 @@ describe('webSearch', () => {
 
   it('prefers Serper backend when SERPER_API_KEY is present in auto mode', async () => {
     process.env.SERPER_API_KEY = 'env-key'
-    const fetchMock = vi.fn().mockResolvedValue({
-      ok: true,
-      json: async () => ({
+    const fetchMock = vi.fn().mockResolvedValue(new Response(JSON.stringify({
         organic: [{ title: 'From Serper', link: 'https://s.example', snippet: 'snip' }],
-      }),
-    })
+      })))
     vi.stubGlobal('fetch', fetchMock)
 
     const tool = webSearch()
@@ -249,5 +239,63 @@ describe('webSearch', () => {
     expect(result).toContain('From Serper')
     delete process.env.SERPER_API_KEY
     vi.unstubAllGlobals()
+  })
+
+  it('reads bounded streamed provider bodies from local HTTP and cancels overflow', async () => {
+    let port = 0
+    let path = '/small'
+    let largeCancelled = false
+    let resolveLargeClose: () => void = () => {}
+    const largeClosed = new Promise<void>(resolve => { resolveLargeClose = resolve })
+    const server = createServer((request, response) => {
+      response.setHeader('content-type', 'application/json')
+      if (request.url === '/large') {
+        let fallback: ReturnType<typeof setTimeout> | undefined
+        response.once('close', () => {
+          largeCancelled = !response.writableEnded
+          if (fallback) clearTimeout(fallback)
+          resolveLargeClose()
+        })
+        response.write(JSON.stringify({
+          organic: [{ title: 'x'.repeat(256), link: 'https://local.test', snippet: 'large' }],
+        }))
+        fallback = setTimeout(() => response.end(), 1_000)
+        return
+      }
+      response.end(JSON.stringify({
+        organic: [{ title: 'Local result', link: 'https://local.test', snippet: 'small' }],
+      }))
+    })
+    await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve))
+    const address = server.address()
+    if (!address || typeof address === 'string') throw new Error('expected an IPv4 listen address')
+    port = address.port
+    const baseUrl = `http://127.0.0.1:${port}`
+    const nativeFetch = globalThis.fetch.bind(globalThis)
+    const fetchMock = vi.fn((_input: RequestInfo | URL, init?: RequestInit) => nativeFetch(`${baseUrl}${path}`, init))
+    vi.stubGlobal('fetch', fetchMock)
+
+    try {
+      const normal = webSearch({ provider: 'serper', apiKey: 'test', maxResponseBytes: 512 })
+      const normalResult = await normal.execute!(
+        { query: 'small' },
+        { messages: [], call: { id: '1', name: 'web_search', args: { query: 'small' }, status: 'running' } },
+      ) as string
+      expect(normalResult).toContain('Local result')
+      expect(fetchMock).toHaveBeenCalledWith('https://google.serper.dev/search', expect.any(Object))
+
+      path = '/large'
+      const bounded = webSearch({ provider: 'serper', apiKey: 'test', maxResponseBytes: 64 })
+      const boundedResult = await bounded.execute!(
+        { query: 'large' },
+        { messages: [], call: { id: '2', name: 'web_search', args: { query: 'large' }, status: 'running' } },
+      ) as string
+      expect(boundedResult).toContain('Error: search response exceeds maxResponseBytes (64)')
+      await largeClosed
+      expect(largeCancelled).toBe(true)
+    } finally {
+      vi.unstubAllGlobals()
+      await new Promise<void>(resolve => server.close(() => resolve()))
+    }
   })
 })
