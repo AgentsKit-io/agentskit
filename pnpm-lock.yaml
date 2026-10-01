@@ -1176,6 +1176,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
+      '@agentskit/net':
+        specifier: workspace:*
+        version: link:../net
     devDependencies:
       '@types/better-sqlite3':
         specifier: ^7.6.13

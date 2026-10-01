@@ -59,7 +59,8 @@
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "@agentskit/core": "workspace:*"
+    "@agentskit/core": "workspace:*",
+    "@agentskit/net": "workspace:*"
   },
   "peerDependencies": {
     "vectra": "^0.15.0"

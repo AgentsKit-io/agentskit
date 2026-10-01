@@ -118,8 +118,10 @@ persistence succeeds.
 
 Vector adapters follow ADR 0003: a result is included only when its score is
 strictly greater than `threshold`. Remote HTTP adapters accept `timeoutMs` and
-`maxResponseBytes`; configure both for production workloads. File KV writes
-are atomic and serialized across instances in one process. They are not a
+`maxResponseBytes`, defaulting to 15 seconds and 2 MiB; both require positive
+safe integers. Injected `fetch` and caller `signal` are also supported. Timeout
+and response-limit failures use `AK_MEMORY_REMOTE_HTTP`. File KV writes are
+atomic and serialized across instances in one process. They are not a
 multi-process coordination primitive; use SQLite, Redis, or another external
 store when several processes write the same file.
 
