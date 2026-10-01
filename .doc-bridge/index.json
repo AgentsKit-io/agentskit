@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "476931b678bda5144cf0bbe568b26a5c34753b0a46e0a668272f0313c4d3c15a",
+  "contentHash": "85e14e34572473c9597f41b5d88d3c00fbfe4b640716f676df8c723f72bfc657",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-01T08:07:46.203Z",
+  "generatedAt": "2026-10-01T08:47:15.061Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7070,7 +7070,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "b0361ff9f7d01d7ed1aa63f02685f87ce0eaebcd9a99e4817ef0c9868627c94e"
+      "contentHash": "1c8a5c508b44f18f6231b4daddfaa32f0e1c0c344cdfb0c90e4da4d71c63ab32"
     },
     {
       "id": "document:packages/memory/README.md",
@@ -37384,7 +37384,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "a25b3e146f7d6ffd1b2136e0a4c5c3b1f50e701128668125c2683bf84af36bac",
+    "hash": "2c3c4442e4ab8a844132b4331222ada2a36ee5e52e3bb0b4d3c1e0e5ae33db61",
     "fileCount": 2484,
     "projectionVersion": 2
   },
@@ -37407,9 +37407,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "652a5d6c4ba505400dadc90e244cafcf5649da79843d103bb81269161e191ed5",
+    "contentHash": "4f51d3834fcf108f9276e5cfb014b5c706158030806327e191f77fc15ad33030",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "9c3618c68a4a2afc391dc972ee2fd41980b7c0e440bccc4ee3af2fefd47653f6",
+    "snapshotHash": "524a9e08bc3860eff6577d3230649a1b491b20f73cce2a8ca73f212ef383e036",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37441,7 +37441,7 @@
       ],
       "averageFieldLength": {
         "aliases": 3.0098441345365052,
-        "body": 61.14725184577522,
+        "body": 61.14807219031994,
         "headings": 4.043068088597211,
         "path": 7.623872026251026,
         "summary": 4.586956521739131,
@@ -77679,7 +77679,7 @@
           "path": "packages/memory/CONVENTIONS.md",
           "symbols": "",
           "summary": "Memory backends implementing the two contracts from ADR 0003: ChatMemory and VectorMemory.",
-          "body": "Conventions — @agentskit/memory Memory backends implementing the two contracts from : ChatMemory and VectorMemory . Scope - ChatMemory implementations : fileChatMemory , sqliteChatMemory , redisChatMemory - VectorMemory implementations : fileVectorMemory , redisVectorMemory - Shared client helpers where reuse is genuine ( redis-client.ts , vector-store.ts ) Adding a new ChatMemory backend 1. Create src/<name -chat.ts . 2. Export a factory: export function sqliteChatMemory(opts): ChatMemory . 3. Implement the six invariants CM1–CM6: - load() returns a snapshot - save() is replace-all , not append - Ordering preserved, atomic from consumer view - Empty state returns [] - clear optional 4. Re-export from src/index.ts . Adding a new VectorMemory backend 1. Create src/<name -vector.ts . 2. Export a factory: export function fileVectorMemory(opts): VectorMemory . 3. Implement the eight invariants VM1–VM8: - store is upsert by id - Dimensionality is a constructor concern — reject mismatches - search returns descending-scored - threshold is exclusive from below - topK is an upper bound, not a floor 4. Re-export from src/index.ts . Configuration - Connection details (file path, URL, credentials) taken at construction. - Do not open connections until first use — defer to load() / save() / store() / search() . - Provide a close() escape hatch for long-lived processes; the contracts don't require it but consumers appreciate it. Testing - In-memory fake per contract for fast tests of consumers ( memory/fakes.ts — not yet present, welcome to add). - Integration tests for each backend using real storage (SQLite file, Redis testcontainer). - Invariant tests : a shared test suite that every backend must pass ( MemoryContractSuite — tracked for future). Common pitfalls Pitfall What to do instead --- --- Implementing save as append Replace-all (CM2). Consumers send full state. Returning null from load on empty Return [] Mixing embedding dimensions in one vector store Reject mismatches at store() time Padding search results to reach topK Return fewer documents; topK is an upper bound Opening connections at import time Defer to first method call Review checklist for this package - [ ] Bundle size under 15KB gzipped - [ ] Coverage threshold holds (80% lines) - [ ] New backend tested against all relevant invariants - [ ] Config accepted at construction; no env reads in the factory - [ ] Documentation for the backend's quirks in package README",
+          "body": "Conventions — @agentskit/memory Memory backends implementing the two contracts from : ChatMemory and VectorMemory . Scope - ChatMemory implementations : fileChatMemory , sqliteChatMemory , redisChatMemory - VectorMemory implementations : fileVectorMemory , redisVectorMemory - Shared client helpers where reuse is genuine ( redis-client.ts , vector-store.ts ) Adding a new ChatMemory backend 1. Create src/<name -chat.ts . 2. Export a factory: export function sqliteChatMemory(opts): ChatMemory . 3. Implement the six invariants CM1–CM6: - load() returns a snapshot - save() is replace-all , not append - Ordering preserved, atomic from consumer view - Empty state returns [] - clear optional 4. Re-export from src/index.ts . Adding a new VectorMemory backend 1. Create src/<name -vector.ts . 2. Export a factory: export function fileVectorMemory(opts): VectorMemory . 3. Implement the eight invariants VM1–VM8: - store is upsert by id - Dimensionality is a constructor concern — reject mismatches - search returns descending-scored - threshold is exclusive from below - topK is an upper bound, not a floor 4. Re-export from src/index.ts . Configuration - Connection details (file path, URL, credentials) taken at construction. - Do not open connections until first use — defer to load() / save() / store() / search() . - Provide a close() escape hatch for long-lived processes; the contracts don't require it but consumers appreciate it. Testing - In-memory fake per contract for fast tests of consumers ( memory/fakes.ts — not yet present, welcome to add). - Integration tests for each backend using real storage (SQLite file, Redis testcontainer). - Invariant tests : a shared test suite that every backend must pass ( MemoryContractSuite — tracked for future). Common pitfalls Pitfall What to do instead --- --- Implementing save as append Replace-all (CM2). Consumers send full state. Returning null from load on empty Return [] Mixing embedding dimensions in one vector store Reject mismatches at store() time Padding search results to reach topK Return fewer documents; topK is an upper bound Opening connections at import time Defer to first method call Review checklist for this package - [ ] Bundle size within the 16KB gzipped budget - [ ] Coverage threshold holds (90% lines) - [ ] New backend tested against all relevant invariants - [ ] Config accepted at construction; no env reads in the factory - [ ] Documentation for the backend's quirks in package README",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -77731,7 +77731,7 @@
             }
           ]
         },
-        "contentHash": "b0361ff9f7d01d7ed1aa63f02685f87ce0eaebcd9a99e4817ef0c9868627c94e",
+        "contentHash": "1c8a5c508b44f18f6231b4daddfaa32f0e1c0c344cdfb0c90e4da4d71c63ab32",
         "provenance": "observed",
         "confidence": "observed"
       },
