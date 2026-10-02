@@ -9,7 +9,7 @@
  */
 import { createFallbackAdapter, openrouter } from '@agentskit/adapters'
 import { createDocsRetriever, formatCitedContext } from '@/lib/rag/retrieve'
-import { FREE_MODELS } from '@/lib/openrouter'
+import { ASK_MODELS } from '@/lib/openrouter'
 import { docsAssistant } from '@/lib/ask/skill'
 import { UI_TOOLS } from '@/lib/ask/protocol'
 import { rateLimit } from '@/lib/ask/rate-limit'
@@ -22,7 +22,7 @@ function buildHandler(apiKey: string): (req: Request) => Promise<Response> {
   // Per-model: one quick retry on transient 429/5xx, then the fallback cascades to
   // the next free model — favouring breadth across the diverse $0 pool over waits.
   const adapter = createFallbackAdapter(
-    FREE_MODELS.map((model) => ({
+    ASK_MODELS.map((model) => ({
       id: model,
       adapter: openrouter({ apiKey, model, retry: { maxAttempts: 2, baseDelayMs: 400 } }),
     })),
@@ -38,7 +38,7 @@ function buildHandler(apiKey: string): (req: Request) => Promise<Response> {
     // capable BYO-key model enables the full generative-UI tool set.
     richUi: process.env.ASK_RICH_UI === '1',
     uiTools: UI_TOOLS,
-    modelLabel: FREE_MODELS[0] ?? 'openrouter',
+    modelLabel: ASK_MODELS[0] ?? 'openrouter',
     // Keep the docs-specific cited-context formatter (path#anchor markers, token cap).
     formatContext: (docs) => formatCitedContext(docs).context,
     // Default per-IP limiter (Upstash when configured, in-memory fallback).

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "abda357faafe2a6f08bc7ca74afadf7fa369b7469527726b7e6328bfb3ab0693",
+  "contentHash": "c58d1ac2f370a385f7dcbd50b3e25f43943502efb3cc552c7b4aa7c132a6e81c",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T20:22:09.523Z",
+  "generatedAt": "2026-10-02T20:55:56.300Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -3999,7 +3999,7 @@
         "document",
         "human"
       ],
-      "contentHash": "f1b66f58d669c2335afb79350c80cc8efcbc0852f6c82d23cafb23bf3301b855"
+      "contentHash": "ab7ce0234c3cb8ea92d163df3987f8e39d373273586022cea81f7e8602c85c10"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/recipes/adapter-contract-tests.mdx",
@@ -8072,7 +8072,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "49e47c87e7f9d1bcff7eea8fb651c9355f53c0407ac569e7365cf74a86247d9f"
+      "contentHash": "6c761951ecbf5be539a568141ca9faabd8693acfb9a5f6df6ab5899e212a4f7e"
     },
     {
       "id": "module:apps/ask-backend/vitest.config.ts",
@@ -8227,7 +8227,7 @@
         "ts",
         "ask-docs"
       ],
-      "contentHash": "0796f16b6ead497bed6af002d918f6f8aafcbb4f46e112624a7461f227897e36"
+      "contentHash": "cdd717bb56d8a6e8d4ed1e9d9fe49de328372d05ebe363137baf02196647ec50"
     },
     {
       "id": "module:apps/docs-next/app/api/claims.json/route.ts",
@@ -10614,7 +10614,7 @@
         "ts",
         "eval"
       ],
-      "contentHash": "18c598a297d1694d73ce7b9ab7ff5c819b83b8b5b21804bc197dd6cbc04717c6"
+      "contentHash": "6ad6fe6756e94f2921621a818ae8583fb147257374d0aa67cda7c663287a407f"
     },
     {
       "id": "module:apps/docs-next/lib/ask/eval/retrieval.ts",
@@ -10906,8 +10906,8 @@
       "title": "openrouter.ts",
       "path": "apps/docs-next/lib/openrouter.ts",
       "symbols": [
+        "ASK_MODELS",
         "ChatMessage",
-        "FREE_MODELS",
         "streamWithFallback"
       ],
       "tags": [
@@ -10915,7 +10915,7 @@
         "ts",
         "lib"
       ],
-      "contentHash": "05a7e82502276cc5da9122f0bc36b5e001f42b716dad6d0926ee8c0d09b995cd"
+      "contentHash": "b8a4a3d050cb829e1c947c3cbac97d0a55f435e6de7208e45156e154d74abfe8"
     },
     {
       "id": "module:apps/docs-next/lib/public-resources.ts",
@@ -37690,7 +37690,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "04e06c445b7460690c56ea00948bda3125ab5958128f811d0bbec06990825ea8",
+    "hash": "4cce5d0e8bcc47565e0d82b00fad67a103a552952f1e6ebfb376535b54b638d5",
     "fileCount": 2504,
     "projectionVersion": 2
   },
@@ -37713,9 +37713,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "5c066443d7f93ec8c2a4c32f6917f1df5aa1d4898418f707f932e245c97a4e68",
+    "contentHash": "a95008e00101edd637e7ca9ed08839a4fcc930204c1050debaf5186e492495aa",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "59a178b993adb5139134d77c6636913e808229d9fa3e0c4fb4c5066f82ff0b68",
+    "snapshotHash": "9b6b1e0614c353c214152defb4358dec42341b8b170c8464f15cccdc32e3f3af",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37747,7 +37747,7 @@
       ],
       "averageFieldLength": {
         "aliases": 3.014239218877136,
-        "body": 61.01383238405207,
+        "body": 61.012611879576895,
         "headings": 4.017087062652563,
         "path": 7.6220504475183075,
         "summary": 4.546786004882018,
@@ -61365,7 +61365,7 @@
           "path": "apps/docs-next/content/docs/reference/publications.mdx",
           "symbols": "",
           "summary": "This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed.",
-          "body": "Public publications This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed. AgentsKit ecosystem - — ecosystem narrative. - — public release. - — public evaluation artifact. Registry - — GitHub Marketplace action. - — public registry entry. Doc Bridge - — public package release. - — public MCP registry release. Agents Playbook - — public package release. Related canonical surfaces - — choose the product by the next problem. - — repository-derived numeric claims.",
+          "body": "Public publications This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed. AgentsKit ecosystem - — ecosystem narrative. - — public release. Registry - — GitHub Marketplace action. - — public registry entry. Doc Bridge - — public package release. - — public MCP registry release. Agents Playbook - — public package release. Related canonical surfaces - — choose the product by the next problem. - — repository-derived numeric claims.",
           "aliases": "document human"
         },
         "graph": {
@@ -61376,7 +61376,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "f1b66f58d669c2335afb79350c80cc8efcbc0852f6c82d23cafb23bf3301b855",
+        "contentHash": "ab7ce0234c3cb8ea92d163df3987f8e39d373273586022cea81f7e8602c85c10",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -84921,7 +84921,7 @@
             }
           ]
         },
-        "contentHash": "49e47c87e7f9d1bcff7eea8fb651c9355f53c0407ac569e7365cf74a86247d9f",
+        "contentHash": "6c761951ecbf5be539a568141ca9faabd8693acfb9a5f6df6ab5899e212a4f7e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -85320,7 +85320,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "0796f16b6ead497bed6af002d918f6f8aafcbb4f46e112624a7461f227897e36",
+        "contentHash": "cdd717bb56d8a6e8d4ed1e9d9fe49de328372d05ebe363137baf02196647ec50",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -91994,7 +91994,7 @@
             }
           ]
         },
-        "contentHash": "18c598a297d1694d73ce7b9ab7ff5c819b83b8b5b21804bc197dd6cbc04717c6",
+        "contentHash": "6ad6fe6756e94f2921621a818ae8583fb147257374d0aa67cda7c663287a407f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -92738,8 +92738,8 @@
         "title": "openrouter.ts",
         "aliases": [],
         "symbols": [
+          "ASK_MODELS",
           "ChatMessage",
-          "FREE_MODELS",
           "streamWithFallback"
         ],
         "tags": [
@@ -92751,7 +92751,7 @@
           "title": "openrouter.ts",
           "headings": "",
           "path": "apps/docs-next/lib/openrouter.ts",
-          "symbols": "ChatMessage FREE_MODELS streamWithFallback",
+          "symbols": "ASK_MODELS ChatMessage streamWithFallback",
           "summary": "",
           "body": "",
           "aliases": "module ts lib"
@@ -92772,7 +92772,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "05a7e82502276cc5da9122f0bc36b5e001f42b716dad6d0926ee8c0d09b995cd",
+        "contentHash": "b8a4a3d050cb829e1c947c3cbac97d0a55f435e6de7208e45156e154d74abfe8",
         "provenance": "observed",
         "confidence": "observed"
       },
