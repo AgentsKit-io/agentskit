@@ -1,6 +1,6 @@
 {
   "name": "@agentskit/rag",
-  "version": "0.5.9",
+  "version": "0.6.0",
   "description": "Plug-and-play retrieval-augmented generation for AgentsKit.",
   "keywords": [
     "agentskit",
@@ -42,6 +42,11 @@
       "types": "./dist/chunker.d.ts",
       "import": "./dist/chunker.js",
       "require": "./dist/chunker.cjs"
+    },
+    "./markdown": {
+      "types": "./dist/markdown.d.ts",
+      "import": "./dist/markdown.js",
+      "require": "./dist/markdown.cjs"
     }
   },
   "files": [
@@ -58,7 +63,8 @@
   },
   "dependencies": {
     "@agentskit/core": "workspace:*",
-    "@agentskit/net": "workspace:*"
+    "@agentskit/net": "workspace:*",
+    "yaml": "^2.9.1"
   },
   "peerDependencies": {
     "@aws-sdk/client-s3": "^3.0.0"
