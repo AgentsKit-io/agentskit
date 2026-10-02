@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "d4899b57c869cb4cd01684a07759c729de61337a172b8b7b15e8fc892adc4a6b",
+  "contentHash": "5897dd5c5106ed1c5691485808861a344bb38e245c0247e407065e62a035d006",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-01T23:49:52.702Z",
+  "generatedAt": "2026-10-02T00:03:50.163Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -14984,6 +14984,22 @@
       "contentHash": "07050525d502204dd9335f61ccd36f0a3620203c8c01ad40edef64e61ac2d3da"
     },
     {
+      "id": "module:packages/adapters/src/retry.ts",
+      "type": "module",
+      "title": "retry.ts",
+      "path": "packages/adapters/src/retry.ts",
+      "symbols": [
+        "RetryOptions",
+        "fetchWithRetry"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "05eb04dec76a55db54ec8ba3415d8b5ba0bb7f195a544ce3e5b03f030958fc05"
+    },
+    {
       "id": "module:packages/adapters/src/router.ts",
       "type": "module",
       "title": "router.ts",
@@ -15139,7 +15155,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "0330b5c732b29c0e2ed39c8c433e2ff8e7f9271f4a66ec9ff2fa86762d31b661"
+      "contentHash": "a116b36e8da34bd4cf227428863e807c1eccd9999bd5ef183f8cbdcd1fee9883"
     },
     {
       "id": "module:packages/adapters/src/vercel-ai.ts",
@@ -37472,8 +37488,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "7e43c236c3103675c86d6830fdac3edb0f90aa82c8c2c82fd361cd778c131430",
-    "fileCount": 2490,
+    "hash": "1390007ae6f885f811daee74a4e778ecbc2aae0818e55c6c8908e863fa41f88e",
+    "fileCount": 2491,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37495,9 +37511,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "6c8b60e4f5850305a8a0204c597b7b1fec36384d81814513b49a2afb2ed5e345",
+    "contentHash": "edb4507703e7ef196126e953c09c1fcc4f9a380c6d9f6ba6783c54f91f696a0e",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "ea13b1eb5c9f9c1e914a7a16c4dbf763a4a52f9aa9a3c73656b1ca101c2253bb",
+    "snapshotHash": "00e37ccaf0125729942a8873b8c8c1aa983142c91d019d6ce32ea159a37c05a5",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37517,7 +37533,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2444,
+      "documentCount": 2445,
       "fieldNames": [
         "aliases",
         "body",
@@ -37528,13 +37544,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.011456628477905,
-        "body": 61.263502454991816,
-        "headings": 4.036824877250409,
-        "path": 7.62315875613748,
-        "summary": 4.568330605564648,
-        "symbols": 7.496317512274959,
-        "title": 3.3355155482815055
+        "aliases": 3.0114519427402864,
+        "body": 61.23844580777096,
+        "headings": 4.035173824130879,
+        "path": 7.622494887525562,
+        "summary": 4.566462167689162,
+        "symbols": 7.495705521472392,
+        "title": 3.334969325153374
       }
     },
     "entries": [
@@ -106767,6 +106783,55 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/adapters/src/retry.ts",
+        "kind": "module",
+        "path": "packages/adapters/src/retry.ts",
+        "title": "retry.ts",
+        "aliases": [],
+        "symbols": [
+          "RetryOptions",
+          "fetchWithRetry"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "retry.ts",
+          "headings": "",
+          "path": "packages/adapters/src/retry.ts",
+          "symbols": "RetryOptions fetchWithRetry",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/utils.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/stream-errors.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "05eb04dec76a55db54ec8ba3415d8b5ba0bb7f195a544ce3e5b03f030958fc05",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/adapters/src/router.ts",
         "kind": "module",
         "path": "packages/adapters/src/router.ts",
@@ -106986,6 +107051,11 @@
             {
               "kind": "imports",
               "id": "module:packages/adapters/src/replicate.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/retry.ts",
               "confidence": "observed"
             },
             {
@@ -107596,6 +107666,11 @@
           "outbound": [
             {
               "kind": "imports",
+              "id": "module:packages/adapters/src/retry.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/adapters/src/stream-errors.ts",
               "confidence": "observed"
             },
@@ -107621,7 +107696,7 @@
             }
           ]
         },
-        "contentHash": "0330b5c732b29c0e2ed39c8c433e2ff8e7f9271f4a66ec9ff2fa86762d31b661",
+        "contentHash": "a116b36e8da34bd4cf227428863e807c1eccd9999bd5ef183f8cbdcd1fee9883",
         "provenance": "observed",
         "confidence": "observed"
       },

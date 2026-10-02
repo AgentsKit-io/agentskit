@@ -1,5 +1,6 @@
-import { AdapterError, ErrorCodes, type Message, type StreamChunk, type StreamSource } from '@agentskit/core'
-import { parseRetryAfter, parseSSE, retry, sleep as netSleep } from '@agentskit/net'
+import { type Message, type StreamChunk, type StreamSource } from '@agentskit/core'
+import { parseSSE, sleep as netSleep } from '@agentskit/net'
+import { fetchWithRetry, type RetryOptions } from './retry'
 import { readNDJSONLines } from './stream-lines'
 import {
   abortableSleep,
@@ -9,6 +10,8 @@ import {
   parseCompleteToolArgs,
 } from './stream-errors'
 
+export { fetchWithRetry }
+export type { RetryOptions }
 export { parseOpenAIStream } from './openai-stream'
 export { readNDJSONLines, readSSELines } from './stream-lines'
 export type { StreamParser } from './stream-types'
@@ -343,156 +346,6 @@ export async function* parseOllamaStream(stream: ReadableStream): AsyncIterableI
     return
   }
   yield { type: 'done' }
-}
-
-/**
- * Retry knobs for adapter fetches. Defaults to 3 total attempts, 500 ms base
- * delay, an 8000 ms cap, full jitter, and retrying HTTP 408/429/500/502/503/504
- * or non-abort transport errors. Retries apply only to the initial fetch.
- * Positive fractional `maxAttempts` values normalize down to a whole number of
- * attempts; after exhaustion, the final response is returned. Non-finite
- * values or values whose floored value is below 1 make no request and reject
- * with `AK_CONFIG_INVALID`.
- *
- * @example
- * ```ts
- * const retry: RetryOptions = {
- *   maxAttempts: 4,
- *   retryOn: ({ response }) => response?.status === 429,
- * }
- * ```
- */
-export interface RetryOptions {
-  /** Total fetch attempts, including the first. Default 3. */
-  maxAttempts?: number
-  /** First retry delay before jitter. Default 500 ms. */
-  baseDelayMs?: number
-  /** Maximum backoff and Retry-After delay. Default 8000 ms. */
-  maxDelayMs?: number
-  /** Enable full jitter. Default true. */
-  jitter?: boolean
-  /** Select failed responses or errors to retry. */
-  retryOn?: (info: { error?: unknown; response?: Response; attempt: number }) => boolean
-  /** Called immediately before a retry wait; thrown errors fail the retry operation. */
-  onRetry?: (info: { attempt: number; delayMs: number; reason: string }) => void
-  /** One-argument wait override. Default uses `@agentskit/net`'s abortable sleep. */
-  sleep?: (ms: number) => Promise<void>
-}
-
-const DEFAULT_RETRY: Required<Omit<RetryOptions, 'onRetry' | 'sleep' | 'retryOn'>> & {
-  retryOn: NonNullable<RetryOptions['retryOn']>
-} = {
-  maxAttempts: 3,
-  baseDelayMs: 500,
-  maxDelayMs: 8000,
-  jitter: true,
-  retryOn: ({ error, response }) => {
-    if (response) {
-      return [408, 429, 500, 502, 503, 504].includes(response.status)
-    }
-    if (isAbortError(error)) return false
-    // Network error: TypeError from fetch, AbortError from upstream timeout, etc.
-    return true
-  },
-}
-
-class RetryableResponse extends Error {
-  constructor(
-    readonly response: Response,
-    readonly retryAfterMs?: number,
-  ) {
-    super(`HTTP ${response.status}`)
-  }
-}
-
-/**
- * Run `doFetch` with retries on transient failures. Returns the last Response
- * even when its status is not ok; transport errors propagate after attempts run
- * out. Retries apply only to the initial fetch, never to a response stream.
- * Exceptions from `onRetry` or the custom `sleep` callback stop the operation.
- *
- * @deprecated Use `retry` from `@agentskit/net` for new code. This compatibility
- * wrapper will not be removed before adapters 0.20.0 or 90 days after this
- * deprecation, whichever is later.
- *
- * @param doFetch Callback invoked once per attempt with the caller's abort signal.
- * @param signal Caller-owned signal. Abort rejects with an `AbortError`.
- * @param retryOpt Retry policy; defaults to 3 attempts, 500 ms base delay,
- *   8000 ms cap, full jitter, and statuses 408/429/500/502/503/504.
- * @returns The successful or final response.
- * @throws {Error} The final transport error, or an AbortError when aborted.
- * @throws {AdapterError} With code AK_CONFIG_INVALID when maxAttempts is non-finite or floors below 1.
- * @example
- * ```ts
- * const response = await fetchWithRetry(signal => fetch(url, { signal }), controller.signal)
- * ```
- */
-export async function fetchWithRetry(
-  doFetch: (signal: AbortSignal) => Promise<Response>,
-  signal: AbortSignal,
-  retryOpt: RetryOptions = {},
-): Promise<Response> {
-  const opts = {
-    ...DEFAULT_RETRY,
-    ...retryOpt,
-  }
-  const maxAttempts = Math.floor(opts.maxAttempts)
-  if (!Number.isFinite(maxAttempts) || maxAttempts < 1) {
-    throw new AdapterError({
-      code: ErrorCodes.AK_CONFIG_INVALID,
-      message: 'Retry maxAttempts must be finite and at least 1 after flooring',
-    })
-  }
-  if (signal.aborted) throw new DOMException('Aborted', 'AbortError')
-
-  try {
-    return await retry(async ({ attempt }) => {
-      let response: Response
-      try {
-        response = await doFetch(signal)
-      } catch (error) {
-        if (signal.aborted) throw new DOMException('Aborted', 'AbortError')
-        throw error
-      }
-
-      if (response.ok || attempt >= maxAttempts || !opts.retryOn({ response, attempt })) return response
-
-      const retryAfter = parseRetryAfter(response.headers.get('retry-after'))
-      await cancelBody(response.body)
-      throw new RetryableResponse(
-        response,
-        retryAfter === undefined ? undefined : Math.min(retryAfter, opts.maxDelayMs),
-      )
-    }, {
-      retries: maxAttempts - 1,
-      minDelayMs: opts.baseDelayMs,
-      maxDelayMs: opts.maxDelayMs,
-      jitter: opts.jitter ? 'full' : 'none',
-      shouldRetry: (error, attempt) => {
-        if (error instanceof RetryableResponse) return true
-        if (isAbortError(error)) return false
-        return opts.retryOn({ error, attempt })
-      },
-      delayFor: error => error instanceof RetryableResponse ? error.retryAfterMs : undefined,
-      onRetry: ({ error, attempt, delayMs }) => {
-        retryOpt.onRetry?.({
-          attempt,
-          delayMs,
-          reason: error instanceof RetryableResponse
-            ? `HTTP ${error.response.status}`
-            : error instanceof Error ? error.message : String(error),
-        })
-      },
-      sleep: retryOpt.sleep
-        ? (ms, retrySignal) => abortableSleep(ms, retrySignal ?? signal, retryOpt.sleep!)
-        : netSleep,
-      signal,
-    })
-  } catch (error) {
-    if (signal.aborted) throw new DOMException('Aborted', 'AbortError')
-    if (error instanceof RetryableResponse) return error.response
-    throw error
-  }
 }
 
 /**
