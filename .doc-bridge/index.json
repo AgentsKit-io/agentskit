@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "a7ced156a5b79a585a7321aa3f519fe139827680daae8dd7b022f48255ea94c5",
+  "contentHash": "d04a76cd3a27a9380ee94624b7e572ace87ffcf0cc8754f1b8319f8fcb2ab3a8",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T23:07:43.739Z",
+  "generatedAt": "2026-10-02T23:34:37.728Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -17118,7 +17118,7 @@
         "ts",
         "rag"
       ],
-      "contentHash": "aed11e22f1a7172cfaa9e4669898bb4acdec728bbd756a9a2593af98ca7c3a5e"
+      "contentHash": "36c5ad56faaa9e2b0ca58dc03da90e814b74f535cf47875db2f23bb6890eb1b4"
     },
     {
       "id": "module:packages/cli/src/extensibility/rag/index.ts",
@@ -18011,7 +18011,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "8e6a718a4feeabec5fcd66ad4f1a2a5b0b06e5c8ff9c40cf3a772838feab55a5"
+      "contentHash": "00b0175e80e1f4bc5f11b2d4442438fa15ac7da64275518444fd3249fa4e4b05"
     },
     {
       "id": "module:packages/cli/tests/fixtures/readme-quickstart.ts",
@@ -22733,6 +22733,7 @@
       "path": "packages/integrations/src/http-body.ts",
       "symbols": [
         "readResponseBytes",
+        "readResponseJson",
         "readResponseText"
       ],
       "tags": [
@@ -22740,7 +22741,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "96bdf581d46d2dff058b0fa23a5fd7733d806195b756b862db0d4eeb90f40223"
+      "contentHash": "46f222ff674807cbef29cd8dd5c8ca9c5d2b32a1ad9f0618df60840ddff4e173"
     },
     {
       "id": "module:packages/integrations/src/http-timeout.ts",
@@ -23446,7 +23447,7 @@
         "ts",
         "deepgram"
       ],
-      "contentHash": "1b4f0f414f4f2a436bcec3da3ca04e4dd046f5c829ecc8160ee2beaea988d025"
+      "contentHash": "35b150f7fb248e01c6c8209ab90ae07d0527c16ffe14da9a6ece6efdfc5fa300"
     },
     {
       "id": "module:packages/integrations/src/services/deepgram/index.ts",
@@ -23556,7 +23557,7 @@
         "ts",
         "elevenlabs"
       ],
-      "contentHash": "06537d183eaf5161be9597d8ba24c08f91f28aa6d3e44205576b19c59e6a4c05"
+      "contentHash": "093dea1083c831ec7af7fcc06a64f56d29b5d3d245715f46249231d44d0fe156"
     },
     {
       "id": "module:packages/integrations/src/services/elevenlabs/index.ts",
@@ -24593,7 +24594,7 @@
         "ts",
         "stripe"
       ],
-      "contentHash": "68815f4c3f5a6a17d43529464b35722213ba64198a6e6e8aec2c5cd8c8ef05d1"
+      "contentHash": "962c9712dc454a31fe8bbdf710fb66cd2312126b3a052f2cad77f4e562374b80"
     },
     {
       "id": "module:packages/integrations/src/services/stripe/index.ts",
@@ -24643,7 +24644,7 @@
         "ts",
         "teams"
       ],
-      "contentHash": "caa17259e62d9708e61c78c8a35cdcd653cbb06fe1ff79b89e8ee0aad23db4b7"
+      "contentHash": "8c3d1686d198b74ad031037f96a15174a2f0a9e3c09cbbcedd91913010b2d74c"
     },
     {
       "id": "module:packages/integrations/src/services/teams/cards.ts",
@@ -24755,7 +24756,7 @@
         "ts",
         "twilio"
       ],
-      "contentHash": "418163368dbf7b0ccb939d78371a5afa51552565594c32db3c306e8fade468b3"
+      "contentHash": "13c2e0b43c7d2a491cb81d779c09ee5eab29f6309c3d92829f386743f0984550"
     },
     {
       "id": "module:packages/integrations/src/services/twilio/index.ts",
@@ -24880,7 +24881,7 @@
         "ts",
         "whisper"
       ],
-      "contentHash": "88fdcecdd4a2b44a231365970c29dcc9d74ce3b03615ede85d461b2abed04ca1"
+      "contentHash": "6439c2dd2e3a68dc17fd0803ab5826fd6a36dd2635f92a35358867bdcb93472f"
     },
     {
       "id": "module:packages/integrations/src/services/whisper/index.ts",
@@ -25205,6 +25206,19 @@
         "tests"
       ],
       "contentHash": "01dae8058a5277c251fdcf76498b84ef071e7c8907d651736a87fee89baf9917"
+    },
+    {
+      "id": "module:packages/integrations/tests/service-response-bodies.test.ts",
+      "type": "module",
+      "title": "service-response-bodies.test.ts",
+      "path": "packages/integrations/tests/service-response-bodies.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "964e76100a2a66fed563cca4b4612b719e8f3bb171b72a257d1fb58250be302a"
     },
     {
       "id": "module:packages/integrations/tests/slack.test.ts",
@@ -37690,8 +37704,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "1752548f74566ec836ce25d6192a3fd09664be6c0419b980f69a5f1a102c440b",
-    "fileCount": 2504,
+    "hash": "1b5a802ff595b69cbbfc3a1146cbbdca6b445cdabd8bde1b57cacaad2db18152",
+    "fileCount": 2505,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37713,9 +37727,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "ce6c2f9ce28314a897732302c5c5f77bc1343a20e87e6fb96489f6aff941204b",
+    "contentHash": "65113adabaf1b740276856f71a34ab3b15c6efe8988b45bdf3c577104431e1c4",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "0065eb4f952d5dc04f1a6238b2277e7fe1f2109c6d2202bf36ee5701391a487a",
+    "snapshotHash": "d916f4771cd8d07d3877fda2226faa2fc39c4f5d5ddc9a4da43b9662d90bcee8",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37735,7 +37749,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2458,
+      "documentCount": 2459,
       "fieldNames": [
         "aliases",
         "body",
@@ -37746,13 +37760,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.014239218877136,
-        "body": 61.014646053702194,
-        "headings": 4.017087062652563,
-        "path": 7.6220504475183075,
-        "summary": 4.546786004882018,
-        "symbols": 7.4768104149715215,
-        "title": 3.337672904800651
+        "aliases": 3.0146400976006507,
+        "body": 60.989833265555106,
+        "headings": 4.015453436356243,
+        "path": 7.622610817405449,
+        "summary": 4.544936966246442,
+        "symbols": 7.475396502643351,
+        "title": 3.338755591703945
       }
     },
     "entries": [
@@ -115106,7 +115120,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "aed11e22f1a7172cfaa9e4669898bb4acdec728bbd756a9a2593af98ca7c3a5e",
+        "contentHash": "36c5ad56faaa9e2b0ca58dc03da90e814b74f535cf47875db2f23bb6890eb1b4",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -118174,7 +118188,7 @@
             }
           ]
         },
-        "contentHash": "8e6a718a4feeabec5fcd66ad4f1a2a5b0b06e5c8ff9c40cf3a772838feab55a5",
+        "contentHash": "00b0175e80e1f4bc5f11b2d4442438fa15ac7da64275518444fd3249fa4e4b05",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -136627,6 +136641,7 @@
         "aliases": [],
         "symbols": [
           "readResponseBytes",
+          "readResponseJson",
           "readResponseText"
         ],
         "tags": [
@@ -136638,7 +136653,7 @@
           "title": "http-body.ts",
           "headings": "",
           "path": "packages/integrations/src/http-body.ts",
-          "symbols": "readResponseBytes readResponseText",
+          "symbols": "readResponseBytes readResponseJson readResponseText",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -136659,6 +136674,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/src/services/twilio/actions.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/tests/http.test.ts",
               "confidence": "observed"
             },
@@ -136675,7 +136695,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "96bdf581d46d2dff058b0fa23a5fd7733d806195b756b862db0d4eeb90f40223",
+        "contentHash": "46f222ff674807cbef29cd8dd5c8ca9c5d2b32a1ad9f0618df60840ddff4e173",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -136809,6 +136829,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/src/services/deepgram/actions.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/src/services/elevenlabs/actions.ts",
               "confidence": "observed"
             },
@@ -136830,6 +136855,11 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/src/services/reader/actions.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/stripe/actions.ts",
               "confidence": "observed"
             },
             {
@@ -139715,6 +139745,11 @@
               "kind": "imports",
               "id": "module:packages/integrations/src/services/deepgram/index.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/service-response-bodies.test.ts",
+              "confidence": "observed"
             }
           ],
           "outbound": [
@@ -139722,10 +139757,15 @@
               "kind": "imports",
               "id": "module:packages/integrations/src/contract.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/http.ts",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "1b4f0f414f4f2a436bcec3da3ca04e4dd046f5c829ecc8160ee2beaea988d025",
+        "contentHash": "35b150f7fb248e01c6c8209ab90ae07d0527c16ffe14da9a6ece6efdfc5fa300",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -140163,7 +140203,7 @@
             }
           ]
         },
-        "contentHash": "06537d183eaf5161be9597d8ba24c08f91f28aa6d3e44205576b19c59e6a4c05",
+        "contentHash": "093dea1083c831ec7af7fcc06a64f56d29b5d3d245715f46249231d44d0fe156",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -144231,10 +144271,15 @@
               "kind": "imports",
               "id": "module:packages/integrations/src/contract.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/http.ts",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "68815f4c3f5a6a17d43529464b35722213ba64198a6e6e8aec2c5cd8c8ef05d1",
+        "contentHash": "962c9712dc454a31fe8bbdf710fb66cd2312126b3a052f2cad77f4e562374b80",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -144454,7 +144499,7 @@
             }
           ]
         },
-        "contentHash": "caa17259e62d9708e61c78c8a35cdcd653cbb06fe1ff79b89e8ee0aad23db4b7",
+        "contentHash": "8c3d1686d198b74ad031037f96a15174a2f0a9e3c09cbbcedd91913010b2d74c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -144846,6 +144891,11 @@
               "kind": "imports",
               "id": "module:packages/integrations/src/services/twilio/index.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/service-response-bodies.test.ts",
+              "confidence": "observed"
             }
           ],
           "outbound": [
@@ -144853,10 +144903,15 @@
               "kind": "imports",
               "id": "module:packages/integrations/src/contract.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/http-body.ts",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "418163368dbf7b0ccb939d78371a5afa51552565594c32db3c306e8fade468b3",
+        "contentHash": "13c2e0b43c7d2a491cb81d779c09ee5eab29f6309c3d92829f386743f0984550",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -145365,7 +145420,7 @@
             }
           ]
         },
-        "contentHash": "88fdcecdd4a2b44a231365970c29dcc9d74ce3b03615ede85d461b2abed04ca1",
+        "contentHash": "6439c2dd2e3a68dc17fd0803ab5826fd6a36dd2635f92a35358867bdcb93472f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -146895,6 +146950,51 @@
           ]
         },
         "contentHash": "01dae8058a5277c251fdcf76498b84ef071e7c8907d651736a87fee89baf9917",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/tests/service-response-bodies.test.ts",
+        "kind": "module",
+        "path": "packages/integrations/tests/service-response-bodies.test.ts",
+        "title": "service-response-bodies.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "service-response-bodies.test.ts",
+          "headings": "",
+          "path": "packages/integrations/tests/service-response-bodies.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/deepgram/actions.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/services/twilio/actions.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "964e76100a2a66fed563cca4b4612b719e8f3bb171b72a257d1fb58250be302a",
         "provenance": "observed",
         "confidence": "observed"
       },

@@ -183,24 +183,6 @@
     "packages/ink/tests/security-boundary.test.tsx": {
       "net-sleep-promise": 1
     },
-    "packages/integrations/src/services/deepgram/actions.ts": {
-      "net-unbounded-body": 1
-    },
-    "packages/integrations/src/services/elevenlabs/actions.ts": {
-      "net-unbounded-body": 1
-    },
-    "packages/integrations/src/services/stripe/actions.ts": {
-      "net-unbounded-body": 1
-    },
-    "packages/integrations/src/services/teams/actions.ts": {
-      "net-unbounded-body": 1
-    },
-    "packages/integrations/src/services/twilio/actions.ts": {
-      "net-unbounded-body": 1
-    },
-    "packages/integrations/src/services/whisper/actions.ts": {
-      "net-unbounded-body": 1
-    },
     "packages/mcp/fixtures/run-coding-agent-hosts.mjs": {
       "net-sleep-promise": 1
     },

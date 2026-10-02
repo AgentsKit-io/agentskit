@@ -1,5 +1,5 @@
 import { ErrorCodes, ToolError } from '@agentskit/core'
-import { composeTimeoutSignal } from '../../http'
+import { composeTimeoutSignal, readResponseText } from '../../http'
 import { defineAction } from '../../contract'
 import { messageCard, type TeamsAdaptiveCard, type TeamsMessageCard, type TeamsRuntimeConfig } from './cards'
 
@@ -16,7 +16,7 @@ export const teamsSendWebhook = defineAction({
       card: { type: 'object', description: 'Pre-built Adaptive Card or MessageCard payload.' },
     },
   },
-  async execute(args, { fetch, config, signal }) {
+  async execute(args, { fetch, config, signal, maxResponseBytes }) {
     const webhook = (config as TeamsRuntimeConfig | undefined)?.webhook
     if (!webhook?.webhookUrl) {
       throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: 'teams_send_webhook: no webhookUrl configured' })
@@ -48,7 +48,7 @@ export const teamsSendWebhook = defineAction({
         redirect: 'error',
       })
       if (!response.ok) {
-        const body = await response.text().catch(() => '')
+        const body = await readResponseText(response, maxResponseBytes ?? 2 * 1024 * 1024).catch(() => '')
         throw new ToolError({
           code: ErrorCodes.AK_TOOL_EXEC_FAILED,
           message: `teams_send_webhook: HTTP ${response.status} ${response.statusText}: ${body.slice(0, 200)}`,
