@@ -13,7 +13,11 @@ import {
 } from './shared'
 
 export interface S3LikeClient {
-  send(command: { input: Record<string, unknown> }): Promise<unknown>
+  /** SDK-compatible send method; `abortSignal` is passed to SDK requests. */
+  send(
+    command: { input: Record<string, unknown> },
+    options?: { abortSignal?: AbortSignal },
+  ): Promise<unknown>
 }
 
 type S3ObjectBody = {
@@ -71,11 +75,11 @@ export async function loadS3(options: S3LoaderOptions): Promise<InputDocument[]>
       IsTruncated?: boolean
     }
     try {
-      list = await withDeadline(options.client.send(new ListObjectsV2Command({
+      list = await withDeadline(signal => options.client.send(new ListObjectsV2Command({
         Bucket: options.bucket,
         Prefix: options.prefix,
         ContinuationToken: continuationToken,
-      })) as Promise<typeof list>, options.timeoutMs, 'loadS3')
+      }), { abortSignal: signal }) as Promise<typeof list>, options.timeoutMs, 'loadS3', options.signal)
     } catch (cause) {
       if (cause instanceof RagError) throw cause
       if (isAbortLike(cause)) throw loadFailed('loadS3: aborted', cause)
@@ -88,11 +92,11 @@ export async function loadS3(options: S3LoaderOptions): Promise<InputDocument[]>
       if (options.filter && !options.filter(key)) continue
       attempted++
       try {
-        const get = await withDeadline(options.client.send(new GetObjectCommand({
+        const get = await withDeadline(signal => options.client.send(new GetObjectCommand({
           Bucket: options.bucket,
           Key: key,
-        })) as Promise<{ Body?: S3ObjectBody }>, options.timeoutMs, 'loadS3')
-        const content = await readS3Body(get.Body, 'loadS3', options.maxResponseBytes, options.timeoutMs)
+        }), { abortSignal: signal }) as Promise<{ Body?: S3ObjectBody }>, options.timeoutMs, 'loadS3', options.signal)
+        const content = await readS3Body(get.Body, 'loadS3', options.maxResponseBytes, options.timeoutMs, options.signal)
         docs.push({
           content,
           source: `s3://${options.bucket}/${key}`,

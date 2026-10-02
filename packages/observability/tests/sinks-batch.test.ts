@@ -1,4 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
+import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http'
 import { ConfigError, ErrorCodes, type AgentEvent } from '@agentskit/core'
 import { datadogSink, axiomSink, newRelicSink } from '../src/index'
 import type { LifecycleObserver } from '../src/http-batch-sink'
@@ -72,6 +73,27 @@ function makeFetch(handler?: (n: number) => Response | Promise<Response> | never
     return new Response('{}', { status: 202 })
   }) as unknown as typeof globalThis.fetch
   return { fetch, calls }
+}
+
+async function startLocalServer(
+  handler: (request: IncomingMessage, response: ServerResponse) => void,
+): Promise<{ server: Server; origin: string; close: () => Promise<void> }> {
+  const server = createServer(handler)
+  await new Promise<void>((resolve, reject) => {
+    server.once('error', reject)
+    server.listen(0, '127.0.0.1', resolve)
+  })
+  const address = server.address()
+  if (!address || typeof address === 'string') throw new Error('local HTTP server did not bind a TCP address')
+  return {
+    server,
+    origin: `http://127.0.0.1:${address.port}`,
+    close: () =>
+      new Promise<void>((resolve) => {
+        server.close(() => resolve())
+        server.closeAllConnections()
+      }),
+  }
 }
 
 function llmStart(i = 0): AgentEvent {
@@ -585,10 +607,185 @@ describe('provider-specific endpoints', () => {
   })
 })
 
+describe('native HTTP batch behavior', () => {
+  it('uses Retry-After seconds and dates as floors over full jitter', async () => {
+    vi.useRealTimers()
+    const requests: Array<{ at: number; method?: string; url?: string; authorization?: string; body: string }> = []
+    const responseAt: number[] = []
+    let dateDeadline = 0
+    const local = await startLocalServer((request, response) => {
+      const at = Date.now()
+      let body = ''
+      request.setEncoding('utf8')
+      request.on('data', (chunk: string) => { body += chunk })
+      request.on('end', () => {
+        requests.push({
+          at,
+          method: request.method,
+          url: request.url,
+          authorization: request.headers.authorization,
+          body,
+        })
+        if (requests.length === 1) {
+          responseAt.push(Date.now())
+          response.writeHead(503, { 'retry-after': '0.08' }).end('busy')
+          return
+        }
+        if (requests.length === 2) {
+          const dateHeader = new Date(Math.floor(Date.now() / 1000) * 1000 + 2_000).toUTCString()
+          dateDeadline = Date.parse(dateHeader)
+          responseAt.push(Date.now())
+          response.writeHead(503, { 'retry-after': dateHeader }).end('busy')
+          return
+        }
+        response.writeHead(202).end('{}')
+      })
+    })
+    const random = vi.spyOn(Math, 'random').mockReturnValue(0)
+    const errors: unknown[] = []
+    const sink = axiomSink({
+      token: 'local-test-token',
+      dataset: 'batch-test',
+      endpoint: local.origin,
+      batchSize: 10,
+      flushIntervalMs: 60_000,
+      maxRetries: 2,
+      retryBaseDelayMs: 100,
+      requestTimeoutMs: 5_000,
+      onError: (error) => errors.push(error),
+    })
+    try {
+      sink.on(llmStart())
+      await sink.flush()
+      expect(requests).toHaveLength(3)
+      expect(requests[0]).toMatchObject({
+        method: 'POST',
+        url: '/v1/datasets/batch-test/ingest',
+        authorization: 'Bearer local-test-token',
+      })
+      expect(JSON.parse(requests[0]!.body)).not.toHaveLength(0)
+      expect(requests[1]!.at - responseAt[0]!).toBeGreaterThanOrEqual(45)
+      expect(requests[2]!.at - responseAt[1]!).toBeGreaterThanOrEqual(dateDeadline - responseAt[1]! - 50)
+      expect(random).toHaveBeenCalledTimes(2)
+      expect(errors).toEqual([])
+    } finally {
+      await sink.shutdown()
+      await local.close()
+    }
+  })
+
+  it('uses deterministic full jitter when Retry-After is invalid', async () => {
+    const random = vi.spyOn(Math, 'random').mockReturnValue(0.5)
+    const { fetch, calls } = makeFetch((n) =>
+      n === 1
+        ? new Response('busy', { status: 503, headers: { 'retry-after': 'soon' } })
+        : new Response('{}', { status: 202 }),
+    )
+    const sink = axiomSink({
+      token: 'test',
+      dataset: 'batch-test',
+      fetch,
+      batchSize: 10,
+      flushIntervalMs: 60_000,
+      maxRetries: 1,
+      retryBaseDelayMs: 100,
+      requestTimeoutMs: 1_000,
+    })
+    sink.on(llmStart())
+    const flush = sink.flush()
+    await vi.advanceTimersByTimeAsync(0)
+    expect(calls).toHaveLength(1)
+    await vi.advanceTimersByTimeAsync(49)
+    expect(calls).toHaveLength(1)
+    await vi.advanceTimersByTimeAsync(1)
+    await flush
+    expect(calls).toHaveLength(2)
+    expect(random).toHaveBeenCalledTimes(1)
+    await sink.shutdown()
+  })
+
+  it('caps Retry-After at 30 seconds', async () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0)
+    const { fetch, calls } = makeFetch((n) =>
+      n === 1
+        ? new Response('busy', { status: 503, headers: { 'retry-after': '31' } })
+        : new Response('{}', { status: 202 }),
+    )
+    const sink = axiomSink({
+      token: 'test',
+      dataset: 'batch-test',
+      fetch,
+      batchSize: 10,
+      flushIntervalMs: 60_000,
+      maxRetries: 1,
+      retryBaseDelayMs: 100,
+      requestTimeoutMs: 1_000,
+    })
+    sink.on(llmStart())
+    const flush = sink.flush()
+    await vi.advanceTimersByTimeAsync(0)
+    expect(calls).toHaveLength(1)
+    await vi.advanceTimersByTimeAsync(29_999)
+    expect(calls).toHaveLength(1)
+    await vi.advanceTimersByTimeAsync(1)
+    await flush
+    expect(calls).toHaveLength(2)
+    await sink.shutdown()
+  })
+
+  it('aborts the native HTTP transport at the request timeout with no unhandled rejection', async () => {
+    vi.useRealTimers()
+    let markRequest!: () => void
+    let markResponseClosed!: () => void
+    const requestReceived = new Promise<void>((resolve) => { markRequest = resolve })
+    const responseClosed = new Promise<void>((resolve) => { markResponseClosed = resolve })
+    const local = await startLocalServer((request, response) => {
+      markRequest()
+      request.resume()
+      const timer = setTimeout(() => response.writeHead(202).end('{}'), 5_000)
+      response.on('close', () => {
+        clearTimeout(timer)
+        if (!response.writableEnded) markResponseClosed()
+      })
+    })
+    const errors: unknown[] = []
+    const unhandled: unknown[] = []
+    const onUnhandled = (reason: unknown) => unhandled.push(reason)
+    process.on('unhandledRejection', onUnhandled)
+    const sink = axiomSink({
+      token: 'local-test-token',
+      dataset: 'timeout-test',
+      endpoint: local.origin,
+      batchSize: 10,
+      flushIntervalMs: 60_000,
+      maxRetries: 0,
+      requestTimeoutMs: 50,
+      onError: (error) => errors.push(error),
+    })
+    try {
+      sink.on(llmStart())
+      const flush = sink.flush()
+      await requestReceived
+      await expect(flush).resolves.toBeUndefined()
+      await responseClosed
+      await new Promise<void>((resolve) => setImmediate(resolve))
+      expect(errors).toHaveLength(1)
+      expect(errors[0]).toMatchObject({ message: 'axiom: request timed out after 50ms' })
+      expect(unhandled).toEqual([])
+    } finally {
+      process.off('unhandledRejection', onUnhandled)
+      await sink.shutdown()
+      await local.close()
+    }
+  })
+})
+
 describe('http-batch helpers', () => {
   it('computeBackoffMs caps at 30000 without overflow', async () => {
     const { computeBackoffMs } = await import('../src/http-batch-sink')
     expect(computeBackoffMs(100, 0)).toBe(100)
+    expect(computeBackoffMs(100, 0.5)).toBe(200)
+    expect(computeBackoffMs(100, Number.NaN)).toBe(100)
     expect(computeBackoffMs(100, 1)).toBe(200)
     expect(computeBackoffMs(100, 8)).toBe(25_600)
     expect(computeBackoffMs(100, 9)).toBe(30_000)

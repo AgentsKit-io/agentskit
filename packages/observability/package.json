@@ -63,7 +63,8 @@
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "@agentskit/core": "workspace:*"
+    "@agentskit/core": "workspace:*",
+    "@agentskit/net": "workspace:*"
   },
   "peerDependencies": {
     "@opentelemetry/api": "^1.9.1",

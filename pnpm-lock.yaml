@@ -1177,6 +1177,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
+      '@agentskit/net':
+        specifier: workspace:*
+        version: link:../net
     devDependencies:
       '@types/json-schema':
         specifier: ^7.0.15
@@ -1289,6 +1292,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
+      '@agentskit/net':
+        specifier: workspace:*
+        version: link:../net
     devDependencies:
       '@opentelemetry/api':
         specifier: ^1.9.1
@@ -1348,6 +1354,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
+      '@agentskit/net':
+        specifier: workspace:*
+        version: link:../net
       '@aws-sdk/client-s3':
         specifier: ^3.0.0
         version: 3.1124.0
@@ -1456,6 +1465,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
+      '@agentskit/net':
+        specifier: workspace:*
+        version: link:../net
     devDependencies:
       '@types/node':
         specifier: ^25.9.5

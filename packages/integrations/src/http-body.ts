@@ -1,34 +1,62 @@
 import { ErrorCodes, ToolError } from '@agentskit/core'
+import { NetError, NetErrorCodes, readBody, readText } from '@agentskit/net'
 
-function fail(maxBytes: number): never {
-  throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `HTTP response exceeds maxResponseBytes (${maxBytes})` })
+function readFailure(error: unknown, maxBytes: number): never {
+  if (!(error instanceof NetError)) throw error
+  const tooLarge = error.code === NetErrorCodes.AK_NET_BODY_TOO_LARGE
+  throw new ToolError({
+    code: tooLarge ? ErrorCodes.AK_TOOL_EXEC_FAILED : ErrorCodes.AK_TOOL_INVALID_INPUT,
+    message: tooLarge ? `HTTP response exceeds maxResponseBytes (${maxBytes})` : error.message,
+    hint: error.hint,
+    cause: error,
+  })
 }
 
-async function readBytes(response: Response, maxBytes: number): Promise<Uint8Array> {
-  const length = response.headers.get('content-length')
-  if (length && Number(length) > maxBytes) fail(maxBytes)
-  if (!response.body) {
-    const bytes = new Uint8Array(await response.arrayBuffer())
-    if (bytes.byteLength > maxBytes) fail(maxBytes)
-    return bytes
+/**
+ * Read response bytes through the shared bounded stream reader.
+ *
+ * @param response Fetch response to consume.
+ * @param maxBytes Non-negative integer byte count; defaults to 2 MiB.
+ * @returns The complete response body as bytes.
+ * @throws {ToolError} With code AK_TOOL_EXEC_FAILED and a `NetError` cause when the body is too large.
+ * @throws {ToolError} With code AK_TOOL_INVALID_INPUT and a `NetError` cause when maxBytes is invalid.
+ * @example
+ * ```ts
+ * import { readResponseBytes } from './http-body'
+ *
+ * const audioUrl = 'https://api.example.com/audio'
+ * const response = await fetch(audioUrl)
+ * const bytes = await readResponseBytes(response, 4 * 1024 * 1024)
+ * ```
+ */
+export async function readResponseBytes(response: Response, maxBytes = 2 * 1024 * 1024): Promise<Uint8Array> {
+  try {
+    return await readBody(response, { maxBytes })
+  } catch (error) {
+    return readFailure(error, maxBytes)
   }
-  const reader = response.body.getReader(); const chunks: Uint8Array[] = []; let total = 0
-  while (true) {
-    const next = await reader.read()
-    if (next.done) break
-    total += next.value.byteLength
-    if (total > maxBytes) { await reader.cancel(); fail(maxBytes) }
-    chunks.push(next.value)
-  }
-  const bytes = new Uint8Array(total); let offset = 0
-  for (const chunk of chunks) { bytes.set(chunk, offset); offset += chunk.byteLength }
-  return bytes
 }
 
-export function readResponseBytes(response: Response, maxBytes = 2 * 1024 * 1024): Promise<Uint8Array> {
-  return readBytes(response, maxBytes)
-}
-
+/**
+ * Read a response body as UTF-8 text through the shared bounded stream reader.
+ *
+ * @param response Fetch response to consume.
+ * @param maxBytes Non-negative integer byte count before rejecting; defaults to 2 MiB.
+ * @returns The decoded response body.
+ * @throws {ToolError} With code AK_TOOL_EXEC_FAILED and a `NetError` cause when the body is too large.
+ * @throws {ToolError} With code AK_TOOL_INVALID_INPUT and a `NetError` cause when maxBytes is invalid.
+ * @example
+ * ```ts
+ * import { readResponseText } from '@agentskit/integrations'
+ *
+ * const response = await fetch('https://api.example.com/status')
+ * const text = await readResponseText(response, 64 * 1024)
+ * ```
+ */
 export async function readResponseText(response: Response, maxBytes = 2 * 1024 * 1024): Promise<string> {
-  return new TextDecoder().decode(await readBytes(response, maxBytes))
+  try {
+    return await readText(response, { maxBytes })
+  } catch (error) {
+    return readFailure(error, maxBytes)
+  }
 }

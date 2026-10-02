@@ -1,19 +1,26 @@
 import { ConfigError, ErrorCodes, RuntimeError } from '@agentskit/core'
+import { NetError, NetErrorCodes, withTimeout } from '@agentskit/net'
 
 /**
  * Ready-made multi-agent topologies. Each builder takes a set of
  * `AgentHandle`s + config and returns a single `AgentHandle` that
  * presents the ensemble as a normal agent to the rest of the system.
  *
- * An `AgentHandle` is intentionally minimal — `name` + `run(task,
- * context?) => Promise<string>` — so any runtime (our own
+ * An `AgentHandle` is intentionally minimal — `name` + `run(task, context?,
+ * signal?) => Promise<string>` — so any runtime (our own
  * `createRuntime`, a LangChain Runnable, a bare HTTP endpoint) can
- * participate without coupling.
+ * participate without coupling. The signal is separate from caller context;
+ * existing two-argument handles remain compatible.
  */
 
 export interface AgentHandle<TContext = unknown> {
   name: string
-  run: (task: string, context?: TContext) => Promise<string>
+  /**
+   * Run one task with its caller context and optional cancellation signal.
+   * Topologies pass `signal` through to child work without modifying `context`;
+   * omitting it preserves the existing uncancelled behavior.
+   */
+  run: (task: string, context?: TContext, signal?: AbortSignal) => Promise<string>
   /** Best-effort cancellation hook used when a topology deadline expires. */
   abort?: () => void
 }
@@ -60,7 +67,7 @@ export function supervisor<TContext = unknown>(
 
   return {
     name: config.supervisor.name,
-    async run(task, context) {
+    async run(task, context, signal) {
       const log = config.onEvent
       log?.({ topology: 'supervisor', phase: 'dispatch', task })
       let current = task
@@ -68,7 +75,7 @@ export function supervisor<TContext = unknown>(
       for (let i = 0; i < maxRounds; i++) {
         const worker = route(current, config.workers)
         log?.({ topology: 'supervisor', phase: 'agent:start', agent: worker.name, iteration: i })
-        const result = await worker.run(current, context)
+        const result = await worker.run(current, context, signal)
         log?.({ topology: 'supervisor', phase: 'agent:end', agent: worker.name, result, iteration: i })
         notes.push(`[${worker.name}] ${result}`)
         current = `Worker result:\n${result}\n\nOriginal task: ${task}`
@@ -76,6 +83,7 @@ export function supervisor<TContext = unknown>(
       const synthesis = await config.supervisor.run(
         `Synthesize the following worker outputs into one answer.\n\n${notes.join('\n---\n')}\n\nOriginal task: ${task}`,
         context,
+        signal,
       )
       log?.({ topology: 'supervisor', phase: 'done', result: synthesis })
       return synthesis
@@ -92,45 +100,40 @@ export interface SwarmConfig<TContext = unknown> {
   members: AgentHandle<TContext>[]
   /** Merge member outputs into a single result. Default: longest. */
   merge?: (results: Array<{ agent: string; output: string }>) => string | Promise<string>
-  /** Per-member timeout in ms. */
+  /**
+   * Per-member deadline in milliseconds. Default: unset (no deadline).
+   * When set, it must be finite, greater than 0, and no greater than 2,147,483,647.
+   * Invalid values throw `ConfigError` (`AK_CONFIG_INVALID`) synchronously.
+   */
   timeoutMs?: number
   onEvent?: TopologyObserver
 }
 
-function withTimeout<T>(
-  p: Promise<T>,
-  timeoutMs: number | undefined,
-  label: string,
-  onTimeout?: () => void,
-): Promise<T> {
-  if (timeoutMs === undefined) return p
-  return new Promise<T>((resolve, reject) => {
-    const timer = setTimeout(() => {
-      try {
-        onTimeout?.()
-      } catch {
-        // Cancellation is best-effort; the timeout must still settle the wrapper.
-      }
-      reject(new Error(`${label} timed out after ${timeoutMs}ms`))
-    }, timeoutMs)
-    p.then(
-      v => {
-        clearTimeout(timer)
-        resolve(v)
-      },
-      e => {
-        clearTimeout(timer)
-        reject(e)
-      },
-    )
-  })
-}
-
+/**
+ * Run every member and merge successful results. With `timeoutMs`, each
+ * member receives a cancellation signal; its optional legacy `abort` hook is
+ * also called once when that member's deadline expires. At least one
+ * successful member preserves partial-success behavior; zero successes raise
+ * `RuntimeError` (`AK_RUNTIME_DELEGATE_FAILED`) with the first failure as
+ * its cause.
+ *
+ * @throws {ConfigError} with `AK_CONFIG_INVALID` for an invalid `timeoutMs`.
+ * @throws {RuntimeError} with `AK_RUNTIME_DELEGATE_FAILED` when every member fails.
+ */
 export function swarm<TContext = unknown>(config: SwarmConfig<TContext>): AgentHandle<TContext> {
   if (config.members.length === 0) {
     throw new ConfigError({
       code: ErrorCodes.AK_CONFIG_INVALID,
       message: 'swarm requires ≥ 1 member',
+    })
+  }
+  if (
+    config.timeoutMs !== undefined &&
+    (!Number.isFinite(config.timeoutMs) || config.timeoutMs <= 0 || config.timeoutMs > 2_147_483_647)
+  ) {
+    throw new ConfigError({
+      code: ErrorCodes.AK_CONFIG_INVALID,
+      message: 'swarm timeoutMs must be greater than 0 and no greater than 2147483647 milliseconds',
     })
   }
   const merge =
@@ -140,22 +143,46 @@ export function swarm<TContext = unknown>(config: SwarmConfig<TContext>): AgentH
 
   return {
     name: config.name ?? 'swarm',
-    async run(task, context) {
+    async run(task, context, signal) {
       config.onEvent?.({ topology: 'swarm', phase: 'dispatch', task })
       const settled = await Promise.allSettled(
         config.members.map(async m => {
           config.onEvent?.({ topology: 'swarm', phase: 'agent:start', agent: m.name })
-          const output = await withTimeout(m.run(task, context), config.timeoutMs, `swarm(${m.name})`, m.abort)
+          let deadlineSignal: AbortSignal | undefined
+          let output: string
+          try {
+            output = config.timeoutMs === undefined
+              ? await m.run(task, context, signal)
+              : await withTimeout(childSignal => {
+                deadlineSignal = childSignal
+                return m.run(task, context, childSignal)
+              }, config.timeoutMs, signal)
+          } catch (cause) {
+            if (
+              deadlineSignal?.reason === cause &&
+              cause instanceof NetError &&
+              cause.code === NetErrorCodes.AK_NET_TIMEOUT
+            ) {
+              try {
+                m.abort?.()
+              } catch {
+                // The signal carries cancellation; a legacy hook is best-effort.
+              }
+            }
+            throw cause
+          }
           config.onEvent?.({ topology: 'swarm', phase: 'agent:end', agent: m.name, result: output })
           return { agent: m.name, output }
         }),
       )
       const results = settled.flatMap(s => (s.status === 'fulfilled' ? [s.value] : []))
       if (results.length === 0) {
+        const failure = settled.find(s => s.status === 'rejected')
         throw new RuntimeError({
           code: ErrorCodes.AK_RUNTIME_DELEGATE_FAILED,
           message: 'every swarm member failed',
           hint: 'Add a TopologyObserver via config.onEvent to capture per-member errors.',
+          cause: failure?.status === 'rejected' ? failure.reason : undefined,
         })
       }
       const merged = await merge(results)
@@ -200,7 +227,7 @@ export function hierarchical<TContext = unknown>(
 
   return {
     name: config.name ?? config.root.agent.name,
-    async run(task, context) {
+    async run(task, context, signal) {
       let current: HierarchicalNode<TContext> = config.root
       for (let depth = 0; depth < maxDepth; depth++) {
         const next = route({ task, node: current })
@@ -209,7 +236,7 @@ export function hierarchical<TContext = unknown>(
         current = next
       }
       config.onEvent?.({ topology: 'hierarchical', phase: 'agent:start', agent: current.agent.name })
-      const result = await current.agent.run(task, context)
+      const result = await current.agent.run(task, context, signal)
       config.onEvent?.({ topology: 'hierarchical', phase: 'done', agent: current.agent.name, result })
       return result
     },
@@ -243,13 +270,13 @@ export function blackboard<TContext = unknown>(
 
   return {
     name: config.name ?? 'blackboard',
-    async run(task, context) {
+    async run(task, context, signal) {
       let board = `Task: ${task}\n\n`
       for (let iteration = 0; iteration < maxIterations; iteration++) {
         if (config.isDone?.(board, iteration)) break
         for (const agent of config.agents) {
           config.onEvent?.({ topology: 'blackboard', phase: 'agent:start', agent: agent.name, iteration })
-          const contribution = await agent.run(board, context)
+          const contribution = await agent.run(board, context, signal)
           config.onEvent?.({ topology: 'blackboard', phase: 'agent:end', agent: agent.name, result: contribution, iteration })
           board += `\n### ${agent.name} (round ${iteration + 1})\n${contribution}\n`
           if (config.isDone?.(board, iteration)) break
