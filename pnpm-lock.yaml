@@ -1129,6 +1129,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
+      '@agentskit/net':
+        specifier: workspace:*
+        version: link:../net
     devDependencies:
       '@types/json-schema':
         specifier: ^7.0.15

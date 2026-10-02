@@ -1,4 +1,13 @@
 import { ErrorCodes, ToolError } from '@agentskit/core'
+import {
+  anySignal,
+  isAbortError,
+  isRetryableStatus,
+  parseRetryAfter,
+  retry,
+  sleep as netSleep,
+  timeoutSignal,
+} from '@agentskit/net'
 import { readResponseBytes, readResponseText } from './http-body'
 export { readResponseBytes, readResponseText } from './http-body'
 
@@ -6,28 +15,28 @@ export interface HttpToolOptions {
   baseUrl?: string
   /** Header bag merged into every request (auth, user-agent, etc.). */
   headers?: Record<string, string>
-  /** Per-request timeout in ms. Default 20_000. */
+  /** Per-request deadline in ms. Must be a positive integer; defaults to 20_000. */
   timeoutMs?: number
   /** Caller cancellation signal; composed with the internal timeout. */
   signal?: AbortSignal
   /** Swap in a fake for tests. */
   fetch?: typeof globalThis.fetch
-  /** Injectable backoff seam for deterministic tests. Defaults to a signal-aware timer. */
+  /** Injectable one-argument backoff seam. The request deadline ends its wait. */
   sleep?: (delayMs: number) => Promise<void>
-  /** Injectable clock used when interpreting HTTP-date Retry-After values. */
+  /** Injectable clock for HTTP-date Retry-After values. Defaults to Date.now. */
   now?: () => number
   /** Maximum response body size in bytes. Defaults to 2 MiB. */
   maxResponseBytes?: number
-  /** Optional retry policy. Retries are limited to idempotent methods. */
+  /** Optional retry policy. Network errors are not retried. */
   retry?: RetryPolicy
 }
 
 export interface RetryPolicy {
-  /** Total attempts, including the first request. Defaults to one. */
+  /** Total attempts, including the first request. Defaults to 1; valid range is 1–100. */
   maxAttempts?: number
-  /** Delay before the first retry when Retry-After is absent. */
+  /** Delay before the first retry when Retry-After is absent. Defaults to 100 ms; doubles without jitter. */
   baseDelayMs?: number
-  /** Upper bound for exponential backoff and Retry-After. */
+  /** Upper bound for exponential backoff and Retry-After. Defaults to 2,000 ms. */
   maxDelayMs?: number
   /** Methods eligible for retry. Defaults to GET, PUT, and DELETE. */
   methods?: RetryableHttpMethod[]
@@ -39,18 +48,16 @@ const MAX_TIMEOUT_MS = 2_147_483_647
 const MAX_RETRY_ATTEMPTS = 100
 
 export interface HttpJsonRequest {
+  /** HTTP method. Defaults to GET. */
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'
+  /** Absolute URL without baseUrl, otherwise a same-origin relative or absolute URL. */
   path: string
+  /** Query values are stringified; undefined values are skipped. */
   query?: Record<string, string | number | undefined>
+  /** JSON-serialized request body. */
   body?: unknown
+  /** Request headers; auth-bound options.headers take precedence case-insensitively. */
   headers?: Record<string, string>
-}
-
-function isAbortError(err: unknown): boolean {
-  return (
-    (typeof DOMException !== 'undefined' && err instanceof DOMException && err.name === 'AbortError') ||
-    (err instanceof Error && err.name === 'AbortError')
-  )
 }
 
 /**
@@ -101,6 +108,32 @@ function resolveRequestUrl(options: HttpToolOptions, path: string): URL {
   return url
 }
 
+/**
+ * Compose a caller signal with a request timeout and return explicit cleanup.
+ * Cleanup detaches the compatibility relay so later aborts cannot affect the
+ * returned signal. The native timeout signal expires on its own clock.
+ *
+ * @param timeoutMs Positive integer timeout from 1 through 2,147,483,647 ms.
+ * @param outer Optional caller-owned cancellation signal.
+ * @returns The composed signal and idempotent relay cleanup function.
+ * @throws {ToolError} With code AK_TOOL_INVALID_INPUT when timeoutMs is outside the supported range.
+ * @example
+ * ```ts
+ * import { composeTimeoutSignal } from '@agentskit/integrations'
+ *
+ * const parentController = new AbortController()
+ * const request = composeTimeoutSignal(5_000, parentController.signal)
+ * const url = 'https://api.example.com/status'
+ * try {
+ *   await fetch(url, { signal: request.signal })
+ * } finally {
+ *   request.cleanup()
+ * }
+ * ```
+ *
+ * @deprecated Use `timeoutSignal` or `anySignal` from `@agentskit/net`.
+ * Removal is no earlier than `@agentskit/integrations@0.10.0` and 90 days after deprecation.
+ */
 export function composeTimeoutSignal(
   timeoutMs: number,
   outer?: AbortSignal,
@@ -111,28 +144,20 @@ export function composeTimeoutSignal(
       message: 'timeoutMs must be a positive integer within the supported timer range',
     })
   }
+  const combined = outer?.aborted ? outer : anySignal([timeoutSignal(timeoutMs), outer])
   const controller = new AbortController()
-  let timer: ReturnType<typeof setTimeout> | undefined
-
-  const abortFromOuter = () => {
-    controller.abort(outer?.reason)
+  let active = true
+  const relayAbort = () => {
+    if (active) controller.abort(combined.reason)
   }
-
-  if (outer?.aborted) {
-    controller.abort(outer.reason)
-  } else {
-    timer = setTimeout(
-      () => controller.abort(new DOMException('The request timed out.', 'TimeoutError')),
-      timeoutMs,
-    )
-    outer?.addEventListener('abort', abortFromOuter, { once: true })
-  }
+  if (combined.aborted) relayAbort()
+  else combined.addEventListener('abort', relayAbort, { once: true })
 
   return {
     signal: controller.signal,
     cleanup: () => {
-      if (timer !== undefined) clearTimeout(timer)
-      outer?.removeEventListener('abort', abortFromOuter)
+      active = false
+      combined.removeEventListener('abort', relayAbort)
     },
   }
 }
@@ -140,10 +165,6 @@ export function composeTimeoutSignal(
 function isRetryableMethod(method: HttpJsonRequest['method'], allowed: RetryableHttpMethod[] | undefined): boolean {
   if (allowed !== undefined) return allowed.includes(method ?? 'GET')
   return method === undefined || method === 'GET' || method === 'PUT' || method === 'DELETE'
-}
-
-function isRetryableStatus(status: number): boolean {
-  return status === 408 || status === 425 || status === 429 || status === 500 || status === 502 || status === 503 || status === 504
 }
 
 function retryOptions(policy: RetryPolicy | undefined): {
@@ -176,15 +197,6 @@ function retryOptions(policy: RetryPolicy | undefined): {
   return { maxAttempts, baseDelayMs, maxDelayMs }
 }
 
-function retryAfterMs(value: string | null, now: number): number | undefined {
-  if (!value) return undefined
-  const seconds = Number(value)
-  if (Number.isFinite(seconds) && seconds >= 0) return seconds * 1000
-  const timestamp = Date.parse(value)
-  if (!Number.isFinite(timestamp)) return undefined
-  return Math.max(0, timestamp - now)
-}
-
 function redactSensitiveText(value: string): string {
   return value
     .replace(/(\/bot)[^/\s]+/gi, '$1[REDACTED]')
@@ -200,34 +212,63 @@ function upstreamHint(status: number, attempt: number, maxAttempts: number): str
   return `Provider returned HTTP ${status}.`
 }
 
-function waitForRetry(delayMs: number, signal: AbortSignal): Promise<void> {
-  if (delayMs <= 0) {
-    if (signal.aborted) return Promise.reject(signal.reason)
-    return Promise.resolve()
-  }
-  return new Promise((resolve, reject) => {
-    let timer: ReturnType<typeof setTimeout> | undefined
-    const abort = () => {
-      if (timer !== undefined) clearTimeout(timer)
-      signal.removeEventListener('abort', abort)
+function waitForRetry(
+  customSleep: HttpToolOptions['sleep'],
+): (delayMs: number, signal?: AbortSignal) => Promise<void> {
+  if (!customSleep) return netSleep
+  return (delayMs, signal) => new Promise((resolve, reject) => {
+    if (signal?.aborted) {
       reject(signal.reason)
+      return
     }
-    timer = setTimeout(() => {
-      signal.removeEventListener('abort', abort)
-      resolve()
-    }, delayMs)
-    if (signal.aborted) abort()
-    else signal.addEventListener('abort', abort, { once: true })
+    const cleanup = () => signal?.removeEventListener('abort', abort)
+    const abort = () => {
+      cleanup()
+      reject(signal?.reason)
+    }
+    signal?.addEventListener('abort', abort, { once: true })
+    Promise.resolve().then(() => customSleep(delayMs)).then(
+      () => { cleanup(); resolve() },
+      (error: unknown) => { cleanup(); reject(error) },
+    )
   })
 }
 
+class RetryableHttpStatus extends Error {
+  constructor(readonly retryAfterMs: number | undefined) {
+    super('retryable HTTP status')
+  }
+}
+
 /**
- * Shared HTTP helper used by the service integrations. Handles query string
- * encoding, JSON body + response parsing, timeouts, and turns non-2xx into
- * throwable errors with the server payload attached.
+ * Send one JSON HTTP request and parse its response.
+ *
+ * A request deadline spans fetch, body reading, and retry waits. The default
+ * response limit is 2 MiB. Configured retries count total attempts and only
+ * retry 408, 425, 429, 500, 502, 503, and 504 responses for GET, PUT, and
+ * DELETE (or methods explicitly allowed by `retry.methods`). Backoff starts
+ * at 100 ms, doubles without jitter, and caps at 2,000 ms by default. Delta
+ * seconds in `Retry-After` are rounded to the nearest millisecond by the
+ * shared `@agentskit/net` parser.
  *
  * Auth lives entirely in `options.headers` — an action never sees the raw
  * credential; the auth layer binds it before the action runs.
+ *
+ * @param options Base URL, auth headers, timeout, response limit, and optional retry policy.
+ * @param request Method, path, query, JSON body, and per-request headers.
+ * @returns The parsed JSON value, raw text for non-JSON content types, or undefined for an empty body.
+ * @throws {ToolError} For invalid input, origin escapes, body-limit violations, non-2xx responses, or invalid JSON.
+ * @throws {ToolError} For fetch/read failures, with the transport error or `NetError` as `cause`.
+ * @throws {unknown} With the caller's exact signal reason, or the native timeout reason, when cancelled.
+ * @example
+ * ```ts
+ * import { httpJson } from '@agentskit/integrations'
+ *
+ * const result = await httpJson<{ items: string[] }>(
+ *   { baseUrl: 'https://api.example.com', timeoutMs: 5_000, retry: { maxAttempts: 3 } },
+ *   { path: '/items', query: { limit: 10 } },
+ * )
+ * ```
  */
 export async function httpJson<TResult = unknown>(
   options: HttpToolOptions,
@@ -266,74 +307,81 @@ export async function httpJson<TResult = unknown>(
   try {
     const retryPolicy = options.retry
     const { maxAttempts, baseDelayMs, maxDelayMs } = retryOptions(retryPolicy)
-    let attempt = 0
-
-    while (true) {
-      attempt += 1
-      let response: Response
-      try {
-        response = await fetchImpl(url.toString(), {
-          method: request.method ?? 'GET',
-          headers,
-          body: request.body === undefined ? undefined : JSON.stringify(request.body),
-          signal,
-          redirect: 'error',
-        })
-      } catch (err) {
-        if (err instanceof ToolError || signal.aborted || isAbortError(err)) {
-          throw signal.aborted ? signal.reason ?? err : err
+    const canRetryMethod = isRetryableMethod(request.method, retryPolicy?.methods)
+    const { response, text, attempt } = await retry(
+      async ({ attempt }) => {
+        let response: Response
+        try {
+          response = await fetchImpl(url.toString(), {
+            method: request.method ?? 'GET',
+            headers,
+            body: request.body === undefined ? undefined : JSON.stringify(request.body),
+            signal,
+            redirect: 'error',
+          })
+        } catch (err) {
+          if (err instanceof ToolError || signal.aborted || isAbortError(err)) {
+            throw signal.aborted ? signal.reason ?? err : err
+          }
+          throw new ToolError({
+            code: ErrorCodes.AK_TOOL_EXEC_FAILED,
+            message: 'HTTP request failed before a response was received.',
+            hint: 'Network or transport failure. Inspect the attached cause for diagnostics.',
+            cause: err,
+          })
         }
-        throw new ToolError({
-          code: ErrorCodes.AK_TOOL_EXEC_FAILED,
-          message: 'HTTP request failed before a response was received.',
-          hint: 'Network or transport failure. Inspect the attached cause for diagnostics.',
-          cause: err,
-        })
-      }
 
-      let text: string
-      try {
-        text = await readResponseText(response, maxResponseBytes)
-      } catch (err) {
-        if (err instanceof ToolError || signal.aborted || isAbortError(err)) {
-          throw signal.aborted ? signal.reason ?? err : err
+        let text: string
+        try {
+          text = await readResponseText(response, maxResponseBytes)
+        } catch (err) {
+          if (err instanceof ToolError || signal.aborted || isAbortError(err)) {
+            throw signal.aborted ? signal.reason ?? err : err
+          }
+          throw new ToolError({
+            code: ErrorCodes.AK_TOOL_EXEC_FAILED,
+            message: 'Failed to read the HTTP response body.',
+            hint: 'Response body transport failure. Inspect the attached cause for diagnostics.',
+            cause: err,
+          })
         }
-        throw new ToolError({
-          code: ErrorCodes.AK_TOOL_EXEC_FAILED,
-          message: 'Failed to read the HTTP response body.',
-          hint: 'Response body transport failure. Inspect the attached cause for diagnostics.',
-          cause: err,
-        })
-      }
 
-      if (
-        !response.ok &&
-        attempt < maxAttempts &&
-        isRetryableMethod(request.method, retryPolicy?.methods) &&
-        isRetryableStatus(response.status)
-      ) {
-        const retryDelay = retryAfterMs(response.headers.get('retry-after'), (options.now ?? Date.now)())
-        const delayMs = Math.min(retryDelay ?? baseDelayMs * 2 ** (attempt - 1), maxDelayMs)
-        if (options.sleep) {
-          await options.sleep(delayMs)
-          if (signal.aborted) throw signal.reason ?? new DOMException('The request was aborted.', 'AbortError')
-        } else {
-          await waitForRetry(delayMs, signal)
+        if (
+          !response.ok &&
+          attempt < maxAttempts &&
+          canRetryMethod &&
+          isRetryableStatus(response.status)
+        ) {
+          const retryAfter = parseRetryAfter(response.headers.get('retry-after'), (options.now ?? Date.now)())
+          throw new RetryableHttpStatus(retryAfter)
         }
-        continue
-      }
 
-      const contentType = response.headers.get('content-type') ?? ''
-      const parsed = text.length > 0 ? safeParse(text, contentType, url.toString()) : undefined
-      if (!response.ok) {
-        throw new ToolError({
-          code: ErrorCodes.AK_TOOL_EXEC_FAILED,
-          message: `HTTP ${response.status} ${response.statusText}: ${redactSensitiveText(text).slice(0, 500)}`,
-          hint: upstreamHint(response.status, attempt, maxAttempts),
-        })
-      }
-      return parsed as TResult
+        return { response, text, attempt }
+      },
+      {
+        retries: maxAttempts - 1,
+        minDelayMs: baseDelayMs,
+        maxDelayMs,
+        jitter: 'none',
+        signal,
+        shouldRetry: (error) => error instanceof RetryableHttpStatus,
+        delayFor: (error) => error instanceof RetryableHttpStatus && error.retryAfterMs !== undefined
+          ? Math.min(error.retryAfterMs, maxDelayMs)
+          : undefined,
+        sleep: waitForRetry(options.sleep),
+      },
+    )
+
+    const contentType = response.headers.get('content-type') ?? ''
+    const parsed = text.length > 0 ? safeParse(text, contentType, url.toString()) : undefined
+    if (!response.ok) {
+      throw new ToolError({
+        code: ErrorCodes.AK_TOOL_EXEC_FAILED,
+        message: `HTTP ${response.status} ${response.statusText}: ${redactSensitiveText(text).slice(0, 500)}`,
+        hint: upstreamHint(response.status, attempt, maxAttempts),
+      })
     }
+    return parsed as TResult
   } finally {
     cleanup()
   }
