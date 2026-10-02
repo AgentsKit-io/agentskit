@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "87c88e5e89c2e03ca501d350409ea40ea27268fd4ff94a920bf0094633dfb33b",
+  "contentHash": "6a88ad23b3a9eeefa3dad476029c2b27866a4fe7549c11b1645b881492d3d598",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T07:55:50.479Z",
+  "generatedAt": "2026-10-02T08:04:05.142Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7179,7 +7179,7 @@
         "document",
         "project"
       ],
-      "contentHash": "54bdaf4adc87fb48081bfff31d90954e2626faaf13a02dddfeaf21dc138d3e5a"
+      "contentHash": "d9dff6cc559ce726ff8e787b31287c7a33ee59df334356e037444535c3f44693"
     },
     {
       "id": "document:packages/react-native/CONVENTIONS.md",
@@ -37516,7 +37516,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "203633daba6174c8736e50f118f9b451821648f76dcd17e4383b0b6ddc8a1fdb",
+    "hash": "9d2001baaebe49ddc52d72fd47ef97f45ce76f8eab0480206ef9931ef1a22ec7",
     "fileCount": 2493,
     "projectionVersion": 2
   },
@@ -37539,9 +37539,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "9193bfe0c070391f18ac3b5324ec43aa6d8ca76efb334c50acfcaea158f6c63c",
+    "contentHash": "6b1ce2816e28f86af7976e3760623179f0aeb52b200fb949845195db5021f551",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "7e7536498c9fed14686a39e60fdad03645c95d22f03d6a55e74ee209105913f5",
+    "snapshotHash": "74496e0c12bd4ae80ff70a645ce3ad3a46a93a91d21455619ff85fcfbb6bb3d5",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37573,7 +37573,7 @@
       ],
       "averageFieldLength": {
         "aliases": 3.011851246424193,
-        "body": 61.23089497343686,
+        "body": 61.23252962811606,
         "headings": 4.031875766244381,
         "path": 7.622394769105027,
         "summary": 4.5672251736820595,
@@ -78839,7 +78839,7 @@
           "path": "packages/rag/README.md",
           "symbols": "",
           "summary": "Plug-and-play retrieval-augmented generation: chunk documents, embed them, and retrieve the right context at query time.",
-          "body": "@agentskit/rag <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Plug-and-play retrieval-augmented generation: chunk documents, embed them, and retrieve the right context at query time. Tags: ai · agents · llm · agentskit · rag · retrieval · vector-search · embeddings · ai-agents · semantic-search · knowledge-base Verified proof - Package metadata and tests live under packages/rag/ . - Package guide: https://www.agentskit.io/docs/reference/packages/rag - Stability map: How this fits the ecosystem @agentskit/rag is the retrieval layer: load documents, chunk them, embed them, rerank results, and feed precise context back to agents. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why rag - Your data, your agent — no fine-tuning required; ingest plain text and query with natural language - Composable stack — uses any EmbedFn and any VectorMemory from @agentskit/adapters and @agentskit/memory ; swap either layer without touching RAG logic - Retriever-ready — createRAG() returns a Retriever you pass to @agentskit/runtime or useChat so context is injected automatically - Tune chunking without a PhD — chunkSize , chunkOverlap , or a custom split function — three knobs that cover 95% of use cases Install <!-- readme-command:install -- The file-backed example also needs the optional vectra peer. Add vectra to the install command when using fileVectorMemory ; the runtime integration example additionally needs @agentskit/runtime . Quick example <!-- readme-example:quickstart -- With runtime (retriever) Pass the RAG instance as retriever so the runtime injects retrieved context into the task: You can also call rag.retrieve({ query, messages }) to satisfy the core Retriever contract (for example from a custom controller). Features - createRAG({ embed, store }) — single entry point for ingest + retrieve. - rag.ingest(docs) — chunk, embed, and store documents. - rag.search(query, { topK }) — semantic similarity search. - rag.retrieve({ query, messages }) — Retriever contract v1 for runtime/controller injection. - Configurable chunking: chunkSize , chunkOverlap , custom split . - Works with any EmbedFn and any VectorMemory . - Rerankers: createRerankedRetriever (Voyage, Jina, custom RerankFn , BM25 default), createHybridRetriever (vector + BM25 blend), standalone bm25Score . . - Document loaders: loadUrl , loadGitHubFile , loadGitHubTree , loadNotionPage , loadConfluencePage , loadGoogleDriveFile , loadPdf , loadS3 , loadGcs , loadDropbox , and loadOneDrive . . - Loader resilience: HTTP/network and response-body read/parse failures surface as RagError ( AK RAG LOAD FAILED ). Every remote request and body read has a finite timeout and byte limit by default; both are configurable through timeoutMs and maxResponseBytes . timeoutMs defaults to 15 seconds and accepts positive safe integers up to 2,147,483,647ms. Timeouts and optional signal aborts cancel fetches and HTTP body streams when supported; they are never swallowed as a per-object skip. S3 list/get calls receive the SDK abort signal, and async-iterable object bodies receive return() on cancellation; custom iterators that ignore it may continue in the background. Transform-only S3 bodies may also continue if their transform ignores cancellation. Tree/list loaders may return partial success when at least one eligible download succeeded; if every attempted eligible download failed, they throw. Missing/invalid S3 object bodies count as failed downloads. Pagination that reports more data without a new cursor/token throws (no silent truncation). loadNotionPage follows Notion has more / next cursor with start cursor until complete (preserving block order; incomplete ",
+          "body": "@agentskit/rag <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Plug-and-play retrieval-augmented generation: chunk documents, embed them, and retrieve the right context at query time. Tags: ai · agents · llm · agentskit · rag · retrieval · vector-search · embeddings · ai-agents · semantic-search · knowledge-base Verified proof - Package metadata and tests live under packages/rag/ . - Package guide: https://www.agentskit.io/docs/reference/packages/rag - Stability map: How this fits the ecosystem @agentskit/rag is the retrieval layer: load documents, chunk them, embed them, rerank results, and feed precise context back to agents. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why rag - Your data, your agent — no fine-tuning required; ingest plain text and query with natural language - Composable stack — uses any EmbedFn and any VectorMemory from @agentskit/adapters and @agentskit/memory ; swap either layer without touching RAG logic - Retriever-ready — createRAG() returns a Retriever you pass to @agentskit/runtime or useChat so context is injected automatically - Tune chunking without a PhD — chunkSize , chunkOverlap , or a custom split function — three knobs that cover 95% of use cases Install <!-- readme-command:install -- The file-backed example also needs the optional vectra peer. Add vectra to the install command when using fileVectorMemory ; the runtime integration example additionally needs @agentskit/runtime . Quick example <!-- readme-example:quickstart -- With runtime (retriever) Pass the RAG instance as retriever so the runtime injects retrieved context into the task: You can also call rag.retrieve({ query, messages }) to satisfy the core Retriever contract (for example from a custom controller). Features - createRAG({ embed, store }) — single entry point for ingest + retrieve. - rag.ingest(docs) — chunk, embed, and store documents. - rag.search(query, { topK }) — semantic similarity search. - rag.retrieve({ query, messages }) — Retriever contract v1 for runtime/controller injection. - Configurable chunking: chunkSize , chunkOverlap , custom split . - Works with any EmbedFn and any VectorMemory . - Rerankers: createRerankedRetriever (Voyage, Jina, custom RerankFn , BM25 default), createHybridRetriever (vector + BM25 blend), standalone bm25Score . . - Document loaders: loadUrl , loadGitHubFile , loadGitHubTree , loadNotionPage , loadConfluencePage , loadGoogleDriveFile , loadPdf , loadS3 , loadGcs , loadDropbox , and loadOneDrive . . - Loader resilience: HTTP/network and response-body read/parse failures surface as RagError ( AK RAG LOAD FAILED ). Every remote request and body read has a finite timeout and byte limit by default; both are configurable through timeoutMs and maxResponseBytes . timeoutMs defaults to 15 seconds and accepts positive safe integers up to 2,147,483,647ms. Timeouts and optional signal aborts cancel fetches and HTTP body streams when supported. Caller aborts are never swallowed as a per-object skip; timed-out or other individual non-abort failures may be skipped where tree/list partial-success semantics allow it. S3 list/get calls receive the SDK abort signal, and async-iterable object bodies receive return() on cancellation; custom iterators that ignore it may continue in the background. Transform-only S3 bodies may also continue if their transform ignores cancellation. Tree/list loaders may return partial success when at least one eligible download succeeded; if every attempted eligible download failed, they throw. Missing/invalid S3 object bodies count as failed downloads. Pagination that reports more data without a new cursor/token throws (no silent truncation",
           "aliases": "document project"
         },
         "graph": {
@@ -78961,7 +78961,7 @@
             }
           ]
         },
-        "contentHash": "54bdaf4adc87fb48081bfff31d90954e2626faaf13a02dddfeaf21dc138d3e5a",
+        "contentHash": "d9dff6cc559ce726ff8e787b31287c7a33ee59df334356e037444535c3f44693",
         "provenance": "observed",
         "confidence": "observed"
       },
