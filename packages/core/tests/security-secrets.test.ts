@@ -78,6 +78,7 @@ describe('secret redaction', () => {
     expect(isSensitiveFieldName('sessionToken')).toBe(true)
     expect(isSensitiveFieldName('session-token')).toBe(true)
     expect(redactSecrets('{"token": "fakeValue1234567890"}')).toBe('{"token": "[REDACTED]"}')
+    expect(redactSecrets('sessionToken=fakeValue1234567890')).toBe('sessionToken=[REDACTED]')
     expect(redactDeep({ token: 'fakeValue1234567890', tokenType: 'Bearer', tokens: 42 })).toEqual({
       token: '[REDACTED]', tokenType: 'Bearer', tokens: 42,
     })
