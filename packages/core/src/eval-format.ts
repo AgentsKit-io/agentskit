@@ -7,6 +7,8 @@
  * Version: 2026-04.
  */
 
+import { isRecord } from './primitives'
+
 export const EVAL_FORMAT_VERSION = '2026-04'
 
 export interface EvalCaseExpectation {
@@ -60,10 +62,6 @@ export interface EvalRunResult {
 // ---------------------------------------------------------------------------
 // Validators
 // ---------------------------------------------------------------------------
-
-function isRecord(v: unknown): v is Record<string, unknown> {
-  return typeof v === 'object' && v !== null && !Array.isArray(v)
-}
 
 function assert(cond: unknown, msg: string): asserts cond {
   if (!cond) throw new Error(`Invalid eval format: ${msg}`)

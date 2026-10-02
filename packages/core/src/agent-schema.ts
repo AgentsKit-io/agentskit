@@ -1,4 +1,5 @@
 import type { JSONSchema7 } from 'json-schema'
+import { isRecord } from './primitives'
 
 export interface AgentSchemaModel {
   provider: string
@@ -47,10 +48,6 @@ const IDENT = /^[a-zA-Z_][a-zA-Z0-9_-]*$/
 
 function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(`Invalid agent schema: ${message}`)
-}
-
-function isRecord(v: unknown): v is Record<string, unknown> {
-  return typeof v === 'object' && v !== null && !Array.isArray(v)
 }
 
 function validateModel(raw: unknown): AgentSchemaModel {
