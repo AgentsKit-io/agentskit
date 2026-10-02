@@ -1,9 +1,10 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { createServer, type Server, type IncomingMessage, type ServerResponse } from 'node:http'
 import { ErrorCodes, ToolError } from '@agentskit/core'
 import { NetErrorCodes } from '@agentskit/net'
 import { composeTimeoutSignal, httpJson, bindHttp, type HttpToolOptions } from '../src'
 import { readResponseBytes } from '../src/http-body'
+import { composeTimeoutSignal as composeTimeoutSignalModule } from '../src/http-timeout'
 
 function fakeFetch(handler: (url: string, init: RequestInit) => Response): typeof globalThis.fetch {
   return (async (input: RequestInfo | URL, init?: RequestInit) =>
@@ -579,11 +580,8 @@ describe('native HTTP acceptance', () => {
   it('keeps the deadline over custom retry waits and physically aborts real fetch/body reads', async () => {
     let delayedRetryCalls = 0
     let timeoutClosed = false
+    let callerAbortRequested = false
     let callerAbortClosed = false
-    let resolveTimeoutClose: () => void = () => {}
-    let resolveCallerAbortClose: () => void = () => {}
-    const timeoutClosedEvent = new Promise<void>((resolve) => { resolveTimeoutClose = resolve })
-    const callerAbortClosedEvent = new Promise<void>((resolve) => { resolveCallerAbortClose = resolve })
     const server = await startLocalServer((request, response) => {
       if (request.url === '/deadline-retry') {
         delayedRetryCalls += 1
@@ -593,14 +591,15 @@ describe('native HTTP acceptance', () => {
       if (request.url === '/timeout') {
         response.writeHead(200, { 'content-type': 'application/json' })
         const timer = setTimeout(() => response.end('{"ok":true}'), 250)
-        response.on('close', () => { timeoutClosed = true; clearTimeout(timer); resolveTimeoutClose() })
+        response.on('close', () => { timeoutClosed = true; clearTimeout(timer) })
         return
       }
       if (request.url === '/caller-abort') {
         response.writeHead(200, { 'content-type': 'application/json' })
         response.write('{')
+        callerAbortRequested = true
         const timer = setTimeout(() => response.end('"ok":true}'), 250)
-        response.on('close', () => { callerAbortClosed = true; clearTimeout(timer); resolveCallerAbortClose() })
+        response.on('close', () => { callerAbortClosed = true; clearTimeout(timer) })
         return
       }
       response.writeHead(404).end()
@@ -622,31 +621,29 @@ describe('native HTTP acceptance', () => {
         { baseUrl: server.origin, timeoutMs: 30 },
         { path: '/timeout' },
       )).rejects.toMatchObject({ name: 'TimeoutError' })
-      await Promise.race([timeoutClosedEvent, new Promise((resolve) => setTimeout(resolve, 100))])
-      expect(timeoutClosed).toBe(true)
+      await vi.waitFor(() => expect(timeoutClosed).toBe(true))
 
       const controller = new AbortController()
       const reason = new Error('caller cancelled')
-      const abortTimer = setTimeout(() => controller.abort(reason), 30)
-      try {
-        await expect(httpJson(
-          { baseUrl: server.origin, timeoutMs: 1_000, signal: controller.signal },
-          { path: '/caller-abort' },
-        )).rejects.toBe(reason)
-      } finally {
-        clearTimeout(abortTimer)
-      }
-      await Promise.race([callerAbortClosedEvent, new Promise((resolve) => setTimeout(resolve, 100))])
-      expect(callerAbortClosed).toBe(true)
+      const pendingRequest = httpJson(
+        { baseUrl: server.origin, timeoutMs: 1_000, signal: controller.signal },
+        { path: '/caller-abort' },
+      )
+      await vi.waitFor(() => expect(callerAbortRequested).toBe(true))
+      controller.abort(reason)
+      await expect(pendingRequest).rejects.toBe(reason)
+      await vi.waitFor(() => expect(callerAbortClosed).toBe(true))
     } finally {
       await closeLocalServer(server.server)
     }
   })
 
   it('keeps cleanup and caller abort semantics on the compatibility timeout wrapper', async () => {
+    expect(composeTimeoutSignal).toBe(composeTimeoutSignalModule)
     const timed = composeTimeoutSignal(20)
     timed.cleanup()
-    await new Promise((resolve) => setTimeout(resolve, 40))
+    const timeoutElapsed = AbortSignal.timeout(40)
+    await vi.waitFor(() => expect(timeoutElapsed.aborted).toBe(true), { timeout: 100 })
     expect(timed.signal.aborted).toBe(false)
     timed.cleanup()
 
@@ -656,5 +653,17 @@ describe('native HTTP acceptance', () => {
     controller.abort(reason)
     expect(composed.signal.reason).toBe(reason)
     composed.cleanup()
+
+    const detachedController = new AbortController()
+    const detached = composeTimeoutSignal(1_000, detachedController.signal)
+    detached.cleanup()
+    detachedController.abort(reason)
+    expect(detached.signal.aborted).toBe(false)
+
+    const preAbortedController = new AbortController()
+    preAbortedController.abort(reason)
+    const preAborted = composeTimeoutSignal(1_000, preAbortedController.signal)
+    expect(preAborted.signal.reason).toBe(reason)
+    preAborted.cleanup()
   })
 })

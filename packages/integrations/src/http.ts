@@ -1,15 +1,15 @@
 import { ErrorCodes, ToolError } from '@agentskit/core'
 import {
-  anySignal,
   isAbortError,
   isRetryableStatus,
   parseRetryAfter,
   retry,
   sleep as netSleep,
-  timeoutSignal,
 } from '@agentskit/net'
 import { readResponseBytes, readResponseText } from './http-body'
+import { composeTimeoutSignal } from './http-timeout'
 export { readResponseBytes, readResponseText } from './http-body'
+export { composeTimeoutSignal } from './http-timeout'
 
 export interface HttpToolOptions {
   baseUrl?: string
@@ -45,7 +45,6 @@ export interface RetryPolicy {
 export type RetryableHttpMethod = NonNullable<HttpJsonRequest['method']>
 
 const MAX_TIMEOUT_MS = 2_147_483_647
-const MAX_RETRY_ATTEMPTS = 100
 
 export interface HttpJsonRequest {
   /** HTTP method. Defaults to GET. */
@@ -108,59 +107,7 @@ function resolveRequestUrl(options: HttpToolOptions, path: string): URL {
   return url
 }
 
-/**
- * Compose a caller signal with a request timeout and return explicit cleanup.
- * Cleanup detaches the compatibility relay so later aborts cannot affect the
- * returned signal. The native timeout signal expires on its own clock.
- *
- * @param timeoutMs Positive integer timeout from 1 through 2,147,483,647 ms.
- * @param outer Optional caller-owned cancellation signal.
- * @returns The composed signal and idempotent relay cleanup function.
- * @throws {ToolError} With code AK_TOOL_INVALID_INPUT when timeoutMs is outside the supported range.
- * @example
- * ```ts
- * import { composeTimeoutSignal } from '@agentskit/integrations'
- *
- * const parentController = new AbortController()
- * const request = composeTimeoutSignal(5_000, parentController.signal)
- * const url = 'https://api.example.com/status'
- * try {
- *   await fetch(url, { signal: request.signal })
- * } finally {
- *   request.cleanup()
- * }
- * ```
- *
- * @deprecated Use `timeoutSignal` or `anySignal` from `@agentskit/net`.
- * Removal is no earlier than `@agentskit/integrations@0.10.0` and 90 days after deprecation.
- */
-export function composeTimeoutSignal(
-  timeoutMs: number,
-  outer?: AbortSignal,
-): { signal: AbortSignal; cleanup: () => void } {
-  if (!Number.isInteger(timeoutMs) || timeoutMs <= 0 || timeoutMs > MAX_TIMEOUT_MS) {
-    throw new ToolError({
-      code: ErrorCodes.AK_TOOL_INVALID_INPUT,
-      message: 'timeoutMs must be a positive integer within the supported timer range',
-    })
-  }
-  const combined = outer?.aborted ? outer : anySignal([timeoutSignal(timeoutMs), outer])
-  const controller = new AbortController()
-  let active = true
-  const relayAbort = () => {
-    if (active) controller.abort(combined.reason)
-  }
-  if (combined.aborted) relayAbort()
-  else combined.addEventListener('abort', relayAbort, { once: true })
-
-  return {
-    signal: controller.signal,
-    cleanup: () => {
-      active = false
-      combined.removeEventListener('abort', relayAbort)
-    },
-  }
-}
+const MAX_RETRY_ATTEMPTS = 100
 
 function isRetryableMethod(method: HttpJsonRequest['method'], allowed: RetryableHttpMethod[] | undefined): boolean {
   if (allowed !== undefined) return allowed.includes(method ?? 'GET')
@@ -197,24 +144,7 @@ function retryOptions(policy: RetryPolicy | undefined): {
   return { maxAttempts, baseDelayMs, maxDelayMs }
 }
 
-function redactSensitiveText(value: string): string {
-  return value
-    .replace(/(\/bot)[^/\s]+/gi, '$1[REDACTED]')
-    .replace(/((?:"?(?:access[-_]?token|refresh[-_]?token|client[-_]?secret|bot[-_]?token|token|secret|password|api[-_]?key|authorization|signature)"?)\s*:\s*")[^"]*(")/gi, '$1[REDACTED]$2')
-    .replace(/((?:access[-_]?token|refresh[-_]?token|client[-_]?secret|bot[-_]?token|token|secret|password|api[-_]?key|authorization|signature)\s*[=:]\s*["']?)[^\s,"'}]+/gi, '$1[REDACTED]')
-}
-
-function upstreamHint(status: number, attempt: number, maxAttempts: number): string {
-  if (status === 429) return 'Provider rate-limited the request; respect Retry-After before trying again.'
-  if (attempt === maxAttempts && isRetryableStatus(status)) {
-    return `Provider returned HTTP ${status} after retry attempts were exhausted.`
-  }
-  return `Provider returned HTTP ${status}.`
-}
-
-function waitForRetry(
-  customSleep: HttpToolOptions['sleep'],
-): (delayMs: number, signal?: AbortSignal) => Promise<void> {
+function waitForRetry(customSleep: HttpToolOptions['sleep']): (delayMs: number, signal?: AbortSignal) => Promise<void> {
   if (!customSleep) return netSleep
   return (delayMs, signal) => new Promise((resolve, reject) => {
     if (signal?.aborted) {
@@ -240,6 +170,21 @@ class RetryableHttpStatus extends Error {
   }
 }
 
+function redactSensitiveText(value: string): string {
+  return value
+    .replace(/(\/bot)[^/\s]+/gi, '$1[REDACTED]')
+    .replace(/((?:"?(?:access[-_]?token|refresh[-_]?token|client[-_]?secret|bot[-_]?token|token|secret|password|api[-_]?key|authorization|signature)"?)\s*:\s*")[^"]*(")/gi, '$1[REDACTED]$2')
+    .replace(/((?:access[-_]?token|refresh[-_]?token|client[-_]?secret|bot[-_]?token|token|secret|password|api[-_]?key|authorization|signature)\s*[=:]\s*["']?)[^\s,"'}]+/gi, '$1[REDACTED]')
+}
+
+function upstreamHint(status: number, attempt: number, maxAttempts: number): string {
+  if (status === 429) return 'Provider rate-limited the request; respect Retry-After before trying again.'
+  if (attempt === maxAttempts && isRetryableStatus(status)) {
+    return `Provider returned HTTP ${status} after retry attempts were exhausted.`
+  }
+  return `Provider returned HTTP ${status}.`
+}
+
 /**
  * Send one JSON HTTP request and parse its response.
  *
@@ -257,8 +202,8 @@ class RetryableHttpStatus extends Error {
  * @param options Base URL, auth headers, timeout, response limit, and optional retry policy.
  * @param request Method, path, query, JSON body, and per-request headers.
  * @returns The parsed JSON value, raw text for non-JSON content types, or undefined for an empty body.
- * @throws {ToolError} For invalid input, origin escapes, body-limit violations, non-2xx responses, or invalid JSON.
- * @throws {ToolError} For fetch/read failures, with the transport error or `NetError` as `cause`.
+ * @throws {ToolError} With code AK_TOOL_INVALID_INPUT for invalid options or requests, including origin escapes.
+ * @throws {ToolError} With code AK_TOOL_EXEC_FAILED for fetch/read failures, oversized bodies, non-2xx responses, or invalid JSON; transport, reader, and parse errors retain their cause where available.
  * @throws {unknown} With the caller's exact signal reason, or the native timeout reason, when cancelled.
  * @example
  * ```ts

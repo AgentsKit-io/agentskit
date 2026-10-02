@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "9df0e6e6614d7112b0b0d9427b1a972207fe04266679ddd4bd620b15de0f4216",
+  "contentHash": "4fbadb40176f371e8e87bf5c613674aa5e6adc949377d1fdab06e96370f1c9d9",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T04:24:06.625Z",
+  "generatedAt": "2026-10-02T04:49:15.892Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -22608,6 +22608,21 @@
       "contentHash": "96bdf581d46d2dff058b0fa23a5fd7733d806195b756b862db0d4eeb90f40223"
     },
     {
+      "id": "module:packages/integrations/src/http-timeout.ts",
+      "type": "module",
+      "title": "http-timeout.ts",
+      "path": "packages/integrations/src/http-timeout.ts",
+      "symbols": [
+        "composeTimeoutSignal"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "8f6ea40107cbb29f953219e3b6d1168787c16bc0a5e58b46ed0ec0c3b1e6ec5f"
+    },
+    {
       "id": "module:packages/integrations/src/http.ts",
       "type": "module",
       "title": "http.ts",
@@ -22629,7 +22644,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "62a242732b89a4811e16938384b9b9e3ded84aa7261263ec0b12ca44fc5f3122"
+      "contentHash": "a4d7590d308a6cc574e2434ea5d3ff40c3102afd898394c19ded99ee170d77bd"
     },
     {
       "id": "module:packages/integrations/src/index.ts",
@@ -24937,7 +24952,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "3f2e6a5cdefe3ac3b73f8c7f277e58be1f984844d1a1b2d2db5633bd27707be1"
+      "contentHash": "5b1fc409aebb8cc7c12c89bf2fc834584e80d81464206018998595614e6a9021"
     },
     {
       "id": "module:packages/integrations/tests/integration-tools.test.ts",
@@ -37488,8 +37503,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "256a946382e2ef7b50125e5d913a923e73ec5f2b8f0050dd52d9a4ebb288c9fb",
-    "fileCount": 2491,
+    "hash": "03871b92e9efed896c591139caf4bb16c1fd989f13f962f8352abff4effebab3",
+    "fileCount": 2492,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37511,9 +37526,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "31f90a16f7ad4eae788adc0f71f63dcc85478c04bc2c821131ffb9275d6fdf28",
+    "contentHash": "a2f54372126d15d414a67423c5f10cbfb796dd80711709165f79fc4c0b3e16fc",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "0b34f3a5476635f5adc6b1d34378a7ee01e5a04f7c7bcb1c5cecd1a63bfb8418",
+    "snapshotHash": "b8c10c9c2fcc4c1115ca55b6c7c50d6425fb928491f4287fead39ae3e78d38f2",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37533,7 +37548,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2445,
+      "documentCount": 2446,
       "fieldNames": [
         "aliases",
         "body",
@@ -37544,13 +37559,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0114519427402864,
-        "body": 61.282208588957054,
-        "headings": 4.035173824130879,
-        "path": 7.622494887525562,
-        "summary": 4.570961145194274,
-        "symbols": 7.495705521472392,
-        "title": 3.334969325153374
+        "aliases": 3.011447260834015,
+        "body": 61.25715453802126,
+        "headings": 4.0335241210139,
+        "path": 7.622240392477514,
+        "summary": 4.56909239574816,
+        "symbols": 7.494276369582993,
+        "title": 3.3352412101390025
       }
     },
     "entries": [
@@ -50985,6 +51000,11 @@
             {
               "kind": "mentions-symbol",
               "id": "module:packages/integrations/src/http-body.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/integrations/src/http-timeout.ts",
               "confidence": "observed"
             },
             {
@@ -77644,6 +77664,11 @@
             {
               "kind": "mentions-symbol",
               "id": "module:packages/integrations/src/config-fields.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/integrations/src/http-timeout.ts",
               "confidence": "observed"
             },
             {
@@ -136005,6 +136030,71 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/integrations/src/http-timeout.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/http-timeout.ts",
+        "title": "http-timeout.ts",
+        "aliases": [],
+        "symbols": [
+          "composeTimeoutSignal"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "http-timeout.ts",
+          "headings": "",
+          "path": "packages/integrations/src/http-timeout.ts",
+          "symbols": "composeTimeoutSignal",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 2,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
+            "document:packages/integrations/README.md"
+          ],
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/http.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/http.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/integrations/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/http.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "8f6ea40107cbb29f953219e3b6d1168787c16bc0a5e58b46ed0ec0c3b1e6ec5f",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/integrations/src/http.ts",
         "kind": "module",
         "path": "packages/integrations/src/http.ts",
@@ -136155,13 +136245,23 @@
               "confidence": "observed"
             },
             {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/http-timeout.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "re-exports",
               "id": "module:packages/integrations/src/http-body.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/http-timeout.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "62a242732b89a4811e16938384b9b9e3ded84aa7261263ec0b12ca44fc5f3122",
+        "contentHash": "a4d7590d308a6cc574e2434ea5d3ff40c3102afd898394c19ded99ee170d77bd",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -145559,12 +145659,17 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/integrations/src/http-timeout.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/integrations/src/index.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "3f2e6a5cdefe3ac3b73f8c7f277e58be1f984844d1a1b2d2db5633bd27707be1",
+        "contentHash": "5b1fc409aebb8cc7c12c89bf2fc834584e80d81464206018998595614e6a9021",
         "provenance": "observed",
         "confidence": "observed"
       },
