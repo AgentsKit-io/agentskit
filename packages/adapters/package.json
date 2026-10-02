@@ -69,7 +69,8 @@
   },
   "dependencies": {
     "@agentskit/core": "workspace:*",
-    "@agentskit/cross-platform": "workspace:*"
+    "@agentskit/cross-platform": "workspace:*",
+    "@agentskit/net": "workspace:*"
   },
   "devDependencies": {
     "@agentskit/tools": "workspace:*",

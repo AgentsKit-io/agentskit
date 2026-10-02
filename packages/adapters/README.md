@@ -258,6 +258,8 @@ const agent = createAgent({ model, tools: [add] })
 ## Stream guarantees
 
 - A stream terminates exactly once with `done` or `error`; terminal errors carry an `Error` in `metadata.error`.
+- Fetch retries use `@agentskit/net` backoff and `Retry-After` parsing; the `fetchWithRetry` and adapter `retry` options keep their 3-attempt defaults. `readSSELines` remains as a deprecated compatibility wrapper; new parsers should consume `parseSSE` events directly.
+- SSE event data preserves whitespace and joins multiple `data:` fields with newlines. NDJSON readers flush a final UTF-8 chunk and accept a last record without a newline.
 - Provider streams that close before their native completion marker are treated as truncated, not successful.
 - `abort(reason)` propagates to active fetch readers and SDK requests and terminates with the same error semantics.
 - Native tool histories preserve call/result correlation. Parallel tool results are encoded in a single provider turn where required.

@@ -1,4 +1,5 @@
 import { describe, it, expect, vi, afterEach } from 'vitest'
+import { ErrorCodes } from '@agentskit/core'
 import { fetchWithRetry } from '../src/utils'
 
 afterEach(() => vi.restoreAllMocks())
@@ -71,6 +72,18 @@ describe('fetchWithRetry', () => {
     expect(res.status).toBe(200)
   })
 
+  it('caps Retry-After at maxDelayMs', async () => {
+    const fn = vi
+      .fn()
+      .mockResolvedValueOnce(fakeResponse(429, '', { 'retry-after': '30' }))
+      .mockResolvedValueOnce(fakeResponse(200))
+    const sleep = vi.fn().mockResolvedValue(undefined)
+
+    await fetchWithRetry(fn, new AbortController().signal, { sleep, maxDelayMs: 1200 })
+
+    expect(sleep).toHaveBeenCalledWith(1200)
+  })
+
   it('does not turn invalid Retry-After values into unbounded delays', async () => {
     const fn = vi
       .fn()
@@ -99,6 +112,16 @@ describe('fetchWithRetry', () => {
     expect(sleep).toHaveBeenNthCalledWith(2, 200)
   })
 
+  it('uses shared rounded full jitter (which can round up by one millisecond)', async () => {
+    vi.spyOn(Math, 'random').mockReturnValue(0.75)
+    const fn = vi.fn().mockResolvedValueOnce(fakeResponse(503)).mockResolvedValueOnce(fakeResponse(200))
+    const sleep = vi.fn().mockResolvedValue(undefined)
+
+    await fetchWithRetry(fn, new AbortController().signal, { sleep, baseDelayMs: 1, maxDelayMs: 1 })
+
+    expect(sleep).toHaveBeenCalledWith(1)
+  })
+
   it('returns the last response if all retries exhausted', async () => {
     const fn = vi.fn().mockResolvedValue(fakeResponse(503))
     const signal = new AbortController().signal
@@ -107,6 +130,59 @@ describe('fetchWithRetry', () => {
 
     expect(fn).toHaveBeenCalledTimes(3)
     expect(res.status).toBe(503)
+  })
+
+  it('floors fractional legacy maxAttempts and does not fetch for a value below one', async () => {
+    const fractionalFetch = vi.fn().mockResolvedValue(fakeResponse(503))
+    const fractionalResponse = await fetchWithRetry(fractionalFetch, new AbortController().signal, {
+      sleep: noSleep,
+      maxAttempts: 2.5,
+    })
+    expect(fractionalFetch).toHaveBeenCalledTimes(2)
+    expect(fractionalResponse.status).toBe(503)
+
+    for (const maxAttempts of [0, Number.NaN, Number.POSITIVE_INFINITY]) {
+      const invalidFetch = vi.fn()
+      await expect(fetchWithRetry(invalidFetch, new AbortController().signal, { maxAttempts }))
+        .rejects.toMatchObject({ name: 'AdapterError', code: ErrorCodes.AK_CONFIG_INVALID })
+      expect(invalidFetch).not.toHaveBeenCalled()
+    }
+  })
+
+  it('cancels a retryable response body before the next fetch', async () => {
+    let cancelled = false
+    const body = new ReadableStream<Uint8Array>({
+      cancel() { cancelled = true },
+    })
+    const fn = vi.fn()
+      .mockResolvedValueOnce(new Response(body, { status: 503 }))
+      .mockResolvedValueOnce(fakeResponse(200))
+
+    await fetchWithRetry(fn, new AbortController().signal, { sleep: noSleep })
+
+    expect(cancelled).toBe(true)
+    expect(fn).toHaveBeenCalledTimes(2)
+  })
+
+  it('cancels the response before onRetry and propagates hook errors without another attempt', async () => {
+    let cancelled = false
+    let cancelledBeforeHook = false
+    const body = new ReadableStream<Uint8Array>({
+      cancel() { cancelled = true },
+    })
+    const fetchError = new Error('retry observer failed')
+    const fn = vi.fn().mockResolvedValue(new Response(body, { status: 503 }))
+    const onRetry = vi.fn(() => {
+      cancelledBeforeHook = cancelled
+      throw fetchError
+    })
+
+    await expect(fetchWithRetry(fn, new AbortController().signal, { onRetry, sleep: noSleep }))
+      .rejects.toBe(fetchError)
+
+    expect(cancelledBeforeHook).toBe(true)
+    expect(onRetry).toHaveBeenCalledTimes(1)
+    expect(fn).toHaveBeenCalledTimes(1)
   })
 
   it('rethrows on AbortError without retrying', async () => {

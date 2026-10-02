@@ -1,7 +1,7 @@
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
+import { parseSSE } from '@agentskit/net'
 import type { RetryOptions } from './utils'
 import { createStreamSource } from './stream-source'
-import { readSSELines } from './stream-lines'
 import { adapterErrorChunk } from './stream-errors'
 
 export interface VercelAIConfig {
@@ -42,7 +42,7 @@ async function* parseVercelTextStream(stream: ReadableStream): AsyncIterableIter
 async function* parseVercelUiMessageStreamV1(
   stream: ReadableStream,
 ): AsyncIterableIterator<StreamChunk> {
-  for await (const data of readSSELines(stream)) {
+  for await (const { data } of parseSSE(stream)) {
     if (data === '[DONE]') {
       yield { type: 'done' }
       return

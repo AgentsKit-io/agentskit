@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "6b61de70f664d8723f05240d0833d5634f2d15c5ded0ad161ab117237628e372",
+  "contentHash": "5897dd5c5106ed1c5691485808861a344bb38e245c0247e407065e62a035d006",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-01T21:13:00.702Z",
+  "generatedAt": "2026-10-02T00:03:50.163Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -6807,7 +6807,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "426050bf0e04b3a00f59f7e0ee81baa7c637fda494312dc67897cc84648b03cf"
+      "contentHash": "497821b55234b05ca468ef376b9595a2ed12f72a79ca2a323b46dc3057b024d6"
     },
     {
       "id": "document:packages/adapters/README.md",
@@ -6819,7 +6819,7 @@
         "document",
         "project"
       ],
-      "contentHash": "a4fb56462634f9c85b90ea485f1e4c0c6f5a5fcbd3bd8474620f49ddbeeef4ec"
+      "contentHash": "81357860a2849bf61ee3e04ae289e76d5f2000fd3a8fdb401295013053ce7f31"
     },
     {
       "id": "document:packages/angular/CONVENTIONS.md",
@@ -14932,7 +14932,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "f847322e3660180c128e2aa2402b962a6ff0941e49dc0e04f748523affb99b65"
+      "contentHash": "b517b04be9cf7b9f673a253cc027f24ef2651b5e9a959443da43af97ed2ebf54"
     },
     {
       "id": "module:packages/adapters/src/openai.ts",
@@ -14982,6 +14982,22 @@
         "src"
       ],
       "contentHash": "07050525d502204dd9335f61ccd36f0a3620203c8c01ad40edef64e61ac2d3da"
+    },
+    {
+      "id": "module:packages/adapters/src/retry.ts",
+      "type": "module",
+      "title": "retry.ts",
+      "path": "packages/adapters/src/retry.ts",
+      "symbols": [
+        "RetryOptions",
+        "fetchWithRetry"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "05eb04dec76a55db54ec8ba3415d8b5ba0bb7f195a544ce3e5b03f030958fc05"
     },
     {
       "id": "module:packages/adapters/src/router.ts",
@@ -15035,7 +15051,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "e70e1efc34b69877b46acc3f55d618a8e902b018b26e75a32ce6622b1c88a5ad"
+      "contentHash": "5e3619b1d1fda57c3c4f373a5ef05deb8cc438b61addd7435a444d5f6b3084c7"
     },
     {
       "id": "module:packages/adapters/src/stream-source.ts",
@@ -15139,7 +15155,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "1b09350696829f87e1552724a30c7de919970b8c3d878cc8d51817bc3cd7ed9c"
+      "contentHash": "a116b36e8da34bd4cf227428863e807c1eccd9999bd5ef183f8cbdcd1fee9883"
     },
     {
       "id": "module:packages/adapters/src/vercel-ai.ts",
@@ -15156,7 +15172,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "324011dd0e70abfe1d6569b7ec5b92822732bf87a3b1ea7dbde4034771dcfb55"
+      "contentHash": "8b48cb7b20d30fdb24436be34f93dad356beac31ee9c9f1ee6bf5eb76d6c744a"
     },
     {
       "id": "module:packages/adapters/src/vertex.ts",
@@ -15672,6 +15688,19 @@
       "contentHash": "13a968c5c0c06720f03fe2730f9898950bf1c20d917340d4141f34ee6141c280"
     },
     {
+      "id": "module:packages/adapters/tests/net-migration-http.test.ts",
+      "type": "module",
+      "title": "net-migration-http.test.ts",
+      "path": "packages/adapters/tests/net-migration-http.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "9e9fe3fb0199b532ab613b7428935ebae7011c753e6f13f10209a014534976b4"
+    },
+    {
       "id": "module:packages/adapters/tests/new-providers.test.ts",
       "type": "module",
       "title": "new-providers.test.ts",
@@ -15760,7 +15789,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "4a6b15a6a2168ed59b542336bbb02ebb1244245faaa22b083c972369b3d787f4"
+      "contentHash": "d366d3fecec9a4a87b5b1c4329e5387c117fc1e20bf4105724e7cb5ae67c8cd5"
     },
     {
       "id": "module:packages/adapters/tests/router.test.ts",
@@ -15812,7 +15841,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "8290ae8ff88fd93bb3b2cca2291555ec8863e7a834204e851faf526aa4d5329f"
+      "contentHash": "c35ad8af0ace1c1337368182b12bac44c5a78e7ae2193c52eb481ad245943a20"
     },
     {
       "id": "module:packages/adapters/tests/stream-source.test.ts",
@@ -37459,8 +37488,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "afc979fad8b59da8c5e6eb0fda486715f41fc501404eb65f6e50809e1f582b0b",
-    "fileCount": 2489,
+    "hash": "1390007ae6f885f811daee74a4e778ecbc2aae0818e55c6c8908e863fa41f88e",
+    "fileCount": 2491,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37482,9 +37511,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "9f7568b0038f5f5467cf618944be1186ec7cd8eeaeb080c96fbebb284f697eda",
+    "contentHash": "edb4507703e7ef196126e953c09c1fcc4f9a380c6d9f6ba6783c54f91f696a0e",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "9b92eee6a3ef2825f7b0a61a6bc5d53964c5b1d1eda2e3ca0ae6af07637a9302",
+    "snapshotHash": "00e37ccaf0125729942a8873b8c8c1aa983142c91d019d6ce32ea159a37c05a5",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37504,7 +37533,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2443,
+      "documentCount": 2445,
       "fieldNames": [
         "aliases",
         "body",
@@ -37515,13 +37544,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.01105198526402,
-        "body": 61.28857961522718,
-        "headings": 4.038477282030291,
-        "path": 7.622595169873107,
-        "summary": 4.570200573065903,
-        "symbols": 7.4993860008186655,
-        "title": 3.3344248874334834
+        "aliases": 3.0114519427402864,
+        "body": 61.23844580777096,
+        "headings": 4.035173824130879,
+        "path": 7.622494887525562,
+        "summary": 4.566462167689162,
+        "symbols": 7.495705521472392,
+        "title": 3.334969325153374
       }
     },
     "entries": [
@@ -75622,7 +75651,7 @@
           "path": "packages/adapters/CONVENTIONS.md",
           "symbols": "",
           "summary": "The provider layer. Every file in this package maps one LLM or one embedding provider to AgentsKit's stable contracts.",
-          "body": "Conventions — @agentskit/adapters The provider layer. Every file in this package maps one LLM or one embedding provider to AgentsKit's stable contracts. Scope - Chat adapters — implement AdapterFactory per - Embedders — implement EmbedFn per - No UI. No React or Ink here. - CLI boundary: src/cli contains process/transport adapters for external developer CLIs; it must remain shell-free, bounded, and explicit about the fact that restricted-environment is not OS or filesystem isolation. - No agent runtime orchestration. Provider adapters may own transport retries, parsing, and cancellation, but not agent loops or tool policy. Adding a new chat adapter 1. Create src/<provider .ts . Export a factory function that returns AdapterFactory . 2. Accept configuration at construction time only: apiKey , model , baseUrl as needed. 3. In createSource , build the request but do not fetch yet . Defer all I/O to stream() — invariant A1. 4. In stream() , use the SSE utility from src/utils.ts if the provider speaks server-sent events. Otherwise write a parser that respects the chunk shape in @agentskit/core . 5. Always end with exactly one { type: 'done' } or { type: 'error', metadata: { error } } . An abort must cancel transport work and produce the terminal error shape — invariants A3, A6, and A9. 6. Yield { type: 'text', content } for text deltas. Yield { type: 'tool call', toolCall: { id, name, args } } with complete args per invariant A5. 7. Put provider-specific data in chunk.metadata (usage counts, raw response, reasoning). Consumers must not depend on its shape — A8. 8. Re-export from src/index.ts . Adding a new embedder 1. Create src/embedders/<provider .ts . Export a factory returning EmbedFn . 2. Accept apiKey , model at construction. 3. Return a function of (text: string) = Promise<number[] . 4. Must be stable: same input + same model = same vector. No randomness — invariant E1. 5. Re-export from src/embedders/index.ts and from src/index.ts . Naming - File name matches the provider: openai.ts , anthropic.ts , gemini.ts , etc. - Factory function matches the provider lowercase: openai(opts) , anthropic(opts) . - Options interface: OpenAIAdapterOptions , AnthropicAdapterOptions . - Types internal to one adapter live in the same file; shared types go in src/types.ts . Testing For every new adapter: - Contract test using the shared suite in tests/adapter-contract.test.ts , including deferred I/O, exactly one terminal chunk, complete tool-call arguments, and mid-stream abort - Stream parsing test with a recorded fixture (JSON file of SSE chunks) so tests are fast and deterministic - Error path test — 401, 429, 500, malformed response, and a transport that closes before its provider terminal marker - Abort test — abort(reason) cancels the active reader or request and emits one terminal error chunk carrying that reason - Tool-history test — providers with native tools must encode assistant calls and correlated results, including parallel results in one provider turn Tests live in tests/<provider .test.ts . Common pitfalls Pitfall What to do instead --- --- Calling fetch from createSource Defer to stream() Mutating the input messages array Copy if you need to transform for the wire format Throwing from stream() on a provider error Emit { type: 'error', metadata: { error } } Streaming partial tool-call args across multiple chunks v1 requires complete args in one chunk. Buffer internally. Exposing provider SDK types in your public API Keep the public surface limited to AdapterFactory Review checklist for this package - [ ] Implements all ten invariants A1–A10 - [ ] Bundle size under 20KB gzipped (tightens over time) - [ ] Coverage threshold holds (90% lines) - [ ] Contract-tested against the ten invariants - [ ] SSE parsing uses src/utils.ts helpers where possible - [ ] README updated if the public export surface changed",
+          "body": "Conventions — @agentskit/adapters The provider layer. Every file in this package maps one LLM or one embedding provider to AgentsKit's stable contracts. Scope - Chat adapters — implement AdapterFactory per - Embedders — implement EmbedFn per - No UI. No React or Ink here. - CLI boundary: src/cli contains process/transport adapters for external developer CLIs; it must remain shell-free, bounded, and explicit about the fact that restricted-environment is not OS or filesystem isolation. - No agent runtime orchestration. Provider adapters may own transport retries, parsing, and cancellation, but not agent loops or tool policy. Adding a new chat adapter 1. Create src/<provider .ts . Export a factory function that returns AdapterFactory . 2. Accept configuration at construction time only: apiKey , model , baseUrl as needed. 3. In createSource , build the request but do not fetch yet . Defer all I/O to stream() — invariant A1. 4. In stream() , use parseSSE from @agentskit/net if the provider speaks server-sent events. Otherwise write a parser that respects the chunk shape in @agentskit/core . 5. Always end with exactly one { type: 'done' } or { type: 'error', metadata: { error } } . An abort must cancel transport work and produce the terminal error shape — invariants A3, A6, and A9. 6. Yield { type: 'text', content } for text deltas. Yield { type: 'tool call', toolCall: { id, name, args } } with complete args per invariant A5. 7. Put provider-specific data in chunk.metadata (usage counts, raw response, reasoning). Consumers must not depend on its shape — A8. 8. Re-export from src/index.ts . Adding a new embedder 1. Create src/embedders/<provider .ts . Export a factory returning EmbedFn . 2. Accept apiKey , model at construction. 3. Return a function of (text: string) = Promise<number[] . 4. Must be stable: same input + same model = same vector. No randomness — invariant E1. 5. Re-export from src/embedders/index.ts and from src/index.ts . Naming - File name matches the provider: openai.ts , anthropic.ts , gemini.ts , etc. - Factory function matches the provider lowercase: openai(opts) , anthropic(opts) . - Options interface: OpenAIAdapterOptions , AnthropicAdapterOptions . - Types internal to one adapter live in the same file; shared types go in src/types.ts . Testing For every new adapter: - Contract test using the shared suite in tests/adapter-contract.test.ts , including deferred I/O, exactly one terminal chunk, complete tool-call arguments, and mid-stream abort - Stream parsing test with a recorded fixture (JSON file of SSE chunks) so tests are fast and deterministic - Error path test — 401, 429, 500, malformed response, and a transport that closes before its provider terminal marker - Abort test — abort(reason) cancels the active reader or request and emits one terminal error chunk carrying that reason - Tool-history test — providers with native tools must encode assistant calls and correlated results, including parallel results in one provider turn Tests live in tests/<provider .test.ts . Common pitfalls Pitfall What to do instead --- --- Calling fetch from createSource Defer to stream() Mutating the input messages array Copy if you need to transform for the wire format Throwing from stream() on a provider error Emit { type: 'error', metadata: { error } } Streaming partial tool-call args across multiple chunks v1 requires complete args in one chunk. Buffer internally. Exposing provider SDK types in your public API Keep the public surface limited to AdapterFactory Review checklist for this package - [ ] Implements all ten invariants A1–A10 - [ ] Bundle size under 20KB gzipped (tightens over time) - [ ] Coverage threshold holds (90% lines) - [ ] Contract-tested against the ten invariants - [ ] SSE parsing uses src/utils.ts helpers where possible - [ ] README updated if the public export surface changed",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -75661,13 +75690,23 @@
               "confidence": "observed"
             },
             {
+              "kind": "mentions",
+              "id": "package:@agentskit/net",
+              "confidence": "observed"
+            },
+            {
               "kind": "mentions-symbol",
               "id": "module:packages/core/src/types/adapter.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/net/src/sse.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "426050bf0e04b3a00f59f7e0ee81baa7c637fda494312dc67897cc84648b03cf",
+        "contentHash": "497821b55234b05ca468ef376b9595a2ed12f72a79ca2a323b46dc3057b024d6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -75737,6 +75776,11 @@
             {
               "kind": "mentions",
               "id": "package:@agentskit/memory",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/net",
               "confidence": "observed"
             },
             {
@@ -75851,6 +75895,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/adapters/src/stream-lines.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/adapters/src/vercel-ai.ts",
               "confidence": "observed"
             },
@@ -75866,6 +75915,16 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/net/src/retry.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/net/src/sse.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/rag/src/rag.ts",
               "confidence": "observed"
             },
@@ -75876,7 +75935,7 @@
             }
           ]
         },
-        "contentHash": "a4fb56462634f9c85b90ea485f1e4c0c6f5a5fcbd3bd8474620f49ddbeeef4ec",
+        "contentHash": "81357860a2849bf61ee3e04ae289e76d5f2000fd3a8fdb401295013053ce7f31",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -105111,6 +105170,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/adapters/tests/net-migration-http.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/adapters/tests/new-providers.test.ts",
               "confidence": "observed"
             },
@@ -106315,15 +106379,10 @@
               "kind": "imports",
               "id": "module:packages/adapters/src/stream-errors.ts",
               "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:packages/adapters/src/stream-lines.ts",
-              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "f847322e3660180c128e2aa2402b962a6ff0941e49dc0e04f748523affb99b65",
+        "contentHash": "b517b04be9cf7b9f673a253cc027f24ef2651b5e9a959443da43af97ed2ebf54",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -106724,6 +106783,55 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/adapters/src/retry.ts",
+        "kind": "module",
+        "path": "packages/adapters/src/retry.ts",
+        "title": "retry.ts",
+        "aliases": [],
+        "symbols": [
+          "RetryOptions",
+          "fetchWithRetry"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "retry.ts",
+          "headings": "",
+          "path": "packages/adapters/src/retry.ts",
+          "symbols": "RetryOptions fetchWithRetry",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/utils.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/stream-errors.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "05eb04dec76a55db54ec8ba3415d8b5ba0bb7f195a544ce3e5b03f030958fc05",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/adapters/src/router.ts",
         "kind": "module",
         "path": "packages/adapters/src/router.ts",
@@ -106947,6 +107055,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/adapters/src/retry.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/adapters/src/router.ts",
               "confidence": "observed"
             },
@@ -107008,16 +107121,13 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:packages/adapters/README.md"
+          ],
           "packageId": "package:@agentskit/adapters",
           "inbound": [
-            {
-              "kind": "imports",
-              "id": "module:packages/adapters/src/openai-stream.ts",
-              "confidence": "observed"
-            },
             {
               "kind": "imports",
               "id": "module:packages/adapters/src/utils.ts",
@@ -107025,12 +107135,12 @@
             },
             {
               "kind": "imports",
-              "id": "module:packages/adapters/src/vercel-ai.ts",
+              "id": "module:packages/adapters/tests/stream-lines.test.ts",
               "confidence": "observed"
             },
             {
-              "kind": "imports",
-              "id": "module:packages/adapters/tests/stream-lines.test.ts",
+              "kind": "mentions-symbol",
+              "id": "document:packages/adapters/README.md",
               "confidence": "observed"
             },
             {
@@ -107041,7 +107151,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "e70e1efc34b69877b46acc3f55d618a8e902b018b26e75a32ce6622b1c88a5ad",
+        "contentHash": "5e3619b1d1fda57c3c4f373a5ef05deb8cc438b61addd7435a444d5f6b3084c7",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -107556,6 +107666,11 @@
           "outbound": [
             {
               "kind": "imports",
+              "id": "module:packages/adapters/src/retry.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/adapters/src/stream-errors.ts",
               "confidence": "observed"
             },
@@ -107581,7 +107696,7 @@
             }
           ]
         },
-        "contentHash": "1b09350696829f87e1552724a30c7de919970b8c3d878cc8d51817bc3cd7ed9c",
+        "contentHash": "a116b36e8da34bd4cf227428863e807c1eccd9999bd5ef183f8cbdcd1fee9883",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -107709,11 +107824,6 @@
             },
             {
               "kind": "imports",
-              "id": "module:packages/adapters/src/stream-lines.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
               "id": "module:packages/adapters/src/stream-source.ts",
               "confidence": "observed"
             },
@@ -107724,7 +107834,7 @@
             }
           ]
         },
-        "contentHash": "324011dd0e70abfe1d6569b7ec5b92822732bf87a3b1ea7dbde4034771dcfb55",
+        "contentHash": "8b48cb7b20d30fdb24436be34f93dad356beac31ee9c9f1ee6bf5eb76d6c744a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -109507,6 +109617,46 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/adapters/tests/net-migration-http.test.ts",
+        "kind": "module",
+        "path": "packages/adapters/tests/net-migration-http.test.ts",
+        "title": "net-migration-http.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "net-migration-http.test.ts",
+          "headings": "",
+          "path": "packages/adapters/tests/net-migration-http.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/index.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "9e9fe3fb0199b532ab613b7428935ebae7011c753e6f13f10209a014534976b4",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/adapters/tests/new-providers.test.ts",
         "kind": "module",
         "path": "packages/adapters/tests/new-providers.test.ts",
@@ -109786,7 +109936,7 @@
             }
           ]
         },
-        "contentHash": "4a6b15a6a2168ed59b542336bbb02ebb1244245faaa22b083c972369b3d787f4",
+        "contentHash": "d366d3fecec9a4a87b5b1c4329e5387c117fc1e20bf4105724e7cb5ae67c8cd5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -109946,7 +110096,7 @@
             }
           ]
         },
-        "contentHash": "8290ae8ff88fd93bb3b2cca2291555ec8863e7a834204e851faf526aa4d5329f",
+        "contentHash": "c35ad8af0ace1c1337368182b12bac44c5a78e7ae2193c52eb481ad245943a20",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -152560,7 +152710,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 35,
+          "inboundLinks": 36,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/agents/guarantees.mdx",
@@ -152588,6 +152738,7 @@
             "document:apps/docs-next/content/docs/reference/recipes/self-debug.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/simulate-stream.mdx",
             "document:docs/architecture/adrs/0037-net-package.md",
+            "document:packages/adapters/README.md",
             "document:packages/angular/CONVENTIONS.md",
             "document:packages/angular/README.md",
             "document:packages/net/CONVENTIONS.md",
@@ -152734,6 +152885,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:docs/architecture/adrs/0037-net-package.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/adapters/README.md",
               "confidence": "observed"
             },
             {
@@ -152888,10 +153044,12 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 3,
+          "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0037-net-package.md",
+            "document:packages/adapters/CONVENTIONS.md",
+            "document:packages/adapters/README.md",
             "document:packages/net/CONVENTIONS.md",
             "document:packages/net/README.md"
           ],
@@ -152905,6 +153063,16 @@
             {
               "kind": "mentions-symbol",
               "id": "document:docs/architecture/adrs/0037-net-package.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/adapters/CONVENTIONS.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/adapters/README.md",
               "confidence": "observed"
             },
             {
@@ -187213,7 +187381,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "79cbb71b9f96141e482670a77a6c46f652819f4898e4db398af71e710026e3c7",
+        "contentHash": "bf7a819253d8fca76e671e3378f9f856834acd7f301c4d69f60c20e87735a22b",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "adapters"
@@ -189759,7 +189927,7 @@
         },
         "graph": {
           "pagerank": 0.005326,
-          "inboundLinks": 11,
+          "inboundLinks": 13,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/net.mdx",
             "document:apps/docs-next/content/docs/reference/packages/net.mdx"
@@ -189771,6 +189939,8 @@
             "document:docs/architecture/adrs/0010-egress-policy.md",
             "document:docs/architecture/adrs/0037-net-package.md",
             "document:docs/STABILITY.md",
+            "document:packages/adapters/CONVENTIONS.md",
+            "document:packages/adapters/README.md",
             "document:packages/net/CONVENTIONS.md",
             "document:packages/net/README.md",
             "document:packages/tools/README.md"
@@ -189815,6 +189985,16 @@
             {
               "kind": "mentions",
               "id": "document:docs/STABILITY.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/adapters/CONVENTIONS.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/adapters/README.md",
               "confidence": "observed"
             },
             {
