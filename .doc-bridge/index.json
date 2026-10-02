@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "4f1f0e8fb59ab54c9803d6d2a70b5a59a9efbb014add38f816d52542fa8ca0e9",
+  "contentHash": "0710dbc12c6f542e45b96cc07ca9eb2e5d825c98dcd731d1482445225c73a9e8",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T17:20:11.639Z",
+  "generatedAt": "2026-10-02T18:13:16.063Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -3843,7 +3843,7 @@
         "document",
         "human"
       ],
-      "contentHash": "39b2e0fe21a1a2df4440ef6c4576dbe67735ae37c4c66f7a04a3ea94bda36ce3"
+      "contentHash": "987e592e0521b1291887909abdf8c425597f5d4765d71eb75771ae6e33e2e333"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/packages/react-native.mdx",
@@ -7179,7 +7179,7 @@
         "document",
         "project"
       ],
-      "contentHash": "d9dff6cc559ce726ff8e787b31287c7a33ee59df334356e037444535c3f44693"
+      "contentHash": "66c9dbb5e9581450f96d215fca8c58c1d42a36268c30a9b59d594c2baa84705a"
     },
     {
       "id": "document:packages/react-native/CONVENTIONS.md",
@@ -28564,6 +28564,32 @@
       "contentHash": "b160b82bece8bf9e9b2e41adaf72a0fad2dc3d67eff0394607b668a433f25f37"
     },
     {
+      "id": "module:packages/rag/src/markdown.ts",
+      "type": "module",
+      "title": "markdown.ts",
+      "path": "packages/rag/src/markdown.ts",
+      "symbols": [
+        "FrontmatterSplit",
+        "MarkdownNote",
+        "MarkdownSection",
+        "extractWikilinks",
+        "findSection",
+        "normalize",
+        "parseNote",
+        "parseTable",
+        "plain",
+        "sections",
+        "splitFrontmatter",
+        "stripWikilinks"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "36ff0d561fc848503809d9491cc5e73775980f2e2136288514b3686b02965c72"
+    },
+    {
       "id": "module:packages/rag/src/rag.ts",
       "type": "module",
       "title": "rag.ts",
@@ -28759,6 +28785,19 @@
       "contentHash": "eecd0695b935f965c8e1a3b65329a3543cc7eb73ef74e24ed770f2c9137a9567"
     },
     {
+      "id": "module:packages/rag/tests/markdown.test.ts",
+      "type": "module",
+      "title": "markdown.test.ts",
+      "path": "packages/rag/tests/markdown.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "3f6e1c4bf0dc73708bcfbc7fba599e707960bc8d1ade8ff2611a5d2e9540e8c8"
+    },
+    {
       "id": "module:packages/rag/tests/metro-bundle.mjs",
       "type": "module",
       "title": "metro-bundle.mjs",
@@ -28797,7 +28836,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "68d01804aff9e8dd761abc3e9d9cc45808c78da27b25f98392d07c1fc55ca25b"
+      "contentHash": "8005a0e24762ff2c12d0822bd01d21c2ec65bce1aa1b9b1900008c054e691386"
     },
     {
       "id": "module:packages/rag/tests/rag-batch-462-466.test.ts",
@@ -28851,7 +28890,7 @@
         "ts",
         "rag"
       ],
-      "contentHash": "1fcf282e105f5415b449b4b18ee990ed05dae8c728b0fb943db4981e498463fd"
+      "contentHash": "45dd8d98a64c8512ea8a78bec9b30de88374cf1b21207439525ccfe171f316a0"
     },
     {
       "id": "module:packages/rag/vitest.config.ts",
@@ -37650,8 +37689,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "731db25cffbfd5612a56eba79f4f7e1816b8b724f7b9d462e434c38ab6359a0f",
-    "fileCount": 2502,
+    "hash": "1d85f0bb8f01aa33322964abc679b277bad5b4905150dfbdda05a76cee188205",
+    "fileCount": 2504,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37673,9 +37712,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "fbf08418ed661355edcb97e06a6fb25bfa862d6ab5d91811c445026a6176bec2",
+    "contentHash": "70122f3449e3a4683a6e1512ee2c57da08054ba3f22376bc7542fef4f111979d",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "7e3c881a741e46d7c3dc47c34bb0c1461800b87d1408672fb2b7471e2b9a24f2",
+    "snapshotHash": "d7f5e2a365b5ff5462bd9bbffd20d13b9931ff1e9e64833511aabd4dd545dbbd",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37695,7 +37734,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2456,
+      "documentCount": 2458,
       "fieldNames": [
         "aliases",
         "body",
@@ -37706,13 +37745,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.013843648208469,
-        "body": 61.049674267100976,
-        "headings": 4.017915309446254,
-        "path": 7.622964169381108,
-        "summary": 4.550488599348534,
-        "symbols": 7.469055374592834,
-        "title": 3.3383550488599347
+        "aliases": 3.014239218877136,
+        "body": 61.01423921887714,
+        "headings": 4.017087062652563,
+        "path": 7.6220504475183075,
+        "summary": 4.546786004882018,
+        "symbols": 7.475183075671278,
+        "title": 3.337672904800651
       }
     },
     "entries": [
@@ -51146,11 +51185,6 @@
             },
             {
               "kind": "mentions-symbol",
-              "id": "module:packages/eval/src/snapshot/snapshot.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
               "id": "module:packages/integrations/src/config-fields.ts",
               "confidence": "observed"
             },
@@ -60243,7 +60277,7 @@
           "path": "apps/docs-next/content/docs/reference/packages/rag.mdx",
           "symbols": "",
           "summary": "You want retrieval-augmented generation in a few lines.",
-          "body": "When to reach for it - You want retrieval-augmented generation in a few lines. - You need rerankers (BM25, Voyage, Jina, or a custom function) or hybrid vector+keyword search. - You want document loaders for URL / GitHub / Notion / Confluence / Google Drive / PDF / S3 / GCS / Dropbox / OneDrive. Install Hello world Surface - createRAG({ embed, store, chunkSize, chunkOverlap, topK, threshold }) . - chunkText — standalone splitter. - createRerankedRetriever · createHybridRetriever · bm25Score · bm25Rerank . - Loaders: loadUrl · loadGitHubFile · loadGitHubTree · loadNotionPage · loadConfluencePage · loadGoogleDriveFile · loadPdf · loadS3 · loadGcs · loadDropbox · loadOneDrive . Remote loaders use a finite timeout and response-size limit by default. Configure timeoutMs , maxResponseBytes , and signal when needed. loadUrl requires an HTTPS origin in allowedOrigins and rejects redirects. Recipes - - - - Stability - Version: 0.5.9 - Tier: beta - Contract: evolving - Roadmap: see for what this package needs to reach v1.0. Related - - - Source npm: · repo:",
+          "body": "When to reach for it - You want retrieval-augmented generation in a few lines. - You need rerankers (BM25, Voyage, Jina, or a custom function) or hybrid vector+keyword search. - You want document loaders for URL / GitHub / Notion / Confluence / Google Drive / PDF / S3 / GCS / Dropbox / OneDrive. Install Hello world Surface - createRAG({ embed, store, chunkSize, chunkOverlap, topK, threshold }) . - chunkText — standalone splitter. - @agentskit/rag/markdown — parseNote · splitFrontmatter · extractWikilinks · stripWikilinks · sections · findSection · parseTable · normalize · plain for Markdown notes (frontmatter, wikilinks, heading sections, GitHub tables). - createRerankedRetriever · createHybridRetriever · bm25Score · bm25Rerank . - Loaders: loadUrl · loadGitHubFile · loadGitHubTree · loadNotionPage · loadConfluencePage · loadGoogleDriveFile · loadPdf · loadS3 · loadGcs · loadDropbox · loadOneDrive . Remote loaders use a finite timeout and response-size limit by default. Configure timeoutMs , maxResponseBytes , and signal when needed. loadUrl requires an HTTPS origin in allowedOrigins and rejects redirects. Recipes - - - - Stability - Version: 0.5.9 - Tier: beta - Contract: evolving - Roadmap: see for what this package needs to reach v1.0. Related - - - Source npm: · repo:",
           "aliases": "document human"
         },
         "graph": {
@@ -60275,12 +60309,17 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/rag/src/markdown.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/rag/src/rerank.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "39b2e0fe21a1a2df4440ef6c4576dbe67735ae37c4c66f7a04a3ea94bda36ce3",
+        "contentHash": "987e592e0521b1291887909abdf8c425597f5d4765d71eb75771ae6e33e2e333",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -78984,7 +79023,7 @@
         ],
         "fields": {
           "title": "@agentskit/rag",
-          "headings": "@agentskit/rag Verified proof How this fits the ecosystem Why rag Install Quick example With runtime (retriever) Features S3 in Expo and React Native runtimes Ecosystem Contributors License Docs Maturity and compatibility Contributing",
+          "headings": "@agentskit/rag Verified proof How this fits the ecosystem Why rag Install Quick example With runtime (retriever) Features Markdown notes (@agentskit/rag/markdown) S3 in Expo and React Native runtimes Ecosystem Contributors License Docs Maturity and compatibility Contributing",
           "path": "packages/rag/README.md",
           "symbols": "",
           "summary": "Plug-and-play retrieval-augmented generation: chunk documents, embed them, and retrieve the right context at query time.",
@@ -79095,6 +79134,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/rag/src/markdown.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/rag/src/rerank.ts",
               "confidence": "observed"
             },
@@ -79110,7 +79154,7 @@
             }
           ]
         },
-        "contentHash": "d9dff6cc559ce726ff8e787b31287c7a33ee59df334356e037444535c3f44693",
+        "contentHash": "66c9dbb5e9581450f96d215fca8c58c1d42a36268c30a9b59d594c2baa84705a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -133675,12 +133719,11 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 7,
+          "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/data/memory/pgvector.mdx",
             "document:apps/docs-next/content/docs/for-agents/eval.mdx",
-            "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
             "document:apps/docs-next/content/docs/production/evals/index.mdx",
             "document:apps/docs-next/content/docs/production/evals/snapshots.mdx",
             "document:apps/docs-next/content/docs/reference/packages/eval.mdx",
@@ -133697,11 +133740,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/for-agents/eval.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
               "confidence": "observed"
             },
             {
@@ -159369,6 +159407,77 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/rag/src/markdown.ts",
+        "kind": "module",
+        "path": "packages/rag/src/markdown.ts",
+        "title": "markdown.ts",
+        "aliases": [],
+        "symbols": [
+          "FrontmatterSplit",
+          "MarkdownNote",
+          "MarkdownSection",
+          "extractWikilinks",
+          "findSection",
+          "normalize",
+          "parseNote",
+          "parseTable",
+          "plain",
+          "sections",
+          "splitFrontmatter",
+          "stripWikilinks"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "markdown.ts",
+          "headings": "",
+          "path": "packages/rag/src/markdown.ts",
+          "symbols": "FrontmatterSplit MarkdownNote MarkdownSection extractWikilinks findSection normalize parseNote parseTable plain sections splitFrontmatter stripWikilinks",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 2,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/reference/packages/rag.mdx",
+            "document:packages/rag/README.md"
+          ],
+          "packageId": "package:@agentskit/rag",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/rag/tests/markdown.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/rag/tests/package-manifest.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/reference/packages/rag.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/rag/README.md",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "36ff0d561fc848503809d9491cc5e73775980f2e2136288514b3686b02965c72",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/rag/src/rag.ts",
         "kind": "module",
         "path": "packages/rag/src/rag.ts",
@@ -160418,6 +160527,46 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/rag/tests/markdown.test.ts",
+        "kind": "module",
+        "path": "packages/rag/tests/markdown.test.ts",
+        "title": "markdown.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "markdown.test.ts",
+          "headings": "",
+          "path": "packages/rag/tests/markdown.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/rag",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/rag/src/markdown.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "3f6e1c4bf0dc73708bcfbc7fba599e707960bc8d1ade8ff2611a5d2e9540e8c8",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/rag/tests/metro-bundle.mjs",
         "kind": "module",
         "path": "packages/rag/tests/metro-bundle.mjs",
@@ -160537,10 +160686,15 @@
               "kind": "imports",
               "id": "module:packages/rag/src/index.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/rag/src/markdown.ts",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "68d01804aff9e8dd761abc3e9d9cc45808c78da27b25f98392d07c1fc55ca25b",
+        "contentHash": "8005a0e24762ff2c12d0822bd01d21c2ec65bce1aa1b9b1900008c054e691386",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -160696,7 +160850,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "1fcf282e105f5415b449b4b18ee990ed05dae8c728b0fb943db4981e498463fd",
+        "contentHash": "45dd8d98a64c8512ea8a78bec9b30de88374cf1b21207439525ccfe171f316a0",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -191631,7 +191785,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "f0d4ef3340dcb467078ff585ff75ec8547ea5bade6da1444bbf9cdd3579ba77e",
+        "contentHash": "86d1e789024c7929baf77285f5cdd49a9d908147b6aeaed06711aae9d623b8cc",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "rag"
