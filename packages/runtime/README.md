@@ -98,6 +98,10 @@ console.log(result.content)
 | `speculate` | Fan-out N adapters, race + abort losers | [Speculative execution](https://www.agentskit.io/docs/reference/recipes/speculative-execution) |
 | `createCronScheduler` + `createWebhookHandler` | Background agents, cron + webhooks | [Background agents](https://www.agentskit.io/docs/reference/recipes/background-agents) |
 
+### Topology cancellation
+
+`AgentHandle.run(task, context?, signal?)` receives cancellation separately from caller context; existing two-argument handles remain compatible. `swarm` has no per-member deadline unless `timeoutMs` is set, which must be finite, greater than `0`, and no greater than `2,147,483,647` milliseconds. Invalid values throw `ConfigError` (`AK_CONFIG_INVALID`) synchronously. On deadline, the child signal is aborted and an optional legacy `abort` hook is called once on a best-effort basis; children must honor the signal to stop their work. If all members fail, `swarm` throws `RuntimeError` (`AK_RUNTIME_DELEGATE_FAILED`) with the first failure as its cause, including `NetError` (`AK_NET_TIMEOUT`) for a deadline. A child that ignores cancellation may continue after the swarm returns.
+
 ## Ecosystem
 
 | Package | Role |

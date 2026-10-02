@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "6a88ad23b3a9eeefa3dad476029c2b27866a4fe7549c11b1645b881492d3d598",
+  "contentHash": "7b91f4bcebe5ee340ff83a256ddfd8ae5653e9ed1c887e1a53a078f7cb1b2fbf",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T08:04:05.142Z",
+  "generatedAt": "2026-10-02T08:51:26.330Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7251,7 +7251,7 @@
         "document",
         "project"
       ],
-      "contentHash": "95cb67e5cc33129518972e3c10a55492204c69346df6da9f0e56ca7380a34fa8"
+      "contentHash": "de649f2e3d8ff51a76f767d4757913a69e4fd2cf91c5dcca3a84a2226150cab3"
     },
     {
       "id": "document:packages/sandbox/CONVENTIONS.md",
@@ -29935,7 +29935,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "290e35217668cdc660c2febfa3f8a889d2d34f5cb205ca2da0dc7eda883dd43a"
+      "contentHash": "37807da34695aa84a8babf74202e3dbbd85c6128f04cf9bb64c681000ccb0d39"
     },
     {
       "id": "module:packages/runtime/src/types.ts",
@@ -30230,7 +30230,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "f95bb6a85facb801b8b6637ff8311f7f834609d2230f4a3f2d0e08feec98e22a"
+      "contentHash": "0b7d099e5b94f691834933e235b9254c2b78fc30dffba742363b67f2e92f5b20"
     },
     {
       "id": "module:packages/runtime/tests/validator-guard.test.ts",
@@ -37516,7 +37516,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "9d2001baaebe49ddc52d72fd47ef97f45ce76f8eab0480206ef9931ef1a22ec7",
+    "hash": "f238f5cda32a541852e51f9e96813efb1f70edd900f3ad2c1b8575ea8c9babe6",
     "fileCount": 2493,
     "projectionVersion": 2
   },
@@ -37539,9 +37539,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "6b1ce2816e28f86af7976e3760623179f0aeb52b200fb949845195db5021f551",
+    "contentHash": "55a3ad07d3e9df33453ad41a84445de2afc29246f370eca8f19a9534b12dd692",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "74496e0c12bd4ae80ff70a645ce3ad3a46a93a91d21455619ff85fcfbb6bb3d5",
+    "snapshotHash": "8334384987a78cd51f1d63a3c157e0ed32a1e2c9cf70412ba44808829eced5cb",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37573,8 +37573,8 @@
       ],
       "averageFieldLength": {
         "aliases": 3.011851246424193,
-        "body": 61.23252962811606,
-        "headings": 4.031875766244381,
+        "body": 61.27094401307724,
+        "headings": 4.032693093583981,
         "path": 7.622394769105027,
         "summary": 4.5672251736820595,
         "symbols": 7.491213731099306,
@@ -79516,11 +79516,11 @@
         ],
         "fields": {
           "title": "@agentskit/runtime",
-          "headings": "@agentskit/runtime Verified proof How this fits the ecosystem Why runtime Install Quick example With skills Features Advanced primitives Ecosystem Contributors License Docs Maturity and compatibility Contributing",
+          "headings": "@agentskit/runtime Verified proof How this fits the ecosystem Why runtime Install Quick example With skills Features Advanced primitives Topology cancellation Ecosystem Contributors License Docs Maturity and compatibility Contributing",
           "path": "packages/runtime/README.md",
           "symbols": "",
           "summary": "Profile: <code>major-package</code>",
-          "body": "@agentskit/runtime Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Run autonomous agents in 5 lines — no UI, no boilerplate, just results. Tags: ai · agents · llm · agentskit · openai · anthropic · ai-agents · autonomous-agents · react-loop · orchestration · multi-agent Verified proof - Package metadata and tests live under packages/runtime/ . - Package guide: https://www.agentskit.io/docs/reference/packages/runtime - Stability map: How this fits the ecosystem @agentskit/runtime is the headless agent engine: ReAct loops, tools, skills, delegation, memory, cancellation, and structured run results. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why runtime - ReAct loop handled for you — observe, think, act, repeat: the runtime drives the full cycle and stops when the agent decides it's done - Structured, inspectable results — every run returns the final content, step count, all tool calls made, and total duration; no black boxes - Production-ready lifecycle — lazy tool init / dispose , AbortSignal cancellation, memory persistence, and AgentEvent emissions for observability - Multi-agent delegation — pass a planner skill with named delegates and the runtime coordinates sub-agents automatically Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- With skills Features - createRuntime — single entry point for headless agent execution. - ReAct loop: observe → think → act → repeat until done. - Returns { content, steps, toolCalls, durationMs } — fully inspectable. - AbortSignal cancellation support. - Tool init / dispose lifecycle hooks. - AgentEvent emissions for observability integrations. - retriever option for RAG context injection. Advanced primitives Primitive Purpose Docs ----------- --------- ------ createDurableRunner + createFileStepLog Temporal-style step log; resume on crash supervisor / swarm / hierarchical / blackboard Ready-made multi-agent topologies speculate Fan-out N adapters, race + abort losers createCronScheduler + createWebhookHandler Background agents, cron + webhooks Ecosystem Package Role --------- ------ createRuntime contracts, Retriever LLM adapters Tool modules Pre-built skills retriever for context injection Contributors <a href=\"https://github.com/AgentsKit-io/agentskit/graphs/contributors\" <img src=\"https://contrib.rocks/image?repo=AgentsKit-io/agentskit\" alt=\"AgentsKit contributors\" / </a License MIT — see . Docs · Maturity and compatibility - Stability: beta — see - Node.js 20+ and TypeScript strict mode - Published as @agentskit/runtime Contributing See and the monorepo .",
+          "body": "@agentskit/runtime Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Run autonomous agents in 5 lines — no UI, no boilerplate, just results. Tags: ai · agents · llm · agentskit · openai · anthropic · ai-agents · autonomous-agents · react-loop · orchestration · multi-agent Verified proof - Package metadata and tests live under packages/runtime/ . - Package guide: https://www.agentskit.io/docs/reference/packages/runtime - Stability map: How this fits the ecosystem @agentskit/runtime is the headless agent engine: ReAct loops, tools, skills, delegation, memory, cancellation, and structured run results. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why runtime - ReAct loop handled for you — observe, think, act, repeat: the runtime drives the full cycle and stops when the agent decides it's done - Structured, inspectable results — every run returns the final content, step count, all tool calls made, and total duration; no black boxes - Production-ready lifecycle — lazy tool init / dispose , AbortSignal cancellation, memory persistence, and AgentEvent emissions for observability - Multi-agent delegation — pass a planner skill with named delegates and the runtime coordinates sub-agents automatically Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- With skills Features - createRuntime — single entry point for headless agent execution. - ReAct loop: observe → think → act → repeat until done. - Returns { content, steps, toolCalls, durationMs } — fully inspectable. - AbortSignal cancellation support. - Tool init / dispose lifecycle hooks. - AgentEvent emissions for observability integrations. - retriever option for RAG context injection. Advanced primitives Primitive Purpose Docs ----------- --------- ------ createDurableRunner + createFileStepLog Temporal-style step log; resume on crash supervisor / swarm / hierarchical / blackboard Ready-made multi-agent topologies speculate Fan-out N adapters, race + abort losers createCronScheduler + createWebhookHandler Background agents, cron + webhooks Topology cancellation AgentHandle.run(task, context?, signal?) receives cancellation separately from caller context; existing two-argument handles remain compatible. swarm has no per-member deadline unless timeoutMs is set, which must be finite, greater than 0 , and no greater than 2,147,483,647 milliseconds. Invalid values throw ConfigError ( AK CONFIG INVALID ) synchronously. On deadline, the child signal is aborted and an optional legacy abort hook is called once on a best-effort basis; children must honor the signal to stop their work. If all members fail, swarm throws RuntimeError ( AK RUNTIME DELEGATE FAILED ) with the first failure as its cause, including NetError ( AK NET TIMEOUT ) for a deadline. A child that ignores cancellation may continue after the swarm returns. Ecosystem Package Role --------- ------ createRuntime contracts, Retriever LLM adapters Tool modules Pre-built skills retriever for context injection Contributors <a href=\"https://github.com/AgentsKit-io/agentskit/graphs/contributors\" <img src=\"https://contrib.rocks/image?repo=AgentsKit-io/agentskit\" alt=\"AgentsKit contributors\" / </a License MIT — see . Docs · Maturity and compatibility - Stability: beta — see - Node.js 20+ and TypeScript strict mode - Published as @agentskit/runtime Contributing See and the monorepo .",
           "aliases": "document project"
         },
         "graph": {
@@ -79615,12 +79615,22 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/core/src/errors.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/core/src/types/agent.ts",
               "confidence": "observed"
             },
             {
               "kind": "mentions-symbol",
               "id": "module:packages/core/src/types/retrieval.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/net/src/errors.ts",
               "confidence": "observed"
             },
             {
@@ -79655,7 +79665,7 @@
             }
           ]
         },
-        "contentHash": "95cb67e5cc33129518972e3c10a55492204c69346df6da9f0e56ca7380a34fa8",
+        "contentHash": "de649f2e3d8ff51a76f767d4757913a69e4fd2cf91c5dcca3a84a2226150cab3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -120177,7 +120187,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 28,
+          "inboundLinks": 29,
           "coveredBy": [],
           "mentionedBy": [
             "document:.agent-memory/project_playbook-alignment.md",
@@ -120205,6 +120215,7 @@
             "document:packages/core/README.md",
             "document:packages/cross-platform/README.md",
             "document:packages/net/README.md",
+            "document:packages/runtime/README.md",
             "document:packages/tools/CONVENTIONS.md",
             "document:rfcs/0013-sandbox-stable.md",
             "document:scripts/README.md"
@@ -120414,6 +120425,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:packages/net/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/runtime/README.md",
               "confidence": "observed"
             },
             {
@@ -152561,12 +152577,13 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 3,
+          "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/for-agents/net.mdx",
             "document:packages/net/CONVENTIONS.md",
-            "document:packages/net/README.md"
+            "document:packages/net/README.md",
+            "document:packages/runtime/README.md"
           ],
           "packageId": "package:@agentskit/net",
           "inbound": [
@@ -152628,6 +152645,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:packages/net/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/runtime/README.md",
               "confidence": "observed"
             },
             {
@@ -164019,7 +164041,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "290e35217668cdc660c2febfa3f8a889d2d34f5cb205ca2da0dc7eda883dd43a",
+        "contentHash": "37807da34695aa84a8babf74202e3dbbd85c6128f04cf9bb64c681000ccb0d39",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -165000,7 +165022,7 @@
             }
           ]
         },
-        "contentHash": "f95bb6a85facb801b8b6637ff8311f7f834609d2230f4a3f2d0e08feec98e22a",
+        "contentHash": "0b7d099e5b94f691834933e235b9254c2b78fc30dffba742363b67f2e92f5b20",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -192140,7 +192162,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "bff8392800cca6c9877fbc2a8ac455f5c696abf1728412a9d1eb3b7005ade99d",
+        "contentHash": "b5925949bd7504326b9623d41277ccbe06f9992493f2dcb6cbd40337e229da07",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "runtime"

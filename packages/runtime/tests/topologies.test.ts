@@ -1,3 +1,6 @@
+import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http'
+import { ErrorCodes } from '@agentskit/core'
+import { NetErrorCodes } from '@agentskit/net'
 import { describe, expect, it, vi } from 'vitest'
 import {
   blackboard,
@@ -6,6 +9,25 @@ import {
   swarm,
   type AgentHandle,
 } from '../src/topologies'
+
+async function startLocalServer(
+  handler: (request: IncomingMessage, response: ServerResponse) => void,
+): Promise<{ origin: string; close: () => Promise<void> }> {
+  const server: Server = createServer(handler)
+  await new Promise<void>((resolve, reject) => {
+    server.once('error', reject)
+    server.listen(0, '127.0.0.1', resolve)
+  })
+  const address = server.address()
+  if (!address || typeof address === 'string') throw new Error('Expected an IP socket address')
+  return {
+    origin: `http://127.0.0.1:${address.port}`,
+    close: () => new Promise<void>(resolve => {
+      server.close(() => resolve())
+      server.closeAllConnections()
+    }),
+  }
+}
 
 function agent(name: string, respond: (task: string) => string | Promise<string>, opts: { throws?: boolean } = {}): AgentHandle {
   return {
@@ -134,6 +156,123 @@ describe('swarm', () => {
       timeoutMs: 10,
     })
     await expect(s.run('t')).rejects.toThrow(/every swarm member failed/)
+  })
+
+  it('cancels native fetch at the member deadline and can run again', async () => {
+    let resolveClosed!: () => void
+    const responseClosed = new Promise<void>(resolve => (resolveClosed = resolve))
+    const paths: string[] = []
+    const server = await startLocalServer((request, response) => {
+      paths.push(request.url ?? '')
+      if (request.url === '/ok') {
+        response.end('recovered')
+        return
+      }
+      response.on('close', () => {
+        if (!response.writableEnded) resolveClosed()
+      })
+      response.writeHead(200)
+      response.write('partial')
+    })
+    const context = { trace: 'caller-context' }
+    let resolveChildSettled!: () => void
+    const childSettled = new Promise<void>(resolve => (resolveChildSettled = resolve))
+    let call = 0
+    let receivedSignal: AbortSignal | undefined
+    const team = swarm({
+      timeoutMs: 200,
+      members: [{
+        name: 'http-worker',
+        async run(_task, receivedContext, signal) {
+          expect(receivedContext).toBe(context)
+          receivedSignal = signal
+          try {
+            const response = await fetch(`${server.origin}${call++ === 0 ? '/slow' : '/ok'}`, { signal })
+            return await response.text()
+          } finally {
+            if (call === 1) resolveChildSettled()
+          }
+        },
+      }],
+    })
+
+    try {
+      await expect(team.run('first', context)).rejects.toMatchObject({
+        code: ErrorCodes.AK_RUNTIME_DELEGATE_FAILED,
+        cause: { code: NetErrorCodes.AK_NET_TIMEOUT },
+      })
+      expect(receivedSignal?.aborted).toBe(true)
+      await Promise.all([responseClosed, childSettled])
+      await expect(team.run('second', context)).resolves.toBe('recovered')
+      expect(paths).toEqual(['/slow', '/ok'])
+    } finally {
+      await server.close()
+    }
+  })
+
+  it('forwards caller cancellation through composed topologies to native fetch', async () => {
+    let resolveRequest!: () => void
+    let resolveClosed!: () => void
+    let resolveChildSettled!: () => void
+    const requestReceived = new Promise<void>(resolve => (resolveRequest = resolve))
+    const responseClosed = new Promise<void>(resolve => (resolveClosed = resolve))
+    const childSettled = new Promise<void>(resolve => (resolveChildSettled = resolve))
+    const server = await startLocalServer((_request, response) => {
+      response.on('close', () => {
+        if (!response.writableEnded) resolveClosed()
+      })
+      response.writeHead(200)
+      response.write('partial')
+      resolveRequest()
+    })
+    const context = { trace: 'caller-context' }
+    const controller = new AbortController()
+    const reason = new Error('caller cancelled')
+    let receivedContext: unknown
+    let receivedSignal: AbortSignal | undefined
+    const nested = swarm({
+      members: [{
+        name: 'http-worker',
+        async run(_task, childContext, signal) {
+          receivedContext = childContext
+          receivedSignal = signal
+          try {
+            const response = await fetch(server.origin, { signal })
+            return await response.text()
+          } finally {
+            resolveChildSettled()
+          }
+        },
+      }],
+    })
+    const team = supervisor({
+      supervisor: agent('synthesizer', async () => 'unused'),
+      workers: [nested],
+    })
+
+    try {
+      const pending = team.run('cancel me', context, controller.signal)
+      await requestReceived
+      controller.abort(reason)
+      await expect(pending).rejects.toMatchObject({
+        code: ErrorCodes.AK_RUNTIME_DELEGATE_FAILED,
+        cause: reason,
+      })
+      expect(receivedContext).toBe(context)
+      expect(receivedSignal).toBe(controller.signal)
+      await Promise.all([responseClosed, childSettled])
+    } finally {
+      await server.close()
+    }
+  })
+
+  it('rejects invalid timeout ranges synchronously', () => {
+    for (const timeoutMs of [0, -1, Number.NaN, Number.POSITIVE_INFINITY, 2_147_483_648]) {
+      expect(() => swarm({ members: [agent('worker', async () => 'ok')], timeoutMs })).toThrowError(
+        expect.objectContaining({ code: ErrorCodes.AK_CONFIG_INVALID }),
+      )
+    }
+    expect(swarm({ members: [agent('worker', async () => 'ok')], timeoutMs: 2_147_483_647 }).name).toBe('swarm')
   })
 
   it('rejects empty members', () => {

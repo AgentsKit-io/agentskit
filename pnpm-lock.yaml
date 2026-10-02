@@ -1417,6 +1417,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
+      '@agentskit/net':
+        specifier: workspace:*
+        version: link:../net
     devDependencies:
       '@types/node':
         specifier: ^25.9.5
