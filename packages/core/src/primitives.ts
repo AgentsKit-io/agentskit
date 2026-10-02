@@ -13,6 +13,22 @@ import type {
 import type { TokenUsage } from './types/stream'
 
 /**
+ * Check whether a value is a non-null object other than an array.
+ * Instances such as `Date`, `Map`, and class instances satisfy this guard;
+ * use a schema validator when a plain JSON object is required.
+ *
+ * @param value - Value to check.
+ * @returns `true` for non-null, non-array objects; otherwise `false`.
+ * @example
+ * isRecord({ name: 'Ada' }) // true
+ * isRecord([]) // false
+ * @since 1.14.0
+ */
+export function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null && !Array.isArray(value)
+}
+
+/**
  * Create a unique ID with a caller-provided prefix and a cryptographically random UUID.
  *
  * @param prefix - Namespace or kind to include at the start of the ID.

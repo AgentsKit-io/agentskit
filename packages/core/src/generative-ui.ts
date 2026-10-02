@@ -9,6 +9,8 @@
  * single `UIMessage` can mix declarative UI + rich content.
  */
 
+import { isRecord } from './primitives'
+
 export interface UIElementText {
   kind: 'text'
   text: string
@@ -111,10 +113,6 @@ export type Artifact = ArtifactCode | ArtifactMarkdown | ArtifactHtml | Artifact
 export interface UIMessage {
   version: 1
   root: UIElement
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
 function assert(condition: unknown, message: string): asserts condition {

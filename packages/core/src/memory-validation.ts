@@ -20,6 +20,7 @@ function invalidRecord(): never {
 }
 
 function isRecord(value: unknown): value is Record<string, unknown> {
+  // Memory records are cloned JSON and intentionally reject class instances.
   if (typeof value !== 'object' || value === null || Array.isArray(value)) return false
   const prototype = Object.getPrototypeOf(value) as unknown
   return prototype === Object.prototype || prototype === null

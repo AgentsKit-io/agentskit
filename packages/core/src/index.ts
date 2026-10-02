@@ -21,6 +21,7 @@ export {
   createEventEmitter,
   parseToolArgs,
   safeParseArgs,
+  isRecord,
   createToolLifecycle,
 } from './primitives'
 export { defineTool } from './types/tool'

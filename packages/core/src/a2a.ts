@@ -7,6 +7,8 @@
  * Version: 2026-04.
  */
 
+import { isRecord } from './primitives'
+
 export const A2A_PROTOCOL_VERSION = '2026-04'
 
 export interface A2AAgentCard {
@@ -90,10 +92,6 @@ export type A2AMethod =
 // ---------------------------------------------------------------------------
 // Minimal validator
 // ---------------------------------------------------------------------------
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
-}
 
 export function validateAgentCard(raw: unknown): A2AAgentCard {
   if (!isRecord(raw)) throw new Error('A2A: agent card must be an object')

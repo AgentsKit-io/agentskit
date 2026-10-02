@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "5974a4756122dc8ab89f334fe0aa4079ca036aff84c886316c651c3d27d851c8",
+  "contentHash": "4f1f0e8fb59ab54c9803d6d2a70b5a59a9efbb014add38f816d52542fa8ca0e9",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T16:55:32.172Z",
+  "generatedAt": "2026-10-02T17:20:11.639Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -18517,7 +18517,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "23bf9a966bdb803f6ad177f742b241b2c075a250c2da4e4c866852e125c95458"
+      "contentHash": "e180a9badae77b04069d1994863f982b92768fbcfc6dac28c6c75b3535369f48"
     },
     {
       "id": "module:packages/core/src/agent-loop.ts",
@@ -18560,7 +18560,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "6a988a81c7b9ef46fcd3e1aaa65931bc8d7f073fdc0c91a04339105857cca625"
+      "contentHash": "0227f4a2fb08c2b2db285e71d02500ab5cc93306cb8357aa44ad7127ca2c7449"
     },
     {
       "id": "module:packages/core/src/auto-summarize.ts",
@@ -18726,7 +18726,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "4c45bfbc280cc5c2c81654e6cd3ddc512e0dd53e2db3c97ca2fcee7bdb26b6f6"
+      "contentHash": "7976a613ff9b833dcd17c51471b2d1b70e6e9f59fce96a0cfb0db115f03c3aa2"
     },
     {
       "id": "module:packages/core/src/fuzzy-match.ts",
@@ -18778,7 +18778,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "095e85e76cf90b905407d67ecdd6ea4eb0d9293d6a4f858f80238d8780d27ddf"
+      "contentHash": "4e682b62d7cd4f8eb95f80fdaa1cf968da600f73b76a2163ad8d8977b18703a8"
     },
     {
       "id": "module:packages/core/src/hash.ts",
@@ -18937,6 +18937,7 @@
         "formatRetrievedDocuments",
         "generateId",
         "imagePart",
+        "isRecord",
         "normalizeContent",
         "parseToolArgs",
         "partsToText",
@@ -18950,7 +18951,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "79599d5282cc676ec8db0733896721fc09c205b8f47e54bd1f0044a049e45d0e"
+      "contentHash": "a88c40354a83b101abf45d587e4e4127f162d163a8c642760a7f5938c9267ef3"
     },
     {
       "id": "module:packages/core/src/json-validation.ts",
@@ -18984,7 +18985,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "4a44655381b8336a26337aa82efc67ab0645d986b09b94ff830c5d8c902812d5"
+      "contentHash": "783749c0079ea70eb48fc93a485d2dba9e5a2bd622bc176f91b5e167054b60ba"
     },
     {
       "id": "module:packages/core/src/memory-validation.ts",
@@ -18999,7 +19000,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "2b5a54229da1e9607d403f9c15db843da97767768c503c879f9576a294dd005d"
+      "contentHash": "da281f7bc4f91eb945c78861fd72fa2269aca455478df09143152ba725685d0d"
     },
     {
       "id": "module:packages/core/src/memory.ts",
@@ -19035,6 +19036,7 @@
         "createToolLifecycle",
         "executeToolCall",
         "generateId",
+        "isRecord",
         "parseToolArgs",
         "safeParseArgs"
       ],
@@ -19043,7 +19045,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "ec9de00fcbb56935c894476a58977e2edb56e7a8395d0c0c44c8abb6617be6c9"
+      "contentHash": "7f47004238f37b3feccd631c94bd237aa85215f7872424a9f743d6740d8a6469"
     },
     {
       "id": "module:packages/core/src/progressive.ts",
@@ -19300,7 +19302,7 @@
         "ts",
         "security"
       ],
-      "contentHash": "548576ea424f9a754487914d243bdb3db2c4c925a2f71b02cf01768b7e8ab96f"
+      "contentHash": "0e117bf40e1262f2b87f160acb2c345da467757f91cdac76247a2551c33c72aa"
     },
     {
       "id": "module:packages/core/src/security/taxonomy.ts",
@@ -20117,6 +20119,19 @@
         "tests"
       ],
       "contentHash": "53face597678263faa3acfebfad1e8a7742b8c92fa7e6aa9e7d48bdf5e80ce11"
+    },
+    {
+      "id": "module:packages/core/tests/is-record.test.ts",
+      "type": "module",
+      "title": "is-record.test.ts",
+      "path": "packages/core/tests/is-record.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "309233f48934be577e42cb03aab360fef0a9d0f454057e654ffae55c7d4e9d2b"
     },
     {
       "id": "module:packages/core/tests/json-validation.test.ts",
@@ -37635,8 +37650,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "0d56a814d5c50a8594dbeef8d49bf7099101cc177965f72aac33dcc8953ca2cd",
-    "fileCount": 2501,
+    "hash": "731db25cffbfd5612a56eba79f4f7e1816b8b724f7b9d462e434c38ab6359a0f",
+    "fileCount": 2502,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37658,9 +37673,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "be24b12a18ff5063f01b22c8b2537607c44c3bcbb9744260a1dca73df3058531",
+    "contentHash": "fbf08418ed661355edcb97e06a6fb25bfa862d6ab5d91811c445026a6176bec2",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "46de749cf742bb57682097b8391be62e32526b22ad1bb2f69277082b82fe9ab9",
+    "snapshotHash": "7e3c881a741e46d7c3dc47c34bb0c1461800b87d1408672fb2b7471e2b9a24f2",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37680,7 +37695,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2455,
+      "documentCount": 2456,
       "fieldNames": [
         "aliases",
         "body",
@@ -37691,13 +37706,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.013441955193483,
-        "body": 61.07128309572301,
-        "headings": 4.019551934826884,
-        "path": 7.6232179226069245,
-        "summary": 4.552342158859471,
-        "symbols": 7.470468431771894,
-        "title": 3.3380855397148674
+        "aliases": 3.013843648208469,
+        "body": 61.049674267100976,
+        "headings": 4.017915309446254,
+        "path": 7.622964169381108,
+        "summary": 4.550488599348534,
+        "symbols": 7.469055374592834,
+        "title": 3.3383550488599347
       }
     },
     "entries": [
@@ -50361,7 +50376,7 @@
           "path": "apps/docs-next/content/docs/for-agents/core.mdx",
           "symbols": "",
           "summary": "Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + `createChatController` + primitives. Target: &lt;10 KB gzipped, zero runtime deps.",
-          "body": "Purpose Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + createChatController + primitives. Target: &lt;10 KB gzipped, zero runtime deps. Install Primary exports (main entry) - createChatController(config) — state machine behind every UI - proposeToolCall(proposal) — controller method that places a trusted, validated action into the same confirmation lifecycle; it never executes directly. The standalone helper is available from @agentskit/core/tool-proposal . Returns { getState, subscribe, send, stop, retry, edit, regenerate, setInput, clear, approve, deny, updateConfig } . - defineTool(config) — typed tool factory with JSON-Schema input inference. - ChatConfig.authorizeToolCall — trusted host authorization before tool proposal and again before execution. Callback failures default to deny. - createInMemoryMemory / createLocalStorageMemory — default ChatMemory implementations. - createStaticRetriever / formatRetrievedDocuments — RAG-less retrieval using token substring overlap; use @agentskit/rag for semantic production retrieval. - executeToolCall , consumeStream , createEventEmitter , parseToolArgs , safeParseArgs , createId , generateId , buildMessage — low-level helpers. parseToolArgs returns { args, valid } so adapters can fail closed; safeParseArgs remains the compatibility value-only parser. IDs use crypto.randomUUID() and retain the caller-provided prefix. - AgentsKitError , AdapterError , ToolError , MemoryError , ConfigError , RuntimeError , SandboxError , SkillError , ErrorCodes — error taxonomy. - Token budget: compileBudget , approximateCounter . - Progressive tool args: createProgressiveArgParser , executeToolProgressively . - createVirtualizedMemory — hot-window + cold-retriever wrapper (also re-exported from @agentskit/memory ). - Untrusted-input fencing lives in the @agentskit/core/security entry: fenceUntrustedContent(content, opts?) + UNTRUSTED CONTENT DIRECTIVE wrap attacker-influenced text so the model treats it as data, not instructions (the mitigation companion to createInjectionDetector ). - Multi-modal content parts: textPart , imagePart , audioPart , videoPart , filePart , partsToText , normalizeContent , filterParts . - Agent-loop internals (advanced): buildToolMap , activateSkills , executeSafeTool , createToolLifecycle . - Memory serialization: serializeMessages , deserializeMessages ; validate untrusted records with validateMemoryRecord from @agentskit/core/memory-validation . Subpath exports (zero main-bundle weight) Subpath Purpose Recipe --- --- --- @agentskit/core/agent-schema Declarative agent YAML/JSON + validator @agentskit/core/prompt-experiments A/B prompts with feature flags @agentskit/core/auto-summarize Auto-summarizing ChatMemory wrapper @agentskit/core/hitl Approval gates + ApprovalStore @agentskit/core/security PII redactor + injection detector + fenceUntrustedContent + rate limiter , , @agentskit/core/fuzzy-match jaroWinkler / fuzzyMatchList — zero-dep fuzzy name matching for sanctions/KYC/dedup without an LLM — @agentskit/core/finding Finding / Severity / SEVERITY ORDER — canonical issue shape so review/audit/compliance findings are interoperable — @agentskit/core/compose-tool Chain N tools into one @agentskit/core/self-debug Retry tools with LLM-corrected args @agentskit/core/generative-ui Typed UI element tree + artifacts @agentskit/core/a2a Agent-to-Agent protocol spec @agentskit/core/manifest Skill + tool manifest format (MCP-compat) @agentskit/core/eval-format Portable eval dataset + run-result @agentskit/core/memory-validation Bounded validation for untrusted serialized memory records — @agentskit/core/tool-proposal Route a validated proposal through controller authorization — @agentskit/core/hash RFC 8785 canonical JSON and SHA-256 for stable fingerprints — Minimal example Common patterns - Wire a controller into any framework via getState + subscribe (see the framework bindings under ). - Compose tools with or wrap failing ones with . - Gate ",
+          "body": "Purpose Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + createChatController + primitives. Target: &lt;10 KB gzipped, zero runtime deps. Install Primary exports (main entry) - createChatController(config) — state machine behind every UI - proposeToolCall(proposal) — controller method that places a trusted, validated action into the same confirmation lifecycle; it never executes directly. The standalone helper is available from @agentskit/core/tool-proposal . Returns { getState, subscribe, send, stop, retry, edit, regenerate, setInput, clear, approve, deny, updateConfig } . - defineTool(config) — typed tool factory with JSON-Schema input inference. - ChatConfig.authorizeToolCall — trusted host authorization before tool proposal and again before execution. Callback failures default to deny. - createInMemoryMemory / createLocalStorageMemory — default ChatMemory implementations. - createStaticRetriever / formatRetrievedDocuments — RAG-less retrieval using token substring overlap; use @agentskit/rag for semantic production retrieval. - executeToolCall , consumeStream , createEventEmitter , parseToolArgs , safeParseArgs , isRecord , createId , generateId , buildMessage — low-level helpers. parseToolArgs returns { args, valid } so adapters can fail closed; safeParseArgs remains the compatibility value-only parser. IDs use crypto.randomUUID() and retain the caller-provided prefix. - isRecord(value) accepts non-null objects other than arrays, including Date , Map , and class instances; use a schema validator when plain JSON objects are required. - AgentsKitError , AdapterError , ToolError , MemoryError , ConfigError , RuntimeError , SandboxError , SkillError , ErrorCodes — error taxonomy. - Token budget: compileBudget , approximateCounter . - Progressive tool args: createProgressiveArgParser , executeToolProgressively . - createVirtualizedMemory — hot-window + cold-retriever wrapper (also re-exported from @agentskit/memory ). - Untrusted-input fencing lives in the @agentskit/core/security entry: fenceUntrustedContent(content, opts?) + UNTRUSTED CONTENT DIRECTIVE wrap attacker-influenced text so the model treats it as data, not instructions (the mitigation companion to createInjectionDetector ). - Multi-modal content parts: textPart , imagePart , audioPart , videoPart , filePart , partsToText , normalizeContent , filterParts . - Agent-loop internals (advanced): buildToolMap , activateSkills , executeSafeTool , createToolLifecycle . - Memory serialization: serializeMessages , deserializeMessages ; validate untrusted records with validateMemoryRecord from @agentskit/core/memory-validation . Subpath exports (zero main-bundle weight) Subpath Purpose Recipe --- --- --- @agentskit/core/agent-schema Declarative agent YAML/JSON + validator @agentskit/core/prompt-experiments A/B prompts with feature flags @agentskit/core/auto-summarize Auto-summarizing ChatMemory wrapper @agentskit/core/hitl Approval gates + ApprovalStore @agentskit/core/security PII redactor + injection detector + fenceUntrustedContent + rate limiter , , @agentskit/core/fuzzy-match jaroWinkler / fuzzyMatchList — zero-dep fuzzy name matching for sanctions/KYC/dedup without an LLM — @agentskit/core/finding Finding / Severity / SEVERITY ORDER — canonical issue shape so review/audit/compliance findings are interoperable — @agentskit/core/compose-tool Chain N tools into one @agentskit/core/self-debug Retry tools with LLM-corrected args @agentskit/core/generative-ui Typed UI element tree + artifacts @agentskit/core/a2a Agent-to-Agent protocol spec @agentskit/core/manifest Skill + tool manifest format (MCP-compat) @agentskit/core/eval-format Portable eval dataset + run-result @agentskit/core/memory-validation Bounded validation for untrusted serialized memory records — @agentskit/core/tool-proposal Route a validated proposal through controller authorization — @agentskit/core/hash RFC 8785 canonical JSON and SHA-256 for stable fingerprints — Minimal exa",
           "aliases": "core document agent"
         },
         "graph": {
@@ -50498,7 +50513,7 @@
             }
           ]
         },
-        "contentHash": "033b4794a5b24b66fc3e9ac75245d2a9eda489765f341ec80202367b45609721",
+        "contentHash": "d6b19f03c117f136bb03eec992e96f9c8db9d285a3d87807cfbfb88a5737331b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -119701,9 +119716,15 @@
               "confidence": "observed"
             }
           ],
-          "outbound": []
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/primitives.ts",
+              "confidence": "observed"
+            }
+          ]
         },
-        "contentHash": "23bf9a966bdb803f6ad177f742b241b2c075a250c2da4e4c866852e125c95458",
+        "contentHash": "e180a9badae77b04069d1994863f982b92768fbcfc6dac28c6c75b3535369f48",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -119925,9 +119946,15 @@
               "confidence": "observed"
             }
           ],
-          "outbound": []
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/primitives.ts",
+              "confidence": "observed"
+            }
+          ]
         },
-        "contentHash": "6a988a81c7b9ef46fcd3e1aaa65931bc8d7f073fdc0c91a04339105857cca625",
+        "contentHash": "0227f4a2fb08c2b2db285e71d02500ab5cc93306cb8357aa44ad7127ca2c7449",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -120964,9 +120991,15 @@
               "confidence": "observed"
             }
           ],
-          "outbound": []
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/primitives.ts",
+              "confidence": "observed"
+            }
+          ]
         },
-        "contentHash": "4c45bfbc280cc5c2c81654e6cd3ddc512e0dd53e2db3c97ca2fcee7bdb26b6f6",
+        "contentHash": "7976a613ff9b833dcd17c51471b2d1b70e6e9f59fce96a0cfb0db115f03c3aa2",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -121084,9 +121117,15 @@
               "confidence": "observed"
             }
           ],
-          "outbound": []
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/primitives.ts",
+              "confidence": "observed"
+            }
+          ]
         },
-        "contentHash": "095e85e76cf90b905407d67ecdd6ea4eb0d9293d6a4f858f80238d8780d27ddf",
+        "contentHash": "4e682b62d7cd4f8eb95f80fdaa1cf968da600f73b76a2163ad8d8977b18703a8",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -121345,6 +121384,7 @@
           "formatRetrievedDocuments",
           "generateId",
           "imagePart",
+          "isRecord",
           "normalizeContent",
           "parseToolArgs",
           "partsToText",
@@ -121362,7 +121402,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/core/src/index.ts",
-          "symbols": "ActivateSkillsResult AdapterCapabilities AdapterContext AdapterError AdapterFactory AdapterRequest AgentEvent AgentEventContext AgentsKitError ArgsValidationError ArgsValidationResult ArgsValidator AudioPart BudgetStrategy ChatConfig ChatController ChatMemory ChatReturn ChatState CompileBudgetInput CompileBudgetResult ConfigError ConsumeStreamHandlers ContentPart DataRegion DefineToolConfig EditOptions EmbedFn ErrorCodes EvalResult EvalSuite EvalTestCase ExecuteSafeToolOptions FilePart ImagePart InferSchemaType MaybePromise MemoryError MemoryRecord Message MessageRole MessageStatus Observer ParsedToolArgs PartKind ProgressiveArgParser ProgressiveExecOptions ProgressiveExecResult ProgressiveFieldEvent RetrievedDocument Retriever RetrieverRequest RuntimeError SandboxError SkillDefinition SkillError StreamChunk StreamSource StreamStatus StreamToolCallPayload TextPart TokenCountResult TokenCounter TokenCounterOptions TokenUsage ToolAuthorizationContext ToolAuthorizationDecision ToolAuthorizationPhase ToolAuthorizer ToolCall ToolCallHandlerContext ToolCallStatus ToolDefinition ToolError ToolExecResult ToolExecutionContext UseStreamOptions UseStreamReturn VectorDocument VectorFilter VectorFilterCompound VectorFilterOperator VectorFilterPredicate VectorFilterPrimitive VectorMemory VectorSearchOptions VideoPart VirtualizedMemoryOptions activateSkills approximateCounter audioPart buildMessage buildToolMap compileBudget consumeStream createChatController createEventEmitter createId createInMemoryMemory createLocalStorageMemory createProgressiveArgParser createStaticRetriever createToolLifecycle createVirtualizedMemory defineTool deserializeMessages executeSafeTool executeToolCall executeToolProgressively filePart filterParts formatRetrievedDocuments generateId imagePart normalizeContent parseToolArgs partsToText safeParseArgs serializeMessages textPart videoPart",
+          "symbols": "ActivateSkillsResult AdapterCapabilities AdapterContext AdapterError AdapterFactory AdapterRequest AgentEvent AgentEventContext AgentsKitError ArgsValidationError ArgsValidationResult ArgsValidator AudioPart BudgetStrategy ChatConfig ChatController ChatMemory ChatReturn ChatState CompileBudgetInput CompileBudgetResult ConfigError ConsumeStreamHandlers ContentPart DataRegion DefineToolConfig EditOptions EmbedFn ErrorCodes EvalResult EvalSuite EvalTestCase ExecuteSafeToolOptions FilePart ImagePart InferSchemaType MaybePromise MemoryError MemoryRecord Message MessageRole MessageStatus Observer ParsedToolArgs PartKind ProgressiveArgParser ProgressiveExecOptions ProgressiveExecResult ProgressiveFieldEvent RetrievedDocument Retriever RetrieverRequest RuntimeError SandboxError SkillDefinition SkillError StreamChunk StreamSource StreamStatus StreamToolCallPayload TextPart TokenCountResult TokenCounter TokenCounterOptions TokenUsage ToolAuthorizationContext ToolAuthorizationDecision ToolAuthorizationPhase ToolAuthorizer ToolCall ToolCallHandlerContext ToolCallStatus ToolDefinition ToolError ToolExecResult ToolExecutionContext UseStreamOptions UseStreamReturn VectorDocument VectorFilter VectorFilterCompound VectorFilterOperator VectorFilterPredicate VectorFilterPrimitive VectorMemory VectorSearchOptions VideoPart VirtualizedMemoryOptions activateSkills approximateCounter audioPart buildMessage buildToolMap compileBudget consumeStream createChatController createEventEmitter createId createInMemoryMemory createLocalStorageMemory createProgressiveArgParser createStaticRetriever createToolLifecycle createVirtualizedMemory defineTool deserializeMessages executeSafeTool executeToolCall executeToolProgressively filePart filterParts formatRetrievedDocuments generateId imagePart isRecord normalizeContent parseToolArgs partsToText safeParseArgs serializeMessages textPart videoPart",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -121376,6 +121416,11 @@
           ],
           "packageId": "package:@agentskit/core",
           "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/tests/is-record.test.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "imports",
               "id": "module:packages/core/tests/primitives.test.ts",
@@ -121455,7 +121500,7 @@
             }
           ]
         },
-        "contentHash": "79599d5282cc676ec8db0733896721fc09c205b8f47e54bd1f0044a049e45d0e",
+        "contentHash": "a88c40354a83b101abf45d587e4e4127f162d163a8c642760a7f5938c9267ef3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -121582,9 +121627,15 @@
               "confidence": "observed"
             }
           ],
-          "outbound": []
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/primitives.ts",
+              "confidence": "observed"
+            }
+          ]
         },
-        "contentHash": "4a44655381b8336a26337aa82efc67ab0645d986b09b94ff830c5d8c902812d5",
+        "contentHash": "783749c0079ea70eb48fc93a485d2dba9e5a2bd622bc176f91b5e167054b60ba",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -121670,7 +121721,7 @@
             }
           ]
         },
-        "contentHash": "2b5a54229da1e9607d403f9c15db843da97767768c503c879f9576a294dd005d",
+        "contentHash": "da281f7bc4f91eb945c78861fd72fa2269aca455478df09143152ba725685d0d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -121851,6 +121902,7 @@
           "createToolLifecycle",
           "executeToolCall",
           "generateId",
+          "isRecord",
           "parseToolArgs",
           "safeParseArgs"
         ],
@@ -121863,7 +121915,7 @@
           "title": "primitives.ts",
           "headings": "",
           "path": "packages/core/src/primitives.ts",
-          "symbols": "ConsumeStreamHandlers ParsedToolArgs acquireToolLifecycle buildMessage consumeStream createEventEmitter createId createToolLifecycle executeToolCall generateId parseToolArgs safeParseArgs",
+          "symbols": "ConsumeStreamHandlers ParsedToolArgs acquireToolLifecycle buildMessage consumeStream createEventEmitter createId createToolLifecycle executeToolCall generateId isRecord parseToolArgs safeParseArgs",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -121888,7 +121940,17 @@
           "inbound": [
             {
               "kind": "imports",
+              "id": "module:packages/core/src/a2a.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/core/src/agent-loop.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/agent-schema.ts",
               "confidence": "observed"
             },
             {
@@ -121904,6 +121966,26 @@
             {
               "kind": "imports",
               "id": "module:packages/core/src/controller.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/eval-format.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/generative-ui.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/manifest.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/security/sso.ts",
               "confidence": "observed"
             },
             {
@@ -122005,7 +122087,7 @@
             }
           ]
         },
-        "contentHash": "ec9de00fcbb56935c894476a58977e2edb56e7a8395d0c0c44c8abb6617be6c9",
+        "contentHash": "7f47004238f37b3feccd631c94bd237aa85215f7872424a9f743d6740d8a6469",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -122830,13 +122912,18 @@
               "confidence": "observed"
             },
             {
+              "kind": "imports",
+              "id": "module:packages/core/src/primitives.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "re-exports",
               "id": "module:packages/core/src/security/saml.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "548576ea424f9a754487914d243bdb3db2c4c925a2f71b02cf01768b7e8ab96f",
+        "contentHash": "0e117bf40e1262f2b87f160acb2c345da467757f91cdac76247a2551c33c72aa",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -127125,6 +127212,46 @@
           ]
         },
         "contentHash": "53face597678263faa3acfebfad1e8a7742b8c92fa7e6aa9e7d48bdf5e80ce11",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/core/tests/is-record.test.ts",
+        "kind": "module",
+        "path": "packages/core/tests/is-record.test.ts",
+        "title": "is-record.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "is-record.test.ts",
+          "headings": "",
+          "path": "packages/core/tests/is-record.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/core",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/index.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "309233f48934be577e42cb03aab360fef0a9d0f454057e654ffae55c7d4e9d2b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -188543,7 +188670,7 @@
           "path": "packages/core",
           "symbols": "",
           "summary": "Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + `createChatController` + primitives. Target: &lt;10 KB gzipped, zero runtime deps.",
-          "body": "Purpose Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + createChatController + primitives. Target: &lt;10 KB gzipped, zero runtime deps. Install Primary exports (main entry) - createChatController(config) — state machine behind every UI - proposeToolCall(proposal) — controller method that places a trusted, validated action into the same confirmation lifecycle; it never executes directly. The standalone helper is available from @agentskit/core/tool-proposal . Returns { getState, subscribe, send, stop, retry, edit, regenerate, setInput, clear, approve, deny, updateConfig } . - defineTool(config) — typed tool factory with JSON-Schema input inference. - ChatConfig.authorizeToolCall — trusted host authorization before tool proposal and again before execution. Callback failures default to deny. - createInMemoryMemory / createLocalStorageMemory — default ChatMemory implementations. - createStaticRetriever / formatRetrievedDocuments — RAG-less retrieval using token substring overlap; use @agentskit/rag for semantic production retrieval. - executeToolCall , consumeStream , createEventEmitter , parseToolArgs , safeParseArgs , createId , generateId , buildMessage — low-level helpers. parseToolArgs returns { args, valid } so adapters can fail closed; safeParseArgs remains the compatibility value-only parser. IDs use crypto.randomUUID() and retain the caller-provided prefix. - AgentsKitError , AdapterError , ToolError , MemoryError , ConfigError , RuntimeError , SandboxError , SkillError , ErrorCodes — error taxonomy. - Token budget: compileBudget , approximateCounter . - Progressive tool args: createProgressiveArgParser , executeToolProgressively . - createVirtualizedMemory — hot-window + cold-retriever wrapper (also re-exported from @agentskit/memory ). - Untrusted-input fencing lives in the @agentskit/core/security entry: fenceUntrustedContent(content, opts?) + UNTRUSTED CONTENT DIRECTIVE wrap attacker-influenced text so the model treats it as data, not instructions (the mitigation companion to createInjectionDetector ). - Multi-modal content parts: textPart , imagePart , audioPart , videoPart , filePart , partsToText , normalizeContent , filterParts . - Agent-loop internals (advanced): buildToolMap , activateSkills , executeSafeTool , createToolLifecycle . - Memory serialization: serializeMessages , deserializeMessages ; validate untrusted records with validateMemoryRecord from @agentskit/core/memory-validation . Subpath exports (zero main-bundle weight) Subpath Purpose Recipe --- --- --- @agentskit/core/agent-schema Declarative agent YAML/JSON + validator @agentskit/core/prompt-experiments A/B prompts with feature flags @agentskit/core/auto-summarize Auto-summarizing ChatMemory wrapper @agentskit/core/hitl Approval gates + ApprovalStore @agentskit/core/security PII redactor + injection detector + fenceUntrustedContent + rate limiter , , @agentskit/core/fuzzy-match jaroWinkler / fuzzyMatchList — zero-dep fuzzy name matching for sanctions/KYC/dedup without an LLM — @agentskit/core/finding Finding / Severity / SEVERITY ORDER — canonical issue shape so review/audit/compliance findings are interoperable — @agentskit/core/compose-tool Chain N tools into one @agentskit/core/self-debug Retry tools with LLM-corrected args @agentskit/core/generative-ui Typed UI element tree + artifacts @agentskit/core/a2a Agent-to-Agent protocol spec @agentskit/core/manifest Skill + tool manifest format (MCP-compat) @agentskit/core/eval-format Portable eval dataset + run-result @agentskit/core/memory-validation Bounded validation for untrusted serialized memory records — @agentskit/core/tool-proposal Route a validated proposal through controller authorization — @agentskit/core/hash RFC 8785 canonical JSON and SHA-256 for stable fingerprints — Minimal example Common patterns - Wire a controller into any framework via getState + subscribe (see the framework bindings under ). - Compose tools with or wrap failing ones with . - Gate ",
+          "body": "Purpose Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + createChatController + primitives. Target: &lt;10 KB gzipped, zero runtime deps. Install Primary exports (main entry) - createChatController(config) — state machine behind every UI - proposeToolCall(proposal) — controller method that places a trusted, validated action into the same confirmation lifecycle; it never executes directly. The standalone helper is available from @agentskit/core/tool-proposal . Returns { getState, subscribe, send, stop, retry, edit, regenerate, setInput, clear, approve, deny, updateConfig } . - defineTool(config) — typed tool factory with JSON-Schema input inference. - ChatConfig.authorizeToolCall — trusted host authorization before tool proposal and again before execution. Callback failures default to deny. - createInMemoryMemory / createLocalStorageMemory — default ChatMemory implementations. - createStaticRetriever / formatRetrievedDocuments — RAG-less retrieval using token substring overlap; use @agentskit/rag for semantic production retrieval. - executeToolCall , consumeStream , createEventEmitter , parseToolArgs , safeParseArgs , isRecord , createId , generateId , buildMessage — low-level helpers. parseToolArgs returns { args, valid } so adapters can fail closed; safeParseArgs remains the compatibility value-only parser. IDs use crypto.randomUUID() and retain the caller-provided prefix. - isRecord(value) accepts non-null objects other than arrays, including Date , Map , and class instances; use a schema validator when plain JSON objects are required. - AgentsKitError , AdapterError , ToolError , MemoryError , ConfigError , RuntimeError , SandboxError , SkillError , ErrorCodes — error taxonomy. - Token budget: compileBudget , approximateCounter . - Progressive tool args: createProgressiveArgParser , executeToolProgressively . - createVirtualizedMemory — hot-window + cold-retriever wrapper (also re-exported from @agentskit/memory ). - Untrusted-input fencing lives in the @agentskit/core/security entry: fenceUntrustedContent(content, opts?) + UNTRUSTED CONTENT DIRECTIVE wrap attacker-influenced text so the model treats it as data, not instructions (the mitigation companion to createInjectionDetector ). - Multi-modal content parts: textPart , imagePart , audioPart , videoPart , filePart , partsToText , normalizeContent , filterParts . - Agent-loop internals (advanced): buildToolMap , activateSkills , executeSafeTool , createToolLifecycle . - Memory serialization: serializeMessages , deserializeMessages ; validate untrusted records with validateMemoryRecord from @agentskit/core/memory-validation . Subpath exports (zero main-bundle weight) Subpath Purpose Recipe --- --- --- @agentskit/core/agent-schema Declarative agent YAML/JSON + validator @agentskit/core/prompt-experiments A/B prompts with feature flags @agentskit/core/auto-summarize Auto-summarizing ChatMemory wrapper @agentskit/core/hitl Approval gates + ApprovalStore @agentskit/core/security PII redactor + injection detector + fenceUntrustedContent + rate limiter , , @agentskit/core/fuzzy-match jaroWinkler / fuzzyMatchList — zero-dep fuzzy name matching for sanctions/KYC/dedup without an LLM — @agentskit/core/finding Finding / Severity / SEVERITY ORDER — canonical issue shape so review/audit/compliance findings are interoperable — @agentskit/core/compose-tool Chain N tools into one @agentskit/core/self-debug Retry tools with LLM-corrected args @agentskit/core/generative-ui Typed UI element tree + artifacts @agentskit/core/a2a Agent-to-Agent protocol spec @agentskit/core/manifest Skill + tool manifest format (MCP-compat) @agentskit/core/eval-format Portable eval dataset + run-result @agentskit/core/memory-validation Bounded validation for untrusted serialized memory records — @agentskit/core/tool-proposal Route a validated proposal through controller authorization — @agentskit/core/hash RFC 8785 canonical JSON and SHA-256 for stable fingerprints — Minimal exa",
           "aliases": "core @agentskit/core package ownership"
         },
         "graph": {

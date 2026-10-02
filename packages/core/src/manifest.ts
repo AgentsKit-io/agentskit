@@ -6,6 +6,7 @@
  */
 
 import type { JSONSchema7 } from 'json-schema'
+import { isRecord } from './primitives'
 
 export const MANIFEST_VERSION = '2026-04'
 
@@ -42,10 +43,6 @@ export interface Manifest {
   skills?: ManifestSkill[]
   /** Free-form metadata (license, repo, compatibility). */
   metadata?: Record<string, unknown>
-}
-
-function isRecord(v: unknown): v is Record<string, unknown> {
-  return typeof v === 'object' && v !== null && !Array.isArray(v)
 }
 
 function assert(cond: unknown, msg: string): asserts cond {
