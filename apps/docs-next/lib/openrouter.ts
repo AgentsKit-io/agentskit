@@ -1,21 +1,13 @@
-// Thin OpenRouter client with a free-tier model fallback chain.
-// Never swap for a paid model without explicit confirmation — docs infrastructure must stay at $0.
+// Thin OpenRouter client with a model fallback chain.
+// The OpenRouter account enforces Zero Data Retention, so only models with ZDR
+// endpoints route at all (GET https://openrouter.ai/api/v1/endpoints/zdr).
+// Free first; the cheap paid fallback (owner-approved 2026-10-02) runs on a
+// capped key. Don't add other paid models without explicit confirmation.
 
-// Current tool-capable :free model ids (verified against the OpenRouter /models
-// catalog 2026-10-02). Free ids rotate — refresh if you see 404s. The free pool
-// is shared + rate-limited (429); spreading across many DIVERSE providers (so
-// rate limits don't all hit at once) + the fallback cascade + a quick per-model
-// retry is the mitigation. Regenerate with: scripts/check-free-models (or the
-// /models catalog filtered by supported_parameters including "tools").
-export const FREE_MODELS = [
-  'nvidia/nemotron-3-ultra-550b-a55b:free',
+// Verified tool-capable with ZDR endpoints on 2026-10-02.
+export const ASK_MODELS = [
   'qwen/qwen3.8-27b:free',
-  'google/gemma-4-31b-it:free',
-  'thinkingmachines/inkling:free',
-  'cohere/north-mini-code:free',
-  'nvidia/nemotron-3-super-120b-a12b:free',
-  'google/gemma-4-26b-a4b-it:free',
-  'openrouter/free',
+  'z-ai/glm-5.3-flash',
 ]
 
 export type ChatMessage = { role: 'system' | 'user' | 'assistant'; content: string }
@@ -35,7 +27,7 @@ type StreamOptions = {
  * Returns a ReadableStream of plain text chunks (already decoded).
  */
 export async function streamWithFallback(opts: StreamOptions): Promise<{ stream: ReadableStream<Uint8Array>; model: string }> {
-  const models = opts.models ?? FREE_MODELS
+  const models = opts.models ?? ASK_MODELS
   let lastErr: unknown = null
   for (const model of models) {
     try {

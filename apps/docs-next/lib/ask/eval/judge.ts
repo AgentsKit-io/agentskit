@@ -26,11 +26,11 @@ import { comparePrompt } from '@agentskit/eval/snapshot'
 import { createDocsRetriever, formatCitedContext } from '@/lib/rag/retrieve'
 import { docsAssistant } from '@/lib/ask/skill'
 import { embed } from '@/lib/rag/embed'
-import { FREE_MODELS, type ChatMessage } from '@/lib/openrouter'
+import { ASK_MODELS, type ChatMessage } from '@/lib/openrouter'
 import { loadGolden, loadAdversarial, type GoldenCase, type AdversarialCase } from './dataset'
 
 /** Free judge models, tried in order (mirrors the route's $0 fallback pool). */
-const JUDGE_MODELS = FREE_MODELS
+const JUDGE_MODELS = ASK_MODELS
 
 /**
  * Non-streaming OpenRouter completion across the free-model fallback chain.
