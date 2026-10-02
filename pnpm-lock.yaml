@@ -1306,6 +1306,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
+      '@agentskit/net':
+        specifier: workspace:*
+        version: link:../net
       '@aws-sdk/client-s3':
         specifier: ^3.0.0
         version: 3.1124.0

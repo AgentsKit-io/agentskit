@@ -47,6 +47,11 @@ The core `createRAG` is intentionally small. Keep it that way.
 - Loader HTTP/network and response-body read/parse failures throw `RagError` with
   `AK_RAG_LOAD_FAILED`. Abort (including after fetch resolves, e.g. body read) is never
   treated as a per-object skip — it terminates the whole load with `AK_RAG_LOAD_FAILED`.
+- `timeoutMs` defaults to 15 seconds and must be a positive safe integer no greater than
+  2,147,483,647ms. Fetches and HTTP body reads use `@agentskit/net` cancellation; S3
+  list/get requests receive the SDK abort signal, and async-iterable object bodies call
+  `return()` on cancellation without waiting indefinitely for custom iterators to finish.
+  A transform-only S3 body cannot be stopped if its transform ignores cancellation.
 - Tree/list loaders (`loadGitHubTree`, `loadS3`, `loadGcs`, `loadDropbox`, `loadOneDrive`):
   individual non-abort download/body failures may be skipped for partial success, but if one
   or more eligible downloads were attempted and **all** failed, throw `AK_RAG_LOAD_FAILED`.

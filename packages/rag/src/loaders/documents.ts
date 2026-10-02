@@ -37,7 +37,7 @@ export async function loadUrl(url: string, options: UrlLoaderOptions = {}): Prom
     redirect: 'error',
   }, 'loadUrl', options)
   if (!response.ok) throw loadFailed(`loadUrl ${response.status}: ${url}`)
-  const content = await readResponseText(response, 'loadUrl', options.maxResponseBytes, options.timeoutMs)
+  const content = await readResponseText(response, 'loadUrl', options.maxResponseBytes, options.timeoutMs, options.signal)
   return [{ content, source: url, metadata: { url } }]
 }
 
@@ -63,7 +63,7 @@ export async function loadGitHubFile(
   if (!response.ok) throw loadFailed(`loadGitHubFile ${response.status}: ${url}`)
   return [
     {
-      content: await readResponseText(response, 'loadGitHubFile', options.maxResponseBytes, options.timeoutMs),
+      content: await readResponseText(response, 'loadGitHubFile', options.maxResponseBytes, options.timeoutMs, options.signal),
       source: url,
       metadata: { owner, repo, path, ref },
     },
@@ -97,6 +97,7 @@ export async function loadGitHubTree(
     'loadGitHubTree',
     options.maxResponseBytes,
     options.timeoutMs,
+    options.signal,
   )
   const files = (tree.tree ?? [])
     .filter(t => t.type === 'blob')
@@ -161,7 +162,7 @@ export async function loadNotionPage(
       signal: options.signal,
     }, 'loadNotionPage', options)
     if (!response.ok) throw loadFailed(`loadNotionPage ${response.status}: ${url}`)
-    const data = await readResponseJson<NotionChildrenResponse>(response, 'loadNotionPage', options.maxResponseBytes, options.timeoutMs)
+    const data = await readResponseJson<NotionChildrenResponse>(response, 'loadNotionPage', options.maxResponseBytes, options.timeoutMs, options.signal)
     for (const block of data.results ?? []) {
       blocks.push(block)
     }
@@ -214,6 +215,7 @@ export async function loadConfluencePage(
     'loadConfluencePage',
     options.maxResponseBytes,
     options.timeoutMs,
+    options.signal,
   )
   const content = data.body?.storage?.value ?? ''
   return [{ content, source: `${options.baseUrl}/pages/${pageId}`, metadata: { pageId, title: data.title } }]
@@ -234,7 +236,7 @@ export async function loadGoogleDriveFile(
     signal: options.signal,
   }, 'loadGoogleDriveFile', options)
   if (!response.ok) throw loadFailed(`loadGoogleDriveFile ${response.status}: ${url}`)
-  const content = await readResponseText(response, 'loadGoogleDriveFile', options.maxResponseBytes, options.timeoutMs)
+  const content = await readResponseText(response, 'loadGoogleDriveFile', options.maxResponseBytes, options.timeoutMs, options.signal)
   return [{ content, source: `gdrive://${fileId}`, metadata: { fileId } }]
 }
 
@@ -250,7 +252,7 @@ export async function loadPdf(url: string, options: PdfLoaderOptions): Promise<I
   const fetchImpl = options.fetch ?? globalThis.fetch
   const response = await doFetch(fetchImpl, url, { signal: options.signal }, 'loadPdf', options)
   if (!response.ok) throw loadFailed(`loadPdf ${response.status}: ${url}`)
-  const buf = new Uint8Array(await readResponseArrayBuffer(response, 'loadPdf', options.maxResponseBytes, options.timeoutMs))
+  const buf = new Uint8Array(await readResponseArrayBuffer(response, 'loadPdf', options.maxResponseBytes, options.timeoutMs, options.signal))
   try {
     const { text, pages } = await options.parsePdf(buf)
     return [{ content: text, source: url, metadata: { url, pages } }]

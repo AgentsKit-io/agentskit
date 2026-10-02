@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "6f6c6cb55ccf27992834c40188a837aec3f8e1fea0b82095ab5600e3bd30c1d3",
+  "contentHash": "6a88ad23b3a9eeefa3dad476029c2b27866a4fe7549c11b1645b881492d3d598",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T06:44:39.202Z",
+  "generatedAt": "2026-10-02T08:04:05.142Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7167,7 +7167,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "55d648f4da05f2040908f9e53772254b1dd734e1b0edee81d33168848af0e725"
+      "contentHash": "a3023df0f73f97d90bc61911c8f9563969c03b09a159f807678d4511dcb13417"
     },
     {
       "id": "document:packages/rag/README.md",
@@ -7179,7 +7179,7 @@
         "document",
         "project"
       ],
-      "contentHash": "455d556712c8f6dccd32746d9451650597cf7eec3e68fb5f3daa2169a31a0469"
+      "contentHash": "d9dff6cc559ce726ff8e787b31287c7a33ee59df334356e037444535c3f44693"
     },
     {
       "id": "document:packages/react-native/CONVENTIONS.md",
@@ -28354,7 +28354,7 @@
         "ts",
         "loaders"
       ],
-      "contentHash": "f4363f05cb7089b35d5c350ef84352137eb4cde5a5c400047ce032f30ded855c"
+      "contentHash": "8842c2d99d5f025e8270a4397ffe2f896e1005dedf1ed993b5490631f8c65ddb"
     },
     {
       "id": "module:packages/rag/src/loaders/documents.ts",
@@ -28382,7 +28382,7 @@
         "ts",
         "loaders"
       ],
-      "contentHash": "db6f4a8fa1c44d5a61b566db917da4e741c0d1badcd10cda24c5481f84d81b7b"
+      "contentHash": "067c63076602f36a32db29a5d2f8487c9aae3cb30c413172a2bb2fcb9ba7c6a3"
     },
     {
       "id": "module:packages/rag/src/loaders/s3.ts",
@@ -28399,7 +28399,7 @@
         "ts",
         "loaders"
       ],
-      "contentHash": "0ffc5aff98caee34303ac722b4da18951e785a60f1c0644d20030fdab9b8caaa"
+      "contentHash": "81047916a0c69926e3149602133d6eda13b37dc65f8d49709eb2f3ac4c5b2010"
     },
     {
       "id": "module:packages/rag/src/loaders/shared.ts",
@@ -28427,7 +28427,7 @@
         "ts",
         "loaders"
       ],
-      "contentHash": "3fbffce68d2918f8db4f54ad93b44e73d25f26c02af14638c19e9fadd3addc92"
+      "contentHash": "b160b82bece8bf9e9b2e41adaf72a0fad2dc3d67eff0394607b668a433f25f37"
     },
     {
       "id": "module:packages/rag/src/rag.ts",
@@ -28498,7 +28498,7 @@
         "ts",
         "rerankers"
       ],
-      "contentHash": "58b5d4d0a0ead291d04a50cad27d5c83f7555824331b4ff2a687d5392afe1c6a"
+      "contentHash": "276f3b5aa9f72f823ea4228a2907f4c1f0b5a061e9fa5bf2b8050f3c50f90232"
     },
     {
       "id": "module:packages/rag/src/rerankers/voyage.ts",
@@ -28514,7 +28514,7 @@
         "ts",
         "rerankers"
       ],
-      "contentHash": "7bcbf7dab180b758d68592765d92a3653611caa3cf1bae9ee5f2ba1a4ccb0106"
+      "contentHash": "f87152dd3b41bd7dc09757e84811808ade6174f1d410545e296a66dfa75423fd"
     },
     {
       "id": "module:packages/rag/src/types.ts",
@@ -28570,7 +28570,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "9ed7386b36b2e470888f98191cb5714c56231ef31b6d82d8d4c5d094bfaae4f1"
+      "contentHash": "1d584c177f54097c6e148be79359dada5bb1ea24d55e12a74cc8ddb8d010f18f"
     },
     {
       "id": "module:packages/rag/tests/index-node.test.ts",
@@ -28584,6 +28584,19 @@
         "tests"
       ],
       "contentHash": "1cae12f5c3b2ada2c6d1b6a855a3ee5deeadcc7af0c72a9e6aac6951a0dfb117"
+    },
+    {
+      "id": "module:packages/rag/tests/loaders-native.test.ts",
+      "type": "module",
+      "title": "loaders-native.test.ts",
+      "path": "packages/rag/tests/loaders-native.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "214cffc48e9864534ff6a294fa0e6471f0eec087f5d30aee1d3558fae72a7fc2"
     },
     {
       "id": "module:packages/rag/tests/loaders-node.test.ts",
@@ -28609,7 +28622,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "566cd47d633ec0070fc4d586187d14efce1ba01925a1604b8c9867880361cab8"
+      "contentHash": "eecd0695b935f965c8e1a3b65329a3543cc7eb73ef74e24ed770f2c9137a9567"
     },
     {
       "id": "module:packages/rag/tests/metro-bundle.mjs",
@@ -28624,7 +28637,7 @@
         "mjs",
         "tests"
       ],
-      "contentHash": "9fcb21c9538d4d1e8b7e580bca536e7b89df269c71f78fbf1d7b758d1c46534b"
+      "contentHash": "ba001aa2b078c70517f13cc269a24135c92d422182bfe56f6d46ce51b1981571"
     },
     {
       "id": "module:packages/rag/tests/metro-bundle.test.ts",
@@ -28650,7 +28663,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "df7949468181db8541e304374ad697cbe57daa8c8ac75e319248f74406173679"
+      "contentHash": "68d01804aff9e8dd761abc3e9d9cc45808c78da27b25f98392d07c1fc55ca25b"
     },
     {
       "id": "module:packages/rag/tests/rag-batch-462-466.test.ts",
@@ -37503,8 +37516,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "dc39033aedbd6a9c6e89104ac3c3f51b14d7c63056fd979ed91fa3feba47c61b",
-    "fileCount": 2492,
+    "hash": "9d2001baaebe49ddc52d72fd47ef97f45ce76f8eab0480206ef9931ef1a22ec7",
+    "fileCount": 2493,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37526,9 +37539,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "ad5d979871977277f33562d3be5b0f3b587f57432d73fc0e9ec179f662b3ae05",
+    "contentHash": "6b1ce2816e28f86af7976e3760623179f0aeb52b200fb949845195db5021f551",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "b1425cea24eb24578bdc12dce8af736de8dfb70586dd14ef8ef34ed242b7349d",
+    "snapshotHash": "74496e0c12bd4ae80ff70a645ce3ad3a46a93a91d21455619ff85fcfbb6bb3d5",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37548,7 +37561,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2446,
+      "documentCount": 2447,
       "fieldNames": [
         "aliases",
         "body",
@@ -37559,13 +37572,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.011447260834015,
-        "body": 61.26165167620605,
-        "headings": 4.0335241210139,
-        "path": 7.622240392477514,
-        "summary": 4.56909239574816,
-        "symbols": 7.494276369582993,
-        "title": 3.3352412101390025
+        "aliases": 3.011851246424193,
+        "body": 61.23252962811606,
+        "headings": 4.031875766244381,
+        "path": 7.622394769105027,
+        "summary": 4.5672251736820595,
+        "symbols": 7.491213731099306,
+        "title": 3.3359215365753982
       }
     },
     "entries": [
@@ -78722,7 +78735,7 @@
           "path": "packages/rag/CONVENTIONS.md",
           "symbols": "",
           "summary": "Plug-and-play RAG. One factory (createRAG) returning a RAG that satisfies the Retriever contract from ADR 0004.",
-          "body": "Conventions — @agentskit/rag Plug-and-play RAG. One factory ( createRAG ) returning a RAG that satisfies the Retriever contract from . Scope - createRAG({ store, embed, chunkSize, topK, threshold }) - Simple chunker ( chunker.ts ) — paragraph-based splits with configurable size - Types linking RAG to Retriever - Composition helpers and provider-neutral document loaders exported from the package root. This is the current intentional package boundary, not a promise that every future provider belongs here. What does NOT belong here - Vector store implementations → @agentskit/memory - Embedders → @agentskit/adapters - Vector stores and provider SDK implementations → @agentskit/memory or the injected host/provider package. Loaders remain here while they are thin, provider-neutral InputDocument adapters with bounded I/O; a future split requires an ADR/RFC and a compatibility plan. Adding a capability Before adding: 1. Can this be done by composition ? Wrapping createRAG 's output in another Retriever is almost always the answer. 2. Is this actually about chunking? Put it next to the existing chunker and add a split option to createRAG if it's reusable. 3. Is this re-ranking? Keep it as a composite Retriever ; the current RerankFn helpers are intentionally shipped here so consumers can compose them without a second package. A split requires measured bundle or release pressure, not speculation. The core createRAG is intentionally small. Keep it that way. Chunking - The default chunker splits on paragraphs, respecting chunkSize . - Custom chunkers implement (text: string) = string[] . - Do not make chunking async — if loading is async, load first then chunk synchronously. - Invalid chunkSize (≤ 0 or non-finite) is treated as “no split” (single chunk). Invalid chunkOverlap (negative / non-finite) is treated as 0; overlap is always clamped below chunkSize so the loop cannot stall. Resilience (loaders + composites) - Loader HTTP/network and response-body read/parse failures throw RagError with AK RAG LOAD FAILED . Abort (including after fetch resolves, e.g. body read) is never treated as a per-object skip — it terminates the whole load with AK RAG LOAD FAILED . - Tree/list loaders ( loadGitHubTree , loadS3 , loadGcs , loadDropbox , loadOneDrive ): individual non-abort download/body failures may be skipped for partial success, but if one or more eligible downloads were attempted and all failed, throw AK RAG LOAD FAILED . Empty list / fully filtered input still returns [] . Missing/invalid S3 Body.transformToString is a failed eligible download (not an empty success). - Pagination that reports more data without a new cursor/token/ @odata.nextLink throws AK RAG LOAD FAILED (incomplete pagination — no silent truncation). - loadNotionPage paginates Notion block children via has more / next cursor , passing start cursor on subsequent pages, preserving block order across pages, forwarding signal , and throwing AK RAG LOAD FAILED when has more is true without a new (or with a repeated) cursor. Supported block flattening (paragraph + heading 1/2/3) is unchanged. - OneDrive walks each folder with @odata.nextLink pagination, detects repeated next links, and keeps maxFiles / recursion / abort / partial-vs-all-failed semantics. - maxFiles that is ≤ 0 or non-finite resolves to an empty result (no unbounded load). - createRerankedRetriever / createHybridRetriever clamp topK / candidatePool to ≥ 1 and copy candidates before reranking. - Scores (R6): if no scores are present, preserve order. If any score is present, every result must have a finite numeric score and is sorted descending. Mixed / non-finite scores throw — never fabricate Number.NEGATIVE INFINITY . Reranker/composite failures use AK RAG RERANK FAILED ; createRAG may throw TypeError . - Voyage/Jina/custom reranker outputs are validated (array shape, document fields, indices, finite scores). Malformed output throws AK RAG RERANK FAILED — no silent filtering into partial/empty success. Fully sc",
+          "body": "Conventions — @agentskit/rag Plug-and-play RAG. One factory ( createRAG ) returning a RAG that satisfies the Retriever contract from . Scope - createRAG({ store, embed, chunkSize, topK, threshold }) - Simple chunker ( chunker.ts ) — paragraph-based splits with configurable size - Types linking RAG to Retriever - Composition helpers and provider-neutral document loaders exported from the package root. This is the current intentional package boundary, not a promise that every future provider belongs here. What does NOT belong here - Vector store implementations → @agentskit/memory - Embedders → @agentskit/adapters - Vector stores and provider SDK implementations → @agentskit/memory or the injected host/provider package. Loaders remain here while they are thin, provider-neutral InputDocument adapters with bounded I/O; a future split requires an ADR/RFC and a compatibility plan. Adding a capability Before adding: 1. Can this be done by composition ? Wrapping createRAG 's output in another Retriever is almost always the answer. 2. Is this actually about chunking? Put it next to the existing chunker and add a split option to createRAG if it's reusable. 3. Is this re-ranking? Keep it as a composite Retriever ; the current RerankFn helpers are intentionally shipped here so consumers can compose them without a second package. A split requires measured bundle or release pressure, not speculation. The core createRAG is intentionally small. Keep it that way. Chunking - The default chunker splits on paragraphs, respecting chunkSize . - Custom chunkers implement (text: string) = string[] . - Do not make chunking async — if loading is async, load first then chunk synchronously. - Invalid chunkSize (≤ 0 or non-finite) is treated as “no split” (single chunk). Invalid chunkOverlap (negative / non-finite) is treated as 0; overlap is always clamped below chunkSize so the loop cannot stall. Resilience (loaders + composites) - Loader HTTP/network and response-body read/parse failures throw RagError with AK RAG LOAD FAILED . Abort (including after fetch resolves, e.g. body read) is never treated as a per-object skip — it terminates the whole load with AK RAG LOAD FAILED . - timeoutMs defaults to 15 seconds and must be a positive safe integer no greater than 2,147,483,647ms. Fetches and HTTP body reads use @agentskit/net cancellation; S3 list/get requests receive the SDK abort signal, and async-iterable object bodies call return() on cancellation without waiting indefinitely for custom iterators to finish. A transform-only S3 body cannot be stopped if its transform ignores cancellation. - Tree/list loaders ( loadGitHubTree , loadS3 , loadGcs , loadDropbox , loadOneDrive ): individual non-abort download/body failures may be skipped for partial success, but if one or more eligible downloads were attempted and all failed, throw AK RAG LOAD FAILED . Empty list / fully filtered input still returns [] . Missing/invalid S3 Body.transformToString is a failed eligible download (not an empty success). - Pagination that reports more data without a new cursor/token/ @odata.nextLink throws AK RAG LOAD FAILED (incomplete pagination — no silent truncation). - loadNotionPage paginates Notion block children via has more / next cursor , passing start cursor on subsequent pages, preserving block order across pages, forwarding signal , and throwing AK RAG LOAD FAILED when has more is true without a new (or with a repeated) cursor. Supported block flattening (paragraph + heading 1/2/3) is unchanged. - OneDrive walks each folder with @odata.nextLink pagination, detects repeated next links, and keeps maxFiles / recursion / abort / partial-vs-all-failed semantics. - maxFiles that is ≤ 0 or non-finite resolves to an empty result (no unbounded load). - createRerankedRetriever / createHybridRetriever clamp topK / candidatePool to ≥ 1 and copy candidates before reranking. - Scores (R6): if no scores are present, preserve order. If any score is present, every result must have a ",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -78745,6 +78758,11 @@
             {
               "kind": "mentions",
               "id": "package:@agentskit/memory",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/net",
               "confidence": "observed"
             },
             {
@@ -78799,7 +78817,7 @@
             }
           ]
         },
-        "contentHash": "55d648f4da05f2040908f9e53772254b1dd734e1b0edee81d33168848af0e725",
+        "contentHash": "a3023df0f73f97d90bc61911c8f9563969c03b09a159f807678d4511dcb13417",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -78821,7 +78839,7 @@
           "path": "packages/rag/README.md",
           "symbols": "",
           "summary": "Plug-and-play retrieval-augmented generation: chunk documents, embed them, and retrieve the right context at query time.",
-          "body": "@agentskit/rag <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Plug-and-play retrieval-augmented generation: chunk documents, embed them, and retrieve the right context at query time. Tags: ai · agents · llm · agentskit · rag · retrieval · vector-search · embeddings · ai-agents · semantic-search · knowledge-base Verified proof - Package metadata and tests live under packages/rag/ . - Package guide: https://www.agentskit.io/docs/reference/packages/rag - Stability map: How this fits the ecosystem @agentskit/rag is the retrieval layer: load documents, chunk them, embed them, rerank results, and feed precise context back to agents. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why rag - Your data, your agent — no fine-tuning required; ingest plain text and query with natural language - Composable stack — uses any EmbedFn and any VectorMemory from @agentskit/adapters and @agentskit/memory ; swap either layer without touching RAG logic - Retriever-ready — createRAG() returns a Retriever you pass to @agentskit/runtime or useChat so context is injected automatically - Tune chunking without a PhD — chunkSize , chunkOverlap , or a custom split function — three knobs that cover 95% of use cases Install <!-- readme-command:install -- The file-backed example also needs the optional vectra peer. Add vectra to the install command when using fileVectorMemory ; the runtime integration example additionally needs @agentskit/runtime . Quick example <!-- readme-example:quickstart -- With runtime (retriever) Pass the RAG instance as retriever so the runtime injects retrieved context into the task: You can also call rag.retrieve({ query, messages }) to satisfy the core Retriever contract (for example from a custom controller). Features - createRAG({ embed, store }) — single entry point for ingest + retrieve. - rag.ingest(docs) — chunk, embed, and store documents. - rag.search(query, { topK }) — semantic similarity search. - rag.retrieve({ query, messages }) — Retriever contract v1 for runtime/controller injection. - Configurable chunking: chunkSize , chunkOverlap , custom split . - Works with any EmbedFn and any VectorMemory . - Rerankers: createRerankedRetriever (Voyage, Jina, custom RerankFn , BM25 default), createHybridRetriever (vector + BM25 blend), standalone bm25Score . . - Document loaders: loadUrl , loadGitHubFile , loadGitHubTree , loadNotionPage , loadConfluencePage , loadGoogleDriveFile , loadPdf , loadS3 , loadGcs , loadDropbox , and loadOneDrive . . - Loader resilience: HTTP/network and response-body read/parse failures surface as RagError ( AK RAG LOAD FAILED ). Every remote request and body read has a finite timeout and byte limit by default; both are configurable through timeoutMs and maxResponseBytes . Optional signal aborts are never swallowed as a per-object skip. Tree/list loaders may return partial success when at least one eligible download succeeded; if every attempted eligible download failed, they throw. Missing/invalid S3 object bodies count as failed downloads. Pagination that reports more data without a new cursor/token throws (no silent truncation). loadNotionPage follows Notion has more / next cursor with start cursor until complete (preserving block order; incomplete or repeated cursors throw). loadUrl requires an HTTPS origin in allowedOrigins ; it does not follow redirects. Non-positive / non-finite maxFiles yields [] . - Score contracts: scoreless search/rerank results keep order. When any score is present, every result must have a finite numeric score and is sorted descending — mixed or non-finite scores throw (never fabricate -Infinity ). Malformed Voyage/Jina/custom reranker out",
+          "body": "@agentskit/rag <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Plug-and-play retrieval-augmented generation: chunk documents, embed them, and retrieve the right context at query time. Tags: ai · agents · llm · agentskit · rag · retrieval · vector-search · embeddings · ai-agents · semantic-search · knowledge-base Verified proof - Package metadata and tests live under packages/rag/ . - Package guide: https://www.agentskit.io/docs/reference/packages/rag - Stability map: How this fits the ecosystem @agentskit/rag is the retrieval layer: load documents, chunk them, embed them, rerank results, and feed precise context back to agents. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why rag - Your data, your agent — no fine-tuning required; ingest plain text and query with natural language - Composable stack — uses any EmbedFn and any VectorMemory from @agentskit/adapters and @agentskit/memory ; swap either layer without touching RAG logic - Retriever-ready — createRAG() returns a Retriever you pass to @agentskit/runtime or useChat so context is injected automatically - Tune chunking without a PhD — chunkSize , chunkOverlap , or a custom split function — three knobs that cover 95% of use cases Install <!-- readme-command:install -- The file-backed example also needs the optional vectra peer. Add vectra to the install command when using fileVectorMemory ; the runtime integration example additionally needs @agentskit/runtime . Quick example <!-- readme-example:quickstart -- With runtime (retriever) Pass the RAG instance as retriever so the runtime injects retrieved context into the task: You can also call rag.retrieve({ query, messages }) to satisfy the core Retriever contract (for example from a custom controller). Features - createRAG({ embed, store }) — single entry point for ingest + retrieve. - rag.ingest(docs) — chunk, embed, and store documents. - rag.search(query, { topK }) — semantic similarity search. - rag.retrieve({ query, messages }) — Retriever contract v1 for runtime/controller injection. - Configurable chunking: chunkSize , chunkOverlap , custom split . - Works with any EmbedFn and any VectorMemory . - Rerankers: createRerankedRetriever (Voyage, Jina, custom RerankFn , BM25 default), createHybridRetriever (vector + BM25 blend), standalone bm25Score . . - Document loaders: loadUrl , loadGitHubFile , loadGitHubTree , loadNotionPage , loadConfluencePage , loadGoogleDriveFile , loadPdf , loadS3 , loadGcs , loadDropbox , and loadOneDrive . . - Loader resilience: HTTP/network and response-body read/parse failures surface as RagError ( AK RAG LOAD FAILED ). Every remote request and body read has a finite timeout and byte limit by default; both are configurable through timeoutMs and maxResponseBytes . timeoutMs defaults to 15 seconds and accepts positive safe integers up to 2,147,483,647ms. Timeouts and optional signal aborts cancel fetches and HTTP body streams when supported. Caller aborts are never swallowed as a per-object skip; timed-out or other individual non-abort failures may be skipped where tree/list partial-success semantics allow it. S3 list/get calls receive the SDK abort signal, and async-iterable object bodies receive return() on cancellation; custom iterators that ignore it may continue in the background. Transform-only S3 bodies may also continue if their transform ignores cancellation. Tree/list loaders may return partial success when at least one eligible download succeeded; if every attempted eligible download failed, they throw. Missing/invalid S3 object bodies count as failed downloads. Pagination that reports more data without a new cursor/token throws (no silent truncation",
           "aliases": "document project"
         },
         "graph": {
@@ -78943,7 +78961,7 @@
             }
           ]
         },
-        "contentHash": "455d556712c8f6dccd32746d9451650597cf7eec3e68fb5f3daa2169a31a0469",
+        "contentHash": "d9dff6cc559ce726ff8e787b31287c7a33ee59df334356e037444535c3f44693",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -158336,6 +158354,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/rag/tests/loaders-native.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/rag/tests/loaders.test.ts",
               "confidence": "observed"
             },
@@ -158462,7 +158485,7 @@
             }
           ]
         },
-        "contentHash": "f4363f05cb7089b35d5c350ef84352137eb4cde5a5c400047ce032f30ded855c",
+        "contentHash": "8842c2d99d5f025e8270a4397ffe2f896e1005dedf1ed993b5490631f8c65ddb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -158578,7 +158601,7 @@
             }
           ]
         },
-        "contentHash": "db6f4a8fa1c44d5a61b566db917da4e741c0d1badcd10cda24c5481f84d81b7b",
+        "contentHash": "067c63076602f36a32db29a5d2f8487c9aae3cb30c413172a2bb2fcb9ba7c6a3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -158639,7 +158662,7 @@
             }
           ]
         },
-        "contentHash": "0ffc5aff98caee34303ac722b4da18951e785a60f1c0644d20030fdab9b8caaa",
+        "contentHash": "81047916a0c69926e3149602133d6eda13b37dc65f8d49709eb2f3ac4c5b2010",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -158715,6 +158738,11 @@
               "confidence": "observed"
             },
             {
+              "kind": "imports",
+              "id": "module:packages/rag/tests/hardening.test.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/reference/recipes/simulate-stream.mdx",
               "confidence": "observed"
@@ -158738,7 +158766,7 @@
             }
           ]
         },
-        "contentHash": "3fbffce68d2918f8db4f54ad93b44e73d25f26c02af14638c19e9fadd3addc92",
+        "contentHash": "b160b82bece8bf9e9b2e41adaf72a0fad2dc3d67eff0394607b668a433f25f37",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -159229,7 +159257,7 @@
             }
           ]
         },
-        "contentHash": "58b5d4d0a0ead291d04a50cad27d5c83f7555824331b4ff2a687d5392afe1c6a",
+        "contentHash": "276f3b5aa9f72f823ea4228a2907f4c1f0b5a061e9fa5bf2b8050f3c50f90232",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -159314,7 +159342,7 @@
             }
           ]
         },
-        "contentHash": "7bcbf7dab180b758d68592765d92a3653611caa3cf1bae9ee5f2ba1a4ccb0106",
+        "contentHash": "f87152dd3b41bd7dc09757e84811808ade6174f1d410545e296a66dfa75423fd",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -159597,6 +159625,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/rag/src/loaders/shared.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/rag/src/rag.ts",
               "confidence": "observed"
             },
@@ -159612,7 +159645,7 @@
             }
           ]
         },
-        "contentHash": "9ed7386b36b2e470888f98191cb5714c56231ef31b6d82d8d4c5d094bfaae4f1",
+        "contentHash": "1d584c177f54097c6e148be79359dada5bb1ea24d55e12a74cc8ddb8d010f18f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -159663,6 +159696,46 @@
           ]
         },
         "contentHash": "1cae12f5c3b2ada2c6d1b6a855a3ee5deeadcc7af0c72a9e6aac6951a0dfb117",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/rag/tests/loaders-native.test.ts",
+        "kind": "module",
+        "path": "packages/rag/tests/loaders-native.test.ts",
+        "title": "loaders-native.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "loaders-native.test.ts",
+          "headings": "",
+          "path": "packages/rag/tests/loaders-native.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/rag",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/rag/src/loaders.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "214cffc48e9864534ff6a294fa0e6471f0eec087f5d30aee1d3558fae72a7fc2",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -159742,7 +159815,7 @@
             }
           ]
         },
-        "contentHash": "566cd47d633ec0070fc4d586187d14efce1ba01925a1604b8c9867880361cab8",
+        "contentHash": "eecd0695b935f965c8e1a3b65329a3543cc7eb73ef74e24ed770f2c9137a9567",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -159784,7 +159857,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "9fcb21c9538d4d1e8b7e580bca536e7b89df269c71f78fbf1d7b758d1c46534b",
+        "contentHash": "ba001aa2b078c70517f13cc269a24135c92d422182bfe56f6d46ce51b1981571",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -159869,7 +159942,7 @@
             }
           ]
         },
-        "contentHash": "df7949468181db8541e304374ad697cbe57daa8c8ac75e319248f74406173679",
+        "contentHash": "68d01804aff9e8dd761abc3e9d9cc45808c78da27b25f98392d07c1fc55ca25b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -190047,7 +190120,7 @@
         },
         "graph": {
           "pagerank": 0.005326,
-          "inboundLinks": 16,
+          "inboundLinks": 17,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/net.mdx",
             "document:apps/docs-next/content/docs/reference/packages/net.mdx"
@@ -190066,6 +190139,7 @@
             "document:packages/integrations/README.md",
             "document:packages/net/CONVENTIONS.md",
             "document:packages/net/README.md",
+            "document:packages/rag/CONVENTIONS.md",
             "document:packages/tools/README.md"
           ],
           "packageId": "package:@agentskit/net",
@@ -190143,6 +190217,11 @@
             {
               "kind": "mentions",
               "id": "document:packages/net/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/rag/CONVENTIONS.md",
               "confidence": "observed"
             },
             {
@@ -190954,7 +191033,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "ba8dc410a22f39c6e5a1cd69f089235d2191f0517d009d57de47fd9a073b60ea",
+        "contentHash": "f0d4ef3340dcb467078ff585ff75ec8547ea5bade6da1444bbf9cdd3579ba77e",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "rag"
