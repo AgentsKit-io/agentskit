@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "85a09a58e655e3d837c970aa3b3553d6a47d247714121b68ae2b288f76e08e21",
+  "contentHash": "c3902f03d1ac2646786dcea2cc2080144d2db692674cf04bcf12a90e2ef8fe22",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T13:51:50.850Z",
+  "generatedAt": "2026-10-02T16:34:05.690Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -18517,7 +18517,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "23bf9a966bdb803f6ad177f742b241b2c075a250c2da4e4c866852e125c95458"
+      "contentHash": "e180a9badae77b04069d1994863f982b92768fbcfc6dac28c6c75b3535369f48"
     },
     {
       "id": "module:packages/core/src/agent-loop.ts",
@@ -18560,7 +18560,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "6a988a81c7b9ef46fcd3e1aaa65931bc8d7f073fdc0c91a04339105857cca625"
+      "contentHash": "0227f4a2fb08c2b2db285e71d02500ab5cc93306cb8357aa44ad7127ca2c7449"
     },
     {
       "id": "module:packages/core/src/auto-summarize.ts",
@@ -18726,7 +18726,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "4c45bfbc280cc5c2c81654e6cd3ddc512e0dd53e2db3c97ca2fcee7bdb26b6f6"
+      "contentHash": "7976a613ff9b833dcd17c51471b2d1b70e6e9f59fce96a0cfb0db115f03c3aa2"
     },
     {
       "id": "module:packages/core/src/fuzzy-match.ts",
@@ -18778,7 +18778,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "095e85e76cf90b905407d67ecdd6ea4eb0d9293d6a4f858f80238d8780d27ddf"
+      "contentHash": "4e682b62d7cd4f8eb95f80fdaa1cf968da600f73b76a2163ad8d8977b18703a8"
     },
     {
       "id": "module:packages/core/src/hash.ts",
@@ -18937,6 +18937,7 @@
         "formatRetrievedDocuments",
         "generateId",
         "imagePart",
+        "isRecord",
         "normalizeContent",
         "parseToolArgs",
         "partsToText",
@@ -18950,7 +18951,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "79599d5282cc676ec8db0733896721fc09c205b8f47e54bd1f0044a049e45d0e"
+      "contentHash": "a88c40354a83b101abf45d587e4e4127f162d163a8c642760a7f5938c9267ef3"
     },
     {
       "id": "module:packages/core/src/json-validation.ts",
@@ -18984,7 +18985,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "4a44655381b8336a26337aa82efc67ab0645d986b09b94ff830c5d8c902812d5"
+      "contentHash": "783749c0079ea70eb48fc93a485d2dba9e5a2bd622bc176f91b5e167054b60ba"
     },
     {
       "id": "module:packages/core/src/memory-validation.ts",
@@ -18999,7 +19000,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "2b5a54229da1e9607d403f9c15db843da97767768c503c879f9576a294dd005d"
+      "contentHash": "da281f7bc4f91eb945c78861fd72fa2269aca455478df09143152ba725685d0d"
     },
     {
       "id": "module:packages/core/src/memory.ts",
@@ -19035,6 +19036,7 @@
         "createToolLifecycle",
         "executeToolCall",
         "generateId",
+        "isRecord",
         "parseToolArgs",
         "safeParseArgs"
       ],
@@ -19043,7 +19045,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "ec9de00fcbb56935c894476a58977e2edb56e7a8395d0c0c44c8abb6617be6c9"
+      "contentHash": "7f47004238f37b3feccd631c94bd237aa85215f7872424a9f743d6740d8a6469"
     },
     {
       "id": "module:packages/core/src/progressive.ts",
@@ -19300,7 +19302,7 @@
         "ts",
         "security"
       ],
-      "contentHash": "548576ea424f9a754487914d243bdb3db2c4c925a2f71b02cf01768b7e8ab96f"
+      "contentHash": "0e117bf40e1262f2b87f160acb2c345da467757f91cdac76247a2551c33c72aa"
     },
     {
       "id": "module:packages/core/src/security/taxonomy.ts",
@@ -20117,6 +20119,19 @@
         "tests"
       ],
       "contentHash": "53face597678263faa3acfebfad1e8a7742b8c92fa7e6aa9e7d48bdf5e80ce11"
+    },
+    {
+      "id": "module:packages/core/tests/is-record.test.ts",
+      "type": "module",
+      "title": "is-record.test.ts",
+      "path": "packages/core/tests/is-record.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "309233f48934be577e42cb03aab360fef0a9d0f454057e654ffae55c7d4e9d2b"
     },
     {
       "id": "module:packages/core/tests/json-validation.test.ts",
@@ -37635,8 +37650,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "bc88476298d2daa346a2745283698e3b13ed5e86819a69c87f36f51d31c2fc60",
-    "fileCount": 2501,
+    "hash": "d666f6a84cdea90e3e4ded91025aba4f43175e554cd8b8a7e022d68196cb871e",
+    "fileCount": 2502,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37658,9 +37673,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "e68927b6dcb3b2e1f31f1df48fbccfc2c0e14184301bf204cb75ee582d26962a",
+    "contentHash": "8c79c4f530f5b227b8db630186173e80e6eb46b67240fbfe435635f7ed412278",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "59fb790883bb6efd0f3f44e795547568a0f446f30ce035bcd96054148699e57c",
+    "snapshotHash": "fe72a3ff64b4348d41e31f479b6b0aabee36310a9cd30e4ee2465e77bac47f87",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37680,7 +37695,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2455,
+      "documentCount": 2456,
       "fieldNames": [
         "aliases",
         "body",
@@ -37691,13 +37706,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.013441955193483,
-        "body": 61.07128309572301,
-        "headings": 4.019551934826884,
-        "path": 7.6232179226069245,
-        "summary": 4.552342158859471,
-        "symbols": 7.470468431771894,
-        "title": 3.3380855397148674
+        "aliases": 3.013843648208469,
+        "body": 61.04641693811075,
+        "headings": 4.017915309446254,
+        "path": 7.622964169381108,
+        "summary": 4.550488599348534,
+        "symbols": 7.469055374592834,
+        "title": 3.3383550488599347
       }
     },
     "entries": [
@@ -119701,9 +119716,15 @@
               "confidence": "observed"
             }
           ],
-          "outbound": []
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/primitives.ts",
+              "confidence": "observed"
+            }
+          ]
         },
-        "contentHash": "23bf9a966bdb803f6ad177f742b241b2c075a250c2da4e4c866852e125c95458",
+        "contentHash": "e180a9badae77b04069d1994863f982b92768fbcfc6dac28c6c75b3535369f48",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -119925,9 +119946,15 @@
               "confidence": "observed"
             }
           ],
-          "outbound": []
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/primitives.ts",
+              "confidence": "observed"
+            }
+          ]
         },
-        "contentHash": "6a988a81c7b9ef46fcd3e1aaa65931bc8d7f073fdc0c91a04339105857cca625",
+        "contentHash": "0227f4a2fb08c2b2db285e71d02500ab5cc93306cb8357aa44ad7127ca2c7449",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -120964,9 +120991,15 @@
               "confidence": "observed"
             }
           ],
-          "outbound": []
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/primitives.ts",
+              "confidence": "observed"
+            }
+          ]
         },
-        "contentHash": "4c45bfbc280cc5c2c81654e6cd3ddc512e0dd53e2db3c97ca2fcee7bdb26b6f6",
+        "contentHash": "7976a613ff9b833dcd17c51471b2d1b70e6e9f59fce96a0cfb0db115f03c3aa2",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -121084,9 +121117,15 @@
               "confidence": "observed"
             }
           ],
-          "outbound": []
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/primitives.ts",
+              "confidence": "observed"
+            }
+          ]
         },
-        "contentHash": "095e85e76cf90b905407d67ecdd6ea4eb0d9293d6a4f858f80238d8780d27ddf",
+        "contentHash": "4e682b62d7cd4f8eb95f80fdaa1cf968da600f73b76a2163ad8d8977b18703a8",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -121345,6 +121384,7 @@
           "formatRetrievedDocuments",
           "generateId",
           "imagePart",
+          "isRecord",
           "normalizeContent",
           "parseToolArgs",
           "partsToText",
@@ -121362,7 +121402,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/core/src/index.ts",
-          "symbols": "ActivateSkillsResult AdapterCapabilities AdapterContext AdapterError AdapterFactory AdapterRequest AgentEvent AgentEventContext AgentsKitError ArgsValidationError ArgsValidationResult ArgsValidator AudioPart BudgetStrategy ChatConfig ChatController ChatMemory ChatReturn ChatState CompileBudgetInput CompileBudgetResult ConfigError ConsumeStreamHandlers ContentPart DataRegion DefineToolConfig EditOptions EmbedFn ErrorCodes EvalResult EvalSuite EvalTestCase ExecuteSafeToolOptions FilePart ImagePart InferSchemaType MaybePromise MemoryError MemoryRecord Message MessageRole MessageStatus Observer ParsedToolArgs PartKind ProgressiveArgParser ProgressiveExecOptions ProgressiveExecResult ProgressiveFieldEvent RetrievedDocument Retriever RetrieverRequest RuntimeError SandboxError SkillDefinition SkillError StreamChunk StreamSource StreamStatus StreamToolCallPayload TextPart TokenCountResult TokenCounter TokenCounterOptions TokenUsage ToolAuthorizationContext ToolAuthorizationDecision ToolAuthorizationPhase ToolAuthorizer ToolCall ToolCallHandlerContext ToolCallStatus ToolDefinition ToolError ToolExecResult ToolExecutionContext UseStreamOptions UseStreamReturn VectorDocument VectorFilter VectorFilterCompound VectorFilterOperator VectorFilterPredicate VectorFilterPrimitive VectorMemory VectorSearchOptions VideoPart VirtualizedMemoryOptions activateSkills approximateCounter audioPart buildMessage buildToolMap compileBudget consumeStream createChatController createEventEmitter createId createInMemoryMemory createLocalStorageMemory createProgressiveArgParser createStaticRetriever createToolLifecycle createVirtualizedMemory defineTool deserializeMessages executeSafeTool executeToolCall executeToolProgressively filePart filterParts formatRetrievedDocuments generateId imagePart normalizeContent parseToolArgs partsToText safeParseArgs serializeMessages textPart videoPart",
+          "symbols": "ActivateSkillsResult AdapterCapabilities AdapterContext AdapterError AdapterFactory AdapterRequest AgentEvent AgentEventContext AgentsKitError ArgsValidationError ArgsValidationResult ArgsValidator AudioPart BudgetStrategy ChatConfig ChatController ChatMemory ChatReturn ChatState CompileBudgetInput CompileBudgetResult ConfigError ConsumeStreamHandlers ContentPart DataRegion DefineToolConfig EditOptions EmbedFn ErrorCodes EvalResult EvalSuite EvalTestCase ExecuteSafeToolOptions FilePart ImagePart InferSchemaType MaybePromise MemoryError MemoryRecord Message MessageRole MessageStatus Observer ParsedToolArgs PartKind ProgressiveArgParser ProgressiveExecOptions ProgressiveExecResult ProgressiveFieldEvent RetrievedDocument Retriever RetrieverRequest RuntimeError SandboxError SkillDefinition SkillError StreamChunk StreamSource StreamStatus StreamToolCallPayload TextPart TokenCountResult TokenCounter TokenCounterOptions TokenUsage ToolAuthorizationContext ToolAuthorizationDecision ToolAuthorizationPhase ToolAuthorizer ToolCall ToolCallHandlerContext ToolCallStatus ToolDefinition ToolError ToolExecResult ToolExecutionContext UseStreamOptions UseStreamReturn VectorDocument VectorFilter VectorFilterCompound VectorFilterOperator VectorFilterPredicate VectorFilterPrimitive VectorMemory VectorSearchOptions VideoPart VirtualizedMemoryOptions activateSkills approximateCounter audioPart buildMessage buildToolMap compileBudget consumeStream createChatController createEventEmitter createId createInMemoryMemory createLocalStorageMemory createProgressiveArgParser createStaticRetriever createToolLifecycle createVirtualizedMemory defineTool deserializeMessages executeSafeTool executeToolCall executeToolProgressively filePart filterParts formatRetrievedDocuments generateId imagePart isRecord normalizeContent parseToolArgs partsToText safeParseArgs serializeMessages textPart videoPart",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -121376,6 +121416,11 @@
           ],
           "packageId": "package:@agentskit/core",
           "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/tests/is-record.test.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "imports",
               "id": "module:packages/core/tests/primitives.test.ts",
@@ -121455,7 +121500,7 @@
             }
           ]
         },
-        "contentHash": "79599d5282cc676ec8db0733896721fc09c205b8f47e54bd1f0044a049e45d0e",
+        "contentHash": "a88c40354a83b101abf45d587e4e4127f162d163a8c642760a7f5938c9267ef3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -121582,9 +121627,15 @@
               "confidence": "observed"
             }
           ],
-          "outbound": []
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/primitives.ts",
+              "confidence": "observed"
+            }
+          ]
         },
-        "contentHash": "4a44655381b8336a26337aa82efc67ab0645d986b09b94ff830c5d8c902812d5",
+        "contentHash": "783749c0079ea70eb48fc93a485d2dba9e5a2bd622bc176f91b5e167054b60ba",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -121670,7 +121721,7 @@
             }
           ]
         },
-        "contentHash": "2b5a54229da1e9607d403f9c15db843da97767768c503c879f9576a294dd005d",
+        "contentHash": "da281f7bc4f91eb945c78861fd72fa2269aca455478df09143152ba725685d0d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -121851,6 +121902,7 @@
           "createToolLifecycle",
           "executeToolCall",
           "generateId",
+          "isRecord",
           "parseToolArgs",
           "safeParseArgs"
         ],
@@ -121863,7 +121915,7 @@
           "title": "primitives.ts",
           "headings": "",
           "path": "packages/core/src/primitives.ts",
-          "symbols": "ConsumeStreamHandlers ParsedToolArgs acquireToolLifecycle buildMessage consumeStream createEventEmitter createId createToolLifecycle executeToolCall generateId parseToolArgs safeParseArgs",
+          "symbols": "ConsumeStreamHandlers ParsedToolArgs acquireToolLifecycle buildMessage consumeStream createEventEmitter createId createToolLifecycle executeToolCall generateId isRecord parseToolArgs safeParseArgs",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -121888,7 +121940,17 @@
           "inbound": [
             {
               "kind": "imports",
+              "id": "module:packages/core/src/a2a.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/core/src/agent-loop.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/agent-schema.ts",
               "confidence": "observed"
             },
             {
@@ -121904,6 +121966,26 @@
             {
               "kind": "imports",
               "id": "module:packages/core/src/controller.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/eval-format.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/generative-ui.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/manifest.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/security/sso.ts",
               "confidence": "observed"
             },
             {
@@ -122005,7 +122087,7 @@
             }
           ]
         },
-        "contentHash": "ec9de00fcbb56935c894476a58977e2edb56e7a8395d0c0c44c8abb6617be6c9",
+        "contentHash": "7f47004238f37b3feccd631c94bd237aa85215f7872424a9f743d6740d8a6469",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -122830,13 +122912,18 @@
               "confidence": "observed"
             },
             {
+              "kind": "imports",
+              "id": "module:packages/core/src/primitives.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "re-exports",
               "id": "module:packages/core/src/security/saml.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "548576ea424f9a754487914d243bdb3db2c4c925a2f71b02cf01768b7e8ab96f",
+        "contentHash": "0e117bf40e1262f2b87f160acb2c345da467757f91cdac76247a2551c33c72aa",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -127125,6 +127212,46 @@
           ]
         },
         "contentHash": "53face597678263faa3acfebfad1e8a7742b8c92fa7e6aa9e7d48bdf5e80ce11",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/core/tests/is-record.test.ts",
+        "kind": "module",
+        "path": "packages/core/tests/is-record.test.ts",
+        "title": "is-record.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "is-record.test.ts",
+          "headings": "",
+          "path": "packages/core/tests/is-record.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/core",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/index.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "309233f48934be577e42cb03aab360fef0a9d0f454057e654ffae55c7d4e9d2b",
         "provenance": "observed",
         "confidence": "observed"
       },
