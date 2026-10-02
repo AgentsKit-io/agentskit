@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "cbd28d46e4edc18f0190d57e50fb5c77b65b769aaa92f9a2f7ddad5e85d76076",
+  "contentHash": "e9bcdba0f1095a34067a23884e3bdcc95654c944277f111c421a7078f417e47f",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T19:58:14.734Z",
+  "generatedAt": "2026-10-02T20:53:18.028Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -3999,7 +3999,7 @@
         "document",
         "human"
       ],
-      "contentHash": "f1b66f58d669c2335afb79350c80cc8efcbc0852f6c82d23cafb23bf3301b855"
+      "contentHash": "ab7ce0234c3cb8ea92d163df3987f8e39d373273586022cea81f7e8602c85c10"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/recipes/adapter-contract-tests.mdx",
@@ -37689,7 +37689,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "09da130ac411faa50528909b8f94426c28596d7251b8af03417960c19206aa3c",
+    "hash": "5bc97e885d68785f484634f1250996d12f731db828b99eedd55041fb0451ab67",
     "fileCount": 2504,
     "projectionVersion": 2
   },
@@ -37712,9 +37712,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "ba11f3a90fc4f180c07e44070299446702f3d7462f76eb602c195f737335b58c",
+    "contentHash": "b8f6b7d7c6f5c039026e1dacd905b0251d01ad33857be8ba144959d6f9bb6793",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "fdf958d1278c95bd6d8751c5257be49f673525dad5af6c6658205340060734ce",
+    "snapshotHash": "62baa7bfec0a252a45c064e3c3b7e4469019670ea5c1df7c6a9b3438f2654d0d",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37746,7 +37746,7 @@
       ],
       "averageFieldLength": {
         "aliases": 3.014239218877136,
-        "body": 61.01383238405207,
+        "body": 61.012611879576895,
         "headings": 4.017087062652563,
         "path": 7.6220504475183075,
         "summary": 4.546786004882018,
@@ -61364,7 +61364,7 @@
           "path": "apps/docs-next/content/docs/reference/publications.mdx",
           "symbols": "",
           "summary": "This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed.",
-          "body": "Public publications This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed. AgentsKit ecosystem - — ecosystem narrative. - — public release. - — public evaluation artifact. Registry - — GitHub Marketplace action. - — public registry entry. Doc Bridge - — public package release. - — public MCP registry release. Agents Playbook - — public package release. Related canonical surfaces - — choose the product by the next problem. - — repository-derived numeric claims.",
+          "body": "Public publications This catalog lists public URLs with a verified published receipt. It is deduplicated by canonical URL: lifecycle events, drafts, editor links, and submissions without publication confirmation are not listed. AgentsKit ecosystem - — ecosystem narrative. - — public release. Registry - — GitHub Marketplace action. - — public registry entry. Doc Bridge - — public package release. - — public MCP registry release. Agents Playbook - — public package release. Related canonical surfaces - — choose the product by the next problem. - — repository-derived numeric claims.",
           "aliases": "document human"
         },
         "graph": {
@@ -61375,7 +61375,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "f1b66f58d669c2335afb79350c80cc8efcbc0852f6c82d23cafb23bf3301b855",
+        "contentHash": "ab7ce0234c3cb8ea92d163df3987f8e39d373273586022cea81f7e8602c85c10",
         "provenance": "observed",
         "confidence": "observed"
       },
