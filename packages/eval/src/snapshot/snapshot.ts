@@ -159,7 +159,7 @@ export async function matchPromptSnapshot(
   path: string,
   options: SnapshotOptions = {},
 ): Promise<SnapshotResult> {
-  const { readFile, writeFile, mkdir, rename, rm } = await import('node:fs/promises')
+  const { readFile, mkdir } = await import('node:fs/promises')
   const { dirname } = await import('node:path')
   const update =
     options.update ??
@@ -173,18 +173,9 @@ export async function matchPromptSnapshot(
   }
 
   if (existing === null || update) {
+    const { writeFileAtomic } = await import('@agentskit/cross-platform')
     await mkdir(dirname(path), { recursive: true })
-    const temporaryPath = `${path}.tmp-${process.pid}-${Date.now()}-${Math.random().toString(36).slice(2)}`
-    try {
-      await writeFile(temporaryPath, actual, {
-        encoding: 'utf8',
-        mode: 0o600,
-        flag: 'wx',
-      })
-      await rename(temporaryPath, path)
-    } finally {
-      await rm(temporaryPath, { force: true })
-    }
+    await writeFileAtomic(path, actual, { encoding: 'utf8', mode: 0o600 })
     return {
       matched: true,
       reason: existing === null ? 'snapshot created' : 'snapshot updated',
