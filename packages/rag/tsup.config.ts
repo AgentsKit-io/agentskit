@@ -5,6 +5,7 @@ export default defineConfig([
     entry: {
       index: 'src/index-node.ts',
       chunker: 'src/chunker.ts',
+      markdown: 'src/markdown.ts',
     },
     format: ['esm', 'cjs'],
     dts: { compilerOptions: { ignoreDeprecations: '6.0' } },

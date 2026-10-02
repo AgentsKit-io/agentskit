@@ -8365,6 +8365,87 @@
               ]
             }
           ]
+        },
+        "./markdown": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "extractWikilinks",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "findSection",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "FrontmatterSplit",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "MarkdownNote",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "MarkdownSection",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "normalize",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "parseNote",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "parseTable",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "plain",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "sections",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "splitFrontmatter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "stripWikilinks",
+              "kinds": [
+                "value"
+              ]
+            }
+          ]
         }
       }
     },

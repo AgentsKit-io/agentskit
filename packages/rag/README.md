@@ -102,6 +102,20 @@ You can also call `rag.retrieve({ query, messages })` to satisfy the core `Retri
 - **Chunk/config safety:** invalid `chunkSize` / `chunkOverlap` / `topK` values are sanitized so chunking always terminates and search never sends non-finite limits to the store.
 - **Ingestion behavior:** `rag.ingest` embeds chunks serially and sends one vector-store batch per call. For large corpora, batch documents in the caller and persist progress between calls; the package does not silently add concurrency or an unbounded background queue.
 
+### Markdown notes (`@agentskit/rag/markdown`)
+
+Pure, synchronous helpers for knowledge-base style Markdown (YAML frontmatter, `[[wikilinks]]`, heading sections, GitHub tables). The subpath is separate so the root entry and its size budget stay free of the `yaml` parser.
+
+```ts
+import { parseNote, findSection, parseTable } from '@agentskit/rag/markdown'
+
+const note = parseNote('notes/plan.md', raw)
+// { path, title, frontmatter, body, links, frontmatterError? }
+const rows = parseTable(findSection(note.body, 'backlog')?.content ?? '')
+```
+
+Also exported: `splitFrontmatter`, `extractWikilinks`, `stripWikilinks`, `sections`, `normalize`, `plain`. Invalid frontmatter never throws; it is reported in `frontmatterError`.
+
 ### S3 in Expo and React Native runtimes
 
 Node consumers may install `@aws-sdk/client-s3` and let `loadS3` resolve it lazily. Browser, Expo/Metro, and React Native bundles keep that peer out of the universal entry; pass the command constructors explicitly when invoking the loader:

@@ -27,6 +27,11 @@ describe('@agentskit/rag package manifest + export purity', () => {
           import: string
           require: string
         }
+        './markdown': {
+          types: string
+          import: string
+          require: string
+        }
       }
       dependencies: Record<string, string>
       peerDependencies: Record<string, string>
@@ -51,9 +56,14 @@ describe('@agentskit/rag package manifest + export purity', () => {
     expect(pkg.exports['./chunker'].import).toBe('./dist/chunker.js')
     expect(pkg.exports['./chunker'].require).toBe('./dist/chunker.cjs')
 
+    expect(pkg.exports['./markdown'].types).toBe('./dist/markdown.d.ts')
+    expect(pkg.exports['./markdown'].import).toBe('./dist/markdown.js')
+    expect(pkg.exports['./markdown'].require).toBe('./dist/markdown.cjs')
+
     expect(pkg.dependencies).toEqual({
       '@agentskit/core': 'workspace:*',
       '@agentskit/net': 'workspace:*',
+      yaml: '^2.9.1',
     })
     expect(pkg.peerDependencies['@aws-sdk/client-s3']).toBe('^3.0.0')
     expect(pkg.peerDependenciesMeta['@aws-sdk/client-s3']?.optional).toBe(true)
@@ -66,6 +76,9 @@ describe('@agentskit/rag package manifest + export purity', () => {
       pkg.exports['./chunker'].import,
       pkg.exports['./chunker'].require,
       pkg.exports['./chunker'].types,
+      pkg.exports['./markdown'].import,
+      pkg.exports['./markdown'].require,
+      pkg.exports['./markdown'].types,
     ]) {
       await expect(access(join(root, rel)), `missing published file ${rel}`).resolves.toBeUndefined()
     }
@@ -104,6 +117,24 @@ describe('@agentskit/rag package manifest + export purity', () => {
     // Node entry resolves the peer only via lazy dynamic import (possibly through a helper).
     expect(nodeEntry).toMatch(/@aws-sdk\/client-s3/)
     expect(nodeEntry).toMatch(/import\s*\(|importOptionalPeer/)
+  })
+
+  it('keeps the yaml dependency out of the root entries', async () => {
+    for (const rel of ['dist/index.js', 'dist/index.browser.js']) {
+      const src = await readFile(join(root, rel), 'utf8')
+      expect(src, rel).not.toMatch(/from\s+['"]yaml['"]/)
+    }
+  })
+
+  it('exports markdown subpath from source and dist types', async () => {
+    const markdown = await import('../src/markdown')
+    expect(markdown.default).toBeUndefined()
+    for (const name of ['parseNote', 'splitFrontmatter', 'extractWikilinks', 'stripWikilinks', 'sections', 'findSection', 'parseTable', 'normalize', 'plain'] as const) {
+      expect(typeof markdown[name], name).toBe('function')
+    }
+    const dts = await readFile(join(root, 'dist/markdown.d.ts'), 'utf8')
+    expect(dts).toMatch(/parseNote/)
+    expect(dts).toMatch(/MarkdownNote/)
   })
 
   it('exports chunker subpath from source and dist types', async () => {
