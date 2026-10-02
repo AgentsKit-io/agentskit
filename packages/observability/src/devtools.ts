@@ -1,5 +1,5 @@
 import type { AgentEvent, Observer } from '@agentskit/core'
-import { ConfigError, ErrorCodes } from '@agentskit/core'
+import { ConfigError, createId, ErrorCodes } from '@agentskit/core'
 
 export interface DevtoolsClient {
   id: string
@@ -52,7 +52,7 @@ export function createDevtoolsServer(options: DevtoolsServerOptions = {}): Devto
     })
   }
   const bufferSize = Math.max(10, options.bufferSize ?? 500)
-  const serverId = options.serverId ?? `ak-${Math.random().toString(36).slice(2, 10)}`
+  const serverId = options.serverId ?? createId('ak')
   const buffer: Array<{ seq: number; at: number; event: AgentEvent }> = []
   const clients = new Map<string, DevtoolsClient>()
   let seq = 0
