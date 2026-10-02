@@ -188,7 +188,10 @@ async function fetchWithTimeout(
     )
   } catch (error) {
     if (error instanceof NetError && error.code === NetErrorCodes.AK_NET_TIMEOUT) {
-      throw new Error(`${scope}: request timed out after ${timeoutMs}ms`)
+      throw new NetError({
+        code: NetErrorCodes.AK_NET_TIMEOUT,
+        message: `${scope}: request timed out after ${timeoutMs}ms`,
+      })
     }
     throw error
   }
