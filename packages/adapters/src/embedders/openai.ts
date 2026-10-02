@@ -1,5 +1,8 @@
 import type { EmbedFn } from '@agentskit/core'
-import { embeddingError, requireEmbeddingVector, throwIfNotOk } from './shared'
+import { embeddingError, readEmbeddingJson, requireEmbeddingVector, throwIfNotOk } from './shared'
+
+const MAX_MODEL_LIST_BYTES = 2 * 1024 * 1024
+const MAX_EMBEDDING_RESPONSE_BYTES = 16 * 1024 * 1024
 
 export interface OpenAIEmbedderConfig {
   apiKey: string
@@ -13,7 +16,11 @@ async function fetchAvailableModels(baseUrl: string, apiKey: string): Promise<st
     headers: { 'Authorization': `Bearer ${apiKey}` },
   })
   await throwIfNotOk(response, 'openai', url)
-  const data = (await response.json()) as { data: Array<{ id: string }> }
+  const data = await readEmbeddingJson<{ data: Array<{ id: string }> }>(
+    response,
+    'OpenAI',
+    MAX_MODEL_LIST_BYTES,
+  )
   return data.data
     .map(m => m.id)
     .filter(id => id.includes('embed'))
@@ -53,7 +60,11 @@ export function openaiEmbedder(config: OpenAIEmbedderConfig): EmbedFn {
       throw await buildModelError(baseUrl, apiKey, message)
     }
 
-    const data = (await response.json()) as { data?: Array<{ embedding?: unknown }> }
+    const data = await readEmbeddingJson<{ data?: Array<{ embedding?: unknown }> }>(
+      response,
+      'OpenAI',
+      MAX_EMBEDDING_RESPONSE_BYTES,
+    )
     const embedding = data.data?.[0]?.embedding
     return requireEmbeddingVector(embedding, 'OpenAI')
   }

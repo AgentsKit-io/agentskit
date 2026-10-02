@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "851268a1a170e5365f3fd2aada4da9c43a63c2f9f0e510c9cf12d49e4d6349a7",
+  "contentHash": "abda357faafe2a6f08bc7ca74afadf7fa369b7469527726b7e6328bfb3ab0693",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T18:55:34.685Z",
+  "generatedAt": "2026-10-02T20:22:09.523Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -14143,7 +14143,7 @@
         "ts",
         "catalog"
       ],
-      "contentHash": "c605882424700d2b93254cc8f305f2fd60cf9c605f0759cc5253bceff7c4a90f"
+      "contentHash": "e8e70bb8874772bfb0b69c09ec49c45ed67586a80b131ff01ff37702936fa4ae"
     },
     {
       "id": "module:packages/adapters/src/catalog/schema.ts",
@@ -14482,7 +14482,7 @@
         "ts",
         "embedders"
       ],
-      "contentHash": "f7256d53969d6a4940ba386571a0594427c0d2494eac5e816c80513eab3cc2f8"
+      "contentHash": "b377361a9035dd481bf3194e2a5aceb18d2574d9ebdfaff60b0ce17df30acf5e"
     },
     {
       "id": "module:packages/adapters/src/embedders/grok.ts",
@@ -14558,7 +14558,7 @@
         "ts",
         "embedders"
       ],
-      "contentHash": "8adf288dbacad65e923b8cda1474260de2d9ff610ce4a9c5bdcb54e4e7f09225"
+      "contentHash": "0bf2bd0a5ecef95dada59b58351e9e9c6e96572f572907f2bfe7babf9d81fd85"
     },
     {
       "id": "module:packages/adapters/src/embedders/openai-compatible.ts",
@@ -14574,7 +14574,7 @@
         "ts",
         "embedders"
       ],
-      "contentHash": "3d637b4958692bfd0e98a40efc80d957708295efee5cbab48e9f69e94f41f689"
+      "contentHash": "e795e9dcf1fbcd6548eb1cce78d1cd69a1f0edacf07cc170ab01998011735549"
     },
     {
       "id": "module:packages/adapters/src/embedders/openai.ts",
@@ -14590,7 +14590,7 @@
         "ts",
         "embedders"
       ],
-      "contentHash": "ec7da1db28bc6bbaa10a3cd54d4298367748690de9d37c01f32af8ef29aab1c3"
+      "contentHash": "df747e737d294075f1be831bcb3505b31d407e23f3d0e25ceb599e1cf86e5e72"
     },
     {
       "id": "module:packages/adapters/src/embedders/shared.ts",
@@ -14599,6 +14599,7 @@
       "path": "packages/adapters/src/embedders/shared.ts",
       "symbols": [
         "embeddingError",
+        "readEmbeddingJson",
         "requireEmbeddingVector",
         "throwIfNotOk"
       ],
@@ -14607,7 +14608,7 @@
         "ts",
         "embedders"
       ],
-      "contentHash": "5b84d27ef702da1fe5c74f178deccde401575f78b40d9f61d39f5fd43976e0d5"
+      "contentHash": "01c2b10e0e0fc07c14b230bf0ae2d34010ff163454a4fc2af6ace1092c4dc3ba"
     },
     {
       "id": "module:packages/adapters/src/ensemble.ts",
@@ -15100,7 +15101,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "07050525d502204dd9335f61ccd36f0a3620203c8c01ad40edef64e61ac2d3da"
+      "contentHash": "14f2eae03bf1a0008e9ffe8f3c7c9139cee911be170031155c778f91d742891f"
     },
     {
       "id": "module:packages/adapters/src/retry.ts",
@@ -15817,7 +15818,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "9e9fe3fb0199b532ab613b7428935ebae7011c753e6f13f10209a014534976b4"
+      "contentHash": "0a7008b3cdd86b1cc1a26a8bb3eb729dfdc20853ff076d54aad7195b769d1cbf"
     },
     {
       "id": "module:packages/adapters/tests/new-providers.test.ts",
@@ -37689,7 +37690,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "07c68d43a7bedc13f5dc3ca9d6b772ad650a3eb863dbf0203408b8124f056f7f",
+    "hash": "04e06c445b7460690c56ea00948bda3125ab5958128f811d0bbec06990825ea8",
     "fileCount": 2504,
     "projectionVersion": 2
   },
@@ -37712,9 +37713,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "51242f38fdd5e27d13d14e6179be6ba82f0d295936e613b067cf837331108471",
+    "contentHash": "5c066443d7f93ec8c2a4c32f6917f1df5aa1d4898418f707f932e245c97a4e68",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "226f017753365f37dab5d728e9c3af172f83aca59052cf12747f826c1858ab01",
+    "snapshotHash": "59a178b993adb5139134d77c6636913e808229d9fa3e0c4fb4c5066f82ff0b68",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37750,7 +37751,7 @@
         "headings": 4.017087062652563,
         "path": 7.6220504475183075,
         "summary": 4.546786004882018,
-        "symbols": 7.475183075671278,
+        "symbols": 7.4768104149715215,
         "title": 3.337672904800651
       }
     },
@@ -102674,7 +102675,7 @@
             }
           ]
         },
-        "contentHash": "c605882424700d2b93254cc8f305f2fd60cf9c605f0759cc5253bceff7c4a90f",
+        "contentHash": "e8e70bb8874772bfb0b69c09ec49c45ed67586a80b131ff01ff37702936fa4ae",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -103991,7 +103992,7 @@
             }
           ]
         },
-        "contentHash": "f7256d53969d6a4940ba386571a0594427c0d2494eac5e816c80513eab3cc2f8",
+        "contentHash": "b377361a9035dd481bf3194e2a5aceb18d2574d9ebdfaff60b0ce17df30acf5e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -104412,7 +104413,7 @@
             }
           ]
         },
-        "contentHash": "8adf288dbacad65e923b8cda1474260de2d9ff610ce4a9c5bdcb54e4e7f09225",
+        "contentHash": "0bf2bd0a5ecef95dada59b58351e9e9c6e96572f572907f2bfe7babf9d81fd85",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -104520,7 +104521,7 @@
             }
           ]
         },
-        "contentHash": "3d637b4958692bfd0e98a40efc80d957708295efee5cbab48e9f69e94f41f689",
+        "contentHash": "e795e9dcf1fbcd6548eb1cce78d1cd69a1f0edacf07cc170ab01998011735549",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -104641,7 +104642,7 @@
             }
           ]
         },
-        "contentHash": "ec7da1db28bc6bbaa10a3cd54d4298367748690de9d37c01f32af8ef29aab1c3",
+        "contentHash": "df747e737d294075f1be831bcb3505b31d407e23f3d0e25ceb599e1cf86e5e72",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -104653,6 +104654,7 @@
         "aliases": [],
         "symbols": [
           "embeddingError",
+          "readEmbeddingJson",
           "requireEmbeddingVector",
           "throwIfNotOk"
         ],
@@ -104665,7 +104667,7 @@
           "title": "shared.ts",
           "headings": "",
           "path": "packages/adapters/src/embedders/shared.ts",
-          "symbols": "embeddingError requireEmbeddingVector throwIfNotOk",
+          "symbols": "embeddingError readEmbeddingJson requireEmbeddingVector throwIfNotOk",
           "summary": "",
           "body": "",
           "aliases": "module ts embedders"
@@ -104701,7 +104703,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5b84d27ef702da1fe5c74f178deccde401575f78b40d9f61d39f5fd43976e0d5",
+        "contentHash": "01c2b10e0e0fc07c14b230bf0ae2d34010ff163454a4fc2af6ace1092c4dc3ba",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -107354,7 +107356,7 @@
             }
           ]
         },
-        "contentHash": "07050525d502204dd9335f61ccd36f0a3620203c8c01ad40edef64e61ac2d3da",
+        "contentHash": "14f2eae03bf1a0008e9ffe8f3c7c9139cee911be170031155c778f91d742891f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -110228,7 +110230,7 @@
             }
           ]
         },
-        "contentHash": "9e9fe3fb0199b532ab613b7428935ebae7011c753e6f13f10209a014534976b4",
+        "contentHash": "0a7008b3cdd86b1cc1a26a8bb3eb729dfdc20853ff076d54aad7195b769d1cbf",
         "provenance": "observed",
         "confidence": "observed"
       },
