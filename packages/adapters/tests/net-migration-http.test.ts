@@ -3,7 +3,7 @@ import type { AddressInfo } from 'node:net'
 import { describe, expect, it } from 'vitest'
 import { readText } from '@agentskit/net'
 import type { AdapterRequest, StreamChunk } from '@agentskit/core'
-import { fetchWithRetry, ollama, openai } from '../src'
+import { fetchWithRetry, ollama, openai, openaiEmbedder, replicate } from '../src'
 
 const request: AdapterRequest = {
   messages: [{ id: '1', role: 'user', content: 'hello', status: 'complete', createdAt: new Date(0) }],
@@ -92,6 +92,70 @@ describe('adapter network migration over native HTTP', () => {
       expect(ollamaChunks.filter(chunk => chunk.type === 'text').map(chunk => chunk.content).join(''))
         .toBe('onesnow ☃')
       expect(ollamaChunks.filter(chunk => chunk.type === 'done')).toHaveLength(1)
+    } finally {
+      await new Promise<void>((resolve, reject) => {
+        server.close(error => error ? reject(error) : resolve())
+      })
+    }
+  })
+
+  it('bounds a streamed embedder response and parses Replicate SSE through real HTTP', async () => {
+    const embeddingLimit = 16 * 1024 * 1024
+    let oversized = true
+    let oversizedBodyClosed: Promise<boolean> | undefined
+    const server = createServer((incoming, response) => {
+      if (incoming.url === '/v1/embeddings') {
+        if (oversized) {
+          oversized = false
+          oversizedBodyClosed = new Promise(resolve => {
+            response.once('close', () => resolve(!response.writableFinished))
+          })
+          response.writeHead(200, { 'content-type': 'application/json' })
+          response.write('{"data":[{"embedding":[')
+          response.write(Buffer.alloc(embeddingLimit + 1, 32))
+          return
+        }
+        response.writeHead(200, { 'content-type': 'application/json' })
+        response.end('{"data":[{"embedding":[0.1,0.2]}]}')
+        return
+      }
+      if (incoming.url === '/v1/models/test/predictions') {
+        const { port } = server.address() as AddressInfo
+        response.writeHead(200, { 'content-type': 'application/json' })
+        response.end(JSON.stringify({ id: 'local', urls: { stream: `http://127.0.0.1:${port}/stream` } }))
+        return
+      }
+      if (incoming.url === '/stream') {
+        response.writeHead(200, { 'content-type': 'text/event-stream' })
+        response.write('event: out')
+        response.write('put\r\ndata:first\r\ndata:second\r\n\r\n')
+        response.end('event: done\r\ndata:\r\n\r\n')
+        return
+      }
+      response.writeHead(404)
+      response.end()
+    })
+
+    await new Promise<void>((resolve, reject) => {
+      server.once('error', reject)
+      server.listen(0, '127.0.0.1', resolve)
+    })
+
+    try {
+      const { port } = server.address() as AddressInfo
+      const baseUrl = `http://127.0.0.1:${port}`
+      await expect(openaiEmbedder({ apiKey: 'local-test', baseUrl })('hello'))
+        .rejects.toMatchObject({
+          cause: { code: 'AK_NET_BODY_TOO_LARGE' },
+        })
+      expect(await oversizedBodyClosed).toBe(true)
+      await expect(openaiEmbedder({ apiKey: 'local-test', baseUrl })('hello')).resolves.toEqual([0.1, 0.2])
+
+      const chunks: StreamChunk[] = []
+      for await (const chunk of replicate({ apiKey: 'local-test', model: 'test', baseUrl })
+        .createSource(request).stream()) chunks.push(chunk)
+      expect(chunks.filter(chunk => chunk.type === 'text').map(chunk => chunk.content)).toEqual(['first\nsecond'])
+      expect(chunks.filter(chunk => chunk.type === 'done')).toHaveLength(1)
     } finally {
       await new Promise<void>((resolve, reject) => {
         server.close(error => error ? reject(error) : resolve())

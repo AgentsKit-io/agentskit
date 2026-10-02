@@ -120,27 +120,8 @@
     "apps/registry/lib/registry.ts": {
       "net-unbounded-body": 2
     },
-    "packages/adapters/src/catalog/pricing.ts": {
-      "net-unbounded-body": 1
-    },
-    "packages/adapters/src/embedders/gemini.ts": {
-      "net-unbounded-body": 2
-    },
-    "packages/adapters/src/embedders/ollama.ts": {
-      "net-unbounded-body": 2
-    },
-    "packages/adapters/src/embedders/openai-compatible.ts": {
-      "net-unbounded-body": 2
-    },
-    "packages/adapters/src/embedders/openai.ts": {
-      "net-unbounded-body": 2
-    },
     "packages/adapters/src/mock.ts": {
       "net-sleep-promise": 1
-    },
-    "packages/adapters/src/replicate.ts": {
-      "net-sse-data-prefix": 1,
-      "net-unbounded-body": 1
     },
     "packages/adapters/tests/capabilities.test.ts": {
       "net-sleep-promise": 1
