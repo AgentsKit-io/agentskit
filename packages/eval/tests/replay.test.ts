@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
 import { mkdtempSync, rmSync } from 'node:fs'
+import { mkdir, readFile, readdir, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import { ConfigError, ErrorCodes, type AdapterFactory, type AdapterRequest, type StreamChunk } from '@agentskit/core'
@@ -125,9 +126,27 @@ describe('replay engine', () => {
 
       const path = join(dir, 'nested', 'cassette.json')
       await saveCassette(path, cassette)
+      expect(await readFile(path)).toEqual(Buffer.from(serializeCassette(cassette), 'utf8'))
       const reloaded = await loadCassette(path)
       expect(reloaded.entries).toHaveLength(1)
       expect(reloaded.entries[0]!.chunks[0]!.content).toBe('z')
+    } finally {
+      rmSync(dir, { recursive: true, force: true })
+    }
+  })
+
+  it('preserves a directory target and cleans up when saving fails', async () => {
+    const dir = mkdtempSync(join(tmpdir(), 'ak-replay-'))
+    try {
+      const { cassette } = createRecordingAdapter(fakeAdapter([]))
+      const path = join(dir, 'cassette.json')
+      await mkdir(path)
+      await writeFile(join(path, 'previous'), 'preserved')
+
+      await expect(saveCassette(path, cassette)).rejects.toThrow()
+
+      expect(await readFile(join(path, 'previous'), 'utf8')).toBe('preserved')
+      expect((await readdir(dir)).filter(name => name.endsWith('.tmp'))).toEqual([])
     } finally {
       rmSync(dir, { recursive: true, force: true })
     }
