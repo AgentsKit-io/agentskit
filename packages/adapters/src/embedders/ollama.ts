@@ -1,5 +1,8 @@
 import type { EmbedFn } from '@agentskit/core'
-import { embeddingError, requireEmbeddingVector, throwIfNotOk } from './shared'
+import { embeddingError, readEmbeddingJson, requireEmbeddingVector, throwIfNotOk } from './shared'
+
+const MAX_MODEL_LIST_BYTES = 2 * 1024 * 1024
+const MAX_EMBEDDING_RESPONSE_BYTES = 16 * 1024 * 1024
 
 export interface OllamaEmbedderConfig {
   model?: string
@@ -10,7 +13,11 @@ async function fetchAvailableModels(baseUrl: string): Promise<string[]> {
   const url = `${baseUrl}/api/tags`
   const response = await fetch(url)
   await throwIfNotOk(response, 'ollama', url)
-  const data = (await response.json()) as { models: Array<{ name: string }> }
+  const data = await readEmbeddingJson<{ models: Array<{ name: string }> }>(
+    response,
+    'Ollama',
+    MAX_MODEL_LIST_BYTES,
+  )
   return data.models
     .map(m => m.name)
     .filter(name => name.includes('embed'))
@@ -46,7 +53,11 @@ export function ollamaEmbedder(config: OllamaEmbedderConfig): EmbedFn {
       throw await buildModelError(baseUrl, message)
     }
 
-    const data = (await response.json()) as { embeddings?: unknown[] }
+    const data = await readEmbeddingJson<{ embeddings?: unknown[] }>(
+      response,
+      'Ollama',
+      MAX_EMBEDDING_RESPONSE_BYTES,
+    )
     const first = Array.isArray(data.embeddings) ? data.embeddings[0] : undefined
     return requireEmbeddingVector(first, 'Ollama')
   }

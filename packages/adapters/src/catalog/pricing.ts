@@ -1,3 +1,4 @@
+import { readJson } from '@agentskit/net'
 import { catalog, getModel } from './loader'
 import type { CatalogModelCost } from './types'
 
@@ -30,6 +31,7 @@ export interface ResolvedCost {
 }
 
 const STALE_AFTER_MS = 30 * 24 * 60 * 60 * 1000
+const MAX_PRICING_RESPONSE_BYTES = 16 * 1024 * 1024
 
 function cachedCost(providerId: string, modelId: string, now: number): ResolvedCost {
   const cost = getModel(providerId, modelId)?.cost
@@ -75,7 +77,11 @@ export async function resolveCost(
   try {
     const res = await fetchImpl(LIVE_URL, { signal: controller.signal })
     if (!res.ok) return cachedCost(providerId, modelId, now)
-    const cost = liveCostFrom(await res.json(), providerId, modelId)
+    const cost = liveCostFrom(
+      await readJson<unknown>(res, { maxBytes: MAX_PRICING_RESPONSE_BYTES }),
+      providerId,
+      modelId,
+    )
     if (!cost) return cachedCost(providerId, modelId, now)
     return { cost, source: 'live', stale: false }
   } catch {
