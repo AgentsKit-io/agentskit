@@ -127,9 +127,12 @@ describe('adapter network migration over native HTTP', () => {
       }
       if (incoming.url === '/stream') {
         response.writeHead(200, { 'content-type': 'text/event-stream' })
+        response.flushHeaders()
         response.write('event: out')
-        response.write('put\r\ndata:first\r\ndata:second\r\n\r\n')
-        response.end('event: done\r\ndata:\r\n\r\n')
+        setTimeout(() => {
+          response.write('put\r\ndata:first\r\ndata:second\r\n\r\n')
+          response.end('event: done\r\ndata:\r\n\r\n')
+        }, 10)
         return
       }
       response.writeHead(404)
