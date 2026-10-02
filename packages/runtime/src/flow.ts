@@ -12,7 +12,7 @@
  * a handler, not in YAML.
  */
 
-import { ErrorCodes, RuntimeError } from '@agentskit/core'
+import { createId, ErrorCodes, RuntimeError } from '@agentskit/core'
 import { createDurableRunner, createInMemoryStepLog, type DurableRunner, type StepLogStore } from './durable'
 
 export interface FlowNode {
@@ -191,7 +191,7 @@ export function compileFlow<TInput = unknown>(
     input: TInput = undefined as TInput,
     runOptions: RunFlowOptions = {},
   ): Promise<Record<string, unknown>> => {
-    const runId = runOptions.runId ?? `flow-${definition.name}-${Date.now()}-${Math.random().toString(36).slice(2, 8)}`
+    const runId = runOptions.runId ?? createId(`flow-${definition.name}`)
     const store = runOptions.store ?? createInMemoryStepLog()
     const runner: DurableRunner = createDurableRunner({
       store,

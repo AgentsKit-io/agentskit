@@ -27,6 +27,7 @@ async function verifyNodeIo() {
     await cp(resolve(packageRoot, 'dist'), join(installedEval, 'dist'), { recursive: true })
     await cp(resolve(packageRoot, 'package.json'), join(installedEval, 'package.json'))
     await linkPackage(projectRoot, '@agentskit/core', resolve(repositoryRoot, 'packages/core'))
+    await linkPackage(projectRoot, '@agentskit/cross-platform', resolve(repositoryRoot, 'packages/cross-platform'))
 
     await writeFile(join(projectRoot, 'fixture.mjs'), [
       "import { createCassette } from '@agentskit/eval/replay'",
