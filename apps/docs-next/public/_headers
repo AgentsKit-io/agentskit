@@ -1,0 +1,10 @@
+# Cloudflare Workers Static Assets headers (mirrors next.config.mjs headers(), which static assets bypass).
+# The shared shell is embedded cross-origin by every AgentsKit site.
+/shell/*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Access-Control-Allow-Origin: *
+/ecosystem-bar*
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Access-Control-Allow-Origin: *
+/deterministic-knowledge/*
+  Cache-Control: public, max-age=31536000, immutable

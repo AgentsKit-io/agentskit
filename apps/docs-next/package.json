@@ -24,7 +24,12 @@
     "gen:api": "node scripts/gen-api.mjs",
     "postinstall": "fumadocs-mdx",
     "gen:ask-index": "tsx scripts/gen-ask-index.mjs",
-    "eval:ask-docs": "tsx lib/ask/eval/run.ts"
+    "eval:ask-docs": "tsx lib/ask/eval/run.ts",
+    "dev:vinext": "vite dev --port 3001",
+    "build:vinext": "pnpm run prebuild && node scripts/gen-llms-full.mjs && vite build",
+    "start:vinext": "vite preview",
+    "deploy:vinext": "vinext-cloudflare deploy",
+    "gen:llms-full": "node scripts/gen-llms-full.mjs"
   },
   "dependencies": {
     "@agentskit/adapters": "workspace:*",
@@ -46,6 +51,7 @@
     "@upstash/redis": "^1.38.4",
     "@vercel/analytics": "^2.0.1",
     "@vercel/speed-insights": "^2.0.0",
+    "@vinext/cloudflare": "^1.0.1",
     "fumadocs-core": "^16.15.11",
     "fumadocs-mdx": "^15.4.1",
     "fumadocs-ui": "^16.15.11",
@@ -56,21 +62,29 @@
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-markdown": "^10.1.0",
+    "react-server-dom-webpack": "^19.3.0",
     "redis": "^6.2.1",
     "remark-gfm": "^4.0.1",
     "shiki": "^4.4.3",
     "tailwindcss": "^4.3.3",
+    "vinext": "^1.0.1",
     "zod": "^4.6.5"
   },
   "devDependencies": {
+    "@cloudflare/vite-plugin": "2.0.0-beta.sha-52b0dc0e9",
     "@types/mdx": "^2.0.14",
     "@types/node": "^26.2.0",
     "@types/react": "^19.2.17",
     "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^6.1.1",
+    "@vitejs/plugin-rsc": "^0.5.35",
+    "cf": "1.0.0-beta.10",
     "tsx": "^4.23.13",
     "typedoc": "^0.28.20",
     "typedoc-plugin-markdown": "^4.13.0",
     "typescript": "^6.0.3",
+    "vite": "8.3.0",
     "vitest": "^4.1.11"
-  }
+  },
+  "type": "module"
 }
