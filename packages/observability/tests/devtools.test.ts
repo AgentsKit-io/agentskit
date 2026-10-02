@@ -128,6 +128,18 @@ describe('createDevtoolsServer', () => {
     expect(hello.serverId).toBe('test-server')
     expect(hello.protocol).toBe(1)
   })
+
+  it('generates distinct prefixed UUID server ids by default', () => {
+    const ids = [createDevtoolsServer(), createDevtoolsServer()].map(server => {
+      const s = sink('a')
+      server.attach(s)
+      const hello = s.envelopes[0]!
+      if (hello.type !== 'hello') throw new Error('expected hello')
+      return hello.serverId
+    })
+    expect(ids[0]).not.toBe(ids[1])
+    for (const id of ids) expect(id).toMatch(/^ak-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/)
+  })
 })
 
 describe('toSseFrame', () => {

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "a96f2a4e59375f5bcd98af309c4dc207dc2e99f91e76b5cde21f85e796bb8063",
+  "contentHash": "5974a4756122dc8ab89f334fe0aa4079ca036aff84c886316c651c3d27d851c8",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T16:35:56.418Z",
+  "generatedAt": "2026-10-02T16:55:32.172Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -27529,7 +27529,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "7dab74079dd5a6f8ec63bfdd3d01afc3bfad2c5f2b7cd95e6e8ef204b8289114"
+      "contentHash": "ee225df25f9cc6d8d524b31ac0487ce20d12954f34b5995d4fba48dc3eb7dc84"
     },
     {
       "id": "module:packages/observability/src/http-batch-sink.ts",
@@ -28056,7 +28056,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "b97ed569e1c3c5d4465cc83b6e8b8da4436926165c336ae8321a91eb7e599829"
+      "contentHash": "1320c10b889b5eb0d0da7b0ffdc613b6050a2d32b85139c95a446ee93933cc8f"
     },
     {
       "id": "module:packages/observability/tests/langsmith.test.ts",
@@ -37635,7 +37635,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "308895530ec2d671d92f1bf9b7ded22cec000450bff98d7054d5a0c3392372d4",
+    "hash": "0d56a814d5c50a8594dbeef8d49bf7099101cc177965f72aac33dcc8953ca2cd",
     "fileCount": 2501,
     "projectionVersion": 2
   },
@@ -37658,9 +37658,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "94e8167b207cea7e679511037f77c5d3367a44ffe3fa1dc236da803b156a2301",
+    "contentHash": "be24b12a18ff5063f01b22c8b2537607c44c3bcbb9744260a1dca73df3058531",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "5a891266696649130fd73c25545811008f71f08f4c63e39835df5a62df7f13d8",
+    "snapshotHash": "46de749cf742bb57682097b8391be62e32526b22ad1bb2f69277082b82fe9ab9",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -155829,7 +155829,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "7dab74079dd5a6f8ec63bfdd3d01afc3bfad2c5f2b7cd95e6e8ef204b8289114",
+        "contentHash": "ee225df25f9cc6d8d524b31ac0487ce20d12954f34b5995d4fba48dc3eb7dc84",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -157570,7 +157570,7 @@
             }
           ]
         },
-        "contentHash": "b97ed569e1c3c5d4465cc83b6e8b8da4436926165c336ae8321a91eb7e599829",
+        "contentHash": "1320c10b889b5eb0d0da7b0ffdc613b6050a2d32b85139c95a446ee93933cc8f",
         "provenance": "observed",
         "confidence": "observed"
       },
