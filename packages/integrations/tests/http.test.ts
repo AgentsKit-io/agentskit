@@ -1,7 +1,10 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
+import { createServer, type Server, type IncomingMessage, type ServerResponse } from 'node:http'
 import { ErrorCodes, ToolError } from '@agentskit/core'
-import { composeTimeoutSignal, httpJson, bindHttp, type HttpToolOptions } from '../src/http'
+import { NetErrorCodes } from '@agentskit/net'
+import { composeTimeoutSignal, httpJson, bindHttp, type HttpToolOptions } from '../src'
 import { readResponseBytes } from '../src/http-body'
+import { composeTimeoutSignal as composeTimeoutSignalModule } from '../src/http-timeout'
 
 function fakeFetch(handler: (url: string, init: RequestInit) => Response): typeof globalThis.fetch {
   return (async (input: RequestInfo | URL, init?: RequestInit) =>
@@ -35,6 +38,25 @@ function headerBag(init: RequestInit): Record<string, string> {
     if (value !== undefined) out[key.toLowerCase()] = String(value)
   }
   return out
+}
+
+async function startLocalServer(
+  handler: (request: IncomingMessage, response: ServerResponse) => void,
+): Promise<{ server: Server; origin: string }> {
+  const server = createServer(handler)
+  await new Promise<void>((resolve, reject) => {
+    server.once('error', reject)
+    server.listen(0, '127.0.0.1', resolve)
+  })
+  const address = server.address()
+  if (!address || typeof address === 'string') throw new Error('local HTTP server did not bind a TCP address')
+  return { server, origin: `http://127.0.0.1:${address.port}` }
+}
+
+async function closeLocalServer(server: Server): Promise<void> {
+  const closed = new Promise<void>((resolve) => server.close(() => resolve()))
+  server.closeAllConnections()
+  await closed
 }
 
 describe('httpJson', () => {
@@ -287,9 +309,13 @@ describe('httpJson', () => {
     it('allows an explicitly replayable method and honors Retry-After through injected seams', async () => {
       let calls = 0
       const delays: number[] = []
+      const now = Date.UTC(2023, 10, 14, 22, 13, 20)
       const fetch = fakeFetch(() => {
         calls += 1
-        if (calls === 1) return new Response('busy', { status: 429, headers: { 'retry-after': '2' } })
+        if (calls === 1) return new Response('busy', {
+          status: 429,
+          headers: { 'retry-after': 'Tue, 14 Nov 2023 22:13:22 GMT' },
+        })
         return jsonResponse({ ok: true })
       })
 
@@ -298,7 +324,7 @@ describe('httpJson', () => {
           {
             baseUrl: 'https://api.example.com',
             fetch,
-            now: () => 1_700_000_000_000,
+            now: () => now,
             sleep: async (delayMs) => {
               delays.push(delayMs)
             },
@@ -309,6 +335,37 @@ describe('httpJson', () => {
       ).resolves.toEqual({ ok: true })
       expect(calls).toBe(2)
       expect(delays).toEqual([2_000])
+    })
+
+    it('uses deterministic capped exponential backoff without retrying network errors', async () => {
+      let calls = 0
+      const delays: number[] = []
+      const fetch = fakeFetch(() => {
+        calls += 1
+        return calls < 3 ? new Response('busy', { status: 503 }) : jsonResponse({ ok: true })
+      })
+
+      await expect(httpJson(
+        {
+          baseUrl: 'https://api.example.com',
+          fetch,
+          sleep: async (delayMs) => { delays.push(delayMs) },
+          retry: { maxAttempts: 3, baseDelayMs: 10, maxDelayMs: 15 },
+        },
+        { path: '/backoff' },
+      )).resolves.toEqual({ ok: true })
+      expect(delays).toEqual([10, 15])
+
+      let networkCalls = 0
+      const failedFetch = (async () => {
+        networkCalls += 1
+        throw new TypeError('fetch failed')
+      }) as typeof globalThis.fetch
+      await expect(httpJson(
+        { baseUrl: 'https://api.example.com', fetch: failedFetch, retry: { maxAttempts: 3 } },
+        { path: '/network-error' },
+      )).rejects.toMatchObject({ code: ErrorCodes.AK_TOOL_EXEC_FAILED })
+      expect(networkCalls).toBe(1)
     })
 
     it('composes an optional caller AbortSignal so abort cancels in-flight work', async () => {
@@ -412,5 +469,201 @@ describe('bindHttp', () => {
     const http = bindHttp({ baseUrl: 'https://api.example.com', fetch })
     const result = await http<{ pong: boolean }>({ path: '/ping' })
     expect(result.pong).toBe(true)
+  })
+})
+
+describe('native HTTP acceptance', () => {
+  it('reuses retry, body-limit, origin, redirect, and auth contracts with real fetch', async () => {
+    let targetHits = 0
+    let retryCalls = 0
+    let retryDelay = -1
+    let capCalls = 0
+    let capDelay = -1
+    let authorization = ''
+    const target = await startLocalServer((_request, response) => {
+      targetHits += 1
+      response.end('should not receive auth-bound requests')
+    })
+    const primary = await startLocalServer((request, response) => {
+      switch (request.url) {
+        case '/retry':
+          retryCalls += 1
+          if (retryCalls === 1) {
+            response.writeHead(429, { 'retry-after': '0.0005', 'content-type': 'application/json' }).end('{"busy":true}')
+          } else {
+            response.writeHead(200, { 'content-type': 'application/json' }).end('{"ok":true}')
+          }
+          return
+        case '/cap':
+          capCalls += 1
+          if (capCalls === 1) response.writeHead(503, { 'retry-after': '5' }).end('busy')
+          else response.writeHead(200, { 'content-type': 'application/json' }).end('{"ok":true}')
+          return
+        case '/headers':
+          authorization = request.headers.authorization ?? ''
+          response.writeHead(200, { 'content-type': 'application/json' }).end('{"ok":true}')
+          return
+        case '/redirect':
+          response.writeHead(302, { location: `${target.origin}/stolen` }).end()
+          return
+        case '/length':
+          response.writeHead(200, { 'content-type': 'text/plain', 'content-length': '5' }).end('12345')
+          return
+        case '/chunked':
+          response.writeHead(200, { 'content-type': 'text/plain' })
+          response.write('123')
+          response.end('456')
+          return
+        default:
+          response.writeHead(404).end()
+      }
+    })
+
+    try {
+      await expect(httpJson(
+        {
+          baseUrl: primary.origin,
+          retry: { maxAttempts: 2, baseDelayMs: 0, maxDelayMs: 10 },
+          sleep: async (delayMs) => { retryDelay = delayMs },
+        },
+        { path: '/retry' },
+      )).resolves.toEqual({ ok: true })
+      expect(retryCalls).toBe(2)
+      expect(retryDelay).toBe(1)
+
+      await expect(httpJson(
+        {
+          baseUrl: primary.origin,
+          retry: { maxAttempts: 2, baseDelayMs: 0, maxDelayMs: 10 },
+          sleep: async (delayMs) => { capDelay = delayMs },
+        },
+        { path: '/cap' },
+      )).resolves.toEqual({ ok: true })
+      expect(capCalls).toBe(2)
+      expect(capDelay).toBe(10)
+
+      await httpJson(
+        { baseUrl: primary.origin, headers: { authorization: 'Bearer bound' } },
+        { path: '/headers', headers: { Authorization: 'Bearer request' } },
+      )
+      expect(authorization).toBe('Bearer bound')
+
+      await expect(httpJson(
+        { baseUrl: primary.origin },
+        { path: `${target.origin}/origin-escape` },
+      )).rejects.toMatchObject({ name: 'ToolError', code: ErrorCodes.AK_TOOL_INVALID_INPUT })
+      await expect(httpJson(
+        { baseUrl: primary.origin, headers: { authorization: 'Bearer bound' } },
+        { path: '/redirect' },
+      )).rejects.toBeInstanceOf(ToolError)
+      expect(targetHits).toBe(0)
+
+      const lengthResponse = await fetch(`${primary.origin}/length`)
+      await expect(readResponseBytes(lengthResponse, 4)).rejects.toMatchObject({
+        name: 'ToolError',
+        code: ErrorCodes.AK_TOOL_EXEC_FAILED,
+        cause: { name: 'NetError', code: NetErrorCodes.AK_NET_BODY_TOO_LARGE },
+      })
+      await expect(httpJson(
+        { baseUrl: primary.origin, maxResponseBytes: 4 },
+        { path: '/chunked' },
+      )).rejects.toMatchObject({
+        name: 'ToolError',
+        code: ErrorCodes.AK_TOOL_EXEC_FAILED,
+        cause: { name: 'NetError', code: NetErrorCodes.AK_NET_BODY_TOO_LARGE },
+      })
+    } finally {
+      await Promise.all([closeLocalServer(primary.server), closeLocalServer(target.server)])
+    }
+  })
+
+  it('keeps the deadline over custom retry waits and physically aborts real fetch/body reads', async () => {
+    let delayedRetryCalls = 0
+    let timeoutClosed = false
+    let callerAbortRequested = false
+    let callerAbortClosed = false
+    const server = await startLocalServer((request, response) => {
+      if (request.url === '/deadline-retry') {
+        delayedRetryCalls += 1
+        response.writeHead(503, { 'retry-after': '0' }).end('busy')
+        return
+      }
+      if (request.url === '/timeout') {
+        response.writeHead(200, { 'content-type': 'application/json' })
+        const timer = setTimeout(() => response.end('{"ok":true}'), 250)
+        response.on('close', () => { timeoutClosed = true; clearTimeout(timer) })
+        return
+      }
+      if (request.url === '/caller-abort') {
+        response.writeHead(200, { 'content-type': 'application/json' })
+        response.write('{')
+        callerAbortRequested = true
+        const timer = setTimeout(() => response.end('"ok":true}'), 250)
+        response.on('close', () => { callerAbortClosed = true; clearTimeout(timer) })
+        return
+      }
+      response.writeHead(404).end()
+    })
+
+    try {
+      await expect(httpJson(
+        {
+          baseUrl: server.origin,
+          timeoutMs: 30,
+          retry: { maxAttempts: 2 },
+          sleep: async () => new Promise<void>(() => {}),
+        },
+        { path: '/deadline-retry' },
+      )).rejects.toMatchObject({ name: 'TimeoutError' })
+      expect(delayedRetryCalls).toBe(1)
+
+      await expect(httpJson(
+        { baseUrl: server.origin, timeoutMs: 30 },
+        { path: '/timeout' },
+      )).rejects.toMatchObject({ name: 'TimeoutError' })
+      await vi.waitFor(() => expect(timeoutClosed).toBe(true))
+
+      const controller = new AbortController()
+      const reason = new Error('caller cancelled')
+      const pendingRequest = httpJson(
+        { baseUrl: server.origin, timeoutMs: 1_000, signal: controller.signal },
+        { path: '/caller-abort' },
+      )
+      await vi.waitFor(() => expect(callerAbortRequested).toBe(true))
+      controller.abort(reason)
+      await expect(pendingRequest).rejects.toBe(reason)
+      await vi.waitFor(() => expect(callerAbortClosed).toBe(true))
+    } finally {
+      await closeLocalServer(server.server)
+    }
+  })
+
+  it('keeps cleanup and caller abort semantics on the compatibility timeout wrapper', async () => {
+    expect(composeTimeoutSignal).toBe(composeTimeoutSignalModule)
+    const timed = composeTimeoutSignal(20)
+    timed.cleanup()
+    const timeoutElapsed = AbortSignal.timeout(40)
+    await vi.waitFor(() => expect(timeoutElapsed.aborted).toBe(true), { timeout: 100 })
+    expect(timed.signal.aborted).toBe(false)
+    timed.cleanup()
+
+    const controller = new AbortController()
+    const reason = new Error('outer cancelled')
+    const composed = composeTimeoutSignal(1_000, controller.signal)
+    controller.abort(reason)
+    expect(composed.signal.reason).toBe(reason)
+    composed.cleanup()
+
+    const detachedController = new AbortController()
+    const detached = composeTimeoutSignal(1_000, detachedController.signal)
+    detached.cleanup()
+    detachedController.abort(reason)
+    expect(detached.signal.aborted).toBe(false)
+
+    const preAbortedController = new AbortController()
+    preAbortedController.abort(reason)
+    const preAborted = composeTimeoutSignal(1_000, preAbortedController.signal)
+    expect(preAborted.signal.reason).toBe(reason)
+    preAborted.cleanup()
   })
 })

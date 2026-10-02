@@ -2,8 +2,8 @@
 
 Unified service-integration catalog: one descriptor per service, projected into
 tools, connectors, triggers, and auth. Dependency-light — only `@agentskit/core`
-plus runtime `fetch` / `node:crypto`. No vendor SDKs (ADR-0012). Stability:
-**beta** (not stable).
+and `@agentskit/net` plus runtime `fetch` / `node:crypto`. No vendor SDKs
+(ADR-0012). Stability: **beta** (not stable).
 
 ## Scope
 

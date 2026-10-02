@@ -52,7 +52,8 @@
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "@agentskit/core": "workspace:*"
+    "@agentskit/core": "workspace:*",
+    "@agentskit/net": "workspace:*"
   },
   "devDependencies": {
     "@types/json-schema": "^7.0.15",

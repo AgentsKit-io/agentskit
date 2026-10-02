@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "5897dd5c5106ed1c5691485808861a344bb38e245c0247e407065e62a035d006",
+  "contentHash": "4fbadb40176f371e8e87bf5c613674aa5e6adc949377d1fdab06e96370f1c9d9",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T00:03:50.163Z",
+  "generatedAt": "2026-10-02T04:49:15.892Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7006,12 +7006,12 @@
       "type": "document",
       "title": "Conventions — @agentskit/integrations",
       "path": "packages/integrations/CONVENTIONS.md",
-      "description": "Unified service-integration catalog: one descriptor per service, projected into tools, connectors, triggers, and auth. Dependency-light — only @agentskit/core plus runtime fetch / node:crypto. No vendor SDKs (ADR-0012). Stability: beta (not stable).",
+      "description": "Unified service-integration catalog: one descriptor per service, projected into tools, connectors, triggers, and auth. Dependency-light — only @agentskit/core and @agentskit/net plus runtime fetch / node:crypto. No vendor SDKs (ADR-0012). Stability: beta (not stable).",
       "tags": [
         "document",
         "unclassified"
       ],
-      "contentHash": "d11c66098148fe6c4dd4305f220f550f8d680e31d0c9b1cecf941da5bf4434b2"
+      "contentHash": "2b78d625f189ae6e89c1c125721a2a98a4e1c81ae43bfda0034da6a758feb980"
     },
     {
       "id": "document:packages/integrations/README.md",
@@ -7023,7 +7023,7 @@
         "document",
         "project"
       ],
-      "contentHash": "1137589312decb5afe63c419b54308d342720018ff619a958d069c2cbda3ed7f"
+      "contentHash": "9b078a0d835ad0bad99ac3b3c31a2c6e08154b94ea784db0f59ddb861961f7dd"
     },
     {
       "id": "document:packages/mcp/CONVENTIONS.md",
@@ -22605,7 +22605,22 @@
         "ts",
         "src"
       ],
-      "contentHash": "048f09dcb5c5db72788602c569f6bd89217f6a8ef91ff0f91873c726048b746f"
+      "contentHash": "96bdf581d46d2dff058b0fa23a5fd7733d806195b756b862db0d4eeb90f40223"
+    },
+    {
+      "id": "module:packages/integrations/src/http-timeout.ts",
+      "type": "module",
+      "title": "http-timeout.ts",
+      "path": "packages/integrations/src/http-timeout.ts",
+      "symbols": [
+        "composeTimeoutSignal"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "8f6ea40107cbb29f953219e3b6d1168787c16bc0a5e58b46ed0ec0c3b1e6ec5f"
     },
     {
       "id": "module:packages/integrations/src/http.ts",
@@ -22629,7 +22644,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "214f9a5bc07444f1af24ce60f70763da1720c7f55c65bd90cce66f0df914a8a7"
+      "contentHash": "a4d7590d308a6cc574e2434ea5d3ff40c3102afd898394c19ded99ee170d77bd"
     },
     {
       "id": "module:packages/integrations/src/index.ts",
@@ -24937,7 +24952,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "e9a2f63e95ca1f338139c9d734850e91d823489ae0084f9cd9f5cb8fca286a70"
+      "contentHash": "5b1fc409aebb8cc7c12c89bf2fc834584e80d81464206018998595614e6a9021"
     },
     {
       "id": "module:packages/integrations/tests/integration-tools.test.ts",
@@ -37488,8 +37503,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "1390007ae6f885f811daee74a4e778ecbc2aae0818e55c6c8908e863fa41f88e",
-    "fileCount": 2491,
+    "hash": "03871b92e9efed896c591139caf4bb16c1fd989f13f962f8352abff4effebab3",
+    "fileCount": 2492,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37511,9 +37526,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "edb4507703e7ef196126e953c09c1fcc4f9a380c6d9f6ba6783c54f91f696a0e",
+    "contentHash": "a2f54372126d15d414a67423c5f10cbfb796dd80711709165f79fc4c0b3e16fc",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "00e37ccaf0125729942a8873b8c8c1aa983142c91d019d6ce32ea159a37c05a5",
+    "snapshotHash": "b8c10c9c2fcc4c1115ca55b6c7c50d6425fb928491f4287fead39ae3e78d38f2",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37533,7 +37548,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2445,
+      "documentCount": 2446,
       "fieldNames": [
         "aliases",
         "body",
@@ -37544,13 +37559,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0114519427402864,
-        "body": 61.23844580777096,
-        "headings": 4.035173824130879,
-        "path": 7.622494887525562,
-        "summary": 4.566462167689162,
-        "symbols": 7.495705521472392,
-        "title": 3.334969325153374
+        "aliases": 3.011447260834015,
+        "body": 61.25715453802126,
+        "headings": 4.0335241210139,
+        "path": 7.622240392477514,
+        "summary": 4.56909239574816,
+        "symbols": 7.494276369582993,
+        "title": 3.3352412101390025
       }
     },
     "entries": [
@@ -50902,7 +50917,7 @@
         "kind": "document",
         "path": "apps/docs-next/content/docs/for-agents/integrations.mdx",
         "title": "integrations",
-        "summary": "One descriptor per service (Integration) that every consumer layer projects from — agent tools, connector senders, inbound triggers, OAuth specs, marketplace listings. Eliminates the per-service duplication that otherwise spreads across @agentskit/tools and host runtimes. Dependency-light: only @agentskit/core, with fetch + node:crypto at runtime.",
+        "summary": "One descriptor per service (Integration) that every consumer layer projects from — agent tools, connector senders, inbound triggers, OAuth specs, marketplace listings. Eliminates the per-service duplication that otherwise spreads across @agentskit/tools and host runtimes. Dependency-light: @agentskit/core and @agentskit/net; runtime uses fetch + node:crypto.",
         "audience": "agent",
         "aliases": [
           "integrations"
@@ -50916,8 +50931,8 @@
           "headings": "Install What it is Primary exports (main entry) Execution boundaries (ADR-0026) Webhook verification requirements Subpath exports Minimal example Authoring a descriptor Scaffolding Related",
           "path": "apps/docs-next/content/docs/for-agents/integrations.mdx",
           "symbols": "",
-          "summary": "One descriptor per service (Integration) that every consumer layer projects from — agent tools, connector senders, inbound triggers, OAuth specs, marketplace listings. Eliminates the per-service duplication that otherwise spreads across @agentskit/tools and host runtimes. Dependency-light: only @agentskit/core, with fetch + node:crypto at runtime.",
-          "body": "Install What it is One descriptor per service ( Integration ) that every consumer layer projects from — agent tools, connector senders, inbound triggers, OAuth specs, marketplace listings. Eliminates the per-service duplication that otherwise spreads across @agentskit/tools and host runtimes. Dependency-light: only @agentskit/core , with fetch + node:crypto at runtime. Ships the canonical descriptor + registry + projection contract, a bundled ~50-service fetch-only catalog (ADR-0012), auth/actions/triggers, and a beta — not yet stable. Primary exports (main entry) - defineIntegration — author an Integration descriptor ( auth , actions , triggers , capabilities ). - defineAction — define one action; receives an auth-bound IntegrationHttp client, uses canonical JSON Schema. - defineTrigger — define one inbound trigger ( verify signature + normalize to a uniform event). - httpJson — shared HTTP helper (query/body/timeout, non-2xx → typed error; origin-confined when baseUrl is set; opt-in idempotent retries). - readResponseText / readResponseBytes — bounded response readers for text and binary payloads; set maxResponseBytes at the integration boundary. - bindHttp — bind options into a reusable IntegrationHttp client. - composeTimeoutSignal — compose a timeout with a caller-owned AbortSignal for custom transports. - readResponseText — read a bounded response body as text for integration adapters. - HttpToolOptions — shared HTTP options including signal for caller cancellation, bounded retries, and injectable sleep / now seams for deterministic hosts. - createRegistry — build an isolated catalog instance. - registerIntegration — register a descriptor into the default catalog. - getIntegration — look up a descriptor by service slug. - listIntegrations — list all registered descriptors. - integrationsByCategory — filter the default catalog by category. - toToolDefinitions — project a descriptor's actions into legacy ToolDefinition[] (auth-bound), preserving the fn(config) = Tool[] API consumers expect. - actionToToolDefinition — project a single action into a ToolDefinition . - httpOptionsFor — build the auth-bound HTTP options for a descriptor + caller config. - readResponseText and readResponseBytes — bounded response readers for custom transports. - ProjectionConfig — projection knobs: credential , config , signal , fetch , fetchUntrusted (egress-policy fetch for model-controlled URLs). - integrationTools — resolve a catalog integration (by slug or descriptor) and project it to ToolDefinition[] in one call. - integrationToolsFromEnv — project an integration reading its credential from the environment (via the apiKey envHint ). - credentialEnvVar — the conventional env var holding an integration's API key. - CONFIG FIELDS — declarative connect-form fields ( ConfigField[] ) for services that authenticate with structured config (Twilio, Jira, Stripe, …) rather than a single API key; attached to each descriptor's configFields . - Named service descriptors — e.g. slackIntegration , githubIntegration , … (one per catalog entry). Execution boundaries (ADR-0026) - Origin-confined auth-bound HTTP — credentials stay on the configured baseUrl origin; automatic redirects are disabled. - Derived confirmation — projection forces confirmation for write / external / destructive side effects. - fetchUntrusted — required for model-controlled downloads (e.g. Whisper audio URLs). Direct @agentskit/integrations consumers must inject an egress-policy fetch; the @agentskit/tools Whisper facade injects safeFetch independently of provider fetch . - Retry policy — GET , PUT , and DELETE retry only on 408 , 425 , 429 , and transient 5xx responses. Retry-After is honored and bounded by maxDelayMs ; writes such as POST require an explicit retry.methods opt-in because replaying them can duplicate side effects. - Diagnostics — upstream bodies are truncated and redact token-like fields before entering typed errors. Auth headers and request payloads are never incl",
+          "summary": "One descriptor per service (Integration) that every consumer layer projects from — agent tools, connector senders, inbound triggers, OAuth specs, marketplace listings. Eliminates the per-service duplication that otherwise spreads across @agentskit/tools and host runtimes. Dependency-light: @agentskit/core and @agentskit/net; runtime uses fetch + node:crypto.",
+          "body": "Install What it is One descriptor per service ( Integration ) that every consumer layer projects from — agent tools, connector senders, inbound triggers, OAuth specs, marketplace listings. Eliminates the per-service duplication that otherwise spreads across @agentskit/tools and host runtimes. Dependency-light: @agentskit/core and @agentskit/net ; runtime uses fetch + node:crypto . Ships the canonical descriptor + registry + projection contract, a bundled ~50-service fetch-only catalog (ADR-0012), auth/actions/triggers, and a beta — not yet stable. Primary exports (main entry) - defineIntegration — author an Integration descriptor ( auth , actions , triggers , capabilities ). - defineAction — define one action; receives an auth-bound IntegrationHttp client, uses canonical JSON Schema. - defineTrigger — define one inbound trigger ( verify signature + normalize to a uniform event). - httpJson — shared HTTP helper (query/body/timeout, non-2xx → typed error; origin-confined when baseUrl is set; opt-in idempotent retries). - readResponseText / readResponseBytes — bounded response readers for text and binary payloads; set maxResponseBytes at the integration boundary. - bindHttp — bind options into a reusable IntegrationHttp client. - composeTimeoutSignal — compose a timeout with a caller-owned AbortSignal for custom transports. - readResponseText — read a bounded response body as text for integration adapters. - HttpToolOptions — shared HTTP options including signal for caller cancellation, bounded retries, and injectable sleep / now seams for deterministic hosts. - createRegistry — build an isolated catalog instance. - registerIntegration — register a descriptor into the default catalog. - getIntegration — look up a descriptor by service slug. - listIntegrations — list all registered descriptors. - integrationsByCategory — filter the default catalog by category. - toToolDefinitions — project a descriptor's actions into legacy ToolDefinition[] (auth-bound), preserving the fn(config) = Tool[] API consumers expect. - actionToToolDefinition — project a single action into a ToolDefinition . - httpOptionsFor — build the auth-bound HTTP options for a descriptor + caller config. - readResponseText and readResponseBytes — bounded response readers for custom transports. - ProjectionConfig — projection knobs: credential , config , signal , fetch , fetchUntrusted (egress-policy fetch for model-controlled URLs). - integrationTools — resolve a catalog integration (by slug or descriptor) and project it to ToolDefinition[] in one call. - integrationToolsFromEnv — project an integration reading its credential from the environment (via the apiKey envHint ). - credentialEnvVar — the conventional env var holding an integration's API key. - CONFIG FIELDS — declarative connect-form fields ( ConfigField[] ) for services that authenticate with structured config (Twilio, Jira, Stripe, …) rather than a single API key; attached to each descriptor's configFields . - Named service descriptors — e.g. slackIntegration , githubIntegration , … (one per catalog entry). Execution boundaries (ADR-0026) - Origin-confined auth-bound HTTP — credentials stay on the configured baseUrl origin; automatic redirects are disabled. - Derived confirmation — projection forces confirmation for write / external / destructive side effects. - fetchUntrusted — required for model-controlled downloads (e.g. Whisper audio URLs). Direct @agentskit/integrations consumers must inject an egress-policy fetch; the @agentskit/tools Whisper facade injects safeFetch independently of provider fetch . - Retry policy — GET , PUT , and DELETE retry only on 408 , 425 , 429 , and transient 5xx responses. Retry-After is honored and bounded by maxDelayMs ; writes such as POST require an explicit retry.methods opt-in because replaying them can duplicate side effects. - Diagnostics — upstream bodies are truncated and redact token-like fields before entering typed errors. Auth headers and request payloads ar",
           "aliases": "integrations document agent"
         },
         "graph": {
@@ -50945,6 +50960,11 @@
             {
               "kind": "mentions",
               "id": "package:@agentskit/integrations",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/net",
               "confidence": "observed"
             },
             {
@@ -50980,6 +51000,11 @@
             {
               "kind": "mentions-symbol",
               "id": "module:packages/integrations/src/http-body.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/integrations/src/http-timeout.ts",
               "confidence": "observed"
             },
             {
@@ -51029,7 +51054,7 @@
             }
           ]
         },
-        "contentHash": "4b9bd74e5f08a6a8803e02cc1a1bcca536f7fd226450ba01bc7dd6820ba72151",
+        "contentHash": "827fac61128d85a6b9f1a1099a6e04228ae67c5931d805300c5cd52e5f19ef79",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -77450,7 +77475,7 @@
         "kind": "document",
         "path": "packages/integrations/CONVENTIONS.md",
         "title": "Conventions — @agentskit/integrations",
-        "summary": "Unified service-integration catalog: one descriptor per service, projected into tools, connectors, triggers, and auth. Dependency-light — only @agentskit/core plus runtime fetch / node:crypto. No vendor SDKs (ADR-0012). Stability: beta (not stable).",
+        "summary": "Unified service-integration catalog: one descriptor per service, projected into tools, connectors, triggers, and auth. Dependency-light — only @agentskit/core and @agentskit/net plus runtime fetch / node:crypto. No vendor SDKs (ADR-0012). Stability: beta (not stable).",
         "aliases": [],
         "tags": [
           "document",
@@ -77461,8 +77486,8 @@
           "headings": "Conventions — @agentskit/integrations Scope What does NOT belong here Authoring a service Constraints Testing Common pitfalls Review checklist for this package",
           "path": "packages/integrations/CONVENTIONS.md",
           "symbols": "",
-          "summary": "Unified service-integration catalog: one descriptor per service, projected into tools, connectors, triggers, and auth. Dependency-light — only @agentskit/core plus runtime fetch / node:crypto. No vendor SDKs (ADR-0012). Stability: beta (not stable).",
-          "body": "Conventions — @agentskit/integrations Unified service-integration catalog: one descriptor per service, projected into tools, connectors, triggers, and auth. Dependency-light — only @agentskit/core plus runtime fetch / node:crypto . No vendor SDKs (ADR-0012). Stability: beta (not stable). Scope - Contract — defineIntegration , defineAction , defineTrigger , auth specs ( apiKey / oauth2 / webhookSecret / none ), CONFIG FIELDS - HTTP helpers — httpJson , bindHttp (auth-bound, origin-confined client with automatic redirects disabled; HttpToolOptions.signal for cancellation) - Registry — createRegistry , registerIntegration , getIntegration , listIntegrations , integrationsByCategory - Projections — toToolDefinitions , actionToToolDefinition , httpOptionsFor , integrationTools , integrationToolsFromEnv , credentialEnvVar ; ProjectionConfig.signal and ProjectionConfig.fetchUntrusted - Catalog services under src/services/<slug / (~50 fetch-only descriptors; side-effect registration into the default registry). Bundled per ADR-0012; - Testing subpath — @agentskit/integrations/testing validators ( validateIntegration , validateAction , validateTrigger , …) - Execution boundaries — ADR-0026: origin-confined auth-bound HTTP; derived confirmation for write / external / destructive ; host-injected fetchUntrusted for model-controlled URLs (Whisper fails closed without it; @agentskit/tools Whisper facade injects safeFetch independently of provider fetch) What does NOT belong here - Vendor SDK clients or heavy runtime deps → stay out (HTTP/ fetch only) - Provider LLM adapters → @agentskit/adapters - Browser UI / framework bindings - MCP protocol transport → @agentskit/tools / @agentskit/mcp - Host OAuth flow runners, token vaults, or product business logic hosts inject policy via fetchUntrusted / confirmation rather than embedding platform logic here Authoring a service 1. Prefer pnpm gen:integration <name (copies services/ template ). 2. One folder per slug: src/services/<slug /{index,actions,…}.ts . 3. Actions use canonical JSON Schema; execute receives an auth-bound HTTP client and never sees raw credentials. 4. Declare sideEffect honestly ( none read write destructive external ) — projection forces confirmation for write/external/destructive. 5. Register via the service module side-effect; re-export through src/services so the default catalog stays complete. 6. Gate descriptors in CI with @agentskit/integrations/testing . 7. Model-controlled downloads use ctx.fetchUntrusted (never raw fetch ); fail closed when the host did not inject a policy fetch. Constraints - Named exports only on the TS surface. - No bare throw new Error — use typed package errors / structured results. - template is generator source only; keep it out of coverage expectations (already excluded in vitest config). - Do not bundle vendor SDKs. - Do not claim stable — beta packages may still adjust surface in minors. Testing - Unit-test contract helpers, registry, HTTP binding, and projections. - Service descriptors should pass the testing-subpath validators. - Configured line coverage threshold: 80 (with src/services/ template/ excluded). - Cover origin confinement, signal propagation, confirmation derivation, and fetchUntrusted fail-closed paths when those surfaces change. Common pitfalls Pitfall What to do instead --- --- Importing a vendor SDK Use http / fetch + documented REST paths Putting credentials on the action surface Bind auth in the HTTP client; actions get http only Duplicating a tool in @agentskit/tools Author once here; project with toToolDefinitions Skipping sideEffect honesty Match real blast radius so projection can gate correctly Using raw fetch for model-controlled URLs Require fetchUntrusted ; document direct-consumer injection Editing template as a live service Instantiate via pnpm gen:integration Review checklist for this package - [ ] Coverage threshold holds (80% lines; template excluded) - [ ] New services validate via @agentskit/integrations/tes",
+          "summary": "Unified service-integration catalog: one descriptor per service, projected into tools, connectors, triggers, and auth. Dependency-light — only @agentskit/core and @agentskit/net plus runtime fetch / node:crypto. No vendor SDKs (ADR-0012). Stability: beta (not stable).",
+          "body": "Conventions — @agentskit/integrations Unified service-integration catalog: one descriptor per service, projected into tools, connectors, triggers, and auth. Dependency-light — only @agentskit/core and @agentskit/net plus runtime fetch / node:crypto . No vendor SDKs (ADR-0012). Stability: beta (not stable). Scope - Contract — defineIntegration , defineAction , defineTrigger , auth specs ( apiKey / oauth2 / webhookSecret / none ), CONFIG FIELDS - HTTP helpers — httpJson , bindHttp (auth-bound, origin-confined client with automatic redirects disabled; HttpToolOptions.signal for cancellation) - Registry — createRegistry , registerIntegration , getIntegration , listIntegrations , integrationsByCategory - Projections — toToolDefinitions , actionToToolDefinition , httpOptionsFor , integrationTools , integrationToolsFromEnv , credentialEnvVar ; ProjectionConfig.signal and ProjectionConfig.fetchUntrusted - Catalog services under src/services/<slug / (~50 fetch-only descriptors; side-effect registration into the default registry). Bundled per ADR-0012; - Testing subpath — @agentskit/integrations/testing validators ( validateIntegration , validateAction , validateTrigger , …) - Execution boundaries — ADR-0026: origin-confined auth-bound HTTP; derived confirmation for write / external / destructive ; host-injected fetchUntrusted for model-controlled URLs (Whisper fails closed without it; @agentskit/tools Whisper facade injects safeFetch independently of provider fetch) What does NOT belong here - Vendor SDK clients or heavy runtime deps → stay out (HTTP/ fetch only) - Provider LLM adapters → @agentskit/adapters - Browser UI / framework bindings - MCP protocol transport → @agentskit/tools / @agentskit/mcp - Host OAuth flow runners, token vaults, or product business logic hosts inject policy via fetchUntrusted / confirmation rather than embedding platform logic here Authoring a service 1. Prefer pnpm gen:integration <name (copies services/ template ). 2. One folder per slug: src/services/<slug /{index,actions,…}.ts . 3. Actions use canonical JSON Schema; execute receives an auth-bound HTTP client and never sees raw credentials. 4. Declare sideEffect honestly ( none read write destructive external ) — projection forces confirmation for write/external/destructive. 5. Register via the service module side-effect; re-export through src/services so the default catalog stays complete. 6. Gate descriptors in CI with @agentskit/integrations/testing . 7. Model-controlled downloads use ctx.fetchUntrusted (never raw fetch ); fail closed when the host did not inject a policy fetch. Constraints - Named exports only on the TS surface. - No bare throw new Error — use typed package errors / structured results. - template is generator source only; keep it out of coverage expectations (already excluded in vitest config). - Do not bundle vendor SDKs. - Do not claim stable — beta packages may still adjust surface in minors. Testing - Unit-test contract helpers, registry, HTTP binding, and projections. - Service descriptors should pass the testing-subpath validators. - Configured line coverage threshold: 80 (with src/services/ template/ excluded). - Cover origin confinement, signal propagation, confirmation derivation, and fetchUntrusted fail-closed paths when those surfaces change. Common pitfalls Pitfall What to do instead --- --- Importing a vendor SDK Use http / fetch + documented REST paths Putting credentials on the action surface Bind auth in the HTTP client; actions get http only Duplicating a tool in @agentskit/tools Author once here; project with toToolDefinitions Skipping sideEffect honesty Match real blast radius so projection can gate correctly Using raw fetch for model-controlled URLs Require fetchUntrusted ; document direct-consumer injection Editing template as a live service Instantiate via pnpm gen:integration Review checklist for this package - [ ] Coverage threshold holds (80% lines; template excluded) - [ ] New services validate via @agentsk",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -77490,6 +77515,11 @@
             {
               "kind": "mentions",
               "id": "package:@agentskit/mcp",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/net",
               "confidence": "observed"
             },
             {
@@ -77544,7 +77574,7 @@
             }
           ]
         },
-        "contentHash": "d11c66098148fe6c4dd4305f220f550f8d680e31d0c9b1cecf941da5bf4434b2",
+        "contentHash": "2b78d625f189ae6e89c1c125721a2a98a4e1c81ae43bfda0034da6a758feb980",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -77566,7 +77596,7 @@
           "path": "packages/integrations/README.md",
           "symbols": "",
           "summary": "Profile: <code>major-package</code>",
-          "body": "@agentskit/integrations Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Tags: agentskit · typescript · ai-agents Unified, plug-and-play service integrations for AgentsKit agents — one descriptor per service, projected into tools, connectors, triggers, and auth. Every integration is HTTP/ fetch -only: no vendor SDKs are bundled or required (see ). Verified proof - Package metadata and tests live under packages/integrations/ . - Package guide: https://www.agentskit.io/docs/for-agents/integrations - Stability map: How this fits the ecosystem @agentskit/integrations turns SaaS APIs into agent-ready tools, connectors, triggers, and auth from one service descriptor. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Install <!-- readme-command:install -- Quick start <!-- readme-example:quickstart -- Service descriptors live under src/services/ . The descriptor declares the service's actions, triggers, auth, and CONFIG FIELDS ; the projection helpers turn one descriptor into the surface each consumer needs (a ToolDefinition for the runtime, a connect-form for an app, a webhook trigger, etc.). The catalog is a bundled, fetch-only set of ~50 services (ADR-0012). The and consumes this package rather than re-shipping integrations. Authoring a new integration Execution boundaries (resilience & security) Projection and HTTP share a small set of safety contracts ( ): - HttpToolOptions.signal / ProjectionConfig.signal — caller cancellation composed with the per-request timeout. - HttpToolOptions.retry — opt-in retries for idempotent methods only, honoring Retry-After with bounded backoff. - Origin-confined auth-bound HTTP — when baseUrl is set, httpJson rejects cross-origin paths and disables automatic redirects so bound credentials cannot leave that origin. - Derived confirmation — projection forces requiresConfirmation for actions with sideEffect of write , external , or destructive (descriptors cannot opt out). - ProjectionConfig.fetchUntrusted — policy-enforcing fetch for model-controlled URLs. Direct Whisper (and similar) consumers must inject an egress-policy fetch; the deprecated @agentskit/tools Whisper facade injects safeFetch independently of provider fetch . Stability beta — usable in production; the descriptor, registry, and projection contract are shipped, the fetch-only catalog is populated, and execution boundaries are explicit (ADR-0026). Not yet stable : public surface may still move in minor releases with CHANGELOG notes. Prefer ~x.y.z if you need tighter pins. Maturity and compatibility - Stability: beta — see - Node.js 20+ and TypeScript strict mode - Published as @agentskit/integrations Contributing See and the monorepo .",
+          "body": "@agentskit/integrations Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Tags: agentskit · typescript · ai-agents Unified, plug-and-play service integrations for AgentsKit agents — one descriptor per service, projected into tools, connectors, triggers, and auth. Every integration is HTTP/ fetch -only: no vendor SDKs are bundled or required (see ). HTTP retry, timeout-signal, and bounded-reader behavior uses the @agentskit/net runtime dependency. Verified proof - Package metadata and tests live under packages/integrations/ . - Package guide: https://www.agentskit.io/docs/for-agents/integrations - Stability map: How this fits the ecosystem @agentskit/integrations turns SaaS APIs into agent-ready tools, connectors, triggers, and auth from one service descriptor. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Install <!-- readme-command:install -- Quick start <!-- readme-example:quickstart -- Service descriptors live under src/services/ . The descriptor declares the service's actions, triggers, auth, and CONFIG FIELDS ; the projection helpers turn one descriptor into the surface each consumer needs (a ToolDefinition for the runtime, a connect-form for an app, a webhook trigger, etc.). The catalog is a bundled, fetch-only set of ~50 services (ADR-0012). @agentskit/tools consumes this package rather than re-shipping integrations. Authoring a new integration Execution boundaries (resilience & security) Projection and HTTP share a small set of safety contracts ( ): - HttpToolOptions.signal / ProjectionConfig.signal — caller cancellation composed with the per-request timeout. - HttpToolOptions.retry — opt-in retries for idempotent methods only: one total attempt by default, with GET / PUT / DELETE retrying 408 , 425 , 429 , 500 , 502 , 503 , and 504 when configured for more attempts. Backoff starts at 100 ms, caps at 2 seconds, and has no jitter. Retry-After is bounded by that cap; delta seconds are rounded to the nearest millisecond by the shared parser. Network errors are not retried. - Retry seams — sleep(delayMs) remains a one-argument callback; now() supplies the clock for HTTP-date Retry-After values. The overall timeout also ends a pending custom sleep wait. - Timeout compatibility — composeTimeoutSignal remains deprecated through version 0.10.0 and for at least 90 days. Its cleanup() detaches the compatibility relay; the native timeout signal expires on its own clock. - Origin-confined auth-bound HTTP — when baseUrl is set, httpJson rejects cross-origin paths and disables automatic redirects so bound credentials cannot leave that origin. - Derived confirmation — projection forces requiresConfirmation for actions with sideEffect of write , external , or destructive (descriptors cannot opt out). - ProjectionConfig.fetchUntrusted — policy-enforcing fetch for model-controlled URLs. Direct Whisper (and similar) consumers must inject an egress-policy fetch; the deprecated @agentskit/tools Whisper facade injects safeFetch independently of provider fetch . Stability beta — usable in production; the descriptor, registry, and projection contract are shipped, the fetch-only catalog is populated, and execution boundaries are explicit (ADR-0026). Not yet stable : public surface may still move in minor releases with CHANGELOG notes. Prefer ~x.y.z if you need tighter pins. Maturity and compatibility - Stability: beta — see - Node.js 20+ and TypeScript strict mode - Published as @agentskit/integrations Contributing See and the monorepo .",
           "aliases": "document project"
         },
         "graph": {
@@ -77613,6 +77643,11 @@
             },
             {
               "kind": "mentions",
+              "id": "package:@agentskit/net",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
               "id": "package:@agentskit/tools",
               "confidence": "observed"
             },
@@ -77633,6 +77668,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/integrations/src/http-timeout.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/integrations/src/http.ts",
               "confidence": "observed"
             },
@@ -77643,7 +77683,7 @@
             }
           ]
         },
-        "contentHash": "1137589312decb5afe63c419b54308d342720018ff619a958d069c2cbda3ed7f",
+        "contentHash": "9b078a0d835ad0bad99ac3b3c31a2c6e08154b94ea784db0f59ddb861961f7dd",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -135985,7 +136025,72 @@
           ],
           "outbound": []
         },
-        "contentHash": "048f09dcb5c5db72788602c569f6bd89217f6a8ef91ff0f91873c726048b746f",
+        "contentHash": "96bdf581d46d2dff058b0fa23a5fd7733d806195b756b862db0d4eeb90f40223",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/integrations/src/http-timeout.ts",
+        "kind": "module",
+        "path": "packages/integrations/src/http-timeout.ts",
+        "title": "http-timeout.ts",
+        "aliases": [],
+        "symbols": [
+          "composeTimeoutSignal"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "http-timeout.ts",
+          "headings": "",
+          "path": "packages/integrations/src/http-timeout.ts",
+          "symbols": "composeTimeoutSignal",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 2,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
+            "document:packages/integrations/README.md"
+          ],
+          "packageId": "package:@agentskit/integrations",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/http.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/http.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/integrations/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/http.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "8f6ea40107cbb29f953219e3b6d1168787c16bc0a5e58b46ed0ec0c3b1e6ec5f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -136088,11 +136193,6 @@
               "confidence": "observed"
             },
             {
-              "kind": "imports",
-              "id": "module:packages/integrations/tests/http.test.ts",
-              "confidence": "observed"
-            },
-            {
               "kind": "mentions",
               "id": "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
               "confidence": "observed"
@@ -136145,13 +136245,23 @@
               "confidence": "observed"
             },
             {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/http-timeout.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "re-exports",
               "id": "module:packages/integrations/src/http-body.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/integrations/src/http-timeout.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "214f9a5bc07444f1af24ce60f70763da1720c7f55c65bd90cce66f0df914a8a7",
+        "contentHash": "a4d7590d308a6cc574e2434ea5d3ff40c3102afd898394c19ded99ee170d77bd",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -136229,6 +136339,11 @@
             {
               "kind": "imports",
               "id": "module:packages/integrations/tests/config-fields.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/tests/http.test.ts",
               "confidence": "observed"
             }
           ],
@@ -145544,12 +145659,17 @@
             },
             {
               "kind": "imports",
-              "id": "module:packages/integrations/src/http.ts",
+              "id": "module:packages/integrations/src/http-timeout.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/integrations/src/index.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "e9a2f63e95ca1f338139c9d734850e91d823489ae0084f9cd9f5cb8fca286a70",
+        "contentHash": "5b1fc409aebb8cc7c12c89bf2fc834584e80d81464206018998595614e6a9021",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -189165,7 +189285,7 @@
         "kind": "package",
         "path": "packages/integrations",
         "title": "integrations",
-        "summary": "One descriptor per service (Integration) that every consumer layer projects from — agent tools, connector senders, inbound triggers, OAuth specs, marketplace listings. Eliminates the per-service duplication that otherwise spreads across @agentskit/tools and host runtimes. Dependency-light: only @agentskit/core, with fetch + node:crypto at runtime.",
+        "summary": "One descriptor per service (Integration) that every consumer layer projects from — agent tools, connector senders, inbound triggers, OAuth specs, marketplace listings. Eliminates the per-service duplication that otherwise spreads across @agentskit/tools and host runtimes. Dependency-light: @agentskit/core and @agentskit/net; runtime uses fetch + node:crypto.",
         "audience": "agent",
         "aliases": [
           "integrations",
@@ -189180,8 +189300,8 @@
           "headings": "Install What it is Primary exports (main entry) Execution boundaries (ADR-0026) Webhook verification requirements Subpath exports Minimal example Authoring a descriptor Scaffolding Related",
           "path": "packages/integrations",
           "symbols": "",
-          "summary": "One descriptor per service (Integration) that every consumer layer projects from — agent tools, connector senders, inbound triggers, OAuth specs, marketplace listings. Eliminates the per-service duplication that otherwise spreads across @agentskit/tools and host runtimes. Dependency-light: only @agentskit/core, with fetch + node:crypto at runtime.",
-          "body": "Install What it is One descriptor per service ( Integration ) that every consumer layer projects from — agent tools, connector senders, inbound triggers, OAuth specs, marketplace listings. Eliminates the per-service duplication that otherwise spreads across @agentskit/tools and host runtimes. Dependency-light: only @agentskit/core , with fetch + node:crypto at runtime. Ships the canonical descriptor + registry + projection contract, a bundled ~50-service fetch-only catalog (ADR-0012), auth/actions/triggers, and a beta — not yet stable. Primary exports (main entry) - defineIntegration — author an Integration descriptor ( auth , actions , triggers , capabilities ). - defineAction — define one action; receives an auth-bound IntegrationHttp client, uses canonical JSON Schema. - defineTrigger — define one inbound trigger ( verify signature + normalize to a uniform event). - httpJson — shared HTTP helper (query/body/timeout, non-2xx → typed error; origin-confined when baseUrl is set; opt-in idempotent retries). - readResponseText / readResponseBytes — bounded response readers for text and binary payloads; set maxResponseBytes at the integration boundary. - bindHttp — bind options into a reusable IntegrationHttp client. - composeTimeoutSignal — compose a timeout with a caller-owned AbortSignal for custom transports. - readResponseText — read a bounded response body as text for integration adapters. - HttpToolOptions — shared HTTP options including signal for caller cancellation, bounded retries, and injectable sleep / now seams for deterministic hosts. - createRegistry — build an isolated catalog instance. - registerIntegration — register a descriptor into the default catalog. - getIntegration — look up a descriptor by service slug. - listIntegrations — list all registered descriptors. - integrationsByCategory — filter the default catalog by category. - toToolDefinitions — project a descriptor's actions into legacy ToolDefinition[] (auth-bound), preserving the fn(config) = Tool[] API consumers expect. - actionToToolDefinition — project a single action into a ToolDefinition . - httpOptionsFor — build the auth-bound HTTP options for a descriptor + caller config. - readResponseText and readResponseBytes — bounded response readers for custom transports. - ProjectionConfig — projection knobs: credential , config , signal , fetch , fetchUntrusted (egress-policy fetch for model-controlled URLs). - integrationTools — resolve a catalog integration (by slug or descriptor) and project it to ToolDefinition[] in one call. - integrationToolsFromEnv — project an integration reading its credential from the environment (via the apiKey envHint ). - credentialEnvVar — the conventional env var holding an integration's API key. - CONFIG FIELDS — declarative connect-form fields ( ConfigField[] ) for services that authenticate with structured config (Twilio, Jira, Stripe, …) rather than a single API key; attached to each descriptor's configFields . - Named service descriptors — e.g. slackIntegration , githubIntegration , … (one per catalog entry). Execution boundaries (ADR-0026) - Origin-confined auth-bound HTTP — credentials stay on the configured baseUrl origin; automatic redirects are disabled. - Derived confirmation — projection forces confirmation for write / external / destructive side effects. - fetchUntrusted — required for model-controlled downloads (e.g. Whisper audio URLs). Direct @agentskit/integrations consumers must inject an egress-policy fetch; the @agentskit/tools Whisper facade injects safeFetch independently of provider fetch . - Retry policy — GET , PUT , and DELETE retry only on 408 , 425 , 429 , and transient 5xx responses. Retry-After is honored and bounded by maxDelayMs ; writes such as POST require an explicit retry.methods opt-in because replaying them can duplicate side effects. - Diagnostics — upstream bodies are truncated and redact token-like fields before entering typed errors. Auth headers and request payloads are never incl",
+          "summary": "One descriptor per service (Integration) that every consumer layer projects from — agent tools, connector senders, inbound triggers, OAuth specs, marketplace listings. Eliminates the per-service duplication that otherwise spreads across @agentskit/tools and host runtimes. Dependency-light: @agentskit/core and @agentskit/net; runtime uses fetch + node:crypto.",
+          "body": "Install What it is One descriptor per service ( Integration ) that every consumer layer projects from — agent tools, connector senders, inbound triggers, OAuth specs, marketplace listings. Eliminates the per-service duplication that otherwise spreads across @agentskit/tools and host runtimes. Dependency-light: @agentskit/core and @agentskit/net ; runtime uses fetch + node:crypto . Ships the canonical descriptor + registry + projection contract, a bundled ~50-service fetch-only catalog (ADR-0012), auth/actions/triggers, and a beta — not yet stable. Primary exports (main entry) - defineIntegration — author an Integration descriptor ( auth , actions , triggers , capabilities ). - defineAction — define one action; receives an auth-bound IntegrationHttp client, uses canonical JSON Schema. - defineTrigger — define one inbound trigger ( verify signature + normalize to a uniform event). - httpJson — shared HTTP helper (query/body/timeout, non-2xx → typed error; origin-confined when baseUrl is set; opt-in idempotent retries). - readResponseText / readResponseBytes — bounded response readers for text and binary payloads; set maxResponseBytes at the integration boundary. - bindHttp — bind options into a reusable IntegrationHttp client. - composeTimeoutSignal — compose a timeout with a caller-owned AbortSignal for custom transports. - readResponseText — read a bounded response body as text for integration adapters. - HttpToolOptions — shared HTTP options including signal for caller cancellation, bounded retries, and injectable sleep / now seams for deterministic hosts. - createRegistry — build an isolated catalog instance. - registerIntegration — register a descriptor into the default catalog. - getIntegration — look up a descriptor by service slug. - listIntegrations — list all registered descriptors. - integrationsByCategory — filter the default catalog by category. - toToolDefinitions — project a descriptor's actions into legacy ToolDefinition[] (auth-bound), preserving the fn(config) = Tool[] API consumers expect. - actionToToolDefinition — project a single action into a ToolDefinition . - httpOptionsFor — build the auth-bound HTTP options for a descriptor + caller config. - readResponseText and readResponseBytes — bounded response readers for custom transports. - ProjectionConfig — projection knobs: credential , config , signal , fetch , fetchUntrusted (egress-policy fetch for model-controlled URLs). - integrationTools — resolve a catalog integration (by slug or descriptor) and project it to ToolDefinition[] in one call. - integrationToolsFromEnv — project an integration reading its credential from the environment (via the apiKey envHint ). - credentialEnvVar — the conventional env var holding an integration's API key. - CONFIG FIELDS — declarative connect-form fields ( ConfigField[] ) for services that authenticate with structured config (Twilio, Jira, Stripe, …) rather than a single API key; attached to each descriptor's configFields . - Named service descriptors — e.g. slackIntegration , githubIntegration , … (one per catalog entry). Execution boundaries (ADR-0026) - Origin-confined auth-bound HTTP — credentials stay on the configured baseUrl origin; automatic redirects are disabled. - Derived confirmation — projection forces confirmation for write / external / destructive side effects. - fetchUntrusted — required for model-controlled downloads (e.g. Whisper audio URLs). Direct @agentskit/integrations consumers must inject an egress-policy fetch; the @agentskit/tools Whisper facade injects safeFetch independently of provider fetch . - Retry policy — GET , PUT , and DELETE retry only on 408 , 425 , 429 , and transient 5xx responses. Retry-After is honored and bounded by maxDelayMs ; writes such as POST require an explicit retry.methods opt-in because replaying them can duplicate side effects. - Diagnostics — upstream bodies are truncated and redact token-like fields before entering typed errors. Auth headers and request payloads ar",
           "aliases": "integrations @agentskit/integrations package ownership"
         },
         "graph": {
@@ -189310,7 +189430,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "266af6195f9615e751fa48b53309d6764ca8f405f58a4f81db1bd97eb5375c46",
+        "contentHash": "767dc2547c56b052563a19c37faaae083579fb66f525e84c028fc15a1a2bbb14",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "integrations"
@@ -189927,12 +190047,13 @@
         },
         "graph": {
           "pagerank": 0.005326,
-          "inboundLinks": 13,
+          "inboundLinks": 16,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/net.mdx",
             "document:apps/docs-next/content/docs/reference/packages/net.mdx"
           ],
           "mentionedBy": [
+            "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
             "document:apps/docs-next/content/docs/reference/packages/net.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx",
             "document:apps/docs-next/content/docs/reference/packages/tools.mdx",
@@ -189941,6 +190062,8 @@
             "document:docs/STABILITY.md",
             "document:packages/adapters/CONVENTIONS.md",
             "document:packages/adapters/README.md",
+            "document:packages/integrations/CONVENTIONS.md",
+            "document:packages/integrations/README.md",
             "document:packages/net/CONVENTIONS.md",
             "document:packages/net/README.md",
             "document:packages/tools/README.md"
@@ -189956,6 +190079,11 @@
               "kind": "covers",
               "id": "document:apps/docs-next/content/docs/reference/packages/net.mdx",
               "confidence": "declared"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
+              "confidence": "observed"
             },
             {
               "kind": "mentions",
@@ -189995,6 +190123,16 @@
             {
               "kind": "mentions",
               "id": "document:packages/adapters/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/integrations/CONVENTIONS.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/integrations/README.md",
               "confidence": "observed"
             },
             {

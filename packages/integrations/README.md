@@ -11,7 +11,9 @@ Profile: <code>major-package</code>
 Unified, plug-and-play service integrations for AgentsKit agents — one descriptor
 per service, projected into tools, connectors, triggers, and auth. Every
 integration is HTTP/`fetch`-only: no vendor SDKs are bundled or required
-(see [ADR-0012](../../docs/architecture/adrs/0012-vendor-adapter-scope.md)).
+(see [ADR-0012](../../docs/architecture/adrs/0012-vendor-adapter-scope.md)). HTTP
+retry, timeout-signal, and bounded-reader behavior uses the `@agentskit/net`
+runtime dependency.
 
 
 ## Verified proof
@@ -55,8 +57,8 @@ service's actions, triggers, auth, and `CONFIG_FIELDS`; the projection helpers
 turn one descriptor into the surface each consumer needs (a `ToolDefinition`
 for the runtime, a connect-form for an app, a webhook trigger, etc.).
 
-The catalog is a **bundled, fetch-only** set of ~50 services (ADR-0012). The
-and consumes this package rather than re-shipping integrations.
+The catalog is a **bundled, fetch-only** set of ~50 services (ADR-0012).
+`@agentskit/tools` consumes this package rather than re-shipping integrations.
 
 ## Authoring a new integration
 
@@ -82,7 +84,9 @@ Projection and HTTP share a small set of safety contracts
 ([ADR-0026](../../docs/architecture/adrs/0026-integration-execution-boundaries.md)):
 
 - **`HttpToolOptions.signal` / `ProjectionConfig.signal`** — caller cancellation composed with the per-request timeout.
-- **`HttpToolOptions.retry`** — opt-in retries for idempotent methods only, honoring `Retry-After` with bounded backoff.
+- **`HttpToolOptions.retry`** — opt-in retries for idempotent methods only: one total attempt by default, with `GET` / `PUT` / `DELETE` retrying `408`, `425`, `429`, `500`, `502`, `503`, and `504` when configured for more attempts. Backoff starts at 100 ms, caps at 2 seconds, and has no jitter. `Retry-After` is bounded by that cap; delta seconds are rounded to the nearest millisecond by the shared parser. Network errors are not retried.
+- **Retry seams** — `sleep(delayMs)` remains a one-argument callback; `now()` supplies the clock for HTTP-date `Retry-After` values. The overall timeout also ends a pending custom sleep wait.
+- **Timeout compatibility** — `composeTimeoutSignal` remains deprecated through version `0.10.0` and for at least 90 days. Its `cleanup()` detaches the compatibility relay; the native timeout signal expires on its own clock.
 - **Origin-confined auth-bound HTTP** — when `baseUrl` is set, `httpJson` rejects cross-origin paths and disables automatic redirects so bound credentials cannot leave that origin.
 - **Derived confirmation** — projection forces `requiresConfirmation` for actions with `sideEffect` of `write`, `external`, or `destructive` (descriptors cannot opt out).
 - **`ProjectionConfig.fetchUntrusted`** — policy-enforcing fetch for model-controlled URLs. Direct Whisper (and similar) consumers **must inject** an egress-policy fetch; the deprecated `@agentskit/tools` Whisper facade injects `safeFetch` independently of provider `fetch`.
