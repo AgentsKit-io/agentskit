@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "fb78a67ced8cece6fe4cc7b651ca19c31f60f70e872f0055f68587df64a48fb3",
+  "contentHash": "7e64fb775fd375ea85aeac37fd1c131cb67d6c19231212427d9b85b3d3c093ff",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T22:47:13.459Z",
+  "generatedAt": "2026-10-02T23:57:10.624Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -19303,7 +19303,7 @@
         "ts",
         "security"
       ],
-      "contentHash": "0e117bf40e1262f2b87f160acb2c345da467757f91cdac76247a2551c33c72aa"
+      "contentHash": "ab366f7a199c60ab74ba404471e6e272b0fb01a43caa62db39c76ee8d699a78d"
     },
     {
       "id": "module:packages/core/src/security/taxonomy.ts",
@@ -20249,7 +20249,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "80c8aa7f164093c1ff77693a90bdeaee4a554d4f0796b23fb3b594ab92cd77d3"
+      "contentHash": "0c428a20383f3112050bd0e254b72c77e9d45a6b3d730d9c43792aa8372de04d"
     },
     {
       "id": "module:packages/core/tests/security-taxonomy.test.ts",
@@ -37704,7 +37704,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "68569b719351a8c1e8eb981ba4a659c176beff59816529c860295571af9cb4be",
+    "hash": "320bc59fbc5b91618e16fbdabe87eaa3b98709665ff6ebef055b9cf7f43cc9bf",
     "fileCount": 2505,
     "projectionVersion": 2
   },
@@ -37727,9 +37727,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "2b3d3fc274b3d98b5b58aca0d57127d5161c24823a46f2a05fa5c9cf5b7661ba",
+    "contentHash": "0a9cf384160fa1c2b0a04efd3eba24029d615ed898a8a55ac8fd69a6eb4bf947",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "ad36951d87b2cf1ece5b6131c7a6fee3bee8af2cf4f7d69c8a7432c702f9851d",
+    "snapshotHash": "8e82a62e8f60e0e420ea7fd8942566c4b76e4032bdfe09ef69cba1e714b5b7f0",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -120839,6 +120839,11 @@
               "confidence": "observed"
             },
             {
+              "kind": "imports",
+              "id": "module:packages/core/tests/security-sso.test.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "mentions-symbol",
               "id": "document:.agent-memory/project_playbook-alignment.md",
               "confidence": "observed"
@@ -122983,7 +122988,7 @@
             }
           ]
         },
-        "contentHash": "0e117bf40e1262f2b87f160acb2c345da467757f91cdac76247a2551c33c72aa",
+        "contentHash": "ab366f7a199c60ab74ba404471e6e272b0fb01a43caa62db39c76ee8d699a78d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -127701,12 +127706,17 @@
           "outbound": [
             {
               "kind": "imports",
+              "id": "module:packages/core/src/errors.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/core/src/security/sso.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "80c8aa7f164093c1ff77693a90bdeaee4a554d4f0796b23fb3b594ab92cd77d3",
+        "contentHash": "0c428a20383f3112050bd0e254b72c77e9d45a6b3d730d9c43792aa8372de04d",
         "provenance": "observed",
         "confidence": "observed"
       },
