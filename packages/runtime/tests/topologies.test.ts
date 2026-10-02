@@ -1,6 +1,6 @@
 import { createServer, type IncomingMessage, type Server, type ServerResponse } from 'node:http'
 import { ErrorCodes } from '@agentskit/core'
-import { NetErrorCodes } from '@agentskit/net'
+import { NetErrorCodes, readText } from '@agentskit/net'
 import { describe, expect, it, vi } from 'vitest'
 import {
   blackboard,
@@ -188,7 +188,7 @@ describe('swarm', () => {
           receivedSignal = signal
           try {
             const response = await fetch(`${server.origin}${call++ === 0 ? '/slow' : '/ok'}`, { signal })
-            return await response.text()
+            return await readText(response, { maxBytes: 64 })
           } finally {
             if (call === 1) resolveChildSettled()
           }
@@ -238,7 +238,7 @@ describe('swarm', () => {
           receivedSignal = signal
           try {
             const response = await fetch(server.origin, { signal })
-            return await response.text()
+            return await readText(response, { maxBytes: 64 })
           } finally {
             resolveChildSettled()
           }
