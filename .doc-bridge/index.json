@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "4fbadb40176f371e8e87bf5c613674aa5e6adc949377d1fdab06e96370f1c9d9",
+  "contentHash": "a1c17d5d8fdd1ee7da4d6cbfb867bdbaa4235a47334742dbb46a29c30962002a",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T04:49:15.892Z",
+  "generatedAt": "2026-10-02T06:15:07.830Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7143,7 +7143,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "e192eece16f7994e83ca1f16949c9bd5a36c75968005d04c2ce851fdc61e5636"
+      "contentHash": "030638642355319c682a0add94264281da2aa8f4a7564b8f5c18dedda3a8f017"
     },
     {
       "id": "document:packages/observability/README.md",
@@ -7155,7 +7155,7 @@
         "document",
         "project"
       ],
-      "contentHash": "e2665a1993ca9e1361295104b6d047e1f6ee1c9f1342cb4b1977fd4fd3a71473"
+      "contentHash": "6829b6fc5e48db6d6ef4f74e9bee465a3938c276002e7ed5154d0e8efec2cbf7"
     },
     {
       "id": "document:packages/rag/CONVENTIONS.md",
@@ -27436,7 +27436,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "54918ddc69d645e578a8efcac4cd6d1e0d1b22abd061732e46d3fa19009ff272"
+      "contentHash": "68c4731528827e4e8290101dbad617b0a0a975eab87dabdcb652fed130c3972d"
     },
     {
       "id": "module:packages/observability/src/index.ts",
@@ -28067,7 +28067,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "3a6a24c6b03ff5063575d6584dba36b5ee80665c758d8e99cc0ef22132a280e4"
+      "contentHash": "c4ecc7b46e5978b5356994378d149f34cf79b8505d56570eea5d44ea929a8cab"
     },
     {
       "id": "module:packages/observability/tests/slo.test.ts",
@@ -37503,7 +37503,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "03871b92e9efed896c591139caf4bb16c1fd989f13f962f8352abff4effebab3",
+    "hash": "39003da932ca2a9d224f9b8805e42045bbfc1c31a93d28b72c275a1b385d06b1",
     "fileCount": 2492,
     "projectionVersion": 2
   },
@@ -37526,9 +37526,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "a2f54372126d15d414a67423c5f10cbfb796dd80711709165f79fc4c0b3e16fc",
+    "contentHash": "710ec7c4649f9bbfc74285b5bbf1f21672bd8de6c3d07d04557158ccf82b7b3d",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "b8c10c9c2fcc4c1115ca55b6c7c50d6425fb928491f4287fead39ae3e78d38f2",
+    "snapshotHash": "6ae6fa2f8020f830f737df58b10a9ec4a49e924fd278f8396d76b446c408feb4",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37560,7 +37560,7 @@
       ],
       "averageFieldLength": {
         "aliases": 3.011447260834015,
-        "body": 61.25715453802126,
+        "body": 61.26165167620605,
         "headings": 4.0335241210139,
         "path": 7.622240392477514,
         "summary": 4.56909239574816,
@@ -78505,7 +78505,7 @@
           "path": "packages/observability/CONVENTIONS.md",
           "symbols": "",
           "summary": "Observers and integrations for logging, tracing, cost control, and metric emission. Pairs with the Observer primitives in @agentskit/core.",
-          "body": "Conventions — @agentskit/observability Observers and integrations for logging, tracing, cost control, and metric emission. Pairs with the Observer primitives in @agentskit/core . Stability tier: beta Observer shape is stable; provider integrations and production lifecycle APIs are growing. Breaking changes may land in minor bumps while the package remains beta. Promotion gates live in and . Scope - Console observer — local-dev logger - Provider integrations — LangSmith, OpenTelemetry (OTLP), Datadog / Axiom / New Relic HTTP sinks; Langfuse via @agentskit/observability/langfuse - Lifecycle — LifecycleObserver ( flush / idempotent shutdown ) on production sinks and SDK bridges - Cost guards — per-run, multi-tenant, and advanced modes - Tracing helpers — span tracker, trace viewer, replay, SLO, audit log, prod control Observers are read-only Per runtime RT9: observers cannot mutate messages, tool calls, or results. Side effects (log, metric emission, trace span, cost bookkeeping flags) are fine; rewriting agent state is not. If you're tempted to write an observer that rewrites a tool call or redacts a prompt into the agent path, it's not an observer — it's a wrapper runtime. Build it as such. Redaction helpers that wrap another observer and pass a sanitized copy of events to the sink are fine. Lifecycle and error isolation - Production sinks/bridges that return LifecycleObserver expose flush(): Promise<void and idempotent shutdown(): Promise<void . - HTTP batch sinks use a bounded queue (drop-oldest when full), single-flight batch POST, timeout, and retries with exponential backoff. Defaults: batchSize 25, maxQueueSize 1000, flushIntervalMs 2000, maxRetries 3, retryBaseDelayMs 100, requestTimeoutMs 10000. - Failures surface through optional onError only. Sync throws and async rejections from callbacks, sinks, SDK calls, and resolvers must not escape observer.on or produce unhandledRejection . - Optional SDK peers (LangSmith, OpenTelemetry packages, Langfuse) resolve lazily. The package owns flush/shutdown of SDKs it constructs; hosts own SDKs they inject. - Do not claim at-least-once or exactly-once delivery. Best-effort export with bounded drop under pressure is the honest model. Hosts should await observer.shutdown() during graceful termination. Cost guards - Accounting is incremental per llm:end event using the model active for that event. Never reprice historical tokens with a later model. - Hostile usage ( NaN / Infinity / negative) normalizes to zero; costs, utilization, and alert payloads stay finite and JSON-safe (zero budgets use utilization sentinel 1 when spend is positive). - mode: 'warn' observes only. mode: 'reject' sets an observable flag — hosts must call isRejected(tenant) (the package does not abort the runtime). mode: 'kill' uses disableRuntime + isDisabled and stays fail-closed when disable fails. - DEFAULT PRICES is a baseline snapshot . Callers should pass prices for current provider rates; do not treat table numbers as contractual. Adding a new observer 1. Create src/<name .ts . 2. Export a factory: export function consoleObserver(opts): Observer (or LifecycleObserver when flush/shutdown apply). 3. Implement only the events you care about — all observer methods are optional. 4. Isolate internal and callback errors ( onError or equivalent). Never throw out of an observer. 5. Re-export from src/index.ts . Adding a provider integration 1. Prefer extending the shared HTTP batch sink or an existing SDK bridge pattern. 2. Accept configuration at construction ( apiKey , projectId , etc.). 3. Batch and time out network work; never block the runtime on unbounded I/O. 4. Keep optional SDKs as optional peers; import them dynamically. 5. Document provider-specific fields used from span/event metadata in the package README. Testing - Observers are tested via a mock runtime (or direct event injection) that asserts side effects. - Do not reach out to real provider APIs in unit tests. Mock fetch or the SDK. - Cover error i",
+          "body": "Conventions — @agentskit/observability Observers and integrations for logging, tracing, cost control, and metric emission. Pairs with the Observer primitives in @agentskit/core . Stability tier: beta Observer shape is stable; provider integrations and production lifecycle APIs are growing. Breaking changes may land in minor bumps while the package remains beta. Promotion gates live in and . Scope - Console observer — local-dev logger - Provider integrations — LangSmith, OpenTelemetry (OTLP), Datadog / Axiom / New Relic HTTP sinks; Langfuse via @agentskit/observability/langfuse - Lifecycle — LifecycleObserver ( flush / idempotent shutdown ) on production sinks and SDK bridges - Cost guards — per-run, multi-tenant, and advanced modes - Tracing helpers — span tracker, trace viewer, replay, SLO, audit log, prod control Observers are read-only Per runtime RT9: observers cannot mutate messages, tool calls, or results. Side effects (log, metric emission, trace span, cost bookkeeping flags) are fine; rewriting agent state is not. If you're tempted to write an observer that rewrites a tool call or redacts a prompt into the agent path, it's not an observer — it's a wrapper runtime. Build it as such. Redaction helpers that wrap another observer and pass a sanitized copy of events to the sink are fine. Lifecycle and error isolation - Production sinks/bridges that return LifecycleObserver expose flush(): Promise<void and idempotent shutdown(): Promise<void . - HTTP batch sinks use a bounded queue (drop-oldest when full), single-flight batch POST, and per-request timeout. They retry network errors and 408 / 429 / 5xx responses with full-jitter exponential backoff; a valid Retry-After seconds or HTTP-date value is the minimum wait, capped at 30s. Defaults: batchSize 25, maxQueueSize 1000, flushIntervalMs 2000, maxRetries 3, retryBaseDelayMs 100, requestTimeoutMs 10000. - Failures surface through optional onError only. Sync throws and async rejections from callbacks, sinks, SDK calls, and resolvers must not escape observer.on or produce unhandledRejection . - Optional SDK peers (LangSmith, OpenTelemetry packages, Langfuse) resolve lazily. The package owns flush/shutdown of SDKs it constructs; hosts own SDKs they inject. - Do not claim at-least-once or exactly-once delivery. Best-effort export with bounded drop under pressure is the honest model. Hosts should await observer.shutdown() during graceful termination. Cost guards - Accounting is incremental per llm:end event using the model active for that event. Never reprice historical tokens with a later model. - Hostile usage ( NaN / Infinity / negative) normalizes to zero; costs, utilization, and alert payloads stay finite and JSON-safe (zero budgets use utilization sentinel 1 when spend is positive). - mode: 'warn' observes only. mode: 'reject' sets an observable flag — hosts must call isRejected(tenant) (the package does not abort the runtime). mode: 'kill' uses disableRuntime + isDisabled and stays fail-closed when disable fails. - DEFAULT PRICES is a baseline snapshot . Callers should pass prices for current provider rates; do not treat table numbers as contractual. Adding a new observer 1. Create src/<name .ts . 2. Export a factory: export function consoleObserver(opts): Observer (or LifecycleObserver when flush/shutdown apply). 3. Implement only the events you care about — all observer methods are optional. 4. Isolate internal and callback errors ( onError or equivalent). Never throw out of an observer. 5. Re-export from src/index.ts . Adding a provider integration 1. Prefer extending the shared HTTP batch sink or an existing SDK bridge pattern. 2. Accept configuration at construction ( apiKey , projectId , etc.). 3. Batch and time out network work; never block the runtime on unbounded I/O. 4. Keep optional SDKs as optional peers; import them dynamically. 5. Document provider-specific fields used from span/event metadata in the package README. Testing - Observers are tested via a mock ru",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -78557,7 +78557,7 @@
             }
           ]
         },
-        "contentHash": "e192eece16f7994e83ca1f16949c9bd5a36c75968005d04c2ce851fdc61e5636",
+        "contentHash": "030638642355319c682a0add94264281da2aa8f4a7564b8f5c18dedda3a8f017",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -78579,7 +78579,7 @@
           "path": "packages/observability/README.md",
           "symbols": "",
           "summary": "Profile: <code>beta-package</code>",
-          "body": "@agentskit/observability Profile: <code beta-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p See exactly what your agent does — every LLM call, tool execution, and reasoning step — with zero coupling to your agent code. Tags: ai · agents · llm · agentskit · ai-agents · observability · tracing · opentelemetry · langsmith · logging · monitoring Verified proof - Package metadata and tests live under packages/observability/ . - Package guide: https://www.agentskit.io/docs/reference/packages/observability - Stability map: How this fits the ecosystem @agentskit/observability makes agent behavior inspectable with traces, costs, audit logs, devtools, and production telemetry hooks. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why observability - Debug in minutes, not hours — trace the full ReAct loop: which tools were called, what the LLM received, where it went wrong, all in one place - Works with your existing tracing stack — LangSmith, OpenTelemetry (OTLP), or a simple console logger; observers are just { name, on(event) } objects - No coupling, no lock-in — observability attaches to AgentEvent emissions from the runtime; remove it and your agent code is unchanged - Non-blocking by design — observer errors never surface to the agent; production stability is not at risk Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- Token counting @agentskit/observability includes a zero-dependency token counting API — useful for context-window budget checks, cost estimation, and message trimming. Fast approximate count Uses the chars / 4 + 4 per message heuristic. Slightly over-estimates — intentional for budget guards. Per-message breakdown Exact count with a real tokenizer createProviderCounter wraps any tokenize(text, model?) function in a TokenCounter that conforms to the core contract and supports countDetailed automatically. Features - consoleLogger({ format }) — pretty-print or JSON structured logs for local dev - langsmith({ apiKey }) — LangSmith lifecycle observer (optional langsmith peer) - opentelemetry(config) — OTLP lifecycle observer (optional OpenTelemetry peers) - datadogSink / axiomSink / newRelicSink — HTTP lifecycle sinks with managed batching - Cost guards — costGuard , multiTenantCostGuard , createAdvancedCostGuard - approximateCounter — zero-dep synchronous token counter ( chars/4 heuristic) - countTokens / countTokensDetailed — async token counting with optional custom counter - createProviderCounter — factory to wrap tiktoken or any tokenizer in the TokenCounter contract - Observer interface: { name: string, on(event: AgentEvent): void } — write custom observers in minutes - Attaches via observers array on createRuntime — zero changes to agent logic Production lifecycle (sinks + SDK bridges) Datadog, Axiom, New Relic, LangSmith, and OpenTelemetry factories return lifecycle observers : HTTP sinks share bounded, best-effort export (not a delivery guarantee): Option Default Role --- --- --- batchSize 25 Max events per POST maxQueueSize 1000 Hard queue cap; drop oldest when full flushIntervalMs 2000 Periodic drain maxRetries 3 Retries after the initial attempt retryBaseDelayMs 100 Exponential backoff base (capped; no jitter) requestTimeoutMs 10000 Per-request timeout onError — Isolated error sink (throws/rejections never escape on ) Batching is single-flight . Optional SDK peers resolve lazily; the package owns flush/shutdown for SDKs it constructs. During graceful process or request termination, await shutdown() so in-flight batches have a chance to drain. Overflow still drops oldest under pressure — plan capacity and onError monitoring acc",
+          "body": "@agentskit/observability Profile: <code beta-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p See exactly what your agent does — every LLM call, tool execution, and reasoning step — with zero coupling to your agent code. Tags: ai · agents · llm · agentskit · ai-agents · observability · tracing · opentelemetry · langsmith · logging · monitoring Verified proof - Package metadata and tests live under packages/observability/ . - Package guide: https://www.agentskit.io/docs/reference/packages/observability - Stability map: How this fits the ecosystem @agentskit/observability makes agent behavior inspectable with traces, costs, audit logs, devtools, and production telemetry hooks. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why observability - Debug in minutes, not hours — trace the full ReAct loop: which tools were called, what the LLM received, where it went wrong, all in one place - Works with your existing tracing stack — LangSmith, OpenTelemetry (OTLP), or a simple console logger; observers are just { name, on(event) } objects - No coupling, no lock-in — observability attaches to AgentEvent emissions from the runtime; remove it and your agent code is unchanged - Non-blocking by design — observer errors never surface to the agent; production stability is not at risk Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- Token counting @agentskit/observability includes a zero-dependency token counting API — useful for context-window budget checks, cost estimation, and message trimming. Fast approximate count Uses the chars / 4 + 4 per message heuristic. Slightly over-estimates — intentional for budget guards. Per-message breakdown Exact count with a real tokenizer createProviderCounter wraps any tokenize(text, model?) function in a TokenCounter that conforms to the core contract and supports countDetailed automatically. Features - consoleLogger({ format }) — pretty-print or JSON structured logs for local dev - langsmith({ apiKey }) — LangSmith lifecycle observer (optional langsmith peer) - opentelemetry(config) — OTLP lifecycle observer (optional OpenTelemetry peers) - datadogSink / axiomSink / newRelicSink — HTTP lifecycle sinks with managed batching - Cost guards — costGuard , multiTenantCostGuard , createAdvancedCostGuard - approximateCounter — zero-dep synchronous token counter ( chars/4 heuristic) - countTokens / countTokensDetailed — async token counting with optional custom counter - createProviderCounter — factory to wrap tiktoken or any tokenizer in the TokenCounter contract - Observer interface: { name: string, on(event: AgentEvent): void } — write custom observers in minutes - Attaches via observers array on createRuntime — zero changes to agent logic Production lifecycle (sinks + SDK bridges) Datadog, Axiom, New Relic, LangSmith, and OpenTelemetry factories return lifecycle observers : HTTP sinks share bounded, best-effort export (not a delivery guarantee): Option Default Role --- --- --- batchSize 25 Max events per POST maxQueueSize 1000 Hard queue cap; drop oldest when full flushIntervalMs 2000 Periodic drain maxRetries 3 Retries after the initial attempt retryBaseDelayMs 100 Full-jitter exponential backoff base, capped at 30s requestTimeoutMs 10000 Per-request timeout onError — Isolated error sink (throws/rejections never escape on ) HTTP sinks retry network errors and responses with status 408 , 429 , or 5xx . A valid Retry-After delta-seconds or HTTP-date is a minimum delay; each wait is capped at 30s. Missing or invalid headers use full-jitter exponential backoff. Batching is single-flight . Optional SDK peers resolve lazily; the pa",
           "aliases": "document project"
         },
         "graph": {
@@ -78701,7 +78701,7 @@
             }
           ]
         },
-        "contentHash": "e2665a1993ca9e1361295104b6d047e1f6ee1c9f1342cb4b1977fd4fd3a71473",
+        "contentHash": "6829b6fc5e48db6d6ef4f74e9bee465a3938c276002e7ed5154d0e8efec2cbf7",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -155448,7 +155448,7 @@
             }
           ]
         },
-        "contentHash": "54918ddc69d645e578a8efcac4cd6d1e0d1b22abd061732e46d3fa19009ff272",
+        "contentHash": "68c4731528827e4e8290101dbad617b0a0a975eab87dabdcb652fed130c3972d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -157490,7 +157490,7 @@
             }
           ]
         },
-        "contentHash": "3a6a24c6b03ff5063575d6584dba36b5ee80665c758d8e99cc0ef22132a280e4",
+        "contentHash": "c4ecc7b46e5978b5356994378d149f34cf79b8505d56570eea5d44ea929a8cab",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -190518,7 +190518,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "617353fb5f01867f906915a9fa6c4cb86c346f038ea4659d5c3185840c08ebfb",
+        "contentHash": "f7c37a84c5fcd8e60b23715c6d0803002b3c012e877987c047bd4d2e4d103e3e",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "observability"

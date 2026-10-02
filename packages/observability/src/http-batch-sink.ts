@@ -1,4 +1,5 @@
 import { ConfigError, ErrorCodes, type AgentEvent, type Observer } from '@agentskit/core'
+import { computeBackoff, NetError, NetErrorCodes, parseRetryAfter, sleep, withTimeout } from '@agentskit/net'
 import { createTraceTracker, type TraceSpan } from './trace-tracker'
 
 /** Shared lifecycle surface for HTTP sinks and SDK bridges. */
@@ -17,7 +18,7 @@ export interface HttpBatchOptions {
   flushIntervalMs?: number
   /** Retries after the initial attempt. Default 3. Integer ≥ 0. */
   maxRetries?: number
-  /** Base backoff delay (ms); doubled each attempt, capped at 30s, no jitter. Default 100. */
+  /** Base delay (ms); full-jitter exponential retries capped at 30s; valid Retry-After is honored as a minimum, also capped. Default 100. */
   retryBaseDelayMs?: number
   /** Per-request timeout (ms). Default 10000. Positive integer. */
   requestTimeoutMs?: number
@@ -100,21 +101,21 @@ function unrefTimer(timer: ReturnType<typeof setTimeout> | ReturnType<typeof set
   if (typeof t.unref === 'function') t.unref()
 }
 
-function delay(ms: number): Promise<void> {
-  return new Promise((resolve) => {
-    unrefTimer(setTimeout(resolve, ms))
-  })
-}
-
-/** Exponential backoff with hard cap; never overflows Number. */
+/**
+ * Deterministic, capped compatibility wrapper for the former zero-based backoff helper.
+ *
+ * @param baseMs Base delay in milliseconds before the first retry.
+ * @param attempt Zero-based retry index; fractional values retain the former loop's ceiling behavior.
+ * @returns The exponential delay, capped at 30,000 milliseconds, without jitter.
+ * @deprecated Use `computeBackoff` from `@agentskit/net`. This wrapper will be removed no earlier than `@agentskit/observability` 0.14.0 and at least 90 days after 0.12.0 is released.
+ */
 export function computeBackoffMs(baseMs: number, attempt: number): number {
-  if (attempt <= 0) return Math.min(baseMs, MAX_BACKOFF_MS)
-  let value = baseMs
-  for (let i = 0; i < attempt; i++) {
-    if (value >= MAX_BACKOFF_MS / 2) return MAX_BACKOFF_MS
-    value *= 2
-  }
-  return value > MAX_BACKOFF_MS ? MAX_BACKOFF_MS : value
+  const normalizedAttempt = attempt > 0 ? Math.ceil(attempt) : 0
+  return computeBackoff(normalizedAttempt + 1, {
+    minDelayMs: baseMs,
+    maxDelayMs: MAX_BACKOFF_MS,
+    jitter: 'none',
+  })
 }
 
 function scalarSnap(v: unknown): unknown {
@@ -178,31 +179,18 @@ async function fetchWithTimeout(
   timeoutMs: number,
   scope: string,
 ): Promise<Response> {
-  const controller = typeof AbortController !== 'undefined' ? new AbortController() : null
-  let timeoutId: ReturnType<typeof setTimeout> | null = null
-  const timeoutPromise = new Promise<never>((_, reject) => {
-    timeoutId = setTimeout(() => {
-      try {
-        controller?.abort()
-      } catch {
-        // ignore
-      }
-      reject(new Error(`${scope}: request timed out after ${timeoutMs}ms`))
-    }, timeoutMs)
-    unrefTimer(timeoutId)
-  })
-  const fetchPromise = Promise.resolve().then(() =>
-    fetchImpl(url, controller ? { ...init, signal: controller.signal } : init),
-  )
-  // Late settle after timeout must not surface as unhandledRejection.
-  void fetchPromise.then(
-    () => {},
-    () => {},
-  )
+  // Match Node's setTimeout behavior for legacy values above its 32-bit timer limit.
+  const effectiveTimeoutMs = timeoutMs > 2_147_483_647 ? 1 : timeoutMs
   try {
-    return await Promise.race([fetchPromise, timeoutPromise])
-  } finally {
-    if (timeoutId != null) clearTimeout(timeoutId)
+    return await withTimeout(
+      (signal) => fetchImpl(url, { ...init, signal }),
+      effectiveTimeoutMs,
+    )
+  } catch (error) {
+    if (error instanceof NetError && error.code === NetErrorCodes.AK_NET_TIMEOUT) {
+      throw new Error(`${scope}: request timed out after ${timeoutMs}ms`)
+    }
+    throw error
   }
 }
 
@@ -237,6 +225,15 @@ export function createHttpBatchSink(params: HttpBatchSinkParams): LifecycleObser
   const postBatch = async (batch: unknown[]): Promise<void> => {
     const body = JSON.stringify(batch)
     let attempt = 0
+    const waitForRetry = async (retryAfterMs?: number): Promise<void> => {
+      const backoffMs = computeBackoff(attempt + 1, {
+        minDelayMs: retryBaseDelayMs,
+        maxDelayMs: MAX_BACKOFF_MS,
+        jitter: 'full',
+      })
+      await sleep(Math.min(MAX_BACKOFF_MS, Math.max(retryAfterMs ?? 0, backoffMs)))
+      attempt += 1
+    }
     for (;;) {
       try {
         let response: Response
@@ -253,8 +250,7 @@ export function createHttpBatchSink(params: HttpBatchSinkParams): LifecycleObser
             report(networkError)
             return
           }
-          await delay(computeBackoffMs(retryBaseDelayMs, attempt))
-          attempt += 1
+          await waitForRetry()
           continue
         }
         if (response.ok) return
@@ -263,8 +259,7 @@ export function createHttpBatchSink(params: HttpBatchSinkParams): LifecycleObser
           report(new Error(`${params.name}: HTTP ${response.status} delivering ${batch.length} event(s)`))
           return
         }
-        await delay(computeBackoffMs(retryBaseDelayMs, attempt))
-        attempt += 1
+        await waitForRetry(parseRetryAfter(response.headers.get('retry-after')))
       } catch (error) {
         report(error)
         return

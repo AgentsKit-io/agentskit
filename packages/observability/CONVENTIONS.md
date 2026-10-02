@@ -23,7 +23,7 @@ If you're tempted to write an observer that rewrites a tool call or redacts a pr
 ## Lifecycle and error isolation
 
 - Production sinks/bridges that return `LifecycleObserver` expose `flush(): Promise<void>` and idempotent `shutdown(): Promise<void>`.
-- HTTP batch sinks use a bounded queue (drop-oldest when full), single-flight batch POST, timeout, and retries with exponential backoff. Defaults: `batchSize` 25, `maxQueueSize` 1000, `flushIntervalMs` 2000, `maxRetries` 3, `retryBaseDelayMs` 100, `requestTimeoutMs` 10000.
+- HTTP batch sinks use a bounded queue (drop-oldest when full), single-flight batch POST, and per-request timeout. They retry network errors and `408` / `429` / `5xx` responses with full-jitter exponential backoff; a valid `Retry-After` seconds or HTTP-date value is the minimum wait, capped at 30s. Defaults: `batchSize` 25, `maxQueueSize` 1000, `flushIntervalMs` 2000, `maxRetries` 3, `retryBaseDelayMs` 100, `requestTimeoutMs` 10000.
 - Failures surface through optional `onError` only. Sync throws and async rejections from callbacks, sinks, SDK calls, and resolvers must not escape `observer.on` or produce `unhandledRejection`.
 - Optional SDK peers (LangSmith, OpenTelemetry packages, Langfuse) resolve lazily. The package owns flush/shutdown of SDKs it constructs; hosts own SDKs they inject.
 - **Do not claim at-least-once or exactly-once delivery.** Best-effort export with bounded drop under pressure is the honest model. Hosts should `await observer.shutdown()` during graceful termination.

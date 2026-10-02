@@ -144,9 +144,13 @@ HTTP sinks share bounded, best-effort export (not a delivery guarantee):
 | `maxQueueSize` | `1000` | Hard queue cap; **drop oldest** when full |
 | `flushIntervalMs` | `2000` | Periodic drain |
 | `maxRetries` | `3` | Retries after the initial attempt |
-| `retryBaseDelayMs` | `100` | Exponential backoff base (capped; no jitter) |
+| `retryBaseDelayMs` | `100` | Full-jitter exponential backoff base, capped at 30s |
 | `requestTimeoutMs` | `10000` | Per-request timeout |
 | `onError` | — | Isolated error sink (throws/rejections never escape `on`) |
+
+HTTP sinks retry network errors and responses with status `408`, `429`, or `5xx`.
+A valid `Retry-After` delta-seconds or HTTP-date is a minimum delay; each wait is
+capped at 30s. Missing or invalid headers use full-jitter exponential backoff.
 
 Batching is **single-flight**. Optional SDK peers resolve lazily; the package owns flush/shutdown for SDKs it constructs. During graceful process or request termination, **await `shutdown()`** so in-flight batches have a chance to drain. Overflow still drops oldest under pressure — plan capacity and `onError` monitoring accordingly.
 
