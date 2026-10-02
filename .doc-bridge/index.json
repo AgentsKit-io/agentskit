@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "917f2ba98d241f5bb459c0b6a3059ea02c630a1c8d5dffbe8d3f5344fcbd8cb1",
+  "contentHash": "85a09a58e655e3d837c970aa3b3553d6a47d247714121b68ae2b288f76e08e21",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T12:48:16.624Z",
+  "generatedAt": "2026-10-02T13:51:50.850Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -8968,6 +8968,52 @@
       "contentHash": "d9a5a22989f2adc494ec62a8f8dfd77fc4bf0c9923d3f09a295fd20207a43d0e"
     },
     {
+      "id": "module:apps/docs-next/cloudflare.config.ts",
+      "type": "module",
+      "title": "cloudflare.config.ts",
+      "path": "apps/docs-next/cloudflare.config.ts",
+      "symbols": [
+        "default"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "docs-next"
+      ],
+      "contentHash": "36b6eeab5ee9efc09292f455b2ef9ad6c75f2612f8f970afe320b58f7e73776e"
+    },
+    {
+      "id": "module:apps/docs-next/cloudflare/llms-full-pages.d.ts",
+      "type": "module",
+      "title": "llms-full-pages.d.ts",
+      "path": "apps/docs-next/cloudflare/llms-full-pages.d.ts",
+      "symbols": [
+        "default"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "cloudflare"
+      ],
+      "contentHash": "4c7d08d64902797bae657fe1fbc853346201129a96c797c50cb9ae97216a1a60"
+    },
+    {
+      "id": "module:apps/docs-next/cloudflare/llms-full-route.ts",
+      "type": "module",
+      "title": "llms-full-route.ts",
+      "path": "apps/docs-next/cloudflare/llms-full-route.ts",
+      "symbols": [
+        "GET",
+        "dynamic"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "cloudflare"
+      ],
+      "contentHash": "e4cf422619aad977fee516019a3c4a3f9cb90e3e561c10066e43bb8ce336f062"
+    },
+    {
       "id": "module:apps/docs-next/components/accessible-search.tsx",
       "type": "module",
       "title": "accessible-search.tsx",
@@ -10869,7 +10915,7 @@
         "ts",
         "lib"
       ],
-      "contentHash": "861255a401e589873f63270f99491c0c4eb5ebe88dcc5c34cdd5d3962eed5993"
+      "contentHash": "05a7e82502276cc5da9122f0bc36b5e001f42b716dad6d0926ee8c0d09b995cd"
     },
     {
       "id": "module:apps/docs-next/lib/public-resources.ts",
@@ -10908,7 +10954,7 @@
         "ts",
         "rag"
       ],
-      "contentHash": "ba0ac11428f112d8ddf420048bbd10781875b9435c6cd34902f75c71ba1babf3"
+      "contentHash": "273b344239525842155c2d30cb208e21d5c16ab1148744463278c5864e3cc251"
     },
     {
       "id": "module:apps/docs-next/lib/rag/ingest.ts",
@@ -10950,6 +10996,22 @@
         "rag"
       ],
       "contentHash": "5fc2cc23160ef68b8f54d50e99fabce37fa56185a7732041260caf219e01a259"
+    },
+    {
+      "id": "module:apps/docs-next/lib/rag/transformers-workers-stub.ts",
+      "type": "module",
+      "title": "transformers-workers-stub.ts",
+      "path": "apps/docs-next/lib/rag/transformers-workers-stub.ts",
+      "symbols": [
+        "env",
+        "pipeline"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "rag"
+      ],
+      "contentHash": "82b2d8ef83778786f2f40c09a8ae3fd3c664a6888724f04014243761d7e6aea9"
     },
     {
       "id": "module:apps/docs-next/lib/reference-journey.ts",
@@ -11225,6 +11287,18 @@
       "contentHash": "1d14f2c5f958e4e349f004fc11b75168bd24c032e5e19222d38c758fbcd391fd"
     },
     {
+      "id": "module:apps/docs-next/scripts/gen-llms-full.mjs",
+      "type": "module",
+      "title": "gen-llms-full.mjs",
+      "path": "apps/docs-next/scripts/gen-llms-full.mjs",
+      "tags": [
+        "module",
+        "mjs",
+        "scripts"
+      ],
+      "contentHash": "50786e78484660951aa70c573c27256ab857cbe1aeb5c26b0f7dcda5871d534f"
+    },
+    {
       "id": "module:apps/docs-next/scripts/gen-performance.mjs",
       "type": "module",
       "title": "gen-performance.mjs",
@@ -11491,6 +11565,21 @@
         "types"
       ],
       "contentHash": "c0e5efb113706c58bf34fd81f0323499329aa5d9350247d4c2151f38f7ca169d"
+    },
+    {
+      "id": "module:apps/docs-next/vite.config.ts",
+      "type": "module",
+      "title": "vite.config.ts",
+      "path": "apps/docs-next/vite.config.ts",
+      "symbols": [
+        "default"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "docs-next"
+      ],
+      "contentHash": "45d8a29399c3c7646d97f8c98005a7053d012011ef064b9464a2197bb01c8815"
     },
     {
       "id": "module:apps/docs-next/vitest.config.ts",
@@ -13068,6 +13157,21 @@
       "contentHash": "f61317f406fffb93c70f00d01b3043abd3ac7b0084cd99f4085e2c563b457b0b"
     },
     {
+      "id": "module:apps/registry/cloudflare.config.ts",
+      "type": "module",
+      "title": "cloudflare.config.ts",
+      "path": "apps/registry/cloudflare.config.ts",
+      "symbols": [
+        "default"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "registry"
+      ],
+      "contentHash": "d7df640f3db0eec3ef175f1328eced98065a4b26a882c0e50fb75f47997db78d"
+    },
+    {
       "id": "module:apps/registry/components/accessible-search.tsx",
       "type": "module",
       "title": "accessible-search.tsx",
@@ -13599,6 +13703,21 @@
         "registry"
       ],
       "contentHash": "97e47076e8424974c202f233fbc8dfb0184456261742c22679ec2d3b79338e46"
+    },
+    {
+      "id": "module:apps/registry/vite.config.ts",
+      "type": "module",
+      "title": "vite.config.ts",
+      "path": "apps/registry/vite.config.ts",
+      "symbols": [
+        "default"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "registry"
+      ],
+      "contentHash": "ed3fbd8d6ddf4da7e2aaf67290dbad6164e85fb07144e23a8588f67f3508250d"
     },
     {
       "id": "module:apps/registry/vitest.config.ts",
@@ -37516,8 +37635,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "fcac7e10c8beec02a45b64ef761bbc41e838c50b972c66509a9897dfa33aabfb",
-    "fileCount": 2493,
+    "hash": "bc88476298d2daa346a2745283698e3b13ed5e86819a69c87f36f51d31c2fc60",
+    "fileCount": 2501,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37539,9 +37658,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "ec3a0c61c324cee2faac751274e6312a1d5cc9a1b4be693279c0ae6f3b77e453",
+    "contentHash": "e68927b6dcb3b2e1f31f1df48fbccfc2c0e14184301bf204cb75ee582d26962a",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "c2e75a151e16e99a6ed4ba76a09248d669e59d6ded38cc2a8c9ce72e81831e8f",
+    "snapshotHash": "59fb790883bb6efd0f3f44e795547568a0f446f30ce035bcd96054148699e57c",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37561,7 +37680,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2447,
+      "documentCount": 2455,
       "fieldNames": [
         "aliases",
         "body",
@@ -37572,13 +37691,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.011851246424193,
-        "body": 61.27094401307724,
-        "headings": 4.032693093583981,
-        "path": 7.622394769105027,
-        "summary": 4.5672251736820595,
-        "symbols": 7.491213731099306,
-        "title": 3.3359215365753982
+        "aliases": 3.013441955193483,
+        "body": 61.07128309572301,
+        "headings": 4.019551934826884,
+        "path": 7.6232179226069245,
+        "summary": 4.552342158859471,
+        "symbols": 7.470468431771894,
+        "title": 3.3380855397148674
       }
     },
     "entries": [
@@ -37929,7 +38048,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "9124ffe417473698d266974ffa71fc09e10357614c65a6d6be5773b7c42e447d",
+        "contentHash": "3cfef275a3959dd1ecb6e2ebec950fbbda0f71f5d431529805fc222a1688e74c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -38586,7 +38705,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "d4ec0f980d3f81cb26ddab9c4dd47f07259f444bedc0cae75391043f1fe79397",
+        "contentHash": "45c3131c4887afe320f414b59827dff5ab3e7fa1b46127e10d88c3e944968c69",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -43213,6 +43332,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:apps/docs-next/lib/rag/transformers-workers-stub.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/core/src/errors.ts",
               "confidence": "observed"
             },
@@ -44329,6 +44453,11 @@
           "mentionedBy": [],
           "inbound": [],
           "outbound": [
+            {
+              "kind": "mentions-symbol",
+              "id": "module:apps/docs-next/lib/rag/transformers-workers-stub.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "mentions-symbol",
               "id": "module:packages/tools/src/integrations/email.ts",
@@ -50407,6 +50536,11 @@
               "kind": "covers",
               "id": "package:@agentskit/cross-platform",
               "confidence": "declared"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:apps/docs-next/lib/rag/transformers-workers-stub.ts",
+              "confidence": "observed"
             },
             {
               "kind": "mentions-symbol",
@@ -87066,6 +87200,118 @@
         "confidence": "observed"
       },
       {
+        "id": "module:apps/docs-next/cloudflare.config.ts",
+        "kind": "module",
+        "path": "apps/docs-next/cloudflare.config.ts",
+        "title": "cloudflare.config.ts",
+        "aliases": [],
+        "symbols": [
+          "default"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "docs-next"
+        ],
+        "fields": {
+          "title": "cloudflare.config.ts",
+          "headings": "",
+          "path": "apps/docs-next/cloudflare.config.ts",
+          "symbols": "default",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts docs-next"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "36b6eeab5ee9efc09292f455b2ef9ad6c75f2612f8f970afe320b58f7e73776e",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/docs-next/cloudflare/llms-full-pages.d.ts",
+        "kind": "module",
+        "path": "apps/docs-next/cloudflare/llms-full-pages.d.ts",
+        "title": "llms-full-pages.d.ts",
+        "aliases": [],
+        "symbols": [
+          "default"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "cloudflare"
+        ],
+        "fields": {
+          "title": "llms-full-pages.d.ts",
+          "headings": "",
+          "path": "apps/docs-next/cloudflare/llms-full-pages.d.ts",
+          "symbols": "default",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts cloudflare"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "4c7d08d64902797bae657fe1fbc853346201129a96c797c50cb9ae97216a1a60",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/docs-next/cloudflare/llms-full-route.ts",
+        "kind": "module",
+        "path": "apps/docs-next/cloudflare/llms-full-route.ts",
+        "title": "llms-full-route.ts",
+        "aliases": [],
+        "symbols": [
+          "GET",
+          "dynamic"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "cloudflare"
+        ],
+        "fields": {
+          "title": "llms-full-route.ts",
+          "headings": "",
+          "path": "apps/docs-next/cloudflare/llms-full-route.ts",
+          "symbols": "GET dynamic",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts cloudflare"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "e4cf422619aad977fee516019a3c4a3f9cb90e3e561c10066e43bb8ce336f062",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:apps/docs-next/components/accessible-search.tsx",
         "kind": "module",
         "path": "apps/docs-next/components/accessible-search.tsx",
@@ -92466,7 +92712,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "861255a401e589873f63270f99491c0c4eb5ebe88dcc5c34cdd5d3962eed5993",
+        "contentHash": "05a7e82502276cc5da9122f0bc36b5e001f42b716dad6d0926ee8c0d09b995cd",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -92576,7 +92822,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "ba0ac11428f112d8ddf420048bbd10781875b9435c6cd34902f75c71ba1babf3",
+        "contentHash": "273b344239525842155c2d30cb208e21d5c16ab1148744463278c5864e3cc251",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -92691,6 +92937,64 @@
           ]
         },
         "contentHash": "5fc2cc23160ef68b8f54d50e99fabce37fa56185a7732041260caf219e01a259",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/docs-next/lib/rag/transformers-workers-stub.ts",
+        "kind": "module",
+        "path": "apps/docs-next/lib/rag/transformers-workers-stub.ts",
+        "title": "transformers-workers-stub.ts",
+        "aliases": [],
+        "symbols": [
+          "env",
+          "pipeline"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "rag"
+        ],
+        "fields": {
+          "title": "transformers-workers-stub.ts",
+          "headings": "",
+          "path": "apps/docs-next/lib/rag/transformers-workers-stub.ts",
+          "symbols": "env pipeline",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts rag"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 3,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/agents/tools/builtins.mdx",
+            "document:apps/docs-next/content/docs/agents/tools/integrations/hubspot.mdx",
+            "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx"
+          ],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/agents/tools/builtins.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/agents/tools/integrations/hubspot.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "82b2d8ef83778786f2f40c09a8ae3fd3c664a6888724f04014243761d7e6aea9",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -93508,6 +93812,40 @@
         "confidence": "observed"
       },
       {
+        "id": "module:apps/docs-next/scripts/gen-llms-full.mjs",
+        "kind": "module",
+        "path": "apps/docs-next/scripts/gen-llms-full.mjs",
+        "title": "gen-llms-full.mjs",
+        "aliases": [],
+        "tags": [
+          "module",
+          "mjs",
+          "scripts"
+        ],
+        "fields": {
+          "title": "gen-llms-full.mjs",
+          "headings": "",
+          "path": "apps/docs-next/scripts/gen-llms-full.mjs",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module mjs scripts"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "50786e78484660951aa70c573c27256ab857cbe1aeb5c26b0f7dcda5871d534f",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:apps/docs-next/scripts/gen-performance.mjs",
         "kind": "module",
         "path": "apps/docs-next/scripts/gen-performance.mjs",
@@ -94321,6 +94659,43 @@
           "outbound": []
         },
         "contentHash": "c0e5efb113706c58bf34fd81f0323499329aa5d9350247d4c2151f38f7ca169d",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/docs-next/vite.config.ts",
+        "kind": "module",
+        "path": "apps/docs-next/vite.config.ts",
+        "title": "vite.config.ts",
+        "aliases": [],
+        "symbols": [
+          "default"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "docs-next"
+        ],
+        "fields": {
+          "title": "vite.config.ts",
+          "headings": "",
+          "path": "apps/docs-next/vite.config.ts",
+          "symbols": "default",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts docs-next"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/docs-next",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "45d8a29399c3c7646d97f8c98005a7053d012011ef064b9464a2197bb01c8815",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -99072,6 +99447,43 @@
         "confidence": "observed"
       },
       {
+        "id": "module:apps/registry/cloudflare.config.ts",
+        "kind": "module",
+        "path": "apps/registry/cloudflare.config.ts",
+        "title": "cloudflare.config.ts",
+        "aliases": [],
+        "symbols": [
+          "default"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "registry"
+        ],
+        "fields": {
+          "title": "cloudflare.config.ts",
+          "headings": "",
+          "path": "apps/registry/cloudflare.config.ts",
+          "symbols": "default",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts registry"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/registry",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "d7df640f3db0eec3ef175f1328eced98065a4b26a882c0e50fb75f47997db78d",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:apps/registry/components/accessible-search.tsx",
         "kind": "module",
         "path": "apps/registry/components/accessible-search.tsx",
@@ -100557,6 +100969,43 @@
           "outbound": []
         },
         "contentHash": "97e47076e8424974c202f233fbc8dfb0184456261742c22679ec2d3b79338e46",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:apps/registry/vite.config.ts",
+        "kind": "module",
+        "path": "apps/registry/vite.config.ts",
+        "title": "vite.config.ts",
+        "aliases": [],
+        "symbols": [
+          "default"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "registry"
+        ],
+        "fields": {
+          "title": "vite.config.ts",
+          "headings": "",
+          "path": "apps/registry/vite.config.ts",
+          "symbols": "default",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts registry"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:apps/registry",
+          "packageId": "package:agentskit",
+          "inbound": [],
+          "outbound": []
+        },
+        "contentHash": "ed3fbd8d6ddf4da7e2aaf67290dbad6164e85fb07144e23a8588f67f3508250d",
         "provenance": "observed",
         "confidence": "observed"
       },
