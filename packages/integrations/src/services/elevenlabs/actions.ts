@@ -1,6 +1,6 @@
 import { ErrorCodes, ToolError } from '@agentskit/core'
 import { defineAction } from '../../contract'
-import { readResponseBytes } from '../../http'
+import { readResponseBytes, readResponseText } from '../../http'
 
 interface ElevenLabsRuntimeConfig {
   apiKey: string
@@ -39,7 +39,7 @@ export const elevenlabsTts = defineAction({
       redirect: 'error',
     })
     if (!response.ok) {
-      const detail = await response.text()
+      const detail = await readResponseText(response, maxResponseBytes ?? 2 * 1024 * 1024)
       throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `elevenlabs ${response.status}: ${detail.slice(0, 200)}` })
     }
     const buf = await readResponseBytes(response, maxResponseBytes ?? 2 * 1024 * 1024)

@@ -1,5 +1,5 @@
 import { ErrorCodes, ToolError } from '@agentskit/core'
-import { NetError, NetErrorCodes, readBody, readText } from '@agentskit/net'
+import { NetError, NetErrorCodes, readBody, readJson, readText } from '@agentskit/net'
 
 function readFailure(error: unknown, maxBytes: number): never {
   if (!(error instanceof NetError)) throw error
@@ -56,6 +56,14 @@ export async function readResponseBytes(response: Response, maxBytes = 2 * 1024 
 export async function readResponseText(response: Response, maxBytes = 2 * 1024 * 1024): Promise<string> {
   try {
     return await readText(response, { maxBytes })
+  } catch (error) {
+    return readFailure(error, maxBytes)
+  }
+}
+
+export async function readResponseJson<T = unknown>(response: Response, maxBytes = 2 * 1024 * 1024): Promise<T> {
+  try {
+    return await readJson<T>(response, { maxBytes })
   } catch (error) {
     return readFailure(error, maxBytes)
   }
