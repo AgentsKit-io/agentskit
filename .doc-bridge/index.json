@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "f1020564e69e6ec68df1cbfd20bf927f67433e7c7b9df7f0d1660e8565efd8b9",
+  "contentHash": "917f2ba98d241f5bb459c0b6a3059ea02c630a1c8d5dffbe8d3f5344fcbd8cb1",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T09:10:34.519Z",
+  "generatedAt": "2026-10-02T12:48:16.624Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -3795,7 +3795,7 @@
         "document",
         "human"
       ],
-      "contentHash": "f4464a7f019dcccdd8ac0975224d5a5d901797e8a083e850fb49f162b53a5dbd"
+      "contentHash": "e0cebac42ee57db576769ede111124c99131d8fd0da228164d1a54ac925387ac"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/packages/observability-langfuse.mdx",
@@ -37516,7 +37516,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "39e192345e3396a53183366beb8dabae69d9c87da50421e5c6de62b59f60e22f",
+    "hash": "fcac7e10c8beec02a45b64ef761bbc41e838c50b972c66509a9897dfa33aabfb",
     "fileCount": 2493,
     "projectionVersion": 2
   },
@@ -37539,9 +37539,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "221a2e253e29aeb5734c32474f5d36f91b51b6da207cd5d55c16f71e4946cc08",
+    "contentHash": "ec3a0c61c324cee2faac751274e6312a1d5cc9a1b4be693279c0ae6f3b77e453",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "72a47108200726069013c2d2ffd24d2946c528e9045dea7015df9a9507d24e13",
+    "snapshotHash": "c2e75a151e16e99a6ed4ba76a09248d669e59d6ded38cc2a8c9ce72e81831e8f",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -59673,7 +59673,7 @@
           "path": "apps/docs-next/content/docs/reference/packages/net.mdx",
           "symbols": "",
           "summary": "@agentskit/net is the package for the moment your agent talks HTTP: a provider returns 429 with Retry-After, a stream arrives as server-sent events, a tool fetches a URL a user typed, or a response could be larger than you want in memory. It uses web APIs only, so the same code runs on Node, Bun, Deno, browsers and edge runtimes.",
-          "body": "@agentskit/net is the package for the moment your agent talks HTTP: a provider returns 429 with Retry-After , a stream arrives as server-sent events, a tool fetches a URL a user typed, or a response could be larger than you want in memory. It uses web APIs only, so the same code runs on Node, Bun, Deno, browsers and edge runtimes. When to reach for it - You call an API that rate-limits or fails transiently and need retries that respect Retry-After . - You need a timeout per attempt, not one that silently spans every retry. - You need a deadline for async work and a signal that forwards caller cancellation. - You consume a server-sent events stream. - You fetch URLs supplied by users or models and must not reach private networks or cloud metadata. Install Hello world Cancellable waits and deadlines retry uses the exported sleep(ms, signal?) by default. Delays must be from 0 through 2,147,483,647 milliseconds. It clears its timer on abort and rejects with the signal's exact reason. To replace the wait, pass sleep: (ms, signal?) = Promise<void ; one-argument callbacks still work, and callbacks should honor the optional signal when their own wait must stop on cancellation. withTimeout(work, ms, parent?) accepts a positive deadline up to 2,147,483,647 milliseconds and gives work a signal that aborts at the deadline or with the parent's exact reason. The deadline rejects with AK NET TIMEOUT ; invalid values reject with AK NET INVALID INPUT . It bounds the wrapper's rejection even if work ignores the signal, but only cooperative work such as fetch can be stopped. A success value or original work failure passes through unchanged. retry retries rejected work, such as fetch network errors; it does not inspect HTTP status codes. Use fetchWithRetry when retrying retryable HTTP responses. What it replaces Hand-rolled pattern Use --- --- for loop with a fixed sleep retry(fn) / fetchWithRetry(url) Ignoring or re-parsing Retry-After <code parseRetryAfter<wbr / (header)</code (built into fetchWithRetry ) Promise.race with setTimeout timeoutSignal(ms) , anySignal([...]) , withTimeout(work, ms) await res.text() on unknown input readText(res, { maxBytes }) line.startsWith('data: ') parseSSE(stream) Regexes over 127. , 10. , 192.168. <code assertPublicUrl<wbr / (url, & 123; lookup & 125;)</code Stability - Version: 0.1.0 - Tier: beta - Contract: evolving Deep dives - — full export list. - Decision record: ADR-0037 ( docs/architecture/adrs/0037-net-package.md ).",
+          "body": "@agentskit/net is the package for the moment your agent talks HTTP: a provider returns 429 with Retry-After , a stream arrives as server-sent events, a tool fetches a URL a user typed, or a response could be larger than you want in memory. It uses web APIs only, so the same code runs on Node, Bun, Deno, browsers and edge runtimes. When to reach for it - You call an API that rate-limits or fails transiently and need retries that respect Retry-After . - You need a timeout per attempt, not one that silently spans every retry. - You need a deadline for async work and a signal that forwards caller cancellation. - You consume a server-sent events stream. - You fetch URLs supplied by users or models and must not reach private networks or cloud metadata. Install Hello world Cancellable waits and deadlines retry uses the exported sleep(ms, signal?) by default. Delays must be from 0 through 2,147,483,647 milliseconds. It clears its timer on abort and rejects with the signal's exact reason. To replace the wait, pass sleep: (ms, signal?) = Promise<void ; one-argument callbacks still work, and callbacks should honor the optional signal when their own wait must stop on cancellation. withTimeout(work, ms, parent?) accepts a positive deadline up to 2,147,483,647 milliseconds and gives work a signal that aborts at the deadline or with the parent's exact reason. The deadline rejects with AK NET TIMEOUT ; invalid values reject with AK NET INVALID INPUT . It bounds the wrapper's rejection even if work ignores the signal, but only cooperative work such as fetch can be stopped. A success value or original work failure passes through unchanged. retry retries rejected work, such as fetch network errors; it does not inspect HTTP status codes. Use fetchWithRetry when retrying retryable HTTP responses. What it replaces Hand-rolled pattern Use --- --- for loop with a fixed sleep retry(fn) / fetchWithRetry(url) Ignoring or re-parsing Retry-After <code parseRetryAfter<wbr / (header)</code (built into fetchWithRetry ) Promise.race with setTimeout timeoutSignal(ms) , anySignal([...]) , withTimeout(work, ms) await res.text() on unknown input readText(res, { maxBytes }) line.startsWith('data: ') parseSSE(stream) Regexes over 127. , 10. , 192.168. <code assertPublicUrl<wbr / (url, & 123; lookup & 125;)</code Stability - Version: 0.2.0 - Tier: beta - Contract: evolving Deep dives - — full export list. - Decision record: ADR-0037 ( docs/architecture/adrs/0037-net-package.md ).",
           "aliases": "document human"
         },
         "graph": {
@@ -59705,7 +59705,7 @@
             }
           ]
         },
-        "contentHash": "f4464a7f019dcccdd8ac0975224d5a5d901797e8a083e850fb49f162b53a5dbd",
+        "contentHash": "e0cebac42ee57db576769ede111124c99131d8fd0da228164d1a54ac925387ac",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -190254,7 +190254,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "f19e447a120d1f15d7ba0d2ced21a9bc4e9e622da46caf5f6d9477d5c5ec6ed1",
+        "contentHash": "d1c9fa20c1cb2324998bae74bf500a035f54e017402975799ec260e6cd455caf",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "net"
