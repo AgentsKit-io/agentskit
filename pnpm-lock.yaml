@@ -1244,6 +1244,9 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
+      '@agentskit/net':
+        specifier: workspace:*
+        version: link:../net
     devDependencies:
       '@opentelemetry/api':
         specifier: ^1.9.1
