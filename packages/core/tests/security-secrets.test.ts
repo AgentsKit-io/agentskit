@@ -66,11 +66,10 @@ describe('secret redaction', () => {
     expect(redactSecrets(input)).toBe(input)
     expect(isSensitiveFieldName('max_tokens')).toBe(false)
     expect(isSensitiveFieldName('tokens')).toBe(false)
-    expect(isSensitiveFieldName('token_count')).toBe(false)
     expect(isSensitiveFieldName('tokenizer')).toBe(false)
     expect(isSensitiveFieldName('inputTokens')).toBe(false)
     expect(isSensitiveFieldName('totalTokens')).toBe(false)
-    expect(isSensitiveFieldName('tokenType')).toBe(false)
+    expect(isSensitiveFieldName('tokenType')).toBe(true)
   })
 
   it('recognizes generic token fields as sensitive in nested values', () => {
@@ -80,7 +79,7 @@ describe('secret redaction', () => {
     expect(redactSecrets('{"token": "fakeValue1234567890"}')).toBe('{"token": "[REDACTED]"}')
     expect(redactSecrets('sessionToken=fakeValue1234567890')).toBe('sessionToken=[REDACTED]')
     expect(redactDeep({ token: 'fakeValue1234567890', tokenType: 'Bearer', tokens: 42 })).toEqual({
-      token: '[REDACTED]', tokenType: 'Bearer', tokens: 42,
+      token: '[REDACTED]', tokenType: '[REDACTED]', tokens: 42,
     })
   })
 
@@ -111,8 +110,21 @@ describe('secret redaction', () => {
   it('recognizes sensitive field names across common casing styles', () => {
     expect(isSensitiveFieldName('clientSecret')).toBe(true)
     expect(isSensitiveFieldName('api_key')).toBe(true)
+    expect(isSensitiveFieldName('apiKey')).toBe(true)
+    expect(isSensitiveFieldName('botToken')).toBe(true)
+    expect(isSensitiveFieldName('x-auth-token')).toBe(true)
     expect(isSensitiveFieldName('apiKeyEnv')).toBe(false)
     expect(isSensitiveFieldName('displayName')).toBe(false)
+  })
+
+  it('keeps field-name redaction additive for token boundaries', () => {
+    const fields = ['token_value', 'token_hash', 'token_count', 'token_type', 'access_token', 'apiKey', 'botToken', 'x-auth-token']
+    const input = Object.fromEntries(fields.map(key => [key, 'plain-value']))
+
+    expect(redactDeep(input)).toEqual(Object.fromEntries(fields.map(key => [key, '[REDACTED]'])))
+    for (const key of fields) expect(isSensitiveFieldName(key)).toBe(true)
+    expect(isSensitiveFieldName('sessionToken')).toBe(true)
+    expect(isSensitiveFieldName('session-token')).toBe(true)
   })
 
   it('bounds recursion depth', () => {

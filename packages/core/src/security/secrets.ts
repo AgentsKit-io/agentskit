@@ -7,7 +7,7 @@ const SECRET_PATTERNS = [
 ]
 
 const SENSITIVE_ASSIGNMENT = /((?:["']?(?:access[-_]?token|refresh[-_]?token|client[-_]?secret|bot[-_]?token|[\w-]+[-_]token|[A-Za-z0-9]+Token|token|api[-_]?key|secret|password|passwd|authorization|credential|private[-_]?key|signature)["']?)\s*[:=]\s*)(?:"[^"]*"|'[^']*'|[^\s,}]+)/gi
-const SENSITIVE_KEY = /(?:^|_)(?:access_?token|refresh_?token|client_?secret|bot_?token|secret|password|passwd|api_?key|authorization|credential|private_?key|signature)(?:_|$)/
+const SENSITIVE_KEY = /(?:^|_)(?:access_?token|refresh_?token|client_?secret|bot_?token|token|secret|password|passwd|api_?key|authorization|credential|private_?key|signature)(?:_|$)/
 const MAX_DEPTH = 20
 
 /**
