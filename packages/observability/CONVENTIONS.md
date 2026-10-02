@@ -71,7 +71,7 @@ If you're tempted to write an observer that rewrites a tool call or redacts a pr
 
 ## Review checklist for this package
 
-- [ ] Bundle size under **16 KB gzipped** (`.size-limit.json` entry for `@agentskit/observability`)
+- [ ] Bundle size within the **16.5 KB gzipped** budget in `.size-limit.json` for `@agentskit/observability`
 - [ ] Coverage floor for beta holds (**60%** lines). Hardening suites currently measure **>93%** lines in-package — that figure is evidence of the current suite, not a permanent contract above the floor
 - [ ] Observer does not mutate runtime agent state
 - [ ] Errors isolated; never thrown out of `on` / never unhandled rejections from package async work
