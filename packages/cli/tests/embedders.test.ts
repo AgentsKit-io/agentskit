@@ -67,7 +67,7 @@ describe('createOpenAiEmbedder', () => {
     const server = createServer((request, response) => {
       if (requests++ > 0) {
         response.writeHead(200)
-        response.write(Buffer.alloc(1024 * 1024 + 1, 0x61))
+        response.write(Buffer.alloc(16 * 1024 * 1024 + 1, 0x61))
         response.end()
         return
       }

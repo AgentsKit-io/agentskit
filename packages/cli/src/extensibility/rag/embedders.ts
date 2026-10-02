@@ -1,7 +1,8 @@
 import type { EmbedFn } from '@agentskit/core'
 import { NetError, readJson, readText } from '@agentskit/net'
 
-const MAX_EMBEDDER_RESPONSE_BYTES = 1024 * 1024
+const MAX_EMBEDDER_RESPONSE_BYTES = 16 * 1024 * 1024
+const MAX_EMBEDDER_ERROR_BYTES = 1024 * 1024
 
 export interface OpenAiEmbedderConfig {
   apiKey: string
@@ -36,7 +37,7 @@ export function createOpenAiEmbedder(config: OpenAiEmbedderConfig): EmbedFn {
       let body = ''
       let cause: unknown
       try {
-        body = await readText(res, { maxBytes: MAX_EMBEDDER_RESPONSE_BYTES })
+        body = await readText(res, { maxBytes: MAX_EMBEDDER_ERROR_BYTES })
       } catch (error) {
         if (error instanceof NetError) cause = error
       }
