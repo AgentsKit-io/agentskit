@@ -32,11 +32,31 @@ export interface MarkdownNote {
 }
 
 const FRONTMATTER = /^﻿?---[ \t]*\r?\n(?:([\s\S]*?)\r?\n)?---[ \t]*(?:\r?\n|$)/
-const WIKILINK = /!?\[\[([^\]\n]*?)\]\]/g
+const WIKILINK = /!?\[\[([^[\]\n]*)\]\]/g
 const FENCE = /^ {0,3}(`{3,}|~{3,})/
-const HEADING = /^ {0,3}(#{1,6})(?:[ \t]+(.*?))?(?:[ \t]+#+)?[ \t]*$/
-const TABLE_ROW = /^\s*\|.*\|\s*$/
-const TABLE_DELIMITER = /^\s*\|?(\s*:?-+:?\s*\|)+\s*(:?-+:?\s*)?$/
+const HEADING_OPEN = /^ {0,3}(#{1,6})(?=[ \t]|$)/
+const DELIMITER_CELL = /^:?-+:?$/
+
+function parseHeading(line: string): { level: number; text: string } | null {
+  const open = HEADING_OPEN.exec(line)
+  if (!open) return null
+  const level = (open[1] as string).length
+  let text = line.slice(open[0].length).trim()
+  let end = text.length
+  while (end > 0 && text[end - 1] === '#') end--
+  if (end === 0) text = ''
+  else if (end < text.length && (text[end - 1] === ' ' || text[end - 1] === '\t')) text = text.slice(0, end).trim()
+  return { level, text }
+}
+
+function isTableRow(line: string): boolean {
+  const t = line.trim()
+  return t.length >= 2 && t.startsWith('|') && t.endsWith('|')
+}
+
+function isDelimiterRow(line: string): boolean {
+  return isTableRow(line) && splitRow(line).every((cell) => DELIMITER_CELL.test(cell))
+}
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -114,9 +134,9 @@ export function sections(body: string): MarkdownSection[] {
       if (fence === null) fence = marker
       else if (marker[0] === fence[0] && marker.length >= fence.length) fence = null
     }
-    const heading = fence === null && !fenceMatch ? HEADING.exec(line) : null
+    const heading = fence === null && !fenceMatch ? parseHeading(line) : null
     if (heading) {
-      out.push({ level: (heading[1] as string).length, heading: (heading[2] ?? '').trim(), lines: [] })
+      out.push({ level: heading.level, heading: heading.text, lines: [] })
     } else {
       ;(out[out.length - 1] as { lines: string[] }).lines.push(line)
     }
@@ -175,10 +195,10 @@ export function parseTable(text: string): Array<Record<string, string>> {
   for (let i = 0; i + 1 < lines.length; i++) {
     const headerLine = lines[i] as string
     const delimiterLine = lines[i + 1] as string
-    if (!TABLE_ROW.test(headerLine) || !TABLE_DELIMITER.test(delimiterLine)) continue
+    if (!isTableRow(headerLine) || !isDelimiterRow(delimiterLine)) continue
     const header = splitRow(headerLine).map(plain)
     const rows: Array<Record<string, string>> = []
-    for (let j = i + 2; j < lines.length && TABLE_ROW.test(lines[j] as string); j++) {
+    for (let j = i + 2; j < lines.length && isTableRow(lines[j] as string); j++) {
       const cells = splitRow(lines[j] as string)
       rows.push(Object.fromEntries(cells.map((cell, k) => [header[k] || `col${k}`, cell])))
     }

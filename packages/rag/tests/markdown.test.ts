@@ -105,6 +105,32 @@ describe('sections', () => {
   })
 })
 
+describe('heading edge cases', () => {
+  it('strips closing sequences only when separated by whitespace', () => {
+    const out = sections('# C# notes\n## Closed ##\t\n###\n####### seven\n#\tTabbed')
+    expect(out.map((s) => [s.level, s.heading])).toEqual([
+      [0, ''],
+      [1, 'C# notes'],
+      [2, 'Closed'],
+      [3, ''],
+      [1, 'Tabbed'],
+    ])
+    expect(out[3]?.content).toBe('####### seven')
+  })
+})
+
+describe('linear time on adversarial input', () => {
+  it('handles long runs of brackets, tabs, spaces and pipes quickly', () => {
+    const n = 50_000
+    const start = performance.now()
+    extractWikilinks('[['.repeat(n) + '\\'.repeat(n))
+    stripWikilinks('[[\\'.repeat(n))
+    sections('#' + '\t'.repeat(n) + 'x' + '\t'.repeat(n) + '#')
+    parseTable('|' + ' '.repeat(n) + '|\n|' + ' '.repeat(n) + '-' + ' '.repeat(n))
+    expect(performance.now() - start).toBeLessThan(2000)
+  })
+})
+
 describe('parseTable', () => {
   it('parses the first GitHub table with escaped and wikilink pipes', () => {
     const text = [
