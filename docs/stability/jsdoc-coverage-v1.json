@@ -861,7 +861,6 @@
       ".::createDurableRunner",
       ".::createQuotaTracker",
       ".::createRuntime",
-      ".::createSharedContext",
       ".::createValidatorGuard",
       ".::createVoteHandler",
       ".::cronMatches",
@@ -890,12 +889,10 @@
       ".::QuotaSnapshot",
       ".::QuotaTracker",
       ".::QuotaTrackerOptions",
-      ".::ReadonlySharedContext",
       ".::RunFlowOptions",
       ".::RunOptions",
       ".::RunResult",
       ".::RuntimeConfig",
-      ".::SharedContext",
       ".::SpeculateInput",
       ".::SpeculateOutput",
       ".::SpeculatePicker",
@@ -923,10 +920,7 @@
       ".::WebhookHandler",
       ".::WebhookOptions",
       ".::WebhookRequest",
-      ".::WebhookResponse",
-      "./shared-context::createSharedContext",
-      "./shared-context::ReadonlySharedContext",
-      "./shared-context::SharedContext"
+      ".::WebhookResponse"
     ],
     "@agentskit/sandbox": [
       ".::BwrapPolicy",
