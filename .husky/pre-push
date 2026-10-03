@@ -5,4 +5,22 @@
 # state (e.g. docs-next's generated ask-context). HUSKY=0 also bypasses locally.
 [ -n "$CI" ] && exit 0
 # Fast, build-light checks first; full test suite runs in CI.
+
+# The quality gates exercise Doc Bridge against the current tree. Regenerate a
+# temporary copy when the committed outputs are untouched, then restore them so
+# a normal push does not acquire generated index changes in the worktree.
+DOC_BRIDGE_OUTPUTS='.doc-bridge/index.json .doc-bridge/capabilities.json .doc-bridge/llms.txt llms.txt'
+RESTORE_DOC_BRIDGE=false
+restore_doc_bridge_outputs() {
+  if [ "$RESTORE_DOC_BRIDGE" = true ]; then
+    git restore --source=HEAD --worktree -- $DOC_BRIDGE_OUTPUTS
+  fi
+}
+
+if git diff --quiet HEAD -- $DOC_BRIDGE_OUTPUTS; then
+  RESTORE_DOC_BRIDGE=true
+  trap restore_doc_bridge_outputs EXIT
+  pnpm docs:bridge:index || exit 1
+fi
+
 pnpm check:quality-gates && pnpm lint && pnpm build
