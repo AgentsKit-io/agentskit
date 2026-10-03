@@ -1,10 +1,15 @@
 import { onMount, onCleanup, type JSX } from 'solid-js'
 
+/** Props accepted by the reactive chat scroll container. */
 export interface ChatContainerProps {
   children?: JSX.Element
   class?: string
 }
 
+/** Render a scroll container that follows newly added chat content.
+ * @param props Container children and optional CSS class.
+ * @returns The headless chat container element.
+ */
 export function ChatContainer(props: ChatContainerProps): JSX.Element {
   let containerRef: HTMLDivElement | undefined
 
