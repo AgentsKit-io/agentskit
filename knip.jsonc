@@ -1,0 +1,24 @@
+{
+  "$schema": "https://unpkg.com/knip@6.39.0/schema-jsonc.json",
+  "workspaces": {
+    ".": {
+      "ignoreDependencies": ["typescript-5-9"]
+    },
+    "packages/*": {
+      // These are referenced through a workspace-source import, bundler entry,
+      // test path lookup, or a variable-name optional-peer import.
+      "ignoreDependencies": ["ajv", "braintrust", "langfuse", "metro-runtime", "vectra"]
+    },
+    "apps/*": {},
+    "apps/docs-next": {
+      // MDX loads examples dynamically; gen-api invokes TypeDoc through a CLI.
+      "ignoreDependencies": ["@agentskit/tools", "typedoc", "typedoc-plugin-markdown"],
+      // Retained Docusaurus pages still contain their retired @site/src alias.
+      "ignoreIssues": {
+        "content/docs-archive/**": ["unlisted"]
+      }
+    }
+  },
+  // These fixtures are canonical README examples, checked by repository docs gates.
+  "ignoreFiles": ["**/fixtures/readme-quickstart.*"]
+}

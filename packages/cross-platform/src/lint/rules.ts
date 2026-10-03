@@ -2,7 +2,8 @@
  * Static patterns that broke Windows (or another runtime) in the AgentsKit
  * ecosystem. Each one maps to the @agentskit/cross-platform API to use.
  * Regexes run per line, so they stay simple and predictable.
- */
+
+ * Rule definition used by the portability source scanner. */
 export interface PortabilityRule {
   id: string
   pattern: RegExp
@@ -10,6 +11,7 @@ export interface PortabilityRule {
   fix: string
 }
 
+/** Built-in rules for common cross-platform source hazards. */
 export const PORTABILITY_RULES: readonly PortabilityRule[] = [
   {
     id: 'child-process-import',

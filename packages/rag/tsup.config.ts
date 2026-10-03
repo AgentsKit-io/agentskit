@@ -1,28 +1,24 @@
 import { defineConfig } from 'tsup'
+import { sharedTsupOptions } from '../../tsup.shared'
 
 export default defineConfig([
   {
+    ...sharedTsupOptions,
     entry: {
       index: 'src/index-node.ts',
       chunker: 'src/chunker.ts',
       markdown: 'src/markdown.ts',
     },
-    format: ['esm', 'cjs'],
-    dts: { compilerOptions: { ignoreDeprecations: '6.0' } },
-    sourcemap: true,
     clean: true,
     external: ['@agentskit/core'],
-    treeshake: true,
   },
   {
+    ...sharedTsupOptions,
     entry: {
       'index.browser': 'src/index.ts',
     },
-    format: ['esm', 'cjs'],
     dts: false,
-    sourcemap: true,
     clean: false,
     external: ['@agentskit/core'],
-    treeshake: true,
   },
 ])

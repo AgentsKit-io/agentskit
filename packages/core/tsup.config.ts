@@ -1,7 +1,9 @@
 import { copyFile } from 'node:fs/promises'
 import { defineConfig } from 'tsup'
+import { sharedTsupOptions } from '../../tsup.shared'
 
 export default defineConfig({
+  ...sharedTsupOptions,
   entry: {
     index: 'src/index.ts',
     'agent-schema': 'src/agent-schema.ts',
@@ -24,12 +26,8 @@ export default defineConfig({
     rules: 'src/rules.ts',
     hash: 'src/hash.ts',
   },
-  format: ['esm', 'cjs'],
-  dts: { compilerOptions: { ignoreDeprecations: "6.0" } },
-  sourcemap: true,
   clean: false,
   minify: true,
-  treeshake: true,
   external: ['./tool-proposal-internal.js', './tool-authorization-internal.js', './memory-validation.js'],
   noExternal: ['canonicalize', '@noble/hashes'],
   // tsup ships .ts entrypoints only; copy bundled JSON assets manually.

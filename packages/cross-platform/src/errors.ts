@@ -2,6 +2,7 @@ import { AgentsKitError } from '@agentskit/core'
 
 const DOCS_URL = 'https://www.agentskit.io/docs/reference/packages/cross-platform'
 
+/** Stable codes used by cross-platform process and filesystem errors. */
 export const CrossPlatformErrorCodes = {
   AK_PLATFORM_PERMISSION_DENIED: 'AK_PLATFORM_PERMISSION_DENIED',
   AK_PLATFORM_COMMAND_NOT_FOUND: 'AK_PLATFORM_COMMAND_NOT_FOUND',
@@ -10,8 +11,10 @@ export const CrossPlatformErrorCodes = {
   AK_PLATFORM_UNSUPPORTED_RUNTIME: 'AK_PLATFORM_UNSUPPORTED_RUNTIME',
 } as const
 
+/** Union of the stable cross-platform error codes. */
 export type CrossPlatformErrorCode = (typeof CrossPlatformErrorCodes)[keyof typeof CrossPlatformErrorCodes]
 
+/** Error raised by a cross-platform operation with a stable code and optional cause. */
 export class CrossPlatformError extends AgentsKitError {
   constructor(options: {
     code: CrossPlatformErrorCode

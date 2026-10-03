@@ -31,10 +31,15 @@ export interface BrowserPage {
   waitForSelector: (selector: string, options?: { timeoutMs?: number }) => Promise<void>
 }
 
+/** Browser operations backed by an injected page implementation. */
 export interface BrowserAgentConfig {
   page: BrowserPage
 }
 
+/** Create a tool that navigates the configured page to a URL.
+ *
+ * @param config Browser page used for navigation.
+ * @returns A browser navigation tool. */
 export function browserGoto(config: BrowserAgentConfig) {
   return defineTool({
     name: 'browser_goto',
@@ -51,6 +56,10 @@ export function browserGoto(config: BrowserAgentConfig) {
   })
 }
 
+/** Create a tool that clicks a selector on the configured page.
+ *
+ * @param config Browser page used for clicking.
+ * @returns A browser click tool. */
 export function browserClick(config: BrowserAgentConfig) {
   return defineTool({
     name: 'browser_click',
@@ -67,6 +76,10 @@ export function browserClick(config: BrowserAgentConfig) {
   })
 }
 
+/** Create a tool that fills a selector on the configured page.
+ *
+ * @param config Browser page used for filling.
+ * @returns A browser fill tool. */
 export function browserFill(config: BrowserAgentConfig) {
   return defineTool({
     name: 'browser_fill',
@@ -83,6 +96,10 @@ export function browserFill(config: BrowserAgentConfig) {
   })
 }
 
+/** Create a tool that reads page text from the configured page.
+ *
+ * @param config Browser page used for reading.
+ * @returns A browser read tool. */
 export function browserRead(config: BrowserAgentConfig) {
   return defineTool({
     name: 'browser_read',
@@ -99,6 +116,10 @@ export function browserRead(config: BrowserAgentConfig) {
   })
 }
 
+/** Create a tool that captures the configured page as a base64 PNG.
+ *
+ * @param config Browser page used for capture.
+ * @returns A screenshot tool. */
 export function browserScreenshot(config: BrowserAgentConfig) {
   return defineTool({
     name: 'browser_screenshot',
@@ -111,6 +132,10 @@ export function browserScreenshot(config: BrowserAgentConfig) {
   })
 }
 
+/** Create a tool that waits for a selector on the configured page.
+ *
+ * @param config Browser page used for waiting.
+ * @returns A browser wait tool. */
 export function browserWait(config: BrowserAgentConfig) {
   return defineTool({
     name: 'browser_wait_for',
@@ -127,6 +152,13 @@ export function browserWait(config: BrowserAgentConfig) {
   })
 }
 
+/** Build the navigation, click, fill, read, screenshot, and wait tools for a page.
+ * @example
+ * const tools = browserAgent({ page })
+
+ *
+ * @param config Browser page shared by the returned tools.
+ * @returns Six browser tools. */
 export function browserAgent(config: BrowserAgentConfig) {
   return [
     browserGoto(config),

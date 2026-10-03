@@ -86,7 +86,27 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm exec turbo run build --filter='./packages/*' --concurrency=2
+      - name: Determine package task scope
+        id: package-scope
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          if [[ "$EVENT_NAME" != "pull_request" || "$HEAD_REF" == "changeset-release/main" ]]; then
+            echo "run_all=true" >> "$GITHUB_OUTPUT"
+          elif git diff --name-only origin/main...HEAD | grep -Eq '^(package\.json|pnpm-lock\.yaml|tsconfig[^/]*|vitest\.shared\.ts|turbo\.json|scripts/|\.github/)'; then
+            echo "run_all=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run_all=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build all packages
+        if: steps.package-scope.outputs.run_all == 'true'
+        run: pnpm exec turbo run build --filter='./packages/*' --concurrency=2
+
+      - name: Build affected packages and dependents
+        if: steps.package-scope.outputs.run_all == 'false'
+        run: pnpm exec turbo run build --filter='...[origin/main]' --concurrency=2
 
       - name: Publication metadata contract
         run: pnpm check:publication-surface
@@ -100,7 +120,13 @@ jobs:
       - name: Public API snapshot contract
         run: pnpm check:public-api-snapshot
 
-      - run: pnpm --filter "./packages/*" lint
+      - name: Lint all packages
+        if: steps.package-scope.outputs.run_all == 'true'
+        run: pnpm --filter "./packages/*" lint
+
+      - name: Lint affected packages and dependents
+        if: steps.package-scope.outputs.run_all == 'false'
+        run: pnpm exec turbo run lint --filter='...[origin/main]'
 
       # PRs need the current tree's index for documentation gates, but should
       # not carry the repository-wide generated index just to pass CI.
@@ -133,9 +159,37 @@ jobs:
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
-      - run: pnpm exec turbo run build --filter='./packages/*' --concurrency=2
+
+      - name: Determine package task scope
+        id: package-scope
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          if [[ "$EVENT_NAME" != "pull_request" || "$HEAD_REF" == "changeset-release/main" ]]; then
+            echo "run_all=true" >> "$GITHUB_OUTPUT"
+          elif git diff --name-only origin/main...HEAD | grep -Eq '^(package\.json|pnpm-lock\.yaml|tsconfig[^/]*|vitest\.shared\.ts|turbo\.json|scripts/|\.github/)'; then
+            echo "run_all=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "run_all=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build all packages
+        if: steps.package-scope.outputs.run_all == 'true'
+        run: pnpm exec turbo run build --filter='./packages/*' --concurrency=2
+
+      - name: Build affected packages and dependents
+        if: steps.package-scope.outputs.run_all == 'false'
+        run: pnpm exec turbo run build --filter='...[origin/main]' --concurrency=2
+
       # Rollback: restore --concurrency=1 here and in the root package.json.
-      - run: pnpm exec turbo run test --concurrency=2
+      - name: Test all packages
+        if: steps.package-scope.outputs.run_all == 'true'
+        run: pnpm exec turbo run test --concurrency=2
+
+      - name: Test affected packages and dependents
+        if: steps.package-scope.outputs.run_all == 'false'
+        run: pnpm exec turbo run test --filter='...[origin/main]' --concurrency=2
 
   quality:
     name: Lint, Test, Build

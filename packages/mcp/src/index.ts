@@ -8,6 +8,7 @@ import {
 } from '@agentskit/tools/mcp'
 import { assertNonEmptyString, assertToolName, isRecord } from './validation'
 
+/** Tools, server metadata, transport, and event hook for the stdio MCP bridge. */
 export interface AgentsKitMcpServerOptions {
   /** AgentsKit tools to expose to the MCP host. */
   tools: ToolDefinition[]

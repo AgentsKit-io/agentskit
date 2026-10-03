@@ -1,6 +1,7 @@
 import type { SkillDefinition } from '@agentskit/core'
 import { defineSkill } from './utils'
 
+/** Skill for writing and improving production-ready software code. */
 export const coder: SkillDefinition = defineSkill(
   'coder',
   'Software engineer that writes clean, tested, production-ready code following best practices.',

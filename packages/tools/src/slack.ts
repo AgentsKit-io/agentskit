@@ -5,6 +5,7 @@ import type { ToolDefinition } from '@agentskit/core'
 
 const MAX_SLACK_ERROR_BYTES = 1024
 
+/** Incoming webhook and request cancellation settings for {@link slackTool}. */
 export interface SlackToolConfig {
   webhookUrl: string
   /** Override fetch (mainly for tests). Defaults to the global `fetch`. */
@@ -13,6 +14,19 @@ export interface SlackToolConfig {
   signal?: AbortSignal
 }
 
+/** Create a confirmation-gated tool that sends messages through a Slack webhook.
+ *
+ * @param config Slack incoming webhook URL and optional fetch, timeout, and abort signal.
+ * @returns A `slack_send` tool definition.
+ * @throws {ConfigError} With code AK_CONFIG_INVALID when `webhookUrl` is empty.
+ * @throws {ToolError} During execution when the message is empty or Slack returns a non-success response.
+ * @example
+ * ```ts
+ * import { slackTool } from '@agentskit/tools'
+ *
+ * const tool = slackTool({ webhookUrl: process.env.SLACK_WEBHOOK_URL! })
+ * ```
+ */
 export function slackTool(config: SlackToolConfig): ToolDefinition {
   if (!config.webhookUrl) {
     throw new ConfigError({

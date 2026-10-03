@@ -13,6 +13,7 @@ import { assertNonEmptyString, assertPositiveInteger, assertToolName, isRecord }
 
 type JsonSchema = NonNullable<ToolDefinition['schema']>
 
+/** Agent identity, prompt, adapter, and limits for a general-purpose MCP agent tool. */
 export interface AgentToolConfig {
   /** Tool name exposed to the MCP host (the agent id). */
   id: string
@@ -26,6 +27,7 @@ export interface AgentToolConfig {
   maxTaskBytes?: number
 }
 
+/** Agent tool configuration with JSON Schemas for typed input and output. */
 export interface TypedAgentToolConfig extends AgentToolConfig {
   inputSchema: JsonSchema
   outputSchema: JsonSchema
