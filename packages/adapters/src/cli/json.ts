@@ -4,6 +4,12 @@ export { isRecord } from '@agentskit/core'
 
 export const cliError = (message: string, cause?: unknown): AdapterError => new AdapterError({ code: ErrorCodes.AK_ADAPTER_STREAM_FAILED, message, cause })
 
+/**
+ * Converts a normalized CLI JSON response object to AgentsKit stream chunks.
+ * @param value Parsed JSON response value.
+ * @returns Stream chunks for its text, reasoning, tool calls, usage, and metadata.
+ * @throws {Error} If the value or a nested response field is malformed.
+ */
 export function parseCliJsonResponse(value: unknown): readonly StreamChunk[] {
   if (!isRecord(value)) throw cliError('CLI JSON response must be an object')
   const chunks: StreamChunk[] = []

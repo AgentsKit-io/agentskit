@@ -331,6 +331,13 @@ async function* runAcp(
   }
 }
 
+/**
+ * Creates a streaming text adapter that runs an external CLI process.
+ * @param options Executable and process settings for the CLI.
+ * @returns An AgentsKit adapter factory.
+ * @example
+ * const adapter = createCliAdapter({ command: 'codex', args: ['exec'] })
+ */
 export function createCliAdapter(options: CliAdapterOptions): AdapterFactory {
   return createFactory(mergeCapabilities({
     streaming: true,
@@ -340,6 +347,13 @@ export function createCliAdapter(options: CliAdapterOptions): AdapterFactory {
   }, options.capabilities), (request, signal) => runText(request, signal, options))
 }
 
+/**
+ * Creates a non-streaming adapter that parses structured output from an external CLI.
+ * @param options Executable, process, and JSON parsing settings.
+ * @returns An AgentsKit adapter factory.
+ * @example
+ * const adapter = createJsonCliAdapter({ command: 'claude', args: ['-p'] })
+ */
 export function createJsonCliAdapter(options: CliJsonAdapterOptions): AdapterFactory {
   return createFactory(mergeCapabilities({
     streaming: false,
@@ -349,6 +363,13 @@ export function createJsonCliAdapter(options: CliJsonAdapterOptions): AdapterFac
   }, options.capabilities), (request, signal) => runJson(request, signal, options))
 }
 
+/**
+ * Creates a streaming adapter for an external CLI that speaks Agent Client Protocol.
+ * @param options Executable, process, and ACP client settings.
+ * @returns An AgentsKit adapter factory.
+ * @example
+ * const adapter = createAcpCliAdapter({ command: 'opencode' })
+ */
 export function createAcpCliAdapter(options: AcpCliAdapterOptions): AdapterFactory {
   return createFactory({
     streaming: true,
