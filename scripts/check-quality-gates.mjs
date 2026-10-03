@@ -21,6 +21,8 @@ const GATES = [
   ['promotion RFC for stable', 'check-promotion-rfc.mjs'],
   ['stable internal dependencies', 'check-stable-dependencies.mjs'],
   ['stability graduation evidence', 'check-stability-evidence.mjs'],
+  ['public API JSDoc coverage', 'check-jsdoc-coverage.mjs'],
+  ['public API JSDoc coverage tests', 'check-jsdoc-coverage.test.mjs', [], 'node-test'],
   ['release registry preflight helpers', 'release-registry.test.mjs'],
   ['release workflow authentication', 'release-workflow-auth.test.mjs'],
   ['typed errors (no bare throw)', 'check-no-bare-throw.mjs'],
@@ -67,21 +69,24 @@ const GATES = [
 
 const failed = []
 
-const buildPackages = ['@agentskit/adapters', '@agentskit/mcp', '@agentskit/cross-platform', '@agentskit/net']
-process.stdout.write('\n▶ shared package build preconditions\n')
+process.stdout.write('\n▶ package declaration build preconditions\n')
 const build = spawnSync('pnpm', [
-  'exec', 'turbo', 'run', 'build', '--concurrency=2',
-  ...buildPackages.map((name) => `--filter=${name}`),
+  'exec', 'turbo', 'run', 'build', '--concurrency=2', '--filter=./packages/*',
 ], { stdio: 'inherit', cwd: root })
-if (build.status !== 0) failed.push('shared package build preconditions')
+if (build.status !== 0) failed.push('package declaration build preconditions')
 
 for (const [label, script, args = [], runner = 'node'] of GATES) {
   const started = performance.now()
   process.stdout.write(`\n▶ ${label}\n`)
   const executable = runner === 'vitest' ? 'pnpm' : process.execPath
-  const runnerArgs = runner === 'vitest'
-    ? ['exec', 'vitest', 'run', join(root, 'scripts', script), ...args]
-    : [join(root, 'scripts', script), ...args]
+  let runnerArgs
+  if (runner === 'vitest') {
+    runnerArgs = ['exec', 'vitest', 'run', join(root, 'scripts', script), ...args]
+  } else if (runner === 'node-test') {
+    runnerArgs = ['--test', join(root, 'scripts', script), ...args]
+  } else {
+    runnerArgs = [join(root, 'scripts', script), ...args]
+  }
   const res = spawnSync(executable, runnerArgs, {
     stdio: 'inherit',
     cwd: root,
