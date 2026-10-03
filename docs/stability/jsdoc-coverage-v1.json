@@ -547,7 +547,6 @@
       ".::ToolCallStatus",
       ".::ToolDefinition",
       ".::ToolExecutionContext",
-      ".::useChat",
       ".::UseStreamOptions",
       ".::UseStreamReturn"
     ],
@@ -1095,18 +1094,7 @@
       ".::ToolConfirmationProps"
     ],
     "@agentskit/statechart": [],
-    "@agentskit/svelte": [
-      ".::ChatContainer",
-      ".::CodeBlock",
-      ".::createChatStore",
-      ".::InputBar",
-      ".::Markdown",
-      ".::Message",
-      ".::SvelteChatStore",
-      ".::ThinkingIndicator",
-      ".::ToolCallView",
-      ".::ToolConfirmation"
-    ],
+    "@agentskit/svelte": [],
     "@agentskit/templates": [
       ".::AdapterTemplateConfig",
       ".::createAdapterTemplate",
