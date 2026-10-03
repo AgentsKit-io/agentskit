@@ -1,16 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-/**
- * Headless renderer for a multi-agent topology graph. Pass any source
- * that implements `subscribe(snapshot => …)` (e.g. the
- * `TopologyGraph` from `@agentskit/observability`) and the component
- * draws nodes + edges in an SVG with `data-ak-*` attributes for
- * styling.
- *
- * Click a node to drill into its session — wire `onNodeClick` to your
- * devtools router.
- */
-
+/** A topology node with activity counts and its last active timestamp. */
 export interface TopologyGraphViewNode {
   id: string
   label: string
@@ -21,6 +11,7 @@ export interface TopologyGraphViewNode {
   lastActiveAt: number
 }
 
+/** An edge between two topology nodes with an event count. */
 export interface TopologyGraphViewEdge {
   id: string
   from: string
@@ -30,17 +21,20 @@ export interface TopologyGraphViewEdge {
   lastResult?: string
 }
 
+/** A complete graph snapshot with nodes, edges, and update time. */
 export interface TopologyGraphViewSnapshot {
   nodes: TopologyGraphViewNode[]
   edges: TopologyGraphViewEdge[]
   updatedAt: string
 }
 
+/** A source that exposes graph snapshots and notifies subscribers of changes. */
 export interface TopologyGraphSource {
   toJSON: () => TopologyGraphViewSnapshot
   subscribe: (handler: (s: TopologyGraphViewSnapshot) => void) => () => void
 }
 
+/** Props for rendering a topology source with optional node-click handling. */
 export interface TopologyGraphViewProps {
   source: TopologyGraphSource
   onNodeClick?: (nodeId: string) => void
@@ -64,6 +58,17 @@ function layout(nodes: TopologyGraphViewNode[], width: number, height: number): 
   return out
 }
 
+/**
+ * Render a subscribed multi-agent topology graph as an SVG.
+ *
+ * Clicking a node calls `onNodeClick` when provided.
+ * @param props The topology source, optional click callback, and dimensions.
+ * @returns The graph SVG element.
+ * @example
+ * ```tsx
+ * <TopologyGraphView source={graph} onNodeClick={(id) => openSession(id)} />
+ * ```
+ */
 export function TopologyGraphView({ source, onNodeClick, width = 600, height = 400 }: TopologyGraphViewProps) {
   const [snap, setSnap] = useState<TopologyGraphViewSnapshot>(() => source.toJSON())
 
@@ -104,7 +109,14 @@ export function TopologyGraphView({ source, onNodeClick, width = 600, height = 4
           const pos = positions.get(node.id)
           if (!pos) return null
           const size = 16 + Math.min(node.startCount * 2, 16)
-          const status = node.errorCount > 0 ? 'error' : node.endCount > 0 ? 'done' : 'pending'
+          let status: 'error' | 'done' | 'pending'
+          if (node.errorCount > 0) {
+            status = 'error'
+          } else if (node.endCount > 0) {
+            status = 'done'
+          } else {
+            status = 'pending'
+          }
           return (
             <g
               key={node.id}
