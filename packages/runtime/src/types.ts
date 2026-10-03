@@ -12,6 +12,9 @@ import type {
 } from '@agentskit/core'
 import type { SharedContext } from './shared-context'
 
+/**
+ * Configuration for a named sub-agent, including its skill and optional tools or adapter.
+ */
 export interface DelegateConfig {
   skill: SkillDefinition
   tools?: ToolDefinition[]
@@ -19,6 +22,9 @@ export interface DelegateConfig {
   maxSteps?: number
 }
 
+/**
+ * Configuration shared by every run of a runtime.
+ */
 export interface RuntimeConfig {
   adapter: AdapterFactory
   tools?: ToolDefinition[]
@@ -41,6 +47,9 @@ export interface RuntimeConfig {
   validateArgs?: ArgsValidator
 }
 
+/**
+ * Options that override runtime settings for one run.
+ */
 export interface RunOptions {
   tools?: ToolDefinition[]
   systemPrompt?: string
@@ -53,6 +62,9 @@ export interface RunOptions {
   sharedContext?: SharedContext
 }
 
+/**
+ * The final text, message history, step and tool-call counts, and duration for a run.
+ */
 export interface RunResult {
   content: string
   messages: Message[]
