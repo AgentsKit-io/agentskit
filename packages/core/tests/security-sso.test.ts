@@ -1,4 +1,7 @@
+import { createServer } from 'node:http'
+import type { AddressInfo } from 'node:net'
 import { describe, expect, it, vi } from 'vitest'
+import { ErrorCodes } from '../src/errors'
 import { createOidcVerifier, createSamlVerifier, type SamlAssertion } from '../src/security/sso'
 
 // ---------------------------------------------------------------------------
@@ -315,6 +318,42 @@ describe('createOidcVerifier', () => {
         fetch: (async () => ({ ok: true, status: 200, statusText: 'OK', json: async () => body })) as unknown as typeof fetch,
       })
       await expect(verifier.verify(token)).rejects.toThrow(/JWKS|kty/)
+    }
+  })
+
+  it('bounds streamed JWKS responses and accepts a normal localhost body', async () => {
+    let resolveClosed: () => void = () => {}
+    const closed = new Promise<void>(resolve => { resolveClosed = resolve })
+    const server = createServer((request, response) => {
+      if (request.url === '/large') {
+        response.once('close', resolveClosed)
+        response.writeHead(200)
+        response.write(Buffer.alloc(1_048_577, 0x20))
+        return
+      }
+      response.writeHead(200, { 'content-type': 'application/json' })
+      response.end('{"keys":[]}')
+    })
+    await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve))
+    const address = server.address() as AddressInfo
+    const baseUrl = `http://127.0.0.1:${address.port}`
+
+    try {
+      const normal = createOidcVerifier({
+        issuer: 'https://idp.test', audience: 'agentskit', jwksUrl: `${baseUrl}/normal`,
+      })
+      await expect(normal.refreshJwks()).resolves.toBeUndefined()
+
+      const oversized = createOidcVerifier({
+        issuer: 'https://idp.test', audience: 'agentskit', jwksUrl: `${baseUrl}/large`,
+      })
+      await expect(oversized.refreshJwks()).rejects.toMatchObject({
+        code: ErrorCodes.AK_CONFIG_INVALID,
+        message: 'JWKS response exceeds the 1048576-byte limit',
+      })
+      await closed
+    } finally {
+      await new Promise<void>(resolve => server.close(() => resolve()))
     }
   })
 
