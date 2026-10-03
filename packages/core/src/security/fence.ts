@@ -30,6 +30,7 @@ function markerId(): string {
   return s.toUpperCase() // 10 hex chars
 }
 
+/** Label and optional deterministic marker id for an untrusted-content fence. */
 export interface FenceOptions {
   /** Human label shown in the marker, e.g. 'WEB PAGE', 'DOCUMENT'. Default 'INPUT'. */
   label?: string

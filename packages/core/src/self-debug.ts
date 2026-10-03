@@ -1,5 +1,6 @@
 import type { ToolDefinition } from './types/tool'
 
+/** Failed tool call details supplied to a self-debugger. */
 export interface SelfDebugInput {
   tool: ToolDefinition
   args: Record<string, unknown>
@@ -7,6 +8,7 @@ export interface SelfDebugInput {
   attempt: number
 }
 
+/** Corrected arguments to retry with, or `null` to stop retrying. */
 export interface SelfDebugResult {
   /** Either corrected arguments (retry) or `null` to give up. */
   args: Record<string, unknown> | null
@@ -14,8 +16,10 @@ export interface SelfDebugResult {
   reasoning?: string
 }
 
+/** Callback that proposes corrected arguments after a tool execution error. */
 export type SelfDebugger = (input: SelfDebugInput) => Promise<SelfDebugResult> | SelfDebugResult
 
+/** Retry limit and event callback for a self-debugging tool wrapper. */
 export interface SelfDebugOptions {
   /** Max retry attempts after the original call. Default 2. */
   maxAttempts?: number

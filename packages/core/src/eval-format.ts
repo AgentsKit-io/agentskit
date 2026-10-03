@@ -11,6 +11,7 @@ import { isRecord } from './primitives'
 
 export const EVAL_FORMAT_VERSION = '2026-04'
 
+/** Matching rules used to decide whether an evaluation output passes. */
 export interface EvalCaseExpectation {
   /** Literal substring match. */
   contains?: string
@@ -22,6 +23,7 @@ export interface EvalCaseExpectation {
   semanticSimilarity?: number
 }
 
+/** One input and its optional expected-output checks in an eval suite. */
 export interface EvalCase {
   id: string
   input: string
@@ -29,6 +31,7 @@ export interface EvalCase {
   metadata?: Record<string, unknown>
 }
 
+/** Versioned, portable collection of evaluation cases and suite metadata. */
 export interface EvalSuiteDoc {
   evalFormatVersion: typeof EVAL_FORMAT_VERSION
   name: string
@@ -37,6 +40,7 @@ export interface EvalSuiteDoc {
   cases: EvalCase[]
 }
 
+/** Versioned result summary and per-case outcomes from an eval run. */
 export interface EvalRunResult {
   evalFormatVersion: typeof EVAL_FORMAT_VERSION
   suite: string
@@ -71,6 +75,12 @@ function assertIsoTimestamp(value: unknown, field: string): asserts value is str
   assert(typeof value === 'string' && !Number.isNaN(Date.parse(value)), `${field} must be a valid timestamp`)
 }
 
+/**
+ * Validate and normalize an untrusted evaluation-suite document.
+ * @param raw Value to validate.
+ * @returns A suite document using the current format version.
+ * @throws {Error} If required fields, versions, or case identifiers are invalid.
+ */
 export function validateEvalSuite(raw: unknown): EvalSuiteDoc {
   assert(isRecord(raw), 'root must be an object')
   assert(raw.evalFormatVersion === EVAL_FORMAT_VERSION, `evalFormatVersion must be "${EVAL_FORMAT_VERSION}"`)
@@ -96,6 +106,12 @@ export function validateEvalSuite(raw: unknown): EvalSuiteDoc {
   }
 }
 
+/**
+ * Validate an untrusted evaluation-run result and its totals.
+ * @param raw Value to validate.
+ * @returns The validated run result.
+ * @throws {Error} If timestamps, case records, or aggregate totals are inconsistent.
+ */
 export function validateEvalRunResult(raw: unknown): EvalRunResult {
   assert(isRecord(raw), 'root must be an object')
   assert(raw.evalFormatVersion === EVAL_FORMAT_VERSION, `evalFormatVersion must be "${EVAL_FORMAT_VERSION}"`)
