@@ -1,6 +1,9 @@
 import { ConfigError, ErrorCodes, ToolError } from '@agentskit/core'
+import { NetError, readText } from '@agentskit/net'
 import { composeTimeoutSignal } from '@agentskit/integrations'
 import type { ToolDefinition } from '@agentskit/core'
+
+const MAX_SLACK_ERROR_BYTES = 1024
 
 export interface SlackToolConfig {
   webhookUrl: string
@@ -56,11 +59,18 @@ export function slackTool(config: SlackToolConfig): ToolDefinition {
           redirect: 'error',
         })
         if (!response.ok) {
-          const body = await response.text().catch(() => '')
+          let body = ''
+          let cause: unknown
+          try {
+            body = await readText(response, { maxBytes: MAX_SLACK_ERROR_BYTES })
+          } catch (error) {
+            if (error instanceof NetError) cause = error
+          }
           throw new ToolError({
             code: ErrorCodes.AK_TOOL_EXEC_FAILED,
             message: `slack_send: HTTP ${response.status} ${response.statusText}: ${body.slice(0, 200)}`,
             hint: 'Verify the webhook URL and Slack channel configuration.',
+            cause,
           })
         }
         return { ok: true, status: response.status }
