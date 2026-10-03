@@ -1,0 +1,74 @@
+name: Periodic guardrail report
+
+on:
+  schedule:
+    - cron: '0 8 1 * *'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: guardrail-report-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  report:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: read
+
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm --filter "./packages/*" build
+
+      - name: Download previous report
+        id: previous
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          previous_run="$(gh run list --workflow guardrail-report.yml --branch main --status completed --limit 1 --json databaseId --jq '.[0].databaseId // empty')"
+          if [ -n "$previous_run" ] && gh run download "$previous_run" --name guardrail-report --dir .guardrail-previous; then
+            echo "path=.guardrail-previous/report.json" >> "$GITHUB_OUTPUT"
+          else
+            echo "path=" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Generate report
+        id: generate
+        run: |
+          args=(--output-dir guardrail-report-output)
+          if [ -n "${{ steps.previous.outputs.path }}" ]; then
+            args+=(--previous "${{ steps.previous.outputs.path }}")
+          fi
+          node scripts/guardrail-report.mjs "${args[@]}"
+
+      - name: Add report to job summary
+        if: always()
+        run: |
+          if [ -f guardrail-report-output/report.md ]; then
+            cat guardrail-report-output/report.md >> "$GITHUB_STEP_SUMMARY"
+          else
+            echo 'Guardrail report generation did not produce a Markdown report.' >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        if: always()
+        with:
+          name: guardrail-report
+          path: guardrail-report-output/
+          if-no-files-found: warn
+          retention-days: 90

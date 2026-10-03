@@ -27,16 +27,16 @@ const BASELINE_PATH = path.join(ROOT, JSDOC_BASELINE_RELATIVE)
 function parseArgs(argv) {
   const args = new Set(argv)
   for (const arg of args) {
-    if (arg !== '--update' && arg !== '--help' && arg !== '-h') {
+    if (arg !== '--update' && arg !== '--json' && arg !== '--help' && arg !== '-h') {
       console.error(`check-jsdoc-coverage: unknown flag ${JSON.stringify(arg)}`)
       process.exit(2)
     }
   }
   if (args.has('--help') || args.has('-h')) {
-    console.log('Usage: node scripts/check-jsdoc-coverage.mjs [--update]')
+    console.log('Usage: node scripts/check-jsdoc-coverage.mjs [--update] [--json]')
     process.exit(0)
   }
-  return { update: args.has('--update') }
+  return { update: args.has('--update'), json: args.has('--json') }
 }
 
 function writeAtomic(filePath, contents) {
@@ -77,7 +77,7 @@ function printTable(coverage) {
 }
 
 function main() {
-  const { update } = parseArgs(process.argv.slice(2))
+  const { update, json } = parseArgs(process.argv.slice(2))
   const packages = discoverPublicPackages(PACKAGES_ROOT, {
     readdirSync,
     readFileSync,
@@ -112,9 +112,12 @@ function main() {
   }
 
   const coverage = calculateCoverage(apiBaseline, result.documentation)
-  printTable(coverage)
+  if (!json) printTable(coverage)
+  const rows = Object.entries(coverage)
+  const documented = rows.reduce((sum, [, stats]) => sum + stats.documented, 0)
+  const total = rows.reduce((sum, [, stats]) => sum + stats.total, 0)
   const currentBaseline = Object.fromEntries(
-    Object.entries(coverage).map(([name, stats]) => [name, stats.undocumented]),
+    rows.map(([name, stats]) => [name, stats.undocumented]),
   )
 
   let baseline
@@ -138,9 +141,16 @@ function main() {
 
   const growth = findBaselineGrowth(coverage, baseline)
   if (growth.length > 0) {
-    console.error('check-jsdoc-coverage: newly undocumented public symbols exceed the shrink-only baseline.')
-    for (const line of growth) console.error(`  - ${line}`)
-    process.exit(1)
+    if (json) {
+      process.stdout.write(`${JSON.stringify({ schemaVersion: 1, passed: false, documented, total,
+        coveragePercent: total === 0 ? null : Number(((documented / total) * 100).toFixed(1)),
+        undocumented: total - documented, packages: coverage, baselineGrowth: growth }, null, 2)}\n`)
+    } else {
+      console.error('check-jsdoc-coverage: newly undocumented public symbols exceed the shrink-only baseline.')
+      for (const line of growth) console.error(`  - ${line}`)
+    }
+    process.exitCode = 1
+    return
   }
 
   if (update) {
@@ -149,7 +159,13 @@ function main() {
     return
   }
 
-  console.log(`check-jsdoc-coverage: ok — baseline ${JSDOC_BASELINE_RELATIVE}`)
+  if (json) {
+    process.stdout.write(`${JSON.stringify({ schemaVersion: 1, passed: true, documented, total,
+      coveragePercent: total === 0 ? null : Number(((documented / total) * 100).toFixed(1)),
+      undocumented: total - documented, packages: coverage, baselineGrowth: [] }, null, 2)}\n`)
+  } else {
+    console.log(`check-jsdoc-coverage: ok — baseline ${JSDOC_BASELINE_RELATIVE}`)
+  }
 }
 
 main()
