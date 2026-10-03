@@ -12,6 +12,7 @@
  * Usage:
  *   node scripts/check-public-api-snapshot.mjs
  *   node scripts/check-public-api-snapshot.mjs --update
+ *   node scripts/check-public-api-snapshot.mjs --json
  */
 
 import { existsSync, readdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs'
@@ -37,13 +38,18 @@ const BASELINE_PATH = path.join(REPO_ROOT, DEFAULT_BASELINE_RELATIVE)
 
 /**
  * @param {string[]} argv
- * @returns {{ update: boolean }}
+ * @returns {{ update: boolean, json: boolean }}
  */
 export function parseArgs(argv) {
   let update = false
+  let json = false
   for (const arg of argv) {
     if (arg === '--update') {
       update = true
+      continue
+    }
+    if (arg === '--json') {
+      json = true
       continue
     }
     if (arg === '--help' || arg === '-h') {
@@ -51,10 +57,10 @@ export function parseArgs(argv) {
       process.exit(0)
     }
     console.error(`public-api-snapshot: unknown flag ${JSON.stringify(arg)}`)
-    console.error('Usage: node scripts/check-public-api-snapshot.mjs [--update]')
+    console.error('Usage: node scripts/check-public-api-snapshot.mjs [--update] [--json]')
     process.exit(2)
   }
-  return { update }
+  return { update, json }
 }
 
 function printHelp() {
@@ -64,6 +70,7 @@ Compare the public TypeScript API surface of every non-private packages/*
 export subpath against ${DEFAULT_BASELINE_RELATIVE}.
 
   --update   Rewrite the baseline atomically from the current surface.
+  --json     Print machine-readable summary data.
 
 Prerequisite:
   ${BUILD_PREREQUISITE_COMMAND}
@@ -86,7 +93,7 @@ function writeFileAtomic(filePath, contents) {
 }
 
 function main() {
-  const { update } = parseArgs(process.argv.slice(2))
+  const { update, json } = parseArgs(process.argv.slice(2))
 
   const packages = discoverPublicPackages(PACKAGES_ROOT, {
     readdirSync,
@@ -151,7 +158,18 @@ function main() {
   }
 
   const changes = diffSnapshots(baseline, snapshot)
+  const packageDetails = Object.fromEntries(Object.entries(snapshot.packages).map(([name, pkg]) => {
+    const subpaths = Object.values(pkg.subpaths)
+    return [name, {
+      subpaths: subpaths.length,
+      symbols: subpaths.reduce((sum, subpath) => sum + subpath.symbols.length, 0),
+    }]
+  }))
   if (changes.length > 0) {
+    if (json) {
+      process.stdout.write(`${JSON.stringify({ schemaVersion: 1, passed: false, ...stats, packageDetails, changes }, null, 2)}\n`)
+      process.exit(1)
+    }
     console.error('public-api-snapshot: public API surface drifted from baseline.')
     console.error('')
     for (const line of formatDiffDiagnostics(changes)) {
@@ -167,6 +185,10 @@ function main() {
   // Byte-stable re-serialize check against committed file
   const committed = readFileSync(BASELINE_PATH, 'utf8')
   if (committed !== serialized) {
+    if (json) {
+      process.stdout.write(`${JSON.stringify({ schemaVersion: 1, passed: false, ...stats, packageDetails, changes: [], baselineFormattingDrift: true }, null, 2)}\n`)
+      process.exit(1)
+    }
     console.error(
       'public-api-snapshot: baseline JSON formatting or key order drifted (content keys match but bytes differ).',
     )
@@ -174,7 +196,11 @@ function main() {
     process.exit(1)
   }
 
-  console.log(`public-api-snapshot: ok — ${formatStats(stats)}`)
+  if (json) {
+    process.stdout.write(`${JSON.stringify({ schemaVersion: 1, passed: true, ...stats, packageDetails, changes: [] }, null, 2)}\n`)
+  } else {
+    console.log(`public-api-snapshot: ok — ${formatStats(stats)}`)
+  }
 }
 
 main()
