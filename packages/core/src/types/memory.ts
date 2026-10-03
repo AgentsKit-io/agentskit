@@ -2,6 +2,7 @@ import type { DataRegion, MaybePromise } from './common'
 import type { Message } from './message'
 import type { RetrievedDocument } from './retrieval'
 
+/** Persistence contract for loading, saving, and clearing chat messages. */
 export interface ChatMemory {
   /** Data-residency region for this memory backend, when known. */
   region?: DataRegion
@@ -14,6 +15,7 @@ export interface MemoryOperationOptions {
   signal?: AbortSignal
 }
 
+/** Embedded content record stored by a vector-memory backend. */
 export interface VectorDocument {
   id: string
   content: string
@@ -36,6 +38,7 @@ export interface VectorDocument {
  */
 export type VectorFilterPrimitive = string | number | boolean | null
 
+/** Comparison operators supported by portable vector metadata filters. */
 export type VectorFilterOperator =
   | { $eq: VectorFilterPrimitive }
   | { $ne: VectorFilterPrimitive }
@@ -47,17 +50,21 @@ export type VectorFilterOperator =
   | { $lte: number | string }
   | { $exists: boolean }
 
+/** Primitive equality shorthand or an explicit metadata filter operator. */
 export type VectorFilterPredicate = VectorFilterPrimitive | VectorFilterOperator
 
+/** Boolean combination of nested vector metadata filters. */
 export interface VectorFilterCompound {
   $and?: VectorFilter[]
   $or?: VectorFilter[]
 }
 
+/** Portable metadata filter accepted by vector-memory search. */
 export type VectorFilter =
   | VectorFilterCompound
   | { [field: string]: VectorFilterPredicate }
 
+/** Result limit, similarity threshold, and metadata filter for vector search. */
 export interface VectorSearchOptions {
   topK?: number
   threshold?: number
@@ -65,6 +72,7 @@ export interface VectorSearchOptions {
   filter?: VectorFilter
 }
 
+/** Contract for storing, searching, and optionally deleting embedded documents. */
 export interface VectorMemory {
   /** Data-residency region for this vector backend, when known. */
   region?: DataRegion
@@ -76,4 +84,8 @@ export interface VectorMemory {
   delete?: (ids: string[]) => MaybePromise<void>
 }
 
+/** Convert text into its numeric embedding vector.
+ * @param text Content to embed.
+ * @returns The text embedding as an array of numbers.
+ */
 export type EmbedFn = (text: string) => Promise<number[]>

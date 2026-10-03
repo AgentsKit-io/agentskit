@@ -26,6 +26,7 @@ function formatError(code: string, message: string, hint?: string, docsUrl?: str
 // Base class
 // ---------------------------------------------------------------------------
 
+/** Base error with a stable code, optional hint, docs link, and cause. */
 export class AgentsKitError extends Error {
   readonly code: string
   readonly hint: string | undefined
@@ -56,6 +57,7 @@ export class AgentsKitError extends Error {
 // Subclasses
 // ---------------------------------------------------------------------------
 
+/** Error raised when an adapter is missing or cannot provide its stream. */
 export class AdapterError extends AgentsKitError {
   constructor(options: {
     code: string
@@ -69,6 +71,7 @@ export class AdapterError extends AgentsKitError {
   }
 }
 
+/** Error raised when a tool is missing, invalid, forbidden, or fails. */
 export class ToolError extends AgentsKitError {
   constructor(options: {
     code: string
@@ -82,6 +85,7 @@ export class ToolError extends AgentsKitError {
   }
 }
 
+/** Error raised when chat memory cannot load, save, or clear data. */
 export class MemoryError extends AgentsKitError {
   constructor(options: {
     code: string
@@ -95,6 +99,7 @@ export class MemoryError extends AgentsKitError {
   }
 }
 
+/** Error raised for invalid or incomplete AgentsKit configuration. */
 export class ConfigError extends AgentsKitError {
   constructor(options: {
     code: string
@@ -108,6 +113,7 @@ export class ConfigError extends AgentsKitError {
   }
 }
 
+/** Error raised when a runtime input or execution step fails. */
 export class RuntimeError extends AgentsKitError {
   constructor(options: {
     code: string
@@ -121,6 +127,7 @@ export class RuntimeError extends AgentsKitError {
   }
 }
 
+/** Error raised when sandbox policy or execution fails. */
 export class SandboxError extends AgentsKitError {
   constructor(options: {
     code: string
@@ -134,6 +141,7 @@ export class SandboxError extends AgentsKitError {
   }
 }
 
+/** Error raised when a skill definition or activation is invalid. */
 export class SkillError extends AgentsKitError {
   constructor(options: {
     code: string
@@ -151,6 +159,7 @@ export class SkillError extends AgentsKitError {
 // Error code constants
 // ---------------------------------------------------------------------------
 
+/** Stable error-code strings used by AgentsKit error classes. */
 export const ErrorCodes = {
   // Adapter errors
   AK_ADAPTER_MISSING: 'AK_ADAPTER_MISSING',
