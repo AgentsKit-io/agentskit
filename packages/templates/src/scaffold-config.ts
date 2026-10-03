@@ -12,6 +12,7 @@ export const SCAFFOLD_TYPES = [
   'browser-adapter',
 ] as const
 
+/** One of the extension shapes supported by {@link scaffold}. */
 export type ScaffoldType = (typeof SCAFFOLD_TYPES)[number]
 
 /**

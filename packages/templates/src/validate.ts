@@ -22,6 +22,11 @@ function isPlainObject(value: unknown): value is Record<string, unknown> {
   return prototype === Object.prototype || prototype === null
 }
 
+/** Validate a tool definition and narrow the value to `ToolDefinition`.
+ * @param tool The value to validate.
+ * @returns Nothing; asserts that `tool` is a `ToolDefinition`.
+ * @throws `ConfigError` when a required tool field is invalid.
+ */
 export function validateToolTemplate(tool: unknown): asserts tool is ToolDefinition {
   requireObject(tool, 'Tool')
   requireTrimmedString(tool.name, 'Tool name')
@@ -37,6 +42,11 @@ export function validateToolTemplate(tool: unknown): asserts tool is ToolDefinit
   }
 }
 
+/** Validate a skill definition and narrow the value to `SkillDefinition`.
+ * @param skill The value to validate.
+ * @returns Nothing; asserts that `skill` is a `SkillDefinition`.
+ * @throws `ConfigError` when a required skill field is invalid.
+ */
 export function validateSkillTemplate(skill: unknown): asserts skill is SkillDefinition {
   requireObject(skill, 'Skill')
   requireTrimmedString(skill.name, 'Skill name')
@@ -49,6 +59,11 @@ export function validateSkillTemplate(skill: unknown): asserts skill is SkillDef
   }
 }
 
+/** Validate an adapter factory and narrow it to its named adapter shape.
+ * @param adapter The value to validate.
+ * @returns Nothing; asserts that `adapter` has a name and `createSource` function.
+ * @throws `ConfigError` when the adapter shape is invalid.
+ */
 export function validateAdapterTemplate(
   adapter: unknown,
 ): asserts adapter is AdapterFactory & { name: string } {
