@@ -1,5 +1,8 @@
 import { createOpenAICompatibleAdapter, type OpenAICompatibleConfig } from './openai-compatible'
 
+/**
+ * Configuration options for the LM Studio chat adapter.
+ */
 export interface LMStudioConfig extends OpenAICompatibleConfig {}
 
 /**

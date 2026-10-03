@@ -4,6 +4,9 @@ import { embeddingError, readEmbeddingJson, requireEmbeddingVector, throwIfNotOk
 const MAX_MODEL_LIST_BYTES = 2 * 1024 * 1024
 const MAX_EMBEDDING_RESPONSE_BYTES = 16 * 1024 * 1024
 
+/**
+ * Configuration options for the Gemini embedder.
+ */
 export interface GeminiEmbedderConfig {
   apiKey: string
   model?: string
@@ -43,6 +46,11 @@ async function buildModelError(
   }
 }
 
+/**
+ * Creates an embedder for Gemini embeddings.
+ * @param config Adapter configuration.
+ * @returns The EmbedFn result.
+ */
 export function geminiEmbedder(config: GeminiEmbedderConfig): EmbedFn {
   const {
     apiKey,

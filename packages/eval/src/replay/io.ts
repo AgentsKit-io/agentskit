@@ -13,6 +13,12 @@ export async function saveCassette(path: string, cassette: Cassette): Promise<vo
   await writeFileAtomic(path, serializeCassette(cassette), { encoding: 'utf8', mode: 0o600 })
 }
 
+/** Read a cassette JSON file and validate its contents.
+ *
+ * @param path File path to load.
+ * @returns The validated cassette.
+ * @throws ConfigError when the file contains invalid cassette JSON.
+ */
 export async function loadCassette(path: string): Promise<Cassette> {
   const { readFile } = await import('node:fs/promises')
   const raw = await readFile(path, 'utf8')

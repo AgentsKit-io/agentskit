@@ -6,6 +6,9 @@ const DEFAULT_MAX_OUTPUT_BYTES = 1_048_576
 /** Default VM lifetime when creating an E2B sandbox (5 minutes). */
 const DEFAULT_VM_TIMEOUT_MS = 300_000
 
+/**
+ * API key and VM timeout, network, and output-capture settings for the E2B backend.
+ */
 export interface E2BConfig {
   /** Non-empty E2B API key. */
   apiKey: string

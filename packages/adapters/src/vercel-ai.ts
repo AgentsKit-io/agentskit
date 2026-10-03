@@ -4,6 +4,9 @@ import type { RetryOptions } from './utils'
 import { createStreamSource } from './stream-source'
 import { adapterErrorChunk } from './stream-errors'
 
+/**
+ * Configuration options for the Vercel AI SDK adapter.
+ */
 export interface VercelAIConfig {
   api: string
   headers?: Record<string, string>
@@ -105,6 +108,14 @@ export async function* parseVercelStream(
   yield* parseVercelTextStream(stream)
 }
 
+/**
+ * Creates an adapter for the Vercel AI SDK.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ *
+ * @example
+ * const adapter = vercelAI({ api: 'https://example.com/chat' })
+ */
 export function vercelAI(config: VercelAIConfig): AdapterFactory {
   const { api, headers = {}, retry } = config
 

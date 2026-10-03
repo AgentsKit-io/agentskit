@@ -1,5 +1,8 @@
 import { createOpenAICompatibleAdapter, type OpenAICompatibleConfig } from './openai-compatible'
 
+/**
+ * Configuration options for the OpenRouter chat adapter.
+ */
 export interface OpenRouterConfig extends OpenAICompatibleConfig {}
 
 /**

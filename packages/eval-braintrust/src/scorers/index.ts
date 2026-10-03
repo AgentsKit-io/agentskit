@@ -32,6 +32,7 @@ import {
 } from './robustness'
 import type { ScorerFamily } from '../types'
 
+/** The four built-in quality scorers grouped as one scorer family. */
 export const qualityFamily: ScorerFamily = {
   family: 'quality',
   scorers: [
@@ -42,6 +43,7 @@ export const qualityFamily: ScorerFamily = {
   ],
 }
 
+/** The four built-in robustness scorers grouped as one scorer family. */
 export const robustnessFamily: ScorerFamily = {
   family: 'robustness',
   scorers: [
@@ -52,6 +54,7 @@ export const robustnessFamily: ScorerFamily = {
   ],
 }
 
+/** Flat list of all built-in quality and robustness scorers. */
 export const ALL_SCORERS: ScorerFamily['scorers'] = [
   ...qualityFamily.scorers,
   ...robustnessFamily.scorers,

@@ -9,6 +9,10 @@ import { writeStarterProject as writeProject } from './init-writer'
 
 export type { Provider } from './init-providers'
 
+/**
+ * Built-in project template identifier accepted by the init command.
+
+ */
 export type StarterKind =
   | 'react'
   | 'nextjs'
@@ -27,6 +31,10 @@ export type ToolKind = 'web_search' | 'filesystem' | 'shell'
 export type MemoryKind = 'none' | 'file' | 'sqlite'
 export type PackageManager = 'pnpm' | 'npm' | 'yarn' | 'bun'
 
+/**
+ * Destination, starter template, and optional provider, tools, memory, and package-manager settings.
+
+ */
 export interface InitCommandOptions {
   targetDir: string
   template: StarterKind
@@ -1514,6 +1522,14 @@ const TEMPLATE_FN: Record<StarterKind, (ctx: RenderContext) => Record<string, st
   angular: angularStarter,
 }
 
+/**
+ * Writes the selected starter template files into a destination directory.
+ * @param options Destination and starter-project settings.
+ * @returns Relative paths of existing files that were replaced.
+ * @throws {Error} If the destination is invalid or a protected path cannot be written.
+ * @example
+ * await writeStarterProject({ targetDir: './my-agent', template: 'react' })
+ */
 export async function writeStarterProject(options: InitCommandOptions): Promise<string[]> {
   return writeProject(options, TEMPLATE_FN)
 }

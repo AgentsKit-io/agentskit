@@ -4,6 +4,9 @@ import type { RetryOptions } from '../utils'
 import { getProvider } from './loader'
 import type { CatalogProvider } from './types'
 
+/**
+ * Provider, model, credentials, and optional transport settings for catalog-based dispatch.
+ */
 export interface CatalogDispatchConfig {
   provider: string
   model: string
@@ -13,6 +16,9 @@ export interface CatalogDispatchConfig {
   retry?: RetryOptions
 }
 
+/**
+ * Error raised when a catalog provider cannot be dispatched through an OpenAI-compatible adapter.
+ */
 export class CatalogDispatchError extends Error {
   constructor(
     message: string,

@@ -8,6 +8,13 @@ import type { Retriever } from './retrieval'
 import type { SkillDefinition } from './skill'
 import type { AgentEventContext, Observer } from './agent'
 
+/** Configuration for a headless chat controller and its integrations.
+ * @example
+ * ```ts
+ * const chat = createChatController({ adapter: openai({ apiKey, model: 'gpt-4o' }) })
+ * await chat.send('Hello')
+ * ```
+ */
 export interface ChatConfig {
   adapter: AdapterFactory
   /** Optional identity propagated to adapter requests and runtime events. */
@@ -42,6 +49,7 @@ export interface ChatConfig {
   validateArgs?: ArgsValidator
 }
 
+/** Current messages, input, stream status, error, and accumulated usage. */
 export interface ChatState {
   messages: Message[]
   status: StreamStatus
@@ -55,6 +63,7 @@ export interface ChatState {
   usage: TokenUsage
 }
 
+/** Options controlling how a user-message edit affects later turns. */
 export interface EditOptions {
   /**
    * When editing a user message, also regenerate the assistant response
@@ -63,6 +72,7 @@ export interface EditOptions {
   regenerate?: boolean
 }
 
+/** Imperative API for reading and controlling a chat session. */
 export interface ChatController {
   getState: () => ChatState
   subscribe: (listener: () => void) => () => void
@@ -90,6 +100,7 @@ export interface ChatController {
   deny: (toolCallId: string, reason?: string) => Promise<void>
 }
 
+/** Chat state combined with the actions exposed by framework bindings. */
 export interface ChatReturn extends ChatState {
   send: (text: string) => Promise<void>
   stop: () => void

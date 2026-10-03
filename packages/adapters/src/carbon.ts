@@ -21,6 +21,9 @@ import type { RouterCandidate } from './router'
 
 export type ProviderRegionKey = `${string}:${string}`
 
+/**
+ * Carbon intensity values used to estimate emissions for provider regions.
+ */
 export type CarbonTable = Record<ProviderRegionKey, number>
 
 /**
@@ -64,6 +67,9 @@ export const DEFAULT_CARBON_TABLE: CarbonTable = {
   'cerebras:us-west-2': 0.18,
 }
 
+/**
+ * Configuration options for the carbon estimation utilities.
+ */
 export interface ApplyCarbonOptions {
   /** Override the default table. */
   table?: CarbonTable

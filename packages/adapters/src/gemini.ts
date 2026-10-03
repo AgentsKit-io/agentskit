@@ -3,6 +3,9 @@ import { parseGeminiStream, type RetryOptions } from './utils'
 import { createStreamSource } from './stream-source'
 import { toGeminiContents } from './tool-history'
 
+/**
+ * Configuration options for the Gemini chat adapter.
+ */
 export interface GeminiConfig {
   apiKey: string
   model: string
@@ -10,6 +13,14 @@ export interface GeminiConfig {
   retry?: RetryOptions
 }
 
+/**
+ * Creates an adapter for Gemini streaming chat.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ *
+ * @example
+ * const adapter = gemini({ apiKey: '…', model: 'model-name' })
+ */
 export function gemini(config: GeminiConfig): AdapterFactory {
   const { apiKey, model, baseUrl = 'https://generativelanguage.googleapis.com', retry } = config
 

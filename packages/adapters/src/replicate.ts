@@ -2,6 +2,9 @@ import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '
 import { parseSSE, readJson } from '@agentskit/net'
 import { adapterErrorChunk, isAbortError } from './stream-errors'
 
+/**
+ * Configuration options for the Replicate chat adapter.
+ */
 export interface ReplicateConfig {
   apiKey: string
   /** Replicate model id, e.g. `meta/meta-llama-3-70b-instruct`. */
@@ -52,6 +55,14 @@ async function* parseReplicateStream(
   if (!sawDone) yield adapterErrorChunk('Replicate stream ended without done event')
 }
 
+/**
+ * Creates an adapter for Replicate streaming predictions.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ *
+ * @example
+ * const adapter = replicate({ apiKey: '…', model: 'model-name' })
+ */
 export function replicate(config: ReplicateConfig): AdapterFactory {
   const { apiKey, model, version, baseUrl = DEFAULT_BASE_URL, toInput = (r) => ({ prompt: defaultPrompt(r) }) } = config
 
@@ -135,4 +146,9 @@ export function replicate(config: ReplicateConfig): AdapterFactory {
   }
 }
 
+/**
+ * Creates an adapter for Replicate streaming predictions.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ */
 export const replicateAdapter = replicate

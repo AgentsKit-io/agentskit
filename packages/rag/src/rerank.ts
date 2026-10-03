@@ -1,10 +1,15 @@
 import type { RetrievedDocument, Retriever, RetrieverRequest } from '@agentskit/core'
 import { RagError, RagErrorCodes } from './errors'
 
+/** Reranks retrieved documents for a query.
+ * @param input Query and candidate documents.
+ * @returns The documents ordered by relevance.
+ */
 export type RerankFn = (
   input: { query: string; documents: RetrievedDocument[] },
 ) => Promise<RetrievedDocument[]> | RetrievedDocument[]
 
+/** Options for wrapping a retriever with a reranking function. */
 export interface RerankedRetrieverOptions {
   /** Pull N candidates from the base retriever before reranking. Default 20. */
   candidatePool?: number
@@ -110,6 +115,10 @@ function validateRerankOutput(value: unknown): RetrievedDocument[] {
  *   2. `rerank` re-scores them with a stronger signal (Cohere Rerank,
  *      BGE cross-encoder, or BM25 for keyword-aware hybrid search)
  *   3. Top `topK` are returned
+ * @param base Retriever that supplies the candidate documents.
+ * @param options Reranker and candidate limits.
+ * @returns A retriever that returns reranked documents.
+ * @throws {RagError} When reranking returns invalid results or fails.
  */
 export function createRerankedRetriever(
   base: Retriever,
@@ -148,6 +157,7 @@ function tokenize(text: string): string[] {
     .filter(t => t.length > 0)
 }
 
+/** Tuning parameters for BM25 lexical relevance scoring. */
 export interface BM25Options {
   /** Term-frequency saturation (k1 ≥ 0). Default 1.5; invalid → default. */
   k1?: number
@@ -169,6 +179,10 @@ function resolveBm25B(value: number | undefined): number {
  * Score a set of documents against a query using classic BM25.
  * Returns new document objects with a finite `.score` field, sorted descending.
  * Input documents are never mutated.
+ * @param query Search query.
+ * @param documents Candidate documents.
+ * @param options Optional BM25 tuning parameters.
+ * @returns New documents with finite scores in descending order.
  */
 export function bm25Score(
   query: string,
@@ -214,13 +228,17 @@ export function bm25Score(
   return scored.sort((a, b) => (b.score ?? 0) - (a.score ?? 0))
 }
 
-/** `RerankFn` backed by `bm25Score`. */
+/** `RerankFn` backed by `bm25Score` with default tuning parameters.
+ * @param input Query and candidate documents.
+ * @returns New documents with finite BM25 scores in descending order.
+ */
 export const bm25Rerank: RerankFn = ({ query, documents }) => bm25Score(query, documents)
 
 // ---------------------------------------------------------------------------
 // Hybrid search — merge a vector retriever with a keyword (BM25) pass
 // ---------------------------------------------------------------------------
 
+/** Options for combining vector search with BM25 lexical ranking. */
 export interface HybridRetrieverOptions {
   /** Relative weight of the vector score in the final ranking. Default 0.6. */
   vectorWeight?: number
@@ -264,6 +282,10 @@ function normalize(docs: RetrievedDocument[]): Map<string, number> {
  * over the same candidate pool. Final score is a weighted sum of the
  * two min-max-normalized scores using a finite relative weight pair
  * that sums to 1 (both zero → 0.5/0.5).
+ * @param base Retriever that supplies vector search results.
+ * @param options Candidate pool and relative score weights.
+ * @returns A retriever with normalized hybrid scores.
+ * @throws {RagError} When candidate scores are invalid or retrieval fails.
  */
 export function createHybridRetriever(
   base: Retriever,

@@ -5,6 +5,9 @@ import { embeddingError, readEmbeddingJson, requireEmbeddingVector, throwIfNotOk
 const MAX_MODEL_LIST_BYTES = 2 * 1024 * 1024
 const MAX_EMBEDDING_RESPONSE_BYTES = 16 * 1024 * 1024
 
+/**
+ * Configuration options for the OpenAI-compatible embedder.
+ */
 export interface OpenAICompatibleEmbedderConfig {
   apiKey: string
   model: string
@@ -43,6 +46,12 @@ async function buildModelError(
   }
 }
 
+/**
+ * Creates an embedder for an OpenAI-compatible embeddings API.
+ * @param provider Value passed to the function.
+ * @param defaultBaseUrl Value passed to the function.
+ * @returns The the function result result.
+ */
 export function createOpenAICompatibleEmbedder(provider: string, defaultBaseUrl: string) {
   return function embedder(config: OpenAICompatibleEmbedderConfig): EmbedFn {
     if (!config.model) {
