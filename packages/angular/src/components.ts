@@ -41,6 +41,7 @@ export class ChatContainerComponent implements AfterViewInit, OnDestroy {
   }
 }
 
+/** Displays a chat message with role and status data attributes. */
 @Component({
   selector: 'ak-message',
   standalone: true,
@@ -58,6 +59,7 @@ export class MessageComponent {
   @Input({ required: true }) message!: MessageType
 }
 
+/** Renders a chat input and sends its contents when the form is submitted. */
 @Component({
   selector: 'ak-input-bar',
   standalone: true,
@@ -104,6 +106,7 @@ export class InputBarComponent {
   }
 }
 
+/** Displays markdown content and exposes whether it is still streaming. */
 @Component({
   selector: 'ak-markdown',
   standalone: true,
@@ -114,6 +117,7 @@ export class MarkdownComponent {
   @Input() streaming = false
 }
 
+/** Displays a code block with an optional clipboard copy button. */
 @Component({
   selector: 'ak-code-block',
   standalone: true,
@@ -134,6 +138,7 @@ export class CodeBlockComponent {
   }
 }
 
+/** Toggles a tool call's formatted arguments and result details. */
 @Component({
   selector: 'ak-tool-call-view',
   standalone: true,
@@ -165,6 +170,7 @@ export class ToolCallViewComponent {
   }
 }
 
+/** Shows a status message while the chat is waiting for a response. */
 @Component({
   selector: 'ak-thinking-indicator',
   standalone: true,
@@ -180,6 +186,7 @@ export class ThinkingIndicatorComponent {
   @Input() label = 'Thinking...'
 }
 
+/** Displays approval controls for a tool call awaiting confirmation. */
 @Component({
   selector: 'ak-tool-confirmation',
   standalone: true,
