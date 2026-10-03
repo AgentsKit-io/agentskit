@@ -1,9 +1,21 @@
 import type { ToolDefinition } from '@agentskit/core'
 
+/**
+ * Default policy mode used when evaluating tool permissions.
+
+ */
 export type PermissionMode = 'default' | 'plan' | 'acceptEdits' | 'bypassPermissions'
 
+/**
+ * Action the CLI applies to a tool: allow, ask for confirmation, or deny.
+
+ */
 export type PermissionAction = 'allow' | 'ask' | 'deny'
 
+/**
+ * Tool matcher, permission action, and optional rule scope.
+
+ */
 export interface PermissionRule {
   /** Exact name, or a `RegExp` / `"re:pattern"` string matching the tool name. */
   tool: string | RegExp
@@ -11,11 +23,19 @@ export interface PermissionRule {
   scope?: 'session' | 'project' | 'global'
 }
 
+/**
+ * Default permission mode and explicit tool rules for a CLI session.
+
+ */
 export interface PermissionPolicy {
   mode: PermissionMode
   rules: PermissionRule[]
 }
 
+/**
+ * Default permission policy with ask-on-unmatched behavior.
+
+ */
 export const defaultPolicy: PermissionPolicy = {
   mode: 'default',
   rules: [],
