@@ -547,7 +547,6 @@
       ".::ToolCallStatus",
       ".::ToolDefinition",
       ".::ToolExecutionContext",
-      ".::useChat",
       ".::UseStreamOptions",
       ".::UseStreamReturn"
     ],
@@ -635,9 +634,7 @@
       ".::WebhookInput",
       ".::WebhookSecretAuthSpec",
       ".::whatsappIntegration",
-      ".::whisperIntegration",
-      "./testing::validateAction",
-      "./testing::validateTrigger"
+      ".::whisperIntegration"
     ],
     "@agentskit/mcp": [
       ".::AgentsKitMcpServerOptions",
@@ -1098,7 +1095,6 @@
     "@agentskit/svelte": [
       ".::ChatContainer",
       ".::CodeBlock",
-      ".::createChatStore",
       ".::InputBar",
       ".::Markdown",
       ".::Message",
