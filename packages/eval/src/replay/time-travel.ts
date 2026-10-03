@@ -2,6 +2,7 @@ import type { StreamChunk } from '@agentskit/core'
 import { defensiveSnapshot } from './clone'
 import type { Cassette, CassetteEntry } from './types'
 
+/** Cursor-based view for inspecting, changing, and forking cassette chunks. */
 export interface TimeTravelSession {
   /** Total number of chunks across all entries (flattened). */
   readonly length: number
@@ -45,10 +46,15 @@ function assertIndexInRange(index: number, min: number, maxInclusive: number, la
   }
 }
 
-/**
- * Wrap a cassette in a cursor-based API. Lets a debugger step through
- * a recorded session, rewrite tool results or text chunks, and fork a
- * new cassette at any point to replay alternate histories.
+/** Create a cursor-based session for inspecting and editing recorded chunks.
+ *
+ * @param cassette Cassette to copy into the editable session.
+ * @returns A session for seeking, stepping, overriding chunks, and forking cassettes.
+ * @example
+ * ```ts
+ * const session = createTimeTravelSession(cassette)
+ * const firstChunk = session.step()
+ * ```
  */
 export function createTimeTravelSession(cassette: Cassette): TimeTravelSession {
   const working: Cassette = defensiveSnapshot({

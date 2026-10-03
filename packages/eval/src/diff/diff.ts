@@ -1,5 +1,7 @@
+/** Whether a prompt line is unchanged, added, or removed. */
 export type DiffOp = 'equal' | 'add' | 'remove'
 
+/** One line in a prompt diff, with a one-based line number for its source side. */
 export interface DiffLine {
   op: DiffOp
   /** 1-based line number in the side that owns this line. */
@@ -7,6 +9,7 @@ export interface DiffLine {
   content: string
 }
 
+/** Line changes and aggregate counts produced by {@link promptDiff}. */
 export interface PromptDiff {
   lines: DiffLine[]
   added: number
@@ -77,6 +80,7 @@ export function formatDiff(diff: PromptDiff): string {
     .join('\n')
 }
 
+/** Old and new prompt/output pairs used to attribute an output change. */
 export interface AttributionInput {
   oldPrompt: string
   newPrompt: string
@@ -84,6 +88,7 @@ export interface AttributionInput {
   newOutput: string
 }
 
+/** Prompt/output change flags and lines sharing tokens with the output delta. */
 export interface Attribution {
   outputChanged: boolean
   promptChanged: boolean

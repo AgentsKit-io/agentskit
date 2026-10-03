@@ -3,6 +3,7 @@ import { renderGitHubAnnotations, renderJUnit, renderMarkdown } from './reporter
 
 export { renderJUnit, renderMarkdown, renderGitHubAnnotations } from './reporters'
 
+/** Configuration for writing CI reports from an evaluation result. */
 export interface CiReportOptions {
   suiteName: string
   result: EvalResult
@@ -18,6 +19,7 @@ export interface CiReportOptions {
   stepSummary?: boolean
 }
 
+/** Rendered reports and accuracy status returned by {@link reportToCi}. */
 export interface CiReportOutput {
   junit: string
   markdown: string
