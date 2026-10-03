@@ -23,4 +23,4 @@
 "@agentskit/vue": patch
 ---
 
-Align package metadata with the documented Node.js 22 floor and remove confirmed unused development dependencies.
+Declare the CI-proven Node.js floor (>=20.19, the "node (minimum)" job) in package metadata where it was missing, keeping existing floors, and remove confirmed unused development dependencies.
