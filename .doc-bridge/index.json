@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "61ba31b71616df51ac6991d6b098ea4632d93d32b2c84733732770744d786c7f",
+  "contentHash": "c6f13cbb16a58a12d3dafa45a223914a7c41bdb287e6d14fe993479a2d279499",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-03T00:36:08.756Z",
+  "generatedAt": "2026-10-03T01:05:06.568Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -19264,6 +19264,22 @@
       "contentHash": "3df2335f2572d9860ae0978807744dbd9f0d3c4d9dc386f80e335ba54bc0581d"
     },
     {
+      "id": "module:packages/core/src/security/read-jwks-body.ts",
+      "type": "module",
+      "title": "read-jwks-body.ts",
+      "path": "packages/core/src/security/read-jwks-body.ts",
+      "symbols": [
+        "MAX_JWKS_BYTES",
+        "readJwksBody"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "security"
+      ],
+      "contentHash": "b341f9f475ab6242c9e593282d022594f516f03299087c7d3447644e2cb2d5e2"
+    },
+    {
       "id": "module:packages/core/src/security/saml.ts",
       "type": "module",
       "title": "saml.ts",
@@ -19303,7 +19319,7 @@
         "ts",
         "security"
       ],
-      "contentHash": "0e117bf40e1262f2b87f160acb2c345da467757f91cdac76247a2551c33c72aa"
+      "contentHash": "d917a89543ce567cb416f66cf968b5f4127a8bc1b4e0baae51648b5a33588090"
     },
     {
       "id": "module:packages/core/src/security/taxonomy.ts",
@@ -20249,7 +20265,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "80c8aa7f164093c1ff77693a90bdeaee4a554d4f0796b23fb3b594ab92cd77d3"
+      "contentHash": "0c428a20383f3112050bd0e254b72c77e9d45a6b3d730d9c43792aa8372de04d"
     },
     {
       "id": "module:packages/core/tests/security-taxonomy.test.ts",
@@ -37717,8 +37733,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "7fa18b19a0ae1ee1e3b20b2c8e89f5a8cdad7e46a613e9e8b45fb31e354a73d4",
-    "fileCount": 2506,
+    "hash": "6fa4a916b515ecbb2f0dadee51d52684370d52c8456ed1ad1f4788c08f711dc7",
+    "fileCount": 2507,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37740,9 +37756,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "47b235f867c3f750bf6bbde8b4b78861278bcb4559389201502ebeaeac04d201",
+    "contentHash": "fb48535f8119d945f571d08eb341e7d69903eb14729e6d95e01c77b05a733982",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "7659579d880f742f8f9986ee0355d0df3fafedf034fb4655f944479627345e21",
+    "snapshotHash": "a6cfea280ac36e6e280880c7c725dc5b99359d6231216f4bc9aae94f60958912",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37762,7 +37778,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2460,
+      "documentCount": 2461,
       "fieldNames": [
         "aliases",
         "body",
@@ -37773,13 +37789,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.015040650406504,
-        "body": 60.96219512195122,
-        "headings": 4.013821138211382,
-        "path": 7.623170731707317,
-        "summary": 4.543089430894309,
-        "symbols": 7.472357723577236,
-        "title": 3.3398373983739837
+        "aliases": 3.015034538805364,
+        "body": 60.93742381145876,
+        "headings": 4.012190166598944,
+        "path": 7.623730190979277,
+        "summary": 4.541243396993092,
+        "symbols": 7.472572125152377,
+        "title": 3.340511986997156
       }
     },
     "entries": [
@@ -39280,7 +39296,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "72c6ba61b4d8371b1de65ceb8e2b0d7fb55b69119764c2ce99d319af9dc82ba2",
+        "contentHash": "af16e48d8b9dbed4da9596d8bc639d08139ed846ac5778b004e140baed7e45d7",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -120818,6 +120834,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/core/src/security/read-jwks-body.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/core/src/security/saml.ts",
               "confidence": "observed"
             },
@@ -120859,6 +120880,11 @@
             {
               "kind": "imports",
               "id": "module:packages/core/tests/memory.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/core/tests/security-sso.test.ts",
               "confidence": "observed"
             },
             {
@@ -122881,6 +122907,56 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/core/src/security/read-jwks-body.ts",
+        "kind": "module",
+        "path": "packages/core/src/security/read-jwks-body.ts",
+        "title": "read-jwks-body.ts",
+        "aliases": [],
+        "symbols": [
+          "MAX_JWKS_BYTES",
+          "readJwksBody"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "security"
+        ],
+        "fields": {
+          "title": "read-jwks-body.ts",
+          "headings": "",
+          "path": "packages/core/src/security/read-jwks-body.ts",
+          "symbols": "MAX_JWKS_BYTES readJwksBody",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts security"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/core/src/security",
+          "packageId": "package:@agentskit/core",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/security/sso.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/errors.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "b341f9f475ab6242c9e593282d022594f516f03299087c7d3447644e2cb2d5e2",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/core/src/security/saml.ts",
         "kind": "module",
         "path": "packages/core/src/security/saml.ts",
@@ -123000,13 +123076,18 @@
               "confidence": "observed"
             },
             {
+              "kind": "imports",
+              "id": "module:packages/core/src/security/read-jwks-body.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "re-exports",
               "id": "module:packages/core/src/security/saml.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "0e117bf40e1262f2b87f160acb2c345da467757f91cdac76247a2551c33c72aa",
+        "contentHash": "d917a89543ce567cb416f66cf968b5f4127a8bc1b4e0baae51648b5a33588090",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -127724,12 +127805,17 @@
           "outbound": [
             {
               "kind": "imports",
+              "id": "module:packages/core/src/errors.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/core/src/security/sso.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "80c8aa7f164093c1ff77693a90bdeaee4a554d4f0796b23fb3b594ab92cd77d3",
+        "contentHash": "0c428a20383f3112050bd0e254b72c77e9d45a6b3d730d9c43792aa8372de04d",
         "provenance": "observed",
         "confidence": "observed"
       },

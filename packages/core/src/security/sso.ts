@@ -1,5 +1,6 @@
 import { ConfigError, ErrorCodes } from '../errors'
 import { isRecord } from '../primitives'
+import { MAX_JWKS_BYTES, readJwksBody } from './read-jwks-body'
 export { createSamlVerifier } from './saml'
 export type { SamlAssertion, SamlAttribute, SamlVerifier, SamlVerifierOptions } from './saml'
 
@@ -85,7 +86,6 @@ interface JwksResponse {
 }
 
 const MAX_JWKS_KEYS = 100
-const MAX_JWKS_BYTES = 1_048_576
 const DEFAULT_JWKS_TIMEOUT_MS = 10_000
 
 function validateJwksResponse(body: unknown): JwksResponse {
@@ -284,7 +284,7 @@ export function createOidcVerifier(options: OidcVerifierOptions): OidcVerifier {
             hint: 'Verify the issuer URL and that the IdP exposes a JWKS endpoint.',
           })
         }
-        const body = validateJwksResponse(await res.json())
+        const body = validateJwksResponse(await readJwksBody(res))
         jwksCache = { fetchedAt: Date.now(), keys: body.keys }
         return body.keys
       } catch (cause) {
