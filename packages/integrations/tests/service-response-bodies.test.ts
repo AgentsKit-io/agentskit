@@ -33,8 +33,10 @@ describe('service response body limits', () => {
       response.on('close', () => {
         if (!response.writableEnded) closedEarly()
       })
+      // Keep streaming until the client cancels, so the early-close assertion never races response.end().
+      const timer = setInterval(() => response.write('x'.repeat(32)), 10)
+      response.on('close', () => clearInterval(timer))
       response.write('x'.repeat(32))
-      setTimeout(() => response.end('x'.repeat(32)), 20)
     })
     try {
       await expect(deepgramTranscribe.execute(
@@ -78,8 +80,10 @@ describe('service response body limits', () => {
       response.on('close', () => {
         if (!response.writableEnded) closedEarly()
       })
+      // Keep streaming until the client cancels, so the early-close assertion never races response.end().
+      const timer = setInterval(() => response.write('x'.repeat(32)), 10)
+      response.on('close', () => clearInterval(timer))
       response.write('x'.repeat(32))
-      setTimeout(() => response.end('x'.repeat(32)), 20)
     })
     try {
       const args = { to: '+14155552671', body: 'hello' }
