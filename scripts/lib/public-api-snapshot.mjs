@@ -197,13 +197,14 @@ export function enumerateExportSubpaths(manifest) {
   const exportsField = manifest.exports
 
   if (exportsField === undefined) {
+    let types
+    if (typeof manifest.types === 'string') {
+      types = manifest.types
+    } else if (typeof manifest.typings === 'string') {
+      types = manifest.typings
+    }
     const synthetic = {
-      types:
-        typeof manifest.types === 'string'
-          ? manifest.types
-          : typeof manifest.typings === 'string'
-            ? manifest.typings
-            : undefined,
+      types,
       import: typeof manifest.module === 'string' ? manifest.module : undefined,
       require: typeof manifest.main === 'string' ? manifest.main : undefined,
     }
@@ -564,6 +565,38 @@ export function getExportsFromSourceFile(ts, checker, sourceFile) {
 }
 
 /**
+ * Return exported symbol names with meaningful JSDoc (comment text or tags).
+ * TypeScript resolves re-export aliases through the checker, so documentation
+ * on the declaration remains visible at each public entrypoint.
+ * @param {typeof import('typescript')} ts
+ * @param {import('typescript').TypeChecker} checker
+ * @param {import('typescript').SourceFile} sourceFile
+ * @returns {string[]}
+ */
+export function getDocumentedExportsFromSourceFile(ts, checker, sourceFile) {
+  const moduleSymbol = checker.getSymbolAtLocation(sourceFile) ?? sourceFile.symbol
+  if (!moduleSymbol) {
+    throw new Error(`unable to resolve module symbol for ${sourceFile.fileName}`)
+  }
+  return sortCopy(checker.getExportsOfModule(moduleSymbol)
+    .filter((symbol) => {
+      let target = symbol
+      if (symbol.flags & ts.SymbolFlags.Alias) {
+        try {
+          target = checker.getAliasedSymbol(symbol)
+        } catch {
+          target = symbol
+        }
+      }
+      const hasDocs = (candidate) =>
+        candidate.getDocumentationComment(checker).length > 0 ||
+        candidate.getJsDocTags(checker).length > 0
+      return hasDocs(symbol) || hasDocs(target)
+    })
+    .map((symbol) => symbol.getName()))
+}
+
+/**
  * Create a single TypeScript Program for unique declaration roots.
  * @param {typeof import('typescript')} ts
  * @param {string[]} rootNames absolute paths
@@ -600,7 +633,7 @@ export function createDeclarationProgram(ts, rootNames, extraOptions = {}) {
  *   existsSync: (p: string) => boolean,
  *   resolve?: (...parts: string[]) => string,
  * }} io
- * @returns {{ snapshot: PublicApiSnapshot, errors: string[], stats: { packages: number, subpaths: number, symbols: number } }}
+ * @returns {{ snapshot: PublicApiSnapshot, errors: string[], stats: { packages: number, subpaths: number, symbols: number }, documentation: Record<string, Record<string, string[]>> }}
  */
 export function buildPublicApiSnapshot(packages, io) {
   const ts = io.ts ?? loadTypeScript()
@@ -681,6 +714,7 @@ export function buildPublicApiSnapshot(packages, io) {
       snapshot: { schemaVersion: SCHEMA_VERSION, packages: {} },
       errors,
       stats: { packages: 0, subpaths: 0, symbols: 0 },
+      documentation: {},
     }
   }
 
@@ -692,6 +726,8 @@ export function buildPublicApiSnapshot(packages, io) {
 
   /** @type {Record<string, SnapshotPackage>} */
   const packagesOut = {}
+  /** @type {Record<string, Record<string, string[]>>} */
+  const documentation = {}
   let symbolCount = 0
   let subpathCount = 0
 
@@ -710,10 +746,13 @@ export function buildPublicApiSnapshot(packages, io) {
     const items = byPackage.get(packageName) ?? []
     /** @type {Record<string, SnapshotSubpath>} */
     const subpaths = {}
+    documentation[packageName] = {}
 
     for (const item of sortCopy(items, (a, b) => a.subpath.localeCompare(b.subpath))) {
       /** @type {SnapshotSymbol[]} */
       let symbols = []
+      /** @type {Set<string>} */
+      const documented = new Set()
 
       if (item.absTargets.length > 0 && program && checker) {
         /** @type {SnapshotSymbol[][]} */
@@ -728,6 +767,9 @@ export function buildPublicApiSnapshot(packages, io) {
           }
           try {
             lists.push(getExportsFromSourceFile(ts, checker, sourceFile))
+            for (const name of getDocumentedExportsFromSourceFile(ts, checker, sourceFile)) {
+              documented.add(name)
+            }
           } catch (error) {
             errors.push(
               `${item.packageName} ${item.subpath}: ${error instanceof Error ? error.message : String(error)}`,
@@ -740,6 +782,8 @@ export function buildPublicApiSnapshot(packages, io) {
       if (item.assets.length > 0) {
         symbols = mergeSymbols(symbols, assetSymbols(item.assets))
       }
+
+      documentation[packageName][item.subpath] = sortCopy([...documented])
 
       /** @type {SnapshotSubpath} */
       const sub = {
@@ -763,6 +807,7 @@ export function buildPublicApiSnapshot(packages, io) {
       snapshot: { schemaVersion: SCHEMA_VERSION, packages: {} },
       errors,
       stats: { packages: 0, subpaths: 0, symbols: 0 },
+      documentation: {},
     }
   }
 
@@ -777,6 +822,7 @@ export function buildPublicApiSnapshot(packages, io) {
       subpaths: subpathCount,
       symbols: symbolCount,
     },
+    documentation,
   }
 }
 

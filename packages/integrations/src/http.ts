@@ -1,4 +1,5 @@
 import { ErrorCodes, ToolError } from '@agentskit/core'
+import { redactSecrets } from '@agentskit/core/security'
 import {
   isAbortError,
   isRetryableStatus,
@@ -170,13 +171,6 @@ class RetryableHttpStatus extends Error {
   }
 }
 
-function redactSensitiveText(value: string): string {
-  return value
-    .replace(/(\/bot)[^/\s]+/gi, '$1[REDACTED]')
-    .replace(/((?:"?(?:access[-_]?token|refresh[-_]?token|client[-_]?secret|bot[-_]?token|token|secret|password|api[-_]?key|authorization|signature)"?)\s*:\s*")[^"]*(")/gi, '$1[REDACTED]$2')
-    .replace(/((?:access[-_]?token|refresh[-_]?token|client[-_]?secret|bot[-_]?token|token|secret|password|api[-_]?key|authorization|signature)\s*[=:]\s*["']?)[^\s,"'}]+/gi, '$1[REDACTED]')
-}
-
 function upstreamHint(status: number, attempt: number, maxAttempts: number): string {
   if (status === 429) return 'Provider rate-limited the request; respect Retry-After before trying again.'
   if (attempt === maxAttempts && isRetryableStatus(status)) {
@@ -322,7 +316,7 @@ export async function httpJson<TResult = unknown>(
     if (!response.ok) {
       throw new ToolError({
         code: ErrorCodes.AK_TOOL_EXEC_FAILED,
-        message: `HTTP ${response.status} ${response.statusText}: ${redactSensitiveText(text).slice(0, 500)}`,
+        message: `HTTP ${response.status} ${response.statusText}: ${redactSecrets(text).slice(0, 500)}`,
         hint: upstreamHint(response.status, attempt, maxAttempts),
       })
     }
@@ -340,7 +334,7 @@ function safeParse(text: string, contentType: string, _url: string): unknown {
       throw new ToolError({
         code: ErrorCodes.AK_TOOL_EXEC_FAILED,
         message: `Invalid JSON response (content-type: ${contentType})`,
-        hint: `Body preview: ${redactSensitiveText(text).slice(0, 200)}`,
+        hint: `Body preview: ${redactSecrets(text).slice(0, 200)}`,
         cause: err,
       })
     }
