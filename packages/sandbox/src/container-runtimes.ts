@@ -16,6 +16,9 @@ import type { SandboxRuntime, Spawner } from './local-sandbox-types'
 
 // --- bwrap --------------------------------------------------------------
 
+/**
+ * Policy for bubblewrap workspace mounts and network sharing.
+ */
 export type BwrapPolicy = {
   readonly workspaceRoot: string
   readonly allowNetwork?: boolean
@@ -23,6 +26,9 @@ export type BwrapPolicy = {
   readonly readWritePaths?: readonly string[]
 }
 
+/**
+ * Bubblewrap policy, optional spawner, and optional executable path.
+ */
 export type BwrapRuntimeOpts = {
   readonly policy: BwrapPolicy
   readonly spawner?: Spawner
@@ -41,8 +47,16 @@ function assertAbsolutePath(path: string, label: string): void {
   }
 }
 
+/**
+ * Check whether bubblewrap is supported on the current Linux platform.
+ * @returns `true` on Linux and `false` on other platforms.
+ */
 export const isBwrapSupported = (): boolean => process.platform === 'linux'
 
+/**
+ * Find the `bwrap` executable in the current `PATH`.
+ * @returns The first matching executable path, or `null` when unavailable.
+ */
 export const getBwrapPath = (): string | null => {
   if (!isBwrapSupported()) return null
   const pathEnv = process.env.PATH ?? ''
@@ -54,6 +68,12 @@ export const getBwrapPath = (): string | null => {
   return null
 }
 
+/**
+ * Build hardened bubblewrap arguments from a mount and network policy.
+ * @param policy Workspace root and optional read-only, read-write, and network settings.
+ * @returns Argument vector for `bwrap`.
+ * @throws {SandboxError} When a configured path is not absolute.
+ */
 export const renderBwrapArgs = (policy: BwrapPolicy): readonly string[] => {
   assertAbsolutePath(policy.workspaceRoot, 'workspaceRoot')
   const ro = policy.readOnlyPaths ? [...policy.readOnlyPaths] : []
@@ -76,6 +96,12 @@ export const renderBwrapArgs = (policy: BwrapPolicy): readonly string[] => {
   return args
 }
 
+/**
+ * Create a local runtime that starts commands inside bubblewrap on Linux.
+ * @param opts Bubblewrap policy and optional spawner or executable path.
+ * @returns Runtime adapter reporting the compatibility level `process`.
+ * @throws {SandboxError} When run on a non-Linux host without an injected spawner.
+ */
 export const bwrapRuntime = (opts: BwrapRuntimeOpts): SandboxRuntime => {
   const policy: BwrapPolicy = {
     workspaceRoot: opts.policy.workspaceRoot,
@@ -111,6 +137,9 @@ export const bwrapRuntime = (opts: BwrapRuntimeOpts): SandboxRuntime => {
 
 // --- docker -------------------------------------------------------------
 
+/**
+ * Container image, workspace mount, network, user, and additional safe runtime settings.
+ */
 export type DockerPolicy = {
   readonly image: string
   readonly workspaceRoot: string
@@ -132,6 +161,9 @@ export type DockerPolicy = {
   readonly capabilities?: readonly string[]
 }
 
+/**
+ * Docker policy, optional spawner, and optional executable path.
+ */
 export type DockerRuntimeOpts = {
   readonly policy: DockerPolicy
   readonly spawner?: Spawner
@@ -237,6 +269,12 @@ export const assertSafeDockerCapability = (cap: string): void => {
   }
 }
 
+/**
+ * Build hardened `docker run` arguments from a container policy.
+ * @param policy Image, workspace, network, user, and allowed runtime settings.
+ * @returns Argument vector for `docker run`.
+ * @throws {SandboxError} When policy includes an unsafe escape option.
+ */
 export const renderDockerArgs = (policy: DockerPolicy): readonly string[] => {
   assertAbsolutePath(policy.workspaceRoot, 'workspaceRoot')
   if (typeof policy.image !== 'string' || policy.image.trim() === '') {
@@ -280,6 +318,12 @@ export const renderDockerArgs = (policy: DockerPolicy): readonly string[] => {
   return args
 }
 
+/**
+ * Create a local runtime that executes commands in a Docker container.
+ * @param opts Container policy and optional spawner or executable path.
+ * @returns Runtime adapter with container isolation.
+ * @throws {SandboxError} When the spawner cannot execute commands or options are invalid.
+ */
 export const dockerRuntime = (opts: DockerRuntimeOpts): SandboxRuntime => {
   const policy: DockerPolicy = {
     image: opts.policy.image,
