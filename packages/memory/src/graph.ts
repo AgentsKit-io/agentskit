@@ -16,6 +16,7 @@ export interface GraphNode<TProps = Record<string, unknown>> {
   updatedAt?: string
 }
 
+/** Directed relationship between two graph nodes. */
 export interface GraphEdge<TProps = Record<string, unknown>> {
   id: string
   /** Verb / relation type — 'knows', 'works-at', 'cites'. */
@@ -27,6 +28,7 @@ export interface GraphEdge<TProps = Record<string, unknown>> {
   properties?: TProps
 }
 
+/** Optional node or edge fields used to filter graph lookups. */
 export interface GraphQuery {
   kind?: string
   label?: string
@@ -34,6 +36,7 @@ export interface GraphQuery {
   to?: string
 }
 
+/** Knowledge-graph operations accepted by graph memory consumers. */
 export interface GraphMemory {
   upsertNode: <T>(node: GraphNode<T>) => Promise<GraphNode<T>>
   upsertEdge: <T>(edge: GraphEdge<T>) => Promise<GraphEdge<T>>

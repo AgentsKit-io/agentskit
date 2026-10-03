@@ -27,6 +27,11 @@ const enqueueFileWrite = (path: string, task: () => Promise<void>): Promise<void
   return next
 }
 
+/** Creates an in-memory key-value store with optional TTL and size limits.
+ * @param config Backend and retention settings.
+ * @returns A key-value store backed by a process-local map.
+ * @throws {ConfigError} When retention limits are invalid.
+ */
 export const createInMemoryStore = (config: InMemoryKvConfig): AgentskitMemoryStore => {
   validateKvRetention(config)
   const store = new Map<string, KvEntry>()
@@ -49,6 +54,10 @@ export const createInMemoryStore = (config: InMemoryKvConfig): AgentskitMemorySt
   }
 }
 
+/** Creates a JSON file key-value store with atomic file replacement.
+ * @param config File path and optional retention settings.
+ * @returns A persistent key-value store backed by the configured file.
+ */
 export const createFileStore = (config: FileKvConfig): AgentskitMemoryStore => {
   const path = config.path
 
@@ -103,6 +112,7 @@ export const createFileStore = (config: FileKvConfig): AgentskitMemoryStore => {
   }
 }
 
+/** Options for creating a browser local-storage or file fallback store. */
 export interface CreateLocalStorageStoreOpts {
   readonly config: LocalStorageKvConfig
   readonly storage?: LocalStorageLike
@@ -116,6 +126,11 @@ const resolveLocalStorage = (): LocalStorageLike | undefined => {
 
 const defaultLocalStoragePath = (): string => `${process.cwd()}/.agentskit/memory-localstorage.json`
 
+/** Creates a local-storage store, falling back to a JSON file when unavailable.
+ * @param options Storage configuration and optional storage/file adapters.
+ * @returns A key-value store backed by Web Storage or the configured file.
+ * @throws {ConfigError} When retention limits are invalid.
+ */
 export const createLocalStorageStore = ({
   config,
   storage = resolveLocalStorage(),
