@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "7e64fb775fd375ea85aeac37fd1c131cb67d6c19231212427d9b85b3d3c093ff",
+  "contentHash": "8ace629db6db3992a2cd3c5d85464f1c195295d16b593e6e0cbdc269efb6b282",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T23:57:10.624Z",
+  "generatedAt": "2026-10-03T00:04:35.093Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -19264,6 +19264,22 @@
       "contentHash": "3df2335f2572d9860ae0978807744dbd9f0d3c4d9dc386f80e335ba54bc0581d"
     },
     {
+      "id": "module:packages/core/src/security/read-jwks-body.ts",
+      "type": "module",
+      "title": "read-jwks-body.ts",
+      "path": "packages/core/src/security/read-jwks-body.ts",
+      "symbols": [
+        "MAX_JWKS_BYTES",
+        "readJwksBody"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "security"
+      ],
+      "contentHash": "b341f9f475ab6242c9e593282d022594f516f03299087c7d3447644e2cb2d5e2"
+    },
+    {
       "id": "module:packages/core/src/security/saml.ts",
       "type": "module",
       "title": "saml.ts",
@@ -19303,7 +19319,7 @@
         "ts",
         "security"
       ],
-      "contentHash": "ab366f7a199c60ab74ba404471e6e272b0fb01a43caa62db39c76ee8d699a78d"
+      "contentHash": "d917a89543ce567cb416f66cf968b5f4127a8bc1b4e0baae51648b5a33588090"
     },
     {
       "id": "module:packages/core/src/security/taxonomy.ts",
@@ -37704,8 +37720,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "320bc59fbc5b91618e16fbdabe87eaa3b98709665ff6ebef055b9cf7f43cc9bf",
-    "fileCount": 2505,
+    "hash": "ba35592248b6a9457216fbf5ad8667e5c7e768147ff687bd49f8b807a4e1481e",
+    "fileCount": 2506,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37727,9 +37743,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "0a9cf384160fa1c2b0a04efd3eba24029d615ed898a8a55ac8fd69a6eb4bf947",
+    "contentHash": "7d3e69d94bd285335e9e0fa721397127ab994e01cf22e64415a01a58b12f08d1",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "8e82a62e8f60e0e420ea7fd8942566c4b76e4032bdfe09ef69cba1e714b5b7f0",
+    "snapshotHash": "0452914330acc52cb3cb7cf0078087446aa12ee708ad71fb828f11c4600bdd23",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37749,7 +37765,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2459,
+      "documentCount": 2460,
       "fieldNames": [
         "aliases",
         "body",
@@ -37760,13 +37776,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0146400976006507,
-        "body": 60.989833265555106,
-        "headings": 4.015453436356243,
-        "path": 7.622610817405449,
-        "summary": 4.544936966246442,
-        "symbols": 7.475396502643351,
-        "title": 3.338755591703945
+        "aliases": 3.0146341463414634,
+        "body": 60.96504065040651,
+        "headings": 4.013821138211382,
+        "path": 7.623170731707317,
+        "summary": 4.543089430894309,
+        "symbols": 7.475609756097561,
+        "title": 3.339430894308943
       }
     },
     "entries": [
@@ -39267,7 +39283,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "72c6ba61b4d8371b1de65ceb8e2b0d7fb55b69119764c2ce99d319af9dc82ba2",
+        "contentHash": "af16e48d8b9dbed4da9596d8bc639d08139ed846ac5778b004e140baed7e45d7",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -120795,6 +120811,11 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/core/src/security/read-jwks-body.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/core/src/security/saml.ts",
               "confidence": "observed"
             },
@@ -122863,6 +122884,56 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/core/src/security/read-jwks-body.ts",
+        "kind": "module",
+        "path": "packages/core/src/security/read-jwks-body.ts",
+        "title": "read-jwks-body.ts",
+        "aliases": [],
+        "symbols": [
+          "MAX_JWKS_BYTES",
+          "readJwksBody"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "security"
+        ],
+        "fields": {
+          "title": "read-jwks-body.ts",
+          "headings": "",
+          "path": "packages/core/src/security/read-jwks-body.ts",
+          "symbols": "MAX_JWKS_BYTES readJwksBody",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts security"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "areaId": "area:packages/core/src/security",
+          "packageId": "package:@agentskit/core",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/security/sso.ts",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/errors.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "b341f9f475ab6242c9e593282d022594f516f03299087c7d3447644e2cb2d5e2",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/core/src/security/saml.ts",
         "kind": "module",
         "path": "packages/core/src/security/saml.ts",
@@ -122982,13 +123053,18 @@
               "confidence": "observed"
             },
             {
+              "kind": "imports",
+              "id": "module:packages/core/src/security/read-jwks-body.ts",
+              "confidence": "observed"
+            },
+            {
               "kind": "re-exports",
               "id": "module:packages/core/src/security/saml.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "ab366f7a199c60ab74ba404471e6e272b0fb01a43caa62db39c76ee8d699a78d",
+        "contentHash": "d917a89543ce567cb416f66cf968b5f4127a8bc1b4e0baae51648b5a33588090",
         "provenance": "observed",
         "confidence": "observed"
       },
