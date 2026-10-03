@@ -4,6 +4,9 @@ import { embeddingError, readEmbeddingJson, requireEmbeddingVector, throwIfNotOk
 const MAX_MODEL_LIST_BYTES = 2 * 1024 * 1024
 const MAX_EMBEDDING_RESPONSE_BYTES = 16 * 1024 * 1024
 
+/**
+ * Configuration options for the Ollama embedder.
+ */
 export interface OllamaEmbedderConfig {
   model?: string
   baseUrl?: string
@@ -37,6 +40,11 @@ async function buildModelError(
   }
 }
 
+/**
+ * Creates an embedder for the Ollama embeddings API.
+ * @param config Adapter configuration.
+ * @returns The EmbedFn result.
+ */
 export function ollamaEmbedder(config: OllamaEmbedderConfig): EmbedFn {
   const { model = 'nomic-embed-text', baseUrl = 'http://localhost:11434' } = config
 

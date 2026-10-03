@@ -2,12 +2,23 @@ import type { AdapterFactory, AdapterRequest, StreamSource } from '@agentskit/co
 import { parseOllamaStream, type RetryOptions } from './utils'
 import { createStreamSource } from './stream-source'
 
+/**
+ * Configuration options for the Ollama chat adapter.
+ */
 export interface OllamaConfig {
   model: string
   baseUrl?: string
   retry?: RetryOptions
 }
 
+/**
+ * Creates an adapter for Ollama chat.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ *
+ * @example
+ * const adapter = ollama({ model: 'llama3.1' })
+ */
 export function ollama(config: OllamaConfig): AdapterFactory {
   const { model, baseUrl = 'http://localhost:11434', retry } = config
 

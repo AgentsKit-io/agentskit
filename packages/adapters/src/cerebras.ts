@@ -1,6 +1,9 @@
 import type { AdapterFactory } from '@agentskit/core'
 import { createOpenAICompatibleAdapter, type OpenAICompatibleConfig } from './openai-compatible'
 
+/**
+ * Configuration options for the Cerebras chat adapter.
+ */
 export interface CerebrasConfig extends OpenAICompatibleConfig {}
 
 const CEREBRAS_BASE_URL = 'https://api.cerebras.ai/v1'
@@ -29,4 +32,12 @@ export function cerebras(config: Partial<CerebrasConfig> & { apiKey: string }): 
   }
 }
 
+/**
+ * Creates an adapter for Cerebras chat completions.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ *
+ * @example
+ * const adapter = cerebrasAdapter({ apiKey: '…', model: 'model-name' })
+ */
 export const cerebrasAdapter = cerebras

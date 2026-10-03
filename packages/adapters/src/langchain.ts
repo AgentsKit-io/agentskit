@@ -6,6 +6,9 @@ type LangChainRunnable = {
   streamEvents?: (input: unknown, config?: Record<string, unknown>) => AsyncIterable<Record<string, unknown>> | Promise<AsyncIterable<Record<string, unknown>>>
 }
 
+/**
+ * Configuration options for the LangChain and LangGraph adapters.
+ */
 export interface LangChainConfig {
   runnable: LangChainRunnable
   mode?: 'stream' | 'events'
@@ -24,6 +27,11 @@ function isToolStartEvent(eventName: string): boolean {
   return eventName === 'on_tool_start' || eventName.endsWith('_tool_start')
 }
 
+/**
+ * Wraps a LangChain chat model as an AgentsKit adapter.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ */
 export function langchain(config: LangChainConfig): AdapterFactory {
   const { runnable, mode = 'stream' } = config
 
@@ -96,10 +104,18 @@ export function langchain(config: LangChainConfig): AdapterFactory {
   }
 }
 
+/**
+ * Configuration options for the LangChain and LangGraph adapters.
+ */
 export interface LangGraphConfig {
   graph: LangChainRunnable
 }
 
+/**
+ * Wraps a LangGraph-compatible model as an AgentsKit adapter.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ */
 export function langgraph(config: LangGraphConfig): AdapterFactory {
   return langchain({
     runnable: config.graph,
