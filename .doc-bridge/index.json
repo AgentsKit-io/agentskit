@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "68e0ac9ff25f34ceec6b78770ae89399357904bf95f3300109edb6e2e98444e1",
+  "contentHash": "83ce51ebe17ccc5b526c6bd48030e713115cb385218ed5c17de3e30e19756316",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-03T13:18:54.410Z",
+  "generatedAt": "2026-10-03T12:37:59.882Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7671,7 +7671,7 @@
         "document",
         "project"
       ],
-      "contentHash": "4ac1b67f78c6dd8ddd94847b2f5db1b01979df5306a7506d854eb8b570b0a5be"
+      "contentHash": "eb18ae071d9c61f0d05ca3d25cf1d1681b38c30753431b0062b9dfc0a2cb0970"
     },
     {
       "id": "document:SECURITY.md",
@@ -35012,31 +35012,6 @@
       "contentHash": "1df938d4a6219875527eece4218813fb6d59173be8e36c2d87fc90b3170e8134"
     },
     {
-      "id": "module:scripts/check-jsdoc-coverage.mjs",
-      "type": "module",
-      "title": "check-jsdoc-coverage.mjs",
-      "path": "scripts/check-jsdoc-coverage.mjs",
-      "tags": [
-        "module",
-        "mjs",
-        "scripts"
-      ],
-      "contentHash": "fd880b3f06f23de2dd4bf60641a5067e5711c960b0d0e149c56a3619cdb21aba"
-    },
-    {
-      "id": "module:scripts/check-jsdoc-coverage.test.mjs",
-      "type": "module",
-      "title": "check-jsdoc-coverage.test.mjs",
-      "path": "scripts/check-jsdoc-coverage.test.mjs",
-      "tags": [
-        "module",
-        "mjs",
-        "test",
-        "scripts"
-      ],
-      "contentHash": "47bf60374029ab16db81ed3c81cd073a33d6dc754ca61d688673676888211d1d"
-    },
-    {
       "id": "module:scripts/check-launch-package.mjs",
       "type": "module",
       "title": "check-launch-package.mjs",
@@ -35231,7 +35206,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "054a0fa78c6c76031815d4f1c0a379c00610a575bb6aa4ef0ce5b059bf41e3c3"
+      "contentHash": "dc2925e56c5fa52a2f5bd30d1bec73a4a7097050b48eddbeee34aa7231698b7c"
     },
     {
       "id": "module:scripts/check-readme-badge.mjs",
@@ -35747,24 +35722,6 @@
       "contentHash": "ad283c94f06797ff0ff6e52578feff2d18869ded6050c615f9935f0dd5d2118e"
     },
     {
-      "id": "module:scripts/lib/jsdoc-coverage.mjs",
-      "type": "module",
-      "title": "jsdoc-coverage.mjs",
-      "path": "scripts/lib/jsdoc-coverage.mjs",
-      "symbols": [
-        "JSDOC_BASELINE_RELATIVE",
-        "calculateCoverage",
-        "findBaselineGrowth",
-        "serializeJsdocBaseline"
-      ],
-      "tags": [
-        "module",
-        "mjs",
-        "lib"
-      ],
-      "contentHash": "664841032a1511ae5226b153e988c87c2947d82ee467886cabed192391fc5cf9"
-    },
-    {
       "id": "module:scripts/lib/launch-package.mjs",
       "type": "module",
       "title": "launch-package.mjs",
@@ -35945,7 +35902,6 @@
         "findMissingBuildOutputs",
         "formatDiffDiagnostics",
         "formatStats",
-        "getDocumentedExportsFromSourceFile",
         "getExportsFromSourceFile",
         "isDeclarationTarget",
         "isLocalFileTarget",
@@ -35965,7 +35921,7 @@
         "mjs",
         "lib"
       ],
-      "contentHash": "e4d65c71b0a9ed3b022e9297f059e9ede228702ae0551452411da7a37e0e49e2"
+      "contentHash": "9265198efdae5d57437a592c9230f7af67323bf0a2a204a82de126460ea37eba"
     },
     {
       "id": "module:scripts/lib/publish-manifests.mjs",
@@ -37777,8 +37733,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "92a85c67eae795c30e67d4e702165e4823ec4700a5fe298fbd4b6b0b4525ca39",
-    "fileCount": 2510,
+    "hash": "8d46a33633879d48490f5237538e6674133588cb6d9f104990b0cdec3544bbda",
+    "fileCount": 2507,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37800,9 +37756,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "14ab37a0f4e7ffecbc37abd46e422138e132e188b140a447a813594799c2864d",
+    "contentHash": "d9fc36bebae626e25a911f89327618fbb99c794a08548a767ecc63273b507bbd",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "f706b7801d5e09a0333d066e3350c38c1902b4552fa63f197aff33f466d06587",
+    "snapshotHash": "4e2310c6f5e4c49d76990796dc2598c0910ad1dafe3cdafaf6d7e0e387dbc5d8",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37822,7 +37778,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2464,
+      "documentCount": 2461,
       "fieldNames": [
         "aliases",
         "body",
@@ -37833,13 +37789,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0154220779220777,
-        "body": 60.86323051948052,
-        "headings": 4.009334415584416,
-        "path": 7.622159090909091,
-        "summary": 4.535714285714286,
-        "symbols": 7.471996753246753,
-        "title": 3.3425324675324677
+        "aliases": 3.015034538805364,
+        "body": 60.93742381145876,
+        "headings": 4.012190166598944,
+        "path": 7.623730190979277,
+        "summary": 4.541243396993092,
+        "symbols": 7.472572125152377,
+        "title": 3.340511986997156
       }
     },
     "entries": [
@@ -40269,7 +40225,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "2a85652dac62837c2aedb19d5623ecb68d5c72aecd3a4e9402af055b2d3e7c3e",
+        "contentHash": "7f842c148b03480860cf8ce76c52485b549b3cdc2ec1b07d4f894d6f23d9063f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -76545,20 +76501,13 @@
         },
         "graph": {
           "pagerank": 0.002531,
-          "inboundLinks": 2,
+          "inboundLinks": 1,
           "coveredBy": [],
-          "mentionedBy": [
-            "document:scripts/README.md"
-          ],
+          "mentionedBy": [],
           "inbound": [
             {
               "kind": "links-to",
               "id": "document:packages/cli/README.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:scripts/README.md",
               "confidence": "observed"
             }
           ],
@@ -80929,18 +80878,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 1,
+          "inboundLinks": 0,
           "coveredBy": [],
-          "mentionedBy": [
-            "document:scripts/README.md"
-          ],
-          "inbound": [
-            {
-              "kind": "mentions",
-              "id": "document:scripts/README.md",
-              "confidence": "observed"
-            }
-          ],
+          "mentionedBy": [],
+          "inbound": [],
           "outbound": [
             {
               "kind": "mentions",
@@ -83418,7 +83359,7 @@
         ],
         "fields": {
           "title": "scripts/",
-          "headings": "scripts/ Build prerequisites and timings check-quality-gates.mjs (orchestrator) check-for-agents-coverage.mjs check-src-test-parity.mjs check-no-bare-throw.mjs check-core-rules.mjs check-core-no-deps.mjs check-stability-tier.mjs check-readme-badge.mjs check-coverage-floor.mjs check-promotion-rfc.mjs check-stable-dependencies.mjs check-stability-evidence.mjs report-stability-readiness.mjs check-no-any.mjs check-named-exports.mjs check-file-size.mjs check-doc-index.mjs check-intl-parity.mjs check-packed-consumers.mjs check-public-api-snapshot.mjs check-jsdoc-coverage.mjs Release registry preflight verify-ecosystem-visual.mjs gen-brand-logos.mjs",
+          "headings": "scripts/ Build prerequisites and timings check-quality-gates.mjs (orchestrator) check-for-agents-coverage.mjs check-src-test-parity.mjs check-no-bare-throw.mjs check-core-rules.mjs check-core-no-deps.mjs check-stability-tier.mjs check-readme-badge.mjs check-coverage-floor.mjs check-promotion-rfc.mjs check-stable-dependencies.mjs check-stability-evidence.mjs report-stability-readiness.mjs check-no-any.mjs check-named-exports.mjs check-file-size.mjs check-doc-index.mjs check-intl-parity.mjs check-packed-consumers.mjs check-public-api-snapshot.mjs Release registry preflight verify-ecosystem-visual.mjs gen-brand-logos.mjs",
           "path": "scripts/README.md",
           "symbols": "",
           "summary": "Repo-level CI helpers. Each script is dependency-free Node ESM, runnable from the repo root. They run on every PR + push to main via .github/workflows/ci.yml and a husky pre-push hook.",
@@ -83473,16 +83414,6 @@
             {
               "kind": "mentions",
               "id": "document:docs/stability/README.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:packages/cli/ARCHITECTURE.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions",
-              "id": "document:packages/templates/CONVENTIONS.md",
               "confidence": "observed"
             },
             {
@@ -83552,7 +83483,7 @@
             }
           ]
         },
-        "contentHash": "4ac1b67f78c6dd8ddd94847b2f5db1b01979df5306a7506d854eb8b570b0a5be",
+        "contentHash": "eb18ae071d9c61f0d05ca3d25cf1d1681b38c30753431b0062b9dfc0a2cb0970",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -182983,97 +182914,6 @@
         "confidence": "observed"
       },
       {
-        "id": "module:scripts/check-jsdoc-coverage.mjs",
-        "kind": "module",
-        "path": "scripts/check-jsdoc-coverage.mjs",
-        "title": "check-jsdoc-coverage.mjs",
-        "aliases": [],
-        "tags": [
-          "module",
-          "mjs",
-          "scripts"
-        ],
-        "fields": {
-          "title": "check-jsdoc-coverage.mjs",
-          "headings": "",
-          "path": "scripts/check-jsdoc-coverage.mjs",
-          "symbols": "",
-          "summary": "",
-          "body": "",
-          "aliases": "module mjs scripts"
-        },
-        "graph": {
-          "pagerank": 0,
-          "inboundLinks": 0,
-          "coveredBy": [],
-          "mentionedBy": [],
-          "areaId": "area:scripts",
-          "packageId": "package:agentskit",
-          "inbound": [],
-          "outbound": [
-            {
-              "kind": "imports",
-              "id": "module:scripts/lib/jsdoc-coverage.mjs",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:scripts/lib/public-api-snapshot.mjs",
-              "confidence": "observed"
-            }
-          ]
-        },
-        "contentHash": "fd880b3f06f23de2dd4bf60641a5067e5711c960b0d0e149c56a3619cdb21aba",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
-        "id": "module:scripts/check-jsdoc-coverage.test.mjs",
-        "kind": "module",
-        "path": "scripts/check-jsdoc-coverage.test.mjs",
-        "title": "check-jsdoc-coverage.test.mjs",
-        "aliases": [],
-        "tags": [
-          "module",
-          "mjs",
-          "test",
-          "scripts"
-        ],
-        "fields": {
-          "title": "check-jsdoc-coverage.test.mjs",
-          "headings": "",
-          "path": "scripts/check-jsdoc-coverage.test.mjs",
-          "symbols": "",
-          "summary": "",
-          "body": "",
-          "aliases": "module mjs test scripts"
-        },
-        "graph": {
-          "pagerank": 0,
-          "inboundLinks": 0,
-          "coveredBy": [],
-          "mentionedBy": [],
-          "areaId": "area:scripts",
-          "packageId": "package:agentskit",
-          "inbound": [],
-          "outbound": [
-            {
-              "kind": "imports",
-              "id": "module:scripts/lib/jsdoc-coverage.mjs",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:scripts/lib/public-api-snapshot.mjs",
-              "confidence": "observed"
-            }
-          ]
-        },
-        "contentHash": "47bf60374029ab16db81ed3c81cd073a33d6dc754ca61d688673676888211d1d",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
         "id": "module:scripts/check-launch-package.mjs",
         "kind": "module",
         "path": "scripts/check-launch-package.mjs",
@@ -183700,7 +183540,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "054a0fa78c6c76031815d4f1c0a379c00610a575bb6aa4ef0ce5b059bf41e3c3",
+        "contentHash": "dc2925e56c5fa52a2f5bd30d1bec73a4a7097050b48eddbeee34aa7231698b7c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -185409,63 +185249,6 @@
         "confidence": "observed"
       },
       {
-        "id": "module:scripts/lib/jsdoc-coverage.mjs",
-        "kind": "module",
-        "path": "scripts/lib/jsdoc-coverage.mjs",
-        "title": "jsdoc-coverage.mjs",
-        "aliases": [],
-        "symbols": [
-          "JSDOC_BASELINE_RELATIVE",
-          "calculateCoverage",
-          "findBaselineGrowth",
-          "serializeJsdocBaseline"
-        ],
-        "tags": [
-          "module",
-          "mjs",
-          "lib"
-        ],
-        "fields": {
-          "title": "jsdoc-coverage.mjs",
-          "headings": "",
-          "path": "scripts/lib/jsdoc-coverage.mjs",
-          "symbols": "JSDOC_BASELINE_RELATIVE calculateCoverage findBaselineGrowth serializeJsdocBaseline",
-          "summary": "",
-          "body": "",
-          "aliases": "module mjs lib"
-        },
-        "graph": {
-          "pagerank": 0,
-          "inboundLinks": 0,
-          "coveredBy": [],
-          "mentionedBy": [],
-          "areaId": "area:scripts",
-          "packageId": "package:agentskit",
-          "inbound": [
-            {
-              "kind": "imports",
-              "id": "module:scripts/check-jsdoc-coverage.mjs",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:scripts/check-jsdoc-coverage.test.mjs",
-              "confidence": "observed"
-            }
-          ],
-          "outbound": [
-            {
-              "kind": "imports",
-              "id": "module:scripts/lib/public-api-snapshot.mjs",
-              "confidence": "observed"
-            }
-          ]
-        },
-        "contentHash": "664841032a1511ae5226b153e988c87c2947d82ee467886cabed192391fc5cf9",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
         "id": "module:scripts/lib/launch-package.mjs",
         "kind": "module",
         "path": "scripts/lib/launch-package.mjs",
@@ -185918,7 +185701,6 @@
           "findMissingBuildOutputs",
           "formatDiffDiagnostics",
           "formatStats",
-          "getDocumentedExportsFromSourceFile",
           "getExportsFromSourceFile",
           "isDeclarationTarget",
           "isLocalFileTarget",
@@ -185942,7 +185724,7 @@
           "title": "public-api-snapshot.mjs",
           "headings": "",
           "path": "scripts/lib/public-api-snapshot.mjs",
-          "symbols": "BUILD_PREREQUISITE_COMMAND DEFAULT_BASELINE_RELATIVE SCHEMA_VERSION assetSymbols buildPublicApiSnapshot classifyExportSymbol collectAssetTargets collectLocalStringTargets collectPublicConditions collectTypeTargets createDeclarationProgram diffSnapshots discoverPublicPackages enumerateExportSubpaths findMissingBuildOutputs formatDiffDiagnostics formatStats getDocumentedExportsFromSourceFile getExportsFromSourceFile isDeclarationTarget isLocalFileTarget isSubpathExportsMap loadTypeScript mergeSymbols normalizeAssetPath normalizeKinds normalizeSubpath parseSnapshot serializeSnapshot sortCopy sortSymbols",
+          "symbols": "BUILD_PREREQUISITE_COMMAND DEFAULT_BASELINE_RELATIVE SCHEMA_VERSION assetSymbols buildPublicApiSnapshot classifyExportSymbol collectAssetTargets collectLocalStringTargets collectPublicConditions collectTypeTargets createDeclarationProgram diffSnapshots discoverPublicPackages enumerateExportSubpaths findMissingBuildOutputs formatDiffDiagnostics formatStats getExportsFromSourceFile isDeclarationTarget isLocalFileTarget isSubpathExportsMap loadTypeScript mergeSymbols normalizeAssetPath normalizeKinds normalizeSubpath parseSnapshot serializeSnapshot sortCopy sortSymbols",
           "summary": "",
           "body": "",
           "aliases": "module mjs lib"
@@ -185959,22 +185741,7 @@
           "inbound": [
             {
               "kind": "imports",
-              "id": "module:scripts/check-jsdoc-coverage.mjs",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:scripts/check-jsdoc-coverage.test.mjs",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
               "id": "module:scripts/check-public-api-snapshot.mjs",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:scripts/lib/jsdoc-coverage.mjs",
               "confidence": "observed"
             },
             {
@@ -185990,7 +185757,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "e4d65c71b0a9ed3b022e9297f059e9ede228702ae0551452411da7a37e0e49e2",
+        "contentHash": "9265198efdae5d57437a592c9230f7af67323bf0a2a204a82de126460ea37eba",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -195843,7 +195610,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "a46d5d21b6451f7c4e1ba7565064c73e533860b7ee5459b4d161d3bb3499c7b1",
+        "contentHash": "eb4880c312fa73419024d96b190f3b9fe37d4a4ef67f55aa403be7f092554de0",
         "provenance": "observed",
         "confidence": "observed"
       }
