@@ -134,7 +134,8 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
       - run: pnpm exec turbo run build --filter='./packages/*' --concurrency=2
-      - run: pnpm exec turbo run test --concurrency=1
+      # Rollback: restore --concurrency=1 here and in the root package.json.
+      - run: pnpm exec turbo run test --concurrency=2
 
   quality:
     name: Lint, Test, Build

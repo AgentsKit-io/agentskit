@@ -5,7 +5,7 @@
   "packageManager": "pnpm@10.34.4",
   "scripts": {
     "build": "turbo run build",
-    "test": "turbo run test --concurrency=1",
+    "test": "turbo run test --concurrency=2",
     "test:coverage": "turbo run test:coverage --concurrency=1",
     "test:interop": "vitest run --config tests/vitest.config.ts",
     "test:e2e": "pnpm build && playwright test",
@@ -63,7 +63,7 @@
     "check:jsdoc-coverage:update": "node scripts/check-jsdoc-coverage.mjs --update",
     "test:jsdoc-coverage": "node --test scripts/check-jsdoc-coverage.test.mjs",
     "test:public-api-snapshot": "node --test scripts/public-api-snapshot.test.mjs",
-    "size": "pnpm build && node scripts/size-core-closure.mjs && size-limit",
+    "size": "pnpm build && node scripts/size-core-closure.mjs && node scripts/gen-size-limit-subpaths.mjs --check && node scripts/gen-size-limit-subpaths.mjs --build && size-limit",
     "size:why": "pnpm build && node scripts/size-core-closure.mjs && size-limit --why",
     "content-pipeline:run": "node scripts/run-content-pipeline.mjs",
     "check:content-pipeline": "node scripts/check-content-pipeline.mjs",

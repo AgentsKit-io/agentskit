@@ -35,6 +35,7 @@
     "@agentskit/adapters": "workspace:*",
     "@agentskit/chat": "0.4.1",
     "@agentskit/core": "workspace:*",
+    "@agentskit/cross-platform": "workspace:*",
     "@agentskit/eval": "workspace:*",
     "@agentskit/memory": "workspace:*",
     "@agentskit/observability": "workspace:*",
@@ -68,6 +69,7 @@
     "shiki": "^4.4.3",
     "tailwindcss": "^4.3.3",
     "vinext": "^1.0.1",
+    "yaml": "^2.9.1",
     "zod": "^4.6.5"
   },
   "devDependencies": {
