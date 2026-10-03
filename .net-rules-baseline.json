@@ -153,9 +153,6 @@
     "packages/core/src/hitl.ts": {
       "net-sleep-promise": 1
     },
-    "packages/core/src/security/sso.ts": {
-      "net-unbounded-body": 1
-    },
     "packages/core/tests/controller.test.ts": {
       "net-sleep-promise": 6
     },
@@ -229,12 +226,6 @@
       "net-unbounded-body": 1
     },
     "packages/templates/src/blueprints/memory.ts": {
-      "net-unbounded-body": 1
-    },
-    "packages/tools/src/integrations/document-parsers.ts": {
-      "net-unbounded-body": 1
-    },
-    "packages/tools/src/slack.ts": {
       "net-unbounded-body": 1
     },
     "packages/tools/tests/mcp.test.ts": {

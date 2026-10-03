@@ -1,4 +1,4 @@
-import type { ToolDefinition } from '@agentskit/core'
+import { isRecord, type ToolDefinition } from '@agentskit/core'
 import { readText } from '@agentskit/net'
 
 const HOSTED = 'https://registry.agentskit.io/r'
@@ -42,9 +42,6 @@ export interface FetchAgentSkillOptions {
   /** Cancels the active read and prevents later fallback requests. */
   signal?: AbortSignal
 }
-
-const isRecord = (input: unknown): input is Record<string, unknown> =>
-  input !== null && typeof input === 'object' && !Array.isArray(input)
 
 const readTypedMcpProjection = (input: Record<string, unknown>): Omit<FetchedTypedAgent, 'id' | 'description' | 'systemPrompt'> | null | undefined => {
   const projections = input.projections

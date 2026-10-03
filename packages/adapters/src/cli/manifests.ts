@@ -1,4 +1,4 @@
-import { AdapterError, ErrorCodes, type AdapterCapabilities, type AdapterRequest } from '@agentskit/core'
+import { AdapterError, ErrorCodes, isRecord, type AdapterCapabilities, type AdapterRequest } from '@agentskit/core'
 import { parseClaudeCodeJsonOutput, parseClaudeCodeJsonResponse } from './claude-code'
 import { diagnoseCliProvider } from './process'
 import { claudeCodeRequestArgs, serializeCliMessages, serializeCliPrompt } from './prompt'
@@ -175,10 +175,6 @@ function validateArgs(values: readonly string[], label: string): void {
   for (const value of values) {
     if (value.includes('\0')) throw manifestError(`CLI manifest ${label} contains a null byte`)
   }
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
 }
 
 function validateCapabilities(manifest: CliProviderManifest): void {

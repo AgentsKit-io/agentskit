@@ -1,4 +1,4 @@
-import { ErrorCodes, ToolError } from '@agentskit/core'
+import { ErrorCodes, isRecord, ToolError } from '@agentskit/core'
 import type { ArgsValidator, ToolDefinition } from '@agentskit/core'
 import type { JSONSchema7 } from 'json-schema'
 import type {
@@ -193,10 +193,6 @@ const EMPTY_ARGS_SCHEMA: JSONSchema7 = {
   type: 'object',
   properties: {},
   additionalProperties: false,
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === 'object' && !Array.isArray(value)
 }
 
 function isValidId(value: unknown): value is string | number {
