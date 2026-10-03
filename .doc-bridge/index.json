@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "817cb72de42202c8f67b113d0081867f8b1532e7c11b9e3cd4cbbd2803322661",
+  "contentHash": "83ce51ebe17ccc5b526c6bd48030e713115cb385218ed5c17de3e30e19756316",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-03T12:55:38.539Z",
+  "generatedAt": "2026-10-03T12:37:59.882Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7671,7 +7671,7 @@
         "document",
         "project"
       ],
-      "contentHash": "4ece2c56faf3086b54775be56c6ded9711a04ca4a1f5f6d5e9ee6623df182bed"
+      "contentHash": "eb18ae071d9c61f0d05ca3d25cf1d1681b38c30753431b0062b9dfc0a2cb0970"
     },
     {
       "id": "document:SECURITY.md",
@@ -19120,7 +19120,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "782839381c7c6b90fba79bfeb5f2dc503d18aa997c7b2cd2b8bb8fec0f38ef44"
+      "contentHash": "098cc9ac7b315cd90c3a758c465f1666bacf9e8e73431fe3b0f85bad21a66349"
     },
     {
       "id": "module:packages/core/src/security/fence.ts",
@@ -35206,7 +35206,7 @@
         "mjs",
         "scripts"
       ],
-      "contentHash": "d80595e1bf40c62370ed25bef9c4ea264af305d3e17739dc05f9a6badad26558"
+      "contentHash": "dc2925e56c5fa52a2f5bd30d1bec73a4a7097050b48eddbeee34aa7231698b7c"
     },
     {
       "id": "module:scripts/check-readme-badge.mjs",
@@ -36047,19 +36047,6 @@
         "scripts"
       ],
       "contentHash": "80f33cde09d9db899e840aad2b23a41d584a936affbdb3f78a7f1399d1cdce43"
-    },
-    {
-      "id": "module:scripts/math-random-id-rule.test.mjs",
-      "type": "module",
-      "title": "math-random-id-rule.test.mjs",
-      "path": "scripts/math-random-id-rule.test.mjs",
-      "tags": [
-        "module",
-        "mjs",
-        "test",
-        "scripts"
-      ],
-      "contentHash": "1a866f04dd50c0cfc1331b0cea6460263dd0f1a7ea45ac5abe51dda0dda2d0bc"
     },
     {
       "id": "module:scripts/models-dev-catalog.test.mjs",
@@ -37746,8 +37733,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "3e97bf9eb9a4b7af3c7dfa99a9f20d12403302013f39268f0c2368fe38e49354",
-    "fileCount": 2508,
+    "hash": "8d46a33633879d48490f5237538e6674133588cb6d9f104990b0cdec3544bbda",
+    "fileCount": 2507,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37769,9 +37756,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "11b3113621ed078ceb1e643facddabca28c3160930dd4f0237fada989c32977d",
+    "contentHash": "d9fc36bebae626e25a911f89327618fbb99c794a08548a767ecc63273b507bbd",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "00f0b21ab2de9c55e02b77eeb45533f87adeece981a8a8e125bbab44310fc716",
+    "snapshotHash": "4e2310c6f5e4c49d76990796dc2598c0910ad1dafe3cdafaf6d7e0e387dbc5d8",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37791,7 +37778,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2462,
+      "documentCount": 2461,
       "fieldNames": [
         "aliases",
         "body",
@@ -37802,13 +37789,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.015434606011373,
-        "body": 60.91267262388302,
-        "headings": 4.010560519902518,
-        "path": 7.623883021933388,
-        "summary": 4.5393988627132416,
-        "symbols": 7.469536961819659,
-        "title": 3.3419983753046303
+        "aliases": 3.015034538805364,
+        "body": 60.93742381145876,
+        "headings": 4.012190166598944,
+        "path": 7.623730190979277,
+        "summary": 4.541243396993092,
+        "symbols": 7.472572125152377,
+        "title": 3.340511986997156
       }
     },
     "entries": [
@@ -40238,7 +40225,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "eb44f6f0e15caee90b790d4734499b43d507d99ae6677c318a4e305f2d2da335",
+        "contentHash": "7f842c148b03480860cf8ce76c52485b549b3cdc2ec1b07d4f894d6f23d9063f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -83496,7 +83483,7 @@
             }
           ]
         },
-        "contentHash": "4ece2c56faf3086b54775be56c6ded9711a04ca4a1f5f6d5e9ee6623df182bed",
+        "contentHash": "eb18ae071d9c61f0d05ca3d25cf1d1681b38c30753431b0062b9dfc0a2cb0970",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -122474,11 +122461,6 @@
               "confidence": "observed"
             },
             {
-              "kind": "imports",
-              "id": "module:scripts/math-random-id-rule.test.mjs",
-              "confidence": "observed"
-            },
-            {
               "kind": "mentions-symbol",
               "id": "document:packages/core/README.md",
               "confidence": "observed"
@@ -122491,7 +122473,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "782839381c7c6b90fba79bfeb5f2dc503d18aa997c7b2cd2b8bb8fec0f38ef44",
+        "contentHash": "098cc9ac7b315cd90c3a758c465f1666bacf9e8e73431fe3b0f85bad21a66349",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -129337,11 +129319,6 @@
             {
               "kind": "imports",
               "id": "module:scripts/check-core-rules.test.mjs",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:scripts/math-random-id-rule.test.mjs",
               "confidence": "observed"
             },
             {
@@ -183563,7 +183540,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "d80595e1bf40c62370ed25bef9c4ea264af305d3e17739dc05f9a6badad26558",
+        "contentHash": "dc2925e56c5fa52a2f5bd30d1bec73a4a7097050b48eddbeee34aa7231698b7c",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -186170,52 +186147,6 @@
           ]
         },
         "contentHash": "80f33cde09d9db899e840aad2b23a41d584a936affbdb3f78a7f1399d1cdce43",
-        "provenance": "observed",
-        "confidence": "observed"
-      },
-      {
-        "id": "module:scripts/math-random-id-rule.test.mjs",
-        "kind": "module",
-        "path": "scripts/math-random-id-rule.test.mjs",
-        "title": "math-random-id-rule.test.mjs",
-        "aliases": [],
-        "tags": [
-          "module",
-          "mjs",
-          "test",
-          "scripts"
-        ],
-        "fields": {
-          "title": "math-random-id-rule.test.mjs",
-          "headings": "",
-          "path": "scripts/math-random-id-rule.test.mjs",
-          "symbols": "",
-          "summary": "",
-          "body": "",
-          "aliases": "module mjs test scripts"
-        },
-        "graph": {
-          "pagerank": 0,
-          "inboundLinks": 0,
-          "coveredBy": [],
-          "mentionedBy": [],
-          "areaId": "area:scripts",
-          "packageId": "package:agentskit",
-          "inbound": [],
-          "outbound": [
-            {
-              "kind": "imports",
-              "id": "module:packages/core/src/rules.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:packages/cross-platform/src/lint/scan.ts",
-              "confidence": "observed"
-            }
-          ]
-        },
-        "contentHash": "1a866f04dd50c0cfc1331b0cea6460263dd0f1a7ea45ac5abe51dda0dda2d0bc",
         "provenance": "observed",
         "confidence": "observed"
       },
