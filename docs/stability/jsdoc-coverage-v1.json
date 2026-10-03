@@ -127,15 +127,7 @@
       "./createAdapter::createAdapter",
       "./langchain-bridge::AdapterToLangChainModelOptions"
     ],
-    "@agentskit/angular": [
-      ".::CodeBlockComponent",
-      ".::InputBarComponent",
-      ".::MarkdownComponent",
-      ".::MessageComponent",
-      ".::ThinkingIndicatorComponent",
-      ".::ToolCallViewComponent",
-      ".::ToolConfirmationComponent"
-    ],
+    "@agentskit/angular": [],
     "@agentskit/cli": [
       ".::AgentsKitConfig",
       ".::BuildRagOptions",
