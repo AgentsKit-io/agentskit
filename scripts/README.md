@@ -1,8 +1,22 @@
 # scripts/
 
-Repo-level CI helpers. Each script is dependency-free Node ESM, runnable
-from the repo root. They run on every PR + push to `main` via
-`.github/workflows/ci.yml` and a husky `pre-push` hook.
+Repo-level CI helpers, runnable from the repo root. Most scripts use only Node
+ESM; the bundle-size helper also uses the already installed `esbuild`
+dependency. They run on every PR + push to `main` via `.github/workflows/ci.yml`
+and a husky `pre-push` hook.
+
+## Bundle size targets per public ESM export
+
+`gen-size-limit-subpaths.mjs --check` compares every published package's
+JavaScript `exports` entry with `.size-limit.json`, so a newly added ESM
+subpath cannot miss its own budget. Run `pnpm size` to bundle those entries
+with package dependencies and peer dependencies external, then apply gzip
+budgets through size-limit. New targets get 10% headroom rounded up to the
+next 0.5 kB (decimal); existing limits are left as configured. Use
+`node scripts/gen-size-limit-subpaths.mjs --update` after building packages
+to add targets for newly published ESM exports. The Svelte entry is measured
+directly because its consumer's Svelte compiler processes component imports.
+Non-JavaScript exports, such as CSS assets, do not have an ESM bundle target.
 
 ## Build prerequisites and timings
 

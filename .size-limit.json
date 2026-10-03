@@ -196,5 +196,443 @@
     "path": "packages/eval-braintrust/dist/index.js",
     "limit": "10 KB",
     "gzip": true
+  },
+  {
+    "name": "@agentskit/adapters (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/adapters/root.js",
+    "limit": "21 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/adapters (ESM export ./createAdapter)",
+    "path": "node_modules/.cache/size-limit-subpaths/adapters/createAdapter.js",
+    "limit": "1.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/adapters (ESM export ./catalog)",
+    "path": "node_modules/.cache/size-limit-subpaths/adapters/catalog.js",
+    "limit": "367 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/adapters (ESM export ./cli)",
+    "path": "node_modules/.cache/size-limit-subpaths/adapters/cli.js",
+    "limit": "11.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/adapters (ESM export ./langchain-bridge)",
+    "path": "node_modules/.cache/size-limit-subpaths/adapters/langchain-bridge.js",
+    "limit": "3 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/angular (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/angular/root.js",
+    "limit": "3.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/cli (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/cli/root.js",
+    "limit": "60 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/core/root.js",
+    "limit": "12 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (ESM export ./agent-schema)",
+    "path": "node_modules/.cache/size-limit-subpaths/core/agent-schema.js",
+    "limit": "1.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (ESM export ./prompt-experiments)",
+    "path": "node_modules/.cache/size-limit-subpaths/core/prompt-experiments.js",
+    "limit": "1 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (ESM export ./auto-summarize)",
+    "path": "node_modules/.cache/size-limit-subpaths/core/auto-summarize.js",
+    "limit": "1 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (ESM export ./hitl)",
+    "path": "node_modules/.cache/size-limit-subpaths/core/hitl.js",
+    "limit": "2 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (ESM export ./security)",
+    "path": "node_modules/.cache/size-limit-subpaths/core/security.js",
+    "limit": "10 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (ESM export ./fuzzy-match)",
+    "path": "node_modules/.cache/size-limit-subpaths/core/fuzzy-match.js",
+    "limit": "1 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (ESM export ./finding)",
+    "path": "node_modules/.cache/size-limit-subpaths/core/finding.js",
+    "limit": "0.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (ESM export ./compose-tool)",
+    "path": "node_modules/.cache/size-limit-subpaths/core/compose-tool.js",
+    "limit": "1 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (ESM export ./self-debug)",
+    "path": "node_modules/.cache/size-limit-subpaths/core/self-debug.js",
+    "limit": "1.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (ESM export ./generative-ui)",
+    "path": "node_modules/.cache/size-limit-subpaths/core/generative-ui.js",
+    "limit": "1.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (ESM export ./a2a)",
+    "path": "node_modules/.cache/size-limit-subpaths/core/a2a.js",
+    "limit": "0.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (ESM export ./manifest)",
+    "path": "node_modules/.cache/size-limit-subpaths/core/manifest.js",
+    "limit": "2 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (ESM export ./eval-format)",
+    "path": "node_modules/.cache/size-limit-subpaths/core/eval-format.js",
+    "limit": "1.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (ESM export ./memory-validation)",
+    "path": "node_modules/.cache/size-limit-subpaths/core/memory-validation.js",
+    "limit": "3 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (ESM export ./tool-proposal)",
+    "path": "node_modules/.cache/size-limit-subpaths/core/tool-proposal.js",
+    "limit": "0.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (ESM export ./rules)",
+    "path": "node_modules/.cache/size-limit-subpaths/core/rules.js",
+    "limit": "1 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/core (ESM export ./hash)",
+    "path": "node_modules/.cache/size-limit-subpaths/core/hash.js",
+    "limit": "4 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/cross-platform (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/cross-platform/root.js",
+    "limit": "13.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/cross-platform (ESM export ./pure)",
+    "path": "node_modules/.cache/size-limit-subpaths/cross-platform/pure.js",
+    "limit": "3.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/eval (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/eval/root.js",
+    "limit": "1.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/eval (ESM export ./replay)",
+    "path": "node_modules/.cache/size-limit-subpaths/eval/replay.js",
+    "limit": "5.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/eval (ESM export ./replay/io)",
+    "path": "node_modules/.cache/size-limit-subpaths/eval/replay__io.js",
+    "limit": "2.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/eval (ESM export ./snapshot)",
+    "path": "node_modules/.cache/size-limit-subpaths/eval/snapshot.js",
+    "limit": "2 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/eval (ESM export ./diff)",
+    "path": "node_modules/.cache/size-limit-subpaths/eval/diff.js",
+    "limit": "1 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/eval (ESM export ./ci)",
+    "path": "node_modules/.cache/size-limit-subpaths/eval/ci.js",
+    "limit": "2.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/eval (ESM export ./braintrust)",
+    "path": "node_modules/.cache/size-limit-subpaths/eval/braintrust.js",
+    "limit": "4.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/eval (ESM export ./braintrust/scorers)",
+    "path": "node_modules/.cache/size-limit-subpaths/eval/braintrust__scorers.js",
+    "limit": "2 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/eval (ESM export ./braintrust/ci)",
+    "path": "node_modules/.cache/size-limit-subpaths/eval/braintrust__ci.js",
+    "limit": "1 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/ink (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/ink/root.js",
+    "limit": "6 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/integrations (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/integrations/root.js",
+    "limit": "35.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/integrations (ESM export ./testing)",
+    "path": "node_modules/.cache/size-limit-subpaths/integrations/testing.js",
+    "limit": "1.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/mcp (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/mcp/root.js",
+    "limit": "4 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/memory (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/memory/root.js",
+    "limit": "18.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/memory (ESM export ./personalization)",
+    "path": "node_modules/.cache/size-limit-subpaths/memory/personalization.js",
+    "limit": "1 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/memory (ESM export ./web-storage)",
+    "path": "node_modules/.cache/size-limit-subpaths/memory/web-storage.js",
+    "limit": "1.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/net (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/net/root.js",
+    "limit": "7.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/net (ESM export ./rules)",
+    "path": "node_modules/.cache/size-limit-subpaths/net/rules.js",
+    "limit": "1 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/observability (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/observability/root.js",
+    "limit": "22.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/observability (ESM export ./trace-tracker)",
+    "path": "node_modules/.cache/size-limit-subpaths/observability/trace-tracker.js",
+    "limit": "2 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/observability (ESM export ./cost-guard)",
+    "path": "node_modules/.cache/size-limit-subpaths/observability/cost-guard.js",
+    "limit": "2.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/observability (ESM export ./langfuse)",
+    "path": "node_modules/.cache/size-limit-subpaths/observability/langfuse.js",
+    "limit": "3 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/rag (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/rag/root.js",
+    "limit": "11 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/rag (ESM export ./chunker)",
+    "path": "node_modules/.cache/size-limit-subpaths/rag/chunker.js",
+    "limit": "1 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/rag (ESM export ./markdown)",
+    "path": "node_modules/.cache/size-limit-subpaths/rag/markdown.js",
+    "limit": "2.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/react (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/react/root.js",
+    "limit": "4 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/react-native (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/react-native/root.js",
+    "limit": "2.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/runtime (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/runtime/root.js",
+    "limit": "18.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/runtime (ESM export ./shared-context)",
+    "path": "node_modules/.cache/size-limit-subpaths/runtime/shared-context.js",
+    "limit": "0.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/sandbox (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/sandbox/root.js",
+    "limit": "11.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/sandbox (ESM export ./sandbox)",
+    "path": "node_modules/.cache/size-limit-subpaths/sandbox/sandbox.js",
+    "limit": "4.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/sandbox (ESM export ./types)",
+    "path": "node_modules/.cache/size-limit-subpaths/sandbox/types.js",
+    "limit": "0.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/sandbox (ESM export ./web)",
+    "path": "node_modules/.cache/size-limit-subpaths/sandbox/web.js",
+    "limit": "3.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/skills (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/skills/root.js",
+    "limit": "31 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/solid (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/solid/root.js",
+    "limit": "2.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/solid (ESM export ./use-chat)",
+    "path": "node_modules/.cache/size-limit-subpaths/solid/use-chat.js",
+    "limit": "0.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/statechart (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/statechart/root.js",
+    "limit": "4.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/svelte (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/svelte/root.js",
+    "limit": "0.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/templates (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/templates/root.js",
+    "limit": "11.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/tools (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/tools/root.js",
+    "limit": "10.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/tools (ESM export ./mcp)",
+    "path": "node_modules/.cache/size-limit-subpaths/tools/mcp.js",
+    "limit": "59.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/tools (ESM export ./integrations)",
+    "path": "node_modules/.cache/size-limit-subpaths/tools/integrations.js",
+    "limit": "12.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/tools (ESM export ./mcp-devtools)",
+    "path": "node_modules/.cache/size-limit-subpaths/tools/mcp-devtools.js",
+    "limit": "1.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/tools (ESM export ./validation)",
+    "path": "node_modules/.cache/size-limit-subpaths/tools/validation.js",
+    "limit": "55.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/vue (ESM export .)",
+    "path": "node_modules/.cache/size-limit-subpaths/vue/root.js",
+    "limit": "2.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/cross-platform (ESM export ./testing)",
+    "path": "node_modules/.cache/size-limit-subpaths/cross-platform/testing.js",
+    "limit": "1.5 KB",
+    "gzip": true
   }
 ]
