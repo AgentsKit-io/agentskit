@@ -1,5 +1,5 @@
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { mkdir, readFile, readdir, rm, writeFile } from 'node:fs/promises'
+import { mkdir, mkdtemp, readFile, readdir, rm, writeFile } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import {
@@ -49,19 +49,22 @@ describe('createFileStore', () => {
   })
 
   it('does not replace a corrupt regular file or leave a temp file on failed writes', async () => {
-    const path = tmpPath()
+    const directory = await mkdtemp(join(tmpdir(), 'ak-kv-'))
+    const path = join(directory, 'memory.json')
+    paths.push(directory)
     const original = '{"broken":'
     await writeFile(path, original, 'utf8')
     const store = createFileStore({ backend: 'file', path })
     await expect(store.get('broken')).rejects.toThrow()
     await expect(store.set('new', 'value')).rejects.toThrow()
     expect(await readFile(path, 'utf8')).toBe(original)
-    const base = path.split('/').at(-1) ?? ''
-    expect((await readdir(tmpdir())).filter(name => name.startsWith(`.${base}.`))).toEqual([])
+    expect(await readdir(directory)).toEqual(['memory.json'])
   })
 
   it('preserves valid sibling entries when atomic file replacement fails', async () => {
-    const path = tmpPath()
+    const directory = await mkdtemp(join(tmpdir(), 'ak-kv-'))
+    const path = join(directory, 'memory.json')
+    paths.push(directory)
     const original = JSON.stringify({ keep: { value: 'unrelated', insertedAt: 1 } })
     await writeFile(path, original, 'utf8')
     vi.resetModules()
@@ -74,7 +77,7 @@ describe('createFileStore', () => {
       const store = create({ backend: 'file', path })
       await expect(store.set('new', 'value')).rejects.toThrow('injected rename failure')
       expect(await readFile(path, 'utf8')).toBe(original)
-      expect((await readdir(tmpdir())).filter(name => name.startsWith(`.${path.split('/').at(-1)}.`))).toEqual([])
+      expect(await readdir(directory)).toEqual(['memory.json'])
     } finally {
       vi.doUnmock('node:fs/promises')
       vi.resetModules()
@@ -103,7 +106,7 @@ describe('createFileStore', () => {
   })
 
   it('keeps an existing destination intact and removes the temp file when atomic rename fails', async () => {
-    const directory = join(tmpdir(), `ak-kv-rename-${process.pid}-${counter++}`)
+    const directory = await mkdtemp(join(tmpdir(), 'ak-kv-rename-'))
     const path = join(directory, 'memory.json')
     paths.push(directory)
     await mkdir(path, { recursive: true })
