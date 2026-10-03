@@ -10,6 +10,7 @@ import type {
 } from './types'
 import { MCP_PROTOCOL_VERSION } from './types'
 
+/** Client methods for initializing, listing tools, calling a tool, and closing the transport. */
 export interface McpClient {
   initialize: () => Promise<{ serverInfo: { name: string; version?: string } }>
   listTools: () => Promise<McpToolsListResult>
