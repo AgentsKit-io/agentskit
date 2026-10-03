@@ -23,16 +23,7 @@ import type {
   AgentEvent,
   AgentEventContext,
 } from './types'
-/** Create a chat controller from adapter, conversation, and optional integration settings.
- * @param initial Adapter, prompt, tool, memory, and observer settings for the chat.
- * @returns Controller methods for managing the session and reading its state.
- * @example
- * ```ts
- * const chat = createChatController({ adapter })
- * await chat.send('Hello')
- * ```
- */
-export function createChatController(initial: ChatConfig): ChatController {
+/** Create a chat controller from adapter, conversation, and optional integrations. @param initial Adapter, prompt, tool, memory, and observer settings. @returns Controller methods for managing the session and reading its state. @example `const chat = createChatController({ adapter }); await chat.send('Hello')`. */ export function createChatController(initial: ChatConfig): ChatController {
   let config = initial
   const controllerCorrelation: AgentEventContext = initial.correlation ?? { operationId: generateId('operation') }
   let activeCorrelation: AgentEventContext = controllerCorrelation
