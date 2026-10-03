@@ -1,4 +1,5 @@
 import { ErrorCodes, RuntimeError } from '@agentskit/core'
+import { sleep } from '@agentskit/net'
 
 /**
  * Temporal-style durable execution primitive. Wraps any side-effectful
@@ -41,6 +42,8 @@ export interface DurableRunnerOptions {
   maxAttempts?: number
   /** Backoff in ms between attempts. Default 0. */
   retryDelayMs?: number
+  /** Cancel an in-progress retry delay. */
+  signal?: AbortSignal
   /** Observability — fires on replay-hit, retry, completion. */
   onEvent?: (event: DurableEvent) => void
 }
@@ -134,7 +137,12 @@ export function createDurableRunner(options: DurableRunnerOptions): DurableRunne
           attempt,
         })
         if (attempt < maxAttempts && retryDelayMs > 0) {
-          await new Promise(r => setTimeout(r, retryDelayMs))
+          try {
+            await sleep(retryDelayMs, options.signal)
+          } catch (error) {
+            lastError = error instanceof Error ? error : new Error(String(error))
+            break
+          }
         }
       }
     }

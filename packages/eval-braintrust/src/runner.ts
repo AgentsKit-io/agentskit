@@ -1,4 +1,4 @@
-import { ErrorCodes, RuntimeError } from '@agentskit/core'
+import { ErrorCodes, isRecord, RuntimeError } from '@agentskit/core'
 import type { Scorer, ScorerInput, ScorerResult } from './types'
 
 export interface BraintrustRunOptions {
@@ -67,10 +67,6 @@ function isValidScorerResult(value: unknown): value is ScorerResult {
     return false
   }
   return true
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === 'object' && !Array.isArray(value)
 }
 
 function parseAgentResult(value: unknown): {

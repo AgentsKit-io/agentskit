@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
+import { sleep } from '@agentskit/net'
 import { mkdtempSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
@@ -56,7 +57,7 @@ describe('createDurableRunner', () => {
     let calls = 0
     const fn = async () => {
       calls++
-      await new Promise(resolve => setTimeout(resolve, 5))
+      await sleep(5)
       return 42
     }
     const results = await Promise.all([runner.step('x', fn), runner.step('x', fn)])
@@ -104,6 +105,29 @@ describe('createDurableRunner', () => {
       return 'ok'
     })
     expect(result).toBe('ok')
+  })
+
+  it('cancels a retry delay with AbortSignal without starting another attempt', async () => {
+    const controller = new AbortController()
+    const reason = new Error('cancelled retry delay')
+    const store = createInMemoryStepLog()
+    const fn = vi.fn(async () => {
+      throw new Error('transient')
+    })
+    const runner = createDurableRunner({
+      store,
+      runId: 'r',
+      maxAttempts: 3,
+      retryDelayMs: 60_000,
+      signal: controller.signal,
+      onEvent: event => {
+        if (event.type === 'step:failure') setTimeout(() => controller.abort(reason), 10)
+      },
+    })
+
+    await expect(runner.step('x', fn)).rejects.toBe(reason)
+    expect(fn).toHaveBeenCalledOnce()
+    expect(await runner.history()).toMatchObject([{ status: 'failure', error: reason.message, attempt: 1 }])
   })
 
   it('rethrows on previously failed step', async () => {
