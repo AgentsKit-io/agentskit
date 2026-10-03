@@ -1100,24 +1100,7 @@
       ".::technicalWriter",
       ".::transactionTriage"
     ],
-    "@agentskit/solid": [
-      ".::ChatContainer",
-      ".::ChatContainerProps",
-      ".::CodeBlock",
-      ".::CodeBlockProps",
-      ".::InputBar",
-      ".::InputBarProps",
-      ".::Markdown",
-      ".::MarkdownProps",
-      ".::Message",
-      ".::MessageProps",
-      ".::ThinkingIndicator",
-      ".::ThinkingIndicatorProps",
-      ".::ToolCallView",
-      ".::ToolCallViewProps",
-      ".::ToolConfirmation",
-      ".::ToolConfirmationProps"
-    ],
+    "@agentskit/solid": [],
     "@agentskit/statechart": [],
     "@agentskit/svelte": [
       ".::ChatContainer",

@@ -1,12 +1,17 @@
 import { Show, type JSX } from 'solid-js'
 import type { ToolCall } from '@agentskit/core'
 
+/** Props accepted by the tool confirmation controls. */
 export interface ToolConfirmationProps {
   toolCall: ToolCall
   onApprove: (toolCallId: string) => void
   onDeny: (toolCallId: string, reason?: string) => void
 }
 
+/** Render approve and deny controls for a tool awaiting confirmation.
+ * @param props The tool call and its approval callbacks.
+ * @returns The confirmation element or an empty value.
+ */
 export function ToolConfirmation(props: ToolConfirmationProps): JSX.Element {
   return (
     <Show when={props.toolCall.status === 'requires_confirmation'}>
