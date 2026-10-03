@@ -3,6 +3,7 @@ import { defineSkill, DISCLAIM, TOOLS } from './utils'
 
 const F = DISCLAIM.finance
 
+/** Skill for general financial literacy without personalized investment recommendations. */
 export const financialAdvisor: SkillDefinition = defineSkill(
   'financial-advisor',
   'General financial-literacy assistant. Explains concepts and trade-offs. Refuses to recommend specific tickers, allocations, or actions.',
@@ -65,6 +66,7 @@ ${F}`,
   TOOLS.web,
 )
 
+/** Skill for categorizing financial transactions and flagging items that need review. */
 export const transactionTriage: SkillDefinition = defineSkill(
   'transaction-triage',
   'Categorize bank / card transactions into accounting categories. Refuses to make payment, refund, or chargeback decisions.',

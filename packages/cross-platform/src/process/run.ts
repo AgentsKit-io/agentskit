@@ -4,11 +4,13 @@ import type { ChildHandle, ExitStatus, SpawnOptions, TerminationReason } from '.
 
 const DEFAULT_MAX_OUTPUT_BYTES = 16 * 1024 * 1024
 
+/** Spawn settings plus an output byte cap for command collection. */
 export interface RunOptions extends Omit<SpawnOptions, 'stdout' | 'stderr'> {
   /** Stop collecting (and kill the process) past this many bytes per stream. Default 16 MiB. */
   maxOutputBytes?: number
 }
 
+/** Exit status, captured output, duration, and truncation or timeout state. */
 export interface RunResult extends ExitStatus {
   stdout: string
   stderr: string

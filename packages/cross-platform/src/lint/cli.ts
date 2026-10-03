@@ -9,6 +9,7 @@ import type { PortabilityRule } from './rules'
 const DEFAULT_BASELINE = '.cross-platform-baseline.json'
 const DEFAULT_INCLUDE = ['packages', 'scripts', 'src', 'apps']
 
+/** Input/output functions injected into the portability CLI. */
 export interface CliIo {
   cwd: string
   log: (line: string) => void
@@ -16,8 +17,10 @@ export interface CliIo {
 }
 
 /** Options for customizing the rules and findings used by the baseline CLI.
+ *
  * @since 0.2.0
- */
+
+ * Arguments, working directory, and I/O dependencies for the portability CLI. */
 export interface RunCliOptions {
   /** Rules to scan with; defaults to `PORTABILITY_RULES`. */
   rules?: readonly PortabilityRule[]
@@ -99,10 +102,15 @@ async function saveBaseline(path: string, baseline: Baseline): Promise<void> {
 
 /**
  * Run the baseline CLI with optional custom rules and finding filtering.
+ *
  * @param argv CLI arguments after the executable name.
+ *
  * @param io Working directory and output handlers for the command.
+ *
  * @param options Custom rules and finding filter, available since 0.2.0; defaults to `PORTABILITY_RULES` with no filtering.
+ *
  * @returns The process exit code.
+ *
  * @since 0.1.1
  */
 export async function runCli(argv: readonly string[], io: CliIo, options: RunCliOptions = {}): Promise<number> {

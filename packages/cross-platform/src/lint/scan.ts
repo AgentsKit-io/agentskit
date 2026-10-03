@@ -4,6 +4,7 @@ import { toPosix } from '../paths'
 import { splitLines } from '../text'
 import { IGNORE_DIRECTIVE, PORTABILITY_RULES, type PortabilityRule } from './rules'
 
+/** A portability rule violation and its source location. */
 export interface Finding {
   file: string
   line: number
@@ -12,6 +13,7 @@ export interface Finding {
   fix: string
 }
 
+/** Optional rule set and file filters for repository scanning. */
 export interface ScanOptions {
   /** Repository root; reported paths are relative to it, with `/`. */
   root: string

@@ -1,6 +1,7 @@
 import type { SkillDefinition } from '@agentskit/core'
 import { defineSkill } from './utils'
 
+/** Skill for extracting key points while preserving source nuance and structure. */
 export const summarizer: SkillDefinition = defineSkill(
   'summarizer',
   'Concise summarizer that extracts key points while preserving nuance and structure.',

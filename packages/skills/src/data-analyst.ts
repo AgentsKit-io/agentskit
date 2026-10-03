@@ -1,6 +1,7 @@
 import type { SkillDefinition } from '@agentskit/core'
 import { defineSkill } from './utils'
 
+/** Skill for answering tabular-data questions with explicit metrics and caveats. */
 export const dataAnalyst: SkillDefinition = defineSkill(
   'data-analyst',
   'Tabular-aware data analyst. Inspects schema, picks metrics, writes queries, and explains results with explicit caveats.',

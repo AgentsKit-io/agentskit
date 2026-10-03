@@ -9,8 +9,10 @@
  * `mcp-devtools` subpath (added in a follow-up PR).
  */
 
+/** Lifecycle states reported by an inspected runtime session. */
 export type SessionStatus = 'idle' | 'running' | 'paused' | 'streaming' | 'error' | 'completed'
 
+/** Compact session metadata returned by a runtime inspector. */
 export interface SessionSummary {
   id: string
   status: SessionStatus
@@ -21,6 +23,7 @@ export interface SessionSummary {
   label?: string
 }
 
+/** Message metadata and content captured in a session. */
 export interface SessionMessage {
   id: string
   role: 'user' | 'assistant' | 'system' | 'tool'
@@ -30,6 +33,7 @@ export interface SessionMessage {
   toolCallIds?: string[]
 }
 
+/** Session summary with messages and optional usage or error details. */
 export interface SessionDetail extends SessionSummary {
   messages: SessionMessage[]
   /** Total tokens used so far, if the adapter reports them. */
@@ -40,6 +44,7 @@ export interface SessionDetail extends SessionSummary {
   errorMessage?: string
 }
 
+/** Tool metadata exposed by a runtime inspector. */
 export interface ToolSummary {
   name: string
   description?: string
@@ -47,11 +52,13 @@ export interface ToolSummary {
   requiresConfirmation: boolean
 }
 
+/** Skill metadata exposed by a runtime inspector. */
 export interface SkillSummary {
   name: string
   description?: string
 }
 
+/** Memory backend identity, entry count, and optional scope. */
 export interface MemorySummary {
   /** Stable id for the memory backend (e.g. 'localStorage', 'pgvector'). */
   backend: string
@@ -61,6 +68,7 @@ export interface MemorySummary {
   scope?: string
 }
 
+/** Result of advancing a session by one runtime step. */
 export interface StepResult {
   /** Step index after the step completed. */
   step: number
@@ -69,18 +77,21 @@ export interface StepResult {
   status: SessionStatus
 }
 
+/** Identifier and state of a requested session replay. */
 export interface ReplayHandle {
   replayId: string
   fromStep: number
   status: 'pending' | 'running' | 'completed' | 'error'
 }
 
+/** Name and optional metadata for an available evaluation. */
 export interface EvalSummary {
   name: string
   description?: string
   testCount?: number
 }
 
+/** Pass and failure counts and duration for an evaluation run. */
 export interface EvalResult {
   name: string
   passed: number

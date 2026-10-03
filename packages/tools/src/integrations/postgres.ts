@@ -9,11 +9,13 @@ import { ErrorCodes, ToolError, defineTool } from '@agentskit/core'
  *     statements and a configurable row cap.
  */
 
+/** Rows and optional count returned by the injected SQL executor. */
 export interface PostgresExecuteResult {
   rows: Array<Record<string, unknown>>
   rowCount: number
 }
 
+/** Executor, read-only policy, and row limit for PostgreSQL query tools. */
 export interface PostgresConfig {
   /** Your async runner. Must be parameterized-safe. */
   execute: (sql: string, params: unknown[]) => Promise<PostgresExecuteResult>
@@ -34,6 +36,10 @@ function firstVerb(sql: string): string {
   return (match?.[0] ?? '').toUpperCase()
 }
 
+/** Create a parameterized PostgreSQL query tool subject to the configured write policy.
+ *
+ * @param config SQL executor and query policy.
+ * @returns A PostgreSQL query tool. */
 export function postgresQuery(config: PostgresConfig) {
   const maxRows = Math.max(1, config.maxRows ?? 200)
   const extraDeny = new Set((config.denyStatements ?? []).map(s => s.toUpperCase()))
@@ -78,6 +84,13 @@ export function postgresQuery(config: PostgresConfig) {
   })
 }
 
+/** Return the single query tool for a PostgreSQL executor.
+ * @example
+ * const [queryTool] = postgres({ execute })
+
+ *
+ * @param config SQL executor and query policy.
+ * @returns The PostgreSQL query tool array. */
 export function postgres(config: PostgresConfig) {
   return [postgresQuery(config)]
 }

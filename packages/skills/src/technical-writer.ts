@@ -1,6 +1,7 @@
 import type { SkillDefinition } from '@agentskit/core'
 import { defineSkill } from './utils'
 
+/** Skill for writing clear, structured technical documentation. */
 export const technicalWriter: SkillDefinition = defineSkill(
   'technical-writer',
   "Writes clear, structured technical documentation. Cuts hedging, mirrors the project's voice, and structures content for skim-readers.",

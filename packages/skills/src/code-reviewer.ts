@@ -1,6 +1,7 @@
 import type { SkillDefinition } from '@agentskit/core'
 import { defineSkill } from './utils'
 
+/** Skill for reviewing code changes for correctness, security, performance, and clarity. */
 export const codeReviewer: SkillDefinition = defineSkill(
   'code-reviewer',
   'Rigorous code reviewer focused on correctness, security, performance, and readability.',
