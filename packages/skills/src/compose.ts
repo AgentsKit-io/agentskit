@@ -42,6 +42,15 @@ export function composeSkills(...skills: SkillDefinition[]): SkillDefinition {
   }
 
   const hooks = skills.filter(s => s.onActivate).map(s => s.onActivate!)
+  const activateAll = async () => {
+    const results = await Promise.all(hooks.map(h => h()))
+    const map = new Map<string, ToolDefinition>()
+    for (const r of results) {
+      for (const tool of r.tools ?? []) map.set(tool.name, tool)
+    }
+    const allTools = [...map.values()]
+    return { tools: allTools.length > 0 ? allTools : undefined }
+  }
 
   return {
     name: composeSkillName(names),
@@ -52,17 +61,6 @@ export function composeSkills(...skills: SkillDefinition[]): SkillDefinition {
     examples: examples.length > 0 ? examples : undefined,
     ...(temperature !== undefined ? { temperature } : {}),
     ...(metadata !== undefined ? { metadata } : {}),
-    onActivate:
-      hooks.length > 0
-        ? async () => {
-            const results = await Promise.all(hooks.map(h => h()))
-            const map = new Map<string, ToolDefinition>()
-            for (const r of results) {
-              for (const tool of r.tools ?? []) map.set(tool.name, tool)
-            }
-            const allTools = [...map.values()]
-            return { tools: allTools.length > 0 ? allTools : undefined }
-          }
-        : undefined,
+    onActivate: hooks.length > 0 ? activateAll : undefined,
   }
 }
