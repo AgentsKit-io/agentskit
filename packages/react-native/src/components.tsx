@@ -23,12 +23,21 @@ type Style = Record<string, unknown> | Array<Record<string, unknown>> | undefine
 // ChatContainer — ScrollView wrapper + children + auto-scroll to end.
 // ---------------------------------------------------------------------------
 
+/** Children and native scroll container settings for a chat layout. */
 export interface ChatContainerProps {
   children: ReactNode
   style?: Style
   testID?: string
 }
 
+/** Render chat content in an auto-scrolling React Native `ScrollView`.
+ * @param props The children and optional style and test identifier.
+ * @returns A scroll view that follows content growth.
+ * @example
+ * ```tsx
+ * <ChatContainer><Message message={message} /></ChatContainer>
+ * ```
+ */
 export function ChatContainer({ children, style, testID = 'ak-chat-container' }: ChatContainerProps) {
   const scrollRef = useRef<ScrollView>(null)
 
@@ -56,6 +65,7 @@ export function ChatContainer({ children, style, testID = 'ak-chat-container' }:
 // Message — message prop -> View + Text. Role/status via accessibilityLabel.
 // ---------------------------------------------------------------------------
 
+/** Message data and native content options for the message view. */
 export interface MessageProps {
   message: MessageType
   avatar?: ReactNode
@@ -65,6 +75,14 @@ export interface MessageProps {
   testID?: string
 }
 
+/** Render a message with its role and status exposed to accessibility tools.
+ * @param props The message and optional avatar, actions, and styles.
+ * @returns A native view containing the message content.
+ * @example
+ * ```tsx
+ * <Message message={message} />
+ * ```
+ */
 export function Message({ message, avatar, actions, style, contentStyle, testID = 'ak-message' }: MessageProps) {
   return (
     <View
@@ -84,6 +102,7 @@ export function Message({ message, avatar, actions, style, contentStyle, testID 
 // onSubmitEditing sends; disabled when empty or streaming.
 // ---------------------------------------------------------------------------
 
+/** Chat state and native input options for the message composer. */
 export interface InputBarProps {
   chat: ChatReturn
   placeholder?: string
@@ -93,6 +112,14 @@ export interface InputBarProps {
   testID?: string
 }
 
+/** Render a native input that sends non-empty messages on submit or press.
+ * @param props Chat state and optional placeholder, disabled state, and styles.
+ * @returns A native text input and send button.
+ * @example
+ * ```tsx
+ * <InputBar chat={chat} placeholder="Ask something…" />
+ * ```
+ */
 export function InputBar({
   chat,
   placeholder = 'Type a message...',
@@ -139,6 +166,7 @@ export function InputBar({
 // Markdown — content + streaming -> Text (no DOM renderer on RN).
 // ---------------------------------------------------------------------------
 
+/** Markdown text and status shown by the native text renderer. */
 export interface MarkdownProps {
   content: string
   streaming?: boolean
@@ -146,6 +174,10 @@ export interface MarkdownProps {
   testID?: string
 }
 
+/** Render Markdown source as React Native text.
+ * @param props Content, streaming status, and optional styles and test ID.
+ * @returns A native text element with a streaming accessibility label.
+ */
 export function Markdown({ content, streaming = false, style, testID = 'ak-markdown' }: MarkdownProps) {
   return (
     <Text
@@ -162,6 +194,7 @@ export function Markdown({ content, streaming = false, style, testID = 'ak-markd
 // CodeBlock — code + language + copyable -> View + Text + optional copy.
 // ---------------------------------------------------------------------------
 
+/** Code content, copy callback, and native display options. */
 export interface CodeBlockProps {
   code: string
   language?: string
@@ -171,6 +204,10 @@ export interface CodeBlockProps {
   testID?: string
 }
 
+/** Render code with an optional button that calls `onCopy`.
+ * @param props Code, optional language and copy settings, and display options.
+ * @returns A native view containing the code and optional copy action.
+ */
 export function CodeBlock({
   code,
   language,
@@ -208,14 +245,23 @@ export function CodeBlock({
 // ToolCallView — toolCall; useState expanded; Pressable toggle.
 // ---------------------------------------------------------------------------
 
+/** Tool call and display options for its native status view. */
 export interface ToolCallViewProps {
   toolCall: ToolCall
   style?: Style
   testID?: string
 }
 
+/** Render a tool call with a control for expanding its arguments and result.
+ * @param props The tool call and optional style and test identifier.
+ * @returns A native view showing the tool call and its expandable details.
+ */
 export function ToolCallView({ toolCall, style, testID = 'ak-tool-call' }: ToolCallViewProps) {
   const [expanded, setExpanded] = useState(false)
+  let result: ReactNode = null
+  if (toolCall.result) {
+    result = <Text testID="ak-tool-result">{toolCall.result}</Text>
+  }
 
   return (
     <View
@@ -234,7 +280,7 @@ export function ToolCallView({ toolCall, style, testID = 'ak-tool-call' }: ToolC
       {expanded ? (
         <View testID="ak-tool-details">
           <Text testID="ak-tool-args">{JSON.stringify(toolCall.args, null, 2)}</Text>
-          {toolCall.result ? <Text testID="ak-tool-result">{toolCall.result}</Text> : null}
+          {result}
         </View>
       ) : null}
     </View>
@@ -245,6 +291,7 @@ export function ToolCallView({ toolCall, style, testID = 'ak-tool-call' }: ToolC
 // ThinkingIndicator — visible + label -> null when !visible.
 // ---------------------------------------------------------------------------
 
+/** Visibility, label, and native display options for the thinking indicator. */
 export interface ThinkingIndicatorProps {
   visible: boolean
   label?: string
@@ -252,6 +299,10 @@ export interface ThinkingIndicatorProps {
   testID?: string
 }
 
+/** Render a thinking label when visible, or `null` otherwise.
+ * @param props Visibility, optional label, style, and test identifier.
+ * @returns The native indicator view, or `null` when hidden.
+ */
 export function ThinkingIndicator({
   visible,
   label = 'Thinking...',
@@ -272,6 +323,7 @@ export function ThinkingIndicator({
 // null unless status === 'requires_confirmation'.
 // ---------------------------------------------------------------------------
 
+/** Pending tool call, approval callbacks, and native display options. */
 export interface ToolConfirmationProps {
   toolCall: ToolCall
   onApprove: (toolCallId: string) => void
@@ -280,6 +332,10 @@ export interface ToolConfirmationProps {
   testID?: string
 }
 
+/** Render approve and deny actions for a call requiring confirmation.
+ * @param props The call, decision callbacks, style, and test identifier.
+ * @returns The native confirmation view, or `null` unless confirmation is required.
+ */
 export function ToolConfirmation({
   toolCall,
   onApprove,
