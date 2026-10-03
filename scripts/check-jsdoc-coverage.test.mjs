@@ -27,10 +27,10 @@ function tempDir() {
 }
 
 describe('public API JSDoc coverage', () => {
-  test('counts JSDoc on declarations reached through renamed re-exports', () => {
+  test('resolves extensionless re-exports to documented declarations', () => {
     const dir = tempDir()
     const entry = path.join(dir, 'index.d.ts')
-    writeFileSync(entry, "export { documented as publicName, undocumented } from './impl.js'\n")
+    writeFileSync(entry, "export { documented as publicName, undocumented } from './impl'\n")
     writeFileSync(path.join(dir, 'impl.d.ts'), [
       '/** Public operation. */',
       'export declare function documented(): void',
@@ -39,11 +39,54 @@ describe('public API JSDoc coverage', () => {
     ].join('\n'))
 
     const ts = loadTypeScript()
-    const program = createDeclarationProgram(ts, [entry])
+    const program = createDeclarationProgram(ts, [entry], {
+      module: ts.ModuleKind.ESNext,
+      moduleResolution: ts.ModuleResolutionKind.Bundler,
+      allowArbitraryExtensions: true,
+    })
     const checker = program.getTypeChecker()
     const sourceFile = program.getSourceFile(entry)
     assert.ok(sourceFile)
     assert.deepEqual(getDocumentedExportsFromSourceFile(ts, checker, sourceFile), ['publicName', 'undocumented'])
+  })
+
+  test('resolves Svelte component declarations for documented re-exports', () => {
+    const dir = tempDir()
+    const entry = path.join(dir, 'index.d.ts')
+    writeFileSync(entry, "export { default as ChatContainer } from './ChatContainer.svelte'\n")
+    writeFileSync(path.join(dir, 'ChatContainer.svelte.d.ts'), [
+      '/** A scrollable chat region. */',
+      'declare const ChatContainer: unknown',
+      'export default ChatContainer',
+    ].join('\n'))
+
+    const ts = loadTypeScript()
+    const program = createDeclarationProgram(ts, [entry], {
+      module: ts.ModuleKind.ESNext,
+      moduleResolution: ts.ModuleResolutionKind.Bundler,
+      allowArbitraryExtensions: true,
+    })
+    const checker = program.getTypeChecker()
+    const sourceFile = program.getSourceFile(entry)
+    assert.ok(sourceFile)
+    assert.deepEqual(getDocumentedExportsFromSourceFile(ts, checker, sourceFile), ['ChatContainer'])
+  })
+
+  test('counts JSDoc attached directly to a named export statement', () => {
+    const dir = tempDir()
+    const entry = path.join(dir, 'index.d.ts')
+    writeFileSync(entry, [
+      '/** Public operation documented at the package entrypoint. */',
+      "export { documented as publicName } from './impl.js'",
+    ].join('\n'))
+    writeFileSync(path.join(dir, 'impl.d.ts'), 'export declare function documented(): void\n')
+
+    const ts = loadTypeScript()
+    const program = createDeclarationProgram(ts, [entry])
+    const checker = program.getTypeChecker()
+    const sourceFile = program.getSourceFile(entry)
+    assert.ok(sourceFile)
+    assert.deepEqual(getDocumentedExportsFromSourceFile(ts, checker, sourceFile), ['publicName'])
   })
 
   test('uses public snapshot symbols and reports per-package totals', () => {

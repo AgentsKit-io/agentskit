@@ -578,7 +578,7 @@ export function getDocumentedExportsFromSourceFile(ts, checker, sourceFile) {
   if (!moduleSymbol) {
     throw new Error(`unable to resolve module symbol for ${sourceFile.fileName}`)
   }
-  return sortCopy(checker.getExportsOfModule(moduleSymbol)
+  const documented = new Set(checker.getExportsOfModule(moduleSymbol)
     .filter((symbol) => {
       let target = symbol
       if (symbol.flags & ts.SymbolFlags.Alias) {
@@ -594,6 +594,21 @@ export function getDocumentedExportsFromSourceFile(ts, checker, sourceFile) {
       return hasDocs(symbol) || hasDocs(target)
     })
     .map((symbol) => symbol.getName()))
+
+  for (const statement of sourceFile.statements) {
+    if (!ts.isExportDeclaration(statement) || !statement.exportClause) continue
+    if ((statement.jsDoc?.length ?? 0) === 0) continue
+
+    if (ts.isNamedExports(statement.exportClause)) {
+      for (const specifier of statement.exportClause.elements) {
+        documented.add(specifier.name.text)
+      }
+    } else if (ts.isNamespaceExport(statement.exportClause)) {
+      documented.add(statement.exportClause.name.text)
+    }
+  }
+
+  return sortCopy([...documented])
 }
 
 /**
@@ -723,6 +738,15 @@ export function buildPublicApiSnapshot(packages, io) {
       ? createDeclarationProgram(ts, allRoots)
       : null
   const checker = program ? program.getTypeChecker() : null
+  const documentationProgram =
+    allRoots.length > 0
+      ? createDeclarationProgram(ts, allRoots, {
+          module: ts.ModuleKind.ESNext,
+          moduleResolution: ts.ModuleResolutionKind.Bundler,
+          allowArbitraryExtensions: true,
+        })
+      : null
+  const documentationChecker = documentationProgram?.getTypeChecker() ?? null
 
   /** @type {Record<string, SnapshotPackage>} */
   const packagesOut = {}
@@ -754,20 +778,37 @@ export function buildPublicApiSnapshot(packages, io) {
       /** @type {Set<string>} */
       const documented = new Set()
 
-      if (item.absTargets.length > 0 && program && checker) {
+      if (
+        item.absTargets.length > 0 &&
+        program &&
+        checker &&
+        documentationProgram &&
+        documentationChecker
+      ) {
         /** @type {SnapshotSymbol[][]} */
         const lists = []
         for (const abs of item.absTargets) {
           const sourceFile = program.getSourceFile(abs)
+          const documentationSourceFile = documentationProgram.getSourceFile(abs)
           if (!sourceFile) {
             errors.push(
               `${item.packageName} ${item.subpath}: unreadable module source file ${abs}`,
             )
             continue
           }
+          if (!documentationSourceFile) {
+            errors.push(
+              `${item.packageName} ${item.subpath}: unreadable documentation declaration file ${abs}`,
+            )
+            continue
+          }
           try {
             lists.push(getExportsFromSourceFile(ts, checker, sourceFile))
-            for (const name of getDocumentedExportsFromSourceFile(ts, checker, sourceFile)) {
+            for (const name of getDocumentedExportsFromSourceFile(
+              ts,
+              documentationChecker,
+              documentationSourceFile,
+            )) {
               documented.add(name)
             }
           } catch (error) {
