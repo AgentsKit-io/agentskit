@@ -1,18 +1,5 @@
-/**
- * Create a readable Svelte chat store with the core controller's actions.
- * @param config The chat controller configuration.
- * @returns A state store with chat actions and a `destroy()` cleanup method.
- * @example
- * ```ts
- * import { onDestroy } from 'svelte'
- * import { createChatStore } from '@agentskit/svelte'
- * const chat = createChatStore(config)
- * onDestroy(chat.destroy)
- * ```
- */
 export { createChatStore } from './useChat'
 
-/** A readable chat state store with controller actions and cleanup. */
 export type { SvelteChatStore } from './useChat'
 
 /** A scrollable chat region that follows changes to its rendered content. */
