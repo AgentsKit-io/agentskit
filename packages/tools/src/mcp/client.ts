@@ -1,4 +1,4 @@
-import { ConfigError, ErrorCodes, ToolError } from '@agentskit/core'
+import { ConfigError, ErrorCodes, isRecord, ToolError } from '@agentskit/core'
 import type { ToolDefinition } from '@agentskit/core'
 import type {
   JsonRpcMessage,
@@ -303,10 +303,6 @@ export async function toolsFromMcpClient(
     })
   }
   return out
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === 'object' && !Array.isArray(value)
 }
 
 function isValidToolName(value: unknown): value is string {

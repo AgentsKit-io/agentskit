@@ -39,6 +39,7 @@ export const assertPositiveInteger = (
   return input as number
 }
 
+// Intentionally stricter than core: MCP validation accepts only plain records and rejects hostile prototypes.
 export const isRecord = (input: unknown): input is Record<string, unknown> => {
   if (input === null || typeof input !== 'object' || Array.isArray(input)) return false
   try {
