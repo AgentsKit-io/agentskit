@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-import { execFileSync } from 'node:child_process';
+import { runCommand } from '../packages/cross-platform/dist/index.js';
 
 const DEFAULT_RUNS = 30;
 const RUN_FIELDS = 'databaseId,attempt,createdAt,startedAt,updatedAt,conclusion,event,headBranch,headSha,url';
@@ -32,9 +32,12 @@ function parseArgs(argv) {
   return options;
 }
 
-function ghJson(args) {
-  const output = execFileSync('gh', args, { encoding: 'utf8', maxBuffer: 20 * 1024 * 1024 });
-  return JSON.parse(output);
+async function ghJson(args) {
+  const result = await runCommand('gh', args, { maxOutputBytes: 20 * 1024 * 1024 });
+  if (result.code !== 0) {
+    throw new Error(result.stderr.trim() || `gh ${args.join(' ')} exited with code ${result.code}`);
+  }
+  return JSON.parse(result.stdout);
 }
 
 function elapsedSeconds(start, end) {
@@ -60,9 +63,10 @@ function summarize(values) {
   };
 }
 
-function collectRuns(runs) {
-  return runs.map((run) => {
-    const detail = ghJson(['run', 'view', String(run.databaseId), '--json', 'jobs,createdAt,startedAt,updatedAt,conclusion,attempt']);
+async function collectRuns(runs) {
+  const collected = [];
+  for (const run of runs) {
+    const detail = await ghJson(['run', 'view', String(run.databaseId), '--json', 'jobs,createdAt,startedAt,updatedAt,conclusion,attempt']);
     const jobs = detail.jobs.map((job) => ({
       name: job.name,
       conclusion: job.conclusion,
@@ -78,7 +82,7 @@ function collectRuns(runs) {
       .filter(Boolean)
       .sort()[0] ?? null;
 
-    return {
+    collected.push({
       id: run.databaseId,
       attempt: detail.attempt ?? run.attempt ?? 1,
       createdAt: detail.createdAt ?? run.createdAt,
@@ -94,8 +98,9 @@ function collectRuns(runs) {
         jobs.map((job) => job.completedAt).filter(Boolean).sort().at(-1),
       ),
       jobs,
-    };
-  });
+    });
+  }
+  return collected;
 }
 
 function summarizeCohort(name, runs) {
@@ -179,11 +184,13 @@ try {
   }
 
   const queryRuns = (args) => ghJson(['run', 'list', ...args, '--workflow', 'ci.yml', '--status', 'completed', '--limit', String(options.runs), '--json', RUN_FIELDS]);
-  const mainRuns = queryRuns(['--branch', 'main']);
-  const prRuns = queryRuns(['--event', 'pull_request']);
+  const [mainRuns, prRuns] = await Promise.all([
+    queryRuns(['--branch', 'main']),
+    queryRuns(['--event', 'pull_request']),
+  ]);
   const reports = [
-    summarizeCohort('main', collectRuns(mainRuns)),
-    summarizeCohort('pull_request', collectRuns(prRuns)),
+    summarizeCohort('main', await collectRuns(mainRuns)),
+    summarizeCohort('pull_request', await collectRuns(prRuns)),
   ];
   const result = { workflow: 'ci.yml', sampledAt: new Date().toISOString(), requestedRunsPerCohort: options.runs, cohorts: reports };
 
