@@ -14,6 +14,7 @@ export const ChatRoot = defineComponent({
   },
 })
 
+/** Displays a message with optional avatar and action slots. */
 export const Message = defineComponent({
   name: 'AkMessage',
   props: { message: { type: Object as PropType<MessageType>, required: true } },
@@ -35,6 +36,7 @@ export const Message = defineComponent({
   },
 })
 
+/** Renders a chat input that submits non-empty text. */
 export const InputBar = defineComponent({
   name: 'AkInputBar',
   props: {
@@ -84,6 +86,7 @@ export const InputBar = defineComponent({
   },
 })
 
+/** Displays text content with an optional streaming state. */
 export const Markdown = defineComponent({
   name: 'AkMarkdown',
   props: {
@@ -100,6 +103,7 @@ export const Markdown = defineComponent({
   },
 })
 
+/** Displays code with an optional language label and copy button. */
 export const CodeBlock = defineComponent({
   name: 'AkCodeBlock',
   props: {
@@ -119,6 +123,7 @@ export const CodeBlock = defineComponent({
   },
 })
 
+/** Displays a tool call with expandable arguments and result. */
 export const ToolCallView = defineComponent({
   name: 'AkToolCallView',
   props: { toolCall: { type: Object as PropType<ToolCall>, required: true } },
@@ -148,6 +153,7 @@ export const ToolCallView = defineComponent({
   },
 })
 
+/** Displays a labeled status indicator when visible. */
 export const ThinkingIndicator = defineComponent({
   name: 'AkThinkingIndicator',
   props: {
@@ -169,6 +175,7 @@ export const ThinkingIndicator = defineComponent({
   },
 })
 
+/** Displays approval controls while a tool call requires confirmation. */
 export const ToolConfirmation = defineComponent({
   name: 'AkToolConfirmation',
   props: {
