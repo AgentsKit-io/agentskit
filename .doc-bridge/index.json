@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "a01f59289314224932ddde174180789b1a7b2557f580d0ea95e3b6a9a408fbb0",
+  "contentHash": "2f5cfbc38c36ee3a44d155e179b139e0cc4b5dca26dff2bc004672f777e14b90",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-03T00:16:12.701Z",
+  "generatedAt": "2026-10-03T00:44:12.410Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7383,7 +7383,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "9e0f35831d981743f7633acb012a29710540c63db8553ae43758c22c45281929"
+      "contentHash": "7df11ff084ac083c0b10e933791cb32c7fb927f4674cd36d717798917441af76"
     },
     {
       "id": "document:packages/templates/README.md",
@@ -37704,7 +37704,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "a1607a4478e19f62b1a114a82667e64928aef82e0ac73e5af85f1be6d10d3fb1",
+    "hash": "b6b911b4c0049aba5a6e1b75a1086ccb1ff074a26c2f0182fc30ca9527696447",
     "fileCount": 2505,
     "projectionVersion": 2
   },
@@ -37727,9 +37727,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "7575589f1c6e3b5b41c6a5ec026f61d9d27a1471dbf2405ee798b6220d529fce",
+    "contentHash": "44b2820f80dc169be6102e57caf487a170d574064be989da95ab4960f4c9cba8",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "33766084ed212c8a26456c34c8fded3bbed1223a4e598646f79881ebf9521d8a",
+    "snapshotHash": "06a89b46b2eb0838b74e4ddf3248a57b2e234ed6b0d52c5b5b073735625f48d5",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37761,7 +37761,7 @@
       ],
       "averageFieldLength": {
         "aliases": 3.0146400976006507,
-        "body": 60.989833265555106,
+        "body": 60.986986579910536,
         "headings": 4.015453436356243,
         "path": 7.622610817405449,
         "summary": 4.544936966246442,
@@ -80844,7 +80844,7 @@
           "path": "packages/templates/CONVENTIONS.md",
           "symbols": "",
           "summary": "Authoring toolkit for custom skills, tools, adapters, and on-disk package scaffolds. Consumers reach for this package when they want to publish their own AgentsKit assets with consistent blueprints and runtime validation.",
-          "body": "Conventions — @agentskit/templates Authoring toolkit for custom skills, tools, adapters, and on-disk package scaffolds. Consumers reach for this package when they want to publish their own AgentsKit assets with consistent blueprints and runtime validation. Scope - Validated factories — createToolTemplate , createSkillTemplate , createAdapterTemplate apply defaults and enforce contract shape - Scaffold — scaffold({ type, name, dir, description?, overwrite? }) writes a build-ready package skeleton for one of eight shapes; generated implementation stubs must be completed before publication - Validators — validate Template assert well-formed definitions before registration This package does not power agentskit init (the CLI has its own project templates). Use @agentskit/templates programmatically or from custom CLIs. Scaffold types (8) Type Generated contract --- --- tool ToolDefinition factory skill SkillDefinition constant adapter AdapterFactory factory memory-vector VectorMemory HTTP skeleton memory-chat ChatMemory + MemoryRecord ( serializeMessages ) flow FlowRegistry + flow.yaml embedder EmbedFn factory browser-adapter Browser AdapterFactory Security posture ( scaffold ) 1. Validate before any write — type allowlist, non-empty dir , unscoped kebab-case name , optional description without NUL / max 1000 chars. 2. Path containment — destination is resolve(dir, name) and must stay inside resolve(dir) . 3. No destination symlink follow — lstat rejects an explicitly supplied dir or destination root when that final component is a symlink, including under overwrite: true . 4. Collision-safe by default — existing destination fails unless overwrite: true . 5. Atomic promote — files land in a sibling staging directory, then rename into place. Overwrite uses backup + rename with rollback. 6. No partial trees — staging is removed on failure; returned paths are always final destinations (never staging paths). Name rules (unscoped only) name must match /^[a-z][a-z0-9] (-[a-z0-9]+) $/ — starts with a lowercase letter; alphanumeric segments separated by single hyphens. No @scope/ , slashes, dots, spaces, uppercase, or NUL. Scoped packages are intentionally unsupported in this beta line. A future beta minor will document a migration if scopes are added. Generated package.json - Never uses dependency ranges - Always @agentskit/core: ^1.0.0 - flow also gets @agentskit/runtime: ^0.10.0 - No invented deps (adapters/memory are not auto-added when unused) - engines.node: =20 , license: MIT , sideEffects: false , dual ESM/CJS/types Generated source rules - Named exports only in src/index.ts (tsup export default defineConfig is the sole technical exception in tsup.config.ts ) - tsup config uses clean: true - tsconfig does not force types: ['node'] - memory-chat uses the real MemoryRecord shape ( { version: 1, messages } ) Factories & validators - name / description / systemPrompt — trim non-empty - execute / createSource — must be functions - schema — plain non-null, non-array object (JSON Schema; type not required) - temperature — if provided, must be finite (no undocumented range clamp) - AdapterTemplateConfig.capabilities and SkillTemplateConfig.metadata pass through to the produced definitions - Legitimate base extensions are preserved via spread + selective overrides Adding a helper 1. Create src/<helper .ts with a single focused export. 2. Prefer pure functions. Avoid classes. 3. Document the happy path in JSDoc above the export. 4. If the helper is generic enough for @agentskit/core , put it there first. Testing - Unit-test every helper for at least one happy path and one error path. - Scaffold tests must cover collision, symlink, invalid config, matrix of all eight types, determinism, and typecheck of generated sources against workspace TypeScript (no network). - Schema validators must accept known-good definitions without changes. - Package-manifest / purity tests assert dual exports and named surface. Common pitfalls Pitfall What to do inst",
+          "body": "Conventions — @agentskit/templates Authoring toolkit for custom skills, tools, adapters, and on-disk package scaffolds. Consumers reach for this package when they want to publish their own AgentsKit assets with consistent blueprints and runtime validation. Scope - Validated factories — createToolTemplate , createSkillTemplate , createAdapterTemplate apply defaults and enforce contract shape - Scaffold — scaffold({ type, name, dir, description?, overwrite? }) writes a build-ready package skeleton for one of eight shapes; generated implementation stubs must be completed before publication - Validators — validate Template assert well-formed definitions before registration This package does not power agentskit init (the CLI has its own project templates). Use @agentskit/templates programmatically or from custom CLIs. Scaffold types (8) Type Generated contract --- --- tool ToolDefinition factory skill SkillDefinition constant adapter AdapterFactory factory memory-vector VectorMemory HTTP skeleton memory-chat ChatMemory + MemoryRecord ( serializeMessages ) flow FlowRegistry + flow.yaml embedder EmbedFn factory browser-adapter Browser AdapterFactory Security posture ( scaffold ) 1. Validate before any write — type allowlist, non-empty dir , unscoped kebab-case name , optional description without NUL / max 1000 chars. 2. Path containment — destination is resolve(dir, name) and must stay inside resolve(dir) . 3. No destination symlink follow — lstat rejects an explicitly supplied dir or destination root when that final component is a symlink, including under overwrite: true . 4. Collision-safe by default — existing destination fails unless overwrite: true . 5. Atomic promote — files land in a sibling staging directory, then rename into place. Overwrite uses backup + rename with rollback. 6. No partial trees — staging is removed on failure; returned paths are always final destinations (never staging paths). Name rules (unscoped only) name must match /^[a-z][a-z0-9] (-[a-z0-9]+) $/ — starts with a lowercase letter; alphanumeric segments separated by single hyphens. No @scope/ , slashes, dots, spaces, uppercase, or NUL. Scoped packages are intentionally unsupported in this beta line. A future beta minor will document a migration if scopes are added. Generated package.json - Never uses dependency ranges - Always @agentskit/core: ^1.0.0 - flow also gets @agentskit/runtime: ^0.10.0 - No invented deps (adapters/memory are not auto-added when unused) - engines.node: =20 , license: MIT , sideEffects: false , dual ESM/CJS/types Generated source rules - Named exports only in src/index.ts (tsup export default defineConfig is the sole technical exception in tsup.config.ts ) - tsup config uses clean: true - tsconfig does not force types: ['node'] - memory-chat uses the real MemoryRecord shape ( { version: 1, messages } ) The embedder, flow, and vector-memory blueprints return source strings; their HTTP reads do not run inside @agentskit/templates . Generated packages depend on @agentskit/core (and @agentskit/runtime for flows), not @agentskit/net . The NET checker matches in those strings are intentional baseline exceptions for this package. If a generated blueprint starts depending on @agentskit/net , add it to that scaffold's manifest in the same change. Factories & validators - name / description / systemPrompt — trim non-empty - execute / createSource — must be functions - schema — plain non-null, non-array object (JSON Schema; type not required) - temperature — if provided, must be finite (no undocumented range clamp) - AdapterTemplateConfig.capabilities and SkillTemplateConfig.metadata pass through to the produced definitions - Legitimate base extensions are preserved via spread + selective overrides Adding a helper 1. Create src/<helper .ts with a single focused export. 2. Prefer pure functions. Avoid classes. 3. Document the happy path in JSDoc above the export. 4. If the helper is generic enough for @agentskit/core , put it there first. Tes",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -80857,6 +80857,16 @@
             {
               "kind": "mentions",
               "id": "package:@agentskit/core",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/net",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "package:@agentskit/runtime",
               "confidence": "observed"
             },
             {
@@ -80911,7 +80921,7 @@
             }
           ]
         },
-        "contentHash": "9e0f35831d981743f7633acb012a29710540c63db8553ae43758c22c45281929",
+        "contentHash": "7df11ff084ac083c0b10e933791cb32c7fb927f4674cd36d717798917441af76",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -190974,7 +190984,7 @@
         },
         "graph": {
           "pagerank": 0.005326,
-          "inboundLinks": 17,
+          "inboundLinks": 18,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/net.mdx",
             "document:apps/docs-next/content/docs/reference/packages/net.mdx"
@@ -190994,6 +191004,7 @@
             "document:packages/net/CONVENTIONS.md",
             "document:packages/net/README.md",
             "document:packages/rag/CONVENTIONS.md",
+            "document:packages/templates/CONVENTIONS.md",
             "document:packages/tools/README.md"
           ],
           "packageId": "package:@agentskit/net",
@@ -191076,6 +191087,11 @@
             {
               "kind": "mentions",
               "id": "document:packages/rag/CONVENTIONS.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions",
+              "id": "document:packages/templates/CONVENTIONS.md",
               "confidence": "observed"
             },
             {
