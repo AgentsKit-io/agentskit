@@ -19,8 +19,14 @@ import type {
 export type { LangfuseConfig, LangfuseObserver } from './langfuse-types'
 
 /**
- * Langfuse observer factory. Construction is pure (no SDK import / I/O).
- * One Langfuse trace per agent run, inferred only by `agent:step` with step 1.
+ * Create a lazy-loading observer that maps each agent run to a Langfuse trace.
+ * Construction does not import the SDK or perform I/O; a run boundary is inferred from `agent:step` 1.
+ * @param config Optional Langfuse credentials, metadata, batching, and error callback.
+ * @returns An observer with `flush` and idempotent `shutdown` methods.
+ * @example
+ * ```ts
+ * const observer = langfuse({ publicKey: 'pk-lf-...', secretKey: 'sk-lf-...' })
+ * ```
  */
 export function langfuse(config: LangfuseConfig = {}): LangfuseObserver {
   validateConfig(config)

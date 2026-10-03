@@ -2,6 +2,7 @@ import { ErrorCodes, MemoryError } from '@agentskit/core'
 import type { RetrievedDocument, VectorDocument, VectorMemory } from '@agentskit/core'
 import { remoteJson, type RemoteHttpConfig } from './http'
 
+/** URL, optional API key, and collection settings for Chroma. */
 export interface ChromaConfig extends RemoteHttpConfig {
   /** Base URL of a running Chroma HTTP server. */
   url: string
@@ -33,6 +34,10 @@ async function call<T>(
   })
 }
 
+/** Creates a vector memory backed by Chroma's HTTP API.
+ * @param config Chroma URL, collection, credentials, and search defaults.
+ * @returns A vector memory backed by the configured collection.
+ */
 export function chroma(config: ChromaConfig): VectorMemory {
   const defaultTopK = Math.max(1, config.topK ?? 10)
   let urlEnd = config.url.length

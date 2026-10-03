@@ -6,6 +6,7 @@ import {
   type LifecycleObserver,
 } from './http-batch-sink'
 
+/** Axiom dataset credentials, endpoint, service label, and batch settings. */
 export interface AxiomSinkConfig extends HttpBatchOptions {
   /** Axiom API token. */
   token: string
@@ -17,6 +18,7 @@ export interface AxiomSinkConfig extends HttpBatchOptions {
   service?: string
 }
 
+/** Lifecycle observer returned by `axiomSink`. */
 export type AxiomSinkObserver = LifecycleObserver
 
 function endpointFor(config: AxiomSinkConfig): string {
@@ -45,8 +47,9 @@ function spanToEvent(
 }
 
 /**
- * Axiom sink. Batches span start/end events to a dataset ingest endpoint.
- * Errors are isolated.
+ * Create a batched HTTP sink that exports span start and end events to an Axiom dataset; failures are isolated.
+ * @param config Axiom credentials, dataset, and optional endpoint and batch settings.
+ * @returns A lifecycle observer with `flush` and `shutdown` methods.
  */
 export function axiomSink(config: AxiomSinkConfig): AxiomSinkObserver {
   return createHttpBatchSink({

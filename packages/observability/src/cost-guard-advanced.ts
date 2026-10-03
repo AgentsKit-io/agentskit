@@ -42,12 +42,7 @@ export {
 } from './cost-guard-alert-sinks'
 export type { WebhookAlertSinkOptions } from './cost-guard-alert-sinks'
 
-/**
- * Production-grade cost guard. Extends the multi-tenant guard with modes
- * (`warn` / `reject` / `kill`), rolling window caps, threshold + forecast
- * alerts, and pluggable sinks. Closes #787–#789.
- */
-
+/** Observer interface and per-tenant controls returned by `createAdvancedCostGuard`. */
 export interface AdvancedCostGuard extends Observer {
   setTenant: (tenant: string | undefined) => void
   costUsd: (tenant: string) => number
@@ -66,6 +61,16 @@ export interface AdvancedCostGuard extends Observer {
   tenants: () => string[]
 }
 
+/**
+ * Create a per-tenant cost guard with rolling caps and configurable enforcement.
+ * @param options Budgets, caps, pricing, enforcement mode, and alert sinks.
+ * @returns An observer with tenant state and control methods.
+ * @throws {ConfigError} When options are invalid or kill mode has no `disableRuntime` callback.
+ * @example
+ * ```ts
+ * const guard = createAdvancedCostGuard({ budgets: { acme: 10 }, mode: 'reject' })
+ * ```
+ */
 export function createAdvancedCostGuard(
   options: AdvancedCostGuardOptions,
 ): AdvancedCostGuard {
