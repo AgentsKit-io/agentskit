@@ -1,11 +1,9 @@
 import { describe, expect, it, vi } from 'vitest'
+import { jsonResponse, withTempDir } from '@agentskit/cross-platform/testing'
 import { createServer } from 'node:http'
 import { addAgent, fetchAgent, resolveSystemPrompt } from '../src/registry'
 import type { RegistryAgent } from '../src/registry'
 
-function jsonResponse(body: unknown): Response {
-  return new Response(JSON.stringify(body), { status: 200, headers: { 'content-type': 'application/json' } })
-}
 function textResponse(body: string): Response {
   return new Response(body, { status: 200 })
 }
@@ -171,12 +169,9 @@ describe('addAgent', () => {
   })
 
   it('rejects a symlinked destination ancestor before writing', async () => {
-    const { mkdtemp, symlink, rm } = await import('node:fs/promises')
+    const { symlink } = await import('node:fs/promises')
     const { join } = await import('node:path')
-    const { tmpdir } = await import('node:os')
-    const root = await mkdtemp(join(tmpdir(), 'agentskit-registry-link-'))
-    const outside = await mkdtemp(join(tmpdir(), 'agentskit-registry-outside-'))
-    try {
+    await withTempDir(async (root) => withTempDir(async (outside) => {
       await symlink(outside, join(root, 'agents'), 'dir')
       const hosted = { ...META, sources: [{ path: 'agent.ts', content: 'CODE' }] }
       const fetchImpl = vi.fn(async () => jsonResponse(hosted)) as unknown as typeof fetch
@@ -185,10 +180,7 @@ describe('addAgent', () => {
         outDir: join(root, 'agents'),
         writeFileImpl: async () => {},
       })).rejects.toThrow(/symlink ancestor/)
-    } finally {
-      await rm(root, { recursive: true, force: true })
-      await rm(outside, { recursive: true, force: true })
-    }
+    }, 'agentskit-registry-outside-'), 'agentskit-registry-link-')
   })
 })
 

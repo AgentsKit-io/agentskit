@@ -4,6 +4,7 @@ export default defineConfig({
   entry: {
     index: 'src/index.ts',
     pure: 'src/pure.ts',
+    testing: 'src/testing.ts',
     bin: 'src/bin.ts',
   },
   format: ['esm', 'cjs'],

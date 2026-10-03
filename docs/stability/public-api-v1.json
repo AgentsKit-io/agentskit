@@ -4355,6 +4355,45 @@
               ]
             }
           ]
+        },
+        "./testing": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "createFetchStub",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "FetchStubHandler",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "FetchStubResponses",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "jsonResponse",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "withTempDir",
+              "kinds": [
+                "value"
+              ]
+            }
+          ]
         }
       }
     },

@@ -1,10 +1,10 @@
-import { mkdtemp, readFile, writeFile } from 'node:fs/promises'
-import os from 'node:os'
+import { readFile, writeFile } from 'node:fs/promises'
 import path from 'node:path'
 import { afterEach, describe, expect, it } from 'vitest'
 import { renderChatHeader } from '../src/chat'
 import { writeStarterProject } from '../src/init'
 import { resolveChatProvider } from '../src/providers'
+import { withTempDir } from '@agentskit/cross-platform/testing'
 
 const originalEnv = { ...process.env }
 
@@ -12,13 +12,16 @@ afterEach(() => {
   process.env = { ...originalEnv }
 })
 
+function itWithTempDir(name: string, run: (directory: string) => Promise<void>): void {
+  it(name, () => withTempDir(run, 'agentskit-cli-'))
+}
+
 describe('@agentskit/cli', () => {
   it('renders a short chat header', () => {
     expect(renderChatHeader({ provider: 'demo', model: 'test' })).toContain('provider=demo')
   })
 
-  it('writes a react starter project', async () => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  itWithTempDir('writes a react starter project', async (tempDir) => {
     await writeStarterProject({ targetDir: tempDir, template: 'react' })
 
     const packageJson = await readFile(path.join(tempDir, 'package.json'), 'utf8')
@@ -30,8 +33,7 @@ describe('@agentskit/cli', () => {
     expect(mainFile).toContain('createRoot')
   })
 
-  it('refuses non-empty targets by default and atomically replaces generated files with force', async () => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  itWithTempDir('refuses non-empty targets by default and atomically replaces generated files with force', async (tempDir) => {
     await writeFile(path.join(tempDir, 'keep.txt'), 'keep me', 'utf8')
 
     await expect(writeStarterProject({ targetDir: tempDir, template: 'react' })).rejects.toThrow(
@@ -64,8 +66,7 @@ describe('@agentskit/cli', () => {
     expect(runtime.model).toBe('llama3.1')
   })
 
-  it('writes an ink starter with a demo adapter', async () => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  itWithTempDir('writes an ink starter with a demo adapter', async (tempDir) => {
     await writeStarterProject({ targetDir: tempDir, template: 'ink', provider: 'demo' })
 
     const file = await readFile(path.join(tempDir, 'src/index.tsx'), 'utf8')
@@ -74,8 +75,7 @@ describe('@agentskit/cli', () => {
     expect(file).not.toContain('@agentskit/adapters')
   })
 
-  it('writes a runtime starter wired to OpenAI', async () => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  itWithTempDir('writes a runtime starter wired to OpenAI', async (tempDir) => {
     await writeStarterProject({
       targetDir: tempDir,
       template: 'runtime',
@@ -95,8 +95,7 @@ describe('@agentskit/cli', () => {
     expect(env).toContain('OPENAI_API_KEY=')
   })
 
-  it('writes a runtime starter wired to Groq', async () => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  itWithTempDir('writes a runtime starter wired to Groq', async (tempDir) => {
     await writeStarterProject({ targetDir: tempDir, template: 'runtime', provider: 'groq' })
 
     const file = await readFile(path.join(tempDir, 'src/index.ts'), 'utf8')
@@ -107,8 +106,7 @@ describe('@agentskit/cli', () => {
     expect(env).toContain('GROQ_API_KEY=')
   })
 
-  it('writes a browser starter wired to OpenRouter', async () => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  itWithTempDir('writes a browser starter wired to OpenRouter', async (tempDir) => {
     await writeStarterProject({ targetDir: tempDir, template: 'react', provider: 'openrouter' })
 
     const app = await readFile(path.join(tempDir, 'src/App.tsx'), 'utf8')
@@ -123,8 +121,8 @@ describe('@agentskit/cli', () => {
     ['deepseek', 'deepseek', 'deepseek-chat', 'DEEPSEEK_API_KEY'],
     ['grok', 'grok', 'grok-4.20-0309-non-reasoning', 'XAI_API_KEY'],
     ['kimi', 'kimi', 'kimi-k2-0711-preview', 'KIMI_API_KEY'],
-  ] as const)('writes a runtime starter wired to %s', async (provider, importName, model, envKey) => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  ] as const)('writes a runtime starter wired to %s', async (provider, importName, model, envKey) =>
+    withTempDir(async (tempDir) => {
     await writeStarterProject({ targetDir: tempDir, template: 'runtime', provider })
 
     const file = await readFile(path.join(tempDir, 'src/index.ts'), 'utf8')
@@ -133,10 +131,10 @@ describe('@agentskit/cli', () => {
 
     const env = await readFile(path.join(tempDir, '.env.example'), 'utf8')
     expect(env).toContain(`${envKey}=`)
-  })
+    }, 'agentskit-cli-'),
+  )
 
-  it('writes a multi-agent starter with planner + researcher', async () => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  itWithTempDir('writes a multi-agent starter with planner + researcher', async (tempDir) => {
     await writeStarterProject({
       targetDir: tempDir,
       template: 'multi-agent',
@@ -152,8 +150,7 @@ describe('@agentskit/cli', () => {
     expect(pkg.dependencies['@agentskit/skills']).toBeTruthy()
   })
 
-  it('omits adapter package and shows demo adapter inline when provider is demo', async () => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  itWithTempDir('omits adapter package and shows demo adapter inline when provider is demo', async (tempDir) => {
     await writeStarterProject({ targetDir: tempDir, template: 'runtime', provider: 'demo' })
 
     const file = await readFile(path.join(tempDir, 'src/index.ts'), 'utf8')
@@ -163,8 +160,7 @@ describe('@agentskit/cli', () => {
     expect(pkg.dependencies['@agentskit/adapters']).toBeUndefined()
   })
 
-  it('writes a SvelteKit starter', async () => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  itWithTempDir('writes a SvelteKit starter', async (tempDir) => {
     await writeStarterProject({ targetDir: tempDir, template: 'sveltekit', provider: 'demo' })
 
     const pkg = JSON.parse(await readFile(path.join(tempDir, 'package.json'), 'utf8'))
@@ -179,8 +175,7 @@ describe('@agentskit/cli', () => {
     expect(page).toContain('useChat')
   })
 
-  it('writes a Nuxt starter', async () => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  itWithTempDir('writes a Nuxt starter', async (tempDir) => {
     await writeStarterProject({ targetDir: tempDir, template: 'nuxt', provider: 'openai' })
 
     const pkg = JSON.parse(await readFile(path.join(tempDir, 'package.json'), 'utf8'))
@@ -195,8 +190,7 @@ describe('@agentskit/cli', () => {
     expect(env).toContain('OPENAI_API_KEY=')
   })
 
-  it('writes a Vite+Ink starter with hot reload', async () => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  itWithTempDir('writes a Vite+Ink starter with hot reload', async (tempDir) => {
     await writeStarterProject({ targetDir: tempDir, template: 'vite-ink', provider: 'demo' })
 
     const pkg = JSON.parse(await readFile(path.join(tempDir, 'package.json'), 'utf8'))
@@ -204,8 +198,7 @@ describe('@agentskit/cli', () => {
     expect(pkg.dependencies['@agentskit/ink']).toBeTruthy()
   })
 
-  it('writes a Cloudflare Workers starter', async () => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  itWithTempDir('writes a Cloudflare Workers starter', async (tempDir) => {
     await writeStarterProject({ targetDir: tempDir, template: 'cloudflare-workers', provider: 'anthropic' })
 
     const pkg = JSON.parse(await readFile(path.join(tempDir, 'package.json'), 'utf8'))
@@ -221,8 +214,7 @@ describe('@agentskit/cli', () => {
     expect(worker).toContain("env.ANTHROPIC_API_KEY")
   })
 
-  it('writes a Bun server starter', async () => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  itWithTempDir('writes a Bun server starter', async (tempDir) => {
     await writeStarterProject({ targetDir: tempDir, template: 'bun', provider: 'demo' })
 
     const pkg = JSON.parse(await readFile(path.join(tempDir, 'package.json'), 'utf8'))
@@ -233,8 +225,7 @@ describe('@agentskit/cli', () => {
     expect(server).toContain('demoAdapter')
   })
 
-  it('writes a Next.js App Router starter with a streaming Route Handler', async () => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  itWithTempDir('writes a Next.js App Router starter with a streaming Route Handler', async (tempDir) => {
     await writeStarterProject({ targetDir: tempDir, template: 'nextjs', provider: 'demo' })
 
     const pkg = JSON.parse(await readFile(path.join(tempDir, 'package.json'), 'utf8'))
@@ -252,8 +243,7 @@ describe('@agentskit/cli', () => {
     expect(page).toContain('useChat')
   })
 
-  it('wires a real provider into the Next.js Route Handler', async () => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  itWithTempDir('wires a real provider into the Next.js Route Handler', async (tempDir) => {
     await writeStarterProject({ targetDir: tempDir, template: 'nextjs', provider: 'openai' })
 
     const route = await readFile(path.join(tempDir, 'app/api/chat/route.ts'), 'utf8')
@@ -262,8 +252,7 @@ describe('@agentskit/cli', () => {
     expect(route).not.toContain('demoAdapter')
   })
 
-  it('writes an Expo + auth starter', async () => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  itWithTempDir('writes an Expo + auth starter', async (tempDir) => {
     await writeStarterProject({ targetDir: tempDir, template: 'expo', provider: 'demo' })
 
     const pkg = JSON.parse(await readFile(path.join(tempDir, 'package.json'), 'utf8'))
@@ -279,8 +268,7 @@ describe('@agentskit/cli', () => {
     expect(screen).toContain('demoAdapter')
   })
 
-  it('writes a Deno Deploy starter', async () => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  itWithTempDir('writes a Deno Deploy starter', async (tempDir) => {
     await writeStarterProject({ targetDir: tempDir, template: 'deno-deploy', provider: 'openai' })
 
     const denoConfig = JSON.parse(await readFile(path.join(tempDir, 'deno.json'), 'utf8'))
@@ -293,8 +281,7 @@ describe('@agentskit/cli', () => {
     expect(main).toContain("import { openai } from 'npm:@agentskit/adapters'")
   })
 
-  it('writes an Angular standalone starter', async () => {
-    const tempDir = await mkdtemp(path.join(os.tmpdir(), 'agentskit-cli-'))
+  itWithTempDir('writes an Angular standalone starter', async (tempDir) => {
     await writeStarterProject({ targetDir: tempDir, template: 'angular', provider: 'demo' })
 
     const pkg = JSON.parse(await readFile(path.join(tempDir, 'package.json'), 'utf8'))
