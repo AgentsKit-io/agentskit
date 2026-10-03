@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest'
+import { createFetchStub } from '@agentskit/cross-platform/testing'
 import {
   fetchManifest,
   fetchPortFiles,
@@ -6,21 +7,11 @@ import {
   resolveIdentifier,
   sha256Hex,
   verifyChecksums,
-  type FetchLike,
 } from '../src/components/fetch'
 import { IntegrityError } from '../src/components/install'
 import type { ComponentPort, RegistryComponent } from '../src/components/types'
 
 const registries = { default: 'https://registry.agentskit.io', acme: 'https://acme.internal/ak' }
-
-/** Fake FetchLike from a url → body map (missing url → 404). */
-function fakeFetch(map: Record<string, string>): FetchLike {
-  return async (url) => {
-    const body = map[url]
-    if (body == null) return { ok: false, status: 404, text: async () => 'not found' }
-    return { ok: true, status: 200, text: async () => body }
-  }
-}
 
 function makePort(files: ComponentPort['files']): ComponentPort {
   return {
@@ -111,24 +102,24 @@ describe('fetchManifest', () => {
   const url = `${base}/r/docs-chat.json`
 
   it('fetches, parses, and version-gates', async () => {
-    const fetchImpl = fakeFetch({ [url]: JSON.stringify(manifest()) })
+    const fetchImpl = createFetchStub({ [url]: JSON.stringify(manifest()) })
     const { ref, component } = await fetchManifest('docs-chat', { fetchImpl, config: { registries } })
     expect(ref.itemId).toBe('docs-chat')
     expect(component.kind).toBe('component')
   })
 
   it('rejects a non-component, a too-new schema, and a 404', async () => {
-    const agent = fakeFetch({ [url]: JSON.stringify({ kind: 'agent', schemaVersion: 1 }) })
+    const agent = createFetchStub({ [url]: JSON.stringify({ kind: 'agent', schemaVersion: 1 }) })
     await expect(fetchManifest('docs-chat', { fetchImpl: agent, config: { registries } })).rejects.toThrow(IntegrityError)
 
-    const future = fakeFetch({ [url]: JSON.stringify(manifest({ schemaVersion: 99 })) })
+    const future = createFetchStub({ [url]: JSON.stringify(manifest({ schemaVersion: 99 })) })
     await expect(fetchManifest('docs-chat', { fetchImpl: future, config: { registries } })).rejects.toThrow(/newer CLI/)
 
-    await expect(fetchManifest('docs-chat', { fetchImpl: fakeFetch({}), config: { registries } })).rejects.toThrow(IntegrityError)
+    await expect(fetchManifest('docs-chat', { fetchImpl: createFetchStub({}), config: { registries } })).rejects.toThrow(IntegrityError)
   })
 
   it('enforces the signature seam when provided', async () => {
-    const fetchImpl = fakeFetch({ [url]: JSON.stringify(manifest()), [`${url}.minisig`]: 'SIG' })
+    const fetchImpl = createFetchStub({ [url]: JSON.stringify(manifest()), [`${url}.minisig`]: 'SIG' })
     await expect(
       fetchManifest('docs-chat', { fetchImpl, config: { registries }, signatureVerifier: async () => false }),
     ).rejects.toThrow(/signature verification failed/)
@@ -145,7 +136,7 @@ describe('fetchPortFiles', () => {
   const ref = { base: 'https://registry.agentskit.io', itemId: 'docs-chat' }
 
   it('uses inline content, fetches the rest, and verifies every checksum', async () => {
-    const fetchImpl = fakeFetch({ [`${ref.base}/r/docs-chat/widget.tsx`]: 'WIDGET' })
+    const fetchImpl = createFetchStub({ [`${ref.base}/r/docs-chat/widget.tsx`]: 'WIDGET' })
     const port = makePort([
       { path: 'lib.ts', type: 'registry:lib', sha256: sha256Hex('INLINE'), content: 'INLINE' },
       { path: 'widget.tsx', type: 'registry:component', sha256: sha256Hex('WIDGET') },
@@ -158,7 +149,7 @@ describe('fetchPortFiles', () => {
   })
 
   it('aborts the whole set on a tampered file', async () => {
-    const fetchImpl = fakeFetch({ [`${ref.base}/r/docs-chat/widget.tsx`]: 'TAMPERED' })
+    const fetchImpl = createFetchStub({ [`${ref.base}/r/docs-chat/widget.tsx`]: 'TAMPERED' })
     const port = makePort([{ path: 'widget.tsx', type: 'registry:component', sha256: sha256Hex('ORIGINAL') }])
     await expect(fetchPortFiles(ref, port, { fetchImpl })).rejects.toThrow(IntegrityError)
   })

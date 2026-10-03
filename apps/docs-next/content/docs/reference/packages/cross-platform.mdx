@@ -61,6 +61,13 @@ console.log(samePath('C:\\Repo\\src', 'c:/repo/src/')) // true
 | `text.split('\n')` | `splitLines(text)` |
 | rename/rm retry loops | `renamePath`, `removePath`, `writeFileAtomic` |
 
+## Testing helpers
+
+`@agentskit/cross-platform/testing` exports framework-agnostic helpers for
+shared test setup: `createFetchStub` routes URL requests to a handler or
+response map, `jsonResponse` creates a JSON `Response`, and `withTempDir`
+cleans up its temporary directory after the callback completes.
+
 ## Runtimes
 
 One native adapter per runtime: `node:child_process` on Node, `Bun.spawn` on Bun, `Deno.Command` on Deno. stdout and stderr are web `ReadableStream`s everywhere. On Deno, a missing `--allow-*` flag raises `AK_PLATFORM_PERMISSION_DENIED` naming the flag.

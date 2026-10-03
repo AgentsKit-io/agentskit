@@ -56,6 +56,12 @@ Options: `cwd`, `env`, `input` (written to stdin, then closed), `stdin`/`stdout`
 
 - `removePath` (rm -rf with retries), `renamePath` (graceful-fs retries on Windows locks), `writeFileAtomic` (temp file on the same volume, then rename), `createSymlink` (junction/copy fallback without Windows symlink privilege), `copyPath`, `setFileMode` (no-op on Windows; returns false).
 
+### Testing helpers
+
+Import `createFetchStub`, `jsonResponse`, and `withTempDir` from
+`@agentskit/cross-platform/testing`. They have no test-runner dependency;
+`withTempDir` uses this package's OS temp-directory and retrying cleanup helpers.
+
 ### Runtime and errors
 
 - `getRuntimeInfo()` → `{ runtime, os, platform, isServer }`; `isWindows`, `isMacOS`, `isLinux`, `isBun`, `isDeno` (std-env).

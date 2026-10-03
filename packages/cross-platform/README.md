@@ -72,6 +72,12 @@ console.log(toPosix('C:\\repo\\src\\index.ts'))
 - **Deno permissions**: a missing `--allow-*` flag raises `AK_PLATFORM_PERMISSION_DENIED` naming the flag. It never prompts.
 - **Built on**: `cross-spawn` (Windows command resolution and cmd.exe escaping), `tree-kill`, `pathe`, `std-env`, `graceful-fs`, `which`.
 
+## Test helpers
+
+Import `createFetchStub`, `jsonResponse`, and `withTempDir` from
+`@agentskit/cross-platform/testing`. The subpath has no test-runner dependency;
+`withTempDir` uses this package's OS temp-directory lookup and retrying cleanup.
+
 ## Guardrail
 
 ```bash

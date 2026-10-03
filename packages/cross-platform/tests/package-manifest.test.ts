@@ -7,7 +7,7 @@ describe('@agentskit/cross-platform packaging contract', () => {
     const manifest = JSON.parse(await readFile(join(process.cwd(), 'package.json'), 'utf8'))
     expect(manifest.sideEffects).toBe(false)
     expect(manifest.agentskit.stability).toBe('beta')
-    expect(Object.keys(manifest.exports)).toEqual(['.', './pure'])
+    expect(Object.keys(manifest.exports)).toEqual(['.', './pure', './testing'])
     expect(manifest.exports['./pure'].browser).toBe('./dist/pure.js')
     expect(manifest.bin['agentskit-cross-platform']).toBe('./dist/bin.js')
     expect(manifest.engines.node).toBe('>=20.19')

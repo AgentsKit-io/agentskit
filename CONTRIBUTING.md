@@ -108,6 +108,12 @@ pnpm --filter @agentskit/core test            # run one package's tests
 pnpm --filter @agentskit/core test:coverage   # with coverage report
 ```
 
+Use the shared, framework-agnostic helpers from `@agentskit/cross-platform/testing`
+for fetch stubs, JSON responses, and temporary directories. When you touch an
+older test that defines one of these helpers locally, migrate it to the shared
+surface in that change. Avoid broad test rewrites; untouched tests can move in
+later slices.
+
 ### 4. Type-check, gates, and bundle-check
 
 ```bash
