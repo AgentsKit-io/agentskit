@@ -129,8 +129,8 @@ export const ToolCallView = defineComponent({
   props: { toolCall: { type: Object as PropType<ToolCall>, required: true } },
   setup(props) {
     const expanded = ref(false)
-    return () =>
-      h('div', { 'data-ak-tool-call': '', 'data-ak-tool-status': props.toolCall.status }, [
+    return () => {
+      const children = [
         h(
           'button',
           {
@@ -143,13 +143,20 @@ export const ToolCallView = defineComponent({
           },
           props.toolCall.name,
         ),
-        expanded.value
-          ? h('div', { 'data-ak-tool-details': '' }, [
-              h('pre', { 'data-ak-tool-args': '' }, JSON.stringify(props.toolCall.args, null, 2)),
-              props.toolCall.result ? h('div', { 'data-ak-tool-result': '' }, props.toolCall.result) : null,
-            ])
-          : null,
-      ])
+      ]
+
+      if (expanded.value) {
+        const details = [
+          h('pre', { 'data-ak-tool-args': '' }, JSON.stringify(props.toolCall.args, null, 2)),
+        ]
+        if (props.toolCall.result) {
+          details.push(h('div', { 'data-ak-tool-result': '' }, props.toolCall.result))
+        }
+        children.push(h('div', { 'data-ak-tool-details': '' }, details))
+      }
+
+      return h('div', { 'data-ak-tool-call': '', 'data-ak-tool-status': props.toolCall.status }, children)
+    }
   },
 })
 
