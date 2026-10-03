@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "d987d9240e6748f18f56845480dd4b2dfe828a62295065b83f37704c97d8b4a8",
+  "contentHash": "56da13f808f4a63e5793d9d04a6d47e5f9df169831d198029391aae890f1df97",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-03T00:11:04.105Z",
+  "generatedAt": "2026-10-03T00:35:11.568Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -14214,7 +14214,7 @@
         "ts",
         "cli"
       ],
-      "contentHash": "858ddb82892a10b8ba37f553a11dec190d506c8e57ae7af8b70f9b54f8d2c929"
+      "contentHash": "ed9d621f40ba8495f415d8bf806c26a521cc58cd662985413f13636659d59410"
     },
     {
       "id": "module:packages/adapters/src/cli/index.ts",
@@ -14283,7 +14283,7 @@
         "ts",
         "cli"
       ],
-      "contentHash": "a71bfdf846e91790f4ff1e58850405ff1272f2736da6163f4d3779341391c923"
+      "contentHash": "6337382fc624c798c389560ee3dc1a06b1b31e7f5f0c991c8dea78fae8fba66a"
     },
     {
       "id": "module:packages/adapters/src/cli/manifests.ts",
@@ -14308,7 +14308,7 @@
         "ts",
         "cli"
       ],
-      "contentHash": "7e5da81b8573549e5a68539a1304b3a787cf95a6e5b1ece869d8f0b41e1fa43c"
+      "contentHash": "73d7fb6bb8b95166474d55896c86e6738f26a7a1d7cef78e018d5210aacf3a37"
     },
     {
       "id": "module:packages/adapters/src/cli/process.ts",
@@ -37704,7 +37704,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "47d73571ae7159cbecbcf65fab0a1ad466d5dedabcaed84d006d44b38615f2ce",
+    "hash": "dedd9065005e2723d5fd0540a0cb2b7d038c387a206ce463d7d13d06ceacf1c6",
     "fileCount": 2505,
     "projectionVersion": 2
   },
@@ -37727,9 +37727,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "2ca90b2e70e03994c0d446bdc4c504846d1fa982a5c0801d5527a637c7f49e1d",
+    "contentHash": "55c914d4bd93b091a856c48063374c5e53c51ea2856c33468c9b08e79aa5eaa0",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "c84404e997f9592bf04b612561619c3d4490038620300cc68c04aeae67e98d1a",
+    "snapshotHash": "4521f41014867fb7a09f0b11c8ff58c83448a83a48f5bc71b0a82a503aa747ae",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -102960,7 +102960,7 @@
             }
           ]
         },
-        "contentHash": "858ddb82892a10b8ba37f553a11dec190d506c8e57ae7af8b70f9b54f8d2c929",
+        "contentHash": "ed9d621f40ba8495f415d8bf806c26a521cc58cd662985413f13636659d59410",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -103171,7 +103171,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "a71bfdf846e91790f4ff1e58850405ff1272f2736da6163f4d3779341391c923",
+        "contentHash": "6337382fc624c798c389560ee3dc1a06b1b31e7f5f0c991c8dea78fae8fba66a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -103258,7 +103258,7 @@
             }
           ]
         },
-        "contentHash": "7e5da81b8573549e5a68539a1304b3a787cf95a6e5b1ece869d8f0b41e1fa43c",
+        "contentHash": "73d7fb6bb8b95166474d55896c86e6738f26a7a1d7cef78e018d5210aacf3a37",
         "provenance": "observed",
         "confidence": "observed"
       },
