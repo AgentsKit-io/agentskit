@@ -2,6 +2,9 @@ import { AdapterError, ConfigError, ErrorCodes } from '@agentskit/core'
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
 import { isAbortError } from './stream-errors'
 
+/**
+ * Configuration options for the fallback adapter.
+ */
 export interface FallbackOptions {
   /**
    * Predicate deciding whether an error from a given adapter should
@@ -12,6 +15,9 @@ export interface FallbackOptions {
   onFallback?: (from: { id: string; index: number; error: Error }) => void
 }
 
+/**
+ * A candidate used by fallback adapter.
+ */
 export interface FallbackCandidate {
   id: string
   adapter: AdapterFactory

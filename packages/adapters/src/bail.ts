@@ -1,6 +1,9 @@
 import type { AdapterFactory } from '@agentskit/core'
 import { createOpenAICompatibleAdapter, type OpenAICompatibleConfig } from './openai-compatible'
 
+/**
+ * Configuration options for the bail adapter.
+ */
 export interface BailConfig extends OpenAICompatibleConfig {}
 
 const BAIL_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
@@ -32,6 +35,11 @@ export function bail(config: Partial<BailConfig> & { apiKey: string }): AdapterF
   }
 }
 
+/**
+ * Creates an adapter that fails with a configured error.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ */
 export const bailAdapter = bail
 /** Alias matching Alibaba's product naming. */
 export const qwen = bail
