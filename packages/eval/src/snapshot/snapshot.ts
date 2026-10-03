@@ -1,18 +1,22 @@
 import { ConfigError, ErrorCodes, RuntimeError } from '@agentskit/core'
 
+/** Comparison method used to match actual prompt text against a snapshot. */
 export type SnapshotMode =
   | { kind: 'exact' }
   | { kind: 'normalized' }
   | { kind: 'similarity'; threshold: number; embed?: EmbedFn }
 
+/** Function that maps text to an embedding vector for similarity comparison. */
 export type EmbedFn = (text: string) => Promise<number[]> | number[]
 
+/** Options for comparing or updating a file-backed prompt snapshot. */
 export interface SnapshotOptions {
   mode?: SnapshotMode
   /** Override via env var. Defaults to process.env.UPDATE_SNAPSHOTS === '1'. */
   update?: boolean
 }
 
+/** Match status, reason, and text or similarity values from a snapshot comparison. */
 export interface SnapshotResult {
   matched: boolean
   reason: string
@@ -21,6 +25,11 @@ export interface SnapshotResult {
   actual: string
 }
 
+/** Lowercase text, replace punctuation and symbols with spaces, and collapse whitespace.
+ *
+ * @param s Text to normalize.
+ * @returns Normalized text with leading and trailing whitespace removed.
+ */
 export function normalize(s: string): string {
   return s
     .toLowerCase()
@@ -29,10 +38,21 @@ export function normalize(s: string): string {
     .trim()
 }
 
+/** Split normalized text into non-empty tokens.
+ *
+ * @param s Text to tokenize.
+ * @returns Normalized tokens in their original order.
+ */
 export function tokenize(s: string): string[] {
   return normalize(s).split(' ').filter(Boolean)
 }
 
+/** Measure token overlap between two strings using the Jaccard coefficient.
+ *
+ * @param a First text value.
+ * @param b Second text value.
+ * @returns Intersection-over-union of their normalized token sets, or 1 when both are empty.
+ */
 export function jaccard(a: string, b: string): number {
   const setA = new Set(tokenize(a))
   const setB = new Set(tokenize(b))
@@ -43,6 +63,12 @@ export function jaccard(a: string, b: string): number {
   return union === 0 ? 0 : inter / union
 }
 
+/** Measure the cosine similarity between two vectors.
+ *
+ * @param a First vector.
+ * @param b Second vector.
+ * @returns Cosine similarity, or 0 when dimensions differ, vectors are empty, or either magnitude is zero.
+ */
 export function cosine(a: number[], b: number[]): number {
   if (a.length !== b.length || a.length === 0) return 0
   let dot = 0
@@ -88,6 +114,18 @@ function assertEmbeddingVector(value: unknown, label: string): number[] {
   return value as number[]
 }
 
+/** Compare prompt text exactly, after normalization, or by token or embedding similarity.
+ *
+ * @param actual Prompt text produced by the current run.
+ * @param expected Stored or expected prompt text.
+ * @param mode Comparison mode; defaults to exact string equality.
+ * @returns Whether the prompts matched and the comparison reason and values.
+ * @throws ConfigError for an invalid similarity threshold; RuntimeError for invalid embeddings or non-finite similarity.
+ * @example
+ * ```ts
+ * const result = await comparePrompt(actualPrompt, savedPrompt, { kind: 'normalized' })
+ * ```
+ */
 export async function comparePrompt(
   actual: string,
   expected: string,
