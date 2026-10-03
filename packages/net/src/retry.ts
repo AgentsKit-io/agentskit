@@ -3,10 +3,16 @@ import { invalidInput, isAbortError } from './errors'
 /** Statuses that are safe to retry: the server did not (fully) handle the request. */
 export const RETRYABLE_STATUSES: readonly number[] = [408, 425, 429, 500, 502, 503, 504]
 
+/** Check whether an HTTP status is in {@link RETRYABLE_STATUSES}.
+ *
+ * @param status HTTP response status code.
+ * @returns Whether the status is configured as retryable.
+ */
 export function isRetryableStatus(status: number): boolean {
   return RETRYABLE_STATUSES.includes(status)
 }
 
+/** Options for the exponential delay used between retries. */
 export interface BackoffOptions {
   /** Delay before the first retry. Default 250 ms. */
   minDelayMs?: number
@@ -40,12 +46,14 @@ export function parseRetryAfter(value: string | null | undefined, now: number = 
   return Math.max(0, date - now)
 }
 
+/** Context passed to each invocation of a retry callback. */
 export interface RetryContext {
   /** 1-based attempt number that is about to run. */
   attempt: number
   signal?: AbortSignal
 }
 
+/** Retry count, delay, cancellation, and callback settings for {@link retry}. */
 export interface RetryOptions extends BackoffOptions {
   /** Retries after the first attempt. Default 3. */
   retries?: number

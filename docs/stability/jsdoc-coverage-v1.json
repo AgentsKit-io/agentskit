@@ -655,21 +655,7 @@
       "./web-storage::WebStorageMemoryMigration",
       "./web-storage::WebStorageMemoryOptions"
     ],
-    "@agentskit/net": [
-      ".::AssertPublicUrlOptions",
-      ".::BackoffOptions",
-      ".::FetchWithRetryOptions",
-      ".::isRetryableStatus",
-      ".::LookupFn",
-      ".::NetError",
-      ".::NetErrorCode",
-      ".::NetErrorCodes",
-      ".::ParseSSEOptions",
-      ".::ReadBodyOptions",
-      ".::RetryContext",
-      ".::RetryOptions",
-      ".::SSEEvent"
-    ],
+    "@agentskit/net": [],
     "@agentskit/observability": [
       ".::AdvancedCostGuardOptions",
       ".::AppendAuditInput",
