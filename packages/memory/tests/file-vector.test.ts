@@ -27,7 +27,7 @@ describe('fileVectorMemory with custom VectorStore', () => {
       async query() { return stored.map(d => ({ id: d.id, score: 1, metadata: d.metadata })) },
       async delete(ids) { stored = stored.filter(d => !ids.includes(d.id)) },
     }
-    const mem = fileVectorMemory({ path: '/tmp/unused', store: customStore })
+    const mem = fileVectorMemory({ path: join(tmpdir(), 'unused'), store: customStore })
     await mem.store([{ ...doc1, metadata: { _id: 'spoof', content: 'spoofed' } }])
     const result = await mem.search(doc1.embedding)
     expect(result[0]).toMatchObject({ id: doc1.id, content: doc1.content })
@@ -47,7 +47,7 @@ describe('fileVectorMemory with custom VectorStore', () => {
       },
     }
 
-    const mem = fileVectorMemory({ path: '/tmp/unused', store: customStore })
+    const mem = fileVectorMemory({ path: join(tmpdir(), 'unused'), store: customStore })
 
     await mem.store([doc1])
     expect(stored).toHaveLength(1)
@@ -76,7 +76,7 @@ describe('fileVectorMemory with custom VectorStore', () => {
       async delete() {},
     }
 
-    const mem = fileVectorMemory({ path: '/tmp/unused', store: customStore })
+    const mem = fileVectorMemory({ path: join(tmpdir(), 'unused'), store: customStore })
     const results = await mem.search([0.1], { topK: 2 })
     expect(results).toHaveLength(2)
   })
@@ -93,7 +93,7 @@ describe('fileVectorMemory with custom VectorStore', () => {
       async delete() {},
     }
 
-    const mem = fileVectorMemory({ path: '/tmp/unused', store: customStore })
+    const mem = fileVectorMemory({ path: join(tmpdir(), 'unused'), store: customStore })
     const results = await mem.search([0.1], { threshold: 0.5 })
     expect(results).toHaveLength(1)
     expect(results[0].id).toBe('a')
