@@ -125,3 +125,18 @@ this deterministic gate.
 3. Run `reconcile` and classify each finding as stale, missing, conflicting, or unsupported.
 4. Update the smallest authoritative source, then regenerate derived artifacts.
 5. Re-run the affected package checks and `pnpm docs:bridge:gate`.
+
+## Generated index in CI and on main
+
+Pull request checks regenerate `.doc-bridge/index.json`,
+`.doc-bridge/capabilities.json`, and the derived `llms.txt` files in the CI
+checkout before running documentation gates. Routine pull requests do not need
+to commit these repository-wide artifacts; the gates use the regenerated copy
+for the current source tree. The local pre-push hook does the same temporarily
+when the committed outputs are untouched, then restores them after its checks.
+
+When a change reaches `main`, the Doc Bridge index workflow regenerates those
+artifacts and opens or updates a normal automation pull request when their
+content changes. That pull request runs the ordinary required checks and needs
+the usual review before its artifacts land on `main`. Release versioning still
+regenerates the index as part of `pnpm release:version`.
