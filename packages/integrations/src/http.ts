@@ -12,6 +12,7 @@ import { composeTimeoutSignal } from './http-timeout'
 export { readResponseBytes, readResponseText } from './http-body'
 export { composeTimeoutSignal } from './http-timeout'
 
+/** Configuration for an authenticated, origin-confined integration HTTP client. */
 export interface HttpToolOptions {
   baseUrl?: string
   /** Header bag merged into every request (auth, user-agent, etc.). */
@@ -32,6 +33,7 @@ export interface HttpToolOptions {
   retry?: RetryPolicy
 }
 
+/** Retry limits and delays for retryable integration HTTP requests. */
 export interface RetryPolicy {
   /** Total attempts, including the first request. Defaults to 1; valid range is 1–100. */
   maxAttempts?: number
@@ -43,10 +45,12 @@ export interface RetryPolicy {
   methods?: RetryableHttpMethod[]
 }
 
+/** HTTP methods for which the integration client can retry requests. */
 export type RetryableHttpMethod = NonNullable<HttpJsonRequest['method']>
 
 const MAX_TIMEOUT_MS = 2_147_483_647
 
+/** Request options accepted by `httpJson` and a bound integration client. */
 export interface HttpJsonRequest {
   /** HTTP method. Defaults to GET. */
   method?: 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE'

@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { openaiImagesActions } from './actions'
 
+/** Descriptor for the OpenAI Images service integration. */
 export const openaiImagesIntegration = defineIntegration({
   name: 'openai-images',
   displayName: 'OpenAI Images',

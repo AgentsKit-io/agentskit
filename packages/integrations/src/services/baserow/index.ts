@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { baserowActions } from './actions'
 
+/** Descriptor for the Baserow service integration. */
 export const baserowIntegration = defineIntegration({
   name: 'baserow',
   displayName: 'Baserow',

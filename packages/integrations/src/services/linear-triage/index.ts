@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { linearTriageActions } from './actions'
 
+/** Descriptor for the Linear Triage service integration. */
 export const linearTriageIntegration = defineIntegration({
   name: 'linear-triage',
   displayName: 'Linear Triage',

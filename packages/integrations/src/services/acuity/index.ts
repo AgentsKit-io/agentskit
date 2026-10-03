@@ -3,6 +3,7 @@ import { CONFIG_FIELDS } from '../../config-fields'
 import { registerIntegration } from '../../registry'
 import { acuityActions } from './actions'
 
+/** Descriptor for the Acuity Scheduling service integration. */
 export const acuityIntegration = defineIntegration({
   name: 'acuity',
   displayName: 'Acuity Scheduling',
