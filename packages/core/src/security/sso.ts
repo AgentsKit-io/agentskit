@@ -24,6 +24,7 @@ export type { SamlAssertion, SamlAttribute, SamlVerifier, SamlVerifierOptions } 
 // OIDC ID-token verifier (RS256 / ES256)
 // ---------------------------------------------------------------------------
 
+/** Issuer, audience, JWKS, and clock settings for an OIDC ID-token verifier. */
 export interface OidcVerifierOptions {
   /** Expected `iss` claim. Required. */
   issuer: string
@@ -51,6 +52,7 @@ export interface OidcVerifierOptions {
   jwksTimeoutMs?: number
 }
 
+/** Standard validated OIDC claims plus provider-specific claims. */
 export interface OidcClaims {
   iss: string
   sub: string
@@ -62,6 +64,7 @@ export interface OidcClaims {
   [claim: string]: unknown
 }
 
+/** Operations for verifying ID tokens and refreshing cached JWKS keys. */
 export interface OidcVerifier {
   /** Verify a JWT. Throws on invalid signature, claims, or expiry. */
   verify: (token: string) => Promise<OidcClaims>
@@ -257,6 +260,13 @@ async function verifySignature(
   })
 }
 
+/** Create a verifier for OIDC tokens signed with RS256 or ES256.
+ * @param options Issuer, audience, and optional JWKS fetch settings.
+ * @returns A verifier that checks token signatures and standard claims.
+ * @example
+ * const verifier = createOidcVerifier({ issuer, audience: 'my-app' })
+ * const claims = await verifier.verify(idToken)
+ */
 export function createOidcVerifier(options: OidcVerifierOptions): OidcVerifier {
   const jwksUrl = options.jwksUrl ?? `${options.issuer.replace(/\/$/, '')}/.well-known/jwks.json`
   const jwksTtlMs = options.jwksTtlMs ?? 60 * 60 * 1000

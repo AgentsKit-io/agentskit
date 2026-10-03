@@ -11,24 +11,28 @@
 
 import { isRecord } from './primitives'
 
+/** Plain text node in a structured UI message. */
 export interface UIElementText {
   kind: 'text'
   text: string
   weight?: 'normal' | 'bold'
 }
 
+/** Heading node in a structured UI message. */
 export interface UIElementHeading {
   kind: 'heading'
   level: 1 | 2 | 3
   text: string
 }
 
+/** Ordered or unordered list node in a structured UI message. */
 export interface UIElementList {
   kind: 'list'
   ordered?: boolean
   items: string[]
 }
 
+/** Button node with a label and optional action payload. */
 export interface UIElementButton {
   kind: 'button'
   label: string
@@ -37,29 +41,34 @@ export interface UIElementButton {
   variant?: 'primary' | 'secondary' | 'danger'
 }
 
+/** Image node with a source URL and optional alternative text. */
 export interface UIElementImage {
   kind: 'image'
   src: string
   alt?: string
 }
 
+/** Card node containing child UI elements. */
 export interface UIElementCard {
   kind: 'card'
   title?: string
   children: UIElement[]
 }
 
+/** Layout node that groups child UI elements in a stack. */
 export interface UIElementStack {
   kind: 'stack'
   direction?: 'row' | 'column'
   children: UIElement[]
 }
 
+/** UI node that embeds a typed artifact. */
 export interface UIElementArtifact {
   kind: 'artifact'
   artifact: Artifact
 }
 
+/** Discriminated union of the supported structured UI nodes. */
 export type UIElement =
   | UIElementText
   | UIElementHeading
@@ -74,6 +83,7 @@ export type UIElement =
 // Artifacts — rich content blocks
 // ---------------------------------------------------------------------------
 
+/** Source-code artifact with a language identifier. */
 export interface ArtifactCode {
   type: 'code'
   language: string
@@ -81,11 +91,13 @@ export interface ArtifactCode {
   filename?: string
 }
 
+/** Markdown document artifact. */
 export interface ArtifactMarkdown {
   type: 'markdown'
   source: string
 }
 
+/** HTML artifact marked as untrusted for safe renderer handling. */
 export interface ArtifactHtml {
   type: 'html'
   source: string
@@ -95,6 +107,7 @@ export interface ArtifactHtml {
   sandbox?: string
 }
 
+/** Data and display settings for a chart artifact. */
 export interface ArtifactChart {
   type: 'chart'
   chartType: 'line' | 'bar' | 'pie' | 'scatter' | 'area'
@@ -104,12 +117,14 @@ export interface ArtifactChart {
   title?: string
 }
 
+/** Discriminated union of supported code, text, HTML, and chart artifacts. */
 export type Artifact = ArtifactCode | ArtifactMarkdown | ArtifactHtml | ArtifactChart
 
 // ---------------------------------------------------------------------------
 // UI message wrapper + validators
 // ---------------------------------------------------------------------------
 
+/** Versioned message containing structured UI elements. */
 export interface UIMessage {
   version: 1
   root: UIElement
@@ -119,6 +134,12 @@ function assert(condition: unknown, message: string): asserts condition {
   if (!condition) throw new Error(`Invalid UIMessage: ${message}`)
 }
 
+/**
+ * Validate an untrusted artifact object.
+ * @param raw Value to validate.
+ * @returns The artifact when its kind and fields are supported.
+ * @throws {Error} If the value does not match a supported artifact shape.
+ */
 export function validateArtifact(raw: unknown): Artifact {
   assert(isRecord(raw), 'artifact must be an object')
   const type = raw.type
@@ -145,6 +166,12 @@ function validateChildren(raw: unknown): UIElement[] {
   return raw.map(c => validateElement(c))
 }
 
+/**
+ * Validate an untrusted structured UI element, including nested children.
+ * @param raw Value to validate.
+ * @returns The validated UI element.
+ * @throws {Error} If its kind or nested fields are invalid.
+ */
 export function validateElement(raw: unknown): UIElement {
   assert(isRecord(raw), 'element must be an object')
   switch (raw.kind) {
@@ -176,6 +203,12 @@ export function validateElement(raw: unknown): UIElement {
   }
 }
 
+/**
+ * Validate an untrusted versioned UI message and its elements.
+ * @param raw Value to validate.
+ * @returns The validated UI message.
+ * @throws {Error} If the version or any element is invalid.
+ */
 export function validateUIMessage(raw: unknown): UIMessage {
   assert(isRecord(raw), 'root must be an object')
   assert(raw.version === 1, `unsupported version: ${String(raw.version)}`)
@@ -200,6 +233,7 @@ export function parseUIMessage(input: string): UIMessage {
 // Artifact detection — pull artifacts out of a plain text stream
 // ---------------------------------------------------------------------------
 
+/** Code artifact found in text, with source offsets for its fenced block. */
 export interface DetectedArtifact {
   artifact: Artifact
   /** Offsets in the source where the fence started / ended. */

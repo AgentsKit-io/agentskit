@@ -125,6 +125,12 @@ function projectMessage(message: SerializedMessage): SerializedMessage {
   }
 }
 
+/**
+ * Validate an untrusted versioned memory record and return its known fields.
+ * @param input Value to validate.
+ * @returns A JSON-safe memory record.
+ * @throws {Error} If the version or record fields are invalid.
+ */
 export function validateMemoryRecord(input: unknown): MemoryRecord {
   const snapshot = cloneJsonRecord(input, invalidRecord, Infinity, false)
   if (snapshot.version !== 1 || !Array.isArray(snapshot.messages)) invalidRecord()
