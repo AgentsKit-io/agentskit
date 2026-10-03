@@ -8,6 +8,7 @@ export interface TokenPrice {
   output: number
 }
 
+/** Controls whether pricing an unlisted model fails or treats it as free. */
 export type UnknownModelPolicy = 'error' | 'allow-zero'
 
 /** Isolated error reporter shared by all cost guards. */
@@ -47,6 +48,7 @@ export const DEFAULT_PRICES: Record<string, TokenPrice> = {
   'ollama': { input: 0, output: 0 },
 }
 
+/** Configuration for an observer that tracks cumulative token spend. */
 export interface CostGuardOptions {
   /** Hard budget in USD. Aborts the run when exceeded. */
   budgetUsd: number
@@ -109,6 +111,12 @@ export function priceFor(
   return { input: 0, output: 0 }
 }
 
+/**
+ * Check whether a model matches a configured price prefix.
+ * @param model Model id to look up; missing ids never match.
+ * @param prices Price prefixes to inspect. Defaults to the built-in table.
+ * @returns Whether any case-insensitive prefix matches the model.
+ */
 export function hasPriceFor(
   model: string | undefined,
   prices: Record<string, TokenPrice> = DEFAULT_PRICES,
@@ -117,6 +125,14 @@ export function hasPriceFor(
   return Object.keys(prices).some(key => model.toLowerCase().startsWith(key.toLowerCase()))
 }
 
+/**
+ * Resolve a model price, applying the selected policy when no prefix matches.
+ * @param model Model id to price.
+ * @param prices Price prefixes to inspect.
+ * @param policy Behavior when no price matches. Defaults to `error`.
+ * @returns The first matching price, or zero pricing when allowed.
+ * @throws {ConfigError} When no price matches and `policy` is `error`.
+ */
 export function resolvePrice(
   model: string | undefined,
   prices: Record<string, TokenPrice>,
@@ -131,6 +147,14 @@ export function resolvePrice(
   })
 }
 
+/**
+ * Resolve a price and report lookup errors through an isolated error callback.
+ * @param model Model id to price.
+ * @param prices Price prefixes to inspect.
+ * @param policy Behavior when no price matches.
+ * @param onError Optional isolated error callback.
+ * @returns The resolved price, or `undefined` when lookup fails.
+ */
 export function resolvePriceSafely(
   model: string | undefined,
   prices: Record<string, TokenPrice>,
@@ -195,6 +219,13 @@ export function invokeCostGuardCallback(
   }
 }
 
+/**
+ * Throw a configuration error unless a value is finite and non-negative.
+ * @param scope Name of the config or helper being validated.
+ * @param name Name of the value in that scope.
+ * @param value Value to validate.
+ * @throws {ConfigError} When `value` is negative or non-finite.
+ */
 export function assertFiniteNonNegative(
   scope: string,
   name: string,
@@ -209,6 +240,13 @@ export function assertFiniteNonNegative(
   }
 }
 
+/**
+ * Throw a configuration error unless a value is finite and greater than zero.
+ * @param scope Name of the config or helper being validated.
+ * @param name Name of the value in that scope.
+ * @param value Value to validate.
+ * @throws {ConfigError} When `value` is not finite and positive.
+ */
 export function assertFinitePositive(
   scope: string,
   name: string,
@@ -223,6 +261,12 @@ export function assertFinitePositive(
   }
 }
 
+/**
+ * Validate every input and output price in an optional price table.
+ * @param scope Name included in validation errors.
+ * @param prices Optional model-to-price table to validate.
+ * @throws {ConfigError} When any configured price is negative or non-finite.
+ */
 export function validateTokenPrices(
   scope: string,
   prices: Record<string, TokenPrice> | undefined,
