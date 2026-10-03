@@ -5,8 +5,16 @@ import { loadConfig } from './config'
 import { DEFAULT_DOCTOR_PROVIDERS, resolveProviderRegistryEntry } from './provider-registry'
 import type { ProviderRegistryEntry } from './provider-registry'
 
+/**
+ * Outcome category returned by an AgentsKit doctor check.
+
+ */
 export type CheckStatus = 'pass' | 'warn' | 'fail' | 'skip'
 
+/**
+ * Status, description, and optional remediation for one doctor check.
+
+ */
 export interface CheckResult {
   status: CheckStatus
   name: string
@@ -14,6 +22,10 @@ export interface CheckResult {
   fix?: string
 }
 
+/**
+ * Doctor check results and aggregate pass, warning, failure, and skip counts.
+
+ */
 export interface DoctorReport {
   results: CheckResult[]
   pass: number
@@ -233,6 +245,10 @@ export async function checkConfig(): Promise<CheckResult> {
 // Orchestration
 // ============================================================================
 
+/**
+ * Provider selection and network settings for the environment doctor.
+
+ */
 export interface DoctorOptions {
   /** Provider names to check. Defaults to all known providers. */
   providers?: string[]
@@ -242,6 +258,13 @@ export interface DoctorOptions {
   fetchImpl?: typeof fetch
 }
 
+/**
+ * Checks the local Node environment, AgentsKit configuration, and selected providers.
+ * @param options Provider selection and network-check settings.
+ * @returns A report containing each check and aggregate status counts.
+ * @example
+ * const report = await runDoctor({ noNetwork: true })
+ */
 export async function runDoctor(options: DoctorOptions = {}): Promise<DoctorReport> {
   const providers = options.providers ?? DEFAULT_DOCTOR_PROVIDERS
   const fetchImpl = options.fetchImpl ?? fetch
@@ -283,6 +306,12 @@ const ICON: Record<CheckStatus, string> = {
   skip: '○',
 }
 
+/**
+ * Formats doctor check results as a terminal-friendly report.
+ * @param report Doctor results and aggregate counts.
+ * @param opts Optional rendering settings.
+ * @returns The formatted report text.
+ */
 export function renderReport(report: DoctorReport, opts: { color?: boolean } = {}): string {
   const color = opts.color ?? true
   const c = (code: string, text: string) => (color ? `\x1b[${code}m${text}\x1b[0m` : text)

@@ -4,6 +4,10 @@ import { isAbsolute, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import type { Plugin, PluginBundle, PluginContext, PluginFactory } from './types'
 
+/**
+ * Plugin specifiers, discovery directories, and callbacks used while loading plugins.
+
+ */
 export interface LoadPluginsOptions {
   /** Plugin specifiers: absolute paths, relative paths, or package names. */
   specs?: string[]

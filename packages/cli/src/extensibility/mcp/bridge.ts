@@ -2,6 +2,10 @@ import type { ToolDefinition } from '@agentskit/core'
 import type { McpServerSpec } from '../plugins/types'
 import { McpClient, type McpTool } from './client'
 
+/**
+ * Started MCP clients and the tool definitions bridged from their servers.
+
+ */
 export interface McpBridgeResult {
   clients: McpClient[]
   tools: ToolDefinition[]
@@ -52,6 +56,11 @@ function mcpToolToDefinition(
   }
 }
 
+/**
+ * Disposes every MCP client opened for a CLI session.
+ * @param clients MCP clients to stop.
+ * @returns Nothing.
+ */
 export function disposeMcpClients(clients: McpClient[]): void {
   for (const client of clients) client.dispose()
 }
