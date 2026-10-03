@@ -103,6 +103,21 @@ const freezeDefinition = <
   }) as StatechartDefinition<TContext, TEvent, TState>
 }
 
+/**
+ * Validate and freeze a statechart definition.
+ *
+ * @param input The machine metadata, context parser, states, and transitions.
+ * @returns A branded immutable definition preserving literal state types.
+ * @throws {StatechartError} When the definition or its transition maps are invalid.
+ * @example
+ * ```ts
+ * const machine = defineStatechart({
+ *   id: 'checkout', version: '1', initial: 'idle',
+ *   parseContext: (value) => value as { total: number },
+ *   states: { idle: { on: { PAY: { target: 'paid' } } }, paid: {} },
+ * })
+ * ```
+ */
 export const defineStatechart = <
   TContext extends JsonObject,
   TEvent extends StatechartEvent,
