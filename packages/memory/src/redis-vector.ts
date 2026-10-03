@@ -31,7 +31,12 @@ export function redisVectorMemory(config: RedisVectorMemoryConfig): VectorMemory
 
   const getClient = (): Promise<RedisClientAdapter> => {
     if (config.client) return Promise.resolve(config.client)
-    if (!clientPromise) clientPromise = createRedisClientAdapter(config.url)
+    if (!clientPromise) {
+      clientPromise = createRedisClientAdapter(config.url).catch(error => {
+        clientPromise = null
+        throw error
+      })
+    }
     return clientPromise
   }
 
