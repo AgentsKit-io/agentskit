@@ -9,6 +9,7 @@ const L = DISCLAIM.legal
  * attorney's review.
  */
 
+/** Skill for jurisdiction-aware legal information with clear advice boundaries. */
 export const legalAssistant: SkillDefinition = defineSkill(
   'legal-assistant',
   'Legal-information assistant. Refuses to give jurisdiction-specific advice or to act as counsel; always recommends a licensed attorney for binding decisions.',
@@ -52,6 +53,7 @@ ${L}`,
   TOOLS.web,
 )
 
+/** Skill for explaining contract clauses and identifying points for attorney review. */
 export const contractReviewer: SkillDefinition = defineSkill(
   'contract-reviewer',
   'Reviews contract drafts for missing clauses, risk flags, and unclear terms. Always defers final sign-off to a licensed attorney.',

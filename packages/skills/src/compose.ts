@@ -8,6 +8,14 @@ import {
   validateSkillDefinition,
 } from './utils'
 
+/** Combine skills into one definition, merging their tools, delegates, examples, and activation tools.
+ * @example
+ * const combined = composeSkills(researcher, critic)
+
+ *
+ * @param skills Skill definitions to combine; at least one is required.
+ * @returns A cloned combined skill definition.
+ * @throws ConfigError when no skills are supplied. */
 export function composeSkills(...skills: SkillDefinition[]): SkillDefinition {
   if (skills.length === 0) {
     throw new ConfigError({

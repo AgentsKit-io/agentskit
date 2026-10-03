@@ -1,6 +1,7 @@
 import type { SkillDefinition } from '@agentskit/core'
 import { defineSkill } from './utils'
 
+/** Source term, forced translation, and optional usage context for a translator skill. */
 export interface GlossaryEntry {
   /** The source-language term to look out for. */
   term: string
