@@ -20,6 +20,20 @@ const doc2: VectorDocument = {
 }
 
 describe('fileVectorMemory with custom VectorStore', () => {
+  it('keeps canonical id/content when metadata collides with reserved fields', async () => {
+    let stored: VectorStoreDocument[] = []
+    const customStore: VectorStore = {
+      async upsert(docs) { stored = docs },
+      async query() { return stored.map(d => ({ id: d.id, score: 1, metadata: d.metadata })) },
+      async delete(ids) { stored = stored.filter(d => !ids.includes(d.id)) },
+    }
+    const mem = fileVectorMemory({ path: '/tmp/unused', store: customStore })
+    await mem.store([{ ...doc1, metadata: { _id: 'spoof', content: 'spoofed' } }])
+    const result = await mem.search(doc1.embedding)
+    expect(result[0]).toMatchObject({ id: doc1.id, content: doc1.content })
+    await mem.delete!([doc1.id])
+    expect(stored).toHaveLength(0)
+  })
   it('delegates to custom store', async () => {
     const stored: VectorStoreDocument[] = []
     const customStore: VectorStore = {
@@ -121,5 +135,30 @@ describe('fileVectorMemory with vectra', () => {
     const results = await mem.search(doc1.embedding, { topK: 10 })
     const ids = results.map(r => r.id)
     expect(ids).not.toContain('doc-1')
+  }, VECTRA_TIMEOUT)
+
+  it('upserts one persistent item per public id', async () => {
+    const first = fileVectorMemory({ path: dirPath })
+    await first.store([{ ...doc1, content: 'old' }])
+    await first.store([{ ...doc1, content: 'new' }])
+    const reopened = fileVectorMemory({ path: dirPath })
+    const results = await reopened.search(doc1.embedding, { topK: 10 })
+    expect(results.filter(result => result.id === doc1.id)).toHaveLength(1)
+    expect(results.find(result => result.id === doc1.id)?.content).toBe('new')
+  }, VECTRA_TIMEOUT)
+
+  it('keeps legacy random-ID duplicates while adding the stable-ID row', async () => {
+    const { LocalIndex } = await import('vectra')
+    const index = new LocalIndex(dirPath)
+    await index.createIndex()
+    await index.insertItem({ vector: doc1.embedding, metadata: { _id: doc1.id, content: 'legacy one' } })
+    await index.insertItem({ vector: doc1.embedding, metadata: { _id: doc1.id, content: 'legacy two' } })
+
+    const memory = fileVectorMemory({ path: dirPath })
+    await memory.store([{ ...doc1, content: 'canonical' }])
+    const reopened = fileVectorMemory({ path: dirPath })
+    const duplicates = (await reopened.search(doc1.embedding, { topK: 10 })).filter(result => result.id === doc1.id)
+    expect(duplicates).toHaveLength(3)
+    expect(duplicates.map(result => result.content)).toContain('canonical')
   }, VECTRA_TIMEOUT)
 })

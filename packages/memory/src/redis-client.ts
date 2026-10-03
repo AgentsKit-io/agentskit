@@ -32,11 +32,16 @@ export async function createRedisClientAdapter(url: string): Promise<RedisClient
   }
 
   const client = redis.createClient({ url })
-  await client.connect()
+  try {
+    await client.connect()
+  } catch (error) {
+    try { client.destroy() } catch { /* preserve the connection error */ }
+    throw error
+  }
 
   return {
     async get(key) {
-      return await client.get(key)
+      return client.get(key)
     },
     async set(key, value) {
       await client.set(key, value)
@@ -46,14 +51,16 @@ export async function createRedisClientAdapter(url: string): Promise<RedisClient
       if (keys.length > 0) await client.del(keys)
     },
     async keys(pattern) {
-      return await client.keys(pattern)
+      return client.keys(pattern)
     },
     async disconnect() {
       // node-redis v6 renamed the graceful close: client.disconnect() (v5) -> client.close().
       await client.close()
     },
     async call(command, ...args) {
-      return await client.sendCommand([command, ...args.map(String)])
+      return client.sendCommand([command, ...args.map(arg =>
+        Buffer.isBuffer(arg) ? arg : String(arg),
+      )])
     },
   }
 }

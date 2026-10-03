@@ -46,6 +46,15 @@ export interface ForgetSubjectResult {
   evidenceHash: string
 }
 
+function failedReport(backend: string, reason: string): ForgetReport {
+  return {
+    backend,
+    deletedCount: 0,
+    at: new Date().toISOString(),
+    failures: [{ id: '*', reason }],
+  }
+}
+
 function isForgettable(value: unknown): value is ForgettableMemory {
   return (
     !!value &&
@@ -81,7 +90,11 @@ export async function forgetSubject(
         : 'unknown')
       continue
     }
-    reports.push(await memory.forgetSubject(subjectId))
+    try {
+      reports.push(await memory.forgetSubject(subjectId))
+    } catch (err) {
+      reports.push(failedReport(memory.__agentskitBackend, err instanceof Error ? err.message : String(err)))
+    }
   }
   const totalDeleted = reports.reduce((sum, r) => sum + r.deletedCount, 0)
   const evidenceHash = await hash(
@@ -112,8 +125,14 @@ export function makeForgettable<M extends object>(
   return Object.assign(memory, {
     __agentskitBackend: options.backend,
     forgetSubject: async (subjectId: string): Promise<ForgetReport> => {
-      const ids = await options.listIds(subjectId)
       const failures: Array<{ id: string; reason: string }> = []
+      let ids: string[]
+      try {
+        ids = await options.listIds(subjectId)
+      } catch (err) {
+        const reason = err instanceof Error ? err.message : String(err)
+        return failedReport(options.backend, reason)
+      }
       try {
         await options.deleteIds(ids)
       } catch (err) {

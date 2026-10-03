@@ -104,6 +104,7 @@ export interface SqliteStmt {
 export interface SqliteLike {
   exec(sql: string): void
   prepare(sql: string): SqliteStmt
+  transaction?<T extends (...args: never[]) => unknown>(fn: T): T
 }
 
 export type SqliteOpener = (path: string) => SqliteLike

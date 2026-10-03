@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach } from 'vitest'
+import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest'
 import { sqliteChatMemory } from '../src/sqlite'
 import type { Message } from '@agentskit/core'
 import { join } from 'node:path'
@@ -22,11 +22,59 @@ describe('sqliteChatMemory', () => {
 
   afterEach(async () => {
     try { await unlink(dbPath) } catch {}
+    vi.doUnmock('better-sqlite3')
+    vi.resetModules()
   })
 
   it('returns empty array when no messages saved', async () => {
     const mem = sqliteChatMemory({ path: dbPath })
     expect(await mem.load()).toEqual([])
+  })
+
+  it('retries database initialization after the first open fails', async () => {
+    let constructorCalls = 0
+    class RetryDatabase {
+      constructor() {
+        constructorCalls++
+        if (constructorCalls === 1) throw new Error('temporary open failure')
+      }
+      prepare() {
+        return { run: vi.fn(), get: vi.fn(() => undefined) }
+      }
+    }
+    vi.doMock('better-sqlite3', () => ({ default: RetryDatabase }))
+    const { sqliteChatMemory: createMemory } = await import('../src/sqlite')
+    const memory = createMemory({ path: dbPath })
+
+    await expect(memory.load()).rejects.toThrow()
+    await expect(memory.load()).resolves.toEqual([])
+    expect(constructorCalls).toBe(2)
+    vi.doUnmock('better-sqlite3')
+  })
+
+  it('closes an owned database when schema initialization fails and preserves that error', async () => {
+    let constructorCalls = 0
+    const close = vi.fn(() => { throw new Error('cleanup failure') })
+    class RetryDatabase {
+      constructor() { constructorCalls++ }
+      prepare(sql: string) {
+        return {
+          run: vi.fn(() => {
+            if (constructorCalls === 1 && sql.includes('CREATE TABLE')) throw new Error('schema failure')
+          }),
+          get: vi.fn(() => undefined),
+        }
+      }
+      close() { close() }
+    }
+    vi.doMock('better-sqlite3', () => ({ default: RetryDatabase }))
+    const { sqliteChatMemory: createMemory } = await import('../src/sqlite')
+    const memory = createMemory({ path: dbPath })
+
+    await expect(memory.load()).rejects.toThrow('schema failure')
+    await expect(memory.load()).resolves.toEqual([])
+    expect(close).toHaveBeenCalledTimes(1)
+    expect(constructorCalls).toBe(2)
   })
 
   it('save then load round-trips with date serialization', async () => {

@@ -51,4 +51,33 @@ describe('redisChatMemory — extra branches', () => {
     const result = await mem.load()
     expect(result).toEqual([])
   })
+
+  it('retries lazy client creation after connect rejects', async () => {
+    const failedClient = {
+      connect: vi.fn(async () => { throw new Error('temporary connect failure') }),
+      destroy: vi.fn(),
+    }
+    const healthyClient = {
+      connect: vi.fn(async () => undefined),
+      get: vi.fn(async () => null),
+      set: vi.fn(async () => undefined),
+      del: vi.fn(async () => undefined),
+      keys: vi.fn(async () => []),
+      close: vi.fn(async () => undefined),
+      destroy: vi.fn(),
+      sendCommand: vi.fn(async () => null),
+    }
+    const createClient = vi.fn()
+      .mockReturnValueOnce(failedClient)
+      .mockReturnValueOnce(healthyClient)
+    vi.doMock('redis', () => ({ createClient }))
+
+    const { redisChatMemory } = await import('../src/redis-chat')
+    const memory = redisChatMemory({ url: 'redis://localhost:6379' })
+    await expect(memory.load()).rejects.toThrow('temporary connect failure')
+    await expect(memory.load()).resolves.toEqual([])
+    expect(createClient).toHaveBeenCalledTimes(2)
+    expect(failedClient.destroy).toHaveBeenCalledTimes(1)
+    expect(healthyClient.destroy).not.toHaveBeenCalled()
+  })
 })

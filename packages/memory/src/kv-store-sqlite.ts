@@ -46,6 +46,14 @@ export const createSqliteStore = ({ config, open }: CreateSqliteStoreOpts): Agen
     }
   }
 
+  const write = db.transaction ? db.transaction((key: string, value: string, now: number) => {
+    setStmt.run(key, value, now)
+    enforce()
+  }) : (key: string, value: string, now: number): void => {
+    setStmt.run(key, value, now)
+    enforce()
+  }
+
   return {
     id: `sqlite:${config.path}`,
     async get(key) {
@@ -58,8 +66,7 @@ export const createSqliteStore = ({ config, open }: CreateSqliteStoreOpts): Agen
       return JSON.parse(row.value) as unknown
     },
     async set(key, value) {
-      setStmt.run(key, JSON.stringify(value), Date.now())
-      enforce()
+      write(key, JSON.stringify(value), Date.now())
     },
   }
 }

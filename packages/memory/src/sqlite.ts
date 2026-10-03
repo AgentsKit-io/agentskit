@@ -30,6 +30,7 @@ interface SqliteDb {
     run(...args: unknown[]): void
     get(...args: unknown[]): Record<string, unknown> | undefined
   }
+  close?(): void
 }
 
 async function openDatabase(path: string): Promise<SqliteDb> {
@@ -53,13 +54,21 @@ export function sqliteChatMemory(config: SqliteChatMemoryConfig): ChatMemory {
   const getDb = (): Promise<SqliteDb> => {
     if (!dbPromise) {
       dbPromise = openDatabase(config.path).then(db => {
-        db.prepare(`
-          CREATE TABLE IF NOT EXISTS conversations (
-            id TEXT PRIMARY KEY,
-            messages TEXT NOT NULL
-          )
-        `).run()
-        return db
+        try {
+          db.prepare(`
+            CREATE TABLE IF NOT EXISTS conversations (
+              id TEXT PRIMARY KEY,
+              messages TEXT NOT NULL
+            )
+          `).run()
+          return db
+        } catch (error) {
+          try { db.close?.() } catch { /* preserve the initialization error */ }
+          throw error
+        }
+      }).catch(error => {
+        dbPromise = null
+        throw error
       })
     }
     return dbPromise

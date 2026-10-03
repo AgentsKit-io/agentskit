@@ -24,6 +24,11 @@ export const createVectorStore = ({
 }: CreateVectorStoreOpts): AgentskitMemoryStore & { recall(query: string, k?: number): Promise<readonly unknown[]> } => {
   validateKvRetention(config)
   const collection = config.collection
+  const isLive = (metadata: Record<string, unknown>, now: number) => {
+    const insertedAt = metadata['__insertedAt']
+    return metadata['__collection'] === collection &&
+      (typeof insertedAt !== 'number' || !isExpired({ value: undefined, insertedAt }, config.ttlSeconds, now))
+  }
 
   const embedOne = async (text: string): Promise<number[]> => {
     const [vec] = await embedder.embed([text])
@@ -40,15 +45,12 @@ export const createVectorStore = ({
     id: `vector:${config.provider}:${collection}`,
     async get(key) {
       const vec = await embedOne(key)
-      const hits = await vectorStore.query(vec, 1, { __collection: collection, __key: key })
-      const hit = hits[0]
-      if (hit === undefined) return undefined
-      if (hit.metadata['__key'] !== key) return undefined
-      const insertedAt = hit.metadata['__insertedAt']
-      if (typeof insertedAt === 'number' && isExpired({ value: undefined, insertedAt }, config.ttlSeconds, Date.now())) {
-        return undefined
-      }
-      return hit.metadata['__value']
+      const hits = await vectorStore.query(vec, config.ttlSeconds === undefined ? 1 : 100, { __collection: collection, __key: key })
+      const now = Date.now()
+      const hit = hits.find(candidate => {
+        return candidate.metadata['__key'] === key && isLive(candidate.metadata, now)
+      })
+      return hit?.metadata['__value']
     },
     async set(key, value) {
       const vec = await embedOne(key)
@@ -61,16 +63,15 @@ export const createVectorStore = ({
       ])
     },
     async recall(query, k = 5) {
+      if (k <= 0) return []
       const vec = await embedOne(query)
-      const hits = await vectorStore.query(vec, k, { __collection: collection })
+      const hits = await vectorStore.query(vec, k + (config.ttlSeconds === undefined ? 0 : 100), { __collection: collection })
       const now = Date.now()
       const results: unknown[] = []
       for (const hit of hits) {
-        const insertedAt = hit.metadata['__insertedAt']
-        if (typeof insertedAt === 'number' && isExpired({ value: undefined, insertedAt }, config.ttlSeconds, now)) {
-          continue
-        }
+        if (!isLive(hit.metadata, now)) continue
         results.push(hit.metadata['__value'])
+        if (results.length >= k) break
       }
       return results
     },

@@ -27,6 +27,32 @@ const enqueueFileWrite = (path: string, task: () => Promise<void>): Promise<void
   return next
 }
 
+const writeFileAtomically = async (path: string, contents: string): Promise<void> => {
+  await mkdir(dirname(path), { recursive: true })
+  const tempPath = join(dirname(path), `.${basename(path)}.${randomBytes(8).toString('hex')}.tmp`)
+  try {
+    await writeFile(tempPath, contents, { encoding: 'utf8', mode: 0o600 })
+    await rename(tempPath, path)
+  } finally {
+    await unlink(tempPath).catch(() => {})
+  }
+}
+
+const removeExpiredFileEntry = (
+  path: string,
+  key: string,
+  ttlSeconds: number | undefined,
+  load: () => Promise<Map<string, KvEntry>>,
+  persist: (map: Map<string, KvEntry>) => Promise<void>,
+): Promise<void> => enqueueFileWrite(path, async () => {
+  const map = await load()
+  const entry = map.get(key)
+  if (entry && isExpired(entry, ttlSeconds, Date.now())) {
+    map.delete(key)
+    await persist(map)
+  }
+})
+
 export const createInMemoryStore = (config: InMemoryKvConfig): AgentskitMemoryStore => {
   validateKvRetention(config)
   const store = new Map<string, KvEntry>()
@@ -63,14 +89,7 @@ export const createFileStore = (config: FileKvConfig): AgentskitMemoryStore => {
   }
 
   const persist = async (map: Map<string, KvEntry>): Promise<void> => {
-    await mkdir(dirname(path), { recursive: true })
-    const tempPath = join(dirname(path), `.${basename(path)}.${randomBytes(8).toString('hex')}.tmp`)
-    try {
-      await writeFile(tempPath, JSON.stringify(Object.fromEntries(map), null, 2), { encoding: 'utf8', mode: 0o600 })
-      await rename(tempPath, path)
-    } finally {
-      try { await unlink(tempPath) } catch { /* rename already published it */ }
-    }
+    await writeFileAtomically(path, JSON.stringify(Object.fromEntries(map), null, 2))
   }
 
   return {
@@ -80,14 +99,7 @@ export const createFileStore = (config: FileKvConfig): AgentskitMemoryStore => {
       const entry = map.get(key)
       if (!entry) return undefined
       if (isExpired(entry, config.ttlSeconds, Date.now())) {
-        await enqueueFileWrite(path, async () => {
-          const latest = await load()
-          const current = latest.get(key)
-          if (current && isExpired(current, config.ttlSeconds, Date.now())) {
-            latest.delete(key)
-            await persist(latest)
-          }
-        })
+        await removeExpiredFileEntry(path, key, config.ttlSeconds, load, persist)
         return undefined
       }
       return entry.value
@@ -136,38 +148,27 @@ export const createLocalStorageStore = ({
     }
   }
 
-  const load = async (): Promise<Map<string, KvEntry>> =>
-    storage ? mapFromJson(storage.getItem(key)) : loadFromFile()
-
+  const loadSync = (): Map<string, KvEntry> => mapFromJson(storage!.getItem(key))
   const persist = async (map: Map<string, KvEntry>): Promise<void> => {
-    const raw = JSON.stringify(Object.fromEntries(map), null, 2)
-    if (storage) {
-      storage.setItem(key, raw)
-      return
-    }
-    await mkdir(dirname(filePath), { recursive: true })
-    await writeFile(filePath, raw, { encoding: 'utf8', mode: 0o600 })
+    await writeFileAtomically(filePath, JSON.stringify(Object.fromEntries(map), null, 2))
+  }
+
+  const persistSync = (map: Map<string, KvEntry>): void => {
+    storage!.setItem(key, JSON.stringify(Object.fromEntries(map), null, 2))
   }
 
   return {
     id: storage ? `localstorage:${key}` : `localstorage-file:${filePath}:${key}`,
     async get(itemKey) {
-      const map = await load()
+      const map = storage ? loadSync() : await loadFromFile()
       const entry = map.get(itemKey)
       if (!entry) return undefined
       if (isExpired(entry, config.ttlSeconds, Date.now())) {
         if (storage) {
           map.delete(itemKey)
-          await persist(map)
+          persistSync(map)
         } else {
-          await enqueueFileWrite(filePath, async () => {
-            const latest = await loadFromFile()
-            const current = latest.get(itemKey)
-            if (current && isExpired(current, config.ttlSeconds, Date.now())) {
-              latest.delete(itemKey)
-              await persist(latest)
-            }
-          })
+          await removeExpiredFileEntry(filePath, itemKey, config.ttlSeconds, loadFromFile, persist)
         }
         return undefined
       }
@@ -175,10 +176,10 @@ export const createLocalStorageStore = ({
     },
     async set(itemKey, value) {
       if (storage) {
-        const map = await load()
+        const map = loadSync()
         map.set(itemKey, { value, insertedAt: Date.now() })
         enforceMaxMessages(map, config.maxMessages)
-        await persist(map)
+        persistSync(map)
         return
       }
       await enqueueFileWrite(filePath, async () => {

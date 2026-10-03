@@ -41,6 +41,31 @@ function makeFakeClient() {
 }
 
 describe('tursoChatMemory (injected fake client)', () => {
+  it('retries client initialization after schema creation rejects', async () => {
+    let createCalls = 0
+    const firstClose = vi.fn(async () => { throw new Error('cleanup failure') })
+    const failedClient = {
+      execute: vi.fn(async () => { throw new Error('temporary schema failure') }),
+      close: firstClose,
+    }
+    const healthyClient = { execute: vi.fn(async () => ({ rows: [] })), close: vi.fn(async () => undefined) }
+    const fakeLibsql = {
+      createClient: vi.fn(() => {
+        createCalls++
+        return createCalls === 1 ? failedClient : healthyClient
+      }),
+    }
+    vi.doMock('@libsql/client', () => fakeLibsql)
+
+    const { tursoChatMemory } = await import('../src/turso')
+    const memory = tursoChatMemory({ url: 'file::memory:' })
+    await expect(memory.load()).rejects.toThrow('temporary schema failure')
+    await expect(memory.load()).resolves.toEqual([])
+    expect(createCalls).toBe(2)
+    expect(firstClose).toHaveBeenCalledTimes(1)
+    expect(healthyClient.close).not.toHaveBeenCalled()
+  })
+
   it('load returns empty array when no messages stored', async () => {
     const fakeClient = makeFakeClient()
     const fakeLibsql = { createClient: vi.fn(() => fakeClient) }

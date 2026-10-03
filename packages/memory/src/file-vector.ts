@@ -28,6 +28,7 @@ interface VectraIndex {
   endUpdate(): Promise<void>
   cancelUpdate(): void
   insertItem(item: { vector: number[]; metadata: Record<string, unknown> }): Promise<unknown>
+  upsertItem?(item: { id: string; vector: number[]; metadata: Record<string, unknown> }): Promise<unknown>
   // vectra >=0.15 inserts a BM25 `query` string between vector and topK; pass "" for pure vector search.
   queryItems(vector: number[], query: string, topK: number): Promise<Array<{ score: number; item: { metadata: Record<string, unknown> } }>>
   listItems(): Promise<Array<{ id: string; metadata: Record<string, unknown> }>>;
@@ -58,10 +59,12 @@ function createVectraStore(dirPath: string): VectorStore {
       await idx.beginUpdate()
       try {
         for (const doc of docs) {
-          await idx.insertItem({
-            vector: doc.vector,
-            metadata: { _id: doc.id, ...doc.metadata },
-          })
+          const metadata = { ...doc.metadata, _id: doc.id }
+          if (idx.upsertItem) {
+            await idx.upsertItem({ id: doc.id, vector: doc.vector, metadata })
+          } else {
+            await idx.insertItem({ vector: doc.vector, metadata })
+          }
         }
         await idx.endUpdate()
       } catch (err) {
@@ -102,7 +105,7 @@ export function fileVectorMemory(config: FileVectorMemoryConfig): VectorMemory {
       await store.upsert(docs.map(doc => ({
         id: doc.id,
         vector: doc.embedding,
-        metadata: { content: doc.content, ...doc.metadata },
+        metadata: { ...doc.metadata, content: doc.content },
       })))
     },
     async search(embedding, options) {
