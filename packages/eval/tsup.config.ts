@@ -1,6 +1,8 @@
 import { defineConfig } from 'tsup'
+import { sharedTsupOptions } from '../../tsup.shared'
 
 export default defineConfig({
+  ...sharedTsupOptions,
   entry: {
     index: 'src/index.ts',
     replay: 'src/replay/index.ts',
@@ -13,10 +15,6 @@ export default defineConfig({
     'braintrust-scorers': '../eval-braintrust/src/scorers/index.ts',
     'braintrust-ci': '../eval-braintrust/src/ci.ts',
   },
-  format: ['esm', 'cjs'],
-  dts: { compilerOptions: { ignoreDeprecations: '6.0' } },
-  sourcemap: true,
   clean: false,
-  treeshake: true,
   external: ['@agentskit/eval', 'braintrust'],
 })
