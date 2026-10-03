@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "d987d9240e6748f18f56845480dd4b2dfe828a62295065b83f37704c97d8b4a8",
+  "contentHash": "61ba31b71616df51ac6991d6b098ea4632d93d32b2c84733732770744d786c7f",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-03T00:11:04.105Z",
+  "generatedAt": "2026-10-03T00:36:08.756Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -33167,7 +33167,7 @@
         "ts",
         "integrations"
       ],
-      "contentHash": "5310310585a750b66db3a986bafd3b12f0945eeef6baa292702b0cd7d365d46e"
+      "contentHash": "817461d16b24830ce09b7daa8d6b4c4937cfbb6a557be121e308273228e8bfae"
     },
     {
       "id": "module:packages/tools/src/integrations/elevenlabs.ts",
@@ -34189,7 +34189,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "4716008f8b04cdcfcdc5794ad7cbbfa8bf7b823a8e5e6aa278756f1faf0ac63e"
+      "contentHash": "390f26719449d948ed78607df1ec3613141dd280cdad03bfd95230b5eabffa3d"
     },
     {
       "id": "module:packages/tools/src/sqlite-query.ts",
@@ -34344,6 +34344,19 @@
         "tests"
       ],
       "contentHash": "c7a3023e2f4dceecfc0638cef0aaa23b548de97d69560f2060f82099d66d7d00"
+    },
+    {
+      "id": "module:packages/tools/tests/net-migration-http.test.ts",
+      "type": "module",
+      "title": "net-migration-http.test.ts",
+      "path": "packages/tools/tests/net-migration-http.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "a3abeef3d111875716a4de591e424d3c8b64d252fe404a09cc17d82808008dfe"
     },
     {
       "id": "module:packages/tools/tests/postgres-cdc.test.ts",
@@ -37704,8 +37717,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "47d73571ae7159cbecbcf65fab0a1ad466d5dedabcaed84d006d44b38615f2ce",
-    "fileCount": 2505,
+    "hash": "7fa18b19a0ae1ee1e3b20b2c8e89f5a8cdad7e46a613e9e8b45fb31e354a73d4",
+    "fileCount": 2506,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -37727,9 +37740,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "2ca90b2e70e03994c0d446bdc4c504846d1fa982a5c0801d5527a637c7f49e1d",
+    "contentHash": "47b235f867c3f750bf6bbde8b4b78861278bcb4559389201502ebeaeac04d201",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "c84404e997f9592bf04b612561619c3d4490038620300cc68c04aeae67e98d1a",
+    "snapshotHash": "7659579d880f742f8f9986ee0355d0df3fafedf034fb4655f944479627345e21",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -37749,7 +37762,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2459,
+      "documentCount": 2460,
       "fieldNames": [
         "aliases",
         "body",
@@ -37760,13 +37773,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0146400976006507,
-        "body": 60.986986579910536,
-        "headings": 4.015453436356243,
-        "path": 7.622610817405449,
-        "summary": 4.544936966246442,
-        "symbols": 7.475396502643351,
-        "title": 3.338755591703945
+        "aliases": 3.015040650406504,
+        "body": 60.96219512195122,
+        "headings": 4.013821138211382,
+        "path": 7.623170731707317,
+        "summary": 4.543089430894309,
+        "symbols": 7.472357723577236,
+        "title": 3.3398373983739837
       }
     },
     "entries": [
@@ -175963,7 +175976,7 @@
             }
           ]
         },
-        "contentHash": "5310310585a750b66db3a986bafd3b12f0945eeef6baa292702b0cd7d365d46e",
+        "contentHash": "817461d16b24830ce09b7daa8d6b4c4937cfbb6a557be121e308273228e8bfae",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -177162,6 +177175,11 @@
             {
               "kind": "imports",
               "id": "module:packages/tools/tests/integrations.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/tests/net-migration-http.test.ts",
               "confidence": "observed"
             },
             {
@@ -180136,6 +180154,11 @@
           "inbound": [
             {
               "kind": "imports",
+              "id": "module:packages/tools/tests/net-migration-http.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/tools/tests/slack.test.ts",
               "confidence": "observed"
             },
@@ -180157,7 +180180,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "4716008f8b04cdcfcdc5794ad7cbbfa8bf7b823a8e5e6aa278756f1faf0ac63e",
+        "contentHash": "390f26719449d948ed78607df1ec3613141dd280cdad03bfd95230b5eabffa3d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -180788,6 +180811,51 @@
           ]
         },
         "contentHash": "c7a3023e2f4dceecfc0638cef0aaa23b548de97d69560f2060f82099d66d7d00",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "module:packages/tools/tests/net-migration-http.test.ts",
+        "kind": "module",
+        "path": "packages/tools/tests/net-migration-http.test.ts",
+        "title": "net-migration-http.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "net-migration-http.test.ts",
+          "headings": "",
+          "path": "packages/tools/tests/net-migration-http.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/tools",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/integrations/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/tools/src/slack.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "a3abeef3d111875716a4de591e424d3c8b64d252fe404a09cc17d82808008dfe",
         "provenance": "observed",
         "confidence": "observed"
       },

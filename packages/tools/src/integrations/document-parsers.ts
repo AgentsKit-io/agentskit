@@ -1,4 +1,5 @@
 import { ConfigError, ErrorCodes, ToolError, defineTool } from '@agentskit/core'
+import { NetError, NetErrorCodes, readBody } from '@agentskit/net'
 import { checkEgress, safeFetch } from '../safe-fetch'
 import type { EgressPolicy } from '../safe-fetch'
 
@@ -67,37 +68,18 @@ async function download(url: string, config: DocumentParsersConfig): Promise<Uin
         message: `document download failed with status ${response.status}`,
       })
     }
-    const contentLength = response.headers.get('content-length')
-    if (contentLength && Number(contentLength) > maxBytes) {
-      throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: `document exceeds maxBytes (${maxBytes})` })
-    }
-    if (!response.body) {
-      const buf = await response.arrayBuffer()
-      if (buf.byteLength > maxBytes) {
-        throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: `document exceeds maxBytes (${maxBytes})` })
+    try {
+      return await readBody(response, { maxBytes })
+    } catch (error) {
+      if (error instanceof NetError && error.code === NetErrorCodes.AK_NET_BODY_TOO_LARGE) {
+        throw new ToolError({
+          code: ErrorCodes.AK_TOOL_INVALID_INPUT,
+          message: `document exceeds maxBytes (${maxBytes})`,
+          cause: error,
+        })
       }
-      return new Uint8Array(buf)
+      throw error
     }
-    const reader = response.body.getReader()
-    const chunks: Uint8Array[] = []
-    let total = 0
-    while (true) {
-      const next = await reader.read()
-      if (next.done) break
-      total += next.value.byteLength
-      if (total > maxBytes) {
-        await reader.cancel()
-        throw new ToolError({ code: ErrorCodes.AK_TOOL_INVALID_INPUT, message: `document exceeds maxBytes (${maxBytes})` })
-      }
-      chunks.push(next.value)
-    }
-    const bytes = new Uint8Array(total)
-    let offset = 0
-    for (const chunk of chunks) {
-      bytes.set(chunk, offset)
-      offset += chunk.byteLength
-    }
-    return bytes
   } catch (error) {
     if (error instanceof Error && error.name === 'AbortError') {
       throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: `document download timed out after ${timeoutMs}ms` })
