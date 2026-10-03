@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "fb78a67ced8cece6fe4cc7b651ca19c31f60f70e872f0055f68587df64a48fb3",
+  "contentHash": "d04a76cd3a27a9380ee94624b7e572ace87ffcf0cc8754f1b8319f8fcb2ab3a8",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-02T22:47:13.459Z",
+  "generatedAt": "2026-10-02T23:34:37.728Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -17118,7 +17118,7 @@
         "ts",
         "rag"
       ],
-      "contentHash": "847126ee947d9718299875f896fd4ada73f7dddd359c85ff73a41235b3e79ac7"
+      "contentHash": "36c5ad56faaa9e2b0ca58dc03da90e814b74f535cf47875db2f23bb6890eb1b4"
     },
     {
       "id": "module:packages/cli/src/extensibility/rag/index.ts",
@@ -17456,7 +17456,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "2f6993488f1caa9534073e22958171582ed9773ec54981b1a4952db880a062af"
+      "contentHash": "5ad16ef2951af9089ea281f9b153c5cc05d0012d2be79f87edf45a77af10d066"
     },
     {
       "id": "module:packages/cli/src/resolve.ts",
@@ -18011,7 +18011,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "3a5fd7a82eaa547c206dd53bf863fa9646e843d5265fe1889da3d9e9a630ba1a"
+      "contentHash": "00b0175e80e1f4bc5f11b2d4442438fa15ac7da64275518444fd3249fa4e4b05"
     },
     {
       "id": "module:packages/cli/tests/fixtures/readme-quickstart.ts",
@@ -18270,7 +18270,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "67d85d71f646f7476d0f1f397c4b7d6816ddfb0ce6acadccc2513fdb81e70167"
+      "contentHash": "0c6029f53e5a42297475fd01949ea7de310247645ea2a759e897d3a250d43307"
     },
     {
       "id": "module:packages/cli/tests/resolve.test.ts",
@@ -37704,7 +37704,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "68569b719351a8c1e8eb981ba4a659c176beff59816529c860295571af9cb4be",
+    "hash": "1b5a802ff595b69cbbfc3a1146cbbdca6b445cdabd8bde1b57cacaad2db18152",
     "fileCount": 2505,
     "projectionVersion": 2
   },
@@ -37727,9 +37727,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "2b3d3fc274b3d98b5b58aca0d57127d5161c24823a46f2a05fa5c9cf5b7661ba",
+    "contentHash": "65113adabaf1b740276856f71a34ab3b15c6efe8988b45bdf3c577104431e1c4",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "ad36951d87b2cf1ece5b6131c7a6fee3bee8af2cf4f7d69c8a7432c702f9851d",
+    "snapshotHash": "d916f4771cd8d07d3877fda2226faa2fc39c4f5d5ddc9a4da43b9662d90bcee8",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -115120,7 +115120,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "847126ee947d9718299875f896fd4ada73f7dddd359c85ff73a41235b3e79ac7",
+        "contentHash": "36c5ad56faaa9e2b0ca58dc03da90e814b74f535cf47875db2f23bb6890eb1b4",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -116142,7 +116142,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "2f6993488f1caa9534073e22958171582ed9773ec54981b1a4952db880a062af",
+        "contentHash": "5ad16ef2951af9089ea281f9b153c5cc05d0012d2be79f87edf45a77af10d066",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -118188,7 +118188,7 @@
             }
           ]
         },
-        "contentHash": "3a5fd7a82eaa547c206dd53bf863fa9646e843d5265fe1889da3d9e9a630ba1a",
+        "contentHash": "00b0175e80e1f4bc5f11b2d4442438fa15ac7da64275518444fd3249fa4e4b05",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -119011,7 +119011,7 @@
             }
           ]
         },
-        "contentHash": "67d85d71f646f7476d0f1f397c4b7d6816ddfb0ce6acadccc2513fdb81e70167",
+        "contentHash": "0c6029f53e5a42297475fd01949ea7de310247645ea2a759e897d3a250d43307",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -188900,7 +188900,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "5b6909d67f38ec81a238b5b3a02ba88266cf76eaa99f67260f37873f5676007d",
+        "contentHash": "a8386c944621fa3cb6223cd978c9a46e09a6bbf645a0307d65818b7addfbf443",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "cli"
