@@ -13,6 +13,7 @@ import {
   rethrowIfAbort,
 } from './shared'
 
+/** Options for fetching and converting a URL into a document. */
 export interface UrlLoaderOptions extends LoaderOptions {
   headers?: Record<string, string>
   /** Explicit egress allowlist for arbitrary URLs. Required for loadUrl. */
@@ -28,6 +29,18 @@ function assertAllowedUrl(url: string, options: UrlLoaderOptions): void {
   }
 }
 
+/** Fetches a URL and returns its supported content as one or more documents.
+ * @param url URL to fetch.
+ * @param options Origin allowlist, fetch, timeout, and content-size limits.
+ * @returns Documents extracted from the response.
+ * @throws {RagError} When fetching, reading, or parsing the response fails.
+ * @example
+ * ```ts
+ * const [document] = await loadUrl('https://example.com/guide', {
+ *   allowedOrigins: ['https://example.com'],
+ * })
+ * ```
+ */
 export async function loadUrl(url: string, options: UrlLoaderOptions = {}): Promise<InputDocument[]> {
   assertAllowedUrl(url, options)
   const fetchImpl = options.fetch ?? globalThis.fetch
@@ -41,12 +54,21 @@ export async function loadUrl(url: string, options: UrlLoaderOptions = {}): Prom
   return [{ content, source: url, metadata: { url } }]
 }
 
+/** Options for loading a file from a GitHub repository. */
 export interface GitHubLoaderOptions extends LoaderOptions {
   token?: string
   /** Branch / tag / sha. Default 'HEAD'. */
   ref?: string
 }
 
+/** Loads one GitHub file as a document.
+ * @param owner Repository owner.
+ * @param repo Repository name.
+ * @param path Repository-relative file path.
+ * @param options GitHub credentials and loader limits.
+ * @returns The loaded file as a document.
+ * @throws {RagError} When the request or response parsing fails.
+ */
 export async function loadGitHubFile(
   owner: string,
   repo: string,
@@ -70,6 +92,7 @@ export async function loadGitHubFile(
   ]
 }
 
+/** Options for loading eligible files from a GitHub repository tree. */
 export interface GitHubTreeOptions extends GitHubLoaderOptions {
   /** Only include files matching this regex / test. */
   filter?: (path: string) => boolean
@@ -77,6 +100,13 @@ export interface GitHubTreeOptions extends GitHubLoaderOptions {
   maxFiles?: number
 }
 
+/** Loads matching files from a GitHub repository tree.
+ * @param owner Repository owner.
+ * @param repo Repository name.
+ * @param options Repository, filtering, credentials, and loader limits.
+ * @returns Successfully loaded documents; fails if every eligible download fails.
+ * @throws {RagError} When listing fails or all eligible downloads fail.
+ */
 export async function loadGitHubTree(
   owner: string,
   repo: string,
@@ -121,6 +151,7 @@ export async function loadGitHubTree(
   return finishTreeLoad('loadGitHubTree', attempted, loaded, docs)
 }
 
+/** Options for loading a Notion page and its child blocks. */
 export interface NotionLoaderOptions extends LoaderOptions {
   token: string
   version?: string
@@ -140,6 +171,12 @@ type NotionChildrenResponse = {
   next_cursor?: string | null
 }
 
+/** Loads supported text blocks from a Notion page, following child pagination.
+ * @param pageId Notion page identifier.
+ * @param options Page identifier, credentials, and loader limits.
+ * @returns The page content as a document.
+ * @throws {RagError} When loading or pagination fails.
+ */
 export async function loadNotionPage(
   pageId: string,
   options: NotionLoaderOptions,
@@ -191,6 +228,7 @@ export async function loadNotionPage(
   return [{ content: text, source: `notion://${pageId}`, metadata: { pageId } }]
 }
 
+/** Options for loading a Confluence page. */
 export interface ConfluenceLoaderOptions extends LoaderOptions {
   baseUrl: string
   /** Basic auth token `<email:api-token>` in base64, OR pass `authorization` header directly. */
@@ -198,6 +236,12 @@ export interface ConfluenceLoaderOptions extends LoaderOptions {
   authorization?: string
 }
 
+/** Loads a Confluence page as a document.
+ * @param pageId Confluence page identifier.
+ * @param options Page identifier, credentials, and loader limits.
+ * @returns The page content as a document.
+ * @throws {RagError} When the request or response parsing fails.
+ */
 export async function loadConfluencePage(
   pageId: string,
   options: ConfluenceLoaderOptions,
@@ -221,10 +265,17 @@ export async function loadConfluencePage(
   return [{ content, source: `${options.baseUrl}/pages/${pageId}`, metadata: { pageId, title: data.title } }]
 }
 
+/** Options for loading a Google Drive file. */
 export interface DriveLoaderOptions extends LoaderOptions {
   accessToken: string
 }
 
+/** Loads an exported Google Drive file as a document.
+ * @param fileId Google Drive file identifier.
+ * @param options File identifier, credentials, and loader limits.
+ * @returns The file content as a document.
+ * @throws {RagError} When the request or response parsing fails.
+ */
 export async function loadGoogleDriveFile(
   fileId: string,
   options: DriveLoaderOptions,
@@ -240,13 +291,16 @@ export async function loadGoogleDriveFile(
   return [{ content, source: `gdrive://${fileId}`, metadata: { fileId } }]
 }
 
+/** Options for fetching and extracting text from a PDF. */
 export interface PdfLoaderOptions extends LoaderOptions {
   parsePdf: (bytes: Uint8Array) => Promise<{ text: string; pages?: number }> | { text: string; pages?: number }
 }
 
-/**
- * PDF loader — parser is BYO so native deps stay out of the bundle.
- * Fetch bytes at `url`, hand to `parsePdf`, wrap in `InputDocument`.
+/** Fetches a PDF and extracts its text into a document.
+ * @param url URL of the PDF.
+ * @param options Fetch and loader limits.
+ * @returns The extracted PDF document.
+ * @throws {RagError} When fetching or parsing fails.
  */
 export async function loadPdf(url: string, options: PdfLoaderOptions): Promise<InputDocument[]> {
   const fetchImpl = options.fetch ?? globalThis.fetch

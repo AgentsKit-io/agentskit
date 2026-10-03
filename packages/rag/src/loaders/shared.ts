@@ -20,6 +20,7 @@ type S3Body = {
  * Shared options for remote document loaders.
  * @throws {RagError} with `AK_RAG_LOAD_FAILED` when a request or response read fails.
  */
+/** Shared options for remote document loaders. */
 export interface LoaderOptions {
   fetch?: typeof globalThis.fetch
   /** Optional abort signal forwarded to HTTP and SDK calls when supported. */

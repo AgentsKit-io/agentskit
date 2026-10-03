@@ -49,6 +49,16 @@ function projectSource(doc: RetrievedDocument): RetrievedDocument {
   return { ...doc, source: doc.metadata.source }
 }
 
+/** Creates a retriever that chunks, embeds, stores, and searches documents.
+ * @param config Store, embedding function, and optional chunking and search settings.
+ * @returns A RAG retriever with an `ingest` method.
+ * @example
+ * ```ts
+ * const rag = createRAG({ store, embed })
+ * await rag.ingest([{ id: 'guide', content: 'Install the package.' }])
+ * const results = await rag.retrieve({ query: 'How do I install it?' })
+ * ```
+ */
 export function createRAG(config: RAGConfig): RAG {
   const {
     embed,

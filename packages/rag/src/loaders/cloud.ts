@@ -15,6 +15,7 @@ import {
 // GCS — Google Cloud Storage
 // ---------------------------------------------------------------------------
 
+/** Options for loading objects from a Google Cloud Storage bucket. */
 export interface GcsLoaderOptions extends LoaderOptions {
   bucket: string
   prefix?: string
@@ -24,6 +25,11 @@ export interface GcsLoaderOptions extends LoaderOptions {
   maxFiles?: number
 }
 
+/** Lists and loads eligible objects from a Google Cloud Storage bucket.
+ * @param options Bucket, credentials, filtering, and loader limits.
+ * @returns Successfully loaded objects; fails if every eligible download fails.
+ * @throws {RagError} When listing fails or all eligible downloads fail.
+ */
 export async function loadGcs(options: GcsLoaderOptions): Promise<InputDocument[]> {
   const fetchImpl = options.fetch ?? globalThis.fetch
   const docs: InputDocument[] = []
@@ -86,6 +92,7 @@ export async function loadGcs(options: GcsLoaderOptions): Promise<InputDocument[
 // Dropbox
 // ---------------------------------------------------------------------------
 
+/** Options for loading files from Dropbox. */
 export interface DropboxLoaderOptions extends LoaderOptions {
   /** Dropbox OAuth2 access token. */
   accessToken: string
@@ -95,6 +102,11 @@ export interface DropboxLoaderOptions extends LoaderOptions {
   maxFiles?: number
 }
 
+/** Lists and loads eligible files from Dropbox.
+ * @param options Access token, path, filtering, and loader limits.
+ * @returns Successfully loaded files; fails if every eligible download fails.
+ * @throws {RagError} When listing fails or all eligible downloads fail.
+ */
 export async function loadDropbox(options: DropboxLoaderOptions): Promise<InputDocument[]> {
   const fetchImpl = options.fetch ?? globalThis.fetch
   const docs: InputDocument[] = []
@@ -165,6 +177,7 @@ export async function loadDropbox(options: DropboxLoaderOptions): Promise<InputD
 // OneDrive — Microsoft Graph
 // ---------------------------------------------------------------------------
 
+/** Options for loading files from a OneDrive folder tree. */
 export interface OneDriveLoaderOptions extends LoaderOptions {
   /** Microsoft Graph access token (mint via MSAL). */
   accessToken: string | (() => string | Promise<string>)
@@ -176,6 +189,11 @@ export interface OneDriveLoaderOptions extends LoaderOptions {
   maxFiles?: number
 }
 
+/** Lists and loads eligible files from OneDrive, including nested folders.
+ * @param options Access token, folder, filtering, and loader limits.
+ * @returns Successfully loaded files; fails if every eligible download fails.
+ * @throws {RagError} When listing fails or all eligible downloads fail.
+ */
 export async function loadOneDrive(options: OneDriveLoaderOptions): Promise<InputDocument[]> {
   const fetchImpl = options.fetch ?? globalThis.fetch
   const docs: InputDocument[] = []

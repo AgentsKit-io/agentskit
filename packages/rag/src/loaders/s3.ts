@@ -12,6 +12,7 @@ import {
   withDeadline,
 } from './shared'
 
+/** Minimal S3 client surface accepted by the S3 loader. */
 export interface S3LikeClient {
   /** SDK-compatible send method; `abortSignal` is passed to SDK requests. */
   send(
@@ -26,6 +27,7 @@ type S3ObjectBody = {
   [Symbol.asyncIterator]?: () => AsyncIterator<Uint8Array | string>
 }
 
+/** Options for listing and loading objects from an S3-compatible bucket. */
 export interface S3LoaderOptions extends LoaderOptions {
   /**
    * AWS SDK v3 \`S3Client\`-shaped client. Bring your own to keep the bundle
@@ -51,6 +53,11 @@ export interface S3LoaderOptions extends LoaderOptions {
   maxFiles?: number
 }
 
+/** Lists and loads eligible objects from S3.
+ * @param options Bucket, client or commands, filtering, and loader limits.
+ * @returns Successfully loaded objects; fails if every eligible download fails.
+ * @throws {RagError} When listing fails or all eligible downloads fail.
+ */
 export async function loadS3(options: S3LoaderOptions): Promise<InputDocument[]> {
   if (!options.commands) {
     throw new RagError({

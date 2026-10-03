@@ -2,8 +2,7 @@ import { AgentsKitError } from '@agentskit/core'
 
 const RAG_DOCS_URL = 'https://www.agentskit.io/docs/data/rag'
 
-/**
- * Error codes raised by `@agentskit/rag` loaders and rerankers. Kept local to
+/** Stable error codes raised by RAG loaders and rerankers. Kept local to
  * the package (rather than in core's `ErrorCodes`) because they describe RAG
  * ingestion/rerank I/O, not a core contract surface.
  */
@@ -16,10 +15,10 @@ export const RagErrorCodes = {
   AK_RAG_RERANK_FAILED: 'AK_RAG_RERANK_FAILED',
 } as const
 
+/** Union of the stable codes exposed through {@link RagErrorCodes}. */
 export type RagErrorCode = (typeof RagErrorCodes)[keyof typeof RagErrorCodes]
 
-/**
- * Typed error for RAG loaders and rerankers. Extends the core
+/** Typed error for RAG loaders and rerankers. Extends the core
  * `AgentsKitError` so callers can catch the whole AgentsKit family or narrow
  * on `error.code`.
  */
