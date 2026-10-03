@@ -9,7 +9,6 @@
     "lint": "tsc --noEmit"
   },
   "dependencies": {
-    "@agentskit/core": "workspace:*",
     "@agentskit/runtime": "workspace:*",
     "yaml": "^2.9.1"
   },
