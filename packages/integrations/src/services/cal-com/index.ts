@@ -3,6 +3,7 @@ import { CONFIG_FIELDS } from '../../config-fields'
 import { registerIntegration } from '../../registry'
 import { calComActions } from './actions'
 
+/** Descriptor for the Cal.com service integration. */
 export const calComIntegration = defineIntegration({
   name: 'cal-com',
   displayName: 'Cal.com',

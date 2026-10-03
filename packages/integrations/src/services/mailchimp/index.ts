@@ -3,6 +3,7 @@ import { CONFIG_FIELDS } from '../../config-fields'
 import { registerIntegration } from '../../registry'
 import { mailchimpActions } from './actions'
 
+/** Descriptor for the Mailchimp service integration. */
 export const mailchimpIntegration = defineIntegration({
   name: 'mailchimp',
   displayName: 'Mailchimp',

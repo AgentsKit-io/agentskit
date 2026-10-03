@@ -3,6 +3,7 @@ import { CONFIG_FIELDS } from '../../config-fields'
 import { registerIntegration } from '../../registry'
 import { deepgramActions } from './actions'
 
+/** Descriptor for the Deepgram service integration. */
 export const deepgramIntegration = defineIntegration({
   name: 'deepgram',
   displayName: 'Deepgram',

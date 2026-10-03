@@ -4,6 +4,7 @@ import { OAUTH_SPECS } from '../../oauth-specs'
 import { githubActionsList } from './actions'
 import { githubTriggers } from './triggers'
 
+/** Descriptor for the GitHub service integration. */
 export const githubIntegration = defineIntegration({
   name: 'github',
   displayName: 'GitHub',
