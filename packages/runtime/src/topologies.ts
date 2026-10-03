@@ -25,6 +25,7 @@ export interface AgentHandle<TContext = unknown> {
   abort?: () => void
 }
 
+/** Event emitted as a topology starts or agents are assigned work. */
 export interface TopologyLogEvent {
   topology: string
   phase: 'dispatch' | 'agent:start' | 'agent:end' | 'merge' | 'done'
@@ -34,12 +35,16 @@ export interface TopologyLogEvent {
   iteration?: number
 }
 
+/** Receives topology lifecycle events for logging or observation. */
 export type TopologyObserver = (event: TopologyLogEvent) => void
 
 // ---------------------------------------------------------------------------
 // Supervisor: one planner agent delegates to workers, then synthesizes.
 // ---------------------------------------------------------------------------
 
+/**
+ * Configuration for the supervisor topology.
+ */
 export interface SupervisorConfig<TContext = unknown> {
   supervisor: AgentHandle<TContext>
   workers: AgentHandle<TContext>[]
@@ -50,6 +55,11 @@ export interface SupervisorConfig<TContext = unknown> {
   onEvent?: TopologyObserver
 }
 
+/**
+ * Create a supervisor topology that delegates work to configured agents.
+ * @param config Agent definitions and supervisor behavior.
+ * @returns A handle for running and managing the topology.
+ */
 export function supervisor<TContext = unknown>(
   config: SupervisorConfig<TContext>,
 ): AgentHandle<TContext> {
@@ -95,6 +105,9 @@ export function supervisor<TContext = unknown>(
 // Swarm: broadcast to every member, user-supplied merger picks the output.
 // ---------------------------------------------------------------------------
 
+/**
+ * Configuration for a swarm of agents.
+ */
 export interface SwarmConfig<TContext = unknown> {
   name?: string
   members: AgentHandle<TContext>[]
@@ -196,6 +209,9 @@ export function swarm<TContext = unknown>(config: SwarmConfig<TContext>): AgentH
 // Hierarchical: tree of agents. Root decides which branch to dispatch to.
 // ---------------------------------------------------------------------------
 
+/**
+ * A node in a hierarchical agent topology.
+ */
 export interface HierarchicalNode<TContext = unknown> {
   agent: AgentHandle<TContext>
   /** Free-form tags the router can match against. */
@@ -203,6 +219,9 @@ export interface HierarchicalNode<TContext = unknown> {
   children?: HierarchicalNode<TContext>[]
 }
 
+/**
+ * Configuration for a hierarchy of agents.
+ */
 export interface HierarchicalConfig<TContext = unknown> {
   name?: string
   root: HierarchicalNode<TContext>
@@ -213,6 +232,11 @@ export interface HierarchicalConfig<TContext = unknown> {
   onEvent?: TopologyObserver
 }
 
+/**
+ * Create a hierarchical topology with parent and child agents.
+ * @param config The root and child hierarchy configuration.
+ * @returns A handle for running and managing the hierarchy.
+ */
 export function hierarchical<TContext = unknown>(
   config: HierarchicalConfig<TContext>,
 ): AgentHandle<TContext> {
@@ -247,6 +271,9 @@ export function hierarchical<TContext = unknown>(
 // Blackboard: agents read/write a shared scratchpad. Loop until converge.
 // ---------------------------------------------------------------------------
 
+/**
+ * Configuration for agents that coordinate through shared blackboard state.
+ */
 export interface BlackboardConfig<TContext = unknown> {
   name?: string
   agents: AgentHandle<TContext>[]
@@ -257,6 +284,11 @@ export interface BlackboardConfig<TContext = unknown> {
   onEvent?: TopologyObserver
 }
 
+/**
+ * Create a blackboard topology that lets agents coordinate through shared state.
+ * @param config Agent and blackboard settings.
+ * @returns A handle for running and managing the topology.
+ */
 export function blackboard<TContext = unknown>(
   config: BlackboardConfig<TContext>,
 ): AgentHandle<TContext> {

@@ -28,6 +28,9 @@ export interface StepRecord<TResult = unknown> {
   attempt: number
 }
 
+/**
+ * Persistence contract for appending, retrieving, listing, and optionally clearing step records.
+ */
 export interface StepLogStore {
   append: <T>(record: StepRecord<T>) => Promise<void>
   get: <T>(runId: string, stepId: string) => Promise<StepRecord<T> | null>
@@ -35,6 +38,9 @@ export interface StepLogStore {
   clear?: (runId: string) => Promise<void>
 }
 
+/**
+ * Options for durable step execution, including its store and stable run identifier.
+ */
 export interface DurableRunnerOptions {
   store: StepLogStore
   runId: string
@@ -48,12 +54,18 @@ export interface DurableRunnerOptions {
   onEvent?: (event: DurableEvent) => void
 }
 
+/**
+ * Lifecycle event emitted when a durable step starts, succeeds, fails, or replays.
+ */
 export type DurableEvent =
   | { type: 'step:replay'; stepId: string; name: string; runId: string }
   | { type: 'step:start'; stepId: string; name: string; runId: string; attempt: number }
   | { type: 'step:success'; stepId: string; name: string; runId: string; durationMs: number }
   | { type: 'step:failure'; stepId: string; name: string; runId: string; error: string; attempt: number }
 
+/**
+ * Operations for executing, replaying, inspecting, and resetting steps in one run.
+ */
 export interface DurableRunner {
   /**
    * Execute `fn` under the name `stepId`. If the step has already
@@ -82,6 +94,12 @@ function isStepRecord(input: unknown): input is StepRecord<unknown> {
   )
 }
 
+/**
+ * Create a runner that records step results and replays completed steps for a run.
+ * @param options Store, run identifier, retry policy, abort signal, and event callback.
+ * @returns A runner with `step`, `history`, and `reset` operations.
+ * @throws {RuntimeError} When a recorded step failed or an operation is aborted.
+ */
 export function createDurableRunner(options: DurableRunnerOptions): DurableRunner {
   const maxAttempts = Math.max(1, options.maxAttempts ?? 1)
   const retryDelayMs = Math.max(0, options.retryDelayMs ?? 0)

@@ -28,6 +28,9 @@ export interface FlowNode {
   needs?: string[]
 }
 
+/**
+ * Named directed acyclic flow made of handler-backed nodes and dependencies.
+ */
 export interface FlowDefinition {
   name: string
   version?: number | string
@@ -35,6 +38,9 @@ export interface FlowDefinition {
   nodes: FlowNode[]
 }
 
+/**
+ * Input, node metadata, dependency outputs, and static values supplied to a flow handler.
+ */
 export interface FlowHandlerContext<TInput = unknown> {
   node: FlowNode
   /** Initial input passed to `runFlow`. */
@@ -45,18 +51,30 @@ export interface FlowHandlerContext<TInput = unknown> {
   with: Record<string, unknown>
 }
 
+/**
+ * A sync or async function that processes one flow node context.
+ */
 export type FlowHandler<TInput = unknown, TResult = unknown> = (
   ctx: FlowHandlerContext<TInput>,
 ) => Promise<TResult> | TResult
 
+/**
+ * Map of handler names to functions used by flow nodes.
+ */
 export type FlowRegistry<TInput = unknown> = Record<string, FlowHandler<TInput>>
 
+/**
+ * A validation error identifying an invalid node or flow structure.
+ */
 export interface FlowValidationIssue {
   code: 'duplicate-id' | 'missing-handler' | 'unknown-dependency' | 'self-dependency' | 'cycle'
   message: string
   nodeId?: string
 }
 
+/**
+ * Flow validity, validation issues, and execution order.
+ */
 export interface FlowValidationResult {
   ok: boolean
   issues: FlowValidationIssue[]
@@ -64,6 +82,12 @@ export interface FlowValidationResult {
   order: string[]
 }
 
+/**
+ * Validate flow node identifiers, handlers, dependencies, and cycles.
+ * @param def Flow definition to inspect.
+ * @param registry Optional handler registry used to check handler names.
+ * @returns Validation status, issues, and topological node order when valid.
+ */
 export function validateFlow(
   def: FlowDefinition,
   registry?: FlowRegistry,
@@ -144,11 +168,17 @@ function topoSort(
   return { ok: false, cycle: stuck }
 }
 
+/**
+ * Flow definition and registry used to compile an executable flow.
+ */
 export interface CompileFlowOptions<TInput = unknown> {
   definition: FlowDefinition
   registry: FlowRegistry<TInput>
 }
 
+/**
+ * Run identifier, durable store, retry settings, and event callback for a flow run.
+ */
 export interface RunFlowOptions {
   /** Defaults to a fresh `runId` per call. Reuse to resume after a crash. */
   runId?: string
@@ -160,6 +190,9 @@ export interface RunFlowOptions {
   onEvent?: (event: FlowRunEvent) => void
 }
 
+/**
+ * Lifecycle event emitted while a flow and its nodes execute.
+ */
 export type FlowRunEvent =
   | { type: 'flow:start'; flow: string; runId: string }
   | { type: 'node:start'; flow: string; runId: string; nodeId: string }
@@ -167,12 +200,21 @@ export type FlowRunEvent =
   | { type: 'node:failure'; flow: string; runId: string; nodeId: string; error: string }
   | { type: 'flow:done'; flow: string; runId: string; outputs: Record<string, unknown> }
 
+/**
+ * Validated flow definition, node order, and durable run function.
+ */
 export interface CompiledFlow<TInput = unknown> {
   definition: FlowDefinition
   order: string[]
   run: (input?: TInput, options?: RunFlowOptions) => Promise<Record<string, unknown>>
 }
 
+/**
+ * Validate and compile a flow into a durable DAG runner.
+ * @param options Flow definition and handler registry.
+ * @returns Compiled flow with its execution order and `run` method.
+ * @throws {RuntimeError} When the definition has validation issues.
+ */
 export function compileFlow<TInput = unknown>(
   options: CompileFlowOptions<TInput>,
 ): CompiledFlow<TInput> {
