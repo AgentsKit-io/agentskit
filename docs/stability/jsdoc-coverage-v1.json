@@ -1131,18 +1131,7 @@
       ".::ToolCallView",
       ".::ToolConfirmation"
     ],
-    "@agentskit/templates": [
-      ".::AdapterTemplateConfig",
-      ".::createAdapterTemplate",
-      ".::createSkillTemplate",
-      ".::createToolTemplate",
-      ".::ScaffoldType",
-      ".::SkillTemplateConfig",
-      ".::ToolTemplateConfig",
-      ".::validateAdapterTemplate",
-      ".::validateSkillTemplate",
-      ".::validateToolTemplate"
-    ],
+    "@agentskit/templates": [],
     "@agentskit/tools": [
       ".::DefineZodToolConfig",
       ".::FetchUrlConfig",
