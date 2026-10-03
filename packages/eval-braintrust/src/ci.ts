@@ -1,11 +1,13 @@
 import { ConfigError, ErrorCodes } from '@agentskit/core'
 import type { ExperimentResult } from './runner'
 
+/** Global and scorer-specific score drop limits used by {@link detectRegressions}. */
 export interface RegressionThresholds {
   default?: number
   perScorer?: Record<string, number>
 }
 
+/** One scorer whose current mean dropped beyond its configured threshold. */
 export interface RegressionAlert {
   scorer: string
   baseline: number
@@ -24,6 +26,18 @@ function assertUnitInterval(value: unknown, name: string): number {
   return value
 }
 
+/** Find scorers whose mean score fell by more than their configured threshold.
+ *
+ * @param baseline Baseline scorer means and sample counts.
+ * @param current Current scorer means and sample counts.
+ * @param thresholds Optional default and per-scorer maximum drops; default is 0.05.
+ * @returns Regression alerts for scorers present in both summaries.
+ * @throws ConfigError when a threshold is not a finite number in [0, 1].
+ * @example
+ * ```ts
+ * const alerts = detectRegressions(previous.summary, latest.summary, { default: 0.05 })
+ * ```
+ */
 export function detectRegressions(
   baseline: ExperimentResult['summary'],
   current: ExperimentResult['summary'],
@@ -48,6 +62,11 @@ export function detectRegressions(
   return out
 }
 
+/** Render regression alerts as a Markdown table, or a no-regressions message.
+ *
+ * @param alerts Alerts returned by {@link detectRegressions}.
+ * @returns A Markdown summary suitable for a pull request or CI report.
+ */
 export function formatAlertsMarkdown(alerts: RegressionAlert[]): string {
   if (alerts.length === 0) return '✅ No regressions detected.'
   const rows = alerts

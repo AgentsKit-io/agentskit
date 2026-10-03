@@ -1,6 +1,7 @@
 import { ErrorCodes, isRecord, RuntimeError } from '@agentskit/core'
 import type { Scorer, ScorerInput, ScorerResult } from './types'
 
+/** Project, experiment, and opt-in upload settings for {@link runBraintrustEval}. */
 export interface BraintrustRunOptions {
   apiKey?: string
   projectName: string
@@ -17,6 +18,7 @@ export interface BraintrustRunOptions {
   }
 }
 
+/** One input, agent output, metadata, and scorer results from a Braintrust evaluation. */
 export interface ScoredCase {
   input: string
   output: string
@@ -26,6 +28,7 @@ export interface ScoredCase {
   durationMs?: number
 }
 
+/** Per-case scores, aggregate means, and optional Braintrust experiment details. */
 export interface ExperimentResult {
   projectName: string
   experimentName: string
@@ -133,6 +136,12 @@ function remoteMetadata(
   return out
 }
 
+/** Run each scorer for one case and convert thrown or malformed results to `scorer_error` entries.
+ *
+ * @param scorers Scorers to run in order.
+ * @param args Input, output, expected value, and metadata passed to each scorer.
+ * @returns One valid scorer result or isolated error result per scorer.
+ */
 export async function scoreCase(
   scorers: Scorer[],
   args: ScorerInput,
@@ -163,6 +172,12 @@ export async function scoreCase(
   return out
 }
 
+/** Aggregate each scorer's mean score and sample count across evaluated cases.
+ *
+ * @param cases Cases whose scorer results should be aggregated.
+ * @returns A map from scorer name to its mean score and result count.
+ * @throws RuntimeError when a case contains an invalid scorer result.
+ */
 export function summarize(cases: ScoredCase[]): Record<string, { mean: number; n: number }> {
   const acc = new Map<string, { sum: number; n: number }>()
   for (const c of cases) {
@@ -186,6 +201,7 @@ export function summarize(cases: ScoredCase[]): Record<string, { mean: number; n
   return out
 }
 
+/** Case data, agent, scorers, and run options for {@link runBraintrustEval}. */
 export interface RunBraintrustEvalArgs<TCase extends ScorerInput = ScorerInput> {
   cases: TCase[]
   agent: (input: string) => Promise<{ output: string; metadata?: Record<string, unknown> }>
@@ -193,10 +209,27 @@ export interface RunBraintrustEvalArgs<TCase extends ScorerInput = ScorerInput> 
   options: BraintrustRunOptions
 }
 
+/** Optional Braintrust SDK injection used by the runner. */
 export interface RunBraintrustEvalInternals {
   bt?: BraintrustModule
 }
 
+/** Score evaluation cases and optionally log the results to a Braintrust experiment.
+ *
+ * @param args Cases, agent, scorers, and run options.
+ * @param internals Optional SDK injection for the Braintrust integration.
+ * @returns Local case scores and summary, plus an experiment URL or non-fatal SDK warnings when applicable.
+ * @throws RuntimeError when the upload field size is outside the supported range.
+ * @example
+ * ```ts
+ * const result = await runBraintrustEval({
+ *   cases: [{ input: '2 + 2?', output: '', expected: '4' }],
+ *   agent: async input => ({ output: await agent.run(input) }),
+ *   scorers: [taskSuccess],
+ *   options: { projectName: 'my-agent' },
+ * })
+ * ```
+ */
 export async function runBraintrustEval<TCase extends ScorerInput = ScorerInput>(
   args: RunBraintrustEvalArgs<TCase>,
   internals: RunBraintrustEvalInternals = {},
