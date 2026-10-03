@@ -285,7 +285,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:38e4ff3f70e7463ab700af5ebd9ac3b1815365e4968d47107ccd107f02fcfd64"
+        "sourceHash": "sha256:7577f2367942aef5857c31f235fccb715d0d78f85bb5636d414a578257e93545"
       },
       "exceptions": []
     },
@@ -363,7 +363,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:315772d52e38517441f7c58937840dfe1c57906c93ba0e69e63e477edb85fcf2"
+        "sourceHash": "sha256:9300aad7c0a4174f98873a4337feff10712199a3f3161f98d8d1f04c39706168"
       },
       "exceptions": []
     },
@@ -441,7 +441,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:d92ff745a5316b47b267ee4972c3af28bf9782815b9e51c69872f9de4d2464e1"
+        "sourceHash": "sha256:ea37b973d118aaceeeb4e54b0cc1ff6f6a149c2d9549e5a6e0d72f4793de7c32"
       },
       "exceptions": []
     },
@@ -519,7 +519,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:f336883f2ec9c62871e17733e0a32374f4a018aa1ba2fd56857096b67de5d6e5"
+        "sourceHash": "sha256:231eb7f0c98a6d5077236214004d1f9526f44cc60e055df7deba0463d1aea148"
       },
       "exceptions": []
     },
@@ -597,7 +597,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:cbd6ded516575b13d9a33531629e7913ccd3da5e1bfdee022b30165c015b7104"
+        "sourceHash": "sha256:295093949e17db176fe6c4fa2c6109cec5f59ae14e9370e89754cf59cc739d8b"
       },
       "exceptions": []
     },
@@ -675,7 +675,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:cd25b6897efef00ec76b11779baf402c67905e1f1ac46622a8a0a118a6e6492d"
+        "sourceHash": "sha256:1948b69de207f398ed87dd6157e4e6fb839eec8dfca44cb76df199ce08e3499e"
       },
       "exceptions": []
     },
@@ -753,7 +753,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:35a7dc80473d6b50ff323f3cae9d352e0b32fb585633e6a5c6fbf63852a3f88b"
+        "sourceHash": "sha256:8da705b7a8f599e2f1bf81c34bca12486e3eaeca7df0ba976eea2eca875dd385"
       },
       "exceptions": []
     },
@@ -831,7 +831,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:3deea003cdd5e6f6f4b2684455faec904b1fda9b69913796a35f23ea36540397"
+        "sourceHash": "sha256:11f5c3016cf7784ac015e8d1d2c36d1116f61a7bfe7ca99bcbea7a2f00f40a1d"
       },
       "exceptions": []
     },
@@ -886,7 +886,7 @@
       "commands": [
         {
           "id": "install",
-          "command": "npx -y @agentskit/mcp@0.4.10 --tools fetch,search",
+          "command": "npx -y @agentskit/mcp@0.4.11 --tools fetch,search",
           "test": "packages/mcp/tests/server.test.ts",
           "testCommand": "pnpm --filter @agentskit/mcp test"
         }
@@ -909,7 +909,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:5486269667dc29731165ad977b056cc585d29956588cc8e8d61c02782371fbc2"
+        "sourceHash": "sha256:0fb8725f96b4de8c6d7b7c57eb7e67dd407cabdb22c388272984a3a21798486c"
       },
       "exceptions": []
     },
@@ -987,7 +987,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:e93bb599c99d5faf5c8b6f15137b1407933bd9c1e56650fa7313b6abaa677ad8"
+        "sourceHash": "sha256:680b9ff7d12c25437f6c513305c703ffcbfe692c25fa920595492446a809db33"
       },
       "exceptions": []
     },
@@ -1065,7 +1065,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:531973f97d0a6744ac416713a28b03735b26106036ebe59117c16dc65c4ab575"
+        "sourceHash": "sha256:16068f89b98cba0ce2c25d5014a672cb2447ef7d27070342c470898041b4841d"
       },
       "exceptions": []
     },
@@ -1143,7 +1143,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:68fd6bf0c01ab922237f698693aa7fe4781c7f48f0b5cff71054ab453d7c2116"
+        "sourceHash": "sha256:4835c063190d2dcfbf7e983b6cda9ba48c30e1e5b2a7956a691a99f375a9808a"
       },
       "exceptions": []
     },
@@ -1221,7 +1221,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:df18b449d6b3ab6cfeb6bb69a6b3f5ffd1eba093aa5db09ebb3791e372b62d1f"
+        "sourceHash": "sha256:b3e9d6bce90983456c1a64731963572a6d63f4a37f8beb11dda09735c54e161f"
       },
       "exceptions": []
     },
@@ -1299,7 +1299,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:6a206bcb68f7360ebd5ac4ff2b04a238d138887704d5b5f8999c0342682f0b4f"
+        "sourceHash": "sha256:227b156719314891b7eccac5367d94223a30f4140ef58875183c6c821e41191b"
       },
       "exceptions": []
     },
@@ -1377,7 +1377,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:99ab330f64d1cd8afafae6af8b13ecbccbc66b2e0d4742a34f0e35212eac71a5"
+        "sourceHash": "sha256:0c8e930b361095e0de9e5607b2b7777a0aa1e1b42369edc908f04b53647670ce"
       },
       "exceptions": []
     },
@@ -1455,7 +1455,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:3c2dae1ed8069d4ecc41b8b24eae8a4f07ea8b06d12492118712bf73b13e3326"
+        "sourceHash": "sha256:1dc0ae320205343af9a605be5de40877f8c358c7a23747d7de57e822200af4e2"
       },
       "exceptions": []
     },
@@ -1533,7 +1533,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:d9ea5e166673fc35acd436ccb37f2facacded263922709e2588fc806c38f1a5c"
+        "sourceHash": "sha256:b4af0da3964fb1024a9215ccfc9b1a488d211ffb5ad2f9b98edaf5ad809a82f9"
       },
       "exceptions": []
     },
@@ -1611,7 +1611,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:70dc1b6f830675c3fd17e75b7e45bc7ec96ebcec75ab6a974fc0891ef98b52e5"
+        "sourceHash": "sha256:49054391c94bf3d8ed9938fa9e0a97d37dcdcdd5075cc094f3c1d470ca0df57b"
       },
       "exceptions": []
     },
@@ -1689,7 +1689,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:e1f03d8c79baff921c623eb11c18077f8be4b2d86fe5dbd08d561980a7d5182f"
+        "sourceHash": "sha256:93458743b380ac5d62486a1410a3793762ed3fc2e5a17d9d1f8080b0fa994a8b"
       },
       "exceptions": []
     },
@@ -1767,7 +1767,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:f94b44763c8edae7b120a26af3e0e150c885e091aeea9a092f2029b51297e94f"
+        "sourceHash": "sha256:2fe13e8c3cd23cf13c55dbf46da7219f77965419c5d30b69c4a87777abc9f258"
       },
       "exceptions": []
     },
@@ -1845,7 +1845,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:0df203a334c4d97d0c5e4d8f94fad3f99e5a4b8384e55057821e51cb1e72b40a"
+        "sourceHash": "sha256:c6c5313f0f773474baf1825f2156e7c0a2640092b957879d24dc0eab69d29d92"
       },
       "exceptions": []
     },
@@ -1923,7 +1923,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:532cfaa4b31709381ad0b9eaac3dcb36df37f3cb8b7ec6c03a403a3c6429a019"
+        "sourceHash": "sha256:e1c3a47a84245ee55a4352c3ff6f7e9b18a253977b6f6aab8af191b9168a6c0c"
       },
       "exceptions": []
     },
@@ -2001,7 +2001,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:efffb3d0eda808c2b2a0fd07e94e58aa5564ac61d23715c7101cec35f50d9a65"
+        "sourceHash": "sha256:578e883622ac91768476d18d36b5e2ff562af3a4c8e5037fdd642e01a76ee292"
       },
       "exceptions": []
     },
@@ -2079,7 +2079,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:bc6a30bfc11e260c4e086976d449e50677bd6d65f0324590b60e33d298d73e20"
+        "sourceHash": "sha256:2406ce245ae44ec7010813ea909a1327baa0cbdb63fbf0cb665d78a318ce6ed9"
       },
       "exceptions": []
     },
@@ -2157,7 +2157,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:daa071b276dc93d703eee2d927e62a17802c192dfa86a185ee0c082cb77f4e0a"
+        "sourceHash": "sha256:327186b1593418b5216a31f2b61f85c403c6da2bcb2232a9555eb99db1e9564a"
       },
       "exceptions": []
     },
@@ -2235,7 +2235,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:d54ee93adefc494e85741a14034590c99c184a1758b61c08e4ca02efac3f4383"
+        "sourceHash": "sha256:ddac6b1aa51831f35279044793493f9511f5061f5f159b52ba2e8e861a4f3c29"
       },
       "exceptions": []
     },
@@ -2313,7 +2313,7 @@
           "docs/STABILITY.md",
           "scripts/readme-fixtures.test.mjs"
         ],
-        "sourceHash": "sha256:1b819dd5d4506e58fa71400837cd8eb2e950f98940a944e0547682056c5fda43"
+        "sourceHash": "sha256:ba9adf693c42bea6d5f1a5bea42ad640bb54fda8620e78cc441357213e5d06d3"
       },
       "exceptions": []
     },
