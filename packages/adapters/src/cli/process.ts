@@ -1,6 +1,7 @@
 import type { ChildProcessWithoutNullStreams } from 'node:child_process'
 import { open } from 'node:fs/promises'
 import { AdapterError, ErrorCodes } from '@agentskit/core'
+import { redactSecrets } from '@agentskit/core/security'
 import { killProcessTree, spawnNodeChild } from '@agentskit/cross-platform'
 import { raceAbort } from '../stream-errors'
 import type { CliDiagnostic, CliProcessOptions, CliTerminationReason } from './types'
@@ -88,11 +89,7 @@ function redactionValues(options: CliProcessOptions): string[] {
 }
 
 export function redactCliText(text: string, values: readonly string[] = []): string {
-  let redacted = text
-  for (const value of values) redacted = redacted.split(value).join('[REDACTED]')
-  return redacted
-    .replace(/\bBearer\s+[^\s,;]+/gi, 'Bearer [REDACTED]')
-    .replace(/\b(?:sk|pk|xai|ghp|github_pat|AIza)[A-Za-z0-9_-]{10,}\b/g, '[REDACTED]')
+  return redactSecrets(text, values)
 }
 
 function emitDiagnostic(options: CliProcessOptions, diagnostic: CliDiagnostic): void {
