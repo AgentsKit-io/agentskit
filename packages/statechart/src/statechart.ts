@@ -45,6 +45,21 @@ export const parseStatechartContext = <TContext extends JsonObject>(
 ): DeepReadonly<TContext> =>
   cloneJsonObject<TContext>(definition.parseContext(cloneJsonObject(input)))
 
+/**
+ * Create a frozen instance after validating its initial context.
+ *
+ * @param definition The validated statechart definition.
+ * @param context The untrusted initial context passed to the definition parser.
+ * @param options The instance ID and timestamp supplied by the caller.
+ * @returns The initial instance at revision zero.
+ * @throws {StatechartError} When instance metadata is empty or context validation fails.
+ * @example
+ * ```ts
+ * const instance = createStatechartInstance(machine, { total: 10 }, {
+ *   instanceId: 'checkout-1', now: new Date().toISOString(),
+ * })
+ * ```
+ */
 export const createStatechartInstance = <
   TContext extends JsonObject,
   TEvent extends StatechartEvent,
@@ -95,6 +110,21 @@ const rejectTransition = <
     status: 'rejected',
   })
 
+/**
+ * Evaluate one event and return an accepted or rejected transition result.
+ *
+ * @param definition The validated statechart definition.
+ * @param instance The current instance to evaluate.
+ * @param event The JSON-compatible event to dispatch.
+ * @param options The caller-supplied timestamp for an accepted transition.
+ * @returns The new instance on acceptance, or the unchanged instance and diagnostic on rejection.
+ * @example
+ * ```ts
+ * const result = transitionStatechart(machine, instance, { type: 'PAY' }, {
+ *   now: new Date().toISOString(),
+ * })
+ * ```
+ */
 export const transitionStatechart = <
   TContext extends JsonObject,
   TEvent extends StatechartEvent,
@@ -248,6 +278,13 @@ export const transitionStatechart = <
   })
 }
 
+/**
+ * Deliver a transition result while isolating observer failures.
+ *
+ * @param observer The synchronous observer to invoke.
+ * @param result The accepted or rejected transition result to deliver.
+ * @returns Whether delivery succeeded or a diagnostic for a throw or thenable.
+ */
 export const notifyStatechartObserver = <
   TContext extends JsonObject,
   TEvent extends StatechartEvent,

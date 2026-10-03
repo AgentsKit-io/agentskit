@@ -3,6 +3,7 @@ import { Text } from 'ink'
 import { Marked } from 'marked'
 import { markedTerminal } from 'marked-terminal'
 
+/** Markdown source rendered as terminal-formatted text. */
 export interface MarkdownTextProps {
   content: string
 }
@@ -57,6 +58,14 @@ function stripTerminalControls(input: string): string {
  * Renders markdown (incl. tables, code blocks, links) to ANSI-styled text.
  * Delegates parsing to `marked` and terminal rendering to `marked-terminal`;
  * Ink's `<Text>` passes ANSI escapes through untouched.
+ */
+/** Render Markdown as terminal text after stripping terminal control input.
+ * @param props The Markdown content to render.
+ * @returns Ink text containing the terminal-formatted content.
+ * @example
+ * ```tsx
+ * <MarkdownText content="**Ready**" />
+ * ```
  */
 export function MarkdownText({ content }: MarkdownTextProps) {
   const rendered = useMemo(() => {
