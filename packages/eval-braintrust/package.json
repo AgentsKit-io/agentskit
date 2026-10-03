@@ -51,8 +51,7 @@
     "dev": "tsup --watch"
   },
   "dependencies": {
-    "@agentskit/core": "workspace:*",
-    "@agentskit/eval": "workspace:*"
+    "@agentskit/core": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^25.9.5",

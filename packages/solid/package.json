@@ -59,7 +59,6 @@
     "@solidjs/testing-library": "^0.8.10",
     "@testing-library/jest-dom": "^6.9.1",
     "@types/node": "^25.9.5",
-    "babel-preset-solid": "^1.9.15",
     "esbuild-plugin-solid": "^0.6.0",
     "happy-dom": "^20.14.5",
     "solid-js": "^1.9.15",
@@ -86,5 +85,8 @@
   "bugs": {
     "url": "https://github.com/AgentsKit-io/agentskit/issues"
   },
-  "author": "AgentsKit Contributors"
+  "author": "AgentsKit Contributors",
+  "engines": {
+    "node": ">=22"
+  }
 }

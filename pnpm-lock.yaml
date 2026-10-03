@@ -72,6 +72,9 @@ importers:
       '@size-limit/file':
         specifier: ^12.1.0
         version: 12.1.0(size-limit@12.1.0(jiti@2.7.0))
+      '@types/json-schema':
+        specifier: ^7.0.15
+        version: 7.0.15
       '@vitest/coverage-v8':
         specifier: ^4.1.11
         version: 4.1.11(vitest@4.1.11)
@@ -81,6 +84,9 @@ importers:
       husky:
         specifier: ^9.1.7
         version: 9.1.7
+      semver:
+        specifier: ^7.8.5
+        version: 7.8.5
       simple-icons:
         specifier: ^16.32.0
         version: 16.32.0
@@ -123,9 +129,6 @@ importers:
       '@hono/node-server':
         specifier: ^2.1.1
         version: 2.1.1(hono@4.13.8)
-      '@huggingface/transformers':
-        specifier: ^4.3.0
-        version: 4.3.0
       '@upstash/ratelimit':
         specifier: ^2.1.0
         version: 2.1.0(@upstash/redis@1.38.4)
@@ -202,12 +205,6 @@ importers:
       '@tailwindcss/postcss':
         specifier: ^4.3.3
         version: 4.3.3
-      '@upstash/ratelimit':
-        specifier: ^2.1.0
-        version: 2.1.0(@upstash/redis@1.38.4)
-      '@upstash/redis':
-        specifier: ^1.38.4
-        version: 1.38.4
       '@vercel/analytics':
         specifier: ^2.0.1
         version: 2.0.1(next@16.3.5(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.63.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sass@1.101.0))(react@19.2.8)(svelte@5.57.0)(vue@3.5.42(typescript@6.0.3))
@@ -250,9 +247,6 @@ importers:
       react-server-dom-webpack:
         specifier: ^19.3.0
         version: 19.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(webpack@5.111.1(esbuild@0.28.1)(postcss@8.5.28))
-      redis:
-        specifier: ^6.2.1
-        version: 6.2.1(@opentelemetry/api@1.9.1)
       remark-gfm:
         specifier: ^4.0.1
         version: 4.0.1
@@ -314,9 +308,6 @@ importers:
 
   apps/example-discord-bot:
     dependencies:
-      '@agentskit/adapters':
-        specifier: workspace:*
-        version: link:../../packages/adapters
       '@agentskit/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -393,9 +384,6 @@ importers:
 
   apps/example-flow:
     dependencies:
-      '@agentskit/core':
-        specifier: workspace:*
-        version: link:../../packages/core
       '@agentskit/runtime':
         specifier: workspace:*
         version: link:../../packages/runtime
@@ -483,9 +471,6 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../../packages/core
-      '@agentskit/memory':
-        specifier: workspace:*
-        version: link:../../packages/memory
       '@agentskit/rag':
         specifier: workspace:*
         version: link:../../packages/rag
@@ -576,9 +561,6 @@ importers:
 
   apps/example-slack-bot:
     dependencies:
-      '@agentskit/adapters':
-        specifier: workspace:*
-        version: link:../../packages/adapters
       '@agentskit/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -601,9 +583,6 @@ importers:
 
   apps/example-teams-bot:
     dependencies:
-      '@agentskit/adapters':
-        specifier: workspace:*
-        version: link:../../packages/adapters
       '@agentskit/core':
         specifier: workspace:*
         version: link:../../packages/core
@@ -978,9 +957,6 @@ importers:
         specifier: ^2.9.1
         version: 2.9.1
     devDependencies:
-      '@testing-library/jest-dom':
-        specifier: ^7.0.1
-        version: 7.0.1(@testing-library/dom@10.4.1)(vitest@4.1.11)
       '@testing-library/react':
         specifier: ^16.3.3
         version: 16.3.3(@testing-library/dom@10.4.1)(@types/react-dom@19.2.3(@types/react@19.2.17))(@types/react@19.2.17)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
@@ -1115,9 +1091,6 @@ importers:
       '@agentskit/core':
         specifier: workspace:*
         version: link:../core
-      '@agentskit/eval':
-        specifier: workspace:*
-        version: link:../eval
     devDependencies:
       '@types/node':
         specifier: ^25.9.5
@@ -1540,13 +1513,10 @@ importers:
         version: 0.8.10(solid-js@1.9.15)
       '@testing-library/jest-dom':
         specifier: ^6.9.1
-        version: 6.9.1
+        version: 6.10.0(@testing-library/dom@10.4.1)
       '@types/node':
         specifier: ^25.9.5
         version: 25.9.5
-      babel-preset-solid:
-        specifier: ^1.9.15
-        version: 1.9.15(@babel/core@7.29.7)(solid-js@1.9.15)
       esbuild-plugin-solid:
         specifier: ^0.6.0
         version: 0.6.0(esbuild@0.28.1)(solid-js@1.9.15)
@@ -1564,7 +1534,7 @@ importers:
         version: 6.0.3
       vite-plugin-solid:
         specifier: ^2.11.14
-        version: 2.11.14(@testing-library/jest-dom@6.9.1)(solid-js@1.9.15)(vite@8.3.0(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))
+        version: 2.11.14(@testing-library/jest-dom@6.10.0(@testing-library/dom@10.4.1))(solid-js@1.9.15)(vite@8.3.0(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))
       vitest:
         specifier: ^4.1.11
         version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@25.9.5)(@vitest/coverage-v8@4.1.11)(happy-dom@20.14.5)(jsdom@30.0.1(@noble/hashes@2.2.0))(msw@2.15.0(@types/node@25.9.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))
@@ -1596,9 +1566,6 @@ importers:
       '@sveltejs/vite-plugin-svelte':
         specifier: ^7.3.0
         version: 7.3.0(svelte@5.57.0)(vite@8.3.0(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))
-      '@testing-library/jest-dom':
-        specifier: ^6.9.1
-        version: 6.9.1
       '@testing-library/svelte':
         specifier: ^5.4.2
         version: 5.4.2(svelte@5.57.0)(vite@8.3.0(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))(vitest@4.1.11)
@@ -4667,9 +4634,12 @@ packages:
     resolution: {integrity: sha512-o4PXJQidqJl82ckFaXUeoAW+XysPLauYI43Abki5hABd853iMhitooc6znOnczgbTYmEP6U6/y1ZyKAIsvMKGg==}
     engines: {node: '>=18'}
 
-  '@testing-library/jest-dom@6.9.1':
-    resolution: {integrity: sha512-zIcONa+hVtVSSep9UT3jZ5rizo2BsxgyDYU7WFD5eICBE7no3881HGeb/QkGfsJs6JTkY1aQhT7rIPC7e+0nnA==}
-    engines: {node: '>=14', npm: '>=6', yarn: '>=1'}
+  '@testing-library/jest-dom@6.10.0':
+    resolution: {integrity: sha512-HQwu0KaB2zyT0iLzBL+8CLyZDL3KlZlZJ+2iyc9uCUnlJVskJU/UlPuVCyIPhtukjPQdT2QNoR5nCP5FqTmmDQ==}
+    engines: {node: '>=22', npm: '>=6', yarn: '>=1'}
+    deprecated: Incorrect minor release with breaking changes (Node >=22 and required @testing-library/dom peer). Use 6.9.1 for the 6.x line, or upgrade to 7.0.0.
+    peerDependencies:
+      '@testing-library/dom': '>=10 <11'
 
   '@testing-library/jest-dom@7.0.1':
     resolution: {integrity: sha512-oMDTC3oA+6CXSO2JZnvOI7CA6oVub6kij5ggk9ohwye5slmkwxYDXcPOVxgMw/RQlticjtO0C1RZkR97HgrWMw==}
@@ -8956,11 +8926,6 @@ packages:
     resolution: {integrity: sha512-BR7VvDCVHO+q2xBEWskxS6DJE1qRnb7DxzUrogb71CWoSficBxYsiAGd+Kl0mmq/MprG9yArRkyrQxTO6XjMzA==}
     hasBin: true
 
-  semver@7.8.4:
-    resolution: {integrity: sha512-rUCObTnP32Q08R2uuIrt7r9PlEonuTmtuXYcW6s5kjdlj3xbnwe+21yXptAUYcMAABLkYYTtnmzb3w3EDZfueA==}
-    engines: {node: '>=10'}
-    hasBin: true
-
   semver@7.8.5:
     resolution: {integrity: sha512-Y7/KDsb8LjooZpwaqGyulO6DQlksgCncchHGk+sZIY4SBvUocMBEFH5Ur1fI4dV+Jvl0w6cjvucaIi40puRioA==}
     engines: {node: '>=10'}
@@ -10254,7 +10219,7 @@ snapshots:
       chokidar: 5.0.0
       convert-source-map: 1.9.0
       reflect-metadata: 0.2.2
-      semver: 7.8.4
+      semver: 7.8.5
       tslib: 2.8.1
       yargs: 18.0.0
     optionalDependencies:
@@ -10821,7 +10786,7 @@ snapshots:
       outdent: 0.5.0
       prettier: 2.8.8
       resolve-from: 5.0.0
-      semver: 7.8.4
+      semver: 7.8.5
 
   '@changesets/assemble-release-plan@6.0.10':
     dependencies:
@@ -10830,7 +10795,7 @@ snapshots:
       '@changesets/should-skip-package': 0.1.2
       '@changesets/types': 6.1.0
       '@manypkg/get-packages': 1.1.3
-      semver: 7.8.4
+      semver: 7.8.5
 
   '@changesets/changelog-git@0.2.1':
     dependencies:
@@ -10861,7 +10826,7 @@ snapshots:
       package-manager-detector: 0.2.11
       picocolors: 1.1.1
       resolve-from: 5.0.0
-      semver: 7.8.4
+      semver: 7.8.5
       spawndamnit: 3.0.1
       term-size: 2.2.1
     transitivePeerDependencies:
@@ -10887,7 +10852,7 @@ snapshots:
       '@changesets/types': 6.1.0
       '@manypkg/get-packages': 1.1.3
       picocolors: 1.1.1
-      semver: 7.8.4
+      semver: 7.8.5
 
   '@changesets/get-release-plan@4.0.16':
     dependencies:
@@ -13397,7 +13362,7 @@ snapshots:
       chokidar: 5.0.0
       kleur: 4.1.5
       sade: 1.8.1
-      semver: 7.8.4
+      semver: 7.8.5
       svelte: 5.57.0
       svelte2tsx: 0.7.57(svelte@5.57.0)(typescript@6.0.3)
     transitivePeerDependencies:
@@ -13496,9 +13461,10 @@ snapshots:
       picocolors: 1.1.1
       pretty-format: 27.5.1
 
-  '@testing-library/jest-dom@6.9.1':
+  '@testing-library/jest-dom@6.10.0(@testing-library/dom@10.4.1)':
     dependencies:
       '@adobe/css-tools': 4.5.0
+      '@testing-library/dom': 10.4.1
       aria-query: 5.3.2
       css.escape: 1.5.1
       dom-accessibility-api: 0.6.3
@@ -18950,8 +18916,6 @@ snapshots:
 
   semver@6.3.1: {}
 
-  semver@7.8.4: {}
-
   semver@7.8.5: {}
 
   send@0.19.2:
@@ -19026,7 +18990,7 @@ snapshots:
     dependencies:
       '@img/colour': 1.1.0
       detect-libc: 2.1.2
-      semver: 7.8.4
+      semver: 7.8.5
     optionalDependencies:
       '@img/sharp-darwin-arm64': 0.35.0
       '@img/sharp-darwin-x64': 0.35.0
@@ -19750,7 +19714,7 @@ snapshots:
       fast-glob: 3.3.3
       magic-string: 0.30.21
 
-  vite-plugin-solid@2.11.14(@testing-library/jest-dom@6.9.1)(solid-js@1.9.15)(vite@8.3.0(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1)):
+  vite-plugin-solid@2.11.14(@testing-library/jest-dom@6.10.0(@testing-library/dom@10.4.1))(solid-js@1.9.15)(vite@8.3.0(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1)):
     dependencies:
       '@babel/core': 7.29.7
       '@types/babel__core': 7.20.5
@@ -19761,7 +19725,7 @@ snapshots:
       vite: 8.3.0(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1)
       vitefu: 1.1.3(vite@8.3.0(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))
     optionalDependencies:
-      '@testing-library/jest-dom': 6.9.1
+      '@testing-library/jest-dom': 6.10.0(@testing-library/dom@10.4.1)
     transitivePeerDependencies:
       - supports-color
 
