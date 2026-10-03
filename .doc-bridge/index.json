@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "61ba31b71616df51ac6991d6b098ea4632d93d32b2c84733732770744d786c7f",
+  "contentHash": "36241ad7499d38120d0ba00e211026b7cd237641b3ea528cd9f2f769a38b5867",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-03T00:36:08.756Z",
+  "generatedAt": "2026-10-03T00:54:08.411Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -25453,7 +25453,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "d437de1d037b532a275513493aef00acde280f3f6c07fa0a753116fe50bec3ca"
+      "contentHash": "bfb91edfc512e73d03c3d44a38825b5fd9ad850a710198cd8b20c620d250ef10"
     },
     {
       "id": "module:packages/mcp/src/validation.ts",
@@ -25471,7 +25471,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "ab9952cafde1ccc213647de6317f6ace4dacf7119894c3ef9a6ecc98d8d7c5a0"
+      "contentHash": "a9c93778b7123d7e43258d26e6829978b8fbe25da0ee49e078bf2cff92fffefe"
     },
     {
       "id": "module:packages/mcp/tests/cli.test.ts",
@@ -37717,7 +37717,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "7fa18b19a0ae1ee1e3b20b2c8e89f5a8cdad7e46a613e9e8b45fb31e354a73d4",
+    "hash": "854d7eaf2670a4b102832af1ed8f6c77234bf673cc430fc214031ad272ddc09e",
     "fileCount": 2506,
     "projectionVersion": 2
   },
@@ -37740,9 +37740,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "47b235f867c3f750bf6bbde8b4b78861278bcb4559389201502ebeaeac04d201",
+    "contentHash": "d62eea3bdf3193947a3039afcce65a07e0635954f6963297af305201031c9a26",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "7659579d880f742f8f9986ee0355d0df3fafedf034fb4655f944479627345e21",
+    "snapshotHash": "06b9125275633a52df584695319e50dff266e2616323eb7e67c21d6c86c9a166",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -147875,7 +147875,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "d437de1d037b532a275513493aef00acde280f3f6c07fa0a753116fe50bec3ca",
+        "contentHash": "bfb91edfc512e73d03c3d44a38825b5fd9ad850a710198cd8b20c620d250ef10",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -147930,7 +147930,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "ab9952cafde1ccc213647de6317f6ace4dacf7119894c3ef9a6ecc98d8d7c5a0",
+        "contentHash": "a9c93778b7123d7e43258d26e6829978b8fbe25da0ee49e078bf2cff92fffefe",
         "provenance": "observed",
         "confidence": "observed"
       },
