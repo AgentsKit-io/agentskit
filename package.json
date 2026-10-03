@@ -29,6 +29,7 @@
     "check:models": "node scripts/check-models-dev-freshness.mjs",
     "gen:integration": "node scripts/gen-integration.mjs",
     "check:quality-gates": "node scripts/check-quality-gates.mjs",
+    "ci:timing": "node scripts/ci-timing-report.mjs",
     "check:semantic-authority": "node scripts/check-semantic-authority.mjs",
     "check:live-semantic-authority": "node scripts/check-live-semantic-authority.mjs",
     "check:product-chat-adoption": "node scripts/check-product-chat-adoption.mjs",
