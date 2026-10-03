@@ -63,8 +63,14 @@ export interface BuiltInCliManifestProtocols {
   grok: 'acp'
   opencode: 'acp'
 }
+/**
+ * Identifier of a built-in CLI provider manifest.
+ */
 export type BuiltInCliManifestId = keyof BuiltInCliManifestProtocols
 
+/**
+ * Overrides for resolving a CLI provider manifest into adapter options.
+ */
 export interface CliManifestOptions<P extends CliProtocol = CliProtocol> {
   args?: readonly string[]
   mode?: CliSecurityMode
@@ -193,6 +199,12 @@ function validateCapabilities(manifest: CliProviderManifest): void {
   }
 }
 
+/**
+ * Validates a CLI provider manifest and narrows its type.
+ * @param manifest Manifest value to validate.
+ * @returns Nothing; successful completion asserts the manifest type.
+ * @throws {Error} If the manifest is invalid or declares capabilities unsupported by its protocol.
+ */
 export function validateCliProviderManifest(manifest: unknown): asserts manifest is CliProviderManifest {
   if (!isRecord(manifest)) throw manifestError('CLI manifest must be an object')
   if (typeof manifest.id !== 'string' || typeof manifest.name !== 'string' || typeof manifest.command !== 'string') {
@@ -236,6 +248,10 @@ export function validateCliProviderManifest(manifest: unknown): asserts manifest
   validateCapabilities(candidate)
 }
 
+/**
+ * Returns copies of the built-in CLI provider manifests.
+ * @returns A new array of built-in manifests with copied mutable fields.
+ */
 export function listCliProviderManifests(): CliProviderManifest[] {
   return manifests.map((manifest): CliProviderManifest => ({
     ...manifest,
@@ -254,6 +270,13 @@ export function getCliProviderManifest<Id extends string>(
   return listCliProviderManifests().find(manifest => manifest.id === id) as ReturnType<typeof getCliProviderManifest<Id>>
 }
 
+/**
+ * Resolves a CLI provider manifest and its overrides into adapter options.
+ * @param manifest Provider manifest to resolve.
+ * @param options Per-invocation overrides for the manifest.
+ * @returns Adapter options for the manifest protocol.
+ * @throws {Error} If the manifest is invalid or the selected mode is unsupported.
+ */
 export function resolveCliManifest<M extends CliProviderManifest>(manifest: M, options: CliManifestOptions<M['protocol']> = {}): CliJsonAdapterOptions {
   validateCliProviderManifest(manifest)
   const mode = options.mode ?? 'review-safe'
@@ -285,6 +308,12 @@ function adapterCapabilities(manifest: CliProviderManifest): AdapterCapabilities
   return { streaming, structuredOutput, reasoning, tools, extensions: { cli: { provider: manifest.id, protocol: manifest.protocol } } }
 }
 
+/**
+ * Checks whether a CLI provider manifest can run and reports its version and status.
+ * @param manifest Provider manifest to check.
+ * @param options Process-mode and diagnostic settings.
+ * @returns Availability and process diagnostics for the provider.
+ */
 export async function diagnoseCliProviderManifest<M extends CliProviderManifest>(
   manifest: M,
   options: Omit<CliManifestOptions<M['protocol']>, 'args'> = {},
@@ -300,6 +329,12 @@ export async function diagnoseCliProviderManifest<M extends CliProviderManifest>
   return diagnostic
 }
 
+/**
+ * Returns AgentsKit capabilities declared by a CLI provider manifest.
+ * @param manifest Provider manifest to inspect.
+ * @returns Adapter capabilities represented by the manifest.
+ * @throws {Error} If the manifest is invalid.
+ */
 export function manifestCapabilities(manifest: CliProviderManifest): AdapterCapabilities {
   validateCliProviderManifest(manifest)
   return adapterCapabilities(manifest)

@@ -291,6 +291,11 @@ export async function* readCliStdout(
   }
 }
 
+/**
+ * Runs a CLI version diagnostic and reports whether the executable is available.
+ * @param options Process and diagnostic command settings.
+ * @returns Availability and process diagnostics for the CLI.
+ */
 export async function diagnoseCliProvider(
   options: CliProcessOptions & { diagnosticArgs?: readonly string[] },
 ): Promise<CliDiagnostic> {

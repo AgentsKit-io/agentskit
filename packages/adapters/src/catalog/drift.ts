@@ -13,6 +13,11 @@ export const FIRST_CLASS_PROVIDERS = ['anthropic', 'openai', 'google'] as const
 /** How a catalog provider is expected to reach an AgentsKit adapter. */
 export type CatalogProviderSupport = 'native' | 'openai-compatible' | 'unsupported'
 
+/**
+ * Classifies how a catalog provider can be connected to an AgentsKit adapter.
+ * @param provider Provider identity and OpenAI-compatibility metadata.
+ * @returns The provider support category.
+ */
 export function classifyCatalogProvider(
   provider: Pick<CatalogProvider, 'id' | 'openaiCompatible'>,
 ): CatalogProviderSupport {
@@ -21,6 +26,9 @@ export function classifyCatalogProvider(
   return 'unsupported'
 }
 
+/**
+ * Catalog drift findings for provider dispatchability and required native providers.
+ */
 export interface CatalogDriftReport {
   /** Catalog providers that are neither first-class nor OpenAI-compatible — undispatchable. */
   undispatchable: string[]
