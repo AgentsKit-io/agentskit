@@ -76,7 +76,11 @@ export function promptDiff(oldPrompt: string, newPrompt: string): PromptDiff {
  */
 export function formatDiff(diff: PromptDiff): string {
   return diff.lines
-    .map(l => (l.op === 'equal' ? `  ${l.content}` : l.op === 'add' ? `+ ${l.content}` : `- ${l.content}`))
+    .map(l => {
+      if (l.op === 'equal') return `  ${l.content}`
+      if (l.op === 'add') return `+ ${l.content}`
+      return `- ${l.content}`
+    })
     .join('\n')
 }
 
