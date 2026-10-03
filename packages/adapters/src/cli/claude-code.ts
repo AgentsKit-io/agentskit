@@ -1,10 +1,6 @@
 import type { StreamChunk } from '@agentskit/core'
-import { AdapterError, ErrorCodes } from '@agentskit/core'
+import { AdapterError, ErrorCodes, isRecord } from '@agentskit/core'
 import { parseCliJsonResponse } from './json'
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value)
-}
 
 function claudeCodeError(message: string, cause?: unknown): AdapterError {
   return new AdapterError({
