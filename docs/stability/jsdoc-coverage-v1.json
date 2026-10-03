@@ -960,24 +960,7 @@
       ".::UseStreamOptions",
       ".::UseStreamReturn"
     ],
-    "@agentskit/react-native": [
-      ".::ChatContainer",
-      ".::ChatContainerProps",
-      ".::CodeBlock",
-      ".::CodeBlockProps",
-      ".::InputBar",
-      ".::InputBarProps",
-      ".::Markdown",
-      ".::MarkdownProps",
-      ".::Message",
-      ".::MessageProps",
-      ".::ThinkingIndicator",
-      ".::ThinkingIndicatorProps",
-      ".::ToolCallView",
-      ".::ToolCallViewProps",
-      ".::ToolConfirmation",
-      ".::ToolConfirmationProps"
-    ],
+    "@agentskit/react-native": [],
     "@agentskit/runtime": [
       ".::AuctionConfig",
       ".::AuctionHandlerOptions",
