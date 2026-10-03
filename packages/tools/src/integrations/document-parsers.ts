@@ -10,12 +10,14 @@ import type { EgressPolicy } from '../safe-fetch'
  * minimal contract below.
  */
 
+/** Optional parser functions supplied by the host for supported document formats. */
 export interface DocumentParserFns {
   parsePdf?: (bytes: Uint8Array) => Promise<{ text: string; pages?: number }> | { text: string; pages?: number }
   parseDocx?: (bytes: Uint8Array) => Promise<{ text: string }> | { text: string }
   parseXlsx?: (bytes: Uint8Array) => Promise<{ sheets: Array<{ name: string; rows: Array<Array<string | number | null>> }> }> | { sheets: Array<{ name: string; rows: Array<Array<string | number | null>> }> }
 }
 
+/** Parser, download, and egress settings for document parsing tools. */
 export interface DocumentParsersConfig extends DocumentParserFns {
   /** Custom fetch (tests). */
   fetch?: typeof globalThis.fetch
@@ -90,6 +92,10 @@ async function download(url: string, config: DocumentParsersConfig): Promise<Uin
   }
 }
 
+/** Create a tool that downloads a PDF and returns parser-provided text and page count.
+ *
+ * @param config Parser and download configuration.
+ * @returns A PDF parsing tool. */
 export function parsePdf(config: DocumentParsersConfig) {
   return defineTool({
     name: 'parse_pdf',
@@ -114,6 +120,10 @@ export function parsePdf(config: DocumentParsersConfig) {
   })
 }
 
+/** Create a tool that downloads a DOCX file and returns parser-provided text.
+ *
+ * @param config Parser and download configuration.
+ * @returns A DOCX parsing tool. */
 export function parseDocx(config: DocumentParsersConfig) {
   return defineTool({
     name: 'parse_docx',
@@ -138,6 +148,10 @@ export function parseDocx(config: DocumentParsersConfig) {
   })
 }
 
+/** Create a tool that downloads an XLSX workbook and returns its sheets or a selected sheet.
+ *
+ * @param config Parser and download configuration.
+ * @returns An XLSX parsing tool. */
 export function parseXlsx(config: DocumentParsersConfig) {
   return defineTool({
     name: 'parse_xlsx',
@@ -166,6 +180,13 @@ export function parseXlsx(config: DocumentParsersConfig) {
   })
 }
 
+/** Build parsing tools only for parser functions supplied in the configuration.
+ * @example
+ * const tools = documentParsers({ parsePdf: bytes => parsePdfBytes(bytes) })
+
+ *
+ * @param config Parser and download configuration.
+ * @returns Tools for configured formats. */
 export function documentParsers(config: DocumentParsersConfig) {
   const tools = []
   if (config.parsePdf) tools.push(parsePdf(config))

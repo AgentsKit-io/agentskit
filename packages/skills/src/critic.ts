@@ -1,6 +1,7 @@
 import type { SkillDefinition } from '@agentskit/core'
 import { defineSkill, TOOLS } from './utils'
 
+/** Skill for assessing work against its requirements and suggesting concrete improvements. */
 export const critic: SkillDefinition = defineSkill(
   'critic',
   'Constructive reviewer that evaluates work for correctness, completeness, and quality, then suggests improvements.',

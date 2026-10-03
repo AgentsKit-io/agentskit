@@ -1,7 +1,9 @@
 import type { TokenPrice, CostGuardErrorHandler, UnknownModelPolicy } from './cost-guard'
 
+/** Enforcement policy: report only, expose rejection state, or disable the tenant. */
 export type CostGuardMode = 'warn' | 'reject' | 'kill'
 
+/** Spend limit and rolling duration for one cost cap. */
 export interface CostCapWindow {
   /** Window length in milliseconds. */
   windowMs: number
@@ -9,6 +11,7 @@ export interface CostCapWindow {
   budgetUsd: number
 }
 
+/** Named rolling spend limits applied to a tenant. */
 export interface CostCaps {
   perMinute?: CostCapWindow
   perDay?: CostCapWindow
@@ -17,12 +20,14 @@ export interface CostCaps {
   custom?: Record<string, CostCapWindow>
 }
 
+/** Event kinds emitted when a budget threshold, forecast, or disablement occurs. */
 export type CostAlertType =
   | 'cost:threshold'
   | 'cost:exceeded'
   | 'cost:disabled'
   | 'cost:forecast'
 
+/** JSON-safe details for a cost guard alert. */
 export interface CostAlertEvent {
   type: CostAlertType
   tenant: string
@@ -47,8 +52,10 @@ export interface CostAlertEvent {
   reason?: string
 }
 
+/** Receives cost alerts in registration order. */
 export type CostAlertSink = (event: CostAlertEvent) => void | Promise<void>
 
+/** Configuration for per-tenant budgets, rolling caps, and enforcement. */
 export interface AdvancedCostGuardOptions {
   /** Per-tenant USD budgets (overall, applied alongside windows). */
   budgets: Record<string, number>

@@ -9,11 +9,16 @@ import {
   validateKvRetention,
 } from './kv-store-types'
 
+/** SQLite store settings and injected database opener. */
 export interface CreateSqliteStoreOpts {
   readonly config: SqliteKvConfig
   readonly open: SqliteOpener
 }
 
+/** Creates a SQLite key-value store using the supplied database opener.
+ * @param options SQLite configuration and opener.
+ * @returns A key-value store backed by the configured database.
+ */
 export const createSqliteStore = ({ config, open }: CreateSqliteStoreOpts): AgentskitMemoryStore => {
   validateKvRetention(config)
   const db = open(config.path)
@@ -74,6 +79,7 @@ export const createSqliteStore = ({ config, open }: CreateSqliteStoreOpts): Agen
 /**
  * Lazy-import `better-sqlite3` and return an opener, or `undefined` when the
  * optional peer dep is absent (caller surfaces AK_MEMORY_PEER_MISSING).
+ * @returns An opener, or `undefined` when `better-sqlite3` is unavailable.
  */
 export const tryDefaultSqliteOpener = async (): Promise<SqliteOpener | undefined> => {
   try {

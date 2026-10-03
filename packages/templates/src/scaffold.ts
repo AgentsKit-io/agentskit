@@ -88,6 +88,13 @@ export function planScaffoldFiles(config: ScaffoldConfig): PlannedFile[] {
  * renames atomically into `join(dir, name)`. Existing destinations fail
  * unless `overwrite: true`. Symlink destinations are always rejected.
  * Returned paths are the final destinations (never staging paths).
+ * @param config The scaffold type, package name, destination, and options.
+ * @returns Absolute paths of the generated package files.
+ * @throws `ConfigError` for invalid configuration, symlink destinations, or existing destinations without `overwrite`.
+ * @example
+ * ```ts
+ * const files = await scaffold({ type: 'tool', name: 'my-search', dir: './extensions' })
+ * ```
  */
 export async function scaffold(config: ScaffoldConfig): Promise<string[]> {
   validateScaffoldConfig(config)

@@ -19,12 +19,11 @@ export type { SamlAssertion, SamlAttribute, SamlVerifier, SamlVerifierOptions } 
  *
  * Closes part of issue #203 (SSO half).
  */
-
 // ---------------------------------------------------------------------------
 // OIDC ID-token verifier (RS256 / ES256)
 // ---------------------------------------------------------------------------
 
-export interface OidcVerifierOptions {
+/** Issuer, audience, JWKS, and clock settings for an OIDC ID-token verifier. */ export interface OidcVerifierOptions {
   /** Expected `iss` claim. Required. */
   issuer: string
   /** Expected `aud` claim — string or one of multiple acceptable audiences. */
@@ -51,7 +50,7 @@ export interface OidcVerifierOptions {
   jwksTimeoutMs?: number
 }
 
-export interface OidcClaims {
+/** Standard validated OIDC claims plus provider-specific claims. */ export interface OidcClaims {
   iss: string
   sub: string
   aud: string | string[]
@@ -62,7 +61,7 @@ export interface OidcClaims {
   [claim: string]: unknown
 }
 
-export interface OidcVerifier {
+/** Operations for verifying ID tokens and refreshing cached JWKS keys. */ export interface OidcVerifier {
   /** Verify a JWT. Throws on invalid signature, claims, or expiry. */
   verify: (token: string) => Promise<OidcClaims>
   /** Force a JWKS refresh (useful after a known IdP key rotation). */
@@ -257,7 +256,11 @@ async function verifySignature(
   })
 }
 
-export function createOidcVerifier(options: OidcVerifierOptions): OidcVerifier {
+/** Create a verifier for OIDC tokens signed with RS256 or ES256.
+ * @param options Issuer, audience, and optional JWKS fetch settings.
+ * @returns A verifier that checks token signatures and standard claims.
+ * @example `const verifier = createOidcVerifier({ issuer, audience: 'my-app' }); await verifier.verify(idToken)`
+ */ export function createOidcVerifier(options: OidcVerifierOptions): OidcVerifier {
   const jwksUrl = options.jwksUrl ?? `${options.issuer.replace(/\/$/, '')}/.well-known/jwks.json`
   const jwksTtlMs = options.jwksTtlMs ?? 60 * 60 * 1000
   const clockSkew = options.clockSkewSeconds ?? 30

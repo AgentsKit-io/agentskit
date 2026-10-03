@@ -6,11 +6,13 @@
  * `partsToText`).
  */
 
+/** Plain text content in a multi-modal message. */
 export interface TextPart {
   type: 'text'
   text: string
 }
 
+/** Image content referenced by a URL, data URL, or provider identifier. */
 export interface ImagePart {
   type: 'image'
   /** Data URL, http(s) URL, or provider-hosted reference id. */
@@ -20,6 +22,7 @@ export interface ImagePart {
   detail?: 'low' | 'high' | 'auto'
 }
 
+/** Audio content referenced by a URL, data URL, or provider identifier. */
 export interface AudioPart {
   type: 'audio'
   source: string
@@ -28,6 +31,7 @@ export interface AudioPart {
   durationSec?: number
 }
 
+/** Video content referenced by a URL, data URL, or provider identifier. */
 export interface VideoPart {
   type: 'video'
   source: string
@@ -35,6 +39,7 @@ export interface VideoPart {
   durationSec?: number
 }
 
+/** File content referenced by a URL, data URL, or provider identifier. */
 export interface FilePart {
   type: 'file'
   source: string
@@ -43,8 +48,10 @@ export interface FilePart {
   filename?: string
 }
 
+/** Supported provider-neutral parts of a multi-modal message. */
 export type ContentPart = TextPart | ImagePart | AudioPart | VideoPart | FilePart
 
+/** Discriminator values used by the supported content-part variants. */
 export type PartKind = ContentPart['type']
 
 /** Build a text part. */
@@ -57,14 +64,29 @@ export function imagePart(source: string, opts: Omit<ImagePart, 'type' | 'source
   return { type: 'image', source, ...opts }
 }
 
+/** Build an audio part from a URL, data URI, or hosted reference.
+ * @param source Audio source reference.
+ * @param opts Optional MIME type and duration metadata.
+ * @returns An audio content part.
+ */
 export function audioPart(source: string, opts: Omit<AudioPart, 'type' | 'source'> = {}): AudioPart {
   return { type: 'audio', source, ...opts }
 }
 
+/** Build a video part from a URL, data URI, or hosted reference.
+ * @param source Video source reference.
+ * @param opts Optional MIME type and duration metadata.
+ * @returns A video content part.
+ */
 export function videoPart(source: string, opts: Omit<VideoPart, 'type' | 'source'> = {}): VideoPart {
   return { type: 'video', source, ...opts }
 }
 
+/** Build a file part from a URL, data URI, or hosted reference.
+ * @param source File source reference.
+ * @param opts Optional MIME type and original filename.
+ * @returns A file content part.
+ */
 export function filePart(source: string, opts: Omit<FilePart, 'type' | 'source'> = {}): FilePart {
   return { type: 'file', source, ...opts }
 }

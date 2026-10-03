@@ -1,12 +1,17 @@
 import { type JSX } from 'solid-js'
 import type { ChatReturn } from '@agentskit/core'
 
+/** Props accepted by the chat input and submit control. */
 export interface InputBarProps {
   chat: ChatReturn
   placeholder?: string
   disabled?: boolean
 }
 
+/** Render an input that sends non-empty chat text on submit.
+ * @param props The chat controller and optional input settings.
+ * @returns The headless chat input form.
+ */
 export function InputBar(props: InputBarProps): JSX.Element {
   const placeholder = () => props.placeholder ?? 'Type a message...'
   const blocked = () => (props.disabled ?? false) || props.chat.status === 'streaming'

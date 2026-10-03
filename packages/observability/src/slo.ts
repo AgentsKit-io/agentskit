@@ -21,6 +21,7 @@ import type { CostAlertEvent, CostAlertSink } from './cost-guard-advanced'
  * Closes issue #796.
  */
 
+/** Target rates and latency used to evaluate the SLO snapshot. */
 export interface SloTargets {
   /** 0–1. Default 0.99. */
   successRate?: number
@@ -32,6 +33,7 @@ export interface SloTargets {
   streamingStallRate?: number
 }
 
+/** Target, stall threshold, burn windows, alert sink, and clock for an SLO observer. */
 export interface SloOptions {
   targets?: SloTargets
   /** First-token latency above this counts as a stall. Default 8000ms. */
@@ -44,6 +46,7 @@ export interface SloOptions {
   now?: () => number
 }
 
+/** Default SLO thresholds used when an observer does not override them. */
 export const DEFAULT_SLO_TARGETS: Required<SloTargets> = {
   successRate: 0.99,
   latencyP95Ms: 5_000,
@@ -70,6 +73,7 @@ interface ActiveOp {
   stall: boolean
 }
 
+/** Aggregated rates and latency quantiles for a time window. */
 export interface SloSnapshot {
   windowMs: number
   total: number
@@ -81,6 +85,7 @@ export interface SloSnapshot {
   streamingStallRate: number
 }
 
+/** Observer with metric snapshots, exporters, and timer cleanup. */
 export interface SloObserver extends Observer {
   snapshot: (windowMs?: number) => SloSnapshot
   /** Prometheus exposition text (`# HELP / # TYPE / metric{...} value`). */
@@ -154,6 +159,16 @@ function validateOptions(options: SloOptions): void {
   if (t.latencyP95Ms !== undefined) assertFiniteNonNegative('targets.latencyP95Ms', t.latencyP95Ms)
 }
 
+/**
+ * Create an observer that records SLO metrics and periodically emits burn-rate alerts.
+ * @param options Optional targets, windows, alert sink, and clock.
+ * @returns An observer with snapshot, Prometheus, OTEL, and stop methods.
+ * @throws {ConfigError} When a target or window has an invalid value.
+ * @example
+ * ```ts
+ * const slo = sloObserver({ targets: { successRate: 0.995 } })
+ * ```
+ */
 export function sloObserver(options: SloOptions = {}): SloObserver {
   validateOptions(options)
 

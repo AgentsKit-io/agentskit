@@ -4,6 +4,9 @@ import { embeddingError, readEmbeddingJson, requireEmbeddingVector, throwIfNotOk
 const MAX_MODEL_LIST_BYTES = 2 * 1024 * 1024
 const MAX_EMBEDDING_RESPONSE_BYTES = 16 * 1024 * 1024
 
+/**
+ * Configuration options for the OpenAI embedder.
+ */
 export interface OpenAIEmbedderConfig {
   apiKey: string
   model?: string
@@ -41,6 +44,11 @@ async function buildModelError(
   }
 }
 
+/**
+ * Creates an embedder for the OpenAI embeddings API.
+ * @param config Adapter configuration.
+ * @returns The EmbedFn result.
+ */
 export function openaiEmbedder(config: OpenAIEmbedderConfig): EmbedFn {
   const { apiKey, model = 'text-embedding-3-small', baseUrl = 'https://api.openai.com' } = config
 

@@ -1,6 +1,9 @@
 import { ErrorCodes, SandboxError } from '@agentskit/core'
 import type { ToolDefinition } from '@agentskit/core'
 
+/**
+ * Tool allow, deny, sandbox-required, argument validation, and policy-event rules.
+ */
 export interface SandboxPolicy {
   /** Tool names that MUST run inside a sandbox. Missing → allowed raw. */
   requireSandbox?: string[] | '*'
@@ -14,11 +17,17 @@ export interface SandboxPolicy {
   onPolicyEvent?: (event: PolicyEvent) => void
 }
 
+/**
+ * Allow, deny, or sandbox-required decision emitted by the mandatory sandbox policy.
+ */
 export type PolicyEvent =
   | { type: 'allow'; tool: string; reason: 'explicit-allow' | 'not-restricted' }
   | { type: 'deny'; tool: string; reason: 'denied' | 'not-in-allow-list' | 'validation-failed'; error?: string }
   | { type: 'sandbox-required'; tool: string }
 
+/**
+ * Methods for wrapping tools with sandbox policy and checking policy decisions.
+ */
 export interface MandatorySandboxWrapper {
   /** Returns the wrapped tool or throws if the policy forbids it entirely. */
   wrap: (tool: ToolDefinition) => ToolDefinition

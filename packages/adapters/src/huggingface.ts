@@ -1,5 +1,8 @@
 import { createOpenAICompatibleAdapter, type OpenAICompatibleConfig } from './openai-compatible'
 
+/**
+ * Configuration options for the Hugging Face chat adapter.
+ */
 export interface HuggingFaceConfig extends OpenAICompatibleConfig {}
 
 /**

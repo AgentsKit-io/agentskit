@@ -1,5 +1,9 @@
 import type { HookEvent, HookHandler, HookPayload, HookResult } from '../plugins/types'
 
+/**
+ * Final hook payload and whether dispatch was blocked.
+
+ */
 export interface HookDispatchResult {
   /** Final payload after any `modify` handlers. */
   payload: HookPayload

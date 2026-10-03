@@ -7,11 +7,13 @@ import { ErrorCodes, ToolError, defineTool } from '@agentskit/core'
  * `@aws-sdk/client-s3` surface — we don't bundle a driver.
  */
 
+/** Minimal `GetObjectCommand` result fields used by the R2 tools. */
 export interface R2GetObjectOutput {
   Body?: { transformToString(): Promise<string> }
   ContentType?: string
 }
 
+/** Input fields sent to an R2 `PutObjectCommand`. */
 export interface R2PutObjectInput {
   Bucket: string
   Key: string
@@ -19,16 +21,19 @@ export interface R2PutObjectInput {
   ContentType?: string
 }
 
+/** Minimal `ListObjectsV2Command` result fields used by the R2 tools. */
 export interface R2ListObjectsOutput {
   Contents?: Array<{ Key?: string; Size?: number; LastModified?: Date | string }>
   IsTruncated?: boolean
   NextContinuationToken?: string
 }
 
+/** S3 SDK client surface required by the Cloudflare R2 tools. */
 export interface R2ClientLike {
   send(command: { input: Record<string, unknown> }): Promise<unknown>
 }
 
+/** Client, bucket, and optional URL signer for Cloudflare R2 tools. */
 export interface CloudflareR2Config {
   client: R2ClientLike
   bucket: string
@@ -65,6 +70,10 @@ async function loadSdk(): Promise<CommandClasses> {
   return cachedSdk
 }
 
+/** Create a tool that reads an object body from the configured R2 bucket.
+ *
+ * @param config R2 client and bucket.
+ * @returns An R2 object read tool. */
 export function cloudflareR2Get(config: CloudflareR2Config) {
   return defineTool({
     name: 'r2_get',
@@ -83,6 +92,10 @@ export function cloudflareR2Get(config: CloudflareR2Config) {
   })
 }
 
+/** Create a tool that writes a text object to the configured R2 bucket.
+ *
+ * @param config R2 client and bucket.
+ * @returns An R2 object write tool. */
 export function cloudflareR2Put(config: CloudflareR2Config) {
   return defineTool({
     name: 'r2_put',
@@ -109,6 +122,10 @@ export function cloudflareR2Put(config: CloudflareR2Config) {
   })
 }
 
+/** Create a tool that lists object keys in the configured R2 bucket.
+ *
+ * @param config R2 client and bucket.
+ * @returns An R2 object listing tool. */
 export function cloudflareR2List(config: CloudflareR2Config) {
   return defineTool({
     name: 'r2_list',
@@ -138,6 +155,10 @@ export function cloudflareR2List(config: CloudflareR2Config) {
   })
 }
 
+/** Create a tool that deletes an object from the configured R2 bucket.
+ *
+ * @param config R2 client and bucket.
+ * @returns An R2 object deletion tool. */
 export function cloudflareR2Delete(config: CloudflareR2Config) {
   return defineTool({
     name: 'r2_delete',
@@ -155,6 +176,10 @@ export function cloudflareR2Delete(config: CloudflareR2Config) {
   })
 }
 
+/** Create a signed GET URL tool when a signer is configured.
+ *
+ * @param config R2 client, bucket, and optional signer.
+ * @returns The signed URL tool, or `null` without a signer. */
 export function cloudflareR2SignedUrl(config: CloudflareR2Config) {
   if (!config.signGetUrl) return null
   const sign = config.signGetUrl
@@ -180,6 +205,13 @@ export function cloudflareR2SignedUrl(config: CloudflareR2Config) {
   })
 }
 
+/** Build the R2 object tools and include signed URLs when a signer is configured.
+ * @example
+ * const tools = cloudflareR2({ client, bucket: 'uploads' })
+
+ *
+ * @param config R2 client, bucket, and optional signer.
+ * @returns The configured R2 tools. */
 export function cloudflareR2(config: CloudflareR2Config) {
   const tools = [
     cloudflareR2Get(config),

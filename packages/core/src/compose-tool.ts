@@ -28,6 +28,7 @@ export interface ComposeStep<TArgs extends Record<string, unknown> = Record<stri
   stopWhen?: (state: TState, input: { args: TArgs; prior: unknown[] }) => boolean
 }
 
+/** Tool metadata, ordered steps, and hooks used to build a composed tool. */
 export interface ComposeToolOptions<TArgs extends Record<string, unknown> = Record<string, unknown>> {
   name: string
   description?: string

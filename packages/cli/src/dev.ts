@@ -15,6 +15,10 @@ function resolveTsxCli(): string {
   }
 }
 
+/**
+ * Entry file, watch patterns, and process hooks for the CLI development runner.
+
+ */
 export interface DevOptions {
   /** Entry file to run (relative or absolute). */
   entry: string
@@ -39,6 +43,10 @@ export interface DevOptions {
   stderr?: NodeJS.WritableStream
 }
 
+/**
+ * File watcher interface consumed by the development runner.
+
+ */
 export interface DevWatcher {
   on(event: 'change' | 'add' | 'unlink', listener: (path: string) => void): this
   close(): Promise<void>
@@ -80,6 +88,14 @@ export interface DevController {
   restarts: () => number
 }
 
+/**
+ * Runs a project entry file and restarts it when watched files change.
+ * @param options Entry, watch patterns, and process overrides.
+ * @returns A controller for observing and stopping the development session.
+ * @throws {Error} If the entry file is missing or the TypeScript runner is unavailable.
+ * @example
+ * const dev = startDev({ entry: './src/index.ts' })
+ */
 export function startDev(options: DevOptions): DevController {
   const entry = pathResolve(process.cwd(), options.entry)
   if (!existsSync(entry)) {

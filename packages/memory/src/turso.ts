@@ -11,6 +11,7 @@ import { decodeStoredMessages } from './decode'
 
 type MemoryOperationOptions = Parameters<ChatMemory['load']>[0]
 
+/** Turso URL, auth token, and optional database client settings. */
 export interface TursoChatMemoryConfig {
   /** libSQL URL — file:..., libsql://..., or http://... */
   url: string
@@ -31,7 +32,7 @@ interface LibsqlModule {
 let cachedSdk: Promise<LibsqlModule> | null = null
 async function loadSdk(): Promise<LibsqlModule> {
   if (!cachedSdk) {
-    const loading = (async () => {
+    cachedSdk = (async () => {
       try {
         const moduleId = '@libsql/client'
         return (await import(/* @vite-ignore */ moduleId)) as unknown as LibsqlModule
@@ -42,8 +43,7 @@ async function loadSdk(): Promise<LibsqlModule> {
           hint: 'tursoChatMemory uses the optional peer "@libsql/client".',
         })
       }
-    })()
-    cachedSdk = loading.catch(error => {
+    })().catch(error => {
       cachedSdk = null
       throw error
     })

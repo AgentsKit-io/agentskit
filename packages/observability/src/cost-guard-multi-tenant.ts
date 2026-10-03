@@ -12,6 +12,7 @@ import {
   type CostGuardErrorHandler,
 } from './cost-guard'
 
+/** Per-tenant budgets, pricing, tenant resolver, and isolated callbacks. */
 export interface MultiTenantCostGuardOptions {
   /**
    * Per-tenant USD budgets. Tenants not listed here either inherit

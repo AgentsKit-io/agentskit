@@ -9,6 +9,9 @@ import type { CatalogModelCost } from './types'
  */
 const LIVE_URL = 'https://models.dev/api.json'
 
+/**
+ * Options for resolving model pricing from the local catalog or live source.
+ */
 export interface ResolveCostOptions {
   /**
    * Opt in to a live fetch. Default `false` keeps the runtime offline and
@@ -22,6 +25,9 @@ export interface ResolveCostOptions {
   fetchImpl?: typeof fetch
 }
 
+/**
+ * Model pricing together with its source and cache freshness.
+ */
 export interface ResolvedCost {
   cost?: CatalogModelCost
   /** Where the returned cost came from. */

@@ -1,5 +1,8 @@
 import { createOpenAICompatibleAdapter, type OpenAICompatibleConfig } from './openai-compatible'
 
+/**
+ * Configuration options for the Fireworks chat adapter.
+ */
 export interface FireworksConfig extends OpenAICompatibleConfig {}
 
 /**

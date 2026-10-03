@@ -4,6 +4,10 @@ import { NetError, readJson, readText } from '@agentskit/net'
 const MAX_EMBEDDER_RESPONSE_BYTES = 16 * 1024 * 1024
 const MAX_EMBEDDER_ERROR_BYTES = 1024 * 1024
 
+/**
+ * API key and optional model and endpoint for the OpenAI-compatible embedder.
+
+ */
 export interface OpenAiEmbedderConfig {
   apiKey: string
   model?: string

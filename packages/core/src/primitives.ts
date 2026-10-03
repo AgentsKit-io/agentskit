@@ -47,10 +47,17 @@ export function createId(prefix: string): string {
  * @param prefix - Namespace or kind to include at the start of the ID.
  * @returns The prefix followed by a UUID.
  */
+/** Generate a prefixed UUID for an entity such as a message or run.
+ * @param prefix Namespace or entity kind included before the UUID.
+ * @returns The prefix and a cryptographically random UUID separated by `-`.
+ */
 export function generateId(prefix: string): string {
   return createId(prefix)
 }
 
+/** Create an observer emitter that isolates observer failures from callers.
+ * @returns Methods to register observers and emit events to them.
+ */
 export function createEventEmitter() {
   const observers = new Set<Observer>()
 
@@ -74,6 +81,10 @@ export function createEventEmitter() {
   }
 }
 
+/** Create a message with a generated ID and creation timestamp.
+ * @param params Role, content, and optional message status and metadata.
+ * @returns A message with a generated ID and current creation date.
+ */
 export function buildMessage(params: {
   role: MessageRole
   content: string
@@ -107,6 +118,13 @@ function serializeToolResult(result: unknown): string {
   }
 }
 
+/** Execute a tool and return its result as text, reporting streamed partial output.
+ * @param tool Tool whose `execute` function is called.
+ * @param args Parsed arguments passed to the tool.
+ * @param context Conversation and tool-call context.
+ * @param onPartialResult Called with accumulated text after each streamed item.
+ * @returns The tool result serialized as text.
+ */
 export async function executeToolCall(
   tool: ToolDefinition,
   args: Record<string, unknown>,
@@ -128,6 +146,7 @@ export async function executeToolCall(
   return serializeToolResult(result)
 }
 
+/** Parsed tool arguments and whether the input passed bounded JSON checks. */
 export interface ParsedToolArgs {
   args: Record<string, unknown>
   valid: boolean
@@ -152,6 +171,10 @@ function isBoundedJsonObject(value: Record<string, unknown>): boolean {
   return true
 }
 
+/** Parse a bounded JSON object of tool arguments; invalid input returns an empty object.
+ * @param args JSON text emitted for a tool call.
+ * @returns Parsed arguments and a validity flag.
+ */
 export function parseToolArgs(args: string): ParsedToolArgs {
   if (new TextEncoder().encode(args).byteLength > MAX_TOOL_ARGS_BYTES) return { args: {}, valid: false }
   try {
@@ -167,6 +190,10 @@ export function parseToolArgs(args: string): ParsedToolArgs {
 }
 
 /** Backwards-compatible parser for callers that only need the safe value. */
+/** Return parsed tool arguments, or an empty object when parsing fails.
+ * @param args JSON text emitted for a tool call.
+ * @returns Parsed arguments or an empty object when invalid.
+ */
 export function safeParseArgs(args: string): Record<string, unknown> {
   return parseToolArgs(args).args
 }
@@ -218,6 +245,10 @@ function scheduleLifecycleDisposal(state: ToolLifecycleState): void {
   })
 }
 
+/** Track tool initialization and defer disposal until active calls finish.
+ * @param tools Name-keyed tool definitions used by this lifecycle.
+ * @returns Idempotent initialization and disposal methods for a tool set.
+ */
 export function createToolLifecycle(tools: Map<string, ToolDefinition>) {
   const state: ToolLifecycleState = {
     initialized: new Set<string>(),
@@ -285,6 +316,7 @@ export function acquireToolLifecycle(
   }
 }
 
+/** Callbacks for each event emitted by a model response stream. */
 export interface ConsumeStreamHandlers {
   onText?: (accumulated: string) => void
   onReasoning?: (accumulated: string) => void
@@ -295,6 +327,11 @@ export interface ConsumeStreamHandlers {
   onDone: (accumulatedText: string) => void
 }
 
+/** Dispatch stream events to handlers and report accumulated text on completion.
+ * @param source Abortable source of response chunks.
+ * @param handlers Callbacks for text, reasoning, tools, usage, errors, and completion.
+ * @returns A promise fulfilled when the stream ends or reports an error.
+ */
 export async function consumeStream(
   source: StreamSource,
   handlers: ConsumeStreamHandlers,

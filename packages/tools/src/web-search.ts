@@ -3,14 +3,17 @@ import { NetError, NetErrorCodes, readText } from '@agentskit/net'
 import type { ToolDefinition } from '@agentskit/core'
 import { safeFetch } from './safe-fetch'
 
+/** Title, URL, and text snippet returned by a web-search provider. */
 export interface WebSearchResult {
   title: string
   url: string
   snippet: string
 }
 
+/** Search backend selection; `auto` prefers configured Serper, then Tavily, then DuckDuckGo. */
 export type WebSearchProvider = 'auto' | 'serper' | 'tavily' | 'duckduckgo'
 
+/** Provider, credentials, result count, timeout, response cap, and custom search settings for {@link webSearch}. */
 export interface WebSearchConfig {
   /**
    * Which backend to use. `'auto'` (default) picks the best available:

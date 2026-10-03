@@ -2,6 +2,7 @@ import type { AgentEvent, Observer } from '@agentskit/core'
 import { createTraceTracker, type TraceSpan } from './trace-tracker'
 import { snapshotAttributes } from './http-batch-sink'
 
+/** API key, project, endpoint, and isolated error callback for LangSmith. */
 export interface LangSmithConfig {
   apiKey: string
   projectName?: string
@@ -10,6 +11,7 @@ export interface LangSmithConfig {
   onError?: (error: unknown) => void | Promise<void>
 }
 
+/** LangSmith observer with explicit batch flushing and shutdown lifecycle. */
 export interface LangSmithObserver extends Observer {
   flush(): Promise<void>
   shutdown(): Promise<void>
@@ -43,8 +45,13 @@ function emitError(
 }
 
 /**
- * LangSmith observer. Construction is pure (no SDK import). The SDK is loaded
- * lazily on the first span that needs a remote run.
+ * Create a lazy-loading observer that exports tracked spans to LangSmith without construction-time I/O.
+ * @param config LangSmith credentials and optional project, endpoint, and error handler.
+ * @returns An observer with `flush` and idempotent `shutdown` methods.
+ * @example
+ * ```ts
+ * const observer = langsmith({ apiKey: process.env.LANGSMITH_API_KEY! })
+ * ```
  */
 export function langsmith(config: LangSmithConfig): LangSmithObserver {
   const { apiKey, projectName = 'agentskit', endpoint = 'https://api.smith.langchain.com' } = config

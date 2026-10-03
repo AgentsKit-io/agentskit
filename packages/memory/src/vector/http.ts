@@ -1,6 +1,7 @@
 import { ErrorCodes, MemoryError } from '@agentskit/core'
 import { NetError, NetErrorCodes, readText } from '@agentskit/net'
 
+/** Shared credentials, fetch, and timeout settings for HTTP vector stores. */
 export interface RemoteHttpConfig {
   /**
    * Fetch implementation for remote vector calls. Defaults to `globalThis.fetch`.

@@ -29,6 +29,10 @@ import type { HookHandler } from '../extensibility/plugins'
 import { applyPolicyToTools } from '../extensibility/permissions'
 import { useEffect } from 'react'
 
+/**
+ * Provider, session, tool, memory, plugin, hook, and permission settings for the CLI chat app.
+
+ */
 export interface ChatCommandOptions {
   provider: string
   model?: string
@@ -76,6 +80,10 @@ export function groupIntoTurns(messages: ChatMessage[]): ChatMessage[][] {
   return turns
 }
 
+/**
+ * Interactive Ink chat component configured with provider, session, tools, and plugins.
+
+ */
 export function ChatApp(options: ChatCommandOptions) {
   const {
     runtime,
@@ -298,6 +306,12 @@ function feedbackBorder(kind: FeedbackKind): string {
   }
 }
 
+/**
+ * Renders a compact provider, model, mode, tool, skill, and memory summary for chat.
+ * @param options Chat provider and feature settings.
+ * @returns A single-line chat header.
+ * @throws {Error} If the requested provider or its required configuration is unsupported.
+ */
 export function renderChatHeader(options: ChatCommandOptions): string {
   const runtime = resolveChatProvider(options)
   const parts = [`provider=${runtime.provider}`]

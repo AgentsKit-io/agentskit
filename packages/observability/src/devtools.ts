@@ -1,17 +1,20 @@
 import type { AgentEvent, Observer } from '@agentskit/core'
 import { ConfigError, createId, ErrorCodes } from '@agentskit/core'
 
+/** Transport endpoint that receives devtools envelopes. */
 export interface DevtoolsClient {
   id: string
   send: (event: DevtoolsEnvelope) => void
   close?: () => void
 }
 
+/** Wire messages for connection setup, event delivery, and replay completion. */
 export type DevtoolsEnvelope =
   | { type: 'hello'; protocol: 1; serverId: string; since: string }
   | { type: 'agent-event'; seq: number; at: number; event: AgentEvent }
   | { type: 'replay-end'; seq: number }
 
+/** Buffer and server identity settings for the in-process devtools hub. */
 export interface DevtoolsServerOptions {
   /** Max events to retain in the ring buffer. Default 500. */
   bufferSize?: number
@@ -19,6 +22,7 @@ export interface DevtoolsServerOptions {
   serverId?: string
 }
 
+/** Observer, transport hooks, and retained event buffer returned by the hub. */
 export interface DevtoolsServer {
   /** Observer you can plug into `createRuntime({ observers: [...] })`. */
   observer: Observer
@@ -33,14 +37,15 @@ export interface DevtoolsServer {
 }
 
 /**
- * In-process pub/sub hub for agent events. Transport-agnostic — hand
- * the returned `attach` function any object that can `send` envelopes
- * (an SSE response, a WebSocket, a test sink). Designed as the
- * contract a browser devtools extension speaks against.
- *
- * New clients receive a `hello` envelope followed by a replay of the
- * ring buffer (so the extension can jump in mid-session and see
- * recent history), then `replay-end`, then the live feed.
+ * Create a transport-agnostic event hub; new clients receive hello, buffered replay, and the live feed.
+ * @param options Optional buffer size and server id.
+ * @returns A runtime observer and transport-agnostic client management methods.
+ * @throws {ConfigError} When `bufferSize` is not a positive integer.
+ * @example
+ * ```ts
+ * const devtools = createDevtoolsServer()
+ * const detach = devtools.attach({ id: 'panel', send: envelope => socket.send(toSseFrame(envelope)) })
+ * ```
  */
 export function createDevtoolsServer(options: DevtoolsServerOptions = {}): DevtoolsServer {
   if (options.bufferSize !== undefined &&
@@ -123,9 +128,9 @@ export function createDevtoolsServer(options: DevtoolsServerOptions = {}): Devto
 }
 
 /**
- * Serialize a devtools envelope as a single `data: ...\n\n` SSE frame.
- * Framework-agnostic — hook into Express / Hono / plain http by
- * writing the returned string to your response.
+ * Serialize one devtools envelope as an SSE data frame for Express, Hono, or Node HTTP.
+ * @param envelope Message to serialize.
+ * @returns A complete `data:` frame terminated by a blank line.
  */
 export function toSseFrame(envelope: DevtoolsEnvelope): string {
   return `data: ${JSON.stringify(envelope)}\n\n`

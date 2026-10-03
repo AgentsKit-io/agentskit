@@ -9,6 +9,7 @@ import type {
 import { MCP_PROTOCOL_VERSION } from './types'
 import { createAjvValidator } from '../../../validation/src/ajv-validator'
 
+/** Transport, tools, and policy hooks used to create an MCP server. */
 export interface McpServerOptions {
   transport: McpTransport
   tools: ToolDefinition[]
@@ -23,15 +24,18 @@ export interface McpServerOptions {
   exposeErrors?: boolean
 }
 
+/** Handle for closing a running MCP server. */
 export interface McpServer {
   close: () => Promise<void>
 }
 
-/**
- * Expose a set of AgentsKit tools as an MCP server over any
- * `McpTransport`. Implements the three methods most MCP hosts need:
- * `initialize`, `tools/list`, `tools/call`.
- */
+/** Expose AgentsKit tools over an MCP transport using initialize, tools/list, and tools/call.
+ * @example
+ * const server = createMcpServer({ transport, tools })
+
+ *
+ * @param options Transport, tools, and optional authorization and validation hooks.
+ * @returns A handle for closing the server. */
 export function createMcpServer(options: McpServerOptions): McpServer {
   const { transport, tools } = options
   const serverInfo = options.serverInfo ?? { name: 'agentskit-mcp-server', version: '0.1.0' }

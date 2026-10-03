@@ -32,6 +32,7 @@ type MemoryOperationOptions = Parameters<ChatMemory['load']>[0]
 
 export type RedactionMode = 'redact' | 'tokenize'
 
+/** Rules, mode, and token vault settings for chat-memory redaction. */
 export interface ChatMemoryRedactionOptions {
   /**
    * Rules to apply. Pass `DEFAULT_PII_RULES` for the baseline set,
@@ -48,6 +49,7 @@ export interface ChatMemoryRedactionOptions {
   audit?: RedactionAuditSink
 }
 
+/** Redaction and tokenization settings for vector document content. */
 export interface VectorMemoryRedactionOptions extends ChatMemoryRedactionOptions {}
 
 async function transform(
@@ -78,6 +80,12 @@ async function transform(
   return createPIIRedactor({ rules: opts.rules }).redact(input).value
 }
 
+/** Wraps chat memory to redact or tokenize message content before saves.
+ * @param inner Chat memory implementation to wrap.
+ * @param options Redaction rules and optional tokenization settings.
+ * @returns A chat memory wrapper that redacts saved message content.
+ * @throws {ConfigError} When tokenization lacks a vault or allowed roles.
+ */
 export function wrapChatMemoryWithRedaction(
   inner: ChatMemory,
   options: ChatMemoryRedactionOptions,

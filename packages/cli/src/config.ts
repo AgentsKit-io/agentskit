@@ -2,6 +2,10 @@ import { access, readFile } from 'node:fs/promises'
 import { homedir } from 'node:os'
 import { resolve, join } from 'node:path'
 
+/**
+ * Configuration values loaded by the AgentsKit CLI, including defaults and integrations.
+
+ */
 export interface AgentsKitConfig {
   tools?: {
     filesystem?: { basePath?: string }
@@ -110,6 +114,10 @@ async function loadPackageJsonConfig(dir: string): Promise<AgentsKitConfig | und
   }
 }
 
+/**
+ * Path and environment settings used while loading CLI configuration.
+
+ */
 export interface LoadConfigOptions {
   cwd?: string
   /**

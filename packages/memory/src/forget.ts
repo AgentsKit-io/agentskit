@@ -26,6 +26,7 @@ export interface ForgettableMemory {
   forgetSubject: (subjectId: string) => Promise<ForgetReport>
 }
 
+/** Per-backend result returned by subject-data deletion. */
 export interface ForgetReport {
   backend: string
   deletedCount: number
@@ -35,6 +36,7 @@ export interface ForgetReport {
   failures?: Array<{ id: string; reason: string }>
 }
 
+/** Aggregate outcome of deleting a subject from multiple memory backends. */
 export interface ForgetSubjectResult {
   subjectId: string
   reports: ForgetReport[]
@@ -76,6 +78,9 @@ async function hash(input: string): Promise<string> {
  * Walk every memory passed in and run `forgetSubject(subjectId)` on
  * any that implement it. Missing capabilities are reported so callers
  * cannot mistake a partial deletion for a complete one.
+ * @param memories Memory instances to inspect for deletion capability.
+ * @param subjectId Subject identifier to delete.
+ * @returns Per-backend reports and an `incomplete` flag for skipped or failed backends.
  */
 export async function forgetSubject(
   memories: Array<ChatMemory | VectorMemory | unknown>,
@@ -113,6 +118,9 @@ export async function forgetSubject(
 /**
  * Helper for backends that key records by `metadata.subjectId`. Wraps
  * any `delete(ids)`-style API into a `ForgettableMemory`.
+ * @param memory Object to extend with the deletion capability.
+ * @param options Backend label and functions for listing and deleting matching ids.
+ * @returns The same object with `ForgettableMemory` methods and metadata.
  */
 export function makeForgettable<M extends object>(
   memory: M,

@@ -13,6 +13,7 @@
 
 import { ErrorCodes, RuntimeError } from '@agentskit/core'
 
+/** Recorded execution checkpoint consumed by the replay timeline helpers. */
 export type ReplayStep = {
   readonly id: string
   readonly nodeId: string
@@ -25,6 +26,7 @@ export type ReplayStep = {
   readonly outcome: 'ok' | 'failed' | 'paused' | 'skipped'
 }
 
+/** Cumulative metrics and outcome at one recorded replay checkpoint. */
 export type TimelineRow = {
   readonly index: number
   readonly stepId: string
@@ -36,6 +38,7 @@ export type TimelineRow = {
   readonly outcome: ReplayStep['outcome']
 }
 
+/** Timeline rows, totals, and start/end timestamps for a replay. */
 export type Timeline = {
   readonly rows: readonly TimelineRow[]
   readonly totalCostUsd: number
@@ -44,6 +47,11 @@ export type Timeline = {
   readonly span: { readonly startedAt: number; readonly endedAt: number }
 }
 
+/**
+ * Build cumulative cost, token, and latency totals from recorded steps.
+ * @param steps Checkpoints in chronological order.
+ * @returns Timeline rows and totals, with a zero-length span for no steps.
+ */
 export const buildTimeline = (steps: readonly ReplayStep[]): Timeline => {
   let cost = 0
   let tokens = 0
@@ -76,11 +84,18 @@ export const buildTimeline = (steps: readonly ReplayStep[]): Timeline => {
   }
 }
 
+/** One property addition, removal, or change between two state snapshots. */
 export type StateDiffEntry =
   | { readonly kind: 'add'; readonly key: string; readonly value: unknown }
   | { readonly kind: 'remove'; readonly key: string; readonly previous: unknown }
   | { readonly kind: 'change'; readonly key: string; readonly previous: unknown; readonly value: unknown }
 
+/**
+ * Compare two shallow state records and return changed property entries.
+ * @param previous State before the checkpoint.
+ * @param next State at the checkpoint.
+ * @returns Added, removed, or changed top-level properties in key order.
+ */
 export const diffState = (
   previous: Readonly<Record<string, unknown>>,
   next: Readonly<Record<string, unknown>>,
@@ -101,12 +116,21 @@ export const diffState = (
   return entries
 }
 
+/** Selected timeline row and its state difference from the previous step. */
 export type ReplayPosition = {
   readonly index: number
   readonly cumulative: TimelineRow
   readonly stateDiffFromPrevious: readonly StateDiffEntry[]
 }
 
+/**
+ * Select a replay step and calculate its difference from the prior state.
+ * @param steps Recorded steps used to read adjacent state snapshots.
+ * @param timeline Timeline built from the same step sequence.
+ * @param index Zero-based row index to select.
+ * @returns The selected cumulative row and state difference.
+ * @throws {RuntimeError} When the index is outside the timeline rows.
+ */
 export const positionAt = (
   steps: readonly ReplayStep[],
   timeline: Timeline,

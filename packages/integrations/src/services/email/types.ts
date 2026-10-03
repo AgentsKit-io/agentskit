@@ -1,3 +1,4 @@
+/** File attachment accepted by the email transport. */
 export interface EmailAttachment {
   filename: string
   /** UTF-8 text contents. Use `contentBase64` for binary. */
@@ -6,6 +7,7 @@ export interface EmailAttachment {
   contentType?: string
 }
 
+/** Outbound message data passed to the email transport. */
 export interface EmailSendMessage {
   from: string
   to: string | string[]
@@ -17,16 +19,19 @@ export interface EmailSendMessage {
   attachments?: EmailAttachment[]
 }
 
+/** Provider result returned after sending an email. */
 export interface EmailSendResult {
   messageId: string
   accepted?: string[]
   rejected?: string[]
 }
 
+/** Host-provided transport used by the email integration to send messages. */
 export interface EmailTransport {
   send: (msg: EmailSendMessage) => Promise<EmailSendResult>
 }
 
+/** Email message returned by the IMAP client. */
 export interface EmailMessage {
   id: string
   uid?: number
@@ -40,6 +45,7 @@ export interface EmailMessage {
   attachments?: Array<{ filename: string; contentType: string; size: number }>
 }
 
+/** Filters and result limit for an IMAP message fetch. */
 export interface ImapFetchOptions {
   mailbox?: string
   unseenOnly?: boolean
@@ -51,10 +57,12 @@ export interface ImapFetchOptions {
   limit?: number
 }
 
+/** Host-provided client used to fetch messages from an IMAP mailbox. */
 export interface ImapClient {
   fetch: (opts: ImapFetchOptions) => Promise<EmailMessage[]>
 }
 
+/** Optional send and receive transports used by the email integration. */
 export interface EmailConfig {
   transport?: EmailTransport
   imap?: ImapClient

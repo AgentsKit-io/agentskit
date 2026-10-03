@@ -2,6 +2,9 @@ import type { AdapterCapabilities, AdapterFactory, AdapterRequest, StreamSource 
 import { parseOpenAIStream, toProviderMessages, type RetryOptions } from './utils'
 import { createStreamSource } from './stream-source'
 
+/**
+ * Configuration options for the OpenAI chat adapter.
+ */
 export interface OpenAIConfig {
   apiKey: string
   model: string
@@ -19,6 +22,14 @@ export interface OpenAIConfig {
   capabilities?: Partial<AdapterCapabilities>
 }
 
+/**
+ * Creates an adapter for OpenAI chat completions.
+ * @param config Adapter configuration.
+ * @returns An AgentsKit adapter factory.
+ *
+ * @example
+ * const adapter = openai({ apiKey: '…', model: 'model-name' })
+ */
 export function openai(config: OpenAIConfig): AdapterFactory {
   const { apiKey, model, baseUrl = 'https://api.openai.com', retry } = config
   // Normalize: many compatible endpoints are declared WITH a trailing `/v1`

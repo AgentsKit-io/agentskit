@@ -3,6 +3,7 @@ import type { RetrievedDocument } from '@agentskit/core'
 import type { RerankFn } from '../rerank'
 import { doFetch, readResponseJson, readResponseText } from '../loaders/shared'
 
+/** Credentials and request settings for the Jina reranker. */
 export interface JinaRerankerOptions {
   apiKey: string
   /** Default `jina-reranker-v2-base-multilingual`. */
@@ -30,6 +31,9 @@ function rerankFailed(message: string, cause?: unknown): RagError {
 /**
  * Jina AI cross-encoder reranker. Drop-in `RerankFn` for
  * `createRerankedRetriever`.
+ * @param options API key, model, and optional request settings.
+ * @returns A reranking function for retrieved documents.
+ * @throws {RagError} When the request fails or the response is invalid.
  */
 export function jinaReranker(options: JinaRerankerOptions): RerankFn {
   const fetchImpl = options.fetch ?? globalThis.fetch

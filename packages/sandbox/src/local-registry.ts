@@ -6,6 +6,9 @@ import { SandboxError } from '@agentskit/core'
 import { noneSandbox, processSandbox } from './local-runtimes'
 import type { SandboxLevel, SandboxRuntime } from './local-sandbox-types'
 
+/**
+ * Registry that maps isolation levels to sandbox runtime adapters.
+ */
 export class SandboxRegistry {
   private readonly map = new Map<SandboxLevel, SandboxRuntime>()
 
@@ -47,9 +50,22 @@ export class SandboxRegistry {
 const STRONG_LEVELS: ReadonlySet<SandboxLevel> = new Set(['container', 'vm', 'webcontainer'])
 const WEAK_LEVELS: ReadonlySet<SandboxLevel> = new Set(['none', 'process'])
 
+/**
+ * Check whether an isolation level provides a stronger OS boundary.
+ * @param level Isolation level to inspect.
+ * @returns `true` for container, VM, or WebContainer levels.
+ */
 export const isStrongIsolation = (level: SandboxLevel): boolean => STRONG_LEVELS.has(level)
+/**
+ * Check whether an isolation level lacks OS-level filesystem and network isolation.
+ * @param level Isolation level to inspect.
+ * @returns `true` for `none` or `process`.
+ */
 export const isWeakIsolation = (level: SandboxLevel): boolean => WEAK_LEVELS.has(level)
 
+/**
+ * Error raised when a caller requires strong isolation but only a weak level is active.
+ */
 export class WeakSandboxError extends Error {
   readonly code = 'sandbox.weak_isolation'
   readonly active: SandboxLevel

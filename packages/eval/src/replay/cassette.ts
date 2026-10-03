@@ -2,6 +2,11 @@ import { ConfigError, ErrorCodes, isRecord, type AdapterRequest } from '@agentsk
 import { defensiveSnapshot } from './clone'
 import type { Cassette, CassetteEntry } from './types'
 
+/** Create a version 1 cassette with an isolated copy of its initial data.
+ *
+ * @param init Optional cassette fields to copy into the new cassette.
+ * @returns A cassette with version 1 and an empty entries array by default.
+ */
 export function createCassette(init: Partial<Cassette> = {}): Cassette {
   return {
     version: 1,
@@ -11,6 +16,11 @@ export function createCassette(init: Partial<Cassette> = {}): Cassette {
   }
 }
 
+/** Serialize a cassette as indented JSON.
+ *
+ * @param cassette Cassette to serialize.
+ * @returns The cassette JSON string.
+ */
 export function serializeCassette(cassette: Cassette): string {
   return JSON.stringify(cassette, null, 2)
 }
@@ -116,6 +126,12 @@ function assertCassetteEntry(entry: unknown, index: number): asserts entry is Ca
   }
 }
 
+/** Parse and validate a serialized version 1 cassette.
+ *
+ * @param input JSON text to parse.
+ * @returns A validated cassette with message timestamps restored as dates.
+ * @throws ConfigError when the JSON or cassette shape is invalid or unsupported.
+ */
 export function parseCassette(input: string): Cassette {
   let parsed: unknown
   try {
@@ -159,6 +175,12 @@ export function parseCassette(input: string): Cassette {
   return cassette
 }
 
+/** Create a stable JSON fingerprint for the serializable parts of an adapter request.
+ *
+ * @param request Adapter request to fingerprint.
+ * @returns Canonical JSON used to match recorded requests.
+ * @throws ConfigError when the request contains values that cannot be fingerprinted.
+ */
 export function fingerprintRequest(request: AdapterRequest): string {
   const seen = new WeakSet<object>()
 

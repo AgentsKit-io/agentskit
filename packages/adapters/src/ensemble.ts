@@ -2,6 +2,9 @@ import { AdapterError, ConfigError, ErrorCodes } from '@agentskit/core'
 import type { AdapterFactory, AdapterRequest, StreamChunk, StreamSource } from '@agentskit/core'
 import { isAbortError } from './stream-errors'
 
+/**
+ * A candidate used by ensemble adapter.
+ */
 export interface EnsembleCandidate {
   id: string
   adapter: AdapterFactory
@@ -9,6 +12,9 @@ export interface EnsembleCandidate {
   weight?: number
 }
 
+/**
+ * A result returned by ensemble adapter.
+ */
 export interface EnsembleBranchResult {
   id: string
   text: string
@@ -16,12 +22,18 @@ export interface EnsembleBranchResult {
   error?: Error
 }
 
+/**
+ * Function that selects an output from ensemble branch results.
+ */
 export type EnsembleAggregator =
   | 'majority-vote'
   | 'concat'
   | 'longest'
   | ((branches: EnsembleBranchResult[]) => string | Promise<string>)
 
+/**
+ * Configuration options for the ensemble adapter.
+ */
 export interface EnsembleOptions {
   candidates: EnsembleCandidate[]
   /** How to combine branches into the single output text. Default 'majority-vote'. */

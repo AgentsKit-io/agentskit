@@ -2,6 +2,7 @@ import { defineIntegration } from '../../contract'
 import { registerIntegration } from '../../registry'
 import { apolloActions } from './actions'
 
+/** Descriptor for the Apollo.io service integration. */
 export const apolloIntegration = defineIntegration({
   name: 'apollo',
   displayName: 'Apollo.io',
