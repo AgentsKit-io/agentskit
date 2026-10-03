@@ -578,37 +578,29 @@ export function getDocumentedExportsFromSourceFile(ts, checker, sourceFile) {
   if (!moduleSymbol) {
     throw new Error(`unable to resolve module symbol for ${sourceFile.fileName}`)
   }
-  const documented = new Set(checker.getExportsOfModule(moduleSymbol)
-    .filter((symbol) => {
-      let target = symbol
-      if (symbol.flags & ts.SymbolFlags.Alias) {
-        try {
-          target = checker.getAliasedSymbol(symbol)
-        } catch {
-          target = symbol
-        }
+  const hasDocs = (symbol) =>
+    symbol.getDocumentationComment(checker).length > 0 ||
+    symbol.getJsDocTags(checker).length > 0
+  const resolveOriginal = (symbol) => {
+    let current = symbol
+    const seen = new Set()
+    while (current.flags & ts.SymbolFlags.Alias) {
+      if (seen.has(current)) break
+      seen.add(current)
+      try {
+        const target = checker.getAliasedSymbol(current)
+        if (!target || target === current) break
+        current = target
+      } catch {
+        break
       }
-      const hasDocs = (candidate) =>
-        candidate.getDocumentationComment(checker).length > 0 ||
-        candidate.getJsDocTags(checker).length > 0
-      return hasDocs(symbol) || hasDocs(target)
-    })
-    .map((symbol) => symbol.getName()))
-
-  for (const statement of sourceFile.statements) {
-    if (!ts.isExportDeclaration(statement) || !statement.exportClause) continue
-    if ((statement.jsDoc?.length ?? 0) === 0) continue
-
-    if (ts.isNamedExports(statement.exportClause)) {
-      for (const specifier of statement.exportClause.elements) {
-        documented.add(specifier.name.text)
-      }
-    } else if (ts.isNamespaceExport(statement.exportClause)) {
-      documented.add(statement.exportClause.name.text)
     }
+    return current
   }
 
-  return sortCopy([...documented])
+  return sortCopy(checker.getExportsOfModule(moduleSymbol)
+    .filter((symbol) => hasDocs(resolveOriginal(symbol)))
+    .map((symbol) => symbol.getName()))
 }
 
 /**
