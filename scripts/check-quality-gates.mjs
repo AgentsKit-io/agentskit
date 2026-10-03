@@ -30,6 +30,7 @@ const GATES = [
   ['no newly introduced nested ternaries', 'check-no-nested-ternary.mjs'],
   ['named exports only', 'check-named-exports.mjs'],
   ['file-size budgets', 'check-file-size.mjs'],
+  ['size-limit subpath target coverage', 'gen-size-limit-subpaths.mjs', ['--check']],
   ['src ↔ test parity', 'check-src-test-parity.mjs'],
   ['for-agents docs coverage', 'check-for-agents-coverage.mjs'],
   ['ADR/RFC index sync', 'check-doc-index.mjs'],

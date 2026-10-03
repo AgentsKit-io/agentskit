@@ -19,6 +19,7 @@ import { fileURLToPath } from 'node:url'
 import { createRAG, chunkText, type InputDocument, type RAG } from '@agentskit/rag'
 import { fileVectorMemory } from '@agentskit/memory'
 import { embed } from './embed'
+import { parseFrontmatter } from './frontmatter'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 /** apps/docs-next root (lib/rag → ..). */
@@ -90,17 +91,6 @@ function fileToDocPath(file: string): string {
     .replace(/\.(mdx|md)$/, '')
     .replace(/\/index$/, '')
   return slug ? `/docs/${slug}` : '/docs'
-}
-
-/** Parse frontmatter `title`; strip the frontmatter block from the body. */
-function parseFrontmatter(raw: string): { title?: string; body: string } {
-  const fm = raw.match(/^---\n([\s\S]*?)\n---/)
-  if (!fm) return { body: raw }
-  const title = fm[1]
-    .match(/^title:\s*(.+)$/m)?.[1]
-    ?.replace(/^['"]|['"]$/g, '')
-    .trim()
-  return { title, body: raw.slice(fm[0].length) }
 }
 
 /**

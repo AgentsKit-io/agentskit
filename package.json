@@ -63,7 +63,7 @@
     "check:jsdoc-coverage:update": "node scripts/check-jsdoc-coverage.mjs --update",
     "test:jsdoc-coverage": "node --test scripts/check-jsdoc-coverage.test.mjs",
     "test:public-api-snapshot": "node --test scripts/public-api-snapshot.test.mjs",
-    "size": "pnpm build && node scripts/size-core-closure.mjs && size-limit",
+    "size": "pnpm build && node scripts/size-core-closure.mjs && node scripts/gen-size-limit-subpaths.mjs --check && node scripts/gen-size-limit-subpaths.mjs --build && size-limit",
     "size:why": "pnpm build && node scripts/size-core-closure.mjs && size-limit --why",
     "content-pipeline:run": "node scripts/run-content-pipeline.mjs",
     "check:content-pipeline": "node scripts/check-content-pipeline.mjs",
