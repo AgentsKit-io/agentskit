@@ -132,7 +132,8 @@ Pull request checks regenerate `.doc-bridge/index.json`,
 `.doc-bridge/capabilities.json`, and the derived `llms.txt` files in the CI
 checkout before running documentation gates. Routine pull requests do not need
 to commit these repository-wide artifacts; the gates use the regenerated copy
-for the current source tree.
+for the current source tree. The local pre-push hook does the same temporarily
+when the committed outputs are untouched, then restores them after its checks.
 
 When a change reaches `main`, the Doc Bridge index workflow regenerates those
 artifacts and opens or updates a normal automation pull request when their
