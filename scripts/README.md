@@ -114,8 +114,14 @@ cross-platform scanner and a shrink-only baseline in `.core-rules-baseline.json`
 `--update` lowers counts and refuses to raise them. This gate does not replace
 `check-no-bare-throw.mjs`.
 
+The `no-math-random-id` rule catches base-36 random strings and template IDs,
+tokens, and temporary paths. Use `createId()` from `@agentskit/core` or
+`crypto.randomUUID()` instead. Sampling and backoff jitter remain allowed; the
+focused rule test covers both identifier and non-identifier examples.
+
 ```bash
 node scripts/check-core-rules.mjs
+pnpm exec vitest run scripts/math-random-id-rule.test.mjs
 ```
 
 ## `check-core-no-deps.mjs`
@@ -350,6 +356,31 @@ Pure helpers: `scripts/lib/public-api-snapshot.mjs`. Unit tests:
 pnpm test:public-api-snapshot
 # or: node --test scripts/public-api-snapshot.test.mjs
 ```
+
+## `check-jsdoc-coverage.mjs`
+
+Checks JSDoc coverage against the exported symbols in
+`docs/stability/public-api-v1.json`. It reads built declarations through the
+TypeScript checker, including symbols reached through package exports and
+re-exports. A symbol counts as documented when it has a description or at
+least one JSDoc tag. The per-package baseline at
+`docs/stability/jsdoc-coverage-v1.json` records the undocumented symbols;
+new missing documentation fails, and `--update` can only remove entries.
+Asset-only exports are not TypeScript symbols and are excluded.
+
+```bash
+pnpm check:jsdoc-coverage
+pnpm test:jsdoc-coverage
+pnpm check:jsdoc-coverage:update
+```
+
+The repository's existing API docs use `@example` for a representative happy
+path (see `packages/templates/CONVENTIONS.md`), `@deprecated` for deprecated
+exports with the replacement or migration guidance where available (see
+`packages/cli/ARCHITECTURE.md`), `@since` to identify an API's introduction,
+and `@throws` to describe typed errors and their conditions. The coverage gate
+checks that a public symbol has documentation; it does not infer whether each
+of these tags is semantically required for a particular declaration.
 
 Wired in CI after `packages/*` build, and in release after build /
 `check:publication-surface` and before publish.

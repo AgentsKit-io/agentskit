@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest'
 import { createServer, type Server, type IncomingMessage, type ServerResponse } from 'node:http'
 import { ErrorCodes, ToolError } from '@agentskit/core'
+import { redactSecrets } from '@agentskit/core/security'
 import { NetErrorCodes } from '@agentskit/net'
 import { composeTimeoutSignal, httpJson, bindHttp, type HttpToolOptions } from '../src'
 import { readResponseBytes } from '../src/http-body'
@@ -60,6 +61,17 @@ async function closeLocalServer(server: Server): Promise<void> {
 }
 
 describe('httpJson', () => {
+  it.each([
+    ['bot path', '/botSYNTHETIC-BOT-123/sendMessage', '/bot[REDACTED]/sendMessage'],
+    ['quoted token field', '{"access_token":"SYNTHETIC-ACCESS-123"}', '{"access_token":"[REDACTED]"}'],
+    ['unquoted token assignment', 'token=SYNTHETIC-TOKEN-123', 'token=[REDACTED]'],
+    ['quoted client secret assignment', "client_secret='SYNTHETIC-CLIENT-123'", "client_secret='[REDACTED]'"],
+    ['authorization assignment', 'authorization: "SYNTHETIC-AUTH-123"', 'authorization: "[REDACTED]"'],
+    ['signature assignment', 'signature=SYNTHETIC-SIGNATURE-123', 'signature=[REDACTED]'],
+  ])('core redaction covers existing HTTP diagnostic case: %s', (_case, input, expected) => {
+    expect(redactSecrets(input)).toBe(expected)
+  })
+
   it('reads binary responses within the configured byte budget', async () => {
     await expect(readResponseBytes(new Response(new Uint8Array([1, 2, 3])), 2)).rejects.toMatchObject({ code: ErrorCodes.AK_TOOL_EXEC_FAILED })
   })
