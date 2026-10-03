@@ -62,6 +62,7 @@ const GATES = [
   ['core rules ratchet tests', 'check-core-rules.test.mjs', [], 'vitest'],
   ['net guardrail (ratchet)', 'check-net-rules.mjs'],
   ['net ratchet CLI tests', 'check-net-rules.test.mjs', [], 'vitest'],
+  ['Math.random identifier rule tests', 'math-random-id-rule.test.mjs', [], 'vitest'],
 ]
 
 const failed = []

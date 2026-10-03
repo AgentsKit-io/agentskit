@@ -12,7 +12,7 @@ interface GuardrailRule {
 export const CORE_RULES: readonly GuardrailRule[] = [
   {
     id: 'no-math-random-id',
-    pattern: /Math\.random\(\)\.toString\(\s*36\s*\)/,
+    pattern: /Math\.random\(\)\.toString\(\s*36\s*\)|\b[\w$]*(?:id|identifier|token|nonce|key|path|filename|temp|tmp)[\w$]*\s*(?:=|:)\s*`[^`\n]*\$\{[^}]*Math\.random\s*\(\s*\)/i,
     message: 'Math.random identifiers are not collision-safe or unpredictable',
     fix: 'crypto.randomUUID() or createId() from @agentskit/core',
   },

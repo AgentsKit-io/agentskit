@@ -100,8 +100,14 @@ cross-platform scanner and a shrink-only baseline in `.core-rules-baseline.json`
 `--update` lowers counts and refuses to raise them. This gate does not replace
 `check-no-bare-throw.mjs`.
 
+The `no-math-random-id` rule catches base-36 random strings and template IDs,
+tokens, and temporary paths. Use `createId()` from `@agentskit/core` or
+`crypto.randomUUID()` instead. Sampling and backoff jitter remain allowed; the
+focused rule test covers both identifier and non-identifier examples.
+
 ```bash
 node scripts/check-core-rules.mjs
+pnpm exec vitest run scripts/math-random-id-rule.test.mjs
 ```
 
 ## `check-core-no-deps.mjs`
