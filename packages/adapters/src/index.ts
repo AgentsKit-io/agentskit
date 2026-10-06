@@ -124,3 +124,10 @@ export type {
   CredentialRefreshable,
   RotatingCredentials,
 } from './credential-rotation'
+
+export { openaiCompatible } from './openai-compatible'
+export type { OpenAICompatibleConfig } from './openai-compatible'
+export { openRouter } from './openrouter'
+export { cloudflareAiGateway, workersAi } from './cloudflare'
+export type { CloudflareAiGatewayConfig, WorkersAiConfig } from './cloudflare'
+export { CapabilityUnsupportedError } from './content-parts'

@@ -1,5 +1,6 @@
 import type { AdapterFactory, AdapterRequest, StreamSource } from '@agentskit/core'
 import { parseOllamaStream, type RetryOptions } from './utils'
+import { providerParts } from './content-parts'
 import { createStreamSource } from './stream-source'
 
 /**
@@ -8,6 +9,7 @@ import { createStreamSource } from './stream-source'
 export interface OllamaConfig {
   model: string
   baseUrl?: string
+  multiModal?: boolean
   retry?: RetryOptions
 }
 
@@ -26,16 +28,21 @@ export function ollama(config: OllamaConfig): AdapterFactory {
     capabilities: {
       streaming: true,
       tools: false,   // varies by model; default 'false' — enable via capabilities.extensions if your model supports it
-      multiModal: model.includes('llava') || model.includes('vision'),
+      multiModal: config.multiModal ?? (model.includes('llava') || model.includes('vision')),
     },
     createSource: (request: AdapterRequest): StreamSource => {
       const body = {
         model,
         stream: true,
-        messages: request.messages.map(message => ({
-          role: message.role,
-          content: message.content,
-        })),
+        messages: request.messages.map(message => {
+          const parts = providerParts(message, 'ollama', config.multiModal ?? (model.includes('llava') || model.includes('vision')))
+          const images = parts?.filter(part => part.image !== undefined).map(part => part.image)
+          return {
+            role: message.role,
+            content: parts ? parts.filter(part => part.type === 'text').map(part => part.text).join('\n') : message.content,
+            ...(images?.length ? { images } : {}),
+          }
+        }),
       }
 
       return createStreamSource(
