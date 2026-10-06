@@ -30,6 +30,7 @@ export function providerParts(message: Message, provider: Provider, multiModal =
     if (!multiModal || (message.role !== 'user' && message.role !== 'assistant') || (part.type !== 'image' && part.type !== 'file')) unsupported(provider, part)
     const inline = dataSource(part, provider)
     const isUrl = /^https?:\/\//.test(part.source)
+    if (part.type === 'image' && (inline?.mimeType ?? part.mimeType) && !(inline?.mimeType ?? part.mimeType)!.startsWith('image/')) unsupported(provider, part)
     if (provider === 'openai') {
       if (part.type === 'image') {
         if ((!inline && !isUrl) || (inline && !inline.mimeType.startsWith('image/'))) unsupported(provider, part)
@@ -43,9 +44,14 @@ export function providerParts(message: Message, provider: Provider, multiModal =
       if (part.type === 'image' && inline && !['image/png', 'image/jpeg', 'image/gif', 'image/webp'].includes(inline.mimeType)) unsupported(provider, part)
       const mimeType = inline?.mimeType ?? part.mimeType
       if (part.type === 'file' && mimeType !== 'application/pdf' && mimeType !== 'text/plain') unsupported(provider, part)
+      if (part.type === 'file' && mimeType === 'text/plain' && !inline) unsupported(provider, part)
       if (inline?.mimeType === 'text/plain' && part.type === 'file') {
         const bytes = Uint8Array.from(atob(inline.data), c => c.charCodeAt(0))
-        return { type: 'document', source: { type: 'text', media_type: 'text/plain', data: new TextDecoder('utf-8', { fatal: true }).decode(bytes) } }
+        try {
+          return { type: 'document', source: { type: 'text', media_type: 'text/plain', data: new TextDecoder('utf-8', { fatal: true }).decode(bytes) } }
+        } catch {
+          unsupported(provider, part)
+        }
       }
       if (!inline && !isUrl) unsupported(provider, part)
       return { type: part.type === 'image' ? 'image' : 'document', source: inline

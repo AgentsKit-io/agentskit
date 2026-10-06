@@ -40,6 +40,21 @@ Docs: [package guide](https://www.agentskit.io/docs/reference/packages/adapters)
 - **CLI-backed agents** — `@agentskit/adapters/cli` normalizes text, JSON, and ACP-based local LLM CLIs
 - **LangChain bridge** — `@agentskit/adapters/langchain-bridge` turns any adapter into a LangChain `BaseChatModel` for `createAgent`
 
+## Gateway and multimodal transport
+
+`openaiCompatible({ model, baseUrl, path, headers, fetch })` supports custom
+OpenAI-compatible endpoints; `apiKey` is optional and headers override defaults.
+`openRouter` aliases `openrouter`; `cloudflareAiGateway` and `workersAi` supply
+Cloudflare REST URLs without runtime bindings. Catalog URL variables are supplied
+explicitly through `env`, including `CLOUDFLARE_ACCOUNT_ID`.
+
+OpenAI-compatible, Anthropic, Gemini/Vertex and Ollama serializers read
+`message.parts`. Unsupported sources/modalities raise `CapabilityUnsupportedError`
+with `code: CAPABILITY_UNSUPPORTED`, rather than dropping attachments.
+See the [tested modality matrix](../../docs/adapter-modalities.md) and
+[configuration guide](../../apps/docs-next/content/docs/data/providers/openai.mdx).
+These are local wire-format tests; live provider acceptance remains unverified.
+
 ## Install
 
 <!-- readme-command:install -->

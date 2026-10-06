@@ -174,8 +174,10 @@ describe('multimodal boundaries and history', () => {
       { type: 'video', source: 'https://example.test/video.mp4' },
       { type: 'image', source: 'data:image/png;base64,invalid!' },
       { type: 'image', source: 'unknown-reference' },
+      { type: 'image', source: pdf },
     ] as ContentPart[]) expect(() => adapter.createSource({ messages: [message([part])] })).toThrow(expect.objectContaining({ code: 'CAPABILITY_UNSUPPORTED' }))
     expect(() => adapters[2]!.createSource({ messages: [message([{ type: 'file', source: 'gs://synthetic/no-mime' }])] })).toThrow(expect.objectContaining({ code: 'CAPABILITY_UNSUPPORTED' }))
+    expect(() => adapters[1]!.createSource({ messages: [message([{ type: 'file', source: 'data:text/plain;base64,/w==' }])] })).toThrow(expect.objectContaining({ code: 'CAPABILITY_UNSUPPORTED' }))
     expect(captured).toHaveLength(0)
   })
   it('keeps parts on assistant tool calls and merged user turns', async () => {
