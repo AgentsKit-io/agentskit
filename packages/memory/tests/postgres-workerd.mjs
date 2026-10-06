@@ -1,26 +1,25 @@
-import { spawn } from 'node:child_process'
+import { spawnProcess } from '@agentskit/cross-platform'
 import { mkdtemp, rm } from 'node:fs/promises'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
 import assert from 'node:assert/strict'
+import { readJson, retry } from '@agentskit/net'
 
 assert(process.env.AK_POSTGRES_TEST_PORT, 'Set AK_POSTGRES_TEST_PORT to a local trust-auth PostgreSQL 16 port')
 const state = await mkdtemp(join(tmpdir(), 'ak-memory-workerd-'))
-const child = spawn('pnpm', ['exec', 'wrangler', 'dev', '--config', 'tests/wrangler.postgres.jsonc', '--local', '--port', '8799', '--persist-to', state, '--var', `AK_POSTGRES_TEST_PORT:${process.env.AK_POSTGRES_TEST_PORT}`], { stdio: ['ignore', 'pipe', 'pipe'], env: { ...process.env, WRANGLER_SEND_METRICS: 'false' } })
-// Capture subprocess output internally: never publish connection diagnostics.
-child.stdout.resume(); child.stderr.resume()
+const child = spawnProcess('pnpm', ['exec', 'wrangler', 'dev', '--config', 'tests/wrangler.postgres.jsonc', '--local', '--port', '8799', '--persist-to', state, '--var', `AK_POSTGRES_TEST_PORT:${process.env.AK_POSTGRES_TEST_PORT}`], { stdin: 'ignore', stdout: 'ignore', stderr: 'ignore', env: { ...process.env, WRANGLER_SEND_METRICS: 'false' } })
+let running = true
+void child.exited.then(() => { running = false }, () => { running = false })
 try {
-  let response
-  for (let attempt = 0; attempt < 240; attempt++) {
-    assert(child.exitCode === null, 'wrangler exited before acceptance')
-    try { response = await fetch('http://127.0.0.1:8799', { signal: AbortSignal.timeout(15000) }); break } catch { await new Promise(resolve => setTimeout(resolve, 500)) }
-  }
-  assert(response, 'wrangler readiness timeout')
+  const response = await retry(async () => {
+    assert(running, 'wrangler exited before acceptance')
+    return fetch('http://127.0.0.1:8799', { signal: AbortSignal.timeout(15000) })
+  }, { retries: 239, minDelayMs: 500, maxDelayMs: 500, jitter: 'none', shouldRetry: () => running })
   assert.equal(response.status, 200, 'real workerd/Postgres request')
-  assert.deepEqual(await response.json(), { contract: 'CM1-CM6', isolation: 'tenant/session', parts: 'all five kinds', retention: 'newest N', abort: 'pre-query', recovery: 'passed' })
+  assert.deepEqual(await readJson(response, { maxBytes: 4096 }), { contract: 'CM1-CM6', isolation: 'tenant/session', parts: 'all five kinds', retention: 'newest N', abort: 'pre-query', recovery: 'passed' })
   console.log('workerd + PostgreSQL: CM1-CM6, isolation, parts, retention, abort and recovery passed')
 } finally {
-  child.kill('SIGTERM')
-  if (child.exitCode === null) await new Promise(resolve => child.once('exit', resolve))
+  await child.kill('SIGTERM')
+  await child.exited.catch(() => {})
   await rm(state, { recursive: true, force: true })
 }

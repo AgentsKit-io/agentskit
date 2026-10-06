@@ -6,12 +6,14 @@ import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 import { jsonb, pgTable, primaryKey, text } from 'drizzle-orm/pg-core'
 import { decodeStoredMessages } from './decode'
 
+/** Drizzle schema with one versioned record per tenant/session primary key. */
 export const postgresChatTable = pgTable('agentskit_chat_memory', {
   tenantId: text('tenant_id').notNull(),
   sessionId: text('session_id').notNull(),
   record: jsonb('record').$type<MemoryRecord>().notNull(),
 }, table => [primaryKey({ columns: [table.tenantId, table.sessionId] })])
 
+/** Idempotent PostgreSQL DDL; execute with the host's migration connection before use. */
 export const postgresChatMigrationSql = `CREATE TABLE IF NOT EXISTS agentskit_chat_memory (
   tenant_id text NOT NULL,
   session_id text NOT NULL,
@@ -19,6 +21,7 @@ export const postgresChatMigrationSql = `CREATE TABLE IF NOT EXISTS agentskit_ch
   PRIMARY KEY (tenant_id, session_id)
 );`
 
+/** Host-owned Drizzle connection, isolation keys, and optional history retention. */
 export interface PostgresChatMemoryOptions {
   db: Pick<NodePgDatabase, 'select' | 'insert' | 'delete'>
   tenantId: string

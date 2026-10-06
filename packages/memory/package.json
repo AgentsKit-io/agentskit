@@ -86,6 +86,7 @@
     }
   },
   "devDependencies": {
+    "@agentskit/cross-platform": "workspace:*",
     "@types/better-sqlite3": "^7.6.13",
     "@types/node": "^25.9.5",
     "better-sqlite3": "^13.0.3",
