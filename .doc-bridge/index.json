@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "ffc68ea697f611ccfe61927c43c9466b6a864d38a02aab3778eaf7a14f8c1f35",
+  "contentHash": "5f8b076f01e5fe0040078ca70e19ce5d63e7c3e6fbe07c28a518e4519ae16757",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-06T22:27:27.055Z",
+  "generatedAt": "2026-10-06T23:10:10.093Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -6050,7 +6050,7 @@
         "document",
         "human"
       ],
-      "contentHash": "99830638ce4623c4a8e014db13f979133c6ad5f378b552ad3a1746f29bd31cfb"
+      "contentHash": "d114333cd957740925288fcdd81bba2af5684be61ce9aa48a651554c8104d306"
     },
     {
       "id": "document:docs/architecture/ecosystem-manifest.md",
@@ -6489,12 +6489,12 @@
       "type": "document",
       "title": "Adapter multimodal transport — local implementation report",
       "path": "docs/evidence/adapters-multimodal-transport.md",
-      "description": "Status: BLOCKED at repository-wide validation; implementation available for maintainer review. No release, publication, deployment, push or PR was performed.",
+      "description": "Status: AWAITING_HUMAN_APPROVAL: all CH-A2 checks passed; coordinator evidence review remains required. Earlier BLOCKED results below are historical evidence. No release, publication, deployment, push or PR was performed.",
       "tags": [
         "document",
         "human"
       ],
-      "contentHash": "60375d0c705c750d4f69a9a4ce5aaa5711c5de0f2b6f2e39e64a7e2fcb1ec490"
+      "contentHash": "4821916edffb5279caafdb46f646423762ea03e5b5a00faf6d6ae246247f6a38"
     },
     {
       "id": "document:docs/evidence/ecosystem-documentation-quality/README.md",
@@ -14531,7 +14531,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "188da6a73f154b21bf50a482b473529789fb115b965d0e0f8dd5caf82e46d680"
+      "contentHash": "75ebffb6d25332d5acee531ece62b895459953591feb9e6082a3fe671fd8f603"
     },
     {
       "id": "module:packages/adapters/src/createAdapter.ts",
@@ -15182,7 +15182,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "5f923042374235e3aafbbef2974270d4faf76785b19286614540d0d09cd14f57"
+      "contentHash": "a334373f594863a9392bb5d463db6c51e06c1ce78f3b57ce18aaae7ee3123cd7"
     },
     {
       "id": "module:packages/adapters/src/openai-stream.ts",
@@ -15707,6 +15707,19 @@
       "contentHash": "0ebc486d8b6527079a6611a145036e9580c1fa402f1efc127e5c022ef5ca368b"
     },
     {
+      "id": "module:packages/adapters/tests/content-parts.test.ts",
+      "type": "module",
+      "title": "content-parts.test.ts",
+      "path": "packages/adapters/tests/content-parts.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "63bcc1875bcc679bbd824d2bbc6d84873d2e54ea37fc0dd41addf1f715b73e68"
+    },
+    {
       "id": "module:packages/adapters/tests/contract.test.ts",
       "type": "module",
       "title": "contract.test.ts",
@@ -15980,7 +15993,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "c0668ae950aa93876016f11e184826392d92f19ea175951905e38df847072931"
+      "contentHash": "09f1826fc75dfc8be7571e5d22ba541bb9c529b35de593d489f8801a58059cdb"
     },
     {
       "id": "module:packages/adapters/tests/net-migration-http.test.ts",
@@ -35601,7 +35614,7 @@
         "test",
         "scripts"
       ],
-      "contentHash": "887101ed2c2622cb50bbaece632d06aa2e60f74dd8d6ede5f3caec0cec355291"
+      "contentHash": "ee5a0098d2323e8078ee64fad92efabd47bef684621a2342f1aa0ad36642e6e6"
     },
     {
       "id": "module:scripts/doc-bridge-benchmark.mjs",
@@ -38064,8 +38077,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "24c4e2884cd8439780caba12dc5a0f8be9166b1ab05def2195acc100267d3b44",
-    "fileCount": 2530,
+    "hash": "2b7946f3b5d0f45961ee630dfddc8518f6c0075849e545f52b779bfe8adfaad8",
+    "fileCount": 2531,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -38087,9 +38100,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "87142bf5f2b2be22873cdaec6599fb7187fc421811a7621c79c83d991e3aaf30",
+    "contentHash": "e2bd45ca235a9910956ecbb271e31c62785fbcc0adf0d430f32afaa014738f93",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "1b564d32ff9f6e03767c8a89f5f119b85152fedb7509c05e89a3c280dcd6e0dc",
+    "snapshotHash": "21423df251b79707c4f907642899ef34a623d557530a2ea30878873c3ef68047",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -38109,7 +38122,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2485,
+      "documentCount": 2486,
       "fieldNames": [
         "aliases",
         "body",
@@ -38120,13 +38133,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.014486921529175,
-        "body": 61.03782696177063,
-        "headings": 4.0004024144869215,
-        "path": 7.613279678068411,
-        "summary": 4.53682092555332,
-        "symbols": 7.45271629778672,
-        "title": 3.348893360160966
+        "aliases": 3.0148833467417537,
+        "body": 61.01609010458568,
+        "headings": 4.00402252614642,
+        "path": 7.613435237329043,
+        "summary": 4.539420756234915,
+        "symbols": 7.449718423169751,
+        "title": 3.349557522123894
       }
     },
     "entries": [
@@ -38545,7 +38558,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.00362,
+          "pagerank": 0.003621,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/discord-bot.mdx"
@@ -38584,7 +38597,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.00362,
+          "pagerank": 0.003621,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/dspy.mdx"
@@ -38662,7 +38675,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.00362,
+          "pagerank": 0.003621,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/embedded.mdx"
@@ -38983,7 +38996,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.00362,
+          "pagerank": 0.003621,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/slack-bot.mdx"
@@ -39022,7 +39035,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.00362,
+          "pagerank": 0.003621,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/teams-bot.mdx"
@@ -39378,7 +39391,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.00362,
+          "pagerank": 0.003621,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/providers/embedders.mdx"
@@ -39493,7 +39506,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.00362,
+          "pagerank": 0.003621,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/cli/index.mdx"
@@ -39656,7 +39669,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.00362,
+          "pagerank": 0.003621,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/security/index.mdx"
@@ -39942,7 +39955,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.00362,
+          "pagerank": 0.003621,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/replay.mdx"
@@ -40160,7 +40173,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.00362,
+          "pagerank": 0.003621,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/memory/index.mdx"
@@ -40199,7 +40212,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.00362,
+          "pagerank": 0.003621,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/rag/loaders.mdx"
@@ -40238,7 +40251,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.00362,
+          "pagerank": 0.003621,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/rag/rerank.mdx"
@@ -40554,7 +40567,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.00362,
+          "pagerank": 0.003621,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/observability/devtools.mdx"
@@ -46257,7 +46270,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00362,
+          "pagerank": 0.003621,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50375,7 +50388,17 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/adapters/src/cloudflare.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/adapters/src/cohere.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/adapters/src/content-parts.ts",
               "confidence": "observed"
             },
             {
@@ -50580,7 +50603,7 @@
             }
           ]
         },
-        "contentHash": "659404a68b66fe2cd9fa626d7b9aa7c9a586059a37f6138f4a43320a49254a3b",
+        "contentHash": "c1232c16c0a9ec5568474f0c2c2af385d76f4efbde73241bd7ec17422513631b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -62560,7 +62583,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00362,
+          "pagerank": 0.003621,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -66540,7 +66563,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00362,
+          "pagerank": 0.003621,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68244,7 +68267,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.007783,
+          "pagerank": 0.007784,
           "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
@@ -68396,7 +68419,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.030098,
+          "pagerank": 0.030099,
           "inboundLinks": 64,
           "coveredBy": [],
           "mentionedBy": [
@@ -68890,7 +68913,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.02351,
+          "pagerank": 0.023499,
           "inboundLinks": 11,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69000,7 +69023,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.01322,
+          "pagerank": 0.013214,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69115,7 +69138,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.009042,
+          "pagerank": 0.009038,
           "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69225,7 +69248,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.006739,
+          "pagerank": 0.006737,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69350,7 +69373,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.006176,
+          "pagerank": 0.006173,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69465,7 +69488,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.006051,
+          "pagerank": 0.006048,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69605,7 +69628,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002197,
+          "pagerank": 0.002195,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69660,7 +69683,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002617,
+          "pagerank": 0.002615,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -69773,7 +69796,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.013291,
+          "pagerank": 0.013286,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69858,7 +69881,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002031,
+          "pagerank": 0.002029,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69938,7 +69961,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002031,
+          "pagerank": 0.002029,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70008,7 +70031,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003055,
+          "pagerank": 0.003053,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70103,7 +70126,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002031,
+          "pagerank": 0.002029,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70173,7 +70196,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002031,
+          "pagerank": 0.002029,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70228,7 +70251,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002031,
+          "pagerank": 0.002029,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70273,7 +70296,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002031,
+          "pagerank": 0.002029,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70318,7 +70341,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.004924,
+          "pagerank": 0.004921,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70398,7 +70421,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003972,
+          "pagerank": 0.00397,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70473,7 +70496,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002031,
+          "pagerank": 0.002029,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70512,7 +70535,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002031,
+          "pagerank": 0.002029,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70557,7 +70580,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.037656,
+          "pagerank": 0.037651,
           "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70702,7 +70725,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.019081,
+          "pagerank": 0.019079,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70802,7 +70825,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.004164,
+          "pagerank": 0.004162,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70917,7 +70940,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003455,
+          "pagerank": 0.003453,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70987,7 +71010,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00314,
+          "pagerank": 0.003138,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71062,7 +71085,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002031,
+          "pagerank": 0.002029,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71107,7 +71130,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002863,
+          "pagerank": 0.002861,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71187,7 +71210,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002031,
+          "pagerank": 0.002029,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71226,7 +71249,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002031,
+          "pagerank": 0.002029,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71276,7 +71299,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002031,
+          "pagerank": 0.002029,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71336,7 +71359,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002585,
+          "pagerank": 0.002583,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -71433,7 +71456,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002585,
+          "pagerank": 0.002583,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -71555,7 +71578,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002031,
+          "pagerank": 0.002029,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71600,7 +71623,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002031,
+          "pagerank": 0.002029,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71650,7 +71673,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002031,
+          "pagerank": 0.002029,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71705,11 +71728,16 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002789,
-          "inboundLinks": 1,
+          "pagerank": 0.002861,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
           "inbound": [
+            {
+              "kind": "links-to",
+              "id": "document:docs/architecture/adrs/README.md",
+              "confidence": "observed"
+            },
             {
               "kind": "links-to",
               "id": "document:docs/evidence/adapters-multimodal-transport.md",
@@ -71746,7 +71774,7 @@
           "path": "docs/architecture/adrs/README.md",
           "symbols": "",
           "summary": "This directory contains the formal, versioned contracts and architectural decisions for AgentsKit.",
-          "body": "Architecture Decision Records (ADRs) This directory contains the formal, versioned contracts and architectural decisions for AgentsKit. What is an ADR? An ADR captures a single, significant decision — a contract, a framework choice, a deliberate trade-off — along with the context that produced it and the consequences we accept. Once accepted, an ADR is immutable: changes happen by writing a new ADR that supersedes the old one. ADRs are stricter than RFCs. An RFC is a proposal open for discussion; an ADR is the conclusion we have committed to ship. When to write an ADR - A new cross-package contract (Adapter, Tool, Memory, Retriever, Skill, Runtime) - A breaking change to an existing contract - A framework or tooling choice with long-term consequences (e.g., Fumadocs over Docusaurus) - A deliberate trade-off that future contributors would otherwise re-litigate Do NOT write an ADR for: routine features, bug fixes, internal refactors, or anything already covered by the Manifesto. Format Index ADR Title Status --- --- --- Adapter contract (v1) Accepted Tool contract (v1) Accepted Memory contract (v1) Accepted Retriever contract (v1) Accepted Skill contract (v1) Accepted Runtime contract (v1) Accepted Documentation platform: Fumadocs Accepted Runtime argument validation Accepted Composition & dependency rules Accepted Network egress policy (safeFetch) Accepted Inbound request validation (chat triggers) Accepted Vendor adapter scope & granularity Accepted Runtime validation for serialized message records Accepted Trusted application tool-call proposal Accepted Tool authorization before proposal and execution Accepted Cancellable ChatMemory operations Accepted Serializable interaction state Accepted Versioned ecosystem manifest and evidence-backed claims Proposed Public package consolidation Accepted Strict ecosystem documentation quality profile Proposed Evidence-backed package graduation Accepted Public API snapshots and compatibility matrix Accepted Integration execution safety boundaries Accepted Statechart beta safety boundaries Accepted MCP bridge beta boundaries Accepted Shared ecosystem web shell Proposed Shared CLI adapter execution boundary Accepted Registry adopts the ecosystem shell Proposed Ecosystem shell v1 Accepted Documentation pruning and API reference route consolidation Accepted One package owns OS and runtime portability Proposed One package owns HTTP plumbing Proposed Canonical JSON and SHA-256 helpers Accepted Cryptographic IDs for generated identifiers Accepted Preserve eval replay fingerprint compatibility Proposed The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.",
+          "body": "Architecture Decision Records (ADRs) This directory contains the formal, versioned contracts and architectural decisions for AgentsKit. What is an ADR? An ADR captures a single, significant decision — a contract, a framework choice, a deliberate trade-off — along with the context that produced it and the consequences we accept. Once accepted, an ADR is immutable: changes happen by writing a new ADR that supersedes the old one. ADRs are stricter than RFCs. An RFC is a proposal open for discussion; an ADR is the conclusion we have committed to ship. When to write an ADR - A new cross-package contract (Adapter, Tool, Memory, Retriever, Skill, Runtime) - A breaking change to an existing contract - A framework or tooling choice with long-term consequences (e.g., Fumadocs over Docusaurus) - A deliberate trade-off that future contributors would otherwise re-litigate Do NOT write an ADR for: routine features, bug fixes, internal refactors, or anything already covered by the Manifesto. Format Index ADR Title Status --- --- --- Adapter contract (v1) Accepted Tool contract (v1) Accepted Memory contract (v1) Accepted Retriever contract (v1) Accepted Skill contract (v1) Accepted Runtime contract (v1) Accepted Documentation platform: Fumadocs Accepted Runtime argument validation Accepted Composition & dependency rules Accepted Network egress policy (safeFetch) Accepted Inbound request validation (chat triggers) Accepted Vendor adapter scope & granularity Accepted Runtime validation for serialized message records Accepted Trusted application tool-call proposal Accepted Tool authorization before proposal and execution Accepted Cancellable ChatMemory operations Accepted Serializable interaction state Accepted Versioned ecosystem manifest and evidence-backed claims Proposed Public package consolidation Accepted Strict ecosystem documentation quality profile Proposed Evidence-backed package graduation Accepted Public API snapshots and compatibility matrix Accepted Integration execution safety boundaries Accepted Statechart beta safety boundaries Accepted MCP bridge beta boundaries Accepted Shared ecosystem web shell Proposed Shared CLI adapter execution boundary Accepted Registry adopts the ecosystem shell Proposed Ecosystem shell v1 Accepted Documentation pruning and API reference route consolidation Accepted One package owns OS and runtime portability Proposed One package owns HTTP plumbing Proposed Canonical JSON and SHA-256 helpers Accepted Cryptographic IDs for generated identifiers Accepted Preserve eval replay fingerprint compatibility Proposed Serialize attachments at the provider boundary Proposed The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.",
           "aliases": "document human"
         },
         "graph": {
@@ -72006,10 +72034,15 @@
               "kind": "links-to",
               "id": "document:docs/architecture/adrs/0040-eval-replay-fingerprint-compatibility.md",
               "confidence": "observed"
+            },
+            {
+              "kind": "links-to",
+              "id": "document:docs/architecture/adrs/0041-adapter-content-serialization.md",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "99830638ce4623c4a8e014db13f979133c6ad5f378b552ad3a1746f29bd31cfb",
+        "contentHash": "d114333cd957740925288fcdd81bba2af5684be61ce9aa48a651554c8104d306",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -73293,7 +73326,7 @@
         "kind": "document",
         "path": "docs/evidence/adapters-multimodal-transport.md",
         "title": "Adapter multimodal transport — local implementation report",
-        "summary": "Status: BLOCKED at repository-wide validation; implementation available for maintainer review. No release, publication, deployment, push or PR was performed.",
+        "summary": "Status: AWAITING_HUMAN_APPROVAL: all CH-A2 checks passed; coordinator evidence review remains required. Earlier BLOCKED results below are historical evidence. No release, publication, deployment, push or PR was performed.",
         "audience": "human",
         "aliases": [],
         "tags": [
@@ -73302,11 +73335,11 @@
         ],
         "fields": {
           "title": "Adapter multimodal transport — local implementation report",
-          "headings": "Adapter multimodal transport — local implementation report Contract and authorization Source and implementation Criterion reconciliation Validated Partially validated Blocked Not analyzed Not applicable Final gate and next action",
+          "headings": "Adapter multimodal transport — local implementation report Contract and authorization Source and implementation Criterion reconciliation Validated Partially validated Blocked Not analyzed Not applicable Final gate and next action CH-A2 — ratchet regression and branch gate reconciliation Final current-source results",
           "path": "docs/evidence/adapters-multimodal-transport.md",
           "symbols": "",
-          "summary": "Status: BLOCKED at repository-wide validation; implementation available for maintainer review. No release, publication, deployment, push or PR was performed.",
-          "body": "Adapter multimodal transport — local implementation report Status: BLOCKED at repository-wide validation; implementation available for maintainer review. No release, publication, deployment, push or PR was performed. Contract and authorization Intent: implement configurable OpenAI-compatible transport and serialize image/file inputs in the named native adapter families, with synthetic HTTP regression tests, local changeset and commits. The coordinator confirmed RF-01, RF-02, RF-04, RF-05 and RF-06 as the worker criteria; RF-03 belongs to a separate starter and is outside this contract. No core contract changes, new dependencies or real provider credentials are authorized. Scope: packages/adapters , its catalog dispatch, corresponding provider/recipe documentation, an ADR, local changeset and this evidence. Other repositories, starter/protocol/storage/cost work, live accounts and UI implementation are outside scope. Intermediate implementation and local verification were authorized together. The dispatch task specification is the approved contract; no separate parent contract hash was supplied and no subagents were dispatched. Validation budget: local and cached dependencies only; no CI or real inference calls; three repository-wide test attempts, one repository-wide build attempt, scoped checks for changed revisions, and documented doc-bridge operations. Redundant/stale task-owned jobs were stopped after source changes and repeated global failures, rather than weakening their gates. Temporary logs are reduced to allowlisted durable metadata below and removed at settlement; ambiguous/pre-existing files are retained. Source and implementation The source revision and adapter tree are recorded in . Subsequent report-only commits do not change that adapter tree. Local implementation commits: - 434ba87a : attachment serializers, configurable transport, Cloudflare presets, OpenRouter alias, catalog variables, regression suite and changeset. - 93a02265 : media validation and documented source limits. - e0cab7bc : explicit case-insensitive gateway authentication overrides. - f78b492b : retain required credential types for existing providers; add static API compatibility checks. The existing OpenAI transport supplies path , headers and injected fetch . The new openaiCompatible and Cloudflare presets allow omitted Bearer authentication. Existing OpenAI and provider configuration types retain required apiKey ; existing default /v1 routing and text-only requests without parts remain compatible. Shared history serializers send OpenAI image url / file , Anthropic image / document , Gemini/Vertex inlineData / fileData , and Ollama images . Unsupported sources/modalities fail with CapabilityUnsupportedError.code === 'CAPABILITY UNSUPPORTED' before I/O. Ollama accepts inline images, including image file parts, and rejects PDFs and remote URLs. Catalog placeholders are resolved only from explicitly supplied env values. No Cloudflare runtime binding is imported. The is generated by a Vitest file snapshot from the HTTP test cases and checked against the recipe. Refreshing it uses the existing suite's -u option. records the implementation decision for maintainer review; it does not revise a core contract. Criterion reconciliation Criterion Status Current evidence and limit --- --- --- RF-01: configurable endpoint/path/headers/fetch, no implicit Bearer, streaming/usage validated locally HTTP capture asserts full configured path, custom headers, injected fetch invocation, absent Authorization, text stream and token usage; explicit caller authentication overrides also pass RF-02: OpenRouter, AI Gateway, Workers AI presets and catalog account URL validated locally Captured requests assert all three official URLs and headers; missing catalog variables produce MISSING URL VARIABLE; library source contains no cloudflare: import RF-03: starter default/fallback model and ledger not applicable Separate starter contract, explicitly excluded by coordinator RF-",
+          "summary": "Status: AWAITING_HUMAN_APPROVAL: all CH-A2 checks passed; coordinator evidence review remains required. Earlier BLOCKED results below are historical evidence. No release, publication, deployment, push or PR was performed.",
+          "body": "Adapter multimodal transport — local implementation report Status: AWAITING HUMAN APPROVAL : all CH-A2 checks passed; coordinator evidence review remains required. Earlier BLOCKED results below are historical evidence. No release, publication, deployment, push or PR was performed. Contract and authorization Intent: implement configurable OpenAI-compatible transport and serialize image/file inputs in the named native adapter families, with synthetic HTTP regression tests, local changeset and commits. The coordinator confirmed RF-01, RF-02, RF-04, RF-05 and RF-06 as the worker criteria; RF-03 belongs to a separate starter and is outside this contract. No core contract changes, new dependencies or real provider credentials are authorized. Scope: packages/adapters , its catalog dispatch, corresponding provider/recipe documentation, an ADR, local changeset and this evidence. Other repositories, starter/protocol/storage/cost work, live accounts and UI implementation are outside scope. Intermediate implementation and local verification were authorized together. The dispatch task specification is the approved contract; no separate parent contract hash was supplied and no subagents were dispatched. Validation budget: local and cached dependencies only; no CI or real inference calls; three repository-wide test attempts, one repository-wide build attempt, scoped checks for changed revisions, and documented doc-bridge operations. Redundant/stale task-owned jobs were stopped after source changes and repeated global failures, rather than weakening their gates. Temporary logs are reduced to allowlisted durable metadata below and removed at settlement; ambiguous/pre-existing files are retained. Source and implementation The source revision and adapter tree are recorded in . Subsequent report-only commits do not change that adapter tree. Local implementation commits: - 434ba87a : attachment serializers, configurable transport, Cloudflare presets, OpenRouter alias, catalog variables, regression suite and changeset. - 93a02265 : media validation and documented source limits. - e0cab7bc : explicit case-insensitive gateway authentication overrides. - f78b492b : retain required credential types for existing providers; add static API compatibility checks. The existing OpenAI transport supplies path , headers and injected fetch . The new openaiCompatible and Cloudflare presets allow omitted Bearer authentication. Existing OpenAI and provider configuration types retain required apiKey ; existing default /v1 routing and text-only requests without parts remain compatible. Shared history serializers send OpenAI image url / file , Anthropic image / document , Gemini/Vertex inlineData / fileData , and Ollama images . Unsupported sources/modalities fail with CapabilityUnsupportedError.code === 'CAPABILITY UNSUPPORTED' before I/O. Ollama accepts inline images, including image file parts, and rejects PDFs and remote URLs. Catalog placeholders are resolved only from explicitly supplied env values. No Cloudflare runtime binding is imported. The is generated by a Vitest file snapshot from the HTTP test cases and checked against the recipe. Refreshing it uses the existing suite's -u option. records the implementation decision for maintainer review; it does not revise a core contract. Criterion reconciliation Criterion Status Current evidence and limit --- --- --- RF-01: configurable endpoint/path/headers/fetch, no implicit Bearer, streaming/usage validated locally HTTP capture asserts full configured path, custom headers, injected fetch invocation, absent Authorization, text stream and token usage; explicit caller authentication overrides also pass RF-02: OpenRouter, AI Gateway, Workers AI presets and catalog account URL validated locally Captured requests assert all three official URLs and headers; missing catalog variables produce MISSING URL VARIABLE; library source contains no cloudflare: import RF-03: starter default/fallback model and ledger not applicable ",
           "aliases": "document human"
         },
         "graph": {
@@ -73340,10 +73373,15 @@
               "kind": "mentions-symbol",
               "id": "module:packages/adapters/src/openai-compatible.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/net/src/sse.ts",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "60375d0c705c750d4f69a9a4ce5aaa5711c5de0f2b6f2e39e64a7e2fcb1ec490",
+        "contentHash": "4821916edffb5279caafdb46f646423762ea03e5b5a00faf6d6ae246247f6a38",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -73472,7 +73510,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002511,
+          "pagerank": 0.002512,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -74415,7 +74453,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00362,
+          "pagerank": 0.003621,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -74741,7 +74779,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.07763,
+          "pagerank": 0.077631,
           "inboundLinks": 64,
           "coveredBy": [],
           "mentionedBy": [
@@ -75295,7 +75333,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.020953,
+          "pagerank": 0.020952,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -75997,7 +76035,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.035841,
+          "pagerank": 0.03584,
           "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [
@@ -76409,7 +76447,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.019597,
+          "pagerank": 0.019598,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [
@@ -77170,7 +77208,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002511,
+          "pagerank": 0.002512,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -104410,9 +104448,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 1,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
+            "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:packages/adapters/README.md"
           ],
           "packageId": "package:@agentskit/adapters",
@@ -104420,6 +104459,11 @@
             {
               "kind": "imports",
               "id": "module:packages/adapters/tests/multimodal-http.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -104563,9 +104607,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 2,
+          "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
+            "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/multi-modal.mdx",
             "document:packages/adapters/README.md"
           ],
@@ -104587,6 +104632,16 @@
               "confidence": "observed"
             },
             {
+              "kind": "imports",
+              "id": "module:packages/adapters/tests/content-parts.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
+              "confidence": "observed"
+            },
+            {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/reference/recipes/multi-modal.mdx",
               "confidence": "observed"
@@ -104604,7 +104659,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "188da6a73f154b21bf50a482b473529789fb115b965d0e0f8dd5caf82e46d680",
+        "contentHash": "75ebffb6d25332d5acee531ece62b895459953591feb9e6082a3fe671fd8f603",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -108040,7 +108095,7 @@
             }
           ]
         },
-        "contentHash": "5f923042374235e3aafbbef2974270d4faf76785b19286614540d0d09cd14f57",
+        "contentHash": "a334373f594863a9392bb5d463db6c51e06c1ce78f3b57ce18aaae7ee3123cd7",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -110559,6 +110614,46 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/adapters/tests/content-parts.test.ts",
+        "kind": "module",
+        "path": "packages/adapters/tests/content-parts.test.ts",
+        "title": "content-parts.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "content-parts.test.ts",
+          "headings": "",
+          "path": "packages/adapters/tests/content-parts.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/adapters",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/adapters/src/content-parts.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "63bcc1875bcc679bbd824d2bbc6d84873d2e54ea37fc0dd41addf1f715b73e68",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/adapters/tests/contract.test.ts",
         "kind": "module",
         "path": "packages/adapters/tests/contract.test.ts",
@@ -111519,7 +111614,7 @@
             }
           ]
         },
-        "contentHash": "c0668ae950aa93876016f11e184826392d92f19ea175951905e38df847072931",
+        "contentHash": "09f1826fc75dfc8be7571e5d22ba541bb9c529b35de593d489f8801a58059cdb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -155507,10 +155602,11 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 5,
+          "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0037-net-package.md",
+            "document:docs/evidence/adapters-multimodal-transport.md",
             "document:packages/adapters/CONVENTIONS.md",
             "document:packages/adapters/README.md",
             "document:packages/net/CONVENTIONS.md",
@@ -155526,6 +155622,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:docs/architecture/adrs/0037-net-package.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:docs/evidence/adapters-multimodal-transport.md",
               "confidence": "observed"
             },
             {
@@ -185863,7 +185964,7 @@
             }
           ]
         },
-        "contentHash": "887101ed2c2622cb50bbaece632d06aa2e60f74dd8d6ede5f3caec0cec355291",
+        "contentHash": "ee5a0098d2323e8078ee64fad92efabd47bef684621a2342f1aa0ad36642e6e6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -191729,7 +191830,7 @@
           "aliases": "eval @agentskit/eval package ownership"
         },
         "graph": {
-          "pagerank": 0.007779,
+          "pagerank": 0.00778,
           "inboundLinks": 45,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/eval-braintrust.mdx",
@@ -195584,7 +195685,7 @@
           "aliases": "skills @agentskit/skills package ownership"
         },
         "graph": {
-          "pagerank": 0.00362,
+          "pagerank": 0.003621,
           "inboundLinks": 30,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/skills.mdx",

@@ -1,6 +1,6 @@
 # Adapter multimodal transport — local implementation report
 
-Status: **BLOCKED** at repository-wide validation; implementation available for maintainer review. No release, publication, deployment, push or PR was performed.
+Status: **AWAITING_HUMAN_APPROVAL**: all CH-A2 checks passed; coordinator evidence review remains required. Earlier BLOCKED results below are historical evidence. No release, publication, deployment, push or PR was performed.
 
 ## Contract and authorization
 
@@ -87,3 +87,43 @@ Current package checks passed on source `f78b492b0345684c920c1ce2245248cccb21cc4
 Cleanup: prebuild-generated ecosystem/knowledge/API-route changes outside the implementation diff were restored to their initially clean state; the task-created generated knowledge blob was removed. Stale task-owned build/lint/doc-bridge processes were stopped. Compiler outputs and installed dependencies remain ignored and available locally; no environment data or credentials were created. Raw task-owned temporary logs are removed after extracting allowlisted metadata. The final commit is report-only; the adapter tree hash remains the one recorded in the evidence metadata.
 
 The final tracked diff contains only adapters, matching docs, proposed ADR, generated modality table, local changeset and the evidence report. The coordinator's next action is to review these artifacts and resolve the documented global/doc-bridge gates; this dispatch reports failure because Stage 0 is not green.
+
+## CH-A2 — ratchet regression and branch gate reconciliation
+
+Intent: fix the CH-A regression reported by GATES, preserving data-URI validation and the existing guardrail rules/allowlists. The coordinator approved native URL protocol classification because `net-sse-data-prefix` targets SSE, while this serializer handles media data URIs; `parseSSE` is not applicable. `new URL` with `try/catch` avoids depending on `URL.canParse` availability in workerd. MIME matching, base64 syntax and length checks remain strict.
+
+The coordinator subsequently authorized fixing every quality-gate failure introduced by CH-A and comparing failures with clean main `0e1c1aa9`. Scope expanded to the direct serializer regression test, synthetic HTTP redirects, provider-recipe assertion, for-agents documentation, ADR index, public API snapshot and generated claims/README hashes. No gate rule, suppression, baseline allowance, dependency, core contract or UI implementation was changed. The public API snapshot records nine already-implemented exports; JSDoc coverage remains shrink-only and README review dates are preserved.
+
+Acceptance and evidence map:
+
+| ID | Criterion | Evidence method |
+| --- | --- | --- |
+| A2-01 | Ratchet passes without weakened rules or allowlists | Real `node scripts/check-net-rules.mjs`; net `tests/rules.test.ts` (14 tests); diff review of rules and baselines |
+| A2-02 | Media serialization and strict rejection remain correct | Adapters build, full package tests, source/test typechecks; real loopback HTTP payload checks plus direct URI regression |
+| A2-03 | Repository suite passes, or remaining failures are reproduced on main | `VITEST_MAX_WORKERS=1 pnpm test --env-mode=loose --force --continue=always` (Turbo concurrency 2), with adapters built first; matching main acceptance flow for each remaining failure |
+| A2-04 | CH-A quality regressions are fixed and remaining failures classified | Full `check:quality-gates` on branch and a task-owned clean main worktree; no relaxed gates |
+| A2-05 | Locked doc-bridge tool accepts a current index | `pnpm docs:bridge:index` only after observed staleness, then `pnpm docs:bridge:gate` |
+| A2-06 | Local commits, truthful evidence and cleanup | Commit/diff/status review, this report, removal of task-owned main worktree and temporary logs; coordinator evidence review remains required |
+
+Budget: local cached dependencies only, no downloads/CI/provider inference; sequential build/test/gate commands within this worktree. A temporary main worktree installed the frozen lockfile offline with zero downloads. Other agents' processes and worktrees are untouched. The first overlapping global attempt failed on missing adapters declarations and is invalid due to competing builds; the next attempt was interrupted after discovering Turbo's strict environment could omit `VITEST_MAX_WORKERS`, and its wrapper exit code is not passing evidence. The final run explicitly uses loose environment forwarding and bypasses cache for whole-repository scanners.
+
+Implementation commits: `84bf9e90` (native URI classifier and direct regression), `46a0fa0e` (HTTP fixture redirects and supported OpenAI fetch assertion), `de0a94da` (documented exports, ADR link and generated evidence). The current implementation source is `de0a94da3bbf7f07b0405a87f881da6e8e587d5a`; later evidence/index-only changes do not change it.
+
+### Final current-source results
+
+Implementation source: `de0a94da3bbf7f07b0405a87f881da6e8e587d5a`; adapters tree: `71f24b88ef19ecf0d757c7f3d68377bf9c385539`. The commands below ran against that source, with the evidence note/index updated afterward. No runtime or test source changed after these results.
+
+| Criterion | Status | Current evidence |
+| --- | --- | --- |
+| A2-01 | validated | Ratchet CLI passed with 111 baselined findings; isolated net rules 14/14; global net package 8 files / 99 tests passed; no rule, allowance or suppression changed |
+| A2-02 | validated locally | ESM/CJS/declarations build passed; source and test typechecks passed; adapters 54 files / 585 tests passed under one worker, including direct strict URI rejection and real loopback payload tests; global rerun also passed 585/585 |
+| A2-03 | validated | `VITEST_MAX_WORKERS=1 pnpm test --env-mode=loose --force --continue=always`: 77/77 tasks, zero cache, 6m07s, exit 0; CLI 57 files / 526 tests, WebLLM build and docs-next production build passed |
+| A2-04 | validated | `VITEST_MAX_WORKERS=1 pnpm check:quality-gates`: all 52 gates passed, exit 0; JSDoc 1957/1963 documented with the unchanged shrink-only baseline; all three recipe acceptance flows passed |
+| A2-05 | validated | Locked `@agentskit/doc-bridge` 1.12.0 regenerated the observed stale index; gate passed freshness, 27 human-guide links and all seven required documentation rules; final evidence/index changes are followed by another gate before settlement |
+| A2-06 | implemented; awaiting coordinator review | Three scoped implementation commits above, report and regenerated index; task-owned main worktree removed; generated build artifacts outside this follow-up restored; temporary run logs removed at settlement; final diff/status inspected |
+
+Baseline comparison: task-owned clean main `0e1c1aa92e69f29f41241e49753ecab8ae279119` installed the frozen lockfile offline with zero downloads, then ran the same quality-gate command. Main passed 50/52 gates, including JSDoc, test-reference parity, for-agents coverage, ADR index, claims, README, content-pipeline tests and cross-platform/net ratchets. Its two failures were `verified recipe factory` (stale doc-bridge index) and `ecosystem documentation quality contract` (live doctor certification failure). Both pass on the final branch; no pre-existing-failure exception is needed for the final result.
+
+**Validated:** A2-01 through A2-05 as scoped above. **Partially validated:** synthetic HTTP proves serialization and transport behavior, not live provider inference. **Not analyzed:** live accounts, media interpretation, quotas, latency and browser rendering. **Blocked:** none in CH-A2 verification; the earlier report's failed attempts remain historical. **Not applicable:** UI interaction/visual approval, database/storage, release, push, PR, CI and changes to core contracts.
+
+Cleanup and next action: the clean baseline worktree was removed after inspection; other agents' processes/worktrees were untouched. Task-owned generated API routes, deterministic knowledge/site blobs and statistics snapshots were restored to their starting tracked contents; generated claims snapshots remain because their documented freshness gate required them. Task-owned raw logs are deleted after reconciliation. The coordinator must review the current commits and this evidence before approving the parent delivery; this worker reports verified assigned work, not parent completion or enterprise readiness.
