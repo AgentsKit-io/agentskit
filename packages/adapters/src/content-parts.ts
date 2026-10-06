@@ -16,7 +16,11 @@ function unsupported(provider: Provider, part: ContentPart): never {
 }
 
 function dataSource(part: Exclude<ContentPart, { type: 'text' }>, provider: Provider) {
-  if (!part.source.startsWith('data:')) return undefined
+  try {
+    if (new URL(part.source).protocol !== 'data:') return undefined
+  } catch {
+    return undefined
+  }
   const match = /^data:([^;,]+);base64,([A-Za-z0-9+/]+={0,2})$/.exec(part.source)
   if (!match || match[2]!.length % 4 !== 0 || (part.mimeType && part.mimeType !== match[1])) unsupported(provider, part)
   return { mimeType: match[1]!, data: match[2]! }
