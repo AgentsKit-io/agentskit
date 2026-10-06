@@ -42,6 +42,11 @@
       "types": "./dist/web-storage.d.ts",
       "import": "./dist/web-storage.js",
       "require": "./dist/web-storage.cjs"
+    },
+    "./postgres": {
+      "types": "./dist/postgres.d.ts",
+      "import": "./dist/postgres.js",
+      "require": "./dist/postgres.cjs"
     }
   },
   "files": [
@@ -56,17 +61,27 @@
     "test": "pnpm exec turbo run build --filter=@agentskit/memory --concurrency=2 && vitest run",
     "test:coverage": "pnpm exec turbo run build --filter=@agentskit/memory --concurrency=2 && vitest run --coverage",
     "lint": "tsc --noEmit",
-    "dev": "tsup --watch"
+    "dev": "tsup --watch",
+    "test:postgres": "pnpm exec turbo run build --filter=@agentskit/memory --concurrency=2 && vitest run tests/postgres.integration.test.ts",
+    "test:workerd": "pnpm exec turbo run build --filter=@agentskit/memory --concurrency=2 && node tests/postgres-workerd.mjs"
   },
   "dependencies": {
     "@agentskit/core": "workspace:*",
     "@agentskit/net": "workspace:*"
   },
   "peerDependencies": {
-    "vectra": "^0.15.0"
+    "vectra": "^0.15.0",
+    "drizzle-orm": "^0.45.3",
+    "pg": "^8.23.1"
   },
   "peerDependenciesMeta": {
     "vectra": {
+      "optional": true
+    },
+    "drizzle-orm": {
+      "optional": true
+    },
+    "pg": {
       "optional": true
     }
   },
@@ -78,11 +93,15 @@
     "tsup": "^8.5.1",
     "typescript": "^6.0.3",
     "vectra": "^0.15.0",
-    "vitest": "^4.1.11"
+    "vitest": "^4.1.11",
+    "drizzle-orm": "^0.45.3",
+    "pg": "^8.23.1",
+    "@types/pg": "^8.15.6",
+    "wrangler": "^4.148.0"
   },
   "agentskit": {
     "stability": "beta",
-    "stabilityNote": "File/SQLite/Redis backends — Memory contract v1."
+    "stabilityNote": "File/SQLite/Redis backends \u2014 Memory contract v1."
   },
   "license": "MIT",
   "homepage": "https://www.agentskit.io/docs/reference/packages/memory",
