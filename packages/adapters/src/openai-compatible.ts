@@ -1,6 +1,7 @@
 import type { AdapterFactory } from '@agentskit/core'
 import { openai, type OpenAIConfig } from './openai'
 
+/** Configuration for provider presets that require Bearer authentication. */
 export interface OpenAICompatibleConfig extends OpenAIConfig {}
 
 /** Transport configuration for endpoints with optional Bearer authentication. */

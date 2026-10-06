@@ -151,6 +151,13 @@ npm install @agentskit/adapters
 `createOpenAICompatibleAdapter` base; each exposes a default
 `baseUrl` and accepts an override.
 
+`openaiCompatible` accepts an explicit endpoint, path, headers and fetch
+transport with optional Bearer authentication. `openRouter` aliases
+`openrouter`; `cloudflareAiGateway` and `workersAi` provide Cloudflare REST
+presets without runtime bindings. Ordered image/file parts are serialized at
+the provider boundary; unsupported inputs throw `CapabilityUnsupportedError`
+before transport I/O. See the [modality limits](/docs/reference/recipes/provider-swap).
+
 ### Composition
 
 - `createRouter({ candidates, policy, classify, onRoute })` — pick
