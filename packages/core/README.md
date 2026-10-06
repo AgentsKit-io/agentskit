@@ -61,6 +61,18 @@ await controller.send('Hello!')
 console.log(controller.getState().messages)
 ```
 
+## Durable confirmations and content parts
+
+`controller.send` accepts a string or `ContentPart[]`; parts are retained on the user message and `content` is their text projection. Framework bindings keep their existing APIs.
+
+Configure `ChatConfig.decisionStore` with a conversation-scoped `ToolDecisionStore`, then call `await controller.decide(toolCallId, 'approve')` or `await controller.decide(toolCallId, 'deny', reason)`. A new controller restores the snapshot returned by the store's atomic claim and resumes the model with the tool outcome. Pending confirmations are saved to configured chat memory and the decision store before proposal completion.
+
+The store implements insert-if-absent `putPending`, `get`, atomic `claim` (pending → claimed, returning a snapshot only to the winner), and `settle` (persist the matching claim's terminal outcome). Store records must survive process restart, and methods must be linearizable per tool call. Use an application-authorized conversation scope. A database claim can use `UPDATE ... WHERE status = 'pending' RETURNING ...`; core ships no database implementation.
+
+Same-decision terminal replay returns the recorded `ToolCall` without invoking the tool or model. Unknown IDs raise `AK_ACTION_NOT_FOUND`; a competing or in-flight decision raises `AK_ACTION_ALREADY_DECIDED`. Tool failures are terminal and are fed to the model; retry requires a new proposal ID. A crash after claim leaves an indeterminate record for application reconciliation, never automatic side-effect retry. Serialize different calls in a conversation to protect transcript writes.
+
+`approve` and `deny` retain their generation-local behavior and are deprecated. Do not mix them with `decide` for the same call. See [ADR 0041](../../docs/architecture/adrs/0041-durable-tool-decisions.md).
+
 ## Features
 
 - `createChatController` — streaming-capable chat state machine with abort support; memory is saved after successful turns, never after failed or aborted turns. Background memory and skill activation failures are surfaced through `onError`.

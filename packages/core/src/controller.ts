@@ -1,11 +1,12 @@
 import { buildMessage as message, consumeStream, createEventEmitter, generateId, createToolLifecycle } from './primitives'
 import { buildToolMap, activateSkills, executeSafeTool as execute } from './agent-loop'
+import { partsToText } from './types/content'
 import { createControllerPersistence } from './controller-persistence'
 import { handleControllerToolCall } from './controller-tool-call'
 import {
   accumulateUsage,
   buildAdapterRequest,
-  buildToolContinuation,
+  createControllerToolLoop,
   mapMessageById,
   mapToolCallById,
   normalizeLlmUsage,
@@ -106,6 +107,16 @@ import type {
     },
   )
   const persist = persistence.save
+  const persistPending = async () => {
+    const store = config.decisionStore
+    if (!store) return
+    await persist(state.messages, activeCorrelation, true)
+    for (const call of state.messages.flatMap(message => message.toolCalls ?? [])) {
+      if (call.status === 'requires_confirmation') await store.putPending({
+        toolCallId: call.id, status: 'pending', messages: state.messages,
+      })
+    }
+  }
   const hydrate = async () => {
     if (hydrated || !config.memory) return
     hydrated = true
@@ -239,80 +250,10 @@ import type {
     return g === gen
   }
 
-  const finalize = async (aid: string, shouldPersist = true) => {
-    let done: Message | undefined
-    set(current => ({
-      ...current,
-      messages: current.messages.map(message => {
-        if (message.id !== aid) return message
-        done = { ...message, status: 'complete' as const }
-        return done
-      }),
-      status: 'idle',
-      error: null,
-    }))
-    if (done) config.onMessage?.(done)
-    if (done && shouldPersist) await persist(state.messages, activeCorrelation)
-  }
-
-  const continueTools = (aid: string, calls: ToolCall[]): string => {
-    let nextId = ''
-    set(current => {
-      const { messages: next, nextAssistantId } = buildToolContinuation(
-        current.messages,
-        aid,
-        calls,
-        message,
-      )
-      nextId = nextAssistantId
-      return {
-        ...current,
-        messages: next,
-        status: 'streaming',
-        error: null,
-      }
-    })
-    return nextId
-  }
-
-  /**
-   * Resume the agent loop after tool calls on `aid` have settled
-   * (no new LLM turn has been issued yet). Used by both `startStream` and
-   * `approve`/`deny` so the flow is identical whether tools auto-run or
-   * wait for user confirmation.
-   */
-  const resume = async (aid: string, g: number, correlation: AgentEventContext) => {
-    let id = aid
-
-    for (let remaining = config.maxToolIterations ?? 5; remaining > 0; remaining--) {
-      const assistant = state.messages.find(message => message.id === id)
-      const calls = assistant?.toolCalls ?? []
-      const waits = calls.some(call => call.status !== 'complete' && call.status !== 'error')
-
-      // Nothing to feed back, or something still awaiting confirmation —
-      // stop here; the caller drives the next step.
-      if (!calls.length || waits) {
-        await finalize(id, !waits)
-        return
-      }
-
-      id = continueTools(id, calls)
-      const ok = await run(id, '', g, correlation)
-      if (!ok) return
-    }
-
-    await finalize(id)
-  }
-
-  /**
-   * Runs one `send` — an LLM turn, plus any follow-up turns needed to feed
-   * completed tool results back to the model.
-   */
-  const start = async (aid: string, text: string, g: number, correlation: AgentEventContext) => {
-    const ok = await run(aid, text, g, correlation)
-    if (!ok) return
-    await resume(aid, g, correlation)
-  }
+  const { start, resume } = createControllerToolLoop({
+    getConfig: () => config, getState: () => state, getCorrelation: () => activeCorrelation,
+    set, run, persist, persistPending,
+  })
 
   const controller: ChatController = {
     getState: () => state,
@@ -320,13 +261,15 @@ import type {
       listeners.add(listener)
       return () => { listeners.delete(listener) }
     },
-    async send(text) {
+    async send(input) {
+      const parts = typeof input === 'string' ? undefined : input
+      const text = typeof input === 'string' ? input : partsToText(input)
       if (!text.trim()) return
       if (state.status === 'streaming') controller.stop()
       gen++
       const correlation = beginRun()
 
-      const user = message({ role: 'user', content: text })
+      const user = { ...message({ role: 'user', content: text }), ...(parts ? { parts } : {}) }
       const assistant = message({ role: 'assistant', content: '', status: 'streaming' })
 
       set(current => ({
@@ -482,10 +425,25 @@ import type {
         controller,
         p,
         n => [toolMap.get(n), config.validateArgs, config.onToolCall, authorize],
-      )).then(call => {
+      )).then(async call => {
         if (call.status !== 'requires_confirmation') approvalGenerations.delete(call.id)
+        await persistPending()
         return call
       })
+    },
+    async decide(tid, decision, reason) {
+      return import('./controller-decision-internal.js').then(m => m.decide(tid, decision, reason, {
+        store: config.decisionStore, messages: () => state.messages,
+        tool: name => toolMap.get(name), runTool, patch: patchCall,
+        finish: id => { approvalGenerations.delete(id) }, isCurrent: generation => generation === gen,
+        persist: correlation => persist(state.messages, correlation, true), resume,
+        prepare: async messages => {
+          await activate()
+          controller.stop()
+          set(current => ({ ...current, messages, error: null }))
+          return { generation: gen, correlation: beginRun() }
+        },
+      }))
     },
     async approve(tid) {
       const approvalGeneration = approvalGenerations.get(tid)

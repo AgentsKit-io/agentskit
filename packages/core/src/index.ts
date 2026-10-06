@@ -94,6 +94,8 @@ export type {
   Retriever,
   AdapterContext,
   AdapterRequest,
+  ToolDecisionRecord,
+  ToolDecisionStore,
   ChatConfig,
   ChatState,
   ChatController,
