@@ -1,8 +1,8 @@
 import type { AdapterFactory } from '@agentskit/core'
-import { openaiCompatible, type OpenAICompatibleConfig } from './openai-compatible'
+import { openaiCompatible, type OpenAICompatibleTransportConfig } from './openai-compatible'
 
 /** Cloudflare account and optional AI Gateway authentication. */
-export interface CloudflareAiGatewayConfig extends OpenAICompatibleConfig {
+export interface CloudflareAiGatewayConfig extends OpenAICompatibleTransportConfig {
   accountId: string
   gatewayId: string
   gatewayToken?: string
@@ -21,7 +21,7 @@ export function cloudflareAiGateway(config: CloudflareAiGatewayConfig): AdapterF
 }
 
 /** Workers AI REST configuration; no Cloudflare runtime binding is required. */
-export interface WorkersAiConfig extends OpenAICompatibleConfig {
+export interface WorkersAiConfig extends OpenAICompatibleTransportConfig {
   accountId: string
 }
 

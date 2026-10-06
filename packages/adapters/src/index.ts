@@ -126,7 +126,7 @@ export type {
 } from './credential-rotation'
 
 export { openaiCompatible } from './openai-compatible'
-export type { OpenAICompatibleConfig } from './openai-compatible'
+export type { OpenAICompatibleConfig, OpenAICompatibleTransportConfig } from './openai-compatible'
 export { openRouter } from './openrouter'
 export { cloudflareAiGateway, workersAi } from './cloudflare'
 export type { CloudflareAiGatewayConfig, WorkersAiConfig } from './cloudflare'

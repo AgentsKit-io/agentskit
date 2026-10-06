@@ -68,8 +68,8 @@ server, not acceptance or inference quality on a live provider.
 | vertex | inlineData/fileData | inlineData/fileData | data URL or provider URI with MIME type |
 | ollama | images | image data URL only | image data URL only; vision model required; PDF rejected |
 
-Parts replace the legacy `content` projection when present; their order is preserved.
-Text-only messages keep the previous wire format. OpenAI-compatible custom models
+For user/assistant messages, parts replace the legacy `content` projection when present; their order is preserved.
+Messages without parts keep the previous wire format. OpenAI-compatible custom models
 must opt into `capabilities: { multiModal: true }`; transport compatibility alone
 says nothing about the upstream model. Ollama accepts `multiModal: true` for
 vision models whose names do not match the default `llava`/`vision` heuristic.
