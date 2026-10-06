@@ -11,7 +11,7 @@ export interface CloudflareAiGatewayConfig extends OpenAICompatibleConfig {
 /** OpenAI-compatible AI Gateway endpoint; supports gateway-only authentication. */
 export function cloudflareAiGateway(config: CloudflareAiGatewayConfig): AdapterFactory {
   const headers = new Headers(config.headers)
-  if (config.gatewayToken) headers.set('cf-aig-authorization', `Bearer ${config.gatewayToken}`)
+  if (config.gatewayToken && !headers.has('cf-aig-authorization')) headers.set('cf-aig-authorization', `Bearer ${config.gatewayToken}`)
   return openaiCompatible({
     ...config,
     baseUrl: config.baseUrl ?? `https://gateway.ai.cloudflare.com/v1/${encodeURIComponent(config.accountId)}/${encodeURIComponent(config.gatewayId)}/compat`,

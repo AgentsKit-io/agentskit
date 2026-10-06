@@ -216,3 +216,11 @@ it('encodes inline text documents and Ollama image file parts', async () => {
   expect((await send(anthropic({ apiKey: 'synthetic', model: 'claude', baseUrl }), [{ type: 'file', source: 'data:text/plain;base64,aGVsbG8=' }])).messages).toEqual([{ role: 'user', content: [{ type: 'document', source: { type: 'text', media_type: 'text/plain', data: 'hello' } }] }])
   expect((await send(ollama({ model: 'custom-vision-model', multiModal: true, baseUrl }), [{ type: 'file', source: png }])).messages).toEqual([{ role: 'user', content: '', images: ['aW1hZ2U='] }])
 })
+
+it('honors case-insensitive caller authentication overrides', async () => {
+  const { cloudflareAiGateway } = await import('../src/cloudflare')
+  await send(openaiCompatible({ apiKey: 'synthetic', model: 'custom', baseUrl, headers: { authorization: 'Basic synthetic' } }), [{ type: 'text', text: 'hello' }])
+  expect(captured[0]?.headers.authorization).toBe('Basic synthetic')
+  await send(cloudflareAiGateway({ accountId: 'synthetic', gatewayId: 'synthetic', gatewayToken: 'default-synthetic', model: 'custom', baseUrl, headers: { 'CF-AIG-Authorization': 'Bearer override-synthetic' } }), [{ type: 'text', text: 'hello' }])
+  expect(captured[1]?.headers['cf-aig-authorization']).toBe('Bearer override-synthetic')
+})
