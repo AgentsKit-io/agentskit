@@ -127,7 +127,10 @@ describe('OpenAI-compatible presets', () => {
     const transport: typeof fetch = (input, init) => {
       const url = String(input)
       destinations.push(url)
-      return nativeFetch(`${baseUrl}${new URL(url).pathname}`, init)
+      const redirected = new URL(url)
+      redirected.host = new URL(baseUrl).host
+      redirected.protocol = 'http:'
+      return nativeFetch(redirected, init)
     }
     await send(openRouter({ model: 'google/gemini-2.5-flash-lite', apiKey: 'synthetic', fetch: transport, headers: { 'HTTP-Referer': 'https://example.test', 'X-Title': 'Synthetic' } }), [{ type: 'text', text: 'hello' }])
     await send(cloudflareAiGateway({ accountId: 'account', gatewayId: 'gateway', gatewayToken: 'synthetic', model: 'openrouter/google/gemini-2.5-flash-lite', fetch: transport }), [{ type: 'text', text: 'hello' }])
@@ -150,7 +153,10 @@ describe('OpenAI-compatible presets', () => {
     let destination = ''
     const transport: typeof fetch = (input, init) => {
       destination = String(input)
-      return nativeFetch(`${baseUrl}${new URL(destination).pathname}`, init)
+      const redirected = new URL(destination)
+      redirected.host = new URL(baseUrl).host
+      redirected.protocol = 'http:'
+      return nativeFetch(redirected, init)
     }
     await send(dispatchFromCatalog({ provider: provider.id, model: 'custom', apiKey: 'synthetic', env: { CLOUDFLARE_ACCOUNT_ID: 'synthetic-account' }, fetch: transport }), [{ type: 'text', text: 'hello' }])
     expect(destination).toBe('https://api.cloudflare.com/client/v4/accounts/synthetic-account/ai/v1/chat/completions')
