@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "1ae59c3192e5f5dbac0391a56bca95001c9c08bdc6eb7b19fd450c9d2bb509bb",
+  "contentHash": "1dfe7e39f3e686d77291abaed22f313658218ebdccd1d04380cb7249f9c3dfae",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-06T22:38:24.385Z",
+  "generatedAt": "2026-10-06T23:18:00.301Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -6495,7 +6495,7 @@
         "document",
         "human"
       ],
-      "contentHash": "a8a6d17d5f5d8bf4db2b0ba893dab692dd40a8a94838385bc8a3c3860c471206"
+      "contentHash": "9e6ab6298a1a4f44e28081541e9743688b8dea4d25658a6056f114648503a11b"
     },
     {
       "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
@@ -26112,7 +26112,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "76dd829118dff9d6ba0d4a7323de1c8ce7c87c9147e9f033e97c215dc411f41e"
+      "contentHash": "38168324926cd6a3ac442e258f7782ff4c079fa0f604c7dd89f50c7797545069"
     },
     {
       "id": "module:packages/memory/src/redaction.ts",
@@ -26764,7 +26764,7 @@
         "mjs",
         "tests"
       ],
-      "contentHash": "c0aeb1f7fec006b78137c599a0bcc4c2a2def95eb647914b3009c96da1cb1a43"
+      "contentHash": "8ff9e14616c68478c21038f9f9b5699d745f77e296239b00fee208c6fc14ec25"
     },
     {
       "id": "module:packages/memory/tests/postgres.integration.test.ts",
@@ -38039,7 +38039,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "c425cb131ac63828c39ccb6cbbf89d8cdaa02667966297f870504677a665f787",
+    "hash": "43de4dcb8112d883b5478e8e74ed8f280bebf17ea2e21290188632e9ba53d97c",
     "fileCount": 2529,
     "projectionVersion": 2
   },
@@ -38062,9 +38062,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "c5244d26770625461d7fbc673196ba2f9ba5c8904170eb0f99ff71e498c611ac",
+    "contentHash": "eba46ea7d2bc0e68e8bfac5395c2e43f69f4b0fc86fca4b5b403ee4b2ef786c1",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "40688f7aaa3476bbe6f2667d803a93314760f5f5b76b84ea1c7b695994527610",
+    "snapshotHash": "2eb0c5cbab0771b5fe7396d265205d1a0a62239ce7ef278f7e721921823adb73",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -38097,7 +38097,7 @@
       "averageFieldLength": {
         "aliases": 3.0148953301127213,
         "body": 60.74235104669887,
-        "headings": 3.995571658615137,
+        "headings": 3.999194847020934,
         "path": 7.61231884057971,
         "summary": 4.552334943639291,
         "symbols": 7.4343800322061195,
@@ -73261,7 +73261,7 @@
         ],
         "fields": {
           "title": "PostgreSQL ChatMemory task contract and validation",
-          "headings": "PostgreSQL ChatMemory task contract and validation Current evidence (2026-10-06)",
+          "headings": "PostgreSQL ChatMemory task contract and validation Current evidence (2026-10-06) CH-C2 guardrail repair (2026-10-06)",
           "path": "docs/memory-postgres-validation.md",
           "symbols": "",
           "summary": "Intent: implement the existing public ChatMemory contract with BYO Drizzle/pg, without changing Core contracts. Authorized scope: packages/memory, corresponding docs/changeset, and pnpm-lock.yaml (coordinator explicitly approved lock changes). SessionStorage CAS/leases are owned by another task and excluded by coordinator confirmation.",
@@ -73307,7 +73307,7 @@
             }
           ]
         },
-        "contentHash": "a8a6d17d5f5d8bf4db2b0ba893dab692dd40a8a94838385bc8a3c3860c471206",
+        "contentHash": "9e6ab6298a1a4f44e28081541e9743688b8dea4d25658a6056f114648503a11b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -150708,7 +150708,7 @@
             }
           ]
         },
-        "contentHash": "76dd829118dff9d6ba0d4a7323de1c8ce7c87c9147e9f033e97c215dc411f41e",
+        "contentHash": "38168324926cd6a3ac442e258f7782ff4c079fa0f604c7dd89f50c7797545069",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -153631,7 +153631,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "c0aeb1f7fec006b78137c599a0bcc4c2a2def95eb647914b3009c96da1cb1a43",
+        "contentHash": "8ff9e14616c68478c21038f9f9b5699d745f77e296239b00fee208c6fc14ec25",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -192880,7 +192880,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "4def7b1bf262387313704e9a08001093ebea07bfe1ca7314e047502b409b3ea2",
+        "contentHash": "37d15cf316ba7263ef7fb9a66bdb46eea9a87797ecce3e2d7a5db6f7c958e0e8",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "memory"
@@ -197383,7 +197383,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "72455ca17e0e3a0993304faf3e27f2f918b530261e13bb5906c2b51fed891acf",
+        "contentHash": "810079c7f75819f08fe65c7bce09029d67ff76264a4beac4d58b0572b110b345",
         "provenance": "observed",
         "confidence": "observed"
       }
