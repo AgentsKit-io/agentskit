@@ -1,4 +1,4 @@
-# ADR 0041 — Durable tool decisions in core 1.x
+# ADR 0042 — Durable tool decisions in core 1.x
 
 - **Status**: Proposed (implementation authorized; evidence review remains external)
 - **Date**: 2026-10-06

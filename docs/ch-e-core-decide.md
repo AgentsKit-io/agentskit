@@ -4,7 +4,7 @@ Date: 2026-10-06. Base: `0e1c1aa92e69f29f41241e49753ecab8ae279119` (local origin
 
 ## Task contract
 
-Intent: implement the approved compatible API, verify it locally, commit locally, and report for coordinator/human evidence review. Scope: core controller/types/persistence, synthetic tests, ADR 0041, core human/agent documentation, and a minor changeset. Adapters, memory package backends, HTTP protocol/server handlers, transport streams, database services, and UI are outside this worker's scope. Required human decision: review the implementation/evidence; this worker cannot approve itself.
+Intent: implement the approved compatible API, verify it locally, commit locally, and report for coordinator/human evidence review. Scope: core controller/types/persistence, synthetic tests, ADR 0042, core human/agent documentation, and a minor changeset. Adapters, memory package backends, HTTP protocol/server handlers, transport streams, database services, and UI are outside this worker's scope. Required human decision: review the implementation/evidence; this worker cannot approve itself.
 
 Budget: one frozen-lockfile install; one Vitest worker; core-local lint/build/tests and root-import size checks; local regenerated doc-bridge checks. No CI/network fixtures or new environment. Root `pnpm size` and global lint/test/build include unrelated packages/apps, so validation is deliberately limited to the changed core package and its actual ESM static closure/CJS entry. This does not prove broader integration or readiness.
 

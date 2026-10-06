@@ -71,7 +71,7 @@ The store implements insert-if-absent `putPending`, `get`, atomic `claim` (pendi
 
 Same-decision terminal replay returns the recorded `ToolCall` without invoking the tool or model. Unknown IDs raise `AK_ACTION_NOT_FOUND`; a competing or in-flight decision raises `AK_ACTION_ALREADY_DECIDED`. Tool failures are terminal and are fed to the model; retry requires a new proposal ID. A crash after claim leaves an indeterminate record for application reconciliation, never automatic side-effect retry. Serialize different calls in a conversation to protect transcript writes.
 
-`approve` and `deny` retain their generation-local behavior and are deprecated. Do not mix them with `decide` for the same call. See [ADR 0041](../../docs/architecture/adrs/0041-durable-tool-decisions.md).
+`approve` and `deny` retain their generation-local behavior and are deprecated. Do not mix them with `decide` for the same call. See [ADR 0042](../../docs/architecture/adrs/0042-durable-tool-decisions.md).
 
 ## Features
 
