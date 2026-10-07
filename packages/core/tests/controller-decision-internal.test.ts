@@ -117,6 +117,116 @@ describe('durable controller decisions', () => {
     expect(execute).toHaveBeenCalledTimes(1)
   })
 
+  it.each(['get', 'claim'] as const)('preserves chunks, new sends and confirmations while %s is suspended', async phase => {
+    const memory = createInMemoryMemory()
+    const { chat, config, execute } = fixture({ memory })
+    await chat.proposeToolCall(proposal)
+    await chat.proposeToolCall({ ...proposal, id: 'sibling' })
+    let releaseStore = () => {}
+    let releaseChunk = () => {}
+    let releaseStream = () => {}
+    const storeGate = new Promise<void>(resolve => { releaseStore = resolve })
+    const chunkGate = new Promise<void>(resolve => { releaseChunk = resolve })
+    const streamGate = new Promise<void>(resolve => { releaseStream = resolve })
+    let held = false
+    const port = config.decisionStore!
+    if (phase === 'get') {
+      const get = port.get.bind(port)
+      port.get = async id => {
+        if (id === 'sibling') { held = true; await storeGate }
+        return get(id)
+      }
+    } else {
+      const claim = port.claim.bind(port)
+      port.claim = async (...args) => { const record = await claim(...args); held = true; await storeGate; return record }
+    }
+    let streams = 0
+    chat.updateConfig({ adapter: {
+      createSource(request) {
+        if (streams > 1) return config.adapter.createSource(request)
+        if (streams++ === 1) return createMockAdapter([
+          { type: 'tool_call', toolCall: { ...proposal, id: 'new-call', args: '{}' } }, { type: 'done' },
+        ]).createSource(request)
+        return {
+          async *stream() {
+            yield { type: 'text' as const, content: 'early' }
+            await chunkGate
+            yield { type: 'text' as const, content: ' late' }
+            await streamGate
+            yield { type: 'done' as const }
+          },
+          abort: releaseStream,
+        }
+      },
+    } })
+    const streaming = chat.send('streaming turn')
+    await vi.waitUntil(() => chat.getState().messages.at(-1)?.content === 'early')
+    const deciding = chat.decide(proposal.id, 'approve')
+    await vi.waitUntil(() => held)
+    releaseChunk()
+    await vi.waitUntil(() => chat.getState().messages.at(-1)?.content === 'early late')
+    await chat.send('new turn')
+    await streaming
+    const before = copy(chat.getState().messages)
+    releaseStore()
+    await deciding
+    const messages = chat.getState().messages
+    expect(messages.slice(0, before.length).map(message => [message.id, message.content])).toEqual(before.map(message => [message.id, message.content]))
+    expect(messages.flatMap(message => message.toolCalls ?? []).find(call => call.id === 'new-call')).toMatchObject({ status: 'requires_confirmation' })
+    expect(messages[0].toolCalls?.[0]).toMatchObject({ status: 'complete', result: 'stored' })
+    expect(await memory.load()).toEqual(messages)
+    expect((await port.get(proposal.id))?.messages).toEqual(copy(messages.slice(0, before.length)))
+    expect(execute).toHaveBeenCalledTimes(1)
+  })
+
+  it.each(['removed', 'complete'] as const)('settles a claim without executing when its live target becomes %s', async change => {
+    const { chat, config, execute, requests } = fixture()
+    await chat.proposeToolCall(proposal)
+    const port = config.decisionStore!
+    const claim = port.claim.bind(port)
+    let release = () => {}
+    let held = false
+    const gate = new Promise<void>(resolve => { release = resolve })
+    port.claim = async (...args) => { const record = await claim(...args); held = true; await gate; return record }
+    const deciding = chat.decide(proposal.id, 'approve')
+    const rejected = expect(deciding).rejects.toMatchObject({ code: 'AK_ACTION_ALREADY_DECIDED' })
+    await vi.waitUntil(() => held)
+    const messages = copy(chat.getState().messages)
+    if (change === 'removed') chat.setMessages([])
+    else {
+      messages[0].toolCalls![0] = { ...messages[0].toolCalls![0], status: 'complete', result: 'already executed' }
+      chat.setMessages(messages)
+    }
+    release()
+    await rejected
+    expect(chat.getState().messages).toEqual(change === 'removed' ? [] : messages)
+    expect(await port.get(proposal.id)).toMatchObject({ status: 'failed', outcome: { status: 'error' } })
+    expect(execute).not.toHaveBeenCalled()
+    expect(requests).toHaveLength(0)
+  })
+
+  it.each(['approve', 'deny'] as const)('uses the durable claim for legacy %s racing with decide', async action => {
+    const { chat, config, execute } = fixture()
+    await chat.proposeToolCall(proposal)
+    const claim = config.decisionStore!.claim.bind(config.decisionStore)
+    let release = () => {}
+    let held = false
+    const gate = new Promise<void>(resolve => { release = resolve })
+    config.decisionStore!.claim = async (...args) => {
+      const record = await claim(...args)
+      if (record) { held = true; await gate }
+      return record
+    }
+    const deciding = chat.decide(proposal.id, 'approve')
+    await vi.waitUntil(() => held)
+    await expect(chat[action](proposal.id)).rejects.toMatchObject({ code: 'AK_ACTION_ALREADY_DECIDED' })
+    expect(execute).not.toHaveBeenCalled()
+    release()
+    await deciding
+    expect(execute).toHaveBeenCalledTimes(1)
+    expect(await config.decisionStore!.get(proposal.id)).toMatchObject({ status: 'complete' })
+  })
+
   it('preserves live turns after a previous memory save failed', async () => {
     const memory = createInMemoryMemory()
     const save = memory.save.bind(memory)

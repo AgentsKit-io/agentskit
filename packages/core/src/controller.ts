@@ -432,25 +432,38 @@ import type {
       })
     },
     async decide(tid, decision, reason) {
+      let loadedLive = false
+      let loadedGeneration = gen
       return import('./controller-decision-internal.js').then(m => m.decide(tid, decision, reason, {
         store: config.decisionStore, messages: () => state.messages,
         load: async snapshot => {
           await activate()
-          const messages = state.messages.length ? state.messages : await persistence.load()
+          loadedGeneration = gen
+          loadedLive = state.messages.length > 0
+          const messages = loadedLive ? state.messages : await persistence.load()
           return (messages.length ? messages : snapshot).map(message => ({ ...message, toolCalls: message.toolCalls?.map(call => ({ ...call })) }))
         },
         tool: name => toolMap.get(name), runTool, patch: patchCall,
         finish: id => { approvalGenerations.delete(id) }, isCurrent: generation => generation === gen,
         persist: correlation => persist(state.messages, correlation, true), resume,
-        prepare: async messages => {
-          await activate()
+        prepare: async (messages, reconciled) => {
+          const useLive = loadedLive || state.messages.length > 0 || gen !== loadedGeneration
           controller.stop()
-          set(current => ({ ...current, messages: messages.map(message => message.status === 'streaming' ? { ...message, status: 'complete' as const } : message), error: null }))
+          set(current => ({ ...current, messages: (useLive ? current.messages : messages).map(message => {
+            return { ...message, status: message.status === 'streaming' ? 'complete' as const : message.status, toolCalls: message.toolCalls?.map(call => {
+              const outcome = reconciled.get(message.id)?.find(loaded => loaded.id === call.id)
+              return call.id !== tid && call.status === 'requires_confirmation' && outcome ? outcome : call
+            }) }
+          }), error: null }))
           return { generation: gen, correlation: beginRun() }
         },
       }))
     },
     async approve(tid) {
+      if (config.decisionStore) {
+        await controller.decide(tid, 'approve')
+        return
+      }
       const approvalGeneration = approvalGenerations.get(tid)
       const msg = state.messages.find(m =>
         m.toolCalls?.some(tc => tc.id === tid && tc.status === 'requires_confirmation')
@@ -487,6 +500,10 @@ import type {
       await resume(msg.id, approvalGeneration, activeCorrelation)
     },
     async deny(tid, reason) {
+      if (config.decisionStore) {
+        await controller.decide(tid, 'deny', reason)
+        return
+      }
       const denialGeneration = approvalGenerations.get(tid)
       const msg = state.messages.find(m =>
         m.toolCalls?.some(tc => tc.id === tid && tc.status === 'requires_confirmation')

@@ -5,7 +5,7 @@ import type { AgentEventContext, Message, ToolCall, ToolDefinition, ToolDecision
 interface DecisionContext {
   store: ToolDecisionStore | undefined
   load: (snapshot: Message[]) => Promise<Message[]>
-  prepare: (messages: Message[]) => Promise<{ generation: number; correlation: AgentEventContext }>
+  prepare: (messages: Message[], reconciled: Map<string, ToolCall[]>) => Promise<{ generation: number; correlation: AgentEventContext }>
   tool: (name: string) => ToolDefinition | undefined
   runTool: (tool: ToolDefinition | undefined, call: ToolCall, onPartial: (result: string) => void, generation: number, correlation: AgentEventContext) => Promise<ToolExecResult>
   patch: (assistantId: string, toolCallId: string, patch: Partial<ToolCall>) => void
@@ -34,17 +34,21 @@ export async function decide(
     throw new ToolError({ code: ErrorCodes.AK_ACTION_ALREADY_DECIDED, message: 'Tool decision already claimed or decided' })
   }
   const messages = await context.load(pending.messages)
+  const reconciled = new Map<string, ToolCall[]>()
   for (const message of messages) {
     if (!message.toolCalls) continue
     const calls: ToolCall[] = []
+    const outcomes: ToolCall[] = []
     for (const call of message.toolCalls) {
       const sibling = call.id === id ? undefined : await store.get(call.id)
       calls.push(sibling?.outcome ?? call)
+      if (sibling?.outcome) outcomes.push(sibling.outcome)
     }
     message.toolCalls = calls
+    reconciled.set(message.id, outcomes)
   }
   const message = messages.find(m => m.role === 'assistant' && m.toolCalls?.some(c => c.id === id))
-  const call = message?.toolCalls?.find(c => c.id === id)
+  let call = message?.toolCalls?.find(c => c.id === id)
   if (!message || !call || call.status !== 'requires_confirmation') {
     throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: 'Decision store returned an invalid pending snapshot' })
   }
@@ -58,7 +62,14 @@ export async function decide(
   if (record.toolCallId !== id || record.status !== 'claimed' || record.decision !== decision || !Array.isArray(record.messages)) {
     throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: 'Decision store returned an invalid claim' })
   }
-  const { generation, correlation } = await context.prepare(messages)
+  const { generation, correlation } = await context.prepare(messages, reconciled)
+  const current = context.messages().find(m => m.id === message.id)?.toolCalls?.find(c => c.id === id)
+  if (current?.status !== 'requires_confirmation') {
+    const error = new ToolError({ code: ErrorCodes.AK_ACTION_ALREADY_DECIDED, message: 'Tool decision is no longer pending' })
+    await store.settle({ ...record, status: 'failed', outcome: { ...call, status: 'error', error: error.message }, messages: context.messages() })
+    throw error
+  }
+  call = current
   let outcome: ToolCall
   if (decision === 'deny') {
     outcome = { ...call, status: 'error', error: `Permission denied: ${reason ?? 'user denied access'}` }

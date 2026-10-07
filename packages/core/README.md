@@ -73,7 +73,7 @@ Same-decision terminal replay returns the recorded `ToolCall` without invoking t
 
 For a stuck `claimed` record, an operator must inspect `get(id)` and domain execution evidence, stop the original worker, and terminally `settle` the matching claim with a proven outcome or an explicit indeterminate failure. Never delete or reset the claim to pending. Reconcile the target call in current chat memory, then continue explicitly with a new user turn; any authorized retry needs a new proposal ID. See the operational recovery procedure in [ADR 0042](../../docs/architecture/adrs/0042-durable-tool-decisions.md).
 
-`approve` and `deny` retain their generation-local behavior and are deprecated. Do not mix them with `decide` for the same call. See [ADR 0042](../../docs/architecture/adrs/0042-durable-tool-decisions.md).
+`approve` and `deny` are deprecated. With a decision store they delegate to `decide` and share its atomic claim and typed errors; without a store they retain generation-local behavior. See [ADR 0042](../../docs/architecture/adrs/0042-durable-tool-decisions.md).
 
 ## Features
 
