@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "1dfe7e39f3e686d77291abaed22f313658218ebdccd1d04380cb7249f9c3dfae",
+  "contentHash": "611cc47390052646de9bca22deffc486955a3857a9bd35479a466a571a0e2d00",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-06T23:18:00.301Z",
+  "generatedAt": "2026-10-07T00:24:08.255Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -6495,7 +6495,19 @@
         "document",
         "human"
       ],
-      "contentHash": "9e6ab6298a1a4f44e28081541e9743688b8dea4d25658a6056f114648503a11b"
+      "contentHash": "3489be9e97704e5424df29fbe1e2193aef82bec91c6653558a15c6d556db8394"
+    },
+    {
+      "id": "document:docs/memory-react-resolution-ch-c3.md",
+      "type": "document",
+      "title": "CH-C3: remove the global React type workaround",
+      "path": "docs/memory-react-resolution-ch-c3.md",
+      "description": "State: AWAITING_HUMAN_APPROVAL; worker implementation and checks are validated, with coordinator review outstanding. No current blocker remains.",
+      "tags": [
+        "document",
+        "human"
+      ],
+      "contentHash": "adbc4680481abff16b9d503be9912059b7b133fadb53d6886adea35e1381dfcc"
     },
     {
       "id": "document:docs/PHASE-0-EXECUTION-PLAN.md",
@@ -38039,8 +38051,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "43de4dcb8112d883b5478e8e74ed8f280bebf17ea2e21290188632e9ba53d97c",
-    "fileCount": 2529,
+    "hash": "2a4510d22ffd99c826c0a3b9a3156952ee3dadd8ccbefe605f53e48409221b9e",
+    "fileCount": 2530,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -38062,9 +38074,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "eba46ea7d2bc0e68e8bfac5395c2e43f69f4b0fc86fca4b5b403ee4b2ef786c1",
+    "contentHash": "ad271662e6177981e5e630d7a75efcb0af200c0061095f86a4de96478c9fa915",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "2eb0c5cbab0771b5fe7396d265205d1a0a62239ce7ef278f7e721921823adb73",
+    "snapshotHash": "ce1f8c3138d5015fc1443c1c2fbeca3083ab43c58ac2fa5888317bd3dd412009",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -38084,7 +38096,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2484,
+      "documentCount": 2485,
       "fieldNames": [
         "aliases",
         "body",
@@ -38095,13 +38107,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0148953301127213,
-        "body": 60.74235104669887,
-        "headings": 3.999194847020934,
-        "path": 7.61231884057971,
-        "summary": 4.552334943639291,
-        "symbols": 7.4343800322061195,
-        "title": 3.3482286634460547
+        "aliases": 3.014486921529175,
+        "body": 60.91106639839034,
+        "headings": 4.007243460764587,
+        "path": 7.612474849094568,
+        "summary": 4.556539235412475,
+        "symbols": 7.431388329979879,
+        "title": 3.3501006036217302
       }
     },
     "entries": [
@@ -38520,7 +38532,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003649,
+          "pagerank": 0.003629,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/discord-bot.mdx"
@@ -38559,7 +38571,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003649,
+          "pagerank": 0.003629,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/dspy.mdx"
@@ -38637,7 +38649,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003649,
+          "pagerank": 0.003629,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/embedded.mdx"
@@ -38958,7 +38970,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003649,
+          "pagerank": 0.003629,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/slack-bot.mdx"
@@ -38997,7 +39009,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003649,
+          "pagerank": 0.003629,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/examples/teams-bot.mdx"
@@ -39353,7 +39365,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003649,
+          "pagerank": 0.003629,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/providers/embedders.mdx"
@@ -39468,7 +39480,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003649,
+          "pagerank": 0.003629,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/cli/index.mdx"
@@ -39631,7 +39643,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003649,
+          "pagerank": 0.003629,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/security/index.mdx"
@@ -39794,7 +39806,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002811,
+          "pagerank": 0.002795,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/packages/eval-braintrust.mdx"
@@ -39878,7 +39890,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002811,
+          "pagerank": 0.002795,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/snapshots.mdx"
@@ -39917,7 +39929,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003649,
+          "pagerank": 0.003629,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/replay.mdx"
@@ -39956,7 +39968,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002811,
+          "pagerank": 0.002795,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/evals/snapshots.mdx"
@@ -39995,7 +40007,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002392,
+          "pagerank": 0.002378,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -40065,7 +40077,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002811,
+          "pagerank": 0.002795,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/agents/tools/integrations-catalog.mdx"
@@ -40135,7 +40147,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003649,
+          "pagerank": 0.003629,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/memory/index.mdx"
@@ -40174,7 +40186,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003649,
+          "pagerank": 0.003629,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/rag/loaders.mdx"
@@ -40213,7 +40225,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003649,
+          "pagerank": 0.003629,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/data/rag/rerank.mdx"
@@ -40252,7 +40264,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002392,
+          "pagerank": 0.002378,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -40291,7 +40303,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002811,
+          "pagerank": 0.002795,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/security/sandbox.mdx"
@@ -40330,7 +40342,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002392,
+          "pagerank": 0.002378,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -40369,7 +40381,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002392,
+          "pagerank": 0.002378,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/ui/index.mdx"
@@ -40439,7 +40451,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.002811,
+          "pagerank": 0.002795,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/agents/tools/integrations-catalog.mdx"
@@ -40529,7 +40541,7 @@
           "aliases": "area"
         },
         "graph": {
-          "pagerank": 0.003649,
+          "pagerank": 0.003629,
           "inboundLinks": 1,
           "coveredBy": [
             "document:apps/docs-next/content/docs/production/observability/devtools.mdx"
@@ -41350,7 +41362,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -41436,7 +41448,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -41489,7 +41501,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.005885,
+          "pagerank": 0.005852,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [
@@ -41685,7 +41697,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -44046,7 +44058,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -46085,7 +46097,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -46227,7 +46239,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003649,
+          "pagerank": 0.003629,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -46906,7 +46918,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -48298,7 +48310,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50121,7 +50133,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50175,7 +50187,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50221,7 +50233,7 @@
           "aliases": "adapters document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50562,7 +50574,7 @@
           "aliases": "angular document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50668,7 +50680,7 @@
           "aliases": "cli document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50814,7 +50826,7 @@
           "aliases": "core document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -50975,7 +50987,7 @@
           "aliases": "cross-platform document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51091,7 +51103,7 @@
           "aliases": "doc-bridge document agent"
         },
         "graph": {
-          "pagerank": 0.002071,
+          "pagerank": 0.00206,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51138,7 +51150,7 @@
           "aliases": "eval-braintrust document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51199,7 +51211,7 @@
           "aliases": "eval document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51426,7 +51438,7 @@
           "aliases": "ink document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51537,7 +51549,7 @@
           "aliases": "integrations document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51678,7 +51690,7 @@
           "aliases": "mcp document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51754,7 +51766,7 @@
           "aliases": "memory document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51925,7 +51937,7 @@
           "aliases": "net document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -51986,7 +51998,7 @@
           "aliases": "observability-langfuse document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52052,7 +52064,7 @@
           "aliases": "observability document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52183,7 +52195,7 @@
           "aliases": "rag document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52259,7 +52271,7 @@
           "aliases": "react-native document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52355,7 +52367,7 @@
           "aliases": "react document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52441,7 +52453,7 @@
           "aliases": "runtime document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52582,7 +52594,7 @@
           "aliases": "sandbox document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52663,7 +52675,7 @@
           "aliases": "skills document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52834,7 +52846,7 @@
           "aliases": "solid document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52910,7 +52922,7 @@
           "aliases": "statechart document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -52986,7 +52998,7 @@
           "aliases": "svelte document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53072,7 +53084,7 @@
           "aliases": "templates document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53168,7 +53180,7 @@
           "aliases": "tools document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53469,7 +53481,7 @@
           "aliases": "validation document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53535,7 +53547,7 @@
           "aliases": "vue document agent"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -53693,7 +53705,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -54662,7 +54674,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -55200,7 +55212,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -56019,7 +56031,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -56590,7 +56602,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -56639,7 +56651,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -56849,7 +56861,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -57154,7 +57166,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -57403,7 +57415,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58275,7 +58287,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58319,7 +58331,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58402,7 +58414,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -58977,7 +58989,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59054,7 +59066,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59319,7 +59331,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59558,7 +59570,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59617,7 +59629,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59686,7 +59698,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59840,7 +59852,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59899,7 +59911,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -59983,7 +59995,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60087,7 +60099,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60131,7 +60143,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60265,7 +60277,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60319,7 +60331,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60403,7 +60415,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60507,7 +60519,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60686,7 +60698,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60750,7 +60762,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -60794,7 +60806,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61017,7 +61029,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61106,7 +61118,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61165,7 +61177,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61234,7 +61246,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61278,7 +61290,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61362,7 +61374,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61406,7 +61418,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61510,7 +61522,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -61729,7 +61741,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -62514,7 +62526,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003649,
+          "pagerank": 0.003629,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -65479,7 +65491,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -66322,7 +66334,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -66484,7 +66496,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003649,
+          "pagerank": 0.003629,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -66529,7 +66541,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -67187,7 +67199,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -67792,7 +67804,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -67904,7 +67916,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -68188,7 +68200,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.007916,
+          "pagerank": 0.007872,
           "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
@@ -68289,7 +68301,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.007761,
+          "pagerank": 0.007717,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -68340,7 +68352,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.030756,
+          "pagerank": 0.030584,
           "inboundLinks": 64,
           "coveredBy": [],
           "mentionedBy": [
@@ -68791,7 +68803,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.023697,
+          "pagerank": 0.023564,
           "inboundLinks": 11,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68901,7 +68913,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.013325,
+          "pagerank": 0.013251,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69016,7 +69028,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.009113,
+          "pagerank": 0.009063,
           "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69126,7 +69138,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.006793,
+          "pagerank": 0.006755,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69251,7 +69263,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.006225,
+          "pagerank": 0.00619,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69366,7 +69378,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.0061,
+          "pagerank": 0.006065,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69506,7 +69518,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002215,
+          "pagerank": 0.002202,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69561,7 +69573,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002638,
+          "pagerank": 0.002623,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -69674,7 +69686,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.013437,
+          "pagerank": 0.013361,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69759,7 +69771,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002047,
+          "pagerank": 0.002035,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69839,7 +69851,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002047,
+          "pagerank": 0.002035,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69909,7 +69921,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003079,
+          "pagerank": 0.003062,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70004,7 +70016,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002047,
+          "pagerank": 0.002035,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70074,7 +70086,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002047,
+          "pagerank": 0.002035,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70129,7 +70141,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002047,
+          "pagerank": 0.002035,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70174,7 +70186,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002047,
+          "pagerank": 0.002035,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70219,7 +70231,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.004963,
+          "pagerank": 0.004935,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70299,7 +70311,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.004003,
+          "pagerank": 0.003981,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70374,7 +70386,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002047,
+          "pagerank": 0.002035,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70413,7 +70425,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002047,
+          "pagerank": 0.002035,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70458,7 +70470,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.038142,
+          "pagerank": 0.037929,
           "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70603,7 +70615,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.019334,
+          "pagerank": 0.019226,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70703,7 +70715,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.004197,
+          "pagerank": 0.004174,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70818,7 +70830,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003483,
+          "pagerank": 0.003463,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70888,7 +70900,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003165,
+          "pagerank": 0.003147,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70963,7 +70975,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002047,
+          "pagerank": 0.002035,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71008,7 +71020,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002885,
+          "pagerank": 0.002869,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71088,7 +71100,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002047,
+          "pagerank": 0.002035,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71127,7 +71139,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002047,
+          "pagerank": 0.002035,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71177,7 +71189,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002047,
+          "pagerank": 0.002035,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71237,7 +71249,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002606,
+          "pagerank": 0.002591,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -71334,7 +71346,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002606,
+          "pagerank": 0.002591,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -71456,7 +71468,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002047,
+          "pagerank": 0.002035,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71501,7 +71513,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002047,
+          "pagerank": 0.002035,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71551,7 +71563,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002047,
+          "pagerank": 0.002035,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71606,7 +71618,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003065,
+          "pagerank": 0.003048,
           "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [
@@ -71891,7 +71903,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -73207,7 +73219,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
@@ -73261,7 +73273,7 @@
         ],
         "fields": {
           "title": "PostgreSQL ChatMemory task contract and validation",
-          "headings": "PostgreSQL ChatMemory task contract and validation Current evidence (2026-10-06) CH-C2 guardrail repair (2026-10-06)",
+          "headings": "PostgreSQL ChatMemory task contract and validation Current evidence (2026-10-06) CH-C2 guardrail repair (2026-10-06) CH-C3 follow-up",
           "path": "docs/memory-postgres-validation.md",
           "symbols": "",
           "summary": "Intent: implement the existing public ChatMemory contract with BYO Drizzle/pg, without changing Core contracts. Authorized scope: packages/memory, corresponding docs/changeset, and pnpm-lock.yaml (coordinator explicitly approved lock changes). SessionStorage CAS/leases are owned by another task and excluded by coordinator confirmation.",
@@ -73269,12 +73281,17 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
           "inbound": [],
           "outbound": [
+            {
+              "kind": "links-to",
+              "id": "document:docs/memory-react-resolution-ch-c3.md",
+              "confidence": "observed"
+            },
             {
               "kind": "mentions",
               "id": "module:packages/memory/src/postgres.ts",
@@ -73307,7 +73324,46 @@
             }
           ]
         },
-        "contentHash": "9e6ab6298a1a4f44e28081541e9743688b8dea4d25658a6056f114648503a11b",
+        "contentHash": "3489be9e97704e5424df29fbe1e2193aef82bec91c6653558a15c6d556db8394",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
+        "id": "document:docs/memory-react-resolution-ch-c3.md",
+        "kind": "document",
+        "path": "docs/memory-react-resolution-ch-c3.md",
+        "title": "CH-C3: remove the global React type workaround",
+        "summary": "State: AWAITING_HUMAN_APPROVAL; worker implementation and checks are validated, with coordinator review outstanding. No current blocker remains.",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "human"
+        ],
+        "fields": {
+          "title": "CH-C3: remove the global React type workaround",
+          "headings": "CH-C3: remove the global React type workaround Contract and budget Findings and smallest repair Evidence binding Criterion results Attempts and limits",
+          "path": "docs/memory-react-resolution-ch-c3.md",
+          "symbols": "",
+          "summary": "State: AWAITING_HUMAN_APPROVAL; worker implementation and checks are validated, with coordinator review outstanding. No current blocker remains.",
+          "body": "CH-C3: remove the global React type workaround State: AWAITING HUMAN APPROVAL; worker implementation and checks are validated, with coordinator review outstanding. No current blocker remains. Contract and budget Approved intent: fix dependency resolution in this worktree without a global hoisting workaround. Scope: revert CH-C2's .npmrc and root package.json additions, keep the lockfile minimal, investigate memory's Drizzle/pg metadata, run docs-next type-check/build, memory build/test (242), ratchets, global tests, quality gates and doc-bridge freshness, make small local commits and report here. No push, PR, publication, deployment, real credentials, unrelated process cleanup or changes to other packages. No UI implementation or public contract changes; UI visual approval and a structural ADR are not applicable. This dispatch is goal authorization; final approval belongs to the coordinator. Budget: local/offline dependency installs, existing repository checks and cached Turbo evidence, --concurrency=2 , VITEST MAX WORKERS=1 ; no CI. One task-owned trust-auth PostgreSQL 16 container bound to 127.0.0.1:55440 provides the required real database test. An isolated manifest-only install tests fresh hoisting; its directory is task-owned and is removed after inspection. Findings and smallest repair - Reverted the two hoist-pattern lines and root @types/react dev dependency. The lockfile differs by only the three corresponding importer lines; no dependency versions or peer snapshots change. Frozen offline installation accepts this lockfile. An initial unfrozen install refreshed unrelated Cloudflare snapshots; that churn was discarded before validation. - Memory already declares Drizzle and pg optional peers, with both present as dev dependencies and @types/pg available for development. Their metadata needs no additional change. Adding a React dev dependency to memory would introduce an unrelated dependency with no supporting evidence. - Drizzle 0.45.3 declares @types/react ^18.2.45 only in its own devDependencies, not in peerDependencies or dependencies. Published dependency installation does not install a library's devDependencies. pnpm --filter @agentskit/memory why @types/react has no result. pg likewise has no React dependency. - pnpm why -r @types/react identifies the React 18 path as: React 19.2.17 remains declared by docs-next and React workspace consumers. The before/after tree diff contains exactly one removed line: ├── agentskit@0.3.0 (devDependencies) under React 19; all other paths match. - A clean manifest-only install (all workspace package manifests, root lockfile, workspace config and reverted .npmrc) using pnpm install --offline --frozen-lockfile --ignore-scripts exits 0 and selects private-hoisted React 19.2.17. Root node modules/@types/react is absent. The existing worktree reinstallation selects the same version and docs-next type-check passes. Thus no memory-origin React conflict reproduces on the current locked tree. - CH-C2 reported an installation that privately hoisted React 18; that old installation's hoist map was not retained. Its exact historical selection cause is partially validated , not reconstructed or attributed to Drizzle. The evidence establishes the React 18 dependency origin and validates that the current source needs no global or package-local React workaround. Evidence binding Starting revision: 1d0fc5b9d3c73e70c1fa54456cf057db4f725d06 . Implementation input SHA-256 (ordered path, NUL, bytes, NUL for .npmrc , package.json , pnpm-lock.yaml , packages/memory/package.json ): 4741232b735738502a3628458899b06cbd5e42cc64036942a49ed9944a1f90b8 . Implementation commit: 7a665a8d . Later report/index commits do not alter those inputs; their exact commit is included in the worker receipt. Criterion results ID Criterion Evidence Current result --- --- --- --- C1 No global workaround; minimal lock diff: .npmrc -2, root manifest -1, lock -3; frozen offline install exit 0 validated C2 Memory metadata and depen",
+          "aliases": "document human"
+        },
+        "graph": {
+          "pagerank": 0.003629,
+          "inboundLinks": 1,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [
+            {
+              "kind": "links-to",
+              "id": "document:docs/memory-postgres-validation.md",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "adbc4680481abff16b9d503be9912059b7b133fadb53d6886adea35e1381dfcc",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -73333,7 +73389,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002531,
+          "pagerank": 0.002517,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -73488,7 +73544,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -73811,7 +73867,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002687,
+          "pagerank": 0.002672,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -74124,7 +74180,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002071,
+          "pagerank": 0.00206,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -74163,7 +74219,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.00871,
+          "pagerank": 0.008661,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -74276,7 +74332,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.003649,
+          "pagerank": 0.003629,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -74333,7 +74389,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -74407,7 +74463,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002586,
+          "pagerank": 0.002571,
           "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [
@@ -74524,7 +74580,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.023445,
+          "pagerank": 0.023314,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -74602,7 +74658,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.078961,
+          "pagerank": 0.078519,
           "inboundLinks": 64,
           "coveredBy": [],
           "mentionedBy": [
@@ -75156,7 +75212,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.02126,
+          "pagerank": 0.021141,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -75493,7 +75549,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -75577,7 +75633,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.012261,
+          "pagerank": 0.012192,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -75858,7 +75914,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.036331,
+          "pagerank": 0.036128,
           "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [
@@ -76057,7 +76113,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -76270,7 +76326,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.019926,
+          "pagerank": 0.019814,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [
@@ -76364,7 +76420,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002786,
+          "pagerank": 0.00277,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -76426,7 +76482,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
@@ -76503,7 +76559,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -76845,7 +76901,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002071,
+          "pagerank": 0.00206,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -77001,7 +77057,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002531,
+          "pagerank": 0.002517,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -77151,7 +77207,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77343,7 +77399,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77665,7 +77721,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77887,7 +77943,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -77994,7 +78050,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78146,7 +78202,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78358,7 +78414,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78573,7 +78629,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78656,7 +78712,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -78730,7 +78786,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79022,7 +79078,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79209,7 +79265,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79272,7 +79328,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79346,7 +79402,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79489,7 +79545,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79593,7 +79649,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79825,7 +79881,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -79953,7 +80009,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80052,7 +80108,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80205,7 +80261,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80279,7 +80335,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002071,
+          "pagerank": 0.00206,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -80445,7 +80501,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80519,7 +80575,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80647,7 +80703,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80716,7 +80772,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -80908,7 +80964,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81069,7 +81125,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002811,
+          "pagerank": 0.002795,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81262,7 +81318,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81502,7 +81558,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.002071,
+          "pagerank": 0.00206,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81626,7 +81682,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81685,7 +81741,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -81997,7 +82053,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82144,7 +82200,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82273,7 +82329,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 9,
           "coveredBy": [],
           "mentionedBy": [
@@ -82602,7 +82658,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002084,
+          "pagerank": 0.002073,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82651,7 +82707,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.004233,
+          "pagerank": 0.004209,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82730,7 +82786,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.003347,
+          "pagerank": 0.003328,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82859,7 +82915,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002084,
+          "pagerank": 0.002073,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -82933,7 +82989,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.00297,
+          "pagerank": 0.002954,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83032,7 +83088,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002084,
+          "pagerank": 0.002073,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83111,7 +83167,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002084,
+          "pagerank": 0.002073,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83180,7 +83236,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.00432,
+          "pagerank": 0.004296,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83264,7 +83320,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002084,
+          "pagerank": 0.002073,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83343,7 +83399,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002923,
+          "pagerank": 0.002906,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83417,7 +83473,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002084,
+          "pagerank": 0.002073,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83491,7 +83547,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.005158,
+          "pagerank": 0.005129,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83580,7 +83636,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002923,
+          "pagerank": 0.002906,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83674,7 +83730,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.002084,
+          "pagerank": 0.002073,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83749,7 +83805,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -83893,7 +83949,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
@@ -84045,7 +84101,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.007761,
+          "pagerank": 0.007717,
           "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
@@ -84169,7 +84225,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.001972,
+          "pagerank": 0.001961,
           "inboundLinks": 0,
           "coveredBy": [],
           "mentionedBy": [],
@@ -189970,7 +190026,7 @@
           "aliases": "adapters @agentskit/adapters package ownership"
         },
         "graph": {
-          "pagerank": 0.004488,
+          "pagerank": 0.004463,
           "inboundLinks": 64,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
@@ -190395,7 +190451,7 @@
           "aliases": "angular @agentskit/angular package ownership"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 37,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/angular.mdx",
@@ -190658,7 +190714,7 @@
           "aliases": "cli @agentskit/cli package ownership"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 28,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cli.mdx",
@@ -190867,7 +190923,7 @@
           "aliases": "core @agentskit/core package ownership"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 64,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/core.mdx",
@@ -191292,7 +191348,7 @@
           "aliases": "cross-platform @agentskit/cross-platform package ownership"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 11,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx",
@@ -191399,7 +191455,7 @@
           "aliases": "eval @agentskit/eval package ownership"
         },
         "graph": {
-          "pagerank": 0.007841,
+          "pagerank": 0.007797,
           "inboundLinks": 45,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/eval-braintrust.mdx",
@@ -191792,7 +191848,7 @@
           "aliases": "ink @agentskit/ink package ownership"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 56,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/ink.mdx",
@@ -192169,7 +192225,7 @@
           "aliases": "integrations @agentskit/integrations package ownership"
         },
         "graph": {
-          "pagerank": 0.00323,
+          "pagerank": 0.003212,
           "inboundLinks": 19,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
@@ -192324,7 +192380,7 @@
           "aliases": "mcp @agentskit/mcp package ownership"
         },
         "graph": {
-          "pagerank": 0.00323,
+          "pagerank": 0.003212,
           "inboundLinks": 20,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/mcp.mdx",
@@ -192485,7 +192541,7 @@
           "aliases": "memory @agentskit/memory package ownership"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 64,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/memory.mdx",
@@ -192910,7 +192966,7 @@
           "aliases": "net @agentskit/net package ownership"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 18,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/net.mdx",
@@ -193059,7 +193115,7 @@
           "aliases": "observability @agentskit/observability package ownership"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 54,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/observability.mdx",
@@ -193424,7 +193480,7 @@
           "aliases": "observability-langfuse @agentskit/observability-langfuse package ownership"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 8,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/observability-langfuse.mdx",
@@ -193513,7 +193569,7 @@
           "aliases": "rag @agentskit/rag package ownership"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 51,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/rag.mdx",
@@ -193860,7 +193916,7 @@
           "aliases": "react @agentskit/react package ownership"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 64,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/react.mdx",
@@ -194285,7 +194341,7 @@
           "aliases": "react-native @agentskit/react-native package ownership"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 36,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/react-native.mdx",
@@ -194542,7 +194598,7 @@
           "aliases": "runtime @agentskit/runtime package ownership"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 64,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/runtime.mdx",
@@ -194967,7 +195023,7 @@
           "aliases": "sandbox @agentskit/sandbox package ownership"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 40,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/sandbox.mdx",
@@ -195248,7 +195304,7 @@
           "aliases": "skills @agentskit/skills package ownership"
         },
         "graph": {
-          "pagerank": 0.003649,
+          "pagerank": 0.003629,
           "inboundLinks": 30,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/skills.mdx",
@@ -195469,7 +195525,7 @@
           "aliases": "solid @agentskit/solid package ownership"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 34,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/solid.mdx",
@@ -195714,7 +195770,7 @@
           "aliases": "statechart @agentskit/statechart package ownership"
         },
         "graph": {
-          "pagerank": 0.002811,
+          "pagerank": 0.002795,
           "inboundLinks": 13,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/statechart.mdx",
@@ -195833,7 +195889,7 @@
           "aliases": "svelte @agentskit/svelte package ownership"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 39,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/svelte.mdx",
@@ -196108,7 +196164,7 @@
           "aliases": "templates @agentskit/templates package ownership"
         },
         "graph": {
-          "pagerank": 0.004488,
+          "pagerank": 0.004463,
           "inboundLinks": 22,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/templates.mdx",
@@ -196281,7 +196337,7 @@
           "aliases": "tools @agentskit/tools package ownership"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 64,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/tools.mdx",
@@ -196706,7 +196762,7 @@
           "aliases": "validation @agentskit/validation package ownership"
         },
         "graph": {
-          "pagerank": 0.004068,
+          "pagerank": 0.004046,
           "inboundLinks": 13,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/validation.mdx",
@@ -196825,7 +196881,7 @@
           "aliases": "vue @agentskit/vue package ownership"
         },
         "graph": {
-          "pagerank": 0.005326,
+          "pagerank": 0.005296,
           "inboundLinks": 39,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/vue.mdx",
@@ -197096,7 +197152,7 @@
           "aliases": "agentskit package"
         },
         "graph": {
-          "pagerank": 0.002392,
+          "pagerank": 0.002378,
           "inboundLinks": 46,
           "coveredBy": [
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx"
@@ -197383,7 +197439,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "810079c7f75819f08fe65c7bce09029d67ff76264a4beac4d58b0572b110b345",
+        "contentHash": "72455ca17e0e3a0993304faf3e27f2f918b530261e13bb5906c2b51fed891acf",
         "provenance": "observed",
         "confidence": "observed"
       }

@@ -143,3 +143,10 @@ Ignored build/declaration/cache outputs remain local. No unrelated process was
 terminated, no push/PR/release occurred, and no agent attribution was added.
 Next human action: coordinator reviews the commits/evidence and determines any
 required visual review before parent completion.
+
+## CH-C3 follow-up
+
+The global React type workaround described in the CH-C2 section above is
+removed by CH-C3. See [current resolution evidence](./memory-react-resolution-ch-c3.md)
+for the dependency-origin investigation, minimal lockfile diff and current checks.
+The CH-C2 section remains a historical record of its own revision.
