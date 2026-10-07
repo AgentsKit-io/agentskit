@@ -436,8 +436,8 @@ import type {
         store: config.decisionStore, messages: () => state.messages,
         load: async snapshot => {
           await activate()
-          const messages = config.memory ? await persistence.load() : state.messages
-          return messages.length ? messages : snapshot
+          const messages = state.messages.length ? state.messages : await persistence.load()
+          return (messages.length ? messages : snapshot).map(message => ({ ...message, toolCalls: message.toolCalls?.map(call => ({ ...call })) }))
         },
         tool: name => toolMap.get(name), runTool, patch: patchCall,
         finish: id => { approvalGenerations.delete(id) }, isCurrent: generation => generation === gen,
@@ -445,7 +445,7 @@ import type {
         prepare: async messages => {
           await activate()
           controller.stop()
-          set(current => ({ ...current, messages, error: null }))
+          set(current => ({ ...current, messages: messages.map(message => message.status === 'streaming' ? { ...message, status: 'complete' as const } : message), error: null }))
           return { generation: gen, correlation: beginRun() }
         },
       }))

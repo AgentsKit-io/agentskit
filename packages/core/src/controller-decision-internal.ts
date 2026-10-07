@@ -27,17 +27,13 @@ export async function decide(
   }
   const store = context.store
   if (!store) throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: 'decide requires a conversation-scoped decisionStore' })
-  const record = await store.claim(id, decision, reason)
-  if (!record) {
-    const existing = await store.get(id)
-    if (!existing) throw new ToolError({ code: ErrorCodes.AK_ACTION_NOT_FOUND, message: 'Tool decision not found' })
-    if (existing.decision === decision && existing.outcome && ['complete', 'failed', 'denied'].includes(existing.status)) return existing.outcome
+  const pending = await store.get(id)
+  if (!pending) throw new ToolError({ code: ErrorCodes.AK_ACTION_NOT_FOUND, message: 'Tool decision not found' })
+  if (pending.status !== 'pending') {
+    if (pending.decision === decision && pending.outcome && ['complete', 'failed', 'denied'].includes(pending.status)) return pending.outcome
     throw new ToolError({ code: ErrorCodes.AK_ACTION_ALREADY_DECIDED, message: 'Tool decision already claimed or decided' })
   }
-  if (record.toolCallId !== id || record.status !== 'claimed' || record.decision !== decision || !Array.isArray(record.messages)) {
-    throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: 'Decision store returned an invalid claim' })
-  }
-  const messages = await context.load(record.messages)
+  const messages = await context.load(pending.messages)
   for (const message of messages) {
     if (!message.toolCalls) continue
     const calls: ToolCall[] = []
@@ -51,6 +47,16 @@ export async function decide(
   const call = message?.toolCalls?.find(c => c.id === id)
   if (!message || !call || call.status !== 'requires_confirmation') {
     throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: 'Decision store returned an invalid pending snapshot' })
+  }
+  const record = await store.claim(id, decision, reason)
+  if (!record) {
+    const existing = await store.get(id)
+    if (!existing) throw new ToolError({ code: ErrorCodes.AK_ACTION_NOT_FOUND, message: 'Tool decision not found' })
+    if (existing.decision === decision && existing.outcome && ['complete', 'failed', 'denied'].includes(existing.status)) return existing.outcome
+    throw new ToolError({ code: ErrorCodes.AK_ACTION_ALREADY_DECIDED, message: 'Tool decision already claimed or decided' })
+  }
+  if (record.toolCallId !== id || record.status !== 'claimed' || record.decision !== decision || !Array.isArray(record.messages)) {
+    throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: 'Decision store returned an invalid claim' })
   }
   const { generation, correlation } = await context.prepare(messages)
   let outcome: ToolCall

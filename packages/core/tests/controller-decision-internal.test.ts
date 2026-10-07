@@ -83,6 +83,100 @@ describe('durable controller decisions', () => {
     expect(requests).toHaveLength(1)
   })
 
+  it('preserves an unsaved user turn and partial response during streaming', async () => {
+    const memory = createInMemoryMemory()
+    const { chat, config, execute } = fixture({ memory })
+    await chat.proposeToolCall(proposal)
+    let release = () => {}
+    let started = false
+    const pending = new Promise<void>(resolve => { release = resolve })
+    chat.updateConfig({ adapter: {
+      createSource(request) {
+        if (request.messages.some(message => message.role === 'tool')) return config.adapter.createSource(request)
+        return {
+          async *stream() {
+            yield { type: 'text' as const, content: 'partial response' }
+            started = true
+            await pending
+            yield { type: 'done' as const }
+          },
+          abort: release,
+        }
+      },
+    } })
+    const sending = chat.send('later')
+    await vi.waitUntil(() => started)
+    const before = copy(chat.getState().messages)
+    await chat.decide(proposal.id, 'approve')
+    await sending
+    const messages = chat.getState().messages
+    expect(messages.slice(0, before.length).map(message => [message.id, message.content])).toEqual(before.map(message => [message.id, message.content]))
+    expect(messages[0].toolCalls?.[0]).toMatchObject({ status: 'complete', result: 'stored' })
+    expect(messages.at(-1)?.content).toBe('Finished')
+    expect(await memory.load()).toEqual(messages)
+    expect(execute).toHaveBeenCalledTimes(1)
+  })
+
+  it('preserves live turns after a previous memory save failed', async () => {
+    const memory = createInMemoryMemory()
+    const save = memory.save.bind(memory)
+    const { chat } = fixture({ memory })
+    await chat.proposeToolCall(proposal)
+    memory.save = async () => { throw new Error('save offline') }
+    await chat.send('later')
+    expect(chat.getState().error).toMatchObject({ code: 'AK_MEMORY_SAVE_FAILED' })
+    const before = copy(chat.getState().messages)
+    memory.save = save
+    await chat.decide(proposal.id, 'approve')
+    expect(chat.getState().messages.slice(0, before.length).map(message => message.content)).toEqual(before.map(message => message.content))
+    expect(await memory.load()).toEqual(chat.getState().messages)
+  })
+
+  it.each(['load', 'get', 'removed'] as const)('does not claim before %s validation succeeds', async failure => {
+    const memory = createInMemoryMemory()
+    const { chat, config, execute } = fixture({ memory })
+    await chat.send('first')
+    await chat.proposeToolCall(proposal)
+    const claim = vi.spyOn(config.decisionStore!, 'claim')
+    let current = chat
+    if (failure === 'load') {
+      memory.load = async () => { throw new Error('load offline') }
+      current = createChatController(config)
+      await expect(current.decide(proposal.id, 'approve')).rejects.toMatchObject({ code: 'AK_MEMORY_LOAD_FAILED' })
+    } else if (failure === 'get') {
+      const get = config.decisionStore!.get.bind(config.decisionStore)
+      config.decisionStore!.get = async id => {
+        if (id === 'sibling') throw new Error('get offline')
+        return get(id)
+      }
+      const messages = copy(chat.getState().messages)
+      messages.at(-1)!.toolCalls!.push({ id: 'sibling', name: 'write', args: {}, status: 'requires_confirmation' })
+      chat.setMessages(messages)
+      await expect(current.decide(proposal.id, 'approve')).rejects.toThrow('get offline')
+    } else {
+      await chat.edit(chat.getState().messages[0].id, 'edited', { regenerate: false })
+      await expect(current.decide(proposal.id, 'approve')).rejects.toMatchObject({ code: 'AK_CONFIG_INVALID' })
+    }
+    expect(claim).not.toHaveBeenCalled()
+    expect(await config.decisionStore!.get(proposal.id)).toMatchObject({ status: 'pending' })
+    expect(execute).not.toHaveBeenCalled()
+  })
+
+  it('reconciles sibling outcomes without mutating subscriber snapshots', async () => {
+    const { chat, config } = fixture()
+    await chat.proposeToolCall(proposal)
+    await chat.proposeToolCall({ ...proposal, id: 'sibling' })
+    const claimed = await config.decisionStore!.claim('sibling', 'approve')
+    await config.decisionStore!.settle({ ...claimed!, status: 'complete', outcome: { id: 'sibling', name: 'write', args: {}, status: 'complete', result: 'external' } })
+    const snapshot = chat.getState()
+    const before = structuredClone(snapshot)
+    const unsubscribe = chat.subscribe(() => { expect(snapshot).toEqual(before) })
+    await chat.decide(proposal.id, 'approve')
+    unsubscribe()
+    expect(snapshot).toEqual(before)
+    expect(chat.getState().messages.flatMap(message => message.toolCalls ?? []).find(call => call.id === 'sibling')).toMatchObject({ status: 'complete', result: 'external' })
+  })
+
   it('admits one of 100 parallel decisions across independent controllers, repeated 100 times', async () => {
     for (let round = 0; round < 100; round++) {
       const { config, chat, execute } = fixture()
@@ -176,6 +270,7 @@ describe('durable controller decisions', () => {
     const decisionStore = store()
     decisionStore.claim = async () => ({ toolCallId: 'wrong', status: 'claimed', decision: 'approve', messages: [] })
     const { chat, execute } = fixture({ decisionStore })
+    await chat.proposeToolCall(proposal)
     await expect(chat.decide(proposal.id, 'approve')).rejects.toMatchObject({ code: 'AK_CONFIG_INVALID' })
     expect(execute).not.toHaveBeenCalled()
   })
