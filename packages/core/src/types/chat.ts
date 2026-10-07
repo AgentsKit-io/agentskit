@@ -130,7 +130,7 @@ export interface ChatController {
 
 /** Chat state combined with the actions exposed by framework bindings. */
 export interface ChatReturn extends ChatState {
-  send: (text: string) => Promise<void>
+  send: ChatController['send']
   stop: () => void
   retry: () => Promise<void>
   edit: (messageId: string, newContent: string, opts?: EditOptions) => Promise<void>

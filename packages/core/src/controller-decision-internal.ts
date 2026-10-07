@@ -4,6 +4,7 @@ import type { AgentEventContext, Message, ToolCall, ToolDefinition, ToolDecision
 
 interface DecisionContext {
   store: ToolDecisionStore | undefined
+  load: (snapshot: Message[]) => Promise<Message[]>
   prepare: (messages: Message[]) => Promise<{ generation: number; correlation: AgentEventContext }>
   tool: (name: string) => ToolDefinition | undefined
   runTool: (tool: ToolDefinition | undefined, call: ToolCall, onPartial: (result: string) => void, generation: number, correlation: AgentEventContext) => Promise<ToolExecResult>
@@ -36,7 +37,8 @@ export async function decide(
   if (record.toolCallId !== id || record.status !== 'claimed' || record.decision !== decision || !Array.isArray(record.messages)) {
     throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: 'Decision store returned an invalid claim' })
   }
-  for (const message of record.messages) {
+  const messages = await context.load(record.messages)
+  for (const message of messages) {
     if (!message.toolCalls) continue
     const calls: ToolCall[] = []
     for (const call of message.toolCalls) {
@@ -45,12 +47,12 @@ export async function decide(
     }
     message.toolCalls = calls
   }
-  const message = record.messages.find(m => m.role === 'assistant' && m.toolCalls?.some(c => c.id === id))
+  const message = messages.find(m => m.role === 'assistant' && m.toolCalls?.some(c => c.id === id))
   const call = message?.toolCalls?.find(c => c.id === id)
   if (!message || !call || call.status !== 'requires_confirmation') {
     throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: 'Decision store returned an invalid pending snapshot' })
   }
-  const { generation, correlation } = await context.prepare(record.messages)
+  const { generation, correlation } = await context.prepare(messages)
   let outcome: ToolCall
   if (decision === 'deny') {
     outcome = { ...call, status: 'error', error: `Permission denied: ${reason ?? 'user denied access'}` }

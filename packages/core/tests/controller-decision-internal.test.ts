@@ -5,7 +5,7 @@ import { createMockAdapter } from './helpers'
 
 const copy = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T
 
-function store(records = new Map<string, ToolDecisionRecord>()): ToolDecisionStore {
+function store(records = new Map<string, ToolDecisionRecord>(), atomic = true): ToolDecisionStore {
   return {
     async putPending(record) {
       if (!records.has(record.toolCallId)) records.set(record.toolCallId, copy(record))
@@ -14,6 +14,8 @@ function store(records = new Map<string, ToolDecisionRecord>()): ToolDecisionSto
     async claim(id, decision, reason) {
       const record = records.get(id)
       if (record?.status !== 'pending') return undefined
+      await Promise.resolve()
+      if (atomic && records.get(id)?.status !== 'pending') return undefined
       const claimed: ToolDecisionRecord = { ...record, status: 'claimed', decision, reason }
       records.set(id, copy(claimed))
       return copy(claimed)
@@ -42,6 +44,28 @@ function fixture(overrides: Partial<ChatConfig> = {}) {
 const proposal = { id: 'call-1', name: 'write', args: { value: 7 } }
 
 describe('durable controller decisions', () => {
+  it.each([[false, true], [true, true], [false, false]])('preserves later turns when restarted=%s, memory=%s', async (restarted, persisted) => {
+    const memory = persisted ? createInMemoryMemory() : undefined
+    const { chat, config } = fixture({ memory })
+    await chat.proposeToolCall(proposal)
+    await chat.send('later message')
+    const before = copy(chat.getState().messages)
+    const current = restarted ? createChatController(config) : chat
+    await current.decide(proposal.id, 'approve')
+    const messages = current.getState().messages
+    expect(messages.slice(0, before.length).map(m => [m.id, m.content])).toEqual(before.map(m => [m.id, m.content]))
+    expect(messages[0].toolCalls?.[0].status).toBe('complete')
+    expect(messages.at(-1)?.content).toBe('Finished')
+    if (memory) expect(await memory.load()).toEqual(messages)
+  })
+
+  it('detects a non-atomic read/await/write claim', async () => {
+    const port = store(new Map(), false)
+    await port.putPending({ toolCallId: 'id', messages: [], status: 'pending' })
+    const claims = await Promise.all(Array.from({ length: 100 }, () => port.claim('id', 'approve')))
+    expect(claims.filter(Boolean)).toHaveLength(100)
+  })
+
   it('resumes after JSON serialization and reconstruction of both controller and store', async () => {
     const records = new Map<string, ToolDecisionRecord>()
     const memory = createInMemoryMemory()

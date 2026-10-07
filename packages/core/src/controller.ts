@@ -434,6 +434,11 @@ import type {
     async decide(tid, decision, reason) {
       return import('./controller-decision-internal.js').then(m => m.decide(tid, decision, reason, {
         store: config.decisionStore, messages: () => state.messages,
+        load: async snapshot => {
+          await activate()
+          const messages = config.memory ? await persistence.load() : state.messages
+          return messages.length ? messages : snapshot
+        },
         tool: name => toolMap.get(name), runTool, patch: patchCall,
         finish: id => { approvalGenerations.delete(id) }, isCurrent: generation => generation === gen,
         persist: correlation => persist(state.messages, correlation, true), resume,
