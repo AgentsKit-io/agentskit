@@ -3,7 +3,7 @@ import { existsSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'no
 import { createRequire } from 'node:module'
 import { tmpdir } from 'node:os'
 import { join } from 'node:path'
-import { spawnSync } from 'node:child_process'
+import { runCommand } from '../../cross-platform/dist/index.js'
 import { fileURLToPath } from 'node:url'
 
 const [mode, format, recordPath] = process.argv.slice(2)
@@ -12,8 +12,8 @@ if (!mode) {
   try {
     for (const format of ['esm', 'cjs']) {
       for (const mode of ['propose', 'decide']) {
-        const child = spawnSync(process.execPath, [fileURLToPath(import.meta.url), mode, format, join(directory, `${format}.json`)], { encoding: 'utf8' })
-        assert.equal(child.status, 0, child.stderr)
+        const child = await runCommand(process.execPath, [fileURLToPath(import.meta.url), mode, format, join(directory, `${format}.json`)])
+        assert.equal(child.code, 0, child.stderr)
         process.stdout.write(child.stdout)
       }
     }
