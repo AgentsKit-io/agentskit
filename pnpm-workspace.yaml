@@ -12,13 +12,15 @@ onlyBuiltDependencies:
   - esbuild
   - workerd
 overrides:
+  seroval: "1.6.8"
+  source-map-js: "1.2.2"
   serialize-javascript: ">=7.0.5 <8"
   # GHSA-3pq3-5fj3-cg6v, GHSA-542g-h47m-68v8, GHSA-r4gj-5m52-g5wh
   axios: ">=1.20.0 <2"
   fast-xml-builder: ">=1.1.7 <2"
   next: ">=16.3.6 <17"
   postcss: ">=8.5.22 <9"
-  shell-quote: ">=1.9.0 <2"
+  shell-quote: "1.11.0"
   esbuild: ">=0.28.1 <1"
   form-data: ">=4.0.6 <5"
   dompurify: "3.4.13"
