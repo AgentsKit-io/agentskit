@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "b0d9d0a26e34a6a74b6a1566be70be5765b31b70780fd4cb8f81b9e0dc4a8d3d",
+  "contentHash": "e62e317cdcb1a17046123607ae239ca0be9045c7bf9e9c0804ab66c7a6ffb01b",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-07T01:42:07.199Z",
+  "generatedAt": "2026-10-07T18:43:39.882Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -3723,7 +3723,7 @@
         "document",
         "human"
       ],
-      "contentHash": "1e99250db266aeca66b7d11a7ec0e6fd3fc5af6d72696f8dd2343c46a1228f8a"
+      "contentHash": "a45c2e7c4960a50d190312d9eabc737f8973aa7d2b1720270a630578d0880423"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/packages/cross-platform.mdx",
@@ -3946,12 +3946,12 @@
       "type": "document",
       "title": "svelte.mdx",
       "path": "apps/docs-next/content/docs/reference/packages/svelte.mdx",
-      "description": "createChatStore(config): SvelteChatStore — Readable<ChatState> + action methods + destroy().",
+      "description": "createChatStore(config): SvelteChatStore — Readable<ChatState> + action methods + destroy(). send accepts string | ContentPart[]; decide(id, 'approve' | 'deny', reason?) forwards durable decisions to core with a configured decisionStore. Both actions reject after destroy().",
       "tags": [
         "document",
         "human"
       ],
-      "contentHash": "aa7844453f7b8802cfed589daa74a391cd21e66c1e0d18b66e93b39eae7965da"
+      "contentHash": "372bfce01f26f0589d9417bc067fd53b277d2e2c854655b09039bd672d77486b"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/packages/templates.mdx",
@@ -6027,7 +6027,7 @@
         "document",
         "human"
       ],
-      "contentHash": "7059ce68f68792c1d075d84aff12f5baf325214f9e7ac669a944e6aea2b9e550"
+      "contentHash": "6e1205db68cf23787d54c5b5e30edc45263ebebb31bf12381caf66080304a13a"
     },
     {
       "id": "document:docs/architecture/adrs/README.md",
@@ -6951,7 +6951,7 @@
         "document",
         "project"
       ],
-      "contentHash": "cfff04e1416273769cbcf8c30b79ad71e1cd28cfc32194316c4c7b56bc8fc525"
+      "contentHash": "41c9985b7138e1f2880ca675c7dbecdcf8a154c2b8d836af116d65d98e14ba22"
     },
     {
       "id": "document:packages/cross-platform/CONVENTIONS.md",
@@ -7419,7 +7419,7 @@
         "document",
         "project"
       ],
-      "contentHash": "a933a76631d175c103641aefe9b1f95cff5ec58e0332c58d4873b7ccb4ae6dba"
+      "contentHash": "a94923fdfc3153f87fbfc25ad867ff9061cc99cf6fb4a66c102de6d939cd05b6"
     },
     {
       "id": "document:packages/templates/CONVENTIONS.md",
@@ -18717,7 +18717,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "f1da4fd7cf7a66e3b55112222a67d3129354ad3dd50aa428ca3d9206021d0a7a"
+      "contentHash": "69d0754cd15289a22b914a9f518de47c2dd0987a21dada4c5575b0aa2fed8d6b"
     },
     {
       "id": "module:packages/core/src/controller-helpers.ts",
@@ -18787,7 +18787,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "a5fd0f784aaa66b8837e6dcdb22307393d8d23d313a798965ee01ca7d7ebeb0f"
+      "contentHash": "bfaa4fdc1be8b3536dcc1df4d1b5a8d4259f88b8ef7a3a15efa342e30cdaa6b8"
     },
     {
       "id": "module:packages/core/src/errors.ts",
@@ -19666,7 +19666,7 @@
         "ts",
         "types"
       ],
-      "contentHash": "3f916ca07f94d897e968811e15a22c0c1d9d51c05594cad35383548639b765d9"
+      "contentHash": "5c22f4a4dfbe206a11f69c92c0944cc6ddc8f761bb98a297a0d28d0ab290321b"
     },
     {
       "id": "module:packages/core/src/types/common.ts",
@@ -20103,7 +20103,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "7b47760eecfb28aa898fe2288b4ab1ccd038bd36ffa6fce58c92e0accbf0f35e"
+      "contentHash": "5682144bdbb19e39ccde70a760bf83f57899833a8e91a811d8da41d33cb51991"
     },
     {
       "id": "module:packages/core/tests/controller-edit-regenerate.test.ts",
@@ -32594,7 +32594,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "43341f9a3e417632a093009a994456b9a141be1246d7f2c87877a9e1e13ce77e"
+      "contentHash": "1228ffb4e7235348a8f294abe4bce8e7d9e85ce17deca1a30eba72f9ed9ec0bb"
     },
     {
       "id": "module:packages/svelte/tests/components.test.ts",
@@ -32607,7 +32607,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "731b08aaf62658428360f2df589537319435faa255b7a6747235b4c8d0f5e960"
+      "contentHash": "5849519fe4cc0e57f165e9d4eeeac9a7ad7ce1ab6862ca86622d648c786f401f"
     },
     {
       "id": "module:packages/svelte/tests/package-manifest.test.ts",
@@ -32646,7 +32646,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "c943d64b606d0fe60c1368befe988ff2439f9e6b0717dfcbc567ad1e79d2c8b4"
+      "contentHash": "9eb4fb7529055e2f0d146c3f1875dd070858352ce72eeaa352dc976f80869efb"
     },
     {
       "id": "module:packages/svelte/vitest.config.ts",
@@ -38027,7 +38027,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "fcc7b6d484bd3ed41c18945e596c95d0b40c69d047beefb1848ab546d9842cab",
+    "hash": "fa78e13c81cd38831e338a46af2db9f8eb05344ad308e1182c06b4b38ce7798e",
     "fileCount": 2528,
     "projectionVersion": 2
   },
@@ -38050,9 +38050,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "2a0f264a76f772b6bc4321e20522955b3423156ebd88014599b047766c46d3f1",
+    "contentHash": "568aa991dcff6321ebc2af4233efa9ffb8a35bced470c97187037484bc9009b5",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "914ad599a1344941835d67a76fab3e7898a06ae500fe8980d50d7bb316ea5eac",
+    "snapshotHash": "066ddf71be9a8a9c494a064711680bb58eb6d616da854e45fabcc62fbdfb0bdc",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -38084,10 +38084,10 @@
       ],
       "averageFieldLength": {
         "aliases": 3.0144985904148207,
-        "body": 60.80467176802255,
-        "headings": 4.0056383407168745,
+        "body": 60.88078936770036,
+        "headings": 4.00724929520741,
         "path": 7.614579138139348,
-        "summary": 4.549738219895288,
+        "summary": 4.558598469593234,
         "symbols": 7.443817962142569,
         "title": 3.349979863068868
       }
@@ -50798,7 +50798,7 @@
           "path": "apps/docs-next/content/docs/for-agents/core.mdx",
           "symbols": "",
           "summary": "Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + `createChatController` + primitives. Target: &lt;10 KB gzipped, zero runtime deps.",
-          "body": "Purpose Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + createChatController + primitives. Target: &lt;10 KB gzipped, zero runtime deps. Install Primary exports (main entry) - createChatController(config) — state machine behind every UI - proposeToolCall(proposal) — controller method that places a trusted, validated action into the same confirmation lifecycle; it never executes directly. The standalone helper is available from @agentskit/core/tool-proposal . Returns { getState, subscribe, send, stop, retry, edit, regenerate, setInput, clear, decide, approve, deny, updateConfig } . - defineTool(config) — typed tool factory with JSON-Schema input inference. - controller.send(string ContentPart[]) preserves multimodal parts and text projection. - controller.decide(id, 'approve' 'deny', reason?) restores a persisted confirmation using ChatConfig.decisionStore ( ToolDecisionStore , ToolDecisionRecord ). The store provides insert-if-absent putPending , linearizable get , atomic pending-to-claimed claim , and matching-claim terminal settle . Scope it to an application-authorized conversation. Same-decision terminal replay returns the recorded tool outcome; unknown IDs raise AK ACTION NOT FOUND , competing or in-flight decisions raise AK ACTION ALREADY DECIDED . Failed and claimed records are never automatically retried. Serialize different decisions per conversation to protect transcript writes. - approve / deny are deprecated, preserving their generation-local behavior. Do not mix them with durable decisions for the same call. - ChatConfig.authorizeToolCall — trusted host authorization before tool proposal and again before execution. Callback failures default to deny. - createInMemoryMemory / createLocalStorageMemory — default ChatMemory implementations. - createStaticRetriever / formatRetrievedDocuments — RAG-less retrieval using token substring overlap; use @agentskit/rag for semantic production retrieval. - executeToolCall , consumeStream , createEventEmitter , parseToolArgs , safeParseArgs , isRecord , createId , generateId , buildMessage — low-level helpers. parseToolArgs returns { args, valid } so adapters can fail closed; safeParseArgs remains the compatibility value-only parser. IDs use crypto.randomUUID() and retain the caller-provided prefix. - isRecord(value) accepts non-null objects other than arrays, including Date , Map , and class instances; use a schema validator when plain JSON objects are required. - AgentsKitError , AdapterError , ToolError , MemoryError , ConfigError , RuntimeError , SandboxError , SkillError , ErrorCodes — error taxonomy. - Token budget: compileBudget , approximateCounter . - Progressive tool args: createProgressiveArgParser , executeToolProgressively . - createVirtualizedMemory — hot-window + cold-retriever wrapper (also re-exported from @agentskit/memory ). - Untrusted-input fencing lives in the @agentskit/core/security entry: fenceUntrustedContent(content, opts?) + UNTRUSTED CONTENT DIRECTIVE wrap attacker-influenced text so the model treats it as data, not instructions (the mitigation companion to createInjectionDetector ). - Multi-modal content parts: textPart , imagePart , audioPart , videoPart , filePart , partsToText , normalizeContent , filterParts . - Agent-loop internals (advanced): buildToolMap , activateSkills , executeSafeTool , createToolLifecycle . - Memory serialization: serializeMessages , deserializeMessages ; validate untrusted records with validateMemoryRecord from @agentskit/core/memory-validation . Subpath exports (zero main-bundle weight) Subpath Purpose Recipe --- --- --- @agentskit/core/agent-schema Declarative agent YAML/JSON + validator @agentskit/core/prompt-experiments A/B prompts with feature flags @agentskit/core/auto-summarize Auto-summarizing ChatMemory wrapper @agentskit/core/hitl Approval gates + ApprovalStore @agentskit/core/security PII redactor + injection detector + fenceUntrustedContent + rate limiter , , @agentskit/core/f",
+          "body": "Purpose Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + createChatController + primitives. Target: &lt;10 KB gzipped, zero runtime deps. Install Primary exports (main entry) - createChatController(config) — state machine behind every UI - proposeToolCall(proposal) — controller method that places a trusted, validated action into the same confirmation lifecycle; it never executes directly. The standalone helper is available from @agentskit/core/tool-proposal . Returns { getState, subscribe, send, stop, retry, edit, regenerate, setInput, clear, decide, approve, deny, updateConfig } . - defineTool(config) — typed tool factory with JSON-Schema input inference. - controller.send(string ContentPart[]) preserves multimodal parts and text projection. - controller.decide(id, 'approve' 'deny', reason?) uses ChatConfig.decisionStore to validate the current conversation before claiming, prioritizing live controller state over memory and preserving unsaved later turns and using the pending snapshot only as a fallback ( ToolDecisionStore , ToolDecisionRecord ). The store provides insert-if-absent putPending , linearizable get , atomic pending-to-claimed claim , and matching-claim terminal settle . Scope it to an application-authorized conversation. Same-decision terminal replay returns the recorded tool outcome; unknown IDs raise AK ACTION NOT FOUND , competing or in-flight decisions raise AK ACTION ALREADY DECIDED . Failed and claimed records are never automatically retried. Serialize different decisions per conversation to protect transcript writes. - approve / deny are deprecated. With a decision store they delegate to decide , including atomic claims and typed errors; without a store they preserve generation-local behavior. - ChatConfig.authorizeToolCall — trusted host authorization before tool proposal and again before execution. Callback failures default to deny. - createInMemoryMemory / createLocalStorageMemory — default ChatMemory implementations. - createStaticRetriever / formatRetrievedDocuments — RAG-less retrieval using token substring overlap; use @agentskit/rag for semantic production retrieval. - executeToolCall , consumeStream , createEventEmitter , parseToolArgs , safeParseArgs , isRecord , createId , generateId , buildMessage — low-level helpers. parseToolArgs returns { args, valid } so adapters can fail closed; safeParseArgs remains the compatibility value-only parser. IDs use crypto.randomUUID() and retain the caller-provided prefix. - isRecord(value) accepts non-null objects other than arrays, including Date , Map , and class instances; use a schema validator when plain JSON objects are required. - AgentsKitError , AdapterError , ToolError , MemoryError , ConfigError , RuntimeError , SandboxError , SkillError , ErrorCodes — error taxonomy. - Token budget: compileBudget , approximateCounter . - Progressive tool args: createProgressiveArgParser , executeToolProgressively . - createVirtualizedMemory — hot-window + cold-retriever wrapper (also re-exported from @agentskit/memory ). - Untrusted-input fencing lives in the @agentskit/core/security entry: fenceUntrustedContent(content, opts?) + UNTRUSTED CONTENT DIRECTIVE wrap attacker-influenced text so the model treats it as data, not instructions (the mitigation companion to createInjectionDetector ). - Multi-modal content parts: textPart , imagePart , audioPart , videoPart , filePart , partsToText , normalizeContent , filterParts . - Agent-loop internals (advanced): buildToolMap , activateSkills , executeSafeTool , createToolLifecycle . - Memory serialization: serializeMessages , deserializeMessages ; validate untrusted records with validateMemoryRecord from @agentskit/core/memory-validation . Subpath exports (zero main-bundle weight) Subpath Purpose Recipe --- --- --- @agentskit/core/agent-schema Declarative agent YAML/JSON + validator @agentskit/core/prompt-experiments A/B prompts with feature flags @agentskit/core/auto-summarize Auto-summar",
           "aliases": "core document agent"
         },
         "graph": {
@@ -50851,6 +50851,11 @@
             {
               "kind": "mentions-symbol",
               "id": "module:packages/core/src/compose-tool.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/core/src/controller-decision-internal.ts",
               "confidence": "observed"
             },
             {
@@ -50940,7 +50945,7 @@
             }
           ]
         },
-        "contentHash": "4192889f5d5f879d9e61e6ba49646b78da2d72825d6b5669412dca1fe33de04a",
+        "contentHash": "573989e1de71fdaeefe6492d54e3ca8d59283fc01028008ed784b8184fce7e65",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -52975,7 +52980,7 @@
           "path": "apps/docs-next/content/docs/for-agents/svelte.mdx",
           "symbols": "",
           "summary": "Svelte binding for the `ChatReturn` contract from `@agentskit/core`. Returns a `Readable<ChatState>` plus action methods (send / stop / clear) and `destroy()` for cleanup.",
-          "body": "@agentskit/svelte Purpose Svelte binding for the ChatReturn contract from @agentskit/core . Returns a Readable<ChatState plus action methods (send / stop / clear) and destroy() for cleanup. Install Primary exports - createChatStore(config): SvelteChatStore — Readable<ChatState + action methods + destroy() . - Headless components (Svelte 5, with Svelte-specific props; not full React parity, data-ak- only): ChatContainer , Message , InputBar , Markdown , CodeBlock , ToolCallView , ThinkingIndicator , ToolConfirmation . Minimal example Common patterns - Runes vs stores : works in both Svelte 5 runes mode and Svelte 4 stores — auto-subscription via $chat works the same. - Cleanup : call chat.destroy() in onDestroy() to abort in-flight streams and release the adapter. - SvelteKit SSR : packaged components render on the server. Start browser-bound adapters in onMount , or proxy provider calls through a server endpoint. Related - — ChatReturn contract. - — provider adapters. - , , , , , — sibling bindings. Source - npm: https://www.npmjs.com/package/@agentskit/svelte - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/svelte",
+          "body": "@agentskit/svelte Purpose Svelte binding for the ChatReturn contract from @agentskit/core . Returns a Readable<ChatState plus action methods (send / stop / clear) and destroy() for cleanup. Install Primary exports - createChatStore(config): SvelteChatStore — Readable<ChatState + action methods + destroy() . send accepts string ContentPart[] ; decide(id, 'approve' 'deny', reason?) forwards durable decisions to core with a configured decisionStore . Both actions reject after destroy() . - Headless components (Svelte 5, with Svelte-specific props; not full React parity, data-ak- only): ChatContainer , Message , InputBar , Markdown , CodeBlock , ToolCallView , ThinkingIndicator , ToolConfirmation . Minimal example Common patterns - Runes vs stores : works in both Svelte 5 runes mode and Svelte 4 stores — auto-subscription via $chat works the same. - Cleanup : call chat.destroy() in onDestroy() to abort in-flight streams and release the adapter. - SvelteKit SSR : packaged components render on the server. Start browser-bound adapters in onMount , or proxy provider calls through a server endpoint. Related - — ChatReturn contract. - — provider adapters. - , , , , , — sibling bindings. Source - npm: https://www.npmjs.com/package/@agentskit/svelte - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/svelte",
           "aliases": "svelte document agent"
         },
         "graph": {
@@ -53037,7 +53042,7 @@
             }
           ]
         },
-        "contentHash": "6a768a23c0dce438e41d8537ca8eebd8faa4b7c4b33ced225f68793f0c01ad9f",
+        "contentHash": "c76440885c1ab1c5ef166e3e12cc948efd4189ca792a4de6d7e954a35e974bb9",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -59675,7 +59680,7 @@
           "path": "apps/docs-next/content/docs/reference/packages/core.mdx",
           "symbols": "",
           "summary": "import { ContributeCallout } from '@/components/contribute/contribute-callout'",
-          "body": "import { ContributeCallout } from '@/components/contribute/contribute-callout' The shared contract layer for AgentsKit: TypeScript types, the headless chat controller, stream helpers, and building blocks used by @agentskit/react , @agentskit/ink , @agentskit/runtime , and adapters. No third-party runtime dependencies — keep this package small and stable. When to use - You implement a custom adapter , tool, memory, or UI on top of official types. - You need createChatController without React (advanced integrations). - You want to understand messages, tool calls, and stream chunks across the ecosystem. You usually do not import core directly in a typical React app except for types — prefer and . Install Most feature packages already depend on core ; you add it explicitly when authoring libraries or sharing types. Public exports (overview) Chat controller and config Export Role -------- ------ createChatController Headless state machine: send, stream, tools, memory, skills, retriever Types: ChatConfig , ChatController , ChatState , ChatReturn Configuration and controller shape The controller merges system prompts, runs retrieval, dispatches tool calls, saves via ChatMemory after successful turns, skips persistence for failed or aborted turns, surfaces background memory and skill activation failures through onError , and exposes subscribe/update patterns consumed by UI packages. Durable decisions and multimodal input controller.send accepts string ContentPart[] . User messages retain their parts and a partsToText projection in content ; provider support remains adapter-specific. Framework binding APIs are unchanged. Configure ChatConfig.decisionStore with a conversation-scoped ToolDecisionStore to use await controller.decide(toolCallId, 'approve') or await controller.decide(toolCallId, 'deny', reason) . Pending message snapshots survive controller replacement and process restart through that store. Configured chat memory also receives pending snapshots before proposal completion. ToolDecisionRecord stores toolCallId , messages , status ( pending , claimed , complete , failed , denied ), and optional decision , reason , and outcome . Implement putPending as insert-if-absent, get as a linearizable read, claim as an atomic pending-to-claimed transition returning the snapshot only to its winner, and settle as a durable terminal write for the matching claim. A database implementation can use UPDATE ... WHERE status = 'pending' RETURNING ... . The application must scope access to the authorized conversation. The winner revalidates and reauthorizes the tool, persists its outcome, and resumes the model. Same-decision terminal replay returns the stored tool outcome without another tool or model invocation. Unknown IDs raise AK ACTION NOT FOUND ; in-flight or conflicting decisions raise AK ACTION ALREADY DECIDED . Tool failures become terminal failed records and reach the model as tool errors. A new attempt needs a new proposal ID. A crash after claim leaves an indeterminate claimed record requiring application reconciliation; core never automatically retries side effects. Serialize different decisions in one conversation to avoid lost transcript writes. Legacy approve / deny are deprecated and keep their generation-local behavior; do not mix them with decide for the same call. Core supplies the port, not HTTP transport or a database backend. Primitives and streams Export Role -------- ------ buildMessage Construct a typed Message consumeStream Drive StreamSource → chunks + completion createEventEmitter Internal event bus for observers executeToolCall Run a tool from a ToolCall payload parseToolArgs Parse JSON tool arguments with { args, valid } for fail-closed adapters safeParseArgs Backwards-compatible safe value-only parser createToolLifecycle init / dispose for tools createId(prefix) Prefix plus cryptographically random UUID generateId(prefix) Compatibility helper for prefixed message and call IDs Agent loop helpers Export Role --------",
+          "body": "import { ContributeCallout } from '@/components/contribute/contribute-callout' The shared contract layer for AgentsKit: TypeScript types, the headless chat controller, stream helpers, and building blocks used by @agentskit/react , @agentskit/ink , @agentskit/runtime , and adapters. No third-party runtime dependencies — keep this package small and stable. When to use - You implement a custom adapter , tool, memory, or UI on top of official types. - You need createChatController without React (advanced integrations). - You want to understand messages, tool calls, and stream chunks across the ecosystem. You usually do not import core directly in a typical React app except for types — prefer and . Install Most feature packages already depend on core ; you add it explicitly when authoring libraries or sharing types. Public exports (overview) Chat controller and config Export Role -------- ------ createChatController Headless state machine: send, stream, tools, memory, skills, retriever Types: ChatConfig , ChatController , ChatState , ChatReturn Configuration and controller shape The controller merges system prompts, runs retrieval, dispatches tool calls, saves via ChatMemory after successful turns, skips persistence for failed or aborted turns, surfaces background memory and skill activation failures through onError , and exposes subscribe/update patterns consumed by UI packages. Durable decisions and multimodal input controller.send accepts string ContentPart[] . User messages retain their parts and a partsToText projection in content ; provider support remains adapter-specific. ChatReturn.send has the same widened signature. Implementers of ChatController must supply the required decide member and accept parts in send . Configure ChatConfig.decisionStore with a conversation-scoped ToolDecisionStore to use await controller.decide(toolCallId, 'approve') or await controller.decide(toolCallId, 'deny', reason) . Pending message snapshots survive controller replacement and process restart through that store. Configured chat memory also receives pending snapshots before proposal completion. ToolDecisionRecord stores toolCallId , messages , status ( pending , claimed , complete , failed , denied ), and optional decision , reason , and outcome . Implement putPending as insert-if-absent, get as a linearizable read, claim as an atomic pending-to-claimed transition returning the snapshot only to its winner, and settle as a durable terminal write for the matching claim. A database implementation can use UPDATE ... WHERE status = 'pending' RETURNING ... . The application must scope access to the authorized conversation. Before claiming, the controller loads and validates the current conversation, prioritizing live state (including unsaved turns), then configured chat memory, then the stored snapshot when neither exists. It preserves later messages and patches the target call, revalidates and reauthorizes the tool, persists its outcome, and resumes the model. Same-decision terminal replay returns the stored tool outcome without another tool or model invocation. Unknown IDs raise AK ACTION NOT FOUND ; in-flight or conflicting decisions raise AK ACTION ALREADY DECIDED . Tool failures become terminal failed records and reach the model as tool errors. A new attempt needs a new proposal ID. For a stuck claimed record, inspect get(id) and domain execution evidence, stop the original worker, and terminally settle the matching claim with a proven outcome or explicit indeterminate failure. Never reset or delete the claim. Reconcile the target call in current chat memory and continue with a new user turn; a retry requires a separately authorized new proposal ID. See . A crash after claim leaves an indeterminate claimed record requiring application reconciliation; core never automatically retries side effects. Serialize different decisions in one conversation to avoid lost transcript writes. Legacy approve / deny are deprecated: with a decision store they",
           "aliases": "document human"
         },
         "graph": {
@@ -59817,7 +59822,7 @@
             }
           ]
         },
-        "contentHash": "1e99250db266aeca66b7d11a7ec0e6fd3fc5af6d72696f8dd2343c46a1228f8a",
+        "contentHash": "a45c2e7c4960a50d190312d9eabc737f8973aa7d2b1720270a630578d0880423",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -61348,7 +61353,7 @@
         "kind": "document",
         "path": "apps/docs-next/content/docs/reference/packages/svelte.mdx",
         "title": "svelte.mdx",
-        "summary": "createChatStore(config): SvelteChatStore — Readable<ChatState> + action methods + destroy().",
+        "summary": "createChatStore(config): SvelteChatStore — Readable<ChatState> + action methods + destroy(). send accepts string | ContentPart[]; decide(id, 'approve' | 'deny', reason?) forwards durable decisions to core with a configured decisionStore. Both actions reject after destroy().",
         "audience": "human",
         "aliases": [],
         "tags": [
@@ -61360,8 +61365,8 @@
           "headings": "Install Hello world Surface Siblings Stability Related Source",
           "path": "apps/docs-next/content/docs/reference/packages/svelte.mdx",
           "symbols": "",
-          "summary": "createChatStore(config): SvelteChatStore — Readable<ChatState> + action methods + destroy().",
-          "body": "Install Hello world Surface - createChatStore(config): SvelteChatStore — Readable<ChatState + action methods + destroy() . The shared state/action contract is portable; Svelte component props and exports are binding-specific. This package does not promise full React component parity. Siblings · · · · · Stability - Version: 0.5.9 - Tier: beta - Contract: evolving - Roadmap: see for what this package needs to reach v1.0. Related - - Source npm: · repo:",
+          "summary": "createChatStore(config): SvelteChatStore — Readable<ChatState> + action methods + destroy(). send accepts string | ContentPart[]; decide(id, 'approve' | 'deny', reason?) forwards durable decisions to core with a configured decisionStore. Both actions reject after destroy().",
+          "body": "Install Hello world Surface - createChatStore(config): SvelteChatStore — Readable<ChatState + action methods + destroy() . send accepts string ContentPart[] ; decide(id, 'approve' 'deny', reason?) forwards durable decisions to core with a configured decisionStore . Both actions reject after destroy() . The shared state/action contract is portable; Svelte component props and exports are binding-specific. This package does not promise full React component parity. Siblings · · · · · Stability - Version: 0.5.9 - Tier: beta - Contract: evolving - Roadmap: see for what this package needs to reach v1.0. Related - - Source npm: · repo:",
           "aliases": "document human"
         },
         "graph": {
@@ -61383,7 +61388,7 @@
             }
           ]
         },
-        "contentHash": "aa7844453f7b8802cfed589daa74a391cd21e66c1e0d18b66e93b39eae7965da",
+        "contentHash": "372bfce01f26f0589d9417bc067fd53b277d2e2c854655b09039bd672d77486b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -68191,7 +68196,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.007862,
+          "pagerank": 0.007842,
           "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
@@ -68292,7 +68297,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.007707,
+          "pagerank": 0.007686,
           "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
@@ -68343,7 +68348,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.030451,
+          "pagerank": 0.030329,
           "inboundLinks": 64,
           "coveredBy": [],
           "mentionedBy": [
@@ -68794,7 +68799,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.023665,
+          "pagerank": 0.023664,
           "inboundLinks": 11,
           "coveredBy": [],
           "mentionedBy": [],
@@ -68904,7 +68909,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.013308,
+          "pagerank": 0.013307,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69019,7 +69024,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.009102,
+          "pagerank": 0.009101,
           "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [],
@@ -69677,7 +69682,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.013393,
+          "pagerank": 0.013382,
           "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70461,7 +70466,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.037979,
+          "pagerank": 0.037925,
           "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [],
@@ -70606,7 +70611,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.019248,
+          "pagerank": 0.019218,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71601,15 +71606,15 @@
         ],
         "fields": {
           "title": "ADR 0042 — Durable tool decisions in core 1.x",
-          "headings": "ADR 0042 — Durable tool decisions in core 1.x Context Decision Consequences",
+          "headings": "ADR 0042 — Durable tool decisions in core 1.x Context Decision Consequences Operational recovery of a claimed decision",
           "path": "docs/architecture/adrs/0042-durable-tool-decisions.md",
           "symbols": "",
           "summary": "Status: Proposed (implementation authorized; evidence review remains external)",
-          "body": "ADR 0042 — Durable tool decisions in core 1.x - Status : Proposed (implementation authorized; evidence review remains external) - Date : 2026-10-06 Context Legacy controller approvals use generation-local identity and cannot resume a confirmation in another controller. Distributed callers need an atomic storage boundary rather than a process-local mutex. Decision Add ChatController.decide(toolCallId, decision, reason?) and ChatConfig.decisionStore . Preserve and deprecate generation-local approve and deny . This is an additive minor release. Add ContentPart[] to controller send , retaining string input and its empty-input behavior. The conversation-scoped store creates immutable pending records containing a serializable message snapshot, atomically transitions pending to claimed with its decision, and stores a terminal tool outcome. Claim returns the authoritative snapshot only to its winner. A database implementation can use UPDATE ... WHERE status = 'pending' RETURNING ... ; creation must be insert-if-absent. Reads and writes must be durable and linearizable per tool call. Store access is an application-authorized conversation boundary, not an authorization token supplied by an untrusted client. The winner restores the snapshot, revalidates and reauthorizes execution through the existing tool pipeline, saves the terminal outcome before model continuation, and never automatically reclaims a claimed or failed record. Same-decision terminal replay returns the recorded tool outcome without invoking tool or model. Unknown IDs and competing decisions raise typed errors; an in-flight duplicate raises a conflict. Pending snapshots are persisted before proposal completion when the store is configured. Consequences Core adds no database implementation or runtime dependency. HTTP schema, identity mapping, stream transport, and provider-specific persistence are integration responsibilities. A crash after claim can leave an indeterminate claimed record; exactly-once admission does not promise transactional domain writes or automatic crash recovery. Applications must reconcile such records without automatically rerunning side effects. Concurrent different calls in one conversation require application-level conversation serialization to avoid lost transcript updates. Legacy methods must not be mixed with durable decisions for the same call. Implementation is lazy-loaded to preserve the root import budget. Tests use independently specified synthetic stores and snapshots, without private consumer details.",
+          "body": "ADR 0042 — Durable tool decisions in core 1.x - Status : Proposed (implementation authorized; evidence review remains external) - Date : 2026-10-06 Context Legacy controller approvals use generation-local identity and cannot resume a confirmation in another controller. Distributed callers need an atomic storage boundary rather than a process-local mutex. Decision Add ChatController.decide(toolCallId, decision, reason?) and ChatConfig.decisionStore . Deprecate approve and deny ; with a decision store they delegate to decide , sharing atomic claims and typed errors, and without a store they retain generation-local behavior. Existing callers remain compatible, but structural implementations of ChatController must implement the required decide member. Add ContentPart[] to controller and shared ChatReturn send , retaining string input and its empty-input behavior. The conversation-scoped store creates immutable pending records containing a serializable message snapshot, atomically transitions pending to claimed with its decision, and stores a terminal tool outcome. Claim returns the authoritative snapshot only to its winner. A database implementation can use UPDATE ... WHERE status = 'pending' RETURNING ... ; creation must be insert-if-absent. Reads and writes must be durable and linearizable per tool call. Store access is an application-authorized conversation boundary, not an authorization token supplied by an untrusted client. Before claiming, the controller loads and validates the current conversation: live state takes precedence over configured chat memory, and the pending snapshot is used only when no current conversation is available. Loading and sibling reconciliation operate on cloned messages so existing subscriber snapshots remain immutable. After claim, it stops the stream and merges only reconciled terminal sibling outcomes by message and call ID into the latest live state, preserving chunks, new confirmations and turns received during storage awaits. It rechecks that the target remains pending before execution; a removed or changed target terminally settles the claim as failed without executing or resuming the model. It patches the target call while preserving later turns, revalidates and reauthorizes execution through the existing tool pipeline, saves the terminal outcome before model continuation, and never automatically reclaims a claimed or failed record. Same-decision terminal replay returns the recorded tool outcome without invoking tool or model. Unknown IDs and competing decisions raise typed errors; an in-flight duplicate raises a conflict. Pending snapshots are persisted before proposal completion when the store is configured. Consequences Core adds no database implementation or runtime dependency. HTTP schema, identity mapping, stream transport, and provider-specific persistence are integration responsibilities. A crash after claim can leave an indeterminate claimed record; exactly-once admission does not promise transactional domain writes or automatic crash recovery. Applications must reconcile such records without automatically rerunning side effects. Concurrent different calls in one conversation require application-level conversation serialization to avoid lost transcript updates. Store-backed legacy approvals and denials use the same claim boundary as durable decisions. Implementation is lazy-loaded to preserve the root import budget. Tests use independently specified synthetic stores and snapshots, without private consumer details. Operational recovery of a claimed decision The operator reads store.get(toolCallId) in the authorized conversation scope and verifies status , decision , arguments in messages , and any domain transaction or tool audit evidence. Stop the original worker and serialize conversation writes before reconciliation; elapsed time alone does not prove that execution never occurred. Never release a claim by deleting it or resetting it to pending . If the domain evidence proves compl",
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.002602,
+          "pagerank": 0.00276,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [],
@@ -71625,9 +71630,20 @@
               "confidence": "observed"
             }
           ],
-          "outbound": []
+          "outbound": [
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/core/src/controller-decision-internal.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/core/src/types/chat.ts",
+              "confidence": "observed"
+            }
+          ]
         },
-        "contentHash": "7059ce68f68792c1d075d84aff12f5baf325214f9e7ac669a944e6aea2b9e550",
+        "contentHash": "6e1205db68cf23787d54c5b5e30edc45263ebebb31bf12381caf66080304a13a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -74205,7 +74221,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.008672,
+          "pagerank": 0.008659,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -74566,7 +74582,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.023318,
+          "pagerank": 0.023272,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -74644,7 +74660,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.078416,
+          "pagerank": 0.078209,
           "inboundLinks": 64,
           "coveredBy": [],
           "mentionedBy": [
@@ -75198,7 +75214,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.021147,
+          "pagerank": 0.021106,
           "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
@@ -75619,7 +75635,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.012211,
+          "pagerank": 0.012194,
           "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
@@ -75900,7 +75916,7 @@
           "aliases": "document human"
         },
         "graph": {
-          "pagerank": 0.036162,
+          "pagerank": 0.036102,
           "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [
@@ -76312,7 +76328,7 @@
           "aliases": "document unclassified"
         },
         "graph": {
-          "pagerank": 0.019793,
+          "pagerank": 0.019743,
           "inboundLinks": 10,
           "coveredBy": [],
           "mentionedBy": [
@@ -77381,15 +77397,21 @@
           "path": "packages/core/README.md",
           "symbols": "",
           "summary": "Profile: <code>major-package</code>",
-          "body": "@agentskit/core Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p The zero-dependency foundation that every AgentsKit package builds on — under the 10 KB gzip budget, edge-ready, works everywhere JavaScript runs. Tags: ai · agents · llm · agentskit · typescript · orchestration · streaming · chat Verified proof - Package metadata and tests live under packages/core/ . - Package guide: https://www.agentskit.io/docs/reference/packages/core - Stability map: How this fits the ecosystem @agentskit/core is the contract layer: the tiny, stable foundation that makes adapters, tools, skills, memory, retrievers, and runtimes interchangeable. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why core - Zero external dependencies — no npm bloat, no audit surprises; installs in milliseconds and works in Node, Deno, edge runtimes, and the browser - Stable contracts that unlock the whole ecosystem — six ADR-pinned interfaces ( Adapter , Tool , Skill , Memory , Retriever , Runtime ) make every package interchangeable - Chat state machine included — createChatController handles streaming, abort, and message history so you never implement that loop yourself - Under 10 KB gzipped, always — budget enforced in CI; the foundation you can commit to for the long term Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- Durable confirmations and content parts controller.send accepts a string or ContentPart[] ; parts are retained on the user message and content is their text projection. Framework bindings keep their existing APIs. Configure ChatConfig.decisionStore with a conversation-scoped ToolDecisionStore , then call await controller.decide(toolCallId, 'approve') or await controller.decide(toolCallId, 'deny', reason) . A new controller restores the snapshot returned by the store's atomic claim and resumes the model with the tool outcome. Pending confirmations are saved to configured chat memory and the decision store before proposal completion. The store implements insert-if-absent putPending , get , atomic claim (pending → claimed, returning a snapshot only to the winner), and settle (persist the matching claim's terminal outcome). Store records must survive process restart, and methods must be linearizable per tool call. Use an application-authorized conversation scope. A database claim can use UPDATE ... WHERE status = 'pending' RETURNING ... ; core ships no database implementation. Same-decision terminal replay returns the recorded ToolCall without invoking the tool or model. Unknown IDs raise AK ACTION NOT FOUND ; a competing or in-flight decision raises AK ACTION ALREADY DECIDED . Tool failures are terminal and are fed to the model; retry requires a new proposal ID. A crash after claim leaves an indeterminate record for application reconciliation, never automatic side-effect retry. Serialize different calls in a conversation to protect transcript writes. approve and deny retain their generation-local behavior and are deprecated. Do not mix them with decide for the same call. See . Features - createChatController — streaming-capable chat state machine with abort support; memory is saved after successful turns, never after failed or aborted turns. Background memory and skill activation failures are surfaced through onError . - createInMemoryMemory — zero-config in-process memory for prototyping - createLocalStorageMemory — browser/demo persistence; malformed stored data raises MemoryError instead of silently becoming an empty history - createStaticRetriever — deterministic token-overlap retrieval for demos and fallbacks; use @agentskit/rag for semanti",
+          "body": "@agentskit/core Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p The zero-dependency foundation that every AgentsKit package builds on — under the 10 KB gzip budget, edge-ready, works everywhere JavaScript runs. Tags: ai · agents · llm · agentskit · typescript · orchestration · streaming · chat Verified proof - Package metadata and tests live under packages/core/ . - Package guide: https://www.agentskit.io/docs/reference/packages/core - Stability map: How this fits the ecosystem @agentskit/core is the contract layer: the tiny, stable foundation that makes adapters, tools, skills, memory, retrievers, and runtimes interchangeable. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why core - Zero external dependencies — no npm bloat, no audit surprises; installs in milliseconds and works in Node, Deno, edge runtimes, and the browser - Stable contracts that unlock the whole ecosystem — six ADR-pinned interfaces ( Adapter , Tool , Skill , Memory , Retriever , Runtime ) make every package interchangeable - Chat state machine included — createChatController handles streaming, abort, and message history so you never implement that loop yourself - Under 10 KB gzipped, always — budget enforced in CI; the foundation you can commit to for the long term Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- Durable confirmations and content parts controller.send accepts a string or ContentPart[] ; parts are retained on the user message and content is their text projection. The shared ChatReturn.send signature also accepts parts; existing string callers remain compatible. Structural ChatController implementations must provide the required decide method. Configure ChatConfig.decisionStore with a conversation-scoped ToolDecisionStore , then call await controller.decide(toolCallId, 'approve') or await controller.decide(toolCallId, 'deny', reason) . A controller uses its live conversation when present, including unsaved turns; otherwise it loads configured chat memory, preserving later turns; the claimed snapshot is a fallback only when no current conversation exists. It patches the target tool call and resumes the model with the tool outcome. Pending confirmations are saved to configured chat memory and the decision store before proposal completion. The store implements insert-if-absent putPending , get , atomic claim (pending → claimed, returning a snapshot only to the winner), and settle (persist the matching claim's terminal outcome). Store records must survive process restart, and methods must be linearizable per tool call. An asynchronous read followed by a write is not an atomic claim: use a database conditional update/transaction or an equivalent compare-and-swap, including across processes. Use an application-authorized conversation scope. A database claim can use UPDATE ... WHERE status = 'pending' RETURNING ... ; core ships no database implementation. Same-decision terminal replay returns the recorded ToolCall without invoking the tool or model. Unknown IDs raise AK ACTION NOT FOUND ; a competing or in-flight decision raises AK ACTION ALREADY DECIDED . Tool failures are terminal and are fed to the model; retry requires a new proposal ID. A crash after claim leaves an indeterminate record for application reconciliation, never automatic side-effect retry. Serialize different calls in a conversation to protect transcript writes. For a stuck claimed record, an operator must inspect get(id) and domain execution evidence, stop the original worker, and terminally settle the matching claim with a proven outcome or an explicit indeterminate failure",
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.001971,
-          "inboundLinks": 0,
+          "pagerank": 0.002529,
+          "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [],
-          "inbound": [],
+          "inbound": [
+            {
+              "kind": "links-to",
+              "id": "document:packages/svelte/README.md",
+              "confidence": "observed"
+            }
+          ],
           "outbound": [
             {
               "kind": "links-to",
@@ -77603,7 +77625,7 @@
             }
           ]
         },
-        "contentHash": "cfff04e1416273769cbcf8c30b79ad71e1cd28cfc32194316c4c7b56bc8fc525",
+        "contentHash": "41c9985b7138e1f2880ca675c7dbecdcf8a154c2b8d836af116d65d98e14ba22",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -81305,7 +81327,7 @@
           "path": "packages/svelte/README.md",
           "symbols": "",
           "summary": "Profile: <code>concise-package</code>",
-          "body": "@agentskit/svelte Profile: <code concise-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Svelte 5 store + headless chat components. Same ChatReturn contract every AgentsKit framework binding ships — swap frameworks without changing your agent. Tags: ai · agents · llm · agentskit · svelte · svelte5 · runes · chat · streaming Verified proof - Package metadata and tests live under packages/svelte/ . - Package guide: https://www.agentskit.io/docs/reference/packages/svelte - Stability map: How this fits the ecosystem @agentskit/svelte brings the shared AgentsKit chat contract to Svelte 5 stores and headless chat components. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why - One controller contract, framework-specific views — createChatStore exposes shared chat state/actions; component props remain binding-specific. - Svelte 5 runes — reactive state without subscriptions; drops into .svelte files natively. - Headless by default — components emit data-ak- attributes; style however you want. - Streaming, tools, HITL — the shared state/action contract follows @agentskit/react ; component props and exports are Svelte-specific, not full parity. Install <!-- readme-command:install -- Peers: svelte ^5 . Quick example createChatStore returns a Readable<ChatState — subscribe with $chat for state; call actions ( chat.send(...) ) directly on the store object. API - createChatStore(config) — returns a Readable<ChatState ( $chat.messages , $chat.status , $chat.input ) plus actions send(text) , setInput(v) , stop , retry , clear , approve , deny , edit , regenerate , destroy . Call destroy() from onDestroy (or equivalent); it unsubscribes and stops in-flight work, and is safe to call repeatedly. - Headless components (Svelte 5, data-ak- only): ChatContainer , Message , InputBar (blocks submit/Enter while streaming), Markdown , CodeBlock , ToolCallView ( aria-expanded on the toggle), ThinkingIndicator , ToolConfirmation . Ecosystem Package Role --------- ------ ChatReturn contract LLM providers Built-in + integration tools Chat + vector backends · · · · · Same contract, different host Contributors <a href=\"https://github.com/AgentsKit-io/agentskit/graphs/contributors\" <img src=\"https://contrib.rocks/image?repo=AgentsKit-io/agentskit\" alt=\"AgentsKit contributors\" / </a License MIT — see . Docs · Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Stability: beta — see - Node.js 20+ and TypeScript strict mode - Published as @agentskit/svelte Contributing See and the monorepo .",
+          "body": "@agentskit/svelte Profile: <code concise-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Svelte 5 store + headless chat components. Same ChatReturn contract every AgentsKit framework binding ships — swap frameworks without changing your agent. Tags: ai · agents · llm · agentskit · svelte · svelte5 · runes · chat · streaming Verified proof - Package metadata and tests live under packages/svelte/ . - Package guide: https://www.agentskit.io/docs/reference/packages/svelte - Stability map: How this fits the ecosystem @agentskit/svelte brings the shared AgentsKit chat contract to Svelte 5 stores and headless chat components. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why - One controller contract, framework-specific views — createChatStore exposes shared chat state/actions; component props remain binding-specific. - Svelte 5 runes — reactive state without subscriptions; drops into .svelte files natively. - Headless by default — components emit data-ak- attributes; style however you want. - Streaming, tools, HITL — the shared state/action contract follows @agentskit/react ; component props and exports are Svelte-specific, not full parity. Install <!-- readme-command:install -- Peers: svelte ^5 . Quick example createChatStore returns a Readable<ChatState — subscribe with $chat for state; call actions ( chat.send(...) ) directly on the store object. API - createChatStore(config) — returns a Readable<ChatState ( $chat.messages , $chat.status , $chat.input ) plus actions send(string ContentPart[]) , setInput(v) , stop , retry , clear , decide , approve , deny , edit , regenerate , destroy . Call destroy() from onDestroy (or equivalent); it unsubscribes and stops in-flight work, and is safe to call repeatedly. - Headless components (Svelte 5, data-ak- only): ChatContainer , Message , InputBar (blocks submit/Enter while streaming), Markdown , CodeBlock , ToolCallView ( aria-expanded on the toggle), ThinkingIndicator , ToolConfirmation . Durable confirmations use chat.decide(toolCallId, 'approve' 'deny', reason?) with a conversation-scoped decisionStore in the chat configuration. Like send , this action rejects after destroy() . See for storage and operational recovery requirements. Ecosystem Package Role --------- ------ ChatReturn contract LLM providers Built-in + integration tools Chat + vector backends · · · · · Same contract, different host Contributors <a href=\"https://github.com/AgentsKit-io/agentskit/graphs/contributors\" <img src=\"https://contrib.rocks/image?repo=AgentsKit-io/agentskit\" alt=\"AgentsKit contributors\" / </a License MIT — see . Docs · Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Stability: beta — see - Node.js 20+ and TypeScript strict mode - Published as @agentskit/svelte Contributing See and the monorepo .",
           "aliases": "document project"
         },
         "graph": {
@@ -81323,6 +81345,11 @@
             {
               "kind": "links-to",
               "id": "document:docs/STABILITY.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "links-to",
+              "id": "document:packages/core/README.md",
               "confidence": "observed"
             },
             {
@@ -81402,6 +81429,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/core/src/controller-decision-internal.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/core/src/types/chat.ts",
               "confidence": "observed"
             },
@@ -81417,7 +81449,7 @@
             }
           ]
         },
-        "contentHash": "a933a76631d175c103641aefe9b1f95cff5ec58e0332c58d4873b7ccb4ae6dba",
+        "contentHash": "a94923fdfc3153f87fbfc25ad867ff9061cc99cf6fb4a66c102de6d939cd05b6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -84092,7 +84124,7 @@
           "aliases": "document project"
         },
         "graph": {
-          "pagerank": 0.007707,
+          "pagerank": 0.007686,
           "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
@@ -121118,11 +121150,14 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 2,
+          "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [
+            "document:apps/docs-next/content/docs/for-agents/core.mdx",
             "document:apps/docs-next/content/docs/reference/packages/core.mdx",
-            "document:packages/core/README.md"
+            "document:docs/architecture/adrs/0042-durable-tool-decisions.md",
+            "document:packages/core/README.md",
+            "document:packages/svelte/README.md"
           ],
           "packageId": "package:@agentskit/core",
           "inbound": [
@@ -121133,12 +121168,27 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/for-agents/core.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/reference/packages/core.mdx",
               "confidence": "observed"
             },
             {
               "kind": "mentions-symbol",
+              "id": "document:docs/architecture/adrs/0042-durable-tool-decisions.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "document:packages/core/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/svelte/README.md",
               "confidence": "observed"
             }
           ],
@@ -121160,7 +121210,7 @@
             }
           ]
         },
-        "contentHash": "f1da4fd7cf7a66e3b55112222a67d3129354ad3dd50aa428ca3d9206021d0a7a",
+        "contentHash": "69d0754cd15289a22b914a9f518de47c2dd0987a21dada4c5575b0aa2fed8d6b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -121558,7 +121608,7 @@
             }
           ]
         },
-        "contentHash": "a5fd0f784aaa66b8837e6dcdb22307393d8d23d313a798965ee01ca7d7ebeb0f",
+        "contentHash": "bfaa4fdc1be8b3536dcc1df4d1b5a8d4259f88b8ef7a3a15efa342e30cdaa6b8",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -125038,7 +125088,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 39,
+          "inboundLinks": 40,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/PHASE-1-REVIEW.md",
@@ -125060,6 +125110,7 @@
             "document:apps/docs-next/content/docs/ui/use-chat.mdx",
             "document:docs/architecture/adrs/0014-trusted-tool-call-proposal.md",
             "document:docs/architecture/adrs/0020-serializable-interaction-state.md",
+            "document:docs/architecture/adrs/0042-durable-tool-decisions.md",
             "document:docs/ch-e-core-decide.md",
             "document:docs/PHASE-1-REVIEW.md",
             "document:docs/RELEASE-CORE-V1.md",
@@ -125177,6 +125228,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:docs/architecture/adrs/0020-serializable-interaction-state.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:docs/architecture/adrs/0042-durable-tool-decisions.md",
               "confidence": "observed"
             },
             {
@@ -125338,7 +125394,7 @@
             }
           ]
         },
-        "contentHash": "3f916ca07f94d897e968811e15a22c0c1d9d51c05594cad35383548639b765d9",
+        "contentHash": "5c22f4a4dfbe206a11f69c92c0944cc6ddc8f761bb98a297a0d28d0ab290321b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -127766,7 +127822,7 @@
             }
           ]
         },
-        "contentHash": "7b47760eecfb28aa898fe2288b4ab1ccd038bd36ffa6fce58c92e0accbf0f35e",
+        "contentHash": "5682144bdbb19e39ccde70a760bf83f57899833a8e91a811d8da41d33cb51991",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174458,7 +174514,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "43341f9a3e417632a093009a994456b9a141be1246d7f2c87877a9e1e13ce77e",
+        "contentHash": "1228ffb4e7235348a8f294abe4bce8e7d9e85ce17deca1a30eba72f9ed9ec0bb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174498,7 +174554,7 @@
             }
           ]
         },
-        "contentHash": "731b08aaf62658428360f2df589537319435faa255b7a6747235b4c8d0f5e960",
+        "contentHash": "5849519fe4cc0e57f165e9d4eeeac9a7ad7ce1ab6862ca86622d648c786f401f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174606,7 +174662,7 @@
             }
           ]
         },
-        "contentHash": "c943d64b606d0fe60c1368befe988ff2439f9e6b0717dfcbc567ad1e79d2c8b4",
+        "contentHash": "9eb4fb7529055e2f0d146c3f1875dd070858352ce72eeaa352dc976f80869efb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -190883,7 +190939,7 @@
           "path": "packages/core",
           "symbols": "",
           "summary": "Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + `createChatController` + primitives. Target: &lt;10 KB gzipped, zero runtime deps.",
-          "body": "Purpose Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + createChatController + primitives. Target: &lt;10 KB gzipped, zero runtime deps. Install Primary exports (main entry) - createChatController(config) — state machine behind every UI - proposeToolCall(proposal) — controller method that places a trusted, validated action into the same confirmation lifecycle; it never executes directly. The standalone helper is available from @agentskit/core/tool-proposal . Returns { getState, subscribe, send, stop, retry, edit, regenerate, setInput, clear, decide, approve, deny, updateConfig } . - defineTool(config) — typed tool factory with JSON-Schema input inference. - controller.send(string ContentPart[]) preserves multimodal parts and text projection. - controller.decide(id, 'approve' 'deny', reason?) restores a persisted confirmation using ChatConfig.decisionStore ( ToolDecisionStore , ToolDecisionRecord ). The store provides insert-if-absent putPending , linearizable get , atomic pending-to-claimed claim , and matching-claim terminal settle . Scope it to an application-authorized conversation. Same-decision terminal replay returns the recorded tool outcome; unknown IDs raise AK ACTION NOT FOUND , competing or in-flight decisions raise AK ACTION ALREADY DECIDED . Failed and claimed records are never automatically retried. Serialize different decisions per conversation to protect transcript writes. - approve / deny are deprecated, preserving their generation-local behavior. Do not mix them with durable decisions for the same call. - ChatConfig.authorizeToolCall — trusted host authorization before tool proposal and again before execution. Callback failures default to deny. - createInMemoryMemory / createLocalStorageMemory — default ChatMemory implementations. - createStaticRetriever / formatRetrievedDocuments — RAG-less retrieval using token substring overlap; use @agentskit/rag for semantic production retrieval. - executeToolCall , consumeStream , createEventEmitter , parseToolArgs , safeParseArgs , isRecord , createId , generateId , buildMessage — low-level helpers. parseToolArgs returns { args, valid } so adapters can fail closed; safeParseArgs remains the compatibility value-only parser. IDs use crypto.randomUUID() and retain the caller-provided prefix. - isRecord(value) accepts non-null objects other than arrays, including Date , Map , and class instances; use a schema validator when plain JSON objects are required. - AgentsKitError , AdapterError , ToolError , MemoryError , ConfigError , RuntimeError , SandboxError , SkillError , ErrorCodes — error taxonomy. - Token budget: compileBudget , approximateCounter . - Progressive tool args: createProgressiveArgParser , executeToolProgressively . - createVirtualizedMemory — hot-window + cold-retriever wrapper (also re-exported from @agentskit/memory ). - Untrusted-input fencing lives in the @agentskit/core/security entry: fenceUntrustedContent(content, opts?) + UNTRUSTED CONTENT DIRECTIVE wrap attacker-influenced text so the model treats it as data, not instructions (the mitigation companion to createInjectionDetector ). - Multi-modal content parts: textPart , imagePart , audioPart , videoPart , filePart , partsToText , normalizeContent , filterParts . - Agent-loop internals (advanced): buildToolMap , activateSkills , executeSafeTool , createToolLifecycle . - Memory serialization: serializeMessages , deserializeMessages ; validate untrusted records with validateMemoryRecord from @agentskit/core/memory-validation . Subpath exports (zero main-bundle weight) Subpath Purpose Recipe --- --- --- @agentskit/core/agent-schema Declarative agent YAML/JSON + validator @agentskit/core/prompt-experiments A/B prompts with feature flags @agentskit/core/auto-summarize Auto-summarizing ChatMemory wrapper @agentskit/core/hitl Approval gates + ApprovalStore @agentskit/core/security PII redactor + injection detector + fenceUntrustedContent + rate limiter , , @agentskit/core/f",
+          "body": "Purpose Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + createChatController + primitives. Target: &lt;10 KB gzipped, zero runtime deps. Install Primary exports (main entry) - createChatController(config) — state machine behind every UI - proposeToolCall(proposal) — controller method that places a trusted, validated action into the same confirmation lifecycle; it never executes directly. The standalone helper is available from @agentskit/core/tool-proposal . Returns { getState, subscribe, send, stop, retry, edit, regenerate, setInput, clear, decide, approve, deny, updateConfig } . - defineTool(config) — typed tool factory with JSON-Schema input inference. - controller.send(string ContentPart[]) preserves multimodal parts and text projection. - controller.decide(id, 'approve' 'deny', reason?) uses ChatConfig.decisionStore to validate the current conversation before claiming, prioritizing live controller state over memory and preserving unsaved later turns and using the pending snapshot only as a fallback ( ToolDecisionStore , ToolDecisionRecord ). The store provides insert-if-absent putPending , linearizable get , atomic pending-to-claimed claim , and matching-claim terminal settle . Scope it to an application-authorized conversation. Same-decision terminal replay returns the recorded tool outcome; unknown IDs raise AK ACTION NOT FOUND , competing or in-flight decisions raise AK ACTION ALREADY DECIDED . Failed and claimed records are never automatically retried. Serialize different decisions per conversation to protect transcript writes. - approve / deny are deprecated. With a decision store they delegate to decide , including atomic claims and typed errors; without a store they preserve generation-local behavior. - ChatConfig.authorizeToolCall — trusted host authorization before tool proposal and again before execution. Callback failures default to deny. - createInMemoryMemory / createLocalStorageMemory — default ChatMemory implementations. - createStaticRetriever / formatRetrievedDocuments — RAG-less retrieval using token substring overlap; use @agentskit/rag for semantic production retrieval. - executeToolCall , consumeStream , createEventEmitter , parseToolArgs , safeParseArgs , isRecord , createId , generateId , buildMessage — low-level helpers. parseToolArgs returns { args, valid } so adapters can fail closed; safeParseArgs remains the compatibility value-only parser. IDs use crypto.randomUUID() and retain the caller-provided prefix. - isRecord(value) accepts non-null objects other than arrays, including Date , Map , and class instances; use a schema validator when plain JSON objects are required. - AgentsKitError , AdapterError , ToolError , MemoryError , ConfigError , RuntimeError , SandboxError , SkillError , ErrorCodes — error taxonomy. - Token budget: compileBudget , approximateCounter . - Progressive tool args: createProgressiveArgParser , executeToolProgressively . - createVirtualizedMemory — hot-window + cold-retriever wrapper (also re-exported from @agentskit/memory ). - Untrusted-input fencing lives in the @agentskit/core/security entry: fenceUntrustedContent(content, opts?) + UNTRUSTED CONTENT DIRECTIVE wrap attacker-influenced text so the model treats it as data, not instructions (the mitigation companion to createInjectionDetector ). - Multi-modal content parts: textPart , imagePart , audioPart , videoPart , filePart , partsToText , normalizeContent , filterParts . - Agent-loop internals (advanced): buildToolMap , activateSkills , executeSafeTool , createToolLifecycle . - Memory serialization: serializeMessages , deserializeMessages ; validate untrusted records with validateMemoryRecord from @agentskit/core/memory-validation . Subpath exports (zero main-bundle weight) Subpath Purpose Recipe --- --- --- @agentskit/core/agent-schema Declarative agent YAML/JSON + validator @agentskit/core/prompt-experiments A/B prompts with feature flags @agentskit/core/auto-summarize Auto-summar",
           "aliases": "core @agentskit/core package ownership"
         },
         "graph": {
@@ -195849,7 +195905,7 @@
           "path": "packages/svelte",
           "symbols": "",
           "summary": "Svelte binding for the `ChatReturn` contract from `@agentskit/core`. Returns a `Readable<ChatState>` plus action methods (send / stop / clear) and `destroy()` for cleanup.",
-          "body": "@agentskit/svelte Purpose Svelte binding for the ChatReturn contract from @agentskit/core . Returns a Readable<ChatState plus action methods (send / stop / clear) and destroy() for cleanup. Install Primary exports - createChatStore(config): SvelteChatStore — Readable<ChatState + action methods + destroy() . - Headless components (Svelte 5, with Svelte-specific props; not full React parity, data-ak- only): ChatContainer , Message , InputBar , Markdown , CodeBlock , ToolCallView , ThinkingIndicator , ToolConfirmation . Minimal example Common patterns - Runes vs stores : works in both Svelte 5 runes mode and Svelte 4 stores — auto-subscription via $chat works the same. - Cleanup : call chat.destroy() in onDestroy() to abort in-flight streams and release the adapter. - SvelteKit SSR : packaged components render on the server. Start browser-bound adapters in onMount , or proxy provider calls through a server endpoint. Related - — ChatReturn contract. - — provider adapters. - , , , , , — sibling bindings. Source - npm: https://www.npmjs.com/package/@agentskit/svelte - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/svelte",
+          "body": "@agentskit/svelte Purpose Svelte binding for the ChatReturn contract from @agentskit/core . Returns a Readable<ChatState plus action methods (send / stop / clear) and destroy() for cleanup. Install Primary exports - createChatStore(config): SvelteChatStore — Readable<ChatState + action methods + destroy() . send accepts string ContentPart[] ; decide(id, 'approve' 'deny', reason?) forwards durable decisions to core with a configured decisionStore . Both actions reject after destroy() . - Headless components (Svelte 5, with Svelte-specific props; not full React parity, data-ak- only): ChatContainer , Message , InputBar , Markdown , CodeBlock , ToolCallView , ThinkingIndicator , ToolConfirmation . Minimal example Common patterns - Runes vs stores : works in both Svelte 5 runes mode and Svelte 4 stores — auto-subscription via $chat works the same. - Cleanup : call chat.destroy() in onDestroy() to abort in-flight streams and release the adapter. - SvelteKit SSR : packaged components render on the server. Start browser-bound adapters in onMount , or proxy provider calls through a server endpoint. Related - — ChatReturn contract. - — provider adapters. - , , , , , — sibling bindings. Source - npm: https://www.npmjs.com/package/@agentskit/svelte - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/svelte",
           "aliases": "svelte @agentskit/svelte package ownership"
         },
         "graph": {
