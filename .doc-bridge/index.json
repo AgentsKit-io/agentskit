@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "66f97318f267da278eab6986ae1594bafa1b4173749af1ec6505a8b31bcacecb",
+  "contentHash": "b0d9d0a26e34a6a74b6a1566be70be5765b31b70780fd4cb8f81b9e0dc4a8d3d",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-06T23:54:37.065Z",
+  "generatedAt": "2026-10-07T01:42:07.199Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -2536,7 +2536,7 @@
         "document",
         "human"
       ],
-      "contentHash": "390d85f924f530157da66b9876facfeb969b630eb71b0a9de6d493137e9724d9"
+      "contentHash": "7ed354089fa70d36be054013256ca35d2134df821d3b47ca8c5682ff7564f0ae"
     },
     {
       "id": "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
@@ -6063,7 +6063,7 @@
         "document",
         "human"
       ],
-      "contentHash": "30c591a8b3957c2592bcbafa6d843c1d12dfabd0b30527037bc39f36e67d549e"
+      "contentHash": "10f5bae107c4a275eb6daa13b12e253271d046155453a960d0f7e141d48bbefb"
     },
     {
       "id": "document:docs/DESIGN.md",
@@ -20154,7 +20154,7 @@
         "mjs",
         "tests"
       ],
-      "contentHash": "57e2f0ff08721ed5b74e9a554f6059a46d8b4a3d772335fcdf48e9e562fd823c"
+      "contentHash": "376489948ab4d4b2d5941f97d5110ff3b72949467f8f3f41423984f0b750443a"
     },
     {
       "id": "module:packages/core/tests/controller-tool-call.test.ts",
@@ -32594,7 +32594,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "aac9fbfbe08346d6f5215895c704d8e76ac3d7801de4acf3a92769eba08f34c0"
+      "contentHash": "43341f9a3e417632a093009a994456b9a141be1246d7f2c87877a9e1e13ce77e"
     },
     {
       "id": "module:packages/svelte/tests/components.test.ts",
@@ -32646,7 +32646,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "8783d11456f1cb2908bee23fe12d52e2b8bf5f92330a818c0ee1319df771d525"
+      "contentHash": "c943d64b606d0fe60c1368befe988ff2439f9e6b0717dfcbc567ad1e79d2c8b4"
     },
     {
       "id": "module:packages/svelte/vitest.config.ts",
@@ -38027,7 +38027,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "2bd023eaecd68626b3c8d3b1414e1ed8125c3106ae71a1152612d255eab634aa",
+    "hash": "fcc7b6d484bd3ed41c18945e596c95d0b40c69d047beefb1848ab546d9842cab",
     "fileCount": 2528,
     "projectionVersion": 2
   },
@@ -38050,9 +38050,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "c9dff64f8f53e739dba08c4834987aeac3470a0f59f661d843210ba8ae02326b",
+    "contentHash": "2a0f264a76f772b6bc4321e20522955b3423156ebd88014599b047766c46d3f1",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "a2905cbd8d29248f1506c086c4684c880b0211e37453baa3385d78174f60ef72",
+    "snapshotHash": "914ad599a1344941835d67a76fab3e7898a06ae500fe8980d50d7bb316ea5eac",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -38085,7 +38085,7 @@
       "averageFieldLength": {
         "aliases": 3.0144985904148207,
         "body": 60.80467176802255,
-        "headings": 4.001208215867901,
+        "headings": 4.0056383407168745,
         "path": 7.614579138139348,
         "summary": 4.549738219895288,
         "symbols": 7.443817962142569,
@@ -53932,7 +53932,7 @@
             }
           ]
         },
-        "contentHash": "390d85f924f530157da66b9876facfeb969b630eb71b0a9de6d493137e9724d9",
+        "contentHash": "7ed354089fa70d36be054013256ca35d2134df821d3b47ca8c5682ff7564f0ae",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -71989,7 +71989,7 @@
         ],
         "fields": {
           "title": "CH-E — durable core confirmations and controller parts",
-          "headings": "CH-E — durable core confirmations and controller parts Task contract Implementation and contract Executed validation Final reconciliation",
+          "headings": "CH-E — durable core confirmations and controller parts Task contract Implementation and contract Executed validation Final reconciliation CH-E2 — pre-push reconciliation Current-source reconciliation",
           "path": "docs/ch-e-core-decide.md",
           "symbols": "",
           "summary": "Date: 2026-10-06. Base: 0e1c1aa92e69f29f41241e49753ecab8ae279119 (local origin/main). Implementation is additive in core 1.x; the minor changeset is pending release. No push, PR, release, publication, real account, or remote database is authorized.",
@@ -72017,10 +72017,15 @@
               "kind": "mentions-symbol",
               "id": "module:packages/core/src/types/tool.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/cross-platform/src/process/run.ts",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "30c591a8b3957c2592bcbafa6d843c1d12dfabd0b30527037bc39f36e67d549e",
+        "contentHash": "10f5bae107c4a275eb6daa13b12e253271d046155453a960d0f7e141d48bbefb",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -127939,7 +127944,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "57e2f0ff08721ed5b74e9a554f6059a46d8b4a3d772335fcdf48e9e562fd823c",
+        "contentHash": "376489948ab4d4b2d5941f97d5110ff3b72949467f8f3f41423984f0b750443a",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -130884,11 +130889,12 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 4,
+          "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx",
             "document:docs/architecture/adrs/0036-cross-platform-package.md",
+            "document:docs/ch-e-core-decide.md",
             "document:packages/cross-platform/CONVENTIONS.md",
             "document:packages/cross-platform/README.md"
           ],
@@ -130913,6 +130919,11 @@
             {
               "kind": "mentions-symbol",
               "id": "document:docs/architecture/adrs/0036-cross-platform-package.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:docs/ch-e-core-decide.md",
               "confidence": "observed"
             },
             {
@@ -174447,7 +174458,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "aac9fbfbe08346d6f5215895c704d8e76ac3d7801de4acf3a92769eba08f34c0",
+        "contentHash": "43341f9a3e417632a093009a994456b9a141be1246d7f2c87877a9e1e13ce77e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -174595,7 +174606,7 @@
             }
           ]
         },
-        "contentHash": "8783d11456f1cb2908bee23fe12d52e2b8bf5f92330a818c0ee1319df771d525",
+        "contentHash": "c943d64b606d0fe60c1368befe988ff2439f9e6b0717dfcbc567ad1e79d2c8b4",
         "provenance": "observed",
         "confidence": "observed"
       },
