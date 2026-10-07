@@ -15,6 +15,28 @@ import {
   toImportSpecifier,
 } from './packed-consumers-matrix.mjs'
 
+/**
+ * Select public packages from Turbo's build task graph, including dependency builds.
+ * @template {{ packageName: string }} T
+ * @param {T[]} packages
+ * @param {{ tasks: { task: string, package: string }[] } | undefined} buildPlan
+ * @returns {T[]}
+ */
+export function selectPackedConsumerPackages(packages, buildPlan) {
+  if (buildPlan === undefined) return packages
+  if (!buildPlan || !Array.isArray(buildPlan.tasks)) {
+    throw new Error('packed-consumer scope requires a Turbo build plan with tasks')
+  }
+  const names = new Set()
+  for (const task of buildPlan.tasks) {
+    if (!task || task.task !== 'build' || typeof task.package !== 'string' || !task.package) {
+      throw new Error('packed-consumer scope contains an invalid build task')
+    }
+    names.add(task.package)
+  }
+  return packages.filter((pkg) => names.has(pkg.packageName))
+}
+
 const DEPENDENCY_FIELDS = Object.freeze([
   'dependencies',
   'optionalDependencies',

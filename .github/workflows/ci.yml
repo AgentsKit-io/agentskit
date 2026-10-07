@@ -106,12 +106,16 @@ jobs:
 
       - name: Build affected packages and dependents
         if: steps.package-scope.outputs.run_all == 'false'
-        run: pnpm exec turbo run build --filter='...[origin/main]' --concurrency=2
+        run: |
+          pnpm exec turbo run build --filter='...[origin/main]' --dry=json > "$RUNNER_TEMP/packed-consumers-build-plan.json"
+          pnpm exec turbo run build --filter='...[origin/main]' --concurrency=2
 
       - name: Publication metadata contract
         run: pnpm check:publication-surface
 
       - name: Packed consumer publication contract
+        env:
+          PACKED_CONSUMERS_BUILD_PLAN: ${{ steps.package-scope.outputs.run_all == 'false' && format('{0}/packed-consumers-build-plan.json', runner.temp) || '' }}
         run: pnpm check:packed-consumers
 
       - name: Published manifest workspace-protocol guard
