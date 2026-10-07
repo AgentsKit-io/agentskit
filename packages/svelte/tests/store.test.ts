@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from 'vitest'
-import type { AdapterFactory, AdapterRequest, StreamChunk } from '@agentskit/core'
+import type { AdapterFactory, AdapterRequest, ContentPart, StreamChunk } from '@agentskit/core'
 import { createChatStore } from '../src'
 
 function mockAdapter(chunks: StreamChunk[]): AdapterFactory {
@@ -37,6 +37,16 @@ function hangingAdapter(opts: { abort: () => void; onSource?: () => void }): Ada
 }
 
 describe('@agentskit/svelte', () => {
+  it('forwards content parts and rejects them after destroy', async () => {
+    const parts: ContentPart[] = [{ type: 'text', text: 'hello' }]
+    const createSource = vi.fn(mockAdapter([]).createSource)
+    const store = createChatStore({ adapter: { createSource } })
+    await store.send(parts)
+    expect(createSource.mock.calls[0][0].messages.find(message => message.role === 'user')?.parts).toEqual(parts)
+    store.destroy()
+    await expect(store.send(parts)).rejects.toThrow(/destroyed/)
+  })
+
   it('exports createChatStore', () => {
     expect(typeof createChatStore).toBe('function')
   })

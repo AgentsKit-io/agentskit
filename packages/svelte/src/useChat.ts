@@ -58,7 +58,7 @@ export function createChatStore(config: ChatConfig): SvelteChatStore {
 
   return {
     subscribe: store.subscribe,
-    send: rejected((text: string) => controller.send(text)),
+    send: rejected(controller.send),
     stop: () => { if (!destroyed) controller.stop() },
     retry: rejected(() => controller.retry()),
     edit: rejected((messageId: string, newContent: string, opts?: Parameters<ChatController['edit']>[2]) => controller.edit(messageId, newContent, opts)),
