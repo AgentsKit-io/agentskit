@@ -25,9 +25,12 @@ npm install @agentskit/core
   validated action into the same confirmation lifecycle; it never executes
   directly. The standalone helper is available from
   `@agentskit/core/tool-proposal`. Returns `{ getState, subscribe, send, stop, retry, edit,
-  regenerate, setInput, clear, approve, deny, updateConfig }`.
+  regenerate, setInput, clear, decide, approve, deny, updateConfig }`.
 - `defineTool(config)` — typed tool factory with JSON-Schema input
   inference.
+- `controller.send(string | ContentPart[])` preserves multimodal parts and text projection.
+- `controller.decide(id, 'approve' | 'deny', reason?)` uses `ChatConfig.decisionStore` to validate the current conversation before claiming, prioritizing live controller state over memory and preserving unsaved later turns and using the pending snapshot only as a fallback (`ToolDecisionStore`, `ToolDecisionRecord`). The store provides insert-if-absent `putPending`, linearizable `get`, atomic pending-to-claimed `claim`, and matching-claim terminal `settle`. Scope it to an application-authorized conversation. Same-decision terminal replay returns the recorded tool outcome; unknown IDs raise `AK_ACTION_NOT_FOUND`, competing or in-flight decisions raise `AK_ACTION_ALREADY_DECIDED`. Failed and claimed records are never automatically retried. Serialize different decisions per conversation to protect transcript writes.
+- `approve`/`deny` are deprecated. With a decision store they delegate to `decide`, including atomic claims and typed errors; without a store they preserve generation-local behavior.
 - `ChatConfig.authorizeToolCall` — trusted host authorization before tool proposal and again before execution. Callback failures default to deny.
 - `createInMemoryMemory` / `createLocalStorageMemory` — default
   `ChatMemory` implementations.

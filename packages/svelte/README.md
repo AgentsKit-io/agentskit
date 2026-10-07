@@ -77,8 +77,10 @@ state; call actions (`chat.send(...)`) directly on the store object.
 
 ## API
 
-- `createChatStore(config)` — returns a `Readable<ChatState>` (`$chat.messages`, `$chat.status`, `$chat.input`) plus actions `send(text)`, `setInput(v)`, `stop`, `retry`, `clear`, `approve`, `deny`, `edit`, `regenerate`, `destroy`. Call `destroy()` from `onDestroy` (or equivalent); it unsubscribes and stops in-flight work, and is safe to call repeatedly.
+- `createChatStore(config)` — returns a `Readable<ChatState>` (`$chat.messages`, `$chat.status`, `$chat.input`) plus actions `send(string | ContentPart[])`, `setInput(v)`, `stop`, `retry`, `clear`, `decide`, `approve`, `deny`, `edit`, `regenerate`, `destroy`. Call `destroy()` from `onDestroy` (or equivalent); it unsubscribes and stops in-flight work, and is safe to call repeatedly.
 - Headless components (Svelte 5, `data-ak-*` only): `ChatContainer`, `Message`, `InputBar` (blocks submit/Enter while streaming), `Markdown`, `CodeBlock`, `ToolCallView` (`aria-expanded` on the toggle), `ThinkingIndicator`, `ToolConfirmation`.
+
+Durable confirmations use `chat.decide(toolCallId, 'approve' | 'deny', reason?)` with a conversation-scoped `decisionStore` in the chat configuration. Like `send`, this action rejects after `destroy()`. See [core durable decisions](../core/README.md#durable-confirmations-and-content-parts) for storage and operational recovery requirements.
 
 ## Ecosystem
 
