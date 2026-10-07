@@ -51,3 +51,33 @@ Source evidence is tied to the product files in the local implementation commit,
 - **Not applicable:** UI/browser/visual approval, external accounts, release/deployment/publication.
 
 State at handoff: implementation and local verification, **AWAITING_HUMAN_APPROVAL**. Next action: coordinator/human reviews the API, ADR and evidence, runs combined integration acceptance, and decides adoption. No parent-task completion or release approval is claimed.
+
+## CH-E2 — pre-push reconciliation
+
+Approved intent: fix every branch-caused pre-push failure without weakening gates, then commit locally and report. Scope includes downstream binding compatibility, generated freshness artifacts and this note; push, CI, release, external tracking and unrelated baseline defects are excluded. The dispatch specification is the contract; no subagents are used and ORCA_PLAYBOOK.md is absent.
+
+Validation budget: local installed dependencies, Turbo concurrency 2 and one Vitest worker, no CI or real provider calls. E2-01 maps to `pnpm docs:bridge:index` followed by all quality gates; E2-02 maps to repository lint and build; E2-03 maps to final diff/status, local commits, generated-output cleanup and this evidence. Any remaining source failure must be reproduced on clean main `0e1c1aa9` before being classified pre-existing. Coordinator review remains required.
+
+The README standard's core source hash was stale after the README addition. `pnpm readme:standard:refresh -- --preserve-review-dates` updates that single hash without changing rules or review dates. JSDoc (core 263/263), source/test parity, for-agents coverage and ecosystem claims already passed, so no redundant changes were made to them.
+
+Repository lint exposed a branch-caused Svelte wrapper mismatch: its public send type inherits `ChatController['send']`, while the wrapper narrowed input to string. Passing `controller.send` through the existing destroyed-store guard preserves the inherited signature. A store acceptance test exercises parts reaching the adapter and destroyed-store rejection. No rendered component, styling or browser UI changed.
+
+Initial lint failed with Turbo `No space left on device` while replaying/writing logs; it is not source or baseline evidence. The first supplemental public-API snapshot attempt overlapped declaration rebuilding and found missing adapters declarations; the settled-build repeat passed. Current gate reconciliation follows below.
+
+The restart smoke also introduced a cross-platform ratchet violation through direct `child_process`. It now uses the repository's existing built `runCommand` helper without adding any core dependency. Its real ESM/CJS subprocess restart flow and the ratchet both pass. The first quality run failed content-pipeline setup with ENOSPC and live doctor certification after the report/source changed; these results are superseded only by a fresh full run. The first global build overlapped quality-gate recipe dependency rebuilds and temporarily lost net declarations during MCP declaration emission; subsequent validation is sequential.
+
+Svelte checks: client/store 3 files / 22 tests and SSR 1 file / 3 tests passed. Global lint: 60/60 tasks, exit 0. Supplemental public-API check: 19 helper tests and 24 packages / 74 subpaths / 1957 symbols passed. No gate, rule, allowlist or baseline was relaxed.
+
+### Current-source reconciliation
+
+Implementation source: `635f1cd2246bd04dc50270abc9d0bc8899315e87`; commits `baa979fa` (Svelte forwarding, regression, changeset, README hash) and `635f1cd2` (portable restart smoke). Later changes are evidence-only. Run `run_b7f0241f0ec9`, task `task_23303aae1191`, dispatch `ctx_da060ae952c9`.
+
+| Criterion | Status | Current evidence |
+| --- | --- | --- |
+| E2-01 quality gates, unchanged rules | validated | `VITEST_MAX_WORKERS=1 pnpm docs:bridge:index`, then `VITEST_MAX_WORKERS=1 pnpm check:quality-gates`: all 52 gates passed, exit 0; includes real recipe execution, live doctor, README hash and cross-platform ratchet |
+| E2-02 equivalent lint/build | validated | Sequential `VITEST_MAX_WORKERS=1 pnpm lint --concurrency=2 --env-mode=loose` (60/60, zero cache, 1m06s) and `VITEST_MAX_WORKERS=1 pnpm build --concurrency=2 --env-mode=loose` (44/44, 15 cached, 3m32s), exit 0; production docs-next/landing and MCP declaration emission passed |
+| E2-03 local delivery and cleanup | implemented; coordinator review remains | Two small local commits above, patch changeset, this note, final diff/status review; temporary index restored exactly as pre-push does, task-generated API route table restored; raw task logs removed after reconciliation |
+
+**Validated:** all mapped local pre-push checks and Svelte/restart regressions. **Partially validated:** earlier overlapping/ENOSPC attempts are historical failed attempts, superseded by the sequential passing run; no Windows execution is claimed by the local portable smoke. **Not analyzed:** whole-repository test suite, live providers/database, browser interactions, CI or production readiness. **Blocked:** none in the local CH-E2 acceptance flow. **Not applicable:** UI rendering/visual approval (store forwarding and process smoke only), release, push, PR and external tracking.
+
+No remaining source failure requires a main exception; clean-main checks were therefore unnecessary and no failure is claimed to be pre-existing. The coordinator freed its own temporary artifacts/Docker build cache after the ENOSPC escalation; this worker neither deleted ambiguous files nor killed another worker's processes. Source revision is unchanged by this final evidence note; its documentation/index checks are repeated before settlement. Stored Doc Bridge outputs remain temporary validation artifacts and the push hook regenerates them before checking. State: **AWAITING_HUMAN_APPROVAL**; next action is coordinator evidence review and the authorized coordinator-owned push.
