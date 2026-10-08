@@ -31,11 +31,12 @@ export function ollama(config: OllamaConfig): AdapterFactory {
       multiModal: config.multiModal ?? (model.includes('llava') || model.includes('vision')),
     },
     createSource: (request: AdapterRequest): StreamSource => {
+      const warning = { emitted: false }
       const body = {
         model,
         stream: true,
         messages: request.messages.map(message => {
-          const parts = providerParts(message, 'ollama', config.multiModal ?? (model.includes('llava') || model.includes('vision')))
+          const parts = providerParts(message, 'ollama', config.multiModal ?? (model.includes('llava') || model.includes('vision')), warning)
           const images = parts?.filter(part => part.image !== undefined).map(part => part.image)
           return {
             role: message.role,

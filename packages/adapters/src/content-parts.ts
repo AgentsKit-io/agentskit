@@ -26,12 +26,23 @@ function dataSource(part: Exclude<ContentPart, { type: 'text' }>, provider: Prov
   return { mimeType: match[1]!, data: match[2]! }
 }
 
-/** Serialize ordered parts, falling back to content when binary parts cannot be sent. */
-export function providerParts(message: Message, provider: Provider, multiModal = true): Array<Record<string, unknown>> | undefined {
+/** Serialize ordered parts, using short text markers when binary parts cannot be sent. */
+export function providerParts(message: Message, provider: Provider, multiModal = true, warning?: { emitted: boolean }): Array<Record<string, unknown>> | undefined {
   if (!message.parts?.length) return undefined
-  if ((!multiModal || (provider === 'openai' && message.role === 'assistant')) && message.parts.some(part => part.type !== 'text')) {
-    console.warn(`${provider}: binary content parts omitted; using message.content text fallback`)
-    return undefined
+  if ((!multiModal || ((provider === 'openai' || provider === 'anthropic') && message.role === 'assistant')) && message.parts.some(part => part.type !== 'text')) {
+    if (!warning?.emitted) {
+      console.warn(`${provider}: binary content parts omitted; using text fallback`)
+      if (warning) warning.emitted = true
+    }
+    const text = message.parts.map(part => {
+      if (part.type === 'text') return part.text
+      if (part.type === 'file') {
+        const name = part.filename && !/^\s*data:/i.test(part.filename) ? part.filename : 'omitted'
+        return `[file: ${name}]`
+      }
+      return `[${part.type} omitted]`
+    }).join('\n')
+    return provider === 'gemini' ? [{ text }] : [{ type: 'text', text }]
   }
   return message.parts.map(part => {
     if (part.type === 'text') return provider === 'gemini' ? { text: part.text } : { type: 'text', text: part.text }

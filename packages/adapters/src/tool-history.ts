@@ -44,8 +44,9 @@ export function toAnthropicMessages(
   const knownNames = new Map<string, string>()
   const output: Array<{ role: string; content: unknown }> = []
 
+  const warning = { emitted: false }
   for (const message of messages) {
-    const parts = providerParts(message, 'anthropic')
+    const parts = providerParts(message, 'anthropic', true, warning)
     if (message.role === 'system') continue
 
     if (message.role === 'assistant' && message.toolCalls && message.toolCalls.length > 0) {

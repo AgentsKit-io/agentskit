@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "7076e2a630c01c3e0361cd609ebaf04936f8bdf6bcfbed0681a4a66bb8325b4c",
+  "contentHash": "de95fec2af4608ff2a437882c6c08c0cdc82c86637b2a49cc29ce29de2a43cca",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-08T01:09:55.683Z",
+  "generatedAt": "2026-10-08T01:36:58.952Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -2308,7 +2308,7 @@
         "document",
         "human"
       ],
-      "contentHash": "84950026a2850c8197d102d4178b040ee44e8ef3186af200193a8258373711d8"
+      "contentHash": "aeb25b23b2eca677189218974c32d3f042e317c690b4e7c464187c83034601e9"
     },
     {
       "id": "document:apps/docs-next/content/docs/data/providers/openrouter.mdx",
@@ -4431,7 +4431,7 @@
         "document",
         "human"
       ],
-      "contentHash": "247a46146656041fa52a1aff8e9188abc035f7c5b91ce7795c0a07698f32865c"
+      "contentHash": "9eb91d2547f891f6a179bac361fa6a3d23902a822103480f355100cf19758376"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/recipes/open-specs.mdx",
@@ -6902,7 +6902,7 @@
         "document",
         "project"
       ],
-      "contentHash": "13505c354960686695ceb3ce5e8454670a821f9f5d74cd6f83cc1dd7a33d7d25"
+      "contentHash": "337241356418b3cfc59e3fb28afa15beb2a157449e8b1b1257a1a7881fd07557"
     },
     {
       "id": "document:packages/angular/CONVENTIONS.md",
@@ -14555,7 +14555,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "29ceb47f9fdc2f00244dfd606eb57aa30e8974243d744b707c500548c7f67bd7"
+      "contentHash": "4541c6764430fb8e9e7546cfe457fa26b7ceb8e46debbbddc4c9e02b58d179f2"
     },
     {
       "id": "module:packages/adapters/src/createAdapter.ts",
@@ -15188,7 +15188,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "e1c04dc74efdc2cd8ea98b14caa0fe49bfc857d71aaca384327d3786ad148f7c"
+      "contentHash": "9f1a2e4365a8baf6b3c07d817b0b6fa574eb1d6e3c2c0adbe56ca4c580b4596f"
     },
     {
       "id": "module:packages/adapters/src/openai-compatible.ts",
@@ -15403,7 +15403,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "bbb6d4cfc92b2fbf8cd13bff728fbb3d424d172a7194da0aaa54bcae24dc35bc"
+      "contentHash": "16417cad54eee7d552ed45b70cfb870a2b90b6a45ca67b300bda51b5d89b5f28"
     },
     {
       "id": "module:packages/adapters/src/types.ts",
@@ -15445,7 +15445,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "b6a9e2a99fc39f1f0d21ac787c4cb170f7d9ca955a619d0d5673526eea0185e5"
+      "contentHash": "6bd9abaf3091be58f9c3de4cceb496b21931daa6d0bfce6eb0dd743f0e75869f"
     },
     {
       "id": "module:packages/adapters/src/vercel-ai.ts",
@@ -16017,7 +16017,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "490f09ef097a55b11e1100fed39c63943fa153a5942707f7f2acdfa2e3ce0f4e"
+      "contentHash": "e83d348b812952d2a5fe8d3bf30e6894a5191a11af07cbb3b9f12c7200f521d4"
     },
     {
       "id": "module:packages/adapters/tests/net-migration-http.test.ts",
@@ -38150,7 +38150,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "d9f3f5d67cce0f54684b5fd6b87e1ca81013216f9f62cfe6112450126be913f0",
+    "hash": "24f8bb213b1054a6b0b61251b4ce7f91cb854760740820a7f028a72434cf0c24",
     "fileCount": 2536,
     "projectionVersion": 2
   },
@@ -38173,9 +38173,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "d273bb78f57c5d5f8b6adf02c3b0bd34d3189c392bd7f81282e03f73cbfa4442",
+    "contentHash": "a3281eb0ac9d555bb67038a03f9124810b70d157a35a8577ab54a68a5eeab1b4",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "49c91813bd3caa0bc18ccc4820a8be5637eb793f3bb47e84abe49b0d337b7b61",
+    "snapshotHash": "b7f4c0990a396b5c64bf74375a2406e9ed9de4ef1e20bc36611d78e976d37d2b",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -38207,7 +38207,7 @@
       ],
       "averageFieldLength": {
         "aliases": 3.0144520272982738,
-        "body": 61.252107587314335,
+        "body": 61.262545162585305,
         "headings": 4.014853472501003,
         "path": 7.613809714973906,
         "summary": 4.553191489361702,
@@ -49631,7 +49631,7 @@
           "path": "apps/docs-next/content/docs/data/providers/openai.mdx",
           "symbols": "",
           "summary": "gpt-4o · gpt-4o-mini · gpt-5 · o1 · o3-mini · gpt-4.1.",
-          "body": "Options Option Type Default --- --- --- apiKey string required for openai ; optional for openaiCompatible and Cloudflare presets model string required baseUrl string https://api.openai.com path string /v1/chat/completions ; custom path appended to baseUrl headers HeadersInit additional headers; override defaults case-insensitively fetch typeof fetch global fetch capabilities Partial<AdapterCapabilities model-name defaults; override for compatible models retry RetryOptions package default includeUsage boolean true for the canonical OpenAI host Model examples gpt-4o · gpt-4o-mini · gpt-5 · o1 · o3-mini · gpt-4.1 . Env Var Purpose --- --- OPENAI API KEY API key (standard or session key) Notes - Streaming via SSE; emits text + tool-call + done chunks. - Parallel tool calling enabled by default. - Images: pass message.parts entries { type: 'image', source } (HTTPS/data URL), with optional detail . Files accept data URLs or uploaded file- IDs. See the . - Unsupported modalities/sources raise CAPABILITY UNSUPPORTED when multimodal input is enabled. Text-only models and assistant messages with binary parts use message.content with a warning, preserving older conversations. Explicit capabilities.multiModal overrides model-name heuristics (GPT-4/5, o-series, vision, Gemini and Claude 3+, including provider prefixes); set it for custom models or differing provider support. - openaiCompatible() uses the same transport, with optional apiKey ; omitting it sends no automatic Bearer header. Existing openrouter() remains available, with openRouter() as an alias. - With the default path, trailing /v1 on baseUrl is normalized. With an explicit path , the base URL is preserved (apart from the trailing slash). - Azure OpenAI users should use — different routing. Related - · · — openaiEmbedder - Recipe: Gateway presets cloudflareAiGateway() targets https://gateway.ai.cloudflare.com/v1/{accountId}/{gatewayId}/compat/chat/completions and adds cf-aig-authorization: Bearer {gatewayToken} when supplied. A provider apiKey is optional for gateway-managed keys. workersAi() targets https://api.cloudflare.com/client/v4/accounts/{accountId}/ai/v1/chat/completions with the supplied API token as Bearer, using REST without runtime bindings. openRouter() targets https://openrouter.ai/api/v1/chat/completions . All presets support baseUrl , path , headers , fetch and capability overrides. For catalog dispatch, pass URL variables explicitly: env: { CLOUDFLARE ACCOUNT ID: 'your-account' } . Missing placeholders raise MISSING URL VARIABLE ; no environment variables are read implicitly. URL/header contracts were tested through local HTTP capture. Authenticated live OpenRouter, AI Gateway and Workers AI calls remain pending and require separate authorization. See , , and .",
+          "body": "Options Option Type Default --- --- --- apiKey string required for openai ; optional for openaiCompatible and Cloudflare presets model string required baseUrl string https://api.openai.com path string /v1/chat/completions ; custom path appended to baseUrl headers HeadersInit additional headers; override defaults case-insensitively fetch typeof fetch global fetch capabilities Partial<AdapterCapabilities model-name defaults; override for compatible models retry RetryOptions package default includeUsage boolean true for the canonical OpenAI host Model examples gpt-4o · gpt-4o-mini · gpt-5 · o1 · o3-mini · gpt-4.1 . Env Var Purpose --- --- OPENAI API KEY API key (standard or session key) Notes - Streaming via SSE; emits text + tool-call + done chunks. - Parallel tool calling enabled by default. - Images: pass message.parts entries { type: 'image', source } (HTTPS/data URL), with optional detail . Files accept data URLs or uploaded file- IDs. See the . - Unsupported modalities/sources raise CAPABILITY UNSUPPORTED when multimodal input is enabled. Text-only models and assistant messages with binary parts use text parts and short attachment markers, omitting binary data and data URLs, with at most one warning per request, preserving older conversations. Explicit capabilities.multiModal overrides model-name heuristics (GPT-4/5, o-series, vision, Gemini and Claude 3+, including provider prefixes); set it for custom models or differing provider support. - openaiCompatible() uses the same transport, with optional apiKey ; omitting it sends no automatic Bearer header. Existing openrouter() remains available, with openRouter() as an alias. - With the default path, trailing /v1 on baseUrl is normalized. With an explicit path , the base URL is preserved (apart from the trailing slash). - Azure OpenAI users should use — different routing. Related - · · — openaiEmbedder - Recipe: Gateway presets cloudflareAiGateway() targets https://gateway.ai.cloudflare.com/v1/{accountId}/{gatewayId}/compat/chat/completions and adds cf-aig-authorization: Bearer {gatewayToken} when supplied. A provider apiKey is optional for gateway-managed keys. workersAi() targets https://api.cloudflare.com/client/v4/accounts/{accountId}/ai/v1/chat/completions with the supplied API token as Bearer, using REST without runtime bindings. openRouter() targets https://openrouter.ai/api/v1/chat/completions . All presets support baseUrl , path , headers , fetch and capability overrides. For catalog dispatch, pass URL variables explicitly: env: { CLOUDFLARE ACCOUNT ID: 'your-account' } . Missing placeholders raise MISSING URL VARIABLE ; no environment variables are read implicitly. URL/header contracts were tested through local HTTP capture. Authenticated live OpenRouter, AI Gateway and Workers AI calls remain pending and require separate authorization. See , , and .",
           "aliases": "document human"
         },
         "graph": {
@@ -49674,7 +49674,7 @@
             }
           ]
         },
-        "contentHash": "84950026a2850c8197d102d4178b040ee44e8ef3186af200193a8258373711d8",
+        "contentHash": "aeb25b23b2eca677189218974c32d3f042e317c690b4e7c464187c83034601e9",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -63654,7 +63654,7 @@
           "path": "apps/docs-next/content/docs/reference/recipes/multi-modal.mdx",
           "symbols": "",
           "summary": "Every provider has its own multi-modal shape. OpenAI wants { type: 'image_url', image_url: {...} }, Anthropic wants { type: 'image', source: {...} }, Gemini wants parts-with-inline- data. @agentskit/core provides a provider-neutral ContentPart model.",
-          "body": "Every provider has its own multi-modal shape. OpenAI wants { type: 'image url', image url: {...} } , Anthropic wants { type: 'image', source: {...} } , Gemini wants parts-with-inline- data. @agentskit/core provides a provider-neutral ContentPart model. The adapters listed below serialize supported image/file parts and reject unsupported inputs with CapabilityUnsupportedError ( code: CAPABILITY UNSUPPORTED ) from createSource , before network I/O. Audio/video builders exist in core; these adapters do not yet send them. Text-only models fall back to message.content with a warning, so existing image/file histories remain usable. OpenAI assistant binary parts also use this text fallback. Explicit capabilities.multiModal overrides OpenAI-compatible model-name heuristics. Install Built into @agentskit/core . Build a multi-modal message Part kinds Builder type Notes --------- -------- ------- textPart(text) 'text' Plain text segment imagePart(src, { mimeType?, detail? }) 'image' Data URL, http(s), or provider-hosted id audioPart(src, { durationSec? }) 'audio' videoPart(src, { durationSec? }) 'video' filePart(src, { filename?, mimeType? }) 'file' Support depends on the adapter and source format below Tested adapter capabilities This table is generated from packages/adapters/tests/multimodal-http.test.ts and checked against its HTTP payload cases. It proves serialization to a local server, not acceptance or inference quality on a live provider. Adapter Image wire format File wire format Tested sources / limits --- --- --- --- openai image url file image URL/data URL; file data URL/id openai-compatible image url file same wire format; opt into model capability anthropic image document image URL/data URL; PDF URL/data URL; text data URL gemini inlineData/fileData inlineData/fileData data URL or provider URI with MIME type vertex inlineData/fileData inlineData/fileData data URL or provider URI with MIME type ollama images image data URL only image data URL only; vision model required; PDF rejected For user/assistant messages, parts replace the legacy content projection when present; their order is preserved. Messages without parts keep the previous wire format. OpenAI-compatible custom models must opt into capabilities: { multiModal: true } ; transport compatibility alone says nothing about the upstream model. Ollama accepts multiModal: true for vision models whose names do not match the default llava / vision heuristic. An Ollama file part containing an image data URL is sent in images ; PDFs and other files are rejected. Remote image URLs are not fetched by the adapter. Gemini/Vertex remote sources require mimeType and a provider-accessible URI ( https:// or gs:// ); data URLs supply their own MIME type. Anthropic accepts PDFs and inline UTF-8 text documents; other file MIME types are rejected. OpenAI Chat Completions accepts file data URLs or uploaded file- identifiers, not remote file URLs. Uploading and resolving storage references is the caller's responsibility. Provider-hosted image identifiers, audio and video are currently rejected. Model-specific MIME/size/access limits still apply upstream. See the provider wire contracts: , , , , and . See also - -",
+          "body": "Every provider has its own multi-modal shape. OpenAI wants { type: 'image url', image url: {...} } , Anthropic wants { type: 'image', source: {...} } , Gemini wants parts-with-inline- data. @agentskit/core provides a provider-neutral ContentPart model. The adapters listed below serialize supported image/file parts and reject unsupported inputs with CapabilityUnsupportedError ( code: CAPABILITY UNSUPPORTED ) from createSource , before network I/O. Audio/video builders exist in core; these adapters do not yet send them. Text-only models fall back to text parts and short attachment markers, omitting binary data and data URLs, with at most one warning per request, so existing image/file histories remain usable. OpenAI and Anthropic assistant binary parts also use this text fallback. Explicit capabilities.multiModal overrides OpenAI-compatible model-name heuristics. Install Built into @agentskit/core . Build a multi-modal message Part kinds Builder type Notes --------- -------- ------- textPart(text) 'text' Plain text segment imagePart(src, { mimeType?, detail? }) 'image' Data URL, http(s), or provider-hosted id audioPart(src, { durationSec? }) 'audio' videoPart(src, { durationSec? }) 'video' filePart(src, { filename?, mimeType? }) 'file' Support depends on the adapter and source format below Tested adapter capabilities This table is generated from packages/adapters/tests/multimodal-http.test.ts and checked against its HTTP payload cases. It proves serialization to a local server, not acceptance or inference quality on a live provider. Adapter Image wire format File wire format Tested sources / limits --- --- --- --- openai image url file image URL/data URL; file data URL/id openai-compatible image url file same wire format; opt into model capability anthropic image document image URL/data URL; PDF URL/data URL; text data URL gemini inlineData/fileData inlineData/fileData data URL or provider URI with MIME type vertex inlineData/fileData inlineData/fileData data URL or provider URI with MIME type ollama images image data URL only image data URL only; vision model required; PDF rejected For user/assistant messages, parts replace the legacy content projection when present; their order is preserved. Messages without parts keep the previous wire format. OpenAI-compatible custom models must opt into capabilities: { multiModal: true } ; transport compatibility alone says nothing about the upstream model. Ollama accepts multiModal: true for vision models whose names do not match the default llava / vision heuristic. An Ollama file part containing an image data URL is sent in images ; PDFs and other files are rejected. Remote image URLs are not fetched by the adapter. Gemini/Vertex remote sources require mimeType and a provider-accessible URI ( https:// or gs:// ); data URLs supply their own MIME type. Anthropic accepts PDFs and inline UTF-8 text documents; other file MIME types are rejected. OpenAI Chat Completions accepts file data URLs or uploaded file- identifiers, not remote file URLs. Uploading and resolving storage references is the caller's responsibility. Provider-hosted image identifiers, audio and video are currently rejected. Model-specific MIME/size/access limits still apply upstream. See the provider wire contracts: , , , , and . See also - -",
           "aliases": "document human"
         },
         "graph": {
@@ -63686,7 +63686,7 @@
             }
           ]
         },
-        "contentHash": "247a46146656041fa52a1aff8e9188abc035f7c5b91ce7795c0a07698f32865c",
+        "contentHash": "9eb91d2547f891f6a179bac361fa6a3d23902a822103480f355100cf19758376",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -76883,7 +76883,7 @@
           "path": "packages/adapters/README.md",
           "symbols": "",
           "summary": "Profile: <code>major-package</code>",
-          "body": "@agentskit/adapters Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Connect to any LLM provider — and swap between them — without touching your app code. Tags: ai · agents · llm · agentskit · openai · anthropic · claude · gemini · chatgpt · ollama · embeddings · providers Verified proof - Package metadata and tests live under packages/adapters/ . - Package guide: https://www.agentskit.io/docs/reference/packages/adapters - Stability map: How this fits the ecosystem @agentskit/adapters is the provider layer: swap OpenAI, Anthropic, Gemini, Ollama, local models, and embedding providers without rewriting your agent. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why adapters - Vendor independence — switch from OpenAI to Anthropic to a local Ollama model by changing one line; your hooks, runtime, and tools stay untouched - 25 native adapters in the catalog — Anthropic, OpenAI, Gemini, Ollama, DeepSeek, Grok, Kimi, Mistral, Cohere, Together, Groq, Fireworks, OpenRouter, Hugging Face, LM Studio, vLLM, llama.cpp, LangChain, Vercel AI SDK, and additional compatible providers - Embedder functions built in — the same adapter pattern covers text embeddings, so you can reuse provider config for both chat and RAG - One-line local AI — ollama({ model: 'llama3.1' }) for fully offline agents with no API key required - CLI-backed agents — @agentskit/adapters/cli normalizes text, JSON, and ACP-based local LLM CLIs - LangChain bridge — @agentskit/adapters/langchain-bridge turns any adapter into a LangChain BaseChatModel for createAgent Gateway and multimodal transport openaiCompatible({ model, baseUrl, path, headers, fetch }) supports custom OpenAI-compatible endpoints; apiKey is optional and headers override defaults. openRouter aliases openrouter ; cloudflareAiGateway and workersAi supply Cloudflare REST URLs without runtime bindings. Catalog URL variables are supplied explicitly through env , including CLOUDFLARE ACCOUNT ID . OpenAI-compatible, Anthropic, Gemini/Vertex and Ollama serializers read message.parts . Unsupported sources/modalities raise CapabilityUnsupportedError with code: CAPABILITY UNSUPPORTED when multimodal input is enabled. Models without multimodal capability fall back to message.content and log a warning; OpenAI assistant messages containing binary parts also use this text fallback. Explicit capabilities.multiModal takes precedence over model-name heuristics (GPT-4/5, o-series, vision, Gemini and Claude 3+ names, including provider prefixes). Set it explicitly for custom models or providers whose capabilities differ. See the and . These are local wire-format tests; live provider acceptance remains unverified. Install <!-- readme-command:install -- The runtime example below also needs @agentskit/runtime . The RAG example also needs @agentskit/rag , @agentskit/memory , and the optional vectra peer ( npm install @agentskit/rag @agentskit/memory vectra ). Quick example <!-- readme-example:quickstart -- Embeddings (for RAG) Use the same package for vector embeddings — wire openaiEmbedder , geminiEmbedder , or ollamaEmbedder into : Features - Providers: Anthropic, OpenAI, Gemini, Ollama, DeepSeek, Grok, Kimi, Mistral, Cohere, Together, Groq, Fireworks, OpenRouter, Hugging Face, LM Studio, vLLM, llama.cpp, LangChain, LangGraph, Vercel AI SDK, generic ReadableStream - Embedders: openaiEmbedder , geminiEmbedder , ollamaEmbedder , deepseekEmbedder , grokEmbedder , kimiEmbedder , createOpenAICompatibleEmbedder - Fetch-backed adapters run against the shared Adapter contract v1 suite (ADR 0001); SDK-backed adapters have provider-specific contract and resilience coverage",
+          "body": "@agentskit/adapters Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Connect to any LLM provider — and swap between them — without touching your app code. Tags: ai · agents · llm · agentskit · openai · anthropic · claude · gemini · chatgpt · ollama · embeddings · providers Verified proof - Package metadata and tests live under packages/adapters/ . - Package guide: https://www.agentskit.io/docs/reference/packages/adapters - Stability map: How this fits the ecosystem @agentskit/adapters is the provider layer: swap OpenAI, Anthropic, Gemini, Ollama, local models, and embedding providers without rewriting your agent. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why adapters - Vendor independence — switch from OpenAI to Anthropic to a local Ollama model by changing one line; your hooks, runtime, and tools stay untouched - 25 native adapters in the catalog — Anthropic, OpenAI, Gemini, Ollama, DeepSeek, Grok, Kimi, Mistral, Cohere, Together, Groq, Fireworks, OpenRouter, Hugging Face, LM Studio, vLLM, llama.cpp, LangChain, Vercel AI SDK, and additional compatible providers - Embedder functions built in — the same adapter pattern covers text embeddings, so you can reuse provider config for both chat and RAG - One-line local AI — ollama({ model: 'llama3.1' }) for fully offline agents with no API key required - CLI-backed agents — @agentskit/adapters/cli normalizes text, JSON, and ACP-based local LLM CLIs - LangChain bridge — @agentskit/adapters/langchain-bridge turns any adapter into a LangChain BaseChatModel for createAgent Gateway and multimodal transport openaiCompatible({ model, baseUrl, path, headers, fetch }) supports custom OpenAI-compatible endpoints; apiKey is optional and headers override defaults. openRouter aliases openrouter ; cloudflareAiGateway and workersAi supply Cloudflare REST URLs without runtime bindings. Catalog URL variables are supplied explicitly through env , including CLOUDFLARE ACCOUNT ID . OpenAI-compatible, Anthropic, Gemini/Vertex and Ollama serializers read message.parts . Unsupported sources/modalities raise CapabilityUnsupportedError with code: CAPABILITY UNSUPPORTED when multimodal input is enabled. Models without multimodal capability fall back to text parts and short attachment markers, omitting binary data and data URLs, and log at most one warning per request. OpenAI and Anthropic assistant binary parts also use this text fallback. Explicit capabilities.multiModal takes precedence over model-name heuristics (GPT-4/5, o-series, vision, Gemini and Claude 3+ names, including provider prefixes). Set it explicitly for custom models or providers whose capabilities differ. See the and . These are local wire-format tests; live provider acceptance remains unverified. Install <!-- readme-command:install -- The runtime example below also needs @agentskit/runtime . The RAG example also needs @agentskit/rag , @agentskit/memory , and the optional vectra peer ( npm install @agentskit/rag @agentskit/memory vectra ). Quick example <!-- readme-example:quickstart -- Embeddings (for RAG) Use the same package for vector embeddings — wire openaiEmbedder , geminiEmbedder , or ollamaEmbedder into : Features - Providers: Anthropic, OpenAI, Gemini, Ollama, DeepSeek, Grok, Kimi, Mistral, Cohere, Together, Groq, Fireworks, OpenRouter, Hugging Face, LM Studio, vLLM, llama.cpp, LangChain, LangGraph, Vercel AI SDK, generic ReadableStream - Embedders: openaiEmbedder , geminiEmbedder , ollamaEmbedder , deepseekEmbedder , grokEmbedder , kimiEmbedder , createOpenAICompatibleEmbedder - Fetch-backed adapters run against the shared Adapter contract v1 suite (ADR 0001)",
           "aliases": "document project"
         },
         "graph": {
@@ -77120,7 +77120,7 @@
             }
           ]
         },
-        "contentHash": "13505c354960686695ceb3ce5e8454670a821f9f5d74cd6f83cc1dd7a33d7d25",
+        "contentHash": "337241356418b3cfc59e3fb28afa15beb2a157449e8b1b1257a1a7881fd07557",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -104892,7 +104892,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "29ceb47f9fdc2f00244dfd606eb57aa30e8974243d744b707c500548c7f67bd7",
+        "contentHash": "4541c6764430fb8e9e7546cfe457fa26b7ceb8e46debbbddc4c9e02b58d179f2",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -108162,7 +108162,7 @@
             }
           ]
         },
-        "contentHash": "e1c04dc74efdc2cd8ea98b14caa0fe49bfc857d71aaca384327d3786ad148f7c",
+        "contentHash": "9f1a2e4365a8baf6b3c07d817b0b6fa574eb1d6e3c2c0adbe56ca4c580b4596f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -109494,7 +109494,7 @@
             }
           ]
         },
-        "contentHash": "bbb6d4cfc92b2fbf8cd13bff728fbb3d424d172a7194da0aaa54bcae24dc35bc",
+        "contentHash": "16417cad54eee7d552ed45b70cfb870a2b90b6a45ca67b300bda51b5d89b5f28",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -109734,7 +109734,7 @@
             }
           ]
         },
-        "contentHash": "b6a9e2a99fc39f1f0d21ac787c4cb170f7d9ca955a619d0d5673526eea0185e5",
+        "contentHash": "6bd9abaf3091be58f9c3de4cceb496b21931daa6d0bfce6eb0dd743f0e75869f",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -111847,7 +111847,7 @@
             }
           ]
         },
-        "contentHash": "490f09ef097a55b11e1100fed39c63943fa153a5942707f7f2acdfa2e3ce0f4e",
+        "contentHash": "e83d348b812952d2a5fe8d3bf30e6894a5191a11af07cbb3b9f12c7200f521d4",
         "provenance": "observed",
         "confidence": "observed"
       },

@@ -51,8 +51,9 @@ explicitly through `env`, including `CLOUDFLARE_ACCOUNT_ID`.
 OpenAI-compatible, Anthropic, Gemini/Vertex and Ollama serializers read
 `message.parts`. Unsupported sources/modalities raise `CapabilityUnsupportedError`
 with `code: CAPABILITY_UNSUPPORTED` when multimodal input is enabled. Models
-without multimodal capability fall back to `message.content` and log a warning;
-OpenAI assistant messages containing binary parts also use this text fallback.
+without multimodal capability fall back to text parts and short attachment markers,
+omitting binary data and data URLs, and log at most one warning per request.
+OpenAI and Anthropic assistant binary parts also use this text fallback.
 Explicit `capabilities.multiModal` takes precedence over model-name heuristics
 (GPT-4/5, o-series, vision, Gemini and Claude 3+ names, including provider prefixes).
 Set it explicitly for custom models or providers whose capabilities differ.

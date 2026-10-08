@@ -25,8 +25,9 @@ export function toProviderMessages(messages: Message[], multiModal = true) {
   const knownToolCallIds = new Set<string>()
   const output: Array<Record<string, unknown>> = []
 
+  const warning = { emitted: false }
   for (const message of messages) {
-    const parts = providerParts(message, 'openai', multiModal)
+    const parts = providerParts(message, 'openai', multiModal, warning)
     const content = parts ?? message.content
     if (message.role === 'tool') {
       const id = message.toolCallId

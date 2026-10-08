@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs'
 import { createServer, type IncomingHttpHeaders } from 'node:http'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
-import type { AdapterFactory, ContentPart, Message } from '@agentskit/core'
+import { partsToText, type AdapterFactory, type ContentPart, type Message } from '@agentskit/core'
 import { openai } from '../src/openai'
 import { openaiCompatible } from '../src/openai-compatible'
 import { anthropic } from '../src/anthropic'
@@ -23,7 +23,7 @@ export const multimodalCases = [
 const png = 'data:image/png;base64,aW1hZ2U='
 const pdf = 'data:application/pdf;base64,cGRm'
 function message(parts: ContentPart[], role: Message['role'] = 'user'): Message {
-  return { id: 'synthetic', role, content: 'legacy projection', parts, status: 'complete', createdAt: new Date(0) }
+  return { id: 'synthetic', role, content: partsToText(parts), parts, status: 'complete', createdAt: new Date(0) }
 }
 let server: ReturnType<typeof createServer>
 let baseUrl: string
@@ -103,7 +103,9 @@ describe('multimodal HTTP contract', () => {
     const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
     try {
       const adapter = openai({ apiKey: 'synthetic', model, baseUrl, ...(multiModal === undefined ? {} : { capabilities: { multiModal } }) })
-      const messages = [message([{ type: 'image', source: png }, { type: 'file', source: pdf }]),
+      const messages = [message([{ type: 'text', text: 'inspect' }, { type: 'image', source: png }, { type: 'file', source: pdf, filename: 'sample.pdf' }]),
+        message([{ type: 'image', source: png }]),
+        message([{ type: 'file', source: pdf }]),
         { ...message([], 'assistant'), content: 'old answer' },
         { ...message([{ type: 'text', text: 'followup' }]), content: 'followup' }]
       const before = JSON.stringify(messages)
@@ -111,23 +113,61 @@ describe('multimodal HTTP contract', () => {
       for await (const chunk of adapter.createSource({ messages }).stream()) chunks.push(chunk)
       expect(chunks.at(-1)?.type).toBe('done')
       expect(captured[0]?.body.messages).toEqual([
-        { role: 'user', content: 'legacy projection' }, { role: 'assistant', content: 'old answer' },
+        { role: 'user', content: [{ type: 'text', text: 'inspect\n[image omitted]\n[file: sample.pdf]' }] },
+        { role: 'user', content: [{ type: 'text', text: '[image omitted]' }] },
+        { role: 'user', content: [{ type: 'text', text: '[file: omitted]' }] },
+        { role: 'assistant', content: 'old answer' },
         { role: 'user', content: [{ type: 'text', text: 'followup' }] },
       ])
-      expect(warning).toHaveBeenCalledWith(expect.stringContaining('text fallback'))
+      expect(warning).toHaveBeenCalledExactlyOnceWith(expect.stringContaining('text fallback'))
+      expect(JSON.stringify(captured[0]?.body)).not.toContain('data:')
+      expect(JSON.stringify(captured[0]?.body)).not.toContain('aW1hZ2U=')
+      for await (const _chunk of adapter.createSource({ messages }).stream()) { /* drain */ }
+      expect(warning).toHaveBeenCalledTimes(2)
       expect(JSON.stringify(messages)).toBe(before)
     } finally { warning.mockRestore() }
   })
-  it('omits binary assistant parts while preserving text and tool calls', async () => {
+  it.each(['openai', 'anthropic'])('%s omits binary assistant parts while preserving text and tool calls', async provider => {
     const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
     try {
       const messages = [message([{ type: 'image', source: png }], 'assistant'),
-        { ...message([{ type: 'file', source: pdf }], 'assistant'), toolCalls: [{ id: 'call', name: 'inspect', args: {}, status: 'complete' as const }] }]
-      for await (const _chunk of openai({ apiKey: 'synthetic', model: 'gpt-4o', baseUrl }).createSource({ messages }).stream()) { /* drain */ }
+        { ...message([{ type: 'text', text: 'checking' }, { type: 'file', source: pdf, filename: 'sample.pdf' }], 'assistant'), toolCalls: [{ id: 'call', name: 'inspect', args: {}, status: 'complete' as const }] }]
+      const adapter = provider === 'openai' ? openai({ apiKey: 'synthetic', model: 'gpt-4o', baseUrl }) : anthropic({ apiKey: 'synthetic', model: 'claude', baseUrl })
+      for await (const _chunk of adapter.createSource({ messages }).stream()) { /* drain */ }
+      const text = { type: 'text', text: 'checking\n[file: sample.pdf]' }
       expect(captured[0]?.body.messages).toEqual([
-        { role: 'assistant', content: 'legacy projection' },
-        { role: 'assistant', content: 'legacy projection', tool_calls: [{ id: 'call', type: 'function', function: { name: 'inspect', arguments: '{}' } }] },
+        { role: 'assistant', content: [{ type: 'text', text: '[image omitted]' }] },
+        provider === 'openai'
+          ? { role: 'assistant', content: [text], tool_calls: [{ id: 'call', type: 'function', function: { name: 'inspect', arguments: '{}' } }] }
+          : { role: 'assistant', content: [text, { type: 'tool_use', id: 'call', name: 'inspect', input: {} }] },
       ])
+      expect(warning).toHaveBeenCalledOnce()
+      expect(JSON.stringify(captured[0]?.body)).not.toContain('data:')
+    } finally { warning.mockRestore() }
+  })
+  it('Ollama text-only requests omit binary sources and warn once per request', async () => {
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    try {
+      const messages = [
+        message([{ type: 'image', source: png }]),
+        message([{ type: 'text', text: 'inspect' }, { type: 'file', source: pdf, filename: 'sample.pdf' }]),
+        message([{ type: 'file', source: pdf }]),
+      ]
+      const before = JSON.stringify(messages)
+      expect(messages[0]!.content).toBe(partsToText(messages[0]!.parts!))
+      expect(messages[0]!.content).toContain(png)
+      const adapter = ollama({ model: 'llama3.1', baseUrl })
+      for await (const _chunk of adapter.createSource({ messages }).stream()) { /* drain */ }
+      expect(captured[0]?.body.messages).toEqual([
+        { role: 'user', content: '[image omitted]' },
+        { role: 'user', content: 'inspect\n[file: sample.pdf]' },
+        { role: 'user', content: '[file: omitted]' },
+      ])
+      expect(warning).toHaveBeenCalledOnce()
+      expect(JSON.stringify(captured[0]?.body)).not.toContain('data:')
+      expect(JSON.stringify(messages)).toBe(before)
+      for await (const _chunk of adapter.createSource({ messages }).stream()) { /* drain */ }
+      expect(warning).toHaveBeenCalledTimes(2)
     } finally { warning.mockRestore() }
   })
   it('custom gateway path/headers/fetch preserves streaming and usage without Bearer', async () => {
