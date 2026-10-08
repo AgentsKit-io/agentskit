@@ -116,6 +116,21 @@ persistence succeeds.
 - `milvusVectorStore` — Milvus/Zilliz REST API.
 - `mongoAtlasVectorStore` — MongoDB Atlas Vector Search with an injected collection.
 
+Mongo Atlas writes use ordered `_id` upserts when the collection provides
+`bulkWrite` or `updateOne`. Repeating an ID replaces the adapter-owned
+`content`, embedding, and `metadata` fields while preserving unrelated fields
+on the Mongo document; duplicate IDs in one batch resolve to the last document
+in input order. Older insert-only shims keep their insert behavior and cannot
+promise repeated-ID replacement.
+
+The Vectra file adapter uses stable native IDs when the installed Vectra
+version provides `upsertItem`. Older versions use insert-only writes, so
+legacy random-ID duplicates are not automatically removed. Adapter-owned
+`_id` and `content` metadata values take precedence over caller metadata with
+those names. Core `VectorSearchOptions.filter` is not yet translated by every
+remote vector adapter; consult the adapter implementation before relying on a
+filter to separate results.
+
 Vector adapters follow ADR 0003: a result is included only when its score is
 strictly greater than `threshold`. Remote HTTP adapters accept `timeoutMs` and
 `maxResponseBytes`, defaulting to 15 seconds and 2 MiB; both require positive
@@ -123,7 +138,20 @@ safe integers. Injected `fetch` and caller `signal` are also supported. Timeout
 and response-limit failures use `AK_MEMORY_REMOTE_HTTP`. File KV writes are
 atomic and serialized across instances in one process. They are not a
 multi-process coordination primitive; use SQLite, Redis, or another external
-store when several processes write the same file.
+store when several processes write the same file. SQLite KV writes include
+eviction in a transaction when the configured SQLite opener exposes native
+transactions; simpler injected openers retain their non-transactional path.
+File rename publication is atomic on the same filesystem, but writes are not
+fsync-backed and the in-process queue does not coordinate separate processes.
+The localStorage backend uses synchronous storage read-modify-write and
+expiration purges for same-event-loop calls, but does not coordinate writes
+across browser tabs.
+
+Vector KV TTL hides expired entries from `get` and `recall` but does not
+physically delete their vector rows. TTL recall uses bounded over-fetch and
+returns at most `k`; it cannot guarantee that it finds every live row if more
+than the over-fetch window is occupied by expired or foreign-collection
+results. `maxMessages` eviction is not enforced by this vector KV adapter.
 
 Same 3-method `VectorStore` contract — swap without touching agent code.
 
