@@ -61,8 +61,8 @@ npm install @agentskit/mcp@0.4.10
 
 ## Primary exports
 
-- `createAgentsKitMcpServer({ tools, serverInfo?, onEvent?, transport? })` —
-  expose `ToolDefinition[]` as an MCP server. Defaults to stdio over the current
+- `createAgentsKitMcpServer({ tools, serverInfo?, onEvent?, transport?, authorizeToolCall? })` —
+  expose `McpToolDefinition[]` as an MCP server. Defaults to stdio over the current
   process; pass `transport` to override (tests / custom hosts).
 - `processStdio()` — adapt the Node process into the `StdioLikeProcess` the
   transport expects (server receives on stdin, sends on stdout).
@@ -76,6 +76,27 @@ npm install @agentskit/mcp@0.4.10
 - `fetchAgentSkill(id, fetchImpl?)` — fetch a registry agent's runnable skill
   (hosted index, raw-GitHub fallback); `null` for tool-composing agents. An
   optional third argument controls abort, timeout, and response-byte limits.
+
+Pass `authorizeToolCall` to `createAgentsKitMcpServer` to obtain host approval
+for tools marked `requiresConfirmation`. It has the same type as
+`McpServerOptions['authorizeToolCall']`: `(tool, args) => boolean | Promise<boolean>`.
+Arguments are validated first. Only confirmation-required tools invoke the
+hook; absent hooks, denied approvals, throws, and rejected promises prevent
+execution. The host must obtain the required human confirmation before
+returning `true`; annotations do not replace that decision.
+
+`McpToolDefinition` (from `@agentskit/tools/mcp`) extends the core tool
+shape with optional `title` and `annotations`: `title`, `readOnlyHint`,
+`destructiveHint`, `idempotentHint`, and `openWorldHint`. Server listing and
+client import preserve these fields, including explicit `false` hints.
+Imported titles use the existing `maxDescriptionBytes` UTF-8 limit; malformed
+metadata is rejected. Hints remain untrusted advisory data and never grant
+confirmation or alter execution policy.
+
+These fields follow the [MCP tool metadata specification](https://modelcontextprotocol.io/specification/2025-06-18/server/tools).
+They are optional descriptor extensions on the existing `2024-11-05` bridge;
+older clients may ignore unknown fields. This does not add negotiation or
+other features from newer protocol revisions.
 
 ## Bin
 

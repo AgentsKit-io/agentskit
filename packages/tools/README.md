@@ -168,6 +168,19 @@ set.
   unless `exposeErrors: true` is explicitly enabled for trusted development.
 - Stdio + in-memory transports. HTTP/SSE adapters are host-owned.
 
+`McpToolDefinition` (from `@agentskit/tools/mcp`) extends the core tool
+shape with optional `title` and `annotations`: `title`, `readOnlyHint`,
+`destructiveHint`, `idempotentHint`, and `openWorldHint`. Server listing and
+client import preserve these fields, including explicit `false` hints.
+Imported titles use the existing `maxDescriptionBytes` UTF-8 limit; malformed
+metadata is rejected. Hints remain untrusted advisory data and never grant
+confirmation or alter execution policy.
+
+These fields follow the [MCP tool metadata specification](https://modelcontextprotocol.io/specification/2025-06-18/server/tools).
+They are optional descriptor extensions on the existing `2024-11-05` bridge;
+older clients may ignore unknown fields. This does not add negotiation or
+other features from newer protocol revisions.
+
 #### Supported MCP protocol matrix
 
 | Protocol revision | Lifecycle | Supported transports | Supported methods | Explicitly outside this bridge |

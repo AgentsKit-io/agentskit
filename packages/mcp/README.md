@@ -101,6 +101,27 @@ createAgentsKitMcpServer({ tools: [fetchUrl()] }) // stdio by default
 
 Pass `transport` to use a custom MCP transport (e.g. in-memory for tests).
 
+Pass `authorizeToolCall` to `createAgentsKitMcpServer` to obtain host approval
+for tools marked `requiresConfirmation`. It has the same type as
+`McpServerOptions['authorizeToolCall']`: `(tool, args) => boolean | Promise<boolean>`.
+Arguments are validated first. Only confirmation-required tools invoke the
+hook; absent hooks, denied approvals, throws, and rejected promises prevent
+execution. The host must obtain the required human confirmation before
+returning `true`; annotations do not replace that decision.
+
+`McpToolDefinition` (from `@agentskit/tools/mcp`) extends the core tool
+shape with optional `title` and `annotations`: `title`, `readOnlyHint`,
+`destructiveHint`, `idempotentHint`, and `openWorldHint`. Server listing and
+client import preserve these fields, including explicit `false` hints.
+Imported titles use the existing `maxDescriptionBytes` UTF-8 limit; malformed
+metadata is rejected. Hints remain untrusted advisory data and never grant
+confirmation or alter execution policy.
+
+These fields follow the [MCP tool metadata specification](https://modelcontextprotocol.io/specification/2025-06-18/server/tools).
+They are optional descriptor extensions on the existing `2024-11-05` bridge;
+older clients may ignore unknown fields. This does not add negotiation or
+other features from newer protocol revisions.
+
 ## Expose whole agents (agents as MCP tools)
 
 Run a registry agent server-side and expose it as a single MCP tool — the host
