@@ -438,7 +438,7 @@ import type {
     },
     async decide(tid, decision, reason) {
       const { decide } = await import('./controller-decision-internal.js')
-      await pendingRegistration
+      await pendingRegistration.catch(() => {})
       let loadedLive = false
       let loadedGeneration = gen
       return decide(tid, decision, reason, {
@@ -456,10 +456,13 @@ import type {
         persist: correlation => persist(state.messages, correlation, true), resume,
         prepare: async (messages, reconcile) => {
           const useLive = loadedLive || state.messages.length > 0 || gen !== loadedGeneration
-          const next = reconcile(useLive ? state.messages : messages)
+          const current = useLive ? state.messages : messages
+          const next = reconcile(state.status === 'streaming' ? current : current.map(message =>
+            message.status === 'streaming' ? { ...message, status: 'complete' as const } : message,
+          ))
           if (!next) return undefined
           set(current => ({ ...current, messages: next, error: null }))
-          return { generation: gen, correlation: activeCorrelation }
+          return { generation: gen, correlation: state.status === 'streaming' ? activeCorrelation : beginRun() }
         },
       })
     },

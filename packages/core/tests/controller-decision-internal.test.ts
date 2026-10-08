@@ -1,6 +1,6 @@
 import { describe, it, expect, vi } from 'vitest'
 import { createChatController, createInMemoryMemory, imagePart, filePart, textPart } from '../src/index'
-import type { AdapterFactory, AdapterRequest, ToolDecisionRecord, ToolDecisionStore, ChatConfig } from '../src/index'
+import type { AdapterFactory, AdapterRequest, ToolDecisionRecord, ToolDecisionStore, ChatConfig, StreamChunk } from '../src/index'
 import { createMockAdapter } from './helpers'
 
 const copy = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T
@@ -44,6 +44,110 @@ function fixture(overrides: Partial<ChatConfig> = {}) {
 const proposal = { id: 'call-1', name: 'write', args: { value: 7 } }
 
 describe('durable controller decisions', () => {
+  it('continues an auto-run turn despite an older undecided confirmation', async () => {
+    const requests: AdapterRequest[] = []
+    const weather = vi.fn(() => 'sunny')
+    const { config } = fixture({ tools: [
+      { name: 'write', requiresConfirmation: true, execute: () => 'stored' },
+      { name: 'weather', execute: weather },
+    ] })
+    const chat = createChatController({ ...config, adapter: {
+      createSource(request) {
+        requests.push(request)
+        let chunks: StreamChunk[] = [{ type: 'text', content: 'Sunny today' }]
+        if (requests.length === 1) chunks = [{ type: 'tool_call', toolCall: { ...proposal, args: '{}' } }]
+        if (requests.length === 2) chunks = [{ type: 'tool_call', toolCall: { id: 'weather', name: 'weather', args: '{}' } }]
+        return createMockAdapter([...chunks, { type: 'done' }]).createSource(request)
+      },
+    } })
+    await chat.send('write')
+    await chat.send('weather?')
+    expect(requests).toHaveLength(3)
+    expect(weather).toHaveBeenCalledTimes(1)
+    expect(chat.getState().messages.flatMap(message => message.toolCalls ?? []).find(call => call.id === proposal.id)?.status).toBe('requires_confirmation')
+    expect(requests[2].messages.find(message => message.toolCallId === 'weather')?.content).toBe('sunny')
+    expect(chat.getState().messages.at(-1)?.content).toBe('Sunny today')
+  })
+
+  it('resumes the latest decision despite a running call from a superseded generation', async () => {
+    let release = () => {}
+    const gate = new Promise<void>(resolve => { release = resolve })
+    const { config, requests } = fixture({ tools: [
+      { name: 'write', requiresConfirmation: true, execute: () => 'stored' },
+      { name: 'slow', execute: async () => { await gate; return 'old result' } },
+    ] })
+    const chat = createChatController({ ...config, adapter: createMockAdapter([
+      { type: 'tool_call', toolCall: { id: 'old-running', name: 'slow', args: '{}' } }, { type: 'done' },
+    ]) })
+    const sending = chat.send('slow')
+    await vi.waitUntil(() => chat.getState().messages.at(-1)?.toolCalls?.[0].status === 'running')
+    chat.updateConfig({ adapter: config.adapter })
+    try {
+      await chat.send('later')
+      await chat.proposeToolCall(proposal)
+      await chat.decide(proposal.id, 'approve')
+      expect(requests).toHaveLength(2)
+      expect(requests[1].messages.find(message => message.toolCallId === proposal.id)?.content).toBe('stored')
+      expect(requests[1].correlation?.runId).not.toBe(requests[0].correlation?.runId)
+      expect(chat.getState().messages.at(-1)?.content).toBe('Finished')
+    } finally { release(); await sending }
+  })
+
+  it.each(['decide', 'approve', 'deny'] as const)('allows %s after a single pending-registration save failure', async action => {
+    const memory = createInMemoryMemory()
+    const onError = vi.fn()
+    const { chat, config, execute } = fixture({ memory, onError })
+    await chat.proposeToolCall(proposal)
+    const save = memory.save.bind(memory)
+    memory.save = vi.fn().mockRejectedValueOnce(new Error('offline once')).mockImplementation(save)
+    chat.updateConfig({ adapter: createMockAdapter([
+      { type: 'tool_call', toolCall: { ...proposal, id: 'failed-arrival', args: '{}' } }, { type: 'done' },
+    ]) })
+    await chat.send('another write')
+    expect(chat.getState().error).toMatchObject({ code: 'AK_MEMORY_SAVE_FAILED' })
+    expect(onError).toHaveBeenCalledWith(expect.objectContaining({ code: 'AK_MEMORY_SAVE_FAILED' }))
+    expect(await config.decisionStore!.get('failed-arrival')).toBeUndefined()
+    if (action === 'decide') await chat.decide(proposal.id, 'approve')
+    else await chat[action](proposal.id)
+    expect(execute).toHaveBeenCalledTimes(action === 'deny' ? 0 : 1)
+    expect(await config.decisionStore!.get(proposal.id)).toMatchObject({ status: action === 'deny' ? 'denied' : 'complete' })
+    expect(await memory.load()).toEqual(chat.getState().messages)
+  })
+
+  it('completes a persisted streaming assistant after restart and resumes in call order', async () => {
+    const memory = createInMemoryMemory()
+    const { config, requests, execute } = fixture({ memory })
+    const messages = [{ id: 'user', role: 'user' as const, content: 'write twice', createdAt: 1 }, {
+      id: 'interrupted', role: 'assistant' as const, content: 'partial', createdAt: 2, status: 'streaming' as const,
+      toolCalls: [
+        { ...proposal, status: 'requires_confirmation' as const },
+        { ...proposal, id: 'call-2', status: 'requires_confirmation' as const },
+      ],
+    }]
+    await memory.save(messages)
+    for (const call of messages[1].toolCalls!) await config.decisionStore!.putPending({ toolCallId: call.id, status: 'pending', messages })
+    const restarted = createChatController(config)
+    await restarted.decide('call-2', 'approve')
+    expect(requests).toHaveLength(0)
+    await restarted.decide(proposal.id, 'approve')
+    expect(execute).toHaveBeenCalledTimes(2)
+    expect(requests).toHaveLength(1)
+    expect(requests[0].messages.map(message => message.role)).toEqual(['user', 'assistant', 'tool', 'tool', 'assistant'])
+    expect(requests[0].messages.filter(message => message.role === 'tool').map(message => [message.toolCallId, message.content])).toEqual([[proposal.id, 'stored'], ['call-2', 'stored']])
+    expect(restarted.getState().messages.at(-1)?.content).toBe('Finished')
+    expect(await memory.load()).toEqual(restarted.getState().messages)
+  })
+
+  it('replays a denial with a different reason without replacing the recorded reason', async () => {
+    const { chat, config, execute, requests } = fixture()
+    await chat.proposeToolCall(proposal)
+    const first = await chat.decide(proposal.id, 'deny', 'original')
+    expect(await chat.decide(proposal.id, 'deny', 'different')).toEqual(first)
+    expect(await config.decisionStore!.get(proposal.id)).toMatchObject({ reason: 'original' })
+    expect(execute).not.toHaveBeenCalled()
+    expect(requests).toHaveLength(1)
+  })
+
   it.each([[false, true], [true, true], [false, false]])('preserves later turns when restarted=%s, memory=%s', async (restarted, persisted) => {
     const memory = persisted ? createInMemoryMemory() : undefined
     const { chat, config } = fixture({ memory })

@@ -235,7 +235,7 @@ export function createControllerToolLoop({ getConfig, getState, getCorrelation, 
     for (let remaining = getConfig().maxToolIterations ?? 5; remaining > 0; remaining--) {
       const assistant = getState().messages.find(message => message.id === id)
       const calls = assistant?.toolCalls ?? []
-      const waits = getState().messages.some(message => message.toolCalls?.some(call => call.status !== 'complete' && call.status !== 'error'))
+      const waits = getState().messages.slice(getState().messages.findIndex(message => message.id === id)).some(message => message.toolCalls?.some(call => call.status !== 'complete' && call.status !== 'error'))
 
       // Nothing to feed back, or something still awaiting confirmation —
       // stop here; the caller drives the next step.
