@@ -171,3 +171,91 @@ MIT — see [LICENSE](../../LICENSE).
 ## Contributing
 
 See [CONTRIBUTING.md](../../CONTRIBUTING.md) and the monorepo [LICENSE](../../LICENSE).
+
+### PostgreSQL chat memory (Node and Workers)
+
+Install `drizzle-orm` and `pg` alongside this package. The optional
+`@agentskit/memory/postgres` subpath exports `postgresChatMemory`,
+`postgresChatTable` (Drizzle schema), and `postgresChatMigrationSql`.
+Neither peer is imported by the main entry.
+
+```ts
+import { Pool } from 'pg'
+import { drizzle } from 'drizzle-orm/node-postgres'
+import { sql } from 'drizzle-orm'
+import { postgresChatMemory, postgresChatMigrationSql } from '@agentskit/memory/postgres'
+
+const pool = new Pool() // host owns connection configuration and shutdown
+const db = drizzle(pool)
+// Run once in your migration tooling, not on every request:
+await db.execute(sql.raw(postgresChatMigrationSql))
+const memory = postgresChatMemory({ db, tenantId: 'tenant-a', sessionId: 'session-a' })
+await memory.save([])
+await pool.end()
+```
+
+In Workers, enable `nodejs_compat`; create and connect a `pg.Client` inside each
+request, pass `drizzle(client)`, and close it with `ctx.waitUntil(client.end())`
+after all memory operations (and any stream using them) have finished. The
+package never connects, migrates, or closes your client. A Node `Pool` can be
+shared across requests. No Neon, Hyperdrive, or Cloudflare dependency is needed;
+the host can supply their connection configuration when appropriate.
+
+Every query uses both tenant and session, which form the primary key. Derive
+these identifiers from trusted authorization context: caller-supplied tenant
+names alone are not authorization. Saves atomically replace a versioned JSONB
+snapshot, preserving parts, tools, metadata, dates, and message order. Concurrent
+saves use last-writer-wins; this ChatMemory does not implement session CAS or
+turn leases. Schema migration is explicit; SQL/connection errors propagate and
+invalid records fail rather than silently discarding history.
+
+No truncation is performed by default (CM1–CM6). Opt into `maxMessages: N` to
+keep roughly the newest N messages on each save, in their original order.
+Retention cuts only at a user turn boundary: the kept window always starts at a
+`user` message, so a user question is never separated from its assistant answer
+and a tool call is never separated from its results. When the N-newest cutoff
+falls inside the latest (possibly in-progress) turn, that whole turn is kept, so
+the result can exceed N. Leading `system` messages are always kept. A history
+with no user message is stored unchanged rather than emptied. This permanently
+removes older turns and counts messages, not tokens or bytes. For semantic
+summarization, prepare the history in the host
+instead. A positive safe integer is required; empty saves still persist `[]`.
+
+The supported Drizzle peer range is `^0.44.0 || ^0.45.3`. Both lower bounds
+passed the real PostgreSQL contract suite and the package typecheck.
+
+`signal` rejects already-aborted operations before any SQL is issued. Loads
+also check after SQL returns. Drizzle/pg does not cancel in-flight SQL here:
+a save/clear already submitted can commit after an abort and will report its
+actual SQL outcome. Configure query/statement timeouts on the host connection.
+
+Optional defense-in-depth RLS (run as migration owner, access through a
+non-owner role without BYPASSRLS; set tenant inside a host-managed transaction):
+
+```sql
+ALTER TABLE agentskit_chat_memory ENABLE ROW LEVEL SECURITY;
+ALTER TABLE agentskit_chat_memory FORCE ROW LEVEL SECURITY;
+CREATE POLICY tenant_isolation ON agentskit_chat_memory
+  USING (tenant_id = current_setting('app.tenant_id', true))
+  WITH CHECK (tenant_id = current_setting('app.tenant_id', true));
+```
+
+Do not set a tenant on a shared pool connection outside a transaction. The host
+must enforce role permissions and set its trusted tenant with transaction-local
+`set_config('app.tenant_id', tenant, true)`.
+
+Real acceptance checks (local disposable PostgreSQL 16, trust auth on loopback;
+no production accounts):
+
+```sh
+docker run -d --name ak-memory-test -p 127.0.0.1:55439:5432 -e POSTGRES_HOST_AUTH_METHOD=trust postgres:16
+AK_POSTGRES_TEST_PORT=55439 pnpm --filter @agentskit/memory test:postgres
+AK_POSTGRES_TEST_PORT=55439 pnpm --filter @agentskit/memory test:workerd
+docker rm -f ak-memory-test
+```
+
+CI runs `test:postgres` against a PostgreSQL 16 service with trust authentication
+and an explicit test port; no secrets are required. Locally it is skipped
+without its explicit test port. `test:workerd`
+runs `wrangler dev --local`, uses a Client per request and `waitUntil` shutdown,
+and exercises the same synthetic contract suite as the Node Pool test.

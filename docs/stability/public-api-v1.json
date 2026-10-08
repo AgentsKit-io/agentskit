@@ -7019,6 +7019,39 @@
             }
           ]
         },
+        "./postgres": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "postgresChatMemory",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "PostgresChatMemoryOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "postgresChatMigrationSql",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "postgresChatTable",
+              "kinds": [
+                "value"
+              ]
+            }
+          ]
+        },
         "./web-storage": {
           "conditions": [
             "import",
