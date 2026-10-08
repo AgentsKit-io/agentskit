@@ -8,6 +8,7 @@ import {
   accumulateUsage,
   buildAdapterRequest,
   createControllerToolLoop,
+  insertToolResults,
   mapMessageById,
   mapToolCallById,
   normalizeLlmUsage,
@@ -455,7 +456,13 @@ import type {
           return (messages.length ? messages : snapshot).map(message => ({ ...message, toolCalls: message.toolCalls?.map(call => ({ ...call })) }))
         },
         tool: name => toolMap.get(name), runTool, patch: patchCall,
-        finish: id => { approvalGenerations.delete(id) }, isCurrent: generation => generation === gen,
+        finish: id => {
+          approvalGenerations.delete(id)
+          const assistant = state.messages.find(message => message.toolCalls?.some(call => call.id === id))
+          if (assistant && assistant.status !== 'streaming' && state.messages[state.messages.length - 1]?.id !== assistant.id) {
+            set(current => ({ ...current, messages: insertToolResults(current.messages, assistant.id, assistant.toolCalls ?? [], message) }))
+          }
+        }, isCurrent: generation => generation === gen,
         persist: correlation => persist(state.messages, correlation, true), resume,
         prepare: async (messages, reconciled) => {
           const useLive = loadedLive || state.messages.length > 0 || gen !== loadedGeneration

@@ -53,7 +53,7 @@ describe('durable controller decisions', () => {
     const current = restarted ? createChatController(config) : chat
     await current.decide(proposal.id, 'approve')
     const messages = current.getState().messages
-    expect(messages.slice(0, before.length).map(m => [m.id, m.content])).toEqual(before.map(m => [m.id, m.content]))
+    expect(messages.filter(message => message.role !== 'tool').slice(0, before.length).map(m => [m.id, m.content])).toEqual(before.map(m => [m.id, m.content]))
     expect(messages[0].toolCalls?.[0].status).toBe('complete')
     expect(messages.at(-1)?.content).toBe('Finished')
     if (memory) expect(await memory.load()).toEqual(messages)
@@ -67,6 +67,7 @@ describe('durable controller decisions', () => {
     const before = requests.length
     await chat.decide(proposal.id, 'approve')
     expect(requests).toHaveLength(before)
+    expect(chat.getState().messages[1]).toMatchObject({ role: 'tool', toolCallId: proposal.id, content: 'stored' })
     expect(chat.getState().messages.at(-1)?.toolCalls?.[0].status).toBe('requires_confirmation')
     await chat.decide('later-call', 'deny')
     expect(requests).toHaveLength(before + 1)
@@ -249,7 +250,7 @@ describe('durable controller decisions', () => {
     release()
     await sending
     const messages = chat.getState().messages
-    expect(messages.slice(0, before.length).map(message => [message.id, message.content])).toEqual(before.map(message => [message.id, message.content]))
+    expect(messages.filter(message => message.role !== 'tool').slice(0, before.length).map(message => [message.id, message.content])).toEqual(before.map(message => [message.id, message.content]))
     expect(messages[0].toolCalls?.[0]).toMatchObject({ status: 'complete', result: 'stored' })
     expect(messages.at(-1)?.content).toBe('partial response')
     expect(await memory.load()).toEqual(messages)
@@ -310,11 +311,11 @@ describe('durable controller decisions', () => {
     releaseStore()
     await deciding
     const messages = chat.getState().messages
-    expect(messages.slice(0, before.length).map(message => [message.id, message.content])).toEqual(before.map(message => [message.id, message.content]))
+    expect(messages.filter(message => message.role !== 'tool').slice(0, before.length).map(message => [message.id, message.content])).toEqual(before.map(message => [message.id, message.content]))
     expect(messages.flatMap(message => message.toolCalls ?? []).find(call => call.id === 'new-call')).toMatchObject({ status: 'requires_confirmation' })
     expect(messages[0].toolCalls?.[0]).toMatchObject({ status: 'complete', result: 'stored' })
     expect(await memory.load()).toEqual(messages)
-    expect((await port.get(proposal.id))?.messages).toEqual(copy(messages.slice(0, before.length)))
+    expect((await port.get(proposal.id))?.messages).toEqual(copy(messages))
     expect(execute).toHaveBeenCalledTimes(1)
   })
 
@@ -378,7 +379,7 @@ describe('durable controller decisions', () => {
     const before = copy(chat.getState().messages)
     memory.save = save
     await chat.decide(proposal.id, 'approve')
-    expect(chat.getState().messages.slice(0, before.length).map(message => message.content)).toEqual(before.map(message => message.content))
+    expect(chat.getState().messages.filter(message => message.role !== 'tool').slice(0, before.length).map(message => message.content)).toEqual(before.map(message => message.content))
     expect(await memory.load()).toEqual(chat.getState().messages)
   })
 

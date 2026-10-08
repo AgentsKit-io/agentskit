@@ -75,6 +75,22 @@ export function sameToolLifecycle(
   return true
 }
 
+export function insertToolResults(
+  messages: Message[],
+  assistantId: string,
+  calls: ToolCall[],
+  buildMsg: (init: { role: Message['role']; content: string; toolCallId?: string; status?: Message['status'] }) => Message,
+): Message[] {
+  return messages.flatMap(message => {
+    if (message.id !== assistantId && message.status === 'streaming') return [message]
+    const settled = message.id === assistantId ? calls : message.toolCalls ?? []
+    if (!settled.length || settled.some(call => call.status !== 'complete' && call.status !== 'error')) return [message]
+    const results = settled.filter(call => !messages.some(result => result.role === 'tool' && result.toolCallId === call.id))
+      .map(call => buildMsg({ role: 'tool', content: call.result ?? call.error ?? '', toolCallId: call.id }))
+    return [{ ...message, status: 'complete' as const }, ...results]
+  })
+}
+
 /** Build tool-result messages + a fresh streaming assistant for multi-turn tool loops. */
 export function buildToolContinuation(
   messages: Message[],
@@ -85,13 +101,7 @@ export function buildToolContinuation(
   const nextA = buildMsg({ role: 'assistant', content: '', status: 'streaming' })
   return {
     messages: [
-      ...messages.flatMap(message => {
-        const settled = message.id === assistantId ? calls : message.toolCalls ?? []
-        if (!settled.length || settled.some(call => call.status !== 'complete' && call.status !== 'error')) return [message]
-        const results = settled.filter(call => !messages.some(result => result.role === 'tool' && result.toolCallId === call.id))
-          .map(call => buildMsg({ role: 'tool', content: call.result ?? call.error ?? '', toolCallId: call.id }))
-        return [{ ...message, status: 'complete' as const }, ...results]
-      }),
+      ...insertToolResults(messages, assistantId, calls, buildMsg),
       nextA,
     ],
     nextAssistantId: nextA.id,
