@@ -1,5 +1,6 @@
 import { buildMessage as message, consumeStream, createEventEmitter, generateId, createToolLifecycle } from './primitives'
 import { buildToolMap, activateSkills, executeSafeTool as execute } from './agent-loop'
+import { ConfigError, ErrorCodes } from './errors'
 import { partsToText } from './types/content'
 import { createControllerPersistence } from './controller-persistence'
 import { handleControllerToolCall } from './controller-tool-call'
@@ -49,6 +50,7 @@ import type {
   let lifecycle = createToolLifecycle(toolMap)
   let skillTools: ToolDefinition[] = []
   const approvalGenerations = new Map<string, number>()
+  let pendingRegistration = Promise.resolve()
   let hydrated = false
   let active = false
   const authorize: NonNullable<ChatConfig['authorizeToolCall']> = async (call, context) => {
@@ -206,7 +208,11 @@ import type {
           patchCall,
           runTool,
           correlation,
-          registerToolCall: id => approvalGenerations.set(id, g),
+          registerToolCall: id => {
+            approvalGenerations.set(id, g)
+            pendingRegistration = persistPending()
+            return pendingRegistration
+          },
         })
       },
       onToolResult(content) {
@@ -432,15 +438,20 @@ import type {
       })
     },
     async decide(tid, decision, reason) {
+      const { decide } = await import('./controller-decision-internal.js')
+      await pendingRegistration
       let loadedLive = false
       let loadedGeneration = gen
-      return import('./controller-decision-internal.js').then(m => m.decide(tid, decision, reason, {
+      return decide(tid, decision, reason, {
         store: config.decisionStore, messages: () => state.messages,
         load: async snapshot => {
           await activate()
           loadedGeneration = gen
           loadedLive = state.messages.length > 0
           const messages = loadedLive ? state.messages : await persistence.load()
+          if (!messages.length && snapshot.some(message => message.status === 'streaming')) {
+            throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: 'Resuming a streamed tool decision requires current ChatMemory' })
+          }
           return (messages.length ? messages : snapshot).map(message => ({ ...message, toolCalls: message.toolCalls?.map(call => ({ ...call })) }))
         },
         tool: name => toolMap.get(name), runTool, patch: patchCall,
@@ -448,16 +459,17 @@ import type {
         persist: correlation => persist(state.messages, correlation, true), resume,
         prepare: async (messages, reconciled) => {
           const useLive = loadedLive || state.messages.length > 0 || gen !== loadedGeneration
-          controller.stop()
+          const currentMessages = useLive ? state.messages : messages
+          if (!currentMessages.some(message => message.toolCalls?.some(call => call.id === tid && call.status === 'requires_confirmation'))) return undefined
           set(current => ({ ...current, messages: (useLive ? current.messages : messages).map(message => {
-            return { ...message, status: message.status === 'streaming' ? 'complete' as const : message.status, toolCalls: message.toolCalls?.map(call => {
+            return { ...message, toolCalls: message.toolCalls?.map(call => {
               const outcome = reconciled.get(message.id)?.find(loaded => loaded.id === call.id)
               return call.id !== tid && call.status === 'requires_confirmation' && outcome ? outcome : call
             }) }
           }), error: null }))
-          return { generation: gen, correlation: beginRun() }
+          return { generation: gen, correlation: activeCorrelation }
         },
-      }))
+      })
     },
     async approve(tid) {
       if (config.decisionStore) {

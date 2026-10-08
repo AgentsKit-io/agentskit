@@ -82,20 +82,16 @@ export function buildToolContinuation(
   calls: ToolCall[],
   buildMsg: (init: { role: Message['role']; content: string; toolCallId?: string; status?: Message['status'] }) => Message,
 ): { messages: Message[]; nextAssistantId: string } {
-  const results = calls.map(call =>
-    buildMsg({
-      role: 'tool',
-      content: call.result ?? call.error ?? '',
-      toolCallId: call.id,
-    }),
-  )
   const nextA = buildMsg({ role: 'assistant', content: '', status: 'streaming' })
   return {
     messages: [
-      ...messages.map(message =>
-        message.id === assistantId ? { ...message, status: 'complete' as const } : message
-      ),
-      ...results,
+      ...messages.flatMap(message => {
+        const settled = message.id === assistantId ? calls : message.toolCalls ?? []
+        if (!settled.length || settled.some(call => call.status !== 'complete' && call.status !== 'error')) return [message]
+        const results = settled.filter(call => !messages.some(result => result.role === 'tool' && result.toolCallId === call.id))
+          .map(call => buildMsg({ role: 'tool', content: call.result ?? call.error ?? '', toolCallId: call.id }))
+        return [{ ...message, status: 'complete' as const }, ...results]
+      }),
       nextA,
     ],
     nextAssistantId: nextA.id,
@@ -227,13 +223,14 @@ export function createControllerToolLoop({ getConfig, getState, getCorrelation, 
     for (let remaining = getConfig().maxToolIterations ?? 5; remaining > 0; remaining--) {
       const assistant = getState().messages.find(message => message.id === id)
       const calls = assistant?.toolCalls ?? []
-      const waits = calls.some(call => call.status !== 'complete' && call.status !== 'error')
+      const waits = getState().messages.some(message => message.toolCalls?.some(call => call.status !== 'complete' && call.status !== 'error'))
 
       // Nothing to feed back, or something still awaiting confirmation —
       // stop here; the caller drives the next step.
-      if (!calls.length || waits) {
-        if (waits) await persistPending()
-        await finalize(id, !waits)
+      if (!calls.length || waits || getState().messages[getState().messages.length - 1]?.id !== id) {
+        const pending = calls.some(call => call.status !== 'complete' && call.status !== 'error')
+        await finalize(id, !pending)
+        if (pending) await persistPending()
         return
       }
 

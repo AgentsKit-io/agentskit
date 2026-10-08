@@ -5,7 +5,7 @@ import type { AgentEventContext, Message, ToolCall, ToolDefinition, ToolDecision
 interface DecisionContext {
   store: ToolDecisionStore | undefined
   load: (snapshot: Message[]) => Promise<Message[]>
-  prepare: (messages: Message[], reconciled: Map<string, ToolCall[]>) => Promise<{ generation: number; correlation: AgentEventContext }>
+  prepare: (messages: Message[], reconciled: Map<string, ToolCall[]>) => Promise<{ generation: number; correlation: AgentEventContext } | undefined>
   tool: (name: string) => ToolDefinition | undefined
   runTool: (tool: ToolDefinition | undefined, call: ToolCall, onPartial: (result: string) => void, generation: number, correlation: AgentEventContext) => Promise<ToolExecResult>
   patch: (assistantId: string, toolCallId: string, patch: Partial<ToolCall>) => void
@@ -30,7 +30,10 @@ export async function decide(
   const pending = await store.get(id)
   if (!pending) throw new ToolError({ code: ErrorCodes.AK_ACTION_NOT_FOUND, message: 'Tool decision not found' })
   if (pending.status !== 'pending') {
-    if (pending.decision === decision && pending.outcome && ['complete', 'failed', 'denied'].includes(pending.status)) return pending.outcome
+    if (pending.decision === decision) {
+      const replay = pending.outcome ?? pending.messages.flatMap(message => message.toolCalls ?? []).find(call => call.id === id)
+      if (replay) return replay
+    }
     throw new ToolError({ code: ErrorCodes.AK_ACTION_ALREADY_DECIDED, message: 'Tool decision already claimed or decided' })
   }
   const messages = await context.load(pending.messages)
@@ -56,19 +59,23 @@ export async function decide(
   if (!record) {
     const existing = await store.get(id)
     if (!existing) throw new ToolError({ code: ErrorCodes.AK_ACTION_NOT_FOUND, message: 'Tool decision not found' })
-    if (existing.decision === decision && existing.outcome && ['complete', 'failed', 'denied'].includes(existing.status)) return existing.outcome
+    if (existing.decision === decision) {
+      const replay = existing.outcome ?? existing.messages.flatMap(message => message.toolCalls ?? []).find(call => call.id === id)
+      if (replay) return replay
+    }
     throw new ToolError({ code: ErrorCodes.AK_ACTION_ALREADY_DECIDED, message: 'Tool decision already claimed or decided' })
   }
   if (record.toolCallId !== id || record.status !== 'claimed' || record.decision !== decision || !Array.isArray(record.messages)) {
     throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: 'Decision store returned an invalid claim' })
   }
-  const { generation, correlation } = await context.prepare(messages, reconciled)
+  const prepared = await context.prepare(messages, reconciled)
   const current = context.messages().find(m => m.id === message.id)?.toolCalls?.find(c => c.id === id)
-  if (current?.status !== 'requires_confirmation') {
+  if (!prepared || current?.status !== 'requires_confirmation') {
     const error = new ToolError({ code: ErrorCodes.AK_ACTION_ALREADY_DECIDED, message: 'Tool decision is no longer pending' })
     await store.settle({ ...record, status: 'failed', outcome: { ...call, status: 'error', error: error.message }, messages: context.messages() })
     throw error
   }
+  const { generation, correlation } = prepared
   call = current
   let outcome: ToolCall
   if (decision === 'deny') {
@@ -94,6 +101,11 @@ export async function decide(
     messages: context.messages(),
   })
   await context.persist(correlation)
-  if (context.isCurrent(generation)) await context.resume(message.id, generation, correlation)
+  const latest = context.messages()
+  const last = latest[latest.length - 1]
+  if (context.isCurrent(generation) && last?.id === message.id && last?.status !== 'streaming'
+    && !latest.some(message => message.toolCalls?.some(call => call.status !== 'complete' && call.status !== 'error'))) {
+    await context.resume(message.id, generation, correlation)
+  }
   return outcome
 }

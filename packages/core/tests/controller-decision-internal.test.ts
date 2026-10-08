@@ -59,6 +59,143 @@ describe('durable controller decisions', () => {
     if (memory) expect(await memory.load()).toEqual(messages)
   })
 
+  it('does not resume an older call while a later confirmation waits', async () => {
+    const { chat, requests } = fixture()
+    await chat.proposeToolCall(proposal)
+    await chat.send('later')
+    await chat.proposeToolCall({ ...proposal, id: 'later-call' })
+    const before = requests.length
+    await chat.decide(proposal.id, 'approve')
+    expect(requests).toHaveLength(before)
+    expect(chat.getState().messages.at(-1)?.toolCalls?.[0].status).toBe('requires_confirmation')
+    await chat.decide('later-call', 'deny')
+    expect(requests).toHaveLength(before + 1)
+    const messages = requests.at(-1)!.messages
+    for (let index = 0; index < messages.length; index++) {
+      const calls = messages[index].toolCalls ?? []
+      expect(messages.slice(index + 1, index + 1 + calls.length).map(message => message.toolCallId)).toEqual(calls.map(call => call.id))
+    }
+  })
+
+  it.each(['approve', 'deny'] as const)('registers streamed calls before %s and accepts identical double clicks', async action => {
+    const { config, execute, requests } = fixture()
+    let release = () => {}
+    const gate = new Promise<void>(resolve => { release = resolve })
+    let arrived = false
+    const chat = createChatController({ ...config, adapter: {
+      createSource(request) {
+        if (request.messages.some(message => message.role === 'tool')) return config.adapter.createSource(request)
+        return {
+          async *stream() {
+            yield { type: 'tool_call' as const, toolCall: { ...proposal, args: '{}' } }
+            arrived = true
+            await gate
+            yield { type: 'tool_call' as const, toolCall: { ...proposal, id: 'call-2', args: '{}' } }
+            yield { type: 'done' as const }
+          },
+          abort: vi.fn(release),
+        }
+      },
+    }, onToolCall: async call => { await Promise.all([chat[action](call.id), chat[action](call.id)]) } })
+    const sending = chat.send('write twice')
+    try {
+      await vi.waitUntil(() => arrived)
+      expect(requests).toHaveLength(0)
+      expect((await config.decisionStore!.get(proposal.id))?.decision).toBe(action)
+    } finally { release() }
+    await sending
+    expect(requests).toHaveLength(1)
+    expect(requests[0].messages.filter(message => message.role === 'tool').map(message => message.toolCallId)).toEqual([proposal.id, 'call-2'])
+    expect(execute).toHaveBeenCalledTimes(action === 'approve' ? 2 : 0)
+  })
+
+  it('does not abort a live stream when the claimed target is no longer pending', async () => {
+    const { chat, config, execute } = fixture()
+    await chat.proposeToolCall(proposal)
+    let releaseClaim = () => {}
+    let claimed = false
+    const claimGate = new Promise<void>(resolve => { releaseClaim = resolve })
+    const claim = config.decisionStore!.claim.bind(config.decisionStore)
+    config.decisionStore!.claim = async (...args) => { const record = await claim(...args); claimed = true; await claimGate; return record }
+    const deciding = chat.decide(proposal.id, 'approve')
+    const rejected = expect(deciding).rejects.toMatchObject({ code: 'AK_ACTION_ALREADY_DECIDED' })
+    await vi.waitUntil(() => claimed)
+    let releaseStream = () => {}
+    const gate = new Promise<void>(resolve => { releaseStream = resolve })
+    const abort = vi.fn(releaseStream)
+    chat.updateConfig({ adapter: { createSource: () => ({
+      async *stream() { yield { type: 'text' as const, content: 'early' }; await gate; yield { type: 'text' as const, content: ' late' }; yield { type: 'done' as const } },
+      abort,
+    }) } })
+    const sending = chat.send('later')
+    await vi.waitUntil(() => chat.getState().messages.at(-1)?.content === 'early')
+    chat.setMessages(chat.getState().messages.slice(1))
+    releaseClaim()
+    await rejected
+    expect(abort).not.toHaveBeenCalled()
+    expect(chat.getState().status).toBe('streaming')
+    releaseStream()
+    await sending
+    expect(chat.getState().messages.at(-1)?.content).toBe('early late')
+    expect(execute).not.toHaveBeenCalled()
+  })
+
+  it('orders mixed decisions made in reverse order and avoids duplicate results', async () => {
+    const { config, requests, execute } = fixture()
+    const chat = createChatController({ ...config, adapter: {
+      createSource(request) {
+        if (request.messages.some(message => message.role === 'tool')) return config.adapter.createSource(request)
+        return createMockAdapter([
+          { type: 'tool_call', toolCall: { ...proposal, args: '{}' } },
+          { type: 'tool_call', toolCall: { ...proposal, id: 'call-2', args: '{}' } }, { type: 'done' },
+        ]).createSource(request)
+      },
+    } })
+    await chat.send('write twice')
+    await chat.decide('call-2', 'approve')
+    expect(requests).toHaveLength(0)
+    await chat.decide(proposal.id, 'deny', 'cancelled')
+    expect(requests).toHaveLength(1)
+    const messages = requests[0].messages
+    const index = messages.findIndex(message => message.toolCalls?.length === 2)
+    expect(messages.slice(index + 1, index + 3).map(message => [message.toolCallId, message.content])).toEqual([
+      [proposal.id, 'Permission denied: cancelled'], ['call-2', 'stored'],
+    ])
+    await chat.send('next')
+    const tools = requests.at(-1)!.messages.filter(message => message.role === 'tool')
+    expect(tools.map(message => message.toolCallId)).toEqual([proposal.id, 'call-2'])
+    expect(execute).toHaveBeenCalledTimes(1)
+  })
+
+  it('allows subscriber approval while arrival persistence is still saving', async () => {
+    const memory = createInMemoryMemory()
+    const save = memory.save.bind(memory)
+    let release = () => {}
+    const gate = new Promise<void>(resolve => { release = resolve })
+    memory.save = async messages => { await gate; await save(messages) }
+    const { config, requests, execute } = fixture({ memory })
+    const chat = createChatController({ ...config, adapter: {
+      createSource(request) {
+        return request.messages.some(message => message.role === 'tool')
+          ? config.adapter.createSource(request)
+          : createMockAdapter([{ type: 'tool_call', toolCall: { ...proposal, args: '{}' } }, { type: 'done' }]).createSource(request)
+      },
+    } })
+    let approving: Promise<void> | undefined
+    const unsubscribe = chat.subscribe(() => {
+      if (!approving && chat.getState().messages.some(message => message.toolCalls?.some(call => call.id === proposal.id))) {
+        approving = chat.approve(proposal.id)
+      }
+    })
+    const sending = chat.send('write')
+    await vi.waitUntil(() => approving !== undefined)
+    release()
+    await Promise.all([sending, approving])
+    unsubscribe()
+    expect(execute).toHaveBeenCalledTimes(1)
+    expect(requests).toHaveLength(1)
+  })
+
   it('detects a non-atomic read/await/write claim', async () => {
     const port = store(new Map(), false)
     await port.putPending({ toolCallId: 'id', messages: [], status: 'pending' })
@@ -108,11 +245,13 @@ describe('durable controller decisions', () => {
     await vi.waitUntil(() => started)
     const before = copy(chat.getState().messages)
     await chat.decide(proposal.id, 'approve')
+    expect(chat.getState().status).toBe('streaming')
+    release()
     await sending
     const messages = chat.getState().messages
     expect(messages.slice(0, before.length).map(message => [message.id, message.content])).toEqual(before.map(message => [message.id, message.content]))
     expect(messages[0].toolCalls?.[0]).toMatchObject({ status: 'complete', result: 'stored' })
-    expect(messages.at(-1)?.content).toBe('Finished')
+    expect(messages.at(-1)?.content).toBe('partial response')
     expect(await memory.load()).toEqual(messages)
     expect(execute).toHaveBeenCalledTimes(1)
   })
@@ -219,7 +358,8 @@ describe('durable controller decisions', () => {
     }
     const deciding = chat.decide(proposal.id, 'approve')
     await vi.waitUntil(() => held)
-    await expect(chat[action](proposal.id)).rejects.toMatchObject({ code: 'AK_ACTION_ALREADY_DECIDED' })
+    if (action === 'approve') await expect(chat[action](proposal.id)).resolves.toBeUndefined()
+    else await expect(chat[action](proposal.id)).rejects.toMatchObject({ code: 'AK_ACTION_ALREADY_DECIDED' })
     expect(execute).not.toHaveBeenCalled()
     release()
     await deciding
@@ -287,14 +427,13 @@ describe('durable controller decisions', () => {
     expect(chat.getState().messages.flatMap(message => message.toolCalls ?? []).find(call => call.id === 'sibling')).toMatchObject({ status: 'complete', result: 'external' })
   })
 
-  it('admits one of 100 parallel decisions across independent controllers, repeated 100 times', async () => {
+  it('executes once for 100 identical parallel decisions across independent controllers, repeated 100 times', async () => {
     for (let round = 0; round < 100; round++) {
       const { config, chat, execute } = fixture()
       const id = `parallel-${round}`
       await chat.proposeToolCall({ ...proposal, id })
       const results = await Promise.allSettled(Array.from({ length: 100 }, () => createChatController(config).decide(id, 'approve')))
-      expect(results.filter(r => r.status === 'fulfilled')).toHaveLength(1)
-      for (const result of results) if (result.status === 'rejected') expect(result.reason.code).toBe('AK_ACTION_ALREADY_DECIDED')
+      expect(results.filter(r => r.status === 'fulfilled')).toHaveLength(100)
       expect(execute).toHaveBeenCalledTimes(1)
     }
   })
@@ -328,7 +467,7 @@ describe('durable controller decisions', () => {
     const { config, chat, execute } = fixture()
     await chat.proposeToolCall(proposal)
     await config.decisionStore!.claim(proposal.id, 'approve')
-    await expect(createChatController(config).decide(proposal.id, 'approve')).rejects.toMatchObject({ code: 'AK_ACTION_ALREADY_DECIDED' })
+    await expect(createChatController(config).decide(proposal.id, 'approve')).resolves.toMatchObject({ id: proposal.id })
     expect(execute).not.toHaveBeenCalled()
   })
 
@@ -351,7 +490,7 @@ describe('durable controller decisions', () => {
   })
 
   it('persists model-produced pending calls and resumes them in a new controller', async () => {
-    const { config, execute } = fixture()
+    const { config, execute } = fixture({ memory: createInMemoryMemory() })
     const chat = createChatController({ ...config, adapter: createMockAdapter([
       { type: 'tool_call', toolCall: { ...proposal, args: JSON.stringify(proposal.args) } }, { type: 'done' },
     ]) })
@@ -362,7 +501,7 @@ describe('durable controller decisions', () => {
   })
 
   it('resumes a multi-call assistant only after all persisted confirmations settle', async () => {
-    const { config, requests, execute } = fixture()
+    const { config, requests, execute } = fixture({ memory: createInMemoryMemory() })
     const chat = createChatController({ ...config, adapter: createMockAdapter([
       { type: 'tool_call', toolCall: { ...proposal, args: '{}' } },
       { type: 'tool_call', toolCall: { ...proposal, id: 'call-2', args: '{}' } }, { type: 'done' },
@@ -374,6 +513,19 @@ describe('durable controller decisions', () => {
     expect(execute).toHaveBeenCalledTimes(2)
     expect(requests).toHaveLength(1)
     expect(requests[0].messages.filter(m => m.role === 'tool')).toHaveLength(2)
+  })
+
+  it('rejects a streamed snapshot after restart without memory before claiming', async () => {
+    const { config, execute, requests } = fixture()
+    const chat = createChatController({ ...config, adapter: createMockAdapter([
+      { type: 'tool_call', toolCall: { ...proposal, args: '{}' } },
+      { type: 'tool_call', toolCall: { ...proposal, id: 'call-2', args: '{}' } }, { type: 'done' },
+    ]) })
+    await chat.send('write twice')
+    await expect(createChatController(config).decide(proposal.id, 'approve')).rejects.toMatchObject({ code: 'AK_CONFIG_INVALID' })
+    expect((await config.decisionStore!.get(proposal.id))?.status).toBe('pending')
+    expect(execute).not.toHaveBeenCalled()
+    expect(requests).toHaveLength(0)
   })
 
   it('fails closed on an invalid external claim', async () => {
@@ -398,7 +550,7 @@ describe('durable controller decisions', () => {
     const { chat, config, execute, requests } = fixture({ decisionStore })
     await chat.proposeToolCall(proposal)
     await expect(chat.decide(proposal.id, 'approve')).rejects.toThrow('terminal write failed')
-    await expect(createChatController(config).decide(proposal.id, 'approve')).rejects.toMatchObject({ code: 'AK_ACTION_ALREADY_DECIDED' })
+    await expect(createChatController(config).decide(proposal.id, 'approve')).resolves.toMatchObject({ id: proposal.id })
     expect(execute).toHaveBeenCalledTimes(1)
     expect(requests).toHaveLength(0)
   })
