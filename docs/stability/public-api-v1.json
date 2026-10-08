@@ -95,6 +95,13 @@
               ]
             },
             {
+              "name": "CapabilityUnsupportedError",
+              "kinds": [
+                "type",
+                "value"
+              ]
+            },
+            {
               "name": "CarbonTable",
               "kinds": [
                 "type"
@@ -122,6 +129,18 @@
               "name": "chunkText",
               "kinds": [
                 "value"
+              ]
+            },
+            {
+              "name": "cloudflareAiGateway",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "CloudflareAiGatewayConfig",
+              "kinds": [
+                "type"
               ]
             },
             {
@@ -539,7 +558,25 @@
               ]
             },
             {
+              "name": "openaiCompatible",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "OpenAICompatibleConfig",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "OpenAICompatibleEmbedderConfig",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "OpenAICompatibleTransportConfig",
               "kinds": [
                 "type"
               ]
@@ -564,6 +601,12 @@
             },
             {
               "name": "openrouter",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "openRouter",
               "kinds": [
                 "value"
               ]
@@ -776,6 +819,18 @@
               "name": "withDeprecationPolicy",
               "kinds": [
                 "value"
+              ]
+            },
+            {
+              "name": "workersAi",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "WorkersAiConfig",
+              "kinds": [
+                "type"
               ]
             }
           ]
