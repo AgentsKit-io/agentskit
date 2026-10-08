@@ -123,7 +123,7 @@ export async function decide(
   const latest = context.messages()
   const last = latest[latest.length - 1]
   if (context.isCurrent(generation) && last?.id === message.id && last?.status !== 'streaming'
-    && !latest.slice(latest.findIndex(message => message.id === last.id)).some(message => message.toolCalls?.some(call => call.status !== 'complete' && call.status !== 'error'))) {
+    && !last.toolCalls?.some(call => call.status !== 'complete' && call.status !== 'error')) {
     await context.resume(message.id, generation, correlation)
   }
   return outcome
