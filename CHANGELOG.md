@@ -12,7 +12,13 @@ Entries are versioned by semver and dated by release. Future monthly entries sho
 
 ## Unreleased
 
+### Minor Changes
+
+- Expose the MCP server confirmation hook through the programmatic wrapper.
+
 ### Patch Changes
+
+- Preserve optional MCP tool titles and behavior annotations across server listing and client import.
 
 - Scope the public API snapshot CI gate to packages in the affected build plan, while keeping missing build outputs fatal and full release and update checks unchanged.
 

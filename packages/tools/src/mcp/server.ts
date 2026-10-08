@@ -5,6 +5,7 @@ import type {
   JsonRpcMessage,
   JsonRpcRequest,
   McpTransport,
+  McpToolDefinition,
 } from './types'
 import { MCP_PROTOCOL_VERSION } from './types'
 import { createAjvValidator } from '../../../validation/src/ajv-validator'
@@ -12,7 +13,7 @@ import { createAjvValidator } from '../../../validation/src/ajv-validator'
 /** Transport, tools, and policy hooks used to create an MCP server. */
 export interface McpServerOptions {
   transport: McpTransport
-  tools: ToolDefinition[]
+  tools: McpToolDefinition[]
   serverInfo?: { name: string; version: string }
   /** Observability hook. */
   onEvent?: (event: { type: 'call' | 'error' | 'list'; tool?: string; error?: string }) => void
@@ -98,6 +99,8 @@ export function createMcpServer(options: McpServerOptions): McpServer {
           result: {
             tools: tools.map(t => ({
               name: t.name,
+              ...(t.title === undefined ? {} : { title: t.title }),
+              ...(t.annotations === undefined ? {} : { annotations: t.annotations }),
               description: t.description,
               inputSchema: t.schema ?? EMPTY_ARGS_SCHEMA,
             })),
