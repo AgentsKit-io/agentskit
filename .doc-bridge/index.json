@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "4d20d05999bea35a5d11cf2aa147b8ebe1ea1ce5c664d10f3698d4ca1d4ca7b0",
+  "contentHash": "c7224b0d340778761dea69db0831352dd9f1740f478fadac604e85300d831350",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-08T04:39:06.967Z",
+  "generatedAt": "2026-10-08T04:53:28.336Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -18845,6 +18845,7 @@
       "title": "controller-decision-internal.ts",
       "path": "packages/core/src/controller-decision-internal.ts",
       "symbols": [
+        "buildToolContinuation",
         "decide"
       ],
       "tags": [
@@ -18852,7 +18853,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "0e23242a7928abc906eeab61ab7501f08ccb6570ed10d9ce0aeb35165c6cab7a"
+      "contentHash": "2505516631cdb1290c9610e560d4a032913442ba8ca65c802c5c81f1bad55afa"
     },
     {
       "id": "module:packages/core/src/controller-helpers.ts",
@@ -18877,7 +18878,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "fe6d83e365dcafb27df5032e66c6f941733340199b1e549be2ce89d7f909f5ba"
+      "contentHash": "cff73c65129da037d8fc2c7e33370d629c133aed78e4a4d9332a6ad829d7ddac"
     },
     {
       "id": "module:packages/core/src/controller-persistence.ts",
@@ -18923,7 +18924,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "93155e5aaca6a1221aaf636abcc6ee911a853b0a36de52937cc76dc66c7bfd1f"
+      "contentHash": "3b5441f090877efd87124f3edff62509096d4d02440044938b76aeb411415b36"
     },
     {
       "id": "module:packages/core/src/errors.ts",
@@ -38198,7 +38199,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "9ca5dafceb06a9a9cea822c12d443a01471d8024b22cca81d6e2cfc2ac4dc247",
+    "hash": "e2f7cff4f56018b664a08b89d958ba16f3245d37600b3d8a6ba5db86456b93d0",
     "fileCount": 2539,
     "projectionVersion": 2
   },
@@ -38221,9 +38222,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "29e5ca3230eede1b826fb2db14502ad755ba8e86a0039417dcf2e43771472180",
+    "contentHash": "ad63354c0be595f4a9c14f3a624188c7d7678ae8d11500783253849eecf6f6f2",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "2f9607ad8ac91cde78cd9ad2424944a262efef9c6ffc44ee85ce9761035ea5aa",
+    "snapshotHash": "4faeb5b6f80fed35a146cdb2bb2cb9526493fdbfdc8b5dd3aaf955ab65fd9db6",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -38259,7 +38260,7 @@
         "headings": 4.019647153167602,
         "path": 7.613472333600641,
         "summary": 4.5509222133119485,
-        "symbols": 7.456295108259823,
+        "symbols": 7.457898957497995,
         "title": 3.354851643945469
       }
     },
@@ -122123,6 +122124,7 @@
         "title": "controller-decision-internal.ts",
         "aliases": [],
         "symbols": [
+          "buildToolContinuation",
           "decide"
         ],
         "tags": [
@@ -122134,7 +122136,7 @@
           "title": "controller-decision-internal.ts",
           "headings": "",
           "path": "packages/core/src/controller-decision-internal.ts",
-          "symbols": "decide",
+          "symbols": "buildToolContinuation decide",
           "summary": "",
           "body": "",
           "aliases": "module ts src"
@@ -122152,6 +122154,11 @@
           ],
           "packageId": "package:@agentskit/core",
           "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/controller-helpers.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "imports",
               "id": "module:packages/core/src/controller.ts",
@@ -122191,17 +122198,32 @@
             },
             {
               "kind": "imports",
+              "id": "module:packages/core/src/controller-helpers.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/core/src/errors.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/primitives.ts",
               "confidence": "observed"
             },
             {
               "kind": "imports",
               "id": "module:packages/core/src/types.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/core/src/controller-helpers.ts",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "0e23242a7928abc906eeab61ab7501f08ccb6570ed10d9ce0aeb35165c6cab7a",
+        "contentHash": "2505516631cdb1290c9610e560d4a032913442ba8ca65c802c5c81f1bad55afa",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -122247,6 +122269,11 @@
           "inbound": [
             {
               "kind": "imports",
+              "id": "module:packages/core/src/controller-decision-internal.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
               "id": "module:packages/core/src/controller.ts",
               "confidence": "observed"
             },
@@ -122254,9 +122281,19 @@
               "kind": "imports",
               "id": "module:packages/core/tests/controller-helpers.test.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "re-exports",
+              "id": "module:packages/core/src/controller-decision-internal.ts",
+              "confidence": "observed"
             }
           ],
           "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/controller-decision-internal.ts",
+              "confidence": "observed"
+            },
             {
               "kind": "imports",
               "id": "module:packages/core/src/primitives.ts",
@@ -122279,7 +122316,7 @@
             }
           ]
         },
-        "contentHash": "fe6d83e365dcafb27df5032e66c6f941733340199b1e549be2ce89d7f909f5ba",
+        "contentHash": "cff73c65129da037d8fc2c7e33370d629c133aed78e4a4d9332a6ad829d7ddac",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -122580,11 +122617,6 @@
             },
             {
               "kind": "imports",
-              "id": "module:packages/core/src/errors.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
               "id": "module:packages/core/src/primitives.ts",
               "confidence": "observed"
             },
@@ -122605,7 +122637,7 @@
             }
           ]
         },
-        "contentHash": "93155e5aaca6a1221aaf636abcc6ee911a853b0a36de52937cc76dc66c7bfd1f",
+        "contentHash": "3b5441f090877efd87124f3edff62509096d4d02440044938b76aeb411415b36",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -122695,11 +122727,6 @@
             {
               "kind": "imports",
               "id": "module:packages/core/src/controller-tool-call.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "imports",
-              "id": "module:packages/core/src/controller.ts",
               "confidence": "observed"
             },
             {
@@ -123957,6 +123984,11 @@
             {
               "kind": "imports",
               "id": "module:packages/core/src/agent-schema.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "imports",
+              "id": "module:packages/core/src/controller-decision-internal.ts",
               "confidence": "observed"
             },
             {
