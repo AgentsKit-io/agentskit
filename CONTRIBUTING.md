@@ -128,11 +128,14 @@ ADR/RFC index sync, locale parity). `pnpm check:all` adds typecheck + build +
 test. Husky runs the commit-message check before each commit and the gates +
 typecheck + build before each push.
 
-The packed-consumer gate checks every public package by default, including in
-release builds. For an affected-only build, set `PACKED_CONSUMERS_BUILD_PLAN`
+The packed-consumer and public API snapshot gates check every public package by
+default, including in release builds. For an affected-only build, set `PACKED_CONSUMERS_BUILD_PLAN`
 to the JSON file produced by `pnpm exec turbo run build --filter='...[origin/main]' --dry=json`
-and use that same filter for the build. The gate checks every public package in
+and use that same filter for the build. Both gates check every public package in
 the task graph, including dependency builds; missing dist outputs still fail.
+The snapshot gate logs packages skipped outside the plan and compares only the
+checked packages. Its `--update` mode always requires every public package and
+rewrites the full baseline, regardless of the build plan.
 
 `@agentskit/core` is capped at **10KB gzipped** by [Manifesto principle 1](./MANIFESTO.md). The `size` workflow blocks PRs that exceed any package's budget.
 

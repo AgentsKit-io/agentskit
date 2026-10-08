@@ -122,6 +122,8 @@ jobs:
         run: pnpm check:publish-manifests
 
       - name: Public API snapshot contract
+        env:
+          PACKED_CONSUMERS_BUILD_PLAN: ${{ steps.package-scope.outputs.run_all == 'false' && format('{0}/packed-consumers-build-plan.json', runner.temp) || '' }}
         run: pnpm check:public-api-snapshot
 
       - name: Lint all packages
