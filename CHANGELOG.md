@@ -12,6 +12,10 @@ Entries are versioned by semver and dated by release. Future monthly entries sho
 
 ## Unreleased
 
+### Patch Changes
+
+- Scope the public API snapshot CI gate to packages in the affected build plan, while keeping missing build outputs fatal and full release and update checks unchanged.
+
 ### 2026-09-02 — coordinated ecosystem hardening release train
 
 - Versioned 22 public packages through Changesets, with package-level changelog entries and synchronized documentation metadata.

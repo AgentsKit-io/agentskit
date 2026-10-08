@@ -8254,6 +8254,12 @@
               ]
             },
             {
+              "name": "createPartitionedRAG",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
               "name": "createRAG",
               "kinds": [
                 "value"
@@ -8399,6 +8405,18 @@
             },
             {
               "name": "OneDriveLoaderOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "PartitionedRAGConfig",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "PartitionSearchDiagnostics",
               "kinds": [
                 "type"
               ]

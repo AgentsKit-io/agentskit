@@ -89,3 +89,50 @@ HTTPS origin in `allowedOrigins` and rejects redirects.
 ## Source
 
 npm: [@agentskit/rag](https://www.npmjs.com/package/@agentskit/rag) · repo: [packages/rag](https://github.com/AgentsKit-io/agentskit/tree/main/packages/rag)
+
+## Partition-bound retrieval
+
+`createPartitionedRAG` composes `createRAG` without changing the core Retriever
+contract or existing `createRAG` behavior. Bind each instance to a non-empty
+partition at construction:
+
+```ts
+import { createPartitionedRAG } from '@agentskit/rag'
+
+const rag = createPartitionedRAG({
+  store,
+  embed,
+  partition: 'team-a',
+  topK: 5,
+  overfetchFactor: 4,
+  onDiagnostics: diagnostics => console.warn(diagnostics),
+})
+await rag.ingest([{ id: 'guide', content: 'Team A guide' }])
+const hits = await rag.retrieve({ query: 'guide' })
+```
+
+Ingest overrides the reserved `_akPartition` metadata field and namespaces chunk
+IDs with a JSON tuple, so identical document IDs in different partitions do not
+overwrite or delete each other's chunks. Document metadata, including
+`documentId`, remains available. Returned chunk IDs are opaque namespaced IDs.
+Every search forwards a core `VectorFilter` equality predicate and verifies
+partition metadata locally, rejecting foreign or missing metadata even when a
+store ignores filters. The wrapper makes one store search, requests at most
+`topK * overfetchFactor` candidates, examines at most that many, and returns at
+most `topK` matches. The factor is an integer from 1 to 16 (default 4); unsafe
+candidate limits throw. Per-call `search` limits and thresholds still work.
+
+The required `onDiagnostics` callback runs for every successful store search,
+including empty results, with `partition`, `requestedTopK`, `candidateLimit`,
+`examined`, `rejected`, `returned`, and `recall: 'potentially-reduced'`. This is
+conservative: bounded over-fetch can miss matching chunks, and a store can
+internally filter a bounded global candidate pool without revealing exclusions
+(as `fileVectorMemory` does). Short results never justify returning another
+partition's chunks. Callback exceptions reject the search.
+
+Stores must faithfully preserve chunk metadata and IDs. Missing metadata fails
+closed, but fabricated or incorrectly reassigned partition metadata cannot be
+detected. This is retrieval isolation, not an authorization boundary against
+untrusted writers or stores. Use physically separate stores or a backend with
+trusted partition enforcement when that boundary or exhaustive recall is needed.
+Backend-internal over-fetch is outside the wrapper's candidate bound.
