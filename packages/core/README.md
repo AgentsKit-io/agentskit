@@ -61,6 +61,20 @@ await controller.send('Hello!')
 console.log(controller.getState().messages)
 ```
 
+## Durable confirmations and content parts
+
+`controller.send` accepts a string or `ContentPart[]`; parts are retained on the user message and `content` is their text projection. The shared `ChatReturn.send` signature also accepts parts; existing string callers remain compatible. Structural `ChatController` implementations must provide the required `decide` method.
+
+Configure `ChatConfig.decisionStore` with a conversation-scoped `ToolDecisionStore`, then call `await controller.decide(toolCallId, 'approve')` or `await controller.decide(toolCallId, 'deny', reason)`. A controller uses its live conversation when present, including unsaved turns; otherwise it loads configured chat memory, preserving later turns; the claimed snapshot is a fallback only when no current conversation exists. It patches the target tool call and resumes the model with the tool outcome. Pending confirmations are saved to configured chat memory and the decision store before proposal completion.
+
+The store implements insert-if-absent `putPending`, `get`, atomic `claim` (pending → claimed, returning a snapshot only to the winner), and `settle` (persist the matching claim's terminal outcome). Store records must survive process restart, and methods must be linearizable per tool call. An asynchronous read followed by a write is not an atomic claim: use a database conditional update/transaction or an equivalent compare-and-swap, including across processes. Use an application-authorized conversation scope. A database claim can use `UPDATE ... WHERE status = 'pending' RETURNING ...`; core ships no database implementation.
+
+Same-decision terminal replay returns the recorded `ToolCall` without invoking the tool or model. Unknown IDs raise `AK_ACTION_NOT_FOUND`; a competing or in-flight decision raises `AK_ACTION_ALREADY_DECIDED`. Tool failures are terminal and are fed to the model; retry requires a new proposal ID. A crash after claim leaves an indeterminate record for application reconciliation, never automatic side-effect retry. Serialize different calls in a conversation to protect transcript writes.
+
+For a stuck `claimed` record, an operator must inspect `get(id)` and domain execution evidence, stop the original worker, and terminally `settle` the matching claim with a proven outcome or an explicit indeterminate failure. Never delete or reset the claim to pending. Reconcile the target call in current chat memory, then continue explicitly with a new user turn; any authorized retry needs a new proposal ID. See the operational recovery procedure in [ADR 0042](../../docs/architecture/adrs/0042-durable-tool-decisions.md).
+
+`approve` and `deny` are deprecated. With a decision store they delegate to `decide` and share its atomic claim and typed errors; without a store they retain generation-local behavior. See [ADR 0042](../../docs/architecture/adrs/0042-durable-tool-decisions.md).
+
 ## Features
 
 - `createChatController` — streaming-capable chat state machine with abort support; memory is saved after successful turns, never after failed or aborted turns. Background memory and skill activation failures are surfaced through `onError`.

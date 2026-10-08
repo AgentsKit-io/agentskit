@@ -1,14 +1,20 @@
 ---
 title: Unified multi-modal
-description: One API for text, image, audio, video, and file inputs — regardless of provider.
+description: Provider-neutral parts with tested image and file serialization and explicit unsupported-input errors.
 ---
 
 Every provider has its own multi-modal shape. OpenAI wants
 `{ type: 'image_url', image_url: {...} }`, Anthropic wants
 `{ type: 'image', source: {...} }`, Gemini wants parts-with-inline-
 data. `@agentskit/core` provides a provider-neutral `ContentPart`
-model — adapters that understand a modality read the parts, the rest
-fall back to a text projection.
+model. The adapters listed below serialize supported image/file parts and reject
+unsupported inputs with `CapabilityUnsupportedError` (`code: CAPABILITY_UNSUPPORTED`)
+from `createSource`, before network I/O. Audio/video builders exist in core;
+these adapters do not yet send them. Text-only models fall back to
+text parts and short attachment markers, omitting binary data and data URLs,
+with at most one warning per request, so existing image/file histories remain usable.
+OpenAI and Anthropic assistant binary parts also use this text fallback. Explicit
+`capabilities.multiModal` overrides OpenAI-compatible model-name heuristics.
 
 ## Install
 
@@ -49,32 +55,44 @@ const message: Message = {
 | `imagePart(src, { mimeType?, detail? })` | `'image'` | Data URL, http(s), or provider-hosted id |
 | `audioPart(src, { durationSec? })` | `'audio'` | |
 | `videoPart(src, { durationSec? })` | `'video'` | |
-| `filePart(src, { filename? })` | `'file'` | PDF, CSV, arbitrary binary |
+| `filePart(src, { filename?, mimeType? })` | `'file'` | Support depends on the adapter and source format below |
 
-## In an adapter
+## Tested adapter capabilities
 
-A vision-aware adapter reads `msg.parts` and maps each entry to its
-provider's shape. A text-only adapter keeps reading `msg.content` and
-sees a safe projection like `"caption\n[image: pic.png]"`.
+This table is generated from `packages/adapters/tests/multimodal-http.test.ts`
+and checked against its HTTP payload cases. It proves serialization to a local
+server, not acceptance or inference quality on a live provider.
 
-```ts
-import { normalizeContent, filterParts } from '@agentskit/core'
+| Adapter | Image wire format | File wire format | Tested sources / limits |
+| --- | --- | --- | --- |
+| openai | image_url | file | image URL/data URL; file data URL/id |
+| openai-compatible | image_url | file | same wire format; opt into model capability |
+| anthropic | image | document | image URL/data URL; PDF URL/data URL; text data URL |
+| gemini | inlineData/fileData | inlineData/fileData | data URL or provider URI with MIME type |
+| vertex | inlineData/fileData | inlineData/fileData | data URL or provider URI with MIME type |
+| ollama | images | image data URL only | image data URL only; vision model required; PDF rejected |
 
-function toOpenAIMessage(m: Message) {
-  const { parts } = normalizeContent(m.content, m.parts)
-  return {
-    role: m.role,
-    content: parts.map(p => {
-      if (p.type === 'text') return { type: 'text', text: p.text }
-      if (p.type === 'image') return { type: 'image_url', image_url: { url: p.source, detail: p.detail } }
-      return { type: 'text', text: `[${p.type}]` }
-    }),
-  }
-}
+For user/assistant messages, parts replace the legacy `content` projection when present; their order is preserved.
+Messages without parts keep the previous wire format. OpenAI-compatible custom models
+must opt into `capabilities: { multiModal: true }`; transport compatibility alone
+says nothing about the upstream model. Ollama accepts `multiModal: true` for
+vision models whose names do not match the default `llava`/`vision` heuristic.
+An Ollama file part containing an image data URL is sent in `images`; PDFs and
+other files are rejected. Remote image URLs are not fetched by the adapter.
 
-// Quickly grab every attached image:
-const images = filterParts(parts, 'image')
-```
+Gemini/Vertex remote sources require `mimeType` and a provider-accessible URI
+(`https://` or `gs://`); data URLs supply their own MIME type. Anthropic accepts
+PDFs and inline UTF-8 text documents; other file MIME types are rejected.
+OpenAI Chat Completions accepts file data URLs or uploaded `file-*` identifiers,
+not remote file URLs. Uploading and resolving storage references is the caller's responsibility.
+Provider-hosted image identifiers, audio and video are currently rejected.
+Model-specific MIME/size/access limits still apply upstream.
+
+See the provider wire contracts: [OpenAI file inputs](https://developers.openai.com/api/docs/guides/file-inputs),
+[Anthropic images](https://platform.claude.com/docs/en/build-with-claude/vision),
+[Anthropic PDFs](https://platform.claude.com/docs/en/build-with-claude/pdf-support),
+[Gemini parts](https://ai.google.dev/api/generate-content), and
+[Ollama chat](https://docs.ollama.com/api/chat).
 
 ## See also
 

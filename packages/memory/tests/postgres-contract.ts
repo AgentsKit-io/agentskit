@@ -63,6 +63,24 @@ export async function postgresContract(db: NodePgDatabase, prefix: string) {
     const bounded = postgresChatMemory({ ...options, maxMessages: 1 })
     await bounded.save([message, second])
     equal(await bounded.load(), [second], 'opt-in newest retention')
+    const call: Message = { ...second, id: 'calls', toolCalls: [
+      { id: 'a', name: 'synthetic', args: {}, status: 'complete' },
+      { id: 'b', name: 'synthetic', args: {}, status: 'complete' },
+    ] }
+    const result: Message = { id: 'result-a', role: 'tool', content: 'result', status: 'complete', createdAt: message.createdAt, toolCallId: 'a' }
+    const resultB: Message = { ...result, id: 'result-b', toolCallId: 'b' }
+    const answer: Message = { id: 'answer', role: 'assistant', content: 'answer', status: 'complete', createdAt: message.createdAt }
+    const history = [message, call, result, resultB, answer]
+    for (const [maxMessages, expected] of [
+      [1, [answer]], [2, [answer]], [3, [answer]], [4, history.slice(1)], [5, history],
+    ] as const) {
+      const retained = postgresChatMemory({ ...options, maxMessages })
+      await retained.save(history)
+      equal(await retained.load(), expected, `tool boundary retention N=${maxMessages}`)
+    }
+    await bounded.save([call, result, resultB])
+    equal(await bounded.load(), [], 'tool-only suffix discarded')
+    await bounded.save([second])
     const controller = new AbortController(); controller.abort()
     await rejects(() => memory.load({ signal: controller.signal }), 'aborted load')
     await rejects(() => memory.save([message], { signal: controller.signal }), 'aborted save')

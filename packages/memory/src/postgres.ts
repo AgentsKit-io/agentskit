@@ -6,7 +6,7 @@ import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 import { jsonb, pgTable, primaryKey, text } from 'drizzle-orm/pg-core'
 import { decodeStoredMessages } from './decode'
 
-/** Drizzle schema with one versioned record per tenant/session primary key. */
+/** Drizzle schema with one replace-all snapshot per tenant/session primary key. */
 export const postgresChatTable = pgTable('agentskit_chat_memory', {
   tenantId: text('tenant_id').notNull(),
   sessionId: text('session_id').notNull(),
@@ -26,7 +26,7 @@ export interface PostgresChatMemoryOptions {
   db: Pick<NodePgDatabase, 'select' | 'insert' | 'delete'>
   tenantId: string
   sessionId: string
-  /** Opt-in retention: keep the newest N messages on save. Default: no truncation. */
+  /** Keep at most N newest messages, dropping leading tool results. Default: no truncation. */
   maxMessages?: number
 }
 
@@ -50,7 +50,11 @@ export function postgresChatMemory({ db, tenantId, sessionId, maxMessages }: Pos
     async save(messages, options) {
       options?.signal?.throwIfAborted()
       const record = validateMemoryRecord(serializeMessages(messages))
-      if (maxMessages !== undefined) record.messages = record.messages.slice(-maxMessages)
+      if (maxMessages !== undefined) {
+        let start = Math.max(0, record.messages.length - maxMessages)
+        while (start < record.messages.length && record.messages[start]!.role === 'tool') start++
+        record.messages = record.messages.slice(start)
+      }
       options?.signal?.throwIfAborted()
       await db.insert(postgresChatTable).values({ tenantId, sessionId, record })
         .onConflictDoUpdate({ target: [postgresChatTable.tenantId, postgresChatTable.sessionId], set: { record } })

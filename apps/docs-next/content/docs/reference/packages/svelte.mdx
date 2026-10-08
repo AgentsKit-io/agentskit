@@ -38,7 +38,7 @@ const chat = createChatStore({ adapter })
 
 ## Surface
 
-- `createChatStore(config): SvelteChatStore` — `Readable<ChatState>` + action methods + `destroy()`.
+- `createChatStore(config): SvelteChatStore` — `Readable<ChatState>` + action methods + `destroy()`. `send` accepts `string | ContentPart[]`; `decide(id, 'approve' | 'deny', reason?)` forwards durable decisions to core with a configured `decisionStore`. Both actions reject after `destroy()`.
 
 The shared state/action contract is portable; Svelte component props and
 exports are binding-specific. This package does not promise full React

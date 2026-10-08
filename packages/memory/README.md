@@ -210,11 +210,16 @@ turn leases. Schema migration is explicit; SQL/connection errors propagate and
 invalid records fail rather than silently discarding history.
 
 No truncation is performed by default (CM1–CM6). Opt into `maxMessages: N` to
-persist only the last N array entries on each save, in their original order.
+persist at most the last N array entries on each save, in their original order.
+Leading tool results are discarded so truncation never starts inside a
+contiguous assistant tool-call/result group; a tool-only suffix becomes `[]`.
 This permanently removes older messages; it counts messages, not tokens or
-bytes, and can split a tool-call pair or drop a system prompt. For semantic
+bytes, and can drop a system prompt. For semantic
 summarization or complete-turn retention, prepare the history in the host
 instead. A positive safe integer is required; empty saves still persist `[]`.
+
+The supported Drizzle peer range is `^0.44.0 || ^0.45.3`. Both lower bounds
+passed the real PostgreSQL contract suite and the package typecheck.
 
 `signal` rejects already-aborted operations before any SQL is issued. Loads
 also check after SQL returns. Drizzle/pg does not cancel in-flight SQL here:
@@ -246,6 +251,8 @@ AK_POSTGRES_TEST_PORT=55439 pnpm --filter @agentskit/memory test:workerd
 docker rm -f ak-memory-test
 ```
 
-`test:postgres` is skipped without its explicit local test port. `test:workerd`
+CI runs `test:postgres` against a PostgreSQL 16 service with trust authentication
+and an explicit test port; no secrets are required. Locally it is skipped
+without its explicit test port. `test:workerd`
 runs `wrangler dev --local`, uses a Client per request and `waitUntil` shutdown,
 and exercises the same synthetic contract suite as the Node Pool test.

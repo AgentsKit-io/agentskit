@@ -150,3 +150,80 @@ The global React type workaround described in the CH-C2 section above is
 removed by CH-C3. See [current resolution evidence](./memory-react-resolution-ch-c3.md)
 for the dependency-origin investigation, minimal lockfile diff and current checks.
 The CH-C2 section remains a historical record of its own revision.
+
+## AK-1827 review follow-up (2026-10-07)
+
+Contract: fix C1–C4 in this worktree, merge current origin/main, create local
+commits and report to the Orca coordinator; no push or external publication.
+Scope: memory implementation/tests/docs/changeset, CI workflow and generated
+Doc Bridge/README/ecosystem projections. Core is validated after the merge,
+without additional contract changes. Goal approval is the task dispatch;
+coordinator evidence review remains required. No new structural decision.
+Budget: frozen cached installation, one task-owned PostgreSQL 16 container,
+one npm registry tarball for Drizzle compatibility, local workerd, Turbo <=2
+and Vitest <=2. No credentials, remote CI execution or unrelated cleanup.
+
+Merged main input: `bbd4d97404826f28eb685f74dba570eadcbeed3f`.
+Current implementation input SHA-256 (ordered path, NUL, bytes, NUL):
+`39e576744a709defeb167af79b6d7059db34080fca1835f0d347cd0c042aaac2`.
+Paths: `packages/memory/src/postgres.ts`,
+`packages/memory/tests/postgres-contract.ts`, `packages/memory/package.json`,
+`.github/workflows/ci.yml`, `pnpm-lock.yaml`.
+
+| Criterion | Current evidence | Status |
+|---|---|---|
+| C1 merge main, preserve both sides, regenerate conflicts | Only generated index/capabilities/README conflicts; scripts regenerated them; README/ecosystem hashes identical on repeated generation; core 39 files/562 tests and package typechecks passed | validated locally; merge commit recorded in worker receipt |
+| C2 retained history never starts inside tool group | Real PG16 suite tests cutoffs N=1–5 across two parallel calls/results and a tool-only suffix; memory 33 files/242 tests passed; shared suite also passed via real local workerd | validated |
+| C3 snapshot comment and peer compatibility | Comment says replace-all snapshot; Drizzle 0.44.0 package typecheck and real PG contract passed, as did configured 0.45.3; optional peer widened to `^0.44.0 || ^0.45.3`; frozen install passed | validated |
+| C4 required CI PG16 service without secrets | YAML parsed; assertions for Ubuntu/service/trust/port/command/quality dependency/no secrets passed; exact package command ran on real PG16 locally | validated configuration and local acceptance; hosted CI execution not performed |
+| G1 affected package tests/typecheck/lint | memory 242/core 562 tests passed; both documented lint commands (tsc) passed; shared fixture separate strict typecheck passed | validated |
+| G2 Doc Bridge 1.12 | `pnpm exec ak-docs --version` returned 1.12.0; package handoff succeeded; `pnpm exec ak-docs gate run` passed index-freshness, human-guide-links, documentation-standard-v1 after workerd temp cleanup | validated; final report-only update is regenerated and checked before commit |
+| G3 full pre-push under resource floors | `TURBO_CONCURRENCY=2 VITEST_MAX_WORKERS=2 sh .husky/pre-push`, CI unset; monitor sampled memory/swap every 10s and terminated only its own process group below the floor | validated fourth attempt: exit 0; prior attempts discarded (see reconciliation below) |
+
+Discarded evidence: first retention fixture incorrectly expected explicit
+undefined properties after JSON roundtrip; fixed fixture and reran the full
+memory suite. A Doc Bridge run raced workerd temporary bundle removal; removed
+task-owned empty `.wrangler` directories and regenerated/reran successfully.
+Neither failed attempt is represented as a passing final gate.
+
+Validated: C1–C4 local criteria and G1–G3; final report-only update receives a fresh G2 run.
+Partially validated: hosted CI execution and parent evidence review.
+Not analyzed: production performance/deployment, RLS enforcement, CAS/leases,
+unrelated product/UI behavior. Blocked: none after the fourth hook passed.
+Not applicable: new UI components/styles, browser visual approval, external
+publication, secrets or new architecture/contracts.
+State: AWAITING_HUMAN_APPROVAL for coordinator evidence review. Historical
+evidence above describes its own revisions only.
+
+Coordinator authorization via Orca ask reply: retry the full hook with swap
+free >=200 MB and memory free >=25%, keeping Turbo/Vitest <=2. This explicitly
+changes the original 500 MB floor; previous interrupted attempts remain failed.
+
+Third full-hook attempt respected the revised resource floors but failed the
+verified-recipe gate because its Doc Bridge subprocess ran before concurrent
+index regeneration finished. The subsequent standalone Doc Bridge gate passed
+all three criteria on the updated report. Fourth attempt must run only after
+report/index generation completes, with no concurrent source changes.
+The pnpm-normalized merged lockfile is semantically identical to the automatic
+merge for every importer, package and snapshot; only ordering changed.
+
+
+Final reconciliation (2026-10-08): fourth full pre-push exited 0 with all 52
+quality gates, 60/60 lint tasks and 44/44 build tasks passing. These include
+cached tasks (package declaration precondition: 27/27 cached); they are not a
+claim that every repository test or UI acceptance flow ran. Turbo concurrency
+was 2 and Vitest workers 1, with CI unset. Ten-second resource samples had
+minima 28% memory free and 328.25 MB swap free: valid against the coordinator's
+revised 200 MB floor, not the original 500 MB requirement. No other process
+was terminated. Prior interrupted/stale-index attempts remain discarded.
+
+The implementation input digest above is unchanged. After the passing hook,
+only this evidence report changes; its required Doc Bridge freshness/link/
+conformance checks are regenerated and rerun before commit. Build-created
+tracked deterministic-knowledge outputs were restored from the index and the
+single new content-addressed artifact removed. The task-owned PG16 container,
+Drizzle tarball/extraction and temporary logs are removed; standard ignored
+build/dependency caches remain for the coordinator. No push or hosted CI run.
+Final diff/status and main ancestry are checked after the local merge commit;
+its SHA is supplied in the worker receipt. Next human action: coordinator
+reviews the evidence/diff and performs the authorized push, which runs CI.

@@ -1,5 +1,6 @@
 import { type Message, type StreamChunk, type StreamSource } from '@agentskit/core'
 import { parseSSE, sleep as netSleep } from '@agentskit/net'
+import { providerParts } from './content-parts'
 import { fetchWithRetry, type RetryOptions } from './retry'
 import { readNDJSONLines } from './stream-lines'
 import {
@@ -16,7 +17,7 @@ export { parseOpenAIStream } from './openai-stream'
 export { readNDJSONLines, readSSELines } from './stream-lines'
 export type { StreamParser } from './stream-types'
 
-export function toProviderMessages(messages: Message[]) {
+export function toProviderMessages(messages: Message[], multiModal = true) {
   // Track which tool_call ids were declared by preceding assistant turns so
   // we can drop orphan tool messages — the OpenAI Chat Completions API
   // rejects a tool message whose tool_call_id isn't bound to a previous
@@ -24,14 +25,17 @@ export function toProviderMessages(messages: Message[]) {
   const knownToolCallIds = new Set<string>()
   const output: Array<Record<string, unknown>> = []
 
+  const warning = { emitted: false }
   for (const message of messages) {
+    const parts = providerParts(message, 'openai', multiModal, warning)
+    const content = parts ?? message.content
     if (message.role === 'tool') {
       const id = message.toolCallId
       // Orphan (no id, or id not declared) — skip; it would 400 the API.
       if (!id || !knownToolCallIds.has(id)) continue
       output.push({
         role: 'tool' as const,
-        content: message.content,
+        content,
         tool_call_id: id,
       })
       continue
@@ -41,7 +45,7 @@ export function toProviderMessages(messages: Message[]) {
       for (const tc of message.toolCalls) knownToolCallIds.add(tc.id)
       output.push({
         role: 'assistant' as const,
-        content: message.content || null,
+        content: content || null,
         tool_calls: message.toolCalls.map(tc => ({
           id: tc.id,
           type: 'function' as const,
@@ -59,9 +63,9 @@ export function toProviderMessages(messages: Message[]) {
     // and the placeholder assistant message never received content —
     // sending `{role:'assistant', content:''}` back to the provider either
     // 400s or confuses the model into silence on the next turn.
-    if (message.role === 'assistant' && !message.content) continue
+    if (message.role === 'assistant' && !message.content && !parts) continue
 
-    output.push({ role: message.role, content: message.content })
+    output.push({ role: message.role, content })
   }
 
   return output

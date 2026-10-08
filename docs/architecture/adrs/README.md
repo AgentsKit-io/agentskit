@@ -75,5 +75,8 @@ Do NOT write an ADR for: routine features, bug fixes, internal refactors, or any
 | [0038](./0038-canonical-json-hash.md) | Canonical JSON and SHA-256 helpers | Accepted |
 | [0039](./0039-cryptographic-ids.md) | Cryptographic IDs for generated identifiers | Accepted |
 | [0040](./0040-eval-replay-fingerprint-compatibility.md) | Preserve eval replay fingerprint compatibility | Proposed |
+| [0041](./0041-adapter-content-serialization.md) | Serialize attachments at the provider boundary | Proposed |
+
+| [0042](./0042-durable-tool-decisions.md) | Durable tool decisions in core 1.x | Proposed |
 
 The 6 core contracts are formalized. Future ADRs will cover specific decisions (semver policy, licensing strategy, etc.) rather than additional foundational contracts.
