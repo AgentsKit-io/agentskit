@@ -197,9 +197,38 @@ jobs:
         if: steps.package-scope.outputs.run_all == 'false'
         run: pnpm exec turbo run test --filter='...[origin/main]' --concurrency=2
 
+  postgres-memory:
+    name: PostgreSQL ChatMemory contract
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_HOST_AUTH_METHOD: trust
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+      - uses: pnpm/action-setup@0977fd99725f1db4007ccb2928dbb4e90d06cc86 # v6
+      - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @agentskit/memory test:postgres
+        env:
+          AK_POSTGRES_TEST_PORT: 5432
+          VITEST_MAX_WORKERS: 2
+          TURBO_CONCURRENCY: 2
+
   quality:
     name: Lint, Test, Build
-    needs: [gates, tests]
+    needs: [gates, tests, postgres-memory]
     if: always()
     runs-on: ubuntu-latest
     steps:
@@ -207,7 +236,8 @@ jobs:
         env:
           GATES_RESULT: ${{ needs.gates.result }}
           TESTS_RESULT: ${{ needs.tests.result }}
-        run: test "$GATES_RESULT" = success && test "$TESTS_RESULT" = success
+          POSTGRES_RESULT: ${{ needs.postgres-memory.result }}
+        run: test "$GATES_RESULT" = success && test "$TESTS_RESULT" = success && test "$POSTGRES_RESULT" = success
 
   compatibility:
     name: Compatibility (Node ${{ matrix.node }})

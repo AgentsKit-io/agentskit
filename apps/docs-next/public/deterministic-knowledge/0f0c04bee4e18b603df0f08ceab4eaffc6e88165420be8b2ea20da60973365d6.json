@@ -123,7 +123,7 @@
     {
       "id": "claim.memory-backends",
       "kind": "restricted-faq",
-      "label": "18 memory backends",
+      "label": "19 memory backends",
       "match": {
         "type": "exact",
         "values": [
@@ -133,7 +133,7 @@
         ]
       },
       "answer": {
-        "markdown": "The verified AgentsKit ledger currently reports **18 memory backends**.",
+        "markdown": "The verified AgentsKit ledger currently reports **19 memory backends**.",
         "citations": [
           {
             "id": "claim-memory-backends",
@@ -2444,5 +2444,5 @@
       }
     }
   ],
-  "contentHash": "sha256:d5ec6c6da96e33909607d43ca11ebd3f4ffe22bbdb09f9ceda7329601b5d51db"
+  "contentHash": "sha256:0f0c04bee4e18b603df0f08ceab4eaffc6e88165420be8b2ea20da60973365d6"
 }
