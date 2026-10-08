@@ -15,6 +15,7 @@ Entries are versioned by semver and dated by release. Future monthly entries sho
 ### Minor Changes
 
 - Expose the MCP server confirmation hook through the programmatic wrapper.
+- Add canonical SHA-256 result records, provenance verification, and precision/recall helpers to `@agentskit/eval`.
 
 ### Patch Changes
 
