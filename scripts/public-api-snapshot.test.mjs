@@ -1,15 +1,15 @@
 /**
- * Unit tests for public API snapshot pure helpers.
+ * Tests for public API snapshot helpers and the importable gate.
  * Run: node --test scripts/public-api-snapshot.test.mjs
  */
 
 import assert from 'node:assert/strict'
-import { copyFileSync, mkdirSync, mkdtempSync, readFileSync, rmSync, symlinkSync, writeFileSync } from 'node:fs'
-import { spawnSync } from 'node:child_process'
+import { mkdirSync, mkdtempSync, readFileSync, rmSync, writeFileSync } from 'node:fs'
 import { tmpdir } from 'node:os'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { after, describe, test } from 'node:test'
+import { runPublicApiSnapshot } from './check-public-api-snapshot.mjs'
 import {
   assetSymbols,
   classifyExportSymbol,
@@ -54,14 +54,11 @@ function makeTempDir() {
   return dir
 }
 
-describe('build-plan snapshot CLI scope', () => {
+describe('build-plan snapshot gate scope', () => {
   const scriptsDir = path.dirname(fileURLToPath(import.meta.url))
 
   function fixture() {
     const root = makeTempDir()
-    mkdirSync(path.join(root, 'scripts'))
-    symlinkSync(path.join(scriptsDir, 'lib'), path.join(root, 'scripts/lib'), 'dir')
-    copyFileSync(path.join(scriptsDir, 'check-public-api-snapshot.mjs'), path.join(root, 'scripts/check-public-api-snapshot.mjs'))
     const baseline = { schemaVersion: /** @type {1} */ (1), packages: {} }
     for (const name of ['checked', 'skipped']) {
       const dir = path.join(root, 'packages', name)
@@ -82,10 +79,37 @@ describe('build-plan snapshot CLI scope', () => {
   }
 
   function run(root, planPath = '', args = []) {
-    return spawnSync(process.execPath, [path.join(root, 'scripts/check-public-api-snapshot.mjs'), ...args], {
-      encoding: 'utf8', env: { ...process.env, PACKED_CONSUMERS_BUILD_PLAN: planPath },
-    })
+    const result = { status: 1, stdout: '', stderr: '' }
+    try {
+      result.status = runPublicApiSnapshot({
+        root, argv: args, env: { PACKED_CONSUMERS_BUILD_PLAN: planPath },
+        stdout: (text) => { result.stdout += text },
+        stderr: (text) => { result.stderr += text },
+      })
+    } catch (error) {
+      result.stderr += String(error)
+    }
+    return result
   }
+
+  test('help and unknown flags return without exiting the process', () => {
+    const help = run('', '', ['--help'])
+    assert.equal(help.status, 0)
+    assert.match(help.stdout, /^Usage:/)
+    assert.equal(help.stderr, '')
+    const unknown = run('', '', ['--unknown'])
+    assert.equal(unknown.status, 2)
+    assert.match(unknown.stderr, /unknown flag "--unknown"/)
+    assert.equal(unknown.stdout, '')
+  })
+
+  test('invalid baseline reports the error without exiting the process', () => {
+    const { root, planPath, baselinePath } = fixture()
+    writeFileSync(baselinePath, 'invalid baseline')
+    const result = run(root, planPath)
+    assert.equal(result.status, 1)
+    assert.match(result.stderr, /invalid baseline:/)
+  })
 
   test('skips unbuilt packages outside the plan and keeps JSON output parseable', () => {
     const { root, planPath } = fixture()
