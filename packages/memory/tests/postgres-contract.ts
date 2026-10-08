@@ -62,7 +62,18 @@ export async function postgresContract(db: NodePgDatabase, prefix: string) {
     equal(await memory.load(), [], 'CM2 empty replace')
     const bounded = postgresChatMemory({ ...options, maxMessages: 1 })
     await bounded.save([message, second])
-    equal(await bounded.load(), [second], 'opt-in newest retention')
+    equal(await bounded.load(), [message, second], 'retention never splits a user/assistant turn')
+    const user2: Message = { ...message, id: 'user-2' }
+    const answer2: Message = { ...second, id: 'answer-2' }
+    const system: Message = { ...message, id: 'system', role: 'system' }
+    for (const [maxMessages, expected] of [
+      [1, [system, user2, answer2]], [2, [system, user2, answer2]], [3, [system, user2, answer2]],
+      [4, [system, message, second, user2, answer2]], [5, [system, message, second, user2, answer2]],
+    ] as const) {
+      const retained = postgresChatMemory({ ...options, maxMessages })
+      await retained.save([system, message, second, user2, answer2])
+      equal(await retained.load(), expected, `turn boundary retention N=${maxMessages}`)
+    }
     const call: Message = { ...second, id: 'calls', toolCalls: [
       { id: 'a', name: 'synthetic', args: {}, status: 'complete' },
       { id: 'b', name: 'synthetic', args: {}, status: 'complete' },
@@ -72,14 +83,16 @@ export async function postgresContract(db: NodePgDatabase, prefix: string) {
     const answer: Message = { id: 'answer', role: 'assistant', content: 'answer', status: 'complete', createdAt: message.createdAt }
     const history = [message, call, result, resultB, answer]
     for (const [maxMessages, expected] of [
-      [1, [answer]], [2, [answer]], [3, [answer]], [4, history.slice(1)], [5, history],
+      [1, history], [2, history], [3, history], [4, history], [5, history],
     ] as const) {
       const retained = postgresChatMemory({ ...options, maxMessages })
       await retained.save(history)
       equal(await retained.load(), expected, `tool boundary retention N=${maxMessages}`)
     }
     await bounded.save([call, result, resultB])
-    equal(await bounded.load(), [], 'tool-only suffix discarded')
+    equal(await bounded.load(), [call, result, resultB], 'history without a user turn is never emptied')
+    await bounded.save([message, call, result])
+    equal(await bounded.load(), [message, call, result], 'in-progress tool turn kept whole')
     await bounded.save([second])
     const controller = new AbortController(); controller.abort()
     await rejects(() => memory.load({ signal: controller.signal }), 'aborted load')

@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "449a9a8fd1e3594d3bf91d69199ab82f217113615e8bc637d61d6b37cd1b83ff",
+  "contentHash": "cc1dd4e9500b056f4b73c465bf246b8006abbd965ad7736d62c91aff85c3d2b9",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-08T03:12:06.917Z",
+  "generatedAt": "2026-10-08T03:38:51.929Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -7190,7 +7190,7 @@
         "document",
         "project"
       ],
-      "contentHash": "67a511fbeaeb192765de33cae956b26837606ead76ee247faecc3011085c7d21"
+      "contentHash": "e4de036b9a616d728221a7da1158c65f7b0004d43effb3d5d3b44e8896c2bc34"
     },
     {
       "id": "document:packages/net/CONVENTIONS.md",
@@ -26320,7 +26320,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "8beea794193b891c949a16d0be8acafa31cb196328bebfe138ace1092a9f51df"
+      "contentHash": "4f9e3e433e31d6ba824acf9a5625043bb900090ad946184faff00d48b353725e"
     },
     {
       "id": "module:packages/memory/src/redaction.ts",
@@ -26945,7 +26945,7 @@
         "ts",
         "tests"
       ],
-      "contentHash": "05fb643c2ff32b5cf9f6c199804f8a0b342af1a15c25f1a2b878009e1ea02313"
+      "contentHash": "51d4b3c7474608d4daa5a425eb6b82e3de26085ec05c8b5f65e5bca531d1c435"
     },
     {
       "id": "module:packages/memory/tests/postgres-worker.ts",
@@ -38248,7 +38248,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "f39347e7e543840b4c341a1af61be1d81633a8147dd9dbea12be3ca7f6848667",
+    "hash": "dc801aecf1b8431a07a89d68254232707b9e2b8e32d50efee3eb5227f66bfd77",
     "fileCount": 2543,
     "projectionVersion": 2
   },
@@ -38271,9 +38271,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "9c0adf2df1386245539d34f99a44fa424835a7a8f833da5b9e0a29f37017bbde",
+    "contentHash": "c0e801dfffbe8e04d643d119f8525e5f9e258ed5e83f3e171befa61972c8f3f5",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "beebfb860bb14f2b9c07d4c9273ec226a5006324d20745d35fb0910b9df4ea0b",
+    "snapshotHash": "4dcd7de6390366bdb8b0941888275dab6e3d86d816bbabb7b95d3c49b3716b3f",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -79539,7 +79539,7 @@
             }
           ]
         },
-        "contentHash": "67a511fbeaeb192765de33cae956b26837606ead76ee247faecc3011085c7d21",
+        "contentHash": "e4de036b9a616d728221a7da1158c65f7b0004d43effb3d5d3b44e8896c2bc34",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -152098,7 +152098,7 @@
             }
           ]
         },
-        "contentHash": "8beea794193b891c949a16d0be8acafa31cb196328bebfe138ace1092a9f51df",
+        "contentHash": "4f9e3e433e31d6ba824acf9a5625043bb900090ad946184faff00d48b353725e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -154930,7 +154930,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "05fb643c2ff32b5cf9f6c199804f8a0b342af1a15c25f1a2b878009e1ea02313",
+        "contentHash": "51d4b3c7474608d4daa5a425eb6b82e3de26085ec05c8b5f65e5bca531d1c435",
         "provenance": "observed",
         "confidence": "observed"
       },

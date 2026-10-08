@@ -26,8 +26,26 @@ export interface PostgresChatMemoryOptions {
   db: Pick<NodePgDatabase, 'select' | 'insert' | 'delete'>
   tenantId: string
   sessionId: string
-  /** Keep at most N newest messages, dropping leading tool results. Default: no truncation. */
+  /**
+   * Keep roughly the N newest messages, cut only at a user turn boundary and
+   * always keeping the leading system prompt. Default: no truncation.
+   */
   maxMessages?: number
+}
+
+/**
+ * Index where bounded retention starts. The kept window always begins at a
+ * `user` message, so no user/assistant pair or tool call/result group is split.
+ * Moves forward from the N-newest cutoff to the next user turn; if the cutoff is
+ * inside the last turn, moves back to that turn's user message instead, so the
+ * in-progress turn is kept whole (and may exceed N). Without any user message
+ * the history is kept unchanged rather than emptied.
+ */
+function retentionStart(roles: readonly string[], maxMessages: number): number {
+  const cutoff = Math.max(0, roles.length - maxMessages)
+  for (let i = cutoff; i < roles.length; i++) if (roles[i] === 'user') return i
+  for (let i = cutoff - 1; i >= 0; i--) if (roles[i] === 'user') return i
+  return 0
 }
 
 /** BYO Drizzle/pg connection; the caller owns migration and connection lifetime. */
@@ -51,9 +69,11 @@ export function postgresChatMemory({ db, tenantId, sessionId, maxMessages }: Pos
       options?.signal?.throwIfAborted()
       const record = validateMemoryRecord(serializeMessages(messages))
       if (maxMessages !== undefined) {
-        let start = Math.max(0, record.messages.length - maxMessages)
-        while (start < record.messages.length && record.messages[start]!.role === 'tool') start++
-        record.messages = record.messages.slice(start)
+        const roles = record.messages.map(message => message.role)
+        const start = retentionStart(roles, maxMessages)
+        let systemPrefix = 0
+        while (systemPrefix < start && roles[systemPrefix] === 'system') systemPrefix++
+        record.messages = [...record.messages.slice(0, systemPrefix), ...record.messages.slice(start)]
       }
       options?.signal?.throwIfAborted()
       await db.insert(postgresChatTable).values({ tenantId, sessionId, record })

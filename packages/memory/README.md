@@ -210,12 +210,15 @@ turn leases. Schema migration is explicit; SQL/connection errors propagate and
 invalid records fail rather than silently discarding history.
 
 No truncation is performed by default (CM1–CM6). Opt into `maxMessages: N` to
-persist at most the last N array entries on each save, in their original order.
-Leading tool results are discarded so truncation never starts inside a
-contiguous assistant tool-call/result group; a tool-only suffix becomes `[]`.
-This permanently removes older messages; it counts messages, not tokens or
-bytes, and can drop a system prompt. For semantic
-summarization or complete-turn retention, prepare the history in the host
+keep roughly the newest N messages on each save, in their original order.
+Retention cuts only at a user turn boundary: the kept window always starts at a
+`user` message, so a user question is never separated from its assistant answer
+and a tool call is never separated from its results. When the N-newest cutoff
+falls inside the latest (possibly in-progress) turn, that whole turn is kept, so
+the result can exceed N. Leading `system` messages are always kept. A history
+with no user message is stored unchanged rather than emptied. This permanently
+removes older turns and counts messages, not tokens or bytes. For semantic
+summarization, prepare the history in the host
 instead. A positive safe integer is required; empty saves still persist `[]`.
 
 The supported Drizzle peer range is `^0.44.0 || ^0.45.3`. Both lower bounds
