@@ -28,7 +28,7 @@ interface ToolCallContext {
   patchCall: PatchCall
   runTool: RunTool
   correlation: AgentEventContext
-  registerToolCall: (id: string) => void
+  registerToolCall: (id: string) => void | Promise<void>
 }
 
 export async function handleControllerToolCall({
@@ -76,9 +76,8 @@ export async function handleControllerToolCall({
 
   await auth(authorize, toolCall, { messages, tool, phase: 'propose' })
   if (!isCurrentGeneration()) return
-  if (tool?.requiresConfirmation) registerToolCall(toolCall.id)
-
   setMessage(assistantId, current => ({ ...current, toolCalls: [...(current.toolCalls ?? []), toolCall] }))
+  if (tool?.requiresConfirmation) await registerToolCall(toolCall.id)
   await onToolCall?.(toolCall, { messages, tool })
   if (!isCurrentGeneration()) return
 

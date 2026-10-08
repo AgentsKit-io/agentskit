@@ -75,6 +75,22 @@ export function sameToolLifecycle(
   return true
 }
 
+export function insertToolResults(
+  messages: Message[],
+  assistantId: string,
+  calls: ToolCall[],
+  buildMsg: (init: { role: Message['role']; content: string; toolCallId?: string; status?: Message['status'] }) => Message,
+): Message[] {
+  return messages.flatMap(message => {
+    if (message.id !== assistantId && message.status === 'streaming') return [message]
+    const settled = message.id === assistantId ? calls : message.toolCalls ?? []
+    if (!settled.length || settled.some(call => call.status !== 'complete' && call.status !== 'error')) return [message]
+    const results = settled.filter(call => !messages.some(result => result.role === 'tool' && result.toolCallId === call.id))
+      .map(call => buildMsg({ role: 'tool', content: call.result ?? call.error ?? '', toolCallId: call.id }))
+    return [{ ...message, status: 'complete' as const }, ...results]
+  })
+}
+
 /** Build tool-result messages + a fresh streaming assistant for multi-turn tool loops. */
 export function buildToolContinuation(
   messages: Message[],
@@ -82,20 +98,10 @@ export function buildToolContinuation(
   calls: ToolCall[],
   buildMsg: (init: { role: Message['role']; content: string; toolCallId?: string; status?: Message['status'] }) => Message,
 ): { messages: Message[]; nextAssistantId: string } {
-  const results = calls.map(call =>
-    buildMsg({
-      role: 'tool',
-      content: call.result ?? call.error ?? '',
-      toolCallId: call.id,
-    }),
-  )
   const nextA = buildMsg({ role: 'assistant', content: '', status: 'streaming' })
   return {
     messages: [
-      ...messages.map(message =>
-        message.id === assistantId ? { ...message, status: 'complete' as const } : message
-      ),
-      ...results,
+      ...insertToolResults(messages, assistantId, calls, buildMsg),
       nextA,
     ],
     nextAssistantId: nextA.id,
@@ -195,9 +201,11 @@ export function createControllerToolLoop({ getConfig, getState, getCorrelation, 
     if (done && shouldPersist) await persist(getState().messages, getCorrelation())
   }
 
-  const continueTools = (aid: string, calls: ToolCall[]): string => {
+  const continueTools = async (aid: string, calls: ToolCall[]): Promise<string> => {
+    const { buildToolContinuation } = await import('./controller-decision-internal.js')
     let nextId = ''
     set(current => {
+      if (current.messages[current.messages.length - 1]?.id !== aid) return current
       const { messages: next, nextAssistantId } = buildToolContinuation(
         current.messages,
         aid,
@@ -231,13 +239,14 @@ export function createControllerToolLoop({ getConfig, getState, getCorrelation, 
 
       // Nothing to feed back, or something still awaiting confirmation —
       // stop here; the caller drives the next step.
-      if (!calls.length || waits) {
-        if (waits) await persistPending()
+      if (!calls.length || waits || getState().messages[getState().messages.length - 1]?.id !== id) {
         await finalize(id, !waits)
+        if (waits) await persistPending()
         return
       }
 
-      id = continueTools(id, calls)
+      id = await continueTools(id, calls)
+      if (!id) return
       const ok = await run(id, '', g, correlation)
       if (!ok) return
     }

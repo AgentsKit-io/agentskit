@@ -49,6 +49,7 @@ import type {
   let lifecycle = createToolLifecycle(toolMap)
   let skillTools: ToolDefinition[] = []
   const approvalGenerations = new Map<string, number>()
+  let pendingRegistration = Promise.resolve()
   let hydrated = false
   let active = false
   const authorize: NonNullable<ChatConfig['authorizeToolCall']> = async (call, context) => {
@@ -206,7 +207,11 @@ import type {
           patchCall,
           runTool,
           correlation,
-          registerToolCall: id => approvalGenerations.set(id, g),
+          registerToolCall: id => {
+            approvalGenerations.set(id, g)
+            pendingRegistration = persistPending()
+            return pendingRegistration
+          },
         })
       },
       onToolResult(content) {
@@ -432,32 +437,35 @@ import type {
       })
     },
     async decide(tid, decision, reason) {
+      const { decide } = await import('./controller-decision-internal.js')
+      await pendingRegistration.catch(() => {})
       let loadedLive = false
       let loadedGeneration = gen
-      return import('./controller-decision-internal.js').then(m => m.decide(tid, decision, reason, {
+      return decide(tid, decision, reason, {
         store: config.decisionStore, messages: () => state.messages,
         load: async snapshot => {
           await activate()
           loadedGeneration = gen
           loadedLive = state.messages.length > 0
           const messages = loadedLive ? state.messages : await persistence.load()
-          return (messages.length ? messages : snapshot).map(message => ({ ...message, toolCalls: message.toolCalls?.map(call => ({ ...call })) }))
+          return { fallback: !messages.length, messages: messages.length ? messages : snapshot }
         },
         tool: name => toolMap.get(name), runTool, patch: patchCall,
         finish: id => { approvalGenerations.delete(id) }, isCurrent: generation => generation === gen,
+        setMessages: controller.setMessages,
         persist: correlation => persist(state.messages, correlation, true), resume,
-        prepare: async (messages, reconciled) => {
+        prepare: async (messages, reconcile) => {
           const useLive = loadedLive || state.messages.length > 0 || gen !== loadedGeneration
-          controller.stop()
-          set(current => ({ ...current, messages: (useLive ? current.messages : messages).map(message => {
-            return { ...message, status: message.status === 'streaming' ? 'complete' as const : message.status, toolCalls: message.toolCalls?.map(call => {
-              const outcome = reconciled.get(message.id)?.find(loaded => loaded.id === call.id)
-              return call.id !== tid && call.status === 'requires_confirmation' && outcome ? outcome : call
-            }) }
-          }), error: null }))
-          return { generation: gen, correlation: beginRun() }
+          let current = useLive ? state.messages : messages
+          if (state.status !== 'streaming') current = current.map(message =>
+            message.status === 'streaming' ? { ...message, status: 'complete' as const } : message,
+          )
+          const next = reconcile(current)
+          if (!next) return undefined
+          set(current => ({ ...current, messages: next, error: null }))
+          return { generation: gen, correlation: state.status === 'streaming' ? activeCorrelation : beginRun() }
         },
-      }))
+      })
     },
     async approve(tid) {
       if (config.decisionStore) {
