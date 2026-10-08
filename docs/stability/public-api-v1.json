@@ -4928,6 +4928,57 @@
             }
           ]
         },
+        "./provenance": {
+          "conditions": [
+            "import",
+            "require",
+            "types"
+          ],
+          "symbols": [
+            {
+              "name": "createResultRecord",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "precisionRecall",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "ResultMetric",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ResultRecord",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "ResultRecordInput",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
+              "name": "serializeResultRecord",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "verifyResultRecord",
+              "kinds": [
+                "value"
+              ]
+            }
+          ]
+        },
         "./replay": {
           "conditions": [
             "browser",

@@ -10,6 +10,7 @@ Core `runEval(dataset)` is stable. Reporters, metrics, dataset shape may gain fi
 
 - `runEval({ agent, suite })` — runs an `EvalSuite` sequentially and returns an `EvalResult`
 - Deterministic cassette recording, replay, time travel, and replay-against comparison
+- Portable provenance result records, canonical hashes, integrity verification, and precision/recall
 - Prompt snapshot, diff, attribution, JUnit, Markdown, and GitHub Actions reporting
 - Braintrust quality/robustness scoring through the optional `braintrust` peer
 - Types: `AgentFn`, `AgentResponse`, `RunEvalConfig`, `EvalSuite`, `EvalResult`

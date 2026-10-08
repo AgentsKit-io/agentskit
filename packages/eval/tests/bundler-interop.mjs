@@ -30,6 +30,9 @@ async function verifyNodeIo() {
     await linkPackage(projectRoot, '@agentskit/cross-platform', resolve(repositoryRoot, 'packages/cross-platform'))
 
     await writeFile(join(projectRoot, 'fixture.mjs'), [
+      "import { createResultRecord, serializeResultRecord, verifyResultRecord } from '@agentskit/eval/provenance'",
+      "const record = createResultRecord({ suiteId: 'baseline', caseSetDigest: 'a'.repeat(64), subject: { revision: '1', digest: 'b'.repeat(64) }, runnerVersion: '1', metrics: { measured: 1 } })",
+      "if (!verifyResultRecord(JSON.parse(serializeResultRecord(record)))) throw new Error('ESM result integrity mismatch')",
       "import { createCassette } from '@agentskit/eval/replay'",
       "import { saveCassette, loadCassette } from '@agentskit/eval/replay/io'",
       "const path = new URL('./esm/cassette.json', import.meta.url).pathname",
@@ -37,6 +40,9 @@ async function verifyNodeIo() {
       "if ((await loadCassette(path)).seed !== 'esm') throw new Error('ESM cassette mismatch')",
     ].join('\n'))
     await writeFile(join(projectRoot, 'fixture.cjs'), [
+      "const { createResultRecord, verifyResultRecord } = require('@agentskit/eval/provenance')",
+      "const record = createResultRecord({ suiteId: 'baseline', caseSetDigest: 'a'.repeat(64), subject: { revision: '1', digest: 'b'.repeat(64) }, runnerVersion: '1', metrics: { measured: 1 } })",
+      "if (!verifyResultRecord(record)) throw new Error('CJS result integrity mismatch')",
       "const { createCassette } = require('@agentskit/eval/replay')",
       "const { saveCassette, loadCassette } = require('@agentskit/eval/replay/io')",
       "const { join } = require('node:path')",
@@ -57,7 +63,7 @@ async function verifyNodeIo() {
 async function verifyVite(projectRoot) {
   const entry = join(projectRoot, 'vite-entry.js')
   const outDir = join(projectRoot, 'vite-dist')
-  await writeFile(entry, "import { createCassette } from '@agentskit/eval/replay'; globalThis.__agentskitEval = createCassette;\n")
+  await writeFile(entry, "import { createResultRecord, verifyResultRecord } from '@agentskit/eval/provenance'; import { createCassette } from '@agentskit/eval/replay'; globalThis.__agentskitEval = [createCassette, createResultRecord, verifyResultRecord];\n")
   await viteBuild({
     root: projectRoot,
     logLevel: 'silent',
@@ -82,7 +88,7 @@ async function verifyBundlerTypes(projectRoot) {
     '--skipLibCheck',
     entry,
   ]
-  await writeFile(validEntry, "import { createCassette, saveCassette } from '@agentskit/eval/replay'; createCassette(); void saveCassette;\n")
+  await writeFile(validEntry, "import { createResultRecord, type ResultRecord } from '@agentskit/eval/provenance'; const result: ResultRecord = createResultRecord({ suiteId: 'baseline', caseSetDigest: 'a'.repeat(64), subject: { revision: '1', digest: 'b'.repeat(64) }, runnerVersion: '1', metrics: { measured: 1 } }); void result; import { createCassette, saveCassette } from '@agentskit/eval/replay'; createCassette(); void saveCassette;\n")
   await execute(process.execPath, argumentsFor(validEntry), { cwd: projectRoot })
 
   await writeFile(nodeEntry, "import { saveCassette } from '@agentskit/eval/replay'; void saveCassette;\n")
@@ -109,10 +115,11 @@ async function verifyBundlerTypes(projectRoot) {
 
 async function verifyMetro(projectRoot) {
   const entry = join(projectRoot, 'index.js')
-  await writeFile(entry, "import { createCassette, saveCassette } from '@agentskit/eval/replay'; globalThis.__agentskitEval = [createCassette, saveCassette];\n")
+  await writeFile(entry, "import { createResultRecord, verifyResultRecord } from '@agentskit/eval/provenance'; import { createCassette, saveCassette } from '@agentskit/eval/replay'; globalThis.__agentskitEval = [createCassette, saveCassette, createResultRecord, verifyResultRecord];\n")
   const baseConfig = await loadConfig({ cwd: projectRoot, projectRoot })
   const config = {
     ...baseConfig,
+    maxWorkers: 1,
     projectRoot,
     watchFolders: [projectRoot, repositoryRoot, metroRuntimeRoot],
     resolver: {

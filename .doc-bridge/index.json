@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "8efbc15b9798e169144aed1ad9efab22b1418a9053a014ee8806baea29b7f4e0",
+  "contentHash": "067a1c851a5ecc5d384f61db7a0e5b5eaaffce52b7d67ce9a19e39bf95c49d83",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-08T05:36:46.849Z",
+  "generatedAt": "2026-10-08T06:33:24.391Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -1456,7 +1456,7 @@
         "document",
         "human"
       ],
-      "contentHash": "9651d80416f29f2149d5f1631a95ec7531154c84ffc8540606d0e14093a4e8ba"
+      "contentHash": "98c9984556d669fc674b3c9b1f48d67d6e178fbfaaa01c08cf68d317bf4582ab"
     },
     {
       "id": "document:apps/docs-next/content/docs/agents/topologies.mdx",
@@ -3759,7 +3759,7 @@
         "document",
         "human"
       ],
-      "contentHash": "f4e92252981f0ca6267512821445b06daf669dedf1c42cce6682e9ab8bae8bea"
+      "contentHash": "5b094f44d37ae1636b18487709905e175260c763623c4e9ee43cdb77333bfe6e"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/packages/ink.mdx",
@@ -6761,6 +6761,18 @@
       "contentHash": "467de811d1ccee2ed70cf0289685e76b028b3eea9f1b3a93f0518257e09bc757"
     },
     {
+      "id": "document:docs/spec/eval-result-record-v1.md",
+      "type": "document",
+      "title": "Eval result record v1",
+      "path": "docs/spec/eval-result-record-v1.md",
+      "description": "The @agentskit/eval/provenance API exposes ResultRecordInput, ResultRecord, ResultMetric, createResultRecord, serializeResultRecord, verifyResultRecord, and precisionRecall.",
+      "tags": [
+        "document",
+        "human"
+      ],
+      "contentHash": "5b5cef224fef51b3f31cedddfe2caf6bf3b6a7da0ec26583c8c44d333efaf0cb"
+    },
+    {
       "id": "document:docs/STABILITY.md",
       "type": "document",
       "title": "Stability policy",
@@ -7082,7 +7094,7 @@
         "document",
         "unclassified"
       ],
-      "contentHash": "5dd91f4079807dc677aadf2e9c89788d9cb0a73432b55fe13a640dca067caa9c"
+      "contentHash": "79dbb2f630b5169b268912f75fd9148af56d3791b0401af7f0361b320db91d87"
     },
     {
       "id": "document:packages/eval/README.md",
@@ -7094,7 +7106,7 @@
         "document",
         "project"
       ],
-      "contentHash": "d3488e4aba92ce6a229ee169974388713958a0eaa44ea5ff96db9a30ab040b80"
+      "contentHash": "42b478eb432cf9b5ba5022a31f9c5eba4462fbc795cbf8dd50599fc6b6f35ac6"
     },
     {
       "id": "document:packages/ink/CONVENTIONS.md",
@@ -7178,7 +7190,7 @@
         "document",
         "project"
       ],
-      "contentHash": "6ad55364a4a7adfa9b0adeca5972117a9159a1d13e9ca8d9f41501fa5e953373"
+      "contentHash": "44223f4f7f15d48dc74085432f785211877a9a1a84ab09f2946ae9fac44aacb5"
     },
     {
       "id": "document:packages/memory/CONVENTIONS.md",
@@ -7538,7 +7550,7 @@
         "document",
         "project"
       ],
-      "contentHash": "ceae77c3c3373fb535ee36a8b8573475e07f0ad689443412852bab525a3cf84b"
+      "contentHash": "13c1cd6268b2a6acda8539937943724778964b84e6422b87a6136b928e2128e3"
     },
     {
       "id": "document:packages/validation/CONVENTIONS.md",
@@ -22228,6 +22240,27 @@
       "contentHash": "5118f9f6a7d6031125390e47e1217c8b21ae207eeefff6516e6ecbd3eb576eb3"
     },
     {
+      "id": "module:packages/eval/src/result-record.ts",
+      "type": "module",
+      "title": "result-record.ts",
+      "path": "packages/eval/src/result-record.ts",
+      "symbols": [
+        "ResultMetric",
+        "ResultRecord",
+        "ResultRecordInput",
+        "createResultRecord",
+        "precisionRecall",
+        "serializeResultRecord",
+        "verifyResultRecord"
+      ],
+      "tags": [
+        "module",
+        "ts",
+        "src"
+      ],
+      "contentHash": "484ade143e1739563fd2e217aa7dca613f0b376cd860c9d9cf38486912de7678"
+    },
+    {
       "id": "module:packages/eval/src/runner.ts",
       "type": "module",
       "title": "runner.ts",
@@ -22323,7 +22356,7 @@
         "mjs",
         "tests"
       ],
-      "contentHash": "851fa287d3b7b59030f57bd137341a1b5538eb35483e63b62e3fdbe7d165920f"
+      "contentHash": "23cc894cb4679c3cf6bc4bf655c2b34f3fe17716080a4d5f4f6cc0ceb65669c6"
     },
     {
       "id": "module:packages/eval/tests/bundler-interop.test.ts",
@@ -22391,6 +22424,19 @@
       "contentHash": "0971b2646cbfb64af182a2042e15c77f1ac19189a0f95c3959528017fc57c7a8"
     },
     {
+      "id": "module:packages/eval/tests/result-record.test.ts",
+      "type": "module",
+      "title": "result-record.test.ts",
+      "path": "packages/eval/tests/result-record.test.ts",
+      "tags": [
+        "module",
+        "ts",
+        "test",
+        "tests"
+      ],
+      "contentHash": "3690ee3826de1c6b81106e934170107a7e43e7f61e50e06447492c2f1d83b608"
+    },
+    {
       "id": "module:packages/eval/tests/runner.test.ts",
       "type": "module",
       "title": "runner.test.ts",
@@ -22442,7 +22488,7 @@
         "ts",
         "eval"
       ],
-      "contentHash": "87717dc1d8d98f1d7e33ff7615a9b60351480587e303514cead4e905bfa2eaa1"
+      "contentHash": "5bd71dc73afc3a1ca1660d10657a6e7ca729059035f47365b85e036571b32929"
     },
     {
       "id": "module:packages/eval/vitest.config.ts",
@@ -25780,7 +25826,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "a07c20f382e2a5be23007034baca75750cd4c284c6331193b0bbba60b28818b7"
+      "contentHash": "e4c44ea4d4bc5745a380c7148627fa404464d3bdbef46ca5804d847a03b75bdd"
     },
     {
       "id": "module:packages/mcp/src/registry-fetch.ts",
@@ -25883,7 +25929,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "009562ced5fd7da96795d85a5eced33d250cb7b6ed9aa077f0a8a638b24e2fae"
+      "contentHash": "772c211c04131b767aee929c963cd7866a9368f9c2476c5152293e1f195f2eea"
     },
     {
       "id": "module:packages/mcp/tests/validation.test.ts",
@@ -34497,7 +34543,7 @@
         "ts",
         "mcp"
       ],
-      "contentHash": "5a48a4be9322fbbd4d21376a418867f215726e5db25c71947c64a548ab649918"
+      "contentHash": "8142fc5bd03f367a47c35727f0f79ea8fec52cf86c58b70f864c46b103c36f94"
     },
     {
       "id": "module:packages/tools/src/mcp/index.ts",
@@ -34515,6 +34561,8 @@
         "McpContentText",
         "McpServer",
         "McpServerOptions",
+        "McpToolAnnotations",
+        "McpToolDefinition",
         "McpToolDescriptor",
         "McpToolsListResult",
         "McpTransport",
@@ -34530,7 +34578,7 @@
         "ts",
         "mcp"
       ],
-      "contentHash": "c7b24869ada6925c7a9d173f4a632aff7b5dd8baeec937583e782fd7d6b9766e"
+      "contentHash": "c54d6229bdf64071fa22405aa2b6dcc90569ccf8229b31e12c004f6b36065ce3"
     },
     {
       "id": "module:packages/tools/src/mcp/server.ts",
@@ -34547,7 +34595,7 @@
         "ts",
         "mcp"
       ],
-      "contentHash": "b7a76d574044828a72d170ee240d47c3e6ef471d64164acc97e3235c8a6d182f"
+      "contentHash": "6d20d90cf136e42cdfc8976af4f3fc055530e494ea33b8c91d6130ecf0857859"
     },
     {
       "id": "module:packages/tools/src/mcp/transports.ts",
@@ -34581,6 +34629,8 @@
         "MCP_PROTOCOL_VERSION",
         "McpCallToolResult",
         "McpContentText",
+        "McpToolAnnotations",
+        "McpToolDefinition",
         "McpToolDescriptor",
         "McpToolsListResult",
         "McpTransport"
@@ -34590,7 +34640,7 @@
         "ts",
         "mcp"
       ],
-      "contentHash": "a78e432ac9908b215d983e3bcb63a02ff7e3e5318b563559d7d486e05320cd60"
+      "contentHash": "2849aa732c48f5b9ab353e27bb576041721c30cf70ece16cdb77a0cb1b4c79cf"
     },
     {
       "id": "module:packages/tools/src/safe-fetch.ts",
@@ -34796,7 +34846,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "c7a3023e2f4dceecfc0638cef0aaa23b548de97d69560f2060f82099d66d7d00"
+      "contentHash": "2cc1288a4512bd0df2848b57e562a82bf0d65c69cba4ff55b4881e2a257448a6"
     },
     {
       "id": "module:packages/tools/tests/net-migration-http.test.ts",
@@ -38296,8 +38346,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "743a3f6ba78828b3446b96d6e1bd1d91559448c65fdcaf092a9c27daec5bb91a",
-    "fileCount": 2546,
+    "hash": "fd8a6653c220223ff9639c20eb76cf9a4f9a831a76724cd18eadc99032b619c4",
+    "fileCount": 2549,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -38319,9 +38369,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "7eaaccf8e662f3f69d83cd6b10d747f392e82339268008f475c09b99a80d4f67",
+    "contentHash": "63fb3049fd1569f0ae2f8c1890506d8925d7b666bc22327c126b9227383d8552",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "e2f485f514c517eb77ebaade41b6c6342a13e6b36c6a6b0d91a8cd677a4f3b9c",
+    "snapshotHash": "7aea2df3a6681cd143f3eda83a9b7336b9738dfcf1ca1698dbee48e35132c472",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -38341,7 +38391,7 @@
     },
     "lexical": {
       "version": 1,
-      "documentCount": 2501,
+      "documentCount": 2504,
       "fieldNames": [
         "aliases",
         "body",
@@ -38352,13 +38402,13 @@
         "title"
       ],
       "averageFieldLength": {
-        "aliases": 3.0139944022391045,
-        "body": 61.61895241903239,
-        "headings": 4.034386245501799,
-        "path": 7.611755297880848,
-        "summary": 4.562574970011995,
-        "symbols": 7.445821671331467,
-        "title": 3.359456217512995
+        "aliases": 3.0139776357827475,
+        "body": 61.93690095846645,
+        "headings": 4.032747603833866,
+        "path": 7.611821086261981,
+        "summary": 4.569488817891374,
+        "symbols": 7.453274760383387,
+        "title": 3.3606230031948883
       }
     },
     "entries": [
@@ -46222,7 +46272,7 @@
           "path": "apps/docs-next/content/docs/agents/tools/mcp.mdx",
           "symbols": "",
           "summary": "For host-facing installation of the published @agentskit/mcp server, see the MCP host recipe.",
-          "body": "Consume an MCP server For host-facing installation of the published @agentskit/mcp server, see the . Publish AgentsKit tools as MCP Transports - stdio — built in for child-process and current-process pipes - in-memory — built in for tests - custom — implement McpTransport for HTTP, WebSocket, or another framing layer The package does not ship HTTP or WebSocket listeners. Authentication and authorization belong to the custom transport or host boundary. The bridge currently supports MCP protocol revision 2024-11-05 . tools/call arguments are checked against the advertised JSON Schema before execution; tools without a schema accept only {} . Malformed JSON-RPC envelopes and parameters are rejected at the transport boundary, and tool error text is sanitized by default. Supply a custom validateArgs function only when the application owns an equivalent boundary. Devtools over MCP @agentskit/tools/mcp-devtools exposes a running runtime as MCP tools — any MCP-aware client (Claude Code, Cursor, Codex) can list sessions, inspect messages, pause / step, replay, and run evals. The inspector is a capability bag — only methods you implement get exposed. Read-only consumers pass listSessions + inspectSession and never expose pause / step / replay . Auth lives at the transport (bearer header on HTTP/WS, file perms on stdio). Related - - - -",
+          "body": "Consume an MCP server For host-facing installation of the published @agentskit/mcp server, see the . Publish AgentsKit tools as MCP Pass authorizeToolCall to createAgentsKitMcpServer to obtain host approval for tools marked requiresConfirmation . It has the same type as McpServerOptions['authorizeToolCall'] : (tool, args) = boolean Promise<boolean . Arguments are validated first. Only confirmation-required tools invoke the hook; absent hooks, denied approvals, throws, and rejected promises prevent execution. The host must obtain the required human confirmation before returning true ; annotations do not replace that decision. McpToolDefinition (from @agentskit/tools/mcp ) extends the core tool shape with optional title and annotations : title , readOnlyHint , destructiveHint , idempotentHint , and openWorldHint . Server listing and client import preserve these fields, including explicit false hints. Imported titles use the existing maxDescriptionBytes UTF-8 limit; malformed metadata is rejected. Hints remain untrusted advisory data and never grant confirmation or alter execution policy. These fields follow the . They are optional descriptor extensions on the existing 2024-11-05 bridge; older clients may ignore unknown fields. This does not add negotiation or other features from newer protocol revisions. Transports - stdio — built in for child-process and current-process pipes - in-memory — built in for tests - custom — implement McpTransport for HTTP, WebSocket, or another framing layer The package does not ship HTTP or WebSocket listeners. Authentication and authorization belong to the custom transport or host boundary. The bridge currently supports MCP protocol revision 2024-11-05 . tools/call arguments are checked against the advertised JSON Schema before execution; tools without a schema accept only {} . Malformed JSON-RPC envelopes and parameters are rejected at the transport boundary, and tool error text is sanitized by default. Supply a custom validateArgs function only when the application owns an equivalent boundary. Devtools over MCP @agentskit/tools/mcp-devtools exposes a running runtime as MCP tools — any MCP-aware client (Claude Code, Cursor, Codex) can list sessions, inspect messages, pause / step, replay, and run evals. The inspector is a capability bag — only methods you implement get exposed. Read-only consumers pass listSessions + inspectSession and never expose pause / step / replay . Auth lives at the transport (bearer header on HTTP/WS, file perms on stdio). Related - - - -",
           "aliases": "document human"
         },
         "graph": {
@@ -46244,12 +46294,17 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/mcp/src/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/tools/src/mcp/types.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "9651d80416f29f2149d5f1631a95ec7531154c84ffc8540606d0e14093a4e8ba",
+        "contentHash": "98c9984556d669fc674b3c9b1f48d67d6e178fbfaaa01c08cf68d317bf4582ab",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -51493,7 +51548,7 @@
           "path": "apps/docs-next/content/docs/for-agents/eval.mdx",
           "symbols": "",
           "summary": "runEval({ agent, suite }) — run an EvalSuite against any async agent fn.",
-          "body": "Install Primary exports - runEval({ agent, suite }) — run an EvalSuite against any async agent fn. Subpaths Subpath Contents --- --- @agentskit/eval/replay Universal in-memory APIs: createRecordingAdapter , createReplayAdapter , cassettes, createTimeTravelSession , replayAgainst , summarizeReplay . Browser and React Native conditions exclude Node built-ins; legacy filesystem export names reject with a Node-only diagnostic. See , , . @agentskit/eval/replay/io Node-only saveCassette and loadCassette filesystem helpers. Do not import this subpath from browser, Expo, or React Native applications. @agentskit/eval/snapshot matchPromptSnapshot (exact / normalized / similarity). See . @agentskit/eval/diff promptDiff , attributePromptChange , formatDiff . See . @agentskit/eval/ci renderJUnit , renderMarkdown , renderGitHubAnnotations , reportToCi . See . @agentskit/eval/braintrust Braintrust scoring pipeline, scorer families, regression detection, and optional experiment upload. Install the optional braintrust peer when using this subpath. @agentskit/eval/braintrust/scorers Braintrust-compatible quality and robustness scorers. @agentskit/eval/braintrust/ci Braintrust regression detection and Markdown alerts. replay/io , snapshot , and ci are Node-oriented filesystem/CI entry points. The conditional replay entry is the portable choice for browsers, Expo, and React Native. Replay helpers take defensive snapshots of requests, chunks, dates, and plain metadata. Caller mutation cannot rewrite a recording or an already-created replay adapter. Minimal example Malformed agent response objects and thrown assertion predicates become failed cases rather than aborting the suite. Predicate failures preserve the agent output and token usage for diagnosis. Related - . - — trace + cost data feeds eval comparisons. - — portable format spec. Source - npm: https://www.npmjs.com/package/@agentskit/eval - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/eval",
+          "body": "Install Primary exports - runEval({ agent, suite }) — run an EvalSuite against any async agent fn. Subpaths Subpath Contents --- --- @agentskit/eval/provenance Universal createResultRecord , serializeResultRecord , verifyResultRecord , precisionRecall ; types ResultRecordInput , ResultRecord , ResultMetric . Canonical SHA-256 integrity records; optional timestamp excluded from digest. See . @agentskit/eval/replay Universal in-memory APIs: createRecordingAdapter , createReplayAdapter , cassettes, createTimeTravelSession , replayAgainst , summarizeReplay . Browser and React Native conditions exclude Node built-ins; legacy filesystem export names reject with a Node-only diagnostic. See , , . @agentskit/eval/replay/io Node-only saveCassette and loadCassette filesystem helpers. Do not import this subpath from browser, Expo, or React Native applications. @agentskit/eval/snapshot matchPromptSnapshot (exact / normalized / similarity). See . @agentskit/eval/diff promptDiff , attributePromptChange , formatDiff . See . @agentskit/eval/ci renderJUnit , renderMarkdown , renderGitHubAnnotations , reportToCi . See . @agentskit/eval/braintrust Braintrust scoring pipeline, scorer families, regression detection, and optional experiment upload. Install the optional braintrust peer when using this subpath. @agentskit/eval/braintrust/scorers Braintrust-compatible quality and robustness scorers. @agentskit/eval/braintrust/ci Braintrust regression detection and Markdown alerts. replay/io , snapshot , and ci are Node-oriented filesystem/CI entry points. The conditional replay entry is the portable choice for browsers, Expo, and React Native. Replay helpers take defensive snapshots of requests, chunks, dates, and plain metadata. Caller mutation cannot rewrite a recording or an already-created replay adapter. Minimal example Malformed agent response objects and thrown assertion predicates become failed cases rather than aborting the suite. Predicate failures preserve the agent output and token usage for diagnosis. Related - . - — trace + cost data feeds eval comparisons. - — portable format spec. Source - npm: https://www.npmjs.com/package/@agentskit/eval - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/eval",
           "aliases": "eval document agent"
         },
         "graph": {
@@ -51555,12 +51610,17 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/eval/src/result-record.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/eval/src/snapshot/snapshot.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "c9270ecb7704025a6e77e9805fb1200453e170f375fc058b3280382ed7ca0774",
+        "contentHash": "04d8b656a4f2079ef5eab532c7fdba16f7763e94521d36ef4d29966d3d1ca670",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -51972,7 +52032,7 @@
           "path": "apps/docs-next/content/docs/for-agents/mcp.mdx",
           "symbols": "",
           "summary": "Serve AgentsKit tools to an MCP host that supports the documented `2024-11-05` tools bridge. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` + `createStdioTransport`).",
-          "body": "Purpose Serve AgentsKit tools to an MCP host that supports the documented 2024-11-05 tools bridge. A thin bridge over @agentskit/tools/mcp ( createMcpServer + createStdioTransport ). Install Primary exports - createAgentsKitMcpServer({ tools, serverInfo?, onEvent?, transport? }) — expose ToolDefinition[] as an MCP server. Defaults to stdio over the current process; pass transport to override (tests / custom hosts). - processStdio() — adapt the Node process into the StdioLikeProcess the transport expects (server receives on stdin, sends on stdout). - createAgentTool({ id, description, systemPrompt, adapter, maxSteps? }) — wrap a whole agent as one MCP tool. The host calls it with a task ; the agent runs server-side on the given adapter and returns the result (\"agents as MCP tools\"). - createTypedAgentTool(config) — typed variant of createAgentTool for an agent input/output contract. - fetchAgent(id, fetchImpl?) — fetch a registry agent definition without executing its source. - fetchAgentSkill(id, fetchImpl?) — fetch a registry agent's runnable skill (hosted index, raw-GitHub fallback); null for tool-composing agents. An optional third argument controls abort, timeout, and response-byte limits. Bin agentskit-mcp — npx -y @agentskit/mcp@0.4.10 --tools fetch,search . Expose whole agents with --agents <ids --provider <p (any of ~20 providers + catalog OpenAI-compatible). Flags: --tools , --fs-root , --sqlite , --allow-shell , --model , --max-steps , --api-key , --base-url . Unknown, duplicate, or valueless flags fail closed. stdout is the JSON-RPC channel; diagnostics and help go to stderr. Pinned coding-agent configs and their evidence levels live in the . Host config fixtures cover Codex, Claude Code/Desktop, Cursor, Cline, and Continue. The local-build and published-package smoke scripts both initialize the shared STDIO path and require the tool list to equal fetch url,web search . Beta boundaries - Tool names are unique and follow the current MCP 1–128 character interoperability grammar. - Server configuration and agent-tool configuration fail with typed AgentsKit diagnostics. - Published tool definitions are snapshotted; observer failures cannot alter protocol behavior. - Agent tasks, step counts, prompts, descriptions, registry IDs, request time, and response bytes are bounded. - Registry source is treated as data and never executed. - The built-in surface is the MCP tools subset over stdio or an injected transport. HTTP/WebSocket, resources, prompts, sampling, auth, rate limiting, and persistence are host responsibilities. Supported protocol matrix Protocol revision Lifecycle Transports Methods Not included --- --- --- --- --- 2024-11-05 Exact-version initialize ; tools/list ; tools/call ; close settles pending calls stdio, in-memory, or injected initialize , tools/list , tools/call resources, prompts, sampling, tasks, HTTP/WebSocket, authentication, rate limiting, persistence AgentsKit fails closed when a peer requests a different protocol revision. The bridge is a composable tools subset: hosts own any omitted MCP capability, transport authentication, egress policy, and production isolation. Minimal example Related packages - — the tools you expose + the MCP primitives. - — the ToolDefinition contract. Source - npm: https://www.npmjs.com/package/@agentskit/mcp - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/mcp - contract:",
+          "body": "Purpose Serve AgentsKit tools to an MCP host that supports the documented 2024-11-05 tools bridge. A thin bridge over @agentskit/tools/mcp ( createMcpServer + createStdioTransport ). Install Primary exports - createAgentsKitMcpServer({ tools, serverInfo?, onEvent?, transport?, authorizeToolCall? }) — expose McpToolDefinition[] as an MCP server. Defaults to stdio over the current process; pass transport to override (tests / custom hosts). - processStdio() — adapt the Node process into the StdioLikeProcess the transport expects (server receives on stdin, sends on stdout). - createAgentTool({ id, description, systemPrompt, adapter, maxSteps? }) — wrap a whole agent as one MCP tool. The host calls it with a task ; the agent runs server-side on the given adapter and returns the result (\"agents as MCP tools\"). - createTypedAgentTool(config) — typed variant of createAgentTool for an agent input/output contract. - fetchAgent(id, fetchImpl?) — fetch a registry agent definition without executing its source. - fetchAgentSkill(id, fetchImpl?) — fetch a registry agent's runnable skill (hosted index, raw-GitHub fallback); null for tool-composing agents. An optional third argument controls abort, timeout, and response-byte limits. Pass authorizeToolCall to createAgentsKitMcpServer to obtain host approval for tools marked requiresConfirmation . It has the same type as McpServerOptions['authorizeToolCall'] : (tool, args) = boolean Promise<boolean . Arguments are validated first. Only confirmation-required tools invoke the hook; absent hooks, denied approvals, throws, and rejected promises prevent execution. The host must obtain the required human confirmation before returning true ; annotations do not replace that decision. McpToolDefinition (from @agentskit/tools/mcp ) extends the core tool shape with optional title and annotations : title , readOnlyHint , destructiveHint , idempotentHint , and openWorldHint . Server listing and client import preserve these fields, including explicit false hints. Imported titles use the existing maxDescriptionBytes UTF-8 limit; malformed metadata is rejected. Hints remain untrusted advisory data and never grant confirmation or alter execution policy. These fields follow the . They are optional descriptor extensions on the existing 2024-11-05 bridge; older clients may ignore unknown fields. This does not add negotiation or other features from newer protocol revisions. Bin agentskit-mcp — npx -y @agentskit/mcp@0.4.10 --tools fetch,search . Expose whole agents with --agents <ids --provider <p (any of ~20 providers + catalog OpenAI-compatible). Flags: --tools , --fs-root , --sqlite , --allow-shell , --model , --max-steps , --api-key , --base-url . Unknown, duplicate, or valueless flags fail closed. stdout is the JSON-RPC channel; diagnostics and help go to stderr. Pinned coding-agent configs and their evidence levels live in the . Host config fixtures cover Codex, Claude Code/Desktop, Cursor, Cline, and Continue. The local-build and published-package smoke scripts both initialize the shared STDIO path and require the tool list to equal fetch url,web search . Beta boundaries - Tool names are unique and follow the current MCP 1–128 character interoperability grammar. - Server configuration and agent-tool configuration fail with typed AgentsKit diagnostics. - Published tool definitions are snapshotted; observer failures cannot alter protocol behavior. - Agent tasks, step counts, prompts, descriptions, registry IDs, request time, and response bytes are bounded. - Registry source is treated as data and never executed. - The built-in surface is the MCP tools subset over stdio or an injected transport. HTTP/WebSocket, resources, prompts, sampling, auth, rate limiting, and persistence are host responsibilities. Supported protocol matrix Protocol revision Lifecycle Transports Methods Not included --- --- --- --- --- 2024-11-05 Exact-version initialize ; tools/list ; tools/call ; close settles pending calls stdio, in-memor",
           "aliases": "mcp document agent"
         },
         "graph": {
@@ -52014,6 +52074,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/mcp/src/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/tools/src/mcp/server.ts",
               "confidence": "observed"
             },
@@ -52021,10 +52086,15 @@
               "kind": "mentions-symbol",
               "id": "module:packages/tools/src/mcp/transports.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/tools/src/mcp/types.ts",
+              "confidence": "observed"
             }
           ]
         },
-        "contentHash": "2a809c33181050ca9c5e943379391724d8464efb92a382a9a4148b67e9e2c2f6",
+        "contentHash": "b435f20208aa75706de84a879b0e9ad4e78f1ce732203c859114ac28605b9899",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -53467,7 +53537,7 @@
           "path": "apps/docs-next/content/docs/for-agents/tools.mdx",
           "symbols": "",
           "summary": "webSearch, fetchUrl, filesystem, shell — core built-ins. webSearch provider bodies default to a 2 MiB cap (maxResponseBytes) and are cancelled on overflow.",
-          "body": "Install Primary exports (main entry) - webSearch , fetchUrl , filesystem , shell — core built-ins. webSearch provider bodies default to a 2 MiB cap ( maxResponseBytes ) and are cancelled on overflow. - sqliteQueryTool — parameterized SQLite query tool. - slackTool — Slack incoming-webhook tool (lighter than the OAuth integrations/slack ). - defineZodTool — define tools with Zod schemas. - listTools — discovery helper. - safeFetch — default-deny egress (ADR-0010): blocks non-public IPv4/IPv6 ranges, including CGNAT, mapped IPv4, unique-local, and metadata addresses, and re-gates every redirect hop. Node DNS checks all answers and fails closed; allowedHosts and allowPrivateHosts are explicit exceptions for vetted targets. DNS preflight does not prevent rebinding. It applies WHATWG URL canonicalization before checking numeric authorities. Use it for model-influenced URLs. Companions: checkEgress , isPrivateHost , isPrivateIPv4 , isPrivateIPv6 ; policy type EgressPolicy . Subpath exports Subpath Contents --- --- @agentskit/tools/mcp createMcpClient , createMcpServer , toolsFromMcpClient , createStdioTransport , createInMemoryTransportPair . See . @agentskit/tools/integrations Communication: slack , discord , gmail , twilio . Project tracking: linear , linearTriage , jira , confluence , notion . Source / CI: github , githubActions . Customer / commerce: hubspot , airtable , shopify , stripe , stripeWebhookTool (+ verifyStripeSignature ). Calendars / docs: googleCalendar , figma . Web / scraping: firecrawl , reader , documentParsers , browserAgent . Media: openaiImages , elevenlabs , whisper , deepgram . Data: postgres , postgresWithRoles , s3 , cloudflareR2 , coingecko , maps , weather . Operations: pagerduty , sentry . See + . Minimal example Related - — chain tools. - — enforce a sandbox policy across tools. - . Source - npm: - repo:",
+          "body": "Install Primary exports (main entry) - webSearch , fetchUrl , filesystem , shell — core built-ins. webSearch provider bodies default to a 2 MiB cap ( maxResponseBytes ) and are cancelled on overflow. - sqliteQueryTool — parameterized SQLite query tool. - slackTool — Slack incoming-webhook tool (lighter than the OAuth integrations/slack ). - defineZodTool — define tools with Zod schemas. - listTools — discovery helper. - safeFetch — default-deny egress (ADR-0010): blocks non-public IPv4/IPv6 ranges, including CGNAT, mapped IPv4, unique-local, and metadata addresses, and re-gates every redirect hop. Node DNS checks all answers and fails closed; allowedHosts and allowPrivateHosts are explicit exceptions for vetted targets. DNS preflight does not prevent rebinding. It applies WHATWG URL canonicalization before checking numeric authorities. Use it for model-influenced URLs. Companions: checkEgress , isPrivateHost , isPrivateIPv4 , isPrivateIPv6 ; policy type EgressPolicy . Subpath exports Subpath Contents --- --- @agentskit/tools/mcp createMcpClient , createMcpServer , toolsFromMcpClient , createStdioTransport , createInMemoryTransportPair . See . @agentskit/tools/integrations Communication: slack , discord , gmail , twilio . Project tracking: linear , linearTriage , jira , confluence , notion . Source / CI: github , githubActions . Customer / commerce: hubspot , airtable , shopify , stripe , stripeWebhookTool (+ verifyStripeSignature ). Calendars / docs: googleCalendar , figma . Web / scraping: firecrawl , reader , documentParsers , browserAgent . Media: openaiImages , elevenlabs , whisper , deepgram . Data: postgres , postgresWithRoles , s3 , cloudflareR2 , coingecko , maps , weather . Operations: pagerduty , sentry . See + . McpToolDefinition (from @agentskit/tools/mcp ) extends the core tool shape with optional title and annotations : title , readOnlyHint , destructiveHint , idempotentHint , and openWorldHint . Server listing and client import preserve these fields, including explicit false hints. Imported titles use the existing maxDescriptionBytes UTF-8 limit; malformed metadata is rejected. Hints remain untrusted advisory data and never grant confirmation or alter execution policy. These fields follow the . They are optional descriptor extensions on the existing 2024-11-05 bridge; older clients may ignore unknown fields. This does not add negotiation or other features from newer protocol revisions. Minimal example Related - — chain tools. - — enforce a sandbox policy across tools. - . Source - npm: - repo:",
           "aliases": "tools document agent"
         },
         "graph": {
@@ -53714,6 +53784,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/tools/src/mcp/types.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/tools/src/safe-fetch.ts",
               "confidence": "observed"
             },
@@ -53744,7 +53819,7 @@
             }
           ]
         },
-        "contentHash": "5f3aba5a8a8c1b144fe2cc6f921f60b1b2df5788f20e0c66d63c1ef0292891d2",
+        "contentHash": "03e3d01b29135db9f3609768cc5cbb918a9e74ce386b272b0a3064ff7529c61d",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -60288,11 +60363,11 @@
         ],
         "fields": {
           "title": "eval.mdx",
-          "headings": "When to reach for it Best fit Install Hello world Surface Recipes Stability Related Source",
+          "headings": "When to reach for it Best fit Install Hello world Surface Result records Recipes Stability Related Source",
           "path": "apps/docs-next/content/docs/reference/packages/eval.mdx",
           "symbols": "",
           "summary": "@agentskit/eval is how you stop shipping changes to prompts, tools, and providers on vibes alone. It gives you repeatable ways to measure quality, compare behavior, and catch regressions before they reach users.",
-          "body": "@agentskit/eval is how you stop shipping changes to prompts, tools, and providers on vibes alone. It gives you repeatable ways to measure quality, compare behavior, and catch regressions before they reach users. When to reach for it - You want to score agent quality with numbers, in CI. - You want deterministic replay (record once, replay forever). - You want Jest-style prompt snapshots with semantic tolerance. - You want a \"git blame for prompts\" — diff + attribution. Best fit - Add this when an agent starts becoming product-critical. - Pair with so you can turn real failures into eval cases. - Pair with to compare providers against the same suite. - Pair with when you need to evaluate full multi-step workflows, not isolated prompts. Install Hello world That feedback loop is what lets a team keep improving an agent without losing control of it. Surface - runEval({ agent, suite }) . - /replay : universal in-memory createRecordingAdapter · createReplayAdapter · cassettes · createTimeTravelSession · replayAgainst · summarizeReplay . - /replay/io : Node-only saveCassette · loadCassette . Browser and native applications should persist serialized cassettes through a host-owned storage adapter. - /snapshot : matchPromptSnapshot . - /diff : promptDiff · attributePromptChange · formatDiff . - /ci : renderJUnit · renderMarkdown · renderGitHubAnnotations · reportToCi . Recipes - - - - - - - Stability - Version: 0.6.12 - Tier: beta - Contract: evolving - Roadmap: see for what this package needs to reach v1.0. Related - - - - Source npm: · repo:",
+          "body": "@agentskit/eval is how you stop shipping changes to prompts, tools, and providers on vibes alone. It gives you repeatable ways to measure quality, compare behavior, and catch regressions before they reach users. When to reach for it - You want to score agent quality with numbers, in CI. - You want deterministic replay (record once, replay forever). - You want Jest-style prompt snapshots with semantic tolerance. - You want a \"git blame for prompts\" — diff + attribution. Best fit - Add this when an agent starts becoming product-critical. - Pair with so you can turn real failures into eval cases. - Pair with to compare providers against the same suite. - Pair with when you need to evaluate full multi-step workflows, not isolated prompts. Install Hello world That feedback loop is what lets a team keep improving an agent without losing control of it. Surface - runEval({ agent, suite }) . - /provenance : universal createResultRecord · serializeResultRecord · verifyResultRecord · precisionRecall . - /replay : universal in-memory createRecordingAdapter · createReplayAdapter · cassettes · createTimeTravelSession · replayAgainst · summarizeReplay . - /replay/io : Node-only saveCassette · loadCassette . Browser and native applications should persist serialized cassettes through a host-owned storage adapter. - /snapshot : matchPromptSnapshot . - /diff : promptDiff · attributePromptChange · formatDiff . - /ci : renderJUnit · renderMarkdown · renderGitHubAnnotations · reportToCi . Result records Use @agentskit/eval/provenance to preserve benchmark identity and metrics without running an agent: ResultRecordInput requires non-empty suiteId , subject.revision , and runnerVersion , lowercase 64-character SHA-256 caseSetDigest and subject.digest , and a JSON metrics object ( ResultMetric supports nested arrays and objects). Creation snapshots the input. ResultRecord adds digest : SHA-256 of the UTF-8 RFC 8785 canonical JSON of all input fields except timestamp . Serialization includes the digest and optional timestamp. Omit the timestamp for byte-identical reruns; changing it does not invalidate the digest. Core's canonical JSON semantics apply: undefined object fields are omitted, undefined array entries become null, and non-finite numbers and cycles are rejected. verifyResultRecord(unknown) returns false for malformed provenance or a mismatched digest, without throwing. It checks integrity, not authenticity or whether the supplied revision and digests correspond to real artifacts. A party able to rewrite the record and its digest can produce another valid record. precisionRecall({ tp, fp, fn }) accepts non-negative safe integers and returns { precision, recall } in [0, 1] . A zero denominator yields zero. Counts and per-unit results can be stored directly in metrics; these helpers do not run or judge cases. Recipes - - - - - - - Stability - Version: 0.6.12 - Tier: beta - Contract: evolving - Roadmap: see for what this package needs to reach v1.0. Related - - - - Source npm: · repo:",
           "aliases": "document human"
         },
         "graph": {
@@ -60369,12 +60444,17 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/eval/src/result-record.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/eval/src/snapshot/snapshot.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "f4e92252981f0ca6267512821445b06daf669dedf1c42cce6682e9ab8bae8bea",
+        "contentHash": "5b094f44d37ae1636b18487709905e175260c763623c4e9ee43cdb77333bfe6e",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -75293,6 +75373,45 @@
         "confidence": "observed"
       },
       {
+        "id": "document:docs/spec/eval-result-record-v1.md",
+        "kind": "document",
+        "path": "docs/spec/eval-result-record-v1.md",
+        "title": "Eval result record v1",
+        "summary": "The @agentskit/eval/provenance API exposes ResultRecordInput, ResultRecord, ResultMetric, createResultRecord, serializeResultRecord, verifyResultRecord, and precisionRecall.",
+        "audience": "human",
+        "aliases": [],
+        "tags": [
+          "document",
+          "human"
+        ],
+        "fields": {
+          "title": "Eval result record v1",
+          "headings": "Eval result record v1",
+          "path": "docs/spec/eval-result-record-v1.md",
+          "symbols": "",
+          "summary": "The @agentskit/eval/provenance API exposes ResultRecordInput, ResultRecord, ResultMetric, createResultRecord, serializeResultRecord, verifyResultRecord, and precisionRecall.",
+          "body": "Eval result record v1 The @agentskit/eval/provenance API exposes ResultRecordInput , ResultRecord , ResultMetric , createResultRecord , serializeResultRecord , verifyResultRecord , and precisionRecall . An input contains non-empty string suiteId , lowercase SHA-256 caseSetDigest , subject with non-empty string revision and lowercase SHA-256 digest , non-empty string runnerVersion , a JSON object metrics , and optional string timestamp . SHA-256 digests are exactly 64 lowercase hexadecimal characters. Metrics may contain nested JSON values, including per-unit counts and ratios. No timestamp is generated implicitly. Creation validates provenance, removes timestamp and any existing digest, serializes the remaining content with core RFC 8785 canonical JSON, and computes its UTF-8 SHA-256 digest. The returned envelope snapshots that content and adds digest and the optional timestamp. Additional enumerable input fields, if supplied, are also hashed. Core JSON semantics apply; undefined object properties are omitted and undefined array elements become null. Non-finite numbers and circular references fail. Serialization returns canonical JSON of the entire envelope, including digest and timestamp. Reruns with identical content and identical or absent timestamps produce identical bytes. Different timestamps preserve the content digest but change serialized bytes. Verification accepts an unknown value, validates provenance, excludes timestamp and digest, and recomputes the digest. Invalid input or a mismatch returns false. This is an integrity check, not a signature or proof of artifact identity. Precision is tp / (tp + fp) and recall is tp / (tp + fn) . A zero denominator returns zero. Counts must be non-negative safe integers; invalid counts throw.",
+          "aliases": "document human"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "mentions-symbol",
+              "id": "module:packages/eval/src/result-record.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "5b5cef224fef51b3f31cedddfe2caf6bf3b6a7da0ec26583c8c44d333efaf0cb",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "document:docs/STABILITY.md",
         "kind": "document",
         "path": "docs/STABILITY.md",
@@ -78699,7 +78818,7 @@
           "path": "packages/eval/CONVENTIONS.md",
           "symbols": "",
           "summary": "Agent evaluation and benchmarking. Treats agents like production systems — scored, regressed-against, tracked over time.",
-          "body": "Conventions — @agentskit/eval Agent evaluation and benchmarking. Treats agents like production systems — scored, regressed-against, tracked over time. Stability tier: beta Core runEval(dataset) is stable. Reporters, metrics, dataset shape may gain fields in minor bumps. Scope - runEval({ agent, suite }) — runs an EvalSuite sequentially and returns an EvalResult - Deterministic cassette recording, replay, time travel, and replay-against comparison - Prompt snapshot, diff, attribution, JUnit, Markdown, and GitHub Actions reporting - Braintrust quality/robustness scoring through the optional braintrust peer - Types: AgentFn , AgentResponse , RunEvalConfig , EvalSuite , EvalResult Design principles - Evaluation is testing for non-determinism. Consumers should use vitest or similar as the runner; this package provides the primitives. - Evaluation input is read-only. Runners and replay helpers snapshot mutable data at their boundaries. - Malformed agent output becomes a failed case. One bad case does not abort the suite. - Every metric is optional. Latency and token usage are reported when available. - Host boundaries are explicit. replay is universal; replay/io , snapshot , and ci use Node filesystem/process APIs. - Replay-first : eval runs should be reproducible from a recorded trace whenever the agent boundary supports deterministic replay. Adding a public surface 1. Extend an existing subpath unless a distinct host boundary requires a new one. 2. Keep browser/React Native entries free of Node built-ins. 3. Add package-manifest, packed-consumer, ESM/CJS, declaration, and direct behavior tests. 4. Update README, for-agents documentation, and the public API snapshot. Testing - Unit tests for scorers and aggregation with deterministic fixtures. - Integration test that runs a tiny dataset against a mock runtime end-to-end. Common pitfalls Pitfall What to do instead --- --- Blocking tests on real model calls Use deterministic mock adapters Assuming every result has token usage Make metrics optional Importing filesystem helpers in browser code Use serializeCassette / parseCassette with host storage Mutating suites or cassettes Snapshot at the package boundary Review checklist for this package - [ ] Bundle size under 10KB gzipped - [ ] Coverage threshold holds (95% lines) - [ ] Root plus all public subpaths pass packed ESM/CJS/TypeScript consumers - [ ] Browser and React Native replay entries contain no eager Node built-ins - [ ] No hard dependency on an adapter, model provider, or optional Braintrust SDK",
+          "body": "Conventions — @agentskit/eval Agent evaluation and benchmarking. Treats agents like production systems — scored, regressed-against, tracked over time. Stability tier: beta Core runEval(dataset) is stable. Reporters, metrics, dataset shape may gain fields in minor bumps. Scope - runEval({ agent, suite }) — runs an EvalSuite sequentially and returns an EvalResult - Deterministic cassette recording, replay, time travel, and replay-against comparison - Portable provenance result records, canonical hashes, integrity verification, and precision/recall - Prompt snapshot, diff, attribution, JUnit, Markdown, and GitHub Actions reporting - Braintrust quality/robustness scoring through the optional braintrust peer - Types: AgentFn , AgentResponse , RunEvalConfig , EvalSuite , EvalResult Design principles - Evaluation is testing for non-determinism. Consumers should use vitest or similar as the runner; this package provides the primitives. - Evaluation input is read-only. Runners and replay helpers snapshot mutable data at their boundaries. - Malformed agent output becomes a failed case. One bad case does not abort the suite. - Every metric is optional. Latency and token usage are reported when available. - Host boundaries are explicit. replay is universal; replay/io , snapshot , and ci use Node filesystem/process APIs. - Replay-first : eval runs should be reproducible from a recorded trace whenever the agent boundary supports deterministic replay. Adding a public surface 1. Extend an existing subpath unless a distinct host boundary requires a new one. 2. Keep browser/React Native entries free of Node built-ins. 3. Add package-manifest, packed-consumer, ESM/CJS, declaration, and direct behavior tests. 4. Update README, for-agents documentation, and the public API snapshot. Testing - Unit tests for scorers and aggregation with deterministic fixtures. - Integration test that runs a tiny dataset against a mock runtime end-to-end. Common pitfalls Pitfall What to do instead --- --- Blocking tests on real model calls Use deterministic mock adapters Assuming every result has token usage Make metrics optional Importing filesystem helpers in browser code Use serializeCassette / parseCassette with host storage Mutating suites or cassettes Snapshot at the package boundary Review checklist for this package - [ ] Bundle size under 10KB gzipped - [ ] Coverage threshold holds (95% lines) - [ ] Root plus all public subpaths pass packed ESM/CJS/TypeScript consumers - [ ] Browser and React Native replay entries contain no eager Node built-ins - [ ] No hard dependency on an adapter, model provider, or optional Braintrust SDK",
           "aliases": "document unclassified"
         },
         "graph": {
@@ -78726,7 +78845,7 @@
             }
           ]
         },
-        "contentHash": "5dd91f4079807dc677aadf2e9c89788d9cb0a73432b55fe13a640dca067caa9c",
+        "contentHash": "79dbb2f630b5169b268912f75fd9148af56d3791b0401af7f0361b320db91d87",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -78744,11 +78863,11 @@
         ],
         "fields": {
           "title": "@agentskit/eval",
-          "headings": "@agentskit/eval Verified proof How this fits the ecosystem Why eval Install Quick example Features Deterministic replay Braintrust lifecycle Ecosystem Contributors License Docs Maturity and compatibility Contributing",
+          "headings": "@agentskit/eval Verified proof How this fits the ecosystem Why eval Install Quick example Features Result records Deterministic replay Braintrust lifecycle Ecosystem Contributors License Docs Maturity and compatibility Contributing",
           "path": "packages/eval/README.md",
           "symbols": "",
           "summary": "Profile: <code>concise-package</code>",
-          "body": "@agentskit/eval Profile: <code concise-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Measure agent quality with numbers, not vibes — ship with confidence. Tags: ai · agents · llm · agentskit · ai-agents · eval · evaluation · benchmarking · testing · ci-cd · llm-testing Verified proof - Package metadata and tests live under packages/eval/ . - Package guide: https://www.agentskit.io/docs/reference/packages/eval - Stability map: How this fits the ecosystem @agentskit/eval is the quality layer: replay agent runs, compare outputs, snapshot behavior, and catch regressions before users do. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why eval - Replace \"it seemed to work\" with real metrics — accuracy, per-case latency, optional token usage, and pass/fail for every test case in a single result object - CI/CD ready — exit codes reflect suite results; gate deployments on accuracy thresholds so regressions never reach production - Flexible assertions — substring matching or full control with a custom (result) = boolean predicate per case - Provider-agnostic — the agent closure can wrap any async boundary: createRuntime , a custom controller, or an HTTP endpoint - Failure isolation — malformed responses, agent failures, and assertion failures become failed cases without aborting the suite Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- Features - runEval({ agent, suite }) — run a named test suite against any agent function - Result: { accuracy, passed, totalCases, cases[] } — per-case latency and outcome - Assertion modes: exact match, includes , custom predicate - CI exit codes — non-zero on failure for pipeline gating - Pair with @agentskit/observability to trace failed cases Deterministic replay Import recording, replay, cassette serialization, time travel, and comparison APIs from @agentskit/eval/replay . That entry is safe for Node, browsers, Expo, and React Native; browser and native package conditions exclude filesystem code. Node applications that persist cassettes to disk should import saveCassette and loadCassette from the explicit Node-only subpath: The original Node exports from @agentskit/eval/replay remain available for compatibility. Browser and native builds retain those export names so types and runtime stay aligned, but calls reject with a Node-only diagnostic. Those hosts should combine serializeCassette or parseCassette with their own storage APIs. @agentskit/eval/snapshot and @agentskit/eval/ci are Node-oriented subpaths because they write files and inspect CI environment variables. Pure comparison helpers remain callable anywhere their entry can be bundled, but browser applications should not depend on their filesystem workflows. Replay boundaries snapshot cassettes, requests, chunks, dates, and plain metadata. Mutating a live request or a replayed chunk does not rewrite the recorded cassette. Braintrust lifecycle @agentskit/eval/braintrust computes every score locally. When BRAINTRUST API KEY or options.apiKey is present, it lazily initializes Braintrust, awaits each experiment log, flushes the experiment, and then summarizes it. Non-fatal SDK failures are returned as bounded result.warnings ; local cases and summaries remain available. Remote case fields are excluded by default. Use options.upload to explicitly allow selected input, output, expected, or metadata fields; selected values are capped by maxFieldBytes (default 4096), and run-level metadata follows the same allowlist. Custom scorer results are validated at runtime. A malformed name or score outside [0, 1] becomes an isolated scorer error rather than corrupting the a",
+          "body": "@agentskit/eval Profile: <code concise-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Measure agent quality with numbers, not vibes — ship with confidence. Tags: ai · agents · llm · agentskit · ai-agents · eval · evaluation · benchmarking · testing · ci-cd · llm-testing Verified proof - Package metadata and tests live under packages/eval/ . - Package guide: https://www.agentskit.io/docs/reference/packages/eval - Stability map: How this fits the ecosystem @agentskit/eval is the quality layer: replay agent runs, compare outputs, snapshot behavior, and catch regressions before users do. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why eval - Replace \"it seemed to work\" with real metrics — accuracy, per-case latency, optional token usage, and pass/fail for every test case in a single result object - CI/CD ready — exit codes reflect suite results; gate deployments on accuracy thresholds so regressions never reach production - Flexible assertions — substring matching or full control with a custom (result) = boolean predicate per case - Provider-agnostic — the agent closure can wrap any async boundary: createRuntime , a custom controller, or an HTTP endpoint - Failure isolation — malformed responses, agent failures, and assertion failures become failed cases without aborting the suite Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- Features - runEval({ agent, suite }) — run a named test suite against any agent function - Result: { accuracy, passed, totalCases, cases[] } — per-case latency and outcome - Assertion modes: exact match, includes , custom predicate - CI exit codes — non-zero on failure for pipeline gating - Pair with @agentskit/observability to trace failed cases Result records Use @agentskit/eval/provenance to preserve benchmark identity and metrics without running an agent: ResultRecordInput requires non-empty suiteId , subject.revision , and runnerVersion , lowercase 64-character SHA-256 caseSetDigest and subject.digest , and a JSON metrics object ( ResultMetric supports nested arrays and objects). Creation snapshots the input. ResultRecord adds digest : SHA-256 of the UTF-8 RFC 8785 canonical JSON of all input fields except timestamp . Serialization includes the digest and optional timestamp. Omit the timestamp for byte-identical reruns; changing it does not invalidate the digest. Core's canonical JSON semantics apply: undefined object fields are omitted, undefined array entries become null, and non-finite numbers and cycles are rejected. verifyResultRecord(unknown) returns false for malformed provenance or a mismatched digest, without throwing. It checks integrity, not authenticity or whether the supplied revision and digests correspond to real artifacts. A party able to rewrite the record and its digest can produce another valid record. precisionRecall({ tp, fp, fn }) accepts non-negative safe integers and returns { precision, recall } in [0, 1] . A zero denominator yields zero. Counts and per-unit results can be stored directly in metrics; these helpers do not run or judge cases. Deterministic replay Import recording, replay, cassette serialization, time travel, and comparison APIs from @agentskit/eval/replay . That entry is safe for Node, browsers, Expo, and React Native; browser and native package conditions exclude filesystem code. Node applications that persist cassettes to disk should import saveCassette and loadCassette from the explicit Node-only subpath: The original Node exports from @agentskit/eval/replay remain available for compatibility. Browser and native builds retain those export names so types and runtime stay a",
           "aliases": "document project"
         },
         "graph": {
@@ -78815,12 +78934,17 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/eval/src/result-record.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/runtime/src/runner.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "d3488e4aba92ce6a229ee169974388713958a0eaa44ea5ff96db9a30ab040b80",
+        "contentHash": "42b478eb432cf9b5ba5022a31f9c5eba4462fbc795cbf8dd50599fc6b6f35ac6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -79327,7 +79451,7 @@
           "path": "packages/mcp/README.md",
           "symbols": "",
           "summary": "Profile: <code>major-package</code>",
-          "body": "@agentskit/mcp Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Tags: agentskit · typescript · ai-agents Expose AgentsKit tools as an server — use them from Claude Desktop, Cursor, Windsurf, or another host that supports the documented 2024-11-05 tools bridge. Verified proof - Package metadata and tests live under packages/mcp/ . - MCP package guide: https://www.agentskit.io/docs/agents/tools/mcp - Stability map: How this fits the ecosystem @agentskit/mcp is the bridge from AgentsKit tools and agents into MCP-compatible coding agents. - AgentsKit : expose tools, integrations, and registry agents through a standard MCP server. - Registry : serve ready agents from as callable MCP tools. - Playbook : use for safe tool design, approvals, and agent handoff patterns. Docs: · <!-- readme-command:install -- Then point your MCP host at the command. Claude Desktop, Cursor, Codex, and OpenClaw all launch the same stdio server with host-specific configuration. Claude Desktop or Cursor ( mcpServers / .cursor/mcp.json ): Codex ( ~/.codex/config.toml ): OpenClaw: Verify the server in each host with its MCP tool-list command before enabling additional tools. Pi does not have a native MCP host path in this recipe; use a Pi extension or package when a dedicated integration is available. Flags Flag Effect ------ -------- --tools <a,b which tools to expose (default fetch,search ). Available: fetch , search , filesystem , shell , sqlite --fs-root <dir enable the filesystem tool, rooted at <dir --sqlite <file enable the sqlite query tool against <file --allow-shell enable the shell tool (off by default — it runs commands) stdout is the MCP JSON-RPC channel; human output goes to stderr . The bridge supports MCP protocol revision 2024-11-05 and the initialize / tools/list / tools/call lifecycle over stdio, in-memory, or an injected transport. Hosts own resources, prompts, sampling, tasks, HTTP/WebSocket, authentication, rate limiting, and persistence. Tool arguments are validated against their JSON Schema before execution; tools without a schema accept only an empty object. Invalid protocol envelopes and params are rejected, and tool failures are sanitized by default. Programmatic Pass transport to use a custom MCP transport (e.g. in-memory for tests). Expose whole agents (agents as MCP tools) Run a registry agent server-side and expose it as a single MCP tool — the host delegates a specialized job instead of orchestrating primitives: --provider covers the first-class adapters (openai, anthropic, gemini, ollama) plus the OpenAI-compatible set (deepseek, grok, groq, mistral, cohere, together, fireworks, openrouter, cerebras, kimi, huggingface, qwen, lmstudio, vllm, llamacpp) and any other OpenAI-compatible provider in the models.dev catalog. Key from --api-key or <PROVIDER API KEY ; --model / --base-url optional. Typed Registry projections use fetchAgent + createTypedAgentTool ; their input/output JSON Schemas are preserved. fetchAgentSkill intentionally rejects typed projections so they cannot be flattened into a text tool. fetchAgent and fetchAgentSkill try the hosted registry first and may fall back to raw registry files when hosted data is unavailable or unreadable. Each response is limited to 131072 bytes and each request to 10000 ms by default. Set maxResponseBytes (1–1048576) or timeoutMs (1–120000) to adjust those bounds, or pass an AbortSignal ; aborting stops later fallback requests. Oversized bodies are cancelled and treated as a failed source. Calls resolve to null for invalid IDs or options, aborted operations, typed projections passed to fetchAgentSkill , or when neither source provides a supported result. Network error codes are not exposed by these APIs. Quick start <!-- readme-example:quickstart -- Maturity and compatibility - Stability: beta — see - Node.js 20+ and TypeScript str",
+          "body": "@agentskit/mcp Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p Tags: agentskit · typescript · ai-agents Expose AgentsKit tools as an server — use them from Claude Desktop, Cursor, Windsurf, or another host that supports the documented 2024-11-05 tools bridge. Verified proof - Package metadata and tests live under packages/mcp/ . - MCP package guide: https://www.agentskit.io/docs/agents/tools/mcp - Stability map: How this fits the ecosystem @agentskit/mcp is the bridge from AgentsKit tools and agents into MCP-compatible coding agents. - AgentsKit : expose tools, integrations, and registry agents through a standard MCP server. - Registry : serve ready agents from as callable MCP tools. - Playbook : use for safe tool design, approvals, and agent handoff patterns. Docs: · <!-- readme-command:install -- Then point your MCP host at the command. Claude Desktop, Cursor, Codex, and OpenClaw all launch the same stdio server with host-specific configuration. Claude Desktop or Cursor ( mcpServers / .cursor/mcp.json ): Codex ( ~/.codex/config.toml ): OpenClaw: Verify the server in each host with its MCP tool-list command before enabling additional tools. Pi does not have a native MCP host path in this recipe; use a Pi extension or package when a dedicated integration is available. Flags Flag Effect ------ -------- --tools <a,b which tools to expose (default fetch,search ). Available: fetch , search , filesystem , shell , sqlite --fs-root <dir enable the filesystem tool, rooted at <dir --sqlite <file enable the sqlite query tool against <file --allow-shell enable the shell tool (off by default — it runs commands) stdout is the MCP JSON-RPC channel; human output goes to stderr . The bridge supports MCP protocol revision 2024-11-05 and the initialize / tools/list / tools/call lifecycle over stdio, in-memory, or an injected transport. Hosts own resources, prompts, sampling, tasks, HTTP/WebSocket, authentication, rate limiting, and persistence. Tool arguments are validated against their JSON Schema before execution; tools without a schema accept only an empty object. Invalid protocol envelopes and params are rejected, and tool failures are sanitized by default. Programmatic Pass transport to use a custom MCP transport (e.g. in-memory for tests). Pass authorizeToolCall to createAgentsKitMcpServer to obtain host approval for tools marked requiresConfirmation . It has the same type as McpServerOptions['authorizeToolCall'] : (tool, args) = boolean Promise<boolean . Arguments are validated first. Only confirmation-required tools invoke the hook; absent hooks, denied approvals, throws, and rejected promises prevent execution. The host must obtain the required human confirmation before returning true ; annotations do not replace that decision. McpToolDefinition (from @agentskit/tools/mcp ) extends the core tool shape with optional title and annotations : title , readOnlyHint , destructiveHint , idempotentHint , and openWorldHint . Server listing and client import preserve these fields, including explicit false hints. Imported titles use the existing maxDescriptionBytes UTF-8 limit; malformed metadata is rejected. Hints remain untrusted advisory data and never grant confirmation or alter execution policy. These fields follow the . They are optional descriptor extensions on the existing 2024-11-05 bridge; older clients may ignore unknown fields. This does not add negotiation or other features from newer protocol revisions. Expose whole agents (agents as MCP tools) Run a registry agent server-side and expose it as a single MCP tool — the host delegates a specialized job instead of orchestrating primitives: --provider covers the first-class adapters (openai, anthropic, gemini, ollama) plus the OpenAI-compatible set (deepseek, grok, groq, mistral, cohere, together, fireworks, openrouter, cerebras, kim",
           "aliases": "document project"
         },
         "graph": {
@@ -79374,6 +79498,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/mcp/src/index.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/mcp/src/registry-fetch.ts",
               "confidence": "observed"
             },
@@ -79384,12 +79513,17 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/tools/src/mcp/types.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/tools/src/shell.ts",
               "confidence": "observed"
             }
           ]
         },
-        "contentHash": "6ad55364a4a7adfa9b0adeca5972117a9159a1d13e9ca8d9f41501fa5e953373",
+        "contentHash": "44223f4f7f15d48dc74085432f785211877a9a1a84ab09f2946ae9fac44aacb5",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -82706,6 +82840,11 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "module:packages/tools/src/mcp/types.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "module:packages/tools/src/safe-fetch.ts",
               "confidence": "observed"
             },
@@ -82716,7 +82855,7 @@
             }
           ]
         },
-        "contentHash": "ceae77c3c3373fb535ee36a8b8573475e07f0ad689443412852bab525a3cf84b",
+        "contentHash": "13c1cd6268b2a6acda8539937943724778964b84e6422b87a6136b928e2128e3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -136149,6 +136288,79 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/eval/src/result-record.ts",
+        "kind": "module",
+        "path": "packages/eval/src/result-record.ts",
+        "title": "result-record.ts",
+        "aliases": [],
+        "symbols": [
+          "ResultMetric",
+          "ResultRecord",
+          "ResultRecordInput",
+          "createResultRecord",
+          "precisionRecall",
+          "serializeResultRecord",
+          "verifyResultRecord"
+        ],
+        "tags": [
+          "module",
+          "ts",
+          "src"
+        ],
+        "fields": {
+          "title": "result-record.ts",
+          "headings": "",
+          "path": "packages/eval/src/result-record.ts",
+          "symbols": "ResultMetric ResultRecord ResultRecordInput createResultRecord precisionRecall serializeResultRecord verifyResultRecord",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts src"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 4,
+          "coveredBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/for-agents/eval.mdx",
+            "document:apps/docs-next/content/docs/reference/packages/eval.mdx",
+            "document:docs/spec/eval-result-record-v1.md",
+            "document:packages/eval/README.md"
+          ],
+          "packageId": "package:@agentskit/eval",
+          "inbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/eval/tests/result-record.test.ts",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/for-agents/eval.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/reference/packages/eval.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:docs/spec/eval-result-record-v1.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/eval/README.md",
+              "confidence": "observed"
+            }
+          ],
+          "outbound": []
+        },
+        "contentHash": "484ade143e1739563fd2e217aa7dca613f0b376cd860c9d9cf38486912de7678",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/eval/src/runner.ts",
         "kind": "module",
         "path": "packages/eval/src/runner.ts",
@@ -136479,7 +136691,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "851fa287d3b7b59030f57bd137341a1b5538eb35483e63b62e3fdbe7d165920f",
+        "contentHash": "23cc894cb4679c3cf6bc4bf655c2b34f3fe17716080a4d5f4f6cc0ceb65669c6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -136689,6 +136901,46 @@
         "confidence": "observed"
       },
       {
+        "id": "module:packages/eval/tests/result-record.test.ts",
+        "kind": "module",
+        "path": "packages/eval/tests/result-record.test.ts",
+        "title": "result-record.test.ts",
+        "aliases": [],
+        "tags": [
+          "module",
+          "ts",
+          "test",
+          "tests"
+        ],
+        "fields": {
+          "title": "result-record.test.ts",
+          "headings": "",
+          "path": "packages/eval/tests/result-record.test.ts",
+          "symbols": "",
+          "summary": "",
+          "body": "",
+          "aliases": "module ts test tests"
+        },
+        "graph": {
+          "pagerank": 0,
+          "inboundLinks": 0,
+          "coveredBy": [],
+          "mentionedBy": [],
+          "packageId": "package:@agentskit/eval",
+          "inbound": [],
+          "outbound": [
+            {
+              "kind": "imports",
+              "id": "module:packages/eval/src/result-record.ts",
+              "confidence": "observed"
+            }
+          ]
+        },
+        "contentHash": "3690ee3826de1c6b81106e934170107a7e43e7f61e50e06447492c2f1d83b608",
+        "provenance": "observed",
+        "confidence": "observed"
+      },
+      {
         "id": "module:packages/eval/tests/runner.test.ts",
         "kind": "module",
         "path": "packages/eval/tests/runner.test.ts",
@@ -136846,7 +137098,7 @@
             }
           ]
         },
-        "contentHash": "87717dc1d8d98f1d7e33ff7615a9b60351480587e303514cead4e905bfa2eaa1",
+        "contentHash": "5bd71dc73afc3a1ca1660d10657a6e7ca729059035f47365b85e036571b32929",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -150310,9 +150562,13 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 0,
+          "inboundLinks": 3,
           "coveredBy": [],
-          "mentionedBy": [],
+          "mentionedBy": [
+            "document:apps/docs-next/content/docs/agents/tools/mcp.mdx",
+            "document:apps/docs-next/content/docs/for-agents/mcp.mdx",
+            "document:packages/mcp/README.md"
+          ],
           "packageId": "package:@agentskit/mcp",
           "inbound": [
             {
@@ -150334,6 +150590,21 @@
               "kind": "imports",
               "id": "module:packages/mcp/tests/server.test.ts",
               "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/agents/tools/mcp.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/for-agents/mcp.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/mcp/README.md",
+              "confidence": "observed"
             }
           ],
           "outbound": [
@@ -150354,7 +150625,7 @@
             }
           ]
         },
-        "contentHash": "a07c20f382e2a5be23007034baca75750cd4c284c6331193b0bbba60b28818b7",
+        "contentHash": "e4c44ea4d4bc5745a380c7148627fa404464d3bdbef46ca5804d847a03b75bdd",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -150688,7 +150959,7 @@
             }
           ]
         },
-        "contentHash": "009562ced5fd7da96795d85a5eced33d250cb7b6ed9aa077f0a8a638b24e2fae",
+        "contentHash": "772c211c04131b767aee929c963cd7866a9368f9c2476c5152293e1f195f2eea",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -182562,7 +182833,7 @@
             }
           ]
         },
-        "contentHash": "5a48a4be9322fbbd4d21376a418867f215726e5db25c71947c64a548ab649918",
+        "contentHash": "8142fc5bd03f367a47c35727f0f79ea8fec52cf86c58b70f864c46b103c36f94",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -182583,6 +182854,8 @@
           "McpContentText",
           "McpServer",
           "McpServerOptions",
+          "McpToolAnnotations",
+          "McpToolDefinition",
           "McpToolDescriptor",
           "McpToolsListResult",
           "McpTransport",
@@ -182602,7 +182875,7 @@
           "title": "index.ts",
           "headings": "",
           "path": "packages/tools/src/mcp/index.ts",
-          "symbols": "JsonRpcError JsonRpcMessage JsonRpcNotification JsonRpcRequest JsonRpcSuccess McpCallToolResult McpClient McpContentText McpServer McpServerOptions McpToolDescriptor McpToolsListResult McpTransport StdioLikeProcess createInMemoryTransportPair createMcpClient createMcpServer createStdioTransport toolsFromMcpClient",
+          "symbols": "JsonRpcError JsonRpcMessage JsonRpcNotification JsonRpcRequest JsonRpcSuccess McpCallToolResult McpClient McpContentText McpServer McpServerOptions McpToolAnnotations McpToolDefinition McpToolDescriptor McpToolsListResult McpTransport StdioLikeProcess createInMemoryTransportPair createMcpClient createMcpServer createStdioTransport toolsFromMcpClient",
           "summary": "",
           "body": "",
           "aliases": "module ts mcp"
@@ -182644,7 +182917,7 @@
             }
           ]
         },
-        "contentHash": "c7b24869ada6925c7a9d173f4a632aff7b5dd8baeec937583e782fd7d6b9766e",
+        "contentHash": "c54d6229bdf64071fa22405aa2b6dcc90569ccf8229b31e12c004f6b36065ce3",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -182743,7 +183016,7 @@
             }
           ]
         },
-        "contentHash": "b7a76d574044828a72d170ee240d47c3e6ef471d64164acc97e3235c8a6d182f",
+        "contentHash": "6d20d90cf136e42cdfc8976af4f3fc055530e494ea33b8c91d6130ecf0857859",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -182839,6 +183112,8 @@
           "MCP_PROTOCOL_VERSION",
           "McpCallToolResult",
           "McpContentText",
+          "McpToolAnnotations",
+          "McpToolDefinition",
           "McpToolDescriptor",
           "McpToolsListResult",
           "McpTransport"
@@ -182852,19 +183127,23 @@
           "title": "types.ts",
           "headings": "",
           "path": "packages/tools/src/mcp/types.ts",
-          "symbols": "JsonRpcError JsonRpcMessage JsonRpcNotification JsonRpcRequest JsonRpcSuccess MCP_PROTOCOL_VERSION McpCallToolResult McpContentText McpToolDescriptor McpToolsListResult McpTransport",
+          "symbols": "JsonRpcError JsonRpcMessage JsonRpcNotification JsonRpcRequest JsonRpcSuccess MCP_PROTOCOL_VERSION McpCallToolResult McpContentText McpToolAnnotations McpToolDefinition McpToolDescriptor McpToolsListResult McpTransport",
           "summary": "",
           "body": "",
           "aliases": "module ts mcp"
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 3,
+          "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/agents/tools/mcp.mdx",
+            "document:apps/docs-next/content/docs/for-agents/mcp.mdx",
+            "document:apps/docs-next/content/docs/for-agents/tools.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/mcp-bridge.mdx",
-            "document:docs/architecture/adrs/0028-mcp-beta-boundaries.md"
+            "document:docs/architecture/adrs/0028-mcp-beta-boundaries.md",
+            "document:packages/mcp/README.md",
+            "document:packages/tools/README.md"
           ],
           "areaId": "area:packages/tools/src/mcp",
           "packageId": "package:@agentskit/tools",
@@ -182891,12 +183170,32 @@
             },
             {
               "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/for-agents/mcp.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:apps/docs-next/content/docs/for-agents/tools.mdx",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/reference/recipes/mcp-bridge.mdx",
               "confidence": "observed"
             },
             {
               "kind": "mentions-symbol",
               "id": "document:docs/architecture/adrs/0028-mcp-beta-boundaries.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/mcp/README.md",
+              "confidence": "observed"
+            },
+            {
+              "kind": "mentions-symbol",
+              "id": "document:packages/tools/README.md",
               "confidence": "observed"
             },
             {
@@ -182907,7 +183206,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "a78e432ac9908b215d983e3bcb63a02ff7e3e5318b563559d7d486e05320cd60",
+        "contentHash": "2849aa732c48f5b9ab353e27bb576041721c30cf70ece16cdb77a0cb1b4c79cf",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -183884,7 +184183,7 @@
             }
           ]
         },
-        "contentHash": "c7a3023e2f4dceecfc0638cef0aaa23b548de97d69560f2060f82099d66d7d00",
+        "contentHash": "2cc1288a4512bd0df2848b57e562a82bf0d65c69cba4ff55b4881e2a257448a6",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -193191,7 +193490,7 @@
           "path": "packages/eval",
           "symbols": "",
           "summary": "runEval({ agent, suite }) — run an EvalSuite against any async agent fn.",
-          "body": "Install Primary exports - runEval({ agent, suite }) — run an EvalSuite against any async agent fn. Subpaths Subpath Contents --- --- @agentskit/eval/replay Universal in-memory APIs: createRecordingAdapter , createReplayAdapter , cassettes, createTimeTravelSession , replayAgainst , summarizeReplay . Browser and React Native conditions exclude Node built-ins; legacy filesystem export names reject with a Node-only diagnostic. See , , . @agentskit/eval/replay/io Node-only saveCassette and loadCassette filesystem helpers. Do not import this subpath from browser, Expo, or React Native applications. @agentskit/eval/snapshot matchPromptSnapshot (exact / normalized / similarity). See . @agentskit/eval/diff promptDiff , attributePromptChange , formatDiff . See . @agentskit/eval/ci renderJUnit , renderMarkdown , renderGitHubAnnotations , reportToCi . See . @agentskit/eval/braintrust Braintrust scoring pipeline, scorer families, regression detection, and optional experiment upload. Install the optional braintrust peer when using this subpath. @agentskit/eval/braintrust/scorers Braintrust-compatible quality and robustness scorers. @agentskit/eval/braintrust/ci Braintrust regression detection and Markdown alerts. replay/io , snapshot , and ci are Node-oriented filesystem/CI entry points. The conditional replay entry is the portable choice for browsers, Expo, and React Native. Replay helpers take defensive snapshots of requests, chunks, dates, and plain metadata. Caller mutation cannot rewrite a recording or an already-created replay adapter. Minimal example Malformed agent response objects and thrown assertion predicates become failed cases rather than aborting the suite. Predicate failures preserve the agent output and token usage for diagnosis. Related - . - — trace + cost data feeds eval comparisons. - — portable format spec. Source - npm: https://www.npmjs.com/package/@agentskit/eval - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/eval",
+          "body": "Install Primary exports - runEval({ agent, suite }) — run an EvalSuite against any async agent fn. Subpaths Subpath Contents --- --- @agentskit/eval/provenance Universal createResultRecord , serializeResultRecord , verifyResultRecord , precisionRecall ; types ResultRecordInput , ResultRecord , ResultMetric . Canonical SHA-256 integrity records; optional timestamp excluded from digest. See . @agentskit/eval/replay Universal in-memory APIs: createRecordingAdapter , createReplayAdapter , cassettes, createTimeTravelSession , replayAgainst , summarizeReplay . Browser and React Native conditions exclude Node built-ins; legacy filesystem export names reject with a Node-only diagnostic. See , , . @agentskit/eval/replay/io Node-only saveCassette and loadCassette filesystem helpers. Do not import this subpath from browser, Expo, or React Native applications. @agentskit/eval/snapshot matchPromptSnapshot (exact / normalized / similarity). See . @agentskit/eval/diff promptDiff , attributePromptChange , formatDiff . See . @agentskit/eval/ci renderJUnit , renderMarkdown , renderGitHubAnnotations , reportToCi . See . @agentskit/eval/braintrust Braintrust scoring pipeline, scorer families, regression detection, and optional experiment upload. Install the optional braintrust peer when using this subpath. @agentskit/eval/braintrust/scorers Braintrust-compatible quality and robustness scorers. @agentskit/eval/braintrust/ci Braintrust regression detection and Markdown alerts. replay/io , snapshot , and ci are Node-oriented filesystem/CI entry points. The conditional replay entry is the portable choice for browsers, Expo, and React Native. Replay helpers take defensive snapshots of requests, chunks, dates, and plain metadata. Caller mutation cannot rewrite a recording or an already-created replay adapter. Minimal example Malformed agent response objects and thrown assertion predicates become failed cases rather than aborting the suite. Predicate failures preserve the agent output and token usage for diagnosis. Related - . - — trace + cost data feeds eval comparisons. - — portable format spec. Source - npm: https://www.npmjs.com/package/@agentskit/eval - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/eval",
           "aliases": "eval @agentskit/eval package ownership"
         },
         "graph": {
@@ -193476,7 +193775,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "7310467c7397a7041190608388c1f2f1804c3955677ace98d33e12e32eb5a257",
+        "contentHash": "d807e0572438666b83aedd614fcc3625a9c41c6c2707fc68ad204114cf0804c2",
         "provenance": "observed",
         "confidence": "observed",
         "ownershipId": "eval"
@@ -194116,7 +194415,7 @@
           "path": "packages/mcp",
           "symbols": "",
           "summary": "Serve AgentsKit tools to an MCP host that supports the documented `2024-11-05` tools bridge. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` + `createStdioTransport`).",
-          "body": "Purpose Serve AgentsKit tools to an MCP host that supports the documented 2024-11-05 tools bridge. A thin bridge over @agentskit/tools/mcp ( createMcpServer + createStdioTransport ). Install Primary exports - createAgentsKitMcpServer({ tools, serverInfo?, onEvent?, transport? }) — expose ToolDefinition[] as an MCP server. Defaults to stdio over the current process; pass transport to override (tests / custom hosts). - processStdio() — adapt the Node process into the StdioLikeProcess the transport expects (server receives on stdin, sends on stdout). - createAgentTool({ id, description, systemPrompt, adapter, maxSteps? }) — wrap a whole agent as one MCP tool. The host calls it with a task ; the agent runs server-side on the given adapter and returns the result (\"agents as MCP tools\"). - createTypedAgentTool(config) — typed variant of createAgentTool for an agent input/output contract. - fetchAgent(id, fetchImpl?) — fetch a registry agent definition without executing its source. - fetchAgentSkill(id, fetchImpl?) — fetch a registry agent's runnable skill (hosted index, raw-GitHub fallback); null for tool-composing agents. An optional third argument controls abort, timeout, and response-byte limits. Bin agentskit-mcp — npx -y @agentskit/mcp@0.4.10 --tools fetch,search . Expose whole agents with --agents <ids --provider <p (any of ~20 providers + catalog OpenAI-compatible). Flags: --tools , --fs-root , --sqlite , --allow-shell , --model , --max-steps , --api-key , --base-url . Unknown, duplicate, or valueless flags fail closed. stdout is the JSON-RPC channel; diagnostics and help go to stderr. Pinned coding-agent configs and their evidence levels live in the . Host config fixtures cover Codex, Claude Code/Desktop, Cursor, Cline, and Continue. The local-build and published-package smoke scripts both initialize the shared STDIO path and require the tool list to equal fetch url,web search . Beta boundaries - Tool names are unique and follow the current MCP 1–128 character interoperability grammar. - Server configuration and agent-tool configuration fail with typed AgentsKit diagnostics. - Published tool definitions are snapshotted; observer failures cannot alter protocol behavior. - Agent tasks, step counts, prompts, descriptions, registry IDs, request time, and response bytes are bounded. - Registry source is treated as data and never executed. - The built-in surface is the MCP tools subset over stdio or an injected transport. HTTP/WebSocket, resources, prompts, sampling, auth, rate limiting, and persistence are host responsibilities. Supported protocol matrix Protocol revision Lifecycle Transports Methods Not included --- --- --- --- --- 2024-11-05 Exact-version initialize ; tools/list ; tools/call ; close settles pending calls stdio, in-memory, or injected initialize , tools/list , tools/call resources, prompts, sampling, tasks, HTTP/WebSocket, authentication, rate limiting, persistence AgentsKit fails closed when a peer requests a different protocol revision. The bridge is a composable tools subset: hosts own any omitted MCP capability, transport authentication, egress policy, and production isolation. Minimal example Related packages - — the tools you expose + the MCP primitives. - — the ToolDefinition contract. Source - npm: https://www.npmjs.com/package/@agentskit/mcp - repo: https://github.com/AgentsKit-io/agentskit/tree/main/packages/mcp - contract:",
+          "body": "Purpose Serve AgentsKit tools to an MCP host that supports the documented 2024-11-05 tools bridge. A thin bridge over @agentskit/tools/mcp ( createMcpServer + createStdioTransport ). Install Primary exports - createAgentsKitMcpServer({ tools, serverInfo?, onEvent?, transport?, authorizeToolCall? }) — expose McpToolDefinition[] as an MCP server. Defaults to stdio over the current process; pass transport to override (tests / custom hosts). - processStdio() — adapt the Node process into the StdioLikeProcess the transport expects (server receives on stdin, sends on stdout). - createAgentTool({ id, description, systemPrompt, adapter, maxSteps? }) — wrap a whole agent as one MCP tool. The host calls it with a task ; the agent runs server-side on the given adapter and returns the result (\"agents as MCP tools\"). - createTypedAgentTool(config) — typed variant of createAgentTool for an agent input/output contract. - fetchAgent(id, fetchImpl?) — fetch a registry agent definition without executing its source. - fetchAgentSkill(id, fetchImpl?) — fetch a registry agent's runnable skill (hosted index, raw-GitHub fallback); null for tool-composing agents. An optional third argument controls abort, timeout, and response-byte limits. Pass authorizeToolCall to createAgentsKitMcpServer to obtain host approval for tools marked requiresConfirmation . It has the same type as McpServerOptions['authorizeToolCall'] : (tool, args) = boolean Promise<boolean . Arguments are validated first. Only confirmation-required tools invoke the hook; absent hooks, denied approvals, throws, and rejected promises prevent execution. The host must obtain the required human confirmation before returning true ; annotations do not replace that decision. McpToolDefinition (from @agentskit/tools/mcp ) extends the core tool shape with optional title and annotations : title , readOnlyHint , destructiveHint , idempotentHint , and openWorldHint . Server listing and client import preserve these fields, including explicit false hints. Imported titles use the existing maxDescriptionBytes UTF-8 limit; malformed metadata is rejected. Hints remain untrusted advisory data and never grant confirmation or alter execution policy. These fields follow the . They are optional descriptor extensions on the existing 2024-11-05 bridge; older clients may ignore unknown fields. This does not add negotiation or other features from newer protocol revisions. Bin agentskit-mcp — npx -y @agentskit/mcp@0.4.10 --tools fetch,search . Expose whole agents with --agents <ids --provider <p (any of ~20 providers + catalog OpenAI-compatible). Flags: --tools , --fs-root , --sqlite , --allow-shell , --model , --max-steps , --api-key , --base-url . Unknown, duplicate, or valueless flags fail closed. stdout is the JSON-RPC channel; diagnostics and help go to stderr. Pinned coding-agent configs and their evidence levels live in the . Host config fixtures cover Codex, Claude Code/Desktop, Cursor, Cline, and Continue. The local-build and published-package smoke scripts both initialize the shared STDIO path and require the tool list to equal fetch url,web search . Beta boundaries - Tool names are unique and follow the current MCP 1–128 character interoperability grammar. - Server configuration and agent-tool configuration fail with typed AgentsKit diagnostics. - Published tool definitions are snapshotted; observer failures cannot alter protocol behavior. - Agent tasks, step counts, prompts, descriptions, registry IDs, request time, and response bytes are bounded. - Registry source is treated as data and never executed. - The built-in surface is the MCP tools subset over stdio or an injected transport. HTTP/WebSocket, resources, prompts, sampling, auth, rate limiting, and persistence are host responsibilities. Supported protocol matrix Protocol revision Lifecycle Transports Methods Not included --- --- --- --- --- 2024-11-05 Exact-version initialize ; tools/list ; tools/call ; close settles pending calls stdio, in-memor",
           "aliases": "mcp @agentskit/mcp package ownership"
         },
         "graph": {
@@ -198079,7 +198378,7 @@
           "path": "packages/tools",
           "symbols": "",
           "summary": "webSearch, fetchUrl, filesystem, shell — core built-ins. webSearch provider bodies default to a 2 MiB cap (maxResponseBytes) and are cancelled on overflow.",
-          "body": "Install Primary exports (main entry) - webSearch , fetchUrl , filesystem , shell — core built-ins. webSearch provider bodies default to a 2 MiB cap ( maxResponseBytes ) and are cancelled on overflow. - sqliteQueryTool — parameterized SQLite query tool. - slackTool — Slack incoming-webhook tool (lighter than the OAuth integrations/slack ). - defineZodTool — define tools with Zod schemas. - listTools — discovery helper. - safeFetch — default-deny egress (ADR-0010): blocks non-public IPv4/IPv6 ranges, including CGNAT, mapped IPv4, unique-local, and metadata addresses, and re-gates every redirect hop. Node DNS checks all answers and fails closed; allowedHosts and allowPrivateHosts are explicit exceptions for vetted targets. DNS preflight does not prevent rebinding. It applies WHATWG URL canonicalization before checking numeric authorities. Use it for model-influenced URLs. Companions: checkEgress , isPrivateHost , isPrivateIPv4 , isPrivateIPv6 ; policy type EgressPolicy . Subpath exports Subpath Contents --- --- @agentskit/tools/mcp createMcpClient , createMcpServer , toolsFromMcpClient , createStdioTransport , createInMemoryTransportPair . See . @agentskit/tools/integrations Communication: slack , discord , gmail , twilio . Project tracking: linear , linearTriage , jira , confluence , notion . Source / CI: github , githubActions . Customer / commerce: hubspot , airtable , shopify , stripe , stripeWebhookTool (+ verifyStripeSignature ). Calendars / docs: googleCalendar , figma . Web / scraping: firecrawl , reader , documentParsers , browserAgent . Media: openaiImages , elevenlabs , whisper , deepgram . Data: postgres , postgresWithRoles , s3 , cloudflareR2 , coingecko , maps , weather . Operations: pagerduty , sentry . See + . Minimal example Related - — chain tools. - — enforce a sandbox policy across tools. - . Source - npm: - repo:",
+          "body": "Install Primary exports (main entry) - webSearch , fetchUrl , filesystem , shell — core built-ins. webSearch provider bodies default to a 2 MiB cap ( maxResponseBytes ) and are cancelled on overflow. - sqliteQueryTool — parameterized SQLite query tool. - slackTool — Slack incoming-webhook tool (lighter than the OAuth integrations/slack ). - defineZodTool — define tools with Zod schemas. - listTools — discovery helper. - safeFetch — default-deny egress (ADR-0010): blocks non-public IPv4/IPv6 ranges, including CGNAT, mapped IPv4, unique-local, and metadata addresses, and re-gates every redirect hop. Node DNS checks all answers and fails closed; allowedHosts and allowPrivateHosts are explicit exceptions for vetted targets. DNS preflight does not prevent rebinding. It applies WHATWG URL canonicalization before checking numeric authorities. Use it for model-influenced URLs. Companions: checkEgress , isPrivateHost , isPrivateIPv4 , isPrivateIPv6 ; policy type EgressPolicy . Subpath exports Subpath Contents --- --- @agentskit/tools/mcp createMcpClient , createMcpServer , toolsFromMcpClient , createStdioTransport , createInMemoryTransportPair . See . @agentskit/tools/integrations Communication: slack , discord , gmail , twilio . Project tracking: linear , linearTriage , jira , confluence , notion . Source / CI: github , githubActions . Customer / commerce: hubspot , airtable , shopify , stripe , stripeWebhookTool (+ verifyStripeSignature ). Calendars / docs: googleCalendar , figma . Web / scraping: firecrawl , reader , documentParsers , browserAgent . Media: openaiImages , elevenlabs , whisper , deepgram . Data: postgres , postgresWithRoles , s3 , cloudflareR2 , coingecko , maps , weather . Operations: pagerduty , sentry . See + . McpToolDefinition (from @agentskit/tools/mcp ) extends the core tool shape with optional title and annotations : title , readOnlyHint , destructiveHint , idempotentHint , and openWorldHint . Server listing and client import preserve these fields, including explicit false hints. Imported titles use the existing maxDescriptionBytes UTF-8 limit; malformed metadata is rejected. Hints remain untrusted advisory data and never grant confirmation or alter execution policy. These fields follow the . They are optional descriptor extensions on the existing 2024-11-05 bridge; older clients may ignore unknown fields. This does not add negotiation or other features from newer protocol revisions. Minimal example Related - — chain tools. - — enforce a sandbox policy across tools. - . Source - npm: - repo:",
           "aliases": "tools @agentskit/tools package ownership"
         },
         "graph": {

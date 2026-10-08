@@ -83,6 +83,11 @@
       "types": "./dist/braintrust-ci.d.ts",
       "import": "./dist/braintrust-ci.js",
       "require": "./dist/braintrust-ci.cjs"
+    },
+    "./provenance": {
+      "types": "./dist/provenance.d.ts",
+      "import": "./dist/provenance.js",
+      "require": "./dist/provenance.cjs"
     }
   },
   "files": [
