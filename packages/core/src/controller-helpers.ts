@@ -201,9 +201,11 @@ export function createControllerToolLoop({ getConfig, getState, getCorrelation, 
     if (done && shouldPersist) await persist(getState().messages, getCorrelation())
   }
 
-  const continueTools = (aid: string, calls: ToolCall[]): string => {
+  const continueTools = async (aid: string, calls: ToolCall[]): Promise<string> => {
+    const { buildToolContinuation } = await import('./controller-decision-internal.js')
     let nextId = ''
     set(current => {
+      if (current.messages[current.messages.length - 1]?.id !== aid) return current
       const { messages: next, nextAssistantId } = buildToolContinuation(
         current.messages,
         aid,
@@ -244,7 +246,8 @@ export function createControllerToolLoop({ getConfig, getState, getCorrelation, 
         return
       }
 
-      id = continueTools(id, calls)
+      id = await continueTools(id, calls)
+      if (!id) return
       const ok = await run(id, '', g, correlation)
       if (!ok) return
     }

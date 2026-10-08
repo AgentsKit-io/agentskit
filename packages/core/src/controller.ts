@@ -1,6 +1,5 @@
 import { buildMessage as message, consumeStream, createEventEmitter, generateId, createToolLifecycle } from './primitives'
 import { buildToolMap, activateSkills, executeSafeTool as execute } from './agent-loop'
-import { ConfigError, ErrorCodes } from './errors'
 import { partsToText } from './types/content'
 import { createControllerPersistence } from './controller-persistence'
 import { handleControllerToolCall } from './controller-tool-call'
@@ -8,7 +7,6 @@ import {
   accumulateUsage,
   buildAdapterRequest,
   createControllerToolLoop,
-  insertToolResults,
   mapMessageById,
   mapToolCallById,
   normalizeLlmUsage,
@@ -450,30 +448,17 @@ import type {
           loadedGeneration = gen
           loadedLive = state.messages.length > 0
           const messages = loadedLive ? state.messages : await persistence.load()
-          if (!messages.length && snapshot.some(message => message.status === 'streaming')) {
-            throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: 'Resuming a streamed tool decision requires current ChatMemory' })
-          }
-          return (messages.length ? messages : snapshot).map(message => ({ ...message, toolCalls: message.toolCalls?.map(call => ({ ...call })) }))
+          return { fallback: !messages.length, messages: messages.length ? messages : snapshot }
         },
         tool: name => toolMap.get(name), runTool, patch: patchCall,
-        finish: id => {
-          approvalGenerations.delete(id)
-          const assistant = state.messages.find(message => message.toolCalls?.some(call => call.id === id))
-          if (assistant && assistant.status !== 'streaming' && state.messages[state.messages.length - 1]?.id !== assistant.id) {
-            set(current => ({ ...current, messages: insertToolResults(current.messages, assistant.id, assistant.toolCalls ?? [], message) }))
-          }
-        }, isCurrent: generation => generation === gen,
+        finish: id => { approvalGenerations.delete(id) }, isCurrent: generation => generation === gen,
+        setMessages: controller.setMessages,
         persist: correlation => persist(state.messages, correlation, true), resume,
-        prepare: async (messages, reconciled) => {
+        prepare: async (messages, reconcile) => {
           const useLive = loadedLive || state.messages.length > 0 || gen !== loadedGeneration
-          const currentMessages = useLive ? state.messages : messages
-          if (!currentMessages.some(message => message.toolCalls?.some(call => call.id === tid && call.status === 'requires_confirmation'))) return undefined
-          set(current => ({ ...current, messages: (useLive ? current.messages : messages).map(message => {
-            return { ...message, toolCalls: message.toolCalls?.map(call => {
-              const outcome = reconciled.get(message.id)?.find(loaded => loaded.id === call.id)
-              return call.id !== tid && call.status === 'requires_confirmation' && outcome ? outcome : call
-            }) }
-          }), error: null }))
+          const next = reconcile(useLive ? state.messages : messages)
+          if (!next) return undefined
+          set(current => ({ ...current, messages: next, error: null }))
           return { generation: gen, correlation: activeCorrelation }
         },
       })
