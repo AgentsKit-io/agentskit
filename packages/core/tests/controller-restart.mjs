@@ -44,14 +44,13 @@ if (!mode) {
     },
   }
   let executions = 0, requests = 0
+  const memory = {
+    async load() { return existsSync(`${recordPath}.memory`) ? JSON.parse(readFileSync(`${recordPath}.memory`, 'utf8')) : [] },
+    async save(messages) { writeFileSync(`${recordPath}.memory`, JSON.stringify(messages)) },
+  }
   const chat = createChatController({
     decisionStore,
-    ...(mode.startsWith('stream-') ? {
-      memory: {
-        async load() { return existsSync(`${recordPath}.memory`) ? JSON.parse(readFileSync(`${recordPath}.memory`, 'utf8')) : [] },
-        async save(messages) { writeFileSync(`${recordPath}.memory`, JSON.stringify(messages)) },
-      },
-    } : {}),
+    ...(mode.startsWith('stream-') ? { memory } : {}),
     onToolCall() {
       if (mode === 'stream-propose') {
         assert.equal(read().messages.at(-1).status, 'streaming')

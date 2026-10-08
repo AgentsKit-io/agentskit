@@ -456,10 +456,11 @@ import type {
         persist: correlation => persist(state.messages, correlation, true), resume,
         prepare: async (messages, reconcile) => {
           const useLive = loadedLive || state.messages.length > 0 || gen !== loadedGeneration
-          const current = useLive ? state.messages : messages
-          const next = reconcile(state.status === 'streaming' ? current : current.map(message =>
+          let current = useLive ? state.messages : messages
+          if (state.status !== 'streaming') current = current.map(message =>
             message.status === 'streaming' ? { ...message, status: 'complete' as const } : message,
-          ))
+          )
+          const next = reconcile(current)
           if (!next) return undefined
           set(current => ({ ...current, messages: next, error: null }))
           return { generation: gen, correlation: state.status === 'streaming' ? activeCorrelation : beginRun() }
