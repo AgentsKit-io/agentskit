@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "2c5250fef5308390d417fa16f257bfba278fb45b09a965c2580261aaa1cb3ab8",
+  "contentHash": "8efbc15b9798e169144aed1ad9efab22b1418a9053a014ee8806baea29b7f4e0",
   "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-08T05:16:15.924Z",
+  "generatedAt": "2026-10-08T05:36:46.849Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -3723,7 +3723,7 @@
         "document",
         "human"
       ],
-      "contentHash": "5143366b0bed4e6cccd66a3a37209d9501462252c465da104236cf7e799615e8"
+      "contentHash": "c0805db69400cae3a7a0abc8f1dbacfc9bae0078798f4a2157df89c22c5bdf32"
     },
     {
       "id": "document:apps/docs-next/content/docs/reference/packages/cross-platform.mdx",
@@ -7022,7 +7022,7 @@
         "document",
         "project"
       ],
-      "contentHash": "1f09c88450c32e1aaea4e0211bad1d2a12763d713b54728af44541a5b785f51d"
+      "contentHash": "5f3bb79e91401ee25cb9dcda785dea22b99d3605c5f62c528fc3623f8f3965b4"
     },
     {
       "id": "document:packages/cross-platform/CONVENTIONS.md",
@@ -18877,7 +18877,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "2505516631cdb1290c9610e560d4a032913442ba8ca65c802c5c81f1bad55afa"
+      "contentHash": "79928bb33e5ed6a967353e3914694dbc928d90c8ed1f86c75500c373427a9518"
     },
     {
       "id": "module:packages/core/src/controller-helpers.ts",
@@ -18902,7 +18902,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "cff73c65129da037d8fc2c7e33370d629c133aed78e4a4d9332a6ad829d7ddac"
+      "contentHash": "b8e745c83c267b54438be20d3243e7a2c463017e7a62926a994b1a695a354d48"
     },
     {
       "id": "module:packages/core/src/controller-persistence.ts",
@@ -18948,7 +18948,7 @@
         "ts",
         "src"
       ],
-      "contentHash": "3b5441f090877efd87124f3edff62509096d4d02440044938b76aeb411415b36"
+      "contentHash": "c64ffe19da240db2d517cc5782e37e87a8defe6364fff4ae0c4c340d81a1ac60"
     },
     {
       "id": "module:packages/core/src/errors.ts",
@@ -20264,7 +20264,7 @@
         "test",
         "tests"
       ],
-      "contentHash": "5239d92d01a9c878b709cc324be7d49b80b045f31b8612159636c5df0ac95a31"
+      "contentHash": "fab8069b6983f1d8da3218ab536ad9f7ecdd6c87f93d398357819d70218da4b0"
     },
     {
       "id": "module:packages/core/tests/controller-edit-regenerate.test.ts",
@@ -20315,7 +20315,7 @@
         "mjs",
         "tests"
       ],
-      "contentHash": "376489948ab4d4b2d5941f97d5110ff3b72949467f8f3f41423984f0b750443a"
+      "contentHash": "7bc64ff6c8b16285878dad1847c17d258396f5509dc32feee41e240ccc473b2b"
     },
     {
       "id": "module:packages/core/tests/controller-tool-call.test.ts",
@@ -38296,7 +38296,7 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "05fae1ee189bfa99666b0c06c320f1349af9fbc7e64e9a65c9bb222df659d658",
+    "hash": "743a3f6ba78828b3446b96d6e1bd1d91559448c65fdcaf092a9c27daec5bb91a",
     "fileCount": 2546,
     "projectionVersion": 2
   },
@@ -38319,9 +38319,9 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "8fac938565594f5786708edf8783c94236f18a8e9323178032a9c9b786ab8a78",
+    "contentHash": "7eaaccf8e662f3f69d83cd6b10d747f392e82339268008f475c09b99a80d4f67",
     "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "adbfaef634fa27797a4ae6f547e964ae9c35696783e53379bf92644ddafa1506",
+    "snapshotHash": "e2f485f514c517eb77ebaade41b6c6342a13e6b36c6a6b0d91a8cd677a4f3b9c",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
     "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
     "lexiconVersion": 1,
@@ -38353,7 +38353,7 @@
       ],
       "averageFieldLength": {
         "aliases": 3.0139944022391045,
-        "body": 61.63374650139944,
+        "body": 61.61895241903239,
         "headings": 4.034386245501799,
         "path": 7.611755297880848,
         "summary": 4.562574970011995,
@@ -51098,7 +51098,7 @@
           "path": "apps/docs-next/content/docs/for-agents/core.mdx",
           "symbols": "",
           "summary": "Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + `createChatController` + primitives. Target: &lt;10 KB gzipped, zero runtime deps.",
-          "body": "Purpose Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + createChatController + primitives. Target: &lt;10 KB gzipped, zero runtime deps. Install Primary exports (main entry) - createChatController(config) — state machine behind every UI - proposeToolCall(proposal) — controller method that places a trusted, validated action into the same confirmation lifecycle; it never executes directly. The standalone helper is available from @agentskit/core/tool-proposal . Returns { getState, subscribe, send, stop, retry, edit, regenerate, setInput, clear, decide, approve, deny, updateConfig } . - defineTool(config) — typed tool factory with JSON-Schema input inference. - controller.send(string ContentPart[]) preserves multimodal parts and text projection. - controller.decide(id, 'approve' 'deny', reason?) uses ChatConfig.decisionStore to validate the current conversation before claiming, prioritizing live controller state over memory and preserving unsaved later turns and using the pending snapshot only as a fallback ( ToolDecisionStore , ToolDecisionRecord ). The store provides insert-if-absent putPending , linearizable get , atomic pending-to-claimed claim , and matching-claim terminal settle . Scope it to an application-authorized conversation. Same-decision terminal replay returns the recorded tool outcome; unknown IDs raise AK ACTION NOT FOUND , conflicting decisions raise AK ACTION ALREADY DECIDED . Failed and claimed records are never automatically retried. Serialize different decisions per conversation to protect transcript writes. - Identical decisions are idempotent even while claimed: they return the recorded outcome, or the original call while execution is in flight, without invoking the tool or model again. Streamed confirmations are registered before onToolCall . After restart, streamed decisions require current ChatMemory : arrival snapshots are immutable and may omit later calls; without a current conversation, AK CONFIG INVALID rejects an incomplete streaming snapshot before claiming. A live controller does not require memory. - approve / deny are deprecated. With a decision store they delegate to decide , including atomic claims and typed errors; without a store they preserve generation-local behavior. - ChatConfig.authorizeToolCall — trusted host authorization before tool proposal and again before execution. Callback failures default to deny. - createInMemoryMemory / createLocalStorageMemory — default ChatMemory implementations. - createStaticRetriever / formatRetrievedDocuments — RAG-less retrieval using token substring overlap; use @agentskit/rag for semantic production retrieval. - executeToolCall , consumeStream , createEventEmitter , parseToolArgs , safeParseArgs , isRecord , createId , generateId , buildMessage — low-level helpers. parseToolArgs returns { args, valid } so adapters can fail closed; safeParseArgs remains the compatibility value-only parser. IDs use crypto.randomUUID() and retain the caller-provided prefix. - isRecord(value) accepts non-null objects other than arrays, including Date , Map , and class instances; use a schema validator when plain JSON objects are required. - AgentsKitError , AdapterError , ToolError , MemoryError , ConfigError , RuntimeError , SandboxError , SkillError , ErrorCodes — error taxonomy. - Token budget: compileBudget , approximateCounter . - Progressive tool args: createProgressiveArgParser , executeToolProgressively . - createVirtualizedMemory — hot-window + cold-retriever wrapper (also re-exported from @agentskit/memory ). - Untrusted-input fencing lives in the @agentskit/core/security entry: fenceUntrustedContent(content, opts?) + UNTRUSTED CONTENT DIRECTIVE wrap attacker-influenced text so the model treats it as data, not instructions (the mitigation companion to createInjectionDetector ). - Multi-modal content parts: textPart , imagePart , audioPart , videoPart , filePart , partsToText , normalizeContent , filterParts . - Agent-loop inter",
+          "body": "Purpose Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + createChatController + primitives. Target: &lt;10 KB gzipped, zero runtime deps. Install Primary exports (main entry) - createChatController(config) — state machine behind every UI - proposeToolCall(proposal) — controller method that places a trusted, validated action into the same confirmation lifecycle; it never executes directly. The standalone helper is available from @agentskit/core/tool-proposal . Returns { getState, subscribe, send, stop, retry, edit, regenerate, setInput, clear, decide, approve, deny, updateConfig } . - defineTool(config) — typed tool factory with JSON-Schema input inference. - controller.send(string ContentPart[]) preserves multimodal parts and text projection. - controller.decide(id, 'approve' 'deny', reason?) uses ChatConfig.decisionStore to validate the current conversation before claiming, prioritizing live controller state over memory and preserving unsaved later turns and using the pending snapshot only as a fallback ( ToolDecisionStore , ToolDecisionRecord ). The store provides insert-if-absent putPending , linearizable get , atomic pending-to-claimed claim , and matching-claim terminal settle . Scope it to an application-authorized conversation. Idempotency compares only the decision, retaining the original denial reason. Same-decision terminal replay returns the recorded tool outcome; unknown IDs raise AK ACTION NOT FOUND , conflicting decisions or targets that are no longer pending raise AK ACTION ALREADY DECIDED . Failed and claimed records are never automatically retried. Serialize different decisions per conversation to protect transcript writes. - Identical decisions are idempotent even while claimed: they return the recorded outcome, or the original call while execution is in flight, without invoking the tool or model again. Streamed confirmations are registered before onToolCall . After restart, streamed decisions require current ChatMemory : arrival snapshots are immutable and may omit later calls; without a current conversation, AK CONFIG INVALID rejects an incomplete streaming snapshot before claiming. A live controller does not require memory. - approve / deny are deprecated. With a decision store they delegate to decide , including atomic claims and typed errors; without a store they preserve generation-local behavior. - ChatConfig.authorizeToolCall — trusted host authorization before tool proposal and again before execution. Callback failures default to deny. - createInMemoryMemory / createLocalStorageMemory — default ChatMemory implementations. - createStaticRetriever / formatRetrievedDocuments — RAG-less retrieval using token substring overlap; use @agentskit/rag for semantic production retrieval. - executeToolCall , consumeStream , createEventEmitter , parseToolArgs , safeParseArgs , isRecord , createId , generateId , buildMessage — low-level helpers. parseToolArgs returns { args, valid } so adapters can fail closed; safeParseArgs remains the compatibility value-only parser. IDs use crypto.randomUUID() and retain the caller-provided prefix. - isRecord(value) accepts non-null objects other than arrays, including Date , Map , and class instances; use a schema validator when plain JSON objects are required. - AgentsKitError , AdapterError , ToolError , MemoryError , ConfigError , RuntimeError , SandboxError , SkillError , ErrorCodes — error taxonomy. - Token budget: compileBudget , approximateCounter . - Progressive tool args: createProgressiveArgParser , executeToolProgressively . - createVirtualizedMemory — hot-window + cold-retriever wrapper (also re-exported from @agentskit/memory ). - Untrusted-input fencing lives in the @agentskit/core/security entry: fenceUntrustedContent(content, opts?) + UNTRUSTED CONTENT DIRECTIVE wrap attacker-influenced text so the model treats it as data, not instructions (the mitigation companion to createInjectionDetector ). - Multi-modal content parts: textPar",
           "aliases": "core document agent"
         },
         "graph": {
@@ -51245,7 +51245,7 @@
             }
           ]
         },
-        "contentHash": "e7e2adc0cc12756855e4052c6a6253c126eaae4ee4587c5c0ad658b05915c8e2",
+        "contentHash": "5a6c5ed5dcee2a4368afb53deb724ff0f189fe8008b742912f46fd3d409799a9",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -59985,7 +59985,7 @@
           "path": "apps/docs-next/content/docs/reference/packages/core.mdx",
           "symbols": "",
           "summary": "import { ContributeCallout } from '@/components/contribute/contribute-callout'",
-          "body": "import { ContributeCallout } from '@/components/contribute/contribute-callout' The shared contract layer for AgentsKit: TypeScript types, the headless chat controller, stream helpers, and building blocks used by @agentskit/react , @agentskit/ink , @agentskit/runtime , and adapters. No third-party runtime dependencies — keep this package small and stable. When to use - You implement a custom adapter , tool, memory, or UI on top of official types. - You need createChatController without React (advanced integrations). - You want to understand messages, tool calls, and stream chunks across the ecosystem. You usually do not import core directly in a typical React app except for types — prefer and . Install Most feature packages already depend on core ; you add it explicitly when authoring libraries or sharing types. Public exports (overview) Chat controller and config Export Role -------- ------ createChatController Headless state machine: send, stream, tools, memory, skills, retriever Types: ChatConfig , ChatController , ChatState , ChatReturn Configuration and controller shape The controller merges system prompts, runs retrieval, dispatches tool calls, saves via ChatMemory after successful turns, skips persistence for failed or aborted turns, surfaces background memory and skill activation failures through onError , and exposes subscribe/update patterns consumed by UI packages. Durable decisions and multimodal input controller.send accepts string ContentPart[] . User messages retain their parts and a partsToText projection in content ; provider support remains adapter-specific. ChatReturn.send has the same widened signature. Implementers of ChatController must supply the required decide member and accept parts in send . Configure ChatConfig.decisionStore with a conversation-scoped ToolDecisionStore to use await controller.decide(toolCallId, 'approve') or await controller.decide(toolCallId, 'deny', reason) . Pending message snapshots survive controller replacement and process restart through that store. Configured chat memory also receives pending snapshots before proposal completion. ToolDecisionRecord stores toolCallId , messages , status ( pending , claimed , complete , failed , denied ), and optional decision , reason , and outcome . Implement putPending as insert-if-absent, get as a linearizable read, claim as an atomic pending-to-claimed transition returning the snapshot only to its winner, and settle as a durable terminal write for the matching claim. A database implementation can use UPDATE ... WHERE status = 'pending' RETURNING ... . The application must scope access to the authorized conversation. Before claiming, the controller loads and validates the current conversation, prioritizing live state (including unsaved turns), then configured chat memory, then the stored snapshot when neither exists. It preserves later messages and patches the target call, revalidates and reauthorizes the tool, persists its outcome, and resumes the model only for the latest completed assistant message when all confirmations are decided. Tool results follow their originating assistant message in call order. Same-decision terminal replay returns the stored tool outcome without another tool or model invocation. Unknown IDs raise AK ACTION NOT FOUND ; conflicting decisions raise AK ACTION ALREADY DECIDED . Tool failures become terminal failed records and reach the model as tool errors. A new attempt needs a new proposal ID. For a stuck claimed record, inspect get(id) and domain execution evidence, stop the original worker, and terminally settle the matching claim with a proven outcome or explicit indeterminate failure. Never reset or delete the claim. Reconcile the target call in current chat memory and continue with a new user turn; a retry requires a separately authorized new proposal ID. See . A crash after claim leaves an indeterminate claimed record requiring application reconciliation; core never automatically retries side effects. Serial",
+          "body": "import { ContributeCallout } from '@/components/contribute/contribute-callout' The shared contract layer for AgentsKit: TypeScript types, the headless chat controller, stream helpers, and building blocks used by @agentskit/react , @agentskit/ink , @agentskit/runtime , and adapters. No third-party runtime dependencies — keep this package small and stable. When to use - You implement a custom adapter , tool, memory, or UI on top of official types. - You need createChatController without React (advanced integrations). - You want to understand messages, tool calls, and stream chunks across the ecosystem. You usually do not import core directly in a typical React app except for types — prefer and . Install Most feature packages already depend on core ; you add it explicitly when authoring libraries or sharing types. Public exports (overview) Chat controller and config Export Role -------- ------ createChatController Headless state machine: send, stream, tools, memory, skills, retriever Types: ChatConfig , ChatController , ChatState , ChatReturn Configuration and controller shape The controller merges system prompts, runs retrieval, dispatches tool calls, saves via ChatMemory after successful turns, skips persistence for failed or aborted turns, surfaces background memory and skill activation failures through onError , and exposes subscribe/update patterns consumed by UI packages. Durable decisions and multimodal input controller.send accepts string ContentPart[] . User messages retain their parts and a partsToText projection in content ; provider support remains adapter-specific. ChatReturn.send has the same widened signature. Implementers of ChatController must supply the required decide member and accept parts in send . Configure ChatConfig.decisionStore with a conversation-scoped ToolDecisionStore to use await controller.decide(toolCallId, 'approve') or await controller.decide(toolCallId, 'deny', reason) . Pending message snapshots survive controller replacement and process restart through that store. Configured chat memory also receives pending snapshots before proposal completion. ToolDecisionRecord stores toolCallId , messages , status ( pending , claimed , complete , failed , denied ), and optional decision , reason , and outcome . Implement putPending as insert-if-absent, get as a linearizable read, claim as an atomic pending-to-claimed transition returning the snapshot only to its winner, and settle as a durable terminal write for the matching claim. A database implementation can use UPDATE ... WHERE status = 'pending' RETURNING ... . The application must scope access to the authorized conversation. Before claiming, the controller loads and validates the current conversation, prioritizing live state (including unsaved turns), then configured chat memory, then the stored snapshot when neither exists. It preserves later messages and patches the target call, revalidates and reauthorizes the tool, persists its outcome, and resumes the model only for the latest completed assistant message when all confirmations in that target assistant message are decided. Tool results follow their originating assistant message in call order. Idempotency compares the decision only; a repeated denial with a different reason retains the original reason and outcome. Same-decision terminal replay returns the stored tool outcome without another tool or model invocation. Unknown IDs raise AK ACTION NOT FOUND ; conflicting decisions or targets that are no longer pending raise AK ACTION ALREADY DECIDED . Tool failures become terminal failed records and reach the model as tool errors. A new attempt needs a new proposal ID. For a stuck claimed record, inspect get(id) and domain execution evidence, stop the original worker, and terminally settle the matching claim with a proven outcome or explicit indeterminate failure. Never reset or delete the claim. Reconcile the target call in current chat memory and continue with a new user turn; a retry requires a s",
           "aliases": "document human"
         },
         "graph": {
@@ -60127,7 +60127,7 @@
             }
           ]
         },
-        "contentHash": "5143366b0bed4e6cccd66a3a37209d9501462252c465da104236cf7e799615e8",
+        "contentHash": "c0805db69400cae3a7a0abc8f1dbacfc9bae0078798f4a2157df89c22c5bdf32",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -78081,7 +78081,7 @@
           "path": "packages/core/README.md",
           "symbols": "",
           "summary": "Profile: <code>major-package</code>",
-          "body": "@agentskit/core Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p The zero-dependency foundation that every AgentsKit package builds on — under the 10 KB gzip budget, edge-ready, works everywhere JavaScript runs. Tags: ai · agents · llm · agentskit · typescript · orchestration · streaming · chat Verified proof - Package metadata and tests live under packages/core/ . - Package guide: https://www.agentskit.io/docs/reference/packages/core - Stability map: How this fits the ecosystem @agentskit/core is the contract layer: the tiny, stable foundation that makes adapters, tools, skills, memory, retrievers, and runtimes interchangeable. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why core - Zero external dependencies — no npm bloat, no audit surprises; installs in milliseconds and works in Node, Deno, edge runtimes, and the browser - Stable contracts that unlock the whole ecosystem — six ADR-pinned interfaces ( Adapter , Tool , Skill , Memory , Retriever , Runtime ) make every package interchangeable - Chat state machine included — createChatController handles streaming, abort, and message history so you never implement that loop yourself - Under 10 KB gzipped, always — budget enforced in CI; the foundation you can commit to for the long term Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- Durable confirmations and content parts controller.send accepts a string or ContentPart[] ; parts are retained on the user message and content is their text projection. The shared ChatReturn.send signature also accepts parts; existing string callers remain compatible. Structural ChatController implementations must provide the required decide method. Configure ChatConfig.decisionStore with a conversation-scoped ToolDecisionStore , then call await controller.decide(toolCallId, 'approve') or await controller.decide(toolCallId, 'deny', reason) . A controller uses its live conversation when present, including unsaved turns; otherwise it loads configured chat memory, preserving later turns; the claimed snapshot is a fallback only when no current conversation exists. It patches and persists the target tool outcome. The model resumes only for the latest completed assistant message when every confirmation is decided; tool results follow their originating assistant message in call order. Pending confirmations are saved to configured chat memory and the decision store before proposal completion. The store implements insert-if-absent putPending , get , atomic claim (pending → claimed, returning a snapshot only to the winner), and settle (persist the matching claim's terminal outcome). Store records must survive process restart, and methods must be linearizable per tool call. An asynchronous read followed by a write is not an atomic claim: use a database conditional update/transaction or an equivalent compare-and-swap, including across processes. Use an application-authorized conversation scope. A database claim can use UPDATE ... WHERE status = 'pending' RETURNING ... ; core ships no database implementation. Identical decisions are idempotent even while claimed: they return the recorded outcome, or the original call while execution is in flight, without invoking the tool or model again. Streamed confirmations are registered before onToolCall . After restart, streamed decisions require current ChatMemory : arrival snapshots are immutable and may omit later calls; without a current conversation, AK CONFIG INVALID rejects an incomplete streaming snapshot before claiming. A live controller does not require memory. Same-decision terminal replay returns the re",
+          "body": "@agentskit/core Profile: <code major-package</code <p align=\"center\" <img alt=\"AgentsKit\" src=\"https://raw.githubusercontent.com/AgentsKit-io/agentskit/main/apps/docs-next/public/brand/logo-wordmark.svg\" width=\"180\" / </p The zero-dependency foundation that every AgentsKit package builds on — under the 10 KB gzip budget, edge-ready, works everywhere JavaScript runs. Tags: ai · agents · llm · agentskit · typescript · orchestration · streaming · chat Verified proof - Package metadata and tests live under packages/core/ . - Package guide: https://www.agentskit.io/docs/reference/packages/core - Stability map: How this fits the ecosystem @agentskit/core is the contract layer: the tiny, stable foundation that makes adapters, tools, skills, memory, retrievers, and runtimes interchangeable. - AgentsKit : compose it with the other packages in this repo to build agents from small, swappable parts. - Registry : look for ready agents and templates that already use this layer at . - Playbook : learn the production patterns behind this layer at . Docs: · Why core - Zero external dependencies — no npm bloat, no audit surprises; installs in milliseconds and works in Node, Deno, edge runtimes, and the browser - Stable contracts that unlock the whole ecosystem — six ADR-pinned interfaces ( Adapter , Tool , Skill , Memory , Retriever , Runtime ) make every package interchangeable - Chat state machine included — createChatController handles streaming, abort, and message history so you never implement that loop yourself - Under 10 KB gzipped, always — budget enforced in CI; the foundation you can commit to for the long term Install <!-- readme-command:install -- Quick example <!-- readme-example:quickstart -- Durable confirmations and content parts controller.send accepts a string or ContentPart[] ; parts are retained on the user message and content is their text projection. The shared ChatReturn.send signature also accepts parts; existing string callers remain compatible. Structural ChatController implementations must provide the required decide method. Configure ChatConfig.decisionStore with a conversation-scoped ToolDecisionStore , then call await controller.decide(toolCallId, 'approve') or await controller.decide(toolCallId, 'deny', reason) . A controller uses its live conversation when present, including unsaved turns; otherwise it loads configured chat memory, preserving later turns; the claimed snapshot is a fallback only when no current conversation exists. It patches and persists the target tool outcome. The model resumes only for the latest completed assistant message when every confirmation in that target assistant message is decided; tool results follow their originating assistant message in call order. Pending confirmations are saved to configured chat memory and the decision store before proposal completion. The store implements insert-if-absent putPending , get , atomic claim (pending → claimed, returning a snapshot only to the winner), and settle (persist the matching claim's terminal outcome). Store records must survive process restart, and methods must be linearizable per tool call. An asynchronous read followed by a write is not an atomic claim: use a database conditional update/transaction or an equivalent compare-and-swap, including across processes. Use an application-authorized conversation scope. A database claim can use UPDATE ... WHERE status = 'pending' RETURNING ... ; core ships no database implementation. Identical decisions are idempotent even while claimed: they return the recorded outcome, or the original call while execution is in flight, without invoking the tool or model again. Streamed confirmations are registered before onToolCall . After restart, streamed decisions require current ChatMemory : arrival snapshots are immutable and may omit later calls; without a current conversation, AK CONFIG INVALID rejects an incomplete streaming snapshot before claiming. A live controller does not require memory. Idempotency",
           "aliases": "document project"
         },
         "graph": {
@@ -78309,7 +78309,7 @@
             }
           ]
         },
-        "contentHash": "1f09c88450c32e1aaea4e0211bad1d2a12763d713b54728af44541a5b785f51d",
+        "contentHash": "5f3bb79e91401ee25cb9dcda785dea22b99d3605c5f62c528fc3623f8f3965b4",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -122433,7 +122433,7 @@
             }
           ]
         },
-        "contentHash": "2505516631cdb1290c9610e560d4a032913442ba8ca65c802c5c81f1bad55afa",
+        "contentHash": "79928bb33e5ed6a967353e3914694dbc928d90c8ed1f86c75500c373427a9518",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -122526,7 +122526,7 @@
             }
           ]
         },
-        "contentHash": "cff73c65129da037d8fc2c7e33370d629c133aed78e4a4d9332a6ad829d7ddac",
+        "contentHash": "b8e745c83c267b54438be20d3243e7a2c463017e7a62926a994b1a695a354d48",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -122847,7 +122847,7 @@
             }
           ]
         },
-        "contentHash": "3b5441f090877efd87124f3edff62509096d4d02440044938b76aeb411415b36",
+        "contentHash": "c64ffe19da240db2d517cc5782e37e87a8defe6364fff4ae0c4c340d81a1ac60",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -129078,7 +129078,7 @@
             }
           ]
         },
-        "contentHash": "5239d92d01a9c878b709cc324be7d49b80b045f31b8612159636c5df0ac95a31",
+        "contentHash": "fab8069b6983f1d8da3218ab536ad9f7ecdd6c87f93d398357819d70218da4b0",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -129256,7 +129256,7 @@
           "inbound": [],
           "outbound": []
         },
-        "contentHash": "376489948ab4d4b2d5941f97d5110ff3b72949467f8f3f41423984f0b750443a",
+        "contentHash": "7bc64ff6c8b16285878dad1847c17d258396f5509dc32feee41e240ccc473b2b",
         "provenance": "observed",
         "confidence": "observed"
       },
@@ -192659,7 +192659,7 @@
           "path": "packages/core",
           "symbols": "",
           "summary": "Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + `createChatController` + primitives. Target: &lt;10 KB gzipped, zero runtime deps.",
-          "body": "Purpose Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + createChatController + primitives. Target: &lt;10 KB gzipped, zero runtime deps. Install Primary exports (main entry) - createChatController(config) — state machine behind every UI - proposeToolCall(proposal) — controller method that places a trusted, validated action into the same confirmation lifecycle; it never executes directly. The standalone helper is available from @agentskit/core/tool-proposal . Returns { getState, subscribe, send, stop, retry, edit, regenerate, setInput, clear, decide, approve, deny, updateConfig } . - defineTool(config) — typed tool factory with JSON-Schema input inference. - controller.send(string ContentPart[]) preserves multimodal parts and text projection. - controller.decide(id, 'approve' 'deny', reason?) uses ChatConfig.decisionStore to validate the current conversation before claiming, prioritizing live controller state over memory and preserving unsaved later turns and using the pending snapshot only as a fallback ( ToolDecisionStore , ToolDecisionRecord ). The store provides insert-if-absent putPending , linearizable get , atomic pending-to-claimed claim , and matching-claim terminal settle . Scope it to an application-authorized conversation. Same-decision terminal replay returns the recorded tool outcome; unknown IDs raise AK ACTION NOT FOUND , conflicting decisions raise AK ACTION ALREADY DECIDED . Failed and claimed records are never automatically retried. Serialize different decisions per conversation to protect transcript writes. - Identical decisions are idempotent even while claimed: they return the recorded outcome, or the original call while execution is in flight, without invoking the tool or model again. Streamed confirmations are registered before onToolCall . After restart, streamed decisions require current ChatMemory : arrival snapshots are immutable and may omit later calls; without a current conversation, AK CONFIG INVALID rejects an incomplete streaming snapshot before claiming. A live controller does not require memory. - approve / deny are deprecated. With a decision store they delegate to decide , including atomic claims and typed errors; without a store they preserve generation-local behavior. - ChatConfig.authorizeToolCall — trusted host authorization before tool proposal and again before execution. Callback failures default to deny. - createInMemoryMemory / createLocalStorageMemory — default ChatMemory implementations. - createStaticRetriever / formatRetrievedDocuments — RAG-less retrieval using token substring overlap; use @agentskit/rag for semantic production retrieval. - executeToolCall , consumeStream , createEventEmitter , parseToolArgs , safeParseArgs , isRecord , createId , generateId , buildMessage — low-level helpers. parseToolArgs returns { args, valid } so adapters can fail closed; safeParseArgs remains the compatibility value-only parser. IDs use crypto.randomUUID() and retain the caller-provided prefix. - isRecord(value) accepts non-null objects other than arrays, including Date , Map , and class instances; use a schema validator when plain JSON objects are required. - AgentsKitError , AdapterError , ToolError , MemoryError , ConfigError , RuntimeError , SandboxError , SkillError , ErrorCodes — error taxonomy. - Token budget: compileBudget , approximateCounter . - Progressive tool args: createProgressiveArgParser , executeToolProgressively . - createVirtualizedMemory — hot-window + cold-retriever wrapper (also re-exported from @agentskit/memory ). - Untrusted-input fencing lives in the @agentskit/core/security entry: fenceUntrustedContent(content, opts?) + UNTRUSTED CONTENT DIRECTIVE wrap attacker-influenced text so the model treats it as data, not instructions (the mitigation companion to createInjectionDetector ). - Multi-modal content parts: textPart , imagePart , audioPart , videoPart , filePart , partsToText , normalizeContent , filterParts . - Agent-loop inter",
+          "body": "Purpose Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + createChatController + primitives. Target: &lt;10 KB gzipped, zero runtime deps. Install Primary exports (main entry) - createChatController(config) — state machine behind every UI - proposeToolCall(proposal) — controller method that places a trusted, validated action into the same confirmation lifecycle; it never executes directly. The standalone helper is available from @agentskit/core/tool-proposal . Returns { getState, subscribe, send, stop, retry, edit, regenerate, setInput, clear, decide, approve, deny, updateConfig } . - defineTool(config) — typed tool factory with JSON-Schema input inference. - controller.send(string ContentPart[]) preserves multimodal parts and text projection. - controller.decide(id, 'approve' 'deny', reason?) uses ChatConfig.decisionStore to validate the current conversation before claiming, prioritizing live controller state over memory and preserving unsaved later turns and using the pending snapshot only as a fallback ( ToolDecisionStore , ToolDecisionRecord ). The store provides insert-if-absent putPending , linearizable get , atomic pending-to-claimed claim , and matching-claim terminal settle . Scope it to an application-authorized conversation. Idempotency compares only the decision, retaining the original denial reason. Same-decision terminal replay returns the recorded tool outcome; unknown IDs raise AK ACTION NOT FOUND , conflicting decisions or targets that are no longer pending raise AK ACTION ALREADY DECIDED . Failed and claimed records are never automatically retried. Serialize different decisions per conversation to protect transcript writes. - Identical decisions are idempotent even while claimed: they return the recorded outcome, or the original call while execution is in flight, without invoking the tool or model again. Streamed confirmations are registered before onToolCall . After restart, streamed decisions require current ChatMemory : arrival snapshots are immutable and may omit later calls; without a current conversation, AK CONFIG INVALID rejects an incomplete streaming snapshot before claiming. A live controller does not require memory. - approve / deny are deprecated. With a decision store they delegate to decide , including atomic claims and typed errors; without a store they preserve generation-local behavior. - ChatConfig.authorizeToolCall — trusted host authorization before tool proposal and again before execution. Callback failures default to deny. - createInMemoryMemory / createLocalStorageMemory — default ChatMemory implementations. - createStaticRetriever / formatRetrievedDocuments — RAG-less retrieval using token substring overlap; use @agentskit/rag for semantic production retrieval. - executeToolCall , consumeStream , createEventEmitter , parseToolArgs , safeParseArgs , isRecord , createId , generateId , buildMessage — low-level helpers. parseToolArgs returns { args, valid } so adapters can fail closed; safeParseArgs remains the compatibility value-only parser. IDs use crypto.randomUUID() and retain the caller-provided prefix. - isRecord(value) accepts non-null objects other than arrays, including Date , Map , and class instances; use a schema validator when plain JSON objects are required. - AgentsKitError , AdapterError , ToolError , MemoryError , ConfigError , RuntimeError , SandboxError , SkillError , ErrorCodes — error taxonomy. - Token budget: compileBudget , approximateCounter . - Progressive tool args: createProgressiveArgParser , executeToolProgressively . - createVirtualizedMemory — hot-window + cold-retriever wrapper (also re-exported from @agentskit/memory ). - Untrusted-input fencing lives in the @agentskit/core/security entry: fenceUntrustedContent(content, opts?) + UNTRUSTED CONTENT DIRECTIVE wrap attacker-influenced text so the model treats it as data, not instructions (the mitigation companion to createInjectionDetector ). - Multi-modal content parts: textPar",
           "aliases": "core @agentskit/core package ownership"
         },
         "graph": {
