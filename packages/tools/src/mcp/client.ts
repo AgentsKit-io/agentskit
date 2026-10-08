@@ -1,5 +1,4 @@
 import { ConfigError, ErrorCodes, isRecord, ToolError } from '@agentskit/core'
-import type { ToolDefinition } from '@agentskit/core'
 import type {
   JsonRpcMessage,
   JsonRpcSuccess,
@@ -7,6 +6,8 @@ import type {
   McpCallToolResult,
   McpToolsListResult,
   McpTransport,
+  McpToolDefinition,
+  McpToolAnnotations,
 } from './types'
 import { MCP_PROTOCOL_VERSION } from './types'
 
@@ -170,7 +171,7 @@ export function createMcpClient(options: {
 
 export interface ToolsFromMcpOptions {
   /**
-   * Maximum byte length permitted for each tool's `description`.
+   * Maximum byte length permitted for each tool's description and titles.
    * Anything longer is truncated. The description ends up inside the
    * LLM prompt, so a malicious or buggy MCP server could otherwise
    * inject arbitrarily large or prompt-poisoning text. Default 4096.
@@ -232,7 +233,7 @@ function truncateBytes(input: string, max: number): string {
 export async function toolsFromMcpClient(
   client: McpClient,
   options: ToolsFromMcpOptions = {},
-): Promise<ToolDefinition[]> {
+): Promise<McpToolDefinition[]> {
   const maxDescription = limit(options.maxDescriptionBytes, DEFAULT_MAX_DESCRIPTION_BYTES, 'maxDescriptionBytes')
   const maxSchema = limit(options.maxSchemaBytes, DEFAULT_MAX_SCHEMA_BYTES, 'maxSchemaBytes')
   const quarantine = options.quarantine ?? true
@@ -242,7 +243,7 @@ export async function toolsFromMcpClient(
     throw new ToolError({ code: ErrorCodes.AK_TOOL_EXEC_FAILED, message: 'MCP tools/list returned an invalid tool list' })
   }
   const { tools } = listed
-  const out: ToolDefinition[] = []
+  const out: McpToolDefinition[] = []
   const names = new Set<string>()
   for (const t of tools) {
     if (!isRecord(t)) {
@@ -276,11 +277,36 @@ export async function toolsFromMcpClient(
       onInvalidTool?.(reason)
       throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: reason })
     }
+    if (t.title !== undefined && typeof t.title !== 'string') {
+      const reason = 'remote MCP tool title must be a string'
+      onInvalidTool?.(reason)
+      throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: reason })
+    }
+    let annotations: McpToolAnnotations | undefined
+    if (t.annotations !== undefined) {
+      if (!isRecord(t.annotations) ||
+        (t.annotations.title !== undefined && typeof t.annotations.title !== 'string') ||
+        (['readOnlyHint', 'destructiveHint', 'idempotentHint', 'openWorldHint'] as const).some(
+          key => t.annotations?.[key] !== undefined && typeof t.annotations[key] !== 'boolean',
+        )) {
+        const reason = 'remote MCP tool annotations must contain valid hints'
+        onInvalidTool?.(reason)
+        throw new ConfigError({ code: ErrorCodes.AK_CONFIG_INVALID, message: reason })
+      }
+      annotations = {}
+      if (typeof t.annotations.title === 'string') annotations.title = truncateBytes(t.annotations.title, maxDescription)
+      for (const key of ['readOnlyHint', 'destructiveHint', 'idempotentHint', 'openWorldHint'] as const) {
+        const hint = t.annotations[key]
+        if (typeof hint === 'boolean') annotations[key] = hint
+      }
+    }
     const prefix = quarantine ? '[mcp] ' : ''
     const description = truncateBytes(`${prefix}${t.description ?? ''}`, maxDescription)
     names.add(name)
     out.push({
       name,
+      ...(t.title === undefined ? {} : { title: truncateBytes(t.title, maxDescription) }),
+      ...(annotations === undefined ? {} : { annotations }),
       description,
       schema: t.inputSchema,
       async execute(args) {

@@ -3,6 +3,8 @@ import {
   createMcpServer,
   createStdioTransport,
   type McpServer,
+  type McpServerOptions,
+  type McpToolDefinition,
   type McpTransport,
   type StdioLikeProcess,
 } from '@agentskit/tools/mcp'
@@ -11,7 +13,9 @@ import { assertNonEmptyString, assertToolName, isRecord } from './validation'
 /** Tools, server metadata, transport, and event hook for the stdio MCP bridge. */
 export interface AgentsKitMcpServerOptions {
   /** AgentsKit tools to expose to the MCP host. */
-  tools: ToolDefinition[]
+  tools: McpToolDefinition[]
+  /** Host confirmation hook. Required for tools marked requiresConfirmation; absent means deny. */
+  authorizeToolCall?: McpServerOptions['authorizeToolCall']
   serverInfo?: { name: string; version: string }
   /** Observability hook (call / error / list). Logs must NOT go to stdout — it is the MCP channel. */
   onEvent?: (event: { type: 'call' | 'error' | 'list'; tool?: string; error?: string }) => void
@@ -108,6 +112,7 @@ export function createAgentsKitMcpServer(options: AgentsKitMcpServerOptions): Mc
     tools,
     serverInfo,
     onEvent,
+    authorizeToolCall: options.authorizeToolCall,
   })
 }
 
