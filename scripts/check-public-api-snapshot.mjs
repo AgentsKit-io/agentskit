@@ -18,6 +18,7 @@
 import { existsSync, readdirSync, readFileSync, renameSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { selectPackedConsumerPackages } from './lib/packed-consumers.mjs'
 import {
   BUILD_PREREQUISITE_COMMAND,
   DEFAULT_BASELINE_RELATIVE,
@@ -95,11 +96,19 @@ function writeFileAtomic(filePath, contents) {
 function main() {
   const { update, json } = parseArgs(process.argv.slice(2))
 
-  const packages = discoverPublicPackages(PACKAGES_ROOT, {
+  const publicPackages = discoverPublicPackages(PACKAGES_ROOT, {
     readdirSync,
     readFileSync,
     join: path.join,
   })
+
+  const planPath = !update && process.env.PACKED_CONSUMERS_BUILD_PLAN
+  const buildPlan = planPath ? JSON.parse(readFileSync(planPath, 'utf8')) : undefined
+  const packages = selectPackedConsumerPackages(publicPackages, buildPlan)
+  const skipped = publicPackages.filter((pkg) => !packages.includes(pkg))
+  if (skipped.length > 0) {
+    console.error(`public-api-snapshot: skipped packages outside build plan: ${skipped.map((pkg) => pkg.packageName).join(', ')}`)
+  }
 
   const missing = findMissingBuildOutputs(packages, {
     existsSync,
@@ -157,7 +166,12 @@ function main() {
     process.exit(1)
   }
 
-  const changes = diffSnapshots(baseline, snapshot)
+  const comparisonBaseline = buildPlan === undefined ? baseline : {
+    ...baseline,
+    packages: Object.fromEntries(Object.entries(baseline.packages).filter(([name]) =>
+      packages.some((pkg) => pkg.packageName === name))),
+  }
+  const changes = diffSnapshots(comparisonBaseline, snapshot)
   const packageDetails = Object.fromEntries(Object.entries(snapshot.packages).map(([name, pkg]) => {
     const subpaths = Object.values(pkg.subpaths)
     return [name, {
@@ -184,7 +198,7 @@ function main() {
 
   // Byte-stable re-serialize check against committed file
   const committed = readFileSync(BASELINE_PATH, 'utf8')
-  if (committed !== serialized) {
+  if (committed !== (buildPlan === undefined ? serialized : serializeSnapshot(baseline))) {
     if (json) {
       process.stdout.write(`${JSON.stringify({ schemaVersion: 1, passed: false, ...stats, packageDetails, changes: [], baselineFormattingDrift: true }, null, 2)}\n`)
       process.exit(1)
