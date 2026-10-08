@@ -156,7 +156,10 @@ transport with optional Bearer authentication. `openRouter` aliases
 `openrouter`; `cloudflareAiGateway` and `workersAi` provide Cloudflare REST
 presets without runtime bindings. Ordered image/file parts are serialized at
 the provider boundary; unsupported inputs throw `CapabilityUnsupportedError`
-before transport I/O. See the [modality limits](/docs/reference/recipes/provider-swap).
+before transport I/O when multimodal input is enabled. Text-only models fall
+back to `message.content` with a warning; OpenAI assistant binary parts do the
+same. Explicit `capabilities.multiModal` overrides model-name heuristics.
+See the [modality limits](/docs/reference/recipes/provider-swap).
 
 ### Composition
 

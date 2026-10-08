@@ -26,9 +26,13 @@ function dataSource(part: Exclude<ContentPart, { type: 'text' }>, provider: Prov
   return { mimeType: match[1]!, data: match[2]! }
 }
 
-/** Serialize ordered parts; unsupported inputs fail instead of becoming text projections. */
+/** Serialize ordered parts, falling back to content when binary parts cannot be sent. */
 export function providerParts(message: Message, provider: Provider, multiModal = true): Array<Record<string, unknown>> | undefined {
   if (!message.parts?.length) return undefined
+  if ((!multiModal || (provider === 'openai' && message.role === 'assistant')) && message.parts.some(part => part.type !== 'text')) {
+    console.warn(`${provider}: binary content parts omitted; using message.content text fallback`)
+    return undefined
+  }
   return message.parts.map(part => {
     if (part.type === 'text') return provider === 'gemini' ? { text: part.text } : { type: 'text', text: part.text }
     if (!multiModal || (message.role !== 'user' && message.role !== 'assistant') || (part.type !== 'image' && part.type !== 'file')) unsupported(provider, part)

@@ -94,11 +94,41 @@ describe('multimodal HTTP contract', () => {
     expect(body.messages).toEqual([{ role: 'user', content: 'inspect', images: ['aW1hZ2U='] }])
   })
   it('rejects unsupported modalities before network I/O', () => {
-    for (const adapter of [openai({ apiKey: 'synthetic', model: 'gpt-3.5', baseUrl }), ollama({ model: 'llama3', baseUrl })]) {
-      expect(() => adapter.createSource({ messages: [message([{ type: 'image', source: png }])] })).toThrow(expect.objectContaining({ code: 'CAPABILITY_UNSUPPORTED' }))
-    }
     expect(() => ollama({ model: 'llava', baseUrl }).createSource({ messages: [message([{ type: 'file', source: pdf }])] })).toThrow(expect.objectContaining({ code: 'CAPABILITY_UNSUPPORTED' }))
     expect(captured).toHaveLength(0)
+  })
+  it.each([
+    ['gpt-3.5', undefined], ['gpt-4o', false],
+  ] as const)('falls back to text with a warning for %s, including old image history', async (model, multiModal) => {
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    try {
+      const adapter = openai({ apiKey: 'synthetic', model, baseUrl, ...(multiModal === undefined ? {} : { capabilities: { multiModal } }) })
+      const messages = [message([{ type: 'image', source: png }, { type: 'file', source: pdf }]),
+        { ...message([], 'assistant'), content: 'old answer' },
+        { ...message([{ type: 'text', text: 'followup' }]), content: 'followup' }]
+      const before = JSON.stringify(messages)
+      const chunks = []
+      for await (const chunk of adapter.createSource({ messages }).stream()) chunks.push(chunk)
+      expect(chunks.at(-1)?.type).toBe('done')
+      expect(captured[0]?.body.messages).toEqual([
+        { role: 'user', content: 'legacy projection' }, { role: 'assistant', content: 'old answer' },
+        { role: 'user', content: [{ type: 'text', text: 'followup' }] },
+      ])
+      expect(warning).toHaveBeenCalledWith(expect.stringContaining('text fallback'))
+      expect(JSON.stringify(messages)).toBe(before)
+    } finally { warning.mockRestore() }
+  })
+  it('omits binary assistant parts while preserving text and tool calls', async () => {
+    const warning = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    try {
+      const messages = [message([{ type: 'image', source: png }], 'assistant'),
+        { ...message([{ type: 'file', source: pdf }], 'assistant'), toolCalls: [{ id: 'call', name: 'inspect', args: {}, status: 'complete' as const }] }]
+      for await (const _chunk of openai({ apiKey: 'synthetic', model: 'gpt-4o', baseUrl }).createSource({ messages }).stream()) { /* drain */ }
+      expect(captured[0]?.body.messages).toEqual([
+        { role: 'assistant', content: 'legacy projection' },
+        { role: 'assistant', content: 'legacy projection', tool_calls: [{ id: 'call', type: 'function', function: { name: 'inspect', arguments: '{}' } }] },
+      ])
+    } finally { warning.mockRestore() }
   })
   it('custom gateway path/headers/fetch preserves streaming and usage without Bearer', async () => {
     const transport = vi.fn(globalThis.fetch)

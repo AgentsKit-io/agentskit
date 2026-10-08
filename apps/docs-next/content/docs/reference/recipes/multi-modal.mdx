@@ -10,7 +10,10 @@ data. `@agentskit/core` provides a provider-neutral `ContentPart`
 model. The adapters listed below serialize supported image/file parts and reject
 unsupported inputs with `CapabilityUnsupportedError` (`code: CAPABILITY_UNSUPPORTED`)
 from `createSource`, before network I/O. Audio/video builders exist in core;
-these adapters do not yet send them.
+these adapters do not yet send them. Text-only models fall back to
+`message.content` with a warning, so existing image/file histories remain usable.
+OpenAI assistant binary parts also use this text fallback. Explicit
+`capabilities.multiModal` overrides OpenAI-compatible model-name heuristics.
 
 ## Install
 

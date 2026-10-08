@@ -21,7 +21,7 @@ export interface OpenAIConfig {
    * Turn this on for vanilla `api.openai.com`.
    */
   includeUsage?: boolean
-  /** Explicit capability facts for OpenAI-compatible providers with custom models. */
+  /** Explicit capability facts take precedence over model-name heuristics. */
   capabilities?: Partial<AdapterCapabilities>
 }
 
@@ -60,7 +60,7 @@ export function openai(config: OpenAIConfig): AdapterFactory {
     // o1 / o3 models emit reasoning; older models don't. Accurate per-model
     // detection would need a model registry; 'true' is the safer default here.
     reasoning: config.capabilities?.reasoning ?? (model.startsWith('o1') || model.startsWith('o3')),
-    multiModal: config.capabilities?.multiModal ?? (model.startsWith('gpt-4') || model.startsWith('gpt-5') || model.startsWith('o')),
+    multiModal: config.capabilities?.multiModal ?? /(^|\/)(gpt-[45]|o\d|gemini-|claude-(?:[3-9]|(?:sonnet|opus|haiku)-[3-9]))|vision/i.test(model),
     usage: true,
     ...config.capabilities,
   }
