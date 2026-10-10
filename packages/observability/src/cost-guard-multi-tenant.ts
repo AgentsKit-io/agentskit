@@ -111,7 +111,7 @@ export function multiTenantCostGuard(options: MultiTenantCostGuardOptions): Obse
   const onError = options.onError
   const tenants = new Map<string, TenantState>()
   let activeTenant: string | undefined
-  const durable = durableSpendRecorder('multiTenantCostGuard', options.store, err => reportCostGuardError(onError, err))
+  const durable = durableSpendRecorder('multiTenantCostGuard', options, err => reportCostGuardError(onError, err))
 
   const resolve = (): string | undefined => {
     if (!options.tenantOf) return activeTenant

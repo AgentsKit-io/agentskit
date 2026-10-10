@@ -196,7 +196,7 @@ Simple `costGuard` aborts via the supplied `AbortController` when the run budget
 
 ### Durable budgets with `CostStore`
 
-A guard without a store keeps its totals in process memory: they reset on restart and are not shared between instances or isolates. That is fine in development and wrong on serverless or multi-instance hosts, so the guards warn once when `NODE_ENV=production` and no store is set.
+A guard without a store keeps its totals in process memory: they reset on restart and are not shared between instances or isolates. That is fine in development and wrong on serverless or multi-instance hosts, so the guards warn once when no store is set and `NODE_ENV=production`, or on Cloudflare Workers when `NODE_ENV` is not set. Pass `warnWithoutStore: true` or `false` to decide it yourself.
 
 `CostStore` is the durable port. `reserve` holds an estimate against the tenant cap, `commit` replaces it with the real spend and writes the usage ledger, `release` returns it when the call fails, and `window` reads the current state. All four take the tenant id; `reserve`, `commit` and `release` are idempotent per `reservationId`.
 
@@ -229,7 +229,12 @@ const guard = multiTenantCostGuard({ budgets: { [tenant]: planCapUsd }, store })
 - **Accounting window.** Spend is grouped by `windowKey`, by default the UTC month (`2026-10`). Pass `windowKey` to the store options or per call for another period. With a store, a guard's budget applies to the current window.
 - **Real spend wins.** `commit` records `actualUsd` even when it is above the reserved estimate. Reserve an upper estimate if the cap must never be passed.
 - **Guards record after the fact.** A guard writes each priced `llm:end` to the store and trips when the stored total passes the budget. To stop a request before it spends, call `reserve` yourself as above.
-- **Connection lifetime is yours.** Use a pool on Node. On Workers, create one `pg` client per request and close it in `waitUntil`. `drizzle-orm` and `pg` are optional peers, needed only for the `/postgres` subpath.
+- **Connection lifetime is yours.** Use a pool on Node. On Workers, create a `pg` client or a small pool per request and close it in `waitUntil`. `drizzle-orm` and `pg` are optional peers, needed only for the `/postgres` subpath.
+- **A released id stays released.** `reserve` with the id of a released reservation throws `AK_COST_RESERVATION_RELEASED` instead of reporting it as admitted. Use a new id to retry a call.
+- **Abandoned reservations.** A reservation that is never committed or released (a crashed process) keeps its amount held; the store has no background reaper. Schedule `expirePostgresCostReservations({ db, olderThan })` with a cutoff longer than your slowest call, for example `new Date(Date.now() - 60 * 60_000)`.
+- **Store failures.** A guard never throws into the run when the store fails. It reports the error to `onError`; without `onError` it logs one warning for the first failure. Set `onError` in production so a store that stops recording is visible.
+- **Match errors by `code`.** In CommonJS each subpath bundles its own copy of `CostReservationError`, so `instanceof` fails across `require('@agentskit/observability')` and `require('@agentskit/observability/postgres')`. Compare `error.code`.
+- **Transactions.** Call `reserve` outside your own transaction, or inside a savepoint. When two calls race on one reservation id, the store absorbs the loser's unique violation, but PostgreSQL has already aborted the enclosing transaction.
 - **Your own store.** Implement `CostStore` over your tables and run `costStoreContract` from `@agentskit/observability/cost-store-contract` in your test suite. `createInMemoryCostStore()` is the development and test implementation.
 
 ## Ecosystem

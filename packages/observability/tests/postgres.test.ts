@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest'
-import { postgresCostMigrationSql, postgresCostReservationTable, postgresCostStore, postgresCostWindowTable, postgresUsageLedgerTable } from '../src/postgres'
+import { getTableConfig } from 'drizzle-orm/pg-core'
+import { expirePostgresCostReservations, postgresCostMigrationSql, postgresCostReservationTable, postgresCostStore, postgresCostWindowTable, postgresUsageLedgerTable } from '../src/postgres'
 
 type Rows = Record<string, unknown>[]
 type Db = Parameters<typeof postgresCostStore>[0]['db']
@@ -27,6 +28,14 @@ describe('postgresCostStore', () => {
     expect([postgresCostWindowTable, postgresCostReservationTable, postgresUsageLedgerTable].map(table => Object.keys(table).length > 0)).toEqual([true, true, true])
   })
 
+  it('keeps the Drizzle schema aligned with the DDL constraints', () => {
+    expect(getTableConfig(postgresCostReservationTable).checks.map(constraint => constraint.name)).toEqual(['agentskit_cost_reservation_status_check'])
+    expect(getTableConfig(postgresUsageLedgerTable).indexes.map(entry => entry.config.name)).toEqual(['agentskit_usage_ledger_tenant_created'])
+    expect(postgresUsageLedgerTable.promptTokens.getSQLType()).toBe('bigint')
+    expect(postgresCostMigrationSql).toContain('prompt_tokens bigint NOT NULL')
+    expect(postgresCostMigrationSql).toContain('completion_tokens bigint NOT NULL')
+  })
+
   it('admits a reservation from the single atomic statement', async () => {
     const { db, statements } = scripted([[{ spent_usd: '0.250000000', reserved_usd: '0.500000000' }]])
     const result = await postgresCostStore({ db, now }).reserve({ tenant: 't', reservationId: 'r', amountUsd: 0.5, capUsd: 1 })
@@ -46,6 +55,29 @@ describe('postgresCostStore', () => {
     const { db } = scripted([conflict, [{ window_key: '2026-09' }], [{ spent_usd: '0', reserved_usd: '0.5' }]])
     const result = await postgresCostStore({ db, now }).reserve({ tenant: 't', reservationId: 'r', amountUsd: 0.5 })
     expect(result).toMatchObject({ ok: true, window: { windowKey: '2026-09', reservedUsd: 0.5 } })
+  })
+
+  it('rejects a released reservation id instead of replaying it as admitted', async () => {
+    const { db } = scripted([[], [{ window_key: '2026-09', status: 'released' }]])
+    await expect(postgresCostStore({ db, now }).reserve({ tenant: 't', reservationId: 'r', amountUsd: 0.5 })).rejects.toMatchObject({ code: 'AK_COST_RESERVATION_RELEASED' })
+  })
+
+  it('validates release and window inputs before any statement', async () => {
+    const { db, statements } = scripted([])
+    const store = postgresCostStore({ db, now })
+    await expect(store.release({ tenant: ' ', reservationId: 'r' })).rejects.toMatchObject({ code: 'AK_CONFIG_INVALID' })
+    await expect(store.release({ tenant: 't', reservationId: '' })).rejects.toMatchObject({ code: 'AK_CONFIG_INVALID' })
+    await expect(store.window({ tenant: '' })).rejects.toMatchObject({ code: 'AK_CONFIG_INVALID' })
+    await expect(store.window({ tenant: 't', capUsd: Number.NaN })).rejects.toMatchObject({ code: 'AK_CONFIG_INVALID' })
+    expect(statements).toHaveLength(0)
+  })
+
+  it('expires abandoned reservations in one statement and counts them', async () => {
+    const { db, statements } = scripted([[{ reservations: '2' }, { reservations: 3 }], []])
+    expect(await expirePostgresCostReservations({ db, olderThan: new Date('2026-10-09T11:00:00Z') })).toBe(5)
+    expect(statements[0]).toContain("status = 'reserved' AND created_at < ")
+    expect(statements[0]).toContain('2026-10-09T11:00:00.000Z')
+    expect(await expirePostgresCostReservations({ db, olderThan: new Date(0) })).toBe(0)
   })
 
   it('propagates database errors that are not a replay', async () => {

@@ -72,6 +72,7 @@
     "lint": "tsc --noEmit",
     "dev": "tsup --watch",
     "test:postgres": "pnpm exec turbo run build --filter=@agentskit/observability --concurrency=2 && vitest run tests/postgres.integration.test.ts",
+    "test:cjs": "pnpm exec turbo run build --filter=@agentskit/observability --concurrency=2 && node tests/cjs-smoke.cjs",
     "test:workerd": "pnpm exec turbo run build --filter=@agentskit/observability --concurrency=2 && node tests/postgres-workerd.mjs"
   },
   "dependencies": {

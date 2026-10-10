@@ -8354,6 +8354,18 @@
           ],
           "symbols": [
             {
+              "name": "expirePostgresCostReservations",
+              "kinds": [
+                "value"
+              ]
+            },
+            {
+              "name": "ExpirePostgresCostReservationsOptions",
+              "kinds": [
+                "type"
+              ]
+            },
+            {
               "name": "postgresCostMigrationSql",
               "kinds": [
                 "value"

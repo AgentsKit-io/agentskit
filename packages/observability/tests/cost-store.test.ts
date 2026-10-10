@@ -48,15 +48,42 @@ describe('createInMemoryCostStore', () => {
     expect(new CostReservationError('AK_COST_RESERVATION_RELEASED', 'x').message).toContain('already released')
   })
 
+  it('rejects a released reservation id instead of replaying it as admitted', async () => {
+    const store = createInMemoryCostStore()
+    await store.reserve({ tenant: 't', reservationId: 'r', amountUsd: 1 })
+    await store.release({ tenant: 't', reservationId: 'r' })
+    await expect(store.reserve({ tenant: 't', reservationId: 'r', amountUsd: 1 })).rejects.toMatchObject({ code: 'AK_COST_RESERVATION_RELEASED' })
+    expect(await store.window({ tenant: 't' })).toMatchObject({ reservedUsd: 0, spentUsd: 0 })
+    await expect(store.window({ tenant: ' ' })).rejects.toBeInstanceOf(ConfigError)
+    await expect(store.window({ tenant: 't', capUsd: -1 })).rejects.toBeInstanceOf(ConfigError)
+    await expect(store.release({ tenant: 't', reservationId: ' ' })).rejects.toBeInstanceOf(ConfigError)
+  })
+
   it('keeps utilization finite for a zero cap', () => {
     expect(describeCostWindow('t', 'w', 0, 0, 0)).toMatchObject({ utilization: 0, remainingUsd: 0 })
     expect(describeCostWindow('t', 'w', 1, 0, 0)).toMatchObject({ utilization: 1, remainingUsd: 0 })
   })
 })
 
+describe('recordCostSpend', () => {
+  it('releases the hold when the commit fails and rethrows the commit error', async () => {
+    const store = createInMemoryCostStore()
+    const failing = { ...store, commit: async () => { throw new Error('commit failed') } }
+    await expect(recordCostSpend(failing, { tenant: 't', costUsd: 0.4 })).rejects.toThrow('commit failed')
+    expect(await store.window({ tenant: 't' })).toMatchObject({ reservedUsd: 0, spentUsd: 0 })
+  })
+
+  it('still reports the commit error when the release fails too', async () => {
+    const store = createInMemoryCostStore()
+    const down = { ...store, commit: async () => { throw new Error('commit failed') }, release: async () => { throw new Error('release failed') } }
+    await expect(recordCostSpend(down, { tenant: 't', costUsd: 0.4 })).rejects.toThrow('commit failed')
+  })
+})
+
 describe('warnProcessLocalCostState', () => {
   afterEach(() => {
     vi.unstubAllEnvs()
+    vi.unstubAllGlobals()
     vi.restoreAllMocks()
   })
 
@@ -69,5 +96,27 @@ describe('warnProcessLocalCostState', () => {
     warnProcessLocalCostState('scope-prod')
     expect(warn).toHaveBeenCalledTimes(1)
     expect(warn.mock.calls[0]?.[0]).toContain('scope-prod: no CostStore configured')
+  })
+
+  it('follows an explicit choice over the detected runtime', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    warnProcessLocalCostState('scope-forced', true)
+    expect(warn).toHaveBeenCalledTimes(1)
+    vi.stubEnv('NODE_ENV', 'production')
+    warnProcessLocalCostState('scope-silenced', false)
+    expect(warn).toHaveBeenCalledTimes(1)
+  })
+
+  it('warns on Cloudflare Workers, where NODE_ENV is not set', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    vi.stubEnv('NODE_ENV', undefined)
+    warnProcessLocalCostState('scope-node-unset')
+    expect(warn).not.toHaveBeenCalled()
+    vi.stubGlobal('navigator', { userAgent: 'Cloudflare-Workers' })
+    warnProcessLocalCostState('scope-worker')
+    expect(warn).toHaveBeenCalledTimes(1)
+    vi.stubEnv('NODE_ENV', 'development')
+    warnProcessLocalCostState('scope-worker-dev')
+    expect(warn).toHaveBeenCalledTimes(1)
   })
 })

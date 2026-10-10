@@ -230,6 +230,16 @@ jobs:
           AK_POSTGRES_TEST_PORT: 5432
           VITEST_MAX_WORKERS: 2
           TURBO_CONCURRENCY: 2
+      - name: CostStore contract through CommonJS entry points
+        run: pnpm --filter @agentskit/observability test:cjs
+        env:
+          AK_POSTGRES_TEST_PORT: 5432
+          TURBO_CONCURRENCY: 2
+      - name: CostStore contract in workerd
+        run: pnpm --filter @agentskit/observability test:workerd
+        env:
+          AK_POSTGRES_TEST_PORT: 5432
+          TURBO_CONCURRENCY: 2
 
   quality:
     name: Lint, Test, Build

@@ -37,7 +37,14 @@ suite any implementation must pass.
 `costGuard`, `multiTenantCostGuard` and `createAdvancedCostGuard` accept an
 optional `store`. With it they write each priced `llm:end` to the store and
 trip on the stored window total. Without it they keep the existing
-process-local behavior and warn once when `NODE_ENV=production`.
+process-local behavior and warn once in a production runtime: `NODE_ENV=production`,
+or Cloudflare Workers when `NODE_ENV` is not set. `warnWithoutStore` overrides
+the detection. A store write that fails goes to `onError`; a guard without
+`onError` logs the first failure once.
+
+Reservations have no time to live in the store. `expirePostgresCostReservations`
+releases the ones still held and older than a cutoff the host chooses; the host
+schedules it. `recordCostSpend` releases its own hold when the commit fails.
 
 ## Consequences
 
@@ -51,6 +58,17 @@ process-local behavior and warn once when `NODE_ENV=production`.
 - `commit` records the real spend even above the reserved estimate. The cap is
   a hard ceiling on reservations, not on provider usage already incurred.
 - `drizzle-orm` and `pg` become optional peers, required only by `/postgres`.
+- A released reservation id is not admitted again: `reserve` raises
+  `AK_COST_RESERVATION_RELEASED`. Replaying it as admitted would let the call
+  run without a hold and then fail to commit.
+- A reservation abandoned by a crashed process stays held until the host runs
+  the expiry. A cutoff shorter than a call still in flight releases its hold,
+  and that call's `commit` is then rejected.
+- `reserve` must run outside a host transaction or inside a savepoint. A
+  concurrent duplicate id ends in a unique violation that the store absorbs,
+  which still aborts an enclosing transaction.
+- The CommonJS build of each subpath has its own copy of
+  `CostReservationError`. The contract suite and hosts match errors by `code`.
 - The advanced guard's rolling window caps (`perMinute`, `perDay`, custom)
   remain process-local; only the overall budget reads the store.
 

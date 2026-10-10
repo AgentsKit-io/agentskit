@@ -91,7 +91,7 @@ export function createAdvancedCostGuard(
   const tenants = new Map<string, TenantState>()
   let activeTenant: string | undefined
   const safeNow = createSafeNow(clock, onError, reportCostGuardError)
-  const durable = durableSpendRecorder('createAdvancedCostGuard', options.store, err => reportCostGuardError(onError, err))
+  const durable = durableSpendRecorder('createAdvancedCostGuard', options, err => reportCostGuardError(onError, err))
 
   const fireAlert = async (event: CostAlertEvent): Promise<void> => {
     for (const sink of options.alertSinks ?? []) {

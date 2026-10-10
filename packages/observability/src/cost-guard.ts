@@ -324,7 +324,7 @@ export function costGuard(options: CostGuardOptions): Observer & {
   let exceededOnce = false
 
   const tenant = options.tenant ?? 'default'
-  const durable = durableSpendRecorder('costGuard', options.store, err => reportCostGuardError(onError, err))
+  const durable = durableSpendRecorder('costGuard', options, err => reportCostGuardError(onError, err))
 
   const trip = (costUsd: number) => {
     if (exceededOnce) return

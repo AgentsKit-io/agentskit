@@ -96,7 +96,11 @@ const RESERVATION_ERRORS = {
   AK_COST_RESERVATION_COMMITTED: 'was already committed',
 } as const
 
-/** Thrown when `commit` or `release` targets a reservation the store cannot settle. */
+/**
+ * Thrown when an operation targets a reservation the store cannot settle.
+ * Match it by `code`: the CommonJS build of each subpath carries its own copy of
+ * this class, so `instanceof` fails across `require` entry points.
+ */
 export class CostReservationError extends AgentsKitError {
   declare readonly code: keyof typeof RESERVATION_ERRORS
 
@@ -162,6 +166,18 @@ export function validateCostReserve(input: CostReserveInput): void {
   assertKey('tenant', input.tenant)
   assertKey('reservationId', input.reservationId)
   assertUsd('amountUsd', input.amountUsd)
+  if (input.capUsd !== undefined) assertUsd('capUsd', input.capUsd)
+}
+
+/** Validate a release input; shared by every `CostStore` implementation. */
+export function validateCostRelease(input: CostReleaseInput): void {
+  assertKey('tenant', input.tenant)
+  assertKey('reservationId', input.reservationId)
+}
+
+/** Validate a window input; shared by every `CostStore` implementation. */
+export function validateCostWindow(input: CostWindowInput): void {
+  assertKey('tenant', input.tenant)
   if (input.capUsd !== undefined) assertUsd('capUsd', input.capUsd)
 }
 
@@ -234,7 +250,11 @@ export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemor
       validateCostReserve(input)
       const id = JSON.stringify([input.tenant, input.reservationId])
       const existing = reservations.get(id)
-      if (existing) return { ok: true, reservationId: input.reservationId, window: describe(input.tenant, existing.windowKey, input.capUsd) }
+      if (existing) {
+        // A released reservation holds nothing, so replaying it as admitted would let the call run unaccounted.
+        if (existing.status === 'released') throw new CostReservationError('AK_COST_RESERVATION_RELEASED', input.reservationId)
+        return { ok: true, reservationId: input.reservationId, window: describe(input.tenant, existing.windowKey, input.capUsd) }
+      }
       const windowKey = input.windowKey ?? keyOf(now())
       const state = windowOf(input.tenant, windowKey)
       const amount = toNano(input.amountUsd)
@@ -259,8 +279,7 @@ export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemor
       return describe(input.tenant, reservation.windowKey)
     },
     async release(input) {
-      assertKey('tenant', input.tenant)
-      assertKey('reservationId', input.reservationId)
+      validateCostRelease(input)
       const reservation = find(input.tenant, input.reservationId)
       if (reservation.status === 'committed') throw new CostReservationError('AK_COST_RESERVATION_COMMITTED', input.reservationId)
       if (reservation.status === 'reserved') {
@@ -270,7 +289,7 @@ export function createInMemoryCostStore(options: CostStoreOptions = {}): InMemor
       return describe(input.tenant, reservation.windowKey)
     },
     async window(input) {
-      assertKey('tenant', input.tenant)
+      validateCostWindow(input)
       return describe(input.tenant, input.windowKey ?? keyOf(now()), input.capUsd)
     },
     ledger: () => ledger.map(row => ({ ...row })),
@@ -287,22 +306,39 @@ export interface CostSpendRecord {
 /**
  * Record spend that already happened: reserve it without a ceiling, then commit
  * it, and return the resulting window. Cost guards use this after each priced call.
+ * When the commit fails, the hold is released before the error is rethrown, so a
+ * failed write does not leave the amount reserved.
  */
 export async function recordCostSpend(store: CostStore, record: CostSpendRecord): Promise<CostWindow> {
   const reservationId = `spend-${globalThis.crypto.randomUUID()}`
   await store.reserve({ tenant: record.tenant, reservationId, amountUsd: record.costUsd })
-  return store.commit({ tenant: record.tenant, reservationId, actualUsd: record.costUsd, usage: record.usage })
+  try {
+    return await store.commit({ tenant: record.tenant, reservationId, actualUsd: record.costUsd, usage: record.usage })
+  } catch (error) {
+    // Best effort: when the store is unreachable the release fails too, and the reservation is left for expiry.
+    await store.release({ tenant: record.tenant, reservationId }).catch(() => {})
+    throw error
+  }
 }
 
 const warned = new Set<string>()
 
+/** True for `NODE_ENV=production`, and for Cloudflare Workers when `NODE_ENV` is not set (isolates expose no `process.env` by default). */
+function looksLikeProduction(): boolean {
+  const scope = globalThis as { process?: { env?: Record<string, string | undefined> }; navigator?: { userAgent?: string } }
+  const nodeEnv = scope.process?.env?.NODE_ENV
+  if (nodeEnv !== undefined) return nodeEnv === 'production'
+  return scope.navigator?.userAgent === 'Cloudflare-Workers'
+}
+
 /**
- * Warn once per guard when it runs in production without a `CostStore`:
- * its totals then live in process memory and do not hold across instances.
+ * Warn once per guard when it runs without a `CostStore`: its totals then live
+ * in process memory and do not hold across instances.
+ * @param scope Guard name used in the message.
+ * @param warn `true` always warns, `false` never does; by default it warns in production runtimes.
  */
-export function warnProcessLocalCostState(scope: string): void {
-  const env = (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env
-  if (env?.NODE_ENV !== 'production' || warned.has(scope)) return
+export function warnProcessLocalCostState(scope: string, warn?: boolean): void {
+  if (!(warn ?? looksLikeProduction()) || warned.has(scope)) return
   warned.add(scope)
   console.warn(`[agentskit] ${scope}: no CostStore configured. Spend is tracked in process memory, so budgets reset on restart and are not shared between instances or isolates. Pass a durable \`store\`.`)
 }

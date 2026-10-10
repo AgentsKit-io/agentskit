@@ -44,6 +44,25 @@ describe('costStoreContract', () => {
     await expect(run(shared)).rejects.toThrow(/tenants do not share caps/)
   })
 
+  it('fails a store that admits a released reservation id again', async () => {
+    const lenient = broken(store => ({
+      reserve: async input => {
+        try { return await store.reserve(input) } catch { return { ok: true, reservationId: input.reservationId, window: await store.window(input) } }
+      },
+    }))
+    await expect(run(lenient)).rejects.toThrow(/released reservation id is not admitted again/)
+  })
+
+  it('accepts typed errors from another copy of the error class, as across CommonJS entry points', async () => {
+    const foreign = (error: unknown): never => { throw Object.assign(new Error('foreign'), { code: (error as { code?: unknown }).code }) }
+    const store = broken(inner => ({
+      reserve: input => inner.reserve(input).catch(foreign),
+      commit: input => inner.commit(input).catch(foreign),
+      release: input => inner.release(input).catch(foreign),
+    }))
+    await expect(run(store)).resolves.toMatchObject({ settlement: 'passed' })
+  })
+
   it('fails a store that settles unknown reservations silently', async () => {
     const silent = broken(store => ({
       commit: async input => {

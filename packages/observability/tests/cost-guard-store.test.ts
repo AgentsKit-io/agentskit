@@ -95,6 +95,39 @@ describe('cost guards with a CostStore', () => {
     expect(guard.costUsd()).toBeCloseTo(0.1)
   })
 
+  it('warns once when the store fails and no onError handler is set', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const failing: CostStore = {
+      reserve: async () => { throw new Error('store down') },
+      commit: async () => { throw new Error('store down') },
+      release: async () => { throw new Error('store down') },
+      window: async () => { throw new Error('store down') },
+    }
+    const guard = costGuard({ budgetUsd: 1, controller: new AbortController(), prices, store: failing })
+    send(guard, 100)
+    await flush()
+    send(guard, 100)
+    await flush()
+    expect(warn).toHaveBeenCalledTimes(1)
+    expect(warn.mock.calls[0]?.[0]).toContain('costGuard: writing to the CostStore failed (store down)')
+    const handled = costGuard({ budgetUsd: 1, controller: new AbortController(), prices, store: failing, onError: () => {} })
+    send(handled, 100)
+    await flush()
+    expect(warn).toHaveBeenCalledTimes(1)
+  })
+
+  it('lets a host force or silence the missing-store warning', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    // A fresh module instance: the warning fires once per guard name in a process.
+    vi.resetModules()
+    const fresh = await import('../src/cost-guard-multi-tenant')
+    fresh.multiTenantCostGuard({ budgets: {}, warnWithoutStore: true })
+    expect(warn).toHaveBeenCalledTimes(1)
+    vi.stubEnv('NODE_ENV', 'production')
+    costGuard({ budgetUsd: 1, controller: new AbortController(), warnWithoutStore: false })
+    expect(warn).toHaveBeenCalledTimes(1)
+  })
+
   it('warns in production when no store is configured', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     vi.stubEnv('NODE_ENV', 'production')

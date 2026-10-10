@@ -1,11 +1,12 @@
 import { sql } from 'drizzle-orm'
 import type { NodePgDatabase } from 'drizzle-orm/node-postgres'
 import { costStoreContract, type CostStoreContractResult } from '@agentskit/observability/cost-store-contract'
-import { postgresCostMigrationSql, postgresCostStore } from '@agentskit/observability/postgres'
+import { expirePostgresCostReservations, postgresCostMigrationSql, postgresCostStore } from '@agentskit/observability/postgres'
 
 export interface PostgresCostContractResult extends CostStoreContractResult {
   ledger: 'passed'
   replayRace: 'passed'
+  expiry: 'passed'
 }
 
 /** Shared by the Node pool test and the workerd fixture; imports the built package. */
@@ -35,5 +36,16 @@ export async function postgresCostContract(db: NodePgDatabase, tenantPrefix: str
   const raced = await store.window({ tenant, windowKey: 'contract' })
   if (Math.abs(raced.reservedUsd - 0.2) > 1e-9) throw new Error(`replayed reservations were counted more than once (${raced.reservedUsd})`)
 
-  return { ...contract, ledger: 'passed', replayRace: 'passed' }
+  // Last: expiry releases every reservation still held in this test database, including the ones raced above.
+  const abandoned = `${tenantPrefix}:expiry`
+  await store.reserve({ tenant: abandoned, reservationId: 'abandoned', amountUsd: 0.3, windowKey: 'contract' })
+  if (await expirePostgresCostReservations({ db, olderThan: new Date(0) }) !== 0) throw new Error('a cutoff before every reservation must release nothing')
+  const released = await expirePostgresCostReservations({ db, olderThan: new Date(Date.now() + 60_000) })
+  const after = await store.window({ tenant: abandoned, windowKey: 'contract' })
+  if (released < 1 || Math.abs(after.reservedUsd) > 1e-9) throw new Error(`expiry released ${released} reservations and left ${after.reservedUsd} held`)
+  const late = await store.commit({ tenant: abandoned, reservationId: 'abandoned', actualUsd: 0.3 }).then(() => undefined, (error: { code?: unknown }) => error.code)
+  if (late !== 'AK_COST_RESERVATION_RELEASED') throw new Error('a commit after expiry must be rejected as released')
+  if (Math.abs((await store.window({ tenant, windowKey: 'contract' })).reservedUsd) > 1e-9) throw new Error('expiry must return the holds of every tenant')
+
+  return { ...contract, ledger: 'passed', replayRace: 'passed', expiry: 'passed' }
 }

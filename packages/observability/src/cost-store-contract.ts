@@ -1,5 +1,5 @@
 import { AgentsKitError } from '@agentskit/core'
-import { CostReservationError, type CostStore } from './cost-store'
+import type { CostReservationError, CostStore } from './cost-store'
 
 /** Options of `costStoreContract`. */
 export interface CostStoreContractOptions {
@@ -32,7 +32,8 @@ async function rejectsWith(code: CostReservationError['code'], run: () => Promis
     await run()
     return false
   } catch (error) {
-    return error instanceof CostReservationError && error.code === code
+    // By code, not `instanceof`: a store loaded from another CommonJS entry point throws its own copy of the class.
+    return (error as { code?: unknown } | null)?.code === code
   }
 }
 
@@ -96,6 +97,8 @@ export async function costStoreContract(store: CostStore, options: CostStoreCont
   const again = await store.release({ tenant: s, reservationId: 'released' })
   check(near(again.reservedUsd, 0) && near(again.spentUsd, 0), 'release returns the reservation and is idempotent')
   check(await rejectsWith('AK_COST_RESERVATION_RELEASED', () => store.commit({ tenant: s, reservationId: 'released', actualUsd: 0.2 })), 'commit after release is rejected')
+  check(await rejectsWith('AK_COST_RESERVATION_RELEASED', () => store.reserve({ tenant: s, reservationId: 'released', amountUsd: 0.2, windowKey })), 'a released reservation id is not admitted again')
+  check(near((await store.window({ tenant: s, windowKey })).reservedUsd, 0), 'a rejected replay holds nothing')
   await store.reserve({ tenant: s, reservationId: 'committed', amountUsd: 0.2, windowKey })
   await store.commit({ tenant: s, reservationId: 'committed', actualUsd: 0.3 })
   check(await rejectsWith('AK_COST_RESERVATION_COMMITTED', () => store.release({ tenant: s, reservationId: 'committed' })), 'release after commit is rejected')
