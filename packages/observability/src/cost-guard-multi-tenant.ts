@@ -11,9 +11,10 @@ import {
   type TokenPrice,
   type CostGuardErrorHandler,
 } from './cost-guard'
+import { durableSpendRecorder, type CostGuardStoreOptions } from './cost-guard-store'
 
 /** Per-tenant budgets, pricing, tenant resolver, and isolated callbacks. */
-export interface MultiTenantCostGuardOptions {
+export interface MultiTenantCostGuardOptions extends CostGuardStoreOptions {
   /**
    * Per-tenant USD budgets. Tenants not listed here either inherit
    * `defaultBudgetUsd` (if set) or are unmetered (no enforcement).
@@ -110,6 +111,7 @@ export function multiTenantCostGuard(options: MultiTenantCostGuardOptions): Obse
   const onError = options.onError
   const tenants = new Map<string, TenantState>()
   let activeTenant: string | undefined
+  const durable = durableSpendRecorder('multiTenantCostGuard', options, err => reportCostGuardError(onError, err))
 
   const resolve = (): string | undefined => {
     if (!options.tenantOf) return activeTenant
@@ -150,11 +152,14 @@ export function multiTenantCostGuard(options: MultiTenantCostGuardOptions): Obse
       return
     }
     // Incremental cost for this event only — never reprice historical tokens.
-    s.cost += computeCost(
-      { promptTokens: deltaPrompt, completionTokens: deltaCompletion },
-      price,
-    )
+    const delta = computeCost({ promptTokens: deltaPrompt, completionTokens: deltaCompletion }, price)
+    s.cost += delta
     const budget = budgetOf(tenant)
+    const trip = (costUsd: number, budgetUsd: number) => {
+      if (s.exceeded) return
+      s.exceeded = true
+      invokeCostGuardCallback(() => options.onExceeded?.({ tenant, costUsd, budgetUsd }), onError)
+    }
     invokeCostGuardCallback(() => {
       return options.onCost?.({
         tenant,
@@ -165,12 +170,9 @@ export function multiTenantCostGuard(options: MultiTenantCostGuardOptions): Obse
         budgetRemainingUsd: budget !== undefined ? Math.max(0, budget - s.cost) : undefined,
       })
     }, onError)
-    if (budget !== undefined && s.cost > budget && !s.exceeded) {
-      s.exceeded = true
-      invokeCostGuardCallback(() => {
-        return options.onExceeded?.({ tenant, costUsd: s.cost, budgetUsd: budget })
-      }, onError)
-    }
+    if (budget !== undefined && s.cost > budget) trip(s.cost, budget)
+    durable?.({ tenant, model: s.model, promptTokens: deltaPrompt, completionTokens: deltaCompletion, costUsd: delta },
+      window => { if (budget !== undefined && window.spentUsd > budget) trip(window.spentUsd, budget) })
   }
 
   return {

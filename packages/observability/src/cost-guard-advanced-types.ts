@@ -1,4 +1,5 @@
 import type { TokenPrice, CostGuardErrorHandler, UnknownModelPolicy } from './cost-guard'
+import type { CostGuardStoreOptions } from './cost-guard-store'
 
 /** Enforcement policy: report only, expose rejection state, or disable the tenant. */
 export type CostGuardMode = 'warn' | 'reject' | 'kill'
@@ -56,7 +57,7 @@ export interface CostAlertEvent {
 export type CostAlertSink = (event: CostAlertEvent) => void | Promise<void>
 
 /** Configuration for per-tenant budgets, rolling caps, and enforcement. */
-export interface AdvancedCostGuardOptions {
+export interface AdvancedCostGuardOptions extends CostGuardStoreOptions {
   /** Per-tenant USD budgets (overall, applied alongside windows). */
   budgets: Record<string, number>
   /** Fallback overall budget for tenants not listed. */
