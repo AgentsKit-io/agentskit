@@ -24,7 +24,7 @@ overrides:
   esbuild: ">=0.28.1 <1"
   form-data: ">=4.0.6 <5"
   dompurify: "3.4.13"
-  brace-expansion: "5.0.9"
+  brace-expansion: "5.0.12"
   # GHSA advisories for fast-uri <3.1.7 (host confusion, SSRF, authority injection)
   fast-uri: "3.1.8"
   undici: "7.29.1"
