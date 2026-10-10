@@ -1,0 +1,61 @@
+---
+title: Agent-first docs for your repo
+description: Give coding agents a deterministic index of your repository docs, with ownership, edit roots, checks, and an MCP server, without an API key.
+---
+
+Coding agents guess when repository docs are written only for humans. They edit the sibling package, run the wrong test, or miss the guide that already explains the rule.
+
+[Doc Bridge](https://doc-bridge.agentskit.io/) turns your existing docs into a deterministic index. For a package or area, it returns a handoff with the file to read first, the roots the agent may edit, the checks that prove the change, and the human doc for the same area.
+
+## When to use it
+
+- Your repository has human docs (Fumadocs, Docusaurus, VitePress, Starlight, Nextra, or plain Markdown) and agents keep ignoring them.
+- You want agents to resolve ownership before they edit a package.
+- You want stale-index and broken human-guide-link gates in CI.
+
+The deterministic layer needs no LLM and no API key. Optional LLM remediation and chat are separate, opt-in features.
+
+## Install and first commands
+
+Requires Node 22 or newer.
+
+```bash
+npm i -D @agentskit/doc-bridge
+npx ak-docs init
+npx ak-docs index
+npx ak-docs query package example --agent
+```
+
+The starter handoff proves the wiring, not real ownership. Replace the generated example with your repository's edit roots and checks, reindex, then query your real package. The full setup is in the [Doc Bridge getting started guide](https://doc-bridge.agentskit.io/docs/getting-started).
+
+Useful follow-ups:
+
+```bash
+npx ak-docs list packages --text
+npx ak-docs ask "where do I change example?"
+npx ak-docs gate run
+npx ak-docs mcp
+```
+
+## Connect coding agents over MCP
+
+Add the `ak-docs` server to your MCP client (Cursor, Claude Desktop, or any MCP-compatible agent) from the repository root:
+
+```json
+{
+  "mcpServers": {
+    "ak-docs": {
+      "command": "npx",
+      "args": ["ak-docs", "mcp"]
+    }
+  }
+}
+```
+
+Agents can then call `handoff.resolve` before editing, `doc.search` and `doc.get` to read indexed docs, and `gate.status` to check freshness. Run `npx ak-docs index` before starting the server in a fresh checkout and after doc changes.
+
+## Related
+
+- [Doc Bridge on GitHub](https://github.com/AgentsKit-io/doc-bridge)
+- [Doc Bridge docs](https://doc-bridge.agentskit.io/)
+- [For agents](/docs/for-agents)
