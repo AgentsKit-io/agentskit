@@ -225,6 +225,11 @@ jobs:
           AK_POSTGRES_TEST_PORT: 5432
           VITEST_MAX_WORKERS: 2
           TURBO_CONCURRENCY: 2
+      - run: pnpm --filter @agentskit/observability test:postgres
+        env:
+          AK_POSTGRES_TEST_PORT: 5432
+          VITEST_MAX_WORKERS: 2
+          TURBO_CONCURRENCY: 2
 
   quality:
     name: Lint, Test, Build

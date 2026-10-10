@@ -194,6 +194,44 @@ Semantics (current hardening line):
 
 Simple `costGuard` aborts via the supplied `AbortController` when the run budget is exceeded (mark + abort before potentially hostile `onExceeded`). Multi-tenant and advanced guards do not abort the runtime by default.
 
+### Durable budgets with `CostStore`
+
+A guard without a store keeps its totals in process memory: they reset on restart and are not shared between instances or isolates. That is fine in development and wrong on serverless or multi-instance hosts, so the guards warn once when `NODE_ENV=production` and no store is set.
+
+`CostStore` is the durable port. `reserve` holds an estimate against the tenant cap, `commit` replaces it with the real spend and writes the usage ledger, `release` returns it when the call fails, and `window` reads the current state. All four take the tenant id; `reserve`, `commit` and `release` are idempotent per `reservationId`.
+
+```ts
+import { Pool } from 'pg'
+import { drizzle } from 'drizzle-orm/node-postgres'
+import { multiTenantCostGuard } from '@agentskit/observability'
+import { postgresCostMigrationSql, postgresCostStore } from '@agentskit/observability/postgres'
+
+const pool = new Pool({ connectionString: process.env.DATABASE_URL })
+await pool.query(postgresCostMigrationSql) // once, from your migration step
+const store = postgresCostStore({ db: drizzle(pool) })
+
+// Gate a request before calling the model.
+const reserved = await store.reserve({ tenant, reservationId: turnId, amountUsd: 0.02, capUsd: planCapUsd })
+if (!reserved.ok) return new Response('quota exceeded', { status: 402 })
+try {
+  const usage = await runTurn()
+  await store.commit({ tenant, reservationId: turnId, actualUsd: usage.costUsd, usage: usage.calls })
+} catch (error) {
+  await store.release({ tenant, reservationId: turnId })
+  throw error
+}
+
+// Or let a guard record every priced call and trip on the shared total.
+const guard = multiTenantCostGuard({ budgets: { [tenant]: planCapUsd }, store })
+```
+
+- **Atomic cap.** The PostgreSQL store admits a reservation in one statement (`reserved + spent + amount <= cap`), so concurrent requests cannot overshoot the cap together. The cap is an argument of `reserve`: read it from your plan or entitlements table.
+- **Accounting window.** Spend is grouped by `windowKey`, by default the UTC month (`2026-10`). Pass `windowKey` to the store options or per call for another period. With a store, a guard's budget applies to the current window.
+- **Real spend wins.** `commit` records `actualUsd` even when it is above the reserved estimate. Reserve an upper estimate if the cap must never be passed.
+- **Guards record after the fact.** A guard writes each priced `llm:end` to the store and trips when the stored total passes the budget. To stop a request before it spends, call `reserve` yourself as above.
+- **Connection lifetime is yours.** Use a pool on Node. On Workers, create one `pg` client per request and close it in `waitUntil`. `drizzle-orm` and `pg` are optional peers, needed only for the `/postgres` subpath.
+- **Your own store.** Implement `CostStore` over your tables and run `costStoreContract` from `@agentskit/observability/cost-store-contract` in your test suite. `createInMemoryCostStore()` is the development and test implementation.
+
 ## Ecosystem
 
 | Package | Role |
