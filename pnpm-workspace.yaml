@@ -23,7 +23,7 @@ overrides:
   shell-quote: "1.11.0"
   esbuild: ">=0.28.1 <1"
   form-data: ">=4.0.6 <5"
-  dompurify: "3.4.13"
+  dompurify: "3.4.16"
   brace-expansion: "5.0.9"
   # GHSA advisories for fast-uri <3.1.7 (host confusion, SSRF, authority injection)
   fast-uri: "3.1.8"
