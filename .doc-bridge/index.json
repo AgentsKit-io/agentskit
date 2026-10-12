@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "contentHash": "7d1e14de1029deaed9354aff320bedf1d83f127f67e70b1f61c406fe5724dc95",
-  "contentHashAlgo": "sha256-normalized-v1",
-  "generatedAt": "2026-10-10T13:32:39.437Z",
+  "contentHash": "d52ecd9dd5e5571c517fa610b57907ef984d513558e2b59b23d1705b9da1e247",
+  "contentHashAlgo": "sha256-semantic-v1",
+  "generatedAt": "2026-10-12T11:25:16.961Z",
   "project": {
     "name": "AgentsKit",
     "root": "."
@@ -38588,8 +38588,8 @@
     "changes": {}
   },
   "inputs": {
-    "hash": "52545bde66c9523c0506d4fbffc30570141194f7fd0bae765f438864f272dd09",
-    "fileCount": 2563,
+    "hash": "ec642fbcb0d4dd5ad4adaba9c57f35682ed92f42f09f50d87f0308159de8098d",
+    "fileCount": 2649,
     "projectionVersion": 2
   },
   "retrieval": {
@@ -38611,11 +38611,11 @@
   "projection": {
     "type": "retrieval-index",
     "schemaVersion": 1,
-    "contentHash": "cf62905beac13114d8dc6dfbabad6c726df7117aba0e7df14ca5733b87b85a82",
-    "contentHashAlgo": "sha256-normalized-v1",
-    "snapshotHash": "c4df5c892dcfa99507e733f574eaeff92af12de91742aafda7d28cd0fd986a98",
+    "contentHash": "dfe8567e4b2c7102037b95948d723b97b5d5c1297b819096c6de828102f48801",
+    "contentHashAlgo": "sha256-semantic-v1",
+    "snapshotHash": "834617fa48b0946678f330675f0d97a43b7f6e43ec0020d9e65b42ac983b2cf2",
     "overlayHash": "f99666ff9119084dd25c2974ae64eb6935ec2aa785ff5ad478fb9d541f7a5e94",
-    "configurationHash": "9662cc07ea4ab203ff2ddf457d2db48b5375a7ab4a1f8fbc79dfebcaa8f9a00c",
+    "configurationHash": "d80c82274083d35277566814974f568159fa9b1442b2a41ee0931a2620d4f4a3",
     "lexiconVersion": 1,
     "graphMetricsVersion": "1.0.0",
     "weights": {
@@ -38650,7 +38650,7 @@
         "path": 7.611993645750596,
         "summary": 4.5472597299444,
         "symbols": 7.505957108816521,
-        "title": 3.3665607625099283
+        "title": 3.3788721207307386
       }
     },
     "entries": [
@@ -42044,7 +42044,7 @@
         },
         "graph": {
           "pagerank": 0.005786,
-          "inboundLinks": 10,
+          "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [
             "document:.github/copilot-instructions.md",
@@ -50854,26 +50854,6 @@
             },
             {
               "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/carbon.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/catalog/dispatch.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/catalog/loader.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/catalog/schema.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
               "id": "module:packages/adapters/src/cerebras.ts",
               "confidence": "observed"
             },
@@ -50904,17 +50884,7 @@
             },
             {
               "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/cloudflare.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
               "id": "module:packages/adapters/src/cohere.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/content-parts.ts",
               "confidence": "observed"
             },
             {
@@ -50925,51 +50895,6 @@
             {
               "kind": "mentions-symbol",
               "id": "module:packages/adapters/src/deepseek.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/deprecation.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/embedders/deepseek.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/embedders/gemini.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/embedders/grok.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/embedders/kimi.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/embedders/ollama.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/embedders/openai-compatible.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/embedders/openai.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/fallback.ts",
               "confidence": "observed"
             },
             {
@@ -51004,11 +50929,6 @@
             },
             {
               "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/index.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
               "id": "module:packages/adapters/src/kimi.ts",
               "confidence": "observed"
             },
@@ -51039,11 +50959,6 @@
             },
             {
               "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/mock.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
               "id": "module:packages/adapters/src/ollama.ts",
               "confidence": "observed"
             },
@@ -51069,17 +50984,7 @@
             },
             {
               "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/router.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
               "id": "module:packages/adapters/src/together.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/adapters/src/utils.ts",
               "confidence": "observed"
             },
             {
@@ -54869,16 +54774,6 @@
             {
               "kind": "mentions-symbol",
               "id": "module:packages/sandbox/src/policy.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/skills/src/code-reviewer.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "module:packages/skills/src/coder.ts",
               "confidence": "observed"
             },
             {
@@ -68879,7 +68774,7 @@
         },
         "graph": {
           "pagerank": 0.007647,
-          "inboundLinks": 8,
+          "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
             "document:AGENTS.md",
@@ -68980,7 +68875,7 @@
         },
         "graph": {
           "pagerank": 0.007493,
-          "inboundLinks": 3,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
             "document:GOVERNANCE.md"
@@ -69031,7 +68926,7 @@
         },
         "graph": {
           "pagerank": 0.029434,
-          "inboundLinks": 64,
+          "inboundLinks": 36,
           "coveredBy": [],
           "mentionedBy": [
             "document:AGENTS.md",
@@ -72559,7 +72454,7 @@
         },
         "graph": {
           "pagerank": 0.003014,
-          "inboundLinks": 13,
+          "inboundLinks": 11,
           "coveredBy": [],
           "mentionedBy": [
             "document:.github/copilot-instructions.md",
@@ -74946,7 +74841,7 @@
         },
         "graph": {
           "pagerank": 0.002642,
-          "inboundLinks": 2,
+          "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
             "document:AGENTS.md"
@@ -75411,7 +75306,7 @@
         },
         "graph": {
           "pagerank": 0.003588,
-          "inboundLinks": 2,
+          "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
             "document:scripts/README.md"
@@ -75776,7 +75671,7 @@
         },
         "graph": {
           "pagerank": 0.076255,
-          "inboundLinks": 64,
+          "inboundLinks": 54,
           "coveredBy": [],
           "mentionedBy": [
             "document:.agent-memory/project_v1-readiness.md",
@@ -76330,7 +76225,7 @@
         },
         "graph": {
           "pagerank": 0.020626,
-          "inboundLinks": 4,
+          "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0024-package-graduation-evidence.md",
@@ -77032,7 +76927,7 @@
         },
         "graph": {
           "pagerank": 0.035319,
-          "inboundLinks": 13,
+          "inboundLinks": 11,
           "coveredBy": [],
           "mentionedBy": [
             "document:.agent-memory/project_v1-readiness.md",
@@ -77444,7 +77339,7 @@
         },
         "graph": {
           "pagerank": 0.019258,
-          "inboundLinks": 10,
+          "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
             "document:ARCHITECTURE.md",
@@ -85330,7 +85225,7 @@
         },
         "graph": {
           "pagerank": 0.007493,
-          "inboundLinks": 6,
+          "inboundLinks": 4,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/reference/contribute/maintainer-expectations.mdx",
@@ -92618,10 +92513,9 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 2,
+          "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
-            "document:apps/docs-next/content/docs/reference/contribute/docs-components.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/docs-components.mdx"
           ],
           "areaId": "area:apps/docs-next",
@@ -93587,12 +93481,11 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 3,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/reference/recipes/provider-swap.mdx",
-            "document:docs/ecosystem/content-pipeline/atoms/provider-swap/community-post.md",
-            "document:apps/docs-next/content/docs/reference/recipes/provider-swap.mdx"
+            "document:docs/ecosystem/content-pipeline/atoms/provider-swap/community-post.md"
           ],
           "areaId": "area:apps/docs-next",
           "packageId": "package:agentskit",
@@ -104191,10 +104084,9 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 2,
+          "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/adapter-router.mdx"
           ],
           "packageId": "package:@agentskit/adapters",
@@ -104202,11 +104094,6 @@
             {
               "kind": "imports",
               "id": "module:packages/adapters/tests/carbon.test.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -104259,22 +104146,15 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 1,
+          "inboundLinks": 0,
           "coveredBy": [],
-          "mentionedBy": [
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx"
-          ],
+          "mentionedBy": [],
           "areaId": "area:packages/adapters/src/catalog",
           "packageId": "package:@agentskit/adapters",
           "inbound": [
             {
               "kind": "imports",
               "id": "module:packages/adapters/tests/multimodal-http.test.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -104538,10 +104418,9 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 2,
+          "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:apps/registry/content/docs/quick-start.mdx"
           ],
           "areaId": "area:packages/adapters/src/catalog",
@@ -104565,11 +104444,6 @@
             {
               "kind": "imports",
               "id": "module:packages/adapters/tests/multimodal-http.test.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -104734,11 +104608,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 3,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
             "document:.agent-memory/reference_models-catalog.md",
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:apps/docs-next/content/docs/reference/packages/adapters.mdx"
           ],
           "areaId": "area:packages/adapters/src/catalog",
@@ -104747,11 +104620,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:.agent-memory/reference_models-catalog.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -105530,10 +105398,9 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 2,
+          "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:packages/adapters/README.md"
           ],
           "packageId": "package:@agentskit/adapters",
@@ -105541,11 +105408,6 @@
             {
               "kind": "imports",
               "id": "module:packages/adapters/tests/multimodal-http.test.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -105689,10 +105551,9 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 3,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/multi-modal.mdx",
             "document:packages/adapters/README.md"
           ],
@@ -105716,11 +105577,6 @@
             {
               "kind": "imports",
               "id": "module:packages/adapters/tests/content-parts.test.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -105940,21 +105796,14 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 1,
+          "inboundLinks": 0,
           "coveredBy": [],
-          "mentionedBy": [
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx"
-          ],
+          "mentionedBy": [],
           "packageId": "package:@agentskit/adapters",
           "inbound": [
             {
               "kind": "imports",
               "id": "module:packages/adapters/tests/deprecation.test.ts",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -105995,16 +105844,14 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 8,
+          "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
             "document:apps/docs-next/content/docs/data/providers/embedders.mdx",
             "document:apps/docs-next/content/docs/data/providers/index.mdx",
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
             "document:apps/docs-next/content/docs/reference/packages/adapters.mdx",
-            "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
             "document:packages/adapters/README.md"
           ],
           "areaId": "area:packages/adapters/src/embedders",
@@ -106028,11 +105875,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/data/providers/index.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -106099,16 +105941,14 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 8,
+          "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
             "document:apps/docs-next/content/docs/data/providers/embedders.mdx",
             "document:apps/docs-next/content/docs/data/providers/index.mdx",
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
             "document:apps/docs-next/content/docs/reference/packages/adapters.mdx",
-            "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
             "document:packages/adapters/README.md"
           ],
           "areaId": "area:packages/adapters/src/embedders",
@@ -106137,11 +105977,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/data/providers/index.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -106208,16 +106043,14 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 8,
+          "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
             "document:apps/docs-next/content/docs/data/providers/embedders.mdx",
             "document:apps/docs-next/content/docs/data/providers/index.mdx",
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
             "document:apps/docs-next/content/docs/reference/packages/adapters.mdx",
-            "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
             "document:packages/adapters/README.md"
           ],
           "areaId": "area:packages/adapters/src/embedders",
@@ -106241,11 +106074,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/data/providers/index.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -106416,16 +106244,14 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 8,
+          "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
             "document:apps/docs-next/content/docs/data/providers/embedders.mdx",
             "document:apps/docs-next/content/docs/data/providers/index.mdx",
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
             "document:apps/docs-next/content/docs/reference/packages/adapters.mdx",
-            "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
             "document:packages/adapters/README.md"
           ],
           "areaId": "area:packages/adapters/src/embedders",
@@ -106449,11 +106275,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/data/providers/index.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -106520,16 +106341,14 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 8,
+          "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
             "document:apps/docs-next/content/docs/data/providers/embedders.mdx",
             "document:apps/docs-next/content/docs/data/providers/index.mdx",
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
             "document:apps/docs-next/content/docs/reference/packages/adapters.mdx",
-            "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
             "document:packages/adapters/README.md"
           ],
           "areaId": "area:packages/adapters/src/embedders",
@@ -106558,11 +106377,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/data/providers/index.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -106629,13 +106443,12 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 7,
+          "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
             "document:apps/docs-next/content/docs/data/providers/embedders.mdx",
             "document:apps/docs-next/content/docs/data/providers/index.mdx",
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
             "document:apps/docs-next/content/docs/reference/packages/adapters.mdx",
             "document:packages/adapters/README.md"
@@ -106671,11 +106484,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/data/providers/index.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -106737,17 +106545,15 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 10,
+          "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
             "document:apps/docs-next/content/docs/data/providers/embedders.mdx",
             "document:apps/docs-next/content/docs/data/providers/index.mdx",
             "document:apps/docs-next/content/docs/data/providers/openai.mdx",
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
             "document:apps/docs-next/content/docs/reference/packages/adapters.mdx",
-            "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
             "document:packages/adapters/README.md",
             "document:packages/rag/README.md"
           ],
@@ -106782,11 +106588,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/data/providers/openai.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -107014,7 +106815,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 12,
+          "inboundLinks": 11,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/agents/speculate.mdx",
@@ -107022,7 +106823,6 @@
             "document:apps/docs-next/content/docs/data/providers/choosing.mdx",
             "document:apps/docs-next/content/docs/data/providers/index.mdx",
             "document:apps/docs-next/content/docs/data/providers/openrouter.mdx",
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
             "document:apps/docs-next/content/docs/get-started/decision-tree.mdx",
             "document:apps/docs-next/content/docs/production/runbooks.mdx",
@@ -107060,11 +106860,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/data/providers/openrouter.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -107928,11 +107723,10 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 2,
+          "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
-            "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx"
+            "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md"
           ],
           "packageId": "package:@agentskit/adapters",
           "inbound": [
@@ -107964,11 +107758,6 @@
             {
               "kind": "mentions",
               "id": "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             }
           ],
@@ -108743,16 +108532,14 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 8,
+          "inboundLinks": 6,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/PHASE-1-REVIEW.md",
             "document:.agent-memory/reference_langchain-bridge.md",
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:apps/docs-next/content/docs/get-started/announcements/core-v1.mdx",
             "document:apps/docs-next/content/docs/reference/packages/adapters.mdx",
             "document:apps/registry/content/docs/authoring.mdx",
-            "document:docs/PHASE-1-REVIEW.md",
             "document:packages/adapters/README.md"
           ],
           "packageId": "package:@agentskit/adapters",
@@ -108775,11 +108562,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:.agent-memory/reference_langchain-bridge.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -109740,13 +109522,12 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 10,
+          "inboundLinks": 9,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/data/providers/choosing.mdx",
             "document:apps/docs-next/content/docs/data/providers/index.mdx",
             "document:apps/docs-next/content/docs/data/providers/ollama.mdx",
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
             "document:apps/docs-next/content/docs/get-started/decision-tree.mdx",
             "document:apps/docs-next/content/docs/reference/packages/adapters.mdx",
@@ -109789,11 +109570,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/data/providers/ollama.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -110436,16 +110212,14 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 7,
+          "inboundLinks": 5,
           "coveredBy": [],
           "mentionedBy": [
             "document:.agent-memory/project_file-size-baselines.md",
             "document:docs/PHASE-1-REVIEW.md",
-            "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/good-first-issues.mdx",
             "document:apps/docs-next/content/docs/reference/packages/adapters.mdx",
-            "document:apps/docs-next/content/docs/reference/recipes/simulate-stream.mdx",
-            "document:docs/PHASE-1-REVIEW.md"
+            "document:apps/docs-next/content/docs/reference/recipes/simulate-stream.mdx"
           ],
           "packageId": "package:@agentskit/adapters",
           "inbound": [
@@ -110512,11 +110286,6 @@
             {
               "kind": "mentions",
               "id": "document:docs/PHASE-1-REVIEW.md",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
               "confidence": "observed"
             },
             {
@@ -124656,7 +124425,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 10,
+          "inboundLinks": 9,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0008-runtime-validation.md",
@@ -124664,7 +124433,6 @@
             "document:apps/docs-next/content/docs/for-agents/validation.mdx",
             "document:apps/docs-next/content/docs/reference/contribute/roadmap.mdx",
             "document:apps/docs-next/content/docs/reference/packages/core.mdx",
-            "document:docs/architecture/adrs/0008-runtime-validation.md",
             "document:docs/architecture/adrs/0039-cryptographic-ids.md",
             "document:docs/security/threat-model.md",
             "document:packages/core/CONVENTIONS.md",
@@ -126397,7 +126165,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 32,
+          "inboundLinks": 30,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0001-adapter-contract.md",
@@ -126421,11 +126189,9 @@
             "document:apps/example-webllm/README.md",
             "document:apps/registry/content/docs/providers.mdx",
             "document:ARCHITECTURE.md",
-            "document:docs/architecture/adrs/0001-adapter-contract.md",
             "document:docs/architecture/adrs/0002-tool-contract.md",
             "document:docs/architecture/adrs/0031-cli-adapter-execution-boundary.md",
             "document:docs/architecture/adrs/0040-eval-replay-fingerprint-compatibility.md",
-            "document:docs/PHASE-1-REVIEW.md",
             "document:docs/RELEASE-CORE-V1.md",
             "document:packages/adapters/CONVENTIONS.md",
             "document:packages/adapters/README.md",
@@ -126661,7 +126427,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 17,
+          "inboundLinks": 16,
           "coveredBy": [],
           "mentionedBy": [
             "document:rfcs/0005-agent-progress-events.md",
@@ -126679,8 +126445,7 @@
             "document:packages/observability-langfuse/CONVENTIONS.md",
             "document:packages/observability/CONVENTIONS.md",
             "document:packages/observability/README.md",
-            "document:packages/runtime/README.md",
-            "document:rfcs/0005-agent-progress-events.md"
+            "document:packages/runtime/README.md"
           ],
           "areaId": "area:packages/core/src/types",
           "packageId": "package:@agentskit/core",
@@ -126823,7 +126588,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 40,
+          "inboundLinks": 39,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/PHASE-1-REVIEW.md",
@@ -126847,7 +126612,6 @@
             "document:docs/architecture/adrs/0020-serializable-interaction-state.md",
             "document:docs/architecture/adrs/0042-durable-tool-decisions.md",
             "document:docs/ch-e-core-decide.md",
-            "document:docs/PHASE-1-REVIEW.md",
             "document:docs/RELEASE-CORE-V1.md",
             "document:docs/STABILITY.md",
             "document:docs/V1-READINESS-TRACKER.md",
@@ -127635,7 +127399,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 38,
+          "inboundLinks": 37,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0003-memory-contract.md",
@@ -127665,7 +127429,6 @@
             "document:apps/docs-next/content/docs/reference/recipes/virtualized-memory.mdx",
             "document:apps/example-rag-chat/README.md",
             "document:ARCHITECTURE.md",
-            "document:docs/architecture/adrs/0003-memory-contract.md",
             "document:docs/architecture/adrs/0004-retriever-contract.md",
             "document:docs/architecture/adrs/0019-cancellable-chat-memory-operations.md",
             "document:docs/superpowers/plans/2026-04-06-adapter-embedders.md",
@@ -128102,7 +127865,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 23,
+          "inboundLinks": 22,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0004-retriever-contract.md",
@@ -128122,7 +127885,6 @@
             "document:apps/docs-next/content/docs/reference/recipes/rag-chat.mdx",
             "document:apps/example-rag-chat/README.md",
             "document:ARCHITECTURE.md",
-            "document:docs/architecture/adrs/0004-retriever-contract.md",
             "document:docs/PHASE-0-EXECUTION-PLAN.md",
             "document:packages/core/README.md",
             "document:packages/rag/CONVENTIONS.md",
@@ -128305,7 +128067,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 17,
+          "inboundLinks": 16,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0005-skill-contract.md",
@@ -128319,7 +128081,6 @@
             "document:apps/docs-next/content/docs/reference/packages/skills.mdx",
             "document:apps/docs-next/content/docs/reference/packages/templates.mdx",
             "document:ARCHITECTURE.md",
-            "document:docs/architecture/adrs/0005-skill-contract.md",
             "document:packages/cli/ARCHITECTURE.md",
             "document:packages/core/README.md",
             "document:packages/skills/CONVENTIONS.md",
@@ -128666,7 +128427,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 50,
+          "inboundLinks": 48,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0002-tool-contract.md",
@@ -128700,9 +128461,7 @@
             "document:apps/docs-next/content/docs/ui/tool-call-view.mdx",
             "document:apps/docs-next/content/docs/ui/tool-confirmation.mdx",
             "document:ARCHITECTURE.md",
-            "document:docs/architecture/adrs/0002-tool-contract.md",
             "document:docs/architecture/adrs/0006-runtime-contract.md",
-            "document:docs/architecture/adrs/0008-runtime-validation.md",
             "document:docs/architecture/adrs/0009-composition-rules.md",
             "document:docs/architecture/adrs/0011-inbound-validation.md",
             "document:docs/architecture/adrs/0013-memory-record-runtime-validation.md",
@@ -138432,12 +138191,11 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 3,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
             "document:rfcs/0005-agent-progress-events.md",
-            "document:apps/docs-next/content/docs/for-agents/ink.mdx",
-            "document:rfcs/0005-agent-progress-events.md"
+            "document:apps/docs-next/content/docs/for-agents/ink.mdx"
           ],
           "packageId": "package:@agentskit/ink",
           "inbound": [
@@ -139967,7 +139725,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 8,
+          "inboundLinks": 7,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
@@ -139975,7 +139733,6 @@
             "document:apps/docs-next/content/docs/agents/tools/integrations-catalog.mdx",
             "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
             "document:docs/architecture/adrs/0012-vendor-adapter-scope.md",
-            "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
             "document:packages/integrations/CONVENTIONS.md",
             "document:packages/integrations/README.md"
           ],
@@ -140553,12 +140310,11 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 4,
+          "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
             "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
-            "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
             "document:packages/integrations/CONVENTIONS.md"
           ],
           "areaId": "area:packages/integrations/src/project",
@@ -159426,7 +159182,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 14,
+          "inboundLinks": 13,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/PHASE-1-REVIEW.md",
@@ -159439,7 +159195,6 @@
             "document:apps/docs-next/content/docs/reference/packages/observability.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/cost-guard.mdx",
             "document:docs/architecture/adrs/0044-durable-cost-store.md",
-            "document:docs/PHASE-1-REVIEW.md",
             "document:packages/observability/CONVENTIONS.md",
             "document:packages/observability/README.md",
             "document:rfcs/0011-observability-stable.md"
@@ -167670,7 +167425,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 10,
+          "inboundLinks": 9,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0008-runtime-validation.md",
@@ -167681,7 +167436,6 @@
             "document:apps/example-discord-bot/README.md",
             "document:apps/example-slack-bot/README.md",
             "document:apps/example-teams-bot/README.md",
-            "document:docs/architecture/adrs/0011-inbound-validation.md",
             "document:docs/security/threat-model.md"
           ],
           "packageId": "package:@agentskit/runtime",
@@ -168765,7 +168519,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 31,
+          "inboundLinks": 30,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0006-runtime-contract.md",
@@ -168788,7 +168542,6 @@
             "document:apps/docs-next/content/docs/reference/recipes/persistent-memory.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/vector-filter-helpers.mdx",
             "document:apps/example-embedded/README.md",
-            "document:docs/architecture/adrs/0006-runtime-contract.md",
             "document:docs/product/surfaces.md",
             "document:packages/adapters/README.md",
             "document:packages/cli/README.md",
@@ -169388,13 +169141,12 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 4,
+          "inboundLinks": 3,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0006-runtime-contract.md",
             "document:apps/docs-next/content/docs/agents/runtime.mdx",
-            "document:ARCHITECTURE.md",
-            "document:docs/architecture/adrs/0006-runtime-contract.md"
+            "document:ARCHITECTURE.md"
           ],
           "packageId": "package:@agentskit/runtime",
           "inbound": [
@@ -172514,7 +172266,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 10,
+          "inboundLinks": 9,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/agents/skills/coder.mdx",
@@ -172524,7 +172276,6 @@
             "document:apps/docs-next/content/docs/agents/skills/pr-reviewer.mdx",
             "document:apps/docs-next/content/docs/agents/skills/security-auditor.mdx",
             "document:apps/docs-next/content/docs/for-agents/skills.mdx",
-            "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/skill-marketplace.mdx",
             "document:packages/skills/CONVENTIONS.md"
           ],
@@ -172568,11 +172319,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/for-agents/skills.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
               "confidence": "observed"
             },
             {
@@ -172628,7 +172374,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 9,
+          "inboundLinks": 8,
           "coveredBy": [],
           "mentionedBy": [
             "document:apps/docs-next/content/docs/agents/skills/code-reviewer.mdx",
@@ -172638,7 +172384,6 @@
             "document:apps/docs-next/content/docs/agents/skills/technical-writer.mdx",
             "document:apps/docs-next/content/docs/data/providers/mistral.mdx",
             "document:apps/docs-next/content/docs/for-agents/skills.mdx",
-            "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
             "document:apps/docs-next/content/docs/reference/recipes/eval-suite.mdx"
           ],
           "packageId": "package:@agentskit/skills",
@@ -172681,11 +172426,6 @@
             {
               "kind": "mentions-symbol",
               "id": "document:apps/docs-next/content/docs/for-agents/skills.mdx",
-              "confidence": "observed"
-            },
-            {
-              "kind": "mentions-symbol",
-              "id": "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
               "confidence": "observed"
             },
             {
@@ -184391,7 +184131,7 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 13,
+          "inboundLinks": 11,
           "coveredBy": [],
           "mentionedBy": [
             "document:docs/architecture/adrs/0010-egress-policy.md",
@@ -184401,8 +184141,6 @@
             "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
             "document:apps/docs-next/content/docs/for-agents/tools.mdx",
             "document:apps/docs-next/content/docs/reference/packages/tools.mdx",
-            "document:docs/architecture/adrs/0010-egress-policy.md",
-            "document:docs/architecture/adrs/0026-integration-execution-boundaries.md",
             "document:docs/security/threat-model.md",
             "document:packages/integrations/CONVENTIONS.md",
             "document:packages/integrations/README.md",
@@ -184917,19 +184655,17 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 13,
+          "inboundLinks": 11,
           "coveredBy": [],
           "mentionedBy": [
             "document:.agent-memory/feedback_json-schema-canonical.md",
             "document:docs/architecture/adrs/0008-runtime-validation.md",
-            "document:.agent-memory/feedback_json-schema-canonical.md",
             "document:apps/docs-next/content/docs/agents/tools/index.mdx",
             "document:apps/docs-next/content/docs/for-agents/tools.mdx",
             "document:apps/docs-next/content/docs/get-started/concepts/implementations.mdx",
             "document:apps/docs-next/content/docs/get-started/concepts/tool.mdx",
             "document:apps/docs-next/content/docs/get-started/decision-tree.mdx",
             "document:apps/docs-next/content/docs/reference/packages/tools.mdx",
-            "document:docs/architecture/adrs/0008-runtime-validation.md",
             "document:docs/architecture/adrs/0035-docs-pruning-and-api-route-consolidation.md",
             "document:docs/product/surfaces.md",
             "document:packages/tools/README.md"
@@ -189866,10 +189602,9 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 2,
+          "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
-            "document:scripts/README.md",
             "document:scripts/README.md"
           ],
           "areaId": "area:scripts",
@@ -190703,12 +190438,11 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 3,
+          "inboundLinks": 2,
           "coveredBy": [],
           "mentionedBy": [
             "document:.agent-memory/project_ignored-package-changesets-block-release.md",
-            "document:.agent-memory/MEMORY.md",
-            "document:.agent-memory/project_ignored-package-changesets-block-release.md"
+            "document:.agent-memory/MEMORY.md"
           ],
           "areaId": "area:scripts",
           "packageId": "package:agentskit",
@@ -193026,10 +192760,9 @@
         },
         "graph": {
           "pagerank": 0,
-          "inboundLinks": 2,
+          "inboundLinks": 1,
           "coveredBy": [],
           "mentionedBy": [
-            "document:.agent-memory/reference_quality-gates.md",
             "document:.agent-memory/reference_quality-gates.md"
           ],
           "packageId": "package:agentskit",
@@ -193195,7 +192928,7 @@
         "id": "package:@agentskit/adapters",
         "kind": "package",
         "path": "packages/adapters",
-        "title": "adapters",
+        "title": "@agentskit/adapters",
         "summary": "Every LLM provider, one contract. Stream, tool calls, retry, abort all normalized. Plus higher-order adapters that compose candidates (router, ensemble, fallback) and a `createAdapter` factory for custom providers.",
         "audience": "agent",
         "aliases": [
@@ -193207,7 +192940,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "adapters",
+          "title": "@agentskit/adapters",
           "headings": "Purpose Contract and failure semantics CLI adapters LangChain bridge Install Primary exports Native adapters OpenAI-compatible providers Composition Testing + utilities Cost / carbon / lifecycle Embedders Catalog (@agentskit/adapters/catalog subpath) Minimal example Common patterns Related packages Source",
           "path": "packages/adapters",
           "symbols": "",
@@ -193217,7 +192950,7 @@
         },
         "graph": {
           "pagerank": 0.004412,
-          "inboundLinks": 64,
+          "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/adapters.mdx",
             "document:apps/docs-next/content/docs/reference/packages/adapters.mdx"
@@ -193642,7 +193375,7 @@
         },
         "graph": {
           "pagerank": 0.005237,
-          "inboundLinks": 37,
+          "inboundLinks": 36,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/angular.mdx",
             "document:apps/docs-next/content/docs/reference/packages/angular.mdx"
@@ -193905,7 +193638,7 @@
         },
         "graph": {
           "pagerank": 0.005237,
-          "inboundLinks": 28,
+          "inboundLinks": 27,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cli.mdx",
             "document:apps/docs-next/content/docs/reference/packages/cli.mdx"
@@ -194092,7 +193825,7 @@
         "id": "package:@agentskit/core",
         "kind": "package",
         "path": "packages/core",
-        "title": "core",
+        "title": "@agentskit/core",
         "summary": "Stable TypeScript contracts (Adapter, Tool, Memory, Retriever, Skill, Runtime) + `createChatController` + primitives. Target: &lt;10 KB gzipped, zero runtime deps.",
         "audience": "agent",
         "aliases": [
@@ -194104,7 +193837,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "core",
+          "title": "@agentskit/core",
           "headings": "Purpose Install Primary exports (main entry) Subpath exports (zero main-bundle weight) Minimal example Common patterns Related packages Source",
           "path": "packages/core",
           "symbols": "",
@@ -194114,7 +193847,7 @@
         },
         "graph": {
           "pagerank": 0.005237,
-          "inboundLinks": 64,
+          "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/core.mdx",
             "document:apps/docs-next/content/docs/reference/packages/core.mdx"
@@ -194517,7 +194250,7 @@
         "id": "package:@agentskit/cross-platform",
         "kind": "package",
         "path": "packages/cross-platform",
-        "title": "cross-platform",
+        "title": "@agentskit/cross-platform",
         "summary": "Windows contributors kept fixing the same bugs in every repository: .cmd shims (npx, pnpm, claude) failing without a shell, prompts truncated at the first newline by cmd.exe, \\ vs / in path comparisons, CRLF breaking hashes and frontmatter, EBUSY on rename, and child processes left running after a timeout.",
         "audience": "agent",
         "aliases": [
@@ -194529,7 +194262,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "cross-platform",
+          "title": "@agentskit/cross-platform",
           "headings": "Install Why Primary exports Processes Paths and file URLs Text Filesystem Testing helpers Runtime and errors Guardrail Usage Notes",
           "path": "packages/cross-platform",
           "symbols": "",
@@ -194539,7 +194272,7 @@
         },
         "graph": {
           "pagerank": 0.005237,
-          "inboundLinks": 11,
+          "inboundLinks": 10,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/cross-platform.mdx",
             "document:apps/docs-next/content/docs/reference/packages/cross-platform.mdx"
@@ -194624,7 +194357,7 @@
         "id": "package:@agentskit/eval",
         "kind": "package",
         "path": "packages/eval",
-        "title": "eval",
+        "title": "@agentskit/eval",
         "summary": "runEval({ agent, suite }) — run an EvalSuite against any async agent fn.",
         "audience": "agent",
         "aliases": [
@@ -194636,7 +194369,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "eval",
+          "title": "@agentskit/eval",
           "headings": "Install Primary exports Subpaths Minimal example Related Source",
           "path": "packages/eval",
           "symbols": "",
@@ -194646,7 +194379,7 @@
         },
         "graph": {
           "pagerank": 0.007709,
-          "inboundLinks": 45,
+          "inboundLinks": 42,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/eval-braintrust.mdx",
             "document:apps/docs-next/content/docs/for-agents/eval.mdx",
@@ -194935,7 +194668,7 @@
         "id": "package:@agentskit/eval-braintrust",
         "kind": "package",
         "path": "packages/eval-braintrust",
-        "title": "eval-braintrust",
+        "title": "@agentskit/eval-braintrust",
         "summary": "braintrust is loaded lazily; runs without it still produce scored output (no upload).",
         "audience": "agent",
         "aliases": [
@@ -194947,7 +194680,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "eval-braintrust",
+          "title": "@agentskit/eval-braintrust",
           "headings": "Install Primary exports Runner Quality scorers Robustness scorers Families Subpaths Minimal example CI regression alert Related Source",
           "path": "packages/eval-braintrust",
           "symbols": "",
@@ -195039,7 +194772,7 @@
         },
         "graph": {
           "pagerank": 0.005237,
-          "inboundLinks": 56,
+          "inboundLinks": 54,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/ink.mdx",
             "document:apps/docs-next/content/docs/reference/packages/ink.mdx"
@@ -195394,7 +195127,7 @@
         "id": "package:@agentskit/integrations",
         "kind": "package",
         "path": "packages/integrations",
-        "title": "integrations",
+        "title": "@agentskit/integrations",
         "summary": "One descriptor per service (Integration) that every consumer layer projects from — agent tools, connector senders, inbound triggers, OAuth specs, marketplace listings. Eliminates the per-service duplication that otherwise spreads across @agentskit/tools and host runtimes. Dependency-light: @agentskit/core and @agentskit/net; runtime uses fetch + node:crypto.",
         "audience": "agent",
         "aliases": [
@@ -195406,7 +195139,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "integrations",
+          "title": "@agentskit/integrations",
           "headings": "Install What it is Primary exports (main entry) Execution boundaries (ADR-0026) Webhook verification requirements Subpath exports Minimal example Authoring a descriptor Scaffolding Related",
           "path": "packages/integrations",
           "symbols": "",
@@ -195416,7 +195149,7 @@
         },
         "graph": {
           "pagerank": 0.003176,
-          "inboundLinks": 19,
+          "inboundLinks": 17,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/integrations.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx"
@@ -195549,7 +195282,7 @@
         "id": "package:@agentskit/mcp",
         "kind": "package",
         "path": "packages/mcp",
-        "title": "mcp",
+        "title": "@agentskit/mcp",
         "summary": "Serve AgentsKit tools to an MCP host that supports the documented `2024-11-05` tools bridge. A thin bridge over `@agentskit/tools/mcp` (`createMcpServer` + `createStdioTransport`).",
         "audience": "agent",
         "aliases": [
@@ -195561,7 +195294,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "mcp",
+          "title": "@agentskit/mcp",
           "headings": "Purpose Install Primary exports Bin Beta boundaries Supported protocol matrix Minimal example Related packages Source",
           "path": "packages/mcp",
           "symbols": "",
@@ -195571,7 +195304,7 @@
         },
         "graph": {
           "pagerank": 0.003176,
-          "inboundLinks": 20,
+          "inboundLinks": 19,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/mcp.mdx",
             "document:apps/docs-next/content/docs/reference/packages/overview.mdx"
@@ -195710,7 +195443,7 @@
         "id": "package:@agentskit/memory",
         "kind": "package",
         "path": "packages/memory",
-        "title": "memory",
+        "title": "@agentskit/memory",
         "summary": "fileChatMemory({ path }) — JSON file.",
         "audience": "agent",
         "aliases": [
@@ -195722,7 +195455,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "memory",
+          "title": "@agentskit/memory",
           "headings": "Install Primary exports Chat memory (ordered history) Vector memory Higher-order memory Key-value store (AgentskitMemoryStore) Minimal example Related Source",
           "path": "packages/memory",
           "symbols": "",
@@ -195732,7 +195465,7 @@
         },
         "graph": {
           "pagerank": 0.005237,
-          "inboundLinks": 64,
+          "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/memory.mdx",
             "document:apps/docs-next/content/docs/reference/packages/memory.mdx"
@@ -196135,7 +195868,7 @@
         "id": "package:@agentskit/net",
         "kind": "package",
         "path": "packages/net",
-        "title": "net",
+        "title": "@agentskit/net",
         "summary": "HTTP plumbing over web APIs. Retries with Retry-After, per-attempt timeouts, bounded body reads, SSE parsing and SSRF address checks on Node, Bun, Deno, browsers and edge.",
         "audience": "agent",
         "aliases": [
@@ -196147,7 +195880,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "net",
+          "title": "@agentskit/net",
           "headings": "Install Why Primary exports Retry Fetch Timeouts Bodies SSE Addresses Errors Usage Notes",
           "path": "packages/net",
           "symbols": "",
@@ -196157,7 +195890,7 @@
         },
         "graph": {
           "pagerank": 0.005237,
-          "inboundLinks": 19,
+          "inboundLinks": 18,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/net.mdx",
             "document:apps/docs-next/content/docs/reference/packages/net.mdx"
@@ -196290,7 +196023,7 @@
         "id": "package:@agentskit/observability",
         "kind": "package",
         "path": "packages/observability",
-        "title": "observability",
+        "title": "@agentskit/observability",
         "summary": "consoleLogger(config?) — local dev logging.",
         "audience": "agent",
         "aliases": [
@@ -196302,7 +196035,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "observability",
+          "title": "@agentskit/observability",
           "headings": "Install Primary exports Loggers / tracers Cross-repository correlation Sinks (batch HTTP exporters) Vendor adapters Guards + counters PII redaction Local trace viewer Devtools server SLO Signed audit log Replay & timeline Minimal example Related Source",
           "path": "packages/observability",
           "symbols": "",
@@ -196312,7 +196045,7 @@
         },
         "graph": {
           "pagerank": 0.005237,
-          "inboundLinks": 54,
+          "inboundLinks": 53,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/observability.mdx",
             "document:apps/docs-next/content/docs/reference/packages/observability.mdx"
@@ -196655,7 +196388,7 @@
         "id": "package:@agentskit/observability-langfuse",
         "kind": "package",
         "path": "packages/observability-langfuse",
-        "title": "observability-langfuse",
+        "title": "@agentskit/observability-langfuse",
         "summary": "langfuse is loaded lazily and is a peer install.",
         "audience": "agent",
         "aliases": [
@@ -196667,7 +196400,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "observability-langfuse",
+          "title": "@agentskit/observability-langfuse",
           "headings": "Install Primary exports Config Span model Minimal example Related Source",
           "path": "packages/observability-langfuse",
           "symbols": "",
@@ -196744,7 +196477,7 @@
         "id": "package:@agentskit/rag",
         "kind": "package",
         "path": "packages/rag",
-        "title": "rag",
+        "title": "@agentskit/rag",
         "summary": "createRAG({ embed, store, chunkSize, chunkOverlap, topK, threshold }) — ingest(InputDocument[]) + retrieve({ query, messages }) + search(query, { topK?, threshold? }). InputDocument uses content, not text. Chunk defaults: 512 / 50.",
         "audience": "agent",
         "aliases": [
@@ -196756,7 +196489,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "rag",
+          "title": "@agentskit/rag",
           "headings": "Install Primary exports Document loaders Failure and cancellation contract Minimal example Related Source Partition isolation",
           "path": "packages/rag",
           "symbols": "",
@@ -196766,7 +196499,7 @@
         },
         "graph": {
           "pagerank": 0.005237,
-          "inboundLinks": 51,
+          "inboundLinks": 50,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/rag.mdx",
             "document:apps/docs-next/content/docs/reference/packages/rag.mdx"
@@ -197091,7 +196824,7 @@
         "id": "package:@agentskit/react",
         "kind": "package",
         "path": "packages/react",
-        "title": "react",
+        "title": "@agentskit/react",
         "summary": "`useChat` hook returning `ChatReturn` (state + actions) + headless components with `data-ak-*` attributes for theming.",
         "audience": "agent",
         "aliases": [
@@ -197103,7 +196836,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "react",
+          "title": "@agentskit/react",
           "headings": "Purpose Install Primary exports Minimal example Related frameworks (shared state/action contract) Source",
           "path": "packages/react",
           "symbols": "",
@@ -197113,7 +196846,7 @@
         },
         "graph": {
           "pagerank": 0.005237,
-          "inboundLinks": 64,
+          "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/react.mdx",
             "document:apps/docs-next/content/docs/reference/packages/react.mdx"
@@ -197538,7 +197271,7 @@
         },
         "graph": {
           "pagerank": 0.005237,
-          "inboundLinks": 36,
+          "inboundLinks": 34,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/react-native.mdx",
             "document:apps/docs-next/content/docs/reference/packages/react-native.mdx"
@@ -197773,7 +197506,7 @@
         "id": "package:@agentskit/runtime",
         "kind": "package",
         "path": "packages/runtime",
-        "title": "runtime",
+        "title": "@agentskit/runtime",
         "summary": "Run an agent without a UI. Supports reflection, planning, multi-agent orchestration, durable step logs, cron + webhooks, speculative execution.",
         "audience": "agent",
         "aliases": [
@@ -197785,7 +197518,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "runtime",
+          "title": "@agentskit/runtime",
           "headings": "Purpose Install Primary exports Minimal example Common patterns Related packages Source",
           "path": "packages/runtime",
           "symbols": "",
@@ -197795,7 +197528,7 @@
         },
         "graph": {
           "pagerank": 0.005237,
-          "inboundLinks": 64,
+          "inboundLinks": 63,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/runtime.mdx",
             "document:apps/docs-next/content/docs/reference/packages/runtime.mdx"
@@ -198198,7 +197931,7 @@
         "id": "package:@agentskit/sandbox",
         "kind": "package",
         "path": "packages/sandbox",
-        "title": "optional peer for the default E2B cloud backend:",
+        "title": "@agentskit/sandbox",
         "summary": "createSandbox(config?) — facade over a SandboxBackend or E2B (apiKey required when no backend). Defaults: network: false, timeout: 30_000, language javascript.",
         "audience": "agent",
         "aliases": [
@@ -198210,7 +197943,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "optional peer for the default E2B cloud backend:",
+          "title": "@agentskit/sandbox",
           "headings": "Install Primary exports Policy wrapper Browser (@agentskit/sandbox/web) Local-process runtimes Config notes Minimal example Related Source",
           "path": "packages/sandbox",
           "symbols": "",
@@ -198220,7 +197953,7 @@
         },
         "graph": {
           "pagerank": 0.005237,
-          "inboundLinks": 40,
+          "inboundLinks": 39,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/sandbox.mdx",
             "document:apps/docs-next/content/docs/reference/packages/sandbox.mdx"
@@ -198479,7 +198212,7 @@
         "id": "package:@agentskit/skills",
         "kind": "package",
         "path": "packages/skills",
-        "title": "skills",
+        "title": "@agentskit/skills",
         "summary": "researcher — methodical web researcher.",
         "audience": "agent",
         "aliases": [
@@ -198491,7 +198224,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "skills",
+          "title": "@agentskit/skills",
           "headings": "Install Primary exports Ready-made skills Vertical skills (regulated domains) Composition + discovery Marketplace Minimal example Related Source",
           "path": "packages/skills",
           "symbols": "",
@@ -198501,7 +198234,7 @@
         },
         "graph": {
           "pagerank": 0.003588,
-          "inboundLinks": 30,
+          "inboundLinks": 29,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/skills.mdx",
             "document:apps/docs-next/content/docs/reference/packages/skills.mdx"
@@ -198722,7 +198455,7 @@
         },
         "graph": {
           "pagerank": 0.005237,
-          "inboundLinks": 34,
+          "inboundLinks": 33,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/solid.mdx",
             "document:apps/docs-next/content/docs/reference/packages/solid.mdx"
@@ -198945,7 +198678,7 @@
         "id": "package:@agentskit/statechart",
         "kind": "package",
         "path": "packages/statechart",
-        "title": "statechart",
+        "title": "@agentskit/statechart",
         "summary": "Represent deterministic interaction state independently from UI frameworks, providers, agent execution, and persistence.",
         "audience": "agent",
         "aliases": [
@@ -198957,7 +198690,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "statechart",
+          "title": "@agentskit/statechart",
           "headings": "Purpose Install Primary exports Constraints Choose the right owner Source",
           "path": "packages/statechart",
           "symbols": "",
@@ -198967,7 +198700,7 @@
         },
         "graph": {
           "pagerank": 0.002764,
-          "inboundLinks": 13,
+          "inboundLinks": 11,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/statechart.mdx",
             "document:apps/docs-next/content/docs/reference/packages/statechart.mdx"
@@ -199086,7 +198819,7 @@
         },
         "graph": {
           "pagerank": 0.005237,
-          "inboundLinks": 39,
+          "inboundLinks": 38,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/svelte.mdx",
             "document:apps/docs-next/content/docs/reference/packages/svelte.mdx"
@@ -199339,7 +199072,7 @@
         "id": "package:@agentskit/templates",
         "kind": "package",
         "path": "packages/templates",
-        "title": "templates",
+        "title": "@agentskit/templates",
         "summary": "Generate AgentsKit extensions as standalone packages with consistent blueprints (tsup, vitest, TypeScript) and runtime validation. Depends only on `@agentskit/core`. This is a **programmatic** authoring toolkit — it is **not** what `agentskit init` uses under the hood (the CLI has separate app templates).",
         "audience": "agent",
         "aliases": [
@@ -199351,7 +199084,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "templates",
+          "title": "@agentskit/templates",
           "headings": "Purpose Install Primary exports Scaffold types Minimal example Scaffold security Common patterns Related Source",
           "path": "packages/templates",
           "symbols": "",
@@ -199361,7 +199094,7 @@
         },
         "graph": {
           "pagerank": 0.004412,
-          "inboundLinks": 22,
+          "inboundLinks": 21,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/templates.mdx",
             "document:apps/docs-next/content/docs/reference/packages/templates.mdx"
@@ -199512,7 +199245,7 @@
         "id": "package:@agentskit/tools",
         "kind": "package",
         "path": "packages/tools",
-        "title": "tools",
+        "title": "@agentskit/tools",
         "summary": "webSearch, fetchUrl, filesystem, shell — core built-ins. webSearch provider bodies default to a 2 MiB cap (maxResponseBytes) and are cancelled on overflow.",
         "audience": "agent",
         "aliases": [
@@ -199524,7 +199257,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "tools",
+          "title": "@agentskit/tools",
           "headings": "Install Primary exports (main entry) Subpath exports Minimal example Related Source",
           "path": "packages/tools",
           "symbols": "",
@@ -199534,7 +199267,7 @@
         },
         "graph": {
           "pagerank": 0.005237,
-          "inboundLinks": 64,
+          "inboundLinks": 62,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/tools.mdx",
             "document:apps/docs-next/content/docs/reference/packages/tools.mdx"
@@ -199937,7 +199670,7 @@
         "id": "package:@agentskit/validation",
         "kind": "package",
         "path": "packages/validation",
-        "title": "validation",
+        "title": "@agentskit/validation",
         "summary": "The real untrusted boundary in an agent is model output. A model returns tool-call args as arbitrary JSON; core parses them (safeParseArgs) but does not check them against the tool's schema — execute receives args the type system only claims are valid. This package enforces the tool's existing JSONSchema7 at runtime.",
         "audience": "agent",
         "aliases": [
@@ -199949,7 +199682,7 @@
           "ownership"
         ],
         "fields": {
-          "title": "validation",
+          "title": "@agentskit/validation",
           "headings": "Install Why Primary exports Options (AjvValidatorOptions) Usage Notes",
           "path": "packages/validation",
           "symbols": "",
@@ -200078,7 +199811,7 @@
         },
         "graph": {
           "pagerank": 0.005237,
-          "inboundLinks": 39,
+          "inboundLinks": 38,
           "coveredBy": [
             "document:apps/docs-next/content/docs/for-agents/vue.mdx",
             "document:apps/docs-next/content/docs/reference/packages/vue.mdx"
@@ -200635,7 +200368,7 @@
           ],
           "outbound": []
         },
-        "contentHash": "72455ca17e0e3a0993304faf3e27f2f918b530261e13bb5906c2b51fed891acf",
+        "contentHash": "4a6a7b16ebbe6064c7655c4699c38a006605535d48de45026ac341195f58ba91",
         "provenance": "observed",
         "confidence": "observed"
       }
