@@ -220,7 +220,7 @@ importers:
         version: 2.0.0(next@16.3.8(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.63.0)(@types/node@26.2.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sass@1.101.0))(react@19.2.8)(svelte@5.57.0)(vue@3.5.42(typescript@6.0.3))
       '@vinext/cloudflare':
         specifier: ^1.0.1
-        version: 1.0.1(6f4814238090a248c5ffa17615f6bc95)
+        version: 1.0.1(2cae352fa5404e68b865655694427dac)
       fumadocs-core:
         specifier: ^16.15.11
         version: 16.15.11(@mdx-js/mdx@3.1.1)(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.46.0(react@19.2.8))(next@16.3.8(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.63.0)(@types/node@26.2.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sass@1.101.0))(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(zod@4.6.5)
@@ -275,7 +275,7 @@ importers:
     devDependencies:
       '@cloudflare/vite-plugin':
         specifier: 2.0.0-beta.sha-52b0dc0e9
-        version: 2.0.0-beta.sha-52b0dc0e9(@types/node@26.2.0)(vite@8.3.0(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))(workerd@1.20260930.2)
+        version: 2.0.0-beta.sha-52b0dc0e9(@types/node@26.2.0)(vite@8.3.0(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))(workerd@1.20261006.1)
       '@types/mdx':
         specifier: ^2.0.14
         version: 2.0.14
@@ -697,7 +697,7 @@ importers:
         version: link:../../packages/react
       '@vinext/cloudflare':
         specifier: ^1.0.1
-        version: 1.0.1(f0d32195ca35246e32cbd916a1dc260f)
+        version: 1.0.1(d02bd6cb1f1efa29a5fd32350bf8fea3)
       fumadocs-core:
         specifier: ^16.15.11
         version: 16.15.11(@mdx-js/mdx@3.1.1)(@types/estree-jsx@1.0.5)(@types/hast@3.0.5)(@types/mdast@4.0.4)(@types/react@19.2.17)(lucide-react@1.46.0(react@19.2.7))(next@16.3.8(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.63.0)(@types/node@26.2.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.101.0))(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(zod@4.6.5)
@@ -731,7 +731,7 @@ importers:
     devDependencies:
       '@cloudflare/vite-plugin':
         specifier: 2.0.0-beta.sha-52b0dc0e9
-        version: 2.0.0-beta.sha-52b0dc0e9(@types/node@26.2.0)(vite@8.3.0(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))(workerd@1.20260930.2)
+        version: 2.0.0-beta.sha-52b0dc0e9(@types/node@26.2.0)(vite@8.3.0(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))(workerd@1.20261006.1)
       '@tailwindcss/postcss':
         specifier: ^4.3.3
         version: 4.3.3
@@ -1297,6 +1297,9 @@ importers:
         specifier: workspace:*
         version: link:../net
     devDependencies:
+      '@agentskit/cross-platform':
+        specifier: workspace:*
+        version: link:../cross-platform
       '@opentelemetry/api':
         specifier: ^1.9.1
         version: 1.9.1
@@ -1309,12 +1312,21 @@ importers:
       '@types/node':
         specifier: ^25.9.5
         version: 25.9.5
+      '@types/pg':
+        specifier: ^8.15.6
+        version: 8.23.1
+      drizzle-orm:
+        specifier: ^0.45.3
+        version: 0.45.3(@opentelemetry/api@1.9.1)(@types/better-sqlite3@7.6.13)(@types/pg@8.23.1)(@upstash/redis@1.38.4)(better-sqlite3@13.0.3)(pg@8.23.1)
       langfuse:
         specifier: ^3.38.20
         version: 3.39.2
       langsmith:
         specifier: ^0.8.1
         version: 0.8.12(@opentelemetry/api@1.9.1)(@opentelemetry/sdk-trace-base@2.11.0(@opentelemetry/api@1.9.1))(openai@6.42.0(ws@8.21.0)(zod@4.6.5))(ws@8.21.0)
+      pg:
+        specifier: ^8.23.1
+        version: 8.23.1
       tsup:
         specifier: ^8.5.1
         version: 8.5.1(jiti@2.7.0)(postcss@8.5.28)(tsx@4.23.13)(typescript@6.0.3)(yaml@2.9.1)
@@ -1324,6 +1336,9 @@ importers:
       vitest:
         specifier: ^4.1.11
         version: 4.1.11(@opentelemetry/api@1.9.1)(@types/node@25.9.5)(@vitest/coverage-v8@4.1.11)(happy-dom@20.14.5)(jsdom@30.0.1(@noble/hashes@2.2.0))(msw@2.15.0(@types/node@25.9.5)(typescript@6.0.3))(vite@8.3.0(@types/node@25.9.5)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))
+      wrangler:
+        specifier: ^4.148.0
+        version: 4.148.0(@types/node@25.9.5)
 
   packages/observability-langfuse:
     dependencies:
@@ -5271,67 +5286,79 @@ packages:
     resolution: {integrity: sha512-Rvr0/EkPfPgc0C1wx8dz4bv6o4I4yeYI06tcHUL0f4ZdwSyIreABoLHNW51Ap0VNA7aDRVQ4izRNQh/LuykofA==}
     cpu: [arm64]
     os: [android]
+    deprecated: yuku-analyzer runs on yuku-core since 0.14
 
   '@yuku-analyzer/binding-darwin-arm64@0.9.5':
     resolution: {integrity: sha512-sh9DaXzkVmedM9aWvjCAAluRtvz/trk5VSosF7dPhqDf3IhrJW2DOh9iuA+YQzWSktP/ILsKfKili2UZ/ZjRzw==}
     cpu: [arm64]
     os: [darwin]
+    deprecated: yuku-analyzer runs on yuku-core since 0.14
 
   '@yuku-analyzer/binding-darwin-x64@0.9.5':
     resolution: {integrity: sha512-qPKyWlGK92vjwwFdAKwGkfqF3rye4UR8X2WPvzhOSt/plATd2pPJFyMBhF1aclRMBNbk20YnctWYRYLS8FBgAg==}
     cpu: [x64]
     os: [darwin]
+    deprecated: yuku-analyzer runs on yuku-core since 0.14
 
   '@yuku-analyzer/binding-freebsd-x64@0.9.5':
     resolution: {integrity: sha512-LeSbxDQ7k0WFyddM3BiFW3i55eSkWwi4hgG8PmqNBGL9dZ4sysYOwcy3We8vyxc/fyhuhc0CYxa6p6v14+UBow==}
     cpu: [x64]
     os: [freebsd]
+    deprecated: yuku-analyzer runs on yuku-core since 0.14
 
   '@yuku-analyzer/binding-linux-arm-gnu@0.9.5':
     resolution: {integrity: sha512-GVtm5UmUhKMnicVz/Q4QgRr7OFyvxDrr7j9u0Mrgnisj/GmABhcFhzqVwW+rbS+EFnUHY7yIamwY2Fc3CoCTCw==}
     cpu: [arm]
     os: [linux]
     libc: [glibc]
+    deprecated: yuku-analyzer runs on yuku-core since 0.14
 
   '@yuku-analyzer/binding-linux-arm-musl@0.9.5':
     resolution: {integrity: sha512-c/9lCWXRwp0eaAvbTZslrplIjaLhiFCdc5bF/hCV13HrYYyICSwEcCgx3/OEEpwfHpdQsqejhsntUKc/0Ylbfg==}
     cpu: [arm]
     os: [linux]
     libc: [musl]
+    deprecated: yuku-analyzer runs on yuku-core since 0.14
 
   '@yuku-analyzer/binding-linux-arm64-gnu@0.9.5':
     resolution: {integrity: sha512-BwZYDPfnuP9gh8KphdjClzN3XRV0smbc2nNGkxvSOEYB/uRW0e+S2Jh82QKMSCK5TptQfovmFWe55Z5lToLAfA==}
     cpu: [arm64]
     os: [linux]
     libc: [glibc]
+    deprecated: yuku-analyzer runs on yuku-core since 0.14
 
   '@yuku-analyzer/binding-linux-arm64-musl@0.9.5':
     resolution: {integrity: sha512-xglOsssSkPQGwendJdWud5maVWoM6h5SwlouStfg0eUACjxV8uLvnub2NT+euQJQMVzH3aRc5RuPPqzvMFeDTA==}
     cpu: [arm64]
     os: [linux]
     libc: [musl]
+    deprecated: yuku-analyzer runs on yuku-core since 0.14
 
   '@yuku-analyzer/binding-linux-x64-gnu@0.9.5':
     resolution: {integrity: sha512-X7J/LWSnNsyx1E4hv6CFofXQft4GMePfc4pDn00B4lG6BO3HNR/zGlYZ5ayQsxhRNLxtAlvSFSaguaSuyz6p6g==}
     cpu: [x64]
     os: [linux]
     libc: [glibc]
+    deprecated: yuku-analyzer runs on yuku-core since 0.14
 
   '@yuku-analyzer/binding-linux-x64-musl@0.9.5':
     resolution: {integrity: sha512-gmi9vazzSs4PLpHjgkFLPGCDMzG7ths3mcip0qZEHhLwLJthH5PTA+LYKi+7FRKHNQT4A50RTVox5CjdUC+prw==}
     cpu: [x64]
     os: [linux]
     libc: [musl]
+    deprecated: yuku-analyzer runs on yuku-core since 0.14
 
   '@yuku-analyzer/binding-win32-arm64@0.9.5':
     resolution: {integrity: sha512-0iKC5sGOCrFqumzSHLv2qCQa0OTytK605dSJrdHah5CoLT13oStEfk3jwNltYB77J3BiSagg896d5YmTY8HQPA==}
     cpu: [arm64]
     os: [win32]
+    deprecated: yuku-analyzer runs on yuku-core since 0.14
 
   '@yuku-analyzer/binding-win32-x64@0.9.5':
     resolution: {integrity: sha512-dSb5o6D9JugPmKRsjVLDLpgHRdSd1oCvNhY6AP6+OCzMwn0kbiNxhf2DwXYtt4xIBjliYQnw+ZsvIy1d0lHtSg==}
     cpu: [x64]
     os: [win32]
+    deprecated: yuku-analyzer runs on yuku-core since 0.14
 
   '@yuku-toolchain/types@0.9.5':
     resolution: {integrity: sha512-KiuLNNgX9uNealaWAR+G3/cMXnRk9x4TY2EkYe/KIag+UPdwiA0RRf1hr1WAxzTP8KGzCTkqUdLPvqh32sEO3w==}
@@ -11169,24 +11196,18 @@ snapshots:
       - bufferutil
       - utf-8-validate
 
-  '@cloudflare/unenv-preset@2.16.2(unenv@2.0.0-rc.24)(workerd@1.20260930.2)':
-    dependencies:
-      unenv: 2.0.0-rc.24
-    optionalDependencies:
-      workerd: 1.20260930.2
-
   '@cloudflare/unenv-preset@2.16.2(unenv@2.0.0-rc.24)(workerd@1.20261006.1)':
     dependencies:
       unenv: 2.0.0-rc.24
     optionalDependencies:
       workerd: 1.20261006.1
 
-  '@cloudflare/vite-plugin@2.0.0-beta.sha-52b0dc0e9(@types/node@26.2.0)(vite@8.3.0(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))(workerd@1.20260930.2)':
+  '@cloudflare/vite-plugin@2.0.0-beta.sha-52b0dc0e9(@types/node@26.2.0)(vite@8.3.0(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))(workerd@1.20261006.1)':
     dependencies:
       '@cloudflare/build-output-utils': 0.8.4
       '@cloudflare/config': 0.22.0
       '@cloudflare/runtime-types': 0.1.6(@types/node@26.2.0)
-      '@cloudflare/unenv-preset': 2.16.2(unenv@2.0.0-rc.24)(workerd@1.20260930.2)
+      '@cloudflare/unenv-preset': 2.16.2(unenv@2.0.0-rc.24)(workerd@1.20261006.1)
       miniflare: 5.20260930.0-alpha(@types/node@26.2.0)
       unenv: 2.0.0-rc.24
       vite: 8.3.0(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1)
@@ -14154,20 +14175,20 @@ snapshots:
       svelte: 5.57.0
       vue: 3.5.42(typescript@6.0.3)
 
-  '@vinext/cloudflare@1.0.1(6f4814238090a248c5ffa17615f6bc95)':
+  '@vinext/cloudflare@1.0.1(2cae352fa5404e68b865655694427dac)':
     dependencies:
       '@cloudflare/workers-response-store': 1.0.1
       vinext: 1.0.1(@types/node@26.2.0)(@vitejs/plugin-react@6.1.1(vite@8.3.0(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1)))(@vitejs/plugin-rsc@0.5.35(react-dom@19.2.8(react@19.2.8))(react-server-dom-webpack@19.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(webpack@5.111.1(esbuild@0.28.1)(postcss@8.5.28)))(react@19.2.8)(vite@8.3.0(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1)))(next@16.3.8(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.63.0)(@types/node@26.2.0)(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(sass@1.101.0))(react-dom@19.2.8(react@19.2.8))(react-server-dom-webpack@19.3.0(react-dom@19.2.8(react@19.2.8))(react@19.2.8)(webpack@5.111.1(esbuild@0.28.1)(postcss@8.5.28)))(react@19.2.8)(vite@8.3.0(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))
     optionalDependencies:
-      '@cloudflare/vite-plugin': 2.0.0-beta.sha-52b0dc0e9(@types/node@26.2.0)(vite@8.3.0(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))(workerd@1.20260930.2)
+      '@cloudflare/vite-plugin': 2.0.0-beta.sha-52b0dc0e9(@types/node@26.2.0)(vite@8.3.0(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))(workerd@1.20261006.1)
       cf: 1.0.0-beta.10(@types/node@26.2.0)
 
-  '@vinext/cloudflare@1.0.1(f0d32195ca35246e32cbd916a1dc260f)':
+  '@vinext/cloudflare@1.0.1(d02bd6cb1f1efa29a5fd32350bf8fea3)':
     dependencies:
       '@cloudflare/workers-response-store': 1.0.1
       vinext: 1.0.1(@types/node@26.2.0)(@vitejs/plugin-react@6.1.1(vite@8.3.0(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1)))(@vitejs/plugin-rsc@0.5.35(react-dom@19.2.7(react@19.2.7))(react-server-dom-webpack@19.3.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(webpack@5.111.1(esbuild@0.28.1)(postcss@8.5.28)))(react@19.2.7)(vite@8.3.0(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1)))(next@16.3.8(@babel/core@7.29.7)(@opentelemetry/api@1.9.1)(@playwright/test@1.63.0)(@types/node@26.2.0)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(sass@1.101.0))(react-dom@19.2.7(react@19.2.7))(react-server-dom-webpack@19.3.0(react-dom@19.2.7(react@19.2.7))(react@19.2.7)(webpack@5.111.1(esbuild@0.28.1)(postcss@8.5.28)))(react@19.2.7)(vite@8.3.0(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))
     optionalDependencies:
-      '@cloudflare/vite-plugin': 2.0.0-beta.sha-52b0dc0e9(@types/node@26.2.0)(vite@8.3.0(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))(workerd@1.20260930.2)
+      '@cloudflare/vite-plugin': 2.0.0-beta.sha-52b0dc0e9(@types/node@26.2.0)(vite@8.3.0(@types/node@26.2.0)(esbuild@0.28.1)(jiti@2.7.0)(less@4.6.7)(sass@1.101.0)(terser@5.51.2)(tsx@4.23.13)(yaml@2.9.1))(workerd@1.20261006.1)
       cf: 1.0.0-beta.10(@types/node@26.2.0)
 
   '@vinext/types@1.0.1': {}
@@ -19371,7 +19392,6 @@ snapshots:
       '@img/sharp-win32-ia32': 0.35.5
       '@img/sharp-win32-x64': 0.35.5
       '@types/node': 25.9.5
-    optional: true
 
   sharp@0.35.5(@types/node@26.2.0):
     dependencies:

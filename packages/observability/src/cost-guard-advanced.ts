@@ -24,6 +24,7 @@ import {
   validateAdvancedOptions,
   type TenantState,
 } from './cost-guard-advanced-internal'
+import { durableSpendRecorder } from './cost-guard-store'
 
 export type {
   CostGuardMode,
@@ -90,6 +91,7 @@ export function createAdvancedCostGuard(
   const tenants = new Map<string, TenantState>()
   let activeTenant: string | undefined
   const safeNow = createSafeNow(clock, onError, reportCostGuardError)
+  const durable = durableSpendRecorder('createAdvancedCostGuard', options, err => reportCostGuardError(onError, err))
 
   const fireAlert = async (event: CostAlertEvent): Promise<void> => {
     for (const sink of options.alertSinks ?? []) {
@@ -243,6 +245,14 @@ export function createAdvancedCostGuard(
     }
   }
 
+  const settle = (tenant: string, state: TenantState, deltaCost: number): void => {
+    const { alerts, disable } = recordSpend(tenant, state, deltaCost)
+    if (alerts.length === 0 && !disable) return
+    void dispatchAlerts(tenant, alerts, disable).then(undefined, (err: unknown) => {
+      reportCostGuardError(onError, err)
+    })
+  }
+
   return {
     name: options.name ?? 'cost-guard-advanced',
     on(event: AgentEvent) {
@@ -280,12 +290,14 @@ export function createAdvancedCostGuard(
           price,
         )
         if (delta > 0) {
-          const { alerts, disable } = recordSpend(tenant, state, delta)
-          if (alerts.length > 0 || disable) {
-            void dispatchAlerts(tenant, alerts, disable).then(undefined, (err: unknown) => {
-              reportCostGuardError(onError, err)
+          settle(tenant, state, delta)
+          // The stored window total covers every instance; adopt it and re-run the overall check.
+          durable?.({ tenant, model: state.model, promptTokens: deltaPrompt, completionTokens: deltaCompletion, costUsd: delta },
+            window => {
+              if (window.spentUsd <= state.totalCost) return
+              state.totalCost = window.spentUsd
+              settle(tenant, state, 0)
             })
-          }
         }
       }
     },

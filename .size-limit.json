@@ -56,7 +56,7 @@
   {
     "name": "@agentskit/observability (ESM)",
     "path": "packages/observability/dist/index.js",
-    "limit": "16.5 KB",
+    "limit": "17 KB",
     "gzip": true
   },
   {
@@ -482,7 +482,7 @@
   {
     "name": "@agentskit/observability (ESM export ./cost-guard)",
     "path": "node_modules/.cache/size-limit-subpaths/observability/cost-guard.js",
-    "limit": "2.5 KB",
+    "limit": "3 KB",
     "gzip": true
   },
   {
@@ -645,6 +645,18 @@
     "name": "@agentskit/eval (ESM export ./provenance)",
     "path": "node_modules/.cache/size-limit-subpaths/eval/provenance.js",
     "limit": "1 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/observability (ESM export ./postgres)",
+    "path": "node_modules/.cache/size-limit-subpaths/observability/postgres.js",
+    "limit": "3.5 KB",
+    "gzip": true
+  },
+  {
+    "name": "@agentskit/observability (ESM export ./cost-store-contract)",
+    "path": "node_modules/.cache/size-limit-subpaths/observability/cost-store-contract.js",
+    "limit": "2.5 KB",
     "gzip": true
   }
 ]
